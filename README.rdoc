@@ -1,0 +1,4 @@
+= CCLS Operations and Data Management System
+
+
+Copyright (c) 2011 [Jake Wendt], released under the MIT license
