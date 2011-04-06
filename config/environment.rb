@@ -21,8 +21,6 @@ RAILS_APP_NAME = 'odms'
 
 Rails::Initializer.run do |config|
 
-#	config.gem 'RedCloth', :version => '!= 4.2.6', :lib => 'redcloth'
-
 	if RUBY_PLATFORM =~ /java/
 		config.gem 'activerecord-jdbcsqlite3-adapter',
 			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter'
@@ -43,7 +41,7 @@ Rails::Initializer.run do |config|
 	#	Without this, rake doesn't properly include that app/ paths
 	config.gem 'jakewendt-simply_authorized'
 	config.gem 'jakewendt-simply_pages'
-	config.gem 'jakewendt-simply_trackable'
+#	config.gem 'jakewendt-simply_trackable'
 
 	#	require it, but don't load it
 	config.gem 'jakewendt-rdoc_rails', :lib => false
