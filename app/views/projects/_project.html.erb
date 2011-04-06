@@ -1,0 +1,12 @@
+<% content_tag_for( :tr, project, :class => 'row' ) do %>
+<td class='description'>
+<%= project.description %>
+</td>
+<td class='manage'>
+<%= button_link_to "View", project_path(project) -%>&nbsp;
+<%= button_link_to "Edit", edit_project_path(project) -%>&nbsp;
+<% destroy_link_to "Destroy", project_path(project) do %>
+<%= hidden_field_tag 'confirm', "Destroy project '#{project}'?", :id => nil %>
+<% end %>
+</td>
+<% end %>

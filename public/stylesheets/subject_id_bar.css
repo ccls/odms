@@ -1,0 +1,56 @@
+#id_bar {
+	background-color: #E5DBC1;
+	padding: 10px;
+	position:relative;
+}
+#id_bar .childid {
+	display:inline;
+	padding-right: 10px;
+}
+#id_bar .studyid {
+	display:inline;
+	padding-right: 10px;
+}
+#id_bar .full_name {
+	display:inline;
+	font-weight: bold;
+}
+#id_bar .controls {
+/*
+	this would randomly and intermittantly fall out of line?
+	so added position:relative to id_bar and 
+	position:absolute and top and right here
+*/
+	position:absolute;
+	top:10px;
+	right:10px;
+	display:inline;
+}
+
+#do_not_contact {
+	text-align:center;
+	color:red;
+	font-weight: bold;
+	padding: 10px;
+	background-color: #FEE;
+	border: 2px solid red;
+}
+
+	/* http://css-radius.heroku.com */
+#id_bar .controls a {
+	text-align:center;
+	font-size:12pt;
+	width: 90px;
+	padding: 2px 15px;
+	text-decoration:none;
+	background-color: white;
+	border: 1px solid gray;
+	color: black;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+#id_bar .controls a:hover {
+	background-color:#EEE;
+}

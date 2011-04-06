@@ -1,0 +1,48 @@
+<div class='contact_status columns'>
+<div class='column'>
+<p>Contact Status:</p>
+</div><!-- class='column' -->
+<div class='column'>
+<p class='do_not_contact'>
+<%= (@subject.do_not_contact?)? "Do Not Contact Subject" : "OK to Contact" -%>
+</p>
+</div><!-- class='column' -->
+</div><!-- class='contact_status columns' -->
+
+<div class='personal columns'>
+<div class='column'>
+<p class='full_name'><%= @subject.full_name -%></p>
+</div><!-- class='column' -->
+<div class='column'>
+<%= wrapped_date_spans :subject, :dob,
+	:label_text => 'birth date:' %>
+<%= wrapped_spans :subject, :sex,
+	:value => (@subject.sex.match(/f/i))?'female':'male',
+	:label_text => 'sex:' %>
+<%= wrapped_spans :subject, :race,
+	:label_text => 'race:' %>
+<%= wrapped_spans :subject, :state_id_no,
+	:label_text => 'state id no:' %>
+
+<div id='addressings'>
+<%= render :partial => 'contacts/addressing',
+    :collection => @subject.addressings.current, 
+		:locals => { :dates => false, :details => false, :edit => false } %>
+</div><!-- id='addressings' -->
+
+<div id='phone_numbers'>
+<%= render :partial => 'contacts/phone_number',
+    :collection => @subject.phone_numbers, 
+		:locals => { :dates => false, :details => false, :edit => false } %>
+</div><!-- id='phone_numbers' -->
+
+</div><!-- class='column' -->
+<div class='column'>
+<%= wrapped_date_spans :subject, :reference_date,
+	:label_text => 'reference date:' %>
+<%= wrapped_spans :subject, :vital_status,
+	:label_text => 'vital status:' %>
+<%= wrapped_spans :subject, :subject_type,
+	:label_text => 'relation to case:' %>
+</div><!-- class='column' -->
+</div><!-- class='personal' -->

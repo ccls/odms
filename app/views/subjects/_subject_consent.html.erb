@@ -1,0 +1,18 @@
+<div class='consent columns'>
+<div class='column'>
+<p>Consent:</p>
+</div><!-- class='column' -->
+<div class='column'>
+<%= wrapped_spans :hx_enrollment, :consented,
+	:value => y_n_dk(@hx_enrollment.consented),
+	:label_text => 'consented?' %>
+<%= wrapped_spans :hx_enrollment, :refusal_reason,
+	:label_text => 'refusal reason:' %>
+</div><!-- class='column' -->
+<div class='column'>
+<%= wrapped_date_spans :hx_enrollment, :consented_on,
+	:label_text => 'date:' %>
+<%= wrapped_spans :hx_enrollment, :other_refusal_reason,
+	:label_text => 'specify:' %>
+</div><!-- class='column' -->
+</div><!-- class='consent' -->

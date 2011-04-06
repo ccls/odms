@@ -1,0 +1,76 @@
+<% stylesheets('edit_enrollment','base/jquery.ui.all.css') %>
+<% sub_menu_for(@enrollment.subject) %>
+
+<% content_for :id_bar do %>
+<%= link_to( 'Save', nil, {
+	:id => "for_#{dom_id(@enrollment,:edit)}",
+	:class => :submitter
+}) %>
+<% end %>
+<% id_bar_for(@enrollment.subject) %>
+
+
+
+<% form_for(@enrollment,
+	:url => enrollment_path(@enrollment),
+	:html => { :class => 'confirm' }) do |f| %>
+<%= f.error_messages %>
+
+<p>Study name: <%= @enrollment.project.code.titleize -%></p>
+
+<%= f.wrapped_y_n_dk_select :is_candidate,
+	:label_text => 'is candidate?' %>
+<%= f.wrapped_y_n_dk_select :able_to_locate,
+	:label_text => 'able to locate?' %>
+<%= f.wrapped_y_n_dk_select :is_eligible,
+	:label_text => 'is eligible?' %>
+
+<%= f.wrapped_collection_select :ineligible_reason_id,
+	IneligibleReason.all, :id, :to_s, :include_blank => true,
+	:label_text => 'reason ineligible:' %>
+<%= f.wrapped_text_field :ineligible_reason_specify,
+	:label_text => 'specify:' %>
+
+<%= f.wrapped_y_n_dk_select :is_chosen,
+	:label_text => 'chosen to participate?' %>
+<%= f.wrapped_text_field :reason_not_chosen,
+	:label_text => 'reason not chosen:' %>
+
+<%= f.wrapped_y_n_dk_select :consented,
+	:label_text => 'consented?' %>
+
+<%= f.wrapped_date_text_field :consented_on,
+	:size => 20,
+	:class => 'datepicker',
+	:label_text => 'date:' %>
+<%= f.wrapped_collection_select :document_version_id,
+	DocumentVersion.type1, :id, :to_s, :include_blank => true,
+	:label_text => 'version:' %>
+<%#
+
+This shouldn't be ALL document versions.
+
+%>
+
+
+<%= f.wrapped_collection_select :refusal_reason_id,
+	RefusalReason.all, :id, :to_s, :include_blank => true,
+	:label_text => 'reason refused:' %>
+<%= f.wrapped_text_field :other_refusal_reason,
+	:label_text => 'specify:' %>
+
+<%= f.wrapped_y_n_dk_select :terminated_participation,
+	:label_text => 'terminated participation?' %>
+<%= f.wrapped_text_field :terminated_reason,
+	:label_text => 'reason:' %>
+
+<%= f.wrapped_y_n_dk_select :is_complete,
+	:label_text => 'study requirements completed?' %>
+
+<%= f.wrapped_date_text_field :completed_on,
+	:label_text => 'date:' %>
+
+<%= f.wrapped_text_area :notes, 
+	:rows => 5, :cols => 80,
+	:label_text => 'notes:' %>
+<% end %>

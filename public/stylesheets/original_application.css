@@ -1,0 +1,162 @@
+@import url('shared.css');
+body {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	margin: 0px;
+	background-color: #F0F0FF;
+/*
+	this gradient image was created at 
+	http://tools.dynamicdrive.com/gradient/
+	It is 1x800, top: F8F8FF, bottom: F0F0FF
+*/
+	background-image: url("../images/gradient.png");
+	background-repeat: repeat-x;
+}
+
+/*
+	The common width of 900 is set here and in ...
+		app/views/layouts/_head.html.erb
+		app/models/home_page_pic.rb
+div#head,
+div#container {
+*/
+div.main_width {
+	margin: 0 auto;
+	width: 900px;
+}
+div#header {
+/* Darker blue 2A71CC */
+/* Even darker 1629f2 */
+/* EVEN DARKER 0057AE */
+	margin: 10px auto;
+	background-image: url('../images/menu_normal.png');
+	background-repeat: repeat-x;
+	background-color: #DDD;
+	margin-bottom: 1px;
+	padding-bottom: 5px;
+}
+div#header, div#footer {
+	/* keep the header and footer backgrounds 
+		from cutting off on super zoom */
+	min-width: 900px;
+}
+
+div#home_page_pic {
+	margin: 10px auto;
+}
+
+/*
+	surveyor uses #menu, so we can't
+	Actually, now that I've changed the layout for the survey,
+	we could actually use #menu here.
+*/
+div#rootmenu {
+	padding:0;
+	height: 35px;
+/*
+	text-align: left;
+	background-color: #51A9E7;
+*/
+}
+/*
+	margin:0;
+	5x35
+	menu_normal : 51A9E7 - 2A71CC
+	menu_hover  : 2A71CC - 1629f2
+	menu_active : 1629f2 - 0057AE
+	menu_current: 0057AE - 51A9E7
+*/
+div#rootmenu a {
+	float:left;
+	text-align: center;
+	margin:0 auto;
+	background-color: #51A9E7;
+	background-image: url('../images/menu_normal.png');
+	background-repeat: repeat-x;
+	color: #111111;
+/*	padding: 0px 24px; */
+	
+	border-left: 1px dotted #2A71CC;
+	text-decoration:none;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	line-height: 35px;
+	font-weight:bold;
+/* text-shadow isn't yet standardized */
+	text-shadow: #FFF 0 1px 2px;
+}
+div#rootmenu a:first-child {
+	border-left: 0;
+}
+div#rootmenu a:hover {
+	background-color: #2A71CC;
+	background-image: url('../images/menu_hover.png');
+}
+div#rootmenu a:active {				/* mouse button down */
+	background-color: #0057AE;
+	background-image: url('../images/menu_active.png');
+}
+div#rootmenu a.current {
+	background-color: #1629f2;
+	background-image: url('../images/menu_current.png');
+	color: white;
+	text-shadow: #000 0 1px 2px;
+}
+
+div#submenu {
+	margin: 10px auto;
+	height: 20px;
+}
+div#submenu div#current_root {
+	font-size: 14pt;
+	font-weight: bold;
+	float:left;
+}
+div#submenu div#children {
+	float:right;
+}
+div#submenu div#children .child a {
+	color: black;
+	margin-left: 30px;
+	text-decoration:none;
+}
+div#submenu div#children .child.current_child a, 
+div#submenu div#children .child a:hover {
+	background-color:transparent;
+	color:gray;
+}
+
+div#content {
+	margin: 10px auto;
+	clear:both;
+	background-color:white;
+	border: 1px solid silver;
+	padding: 5px 25px;
+}
+div#content div#main h1:nth-child(1),
+div#content p:nth-child(2),
+div#content h1:nth-child(2),
+div#content h2:nth-child(2) {
+	margin-top: 0;
+}
+
+div#content,
+fieldset {
+	/* http://css-radius.heroku.com */
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#footer {
+	clear:both;
+	padding-top: 1ex;
+	padding-bottom: 1ex;
+	text-align:center;
+	font-size:8pt;
+	line-height:8pt;
+	background-color: #EEE;
+	color: gray;
+}
+
+.note {
+	font-size: 8pt;
+}

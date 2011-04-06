@@ -1,0 +1,53 @@
+<% stylesheets('package') %>
+
+<%#
+	It is assumed that updated_at will always be in the past.
+	ActionView::Base.new.time_ago_in_words(Chronic.parse('tomorrow'))
+	{ helper.time_ago_in_words(Chronic.parse('tomorrow')) }
+	will return "about 22 hours" which is is obviously NOT
+	Chronic.parse('tomorrow') returns that next day at noon.
+	The method should be "time_difference_in_words" as it simply
+	compares the first argument and the current time.
+-%>
+
+<% div_for package do %>
+<div class='carrier'>
+<%= link_to image_tag('carriers/fedex.jpg'), "http://www.fedex.com/Tracking?tracknumbers=#{package.tracking_number}", :target => 'new' -%>
+</div>
+
+<div class='info'>
+<div class='tracking_number'><%= package.tracking_number -%></div>
+<div class='updated_at'>
+<%= "#{time_ago_in_words(package.updated_at)} ago" -%>
+</div>
+<div class='update'>
+<%= ( package.delivered? ) ? "&nbsp;" : link_to( 'Update status', package, :method => :put ) %>
+
+<% if Rails.env != 'production' %>
+<%= ( package.delivered? ) ? "&nbsp;" : 
+	link_to( 'Simulate Shipment', ship_package_path(package), :method => :put ) %>
+<%= ( package.delivered? ) ? "&nbsp;" : 
+	link_to( 'Simulate Delivery', deliver_package_path(package), :method => :put ) %>
+<% end %>
+
+<%#= link_to( 'Destroy', package, :method => :delete,
+	:confirm => "Delete '#{package.tracking_number}'?\nAre you sure?" ) %>
+</div>
+<div class='status'>
+<%# "empty" tags don't really exist so the page's style can be corrupted %>
+<%= package.status || '&nbsp;' -%>
+</div>
+</div><!-- class='info' -->
+<% end %><!-- class='package' -->
+
+<div class='tracks'>&nbsp;
+<% package.tracks.each do |event| %>
+<div class='track row'>
+<div class='name'><%= event.name %></div>
+<div class='location'><%= event.location %></div>
+<div class='time'><%= event.time %></div>
+</div><!-- class='track' -->
+<% end %>
+</div><!-- class='tracks' -->
+
+<%#= "<p id='status_updated'>Last bulk shipping status update: #{time_ago_in_words(@last_shipping_update)} ago</p>" unless(@last_shipping_update.blank?) %>

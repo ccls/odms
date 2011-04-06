@@ -1,0 +1,17 @@
+<% stylesheets('home_page_pics') %>
+
+<% form_tag(activate_home_page_pics_path, 
+	:method => :post, :id => 'activate_pics') do -%>
+<div id='home_page_pics'>
+<%= render :partial => 'home_page_pic', :collection => @home_page_pics %>
+</div><!-- id='home_page_pics' -->
+
+<p>
+<%= button_link_to 'Create New Home Page Pic', new_home_page_pic_path %>
+<% if @home_page_pics.length > 0 %>
+<%= submit_tag 'Save Home Page Pics', 
+	:name => nil, :id => 'save_page_pics' %>
+<% end %>
+</p>
+
+<% end %>

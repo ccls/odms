@@ -1,0 +1,50 @@
+<% sub_menu_for(@interview) %>
+
+<% content_for :id_bar do %>
+<%= link_to 'Edit', edit_interview_path(@interview) %>
+<% end if current_user.may_edit_interviews? %>
+
+<% id_bar_for(@subject) %>
+
+<% content_tag_for( :div, @interview ) do %>
+
+<%= wrapped_date_spans :interview,:intro_letter_sent_on,
+	:label_text => 'Intro Letter Sent:' %>
+
+<h4>Interview Info</h4>
+<%= wrapped_spans(:interview,:interview_outcome,
+	:label_text => 'Outcome:',
+	:value => @interview.subject.try(:homex_outcome).try(
+		:interview_outcome)||'&nbsp;') %>
+
+<%= wrapped_spans(:interview,:interview_outcome_on,
+	:label_text => 'Date:',
+	:value => mdy(@interview.subject.try(:homex_outcome).try(:interview_outcome_on))) %>
+
+<h4>Dates of interview</h4>
+
+<%= wrapped_spans(:interview,:began_on,
+	:label_text => 'Began:',
+	:value => mdy(@interview.began_on)) %>
+<%= wrapped_spans(:interview,:ended_on,
+	:label_text => 'Ended (if other than date began):',
+	:value => mdy(@interview.ended_on)) %>
+
+<%= wrapped_spans(:interview,:interviewer,
+	:label_text => "Interviewer:") %>
+<%= wrapped_spans(:interview,:instrument_version,
+	:label_text => "Version:") %>
+<%= wrapped_spans(:interview,:interview_method,
+	:label_text => "Interview Method:") %>
+<%= wrapped_spans(:interview,:language,
+	:label_text => "Interview Language:") %>
+
+<h4>Respondent Info</h4>
+<%= wrapped_spans(:interview,:subject_relationship,
+	:label_text => "Relationship:") %>
+<%= wrapped_spans(:interview,:subject_relationship_other,
+	:label_text => "specify:") %>
+<%= wrapped_spans(:interview,:respondent_full_name,
+	:label_text => "Name:") %>
+
+<% end %><%# content_tag_for %>

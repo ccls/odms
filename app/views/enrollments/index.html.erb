@@ -1,0 +1,25 @@
+<% sub_menu_for(@subject) %>
+<% id_bar_for(@subject) %>
+
+<% if @subject.enrollments.length > 0 %>
+<table id='enrollments'><thead><tr>
+<th class='project'>Study
+</th><!-- class='project' -->
+<th class='candidate'>candidate?
+</th><!-- class='candidate' -->
+<th class='locate'>located?
+</th><!-- class='locate' -->
+<th class='eligible'>eligible?
+</th><!-- class='eligible' -->
+<th class='consented'>consented on
+</th><!-- class='consented' -->
+<th class='completed'>completed on
+</th><!-- class='completed' -->
+</tr></thead><tbody>
+<%= render :partial => 'enrollment', 
+	:collection => @subject.enrollments,
+	:locals => { :edit => current_user.may_edit_enrollments? } %>
+</tbody></table><!-- id='enrollments' -->
+<% else %>
+<p>This subject has no enrollments</p>
+<% end %>

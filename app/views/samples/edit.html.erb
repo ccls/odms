@@ -1,0 +1,11 @@
+<% content_for :id_bar do %>
+<%= link_to( 'Save', nil, {
+	:id => "for_#{dom_id(@sample,:edit)}",
+	:class => :submitter
+}) %>
+<% end %>
+
+<% form_for @sample, 
+	:html => {:class => 'confirm edit_sample'} do |f| %>
+<%= render 'form', :f => f %>
+<% end %>

@@ -1,0 +1,12 @@
+<% content_tag_for( :div, response_set ) do %>
+<% if response_set.is_complete? %>
+<span>Complete</span>
+<% else %>
+<% form_tag(edit_my_survey_path(
+		:survey_code => response_set.survey.access_code, 
+		:response_set_code	=> response_set.access_code
+	), :method => :get ) do %>
+	<%= submit_tag "Continue/Complete HX Survey", :name => nil %>
+<% end %>
+<% end %>
+<% end %>

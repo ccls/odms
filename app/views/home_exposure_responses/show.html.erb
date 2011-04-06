@@ -1,0 +1,13 @@
+<% stylesheets('home_exposure_responses') %>
+<% sub_menu_for(@subject.hx_interview) %>
+<% id_bar_for(@subject) %>
+
+<table><tbody>
+<% HomeExposureResponse.field_names.each do |field_name| %>
+<%= show_row(:home_exposure_response,field_name) %>
+<% end %>
+</tbody></table>
+
+<p>Development Only</p>
+<%= destroy_link_to 'Destroy', 
+	subject_home_exposure_response_path(@subject) %>

@@ -1,0 +1,31 @@
+<% stylesheets('base/jquery.ui.all.css') %>
+<% load 'gift_card.rb' %>
+
+<% content_for :id_bar do %>
+<%= link_to 'Save', nil, {
+	:id => "for_#{dom_id(@subject,:edit)}",
+	:class => :submitter
+} %>
+<% end %>
+<% id_bar_for(@subject) %>
+
+<% form_for(@subject,
+		:url  => followup_subject_path(@subject),
+		:html => { :class => 'confirm edit_subject' }
+	) do |f| %>
+	<%= f.error_messages %>
+
+<% if @gift_cards %>
+	<div class='gift_card_id field_wrapper'>
+	<label for="gift_card_id">Card Number</label>
+	<%= select_tag 'gift_card[id]', 
+		options_for_select([nil]+@gift_cards.collect{ |u| [u.number, u.id] },
+			:selected => @subject.hx_gift_card.try(:id)) %>
+	</div><!-- class='gift_card_id' -->
+<% else %>
+<p class='warning'>There are no gift cards.</p>
+<% end %>
+
+	<%= wrapped_date_text_field :gift_card, :issued_on, :value => Date.today %>
+
+<% end %>

@@ -1,0 +1,72 @@
+<% sub_menu_for(@enrollment.subject) %>
+
+<% content_for :id_bar do %>
+<%= link_to 'Edit', edit_enrollment_path(@enrollment) %>
+<% end if current_user.may_edit_enrollments? %>
+<% id_bar_for(@enrollment.subject) %>
+
+<h4>Study name: <%= @enrollment.project.code.titleize -%></h4>
+
+<% div_for @enrollment do %>
+
+<%= wrapped_y_n_dk_spans :enrollment, :is_candidate,
+	:label_text => 'is_candidate?' %>
+
+<%# if @enrollment.is_candidate? %>
+	<%= wrapped_y_n_dk_spans :enrollment, :able_to_locate,
+		:label_text => 'able to locate?' %>
+	<%# if @enrollment.able_to_locate? %>
+		<%= wrapped_y_n_dk_spans :enrollment, :is_eligible,
+			:label_text => 'is eligible?' %>
+		<%# unless @enrollment.is_eligible? %>
+			<%= wrapped_spans :enrollment, :ineligible_reason,
+				:label_text => 'reason ineligible:' %>
+			<%= wrapped_spans :enrollment, :ineligible_reason_specify,
+				:label_text => 'specify:' %>
+		<%# else %>
+			<%= wrapped_y_n_dk_spans :enrollment, :is_chosen,
+				:label_text => 'chosen to participate?' %>
+			<%# unless @enrollment.is_chosen? %>
+				<%= wrapped_spans :enrollment, :reason_not_chosen,
+					:label_text => 'reason not chosen:' %>
+			<%# else %>
+				<%= wrapped_y_n_dk_spans :enrollment, :consented,
+					:label_text => 'consented?' %>
+
+				<%= wrapped_date_spans :enrollment, :consented_on,
+					:label_text => 'date:' %>
+
+				<%= wrapped_spans :enrollment, :document_version,
+					:label_text => 'version:' %>
+
+				<%# unless @enrollment.consented? %>
+					<%= wrapped_spans :enrollment, :refusal_reason,
+						:label_text => 'reason refused:' %>
+					<%= wrapped_spans :enrollment, :other_refusal_reason,
+						:label_text => 'specify:' %>
+				<%# else %>
+					<%= wrapped_y_n_dk_spans :enrollment, 
+						:terminated_participation,
+						:label_text => 'terminated participation?' %>
+					<%# unless @enrollment.terminated_participation? %>
+						<%= wrapped_spans :enrollment, :terminated_reason,
+							:label_text => 'reason:' %>
+					<%# else %>
+						<%= wrapped_y_n_dk_spans :enrollment, :is_complete,
+							:label_text => 'study requirements completed?' %>
+						<%# if @enrollment.is_complete? %>
+
+							<%= wrapped_date_spans :enrollment, :completed_on,
+								:label_text => 'date:' %>
+
+						<%# end %><%# @enrollment.is_complete? %>
+					<%# end %><%# @enrollment.terminated_participation? %>
+				<%# end %><%# @enrollment.consented? %>
+			<%# end %><%# @enrollment.is_chosen? %>
+		<%# end %><%# @enrollment.is_eligible? %>
+	<%# end %><%# @enrollment.able_to_locate? %>
+<%# end %><%# @enrollment.is_candidate? %>
+
+<%= wrapped_spans :enrollment, :notes,
+	:label_text => 'notes:' %>
+<% end %>

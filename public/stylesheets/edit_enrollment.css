@@ -1,0 +1,61 @@
+.field_wrapper {
+/*
+	padding: 5px;
+*/
+	padding-left: 5px;
+	clear:none;
+}
+/*
+.field_wrapper > label {
+	float:left;
+}
+*/
+.field_wrapper.terminated_reason label,
+.field_wrapper.refusal_reason_id label,
+.field_wrapper.ineligible_reason_id label {
+	text-indent:50px;
+/*
+	margin-left:50px;
+*/
+}
+/*
+.field_wrapper.refusal_reason_id {
+	clear:left;
+}
+*/
+.field_wrapper.is_chosen,
+.field_wrapper.is_complete,
+.field_wrapper.consented_on,
+.field_wrapper.consented,
+.field_wrapper.refusal_reason_id,
+.field_wrapper.ineligible_reason_id {
+	float:left;
+}
+
+.field_wrapper.consented_on label,
+.field_wrapper.is_candidate label,
+.field_wrapper.able_to_locate label,
+.field_wrapper.is_eligible label,
+.field_wrapper.consented label,
+.field_wrapper.completed_on label {
+	width: 100px;
+}
+.field_wrapper.is_complete label {
+	width: 250px;
+}
+
+.field_wrapper.consented_on label ,
+.field_wrapper.completed_on label ,
+.field_wrapper.document_version_id ,
+.field_wrapper.ineligible_reason_specify ,
+.field_wrapper.reason_not_chosen ,
+.field_wrapper.other_refusal_reason {
+	text-align:right;
+}
+
+.field_wrapper.document_version_id label,
+.field_wrapper.ineligible_reason_specify label,
+.field_wrapper.reason_not_chosen label,
+.field_wrapper.other_refusal_reason label{
+	float:none;
+}

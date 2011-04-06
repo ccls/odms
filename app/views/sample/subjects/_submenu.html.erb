@@ -1,0 +1,8 @@
+<% content_for :main do %>
+<div id='submenu'>
+<%= link_to 'general', sample_subjects_path,
+	:class => ((controller.action_name == 'index')?'current':nil) %>
+<%= link_to 'send to lab', send_to_lab_sample_subjects_path,
+	:class => ((controller.action_name == 'send_to_lab')?'current':nil) %>
+</div><!-- submenu -->
+<% end %>

@@ -1,0 +1,13 @@
+<% javascripts('new_addressing') %>
+
+<% content_for :id_bar do %>
+<%= link_to( 'Create', nil, {
+	:id => "for_new_addressing",
+	:class => :submitter
+}) %>
+<% end %>
+
+<% form_for(@addressing,
+	:url => subject_addressings_path(@subject)) do |f| %>
+<%= render 'form', :f => f %>
+<% end %>

@@ -1,0 +1,12 @@
+<% content_for :id_bar do %>
+<%= link_to 'Create', nil, {
+	:id => "for_new_phone_number",
+	:class => :submitter
+} %>
+<% end %>
+
+<% form_for(@phone_number,
+	:url => subject_phone_numbers_path(@subject),
+	:html => { :class => 'edit_phone_number' }) do |f| %>
+<%= render 'form', :f => f %>
+<% end %>

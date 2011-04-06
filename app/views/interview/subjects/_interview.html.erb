@@ -1,0 +1,18 @@
+<% content_tag_for( :tr, interview, :class => 'row' ) do %>
+<td class='instrument'>
+<%= interview.try(:instrument_version).try(:instrument)||'Unknown' %>
+</td>
+<td class='project'>
+<%= interview.try(:instrument_version).try(:instrument).try(:project)||'Unknown' %>
+</td>
+<td class='began'>
+<%=mdy interview.began_on %>
+</td>
+<td class='ended'>
+<%=mdy interview.ended_on %>
+</td>
+<td class='manage'>
+<%= link_to 'view',interview_path(interview) %>
+<%= link_to 'edit',edit_interview_path(interview) %>
+</td>
+<% end %><%# content_tag_for %>

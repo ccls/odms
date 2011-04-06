@@ -1,0 +1,14 @@
+<% content_tag_for( :div, home_page_pic, :class => 'row' ) do %>
+<div class='thumb'>
+<%= image_tag(home_page_pic.image.url(:small)) %>
+</div>
+<div class='title'>
+<%= link_to home_page_pic.title, home_page_pic %>
+</div>
+<%= active_check_box(home_page_pic) %>
+<div class='manage'>
+<%= link_to 'Edit', edit_home_page_pic_path(home_page_pic) %>&nbsp;
+<%= link_to 'Destroy', home_page_pic, 
+	:confirm => 'Are you sure?', :method => :delete %>
+</div>
+<% end %><!-- class='home_page_pic row' -->

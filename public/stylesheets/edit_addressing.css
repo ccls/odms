@@ -1,0 +1,115 @@
+#addressing_address_attributes_line_1,
+#addressing_address_attributes_line_2,
+#addressing_address_attributes_city,
+#addressing_address_attributes_state,
+#addressing_address_attributes_zip {
+	float:left;
+}
+
+#addressing_address_attributes_line_1,
+#addressing_address_attributes_line_2 {
+	width: 30em;
+}
+#addressing_address_attributes_city {
+	width: 18em;
+}
+#addressing_address_attributes_zip {
+	width: 7em;
+}
+
+form .fields_for_address input,
+form .fields_for_address select,
+form .fields_for_address label {
+	margin-top:15px;
+}
+form .fields_for_address label {
+/*
+	float:left;
+	clear:left;
+*/
+	width: 105px;
+}
+
+
+form div.controls {
+	padding-top: 10px;
+}
+form div.controls select {
+	margin-right: 20px;
+}
+
+.dev_only {
+	margin-top: 30px;
+}
+.dev_only span {
+	float:left;
+}
+
+/*
+.address_type_id,
+.current_address,
+.address_at_diagnosis {
+	clear:left;
+	padding:10px;
+}
+.is_valid label,
+.is_verified label,
+.valid_from label,
+.valid_to label,
+.address_type_id label,
+.current_address label,
+.address_at_diagnosis label {
+	width: 160px;
+	float:left;
+}
+*/
+.field_wrapper label {
+	width:160px;
+}
+.address_type_id select,
+.current_address select,
+.address_at_diagnosis select {
+	width: 100px;
+}
+
+.valid_from label,
+.valid_to label {
+	text-align:right;
+}
+/*
+.valid_to,
+.valid_to_string {
+	float:left;
+}
+*/
+/*
+.addressing,
+.phone_type_id,
+.is_valid,
+.is_verified {
+	float:left;
+}
+*/
+/*
+.valid,
+.verified {
+	clear:left;
+}
+*/
+.why_invalid,
+.how_verified {
+	margin-left: 150px;
+}
+/*
+.is_valid,
+.is_verified {
+	width: 150px;
+}
+.field_wrapper {
+	padding:10px;
+}
+*/
+.field_wrapper .fieldWithErrors:first-child {
+	float:left;
+	clear:left;
+}

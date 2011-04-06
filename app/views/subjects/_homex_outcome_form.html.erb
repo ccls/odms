@@ -1,0 +1,18 @@
+<% @subject.build_homex_outcome if @subject.homex_outcome.nil? %>
+<% f.fields_for :homex_outcome do |hof| %>
+
+	<%= hof.wrapped_collection_select :interview_outcome_id,
+		InterviewOutcome.all, :id, :to_s, :include_blank => true %>
+
+	<%= hof.wrapped_date_text_field :interview_outcome_on,
+		:class => 'datepicker',
+		:label_text => "Interview Outcome On:" %>
+
+	<%= hof.wrapped_collection_select :sample_outcome_id,
+		SampleOutcome.all, :id, :to_s, :include_blank => true %>
+
+	<%= hof.wrapped_date_text_field :sample_outcome_on,
+		:class => 'datepicker',
+		:label_text => "Sample Outcome On:" %>
+
+<% end %>

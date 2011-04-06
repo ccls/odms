@@ -1,0 +1,6 @@
+<% require 'user' %>
+<% if logged_in? and current_user.may_administrate? %>
+jQuery(function(){
+	jQuery('div#mainmenu').append('<%= administrator_menu() %>');
+});
+<% end %>

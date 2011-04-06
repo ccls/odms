@@ -1,0 +1,18 @@
+<p>
+  <b>Controller:</b>
+  <%=h @guide.controller %>
+</p>
+
+<p>
+  <b>Action:</b>
+  <%=h @guide.action %>
+</p>
+
+<div>
+  <b>Body:</b>
+  <%=sanitize(textilize(@guide.body)) %>
+</div>
+
+
+<%= link_to 'Edit', edit_guide_path(@guide) %> |
+<%= link_to 'Back', guides_path %>

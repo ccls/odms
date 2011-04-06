@@ -1,0 +1,13 @@
+<% load 'subject.rb' %>
+
+<% content_for :id_bar do %>
+<%= link_to "edit", edit_followup_gift_card_path(@gift_card) %>
+<% end if current_user.may_edit_gift_cards? %>
+<% id_bar_for(@gift_card) %>
+
+<% div_for @gift_card do %>
+<%= wrapped_spans :gift_card,:vendor %>
+<%= wrapped_spans :gift_card,:number %>
+<%= wrapped_date_spans :gift_card, :issued_on %>
+<%= wrapped_spans :gift_card, :subject %>
+<% end %>

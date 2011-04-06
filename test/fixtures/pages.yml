@@ -1,0 +1,75 @@
+pages_1: 
+  body_en: |
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
+    
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
+    
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
+    
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
+    
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
+
+  body_es: 
+  hide_menu: false
+  id: 1
+  menu_en: CCLS
+  menu_es: 
+  parent_id: 
+  path: /
+  position: 1
+  title_en: CCLS
+  title_es: 
+pages_19: 
+  body_en: Reports
+  body_es: ""
+  hide_menu: true
+  id: 19
+  menu_en: Reports
+  menu_es: ""
+  parent_id: 
+  path: /reports
+  position: 8
+  title_en: Reports
+  title_es: ""
+pages_20: 
+  body_en: FAQs
+  body_es: ""
+  hide_menu: true
+  id: 20
+  menu_en: FAQs
+  menu_es: ""
+  parent_id: 
+  path: /faqs
+  position: 9
+  title_en: FAQs
+  title_es: ""
+pages_21: 
+  body_en: |
+    * "Manage Users":/users
+    * "Manage Guides":/guides
+    * "Manage Pages":/pages
+    * "Manage People":/people
+    * "Manage Races":/races
+    * "Manage Languages":/languages
+    * "Manage Projects":/projects
+    * "Manage GiftCards":/gift_cards
+    * "Manage RefusalReasons":/refusal_reasons
+    * "Manage IneligibleReasons":/ineligible_reasons
+    * "Manage DocumentVersions":/document_versions
+    * "Logout":/logout
+    
+    
+    Feel free to add any notes here...
+    
+
+  body_es: 
+  hide_menu: true
+  id: 21
+  menu_en: Admin
+  menu_es: 
+  parent_id: 
+  path: /admin
+  position: 10
+  title_en: Admin
+  title_es:

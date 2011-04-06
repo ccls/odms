@@ -1,0 +1,80 @@
+<% form_tag(subjects_path, :id => 'subject_search',:method => :get) do %>
+
+	<% if Race.count > 0 %>
+	<fieldset id='races'>
+	<legend>Races</legend>
+	<ul>
+		<% Race.all.each do |race| %>
+			<li><%= check_box_tag 'races[]', race.name, 
+					params['races'].try(:include?,race.name), 
+					:id => dom_id(race)  %>
+				<%= label_tag dom_id(race), race.name %></li>
+		<% end %>
+	</ul>
+	</fieldset><!-- races -->
+	<% end %><%# if Race.count > 0 %>
+
+	<% if SubjectType.count > 0 %>
+	<fieldset id='types'>
+	<legend>SubjectTypes</legend>
+	<ul>
+		<% SubjectType.all.each do |type| %>
+			<li><%= check_box_tag 'types[]', type.name, 
+					params['types'].try(:include?,type.name), 
+					:id => dom_id(type)  %>
+				<%= label_tag dom_id(type), type.name %></li>
+		<% end %>
+	</ul>
+	</fieldset><!-- types -->
+	<% end %><%# if SubjectType.count > 0 %>
+
+<!--
+	<fieldset id='dust_kit'>
+	<legend>Dust Kit</legend>
+	<ul>
+		<li><%#= radio_button_tag 'dust_kit', 'ignore', 
+			params['dust_kit'].try(:==,'ignore') || params['dust_kit'].blank? %>
+			<%#= label_tag 'dust_kit_ignore', 'Ignore Dust Kit' %></li>
+		<li><%#= radio_button_tag 'dust_kit', 'none', 
+			params['dust_kit'].try(:==,'none') %>
+			<%#= label_tag 'dust_kit_none', 'No Dust Kit' %></li>
+		<li><%#= radio_button_tag 'dust_kit', 'shipped', 
+			params['dust_kit'].try(:==,'shipped') %>
+			<%#= label_tag 'dust_kit_shipped', 'Dust Kit Shipped' %></li>
+		<li><%#= radio_button_tag 'dust_kit', 'delivered', 
+			params['dust_kit'].try(:==,'delivered') %>
+			<%#= label_tag 'dust_kit_delivered', 'Dust Kit Delivered' %></li>
+		<li><%#= radio_button_tag 'dust_kit', 'returned', 
+			params['dust_kit'].try(:==,'returned') %>
+			<%#= label_tag 'dust_kit_returned', 'Dust Kit Returned' %></li>
+		<li><%#= radio_button_tag 'dust_kit', 'received', 
+			params['dust_kit'].try(:==,'received') %>
+			<%#= label_tag 'dust_kit_received', 'Dust Kit Received' %></li>
+	</ul>
+	</fieldset>
+-->
+<!-- dust_kit -->
+
+<% Project.all.each do |se| %><%# used to be a study event, hence 'se' %>
+	<% content_tag_for :fieldset, se do %>
+		<%= "<legend>#{se.description}</legend>" %><ul>
+			<%= se_check_boxes(se,:eligible) %>
+			<%= se_check_boxes(se,:chosen) %>
+			<%= se_check_boxes(se,:consented) %>
+			<%= se_check_boxes(se,:closed) %>
+			<%= se_check_boxes(se,:terminated) %>
+			<%= se_check_boxes(se,:completed) %>
+			<li>Refused</li>
+			<li>Awaiting Letter</li>
+			<li>Sent Letter</li>
+			<li>Awaiting Interview</li>
+			<li>Interviewed</li>
+		</ul>
+	<% end %>
+<% end %>
+
+	<div id='something'>
+	<%= submit_tag 'Search Subjects', :name => nil %>
+	<p>What other conditions do you want to search by?  Tell Jake.</p>
+	</div>
+<% end %>

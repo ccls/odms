@@ -1,0 +1,383 @@
+@import url('shared.css');
+body {
+	padding:0;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	margin: 0px;
+	background-color: #EEEEEE;
+}
+
+div#container {
+	width: 1000px;
+	margin: 0 auto;
+	background-color: #ECE9DF;	/* guidance background color */
+	/* box-shadow: <horizontal> <vertical> <blur> <color> */
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+div#header {
+	background-color: #6A7780;
+	height: 100px;
+/*
+	background-image: url('../images/berkeley-text.gif');
+	background-repeat: no-repeat;
+*/
+	position:relative; /* NEEDED so that mainmenu can be at bottom */
+}
+div#logo {
+	width: 400px;
+	float:left;
+	padding-left: 20px;
+	font-family: Times New Roman,LeagueGothicRegular,helvetica,arial,sans-serif;
+}
+div#logo h2 {
+	font-size: 32px;
+	margin: 10px;
+	margin-top: 3px;
+	margin-bottom: 0px;
+	color:white;
+	text-shadow: #000 0 2px 3px;
+}
+div#logo span {
+	font-size: 16px;
+	margin: 5px;
+	margin-top: 0px;
+	margin-left: 10px;
+	color:white;
+	text-shadow: #000 0 2px 3px;
+}
+
+div#minimenu {
+	float:right;
+	padding: 5px 10px;
+	color: white;
+}
+div#minimenu a {
+	color: white;
+	text-decoration:none;
+}
+div#fullsearch {
+	clear:right;
+	float:right;
+}
+div#subsearch {
+	clear:right;
+	float:right;
+}
+
+#mainmenu a,
+#submenu a {
+	text-decoration: none;
+	color:black;
+}
+div#mainmenu { 
+	/* NEEDED so that mainmenu can be at bottom */
+	position:absolute;
+	bottom:0;
+}
+div#mainmenu a {
+	margin:0;
+	float:left;
+	padding: 4px 24px;
+	font-size: 12pt;
+	font-weight: bold;
+	border: 2px solid black;
+	border-bottom: 1px solid black;
+	border-left: 0;
+	background-color: #A9BECC;
+}
+div#mainmenu a:nth-child(1) {
+	border-left: 2px solid black;
+}
+div#mainmenu a.current {
+	background-color: #CCC3A9;
+}
+
+
+div#main {
+	width: 800px;
+	float:left;
+}
+div#submenu {
+	clear:left;
+	margin: 0;
+	background-color: #CCC3A9;
+	border: 1px solid black;
+	line-height: 22pt;
+}
+div#submenu a {
+	padding: 5px 20px;
+}
+div#submenu a.current {
+	font-weight:bold;
+}
+
+div#content_wrapper {
+	background-color:white;
+	border-right: 1px solid silver;
+}
+div#content {
+	padding: 5px 25px;
+	font-size: 10pt;
+}
+
+div#preview {
+	margin-top: 20px;
+	border-top: 1px solid silver;
+}
+div.section {
+	border-right: 1px solid silver;
+	float:left;
+	width: 33.1%;
+	text-align:center;
+}
+div.section:last-child {
+	border-right: 0;
+}
+div.section h4 {
+	margin: 10px;
+	padding-bottom:5px;
+	border-bottom:1px solid silver;
+}
+div.section table {
+	float:left;
+	width:100%;
+}
+
+div#guidance {
+	width: 180px;
+	float:right;
+
+	/* NOT PADDING-BOTTOM */
+	padding:9px;
+
+	/* column hack override */
+	padding-bottom: 32767px;
+	/* smaller to put some real padding on bottom */
+	margin-bottom: -32740px;
+
+	font-size: 10pt;
+}
+
+#footer {
+	clear:both;
+	padding-top: 1ex;
+	padding-bottom: 1ex;
+	text-align:center;
+	font-size:8pt;
+	line-height:8pt;
+	background-color: #EEE;
+	color: gray;
+}
+
+#container, #footer {
+	/* http://css-radius.heroku.com */
+	-webkit-border-bottom-left-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-moz-border-radius-bottomright: 15px;
+	-moz-border-radius-bottomleft: 15px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+
+/*
+
+	Generic stuff above.
+	Specific stuff below.
+
+*/
+
+
+
+
+div#preview table tr th {
+	text-align: center;
+}
+
+
+
+
+table#enrollments tr {
+	text-align:left;
+}
+
+
+table#guides td.controller {
+	width: 300px;
+}
+
+table.sample_subject {
+	margin-top: 30px;
+}
+
+input.datepicker {
+	width: 100px;
+}
+/* 
+	BEGIN Sample stuff
+*/
+form.edit_sample .field_wrapper label {
+	width: 150px;
+}
+.edit_sample .field_wrapper.tracking_number label {
+	width: 250px;
+}
+
+form.edit_sample .location_id.field_wrapper {
+	float:left;
+	clear:none;
+	padding-left: 10px;
+}
+form.edit_sample .location_id.field_wrapper label {
+	width:70px;
+}
+
+/* 
+	END Sample stuff
+*/
+
+/*
+	BEGIN Interview stuff
+*/
+
+.edit_interview .field_wrapper {
+	min-width: 350px;
+}
+.edit_interview .field_wrapper label,
+.interview .field_wrapper .label {
+	width: 160px;
+}
+.interview .subject_relationship_other .label,
+.edit_interview .subject_relationship_other label {
+	text-align:center;
+}
+
+.edit_interview .field_wrapper.ended_on label,
+.edit_interview .field_wrapper.interview_outcome_on label {
+	width: 50px;
+}
+
+.edit_interview .field_wrapper.interview_outcome_id,
+.edit_interview .field_wrapper.interview_outcome_on label,
+.edit_interview .field_wrapper.began_on,
+.edit_interview .field_wrapper.ended_on label,
+.interview .field_wrapper.interview_outcome,
+.interview .field_wrapper.began_on {
+	float:left;
+	padding-right: 30px;
+}
+.edit_interview .field_wrapper.interview_outcome_on,
+.edit_interview .field_wrapper.ended_on,
+.interview .field_wrapper.interview_outcome_on,
+.interview .field_wrapper.ended_on {
+	clear:none;
+}
+.interview .field_wrapper.interview_outcome_on .label,
+.interview .field_wrapper.ended_on .label {
+	padding-right: 30px;
+	width:auto;
+}
+/*
+	END Interview stuff
+*/
+
+
+form.edit_subject .field_wrapper label {
+	width: 160px;
+}
+form.edit_subject select#subject_vital_status_id,
+form.edit_subject select#subject_sex,
+form.edit_subject select#subject_race_id,
+form.edit_subject select#subject_subject_type_id {
+	width: 170px;
+}
+
+form.edit_guide .field_wrapper label {
+	display:block;
+	margin-top:10px;
+}
+form.edit_guide textarea {
+	width: 100%;
+}
+form.edit_guide input[type=text] {
+	width: 99%;
+}
+
+.enrollment .field_wrapper.completed_on .label,
+.enrollment .field_wrapper.terminated_reason .label,
+.enrollment .field_wrapper.other_refusal_reason .label,
+.enrollment .field_wrapper.refusal_reason .label,
+.enrollment .field_wrapper.document_version .label,
+.enrollment .field_wrapper.consented_on .label,
+.enrollment .field_wrapper.ineligible_reason_specify .label,
+.enrollment .field_wrapper.ineligible_reason .label,
+.enrollment .field_wrapper.reason_not_chosen  .label{
+	text-indent:50px;
+}
+
+form.edit_patient .field_wrapper {
+	padding: 10px;
+}
+form.edit_patient .field_wrapper label {
+	width: 170px;
+	float:left;
+}
+form.edit_patient .field_wrapper .warning {
+	display:none;
+	width:300px;
+	float:right;
+	padding: 5px;
+	padding-right:0;
+}
+form.edit_patient .field_wrapper.changed .warning {
+	display:inline;
+	background-color: #FDD;
+	border: 1px solid #F88;
+}
+
+
+form.edit_phone_number .field_wrapper label {
+  width:160px;
+}
+form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
+  float:left;
+}
+
+
+.homex_outcomes .columns .column:nth-child(1) {
+	width: 350px;
+}
+.homex_outcomes .columns .column:nth-child(2) {
+	width: auto;
+}
+.homex_outcomes .field_wrapper .label {
+	width: 120px;
+}
+.homex_outcomes .title {
+	width: 160px;
+}
+.subject .homex_outcomes .title {
+	float: left;
+}
+.interview .homex_outcomes .title {
+	font-weight: bold;
+}
+.edit_subject   .do_not_contact,
+.edit_interview .intro_letter_sent_on,
+.interview      .homex_outcomes .title,
+.subject        .homex_outcomes,
+.edit_subject   .homex_outcomes {
+/*
+.interview      .homex_outcomes .columns,
+.edit_interview .homex_outcomes .columns,
+.edit_subject   .homex_outcomes .columns {
+*/
+	margin: 13.333px 0;
+}
+.interview      .homex_outcomes .columns,
+.edit_interview .homex_outcomes .columns,
+.edit_subject   .homex_outcomes .columns {
+	display: block;
+}

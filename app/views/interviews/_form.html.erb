@@ -1,0 +1,73 @@
+<% stylesheets('base/jquery.ui.all.css') %>
+<% sub_menu_for(@interview) %>
+
+<% id_bar_for(@subject) do %>
+<%= link_to( 'Save', nil, {
+	:id => "for_#{dom_id(@interview,:edit)}",
+	:class => :submitter
+}) %>
+<% end %>
+
+<% form_for(@interview,
+	:url => interview_path(@interview),
+	:html => { :class => 'edit_interview confirm' }) do |f| %>
+
+<%= f.error_messages %>
+
+<%= f.wrapped_date_text_field :intro_letter_sent_on,
+	:label_text => 'Intro Letter Sent:' %>
+
+<h4>Interview Info</h4>
+<%# without this, the homex_outcome fields won't show if it doesn't exist yet. %>
+<% @interview.subject.build_homex_outcome unless @interview.subject.homex_outcome %>
+<% f.fields_for :subject do |subject| %>
+<% subject.fields_for :homex_outcome do |io| %>
+<%= io.wrapped_collection_select :interview_outcome_id,
+	InterviewOutcome.all, :id, :to_s, :include_blank => true, 
+	:label_text => 'Outcome:' %>
+<%= io.wrapped_date_text_field :interview_outcome_on,
+	:label_text => 'Date:' %>
+<% end %>
+<% end %>
+
+<h4>Dates of interview</h4>
+
+<%= f.wrapped_date_text_field :began_on,
+	:label_text => 'Began:' %>
+
+<%= f.wrapped_date_text_field :ended_on,
+	:label_text => 'Ended:' %>
+
+<%= f.wrapped_collection_select :interviewer_id,
+	Person.interviewers, :id, :to_s, :include_blank => true, 
+	:label_text => 'Interviewer:' %>
+
+<%= f.wrapped_collection_select :instrument_version_id,
+	InstrumentVersion.all, :id, :to_s, :include_blank => true, 
+	:label_text => 'Instrument Version:' %>
+
+<%= f.wrapped_collection_select :interview_method_id,
+	InterviewMethod.all, :id, :to_s, :include_blank => true, 
+	:label_text => 'Interview Method:' %>
+
+<%= f.wrapped_collection_select :language_id,
+	Language.all, :id, :to_s, :include_blank => true, 
+	:label_text => 'Language:' %>
+
+
+<h4>Respondent Info</h4>
+
+<%= f.wrapped_collection_select :subject_relationship_id,
+	SubjectRelationship.all, :id, :to_s, :include_blank => true, 
+	:label_text => 'Relationship:' %>
+
+<%= f.wrapped_text_field :subject_relationship_other,
+	:label_text => 'specify:' %>
+
+<%= f.wrapped_text_field :respondent_first_name,
+	:label_text => 'First Name:' %>
+
+<%= f.wrapped_text_field :respondent_last_name,
+	:label_text => 'Last Name:' %>
+
+<% end %>

@@ -1,0 +1,19 @@
+form#new_dust_kit {
+	width: 600px;
+	margin: 50px auto;
+}
+label {
+	clear: left;
+	float: left;
+	width: 250px;
+}
+form#new_dust_kit button,
+form#new_dust_kit input,
+form#new_dust_kit label,
+form#new_dust_kit div,
+form#new_dust_kit p {
+	text-align: center;
+	margin: 5px;
+	font-size: 12pt;
+	line-height: 20pt;
+}

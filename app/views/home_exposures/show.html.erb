@@ -1,0 +1,40 @@
+<div id='dash'>
+<% if @page %>
+<%= sanitize(textilize(@page.body(session[:locale]))) %>
+<% end %>
+</div>
+<% content_for :content_bottom do %>
+<div id='preview' class='equal_height_column_wrapper'>
+<div class='section equal_height_column'>
+<h4>Ready for Letters</h4>
+<table><tbody>
+<tr><th>ChildID</th><th>Date Selected</th></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+</tbody></table>
+go to full list ...
+</div>
+<div class='section equal_height_column'>
+<h4>Ready for Interview</h4>
+<table><tbody>
+<tr><th>ChildID</th><th>Date Letter Sent</th></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+</tbody></table>
+go to full list ...
+</div>
+<div class='section equal_height_column'>
+<h4>Waiting for Dust</h4>
+<table><tbody>
+<tr><th>ChildID</th><th>Date Kit Sent</th></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+<tr><td>0123</td><td>1/31/2000</td></tr>
+</tbody></table>
+(+5 others)  go to full list ...
+</div>
+</div>
+<% end %>

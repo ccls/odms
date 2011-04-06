@@ -1,0 +1,21 @@
+<%
+	classes = ['row']
+#	classes.push('ui-state-error') if subject.do_not_contact? 
+%>
+<% content_tag_for( :tr, subject, :class => classes.join(' ') ) do %>
+<td class='childid'>
+<%= link_to subject.childid, subject_path(subject) -%>
+</td>
+<td class='studyid'>
+<%= subject.studyid %>
+</td>
+<td class='last_name'>
+<%= subject.last_name %>
+</td>
+<td class='first_name'>
+<%= subject.first_name %>
+</td>
+<!--
+<td class='icons'><span class="ui-icon ui-icon-alert"></span></td>
+-->
+<% end %><%# content_tag_for %>

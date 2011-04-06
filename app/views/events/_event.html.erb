@@ -1,0 +1,6 @@
+<% content_tag_for(:tr,event, :class => 'row') do %>
+<td><%=mdy event.occurred_on %></td>
+<td><%= event.enrollment.project.code %></td>
+<td><%= event.operational_event_type.to_s %></td>
+<td><%= event.to_s %></td>
+<% end %>

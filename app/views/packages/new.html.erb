@@ -1,0 +1,9 @@
+<%= error_messages_for :package %>
+
+<% form_for(@package) do |f| %>
+  <%= render 'form', :f => f %>
+  <p>
+    <%= f.submit "Create", :id => nil %>&nbsp;
+		<%= button_link_to "Cancel", packages_path %>
+  </p>
+<% end %>

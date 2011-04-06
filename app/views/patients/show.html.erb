@@ -1,0 +1,31 @@
+<% sub_menu_for(@subject) %>
+
+<% content_for :id_bar do %>
+<%= link_to 'Edit', edit_subject_patient_path(@subject) %>
+<% end if current_user.may_edit_patients? %>
+<% id_bar_for(@subject) %>
+
+<div id='patient'>
+<div class='admit_date field_wrapper'>
+<span class='label'>admit (reference) date:</span>
+<span class='value'><%=mdy @patient.admit_date %></span>
+</div><!-- class='admit_date' -->
+<%= wrapped_date_spans(:patient,:diagnosis_date,
+	:label_text => 'diagnosis date:' ) %>
+<%= wrapped_spans(:patient,:diagnosis,
+	:label_text => 'diagnosis:' ) %>
+<%= wrapped_spans(:patient,:organization,
+	:label_text => 'diagnosing hospital:') %>
+<%= wrapped_spans(:patient,:hospital_no,
+	:label_text => 'hospital number:') %>
+</div><!-- id='patient' -->
+
+<h4>Development Only:</h4>
+<%= destroy_link_to 'Destroy', subject_patient_path(@subject) %>
+<% unless( @identifier = @patient.try(:subject).try(:identifier) ).nil? %>
+<%= wrapped_spans(:identifier,:familyid) %>
+<%= wrapped_spans(:identifier,:matchingid) %>
+<% Identifier.find_all_by_matchingid(@identifier.matchingid).each do |i| %>
+<%= link_to i.subject.full_name, subject_path(i.subject) %>
+<% end %>
+<% end %>

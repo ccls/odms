@@ -1,0 +1,12 @@
+<% content_for :id_bar do %>
+<%= link_to( 'Save', nil, {
+	:id => "for_#{dom_id(@patient,:edit)}",
+	:class => :submitter
+}) %>
+<% end %>
+
+<% form_for(@patient,
+	:url => subject_patient_path(@subject),
+	:html => { :class => 'edit_patient confirm' }) do |f| %>
+<%= render 'form', :f => f %>
+<% end %>

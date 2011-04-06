@@ -1,0 +1,7 @@
+.dev_only {
+	margin-top: 30px;
+	clear:left;
+}
+.dev_only span {
+	float:left;
+}

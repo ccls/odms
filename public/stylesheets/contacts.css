@@ -1,0 +1,74 @@
+/*
+#current {
+	border-bottom: 1px solid gray;
+}
+*/
+
+.phone_numbers,
+.addressings {
+	margin-left: 100px;
+}
+#current .addressings {
+	border-bottom: 1px solid black;
+}
+.historic {
+	background-color: #EEE;
+}
+
+.contact_wrapper {
+	padding-bottom:10px;
+	clear:left;	
+
+	/* using this to hack the floats */
+	overflow:hidden;
+}
+
+.when {
+	float:left;
+	width: 200px;
+}
+.phone_number,
+.addressing {
+	float: left;
+	width: 15em;
+}
+.contact_meta {
+	float: left;
+	width: 120px;
+}
+
+.contact_valid {
+	float: left;
+}
+.contact_valid span {
+	display:block;
+}
+
+.contact_valid .brief,
+.contact_valid .details {
+	float:left;
+}
+.contact_valid .brief {
+	width: 100px;
+}
+
+.addressing .line_1,
+.addressing .line_2,
+.addressing .csv {
+	display:block;
+}
+.edit {
+	text-align: right;
+}
+.new {
+	clear:both;
+	margin-top:0;
+}
+
+.contact_valid .brief .field_wrapper .label {
+	width:auto;
+	margin-right: 10px;
+}
+.contact_valid .brief .field_wrapper {
+	margin-bottom:0;
+}

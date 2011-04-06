@@ -1,0 +1,20 @@
+input[type='text'],
+textarea {
+	width: 99%;
+}
+div.image {
+	float: left;
+	width: 50%;
+}
+div.active {
+	padding-top: 15px;
+}
+div.image_preview {
+	clear:left;
+}
+div.image_preview img {
+	width: 99%;
+}
+div.caption {
+	clear: left;
+}

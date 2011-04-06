@@ -1,0 +1,12 @@
+<% stylesheets('package') %>
+
+Sample Kit Status for <%= link_to 'Subject', subject_path(@subject) %>:
+
+<div id='packages'>
+Collection kit sent:
+<%= render( 'package', :object => @sample_kit.kit_package ) if @sample_kit.kit_package %>
+Sample returned:
+<%= render( 'package', :object => @sample_kit.sample_package ) if @sample_kit.sample_package %>
+
+<%= "<p id='status_updated'>Last bulk shipping status update: #{time_ago_in_words(@last_shipping_update)} ago</p>" unless(@last_shipping_update.blank?) %>
+</div>

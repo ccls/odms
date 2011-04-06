@@ -1,0 +1,50 @@
+
+#
+#	This database NEEDS to exist, be migrated and the same
+#	in the apps that use it in dev.  It will be used to
+#	create the app's test database
+#
+shared_development:
+  adapter: mysql
+  encoding: utf8
+  database: shared_development
+  username: root
+  password:
+  host: localhost
+
+#
+#	This database NEEDS to be different in the apps that
+#	use this so that they do not step all over each other.
+#
+shared_test:
+  adapter: mysql
+  encoding: utf8
+  database: shared_homex_test
+  username: root
+  password:
+  host: localhost
+
+shared_staging:
+  adapter: mysql
+  encoding: utf8
+  database: shared_staging
+  username: root
+  password:
+  host: localhost
+
+#
+#	This is the common production database, but in the ccls_engine
+#	the username and production MUST have the ability to create
+#	and modify the structure as this 'app' runs the migrations.
+#
+#	In this app, however, the user does NOT need permissions
+#	to modify the structure, just the contents.
+#
+shared_production:
+  adapter: mysql
+  encoding: utf8
+  database: shared_homex_production_example
+  username: root
+  password:
+  host: localhost
+

@@ -1,0 +1,10 @@
+<hr/>
+<h3><%= project.description %></h3>
+<% if p = @enrollments.detect{|p|p.project_id==project.id} %>
+<dl>
+<% p.attributes.each_pair do |k,v| %>
+<dt><%= k %></dt>
+<dd><%= v %></dd>
+<% end %>
+</dl>
+<% end %>

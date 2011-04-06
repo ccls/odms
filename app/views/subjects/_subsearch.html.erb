@@ -1,0 +1,16 @@
+<div id='subsearch'>
+<%# form_tag( ActionController::Base.relative_url_root +
+	"/#{params[:controller]}",
+	:method => :get) do %>
+<% form_tag( url_for(:controller => params[:controller]),
+	:method => :get) do %>
+<%# params.dup.delete_keys!(:q,:commit,:action,:controller).each_pair do |k,v| -%>
+	<%#= hidden_field_tag k, v %>
+<%# end -%>
+	<%= hidden_field_tag :order, params[:order], :id => nil %>
+	<%= hidden_field_tag :dir, params[:dir], :id => nil %>
+	<%= text_field_tag :q, params[:q], :id => nil  %>
+	<%= submit_tag 'find' %>
+	<%= submit_tag 'download' %>
+<% end %>
+</div><!-- subsearch -->

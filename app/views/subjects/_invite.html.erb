@@ -1,0 +1,38 @@
+<hr/>
+<% if @subject.is_eligible_for_invitation? %>
+	<% if invite = @subject.her_invitation %>
+		<p><%= "Subject was sent invitation on #{invite.created_at.to_s(:mdy)}" %></p>
+
+		<% if invite.response_set && invite.response_set.is_complete? %>
+			<p>Subject completed survey on 
+				<%= invite.response_set.completed_at.to_s(:mdy) %></p>
+		<% else %>
+			<% if invite.response_set %>
+				<p>Subject has started survey, but has not yet completed.</p>
+			<% else %>
+				<p>Subject hasn't started survey yet.</p>
+			<% end %>
+			
+			<% form_tag(survey_invitation_path(invite), :method => :put) do %>
+				<%= submit_tag "Send Survey Invitation Reminder", 
+					:name => nil, :id => nil %>
+			<% end %>
+			
+			<%# form_tag(survey_invitation_path(invite), :method => :delete) do %>
+				<%#= submit_tag "Destroy Survey Invitation", 
+					:name => nil, :id => nil %>
+			<%# end %>
+			
+		<% end %>
+	<% else %>
+		<% form_tag(subject_survey_invitations_path(@subject)) do %>
+			<%= hidden_field_tag :access_code, "home_exposure_survey", 
+				:id => nil %>
+			<%= submit_tag "Create and send new Survey Invitation", 
+				:name => nil, :id => nil %>
+		<% end %>
+	<% end %>
+
+<% else %>
+	<p>Subject is not eligible for invitation.</p>
+<% end %><%# @subject.is_eligible_for_invitation? %>

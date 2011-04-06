@@ -1,0 +1,14 @@
+<% content_tag_for( :tr, subject, :class => 'row' ) do %>
+<td class='childid'>
+<%= link_to subject.childid, interview_subject_path(subject) -%>
+</td>
+<td class='studyid'>
+<%= subject.studyid %>
+</td>
+<td class='last_name'>
+<%= subject.last_name %>
+</td>
+<td class='first_name'>
+<%= subject.first_name %>
+</td>
+<% end %><%# content_tag_for %>

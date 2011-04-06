@@ -1,0 +1,27 @@
+<% stylesheets('home_page_pic') %>
+
+<p>
+  <b>Title:</b>
+  <%=h @home_page_pic.title %>
+</p>
+
+<p>
+  <b>Image:</b>
+</p>
+<div class='image_preview'>
+<%= image_tag @home_page_pic.image.url(:full) %>
+</div>
+
+<p>
+  <b>Caption:</b>
+  <%=h @home_page_pic.caption %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%=h @home_page_pic.active %>
+</p>
+
+
+<%= link_to 'Edit', edit_home_page_pic_path(@home_page_pic) %> |
+<%= link_to 'Back', home_page_pics_path %>

@@ -1,0 +1,49 @@
+#package,
+#tracks,
+p#status_updated {
+	font-size: 9pt;
+}
+
+div#package {
+	padding-bottom:20px;
+}
+
+div.carrier {
+	float:left;
+}
+div.carrier img {
+}
+div.info {
+	padding-left: 100px;
+}
+
+div.tracking_number {
+	float:left;
+	width: 200px;
+}
+div.updated_at {
+	float:left;
+}
+div.update {
+	text-align:right;
+}
+div.status {
+}
+
+
+div#tracks {
+}
+
+div.track {
+}
+div.track div.name {
+	float:left;
+	width: 230px;
+}
+div.track div.location {
+	float:left;
+	width: 150px;
+}
+div.track div.time {
+	text-align:right;
+}

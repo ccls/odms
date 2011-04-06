@@ -1,0 +1,10 @@
+<h4>Gift Cards:</h4>
+<% unless @gift_cards.empty? %>
+<table id='gift_cards'><tbody>
+<%= render :partial => 'gift_card', :collection => @gift_cards %>
+</tbody></table>
+<% else %>
+Sorry, no gift_cards yet.
+<% end %>
+
+<p><%= button_link_to 'Create new gift_card', new_gift_card_path %></p>

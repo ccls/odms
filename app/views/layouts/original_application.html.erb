@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<link rel="shortcut icon" href="<%=image_path('cal.ico')%>" />
+<title><%= @page_title || "UCB SPH CCLS" -%></title>
+<%= stylesheet_link_tag 'application','scaffold' %>
+<%#= stylesheet_link_tag controller.controller_name %>
+<%= javascript_include_tag :defaults %>
+<%# 
+	this adds a lot of stuff that we may not need or want 
+
+	surveyor_stylsheets -> stylesheet_link_tag 'surveyor/reset', 'surveyor/surveyor', 'surveyor/ui.theme.css','surveyor/jquery-ui-slider-additions'
+
+	surveyor_javascripts -> javascript_include_tag 'surveyor/jquery-1.2.6.js', 'surveyor/jquery-ui-personalized-1.5.3.js', 'surveyor/accessibleUISlider.jQuery.js','surveyor/jquery.form.js', 'surveyor/surveyor.js'
+
+	if its first, it doesn't work.  Probably gets overwritten by something
+%>
+<%= surveyor_includes if( controller.controller_name == 'surveyor') %>
+<%= yield :head %>
+</head>
+<body>
+<%= render 'layouts/header' -%> 
+
+<div id='container' class='main_width'>
+<div id='content'>
+<%= flasher() %>
+<%= yield %>
+</div><!-- content -->
+</div><!-- container -->
+
+<%= render 'layouts/footer' -%>
+</body>
+</html>

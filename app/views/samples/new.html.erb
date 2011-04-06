@@ -1,0 +1,11 @@
+<% content_for :id_bar do %>
+<%= link_to( 'Create', nil, {
+	:id => "for_new_sample",
+	:class => :submitter
+}) %>
+<% end %>
+<% form_for( @sample,
+	:url => subject_samples_path(@subject),
+	:html => {:class => 'edit_sample'}) do |f| %>
+<%= render 'form', :f => f %>
+<% end %>

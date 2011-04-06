@@ -1,0 +1,14 @@
+div.thumb {
+	width: 150px;
+	float:left;
+}
+div.thumb img {
+	float:left;
+}
+div.title {
+	float:left;
+	width: 300px;
+}
+div.active {
+	float:left;
+}
