@@ -7,14 +7,9 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resources :home_page_pics, :collection => { :activate => :post }
 
-#	map.resource :home_exposure, :only => :show
-
 	map.resources :subjects,
 		:shallow => true do |subject|
 
-		subject.resource :home_exposure_response, 
-			:only => [ :new, :create, :show, 
-			:destroy ]	# TEMP ADD DESTROY FOR DEV ONLY!
 		subject.resource :patient
 		subject.resources :contacts, :only => :index
 		subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
