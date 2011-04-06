@@ -27,7 +27,7 @@ class HomeExposureResponsesControllerTest < ActionController::TestCase
 
 	assert_no_access_with_login [],{
 		:suffix => " and invalid subject_id",
-		:redirect => :home_exposure_path,
+#		:redirect => :home_exposure_path,
 		:login => :superuser,
 		:new => { :subject_id => 0 },
 		:show => { :subject_id => 0 }

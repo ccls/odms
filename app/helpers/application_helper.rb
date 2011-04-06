@@ -8,14 +8,14 @@ module ApplicationHelper
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to( "New Case Wizard", new_case_wizard_path ),
-				"<span>New Control Wizard</span>",
-				"<span>Basic Info - Read</span>",
-				"<span>Basic Info - Edit</span>",
-				"<span>Address - Read</span>",
-				"<span>Address - Edit</span>",
-				"<span>Phone - Edit</span>",
-				"<span>Hospital - Read</span>",
-				"<span>Hospital - Edit</span>",
+				"<span>New Control Wizard</span>"
+#				"<span>Basic Info - Read</span>",
+#				"<span>Basic Info - Edit</span>",
+#				"<span>Address - Read</span>",
+#				"<span>Address - Edit</span>",
+#				"<span>Phone - Edit</span>",
+#				"<span>Hospital - Read</span>",
+#				"<span>Hospital - Edit</span>",
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 		s << "\n</div><!-- mainmenu -->\n"

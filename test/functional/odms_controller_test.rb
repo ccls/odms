@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class HomeExposuresControllerTest < ActionController::TestCase
+class OdmsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = { :actions => [:show] }
 

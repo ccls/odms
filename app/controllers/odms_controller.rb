@@ -1,4 +1,4 @@
-class HomeExposuresController < ApplicationController
+class OdmsController < ApplicationController
 
 #	This is the root path.  There should be nothing
 #	here to block any user.  No filters!
