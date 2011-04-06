@@ -6,14 +6,11 @@
 <link rel="shortcut icon" href="<%=image_path('cal.ico')%>" />
 <title><%= @page_title || "UCB SPH CCLS" -%></title>
 <%= stylesheet_link_tag :defaults %>
-<%#= stylesheet_link_tag 'home_exposure','scaffold' %>
-<%#= stylesheet_link_tag 'base/jquery.ui.all.css' %>
-<%#= stylesheet_link_tag controller.controller_name %>
 <%= javascript_include_tag :defaults %>
 <%= yield :head %>
 <script type="text/javascript">
 	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', <%="'UA-17648061-#{(Rails.env=='production')?'11':'8'}'"-%>]);
+	_gaq.push(['_setAccount', <%="'UA-17648061-#{(Rails.env=='production')?'12':'13'}'"-%>]);
 	_gaq.push(['_trackPageview']);
 
 	(function(){
@@ -31,8 +28,7 @@
 <div id='container'>
 <div id='header'>
 <div id='logo'>
-<h2>Home Exposures</h2>
-<span>a California Childhood Leukemia Study</span>
+<h2>Operations and Data Management System</h2>
 </div>
 <div id='minimenu'>
  <%= link_to "Home", root_path %>&nbsp;|&nbsp;
@@ -42,8 +38,8 @@
   &nbsp;|&nbsp;<%= link_to 'Logout', logout_path %>
  <% end %>
 </div><!-- minimenu -->
-<%= render 'layouts/subjects_search' %>
-<%= home_exposure_main_menu() %>
+<%#= render 'layouts/subjects_search' %>
+<%= odms_main_menu() %>
 </div><!-- header -->
 <div id='columns' class='equal_height_column_wrapper'>
 <div id='main' class='equal_height_column'>

@@ -1,9 +1,0 @@
-<% content_for :id_bar do %>
-<%= link_to 'Save', nil, {
-	:id => "for_#{dom_id(@gift_card,:edit)}",
-	:class => :submitter
-} %>
-<% end %>
-
-<% id_bar_for @gift_card %>
-<%= render 'form' %>

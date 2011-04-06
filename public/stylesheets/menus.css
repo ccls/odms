@@ -1,0 +1,116 @@
+/*
+
+	#minimenu - the top-right pages menu
+
+	#mainmenu - the menu in the lower-left of the header containing ...
+		.menu_item - link or hover-triggered menu containing ...
+			.sub_menu - 
+
+	#sidemenu - the left menu to the side of the content
+
+*/
+
+/*
+	Top Right Menu (Home|Reports|FAQs[|Logout])
+*/
+div#minimenu {
+	float:right;
+	padding: 5px 10px;
+	color: white;
+}
+div#minimenu a {
+	color: white;
+	text-decoration:none;
+}
+
+/*
+
+	FYI:  submenu will be very different than the homex submenu
+
+	For clarity, I will be renaming the #submenu to #sidemenu
+		which is a much more appropriate name
+
+*/
+
+#mainmenu .menu_item,
+#mainmenu .menu_item a,
+#submenu a {
+	text-decoration: none;
+	color:black;
+}
+div#mainmenu { 
+	/* NEEDED so that mainmenu can be at bottom */
+	position:absolute;
+	bottom:0;
+}
+div#mainmenu .menu_item {
+	margin:0;
+	float:left;
+	padding: 4px 24px;
+	font-size: 12pt;
+	font-weight: bold;
+	border: 2px solid black;
+	border-bottom: 1px solid black;
+	border-left: 0;
+	background-color: #A9BECC;
+}
+div#mainmenu .menu_item:nth-child(1) {
+	border-left: 2px solid black;
+}
+div#mainmenu a.current {
+	background-color: #CCC3A9;
+}
+
+
+div#submenu {
+	clear:left;
+	margin: 0;
+	background-color: #CCC3A9;
+	border: 1px solid black;
+	line-height: 22pt;
+}
+div#submenu a {
+	padding: 5px 20px;
+}
+div#submenu a.current {
+	font-weight:bold;
+}
+
+
+
+
+
+
+
+.menu_item { 
+	padding: 0 5px;
+	border-right: 1px solid gray; 
+	float:left;
+}
+.menu_item:last-child   { border: 0; }
+
+div.menu_item {
+	position:relative;
+}
+div.menu_item span {
+}
+.sub_menu {
+	top: 30px;
+	left:-2px;
+	clear:left;
+	z-index: 100;	/* needed to keep it above a google map */
+	position:absolute;
+	background-color: white;
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;
+	border-bottom: 1px solid gray;
+	display:none;
+}
+.sub_menu a,
+.sub_menu span {
+	font-weight: normal;
+	padding: 5px;
+	display:block;
+	white-space:pre;
+}
+.menu_item:hover > .sub_menu { display:block; }
