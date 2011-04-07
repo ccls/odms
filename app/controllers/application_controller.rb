@@ -5,14 +5,6 @@ class ApplicationController < ActionController::Base
 	# See ActionController::RequestForgeryProtection for details
 	protect_from_forgery 
 
-#	#	from ucb_ccls_engine_controller.rb 
-#
-#	Not needed anymore, I think
-#
-#	skip_before_filter :build_menu_js
-#	def build_menu_js
-#	end
-
 	before_filter :get_guidance
 
 protected	#	private #	(does it matter which or if neither?)
@@ -78,6 +70,7 @@ protected	#	private #	(does it matter which or if neither?)
 			end
 		end
 	end
+	alias_method :recall_or_record_sort_order, :record_or_recall_sort_order
 
 	def get_guidance
 		return if params[:format] == 'js'	#	better

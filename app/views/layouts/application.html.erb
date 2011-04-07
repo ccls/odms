@@ -5,8 +5,8 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <link rel="shortcut icon" href="<%=image_path('cal.ico')%>" />
 <title><%= @page_title || "UCB SPH CCLS" -%></title>
-<%= stylesheet_link_tag :defaults %>
-<%= javascript_include_tag :defaults %>
+<%= stylesheet_link_tag :defaults,'simply_helpful','base/jquery.ui.all.css' %>
+<%= javascript_include_tag :defaults,'simply_helpful' %>
 <%= yield :head %>
 <script type="text/javascript">
 	var _gaq = _gaq || [];

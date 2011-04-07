@@ -1,0 +1,24 @@
+<h3>New Subject Step 2</h3>
+
+<% form_for(@subject, :url => case_wizard_path,
+	:html => { :class => 'edit_subject' }) do |f| %>
+  <%= f.error_messages %>
+
+<p>Add a new case / specify RAF type</p>
+
+<p>The new RAF is a ...</p>
+
+<p>waivered RAF</p>
+
+<p>non-waivered RAF (e.g. CHLA)</p>
+
+<p>cancel / previous / next</p>
+
+	<%= f.wrapped_text_field :sex %>
+
+  <p>
+    <%= f.submit 'Submit' %>
+    <%= submit_link_to 'Submit' %>
+  </p>
+
+<% end %>
