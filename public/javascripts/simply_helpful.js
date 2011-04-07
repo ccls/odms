@@ -27,7 +27,11 @@ jQuery(function(){
 	jQuery('form a.submit.button').siblings('input[type=submit]').hide();
 
 	jQuery('form a.submit.button').click(function(){
-		jQuery(this).parents('form').submit();
+		if( jQuery(this).next('input[type=submit]').length > 0 ){
+			jQuery(this).next().click();
+		} else {
+			jQuery(this).parents('form').submit();
+		}
 		return false;
 	});
 

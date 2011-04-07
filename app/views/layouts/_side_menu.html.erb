@@ -1,0 +1,5 @@
+<% unless @content_for_side_menu.blank? %>
+<div id='left_side_menu' class='equal_height_column'>
+<%= yield :side_menu %>
+</div><!-- id='left_side_menu' class='equal_height_column' -->
+<% end %>

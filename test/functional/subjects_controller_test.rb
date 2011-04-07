@@ -124,20 +124,27 @@ class SubjectsControllerTest < ActionController::TestCase
 			get :show, :id => subject
 			assert_response :success
 			assert_template 'show'
-			assert_select "#submenu", :count => 1 do
-				assert_select "a", :count => 5
-				assert_select "a", 5
-				assert_select "a", :count => 1, :text => 'hospital'
+#			assert_select "#submenu", :count => 1 do
+			assert_select "#sidemenu", :count => 1 do
+
+#				assert_select "span", :count => 1
+#				assert_select "a", :count => 1
+
+#	currently in dev so they are spans
+#				assert_select "a", :count => 5
+#				assert_select "a", 5
+#				assert_select "a", :count => 1, :text => 'hospital'
+
 	#	apparently 1 doesn't work if :text exists
 	#			assert_select "a", 1, :text => 'hospital'
 			end
-			#	<div id='submenu'>
+			#	<div id='sidemenu'>
 			#	<a href="/subjects/2" class="current">general</a>
 			#	<a href="/subjects/2/patient">hospital</a>
 			#	<a href="/subjects/2/contacts">address/contact</a>
 			#	<a href="/subjects/2/enrollments">eligibility/enrollments</a>
 			#	<a href="/subjects/2/events">events</a>
-			#	</div><!-- submenu -->
+			#	</div><!-- sidemenu -->
 		end
 	
 		test "should download csv with #{cu} login" do

@@ -34,7 +34,7 @@ div#minimenu a {
 
 #mainmenu .menu_item,
 #mainmenu .menu_item a,
-#submenu a {
+#sidemenu a {
 	text-decoration: none;
 	color:black;
 }
@@ -57,22 +57,33 @@ div#mainmenu .menu_item {
 div#mainmenu .menu_item:nth-child(1) {
 	border-left: 2px solid black;
 }
+/*
 div#mainmenu a.current {
+*/
+div#mainmenu > .current {
 	background-color: #CCC3A9;
 }
 
 
-div#submenu {
+div#sidemenu {
 	clear:left;
 	margin: 0;
 	background-color: #CCC3A9;
 	border: 1px solid black;
+	border-top: none;
+/*
 	line-height: 22pt;
+*/
+	float:left;
 }
-div#submenu a {
-	padding: 5px 20px;
+div#sidemenu > * {
+	padding: 5px 10px;
+	display:block;
 }
-div#submenu a.current {
+/*
+div#sidemenu a.current {
+*/
+div#sidemenu > .current {
 	font-weight:bold;
 }
 
@@ -92,8 +103,7 @@ div#submenu a.current {
 div.menu_item {
 	position:relative;
 }
-div.menu_item span {
-}
+
 .sub_menu {
 	top: 30px;
 	left:-2px;
@@ -106,8 +116,11 @@ div.menu_item span {
 	border-bottom: 1px solid gray;
 	display:none;
 }
+/*
 .sub_menu a,
 .sub_menu span {
+*/
+.sub_menu > * {
 	font-weight: normal;
 	padding: 5px;
 	display:block;

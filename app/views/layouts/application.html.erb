@@ -1,47 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<link rel="shortcut icon" href="<%=image_path('cal.ico')%>" />
-<title><%= @page_title || "UCB SPH CCLS" -%></title>
-<%= stylesheet_link_tag :defaults,'simply_helpful','base/jquery.ui.all.css' %>
-<%= javascript_include_tag :defaults,'simply_helpful' %>
-<%= yield :head %>
-<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', <%="'UA-17648061-#{(Rails.env=='production')?'12':'13'}'"-%>]);
-	_gaq.push(['_trackPageview']);
-
-	(function(){
-		var ga = document.createElement('script'); 
-		ga.type = 'text/javascript'; 
-		ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 
-			'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; 
-		s.parentNode.insertBefore(ga, s);
-	})();
-</script>
-</head>
+<%= render 'layouts/head' %>
 <body>
 <div id='container'>
-<div id='header'>
-<div id='logo'>
-<h2>Operations and Data Management System</h2>
-</div>
-<div id='minimenu'>
- <%= link_to "Home", root_path %>&nbsp;|&nbsp;
- <%= link_to 'Reports', reports_path %>&nbsp;|&nbsp;
- <%= link_to 'FAQs', faqs_path %>
- <% if logged_in? %>
-  &nbsp;|&nbsp;<%= link_to 'Logout', logout_path %>
- <% end %>
-</div><!-- minimenu -->
-<%#= render 'layouts/subjects_search' %>
-<%= odms_main_menu() %>
-</div><!-- header -->
+<%= render 'layouts/header' %>
 <div id='columns' class='equal_height_column_wrapper'>
+<%= render 'layouts/side_menu' %>
+
 <div id='main' class='equal_height_column'>
 <%= yield :main %>
 <%#
@@ -58,13 +24,12 @@ I thought that it was just evil floats, but it may be more.
 <%= yield :content_bottom %>
 </div><!-- content_wrapper -->
 </div><!-- main -->
+
+<%#  <div id='guidance' class='equal_height_column'> %>
 <%= render 'layouts/guidance' %>
+
 </div><!-- columns -->
-<div id='footer'>
-<p>
-<small>2010 California Childhood Leukemia Study, UC Berkeley School of Public Health</small>
-</p>
-</div><!-- footer -->
+<%= render 'layouts/footer' %>
 </div><!-- container -->
 </body>
 </html>

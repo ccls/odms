@@ -5,35 +5,35 @@ namespace :app do
 #			guides
 #			pages
 #			gift_cards
+#			address_types
+#			data_sources
+#			diagnoses
+#			document_types
+#			document_versions
+#			hospitals
+#			ineligible_reasons
+#			instrument_versions
+#			instruments
+#			interview_methods
+#			interview_outcomes
+#			instrument_types
+#			languages
+#			organizations
+#			operational_event_types
+#			people
+#			phone_types
+#			projects
+#			races
+#			refusal_reasons
+#			sample_outcomes
+#			sample_types
+#			states
+#			subject_relationships
+#			subject_types
+#			units
+#			vital_statuses 
 		fixtures = %w(
-			address_types
-			data_sources
-			diagnoses
-			document_types
-			document_versions
-			hospitals
-			ineligible_reasons
-			instrument_versions
-			instruments
-			interview_methods
-			interview_outcomes
-			instrument_types
-			languages
-			organizations
-			operational_event_types
-			people
-			phone_types
-			projects
-			races
-			refusal_reasons
 			roles
-			sample_outcomes
-			sample_types
-			states
-			subject_relationships
-			subject_types
-			units
-			vital_statuses 
 		)
 		ENV['FIXTURES'] = fixtures.join(',')
 		puts "Loading fixtures for #{ENV['FIXTURES']}"
@@ -42,12 +42,12 @@ namespace :app do
 
 	desc "Load some fixtures and users to database for application"
 	task :setup => :update do
-		Rake::Task["app:add_users"].invoke
+		Rake::Task["ccls:add_users"].invoke
 		ENV['uid'] = '859908'
-		Rake::Task["app:deputize"].invoke
+		Rake::Task["ccls:deputize"].invoke
 		ENV['uid'] = '228181'
-		Rake::Task["app:deputize"].reenable	#	<- this is stupid!
-		Rake::Task["app:deputize"].invoke
+		Rake::Task["ccls:deputize"].reenable	#	<- this is stupid!
+		Rake::Task["ccls:deputize"].invoke
 	end
 
 	desc "DEV: Add some CCLS subjects"

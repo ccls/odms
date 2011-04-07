@@ -10,7 +10,10 @@ body {
 div#container {
 	width: 1000px;
 	margin: 0 auto;
-	background-color: #ECE9DF;	/* guidance background color */
+
+	/* guidance background color */
+	background-color: #ECE9DF;	
+
 	/* box-shadow: <horizontal> <vertical> <blur> <color> */
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 	-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
@@ -58,9 +61,15 @@ div#subsearch {
 	float:right;
 }
 
+
 div#main {
-	width: 800px;
 	float:left;
+}
+div#columns > div#main {
+	width: 800px;
+}
+div#columns > div#left_side_menu + div#main {
+	width: 615px;
 }
 
 div#content_wrapper {

@@ -1,7 +1,7 @@
 jQuery(function(){
 
-//	var root = (location.host == 'ccls.berkeley.edu')?'/homex':''
-	var root = /(ccls|genepi.).berkeley.edu/.test(location.host)?'/homex':''
+//	var root = (location.host == 'ccls.berkeley.edu')?'/odms':''
+	var root = /(ccls|genepi.).berkeley.edu/.test(location.host)?'/odms':''
 	jQuery.getScript(root + '/users/menu.js');
 
 	jQuery('a.submitter').click(submit_form);

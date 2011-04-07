@@ -20,9 +20,9 @@
 	<%= f.wrapped_text_field :sex %>
 
   <p>
-    <%= link_to 'Cancel',root_path %>
-    <%= f.submit 'Previous', :id => 'previous' %>
-    <%= f.submit 'Next', :id => 'next' %>
+    <%= link_to 'Cancel',root_path, :class => 'button' %>
+    <%= f.submit_link_to 'Previous' %>
+    <%= f.submit_link_to 'Next' %>
   </p>
 
 <% end %>

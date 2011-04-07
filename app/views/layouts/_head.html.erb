@@ -1,0 +1,23 @@
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<link rel="shortcut icon" href="<%=image_path('cal.ico')%>" />
+<title><%= @page_title || "UCB SPH CCLS" -%></title>
+<%= stylesheet_link_tag :defaults,'simply_helpful','base/jquery.ui.all.css' %>
+<%= javascript_include_tag :defaults,'simply_helpful' %>
+<%= yield :head %>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', <%="'UA-17648061-#{(Rails.env=='production')?'12':'13'}'"-%>]);
+	_gaq.push(['_trackPageview']);
+
+	(function(){
+		var ga = document.createElement('script'); 
+		ga.type = 'text/javascript'; 
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 
+			'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; 
+		s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</head>
