@@ -1,10 +1,3 @@
-#if g = Gem.source_index.find_name('ccls-ccls_engine').last
-#require 'ccls_engine'
-#require g.full_gem_path + '/app/models/user'
-#end
-#
-#User.class_eval do
-#
 #	== requires
 #	*	uid (unique)
 #
@@ -13,7 +6,6 @@
 #	*	displayname
 #	*	mail
 #	*	telephonenumber
-#class User < ActiveRecord::Base
 class User < Ccls::User
 
 #	ucb_authenticated

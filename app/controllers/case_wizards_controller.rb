@@ -8,6 +8,7 @@ class CaseWizardsController < ApplicationController
 	end
 
 	def create
+		step = (params[:step]||0).to_i
 		@subject = Subject.new(params[:subject])
 #	if button clicked was "Next"
 	#	if somehow this is valid
@@ -21,3 +22,9 @@ class CaseWizardsController < ApplicationController
 	end
 
 end
+
+#	begin
+#	rescue
+#	else
+#	ensure
+#	end
