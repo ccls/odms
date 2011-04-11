@@ -57,25 +57,21 @@ div#fullsearch {
 	float:right;
 }
 div#subsearch {
-	clear:right;
-	float:right;
+	text-align:right;
 }
 
 
 div#main {
-	float:left;
-}
-div#columns > div#main {
-	width: 800px;
-}
-div#columns > div#left_side_menu + div#main {
-	width: 615px;
-}
-
-div#content_wrapper {
 	background-color:white;
 	border-right: 1px solid silver;
 }
+div.columns > div#main > div#content {
+	width: 750px;
+}
+div.columns > div#left_side_menu + div#main > div#content {
+	width: 550px;
+}
+
 div#content {
 	padding: 5px 25px;
 	font-size: 10pt;
@@ -105,18 +101,11 @@ div.section table {
 }
 
 div#guidance {
-	width: 180px;
-	float:right;
-
-	/* NOT PADDING-BOTTOM */
-	padding:9px;
-
-	/* column hack override */
-	padding-bottom: 32767px;
-	/* smaller to put some real padding on bottom */
-	margin-bottom: -32740px;
-
+	padding: 0 9px;
 	font-size: 10pt;
+}
+div#guidance h3 {
+	margin-top: 0;
 }
 
 #footer {

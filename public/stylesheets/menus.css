@@ -57,24 +57,18 @@ div#mainmenu .menu_item {
 div#mainmenu .menu_item:nth-child(1) {
 	border-left: 2px solid black;
 }
-/*
-div#mainmenu a.current {
-*/
 div#mainmenu > .current {
 	background-color: #CCC3A9;
 }
 
 
 div#sidemenu {
-	clear:left;
+	padding-top: 5px;
 	margin: 0;
 	background-color: #CCC3A9;
 	border: 1px solid black;
 	border-top: none;
-/*
-	line-height: 22pt;
-*/
-	float:left;
+	width: 200px;
 }
 div#sidemenu > * {
 	padding: 5px 10px;

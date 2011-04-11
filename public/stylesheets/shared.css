@@ -83,17 +83,6 @@ div.pagination {
 	text-align: center;
 }
 
-
-/* http://www.positioniseverything.net/articles/onetruelayout/equalheight */
-.equal_height_column_wrapper {
-	overflow:hidden;
-}
-.equal_height_column {
-	padding-bottom: 32767px;
-	margin-bottom: -32767px;
-}
-
-
 .columns {
 	clear:both;
 	/* this holds the div open to the size of the contents */

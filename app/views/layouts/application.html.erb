@@ -4,32 +4,20 @@
 <%= render 'layouts/head' %>
 <body>
 <div id='container'>
-<%= render 'layouts/header' %>
-<div id='columns' class='equal_height_column_wrapper'>
-<%= render 'layouts/side_menu' %>
-
-<div id='main' class='equal_height_column'>
-<%= yield :main %>
-<%#
-
-For some reason, still need this equal_height_column
-I thought that it was just evil floats, but it may be more.
-
-%>
-<div id='content_wrapper' class='equal_height_column'>
-<div id='content'>
-<%= flasher() %>
-<%= yield %>
-</div><!-- content -->
-<%= yield :content_bottom %>
-</div><!-- content_wrapper -->
-</div><!-- main -->
-
-<%#  <div id='guidance' class='equal_height_column'> %>
-<%= render 'layouts/guidance' %>
-
-</div><!-- columns -->
-<%= render 'layouts/footer' %>
+ <%= render 'layouts/header' %>
+ <div class='columns'>
+  <%= render 'layouts/side_menu' %>
+  <div id='main'>
+   <%= yield :main %>
+   <div id='content'>
+    <%= flasher() %>
+    <%= yield %>
+   </div><!-- content -->
+   <%= yield :content_bottom %>
+  </div><!-- main -->
+  <%= render 'layouts/guidance' %>
+ </div><!-- columns -->
+ <%= render 'layouts/footer' %>
 </div><!-- container -->
 </body>
 </html>
