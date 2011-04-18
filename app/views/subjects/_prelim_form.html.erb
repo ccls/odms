@@ -1,0 +1,46 @@
+<fieldset>
+<legend>Preliminary Information</legend>
+<p>treating institution</p>
+
+<% @subject.build_patient if @subject.patient.nil? %>
+<% f.fields_for :patient do |patient_fields| %>
+<%# this may be a bit tricky, we may want to change patient.organization_id to hospital_id %>
+	<%= patient_fields.wrapped_collection_select :organization_id,
+		Hospital.all, :organization_id, :to_s, :include_blank => true %>
+<% end %>
+
+<p>admitting oncologist</p>
+
+<% f.fields_for :patient do |patient_fields| %>
+	<%= patient_fields.wrapped_text_field :hospital_no %>
+<% end %>
+
+<% @subject.build_pii if @subject.pii.nil? %>
+<% f.fields_for :pii do |pii_fields| %>
+	<%= pii_fields.label :name %>
+	<div class='field_wrapper'>
+	<%= pii_fields.text_field :first_name %>
+	<%= pii_fields.text_field :middle_name %>
+	<%= pii_fields.text_field :last_name %>
+	</div>
+<% end %>
+
+<% f.fields_for :patient do |patient_fields| %>
+	<%= patient_fields.wrapped_date_text_field :admit_date %>
+<% end %>
+
+<% f.fields_for :pii do |pii_fields| %>
+	<%= pii_fields.wrapped_date_text_field :dob,
+		:label_text => 'DOB' %>
+<% end %>
+
+<%= f.wrapped_text_field :sex %>
+
+<p>county and zip of current residence</p>
+
+<% f.fields_for :patient do |patient_fields| %>
+	<%= patient_fields.wrapped_collection_select :diagnosis_id,
+		Diagnosis.all, :id, :to_s, :include_blank => true %>
+<% end %>
+
+</fieldset>

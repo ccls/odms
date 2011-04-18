@@ -119,3 +119,9 @@ th {
 form.destroy_link_to {
 	display:inline;
 }
+
+
+.field_error {
+	background-color: #F88;
+}
+

@@ -1,0 +1,31 @@
+<fieldset>
+<legend>Child and Parent Information</legend>
+
+<% @subject.build_pii if @subject.pii.nil? %>
+<% f.fields_for :pii do |pii_fields| %>
+
+	<%= pii_fields.label :mothers_name %><br />
+	<%= pii_fields.text_field :mother_first_name %>
+	<%= pii_fields.text_field :mother_middle_name %>
+	<%= pii_fields.text_field :mother_last_name %><br/>
+
+	<%= pii_fields.label :mothers_maiden_name %><br />
+	<%= pii_fields.text_field :mother_maiden_name %><br/>
+
+	<%= pii_fields.label :fathers_name %><br />
+	<%= pii_fields.text_field :father_first_name %>
+	<%= pii_fields.text_field :father_middle_name %>
+	<%= pii_fields.text_field :father_last_name %><br/>
+<% end %>
+
+
+<p>legal guardian</p>
+
+<p>child's home address</p>
+
+<p>child's home address</p>
+
+<p>child's home address</p>
+
+
+</fieldset>
