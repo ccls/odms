@@ -12,7 +12,7 @@ Warbler::Config.new do |config|
 	# config.features = %w(gemjar)
 
 	# Application directories to be included in the webapp.
-	config.dirs = %w(app config lib log vendor tmp db script test surveys)
+	config.dirs = %w(app config lib log vendor tmp db script test)
 	#	db contains the migrations
 	#	script contains the obvious
 	#	test contains the fixtures
