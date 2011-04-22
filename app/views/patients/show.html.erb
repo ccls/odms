@@ -16,13 +16,12 @@
 	:label_text => 'diagnosis:' ) %>
 <%= wrapped_spans(:patient,:organization,
 	:label_text => 'diagnosing hospital:') %>
-<%= wrapped_spans(:patient,:hospital_no,
-	:label_text => 'hospital number:') %>
 </div><!-- id='patient' -->
 
 <h4>Development Only:</h4>
 <%= destroy_link_to 'Destroy', subject_patient_path(@subject) %>
-<% unless( @identifier = @patient.try(:subject).try(:identifier) ).nil? %>
+<%# unless( @identifier = @patient.try(:subject).try(:identifier) ).nil? %>
+<% unless( @identifier = @subject.try(:identifier) ).nil? %>
 <%= wrapped_spans(:identifier,:familyid) %>
 <%= wrapped_spans(:identifier,:matchingid) %>
 <% Identifier.find_all_by_matchingid(@identifier.matchingid).each do |i| %>

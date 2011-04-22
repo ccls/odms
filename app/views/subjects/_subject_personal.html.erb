@@ -19,8 +19,11 @@
 <%= wrapped_spans :subject, :sex,
 	:value => (@subject.sex.match(/f/i))?'female':'male',
 	:label_text => 'sex:' %>
-<%= wrapped_spans :subject, :race,
-	:label_text => 'race:' %>
+
+<%# TODO will need fixed %>
+<%= wrapped_spans :subject, :races,
+	:label_text => 'races:' %>
+
 <%= wrapped_spans :subject, :state_id_no,
 	:label_text => 'state id no:' %>
 
