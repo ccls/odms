@@ -61,6 +61,26 @@ jQuery(function(){
 		$(this).removeClass('ui-state-hover');
 	});
 */
+
+	jQuery('form.edit_subject input:radio[name=subject[primary_race_id]]').click(function(){
+		/*
+			I think that I could do this in one statement with a regex
+			but I haven't quite figured that out yet.
+		*/
+		jQuery('form.edit_subject input:checkbox[name="subject[subject_races_attributes['+
+			$(this).val()+']][race_id]"]').attr('checked',true);
+		jQuery('form.edit_subject input:checkbox[name="subject[subject_races_attributes['+
+			$(this).val()+']][_destroy]"]').attr('checked',true);
+	});
+/*
+
+	Add something to deal with the primary_race_id if the associated race 
+	is unchecked.  We don't want a mismatch.
+
+*/
+
+
+
 });
 
 var submit_form = function() {
