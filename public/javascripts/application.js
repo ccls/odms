@@ -20,7 +20,7 @@ jQuery(function(){
 
 /*
 	jQuery('button.link').click(function(){
-		window.location.href = $(this).find('span.href').text();
+		window.location.href = jQuery(this).find('span.href').text();
 	});
 */
 
@@ -35,51 +35,37 @@ jQuery(function(){
 		}
 	});
 
-	jQuery('p.flash').click(function(){$(this).remove();});
+	jQuery('p.flash').click(function(){jQuery(this).remove();});
 
 	jQuery('.datepicker').datepicker();
 
 	jQuery('a.ajax').click(function(){
-//		jQuery.getScript($(this).attr('href')+'.js');
-		jQuery.get($(this).attr('href')+'.js', function(data){
+		jQuery.get(jQuery(this).attr('href')+'.js', function(data){
 			jQuery('#ajax').html(data);
 		});
 		return false;
 	});
 
-
-	/* jquery ui testing */
-/*
-	jQuery("#mainmenu a").addClass('ui-state-default ui-corner-top');
-	jQuery("#mainmenu a.current").addClass('ui-state-active');
-	jQuery("#submenu").addClass('ui-state-active');
-	jQuery("#id_bar").addClass('ui-state-active');
-	jQuery("#id_bar .controls a").addClass('ui-state-default ui-corner-all');
-	jQuery(".ui-state-default").mouseover(function(){
-		$(this).addClass('ui-state-hover');
-	}).mouseout(function(){
-		$(this).removeClass('ui-state-hover');
-	});
-*/
-
-	jQuery('form.edit_subject input:radio[name=subject[primary_race_id]]').click(function(){
-		/*
-			I think that I could do this in one statement with a regex
-			but I haven't quite figured that out yet.
+	jQuery('form.edit_subject input:checkbox.is_primary_selector').click(function(){
+		/* if primary is checked, 
+				check partial race as well as uncheck other primary
 		*/
-		jQuery('form.edit_subject input:checkbox[name="subject[subject_races_attributes['+
-			$(this).val()+']][race_id]"]').attr('checked',true);
-		jQuery('form.edit_subject input:checkbox[name="subject[subject_races_attributes['+
-			$(this).val()+']][_destroy]"]').attr('checked',true);
+		if( jQuery(this).attr('checked') ){
+			var id = jQuery(this).attr('id').replace(/_is_primary/,'');
+			jQuery('#'+id).attr('checked',true);
+
+			/* easier to uncheck all, then recheck this one */
+			jQuery('form.edit_subject input:checkbox.is_primary_selector').attr('checked',false);
+			jQuery(this).attr('checked',true);
+		}
 	});
-/*
 
-	Add something to deal with the primary_race_id if the associated race 
-	is unchecked.  We don't want a mismatch.
-
-*/
-
-
+	jQuery('form.edit_subject input:checkbox.race_selector').click(function(){
+		/* if race unchecked, uncheck is_primary too */
+		if( !jQuery(this).attr('checked') ){
+			jQuery('#'+jQuery(this).attr('id')+'_is_primary').attr('checked',false);
+		}
+	});
 
 });
 

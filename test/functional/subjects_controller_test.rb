@@ -14,8 +14,7 @@ class SubjectsControllerTest < ActionController::TestCase
 	def factory_attributes(options={})
 		Factory.attributes_for(:subject,{
 			:subject_type_id => Factory(:subject_type).id,
-			:race_ids => [Factory(:race).id]}.merge(options))
-#			:race_id => Factory(:race).id}.merge(options))
+			:race_ids => [Race.random.id]}.merge(options))
 	end
 
 	def self.all_roles

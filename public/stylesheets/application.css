@@ -23,10 +23,6 @@ div#container {
 div#header {
 	background-color: #6A7780;
 	height: 100px;
-/*
-	background-image: url('../images/berkeley-text.gif');
-	background-repeat: no-repeat;
-*/
 	position:relative; /* NEEDED so that mainmenu can be at bottom */
 }
 div#logo {
@@ -237,9 +233,11 @@ form.edit_subject .field_wrapper label {
 }
 form.edit_subject select#subject_vital_status_id,
 form.edit_subject select#subject_sex,
-form.edit_subject select#subject_race_id,
 form.edit_subject select#subject_subject_type_id {
 	width: 170px;
+}
+form.edit_subject .field_wrapper.name input {
+	width: 120px;
 }
 
 form.edit_guide .field_wrapper label {
@@ -317,11 +315,6 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 .interview      .homex_outcomes .title,
 .subject        .homex_outcomes,
 .edit_subject   .homex_outcomes {
-/*
-.interview      .homex_outcomes .columns,
-.edit_interview .homex_outcomes .columns,
-.edit_subject   .homex_outcomes .columns {
-*/
 	margin: 13.333px 0;
 }
 .interview      .homex_outcomes .columns,

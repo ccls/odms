@@ -13,23 +13,31 @@
 <% f.fields_for :pii do |pii_fields| %>
 	<%#= pii_fields.hidden_field :id %>
 
-	<%= pii_fields.label :name %><br />
+	<div class='name field_wrapper'>
+	<%= pii_fields.label :name %>
 	<%= pii_fields.text_field :first_name %>
 	<%= pii_fields.text_field :middle_name %>
-	<%= pii_fields.text_field :last_name %><br/>
+	<%= pii_fields.text_field :last_name %>
+	</div><!-- class='name field_wrapper' -->
 
-	<%= pii_fields.label :fathers_name %><br />
+	<div class='name field_wrapper'>
+	<%= pii_fields.label :fathers_name %>
 	<%= pii_fields.text_field :father_first_name %>
 	<%= pii_fields.text_field :father_middle_name %>
-	<%= pii_fields.text_field :father_last_name %><br/>
+	<%= pii_fields.text_field :father_last_name %>
+	</div><!-- class='name field_wrapper' -->
 
-	<%= pii_fields.label :mothers_name %><br />
+	<div class='name field_wrapper'>
+	<%= pii_fields.label :mothers_name %>
 	<%= pii_fields.text_field :mother_first_name %>
 	<%= pii_fields.text_field :mother_middle_name %>
-	<%= pii_fields.text_field :mother_last_name %><br/>
+	<%= pii_fields.text_field :mother_last_name %>
+	</div><!-- class='name field_wrapper' -->
 
-	<%= pii_fields.label :mothers_maiden_name %><br />
-	<%= pii_fields.text_field :mother_maiden_name %><br/>
+	<div class='name field_wrapper'>
+	<%= pii_fields.label :mothers_maiden_name %>
+	<%= pii_fields.text_field :mother_maiden_name %>
+	</div><!-- class='name field_wrapper' -->
 
 	<%= pii_fields.wrapped_date_text_field :dob,
 		:class => 'datepicker',
@@ -45,14 +53,6 @@
 
 <%= f.wrapped_sex_select :sex, 
 	:include_blank => true %>
-
-<%# always send a blank race id otherwise won't send attribute 
-	so won't delete all races, if that's the case %>
-<%#= f.hidden_field :race_ids, :id => 'empty_subject_race_ids',
-	:name => 'subject[race_ids][]', :value => '' %>
-<%#= f.wrapped_collection_select :race_ids, Race.all,
-	:id, :to_s, {:label_text => 'Race'}, {
-	:multiple => true } %>
 
 <%= select_subject_races(@subject) %>
 

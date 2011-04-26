@@ -53,32 +53,46 @@ module SubjectsHelper
 	end	#	id_bar_for
 
 	def select_subject_races(subject)
-		Race.all.collect do |race|
+		prefix = "subject[subject_races_attributes"
+		selector  = "<fieldset id='race_selector'><legend>Select Race(s)</legend>\n"
+		selector << "<p>TEMP NOTE: primary is first, normal is second</p>\n"
+		selector << Race.all.collect do |race|
 			s  = ''
-			sr = SubjectRace.find(:first,:conditions => { 
-				:race_id => race.id,
-				:study_subject_id => subject.id })
-			#	The race.id in ...
-			#	subject[subject_races_attributes[#{race.id}]]
-			#	is used solely for ensuring that it is unique in the form
-#	check_box_tag(name, value = "1", checked = false, options = {})
-#	radio_button_tag(name, value, checked = false, options = {})
-			s << hidden_field_tag("subject[subject_races_attributes[#{race.id}]][id]", 
+			sr = subject.subject_races.find(:first,:conditions => { 
+				:race_id => race.id })
+
+			#	Notes ...
+			#	check_box_tag(name, value = "1", checked = false, options = {})
+			#	radio_button_tag(name, value, checked = false, options = {})
+
+			s << hidden_field_tag("#{prefix}[#{race.id}]][id]", 
 				sr.id ) << "\n" if sr
-			s << radio_button_tag( "subject[primary_race_id]", race.id,
-				subject.primary_race_id == race.id ) << "\n"
+			#	is_primary is irrelevant of if subject_race already exists
+			s << hidden_field_tag("#{prefix}[#{race.id}]][is_primary]", false ) << "\n"
+			s << check_box_tag( "#{prefix}[#{race.id}]][is_primary]",
+				true, sr.try(:is_primary), :id => "#{dom_id(race)}_is_primary",
+				:class => 'is_primary_selector' ) << "\n"
+
 			if sr
-				s << hidden_field_tag("subject[subject_races_attributes[#{race.id}]][_destroy]", 
-					1 ) << "\n"
-				s << check_box_tag( "subject[subject_races_attributes[#{race.id}]][_destroy]",
-					0, true, :id => dom_id(race) ) << "\n"
+				#	subject_race exists, so this is for destruction
+				#	1 = true, so if checkbox is unchecked, destroy it
+				s << hidden_field_tag("#{prefix}[#{race.id}]][_destroy]", 1 ) << "\n"
+				#	0 = false, so if checkbox is checked, keep it
+				#		because this is 0 and not the race.id, need to change
+				#		some javascript
+				s << check_box_tag( "#{prefix}[#{race.id}]][_destroy]",
+					0, true, :id => dom_id(race),
+					:class => 'race_selector' ) << "\n"
 			else
-				s << check_box_tag( "subject[subject_races_attributes[#{race.id}]][race_id]",
-					race.id, false, :id => dom_id(race) ) << "\n"
+				#	subject_race does not exist, so this is for creation
+				s << check_box_tag( "#{prefix}[#{race.id}]][race_id]",
+					race.id, false, :id => dom_id(race),
+					:class => 'race_selector' ) << "\n"
 			end
 			s << label_tag( dom_id(race), race.name ) << "\n"
 			s << "<br/>\n"
 		end.join()
+		selector << "</fieldset><!-- id='race_selector' -->\n"
 	end
 
 end
