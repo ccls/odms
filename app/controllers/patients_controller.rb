@@ -11,11 +11,15 @@ class PatientsController < ApplicationController
 		:only => [:new,:create]
 	
 	def show
+#	won't actually make it here if not case due to before filter
+#	it will get kicked to :new, then get kicked out
 		render :action => 'not_case' unless @subject.is_case?
 	end
 
 	def new
 		flash.discard	#	dump the Patient required from 'show' redirect
+#	this flash discard doesn't seem to work as it still shows up
+#	need to find better way
 		@patient = @subject.build_patient
 	end
 
