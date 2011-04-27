@@ -54,6 +54,12 @@ module SubjectsHelper
 
 	def select_subject_races(subject)
 		prefix = "subject[subject_races_attributes"
+		sr_params = if( params[:subject] && 
+			params[:subject].has_key?('subject_races_attributes') )
+			params[:subject]['subject_races_attributes']
+		else
+			{}
+		end
 		selector  = "<fieldset id='race_selector'><legend>Select Race(s)</legend>\n"
 		selector << "<p>TEMP NOTE: primary is first, normal is second</p>\n"
 		selector << Race.all.collect do |race|
@@ -63,15 +69,21 @@ module SubjectsHelper
 
 			#	Notes ...
 			#	check_box_tag(name, value = "1", checked = false, options = {})
-			#	radio_button_tag(name, value, checked = false, options = {})
+			#	"subject_races_attributes"=>{
+			#		"6"=>{"is_primary"=>"false"}, 
+			#		"1"=>{"race_id"=>"1","is_primary"=>"false"}, 	#	<-- checked
+			#		"2"=>{"is_primary"=>"false"}, 
+			#		"3"=>{"is_primary"=>"false"}, 
+			#		"4"=>{"is_primary"=>"false"}, 
+			#		"5"=>{"race_id"=>"5",is_primary"=>"true"} }	#	<-- checked and primary
 
 			s << hidden_field_tag("#{prefix}[#{race.id}]][id]", 
 				sr.id ) << "\n" if sr
 			#	is_primary is irrelevant of if subject_race already exists
 			s << hidden_field_tag("#{prefix}[#{race.id}]][is_primary]", false ) << "\n"
-			s << check_box_tag( "#{prefix}[#{race.id}]][is_primary]",
-				true, sr.try(:is_primary), :id => "#{dom_id(race)}_is_primary",
-				:class => 'is_primary_selector' ) << "\n"
+			s << check_box_tag( "#{prefix}[#{race.id}]][is_primary]", true, 
+				( sr_params.dig(race.id.to_s,'is_primary') == 'true' ) || sr.try(:is_primary),
+				{ :id => "#{dom_id(race)}_is_primary", :class => 'is_primary_selector' } ) << "\n"
 
 			if sr
 				#	subject_race exists, so this is for destruction
@@ -80,14 +92,16 @@ module SubjectsHelper
 				#	0 = false, so if checkbox is checked, keep it
 				#		because this is 0 and not the race.id, need to change
 				#		some javascript
-				s << check_box_tag( "#{prefix}[#{race.id}]][_destroy]",
-					0, true, :id => dom_id(race),
-					:class => 'race_selector' ) << "\n"
+#					( sr_params[race.id.to_s] && sr_params[race.id.to_s]['_destroy'] ) || true, 
+				s << check_box_tag( "#{prefix}[#{race.id}]][_destroy]", 0, 
+					sr_params.dig(race.id.to_s,'_destroy') || true, 
+					{ :id => dom_id(race), :class => 'race_selector' } ) << "\n"
 			else
 				#	subject_race does not exist, so this is for creation
-				s << check_box_tag( "#{prefix}[#{race.id}]][race_id]",
-					race.id, false, :id => dom_id(race),
-					:class => 'race_selector' ) << "\n"
+#					( sr_params[race.id.to_s] && sr_params[race.id.to_s]['race_id'] ) || false, 
+				s << check_box_tag( "#{prefix}[#{race.id}]][race_id]", race.id, 
+					sr_params.dig(race.id.to_s,'race_id') || false, 
+					{ :id => dom_id(race), :class => 'race_selector' }) << "\n"
 			end
 			s << label_tag( dom_id(race), race.name ) << "\n"
 			s << "<br/>\n"
