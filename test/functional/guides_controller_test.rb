@@ -14,9 +14,9 @@ class GuidesControllerTest < ActionController::TestCase
 	end
 
 	assert_access_with_login({ 
-		:logins => [:superuser,:admin,:editor] })
+		:logins => site_editors })
 	assert_no_access_with_login({ 
-		:logins => [:interviewer,:reader,:active_user] })
+		:logins => non_site_editors })
 	assert_no_access_without_login
 
 	assert_no_access_with_login(
@@ -32,60 +32,60 @@ class GuidesControllerTest < ActionController::TestCase
 		:destroy => { :id => 0 }
 	) 
 
-%w( superuser admin ).each do |cu|
+	site_administrators.each do |cu|
 
-	test "should NOT create new guide with #{cu} login when create fails" do
-		Guide.any_instance.stubs(:create_or_update).returns(false)
-		login_as send(cu)
-		assert_difference('Guide.count',0) do
-			post :create, :guide => factory_attributes
+		test "should NOT create new guide with #{cu} login when create fails" do
+			Guide.any_instance.stubs(:create_or_update).returns(false)
+			login_as send(cu)
+			assert_difference('Guide.count',0) do
+				post :create, :guide => factory_attributes
+			end
+			assert assigns(:guide)
+			assert_response :success
+			assert_template 'new'
+			assert_not_nil flash[:error]
 		end
-		assert assigns(:guide)
-		assert_response :success
-		assert_template 'new'
-		assert_not_nil flash[:error]
-	end
 
-	test "should NOT create new guide with #{cu} login and invalid guide" do
-		Guide.any_instance.stubs(:valid?).returns(false)
-		login_as send(cu)
-		assert_difference('Guide.count',0) do
-			post :create, :guide => factory_attributes
+		test "should NOT create new guide with #{cu} login and invalid guide" do
+			Guide.any_instance.stubs(:valid?).returns(false)
+			login_as send(cu)
+			assert_difference('Guide.count',0) do
+				post :create, :guide => factory_attributes
+			end
+			assert assigns(:guide)
+			assert_response :success
+			assert_template 'new'
+			assert_not_nil flash[:error]
 		end
-		assert assigns(:guide)
-		assert_response :success
-		assert_template 'new'
-		assert_not_nil flash[:error]
-	end
 
-	test "should NOT update guide with #{cu} login when update fails" do
-		guide = create_guide(:updated_at => Chronic.parse('yesterday'))
-		Guide.any_instance.stubs(:create_or_update).returns(false)
-		login_as send(cu)
-		deny_changes("Guide.find(#{guide.id}).updated_at") {
-			put :update, :id => guide.id,
-				:guide => factory_attributes
-		}
-		assert assigns(:guide)
-		assert_response :success
-		assert_template 'edit'
-		assert_not_nil flash[:error]
-	end
+		test "should NOT update guide with #{cu} login when update fails" do
+			guide = create_guide(:updated_at => Chronic.parse('yesterday'))
+			Guide.any_instance.stubs(:create_or_update).returns(false)
+			login_as send(cu)
+			deny_changes("Guide.find(#{guide.id}).updated_at") {
+				put :update, :id => guide.id,
+					:guide => factory_attributes
+			}
+			assert assigns(:guide)
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
+		end
 
-	test "should NOT update guide with #{cu} login and invalid guide" do
-		guide = create_guide(:updated_at => Chronic.parse('yesterday'))
-		Guide.any_instance.stubs(:valid?).returns(false)
-		login_as send(cu)
-		deny_changes("Guide.find(#{guide.id}).updated_at") {
-			put :update, :id => guide.id,
-				:guide => factory_attributes
-		}
-		assert assigns(:guide)
-		assert_response :success
-		assert_template 'edit'
-		assert_not_nil flash[:error]
-	end
+		test "should NOT update guide with #{cu} login and invalid guide" do
+			guide = create_guide(:updated_at => Chronic.parse('yesterday'))
+			Guide.any_instance.stubs(:valid?).returns(false)
+			login_as send(cu)
+			deny_changes("Guide.find(#{guide.id}).updated_at") {
+				put :update, :id => guide.id,
+					:guide => factory_attributes
+			}
+			assert assigns(:guide)
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
+		end
 
-end
+	end
 
 end

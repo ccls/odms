@@ -30,8 +30,8 @@ class PatientsControllerTest < ActionController::TestCase
 #	assert_no_access_without_login
 
 
-	%w( superuser admin editor ).each do |cu|
-	
+	site_editors.each do |cu|
+
 		test "should show patient with #{cu} login" do
 			patient = create_patient_with_subject
 			login_as send(cu)
@@ -40,7 +40,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_template 'show'
 		end
-	
+
 		test "should NOT show patient with invalid subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
@@ -48,7 +48,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to subjects_path
 		end
-	
+
 		test "should NOT show patient for patientless subject " <<
 				"and #{cu} login" do
 			subject = create_case_subject	#Factory(:case_subject)
@@ -60,7 +60,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to new_subject_patient_path(subject)
 		end
-	
+
 		test "should NOT get new patient with #{cu} login " <<
 				"for subject with patient" do
 			patient = create_patient_with_subject
@@ -69,7 +69,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert assigns(:subject)
 			assert_redirected_to subject_patient_path(assigns(:subject))
 		end
-	
+
 		test "should get new patient with #{cu} login " <<
 				"for subject without patient" do
 			subject = create_case_subject	#Factory(:case_subject)
@@ -80,7 +80,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_template 'new'
 		end
-	
+
 		test "should NOT get new patient with invalid subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
@@ -88,7 +88,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to subjects_path
 		end
-	
+
 		test "should create new patient with #{cu} login" do
 			subject = create_case_subject	#Factory(:case_subject)
 			login_as send(cu)
@@ -99,7 +99,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert assigns(:subject)
 			assert_redirected_to subject_patient_path(subject)
 		end
-	
+
 		test "should NOT create new patient with #{cu} login " <<
 				"for non-case subject" do
 			subject = create_subject	#Factory(:subject)
@@ -112,7 +112,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert assigns(:subject)
 			assert_redirected_to subject_path(subject)
 		end
-	
+
 		test "should NOT create new patient with invalid subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
@@ -123,7 +123,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to subjects_path
 		end
-	
+
 		test "should NOT create new patient with #{cu} " <<
 				"login when create fails" do
 			subject = create_case_subject	#Factory(:case_subject)
@@ -138,7 +138,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_template 'new'
 			assert_not_nil flash[:error]
 		end
-	
+
 		test "should NOT create new patient with #{cu} " <<
 				"login and invalid patient" do
 			subject = create_case_subject	#Factory(:case_subject)
@@ -153,7 +153,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_template 'new'
 			assert_not_nil flash[:error]
 		end
-	
+
 		test "should edit patient with #{cu} login" do
 			patient = create_patient_with_subject
 			login_as send(cu)
@@ -162,7 +162,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_template 'edit'
 		end
-	
+
 		test "should NOT edit patient with invalid " <<
 				"subject_id and #{cu} login" do
 			patient = create_patient
@@ -170,7 +170,7 @@ class PatientsControllerTest < ActionController::TestCase
 			get :edit, :subject_id => 0
 			assert_redirected_to subjects_path
 		end
-	
+
 		test "should update patient with #{cu} login" do
 			patient = create_patient_with_subject
 			login_as send(cu)
@@ -179,7 +179,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert assigns(:patient)
 			assert_redirected_to subject_patient_path(patient.subject)
 		end
-	
+
 		test "should NOT update patient with invalid " <<
 				"subject_id and #{cu} login" do
 			patient = create_patient(:updated_at => Chronic.parse('yesterday'))
@@ -190,7 +190,7 @@ class PatientsControllerTest < ActionController::TestCase
 			}
 			assert_redirected_to subjects_path
 		end
-	
+
 		test "should NOT update patient with #{cu} " <<
 				"login when update fails" do
 			patient = create_patient_with_subject(:updated_at => Chronic.parse('yesterday'))
@@ -205,7 +205,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 			assert_not_nil flash[:error]
 		end
-	
+
 		test "should NOT update patient with #{cu} " <<
 				"login and invalid patient" do
 			patient = create_patient_with_subject(:updated_at => Chronic.parse('yesterday'))
@@ -220,7 +220,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 			assert_not_nil flash[:error]
 		end
-	
+
 		test "should destroy patient with #{cu} login" do
 			login_as send(cu)
 			subject = create_patient_with_subject.subject
@@ -231,12 +231,12 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_nil subject.reload.patient
 			assert_redirected_to subject_path(subject)
 		end
-	
+
 	end
 
 
-	%w( interviewer reader active_user ).each do |cu|
-	
+	non_site_editors.each do |cu|
+
 		test "should NOT show patient with #{cu} login" do
 			subject = create_case_subject	#Factory(:case_subject)
 			login_as send(cu)
@@ -244,7 +244,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
-	
+
 		test "should NOT get new patient with #{cu} login" do
 			subject = create_case_subject	#Factory(:case_subject)
 			login_as send(cu)
@@ -252,7 +252,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
-	
+
 		test "should NOT create new patient with #{cu} login" do
 			subject = create_case_subject	#Factory(:case_subject)
 			login_as send(cu)
@@ -261,7 +261,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
-	
+
 		test "should NOT destroy patient with #{cu} login" do
 			login_as send(cu)
 			subject = create_patient_with_subject.subject
@@ -272,7 +272,7 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_not_nil subject.patient
 			assert_redirected_to root_path
 		end
-	
+
 	end
 
 	test "should NOT show patient without login" do
@@ -303,6 +303,7 @@ class PatientsControllerTest < ActionController::TestCase
 		assert_not_nil subject.patient
 		assert_redirected_to_login
 	end
+
 
 protected
 

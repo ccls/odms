@@ -38,9 +38,9 @@ class AddressingsControllerTest < ActionController::TestCase
 	end
 
 	assert_access_with_login({ 
-		:logins => [:superuser,:admin,:editor] })
+		:logins => site_editors })
 	assert_no_access_with_login({ 
-		:logins => [:interviewer,:reader,:active_user] })
+		:logins => non_site_editors })
 	assert_no_access_without_login
 
 	#	destroy is TEMPORARY
@@ -50,305 +50,298 @@ class AddressingsControllerTest < ActionController::TestCase
 	)
 
 
-%w( superuser admin editor ).each do |cu|
+	site_editors.each do |cu|
 
-	test "should get new addressing with #{cu} login" do
-		subject = Factory(:subject)
-		login_as send(cu)
-		get :new, :subject_id => subject.id
-		assert assigns(:subject)
-		assert assigns(:addressing)
-		assert_response :success
-		assert_template 'new'
-	end
+		test "should get new addressing with #{cu} login" do
+			subject = Factory(:subject)
+			login_as send(cu)
+			get :new, :subject_id => subject.id
+			assert assigns(:subject)
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'new'
+		end
 
-	test "should NOT get new addressing with invalid subject_id " <<
-			"and #{cu} login" do
-		login_as send(cu)
-		get :new, :subject_id => 0
-		assert_not_nil flash[:error]
-		assert_redirected_to subjects_path
-	end
+		test "should NOT get new addressing with invalid subject_id " <<
+				"and #{cu} login" do
+			login_as send(cu)
+			get :new, :subject_id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to subjects_path
+		end
 
+		test "should make subject ineligible after create " <<
+				"with #{cu} login" do
+			subject = create_eligible_hx_subject
+			login_as send(cu)
+			assert_difference("Subject.find(#{subject.id}).addressings.count",1) {
+			assert_difference("Subject.find(#{subject.id}).addresses.count",1) {
+			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
+				post :create, :subject_id => subject.id,
+					:addressing => az_addressing()
+			} } } }
+			assert assigns(:subject)
+			subject.hx_enrollment.reload	#	NEEDED
+			assert_subject_is_not_eligible(subject)
+			assert_equal   subject.hx_enrollment.ineligible_reason,
+				IneligibleReason['newnonCA']
+			assert_redirected_to subject_contacts_path(subject)
+		end
 
+		test "should create new addressing with #{cu} login" do
+			subject = Factory(:subject)
+			login_as send(cu)
+			assert_difference("Subject.find(#{subject.id}).addressings.count",1) {
+			assert_difference("Subject.find(#{subject.id}).addresses.count",1) {
+			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
+			assert_difference('AddressType.count',1) {
+				post :create, :subject_id => subject.id,
+					:addressing => factory_attributes(address_attributes)
+			} } } } }
+			assert assigns(:subject)
+			assert_redirected_to subject_contacts_path(subject)
+		end
 
-
-
-	test "should make subject ineligible after create " <<
-			"with #{cu} login" do
-		subject = create_eligible_hx_subject
-		login_as send(cu)
-		assert_difference("Subject.find(#{subject.id}).addressings.count",1) {
-		assert_difference("Subject.find(#{subject.id}).addresses.count",1) {
-		assert_difference('Addressing.count',1) {
-		assert_difference('Address.count',1) {
+		test "should set verified_on on create if is_verified " <<
+				"with #{cu} login" do
+			subject = Factory(:subject)
+			login_as send(cu)
 			post :create, :subject_id => subject.id,
-				:addressing => az_addressing()
-		} } } }
-		assert assigns(:subject)
-		subject.hx_enrollment.reload	#	NEEDED
-		assert_subject_is_not_eligible(subject)
-		assert_equal   subject.hx_enrollment.ineligible_reason,
-			IneligibleReason['newnonCA']
-		assert_redirected_to subject_contacts_path(subject)
-	end
+				:addressing => factory_attributes(
+					:is_verified => true,
+					:how_verified => 'no idea'
+				)
+			assert assigns(:addressing)
+			assert_not_nil assigns(:addressing).verified_on
+		end
 
-
-
-	test "should create new addressing with #{cu} login" do
-		subject = Factory(:subject)
-		login_as send(cu)
-		assert_difference("Subject.find(#{subject.id}).addressings.count",1) {
-		assert_difference("Subject.find(#{subject.id}).addresses.count",1) {
-		assert_difference('Addressing.count',1) {
-		assert_difference('Address.count',1) {
-		assert_difference('AddressType.count',1) {
+		test "should set verified_by on create if is_verified " <<
+				"with #{cu} login" do
+			subject = Factory(:subject)
+			login_as u = send(cu)
 			post :create, :subject_id => subject.id,
-				:addressing => factory_attributes(address_attributes)
-		} } } } }
-		assert assigns(:subject)
-		assert_redirected_to subject_contacts_path(subject)
+				:addressing => factory_attributes(
+					:is_verified => true,
+					:how_verified => 'no idea'
+				)
+			assert assigns(:addressing)
+			assert_not_nil assigns(:addressing).verified_by_id
+			assert_equal assigns(:addressing).verified_by_id, u.id
+		end
+
+		test "should NOT create new addressing with invalid subject_id " <<
+				"and #{cu} login" do
+			login_as send(cu)
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+				post :create, :subject_id => 0, 
+					:addressing => factory_attributes
+			} }
+			assert_not_nil flash[:error]
+			assert_redirected_to subjects_path
+		end
+
+		test "should NOT create new addressing with #{cu} login " <<
+				"when create fails" do
+			subject = Factory(:subject)
+			Addressing.any_instance.stubs(:create_or_update).returns(false)
+			login_as send(cu)
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+				post :create, :subject_id => subject.id,
+					:addressing => factory_attributes
+			} }
+			assert assigns(:subject)
+			assert_response :success
+			assert_template 'new'
+			assert_not_nil flash[:error]
+		end
+
+		test "should NOT create new addressing with #{cu} login " <<
+				"and invalid addressing" do
+			Addressing.any_instance.stubs(:valid?).returns(false)
+			subject = Factory(:subject)
+			login_as send(cu)
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+				post :create, :subject_id => subject.id,
+					:addressing => factory_attributes
+			} }
+			assert assigns(:subject)
+			assert_response :success
+			assert_template 'new'
+			assert_not_nil flash[:error]
+		end
+
+		test "should NOT create new addressing with #{cu} login " <<
+				"and invalid address" do
+	#		Address.any_instance.stubs(:valid?).returns(false)
+			Address.any_instance.stubs(:create_or_update).returns(false)
+			subject = Factory(:subject)
+			login_as send(cu)
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+				post :create, :subject_id => subject.id,
+					:addressing => factory_attributes(address_attributes(
+						:line_1 => nil
+					))
+			} }
+			assert assigns(:subject)
+			assert_response :success
+			assert_template 'new'
+			assert_not_nil flash[:error]
+		end
+
+		test "should edit addressing with #{cu} login" do
+			addressing = create_addressing
+			login_as send(cu)
+			get :edit, :id => addressing.id
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'edit'
+		end
+
+		test "should NOT edit addressing with invalid id and #{cu} login" do
+			addressing = create_addressing
+			login_as send(cu)
+			get :edit, :id => 0
+			assert_redirected_to subjects_path
+		end
+
+		test "should update addressing with #{cu} login" do
+			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
+			login_as send(cu)
+			assert_changes("Addressing.find(#{addressing.id}).updated_at") {
+				put :update, :id => addressing.id,
+					:addressing => factory_attributes
+			}
+			assert assigns(:addressing)
+			assert_redirected_to subject_contacts_path(addressing.subject)
+		end
+
+		test "should set verified_on on update if is_verified " <<
+				"with #{cu} login" do
+			addressing = create_addressing
+			login_as send(cu)
+			put :update, :id => addressing.id,
+				:addressing => factory_attributes(
+					:is_verified  => true,
+					:how_verified => 'not a clue'
+				)
+			assert assigns(:addressing)
+			assert_not_nil assigns(:addressing).verified_on
+		end
+
+		test "should set verified_by on update if is_verified " <<
+				"with #{cu} login" do
+			addressing = create_addressing
+			login_as u = send(cu)
+			put :update, :id => addressing.id,
+				:addressing => factory_attributes(
+					:is_verified => true,
+					:how_verified => 'not a clue'
+				)
+			assert assigns(:addressing)
+			assert_not_nil assigns(:addressing).verified_by_id
+			assert_equal assigns(:addressing).verified_by_id, u.id
+		end
+
+		test "should NOT update addressing with invalid id and #{cu} login" do
+			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
+			login_as send(cu)
+			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
+				put :update, :id => 0,
+					:addressing => factory_attributes
+			}
+			assert_redirected_to subjects_path
+		end
+
+		test "should NOT update addressing with #{cu} login " <<
+				"when addressing update fails" do
+			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
+			Addressing.any_instance.stubs(:create_or_update).returns(false)
+			login_as send(cu)
+			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
+				put :update, :id => addressing.id,
+					:addressing => factory_attributes
+			}
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
+		end
+
+		test "should NOT update addressing with #{cu} login " <<
+				"when address update fails" do
+			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
+			Address.any_instance.stubs(:create_or_update).returns(false)
+			login_as send(cu)
+			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
+				put :update, :id => addressing.id,
+					:addressing => factory_attributes(address_attributes)
+			}
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
+		end
+
+		test "should NOT update addressing with #{cu} login " <<
+				"and invalid addressing" do
+			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
+			Addressing.any_instance.stubs(:valid?).returns(false)
+			login_as send(cu)
+			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
+				put :update, :id => addressing.id,
+					:addressing => factory_attributes
+			}
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
+		end
+
+		test "should NOT update addressing with #{cu} login " <<
+				"and invalid address" do
+			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
+			Address.any_instance.stubs(:create_or_update).returns(false)
+			login_as send(cu)
+			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
+				put :update, :id => addressing.id,
+					:addressing => factory_attributes(address_attributes(
+						:line_1 => nil
+					))
+			}
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
+		end
+
 	end
 
-	test "should set verified_on on create if is_verified " <<
-			"with #{cu} login" do
-		subject = Factory(:subject)
-		login_as send(cu)
-		post :create, :subject_id => subject.id,
-			:addressing => factory_attributes(
-				:is_verified => true,
-				:how_verified => 'no idea'
-			)
-		assert assigns(:addressing)
-		assert_not_nil assigns(:addressing).verified_on
-	end
+	non_site_editors.each do |cu|
 
-	test "should set verified_by on create if is_verified " <<
-			"with #{cu} login" do
-		subject = Factory(:subject)
-		login_as u = send(cu)
-		post :create, :subject_id => subject.id,
-			:addressing => factory_attributes(
-				:is_verified => true,
-				:how_verified => 'no idea'
-			)
-		assert assigns(:addressing)
-		assert_not_nil assigns(:addressing).verified_by_id
-		assert_equal assigns(:addressing).verified_by_id, u.id
-	end
+		test "should NOT get new addressing with #{cu} login" do
+			subject = Factory(:subject)
+			login_as send(cu)
+			get :new, :subject_id => subject.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
 
-	test "should NOT create new addressing with invalid subject_id " <<
-			"and #{cu} login" do
-		login_as send(cu)
-		assert_difference('Addressing.count',0) {
-		assert_difference('Address.count',0) {
-			post :create, :subject_id => 0, 
-				:addressing => factory_attributes
-		} }
-		assert_not_nil flash[:error]
-		assert_redirected_to subjects_path
-	end
-
-	test "should NOT create new addressing with #{cu} login " <<
-			"when create fails" do
-		subject = Factory(:subject)
-		Addressing.any_instance.stubs(:create_or_update).returns(false)
-		login_as send(cu)
-		assert_difference('Addressing.count',0) {
-		assert_difference('Address.count',0) {
+		test "should NOT create new addressing with #{cu} login" do
+			subject = Factory(:subject)
+			login_as send(cu)
 			post :create, :subject_id => subject.id,
 				:addressing => factory_attributes
-		} }
-		assert assigns(:subject)
-		assert_response :success
-		assert_template 'new'
-		assert_not_nil flash[:error]
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
 	end
-
-	test "should NOT create new addressing with #{cu} login " <<
-			"and invalid addressing" do
-		Addressing.any_instance.stubs(:valid?).returns(false)
-		subject = Factory(:subject)
-		login_as send(cu)
-		assert_difference('Addressing.count',0) {
-		assert_difference('Address.count',0) {
-			post :create, :subject_id => subject.id,
-				:addressing => factory_attributes
-		} }
-		assert assigns(:subject)
-		assert_response :success
-		assert_template 'new'
-		assert_not_nil flash[:error]
-	end
-
-	test "should NOT create new addressing with #{cu} login " <<
-			"and invalid address" do
-#		Address.any_instance.stubs(:valid?).returns(false)
-		Address.any_instance.stubs(:create_or_update).returns(false)
-		subject = Factory(:subject)
-		login_as send(cu)
-		assert_difference('Addressing.count',0) {
-		assert_difference('Address.count',0) {
-			post :create, :subject_id => subject.id,
-				:addressing => factory_attributes(address_attributes(
-					:line_1 => nil
-				))
-		} }
-		assert assigns(:subject)
-		assert_response :success
-		assert_template 'new'
-		assert_not_nil flash[:error]
-	end
-
-	test "should edit addressing with #{cu} login" do
-		addressing = create_addressing
-		login_as send(cu)
-		get :edit, :id => addressing.id
-		assert assigns(:addressing)
-		assert_response :success
-		assert_template 'edit'
-	end
-
-	test "should NOT edit addressing with invalid id and #{cu} login" do
-		addressing = create_addressing
-		login_as send(cu)
-		get :edit, :id => 0
-		assert_redirected_to subjects_path
-	end
-
-	test "should update addressing with #{cu} login" do
-		addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-		login_as send(cu)
-		assert_changes("Addressing.find(#{addressing.id}).updated_at") {
-			put :update, :id => addressing.id,
-				:addressing => factory_attributes
-		}
-		assert assigns(:addressing)
-		assert_redirected_to subject_contacts_path(addressing.subject)
-	end
-
-	test "should set verified_on on update if is_verified " <<
-			"with #{cu} login" do
-		addressing = create_addressing
-		login_as send(cu)
-		put :update, :id => addressing.id,
-			:addressing => factory_attributes(
-				:is_verified  => true,
-				:how_verified => 'not a clue'
-			)
-		assert assigns(:addressing)
-		assert_not_nil assigns(:addressing).verified_on
-	end
-
-	test "should set verified_by on update if is_verified " <<
-			"with #{cu} login" do
-		addressing = create_addressing
-		login_as u = send(cu)
-		put :update, :id => addressing.id,
-			:addressing => factory_attributes(
-				:is_verified => true,
-				:how_verified => 'not a clue'
-			)
-		assert assigns(:addressing)
-		assert_not_nil assigns(:addressing).verified_by_id
-		assert_equal assigns(:addressing).verified_by_id, u.id
-	end
-
-	test "should NOT update addressing with invalid id and #{cu} login" do
-		addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-		login_as send(cu)
-		deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-			put :update, :id => 0,
-				:addressing => factory_attributes
-		}
-		assert_redirected_to subjects_path
-	end
-
-	test "should NOT update addressing with #{cu} login " <<
-			"when addressing update fails" do
-		addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-		Addressing.any_instance.stubs(:create_or_update).returns(false)
-		login_as send(cu)
-		deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-			put :update, :id => addressing.id,
-				:addressing => factory_attributes
-		}
-		assert assigns(:addressing)
-		assert_response :success
-		assert_template 'edit'
-		assert_not_nil flash[:error]
-	end
-
-	test "should NOT update addressing with #{cu} login " <<
-			"when address update fails" do
-		addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-		Address.any_instance.stubs(:create_or_update).returns(false)
-		login_as send(cu)
-		deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-			put :update, :id => addressing.id,
-				:addressing => factory_attributes(address_attributes)
-		}
-		assert assigns(:addressing)
-		assert_response :success
-		assert_template 'edit'
-		assert_not_nil flash[:error]
-	end
-
-	test "should NOT update addressing with #{cu} login " <<
-			"and invalid addressing" do
-		addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-		Addressing.any_instance.stubs(:valid?).returns(false)
-		login_as send(cu)
-		deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-			put :update, :id => addressing.id,
-				:addressing => factory_attributes
-		}
-		assert assigns(:addressing)
-		assert_response :success
-		assert_template 'edit'
-		assert_not_nil flash[:error]
-	end
-
-	test "should NOT update addressing with #{cu} login " <<
-			"and invalid address" do
-		addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-		Address.any_instance.stubs(:create_or_update).returns(false)
-		login_as send(cu)
-		deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-			put :update, :id => addressing.id,
-				:addressing => factory_attributes(address_attributes(
-					:line_1 => nil
-				))
-		}
-		assert assigns(:addressing)
-		assert_response :success
-		assert_template 'edit'
-		assert_not_nil flash[:error]
-	end
-
-end
-
-
-%w( interviewer reader active_user ).each do |cu|
-
-	test "should NOT get new addressing with #{cu} login" do
-		subject = Factory(:subject)
-		login_as send(cu)
-		get :new, :subject_id => subject.id
-		assert_not_nil flash[:error]
-		assert_redirected_to root_path
-	end
-
-	test "should NOT create new addressing with #{cu} login" do
-		subject = Factory(:subject)
-		login_as send(cu)
-		post :create, :subject_id => subject.id,
-			:addressing => factory_attributes
-		assert_not_nil flash[:error]
-		assert_redirected_to root_path
-	end
-
-end
 
 	test "should NOT get new addressing without login" do
 		subject = Factory(:subject)
@@ -365,7 +358,7 @@ end
 
 protected
 
-	
+
 	def addressing_with_address(options={})
 		Factory.attributes_for(:addressing, {
 			:address_attributes => Factory.attributes_for(:address,{
