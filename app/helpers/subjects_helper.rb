@@ -53,9 +53,11 @@ module SubjectsHelper
 	end	#	id_bar_for
 
 	def select_subject_races(subject)
+		#	NOTE THAT THIS PREFIX HAS ONLY THE FIRST LEFT SIDE [
 		prefix = "subject[subject_races_attributes"
-		sr_params = if( params[:subject] && 
-			params[:subject].has_key?('subject_races_attributes') )
+		sr_params = if( defined?(params) && params[:subject] && 
+			params[:subject].has_key?('subject_races_attributes') && 
+			params[:subject].is_a?(Hash) )
 			params[:subject]['subject_races_attributes']
 		else
 			{}
