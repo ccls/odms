@@ -54,6 +54,7 @@
 
 .addressing .line_1,
 .addressing .line_2,
+.addressing .county,
 .addressing .csv {
 	display:block;
 }
