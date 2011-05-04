@@ -79,14 +79,20 @@ module SubjectsHelper
 			#		"4"=>{"is_primary"=>"false"}, 
 			#		"5"=>{"race_id"=>"5",is_primary"=>"true"} }	#	<-- checked and primary
 
-			s << hidden_field_tag("#{prefix}[#{race.id}]][id]", 
-				sr.id ) << "\n" if sr
+			s << hidden_field_tag("#{prefix}[#{race.id}]][id]", sr.id ) << "\n" if sr
+
 			#	is_primary is irrelevant of if subject_race already exists
 			s << hidden_field_tag("#{prefix}[#{race.id}]][is_primary]", false ) << "\n"
 			s << check_box_tag( "#{prefix}[#{race.id}]][is_primary]", true, 
 				( sr_params.dig(race.id.to_s,'is_primary') == 'true' ) || sr.try(:is_primary),
-				{ :id => "#{dom_id(race)}_is_primary", :class => 'is_primary_selector' } ) << "\n"
+				{ :id => "#{dom_id(race)}_is_primary", :class => 'is_primary_selector',
+				:title => "Set '#{race}' as the subject's PRIMARY race" } ) << "\n"
 
+			check_box_options = {
+				:id => dom_id(race), 
+				:class => 'race_selector',
+				:title => "Set '#{race}' as one of the subject's race(s)"
+			}
 			if sr
 				#	subject_race exists, so this is for destruction
 				#	1 = true, so if checkbox is unchecked, destroy it
@@ -94,16 +100,14 @@ module SubjectsHelper
 				#	0 = false, so if checkbox is checked, keep it
 				#		because this is 0 and not the race.id, need to change
 				#		some javascript
-#					( sr_params[race.id.to_s] && sr_params[race.id.to_s]['_destroy'] ) || true, 
 				s << check_box_tag( "#{prefix}[#{race.id}]][_destroy]", 0, 
 					sr_params.dig(race.id.to_s,'_destroy') || true, 
-					{ :id => dom_id(race), :class => 'race_selector' } ) << "\n"
+					check_box_options ) << "\n"
 			else
 				#	subject_race does not exist, so this is for creation
-#					( sr_params[race.id.to_s] && sr_params[race.id.to_s]['race_id'] ) || false, 
 				s << check_box_tag( "#{prefix}[#{race.id}]][race_id]", race.id, 
 					sr_params.dig(race.id.to_s,'race_id') || false, 
-					{ :id => dom_id(race), :class => 'race_selector' }) << "\n"
+					check_box_options ) << "\n"
 			end
 			s << label_tag( dom_id(race), race.name ) << "\n"
 			s << "<br/>\n"
