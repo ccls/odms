@@ -1,12 +1,14 @@
 jQuery(function(){
 
-/*
-	This is no longer used.
-
-	jQuery('button.link').click(function(){
-		window.location.href = $(this).find('span.href').text();
-	});
+/* 
+	'clicking' a submit button apparently skips the 'submit' method 
+		which then skips the destroy confirmation, so we need to explicitly
+		catch the click and manually submit to trigger the confirmation.
 */
+	jQuery('form.destroy_link_to input[type=submit]').click(function(){
+		jQuery(this).parents('form').submit();
+		return false;
+	});
 
 	jQuery('form.destroy_link_to').submit(function(){
 		var message = "Destroy?  Seriously?"
