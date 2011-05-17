@@ -1,5 +1,5 @@
 class DocumentVersionsController < ApplicationController
 
-	resourceful
+#	resourceful
 
 end

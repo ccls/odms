@@ -79,13 +79,17 @@ module ApplicationHelper
 #			s << l.join("\n")
 			s << [
 				link_to( "Basic Info", subject_path(subject) ),
-				link_to( "Address &amp; Phone", subject_contacts_path(subject) ),
-				link_to( "Hospital / Medical", subject_patient_path(subject) ),
+#				link_to( "Address &amp; Phone", subject_contacts_path(subject) ),
+				"<span>Address &amp; Phone</span>",
+#				link_to( "Hospital / Medical", subject_patient_path(subject) ),
+				"<span>Hospital / Medical</span>",
 				"<span>Eligibility &amp; Consent</span>",
-				link_to( "Enrollments",subject_enrollments_path(subject) ),
+#				link_to( "Enrollments",subject_enrollments_path(subject) ),
+				"<span>Enrollments</span>",
 				"<span>Samples</span>",
 				"<span>Interviews</span>",
-				link_to( "Events", subject_events_path(subject) ),
+#				link_to( "Events", subject_events_path(subject) ),
+				"<span>Events</span>",
 				"<span>Documents</span>",
 				"<span>Notes</span>"
 			].join("\n")

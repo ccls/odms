@@ -1,5 +1,5 @@
 class GuidesController < ApplicationController
 
-	resourceful
+#	resourceful
 
 end

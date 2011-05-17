@@ -5,28 +5,27 @@ ActionController::Routing::Routes.draw do |map|
 #	Plugin routes are loaded FIRST and aren't overridable.
 	map.root :controller => :odms, :action => :show
 
-	map.resources :home_page_pics, :collection => { :activate => :post }
+#	map.resources :home_page_pics, :collection => { :activate => :post }
 
-	map.resources :subjects,
-		:shallow => true do |subject|
-
-		subject.resource :patient
-		subject.resources :contacts, :only => :index
-		subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
-			:only => [:new,:create,:edit,:update,   :destroy   ]
-		subject.resources :addressings,		#	TEMP ADD DESTROY FOR DEV ONLY!
-			:only => [:new,:create,:edit,:update,   :destroy   ]
-		subject.resources :enrollments,
-			:only => [:new,:create,:show,:edit,:update,:index]
-		subject.resources :events,
-			:only => [:index]
+	map.resources :subjects, :only => [:show,:index],
+			:shallow => true do |subject|
+#		subject.resource :patient
+#		subject.resources :contacts, :only => :index
+#		subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
+#			:only => [:new,:create,:edit,:update,   :destroy   ]
+#		subject.resources :addressings,		#	TEMP ADD DESTROY FOR DEV ONLY!
+#			:only => [:new,:create,:edit,:update,   :destroy   ]
+#		subject.resources :enrollments,
+#			:only => [:new,:create,:show,:edit,:update,:index]
+#		subject.resources :events,
+#			:only => [:index]
 	end
 
 	map.resource  :case_wizard, :only => [:new,:create]
 
-	map.resources :projects
-	map.resources :guides
-	map.resources :document_versions
+#	map.resources :projects
+#	map.resources :guides
+#	map.resources :document_versions
 
 	#	Create named routes for expected pages so can avoid
 	# needing to append the relative_url_root prefix manually.

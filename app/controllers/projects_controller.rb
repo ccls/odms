@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
 
-	resourceful
+#	resourceful
 
 end

@@ -3,16 +3,24 @@
 <p>Consent:</p>
 </div><!-- class='column' -->
 <div class='column'>
-<%= wrapped_spans :hx_enrollment, :consented,
+
+
+<%# commented out until ready %>
+
+
+
+<%#= wrapped_spans :hx_enrollment, :consented,
 	:value => y_n_dk(@hx_enrollment.consented),
 	:label_text => 'consented?' %>
-<%= wrapped_spans :hx_enrollment, :refusal_reason,
+<%#= wrapped_yndk_spans :hx_enrollment, :consented,
+	:label_text => 'consented?' %>
+<%#= wrapped_spans :hx_enrollment, :refusal_reason,
 	:label_text => 'refusal reason:' %>
 </div><!-- class='column' -->
 <div class='column'>
-<%= wrapped_date_spans :hx_enrollment, :consented_on,
+<%#= wrapped_date_spans :hx_enrollment, :consented_on,
 	:label_text => 'date:' %>
-<%= wrapped_spans :hx_enrollment, :other_refusal_reason,
+<%#= wrapped_spans :hx_enrollment, :other_refusal_reason,
 	:label_text => 'specify:' %>
 </div><!-- class='column' -->
 </div><!-- class='consent' -->
