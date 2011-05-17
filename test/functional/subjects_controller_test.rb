@@ -142,12 +142,29 @@ class SubjectsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
 		end
+
+		test "should get subjects dashboard with #{cu} login" do
+			login_as send(cu)
+			get :dashboard
+			assert_response :success
+		end
 	
 	end
 
 	non_site_readers.each do |cu|
 
+		test "should NOT download csv with #{cu} login" do
+			login_as send(cu)
+			get :index, :commit => 'download'
+			assert_redirected_to root_path
+		end
 
+		test "should NOT get subjects dashboard with #{cu} login" do
+			login_as send(cu)
+			get :dashboard
+			assert_redirected_to root_path
+		end
+	
 	end
 
 #######################################################################
@@ -376,13 +393,7 @@ class SubjectsControllerTest < ActionController::TestCase
 #
 #######################################################################
 
-	non_site_readers.each do |cu|
-
-		test "should NOT download csv with #{cu} login" do
-			login_as send(cu)
-			get :index, :commit => 'download'
-			assert_redirected_to root_path
-		end
+	non_site_editors.each do |cu|
 
 	end
 

@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
 #	map.resources :home_page_pics, :collection => { :activate => :post }
 
 	map.resources :subjects, :only => [:show,:index],
+			:collection => { :dashboard => :get },
 			:shallow => true do |subject|
 #		subject.resource :patient
 #		subject.resources :contacts, :only => :index

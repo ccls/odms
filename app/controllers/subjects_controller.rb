@@ -6,7 +6,7 @@ class SubjectsController < ApplicationController
 
 	before_filter :valid_id_required, :only => :show
 
-	before_filter :may_read_subjects_required, :only => [:show,:index]
+	before_filter :may_read_subjects_required, :only => [:show,:index,:dashboard]
 #	before_filter :may_read_subject_required,  :only => :show
 
 	def index
@@ -31,6 +31,9 @@ class SubjectsController < ApplicationController
 #		#	Of course, if the subject isn't enrolled, 
 #		#	they wouldn't be here.
 #		@hx_enrollment = @subject.hx_enrollment || @subject.enrollments.new
+	end
+
+	def dashboard
 	end
 
 protected

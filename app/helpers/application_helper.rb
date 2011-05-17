@@ -4,7 +4,7 @@ module ApplicationHelper
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
 		s << "<div class='menu_item'>" <<
-			"<span>Subject</span>" <<
+			link_to('Subjects', dashboard_subjects_path) <<
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to( "New Case Wizard", new_case_wizard_path ),
