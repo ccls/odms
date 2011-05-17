@@ -14,7 +14,7 @@ class ActionController::TestCase
 	end
 
 	def self.non_site_administrators
-		@non_site_administrators ||= ( ALL_TEST_ROLES - site_administrators )
+		@non_site_administrators ||= ( all_test_roles - site_administrators )
 	end
 
 	def self.site_editors
@@ -22,7 +22,7 @@ class ActionController::TestCase
 	end
 
 	def self.non_site_editors
-		@non_site_editors ||= ( ALL_TEST_ROLES - site_editors )
+		@non_site_editors ||= ( all_test_roles - site_editors )
 	end
 
 	def self.site_readers
@@ -30,15 +30,11 @@ class ActionController::TestCase
 	end
 
 	def self.non_site_readers
-		@non_site_readers ||= ( ALL_TEST_ROLES - site_readers )
+		@non_site_readers ||= ( all_test_roles - site_readers )
 	end
 
-	def self.everybody
-		@everybody ||= ALL_TEST_ROLES
+	def self.all_test_roles
+		@all_test_roles = %w( superuser administrator editor interviewer reader active_user )
 	end
 
 end
-
-ALL_TEST_ROLES = %w( superuser administrator editor interviewer reader active_user )
-
-

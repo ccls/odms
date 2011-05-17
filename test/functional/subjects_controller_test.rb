@@ -17,33 +17,22 @@ class SubjectsControllerTest < ActionController::TestCase
 			:race_ids => [Race.random.id]}.merge(options))
 	end
 
-	def self.all_roles
-		@all_roles ||= %w( superuser admin editor interviewer reader active_user )
-	end
-
-	def self.readers
-		@readers ||= %w( superuser admin editor interviewer reader )
-	end
-
-	def self.creators
-		@creators ||= %w( superuser admin editor )
-	end
 
 	assert_access_with_login({ 
 		:actions => [:new,:create,:edit,:update,:destroy],
-		:logins  => creators })
+		:logins  => site_editors })
 
 	assert_no_access_with_login({ 
 		:actions => [:new,:create,:edit,:update,:destroy],
-		:logins  => ( all_roles - creators ) })
+		:logins  => non_site_editors })
 
 	assert_access_with_login({ 
 		:actions => [:show,:index],
-		:logins  => readers })
+		:logins  => site_readers })
 
 	assert_no_access_with_login({ 
 		:actions => [:show,:index],
-		:logins  => ( all_roles - readers ) })
+		:logins  => non_site_readers })
 
 	assert_no_access_without_login
 
@@ -63,8 +52,7 @@ class SubjectsControllerTest < ActionController::TestCase
 		:show => { :id => 0 }
 	)
 
-#	%w( superuser admin editor interviewer reader )
-	readers.each do |cu|
+	site_readers.each do |cu|
 	
 		test "should get index with order and dir desc with #{cu} login" do
 			login_as send(cu)
@@ -156,15 +144,14 @@ class SubjectsControllerTest < ActionController::TestCase
 	
 	end
 
-	( all_roles - readers ).each do |cu|
+	non_site_readers.each do |cu|
 
 
 	end
 
 ######################################################################
 
-#	%w( superuser admin editor ).each do |cu|
-	creators.each do |cu|
+	site_editors.each do |cu|
 
 		test "should update with #{cu} login" do
 			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
@@ -368,8 +355,7 @@ pending
 	
 	end
 
-#	%w( interviewer reader active_user )
-	( all_roles - creators ).each do |cu|
+	non_site_editors.each do |cu|
 
 		test "should NOT update with #{cu} login" do
 			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
@@ -389,7 +375,7 @@ pending
 
 ######################################################################
 
-	( all_roles - readers ).each do |cu|
+	non_site_readers.each do |cu|
 
 		test "should NOT download csv with #{cu} login" do
 			login_as send(cu)

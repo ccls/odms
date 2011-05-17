@@ -7,10 +7,10 @@ class CaseWizardsControllerTest < ActionController::TestCase
 	}
 
 	assert_access_with_login({
-		:logins => [:superuser,:admin,:editor ] })
+		:logins => site_editors })
 
 	assert_no_access_with_login({
-		:logins => [:interviewer,:reader,:active_user] })
+		:logins => non_site_editors })
 
 	assert_no_access_without_login
 
