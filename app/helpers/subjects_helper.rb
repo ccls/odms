@@ -96,13 +96,14 @@ module SubjectsHelper
 			if sr
 				#	subject_race exists, so this is for destruction
 				#	1 = true, so if checkbox is unchecked, destroy it
-				s << hidden_field_tag("#{prefix}[#{race.id}]][_destroy]", 1 ) << "\n"
+				s << hidden_field_tag("#{prefix}[#{race.id}]][_destroy]", 1,
+						:class => 'destroy_race' ) << "\n"
 				#	0 = false, so if checkbox is checked, keep it
 				#		because this is 0 and not the race.id, need to change
 				#		some javascript
 				s << check_box_tag( "#{prefix}[#{race.id}]][_destroy]", 0, 
 					sr_params.dig(race.id.to_s,'_destroy') || true, 
-					check_box_options ) << "\n"
+					check_box_options.merge(:class => 'race_selector do_not_destroy_race') ) << "\n"
 			else
 				#	subject_race does not exist, so this is for creation
 				s << check_box_tag( "#{prefix}[#{race.id}]][race_id]", race.id, 

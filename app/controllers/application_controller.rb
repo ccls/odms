@@ -24,29 +24,28 @@ protected	#	private #	(does it matter which or if neither?)
 		})
 	end
 
-	def block_all_access
-		access_denied("That route is no longer available")
-	end
-
-
-	def valid_hx_subject_id_required
-		validate_hx_subject_id(params[:subject_id])
-	end
-
-	def valid_id_for_hx_subject_required
-		validate_hx_subject_id(params[:id])
-	end
-
-	#	I intended to check that the subject is actually
-	#	enrolled in HomeExposures, but haven't yet.
-	def validate_hx_subject_id(id,redirect=nil)
-		if !id.blank? and Subject.exists?(id)
-			@subject = Subject.find(id)
-		else
-			access_denied("Valid subject id required!", 
-				redirect || subjects_path)
-		end
-	end
+#	def block_all_access
+#		access_denied("That route is no longer available")
+#	end
+#
+#	def valid_hx_subject_id_required
+#		validate_hx_subject_id(params[:subject_id])
+#	end
+#
+#	def valid_id_for_hx_subject_required
+#		validate_hx_subject_id(params[:id])
+#	end
+#
+#	#	I intended to check that the subject is actually
+#	#	enrolled in HomeExposures, but haven't yet.
+#	def validate_hx_subject_id(id,redirect=nil)
+#		if !id.blank? and Subject.exists?(id)
+#			@subject = Subject.find(id)
+#		else
+#			access_denied("Valid subject id required!", 
+#				redirect || subjects_path)
+#		end
+#	end
 
 #	Don't know if I'll use this or not.
 #

@@ -40,6 +40,15 @@ class SubjectsControllerTest < ActionController::TestCase
 	assert_access_with_https
 	assert_no_access_with_http
 
+	assert_no_access_with_login(
+		:actions => nil,
+		:suffix => " and invalid id",
+		:redirect => :subjects_path,
+		:login => site_readers,
+		:method_for_create => nil,
+		:show => { :id => 0 }
+	)
+
 #	assert_no_access_with_login(
 #		:attributes_for_create => nil,
 #		:method_for_create => nil,
