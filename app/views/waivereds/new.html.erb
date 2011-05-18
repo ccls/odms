@@ -8,6 +8,9 @@
 <%= f.error_messages %>
 
 <%= render :partial => 'subjects/prelim_form', :locals => {:f=>f} %>
+<%= render :partial => 'subjects/eligibility_form', :locals => {:f=>f} %>
+<%= render :partial => 'subjects/consent_form', :locals => {:f=>f} %>
+<%= render :partial => 'subjects/child_parent_form', :locals => {:f=>f} %>
 
 <p><%= f.submit_link_to 'Create new waivered case subject' %></p>
 <% end %>
