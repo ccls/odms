@@ -1,0 +1,11 @@
+<h4>Case Ascertainment</h4>
+
+<p>The new RAF is a ...</p>
+
+<%# submit_link_to MUST come BEFORE submit_tag to behave as expected. %>
+<% form_tag(case_path,:method => :post) do %>
+<%= submit_link_to('waivered RAF') %>
+<%= submit_tag('waivered') %>
+<%= submit_link_to('non-waivered RAF (e.g. CHLA)') %>
+<%= submit_tag('nonwaivered') %>
+<% end %>

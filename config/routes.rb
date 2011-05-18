@@ -23,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
 	end
 
 	map.resource  :case_wizard, :only => [:new,:create]
+	map.resource  :case, :only => [:new,:create]
 
 #	map.resources :projects
 #	map.resources :guides
