@@ -346,3 +346,6 @@ form.raf h3 {
 form.raf .raf_section {
 	margin:5px;
 }
+form.raf #errorExplanation {
+	margin:5px;
+}

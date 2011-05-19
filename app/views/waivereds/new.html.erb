@@ -6,6 +6,7 @@
 <%#= render 'form', :f => f %>
 
 <%= f.error_messages %>
+<%= f.hidden_field :subject_type_id, :value => SubjectType['Case'].id %>
 
 <h3>Section 1: Preliminary Information
 <span><span class='required'>*</span>required fields</span>
