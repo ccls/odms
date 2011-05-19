@@ -1,19 +1,15 @@
-<fieldset>
-<legend>Preliminary Information</legend>
-<p>treating institution</p>
+<div class='prelim_info raf_section'>
 
 <% @subject.build_patient if @subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
 <%# this may be a bit tricky, we may want to change patient.organization_id to hospital_id %>
 	<%= patient_fields.wrapped_collection_select :organization_id,
-		Hospital.all, :organization_id, :to_s, :include_blank => true %>
-<% end %>
+		Hospital.all, :organization_id, :to_s, :include_blank => true,
+		:label_text => 'treating institution:' %>
 
-<p>admitting oncologist</p>
+	<%= patient_fields.wrapped_text_field :admitting_oncologist,
+		:label_text => 'admitting oncologist:' %>
 
-<% @subject.build_identifier if @subject.identifier.nil? %>
-<% f.fields_for :identifier do |identifier_fields| %>
-	<%= identifier_fields.wrapped_text_field :hospital_no %>
 <% end %>
 
 <% @subject.build_pii if @subject.pii.nil? %>
@@ -26,22 +22,23 @@
 	</div>
 <% end %>
 
+<% @subject.build_identifier if @subject.identifier.nil? %>
+<% f.fields_for :identifier do |identifier_fields| %>
+	<%= identifier_fields.wrapped_text_field :hospital_no,
+		:label_text => 'hospital record number:' %>
+<% end %>
+
 <% f.fields_for :patient do |patient_fields| %>
-	<%= patient_fields.wrapped_date_text_field :admit_date %>
+	<%= patient_fields.wrapped_date_text_field :admit_date,
+		:label_text => 'admit date:' %>
 <% end %>
 
 <% f.fields_for :pii do |pii_fields| %>
 	<%= pii_fields.wrapped_date_text_field :dob,
-		:label_text => 'DOB' %>
+		:label_text => "child's date of birth:" %>
 <% end %>
 
+<%# will need to change this to a radio button group %>
 <%= f.wrapped_text_field :sex %>
 
-<p>county and zip of current residence</p>
-
-<% f.fields_for :patient do |patient_fields| %>
-	<%= patient_fields.wrapped_collection_select :diagnosis_id,
-		Diagnosis.all, :id, :to_s, :include_blank => true %>
-<% end %>
-
-</fieldset>
+</div><!-- class='prelim_info' -->

@@ -125,3 +125,8 @@ form.destroy_link_to {
 	background-color: #F88;
 }
 
+.required {
+	font-size: 12pt;
+	color: red;
+	font-weight: bold;
+}

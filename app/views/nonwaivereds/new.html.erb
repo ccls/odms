@@ -1,13 +1,20 @@
 <% stylesheets('base/jquery.ui.all.css') %><%# for datepicker %>
-<h3>New Non-Waivered</h3>
+<h3>Rapid Acertainment Form (RAF) - non-waiver version</h3>
 
 <% form_for(@subject, :url => nonwaivered_path,
-	:html => { :class => 'edit_subject' }) do |f| %>
+	:html => { :class => 'nonwaivered raf edit_subject' }) do |f| %>
 <%#= render 'form', :f => f %>
 
 <%= f.error_messages %>
 
+<h3>Section 1: Preliminary Information
+<span><span class='required'>*</span>required fields</span>
+</h3>
 <%= render :partial => 'subjects/prelim_form', :locals => {:f=>f} %>
+<%= render :partial => 'subjects/child_parent_form', :locals => {:f=>f} %>
+<h3>Section 2: Confirm Eligibility</h3>
+<h3>Section 3: Document Informed Consent</h3>
+<h3>Section 4: Biological Samples</h3>
 
 <p><%= f.submit_link_to 'Create new non-waivered case subject' %></p>
 <% end %>

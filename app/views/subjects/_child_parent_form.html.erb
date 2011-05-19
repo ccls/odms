@@ -1,5 +1,4 @@
-<fieldset>
-<legend>Child and Parent Information</legend>
+<div class='child_parent raf_section'>
 
 <% @subject.build_pii if @subject.pii.nil? %>
 <% f.fields_for :pii do |pii_fields| %>
@@ -28,4 +27,4 @@
 <p>child's home address</p>
 
 
-</fieldset>
+</div><!-- class='child_parent' -->

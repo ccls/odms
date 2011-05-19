@@ -322,3 +322,27 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 .edit_subject   .homex_outcomes .columns {
 	display: block;
 }
+
+
+
+h3 > span {
+	float:right;
+	font-size:10pt;
+	font-weight:normal;
+}
+
+form.raf {
+	border: 2px solid black;
+	border-top-width: 1px;
+}
+form.raf h3 {
+	background-color: gray;
+	color:white;
+	padding: 7px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	margin-top: 0;
+}
+form.raf .raf_section {
+	margin:5px;
+}
