@@ -14,12 +14,19 @@
 
 <% @subject.build_pii if @subject.pii.nil? %>
 <% f.fields_for :pii do |pii_fields| %>
-	<%= pii_fields.label :name %>
-	<div class='field_wrapper'>
-	<%= pii_fields.text_field :first_name %>
-	<%= pii_fields.text_field :middle_name %>
-	<%= pii_fields.text_field :last_name %>
-	</div>
+ <div class='names'>
+  <p>child's name</p>
+  <div class='child tablerow'>
+   <span><%= pii_fields.text_field :first_name %></span>
+   <span><%= pii_fields.text_field :middle_name %></span>
+   <span><%= pii_fields.text_field :last_name %></span>
+  </div><!-- class='child tablerow' -->
+  <div class='child tablerow'>
+   <span><%= "#{req('*')}&nbsp;first" %></span>
+   <span>middle</span>
+   <span><%= "#{req('*')}&nbsp;last" %></span>
+  </div><!-- class='child tablerow' -->
+ </div><!-- class='names' -->
 <% end %>
 
 <% @subject.build_identifier if @subject.identifier.nil? %>

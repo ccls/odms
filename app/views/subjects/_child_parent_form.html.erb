@@ -2,26 +2,56 @@
 
 <% @subject.build_pii if @subject.pii.nil? %>
 <% f.fields_for :pii do |pii_fields| %>
-
-	<%= pii_fields.label :mothers_name %><br />
-	<%= pii_fields.text_field :mother_first_name %>
-	<%= pii_fields.text_field :mother_middle_name %>
-	<%= pii_fields.text_field :mother_last_name %><br/>
-
-	<%= pii_fields.label :mothers_maiden_name %><br />
-	<%= pii_fields.text_field :mother_maiden_name %><br/>
-
-	<%= pii_fields.label :fathers_name %><br />
-	<%= pii_fields.text_field :father_first_name %>
-	<%= pii_fields.text_field :father_middle_name %>
-	<%= pii_fields.text_field :father_last_name %><br/>
+ <div class='names'>
+  <p>mother's name</p>
+  <div class='mother tablerow'>
+   <span><%= pii_fields.text_field :mother_first_name %></span>
+   <span><%= pii_fields.text_field :mother_middle_name %></span>
+   <span><%= pii_fields.text_field :mother_last_name %></span>
+   <span class='big'><%= pii_fields.text_field :mother_maiden_name %></span>
+  </div><!-- class='mother tablerow' -->
+  <div class='mother tablerow'>
+   <span>first</span>
+   <span>middle</span>
+   <span>last</span>
+   <span class='big'>maiden</span>
+  </div><!-- class='mother tablerow' -->
+  
+  <p>father's name</p>
+  <div class='father tablerow'>
+   <span><%= pii_fields.text_field :father_first_name %></span>
+   <span><%= pii_fields.text_field :father_middle_name %></span>
+   <span><%= pii_fields.text_field :father_last_name %></span>
+  </div><!-- class='father tablerow' -->
+  <div class='father tablerow'>
+   <span>first</span>
+   <span>middle</span>
+   <span>last</span>
+  </div><!-- class='father tablerow' -->
+  
+  <p>legal guardian, if different from above:</p>
+  <div class='guardian tablerow'>
+   <span>&nbsp;</span>
+   <span>&nbsp;</span>
+   <span>&nbsp;</span>
+   <span class='big'>relationship</span>
+   <span>other</span>
+  </div><!-- class='guardian tablerow' -->
+  <div class='guardian tablerow'>
+   <span><%= pii_fields.text_field :guardian_first_name %></span>
+   <span><%= pii_fields.text_field :guardian_middle_name %></span>
+   <span><%= pii_fields.text_field :guardian_last_name %></span>
+  <span class='big'><%= pii_fields.collection_select :guardian_relationship_id,
+  		SubjectRelationship.all, :id, :to_s, :include_blank => true %>
+  </span>
+  <span><%= pii_fields.text_field :guardian_relationship_other %></span>
+  </div><!-- class='guardian tablerow' -->
+  <div class='guardian tablerow'>
+   <span>first</span>
+   <span>middle</span>
+   <span>last</span>
+  </div><!-- class='guardian tablerow' -->
+ </div><!-- class='names' -->
 <% end %>
-
-<p>legal guardian</p>
-<p>first</p>
-<p>middle</p>
-<p>last</p>
-<p>relationship</p>
-<p>other</p>
 
 </div><!-- class='child_parent' -->

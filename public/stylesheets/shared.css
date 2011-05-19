@@ -134,3 +134,15 @@ p.submit_bar {
 	text-align: center;
 }
 
+input.small  { width: 10em; }
+input.medium { width: 20em; }
+
+div.table {
+	display:table;
+}
+div.table .row {
+	display:table-row;
+}
+div.table .row .cell {
+	display:table-cell;
+}

@@ -349,3 +349,32 @@ form.raf .raf_section {
 form.raf #errorExplanation {
 	margin:5px;
 }
+
+form.raf .names {
+	width: 100%;
+}
+form.raf .names input {
+	width: 10em;
+}
+form.raf .names .tablerow {
+	margin-left: 20px;
+}
+form.raf .names .tablerow > span {
+	width: 9em;
+	display:inline-block;
+	text-align:center;
+}
+/* needs to be wider to fit the subject relationship selector */
+form.raf .names .tablerow span.big {
+	width: 16em;
+}
+form.raf .names p {
+	margin-bottom: 0;
+}
+
+div.table > * {
+	display:table-row;
+}
+div.table > * > * {
+	display:table-cell;
+}
