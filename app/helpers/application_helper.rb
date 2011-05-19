@@ -8,8 +8,6 @@ module ApplicationHelper
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('Dashboard', dashboard_subjects_path),
-#				link_to( "New Case Wizard", new_case_wizard_path ),
-#				"<span>New Control Wizard</span>",
 				link_to( "Browse Subjects", subjects_path )
 #				"<span>Basic Info - Read</span>",
 #				"<span>Basic Info - Edit</span>",

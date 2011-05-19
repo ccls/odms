@@ -22,7 +22,6 @@ ActionController::Routing::Routes.draw do |map|
 #			:only => [:index]
 	end
 
-	map.resource  :case_wizard, :only => [:new,:create]
 	map.resource  :case, :only => [:new,:create]
 	map.resource  :waivered, :only => [:new,:create]
 	map.resource  :nonwaivered, :only => [:new,:create]
