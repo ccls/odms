@@ -130,3 +130,7 @@ form.destroy_link_to {
 	color: red;
 	font-weight: bold;
 }
+p.submit_bar {
+	text-align: center;
+}
+

@@ -13,11 +13,12 @@
 </h3>
 <%= render :partial => 'subjects/prelim_form', :locals => {:f=>f} %>
 <h3>Section 2: Eligibility Criteria</h3>
-<%= render :partial => 'subjects/eligibility_form', :locals => {:f=>f} %>
+<%= render :partial => 'eligibility_form', :locals => {:f=>f} %>
 <h3>Section 3: Informed Consent</h3>
-<%= render :partial => 'subjects/consent_form', :locals => {:f=>f} %>
+<%= render :partial => 'consent_form', :locals => {:f=>f} %>
 <h3>Section 4: Child and Parent Information</h3>
 <%= render :partial => 'subjects/child_parent_form', :locals => {:f=>f} %>
+<%= render :partial => 'subjects/current_address_form', :locals => {:f=>f} %>
 
-<p><%= f.submit_link_to 'Create new waivered case subject' %></p>
+<p class='submit_bar'><%= f.submit_link_to 'Create new waivered case subject' %></p>
 <% end %>

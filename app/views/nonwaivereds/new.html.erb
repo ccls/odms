@@ -13,9 +13,13 @@
 </h3>
 <%= render :partial => 'subjects/prelim_form', :locals => {:f=>f} %>
 <%= render :partial => 'subjects/child_parent_form', :locals => {:f=>f} %>
+<%= render :partial => 'subjects/current_address_form', :locals => {:f=>f} %>
 <h3>Section 2: Confirm Eligibility</h3>
+<%= render :partial => 'eligibility_form', :locals => {:f=>f} %>
 <h3>Section 3: Document Informed Consent</h3>
+<%= render :partial => 'consent_form', :locals => {:f=>f} %>
 <h3>Section 4: Biological Samples</h3>
+<%= render :partial => 'samples_form', :locals => {:f=>f} %>
 
-<p><%= f.submit_link_to 'Create new non-waivered case subject' %></p>
+<p class='submit_bar'><%= f.submit_link_to 'Create new non-waivered case subject' %></p>
 <% end %>
