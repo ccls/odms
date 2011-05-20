@@ -385,12 +385,14 @@ form.raf .names p {
 	margin-bottom: 0;
 }
 
+form.raf .sex,
 form.raf .organization_id,
 form.raf .admit_date,
 form.raf .childs.names {
 	display:inline-block;
 	clear:left;
 }
+form.raf .diagnosis_id ,
 form.raf .admitting_oncologist ,
 form.raf .dob ,
 form.raf .hospital_no {

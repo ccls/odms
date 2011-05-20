@@ -38,13 +38,21 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_redirected_to assigns(:subject)
 		end
 
+		test "should create waivered case subject with complete attributes and #{cu} login" do
+			login_as send(cu)
+			assert_all_differences(1) do
+				post :create, :subject => complete_case_subject_attributes
+			end
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:subject)
+		end
+
 		test "should NOT create waivered case subject with invalid subject and #{cu} login" do
 			login_as send(cu)
 			Subject.any_instance.stubs(:valid?).returns(false)
-			assert_difference('Subject.count',0){
-			assert_difference('SubjectRace.count',0){
+			assert_all_differences(0) do
 				post :create, :subject => factory_attributes
-			} }
+			end
 			assert assigns(:subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -54,10 +62,9 @@ class WaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create waivered case subject when save fails with #{cu} login" do
 			login_as send(cu)
 			Subject.any_instance.stubs(:create_or_update).returns(false)
-			assert_difference('Subject.count',0){
-			assert_difference('SubjectRace.count',0){
+			assert_all_differences(0) do
 				post :create, :subject => factory_attributes
-			} }
+			end
 			assert assigns(:subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -70,10 +77,9 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create waivered case subject with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Subject.count',0){
-			assert_difference('SubjectRace.count',0){
+			assert_all_differences(0) do
 				post :create, :subject => factory_attributes
-			} }
+			end
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -81,10 +87,9 @@ class WaiveredsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT create waivered case subject without login" do
-		assert_difference('Subject.count',0){
-		assert_difference('SubjectRace.count',0){
+		assert_all_differences(0) do
 			post :create, :subject => factory_attributes
-		} }
+		end
 		assert_redirected_to_login
 	end
 

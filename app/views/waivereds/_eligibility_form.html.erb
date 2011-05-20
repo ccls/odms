@@ -1,8 +1,21 @@
 <div class='eligibility raf_section'>
 
-<p>Is this patient under age 15?</p>
-<p>yes (eligible)</p>
-<p>no (not eligible)</p>
+<%#
+	radio_button(object_name, method, tag_value, options = {})
+	label(object_name, method, content_or_options = nil, options = nil, &block)
+	check_box(object_name, method, options = {}, checked_value = "1", unchecked_value = "0")
+%>
+
+<% @subject.build_patient if @subject.patient.nil? %>
+<% f.fields_for :patient do |patient_fields| %>
+ <p>Is this patient under age 15?
+  <%= patient_fields.radio_button :was_under_15_at_dx, true %>
+  <%= patient_fields.label :was_under_15_at_dx, 'yes (eligible)', :value => true %>
+  <%= patient_fields.radio_button :was_under_15_at_dx, false %>
+  <%= patient_fields.label :was_under_15_at_dx, 'no (not eligible)', :value => false %>
+ </p>
+<% end %>
+
 
 <p>Language of parent or caretaker</p>
 <p>English (eligible)</p>
@@ -10,12 +23,24 @@
 <p>Other (not eligible)</p>
 <p>Specify:</p>
 
-<p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
-<p>no (eligible)</p>
-<p>yes (not eligible)</p>
 
-<p>Does the patient currently reside in California?</p>
-<p>yes (eligible)</p>
-<p>no (not eligible)</p>
+
+<% f.fields_for :patient do |patient_fields| %>
+ <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
+ <p>
+  <%= patient_fields.radio_button :was_previously_treated, false %>
+  <%= patient_fields.label :was_previously_treated, 'no (eligible)', :value => false %>
+  <%= patient_fields.radio_button :was_previously_treated, true %>
+  <%= patient_fields.label :was_previously_treated, 'yes (not eligible)', :value => true %>
+ </p>
+
+ <p>Does the patient currently reside in California?
+  <%= patient_fields.radio_button :was_ca_resident_at_diagnosis, true %>
+  <%= patient_fields.label :was_ca_resident_at_diagnosis, 'yes (eligible)', :value => true %>
+  <%= patient_fields.radio_button :was_ca_resident_at_diagnosis, false %>
+  <%= patient_fields.label :was_ca_resident_at_diagnosis, 'no (not eligible)', :value => false %>
+ </p>
+<% end %>
+
 
 </div><!-- class='eligibility' -->

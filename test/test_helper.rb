@@ -4,6 +4,38 @@ require 'test_help'
 
 class ActiveSupport::TestCase
 	fixtures :all
+
+	def complete_case_subject_attributes(options={})
+		Factory.attributes_for(:subject,
+			:subject_type_id => SubjectType['Case'].id,
+			:race_ids => [Race.random.id],
+			:pii_attributes => Factory.attributes_for(:pii),
+			:patient_attributes => Factory.attributes_for(:patient),
+			:identifier_attributes => Factory.attributes_for(:identifier),
+			:phone_numbers_attributes => [Factory.attributes_for(:phone_number)],
+			:addressings_attributes => [Factory.attributes_for(:addressing,
+				:address_attributes => Factory.attributes_for(:address,
+					:address_type => AddressType['residence'] ) )],
+			:enrollments_attributes => [Factory.attributes_for(:enrollment,
+				:project_id => Project['non-specific'].id)]
+		).deep_merge(options)
+	end
+
+	def assert_all_differences(count=0,&block)
+		assert_difference('Subject.count',count){
+		assert_difference('SubjectRace.count',count){
+		assert_difference('Identifier.count',count){
+		assert_difference('Patient.count',count){
+		assert_difference('Pii.count',count){
+		assert_difference('Enrollment.count',count){
+		assert_difference('PhoneNumber.count',count){
+		assert_difference('Addressing.count',count){
+		assert_difference('Address.count',count){
+			yield
+		} } } } } } } } }
+	end
+
+
 end
 
 class ActionController::TestCase

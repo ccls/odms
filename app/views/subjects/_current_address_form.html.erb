@@ -2,12 +2,32 @@
 
 <p>child's current home address</p>
 
-<p>street</p>
-<p>city</p>
-<p>state</p>
-<p>zip</p>
-<p>county</p>
-<p>phone</p>
-<p>alternate phone</p>
+<% @subject.addressings.build if @subject.addressings.empty? %>
+<% f.fields_for :addressings do |addressing_fields| %>
+ <% addressing_fields.object.build_address if addressing_fields.object.address.nil? %>
+ <% addressing_fields.fields_for :address do |address_fields| %>
+  <%= address_fields.wrapped_text_field :line_1 %>
+  <%= address_fields.wrapped_text_field :line_2 %>
+  <div class='field_wrapper'>
+   <%= address_fields.label :city, 'City, State Zip' %>
+   <%= address_fields.text_field :city %>
+   <%= address_fields.select :state,State.abbreviations, {}, :class => 'state' %>
+   <%= address_fields.text_field :zip, :class => :zip %>
+  </div>
+  <%= address_fields.wrapped_text_field :county %>
+  <%= address_fields.hidden_field :address_type_id, :value => AddressType['residence'].id %>
+ <% end %>
+ <%= addressing_fields.hidden_field :current_address, :value => 1 %>
+<% end %>
+
+<% @subject.phone_numbers.build if @subject.phone_numbers.empty? %>
+<% f.fields_for :phone_numbers do |phone_number_fields| %>
+ <%= phone_number_fields.wrapped_text_field :phone_number,
+   :label_text => 'phone number:' %>
+<% end %>
+
+
+<p>what about the alternate phone?</p>
+
 
 </div><!-- class='current_address' -->

@@ -64,4 +64,9 @@
 <%= f.wrapped_sex_select :sex,
 	:label_text => "#{req('*')}&nbsp;sex:" %>
 
+<% f.fields_for :patient do |patient_fields| %>
+	<%= patient_fields.wrapped_collection_select :diagnosis_id,
+		Diagnosis.all, :id, :to_s, :include_blank => true %>
+<% end %>
+
 </div><!-- class='prelim_info' -->

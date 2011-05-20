@@ -1,13 +1,47 @@
 <div class='consent raf_section'>
 
-<p>yes -- Informed consent and authorization obtained.</p>
-<p>consent date</p>
-<p>consent version</p>
+<%#
+	radio_button(object_name, method, tag_value, options = {})
+	label(object_name, method, content_or_options = nil, options = nil, &block)
+	check_box(object_name, method, options = {}, checked_value = "1", unchecked_value = "0")
+%>
+
+<% @subject.enrollments.build if @subject.enrollments.empty? %>
+<% f.fields_for :enrollments do |enrollment_fields| %>
+<%= enrollment_fields.hidden_field :project_id, :value => Project['non-specific'].id %>
+
+<p>
+<%= enrollment_fields.radio_button :consented, 1 %>
+<%= enrollment_fields.label :consented, 'Yes -- Informed consent and authorization obtained.', 
+	:value => 1 %>
+</p>
+
+
+<%#
+Control Source: document_versions.title where document_type_id = document_types.id for document_types.title = "consent"
+
+NOT ALL DOCUMENT VERSIONS
+
+ collection_select(object, method, collection, value_method, text_method, options = {}, html_options = {}) 
+%>
+<p>consent date:
+<%= enrollment_fields.date_text_field :consented_on  %>
+&nbsp;consent version:
+<%= enrollment_fields.collection_select :document_version_id,
+	 DocumentVersion.all, :id, :to_s, :include_blank => true  %>
+</p>
 <p>(from consent signature page, if available at RAF entry)</p>
 
-<p>No -- Specify who refused...</p>
+<p>
+<%= enrollment_fields.radio_button :consented, 2 %>
+<%= enrollment_fields.label :consented, 'No -- Specify who refused...', 
+	:value => 2 %>
+</p>
+
 <p>Family</p>
 <p>Physician</p>
 <p>Comments</p>
+
+<% end %>
 
 </div><!-- class='consent' -->

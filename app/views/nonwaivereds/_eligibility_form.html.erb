@@ -1,16 +1,39 @@
 <div class='eligibility raf_section'>
 
-<p>Is this patient under age 15?</p>
-<p>yes (eligible)</p>
+<%#
+	radio_button(object_name, method, tag_value, options = {})
+	label(object_name, method, content_or_options = nil, options = nil, &block)
+	check_box(object_name, method, options = {}, checked_value = "1", unchecked_value = "0")
+%>
+
+<% @subject.build_patient if @subject.patient.nil? %>
+<% f.fields_for :patient do |patient_fields| %>
+ <p>Is this patient under age 15?
+  <%= patient_fields.check_box :was_under_15_at_dx, {}, true, false %>
+  <%= patient_fields.label :was_under_15_at_dx, 'yes (eligible)' %>
+ </p>
+<% end %>
+
 
 <p>Language of parent or caretaker</p>
 <p>English (eligible)</p>
 <p>Spanish (eligible)</p>
 
-<p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
-<p>no (eligible)</p>
+<% f.fields_for :patient do |patient_fields| %>
+ <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
+ <p>
+  <%= patient_fields.check_box :was_previously_treated, {}, true, false %>
+  <%= patient_fields.label :was_previously_treated, 'no (eligible)' %>
+ </p>
+<% end %>
 
-<p>Does the patient currently reside in California?</p>
-<p>yes (eligible)</p>
+
+<% f.fields_for :patient do |patient_fields| %>
+ <p>Does the patient currently reside in California?
+  <%= patient_fields.check_box :was_ca_resident_at_diagnosis, {}, true, false %>
+  <%= patient_fields.label :was_ca_resident_at_diagnosis, 'yes (eligible)' %>
+ </p>
+<% end %>
+
 
 </div><!-- class='eligibility' -->
