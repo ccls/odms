@@ -1,7 +1,24 @@
 <div class='samples raf_section'>
+<%#
 
-<p>Are there blood and bone marrow samples available for shipment to CCLS?</p>
-<p>Yes --&gt; See Speciment Transmittal Form</p>
-<p>No</p>
+Set Value: 1 (yes)
+
+notes: add patients.sampleWasCollected, int(11), default=null.  This data may be collected elsewhere where we will have a drop-down list.  As a result, these are not boolean responses.
+
+as this field is currently a boolean, this will probably need changed
+
+no default set in db, so both will be initially unchecked
+
+%>
+
+<% @subject.build_patient if @subject.patient.nil? %>
+<% f.fields_for :patient do |patient_fields| %>
+ <p>Are there blood and bone marrow samples available for shipment to CCLS?</p>
+ <p><%= patient_fields.radio_button :sample_was_collected, true %>
+  <%= patient_fields.label :sample_was_collected, 
+		'Yes --&gt; See Speciment Transmittal Form', :value => true %></p>
+ <p><%= patient_fields.radio_button :sample_was_collected, false %>
+  <%= patient_fields.label :sample_was_collected, 'No', :value => false %></p>
+<% end %>
 
 </div><!-- class='samples raf_section' -->

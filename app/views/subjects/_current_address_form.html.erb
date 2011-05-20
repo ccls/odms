@@ -11,7 +11,7 @@
   <div class='field_wrapper'>
    <%= address_fields.label :city, 'City, State Zip' %>
    <%= address_fields.text_field :city %>
-   <%= address_fields.select :state,State.abbreviations, {}, :class => 'state' %>
+   <%= address_fields.select :state,State.abbreviations, {:include_blank => true}, :class => 'state' %>
    <%= address_fields.text_field :zip, :class => :zip %>
   </div>
   <%= address_fields.wrapped_text_field :county %>
