@@ -374,6 +374,19 @@ form.raf .names .tablerow > span {
 	display:inline-block;
 	text-align:center;
 }
+/*
+form.raf .names .tablerow span.guardian {
+	margin-top: 13.333px;
+	margin-left: -20px;
+	width: 29em;
+	text-align:left;
+}
+*/
+form.raf .names .tablerow p.guardian {
+	display:inline-block;
+	margin-left: -20px;
+	width: 29em;
+}
 /* needs to be wider to fit the subject relationship selector */
 form.raf .names .tablerow span.big {
 	width: 16em;
