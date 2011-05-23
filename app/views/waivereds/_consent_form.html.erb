@@ -4,6 +4,7 @@
 	radio_button(object_name, method, tag_value, options = {})
 	label(object_name, method, content_or_options = nil, options = nil, &block)
 	check_box(object_name, method, options = {}, checked_value = "1", unchecked_value = "0")
+	text_area(object_name, method, options = {})
 %>
 
 <% @subject.enrollments.build if @subject.enrollments.empty? %>
@@ -36,11 +37,12 @@ NOT ALL DOCUMENT VERSIONS
 <%= enrollment_fields.radio_button :consented, 2 %>
 <%= enrollment_fields.label :consented, 'No -- Specify who refused...', 
 	:value => 2 %>
+<%= enrollment_fields.collection_select :refusal_reason_id,
+	 RefusalReason.all, :id, :to_s, :include_blank => true  %>
+</p><p>
+<%= enrollment_fields.wrapped_text_field :other_refusal_reason, :class => 'autosize' %>
 </p>
 
-<p>Family</p>
-<p>Physician</p>
-<p>Comments</p>
 
 <% end %>
 
