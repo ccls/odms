@@ -52,6 +52,8 @@ module SubjectsHelper
 		end if subject.try(:do_not_contact?)
 	end	#	id_bar_for
 
+
+#	Move this down with the subject_languages_select'r
 	def select_subject_races(subject)
 		#	NOTE THAT THIS PREFIX HAS ONLY THE FIRST LEFT SIDE [
 		prefix = "subject[subject_races_attributes"
@@ -114,6 +116,42 @@ module SubjectsHelper
 			s << "<br/>\n"
 		end.join()
 		selector << "</fieldset><!-- id='race_selector' -->\n"
+	end
+
+end
+
+
+
+ActionView::Helpers::FormBuilder.class_eval do
+
+	#	As this is a 'new' form, no need for '_destroy' options.
+	#	May be able to implement this simplicity for the races as well
+	def subject_languages_select( languages )
+		#		self.object  #	<-- the subject
+		language_ids = @template.params.dig('subject','subject_languages_attributes').try(
+			:collect) { |l| l[1]['language_id'] }
+
+		s = "<p>Language of parent or caretaker:</p><p>\n"
+
+		languages.each do |l|
+			sl = self.object.subject_languages.detect{|sl|sl.language_id == l.id } ||
+				self.object.subject_languages.build(:language => l)
+
+			self.fields_for( :subject_languages, sl ) do |sl_fields|
+				s << sl_fields.check_box( :language_id, {
+					:checked => language_ids.include?(sl_fields.object.language_id.to_s),
+				}, sl_fields.object.language_id, '' ) << "\n"
+
+				label = sl_fields.object.language.key.dup.capitalize
+				label << (( l.key == 'other' ) ? ' (not eligible)' : ' (eligible)')
+				s << sl_fields.label( :language_id, label ) << "\n"
+				if( l.key == 'other' )
+					s << sl_fields.label( :other, 'Specify other:' ) << "\n"
+					s << sl_fields.text_field( :other, :size => 12 ) << "\n"
+				end
+			end
+		end
+		s << "</p>\n"
 	end
 
 end

@@ -14,10 +14,7 @@
  </p>
 <% end %>
 
-
-<p>Language of parent or caretaker</p>
-<p>English (eligible)</p>
-<p>Spanish (eligible)</p>
+<%= f.subject_languages_select( [ Language['english'], Language['spanish'] ]) %>
 
 <% f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
