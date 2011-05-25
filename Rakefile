@@ -10,7 +10,8 @@ require 'rdoc/rdoc'
 
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+#require 'rake/rdoctask'
+require 'rdoc/task'
 
 require 'tasks/rails'
 
