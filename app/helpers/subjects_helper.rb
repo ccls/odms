@@ -1,26 +1,26 @@
 module SubjectsHelper
 
-	#	&uarr; and &darr;
-	def sort_link(column,text=nil)
-		order = column.to_s.downcase.gsub(/\s+/,'_')
-		dir = ( params[:dir] && params[:dir] == 'asc' ) ? 'desc' : 'asc'
-		link_text = text||column
-		classes = []	#[order]
-		arrow = ''
-		if params[:order] && params[:order] == order
-			classes.push('sorted')
-			arrow = if dir == 'desc'
-				"<span class='down arrow'>&darr;</span>"
-			else
-				"<span class='up arrow'>&uarr;</span>"
-			end
-		end
-		s = "<div class='#{classes.join(' ')}'>"
-		s << link_to(link_text,params.merge(:order => order,:dir => dir))
-		s << arrow unless arrow.blank?
-		s << "</div>"
-		s
-	end
+#	#	&uarr; and &darr;
+#	def sort_link(column,text=nil)
+#		order = column.to_s.downcase.gsub(/\s+/,'_')
+#		dir = ( params[:dir] && params[:dir] == 'asc' ) ? 'desc' : 'asc'
+#		link_text = text||column
+#		classes = []	#[order]
+#		arrow = ''
+#		if params[:order] && params[:order] == order
+#			classes.push('sorted')
+#			arrow = if dir == 'desc'
+#				"<span class='down arrow'>&darr;</span>"
+#			else
+#				"<span class='up arrow'>&uarr;</span>"
+#			end
+#		end
+#		s = "<div class='#{classes.join(' ')}'>"
+#		s << link_to(link_text,params.merge(:order => order,:dir => dir))
+#		s << arrow unless arrow.blank?
+#		s << "</div>"
+#		s
+#	end
 
 	#	Used to replace the _id_bar partial
 	def subject_id_bar(subject,&block)
