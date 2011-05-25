@@ -7,21 +7,23 @@ class ActiveSupport::TestCase
 
 #			:race_ids => [Race.random.id],
 	def complete_case_subject_attributes(options={})
+#	MUST use strings for keys and NOT symbols due to to_hash
+#	conversion for deep_merging
 		Factory.attributes_for(:subject,
-			:subject_type_id => SubjectType['Case'].id,
-			:subject_races_attributes => {
+			'subject_type_id' => SubjectType['Case'].id,
+			'subject_races_attributes' => {
 				"0"=>{"race_id"=>"1"} },
-			:subject_languages_attributes => {
+			'subject_languages_attributes' => {
 				"0"=>{"language_id"=>"1"} },
-			:pii_attributes => Factory.attributes_for(:pii),
-			:patient_attributes => Factory.attributes_for(:patient),
-			:identifier_attributes => Factory.attributes_for(:identifier),
-			:phone_numbers_attributes => [Factory.attributes_for(:phone_number)],
-			:addressings_attributes => [Factory.attributes_for(:addressing,
-				:address_attributes => Factory.attributes_for(:address,
-					:address_type => AddressType['residence'] ) )],
-			:enrollments_attributes => [Factory.attributes_for(:enrollment,
-				:project_id => Project['non-specific'].id)]
+			'pii_attributes' => Factory.attributes_for(:pii),
+			'patient_attributes' => Factory.attributes_for(:patient),
+			'identifier_attributes' => Factory.attributes_for(:identifier),
+			'phone_numbers_attributes' => [Factory.attributes_for(:phone_number)],
+			'addressings_attributes' => [Factory.attributes_for(:addressing,
+				'address_attributes' => Factory.attributes_for(:address,
+					'address_type_id' => AddressType['residence'].id ) )],
+			'enrollments_attributes' => [Factory.attributes_for(:enrollment,
+				'project_id' => Project['non-specific'].id)]
 		).deep_merge(options)
 	end
 

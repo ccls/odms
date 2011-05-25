@@ -7,7 +7,15 @@ class WaiveredsController < ApplicationController
 	end
 
 	def create
-		@subject = Subject.new(params[:subject])
+#	deep_merge does not work correctly with a HashWithIndifferentAccess
+#	convert to hash, but MUST use string keys, not symbols as
+#		real request do not send symbols
+		@subject = Subject.new(params[:subject].to_hash.deep_merge({
+			'identifier_attributes' => {
+				'orderno' => 0,
+				'case_control_type' => 'C'
+			}
+		}))
 		@subject.save!
 		redirect_to @subject
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid

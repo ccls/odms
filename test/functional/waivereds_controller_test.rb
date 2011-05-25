@@ -5,7 +5,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 	ASSERT_ACCESS_OPTIONS = { 
 		:model   => 'Subject',
 		:actions => [:new, :create],
-		:attributes_for_create => :factory_attributes,
+		:attributes_for_create => :complete_case_subject_attributes,
 		:method_for_create => :create_subject
 	}
 	def factory_attributes(options={})
@@ -28,15 +28,15 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		test "should create waivered case subject with #{cu} login" do
-			login_as send(cu)
-			assert_difference('Subject.count',1){
-			assert_difference('SubjectRace.count',1){
-				post :create, :subject => factory_attributes
-			} }
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:subject)
-		end
+#		test "should create waivered case subject with #{cu} login" do
+#			login_as send(cu)
+#			assert_difference('Subject.count',1){
+#			assert_difference('SubjectRace.count',1){
+#				post :create, :subject => factory_attributes
+#			} }
+#			assert_nil flash[:error]
+#			assert_redirected_to assigns(:subject)
+#		end
 
 		test "should create waivered case subject with complete attributes and #{cu} login" do
 			login_as send(cu)
@@ -45,13 +45,15 @@ class WaiveredsControllerTest < ActionController::TestCase
 			end
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:subject)
+			assert_equal 'C', assigns(:subject).identifier.case_control_type
+			assert_equal '0', assigns(:subject).identifier.orderno.to_s
 		end
 
 		test "should NOT create waivered case subject with invalid subject and #{cu} login" do
 			login_as send(cu)
 			Subject.any_instance.stubs(:valid?).returns(false)
 			assert_all_differences(0) do
-				post :create, :subject => factory_attributes
+				post :create, :subject => complete_case_subject_attributes
 			end
 			assert assigns(:subject)
 			assert_not_nil flash[:error]
@@ -63,7 +65,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Subject.any_instance.stubs(:create_or_update).returns(false)
 			assert_all_differences(0) do
-				post :create, :subject => factory_attributes
+				post :create, :subject => complete_case_subject_attributes
 			end
 			assert assigns(:subject)
 			assert_not_nil flash[:error]
@@ -78,7 +80,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create waivered case subject with #{cu} login" do
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, :subject => factory_attributes
+				post :create, :subject => complete_case_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -88,7 +90,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 	test "should NOT create waivered case subject without login" do
 		assert_all_differences(0) do
-			post :create, :subject => factory_attributes
+			post :create, :subject => complete_case_subject_attributes
 		end
 		assert_redirected_to_login
 	end
