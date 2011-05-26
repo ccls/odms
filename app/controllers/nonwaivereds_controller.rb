@@ -11,6 +11,7 @@ class NonwaiveredsController < ApplicationController
 #	convert to hash, but MUST use string keys, not symbols as
 #		real request do not send symbols
 		@subject = Subject.new(params[:subject].to_hash.deep_merge({
+			'subject_type_id' => SubjectType['Case'].id,
 			'identifier_attributes' => {
 				'orderno' => 0,
 				'case_control_type' => 'C'
