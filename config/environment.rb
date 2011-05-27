@@ -19,10 +19,6 @@ require File.join(File.dirname(__FILE__), 'boot')
 #	for controlling the path to documents.
 RAILS_APP_NAME = 'odms'
 
-#	great.  now I have to require i18n here too??? Why?
-#	didn't need it 10 minutes ago
-require 'i18n'
-
 Rails::Initializer.run do |config|
 
 	if RUBY_PLATFORM =~ /java/
@@ -45,6 +41,7 @@ Rails::Initializer.run do |config|
 	#	Without this, rake doesn't properly include that app/ paths
 	config.gem 'jakewendt-simply_authorized'
 	config.gem 'jakewendt-simply_pages'
+	config.gem 'jakewendt-simply_helpful'
 #	config.gem 'jakewendt-simply_trackable'
 
 	#	require it, but don't load it
