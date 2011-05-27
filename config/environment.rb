@@ -47,7 +47,7 @@ Rails::Initializer.run do |config|
 	#	require it, but don't load it
 	config.gem 'jakewendt-rdoc_rails', :lib => false
 
-	config.gem 'haml'      # Needed for Surveyor
+#	config.gem 'haml'      # Needed for Surveyor
 	#	Keep chronic here
 	config.gem "chronic"   #		http://chronic.rubyforge.org/
 	config.gem 'active_shipping'
