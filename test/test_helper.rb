@@ -11,8 +11,9 @@ class ActiveSupport::TestCase
 #	conversion for deep_merging
 		Factory.attributes_for(:subject,
 			'subject_type_id' => SubjectType['Case'].id,
-			'subject_races_attributes' => {
-				"0"=>{"race_id"=>"1"} },
+#	NOT on the form or currently required
+#			'subject_races_attributes' => {
+#				"0"=>{"race_id"=>"1"} },
 			'subject_languages_attributes' => {
 				"0"=>{"language_id"=>"1"} },
 			'pii_attributes' => Factory.attributes_for(:pii),
@@ -29,7 +30,7 @@ class ActiveSupport::TestCase
 
 	def assert_all_differences(count=0,&block)
 		assert_difference('Subject.count',count){
-		assert_difference('SubjectRace.count',count){
+#		assert_difference('SubjectRace.count',count){
 		assert_difference('SubjectLanguage.count',count){
 		assert_difference('Identifier.count',count){
 		assert_difference('Patient.count',count){
@@ -39,7 +40,7 @@ class ActiveSupport::TestCase
 		assert_difference('Addressing.count',count){
 		assert_difference('Address.count',count){
 			yield
-		} } } } } } } } } }
+		} } } } } } } } } #}
 	end
 
 
