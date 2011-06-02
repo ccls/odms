@@ -14,11 +14,11 @@ no default set in db, so both will be initially unchecked
 <% @subject.build_patient if @subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
  <p>Are there blood and bone marrow samples available for shipment to CCLS?</p>
- <p><%= patient_fields.radio_button :sample_was_collected, true %>
+ <p><%= patient_fields.radio_button :sample_was_collected, 1 %>
   <%= patient_fields.label :sample_was_collected, 
-		'Yes --&gt; See Specimen Transmittal Form', :value => true %></p>
- <p><%= patient_fields.radio_button :sample_was_collected, false %>
-  <%= patient_fields.label :sample_was_collected, 'No', :value => false %></p>
+		'Yes --&gt; See Specimen Transmittal Form', :value => 1 %></p>
+ <p><%= patient_fields.radio_button :sample_was_collected, 2 %>
+  <%= patient_fields.label :sample_was_collected, 'No', :value => 2 %></p>
 <% end %>
 
 </div><!-- class='samples raf_section' -->

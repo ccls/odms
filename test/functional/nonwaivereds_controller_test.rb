@@ -169,9 +169,7 @@ protected
 				"0"=>{"phone_number"=>"1234567890"}, "1"=>{"phone_number"=>""}
 			}, 
 			"patient_attributes"=>{
-#	still converting from boolean to integer	see ticket #6
-#	can still send nothing if neither radio button checked
-				"sample_was_collected"=>"true",				
+				"sample_was_collected"=>"1",				
 				"was_previously_treated"=>"false", 
 				"admitting_oncologist"=>"", 
 				"was_under_15_at_dx"=>"true", 
