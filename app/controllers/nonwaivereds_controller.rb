@@ -11,21 +11,17 @@ class NonwaiveredsController < ApplicationController
 #	convert to hash, but MUST use string keys, not symbols as
 #		real request do not send symbols
 
-#	TODO	#66
-#
-#	If a consent date has been supplied, 
-#		set consented equal to true, yes, 1 or whatever is right for the data type.
-#
-#	If no consent date has been supplied, 
-#		leave the consented field null too. 
-#
-		@subject = Subject.new(params[:subject].to_hash.deep_merge({
+		subject_params = params[:subject].to_hash.deep_merge({
 			'subject_type_id' => SubjectType['Case'].id,
 			'identifier_attributes' => {
 				'orderno' => 0,
 				'case_control_type' => 'C'
 			}
-		}))
+		})
+		unless subject_params.dig("enrollments_attributes","0","consented_on").blank?
+			subject_params["enrollments_attributes"]["0"]["consented"] = 1
+		end
+		@subject = Subject.new(subject_params)
 		@subject.save!
 		redirect_to @subject
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
