@@ -239,6 +239,8 @@ form.edit_sample .location_id.field_wrapper label {
 form.edit_subject .field_wrapper label {
 	width: 160px;
 }
+form.edit_subject #subject_patient_attributes_raf_zip,
+form.edit_subject #subject_patient_attributes_raf_county_id,
 form.edit_subject select#subject_vital_status_id,
 form.edit_subject select#subject_sex,
 form.edit_subject select#subject_subject_type_id {
@@ -398,6 +400,7 @@ form.raf .names p {
 	margin-bottom: 0;
 }
 
+form.raf .raf_county_id,
 form.raf .sex,
 form.raf .organization_id,
 form.raf .admit_date,
@@ -405,6 +408,7 @@ form.raf .childs.names {
 	display:inline-block;
 	clear:left;
 }
+form.raf .raf_zip ,
 form.raf .diagnosis_id ,
 form.raf .admitting_oncologist ,
 form.raf .dob ,
