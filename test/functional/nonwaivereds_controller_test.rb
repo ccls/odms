@@ -76,6 +76,33 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal  1 , assigns(:subject).enrollments.first.consented
 		end
 
+		test "should copy addressing address county to patient county with #{cu} login" do
+#	still need to figure out county / county_id stuff
+			login_as send(cu)
+			assert_all_differences(1) do
+				post :create, :subject => nonwaivered_form_attributes({
+#					"addressings_attributes"=>{ "0"=>{ "address_attributes"=> { :zip => 12345 } } }
+				})
+			end
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:subject)
+pending
+		end
+
+		test "should copy addressing address zip to patient zip with #{cu} login" do
+			login_as send(cu)
+			assert_all_differences(1) do
+				post :create, :subject => nonwaivered_form_attributes({
+					"addressings_attributes"=>{ "0"=>{ "address_attributes"=> { :zip => '54321' } } }
+				})
+			end
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:subject)
+			assert_equal       1, assigns(:subject).addresses.length
+			assert_equal '54321', assigns(:subject).addresses.first.zip
+			assert_equal '54321', assigns(:subject).reload.patient.raf_zip
+		end
+
 		test "should NOT create nonwaivered case subject with invalid subject and #{cu} login" do
 			login_as send(cu)
 			Subject.any_instance.stubs(:valid?).returns(false)
