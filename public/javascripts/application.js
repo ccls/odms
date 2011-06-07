@@ -18,13 +18,6 @@ jQuery(function(){
 		return false;
 	});
 
-/*
-	jQuery('button.link').click(function(){
-		window.location.href = jQuery(this).find('span.href').text();
-	});
-*/
-
-
 	jQuery('form.destroy_link_to').submit(function(){
 		var message = "Destroy?  Seriously?"
 		if( this.confirm && this.confirm.value ) {
@@ -67,6 +60,20 @@ jQuery(function(){
 		}
 	});
 
+	jQuery('#subject_patient_attributes_raf_zip').change(function(){
+		var address_zip = jQuery('#subject_addressings_attributes_0_address_attributes_zip');
+		if( address_zip && !address_zip.val() ){
+			address_zip.val(jQuery(this).val());
+		}
+	});
+/*
+	jQuery('#subject_patient_attributes_raf_county').change(function(){
+		var address_county = jQuery('#subject_addressings_attributes_0_address_attributes_county');
+		if( address_county && !address_county.val() ){
+			address_county.val(jQuery(this).val());
+		}
+	});
+*/
 });
 
 var submit_form = function() {

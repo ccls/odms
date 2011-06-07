@@ -1,7 +1,10 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<link rel="shortcut icon" href="<%=image_path('cal.ico')%>" />
+<%# explicity adding root_url to href making an absolute path
+	actually allows the cal icon to load %>
+<link rel="shortcut icon" href="<%=root_url%><%=image_path('cal.ico')%>" />
 <title><%= @page_title || "UCB SPH CCLS" -%></title>
+<%# 'base/jquery.ui.all.css' has become common enough to load globally %>
 <%= stylesheet_link_tag :defaults,'simply_helpful','base/jquery.ui.all.css' %>
 <%= javascript_include_tag :defaults,'simply_helpful' %>
 <%= yield :head %>

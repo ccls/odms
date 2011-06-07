@@ -1,9 +1,10 @@
-<% stylesheets('base/jquery.ui.all.css') %><%# for datepicker %>
+<%# stylesheets('base/jquery.ui.all.css') %><%# for datepicker %>
+<% stylesheets(:raf) %>
+
 <h3>Rapid Ascertainment Form (RAF) - waiver version</h3>
 
 <% form_for(@subject, :url => waivered_path,
 	:html => { :class => 'waivered raf edit_subject' }) do |f| %>
-<%#= render 'form', :f => f %>
 
 <%= f.error_messages %>
 <%= f.hidden_field :subject_type_id, :value => SubjectType['Case'].id %>

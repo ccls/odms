@@ -1,0 +1,83 @@
+
+h3 > span {
+	float:right;
+	font-size:10pt;
+	font-weight:normal;
+}
+
+form.raf {
+	border: 2px solid black;
+	border-top-width: 1px;
+}
+form.raf h3 {
+	background-color: gray;
+	color:white;
+	padding: 7px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	margin-top: 0;
+}
+form.raf .raf_section {
+	margin:5px;
+}
+form.raf #errorExplanation {
+	margin:5px;
+}
+
+/*
+form.raf .names {
+	width: 100%;
+}
+*/
+form.raf .names input {
+	width: 10em;
+}
+form.raf .names .tablerow {
+	margin-left: 20px;
+}
+form.raf .names .tablerow > span {
+	width: 9em;
+	display:inline-block;
+	text-align:center;
+}
+/*
+form.raf .names .tablerow span.guardian {
+	margin-top: 13.333px;
+	margin-left: -20px;
+	width: 29em;
+	text-align:left;
+}
+*/
+form.raf .names .tablerow p.guardian {
+	display:inline-block;
+	margin-left: -20px;
+	width: 29em;
+}
+/* needs to be wider to fit the subject relationship selector */
+form.raf .names .tablerow span.big {
+	width: 16em;
+}
+form.raf .organization_id p,
+form.raf .admitting_oncologist p,
+form.raf .hospital_no p,
+form.raf .names p {
+	margin-bottom: 0;
+}
+
+form.raf .raf_county_id,
+form.raf .sex,
+form.raf .organization_id,
+form.raf .admit_date,
+form.raf .childs.names {
+	display:inline-block;
+	clear:left;
+}
+form.raf .raf_zip ,
+form.raf .diagnosis_id ,
+form.raf .admitting_oncologist ,
+form.raf .dob ,
+form.raf .hospital_no {
+	margin-right:10px;
+	float:right;
+	clear:none;
+}
