@@ -67,14 +67,17 @@ jQuery(function(){
 			address_zip.val(jQuery(this).val());
 		}
 	});
-/*
-	jQuery('#subject_patient_attributes_raf_county').change(function(){
+
+	jQuery('#subject_patient_attributes_raf_county_id').change(function(){
 		var address_county = jQuery('#subject_addressings_attributes_0_address_attributes_county');
 		if( address_county && !address_county.val() ){
-			address_county.val(jQuery(this).val());
+/*
+	This is still incomplete as we'll probably use county_id and not just county
+*/
+			address_county.val(jQuery(this).find('option:selected').text());
 		}
 	});
-*/
+
 });
 
 var submit_form = function() {

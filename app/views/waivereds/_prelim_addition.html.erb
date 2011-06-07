@@ -2,7 +2,8 @@
 <% @subject.build_patient if @subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
 
-	<%= patient_fields.wrapped_text_field :raf_county_id,
+	<%= patient_fields.wrapped_collection_select :raf_county_id,
+		County.all(:conditions => {:state_abbrev => 'CA'}), :id, :to_s, :include_blank => true,
 		:label_text => 'county:' %>
 
 	<%= patient_fields.wrapped_text_field :raf_zip,
