@@ -27,6 +27,8 @@ class NonwaiveredsController < ApplicationController
 		subject_params["patient_attributes"]||={}
 		subject_params["patient_attributes"]["raf_zip"] = 
 			subject_params.dig("addressings_attributes","0","address_attributes","zip")
+
+#	tough one here
 #		subject_params["patient_attributes"]["raf_county_id"] = 
 #			subject_params.dig("addressings_attributes","0","address_attributes","county")
 
