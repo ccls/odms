@@ -62,6 +62,7 @@ jQuery(function(){
 
 	jQuery('#subject_patient_attributes_raf_zip').change(function(){
 		var address_zip = jQuery('#subject_addressings_attributes_0_address_attributes_zip');
+		/* only copy in the value of the target is empty */
 		if( address_zip && !address_zip.val() ){
 			address_zip.val(jQuery(this).val());
 		}
