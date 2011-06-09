@@ -166,6 +166,8 @@ protected
 				}
 			}, 
 			"patient_attributes"=>{
+				"raf_zip" => '12345',
+				"raf_county" => "some county, usa",
 				"was_previously_treated"=>"false", 
 				"admitting_oncologist"=>"", 
 				"was_under_15_at_dx"=>"true", 

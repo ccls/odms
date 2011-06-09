@@ -64,7 +64,7 @@ form.raf .names p {
 	margin-bottom: 0;
 }
 
-form.raf .raf_county_id,
+form.raf .raf_county,
 form.raf .sex,
 form.raf .organization_id,
 form.raf .admit_date,
@@ -80,4 +80,10 @@ form.raf .hospital_no {
 	margin-right:10px;
 	float:right;
 	clear:none;
+}
+
+
+form.raf #subject_patient_attributes_raf_zip,
+form.raf #subject_patient_attributes_raf_county {
+	width: 170px;
 }

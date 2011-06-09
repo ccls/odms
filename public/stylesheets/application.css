@@ -241,8 +241,7 @@ form.edit_sample .location_id.field_wrapper label {
 form.edit_subject .field_wrapper label {
 	width: 160px;
 }
-form.edit_subject #subject_patient_attributes_raf_zip,
-form.edit_subject #subject_patient_attributes_raf_county_id,
+
 form.edit_subject select#subject_vital_status_id,
 form.edit_subject select#subject_sex,
 form.edit_subject select#subject_subject_type_id {

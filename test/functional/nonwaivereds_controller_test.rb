@@ -77,16 +77,17 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		end
 
 		test "should copy addressing address county to patient county with #{cu} login" do
-#	still need to figure out county / county_id stuff
 			login_as send(cu)
 			assert_all_differences(1) do
 				post :create, :subject => nonwaivered_form_attributes({
-#					"addressings_attributes"=>{ "0"=>{ "address_attributes"=> { :zip => 12345 } } }
+					"addressings_attributes"=>{ "0"=>{ "address_attributes"=> { :county => 'Alameda' } } }
 				})
 			end
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:subject)
-pending
+			assert_equal         1, assigns(:subject).addresses.length
+			assert_equal 'Alameda', assigns(:subject).addresses.first.county
+			assert_equal 'Alameda', assigns(:subject).reload.patient.raf_county
 		end
 
 		test "should copy addressing address zip to patient zip with #{cu} login" do
