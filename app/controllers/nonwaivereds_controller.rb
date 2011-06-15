@@ -10,10 +10,11 @@ class NonwaiveredsController < ApplicationController
 		#	deep_merge does not work correctly with a HashWithIndifferentAccess
 		#	convert to hash, but MUST use string keys, not symbols as
 		#		real requests do not send symbols
+#	hopefully, these options will be done from within the subject model
 		subject_params = params[:subject].to_hash.deep_merge({
 			'subject_type_id' => SubjectType['Case'].id,
 			'identifier_attributes' => {
-				'orderno' => 0,
+#				'orderno' => 0,
 				'case_control_type' => 'C'
 			}
 		})
