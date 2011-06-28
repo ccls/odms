@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101029522608) do
+ActiveRecord::Schema.define(:version => 20110628164453) do
 
   create_table "guides", :force => true do |t|
     t.string   "controller"
