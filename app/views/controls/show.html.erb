@@ -2,11 +2,25 @@
 <% id_bar_for(@subject) %>
 
 <h3>Related Subjects</h3>
-
-studyid, name, subject type, dob
+<% if @controls.empty? %>
+ <p>No matching subjects found.</p>
+<% else %>
+ <table><thead><tr>
+  <th>studyid</th><th>name</th><th>subject type</th><th>dob</th>
+ </tr></thead><tbody>
+  <% @controls.each do |control| %>
+   <tr>
+    <td><%= link_to(control.studyid,subject_path(control)) %></td>
+    <td><%= control.full_name %></td>
+    <td><%= control.subject_type %></td>
+    <td><%=mdy control.dob %></td>
+   </tr>
+  <% end %>
+ </tbody></table>
+<% end %>
 
 
 <h4>Rejected Controls</h4>
 
-name, sex, dob, comments (resonse for rejection)
-
+<p>name, sex, dob, comments (reason for rejection)</p>
+<p>pending clarification of how controls are marked as rejected</p>

@@ -6,13 +6,20 @@ class ControlsController < ApplicationController
 
 	def new
 		unless params[:patid].blank?
-#	search on subject_type == case or case_control_type == 'C' ?
+#	TODO search on subject_type == case or case_control_type == 'C' ?
 #	This redundancy is becoming an issue.
+#	Try to stop using Subject.search for simple one-off things
 			@subject = Subject.search(:patid => params[:patid], :types => 'case').first
 		end
 	end
 
 	def show
+#	TODO I thought that this should match on matchingid NOT patid?
+#	No.  Matchingid would match the subjectid, NOT patid
+		@controls = Subject.find(:all, :joins => :identifier, 
+			:conditions => [
+				"subjects.id != ? AND identifiers.patid = ?", @subject.id, @subject.patid ] 
+		)
 	end
 
 protected
