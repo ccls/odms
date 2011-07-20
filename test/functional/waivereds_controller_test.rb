@@ -121,7 +121,7 @@ protected
 			"subject_type_id"=>"1", 
 			"sex"=>"M", 
 			"identifier_attributes"=> Factory.attributes_for(:identifier),
-# won't work until patid and childid are auto-generated
+# TODO won't work until patid and childid are auto-generated
 #			"identifier_attributes"=>{
 #				"hospital_no"=>""
 #			}, 
@@ -156,10 +156,10 @@ protected
 			}, 
 			"enrollments_attributes"=>{
 #	consented does not have a default value, so can send nothing if one button not checked
-#	add consented field
+#	TODO add consented field
 				"0"=>{
 					"other_refusal_reason"=>"", 
-					"project_id"=>"7", 
+					"project_id"=> Project['phase5'].id,	#"7", 
 					"consented_on"=>"", 
 					"document_version_id"=>"", 
 					"refusal_reason_id"=>""

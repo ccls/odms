@@ -9,7 +9,7 @@
 
 <% @subject.enrollments.build if @subject.enrollments.empty? %>
 <% f.fields_for :enrollments do |enrollment_fields| %>
-<%= enrollment_fields.hidden_field :project_id, :value => Project['non-specific'].id %>
+<%= enrollment_fields.hidden_field :project_id, :value => Project['phase5'].id %>
 
 <p>
 <%= enrollment_fields.radio_button :consented, 1 %>

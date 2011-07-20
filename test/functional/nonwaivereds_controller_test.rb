@@ -191,7 +191,8 @@ protected
 				}
 			}, 
 			"enrollments_attributes"=>{
-				"0"=>{"project_id"=>"7", "consented_on"=>"", "document_version_id"=>""}
+				"0"=>{"project_id"=> Project['phase5'].id,	#	"7", 
+					"consented_on"=>"", "document_version_id"=>""}
 			}, 
 			"phone_numbers_attributes"=>{
 				"0"=>{"phone_number"=>"1234567890"}, "1"=>{"phone_number"=>""}
