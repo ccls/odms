@@ -4,7 +4,7 @@
 <%= submit_tag 'find', :name => nil %>
 </p>
 <div><span>Try one of ...</span>
-<%= ["0004", "0014", "0015", "0019", "0025", "0043", "0053", "0065", "0069", "0072", "0076", "0079", "0085", "0090", "0444", "0469", "0485", "0488", "0493", "0495", "0497", "0503", "0503", "0504", "0510"].collect{|p| link_to(p, control_path(:patid => p)) }.join(', ') %></div>
+<%= Subject.search(:types => 'case').collect(&:patid).sort.collect{|p| link_to(p, control_path(:patid => p)) }.join(', ') %></div>
 <% end %>
 
 <% unless params[:patid].blank? %>
