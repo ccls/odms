@@ -109,6 +109,11 @@ div.menu_item {
 	border-right: 1px solid gray;
 	border-bottom: 1px solid gray;
 	display:none;
+
+	/* box-shadow: <horizontal> <vertical> <blur> <color> */
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 /*
 .sub_menu a,
