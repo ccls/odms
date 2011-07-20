@@ -3,7 +3,7 @@
 <%# explicity adding root_url to href making an absolute path
 	actually allows the cal icon to load %>
 <link rel="shortcut icon" href="<%=root_url%><%=image_path('cal.ico')%>" />
-<title><%= @page_title || "UCB SPH CCLS" -%></title>
+<title><%= @page_title || "CCLS ODMS" -%></title>
 <%= stylesheet_link_tag    :ccls,'simply_helpful','base/jquery.ui.all.css' %>
 <%= javascript_include_tag :ccls,'simply_helpful' %>
 <%= yield :head %>
