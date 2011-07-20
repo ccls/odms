@@ -1,0 +1,3 @@
+class BcRequestsController < ApplicationController
+
+end

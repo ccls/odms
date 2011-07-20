@@ -10,6 +10,7 @@ module ApplicationHelper
 				link_to('Dashboard', dashboard_subjects_path),
 				link_to('Add Case', new_case_path),
 				link_to('Add Control', new_control_path),
+				link_to('Manage Birth Certificates', bc_requests_path),
 				link_to( "Browse Subjects", subjects_path )
 #				"<span>Basic Info - Read</span>",
 #				"<span>Basic Info - Edit</span>",
@@ -47,6 +48,58 @@ module ApplicationHelper
 			when Subject   then subject_sub_menu(object)
 #			when Interview then interview_sub_menu(object)
 			else nil
+		end
+	end
+
+	def bc_requests_sub_menu
+		current = nil
+#		current = case controller.class.name.sub(/Controller$/,'')
+#			when *%w( Subjects ) then :general
+#			when *%w( Patients ) then :hospital
+#			when *%w( Addresses Addressings Contacts PhoneNumbers 
+#				) then :contact
+#			when *%w( Enrollments ) then :eligibility
+#			when *%w( Events ) then :events
+#			else nil
+#		end
+		content_for :side_menu do
+			s = "<div id='sidemenu'>\n"
+#			l=[link_to( 'general', subject_path(subject),
+#				:class => ((current == :general)?'current':nil)
+#			)]
+#			l.push(link_to( 'hospital', subject_patient_path(subject),
+#				:class => ((current == :hospital)?'current':nil)
+#			)) #if subject.is_case?
+#			l.push(link_to( 'address/contact', subject_contacts_path(subject),
+#				:class => ((current == :contact)?'current':nil)))
+#			l.push(link_to( 'eligibility/enrollments', 
+#				subject_enrollments_path(subject),
+#				:class => ((current == :eligibility)?'current':nil)))
+#			l.push(link_to( 'events', 
+#				subject_events_path(subject),
+#				:class => ((current == :events)?'current':nil)))
+#			s << l.join("\n")
+			s << [
+				"<span>New BC Request</span>",
+				"<span>Pending Requests</span>",
+				"<span>BC Validation</span>",
+				"<span>Request History</span>"
+#				link_to( "Basic Info", subject_path(subject) ),
+#				link_to( "Address &amp; Phone", subject_contacts_path(subject) ),
+#				"<span>Address &amp; Phone</span>",
+#				link_to( "Hospital / Medical", subject_patient_path(subject) ),
+#				"<span>Hospital / Medical</span>",
+#				"<span>Eligibility &amp; Consent</span>",
+#				link_to( "Enrollments",subject_enrollments_path(subject) ),
+#				"<span>Enrollments</span>",
+#				"<span>Samples</span>",
+#				"<span>Interviews</span>",
+#				link_to( "Events", subject_events_path(subject) ),
+#				"<span>Events</span>",
+#				"<span>Documents</span>",
+#				"<span>Notes</span>"
+			].join("\n")
+			s << "\n</div><!-- submenu -->\n"
 		end
 	end
 

@@ -102,9 +102,11 @@ div#guidance {
 	padding: 0 9px;
 	font-size: 10pt;
 }
+/* No longer needed as set table-cell vertical alignment to top
 div#guidance h3 {
 	margin-top: 0;
 }
+*/
 
 #footer {
 	clear:both;
