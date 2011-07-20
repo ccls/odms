@@ -1,27 +1,9 @@
-<% form_tag(control_path,:method => :get) do %>
-<p><span>Enter the PatID of the related case subject:</span>
-<%= text_field_tag :patid, params[:patid], :id => nil  %>
-<%= submit_tag 'find', :name => nil %>
-</p>
-<div><span>Try one of ...</span>
-<%= Subject.search(:types => 'case').collect(&:patid).sort.collect{|p| link_to(p, control_path(:patid => p)) }.join(', ') %></div>
-<% end %>
+<h3>Related Subjects</h3>
 
-<% unless params[:patid].blank? %>
-<div id='case_subject'>
-<% if @subject %>
-<h4><%= @subject.studyid %>&nbsp;:&nbsp;<%= @subject.full_name %></h4>
-<ul>
-<li>ICF Master ID:&nbsp;<%#= @subject.icf_master_id %></li>
-<li>sex:&nbsp;<%= @subject.sex %></li>
-<li>DOB:&nbsp;<%=mdy @subject.dob %></li>
-<li>race:&nbsp;<%= @subject.races %></li>
-<li>hispanicity:&nbsp;<%#= @subject.hispanicity %> </li>
-<li>reference date:&nbsp;<%=mdy @subject.reference_date %></li>
-</ul>
-[insert continue button here]
-<% else %>
-<p>No case subject found with patid:<%=params[:patid]%></p>
-<% end %>
-</div><!-- id='case_subject' -->
-<% end %>
+studyid, name, subject type, dob
+
+
+<h4>Rejected Controls</h4>
+
+name, sex, dob, comments (resonse for rejection)
+

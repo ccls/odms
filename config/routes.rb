@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
 #			:only => [:index]
 	end
 
-	map.resource  :control, :only => [:show]
+	map.resources :controls, :only => [:new,:show]
 	map.resource  :case, :only => [:new]
 	map.resource  :waivered, :only => [:new,:create]
 	map.resource  :nonwaivered, :only => [:new,:create]

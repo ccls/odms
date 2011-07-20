@@ -3,7 +3,7 @@ require 'test_helper'
 class ControlsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = { 
-		:actions => [:show]
+		:actions => [:new]
 	}
 
 	assert_access_with_login({
@@ -21,7 +21,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should return nothing without matching patid and #{cu} login" do
 			login_as send(cu)
-			get :show, :patid => 'donotmatchpatid'
+			get :new, :patid => 'donotmatchpatid'
 			assert_nil assigns(:subject)
 		end
 
@@ -29,7 +29,7 @@ class ControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_subject = create_case_subject(
 				'identifier_attributes' => { 'case_control_type' => 'C' })
-			get :show, :patid => case_subject.patid
+			get :new, :patid => case_subject.patid
 			assert_not_nil assigns(:subject)
 			assert_equal case_subject, assigns(:subject)
 		end
