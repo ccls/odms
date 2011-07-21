@@ -1,0 +1,275 @@
+--- 
+guides_17: 
+  action: edit
+  body: |-
+    **What does "don't know" mean?**  Use don't know when you have specifically reviewed hard copy and other CCLS documentation and have determined that we don't have the answer to the question.  Otherwise, leave the response blank.
+    
+    **What's the difference between 'valid' and 'current address?'**
+    
+    When we learn specifically that an address for a subject is no longer good or conversely is accurate, we indicate either by changing the valid? setting.  
+    
+    If the address is bad, we may not be sure why -- we just know that we can't reach the subject there.  In that event, we set valid? to "No."  On the other hand, if we know it's invalid because we have learned that a subject has moved, we set both valid? and "current address" to "no".  
+    
+    For example, a newsletter is returned as undeliverable (valid? = no) but we receive an address service post card from the USPS with a new address (current address = no', new address added in system).  
+    
+    **Examples**
+    
+    Birth Certificate address:  valid? "yes" (from a known, reliable source); verified? "yes" (known, reliable source); current address? blank or "don't know"; address at diagnosis: blank or "don't know"
+    
+    RAF addresses:  valid? "yes", verified? "yes" (provided by respondent at diagnosis), current address? "yes", address at diagnosis? "yes"
+    
+    subject moves:  valid? "yes", verified? "yes" (because we only know a subject has moved when we've received some sort of notification), current address? "yes" (for new address, change old address to "no"), address at diagnosis? "no" 
+    
+    address of unknown origin (existing addresses, addresses from SRC with no supporting info, etc.):  blank or "don't know" for all responses until such time as an interviewer or other staff member has verified the address information or determined it is invalid.
+    
+    **More Guidance**
+    
+    **Address Type:**  If adding a new residence address for an existing subject, please be certain to change any previous residence addresses so that "Current Address" = "No."  Except in rare instances, subjects should have only one current residence.
+    
+    **Valid?:**  Have we learned that attempts to contact subject at the address shown fail; e.g., a letter been returned by the postal service.  Or we have confirmed unequivocally that it is accurate; e.g., an Interviewer verified the address with a respondent.  
+    
+    If the address is invalid, an explanation is required (e.g. "newsletter returned as undeliverable").  This is used in conjunction with "current address" when a subject moves.  (See above for explanation.)
+    
+    **Verified?:**  If the address has been verified by some mechanism, indicate that it has by checking this box and providing specifics.  Examples: "USPS address service card received," "interviewer confirmed address with respondent," etc.
+    
+    **Current address:**  A respondent may have more than one current address.  However, that is to permit tracking of a current residence, current mailing address, current work address, etc.  If a respondent changes residence, however, be sure to change "current address?" to no for the previous address.
+  controller: addressings
+  id: 17
+guides_18: 
+  action: new
+  body: |-
+    **What does "don't know" mean?**  Use don't know when you have specifically reviewed hard copy and other CCLS documentation and have determined that we don't have the answer to the question.  Otherwise, leave the response blank.
+    
+    **What's the difference between 'valid' and 'current address?'**
+    
+    When we learn specifically that an address for a subject is no longer good or conversely is accurate, we indicate either by changing the valid? setting.  
+    
+    If the address is bad, we may not be sure why -- we just know that we can't reach the subject there.  In that event, we set valid? to "No."  On the other hand, if we know it's invalid because we have learned that a subject has moved, we set both valid? and "current address" to "no".  
+    
+    For example, a newsletter is returned as undeliverable (valid? = no) but we receive an address service post card from the USPS with a new address (current address = no', new address added in system).  
+    
+    **Examples**
+    
+    Birth Certificate address:  valid? "yes" (from a known, reliable source); verified? "yes" (known, reliable source); current address? blank or "don't know"; address at diagnosis: blank or "don't know"
+    
+    RAF addresses:  valid? "yes", verified? "yes" (provided by respondent at diagnosis), current address? "yes", address at diagnosis? "yes"
+    
+    subject moves:  valid? "yes", verified? "yes" (because we only know a subject has moved when we've received some sort of notification), current address? "yes" (for new address, change old address to "no"), address at diagnosis? "no" 
+    
+    address of unknown origin (existing addresses, addresses from SRC with no supporting info, etc.):  blank or "don't know" for all responses until such time as an interviewer or other staff member has verified the address information or determined it is invalid.
+    
+    **More Guidance**
+    
+    **Address Type:**  If adding a new residence address for an existing subject, please be certain to change any previous residence addresses so that "Current Address" = "No."  Except in rare instances, subjects should have only one current residence.
+    
+    **Valid?:**  Have we learned that attempts to contact subject at the address shown fail; e.g., a letter been returned by the postal service.  Or we have confirmed unequivocally that it is accurate; e.g., an Interviewer verified the address with a respondent.  
+    
+    If the address is invalid, an explanation is required (e.g. "newsletter returned as undeliverable").  This is used in conjunction with "current address" when a subject moves.  (See above for explanation.)
+    
+    **Verified?:**  If the address has been verified by some mechanism, indicate that it has by checking this box and providing specifics.  Examples: "USPS address service card received," "interviewer confirmed address with respondent," etc.
+    
+    **Current address:**  A respondent may have more than one current address.  However, that is to permit tracking of a current residence, current mailing address, current work address, etc.  If a respondent changes residence, however, be sure to change "current address?" to no for the previous address.
+  controller: addressings
+  id: 18
+guides_6: 
+  action: index
+  body: |-
+    A subject may have multiple current addresses and phone numbers to accommodate work, mailing and residential information.
+    
+    New addresses and phone numbers may be added by clicking the "add new" link under the last item listed in each section. 
+    
+    Corrections to current addresses and phone numbers may be made by clicking the edit link to their right. 
+    
+    *Note:* Although the system maintains a history of addresses, edits to modify current records are destructive -- that is, *we do not keep a history of the old information once it has been changed*
+    
+    Addresses in the history are not editable in this system.  If a correction must be made to an address that is not current, please notify Barbara Rizzo or Magee Mooney.
+  controller: contacts
+  id: 6
+guides_20: 
+  action: edit
+  body: |-
+    *is candidate?* -- was this subject part of a pool of subjects identified as subjects to evaluate for participation in this study
+    
+    *able to locate?* -- confirmation that we have successfully reached a candidate in order to attempt to obtain consent.
+    
+    *is eligible* -- based upon Home Exposures protocol.  See Monique if you have questions.
+    
+    *chosen to participate?* -- not all eligible candidates are chosen to be part of a study.  This flag indicates those who we have chosen.
+    
+    *consented?* -- has the subject consented or declined to participate in the study.  Leave blank of consent status hasn't yet been determined.  Provide the date that consent was given or denied (eg. via interviewer or form).  If "Don't Know," provide the date of data entry.
+    
+    *terminated participation* -- the study subject terminated participation after having begun for some reason other than change in eligibility.  (i.e., multiple attempts to complete a phone interview fail)
+    
+    *completed?* -- study participant completed all study requirements.
+    
+    *Notes* -- any other information related  to eligibility and participation in the study that CCLS would like to keep.
+  controller: enrollments
+  id: 20
+guides_12: 
+  action: index
+  body: enrollments stuff
+  controller: enrollments
+  id: 12
+guides_11: 
+  action: show
+  body: |-
+    *is candidate?* -- was this subject part of a pool of subjects identified as subjects to evaluate for participation in this study
+    
+    *able to locate?* -- confirmation that we have successfully reached a candidate in order to attempt to obtain consent.
+    
+    *is eligible* -- based upon Home Exposures protocol.  See Monique if you have questions.
+    
+    *chosen to participate?* -- not all eligible candidates are chosen to be part of a study.  This flag indicates those who we have chosen.
+    
+    *consented?* -- has the subject consented or declined to participate in the study.  Leave blank of consent status hasn't yet been determined.  Provide the date that consent was given or denied (eg. via interviewer or form).  If "Don't Know," provide the date of data entry.
+    
+    *terminated participation* -- the study subject terminated participation after having begun for some reason other than change in eligibility.  (i.e., multiple attempts to complete a phone interview fail)
+    
+    *completed?* -- study participant completed all study requirements.
+    
+    *Notes* -- any other information related  to eligibility and participation in the study that CCLS would like to keep.
+  controller: enrollments
+  id: 11
+guides_16: 
+  action: index
+  body: |-
+    **Subjects** -- all candidate CCLS study participants considered for participation in the Home Exposures study.  This section is where basic subject information can be found (e.g., addresses, DOB, eligibility and consent info., etc.
+    
+    **Interview** -- all candidate CCLS study participants are listed.  From that section, manage interview scheduling, general information about interviews (respondent, date, language, etc.) and interview data entry.
+    
+    **Samples** -- dust samples collected as part of the Home Exposures study are managed in this section.  The landing page only shows subjects who have completed the Interview.
+    
+    **Follow up** -- Track gift cards, issue thank you letters, etc.  Only subjects who have completed both the interview and have sent in dust samples appear on the landing page for this section.
+  controller: followup/subjects
+  id: 16
+guides_13: 
+  action: edit
+  body: |
+    If you have any questions about the controller or action name to enter, contact Magee or Jake.
+    
+    The most common action options are:
+    
+    *index* -- often list-like or "landing" pages
+    *new* -- for new entries
+    *show* -- for showing information in existing entries
+    *edit* -- for editing existing entries
+    
+    Controller names are usually be found in the URL.  The are most often plural nouns and are often found in the last section before (e.g. *subjects*/new, *subjects*/3/edit, etc. or the last section itself (e.g., /*subjects*)
+
+  controller: guides
+  id: 13
+guides_3: 
+  action: index
+  body: This is the guides / index
+  controller: guides
+  id: 3
+guides_10: 
+  action: show
+  body: |-
+    **Subjects** -- all candidate CCLS study participants considered for participation in the Home Exposures study.  This section is where basic subject information can be found (e.g., addresses, DOB, eligibility and consent info., etc.
+    
+    **Interview** -- all candidate CCLS study participants are listed.  From that section, manage interview scheduling, general information about interviews (respondent, date, language, etc.) and interview data entry.
+    
+    **Samples** -- dust samples collected as part of the Home Exposures study are managed in this section.  The landing page only shows subjects who have completed the Interview.
+    
+    **Follow up** -- Track gift cards, issue thank you letters, etc.  Only subjects who have completed both the interview and have sent in dust samples appear on the landing page for this section.
+  controller: home_exposures
+  id: 10
+guides_2: 
+  action: index
+  body: |-
+    **Subjects** -- all candidate CCLS study participants considered for participation in the Home Exposures study.  This section is where basic subject information can be found (e.g., addresses, DOB, eligibility and consent info., etc.
+    
+    **Interview** -- all candidate CCLS study participants are listed.  From that section, manage interview scheduling, general information about interviews (respondent, date, language, etc.) and interview data entry.
+    
+    **Samples** -- dust samples collected as part of the Home Exposures study are managed in this section.  The landing page only shows subjects who have completed the Interview.
+    
+    **Follow up** -- Track gift cards, issue thank you letters, etc.  Only subjects who have completed both the interview and have sent in dust samples appear on the landing page for this section.
+  controller: interview/subjects
+  id: 2
+guides_7: 
+  action: show
+  body: |-
+    Hospital information only exists for case subjects only.  
+    
+    To find hospital information for the case related to a control, enter the patid of the current subject in the find box at top and press "find."  This will display a list of all cases and controls with that patid (and perhaps a few other subjects).  
+    
+    Click the subject whose studyID begins with the patid you specified followed by "-C-O" to navigate to the hospital information for the control's related case.
+    
+    *PatID*
+    The subject's patid is the first section of the three part studyID.  That is, given a studyid of 1048-C-0, the first section "1048" is that subject's patid.
+    
+    *Diagnosis/Reference Date*
+    Only Case Subjects have a Diagnosis Date.  However, this date is used as a point of reference for many study operations regardless of subject type so a Reference Date exists for all subjects.  Diagnosis date and Reference date are always identical.
+  controller: patients
+  id: 7
+guides_4: 
+  action: edit
+  body: |-
+    CCLS does not maintain a phone number history.  Only current phone numbers are kept in the system.
+    
+    Consequently, any changes to this phone number are destructive.  That is, you will lose the previous number that was listed.
+  controller: phone_numbers
+  id: 4
+guides_15: 
+  action: index
+  body: |-
+    **Subjects** -- all candidate CCLS study participants considered for participation in the Home Exposures study.  This section is where basic subject information can be found (e.g., addresses, DOB, eligibility and consent info., etc.
+    
+    **Interview** -- all candidate CCLS study participants are listed.  From that section, manage interview scheduling, general information about interviews (respondent, date, language, etc.) and interview data entry.
+    
+    **Samples** -- dust samples collected as part of the Home Exposures study are managed in this section.  The landing page only shows subjects who have completed the Interview.
+    
+    **Follow up** -- Track gift cards, issue thank you letters, etc.  Only subjects who have completed both the interview and have sent in dust samples appear on the landing page for this section.
+  controller: sample/subjects
+  id: 15
+guides_14: 
+  action: show
+  body: |-
+    **Subjects** -- all candidate CCLS study participants considered for participation in the Home Exposures study.  This section is where basic subject information can be found (e.g., addresses, DOB, eligibility and consent info., etc.
+    
+    **Interview** -- all candidate CCLS study participants are listed.  From that section, manage interview scheduling, general information about interviews (respondent, date, language, etc.) and interview data entry.
+    
+    **Samples** -- dust samples collected as part of the Home Exposures study are managed in this section.  The landing page only shows subjects who have completed the Interview.
+    
+    **Follow up** -- Track gift cards, issue thank you letters, etc.  Only subjects who have completed both the interview and have sent in dust samples appear on the landing page for this section.
+  controller: samples
+  id: 14
+guides_5: 
+  action: edit
+  body: "Addresses and phone numbers are edited on the \"Address/Contact\" screen.\r\n\
+    \r\n\
+    Consent information is modified on the \"Eligibility/Enrollments\" screen.\r\n\
+    \r\n\
+    To access the menu bar to go to those screens, exit this one by pressing the back button to cancel or pressing Save if you have made changes.  "
+  controller: subjects
+  id: 5
+guides_1: 
+  action: index
+  body: |
+    Click on any childID to see details.
+    
+    *Download*: The list displayed can be downloaded and opened in Excel.
+    
+    *IMPORTANT: This is restricted data.  Data may only be downloaded onto CCLS systems and must be stored on the R: drive.*
+    
+    *Sorting*: Sort subjects by clicking on the column name.  The first click sorts in ascending order.  Click a second time to change to descending order.
+    
+    *Searching*: To find a subject, enter all or part of their first name, last name, childid or patid into the text box at the top of the list and press "find."  Note: the list of results will include any records that match the search text in any of the four fields.  That is, entering 938 will display subjects with childIDs of 938, 11938, 9381 as well as studyIDs of 938-C-0, 938-4-1, 938-5-1, 1938-C-0, etc.  Similarly, entering "David" will show all David's, Davidof's, Davidson's, etc.
+
+  controller: subjects
+  id: 1
+guides_19: 
+  action: show
+  body: |-
+    To modify the following content shown on this page...
+    
+    **Addresses** - click on the address/contact submenu.
+    
+    **Consent Info** - click on the eligiblity/enrollments submenu and then click on the entry for Home Exposures
+    
+    **Reference Date** - click on the hospital submenu of case subject (For control subjects, reference date is modified on the hospital screen of the related case.)
+    
+    **all others** - click the edit button on this screen.
+  controller: subjects
+  id: 19
