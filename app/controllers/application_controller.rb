@@ -9,6 +9,14 @@ class ApplicationController < ActionController::Base
 
 protected	#	private #	(does it matter which or if neither?)
 
+	def ssl_allowed?
+		#	Gary has setup the genepi server to force https with its own redirection.
+		#	Forcing ssl in the application results in about 20 redirections back
+		#	to itself, so this tells the app to ignore it.
+		request.host == "odms.brg.berkeley.edu"
+	end
+
+#	TODO stop using this if possible
 	#	This is a method that returns a hash containing
 	#	permissions used in the before_filters as keys
 	#	containing another hash with redirect_to and 
