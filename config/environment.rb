@@ -7,9 +7,9 @@ RAILS_GEM_VERSION = '2.3.12' unless defined? RAILS_GEM_VERSION
 
 #	In production, using script/console does not properly
 #	set a GEM_PATH, so gems aren't loaded correctly.
-if ENV['RAILS_ENV'] == 'production'
-ENV['GEM_PATH'] = File.expand_path(File.join(File.dirname(__FILE__),'..','gems'))
-end
+#if ENV['RAILS_ENV'] == 'production'
+#ENV['GEM_PATH'] = File.expand_path(File.join(File.dirname(__FILE__),'..','gems'))
+#end
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
