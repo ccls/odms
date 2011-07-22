@@ -13,7 +13,10 @@ protected	#	private #	(does it matter which or if neither?)
 		#	Gary has setup the genepi server to force https with its own redirection.
 		#	Forcing ssl in the application results in about 20 redirections back
 		#	to itself, so this tells the app to ignore it.
-		request.host == "odms.brg.berkeley.edu"
+		#	For testing, we cannot ignore the action check.
+		#	I could use an alias_method_chain here, but would actually take more lines.
+		request.host == "odms.brg.berkeley.edu" || (
+			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
 	end
 
 #	TODO stop using this if possible
