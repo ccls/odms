@@ -18,6 +18,7 @@ jQuery(function(){
 		return false;
 	});
 
+/*
 	jQuery('form.destroy_link_to').submit(function(){
 		var message = "Destroy?  Seriously?"
 		if( this.confirm && this.confirm.value ) {
@@ -31,6 +32,7 @@ jQuery(function(){
 	jQuery('p.flash').click(function(){jQuery(this).remove();});
 
 	jQuery('.datepicker').datepicker();
+*/
 
 	jQuery('a.ajax').click(function(){
 		jQuery.get(jQuery(this).attr('href')+'.js', function(data){
