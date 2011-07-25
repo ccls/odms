@@ -82,7 +82,7 @@ module ApplicationHelper
 			s << [
 				"<span>New BC Request</span>",
 				"<span>Pending Requests</span>",
-				"<span>BC Validation</span>",
+				link_to( "BC Validation", bc_validations_path ),
 				"<span>Request History</span>"
 #				link_to( "Basic Info", subject_path(subject) ),
 #				link_to( "Address &amp; Phone", subject_contacts_path(subject) ),
