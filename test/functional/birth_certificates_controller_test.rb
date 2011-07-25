@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class BcRequestsControllerTest < ActionController::TestCase
+class BirthCertificatesControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = { 
-		:actions => [:index],
-		:method_for_create => :create_bc_request 
+		:actions => [:index]#,
+#		:method_for_create => :create_bc_request 
 	}
 
 	assert_access_with_login({    :logins => site_editors })

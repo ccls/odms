@@ -10,7 +10,7 @@ module ApplicationHelper
 				link_to('Dashboard', dashboard_subjects_path),
 				link_to('Add Case', new_case_path),
 				link_to('Add Control', new_control_path),
-				link_to('Manage Birth Certificates', bc_requests_path),
+				link_to('Manage Birth Certificates', birth_certificates_path),
 				link_to( "Browse Subjects", subjects_path )
 #				"<span>Basic Info - Read</span>",
 #				"<span>Basic Info - Edit</span>",
@@ -51,7 +51,7 @@ module ApplicationHelper
 		end
 	end
 
-	def bc_requests_sub_menu
+	def birth_certificates_sub_menu
 		current = nil
 #		current = case controller.class.name.sub(/Controller$/,'')
 #			when *%w( Subjects ) then :general

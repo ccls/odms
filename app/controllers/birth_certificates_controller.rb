@@ -1,0 +1,3 @@
+class BirthCertificatesController < ApplicationController
+	before_filter :may_create_subjects_required
+end
