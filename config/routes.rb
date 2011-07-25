@@ -17,8 +17,9 @@ ActionController::Routing::Routes.draw do |map|
 #			:only => [:index]
 	end
 
-	map.resources :bc_validations
-	map.resources :birth_certificates
+	map.resources :bc_requests, :only => [:new,:create]
+	map.resources :bc_validations, :only => [:index, :show]
+	map.resources :birth_certificates, :only => :index
 	map.resources :controls, :only => [:new,:show]
 	map.resource  :case, :only => [:new]
 	map.resource  :waivered, :only => [:new,:create]

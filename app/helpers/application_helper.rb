@@ -80,7 +80,7 @@ module ApplicationHelper
 #				:class => ((current == :events)?'current':nil)))
 #			s << l.join("\n")
 			s << [
-				"<span>New BC Request</span>",
+				link_to( "New BC Request", new_bc_request_path ),
 				"<span>Pending Requests</span>",
 				link_to( "BC Validation", bc_validations_path ),
 				"<span>Request History</span>"

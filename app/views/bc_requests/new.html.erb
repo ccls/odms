@@ -1,0 +1,88 @@
+<% birth_certificates_sub_menu %>
+
+<h4>Birth Certificate Requests for Control Matching</h4>
+
+<p>Add case to BC Request List</p>
+
+<% form_tag(bc_requests_path,:method => :post) do %>
+<p><span>Enter PatID:</span>
+<%= text_field_tag :patid, params[:patid], :id => nil  %>
+<%= submit_tag 'submit', :name => nil %>
+</p>
+<div><span>Try one of ...</span>
+<%= Subject.search(:types => 'case').collect(&:patid).sort.join(', ') %></div>
+<% end %>
+
+<hr/>
+
+<h4>BC Request List</h4>
+[confirm export]
+[export for USC]
+<% unless @active_bc_requests.empty? %>
+<table style='font-size:8pt;'><thead>
+<tr>
+ <th>Remove</th>
+ <th>Wait</th>
+ <th>StudyID</th>
+ <th>ICF Master ID</th>
+ <th>Name</th>
+ <th>Sex</th>
+ <th>Born in CA?</th>
+ <th>State ID No</th>
+ <th>DOB</th>
+</tr></thead>
+<tbody>
+<% @active_bc_requests.each do |bc_request| %>
+<%# yet again, rails forgets its associations in development.  Can't seem to work any magic either. %>
+<%# bc_request.subject.reload(:include => :identifier) %>
+<%# don't know why just accessing subject through the association doesn't work, but it is most irritating %>
+<% subject = Subject.find(bc_request.study_subject_id) %>
+ <tr>
+  <td>[Remove]</td>
+  <td>[Wait]</td>
+  <td><%= subject.identifier.studyid %></td>
+  <td>icfmasterid</td>
+  <td><%= subject.full_name %></td>
+  <td><%= subject.sex %></td>
+  <td>born in cali</td>
+  <td><%= subject.state_id_no %></td>
+  <td><%=mdy subject.dob %></td>
+ </tr>
+<% end %><%# @active_bc_requests.each do |bc_request| %>
+</tbody>
+</table>
+<% end %><%# unless @active_bc_requests.empty? %>
+
+<hr/>
+
+<h4>Waiting List</h4>
+
+<% unless @waiting_bc_requests.empty? %>
+<table style='font-size:8pt;'><thead>
+<tr>
+ <th>Move to Request</th>
+ <th>StudyID</th>
+ <th>ICF Master ID</th>
+ <th>Name</th>
+ <th>Comments</th>
+ <th>&nbsp;</th>
+</tr></thead>
+<tbody>
+
+<% @waiting_bc_requests.each do |bc_request| %>
+<%# yet again, rails forgets its associations in development.  Can't seem to work any magic either. %>
+<%# bc_request.subject.reload(:include => :identifier) %>
+<%# don't know why just accessing subject through the association doesn't work, but it is most irritating %>
+<% subject = Subject.find(bc_request.study_subject_id) %>
+ <tr>
+  <td>[Activate]</td>
+  <td><%= subject.identifier.studyid %></td>
+  <td>icfmasterid</td>
+  <td><%= subject.full_name %></td>
+  <td><%= bc_request.notes %></td>
+  <td>[Edit]</td>
+ </tr>
+<% end %><%# @waiting_bc_requests.each do |bc_request| %>
+</tbody>
+</table>
+<% end %><%# unless @waiting_bc_requests.empty? %>

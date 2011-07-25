@@ -29,3 +29,11 @@ config.action_mailer.delivery_method = :smtp
 
 config.action_mailer.default_url_options = { 
 	:host => "dev.sph.berkeley.edu:3000" }
+
+#	failed attempt at forcing rails to remember gem models and associations
+#config.after_initialize do
+#	if cclsgem = Gem.source_index.find_name('ccls-ccls_engine').last
+#		Dir["#{cclsgem}/app/models/*rb"].each { |ext| require ext }
+#		Dir["#{cclsgem}/app/controllers/*rb"].each { |ext| require ext }
+#	end
+#end

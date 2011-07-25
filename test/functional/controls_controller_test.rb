@@ -19,6 +19,8 @@ class ControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			get :new, :patid => 'donotmatchpatid'
 			assert_nil assigns(:subject)
+			assert_response :success
+			assert_template 'new'
 		end
 
 		test "should return case subject with matching patid and #{cu} login" do
@@ -27,6 +29,8 @@ class ControlsControllerTest < ActionController::TestCase
 			get :new, :patid => case_subject.patid
 			assert_not_nil assigns(:subject)
 			assert_equal case_subject, assigns(:subject)
+			assert_response :success
+			assert_template 'new'
 		end
 
 		test "should show related subjects for valid case subject id and #{cu} login" do
