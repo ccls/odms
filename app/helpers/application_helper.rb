@@ -55,8 +55,16 @@ module ApplicationHelper
 		current = case
 			when( params[:controller] == 'bc_requests' and params[:action] == 'new' )
 				:new_bc_request
-			when( params[:controller] == 'bc_requests' and params[:action] == 'index' )
+			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status].blank? )
+				:all_bc_requests
+			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'pending' )
 				:pending_bc_requests
+			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'active' )
+				:active_bc_requests
+			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'waitlist' )
+				:waitlist_bc_requests
+			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'complete' )
+				:complete_bc_requests
 			when( params[:controller] == 'bc_validations' )
 				:bc_validations
 			else nil
@@ -72,10 +80,14 @@ module ApplicationHelper
 					:class => ((current == :bc_validations)?'current':nil) ),
 
 				"<hr/>",
-				link_to( "All Requests", bc_requests_path ),
-				link_to( "Active Requests", bc_requests_path(:status => 'active') ),
-				link_to( "Waitlist Requests", bc_requests_path(:status => 'waitlist') ),
-				link_to( "Complete Requests", bc_requests_path(:status => 'complete') ),
+				link_to( "All Requests", bc_requests_path,
+					:class => ((current == :all_bc_requests)?'current':nil) ),
+				link_to( "Active Requests", bc_requests_path(:status => 'active'),
+					:class => ((current == :active_bc_requests)?'current':nil) ),
+				link_to( "Waitlist Requests", bc_requests_path(:status => 'waitlist'),
+					:class => ((current == :waitlist_bc_requests)?'current':nil) ),
+				link_to( "Complete Requests", bc_requests_path(:status => 'complete'),
+					:class => ((current == :complete_bc_requests)?'current':nil) ),
 
 				"<span>Request History</span>"
 			].join("\n")
