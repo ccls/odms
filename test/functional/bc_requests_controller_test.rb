@@ -189,7 +189,6 @@ pending
 			assert_nil assigns(:bc_requests)
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
-			assert_template 'index'
 		end
 
 	end
