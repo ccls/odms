@@ -27,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resource  :nonwaivered, :only => [:new,:create]
 
 #	map.resources :projects
-#	map.resources :guides
+	map.resources :guides
 #	map.resources :document_versions
 
 	#	Create named routes for expected pages so can avoid
