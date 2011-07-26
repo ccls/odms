@@ -63,12 +63,13 @@ div#mainmenu > .current {
 
 
 div#sidemenu {
+	font-size: 12px;
 	padding-top: 5px;
 	margin: 0;
 	background-color: #CCC3A9;
 	border: 1px solid black;
 	border-top: none;
-	width: 200px;
+	width: 160px;
 }
 div#sidemenu > * {
 	padding: 5px 10px;
