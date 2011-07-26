@@ -1,13 +1,9 @@
 <% stylesheets('subject','contacts') %>
 <% sub_menu_for(@subject) %>
 
-
-
-
-
-<%# content_for :id_bar do %>
-<%#= link_to "edit", edit_subject_path(@subject) %>
-<%# end if current_user.may_edit_subjects? %>
+<% content_for :id_bar do %>
+<%= link_to "edit", edit_subject_path(@subject) %>
+<% end if current_user.may_edit_subjects? %>
 
 
 

@@ -45,7 +45,7 @@
    <% end %>
   </td>
   <td>
-   <% form_link_to 'Wait', bc_request_path(bc_request), 'method' => 'put' do %>
+   <% form_link_to 'Wait', update_status_bc_request_path(bc_request), 'method' => 'put' do %>
     <%= hidden_field_tag :status, 'waitlist' %>
     <%= submit_link_to('Wait') %>
    <% end %>
@@ -86,7 +86,7 @@
 <% subject = Subject.find(bc_request.study_subject_id) %>
  <tr>
   <td>
-   <% form_link_to 'Activate', bc_request_path(bc_request), 'method' => 'put' do %>
+   <% form_link_to 'Activate', update_status_bc_request_path(bc_request), 'method' => 'put' do %>
     <%= hidden_field_tag :status, 'active' %>
     <%= submit_link_to('Activate') %>
    <% end %>
@@ -106,7 +106,7 @@
   <td>icfmasterid</td>
   <td><%= subject.full_name %></td>
   <td><%= bc_request.notes %></td>
-  <td>[Edit]</td>
+  <td><%= link_to 'Edit', edit_bc_request_path(bc_request), :class => 'button' %></td>
  </tr>
 <% end %><%# @waitlist_bc_requests.each do |bc_request| %>
 </tbody>

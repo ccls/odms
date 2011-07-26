@@ -1,10 +1,10 @@
 class SubjectsController < ApplicationController
 
-#	resourceful :update_redirect => :update_redirect_path
-#
-#	skip_before_filter :get_all
+	resourceful :update_redirect => :update_redirect_path
 
-	before_filter :valid_id_required, :only => :show
+	skip_before_filter :get_all
+
+#	before_filter :valid_id_required, :only => :show
 
 	before_filter :may_read_subjects_required, :only => [:show,:index,:dashboard]
 #	before_filter :may_read_subject_required,  :only => :show
@@ -38,9 +38,9 @@ class SubjectsController < ApplicationController
 
 protected
 
-#	def update_redirect_path
-#		subject_path(@subject)
-#	end
+	def update_redirect_path
+		subject_path(@subject)
+	end
 
 	def valid_id_required
 		if !params[:id].blank? and Subject.exists?(params[:id])

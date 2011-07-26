@@ -1,0 +1,30 @@
+<% birth_certificates_sub_menu %>
+
+<h4><%= params[:status].try(:capitalize) %> BC Requests</h4>
+
+[export list]
+
+<% if @bc_requests.empty? %>
+<p>Sorry, but there are no <%= params[:status] %> bc requests.</p>
+<% else %>
+<table><thead>
+<tr>
+ <th>Study ID</th>
+ <th>ICF Master ID</th>
+ <th>Subject Initials</th>
+ <th>USC Request Date</th>
+ <th>Status</th>
+</tr></thead>
+<tbody>
+<% @bc_requests.each do |bc_request| %>
+ <% subject = Subject.find(bc_request.study_subject_id) %>
+ <tr>
+  <td><%= subject.studyid %></td>
+  <td>icf master id</td>
+  <td>initials</td>
+  <td>somedate</td>
+  <td><%= bc_request.status %></td>
+ </tr>
+<% end %>
+</tbody></table>
+<% end %>

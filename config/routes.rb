@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.root :controller => :odms, :action => :show
 
-	map.resources :subjects, :only => [:show,:index],
+	map.resources :subjects, :only => [:edit,:update,:show,:index],
 			:collection => { :dashboard => :get },
 			:shallow => true do |subject|
 #		subject.resource :patient
@@ -17,7 +17,8 @@ ActionController::Routing::Routes.draw do |map|
 #			:only => [:index]
 	end
 
-	map.resources :bc_requests, :only => [:new,:create,:update,:destroy]
+	map.resources :bc_requests, :only => [:new,:create,:edit,:update,:destroy,:index],
+		:member => { :update_status => :put }
 	map.resources :bc_validations, :only => [:index, :show]
 	map.resources :birth_certificates, :only => :index
 	map.resources :controls, :only => [:new,:show]

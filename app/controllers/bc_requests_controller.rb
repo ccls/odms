@@ -3,8 +3,8 @@ class BcRequestsController < ApplicationController
 	before_filter :valid_patid_required, :only => :create
 	before_filter :case_subject_required, :only => :create
 	before_filter :no_existing_bc_request_required, :only => :create
-	before_filter :valid_id_required, :only => [:update,:destroy]
-	before_filter :valid_status_required, :only => :update
+	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
+	before_filter :valid_status_required, :only => [:update_status]
 
 	def new
 		@bc_request          = BcRequest.new #	sole purpose is to make testing happy
@@ -17,7 +17,21 @@ class BcRequestsController < ApplicationController
 		redirect_to new_bc_request_path
 	end
 
+	def edit
+	end
+
+	#		transform update to more generic update for status and comments/notes
 	def update
+#	TODO add validation in bc_request model that request status in statuses (don't forget factory)
+		@bc_request.update_attributes(params[:bc_request])
+		redirect_to new_bc_request_path
+# TODO add rescues for failed update
+#
+#
+	end
+
+	#		for updating only status
+	def update_status
 		@bc_request.update_attribute(:status,params[:status])
 		redirect_to new_bc_request_path
 	end
@@ -25,6 +39,12 @@ class BcRequestsController < ApplicationController
 	def destroy
 		@bc_request.destroy
 		redirect_to new_bc_request_path
+	end
+
+	def index
+		conditions = {}
+		conditions[:status] = params[:status] if params[:status]
+		@bc_requests  = BcRequest.find(:all, :conditions => conditions )
 	end
 
 protected

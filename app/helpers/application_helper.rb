@@ -81,23 +81,9 @@ module ApplicationHelper
 #			s << l.join("\n")
 			s << [
 				link_to( "New BC Request", new_bc_request_path ),
-				"<span>Pending Requests</span>",
+				link_to( "Pending Requests", bc_requests_path(:status => 'pending') ),
 				link_to( "BC Validation", bc_validations_path ),
 				"<span>Request History</span>"
-#				link_to( "Basic Info", subject_path(subject) ),
-#				link_to( "Address &amp; Phone", subject_contacts_path(subject) ),
-#				"<span>Address &amp; Phone</span>",
-#				link_to( "Hospital / Medical", subject_patient_path(subject) ),
-#				"<span>Hospital / Medical</span>",
-#				"<span>Eligibility &amp; Consent</span>",
-#				link_to( "Enrollments",subject_enrollments_path(subject) ),
-#				"<span>Enrollments</span>",
-#				"<span>Samples</span>",
-#				"<span>Interviews</span>",
-#				link_to( "Events", subject_events_path(subject) ),
-#				"<span>Events</span>",
-#				"<span>Documents</span>",
-#				"<span>Notes</span>"
 			].join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		end

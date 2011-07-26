@@ -19,13 +19,13 @@ class SubjectsControllerTest < ActionController::TestCase
 			:race_ids => [Race.random.id]}.merge(options))
 	end
 
-#	assert_access_with_login({ 
-#		:actions => [:new,:create,:edit,:update,:destroy],
-#		:logins  => site_editors })
-#
-#	assert_no_access_with_login({ 
-#		:actions => [:new,:create,:edit,:update,:destroy],
-#		:logins  => non_site_editors })
+	assert_access_with_login({ 
+		:actions => [:edit,:update],
+		:logins  => site_editors })
+
+	assert_no_access_with_login({ 
+		:actions => [:edit,:update],
+		:logins  => non_site_editors })
 
 	assert_access_with_login({ 
 		:actions => [:show,:index],
