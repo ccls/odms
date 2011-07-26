@@ -61,7 +61,9 @@ div#mainmenu > .current {
 	background-color: #CCC3A9;
 }
 
-
+div#left_side_menu {
+	width: 160px;
+}
 div#sidemenu {
 	font-size: 12px;
 	padding-top: 5px;
@@ -69,7 +71,6 @@ div#sidemenu {
 	background-color: #CCC3A9;
 	border: 1px solid black;
 	border-top: none;
-	width: 160px;
 }
 div#sidemenu > * {
 	padding: 5px 10px;

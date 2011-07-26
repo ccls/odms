@@ -5,13 +5,16 @@
 body {
 	padding:0;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
-	margin: 0px;
+	margin: 0px auto;
 	background-color: #EEEEEE;
 }
 
 div#container {
+/*	
 	width: 1000px;
-	margin: 0 auto;
+*/
+	min-width: 1000px;
+	margin: 0 20px;
 
 	/* guidance background color */
 	background-color: #ECE9DF;	
@@ -63,12 +66,17 @@ div#main {
 	background-color:white;
 	border-right: 1px solid silver;
 }
+
+/*
 div.columns > div#main > div#content {
 	width: 750px;
 }
+*/
+/*
 div.columns > div#left_side_menu + div#main > div#content {
 	width: 550px;
 }
+*/
 
 div#content {
 	padding: 5px 25px;
@@ -99,14 +107,10 @@ div.section table {
 }
 
 div#guidance {
+	width: 200px;
 	padding: 0 9px;
-	font-size: 10pt;
+	font-size: 9pt;
 }
-/* No longer needed as set table-cell vertical alignment to top
-div#guidance h3 {
-	margin-top: 0;
-}
-*/
 
 #footer {
 	clear:both;
