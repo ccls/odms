@@ -83,6 +83,7 @@ module ApplicationHelper
 				link_to( "New BC Request", new_bc_request_path ),
 				link_to( "Pending Requests", bc_requests_path(:status => 'pending') ),
 				link_to( "BC Validation", bc_validations_path ),
+				"<hr/>",
 				"<span>Request History</span>"
 			].join("\n")
 			s << "\n</div><!-- submenu -->\n"
@@ -119,8 +120,7 @@ module ApplicationHelper
 #			s << l.join("\n")
 			s << [
 				link_to( "Basic Info", subject_path(subject) ),
-#				link_to( "Address &amp; Phone", subject_contacts_path(subject) ),
-				"<span>Address &amp; Phone</span>",
+				link_to( "Address &amp; Phone", subject_contacts_path(subject) ),
 #				link_to( "Hospital / Medical", subject_patient_path(subject) ),
 				"<span>Hospital / Medical</span>",
 				"<span>Eligibility &amp; Consent</span>",

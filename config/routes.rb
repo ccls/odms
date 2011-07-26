@@ -6,11 +6,11 @@ ActionController::Routing::Routes.draw do |map|
 			:collection => { :dashboard => :get },
 			:shallow => true do |subject|
 #		subject.resource :patient
-#		subject.resources :contacts, :only => :index
-#		subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
-#			:only => [:new,:create,:edit,:update,   :destroy   ]
-#		subject.resources :addressings,		#	TEMP ADD DESTROY FOR DEV ONLY!
-#			:only => [:new,:create,:edit,:update,   :destroy   ]
+		subject.resources :contacts, :only => :index
+		subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
+			:only => [:new,:create,:edit,:update,   :destroy   ]
+		subject.resources :addressings,		#	TEMP ADD DESTROY FOR DEV ONLY!
+			:only => [:new,:create,:edit,:update,   :destroy   ]
 #		subject.resources :enrollments,
 #			:only => [:new,:create,:show,:edit,:update,:index]
 #		subject.resources :events,

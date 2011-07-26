@@ -35,6 +35,15 @@ protected	#	private #	(does it matter which or if neither?)
 		})
 	end
 
+	def valid_subject_id_required
+		if !params[:subject_id].blank? and Subject.exists?(params[:subject_id])
+			@subject = Subject.find(params[:subject_id])
+		else
+			access_denied("Valid subject id required!", subjects_path)
+		end
+	end
+
+
 #	def block_all_access
 #		access_denied("That route is no longer available")
 #	end

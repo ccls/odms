@@ -177,22 +177,22 @@ class SubjectsControllerTest < ActionController::TestCase
 	end
 
 #######################################################################
-#
-#	site_editors.each do |cu|
-#
-#		test "should update with #{cu} login" do
-#			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#			login_as send(cu)
-#			assert_difference('Subject.count',0){
-#			assert_difference('SubjectType.count',0){
-#			assert_difference('Race.count',0){
-#			assert_changes("Subject.find(#{subject.id}).updated_at") {
-#				put :update, :id => subject.id, 
-#					:subject => Factory.attributes_for(:subject)
-#			} } } }
-#			assert_redirected_to subject_path(assigns(:subject))
-#		end
-#	
+
+	site_editors.each do |cu|
+
+		test "should update with #{cu} login" do
+			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			login_as send(cu)
+			assert_difference('Subject.count',0){
+			assert_difference('SubjectType.count',0){
+			assert_difference('Race.count',0){
+			assert_changes("Subject.find(#{subject.id}).updated_at") {
+				put :update, :id => subject.id, 
+					:subject => Factory.attributes_for(:subject)
+			} } } }
+			assert_redirected_to subject_path(assigns(:subject))
+		end
+	
 #		test "should NOT create with #{cu} login" <<
 #			" with invalid subject" do
 #			login_as send(cu)
@@ -282,124 +282,124 @@ class SubjectsControllerTest < ActionController::TestCase
 ##			assert_response :success
 ##			assert_template 'new'
 #		end
-#	
-#	
-#		test "should NOT update with #{cu} login" <<
-#			" and invalid" do
-#			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#			Subject.any_instance.stubs(:valid?).returns(false)
-#			login_as send(cu)
+	
+	
+		test "should NOT update with #{cu} login" <<
+			" and invalid" do
+			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			Subject.any_instance.stubs(:valid?).returns(false)
+			login_as send(cu)
+			assert_difference('Subject.count',0){
+			assert_difference('SubjectType.count',0){
+			assert_difference('Race.count',0){
+			deny_changes("Subject.find(#{subject.id}).updated_at") {
+				put :update, :id => subject.id,
+					:subject => {}
+			} } } }
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+	
+		test "should NOT update with #{cu} login" <<
+			" and save fails" do
+			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			Subject.any_instance.stubs(:create_or_update).returns(false)
+			login_as send(cu)
+			assert_difference('Subject.count',0){
+			assert_difference('SubjectType.count',0){
+			assert_difference('Race.count',0){
+			deny_changes("Subject.find(#{subject.id}).updated_at") {
+				put :update, :id => subject.id,
+					:subject => {}
+			} } } }
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+	
+		test "should NOT update without subject_type_id with #{cu} login" do
+			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			login_as send(cu)
+			assert_difference('Subject.count',0){
+			assert_difference('SubjectType.count',0){
+			assert_difference('Race.count',0){
+			deny_changes("Subject.find(#{subject.id}).updated_at") {
+				put :update, :id => subject.id,
+					:subject => { :subject_type_id => nil }
+			} } } }
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+	
+		test "should NOT update without race_id with #{cu} login" do
+			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			login_as send(cu)
+pending
 #			assert_difference('Subject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
 #			deny_changes("Subject.find(#{subject.id}).updated_at") {
 #				put :update, :id => subject.id,
-#					:subject => {}
+#					:subject => { :race_id => nil }
 #			} } } }
 #			assert_not_nil flash[:error]
 #			assert_response :success
 #			assert_template 'edit'
-#		end
-#	
-#		test "should NOT update with #{cu} login" <<
-#			" and save fails" do
-#			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#			Subject.any_instance.stubs(:create_or_update).returns(false)
-#			login_as send(cu)
+		end
+	
+		test "should NOT update without valid subject_type_id with #{cu} login" do
+			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			login_as send(cu)
+			assert_difference('Subject.count',0){
+			assert_difference('SubjectType.count',0){
+			assert_difference('Race.count',0){
+			deny_changes("Subject.find(#{subject.id}).updated_at") {
+				put :update, :id => subject.id,
+					:subject => { :subject_type_id => 0 }
+			} } } }
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+	
+		test "should NOT update without valid race_id with #{cu} login" do
+			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			login_as send(cu)
+pending
 #			assert_difference('Subject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
 #			deny_changes("Subject.find(#{subject.id}).updated_at") {
 #				put :update, :id => subject.id,
-#					:subject => {}
+#					:subject => { :race_ids => [0] }
 #			} } } }
 #			assert_not_nil flash[:error]
 #			assert_response :success
 #			assert_template 'edit'
-#		end
-#	
-#		test "should NOT update without subject_type_id with #{cu} login" do
-#			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#			login_as send(cu)
-#			assert_difference('Subject.count',0){
-#			assert_difference('SubjectType.count',0){
-#			assert_difference('Race.count',0){
-#			deny_changes("Subject.find(#{subject.id}).updated_at") {
-#				put :update, :id => subject.id,
-#					:subject => { :subject_type_id => nil }
-#			} } } }
-#			assert_not_nil flash[:error]
-#			assert_response :success
-#			assert_template 'edit'
-#		end
-#	
-#		test "should NOT update without race_id with #{cu} login" do
-#			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#			login_as send(cu)
-#pending
-##			assert_difference('Subject.count',0){
-##			assert_difference('SubjectType.count',0){
-##			assert_difference('Race.count',0){
-##			deny_changes("Subject.find(#{subject.id}).updated_at") {
-##				put :update, :id => subject.id,
-##					:subject => { :race_id => nil }
-##			} } } }
-##			assert_not_nil flash[:error]
-##			assert_response :success
-##			assert_template 'edit'
-#		end
-#	
-#		test "should NOT update without valid subject_type_id with #{cu} login" do
-#			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#			login_as send(cu)
-#			assert_difference('Subject.count',0){
-#			assert_difference('SubjectType.count',0){
-#			assert_difference('Race.count',0){
-#			deny_changes("Subject.find(#{subject.id}).updated_at") {
-#				put :update, :id => subject.id,
-#					:subject => { :subject_type_id => 0 }
-#			} } } }
-#			assert_not_nil flash[:error]
-#			assert_response :success
-#			assert_template 'edit'
-#		end
-#	
-#		test "should NOT update without valid race_id with #{cu} login" do
-#			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#			login_as send(cu)
-#pending
-##			assert_difference('Subject.count',0){
-##			assert_difference('SubjectType.count',0){
-##			assert_difference('Race.count',0){
-##			deny_changes("Subject.find(#{subject.id}).updated_at") {
-##				put :update, :id => subject.id,
-##					:subject => { :race_ids => [0] }
-##			} } } }
-##			assert_not_nil flash[:error]
-##			assert_response :success
-##			assert_template 'edit'
-#		end
-#	
-#	end
-#
-#	non_site_editors.each do |cu|
-#
-#		test "should NOT update with #{cu} login" do
-#			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#			login_as send(cu)
-#			assert_difference('Subject.count',0){
-#			assert_difference('SubjectType.count',0){
-#			assert_difference('Race.count',0){
-#			deny_changes("Subject.find(#{subject.id}).updated_at") {
-#				put :update, :id => subject.id, 
-#					:subject => Factory.attributes_for(:subject)
-#			} } } }
-#			assert_not_nil flash[:error]
-#			assert_redirected_to root_path
-#		end
-#
-#	end
-#
+		end
+	
+	end
+
+	non_site_editors.each do |cu|
+
+		test "should NOT update with #{cu} login" do
+			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			login_as send(cu)
+			assert_difference('Subject.count',0){
+			assert_difference('SubjectType.count',0){
+			assert_difference('Race.count',0){
+			deny_changes("Subject.find(#{subject.id}).updated_at") {
+				put :update, :id => subject.id, 
+					:subject => Factory.attributes_for(:subject)
+			} } } }
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+	end
+
 #######################################################################
 
 	non_site_editors.each do |cu|
@@ -413,17 +413,17 @@ class SubjectsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-#	test "should NOT update without login" do
-#		subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-#		assert_difference('Subject.count',0){
-#		assert_difference('SubjectType.count',0){
-#		assert_difference('Race.count',0){
-#		deny_changes("Subject.find(#{subject.id}).updated_at") {
-#			put :update, :id => subject.id, 
-#				:subject => Factory.attributes_for(:subject)
-#		} } } }
-#		assert_redirected_to_login
-#	end
+	test "should NOT update without login" do
+		subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+		assert_difference('Subject.count',0){
+		assert_difference('SubjectType.count',0){
+		assert_difference('Race.count',0){
+		deny_changes("Subject.find(#{subject.id}).updated_at") {
+			put :update, :id => subject.id, 
+				:subject => Factory.attributes_for(:subject)
+		} } } }
+		assert_redirected_to_login
+	end
 
 protected
 
