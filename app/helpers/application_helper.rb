@@ -52,38 +52,31 @@ module ApplicationHelper
 	end
 
 	def birth_certificates_sub_menu
-		current = nil
-#		current = case controller.class.name.sub(/Controller$/,'')
-#			when *%w( Subjects ) then :general
-#			when *%w( Patients ) then :hospital
-#			when *%w( Addresses Addressings Contacts PhoneNumbers 
-#				) then :contact
-#			when *%w( Enrollments ) then :eligibility
-#			when *%w( Events ) then :events
-#			else nil
-#		end
+		current = case
+			when( params[:controller] == 'bc_requests' and params[:action] == 'new' )
+				:new_bc_request
+			when( params[:controller] == 'bc_requests' and params[:action] == 'index' )
+				:pending_bc_requests
+			when( params[:controller] == 'bc_validations' )
+				:bc_validations
+			else nil
+		end
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
-#			l=[link_to( 'general', subject_path(subject),
-#				:class => ((current == :general)?'current':nil)
-#			)]
-#			l.push(link_to( 'hospital', subject_patient_path(subject),
-#				:class => ((current == :hospital)?'current':nil)
-#			)) #if subject.is_case?
-#			l.push(link_to( 'address/contact', subject_contacts_path(subject),
-#				:class => ((current == :contact)?'current':nil)))
-#			l.push(link_to( 'eligibility/enrollments', 
-#				subject_enrollments_path(subject),
-#				:class => ((current == :eligibility)?'current':nil)))
-#			l.push(link_to( 'events', 
-#				subject_events_path(subject),
-#				:class => ((current == :events)?'current':nil)))
-#			s << l.join("\n")
 			s << [
-				link_to( "New BC Request", new_bc_request_path ),
-				link_to( "Pending Requests", bc_requests_path(:status => 'pending') ),
-				link_to( "BC Validation", bc_validations_path ),
+				link_to( "New BC Request", new_bc_request_path,
+					:class => ((current == :new_bc_request)?'current':nil) ),
+				link_to( "Pending Requests", bc_requests_path(:status => 'pending'),
+					:class => ((current == :pending_bc_requests)?'current':nil) ),
+				link_to( "BC Validation", bc_validations_path,
+					:class => ((current == :bc_validations)?'current':nil) ),
+
 				"<hr/>",
+				link_to( "All Requests", bc_requests_path ),
+				link_to( "Active Requests", bc_requests_path(:status => 'active') ),
+				link_to( "Waitlist Requests", bc_requests_path(:status => 'waitlist') ),
+				link_to( "Complete Requests", bc_requests_path(:status => 'complete') ),
+
 				"<span>Request History</span>"
 			].join("\n")
 			s << "\n</div><!-- submenu -->\n"
@@ -91,44 +84,33 @@ module ApplicationHelper
 	end
 
 	def subject_sub_menu(subject)
-		current = nil
-#		current = case controller.class.name.sub(/Controller$/,'')
-#			when *%w( Subjects ) then :general
-#			when *%w( Patients ) then :hospital
-#			when *%w( Addresses Addressings Contacts PhoneNumbers 
-#				) then :contact
-#			when *%w( Enrollments ) then :eligibility
-#			when *%w( Events ) then :events
-#			else nil
-#		end
+		current = case controller.class.name.sub(/Controller$/,'')
+			when *%w( Subjects ) then :general
+			when *%w( Patients ) then :hospital
+			when *%w( Addresses Addressings Contacts PhoneNumbers 
+				) then :contact
+			when *%w( Enrollments ) then :eligibility
+			when *%w( Events ) then :events
+			else nil
+		end
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
-#			l=[link_to( 'general', subject_path(subject),
-#				:class => ((current == :general)?'current':nil)
-#			)]
-#			l.push(link_to( 'hospital', subject_patient_path(subject),
-#				:class => ((current == :hospital)?'current':nil)
-#			)) #if subject.is_case?
-#			l.push(link_to( 'address/contact', subject_contacts_path(subject),
-#				:class => ((current == :contact)?'current':nil)))
-#			l.push(link_to( 'eligibility/enrollments', 
-#				subject_enrollments_path(subject),
-#				:class => ((current == :eligibility)?'current':nil)))
-#			l.push(link_to( 'events', 
-#				subject_events_path(subject),
-#				:class => ((current == :events)?'current':nil)))
-#			s << l.join("\n")
 			s << [
-				link_to( "Basic Info", subject_path(subject) ),
-				link_to( "Address &amp; Phone", subject_contacts_path(subject) ),
-#				link_to( "Hospital / Medical", subject_patient_path(subject) ),
+				link_to( "Basic Info", subject_path(subject),
+					:class => ((current == :general)?'current':nil) ),
+				link_to( "Address &amp; Phone", subject_contacts_path(subject),
+					:class => ((current == :contact)?'current':nil) ),
+#				link_to( "Hospital / Medical", subject_patient_path(subject),
+#					:class => ((current == :hospital)?'current':nil) ),
 				"<span>Hospital / Medical</span>",
 				"<span>Eligibility &amp; Consent</span>",
-#				link_to( "Enrollments",subject_enrollments_path(subject) ),
+#				link_to( "Enrollments",subject_enrollments_path(subject),
+#					:class => ((current == :eligibility)?'current':nil) ),
 				"<span>Enrollments</span>",
 				"<span>Samples</span>",
 				"<span>Interviews</span>",
-#				link_to( "Events", subject_events_path(subject) ),
+#				link_to( "Events", subject_events_path(subject),
+#					:class => ((current == :events)?'current':nil) ),
 				"<span>Events</span>",
 				"<span>Documents</span>",
 				"<span>Notes</span>"
