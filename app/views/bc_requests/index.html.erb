@@ -15,6 +15,7 @@
  <th>Subject Initials</th>
  <th>USC Request Date</th>
  <th>Status</th>
+ <th>&nbsp;</th>
 </tr></thead>
 <tbody>
 <% @bc_requests.each do |bc_request| %>
@@ -25,6 +26,7 @@
   <td>initials</td>
   <td><%=mdy bc_request.sent_on %></td>
   <td><%= bc_request.status %></td>
+  <td><%= link_to 'Edit', edit_bc_request_path(bc_request), :class => 'button' %></td>
  </tr>
 <% end %>
 </tbody></table>
