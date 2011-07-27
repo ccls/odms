@@ -23,7 +23,9 @@
 	:class => 'button' %>
 </span>
 </h4>
-<% unless @active_bc_requests.empty? %>
+<% if @active_bc_requests.empty? %>
+<p>Sorry, but there are no active bc requests at this time.</p>
+<% else %>
 <table style='font-size:8pt;'><thead>
 <tr>
  <th>Remove</th>
@@ -72,7 +74,9 @@
 
 <h4>Waiting List</h4>
 
-<% unless @waitlist_bc_requests.empty? %>
+<% if @waitlist_bc_requests.empty? %>
+<p>Sorry, but there are no waitlist bc requests at this time.</p>
+<% else %>
 <table style='font-size:8pt;'><thead>
 <tr>
  <th>Move to Request</th>
