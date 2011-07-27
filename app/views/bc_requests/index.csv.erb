@@ -1,0 +1,21 @@
+<% require 'fastercsv' -%>
+<%# 
+        adding :headers => true is supposed to set a flag in the file 
+        somewhere marking it as having a header row, but I don't 
+        think that it actually does.
+-%>
+<%= %w( studyid icf_master_id name sex bornincali state_id_no dob ).to_csv(:headers => true) -%>
+<% @bc_requests.each do |bc_request| -%>
+<%# yet again, rails forgets its associations in development.  Can't seem to work any magic either. -%>
+<%# don't know why just accessing subject through the association doesn't work, but it is most irritating -%>
+<% subject = Subject.find(bc_request.study_subject_id) -%>
+<%=[
+ subject.identifier.studyid,
+ 'icfmasterid',
+ subject.full_name,
+ subject.sex,
+ 'hello',
+ subject.state_id_no,
+ mdy(subject.dob)
+].to_csv -%>
+<% end -%><%# @bc_requests.each do |bc_request| -%>

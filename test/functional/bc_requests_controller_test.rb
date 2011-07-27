@@ -148,6 +148,19 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_equal 1, assigns(:bc_requests).length
 		end
 
+		test "should export bc_requests to csv with #{cu} login and requests" do
+			login_as send(cu)
+			case_subject = create_case_control_subject
+			bcr = case_subject.bc_requests.create
+			get :index, :format => 'csv'
+			assert_response :success
+			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+			assert_template 'index'
+			assert assigns(:bc_requests)
+			assert !assigns(:bc_requests).empty?
+			assert_equal 1, assigns(:bc_requests).length
+		end
+
 		test "should get pending bc_requests with #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject

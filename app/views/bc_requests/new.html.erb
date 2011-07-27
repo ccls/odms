@@ -15,9 +15,14 @@
 
 <hr/>
 
-<h4>BC Request List</h4>
+<h4>BC Request List
+<span class='right'>
 [confirm export]
-[export for USC]
+<%= link_to "Export for USC", 
+	bc_requests_path(:status => 'active',:format => 'csv'),
+	:class => 'button' %>
+</span>
+</h4>
 <% unless @active_bc_requests.empty? %>
 <table style='font-size:8pt;'><thead>
 <tr>

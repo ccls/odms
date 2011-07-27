@@ -46,6 +46,13 @@ class BcRequestsController < ApplicationController
 		conditions = {}
 		conditions[:status] = params[:status] if params[:status]
 		@bc_requests  = BcRequest.find(:all, :conditions => conditions )
+		respond_to do |format|
+			format.html
+			format.csv { 
+				headers["Content-disposition"] = "attachment; " <<
+					"filename=bc_requests_#{params[:status]}_#{Time.now.to_s(:filename)}.csv"
+			}
+		end
 	end
 
 protected
