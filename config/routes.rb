@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
 	end
 
 	map.resources :bc_requests, :only => [:new,:create,:edit,:update,:destroy,:index],
+		:collection => { :confirm => :get },
 		:member => { :update_status => :put }
 	map.resources :bc_validations, :only => [:index, :show]
 	map.resources :birth_certificates, :only => :index

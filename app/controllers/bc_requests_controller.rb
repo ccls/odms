@@ -34,6 +34,7 @@ class BcRequestsController < ApplicationController
 	#		for updating only status
 	def update_status
 		@bc_request.update_attribute(:status,params[:status])
+# TODO add rescues for failed update
 		redirect_to new_bc_request_path
 	end
 
@@ -55,11 +56,40 @@ class BcRequestsController < ApplicationController
 		end
 	end
 
+	def confirm
+		BcRequest.transaction do
+			active_bc_requests  = BcRequest.find(:all, :conditions => { :status => 'active' })
+			active_bc_requests.each do |bc_request|
+				subject = bc_request.subject
+				enrollment = Enrollment.find(:first, :conditions => {
+					:study_subject_id => subject.id,
+					:project_id => Project['phase5'].id
+				})
+				unless enrollment
+					enrollment = subject.enrollments.create!(:project => Project['phase5'])
+				end
+				enrollment.operational_events << OperationalEvent.create!(
+					:operational_event_type => OperationalEventType['bc_request_sent'],
+					:occurred_on => Date.today
+				)
+			end
+#	I don't think that this can raise an error, but if the above do it will be skipped
+			BcRequest.update_all(
+				{ :status => 'pending', :sent_on => Date.today }, #	updates
+				{ :status => 'active' })  #	conditions
+		end	#	BcRequest.transaction do
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid =>  e
+		flash[:error] = "Confirmation failed:#{e.inspect}:"
+	ensure	#	same redirect no matter what happens above 
+		redirect_to new_bc_request_path
+	end
+
 protected
 
 	def valid_status_required
 		if params[:status].blank? or !BcRequest.statuses.include?(params[:status])
-			access_denied("Valid bc_request status required! Status '#{params[:status]}' is unknown.", new_bc_request_path)
+			access_denied("Valid bc_request status required! Status '#{params[:status]}' is unknown.", 
+				new_bc_request_path)
 		end
 	end
 

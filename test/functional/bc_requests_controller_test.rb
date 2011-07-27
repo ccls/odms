@@ -174,11 +174,89 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_equal 'pending', assigns(:bc_requests).first.status
 		end
 
-		test "should NOT update bc_request with invalid bc_request #{cu} login" do
+		test "should confirm actives exported with #{cu} login" do
+			login_as send(cu)
+			case_subject = create_case_control_subject
+			assert case_subject.enrollments.empty?
+			bcr = case_subject.bc_requests.create(:status => 'active')
+			get :confirm
+			assert_redirected_to new_bc_request_path
+			assert_equal 'pending', bcr.reload.status
+			assert_equal Date.today, bcr.sent_on
+			assert !case_subject.reload.enrollments.empty?
+			enrollment = case_subject.enrollments.first
+			assert_equal Project['phase5'], enrollment.project
+			assert !enrollment.operational_events.empty?
+			assert_equal 1, enrollment.operational_events.length
+			assert_equal OperationalEventType['bc_request_sent'],
+				enrollment.operational_events.first.operational_event_type
+		end
+
+		test "should NOT confirm actives exported with #{cu} login if " <<
+				"enrollment creation fails" do
+			login_as send(cu)
+			case_subject = create_case_control_subject
+			assert case_subject.enrollments.empty?
+			bcr = case_subject.bc_requests.create(:status => 'active')
+			Enrollment.any_instance.stubs(:create_or_update).returns(false)
+			assert_difference('Enrollment.count',0) {
+			assert_difference('OperationalEvent.count',0) {
+				get :confirm
+			} }
+			assert_not_nil flash[:error]
+			assert_redirected_to new_bc_request_path
+		end
+
+		test "should NOT confirm actives exported with #{cu} login if " <<
+				"enrollment invalid" do
+			login_as send(cu)
+			case_subject = create_case_control_subject
+			assert case_subject.enrollments.empty?
+			bcr = case_subject.bc_requests.create(:status => 'active')
+			Enrollment.any_instance.stubs(:valid?).returns(false)
+			assert_difference('Enrollment.count',0) {
+			assert_difference('OperationalEvent.count',0) {
+				get :confirm
+			} }
+			assert_not_nil flash[:error]
+			assert_redirected_to new_bc_request_path
+		end
+
+		test "should NOT confirm actives exported with #{cu} login if " <<
+				"operational event creation fails" do
+			login_as send(cu)
+			case_subject = create_case_control_subject
+			assert case_subject.enrollments.empty?
+			bcr = case_subject.bc_requests.create(:status => 'active')
+			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
+			assert_difference('Enrollment.count',0) {
+			assert_difference('OperationalEvent.count',0) {
+				get :confirm
+			} }
+			assert_not_nil flash[:error]
+			assert_redirected_to new_bc_request_path
+		end
+
+		test "should NOT confirm actives exported with #{cu} login if " <<
+				"operational event invalid" do
+			login_as send(cu)
+			case_subject = create_case_control_subject
+			assert case_subject.enrollments.empty?
+			bcr = case_subject.bc_requests.create(:status => 'active')
+			OperationalEvent.any_instance.stubs(:valid?).returns(false)
+			assert_difference('Enrollment.count',0) {
+			assert_difference('OperationalEvent.count',0) {
+				get :confirm
+			} }
+			assert_not_nil flash[:error]
+			assert_redirected_to new_bc_request_path
+		end
+
+		test "should NOT update bc_request with #{cu} login and bc_request invalid" do
 pending
 		end
 
-		test "should NOT update bc_request with #{cu} login when save fails" do
+		test "should NOT update bc_request with #{cu} login and save fails" do
 pending
 		end
 
@@ -217,6 +295,14 @@ pending
 			assert_redirected_to root_path
 		end
 
+		test "should NOT confirm actives exported with #{cu} login" do
+			login_as send(cu)
+			get :confirm
+			assert_nil assigns(:bc_requests)
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
 	end
 
 #	no login ...
@@ -242,6 +328,11 @@ pending
 
 	test "should NOT get bc_requests without login" do
 		get :index
+		assert_redirected_to_login
+	end
+
+	test "should NOT confirm actives exported without login" do
+		get :confirm
 		assert_redirected_to_login
 	end
 
