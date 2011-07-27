@@ -1,9 +1,9 @@
 <% birth_certificates_sub_menu %>
 
 <h4><%= params[:status].try(:capitalize) %> BC Requests
-<%= link_to "Export List", 
+<span><%= link_to "Export List", 
 	bc_requests_path(:status => params[:status],:format => 'csv'),
-	:class => 'button right' %>
+	:class => 'button right' %></span>
 </h4>
 <% if @bc_requests.empty? %>
 <p>Sorry, but there are no <%= params[:status] %> bc requests.</p>

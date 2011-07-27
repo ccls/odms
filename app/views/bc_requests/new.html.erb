@@ -16,8 +16,12 @@
 <hr/>
 
 <h4>BC Request List
-<span class='right'>
-[confirm export]
+<span>
+
+
+[confirm export (set status active to pending)]
+
+
 <%= link_to "Export for USC", 
 	bc_requests_path(:status => 'active',:format => 'csv'),
 	:class => 'button' %>
