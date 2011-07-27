@@ -37,7 +37,7 @@
 <%# bc_request.subject.reload(:include => :identifier) %>
 <%# don't know why just accessing subject through the association doesn't work, but it is most irritating %>
 <% subject = Subject.find(bc_request.study_subject_id) %>
- <tr>
+ <tr class='row'>
   <td>
    <% destroy_link_to "Destroy", bc_request_path(bc_request) do %>
     <%= hidden_field_tag 'confirm', "Destroy bc_request '#{bc_request}'?", :id => nil %>
@@ -84,7 +84,7 @@
 <%# bc_request.subject.reload(:include => :identifier) %>
 <%# don't know why just accessing subject through the association doesn't work, but it is most irritating %>
 <% subject = Subject.find(bc_request.study_subject_id) %>
- <tr>
+ <tr class='row'>
   <td>
    <% form_link_to 'Activate', update_status_bc_request_path(bc_request), 'method' => 'put' do %>
     <%= hidden_field_tag :status, 'active' %>
