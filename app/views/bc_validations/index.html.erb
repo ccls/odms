@@ -8,3 +8,5 @@
 <p><%= link_to "#{case_subject.studyid}: #{case_subject.full_name}",
 	bc_validation_path(case_subject.id) %></p>
 <% end %>
+
+<%= will_paginate @cases %>

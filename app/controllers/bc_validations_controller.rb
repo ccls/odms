@@ -4,7 +4,7 @@ class BcValidationsController < ApplicationController
 	before_filter :case_subject_required, :only => :show
 
 	def index
-		@cases = Subject.search(:types => 'case',:order => 'studyid')	#,:paginate => false)
+		@cases = Subject.search(params.merge(:types => 'case',:order => 'studyid'))	#,:paginate => false)
 	end
 
 	def show
