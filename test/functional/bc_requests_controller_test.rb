@@ -24,7 +24,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should get new with existing bc_requests and #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
-			case_subject.create_bc_request
+			case_subject.bc_requests.create
 			get :new
 			assert_nil assigns(:subject)
 			assert_not_nil assigns(:active_bc_requests)
@@ -54,15 +54,28 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should NOT add case subject to bc_requests with existing bc_request and #{cu} login" do
+		test "should NOT add case subject to bc_requests with existing incomplete bc_request and #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
-			case_subject.create_bc_request
+			case_subject.bc_requests.create
 			assert_difference('BcRequest.count',0) {
 				post :create, :patid => case_subject.patid
 			}
 			assert_not_nil assigns(:subject)
 			assert_not_nil flash[:error]
+			assert_equal case_subject, assigns(:subject)
+			assert_redirected_to new_bc_request_path
+		end
+
+		test "should add case subject to bc_requests with existing complete bc_request and #{cu} login" do
+			login_as send(cu)
+			case_subject = create_case_control_subject
+			case_subject.bc_requests.create(:status => 'complete')
+			assert_difference('BcRequest.count',1) {
+				post :create, :patid => case_subject.patid
+			}
+			assert_not_nil assigns(:subject)
+			assert_equal 'active', assigns(:subject).bc_requests.last.status
 			assert_equal case_subject, assigns(:subject)
 			assert_redirected_to new_bc_request_path
 		end
@@ -74,7 +87,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 				post :create, :patid => case_subject.patid
 			}
 			assert_not_nil assigns(:subject)
-			assert_equal 'active', assigns(:subject).bc_request.status
+			assert_equal 'active', assigns(:subject).bc_requests.last.status
 			assert_equal case_subject, assigns(:subject)
 			assert_redirected_to new_bc_request_path
 		end
@@ -82,7 +95,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT update bc_request status with invalid status and #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
-			bcr = case_subject.create_bc_request(:status => 'active')
+			bcr = case_subject.bc_requests.create(:status => 'active')
 			deny_changes("BcRequest.find(#{bcr.id}).status") {
 				put :update_status, :id => bcr.id, :status => 'bogus'
 			}
@@ -93,7 +106,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT update bc_request status with invalid id and #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
-			bcr = case_subject.create_bc_request(:status => 'active')
+			bcr = case_subject.bc_requests.create(:status => 'active')
 			deny_changes("BcRequest.find(#{bcr.id}).status") {
 				put :update_status, :id => 0, :status => 'waitlist'
 			}
@@ -104,7 +117,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should update bc_request status with #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
-			bcr = case_subject.create_bc_request(:status => 'active')
+			bcr = case_subject.bc_requests.create(:status => 'active')
 			assert_changes("BcRequest.find(#{bcr.id}).status") {
 				put :update_status, :id => bcr.id, :status => 'waitlist'
 			}
@@ -126,7 +139,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should get bc_requests with #{cu} login and requests" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
-			bcr = case_subject.create_bc_request
+			bcr = case_subject.bc_requests.create
 			get :index
 			assert_response :success
 			assert_template 'index'
@@ -138,7 +151,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should get pending bc_requests with #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
-			bcr = case_subject.create_bc_request(:status => 'pending')
+			bcr = case_subject.bc_requests.create(:status => 'pending')
 			get :index, :status => 'pending'
 			assert_response :success
 			assert_template 'index'
@@ -174,7 +187,7 @@ pending
 		test "should NOT update bc_request status with #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
-			bcr = case_subject.create_bc_request(:status => 'active')
+			bcr = case_subject.bc_requests.create(:status => 'active')
 			deny_changes("BcRequest.find(#{bcr.id}).status") {
 				put :update_status, :id => bcr.id, :status => 'waitlist'
 			}
@@ -207,7 +220,7 @@ pending
 
 	test "should NOT update bc_request status without login" do
 		case_subject = create_case_control_subject
-		bcr = case_subject.create_bc_request(:status => 'active')
+		bcr = case_subject.bc_requests.create(:status => 'active')
 		deny_changes("BcRequest.find(#{bcr.id}).status") {
 			put :update_status, :id => bcr.id, :status => 'waitlist'
 		}

@@ -2,7 +2,7 @@ class BcRequestsController < ApplicationController
 	before_filter :may_create_subjects_required
 	before_filter :valid_patid_required, :only => :create
 	before_filter :case_subject_required, :only => :create
-	before_filter :no_existing_bc_request_required, :only => :create
+	before_filter :no_existing_incomplete_bc_request_required, :only => :create
 	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
 	before_filter :valid_status_required, :only => [:update_status]
 
@@ -13,7 +13,8 @@ class BcRequestsController < ApplicationController
 	end
 
 	def create
-		@subject.create_bc_request(:status => 'active')
+#		@subject.create_bc_request(:status => 'active')
+		@subject.bc_requests.create(:status => 'active')
 		redirect_to new_bc_request_path
 	end
 
@@ -85,10 +86,17 @@ protected
 		end
 	end
 
-	def no_existing_bc_request_required
-		if @subject.bc_request
-			access_denied("case subject has bc_request already!", new_bc_request_path)
+	def no_existing_incomplete_bc_request_required
+		if( BcRequest.exists?(
+				["study_subject_id = ? AND ( status != 'complete' OR status IS NULL )", @subject.id]) )
+			access_denied("case subject has an incomplete bc_request already!", new_bc_request_path)
 		end
 	end
+
+#	def no_existing_bc_request_required
+#		if @subject.bc_request
+#			access_denied("case subject has bc_request already!", new_bc_request_path)
+#		end
+#	end
 
 end
