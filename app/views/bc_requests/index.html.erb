@@ -19,7 +19,7 @@
 <% @bc_requests.each do |bc_request| %>
  <% subject = Subject.find(bc_request.study_subject_id) %>
  <tr>
-  <td><%= subject.studyid %></td>
+  <td><%= link_to subject.studyid, subject %></td>
   <td>icf master id</td>
   <td>initials</td>
   <td>somedate</td>

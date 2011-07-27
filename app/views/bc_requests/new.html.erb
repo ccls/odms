@@ -50,7 +50,7 @@
     <%= submit_link_to('Wait') %>
    <% end %>
   </td>
-  <td><%= subject.identifier.studyid %></td>
+  <td><%= link_to subject.identifier.studyid, subject %></td>
   <td>icfmasterid</td>
   <td><%= subject.full_name %></td>
   <td><%= subject.sex %></td>
@@ -102,7 +102,7 @@
 
 
   </td>
-  <td><%= subject.identifier.studyid %></td>
+  <td><%= link_to subject.identifier.studyid, subject %></td>
   <td>icfmasterid</td>
   <td><%= subject.full_name %></td>
   <td><%= bc_request.notes %></td>
