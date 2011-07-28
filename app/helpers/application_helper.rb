@@ -133,7 +133,7 @@ module ApplicationHelper
 
 	#	Just a simple method to wrap the passed text in a span
 	#	with class='required'
-	def required(text)
+	def required(text)			#	TODO remove as is in ccls_engine > 3.8.7
 		"<span class='required'>#{text}</span>"
 	end
 	alias_method :req, :required

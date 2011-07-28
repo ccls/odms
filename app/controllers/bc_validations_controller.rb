@@ -22,13 +22,13 @@ protected
 		if !params[:id].blank? and Subject.exists?(params[:id])
 			@subject = Subject.find(params[:id])
 		else
-			access_denied("Valid subject id required!", new_control_path)
+			access_denied("Valid subject id required!", bc_validations_path)
 		end
 	end
 
 	def case_subject_required
 		unless @subject.is_case?
-			access_denied("Valid case subject required!", new_control_path)
+			access_denied("Valid case subject required!", bc_validations_path)
 		end
 	end
 

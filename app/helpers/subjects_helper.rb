@@ -1,29 +1,10 @@
 module SubjectsHelper
 
-#	#	&uarr; and &darr;
-#	def sort_link(column,text=nil)
-#		order = column.to_s.downcase.gsub(/\s+/,'_')
-#		dir = ( params[:dir] && params[:dir] == 'asc' ) ? 'desc' : 'asc'
-#		link_text = text||column
-#		classes = []	#[order]
-#		arrow = ''
-#		if params[:order] && params[:order] == order
-#			classes.push('sorted')
-#			arrow = if dir == 'desc'
-#				"<span class='down arrow'>&darr;</span>"
-#			else
-#				"<span class='up arrow'>&uarr;</span>"
-#			end
-#		end
-#		s = "<div class='#{classes.join(' ')}'>"
-#		s << link_to(link_text,params.merge(:order => order,:dir => dir))
-#		s << arrow unless arrow.blank?
-#		s << "</div>"
-#		s
-#	end
+#	TODO move much of this into ccls_engine as is used both in ODMS and HOMEX
+#		ccls_engine/lib/ccls_engine/helper.rb
 
 	#	Used to replace the _id_bar partial
-	def subject_id_bar(subject,&block)
+	def subject_id_bar(subject,&block)		#	TODO remove as added to ccls_engine > 3.8.7
 		stylesheets('subject_id_bar')
 		content_for :main do
 			"<div id='id_bar'>\n" <<

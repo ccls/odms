@@ -55,8 +55,21 @@ class SubjectsHelperTest < ActionView::TestCase
 #		end
 #	end
 
-	test "should respond to subject_id_bar" do
+	test "should respond to subject_id_bar" do		#	TODO remove as in ccls_engine 3.8.7
 		assert respond_to?(:subject_id_bar)
+	end
+
+	test "id_bar_for subject should return subject_id_bar" do		#	TODO remove as in ccls_engine 3.8.7
+		subject = create_subject
+		assert subject.is_a?(Subject)
+		assert_nil subject_id_bar(subject)	#	sets content_for :main
+		response = HTML::Document.new(@content_for_main).root
+		assert_select response, 'div#id_bar' do
+			assert_select 'div.childid'
+			assert_select 'div.studyid'
+			assert_select 'div.full_name'
+			assert_select 'div.controls'
+		end
 	end
 
 	test "should respond to select_subject_races" do
@@ -202,6 +215,10 @@ private
 	end
 	def params=(new_params)
 		@params = new_params
+	end
+	def stylesheets(*args)
+		#	placeholder so can call subject_id_bar and avoid
+		#		NoMethodError: undefined method `stylesheets' for #<SubjectsHelperTest:0x10608e038>
 	end
 end
 

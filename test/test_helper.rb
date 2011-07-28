@@ -48,4 +48,10 @@ end
 
 class ActionController::TestCase
 	setup :turn_https_on
+
+	def create_case_control_subject
+		create_case_subject(
+			'identifier_attributes' => { 'case_control_type' => 'C' })
+	end
+
 end

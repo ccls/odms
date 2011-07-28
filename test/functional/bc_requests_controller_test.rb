@@ -54,6 +54,30 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
+		test "should NOT add case subject to bc_requests with multiple matching patid and #{cu} login" do
+pending
+			login_as send(cu)
+			assert_difference('BcRequest.count',0) {
+#				post :create, :patid => 'donotmatchpatid'
+			}
+#			assert_nil assigns(:subject)
+#			assert_not_nil flash[:error]
+#			assert_redirected_to new_bc_request_path
+		end
+
+		test "should NOT add case subject to bc_requests with non-case subject and #{cu} login" do
+			login_as send(cu)
+			non_case_subject = create_subject_with_patid('1234')
+			assert !non_case_subject.new_record?
+			assert_not_nil non_case_subject.patid
+			assert_difference('BcRequest.count',0) {
+				post :create, :patid => non_case_subject.patid
+			}
+			assert_nil assigns(:subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to new_bc_request_path
+		end
+
 		test "should NOT add case subject to bc_requests with existing incomplete bc_request and #{cu} login" do
 			login_as send(cu)
 			case_subject = create_case_control_subject
@@ -334,13 +358,6 @@ pending
 	test "should NOT confirm actives exported without login" do
 		get :confirm
 		assert_redirected_to_login
-	end
-
-protected
-
-	def create_case_control_subject
-		create_case_subject(
-			'identifier_attributes' => { 'case_control_type' => 'C' })
 	end
 
 end
