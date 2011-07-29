@@ -54,6 +54,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
+		#	create multiple subjects and stub search so all returned mimicing multiple matches
 		test "should NOT add case subject to bc_requests with multiple matching patid and #{cu} login" do
 			login_as send(cu)
 			create_case_control_subject
