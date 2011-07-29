@@ -2,8 +2,8 @@ require 'test_helper'
 
 #	so can call id_bar_for(subject) which will call subject_id_bar in subjects_helper.rb
 #	TODO remove as in ccls_engine > 3.8.7
-require 'subjects_helper'
-ApplicationHelper.send(:include, SubjectsHelper)
+#require 'subjects_helper'
+#ApplicationHelper.send(:include, SubjectsHelper)
 
 class ApplicationHelperTest < ActionView::TestCase
 
@@ -26,19 +26,19 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-	test "id_bar_for subject should return subject_id_bar" do
-		subject = create_subject
-		assert subject.is_a?(Subject)
-		#	subject_id_bar(subject,&block) is in subjects_helper.rb
-		assert_nil id_bar_for(subject)	#	sets content_for :main
-		response = HTML::Document.new(@content_for_main).root
-		assert_select response, 'div#id_bar' do
-			assert_select 'div.childid'
-			assert_select 'div.studyid'
-			assert_select 'div.full_name'
-			assert_select 'div.controls'
-		end
-	end
+#	test "id_bar_for subject should return subject_id_bar" do
+#		subject = create_subject
+#		assert subject.is_a?(Subject)
+#		#	subject_id_bar(subject,&block) is in subjects_helper.rb
+#		assert_nil id_bar_for(subject)	#	sets content_for :main
+#		response = HTML::Document.new(@content_for_main).root
+#		assert_select response, 'div#id_bar' do
+#			assert_select 'div.childid'
+#			assert_select 'div.studyid'
+#			assert_select 'div.full_name'
+#			assert_select 'div.controls'
+#		end
+#	end
 
 	test "id_bar_for other object should return nil" do
 		response = id_bar_for(Object)
@@ -143,19 +143,19 @@ pending
 pending
 	end
 
-	test "required(text) should" do
-#	TODO remove as in ccls_engine > 3.8.7
-		response = HTML::Document.new(required('something')).root
-		#"<span class='required'>something</span>"
-		assert_select response, 'span.required', 'something', 1
-	end
-
-	test "req(text) should" do
-#	TODO remove as in ccls_engine > 3.8.7
-		response = HTML::Document.new(req('something')).root
-		#"<span class='required'>something</span>"
-		assert_select response, 'span.required', 'something', 1
-	end
+#	test "required(text) should" do
+##	TODO remove as in ccls_engine > 3.8.7
+#		response = HTML::Document.new(required('something')).root
+#		#"<span class='required'>something</span>"
+#		assert_select response, 'span.required', 'something', 1
+#	end
+#
+#	test "req(text) should" do
+##	TODO remove as in ccls_engine > 3.8.7
+#		response = HTML::Document.new(req('something')).root
+#		#"<span class='required'>something</span>"
+#		assert_select response, 'span.required', 'something', 1
+#	end
 
 private 
 	def params
