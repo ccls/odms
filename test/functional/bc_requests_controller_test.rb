@@ -55,14 +55,16 @@ class BcRequestsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT add case subject to bc_requests with multiple matching patid and #{cu} login" do
-pending
 			login_as send(cu)
+			create_case_control_subject
+			create_case_control_subject
+			Subject.any_instance.stubs(:search).returns(Subject.all)
 			assert_difference('BcRequest.count',0) {
-#				post :create, :patid => 'donotmatchpatid'
+				post :create, :patid => 'irrelevant_for_this_test'
 			}
-#			assert_nil assigns(:subject)
-#			assert_not_nil flash[:error]
-#			assert_redirected_to new_bc_request_path
+			assert_nil assigns(:subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to new_bc_request_path
 		end
 
 		#	non-case is effectively not a valid patid

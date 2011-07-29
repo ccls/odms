@@ -107,7 +107,7 @@ protected
 			case
 				when subjects.length < 1 
 					access_denied("No case subject found with that patid!", new_bc_request_path)
-				when subjects.length > 1
+				when subjects.length > 1	#	shouldn't actually ever happen
 					access_denied("Multiple case subjects found with that patid!", new_bc_request_path)
 				else
 					@subject = subjects.first
