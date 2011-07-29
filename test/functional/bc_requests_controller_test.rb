@@ -65,6 +65,7 @@ pending
 #			assert_redirected_to new_bc_request_path
 		end
 
+		#	non-case is effectively not a valid patid
 		test "should NOT add case subject to bc_requests with non-case subject and #{cu} login" do
 			login_as send(cu)
 			non_case_subject = create_subject_with_patid('1234')
