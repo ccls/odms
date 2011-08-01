@@ -59,7 +59,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			create_case_control_subject
 			create_case_control_subject
-			Subject.any_instance.stubs(:search).returns(Subject.all)
+			Subject.stubs(:search).returns(Subject.all)
 			assert_difference('BcRequest.count',0) {
 				post :create, :patid => 'irrelevant_for_this_test'
 			}

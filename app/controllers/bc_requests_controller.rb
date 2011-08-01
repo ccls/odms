@@ -126,6 +126,8 @@ protected
 	def no_existing_incomplete_bc_request_required
 		if( BcRequest.exists?(
 				["study_subject_id = ? AND ( status != 'complete' OR status IS NULL )", @subject.id]) )
+#	TODO need the null.  should set default to '' 
+#				["study_subject_id = ? AND ( status != 'complete' )", @subject.id]) )
 			access_denied("case subject has an incomplete bc_request already!", new_bc_request_path)
 		end
 	end
