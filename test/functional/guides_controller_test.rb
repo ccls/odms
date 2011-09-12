@@ -19,6 +19,7 @@ class GuidesControllerTest < ActionController::TestCase
 		:logins => non_site_editors })
 	assert_no_access_without_login
 
+#	TODO duplicate?
 	assert_no_access_with_login(
 		:attributes_for_create => nil,
 		:method_for_create => nil,
@@ -32,6 +33,7 @@ class GuidesControllerTest < ActionController::TestCase
 		:destroy => { :id => 0 }
 	) 
 
+#	TODO duplicate?
 	site_administrators.each do |cu|
 
 		test "should NOT create new guide with #{cu} login when create fails" do

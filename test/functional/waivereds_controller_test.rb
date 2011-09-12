@@ -63,6 +63,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal '0', assigns(:subject).identifier.orderno.to_s
 		end
 
+#	TODO duplicate?	(Almost)
 		test "should NOT create waivered case subject with invalid subject and #{cu} login" do
 			login_as send(cu)
 			Subject.any_instance.stubs(:valid?).returns(false)
@@ -75,6 +76,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
+#	TODO duplicate?	(Almost)
 		test "should NOT create waivered case subject when save fails with #{cu} login" do
 			login_as send(cu)
 			Subject.any_instance.stubs(:create_or_update).returns(false)

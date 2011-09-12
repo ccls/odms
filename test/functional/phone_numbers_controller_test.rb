@@ -143,6 +143,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 
+#	TODO duplicate?
 		test "should edit phone_number with #{cu} login" do
 			phone_number = create_phone_number
 			login_as send(cu)
@@ -152,6 +153,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 
+#	TODO duplicate?
 		test "should NOT edit phone_number with invalid id and #{cu} login" do
 			phone_number = create_phone_number
 			login_as send(cu)
@@ -159,6 +161,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert_redirected_to subjects_path
 		end
 
+#	TODO duplicate?
 		test "should update phone_number with #{cu} login" do
 			phone_number = create_phone_number(
 				:updated_at => Chronic.parse('yesterday'))
@@ -198,6 +201,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert_equal assigns(:phone_number).verified_by_id, u.id
 		end
 
+#	TODO duplicate?
 		test "should NOT update phone_number with invalid id and #{cu} login" do
 			phone_number = create_phone_number(
 				:updated_at => Chronic.parse('yesterday'))
@@ -209,6 +213,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert_redirected_to subjects_path
 		end
 
+#	TODO duplicate?
 		test "should NOT update phone_number with #{cu} login " <<
 				"when update fails" do
 			phone_number = create_phone_number(
@@ -225,6 +230,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 		end
 
+#	TODO duplicate?
 		test "should NOT update phone_number with #{cu} login " <<
 				"and invalid phone_number" do
 			phone_number = create_phone_number(

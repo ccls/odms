@@ -16,6 +16,7 @@ class BcValidationsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+#	TODO duplicate?
 		test "should NOT show bc_validation with #{cu} login and invalid id" do
 			login_as send(cu)
 			get :show, :id => 0

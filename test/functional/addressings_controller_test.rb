@@ -194,6 +194,7 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 		end
 
+#	TODO duplicate?
 		test "should edit addressing with #{cu} login" do
 			addressing = create_addressing
 			login_as send(cu)
@@ -203,6 +204,7 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 
+#	TODO duplicate?
 		test "should NOT edit addressing with invalid id and #{cu} login" do
 			addressing = create_addressing
 			login_as send(cu)
@@ -210,6 +212,7 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_redirected_to subjects_path
 		end
 
+#	TODO duplicate?
 		test "should update addressing with #{cu} login" do
 			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
@@ -248,6 +251,7 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_equal assigns(:addressing).verified_by_id, u.id
 		end
 
+#	TODO duplicate?
 		test "should NOT update addressing with invalid id and #{cu} login" do
 			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
@@ -258,6 +262,7 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_redirected_to subjects_path
 		end
 
+#	TODO duplicate?
 		test "should NOT update addressing with #{cu} login " <<
 				"when addressing update fails" do
 			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
@@ -288,6 +293,7 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 		end
 
+#	TODO duplicate?
 		test "should NOT update addressing with #{cu} login " <<
 				"and invalid addressing" do
 			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
