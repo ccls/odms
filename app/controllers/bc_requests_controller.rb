@@ -1,7 +1,7 @@
 class BcRequestsController < ApplicationController
-	before_filter :may_create_subjects_required
+	before_filter :may_create_study_subjects_required
 	before_filter :valid_patid_required, :only => :create
-#	before_filter :case_subject_required, :only => :create
+#	before_filter :case_study_subject_required, :only => :create
 	before_filter :no_existing_incomplete_bc_request_required, :only => :create
 	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
 	before_filter :valid_status_required, :only => [:update_status]
@@ -13,8 +13,8 @@ class BcRequestsController < ApplicationController
 	end
 
 	def create
-#		@subject.create_bc_request(:status => 'active')
-		@subject.bc_requests.create(:status => 'active')
+#		@study_subject.create_bc_request(:status => 'active')
+		@study_subject.bc_requests.create(:status => 'active')
 		redirect_to new_bc_request_path
 	end
 
@@ -60,13 +60,13 @@ class BcRequestsController < ApplicationController
 		BcRequest.transaction do
 			active_bc_requests  = BcRequest.find(:all, :conditions => { :status => 'active' })
 			active_bc_requests.each do |bc_request|
-				subject = bc_request.subject
+				study_subject = bc_request.study_subject
 				enrollment = Enrollment.find(:first, :conditions => {
-					:study_subject_id => subject.id,
+					:study_subject_id => study_subject.id,
 					:project_id => Project['phase5'].id
 				})
 				unless enrollment
-					enrollment = subject.enrollments.create!(:project => Project['phase5'])
+					enrollment = study_subject.enrollments.create!(:project => Project['phase5'])
 				end
 				enrollment.operational_events << OperationalEvent.create!(
 					:operational_event_type => OperationalEventType['bc_request_sent'],
@@ -103,38 +103,38 @@ protected
 
 	def valid_patid_required
 		if !params[:patid].blank? 
-			subjects = StudySubject.search(:patid => params[:patid], :types => 'case')
+			study_subjects = StudySubject.search(:patid => params[:patid], :types => 'case')
 			case
-				when subjects.length < 1 
-					access_denied("No case subject found with that patid!", new_bc_request_path)
-				when subjects.length > 1	#	shouldn't actually ever happen
-					access_denied("Multiple case subjects found with that patid!", new_bc_request_path)
+				when study_subjects.length < 1 
+					access_denied("No case study_subject found with that patid!", new_bc_request_path)
+				when study_subjects.length > 1	#	shouldn't actually ever happen
+					access_denied("Multiple case study_subjects found with that patid!", new_bc_request_path)
 				else
-					@subject = subjects.first
+					@study_subject = study_subjects.first
 			end
 		else
-			access_denied("Valid subject patid required!", new_bc_request_path)
+			access_denied("Valid study_subject patid required!", new_bc_request_path)
 		end
 	end
 
-#	def case_subject_required
-#		unless @subject.is_case?
-#			access_denied("Valid case subject required!", new_bc_request_path)
+#	def case_study_subject_required
+#		unless @study_subject.is_case?
+#			access_denied("Valid case study_subject required!", new_bc_request_path)
 #		end
 #	end
 
 	def no_existing_incomplete_bc_request_required
 		if( BcRequest.exists?(
-				["study_subject_id = ? AND ( status != 'complete' OR status IS NULL )", @subject.id]) )
+				["study_subject_id = ? AND ( status != 'complete' OR status IS NULL )", @study_subject.id]) )
 #	TODO need the null.  should set default to '' 
-#				["study_subject_id = ? AND ( status != 'complete' )", @subject.id]) )
-			access_denied("case subject has an incomplete bc_request already!", new_bc_request_path)
+#				["study_subject_id = ? AND ( status != 'complete' )", @study_subject.id]) )
+			access_denied("case study_subject has an incomplete bc_request already!", new_bc_request_path)
 		end
 	end
 
 #	def no_existing_bc_request_required
-#		if @subject.bc_request
-#			access_denied("case subject has bc_request already!", new_bc_request_path)
+#		if @study_subject.bc_request
+#			access_denied("case study_subject has bc_request already!", new_bc_request_path)
 #		end
 #	end
 
