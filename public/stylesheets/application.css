@@ -253,16 +253,16 @@ form.edit_sample .location_id.field_wrapper label {
 */
 
 
-form.edit_subject .field_wrapper label {
+form.edit_study_subject .field_wrapper label {
 	width: 160px;
 }
 
-form.edit_subject select#subject_vital_status_id,
-form.edit_subject select#subject_sex,
-form.edit_subject select#subject_subject_type_id {
+form.edit_study_subject select#study_subject_vital_status_id,
+form.edit_study_subject select#study_subject_sex,
+form.edit_study_subject select#subject_subject_type_id {
 	width: 170px;
 }
-form.edit_subject .field_wrapper.name input {
+form.edit_study_subject .field_wrapper.name input {
 	width: 120px;
 }
 
@@ -330,22 +330,22 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 .homex_outcomes .title {
 	width: 160px;
 }
-.subject .homex_outcomes .title {
+.study_subject .homex_outcomes .title {
 	float: left;
 }
 .interview .homex_outcomes .title {
 	font-weight: bold;
 }
-.edit_subject   .do_not_contact,
+.edit_study_subject   .do_not_contact,
 .edit_interview .intro_letter_sent_on,
 .interview      .homex_outcomes .title,
-.subject        .homex_outcomes,
-.edit_subject   .homex_outcomes {
+.study_subject        .homex_outcomes,
+.edit_study_subject   .homex_outcomes {
 	margin: 13.333px 0;
 }
 .interview      .homex_outcomes .columns,
 .edit_interview .homex_outcomes .columns,
-.edit_subject   .homex_outcomes .columns {
+.edit_study_subject   .homex_outcomes .columns {
 	display: block;
 }
 
