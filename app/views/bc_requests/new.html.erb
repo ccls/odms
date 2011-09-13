@@ -10,7 +10,7 @@
 <%= submit_tag 'submit', :name => nil %>
 </p>
 <div><span>Try one of ...</span>
-<%= Subject.search(:types => 'case').collect(&:patid).sort.join(', ') %></div>
+<%= StudySubject.search(:types => 'case').collect(&:patid).sort.join(', ') %></div>
 <% end %>
 
 <hr/>
@@ -41,9 +41,9 @@
 <tbody>
 <% @active_bc_requests.each do |bc_request| %>
 <%# yet again, rails forgets its associations in development.  Can't seem to work any magic either. %>
-<%# bc_request.subject.reload(:include => :identifier) %>
+<%# bc_request.study_subject.reload(:include => :identifier) %>
 <%# don't know why just accessing subject through the association doesn't work, but it is most irritating %>
-<% subject = Subject.find(bc_request.study_subject_id) %>
+<% study_subject = StudySubject.find(bc_request.study_subject_id) %>
  <tr class='row'>
   <td>
    <% destroy_link_to "Destroy", bc_request_path(bc_request) do %>
@@ -57,13 +57,13 @@
     <%= submit_link_to('Wait') %>
    <% end %>
   </td>
-  <td><%= link_to subject.identifier.studyid, subject %></td>
+  <td><%= link_to study_subject.identifier.studyid, study_subject %></td>
   <td>icfmasterid</td>
-  <td><%= subject.full_name %></td>
-  <td><%= subject.sex %></td>
+  <td><%= study_subject.full_name %></td>
+  <td><%= study_subject.sex %></td>
   <td>born in cali</td>
-  <td><%= subject.state_id_no %></td>
-  <td><%=mdy subject.dob %></td>
+  <td><%= study_subject.state_id_no %></td>
+  <td><%=mdy study_subject.dob %></td>
  </tr>
 <% end %><%# @active_bc_requests.each do |bc_request| %>
 </tbody>
@@ -90,9 +90,9 @@
 
 <% @waitlist_bc_requests.each do |bc_request| %>
 <%# yet again, rails forgets its associations in development.  Can't seem to work any magic either. %>
-<%# bc_request.subject.reload(:include => :identifier) %>
-<%# don't know why just accessing subject through the association doesn't work, but it is most irritating %>
-<% subject = Subject.find(bc_request.study_subject_id) %>
+<%# bc_request.study_subject.reload(:include => :identifier) %>
+<%# don't know why just accessing study_subject through the association doesn't work, but it is most irritating %>
+<% study_subject = StudySubject.find(bc_request.study_subject_id) %>
  <tr class='row'>
   <td>
    <% form_link_to 'Activate', update_status_bc_request_path(bc_request), 'method' => 'put' do %>
@@ -111,9 +111,9 @@
 
 
   </td>
-  <td><%= link_to subject.identifier.studyid, subject %></td>
+  <td><%= link_to study_subject.identifier.studyid, study_subject %></td>
   <td>icfmasterid</td>
-  <td><%= subject.full_name %></td>
+  <td><%= study_subject.full_name %></td>
   <td><%= bc_request.notes %></td>
   <td><%= link_to 'Edit', edit_bc_request_path(bc_request), :class => 'button' %></td>
  </tr>

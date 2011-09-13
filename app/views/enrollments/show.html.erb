@@ -1,9 +1,9 @@
-<% sub_menu_for(@enrollment.subject) %>
+<% sub_menu_for(@enrollment.study_subject) %>
 
 <% content_for :id_bar do %>
 <%= link_to 'Edit', edit_enrollment_path(@enrollment) %>
 <% end if current_user.may_edit_enrollments? %>
-<% id_bar_for(@enrollment.subject) %>
+<% id_bar_for(@enrollment.study_subject) %>
 
 <h4>Study name: <%= @enrollment.project.code.titleize -%></h4>
 

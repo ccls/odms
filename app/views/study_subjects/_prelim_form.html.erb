@@ -1,6 +1,6 @@
 <div class='prelim_info raf_section'>
 
-<% @subject.build_patient if @subject.patient.nil? %>
+<% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
 
 <div class='organization_id'>
@@ -16,7 +16,7 @@
 
 <% end %>
 
-<% @subject.build_pii if @subject.pii.nil? %>
+<% @study_subject.build_pii if @study_subject.pii.nil? %>
 <% f.fields_for :pii do |pii_fields| %>
  <div class='childs names'>
   <p>child's name</p>
@@ -34,7 +34,7 @@
 <% end %>
 
 <div class='hospital_no'>
-<% @subject.build_identifier if @subject.identifier.nil? %>
+<% @study_subject.build_identifier if @study_subject.identifier.nil? %>
 <% f.fields_for :identifier do |identifier_fields| %>
 	<p><%= "#{req('*')}&nbsp;hospital record number:" %></p>
 	<%= identifier_fields.text_field :hospital_no %>

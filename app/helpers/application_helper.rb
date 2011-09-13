@@ -4,14 +4,14 @@ module ApplicationHelper
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
 		s << "<div class='menu_item'>" <<
-			link_to('Subjects', dashboard_subjects_path) <<
+			link_to('Subjects', dashboard_study_subjects_path) <<
 			"<div class='sub_menu'>\n    " <<
 			[
-				link_to('Dashboard', dashboard_subjects_path),
+				link_to('Dashboard', dashboard_study_subjects_path),
 				link_to('Add Case', new_case_path),
 				link_to('Add Control', new_control_path),
 				link_to('Manage Birth Certificates', birth_certificates_path),
-				link_to( "Browse Subjects", subjects_path )
+				link_to( "Browse Subjects", study_subjects_path )
 #				"<span>Basic Info - Read</span>",
 #				"<span>Basic Info - Edit</span>",
 #				"<span>Address - Read</span>",
@@ -31,10 +31,10 @@ module ApplicationHelper
 
 	def id_bar_for(object,&block)
 		#	In development, the app will forget
-		require_dependency 'subject.rb'
+		require_dependency 'study_subject.rb'
 #		require_dependency 'gift_card.rb'
 		case object
-			when Subject  then subject_id_bar(object,&block)
+			when StudySubject  then study_subject_id_bar(object,&block)
 #			when GiftCard then gift_card_id_bar(object,&block)
 			else nil
 		end
@@ -42,10 +42,10 @@ module ApplicationHelper
 
 	def sub_menu_for(object)
 		#	In development, the app will forget
-		require_dependency 'subject.rb'
+		require_dependency 'study_subject.rb'
 #		require_dependency 'interview.rb'
 		case object
-			when Subject   then subject_sub_menu(object)
+			when StudySubject   then study_subject_sub_menu(object)
 #			when Interview then interview_sub_menu(object)
 			else nil
 		end
@@ -95,9 +95,9 @@ module ApplicationHelper
 		end
 	end
 
-	def subject_sub_menu(subject)
+	def study_subject_sub_menu(study_subject)
 		current = case controller.class.name.sub(/Controller$/,'')
-			when *%w( Subjects ) then :general
+			when *%w( StudySubjects ) then :general
 			when *%w( Patients ) then :hospital
 			when *%w( Addresses Addressings Contacts PhoneNumbers 
 				) then :contact
@@ -108,20 +108,20 @@ module ApplicationHelper
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
 			s << [
-				link_to( "Basic Info", subject_path(subject),
+				link_to( "Basic Info", study_subject_path(study_subject),
 					:class => ((current == :general)?'current':nil) ),
-				link_to( "Address &amp; Phone", subject_contacts_path(subject),
+				link_to( "Address &amp; Phone", study_subject_contacts_path(study_subject),
 					:class => ((current == :contact)?'current':nil) ),
-#				link_to( "Hospital / Medical", subject_patient_path(subject),
+#				link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 #					:class => ((current == :hospital)?'current':nil) ),
 				"<span>Hospital / Medical</span>",
 				"<span>Eligibility &amp; Consent</span>",
-#				link_to( "Enrollments",subject_enrollments_path(subject),
+#				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
 #					:class => ((current == :eligibility)?'current':nil) ),
 				"<span>Enrollments</span>",
 				"<span>Samples</span>",
 				"<span>Interviews</span>",
-#				link_to( "Events", subject_events_path(subject),
+#				link_to( "Events", study_subject_events_path(study_subject),
 #					:class => ((current == :events)?'current':nil) ),
 				"<span>Events</span>",
 				"<span>Documents</span>",

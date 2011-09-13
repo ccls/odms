@@ -11,7 +11,7 @@ no default set in db, so both will be initially unchecked
 
 %>
 
-<% @subject.build_patient if @subject.patient.nil? %>
+<% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
  <p>Are there blood and bone marrow samples available for shipment to CCLS?</p>
  <p><%= patient_fields.radio_button :sample_was_collected, 1 %>

@@ -3,7 +3,7 @@ class WaiveredsController < ApplicationController
 	before_filter :may_create_subjects_required
 
 	def new
-		@subject = Subject.new
+		@subject = StudySubject.new
 	end
 
 	def create
@@ -11,7 +11,7 @@ class WaiveredsController < ApplicationController
 		#	convert to hash, but MUST use string keys, not symbols as
 		#		real requests do not send symbols
 #	hopefully, these options will be done from within the subject model
-		@subject = Subject.new(params[:subject].to_hash.deep_merge({
+		@subject = StudySubject.new(params[:subject].to_hash.deep_merge({
 			'subject_type_id' => SubjectType['Case'].id,
 			'identifier_attributes' => {
 #				'orderno' => 0,
@@ -21,7 +21,7 @@ class WaiveredsController < ApplicationController
 		@subject.save!
 		redirect_to @subject
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		flash.now[:error] = "Subject creation failed"
+		flash.now[:error] = "StudySubject creation failed"
 		render :action => 'new'
 	end
 

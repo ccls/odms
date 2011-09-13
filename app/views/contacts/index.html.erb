@@ -1,6 +1,6 @@
 <% stylesheets('contacts') %>
-<% sub_menu_for(@subject) %>
-<% id_bar_for(@subject) %>
+<% sub_menu_for(@study_subject) %>
+<% id_bar_for(@study_subject) %>
 
 <div id='current'>
 <span>Current Info:</span>
@@ -9,15 +9,15 @@
 	This probably should just be the current address ?
 %>
 <%= render :partial => 'addressing', 
-	:collection => @subject.addressings.current,
+	:collection => @study_subject.addressings.current,
 	:locals => { :details => true,
 		:edit => current_user.may_edit_addressings? } %>
 <% if current_user.may_edit_addressings? %>
 <p id='new_address' class='new'>
-<%= link_to 'add new address ...', new_subject_addressing_path(@subject) %>
-<% if @subject.addressings.historic.length > 0 %>
+<%= link_to 'add new address ...', new_study_subject_addressing_path(@study_subject) %>
+<% if @study_subject.addressings.historic.length > 0 %>
 &nbsp;|&nbsp;
-<%= link_to 'toggle history', subject_contacts_path(@subject), 
+<%= link_to 'toggle history', study_subject_contacts_path(@study_subject), 
 	:class => 'toggle_historic_addressings' %>
 <% end %>
 </p>
@@ -25,7 +25,7 @@
 
 <div class='historic' style='display:none'>
 <%= render :partial => 'addressing', 
-	:collection => @subject.addressings.historic,
+	:collection => @study_subject.addressings.historic,
 	:locals => { :dates => true,
 		:edit => current_user.may_administrate? } %>
 </div><!-- class='historic' -->
@@ -33,22 +33,22 @@
 
 <div class='phone_numbers'>
 <%= render :partial => 'phone_number', 
-	:collection => @subject.phone_numbers.current,
+	:collection => @study_subject.phone_numbers.current,
 	:locals => { :details => true,
 		:edit => current_user.may_edit_phone_numbers? } %>
 <% if current_user.may_edit_phone_numbers? %>
 <p id='new_phone_number' class='new'>
-<%= link_to 'add new phone number ...', new_subject_phone_number_path(@subject) %>
-<% if @subject.phone_numbers.historic.length > 0 %>
+<%= link_to 'add new phone number ...', new_study_subject_phone_number_path(@study_subject) %>
+<% if @study_subject.phone_numbers.historic.length > 0 %>
 &nbsp;|&nbsp;
-<%= link_to 'toggle history', subject_contacts_path(@subject), 
+<%= link_to 'toggle history', study_subject_contacts_path(@study_subject), 
 	:class => 'toggle_historic_phone_numbers' %>
 <% end %>
 </p>
 <% end %>
 <div class='historic' style='display:none'>
 <%= render :partial => 'phone_number', 
-	:collection => @subject.phone_numbers.historic,
+	:collection => @study_subject.phone_numbers.historic,
 	:locals => { :details => true,
 		:edit => current_user.may_administrate? } %>
 </div><!-- class='historic' -->

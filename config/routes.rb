@@ -2,18 +2,18 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.root :controller => :odms, :action => :show
 
-	map.resources :subjects, :only => [:edit,:update,:show,:index],
+	map.resources :study_subjects, :only => [:edit,:update,:show,:index],
 			:collection => { :dashboard => :get },
-			:shallow => true do |subject|
-#		subject.resource :patient
-		subject.resources :contacts, :only => :index
-		subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
+			:shallow => true do |study_subject|
+#		study_subject.resource :patient
+		study_subject.resources :contacts, :only => :index
+		study_subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
 			:only => [:new,:create,:edit,:update,   :destroy   ]
-		subject.resources :addressings,		#	TEMP ADD DESTROY FOR DEV ONLY!
+		study_subject.resources :addressings,		#	TEMP ADD DESTROY FOR DEV ONLY!
 			:only => [:new,:create,:edit,:update,   :destroy   ]
-#		subject.resources :enrollments,
+#		study_subject.resources :enrollments,
 #			:only => [:new,:create,:show,:edit,:update,:index]
-#		subject.resources :events,
+#		study_subject.resources :events,
 #			:only => [:index]
 	end
 

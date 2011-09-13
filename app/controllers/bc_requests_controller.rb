@@ -103,7 +103,7 @@ protected
 
 	def valid_patid_required
 		if !params[:patid].blank? 
-			subjects = Subject.search(:patid => params[:patid], :types => 'case')
+			subjects = StudySubject.search(:patid => params[:patid], :types => 'case')
 			case
 				when subjects.length < 1 
 					access_denied("No case subject found with that patid!", new_bc_request_path)

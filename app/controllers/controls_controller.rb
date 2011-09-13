@@ -8,15 +8,15 @@ class ControlsController < ApplicationController
 		unless params[:patid].blank?
 #	TODO search on subject_type == case or case_control_type == 'C' ?
 #	This redundancy is becoming an issue.
-#	Try to stop using Subject.search for simple one-off things
-			@subject = Subject.search(:patid => params[:patid], :types => 'case').first
+#	Try to stop using StudySubject.search for simple one-off things
+			@subject = StudySubject.search(:patid => params[:patid], :types => 'case').first
 		end
 	end
 
 	def show
 #	TODO I thought that this should match on matchingid NOT patid?
 #	No.  Matchingid would match the subjectid, NOT patid
-		@controls = Subject.find(:all, :joins => :identifier, 
+		@controls = StudySubject.find(:all, :joins => :identifier, 
 			:conditions => [
 				"subjects.id != ? AND identifiers.patid = ?", @subject.id, @subject.patid ] 
 		)
@@ -25,8 +25,8 @@ class ControlsController < ApplicationController
 protected
 
 	def valid_id_required
-		if !params[:id].blank? and Subject.exists?(params[:id])
-			@subject = Subject.find(params[:id])
+		if !params[:id].blank? and StudySubject.exists?(params[:id])
+			@subject = StudySubject.find(params[:id])
 		else
 			access_denied("Valid subject id required!", new_control_path)
 		end

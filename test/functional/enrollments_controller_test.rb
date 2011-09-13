@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EnrollmentsControllerTest < ActionController::TestCase
 
-#	#	no subject_id
+#	#	no study_subject_id
 #	assert_no_route(:get,:index)
 #	assert_no_route(:get,:new)
 #	assert_no_route(:post,:create)
@@ -42,65 +42,65 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #
 #	site_editors.each do |cu|
 #
-#		test "should NOT get enrollments with invalid subject_id " <<
+#		test "should NOT get enrollments with invalid study_subject_id " <<
 #			"and #{cu} login" do
 #			login_as send(cu)
-#			get :index, :subject_id => 0
+#			get :index, :study_subject_id => 0
 #			assert_not_nil flash[:error]
-#			assert_redirected_to subjects_path
+#			assert_redirected_to study_subjects_path
 #		end
 #
 #		test "should get new enrollment with #{cu} login" do
-#			subject = Factory(:subject)
+#			study_subject = Factory(:study_subject)
 #			login_as send(cu)
-#			get :new, :subject_id => subject.id
-#			assert assigns(:subject)
+#			get :new, :study_subject_id => study_subject.id
+#			assert assigns(:study_subject)
 #			assert assigns(:projects)
 #			assert_response :success
 #			assert_template 'new'
 #		end
 #
-#		test "should NOT get new enrollment with invalid subject_id " <<
+#		test "should NOT get new enrollment with invalid study_subject_id " <<
 #			"and #{cu} login" do
 #			login_as send(cu)
-#			get :new, :subject_id => 0
+#			get :new, :study_subject_id => 0
 #			assert_not_nil flash[:error]
-#			assert_redirected_to subjects_path
+#			assert_redirected_to study_subjects_path
 #		end
 #
 #		test "should create enrollment with #{cu} login" do
-#			subject = Factory(:subject)
+#			study_subject = Factory(:study_subject)
 #			login_as send(cu)
-#			assert_difference("Subject.find(#{subject.id}).enrollments.count",1) {
+#			assert_difference("StudySubject.find(#{study_subject.id}).enrollments.count",1) {
 #			assert_difference('Enrollment.count',1) {
-#				post :create, :subject_id => subject.id,
+#				post :create, :study_subject_id => study_subject.id,
 #					:enrollment => factory_attributes
 #			} }
-#			assert assigns(:subject)
+#			assert assigns(:study_subject)
 #			assert_redirected_to edit_enrollment_path(assigns(:enrollment))
 #		end
 #
-#		test "should NOT create enrollment with invalid subject_id " <<
+#		test "should NOT create enrollment with invalid study_subject_id " <<
 #			"and #{cu} login" do
 #			login_as send(cu)
 #			assert_difference('Enrollment.count',0) do
-#				post :create, :subject_id => 0, :enrollment => {
+#				post :create, :study_subject_id => 0, :enrollment => {
 #					:project_id => Factory(:project).id }
 #			end
 #			assert_not_nil flash[:error]
-#			assert_redirected_to subjects_path
+#			assert_redirected_to study_subjects_path
 #		end
 #
 #		test "should NOT create enrollment with #{cu} login " <<
 #			"when create fails" do
-#			subject = Factory(:subject)
+#			study_subject = Factory(:study_subject)
 #			Enrollment.any_instance.stubs(:create_or_update).returns(false)
 #			login_as send(cu)
 #			assert_difference('Enrollment.count',0) do
-#				post :create, :subject_id => subject.id, :enrollment => {
+#				post :create, :study_subject_id => study_subject.id, :enrollment => {
 #					:project_id => Factory(:project).id }
 #			end
-#			assert assigns(:subject)
+#			assert assigns(:study_subject)
 #			assert_response :success
 #			assert_template 'new'
 #			assert_not_nil flash[:error]
@@ -111,7 +111,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #			e = create_enrollment
 #			login_as send(cu)
 #			assert_difference('Enrollment.count',0) do
-#				post :create, :subject_id => e.subject.id,
+#				post :create, :study_subject_id => e.study_subject.id,
 #					:enrollment => factory_attributes(
 #						:project_id => e.project_id)
 #			end
@@ -125,7 +125,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #		test "should edit enrollment with #{cu} login" do
 #			enrollment = create_enrollment
 #			login_as send(cu)
-#			get :edit, :subject_id => enrollment.subject.id, :id => enrollment.id
+#			get :edit, :study_subject_id => enrollment.study_subject.id, :id => enrollment.id
 #			assert assigns(:enrollment)
 #			assert_response :success
 #			assert_template 'edit'
@@ -134,15 +134,15 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #		test "should NOT edit enrollment with invalid id and #{cu} login" do
 #			enrollment = create_enrollment
 #			login_as send(cu)
-#			get :edit, :subject_id => enrollment.subject.id, :id => 0
-#			assert_redirected_to subjects_path
+#			get :edit, :study_subject_id => enrollment.study_subject.id, :id => 0
+#			assert_redirected_to study_subjects_path
 #		end
 #
 #		test "should update enrollment with #{cu} login" do
 #			enrollment = create_enrollment(:updated_at => Chronic.parse('yesterday'))
 #			login_as send(cu)
 #			assert_changes("Enrollment.find(#{enrollment.id}).updated_at") {
-#				put :update, :subject_id => enrollment.subject.id, 
+#				put :update, :study_subject_id => enrollment.study_subject.id, 
 #					:id => enrollment.id,
 #					:enrollment => factory_attributes
 #			}
@@ -154,11 +154,11 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #			enrollment = create_enrollment(:updated_at => Chronic.parse('yesterday'))
 #			login_as send(cu)
 #			deny_changes("Enrollment.find(#{enrollment.id}).updated_at") {
-#				put :update, :subject_id => enrollment.subject.id, 
+#				put :update, :study_subject_id => enrollment.study_subject.id, 
 #					:id => 0,
 #					:enrollment => factory_attributes
 #			}
-#			assert_redirected_to subjects_path
+#			assert_redirected_to study_subjects_path
 #		end
 #
 #		test "should NOT update enrollment with #{cu} login " <<
@@ -179,9 +179,9 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #		test "should NOT update enrollment with #{cu} login " <<
 #			"and invalid enrollment" do
 #			enrollment = create_enrollment(:updated_at => Chronic.parse('yesterday'))
-#	#		e = create_enrollment(:study_subject_id => enrollment.subject.id)
+#	#		e = create_enrollment(:study_subject_id => enrollment.study_subject.id)
 #	#	TODO (confirm ok)
-#			e = create_enrollment(:subject => enrollment.subject)
+#			e = create_enrollment(:study_subject => enrollment.study_subject)
 #			login_as send(cu)
 #			deny_changes("Enrollment.find(#{enrollment.id}).updated_at") {
 #				put :update, :id => enrollment.id,
@@ -205,10 +205,10 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #	site_readers.each do |cu|
 #
 #		test "should get enrollments with #{cu} login" do
-#			subject = Factory(:subject)
+#			study_subject = Factory(:study_subject)
 #			login_as send(cu)
-#			get :index, :subject_id => subject.id
-#			assert assigns(:subject)
+#			get :index, :study_subject_id => study_subject.id
+#			assert assigns(:study_subject)
 #			assert_response :success
 #			assert_template 'index'
 #		end
@@ -218,25 +218,25 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #	non_site_readers.each do |cu|
 #
 #		test "should NOT get enrollments with #{cu} login" do
-#			subject = Factory(:subject)
+#			study_subject = Factory(:study_subject)
 #			login_as send(cu)
-#			get :index, :subject_id => subject.id
+#			get :index, :study_subject_id => study_subject.id
 #			assert_not_nil flash[:error]
 #			assert_redirected_to root_path
 #		end
 #
 #		test "should NOT get new enrollment with #{cu} login" do
-#			subject = Factory(:subject)
+#			study_subject = Factory(:study_subject)
 #			login_as send(cu)
-#			get :new, :subject_id => subject.id
+#			get :new, :study_subject_id => study_subject.id
 #			assert_not_nil flash[:error]
 #			assert_redirected_to root_path
 #		end
 #
 #		test "should NOT create enrollment with #{cu} login" do
-#			subject = Factory(:subject)
+#			study_subject = Factory(:study_subject)
 #			login_as send(cu)
-#			post :create, :subject_id => subject.id,
+#			post :create, :study_subject_id => study_subject.id,
 #				:enrollment => factory_attributes
 #			assert_not_nil flash[:error]
 #			assert_redirected_to root_path
@@ -245,20 +245,20 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #	end
 #
 #	test "should NOT get enrollments without login" do
-#		subject = Factory(:subject)
-#		get :index, :subject_id => subject.id
+#		study_subject = Factory(:study_subject)
+#		get :index, :study_subject_id => study_subject.id
 #		assert_redirected_to_login
 #	end
 #
 #	test "should NOT get new enrollment without login" do
-#		subject = Factory(:subject)
-#		get :new, :subject_id => subject.id
+#		study_subject = Factory(:study_subject)
+#		get :new, :study_subject_id => study_subject.id
 #		assert_redirected_to_login
 #	end
 #
 #	test "should NOT create enrollment without login" do
-#		subject = Factory(:subject)
-#		post :create, :subject_id => subject.id,
+#		study_subject = Factory(:study_subject)
+#		post :create, :study_subject_id => study_subject.id,
 #			:enrollment => factory_attributes
 #		assert_redirected_to_login
 #	end

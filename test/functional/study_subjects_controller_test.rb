@@ -1,20 +1,20 @@
 require 'test_helper'
 
-class SubjectsControllerTest < ActionController::TestCase
+class StudySubjectsControllerTest < ActionController::TestCase
 
-#	setup :create_home_exposure_with_subject
-	setup :create_subject
+#	setup :create_home_exposure_with_study_subject
+	setup :create_study_subject
 
 	ASSERT_ACCESS_OPTIONS = {
-		:model => 'Subject',
+		:model => 'StudySubject',
 #		:actions => [:new,:create,:edit,:update,:show,:destroy,:index],
 		:actions => [:show,:index],
-#		:before => :create_home_exposure_subjects,
+#		:before => :create_home_exposure_study_subjects,
 		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_subject
+		:method_for_create => :create_study_subject
 	}
 	def factory_attributes(options={})
-		Factory.attributes_for(:subject,{
+		Factory.attributes_for(:study_subject,{
 			:subject_type_id => Factory(:subject_type).id,
 			:race_ids => [Race.random.id]}.merge(options))
 	end
@@ -43,7 +43,7 @@ class SubjectsControllerTest < ActionController::TestCase
 	assert_no_access_with_login(
 		:actions => nil,
 		:suffix => " and invalid id",
-		:redirect => :subjects_path,
+		:redirect => :study_subjects_path,
 		:login => site_readers,
 		:method_for_create => nil,
 		:show => { :id => 0 }
@@ -54,7 +54,7 @@ class SubjectsControllerTest < ActionController::TestCase
 #		:method_for_create => nil,
 #		:actions => nil,
 #		:suffix => " and invalid id",
-#		:redirect => :subjects_path,
+#		:redirect => :study_subjects_path,
 #		:login => :superuser,
 #		:update => { :id => 0 },
 #		:destroy => { :id => 0 },
@@ -83,19 +83,19 @@ class SubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should get show with pii with #{cu} login" do
-			subject = create_subject(
+			study_subject = create_study_subject(
 				:pii_attributes => Factory.attributes_for(:pii))
 			login_as send(cu)
-			get :show, :id => subject
+			get :show, :id => study_subject.id
 			assert_response :success
 			assert_template 'show'
 		end
 	
 		test "should have do_not_contact if it is true "<<
 				"with #{cu} login" do
-			subject = create_subject(:do_not_contact => true)
+			study_subject = create_study_subject(:do_not_contact => true)
 			login_as send(cu)
-			get :show, :id => subject
+			get :show, :id => study_subject.id
 			assert_response :success
 			assert_template 'show'
 			assert_select "#do_not_contact", :count => 1
@@ -104,9 +104,9 @@ class SubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT have do_not_contact if it is false "<<
 				"with #{cu} login" do
-			subject = create_subject(:do_not_contact => false)
+			study_subject = create_study_subject(:do_not_contact => false)
 			login_as send(cu)
-			get :show, :id => subject
+			get :show, :id => study_subject.id
 			assert_response :success
 			assert_template 'show'
 			assert_select "#do_not_contact", :count => 0
@@ -114,12 +114,12 @@ class SubjectsControllerTest < ActionController::TestCase
 			assert_select "#do_not_contact", false
 		end
 	
-		test "should have hospital link if subject is case "<<
+		test "should have hospital link if study_subject is case "<<
 				"with #{cu} login" do
-			subject = create_subject(:subject_type => SubjectType['Case'])
-			assert subject.reload.is_case?
+			study_subject = create_study_subject(:subject_type => SubjectType['Case'])
+			assert study_subject.reload.is_case?
 			login_as send(cu)
-			get :show, :id => subject
+			get :show, :id => study_subject.id
 			assert_response :success
 			assert_template 'show'
 #			assert_select "#submenu", :count => 1 do
@@ -137,11 +137,11 @@ class SubjectsControllerTest < ActionController::TestCase
 	#			assert_select "a", 1, :text => 'hospital'
 			end
 			#	<div id='sidemenu'>
-			#	<a href="/subjects/2" class="current">general</a>
-			#	<a href="/subjects/2/patient">hospital</a>
-			#	<a href="/subjects/2/contacts">address/contact</a>
-			#	<a href="/subjects/2/enrollments">eligibility/enrollments</a>
-			#	<a href="/subjects/2/events">events</a>
+			#	<a href="/study_subjects/2" class="current">general</a>
+			#	<a href="/study_subjects/2/patient">hospital</a>
+			#	<a href="/study_subjects/2/contacts">address/contact</a>
+			#	<a href="/study_subjects/2/enrollments">eligibility/enrollments</a>
+			#	<a href="/study_subjects/2/events">events</a>
 			#	</div><!-- sidemenu -->
 		end
 	
@@ -152,7 +152,7 @@ class SubjectsControllerTest < ActionController::TestCase
 			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
 		end
 
-		test "should get subjects dashboard with #{cu} login" do
+		test "should get study_subjects dashboard with #{cu} login" do
 			login_as send(cu)
 			get :dashboard
 			assert_response :success
@@ -168,7 +168,7 @@ class SubjectsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
-		test "should NOT get subjects dashboard with #{cu} login" do
+		test "should NOT get study_subjects dashboard with #{cu} login" do
 			login_as send(cu)
 			get :dashboard
 			assert_redirected_to root_path
@@ -181,26 +181,26 @@ class SubjectsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should update with #{cu} login" do
-			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
-			assert_difference('Subject.count',0){
+			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
-			assert_changes("Subject.find(#{subject.id}).updated_at") {
-				put :update, :id => subject.id, 
-					:subject => Factory.attributes_for(:subject)
+			assert_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+				put :update, :id => study_subject.id, 
+					:study_subject => Factory.attributes_for(:study_subject)
 			} } } }
-			assert_redirected_to subject_path(assigns(:subject))
+			assert_redirected_to study_subject_path(assigns(:study_subject))
 		end
 	
 #		test "should NOT create with #{cu} login" <<
-#			" with invalid subject" do
+#			" with invalid study_subject" do
 #			login_as send(cu)
-#			Subject.any_instance.stubs(:valid?).returns(false)
-#			assert_difference('Subject.count',0){
+#			StudySubject.any_instance.stubs(:valid?).returns(false)
+#			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
-#				post :create, :subject => {}
+#				post :create, :study_subject => {}
 #			} } }
 #			assert_not_nil flash[:error]
 #			assert_response :success
@@ -210,11 +210,11 @@ class SubjectsControllerTest < ActionController::TestCase
 #		test "should NOT create with #{cu} login" <<
 #			" when save fails" do
 #			login_as send(cu)
-#			Subject.any_instance.stubs(:create_or_update).returns(false)
-#			assert_difference('Subject.count',0){
+#			StudySubject.any_instance.stubs(:create_or_update).returns(false)
+#			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
-#				post :create, :subject => {}
+#				post :create, :study_subject => {}
 #			} } }
 #			assert_not_nil flash[:error]
 #			assert_response :success
@@ -224,11 +224,11 @@ class SubjectsControllerTest < ActionController::TestCase
 #	
 #		test "should NOT create without subject_type_id with #{cu} login" do
 #			login_as send(cu)
-#			assert_difference('Subject.count',0){
+#			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
 #				post :create, 
-#					:subject => Factory.attributes_for(:subject,
+#					:study_subject => Factory.attributes_for(:study_subject,
 #						:subject_type_id => nil )
 #			} } }
 #			assert_not_nil flash[:error]
@@ -237,14 +237,14 @@ class SubjectsControllerTest < ActionController::TestCase
 #		end
 #	
 #		test "should NOT create without race_id with #{cu} login" do
-#			subject = create_subject
+#			study_subject = create_study_subject
 #			login_as send(cu)
 #pending
-##			assert_difference('Subject.count',0){
+##			assert_difference('StudySubject.count',0){
 ##			assert_difference('SubjectType.count',0){
 ##			assert_difference('Race.count',0){
 ##				post :create, 
-##					:subject => Factory.attributes_for(:subject,
+##					:study_subject => Factory.attributes_for(:study_subject,
 ##						:race_id => nil )
 ##			} } }
 ##			assert_not_nil flash[:error]
@@ -253,13 +253,13 @@ class SubjectsControllerTest < ActionController::TestCase
 #		end
 #	
 #		test "should NOT create without valid subject_type_id with #{cu} login" do
-#			subject = create_subject
+#			study_subject = create_study_subject
 #			login_as send(cu)
-#			assert_difference('Subject.count',0){
+#			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
 #				post :create, 
-#					:subject => Factory.attributes_for(:subject,
+#					:study_subject => Factory.attributes_for(:study_subject,
 #						:subject_type_id => 0 )
 #			} } }
 #			assert_not_nil flash[:error]
@@ -268,14 +268,14 @@ class SubjectsControllerTest < ActionController::TestCase
 #		end
 #	
 #		test "should NOT create without valid race_id with #{cu} login" do
-#			subject = create_subject
+#			study_subject = create_study_subject
 #			login_as send(cu)
 #pending
-##			assert_difference('Subject.count',0){
+##			assert_difference('StudySubject.count',0){
 ##			assert_difference('SubjectType.count',0){
 ##			assert_difference('Race.count',0){
 ##				post :create, 
-##					:subject => Factory.attributes_for(:subject,
+##					:study_subject => Factory.attributes_for(:study_subject,
 ##						:race_id => 0 )
 ##			} } }
 ##			assert_not_nil flash[:error]
@@ -286,15 +286,15 @@ class SubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT update with #{cu} login" <<
 			" and invalid" do
-			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-			Subject.any_instance.stubs(:valid?).returns(false)
+			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			StudySubject.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
-			assert_difference('Subject.count',0){
+			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
-			deny_changes("Subject.find(#{subject.id}).updated_at") {
-				put :update, :id => subject.id,
-					:subject => {}
+			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+				put :update, :id => study_subject.id,
+					:study_subject => {}
 			} } } }
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -303,15 +303,15 @@ class SubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT update with #{cu} login" <<
 			" and save fails" do
-			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-			Subject.any_instance.stubs(:create_or_update).returns(false)
+			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
-			assert_difference('Subject.count',0){
+			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
-			deny_changes("Subject.find(#{subject.id}).updated_at") {
-				put :update, :id => subject.id,
-					:subject => {}
+			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+				put :update, :id => study_subject.id,
+					:study_subject => {}
 			} } } }
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -319,14 +319,14 @@ class SubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should NOT update without subject_type_id with #{cu} login" do
-			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
-			assert_difference('Subject.count',0){
+			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
-			deny_changes("Subject.find(#{subject.id}).updated_at") {
-				put :update, :id => subject.id,
-					:subject => { :subject_type_id => nil }
+			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+				put :update, :id => study_subject.id,
+					:study_subject => { :subject_type_id => nil }
 			} } } }
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -334,15 +334,15 @@ class SubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should NOT update without race_id with #{cu} login" do
-			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
 pending
-#			assert_difference('Subject.count',0){
+#			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
-#			deny_changes("Subject.find(#{subject.id}).updated_at") {
-#				put :update, :id => subject.id,
-#					:subject => { :race_id => nil }
+#			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+#				put :update, :id => study_subject.id,
+#					:study_subject => { :race_id => nil }
 #			} } } }
 #			assert_not_nil flash[:error]
 #			assert_response :success
@@ -350,14 +350,14 @@ pending
 		end
 	
 		test "should NOT update without valid subject_type_id with #{cu} login" do
-			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
-			assert_difference('Subject.count',0){
+			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
-			deny_changes("Subject.find(#{subject.id}).updated_at") {
-				put :update, :id => subject.id,
-					:subject => { :subject_type_id => 0 }
+			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+				put :update, :id => study_subject.id,
+					:study_subject => { :subject_type_id => 0 }
 			} } } }
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -365,15 +365,15 @@ pending
 		end
 	
 		test "should NOT update without valid race_id with #{cu} login" do
-			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
 pending
-#			assert_difference('Subject.count',0){
+#			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
-#			deny_changes("Subject.find(#{subject.id}).updated_at") {
-#				put :update, :id => subject.id,
-#					:subject => { :race_ids => [0] }
+#			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+#				put :update, :id => study_subject.id,
+#					:study_subject => { :race_ids => [0] }
 #			} } } }
 #			assert_not_nil flash[:error]
 #			assert_response :success
@@ -385,14 +385,14 @@ pending
 	non_site_editors.each do |cu|
 
 		test "should NOT update with #{cu} login" do
-			subject = create_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
-			assert_difference('Subject.count',0){
+			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
-			deny_changes("Subject.find(#{subject.id}).updated_at") {
-				put :update, :id => subject.id, 
-					:subject => Factory.attributes_for(:subject)
+			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+				put :update, :id => study_subject.id, 
+					:study_subject => Factory.attributes_for(:study_subject)
 			} } } }
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -414,26 +414,26 @@ pending
 	end
 
 	test "should NOT update without login" do
-		subject = create_subject(:updated_at => Chronic.parse('yesterday'))
-		assert_difference('Subject.count',0){
+		study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+		assert_difference('StudySubject.count',0){
 		assert_difference('SubjectType.count',0){
 		assert_difference('Race.count',0){
-		deny_changes("Subject.find(#{subject.id}).updated_at") {
-			put :update, :id => subject.id, 
-				:subject => Factory.attributes_for(:subject)
+		deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+			put :update, :id => study_subject.id, 
+				:study_subject => Factory.attributes_for(:study_subject)
 		} } } }
 		assert_redirected_to_login
 	end
 
 protected
 
-	def create_home_exposure_subjects
+	def create_home_exposure_study_subjects
 		p = Project.find_or_create_by_code('HomeExposures')
-		assert_difference('Subject.count',3) {
+		assert_difference('StudySubject.count',3) {
 		assert_difference('Enrollment.count',3) {
 			3.times do
-				s  = create_subject
-				Factory(:enrollment, :subject => s, :project => p )
+				s  = create_study_subject
+				Factory(:enrollment, :study_subject => s, :project => p )
 				s
 			end
 		} }

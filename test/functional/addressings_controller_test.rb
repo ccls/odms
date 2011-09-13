@@ -7,7 +7,7 @@ class AddressingsControllerTest < ActionController::TestCase
 	assert_no_route(:get,:show)
 	assert_no_route(:get,:show,:id => 0)
 
-	#	no subject_id
+	#	no study_subject_id
 	assert_no_route(:get,:new)
 	assert_no_route(:post,:create)
 
@@ -53,62 +53,62 @@ class AddressingsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should get new addressing with #{cu} login" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			get :new, :subject_id => subject.id
-			assert assigns(:subject)
+			get :new, :study_subject_id => study_subject.id
+			assert assigns(:study_subject)
 			assert assigns(:addressing)
 			assert_response :success
 			assert_template 'new'
 		end
 
-		test "should NOT get new addressing with invalid subject_id " <<
+		test "should NOT get new addressing with invalid study_subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
-			get :new, :subject_id => 0
+			get :new, :study_subject_id => 0
 			assert_not_nil flash[:error]
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
-		test "should make subject ineligible after create " <<
+		test "should make study_subject ineligible after create " <<
 				"with #{cu} login" do
-			subject = create_eligible_hx_subject
+			study_subject = create_eligible_hx_study_subject
 			login_as send(cu)
-			assert_difference("Subject.find(#{subject.id}).addressings.count",1) {
-			assert_difference("Subject.find(#{subject.id}).addresses.count",1) {
+			assert_difference("StudySubject.find(#{study_subject.id}).addressings.count",1) {
+			assert_difference("StudySubject.find(#{study_subject.id}).addresses.count",1) {
 			assert_difference('Addressing.count',1) {
 			assert_difference('Address.count',1) {
-				post :create, :subject_id => subject.id,
+				post :create, :study_subject_id => study_subject.id,
 					:addressing => az_addressing()
 			} } } }
-			assert assigns(:subject)
-			subject.hx_enrollment.reload	#	NEEDED
-			assert_subject_is_not_eligible(subject)
-			assert_equal   subject.hx_enrollment.ineligible_reason,
+			assert assigns(:study_subject)
+			study_subject.hx_enrollment.reload	#	NEEDED
+			assert_study_subject_is_not_eligible(study_subject)
+			assert_equal   study_subject.hx_enrollment.ineligible_reason,
 				IneligibleReason['newnonCA']
-			assert_redirected_to subject_contacts_path(subject)
+			assert_redirected_to study_subject_contacts_path(study_subject)
 		end
 
 		test "should create new addressing with #{cu} login" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			assert_difference("Subject.find(#{subject.id}).addressings.count",1) {
-			assert_difference("Subject.find(#{subject.id}).addresses.count",1) {
+			assert_difference("StudySubject.find(#{study_subject.id}).addressings.count",1) {
+			assert_difference("StudySubject.find(#{study_subject.id}).addresses.count",1) {
 			assert_difference('Addressing.count',1) {
 			assert_difference('Address.count',1) {
 			assert_difference('AddressType.count',1) {
-				post :create, :subject_id => subject.id,
+				post :create, :study_subject_id => study_subject.id,
 					:addressing => factory_attributes(address_attributes)
 			} } } } }
-			assert assigns(:subject)
-			assert_redirected_to subject_contacts_path(subject)
+			assert assigns(:study_subject)
+			assert_redirected_to study_subject_contacts_path(study_subject)
 		end
 
 		test "should set verified_on on create if is_verified " <<
 				"with #{cu} login" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			post :create, :subject_id => subject.id,
+			post :create, :study_subject_id => study_subject.id,
 				:addressing => factory_attributes(
 					:is_verified => true,
 					:how_verified => 'no idea'
@@ -119,9 +119,9 @@ class AddressingsControllerTest < ActionController::TestCase
 
 		test "should set verified_by on create if is_verified " <<
 				"with #{cu} login" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as u = send(cu)
-			post :create, :subject_id => subject.id,
+			post :create, :study_subject_id => study_subject.id,
 				:addressing => factory_attributes(
 					:is_verified => true,
 					:how_verified => 'no idea'
@@ -131,29 +131,29 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_equal assigns(:addressing).verified_by_id, u.id
 		end
 
-		test "should NOT create new addressing with invalid subject_id " <<
+		test "should NOT create new addressing with invalid study_subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-				post :create, :subject_id => 0, 
+				post :create, :study_subject_id => 0, 
 					:addressing => factory_attributes
 			} }
 			assert_not_nil flash[:error]
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT create new addressing with #{cu} login " <<
 				"when create fails" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			Addressing.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-				post :create, :subject_id => subject.id,
+				post :create, :study_subject_id => study_subject.id,
 					:addressing => factory_attributes
 			} }
-			assert assigns(:subject)
+			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'new'
 			assert_not_nil flash[:error]
@@ -162,14 +162,14 @@ class AddressingsControllerTest < ActionController::TestCase
 		test "should NOT create new addressing with #{cu} login " <<
 				"and invalid addressing" do
 			Addressing.any_instance.stubs(:valid?).returns(false)
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-				post :create, :subject_id => subject.id,
+				post :create, :study_subject_id => study_subject.id,
 					:addressing => factory_attributes
 			} }
-			assert assigns(:subject)
+			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'new'
 			assert_not_nil flash[:error]
@@ -179,16 +179,16 @@ class AddressingsControllerTest < ActionController::TestCase
 				"and invalid address" do
 	#		Address.any_instance.stubs(:valid?).returns(false)
 			Address.any_instance.stubs(:create_or_update).returns(false)
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-				post :create, :subject_id => subject.id,
+				post :create, :study_subject_id => study_subject.id,
 					:addressing => factory_attributes(address_attributes(
 						:line_1 => nil
 					))
 			} }
-			assert assigns(:subject)
+			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'new'
 			assert_not_nil flash[:error]
@@ -209,7 +209,7 @@ class AddressingsControllerTest < ActionController::TestCase
 			addressing = create_addressing
 			login_as send(cu)
 			get :edit, :id => 0
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
 #	TODO duplicate?
@@ -221,7 +221,7 @@ class AddressingsControllerTest < ActionController::TestCase
 					:addressing => factory_attributes
 			}
 			assert assigns(:addressing)
-			assert_redirected_to subject_contacts_path(addressing.subject)
+			assert_redirected_to study_subject_contacts_path(addressing.study_subject)
 		end
 
 		test "should set verified_on on update if is_verified " <<
@@ -259,7 +259,7 @@ class AddressingsControllerTest < ActionController::TestCase
 				put :update, :id => 0,
 					:addressing => factory_attributes
 			}
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
 #	TODO duplicate?
@@ -331,17 +331,17 @@ class AddressingsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT get new addressing with #{cu} login" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			get :new, :subject_id => subject.id
+			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
 
 		test "should NOT create new addressing with #{cu} login" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			post :create, :subject_id => subject.id,
+			post :create, :study_subject_id => study_subject.id,
 				:addressing => factory_attributes
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -350,14 +350,14 @@ class AddressingsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get new addressing without login" do
-		subject = Factory(:subject)
-		get :new, :subject_id => subject.id
+		study_subject = Factory(:study_subject)
+		get :new, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT create new addressing without login" do
-		subject = Factory(:subject)
-		post :create, :subject_id => subject.id,
+		study_subject = Factory(:study_subject)
+		post :create, :study_subject_id => study_subject.id,
 			:addressing => factory_attributes
 		assert_redirected_to_login
 	end

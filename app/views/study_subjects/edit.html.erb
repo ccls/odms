@@ -1,0 +1,13 @@
+<% sub_menu_for(@study_subject) %>
+<% content_for :id_bar do %>
+<%= link_to 'Save', nil, {
+	:id => "for_#{dom_id(@study_subject,:edit)}",
+	:class => :submitter
+} %>
+<% end %>
+
+<% form_for(@study_subject, 
+	:url => study_subject_path(@study_subject),
+	:html => { :class => 'confirm edit_study_subject' } ) do |f| %>
+<%= render 'form', :f => f %>
+<% end %>

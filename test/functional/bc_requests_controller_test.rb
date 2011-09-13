@@ -24,10 +24,10 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should get new with existing bc_requests and #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			case_subject.bc_requests.create
+			case_study_subject = create_case_control_study_subject
+			case_study_subject.bc_requests.create
 			get :new
-			assert_nil assigns(:subject)
+			assert_nil assigns(:study_subject)
 			assert_not_nil assigns(:active_bc_requests)
 			assert_not_nil assigns(:waitlist_bc_requests)
 			assert_nil flash[:error]
@@ -35,96 +35,96 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-		test "should NOT add case subject to bc_requests without patid and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests without patid and #{cu} login" do
 			login_as send(cu)
 			assert_difference('BcRequest.count',0) {
 				post :create
 			}
-			assert_nil assigns(:subject)
+			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should NOT add case subject to bc_requests without matching patid and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests without matching patid and #{cu} login" do
 			login_as send(cu)
 			assert_difference('BcRequest.count',0) {
 				post :create, :patid => 'donotmatchpatid'
 			}
-			assert_nil assigns(:subject)
+			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_redirected_to new_bc_request_path
 		end
 
-		#	create multiple subjects and stub search so all returned mimicing multiple matches
-		test "should NOT add case subject to bc_requests with multiple matching patid and #{cu} login" do
+		#	create multiple study_subjects and stub search so all returned mimicing multiple matches
+		test "should NOT add case study_subject to bc_requests with multiple matching patid and #{cu} login" do
 			login_as send(cu)
-			create_case_control_subject
-			create_case_control_subject
-			Subject.stubs(:search).returns(Subject.all)
+			create_case_control_study_subject
+			create_case_control_study_subject
+			StudySubject.stubs(:search).returns(StudySubject.all)
 			assert_difference('BcRequest.count',0) {
 				post :create, :patid => 'irrelevant_for_this_test'
 			}
-			assert_nil assigns(:subject)
+			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_redirected_to new_bc_request_path
 		end
 
 		#	non-case is effectively not a valid patid
-		test "should NOT add case subject to bc_requests with non-case subject and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests with non-case study_subject and #{cu} login" do
 			login_as send(cu)
-			non_case_subject = create_subject_with_patid('1234')
-			assert !non_case_subject.new_record?
-			assert_not_nil non_case_subject.patid
+			non_case_study_subject = create_study_subject_with_patid('1234')
+			assert !non_case_study_subject.new_record?
+			assert_not_nil non_case_study_subject.patid
 			assert_difference('BcRequest.count',0) {
-				post :create, :patid => non_case_subject.patid
+				post :create, :patid => non_case_study_subject.patid
 			}
-			assert_nil assigns(:subject)
+			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should NOT add case subject to bc_requests with existing incomplete bc_request and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests with existing incomplete bc_request and #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			case_subject.bc_requests.create
+			case_study_subject = create_case_control_study_subject
+			case_study_subject.bc_requests.create
 			assert_difference('BcRequest.count',0) {
-				post :create, :patid => case_subject.patid
+				post :create, :patid => case_study_subject.patid
 			}
-			assert_not_nil assigns(:subject)
+			assert_not_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
-			assert_equal case_subject, assigns(:subject)
+			assert_equal case_study_subject, assigns(:study_subject)
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should add case subject to bc_requests with existing complete bc_request and #{cu} login" do
+		test "should add case study_subject to bc_requests with existing complete bc_request and #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			case_subject.bc_requests.create(:status => 'complete')
+			case_study_subject = create_case_control_study_subject
+			case_study_subject.bc_requests.create(:status => 'complete')
 			assert_difference('BcRequest.count',1) {
-				post :create, :patid => case_subject.patid
+				post :create, :patid => case_study_subject.patid
 			}
-			assert_not_nil assigns(:subject)
-			assert_equal 'active', assigns(:subject).bc_requests.last.status
-			assert_equal case_subject, assigns(:subject)
+			assert_not_nil assigns(:study_subject)
+			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
+			assert_equal case_study_subject, assigns(:study_subject)
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should add case subject to bc_requests with matching patid and #{cu} login" do
+		test "should add case study_subject to bc_requests with matching patid and #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
+			case_study_subject = create_case_control_study_subject
 			assert_difference('BcRequest.count',1) {
-				post :create, :patid => case_subject.patid
+				post :create, :patid => case_study_subject.patid
 			}
-			assert_not_nil assigns(:subject)
-			assert_equal 'active', assigns(:subject).bc_requests.last.status
-			assert_equal case_subject, assigns(:subject)
+			assert_not_nil assigns(:study_subject)
+			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
+			assert_equal case_study_subject, assigns(:study_subject)
 			assert_redirected_to new_bc_request_path
 		end
 
 		test "should NOT update bc_request status with invalid status and #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			deny_changes("BcRequest.find(#{bcr.id}).status") {
 				put :update_status, :id => bcr.id, :status => 'bogus'
 			}
@@ -134,8 +134,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update bc_request status with invalid id and #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			deny_changes("BcRequest.find(#{bcr.id}).status") {
 				put :update_status, :id => 0, :status => 'waitlist'
 			}
@@ -145,8 +145,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should update bc_request status with #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			assert_changes("BcRequest.find(#{bcr.id}).status") {
 				put :update_status, :id => bcr.id, :status => 'waitlist'
 			}
@@ -167,8 +167,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should get bc_requests with #{cu} login and requests" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			bcr = case_subject.bc_requests.create
+			case_study_subject = create_case_control_study_subject
+			bcr = case_study_subject.bc_requests.create
 			get :index
 			assert_response :success
 			assert_template 'index'
@@ -179,8 +179,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should export bc_requests to csv with #{cu} login and requests" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			bcr = case_subject.bc_requests.create
+			case_study_subject = create_case_control_study_subject
+			bcr = case_study_subject.bc_requests.create
 			get :index, :format => 'csv'
 			assert_response :success
 			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
@@ -192,8 +192,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should get pending bc_requests with #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			bcr = case_subject.bc_requests.create(:status => 'pending')
+			case_study_subject = create_case_control_study_subject
+			bcr = case_study_subject.bc_requests.create(:status => 'pending')
 			get :index, :status => 'pending'
 			assert_response :success
 			assert_template 'index'
@@ -205,15 +205,15 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should confirm actives exported with #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			assert case_subject.enrollments.empty?
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			assert case_study_subject.enrollments.empty?
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			get :confirm
 			assert_redirected_to new_bc_request_path
 			assert_equal 'pending', bcr.reload.status
 			assert_equal Date.today, bcr.sent_on
-			assert !case_subject.reload.enrollments.empty?
-			enrollment = case_subject.enrollments.first
+			assert !case_study_subject.reload.enrollments.empty?
+			enrollment = case_study_subject.enrollments.first
 			assert_equal Project['phase5'], enrollment.project
 			assert !enrollment.operational_events.empty?
 			assert_equal 1, enrollment.operational_events.length
@@ -224,9 +224,9 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT confirm actives exported with #{cu} login if " <<
 				"enrollment creation fails" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			assert case_subject.enrollments.empty?
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			assert case_study_subject.enrollments.empty?
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			Enrollment.any_instance.stubs(:create_or_update).returns(false)
 			assert_difference('Enrollment.count',0) {
 			assert_difference('OperationalEvent.count',0) {
@@ -239,9 +239,9 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT confirm actives exported with #{cu} login if " <<
 				"enrollment invalid" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			assert case_subject.enrollments.empty?
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			assert case_study_subject.enrollments.empty?
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			Enrollment.any_instance.stubs(:valid?).returns(false)
 			assert_difference('Enrollment.count',0) {
 			assert_difference('OperationalEvent.count',0) {
@@ -254,9 +254,9 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT confirm actives exported with #{cu} login if " <<
 				"operational event creation fails" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			assert case_subject.enrollments.empty?
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			assert case_study_subject.enrollments.empty?
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
 			assert_difference('Enrollment.count',0) {
 			assert_difference('OperationalEvent.count',0) {
@@ -269,9 +269,9 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT confirm actives exported with #{cu} login if " <<
 				"operational event invalid" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			assert case_subject.enrollments.empty?
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			assert case_study_subject.enrollments.empty?
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			OperationalEvent.any_instance.stubs(:valid?).returns(false)
 			assert_difference('Enrollment.count',0) {
 			assert_difference('OperationalEvent.count',0) {
@@ -295,21 +295,21 @@ pending
 
 	non_site_editors.each do |cu|
 
-		test "should NOT add case subject to bc_requests with matching patid and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests with matching patid and #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
+			case_study_subject = create_case_control_study_subject
 			assert_difference('BcRequest.count',0) {
-				post :create, :patid => case_subject.patid
+				post :create, :patid => case_study_subject.patid
 			}
-			assert_nil assigns(:subject)
+			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
 
 		test "should NOT update bc_request status with #{cu} login" do
 			login_as send(cu)
-			case_subject = create_case_control_subject
-			bcr = case_subject.bc_requests.create(:status => 'active')
+			case_study_subject = create_case_control_study_subject
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			deny_changes("BcRequest.find(#{bcr.id}).status") {
 				put :update_status, :id => bcr.id, :status => 'waitlist'
 			}
@@ -339,18 +339,18 @@ pending
 #	no login ...
 #
 
-	test "should NOT add case subject to bc_requests with matching patid and without login" do
-		case_subject = create_case_control_subject
+	test "should NOT add case study_subject to bc_requests with matching patid and without login" do
+		case_study_subject = create_case_control_study_subject
 		assert_difference('BcRequest.count',0) {
-			post :create, :patid => case_subject.patid
+			post :create, :patid => case_study_subject.patid
 		}
-		assert_nil assigns(:subject)
+		assert_nil assigns(:study_subject)
 		assert_redirected_to_login
 	end
 
 	test "should NOT update bc_request status without login" do
-		case_subject = create_case_control_subject
-		bcr = case_subject.bc_requests.create(:status => 'active')
+		case_study_subject = create_case_control_study_subject
+		bcr = case_study_subject.bc_requests.create(:status => 'active')
 		deny_changes("BcRequest.find(#{bcr.id}).status") {
 			put :update_status, :id => bcr.id, :status => 'waitlist'
 		}

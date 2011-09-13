@@ -1,0 +1,8 @@
+<hr/>
+<% if @study_subject.dust_kit %>
+	<%= button_link_to "Show dust kit package statuses", 
+		study_subject_dust_kit_path(@study_subject) %>
+<% else %>
+	<%= button_link_to "Send Dust Kit", 
+		new_study_subject_dust_kit_path(@study_subject) %>
+<% end %>

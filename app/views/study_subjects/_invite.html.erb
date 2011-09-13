@@ -1,6 +1,6 @@
 <hr/>
-<% if @subject.is_eligible_for_invitation? %>
-	<% if invite = @subject.her_invitation %>
+<% if @study_subject.is_eligible_for_invitation? %>
+	<% if invite = @study_subject.her_invitation %>
 		<p><%= "Subject was sent invitation on #{invite.created_at.to_s(:mdy)}" %></p>
 
 		<% if invite.response_set && invite.response_set.is_complete? %>
@@ -25,7 +25,7 @@
 			
 		<% end %>
 	<% else %>
-		<% form_tag(subject_survey_invitations_path(@subject)) do %>
+		<% form_tag(study_subject_survey_invitations_path(@study_subject)) do %>
 			<%= hidden_field_tag :access_code, "home_exposure_survey", 
 				:id => nil %>
 			<%= submit_tag "Create and send new Survey Invitation", 
@@ -35,4 +35,4 @@
 
 <% else %>
 	<p>Subject is not eligible for invitation.</p>
-<% end %><%# @subject.is_eligible_for_invitation? %>
+<% end %><%# @study_subject.is_eligible_for_invitation? %>

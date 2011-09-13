@@ -1,7 +1,7 @@
-<% sub_menu_for(@subject) %>
-<% id_bar_for(@subject) %>
+<% sub_menu_for(@study_subject) %>
+<% id_bar_for(@study_subject) %>
 
-<% if @subject.enrollments.length > 0 %>
+<% if @study_subject.enrollments.length > 0 %>
 <table id='enrollments'><thead><tr>
 <th class='project'>Study
 </th><!-- class='project' -->
@@ -17,7 +17,7 @@
 </th><!-- class='completed' -->
 </tr></thead><tbody>
 <%= render :partial => 'enrollment', 
-	:collection => @subject.enrollments,
+	:collection => @study_subject.enrollments,
 	:locals => { :edit => current_user.may_edit_enrollments? } %>
 </tbody></table><!-- id='enrollments' -->
 <% else %>

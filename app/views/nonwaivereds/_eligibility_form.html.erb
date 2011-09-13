@@ -6,7 +6,7 @@
 	check_box(object_name, method, options = {}, checked_value = "1", unchecked_value = "0")
 %>
 
-<% @subject.build_patient if @subject.patient.nil? %>
+<% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
  <p>Is this patient under age 15?
   <%= patient_fields.check_box :was_under_15_at_dx, {}, true, false %>

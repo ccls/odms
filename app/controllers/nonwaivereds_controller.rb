@@ -3,7 +3,7 @@ class NonwaiveredsController < ApplicationController
 	before_filter :may_create_subjects_required
 
 	def new
-		@subject = Subject.new
+		@subject = StudySubject.new
 	end
 
 	def create
@@ -32,11 +32,11 @@ class NonwaiveredsController < ApplicationController
 		subject_params["patient_attributes"]["raf_county"] = 
 			subject_params.dig("addressings_attributes","0","address_attributes","county")
 
-		@subject = Subject.new(subject_params)
+		@subject = StudySubject.new(subject_params)
 		@subject.save!
 		redirect_to @subject
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		flash.now[:error] = "Subject creation failed"
+		flash.now[:error] = "StudySubject creation failed"
 		render :action => 'new'
 	end
 

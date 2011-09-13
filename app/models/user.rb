@@ -55,7 +55,7 @@ class User < Ccls::User
 		alias_method "may_destroy_#{resource}?".to_sym, :may_edit?
 	end
 
-	%w(	addressings addresses home_exposures phone_numbers subjects
+	%w(	addressings addresses home_exposures phone_numbers study_subjects
 			enrollments events projects
 			).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_create?

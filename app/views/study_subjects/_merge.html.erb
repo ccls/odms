@@ -1,0 +1,16 @@
+<% if ( @study_subject.response_sets_count >= 2 ) %>
+	<% if @study_subject.home_exposure_response.nil? %>
+		<% if @study_subject.response_sets.collect(&:is_complete?).all? %>
+			<%= link_to "Merge", 
+				new_study_subject_home_exposure_response_path(@study_subject) -%>
+			<% if @study_subject.response_sets_the_same? %>
+				<span> (Same) </span>
+			<% else %>
+				<span> (Differ) </span>
+			<% end %>
+		<% end %>
+	<% else %>
+		<%= link_to "View Merged HER", 
+			study_subject_home_exposure_response_path(@study_subject) %>
+	<% end %>
+<% end %>

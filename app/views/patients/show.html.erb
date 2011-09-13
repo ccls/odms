@@ -1,9 +1,9 @@
-<% sub_menu_for(@subject) %>
+<% sub_menu_for(@study_subject) %>
 
 <% content_for :id_bar do %>
-<%= link_to 'Edit', edit_subject_patient_path(@subject) %>
+<%= link_to 'Edit', edit_study_subject_patient_path(@study_subject) %>
 <% end if current_user.may_edit_patients? %>
-<% id_bar_for(@subject) %>
+<% id_bar_for(@study_subject) %>
 
 <div id='patient'>
 <div class='admit_date field_wrapper'>
@@ -19,13 +19,13 @@
 </div><!-- id='patient' -->
 
 <h4>Development Only:</h4>
-<%= destroy_link_to 'Destroy', subject_patient_path(@subject) %>
-<%# unless( @identifier = @patient.try(:subject).try(:identifier) ).nil? %>
-<% unless( @identifier = @subject.try(:identifier) ).nil? %>
+<%= destroy_link_to 'Destroy', study_subject_patient_path(@study_subject) %>
+<%# unless( @identifier = @patient.try(:study_subject).try(:identifier) ).nil? %>
+<% unless( @identifier = @study_subject.try(:identifier) ).nil? %>
 <%= wrapped_spans(:identifier,:familyid) %>
 <%= wrapped_spans(:identifier,:matchingid) %>
 <% require_dependency 'identifier.rb' #	development forgets %>
 <% Identifier.find_all_by_matchingid(@identifier.matchingid).each do |i| %>
-<%= link_to i.subject.full_name, subject_path(i.subject) %>
+<%= link_to i.study_subject.full_name, study_subject_path(i.study_subject) %>
 <% end %>
 <% end %>

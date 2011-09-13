@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PhoneNumbersControllerTest < ActionController::TestCase
 
-	#	no subject_id
+	#	no study_subject_id
 	assert_no_route(:get,:new)
 	assert_no_route(:post,:create)
 
@@ -45,40 +45,40 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should get new phone_number with #{cu} login" do
-			subject = create_subject	#	Factory(:subject)
+			study_subject = create_study_subject	#	Factory(:study_subject)
 			login_as send(cu)
-			get :new, :subject_id => subject.id
-			assert assigns(:subject)
+			get :new, :study_subject_id => study_subject.id
+			assert assigns(:study_subject)
 			assert assigns(:phone_number)
 			assert_response :success
 			assert_template 'new'
 		end
 
-		test "should NOT get new phone_number with invalid subject_id " <<
+		test "should NOT get new phone_number with invalid study_subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
-			get :new, :subject_id => 0
+			get :new, :study_subject_id => 0
 			assert_not_nil flash[:error]
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should create new phone_number with #{cu} login" do
-			subject = create_subject	#	Factory(:subject)
+			study_subject = create_study_subject	#	Factory(:study_subject)
 			login_as send(cu)
-			assert_difference("Subject.find(#{subject.id}).phone_numbers.count",1) {
+			assert_difference("StudySubject.find(#{study_subject.id}).phone_numbers.count",1) {
 			assert_difference('PhoneNumber.count',1) {
-				post :create, :subject_id => subject.id,
+				post :create, :study_subject_id => study_subject.id,
 					:phone_number => factory_attributes
 			} }
-			assert assigns(:subject)
-			assert_redirected_to subject_contacts_path(subject)
+			assert assigns(:study_subject)
+			assert_redirected_to study_subject_contacts_path(study_subject)
 		end
 
 		test "should set verified_on on create if is_verified " <<
 				"with #{cu} login" do
-			subject = create_subject	#	Factory(:subject)
+			study_subject = create_study_subject	#	Factory(:study_subject)
 			login_as send(cu)
-			post :create, :subject_id => subject.id,
+			post :create, :study_subject_id => study_subject.id,
 				:phone_number => factory_attributes(
 					:is_verified => true,
 					:how_verified => 'no idea'
@@ -89,9 +89,9 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 
 		test "should set verified_by on create if is_verified " <<
 				"with #{cu} login" do
-			subject = create_subject	#	Factory(:subject)
+			study_subject = create_study_subject	#	Factory(:study_subject)
 			login_as u = send(cu)
-			post :create, :subject_id => subject.id,
+			post :create, :study_subject_id => study_subject.id,
 				:phone_number => factory_attributes(
 					:is_verified => true,
 					:how_verified => 'no idea'
@@ -101,27 +101,27 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert_equal assigns(:phone_number).verified_by_id, u.id
 		end
 
-		test "should NOT create new phone_number with invalid subject_id " <<
+		test "should NOT create new phone_number with invalid study_subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0) do
-				post :create, :subject_id => 0, 
+				post :create, :study_subject_id => 0, 
 					:phone_number => factory_attributes
 			end
 			assert_not_nil flash[:error]
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT create new phone_number with #{cu} login when " <<
 				"create fails" do
-			subject = create_subject	#	Factory(:subject)
+			study_subject = create_study_subject	#	Factory(:study_subject)
 			PhoneNumber.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0) do
-				post :create, :subject_id => subject.id,
+				post :create, :study_subject_id => study_subject.id,
 					:phone_number => factory_attributes
 			end
-			assert assigns(:subject)
+			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'new'
 			assert_not_nil flash[:error]
@@ -129,14 +129,14 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 
 		test "should NOT create new phone_number with #{cu} login " <<
 				"and invalid phone_number" do
-			subject = create_subject	#	Factory(:subject)
+			study_subject = create_study_subject	#	Factory(:study_subject)
 			PhoneNumber.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0) do
-				post :create, :subject_id => subject.id,
+				post :create, :study_subject_id => study_subject.id,
 					:phone_number => factory_attributes
 			end
-			assert assigns(:subject)
+			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'new'
 			assert_not_nil flash[:error]
@@ -158,7 +158,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			phone_number = create_phone_number
 			login_as send(cu)
 			get :edit, :id => 0
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
 #	TODO duplicate?
@@ -171,7 +171,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 					:phone_number => factory_attributes
 			}
 			assert assigns(:phone_number)
-			assert_redirected_to subject_contacts_path(phone_number.subject)
+			assert_redirected_to study_subject_contacts_path(phone_number.study_subject)
 		end
 
 		test "should set verified_on on update if is_verified " <<
@@ -210,7 +210,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 				put :update, :id => 0,
 					:phone_number => factory_attributes
 			}
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
 #	TODO duplicate?
@@ -252,17 +252,17 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT get new phone_number with #{cu} login" do
-			subject = create_subject	#	Factory(:subject)
+			study_subject = create_study_subject	#	Factory(:study_subject)
 			login_as send(cu)
-			get :new, :subject_id => subject.id
+			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
 
 		test "should NOT create new phone_number with #{cu} login" do
-			subject = create_subject	#	Factory(:subject)
+			study_subject = create_study_subject	#	Factory(:study_subject)
 			login_as send(cu)
-			post :create, :subject_id => subject.id,
+			post :create, :study_subject_id => study_subject.id,
 				:phone_number => factory_attributes
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -271,14 +271,14 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get new phone_number without login" do
-		subject = create_subject	#	Factory(:subject)
-		get :new, :subject_id => subject.id
+		study_subject = create_study_subject	#	Factory(:study_subject)
+		get :new, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT create new phone_number without login" do
-		subject = create_subject	#	Factory(:subject)
-		post :create, :subject_id => subject.id,
+		study_subject = create_study_subject	#	Factory(:study_subject)
+		post :create, :study_subject_id => study_subject.id,
 			:phone_number => factory_attributes
 		assert_redirected_to_login
 	end

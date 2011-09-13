@@ -3,9 +3,9 @@ require 'test_helper'
 class BcValidationsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = { 
-#		:model => 'Subject',
+#		:model => 'StudySubject',
 		:actions => [:index,:show],
-		:method_for_create => :create_case_control_subject
+		:method_for_create => :create_case_control_study_subject
 	}
 
 	assert_access_with_login({    :logins => site_editors })
@@ -24,10 +24,10 @@ class BcValidationsControllerTest < ActionController::TestCase
 			assert_redirected_to bc_validations_path
 		end
 
-		test "should NOT show bc_validation with #{cu} login and non-case subject" do
+		test "should NOT show bc_validation with #{cu} login and non-case study_subject" do
 			login_as send(cu)
-			subject = create_subject
-			get :show, :id => subject.id
+			study_subject = create_study_subject
+			get :show, :id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to bc_validations_path
 		end

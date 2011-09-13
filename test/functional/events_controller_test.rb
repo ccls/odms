@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EventsControllerTest < ActionController::TestCase
 
-#	#	no subject_id
+#	#	no study_subject_id
 #	assert_no_route(:get,:index)
 #
 #	#	no id
@@ -12,35 +12,35 @@ class EventsControllerTest < ActionController::TestCase
 #	assert_no_route(:delete, :destroy)
 #
 #	#	no route
-#	assert_no_route(:get,:new,:subject_id => 0)
-#	assert_no_route(:post,:create,:subject_id => 0)
+#	assert_no_route(:get,:new,:study_subject_id => 0)
+#	assert_no_route(:post,:create,:study_subject_id => 0)
 #
 #	site_readers.each do |cu|
 #
 #		test "should get events with #{cu} login" do
-#			subject = Factory(:subject)
+#			study_subject = Factory(:study_subject)
 #			login_as send(cu)
-#			get :index, :subject_id => subject.id
-#			assert assigns(:subject)
+#			get :index, :study_subject_id => study_subject.id
+#			assert assigns(:study_subject)
 #			assert_response :success
 #			assert_template 'index'
 #		end
 #
-#		test "should get events with #{cu} login and hx subject" do
-#			subject = create_hx_subject
+#		test "should get events with #{cu} login and hx study_subject" do
+#			study_subject = create_hx_study_subject
 #			login_as send(cu)
-#			get :index, :subject_id => subject.id
-#			assert assigns(:subject)
+#			get :index, :study_subject_id => study_subject.id
+#			assert assigns(:study_subject)
 #			assert_response :success
 #			assert_template 'index'
 #		end
 #
-#		test "should NOT get events with invalid subject_id " <<
+#		test "should NOT get events with invalid study_subject_id " <<
 #			"and #{cu} login" do
 #			login_as send(cu)
-#			get :index, :subject_id => 0
+#			get :index, :study_subject_id => 0
 #			assert_not_nil flash[:error]
-#			assert_redirected_to subjects_path
+#			assert_redirected_to study_subjects_path
 #		end
 #
 #	end
@@ -48,9 +48,9 @@ class EventsControllerTest < ActionController::TestCase
 #	non_site_readers.each do |cu|
 #
 #		test "should NOT get events with #{cu} login" do
-#			subject = create_hx_subject
+#			study_subject = create_hx_study_subject
 #			login_as send(cu)
-#			get :index, :subject_id => subject.id
+#			get :index, :study_subject_id => study_subject.id
 #			assert_not_nil flash[:error]
 #			assert_redirected_to root_path
 #		end
@@ -58,8 +58,8 @@ class EventsControllerTest < ActionController::TestCase
 #	end
 #
 #	test "should NOT get events without login" do
-#		subject = create_hx_subject
-#		get :index, :subject_id => subject.id
+#		study_subject = create_hx_study_subject
+#		get :index, :study_subject_id => study_subject.id
 #		assert_redirected_to_login
 #	end
 

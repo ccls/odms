@@ -1,6 +1,6 @@
 <% stylesheets('home_exposure_responses') %>
-<% sub_menu_for(@subject.hx_interview) %>
-<% id_bar_for(@subject) %>
+<% sub_menu_for(@study_subject.hx_interview) %>
+<% id_bar_for(@study_subject) %>
 
 <h1>Merge Survey Data</h1>
 
@@ -16,7 +16,7 @@
 %>
 
 <% form_for HomeExposureResponse.new, 
-	:url => subject_home_exposure_response_path(@subject) do |f| %>
+	:url => study_subject_home_exposure_response_path(@study_subject) do |f| %>
 <table>
 <tbody>
 <% HomeExposureResponse.field_names.each do |column| %>

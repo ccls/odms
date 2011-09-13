@@ -2,11 +2,11 @@
 
 <h4>Birth Certificate List Validation</h4>
 
-<p>Select a case subject from the list to display their candidate controls.</p>
+<p>Select a case study_subject from the list to display their candidate controls.</p>
 
-<% @cases.each do |case_subject| %>
-<p><%= link_to "#{case_subject.studyid}: #{case_subject.full_name}",
-	bc_validation_path(case_subject.id) %></p>
+<% @cases.each do |case_study_subject| %>
+<p><%= link_to "#{case_study_subject.studyid}: #{case_study_subject.full_name}",
+	bc_validation_path(case_study_subject.id) %></p>
 <% end %>
 
 <%= will_paginate @cases %>

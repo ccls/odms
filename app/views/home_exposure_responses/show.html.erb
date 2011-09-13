@@ -1,6 +1,6 @@
 <% stylesheets('home_exposure_responses') %>
-<% sub_menu_for(@subject.hx_interview) %>
-<% id_bar_for(@subject) %>
+<% sub_menu_for(@study_subject.hx_interview) %>
+<% id_bar_for(@study_subject) %>
 
 <table><tbody>
 <% HomeExposureResponse.field_names.each do |field_name| %>
@@ -10,4 +10,4 @@
 
 <p>Development Only</p>
 <%= destroy_link_to 'Destroy', 
-	subject_home_exposure_response_path(@subject) %>
+	study_subject_home_exposure_response_path(@study_subject) %>

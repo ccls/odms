@@ -4,13 +4,13 @@ class BcValidationsController < ApplicationController
 	before_filter :case_subject_required, :only => :show
 
 	def index
-		@cases = Subject.search(params.merge(:types => 'case',:order => 'studyid'))	#,:paginate => false)
+		@cases = StudySubject.search(params.merge(:types => 'case',:order => 'studyid'))	#,:paginate => false)
 	end
 
 	def show
 #	TODO I thought that this should match on matchingid NOT patid?
 #	No.  Matchingid would match the subjectid, NOT patid
-#		@controls = Subject.find(:all, :joins => :identifier, 
+#		@controls = StudySubject.find(:all, :joins => :identifier, 
 #			:conditions => [
 #				"subjects.id != ? AND identifiers.patid = ?", @subject.id, @subject.patid ] 
 #		)
@@ -19,8 +19,8 @@ class BcValidationsController < ApplicationController
 protected
 
 	def valid_id_required
-		if !params[:id].blank? and Subject.exists?(params[:id])
-			@subject = Subject.find(params[:id])
+		if !params[:id].blank? and StudySubject.exists?(params[:id])
+			@subject = StudySubject.find(params[:id])
 		else
 			access_denied("Valid subject id required!", bc_validations_path)
 		end

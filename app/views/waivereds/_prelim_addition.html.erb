@@ -1,5 +1,5 @@
 <div class='prelim_addition raf_section'>
-<% @subject.build_patient if @subject.patient.nil? %>
+<% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
 
 	<%#= patient_fields.wrapped_collection_select :raf_county_id,

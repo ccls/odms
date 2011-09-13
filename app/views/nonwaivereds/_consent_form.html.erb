@@ -1,6 +1,6 @@
 <div class='consent raf_section'>
 
-<% @subject.enrollments.build if @subject.enrollments.empty? %>
+<% @study_subject.enrollments.build if @study_subject.enrollments.empty? %>
 <% f.fields_for :enrollments do |enrollment_fields| %>
 <%= enrollment_fields.hidden_field :project_id, :value => Project['phase5'].id %>
 

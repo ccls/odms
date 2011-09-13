@@ -1,4 +1,4 @@
-<% @subject.build_homex_outcome if @subject.homex_outcome.nil? %>
+<% @study_subject.build_homex_outcome if @study_subject.homex_outcome.nil? %>
 <% f.fields_for :homex_outcome do |hof| %>
 
 	<%= hof.wrapped_collection_select :interview_outcome_id,

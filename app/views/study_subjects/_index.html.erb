@@ -1,0 +1,18 @@
+<% stylesheets('study_subjects') %>
+<%= render 'study_subjects/subsearch' %>
+
+<% if @study_subjects.length > 0 %>
+<table id='study_subjects'><thead><tr>
+<th><%= sort_link('ChildID') %></th>
+<th><%= sort_link('StudyID') %></th>
+<th><%= sort_link('Last Name') %></th>
+<th><%= sort_link('First Name') %></th>
+</tr></thead><tbody>
+<%#= render :partial => 'study_subjects/study_subject', :collection => @study_subjects %>
+<%= render :partial => 'study_subject', :collection => @study_subjects %>
+</tbody></table>
+<% else %>
+<p>There are no subjects.</p>
+<% end %>
+
+<%= will_paginate @study_subjects %>

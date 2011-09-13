@@ -1,16 +1,16 @@
-<% sub_menu_for(@subject) %>
-<% id_bar_for(@subject) %>
+<% sub_menu_for(@study_subject) %>
+<% id_bar_for(@study_subject) %>
 
 <h3>Related Subjects</h3>
 <% if @controls.empty? %>
- <p>No matching subjects found.</p>
+ <p>No matching study_subjects found.</p>
 <% else %>
  <table><thead><tr>
   <th>studyid</th><th>name</th><th>subject type</th><th>dob</th>
  </tr></thead><tbody>
   <% @controls.each do |control| %>
    <tr>
-    <td><%= link_to(control.studyid,subject_path(control)) %></td>
+    <td><%= link_to(control.studyid,study_subject_path(control)) %></td>
     <td><%= control.full_name %></td>
     <td><%= control.subject_type %></td>
     <td><%=mdy control.dob %></td>

@@ -1,27 +1,27 @@
 <% birth_certificates_sub_menu %>
-<% id_bar_for(@subject) %>
+<% id_bar_for(@study_subject) %>
 
 
 <h4>Birth Certificate List Validation</h4>
 
-<p>case subject info</p>
+<p>case study_subject info</p>
 <table><tbody>
 <tr>
- <td><b><%=@subject.full_name%></b></td>
- <td>sex: <%=@subject.sex%></td>
+ <td><b><%=@study_subject.full_name%></b></td>
+ <td>sex: <%=@study_subject.sex%></td>
  <td>mom's race: TODO</td>
  <td>[cancel][save]</td>
 </tr>
 <tr>
  <td>&nbsp;</td>
- <td><%=mdy @subject.dob%></td>
+ <td><%=mdy @study_subject.dob%></td>
  <td>mom's hispanicity: TODO</td>
  <td>&nbsp;</td>
 </tr>
 <tr>
  <td>&nbsp;</td>
  <td>born in cali? TODO</td>
- <td>mom's maiden:<%=@subject.mother_maiden_name%></td>
+ <td>mom's maiden:<%=@study_subject.mother_maiden_name%></td>
  <td>&nbsp;</td>
 </tr>
 <tr>

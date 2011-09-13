@@ -1,0 +1,27 @@
+table#study_subjects th {
+	text-align: left;
+}
+form#study_subject_search {
+}
+form#study_subject_search .project,
+form#study_subject_search #races,
+form#study_subject_search #types {
+	float:left;
+	margin: auto 10px;
+}
+form#study_subject_search ul {
+	padding-left: 5px;
+}
+form#study_subject_search ul li {
+	list-style-type: none;
+}
+form#study_subject_search div#something {
+	clear:both;
+}
+
+form#study_subject_search input[type='submit']{
+	font-size:12pt;
+}
+span.arrow {
+	padding-left:0.5ex;
+}

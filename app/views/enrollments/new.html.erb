@@ -1,6 +1,6 @@
 <% stylesheets(:edit_enrollment) %>
 
-<% sub_menu_for(@subject) %>
+<% sub_menu_for(@study_subject) %>
 
 <% content_for :id_bar do %>
 <%= link_to( 'Create', nil, {
@@ -8,10 +8,10 @@
 	:class => :submitter
 }) %>
 <% end %>
-<% id_bar_for(@subject) %>
+<% id_bar_for(@study_subject) %>
 
 <% form_for(@enrollment,
-	:url => subject_enrollments_path(@subject) ) do |f| %>
+	:url => study_subject_enrollments_path(@study_subject) ) do |f| %>
 <%= f.select :project_id, options_for_select(
 	@projects.collect{ |u| [u.description, u.id] }) %>
 <% end %>

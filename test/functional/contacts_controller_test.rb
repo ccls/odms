@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ContactsControllerTest < ActionController::TestCase
 
-	#	no subject_id
+	#	no study_subject_id
 	assert_no_route(:get,:index)
 
 	#	no route
@@ -16,19 +16,19 @@ class ContactsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should get contacts with #{cu} login" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			get :index, :subject_id => subject.id
-			assert assigns(:subject)
+			get :index, :study_subject_id => study_subject.id
+			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'index'
 		end
 
-		test "should NOT get contacts with invalid subject_id and #{cu} login" do
+		test "should NOT get contacts with invalid study_subject_id and #{cu} login" do
 			login_as send(cu)
-			get :index, :subject_id => 0
+			get :index, :study_subject_id => 0
 			assert_not_nil flash[:error]
-			assert_redirected_to subjects_path
+			assert_redirected_to study_subjects_path
 		end
 
 	end
@@ -37,9 +37,9 @@ class ContactsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT get contacts with #{cu} login" do
-			subject = Factory(:subject)
+			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			get :index, :subject_id => subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -47,8 +47,8 @@ class ContactsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get contacts without login" do
-		subject = Factory(:subject)
-		get :index, :subject_id => subject.id
+		study_subject = Factory(:study_subject)
+		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 

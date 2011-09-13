@@ -83,7 +83,7 @@ form.raf .hospital_no {
 }
 
 
-form.raf #subject_patient_attributes_raf_zip,
-form.raf #subject_patient_attributes_raf_county {
+form.raf #study_subject_patient_attributes_raf_zip,
+form.raf #study_subject_patient_attributes_raf_county {
 	width: 170px;
 }

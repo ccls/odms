@@ -6,7 +6,7 @@
 <% end %>
 
 <% form_for(@phone_number,
-	:url => subject_phone_numbers_path(@subject),
+	:url => study_subject_phone_numbers_path(@study_subject),
 	:html => { :class => 'edit_phone_number' }) do |f| %>
 <%= render 'form', :f => f %>
 <% end %>

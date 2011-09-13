@@ -59,7 +59,7 @@ class PatientsController < ApplicationController
 #
 #	def case_subject_required
 #		unless( @subject.is_case? )
-#			access_denied("Subject must be Case to have patient data!",
+#			access_denied("StudySubject must be Case to have patient data!",
 #				@subject)
 #		end
 #	end

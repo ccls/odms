@@ -6,7 +6,7 @@
 <% end %>
 
 <% form_for(@patient,
-	:url => subject_patient_path(@subject),
+	:url => study_subject_patient_path(@study_subject),
 	:html => { :class => 'new_patient edit_patient' }) do |f| %>
 <%= render 'form', :f => f %>
 <% end %>

@@ -35,11 +35,11 @@ protected	#	private #	(does it matter which or if neither?)
 		})
 	end
 
-	def valid_subject_id_required
-		if !params[:subject_id].blank? and Subject.exists?(params[:subject_id])
-			@subject = Subject.find(params[:subject_id])
+	def valid_study_subject_id_required
+		if !params[:study_subject_id].blank? and StudySubject.exists?(params[:study_subject_id])
+			@study_subject = StudySubject.find(params[:study_subject_id])
 		else
-			access_denied("Valid subject id required!", subjects_path)
+			access_denied("Valid study_subject id required!", study_subjects_path)
 		end
 	end
 
@@ -48,36 +48,36 @@ protected	#	private #	(does it matter which or if neither?)
 #		access_denied("That route is no longer available")
 #	end
 #
-#	def valid_hx_subject_id_required
-#		validate_hx_subject_id(params[:subject_id])
+#	def valid_hx_study_subject_id_required
+#		validate_hx_study_subject_id(params[:study_subject_id])
 #	end
 #
-#	def valid_id_for_hx_subject_required
-#		validate_hx_subject_id(params[:id])
+#	def valid_id_for_hx_study_subject_required
+#		validate_hx_study_subject_id(params[:id])
 #	end
 #
-#	#	I intended to check that the subject is actually
+#	#	I intended to check that the study_subject is actually
 #	#	enrolled in HomeExposures, but haven't yet.
-#	def validate_hx_subject_id(id,redirect=nil)
-#		if !id.blank? and Subject.exists?(id)
-#			@subject = Subject.find(id)
+#	def validate_hx_study_subject_id(id,redirect=nil)
+#		if !id.blank? and StudySubject.exists?(id)
+#			@study_subject = StudySubject.find(id)
 #		else
-#			access_denied("Valid subject id required!", 
-#				redirect || subjects_path)
+#			access_denied("Valid study_subject id required!", 
+#				redirect || study_subjects_path)
 #		end
 #	end
 
 #	Don't know if I'll use this or not.
 #
-#	def get_hx_subjects
+#	def get_hx_study_subjects
 #		hx = Project['HomeExposures']
 #		if params[:commit] && params[:commit] == 'download'
 #			params[:paginate] = false
 #		end
 #		#   params[:projects] ||= {}
 #		#   params[:projects][hx.id] ||= {}
-#		#   @subjects = Subject.search(params)
-#		@subjects = hx.subjects.search(params)
+#		#   @study_subjects = StudySubject.search(params)
+#		@study_subjects = hx.study_subjects.search(params)
 #	end
 
 	def record_or_recall_sort_order

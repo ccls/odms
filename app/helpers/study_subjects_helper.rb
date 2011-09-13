@@ -1,23 +1,23 @@
-module SubjectsHelper
+module StudySubjectsHelper
 
 #	TODO move much of this into ccls_engine as is used both in ODMS and HOMEX
 #		ccls_engine/lib/ccls_engine/helper.rb
 
 #	#	Used to replace the _id_bar partial
-#	def subject_id_bar(subject,&block)		#	TODO remove as added to ccls_engine > 3.8.7
-#		stylesheets('subject_id_bar')
+#	def study_subject_id_bar(study_subject,&block)		#	TODO remove as added to ccls_engine > 3.8.7
+#		stylesheets('study_subject_id_bar')
 #		content_for :main do
 #			"<div id='id_bar'>\n" <<
 #			"<div class='childid'>\n" <<
 #			"<span>ChildID:</span>\n" <<
-#			"<span>#{subject.try(:childid)}</span>\n" <<
+#			"<span>#{study_subject.try(:childid)}</span>\n" <<
 #			"</div><!-- class='childid' -->\n" <<
 #			"<div class='studyid'>\n" <<
 #			"<span>StudyID:</span>\n" <<
-#			"<span>#{subject.try(:studyid)}</span>\n" <<
+#			"<span>#{study_subject.try(:studyid)}</span>\n" <<
 #			"</div><!-- class='studyid' -->\n" <<
 #			"<div class='full_name'>\n" <<
-#			"<span>#{subject.try(:full_name)}</span>\n" <<
+#			"<span>#{study_subject.try(:full_name)}</span>\n" <<
 #			"</div><!-- class='full_name' -->\n" <<
 #			"<div class='controls'>\n" <<
 #			@content_for_id_bar.to_s <<
@@ -30,18 +30,18 @@ module SubjectsHelper
 #			"<div id='do_not_contact'>\n" <<
 #			"Subject requests no further contact with Study.\n" <<
 #			"</div>\n" 
-#		end if subject.try(:do_not_contact?)
+#		end if study_subject.try(:do_not_contact?)
 #	end	#	id_bar_for
 
 
 #	Move this down with the subject_languages_select'r
-	def select_subject_races(subject)
+	def select_subject_races(study_subject)
 		#	NOTE THAT THIS PREFIX HAS ONLY THE FIRST LEFT SIDE [
-		prefix = "subject[subject_races_attributes"
-		sr_params = if( defined?(params) && params[:subject] && 
-			params[:subject].has_key?('subject_races_attributes') && 
-			params[:subject].is_a?(Hash) )
-			params[:subject]['subject_races_attributes']
+		prefix = "study_subject[subject_races_attributes"
+		sr_params = if( defined?(params) && params[:study_subject] && 
+			params[:study_subject].has_key?('subject_races_attributes') && 
+			params[:study_subject].is_a?(Hash) )
+			params[:study_subject]['subject_races_attributes']
 		else
 			{}
 		end
@@ -49,7 +49,7 @@ module SubjectsHelper
 		selector << "<p>TEMP NOTE: primary is first, normal is second</p>\n"
 		selector << Race.all.collect do |race|
 			s  = ''
-			sr = subject.subject_races.find(:first,:conditions => { 
+			sr = study_subject.subject_races.find(:first,:conditions => { 
 				:race_id => race.id })
 
 			#	Notes ...
@@ -109,7 +109,7 @@ ActionView::Helpers::FormBuilder.class_eval do
 	#	May be able to implement this simplicity for the races as well
 	def subject_languages_select( languages )
 		#		self.object  #	<-- the subject
-		language_ids = @template.params.dig('subject','subject_languages_attributes').try(
+		language_ids = @template.params.dig('study_subject','subject_languages_attributes').try(
 			:collect) { |l| l[1]['language_id'] }
 
 		s = "<p>Language of parent or caretaker:</p><p>\n"
