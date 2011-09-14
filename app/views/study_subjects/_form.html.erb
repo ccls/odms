@@ -48,6 +48,8 @@
 <% f.fields_for :identifier do |identifier_fields| %>
 	<%= identifier_fields.wrapped_text_field :state_id_no,
 		:label_text => 'State ID No.' %>
+	<%= identifier_fields.wrapped_text_field :local_registrar_no,
+		:label_text => 'Local Registrar No.' %>
 <% end %>
 
 
