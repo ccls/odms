@@ -152,6 +152,12 @@ div.table > * > * {
 */
 
 
+h3 > span {
+	float:right;
+	font-size:10pt;
+	font-weight:normal;
+}
+
 /* primarily for the bc_request export buttons */
 h4 > span {
 	float:right;
