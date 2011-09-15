@@ -3,24 +3,34 @@ module ApplicationHelper
 
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
+
+		s << "<div class='menu_item'>" <<
+			link_to('Home', root_path) <<
+			"</div><!-- menu_item -->"
+
 		s << "<div class='menu_item'>" <<
 			link_to('Subjects', dashboard_study_subjects_path) <<
 			"<div class='sub_menu'>\n    " <<
 			[
-				link_to('Dashboard', dashboard_study_subjects_path),
-				link_to('Add Case', new_case_path),
-				link_to('Add Control', new_control_path),
+				link_to('New Case', new_case_path),
+				link_to('New Control', new_control_path),
 				link_to('Manage Birth Certificates', birth_certificates_path),
 				link_to( "Browse Subjects", study_subjects_path )
-#				"<span>Basic Info - Read</span>",
-#				"<span>Basic Info - Edit</span>",
-#				"<span>Address - Read</span>",
-#				"<span>Address - Edit</span>",
-#				"<span>Phone - Edit</span>",
-#				"<span>Hospital - Read</span>",
-#				"<span>Hospital - Edit</span>",
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
+
+		s << "<div class='menu_item'>" <<
+			link_to('Interviews', dashboard_interviews_path) <<
+			"</div><!-- menu_item -->"
+
+		s << "<div class='menu_item'>" <<
+			link_to('Samples', dashboard_samples_path) <<
+			"</div><!-- menu_item -->"
+
+		s << "<div class='menu_item'>" <<
+			link_to('Studies', dashboard_studies_path) <<
+			"</div><!-- menu_item -->"
+
 		s << "\n</div><!-- mainmenu -->\n"
 	end
 

@@ -17,6 +17,15 @@ ActionController::Routing::Routes.draw do |map|
 #			:only => [:index]
 	end
 
+	map.resources :interviews, :only => [],
+			:collection => { :dashboard => :get }
+
+	map.resources :samples, :only => [],
+			:collection => { :dashboard => :get }
+
+	map.resources :studies, :only => [],
+			:collection => { :dashboard => :get }
+
 	map.resources :bc_requests, :only => [:new,:create,:edit,:update,:destroy,:index],
 		:collection => { :confirm => :get },
 		:member => { :update_status => :put }

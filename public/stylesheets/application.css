@@ -27,11 +27,11 @@ div#container {
 
 div#header {
 	background-color: #6A7780;
-	height: 100px;
+	height: 80px;
 	position:relative; /* NEEDED so that mainmenu can be at bottom */
 }
 div#logo {
-	width: 600px;
+	width: 650px;
 	float:left;
 	padding-left: 10px;
 	font-family: Times New Roman,LeagueGothicRegular,helvetica,arial,sans-serif;
@@ -43,7 +43,15 @@ div#logo h2 {
 	margin-bottom: 0px;
 	color:white;
 	text-shadow: #000 0 2px 3px;
+	display:inline-block;
 }
+h2 span {
+	font-size: 15px;
+	line-height: 30px;
+	display:inline-block;
+	vertical-align:middle;
+}
+/*
 div#logo span {
 	font-size: 16px;
 	margin: 5px;
@@ -52,6 +60,7 @@ div#logo span {
 	color:white;
 	text-shadow: #000 0 2px 3px;
 }
+*/
 
 div#fullsearch {
 	clear:right;
@@ -349,3 +358,16 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 	display: block;
 }
 
+.control_bar {
+	text-align:right;
+}
+.control_bar a {
+	background-color: #EEE;
+	border: 1px solid gray;
+	border-radius: 5px 5px 5px 5px;
+	color: black;
+	font-size: 12pt;
+	padding: 2px 15px;
+	text-align: center;
+	text-decoration: none;
+}

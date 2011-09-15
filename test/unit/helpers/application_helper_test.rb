@@ -10,12 +10,13 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "odms_main_menu should return main menu" do
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
-			assert_select 'div.menu_item', 1 do
-				assert_select 'a', 6		#	1 here, plus the 5 below
-				assert_select 'div.sub_menu', 1 do
-					assert_select 'a', 5
-				end
-			end
+			assert_select 'div.menu_item', 5
+#			assert_select 'div.menu_item', 5 do
+#				assert_select 'a', 6		#	1 here, plus the 5 below
+#				assert_select 'div.sub_menu', 1 do
+#					assert_select 'a', 5
+#				end
+#			end
 		end
 	end
 
