@@ -4,12 +4,14 @@ module ApplicationHelper
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
 
-		s << "<div class='menu_item'>" <<
+		s << "<div class='menu_item#{( 
+				params[:controller] == 'pages' ) ? ' current' : nil}'>" <<
 			link_to('Home', root_path) <<
 			"</div><!-- menu_item -->"
 
-		s << "<div class='menu_item'>" <<
-			link_to('Subjects', dashboard_study_subjects_path) <<
+		s << "<div class='menu_item#{( 
+				params[:controller] == 'study_subjects' ) ? ' current' : nil}'>" <<
+			link_to('Subjects', dashboard_study_subjects_path ) <<
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('New Case', new_case_path),
@@ -19,15 +21,18 @@ module ApplicationHelper
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
-		s << "<div class='menu_item'>" <<
+		s << "<div class='menu_item#{( 
+				params[:controller] == 'interviews' ) ? ' current' : nil}'>" <<
 			link_to('Interviews', dashboard_interviews_path) <<
 			"</div><!-- menu_item -->"
 
-		s << "<div class='menu_item'>" <<
+		s << "<div class='menu_item#{( 
+				params[:controller] == 'samples' ) ? ' current' : nil}'>" <<
 			link_to('Samples', dashboard_samples_path) <<
 			"</div><!-- menu_item -->"
 
-		s << "<div class='menu_item'>" <<
+		s << "<div class='menu_item#{( 
+				params[:controller] == 'studies' ) ? ' current' : nil}'>" <<
 			link_to('Studies', dashboard_studies_path) <<
 			"</div><!-- menu_item -->"
 
@@ -147,5 +152,22 @@ module ApplicationHelper
 #		"<span class='required'>#{text}</span>"
 #	end
 #	alias_method :req, :required
+
+	def control_bar
+		s  = "<div class='control_bar'>"
+		s << link_to( 'dashboard', 
+			{ :controller => params[:controller], :action => :dashboard },
+			:class => (params[:action] == 'dashboard') ? 'current' : nil )
+		s << link_to( 'find', 
+			{ :controller => params[:controller], :action => :find },
+			:class => (params[:action] == 'find') ? 'current' : nil )
+		s << link_to( 'follow-up', 
+			{ :controller => params[:controller], :action => :followup },
+			:class => (params[:action] == 'followup') ? 'current' : nil )
+		s << link_to( 'reports', 
+			{ :controller => params[:controller], :action => :reports },
+			:class => (params[:action] == 'reports') ? 'current' : nil )
+		s << "</div>"
+	end
 
 end

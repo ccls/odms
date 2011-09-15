@@ -158,6 +158,24 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_response :success
 		end
 	
+		test "should get study_subjects find with #{cu} login" do
+			login_as send(cu)
+			get :find
+			assert_response :success
+		end
+	
+		test "should get study_subjects followup with #{cu} login" do
+			login_as send(cu)
+			get :followup
+			assert_response :success
+		end
+	
+		test "should get study_subjects reports with #{cu} login" do
+			login_as send(cu)
+			get :reports
+			assert_response :success
+		end
+	
 	end
 
 	non_site_readers.each do |cu|
@@ -171,6 +189,24 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		test "should NOT get study_subjects dashboard with #{cu} login" do
 			login_as send(cu)
 			get :dashboard
+			assert_redirected_to root_path
+		end
+	
+		test "should NOT get study_subjects find with #{cu} login" do
+			login_as send(cu)
+			get :find
+			assert_redirected_to root_path
+		end
+	
+		test "should NOT get study_subjects followup with #{cu} login" do
+			login_as send(cu)
+			get :followup
+			assert_redirected_to root_path
+		end
+	
+		test "should NOT get study_subjects reports with #{cu} login" do
+			login_as send(cu)
+			get :reports
 			assert_redirected_to root_path
 		end
 	
@@ -408,6 +444,26 @@ pending
 
 #######################################################################
 
+	test "should NOT get study_subjects dashboard without login" do
+		get :dashboard
+		assert_redirected_to_login
+	end
+	
+	test "should NOT get study_subjects find without login" do
+		get :find
+		assert_redirected_to_login
+	end
+	
+	test "should NOT get study_subjects followup without login" do
+		get :followup
+		assert_redirected_to_login
+	end
+	
+	test "should NOT get study_subjects reports without login" do
+		get :reports
+		assert_redirected_to_login
+	end
+	
 	test "should NOT download csv without login" do
 		get :index, :commit => 'download'
 		assert_redirected_to_login

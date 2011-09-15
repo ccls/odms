@@ -371,3 +371,6 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 	text-align: center;
 	text-decoration: none;
 }
+.control_bar a.current {
+	background-color: #FFF;
+}

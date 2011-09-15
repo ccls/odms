@@ -3,7 +3,12 @@ ActionController::Routing::Routes.draw do |map|
 	map.root :controller => :odms, :action => :show
 
 	map.resources :study_subjects, :only => [:edit,:update,:show,:index],
-			:collection => { :dashboard => :get },
+			:collection => { 
+				:dashboard => :get,
+				:find      => :get,
+				:followup  => :get,
+				:reports   => :get 
+			},
 			:shallow => true do |study_subject|
 #		study_subject.resource :patient
 		study_subject.resources :contacts, :only => :index
@@ -18,10 +23,20 @@ ActionController::Routing::Routes.draw do |map|
 	end
 
 	map.resources :interviews, :only => [],
-			:collection => { :dashboard => :get }
+			:collection => { 
+				:dashboard => :get,
+				:find      => :get,
+				:followup  => :get,
+				:reports   => :get 
+			}
 
 	map.resources :samples, :only => [],
-			:collection => { :dashboard => :get }
+			:collection => { 
+				:dashboard => :get,
+				:find      => :get,
+				:followup  => :get,
+				:reports   => :get 
+			}
 
 	map.resources :studies, :only => [],
 			:collection => { :dashboard => :get }
