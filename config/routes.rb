@@ -46,8 +46,20 @@ ActionController::Routing::Routes.draw do |map|
 		:member => { :update_status => :put }
 	map.resources :bc_validations, :only => [:index, :show]
 	map.resources :birth_certificates, :only => :index
-	map.resources :controls, :only => [:new,:show]
-	map.resource  :case, :only => [:new]
+
+#	map.resources :controls, :only => [:new,:show] do |control|
+	map.resources :controls, :only => [:new]
+
+	map.resources :cases, :only => [:new,:index,:show] do |c|
+		#
+		#	WARNING be careful as "case" is a ruby keyword!
+		#
+		c.resources :controls,   :only => [:new,:create]
+#		c.resources :candidates, :only => [:new,:create]
+	end
+
+
+
 	map.resource  :waivered, :only => [:new,:create]
 	map.resource  :nonwaivered, :only => [:new,:create]
 

@@ -1,6 +1,3 @@
-/*
-@import url('shared.css');
-*/
 @import url('menus.css');
 body {
 	padding:0;
@@ -10,9 +7,6 @@ body {
 }
 
 div#container {
-/*	
-	width: 1000px;
-*/
 	min-width: 1000px;
 	margin: 0 20px;
 
@@ -51,16 +45,20 @@ h2 span {
 	display:inline-block;
 	vertical-align:middle;
 }
-/*
-div#logo span {
-	font-size: 16px;
-	margin: 5px;
-	margin-top: 0px;
-	margin-left: 10px;
-	color:white;
-	text-shadow: #000 0 2px 3px;
+h3 > span {
+	float:right;
+	font-size:10pt;
+	font-weight:normal;
 }
-*/
+
+/* primarily for the bc_request export buttons */
+h4 > span {
+	float:right;
+	font-size:10pt;
+	font-weight:normal;
+}
+
+
 
 div#fullsearch {
 	clear:right;
@@ -75,17 +73,6 @@ div#main {
 	background-color:white;
 	border-right: 1px solid silver;
 }
-
-/*
-div.columns > div#main > div#content {
-	width: 750px;
-}
-*/
-/*
-div.columns > div#left_side_menu + div#main > div#content {
-	width: 550px;
-}
-*/
 
 div#content {
 	padding: 5px 25px;
@@ -142,36 +129,34 @@ div#guidance {
 	border-bottom-right-radius: 15px;
 }
 
-/*
-div.table > * {
-	display:table-row;
+.control_bar {
+	text-align:right;
 }
-div.table > * > * {
-	display:table-cell;
+.control_bar a {
+	background-color: #EEE;
+	border: 1px solid gray;
+	border-radius: 5px 5px 5px 5px;
+	color: black;
+	font-size: 12pt;
+	padding: 2px 15px;
+	text-align: center;
+	text-decoration: none;
 }
-*/
-
-
-h3 > span {
-	float:right;
-	font-size:10pt;
-	font-weight:normal;
-}
-
-/* primarily for the bc_request export buttons */
-h4 > span {
-	float:right;
-	font-size:10pt;
-	font-weight:normal;
+.control_bar a.current {
+	background-color: #FFF;
 }
 
 
-/*
 
-	Generic stuff above.
-	Specific stuff below.
 
-*/
+/***************************************************
+
+			Generic stuff above.
+			Specific stuff below.
+
+****************************************************/
+
+
 
 
 
@@ -364,19 +349,48 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 	display: block;
 }
 
-.control_bar {
+
+/*
+	BEGIN Candidate Control stuff
+*/
+
+form#new_control > div {
+	border-bottom:1px solid black;
+}
+form#new_control > div > div {
+	border:1px solid black; 
+	border-bottom:0; 
+	padding: 10px;
+}
+form#new_control > div > div.info {
+	background-color:silver;
+}
+form#new_control table th,
+form#new_control table td {
+	text-align:center;
+	font-size:8pt;
+}
+form#new_control table td {
+	border:1px solid black;
+	border-left: 0;
+	background-color: white;
+}
+form#new_control table td.label {
+	background-color: transparent;
+	border:0;
+	border-right:1px solid black;
+	padding-right: 5px;
 	text-align:right;
 }
-.control_bar a {
-	background-color: #EEE;
-	border: 1px solid gray;
-	border-radius: 5px 5px 5px 5px;
-	color: black;
-	font-size: 12pt;
-	padding: 2px 15px;
-	text-align: center;
-	text-decoration: none;
+form#new_control > div > div.disposition div {
+	vertical-align:top;
+	display:inline-block;
+	padding-right: 5px;
 }
-.control_bar a.current {
-	background-color: #FFF;
+form#new_control > div > div.disposition div.rejection * {
+	vertical-align:top;
 }
+/*
+	END Candidate Control stuff
+*/
+

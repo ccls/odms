@@ -1,7 +1,9 @@
 <% sub_menu_for(@study_subject) %>
 <% id_bar_for(@study_subject) %>
 
-<h3>Related Subjects <span>[insert 'add control' button here]</span></h3>
+<h3>Related Subjects <span>
+<%= link_to 'add control', new_case_control_path(@study_subject.id),:class => 'button' %>
+</span></h3>
 <% if @controls.empty? %>
  <p>No matching study_subjects found.</p>
 <% else %>
@@ -23,4 +25,3 @@
 <h4>Rejected Controls</h4>
 
 <p>name, sex, dob, comments (reason for rejection)</p>
-<p>pending clarification of how controls are marked as rejected</p>
