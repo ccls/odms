@@ -48,6 +48,17 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_redirected_to cases_path
 		end
 
+
+		test "should create new control with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = create_case_study_subject
+			post :create, :case_id => case_study_subject.id
+			assert_nil flash[:error]
+			assert_redirected_to case_path(case_study_subject)
+#	doesn't do anything, just a placeholder for now
+pending
+		end
+
 	end
 
 	non_site_editors.each do |cu|
