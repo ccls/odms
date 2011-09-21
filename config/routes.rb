@@ -48,7 +48,8 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :birth_certificates, :only => :index
 
 #	map.resources :controls, :only => [:new,:show] do |control|
-	map.resources :controls, :only => [:new]
+#	map.resources :controls, :only => [:new]
+	map.resources :candidate_controls, :only => [:edit,:update]
 
 	map.resources :cases, :only => [:new,:index,:show] do |c|
 		#

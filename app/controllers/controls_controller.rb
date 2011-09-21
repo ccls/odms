@@ -5,8 +5,17 @@ class ControlsController < ApplicationController
 	before_filter :case_study_subject_required
 
 	def new
+#
+#	TODO New thing.  Find a random candidate control for the given case study subject,
+#			then redirect to edit_candidate_control_path(candidate)
+#			If no candidate is found, flash an error and return to case.
+#		This would seem to be more restful and could use the update to update
+#			the candidate control's rejected attributes.
+#		After updating, redirect to the associated /cases/:id
+#
 	end
 
+#	TODO won't need this after the above has been implemented
 	def create
 #	temporary
 		redirect_to case_path(@study_subject)
