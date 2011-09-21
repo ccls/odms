@@ -1,0 +1,64 @@
+<h2>Candidate Control</h2>
+
+<%#
+
+	this could be restful if this were to be an "edit candidate control" form
+
+TODO	gonna need to either add the candidate control id here or put it in the session.
+
+let's see how this goes then shall we.
+
+%>
+<% form_for @candidate do |f| %>
+<div>
+<div class='info'>
+<table><thead>
+<tr><th>&nbsp;</th><th>name</th><th>studyid</th><th>childid</th><th>dob</th><th>sex</th><th>mother's race</th><th>mother's hisp</th><th>father's hisp</th></tr>
+</thead><tbody>
+<tr>
+<td class='label'>subject</td>
+<td><%= @study_subject.full_name %></td>
+<td><%= @study_subject.studyid %></td>
+<td><%= @study_subject.childid %></td>
+<td><%=mdy @study_subject.dob %></td>
+<td><%= @study_subject.sex %></td>
+<td><%= (( @study_subject.pii.try(:mother_race_id) 
+	) ? Race.find(@study_subject.pii.mother_race_id) : '&nbsp;' ) %></td>
+<td><%= YNODK[@study_subject.mother_hispanicity_id]||'&nbsp;' %></td>
+<td><%= YNODK[@study_subject.father_hispanicity_id]||'&nbsp;' %></td>
+</tr>
+<tr>
+<td class='label'>candidate control</td>
+<td>&nbsp;</td>
+<td>-</td>
+<td>-</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody></table>
+</div>
+
+<div class='disposition'>
+<div>
+<div><p>disposition</p></div>
+<div>
+<p><%= f.radio_button('reject_candidate',false) %>
+<%= f.label('reject_candidate_false','accept control') %></p>
+<p><%= f.radio_button('reject_candidate',true) %>
+<%= f.label('reject_candidate_true','reject control') %></p>
+</div>
+<div class='rejection'>
+<p><%= f.label('rejection_reason') %>
+<%= f.text_area('rejection_reason') %></p>
+</div>
+</div>
+</div>
+</div>
+<p>
+<%= link_to 'cancel', case_path(@study_subject),:class => 'button' %>
+<%= f.submit_link_to 'continue' %>
+</p>
+<% end %>
