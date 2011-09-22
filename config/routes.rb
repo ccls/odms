@@ -55,7 +55,7 @@ ActionController::Routing::Routes.draw do |map|
 		#
 		#	WARNING be careful as "case" is a ruby keyword!
 		#
-		c.resources :controls,   :only => [:new,:create]
+		c.resources :controls,   :only => [:new]	#,:create]
 #		c.resources :candidates, :only => [:new,:create]
 	end
 

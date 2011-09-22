@@ -354,40 +354,40 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 	BEGIN Candidate Control stuff
 */
 
-form#new_control > div {
+form.edit_candidate_control > div {
 	border-bottom:1px solid black;
 }
-form#new_control > div > div {
+form.edit_candidate_control > div > div {
 	border:1px solid black; 
 	border-bottom:0; 
 	padding: 10px;
 }
-form#new_control > div > div.info {
+form.edit_candidate_control > div > div.info {
 	background-color:silver;
 }
-form#new_control table th,
-form#new_control table td {
+form.edit_candidate_control table th,
+form.edit_candidate_control table td {
 	text-align:center;
 	font-size:8pt;
 }
-form#new_control table td {
+form.edit_candidate_control table td {
 	border:1px solid black;
 	border-left: 0;
 	background-color: white;
 }
-form#new_control table td.label {
+form.edit_candidate_control table td.label {
 	background-color: transparent;
 	border:0;
 	border-right:1px solid black;
 	padding-right: 5px;
 	text-align:right;
 }
-form#new_control > div > div.disposition div {
+form.edit_candidate_control > div > div.disposition div {
 	vertical-align:top;
 	display:inline-block;
 	padding-right: 5px;
 }
-form#new_control > div > div.disposition div.rejection * {
+form.edit_candidate_control > div > div.disposition div.rejection * {
 	vertical-align:top;
 }
 /*

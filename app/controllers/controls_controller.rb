@@ -13,13 +13,26 @@ class ControlsController < ApplicationController
 #			the candidate control's rejected attributes.
 #		After updating, redirect to the associated /cases/:id
 #
+
+		candidate = CandidateControl.find(:first,
+#			:order => :some_kind_of_random,
+			:conditions => [
+				"related_patid = ? AND reject_candidate = false AND assigned_on IS NULL AND study_subject_id IS NULL",
+				@study_subject.patid ]
+		)
+		if candidate
+			redirect_to edit_candidate_control_path(candidate)
+		else
+			flash[:error] = "Sorry, but no candidate controls were found matching this subject."
+			redirect_to case_path(@study_subject.id)
+		end
 	end
 
 #	TODO won't need this after the above has been implemented
-	def create
-#	temporary
-		redirect_to case_path(@study_subject)
-	end
+#	def create
+##	temporary
+#		redirect_to case_path(@study_subject)
+#	end
 
 #		def new
 #			unless params[:patid].blank?
