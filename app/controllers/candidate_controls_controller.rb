@@ -13,7 +13,7 @@ class CandidateControlsController < ApplicationController
 
 	def update
 		CandidateControl.transaction do
-			unless params[:candidate_control][:reject_candidate]
+			if params[:candidate_control][:reject_candidate] == 'false'
 #	TODO what would subjects be?  just self? [self,control,mother]?
 #				subjects = @candidate.create_study_subjects(@study_subject)
 				@candidate.create_study_subjects(@study_subject)
