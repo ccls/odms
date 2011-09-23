@@ -48,7 +48,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',0) {
 				put :update, :id => candidate.id, :candidate_control => {
-					:reject_candidate => true,
+					:reject_candidate => 'true',
 					:rejection_reason => 'Some fake reason.' }
 			} }
 			candidate.reload
@@ -67,7 +67,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',2) {
 				put :update, :id => candidate.id, :candidate_control => {
-					:reject_candidate => false }
+					:reject_candidate => 'false' }
 			} }
 			candidate.reload
 			assert        !candidate.reject_candidate
@@ -84,7 +84,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
-			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success
 			assert_template 'edit'
 		end
@@ -95,7 +95,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
-			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success
 			assert_template 'edit'
 		end
@@ -107,7 +107,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #				case_study_subject = create_case_identifier.study_subject
 #				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 #	#			Enrollment.any_instance.stubs(:create_or_update).returns(false)
-#	#			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+#	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 #	#			assert_response :success
 #	#			assert_template 'edit'
 #			end
@@ -119,7 +119,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #				case_study_subject = create_case_identifier.study_subject
 #				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 #	#			Enrollment.any_instance.stubs(:valid?).returns(false)
-#	#			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+#	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 #	#			assert_response :success
 #	#			assert_template 'edit'
 #			end
@@ -131,7 +131,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #				case_study_subject = create_case_identifier.study_subject
 #				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 #	#			Pii.any_instance.stubs(:create_or_update).returns(false)
-#	#			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+#	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 #	#			assert_response :success
 #	#			assert_template 'edit'
 #			end
@@ -143,7 +143,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #				case_study_subject = create_case_identifier.study_subject
 #				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 #	#			Pii.any_instance.stubs(:valid?).returns(false)
-#	#			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+#	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 #	#			assert_response :success
 #	#			assert_template 'edit'
 #			end
@@ -156,7 +156,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 #	#			Identifier.any_instance.stubs(:create_or_update).returns(false)
 #	##			StudySubject.any_instance.stubs(:autosave_associated_records_for_identifier).returns(false)
-#	#			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+#	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 #	#			assert_response :success
 #	#			assert_template 'edit'
 #			end
@@ -171,7 +171,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #	#puts StudySubject.instance_methods.sort
 #	#			StudySubject.any_instance.stubs(:validate_associated_records_for_identifier).raises(ActiveRecord::RecordInvalid)
 #				StudySubject.any_instance.stubs(:validate_associated_records_for_identifier).returns(false)
-#				assert_not_put_update_candidate(candidate, :reject_candidate => false )
+#				assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 #	#			assert_response :success
 #	#			assert_template 'edit'
 #	flunk
@@ -210,7 +210,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 			CandidateControl.any_instance.stubs(:valid?).returns(false)
-			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success
 			assert_template 'edit'
 		end
@@ -220,7 +220,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 			CandidateControl.any_instance.stubs(:create_or_update).returns(false)
-			assert_not_put_update_candidate(candidate, :reject_candidate => false )
+			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success
 			assert_template 'edit'
 		end
@@ -231,7 +231,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 			assert_not_put_update_candidate(candidate, {
-				:reject_candidate => true,
+				:reject_candidate => 'true',
 				:rejection_reason => '' })
 			assert_response :success
 			assert_template 'edit'
