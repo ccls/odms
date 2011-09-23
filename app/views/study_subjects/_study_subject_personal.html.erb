@@ -16,8 +16,10 @@
 <div class='column'>
 <%= wrapped_date_spans :study_subject, :dob,
 	:label_text => 'birth date:' %>
+<%# unfortunately, I've allowed sex to be blank %>
 <%= wrapped_spans :study_subject, :sex,
-	:value => (@study_subject.sex.match(/f/i))?'female':'male',
+	:value => ( ( @study_subject.sex.blank? ) ? '&nbsp;' : ( ( 
+		@study_subject.sex.match(/f/i) ) ? 'female' : 'male' ) ),
 	:label_text => 'sex:' %>
 
 <%= wrapped_spans :study_subject, :race_names,
