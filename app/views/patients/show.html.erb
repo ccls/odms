@@ -24,7 +24,7 @@
 <% unless( @identifier = @study_subject.try(:identifier) ).nil? %>
 <%= wrapped_spans(:identifier,:familyid) %>
 <%= wrapped_spans(:identifier,:matchingid) %>
-<% require_dependency 'identifier.rb' #	development forgets %>
+<% require_dependency 'identifier.rb' unless Identifier #	development forgets %>
 <% Identifier.find_all_by_matchingid(@identifier.matchingid).each do |i| %>
 <%= link_to i.study_subject.full_name, study_subject_path(i.study_subject) %>
 <% end %>
