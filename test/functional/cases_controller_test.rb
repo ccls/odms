@@ -60,6 +60,19 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'show'
 		end
 
+		test "should get show with #{cu} login and include rejected controls" do
+			login_as send(cu)
+			case_study_subject = create_case_control_study_subject
+			candidate = create_candidate_control(
+				:related_patid    => case_study_subject.patid,
+				:reject_candidate => true,
+				:rejection_reason => 'something' )
+			get :show, :id => case_study_subject.id
+			assert_response :success
+			assert_template 'show'
+			assert_not_empty assigns(:rejected_controls)
+		end
+
 		test "should NOT show related study_subjects with #{cu} login and invalid id" do
 			login_as send(cu)
 			get :show, :id => 0

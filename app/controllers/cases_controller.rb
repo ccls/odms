@@ -11,11 +11,15 @@ class CasesController < ApplicationController
 	end
 
 	def show
-#	TODO I thought that this should match on matchingid NOT patid?
-#	No.  Matchingid would match the subjectid, NOT patid
 		@controls = StudySubject.find(:all, :joins => :identifier, 
 			:conditions => [
 				"study_subjects.id != ? AND identifiers.patid = ?", @study_subject.id, @study_subject.patid ] 
+		)
+		@rejected_controls = CandidateControl.find(:all,
+			:conditions => {
+				:related_patid    => @study_subject.patid,
+				:reject_candidate => true
+			}
 		)
 	end
 

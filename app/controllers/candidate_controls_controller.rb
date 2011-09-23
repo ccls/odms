@@ -14,16 +14,18 @@ class CandidateControlsController < ApplicationController
 	def update
 		CandidateControl.transaction do
 			unless params[:candidate_control][:reject_candidate]
-#	TODO
-				subjects = @candidate.create_study_subjects(@study_subject)
+#	TODO what would subjects be?  just self? [self,control,mother]?
+#				subjects = @candidate.create_study_subjects(@study_subject)
+				@candidate.create_study_subjects(@study_subject)
+#
+#	add a flash[:notice] if icf_master_ids are nil (don't raise error)
 #
 #	do something with the icf_master_ids table as well
 #		assign icf_master_id to both new child control and mother
-
-#	unnecessary after using create_study_subjects
-#				@candidate.assigned_on = Date.today
+#
 			end
-#			@candidate.update_attributes	# don't do it this way as opens ALL the attrs for change
+			# don't do it this way as opens ALL the attrs for change
+			#	@candidate.update_attributes()	
 			@candidate.reject_candidate = params[:candidate_control][:reject_candidate]
 			@candidate.rejection_reason = params[:candidate_control][:rejection_reason]
 			@candidate.save!

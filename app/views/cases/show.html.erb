@@ -5,7 +5,7 @@
 <%= link_to 'add control', new_case_control_path(@study_subject.id),:class => 'button' %>
 </span></h3>
 <% if @controls.empty? %>
- <p>No matching study_subjects found.</p>
+ <p>No matching control study_subjects found.</p>
 <% else %>
  <table><thead><tr>
   <th>studyid</th><th>name</th><th>subject type</th><th>dob</th>
@@ -23,5 +23,19 @@
 
 
 <h4>Rejected Controls</h4>
-
-<p>name, sex, dob, comments (reason for rejection)</p>
+<% if @rejected_controls.empty? %>
+ <p>No matching rejected controls found.</p>
+<% else %>
+ <table><thead><tr>
+  <th>name</th><th>sex</th><th>dob</th><th>comments (reason for rejection)</th>
+ </tr></thead><tbody>
+  <% @rejected_controls.each do |control| %><%# these are CandidateControls NOT StudySubjects %>
+   <tr>
+    <td><%= control.full_name %></td>
+    <td><%= control.sex %></td>
+    <td><%=mdy control.dob %></td>
+    <td><%= control.rejection_reason %></td>
+   </tr>
+  <% end %>
+ </tbody></table>
+<% end %>
