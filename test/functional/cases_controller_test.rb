@@ -70,7 +70,7 @@ class CasesControllerTest < ActionController::TestCase
 			get :show, :id => case_study_subject.id
 			assert_response :success
 			assert_template 'show'
-			assert_not_empty assigns(:rejected_controls)
+			assert !assigns(:rejected_controls).empty?
 		end
 
 		test "should NOT show related study_subjects with #{cu} login and invalid id" do
