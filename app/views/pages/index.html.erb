@@ -1,0 +1,29 @@
+<% javascripts('pages') %>
+<% stylesheets('pages') %>
+
+<h4>Pages:</h4>
+<% unless @pages.empty? %>
+ <table id='pages'><tbody>
+  <%= render :partial => 'page', :collection => @pages %>
+ </tbody></table><!-- id='pages' -->
+<% else %>
+ <p>Sorry, no pages yet.</p>
+<% end %><%# unless @pages.empty? %>
+
+<% form_tag(order_pages_path, :method => :post, :id => 'order_pages') do -%>
+ <%= hidden_field_tag :parent_id, params[:parent_id] %>
+ <p>
+  <%= link_to "View all pages", all_pages_path, :class => 'button' -%>&nbsp;
+  <%= link_to "Create new page", 
+   new_page_path(:parent_id => params[:parent_id]),
+   :class => 'button' -%>&nbsp;
+  <%= submit_tag 'Save page order', :name => nil, :id => 'save_order' %>
+ </p>
+<% end %>
+<p>
+The page model is used as a Content Management System 
+and for menu control.  Some routes are not available 
+because the application is using them, but in order to 
+have the menu function, a "fake page" is created as a 
+placeholder.  The staff functionality is an example.
+</p>

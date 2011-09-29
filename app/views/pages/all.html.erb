@@ -1,0 +1,39 @@
+<% javascripts('pages') %>
+<% stylesheets('pages') %>
+
+<h4>All Pages:</h4>
+<% unless @pages.empty? %>
+ <table id='pages'><thead>
+  <tr>
+   <th>Path</th>
+   <th>Menu</th>
+   <th>Title</th>
+   <th>&nbsp;</th>
+  </tr>
+ </thead><tbody>
+ <% @pages.each do |page| %>
+  <% content_tag_for( :tr, page, :class => 'row' ) do %>
+   <td class='path'>
+    <%= link_to page.path, 
+     ActionController::Base.relative_url_root.to_s + page.path -%>
+   </td>
+   <td class='menu'>
+    <%= link_to page.menu(session[:locale]), page -%>
+   </td>
+   <td class='title'>
+    <%= link_to page.title(session[:locale]), page -%>
+   </td>
+   <td class='manage'>
+    <%= link_to "Edit", edit_page_path(page), :class => 'button' -%>&nbsp;
+    <% destroy_link_to "Destroy", page_path(page) do %>
+     <%= hidden_field_tag 'confirm', "Destroy page '#{page}'?", 
+	   :id => nil %>
+     <%= submit_link_to 'Destroy' %>
+    <% end %>
+   </td>
+  <% end %><%# tr %>
+ <% end %><%# pages.each %>
+ </tbody></table><!-- id='pages' -->
+<% else %>
+<p>Sorry, no pages yet.</p>
+<% end %>

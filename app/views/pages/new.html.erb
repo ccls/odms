@@ -1,0 +1,10 @@
+<%= error_messages_for :page %>
+
+<% form_for(@page) do |f| %>
+  <%= render 'form', :f => f %>
+  <p>
+    <%= f.submit "Create", :id => nil %>&nbsp;
+    <%= submit_link_to "Create" %>
+		<%= link_to "Cancel", pages_path, :class => 'button' %>
+  </p>
+<% end %>

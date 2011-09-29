@@ -1,0 +1,20 @@
+<% content_tag_for( :tr, child ) do %>
+ <td class='path'>
+  <%= link_to child.path, child.path -%>
+ </td>
+ <td class='menu'>
+  <%= link_to child.menu(session[:locale]), child -%>
+ </td>
+ <td class='title'>
+  <%= link_to child.title(session[:locale]), child -%>
+ </td>
+ <td class='manage'>
+  <%= link_to "Edit", edit_page_path(child), :class => 'button' -%>
+  &nbsp;
+  <% destroy_link_to "Destroy", page_path(child) do %>
+   <%= hidden_field_tag 'confirm', "Destroy page '#{child}'?",
+    :id => nil %>
+   <%= submit_link_to 'Destroy' %>
+  <% end %>
+ </td>
+<% end %><!-- class='child' -->

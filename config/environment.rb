@@ -42,12 +42,12 @@ Rails::Initializer.run do |config|
 #	config.gem 'ccls-common_lib'
 
 	config.gem 'jakewendt-simply_authorized'		#	TODO remove me
-	config.gem 'jakewendt-simply_pages'		#	TODO remove me
 	config.gem 'jakewendt-simply_helpful'		#	TODO remove me
 #	config.gem 'jakewendt-simply_trackable'		#	TODO remove me
 
 	#	require it, but don't load it
-	config.gem 'jakewendt-rdoc_rails', :lib => false		#	TODO remove me
+#	config.gem 'jakewendt-rdoc_rails', :lib => false		#	TODO remove me
+	config.gem 'jrails'
 
 #	config.gem 'haml'      # Needed for Surveyor		#	TODO remove me
 	#		http://chronic.rubyforge.org/
@@ -55,7 +55,7 @@ Rails::Initializer.run do |config|
 	config.gem 'active_shipping'
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
-	config.gem 'paperclip'	#	not using 'photos' or 'documents' so 
+#	config.gem 'paperclip'	#	not using 'photos' or 'documents' so 
 	config.gem 'hpricot'
 
 	config.frameworks -= [ :active_resource ]
