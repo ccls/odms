@@ -78,6 +78,65 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_redirected_to case_path(case_study_subject.id)
 		end
 
+		test "should assign icf_master_id on acceptance if available with #{cu} login" do
+			Factory(:icf_master_id, :icf_master_id => '12345')
+			Factory(:icf_master_id, :icf_master_id => '67890')
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('StudySubject.count',2) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }
+			} }
+			candidate.reload
+			assert_not_nil candidate.study_subject.identifier.icf_master_id
+			assert_equal '12345',
+				candidate.study_subject.identifier.icf_master_id
+			assert_not_nil candidate.study_subject.mother.identifier.icf_master_id
+			assert_equal '67890',
+				candidate.study_subject.mother.identifier.icf_master_id
+			assert_nil flash[:warning]
+		end
+
+		test "should not assign icf_master_id to control on acceptance if none left " <<
+				"with #{cu} login" do
+			Factory(:icf_master_id, :icf_master_id => '12345')
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('StudySubject.count',2) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }
+			} }
+			candidate.reload
+			assert_not_nil candidate.study_subject.identifier.icf_master_id
+			assert_equal '12345',
+				candidate.study_subject.identifier.icf_master_id
+			assert_nil candidate.study_subject.mother.identifier.icf_master_id
+			assert_not_nil flash[:warning]
+		end
+
+		test "should not assign icf_master_id to mother on acceptance if only one left " <<
+				"with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('StudySubject.count',2) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }
+			} }
+			candidate.reload
+			assert_nil candidate.study_subject.identifier.icf_master_id
+			assert_nil candidate.study_subject.mother.identifier.icf_master_id
+			assert_not_nil flash[:warning]
+		end
+
 		test "should NOT put update with #{cu} login and accept candidate" <<
 				" when StudySubject save fails" do
 			login_as send(cu)

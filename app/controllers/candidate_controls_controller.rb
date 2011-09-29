@@ -14,15 +14,15 @@ class CandidateControlsController < ApplicationController
 	def update
 		CandidateControl.transaction do
 			if params[:candidate_control][:reject_candidate] == 'false'
-#	TODO what would subjects be?  just self? [self,control,mother]?
-#				subjects = @candidate.create_study_subjects(@study_subject)
 				@candidate.create_study_subjects(@study_subject)
-#
-#	add a flash[:notice] if icf_master_ids are nil (don't raise error)
-#
-#	do something with the icf_master_ids table as well
-#		assign icf_master_id to both new child control and mother
-#
+				warning = ''
+				if @candidate.study_subject.identifier.icf_master_id.blank?
+					warning << "Control was not assigned an icf_master_id."
+				end
+				if @candidate.study_subject.mother.identifier.icf_master_id.blank?
+					warning << "\nMother was not assigned an icf_master_id."
+				end
+				flash[:warning] = warning unless warning.blank?
 			end
 			# don't do it this way as opens ALL the attrs for change
 			#	@candidate.update_attributes()	
