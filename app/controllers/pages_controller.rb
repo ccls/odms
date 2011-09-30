@@ -51,11 +51,11 @@ class PagesController < ApplicationController
 		redirect_to pages_path(:parent_id=>params[:parent_id])
 	end
 
-	def translate
-		respond_to do |format|
-			format.js {}
-		end
-	end
+#	def translate
+#		respond_to do |format|
+#			format.js {}
+#		end
+#	end
 		
 	def show
 	end

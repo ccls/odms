@@ -20,14 +20,13 @@ class PagesControllerTest < ActionController::TestCase
 		show.assert_access_with_http
 		show.assert_access_with_https
 		show.assert_access_with_login({
-			:logins => [:superuser,:administrator,:editor],
-			:skip_show_failure => true })
-		show.assert_access_with_login({
-			:logins => [:interviewer,:reader,:active_user], 
+			:logins => [:superuser,:administrator,:editor,:interviewer,:reader,:active_user], 
 			:skip_show_failure => true })
 		show.assert_access_without_login
 	end
 
+	assert_access_with_login({ 
+		:logins => [:superuser,:administrator,:editor] })
 	assert_no_access_with_login({ 
 		:logins => [:interviewer,:reader,:active_user] })
 	assert_no_access_without_login
