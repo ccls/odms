@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
+	map.resources :locales, :only => :show
+
 	map.root :controller => :odms, :action => :show
 
 	map.resources :study_subjects, :only => [:edit,:update,:show,:index],
@@ -70,7 +72,7 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resources :pages, :collection => { 
 		:all => :get,
-		:translate => :get,
+#		:translate => :get,
 		:order => :post }
 
 	#	Create named routes for expected pages so can avoid
