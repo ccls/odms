@@ -11,7 +11,7 @@
 <% study_subject = StudySubject.find(bc_request.study_subject_id) -%>
 <%=[
  study_subject.identifier.studyid,
- 'icfmasterid',
+ study_subject.identifier.icf_master_id,
  study_subject.full_name,
  study_subject.sex,
  'bornincali?',
