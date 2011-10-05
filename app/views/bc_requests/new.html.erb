@@ -112,7 +112,7 @@
 
   </td>
   <td><%= link_to study_subject.identifier.studyid, study_subject %></td>
-  <td>icfmasterid</td>
+  <td><%= study_subject.identifier.icf_master_id %></td>
   <td><%= study_subject.full_name %></td>
   <td><%= bc_request.notes %></td>
   <td><%= link_to 'Edit', edit_bc_request_path(bc_request), :class => 'button' %></td>
