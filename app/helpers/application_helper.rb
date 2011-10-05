@@ -156,18 +156,20 @@ module ApplicationHelper
 
 	def control_bar
 		s  = "<div class='control_bar'>"
-		s << link_to( 'dashboard', 
+		links = []
+		links << link_to( 'dashboard', 
 			{ :controller => params[:controller], :action => :dashboard },
 			:class => (params[:action] == 'dashboard') ? 'current' : nil )
-		s << link_to( 'find', 
+		links << link_to( 'find', 
 			{ :controller => params[:controller], :action => :find },
 			:class => (params[:action] == 'find') ? 'current' : nil )
-		s << link_to( 'follow-up', 
+		links << link_to( 'follow-up', 
 			{ :controller => params[:controller], :action => :followup },
 			:class => (params[:action] == 'followup') ? 'current' : nil )
-		s << link_to( 'reports', 
+		links << link_to( 'reports', 
 			{ :controller => params[:controller], :action => :reports },
 			:class => (params[:action] == 'reports') ? 'current' : nil )
+		s << links.join('&nbsp;')
 		s << "</div>"
 	end
 

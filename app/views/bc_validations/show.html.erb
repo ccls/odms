@@ -33,3 +33,21 @@
 </tbody></table>
 
 <p>candidate controls</p>
+
+<% if @controls.length > 0 %>
+<table id='controls'><thead><tr>
+<th>First Name</th>
+<th>Last Name</th>
+<th>DOB</th>
+</tr></thead><tbody>
+<% @controls.each do |control| %>
+<tr class='row'>
+<td><%= control.first_name %></td>
+<td><%= control.last_name %></td>
+<td><%=mdy control.dob %></td>
+</tr>
+<% end %>
+</tbody></table>
+<% else %>
+<p>There are no controls.</p>
+<% end %>

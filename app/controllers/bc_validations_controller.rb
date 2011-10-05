@@ -4,7 +4,7 @@ class BcValidationsController < ApplicationController
 	before_filter :case_study_subject_required, :only => :show
 
 	def index
-		@cases = StudySubject.search(params.merge(:types => 'case',:order => 'studyid'))	#,:paginate => false)
+		@cases = StudySubject.search(params.merge(:types => 'case',:order => 'studyid'))
 	end
 
 	def show
@@ -14,6 +14,9 @@ class BcValidationsController < ApplicationController
 #			:conditions => [
 #				"study_subjects.id != ? AND identifiers.patid = ?", @study_subject.id, @study_subject.patid ] 
 #		)
+		@controls = CandidateControl.all(
+			:conditions => { :related_patid => @study_subject.patid }
+		)
 	end
 
 protected
