@@ -16,20 +16,22 @@ class BcValidationsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-#	TODO duplicate?
-		test "should NOT show bc_validation with #{cu} login and invalid id" do
-			login_as send(cu)
-			get :show, :id => 0
-			assert_not_nil flash[:error]
-			assert_redirected_to bc_validations_path
-		end
-
 		test "should NOT show bc_validation with #{cu} login and non-case study_subject" do
 			login_as send(cu)
 			study_subject = create_study_subject
 			get :show, :id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to bc_validations_path
+		end
+
+		test "should show bc_validation with candidate controls and #{cu} login" do
+			login_as send(cu)
+			study_subject = create_case_control_study_subject
+			get :show, :id => study_subject.id
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'show'
+			assert_not_nil assigns(:controls)	#	although is probably empty
 		end
 
 	end
