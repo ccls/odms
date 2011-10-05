@@ -15,13 +15,9 @@ class CandidateControlsController < ApplicationController
 		CandidateControl.transaction do
 			if params[:candidate_control][:reject_candidate] == 'false'
 #
-#	I think that it may be beneficial to pass the "group"? number to 
-#	the create_study_subjects method here, rather than hard code it
-#	in the method.  I suppose that we can leave it as the default,
-#	but passing it as an argument would prove to be more flexible 
-#	in any future project usage.
+#	can't use this modification until release of ccls_engine 3.9.5
 #
-				@candidate.create_study_subjects(@study_subject)
+				@candidate.create_study_subjects(@study_subject)	#,'6')	#	'6' is default anyway
 				warning = ''
 				if @candidate.study_subject.identifier.icf_master_id.blank?
 					warning << "Control was not assigned an icf_master_id."

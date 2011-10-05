@@ -1,14 +1,59 @@
 <%= control_bar() %>
 
-Subject find form
+<% form_tag(find_study_subjects_path, :method => :get ) do %>
 
-<p>Results must match [select(any,all)] of the following: [find]</p>
+<p>Results must match [select(any,all)] of the following: 
+<%= submit_tag "Find", :id => nil, :name => nil  %>
+<%= submit_link_to "Find"  %>
+</p>
 
-<p>first name: [ ]</p>
-<p>last name: [ ] (search last_name and maiden_name)</p>
-<p>dob: [ ]</p>
-<p>childid: [ ]</p>
-<p>icf master_id : [ ]</p>
-<p>patid: [ ]</p>
-<p>hospital no: [ ]</p>
-<p>state/local registrar no: [ ] (search state_id_no, state_registrar_no and local_registrar_no)</p>
+<%#
+
+	The "for"'s are nice for radio buttons and check boxes,
+	but are really unnecessary for text_fields.
+
+%>
+<p><label for='first_name'>first name:</label>
+  <%= text_field_tag :first_name, params[:first_name] %></p>
+<p><label for='last_name'>last name:</label>
+  <%= text_field_tag :last_name, params[:last_name] %>
+  (search last_name and maiden_name)</p>
+<p><label for='dob'>dob:</label>
+  <%= text_field_tag :dob, params[:dob] %></p>
+<p><label for='childid'>child id:</label>
+  <%= text_field_tag :childid, params[:childid] %></p>
+<p><label for='icf_master_id'>ICF master id:</label>
+  <%= text_field_tag :icf_master_id, params[:icf_master_id] %></p>
+<p><label for='patid'>pat id:</label>
+  <%= text_field_tag :patid, params[:patid] %></p>
+<p><label for='hospital_no'>hospital no:</label>
+  <%= text_field_tag :hospital_no, params[:hospital_no] %></p>
+<p><label for='registrar_no'>state/local registrar no:</label>
+  <%= text_field_tag :registrar_no, params[:registrar_no] %>
+  (search state_id_no, state_registrar_no and local_registrar_no)</p>
+
+<%#
+	This submit_tag allows for pressing enter in a text field.
+	The submit_link_to and helpers hide it visually and add a link
+	and some javascript to submit the form.
+%>
+<% end %>
+
+
+
+<% stylesheets('study_subjects') %>
+
+<% if @study_subjects.length > 0 %>
+<table id='study_subjects'><thead><tr>
+<th><%= sort_link('ChildID') %></th>
+<th><%= sort_link('StudyID') %></th>
+<th><%= sort_link('Last Name') %></th>
+<th><%= sort_link('First Name') %></th>
+</tr></thead><tbody>
+<%= render :partial => 'study_subject', :collection => @study_subjects %>
+</tbody></table>
+<% else %>
+<p>There are no subjects.</p>
+<% end %>
+
+<%= will_paginate @study_subjects %>

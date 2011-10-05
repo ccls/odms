@@ -4,18 +4,24 @@ class StudySubjectsController < ApplicationController
 
 	skip_before_filter :get_all
 
+#	this is added in the "resourceful" method above
 #	before_filter :valid_id_required, :only => :show
 
-	before_filter :may_read_study_subjects_required, :only => [:show,:index,
-		:dashboard,:find,:followup,:reports]
+	before_filter :may_read_study_subjects_required, 
+		:only => [:show,:index,:dashboard,:find,:followup,:reports]
+
 #	before_filter :may_read_study_subject_required,  :only => :show
+
+	def find
+		record_or_recall_sort_order
+		@study_subjects = StudySubject.search(params)
+	end
 
 	def index
 		record_or_recall_sort_order
 		if params[:commit] && params[:commit] == 'download'
 			params[:paginate] = false
 		end
-#		@study_subjects = StudySubject.for_hx(params)
 		@study_subjects = StudySubject.search(params)
 		if params[:commit] && params[:commit] == 'download'
 			params[:format] = 'csv'
@@ -25,13 +31,6 @@ class StudySubjectsController < ApplicationController
 	end
 
 	def show
-##		@projects = Project.all
-##		@enrollments = @study_subject.enrollments
-#		#	always return an enrollment so its not nil
-#		#	although it may be misleading
-#		#	Of course, if the study_subject isn't enrolled, 
-#		#	they wouldn't be here.
-#		@hx_enrollment = @study_subject.hx_enrollment || @study_subject.enrollments.new
 	end
 
 protected
