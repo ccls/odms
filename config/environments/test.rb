@@ -40,7 +40,7 @@ config.gem "thoughtbot-factory_girl",
 	:lib    => "factory_girl",
 	:source => "http://gems.github.com"
 
-config.gem 'jakewendt-html_test'
+config.gem 'ccls-html_test'
 
 config.action_mailer.default_url_options = { 
 	:host => "dev.sph.berkeley.edu:3000" }
