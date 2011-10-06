@@ -1,19 +1,16 @@
-<% stylesheets('study_subject','contacts') %>
+<%# stylesheets('study_subject','contacts') %>
+<%# stylesheets('study_subject') %>
 <% sub_menu_for(@study_subject) %>
 
 <% content_for :id_bar do %>
 <%= link_to "edit", edit_study_subject_path(@study_subject) %>
 <% end if current_user.may_edit_study_subjects? %>
 
-
-
-
-
 <% id_bar_for(@study_subject) %>
 
 <% content_tag_for( :div, @study_subject ) do %>
 <%= render 'study_subject_personal' %>
 <%= render 'study_subject_parent' %>
-<%= render 'study_subject_consent' %>
-<%= render 'study_subject_homex_outcomes' %>
+<%#= render 'study_subject_consent' %>
+<%#= render 'study_subject_homex_outcomes' %>
 <% end %><%# content_tag_for %>

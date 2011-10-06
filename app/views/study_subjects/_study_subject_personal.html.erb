@@ -9,13 +9,23 @@
 </div><!-- class='column' -->
 </div><!-- class='contact_status columns' -->
 
-<div class='personal columns'>
-<div class='column'>
+<div class='personal'>
+<h3>Basic Info</h3>
 <p class='full_name'><%= @study_subject.full_name -%></p>
-</div><!-- class='column' -->
-<div class='column'>
+
+<div class='case_control_type spans field_wrapper'>
+<span class='label'>case/control status:</span>
+<span class='value'><%= @study_subject.try(:identifier).try(:case_control_type) %></span>
+</div><!-- class='case_control_type spans' -->
+
+<%#= wrapped_spans :study_subject, :case_control_type,
+	:label_text => 'case/control status:' %>
+
+<%= wrapped_spans :study_subject, :subject_type,
+	:label_text => 'subject type:' %>
 <%= wrapped_date_spans :study_subject, :dob,
-	:label_text => 'birth date:' %>
+	:label_text => 'date of birth:' %>
+
 <%# unfortunately, I've allowed sex to be blank %>
 <%= wrapped_spans :study_subject, :sex,
 	:value => ( ( @study_subject.sex.blank? ) ? '&nbsp;' : ( ( 
@@ -30,25 +40,8 @@
 <%= wrapped_spans :study_subject, :local_registrar_no,
 	:label_text => 'local registrar no:' %>
 
-<div id='addressings'>
-<%= render :partial => 'contacts/addressing',
-    :collection => @study_subject.addressings.current, 
-		:locals => { :dates => false, :details => false, :edit => false } %>
-</div><!-- id='addressings' -->
-
-<div id='phone_numbers'>
-<%= render :partial => 'contacts/phone_number',
-    :collection => @study_subject.phone_numbers, 
-		:locals => { :dates => false, :details => false, :edit => false } %>
-</div><!-- id='phone_numbers' -->
-
-</div><!-- class='column' -->
-<div class='column'>
 <%= wrapped_date_spans :study_subject, :reference_date,
-	:label_text => 'reference date:' %>
+	:label_text => 'admit (reference) date:' %>
 <%= wrapped_spans :study_subject, :vital_status,
 	:label_text => 'vital status:' %>
-<%= wrapped_spans :study_subject, :subject_type,
-	:label_text => 'relation to case:' %>
-</div><!-- class='column' -->
 </div><!-- class='personal' -->
