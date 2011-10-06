@@ -40,10 +40,7 @@
 </tr></thead>
 <tbody>
 <% @active_bc_requests.each do |bc_request| %>
-<%# yet again, rails forgets its associations in development.  Can't seem to work any magic either. %>
-<%# bc_request.study_subject.reload(:include => :identifier) %>
-<%# don't know why just accessing subject through the association doesn't work, but it is most irritating %>
-<% study_subject = StudySubject.find(bc_request.study_subject_id) %>
+ <% study_subject = bc_request.study_subject %>
  <tr class='row'>
   <td>
    <% destroy_link_to "Destroy", bc_request_path(bc_request) do %>
@@ -89,10 +86,7 @@
 <tbody>
 
 <% @waitlist_bc_requests.each do |bc_request| %>
-<%# yet again, rails forgets its associations in development.  Can't seem to work any magic either. %>
-<%# bc_request.study_subject.reload(:include => :identifier) %>
-<%# don't know why just accessing study_subject through the association doesn't work, but it is most irritating %>
-<% study_subject = StudySubject.find(bc_request.study_subject_id) %>
+ <% study_subject = bc_request.study_subject %>
  <tr class='row'>
   <td>
    <% form_link_to 'Activate', update_status_bc_request_path(bc_request), 'method' => 'put' do %>

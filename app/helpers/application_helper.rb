@@ -41,13 +41,12 @@ module ApplicationHelper
 	end
 
 	def administrator_menu()
-		link_to( "Admin", admin_path,
-			:class => 'menu_item' )
+		link_to( "Admin", admin_path, :class => 'menu_item' )
 	end
 
 	def id_bar_for(object,&block)
 		#	In development, the app will forget
-		require_dependency 'study_subject.rb' unless StudySubject
+#		require_dependency 'study_subject.rb' unless StudySubject	#	don't think true anymore
 #		require_dependency 'gift_card.rb' unless GiftCard
 		case object
 			when StudySubject  then study_subject_id_bar(object,&block)
@@ -58,7 +57,7 @@ module ApplicationHelper
 
 	def sub_menu_for(object)
 		#	In development, the app will forget
-		require_dependency 'study_subject.rb' unless StudySubject
+#		require_dependency 'study_subject.rb' unless StudySubject	# don't think true anymore
 #		require_dependency 'interview.rb' unless Interview
 		case object
 			when StudySubject   then study_subject_sub_menu(object)
