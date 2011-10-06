@@ -3,7 +3,9 @@
 <%= sanitize(textilize(@page.body(session[:locale]))) %>
 <% end %>
 </div>
+
 <% content_for :content_bottom do %>
+<!--
 <div id='preview'>
 <div class='section'>
 <h4>Ready for Letters</h4>
@@ -37,4 +39,5 @@ go to full list ...
 (+5 others)  go to full list ...
 </div>
 </div>
+-->
 <% end %>
