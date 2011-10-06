@@ -22,7 +22,6 @@ class AddressingsController < ApplicationController
 
 		@addressing = @study_subject.addressings.build(
 			params[:addressing].merge( :current_user => current_user ) )
-#		@addressing = @study_subject.addressings.build( params[:addressing] )
 		@addressing.save!
 		redirect_to study_subject_contacts_path(@addressing.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -39,7 +38,6 @@ class AddressingsController < ApplicationController
 	def update
 		@addressing.update_attributes!(
 			params[:addressing].merge( :current_user => current_user ) )
-#		@addressing.update_attributes!( params[:addressing] )
 		redirect_to study_subject_contacts_path(@addressing.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "Address update failed"
