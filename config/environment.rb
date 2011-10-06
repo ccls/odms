@@ -5,16 +5,10 @@ RAILS_GEM_VERSION = '2.3.14' unless defined? RAILS_GEM_VERSION
 
 #ENV['RAILS_ENV'] ||= 'production'
 
-#	In production, using script/console does not properly
-#	set a GEM_PATH, so gems aren't loaded correctly.
-#if ENV['RAILS_ENV'] == 'production'
-#ENV['GEM_PATH'] = File.expand_path(File.join(File.dirname(__FILE__),'..','gems'))
-#end
-
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-#	This constant is used in the ucb_ccls_engine#Document
+#	This constant is used in the ccls_engine#Document
 #	and other places like Amazon buckets
 #	for controlling the path to documents.
 RAILS_APP_NAME = 'odms'
@@ -38,24 +32,15 @@ Rails::Initializer.run do |config|
 	#	for use in the jruby environment.
 	config.gem 'ccls-ccls_engine'
 
-	#	Without this, rake doesn't properly include that app/ paths?
-#	config.gem 'ccls-common_lib'
-
 	config.gem 'jakewendt-simply_authorized'		#	TODO remove me
 	config.gem 'jakewendt-simply_helpful'		#	TODO remove me
-#	config.gem 'jakewendt-simply_trackable'		#	TODO remove me
-
-	#	require it, but don't load it
-#	config.gem 'jakewendt-rdoc_rails', :lib => false		#	TODO remove me
 	config.gem 'jrails'
 
-#	config.gem 'haml'      # Needed for Surveyor		#	TODO remove me
 	#		http://chronic.rubyforge.org/
 	config.gem "chronic"	#, :version => '= 0.5.0'
 	config.gem 'active_shipping'
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
-#	config.gem 'paperclip'	#	not using 'photos' or 'documents' so 
 	config.gem 'hpricot'
 
 	config.frameworks -= [ :active_resource ]
