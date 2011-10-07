@@ -4,7 +4,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = { 
 		:model => 'BcRequest',
-		:actions => [:new,:edit,:update,:destroy],		#,:index], index is a bit tricky so done manually
+		:actions => [:new,:edit,:update,:destroy],		
+		#,:index], index is a bit tricky so done manually
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_bc_request
 	}
