@@ -12,7 +12,7 @@ ActionController::Routing::Routes.draw do |map|
 				:reports   => :get 
 			},
 			:shallow => true do |study_subject|
-#		study_subject.resource :patient
+		study_subject.resource :patient
 		study_subject.resources :contacts, :only => :index
 		study_subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
 			:only => [:new,:create,:edit,:update,   :destroy   ]
@@ -49,8 +49,6 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :bc_validations, :only => [:index, :show]
 	map.resources :birth_certificates, :only => :index
 
-#	map.resources :controls, :only => [:new,:show] do |control|
-#	map.resources :controls, :only => [:new]
 	map.resources :candidate_controls, :only => [:edit,:update]
 
 	map.resources :cases, :only => [:new,:index,:show] do |c|
@@ -58,10 +56,7 @@ ActionController::Routing::Routes.draw do |map|
 		#	WARNING be careful as "case" is a ruby keyword!
 		#
 		c.resources :controls,   :only => [:new]	#,:create]
-#		c.resources :candidates, :only => [:new,:create]
 	end
-
-
 
 	map.resource  :waivered, :only => [:new,:create]
 	map.resource  :nonwaivered, :only => [:new,:create]
