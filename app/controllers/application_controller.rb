@@ -19,7 +19,10 @@ protected	#	private #	(does it matter which or if neither?)
 			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
 	end
 
-#	TODO stop using this if possible
+	#	TODO stop using this if possible as isn't really clear.  (works though)
+	#	should just extend the roles_controller(I think)
+	#	and define the 'may_not_by_user_required' method.
+	#
 	#	This is a method that returns a hash containing
 	#	permissions used in the before_filters as keys
 	#	containing another hash with redirect_to and 
@@ -93,7 +96,6 @@ protected	#	private #	(does it matter which or if neither?)
 
 	def get_guidance
 		return if params[:format] == 'js'	#	better
-#		return if [ "/users/menu.js" ].include?(request.env['REQUEST_PATH'])
 		require 'guide'
 		@guidance = Guide.find(:first, :conditions => {
 				:controller => self.class.name.underscore.sub(/_controller/,''),
