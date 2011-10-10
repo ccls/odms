@@ -18,14 +18,14 @@ class CandidateControlsController < ApplicationController
 #	can't use this modification until release of ccls_engine 3.9.5
 #
 				@candidate.create_study_subjects(@study_subject)	#,'6')	#	'6' is default anyway
-				warning = ''
+				warn = ''
 				if @candidate.study_subject.identifier.icf_master_id.blank?
-					warning << "Control was not assigned an icf_master_id."
+					warn << "Control was not assigned an icf_master_id."
 				end
 				if @candidate.study_subject.mother.identifier.icf_master_id.blank?
-					warning << "\nMother was not assigned an icf_master_id."
+					warn << "\nMother was not assigned an icf_master_id."
 				end
-				flash[:warning] = warning unless warning.blank?
+				flash[:warn] = warn unless warn.blank?
 			end
 			# don't do it this way as opens ALL the attrs for change
 			#	@candidate.update_attributes()	

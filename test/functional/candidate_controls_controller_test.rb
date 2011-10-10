@@ -97,7 +97,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_not_nil candidate.study_subject.mother.identifier.icf_master_id
 			assert_equal '67890',
 				candidate.study_subject.mother.identifier.icf_master_id
-			assert_nil flash[:warning]
+			assert_nil flash[:warn]
 		end
 
 		test "should not assign icf_master_id to control on acceptance if none left " <<
@@ -117,7 +117,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_equal '12345',
 				candidate.study_subject.identifier.icf_master_id
 			assert_nil candidate.study_subject.mother.identifier.icf_master_id
-			assert_not_nil flash[:warning]
+			assert_not_nil flash[:warn]
 		end
 
 		test "should not assign icf_master_id to mother on acceptance if only one left " <<
@@ -134,7 +134,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate.reload
 			assert_nil candidate.study_subject.identifier.icf_master_id
 			assert_nil candidate.study_subject.mother.identifier.icf_master_id
-			assert_not_nil flash[:warning]
+			assert_not_nil flash[:warn]
 		end
 
 		test "should NOT put update with #{cu} login and accept candidate" <<
