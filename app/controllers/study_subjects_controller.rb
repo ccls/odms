@@ -1,16 +1,16 @@
 class StudySubjectsController < ApplicationController
 
-	resourceful :update_redirect => :update_redirect_path
-
-	skip_before_filter :get_all
-
-#	this is added in the "resourceful" method above
-#	before_filter :valid_id_required, :only => :show
-
+	before_filter "may_create_study_subjects_required",
+		:only => [:new,:create]
 	before_filter :may_read_study_subjects_required, 
 		:only => [:show,:index,:dashboard,:find,:followup,:reports]
+	before_filter "may_update_study_subjects_required",
+		:only => [:edit,:update]
+	before_filter "may_destroy_study_subjects_required",
+		:only => :destroy
 
-#	before_filter :may_read_study_subject_required,  :only => :show
+	before_filter :valid_id_required, 
+		:only => [:show,:edit,:update,:destroy]
 
 	def find
 		record_or_recall_sort_order
@@ -33,11 +33,35 @@ class StudySubjectsController < ApplicationController
 	def show
 	end
 
-protected
-
-	def update_redirect_path
-		study_subject_path(@study_subject)
+	def new
+		@study_subject = StudySubject.new
 	end
+
+	def destroy
+		@study_subject.destroy
+		redirect_to study_subject_path
+	end
+
+	def create
+		@study_subject = StudySubject.new(params[:study_subject])
+		@study_subject.save!
+		flash[:notice] = 'Success!'
+		redirect_to @study_subject
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+		flash.now[:error] = "There was a problem creating the study_subject"
+		render :action => "new"
+	end 
+
+	def update
+		@study_subject.update_attributes!(params[:study_subject])
+		flash[:notice] = 'Success!'
+		redirect_to study_subject_path(@study_subject)
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+		flash.now[:error] = "There was a problem updating the study_subject"
+		render :action => "edit"
+	end
+
+protected
 
 	def valid_id_required
 		if !params[:id].blank? and StudySubject.exists?(params[:id])
