@@ -20,6 +20,8 @@ div#container {
 }
 
 div#header {
+	margin:0;
+	padding:0;
 	background-color: #6A7780;
 	height: 80px;
 	position:relative; /* NEEDED so that mainmenu can be at bottom */

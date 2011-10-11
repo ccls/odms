@@ -44,6 +44,7 @@ div#mainmenu {
 	bottom:0;
 }
 div#mainmenu .menu_item {
+	position:relative;
 	margin:0;
 	float:left;
 	padding: 4px 24px;
@@ -61,6 +62,38 @@ div#mainmenu > .current {
 	background-color: #CCC3A9;
 }
 
+div#mainmenu .menu_item .sub_menu {
+/*
+	As a hover menu, this is absolute and a bit tricky to
+		keep lined up in both Firefox and IE.
+	I think that it is caused by differing font sizes.
+	This seems to work, but isn't perfect.
+*/
+	margin:0;
+	padding:0;
+	position:absolute;
+	top: 25px;
+	left:0px;
+	clear:left;
+	z-index: 100;	/* needed to keep it above other stuff */
+	background-color: white;
+	border: 1px solid gray;
+	border-top: 0;
+	display:none;
+
+	/* box-shadow: <horizontal> <vertical> <blur> <color> */
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+div#mainmenu .menu_item .sub_menu > * {
+	font-weight: normal;
+	padding: 5px;
+	display:block;
+	white-space:pre;
+}
+div#mainmenu .menu_item:hover > .sub_menu { display:block; }
+
 div#left_side_menu {
 	width: 160px;
 }
@@ -76,55 +109,6 @@ div#sidemenu > * {
 	padding: 5px 10px;
 	display:block;
 }
-/*
-div#sidemenu a.current {
-*/
 div#sidemenu > .current {
 	font-weight:bold;
 }
-
-
-
-
-
-
-
-.menu_item { 
-	padding: 0 5px;
-	border-right: 1px solid gray; 
-	float:left;
-}
-.menu_item:last-child   { border: 0; }
-
-div.menu_item {
-	position:relative;
-}
-
-.sub_menu {
-	top: 30px;
-	left:-2px;
-	clear:left;
-	z-index: 100;	/* needed to keep it above a google map */
-	position:absolute;
-	background-color: white;
-	border-left: 1px solid gray;
-	border-right: 1px solid gray;
-	border-bottom: 1px solid gray;
-	display:none;
-
-	/* box-shadow: <horizontal> <vertical> <blur> <color> */
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-}
-/*
-.sub_menu a,
-.sub_menu span {
-*/
-.sub_menu > * {
-	font-weight: normal;
-	padding: 5px;
-	display:block;
-	white-space:pre;
-}
-.menu_item:hover > .sub_menu { display:block; }
