@@ -1,5 +1,5 @@
+#	From `script/generate ccls_engine` ...
 #	condition added to allow clean 'rake gems:install'
-#if Gem.searcher.find('ccls_engine')
 unless Gem.source_index.find_name('ccls-ccls_engine').empty?
 	gem 'ccls-ccls_engine'
 
@@ -8,6 +8,5 @@ unless Gem.source_index.find_name('ccls-ccls_engine').empty?
 	#	gems/ccls-calnet_authenticated-0.4.1/lib/calnet_authenticated/controller.rb:18:in `included'
 	require 'ccls_engine'
 	require 'ccls_engine/tasks'
-	#	From `script/generate ccls_engine` ...
 	require 'ccls_engine/test_tasks'
 end
