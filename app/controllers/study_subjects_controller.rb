@@ -33,24 +33,24 @@ class StudySubjectsController < ApplicationController
 	def show
 	end
 
-	def new
-		@study_subject = StudySubject.new
-	end
-
-	def destroy
-		@study_subject.destroy
-		redirect_to study_subject_path
-	end
-
-	def create
-		@study_subject = StudySubject.new(params[:study_subject])
-		@study_subject.save!
-		flash[:notice] = 'Success!'
-		redirect_to @study_subject
-	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		flash.now[:error] = "There was a problem creating the study_subject"
-		render :action => "new"
-	end 
+#	def new
+#		@study_subject = StudySubject.new
+#	end
+#
+#	def destroy
+#		@study_subject.destroy
+#		redirect_to study_subject_path
+#	end
+#
+#	def create
+#		@study_subject = StudySubject.new(params[:study_subject])
+#		@study_subject.save!
+#		flash[:notice] = 'Success!'
+#		redirect_to @study_subject
+#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+#		flash.now[:error] = "There was a problem creating the study_subject"
+#		render :action => "new"
+#	end 
 
 	def update
 		@study_subject.update_attributes!(params[:study_subject])
