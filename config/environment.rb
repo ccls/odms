@@ -33,7 +33,8 @@ Rails::Initializer.run do |config|
 	config.gem 'ccls-ccls_engine'
 
 	config.gem 'ccls-simply_authorized'
-	config.gem 'ccls-simply_helpful'
+#	config.gem 'ccls-simply_helpful'
+	config.gem 'ccls-common_lib'
 	config.gem 'jrails'
 
 	#		http://chronic.rubyforge.org/
