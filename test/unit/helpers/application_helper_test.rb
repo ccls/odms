@@ -144,20 +144,6 @@ pending
 pending
 	end
 
-#	test "required(text) should" do
-##	TODO remove as in ccls_engine > 3.8.7
-#		response = HTML::Document.new(required('something')).root
-#		#"<span class='required'>something</span>"
-#		assert_select response, 'span.required', 'something', 1
-#	end
-#
-#	test "req(text) should" do
-##	TODO remove as in ccls_engine > 3.8.7
-#		response = HTML::Document.new(req('something')).root
-#		#"<span class='required'>something</span>"
-#		assert_select response, 'span.required', 'something', 1
-#	end
-
 private 
 	def params
 		@params || {}

@@ -15,7 +15,6 @@ module ApplicationHelper
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('New Case', new_case_path),
-#				link_to('New Control', new_control_path),
 				link_to('New Control', cases_path),
 				link_to('Manage Birth Certificates', birth_certificates_path),
 				link_to( "Browse Subjects", study_subjects_path )
@@ -129,7 +128,6 @@ module ApplicationHelper
 					:class => ((current == :contact)?'current':nil) ),
 				link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 					:class => ((current == :hospital)?'current':nil) ),
-#				"<span>Hospital / Medical</span>",
 				"<span>Eligibility &amp; Consent</span>",
 #				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
 #					:class => ((current == :eligibility)?'current':nil) ),
@@ -145,13 +143,6 @@ module ApplicationHelper
 			s << "\n</div><!-- submenu -->\n"
 		end
 	end
-
-#	#	Just a simple method to wrap the passed text in a span
-#	#	with class='required'
-#	def required(text)			#	TODO remove as is in ccls_engine > 3.8.7
-#		"<span class='required'>#{text}</span>"
-#	end
-#	alias_method :req, :required
 
 	def control_bar
 		s  = "<div class='control_bar'>"
