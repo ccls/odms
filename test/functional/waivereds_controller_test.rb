@@ -4,48 +4,50 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = { 
 		:model   => 'StudySubject',
-		:actions => [:new, :create],
+#		:actions => [:new, :create],	#	can't do create as creates more than one
+		:actions => [:new],
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_study_subject
 	}
 	def factory_attributes(options={})
-#			:subject_type_id => SubjectType['Case'].id,
-#			:race_ids => [Race.random.id]
 		Factory.attributes_for(:study_subject,{
-			'identifier_attributes' => Factory.attributes_for(:identifier)
+			'identifier_attributes' => Factory.attributes_for(:identifier,
+				:icf_master_id => nil )
 		}.merge(options))
 	end
 
-	assert_access_with_login({
-		:logins => site_editors })
-
-	assert_no_access_with_login({
-		:logins => non_site_editors })
-
+	assert_access_with_login({    :logins => site_editors })
+	assert_no_access_with_login({ :logins => non_site_editors })
 	assert_no_access_without_login
-
 	assert_access_with_https
 	assert_no_access_with_http
-
 
 	site_editors.each do |cu|
 
 		test "should create waivered case study_subject with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Identifier.count',1){
-			assert_difference('StudySubject.count',1){
-#			assert_difference('SubjectRace.count',1){
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
 				post :create, :study_subject => factory_attributes
-			} } #}
+			} }
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
 		end
 
 		test "should create waivered case study_subject with complete attributes and #{cu} login" do
 			login_as send(cu)
-			assert_all_differences(1) do
-				post :create, :study_subject => complete_case_study_subject_attributes
-			end
+			assert_difference('StudySubject.count',2){
+#			assert_difference('SubjectRace.count',count){
+			assert_difference('SubjectLanguage.count',1){
+			assert_difference('Identifier.count',2){
+			assert_difference('Patient.count',1){
+			assert_difference('Pii.count',1){					#	TODO should be 2 with mother
+			assert_difference('Enrollment.count',1){
+			assert_difference('PhoneNumber.count',1){
+			assert_difference('Addressing.count',1){
+			assert_difference('Address.count',1){
+					post :create, :study_subject => complete_case_study_subject_attributes
+			} } } } } } } } } #}
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
@@ -54,16 +56,103 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should create waivered case study_subject with waivered attributes and #{cu} login" do
 			login_as send(cu)
-			assert_all_differences(1) do
+			assert_difference('StudySubject.count',2){
+#			assert_difference('SubjectRace.count',count){
+			assert_difference('SubjectLanguage.count',1){
+			assert_difference('Identifier.count',2){
+			assert_difference('Patient.count',1){
+			assert_difference('Pii.count',1){	#	TODO should be 2 with mother
+			assert_difference('Enrollment.count',1){
+			assert_difference('PhoneNumber.count',1){
+			assert_difference('Addressing.count',1){
+			assert_difference('Address.count',1){
 				post :create, :study_subject => waivered_form_attributes
-			end
+			} } } } } } } } } #}
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
-#	TODO duplicate?	(Almost)
+		test "should create mother on create with #{cu} login" do
+			login_as send(cu)
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
+				post :create, :study_subject => factory_attributes
+			} }
+			assert_not_nil assigns(:study_subject).mother
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+		end
+
+		test "should not assign icf_master_id to mother if none exist on create with #{cu} login" do
+			login_as send(cu)
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
+				post :create, :study_subject => factory_attributes
+			} }
+			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
+			assert_not_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+		end
+
+		test "should not assign icf_master_id to mother if one exist on create with #{cu} login" do
+			login_as send(cu)
+			Factory(:icf_master_id,:icf_master_id => '123456789')
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
+				post :create, :study_subject => factory_attributes
+			} }
+			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
+			assert_not_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+		end
+
+		test "should assign icf_master_id to mother if two exist on create with #{cu} login" do
+			login_as send(cu)
+			Factory(:icf_master_id,:icf_master_id => '123456780')
+			Factory(:icf_master_id,:icf_master_id => '123456781')
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
+				post :create, :study_subject => factory_attributes
+			} }
+			assert_not_nil assigns(:study_subject).identifier.icf_master_id
+			assert_equal '123456780', assigns(:study_subject).identifier.icf_master_id
+			assert_not_nil assigns(:study_subject).mother.identifier.icf_master_id
+			assert_equal '123456781', assigns(:study_subject).mother.identifier.icf_master_id
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+		end
+
+		test "should not assign icf_master_id if none exist on create with #{cu} login" do
+			login_as send(cu)
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
+				post :create, :study_subject => factory_attributes
+			} }
+			assert_nil assigns(:study_subject).identifier.icf_master_id
+			assert_not_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+		end
+
+		test "should assign icf_master_id if any exist on create with #{cu} login" do
+			login_as send(cu)
+			Factory(:icf_master_id,:icf_master_id => '123456789')
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
+				post :create, :study_subject => factory_attributes
+			} }
+			assert_not_nil assigns(:study_subject).identifier.icf_master_id
+			assert_equal '123456789', assigns(:study_subject).identifier.icf_master_id
+			#	only one icf_master_id so mother will raise warning
+			assert_not_nil flash[:warn]	
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+		end
+
 		test "should NOT create waivered case study_subject with invalid study_subject and #{cu} login" do
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
@@ -76,7 +165,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-#	TODO duplicate?	(Almost)
 		test "should NOT create waivered case study_subject when save fails with #{cu} login" do
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
