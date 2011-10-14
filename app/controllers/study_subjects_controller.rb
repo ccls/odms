@@ -1,12 +1,12 @@
 class StudySubjectsController < ApplicationController
 
-	before_filter "may_create_study_subjects_required",
+	before_filter :may_create_study_subjects_required,
 		:only => [:new,:create]
 	before_filter :may_read_study_subjects_required, 
 		:only => [:show,:index,:dashboard,:find,:followup,:reports]
-	before_filter "may_update_study_subjects_required",
+	before_filter :may_update_study_subjects_required,
 		:only => [:edit,:update]
-	before_filter "may_destroy_study_subjects_required",
+	before_filter :may_destroy_study_subjects_required,
 		:only => :destroy
 
 	before_filter :valid_id_required, 

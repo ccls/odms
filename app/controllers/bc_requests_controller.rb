@@ -1,4 +1,5 @@
 class BcRequestsController < ApplicationController
+
 	before_filter :may_create_study_subjects_required
 	before_filter :valid_patid_required, :only => :create
 #	before_filter :case_study_subject_required, :only => :create

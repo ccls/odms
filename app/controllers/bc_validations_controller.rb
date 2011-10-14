@@ -1,4 +1,5 @@
 class BcValidationsController < ApplicationController
+
 	before_filter :may_create_study_subjects_required
 	before_filter :valid_id_required, :only => :show
 	before_filter :case_study_subject_required, :only => :show
