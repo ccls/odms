@@ -15,7 +15,7 @@
 
 <div class='case_control_type spans field_wrapper'>
 <span class='label'>case/control status:</span>
-<span class='value'><%= @study_subject.try(:identifier).try(:case_control_type) %></span>
+<span class='value'><%= @study_subject.try(:identifier).try(:case_control_type)||'&nbsp;' %></span>
 </div><!-- class='case_control_type spans' -->
 
 <%#= wrapped_spans :study_subject, :case_control_type,
