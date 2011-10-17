@@ -16,8 +16,8 @@ module ApplicationHelper
 			[
 				link_to('New Case', new_case_path),
 				link_to('New Control', cases_path),
-				link_to('Manage Birth Certificates', birth_certificates_path),
-				link_to( "Browse Subjects", study_subjects_path )
+				link_to('Manage Birth Certificates', birth_certificates_path)	#,
+#				link_to( "Browse Subjects", study_subjects_path )
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
