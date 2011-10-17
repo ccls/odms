@@ -1,5 +1,6 @@
 <div class='family'>
 <h3>Family Subjects:</h3>
+<% if @study_subject and @study_subject.identifier %>
 <% StudySubject.find(:all,
 			:joins => :identifier,
 			:conditions => { 
@@ -9,5 +10,6 @@
 
 <p><%= link_to subject, subject %></p>
 
+<% end %>
 <% end %>
 </div><!-- class='family' -->
