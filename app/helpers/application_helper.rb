@@ -31,10 +31,10 @@ module ApplicationHelper
 			link_to('Samples', dashboard_samples_path) <<
 			"</div><!-- menu_item -->"
 
-		s << "<div class='menu_item#{( 
-				params[:controller] == 'studies' ) ? ' current' : nil}'>" <<
-			link_to('Studies', dashboard_studies_path) <<
-			"</div><!-- menu_item -->"
+#		s << "<div class='menu_item#{( 
+#				params[:controller] == 'studies' ) ? ' current' : nil}'>" <<
+#			link_to('Studies', dashboard_studies_path) <<
+#			"</div><!-- menu_item -->"
 
 		s << "\n</div><!-- mainmenu -->\n"
 	end
