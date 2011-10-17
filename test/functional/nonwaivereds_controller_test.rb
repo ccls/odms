@@ -246,6 +246,14 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
+		test "should rollback when assign_icf_master_id raises error with #{cu} login" do
+pending # TODO
+		end 
+
+		test "should rollback when create_mother raises error with #{cu} login" do
+pending # TODO
+		end 
+
 	end
 
 	non_site_editors.each do |cu|
