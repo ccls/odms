@@ -40,7 +40,8 @@ NOT ALL DOCUMENT VERSIONS
 <%= enrollment_fields.collection_select :refusal_reason_id,
 	 RefusalReason.all, :id, :to_s, :include_blank => true  %>
 </p>
-<%= enrollment_fields.wrapped_text_field :other_refusal_reason, :class => 'autosize' %>
+<%= enrollment_fields.wrapped_text_field :other_refusal_reason, 
+	:style => "width:99%" %>
 
 <% end %>
 

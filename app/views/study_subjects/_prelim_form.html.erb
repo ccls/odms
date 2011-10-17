@@ -1,8 +1,8 @@
-<div class='prelim_info raf_section'>
+<div class='prelim_info raf_section table'>
 
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
-
+<div class='tablerow'>
 <div class='organization_id'>
 	<p><%= "#{req('*')}&nbsp;treating institution:" %></p>
 	<%= patient_fields.collection_select :organization_id,
@@ -13,9 +13,10 @@
 	<p>admitting oncologist:</p>
 	<%= patient_fields.text_field :admitting_oncologist %>
 </div><!-- class='admitting_oncologist' -->
-
+</div><!-- class='tablerow' -->
 <% end %>
 
+<div class='tablerow'>
 <% @study_subject.build_pii if @study_subject.pii.nil? %>
 <% f.fields_for :pii do |pii_fields| %>
  <div class='childs names'>
@@ -40,7 +41,9 @@
 	<%= identifier_fields.text_field :hospital_no %>
 <% end %>
 </div>
+</div><!-- class='tablerow' -->
 
+<div class='tablerow'>
 <% f.fields_for :patient do |patient_fields| %>
 	<%= patient_fields.wrapped_date_text_field :admit_date,
 		:label_text => "#{req('*')}&nbsp;admit date:" %>
@@ -50,7 +53,9 @@
 	<%= pii_fields.wrapped_date_text_field :dob,
 		:label_text => "#{req('*')}&nbsp;child's date of birth:" %>
 <% end %>
+</div><!-- class='tablerow' -->
 
+<div class='tablerow'>
 <%# MAY need to change this to a radio button group %>
 <%= f.wrapped_sex_select :sex,
 	:label_text => "#{req('*')}&nbsp;sex:" %>
@@ -59,5 +64,6 @@
 	<%= patient_fields.wrapped_collection_select :diagnosis_id,
 		Diagnosis.all, :id, :to_s, :include_blank => true %>
 <% end %>
+</div><!-- class='tablerow' -->
 
 </div><!-- class='prelim_info' -->

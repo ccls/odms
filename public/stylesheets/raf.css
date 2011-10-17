@@ -18,17 +18,13 @@ form.raf h3 {
 	margin-top: 0;
 }
 form.raf .raf_section {
+	clear:left;
 	margin:5px;
 }
 form.raf #errorExplanation {
 	margin:5px;
 }
 
-/*
-form.raf .names {
-	width: 100%;
-}
-*/
 form.raf .names input {
 	width: 10em;
 }
@@ -40,14 +36,6 @@ form.raf .names .tablerow > span {
 	display:inline-block;
 	text-align:center;
 }
-/*
-form.raf .names .tablerow span.guardian {
-	margin-top: 13.333px;
-	margin-left: -20px;
-	width: 29em;
-	text-align:left;
-}
-*/
 form.raf .names .tablerow p.guardian {
 	display:inline-block;
 	margin-left: -20px;
@@ -64,13 +52,12 @@ form.raf .names p {
 	margin-bottom: 0;
 }
 
-form.raf .raf_county,
-form.raf .sex,
-form.raf .organization_id,
-form.raf .admit_date,
-form.raf .childs.names {
-	display:inline-block;
-	clear:left;
+form.raf div.table > div {
+	display:table-row;
+}
+form.raf div.table > div.tablerow > div {
+	display:table-cell;
+	vertical-align:top;
 }
 form.raf .raf_zip ,
 form.raf .diagnosis_id ,
