@@ -1,0 +1,13 @@
+<div class='matching'>
+<h3>Matching Subjects:</h3>
+<% StudySubject.find(:all,
+			:joins => :identifier,
+			:conditions => { 
+				'identifiers.matchingid' => @study_subject.identifier.matchingid
+			}
+		).each do |subject| %>
+
+<p><%= link_to subject, subject %></p>
+
+<% end %>
+</div><!-- class='matching' -->

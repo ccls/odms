@@ -1,0 +1,13 @@
+<div class='family'>
+<h3>Family Subjects:</h3>
+<% StudySubject.find(:all,
+			:joins => :identifier,
+			:conditions => { 
+				'identifiers.familyid' => @study_subject.identifier.familyid
+			}
+		).each do |subject| %>
+
+<p><%= link_to subject, subject %></p>
+
+<% end %>
+</div><!-- class='family' -->
