@@ -1,16 +1,12 @@
 require 'test_helper'
 
-#	so can call id_bar_for(subject) which will call subject_id_bar in subjects_helper.rb
-#	TODO remove as in ccls_engine > 3.8.7
-#require 'subjects_helper'
-#ApplicationHelper.send(:include, SubjectsHelper)
-
 class ApplicationHelperTest < ActionView::TestCase
 
 	test "odms_main_menu should return main menu" do
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
-			assert_select 'div.menu_item', 5
+			assert_select 'div.menu_item', 4
+#			assert_select 'div.menu_item', 5
 #			assert_select 'div.menu_item', 5 do
 #				assert_select 'a', 6		#	1 here, plus the 5 below
 #				assert_select 'div.sub_menu', 1 do
