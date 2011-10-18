@@ -34,6 +34,18 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_redirected_to assigns(:study_subject)
 		end
 
+		test "should create waivered case study_subject with minimum requirements and #{cu} login" do
+			login_as send(cu)
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
+			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Patient.count',1){
+				post :create, :study_subject => waivered_form_attributes
+			} } } }
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+		end
+
 		test "should create waivered case study_subject with complete attributes and #{cu} login" do
 			login_as send(cu)
 			assert_difference('StudySubject.count',2){
@@ -208,6 +220,19 @@ pending	#	TODO
 	end
 
 protected
+
+	def minimum_waivered_form_attributes(options={})
+		{
+			"pii_attributes"=>{
+				"dob"=> Date.jd(2440000+rand(15000))
+			}, 
+			"identifier_attributes"=> Factory.attributes_for(:identifier),	#	for hospital_no
+			"patient_attributes"=>{
+				"admit_date"=>"", 		#	TODO required
+				"organization_id"=>""		#	TODO required
+			}
+		}.deep_merge(options)
+	end
 
 	def waivered_form_attributes(options={})
 		{
