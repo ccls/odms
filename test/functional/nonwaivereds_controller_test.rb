@@ -54,6 +54,27 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
+		test "should create nonwaivered case study_subject with minimum non-waivered attributes and #{cu} login" do
+#	TODO remove attributes from minimum_nonwaivered_form_attributes
+			login_as send(cu)
+			assert_difference('StudySubject.count',2){
+#			assert_difference('SubjectRace.count',count){
+			assert_difference('SubjectLanguage.count',1){
+			assert_difference('Identifier.count',2){
+			assert_difference('Patient.count',1){
+			assert_difference('Pii.count',1){	#	TODO should be 2 with mother
+			assert_difference('Enrollment.count',1){
+			assert_difference('PhoneNumber.count',1){
+			assert_difference('Addressing.count',1){
+			assert_difference('Address.count',1){
+				post :create, :study_subject => minimum_nonwaivered_form_attributes
+			} } } } } } } } } #}
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
+			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
+		end
+
 		test "should create nonwaivered case study_subject with non-waivered attributes and #{cu} login" do
 			login_as send(cu)
 			assert_difference('StudySubject.count',2){
@@ -278,18 +299,51 @@ pending # TODO
 
 protected
 
+	def minimum_nonwaivered_form_attributes(options={})
+		{
+#	NOT ACTUALLY ON THE FORM
+#			"subject_races_attributes"=>{"0"=>{"race_id"=>"1"}},
+			"subject_languages_attributes"=>{"0"=>{"language_id"=>"1"}, "1"=>{"language_id"=>""}}, 
+			"sex"=>"M", 
+			"identifier_attributes"=>{ }, 
+			"pii_attributes"=>{
+				"dob"=> Date.jd(2440000+rand(15000))
+			}, 
+			"addressings_attributes"=>{
+				"0"=>{
+					"current_address"=>"1", 
+					"address_attributes"=> Factory.attributes_for(:address,
+						"address_type_id"=>"1"		#	hard coded in forms
+					)
+				}
+			}, 
+			"enrollments_attributes"=>{
+				"0"=>{"project_id"=> Project['phase5'].id,	#	"7", 
+					"consented_on"=>"", "document_version_id"=>""}
+			}, 
+			"phone_numbers_attributes"=>{
+				"0"=>{"phone_number"=>"1234567890"}, "1"=>{"phone_number"=>""}
+			}, 
+			"patient_attributes"=>{
+				"sample_was_collected"=>"1",				
+				"was_previously_treated"=>"false", 
+				"admitting_oncologist"=>"", 
+				"was_under_15_at_dx"=>"true", 
+				"admit_date"=>"", 
+				"organization_id"=>"", 
+				"diagnosis_id"=>"", 
+				"was_ca_resident_at_diagnosis"=>"true"
+			}
+		}.deep_merge(options)
+	end
+
 	def nonwaivered_form_attributes(options={})
 		{
 #	NOT ACTUALLY ON THE FORM
 #			"subject_races_attributes"=>{"0"=>{"race_id"=>"1"}},
 			"subject_languages_attributes"=>{"0"=>{"language_id"=>"1"}, "1"=>{"language_id"=>""}}, 
-			"subject_type_id"=>"1", 
 			"sex"=>"M", 
-			"identifier_attributes"=> Factory.attributes_for(:identifier),
-#	won't work until patid and childid are auto-generated
-#			"identifier_attributes"=>{
-#				"hospital_no"=>""
-#			}, 
+			"identifier_attributes"=>{ }, 
 			"pii_attributes"=>{
 				"first_name"=>"", 
 				"middle_name"=>"", 
