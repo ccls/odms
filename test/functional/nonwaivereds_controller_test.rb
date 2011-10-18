@@ -291,9 +291,9 @@ protected
 #				"hospital_no"=>""
 #			}, 
 			"pii_attributes"=>{
-				"first_name"=>"FIRSTNAME", 
+				"first_name"=>"", 
 				"middle_name"=>"", 
-				"last_name"=>"LASTNAME", 
+				"last_name"=>"", 
 				"dob"=> Date.jd(2440000+rand(15000)),
 				"mother_first_name"=>"", 
 				"mother_middle_name"=>"", 

@@ -225,9 +225,9 @@ protected
 #			}, 
 			"pii_attributes"=>{
 				"dob"=> Date.jd(2440000+rand(15000)), 
-				"first_name"=>"FIRSTNAME", 
+				"first_name"=>"", 
 				"middle_name"=>"", 
-				"last_name"=>"LASTNAME", 
+				"last_name"=>"", 
 				"mother_first_name"=>"", 
 				"mother_middle_name"=>"", 
 				"mother_last_name"=>"", 
