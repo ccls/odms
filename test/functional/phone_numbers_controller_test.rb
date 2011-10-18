@@ -97,8 +97,8 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 					:how_verified => 'no idea'
 				)
 			assert assigns(:phone_number)
-			assert_not_nil assigns(:phone_number).verified_by_id
-			assert_equal assigns(:phone_number).verified_by_id, u.id
+			assert_not_nil assigns(:phone_number).verified_by_uid
+			assert_equal assigns(:phone_number).verified_by_uid, u.uid
 		end
 
 		test "should NOT create new phone_number with invalid study_subject_id " <<
@@ -197,8 +197,8 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 					:how_verified => 'not a clue'
 				)
 			assert assigns(:phone_number)
-			assert_not_nil assigns(:phone_number).verified_by_id
-			assert_equal assigns(:phone_number).verified_by_id, u.id
+			assert_not_nil assigns(:phone_number).verified_by_uid
+			assert_equal assigns(:phone_number).verified_by_uid, u.uid
 		end
 
 #	TODO duplicate?
