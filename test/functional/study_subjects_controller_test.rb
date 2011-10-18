@@ -224,7 +224,8 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_difference('Race.count',0){
 			assert_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 				put :update, :id => study_subject.id, 
-					:study_subject => Factory.attributes_for(:study_subject)
+					:study_subject => Factory.attributes_for(:study_subject,
+						:sex => 'something to make the subject change' )
 			} } } }
 			assert_redirected_to study_subject_path(assigns(:study_subject))
 		end
