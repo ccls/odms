@@ -4,17 +4,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = { 
 		:model   => 'StudySubject',
-#		:actions => [:new, :create],
-		:actions => [:new],
-		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_study_subject
+		:actions => [:new]
 	}
-	def factory_attributes(options={})
-		Factory.attributes_for(:study_subject,{
-			'identifier_attributes' => Factory.attributes_for(:identifier,
-				:icf_master_id => nil )
-		}.merge(options))
-	end
 
 	assert_access_with_login({    :logins => site_editors })
 	assert_no_access_with_login({ :logins => non_site_editors })
@@ -26,10 +17,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should create nonwaivered case study_subject with #{cu} login" do
 			login_as send(cu)
+			assert_difference('Pii.count',1){	# TODO 2 when mother is correctly created
+			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => factory_attributes
-			} }
+				post :create, :study_subject => minimum_nonwaivered_form_attributes
+			} } } }
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
 		end
@@ -59,16 +52,16 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			assert_difference('StudySubject.count',2){
 #			assert_difference('SubjectRace.count',count){
-			assert_difference('SubjectLanguage.count',1){
+#			assert_difference('SubjectLanguage.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Pii.count',1){	#	TODO should be 2 with mother
-			assert_difference('Enrollment.count',1){
-			assert_difference('PhoneNumber.count',1){
-			assert_difference('Addressing.count',1){
-			assert_difference('Address.count',1){
+#			assert_difference('Enrollment.count',1){
+#			assert_difference('PhoneNumber.count',1){
+#			assert_difference('Addressing.count',1){
+#			assert_difference('Address.count',1){
 				post :create, :study_subject => minimum_nonwaivered_form_attributes
-			} } } } } } } } } #}
+			} } } } #} } } } } #}
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
@@ -97,10 +90,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should create mother on create with #{cu} login" do
 			login_as send(cu)
+			assert_difference('Pii.count',1){	# TODO 2 when mother is correctly created
+			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => factory_attributes
-			} }
+				post :create, :study_subject => minimum_nonwaivered_form_attributes
+			} } } }
 			assert_not_nil assigns(:study_subject).mother
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
@@ -108,10 +103,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should not assign icf_master_id to mother if none exist on create with #{cu} login" do
 			login_as send(cu)
+			assert_difference('Pii.count',1){	# TODO 2 when mother is correctly created
+			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => factory_attributes
-			} }
+				post :create, :study_subject => minimum_nonwaivered_form_attributes
+			} } } }
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
 			assert_nil flash[:error]
@@ -121,10 +118,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should not assign icf_master_id to mother if one exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
+			assert_difference('Pii.count',1){	# TODO 2 when mother is correctly created
+			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => factory_attributes
-			} }
+				post :create, :study_subject => minimum_nonwaivered_form_attributes
+			} } } }
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
 			assert_nil flash[:error]
@@ -135,10 +134,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456780')
 			Factory(:icf_master_id,:icf_master_id => '123456781')
+			assert_difference('Pii.count',1){	# TODO 2 when mother is correctly created
+			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => factory_attributes
-			} }
+				post :create, :study_subject => minimum_nonwaivered_form_attributes
+			} } } }
 			assert_not_nil assigns(:study_subject).identifier.icf_master_id
 			assert_equal '123456780', assigns(:study_subject).identifier.icf_master_id
 			assert_not_nil assigns(:study_subject).mother.identifier.icf_master_id
@@ -149,10 +150,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should not assign icf_master_id if none exist on create with #{cu} login" do
 			login_as send(cu)
+			assert_difference('Pii.count',1){	# TODO 2 when mother is correctly created
+			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => factory_attributes
-			} }
+				post :create, :study_subject => minimum_nonwaivered_form_attributes
+			} } } }
 			assert_nil assigns(:study_subject).identifier.icf_master_id
 			assert_not_nil flash[:warn]
 			assert_nil flash[:error]
@@ -162,10 +165,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should assign icf_master_id if any exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
+			assert_difference('Pii.count',1){	# TODO 2 when mother is correctly created
+			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => factory_attributes
-			} }
+				post :create, :study_subject => minimum_nonwaivered_form_attributes
+			} } } }
 			assert_not_nil assigns(:study_subject).identifier.icf_master_id
 			assert_equal '123456789', assigns(:study_subject).identifier.icf_master_id
 			#	only one icf_master_id so mother will raise warning
@@ -301,38 +306,12 @@ protected
 
 	def minimum_nonwaivered_form_attributes(options={})
 		{
-#	NOT ACTUALLY ON THE FORM
-#			"subject_races_attributes"=>{"0"=>{"race_id"=>"1"}},
-			"subject_languages_attributes"=>{"0"=>{"language_id"=>"1"}, "1"=>{"language_id"=>""}}, 
-			"sex"=>"M", 
 			"identifier_attributes"=>{ }, 
 			"pii_attributes"=>{
 				"dob"=> Date.jd(2440000+rand(15000))
 			}, 
-			"addressings_attributes"=>{
-				"0"=>{
-					"current_address"=>"1", 
-					"address_attributes"=> Factory.attributes_for(:address,
-						"address_type_id"=>"1"		#	hard coded in forms
-					)
-				}
-			}, 
-			"enrollments_attributes"=>{
-				"0"=>{"project_id"=> Project['phase5'].id,	#	"7", 
-					"consented_on"=>"", "document_version_id"=>""}
-			}, 
-			"phone_numbers_attributes"=>{
-				"0"=>{"phone_number"=>"1234567890"}, "1"=>{"phone_number"=>""}
-			}, 
 			"patient_attributes"=>{
-				"sample_was_collected"=>"1",				
-				"was_previously_treated"=>"false", 
-				"admitting_oncologist"=>"", 
-				"was_under_15_at_dx"=>"true", 
-				"admit_date"=>"", 
-				"organization_id"=>"", 
-				"diagnosis_id"=>"", 
-				"was_ca_resident_at_diagnosis"=>"true"
+				"organization_id"=> Organization.first.id
 			}
 		}.deep_merge(options)
 	end
@@ -366,7 +345,7 @@ protected
 				"0"=>{
 					"current_address"=>"1", 
 					"address_attributes"=> Factory.attributes_for(:address,
-						"address_type_id"=>"1"		#	hard coded in forms
+						"address_type_id"=>"1"		#	hard coded in forms	#	TODO perhaps put in controller instead of the view
 					)
 				}
 			}, 
@@ -383,7 +362,7 @@ protected
 				"admitting_oncologist"=>"", 
 				"was_under_15_at_dx"=>"true", 
 				"admit_date"=>"", 
-				"organization_id"=>"", 
+				"organization_id"=>Organization.first.id,
 				"diagnosis_id"=>"", 
 				"was_ca_resident_at_diagnosis"=>"true"
 			}
