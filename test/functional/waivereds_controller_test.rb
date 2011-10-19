@@ -37,12 +37,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 			} } } }
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
-#puts assigns(:study_subject).pii.inspect
-#<Pii id: 4, study_subject_id: 29, first_name: nil, middle_name: nil, last_name: nil, dob: "1989-10-03", died_on: nil, mother_first_name: nil, mother_middle_name: nil, mother_maiden_name: nil, mother_last_name: nil, father_first_name: nil, father_middle_name: nil, father_last_name: nil, email: nil, created_at: "2011-10-18 22:32:47", updated_at: "2011-10-18 22:32:47", guardian_first_name: nil, guardian_middle_name: nil, guardian_last_name: nil, guardian_relationship_id: nil, guardian_relationship_other: nil, mother_race_id: nil, father_race_id: nil, maiden_name: nil, generational_suffix: nil, father_generational_suffix: nil, birth_year: nil>
-#puts assigns(:study_subject).patient.inspect
-#<Patient id: 4, study_subject_id: 29, diagnosis_date: nil, diagnosis_id: nil, organization_id: nil, created_at: "2011-10-18 22:32:47", updated_at: "2011-10-18 22:32:47", admit_date: nil, treatment_began_on: nil, sample_was_collected: nil, admitting_oncologist: nil, was_ca_resident_at_diagnosis: nil, was_previously_treated: nil, was_under_15_at_dx: nil, raf_zip: nil, raf_county: nil>
-#puts assigns(:study_subject).identifier.inspect
-#<Identifier id: 29, study_subject_id: 29, childid: 15, patid: "0015", case_control_type: "C", orderno: 0, lab_no: nil, related_childid: nil, related_case_childid: nil, ssn: "000000025", subjectid: "603995", created_at: "2011-10-18 22:32:47", updated_at: "2011-10-18 22:32:47", matchingid: "603995", familyid: "603995", state_id_no: "25", hospital_no: nil, childidwho: nil, studyid: nil, newid: nil, gbid: "25", lab_no_wiemels: "25", idno_wiemels: "25", accession_no: "25", studyid_nohyphen: nil, studyid_intonly_nohyphen: nil, icf_master_id: "14", state_registrar_no: "25", local_registrar_no: "25">
 		end
 
 		test "should create waivered case study_subject with complete attributes and #{cu} login" do
@@ -200,13 +194,13 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-		test "should rollback when assign_icf_master_id raises error with #{cu} login" do
-pending	#	TODO
-		end
-
-		test "should rollback when create_mother raises error with #{cu} login" do
-pending	#	TODO
-		end
+#		test "should rollback when assign_icf_master_id raises error with #{cu} login" do
+#pending	#	TODO
+#		end
+#
+#		test "should rollback when create_mother raises error with #{cu} login" do
+#pending	#	TODO
+#		end
 
 	end
 
