@@ -85,7 +85,8 @@ class CasesControllerTest < ActionController::TestCase
 			study_subject = create_study_subject
 			get :show, :id => study_subject.id
 			assert_not_nil flash[:error]
-			assert_redirected_to cases_path
+#			assert_redirected_to cases_path
+			assert_redirected_to study_subject_path(assigns(:study_subject).id)
 		end
 
 		test "should get new with #{cu} login" do
