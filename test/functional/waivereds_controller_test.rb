@@ -17,7 +17,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should create waivered case study_subject with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Pii.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
@@ -29,7 +29,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should create waivered case study_subject with minimum requirements and #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Pii.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
@@ -46,7 +46,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_difference('SubjectLanguage.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('Patient.count',1){
-			assert_difference('Pii.count',1){					#	TODO should be 2 with mother
+			assert_difference('Pii.count',2){
 			assert_difference('Enrollment.count',1){
 			assert_difference('PhoneNumber.count',1){
 			assert_difference('Addressing.count',1){
@@ -66,7 +66,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_difference('SubjectLanguage.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('Patient.count',1){
-			assert_difference('Pii.count',1){	#	TODO should be 2 with mother
+			assert_difference('Pii.count',2){
 			assert_difference('Enrollment.count',1){
 			assert_difference('PhoneNumber.count',1){
 			assert_difference('Addressing.count',1){
@@ -81,7 +81,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should create mother on create with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Pii.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
@@ -94,7 +94,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should not assign icf_master_id to mother if none exist on create with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Pii.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
@@ -109,7 +109,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 		test "should not assign icf_master_id to mother if one exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Pii.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
@@ -125,7 +125,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456780')
 			Factory(:icf_master_id,:icf_master_id => '123456781')
-			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Pii.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
@@ -141,7 +141,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should not assign icf_master_id if none exist on create with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Pii.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
@@ -156,7 +156,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 		test "should assign icf_master_id if any exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			assert_difference('Pii.count',1){	#	TODO 2 when mother is correctly created
+			assert_difference('Pii.count',2){
 			assert_difference('Patient.count',1){
 			assert_difference('Identifier.count',2){
 			assert_difference('StudySubject.count',2){
@@ -227,6 +227,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 protected
 
 	def minimum_waivered_form_attributes(options={})
+#	TODO add required hospital_no
 		{
 			"pii_attributes"=>{
 				"dob"=> Date.jd(2440000+rand(15000))

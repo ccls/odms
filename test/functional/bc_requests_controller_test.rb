@@ -282,16 +282,6 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
-#	TODO duplicate?
-		test "should NOT update bc_request with #{cu} login and bc_request invalid" do
-pending
-		end
-
-#	TODO duplicate?
-		test "should NOT update bc_request with #{cu} login and save fails" do
-pending
-		end
-
 	end
 
 	non_site_editors.each do |cu|
