@@ -11,9 +11,26 @@ class CasesController < ApplicationController
 	end
 
 	def show
-		@controls = StudySubject.find(:all, :joins => :identifier, 
+#
+#	These should be methods in the model
+#
+		@control_subjects = StudySubject.find(:all, 
+			:joins => :identifier, 
 			:conditions => [
-				"study_subjects.id != ? AND identifiers.patid = ?", @study_subject.id, @study_subject.patid ] 
+				"study_subjects.id != ? AND identifiers.patid = ?", 
+				@study_subject.id, @study_subject.patid ] 
+		)
+		@matching_subjects = StudySubject.find(:all,
+			:joins => :identifier,
+			:conditions => [
+				"study_subjects.id != ? AND identifiers.matchingid = ?", 
+				@study_subject.id, @study_subject.identifier.matchingid ] 
+		)
+		@family_subjects = StudySubject.find(:all,
+			:joins => :identifier,
+			:conditions => [
+				"study_subjects.id != ? AND identifiers.familyid = ?", 
+				@study_subject.id, @study_subject.identifier.familyid ] 
 		)
 		@rejected_controls = CandidateControl.find(:all,
 			:conditions => {
@@ -25,18 +42,6 @@ class CasesController < ApplicationController
 
 	def new
 	end
-
-#	def create
-#		case params[:commit]
-#			when 'waivered'
-#				redirect_to new_waivered_path
-#			when 'nonwaivered'
-#				redirect_to new_nonwaivered_path
-#			else
-#				flash[:error] = "Commit must be waivered or nonwaivered, not #{params[:commit]}"
-#				redirect_to root_path
-#		end
-#	end
 
 protected
 
@@ -50,7 +55,8 @@ protected
 
 	def case_study_subject_required
 		unless @study_subject.is_case?
-			access_denied("Valid case study_subject required!", cases_path)
+			access_denied("Valid case study_subject required!", #	cases_path)
+				study_subject_path(@study_subject) )
 		end
 	end
 

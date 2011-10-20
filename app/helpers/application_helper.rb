@@ -117,6 +117,7 @@ module ApplicationHelper
 				) then :contact
 			when *%w( Enrollments ) then :eligibility
 			when *%w( Events ) then :events
+			when *%w( Cases ) then :cases
 			else nil
 		end
 		content_for :side_menu do
@@ -138,7 +139,9 @@ module ApplicationHelper
 #					:class => ((current == :events)?'current':nil) ),
 				"<span>Events</span>",
 				"<span>Documents</span>",
-				"<span>Notes</span>"
+				"<span>Notes</span>",
+				link_to( "Related Subjects", case_path(study_subject),
+					:class => ((current == :cases)?'current':nil) )
 			].join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		end
