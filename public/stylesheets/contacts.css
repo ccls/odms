@@ -2,12 +2,12 @@
 #current {
 	border-bottom: 1px solid gray;
 }
-*/
 
 .phone_numbers,
 .addressings {
 	margin-left: 100px;
 }
+*/
 #current .addressings {
 	border-bottom: 1px solid black;
 }

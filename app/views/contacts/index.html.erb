@@ -3,7 +3,7 @@
 <% id_bar_for(@study_subject) %>
 
 <div id='current'>
-<span>Current Info:</span>
+<h3>Addresses</h3>
 <div class='addressings'>
 <%#
 	This probably should just be the current address ?
@@ -31,6 +31,7 @@
 </div><!-- class='historic' -->
 </div><!-- class='addressings' -->
 
+<h3>Phone Numbers</h3>
 <div class='phone_numbers'>
 <%= render :partial => 'phone_number', 
 	:collection => @study_subject.phone_numbers.current,

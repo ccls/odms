@@ -14,6 +14,8 @@
 	:label_text => 'diagnosis date:' ) %>
 <%= wrapped_spans(:patient,:diagnosis,
 	:label_text => 'diagnosis:' ) %>
+<%= wrapped_date_spans(:patient,:treatment_began_on,
+	:label_text => 'treatment began:' ) %>
 <%= wrapped_spans(:patient,:organization,
 	:label_text => 'diagnosing hospital:') %>
 </div><!-- id='patient' -->

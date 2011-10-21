@@ -5,15 +5,25 @@
 
 <%= f.error_messages %>
 
-<% f.wrapped_date_text_field :admit_date,
+<div class='admit_date_wrapper'>
+<%= f.wrapped_date_text_field :admit_date,
 	:class => 'datepicker',
-	:label_text => 'admit date:' do %>
+	:label_text => 'admit date:' %>
 <div class='warning'>Note: changing this date modifies the reference date for this case and all related controls.</div>
-<% end %>
+</div>
+<%#
+
+The div.warning in the above block cause the size
+
+%>
 
 <%= f.wrapped_date_text_field :diagnosis_date,
 	:class => 'datepicker',
 	:label_text => 'diagnosis date:' %>
+
+<%= f.wrapped_date_text_field :treatment_began_on,
+	:class => 'datepicker',
+	:label_text => 'date treatment began:' %>
 
 <%= f.wrapped_collection_select :diagnosis_id,
 	Diagnosis.all, :id, :description, :include_blank => true, 

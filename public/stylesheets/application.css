@@ -60,8 +60,6 @@ h4 > span {
 	font-weight:normal;
 }
 
-
-
 div#fullsearch {
 	clear:right;
 	float:right;
@@ -69,7 +67,6 @@ div#fullsearch {
 div#subsearch {
 	text-align:right;
 }
-
 
 div#main {
 	background-color:white;
@@ -186,8 +183,11 @@ table.sample_study_subject {
 input.datepicker {
 	width: 100px;
 }
-/* 
+
+/*********************************************************************** 
+
 	BEGIN Sample stuff
+
 */
 form.edit_sample .field_wrapper label {
 	width: 150px;
@@ -204,13 +204,16 @@ form.edit_sample .location_id.field_wrapper {
 form.edit_sample .location_id.field_wrapper label {
 	width:70px;
 }
-
 /* 
-	END Sample stuff
-*/
 
-/*
+	END Sample stuff
+
+***********************************************************************/
+
+/***********************************************************************
+
 	BEGIN Interview stuff
+
 */
 
 .edit_interview .field_wrapper {
@@ -251,9 +254,10 @@ form.edit_sample .location_id.field_wrapper label {
 	width:auto;
 }
 /*
-	END Interview stuff
-*/
 
+	END Interview stuff
+
+***********************************************************************/
 
 form.edit_study_subject .field_wrapper label {
 	width: 160px;
@@ -291,25 +295,38 @@ form.edit_guide input[type=text] {
 	text-indent:50px;
 }
 
-form.edit_patient .field_wrapper {
-	padding: 10px;
+/***********************************************************************
+
+	BEGIN Patient
+
+*/
+form.edit_patient {
+	margin-top: 20px;
 }
 form.edit_patient .field_wrapper label {
 	width: 170px;
 	float:left;
 }
-form.edit_patient .field_wrapper .warning {
+form.edit_patient .admit_date_wrapper .warning {
 	display:none;
-	width:300px;
+	width:250px;
 	float:right;
 	padding: 5px;
 	padding-right:0;
 }
-form.edit_patient .field_wrapper.changed .warning {
+form.edit_patient .admit_date_wrapper.changed .admit_date {
+	display:inline;
+}
+form.edit_patient .admit_date_wrapper.changed .warning {
 	display:inline;
 	background-color: #FDD;
 	border: 1px solid #F88;
 }
+/*
+
+	END Patient
+
+***********************************************************************/
 
 
 form.edit_phone_number .field_wrapper label {
@@ -352,8 +369,10 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 }
 
 
-/*
+/***********************************************************************
+
 	BEGIN Candidate Control stuff
+
 */
 
 form.edit_candidate_control > div {
@@ -393,6 +412,7 @@ form.edit_candidate_control > div > div.disposition div.rejection * {
 	vertical-align:top;
 }
 /*
-	END Candidate Control stuff
-*/
 
+	END Candidate Control stuff
+
+***********************************************************************/
