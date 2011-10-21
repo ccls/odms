@@ -6,38 +6,18 @@ class CasesController < ApplicationController
 
 	def index
 		unless params[:patid].blank?
-			@study_subject = StudySubject.search(:patid => params[:patid], :types => 'case').first
+			@study_subject = StudySubject.search(
+				:patid => params[:patid], 
+				:types => 'case'
+			).first
 		end
 	end
 
 	def show
-#
-#	These should be methods in the model
-#
-		@control_subjects = StudySubject.find(:all, 
-			:joins => :identifier, 
-			:conditions => [
-				"study_subjects.id != ? AND identifiers.patid = ?", 
-				@study_subject.id, @study_subject.patid ] 
-		)
-		@matching_subjects = StudySubject.find(:all,
-			:joins => :identifier,
-			:conditions => [
-				"study_subjects.id != ? AND identifiers.matchingid = ?", 
-				@study_subject.id, @study_subject.identifier.matchingid ] 
-		)
-		@family_subjects = StudySubject.find(:all,
-			:joins => :identifier,
-			:conditions => [
-				"study_subjects.id != ? AND identifiers.familyid = ?", 
-				@study_subject.id, @study_subject.identifier.familyid ] 
-		)
-		@rejected_controls = CandidateControl.find(:all,
-			:conditions => {
-				:related_patid    => @study_subject.patid,
-				:reject_candidate => true
-			}
-		)
+		@control_subjects  = @study_subject.controls
+		@matching_subjects = @study_subject.matching
+		@family_subjects   = @study_subject.family
+		@rejected_controls = @study_subject.rejected_controls
 	end
 
 	def new
