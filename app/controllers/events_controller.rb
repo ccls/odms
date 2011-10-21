@@ -1,17 +1,20 @@
 class EventsController < ApplicationController
 
-#	permissive
-#
-#	before_filter :valid_hx_study_subject_id_required,
+#	before_filter :may_create_events_required,
+#		:only => [:new,:create]
+	before_filter :may_read_events_required,
+		:only => [:show,:index]
+#	before_filter :may_update_events_required,
+#		:only => [:edit,:update]
+#	before_filter :may_destroy_events_required,
+#		:only => :destroy
+
+	before_filter :valid_study_subject_id_required,
+		:only => [:index]
 #		:only => [:new,:create,:index]
-#
-#	def index
-#		hx_enrollment = @study_subject.hx_enrollment
-#		@events = if hx_enrollment
-#			hx_enrollment.operational_events.search(params)
-#		else
-#			[]
-#		end
-#	end
+
+	def index
+		@events = OperationalEvent.search(params)
+	end
 
 end

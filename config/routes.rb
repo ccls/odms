@@ -18,10 +18,10 @@ ActionController::Routing::Routes.draw do |map|
 			:only => [:new,:create,:edit,:update,   :destroy   ]
 		study_subject.resources :addressings,		#	TEMP ADD DESTROY FOR DEV ONLY!
 			:only => [:new,:create,:edit,:update,   :destroy   ]
-#		study_subject.resources :enrollments,
-#			:only => [:new,:create,:show,:edit,:update,:index]
-#		study_subject.resources :events,
-#			:only => [:index]
+		study_subject.resources :enrollments,
+			:only => [:new,:create,:show,:edit,:update,:index]
+		study_subject.resources :events,
+			:only => [:index]
 	end
 
 	map.resources :interviews, :only => [],
