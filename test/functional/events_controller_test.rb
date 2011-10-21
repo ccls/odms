@@ -26,15 +26,6 @@ class EventsControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get events with #{cu} login and hx study_subject" do
-			study_subject = create_hx_study_subject
-			login_as send(cu)
-			get :index, :study_subject_id => study_subject.id
-			assert assigns(:study_subject)
-			assert_response :success
-			assert_template 'index'
-		end
-
 		test "should NOT get events with invalid study_subject_id " <<
 			"and #{cu} login" do
 			login_as send(cu)
