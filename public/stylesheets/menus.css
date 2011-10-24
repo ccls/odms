@@ -28,7 +28,7 @@ div#minimenu a {
 	FYI:  submenu will be very different than the homex submenu
 
 	For clarity, I will be renaming the #submenu to #sidemenu
-		which is a much more appropriate name
+		which is a much more appropriate name given its position.
 
 */
 
@@ -37,6 +37,10 @@ div#minimenu a {
 #sidemenu a {
 	text-decoration: none;
 	color:black;
+}
+#mainmenu .menu_item a {
+	width: 100%;
+	height:100%;
 }
 div#mainmenu { 
 	/* NEEDED so that mainmenu can be at bottom */
@@ -54,6 +58,14 @@ div#mainmenu .menu_item {
 	border-bottom: 1px solid black;
 	border-left: 0;
 	background-color: #A9BECC;
+/* If I hard set the size of the menu item here and the 
+	top of the sub_menu below rather than let the browser
+	guess, things may line up better and more consistently 
+	4x2 + 20 would make the sub_menu top 28 
+	I wish I could figure this out in a simpler fashion so
+	that the submenu just stuck to the bottom of the menu item.
+*/
+	height: 20px;
 }
 div#mainmenu .menu_item:nth-child(1) {
 	border-left: 2px solid black;
@@ -72,7 +84,7 @@ div#mainmenu .menu_item .sub_menu {
 	margin:0;
 	padding:0;
 	position:absolute;
-	top: 25px;
+	top: 28px;
 	left:0px;
 	clear:left;
 	z-index: 100;	/* needed to keep it above other stuff */
