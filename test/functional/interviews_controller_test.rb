@@ -5,6 +5,16 @@ class InterviewsControllerTest < ActionController::TestCase
 	#	no study_subject_id
 	assert_no_route(:get,:index)
 
+	#	no id
+	assert_no_route(:get, :show)
+	assert_no_route(:get, :edit)
+	assert_no_route(:put, :update)
+	assert_no_route(:delete, :destroy)
+
+	#	no route
+	assert_no_route(:get,:new,:study_subject_id => 0)
+	assert_no_route(:post,:create,:study_subject_id => 0)
+
 	site_readers.each do |cu|
 
 		test "should get index with #{cu} login and valid study_subject_id" do
