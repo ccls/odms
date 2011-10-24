@@ -2,6 +2,9 @@ require 'test_helper'
 
 class InterviewsControllerTest < ActionController::TestCase
 
+	#	no study_subject_id
+	assert_no_route(:get,:index)
+
 	site_readers.each do |cu|
 
 		test "should get index with #{cu} login and valid study_subject_id" do
@@ -17,13 +20,6 @@ class InterviewsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
-	
-#	no route
-#		test "should NOT get index with #{cu} login and without study_subject_id" do
-#			login_as send(cu)
-#			get :index
-#			assert_response :success
-#		end
 	
 		test "should get dashboard with #{cu} login" do
 			login_as send(cu)
