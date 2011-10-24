@@ -115,6 +115,7 @@ module ApplicationHelper
 			when *%w( Patients ) then :hospital
 			when *%w( Addresses Addressings Contacts PhoneNumbers 
 				) then :contact
+			when *%w( Consents ) then :consents
 			when *%w( Enrollments ) then :eligibility
 			when *%w( Samples ) then :samples
 			when *%w( Interviews ) then :interviews
@@ -133,7 +134,8 @@ module ApplicationHelper
 					:class => ((current == :contact)?'current':nil) ),
 				link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 					:class => ((current == :hospital)?'current':nil) ),
-				"<span>Eligibility &amp; Consent</span>",
+				link_to( "Eligibility &amp; Consent", study_subject_consents_path(study_subject),
+					:class => ((current == :consents)?'current':nil) ),
 				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
 					:class => ((current == :eligibility)?'current':nil) ),
 				link_to( "Samples", study_subject_samples_path(study_subject),
