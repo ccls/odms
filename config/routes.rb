@@ -22,6 +22,10 @@ ActionController::Routing::Routes.draw do |map|
 			:only => [:new,:create,:show,:edit,:update,:index]
 		study_subject.resources :events,
 			:only => [:index]
+		study_subject.resources :documents,
+			:only => [:index]
+		study_subject.resources :notes,
+			:only => [:index]
 	end
 
 	map.resources :interviews, :only => [],

@@ -56,7 +56,7 @@ class User < Ccls::User
 	end
 
 	%w(	addressings addresses home_exposures phone_numbers study_subjects
-			enrollments events projects
+			enrollments events projects documents notes
 			).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_create?
 		alias_method "may_read_#{resource}?".to_sym,    :may_read?

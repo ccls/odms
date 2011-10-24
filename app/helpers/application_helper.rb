@@ -117,6 +117,8 @@ module ApplicationHelper
 				) then :contact
 			when *%w( Enrollments ) then :eligibility
 			when *%w( Events ) then :events
+			when *%w( Documents ) then :documents
+			when *%w( Notes ) then :notes
 			when *%w( Cases ) then :cases
 			else nil
 		end
@@ -136,8 +138,10 @@ module ApplicationHelper
 				"<span>Interviews</span>",
 				link_to( "Events", study_subject_events_path(study_subject),
 					:class => ((current == :events)?'current':nil) ),
-				"<span>Documents</span>",
-				"<span>Notes</span>",
+				link_to( "Documents", study_subject_documents_path(study_subject),
+					:class => ((current == :documents)?'current':nil) ),
+				link_to( "Notes", study_subject_notes_path(study_subject),
+					:class => ((current == :notes)?'current':nil) ),
 				link_to( "Related Subjects", case_path(study_subject),
 					:class => ((current == :cases)?'current':nil) )
 			].join("\n")
