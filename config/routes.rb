@@ -20,6 +20,10 @@ ActionController::Routing::Routes.draw do |map|
 			:only => [:new,:create,:edit,:update,   :destroy   ]
 		study_subject.resources :enrollments,
 			:only => [:new,:create,:show,:edit,:update,:index]
+		study_subject.resources :samples,
+			:only => [:index]
+		study_subject.resources :interviews,
+			:only => [:index]
 		study_subject.resources :events,
 			:only => [:index]
 		study_subject.resources :documents,

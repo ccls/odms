@@ -116,6 +116,8 @@ module ApplicationHelper
 			when *%w( Addresses Addressings Contacts PhoneNumbers 
 				) then :contact
 			when *%w( Enrollments ) then :eligibility
+			when *%w( Samples ) then :samples
+			when *%w( Interviews ) then :interviews
 			when *%w( Events ) then :events
 			when *%w( Documents ) then :documents
 			when *%w( Notes ) then :notes
@@ -134,8 +136,10 @@ module ApplicationHelper
 				"<span>Eligibility &amp; Consent</span>",
 				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
 					:class => ((current == :eligibility)?'current':nil) ),
-				"<span>Samples</span>",
-				"<span>Interviews</span>",
+				link_to( "Samples", study_subject_samples_path(study_subject),
+					:class => ((current == :samples)?'current':nil) ),
+				link_to( "Interviews", study_subject_interviews_path(study_subject),
+					:class => ((current == :interviews)?'current':nil) ),
 				link_to( "Events", study_subject_events_path(study_subject),
 					:class => ((current == :events)?'current':nil) ),
 				link_to( "Documents", study_subject_documents_path(study_subject),
