@@ -15,7 +15,7 @@ class SamplesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			get :index, :study_subject_id => 0
 			assert_not_nil flash[:error]
-			assert_redirected_to root_path
+			assert_redirected_to study_subjects_path
 		end
 	
 #	no route
