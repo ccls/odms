@@ -29,6 +29,13 @@ The div.warning in the above block cause the size
 	Diagnosis.all, :id, :description, :include_blank => true, 
 	:label_text => 'diagnosis:' %>
 
-<%= f.wrapped_collection_select :organization_id,
+<%#= f.wrapped_collection_select :organization_id,
 	Organization.all, :id, :name, :include_blank => true, 
 	:label_text => 'diagnosing hospital:' %>
+
+<div class='organization_id collection_select field_wrapper'>
+<label for="patient_organization_id">diagnosing hospital:</label>
+  <%= f.collection_select :organization_id,
+  Hospital.all, :organization_id, :to_s, :include_blank => true %>
+</div><!-- class='organization_id' -->
+
