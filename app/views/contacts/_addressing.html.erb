@@ -2,9 +2,9 @@
 
 <%#
 
-What is 'date' ?
+What is 'dates' ?
 
-	'date' is a boolean variable sometimes passed
+	'dates' is a boolean variable sometimes passed
 	to this partial to flag whether or not to show 
 	the dates.
 
@@ -23,7 +23,9 @@ What is 'date' ?
 <span class='line_1'><%= addressing.line_1 %></span>
 <span class='line_2'><%= addressing.line_2 %></span>
 <span class='csz'><%= addressing.csz %></span>
-<span class='county'><%= addressing.county %></span>
+<span class='county'><%= 
+	( addressing.county.blank? ) ? '&nbsp;' :  "#{addressing.county} County" 
+%></span>
 <% end %><!-- class='addressing' -->
 
 <div class='addressing_meta contact_meta'>
