@@ -235,7 +235,7 @@ protected
 			"identifier_attributes"=> { },
 			"patient_attributes"=>{
 #				"admit_date"=>"", 		#	TODO required
-				"organization_id"=> Organization.first.id
+				"organization_id"=> Hospital.first.organization_id
 			}
 		}.deep_merge(options)
 	end
@@ -268,14 +268,12 @@ protected
 				"guardian_last_name"=>""
 			}, 
 			"addressings_attributes"=>{
-				"0"=>{"current_address"=>"1", 
-					"address_attributes"=> Factory.attributes_for(:address,
-						"address_type_id"=>"1"    # hard coded in forms	#	TODO perhaps put in controller instead of the view
-					)
+				"0"=>{
+					"address_attributes"=> Factory.attributes_for(:address)
 				}
 			},
 			"phone_numbers_attributes"=>{
-				"0"=>{"phone_number"=>"1234567890"}, 
+				"0"=>{"phone_number"=>"1234567890"},
 				"1"=>{"phone_number"=>""}
 			}, 
 			"enrollments_attributes"=>{
@@ -283,7 +281,6 @@ protected
 #	TODO add consented field
 				"0"=>{
 					"other_refusal_reason"=>"", 
-					"project_id"=> Project['phase5'].id,	#"7", 
 					"consented_on"=>"", 
 					"document_version_id"=>"", 
 					"refusal_reason_id"=>""
@@ -296,7 +293,7 @@ protected
 				"admitting_oncologist"=>"", 
 				"was_under_15_at_dx"=>"true", 
 				"admit_date"=>"", 
-				"organization_id"=> Organization.first.id,
+				"organization_id"=> Hospital.first.organization_id,
 				"diagnosis_id"=>"", 
 				"was_ca_resident_at_diagnosis"=>"true"
 			}

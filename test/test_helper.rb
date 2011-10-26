@@ -19,12 +19,16 @@ class ActiveSupport::TestCase
 			'pii_attributes' => Factory.attributes_for(:pii),
 			'patient_attributes' => Factory.attributes_for(:patient),
 			'identifier_attributes' => Factory.attributes_for(:identifier),
-			'phone_numbers_attributes' => [Factory.attributes_for(:phone_number)],
-			'addressings_attributes' => [Factory.attributes_for(:addressing,
+			'phone_numbers_attributes' => {
+				'0' => Factory.attributes_for(:phone_number,
+				'phone_type_id' => PhoneType['home'].id )},
+			'addressings_attributes' => {
+				'0' => Factory.attributes_for(:addressing,
 				'address_attributes' => Factory.attributes_for(:address,
-					'address_type_id' => AddressType['residence'].id ) )],
-			'enrollments_attributes' => [Factory.attributes_for(:enrollment,
-				'project_id' => Project['non-specific'].id)]
+					'address_type_id' => AddressType['residence'].id ) )},
+			'enrollments_attributes' => {
+				'0' => Factory.attributes_for(:enrollment,
+				'project_id' => Project['non-specific'].id)}
 		).deep_merge(options)
 	end
 

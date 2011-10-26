@@ -7,16 +7,34 @@ class NonwaiveredsController < ApplicationController
 	end
 
 	def create
-		#	deep_merge does not work correctly with a HashWithIndifferentAccess
-		#	convert to hash, but MUST use string keys, not symbols as
-		#		real requests do not send symbols
-#	hopefully, these options will be done from within the study_subject model
 		StudySubject.transaction do
-			study_subject_params = params[:study_subject].to_hash.deep_merge({
+			#
+			#	Add defaults that are not on the forms.
+			#	This is ugly, but they are required, so either here or 
+			#	hidden in the view.  If put in view, then need to be explicitly
+			#	set in tests as well.
+			#	deep_merge does not work correctly with a HashWithIndifferentAccess
+			#	convert to hash, but MUST use string keys, not symbols as
+			#		real requests do not send symbols
+			#
+			study_subject_params = params[:study_subject].dup.to_hash.deep_merge({
 				'subject_type_id' => SubjectType['Case'].id,
 				'identifier_attributes' => {
-	#				'orderno' => 0,
 					'case_control_type' => 'C'
+				},
+				'enrollments_attributes' => {
+					'0' => { "project_id"=> Project['phase5'].id }
+				},
+				'addressings_attributes' => {
+					'0' => { "current_address"=>"1",
+						'address_attributes' => { 
+							'address_type_id' => AddressType['residence'].id
+						} 
+					}
+				},
+				'phone_numbers_attributes' => {
+					'0' => { 'phone_type_id' => PhoneType['home'].id },
+					'1' => { 'phone_type_id' => PhoneType['home'].id }
 				}
 			})
 			#	Paper form does not have consented checkbox, but our model
@@ -26,6 +44,7 @@ class NonwaiveredsController < ApplicationController
 			end
 	
 			#	Copy address' county and zip into patient raf_county and raf_zip [#8]
+			# patient_attributes should never actually be blank except in testing.
 			study_subject_params["patient_attributes"]||={}
 			study_subject_params["patient_attributes"]["raf_zip"] = 
 				study_subject_params.dig("addressings_attributes","0",
@@ -40,14 +59,14 @@ class NonwaiveredsController < ApplicationController
 			@study_subject.assign_icf_master_id
 			@study_subject.create_mother
 
-			warn = ''
+			warn = []
 			if @study_subject.identifier.icf_master_id.blank?
 				warn << "Control was not assigned an icf_master_id."
 			end
 			if @study_subject.mother.identifier.icf_master_id.blank?
-				warn << "\nMother was not assigned an icf_master_id."
+				warn << "Mother was not assigned an icf_master_id."
 			end
-			flash[:warn] = warn unless warn.blank?
+			flash[:warn] = warn.join('<br/>\n') unless warn.empty?
 		end
 		redirect_to @study_subject
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid

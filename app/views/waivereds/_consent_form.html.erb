@@ -9,14 +9,13 @@
 
 <% @study_subject.enrollments.build if @study_subject.enrollments.empty? %>
 <% f.fields_for :enrollments do |enrollment_fields| %>
-<%= enrollment_fields.hidden_field :project_id, :value => Project['phase5'].id %>
 
 <p>
 <%= enrollment_fields.radio_button :consented, 1 %>
-<%= enrollment_fields.label :consented, 'Yes -- Informed consent and authorization obtained.', 
+<%= enrollment_fields.label :consented, 
+	'Yes -- Informed consent and authorization obtained.', 
 	:value => 1 %>
 </p>
-
 
 <%#
 Control Source: document_versions.title where document_type_id = document_types.id for document_types.title = "consent"
