@@ -2,8 +2,10 @@ require 'test_helper'
 
 class StudySubjectsControllerTest < ActionController::TestCase
 
-#	setup :create_home_exposure_with_study_subject
-	setup :create_study_subject
+	#	Why exactly? Without it the order and dir tests fail
+	#	as the search finds no subjects and hence no table.
+	#	I put this in tests explicitly now.
+#	setup :create_study_subject
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'StudySubject',
@@ -49,22 +51,10 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		:show => { :id => 0 }
 	)
 
-#	assert_no_access_with_login(
-#		:attributes_for_create => nil,
-#		:method_for_create => nil,
-#		:actions => nil,
-#		:suffix => " and invalid id",
-#		:redirect => :study_subjects_path,
-#		:login => :superuser,
-#		:update => { :id => 0 },
-#		:destroy => { :id => 0 },
-#		:edit => { :id => 0 },
-#		:show => { :id => 0 }
-#	)
-
 	site_readers.each do |cu|
 
 		test "should get index with order and dir desc with #{cu} login" do
+			create_study_subject
 			login_as send(cu)
 			get :index, :order => 'last_name', :dir => 'desc'
 			assert_response :success
@@ -74,6 +64,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should get index with order and dir asc with #{cu} login" do
+			create_study_subject
 			login_as send(cu)
 			get :index, :order => 'last_name', :dir => 'asc'
 			assert_response :success
@@ -159,11 +150,139 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should get study_subjects find with #{cu} login" do
+			3.times{Factory(:study_subject)}
+			login_as send(cu)
+			get :find
+			assert_response :success
+			assert_equal 3, assigns(:study_subjects).length
+		end
+
+		test "should find study_subjects by first_name and #{cu} login" do
+			3.times{|i| Factory(:pii,:first_name => "First#{i}" ) }
+			login_as send(cu)
+			get :find, :first_name => 'st1'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects by last_name and #{cu} login" do
+			3.times{|i| Factory(:pii,:last_name => "Last#{i}" ) }
+			login_as send(cu)
+			get :find, :last_name => 'st1'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects by maiden_name and #{cu} login" do
+			3.times{|i| Factory(:pii,:maiden_name => "Maiden#{i}" ) }
+			login_as send(cu)
+			get :find, :last_name => 'en1'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects with dob and #{cu} login" do
+pending	#	TODO
 			login_as send(cu)
 			get :find
 			assert_response :success
 		end
 	
+		test "should find study_subjects with childid and #{cu} login" do
+			3.times{|i| Factory(:identifier,:childid => "12345#{i}" ) }
+			login_as send(cu)
+			get :find, :childid => '451'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects with patid and #{cu} login" do
+			3.times{|i| Factory(:identifier,:patid => "345#{i}" ) }
+			login_as send(cu)
+			get :find, :patid => '451'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects with icf_master_id and #{cu} login" do
+			3.times{|i| Factory(:identifier,:icf_master_id => "345#{i}" ) }
+			login_as send(cu)
+			get :find, :icf_master_id => '451'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects with hospital_no and #{cu} login" do
+			3.times{|i| Factory(:identifier,:hospital_no => "345#{i}" ) }
+			login_as send(cu)
+			get :find, :hospital_no => '451'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects by state_id_no and #{cu} login" do
+			3.times{|i| Factory(:identifier,:state_id_no => "345#{i}" ) }
+			login_as send(cu)
+			get :find, :registrar_no => '451'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects by state_registrar_no and #{cu} login" do
+			3.times{|i| Factory(:identifier,:state_registrar_no => "345#{i}" ) }
+			login_as send(cu)
+			get :find, :registrar_no => '451'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects by local_registrar_no and #{cu} login" do
+			3.times{|i| Factory(:identifier,:local_registrar_no => "345#{i}" ) }
+			login_as send(cu)
+			get :find, :registrar_no => '451'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+#	I could add tons of tests for searching on multiple attributes
+#	but it would get ridiculous.  I do need to add a few to test the
+#	operator parameter so there will be a few here.	
+
+		test "should find study_subjects by first_name OR last_name and #{cu} login" do
+			3.times{|i| Factory(:pii,:first_name => "First#{i}", :last_name => "Last#{i}" ) }
+			login_as send(cu)
+			get :find, :first_name => 'st1', :last_name => 'st2', :operator => 'OR'
+			assert_response :success
+			assert_equal 2, assigns(:study_subjects).length
+		end
+
+		test "should find study_subjects by first_name AND last_name and #{cu} login" do
+			3.times{|i| Factory(:pii,:first_name => "First#{i}", :last_name => "Last#{i}" ) }
+			login_as send(cu)
+			get :find, :first_name => 'st1', :last_name => 'st1', :operator => 'AND'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+
+		test "should find study_subjects by childid OR patid and #{cu} login" do
+			3.times{|i| Factory(:identifier,:patid => "345#{i}", :childid => "12345#{i}" ) }
+			login_as send(cu)
+			get :find, :patid => '451', :childid => '451', :operator => 'OR'
+			assert_response :success
+			assert_equal 2, assigns(:study_subjects).length
+		end
+
+		test "should find study_subjects by childid AND patid and #{cu} login" do
+			3.times{|i| Factory(:identifier,:patid => "345#{i}", :childid => "12345#{i}" ) }
+			login_as send(cu)
+			get :find, :patid => '451', :childid => '451', :operator => 'AND'
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+
+
+
+
 		test "should get study_subjects followup with #{cu} login" do
 			login_as send(cu)
 			get :followup
@@ -276,7 +395,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #		test "should NOT create without race_id with #{cu} login" do
 #			study_subject = create_study_subject
 #			login_as send(cu)
-#pending
+#pending	#	TODO
 ##			assert_difference('StudySubject.count',0){
 ##			assert_difference('SubjectType.count',0){
 ##			assert_difference('Race.count',0){
@@ -307,7 +426,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #		test "should NOT create without valid race_id with #{cu} login" do
 #			study_subject = create_study_subject
 #			login_as send(cu)
-#pending
+#pending	#	TODO
 ##			assert_difference('StudySubject.count',0){
 ##			assert_difference('SubjectType.count',0){
 ##			assert_difference('Race.count',0){
@@ -373,7 +492,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		test "should NOT update without race_id with #{cu} login" do
 			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
-pending
+pending	#	TODO
 #			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
@@ -404,7 +523,7 @@ pending
 		test "should NOT update without valid race_id with #{cu} login" do
 			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
 			login_as send(cu)
-pending
+pending	#	TODO
 #			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){

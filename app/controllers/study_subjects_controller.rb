@@ -13,6 +13,7 @@ class StudySubjectsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def find
+#	If this gets much more complex, we may want to consider using something like solr.
 		record_or_recall_sort_order
 		operator = ' OR '
 		if params[:operator] and !params[:operator].blank? and 
@@ -29,21 +30,11 @@ class StudySubjectsController < ApplicationController
 			conditions[1] << "%#{params[:last_name]}%"
 			conditions[1] << "%#{params[:last_name]}%"
 		end
-		if params[:childid] and !params[:childid].blank?
-			conditions[0] << "( identifiers.childid LIKE ? )"
-			conditions[1] << "%#{params[:childid]}%"
-		end
-		if params[:patid] and !params[:patid].blank?
-			conditions[0] << "( identifiers.patid LIKE ? )"
-			conditions[1] << "%#{params[:patid]}%"
-		end
-		if params[:hospital_no] and !params[:hospital_no].blank?
-			conditions[0] << "( identifiers.hospital_no LIKE ? )"
-			conditions[1] << "%#{params[:hospital_no]}%"
-		end
-		if params[:icf_master_id] and !params[:icf_master_id].blank?
-			conditions[0] << "( identifiers.icf_master_id LIKE ? )"
-			conditions[1] << "%#{params[:icf_master_id]}%"
+		%w( childid patid hospital_no icf_master_id ).each do |attr|
+			if params[attr] and !params[attr].blank?
+				conditions[0] << "( identifiers.#{attr} LIKE ? )"
+				conditions[1] << "%#{params[attr]}%"
+			end
 		end
 		if params[:dob] and !params[:dob].blank?
 #			conditions[0] << "( identifiers.icf_master_id LIKE ? )"
