@@ -267,7 +267,7 @@ pending	#	TODO
 		test "should find study_subjects by childid OR patid and #{cu} login" do
 			3.times{|i| Factory(:identifier,:patid => "345#{i}", :childid => "12345#{i}" ) }
 			login_as send(cu)
-			get :find, :patid => '451', :childid => '451', :operator => 'OR'
+			get :find, :patid => '451', :childid => '452', :operator => 'OR'
 			assert_response :success
 			assert_equal 2, assigns(:study_subjects).length
 		end
