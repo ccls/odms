@@ -25,7 +25,8 @@ class StudySubjectsController < ApplicationController
 			conditions[1] << "%#{params[:first_name]}%"
 		end
 		if params[:last_name] and !params[:last_name].blank?
-			conditions[0] << "( piis.last_name LIKE ? )"
+			conditions[0] << "( piis.last_name LIKE ? OR piis.maiden_name LIKE ? )"
+			conditions[1] << "%#{params[:last_name]}%"
 			conditions[1] << "%#{params[:last_name]}%"
 		end
 		if params[:childid] and !params[:childid].blank?
