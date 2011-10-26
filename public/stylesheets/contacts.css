@@ -18,9 +18,13 @@
 .contact_wrapper {
 	padding-bottom:10px;
 	clear:left;	
+	border-top: 1px dotted silver;
 
 	/* using this to hack the floats */
 	overflow:hidden;
+}
+.contact_wrapper:nth-child(1) {
+	border-top: 0;
 }
 
 .when {
