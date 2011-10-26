@@ -1,5 +1,13 @@
 <% if @enrollment %>
 <%= render :file => 'enrollments/show' %>
 <% else %>
+<% sub_menu_for(@study_subject) %>
+
+<% content_for :id_bar do %>
+<%= link_to "edit", edit_study_subject_path(@study_subject) %>
+<% end if current_user.may_edit_study_subjects? %>
+
+<% id_bar_for(@study_subject) %>
+
 <p>Subject has no Phase5 enrollment.</p>
 <% end %>
