@@ -14,7 +14,12 @@ class ConsentsController < ApplicationController
 #		:only => [:new,:create,:index]
 
 	def index
-#		@events = OperationalEvent.search(params)
+		@enrollment = Enrollment.find(:first,
+			:conditions => { 
+				:study_subject_id => @study_subject.id,
+				:project_id => Project['phase5'].id 
+			}
+		)
 	end
 
 end

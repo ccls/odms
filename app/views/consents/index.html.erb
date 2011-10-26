@@ -1,19 +1,5 @@
-<% sub_menu_for(@study_subject) %>
-
-<% content_for :id_bar do %>
-<%= link_to "edit", edit_study_subject_path(@study_subject) %>
-<% end if current_user.may_edit_study_subjects? %>
-
-<% id_bar_for(@study_subject) %>
-
-<p>Study Consent Info.  Which study?</p>
-
-<p>is eligible?</p>
-<p>reason ineligible</p>
-<p>specify reason</p>
-<p>consented?</p>
-<p>reason for refusal</p>
-<p>specify reason</p>
-<p>consent date</p>
-<p>consent version</p>
-<p>may ccls use samples in future research?</p>
+<% if @enrollment %>
+<%= render :file => 'enrollments/show' %>
+<% else %>
+<p>Subject has no Phase5 enrollment.</p>
+<% end %>

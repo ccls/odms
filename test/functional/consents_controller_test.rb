@@ -18,10 +18,23 @@ class ConsentsControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get consents with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:enrollment).study_subject
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
+			assert_nil assigns(:enrollment)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get consents for phase5 enrolled subject with #{cu} login" do
+			study_subject = Factory(:enrollment,
+				:project => Project['phase5'] ).study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id
+			assert assigns(:study_subject)
+			assert assigns(:enrollment)
+			assert_not_nil assigns(:enrollment)
 			assert_response :success
 			assert_template 'index'
 		end
@@ -39,7 +52,7 @@ class ConsentsControllerTest < ActionController::TestCase
 	non_site_readers.each do |cu|
 
 		test "should NOT get consents with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:enrollment).study_subject
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -49,7 +62,7 @@ class ConsentsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get consents without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = Factory(:enrollment).study_subject
 		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
