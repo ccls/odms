@@ -104,14 +104,20 @@ protected
 
 	def valid_patid_required
 		if !params[:patid].blank? 
-			study_subjects = StudySubject.search(:patid => params[:patid], :types => 'case')
-			case
-				when study_subjects.length < 1 
-					access_denied("No case study_subject found with that patid!", new_bc_request_path)
-				when study_subjects.length > 1	#	shouldn't actually ever happen
-					access_denied("Multiple case study_subjects found with that patid!", new_bc_request_path)
-				else
-					@study_subject = study_subjects.first
+#	TODO stop using StudySubject.search
+#		write more specific class methods 
+			@study_subject = StudySubject.find_case_by_patid(params[:patid])
+#			study_subjects = StudySubject.search(:patid => params[:patid], :types => 'case')
+#			case
+#				when study_subjects.length < 1 
+#					access_denied("No case study_subject found with that patid!", new_bc_request_path)
+#				when study_subjects.length > 1	#	shouldn't actually ever happen
+#					access_denied("Multiple case study_subjects found with that patid!", new_bc_request_path)
+#				else
+#					@study_subject = study_subjects.first
+#			end
+			if @study_subject.blank?
+				access_denied("No case study_subject found with that patid!", new_bc_request_path)
 			end
 		else
 			access_denied("Valid study_subject patid required!", new_bc_request_path)

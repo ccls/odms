@@ -39,6 +39,7 @@ class ControlsController < ApplicationController
 #	#	TODO search on subject_type == case or case_control_type == 'C' ?
 #	#	This redundancy is becoming an issue.
 #	#	Try to stop using StudySubject.search for simple one-off things
+#		StudySubject.find_case_by_patid(params[:patid])
 #				@study_subject = StudySubject.search(:patid => params[:patid], :types => 'case').first
 #			end
 #		end

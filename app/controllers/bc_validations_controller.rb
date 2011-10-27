@@ -5,6 +5,7 @@ class BcValidationsController < ApplicationController
 	before_filter :case_study_subject_required, :only => :show
 
 	def index
+#	TODO stop using StudySubject.search
 		@cases = StudySubject.search(params.merge(:types => 'case',:order => 'studyid'))
 	end
 

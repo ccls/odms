@@ -50,10 +50,13 @@ protected
 	end
 
 	def valid_case_study_subject_required
-		@study_subject = StudySubject.search(
-			:patid => @candidate.related_patid, 
-			:types => 'case').first
-		unless @study_subject
+#	TODO stop using StudySubject.search
+		@study_subject = StudySubject.find_case_by_patid(@candidate.related_patid)
+#		@study_subject = StudySubject.search(
+#			:patid => @candidate.related_patid, 
+#			:types => 'case').first
+#		unless @study_subject
+		if @study_subject.blank?
 			access_denied("No valid case study subject found for that candidate!", cases_path)
 		end
 	end

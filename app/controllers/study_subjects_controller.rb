@@ -66,6 +66,7 @@ class StudySubjectsController < ApplicationController
 		if params[:commit] && params[:commit] == 'download'
 			params[:paginate] = false
 		end
+#	TODO stop using StudySubject.search, but here it may be needed
 		@study_subjects = StudySubject.search(params)
 		if params[:commit] && params[:commit] == 'download'
 			params[:format] = 'csv'
