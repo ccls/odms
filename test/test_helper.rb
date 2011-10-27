@@ -10,7 +10,7 @@ class ActiveSupport::TestCase
 #	MUST use strings for keys and NOT symbols due to to_hash
 #	conversion for deep_merging
 		Factory.attributes_for(:study_subject,
-			'subject_type_id' => SubjectType['Case'].id,
+#			'subject_type_id' => SubjectType['Case'].id,
 #	NOT on the form or currently required
 #			'subject_races_attributes' => {
 #				"0"=>{"race_id"=>"1"} },
@@ -20,15 +20,15 @@ class ActiveSupport::TestCase
 			'patient_attributes' => Factory.attributes_for(:patient),
 			'identifier_attributes' => Factory.attributes_for(:identifier),
 			'phone_numbers_attributes' => {
-				'0' => Factory.attributes_for(:phone_number,
-				'phone_type_id' => PhoneType['home'].id )},
+				'0' => Factory.attributes_for(:phone_number) },
+#				'phone_type_id' => PhoneType['home'].id )},
 			'addressings_attributes' => {
 				'0' => Factory.attributes_for(:addressing,
-				'address_attributes' => Factory.attributes_for(:address,
-					'address_type_id' => AddressType['residence'].id ) )},
+				'address_attributes' => Factory.attributes_for(:address) ) },
+#					'address_type_id' => AddressType['residence'].id ) )},
 			'enrollments_attributes' => {
-				'0' => Factory.attributes_for(:enrollment,
-				'project_id' => Project['non-specific'].id)}
+				'0' => Factory.attributes_for(:enrollment) }
+#				'project_id' => Project['non-specific'].id)}
 		).deep_merge(options)
 	end
 
