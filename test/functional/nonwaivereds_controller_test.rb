@@ -300,15 +300,10 @@ protected
 
 	def minimum_nonwaivered_form_attributes(options={})
 #	TODO require hospital_no
-#	TODO require admit_date
 		{
-			"identifier_attributes"=>{ }, 
-			"pii_attributes"=>{
-				"dob"=> Date.jd(2440000+rand(15000))
-			}, 
-			"patient_attributes"=>{
-				"organization_id"=> Hospital.first.organization_id
-			}
+			"identifier_attributes" => { }, 
+			"pii_attributes"        => Factory.attributes_for(:pii),
+			"patient_attributes"    => Factory.attributes_for(:patient)
 		}.deep_merge(options)
 	end
 
@@ -319,11 +314,10 @@ protected
 			"subject_languages_attributes"=>{"0"=>{"language_id"=>"1"}, "1"=>{"language_id"=>""}}, 
 			"sex"=>"M", 
 			"identifier_attributes"=>{ }, 
-			"pii_attributes"=>{
+			"pii_attributes"=> Factory.attributes_for(:pii, {
 				"first_name"=>"", 
 				"middle_name"=>"", 
 				"last_name"=>"", 
-				"dob"=> Date.jd(2440000+rand(15000)),
 				"mother_first_name"=>"", 
 				"mother_middle_name"=>"", 
 				"mother_last_name"=>"", 
@@ -336,7 +330,7 @@ protected
 				"guardian_first_name"=>"",
 				"guardian_middle_name"=>"", 
 				"guardian_last_name"=>""
-			}, 
+			}), 
 			"addressings_attributes"=>{
 				"0"=>{
 					"address_attributes"=> Factory.attributes_for(:address)
@@ -351,16 +345,14 @@ protected
 				"0"=>{"phone_number"=>"1234567890" }, 
 				"1"=>{"phone_number"=>""}
 			}, 
-			"patient_attributes"=>{
+			"patient_attributes"=> Factory.attributes_for(:patient,{
 				"sample_was_collected"=>"1",				
 				"was_previously_treated"=>"false", 
 				"admitting_oncologist"=>"", 
 				"was_under_15_at_dx"=>"true", 
-				"admit_date"=>"", 
-				"organization_id"=>Hospital.first.organization_id,
 				"diagnosis_id"=>"", 
 				"was_ca_resident_at_diagnosis"=>"true"
-			}
+			})
 		}.deep_merge(options)
 	end
 

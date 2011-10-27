@@ -229,14 +229,9 @@ protected
 	def minimum_waivered_form_attributes(options={})
 #	TODO add required hospital_no
 		{
-			"pii_attributes"=>{
-				"dob"=> Date.jd(2440000+rand(15000))
-			}, 
-			"identifier_attributes"=> { },
-			"patient_attributes"=>{
-#				"admit_date"=>"", 		#	TODO required
-				"organization_id"=> Hospital.first.organization_id
-			}
+			"pii_attributes"        => Factory.attributes_for(:pii),
+			"identifier_attributes" => { },
+			"patient_attributes"    => Factory.attributes_for(:patient)
 		}.deep_merge(options)
 	end
 
@@ -249,8 +244,7 @@ protected
 			}, 
 			"sex"=>"M", 
 			"identifier_attributes"=>{ }, 
-			"pii_attributes"=>{
-				"dob"=> Date.jd(2440000+rand(15000)), 
+			"pii_attributes"=> Factory.attributes_for(:pii, {
 				"first_name"=>"", 
 				"middle_name"=>"", 
 				"last_name"=>"", 
@@ -266,7 +260,7 @@ protected
 				"guardian_first_name"=>"",
 				"guardian_middle_name"=>"", 
 				"guardian_last_name"=>""
-			}, 
+			}), 
 			"addressings_attributes"=>{
 				"0"=>{
 					"address_attributes"=> Factory.attributes_for(:address)
@@ -286,17 +280,15 @@ protected
 					"refusal_reason_id"=>""
 				}
 			}, 
-			"patient_attributes"=>{
+			"patient_attributes"=> Factory.attributes_for(:patient,{
 				"raf_zip" => '12345',
 				"raf_county" => "some county, usa",
 				"was_previously_treated"=>"false", 
 				"admitting_oncologist"=>"", 
 				"was_under_15_at_dx"=>"true", 
-				"admit_date"=>"", 
-				"organization_id"=> Hospital.first.organization_id,
 				"diagnosis_id"=>"", 
 				"was_ca_resident_at_diagnosis"=>"true"
-			}
+			})
 		}.deep_merge(options)
 	end
 
