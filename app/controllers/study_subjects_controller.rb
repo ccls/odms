@@ -20,31 +20,28 @@ class StudySubjectsController < ApplicationController
 				['AND','OR'].include?(params[:operator])
 			operator = " #{params[:operator]} "
 		end
-		conditions = [[],[]]
-		if params[:first_name] and !params[:first_name].blank?
-			conditions[0] << "( piis.first_name LIKE ? )"
-			conditions[1] << "%#{params[:first_name]}%"
-		end
-		if params[:last_name] and !params[:last_name].blank?
-			conditions[0] << "( piis.last_name LIKE ? OR piis.maiden_name LIKE ? )"
-			conditions[1] << "%#{params[:last_name]}%"
-			conditions[1] << "%#{params[:last_name]}%"
-		end
-		%w( childid patid hospital_no icf_master_id ).each do |attr|
+		conditions = [[],{}]
+		#	Table names are not necessary if field is unambiguous.
+		%w( childid patid hospital_no icf_master_id first_name ).each do |attr|
 			if params[attr] and !params[attr].blank?
-				conditions[0] << "( identifiers.#{attr} LIKE ? )"
-				conditions[1] << "%#{params[attr]}%"
+				conditions[0] << "( #{attr} LIKE :#{attr} )"
+				conditions[1][attr.to_sym] = "%#{params[attr]}%"
 			end
 		end
+
+#	TODO date searching may be a challenge
 		if params[:dob] and !params[:dob].blank?
-#			conditions[0] << "( identifiers.icf_master_id LIKE ? )"
+#			conditions[0] << "( dob LIKE ? )"
 #			conditions[1] << "%#{params[:dob]}%"
 		end
+
+		if params[:last_name] and !params[:last_name].blank?
+			conditions[0] << "( last_name LIKE :last_name OR maiden_name LIKE :last_name )"
+			conditions[1][:last_name] = "%#{params[:last_name]}%"
+		end
 		if params[:registrar_no] and !params[:registrar_no].blank?
-			conditions[0] << "( identifiers.state_id_no LIKE ? OR identifiers.state_registrar_no LIKE ? OR identifiers.local_registrar_no LIKE ? )"
-			conditions[1] << "%#{params[:registrar_no]}%"
-			conditions[1] << "%#{params[:registrar_no]}%"
-			conditions[1] << "%#{params[:registrar_no]}%"
+			conditions[0] << "( state_id_no LIKE :registrar_no OR state_registrar_no LIKE :registrar_no OR local_registrar_no LIKE :registrar_no )"
+			conditions[1][:registrar_no] = "%#{params[:registrar_no]}%"
 		end
 		@study_subjects = StudySubject.paginate(
 			:include => [:pii,:patient,:identifier],
@@ -54,7 +51,7 @@ class StudySubjectsController < ApplicationController
 				'LEFT JOIN identifiers ON study_subjects.id = identifiers.study_subject_id',
 			],
 			:conditions => [ conditions[0].join(operator),
-					*(conditions[1].flatten) ],
+					conditions[1] ],
 			:per_page => params[:per_page]||25,
 			:page     => params[:page]||1
 		)
