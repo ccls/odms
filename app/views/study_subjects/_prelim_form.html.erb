@@ -6,7 +6,8 @@
 <div class='organization_id'>
 	<p><%= "#{req('*')}&nbsp;treating institution:" %></p>
 	<%= patient_fields.collection_select :organization_id,
-		Hospital.all, :organization_id, :to_s, :include_blank => true %>
+		Hospital.all(:include => :organization), 
+		:organization_id, :to_s, :include_blank => true %>
 </div><!-- class='organization_id' -->
 
 <div class='admitting_oncologist'>
