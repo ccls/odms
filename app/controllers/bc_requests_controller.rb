@@ -106,7 +106,6 @@ protected
 		if !params[:patid].blank? 
 #	TODO stop using StudySubject.search
 #		write more specific class methods 
-			@study_subject = StudySubject.find_case_by_patid(params[:patid])
 #			study_subjects = StudySubject.search(:patid => params[:patid], :types => 'case')
 #			case
 #				when study_subjects.length < 1 
@@ -116,6 +115,7 @@ protected
 #				else
 #					@study_subject = study_subjects.first
 #			end
+			@study_subject = StudySubject.find_case_by_patid(params[:patid])
 			if @study_subject.blank?
 				access_denied("No case study_subject found with that patid!", new_bc_request_path)
 			end

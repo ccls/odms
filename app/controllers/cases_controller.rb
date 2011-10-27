@@ -7,11 +7,11 @@ class CasesController < ApplicationController
 	def index
 		unless params[:patid].blank?
 #	TODO stop using StudySubject.search
-			@study_subject = StudySubject.find_case_by_patid(params[:patid])
 #			@study_subject = StudySubject.search(
 #				:patid => params[:patid], 
 #				:types => 'case'
 #			).first
+			@study_subject = StudySubject.find_case_by_patid(params[:patid])
 		end
 	end
 

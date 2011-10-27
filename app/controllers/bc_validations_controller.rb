@@ -6,16 +6,24 @@ class BcValidationsController < ApplicationController
 
 	def index
 #	TODO stop using StudySubject.search
-		@cases = StudySubject.search(params.merge(:types => 'case',:order => 'studyid'))
+#	I really don't think that this ever really searches so this is OVERKILL
+#	This is really just a paginates, case study subject list ordered by studyid.
+#		Search options aren't ever passed.
+#		@cases = StudySubject.search(params.merge(:types => 'case',:order => 'studyid'))
+		@cases = StudySubject.paginate(
+			:include => [:pii,:identifier],
+			:order => 'identifiers.patid',
+			:joins => [
+				'LEFT JOIN identifiers ON study_subjects.id = identifiers.study_subject_id'
+			],
+			:conditions => ['study_subjects.subject_type_id = ?',
+				SubjectType['Case'].id],
+			:per_page => params[:per_page]||25,
+			:page     => params[:page]||1
+		)
 	end
 
 	def show
-#	TODO I thought that this should match on matchingid NOT patid?
-#	No.  Matchingid would match the subjectid, NOT patid
-#		@controls = StudySubject.find(:all, :joins => :identifier, 
-#			:conditions => [
-#				"study_subjects.id != ? AND identifiers.patid = ?", @study_subject.id, @study_subject.patid ] 
-#		)
 		@controls = CandidateControl.all(
 			:conditions => { :related_patid => @study_subject.patid }
 		)
