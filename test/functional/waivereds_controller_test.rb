@@ -210,7 +210,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, :study_subject => complete_case_study_subject_attributes
 			end
-			puts flash[:error]
 			assert_not_nil flash[:error]
 			assert_response :success
 			assert_template 'new'
