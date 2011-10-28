@@ -213,7 +213,7 @@ pending	#	TODO
 		end
 	
 		test "should find study_subjects with hospital_no and #{cu} login" do
-			3.times{|i| Factory(:identifier,:hospital_no => "345#{i}" ) }
+			3.times{|i| Factory(:patient,:hospital_no => "345#{i}" ) }
 			login_as send(cu)
 			get :find, :hospital_no => '451'
 			assert_response :success

@@ -299,7 +299,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 protected
 
 	def minimum_nonwaivered_form_attributes(options={})
-#	TODO require hospital_no
 		{
 			"identifier_attributes" => { }, 
 			"pii_attributes"        => Factory.attributes_for(:pii),

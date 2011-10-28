@@ -36,10 +36,10 @@
 <% end %>
 
 <div class='hospital_no'>
-<% @study_subject.build_identifier if @study_subject.identifier.nil? %>
-<% f.fields_for :identifier do |identifier_fields| %>
+<%# @study_subject.build_identifier if @study_subject.identifier.nil? %>
+<% f.fields_for :patient do |patient_fields| %>
 	<p><%= "#{req('*')}&nbsp;hospital record number:" %></p>
-	<%= identifier_fields.text_field :hospital_no %>
+	<%= patient_fields.text_field :hospital_no %>
 <% end %>
 </div>
 </div><!-- class='tablerow' -->

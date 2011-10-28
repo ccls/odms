@@ -227,7 +227,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 protected
 
 	def minimum_waivered_form_attributes(options={})
-#	TODO add required hospital_no
 		{
 			"pii_attributes"        => Factory.attributes_for(:pii),
 			"identifier_attributes" => { },
