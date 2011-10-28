@@ -79,8 +79,8 @@ module ApplicationHelper
 				:waitlist_bc_requests
 			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'complete' )
 				:complete_bc_requests
-			when( params[:controller] == 'bc_validations' )
-				:bc_validations
+#			when( params[:controller] == 'bc_validations' )
+#				:bc_validations
 			else nil
 		end
 		content_for :side_menu do
@@ -90,8 +90,8 @@ module ApplicationHelper
 					:class => ((current == :new_bc_request)?'current':nil) ),
 				link_to( "Pending Requests", bc_requests_path(:status => 'pending'),
 					:class => ((current == :pending_bc_requests)?'current':nil) ),
-				link_to( "BC Validation", bc_validations_path,
-					:class => ((current == :bc_validations)?'current':nil) ),
+#				link_to( "BC Validation", bc_validations_path,
+#					:class => ((current == :bc_validations)?'current':nil) ),
 
 				"<hr/>",
 				link_to( "All Requests", bc_requests_path,

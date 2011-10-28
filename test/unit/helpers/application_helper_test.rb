@@ -5,6 +5,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "odms_main_menu should return main menu" do
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
+			#	Home, Subjects, Interviews, Samples
 			assert_select 'div.menu_item', 4
 #			assert_select 'div.menu_item', 5
 #			assert_select 'div.menu_item', 5 do
@@ -57,7 +58,10 @@ pending
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 7
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', 6
 			assert_select 'a.current', 1 do
 				assert_select "[href=?]", new_bc_request_path
 			end
@@ -69,7 +73,10 @@ pending
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 7
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', 6
 			assert_select 'a.current', 1 do
 				assert_select "[href=?]", bc_requests_path
 			end
@@ -81,7 +88,10 @@ pending
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 7
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', 6
 			assert_select 'a.current', 1 do
 				assert_select "[href=?]", bc_requests_path(:status => 'active')
 			end
@@ -93,7 +103,10 @@ pending
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 7
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', 6
 			assert_select 'a.current', 1 do
 				assert_select "[href=?]", bc_requests_path(:status => 'complete')
 			end
@@ -105,7 +118,10 @@ pending
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 7
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', 6
 			assert_select 'a.current', 1 do
 				assert_select "[href=?]", bc_requests_path(:status => 'waitlist')
 			end
@@ -117,7 +133,10 @@ pending
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 7
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', 6
 			assert_select 'a.current', 1 do
 				assert_select "[href=?]", bc_requests_path(:status => 'pending')
 			end
@@ -129,10 +148,14 @@ pending
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 7
-			assert_select 'a.current', 1 do
-				assert_select "[href=?]", bc_validations_path
-			end
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', 6
+#	Since removed, this link will no longer show.
+#			assert_select 'a.current', 1 do
+#				assert_select "[href=?]", bc_validations_path
+#			end
 		end
 	end
 
