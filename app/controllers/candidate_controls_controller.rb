@@ -3,21 +3,23 @@ class CandidateControlsController < ApplicationController
 	before_filter :may_create_study_subjects_required
 	before_filter :valid_id_required
 	before_filter :valid_case_study_subject_required
+	before_filter :unused_candidate_control_required
 
 	def edit
+
+
 #	TODO add potential check for reasons to reject control
 #		if any found ...
 #		@candidate.reject_candidate = true
 #		@candidate.rejection_reason = "the reason why we think the control should be rejected."
+
+
 	end
 
 	def update
 		CandidateControl.transaction do
 			if params[:candidate_control][:reject_candidate] == 'false'
-#
-#	can't use this modification until release of ccls_engine 3.9.5
-#
-				@candidate.create_study_subjects(@study_subject)	#,'6')	#	'6' is default anyway
+				@candidate.create_study_subjects(@study_subject,'6')	#	'6' is default anyway
 				warn = ''
 				if @candidate.study_subject.identifier.icf_master_id.blank?
 					warn << "Control was not assigned an icf_master_id."
@@ -50,15 +52,15 @@ protected
 	end
 
 	def valid_case_study_subject_required
-#	TODO stop using StudySubject.search
-#		@study_subject = StudySubject.search(
-#			:patid => @candidate.related_patid, 
-#			:types => 'case').first
-#		unless @study_subject
-
 		@study_subject = StudySubject.find_case_by_patid(@candidate.related_patid)
 		if @study_subject.blank?
 			access_denied("No valid case study subject found for that candidate!", cases_path)
+		end
+	end
+
+	def unused_candidate_control_required
+		unless @candidate.study_subject_id.blank?
+			access_denied("Candidate is already used!", case_path(@study_subject.id))
 		end
 	end
 

@@ -39,6 +39,16 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_redirected_to cases_path
 		end
 
+		test "should NOT get edit with #{cu} login and used candidate control" do
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(
+				:related_patid => case_study_subject.reload.patid,
+				:study_subject_id => case_study_subject.id )
+			get :edit, :id => candidate.id
+			assert_not_nil flash[:error]
+			assert_redirected_to case_path(case_study_subject.id)
+		end
 
 		test "should put update with #{cu} login and mark candidate as rejected" do
 			login_as send(cu)
@@ -157,6 +167,17 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success
 			assert_template 'edit'
+		end
+
+		test "should NOT put update with #{cu} login and used candidate control" do
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(
+				:related_patid => case_study_subject.reload.patid,
+				:study_subject_id => case_study_subject.id )
+			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
+			assert_not_nil flash[:error]
+			assert_redirected_to case_path(case_study_subject.id)
 		end
 
 #			test "should NOT put update with #{cu} login and accept candidate" <<
