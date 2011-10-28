@@ -56,6 +56,9 @@ class WaiveredsController < ApplicationController
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "StudySubject creation failed"
 		render :action => 'new'
+	rescue ActiveRecord::StatementInvalid => e
+		flash.now[:error] = "Database error.  Check production logs and contact Jake."
+		render :action => 'new'
 	end
 
 end

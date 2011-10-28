@@ -274,6 +274,46 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 #pending # TODO should test when create_mother fails
 #		end 
 
+		test "should do something if patid exists with #{cu} login" do
+			Identifier.any_instance.stubs(:get_next_patid).returns('0123')
+			identifier1 = Factory(:case_identifier)
+			assert_not_nil identifier1.patid
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, :study_subject => complete_case_study_subject_attributes
+			end
+			puts flash[:error]
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should do something if childid exists with #{cu} login" do
+			Identifier.any_instance.stubs(:get_next_childid).returns(12345)
+			identifier1 = Factory(:identifier)
+			assert_not_nil identifier1.childid
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, :study_subject => complete_case_study_subject_attributes
+			end
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should do something if subjectid exists with #{cu} login" do
+			Identifier.any_instance.stubs(:generate_subjectid).returns('012345')
+			identifier1 = Factory(:identifier)
+			assert_not_nil identifier1.subjectid
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, :study_subject => complete_case_study_subject_attributes
+			end
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
 	end
 
 	non_site_editors.each do |cu|

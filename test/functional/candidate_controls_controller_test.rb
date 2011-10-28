@@ -317,6 +317,34 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 
+
+		#	only cases get patids and this create controls, so only testing 
+		#	duplicate childid and subjectid
+
+		test "should do something if childid exists with #{cu} login" do
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
+			Identifier.any_instance.stubs(:get_next_childid).returns(12345)
+			identifier1 = Factory(:identifier)
+			assert_not_nil identifier1.childid
+			login_as send(cu)
+			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
+			assert_response :success
+			assert_template 'edit'
+		end
+
+		test "should do something if subjectid exists with #{cu} login" do
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
+			Identifier.any_instance.stubs(:generate_subjectid).returns('012345')
+			identifier1 = Factory(:identifier)
+			assert_not_nil identifier1.subjectid
+			login_as send(cu)
+			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
+			assert_response :success
+			assert_template 'edit'
+		end
+
 	end
 
 	non_site_editors.each do |cu|

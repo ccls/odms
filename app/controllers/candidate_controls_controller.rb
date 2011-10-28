@@ -39,6 +39,9 @@ class CandidateControlsController < ApplicationController
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Candidate control update failed."
 		render :action => 'edit'
+	rescue ActiveRecord::StatementInvalid => e
+		flash.now[:error] = "Database error.  Check production logs and contact Jake."
+		render :action => 'edit'
 	end
 
 protected
