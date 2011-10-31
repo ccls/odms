@@ -215,7 +215,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_equal Date.today, bcr.sent_on
 			assert !case_study_subject.reload.enrollments.empty?
 			enrollment = case_study_subject.enrollments.first
-			assert_equal Project['phase5'], enrollment.project
+			assert_equal Project['ccls'], enrollment.project
 			assert !enrollment.operational_events.empty?
 			assert_equal 1, enrollment.operational_events.length
 			assert_equal OperationalEventType['bc_request_sent'],

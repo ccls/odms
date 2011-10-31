@@ -181,11 +181,37 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_equal 1, assigns(:study_subjects).length
 		end
 	
-		test "should find study_subjects with dob and #{cu} login" do
-pending	#	TODO
+		test "should find study_subjects with dob as month day year and #{cu} login" do
+			piis = 3.times.collect{|i| Factory(:pii,:dob => Date.today-100+i ) }
 			login_as send(cu)
-			get :find
+			get :find, :dob => piis[1].dob.strftime("%b %m %Y")	#	Dec 1 2000
 			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects with dob as MM/DD/YYYY and #{cu} login" do
+			piis = 3.times.collect{|i| Factory(:pii,:dob => Date.today-100+i ) }
+			login_as send(cu)
+			get :find, :dob => piis[1].dob.strftime("%m/%d/%Y")	#	javascript selector format
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should find study_subjects with dob as YYYY-MM-DD and #{cu} login" do
+			piis = 3.times.collect{|i| Factory(:pii,:dob => Date.today-100+i ) }
+			login_as send(cu)
+			get :find, :dob => piis[1].dob.to_s	#	same as strftime('%Y-%m-%d')
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+		end
+	
+		test "should not find study_subjects with poorly formatted dob and #{cu} login" do
+			piis = 3.times.collect{|i| Factory(:pii,:dob => Date.today-100+i ) }
+			login_as send(cu)
+#			get :find, :dob => 'bad monkey'
+pending #	TODO this will raise error
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
 		end
 	
 		test "should find study_subjects with childid and #{cu} login" do

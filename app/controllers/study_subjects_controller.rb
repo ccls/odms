@@ -29,10 +29,9 @@ class StudySubjectsController < ApplicationController
 			end
 		end
 
-#	TODO date searching may be a challenge
 		if params[:dob] and !params[:dob].blank?
-#			conditions[0] << "( dob LIKE ? )"
-#			conditions[1] << "%#{params[:dob]}%"
+			conditions[0] << "( dob = :dob )"
+			conditions[1][:dob] = params[:dob].to_date	#	ensure correct format. Could raise error if parser fails?
 		end
 
 		if params[:last_name] and !params[:last_name].blank?
