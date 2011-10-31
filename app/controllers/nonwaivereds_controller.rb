@@ -23,7 +23,7 @@ class NonwaiveredsController < ApplicationController
 					'case_control_type' => 'C'
 				},
 				'enrollments_attributes' => {
-					'0' => { "project_id"=> Project['phase5'].id }
+					'0' => { "project_id"=> Project['ccls'].id }
 				},
 				'addressings_attributes' => {
 					'0' => { "current_address"=>"1",

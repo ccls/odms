@@ -15,26 +15,25 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+		test "should create waivered case study_subject enrolled in ccls with #{cu} login" do
+			login_as send(cu)
+			successful_creation
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+			assert_equal [Project['ccls']],
+				assigns(:study_subject).enrollments.collect(&:project)
+		end
+
 		test "should create waivered case study_subject with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => minimum_waivered_form_attributes
-			} } } }
+			successful_creation
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
 		end
 
 		test "should create waivered case study_subject with minimum requirements and #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => minimum_waivered_form_attributes
-			} } } }
+			successful_creation
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
 		end
@@ -81,12 +80,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should create mother on create with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => minimum_waivered_form_attributes
-			} } } }
+			successful_creation
 			assert_not_nil assigns(:study_subject).mother
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
@@ -94,12 +88,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should not assign icf_master_id to mother if none exist on create with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => minimum_waivered_form_attributes
-			} } } }
+			successful_creation
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
 			assert_nil flash[:error]
@@ -109,12 +98,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 		test "should not assign icf_master_id to mother if one exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			assert_difference('Pii.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => minimum_waivered_form_attributes
-			} } } }
+			successful_creation
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
 			assert_nil flash[:error]
@@ -125,12 +109,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456780')
 			Factory(:icf_master_id,:icf_master_id => '123456781')
-			assert_difference('Pii.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => minimum_waivered_form_attributes
-			} } } }
+			successful_creation
 			assert_not_nil assigns(:study_subject).identifier.icf_master_id
 			assert_equal '123456780', assigns(:study_subject).identifier.icf_master_id
 			assert_not_nil assigns(:study_subject).mother.identifier.icf_master_id
@@ -141,12 +120,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 		test "should not assign icf_master_id if none exist on create with #{cu} login" do
 			login_as send(cu)
-			assert_difference('Pii.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => minimum_waivered_form_attributes
-			} } } }
+			successful_creation
 			assert_nil assigns(:study_subject).identifier.icf_master_id
 			assert_not_nil flash[:warn]
 			assert_nil flash[:error]
@@ -156,12 +130,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 		test "should assign icf_master_id if any exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			assert_difference('Pii.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('StudySubject.count',2){
-				post :create, :study_subject => minimum_waivered_form_attributes
-			} } } }
+			successful_creation
 			assert_not_nil assigns(:study_subject).identifier.icf_master_id
 			assert_equal '123456789', assigns(:study_subject).identifier.icf_master_id
 			#	only one icf_master_id so mother will raise warning
@@ -267,6 +236,7 @@ protected
 
 	def minimum_waivered_form_attributes(options={})
 		{
+			"sex"                   => "M", 
 			"pii_attributes"        => Factory.attributes_for(:pii),
 			"identifier_attributes" => { },
 			"patient_attributes"    => Factory.attributes_for(:patient)
@@ -328,6 +298,16 @@ protected
 				"was_ca_resident_at_diagnosis"=>"true"
 			})
 		}.deep_merge(options)
+	end
+
+	def successful_creation
+		assert_difference('Enrollment.count',1){
+		assert_difference('Pii.count',2){
+		assert_difference('Patient.count',1){
+		assert_difference('Identifier.count',2){
+		assert_difference('StudySubject.count',2){
+			post :create, :study_subject => minimum_waivered_form_attributes
+		} } } } }
 	end
 
 end
