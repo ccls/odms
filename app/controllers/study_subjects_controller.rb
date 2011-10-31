@@ -28,12 +28,23 @@ class StudySubjectsController < ApplicationController
 				conditions[1][attr.to_sym] = "%#{params[attr]}%"
 			end
 		end
-
 		if params[:dob] and !params[:dob].blank?
-			conditions[0] << "( dob = :dob )"
-			conditions[1][:dob] = params[:dob].to_date	#	ensure correct format. Could raise error if parser fails?
+			begin
+				#	ensure correct format. Could raise error if parser fails so do first.
+				valid_date = params[:dob].to_date	
+				conditions[1][:dob] = valid_date
+				conditions[0] << "( dob = :dob )"
+			rescue
+#	probably a poorly formatted date.
+#	>> 'asdf'.to_date
+#NoMethodError: undefined method `<' for nil:NilClass
+#	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.14/lib/active_support/whiny_nil.rb:52:in `method_missing'
+#	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/date.rb:621:in `valid_civil?'
+#	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/date.rb:751:in `new'
+#	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.14/lib/active_support/core_ext/string/conversions.rb:19:in `to_date'
+#	from (irb):2
+			end
 		end
-
 		if params[:last_name] and !params[:last_name].blank?
 			conditions[0] << "( last_name LIKE :last_name OR maiden_name LIKE :last_name )"
 			conditions[1][:last_name] = "%#{params[:last_name]}%"

@@ -184,7 +184,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		test "should find study_subjects with dob as month day year and #{cu} login" do
 			piis = 3.times.collect{|i| Factory(:pii,:dob => Date.today-100+i ) }
 			login_as send(cu)
-			get :find, :dob => piis[1].dob.strftime("%b %m %Y")	#	Dec 1 2000
+			get :find, :dob => piis[1].dob.strftime("%b %d %Y")	#	Dec 1 2000
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 		end
@@ -208,10 +208,9 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		test "should not find study_subjects with poorly formatted dob and #{cu} login" do
 			piis = 3.times.collect{|i| Factory(:pii,:dob => Date.today-100+i ) }
 			login_as send(cu)
-#			get :find, :dob => 'bad monkey'
-pending #	TODO this will raise error
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
+			get :find, :dob => 'bad monkey'
+			assert_response :success
+			assert_equal 0, assigns(:study_subjects).length
 		end
 	
 		test "should find study_subjects with childid and #{cu} login" do
