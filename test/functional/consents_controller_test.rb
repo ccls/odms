@@ -27,9 +27,9 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get consents for phase5 enrolled subject with #{cu} login" do
+		test "should get consents for ccls enrolled subject with #{cu} login" do
 			study_subject = Factory(:enrollment,
-				:project => Project['phase5'] ).study_subject
+				:project => Project['ccls'] ).study_subject
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)

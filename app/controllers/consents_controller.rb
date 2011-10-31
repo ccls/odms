@@ -17,7 +17,7 @@ class ConsentsController < ApplicationController
 		@enrollment = Enrollment.find(:first,
 			:conditions => { 
 				:study_subject_id => @study_subject.id,
-				:project_id => Project['phase5'].id 
+				:project_id => Project['ccls'].id 
 			}
 		)
 	end
