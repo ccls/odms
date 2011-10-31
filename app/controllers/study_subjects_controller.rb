@@ -50,8 +50,7 @@ class StudySubjectsController < ApplicationController
 				'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id',
 				'LEFT JOIN identifiers ON study_subjects.id = identifiers.study_subject_id',
 			],
-			:conditions => [ conditions[0].join(operator),
-					conditions[1] ],
+			:conditions => [ conditions[0].join(operator), conditions[1] ],
 			:per_page => params[:per_page]||25,
 			:page     => params[:page]||1
 		)
