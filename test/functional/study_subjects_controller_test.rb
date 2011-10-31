@@ -205,12 +205,12 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_equal 1, assigns(:study_subjects).length
 		end
 	
-		test "should not find study_subjects with poorly formatted dob and #{cu} login" do
+		test "should find study_subjects ignoring poorly formatted dob and #{cu} login" do
 			piis = 3.times.collect{|i| Factory(:pii,:dob => Date.today-100+i ) }
 			login_as send(cu)
 			get :find, :dob => 'bad monkey'
 			assert_response :success
-			assert_equal 0, assigns(:study_subjects).length
+			assert_equal 3, assigns(:study_subjects).length
 		end
 	
 		test "should find study_subjects with childid and #{cu} login" do
