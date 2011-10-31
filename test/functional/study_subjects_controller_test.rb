@@ -344,7 +344,7 @@ pending	#	TODO
 			assert_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 				put :update, :id => study_subject.id, 
 					:study_subject => Factory.attributes_for(:study_subject,
-						:sex => 'something to make the subject change' )
+						:sex => 'DK' )	#	sex is M or F in the Factory so DK will make it change
 			} } } }
 			assert_redirected_to study_subject_path(assigns(:study_subject))
 		end
