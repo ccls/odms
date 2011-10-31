@@ -66,7 +66,7 @@ class NonwaiveredsController < ApplicationController
 			if @study_subject.mother.identifier.icf_master_id.blank?
 				warn << "Mother was not assigned an icf_master_id."
 			end
-			flash[:warn] = warn.join('<br/>\n') unless warn.empty?
+			flash[:warn] = warn.join('<br/>') unless warn.empty?
 		end
 		redirect_to @study_subject
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid

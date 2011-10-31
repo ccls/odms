@@ -20,14 +20,14 @@ class CandidateControlsController < ApplicationController
 		CandidateControl.transaction do
 			if params[:candidate_control][:reject_candidate] == 'false'
 				@candidate.create_study_subjects(@study_subject,'6')	#	'6' is default anyway
-				warn = ''
+				warn = []
 				if @candidate.study_subject.identifier.icf_master_id.blank?
 					warn << "Control was not assigned an icf_master_id."
 				end
 				if @candidate.study_subject.mother.identifier.icf_master_id.blank?
-					warn << "\nMother was not assigned an icf_master_id."
+					warn << "Mother was not assigned an icf_master_id."
 				end
-				flash[:warn] = warn unless warn.blank?
+				flash[:warn] = warn.join('<br/>') unless warn.empty?
 			end
 			# don't do it this way as opens ALL the attrs for change
 			#	@candidate.update_attributes()	
