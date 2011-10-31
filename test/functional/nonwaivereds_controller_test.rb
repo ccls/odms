@@ -17,148 +17,90 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should create nonwaivered case study_subject enrolled in ccls with #{cu} login" do
 			login_as send(cu)
-			successful_creation
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
+			minimal_successful_creation
 			assert_equal [Project['ccls']],
 				assigns(:study_subject).enrollments.collect(&:project)
 		end
 
 		test "should create nonwaivered case study_subject with #{cu} login" do
 			login_as send(cu)
-			successful_creation
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
+			minimal_successful_creation
 		end
 
 		test "should create nonwaivered case study_subject with complete attributes and #{cu} login" do
 			login_as send(cu)
-			assert_difference('StudySubject.count',2){
-#			assert_difference('SubjectRace.count',count){
-			assert_difference('SubjectLanguage.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Pii.count',2){
-			assert_difference('Enrollment.count',1){
-			assert_difference('PhoneNumber.count',1){
-			assert_difference('Addressing.count',1){
-			assert_difference('Address.count',1){
-					post :create, :study_subject => complete_case_study_subject_attributes
-			} } } } } } } } } #}
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
+			full_successful_creation
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
 		test "should create nonwaivered case study_subject with minimum non-waivered attributes and #{cu} login" do
 			login_as send(cu)
-			successful_creation
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
+			minimal_successful_creation
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
 		test "should create nonwaivered case study_subject with non-waivered attributes and #{cu} login" do
 			login_as send(cu)
-			assert_difference('StudySubject.count',2){
-#			assert_difference('SubjectRace.count',count){
-			assert_difference('SubjectLanguage.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Pii.count',2){
-			assert_difference('Enrollment.count',1){
-			assert_difference('PhoneNumber.count',1){
-			assert_difference('Addressing.count',1){
-			assert_difference('Address.count',1){
-				post :create, :study_subject => nonwaivered_form_attributes
-			} } } } } } } } } #}
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
+			nonwaivered_successful_creation()
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
 		test "should create mother on create with #{cu} login" do
 			login_as send(cu)
-			successful_creation
+			minimal_successful_creation
 			assert_not_nil assigns(:study_subject).mother
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
 		end
 
 		test "should not assign icf_master_id to mother if none exist on create with #{cu} login" do
 			login_as send(cu)
-			successful_creation
+			minimal_successful_creation
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
 		end
 
 		test "should not assign icf_master_id to mother if one exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			successful_creation
+			minimal_successful_creation
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
 		end
 
 		test "should assign icf_master_id to mother if two exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456780')
 			Factory(:icf_master_id,:icf_master_id => '123456781')
-			successful_creation
+			minimal_successful_creation
 			assert_not_nil assigns(:study_subject).identifier.icf_master_id
 			assert_equal '123456780', assigns(:study_subject).identifier.icf_master_id
 			assert_not_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_equal '123456781', assigns(:study_subject).mother.identifier.icf_master_id
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
 		end
 
 		test "should not assign icf_master_id if none exist on create with #{cu} login" do
 			login_as send(cu)
-			successful_creation
+			minimal_successful_creation
 			assert_nil assigns(:study_subject).identifier.icf_master_id
 			assert_not_nil flash[:warn]
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
 		end
 
 		test "should assign icf_master_id if any exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			successful_creation
+			minimal_successful_creation
 			assert_not_nil assigns(:study_subject).identifier.icf_master_id
 			assert_equal '123456789', assigns(:study_subject).identifier.icf_master_id
 			#	only one icf_master_id so mother will raise warning
 			assert_not_nil flash[:warn]	
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
 		end
 
 		test "should set consented to 1 if consented_on not blank and #{cu} login" do
 			login_as send(cu)
-			assert_difference('StudySubject.count',2){
-#			assert_difference('SubjectRace.count',count){
-			assert_difference('SubjectLanguage.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Pii.count',2){
-			assert_difference('Enrollment.count',1){
-			assert_difference('PhoneNumber.count',1){
-			assert_difference('Addressing.count',1){
-			assert_difference('Address.count',1){
-				post :create, :study_subject => nonwaivered_form_attributes({
-					"enrollments_attributes"=>{ "0"=>{ "consented_on"=> Date.today } }
-				})
-			} } } } } } } } } #}
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
+			nonwaivered_successful_creation({
+				"enrollments_attributes"=>{ "0"=>{ "consented_on"=> Date.today } } })
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal  0 , assigns(:study_subject).identifier.orderno
 			assert_equal  1 , assigns(:study_subject).enrollments.first.consented
@@ -166,22 +108,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should copy addressing address county to patient county with #{cu} login" do
 			login_as send(cu)
-			assert_difference('StudySubject.count',2){
-#			assert_difference('SubjectRace.count',count){
-			assert_difference('SubjectLanguage.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Pii.count',2){
-			assert_difference('Enrollment.count',1){
-			assert_difference('PhoneNumber.count',1){
-			assert_difference('Addressing.count',1){
-			assert_difference('Address.count',1){
-				post :create, :study_subject => nonwaivered_form_attributes({
-					"addressings_attributes"=>{ "0"=>{ "address_attributes"=> { :county => 'Alameda' } } }
-				})
-			} } } } } } } } } #}
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
+			nonwaivered_successful_creation({
+				"addressings_attributes"=>{ "0"=>{ "address_attributes"=> { :county => 'Alameda' } } } })
 			assert_equal         1, assigns(:study_subject).addresses.length
 			assert_equal 'Alameda', assigns(:study_subject).addresses.first.county
 			assert_equal 'Alameda', assigns(:study_subject).reload.patient.raf_county
@@ -189,22 +117,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should copy addressing address zip to patient zip with #{cu} login" do
 			login_as send(cu)
-			assert_difference('StudySubject.count',2){
-#			assert_difference('SubjectRace.count',count){
-			assert_difference('SubjectLanguage.count',1){
-			assert_difference('Identifier.count',2){
-			assert_difference('Patient.count',1){
-			assert_difference('Pii.count',2){
-			assert_difference('Enrollment.count',1){
-			assert_difference('PhoneNumber.count',1){
-			assert_difference('Addressing.count',1){
-			assert_difference('Address.count',1){
-				post :create, :study_subject => nonwaivered_form_attributes({
+			nonwaivered_successful_creation({
 					"addressings_attributes"=>{ "0"=>{ "address_attributes"=> { :zip => '54321' } } }
 				})
-			} } } } } } } } } #}
-			assert_nil flash[:error]
-			assert_redirected_to assigns(:study_subject)
 			assert_equal       1, assigns(:study_subject).addresses.length
 			assert_equal '54321', assigns(:study_subject).addresses.first.zip
 			assert_equal '54321', assigns(:study_subject).reload.patient.raf_zip
@@ -363,7 +278,7 @@ protected
 		}.deep_merge(options)
 	end
 
-	def successful_creation
+	def minimal_successful_creation
 		assert_difference('Enrollment.count',1){
 		assert_difference('Pii.count',2){
 		assert_difference('Patient.count',1){
@@ -371,6 +286,42 @@ protected
 		assert_difference('StudySubject.count',2){
 			post :create, :study_subject => minimum_nonwaivered_form_attributes
 		} } } } }
+		assert_nil flash[:error]
+		assert_redirected_to assigns(:study_subject)
+	end
+
+	def full_successful_creation
+		assert_difference('StudySubject.count',2){
+#		assert_difference('SubjectRace.count',count){
+		assert_difference('SubjectLanguage.count',1){
+		assert_difference('Identifier.count',2){
+		assert_difference('Patient.count',1){
+		assert_difference('Pii.count',2){
+		assert_difference('Enrollment.count',1){
+		assert_difference('PhoneNumber.count',1){
+		assert_difference('Addressing.count',1){
+		assert_difference('Address.count',1){
+				post :create, :study_subject => complete_case_study_subject_attributes
+		} } } } } } } } } #}
+		assert_nil flash[:error]
+		assert_redirected_to assigns(:study_subject)
+	end
+
+	def nonwaivered_successful_creation(options={})
+		assert_difference('StudySubject.count',2){
+#		assert_difference('SubjectRace.count',count){
+		assert_difference('SubjectLanguage.count',1){
+		assert_difference('Identifier.count',2){
+		assert_difference('Patient.count',1){
+		assert_difference('Pii.count',2){
+		assert_difference('Enrollment.count',1){
+		assert_difference('PhoneNumber.count',1){
+		assert_difference('Addressing.count',1){
+		assert_difference('Address.count',1){
+			post :create, :study_subject => nonwaivered_form_attributes(options)
+		} } } } } } } } } #}
+		assert_nil flash[:error]
+		assert_redirected_to assigns(:study_subject)
 	end
 
 end
