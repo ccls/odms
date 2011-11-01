@@ -16,9 +16,9 @@ class CasesController < ApplicationController
 	end
 
 	def show
-		@control_subjects  = @study_subject.controls
+#		@control_subjects  = @study_subject.controls
 		@matching_subjects = @study_subject.matching
-		@family_subjects   = @study_subject.family
+#		@family_subjects   = @study_subject.family
 		@rejected_controls = @study_subject.rejected_controls
 	end
 

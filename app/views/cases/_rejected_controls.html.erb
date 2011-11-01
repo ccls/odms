@@ -1,0 +1,17 @@
+<h4>Rejected Controls</h4>
+<% if @rejected_controls.empty? %>
+ <p>No matching rejected controls found.</p>
+<% else %>
+ <table><thead><tr>
+  <th>Name</th><th>Sex</th><th>DOB</th><th>Comments (Reason for Rejection)</th>
+ </tr></thead><tbody>
+  <% @rejected_controls.each do |control| %><%# these are CandidateControls NOT StudySubjects %>
+   <tr>
+    <td><%= control.full_name %></td>
+    <td><%= control.sex %></td>
+    <td><%=mdy control.dob %></td>
+    <td><%= control.rejection_reason %></td>
+   </tr>
+  <% end %>
+ </tbody></table>
+<% end %>

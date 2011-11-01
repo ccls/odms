@@ -1,0 +1,19 @@
+<!--
+<h4>Matching</h4>
+-->
+<% if @matching_subjects.empty? %>
+ <p>No matching study_subjects found.</p>
+<% else %>
+ <table><thead><tr>
+  <th>StudyID</th><th>Name</th><th>Subject Type</th><th>DOB</th>
+ </tr></thead><tbody>
+  <% @matching_subjects.each do |subject| %>
+   <tr>
+    <td><%= link_to(subject.studyid,study_subject_path(subject)) %></td>
+    <td><%= subject.full_name %></td>
+    <td><%= subject.subject_type %></td>
+    <td><%=mdy subject.dob %></td>
+   </tr>
+  <% end %>
+ </tbody></table>
+<% end %>

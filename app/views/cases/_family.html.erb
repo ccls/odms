@@ -1,0 +1,17 @@
+<h4>Family</h4>
+<% if @family_subjects.empty? %>
+ <p>No matching family study_subjects found.</p>
+<% else %>
+ <table><thead><tr>
+  <th>studyid</th><th>name</th><th>subject type</th><th>dob</th>
+ </tr></thead><tbody>
+  <% @family_subjects.each do |subject| %>
+   <tr>
+    <td><%= link_to(subject.studyid,study_subject_path(subject)) %></td>
+    <td><%= subject.full_name %></td>
+    <td><%= subject.subject_type %></td>
+    <td><%=mdy subject.dob %></td>
+   </tr>
+  <% end %>
+ </tbody></table>
+<% end %>
