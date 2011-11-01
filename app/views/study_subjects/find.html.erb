@@ -3,7 +3,8 @@
 <% form_tag(find_study_subjects_path, :method => :get ) do %>
 
 <p>Results must match 
-<%= select_tag 'operator', options_for_select(['OR','AND'], params[:operator] ) %>
+<%= select_tag 'operator', options_for_select(
+	[['ANY','OR'],['ALL','AND']], params[:operator] ) %>
  of the following: 
 <%= submit_tag "Find", :id => nil, :name => nil  %>
 <%= submit_link_to "Find"  %>
