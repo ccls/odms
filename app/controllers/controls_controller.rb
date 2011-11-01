@@ -15,7 +15,7 @@ class ControlsController < ApplicationController
 #
 
 		candidate = CandidateControl.find(:first,
-#			:order => :some_kind_of_random,
+			:order => 'RAND()',	#	mysql specific
 			:conditions => [
 				"related_patid = ? AND reject_candidate = false AND assigned_on IS NULL AND study_subject_id IS NULL",
 				@study_subject.patid ]
