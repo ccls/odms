@@ -307,6 +307,94 @@ class StudySubjectsControllerTest < ActionController::TestCase
 
 
 
+######################################################################
+#
+#	BEGIN order tests
+#
+		%w( childid studyid ).each do |attr|
+
+			test "should find study_subjects and order by #{attr} with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:identifier, attr => "12345#{i}" 
+					).study_subject }
+				login_as send(cu)
+				get :find, :order => attr
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+	
+			test "should find study_subjects and order by #{attr} dir asc with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:identifier, attr => "12345#{i}" 
+					).study_subject }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'asc'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+	
+			test "should find study_subjects and order by #{attr} dir desc with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:identifier, attr => "12345#{i}" 
+					).study_subject }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'desc'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects).reverse
+			end
+	
+			test "should find study_subjects and order by #{attr} invalid dir with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:identifier, attr => "12345#{i}" 
+					).study_subject }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'invalid'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+
+		end
+
+		%w( first_name last_name ).each do |attr|
+
+			test "should find study_subjects and order by #{attr} with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:pii, attr => "John#{i}" 
+					).study_subject }
+				login_as send(cu)
+				get :find, :order => attr
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+	
+			test "should find study_subjects and order by #{attr} dir asc with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:pii, attr => "John#{i}" 
+					).study_subject }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'asc'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+	
+			test "should find study_subjects and order by #{attr} dir desc with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:pii, attr => "John#{i}" 
+					).study_subject }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'desc'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects).reverse
+			end
+	
+			test "should find study_subjects and order by #{attr} invalid dir with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:pii, attr => "John#{i}" 
+					).study_subject }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'invalid'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+
+		end
+#
+#	END order tests
+#
+######################################################################
+
 
 		test "should get study_subjects followup with #{cu} login" do
 			login_as send(cu)

@@ -54,6 +54,7 @@ class StudySubjectsController < ApplicationController
 			conditions[1][:registrar_no] = "%#{params[:registrar_no]}%"
 		end
 		@study_subjects = StudySubject.paginate(
+			:order   => search_order,
 			:include => [:pii,:patient,:identifier],
 			:joins => [
 				'LEFT JOIN piis ON study_subjects.id = piis.study_subject_id',
@@ -119,6 +120,20 @@ protected
 			@study_subject = StudySubject.find(params[:id])
 		else
 			access_denied("Valid study_subject id required!", study_subjects_path)
+		end
+	end
+
+	def search_order
+		if params[:order] and
+				%w( childid studyid last_name first_name ).include?(params[:order].downcase)
+			order_string = params[:order]
+			dir = case params[:dir].try(:downcase)
+				when 'desc' then 'desc'
+				else 'asc'
+			end
+			[order_string,dir].join(' ')
+		else
+			nil
 		end
 	end
 
