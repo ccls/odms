@@ -6,14 +6,16 @@ class CandidateControlsController < ApplicationController
 	before_filter :unused_candidate_control_required
 
 	def edit
-
-
-#	TODO add potential check for reasons to reject control
-#		if any found ...
-#		@candidate.reject_candidate = true
-#		@candidate.rejection_reason = "the reason why we think the control should be rejected."
-
-
+		reasons = []
+		if @study_subject.dob != @candidate.dob
+			@candidate.reject_candidate = true
+			reasons << "DOB does not match."
+		end
+		if @study_subject.sex != @candidate.sex
+			@candidate.reject_candidate = true
+			reasons << "Sex does not match."
+		end
+		@candidate.rejection_reason = reasons.join("\n") unless reasons.empty?
 	end
 
 	def update

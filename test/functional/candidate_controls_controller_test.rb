@@ -17,11 +17,66 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should get edit with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_case_identifier.study_subject
-			candidate = create_candidate_control(:related_patid => case_study_subject.reload.patid)
-			get :edit, :id => candidate.id
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'edit'
+			candidate = create_candidate_control(
+				:related_patid => case_study_subject.reload.patid)
+			assert_successful_edit(candidate)
+		end
+
+		test "should get edit with #{cu} login and preselect accept if matches sex and dob" do
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			dob = Date.today-1000
+			Factory(:pii, :study_subject => case_study_subject, :dob => dob)
+			candidate = create_candidate_control(
+				:sex => case_study_subject.sex,
+				:dob => dob,
+				:related_patid => case_study_subject.reload.patid)
+			assert_successful_edit(candidate)
+			assert_select "input#candidate_control_reject_candidate_false", 1 do
+				assert_select '[value=false]'
+				assert_select "[checked=checked]"
+			end
+			assert_select "input#candidate_control_reject_candidate_true", 1 do
+				assert_select '[value=true]'
+			end
+		end
+
+		test "should get edit with #{cu} login and preselect reject if mismatched dob" do
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			dob = Date.today-1000
+			Factory(:pii, :study_subject => case_study_subject, :dob => dob)
+			candidate = create_candidate_control(
+				:sex => case_study_subject.sex,
+				:dob => dob-1,
+				:related_patid => case_study_subject.reload.patid)
+			assert_successful_edit(candidate)
+			assert_select "input#candidate_control_reject_candidate_false", 1 do
+				assert_select '[value=false]'
+			end
+			assert_select "input#candidate_control_reject_candidate_true", 1 do
+				assert_select '[value=true]'
+				assert_select "[checked=checked]"
+			end
+		end
+
+		test "should get edit with #{cu} login and preselect reject if mismatched sex" do
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			dob = Date.today-1000
+			Factory(:pii, :study_subject => case_study_subject, :dob => dob)
+			candidate = create_candidate_control(
+				:sex => (%w( M F ) - [case_study_subject.sex])[0],	#	the other sex
+				:dob => dob,
+				:related_patid => case_study_subject.reload.patid)
+			assert_successful_edit(candidate)
+			assert_select "input#candidate_control_reject_candidate_false", 1 do
+				assert_select '[value=false]'
+			end
+			assert_select "input#candidate_control_reject_candidate_true", 1 do
+				assert_select '[value=true]'
+				assert_select "[checked=checked]"
+			end
 		end
 
 		test "should NOT get edit with #{cu} login and invalid id" do
@@ -388,6 +443,13 @@ protected
 			put :update, :id => candidate.id, :candidate_control => options
 		} }
 		assert_not_nil flash[:error]
+	end
+
+	def assert_successful_edit(candidate)
+		get :edit, :id => candidate.id
+		assert_nil flash[:error]
+		assert_response :success
+		assert_template 'edit'
 	end
 
 end
