@@ -19,9 +19,15 @@
 <% end %>
 
 <% @study_subject.phone_numbers.build while( @study_subject.phone_numbers.length < 2 ) %>
-<% f.fields_for :phone_numbers do |phone_number_fields| %>
+<% f.fields_for :phone_numbers, 
+	@study_subject.phone_numbers[0] do |phone_number_fields| %>
  <%= phone_number_fields.wrapped_text_field :phone_number,
    :label_text => 'phone number:' %>
-<% end %>
+<% end -%>
+<% f.fields_for :phone_numbers, 
+	@study_subject.phone_numbers[1] do |phone_number_fields| %>
+ <%= phone_number_fields.wrapped_text_field :phone_number,
+   :label_text => 'alternate phone:' %>
+<% end -%>
 
 </div><!-- class='current_address' -->
