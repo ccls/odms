@@ -3,6 +3,10 @@
 	padding: 10px;
 	position:relative;
 }
+#id_bar .icf_master_id {
+	display:inline;
+	padding-right: 10px;
+}
 #id_bar .childid {
 	display:inline;
 	padding-right: 10px;

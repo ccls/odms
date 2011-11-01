@@ -174,4 +174,40 @@ module ApplicationHelper
 		s << "</div>"
 	end
 
+	#	Overrides the method of the same name in ccls_engine
+	#	Used to replace the _id_bar partial
+	def subject_id_bar(study_subject,&block)
+		stylesheets('study_subject_id_bar')
+		content_for :main do
+			"<div id='id_bar'>\n" <<
+#			"<div class='childid'>\n" <<
+#			"<span>ChildID:</span>\n" <<
+#			"<span>#{study_subject.try(:childid)}</span>\n" <<
+#			"</div><!-- class='childid' -->\n" <<
+			"<div class='icf_master_id'>\n" <<
+			"<span>ICFMasterID:</span>\n" <<
+			"<span>#{study_subject.try(:icf_master_id)}</span>\n" <<
+			"</div><!-- class='icf_master_id' -->\n" <<
+			"<div class='studyid'>\n" <<
+			"<span>StudyID:</span>\n" <<
+			"<span>#{study_subject.try(:studyid)}</span>\n" <<
+			"</div><!-- class='studyid' -->\n" <<
+			"<div class='full_name'>\n" <<
+			"<span>#{study_subject.full_name}</span>\n" <<
+			"</div><!-- class='full_name' -->\n" <<
+			"<div class='controls'>\n" <<
+			@content_for_id_bar.to_s <<
+			((block_given?)?yield: '') <<
+			"</div><!-- class='controls' -->\n" <<
+			"</div><!-- id='id_bar' -->\n"
+		end
+
+		content_for :main do
+			"<div id='do_not_contact'>\n" <<
+			"Study Subject requests no further contact with Study.\n" <<
+			"</div>\n" 
+		end if study_subject.try(:do_not_contact?)
+	end	#	id_bar_for
+	alias_method :study_subject_id_bar, :subject_id_bar
+
 end
