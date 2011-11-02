@@ -1,15 +1,12 @@
-<div class='contact_status columns'>
-<div class='column'>
-<p>Contact Status:</p>
-</div><!-- class='column' -->
-<div class='column'>
-<p class='do_not_contact'>
-<%= (@study_subject.do_not_contact?)? "Do Not Contact Subject" : "OK to Contact" -%>
-</p>
-</div><!-- class='column' -->
-</div><!-- class='contact_status columns' -->
-
 <div class='personal'>
+<p class='do_not_contact'>
+<span>Contact Status:</span>
+<span><%= (@study_subject.do_not_contact?)? "Do Not Contact Subject" : "OK to Contact" -%></span>
+</p>
+<p class='childid'>
+<%= wrapped_spans :study_subject, :childid,
+	:label_text => 'Child ID:' %>
+</p>
 <h3>Basic Info</h3>
 <p class='full_name'>
 <%= wrapped_spans :study_subject, :full_name,

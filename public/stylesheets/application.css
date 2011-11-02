@@ -259,6 +259,7 @@ form.edit_sample .location_id.field_wrapper label {
 
 ***********************************************************************/
 
+form.edit_study_subject .field_wrapper span.label,
 form.edit_study_subject .field_wrapper label {
 	width: 160px;
 }
