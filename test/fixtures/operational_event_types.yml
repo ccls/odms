@@ -1,3 +1,8 @@
+#
+#	Do not change id, key or code
+#		'id' could be referenced by existing data
+#		'key' or 'code' is used in the rails code for searching 
+#
 intro:
   id: 1
   code: intro
@@ -98,3 +103,13 @@ DuplicateCase:
   code: DuplicateCase
   event_category:  ascertainment
   description: A new RAF was sent for an existing patient
+newSubject:
+  id: 21
+  code: NewSubject
+  event_category: ascertainment
+  description:  New subject created by CCLS
+subjectDied:
+  id: 22
+  code:  subjectDied
+  event_category: operations
+  description:  Subject has been reported as deceased.
