@@ -11,7 +11,7 @@
 <h3>Section 1: Preliminary Information
 <span><span class='required'>*</span>required fields</span>
 </h3>
-<%= render :partial => 'study_subjects/prelim_form', :locals => {:f=>f} %>
+<%= render :partial => 'raf/prelim_form', :locals => {:f=>f} %>
 <%= render :partial => 'prelim_addition', :locals => {:f=>f} %>
 <h3>Section 2: Eligibility Criteria</h3>
 <%= render :partial => 'eligibility_form', :locals => {:f=>f} %>
@@ -19,7 +19,7 @@
 <%= render :partial => 'consent_form', :locals => {:f=>f} %>
 <h3>Section 4: Child and Parent Information</h3>
 <%= render :partial => 'study_subjects/child_parent_form', :locals => {:f=>f} %>
-<%= render :partial => 'study_subjects/current_address_form', :locals => {:f=>f} %>
+<%= render :partial => 'raf/current_address_form', :locals => {:f=>f} %>
 
 <p class='submit_bar'><%= f.submit_link_to 'Submit' %></p>
 <% end %>

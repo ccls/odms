@@ -1,4 +1,9 @@
 /*
+
+	I think that I need to put this back!
+
+*/
+/*
 var initial_diagnosis_date;
 function diagnosis_date(){
 	return jQuery('#patient_diagnosis_date').val();
@@ -20,6 +25,7 @@ jQuery(function(){
 
 });
 */
+
 var initial_admit_date;
 function admit_date(){
 	return jQuery('#patient_admit_date').val();
@@ -39,4 +45,22 @@ jQuery(function(){
 		}
 	});
 
+	jQuery('#patient_diagnosis_id').change(function(){
+		toggle_specify_other_diagnosis( $(this).val() );
+	});
+
+	toggle_specify_other_diagnosis( 
+		$('#patient_diagnosis_id').val() );
+
 });
+
+toggle_specify_other_diagnosis = function(diagnosis) {
+
+	/* 3 is the id for Diagnosis['other'] */
+
+	if( diagnosis == 3 ){	
+		$('form.edit_patient div.other_diagnosis').show()
+	} else {
+		$('form.edit_patient div.other_diagnosis').hide()
+	}
+}

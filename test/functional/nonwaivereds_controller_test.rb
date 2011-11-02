@@ -272,7 +272,7 @@ protected
 				"was_previously_treated"=>"false", 
 				"admitting_oncologist"=>"", 
 				"was_under_15_at_dx"=>"true", 
-				"diagnosis_id"=>"", 
+#				"diagnosis_id"=>"", 
 				"was_ca_resident_at_diagnosis"=>"true"
 			})
 		}.deep_merge(options)
