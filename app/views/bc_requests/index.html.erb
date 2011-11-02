@@ -22,7 +22,7 @@
  <% study_subject = StudySubject.find(bc_request.study_subject_id) %>
  <tr class='row'>
   <td><%= link_to study_subject.studyid, study_subject %></td>
-  <td><%= study_subject.identifier.icf_master_id_or_notice %></td>
+  <td><%= study_subject.icf_master_id_or_notice %></td>
   <td><%= study_subject.initials %></td>
   <td><%=mdy bc_request.sent_on %></td>
   <td><%= bc_request.status %></td>
