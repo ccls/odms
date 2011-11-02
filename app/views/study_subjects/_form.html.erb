@@ -9,10 +9,8 @@
 <%= f.label :do_not_contact, "do not contact subject?" %>
 </div><!-- class='do_not_contact' -->
 
-<p class='childid'>
 <%= wrapped_spans :study_subject, :childid,
 	:label_text => 'Child ID:' %>
-</p>
 
 <h3>Basic Info</h3>
 <% @study_subject.build_pii if @study_subject.pii.nil? %>
