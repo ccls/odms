@@ -186,11 +186,13 @@ module ApplicationHelper
 #			"</div><!-- class='childid' -->\n" <<
 			"<div class='icf_master_id'>\n" <<
 			"<span>ICFMasterID:</span>\n" <<
-			"<span>#{study_subject.try(:icf_master_id)}</span>\n" <<
+#			"<span>#{study_subject.try(:icf_master_id)}</span>\n" <<
+			"<span>#{study_subject.icf_master_id_or_notice}</span>\n" <<
 			"</div><!-- class='icf_master_id' -->\n" <<
 			"<div class='studyid'>\n" <<
 			"<span>StudyID:</span>\n" <<
-			"<span>#{study_subject.try(:studyid)}</span>\n" <<
+#			"<span>#{study_subject.try(:studyid)}</span>\n" <<
+			"<span>#{study_subject.studyid}</span>\n" <<
 			"</div><!-- class='studyid' -->\n" <<
 			"<div class='full_name'>\n" <<
 			"<span>#{study_subject.full_name}</span>\n" <<
