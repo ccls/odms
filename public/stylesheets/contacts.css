@@ -58,6 +58,7 @@
 
 .addressing .line_1,
 .addressing .line_2,
+.addressing .unit,
 .addressing .county,
 .addressing .csv {
 	display:block;

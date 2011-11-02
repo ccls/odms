@@ -19,6 +19,7 @@ jQuery(function(){
 <% f.fields_for :address do |address_field| %>
 <%= address_field.wrapped_text_field :line_1 %>
 <%= address_field.wrapped_text_field :line_2 %>
+<%= address_field.wrapped_text_field :unit %>
 <div class='field_wrapper'>
 <%= address_field.label :city, 'City, State Zip' %>
 <%= address_field.text_field :city %>
