@@ -1,8 +1,11 @@
+<h4>New Control Selection</h4>
+
 <% form_tag(cases_path,:method => :get) do %>
-<p><span>Enter the PatID of the related case study_subject:</span>
+<p><span>PatID:</span>
 <%= text_field_tag :patid, params[:patid], :id => nil  %>
 <%= submit_tag 'find', :name => nil %>
 </p>
+<p>Enter the case's PatID to go to their Related Subjects screen. Once there, add controls by pressing the "Add Control" button.</p>
 <div><span>Try one of ...</span>
 <%= StudySubject.search(:types => 'case').collect(&:patid).sort.collect{|p| link_to(p, cases_path(:patid => p)) }.join(', ') %></div>
 <% end %>
