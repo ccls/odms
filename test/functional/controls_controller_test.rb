@@ -2,24 +2,7 @@ require 'test_helper'
 
 class ControlsControllerTest < ActionController::TestCase
 
-#	ASSERT_ACCESS_OPTIONS = { 
-##		:actions => [:new,:show],
-#		:actions => [:new],
-#		:method_for_create => :create_case_control_study_subject
-#	}
-#
-#	assert_access_with_login({    :logins => site_editors })
-#	assert_no_access_with_login({ :logins => non_site_editors })
-#	assert_no_access_without_login
-#	assert_access_with_https
-#	assert_no_access_with_http
-
-
-#	controls is now a nested route 
-#	/case/:case_id/controls	<- really.  what for?
-#	/case/:case_id/controls/new
-#	/case/:case_id/controls/(create)
-
+	#	Too complex for common assertions
 
 	site_editors.each do |cu|
 
@@ -54,17 +37,6 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to cases_path
 		end
-
-
-#		test "should create new control with #{cu} login" do
-#			login_as send(cu)
-#			case_study_subject = create_case_study_subject
-#			post :create, :case_id => case_study_subject.id
-#			assert_nil flash[:error]
-#			assert_redirected_to case_path(case_study_subject)
-##	doesn't do anything, just a placeholder for now
-#pending
-#		end
 
 	end
 

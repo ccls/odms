@@ -37,10 +37,8 @@ class AddressingsControllerTest < ActionController::TestCase
 		}
 	end
 
-	assert_access_with_login({ 
-		:logins => site_editors })
-	assert_no_access_with_login({ 
-		:logins => non_site_editors })
+	assert_access_with_login({    :logins => site_editors })
+	assert_no_access_with_login({ :logins => non_site_editors })
 	assert_no_access_without_login
 
 	#	destroy is TEMPORARY
@@ -194,36 +192,6 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 		end
 
-#	TODO duplicate?
-		test "should edit addressing with #{cu} login" do
-			addressing = create_addressing
-			login_as send(cu)
-			get :edit, :id => addressing.id
-			assert assigns(:addressing)
-			assert_response :success
-			assert_template 'edit'
-		end
-
-#	TODO duplicate?
-		test "should NOT edit addressing with invalid id and #{cu} login" do
-			addressing = create_addressing
-			login_as send(cu)
-			get :edit, :id => 0
-			assert_redirected_to study_subjects_path
-		end
-
-#	TODO duplicate?
-		test "should update addressing with #{cu} login" do
-			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-			login_as send(cu)
-			assert_changes("Addressing.find(#{addressing.id}).updated_at") {
-				put :update, :id => addressing.id,
-					:addressing => factory_attributes
-			}
-			assert assigns(:addressing)
-			assert_redirected_to study_subject_contacts_path(addressing.study_subject)
-		end
-
 		test "should set verified_on on update if is_verified " <<
 				"with #{cu} login" do
 			addressing = create_addressing
@@ -251,33 +219,6 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_equal assigns(:addressing).verified_by_uid, u.uid
 		end
 
-#	TODO duplicate?
-		test "should NOT update addressing with invalid id and #{cu} login" do
-			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-			login_as send(cu)
-			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-				put :update, :id => 0,
-					:addressing => factory_attributes
-			}
-			assert_redirected_to study_subjects_path
-		end
-
-#	TODO duplicate?
-		test "should NOT update addressing with #{cu} login " <<
-				"when addressing update fails" do
-			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-			Addressing.any_instance.stubs(:create_or_update).returns(false)
-			login_as send(cu)
-			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-				put :update, :id => addressing.id,
-					:addressing => factory_attributes
-			}
-			assert assigns(:addressing)
-			assert_response :success
-			assert_template 'edit'
-			assert_not_nil flash[:error]
-		end
-
 		test "should NOT update addressing with #{cu} login " <<
 				"when address update fails" do
 			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
@@ -286,22 +227,6 @@ class AddressingsControllerTest < ActionController::TestCase
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
 				put :update, :id => addressing.id,
 					:addressing => factory_attributes(address_attributes)
-			}
-			assert assigns(:addressing)
-			assert_response :success
-			assert_template 'edit'
-			assert_not_nil flash[:error]
-		end
-
-#	TODO duplicate?
-		test "should NOT update addressing with #{cu} login " <<
-				"and invalid addressing" do
-			addressing = create_addressing(:updated_at => Chronic.parse('yesterday'))
-			Addressing.any_instance.stubs(:valid?).returns(false)
-			login_as send(cu)
-			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-				put :update, :id => addressing.id,
-					:addressing => factory_attributes
 			}
 			assert assigns(:addressing)
 			assert_response :success
@@ -363,7 +288,6 @@ class AddressingsControllerTest < ActionController::TestCase
 	end
 
 protected
-
 
 	def addressing_with_address(options={})
 		Factory.attributes_for(:addressing, {
