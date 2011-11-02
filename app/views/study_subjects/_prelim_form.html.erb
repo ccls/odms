@@ -62,8 +62,16 @@
 	:label_text => "#{req('*')}&nbsp;sex:" %>
 
 <% f.fields_for :patient do |patient_fields| %>
+<div>
+<%# wrapping in div unmucks alignment, but still needs to be better %>
 	<%= patient_fields.wrapped_collection_select :diagnosis_id,
 		Diagnosis.all, :id, :to_s, :include_blank => true %>
+
+<%# TODO mucks up alignment %>
+	<%= patient_fields.wrapped_text_field :other_diagnosis,
+		:label_text => 'specify other:' %>
+
+</div>
 <% end %>
 </div><!-- class='tablerow' -->
 
