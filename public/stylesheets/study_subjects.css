@@ -25,3 +25,20 @@ form#study_subject_search input[type='submit']{
 span.arrow {
 	padding-left:0.5ex;
 }
+
+form#find_study_subjects div.table {
+	clear:both;
+	/* this holds the table-row open, otherwise shrinks to whatever */
+	display:table;
+	width:100%;
+}
+form#find_study_subjects div.table div.tablerow {
+	display:table-row;
+}
+form#find_study_subjects div.table div.tablerow > div {
+	display:table-cell;
+	padding: 5px;
+}
+form#find_study_subjects div.table div.tablerow > div input[type='text'] {
+	width: 100px;
+}

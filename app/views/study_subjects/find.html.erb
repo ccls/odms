@@ -1,6 +1,6 @@
 <%= control_bar() %>
 
-<% form_tag(find_study_subjects_path, :method => :get ) do %>
+<% form_tag(find_study_subjects_path, :method => :get, :id => 'find_study_subjects' ) do %>
 
 <p>Results must match 
 <%= select_tag 'operator', options_for_select(
@@ -15,26 +15,32 @@
 	but are really unnecessary for text_fields.
 
 %>
-<p><label for='first_name'>first name:</label>
-  <%= text_field_tag :first_name, params[:first_name] %></p>
-<p><label for='last_name'>last name:</label>
-  <%= text_field_tag :last_name, params[:last_name] %>
-  (search last_name and maiden_name)</p>
-<p><label for='dob'>date of birth:</label>
-  <%= text_field_tag :dob, params[:dob],:class => 'datepicker' %>(exact)</p>
+<div class='table'>
+<div class='tablerow'>
+<div><label for='first_name'>first name:</label>
+  <%= text_field_tag :first_name, params[:first_name] %></div>
+<div><label for='last_name'>last name:</label>
+  <%= text_field_tag :last_name, params[:last_name] %></div>
+<div><label for='dob'>date of birth (exact):</label>
+  <%= text_field_tag :dob, params[:dob],:class => 'datepicker' %></div>
+</div><!-- tablerow -->
 
-<p><label for='childid'>child id:</label>
-  <%= text_field_tag :childid, params[:childid] %></p>
-<p><label for='icf_master_id'>ICF master id:</label>
-  <%= text_field_tag :icf_master_id, params[:icf_master_id] %></p>
-<p><label for='patid'>pat id:</label>
-  <%= text_field_tag :patid, params[:patid] %></p>
+<div class='tablerow'>
+<div><label for='childid'>child id:</label>
+  <%= text_field_tag :childid, params[:childid] %></div>
+<div><label for='icf_master_id'>ICF master id:</label>
+  <%= text_field_tag :icf_master_id, params[:icf_master_id] %></div>
+<div><label for='patid'>pat id:</label>
+  <%= text_field_tag :patid, params[:patid] %></div>
+</div><!-- tablerow -->
 
-<p><label for='hospital_no'>hospital no:</label>
-  <%= text_field_tag :hospital_no, params[:hospital_no] %></p>
-<p><label for='registrar_no'>state/local registrar no:</label>
-  <%= text_field_tag :registrar_no, params[:registrar_no] %>
-  (search state_id_no, state_registrar_no and local_registrar_no)</p>
+<div class='tablerow'>
+<div><label for='hospital_no'>hospital no:</label>
+  <%= text_field_tag :hospital_no, params[:hospital_no] %></div>
+<div><label for='registrar_no'>state/local registrar no:</label>
+  <%= text_field_tag :registrar_no, params[:registrar_no] %></div>
+</div><!-- tablerow -->
+</div><!-- table -->
 <% end %>
 
 <% stylesheets('study_subjects') %>
