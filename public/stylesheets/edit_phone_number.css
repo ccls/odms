@@ -5,3 +5,14 @@
 .dev_only span {
 	float:left;
 }
+
+
+form.edit_phone_number .why_invalid,
+form.edit_phone_number .how_verified {
+	margin-left: 150px;
+}
+form.edit_phone_number .why_invalid label,
+form.edit_phone_number .how_verified label{
+	width: 50px;
+}
+
