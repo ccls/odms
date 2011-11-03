@@ -22,12 +22,14 @@
   (search last_name and maiden_name)</p>
 <p><label for='dob'>date of birth:</label>
   <%= text_field_tag :dob, params[:dob],:class => 'datepicker' %>(exact)</p>
+
 <p><label for='childid'>child id:</label>
   <%= text_field_tag :childid, params[:childid] %></p>
 <p><label for='icf_master_id'>ICF master id:</label>
   <%= text_field_tag :icf_master_id, params[:icf_master_id] %></p>
 <p><label for='patid'>pat id:</label>
   <%= text_field_tag :patid, params[:patid] %></p>
+
 <p><label for='hospital_no'>hospital no:</label>
   <%= text_field_tag :hospital_no, params[:hospital_no] %></p>
 <p><label for='registrar_no'>state/local registrar no:</label>
@@ -39,10 +41,10 @@
 
 <% if @study_subjects.length > 0 %>
 <table id='study_subjects'><thead><tr>
-<th><%= sort_link('ChildID') %></th>
-<th><%= sort_link('StudyID') %></th>
-<th><%= sort_link('Last Name') %></th>
-<th><%= sort_link('First Name') %></th>
+<th><%= sort_link('ICF Master ID') %></th>
+<th><%= sort_link('StudyID', 'Study ID') %></th>
+<th><%= sort_link('last_name', 'Subject Name') %></th>
+<th><%= sort_link('Reference Date') %></th>
 </tr></thead><tbody>
 <%= render :partial => 'study_subject', :collection => @study_subjects %>
 </tbody></table>

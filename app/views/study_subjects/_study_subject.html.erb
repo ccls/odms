@@ -3,17 +3,17 @@
 #	classes.push('ui-state-error') if study_subject.do_not_contact? 
 %>
 <% content_tag_for( :tr, study_subject, :class => classes.join(' ') ) do %>
-<td class='childid'>
-<%= link_to study_subject.childid, study_subject_path(study_subject) -%>
+<td class='icf_master_id'>
+<%= link_to study_subject.icf_master_id, study_subject_path(study_subject) -%>
 </td>
 <td class='studyid'>
 <%= study_subject.studyid %>
 </td>
-<td class='last_name'>
-<%= study_subject.last_name %>
+<td class='full_name'>
+<%= study_subject.full_name %>
 </td>
-<td class='first_name'>
-<%= study_subject.first_name %>
+<td class='reference_date'>
+<%=mdy study_subject.reference_date %>
 </td>
 <!--
 <td class='icons'><span class="ui-icon ui-icon-alert"></span></td>

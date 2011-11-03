@@ -125,7 +125,8 @@ protected
 
 	def search_order
 		if params[:order] and
-				%w( childid studyid last_name first_name ).include?(params[:order].downcase)
+				%w( icf_master_id studyid last_name reference_date ).include?(params[:order].downcase)
+#				%w( childid studyid last_name first_name ).include?(params[:order].downcase)
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)
 				when 'desc' then 'desc'
