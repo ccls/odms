@@ -41,7 +41,10 @@
 
 <%= select_subject_races(@study_subject) %>
 
-<%= f.wrapped_collection_select :subject_type_id, SubjectType.all, 
+<%= wrapped_spans :study_subject, :subject_type,
+	:label_text => 'subject type:' %>
+
+<%#= f.wrapped_collection_select :subject_type_id, SubjectType.all, 
 	:id, :to_s, :include_blank => true,
 	:label_text => "Relation to Case:" %>
 
