@@ -26,24 +26,24 @@ form.raf #errorExplanation {
 }
 
 form.raf .names input {
-	width: 10em;
+	width: 100px;
 }
 form.raf .names .tablerow {
 	margin-left: 20px;
 }
 form.raf .names .tablerow > span {
-	width: 9em;
+	width: 120px;
 	display:inline-block;
 	text-align:center;
 }
 form.raf .names .tablerow p.guardian {
 	display:inline-block;
 	margin-left: -20px;
-	width: 29em;
+	width: 390px;
 }
 /* needs to be wider to fit the subject relationship selector */
 form.raf .names .tablerow span.big {
-	width: 16em;
+	width: 210px;
 }
 form.raf .organization_id p,
 form.raf .admitting_oncologist p,
