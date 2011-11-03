@@ -311,7 +311,48 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #
 #	BEGIN order tests
 #
-		%w( childid studyid ).each do |attr|
+		%w( reference_date ).each do |attr|
+
+			test "should find study_subjects and order by #{attr} with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:study_subject, 
+					attr => (Date.today - 100 + i) ) }
+				login_as send(cu)
+				get :find, :order => attr
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+	
+			test "should find study_subjects and order by #{attr} dir asc with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:study_subject, 
+					attr => (Date.today - 100 + i) ) }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'asc'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+	
+			test "should find study_subjects and order by #{attr} dir desc with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:study_subject, 
+					attr => (Date.today - 100 + i) ) }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'desc'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects).reverse
+			end
+	
+			test "should find study_subjects and order by #{attr} invalid dir with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:study_subject, 
+					attr => (Date.today - 100 + i) ) }
+				login_as send(cu)
+				get :find, :order => attr, :dir => 'invalid'
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+
+		end
+
+#		%w( childid studyid ).each do |attr|
+		%w( icf_master_id studyid ).each do |attr|
 
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
 				subjects = 3.times.collect{|i| Factory(:identifier, attr => "12345#{i}" 
@@ -351,7 +392,8 @@ class StudySubjectsControllerTest < ActionController::TestCase
 
 		end
 
-		%w( first_name last_name ).each do |attr|
+#		%w( first_name last_name ).each do |attr|
+		%w( last_name ).each do |attr|
 
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
 				subjects = 3.times.collect{|i| Factory(:pii, attr => "John#{i}" 
