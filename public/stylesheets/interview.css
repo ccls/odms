@@ -1,0 +1,37 @@
+.edit_interview .field_wrapper {
+	min-width: 350px;
+}
+.edit_interview .field_wrapper label,
+.interview .field_wrapper .label {
+	width: 160px;
+}
+.interview .subject_relationship_other .label,
+.edit_interview .subject_relationship_other label {
+	text-align:center;
+}
+
+.edit_interview .field_wrapper.ended_on label,
+.edit_interview .field_wrapper.interview_outcome_on label {
+	width: 50px;
+}
+
+.edit_interview .field_wrapper.interview_outcome_id,
+.edit_interview .field_wrapper.interview_outcome_on label,
+.edit_interview .field_wrapper.began_on,
+.edit_interview .field_wrapper.ended_on label,
+.interview .field_wrapper.interview_outcome,
+.interview .field_wrapper.began_on {
+	float:left;
+	padding-right: 30px;
+}
+.edit_interview .field_wrapper.interview_outcome_on,
+.edit_interview .field_wrapper.ended_on,
+.interview .field_wrapper.interview_outcome_on,
+.interview .field_wrapper.ended_on {
+	clear:none;
+}
+.interview .field_wrapper.interview_outcome_on .label,
+.interview .field_wrapper.ended_on .label {
+	padding-right: 30px;
+	width:auto;
+}

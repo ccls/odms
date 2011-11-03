@@ -184,81 +184,6 @@ input.datepicker {
 	width: 100px;
 }
 
-/*********************************************************************** 
-
-	BEGIN Sample stuff
-
-*/
-form.edit_sample .field_wrapper label {
-	width: 150px;
-}
-.edit_sample .field_wrapper.tracking_number label {
-	width: 250px;
-}
-
-form.edit_sample .location_id.field_wrapper {
-	float:left;
-	clear:none;
-	padding-left: 10px;
-}
-form.edit_sample .location_id.field_wrapper label {
-	width:70px;
-}
-/* 
-
-	END Sample stuff
-
-***********************************************************************/
-
-/***********************************************************************
-
-	BEGIN Interview stuff
-
-*/
-
-.edit_interview .field_wrapper {
-	min-width: 350px;
-}
-.edit_interview .field_wrapper label,
-.interview .field_wrapper .label {
-	width: 160px;
-}
-.interview .subject_relationship_other .label,
-.edit_interview .subject_relationship_other label {
-	text-align:center;
-}
-
-.edit_interview .field_wrapper.ended_on label,
-.edit_interview .field_wrapper.interview_outcome_on label {
-	width: 50px;
-}
-
-.edit_interview .field_wrapper.interview_outcome_id,
-.edit_interview .field_wrapper.interview_outcome_on label,
-.edit_interview .field_wrapper.began_on,
-.edit_interview .field_wrapper.ended_on label,
-.interview .field_wrapper.interview_outcome,
-.interview .field_wrapper.began_on {
-	float:left;
-	padding-right: 30px;
-}
-.edit_interview .field_wrapper.interview_outcome_on,
-.edit_interview .field_wrapper.ended_on,
-.interview .field_wrapper.interview_outcome_on,
-.interview .field_wrapper.ended_on {
-	clear:none;
-}
-.interview .field_wrapper.interview_outcome_on .label,
-.interview .field_wrapper.ended_on .label {
-	padding-right: 30px;
-	width:auto;
-}
-/*
-
-	END Interview stuff
-
-***********************************************************************/
-
 form.edit_study_subject .field_wrapper span.label,
 form.edit_study_subject .field_wrapper label {
 	width: 160px;
@@ -295,39 +220,6 @@ form.edit_guide input[type=text] {
 .enrollment .field_wrapper.reason_not_chosen  .label{
 	text-indent:50px;
 }
-
-/***********************************************************************
-
-	BEGIN Patient
-
-*/
-form.edit_patient {
-	margin-top: 20px;
-}
-form.edit_patient .field_wrapper label {
-	width: 170px;
-	float:left;
-}
-form.edit_patient .admit_date_wrapper .warning {
-	display:none;
-	width:250px;
-	float:right;
-	padding: 5px;
-	padding-right:0;
-}
-form.edit_patient .admit_date_wrapper.changed .admit_date {
-	display:inline;
-}
-form.edit_patient .admit_date_wrapper.changed .warning {
-	display:inline;
-	background-color: #FDD;
-	border: 1px solid #F88;
-}
-/*
-
-	END Patient
-
-***********************************************************************/
 
 
 form.edit_phone_number .field_wrapper label {
@@ -368,52 +260,3 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
 .edit_study_subject   .homex_outcomes .columns {
 	display: block;
 }
-
-
-/***********************************************************************
-
-	BEGIN Candidate Control stuff
-
-*/
-
-form.edit_candidate_control > div {
-	border-bottom:1px solid black;
-}
-form.edit_candidate_control > div > div {
-	border:1px solid black; 
-	border-bottom:0; 
-	padding: 10px;
-}
-form.edit_candidate_control > div > div.info {
-	background-color:silver;
-}
-form.edit_candidate_control table th,
-form.edit_candidate_control table td {
-	text-align:center;
-	font-size:8pt;
-}
-form.edit_candidate_control table td {
-	border:1px solid black;
-	border-left: 0;
-	background-color: white;
-}
-form.edit_candidate_control table td.label {
-	background-color: transparent;
-	border:0;
-	border-right:1px solid black;
-	padding-right: 5px;
-	text-align:right;
-}
-form.edit_candidate_control > div > div.disposition div {
-	vertical-align:top;
-	display:inline-block;
-	padding-right: 5px;
-}
-form.edit_candidate_control > div > div.disposition div.rejection * {
-	vertical-align:top;
-}
-/*
-
-	END Candidate Control stuff
-
-***********************************************************************/

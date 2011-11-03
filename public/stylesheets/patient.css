@@ -1,0 +1,22 @@
+form.edit_patient {
+	margin-top: 20px;
+}
+form.edit_patient .field_wrapper label {
+	width: 170px;
+	float:left;
+}
+form.edit_patient .admit_date_wrapper .warning {
+	display:none;
+	width:250px;
+	float:right;
+	padding: 5px;
+	padding-right:0;
+}
+form.edit_patient .admit_date_wrapper.changed .admit_date {
+	display:inline;
+}
+form.edit_patient .admit_date_wrapper.changed .warning {
+	display:inline;
+	background-color: #FDD;
+	border: 1px solid #F88;
+}

@@ -1,0 +1,36 @@
+form.edit_candidate_control > div {
+	border-bottom:1px solid black;
+}
+form.edit_candidate_control > div > div {
+	border:1px solid black; 
+	border-bottom:0; 
+	padding: 10px;
+}
+form.edit_candidate_control > div > div.info {
+	background-color:silver;
+}
+form.edit_candidate_control table th,
+form.edit_candidate_control table td {
+	text-align:center;
+	font-size:8pt;
+}
+form.edit_candidate_control table td {
+	border:1px solid black;
+	border-left: 0;
+	background-color: white;
+}
+form.edit_candidate_control table td.label {
+	background-color: transparent;
+	border:0;
+	border-right:1px solid black;
+	padding-right: 5px;
+	text-align:right;
+}
+form.edit_candidate_control > div > div.disposition div {
+	vertical-align:top;
+	display:inline-block;
+	padding-right: 5px;
+}
+form.edit_candidate_control > div > div.disposition div.rejection * {
+	vertical-align:top;
+}
