@@ -1,14 +1,6 @@
 <% stylesheets('edit_phone_number') %>
 <% javascripts('edit_phone_number') %>
 
-<% content_for :head do -%>
-<% javascript_tag do -%>
-jQuery(function(){
-  toggle_why_invalid(<%=!@phone_number.is_not_valid?-%>);
-  toggle_how_verified(<%=@phone_number.is_verified?-%>);
-});
-<% end ; end -%>
-
 <% sub_menu_for(@study_subject||@phone_number.study_subject) %>
 <% id_bar_for(@study_subject||@phone_number.study_subject) %>
 

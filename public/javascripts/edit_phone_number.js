@@ -8,6 +8,13 @@ jQuery(function(){
 		toggle_how_verified($(this).attr('checked'));
 	});
 
+	toggle_why_invalid( 
+		( $('.valid .is_valid #phone_number_is_valid').val()!=2 && 
+			$('.valid .is_valid #phone_number_is_valid').val()!=999 ) );
+
+	toggle_how_verified(
+		$('.verified .is_verified #phone_number_is_verified').attr('checked'));
+
 });
 /*
 	These functions have the same name for editing a phone number

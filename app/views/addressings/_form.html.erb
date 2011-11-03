@@ -1,13 +1,5 @@
 <% javascripts('edit_addressing') %>
-<%# stylesheets('edit_addressing','base/jquery.ui.all.css') %>
 <% stylesheets('edit_addressing') %>
-<% content_for :head do -%>
-<% javascript_tag do -%>
-jQuery(function(){
-  toggle_why_invalid(<%=!@addressing.is_not_valid?-%>);
-  toggle_how_verified(<%=@addressing.is_verified?-%>);
-});
-<% end ; end -%>
 
 <% sub_menu_for(@study_subject||@addressing.study_subject) %>
 <% id_bar_for(@study_subject||@addressing.study_subject) %>
