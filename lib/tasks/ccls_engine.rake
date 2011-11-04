@@ -1,5 +1,5 @@
-#	From `script/generate ccls_engine` ...
-#	condition added to allow clean 'rake gems:install'
+# From `script/generate ccls_engine` ...
+# condition added to allow clean 'rake gems:install'
 unless Gem.source_index.find_name('ccls-ccls_engine').empty?
 	gem 'ccls-ccls_engine'
 

@@ -145,18 +145,6 @@ div#guidance {
 	background-color: #FFF;
 }
 
-div.sortable {
-	height: 18px;
-	line-height: 16px;
-}
-div.sortable * {
-	display:inline;
-	vertical-align:top;
-}
-div.sortable img {
-	height: 24px;
-}
-
 
 /***************************************************
 
