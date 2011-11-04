@@ -1,15 +1,4 @@
 #addressing_address_attributes_line_1,
-#addressing_address_attributes_line_2,
-#addressing_address_attributes_unit,
-#addressing_address_attributes_city,
-#addressing_address_attributes_state,
-#addressing_address_attributes_zip {
-	float:left;
-}
-
-#addressing_why_invalid,
-#addressing_how_verified,
-#addressing_address_attributes_line_1,
 #addressing_address_attributes_unit,
 #addressing_address_attributes_line_2 {
 	width: 30em;
@@ -21,23 +10,6 @@
 	width: 7em;
 }
 
-form .fields_for_address input,
-form .fields_for_address select,
-form .fields_for_address label {
-	margin-top:15px;
-}
-form .fields_for_address label {
-	width: 105px;
-}
-
-
-form div.controls {
-	padding-top: 10px;
-}
-form div.controls select {
-	margin-right: 20px;
-}
-
 .dev_only {
 	margin-top: 30px;
 }
@@ -45,28 +17,47 @@ form div.controls select {
 	float:left;
 }
 
+.field_wrapper .fieldWithErrors:first-child {
+	float:left;
+}
+
 .field_wrapper label {
 	width:160px;
 }
-.address_type_id select,
-.current_address select,
-.address_at_diagnosis select {
-	width: 100px;
+
+form.edit_addressing div.dates_valid > div,
+form.edit_addressing div.dates_valid > span {
+	display:inline-block;
+}
+form.edit_addressing div.dates_valid > span {
+	margin-right: 40px;
+}
+form.edit_addressing div.dates_valid > p {
+	margin-top: 0px;
+	margin-left: 200px;
+}
+form.edit_addressing div.dates_valid label {
+	width: auto;
+}
+form.edit_addressing div.dates_valid .field_wrapper {
+	margin-bottom: 0px;
+}
+form.edit_addressing div.valid > div,
+form.edit_addressing div.verified > div {
+	display:inline-block;
+}
+form.edit_addressing div.is_valid,
+form.edit_addressing div.is_verified {
+	margin-right: 20px;
+}
+form.edit_addressing div.why_invalid,
+form.edit_addressing div.how_verified {
+	clear:none;
+}
+form.edit_addressing .why_invalid label,
+form.edit_addressing .how_verified label{
+	width: auto;
+	padding-right: 10px;
 }
 
-.valid_from label,
-.valid_to label {
-	text-align:right;
-}
-.why_invalid,
-.how_verified {
-	margin-left: 150px;
-}
-.why_invalid label,
-.how_verified label{
-	width: 50px;
-}
-.field_wrapper .fieldWithErrors:first-child {
-	float:left;
-	clear:left;
-}
+
