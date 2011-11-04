@@ -220,14 +220,6 @@ form.edit_guide input[type=text] {
 }
 
 
-form.edit_phone_number .field_wrapper label {
-  width:160px;
-}
-form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
-  float:left;
-}
-
-
 .homex_outcomes .columns .column:nth-child(1) {
 	width: 350px;
 }

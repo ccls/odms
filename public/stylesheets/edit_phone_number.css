@@ -6,13 +6,28 @@
 	float:left;
 }
 
+form.edit_phone_number .field_wrapper label {
+  width:130px;
+}
+form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
+  float:left;
+}
 
-form.edit_phone_number .why_invalid,
-form.edit_phone_number .how_verified {
-	margin-left: 150px;
+form.edit_phone_number div.valid > div,
+form.edit_phone_number div.verified > div {
+	display:inline-block;
+}
+form.edit_phone_number div.is_valid,
+form.edit_phone_number div.is_verified {
+	margin-right: 20px;
+}
+form.edit_phone_number div.why_invalid,
+form.edit_phone_number div.how_verified {
+	clear:none;
 }
 form.edit_phone_number .why_invalid label,
 form.edit_phone_number .how_verified label{
-	width: 50px;
+	width: auto;
+	padding-right: 10px;
 }
 
