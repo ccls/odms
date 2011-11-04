@@ -23,8 +23,9 @@
 </div><!-- class='verified' -->
 
 <%= address_field.wrapped_text_field :line_1 %>
+<%= address_field.wrapped_text_field :unit, :label_text => 'Apt.' %>
+
 <%= address_field.wrapped_text_field :line_2 %>
-<%= address_field.wrapped_text_field :unit %>
 <div class='field_wrapper'>
 <%= address_field.label :city, 'City, State Zip' %>
 <%= address_field.text_field :city %>

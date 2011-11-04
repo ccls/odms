@@ -1,13 +1,13 @@
 #addressing_address_attributes_line_1,
-#addressing_address_attributes_unit,
 #addressing_address_attributes_line_2 {
-	width: 30em;
+	width: 300px;
 }
 #addressing_address_attributes_city {
-	width: 18em;
+	width: 190px;
 }
+#addressing_address_attributes_unit,
 #addressing_address_attributes_zip {
-	width: 7em;
+	width: 50px;
 }
 
 .dev_only {
@@ -25,6 +25,19 @@
 	width:160px;
 }
 
+form.edit_addressing div.line_1 {
+	margin-right: 20px;
+}
+form.edit_addressing div.line_1,
+form.edit_addressing div.unit {
+	display:inline-block;
+}
+form.edit_addressing div.unit {
+	clear:none;
+}
+form.edit_addressing div.unit label {
+	width:30px;
+}
 form.edit_addressing div.dates_valid > div,
 form.edit_addressing div.dates_valid > span {
 	display:inline-block;

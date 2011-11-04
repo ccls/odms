@@ -21,8 +21,10 @@ What is 'dates' ?
 
 <% div_for addressing do %>
 <span class='line_1'><%= addressing.line_1 %></span>
+<span class='unit'><%= 
+	( addressing.unit.blank? ) ? '&nbsp;' : "Apt. #{addressing.unit}"
+%></span>
 <span class='line_2'><%= addressing.line_2 %></span>
-<span class='unit'><%= addressing.unit %></span>
 <span class='csz'><%= addressing.csz %></span>
 <span class='county'><%= 
 	( addressing.county.blank? ) ? '&nbsp;' :  "#{addressing.county} County" 
