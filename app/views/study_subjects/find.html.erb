@@ -1,3 +1,4 @@
+<% stylesheets('study_subjects') %>
 <%= control_bar() %>
 
 <% form_tag(find_study_subjects_path, :method => :get, :id => 'find_study_subjects' ) do %>
@@ -41,9 +42,7 @@
   <%= text_field_tag :registrar_no, params[:registrar_no] %></div>
 </div><!-- tablerow -->
 </div><!-- table -->
-<% end %>
 
-<% stylesheets('study_subjects') %>
 
 <% if @study_subjects.length > 0 %>
 <table id='study_subjects'><thead><tr>
@@ -58,4 +57,9 @@
 <p>There are no subjects.</p>
 <% end %>
 
+<div class='pagination wrapper'>
 <%= will_paginate @study_subjects %>
+<label>jump to page:</label>
+<%= text_field_tag :page, params[:page] %>
+</div>
+<% end %>
