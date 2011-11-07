@@ -3,7 +3,7 @@ class WaiveredsController < ApplicationController
 	before_filter :may_create_study_subjects_required
 
 	def new
-		@study_subject = StudySubject.new
+		@study_subject = StudySubject.new(params[:study_subject])
 	end
 
 	def create

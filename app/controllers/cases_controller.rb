@@ -6,11 +6,6 @@ class CasesController < ApplicationController
 
 	def index
 		unless params[:patid].blank?
-#	TODO stop using StudySubject.search
-#			@study_subject = StudySubject.search(
-#				:patid => params[:patid], 
-#				:types => 'case'
-#			).first
 			@study_subject = StudySubject.find_case_by_patid(params[:patid])
 		end
 	end
@@ -23,6 +18,34 @@ class CasesController < ApplicationController
 	end
 
 	def new
+		@hospitals = Hospital.all
+	end
+
+	def create
+		#	This is just too nested
+		if params[:study_subject] and
+			params[:study_subject][:patient_attributes] and
+			params[:study_subject][:patient_attributes][:organization_id]
+
+			#	I am hoping that the organization_id is unique
+			hospital = Hospital.find_by_organization_id(
+				params[:study_subject][:patient_attributes][:organization_id] )
+			if hospital
+				if hospital.has_irb_waiver
+					redirect_to new_waivered_path(:study_subject => params[:study_subject])
+				else
+					redirect_to new_nonwaivered_path(:study_subject => params[:study_subject])
+				end
+			else
+				flash[:error] = 'Please select a valid organization'
+#	redirect or render??
+				redirect_to new_case_path
+			end
+		else
+			flash[:error] = 'Please select an organization'
+#	redirect or render??
+			redirect_to new_case_path
+		end
 	end
 
 protected
