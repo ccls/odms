@@ -1,5 +1,11 @@
 require 'test_helper'
 
+require "webrat"
+
+Webrat.configure do |config|
+  config.mode = :rails
+end
+
 class BasicUserAndSessionTest < ActionController::IntegrationTest
 	include CalnetAuthenticated::TestHelper
 
@@ -44,146 +50,111 @@ class BasicUserAndSessionTest < ActionController::IntegrationTest
 		assert_response :success
 	end
 
-	test "should not get user profile if not logged in" do
-		u = administrator
-		get user_path(u), {}, { 'HTTPS' => 'on' }
-		assert_redirected_to_login
+##	gotta figure out how to use integration tests to ensure that the forms contain
+##	all of the necessary attributes to create and update valid records.
+##	User login is a stumbling block, so let's see if I can get it to work.
+##	Being that this is calnet makes it particularly challenging.
+##	This really sucks.  Why is it so different than the other tests?
+##	Everything needs to be prefixed by @session.  This is irritating.
+#
+	all_test_roles.each do |cu|
 
-#		@session.get user_path(u)
-#		@session.assert_response :redirect
-#		assert_match "https://auth-test.berkeley.edu/cas/login",
-#			@session.response.redirected_to
+		test "should get #{cu} info with #{cu} login" do
+			u = send(cu)
+			login_as u
+			get user_path(u), {}, { 'HTTPS' => 'on' }
+			assert_response :success
+			assert_not_nil assigns(:user)
+			assert_equal u, assigns(:user)
+		end
 
+		test "should not get #{cu} info if not logged in" do
+			u = send(cu)
+			get user_path(u), {}, { 'HTTPS' => 'on' }
+			assert_redirected_to_login
 
-#		@session.assert_redirected_to_login
-#puts @response.request.methods.sort
-#puts @response.redirected_to
-#	https://auth-test.berkeley.edu/cas/login?service=https%3A%2F%2Fwww.example.com%2Fusers%2F1
-#puts @response.methods.sort
-#		flunk
+			@session.get user_path(u)
+			@session.assert_response :redirect
+			assert_match "https://auth-test.berkeley.edu/cas/login",
+				@session.response.redirected_to
+		end
+
 	end
 
-	test "user should login and view own profile" do
-#	gotta figure out how to use integration tests to ensure that the forms contain
-#	all of the necessary attributes to create and update valid records.
-#	User login is a stumbling block, so let's see if I can get it to work.
-#	Being that this is calnet makes it particularly challenging.
-#	This really sucks.  Why is it so different than the other tests?
-#	Everything needs to be prefixed by @session.  This is irritating.
+	site_administrators.each do |cu|
 
-		u = administrator
-		login_as u
-#puts u.role_names
-#puts u.is_user?(u)
-#puts u.may_administrate?
+		test "should edit a page with #{cu} login" do
+			user = send(cu)
+			assert Page.count > 0
+			page = Page.first
+			login_as user
+			get edit_page_path(page), {}, { 'HTTPS' => 'on' }
+			assert_response :success
+		end
 
-#	current_user doesn't work right because session isn't set properly here
-#	this session crap sucks.
+		test "should edit and update a page with #{cu} login using webrat" do
+			user = send(cu)
+			assert Page.count > 0
+			page = Page.first
+			login_as user
 
-		get users_path, {}, { 'HTTPS' => 'on' }
-		assert_response :success
-		get user_path(u), {}, { 'HTTPS' => 'on' }
-		assert_response :success
-	
+			#	need to set HTTPS for webrat
+			header('HTTPS', 'on')
+			visit edit_page_path(page)
+			fill_in "page[menu_en]", :with => "MyNewMenu"
+
+			#	click_button(value)
+			click_button "Update"	
+# <p>
+#  <input name="commit" type="submit" value="Update" />&nbsp;
+#  <a href="/pages/1/edit" class=" submit button">Update</a>
+#  <a href="/pages/1" class="button">Cancel and View</a>
+# </p>
+
+
+#	How to click a javascript window button?  Some of these forms have a confirm pop-up.
+#			click_button "OK"	
+#	id="edit_page_1" 
+#		submit_form(id)	#	probably use this rather than click_button for those that have javascript confirm windows
+#			submit_form 'edit_page'
+
+#	this is actually redirected, but it actually wouldn't test that way as the redirect is followed.
+#			assert_redirected_to page_path(page)	
+
+#	puts @response.body	#	is actually page_path(page)
+
+			assert_not_nil flash[:notice]
+			assert_response :success
+		end
+
 	end
 
 protected
 
-#	login is the only thing that really needs a session?
-
 	def login_as( user=nil )
 		uid = ( user.is_a?(User) ) ? user.uid : user
 		if !uid.blank?
-#assert_not_nil @session
-
-#assert_not_nil @session.cookies
-#puts @session.cookies
-
-#NoMethodError: undefined method `session' for nil:NilClass			#	What???
-#assert_not_nil @session.session
-
-#	This should be ...
-#  session.session.data # a populated session hash
-
-#puts @session.session.methods.sort
-#assert_not_nil @session.data
-#			@session.session[:calnetuid] = uid					#	how do I do this in integration testing????????
-
-
-#	Here, this is NOT the same session that the controller sees.
-#	So setting this does NOT set the current_user as it does in functional testing.
-#	Apparently, there is supposed to be a 
-#			@session.session.data[:calnetuid] = uid
-#	@request is nil in TestProcess so when @request.session is called it fails
-
-			#	What a hack.  Create a fake $session and fake methods to read and write it.
-			#	All I wanted to do was manually set a session key and this is what it came down to.
-			#	I couldn't even stub out current_user!
-#			$session ||= HashWithIndifferentAccess.new
-#			$session[:calnetuid] = uid					#	how do I do this in integration testing????????
-
-
-#			@request.session[:calnetuid] = uid					#	how do I do this in integration testing????????
-#puts			@session.request.session.class
-#			@session.request.session[:calnetuid] = uid					#	how do I do this in integration testing????????
-
-#ActionController::Session::AbstractStore::SessionHash
-
 			stub_ucb_ldap_person()
 			u = User.find_create_and_update_by_uid(uid)
-
 			#	Rather than manually manipulate the session,
 			#	I created a fake controller to do it.
 			#	Still not using the @session provided by integration testing (open_session)
 			post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
-
-#			ActionController::Base.any_instance.stubs(:current_user).returns(u)
-
 			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
 		end
 	end
 
 end
 
-#class ActionController::Base
-#		def current_user
-#			load 'user.rb' unless defined?(User)
-#			@current_user ||= if( $session && $session[:calnetuid] )
-#					User.find_create_and_update_by_uid($session[:calnetuid])
-#				else
-#					nil
-#				end
-#		end
-#end
-
-
 __END__
 
-ActiveSupport::TestCase.send(:include,CalnetAuthenticated::TestHelper)
+webrat
 
-from calnet_authenticated/test/functional/calnet/users_controller_test.rb
-
-... class Calnet::UsersControllerTest < ActionController::TestCase
-
-	all_test_roles.each do |cu|
-		test "should get #{cu} info with self login" do
-			u = send(cu)
-			login_as u
-			get :show, :id => u.id
-			assert_response :success
-			assert_not_nil assigns(:user)
-			assert_equal u, assigns(:user)
-		end
-	end
-
-
-
-calnet test_helper
-
-
-	def assert_redirected_to_login
-		assert_response :redirect
-		assert_match "https://auth-test.berkeley.edu/cas/login",
-			@response.redirected_to
-	end
+  def test_trial_account_sign_up
+    visit home_path
+    click_link "Sign up"
+    fill_in "Email", :with => "good@example.com"
+    select "Free account"
+    click_button "Register"
+  end
 
