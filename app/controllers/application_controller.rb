@@ -38,6 +38,13 @@ protected	#	private #	(does it matter which or if neither?)
 		})
 	end
 
+#	This is tricky with the multi-negatives.
+#	def may_not_be_user_required
+##		current_user.may_not_be_user?(current_user) ||
+#		current_user.may_be_user?(current_user) &&
+#			access_denied("May not be user required.", user_path(current_user) )
+#	end
+
 	def valid_study_subject_id_required
 		if !params[:study_subject_id].blank? and StudySubject.exists?(params[:study_subject_id])
 			@study_subject = StudySubject.find(params[:study_subject_id])
