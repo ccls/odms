@@ -63,13 +63,15 @@ class BcRequestsController < ApplicationController
 			active_bc_requests.each do |bc_request|
 				study_subject = bc_request.study_subject
 #	Could possible use a find_or_create_by_ method here.
-				enrollment = Enrollment.find(:first, :conditions => {
-					:study_subject_id => study_subject.id,
-					:project_id => Project['ccls'].id
-				})
-				unless enrollment
-					enrollment = study_subject.enrollments.create!(:project => Project['ccls'])
-				end
+#				enrollment = Enrollment.find(:first, :conditions => {
+#					:study_subject_id => study_subject.id,
+#					:project_id => Project['ccls'].id
+#				})
+#				unless enrollment
+#					enrollment = study_subject.enrollments.create!(:project => Project['ccls'])
+#				end
+				enrollment = study_subject.enrollments.find_or_create_by_project_id(
+					Project['ccls'].id )
 				enrollment.operational_events << OperationalEvent.create!(
 					:operational_event_type => OperationalEventType['bc_request_sent'],
 					:occurred_on => Date.today

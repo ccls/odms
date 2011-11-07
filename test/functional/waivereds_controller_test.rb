@@ -257,7 +257,7 @@ protected
 	end
 
 	def minimum_successful_creation
-		assert_difference('Enrollment.count',1){
+		assert_difference('Enrollment.count',2){	#	subject AND mother
 		assert_difference('Pii.count',2){
 		assert_difference('Patient.count',1){
 		assert_difference('Identifier.count',2){
@@ -275,7 +275,7 @@ protected
 		assert_difference('Identifier.count',2){
 		assert_difference('Patient.count',1){
 		assert_difference('Pii.count',2){
-		assert_difference('Enrollment.count',1){
+		assert_difference('Enrollment.count',2){	#	subject AND mother
 		assert_difference('PhoneNumber.count',1){
 		assert_difference('Addressing.count',1){
 		assert_difference('Address.count',1){
@@ -292,7 +292,7 @@ protected
 		assert_difference('Identifier.count',2){
 		assert_difference('Patient.count',1){
 		assert_difference('Pii.count',2){
-		assert_difference('Enrollment.count',1){
+		assert_difference('Enrollment.count',2){	#	subject AND mother
 		assert_difference('PhoneNumber.count',1){
 		assert_difference('Addressing.count',1){
 		assert_difference('Address.count',1){

@@ -22,22 +22,23 @@ class ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
-			assert_nil assigns(:enrollment)
-			assert_response :success
-			assert_template 'index'
-		end
-
-		test "should get consents for ccls enrolled subject with #{cu} login" do
-			study_subject = Factory(:enrollment,
-				:project => Project['ccls'] ).study_subject
-			login_as send(cu)
-			get :index, :study_subject_id => study_subject.id
-			assert assigns(:study_subject)
-			assert assigns(:enrollment)
 			assert_not_nil assigns(:enrollment)
 			assert_response :success
 			assert_template 'index'
 		end
+
+#		test "should get consents for ccls enrolled subject with #{cu} login" do
+#	subject is auto enrolled so previous test works just fine
+#			study_subject = Factory(:enrollment,
+#				:project => Project['ccls'] ).study_subject
+#			login_as send(cu)
+#			get :index, :study_subject_id => study_subject.id
+#			assert assigns(:study_subject)
+#			assert assigns(:enrollment)
+#			assert_not_nil assigns(:enrollment)
+#			assert_response :success
+#			assert_template 'index'
+#		end
 
 		test "should NOT get consents with invalid study_subject_id " <<
 			"and #{cu} login" do

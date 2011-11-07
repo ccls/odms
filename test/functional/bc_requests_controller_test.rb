@@ -207,7 +207,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should confirm actives exported with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_case_control_study_subject
-			assert case_study_subject.enrollments.empty?
+#			assert case_study_subject.enrollments.empty?
+			assert_equal 1, case_study_subject.enrollments.length
 			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			get :confirm
 			assert_redirected_to new_bc_request_path
@@ -217,46 +218,52 @@ class BcRequestsControllerTest < ActionController::TestCase
 			enrollment = case_study_subject.enrollments.first
 			assert_equal Project['ccls'], enrollment.project
 			assert !enrollment.operational_events.empty?
-			assert_equal 1, enrollment.operational_events.length
+#			assert_equal 1, enrollment.operational_events.length
+			assert_equal 2, enrollment.operational_events.length
 			assert_equal OperationalEventType['bc_request_sent'],
-				enrollment.operational_events.first.operational_event_type
+				enrollment.operational_events.last.operational_event_type
 		end
 
-		test "should NOT confirm actives exported with #{cu} login if " <<
-				"enrollment creation fails" do
-			login_as send(cu)
-			case_study_subject = create_case_control_study_subject
-			assert case_study_subject.enrollments.empty?
-			bcr = case_study_subject.bc_requests.create(:status => 'active')
-			Enrollment.any_instance.stubs(:create_or_update).returns(false)
-			assert_difference('Enrollment.count',0) {
-			assert_difference('OperationalEvent.count',0) {
-				get :confirm
-			} }
-			assert_not_nil flash[:error]
-			assert_redirected_to new_bc_request_path
-		end
+#	Enrollment in ccls is not longer created here so this test is invalid
+#		test "should NOT confirm actives exported with #{cu} login if " <<
+#				"enrollment creation fails" do
+#			login_as send(cu)
+#			case_study_subject = create_case_control_study_subject
+##			assert case_study_subject.enrollments.empty?
+#			assert_equal 1, case_study_subject.enrollments.length
+#			bcr = case_study_subject.bc_requests.create(:status => 'active')
+#			Enrollment.any_instance.stubs(:create_or_update).returns(false)
+#			assert_difference('Enrollment.count',0) {
+#			assert_difference('OperationalEvent.count',0) {
+#				get :confirm
+#			} }
+#			assert_not_nil flash[:error]
+#			assert_redirected_to new_bc_request_path
+#		end
 
-		test "should NOT confirm actives exported with #{cu} login if " <<
-				"enrollment invalid" do
-			login_as send(cu)
-			case_study_subject = create_case_control_study_subject
-			assert case_study_subject.enrollments.empty?
-			bcr = case_study_subject.bc_requests.create(:status => 'active')
-			Enrollment.any_instance.stubs(:valid?).returns(false)
-			assert_difference('Enrollment.count',0) {
-			assert_difference('OperationalEvent.count',0) {
-				get :confirm
-			} }
-			assert_not_nil flash[:error]
-			assert_redirected_to new_bc_request_path
-		end
+#	Enrollment in ccls is not longer created here so this test is invalid
+#		test "should NOT confirm actives exported with #{cu} login if " <<
+#				"enrollment invalid" do
+#			login_as send(cu)
+#			case_study_subject = create_case_control_study_subject
+##			assert case_study_subject.enrollments.empty?
+#			assert_equal 1, case_study_subject.enrollments.length
+#			bcr = case_study_subject.bc_requests.create(:status => 'active')
+#			Enrollment.any_instance.stubs(:valid?).returns(false)
+#			assert_difference('Enrollment.count',0) {
+#			assert_difference('OperationalEvent.count',0) {
+#				get :confirm
+#			} }
+#			assert_not_nil flash[:error]
+#			assert_redirected_to new_bc_request_path
+#		end
 
 		test "should NOT confirm actives exported with #{cu} login if " <<
 				"operational event creation fails" do
 			login_as send(cu)
 			case_study_subject = create_case_control_study_subject
-			assert case_study_subject.enrollments.empty?
+#			assert case_study_subject.enrollments.empty?
+			assert_equal 1, case_study_subject.enrollments.length
 			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
 			assert_difference('Enrollment.count',0) {
@@ -271,7 +278,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 				"operational event invalid" do
 			login_as send(cu)
 			case_study_subject = create_case_control_study_subject
-			assert case_study_subject.enrollments.empty?
+#			assert case_study_subject.enrollments.empty?
+			assert_equal 1, case_study_subject.enrollments.length
 			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			OperationalEvent.any_instance.stubs(:valid?).returns(false)
 			assert_difference('Enrollment.count',0) {
