@@ -131,6 +131,8 @@ class BasicUserAndSessionTest < ActionController::IntegrationTest
 
 protected
 
+#	create an integration_test_helper.rb that includes this and other common items to be used this way.
+
 	def login_as( user=nil )
 		uid = ( user.is_a?(User) ) ? user.uid : user
 		if !uid.blank?
