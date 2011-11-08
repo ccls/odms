@@ -80,9 +80,9 @@ class AddressingsControllerTest < ActionController::TestCase
 					:addressing => az_addressing()
 			} } } }
 			assert assigns(:study_subject)
-			study_subject.hx_enrollment.reload	#	NEEDED
 			assert_study_subject_is_not_eligible(study_subject)
-			assert_equal   study_subject.hx_enrollment.ineligible_reason,
+			hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+			assert_equal   hxe.ineligible_reason,
 				IneligibleReason['newnonCA']
 			assert_redirected_to study_subject_contacts_path(study_subject)
 		end
