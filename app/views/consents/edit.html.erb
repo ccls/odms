@@ -1,0 +1,16 @@
+<% sub_menu_for(@enrollment.study_subject) %>
+
+<% content_for :id_bar do %>
+<%= link_to( 'Save', nil, {
+        :id => "for_#{dom_id(@study_subject,:edit)}",
+        :class => :submitter
+}) %>
+<% end if current_user.may_edit_enrollments? %>
+<%# the above id needs to follow the convention ... for_FORM_ID %>
+
+<% id_bar_for(@enrollment.study_subject) %>
+
+<h3>Study Consent Info</h3>
+
+<p>Javascript save button above won't work until there is actual form</p>
+

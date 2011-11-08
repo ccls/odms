@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
 		study_subject.resources :enrollments,
 			:only => [:new,:create,:show,:edit,:update,:index]
 		study_subject.resource  :consent,
-			:only => [:show]
+			:only => [:show,:edit,:update]
 		study_subject.resources :samples,
 			:only => [:index]
 		study_subject.resources :interviews,
