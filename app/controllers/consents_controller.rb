@@ -10,16 +10,10 @@ class ConsentsController < ApplicationController
 #		:only => :destroy
 
 	before_filter :valid_study_subject_id_required,
-		:only => [:show,:edit]
+		:only => [:show,:edit,:update]
 #		:only => [:new,:create,:index]
 
 	def show
-#		@enrollment = Enrollment.find(:first,
-#			:conditions => { 
-#				:study_subject_id => @study_subject.id,
-#				:project_id => Project['ccls'].id 
-#			}
-#		)
 		@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
 			Project['ccls'].id )
 	end
@@ -30,6 +24,12 @@ class ConsentsController < ApplicationController
 	end
 
 	def update
+		@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
+			Project['ccls'].id )
+#		@enrollment.update_attributes(params[:enrollment])
+
+		flash[:notice] = "Enrollment successfully updated."
+		redirect_to study_subject_consent_path(@study_subject)
 	end
 
 end
