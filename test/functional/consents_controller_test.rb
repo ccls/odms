@@ -48,6 +48,22 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
+		test "should get edit consent with #{cu} login" do
+pending	#	TODO
+		end
+
+		test "should NOT get edit consent with invalid study_subject_id #{cu} login" do
+pending	#	TODO
+		end
+
+		test "should put update consent with #{cu} login" do
+pending	#	TODO
+		end
+
+		test "should NOT put update consent with invalid study_subject_id #{cu} login" do
+pending	#	TODO
+		end
+
 	end
 
 	non_site_readers.each do |cu|
@@ -60,12 +76,28 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+		test "should NOT get edit consent with #{cu} login" do
+pending	#	TODO
+		end
+
+		test "should NOT put update consent with #{cu} login" do
+pending	#	TODO
+		end
+
 	end
 
 	test "should NOT get consents without login" do
 		study_subject = Factory(:enrollment).study_subject
 		get :show, :study_subject_id => study_subject.id
 		assert_redirected_to_login
+	end
+
+	test "should NOT get edit consent without login" do
+pending	#	TODO
+	end
+
+	test "should NOT put update consent without login" do
+pending	#	TODO
 	end
 
 end
