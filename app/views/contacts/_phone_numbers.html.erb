@@ -1,0 +1,23 @@
+<h3>Phone Numbers</h3>
+<div class='phone_numbers'>
+<%= render :partial => 'phone_number', 
+	:collection => @study_subject.phone_numbers.current,
+	:locals => { :details => true,
+		:edit => current_user.may_edit_phone_numbers? } %>
+<% if current_user.may_edit_phone_numbers? %>
+<p id='new_phone_number' class='new'>
+<%= link_to 'add new phone number', new_study_subject_phone_number_path(@study_subject) %>
+<% if @study_subject.phone_numbers.historic.length > 0 %>
+&nbsp;|&nbsp;
+<%= link_to 'toggle history', study_subject_contacts_path(@study_subject), 
+	:class => 'toggle_historic_phone_numbers' %>
+<% end %>
+</p>
+<% end %>
+<div class='historic' style='display:none'>
+<%= render :partial => 'phone_number', 
+	:collection => @study_subject.phone_numbers.historic,
+	:locals => { :details => true,
+		:edit => current_user.may_administrate? } %>
+</div><!-- class='historic' -->
+</div><!-- class='phone_numbers' -->

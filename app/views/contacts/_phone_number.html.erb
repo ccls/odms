@@ -10,41 +10,9 @@
 <span class='type'>type:&nbsp;<%= phone_number.phone_type %></span>
 </div><!-- class='phone_number_meta' -->
 
-<% if defined?(details) and details -%>
-<div class='phone_number_valid contact_valid'>
-<div class='brief'>
-<% @this_phone_number = phone_number %>
-<%= wrapped_yndk_spans(:this_phone_number, :is_valid,
-	:label_text => "valid:") %>
-<%= wrapped_yes_or_no_spans(:this_phone_number, :is_verified,
-	:label_text => "verified:") %>
-</div><!-- class='brief' -->
-<div class='details'>
-<span class='why'>
-<%= (!phone_number.is_valid?)?"why:&nbsp;#{phone_number.why_invalid}":"&nbsp;" %>
-</span>
-<span class='how'>
-<%= (phone_number.is_verified?)?"how:&nbsp;#{phone_number.how_verified}":"&nbsp;" %>
-</span>
-</div><!-- class='details' -->
-</div><!-- class='phone_number_valid contact_valid' -->
-
-
-<div class='edit'>
-<%#
-
-What is 'edit' ?
-
-	'edit' is a boolean variable sometimes passed
-	to this partial to flag whether or not to show 
-	the edit link.
-
-%>
-<% if defined?(edit) and edit -%>
-<%= link_to 'Edit', edit_phone_number_path(phone_number) %>
-<% else -%>
-&nbsp;
-<% end -%><%# if defined?(edit) and edit -%>
-</div><!-- class='edit' -->
-<% end -%><%# if defined?(details) and details -%>
+<%= render :partial => 'phone_number_details', :locals => {
+	:details => ( ( defined?(details) ) ? details : false ),
+	:edit    => ( ( defined?(edit)    ) ? edit    : false ),
+	:phone_number => phone_number
+	} %>
 </div><!-- class='phone_number_wrapper contact_wrapper' -->

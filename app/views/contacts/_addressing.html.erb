@@ -1,5 +1,4 @@
 <div class='addressing_wrapper contact_wrapper'>
-
 <%#
 
 What is 'dates' ?
@@ -9,15 +8,9 @@ What is 'dates' ?
 	the dates.
 
 %>
-<% if defined?(dates) and dates -%>
-<div class='when'>
-<span class='from'><%=mdy addressing.valid_from %></span>
-<% if addressing.valid_from && addressing.valid_to %>
-&nbsp;-&nbsp;
-<% end %>
-<span class='to'><%=mdy addressing.valid_to %></span>
-</div><!-- class='when' -->
-<% end -%><%# if defined?(details) and details -%>
+<%= render( :partial => 'addressing_dates', :locals => {
+	:addressing => addressing
+}) if defined?(dates) and dates %>
 
 <% div_for addressing do %>
 <span class='line_1'><%= addressing.line_1 %></span>
@@ -35,40 +28,17 @@ What is 'dates' ?
 <span class='type'>type:&nbsp;<%= addressing.address_type %></span>
 </div><!-- class='addressing_meta' -->
 
-<% if defined?(details) and details -%>
-<div class='addressing_valid contact_valid'>
-<div class='brief'>
-<% @this_addressing = addressing %>
-<%= wrapped_yndk_spans(:this_addressing, :is_valid, 
-	:label_text => "valid:") %>
-<%= wrapped_yes_or_no_spans(:this_addressing, :is_verified, 
-	:label_text => "verified:") %>
-</div><!-- class='brief' -->
-<div class='details'>
-<span class='why'>
-<%= (addressing.is_not_valid?)?"why:&nbsp;#{addressing.why_invalid}":"&nbsp;" %>
-</span>
-<span class='how'>
-<%= (addressing.is_verified?)?"how:&nbsp;#{addressing.how_verified}":"&nbsp;" %>
-</span>
-</div><!-- class='details' -->
-</div><!-- class='addressing_valid contact_valid' -->
-<% end -%><%# if defined?(details) and details -%>
-
-<div class='edit'>
 <%#
 
-What is 'edit' ?
+What are 'details' and 'edit' ?
 
-	'edit' is a boolean variable sometimes passed
-	to this partial to flag whether or not to show 
-	the edit link.
+	'details' and 'edit' are a boolean variables sometimes passed
+	to this partial to flag whether or not to show things.
 
 %>
-<% if defined?(edit) and edit -%>
-<%= link_to 'Edit', edit_addressing_path(addressing) %>
-<% else -%>
-&nbsp;
-<% end -%><%# if defined?(edit) and edit -%>
-</div><!-- class='edit' -->
+<%= render :partial => 'addressing_details', :locals => {
+	:details => ( ( defined?(details) ) ? details : false ),
+	:edit    => ( ( defined?(edit)    ) ? edit    : false ),
+	:addressing => addressing
+} %>
 </div><!-- class='addressing_wrapper contact_wrapper' -->

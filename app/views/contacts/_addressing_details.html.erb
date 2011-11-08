@@ -1,0 +1,45 @@
+<%#
+
+What is 'details' ?
+
+	'details' is a boolean variable sometimes passed
+	to this partial to flag whether or not to show 
+	the details.
+
+%>
+<% if details -%>
+<div class='addressing_valid contact_valid'>
+<div class='brief'>
+<% @this_addressing = addressing %>
+<%= wrapped_yndk_spans(:this_addressing, :is_valid, 
+	:label_text => "valid:") %>
+<%= wrapped_yes_or_no_spans(:this_addressing, :is_verified, 
+	:label_text => "verified:") %>
+</div><!-- class='brief' -->
+<div class='details'>
+<span class='why'>
+<%= (addressing.is_not_valid?)?"why:&nbsp;#{addressing.why_invalid}":"&nbsp;" %>
+</span>
+<span class='how'>
+<%= (addressing.is_verified?)?"how:&nbsp;#{addressing.how_verified}":"&nbsp;" %>
+</span>
+</div><!-- class='details' -->
+</div><!-- class='addressing_valid contact_valid' -->
+<% end -%><%# if defined?(details) and details -%>
+
+<div class='edit'>
+<%#
+
+What is 'edit' ?
+
+	'edit' is a boolean variable sometimes passed
+	to this partial to flag whether or not to show 
+	the edit link.
+
+%>
+<% if edit -%>
+<%= link_to 'Edit', edit_addressing_path(addressing) %>
+<% else -%>
+&nbsp;
+<% end -%><%# if defined?(edit) and edit -%>
+</div><!-- class='edit' -->
