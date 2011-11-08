@@ -15,7 +15,33 @@
 <%= address_field.wrapped_collection_select :address_type_id, 
 	AddressType.all, :id, :code, :include_blank => true, :label_text => 'Type' %>
 
-<p>Source ... select  .. specify if other: textfield </p>
+
+
+
+<div class='source'>
+<%#
+	This is probably not all data sources.  It also does not currently include an 'other'
+
+
+I should have all the implementation details in this afternoon's tickets. Basically, the combo box should have data_source.description for all of those that have a context of 1 (address) in the contexts_dataSohrces join table.
+
+The same logic applies for phone numbers with context of 2 (phones) rather than 1
+
+
+This join does not yet exist.
+
+%>
+<%= f.wrapped_collection_select :data_source_id, DataSource.all, 
+			:id, :to_s, :include_blank => true, :label_text => 'Source:' %>
+<%= f.wrapped_text_field :data_source_other, 
+	:label_text => 'Specify if other:' %>
+</div><!-- class='source' -->
+
+
+
+
+
+
 
 <div class='verified'>
 <%= f.wrapped_check_box :is_verified, :label_text => 'Verified?' %>

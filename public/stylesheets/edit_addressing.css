@@ -22,7 +22,7 @@
 }
 
 .field_wrapper label {
-	width:160px;
+	width:150px;
 }
 
 form.edit_addressing div.line_1 {
@@ -55,22 +55,28 @@ form.edit_addressing div.dates_valid label {
 form.edit_addressing div.dates_valid .field_wrapper {
 	margin-bottom: 0px;
 }
+form.edit_addressing div.source > div,
 form.edit_addressing div.valid > div,
 form.edit_addressing div.verified > div {
 	display:inline-block;
 }
+form.edit_addressing div.data_source_id,
 form.edit_addressing div.is_valid,
 form.edit_addressing div.is_verified {
-	margin-right: 20px;
+	margin-right: 10px;
 }
+form.edit_addressing div.data_source_other,
 form.edit_addressing div.why_invalid,
 form.edit_addressing div.how_verified {
 	clear:none;
 }
+form.edit_addressing .data_source_other label,
 form.edit_addressing .why_invalid label,
 form.edit_addressing .how_verified label{
 	width: auto;
 	padding-right: 10px;
 }
 
-
+form.edit_addressing #addressing_data_source_other {
+	width: 100px;
+}
