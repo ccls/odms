@@ -134,7 +134,7 @@ module ApplicationHelper
 					:class => ((current == :contact)?'current':nil) ),
 				link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 					:class => ((current == :hospital)?'current':nil) ),
-				link_to( "Eligibility &amp; Consent", study_subject_consents_path(study_subject),
+				link_to( "Eligibility &amp; Consent", study_subject_consent_path(study_subject),
 					:class => ((current == :consents)?'current':nil) ),
 				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
 					:class => ((current == :eligibility)?'current':nil) ),

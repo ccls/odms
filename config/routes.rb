@@ -12,7 +12,7 @@ ActionController::Routing::Routes.draw do |map|
 				:reports   => :get 
 			},
 			:shallow => true do |study_subject|
-		study_subject.resource :patient
+		study_subject.resource  :patient
 		study_subject.resources :contacts, :only => :index
 		study_subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
 			:only => [:new,:create,:edit,:update,   :destroy   ]
@@ -20,8 +20,8 @@ ActionController::Routing::Routes.draw do |map|
 			:only => [:new,:create,:edit,:update,   :destroy   ]
 		study_subject.resources :enrollments,
 			:only => [:new,:create,:show,:edit,:update,:index]
-		study_subject.resources :consents,
-			:only => [:index]
+		study_subject.resource  :consent,
+			:only => [:show]
 		study_subject.resources :samples,
 			:only => [:index]
 		study_subject.resources :interviews,

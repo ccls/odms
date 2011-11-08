@@ -10,10 +10,10 @@ class ConsentsController < ApplicationController
 #		:only => :destroy
 
 	before_filter :valid_study_subject_id_required,
-		:only => [:index]
+		:only => [:show]
 #		:only => [:new,:create,:index]
 
-	def index
+	def show
 		@enrollment = Enrollment.find(:first,
 			:conditions => { 
 				:study_subject_id => @study_subject.id,
