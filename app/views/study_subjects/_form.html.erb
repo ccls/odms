@@ -73,4 +73,10 @@
 	</div><!-- class='name field_wrapper' -->
 <% end %>
 
-<p>Add something for retrospective case unless this will be a calculated attribute</p>
+
+<% if @study_subject and @study_subject.patient and 
+	@study_subject.created_at and @study_subject.is_case? and 
+	@study_subject.patient.admit_date and
+	(( @study_subject.created_at.to_date - @study_subject.patient.admit_date ).to_i > 7 ) %>
+<p>Retrospective Case (Case was entered more than 7 days after subject admit date.)</p>
+<% end %>
