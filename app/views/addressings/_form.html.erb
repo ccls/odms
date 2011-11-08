@@ -30,6 +30,16 @@ The same logic applies for phone numbers with context of 2 (phones) rather than 
 
 This join does not yet exist.
 
+
+I think that this will end up being something like ...
+
+Context['addresses'].data_sources
+
+... rather than DataSource.all
+
+Currently, this is irrelevant as the result is the same.
+
+
 %>
 <%= f.wrapped_collection_select :data_source_id, DataSource.all, 
 			:id, :to_s, :include_blank => true, :label_text => 'Source:' %>
