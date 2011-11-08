@@ -15,25 +15,7 @@ class ConsentsControllerTest < ActionController::TestCase
 	assert_no_route(:get,:new,:study_subject_id => 0)
 	assert_no_route(:post,:create,:study_subject_id => 0)
 
-	site_readers.each do |cu|
-
-		test "should get consents with #{cu} login" do
-			study_subject = Factory(:enrollment).study_subject
-			login_as send(cu)
-			get :show, :study_subject_id => study_subject.id
-			assert assigns(:study_subject)
-			assert_not_nil assigns(:enrollment)
-			assert_response :success
-			assert_template 'show'
-		end
-
-		test "should NOT get consents with invalid study_subject_id " <<
-			"and #{cu} login" do
-			login_as send(cu)
-			get :show, :study_subject_id => 0
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
+	site_editors.each do |cu|
 
 		test "should get edit consent with #{cu} login" do
 			study_subject = Factory(:enrollment).study_subject
@@ -72,15 +54,7 @@ class ConsentsControllerTest < ActionController::TestCase
 
 	end
 
-	non_site_readers.each do |cu|
-
-		test "should NOT get consents with #{cu} login" do
-			study_subject = Factory(:enrollment).study_subject
-			login_as send(cu)
-			get :show, :study_subject_id => study_subject.id
-			assert_not_nil flash[:error]
-			assert_redirected_to root_path
-		end
+	non_site_editors.each do |cu|
 
 		test "should NOT get edit consent with #{cu} login" do
 			study_subject = Factory(:enrollment).study_subject
@@ -94,6 +68,40 @@ class ConsentsControllerTest < ActionController::TestCase
 			study_subject = Factory(:enrollment).study_subject
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+	end
+
+	site_readers.each do |cu|
+
+		test "should get consents with #{cu} login" do
+			study_subject = Factory(:enrollment).study_subject
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id
+			assert assigns(:study_subject)
+			assert_not_nil assigns(:enrollment)
+			assert_response :success
+			assert_template 'show'
+		end
+
+		test "should NOT get consents with invalid study_subject_id " <<
+			"and #{cu} login" do
+			login_as send(cu)
+			get :show, :study_subject_id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+	end
+
+	non_site_readers.each do |cu|
+
+		test "should NOT get consents with #{cu} login" do
+			study_subject = Factory(:enrollment).study_subject
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
