@@ -13,14 +13,6 @@
 <% if defined?(details) and details -%>
 <div class='phone_number_valid contact_valid'>
 <div class='brief'>
-<!--
-<span class='valid'>
-valid:&nbsp;<%#= (phone_number.is_valid?)?'yes':'no' %>
-</span>
-<span class='verified'>
-verified:&nbsp;<%#= (phone_number.is_verified?)?'yes':'no' %>
-</span>
--->
 <% @this_phone_number = phone_number %>
 <%= wrapped_yndk_spans(:this_phone_number, :is_valid,
 	:label_text => "valid:") %>

@@ -38,14 +38,6 @@ What is 'dates' ?
 <% if defined?(details) and details -%>
 <div class='addressing_valid contact_valid'>
 <div class='brief'>
-<!--
-<span class='valid'>
-valid:&nbsp;<%#= (!addressing.is_not_valid?)?'yes':'no' %>
-</span>
-<span class='verified'>
-verified:&nbsp;<%#= (addressing.is_verified?)?'yes':'no' %>
-</span>
--->
 <% @this_addressing = addressing %>
 <%= wrapped_yndk_spans(:this_addressing, :is_valid, 
 	:label_text => "valid:") %>
@@ -54,7 +46,6 @@ verified:&nbsp;<%#= (addressing.is_verified?)?'yes':'no' %>
 </div><!-- class='brief' -->
 <div class='details'>
 <span class='why'>
-<%#= (!addressing.is_valid?)?"why:&nbsp;#{addressing.why_invalid}":"&nbsp;" %>
 <%= (addressing.is_not_valid?)?"why:&nbsp;#{addressing.why_invalid}":"&nbsp;" %>
 </span>
 <span class='how'>
