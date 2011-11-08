@@ -15,48 +15,19 @@
 <%= address_field.wrapped_collection_select :address_type_id, 
 	AddressType.all, :id, :code, :include_blank => true, :label_text => 'Type' %>
 
-
-
-
 <div class='source'>
-<%#
-	This is probably not all data sources.  It also does not currently include an 'other'
-
-
-I should have all the implementation details in this afternoon's tickets. Basically, the combo box should have data_source.description for all of those that have a context of 1 (address) in the contexts_dataSohrces join table.
-
-The same logic applies for phone numbers with context of 2 (phones) rather than 1
-
-
-This join does not yet exist.
-
-
-I think that this will end up being something like ...
-
-Context['addresses'].data_sources
-
-... rather than DataSource.all
-
-Currently, this is irrelevant as the result is the same.
-
-
-%>
 <%= f.wrapped_collection_select :data_source_id, Context['addresses'].data_sources, 
 			:id, :to_s, :include_blank => true, :label_text => 'Source:' %>
 <%= f.wrapped_text_field :data_source_other, 
 	:label_text => 'Specify if other:' %>
 </div><!-- class='source' -->
 
-
-
-
-
-
-
 <div class='verified'>
 <%= f.wrapped_check_box :is_verified, :label_text => 'Verified?' %>
 <%= f.wrapped_text_field :how_verified, :label_text => 'Specify how:' %>
 </div><!-- class='verified' -->
+
+<hr/>
 
 <%= address_field.wrapped_text_field :line_1 %>
 <%= address_field.wrapped_text_field :unit, :label_text => 'Apt.' %>
@@ -82,6 +53,8 @@ Currently, this is irrelevant as the result is the same.
 	:class => 'datepicker' %>
 <p>(leave blank if unknown)</p>
 </div>
+
+<hr/>
 
 <div class='valid'>
 <%= f.wrapped_y_n_dk_select :is_valid, 
