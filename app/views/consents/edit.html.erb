@@ -2,15 +2,88 @@
 
 <% content_for :id_bar do %>
 <%= link_to( 'Save', nil, {
-        :id => "for_#{dom_id(@study_subject,:edit)}",
-        :class => :submitter
+	:id => "for_#{dom_id(@enrollment,:edit)}",	#	for_FORM_ID
+	:class => :submitter
 }) %>
 <% end if current_user.may_edit_enrollments? %>
-<%# the above id needs to follow the convention ... for_FORM_ID %>
 
 <% id_bar_for(@enrollment.study_subject) %>
 
 <h3>Study Consent Info</h3>
 
-<p>Javascript save button above won't work until there is actual form</p>
+<% form_for(@enrollment,
+	:url => study_subject_consent_path(@study_subject),
+	:html => { :class => 'confirm' }) do |f| %>
 
+<%= f.error_messages %>
+
+<%= f.wrapped_y_n_dk_select :is_eligible,
+	:label_text => 'is eligible?' %>
+
+<%= f.wrapped_collection_select :ineligible_reason_id,
+	IneligibleReason.all, :id, :to_s, :include_blank => true,
+	:label_text => 'reason ineligible:' %>
+
+<%= f.wrapped_text_field :ineligible_reason_specify,
+	:label_text => 'specify:' %>
+
+
+<p>show/hide eligibility criteria javascript toggle for ...</p>
+<div style='border: 1px solid black; background-color: silver; padding: 5px'>
+<p>Is this patient under age 15? Yes / No</p>
+
+<p>Language of parent or caretaker: </p>
+<p>English (eligible)</p>
+<p>Spanish (eligible)</p>
+<p>Other (not eligible)</p>
+<p>specify: </p>
+
+<p>Has this patient received previous treatment for leukemia or another cancer at any institution? Yes / No</p>
+
+<p>Does the patient currently reside in California? Yes / No</p>
+
+</div>
+
+
+<%= f.wrapped_y_n_dk_select :consented,
+	:label_text => 'consented?' %>
+
+<p>lots of javascript triggered fields</p>
+<div>
+<%= f.wrapped_collection_select :refusal_reason_id,
+	RefusalReason.all, :id, :to_s, :include_blank => true,
+	:label_text => 'reason refused:' %>
+<%= f.wrapped_text_field :other_refusal_reason,
+	:label_text => 'specify:' %>
+</div>
+
+<div>
+<%= f.wrapped_date_text_field :consented_on,
+	:size => 20,
+	:class => 'datepicker',
+	:label_text => 'date:' %>
+<%= f.wrapped_collection_select :document_version_id,
+	DocumentVersion.type1, :id, :to_s, :include_blank => true,
+	:label_text => 'version:' %>
+</div>
+
+<div>
+<p>Hospital Consent Opt-Outs</p>
+<hr/>
+<p>May CCLS use samples ...</p>
+<p>... in future research? agree / disagree / n/a</p>
+<p>... in future cancer research? agree / disagree / n/a</p>
+<p>... in future research of other diseases? agree / disagree / n/a</p>
+
+<p>I agree to have my data and tissue/fluid samples shared with other researchers for projects related to childhood leukemia and genetic markers.  agree / disagree / n/a</p>
+
+<p>I agree to be contacted for additional research studies related to this project at a later date.  agree / disagree / n/a</p>
+
+<p>I agree to provide a salive sample for this research study.  agree / disagree / n/a</p>
+
+<p>I want to receive general information about what the study found.  agree / disagree / n/a</p>
+</div>
+
+<p>Respondent Information Sheet</p>
+
+<% end %>

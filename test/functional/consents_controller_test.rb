@@ -37,19 +37,42 @@ class ConsentsControllerTest < ActionController::TestCase
 		test "should put update consent with #{cu} login" do
 			study_subject = Factory(:enrollment).study_subject
 			login_as send(cu)
-			put :update, :study_subject_id => study_subject.id
-#			assert assigns(:study_subject)
-#			assert_not_nil assigns(:enrollment)
-#			assert_response :success
-#			assert_template 'edit'
+			put :update, :study_subject_id => study_subject.id,
+				:enrollment => Factory.attributes_for(:enrollment)
+			assert_nil     flash[:error]
+			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
 		end
 
-		test "should NOT put update consent with invalid study_subject_id #{cu} login" do
+		test "should NOT put update consent with invalid study_subject_id and #{cu} login" do
 			login_as send(cu)
 			put :update, :study_subject_id => 0
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT put update consent with #{cu} login and invalid enrollment" do
+			study_subject = Factory(:enrollment).study_subject
+			login_as send(cu)
+			Enrollment.any_instance.stubs(:valid?).returns(false)
+			put :update, :study_subject_id => study_subject.id,
+				:enrollment => Factory.attributes_for(:enrollment)
+			assert_nil     flash[:notice]
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+
+		test "should NOT put update consent with #{cu} login and save fails" do
+			study_subject = Factory(:enrollment).study_subject
+			login_as send(cu)
+			Enrollment.any_instance.stubs(:create_or_update).returns(false)
+			put :update, :study_subject_id => study_subject.id,
+				:enrollment => Factory.attributes_for(:enrollment)
+			assert_nil     flash[:notice]
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 	end

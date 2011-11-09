@@ -26,10 +26,12 @@ class ConsentsController < ApplicationController
 	def update
 		@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
 			Project['ccls'].id )
-#		@enrollment.update_attributes(params[:enrollment])
-
+		@enrollment.update_attributes!(params[:enrollment])
 		flash[:notice] = "Enrollment successfully updated."
 		redirect_to study_subject_consent_path(@study_subject)
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+		flash.now[:error] = "Enrollment update failed"
+		render :action => 'edit'
 	end
 
 end
