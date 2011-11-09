@@ -100,8 +100,9 @@ class CasesControllerTest < ActionController::TestCase
 		test "should post new case and redirect to waivered with #{cu} login" do
 			login_as send(cu)
 			hospital = Hospital.find_by_has_irb_waiver(true)
-			post :create, {"study_subject"=>{"patient_attributes"=>{
-				"organization_id"=> hospital.organization_id }}}
+#			post :create, {"study_subject"=>{"patient_attributes"=>{
+#				"organization_id"=> hospital.organization_id }}}
+			post :create, { "hospital_id"=> hospital.id }
 			assert_redirected_to new_waivered_path("study_subject"=>{"patient_attributes"=>{
 				"organization_id"=> hospital.organization_id }})
 		end
@@ -109,40 +110,48 @@ class CasesControllerTest < ActionController::TestCase
 		test "should post new case and redirect to nonwaivered with #{cu} login" do
 			login_as send(cu)
 			hospital = Hospital.find_by_has_irb_waiver(false)
-			post :create, {"study_subject"=>{"patient_attributes"=>{
-				"organization_id"=> hospital.organization_id }}}
+#			post :create, {"study_subject"=>{"patient_attributes"=>{
+#				"organization_id"=> hospital.organization_id }}}
+			post :create, { "hospital_id"=> hospital.id }
 			assert_redirected_to new_nonwaivered_path("study_subject"=>{"patient_attributes"=>{
 				"organization_id"=> hospital.organization_id }})
 		end
 
-		test "should not post new case without study_subject and #{cu} login" do
+		test "should not post new case without hospital_id and #{cu} login" do
 			login_as send(cu)
 			post :create
 			assert_not_nil flash[:error]
 			assert_redirected_to new_case_path
 		end
 
-		test "should not post new case without patient_attributes and #{cu} login" do
+		test "should not post new case without valid hospital_id and #{cu} login" do
 			login_as send(cu)
-			post :create, {"study_subject"=>{}}
+			post :create, { "hospital_id"=> '0' }
 			assert_not_nil flash[:error]
 			assert_redirected_to new_case_path
 		end
 
-		test "should not post new case without organization_id and #{cu} login" do
-			login_as send(cu)
-			post :create, {"study_subject"=>{"patient_attributes"=>{}}}
-			assert_not_nil flash[:error]
-			assert_redirected_to new_case_path
-		end
-
-		test "should not post new case without valid organization_id and #{cu} login" do
-			login_as send(cu)
-			post :create, {"study_subject"=>{"patient_attributes"=>{
-				"organization_id"=> '0' }}}
-			assert_not_nil flash[:error]
-			assert_redirected_to new_case_path
-		end
+#		test "should not post new case without patient_attributes and #{cu} login" do
+#			login_as send(cu)
+#			post :create, {"study_subject"=>{}}
+#			assert_not_nil flash[:error]
+#			assert_redirected_to new_case_path
+#		end
+#
+#		test "should not post new case without organization_id and #{cu} login" do
+#			login_as send(cu)
+#			post :create, {"study_subject"=>{"patient_attributes"=>{}}}
+#			assert_not_nil flash[:error]
+#			assert_redirected_to new_case_path
+#		end
+#
+#		test "should not post new case without valid organization_id and #{cu} login" do
+#			login_as send(cu)
+#			post :create, {"study_subject"=>{"patient_attributes"=>{
+#				"organization_id"=> '0' }}}
+#			assert_not_nil flash[:error]
+#			assert_redirected_to new_case_path
+#		end
 
 	end
 
@@ -172,7 +181,8 @@ class CasesControllerTest < ActionController::TestCase
 
 		test "should NOT post new with #{cu} login" do
 			login_as send(cu)
-			post :create, {"study_subject"=>{"patient_attributes"=>{"organization_id"=>"0"}}}
+#			post :create, {"study_subject"=>{"patient_attributes"=>{"organization_id"=>"0"}}}
+			post :create, {"hospital_id"=>"0"}
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -198,7 +208,8 @@ class CasesControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT post new without login" do
-		post :create, {"study_subject"=>{"patient_attributes"=>{"organization_id"=>"0"}}}
+#		post :create, {"study_subject"=>{"patient_attributes"=>{"organization_id"=>"0"}}}
+		post :create, {"hospital_id"=>"0"}
 		assert_redirected_to_login
 	end
 

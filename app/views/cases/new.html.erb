@@ -8,7 +8,10 @@
 
 <% form_tag(cases_path,:method => :post) do %>
 <label>Treating Institution</label>
-<%= select_tag 'study_subject[patient_attributes][organization_id]',
+<%#= select_tag 'study_subject[patient_attributes][organization_id]',
 	options_from_collection_for_select( Hospital.all, :organization_id, :to_s ) %>
+<%= select_tag 'hospital_id',
+	options_from_collection_for_select( 
+		Hospital.all(:include => :organization), :id, :to_s ) %>
 <%= submit_tag 'New Case' %>
 <% end %>
