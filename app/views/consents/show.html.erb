@@ -1,4 +1,5 @@
 <% if @enrollment %>
+<% stylesheets('consent') %>
 
 <% sub_menu_for(@enrollment.study_subject) %>
 
@@ -8,21 +9,32 @@
 <% id_bar_for(@enrollment.study_subject) %>
 
 <h3>Study Consent Info</h3>
+<div class='enrollment'>
+<%= wrapped_y_n_dk_spans :enrollment, :is_eligible,
+	:label_text => 'is eligible?' %>
+<%= wrapped_spans :enrollment, :ineligible_reason,
+	:label_text => 'reason ineligible:' %>
+<%= wrapped_spans :enrollment, :ineligible_reason_specify,
+	:label_text => 'specify:' %>
 
-<p>is eligible? yes ... reason ineligible</p>
-<p>specify reason</p>
+<%= wrapped_y_n_dk_spans :enrollment, :consented,
+	:label_text => 'consented?' %>
+<%= wrapped_date_spans :enrollment, :consented_on,
+	:label_text => 'consent date:' %>
+<%= wrapped_spans :enrollment, :document_version,
+	:label_text => 'consent version:' %>
 
-<p>consented? yes</p>
-<p>reason for refusal</p>
-<p>specify reason</p>
+<%= wrapped_spans :enrollment, :refusal_reason,
+	:label_text => 'reason refused:' %>
+<%= wrapped_spans :enrollment, :other_refusal_reason,
+	:label_text => 'specify:' %>
 
-<p>consent date: ....    consent version: ......</p>
+</div><!-- class='enrollment' -->
 
 <p>May CCLS use samples in future research?  ....</p>
 
-<p>Respondent Information Sheet</p>
+<p>link to Respondent Information Sheet</p>
 
-<%#= render :file => 'enrollments/show' %>
 
 
 

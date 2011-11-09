@@ -1,30 +1,6 @@
-div.eligibility_criteria {
-	border: 1px solid black;
-	background-color: silver;
-	padding: 5px 20px;
-	margin: 10px;
+table#enrollments tr {
+	text-align:left;
 }
-/*
-
-	Be advised.  There are currently still some enrollment specific css
-		in the application.css file.  This should probably be put back in
-		more specific css files.
-
-*/
-div.enrollment .field_wrapper .label {
-/*
-  width:130px;
-*/
-}
-form .field_wrapper label {
-  width:130px;
-}
-
-
-
-/*
-	from enrollment.css
-*/
 .enrollment .field_wrapper.completed_on .label,
 .enrollment .field_wrapper.terminated_reason .label,
 .enrollment .field_wrapper.other_refusal_reason .label,
@@ -36,4 +12,3 @@ form .field_wrapper label {
 .enrollment .field_wrapper.reason_not_chosen  .label{
 	text-indent:50px;
 }
-

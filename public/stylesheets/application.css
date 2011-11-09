@@ -154,21 +154,9 @@ div#guidance {
 ****************************************************/
 
 
-
-
-
-
 div#preview table tr th {
 	text-align: center;
 }
-
-
-
-
-table#enrollments tr {
-	text-align:left;
-}
-
 
 table#guides td.controller {
 	width: 300px;
@@ -206,19 +194,6 @@ form.edit_guide textarea {
 form.edit_guide input[type=text] {
 	width: 99%;
 }
-
-.enrollment .field_wrapper.completed_on .label,
-.enrollment .field_wrapper.terminated_reason .label,
-.enrollment .field_wrapper.other_refusal_reason .label,
-.enrollment .field_wrapper.refusal_reason .label,
-.enrollment .field_wrapper.document_version .label,
-.enrollment .field_wrapper.consented_on .label,
-.enrollment .field_wrapper.ineligible_reason_specify .label,
-.enrollment .field_wrapper.ineligible_reason .label,
-.enrollment .field_wrapper.reason_not_chosen  .label{
-	text-indent:50px;
-}
-
 
 .homex_outcomes .columns .column:nth-child(1) {
 	width: 350px;

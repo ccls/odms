@@ -52,8 +52,8 @@
 <%= f.wrapped_y_n_dk_select :consented,
 	:label_text => 'consented?' %>
 
-<p>lots of javascript triggered fields</p>
 <div>
+<p>javascript triggered subject did not consent fields...</p>
 <%= f.wrapped_collection_select :refusal_reason_id,
 	RefusalReason.all, :id, :to_s, :include_blank => true,
 	:label_text => 'reason refused:' %>
@@ -62,6 +62,7 @@
 </div>
 
 <div>
+<p>javascript triggered subject consented fields...</p>
 <%= f.wrapped_date_text_field :consented_on,
 	:size => 20,
 	:class => 'datepicker',
@@ -71,6 +72,15 @@
 	:label_text => 'version:' %>
 </div>
 
+
+
+
+
+<br/>
+<br/>
+<br/>
+<p>these appear to be all new fields ...</p>
+<hr/>
 <div>
 <p>Hospital Consent Opt-Outs</p>
 <hr/>
@@ -88,6 +98,6 @@
 <p>I want to receive general information about what the study found.  agree / disagree / n/a</p>
 </div>
 
-<p>Respondent Information Sheet</p>
+<p>link to Respondent Information Sheet</p>
 
 <% end %>
