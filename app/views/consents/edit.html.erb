@@ -1,3 +1,5 @@
+<% stylesheets('consent') %>
+<% javascripts('consent') %>
 <% sub_menu_for(@enrollment.study_subject) %>
 
 <% content_for :id_bar do %>
@@ -27,9 +29,11 @@
 <%= f.wrapped_text_field :ineligible_reason_specify,
 	:label_text => 'specify:' %>
 
+<p><%= link_to "show/hide eligibility criteria", 
+	edit_study_subject_consent_path(@study_subject),
+	:class => 'toggle_eligibility_criteria' %></p>
 
-<p>show/hide eligibility criteria javascript toggle for ...</p>
-<div style='border: 1px solid black; background-color: silver; padding: 5px'>
+<div style='display:none' class='eligibility_criteria'>
 <p>Is this patient under age 15? Yes / No</p>
 
 <p>Language of parent or caretaker: </p>

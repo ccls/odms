@@ -1,0 +1,9 @@
+div.eligibility_criteria {
+	border: 1px solid black;
+	background-color: silver;
+	padding: 5px 20px;
+	margin: 10px;
+}
+form .field_wrapper label {
+  width:130px;
+}
