@@ -17,6 +17,32 @@ class ConsentsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+		test "should create ccls enrollment on edit if none exists with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
+			assert_not_nil ccls_enrollment	#	auto-created
+			ccls_enrollment.destroy
+			ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
+			assert_nil ccls_enrollment
+			assert_equal 0, study_subject.enrollments.length
+			login_as send(cu)
+			assert_difference('Enrollment.count',1) {
+				get :edit, :study_subject_id => study_subject.id
+			}
+			ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
+			assert_not_nil ccls_enrollment	#	auto-created
+		end
+
+		test "should NOT create ccls enrollment on edit if one exists with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
+			assert_not_nil ccls_enrollment	#	auto-created
+			login_as send(cu)
+			assert_difference('Enrollment.count',0) {
+				get :edit, :study_subject_id => study_subject.id
+			}
+		end
+
 		test "should get edit consent with #{cu} login" do
 			study_subject = Factory(:enrollment).study_subject
 			login_as send(cu)
