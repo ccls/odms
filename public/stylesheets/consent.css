@@ -4,27 +4,39 @@ div.eligibility_criteria {
 	padding: 5px 20px;
 	margin: 10px;
 }
-div.enrollment .field_wrapper .label {
+.enrollment .field_wrapper .label,
+.enrollment .field_wrapper label {
   width:180px;
 }
-form .field_wrapper label {
-  width:130px;
-}
-
-
 
 /*
 	from enrollment.css
-*/
 .enrollment .field_wrapper.completed_on .label,
 .enrollment .field_wrapper.terminated_reason .label,
+.enrollment .field_wrapper.reason_not_chosen  .label,
+
+*_id .label is show action
+* label is edit action
+
+.enrollment .field_wrapper.refusal_reason label,
+.enrollment .field_wrapper.refusal_reason_id .label,
+.enrollment .field_wrapper.document_version label,
+.enrollment .field_wrapper.document_version_id .label,
+.enrollment .field_wrapper.ineligible_reason label,
+.enrollment .field_wrapper.ineligible_reason_id .label,
+*/
 .enrollment .field_wrapper.other_refusal_reason .label,
+.enrollment .field_wrapper.other_refusal_reason label,
+.enrollment .field_wrapper.refusal_reason_id label,
 .enrollment .field_wrapper.refusal_reason .label,
+.enrollment .field_wrapper.document_version_id label,
 .enrollment .field_wrapper.document_version .label,
 .enrollment .field_wrapper.consented_on .label,
+.enrollment .field_wrapper.consented_on label,
 .enrollment .field_wrapper.ineligible_reason_specify .label,
-.enrollment .field_wrapper.ineligible_reason .label,
-.enrollment .field_wrapper.reason_not_chosen  .label{
+.enrollment .field_wrapper.ineligible_reason_specify label,
+.enrollment .field_wrapper.ineligible_reason_id label,
+.enrollment .field_wrapper.ineligible_reason .label {
 	text-indent:50px;
 }
 
