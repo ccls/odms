@@ -1,0 +1,15 @@
+<h3>Review Possible Duplicate Subjects</h3>
+<div id='possible_duplicates' class='raf_section'>
+
+<p>The following existing subject(s) may be matches for the new case.  If so, please select the correct subject and press "match found."  Otherwise, press "no match."</p>
+
+<table><thead>
+<tr><th>&nbsp;</th><th>treating institution</th><th>hospital number</th>
+<th>birth date</th><th>sex</th><th>study ID</th><th>child ID</th></tr>
+</thead><tbody>
+<%= render :partial => 'raf/duplicate', :collection => @duplicates %>
+</tbody></table>
+
+<p>[match found] [no match]</p>
+
+</div><!-- id='possible_duplicates' -->

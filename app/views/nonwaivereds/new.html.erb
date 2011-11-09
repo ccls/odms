@@ -8,6 +8,9 @@
 
 <%= f.error_messages %>
 
+<%= render( :partial => 'raf/duplicates', 
+	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>
+
 <h3>Section 1: Preliminary Information
 <span><span class='required'>*</span>required fields</span>
 </h3>

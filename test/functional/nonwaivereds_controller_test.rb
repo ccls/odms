@@ -15,7 +15,71 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		test "should create nonwaivered case study_subject enrolled in ccls with #{cu} login" do
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate hospital_no and #{cu} login" do
+			patient = Factory(:patient)
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, :study_subject => minimum_nonwaivered_form_attributes(
+					{ :patient_attributes => {
+						:hospital_no => patient.hospital_no
+					} })
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate admit_date and organization_id and #{cu} login" do
+			patient = Factory(:patient)
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, :study_subject => minimum_nonwaivered_form_attributes(
+					{ :patient_attributes => {
+							:admit_date      => patient.admit_date,
+							:organization_id => patient.organization_id
+					} })
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+#On the Possible Duplicates Found screen, display a list of subjects who…
+#	•	All subjects:  Have the same birth date (piis.dob) and sex (subject.sex) as the new subject and (same mother’s maiden name or existing mother’s maiden name is null), or
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate sex and dob and #{cu} login" do
+pending	#	TODO still need to add mother's maiden name to comparison
+			pii = Factory(:case_pii)
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, :study_subject => minimum_nonwaivered_form_attributes(
+					{ :pii_attributes => { :dob => pii.dob },
+						:sex => pii.study_subject.sex
+					})
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+#		test "should NOT create nonwaivered control study_subject" <<
+#				" with existing duplicate sex and dob and #{cu} login" do
+#pending	#	TODO
+#		end
+
+
+
+
+
+
+		test "should create nonwaivered case study_subject enrolled in ccls" <<
+				" with #{cu} login" do
 			login_as send(cu)
 			minimal_successful_creation
 			assert_equal [Project['ccls']],
@@ -27,21 +91,24 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			minimal_successful_creation
 		end
 
-		test "should create nonwaivered case study_subject with complete attributes and #{cu} login" do
+		test "should create nonwaivered case study_subject" <<
+				" with complete attributes and #{cu} login" do
 			login_as send(cu)
 			full_successful_creation
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
-		test "should create nonwaivered case study_subject with minimum non-waivered attributes and #{cu} login" do
+		test "should create nonwaivered case study_subject" <<
+				" with minimum non-waivered attributes and #{cu} login" do
 			login_as send(cu)
 			minimal_successful_creation
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
-		test "should create nonwaivered case study_subject with non-waivered attributes and #{cu} login" do
+		test "should create nonwaivered case study_subject" <<
+				" with non-waivered attributes and #{cu} login" do
 			login_as send(cu)
 			nonwaivered_successful_creation()
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
@@ -54,14 +121,16 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).mother
 		end
 
-		test "should not assign icf_master_id to mother if none exist on create with #{cu} login" do
+		test "should not assign icf_master_id to mother if none exist on create" <<
+				" with #{cu} login" do
 			login_as send(cu)
 			minimal_successful_creation
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
-		test "should not assign icf_master_id to mother if one exist on create with #{cu} login" do
+		test "should not assign icf_master_id to mother if one exist on create" <<
+				" with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
 			minimal_successful_creation
@@ -69,7 +138,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:warn]
 		end
 
-		test "should assign icf_master_id to mother if two exist on create with #{cu} login" do
+		test "should assign icf_master_id to mother if two exist on create" <<
+				" with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456780')
 			Factory(:icf_master_id,:icf_master_id => '123456781')
@@ -106,7 +176,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal  1 , assigns(:study_subject).enrollments.first.consented
 		end
 
-		test "should copy addressing address county to patient county with #{cu} login" do
+		test "should copy addressing address county to patient county" <<
+				" with #{cu} login" do
 			login_as send(cu)
 			nonwaivered_successful_creation({
 				"addressings_attributes"=>{ "0"=>{ "address_attributes"=> { :county => 'Alameda' } } } })
@@ -125,7 +196,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal '54321', assigns(:study_subject).reload.patient.raf_zip
 		end
 
-		test "should NOT create nonwaivered case study_subject with invalid study_subject and #{cu} login" do
+		test "should NOT create nonwaivered case study_subject" <<
+				" with invalid study_subject and #{cu} login" do
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			assert_all_differences(0) do
@@ -137,7 +209,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-		test "should NOT create nonwaivered case study_subject when save fails with #{cu} login" do
+		test "should NOT create nonwaivered case study_subject" <<
+				" when save fails with #{cu} login" do
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			assert_all_differences(0) do

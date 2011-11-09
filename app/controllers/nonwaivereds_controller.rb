@@ -57,6 +57,21 @@ class NonwaiveredsController < ApplicationController
 					"address_attributes","county")
 	
 			@study_subject = StudySubject.new(study_subject_params)
+
+			#	explicitly validate before searching for duplicates
+			raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?
+
+
+
+			@duplicates = @study_subject.duplicates
+#
+#	TODO 	here is where I should check to see if the user has
+#				done anything with the suggested duplicates.
+#
+			raise StudySubject::DuplicatesFound unless @duplicates.empty?
+
+
+
 			@study_subject.save!
 			@study_subject.assign_icf_master_id
 			@study_subject.create_mother
@@ -76,6 +91,9 @@ class NonwaiveredsController < ApplicationController
 		render :action => 'new'
 	rescue ActiveRecord::StatementInvalid => e
 		flash.now[:error] = "Database error.  Check production logs and contact Jake."
+		render :action => 'new'
+	rescue StudySubject::DuplicatesFound
+		flash.now[:error] = "Possible Duplicate(s) Found."
 		render :action => 'new'
 	end
 

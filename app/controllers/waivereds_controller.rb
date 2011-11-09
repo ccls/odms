@@ -7,6 +7,7 @@ class WaiveredsController < ApplicationController
 		@study_subject = StudySubject.new(params[:study_subject])
 	end
 
+#	TODO this action is getting quite heavy
 	def create
 		@hospitals = Hospital.waivered(:include => :organization)
 		StudySubject.transaction do
@@ -39,12 +40,25 @@ class WaiveredsController < ApplicationController
 					'1' => { 'phone_type_id' => PhoneType['home'].id }
 				}
 			})
-
 			@study_subject = StudySubject.new(study_subject_params)
+
+			#	explicitly validate before searching for duplicates
+			raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?
+
+
+
+			@duplicates = @study_subject.duplicates
+#
+#	TODO 	here is where I should check to see if the user has
+#				done anything with the suggested duplicates.
+#
+			raise StudySubject::DuplicatesFound unless @duplicates.empty?
+
+
+
 			@study_subject.save!
 			@study_subject.assign_icf_master_id
 			@study_subject.create_mother
-
 			warn = []
 			if @study_subject.identifier.icf_master_id.blank?
 				warn << "Control was not assigned an icf_master_id."
@@ -60,6 +74,9 @@ class WaiveredsController < ApplicationController
 		render :action => 'new'
 	rescue ActiveRecord::StatementInvalid => e
 		flash.now[:error] = "Database error.  Check production logs and contact Jake."
+		render :action => 'new'
+	rescue StudySubject::DuplicatesFound
+		flash.now[:error] = "Possible Duplicate(s) Found."
 		render :action => 'new'
 	end
 
