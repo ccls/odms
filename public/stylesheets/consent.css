@@ -4,17 +4,8 @@ div.eligibility_criteria {
 	padding: 5px 20px;
 	margin: 10px;
 }
-/*
-
-	Be advised.  There are currently still some enrollment specific css
-		in the application.css file.  This should probably be put back in
-		more specific css files.
-
-*/
 div.enrollment .field_wrapper .label {
-/*
-  width:130px;
-*/
+  width:180px;
 }
 form .field_wrapper label {
   width:130px;
