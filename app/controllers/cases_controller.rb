@@ -22,28 +22,33 @@ class CasesController < ApplicationController
 	end
 
 	def create
-		#	This is just too nested
+		#	This is just too nested.  Should be good now.  Just cleanup all commented lines.
 		if params[:study_subject] and
 			params[:study_subject][:patient_attributes] and
-			params[:study_subject][:patient_attributes][:organization_id]
+			params[:study_subject][:patient_attributes][:organization_id] and
+			( hospital = Hospital.find_by_organization_id(
+				params[:study_subject][:patient_attributes][:organization_id] ) )
 
 			#	I am hoping that the organization_id is unique
-			hospital = Hospital.find_by_organization_id(
-				params[:study_subject][:patient_attributes][:organization_id] )
-			if hospital
+#			hospital = Hospital.find_by_organization_id(
+#				params[:study_subject][:patient_attributes][:organization_id] )
+#			if hospital
 				if hospital.has_irb_waiver
 					redirect_to new_waivered_path(:study_subject => params[:study_subject])
 				else
 					redirect_to new_nonwaivered_path(:study_subject => params[:study_subject])
 				end
-			else
-				flash[:error] = 'Please select a valid organization'
+#			else
+#				flash[:error] = 'Please select a valid organization'
 #	redirect or render??
-				redirect_to new_case_path
-			end
+#				redirect_to new_case_path
+#			end
 		else
-			flash[:error] = 'Please select an organization'
 #	redirect or render??
+#			@hospitals = Hospital.all
+#			flash.now[:error] = 'Please select an organization'
+#			render :action => 'new'	#	will need to reload @hospitals
+			flash[:error] = 'Please select an organization'
 			redirect_to new_case_path
 		end
 	end
