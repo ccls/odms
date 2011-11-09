@@ -7,9 +7,17 @@
 <div class='tablerow'>
 <div class='organization_id'>
 	<p><%= "#{req('*')}&nbsp;treating institution:" %></p>
-	<%= patient_fields.collection_select :organization_id,
-		Hospital.all(:include => :organization), 
+
+<% if @study_subject.try(:patient).try(:organization) %>
+  <span><%= @study_subject.try(:patient).try(:organization) -%></span>
+  <%= patient_fields.hidden_field :organization_id, 
+		:value => @study_subject.try(:patient).try(:organization_id) %>
+<% else %>
+  <%= patient_fields.collection_select :organization_id, @hospitals,
 		:organization_id, :to_s, :include_blank => true %>
+<% end %>
+
+<%#		Hospital.all(:include => :organization), %>
 </div><!-- class='organization_id' -->
 
 <div class='admitting_oncologist'>

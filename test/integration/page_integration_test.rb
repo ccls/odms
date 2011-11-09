@@ -12,8 +12,7 @@ class PageIntegrationTest < ActionController::IntegrationTest
 
 		test "should create new page with #{cu} login using webrat" do
 			login_as send(cu)
-			#	need to set HTTPS for webrat
-			header('HTTPS', 'on')
+
 			visit new_page_path
 			fill_in "page[path]",     :with => "/MyNewPath"
 			fill_in "page[menu_en]",  :with => "MyNewMenu"
@@ -39,8 +38,6 @@ class PageIntegrationTest < ActionController::IntegrationTest
 			page = Page.first
 			login_as send(cu)
 
-			#	need to set HTTPS for webrat
-			header('HTTPS', 'on')
 			visit edit_page_path(page)
 			fill_in "page[menu_en]", :with => "MyNewMenu"
 

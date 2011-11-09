@@ -7,8 +7,6 @@ class WaiveredIntegrationTest < ActionController::IntegrationTest
 		test "should get new waivered raf form and submit with #{cu} login" do
 			login_as send(cu)
 
-			#	need to set HTTPS for webrat
-			header('HTTPS', 'on')
 			visit new_waivered_path
 
 			#	select(option_text, options = {})	
@@ -18,7 +16,6 @@ class WaiveredIntegrationTest < ActionController::IntegrationTest
 				:from => "study_subject[sex]"
 			fill_in "study_subject[patient_attributes][hospital_no]",
 				:with => "9999999999999999999999999"				#	This will NEED to be unique
-#			select "California Pacific Medical Center",		#	I don't know if this is a WAIVERED hospital or not
 			select Hospital.waivered.first.organization.to_s,
 				:from => "study_subject[patient_attributes][organization_id]"
 			fill_in "study_subject[patient_attributes][admit_date]",

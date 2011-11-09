@@ -15,6 +15,13 @@ class ActionController::IntegrationTest
 
 	fixtures :all
 
+	setup :turn_https_on_for_webrat
+
+	def turn_https_on_for_webrat
+		#	I always, so for anyway, use https in webrat tests so ...
+		header('HTTPS', 'on')
+	end
+
 	#	Special login_as for integration testing.
 	def login_as( user=nil )
 		uid = ( user.is_a?(User) ) ? user.uid : user

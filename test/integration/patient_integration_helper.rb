@@ -8,8 +8,7 @@ class PatientIntegrationTest < ActionController::IntegrationTest
 
 		test "should create new patient for case with #{cu} login using webrat" do
 			login_as send(cu)
-			#	need to set HTTPS for webrat
-			header('HTTPS', 'on')
+
 #			visit new_page_path
 #			fill_in "page[path]",     :with => "/MyNewPath"
 #			fill_in "page[menu_en]",  :with => "MyNewMenu"

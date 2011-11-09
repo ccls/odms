@@ -7,8 +7,6 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 		test "should get new nonwaivered raf form and submit with #{cu} login" do
 			login_as send(cu)
 
-			#	need to set HTTPS for webrat
-			header('HTTPS', 'on')
 			visit new_nonwaivered_path
 
 			select "male", 
