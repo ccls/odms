@@ -9,11 +9,60 @@
 </thead><tbody>
 <%= render :partial => 'raf/duplicate', :collection => @duplicates,
 	:locals => { :f => f } %>
+
+<!--
+Can't UNCLICK a radio button so if accidentally chose one,
+	then the user couldn't undo it. Then what? Reload the page?
+<tr>
+<td><%= radio_button_tag('duplicate', 0 ) %></td>
+<td>No Match</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+-->
+
 </tbody></table>
 
+<%#
+
+NOTE to self.  Be advised that pressing enter on a text field will submit
+	the form using the FIRST submit button on the form.  This will now
+	be the "Match Found" submit button.  I don't know if there is a
+	way to set the "default" submit button on a form.  There is no standard
+	defined for this behaviour although I could add some javascript that
+	intercepts the keypress and "clicks" on the .default submit button.
+	No idea whether this would fly across OS and browsers though.  It should
+	as it would be jQuery which is supposed to handle all that jazz.
+
+	I think that it may be better to NOT use multiple buttons, but rather
+	have a radio button in the list for NO MATCH.  
+
+	I need something to determine whether the form is ...
+		... acknowleding a match
+		... acknowleding no match
+		... just resubmitted as noticed a typo or something
+
+$(function() {
+    $("form input").keypress(function (e) {
+        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+// I don't think that 'button[type=submit]' is correct for me as
+// it should just be an 'input[type=submit]'
+            $('button[type=submit] .default').click();
+            return false;
+        } else {
+            return true;
+        }
+    });
+});
+
+%>
 <p class='submit_bar'>
-[match found] [no match]
-<%#= f.submit_link_to 'Submit' %>
+<%= f.submit_link_to 'Match Found' %>
+<%= f.submit_link_to 'No Match' %>
 </p>
 
 </div><!-- id='possible_duplicates' -->
