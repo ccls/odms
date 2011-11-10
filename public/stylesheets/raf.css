@@ -84,3 +84,10 @@ form.raf div.other_diagnosis {
 form.raf div.other_diagnosis label {
 	float:none;
 }
+
+/*
+	Hide the study subject field on kickback when possible duplicates are found
+*/
+form.raf div#possible_duplicates + div.study_subject_fields {
+	display:none;
+}

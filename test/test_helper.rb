@@ -9,7 +9,7 @@ class ActiveSupport::TestCase
 	def complete_case_study_subject_attributes(options={})
 #	MUST use strings for keys and NOT symbols due to to_hash
 #	conversion for deep_merging
-		Factory.attributes_for(:study_subject,
+		{ 'study_subject' => Factory.attributes_for(:study_subject,
 #			'subject_type_id' => SubjectType['Case'].id,
 #	NOT on the form or currently required
 #			'subject_races_attributes' => {
@@ -29,7 +29,7 @@ class ActiveSupport::TestCase
 			'enrollments_attributes' => {
 				'0' => Factory.attributes_for(:enrollment) }
 #				'project_id' => Project['non-specific'].id)}
-		).deep_merge(options)
+		) }.deep_merge(options)
 	end
 
 	def assert_all_differences(count=0,&block)

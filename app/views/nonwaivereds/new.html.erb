@@ -11,6 +11,7 @@
 <%= render( :partial => 'raf/duplicates', 
 	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>
 
+<div class='study_subject_fields'>
 <h3>Section 1: Preliminary Information
 <span><span class='required'>*</span>required fields</span>
 </h3>
@@ -25,4 +26,5 @@
 <%= render :partial => 'samples_form', :locals => {:f=>f} %>
 
 <p class='submit_bar'><%= f.submit_link_to 'Submit' %></p>
+</div><!-- class='study_subject_fields' -->
 <% end %>

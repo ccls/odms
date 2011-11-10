@@ -15,15 +15,74 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		test "should NOT create waivered case study_subject " <<
-				"with existing duplicate hospital_no and #{cu} login" do
-#			patient = Factory(:patient)
-			patient = Factory(:complete_case_study_subject).patient
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate hospital_no and #{cu} login" do
+			subject = Factory(:complete_case_study_subject).reload
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, :study_subject => minimum_waivered_form_attributes(
-					{ :patient_attributes => {
-						:hospital_no => patient.hospital_no
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'patient_attributes' => {
+						'organization_id' => ( subject.organization_id + 1 ),
+						'hospital_no'     => subject.hospital_no
+					} })
+			end
+			#	these share the same factory which means that the organization_id 
+			#	is the same so the hospital_id won't be unique
+			assert !assigns(:study_subject).errors.on_attr_and_type(
+				"patient.hospital_no",:taken)
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate hospital_no" <<
+				" and #{cu} login if 'Match Found'" do
+pending	#	TODO
+			subject = Factory(:complete_case_study_subject).reload
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'patient_attributes' => {
+						'organization_id' => ( subject.organization_id + 1 ),
+						'hospital_no'     => subject.hospital_no
+					} }, :commit => 'Match Found')
+#	TODO	add duplicate_id to params
+			end
+			#	these share the same factory which means that the organization_id 
+			#	is the same so the hospital_id won't be unique
+			assert !assigns(:study_subject).errors.on_attr_and_type(
+				"patient.hospital_no",:taken)
+#			assert_not_nil flash[:error]
+#			assert_response :success
+#			assert_template 'new'
+		end
+
+		test "should create waivered case study_subject" <<
+				" with existing duplicate hospital_no" <<
+				" and #{cu} login if 'No Match'" do
+			subject = Factory(:complete_case_study_subject).reload
+			login_as send(cu)
+			minimum_successful_creation(
+					'study_subject' => { 'patient_attributes' => {
+						'organization_id' => ( subject.organization_id + 1 ),
+						'hospital_no'     => subject.hospital_no
+					} }, :commit => 'No Match')
+			#	these share the same factory which means that the organization_id 
+			#	is the same so the hospital_id won't be unique
+			assert !assigns(:study_subject).errors.on_attr_and_type(
+				"patient.hospital_no",:taken)
+		end
+
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate admit_date and organization_id and #{cu} login" do
+			subject = Factory(:complete_case_study_subject).reload
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'patient_attributes' => {
+							'admit_date'      => subject.admit_date,
+							'organization_id' => subject.organization_id
 					} })
 			end
 			assert assigns(:study_subject)
@@ -32,37 +91,50 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-		test "should NOT create waivered case study_subject " <<
-				"with existing duplicate admit_date and organization_id and #{cu} login" do
-#			patient = Factory(:patient)
-			patient = Factory(:complete_case_study_subject).patient
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate admit_date and organization_id" <<
+				" and #{cu} login if 'Match Found'" do
+pending	#	TODO
+			subject = Factory(:complete_case_study_subject).reload
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, :study_subject => minimum_waivered_form_attributes(
-					{ :patient_attributes => {
-							:admit_date      => patient.admit_date,
-							:organization_id => patient.organization_id
-					} })
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'patient_attributes' => {
+							'admit_date'      => subject.admit_date,
+							'organization_id' => subject.organization_id
+					} }, :commit => 'Match Found' )
+#	TODO add duplicate_id to params
 			end
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+#			assert assigns(:study_subject)
+#			assert_not_nil flash[:error]
+#			assert_response :success
+#			assert_template 'new'
+		end
+
+		test "should create waivered case study_subject" <<
+				" with existing duplicate admit_date and organization_id" <<
+				" and #{cu} login if 'No Match'" do
+			subject = Factory(:complete_case_study_subject).reload
+			login_as send(cu)
+			minimum_successful_creation(
+					'study_subject' => { 'patient_attributes' => {
+							'admit_date'      => subject.admit_date,
+							'organization_id' => subject.organization_id
+					} }, :commit => 'No Match' )
 		end
 
 #On the Possible Duplicates Found screen, display a list of subjects who…
 #	•	All subjects:  Have the same birth date (piis.dob) and sex (subject.sex) as the new subject and (same mother’s maiden name or existing mother’s maiden name is null), or
 
-		test "should NOT create waivered case study_subject " <<
-				"with existing duplicate sex and dob and #{cu} login" do
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and #{cu} login" do
 pending	#	TODO still need to add mother's maiden name to comparison
-#			pii = Factory(:case_pii)
-			pii = Factory(:complete_case_study_subject).pii
+			subject = Factory(:complete_case_study_subject).reload
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, :study_subject => minimum_waivered_form_attributes(
-					{ :pii_attributes => { :dob => pii.dob },
-						:sex => pii.study_subject.sex
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { 'dob' => subject.dob }
 					})
 			end
 			assert assigns(:study_subject)
@@ -71,10 +143,36 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			assert_template 'new'
 		end
 
-#		test "should NOT create waivered control study_subject " <<
-#				"with existing duplicate sex and dob and #{cu} login" do
-#pending	#	TODO
-#		end
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob" <<
+				" and #{cu} login if 'Match Found'" do
+pending	#	TODO still need to add mother's maiden name to comparison
+			subject = Factory(:complete_case_study_subject).reload
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { 'dob' => subject.dob }
+					}, :commit => 'Match Found' )
+#	TODO add duplicate_id to params
+			end
+#			assert assigns(:study_subject)
+#			assert_not_nil flash[:error]
+#			assert_response :success
+#			assert_template 'new'
+		end
+
+		test "should create waivered case study_subject" <<
+				" with existing duplicate sex and dob" <<
+				" and #{cu} login if 'No Match'" do
+pending	#	TODO still need to add mother's maiden name to comparison
+			subject = Factory(:complete_case_study_subject).reload
+			login_as send(cu)
+			minimum_successful_creation(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { 'dob' => subject.dob }
+					}, :commit => 'No Match' )
+		end
 
 
 
@@ -166,7 +264,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			assert_all_differences(0) do
-				post :create, :study_subject => complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes
 			end
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -179,7 +277,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			assert_all_differences(0) do
-				post :create, :study_subject => complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes
 			end
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -201,7 +299,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			assert_not_nil identifier1.patid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, :study_subject => complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -214,7 +312,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			assert_not_nil identifier1.childid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, :study_subject => complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -227,7 +325,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			assert_not_nil identifier1.subjectid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, :study_subject => complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -241,7 +339,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 		test "should NOT create waivered case study_subject with #{cu} login" do
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, :study_subject => complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -251,7 +349,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 
 	test "should NOT create waivered case study_subject without login" do
 		assert_all_differences(0) do
-			post :create, :study_subject => complete_case_study_subject_attributes
+			post :create, complete_case_study_subject_attributes
 		end
 		assert_redirected_to_login
 	end
@@ -259,16 +357,16 @@ pending	#	TODO still need to add mother's maiden name to comparison
 protected
 
 	def minimum_waivered_form_attributes(options={})
-		{
+		{ 'study_subject' => {
 			"sex"                   => "M", 
 			"pii_attributes"        => Factory.attributes_for(:pii),
 			"identifier_attributes" => { },
 			"patient_attributes"    => Factory.attributes_for(:patient)
-		}.deep_merge(options)
+		} }.deep_merge(options)
 	end
 
 	def waivered_form_attributes(options={})
-		{
+		{ 'study_subject' => {
 			"subject_languages_attributes"=>{
 				"0"=>{"language_id"=>"1"}, 
 				"1"=>{"language_id"=>""}, 
@@ -321,22 +419,22 @@ protected
 #				"diagnosis_id"=>"", 
 				"was_ca_resident_at_diagnosis"=>"true"
 			})
-		}.deep_merge(options)
+		}}.deep_merge(options)
 	end
 
-	def minimum_successful_creation
+	def minimum_successful_creation(options={})
 		assert_difference('Enrollment.count',2){	#	subject AND mother
 		assert_difference('Pii.count',2){
 		assert_difference('Patient.count',1){
 		assert_difference('Identifier.count',2){
 		assert_difference('StudySubject.count',2){
-			post :create, :study_subject => minimum_waivered_form_attributes
+			post :create, minimum_waivered_form_attributes(options)
 		} } } } }
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)
 	end
 
-	def full_successful_creation
+	def full_successful_creation(options={})
 		assert_difference('StudySubject.count',2){
 #		assert_difference('SubjectRace.count',count){
 		assert_difference('SubjectLanguage.count',1){
@@ -347,13 +445,13 @@ protected
 		assert_difference('PhoneNumber.count',1){
 		assert_difference('Addressing.count',1){
 		assert_difference('Address.count',1){
-			post :create, :study_subject => complete_case_study_subject_attributes
+			post :create, complete_case_study_subject_attributes(options)
 		} } } } } } } } } #}
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)
 	end
 
-	def waivered_successful_creation
+	def waivered_successful_creation(options={})
 		assert_difference('StudySubject.count',2){
 #		assert_difference('SubjectRace.count',count){
 		assert_difference('SubjectLanguage.count',1){
@@ -364,7 +462,7 @@ protected
 		assert_difference('PhoneNumber.count',1){
 		assert_difference('Addressing.count',1){
 		assert_difference('Address.count',1){
-			post :create, :study_subject => waivered_form_attributes
+			post :create, waivered_form_attributes(options)
 		} } } } } } } } } #}
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)
