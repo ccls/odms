@@ -17,7 +17,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate hospital_no and #{cu} login" do
-			patient = Factory(:patient)
+#			patient = Factory(:patient)
+			patient = Factory(:complete_case_study_subject).patient
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, :study_subject => minimum_nonwaivered_form_attributes(
@@ -33,7 +34,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate admit_date and organization_id and #{cu} login" do
-			patient = Factory(:patient)
+#			patient = Factory(:patient)
+			patient = Factory(:complete_case_study_subject).patient
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, :study_subject => minimum_nonwaivered_form_attributes(
@@ -54,7 +56,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and #{cu} login" do
 pending	#	TODO still need to add mother's maiden name to comparison
-			pii = Factory(:case_pii)
+			pii = Factory(:complete_case_study_subject).pii
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, :study_subject => minimum_nonwaivered_form_attributes(
