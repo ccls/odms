@@ -1,3 +1,9 @@
+/*
+
+	I don't know where this is called.  
+	I think that it is leftover for home exposures, but it isn't even used there any more.
+
+*/
 jQuery(function(){
 
 	jQuery('button#select_all').click(function(){
