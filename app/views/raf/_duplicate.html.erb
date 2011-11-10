@@ -1,6 +1,8 @@
 <tr>
-<td><%= radio_button_tag('duplicate', duplicate.id ) %></td>
-<td><%= duplicate.full_name %></td>
+<%# This form shouldn't actually be reloaded so preseting 
+		a radio button seems like it would be unnecessary %>
+<td><%= radio_button_tag('duplicate_id', duplicate.id ) %></td>
+<td><%= label_tag("duplicate_id_#{duplicate.id}",duplicate.full_name) %></td>
 <td><%= duplicate.organization.code %></td>
 <td><%= duplicate.hospital_no %></td>
 <td><%=mdy duplicate.dob %></td>

@@ -37,7 +37,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate hospital_no" <<
-				" and #{cu} login if 'Match Found'" do
+				" and #{cu} login if 'Match Found' without duplicate_id" do
 pending	#	TODO
 			subject = Factory(:complete_case_study_subject).reload
 			login_as send(cu)
@@ -56,6 +56,18 @@ pending	#	TODO
 #			assert_not_nil flash[:error]
 #			assert_response :success
 #			assert_template 'new'
+		end
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate hospital_no" <<
+				" and #{cu} login if 'Match Found' with valid duplicate_id" do
+pending	#	TODO
+		end
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate hospital_no" <<
+				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
+pending	#	TODO
 		end
 
 		test "should create nonwaivered case study_subject" <<
@@ -93,7 +105,7 @@ pending	#	TODO
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate admit_date and organization_id" <<
-				" and #{cu} login if 'Match Found'" do
+				" and #{cu} login if 'Match Found' without duplicate_id" do
 pending	#	TODO
 			subject = Factory(:complete_case_study_subject).reload
 			login_as send(cu)
@@ -109,6 +121,18 @@ pending	#	TODO
 #			assert_not_nil flash[:error]
 #			assert_response :success
 #			assert_template 'new'
+		end
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate admit_date and organization_id" <<
+				" and #{cu} login if 'Match Found' with valid duplicate_id" do
+pending	#	TODO
+		end
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate admit_date and organization_id" <<
+				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
+pending	#	TODO
 		end
 
 		test "should create nonwaivered case study_subject" <<
@@ -145,7 +169,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob" <<
-				" and #{cu} login and 'Match Found'" do
+				" and #{cu} login and 'Match Found' without duplicate_id" do
 pending	#	TODO still need to add mother's maiden name to comparison
 			subject = Factory(:complete_case_study_subject).reload
 			login_as send(cu)
@@ -160,6 +184,18 @@ pending	#	TODO still need to add mother's maiden name to comparison
 #			assert_not_nil flash[:error]
 #			assert_response :success
 #			assert_template 'new'
+		end
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate sex and dob" <<
+				" and #{cu} login and 'Match Found' with valid duplicate_id" do
+pending	#	TODO still need to add mother's maiden name to comparison
+		end
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing duplicate sex and dob" <<
+				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
+pending	#	TODO still need to add mother's maiden name to comparison
 		end
 
 		test "should create nonwaivered case study_subject" <<

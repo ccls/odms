@@ -7,9 +7,9 @@ class WaiveredsController < ApplicationController
 		@study_subject = StudySubject.new(params[:study_subject])
 	end
 
-#	TODO this action is getting quite heavy
+	#	TODO this action has gotten quite heavy
 	def create
-	@hospitals = Hospital.waivered(:include => :organization)
+		@hospitals = Hospital.waivered(:include => :organization)
 		#
 		#	Add defaults that are not on the forms.
 		#	This is ugly, but they are required, so either here or 
@@ -44,6 +44,7 @@ class WaiveredsController < ApplicationController
 		#	explicitly validate before searching for duplicates
 		raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?
 
+		warn = []
 		#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
 		if params[:commit].blank? or params[:commit] == 'Submit'
 			@duplicates = @study_subject.duplicates
@@ -52,35 +53,23 @@ class WaiveredsController < ApplicationController
 
 		if params[:commit] == 'Match Found'
 
-
-
-
-
-
-#		mark duplicate with operational event and then ...?
-
-
-#	this should be failing as no @study_subject to redirect to
-#puts	"this should be failing as no @study_subject to redirect to"
-#	redirects to ( [name not available] ), whatever that mean
-#	ends up redirecting to study_subjects#index
-
+			if params[:duplicate_id] and
+					( duplicate = StudySubject.find_by_id(params[:duplicate_id]) )
+#				duplicate.raf_duplicate_creation_attempted(@study_subject)
+#				redirect_to duplicate
 
 #	just for now
-			@duplicates = @study_subject.duplicates
-			raise StudySubject::DuplicatesFound unless @duplicates.empty?
-
-
-
-
-
-
-
-
-
-
-
-
+				warn << "duplicate_id :#{params[:duplicate_id]}: given"
+				@duplicates = @study_subject.duplicates
+				raise StudySubject::DuplicatesFound unless @duplicates.empty?
+			else
+				#
+				#	Match Found, but no duplicate_id or subject with the id
+				#
+				warn << "No valid duplicate_id given"
+				@duplicates = @study_subject.duplicates
+				raise StudySubject::DuplicatesFound unless @duplicates.empty?
+			end
 
 		#	params[:commit].blank? or params[:commit] == 'Submit' 
 		#		or params[:commit] == 'No Match'
@@ -94,7 +83,6 @@ class WaiveredsController < ApplicationController
 				@study_subject.create_mother
 			end
 
-			warn = []
 			if @study_subject.identifier.icf_master_id.blank?
 				warn << "Control was not assigned an icf_master_id."
 			end
@@ -102,8 +90,8 @@ class WaiveredsController < ApplicationController
 				warn << "Mother was not assigned an icf_master_id."
 			end
 			flash[:warn] = warn.join('<br/>') unless warn.empty?
+			redirect_to @study_subject
 		end
-		redirect_to @study_subject
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "StudySubject creation failed"
 		render :action => 'new'
@@ -112,6 +100,7 @@ class WaiveredsController < ApplicationController
 		render :action => 'new'
 	rescue StudySubject::DuplicatesFound
 		flash.now[:error] = "Possible Duplicate(s) Found."
+		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
 		render :action => 'new'
 	end
 
