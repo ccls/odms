@@ -98,6 +98,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			#	is the same so the hospital_id won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type(
 				"patient.hospital_no",:taken)
+			assert_not_nil flash[:notice]
 			assert_redirected_to subject
 		end
 
@@ -188,6 +189,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 					} }, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert assigns(:study_subject)
+			assert_not_nil flash[:notice]
 			assert_redirected_to subject
 		end
 
@@ -277,6 +279,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert assigns(:study_subject)
+			assert_not_nil flash[:notice]
 			assert_redirected_to subject
 		end
 

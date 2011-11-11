@@ -76,9 +76,7 @@ class NonwaiveredsController < ApplicationController
 					( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and 
 					@duplicates.include?(duplicate)
 				duplicate.raf_duplicate_creation_attempted(@study_subject)
-#
-#	perhaps add a flash[:notice] ??
-#
+				flash[:notice] = "Operational Event created marking this attempted entry."
 				redirect_to duplicate
 			else
 				#

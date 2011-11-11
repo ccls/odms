@@ -97,9 +97,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type(
 				"patient.hospital_no",:taken)
-
+			assert_not_nil flash[:notice]
 			assert_redirected_to subject
-
 		end
 
 		test "should create nonwaivered case study_subject" <<
@@ -188,9 +187,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 					} }, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert assigns(:study_subject)
-
+			assert_not_nil flash[:notice]
 			assert_redirected_to subject
-
 		end
 
 		test "should create nonwaivered case study_subject" <<
@@ -277,9 +275,8 @@ pending	#	TODO still need to add mother's maiden name to comparison
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert assigns(:study_subject)
-
+			assert_not_nil flash[:notice]
 			assert_redirected_to subject
-
 		end
 
 		test "should create nonwaivered case study_subject" <<
