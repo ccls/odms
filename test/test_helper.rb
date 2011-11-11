@@ -29,7 +29,8 @@ class ActiveSupport::TestCase
 			'enrollments_attributes' => {
 				'0' => Factory.attributes_for(:enrollment) }
 #				'project_id' => Project['non-specific'].id)}
-		) }.deep_merge(options)
+#		) }.deep_merge(options)
+		) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
 	def assert_all_differences(count=0,&block)

@@ -22,8 +22,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-						'organization_id' => ( subject.organization_id + 1 ),
-						'hospital_no'     => subject.hospital_no
+						:organization_id => ( subject.organization_id + 1 ),
+						:hospital_no     => subject.hospital_no
 					} })
 			end
 			#	these share the same factory which means that the organization_id 
@@ -43,8 +43,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-						'organization_id' => ( subject.organization_id + 1 ),
-						'hospital_no'     => subject.hospital_no
+						:organization_id => ( subject.organization_id + 1 ),
+						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found')
 			end
 			#	these share the same factory which means that the organization_id 
@@ -66,8 +66,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-						'organization_id' => ( subject.organization_id + 1 ),
-						'hospital_no'     => subject.hospital_no
+						:organization_id => ( subject.organization_id + 1 ),
+						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found', :duplicate_id => 0 )
 			end
 			#	these share the same factory which means that the organization_id 
@@ -90,8 +90,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) {
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-						'organization_id' => ( subject.organization_id + 1 ),
-						'hospital_no'     => subject.hospital_no
+						:organization_id => ( subject.organization_id + 1 ),
+						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			#	these share the same factory which means that the organization_id 
@@ -109,8 +109,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'patient_attributes' => {
-						'organization_id' => ( subject.organization_id + 1 ),
-						'hospital_no'     => subject.hospital_no
+						:organization_id => ( subject.organization_id + 1 ),
+						:hospital_no     => subject.hospital_no
 					} }, :commit => 'No Match')
 			#	these share the same factory which means that the organization_id 
 			#	is the same so the hospital_id won't be unique
@@ -125,8 +125,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-							'admit_date'      => subject.admit_date,
-							'organization_id' => subject.organization_id
+							:admit_date      => subject.admit_date,
+							:organization_id => subject.organization_id
 					} })
 			end
 			assert assigns(:study_subject)
@@ -143,8 +143,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-							'admit_date'      => subject.admit_date,
-							'organization_id' => subject.organization_id
+							:admit_date      => subject.admit_date,
+							:organization_id => subject.organization_id
 					} }, :commit => 'Match Found' )
 			end
 			assert assigns(:study_subject)
@@ -163,8 +163,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-							'admit_date'      => subject.admit_date,
-							'organization_id' => subject.organization_id
+							:admit_date      => subject.admit_date,
+							:organization_id => subject.organization_id
 					} }, :commit => 'Match Found', :duplicate_id => 0 )
 			end
 			assert assigns(:study_subject)
@@ -184,8 +184,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) {
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-							'admit_date'      => subject.admit_date,
-							'organization_id' => subject.organization_id
+							:admit_date      => subject.admit_date,
+							:organization_id => subject.organization_id
 					} }, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert assigns(:study_subject)
@@ -200,8 +200,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'patient_attributes' => {
-							'admit_date'      => subject.admit_date,
-							'organization_id' => subject.organization_id
+							:admit_date      => subject.admit_date,
+							:organization_id => subject.organization_id
 					} }, :commit => 'No Match' )
 		end
 
@@ -216,7 +216,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { 'dob' => subject.dob }
+						'pii_attributes' => { :dob => subject.dob }
 					})
 			end
 			assert assigns(:study_subject)
@@ -234,7 +234,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { 'dob' => subject.dob }
+						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'Match Found' )
 			end
 			assert assigns(:study_subject)
@@ -254,7 +254,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			assert_all_differences(0) do
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { 'dob' => subject.dob }
+						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
 			assert assigns(:study_subject)
@@ -275,7 +275,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			assert_all_differences(0) {
 				post :create, minimum_waivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { 'dob' => subject.dob }
+						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert assigns(:study_subject)
@@ -291,7 +291,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { 'dob' => subject.dob }
+						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'No Match' )
 		end
 
@@ -481,14 +481,21 @@ pending	#	TODO still need to add mother's maiden name to comparison
 	end
 
 protected
-
+#
+#	NOTE BEWARE that deep_merge doesn't work for HWIAs.  keys MUST match string/symbol!
+#		Factory.attributes_for returns hashs with SYMBOLS as keys!!!!
+#		Any attempt to override these attributes, if they are set, MUST BE SYMBOLS!!!
+#
+#	TODO Add stringify keys or something to try to unify this.  Actually, need deep_stringify_keys
+#
 	def minimum_waivered_form_attributes(options={})
 		{ 'study_subject' => {
 			"sex"                   => "M", 
 			"pii_attributes"        => Factory.attributes_for(:pii),
 			"identifier_attributes" => { },
 			"patient_attributes"    => Factory.attributes_for(:patient)
-		} }.deep_merge(options)
+		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+#		} }.deep_merge(options)
 	end
 
 	def waivered_form_attributes(options={})
@@ -545,7 +552,8 @@ protected
 #				"diagnosis_id"=>"", 
 				"was_ca_resident_at_diagnosis"=>"true"
 			})
-		}}.deep_merge(options)
+#		}}.deep_merge(options)
+		}}.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
 	def minimum_successful_creation(options={})
