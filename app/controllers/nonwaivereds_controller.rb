@@ -8,6 +8,8 @@ class NonwaiveredsController < ApplicationController
 	end
 
 	#	TODO this action has gotten quite heavy
+	#		And waivered/nonwaivered contain some very similar code.
+	#		Break out the sponge and begin drying and refactoring.
 	def create
 		@hospitals = Hospital.nonwaivered(:include => :organization)
 		#
@@ -69,21 +71,20 @@ class NonwaiveredsController < ApplicationController
 		end
 
 		if params[:commit] == 'Match Found'	
+			@duplicates = @study_subject.duplicates
 			if params[:duplicate_id] and
-					( duplicate = StudySubject.find_by_id(params[:duplicate_id]) )
-#				duplicate.raf_duplicate_creation_attempted(@study_subject)
-#				redirect_to duplicate
-
-#	just for now
-				warn << "duplicate_id :#{params[:duplicate_id]}: given"
-				@duplicates = @study_subject.duplicates
-				raise StudySubject::DuplicatesFound unless @duplicates.empty?
+					( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and 
+					@duplicates.include?(duplicate)
+				duplicate.raf_duplicate_creation_attempted(@study_subject)
+#
+#	perhaps add a flash[:notice] ??
+#
+				redirect_to duplicate
 			else
 				#
 				#	Match Found, but no duplicate_id or subject with the id
 				#
 				warn << "No valid duplicate_id given"
-				@duplicates = @study_subject.duplicates
 				raise StudySubject::DuplicatesFound unless @duplicates.empty?
 			end
 
