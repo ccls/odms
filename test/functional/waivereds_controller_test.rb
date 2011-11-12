@@ -486,7 +486,7 @@ protected
 #		Factory.attributes_for returns hashs with SYMBOLS as keys!!!!
 #		Any attempt to override these attributes, if they are set, MUST BE SYMBOLS!!!
 #
-#	TODO Add stringify keys or something to try to unify this.  Actually, need deep_stringify_keys
+#	TODO Add stringify keys or something to try to unify this.  Actually, need deep_stringify_keys. Done.
 #
 	def minimum_waivered_form_attributes(options={})
 		{ 'study_subject' => {
