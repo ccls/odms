@@ -4,10 +4,17 @@ class WaiveredIntegrationTest < ActionController::IntegrationTest
 
 	site_administrators.each do |cu|
 
+		test "should add a couple duplicate subject tests here with #{cu} login" do
+pending	#	TODO	complete_waivered_case_study_subject
+		end
+
 		test "should get new waivered raf form and submit with #{cu} login" do
 			login_as send(cu)
 
 			visit new_waivered_path
+
+#	attributes = Factory.attributes_for(:complete_nonwaivered_case_study_subject)
+#	then try to use these attributes in form?
 
 			#	select(option_text, options = {})	
 			#	selects on the inner content of the option tag, NOT the option tag's value.

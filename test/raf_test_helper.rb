@@ -3,7 +3,19 @@ class ActiveSupport::TestCase
 #	def create_complete_case_study_subject(options={})
 #		subject = Factory(:complete_case_study_subject,options)
 #	end
-
+#
+#	NOTE the deep factories are convenient, but are a bit of a pain in the butt
+#		when trying to override the default attributes because Factory doesn't
+#		deep_merge, it just merges.  Which means that the nested attribute model
+#		needs to be completely defined, rather than just merging in the new attribute.
+#		Because of this, if I want to use nested factories and I want to override them,
+#		my code will get a bit clumsy unless I write a bunch of factory helpers.
+#		Of course, I've already got quite of a few factory helpers, particularly in
+#		the ccls_engine gem.  In order to ensure that the everything happened as
+#		desired, I wrap everything in a lot of assertions.
+#
+#		Must also be consious of whether the keys are STRINGs or SYMBOLs.
+#
 	def create_complete_case_study_subject_with_mother_maiden_name(mother_maiden_name)
 		subject = nil
 		assert_difference('Pii.count',1) {
@@ -19,8 +31,6 @@ class ActiveSupport::TestCase
 
 #			:race_ids => [Race.random.id],
 	def complete_case_study_subject_attributes(options={})
-#	MUST use strings for keys and NOT symbols due to to_hash
-#	conversion for deep_merging
 		{ 'study_subject' => Factory.attributes_for(:study_subject,
 #	NOT on the form or currently required
 #			'subject_races_attributes' => {
