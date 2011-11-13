@@ -13,7 +13,6 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 				:from => "study_subject[sex]"
 			fill_in "study_subject[patient_attributes][hospital_no]",
 				:with => "9999999999999999999999999"				#	This will NEED to be unique
-#			select "California Pacific Medical Center",		#	I don't know if this is a NONWAIVERED hospital or not
 			select Hospital.nonwaivered.first.organization.to_s,
 				:from => "study_subject[patient_attributes][organization_id]"
 			fill_in "study_subject[patient_attributes][admit_date]",

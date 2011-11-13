@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'raf_test_helper'
 
 class NonwaiveredsControllerTest < ActionController::TestCase
 
@@ -14,6 +15,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 	assert_no_access_with_http
 
 	site_editors.each do |cu|
+
+#	Case subjects: Have the same hospital_no (patient.hospital_no) as the new subject
+#	Only cases have a patient record, so not explicit check for Case is done.
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate hospital_no and #{cu} login" do
@@ -106,7 +110,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" and #{cu} login if 'No Match'" do
 			subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
-			minimal_successful_creation( 
+			minimum_successful_creation( 
 					'study_subject' => { 'patient_attributes' => {
 						:organization_id => ( subject.organization_id + 1 ),
 						:hospital_no     => subject.hospital_no
@@ -116,6 +120,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert !assigns(:study_subject).errors.on_attr_and_type(
 				"patient.hospital_no",:taken)
 		end
+
+#	Case subjects:  Are admitted the same admit date (patients.admit_date) at the same institution (patients.organization_id)
+#	Only cases have a patient record, so not explicit check for Case is done.
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate admit_date and organization_id and #{cu} login" do
@@ -196,19 +203,18 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" and #{cu} login if 'No Match'" do
 			subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
-			minimal_successful_creation(
+			minimum_successful_creation(
 					'study_subject' => { 'patient_attributes' => {
 							:admit_date      => subject.admit_date,
 							:organization_id => subject.organization_id
 					} }, :commit => 'No Match' )
 		end
 
-#On the Possible Duplicates Found screen, display a list of subjects who…
-#	•	All subjects:  Have the same birth date (piis.dob) and sex (subject.sex) as the new subject and (same mother’s maiden name or existing mother’s maiden name is null), or
+#	Have the same birth date (piis.dob) and sex (subject.sex) as the new subject and 
+#		(same mother’s maiden name or existing mother’s maiden name is null)
 
 		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and #{cu} login" do
-pending	#	TODO still need to add mother's maiden name to comparison
+				" with existing duplicate sex and dob and blank mother_maiden_names and #{cu} login" do
 			subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -224,9 +230,8 @@ pending	#	TODO still need to add mother's maiden name to comparison
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob" <<
+				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' without duplicate_id" do
-pending	#	TODO still need to add mother's maiden name to comparison
 			subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -242,9 +247,8 @@ pending	#	TODO still need to add mother's maiden name to comparison
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob" <<
+				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
-pending	#	TODO still need to add mother's maiden name to comparison
 			subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -262,9 +266,8 @@ pending	#	TODO still need to add mother's maiden name to comparison
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob" <<
+				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with valid duplicate_id" do
-pending	#	TODO still need to add mother's maiden name to comparison
 			subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
@@ -280,18 +283,19 @@ pending	#	TODO still need to add mother's maiden name to comparison
 		end
 
 		test "should create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob" <<
+				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login and 'No Match'" do
-pending	#	TODO still need to add mother's maiden name to comparison
 			subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
-			minimal_successful_creation(
+			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
 						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'No Match')
 		end
 
 
+#	TODO add mother's maiden name match
+#	TODO add existing mother's maiden name null
 
 
 
@@ -301,14 +305,14 @@ pending	#	TODO still need to add mother's maiden name to comparison
 		test "should create nonwaivered case study_subject enrolled in ccls" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			minimal_successful_creation
+			minimum_successful_creation
 			assert_equal [Project['ccls']],
 				assigns(:study_subject).enrollments.collect(&:project)
 		end
 
 		test "should create nonwaivered case study_subject with #{cu} login" do
 			login_as send(cu)
-			minimal_successful_creation
+			minimum_successful_creation
 		end
 
 		test "should create nonwaivered case study_subject" <<
@@ -322,7 +326,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 		test "should create nonwaivered case study_subject" <<
 				" with minimum non-waivered attributes and #{cu} login" do
 			login_as send(cu)
-			minimal_successful_creation
+			minimum_successful_creation
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
@@ -337,14 +341,14 @@ pending	#	TODO still need to add mother's maiden name to comparison
 
 		test "should create mother on create with #{cu} login" do
 			login_as send(cu)
-			minimal_successful_creation
+			minimum_successful_creation
 			assert_not_nil assigns(:study_subject).mother
 		end
 
 		test "should not assign icf_master_id to mother if none exist on create" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			minimal_successful_creation
+			minimum_successful_creation
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
 		end
@@ -353,7 +357,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 				" with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			minimal_successful_creation
+			minimum_successful_creation
 			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
 			assert_not_nil flash[:warn]
 		end
@@ -363,7 +367,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456780')
 			Factory(:icf_master_id,:icf_master_id => '123456781')
-			minimal_successful_creation
+			minimum_successful_creation
 			assert_not_nil assigns(:study_subject).identifier.icf_master_id
 			assert_equal '123456780', assigns(:study_subject).identifier.icf_master_id
 			assert_not_nil assigns(:study_subject).mother.identifier.icf_master_id
@@ -372,7 +376,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 
 		test "should not assign icf_master_id if none exist on create with #{cu} login" do
 			login_as send(cu)
-			minimal_successful_creation
+			minimum_successful_creation
 			assert_nil assigns(:study_subject).identifier.icf_master_id
 			assert_not_nil flash[:warn]
 		end
@@ -380,7 +384,7 @@ pending	#	TODO still need to add mother's maiden name to comparison
 		test "should assign icf_master_id if any exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			minimal_successful_creation
+			minimum_successful_creation
 			assert_not_nil assigns(:study_subject).identifier.icf_master_id
 			assert_equal '123456789', assigns(:study_subject).identifier.icf_master_id
 			#	only one icf_master_id so mother will raise warning
@@ -513,20 +517,13 @@ pending	#	TODO still need to add mother's maiden name to comparison
 	end
 
 protected
-#
-#	NOTE BEWARE that deep_merge doesn't work for HWIAs.  keys MUST match string/symbol!
-#		Factory.attributes_for returns hashs with SYMBOLS as keys!!!!
-#		Any attempt to override these attributes, if they are set, MUST BE SYMBOLS!!!
-#
-#	TODO Add stringify keys or something to try to unify this.  Actually, need deep_stringify_keys. Done.
-#
+
 	def minimum_nonwaivered_form_attributes(options={})
 		{ 'study_subject' => {
 			"sex"                   => "M", 
 			"identifier_attributes" => { }, 
 			"pii_attributes"        => Factory.attributes_for(:pii),
 			"patient_attributes"    => Factory.attributes_for(:patient)
-#		} }.deep_merge(options)
 		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
@@ -576,54 +573,19 @@ protected
 #				"diagnosis_id"=>"", 
 				"was_ca_resident_at_diagnosis"=>"true"
 			})
-#		} }.deep_merge(options)
 		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
-	def minimal_successful_creation(options={})
-		assert_difference('Enrollment.count',2){	#	both child and mother
-		assert_difference('Pii.count',2){
-		assert_difference('Patient.count',1){
-		assert_difference('Identifier.count',2){
-		assert_difference('StudySubject.count',2){
-			post :create, minimum_nonwaivered_form_attributes(options)
-		} } } } }
-		assert_nil flash[:error]
-		assert_redirected_to assigns(:study_subject)
+	def minimum_successful_creation(options={})
+		minimum_successful_raf_creation { post :create, minimum_nonwaivered_form_attributes(options) }
 	end
 
 	def full_successful_creation(options={})
-		assert_difference('StudySubject.count',2){
-#		assert_difference('SubjectRace.count',count){
-		assert_difference('SubjectLanguage.count',1){
-		assert_difference('Identifier.count',2){
-		assert_difference('Patient.count',1){
-		assert_difference('Pii.count',2){
-		assert_difference('Enrollment.count',2){	#	both child and mother
-		assert_difference('PhoneNumber.count',1){
-		assert_difference('Addressing.count',1){
-		assert_difference('Address.count',1){
-				post :create, complete_case_study_subject_attributes(options)
-		} } } } } } } } } #}
-		assert_nil flash[:error]
-		assert_redirected_to assigns(:study_subject)
+		successful_raf_creation { post :create, complete_case_study_subject_attributes(options) }
 	end
 
 	def nonwaivered_successful_creation(options={})
-		assert_difference('StudySubject.count',2){
-#		assert_difference('SubjectRace.count',count){
-		assert_difference('SubjectLanguage.count',1){
-		assert_difference('Identifier.count',2){
-		assert_difference('Patient.count',1){
-		assert_difference('Pii.count',2){
-		assert_difference('Enrollment.count',2){	#	both child and mother
-		assert_difference('PhoneNumber.count',1){
-		assert_difference('Addressing.count',1){
-		assert_difference('Address.count',1){
-			post :create, nonwaivered_form_attributes(options)
-		} } } } } } } } } #}
-		assert_nil flash[:error]
-		assert_redirected_to assigns(:study_subject)
+		successful_raf_creation { post :create, nonwaivered_form_attributes(options) }
 	end
 
 end
