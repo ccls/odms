@@ -297,12 +297,173 @@ class WaiveredsControllerTest < ActionController::TestCase
 					}, :commit => 'No Match' )
 		end
 
+#	mother's maiden name match
 
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and mother_maiden_names and #{cu} login" do
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					})
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
 
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and mother_maiden_names" <<
+				" and #{cu} login if 'Match Found' without duplicate_id" do
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					}, :commit => 'Match Found' )
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_not_nil flash[:warn]
+			assert_match /No valid duplicate_id given/, flash[:warn]
+			assert_response :success
+			assert_template 'new'
+		end
 
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and mother_maiden_names" <<
+				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					}, :commit => 'Match Found', :duplicate_id => 0 )
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_not_nil flash[:warn]
+			assert_match /No valid duplicate_id given/, flash[:warn]
+			assert_response :success
+			assert_template 'new'
+		end
 
-#	TODO add mother's maiden name match
-#	TODO add existing mother's maiden name null
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and mother_maiden_names" <<
+				" and #{cu} login if 'Match Found' with valid duplicate_id" do
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',1) {
+			assert_all_differences(0) {
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					}, :commit => 'Match Found', :duplicate_id => subject.id )
+			} }
+			assert assigns(:study_subject)
+			assert_not_nil flash[:notice]
+			assert_redirected_to subject
+		end
+
+		test "should create waivered case study_subject" <<
+				" with existing duplicate sex and dob and mother_maiden_names" <<
+				" and #{cu} login if 'No Match'" do
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			login_as send(cu)
+			minimum_successful_creation(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					}, :commit => 'No Match' )
+		end
+
+#	existing mother's maiden name null
+
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and blank existing mother_maiden_name and #{cu} login" do
+			subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					})
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+				" and #{cu} login if 'Match Found' without duplicate_id" do
+			subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					}, :commit => 'Match Found' )
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_not_nil flash[:warn]
+			assert_match /No valid duplicate_id given/, flash[:warn]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
+			subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					}, :commit => 'Match Found', :duplicate_id => 0 )
+			end
+			assert assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_not_nil flash[:warn]
+			assert_match /No valid duplicate_id given/, flash[:warn]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should NOT create waivered case study_subject" <<
+				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+				" and #{cu} login if 'Match Found' with valid duplicate_id" do
+			subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',1) {
+			assert_all_differences(0) {
+				post :create, minimum_waivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					}, :commit => 'Match Found', :duplicate_id => subject.id )
+			} }
+			assert assigns(:study_subject)
+			assert_not_nil flash[:notice]
+			assert_redirected_to subject
+		end
+
+		test "should create waivered case study_subject" <<
+				" with existing duplicate sex and dob and blank exiting mother_maiden_name" <<
+				" and #{cu} login if 'No Match'" do
+			subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			minimum_successful_creation(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+					}, :commit => 'No Match' )
+		end
 
 
 
