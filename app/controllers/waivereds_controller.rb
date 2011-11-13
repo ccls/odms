@@ -7,9 +7,6 @@ class WaiveredsController < ApplicationController
 		@study_subject = StudySubject.new(params[:study_subject])
 	end
 
-	#	TODO this action has gotten quite heavy
-	#		And waivered/nonwaivered contain some very similar code.
-	#		Break out the sponge and begin drying and refactoring.
 	def create
 		@hospitals = Hospital.waivered(:include => :organization)
 		#
@@ -23,12 +20,8 @@ class WaiveredsController < ApplicationController
 		#
 		study_subject_params = params[:study_subject].dup.to_hash.deep_merge({
 			'subject_type_id' => SubjectType['Case'].id,
-			'identifier_attributes' => {
-				'case_control_type' => 'C'
-			},
-			'enrollments_attributes' => {
-				'0' => { "project_id"=> Project['ccls'].id }
-			},
+			'identifier_attributes' => { 'case_control_type' => 'C' },
+			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
 			'addressings_attributes' => {
 				'0' => { "current_address"=>"1",
 					'address_attributes' => { 
@@ -42,65 +35,6 @@ class WaiveredsController < ApplicationController
 			}
 		})
 		common_raf_create(study_subject_params)
-#		@study_subject = StudySubject.new(study_subject_params)
-#
-#		#	explicitly validate before searching for duplicates
-#		raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?
-#
-#		warn = []
-#		#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
-#		if params[:commit].blank? or params[:commit] == 'Submit'
-#			@duplicates = @study_subject.duplicates
-#			raise StudySubject::DuplicatesFound unless @duplicates.empty?
-#		end
-#
-#		if params[:commit] == 'Match Found'
-#			@duplicates = @study_subject.duplicates
-#			if params[:duplicate_id] and
-#					( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
-#					@duplicates.include?(duplicate)
-#				duplicate.raf_duplicate_creation_attempted(@study_subject)
-#				flash[:notice] = "Operational Event created marking this attempted entry."
-#				redirect_to duplicate
-#			else
-#				#
-#				#	Match Found, but no duplicate_id or subject with the id
-#				#
-#				warn << "No valid duplicate_id given"
-#				raise StudySubject::DuplicatesFound unless @duplicates.empty?
-#			end
-#
-#		#	params[:commit].blank? or params[:commit] == 'Submit' 
-#		#		or params[:commit] == 'No Match'
-#		else 
-#			#	No duplicates found or if there were, not matches.
-#			#	Transactions are only for marking a rollback point.
-#			#	The raised error will still kick all the way out.
-#			StudySubject.transaction do
-#				@study_subject.save!
-#				@study_subject.assign_icf_master_id
-#				@study_subject.create_mother
-#			end
-#
-#			if @study_subject.identifier.icf_master_id.blank?
-#				warn << "Case was not assigned an icf_master_id."
-#			end
-#			if @study_subject.mother.identifier.icf_master_id.blank?
-#				warn << "Mother was not assigned an icf_master_id."
-#			end
-#			flash[:warn] = warn.join('<br/>') unless warn.empty?
-#			redirect_to @study_subject
-#		end
-#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-#		flash.now[:error] = "StudySubject creation failed"
-#		render :action => 'new'
-#	rescue ActiveRecord::StatementInvalid => e
-#		flash.now[:error] = "Database error.  Check production logs and contact Jake."
-#		render :action => 'new'
-#	rescue StudySubject::DuplicatesFound
-#		flash.now[:error] = "Possible Duplicate(s) Found."
-#		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
-#		render :action => 'new'
 	end
 
 end
