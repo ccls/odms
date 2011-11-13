@@ -30,18 +30,24 @@ protected	#	private #	(does it matter which or if neither?)
 	#	it will redirect to root_path on failure
 	#	and the flash error will be a humanized
 	#	version of the before_filter's name.
-	def redirections
-		@redirections ||= HashWithIndifferentAccess.new({
-			:not_be_user => {
-				:redirect_to => user_path(current_user)
-			}
-		})
+#	def redirections
+#		@redirections ||= HashWithIndifferentAccess.new({
+#			:not_be_user => {
+#				:redirect_to => user_path(current_user)
+#			}
+#		})
+#	end
+
+	#	used in roles_controller
+	def may_not_be_user_required
+		current_user.may_not_be_user?(@user) || access_denied(
+			"You may not be this user to do this", user_path(current_user))
 	end
 
 #	This is tricky with the multi-negatives.
 #	def may_not_be_user_required
-##		current_user.may_not_be_user?(current_user) ||
-#		current_user.may_be_user?(current_user) &&
+##		current_user.may_not_be_user?(current_user) ||	#	should've been (@user)
+#		current_user.may_be_user?(current_user) &&	#	should've been (@user)
 #			access_denied("May not be user required.", user_path(current_user) )
 #	end
 
@@ -109,6 +115,68 @@ protected	#	private #	(does it matter which or if neither?)
 				:action => params[:action] }) ||
 			Guide.find(:first, :conditions => {
 				:controller => self.class.name.underscore })
+	end
+
+	def common_raf_create(study_subject_params)
+		@study_subject = StudySubject.new(study_subject_params)
+
+		#	explicitly validate before searching for duplicates
+		raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?
+
+		warn = []
+		#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
+		if params[:commit].blank? or params[:commit] == 'Submit'
+			@duplicates = @study_subject.duplicates
+			raise StudySubject::DuplicatesFound unless @duplicates.empty?
+		end
+
+		if params[:commit] == 'Match Found'
+			@duplicates = @study_subject.duplicates
+			if params[:duplicate_id] and
+					( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
+					@duplicates.include?(duplicate)
+				duplicate.raf_duplicate_creation_attempted(@study_subject)
+				flash[:notice] = "Operational Event created marking this attempted entry."
+				redirect_to duplicate
+			else
+				#
+				#	Match Found, but no duplicate_id or subject with the id
+				#
+				warn << "No valid duplicate_id given"
+				raise StudySubject::DuplicatesFound unless @duplicates.empty?
+			end
+
+		#	params[:commit].blank? or params[:commit] == 'Submit' 
+		#		or params[:commit] == 'No Match'
+		else 
+			#	No duplicates found or if there were, not matches.
+			#	Transactions are only for marking a rollback point.
+			#	The raised error will still kick all the way out.
+			StudySubject.transaction do
+				@study_subject.save!
+				@study_subject.assign_icf_master_id
+				@study_subject.create_mother
+			end
+
+			if @study_subject.identifier.icf_master_id.blank?
+				warn << "Case was not assigned an icf_master_id."
+			end
+			if @study_subject.mother.identifier.icf_master_id.blank?
+				warn << "Mother was not assigned an icf_master_id."
+			end
+			flash[:warn] = warn.join('<br/>') unless warn.empty?
+			redirect_to @study_subject
+		end
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+		flash.now[:error] = "StudySubject creation failed"
+		render :action => 'new'
+	rescue ActiveRecord::StatementInvalid => e
+		flash.now[:error] = "Database error.  Check production logs and contact Jake."
+		render :action => 'new'
+	rescue StudySubject::DuplicatesFound
+		flash.now[:error] = "Possible Duplicate(s) Found."
+		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
+		render :action => 'new'
 	end
 
 end
