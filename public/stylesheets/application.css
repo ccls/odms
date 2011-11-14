@@ -23,8 +23,18 @@ div#header {
 	margin:0;
 	padding:0;
 	background-color: #6A7780;
-	height: 80px;
-	position:relative; /* NEEDED so that mainmenu can be at bottom */
+	height: auto;
+//	height: 80px;
+//	position:relative; 
+/* NEEDED so that mainmenu can be at bottom */
+}
+div#header div#header_top {
+	height: 50px;
+	display:block;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	clear:both;
 }
 div#logo {
 	width: 650px;

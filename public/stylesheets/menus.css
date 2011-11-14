@@ -43,15 +43,14 @@ div#minimenu a {
 	height:100%;
 }
 div#mainmenu { 
-	/* NEEDED so that mainmenu can be at bottom */
-	position:absolute;
-	bottom:0;
+	position:relative;	/* don't know if this is needed */
+	height: 32px;
 }
 div#mainmenu .menu_item {
 	position:relative;
+	padding:0;
 	margin:0;
 	float:left;
-	padding: 4px 24px;
 	font-size: 12pt;
 	font-weight: bold;
 	border: 2px solid black;
@@ -64,14 +63,23 @@ div#mainmenu .menu_item {
 	4x2 + 20 would make the sub_menu top 28 
 	I wish I could figure this out in a simpler fashion so
 	that the submenu just stuck to the bottom of the menu item.
-*/
 	height: 20px;
+*/
+/* 
+	height should be the same as mainmenu MINUS any vertical borders and padding 
+	32px - 2px - 1px - 0px - 0px = 29px
+*/
+	height: 29px;	
 }
 div#mainmenu .menu_item:nth-child(1) {
 	border-left: 2px solid black;
 }
 div#mainmenu > .current {
 	background-color: #CCC3A9;
+}
+div#mainmenu .menu_item > a {
+	padding: 4px 24px;
+	line-height: 28px;	
 }
 
 div#mainmenu .menu_item .sub_menu {
@@ -80,11 +88,12 @@ div#mainmenu .menu_item .sub_menu {
 		keep lined up in both Firefox and IE.
 	I think that it is caused by differing font sizes.
 	This seems to work, but isn't perfect.
+	top: 28px;
 */
+	position:absolute;
 	margin:0;
 	padding:0;
-	position:absolute;
-	top: 28px;
+	top: 29px;	/* same as #mainmenu height MINUS .menu_item vertical borders */
 	left:0px;
 	clear:left;
 	z-index: 100;	/* needed to keep it above other stuff */
@@ -92,11 +101,18 @@ div#mainmenu .menu_item .sub_menu {
 	border: 1px solid gray;
 	border-top: 0;
 	display:none;
+	
+/*
+		Using display or visibility doesn't seem to make any difference.
+	display:none;
+	visibility:hidden;
+*/
 
 	/* box-shadow: <horizontal> <vertical> <blur> <color> */
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+	/* 2px makes it a little to the right and 5px makes it mostly down */
+	box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
 }
 div#mainmenu .menu_item .sub_menu > * {
 	font-weight: normal;
@@ -104,7 +120,14 @@ div#mainmenu .menu_item .sub_menu > * {
 	display:block;
 	white-space:pre;
 }
-div#mainmenu .menu_item:hover > .sub_menu { display:block; }
+div#mainmenu .menu_item:hover > .sub_menu { 
+/*
+		Using display or visibility doesn't seem to make any difference.
+	display:block; 
+	visibility:visible;
+*/
+	display:block; 
+}
 
 div#left_side_menu {
 	width: 160px;

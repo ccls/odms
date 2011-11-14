@@ -1,4 +1,5 @@
-<% require 'user' %>
+<%# require 'user' %>
+<% require_dependency 'user.rb' unless User %>
 <% if logged_in? and current_user.may_administrate? %>
 jQuery(function(){
 	jQuery('div#mainmenu').append('<%= administrator_menu() %>');

@@ -39,8 +39,10 @@ module ApplicationHelper
 		s << "\n</div><!-- mainmenu -->\n"
 	end
 
+	#	This is called and parsed by javascript, so NO single quotes.
 	def administrator_menu()
-		link_to( "Admin", admin_path, :class => 'menu_item' )
+#		link_to( "Admin", admin_path, :class => 'menu_item' )
+		"<div class=\"menu_item\">#{link_to( "Admin", admin_path )}</div>"
 	end
 
 	def id_bar_for(object,&block)
