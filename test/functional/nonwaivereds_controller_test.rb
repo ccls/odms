@@ -21,12 +21,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate hospital_no and #{cu} login" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-						:organization_id => ( subject.organization_id + 1 ),
+#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} })
 			end
@@ -42,12 +42,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate hospital_no" <<
 				" and #{cu} login if 'Match Found' without duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-						:organization_id => ( subject.organization_id + 1 ),
+#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found')
 			end
@@ -64,12 +64,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate hospital_no" <<
 				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-						:organization_id => ( subject.organization_id + 1 ),
+#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found', :duplicate_id => 0 )
 			end
@@ -87,13 +87,13 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate hospital_no" <<
 				" and #{cu} login if 'Match Found' with valid duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 			assert_all_differences(0) {
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-						:organization_id => ( subject.organization_id + 1 ),
+#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
@@ -108,11 +108,11 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with existing duplicate hospital_no" <<
 				" and #{cu} login if 'No Match'" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			minimum_successful_creation( 
 					'study_subject' => { 'patient_attributes' => {
-						:organization_id => ( subject.organization_id + 1 ),
+#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'No Match' )
 			# these share the same factory which means that the organization_id 
@@ -126,7 +126,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate admit_date and organization_id and #{cu} login" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -144,7 +144,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate admit_date and organization_id" <<
 				" and #{cu} login if 'Match Found' without duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -163,7 +163,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate admit_date and organization_id" <<
 				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -183,7 +183,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate admit_date and organization_id" <<
 				" and #{cu} login if 'Match Found' with valid duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 			assert_all_differences(0) {
@@ -201,7 +201,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with existing duplicate admit_date and organization_id" <<
 				" and #{cu} login if 'No Match'" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'patient_attributes' => {
@@ -215,7 +215,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank mother_maiden_names and #{cu} login" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -232,7 +232,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' without duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -249,7 +249,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -268,7 +268,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with valid duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 			assert_all_differences(0) {
@@ -285,7 +285,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login and 'No Match'" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
@@ -297,7 +297,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names and #{cu} login" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -314,7 +314,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' without duplicate_id" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -331,7 +331,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -350,7 +350,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with valid duplicate_id" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 			assert_all_differences(0) {
@@ -367,7 +367,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'No Match'" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
@@ -379,7 +379,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank existing mother_maiden_name and #{cu} login" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -396,7 +396,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 				" and #{cu} login and 'Match Found' without duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -413,7 +413,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -432,7 +432,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 				" and #{cu} login and 'Match Found' with valid duplicate_id" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 			assert_all_differences(0) {
@@ -449,7 +449,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 				" and #{cu} login and 'No Match'" do
-			subject = Factory(:complete_case_study_subject)
+			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
@@ -586,7 +586,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
 			end
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -599,7 +599,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
 			end
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -621,7 +621,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil identifier1.patid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -634,7 +634,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil identifier1.childid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -647,7 +647,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil identifier1.subjectid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -661,7 +661,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject with #{cu} login" do
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes
+				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
 			end
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -671,7 +671,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 	test "should NOT create nonwaivered case study_subject without login" do
 		assert_all_differences(0) do
-			post :create, complete_case_study_subject_attributes
+			post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
 		end
 		assert_redirected_to_login
 	end
@@ -683,7 +683,7 @@ protected
 			"sex"                   => "M", 
 			"identifier_attributes" => { }, 
 			"pii_attributes"        => Factory.attributes_for(:pii),
-			"patient_attributes"    => Factory.attributes_for(:patient)
+			"patient_attributes"    => Factory.attributes_for(:nonwaivered_patient)
 		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
@@ -725,7 +725,7 @@ protected
 				"0"=>{"phone_number"=>"1234567890" }, 
 				"1"=>{"phone_number"=>""}
 			}, 
-			"patient_attributes"=> Factory.attributes_for(:patient,{
+			"patient_attributes"=> Factory.attributes_for(:nonwaivered_patient,{
 				"sample_was_collected"=>"1",				
 				"was_previously_treated"=>"false", 
 				"admitting_oncologist"=>"", 
@@ -741,7 +741,7 @@ protected
 	end
 
 	def full_successful_creation(options={})
-		successful_raf_creation { post :create, complete_case_study_subject_attributes(options) }
+		successful_raf_creation { post :create, complete_case_study_subject_attributes(options) }	#	waivered / nonwaivered? does it matter?
 	end
 
 	def nonwaivered_successful_creation(options={})
