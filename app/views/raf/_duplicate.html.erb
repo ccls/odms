@@ -4,6 +4,7 @@
 <td><%= radio_button_tag('duplicate_id', duplicate.id ) %></td>
 <td><%= label_tag("duplicate_id_#{duplicate.id}",duplicate.full_name) %></td>
 <td><%= duplicate.organization.code %></td>
+<td><%=mdy duplicate.admit_date %></td>
 <td><%= duplicate.hospital_no %></td>
 <td><%=mdy duplicate.dob %></td>
 <td><%= duplicate.sex %></td>
