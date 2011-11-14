@@ -8,7 +8,10 @@
 	[['ANY','OR'],['ALL','AND']], params[:operator] ) %>
  of the following: 
 <%= submit_tag "Find", :id => nil, :name => nil  %>
-<%= submit_link_to "Find"  %>
+<%#
+	forms with hidden submit buttons don't submit on pressing enter in a text field.
+%>
+<%#= submit_link_to "Find"  %>
 </p>
 <%#
 
