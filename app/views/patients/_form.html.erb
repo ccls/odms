@@ -1,4 +1,3 @@
-<%# stylesheets('base/jquery.ui.all.css') %>
 <% stylesheets('patient') %>
 <% javascripts('edit_patient') %>
 <% sub_menu_for(@study_subject) %>
@@ -14,7 +13,7 @@
 </div>
 <%#
 
-The div.warning in the above block cause the size
+The div.warning in the above block causes the size to change
 
 %>
 
@@ -32,10 +31,6 @@ The div.warning in the above block cause the size
 
 <%= f.wrapped_text_field :other_diagnosis,
 		:label_text => 'specify other:' %>
-
-<%#= f.wrapped_collection_select :organization_id,
-	Organization.all, :id, :name, :include_blank => true, 
-	:label_text => 'diagnosing hospital:' %>
 
 <div class='organization_id collection_select field_wrapper'>
 <label for="patient_organization_id">diagnosing hospital:</label>
