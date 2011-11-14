@@ -7,20 +7,13 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_select response, 'div#mainmenu', 1 do
 			#	Home, Subjects, Interviews, Samples
 			assert_select 'div.menu_item', 4
-#			assert_select 'div.menu_item', 5
-#			assert_select 'div.menu_item', 5 do
-#				assert_select 'a', 6		#	1 here, plus the 5 below
-#				assert_select 'div.sub_menu', 1 do
-#					assert_select 'a', 5
-#				end
-#			end
 		end
 	end
 
 	test "administrator_menu should return admin link" do
 		response = HTML::Document.new(administrator_menu).root
-		assert_select response, 'a.menu_item', 1 do
-			assert_select "[href=?]", "/admin"
+		assert_select response, 'div.menu_item', 1 do
+			assert_select "a[href=?]", "/admin"
 		end
 	end
 

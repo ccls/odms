@@ -6,5 +6,12 @@
  <%= f.error_messages %>
  <%= f.wrapped_select :status, BcRequest.statuses %>
  <%= f.wrapped_text_area :notes %>
- <%= f.submit_link_to( "Update" )%>
+
+
+ <%= f.submit 'Update', :id => nil, :name => nil %>
+ <%# forms with hidden submit buttons don't submit on 
+		pressing enter in a text field in Chrome. %>
+ <%#= f.submit_link_to( "Update" )%>
+
+
 <% end %>
