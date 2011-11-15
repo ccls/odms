@@ -1,5 +1,14 @@
 jQuery(function(){
 
+/*
+
+	Consider using the inner text rather than value for clarity?
+
+	Also, consider renaming javascript functions to include model name for clarity?
+
+	As these use dom ids, there can be only one.
+
+*/
 	jQuery('#phone_number_is_valid').change(function(){
 		toggle_why_invalid( ( $(this).val()!=2 && $(this).val()!=999 ) );
 	});
@@ -20,6 +29,17 @@ jQuery(function(){
 
 	toggle data source other
 
+	jQuery('#addressing_data_source_id').change(function(){
+		toggle_data_source_other( 
+
+$(this).find('option:selected').text() match 'Other'
+
+        var root = /(ccls|genepi.).berkeley.edu/.test(location.host)?'/odms':''
+
+
+>>> $('#phone_number_data_source_id').find('option:selected').text()
+
+>>> $('#phone_number_data_source_id option:selected').text()
 
 */
 
@@ -29,9 +49,9 @@ jQuery(function(){
 	and an phone_number so if there is ever a form with both,
 	be aware, BE VERY AWARE!
 */
-toggle_why_invalid = function(checked) {
+toggle_why_invalid = function(valid) {
 	/* This SHOULD be REVERSED */
-	if( checked ){
+	if( valid ){
 		$('.why_invalid.field_wrapper').hide()
 	} else {
 		$('.why_invalid.field_wrapper').show()
