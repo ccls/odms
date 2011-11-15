@@ -7,7 +7,8 @@
 	<%= f.wrapped_text_area :body, 
 		:label_text => "Body: (uses sanitized #{link_to('textile','http://redcloth.org',:target => 'new')})" %>
 
-	<%= f.submit( (@guide.new_record?)? "Create" : "Update" )%>
+<p><%= f.submit( (@guide.new_record?)? "Create" : "Update" )%>
+&nbsp;
+<%= link_to 'Back', guides_path, :class => 'button' %>
+</p>
 <% end %>
-
-<%= link_to 'Back', guides_path %>

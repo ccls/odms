@@ -109,12 +109,21 @@ protected	#	private #	(does it matter which or if neither?)
 
 	def get_guidance
 		return if params[:format] == 'js'	#	better
-		require 'guide'
+
+#		require 'guide'
+#	don't remember why I did controllers rubyish, but not action??? (20111115)
+#		@guidance = Guide.find(:first, :conditions => {
+#				:controller => self.class.name.underscore.sub(/_controller/,''),
+#				:action => params[:action] }) ||
+#			Guide.find(:first, :conditions => {
+#				:controller => self.class.name.underscore })
+
+		require_dependency 'guide.rb' unless Guide
 		@guidance = Guide.find(:first, :conditions => {
-				:controller => self.class.name.underscore.sub(/_controller/,''),
+				:controller => params[:controller],
 				:action => params[:action] }) ||
 			Guide.find(:first, :conditions => {
-				:controller => self.class.name.underscore })
+				:controller => params[:controller] })
 	end
 
 	def common_raf_create(incoming_params)

@@ -11,4 +11,9 @@ class GuideTest < ActiveSupport::TestCase
 		o.assert_should_require_attribute_length( :action )
 	end
 
+	test "should return controller and action name as to_s" do
+		guide = create_guide
+		assert_equal "#{guide.controller}##{guide.action}", "#{guide}"
+	end
+
 end
