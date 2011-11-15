@@ -1,5 +1,4 @@
 jQuery(function(){
-
 /*
 
 	Consider using the inner text rather than value for clarity?
@@ -22,35 +21,11 @@ jQuery(function(){
 	toggle_how_verified(
 		$('#phone_number_is_verified').attr('checked'));
 
-/*
-
-
-	toggle data source other
-
-	jQuery('#addressing_data_source_id').change(function(){
-		toggle_data_source_other( 
-
-use text rather than id=5 ?
-
-$(this).find('option:selected').text() match 'Other Source'
-
-        var root = /(ccls|genepi.).berkeley.edu/.test(location.host)?'/odms':''
-
-
->>> $('#phone_number_data_source_id').find('option:selected').text()
-
->>> $('#phone_number_data_source_id option:selected').text()
-
-
-toggle_data_source_other = function(other) {
-	if( other ){
-		$('.data_source_other.field_wrapper').show()
-	} else {
-		$('.data_source_other.field_wrapper').hide()
-	}
-}
-
-*/
+	jQuery('#phone_number_data_source_id').change(function(){
+		toggle_data_source_other( $(this).find('option:selected').text() );
+	});
+	toggle_data_source_other( 
+		$('#phone_number_data_source_id option:selected').text() );
 
 });
 /*
@@ -72,5 +47,13 @@ toggle_how_verified = function(checked) {
 		$('.how_verified.field_wrapper').show()
 	} else {
 		$('.how_verified.field_wrapper').hide()
+	}
+}
+
+toggle_data_source_other = function( selected_source ) {
+	if( /Other Source/.test( selected_source ) ){
+		$('.data_source_other.field_wrapper').show()
+	} else {
+		$('.data_source_other.field_wrapper').hide()
 	}
 }
