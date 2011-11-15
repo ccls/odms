@@ -14,11 +14,4 @@
 <%#= render 'study_subject_family' %>
 <%#= render 'study_subject_matching' %>
 
-<% if @study_subject and @study_subject.patient and 
-	@study_subject.created_at and @study_subject.is_case? and 
-	@study_subject.patient.admit_date and
-	(( @study_subject.created_at.to_date - @study_subject.patient.admit_date ).to_i > 7 ) %>
-<p>Retrospective Case (Case was entered more than 7 days after subject admit date.)</p>
-<% end %>
-
 <% end %><%# content_tag_for %>
