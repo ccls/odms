@@ -1,3 +1,65 @@
+form.edit_study_subject .field_wrapper span.label,
+form.edit_study_subject .field_wrapper label {
+	width: 140px;
+}
+form.edit_study_subject .field_wrapper.reference_date span.label,
+form.edit_study_subject .field_wrapper.reference_date label {
+	width: 200px;
+}
+
+form.edit_study_subject .field_wrapper input[type=text] {
+	width: 120px;
+}
+
+
+form.edit_study_subject div.state_registrar_no,
+form.edit_study_subject div.case_control_type,
+form.edit_study_subject div.dob {
+	float:left;
+}
+form.edit_study_subject div.local_registrar_no,
+form.edit_study_subject div.subject_type,
+form.edit_study_subject div.sex {
+	margin-left: 300px;
+	clear:right;
+}
+
+form.edit_study_subject div.race_wrapper {
+	/* otherwise, gets caught on dob fields */
+	clear:left;
+}
+form.edit_study_subject div.race_wrapper span.label {
+	float:left;
+}
+
+/* I REALLY, REALLY don't like this.  It probably won't fly.  */
+form.edit_study_subject div.name > label {
+	width: 60px;
+}
+form.edit_study_subject div.name div.field_wrapper {
+	clear:none;
+}
+form.edit_study_subject div.name div.field_wrapper label {
+	width:auto;
+}
+form.edit_study_subject div.name div.field_wrapper input {
+	float:left;
+	margin-left: 10px;
+	margin-right: 20px;
+}
+form.edit_study_subject div.name div.field_wrapper:last-child input {
+	float:none;
+}
+form.edit_study_subject div.name.maiden {
+	margin-left: 420px;
+}
+
+
+
+/*
+	The following don't seem to ever be used anymore.
+*/
+/*
 .study_subject .columns {
 	padding-top:10px;
 }
@@ -22,3 +84,4 @@
 .field_wrapper .label {
 	width: 110px;
 }
+*/

@@ -180,20 +180,6 @@ input.datepicker {
 	width: 100px;
 }
 
-form.edit_study_subject .field_wrapper span.label,
-form.edit_study_subject .field_wrapper label {
-	width: 160px;
-}
-
-form.edit_study_subject select#study_subject_vital_status_id,
-form.edit_study_subject select#study_subject_sex,
-form.edit_study_subject select#subject_subject_type_id {
-	width: 170px;
-}
-form.edit_study_subject .field_wrapper.name input {
-	width: 120px;
-}
-
 form.edit_guide .field_wrapper label {
 	display:block;
 	margin-top:10px;

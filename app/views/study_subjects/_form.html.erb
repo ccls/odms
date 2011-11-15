@@ -1,3 +1,4 @@
+<% stylesheets('study_subject') %>
 <% javascripts('edit_study_subject') %>
 <% id_bar_for(@study_subject) %>
 
@@ -19,9 +20,12 @@
 <% f.fields_for :pii do |pii_fields| %>
 	<div class='name field_wrapper'>
 	<%= pii_fields.label :name, 'name:' %>
-	<%= pii_fields.text_field :first_name %>
-	<%= pii_fields.text_field :middle_name %>
-	<%= pii_fields.text_field :last_name %>
+	<%= pii_fields.wrapped_text_field :first_name,
+		:label_text => 'first' %>
+	<%= pii_fields.wrapped_text_field :middle_name,
+		:label_text => 'middle' %>
+	<%= pii_fields.wrapped_text_field :last_name,
+		:label_text => 'last' %>
 	</div><!-- class='name field_wrapper' -->
 
   <%= wrapped_spans :study_subject, :case_control_type,
@@ -38,7 +42,9 @@
 <%= f.wrapped_sex_select :sex,
 	:label_text => 'sex:' %>
 
-<%= select_subject_races(@study_subject) %>
+<div class='race_wrapper'>
+<span class='label'>Race:</span><%= select_subject_races(@study_subject) %>
+</div>
 
 <% f.fields_for :identifier do |identifier_fields| %>
 	<%= identifier_fields.wrapped_text_field :state_registrar_no,
@@ -58,20 +64,26 @@
 <% f.fields_for :pii do |pii_fields| %>
 	<div class='name field_wrapper'>
 	<%= pii_fields.label :fathers_name, 'father' %>
-	<%= pii_fields.text_field :father_first_name %>
-	<%= pii_fields.text_field :father_middle_name %>
-	<%= pii_fields.text_field :father_last_name %>
+	<%= pii_fields.wrapped_text_field :father_first_name,
+		:label_text => 'first' %>
+	<%= pii_fields.wrapped_text_field :father_middle_name,
+		:label_text => 'middle' %>
+	<%= pii_fields.wrapped_text_field :father_last_name,
+		:label_text => 'last' %>
 	</div><!-- class='name field_wrapper' -->
 
 	<div class='name field_wrapper'>
 	<%= pii_fields.label :mothers_name, 'mother' %>
-	<%= pii_fields.text_field :mother_first_name %>
-	<%= pii_fields.text_field :mother_middle_name %>
-	<%= pii_fields.text_field :mother_last_name %>
+	<%= pii_fields.wrapped_text_field :mother_first_name,
+		:label_text => 'first' %>
+	<%= pii_fields.wrapped_text_field :mother_middle_name,
+		:label_text => 'middle' %>
+	<%= pii_fields.wrapped_text_field :mother_last_name,
+		:label_text => 'last' %>
 	</div><!-- class='name field_wrapper' -->
 
-	<div class='name field_wrapper'>
-	<%= pii_fields.label :mothers_maiden_name %>
+	<div class='maiden name field_wrapper'>
+	<%= pii_fields.label :mothers_maiden_name, 'maiden' %>
 	<%= pii_fields.text_field :mother_maiden_name %>
 	</div><!-- class='name field_wrapper' -->
 <% end %>
