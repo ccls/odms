@@ -16,6 +16,11 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+######################################################################
+#
+#		BEGIN DUPLICATE CHECKING TESTS
+#
+
 #	Case subjects: Have the same hospital_no (patient.hospital_no) as the new subject
 #	Only cases have a patient record, so not explicit check for Case is done.
 
@@ -457,10 +462,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 					}, :commit => 'No Match')
 		end
 
-
-
-
-
+#
+#		END DUPLICATE CHECKING TESTS
+#
+######################################################################
 
 		test "should create nonwaivered case study_subject enrolled in ccls" <<
 				" with #{cu} login" do
@@ -481,6 +486,37 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			full_successful_creation
 			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
+		end
+
+		test "should create nonwaivered case study_subect" <<
+				" with valid and verified addressing and #{cu} login" do
+			login_as user = send(cu)
+			nonwaivered_successful_creation
+			addressing = assigns(:study_subject).addressings.first
+			assert addressing.is_verified
+			assert_not_nil addressing.how_verified
+			assert_equal addressing.data_source, DataSource['RAF']
+			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
+			assert_equal addressing.current_address, YNDK[:yes]
+			assert_equal addressing.is_valid, YNDK[:yes]
+			#	verified_on is a Time so can really only compare the date
+			assert_equal addressing.verified_on.to_date, Date.today
+			assert_equal addressing.verified_by_uid, user.uid
+		end
+
+		test "should create nonwaivered case study_subect" <<
+				" with valid and verified phone_number and #{cu} login" do
+			login_as user = send(cu)
+			nonwaivered_successful_creation
+			phone_number = assigns(:study_subject).phone_numbers.first
+			assert phone_number.is_verified
+			assert_not_nil phone_number.how_verified
+			assert_equal phone_number.data_source, DataSource['RAF']
+			assert_equal phone_number.current_phone, YNDK[:yes]
+			assert_equal phone_number.is_valid, YNDK[:yes]
+			#	verified_on is a Time so can really only compare the date
+			assert_equal phone_number.verified_on.to_date, Date.today
+			assert_equal phone_number.verified_by_uid, user.uid
 		end
 
 		test "should create nonwaivered case study_subject" <<

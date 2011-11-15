@@ -9,37 +9,17 @@ class NonwaiveredsController < ApplicationController
 
 	def create
 		@hospitals = Hospital.nonwaivered(:include => :organization)
-		#
-		#	Add defaults that are not on the forms.
-		#	This is ugly, but they are required, so either here or 
-		#	hidden in the view.  If put in view, then need to be explicitly
-		#	set in tests as well.
-		#	deep_merge does not work correctly with a HashWithIndifferentAccess
-		#	convert to hash, but MUST use string keys, not symbols as
-		#		real requests do not send symbols
-		#
-		study_subject_params = params[:study_subject].dup.to_hash.deep_merge({
-			'subject_type_id' => SubjectType['Case'].id,
-			'identifier_attributes' => { 'case_control_type' => 'C' },
-			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
-			'addressings_attributes' => {
-				'0' => { "current_address"=>"1",
-					'address_attributes' => { 
-						'address_type_id' => AddressType['residence'].id
-					} 
-				}
-			},
-			'phone_numbers_attributes' => {
-				'0' => { 'phone_type_id' => PhoneType['home'].id },
-				'1' => { 'phone_type_id' => PhoneType['home'].id }
-			}
-		})
+		study_subject_params = params[:study_subject].dup.to_hash
+
 		#	Paper form does not have consented checkbox, but our model
 		#		requires it so add it if ...
 		unless study_subject_params.dig("enrollments_attributes","0","consented_on").blank?
-			study_subject_params["enrollments_attributes"]["0"]["consented"] = 1
+#			study_subject_params["enrollments_attributes"]["0"]["consented"] = 1
+			study_subject_params["enrollments_attributes"]["0"]["consented"] = YNDK[:yes]
 		end
 
+		#	The nonwaivered form does not containt raf_zip and raf_county
+		#	which is why they are copied in.
 		#	Copy address' county and zip into patient raf_county and raf_zip [#8]
 		# patient_attributes should never actually be blank except in testing.
 		study_subject_params["patient_attributes"]||={}
