@@ -1,5 +1,6 @@
 <% sub_menu_for(@study_subject) %>
 <% content_for :id_bar do %>
+<%= link_to 'Cancel', study_subject_path(@study_subject) %>
 <%= link_to 'Save', nil, {
 	:id => "for_#{dom_id(@study_subject,:edit)}",
 	:class => :submitter
