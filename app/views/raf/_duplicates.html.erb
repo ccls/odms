@@ -56,8 +56,11 @@ $(function() {
 
 %>
 <p class='submit_bar'>
-<%= f.submit_link_to 'Match Found' %>
-<%= f.submit_link_to 'No Match' %>
+<%# try to minimise the usage of my custom submit links %>
+<%#= f.submit_link_to 'Match Found' %>
+<%#= f.submit_link_to 'No Match' %>
+<%= f.submit 'Match Found' %>
+<%= f.submit 'No Match' %>
 </p>
 
 </div><!-- id='possible_duplicates' -->
