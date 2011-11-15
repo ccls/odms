@@ -12,7 +12,6 @@ jQuery(function(){
 	jQuery('#addressing_is_valid').change(function(){
 		toggle_why_invalid( ( $(this).val()!=2 && $(this).val()!=999 ) );
 	});
-
   toggle_why_invalid( 
 		( $('#addressing_is_valid').val()!=2 && 
 			$('#addressing_is_valid').val()!=999 ) );
@@ -20,7 +19,6 @@ jQuery(function(){
 	jQuery('#addressing_is_verified').change(function(){
 		toggle_how_verified($(this).attr('checked'));
 	});
-
   toggle_how_verified( 
 		$('#addressing_is_verified').attr('checked') );
 
@@ -31,7 +29,9 @@ jQuery(function(){
 	jQuery('#addressing_data_source_id').change(function(){
 		toggle_data_source_other( 
 
-$(this).find('option:selected').text() match 'Other'
+use text rather than id=5 ?
+
+$(this).find('option:selected').text() match 'Other Source'
 
         var root = /(ccls|genepi.).berkeley.edu/.test(location.host)?'/odms':''
 
@@ -39,6 +39,16 @@ $(this).find('option:selected').text() match 'Other'
 >>> $('#phone_number_data_source_id').find('option:selected').text()
 
 >>> $('#phone_number_data_source_id option:selected').text()
+
+
+
+toggle_data_source_other = function(other) {
+	if( other ){
+		$('.data_source_other.field_wrapper').show()
+	} else {
+		$('.data_source_other.field_wrapper').hide()
+	}
+}
 
 */
 
