@@ -14,6 +14,13 @@ class EnrollmentsController < ApplicationController
 	before_filter :valid_id_required,
 		:only => [:show,:edit,:update]
 
+	def index
+		if @study_subject.subject_type == SubjectType['Mother']
+			flash.now[:error] = "This is a mother subject. Enrollment data is only collected for child subjects. Please go to the record for the subject's child for details."
+			render :action => 'index_mother'
+		end
+	end
+
 	def new
 		@projects = Project.unenrolled_projects(@study_subject)
 		@enrollment = @study_subject.enrollments.build

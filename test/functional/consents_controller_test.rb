@@ -143,6 +143,28 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
+		test "should NOT get consents for mother with #{cu} login" do
+			login_as send(cu)
+#			study_subject = mother = nil
+#			assert_difference('Enrollment.count',2) {
+#			assert_difference('StudySubject.count',2) {
+#				study_subject = Factory(:identifier).reload.study_subject
+#				assert_not_nil study_subject.identifier
+#				#	subject currently needs identifier to use create_mother
+#				mother = study_subject.create_mother
+#			} }
+#			assert_not_nil mother
+#			ccls_enrollment = mother.enrollments.find_by_project_id(Project['ccls'].id)
+#			assert_not_nil ccls_enrollment
+			mother = Factory(:mother_study_subject)
+			get :show, :study_subject_id => mother.id
+			assert_not_nil flash[:error]
+			assert_match /This is a mother subject. .*data is only collected for child subjects. Please go to the record for the subject's child for details/, flash[:error]
+			assert_response :success
+			assert_template 'show_mother'
+			assert_nil assigns(:enrollment)
+		end
+
 	end
 
 	non_site_readers.each do |cu|
