@@ -91,3 +91,9 @@ form.raf div.other_diagnosis label {
 form.raf div#possible_duplicates + div.study_subject_fields {
 	display:none;
 }
+
+form.raf .field_wrapper span.label,
+form.raf .field_wrapper label {
+	width: 160px;
+}
+
