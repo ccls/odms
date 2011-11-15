@@ -1,4 +1,3 @@
-<%# stylesheets('base/jquery.ui.all.css') %>
 <% javascripts('edit_study_subject') %>
 <% id_bar_for(@study_subject) %>
 
@@ -43,11 +42,7 @@
 <%= select_subject_races(@study_subject) %>
 
 <%= wrapped_spans :study_subject, :subject_type,
-	:label_text => 'subject type:' %>
-
-<%#= f.wrapped_collection_select :subject_type_id, SubjectType.all, 
-	:id, :to_s, :include_blank => true,
-	:label_text => "Relation to Case:" %>
+	:label_text => 'relation to case:' %>
 
 <%= f.wrapped_collection_select :vital_status_id,
 	VitalStatus.all, :id, :to_s, :include_blank => true %>
