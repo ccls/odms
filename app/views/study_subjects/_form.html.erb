@@ -14,50 +14,57 @@
 
 <h3>Basic Info</h3>
 <% @study_subject.build_pii if @study_subject.pii.nil? %>
-<% f.fields_for :pii do |pii_fields| %>
-	<%#= pii_fields.hidden_field :id %>
+<% @study_subject.build_identifier if @study_subject.identifier.nil? %>
 
+<% f.fields_for :pii do |pii_fields| %>
 	<div class='name field_wrapper'>
-	<%= pii_fields.label :name %>
+	<%= pii_fields.label :name, 'name:' %>
 	<%= pii_fields.text_field :first_name %>
 	<%= pii_fields.text_field :middle_name %>
 	<%= pii_fields.text_field :last_name %>
 	</div><!-- class='name field_wrapper' -->
 
+  <%= wrapped_spans :study_subject, :case_control_type,
+			:label_text => 'case/control status:' %>
+
+  <%= wrapped_spans :study_subject, :subject_type,
+		:label_text => 'relation to case:' %>
+
 	<%= pii_fields.wrapped_date_text_field :dob,
 		:class => 'datepicker',
-		:label_text => 'Date of Birth' %>
+		:label_text => 'date of birth:' %>
 <% end %>
 
-<% @study_subject.build_identifier if @study_subject.identifier.nil? %>
-<% f.fields_for :identifier do |identifier_fields| %>
-	<%= identifier_fields.wrapped_text_field :state_registrar_no,
-		:label_text => 'State Registrar No.' %>
-	<%= identifier_fields.wrapped_text_field :local_registrar_no,
-		:label_text => 'Local Registrar No.' %>
-<% end %>
-
-<%= f.wrapped_sex_select :sex %>
+<%= f.wrapped_sex_select :sex,
+	:label_text => 'sex:' %>
 
 <%= select_subject_races(@study_subject) %>
 
-<%= wrapped_spans :study_subject, :subject_type,
-	:label_text => 'relation to case:' %>
+<% f.fields_for :identifier do |identifier_fields| %>
+	<%= identifier_fields.wrapped_text_field :state_registrar_no,
+		:label_text => 'state registrar no:' %>
+	<%= identifier_fields.wrapped_text_field :local_registrar_no,
+		:label_text => 'local registrar no:' %>
+<% end %>
+
+<%= wrapped_date_spans :study_subject, :reference_date,
+	:label_text => 'admit (reference) date:' %>
 
 <%= f.wrapped_collection_select :vital_status_id,
-	VitalStatus.all, :id, :to_s, :include_blank => true %>
+	VitalStatus.all, :id, :to_s, :include_blank => true,
+	:label_text => 'vital status:' %>
 
 <h3>Parent Info</h3>
 <% f.fields_for :pii do |pii_fields| %>
 	<div class='name field_wrapper'>
-	<%= pii_fields.label :fathers_name %>
+	<%= pii_fields.label :fathers_name, 'father' %>
 	<%= pii_fields.text_field :father_first_name %>
 	<%= pii_fields.text_field :father_middle_name %>
 	<%= pii_fields.text_field :father_last_name %>
 	</div><!-- class='name field_wrapper' -->
 
 	<div class='name field_wrapper'>
-	<%= pii_fields.label :mothers_name %>
+	<%= pii_fields.label :mothers_name, 'mother' %>
 	<%= pii_fields.text_field :mother_first_name %>
 	<%= pii_fields.text_field :mother_middle_name %>
 	<%= pii_fields.text_field :mother_last_name %>
@@ -67,12 +74,4 @@
 	<%= pii_fields.label :mothers_maiden_name %>
 	<%= pii_fields.text_field :mother_maiden_name %>
 	</div><!-- class='name field_wrapper' -->
-<% end %>
-
-
-<% if @study_subject and @study_subject.patient and 
-	@study_subject.created_at and @study_subject.is_case? and 
-	@study_subject.patient.admit_date and
-	(( @study_subject.created_at.to_date - @study_subject.patient.admit_date ).to_i > 7 ) %>
-<p>Retrospective Case (Case was entered more than 7 days after subject admit date.)</p>
 <% end %>
