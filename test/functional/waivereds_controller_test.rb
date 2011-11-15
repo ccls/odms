@@ -475,12 +475,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 #
 ######################################################################
 
-
-
-
-
-
-
 		test "should create waivered case study_subject enrolled in ccls" <<
 				" with #{cu} login" do
 			login_as send(cu)

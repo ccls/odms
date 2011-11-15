@@ -475,7 +475,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				assigns(:study_subject).enrollments.collect(&:project)
 		end
 
-		test "should create nonwaivered case study_subject with #{cu} login" do
+		test "should create nonwaivered case study_subject" <<
+				" with minimum requirements and #{cu} login" do
 			login_as send(cu)
 			minimum_successful_creation
 		end
