@@ -59,8 +59,9 @@ $(function() {
 <%# try to minimise the usage of my custom submit links %>
 <%#= f.submit_link_to 'Match Found' %>
 <%#= f.submit_link_to 'No Match' %>
-<%= f.submit 'Match Found' %>
-<%= f.submit 'No Match' %>
+<%# Default id for submit button is study_subject_submit and having 2 will make the html invalid so must explicitly specify ids here.  Be aware that there is also another submit button on waivered/nonwaivered new forms, but I'll leave that as default id. %>
+<%= f.submit 'Match Found', :id => 'study_subject_submit_match_found' %>
+<%= f.submit 'No Match',    :id => 'study_subject_submit_no_match' %>
 </p>
 
 </div><!-- id='possible_duplicates' -->
