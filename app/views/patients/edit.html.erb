@@ -1,5 +1,6 @@
 <% content_for :id_bar do %>
-<%= link_to( 'Save', nil, {
+<%= link_to( 'Cancel', study_subject_patient_path(@study_subject) ) 
+-%>&nbsp;<%= link_to( 'Save', nil, {
 	:id => "for_#{dom_id(@patient,:edit)}",
 	:class => :submitter
 }) %>
