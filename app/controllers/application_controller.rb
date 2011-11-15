@@ -121,9 +121,11 @@ protected	#	private #	(does it matter which or if neither?)
 		require_dependency 'guide.rb' unless Guide
 		@guidance = Guide.find(:first, :conditions => {
 				:controller => params[:controller],
-				:action => params[:action] }) ||
-			Guide.find(:first, :conditions => {
-				:controller => params[:controller] })
+				:action => params[:action] })
+#	I don't like this.  It effectively can get the wrong guide.
+#				:action => params[:action] }) ||
+#			Guide.find(:first, :conditions => {
+#				:controller => params[:controller] })
 	end
 
 	def common_raf_create(incoming_params)
