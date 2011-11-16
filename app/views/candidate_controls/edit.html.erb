@@ -3,7 +3,12 @@
 
 <% form_for @candidate do |f| %>
 <%= f.error_messages %>
-<div>
+
+<%= render( :partial => 'duplicates', 
+	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>
+
+<div class='reject_control_wrapper'>
+<div id='reject_control'>
 <div class='info'>
 <table><thead>
 <tr><th>&nbsp;</th><th>name</th><th>studyid</th><th>childid</th><th>dob</th><th>sex</th><th>mother's race</th><th>mother's hisp</th><th>father's hisp</th></tr>
@@ -55,4 +60,5 @@
 <%= link_to 'cancel', case_path(@study_subject),:class => 'button' %>
 <%= f.submit_link_to 'continue' %>
 </p>
+</div><!-- class='reject_control_wrapper' -->
 <% end %>

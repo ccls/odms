@@ -1,0 +1,35 @@
+<h3>Possible Duplicates Found</h3>
+<div class='possible_duplicates' >
+
+<p>If the candidate control is one of the subjects found, please click on the matching subject and press "match found".  Otherwise, press "no match."</p>
+
+<table class='candidate_control'><thead>
+<tr><th>&nbsp;</th><th>&nbsp;</th>
+<th>birth date</th><th>sex</th>
+</tr>
+</thead><tbody><tr>
+<td>Candidate Control:</td>
+<td><%= @candidate.full_name %></td>
+<td><%=mdy @candidate.dob %></td>
+<td><%= @candidate.sex %></td>
+</tr></tbody></table>
+
+<h4>Subjects Found</h4>
+<table class='duplicate_subjects'><thead>
+<tr><th>&nbsp;</th><th>&nbsp;</th>
+<th>study ID</th><th>child ID</th>
+<th>treating institution</th>
+<th>birth date</th><th>sex</th>
+</tr>
+</thead><tbody>
+<%= render :partial => 'duplicate', :collection => @duplicates,
+	:locals => { :f => f } %>
+
+</tbody></table>
+<p class='submit_bar'>
+<%# Default id for submit button is study_subject_submit and having 2 will make the html invalid so must explicitly specify ids here.  Be aware that there is also another submit button on waivered/nonwaivered new forms, but I'll leave that as default id. %>
+<%= f.submit 'Match Found', :id => 'candidate_control_submit_match_found' %>
+<%= f.submit 'No Match',    :id => 'candidate_control_submit_no_match' %>
+</p>
+
+</div><!-- id='possible_duplicates' -->

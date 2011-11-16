@@ -1,3 +1,4 @@
+/*
 form.edit_candidate_control > div {
 	border-bottom:1px solid black;
 }
@@ -9,28 +10,57 @@ form.edit_candidate_control > div > div {
 form.edit_candidate_control > div > div.info {
 	background-color:silver;
 }
-form.edit_candidate_control table th,
-form.edit_candidate_control table td {
+*/
+form.edit_candidate_control div.possible_duplicates {
+	border:1px solid black; 
+	padding: 10px;
+	margin-bottom:30px;
+}
+form.edit_candidate_control div.possible_duplicates table.candidate_control {
+	width: auto;
+}
+form.edit_candidate_control div.possible_duplicates table.candidate_control th,
+form.edit_candidate_control div.possible_duplicates table.candidate_control td {
+	padding: 10px;
+}
+
+form.edit_candidate_control div.possible_duplicates + div.reject_control_wrapper {
+	display:none;
+}
+
+form.edit_candidate_control div#reject_control {
+	border-bottom:1px solid black;
+}
+form.edit_candidate_control div#reject_control > div {
+	border:1px solid black; 
+	border-bottom:0; 
+	padding: 10px;
+}
+form.edit_candidate_control div#reject_control > div.info {
+	background-color:silver;
+}
+form.edit_candidate_control div#reject_control table th,
+form.edit_candidate_control div#reject_control table td {
 	text-align:center;
 	font-size:8pt;
 }
-form.edit_candidate_control table td {
+form.edit_candidate_control div#reject_control table td {
 	border:1px solid black;
 	border-left: 0;
 	background-color: white;
 }
-form.edit_candidate_control table td.label {
+form.edit_candidate_control div#reject_control table td.label {
 	background-color: transparent;
 	border:0;
 	border-right:1px solid black;
 	padding-right: 5px;
 	text-align:right;
 }
-form.edit_candidate_control > div > div.disposition div {
+form.edit_candidate_control div#reject_control > div.disposition div {
 	vertical-align:top;
 	display:inline-block;
 	padding-right: 5px;
 }
-form.edit_candidate_control > div > div.disposition div.rejection * {
+form.edit_candidate_control div#reject_control > div.disposition div.rejection * {
 	vertical-align:top;
 }

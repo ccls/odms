@@ -6,58 +6,55 @@ class CandidateControlsController < ApplicationController
 	before_filter :unused_candidate_control_required
 
 	def edit
-		reasons = []
-		if @study_subject.dob != @candidate.dob
-			@candidate.reject_candidate = true
-			reasons << "DOB does not match."
-		end
-		if @study_subject.sex != @candidate.sex
-			@candidate.reject_candidate = true
-			reasons << "Sex does not match."
-		end
-		@candidate.rejection_reason = reasons.join("\n") unless reasons.empty?
+		prereject_candidate
 	end
 
 	def update
+		warn = []
+		#	by presetting them, we keep them should we bounce back to edit
+		@candidate.reject_candidate = params[:candidate_control][:reject_candidate]
+		@candidate.rejection_reason = params[:candidate_control][:rejection_reason]
 		CandidateControl.transaction do
-			if params[:candidate_control][:reject_candidate] == 'false'
+#			if params[:candidate_control][:reject_candidate] == 'false'
+			unless @candidate.reject_candidate
 				#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
-				if params[:commit].blank? or params[:commit] == 'Submit'
-#					@duplicates = StudySubject.duplicates(
-#						:sex => @candidate.sex,
-#						:dob => @candidate.dob,
-#						:exclude_id => @study_subject.id)
-#					raise StudySubject::DuplicatesFound unless @duplicates.empty?
+				#	this form's submit button is 'continue' NOT 'Submit'
+				if params[:commit].blank? or params[:commit] == 'continue'
+					@duplicates = StudySubject.duplicates(
+						:sex => @candidate.sex,
+						:dob => @candidate.dob,
+						:mother_maiden_name => @candidate.mother_maiden_name,
+						:exclude_id => @study_subject.id)
+					raise StudySubject::DuplicatesFound unless @duplicates.empty?
 				end	#	if params[:commit].blank? or params[:commit] == 'Submit'
 
 				if params[:commit] == 'Match Found'
-#					@duplicates = StudySubject.duplicates(
-#						:sex => @candidate.sex,
-#						:dob => @candidate.dob,
-#						:exclude_id => @study_subject.id)
-#			if params[:duplicate_id] and
-#					( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
-#					@duplicates.include?(duplicate)
+					@duplicates = StudySubject.duplicates(
+						:sex => @candidate.sex,
+						:dob => @candidate.dob,
+						:mother_maiden_name => @candidate.mother_maiden_name,
+						:exclude_id => @study_subject.id)
 
+					if params[:duplicate_id] and
+							( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
+							@duplicates.include?(duplicate)
+#						params[:candidate_control][:reject_candidate] = true
+#						params[:candidate_control][:rejection_reason] = "ineligible control - ......."
+						@candidate.reject_candidate = true
+						@candidate.rejection_reason = "ineligible control - "
+						if duplicate.is_case?
+							@candidate.rejection_reason << "child is already a case subject."
+						else	#	is a control
+							@candidate.rejection_reason << "control already exists in system."
+						end
+					else
+						#
+						#	Match Found, but no duplicate_id or subject with the id
+						#
+						warn << "No valid duplicate_id given"
+						raise StudySubject::DuplicatesFound unless @duplicates.empty?
+					end
 
-#	modify params[:candidate_control] values ???
-#	•	Control subject matches case subject:	modify candidate_controls record as follows:
-#	•	Reject_candidate = true 
-#	•	Rejection_reason = “ineligible control – child is already a case subject”
-#	•	Control subject matches controls subject:  modify candiate_controls record as follows:
-#	•	Reject_candidate = true 
-#	•	Rejection_reason = “ineligible control – control already exists in system”
-
-
-#				redirect_to duplicate
-#			else
-#				#
-#				#	Match Found, but no duplicate_id or subject with the id
-#				#
-#				warn << "No valid duplicate_id given"
-#				raise StudySubject::DuplicatesFound unless @duplicates.empty?
-#			end
-#
 				#	params[:commit].blank? or params[:commit] == 'Submit' 
 				#		or params[:commit] == 'No Match'
 				else
@@ -65,7 +62,6 @@ class CandidateControlsController < ApplicationController
 					#	Transactions are only for marking a rollback point.
 					#	The raised error will still kick all the way out.
 					@candidate.create_study_subjects(@study_subject,'6')	#	'6' is default anyway
-					warn = []
 					if @candidate.study_subject.identifier.icf_master_id.blank?
 						warn << "Control was not assigned an icf_master_id."
 					end
@@ -75,11 +71,15 @@ class CandidateControlsController < ApplicationController
 					flash[:warn] = warn.join('<br/>') unless warn.empty?
 				end	#	else of if params[:commit] == 'Match Found'
 			end	#	if params[:candidate_control][:reject_candidate] == 'false'
+
 			# don't do it this way as opens ALL the attrs for change
 			#	@candidate.update_attributes(params[:candidate_control])
-			@candidate.reject_candidate = params[:candidate_control][:reject_candidate]
-			@candidate.rejection_reason = params[:candidate_control][:rejection_reason]
+#			@candidate.reject_candidate = params[:candidate_control][:reject_candidate]
+#			@candidate.rejection_reason = params[:candidate_control][:rejection_reason]
 			@candidate.save!
+#			@candidate.update_attributes!(
+#				:reject_candidate => params[:candidate_control][:reject_candidate],
+#				:rejection_reason => params[:candidate_control][:rejection_reason] )
 		end	#	CandidateControl.transaction do
 		redirect_to case_path(@study_subject)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
@@ -88,11 +88,12 @@ class CandidateControlsController < ApplicationController
 	rescue ActiveRecord::StatementInvalid => e
 		flash.now[:error] = "Database error.  Check production logs and contact Jake."
 		render :action => 'edit'
-#	rescue StudySubject::DuplicatesFound
-#		flash.now[:error] = "Possible Duplicate(s) Found."
-#		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
-#	may lose pre-filled rejection_reason??? does it matter?
-#		render :action => 'edit'
+	rescue StudySubject::DuplicatesFound
+		flash.now[:error] = "Possible Duplicate(s) Found."
+		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
+#	TODO	will lose pre-filled rejection_reason??? does it matter?
+#		prereject_candidate
+		render :action => 'edit'
 	end
 
 protected
@@ -116,6 +117,19 @@ protected
 		unless @candidate.study_subject_id.blank?
 			access_denied("Candidate is already used!", case_path(@study_subject.id))
 		end
+	end
+
+	def prereject_candidate
+		reasons = []
+		if @study_subject.dob != @candidate.dob
+			@candidate.reject_candidate = true
+			reasons << "DOB does not match."
+		end
+		if @study_subject.sex != @candidate.sex
+			@candidate.reject_candidate = true
+			reasons << "Sex does not match."
+		end
+		@candidate.rejection_reason = reasons.join("\n") unless reasons.empty?
 	end
 
 end

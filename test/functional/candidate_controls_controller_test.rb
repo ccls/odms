@@ -151,50 +151,125 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #
 		test "should NOT create control subject on update with duplicates and" <<
 				" #{cu} login" do
-pending	#	TODO
 			login_as send(cu)
 			case_study_subject = create_case_identifier.study_subject
-			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
 			duplicate = create_study_subject(:sex => candidate.sex,
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-#puts
-#puts StudySubject.duplicates(
-#	:dob => candidate.dob,
-#	:sex => candidate.sex,
-#	:mother_maiden_name => candidate.mother_maiden_name).inspect
-
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('Pii.count',0) {
 			assert_difference('Identifier.count',0) {
 			assert_difference('StudySubject.count',0) {
-#				put :update, :id => candidate.id, :candidate_control => {
-#					:reject_candidate => 'false' }
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }
 			} } } }
-#			assert_response :success
-#			assert_template 'edit'
-#			assert_not_nil flash[:error]
+			assert !assigns(:duplicates).empty?
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
 		end
 
 		test "should create control subject on update with duplicates and" <<
 				" 'No Match' and #{cu} login" do
-pending	#	TODO
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
+			duplicate = create_study_subject(:sex => candidate.sex,
+				:pii_attributes => Factory.attributes_for(:pii,
+					:dob => candidate.dob,
+					:mother_maiden_name => candidate.mother_maiden_name) )
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('Pii.count',2) {
+			assert_difference('Identifier.count',2) {
+			assert_difference('StudySubject.count',2) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' },
+					:commit => 'No Match'
+			} } } }
+			assert !assigns(:duplicates)
+			assert_redirected_to case_path(case_study_subject.id)
 		end
 
 		test "should NOT create control subject on update with duplicates and" <<
-				" 'Match Found' and #{cu} login" do
-pending	#	TODO
+				" 'Match Found' and valid duplicate_id and #{cu} login" do
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
+			duplicate = create_study_subject(:sex => candidate.sex,
+				:pii_attributes => Factory.attributes_for(:pii,
+					:dob => candidate.dob,
+					:mother_maiden_name => candidate.mother_maiden_name) )
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('Pii.count',0) {
+			assert_difference('Identifier.count',0) {
+			assert_difference('StudySubject.count',0) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }, 
+					:commit => 'Match Found', :duplicate_id => duplicate.id
+			} } } }
+			assert !assigns(:duplicates).empty?
+			assert assigns(:duplicates).include?(duplicate)
+			assert_redirected_to case_path(case_study_subject.id)
+			assert candidate.reload.reject_candidate
+			#	as the created duplicate is not explicitly a case
+			#	the reason will be because it is a control
+			assert_match /ineligible control - control already exists in system/, 
+				candidate.rejection_reason
 		end
 
 		test "should NOT create control subject on update with duplicates and" <<
 				" 'Match Found' and no duplicate_id and #{cu} login" do
-pending	#	TODO
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
+			duplicate = create_study_subject(:sex => candidate.sex,
+				:pii_attributes => Factory.attributes_for(:pii,
+					:dob => candidate.dob,
+					:mother_maiden_name => candidate.mother_maiden_name) )
+			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('Pii.count',0) {
+			assert_difference('Identifier.count',0) {
+			assert_difference('StudySubject.count',0) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }, 
+					:commit => 'Match Found'
+			} } } }
+			assert !assigns(:duplicates).empty?
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
+			assert_not_nil flash[:warn]
 		end
 
 		test "should NOT create control subject on update with duplicates and" <<
 				" 'Match Found' and invalid duplicate_id and #{cu} login" do
-pending	#	TODO
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
+			duplicate = create_study_subject(:sex => candidate.sex,
+				:pii_attributes => Factory.attributes_for(:pii,
+					:dob => candidate.dob,
+					:mother_maiden_name => candidate.mother_maiden_name) )
+			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('Pii.count',0) {
+			assert_difference('Identifier.count',0) {
+			assert_difference('StudySubject.count',0) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }, 
+					:commit => 'Match Found', :duplicate_id => 0
+			} } } }
+			assert !assigns(:duplicates).empty?
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
+			assert_not_nil flash[:warn]
 		end
 #
 #	END DUPLICATE TESTS
