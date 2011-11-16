@@ -21,22 +21,66 @@ class CandidateControlsController < ApplicationController
 	def update
 		CandidateControl.transaction do
 			if params[:candidate_control][:reject_candidate] == 'false'
-				@candidate.create_study_subjects(@study_subject,'6')	#	'6' is default anyway
-				warn = []
-				if @candidate.study_subject.identifier.icf_master_id.blank?
-					warn << "Control was not assigned an icf_master_id."
-				end
-				if @candidate.study_subject.mother.identifier.icf_master_id.blank?
-					warn << "Mother was not assigned an icf_master_id."
-				end
-				flash[:warn] = warn.join('<br/>') unless warn.empty?
-			end
+				#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
+				if params[:commit].blank? or params[:commit] == 'Submit'
+#					@duplicates = StudySubject.duplicates(
+#						:sex => @candidate.sex,
+#						:dob => @candidate.dob,
+#						:exclude_id => @study_subject.id)
+#					raise StudySubject::DuplicatesFound unless @duplicates.empty?
+				end	#	if params[:commit].blank? or params[:commit] == 'Submit'
+
+				if params[:commit] == 'Match Found'
+#					@duplicates = StudySubject.duplicates(
+#						:sex => @candidate.sex,
+#						:dob => @candidate.dob,
+#						:exclude_id => @study_subject.id)
+#			if params[:duplicate_id] and
+#					( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
+#					@duplicates.include?(duplicate)
+
+
+#	modify params[:candidate_control] values ???
+#	•	Control subject matches case subject:	modify candidate_controls record as follows:
+#	•	Reject_candidate = true 
+#	•	Rejection_reason = “ineligible control – child is already a case subject”
+#	•	Control subject matches controls subject:  modify candiate_controls record as follows:
+#	•	Reject_candidate = true 
+#	•	Rejection_reason = “ineligible control – control already exists in system”
+
+
+#				redirect_to duplicate
+#			else
+#				#
+#				#	Match Found, but no duplicate_id or subject with the id
+#				#
+#				warn << "No valid duplicate_id given"
+#				raise StudySubject::DuplicatesFound unless @duplicates.empty?
+#			end
+#
+				#	params[:commit].blank? or params[:commit] == 'Submit' 
+				#		or params[:commit] == 'No Match'
+				else
+					#	No duplicates found or if there were, not matches.
+					#	Transactions are only for marking a rollback point.
+					#	The raised error will still kick all the way out.
+					@candidate.create_study_subjects(@study_subject,'6')	#	'6' is default anyway
+					warn = []
+					if @candidate.study_subject.identifier.icf_master_id.blank?
+						warn << "Control was not assigned an icf_master_id."
+					end
+					if @candidate.study_subject.mother.identifier.icf_master_id.blank?
+						warn << "Mother was not assigned an icf_master_id."
+					end
+					flash[:warn] = warn.join('<br/>') unless warn.empty?
+				end	#	else of if params[:commit] == 'Match Found'
+			end	#	if params[:candidate_control][:reject_candidate] == 'false'
 			# don't do it this way as opens ALL the attrs for change
-			#	@candidate.update_attributes()	
+			#	@candidate.update_attributes(params[:candidate_control])
 			@candidate.reject_candidate = params[:candidate_control][:reject_candidate]
 			@candidate.rejection_reason = params[:candidate_control][:rejection_reason]
 			@candidate.save!
-		end
+		end	#	CandidateControl.transaction do
 		redirect_to case_path(@study_subject)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Candidate control update failed."
@@ -44,6 +88,11 @@ class CandidateControlsController < ApplicationController
 	rescue ActiveRecord::StatementInvalid => e
 		flash.now[:error] = "Database error.  Check production logs and contact Jake."
 		render :action => 'edit'
+#	rescue StudySubject::DuplicatesFound
+#		flash.now[:error] = "Possible Duplicate(s) Found."
+#		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
+#	may lose pre-filled rejection_reason??? does it matter?
+#		render :action => 'edit'
 	end
 
 protected

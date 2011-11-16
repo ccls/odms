@@ -143,6 +143,64 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_redirected_to case_path(case_study_subject.id)
 		end
 
+######################################################################
+#
+#	BEGIN DUPLICATE TESTS
+#
+#		controls will only be duplicates based on sex and dob (maybe maiden name)
+#
+		test "should NOT create control subject on update with duplicates and" <<
+				" #{cu} login" do
+pending	#	TODO
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
+			duplicate = create_study_subject(:sex => candidate.sex,
+				:pii_attributes => Factory.attributes_for(:pii,
+					:dob => candidate.dob,
+					:mother_maiden_name => candidate.mother_maiden_name) )
+#puts
+#puts StudySubject.duplicates(
+#	:dob => candidate.dob,
+#	:sex => candidate.sex,
+#	:mother_maiden_name => candidate.mother_maiden_name).inspect
+
+			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('Pii.count',0) {
+			assert_difference('Identifier.count',0) {
+			assert_difference('StudySubject.count',0) {
+#				put :update, :id => candidate.id, :candidate_control => {
+#					:reject_candidate => 'false' }
+			} } } }
+#			assert_response :success
+#			assert_template 'edit'
+#			assert_not_nil flash[:error]
+		end
+
+		test "should create control subject on update with duplicates and" <<
+				" 'No Match' and #{cu} login" do
+pending	#	TODO
+		end
+
+		test "should NOT create control subject on update with duplicates and" <<
+				" 'Match Found' and #{cu} login" do
+pending	#	TODO
+		end
+
+		test "should NOT create control subject on update with duplicates and" <<
+				" 'Match Found' and no duplicate_id and #{cu} login" do
+pending	#	TODO
+		end
+
+		test "should NOT create control subject on update with duplicates and" <<
+				" 'Match Found' and invalid duplicate_id and #{cu} login" do
+pending	#	TODO
+		end
+#
+#	END DUPLICATE TESTS
+#
+######################################################################
+
 		test "should assign icf_master_id on acceptance if available with #{cu} login" do
 			Factory(:icf_master_id, :icf_master_id => '12345')
 			Factory(:icf_master_id, :icf_master_id => '67890')
