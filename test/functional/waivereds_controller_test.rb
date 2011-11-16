@@ -490,6 +490,14 @@ class WaiveredsControllerTest < ActionController::TestCase
 		end
 
 		test "should create waivered case study_subject" <<
+				" with #{cu} login and create studyid" do
+			login_as send(cu)
+			minimum_successful_creation
+			assert_not_nil assigns(:study_subject).studyid
+			assert_match /\d{4}-C-0/, assigns(:study_subject).studyid
+		end
+
+		test "should create waivered case study_subject" <<
 				" with complete attributes and #{cu} login" do
 			login_as send(cu)
 			full_successful_creation
@@ -497,7 +505,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
-		test "should create waivered case study_subect" <<
+		test "should create waivered case study_subject" <<
 				" with valid and verified addressing and #{cu} login" do
 			login_as user = send(cu)
 			waivered_successful_creation
@@ -509,11 +517,12 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal addressing.current_address, YNDK[:yes]
 			assert_equal addressing.is_valid, YNDK[:yes]
 			#	verified_on is a Time so can really only compare the date
-			assert_equal addressing.verified_on.to_date, Date.today
+			#	also seems that active record uses UTC times, so
+			assert_equal addressing.verified_on.localtime.to_date, Date.today
 			assert_equal addressing.verified_by_uid, user.uid
 		end
 
-		test "should create waivered case study_subect" <<
+		test "should create waivered case study_subject" <<
 				" with valid and verified phone_number and #{cu} login" do
 			login_as user = send(cu)
 			waivered_successful_creation
@@ -524,7 +533,8 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal phone_number.current_phone, YNDK[:yes]
 			assert_equal phone_number.is_valid, YNDK[:yes]
 			#	verified_on is a Time so can really only compare the date
-			assert_equal phone_number.verified_on.to_date, Date.today
+			#	also seems that active record uses UTC times, so
+			assert_equal phone_number.verified_on.localtime.to_date, Date.today
 			assert_equal phone_number.verified_by_uid, user.uid
 		end
 

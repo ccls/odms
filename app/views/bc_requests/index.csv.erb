@@ -9,7 +9,7 @@
 <% @bc_requests.each do |bc_request| -%>
 <% study_subject = bc_request.study_subject -%>
 <%=[
- study_subject.identifier.studyid,
+ study_subject.studyid,
  study_subject.icf_master_id,
  study_subject.full_name,
  study_subject.sex,
