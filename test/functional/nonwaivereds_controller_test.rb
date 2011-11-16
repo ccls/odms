@@ -31,10 +31,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} })
 			end
+			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type(
@@ -52,10 +52,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found')
 			end
+			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type(
@@ -74,10 +74,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found', :duplicate_id => 0 )
 			end
+			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type(
@@ -98,10 +98,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) {
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'patient_attributes' => {
-#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
+			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type(
@@ -117,9 +117,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			minimum_successful_creation( 
 					'study_subject' => { 'patient_attributes' => {
-#						:organization_id => ( subject.organization_id + 1 ),	#	sequencing should make different
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'No Match' )
+			assert !assigns(:duplicates)
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type(
@@ -140,6 +140,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:organization_id => subject.organization_id
 					} })
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -158,6 +159,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:organization_id => subject.organization_id
 					} }, :commit => 'Match Found' )
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
@@ -177,6 +179,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:organization_id => subject.organization_id
 					} }, :commit => 'Match Found', :duplicate_id => 0 )
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
@@ -198,6 +201,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:organization_id => subject.organization_id
 					} }, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:notice]
 			assert_redirected_to subject
@@ -213,6 +217,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:admit_date      => subject.admit_date,
 							:organization_id => subject.organization_id
 					} }, :commit => 'No Match' )
+			assert !assigns(:duplicates)
 		end
 
 #	Have the same birth date (piis.dob) and sex (subject.sex) as the new subject and 
@@ -228,6 +233,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob }
 					})
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -245,6 +251,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'Match Found')
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -262,6 +269,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
@@ -282,6 +290,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:notice]
 			assert_redirected_to subject
@@ -296,6 +305,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 					'study_subject' => { 'sex' => subject.sex,
 						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'No Match')
+			assert !assigns(:duplicates)
 		end
 
 #	add mother's maiden name match
@@ -310,6 +320,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					})
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -327,6 +338,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found')
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -344,6 +356,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
@@ -364,6 +377,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:notice]
 			assert_redirected_to subject
@@ -378,6 +392,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 					'study_subject' => { 'sex' => subject.sex,
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'No Match')
+			assert !assigns(:duplicates)
 		end
 
 #	existing mother's maiden name null
@@ -392,6 +407,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					})
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -409,6 +425,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found')
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -426,6 +443,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
@@ -446,6 +464,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
+			assert !assigns(:duplicates).empty?
 			assert assigns(:study_subject)
 			assert_not_nil flash[:notice]
 			assert_redirected_to subject
@@ -460,6 +479,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 					'study_subject' => { 'sex' => subject.sex,
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'No Match')
+			assert !assigns(:duplicates)
 		end
 
 #
