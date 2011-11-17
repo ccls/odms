@@ -195,7 +195,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create control subject on update with duplicates and" <<
-				" 'Match Found' and valid duplicate_id and #{cu} login" do
+				" 'Match Found' and valid control duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
@@ -204,6 +204,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
+			assert !duplicate.is_case?
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('Pii.count',0) {
 			assert_difference('Identifier.count',0) {
@@ -219,6 +220,34 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			#	as the created duplicate is not explicitly a case
 			#	the reason will be because it is a control
 			assert_match /ineligible control - control already exists in system/, 
+				candidate.rejection_reason
+		end
+
+		test "should NOT create control subject on update with duplicates and" <<
+				" 'Match Found' and valid case duplicate_id and #{cu} login" do
+			login_as send(cu)
+			case_study_subject = create_case_identifier.study_subject
+			candidate = create_candidate_control(:related_patid => case_study_subject.patid,
+				:updated_at => Date.yesterday)
+			duplicate = create_study_subject(:sex => candidate.sex,
+				:subject_type => SubjectType['Case'],
+				:pii_attributes => Factory.attributes_for(:pii,
+					:dob => candidate.dob,
+					:mother_maiden_name => candidate.mother_maiden_name) )
+			assert duplicate.is_case?
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('Pii.count',0) {
+			assert_difference('Identifier.count',0) {
+			assert_difference('StudySubject.count',0) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }, 
+					:commit => 'Match Found', :duplicate_id => duplicate.id
+			} } } }
+			assert !assigns(:duplicates).empty?
+			assert assigns(:duplicates).include?(duplicate)
+			assert_redirected_to case_path(case_study_subject.id)
+			assert candidate.reload.reject_candidate
+			assert_match /ineligible control - child is already a case subject/, 
 				candidate.rejection_reason
 		end
 

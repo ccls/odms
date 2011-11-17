@@ -168,6 +168,26 @@ class PatientsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 
+		test "should NOT edit patient for case subject without patient and #{cu} login" do
+			#	doesn't actually test case/control unless new/create
+			study_subject = Factory(:case_study_subject)
+			login_as send(cu)
+			get :edit, :study_subject_id => study_subject.id
+			assert_nil assigns(:patient)
+			assert_not_nil flash[:error]
+			assert_redirected_to new_study_subject_patient_path(study_subject)
+		end
+
+		test "should NOT edit patient for control subject without patient and #{cu} login" do
+			#	doesn't actually test case/control unless new/create
+			study_subject = Factory(:control_study_subject)
+			login_as send(cu)
+			get :edit, :study_subject_id => study_subject.id
+			assert_nil assigns(:patient)
+			assert_not_nil flash[:error]
+			assert_redirected_to new_study_subject_patient_path(study_subject)
+		end
+
 		test "should NOT edit patient with invalid " <<
 				"study_subject_id and #{cu} login" do
 			patient = create_patient
@@ -183,6 +203,27 @@ class PatientsControllerTest < ActionController::TestCase
 				:patient => factory_attributes
 			assert assigns(:patient)
 			assert_redirected_to study_subject_patient_path(patient.study_subject)
+		end
+
+		test "should NOT update patient for case subject without patient and #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			login_as send(cu)
+			put :update, :study_subject_id => study_subject.id,
+				:patient => factory_attributes
+			assert_nil assigns(:patient)
+			assert_not_nil flash[:error]
+			assert_redirected_to new_study_subject_patient_path(study_subject)
+		end
+
+		test "should NOT update patient for control subject without patient and #{cu} login" do
+			#	doesn't actually test case/control unless new/create
+			study_subject = Factory(:control_study_subject)
+			login_as send(cu)
+			put :update, :study_subject_id => study_subject.id,
+				:patient => factory_attributes
+			assert_nil assigns(:patient)
+			assert_not_nil flash[:error]
+			assert_redirected_to new_study_subject_patient_path(study_subject)
 		end
 
 		test "should NOT update patient with invalid " <<
@@ -235,6 +276,32 @@ class PatientsControllerTest < ActionController::TestCase
 			end
 			assert_nil study_subject.reload.patient
 			assert_redirected_to study_subject_path(study_subject)
+		end
+
+		test "should destroy patient for control subject without patient and #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:control_study_subject)
+			assert_nil study_subject.patient
+			assert_difference('Patient.count', 0) do
+				delete :destroy, :study_subject_id => study_subject.id
+			end
+#	This is kinda a stupid, but should never really happen.
+#	Try to destroy something that doesn't exist so redirect to
+#		someplace to create one.
+			assert_redirected_to new_study_subject_patient_path(study_subject)
+		end
+
+		test "should destroy patient for case subject without patient and #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:case_study_subject)
+			assert_nil study_subject.patient
+			assert_difference('Patient.count', 0) do
+				delete :destroy, :study_subject_id => study_subject.id
+			end
+#	This is kinda a stupid, but should never really happen.
+#	Try to destroy something that doesn't exist so redirect to
+#		someplace to create one.
+			assert_redirected_to new_study_subject_patient_path(study_subject)
 		end
 
 	end

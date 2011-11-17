@@ -9,8 +9,10 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 			login_as send(cu)
 			visit new_nonwaivered_path
 
-			subject = Factory.build(:complete_nonwaivered_case_study_subject)	#	build, but DON'T save
-			#	by using the attributes from this built subject, we test the factory and use its sequencing
+			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
+			#	build, but DON'T save
+			#	by using the attributes from this built subject, 
+			#	we test the factory and use its sequencing
 
 			select "male", 	#	text NOT the value
 				:from => "study_subject[sex]"
@@ -66,8 +68,10 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 			login_as send(cu)
 			visit new_nonwaivered_path
 
-			subject = Factory.build(:complete_nonwaivered_case_study_subject)	#	build, but DON'T save
-			#	by using the attributes from this built subject, we test the factory and use its sequencing
+			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
+			#	build, but DON'T save
+			#	by using the attributes from this built subject, 
+			#	we test the factory and use its sequencing
 
 			select "male", 	#	text NOT the value
 				:from => "study_subject[sex]"
@@ -111,8 +115,6 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 				click_button "No Match"	
 			} } } } } } } }
 
-#			assert_not_nil flash[:notice]
-#			assert_match /Operational Event created marking this attempted entry/, flash[:notice]
 			assert_equal study_subject_url( assigns(:study_subject) ), current_url
 		end
 
@@ -121,25 +123,23 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 
 			visit new_nonwaivered_path
 
-			subject = Factory.build(:complete_nonwaivered_case_study_subject)	#	build, but DON'T save
-			#	by using the attributes from this built subject, we test the factory and use its sequencing
+			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
+			#	build, but DON'T save
+			#	by using the attributes from this built subject, 
+			#	we test the factory and use its sequencing
 
 			select "male", 	#	text NOT the value
 				:from => "study_subject[sex]"
 			fill_in "study_subject[patient_attributes][hospital_no]",
 				:with => subject.hospital_no
-#				:with => "9999999999999999999999999"				#	This will NEED to be unique
-#			select Hospital.nonwaivered.first.organization.to_s,
 			select subject.organization.to_s,
 				:from => "study_subject[patient_attributes][organization_id]"
 			fill_in "study_subject[patient_attributes][admit_date]",
 				:with => subject.admit_date.strftime("%m/%d/%Y")
-#				:with => "1/31/1973"
 			select "AML", 
 				:from => "study_subject[patient_attributes][diagnosis_id]"
 			fill_in "study_subject[pii_attributes][dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
-#				:with => "12/5/1971"
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
@@ -153,7 +153,7 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 				click_button "Submit"	
 			} } } } } } } }
 			assert_nil flash[:error]
-			assert_equal study_subject_url( assigns(:study_subject) ), current_url		#	i would prefer a current_path, but doesn't exist
+			assert_equal study_subject_url( assigns(:study_subject) ), current_url
 		end
 
 	end

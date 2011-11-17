@@ -32,12 +32,7 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 				click_button 'continue'
 			} } } } } } } } }
 
-			candidate.reload
-			assert        !candidate.reject_candidate
-			assert         candidate.rejection_reason.blank?
-			assert_not_nil candidate.assigned_on
-			assert_not_nil candidate.study_subject
-			assert_not_nil candidate.study_subject.mother
+			assert_candidate_assigned_and_accepted(candidate.reload)
 
 			assert_nil flash[:error]
 			assert_equal current_url, case_url(case_study_subject.id)
@@ -160,11 +155,7 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 				click_button 'Match Found'
 			} } } } } } } } }
 
-			candidate.reload
-			assert     candidate.reject_candidate
-			assert    !candidate.rejection_reason.blank?
-			assert_nil candidate.assigned_on
-			assert_nil candidate.study_subject
+			assert_candidate_rejected(candidate.reload)
 			# as the created duplicate is not explicitly a case
 			# the reason will be because it is a control
 			assert_match /ineligible control - control already exists in system/,
@@ -226,17 +217,28 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 				click_button 'No Match'
 			} } } } } } } } }
 
-			candidate.reload
-			assert        !candidate.reject_candidate
-			assert         candidate.rejection_reason.blank?
-			assert_not_nil candidate.assigned_on
-			assert_not_nil candidate.study_subject
-			assert_not_nil candidate.study_subject.mother
-
+			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert_nil flash[:error]
 			assert_equal current_url, case_url(case_study_subject.id)
 		end
 
+	end
+
+protected
+
+	def assert_candidate_assigned_and_accepted(candidate)
+		assert        !candidate.reject_candidate
+		assert         candidate.rejection_reason.blank?
+		assert_not_nil candidate.assigned_on
+		assert_not_nil candidate.study_subject
+		assert_not_nil candidate.study_subject.mother
+	end
+
+	def assert_candidate_rejected(candidate)
+		assert     candidate.reject_candidate
+		assert    !candidate.rejection_reason.blank?
+		assert_nil candidate.assigned_on
+		assert_nil candidate.study_subject
 	end
 
 end

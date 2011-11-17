@@ -312,7 +312,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names and #{cu} login" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
+			#	waivered / nonwaivered? does it matter here?
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -330,7 +331,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' without duplicate_id" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
+			#	waivered / nonwaivered? does it matter here?
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -348,7 +350,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
+			#	waivered / nonwaivered? does it matter here?
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
@@ -368,7 +371,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with valid duplicate_id" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
+			#	waivered / nonwaivered? does it matter here?
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 			assert_all_differences(0) {
@@ -386,7 +390,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'No Match'" do
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')	#	waivered / nonwaivered? does it matter here?
+			#	waivered / nonwaivered? does it matter here?
+			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
@@ -653,7 +658,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
+				#	waivered / nonwaivered? does it matter?
+				post :create, complete_case_study_subject_attributes
 			end
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -666,7 +672,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
+				#	waivered / nonwaivered? does it matter?
+				post :create, complete_case_study_subject_attributes
 			end
 			assert assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -688,7 +695,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil identifier1.patid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
+				#	waivered / nonwaivered? does it matter?
+				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -701,7 +709,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil identifier1.childid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
+				#	waivered / nonwaivered? does it matter?
+				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -714,7 +723,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil identifier1.subjectid
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
+				#	waivered / nonwaivered? does it matter?
+				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -728,7 +738,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create nonwaivered case study_subject with #{cu} login" do
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
+				#	waivered / nonwaivered? does it matter?
+				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -738,7 +749,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 	test "should NOT create nonwaivered case study_subject without login" do
 		assert_all_differences(0) do
-			post :create, complete_case_study_subject_attributes	#	waivered / nonwaivered? does it matter?
+			#	waivered / nonwaivered? does it matter?
+			post :create, complete_case_study_subject_attributes
 		end
 		assert_redirected_to_login
 	end
@@ -804,15 +816,19 @@ protected
 	end
 
 	def minimum_successful_creation(options={})
-		minimum_successful_raf_creation { post :create, minimum_nonwaivered_form_attributes(options) }
+		minimum_successful_raf_creation { 
+			post :create, minimum_nonwaivered_form_attributes(options) }
 	end
 
 	def full_successful_creation(options={})
-		successful_raf_creation { post :create, complete_case_study_subject_attributes(options) }	#	waivered / nonwaivered? does it matter?
+		successful_raf_creation { 
+			post :create, complete_case_study_subject_attributes(options) }
+			#	waivered / nonwaivered? does it matter?
 	end
 
 	def nonwaivered_successful_creation(options={})
-		successful_raf_creation { post :create, nonwaivered_form_attributes(options) }
+		successful_raf_creation { 
+			post :create, nonwaivered_form_attributes(options) }
 	end
 
 end
