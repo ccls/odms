@@ -1,5 +1,15 @@
 jQuery(function(){
 
+	var root = /(ccls|genepi.).berkeley.edu/.test(location.host)?'/odms':''
+
+	jQuery('#addressing_address_attributes_zip').change(function(){
+		jQuery.get(root + '/zip_codes.json?q=' + jQuery(this).val(), function(data){
+			if(data.length == 1) {
+				update_city_state_county(data[0].zip_code);
+			}
+		});
+	});
+
 /*
 
 	Consider using the inner text rather than value for clarity?
@@ -12,14 +22,14 @@ jQuery(function(){
 	jQuery('#addressing_is_valid').change(function(){
 		toggle_why_invalid( ( $(this).val()!=2 && $(this).val()!=999 ) );
 	});
-  toggle_why_invalid( 
+	toggle_why_invalid( 
 		( $('#addressing_is_valid').val()!=2 && 
 			$('#addressing_is_valid').val()!=999 ) );
 
 	jQuery('#addressing_is_verified').change(function(){
 		toggle_how_verified($(this).attr('checked'));
 	});
-  toggle_how_verified( 
+	toggle_how_verified( 
 		$('#addressing_is_verified').attr('checked') );
 
 	jQuery('#addressing_data_source_id').change(function(){
@@ -56,5 +66,24 @@ toggle_data_source_other = function( selected_source ) {
 		$('.data_source_other.field_wrapper').show()
 	} else {
 		$('.data_source_other.field_wrapper').hide()
+	}
+}
+
+update_city_state_county = function(zip_code) {
+/*
+	[{"zip_code":{"county_name":"Schenectady","city":"SCHENECTADY","zip_code":"12345","state":"NY"}}]
+*/
+/* only copy in the values if the target is empty */
+	var address_county = jQuery('#addressing_address_attributes_county');
+	if( address_county && !address_county.val() ){
+		address_county.val(zip_code.county_name);
+	}
+	var address_city = jQuery('#addressing_address_attributes_city');
+	if( address_city && !address_city.val() ){
+		address_city.val(zip_code.city);
+	}
+	var address_state = jQuery('#addressing_address_attributes_state');
+	if( address_state && !address_state.val() ){
+		address_state.val(zip_code.state);
 	}
 }
