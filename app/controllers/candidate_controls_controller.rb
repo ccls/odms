@@ -91,8 +91,6 @@ class CandidateControlsController < ApplicationController
 	rescue StudySubject::DuplicatesFound
 		flash.now[:error] = "Possible Duplicate(s) Found."
 		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
-#	TODO	will lose pre-filled rejection_reason??? does it matter?
-#		prereject_candidate
 		render :action => 'edit'
 	end
 

@@ -8,13 +8,12 @@ class BcRequestsController < ApplicationController
 	before_filter :valid_status_required, :only => [:update_status]
 
 	def new
-		@bc_request          = BcRequest.new #	sole purpose is to make testing happy
-		@active_bc_requests  = BcRequest.find(:all, :conditions => { :status => 'active' })
+		@bc_request           = BcRequest.new #	sole purpose is to make testing happy
+		@active_bc_requests   = BcRequest.find(:all, :conditions => { :status => 'active' })
 		@waitlist_bc_requests = BcRequest.find(:all, :conditions => { :status => 'waitlist' })
 	end
 
 	def create
-#		@study_subject.create_bc_request(:status => 'active')
 		@study_subject.bc_requests.create(:status => 'active')
 		redirect_to new_bc_request_path
 	end
@@ -62,14 +61,6 @@ class BcRequestsController < ApplicationController
 			active_bc_requests  = BcRequest.find(:all, :conditions => { :status => 'active' })
 			active_bc_requests.each do |bc_request|
 				study_subject = bc_request.study_subject
-#	Could possible use a find_or_create_by_ method here.
-#				enrollment = Enrollment.find(:first, :conditions => {
-#					:study_subject_id => study_subject.id,
-#					:project_id => Project['ccls'].id
-#				})
-#				unless enrollment
-#					enrollment = study_subject.enrollments.create!(:project => Project['ccls'])
-#				end
 				enrollment = study_subject.enrollments.find_or_create_by_project_id(
 					Project['ccls'].id )
 				enrollment.operational_events << OperationalEvent.create!(
@@ -107,17 +98,6 @@ protected
 
 	def valid_patid_required
 		if !params[:patid].blank? 
-#	TODO stop using StudySubject.search
-#		write more specific class methods 
-#			study_subjects = StudySubject.search(:patid => params[:patid], :types => 'case')
-#			case
-#				when study_subjects.length < 1 
-#					access_denied("No case study_subject found with that patid!", new_bc_request_path)
-#				when study_subjects.length > 1	#	shouldn't actually ever happen
-#					access_denied("Multiple case study_subjects found with that patid!", new_bc_request_path)
-#				else
-#					@study_subject = study_subjects.first
-#			end
 			@study_subject = StudySubject.find_case_by_patid(params[:patid])
 			if @study_subject.blank?
 				access_denied("No case study_subject found with that patid!", new_bc_request_path)

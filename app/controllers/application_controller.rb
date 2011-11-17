@@ -19,37 +19,11 @@ protected	#	private #	(does it matter which or if neither?)
 			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
 	end
 
-	#	TODO stop using this if possible as isn't really clear.  (works though)
-	#	should just extend the roles_controller(I think)
-	#	and define the 'may_not_by_user_required' method.
-	#
-	#	This is a method that returns a hash containing
-	#	permissions used in the before_filters as keys
-	#	containing another hash with redirect_to and 
-	#	message keys for special redirection.  By default,
-	#	it will redirect to root_path on failure
-	#	and the flash error will be a humanized
-	#	version of the before_filter's name.
-#	def redirections
-#		@redirections ||= HashWithIndifferentAccess.new({
-#			:not_be_user => {
-#				:redirect_to => user_path(current_user)
-#			}
-#		})
-#	end
-
 	#	used in roles_controller
 	def may_not_be_user_required
 		current_user.may_not_be_user?(@user) || access_denied(
 			"You may not be this user to do this", user_path(current_user))
 	end
-
-#	This is tricky with the multi-negatives.
-#	def may_not_be_user_required
-##		current_user.may_not_be_user?(current_user) ||	#	should've been (@user)
-#		current_user.may_be_user?(current_user) &&	#	should've been (@user)
-#			access_denied("May not be user required.", user_path(current_user) )
-#	end
 
 	def valid_study_subject_id_required
 		if !params[:study_subject_id].blank? and StudySubject.exists?(params[:study_subject_id])
@@ -142,34 +116,37 @@ protected	#	private #	(does it matter which or if neither?)
 			'subject_type_id' => SubjectType['Case'].id,
 			'identifier_attributes' => { 'case_control_type' => 'C' },
 			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
-			'addressings_attributes' => { '0' => { 
-					'current_user'    => current_user,
-					'address_at_diagnosis' => YNDK[:yes],
-					'current_address' => YNDK[:yes],
-					'is_verified'     => true,
-					'how_verified'    => 'provided on RAF',
-					'is_valid'        => YNDK[:yes],
-					'data_source_id'  => DataSource['raf'].id,
-					'address_attributes' => { 
-						'address_type_id'  => AddressType['residence'].id
-			} } },
+			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
+#			'addressings_attributes' => { '0' => { 
+#					'current_user'    => current_user,
+#					'address_at_diagnosis' => YNDK[:yes],
+#					'current_address' => YNDK[:yes],
+#					'is_verified'     => true,
+#					'how_verified'    => 'provided on RAF',
+#					'is_valid'        => YNDK[:yes],
+#					'data_source_id'  => DataSource['raf'].id,
+#					'address_attributes' => { 
+#						'address_type_id'  => AddressType['residence'].id
+#			} } },
 			'phone_numbers_attributes' => {
-				'0' => { 
-					'current_user'   => current_user,
-					'current_phone'  => YNDK[:yes],
-					'is_valid'       => YNDK[:yes],
-					'is_verified'    => true,
-					'how_verified'   => 'provided on RAF',
-					'data_source_id' => DataSource['raf'].id,
-					'phone_type_id'  => PhoneType['home'].id },
-				'1' => { 
-					'current_user'   => current_user,
-					'current_phone'  => YNDK[:yes],
-					'is_valid'       => YNDK[:yes],
-					'is_verified'    => true,
-					'how_verified'   => 'provided on RAF',
-					'data_source_id' => DataSource['raf'].id,
-					'phone_type_id'  => PhoneType['home'].id }
+				'0' => default_raf_phone_number_attributes,
+				'1' => default_raf_phone_number_attributes
+#				'0' => { 
+#					'current_user'   => current_user,
+#					'current_phone'  => YNDK[:yes],
+#					'is_valid'       => YNDK[:yes],
+#					'is_verified'    => true,
+#					'how_verified'   => 'provided on RAF',
+#					'data_source_id' => DataSource['raf'].id,
+#					'phone_type_id'  => PhoneType['home'].id },
+#				'1' => { 
+#					'current_user'   => current_user,
+#					'current_phone'  => YNDK[:yes],
+#					'is_valid'       => YNDK[:yes],
+#					'is_verified'    => true,
+#					'how_verified'   => 'provided on RAF',
+#					'data_source_id' => DataSource['raf'].id,
+#					'phone_type_id'  => PhoneType['home'].id }
 			}
 		})
 		@study_subject = StudySubject.new(study_subject_params)
@@ -231,6 +208,29 @@ protected	#	private #	(does it matter which or if neither?)
 		flash.now[:error] = "Possible Duplicate(s) Found."
 		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
 		render :action => 'new'
+	end
+
+	def default_raf_phone_number_attributes
+		{ 'current_user'   => current_user,
+			'current_phone'  => YNDK[:yes],
+			'is_valid'       => YNDK[:yes],
+			'is_verified'    => true,
+			'how_verified'   => 'provided on RAF',
+			'data_source_id' => DataSource['raf'].id,
+			'phone_type_id'  => PhoneType['home'].id }
+	end
+
+	def default_raf_addressing_attributes
+		{	'current_user'    => current_user,
+			'address_at_diagnosis' => YNDK[:yes],
+			'current_address' => YNDK[:yes],
+			'is_verified'     => true,
+			'how_verified'    => 'provided on RAF',
+			'is_valid'        => YNDK[:yes],
+			'data_source_id'  => DataSource['raf'].id,
+			'address_attributes' => { 
+				'address_type_id'  => AddressType['residence'].id
+		} }
 	end
 
 end
