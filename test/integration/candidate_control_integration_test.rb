@@ -15,6 +15,7 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 			click_link 'add control'
 			#	Only one control so should go to it.
 			assert_equal current_url, edit_candidate_control_url(candidate)
+			assert_have_no_selector 'div.possible_duplicates'
 
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
@@ -30,10 +31,6 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 			} } } } } } } } }
-
-#	apparently assigns(:duplicates) gets lost in this context
-#	This is probably due to success followed by a redirect
-#			assert !assigns(:duplicates).empty?
 
 			candidate.reload
 			assert        !candidate.reject_candidate
@@ -61,6 +58,7 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 			click_link 'add control'
 			#	Only one control so should go to it.
 			assert_equal current_url, edit_candidate_control_url(candidate)
+			assert_have_no_selector 'div.possible_duplicates'
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
@@ -83,16 +81,28 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 			#	candidate_control show action but it still passes????
 			assert_equal current_url, candidate_control_path(candidate)
 
-
-#	assert original form contents should now be hidden (perhaps not until all clear)
-#	should still have reject_candidate false and empty reason
-
-#	assert duplicate contents should be shown
-#	don't choose a duplicate
-#	click_button 'Match Found'
-			
-
-pending	#	TODO
+			assert_have_selector 'div.possible_duplicates'
+			#	don't choose a duplicate
+			assert_difference('PhoneNumber.count',0) {
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+			assert_difference('Patient.count',0) {
+			assert_difference('Pii.count',0) {
+			assert_difference('Identifier.count',0) {
+			assert_difference('Enrollment.count',0) {
+			assert_difference('StudySubject.count',0) {
+			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+				click_button 'Match Found'
+			} } } } } } } } }
+			assert !assigns(:duplicates).empty?
+			assert_not_nil flash[:error]
+			assert_not_nil flash[:warn]
+			#
+			#	this kicks back as a render, not a redirect so 
+			#	rather than actually being edit_candidate_control_path
+			#	it is just candidate_control_path, but there is no
+			#	candidate_control show action but it still passes????
+			assert_equal current_url, candidate_control_path(candidate)
 		end
 
 		test "should NOT create control subject if duplicate subject" <<
@@ -110,6 +120,7 @@ pending	#	TODO
 			click_link 'add control'
 			#	Only one control so should go to it.
 			assert_equal current_url, edit_candidate_control_url(candidate)
+			assert_have_no_selector 'div.possible_duplicates'
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
@@ -132,7 +143,35 @@ pending	#	TODO
 			#	candidate_control show action but it still passes????
 			assert_equal current_url, candidate_control_path(candidate)
 
-pending	#	TODO
+			assert_have_selector 'div.possible_duplicates'
+
+			#	choose a duplicate
+			choose "duplicate_id_#{duplicate.id}"
+			#	no new records, just a modified candidate_control record
+			assert_difference('PhoneNumber.count',0) {
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+			assert_difference('Patient.count',0) {
+			assert_difference('Pii.count',0) {
+			assert_difference('Identifier.count',0) {
+			assert_difference('Enrollment.count',0) {
+			assert_difference('StudySubject.count',0) {
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+				click_button 'Match Found'
+			} } } } } } } } }
+
+			candidate.reload
+			assert     candidate.reject_candidate
+			assert    !candidate.rejection_reason.blank?
+			assert_nil candidate.assigned_on
+			assert_nil candidate.study_subject
+			# as the created duplicate is not explicitly a case
+			# the reason will be because it is a control
+			assert_match /ineligible control - control already exists in system/,
+				candidate.rejection_reason
+
+			assert_nil flash[:error]
+			assert_equal current_url, case_url(case_study_subject.id)
 		end
 
 		test "should create control subject if duplicate subject" <<
@@ -150,6 +189,7 @@ pending	#	TODO
 			click_link 'add control'
 			#	Only one control so should go to it.
 			assert_equal current_url, edit_candidate_control_url(candidate)
+			assert_have_no_selector 'div.possible_duplicates'
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
@@ -172,23 +212,29 @@ pending	#	TODO
 			#	candidate_control show action but it still passes????
 			assert_equal current_url, candidate_control_path(candidate)
 
+			assert_have_selector 'div.possible_duplicates'
+			#	don't choose a duplicate
+			assert_difference('PhoneNumber.count',0) {
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+			assert_difference('Patient.count',0) {
+			assert_difference('Pii.count',2) {
+			assert_difference('Identifier.count',2) {
+			assert_difference('Enrollment.count',2) {
+			assert_difference('StudySubject.count',2) {
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+				click_button 'No Match'
+			} } } } } } } } }
 
+			candidate.reload
+			assert        !candidate.reject_candidate
+			assert         candidate.rejection_reason.blank?
+			assert_not_nil candidate.assigned_on
+			assert_not_nil candidate.study_subject
+			assert_not_nil candidate.study_subject.mother
 
-
-
-
-#
-#	check if form still prerejected (if it was before)
-
-#			candidate.reload
-#			assert        !candidate.reject_candidate
-#			assert         candidate.rejection_reason.blank?
-#			assert_not_nil candidate.assigned_on
-#			assert_not_nil candidate.study_subject
-#			assert_not_nil candidate.study_subject.mother
-#
-#			assert_nil flash[:error]
-#			assert_equal current_url, case_url(case_study_subject.id)
+			assert_nil flash[:error]
+			assert_equal current_url, case_url(case_study_subject.id)
 		end
 
 	end
