@@ -82,21 +82,21 @@ class ActiveSupport::TestCase
 		assert_redirected_to assigns(:study_subject)
 	end
 
-	def minimum_successful_raf_creation(&block)
-#		assert_difference('SubjectRace.count',count){
-		assert_difference('SubjectLanguage.count',0){
-		assert_difference('PhoneNumber.count',0){
-		assert_difference('Addressing.count',0){
-		assert_difference('Address.count',0){
-		assert_difference('Enrollment.count',2){	#	both child and mother
-		assert_difference('Pii.count',2){
-		assert_difference('Patient.count',1){
-		assert_difference('Identifier.count',2){
-		assert_difference('StudySubject.count',2){
-			yield
-		} } } } } } } } } # }
-		assert_nil flash[:error]
-		assert_redirected_to assigns(:study_subject)
-	end
+#	def minimum_successful_raf_creation(&block)
+##		assert_difference('SubjectRace.count',count){
+#		assert_difference('SubjectLanguage.count',0){
+#		assert_difference('PhoneNumber.count',0){
+#		assert_difference('Addressing.count',0){
+#		assert_difference('Address.count',0){
+#		assert_difference('Enrollment.count',2){	#	both child and mother
+#		assert_difference('Pii.count',2){
+#		assert_difference('Patient.count',1){
+#		assert_difference('Identifier.count',2){
+#		assert_difference('StudySubject.count',2){
+#			yield
+#		} } } } } } } } } # }
+#		assert_nil flash[:error]
+#		assert_redirected_to assigns(:study_subject)
+#	end
 
 end

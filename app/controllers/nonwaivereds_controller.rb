@@ -14,7 +14,6 @@ class NonwaiveredsController < ApplicationController
 		#	Paper form does not have consented checkbox, but our model
 		#		requires it so add it if ...
 		unless study_subject_params.dig("enrollments_attributes","0","consented_on").blank?
-#			study_subject_params["enrollments_attributes"]["0"]["consented"] = 1
 			study_subject_params["enrollments_attributes"]["0"]["consented"] = YNDK[:yes]
 		end
 
@@ -30,6 +29,9 @@ class NonwaiveredsController < ApplicationController
 		study_subject_params["patient_attributes"]["raf_county"] = 
 			study_subject_params.dig("addressings_attributes","0",
 				"address_attributes","county")
+
+		study_subject_params["addressings_attributes"]["0"][
+			"address_required"] = true
 
 		common_raf_create(study_subject_params)
 	end

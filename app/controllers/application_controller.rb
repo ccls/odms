@@ -117,36 +117,9 @@ protected	#	private #	(does it matter which or if neither?)
 			'identifier_attributes' => { 'case_control_type' => 'C' },
 			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
 			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
-#			'addressings_attributes' => { '0' => { 
-#					'current_user'    => current_user,
-#					'address_at_diagnosis' => YNDK[:yes],
-#					'current_address' => YNDK[:yes],
-#					'is_verified'     => true,
-#					'how_verified'    => 'provided on RAF',
-#					'is_valid'        => YNDK[:yes],
-#					'data_source_id'  => DataSource['raf'].id,
-#					'address_attributes' => { 
-#						'address_type_id'  => AddressType['residence'].id
-#			} } },
 			'phone_numbers_attributes' => {
 				'0' => default_raf_phone_number_attributes,
 				'1' => default_raf_phone_number_attributes
-#				'0' => { 
-#					'current_user'   => current_user,
-#					'current_phone'  => YNDK[:yes],
-#					'is_valid'       => YNDK[:yes],
-#					'is_verified'    => true,
-#					'how_verified'   => 'provided on RAF',
-#					'data_source_id' => DataSource['raf'].id,
-#					'phone_type_id'  => PhoneType['home'].id },
-#				'1' => { 
-#					'current_user'   => current_user,
-#					'current_phone'  => YNDK[:yes],
-#					'is_valid'       => YNDK[:yes],
-#					'is_verified'    => true,
-#					'how_verified'   => 'provided on RAF',
-#					'data_source_id' => DataSource['raf'].id,
-#					'phone_type_id'  => PhoneType['home'].id }
 			}
 		})
 		@study_subject = StudySubject.new(study_subject_params)

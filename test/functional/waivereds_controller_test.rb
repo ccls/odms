@@ -515,6 +515,17 @@ class WaiveredsControllerTest < ActionController::TestCase
 		end
 
 		test "should create waivered case study_subject" <<
+				" without complete address and #{cu} login" do
+			login_as send(cu)
+			minimum_successful_creation(
+					:study_subject => {
+					:addressings_attributes => { '0' => {
+						:address_attributes => { 
+							:line_1 => '', :city   => '',
+							:state => '', :zip => '' } } } } )
+		end
+
+		test "should create waivered case study_subject" <<
 				" with #{cu} login and create studyid" do
 			login_as send(cu)
 			minimum_successful_creation
@@ -794,11 +805,6 @@ protected
 		}}.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
-	def minimum_successful_creation(options={})
-		minimum_successful_raf_creation { 
-			post :create, minimum_waivered_form_attributes(options) }
-	end
-
 	def full_successful_creation(options={})
 		#	waivered / nonwaivered? does it matter?
 		successful_raf_creation { 
@@ -808,6 +814,23 @@ protected
 	def waivered_successful_creation(options={})
 		successful_raf_creation { 
 			post :create, waivered_form_attributes(options) }
+	end
+
+	def minimum_successful_creation(options={})
+#		assert_difference('SubjectRace.count',count){
+		assert_difference('SubjectLanguage.count',0){
+		assert_difference('PhoneNumber.count',0){
+		assert_difference('Addressing.count',0){
+		assert_difference('Address.count',0){
+		assert_difference('Enrollment.count',2){	#	both child and mother
+		assert_difference('Pii.count',2){
+		assert_difference('Patient.count',1){
+		assert_difference('Identifier.count',2){
+		assert_difference('StudySubject.count',2){
+			post :create, minimum_waivered_form_attributes(options)
+		} } } } } } } } } # }
+		assert_nil flash[:error]
+		assert_redirected_to assigns(:study_subject)
 	end
 
 end

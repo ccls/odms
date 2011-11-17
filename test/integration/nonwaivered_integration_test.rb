@@ -27,6 +27,15 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 			fill_in "study_subject[pii_attributes][dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
+				:with => '123 Main St'
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][city]',
+				:with => 'Berkeley'
+			select 'CA',
+				:from => 'study_subject[addressings_attributes][0][address_attributes][state]'
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][zip]',
+				:with => '94703'
+
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
@@ -86,6 +95,15 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 			fill_in "study_subject[pii_attributes][dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
+				:with => '123 Main St'
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][city]',
+				:with => 'Berkeley'
+			select 'CA',
+				:from => 'study_subject[addressings_attributes][0][address_attributes][state]'
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][zip]',
+				:with => '94703'
+
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
@@ -104,8 +122,8 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 			assert_match /Possible Duplicate\(s\) Found/, flash[:error]
 
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
+			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
 			assert_difference('Pii.count',2) {
 			assert_difference('Patient.count',1) {
 			assert_difference('Identifier.count',2) {
@@ -141,9 +159,18 @@ class NonwaiveredIntegrationTest < ActionController::IntegrationTest
 			fill_in "study_subject[pii_attributes][dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
+				:with => '123 Main St'
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][city]',
+				:with => 'Berkeley'
+			select 'CA',
+				:from => 'study_subject[addressings_attributes][0][address_attributes][state]'
+			fill_in 'study_subject[addressings_attributes][0][address_attributes][zip]',
+				:with => '94703'
+
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
+			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
 			assert_difference('Pii.count',2) {
 			assert_difference('Patient.count',1) {
 			assert_difference('Identifier.count',2) {

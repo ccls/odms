@@ -224,7 +224,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 #		(same mother’s maiden name or existing mother’s maiden name is null)
 
 		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank mother_maiden_names and #{cu} login" do
+				" with existing duplicate sex and dob and blank mother_maiden_names" <<
+				" and #{cu} login" do
 			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -311,7 +312,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 #	add mother's maiden name match
 
 		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and mother_maiden_names and #{cu} login" do
+				" with existing duplicate sex and dob and mother_maiden_names" <<
+				" and #{cu} login" do
 			#	waivered / nonwaivered? does it matter here?
 			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			login_as send(cu)
@@ -403,7 +405,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 #	existing mother's maiden name null
 
 		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank existing mother_maiden_name and #{cu} login" do
+				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+				" and #{cu} login" do
 			subject = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -504,6 +507,27 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with minimum requirements and #{cu} login" do
 			login_as send(cu)
 			minimum_successful_creation
+		end
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" without complete address and #{cu} login" do
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_nonwaivered_form_attributes(
+					:study_subject => {
+					:addressings_attributes => { '0' => {
+						:address_attributes => { 
+							:line_1 => '', :city   => '',
+							:state => '', :zip => '' } } } } )
+			end
+			assert assigns(:study_subject).errors.on_attr_and_type(
+				'addressings.address.line_1',:blank)
+			assert assigns(:study_subject).errors.on_attr_and_type(
+				'addressings.address.city',:blank)
+			assert assigns(:study_subject).errors.on_attr_and_type(
+				'addressings.address.state',:blank)
+			assert assigns(:study_subject).errors.on_attr_and_type(
+				'addressings.address.zip',:blank)
 		end
 
 		test "should create nonwaivered case study_subject" <<
@@ -690,6 +714,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 #		end 
 
 		test "should do something if patid exists with #{cu} login" do
+#	TODO
 			Identifier.any_instance.stubs(:get_next_patid).returns('0123')
 			identifier1 = Factory(:case_identifier)
 			assert_not_nil identifier1.patid
@@ -704,6 +729,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		end
 
 		test "should do something if childid exists with #{cu} login" do
+#	TODO
 			Identifier.any_instance.stubs(:get_next_childid).returns(12345)
 			identifier1 = Factory(:identifier)
 			assert_not_nil identifier1.childid
@@ -718,6 +744,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		end
 
 		test "should do something if subjectid exists with #{cu} login" do
+#	TODO
 			Identifier.any_instance.stubs(:generate_subjectid).returns('012345')
 			identifier1 = Factory(:identifier)
 			assert_not_nil identifier1.subjectid
@@ -760,6 +787,10 @@ protected
 	def minimum_nonwaivered_form_attributes(options={})
 		{ 'study_subject' => {
 			"sex"                   => "M", 
+#	nonwaivereds will require an address (waivereds won't)
+			"addressings_attributes"=>{
+				"0"=>{ "address_attributes"=> Factory.attributes_for(:address) }
+			}, 
 			"identifier_attributes" => { }, 
 			"pii_attributes"        => Factory.attributes_for(:pii),
 			"patient_attributes"    => Factory.attributes_for(:nonwaivered_patient)
@@ -815,11 +846,6 @@ protected
 		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
-	def minimum_successful_creation(options={})
-		minimum_successful_raf_creation { 
-			post :create, minimum_nonwaivered_form_attributes(options) }
-	end
-
 	def full_successful_creation(options={})
 		successful_raf_creation { 
 			post :create, complete_case_study_subject_attributes(options) }
@@ -829,6 +855,23 @@ protected
 	def nonwaivered_successful_creation(options={})
 		successful_raf_creation { 
 			post :create, nonwaivered_form_attributes(options) }
+	end
+
+	def minimum_successful_creation(options={})
+#		assert_difference('SubjectRace.count',count){
+		assert_difference('SubjectLanguage.count',0){
+		assert_difference('PhoneNumber.count',0){
+		assert_difference('Addressing.count',1){
+		assert_difference('Address.count',1){
+		assert_difference('Enrollment.count',2){	#	both child and mother
+		assert_difference('Pii.count',2){
+		assert_difference('Patient.count',1){
+		assert_difference('Identifier.count',2){
+		assert_difference('StudySubject.count',2){
+			post :create, minimum_nonwaivered_form_attributes(options)
+		} } } } } } } } } # }
+		assert_nil flash[:error]
+		assert_redirected_to assigns(:study_subject)
 	end
 
 end
