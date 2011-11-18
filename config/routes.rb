@@ -19,6 +19,18 @@ ActionController::Routing::Routes.draw do |map|
 	map.resource :session, :only => [ :destroy ]
 
 
+#	from ccls_engine
+#	map.connect 'stylesheets/:action.:format', :controller => 'stylesheets'
+#	map.connect 'javascripts/:action.:format', :controller => 'javascripts'
+#	map.resource  :calendar,   :only => [ :show ]
+#	map.resources :races
+#	map.resources :languages
+#	map.resources :people
+#	map.resources :refusal_reasons
+#	map.resources :ineligible_reasons
+#	map.resources :zip_codes, :only => [ :index ]
+
+
 
 
 	map.resources :locales, :only => :show
