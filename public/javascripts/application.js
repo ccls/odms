@@ -21,64 +21,88 @@ jQuery(function(){
 */
 	jQuery('form.confirm').submit(confirm_submission);
 
-/*	
-	Moved to contacts.js
-
-	jQuery('a.toggle_historic_addressings').click(function(){
-		jQuery('.addressings .historic').toggle()
-		return false;
-	});
-
-	jQuery('a.toggle_historic_phone_numbers').click(function(){
-		jQuery('.phone_numbers .historic').toggle()
-		return false;
-	});
-*/
-
-/*
-	This is used in homex/app/views/samples/show.html.erb, for packages, but not in odms.
-
-	jQuery('a.ajax').click(function(){
-		jQuery.get(jQuery(this).attr('href')+'.js', function(data){
-			jQuery('#ajax').html(data);
-		});
-		return false;
-	});
-*/
-
-/*
-	Moved to edit_study_subject.js
-
-	jQuery('form.edit_study_subject input:checkbox.is_primary_selector').click(function(){
-
-		if( jQuery(this).attr('checked') ){
-			var id = jQuery(this).attr('id').replace(/_is_primary/,'');
-			jQuery('#'+id).attr('checked',true);
-
-	
-			jQuery('form.edit_study_subject input:checkbox.is_primary_selector').attr('checked',false);
-			jQuery(this).attr('checked',true);
-		}
-	});
-
-	jQuery('form.edit_study_subject input:checkbox.race_selector').click(function(){
-		
-		if( !jQuery(this).attr('checked') ){
-			jQuery('#'+jQuery(this).attr('id')+'_is_primary').attr('checked',false);
-		}
-	});
-
-*/
 });
 
 var submit_form = function() {
 	form_id = this.id.replace(/^for_/,'');
 	jQuery('form#'+form_id).submit();
 	return false;
-}
+};
 
 var confirm_submission = function(){
 	if( !confirm("Please confirm that you want to save all changes. Otherwise, press 'cancel' and navigate to another page without saving.") ){
 		return false;
 	}
-}
+};
+
+
+/*
+	Gonna try to be more object oriented and also use jquery plugin stuff
+*/
+/*
+	possibly things like ...
+
+	jQuery('a.submitter').formSubmitter();
+	jQuery('a.toggle_eligibility_criteria').togglerFor('.eligibility_criteria');
+
+*/
+
+(function ($){  
+	/* 
+		My first jquery plugin. Used from ...
+			public/javascripts/consent.js
+			public/javascripts/contacts.js
+	*/
+	$.fn.togglerFor = function (toggled_selector) {  
+		/*
+			insert object stuff
+
+			If 'toggled_selector' is blank, or doesn't exist,
+				nothing happens.
+
+		*/
+		return this.each(function () {  
+			$(this).click(function(){
+				$(toggled_selector).toggle()
+				return false;
+			});
+		});  
+	};  
+})(jQuery);  
+
+
+/*
+http://asciicasts.com/episodes/261-testing-javascript-with-jasmine
+var CreditCard = {  
+  cleanNumber: function(number) {  
+    return number.replace(/[- ]/g, "");  
+  },  
+    
+  validNumber: function(number) {  
+    var total = 0;  
+    number = this.cleanNumber(number);  
+    for (var i=number.length-1; i >= 0; i--) {  
+      var n = parseInt(number[i]);  
+      if ((i+number.length) % 2 == 0) {  
+        n = n*2 > 9 ? n*2 - 9 : n*2;  
+      }  
+      total += n;  
+    };  
+    return total % 10 == 0;  
+  }  
+}  
+    (function ($){  
+      $.fn.validateCreditCardNumber = function () {  
+        return this.each(function () {  
+          $(this).blur(function () {  
+            if (!CreditCard.validNumber(this.value)) {  
+              $("#" + this.id + "_error").text("Invalid credit card number.");  
+            }  
+            else {  
+              $("#" + this.id + "_error").text("");  
+            }  
+          });  
+        });  
+      };  
+    })(jQuery);  
+*/
