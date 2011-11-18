@@ -4,6 +4,10 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 
 	site_administrators.each do |cu|
 
+#
+#	TODO add a couple tests that check pre-rejection of control due to sex or dob differences.
+#
+
 		test "should create control for case with no duplicates and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_case_identifier.study_subject
@@ -17,8 +21,21 @@ class CandidateControlIntegrationTest < ActionController::IntegrationTest
 			assert_equal current_url, edit_candidate_control_url(candidate)
 			assert_have_no_selector 'div.possible_duplicates'
 
+
+			#	realistically, must 'choose' a radio button by id as the name is not likely unique
+			#	as most radio buttons are part of a 'group' and the group is defined by a shared name value.
+			#	Apparently, we can also choose by the label text, but haven't tried this.
+#<p><input id="candidate_control_reject_candidate_false" name="candidate_control[reject_candidate]" type="radio" value="false" />
+#<label for="candidate_control_reject_candidate_false">accept control</label></p>
+#<p><input checked="checked" id="candidate_control_reject_candidate_true" name="candidate_control[reject_candidate]" type="radio" value="true" />
+#<label for="candidate_control_reject_candidate_true">reject control</label></p>
+			#choose 'candidate_control[reject_candidate][value=false]'
+			#choose 'candidate_control[reject_candidate]'	#	works, but how?  chooses the first one?
 			choose 'candidate_control_reject_candidate_false'
-			fill_in 'candidate_control_rejection_reason', :with => ''
+#<textarea cols="40" id="candidate_control_rejection_reason" name="candidate_control[rejection_reason]" rows="10">DOB does not match.
+			# fill_in 'candidate_control_rejection_reason', :with => ''
+			fill_in 'candidate_control[rejection_reason]', :with => ''
+
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
