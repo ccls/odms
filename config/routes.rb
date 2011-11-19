@@ -19,16 +19,17 @@ ActionController::Routing::Routes.draw do |map|
 	map.resource :session, :only => [ :destroy ]
 
 
+#	Some of these should be removed from the gem's generator and just included in the appropriate apps.
 #	from ccls_engine
 #	map.connect 'stylesheets/:action.:format', :controller => 'stylesheets'
 #	map.connect 'javascripts/:action.:format', :controller => 'javascripts'
 #	map.resource  :calendar,   :only => [ :show ]
-#	map.resources :races
-#	map.resources :languages
-#	map.resources :people
-#	map.resources :refusal_reasons
-#	map.resources :ineligible_reasons
-#	map.resources :zip_codes, :only => [ :index ]
+	map.resources :races
+	map.resources :languages
+	map.resources :people
+	map.resources :refusal_reasons
+	map.resources :ineligible_reasons
+	map.resources :zip_codes, :only => [ :index ]
 
 
 
