@@ -251,6 +251,83 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 		end
 
+		test "should NOT add 'subject_moved' event to subject if subject_moved is '1'" <<
+				" if not residence address on update with #{cu} login" do
+			addressing = Factory(:current_mailing_addressing)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0) {
+				put :update, :id => addressing.id, :addressing => {
+					:current_address => '2',
+					:subject_moved   => '1' }
+			}
+		end
+	
+		test "should NOT add 'subject_moved' event to subject if subject_moved is '1'" <<
+				" if was not current address on update with #{cu} login" do
+			addressing = Factory(:residence_addressing)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0) {
+				put :update, :id => addressing.id, :addressing => {
+					:current_address => '2',
+					:subject_moved   => '1' }
+			}
+		end
+	
+		test "should add 'subject_moved' event to subject if subject_moved is '1'" <<
+				" on update with #{cu} login" do
+			addressing = Factory(:current_residence_addressing)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',1) {
+				put :update, :id => addressing.id, :addressing => {
+					:current_address => '2',
+					:subject_moved   => '1' }
+			}
+		end
+	
+		test "should not add 'subject_moved' event to subject if subject_moved is '0'" <<
+				" on update with #{cu} login" do
+			addressing = Factory(:current_residence_addressing)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0) {
+				put :update, :id => addressing.id, :addressing => {
+					:current_address => '2',
+					:subject_moved   => '0' }
+			}
+		end
+	
+		test "should add 'subject_moved' event to subject if subject_moved is 'true'" <<
+				" on update with #{cu} login" do
+			addressing = Factory(:current_residence_addressing)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',1) {
+				put :update, :id => addressing.id, :addressing => {
+					:current_address => '2',
+					:subject_moved   => 'true' }
+			}
+		end
+	
+		test "should not add 'subject_moved' event to subject if subject_moved is 'false'" <<
+				" on update with #{cu} login" do
+			addressing = Factory(:current_residence_addressing)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0) {
+				put :update, :id => addressing.id, :addressing => {
+					:current_address => '2',
+					:subject_moved   => 'false' }
+			}
+		end
+	
+		test "should not add 'subject_moved' event to subject if subject_moved is nil" <<
+				" on update with #{cu} login" do
+			addressing = Factory(:current_residence_addressing)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0) {
+				put :update, :id => addressing.id, :addressing => {
+					:current_address => '2',
+					:subject_moved   => nil }
+			}
+		end
+
 	end
 
 	non_site_editors.each do |cu|
