@@ -55,11 +55,8 @@ var confirm_submission = function(){
 	*/
 	$.fn.togglerFor = function (toggled_selector) {  
 		/*
-			insert object stuff
-
 			If 'toggled_selector' is blank, or doesn't exist,
 				nothing happens.
-
 		*/
 		return this.each(function () {  
 			$(this).click(function(){
@@ -69,6 +66,36 @@ var confirm_submission = function(){
 		});  
 	};  
 })(jQuery);  
+
+
+/*
+	used in 
+		edit_addressing.js
+
+*/
+(function ($){  
+	$.fn.smartShow = function (inoptions) {
+		var defaults = {
+			what: 'some css selector string',
+			when: function(){ /* some function that returns true or false */ }
+		};
+		var options = $.extend(defaults, inoptions);
+		var _smart_toggle = function () {
+			if( options.when() ){
+				$(options.what).show();
+			} else {
+				$(options.what).hide();
+			};
+		};
+		return this.each(function () {  
+			/* do initial toggle, then bind to change event. */
+			_smart_toggle();	
+			$(this).change(function(){
+				_smart_toggle();
+			});
+		});  
+	};  
+})(jQuery);
 
 
 /*

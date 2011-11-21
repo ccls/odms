@@ -10,35 +10,33 @@ jQuery(function(){
 		});
 	});
 
+	jQuery('#addressing_is_valid').smartShow({
+		what: '.why_invalid.field_wrapper',
+		when: function(){ 
+			/* as 'no' matches both "No" and "Don't Know", only need one condition! */
+			return /no/i.test($('#addressing_is_valid option:selected').text()); }
+	});
+
+	jQuery('#addressing_is_verified').smartShow({
+		what: '.how_verified.field_wrapper',
+		when: function(){ 
+			return $('#addressing_is_verified').attr('checked'); }
+	});
+
+	jQuery('#addressing_data_source_id').smartShow({
+		what: '.data_source_other.field_wrapper',
+		when: function(){ 
+			return /Other Source/.test( 
+				$('#addressing_data_source_id option:selected').text() ) }
+	});
+
 /*
-
-	Consider using the inner text rather than value for clarity?
-
-	Also, consider renaming javascript functions to include model name for clarity?
-
-	As these use dom ids, there can be only one.
-
+	This ONLY changes if is residence first and then current
+	is changed to no.  It also does not uncheck the box if changed
+	back to yes.  The value is probably kept and checkbox is still
+	hidden if address fails validation,
+	and then kicks back to edit.
 */
-	jQuery('#addressing_is_valid').change(function(){
-		toggle_why_invalid( ( $(this).val()!=2 && $(this).val()!=999 ) );
-	});
-	toggle_why_invalid( 
-		( $('#addressing_is_valid').val()!=2 && 
-			$('#addressing_is_valid').val()!=999 ) );
-
-	jQuery('#addressing_is_verified').change(function(){
-		toggle_how_verified($(this).attr('checked'));
-	});
-	toggle_how_verified( 
-		$('#addressing_is_verified').attr('checked') );
-
-	jQuery('#addressing_data_source_id').change(function(){
-		toggle_data_source_other( $(this).find('option:selected').text() );
-	});
-	toggle_data_source_other( 
-		$('#addressing_data_source_id option:selected').text() );
-
-
 	jQuery('#addressing_current_address').change(function(){
 		/* "don't know" would match /no/ so more strict */
 		if( /^no$/i.test( $(this).find('option:selected').text() ) &&
@@ -51,37 +49,6 @@ jQuery(function(){
 	});
 
 });
-
-
-/*
-	These functions have the same name for editing a phone number
-	and an addressing so if there is ever a form with both,
-	be aware, BE VERY AWARE!
-*/
-var toggle_why_invalid = function(valid) {
-	/* This SHOULD be REVERSED */
-	if( valid ){
-		$('.why_invalid.field_wrapper').hide()
-	} else {
-		$('.why_invalid.field_wrapper').show()
-	}
-};
-
-var toggle_how_verified = function(checked) {
-	if( checked ){
-		$('.how_verified.field_wrapper').show()
-	} else {
-		$('.how_verified.field_wrapper').hide()
-	}
-};
-
-var toggle_data_source_other = function( selected_source ) {
-	if( /Other Source/.test( selected_source ) ){
-		$('.data_source_other.field_wrapper').show()
-	} else {
-		$('.data_source_other.field_wrapper').hide()
-	}
-};
 
 update_city_state_county = function(zip_code) {
 /*
