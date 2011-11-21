@@ -55,6 +55,14 @@ form.edit_addressing div.dates_valid label {
 form.edit_addressing div.dates_valid .field_wrapper {
 	margin-bottom: 0px;
 }
+form.edit_addressing div.moved div.subject_moved {
+/*
+	using visibility rather than display to toggle visibility
+	as this is displayed inline-block rather than just block
+*/
+	visibility:hidden;
+}
+form.edit_addressing div.moved > div,
 form.edit_addressing div.source > div,
 form.edit_addressing div.valid > div,
 form.edit_addressing div.verified > div {
@@ -76,7 +84,6 @@ form.edit_addressing .how_verified label{
 	width: auto;
 	padding-right: 10px;
 }
-
 form.edit_addressing #addressing_data_source_other {
 	width: 100px;
 }

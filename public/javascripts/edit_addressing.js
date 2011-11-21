@@ -38,36 +38,50 @@ jQuery(function(){
 	toggle_data_source_other( 
 		$('#addressing_data_source_id option:selected').text() );
 
+
+	jQuery('#addressing_current_address').change(function(){
+		/* "don't know" would match /no/ so more strict */
+		if( /^no$/i.test( $(this).find('option:selected').text() ) &&
+			/residence/i.test( 
+				$('#addressing_address_attributes_address_type_id option:selected').text() ) 
+		) {
+			/* as this is not display:block, can't use 'show()' */
+			$('div.moved > div.subject_moved').css('visibility','visible');
+		}
+	});
+
 });
+
+
 /*
 	These functions have the same name for editing a phone number
 	and an addressing so if there is ever a form with both,
 	be aware, BE VERY AWARE!
 */
-toggle_why_invalid = function(valid) {
+var toggle_why_invalid = function(valid) {
 	/* This SHOULD be REVERSED */
 	if( valid ){
 		$('.why_invalid.field_wrapper').hide()
 	} else {
 		$('.why_invalid.field_wrapper').show()
 	}
-}
+};
 
-toggle_how_verified = function(checked) {
+var toggle_how_verified = function(checked) {
 	if( checked ){
 		$('.how_verified.field_wrapper').show()
 	} else {
 		$('.how_verified.field_wrapper').hide()
 	}
-}
+};
 
-toggle_data_source_other = function( selected_source ) {
+var toggle_data_source_other = function( selected_source ) {
 	if( /Other Source/.test( selected_source ) ){
 		$('.data_source_other.field_wrapper').show()
 	} else {
 		$('.data_source_other.field_wrapper').hide()
 	}
-}
+};
 
 update_city_state_county = function(zip_code) {
 /*
@@ -86,4 +100,4 @@ update_city_state_county = function(zip_code) {
 	if( address_state && !address_state.val() ){
 		address_state.val(zip_code.state);
 	}
-}
+};
