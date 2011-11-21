@@ -47,12 +47,15 @@ jQuery(function(){
 var toggle_subject_moved = function(){
 	/* "don't know" would match /no/ so more strict */
 	if( /^no$/i.test( 
-		$('#addressing_current_address option:selected').text() ) &&
+			$('#addressing_current_address option:selected').text() ) &&
 		/residence/i.test( 
 			$('#addressing_address_attributes_address_type_id option:selected').text() ) 
 	) {
 		/* as this is not display:block, can't use 'show()' */
 		$('div.moved > div.subject_moved').css('visibility','visible');
+	} else {
+		/* as this is not display:block, can't use 'hide()' */
+		$('div.moved > div.subject_moved').css('visibility','hidden');
 	}
 };
 
