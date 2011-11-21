@@ -38,19 +38,25 @@ jQuery(function(){
 	and then kicks back to edit.
 */
 	jQuery('#addressing_current_address').change(function(){
-		/* "don't know" would match /no/ so more strict */
-		if( /^no$/i.test( $(this).find('option:selected').text() ) &&
-			/residence/i.test( 
-				$('#addressing_address_attributes_address_type_id option:selected').text() ) 
-		) {
-			/* as this is not display:block, can't use 'show()' */
-			$('div.moved > div.subject_moved').css('visibility','visible');
-		}
+		toggle_subject_moved();
 	});
+	toggle_subject_moved();
 
 });
 
-update_city_state_county = function(zip_code) {
+var toggle_subject_moved = function(){
+	/* "don't know" would match /no/ so more strict */
+	if( /^no$/i.test( 
+		$('#addressing_current_address option:selected').text() ) &&
+		/residence/i.test( 
+			$('#addressing_address_attributes_address_type_id option:selected').text() ) 
+	) {
+		/* as this is not display:block, can't use 'show()' */
+		$('div.moved > div.subject_moved').css('visibility','visible');
+	}
+};
+
+var update_city_state_county = function(zip_code) {
 /*
 	[{"zip_code":{"county_name":"Schenectady","city":"SCHENECTADY","zip_code":"12345","state":"NY"}}]
 */
