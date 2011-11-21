@@ -514,11 +514,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
-					:study_subject => {
-					:addressings_attributes => { '0' => {
+					:study_subject => { :addressings_attributes => { '0' => {
 						:address_attributes => { 
-							:line_1 => '', :city   => '',
-							:state => '', :zip => '' } } } } )
+							:line_1 => '', :city => '',
+							:state  => '', :zip  => '' } } } } )
 			end
 			assert assigns(:study_subject).errors.on_attr_and_type(
 				'addressings.address.line_1',:blank)
@@ -528,6 +527,19 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				'addressings.address.state',:blank)
 			assert assigns(:study_subject).errors.on_attr_and_type(
 				'addressings.address.zip',:blank)
+		end
+
+		test "should add '[no address provided]' to blank line_1 if city, state, zip" <<
+				" are not blank with #{cu} login" do
+			login_as send(cu)
+			minimum_successful_creation(
+				:study_subject => { :addressings_attributes => { '0' => {
+					"address_attributes"=> Factory.attributes_for(:address, 
+						:line_1 => '') } 
+			} } )
+			assert_not_nil assigns(:study_subject).addressings.first.address.line_1
+			assert_equal '[no address provided]',
+				assigns(:study_subject).addressings.first.address.line_1
 		end
 
 		test "should create nonwaivered case study_subject" <<

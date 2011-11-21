@@ -122,6 +122,7 @@ protected	#	private #	(does it matter which or if neither?)
 				'1' => default_raf_phone_number_attributes
 			}
 		})
+		allow_blank_address_line_1(study_subject_params)
 		@study_subject = StudySubject.new(study_subject_params)
 
 		#	explicitly validate before searching for duplicates
@@ -204,6 +205,17 @@ protected	#	private #	(does it matter which or if neither?)
 			'address_attributes' => { 
 				'address_type_id'  => AddressType['residence'].id
 		} }
+	end
+
+	def allow_blank_address_line_1(default={})
+		#	as 'default' is a hash, 'address' is now just a pointer to part of it.
+		address = default['addressings_attributes']['0']['address_attributes']
+		if address['line_1'].blank? and
+				!address['city'].blank? and
+				!address['state'].blank? and
+				!address['zip'].blank?
+			address['line_1'] = '[no address provided]'
+		end
 	end
 
 end

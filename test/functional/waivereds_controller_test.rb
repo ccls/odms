@@ -518,11 +518,35 @@ class WaiveredsControllerTest < ActionController::TestCase
 				" without complete address and #{cu} login" do
 			login_as send(cu)
 			minimum_successful_creation(
-					:study_subject => {
-					:addressings_attributes => { '0' => {
-						:address_attributes => { 
-							:line_1 => '', :city   => '',
-							:state => '', :zip => '' } } } } )
+				:study_subject => { :addressings_attributes => { '0' => {
+					:address_attributes => { 
+						:line_1 => '', :city => '',
+						:state  => '', :zip  => '' } } } } )
+		end
+
+		test "should add '[no address provided]' to blank line_1 if city, state, zip" <<
+				" are not blank with #{cu} login" do
+			login_as send(cu)
+			assert_difference('SubjectLanguage.count',0){
+			assert_difference('PhoneNumber.count',0){
+			assert_difference('Addressing.count',1){	#	different
+			assert_difference('Address.count',1){	#	different
+			assert_difference('Enrollment.count',2){	#	both child and mother
+			assert_difference('Pii.count',2){
+			assert_difference('Patient.count',1){
+			assert_difference('Identifier.count',2){
+			assert_difference('StudySubject.count',2){
+				post :create, minimum_waivered_form_attributes(
+					:study_subject => { :addressings_attributes => { '0' => {
+						"address_attributes"=> Factory.attributes_for(:address, 
+							:line_1 => '') } 
+				} } ) 
+			} } } } } } } } }
+			assert_nil flash[:error]
+			assert_redirected_to assigns(:study_subject)
+			assert_not_nil assigns(:study_subject).addressings.first.address.line_1
+			assert_equal '[no address provided]',
+				assigns(:study_subject).addressings.first.address.line_1
 		end
 
 		test "should create waivered case study_subject" <<
