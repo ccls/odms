@@ -19,6 +19,7 @@ form.edit_phone_number div.source > div,
 form.edit_phone_number div.valid > div,
 form.edit_phone_number div.verified > div {
 	display:inline-block;
+	vertical-align:top;
 }
 form.edit_phone_number div.data_source_id,
 form.edit_phone_number div.is_valid,

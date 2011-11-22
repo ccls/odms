@@ -22,3 +22,14 @@ form.edit_patient .admit_date_wrapper.changed .warning {
 	background-color: #FDD;
 	border: 1px solid #F88;
 }
+form.edit_patient .diagnosis_id,
+form.edit_patient .other_diagnosis {
+	display:inline-block;
+	vertical-align:top;
+}
+form.edit_patient .diagnosis_id {
+	margin-right: 10px;
+}
+form.edit_patient .other_diagnosis label {
+	width:auto;
+}

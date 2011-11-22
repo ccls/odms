@@ -41,6 +41,7 @@ form.edit_addressing div.unit label {
 form.edit_addressing div.dates_valid > div,
 form.edit_addressing div.dates_valid > span {
 	display:inline-block;
+	vertical-align:top;
 }
 form.edit_addressing div.dates_valid > span {
 	margin-right: 40px;
@@ -60,6 +61,7 @@ form.edit_addressing div.source > div,
 form.edit_addressing div.valid > div,
 form.edit_addressing div.verified > div {
 	display:inline-block;
+	vertical-align:top;
 }
 form.edit_addressing div.data_source_id,
 form.edit_addressing div.is_valid,

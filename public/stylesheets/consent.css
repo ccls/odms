@@ -10,20 +10,10 @@ div.eligibility_criteria {
 }
 
 /*
-	from enrollment.css
-.enrollment .field_wrapper.completed_on .label,
-.enrollment .field_wrapper.terminated_reason .label,
-.enrollment .field_wrapper.reason_not_chosen  .label,
 
-*_id .label is show action
-* label is edit action
+	*_id .label is show action
+	* label is edit action
 
-.enrollment .field_wrapper.refusal_reason label,
-.enrollment .field_wrapper.refusal_reason_id .label,
-.enrollment .field_wrapper.document_version label,
-.enrollment .field_wrapper.document_version_id .label,
-.enrollment .field_wrapper.ineligible_reason label,
-.enrollment .field_wrapper.ineligible_reason_id .label,
 */
 .enrollment .field_wrapper.other_refusal_reason .label,
 .enrollment .field_wrapper.other_refusal_reason label,
@@ -38,5 +28,25 @@ div.eligibility_criteria {
 .enrollment .field_wrapper.ineligible_reason_id label,
 .enrollment .field_wrapper.ineligible_reason .label {
 	text-indent:50px;
+}
+
+
+form.enrollment .is_eligible,
+form.enrollment .ineligible_reason_id {
+	display:inline-block;
+	vertical-align:top;
+}
+form.enrollment .ineligible_reason_specify label {
+	width:auto;
+	clear:left;
+}
+form.enrollment .ineligible_reason_specify #enrollment_ineligible_reason_specify {
+	width:70%;
+}
+
+form.enrollment .consented_on,
+form.enrollment .document_version_id {
+	display:inline-block;
+	vertical-align:top;
 }
 

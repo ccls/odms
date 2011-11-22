@@ -75,17 +75,13 @@ form.raf #study_subject_patient_attributes_raf_county {
 	width: 170px;
 }
 
-/* hide initially */
 form.raf div.other_diagnosis {
-	display:none;
 	float:right;
 	margin-right:10px;
 }
-/*
 form.raf div.other_diagnosis label {
-	float:none;
+	width:auto;
 }
-*/
 
 /*
 	Hide the study subject field on kickback when possible duplicates are found

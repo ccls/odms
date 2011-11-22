@@ -45,22 +45,12 @@ jQuery(function(){
 		}
 	});
 
-	jQuery('#patient_diagnosis_id').change(function(){
-		toggle_specify_other_diagnosis( $(this).val() );
+	jQuery('#patient_diagnosis_id').smartShow({
+		what: 'form.edit_patient div.other_diagnosis',
+		when: function(){ 
+			return /Other/i.test( 
+				$('#patient_diagnosis_id option:selected').text() )
+		}
 	});
 
-	toggle_specify_other_diagnosis( 
-		$('#patient_diagnosis_id').val() );
-
 });
-
-toggle_specify_other_diagnosis = function(diagnosis) {
-
-	/* 3 is the id for Diagnosis['other'] */
-
-	if( diagnosis == 3 ){	
-		$('form.edit_patient div.other_diagnosis').show()
-	} else {
-		$('form.edit_patient div.other_diagnosis').hide()
-	}
-}
