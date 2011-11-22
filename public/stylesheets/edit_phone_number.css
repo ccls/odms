@@ -9,9 +9,11 @@
 form.edit_phone_number .field_wrapper label {
   width:130px;
 }
+/*
 form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
   float:left;
 }
+*/
 
 form.edit_phone_number div.source > div,
 form.edit_phone_number div.valid > div,

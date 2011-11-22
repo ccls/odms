@@ -10,38 +10,37 @@
 	clear:left;	
 	border-top: 1px dotted silver;
 
-	/* using this to hack the floats */
+	/* using this to hack the floats, not needed now that not using as many floats */
+/*
 	overflow:hidden;
+*/
 }
 .contact_wrapper:nth-child(1) {
 	border-top: 0;
 }
+div.contact_valid > div,
+div.is_verified > span,
+div.is_valid > span,
+div.contact_wrapper > div {
+	display:inline-block;
+	vertical-align: top;
+}
 
 .when {
-	float:left;
 	width: 200px;
 }
 .phone_number,
 .addressing {
-	float: left;
-	width: 15em;
+	width: 150px;
 }
 .contact_meta {
-	float: left;
 	width: 120px;
 }
 
-.contact_valid {
-	float: left;
-}
 .contact_valid span {
 	display:block;
 }
 
-.contact_valid .brief,
-.contact_valid .details {
-	float:left;
-}
 .contact_valid .brief {
 	width: 100px;
 }
@@ -54,6 +53,7 @@
 	display:block;
 }
 .edit {
+	float:right;
 	text-align: right;
 }
 .new {

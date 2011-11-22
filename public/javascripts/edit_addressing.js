@@ -35,29 +35,18 @@ jQuery(function(){
 	is changed to no.  It also does not uncheck the box if changed
 	back to yes.  The value is probably kept and checkbox is still
 	hidden if address fails validation,
-	and then kicks back to edit.
+	and then kicks back to edit.  Made ruby handle better.
 */
-	jQuery('#addressing_current_address').change(function(){
-		toggle_subject_moved();
+	jQuery('#addressing_current_address').smartShow({
+		what: 'div.moved > div.subject_moved',
+		when: function(){
+			return ( /^no$/i.test( 
+				$('#addressing_current_address option:selected').text() ) &&
+				/residence/i.test( 
+					$('#addressing_address_attributes_address_type_id option:selected').text() ) ) }
 	});
-	toggle_subject_moved();
 
 });
-
-var toggle_subject_moved = function(){
-	/* "don't know" would match /no/ so more strict */
-	if( /^no$/i.test( 
-			$('#addressing_current_address option:selected').text() ) &&
-		/residence/i.test( 
-			$('#addressing_address_attributes_address_type_id option:selected').text() ) 
-	) {
-		/* as this is not display:block, can't use 'show()' */
-		$('div.moved > div.subject_moved').css('visibility','visible');
-	} else {
-		/* as this is not display:block, can't use 'hide()' */
-		$('div.moved > div.subject_moved').css('visibility','hidden');
-	}
-};
 
 var update_city_state_county = function(zip_code) {
 /*

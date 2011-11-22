@@ -3,7 +3,9 @@ form.edit_patient {
 }
 form.edit_patient .field_wrapper label {
 	width: 170px;
+/*
 	float:left;
+*/
 }
 form.edit_patient .admit_date_wrapper .warning {
 	display:none;

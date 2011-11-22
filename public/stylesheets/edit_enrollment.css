@@ -23,6 +23,7 @@
 	clear:left;
 }
 */
+/*
 .field_wrapper.is_chosen,
 .field_wrapper.is_complete,
 .field_wrapper.consented_on,
@@ -31,6 +32,7 @@
 .field_wrapper.ineligible_reason_id {
 	float:left;
 }
+*/
 
 .field_wrapper.consented_on label,
 .field_wrapper.is_candidate label,
@@ -52,10 +54,11 @@
 .field_wrapper.other_refusal_reason {
 	text-align:right;
 }
-
+/*
 .field_wrapper.document_version_id label,
 .field_wrapper.ineligible_reason_specify label,
 .field_wrapper.reason_not_chosen label,
 .field_wrapper.other_refusal_reason label{
 	float:none;
 }
+*/

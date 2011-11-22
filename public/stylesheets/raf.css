@@ -81,9 +81,11 @@ form.raf div.other_diagnosis {
 	float:right;
 	margin-right:10px;
 }
+/*
 form.raf div.other_diagnosis label {
 	float:none;
 }
+*/
 
 /*
 	Hide the study subject field on kickback when possible duplicates are found

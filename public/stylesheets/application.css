@@ -156,6 +156,32 @@ div#guidance {
 }
 
 
+/*
+	BEGIN override ccls_engine.js
+	Trying to remove all float attributes as can get ugly.
+	Replacing with display:inline-block;
+	Once this is working, I'd like to update ccls_engine,
+		but be aware that once installed would be used
+		in abstracts and homex as well.
+*/
+.field_wrapper * {
+	/* undo float:left; */
+	float:none;
+}
+.field_wrapper > * {
+	/* more explicitly replace with inline-block and an alignment. */
+	/* use > * instead of just * as select/options would go full screen width */
+	display:inline-block;
+	vertical-align:top;
+}
+form .field_wrapper input[type=checkbox] + label {
+	width: auto;
+}
+/*
+	END override ccls_engine.js
+*/
+
+
 /***************************************************
 
 			Generic stuff above.

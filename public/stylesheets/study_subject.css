@@ -11,77 +11,48 @@ form.edit_study_subject .field_wrapper input[type=text] {
 	width: 120px;
 }
 
-
 form.edit_study_subject div.state_registrar_no,
 form.edit_study_subject div.case_control_type,
 form.edit_study_subject div.dob {
-	float:left;
+	display:inline-block;
+	vertical-align: top;
+	width: 300px;
 }
 form.edit_study_subject div.local_registrar_no,
 form.edit_study_subject div.subject_type,
 form.edit_study_subject div.sex {
-	margin-left: 300px;
-	clear:right;
+	display:inline;
 }
 
-form.edit_study_subject div.race_wrapper {
 	/* otherwise, gets caught on dob fields */
+/*form.edit_study_subject div.race_wrapper {
 	clear:left;
 }
-form.edit_study_subject div.race_wrapper span.label {
-	float:left;
+*/
+form.edit_study_subject div.race_wrapper > * {
+	display:inline-block;
+	vertical-align:top;
+}
+form.edit_study_subject div.race_wrapper {
+	margin-bottom: 10px;
 }
 
-/* I REALLY, REALLY don't like this.  It probably won't fly.  */
 form.edit_study_subject div.name > label {
 	width: 60px;
 }
 form.edit_study_subject div.name div.field_wrapper {
+/*
 	clear:none;
+*/
+	margin-bottom: 0px;
 }
 form.edit_study_subject div.name div.field_wrapper label {
 	width:auto;
 }
 form.edit_study_subject div.name div.field_wrapper input {
-	float:left;
 	margin-left: 10px;
 	margin-right: 20px;
-}
-form.edit_study_subject div.name div.field_wrapper:last-child input {
-	float:none;
 }
 form.edit_study_subject div.name.maiden {
 	margin-left: 420px;
 }
-
-
-
-/*
-	The following don't seem to ever be used anymore.
-*/
-/*
-.study_subject .columns {
-	padding-top:10px;
-}
-.study_subject #phone_numbers {
-	clear:both;
-	margin-top: 15px;
-}
-
-.columns > .column {
-	padding-right: 10px;
-}
-
-.columns .column:nth-child(1) {
-	width: 150px;
-}
-.columns .column:nth-child(2) {
-	width: 350px;
-}
-.columns .column:nth-child(3) {
-}
-
-.field_wrapper .label {
-	width: 110px;
-}
-*/

@@ -16,11 +16,11 @@
 .dev_only span {
 	float:left;
 }
-
+/*
 .field_wrapper .fieldWithErrors:first-child {
 	float:left;
 }
-
+*/
 .field_wrapper label {
 	width:150px;
 }
@@ -54,13 +54,6 @@ form.edit_addressing div.dates_valid label {
 }
 form.edit_addressing div.dates_valid .field_wrapper {
 	margin-bottom: 0px;
-}
-form.edit_addressing div.moved div.subject_moved {
-/*
-	using visibility rather than display to toggle visibility
-	as this is displayed inline-block rather than just block
-*/
-	visibility:hidden;
 }
 form.edit_addressing div.moved > div,
 form.edit_addressing div.source > div,
