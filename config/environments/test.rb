@@ -45,12 +45,12 @@ config.gem 'ccls-html_test'
 config.action_mailer.default_url_options = { 
 	:host => "dev.sph.berkeley.edu:3000" }
 
+#config.gem 'webrat'
 
-
-
+config.gem 'capybara'
 
 #
-#	Modifications to add FakeSessionsController soleley for integration testing
+#	Modifications to add FakeSessionsController solely for integration testing
 #
 ActionController::Routing::Routes.add_configuration_file(
 	File.expand_path( File.join( Rails.root, '/test/config/routes.rb')))

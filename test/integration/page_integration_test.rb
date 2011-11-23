@@ -1,4 +1,5 @@
-require 'integration_test_helper'
+require 'webrat_integration_test_helper'
+#require 'capybara_integration_test_helper'
 
 class PageIntegrationTest < ActionController::IntegrationTest
 
@@ -10,10 +11,22 @@ class PageIntegrationTest < ActionController::IntegrationTest
 
 	site_administrators.each do |cu|
 
-		test "should create new page with #{cu} login using webrat" do
+		test "should create new page with #{cu} login" do
 			login_as send(cu)
 
 			visit new_page_path
+#
+#	added ... to capybara-1.1.2/lib/capybara/rack_test/browser.rb
+#		to force usage of SSL.  Should find a better way.
+#
+#	117     env.merge!(options[:headers]) if options[:headers]
+#	118 env.merge!( { 'HTTPS' => 'on' })
+#	119 puts env.inspect
+#	120     env
+#	121   end
+#
+#	but can't seem to get capybara to recognize that the user has permission to maintain pages.
+#
 			fill_in "page[path]",     :with => "/MyNewPath"
 			fill_in "page[menu_en]",  :with => "MyNewMenu"
 			fill_in "page[title_en]", :with => "MyNewTitle"
@@ -33,7 +46,7 @@ class PageIntegrationTest < ActionController::IntegrationTest
 			assert_response :success
 		end
 
-		test "should edit and update a page with #{cu} login using webrat" do
+		test "should edit and update a page with #{cu} login" do
 			assert Page.count > 0
 			page = Page.first
 			login_as send(cu)

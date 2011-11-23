@@ -31,9 +31,7 @@ Rails::Initializer.run do |config|
 	#	due to some enhancements, the db gems MUST come first
 	#	for use in the jruby environment.
 	config.gem 'ccls-ccls_engine'
-
 	config.gem 'ccls-simply_authorized'
-#	config.gem 'ccls-simply_helpful'
 	config.gem 'ccls-common_lib'
 	config.gem 'jrails'
 

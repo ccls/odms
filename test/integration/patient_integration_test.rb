@@ -1,4 +1,5 @@
-require 'integration_test_helper'
+#require 'webrat_integration_test_helper'
+require 'capybara_integration_test_helper'
 
 class PatientIntegrationTest < ActionController::IntegrationTest
 
@@ -6,10 +7,10 @@ class PatientIntegrationTest < ActionController::IntegrationTest
 
 	site_administrators.each do |cu|
 
-		test "should create new patient for case with #{cu} login using webrat" do
+		test "should create new patient for case with #{cu} login" do
 			login_as send(cu)
 
-#			visit new_page_path
+			visit new_page_path
 #			fill_in "page[path]",     :with => "/MyNewPath"
 #			fill_in "page[menu_en]",  :with => "MyNewMenu"
 #			fill_in "page[title_en]", :with => "MyNewTitle"

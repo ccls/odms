@@ -1,4 +1,4 @@
-require 'integration_test_helper'
+require 'webrat_integration_test_helper'
 
 class UserIntegrationTest < ActionController::IntegrationTest
 
