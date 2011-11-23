@@ -43,6 +43,8 @@ class ActionController::IntegrationTest
 # also see ...
 #	http://stackoverflow.com/questions/6605364
 #	about requesting through the page and driver?
+#	page.driver.post user_session_path, :user => {:email => user.email, :password => 'superpassword'}
+
 
 
 # Its always amazing how simple and powerful someone can make
