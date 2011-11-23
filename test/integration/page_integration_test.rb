@@ -16,6 +16,9 @@ class PageIntegrationTest < ActionController::IntegrationTest
 
 			visit new_page_path
 #
+#			page.driver.get new_page_path(), {}, { 'HTTPS' => 'on' }
+#
+#
 #	added ... to capybara-1.1.2/lib/capybara/rack_test/browser.rb
 #		to force usage of SSL.  Should find a better way.
 #
@@ -27,6 +30,7 @@ class PageIntegrationTest < ActionController::IntegrationTest
 #
 #	but can't seem to get capybara to recognize that the user has permission to maintain pages.
 #
+#puts page.body
 			fill_in "page[path]",     :with => "/MyNewPath"
 			fill_in "page[menu_en]",  :with => "MyNewMenu"
 			fill_in "page[title_en]", :with => "MyNewTitle"
@@ -36,6 +40,7 @@ class PageIntegrationTest < ActionController::IntegrationTest
 				#	click_button(value)
 				click_button "Create"	
 			}
+#flunk
 		end
 
 		test "should edit a page with #{cu} login" do

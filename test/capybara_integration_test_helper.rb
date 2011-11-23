@@ -24,6 +24,11 @@ class ActionController::IntegrationTest
 
 	def turn_https_on_for_capybara
 
+#	capybara is starting suck worse than webrat did.
+#	Of course, I ended up figuring that one out so ...
+
+
+
 #???
 #
 #Using the sessions manually
@@ -65,6 +70,7 @@ class ActionController::IntegrationTest
 	#	Special login_as for integration testing.
 	def login_as( user=nil )
 		uid = ( user.is_a?(User) ) ? user.uid : user
+#session = Capybara::Session.new(:rack_test        )
 		if !uid.blank?
 			stub_ucb_ldap_person()
 			u = User.find_create_and_update_by_uid(uid)
@@ -72,8 +78,10 @@ class ActionController::IntegrationTest
 			#	I created a fake controller to do it.
 			#	Still not using the @session provided by integration testing (open_session)
 			post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
+#			session.driver.post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
 			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
 		end
+#		session
 	end
 
 end
