@@ -1,3 +1,10 @@
+#patient {
+	margin-top: 10px;
+}
+#patient .field_wrapper > span.label {
+	width: 170px;
+}
+
 form.edit_patient {
 	margin-top: 20px;
 }
