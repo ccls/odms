@@ -23,6 +23,34 @@ class ActionController::IntegrationTest
 	setup :turn_https_on_for_capybara
 
 	def turn_https_on_for_capybara
+
+#???
+#
+#Using the sessions manually
+#
+#For ultimate control, you can instantiate and use a Session manually.
+#
+#require 'capybara'
+#
+#session = Capybara::Session.new(:culerity, my_rack_app)
+#session.within("//form[@id='session']") do
+#  session.fill_in 'Login', :with => 'user@example.com'
+#  session.fill_in 'Password', :with => 'password'
+#end
+#session.click_link 'Sign in'
+
+
+# also see ...
+#	http://stackoverflow.com/questions/6605364
+#	about requesting through the page and driver?
+
+
+# Its always amazing how simple and powerful someone can make
+#	something look in a little demo.  Of course, they are ignoring
+#	all the complicated things that are gonna piss you off.
+#	None of the demos talk about the session or ssl.  Not one.
+
+
 #puts Capybara.current_driver.inspect
 #puts Capybara.methods.sort
 #puts self.class.current_driver
