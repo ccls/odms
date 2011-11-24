@@ -1,6 +1,5 @@
-require 'webrat_integration_test_helper'
+require 'integration_test_helper'
 
-#class AddressingIntegrationTest < ActionController::IntegrationTest
 class AddressingIntegrationTest < ActionController::WebRatIntegrationTest
 
 	site_administrators.each do |cu|

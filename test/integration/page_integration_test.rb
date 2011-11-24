@@ -1,7 +1,5 @@
-require 'webrat_integration_test_helper'
-#require 'capybara_integration_test_helper'
+require 'integration_test_helper'
 
-#class PageIntegrationTest < ActionController::IntegrationTest
 class PageIntegrationTest < ActionController::WebRatIntegrationTest
 
 	test "should get home page if not logged in" do

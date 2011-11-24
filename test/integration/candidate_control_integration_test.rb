@@ -1,12 +1,12 @@
-require 'webrat_integration_test_helper'
+require 'integration_test_helper'
 
-#class CandidateControlIntegrationTest < ActionController::IntegrationTest
 class CandidateControlIntegrationTest < ActionController::WebRatIntegrationTest
 
 	site_administrators.each do |cu|
 
 #
 #	TODO add a couple tests that check pre-rejection of control due to sex or dob differences.
+#		done in functional tests, so really not necessary here.
 #
 
 		test "should create control for case with no duplicates and #{cu} login" do

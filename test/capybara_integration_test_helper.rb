@@ -1,20 +1,106 @@
-require "test_helper"
 
-#	Webrat only works with integration tests which are a bit more difficult than
-#	the unit and functional tests.  However, using webrat allows us to confirm
-#	that the forms contain the necessary fields to create valid resources.
 #	Changing to use capybara from webrat in hopes of testing javascript.
 
 require 'capybara/rails'
 
-#Capybara.default_driver = :selenium
-#Make sure Firefox is installed or set the path manually with Selenium::WebDriver::Firefox::Binary.path=
+Capybara.default_driver = :selenium
+#Capybara.default_driver = :selenium_chrome
+#Capybara.default_driver = :selenium_firefox
+
+#	There is no safari driver, so can't test in safari.
+#Capybara.register_driver :selenium_safari do |app|
+#	Capybara::Selenium::Driver.new(app, :browser => :safari)
+#end
+
+# Selenium::WebDriver::Error::WebDriverError: Unable to find the chromedriver executable. Please download the server from http://code.google.com/p/chromium/downloads/list and place it somewhere on your PATH. More info at http://code.google.com/p/selenium/wiki/ChromeDriver.
+#	downloaded and installed 'chromedriver', which did open Chrome, 
+#	but http://127.0.0.1:64647/fake_session/new
+#	127.0.0.1 was rejected. The website may be down, or your network may not be properly configured.
+#Here are some suggestions:
+#Reload this webpage later.
+#Check your Internet connection. Restart any router, modem, or other network devices you may be using.
+#Add Google Chrome as a permitted program in your firewall's or antivirus software's settings. If it is already a permitted program, try deleting it from the list of permitted programs and adding it again.
+#If you use a proxy server, check your proxy settings or contact your network administrator to make sure the proxy server is working. If you don't believe you should be using a proxy server, adjust your proxy settings: Go to Applications > System Preferences > Network > Advanced > Proxies and deselect any proxies that have been selected.
+#
+#	No joy.  It even kept re-testing without changing the code.
+#
+Capybara.register_driver :selenium_chrome do |app|
+	Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
+#	First ... Make sure Firefox is installed or set the path manually with Selenium::WebDriver::Firefox::Binary.path=
+#	Then ...  Selenium::WebDriver::Error::WebDriverError: unable to start Firefox cleanly, args: ["-silent"]
+require 'selenium/webdriver'
+#	the firefox binary is currently not really compatible with command line as it contains 32 and 64bit.
+#	if I 'ditto' it to strip off the unnecessary 64bit, I now get the same error as Chrome returns
+#	'clearly' whatever is stopping me now will fix both firefox AND chrome
+#	at least firefox doesn't keep trying over and over
+#
+#	this may be ssl related.  I thought that I had installed ssl on this machine.
+#
+Selenium::WebDriver::Firefox::Binary.path='/Applications/Firefox.app/Contents/MacOS/firefox-bin-leopard-dittod'
+Capybara.register_driver :selenium_firefox do |app|
+	Capybara::Selenium::Driver.new(app, :browser => :firefox)
+end
 
 
-#class ActionController::IntegrationTest
-#class CapybaraIntegrationTest < ActionController::IntegrationTest
+#	for selenium only, I think, as it does not cleanup
+require 'database_cleaner'
+DatabaseCleaner.strategy = :truncation
+DatabaseCleaner.start
+
+
+
+#	connection hack for selenium
+#	CANNOT do this for AR::Base as already have 2 databases
+
+#class ActiveRecord::Base
+#class ('User'.constantize)
+#User.extend do
+#klass.constantize.class_eval do
+module MakeConnectionTheSame
+  mattr_accessor :shared_connection
+  @@shared_connection = nil
+
+#  def self.connection
+  def connection
+    @@shared_connection || retrieve_connection
+  end
+end
+#%w( User ).each do |klass|
+# Forces all threads to share the same connection. This works on
+# Capybara because it starts the web server in a thread.
+#ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+User.extend MakeConnectionTheSame
+User.shared_connection = User.connection
+Role.extend MakeConnectionTheSame
+Role.shared_connection = Role.connection
+Page.extend MakeConnectionTheSame
+Page.shared_connection = Page.connection
+#klass.constantize.send(:extend,MakeConnectionTheSame)
+#klass.constantize.shared_connection = klass.constantize.connection
+#end
+
+
+
+
+
+#	fake all non-ssl JUST ON JAKE'S HOME MACBOOK as no ssl installed
+#	add condition to this so that it only runs there.
+class ApplicationController
+	def ssl_allowed?
+		true
+	end
+end	if( Socket.gethostname == "mbp-3.local" )
+#> Socket.gethostname
+#=> "mbp-3.local"
+
+
+
+#	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
 	include Capybara::DSL
+#	apparently unnecessary
 #	include CalnetAuthenticated::TestHelper
 
 	fixtures :all
@@ -70,6 +156,7 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		uid = ( user.is_a?(User) ) ? user.uid : user
 		if !uid.blank?
 			stub_ucb_ldap_person()
+#puts "Before find:#{User.all.inspect}"
 			u = User.find_create_and_update_by_uid(uid)
 			#	Rather than manually manipulate the session,
 			#	I created a fake controller to do it.
@@ -81,11 +168,41 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 #
 #	rather than manually do this post, may want to create new_fake_session, form fill it in, then click submit?
 #			page.driver.browser.post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
+#puts "Before new:#{User.all.inspect}"
 			page.visit new_fake_session_path()	#, { }, { 'HTTPS' => 'on' }
+#puts "After new:#{User.all.inspect}"
 #puts page.body
+
+#	in rack_test, the connections are the same
+#in controller connection check
+#<ActiveRecord::ConnectionAdapters::MysqlAdapter:0x3c99bec @query_cache_enabled=true, @query_cache={"SELECT * FROM `guides` WHERE (`guides`.`controller` = 'fake_sessions' AND `guides`.`action` = 'create')  ORDER BY controller ASC, action ASC LIMIT 1"=>[]}, @transaction_joinable=false, @quoted_column_names={"name"=>"`name`", "menu_en"=>"`menu_en`", "position"=>"`position`", :path=>"`path`", "created_at"=>"`created_at`", "guides"=>"`guides`", "displayname"=>"`displayname`", "body_es"=>"`body_es`", "body"=>"`body`", "title_es"=>"`title_es`", "updated_at"=>"`updated_at`", "role_id"=>"`role_id`", "action"=>"`action`", "mail"=>"`mail`", "sn"=>"`sn`", "uid"=>"`uid`", :uid=>"`uid`", "menu_es"=>"`menu_es`", "id"=>"`id`", "user_id"=>"`user_id`", "telephonenumber"=>"`telephonenumber`", "pages"=>"`pages`", "parent_id"=>"`parent_id`", "path"=>"`path`", :menu_en=>"`menu_en`", "roles_users"=>"`roles_users`", "users"=>"`users`", "body_en"=>"`body_en`", "hide_menu"=>"`hide_menu`", "controller"=>"`controller`", "title_en"=>"`title_en`", "roles"=>"`roles`"}, @last_verification=0, @connection_options=["localhost", "root", "", "odms_test", nil, nil, 131072], @logger=#<ActiveSupport::BufferedLogger:0x419718 @log=#<File:/Users/jake/github_repo/ccls/odms/log/test.log>, @guard=#<Mutex:0x4093e0>, @level=0, @auto_flushing=1, @buffer={}>, @open_transactions=1, @runtime=0.386953353881836, @config={:password=>nil, :database=>"odms_test", :host=>"localhost", :encoding=>"utf8", :adapter=>"mysql", :username=>"root"}, @quoted_table_names={"guides"=>"`guides`", "pages"=>"`pages`", "roles_users"=>"`roles_users`", "users"=>"`users`", "roles"=>"`roles`"}, @connection=#<Mysql:0x3c9a718>>
+#in test connection check
+#<ActiveRecord::ConnectionAdapters::MysqlAdapter:0x3c99bec @query_cache_enabled=false, @query_cache={}, @transaction_joinable=false, @quoted_column_names={"name"=>"`name`", "menu_en"=>"`menu_en`", "position"=>"`position`", :path=>"`path`", "created_at"=>"`created_at`", "guides"=>"`guides`", "displayname"=>"`displayname`", "body_es"=>"`body_es`", "body"=>"`body`", "title_es"=>"`title_es`", "updated_at"=>"`updated_at`", "role_id"=>"`role_id`", "action"=>"`action`", "mail"=>"`mail`", "sn"=>"`sn`", "uid"=>"`uid`", :uid=>"`uid`", "menu_es"=>"`menu_es`", "id"=>"`id`", "user_id"=>"`user_id`", "telephonenumber"=>"`telephonenumber`", "pages"=>"`pages`", "parent_id"=>"`parent_id`", "path"=>"`path`", :menu_en=>"`menu_en`", "roles_users"=>"`roles_users`", "users"=>"`users`", "body_en"=>"`body_en`", "hide_menu"=>"`hide_menu`", "controller"=>"`controller`", "title_en"=>"`title_en`", "roles"=>"`roles`"}, @last_verification=0, @connection_options=["localhost", "root", "", "odms_test", nil, nil, 131072], @logger=#<ActiveSupport::BufferedLogger:0x419718 @log=#<File:/Users/jake/github_repo/ccls/odms/log/test.log>, @guard=#<Mutex:0x4093e0>, @level=0, @auto_flushing=1, @buffer={}>, @open_transactions=1, @runtime=0, @config={:password=>nil, :database=>"odms_test", :host=>"localhost", :encoding=>"utf8", :adapter=>"mysql", :username=>"root"}, @quoted_table_names={"guides"=>"`guides`", "pages"=>"`pages`", "roles_users"=>"`roles_users`", "users"=>"`users`", "roles"=>"`roles`"}, @connection=#<Mysql:0x3c9a718>>
+
+
+#	in selenium, the connections are different.  WHY????? has something to do with Threads and as testing, inside transaction ?
+#in controller connection check
+#<ActiveRecord::ConnectionAdapters::MysqlAdapter:0x3ebd018 @query_cache_enabled=true, @query_cache={"SELECT * FROM `guides` WHERE (`guides`.`controller` = 'fake_sessions' AND `guides`.`action` = 'create')  ORDER BY controller ASC, action ASC LIMIT 1"=>[]}, @quoted_column_names={"guides"=>"`guides`", "action"=>"`action`", "pages"=>"`pages`", "path"=>"`path`", "controller"=>"`controller`"}, @last_verification=0, @connection_options=["localhost", "root", "", "odms_test", nil, nil, 131072], @logger=#<ActiveSupport::BufferedLogger:0x419718 @log=#<File:/Users/jake/github_repo/ccls/odms/log/test.log>, @guard=#<Mutex:0x4093e0>, @level=0, @auto_flushing=1, @buffer={}>, @runtime=0.366926193237305, @config={:password=>nil, :database=>"odms_test", :host=>"localhost", :encoding=>"utf8", :adapter=>"mysql", :username=>"root"}, @quoted_table_names={"guides"=>"`guides`", "pages"=>"`pages`"}, @connection=#<Mysql:0x3ebf1ec>>
+#in test connection check
+#<ActiveRecord::ConnectionAdapters::MysqlAdapter:0x3c99c50 @query_cache_enabled=false, @transaction_joinable=false, @quoted_column_names={"name"=>"`name`", "menu_en"=>"`menu_en`", "position"=>"`position`", "created_at"=>"`created_at`", "guides"=>"`guides`", "displayname"=>"`displayname`", "body_es"=>"`body_es`", "body"=>"`body`", "title_es"=>"`title_es`", "updated_at"=>"`updated_at`", "role_id"=>"`role_id`", "action"=>"`action`", "mail"=>"`mail`", "sn"=>"`sn`", "uid"=>"`uid`", :uid=>"`uid`", "menu_es"=>"`menu_es`", "id"=>"`id`", "user_id"=>"`user_id`", "telephonenumber"=>"`telephonenumber`", "pages"=>"`pages`", "parent_id"=>"`parent_id`", "path"=>"`path`", "roles_users"=>"`roles_users`", "users"=>"`users`", "body_en"=>"`body_en`", "hide_menu"=>"`hide_menu`", "controller"=>"`controller`", "title_en"=>"`title_en`", "roles"=>"`roles`"}, @last_verification=0, @connection_options=["localhost", "root", "", "odms_test", nil, nil, 131072], @logger=#<ActiveSupport::BufferedLogger:0x419718 @log=#<File:/Users/jake/github_repo/ccls/odms/log/test.log>, @guard=#<Mutex:0x4093e0>, @level=0, @auto_flushing=1, @buffer={}>, @open_transactions=1, @runtime=369.238138198853, @config={:password=>nil, :database=>"odms_test", :host=>"localhost", :encoding=>"utf8", :adapter=>"mysql", :username=>"root"}, @quoted_table_names={"guides"=>"`guides`", "pages"=>"`pages`", "roles_users"=>"`roles_users`", "users"=>"`users`", "roles"=>"`roles`"}, @connection=#<Mysql:0x3c9a77c>>
+
+
+#	while this fixes the fake login, later a view calls 'logged_in?' which calls current_user
+#		which tries for find user and then fails.  Its almost like its using a different database.
+#		It ends up timing out??
 			page.fill_in 'id', :with => u.id
+#			page.fill_in 'uid', :with => u.uid
+
+
+			#	MUST stub BEFORE login as redirect will got to users#show which will require being logged in.
+			#	moved into fake_sessions controller
+#			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
+
+#puts "After fill in:#{User.all.inspect}"
 			page.click_button 'login'
-			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
+#puts "After submit:#{User.all.inspect}"
+#	even though the user does exist, the fake session controller cannot find User.find(u.id) in create???
+#	but ONLY when using selenium?  Don't quite understand this.
 		end
 	end
 

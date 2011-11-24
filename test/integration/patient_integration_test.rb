@@ -1,10 +1,5 @@
-require 'webrat_integration_test_helper'
-#require 'capybara_integration_test_helper'
+require 'integration_test_helper'
 
-#	I don't think that I can use both, even in different tests.
-#	Both provide methods of the same or similar names.
-
-#class PatientIntegrationTest < ActionController::IntegrationTest
 class PatientIntegrationTest < ActionController::WebRatIntegrationTest
 
 #	This form may have limited form fields so is worthy of testing

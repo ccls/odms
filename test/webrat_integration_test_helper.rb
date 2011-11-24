@@ -1,4 +1,4 @@
-require "test_helper"
+#require "test_helper"
 
 #	Webrat only works with integration tests which are a bit more difficult than
 #	the unit and functional tests.  However, using webrat allows us to confirm
@@ -33,7 +33,24 @@ class ActionController::WebRatIntegrationTest < ActionController::IntegrationTes
 			#	Rather than manually manipulate the session,
 			#	I created a fake controller to do it.
 			#	Still not using the @session provided by integration testing (open_session)
-			post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
+
+#	webrat doesn't actually maintain the sessions like capybara,
+#		so we can explicitly post to the controller
+#			post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
+#		or open the new fake_session and submit.  Either way.
+
+			visit new_fake_session_path()	#, { }, { 'HTTPS' => 'on' }
+
+
+
+			fill_in 'id', :with => u.id
+#			fill_in 'uid', :with => u.uid
+
+
+
+
+			click_button 'login'
+
 			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
 		end
 	end

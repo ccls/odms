@@ -1,14 +1,13 @@
-require 'webrat_integration_test_helper'
+require 'integration_test_helper'
 
-#class UserIntegrationTest < ActionController::IntegrationTest
 class UserIntegrationTest < ActionController::WebRatIntegrationTest
 
-	def xxx_setup
-		@session = open_session # or ActionController::Integration::Session.new
-		assert !@session.https?
-		@session.https!
-		assert @session.https?
-	end
+#	def xxx_setup
+#		@session = open_session # or ActionController::Integration::Session.new
+#		assert !@session.https?
+#		@session.https!
+#		assert @session.https?
+#	end
 
 	all_test_roles.each do |cu|
 

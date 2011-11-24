@@ -1,6 +1,5 @@
-require 'webrat_integration_test_helper'
+require 'integration_test_helper'
 
-#class CaseIntegrationTest < ActionController::IntegrationTest
 class CaseIntegrationTest < ActionController::WebRatIntegrationTest
 
 	site_administrators.each do |cu|
