@@ -1,6 +1,7 @@
 require 'webrat_integration_test_helper'
 
-class UserIntegrationTest < ActionController::IntegrationTest
+#class UserIntegrationTest < ActionController::IntegrationTest
+class UserIntegrationTest < ActionController::WebRatIntegrationTest
 
 	def xxx_setup
 		@session = open_session # or ActionController::Integration::Session.new

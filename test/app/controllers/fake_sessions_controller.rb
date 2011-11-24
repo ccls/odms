@@ -1,6 +1,6 @@
 class FakeSessionsController < ApplicationController
 
-	skip_before_filter :login_required, :only => :create
+	skip_before_filter :login_required	#, :only => :create
 
 	#	Solely for integration testing.
 	def create

@@ -10,15 +10,17 @@ Webrat.configure do |config|
   config.mode = :rails
 end
 
-class ActionController::IntegrationTest
-	include CalnetAuthenticated::TestHelper
+#class ActionController::IntegrationTest
+class ActionController::WebRatIntegrationTest < ActionController::IntegrationTest
+#	I guess that this isn't necessary
+#	include CalnetAuthenticated::TestHelper
 
 	fixtures :all
 
 	setup :turn_https_on_for_webrat
 
 	def turn_https_on_for_webrat
-		#	I always, so for anyway, use https in webrat tests so ...
+		#	I always, so far anyway, use https in webrat tests so ...
 		header('HTTPS', 'on')
 	end
 

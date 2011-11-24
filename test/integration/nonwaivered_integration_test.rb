@@ -1,6 +1,7 @@
 require 'webrat_integration_test_helper'
 
-class NonwaiveredIntegrationTest < ActionController::IntegrationTest
+#class NonwaiveredIntegrationTest < ActionController::IntegrationTest
+class NonwaiveredIntegrationTest < ActionController::WebRatIntegrationTest
 
 	site_administrators.each do |cu|
 

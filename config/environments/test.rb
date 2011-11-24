@@ -58,3 +58,10 @@ ActionController::Routing::Routes.add_configuration_file(
 ActiveSupport::Dependencies.autoload_paths << File.expand_path( 
 	File.join(Rails.root,'/test/app/controllers/'))
 
+ActionController::Base.view_paths <<
+	File.expand_path(
+		File.join(Rails.root,'/app/views'))
+ActionController::Base.view_paths <<
+	File.expand_path(
+		File.join(Rails.root,'/test/app/views'))
+

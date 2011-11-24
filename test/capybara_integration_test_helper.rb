@@ -5,29 +5,31 @@ require "test_helper"
 #	that the forms contain the necessary fields to create valid resources.
 #	Changing to use capybara from webrat in hopes of testing javascript.
 
-#require "capybara"
 require 'capybara/rails'
 
-#Webrat.configure do |config|
-#  config.mode = :rails
-#end
-
 #Capybara.default_driver = :selenium
+#Make sure Firefox is installed or set the path manually with Selenium::WebDriver::Firefox::Binary.path=
 
-class ActionController::IntegrationTest
+
+#class ActionController::IntegrationTest
+#class CapybaraIntegrationTest < ActionController::IntegrationTest
+class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
 	include Capybara::DSL
-	include CalnetAuthenticated::TestHelper
+#	include CalnetAuthenticated::TestHelper
 
 	fixtures :all
 
-	setup :turn_https_on_for_capybara
+#	setup :turn_https_on_for_capybara
 
 	def turn_https_on_for_capybara
+		#	this seems like it may not be necessary
+		#	It appears that if the first request uses https, which the login does,
+		#	this is preserved, or at least the GET requests follow the redirect.
+		#	Not entirely sure just yet.
+		#	Protocol seems to be preserved.
 
 #	capybara is starting suck worse than webrat did.
 #	Of course, I ended up figuring that one out so ...
-
-
 
 #???
 #
@@ -44,44 +46,47 @@ class ActionController::IntegrationTest
 #end
 #session.click_link 'Sign in'
 
-
 # also see ...
 #	http://stackoverflow.com/questions/6605364
 #	about requesting through the page and driver?
 #	page.driver.post user_session_path, :user => {:email => user.email, :password => 'superpassword'}
-
-
 
 # Its always amazing how simple and powerful someone can make
 #	something look in a little demo.  Of course, they are ignoring
 #	all the complicated things that are gonna piss you off.
 #	None of the demos talk about the session or ssl.  Not one.
 
-
 #puts Capybara.current_driver.inspect
 #puts Capybara.methods.sort
 #puts self.class.current_driver
 #puts Capybara.inspect
 #puts @driver.response_headers.inspect
-		#	I always, so for anyway, use https in capybara tests so ...
+		#	I always, so far anyway, use https in capybara tests so ...
 #		header('HTTPS', 'on')
 	end
 
 	#	Special login_as for integration testing.
 	def login_as( user=nil )
 		uid = ( user.is_a?(User) ) ? user.uid : user
-#session = Capybara::Session.new(:rack_test        )
 		if !uid.blank?
 			stub_ucb_ldap_person()
 			u = User.find_create_and_update_by_uid(uid)
 			#	Rather than manually manipulate the session,
 			#	I created a fake controller to do it.
-			#	Still not using the @session provided by integration testing (open_session)
-			post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
-#			session.driver.post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
+#	works for rack_test
+#			page.driver.post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
+#	not for selenium
+#	almost got selenium working, but now Firefox actually complains and I get ...
+#	Selenium::WebDriver::Error::WebDriverError: unable to start Firefox cleanly, args: ["-silent"]
+#
+#	rather than manually do this post, may want to create new_fake_session, form fill it in, then click submit?
+#			page.driver.browser.post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
+			page.visit new_fake_session_path()	#, { }, { 'HTTPS' => 'on' }
+#puts page.body
+			page.fill_in 'id', :with => u.id
+			page.click_button 'login'
 			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
 		end
-#		session
 	end
 
 end
