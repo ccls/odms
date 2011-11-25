@@ -51,7 +51,8 @@ class ActionController::WebRatIntegrationTest < ActionController::IntegrationTes
 
 			click_button 'login'
 
-			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
+#	moved into fake_session controller
+#			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
 		end
 	end
 

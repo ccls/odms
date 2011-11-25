@@ -2,6 +2,8 @@ class FakeSessionsController < ApplicationController
 
 	skip_before_filter :login_required	#, :only => :create
 
+	ssl_allowed	:new, :create	#	in integration testing, just skip it
+
 	#	Solely for integration testing.
 	def create
 #	For some reason, if using capybara and selenium, the user is not found?

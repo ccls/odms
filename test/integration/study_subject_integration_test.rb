@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
+class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	site_administrators.each do |cu|
 
@@ -58,33 +58,29 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 #			assert page.has_field?('phone_number[data_source_other]', :visible => true)
 #		end
 #
+#	edit_study_subject.js
 #
-#	edit_patient.js
 #
-#var initial_admit_date;
-#function admit_date(){
-#	return jQuery('#patient_admit_date').val();
-#}
-#function admit_date_changed(){
-#	return initial_admit_date != admit_date();
-#}
 #jQuery(function(){
 #
-#	initial_admit_date = admit_date();
-#	
-#	jQuery('#patient_admit_date').change(function(){
-#		if( admit_date_changed() ) {
-#			$(this).parent().parent().addClass('changed');
-#		} else {
-#			$(this).parent().parent().removeClass('changed');
+#	jQuery('form.edit_study_subject input:checkbox.is_primary_selector').click(function(){
+#		/* if primary is checked, 
+#				check partial race as well as uncheck other primary
+#		*/
+#		if( jQuery(this).attr('checked') ){
+#			var id = jQuery(this).attr('id').replace(/_is_primary/,'');
+#			jQuery('#'+id).attr('checked',true);
+#
+#			/* easier to uncheck all, then recheck this one */
+#			jQuery('form.edit_study_subject input:checkbox.is_primary_selector').attr('checked',false);
+#			jQuery(this).attr('checked',true);
 #		}
 #	});
 #
-#	jQuery('#patient_diagnosis_id').smartShow({
-#		what: 'form.edit_patient div.other_diagnosis',
-#		when: function(){ 
-#			return /Other/i.test( 
-#				$('#patient_diagnosis_id option:selected').text() )
+#	jQuery('form.edit_study_subject input:checkbox.race_selector').click(function(){
+#		/* if race unchecked, uncheck is_primary too */
+#		if( !jQuery(this).attr('checked') ){
+#			jQuery('#'+jQuery(this).attr('id')+'_is_primary').attr('checked',false);
 #		}
 #	});
 #

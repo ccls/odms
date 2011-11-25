@@ -1,8 +1,18 @@
 require 'integration_test_helper'
 
-class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
+class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	site_administrators.each do |cu|
+
+#	contacts#show
+
+		test "contacts#show should toggle historic addresses with #{cu} login" do
+#			login_as send(cu)
+		end
+
+		test "contacts#show should toggle historic phone_numbers with #{cu} login" do
+#			login_as send(cu)
+		end
 
 #	phone_number#edit
 #
@@ -57,39 +67,7 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 #			select "Other Source", :from => 'phone_number[data_source_id]'
 #			assert page.has_field?('phone_number[data_source_other]', :visible => true)
 #		end
-#
-#
-#	edit_patient.js
-#
-#var initial_admit_date;
-#function admit_date(){
-#	return jQuery('#patient_admit_date').val();
-#}
-#function admit_date_changed(){
-#	return initial_admit_date != admit_date();
-#}
-#jQuery(function(){
-#
-#	initial_admit_date = admit_date();
-#	
-#	jQuery('#patient_admit_date').change(function(){
-#		if( admit_date_changed() ) {
-#			$(this).parent().parent().addClass('changed');
-#		} else {
-#			$(this).parent().parent().removeClass('changed');
-#		}
-#	});
-#
-#	jQuery('#patient_diagnosis_id').smartShow({
-#		what: 'form.edit_patient div.other_diagnosis',
-#		when: function(){ 
-#			return /Other/i.test( 
-#				$('#patient_diagnosis_id option:selected').text() )
-#		}
-#	});
-#
-#});
-#
+
 	end
 
 end

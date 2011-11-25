@@ -1,10 +1,56 @@
 require 'integration_test_helper'
 
-class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
+class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	site_administrators.each do |cu|
 
-#	phone_number#edit
+#	consent#edit
+
+#	jQuery('a.toggle_eligibility_criteria').togglerFor('.eligibility_criteria');
+#	jQuery('#enrollment_is_eligible').smartShow({
+#		what: '.ineligible_reason_id.field_wrapper',
+#		when: function(){ 
+#			return /no/i.test( 
+#				$('#enrollment_is_eligible option:selected').text() ) }
+#	});
+#
+#	jQuery('#enrollment_ineligible_reason_id').smartShow({
+#		what: '.ineligible_reason_specify.field_wrapper',
+#		when: function(){ 
+#			return /other/i.test( 
+#				$('#enrollment_ineligible_reason_id option:selected').text() ) }
+#	});
+#
+#/*
+#	need consented on if consent is Yes or No
+#*/
+#	jQuery('#enrollment_consented').smartShow({
+#		what: '#subject_consented',
+#		when: function(){ 
+#			return /^(yes|no)/i.test( 
+#				$('#enrollment_consented option:selected').text() ) }
+#	});
+#
+#/*
+#	need refusal reason if consent is No
+#*/
+#	jQuery('#enrollment_consented').smartShow({
+#		what: '#subject_refused',
+#		when: function(){ 
+#			return /^no/i.test( 
+#				$('#enrollment_consented option:selected').text() ) }
+#	});
+#
+#	jQuery('#enrollment_refusal_reason_id').smartShow({
+#		what: '.other_refusal_reason.field_wrapper',
+#		when: function(){ 
+#			return /other/i.test( 
+#				$('#enrollment_refusal_reason_id option:selected').text() ) }
+#	});
+#
+#
+#
+##	phone_number#edit
 #
 #		test "phone_number#edit should show why_invalid when is_valid is changed to 'No' with #{cu} login" do
 #			phone_number = Factory(:phone_number)
@@ -57,39 +103,7 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 #			select "Other Source", :from => 'phone_number[data_source_id]'
 #			assert page.has_field?('phone_number[data_source_other]', :visible => true)
 #		end
-#
-#
-#	edit_patient.js
-#
-#var initial_admit_date;
-#function admit_date(){
-#	return jQuery('#patient_admit_date').val();
-#}
-#function admit_date_changed(){
-#	return initial_admit_date != admit_date();
-#}
-#jQuery(function(){
-#
-#	initial_admit_date = admit_date();
-#	
-#	jQuery('#patient_admit_date').change(function(){
-#		if( admit_date_changed() ) {
-#			$(this).parent().parent().addClass('changed');
-#		} else {
-#			$(this).parent().parent().removeClass('changed');
-#		}
-#	});
-#
-#	jQuery('#patient_diagnosis_id').smartShow({
-#		what: 'form.edit_patient div.other_diagnosis',
-#		when: function(){ 
-#			return /Other/i.test( 
-#				$('#patient_diagnosis_id option:selected').text() )
-#		}
-#	});
-#
-#});
-#
+
 	end
 
 end

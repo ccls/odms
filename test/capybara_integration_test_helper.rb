@@ -1,5 +1,14 @@
 
 #	Changing to use capybara from webrat in hopes of testing javascript.
+#
+#
+#	So, so, so many hacks.  All to possibly test javascript.
+#
+#	All this probably slows a lot of stuff down.
+#	About to run all the other stuff, and I expect a lot of failures.
+#
+#
+
 
 require 'capybara/rails'
 
@@ -43,63 +52,76 @@ Capybara.register_driver :selenium_firefox do |app|
 	Capybara::Selenium::Driver.new(app, :browser => :firefox)
 end
 
-
-#	for selenium only, I think, as it does not cleanup
-require 'database_cleaner'
-DatabaseCleaner.strategy = :truncation
-DatabaseCleaner.start
-
-
-
-#	connection hack for selenium
-#	CANNOT do this for AR::Base as already have 2 databases
-
-#class ActiveRecord::Base
-#class ('User'.constantize)
-#User.extend do
-#klass.constantize.class_eval do
-module MakeConnectionTheSame
-  mattr_accessor :shared_connection
-  @@shared_connection = nil
-
-#  def self.connection
-  def connection
-    @@shared_connection || retrieve_connection
-  end
-end
-#%w( User ).each do |klass|
-# Forces all threads to share the same connection. This works on
-# Capybara because it starts the web server in a thread.
-#ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
-User.extend MakeConnectionTheSame
-User.shared_connection = User.connection
-Role.extend MakeConnectionTheSame
-Role.shared_connection = Role.connection
-Page.extend MakeConnectionTheSame
-Page.shared_connection = Page.connection
-#klass.constantize.send(:extend,MakeConnectionTheSame)
-#klass.constantize.shared_connection = klass.constantize.connection
-#end
-
-
-
-
-
-#	fake all non-ssl JUST ON JAKE'S HOME MACBOOK as no ssl installed
-#	add condition to this so that it only runs there.
-class ApplicationController
-	def ssl_allowed?
-		true
+#	Using class_attribute instead of mattr_accessor so that
+#	each subclass (read model) has its own value as we have
+#	two databases meaning not all models have the same connection.
+class ActiveRecord::Base
+	class_attribute :saved_connection
+	def self.connection
+		saved_connection || retrieve_connection
 	end
-end	if( Socket.gethostname == "mbp-3.local" )
-#> Socket.gethostname
-#=> "mbp-3.local"
+end
 
 
 
 #	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
+
+	setup :do_not_force_ssl
+	def do_not_force_ssl
+		#	fake all non-ssl JUST ON JAKE'S HOME MACBOOK as no ssl installed
+		if( Socket.gethostname == "mbp-3.local" )
+			#	ApplicationController.subclasses does not initially include FakeSessionsController
+			#	I explicitly 'ssl_allowed' new and create, so irrelevant.
+			#	After the first request, it will be included though.
+			ApplicationController.subclasses.each do |controller|
+				controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
+			end
+		end
+	end
+
+	setup :synchronize_selenium_connections
+	def synchronize_selenium_connections
+		#	if driver is selenium based, need to synchronize the transactional connections
+		#
+		###	initially based on http://pastie.org/1745020, but has changed
+		#
+		#		class ActiveRecord::Base
+		#			mattr_accessor :shared_connection
+		#			@@shared_connection = nil
+		#			def self.connection
+		#				@@shared_connection || retrieve_connection
+		#			end
+		#		end
+		#		# Forces all threads to share the same connection. This works on
+		#		# Capybara because it starts the web server in a thread.
+		#		ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+		#
+		###
+		#
+		#	connection hack for selenium
+		#	with selenium, the database connection from the test and from the controllers are different
+		#		and as the connections are transactional, I think, the test will be unaware of changes
+		#		that the controller makes and the controller will be unaware of changes that the test makes.
+		#		This seems to be why creating a user in the test does not result in a user being found in the controller.
+		#		The same goes for the user's roles.
+		#		It also means that the tests will not notice a difference after creating a page or other resource in the controller.
+		#		So.  Apparently, we need a hack in all the models that will do this. Normally, we could just hack AR::Base,
+		#		but since we already have 2 connection (one for shared, one for the app), we can't (unless I find a new way)
+		#		So.  We need to individually hack any model that we may test.
+		#
+		#	I'd rather just loop through all the models, but there are a couple oddballs
+		#	from use_db that may cause issues.  Still polishing this one.
+		#	wonder what's gonna happen for modelless tables (roles_users)
+		[Address,Addressing,AddressType,County,Context,ContextDataSource,DataSource,
+			PhoneNumber,PhoneType,StudySubject,ZipCode,
+			Guide,Page,Role,User].each do |model|
+			model.saved_connection = model.connection
+		end
+	end
+
 	include Capybara::DSL
+
 #	apparently unnecessary
 #	include CalnetAuthenticated::TestHelper
 
@@ -156,53 +178,12 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		uid = ( user.is_a?(User) ) ? user.uid : user
 		if !uid.blank?
 			stub_ucb_ldap_person()
-#puts "Before find:#{User.all.inspect}"
 			u = User.find_create_and_update_by_uid(uid)
 			#	Rather than manually manipulate the session,
 			#	I created a fake controller to do it.
-#	works for rack_test
-#			page.driver.post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
-#	not for selenium
-#	almost got selenium working, but now Firefox actually complains and I get ...
-#	Selenium::WebDriver::Error::WebDriverError: unable to start Firefox cleanly, args: ["-silent"]
-#
-#	rather than manually do this post, may want to create new_fake_session, form fill it in, then click submit?
-#			page.driver.browser.post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
-#puts "Before new:#{User.all.inspect}"
 			page.visit new_fake_session_path()	#, { }, { 'HTTPS' => 'on' }
-#puts "After new:#{User.all.inspect}"
-#puts page.body
-
-#	in rack_test, the connections are the same
-#in controller connection check
-#<ActiveRecord::ConnectionAdapters::MysqlAdapter:0x3c99bec @query_cache_enabled=true, @query_cache={"SELECT * FROM `guides` WHERE (`guides`.`controller` = 'fake_sessions' AND `guides`.`action` = 'create')  ORDER BY controller ASC, action ASC LIMIT 1"=>[]}, @transaction_joinable=false, @quoted_column_names={"name"=>"`name`", "menu_en"=>"`menu_en`", "position"=>"`position`", :path=>"`path`", "created_at"=>"`created_at`", "guides"=>"`guides`", "displayname"=>"`displayname`", "body_es"=>"`body_es`", "body"=>"`body`", "title_es"=>"`title_es`", "updated_at"=>"`updated_at`", "role_id"=>"`role_id`", "action"=>"`action`", "mail"=>"`mail`", "sn"=>"`sn`", "uid"=>"`uid`", :uid=>"`uid`", "menu_es"=>"`menu_es`", "id"=>"`id`", "user_id"=>"`user_id`", "telephonenumber"=>"`telephonenumber`", "pages"=>"`pages`", "parent_id"=>"`parent_id`", "path"=>"`path`", :menu_en=>"`menu_en`", "roles_users"=>"`roles_users`", "users"=>"`users`", "body_en"=>"`body_en`", "hide_menu"=>"`hide_menu`", "controller"=>"`controller`", "title_en"=>"`title_en`", "roles"=>"`roles`"}, @last_verification=0, @connection_options=["localhost", "root", "", "odms_test", nil, nil, 131072], @logger=#<ActiveSupport::BufferedLogger:0x419718 @log=#<File:/Users/jake/github_repo/ccls/odms/log/test.log>, @guard=#<Mutex:0x4093e0>, @level=0, @auto_flushing=1, @buffer={}>, @open_transactions=1, @runtime=0.386953353881836, @config={:password=>nil, :database=>"odms_test", :host=>"localhost", :encoding=>"utf8", :adapter=>"mysql", :username=>"root"}, @quoted_table_names={"guides"=>"`guides`", "pages"=>"`pages`", "roles_users"=>"`roles_users`", "users"=>"`users`", "roles"=>"`roles`"}, @connection=#<Mysql:0x3c9a718>>
-#in test connection check
-#<ActiveRecord::ConnectionAdapters::MysqlAdapter:0x3c99bec @query_cache_enabled=false, @query_cache={}, @transaction_joinable=false, @quoted_column_names={"name"=>"`name`", "menu_en"=>"`menu_en`", "position"=>"`position`", :path=>"`path`", "created_at"=>"`created_at`", "guides"=>"`guides`", "displayname"=>"`displayname`", "body_es"=>"`body_es`", "body"=>"`body`", "title_es"=>"`title_es`", "updated_at"=>"`updated_at`", "role_id"=>"`role_id`", "action"=>"`action`", "mail"=>"`mail`", "sn"=>"`sn`", "uid"=>"`uid`", :uid=>"`uid`", "menu_es"=>"`menu_es`", "id"=>"`id`", "user_id"=>"`user_id`", "telephonenumber"=>"`telephonenumber`", "pages"=>"`pages`", "parent_id"=>"`parent_id`", "path"=>"`path`", :menu_en=>"`menu_en`", "roles_users"=>"`roles_users`", "users"=>"`users`", "body_en"=>"`body_en`", "hide_menu"=>"`hide_menu`", "controller"=>"`controller`", "title_en"=>"`title_en`", "roles"=>"`roles`"}, @last_verification=0, @connection_options=["localhost", "root", "", "odms_test", nil, nil, 131072], @logger=#<ActiveSupport::BufferedLogger:0x419718 @log=#<File:/Users/jake/github_repo/ccls/odms/log/test.log>, @guard=#<Mutex:0x4093e0>, @level=0, @auto_flushing=1, @buffer={}>, @open_transactions=1, @runtime=0, @config={:password=>nil, :database=>"odms_test", :host=>"localhost", :encoding=>"utf8", :adapter=>"mysql", :username=>"root"}, @quoted_table_names={"guides"=>"`guides`", "pages"=>"`pages`", "roles_users"=>"`roles_users`", "users"=>"`users`", "roles"=>"`roles`"}, @connection=#<Mysql:0x3c9a718>>
-
-
-#	in selenium, the connections are different.  WHY????? has something to do with Threads and as testing, inside transaction ?
-#in controller connection check
-#<ActiveRecord::ConnectionAdapters::MysqlAdapter:0x3ebd018 @query_cache_enabled=true, @query_cache={"SELECT * FROM `guides` WHERE (`guides`.`controller` = 'fake_sessions' AND `guides`.`action` = 'create')  ORDER BY controller ASC, action ASC LIMIT 1"=>[]}, @quoted_column_names={"guides"=>"`guides`", "action"=>"`action`", "pages"=>"`pages`", "path"=>"`path`", "controller"=>"`controller`"}, @last_verification=0, @connection_options=["localhost", "root", "", "odms_test", nil, nil, 131072], @logger=#<ActiveSupport::BufferedLogger:0x419718 @log=#<File:/Users/jake/github_repo/ccls/odms/log/test.log>, @guard=#<Mutex:0x4093e0>, @level=0, @auto_flushing=1, @buffer={}>, @runtime=0.366926193237305, @config={:password=>nil, :database=>"odms_test", :host=>"localhost", :encoding=>"utf8", :adapter=>"mysql", :username=>"root"}, @quoted_table_names={"guides"=>"`guides`", "pages"=>"`pages`"}, @connection=#<Mysql:0x3ebf1ec>>
-#in test connection check
-#<ActiveRecord::ConnectionAdapters::MysqlAdapter:0x3c99c50 @query_cache_enabled=false, @transaction_joinable=false, @quoted_column_names={"name"=>"`name`", "menu_en"=>"`menu_en`", "position"=>"`position`", "created_at"=>"`created_at`", "guides"=>"`guides`", "displayname"=>"`displayname`", "body_es"=>"`body_es`", "body"=>"`body`", "title_es"=>"`title_es`", "updated_at"=>"`updated_at`", "role_id"=>"`role_id`", "action"=>"`action`", "mail"=>"`mail`", "sn"=>"`sn`", "uid"=>"`uid`", :uid=>"`uid`", "menu_es"=>"`menu_es`", "id"=>"`id`", "user_id"=>"`user_id`", "telephonenumber"=>"`telephonenumber`", "pages"=>"`pages`", "parent_id"=>"`parent_id`", "path"=>"`path`", "roles_users"=>"`roles_users`", "users"=>"`users`", "body_en"=>"`body_en`", "hide_menu"=>"`hide_menu`", "controller"=>"`controller`", "title_en"=>"`title_en`", "roles"=>"`roles`"}, @last_verification=0, @connection_options=["localhost", "root", "", "odms_test", nil, nil, 131072], @logger=#<ActiveSupport::BufferedLogger:0x419718 @log=#<File:/Users/jake/github_repo/ccls/odms/log/test.log>, @guard=#<Mutex:0x4093e0>, @level=0, @auto_flushing=1, @buffer={}>, @open_transactions=1, @runtime=369.238138198853, @config={:password=>nil, :database=>"odms_test", :host=>"localhost", :encoding=>"utf8", :adapter=>"mysql", :username=>"root"}, @quoted_table_names={"guides"=>"`guides`", "pages"=>"`pages`", "roles_users"=>"`roles_users`", "users"=>"`users`", "roles"=>"`roles`"}, @connection=#<Mysql:0x3c9a77c>>
-
-
-#	while this fixes the fake login, later a view calls 'logged_in?' which calls current_user
-#		which tries for find user and then fails.  Its almost like its using a different database.
-#		It ends up timing out??
 			page.fill_in 'id', :with => u.id
-#			page.fill_in 'uid', :with => u.uid
-
-
-			#	MUST stub BEFORE login as redirect will got to users#show which will require being logged in.
-			#	moved into fake_sessions controller
-#			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
-
-#puts "After fill in:#{User.all.inspect}"
 			page.click_button 'login'
-#puts "After submit:#{User.all.inspect}"
-#	even though the user does exist, the fake session controller cannot find User.find(u.id) in create???
-#	but ONLY when using selenium?  Don't quite understand this.
 		end
 	end
 
