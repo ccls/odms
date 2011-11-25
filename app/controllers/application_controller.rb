@@ -82,7 +82,7 @@ protected	#	private #	(does it matter which or if neither?)
 	alias_method :recall_or_record_sort_order, :record_or_recall_sort_order
 
 	def get_guidance
-		return if params[:format] == 'js'	#	better
+		return if %w( js json ).include?(params[:format])
 
 #		require 'guide'
 #	don't remember why I did controllers rubyish, but not action??? (20111115)
