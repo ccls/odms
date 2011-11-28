@@ -16,6 +16,29 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 #puts page.find_field("addressing[address_attributes][city]").value
 #puts "done checking city"
 			fill_in "addressing[address_attributes][zip]",  :with => "17857"
+
+#	maybe "change" isn't the appropriate event trigger for this?
+			fill_in "addressing[address_attributes][line_2]",  
+				:with => "something to trigger zip check???"
+#	Basically do something to move away from the zip field.
+#	This then triggers the 'change' event a second time.
+#	The 'fill_in' apparently does trigger the event, but the value is blank?
+#	I don't quite understand this, and I don't really like it.
+#	Nevertheless, it works.
+#
+#Processing ZipCodesController#index to json (for 127.0.0.1 at 2011-11-28 13:09:49) [GET]
+#  Parameters: {"q"=>""}
+#  ZipCode Load (0.5ms)   SELECT city, state, zip_code, county_id, counties.name as county_name FROM `zip_codes` LEFT JOIN counties ON zip_codes.county_id = counties.id WHERE (zip_code LIKE '%') ORDER BY zip_code LIMIT 10
+#Completed in 9ms (View: 5, DB: 0) | 200 OK [http://127.0.0.1/zip_codes.json?q=]
+#
+#
+#Processing ZipCodesController#index to json (for 127.0.0.1 at 2011-11-28 13:09:49) [GET]
+#  Parameters: {"q"=>"17857"}
+#  ZipCode Load (0.3ms)   SELECT city, state, zip_code, county_id, counties.name as county_name FROM `zip_codes` LEFT JOIN counties ON zip_codes.county_id = counties.id WHERE (zip_code LIKE '17857%') ORDER BY zip_code LIMIT 10
+#Completed in 3ms (View: 1, DB: 0) | 200 OK [http://127.0.0.1/zip_codes.json?q=17857]
+#
+
+
 #sleep 5
 #puts "checking zip"
 #puts page.find_field("addressing[address_attributes][zip]").value
@@ -26,11 +49,15 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 #  Parameters: {"q"=>""}
 #
 #	also looks for a guide which isn't a problem, but is pointless (format is json, not js)
-#	I did actually notice ONCE that it sent the actual zip
+#	I did actually notice ONCE that it sent the actual zip.  Don't know why.
 #
+#puts
 #puts "checking city"
 #puts page.find_field("addressing[address_attributes][city]").value
 #puts "done checking city"
+#checking city
+#NORTHUMBERLAND
+#done checking city
 #flunk
 		end
 

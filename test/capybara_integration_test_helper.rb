@@ -12,7 +12,7 @@
 
 require 'capybara/rails'
 
-Capybara.default_driver = :selenium
+Capybara.default_driver = :selenium	#	defaults to firefox
 #Capybara.default_driver = :selenium_chrome
 #Capybara.default_driver = :selenium_firefox
 
@@ -73,14 +73,17 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 	setup :do_not_force_ssl
 	def do_not_force_ssl
 		#	fake all non-ssl JUST ON JAKE'S HOME MACBOOK as no ssl installed
-		if( Socket.gethostname == "mbp-3.local" )
+#	actually ssl is a bit of a problem on dev.sph.berkeley.edu as well
+#		probably has to do with the funky ports used and 
+#		possible using 127.0.0.1 instead of localhost (shouldn't be)
+#		if( Socket.gethostname == "mbp-3.local" )
 			#	ApplicationController.subclasses does not initially include FakeSessionsController
 			#	I explicitly 'ssl_allowed' new and create, so irrelevant.
 			#	After the first request, it will be included though.
 			ApplicationController.subclasses.each do |controller|
 				controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
 			end
-		end
+#		end
 	end
 
 	setup :synchronize_selenium_connections
