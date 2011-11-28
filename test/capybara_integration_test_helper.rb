@@ -47,7 +47,10 @@ require 'selenium/webdriver'
 #
 #	this may be ssl related.  I thought that I had installed ssl on this machine.
 #
-Selenium::WebDriver::Firefox::Binary.path='/Applications/Firefox.app/Contents/MacOS/firefox-bin-leopard-dittod'
+
+if( Socket.gethostname == "mbp-3.local" )	#	jake's home machine
+	Selenium::WebDriver::Firefox::Binary.path='/Applications/Firefox.app/Contents/MacOS/firefox-bin-leopard-dittod'
+end
 Capybara.register_driver :selenium_firefox do |app|
 	Capybara::Selenium::Driver.new(app, :browser => :firefox)
 end
