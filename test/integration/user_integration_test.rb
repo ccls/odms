@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class UserIntegrationTest < ActionController::WebRatIntegrationTest
 
-#	def xxx_setup
+#	def setup
 #		@session = open_session # or ActionController::Integration::Session.new
 #		assert !@session.https?
 #		@session.https!

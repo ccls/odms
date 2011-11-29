@@ -1,9 +1,40 @@
 require 'integration_test_helper'
 
-class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
+class PatientJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	site_administrators.each do |cu|
 
+#	edit_patient.js
+#
+#var initial_admit_date;
+#function admit_date(){
+#	return jQuery('#patient_admit_date').val();
+#}
+#function admit_date_changed(){
+#	return initial_admit_date != admit_date();
+#}
+#jQuery(function(){
+#
+#	initial_admit_date = admit_date();
+#	
+#	jQuery('#patient_admit_date').change(function(){
+#		if( admit_date_changed() ) {
+#			$(this).parent().parent().addClass('changed');
+#		} else {
+#			$(this).parent().parent().removeClass('changed');
+#		}
+#	});
+#
+#	jQuery('#patient_diagnosis_id').smartShow({
+#		what: 'form.edit_patient div.other_diagnosis',
+#		when: function(){ 
+#			return /Other/i.test( 
+#				$('#patient_diagnosis_id option:selected').text() )
+#		}
+#	});
+#
+#});
+#
 #	phone_number#edit
 #
 #		test "phone_number#edit should show why_invalid when is_valid is changed to 'No' with #{cu} login" do
@@ -58,37 +89,6 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 #			assert page.has_field?('phone_number[data_source_other]', :visible => true)
 #		end
 #
-#
-#	edit_patient.js
-#
-#var initial_admit_date;
-#function admit_date(){
-#	return jQuery('#patient_admit_date').val();
-#}
-#function admit_date_changed(){
-#	return initial_admit_date != admit_date();
-#}
-#jQuery(function(){
-#
-#	initial_admit_date = admit_date();
-#	
-#	jQuery('#patient_admit_date').change(function(){
-#		if( admit_date_changed() ) {
-#			$(this).parent().parent().addClass('changed');
-#		} else {
-#			$(this).parent().parent().removeClass('changed');
-#		}
-#	});
-#
-#	jQuery('#patient_diagnosis_id').smartShow({
-#		what: 'form.edit_patient div.other_diagnosis',
-#		when: function(){ 
-#			return /Other/i.test( 
-#				$('#patient_diagnosis_id option:selected').text() )
-#		}
-#	});
-#
-#});
 #
 	end
 

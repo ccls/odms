@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
+class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	site_administrators.each do |cu|
 
@@ -8,23 +8,37 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 			addressing = Factory(:addressing)
 			login_as send(cu)
 			page.visit edit_addressing_path(addressing)
-#puts "checking city"
-#puts page.find_field("addressing[address_attributes][city]").value
-#puts "done checking city"
 			fill_in "addressing[address_attributes][city]",  :with => ""
-#puts "checking city"
-#puts page.find_field("addressing[address_attributes][city]").value
-#puts "done checking city"
+			fill_in "addressing[address_attributes][county]",  :with => ""
+			select "", :from => 'addressing[address_attributes][state]'
+			fill_in "addressing[address_attributes][zip]",  :with => ""
+			assert page.find_field("addressing[address_attributes][city]").value.blank?
+			assert page.find_field("addressing[address_attributes][county]").value.blank?
+			assert page.find_field("addressing[address_attributes][state]").value.blank?
+			assert page.find_field("addressing[address_attributes][zip]").value.blank?
+
 			fill_in "addressing[address_attributes][zip]",  :with => "17857"
 
-#	maybe "change" isn't the appropriate event trigger for this?
+#
+#	sometimes this happens too fast? This may happen as the browser
+#	actually exists and perhaps me coding while the browser is trying to
+#	test takes focus away from it?
+#
+			sleep 1
+#
+#	sometimes this works, sometimes it doesn't ???
+#
 			fill_in "addressing[address_attributes][line_2]",  
-				:with => "something to trigger zip check???"
+				:with => "something to trigger zip code change event"
+			sleep 1
+
+			#	maybe "change" isn't the appropriate event trigger for this?
+
 #	Basically do something to move away from the zip field.
 #	This then triggers the 'change' event a second time.
 #	The 'fill_in' apparently does trigger the event, but the value is blank?
 #	I don't quite understand this, and I don't really like it.
-#	Nevertheless, it works.
+#	Nevertheless, it works. Sometimes.
 #
 #Processing ZipCodesController#index to json (for 127.0.0.1 at 2011-11-28 13:09:49) [GET]
 #  Parameters: {"q"=>""}
@@ -38,27 +52,14 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 #Completed in 3ms (View: 1, DB: 0) | 200 OK [http://127.0.0.1/zip_codes.json?q=17857]
 #
 
-
-#sleep 5
-#puts "checking zip"
-#puts page.find_field("addressing[address_attributes][zip]").value
-#puts "done checking zip"
-#	The above triggers an ajax call, but doesn't send a value?
-#
-#Processing ZipCodesController#index to json (for 127.0.0.1 at 2011-11-24 19:08:51) [GET]
-#  Parameters: {"q"=>""}
-#
-#	also looks for a guide which isn't a problem, but is pointless (format is json, not js)
-#	I did actually notice ONCE that it sent the actual zip.  Don't know why.
-#
-#puts
-#puts "checking city"
-#puts page.find_field("addressing[address_attributes][city]").value
-#puts "done checking city"
-#checking city
-#NORTHUMBERLAND
-#done checking city
-#flunk
+			assert_equal 'NORTHUMBERLAND',
+				page.find_field("addressing[address_attributes][city]").value
+			assert_equal 'Northumberland',
+				page.find_field("addressing[address_attributes][county]").value
+			assert_equal 'PA',
+				page.find_field("addressing[address_attributes][state]").value
+			assert_equal '17857',
+				page.find_field("addressing[address_attributes][zip]").value
 		end
 
 		test "addressing#edit should show why_invalid when is_valid is changed to 'No' with #{cu} login" do
@@ -143,6 +144,74 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "addressing#new should show confirm when new residence addressing is submitted with state not 'CA' and #{cu} login" do
 #			login_as send(cu)
+pending
+#jQuery(function(){
+#
+#	jQuery('form#new_addressing').submit(state_check);
+#
+#});
+#
+#var state_check = function() {
+#	var state = jQuery('#addressing_address_attributes_state').val()
+#	var type  = jQuery('#addressing_address_attributes_address_type_id').val()
+#	if( ( state != 'CA' ) && ( type == '1' ) &&
+#		( !confirm('This address is not in CA and will make study_subject ineligible.  Do you want to continue?') ) ) {
+#		return false;
+#	}
+#}
+#
+		end
+
+		test "addressing#new should update blank city, state and county on zip code change with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			page.visit new_study_subject_addressing_path(study_subject)
+			assert page.find_field("addressing[address_attributes][city]").value.blank?
+			assert page.find_field("addressing[address_attributes][county]").value.blank?
+			assert page.find_field("addressing[address_attributes][state]").value.blank?
+			assert page.find_field("addressing[address_attributes][zip]").value.blank?
+
+			fill_in "addressing[address_attributes][zip]",  :with => "17857"
+
+#
+#	sometimes this happens too fast?
+#
+			sleep 1
+#
+#	sometimes this works, sometimes it doesn't ???
+#
+			fill_in "addressing[address_attributes][line_2]",  
+				:with => "something to trigger zip code change event"
+			sleep 1
+
+			#	maybe "change" isn't the appropriate event trigger for this?
+
+#	Basically do something to move away from the zip field.
+#	This then triggers the 'change' event a second time.
+#	The 'fill_in' apparently does trigger the event, but the value is blank?
+#	I don't quite understand this, and I don't really like it.
+#	Nevertheless, it works. Sometimes.
+#
+#Processing ZipCodesController#index to json (for 127.0.0.1 at 2011-11-28 13:09:49) [GET]
+#  Parameters: {"q"=>""}
+#  ZipCode Load (0.5ms)   SELECT city, state, zip_code, county_id, counties.name as county_name FROM `zip_codes` LEFT JOIN counties ON zip_codes.county_id = counties.id WHERE (zip_code LIKE '%') ORDER BY zip_code LIMIT 10
+#Completed in 9ms (View: 5, DB: 0) | 200 OK [http://127.0.0.1/zip_codes.json?q=]
+#
+#
+#Processing ZipCodesController#index to json (for 127.0.0.1 at 2011-11-28 13:09:49) [GET]
+#  Parameters: {"q"=>"17857"}
+#  ZipCode Load (0.3ms)   SELECT city, state, zip_code, county_id, counties.name as county_name FROM `zip_codes` LEFT JOIN counties ON zip_codes.county_id = counties.id WHERE (zip_code LIKE '17857%') ORDER BY zip_code LIMIT 10
+#Completed in 3ms (View: 1, DB: 0) | 200 OK [http://127.0.0.1/zip_codes.json?q=17857]
+#
+
+			assert_equal 'NORTHUMBERLAND',
+				page.find_field("addressing[address_attributes][city]").value
+			assert_equal 'Northumberland',
+				page.find_field("addressing[address_attributes][county]").value
+			assert_equal 'PA',
+				page.find_field("addressing[address_attributes][state]").value
+			assert_equal '17857',
+				page.find_field("addressing[address_attributes][zip]").value
 		end
 
 	end
