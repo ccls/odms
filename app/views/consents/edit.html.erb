@@ -34,17 +34,24 @@
 	:class => 'toggle_eligibility_criteria' %></p>
 
 <div style='display:none' class='eligibility_criteria'>
-<p>Is this patient under age 15? Yes / No</p>
+
+<p>This is gonna be very unconventional.  I'm gonna need to add explicit
+fields and they'll need to be special saves in the controller
+as these fields won't be nested_attributes.
+Unless, I make this edit the subject instead?</p>
+
+<p>CASE ONLY:was_under_15_at_dx Is this patient under age 15? Yes / No</p>
 
 <p>Language of parent or caretaker: </p>
 <p>English (eligible)</p>
 <p>Spanish (eligible)</p>
 <p>Other (not eligible)</p>
 <p>specify: </p>
+<%#= subject_languages_select %>
 
-<p>Has this patient received previous treatment for leukemia or another cancer at any institution? Yes / No</p>
+<p>CASE ONLY:was_previously_treated Has this patient received previous treatment for leukemia or another cancer at any institution? Yes / No</p>
 
-<p>Does the patient currently reside in California? Yes / No</p>
+<p>CASE ONLY:was_ca_resident_at_diagnosis Does the patient currently reside in California? Yes / No</p>
 
 </div>
 
@@ -79,17 +86,17 @@
 <p>Hospital Consent Opt-Outs</p>
 <hr/>
 <p>May CCLS use samples ...</p>
-<p>... in future research? agree / disagree / n/a</p>
-<p>... in future cancer research? agree / disagree / n/a</p>
-<p>... in future research of other diseases? agree / disagree / n/a</p>
+<p>... in future research? <%= f.adna_select :use_smp_future_rsrch %></p>
+<p>... in future cancer research? <%= f.adna_select :use_smp_future_cancer_rsrch %></p>
+<p>... in future research of other diseases? <%= f.adna_select :use_smp_future_other_rsrch %></p>
 
-<p>I agree to have my data and tissue/fluid samples shared with other researchers for projects related to childhood leukemia and genetic markers.  agree / disagree / n/a</p>
+<p>I agree to have my data and tissue/fluid samples shared with other researchers for projects related to childhood leukemia and genetic markers.  <%= f.adna_select :share_smp_with_others %></p>
 
-<p>I agree to be contacted for additional research studies related to this project at a later date.  agree / disagree / n/a</p>
+<p>I agree to be contacted for additional research studies related to this project at a later date.  <%= f.adna_select :contact_for_related_study %></p>
 
-<p>I agree to provide a salive sample for this research study.  agree / disagree / n/a</p>
+<p>I agree to provide a salive sample for this research study.  <%= f.adna_select :provide_saliva_smp %></p>
 
-<p>I want to receive general information about what the study found.  agree / disagree / n/a</p>
+<p>I want to receive general information about what the study found.  <%= f.adna_select :receive_study_findings %></p>
 </div>
 
 <% end %>
