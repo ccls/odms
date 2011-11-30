@@ -17,22 +17,26 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			assert page.find_field("addressing[address_attributes][state]").value.blank?
 			assert page.find_field("addressing[address_attributes][zip]").value.blank?
 
+#	don't know if there is a difference between fill_in and page.fill_in.
 			fill_in "addressing[address_attributes][zip]",  :with => "17857"
 
 #
 #	sometimes this happens too fast? This may happen as the browser
 #	actually exists and perhaps me coding while the browser is trying to
-#	test takes focus away from it?
+#	test takes focus away from it?  Can I force the browser into the background?
 #
-			sleep 1
+#			sleep 1
 #
 #	sometimes this works, sometimes it doesn't ???
 #
-			fill_in "addressing[address_attributes][line_2]",  
-				:with => "something to trigger zip code change event"
+#	perhaps be more explicit? kinda defeats the purpose of the test.
+			#	maybe "change" isn't the appropriate event trigger for this?
+			page.execute_script("$('#addressing_address_attributes_zip').change()" );
+
+#			fill_in "addressing[address_attributes][line_2]",  
+#				:with => "something to trigger zip code change event"
 			sleep 1
 
-			#	maybe "change" isn't the appropriate event trigger for this?
 
 #	Basically do something to move away from the zip field.
 #	This then triggers the 'change' event a second time.
@@ -176,15 +180,16 @@ pending
 #
 #	sometimes this happens too fast?
 #
-			sleep 1
+#			sleep 1
 #
 #	sometimes this works, sometimes it doesn't ???
 #
-			fill_in "addressing[address_attributes][line_2]",  
-				:with => "something to trigger zip code change event"
+#			fill_in "addressing[address_attributes][line_2]",  
+#				:with => "something to trigger zip code change event"
+			#	maybe "change" isn't the appropriate event trigger for this?
+			page.execute_script("$('#addressing_address_attributes_zip').change()" );
 			sleep 1
 
-			#	maybe "change" isn't the appropriate event trigger for this?
 
 #	Basically do something to move away from the zip field.
 #	This then triggers the 'change' event a second time.

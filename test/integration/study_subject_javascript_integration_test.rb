@@ -4,88 +4,86 @@ class StudySubjectJavascriptIntegrationTest < ActionController::CapybaraIntegrat
 
 	site_administrators.each do |cu|
 
-#	edit_study_subject.js
-#
-#
-#jQuery(function(){
-#
-#	jQuery('form.edit_study_subject input:checkbox.is_primary_selector').click(function(){
-#		/* if primary is checked, 
-#				check partial race as well as uncheck other primary
-#		*/
-#		if( jQuery(this).attr('checked') ){
-#			var id = jQuery(this).attr('id').replace(/_is_primary/,'');
-#			jQuery('#'+id).attr('checked',true);
-#
-#			/* easier to uncheck all, then recheck this one */
-#			jQuery('form.edit_study_subject input:checkbox.is_primary_selector').attr('checked',false);
-#			jQuery(this).attr('checked',true);
-#		}
-#	});
-#
-#	jQuery('form.edit_study_subject input:checkbox.race_selector').click(function(){
-#		/* if race unchecked, uncheck is_primary too */
-#		if( !jQuery(this).attr('checked') ){
-#			jQuery('#'+jQuery(this).attr('id')+'_is_primary').attr('checked',false);
-#		}
-#	});
-#
-#});
-#
-#	phone_number#edit
-#
-#		test "phone_number#edit should show why_invalid when is_valid is changed to 'No' with #{cu} login" do
-#			phone_number = Factory(:phone_number)
-#			login_as send(cu)
-#			page.visit edit_phone_number_path(phone_number)
-#			assert page.has_field?('phone_number[why_invalid]', :visible => false)
-#			select "No", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => true)
-#			select "", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => false)
-#			select "No", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => true)
-#		end
-#
-#		test "phone_number#edit should show why_invalid when is_valid is changed to 'Don't Know' with #{cu} login" do
-#			phone_number = Factory(:phone_number)
-#			login_as send(cu)
-#			page.visit edit_phone_number_path(phone_number)
-#			assert page.has_field?('phone_number[why_invalid]', :visible => false)
-#			select "Don't Know", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => true)
-#			select "", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => false)
-#			select "Don't Know", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => true)
-#		end
-#
-#		test "phone_number#edit should show how_verified when is_verified is checked with #{cu} login" do
-#			phone_number = Factory(:phone_number)
-#			login_as send(cu)
-#			page.visit edit_phone_number_path(phone_number)
-#			assert page.has_field?('phone_number[how_verified]', :visible => false)
-#			check 'phone_number[is_verified]'
-#			assert page.has_field?('phone_number[how_verified]', :visible => true)
-#			uncheck 'phone_number[is_verified]'
-#			assert page.has_field?('phone_number[how_verified]', :visible => false)
-#			check 'phone_number[is_verified]'
-#			assert page.has_field?('phone_number[how_verified]', :visible => true)
-#		end
-#
-#		test "phone_number#edit should show data_source_other when 'Other Source' data_source is selected with #{cu} login" do
-#			phone_number = Factory(:phone_number)
-#			login_as send(cu)
-#			page.visit edit_phone_number_path(phone_number)
-#			assert page.has_field?('phone_number[data_source_other]', :visible => false)
-#			select "Other Source", :from => 'phone_number[data_source_id]'
-#			assert page.has_field?('phone_number[data_source_other]', :visible => true)
-#			select "", :from => 'phone_number[data_source_id]'
-#			assert page.has_field?('phone_number[data_source_other]', :visible => false)
-#			select "Other Source", :from => 'phone_number[data_source_id]'
-#			assert page.has_field?('phone_number[data_source_other]', :visible => true)
-#		end
-#
+#<div class="race_wrapper">
+#<span class="label">Race:</span><fieldset id="race_selector"><legend>Select Race(s)</legend>
+#<p>TEMP NOTE: primary is first, normal is second</p>
+#<input type="hidden" value="false" name="study_subject[subject_races_attributes[1]][is_primary]" id="study_subject_subject_races_attributes_1_is_primary" />
+#<input type="checkbox" value="true" title="Set 'White, Non-Hispanic' as the subject's PRIMARY race" name="study_subject[subject_races_attributes[1]][is_primary]" id="race_1_is_primary" class="is_primary_selector" />
+#<input type="checkbox" value="1" title="Set 'White, Non-Hispanic' as one of the subject's race(s)" name="study_subject[subject_races_attributes[1]][race_id]" id="race_1" class="race_selector" />
+#<label for="race_1">White, Non-Hispanic</label>
+#<br />
+#<input type="hidden" value="false" name="study_subject[subject_races_attributes[2]][is_primary]" id="study_subject_subject_races_attributes_2_is_primary" />
+#<input type="checkbox" value="true" title="Set 'Black / African American' as the subject's PRIMARY race" name="study_subject[subject_races_attributes[2]][is_primary]" id="race_2_is_primary" class="is_primary_selector" />
+#<input type="checkbox" value="2" title="Set 'Black / African American' as one of the subject's race(s)" name="study_subject[subject_races_attributes[2]][race_id]" id="race_2" class="race_selector" />
+#<label for="race_2">Black / African American</label>
+#<br />
+#<input type="hidden" value="false" name="study_subject[subject_races_attributes[3]][is_primary]" id="study_subject_subject_races_attributes_3_is_primary" />
+#<input type="checkbox" value="true" title="Set 'Native American' as the subject's PRIMARY race" name="study_subject[subject_races_attributes[3]][is_primary]" id="race_3_is_primary" class="is_primary_selector" />
+#<input type="checkbox" value="3" title="Set 'Native American' as one of the subject's race(s)" name="study_subject[subject_races_attributes[3]][race_id]" id="race_3" class="race_selector" />
+#<label for="race_3">Native American</label>
+#<br />
+#<input type="hidden" value="false" name="study_subject[subject_races_attributes[4]][is_primary]" id="study_subject_subject_races_attributes_4_is_primary" />
+#<input type="checkbox" value="true" title="Set 'Asian / Pacific Islander' as the subject's PRIMARY race" name="study_subject[subject_races_attributes[4]][is_primary]" id="race_4_is_primary" class="is_primary_selector" />
+#<input type="checkbox" value="4" title="Set 'Asian / Pacific Islander' as one of the subject's race(s)" name="study_subject[subject_races_attributes[4]][race_id]" id="race_4" class="race_selector" />
+#<label for="race_4">Asian / Pacific Islander</label>
+#<br />
+#<input type="hidden" value="false" name="study_subject[subject_races_attributes[5]][is_primary]" id="study_subject_subject_races_attributes_5_is_primary" />
+#<input type="checkbox" value="true" title="Set 'Other' as the subject's PRIMARY race" name="study_subject[subject_races_attributes[5]][is_primary]" id="race_5_is_primary" class="is_primary_selector" />
+#<input type="checkbox" value="5" title="Set 'Other' as one of the subject's race(s)" name="study_subject[subject_races_attributes[5]][race_id]" id="race_5" class="race_selector" />
+#<label for="race_5">Other</label>
+#<br />
+#<input type="hidden" value="false" name="study_subject[subject_races_attributes[6]][is_primary]" id="study_subject_subject_races_attributes_6_is_primary" />
+#<input type="checkbox" value="true" title="Set 'Don't Know' as the subject's PRIMARY race" name="study_subject[subject_races_attributes[6]][is_primary]" id="race_6_is_primary" class="is_primary_selector" />
+#<input type="checkbox" value="6" title="Set 'Don't Know' as one of the subject's race(s)" name="study_subject[subject_races_attributes[6]][race_id]" id="race_6" class="race_selector" />
+#<label for="race_6">Don't Know</label>
+#<br />
+#</fieldset><!-- id='race_selector' -->
+#</div>
+
+
+		test "should check race when primary race is checked with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			page.visit edit_study_subject_path(study_subject)
+			assert page.has_unchecked_field?(
+				"study_subject[subject_races_attributes[1]][race_id]")
+			page.check "study_subject[subject_races_attributes[1]][is_primary]"
+			assert page.has_checked_field?(
+				"study_subject[subject_races_attributes[1]][race_id]")
+		end
+
+		test "should uncheck other primary race when primary race is check" <<
+				" with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			page.visit edit_study_subject_path(study_subject)
+			page.check "study_subject[subject_races_attributes[1]][is_primary]"
+			assert page.has_checked_field?(
+				"study_subject[subject_races_attributes[1]][is_primary]")
+			page.check "study_subject[subject_races_attributes[2]][is_primary]"
+			assert page.has_checked_field?(
+				"study_subject[subject_races_attributes[2]][is_primary]")
+			assert page.has_unchecked_field?(
+				"study_subject[subject_races_attributes[1]][is_primary]")
+		end
+
+		test "should uncheck primary race when race is unchecked" <<
+				" with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			page.visit edit_study_subject_path(study_subject)
+			page.check "study_subject[subject_races_attributes[1]][is_primary]"
+			assert page.has_checked_field?(
+				"study_subject[subject_races_attributes[1]][race_id]")
+			assert page.has_checked_field?(
+				"study_subject[subject_races_attributes[1]][is_primary]")
+			page.uncheck "study_subject[subject_races_attributes[1]][race_id]"
+			assert page.has_unchecked_field?(
+				"study_subject[subject_races_attributes[1]][race_id]")
+			assert page.has_unchecked_field?(
+				"study_subject[subject_races_attributes[1]][is_primary]")
+		end
+
 	end
 
 end

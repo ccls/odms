@@ -6,67 +6,53 @@ class ContactsJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 
 #	contacts#show
 
+#	jQuery('a.toggle_historic_addressings').togglerFor('.addressings .historic');
+#	jQuery('a.toggle_historic_phone_numbers').togglerFor('.phone_numbers .historic');
+
+##Capybara::ElementNotFound: no link with title, id or text '.toggle_eligibility_criteria' found
+##			click_link '.toggle_eligibility_criteria'
+
+		test "contacts#show should not have toggle_historic_addressings link" <<
+				" without historic addressings and with #{cu} login" do
+			addressing = Factory(:addressing,:current_address => YNDK[:yes])
+			login_as send(cu)
+			page.visit study_subject_contacts_path(addressing.study_subject)
+			assert page.has_no_css?('a.toggle_historic_addressings')
+			assert page.has_css?('div.addressings div.historic', :visible => false)
+		end
+
+		test "contacts#show should not have toggle_historic_phone_numbers link" <<
+				" without historic phone_numbers and with #{cu} login" do
+			phone_number = Factory(:phone_number,:current_phone => YNDK[:yes])
+			login_as send(cu)
+			page.visit study_subject_contacts_path(phone_number.study_subject)
+			assert page.has_no_css?('a.toggle_historic_phone_numbers')
+			assert page.has_css?('div.phone_numbers div.historic', :visible => false)
+		end
+
 		test "contacts#show should toggle historic addresses with #{cu} login" do
-#			login_as send(cu)
+			addressing = Factory(:addressing,:current_address => YNDK[:no])
+			login_as send(cu)
+			page.visit study_subject_contacts_path(addressing.study_subject)
+			assert page.has_css?('a.toggle_historic_addressings')
+			assert page.has_css?('div.addressings div.historic', :visible => false)
+			find('a.toggle_historic_addressings').click
+			assert page.has_css?('div.addressings div.historic', :visible => true)
+			find('a.toggle_historic_addressings').click
+			assert page.has_css?('div.addressings div.historic', :visible => false)
 		end
 
 		test "contacts#show should toggle historic phone_numbers with #{cu} login" do
-#			login_as send(cu)
+			phone_number = Factory(:phone_number,:current_phone => YNDK[:no])
+			login_as send(cu)
+			page.visit study_subject_contacts_path(phone_number.study_subject)
+			assert page.has_css?('a.toggle_historic_phone_numbers')
+			assert page.has_css?('div.phone_numbers div.historic', :visible => false)
+			find('a.toggle_historic_phone_numbers').click
+			assert page.has_css?('div.phone_numbers div.historic', :visible => true)
+			find('a.toggle_historic_phone_numbers').click
+			assert page.has_css?('div.phone_numbers div.historic', :visible => false)
 		end
-
-#	phone_number#edit
-#
-#		test "phone_number#edit should show why_invalid when is_valid is changed to 'No' with #{cu} login" do
-#			phone_number = Factory(:phone_number)
-#			login_as send(cu)
-#			page.visit edit_phone_number_path(phone_number)
-#			assert page.has_field?('phone_number[why_invalid]', :visible => false)
-#			select "No", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => true)
-#			select "", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => false)
-#			select "No", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => true)
-#		end
-#
-#		test "phone_number#edit should show why_invalid when is_valid is changed to 'Don't Know' with #{cu} login" do
-#			phone_number = Factory(:phone_number)
-#			login_as send(cu)
-#			page.visit edit_phone_number_path(phone_number)
-#			assert page.has_field?('phone_number[why_invalid]', :visible => false)
-#			select "Don't Know", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => true)
-#			select "", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => false)
-#			select "Don't Know", :from => 'phone_number[is_valid]'
-#			assert page.has_field?('phone_number[why_invalid]', :visible => true)
-#		end
-#
-#		test "phone_number#edit should show how_verified when is_verified is checked with #{cu} login" do
-#			phone_number = Factory(:phone_number)
-#			login_as send(cu)
-#			page.visit edit_phone_number_path(phone_number)
-#			assert page.has_field?('phone_number[how_verified]', :visible => false)
-#			check 'phone_number[is_verified]'
-#			assert page.has_field?('phone_number[how_verified]', :visible => true)
-#			uncheck 'phone_number[is_verified]'
-#			assert page.has_field?('phone_number[how_verified]', :visible => false)
-#			check 'phone_number[is_verified]'
-#			assert page.has_field?('phone_number[how_verified]', :visible => true)
-#		end
-#
-#		test "phone_number#edit should show data_source_other when 'Other Source' data_source is selected with #{cu} login" do
-#			phone_number = Factory(:phone_number)
-#			login_as send(cu)
-#			page.visit edit_phone_number_path(phone_number)
-#			assert page.has_field?('phone_number[data_source_other]', :visible => false)
-#			select "Other Source", :from => 'phone_number[data_source_id]'
-#			assert page.has_field?('phone_number[data_source_other]', :visible => true)
-#			select "", :from => 'phone_number[data_source_id]'
-#			assert page.has_field?('phone_number[data_source_other]', :visible => false)
-#			select "Other Source", :from => 'phone_number[data_source_id]'
-#			assert page.has_field?('phone_number[data_source_other]', :visible => true)
-#		end
 
 	end
 

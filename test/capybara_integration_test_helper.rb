@@ -119,8 +119,11 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		#	I'd rather just loop through all the models, but there are a couple oddballs
 		#	from use_db that may cause issues.  Still polishing this one.
 		#	wonder what's gonna happen for modelless tables (roles_users)
+#
+#	Perhaps Shared.subclasses?
+#
 		[Address,Addressing,AddressType,County,Context,ContextDataSource,DataSource,
-			PhoneNumber,PhoneType,StudySubject,ZipCode,
+			Enrollment,Patient,PhoneNumber,PhoneType,StudySubject,ZipCode,
 			Guide,Page,Role,User].each do |model|
 			model.saved_connection = model.connection
 		end
