@@ -6,9 +6,6 @@ class ContactsJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 
 #	contacts#show
 
-#	jQuery('a.toggle_historic_addressings').togglerFor('.addressings .historic');
-#	jQuery('a.toggle_historic_phone_numbers').togglerFor('.phone_numbers .historic');
-
 ##Capybara::ElementNotFound: no link with title, id or text '.toggle_eligibility_criteria' found
 ##			click_link '.toggle_eligibility_criteria'
 

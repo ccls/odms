@@ -19,6 +19,19 @@ class NonwaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrati
 
 			fill_in "study_subject[addressings_attributes][0][address_attributes][zip]",  
 				:with => "17857"
+			#	I don't think that the change event get triggered correctly
+			#	in the test environment.
+			#
+			#	This may happen as the browser
+			#	actually exists and perhaps me coding while the browser is trying to
+			#	test takes focus away from it?  Can I force the browser into the background?
+			#
+			#	maybe "change" isn't the appropriate event trigger for this?
+			#	explicitly trigger the change event.
+			#	If the user running the tests is using the machine,
+			#	it can inhibit this test.  Don't know why.
+			#	It will send a blank zip code which will result in
+			#	no field updates.
 			page.execute_script("$('#study_subject_addressings_attributes_0_address_attributes_zip').change()" );
 			sleep 1
 
