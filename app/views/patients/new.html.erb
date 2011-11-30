@@ -1,9 +1,9 @@
-<% content_for :id_bar do %>
-<%= link_to( 'Create', nil, {
+<%# content_for :id_bar do %>
+<%#= link_to( 'Create', nil, {
 	:id => "for_new_patient",
 	:class => :submitter
 }) %>
-<% end %>
+<%# end %>
 
 <% form_for(@patient,
 	:url => study_subject_patient_path(@study_subject),

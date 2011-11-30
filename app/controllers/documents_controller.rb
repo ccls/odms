@@ -1,5 +1,7 @@
 class DocumentsController < ApplicationController
 
+	layout 'subject'
+
 #	before_filter :may_create_documents_required,
 #		:only => [:new,:create]
 	before_filter :may_read_documents_required,

@@ -1,23 +1,34 @@
 <%# stylesheets('edit_enrollment','base/jquery.ui.all.css') %>
 <% stylesheets('edit_enrollment') %>
-<% sub_menu_for(@enrollment.study_subject) %>
 
-<% content_for :id_bar do %>
-<%= link_to( 'Save', nil, {
+<% @study_subject ||= @enrollment.study_subject %>
+
+<%# sub_menu_for(@enrollment.study_subject) %>
+<% sub_menu_for(@study_subject) %>
+
+<%# content_for :id_bar do %>
+<%#= link_to( 'Save', nil, {
 	:id => "for_#{dom_id(@enrollment,:edit)}",
 	:class => :submitter
 }) %>
-<% end %>
-<% id_bar_for(@enrollment.study_subject) %>
+<%# end %>
 
-
+<%# id_bar_for(@enrollment.study_subject) %>
+<% id_bar_for(@study_subject) %>
 
 <% form_for(@enrollment,
 	:url => enrollment_path(@enrollment),
 	:html => { :class => 'confirm' }) do |f| %>
-<%= f.error_messages %>
 
-<p>Study name: <%= @enrollment.project.code.titleize -%></p>
+<div class='subject_control_bar'>
+<h3>Study name: <%= @enrollment.project.code.titleize -%></h3>
+<div class='buttons'>
+<%= link_to 'Cancel', study_subject_enrollments_path(@study_subject) %>&nbsp;
+<%= f.submit 'Save' %>
+</div><!-- class='buttons' -->
+</div>
+
+<%= f.error_messages %>
 
 <%= f.wrapped_y_n_dk_select :is_candidate,
 	:label_text => 'is candidate?' %>

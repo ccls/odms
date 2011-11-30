@@ -138,6 +138,9 @@ div#guidance {
 	border-bottom-right-radius: 15px;
 }
 
+/*
+	This is the button control bar on the dashboards
+*/
 .control_bar {
 	text-align:right;
 }
@@ -153,6 +156,18 @@ div#guidance {
 }
 .control_bar a.current {
 	background-color: #FFF;
+}
+
+
+/*
+	This is the form title, cancel, save stuff
+*/
+.subject_control_bar > * {
+	display:inline-block;
+	margin: 15px 0;
+}
+.subject_control_bar > .buttons {
+	float:right;
 }
 
 

@@ -2,21 +2,27 @@
 <% javascripts('consent') %>
 <% sub_menu_for(@enrollment.study_subject) %>
 
-<% content_for :id_bar do %>
-<%= link_to 'Cancel', study_subject_consent_path(@study_subject) 
--%>&nbsp;<%= link_to( 'Save', nil, {
+<%# content_for :id_bar do %>
+<%#= link_to 'Cancel', study_subject_consent_path(@study_subject) 
+-%><%#= link_to( 'Save', nil, {
 	:id => "for_#{dom_id(@enrollment,:edit)}",	#	for_FORM_ID
 	:class => :submitter
 }) %>
-<% end if current_user.may_edit_enrollments? %>
+<%# end if current_user.may_edit_enrollments? %>
 
 <% id_bar_for(@enrollment.study_subject) %>
-
-<h3>Study Consent Info</h3>
 
 <% form_for(@enrollment,
 	:url => study_subject_consent_path(@study_subject),
 	:html => { :class => 'enrollment confirm' }) do |f| %>
+
+<div class='subject_control_bar'>
+<h3>Study Consent Info</h3>
+<div class='buttons'>
+<%= link_to 'Cancel', study_subject_consent_path(@study_subject) %>&nbsp;
+<%= f.submit 'Save' %>
+</div><!-- class='buttons' -->
+</div>
 
 <%= f.error_messages %>
 

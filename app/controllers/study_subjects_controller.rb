@@ -12,6 +12,7 @@ class StudySubjectsController < ApplicationController
 	before_filter :valid_id_required, 
 		:only => [:show,:edit,:update,:destroy]
 
+
 	def find
 #	If this gets much more complex, we may want to consider using something like solr.
 		record_or_recall_sort_order
@@ -84,7 +85,12 @@ class StudySubjectsController < ApplicationController
 		end
 	end
 
+	def edit
+		render :layout => 'subject'
+	end
+
 	def show
+		render :layout => 'subject'
 	end
 
 #	def new

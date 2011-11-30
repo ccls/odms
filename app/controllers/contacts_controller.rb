@@ -1,5 +1,7 @@
 class ContactsController < ApplicationController
 
+	layout 'subject'
+
 	before_filter :may_create_contacts_required,
 		:only => [:new,:create]
 	before_filter :may_read_contacts_required,

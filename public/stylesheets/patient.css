@@ -1,13 +1,17 @@
+/*
 #patient {
 	margin-top: 10px;
 }
+*/
 #patient .field_wrapper > span.label {
 	width: 170px;
 }
 
+/*
 form.edit_patient {
 	margin-top: 20px;
 }
+*/
 form.edit_patient .field_wrapper label {
 	width: 170px;
 /*

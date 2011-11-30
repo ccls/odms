@@ -13,7 +13,14 @@
 <%= wrapped_spans :study_subject, :childid,
 	:label_text => 'Child ID:' %>
 
+<div class='subject_control_bar'>
 <h3>Basic Info</h3>
+<div class='buttons'>
+<%= link_to 'Cancel', study_subject_path( @study_subject) %>&nbsp;
+<%= f.submit 'Save' %>
+</div><!-- class='buttons' -->
+</div>
+
 <% @study_subject.build_pii if @study_subject.pii.nil? %>
 <% @study_subject.build_identifier if @study_subject.identifier.nil? %>
 

@@ -1,10 +1,19 @@
 <% stylesheets('patient') %>
 <% sub_menu_for(@study_subject) %>
 
-<% content_for :id_bar do %>
-<%= link_to 'Edit', edit_study_subject_patient_path(@study_subject) %>
-<% end if current_user.may_edit_patients? %>
+<%# content_for :id_bar do %>
+<%#= link_to 'Edit', edit_study_subject_patient_path(@study_subject) %>
+<%# end if current_user.may_edit_patients? %>
+
 <% id_bar_for(@study_subject) %>
+
+<div class='subject_control_bar'>
+<h3>Patient</h3>
+<div class='buttons'>
+<%= link_to( 'Edit', edit_study_subject_patient_path(@study_subject)
+	) if current_user.may_edit_patients? %>
+</div><!-- class='buttons' -->
+</div>
 
 <div id='patient'>
 <div class='admit_date field_wrapper'>

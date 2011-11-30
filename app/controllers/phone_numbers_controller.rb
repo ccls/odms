@@ -1,5 +1,7 @@
 class PhoneNumbersController < ApplicationController
 
+	layout 'subject'
+
 	before_filter :may_create_phone_numbers_required,
 		:only => [:new,:create]
 	before_filter :may_read_phone_numbers_required,

@@ -1,5 +1,7 @@
 class AddressingsController < ApplicationController
 
+	layout 'subject'
+
 	before_filter :may_create_addressings_required,
 		:only => [:new,:create]
 	before_filter :may_read_addressings_required,

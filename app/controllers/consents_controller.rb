@@ -1,5 +1,7 @@
 class ConsentsController < ApplicationController
 
+	layout 'subject'
+
 #	before_filter :may_create_consents_required,
 #		:only => [:new,:create]
 	before_filter :may_read_consents_required,

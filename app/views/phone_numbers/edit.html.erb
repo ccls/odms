@@ -1,9 +1,9 @@
-<% content_for :id_bar do %>
-<%= link_to 'Save', nil, {
+<%# content_for :id_bar do %>
+<%#= link_to 'Save', nil, {
 	:id => "for_#{dom_id(@phone_number,:edit)}",
 	:class => :submitter
 } %>
-<% end %>
+<%# end %>
 
 <% form_for(@phone_number,
 	:url => phone_number_path(@phone_number),

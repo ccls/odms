@@ -1,5 +1,7 @@
 class EnrollmentsController < ApplicationController
 
+	layout 'subject'
+
 	before_filter :may_create_enrollments_required,
 		:only => [:new,:create]
 	before_filter :may_read_enrollments_required,

@@ -1,11 +1,11 @@
 <% javascripts('new_addressing') %>
 
-<% content_for :id_bar do %>
-<%= link_to( 'Create', nil, {
+<%# content_for :id_bar do %>
+<%#= link_to( 'Create', nil, {
 	:id => "for_new_addressing",
 	:class => :submitter
 }) %>
-<% end %>
+<%# end %>
 
 <% form_for(@addressing,
 	:url => study_subject_addressings_path(@study_subject),

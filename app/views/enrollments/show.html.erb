@@ -1,12 +1,19 @@
 <% stylesheets('enrollment') %>
 <% sub_menu_for(@enrollment.study_subject) %>
 
-<% content_for :id_bar do %>
-<%= link_to 'Edit', edit_enrollment_path(@enrollment) %>
-<% end if current_user.may_edit_enrollments? %>
+<%# content_for :id_bar do %>
+<%#= link_to 'Edit', edit_enrollment_path(@enrollment) %>
+<%# end if current_user.may_edit_enrollments? %>
+
 <% id_bar_for(@enrollment.study_subject) %>
 
-<h4>Study name: <%= @enrollment.project.code.titleize -%></h4>
+<div class='subject_control_bar'>
+<h3>Study name: <%= @enrollment.project.code.titleize -%></h3>
+<div class='buttons'>
+<%= link_to( 'Edit', edit_enrollment_path(@enrollment) 
+	) if current_user.may_edit_enrollments? %>
+</div><!-- class='buttons' -->
+</div>
 
 <% div_for @enrollment do %>
 

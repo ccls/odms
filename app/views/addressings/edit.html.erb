@@ -1,9 +1,9 @@
-<% content_for :id_bar do %>
-<%= link_to( 'Save', nil, {
+<%# content_for :id_bar do %>
+<%#= link_to( 'Save', nil, {
 	:id => "for_#{dom_id(@addressing,:edit)}",
 	:class => :submitter
 }) %>
-<% end %>
+<%# end %>
 
 <% form_for(@addressing,
 	:url => addressing_path(@addressing),

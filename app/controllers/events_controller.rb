@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
 
+	layout 'subject'
+
 #	before_filter :may_create_events_required,
 #		:only => [:new,:create]
 	before_filter :may_read_events_required,

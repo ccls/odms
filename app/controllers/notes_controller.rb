@@ -1,5 +1,7 @@
 class NotesController < ApplicationController
 
+	layout 'subject'
+
 #	before_filter :may_create_notes_required,
 #		:only => [:new,:create]
 	before_filter :may_read_notes_required,

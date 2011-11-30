@@ -2,12 +2,12 @@
 
 <% sub_menu_for(@study_subject) %>
 
-<% content_for :id_bar do %>
-<%= link_to( 'Create', nil, {
+<%# content_for :id_bar do %>
+<%#= link_to( 'Create', nil, {
 	:id => "for_new_enrollment",
 	:class => :submitter
 }) %>
-<% end %>
+<%# end %>
 <% id_bar_for(@study_subject) %>
 
 <% form_for(@enrollment,

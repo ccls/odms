@@ -130,6 +130,7 @@ module ApplicationHelper
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
 			s << [
+				link_to( "back to subjects", dashboard_study_subjects_path ),
 				link_to( "Basic Info", study_subject_path(study_subject),
 					:class => ((current == :general)?'current':nil) ),
 				link_to( "Address &amp; Phone", study_subject_contacts_path(study_subject),
@@ -180,8 +181,11 @@ module ApplicationHelper
 	#	Used to replace the _id_bar partial
 	def subject_id_bar(study_subject,&block)
 		stylesheets('study_subject_id_bar')
-		content_for :main do
+		content_for :subject_header do
 			"<div id='id_bar'>\n" <<
+			"<div class='full_name'>\n" <<
+			"<span>#{study_subject.full_name}</span>\n" <<
+			"</div><!-- class='full_name' -->\n" <<
 #			"<div class='childid'>\n" <<
 #			"<span>ChildID:</span>\n" <<
 #			"<span>#{study_subject.try(:childid)}</span>\n" <<
@@ -196,13 +200,10 @@ module ApplicationHelper
 #			"<span>#{study_subject.try(:studyid)}</span>\n" <<
 			"<span>#{study_subject.studyid}</span>\n" <<
 			"</div><!-- class='studyid' -->\n" <<
-			"<div class='full_name'>\n" <<
-			"<span>#{study_subject.full_name}</span>\n" <<
-			"</div><!-- class='full_name' -->\n" <<
-			"<div class='controls'>\n" <<
-			@content_for_id_bar.to_s <<
-			((block_given?)?yield: '') <<
-			"</div><!-- class='controls' -->\n" <<
+#			"<div class='controls'>\n" <<
+#			@content_for_id_bar.to_s <<
+#			((block_given?)?yield: '') <<
+#			"</div><!-- class='controls' -->\n" <<
 			"</div><!-- id='id_bar' -->\n"
 		end
 

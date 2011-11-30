@@ -1,10 +1,24 @@
 <% stylesheets('edit_phone_number') %>
 <% javascripts('edit_phone_number') %>
 
-<% sub_menu_for(@study_subject||@phone_number.study_subject) %>
-<% id_bar_for(@study_subject||@phone_number.study_subject) %>
+<% @study_subject ||= @phone_number.study_subject %>
 
+<%# sub_menu_for(@study_subject||@phone_number.study_subject) %>
+<%# id_bar_for(@study_subject||@phone_number.study_subject) %>
+<% sub_menu_for(@study_subject) %>
+<% id_bar_for(@study_subject) %>
+
+<div class='subject_control_bar'>
+<% if @phone_number.new_record? %>
+<h3>New Phone Number</h3>
+<% else %>
 <h3>Edit Phone Number</h3>
+<% end %>
+<div class='buttons'>
+<%= link_to 'Cancel', study_subject_contacts_path( @study_subject) %>&nbsp;
+<%= f.submit 'Save' %>
+</div><!-- class='buttons' -->
+</div>
 
 <%= f.error_messages %>
 
