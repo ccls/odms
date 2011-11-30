@@ -8,7 +8,7 @@
 <%# end if current_user.may_edit_enrollments? %>
 <% id_bar_for(@enrollment.study_subject) %>
 
-<div class='subject_control_bar'>
+<div id='subject_control_bar'>
 <h3>Study Consent Info</h3>
 <div class='buttons'>
 <%= link_to( 'Edit', edit_study_subject_consent_path(@study_subject) 

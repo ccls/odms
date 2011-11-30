@@ -141,10 +141,10 @@ div#guidance {
 /*
 	This is the button control bar on the dashboards
 */
-.control_bar {
+#dashboard_control_bar {
 	text-align:right;
 }
-.control_bar a {
+#dashboard_control_bar a {
 	background-color: #EEE;
 	border: 1px solid gray;
 	border-radius: 5px 5px 5px 5px;
@@ -154,7 +154,7 @@ div#guidance {
 	text-align: center;
 	text-decoration: none;
 }
-.control_bar a.current {
+#dashboard_control_bar a.current {
 	background-color: #FFF;
 }
 
@@ -162,12 +162,47 @@ div#guidance {
 /*
 	This is the form title, cancel, save stuff
 */
-.subject_control_bar > * {
+#subject_control_bar > * {
 	display:inline-block;
 	margin: 15px 0;
 }
-.subject_control_bar > .buttons {
+#subject_control_bar > .buttons {
 	float:right;
+}
+#subject_control_bar > .buttons > * {
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	white-space:normal;
+	/* http://css-radius.heroku.com */
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: 1px solid gray;
+	text-decoration: none;
+	color: black;
+
+	background-color: #DDDDDD;
+
+/*
+	background or background-image ???
+*/
+/* for webkit browsers */
+	background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#CCCCCC)); 
+/* for firefox 3.6+  */
+	background: -moz-linear-gradient(top,  #EEEEEE,  #CCCCCC); 
+/* for ie , but doesn't seem to work as expected despite other examples working */
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#EEEEEE', EndColorStr='#CCCCCC');
+}
+/*
+	input and a tags use different box-sizing so need to set 
+		different paddings so that they appear the same
+*/
+#subject_control_bar > .buttons > input {
+	padding: 1px 8px;
+}
+#subject_control_bar > .buttons > a {
+	padding: 2px 8px;
 }
 
 

@@ -159,7 +159,7 @@ module ApplicationHelper
 	end
 
 	def control_bar
-		s  = "<div class='control_bar'>"
+		s  = "<div id='dashboard_control_bar'>"
 		links = []
 		links << link_to( 'dashboard', 
 			{ :controller => params[:controller], :action => :dashboard },

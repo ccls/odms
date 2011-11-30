@@ -7,7 +7,7 @@
 
 <% id_bar_for(@enrollment.study_subject) %>
 
-<div class='subject_control_bar'>
+<div id='subject_control_bar'>
 <h3>Study name: <%= @enrollment.project.code.titleize -%></h3>
 <div class='buttons'>
 <%= link_to( 'Edit', edit_enrollment_path(@enrollment) 
