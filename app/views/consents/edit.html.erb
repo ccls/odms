@@ -3,7 +3,8 @@
 <% sub_menu_for(@enrollment.study_subject) %>
 
 <% content_for :id_bar do %>
-<%= link_to( 'Save', nil, {
+<%= link_to 'Cancel', study_subject_consent_path(@study_subject) 
+-%>&nbsp;<%= link_to( 'Save', nil, {
 	:id => "for_#{dom_id(@enrollment,:edit)}",	#	for_FORM_ID
 	:class => :submitter
 }) %>
