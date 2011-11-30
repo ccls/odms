@@ -1,8 +1,13 @@
 div.eligibility_criteria {
 	border: 1px solid black;
-	background-color: silver;
+	background-color: #DDD;
 	padding: 5px 20px;
 	margin: 10px;
+
+	/* http://css-radius.heroku.com */
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
 }
 .enrollment .field_wrapper .label,
 .enrollment .field_wrapper label {
