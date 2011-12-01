@@ -45,9 +45,9 @@ config.gem 'ccls-html_test'
 config.action_mailer.default_url_options = { 
 	:host => "dev.sph.berkeley.edu:3000" }
 
-#config.gem 'webrat'
-
+config.gem 'webrat'
 config.gem 'capybara'
+config.gem 'capybara-webkit'
 
 #
 #	Modifications to add FakeSessionsController solely for integration testing

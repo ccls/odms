@@ -12,7 +12,21 @@
 
 require 'capybara/rails'
 
-Capybara.default_driver = :selenium	#	defaults to firefox
+#Capybara.default_driver = :rack_test
+#	Instructions say to set the javascript_driver, but when I did, it made no difference.
+#Capybara.javascript_driver = :webkit
+#	Instead if I set the default_driver, it runs ..
+Capybara.default_driver = :webkit
+#	The first test fails, followed by ...
+#Capybara-webkit server started, listening on port: 51803
+#	Not all javascript tests work, however.
+#	Looks like there is a bit of a problem with the alert/confirm pop-ups.
+#	Will have to investigate these issues, as it would be nice to test javascript without a browser window coming open.
+#	That being said, it would also be nice to test with all possibles so webkit, chrome and firefox
+#		Unfortunately, not all test code is compatible with all the possible drivers.
+
+
+#Capybara.default_driver = :selenium	#	defaults to firefox
 #Capybara.default_driver = :selenium_chrome
 #Capybara.default_driver = :selenium_firefox
 
