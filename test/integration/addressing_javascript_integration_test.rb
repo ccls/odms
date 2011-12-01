@@ -147,7 +147,7 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 #	Do I need this? 
 #		In selenium, the confirm window will cause failures unless dealt with.
 #		In webkit, the confirm window will do nothing making this test pointless.
-#			page.evaluate_script('window.confirm = function() { return false; }')
+			page.evaluate_script('window.confirm = function() { return false; }')
 
 			click_button 'Save'
 
@@ -157,8 +157,13 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 #			create an addressing/address and simply test that none were
 #			actually create because the browser kicked back?
 #
+			#	Without overriding the confirm function, clicking save will submit
+			#		and the current_path would be /study_subjects/:id/addressings
+			#	When confirm returns false, it will stay at same path.
+			#	Essentially, this works by testing that it didn't go anywhere.
+			assert_equal current_path,
+				new_study_subject_addressing_path(study_subject)
 
-puts current_path
 
 			#	This should raise a confirm window which will need dealt with.
 			#	press Cancel by ...
