@@ -6,4 +6,8 @@ class SamplesController < ApplicationController
 	before_filter :valid_study_subject_id_required,
 		:only => [:index]
 
+	def index
+		render :layout => 'subject'
+	end
+
 end
