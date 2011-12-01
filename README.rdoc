@@ -7,7 +7,7 @@
 * gem webkit
 * gem capybara
 * gem selenium-webdriver
-* gem capybara-webkit ??
+* gem capybara-webkit
 
 
 Copyright (c) 2011 [Jake Wendt], released under the MIT license

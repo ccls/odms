@@ -32,8 +32,10 @@ class NonwaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrati
 			#	it can inhibit this test.  Don't know why.
 			#	It will send a blank zip code which will result in
 			#	no field updates.
-			page.execute_script("$('#study_subject_addressings_attributes_0_address_attributes_zip').change()" );
-			sleep 1
+#	When using capybara-webkit, this isn't necessary!  Yay!
+#		If we change back to selenium, this may need uncommented.
+#			page.execute_script("$('#study_subject_addressings_attributes_0_address_attributes_zip').change()" );
+#			sleep 1
 
 			assert_equal 'NORTHUMBERLAND', page.find_field(
 				"study_subject[addressings_attributes][0][address_attributes][city]").value

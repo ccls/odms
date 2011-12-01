@@ -17,6 +17,7 @@ require 'capybara/rails'
 #Capybara.javascript_driver = :webkit
 #	Instead if I set the default_driver, it runs ..
 Capybara.default_driver = :webkit
+#	On my home mac, ...
 #	The first test fails, followed by ...
 #Capybara-webkit server started, listening on port: 51803
 #	Not all javascript tests work, however.
@@ -24,7 +25,10 @@ Capybara.default_driver = :webkit
 #	Will have to investigate these issues, as it would be nice to test javascript without a browser window coming open.
 #	That being said, it would also be nice to test with all possibles so webkit, chrome and firefox
 #		Unfortunately, not all test code is compatible with all the possible drivers.
+#	cannot use switch_to for alert/confirm windows with webkit
 
+#	port install qt4-mac
+#	gem install capybara-webkit
 
 #Capybara.default_driver = :selenium	#	defaults to firefox
 #Capybara.default_driver = :selenium_chrome
