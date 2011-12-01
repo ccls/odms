@@ -8,8 +8,8 @@
 <div id='subject_control_bar'>
 <h3>Study Consent Info</h3>
 <div class='buttons'>
-<%= link_to( 'Edit', edit_study_subject_consent_path(@study_subject) 
-	) if current_user.may_edit_enrollments? %>
+<%= link_to( 'Edit', edit_study_subject_consent_path(@study_subject),
+	:class => 'button' ) if current_user.may_edit_enrollments? %>
 </div><!-- class='buttons' -->
 </div>
 

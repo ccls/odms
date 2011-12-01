@@ -16,8 +16,8 @@
 <div id='subject_control_bar'>
 <h3>Basic Info</h3>
 <div class='buttons'>
-<%= link_to 'Cancel', study_subject_path( @study_subject) %>&nbsp;
-<%= f.submit 'Save' %>
+<%= link_to( 'Cancel', study_subject_path( @study_subject),
+	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
 </div><!-- class='buttons' -->
 </div>
 

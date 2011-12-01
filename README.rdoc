@@ -1,4 +1,13 @@
 = CCLS Operations and Data Management System
 
 
+== Testing requirements
+
+* port qt4-mac
+* gem webkit
+* gem capybara
+* gem selenium-webdriver
+* gem capybara-webkit ??
+
+
 Copyright (c) 2011 [Jake Wendt], released under the MIT license
