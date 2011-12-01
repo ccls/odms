@@ -2,12 +2,19 @@
 	border: 1px solid black;
 	background-color: #E5DBC1;
 	padding: 10px;
-	position:relative;
+//	position:relative;
+}
+#id_bar > div {
+	display:inline-block;
+}
+#id_bar div.id_numbers > div {
+	display:inline-block;
 }
 #id_bar .icf_master_id {
 	display:inline;
 	padding-right: 10px;
 }
+/*
 #id_bar .childid {
 	display:inline;
 	padding-right: 10px;
@@ -21,17 +28,26 @@
 	padding-right: 10px;
 	font-weight: bold;
 }
-#id_bar .controls {
+*/
+#id_bar .full_name {
+	font-weight: bold;
+}
+#id_bar .id_numbers {
+	float:right;
+}
 /*
 	this would randomly and intermittantly fall out of line?
 	so added position:relative to id_bar and 
 	position:absolute and top and right here
 */
+/*
+#id_bar .controls {
 	position:absolute;
 	top:10px;
 	right:10px;
 	display:inline;
 }
+*/
 
 #do_not_contact {
 	text-align:center;
@@ -43,6 +59,7 @@
 }
 
 	/* http://css-radius.heroku.com */
+/*
 #id_bar .controls a {
 	text-align:center;
 	font-size:12pt;
@@ -60,3 +77,4 @@
 #id_bar .controls a:hover {
 	background-color:#EEE;
 }
+*/

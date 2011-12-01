@@ -186,6 +186,7 @@ module ApplicationHelper
 			"<div class='full_name'>\n" <<
 			"<span>#{study_subject.full_name}</span>\n" <<
 			"</div><!-- class='full_name' -->\n" <<
+			"<div class='id_numbers'>" <<
 #			"<div class='childid'>\n" <<
 #			"<span>ChildID:</span>\n" <<
 #			"<span>#{study_subject.try(:childid)}</span>\n" <<
@@ -204,6 +205,7 @@ module ApplicationHelper
 #			@content_for_id_bar.to_s <<
 #			((block_given?)?yield: '') <<
 #			"</div><!-- class='controls' -->\n" <<
+			"</div><!-- class='id_numbers' -->\n" <<
 			"</div><!-- id='id_bar' -->\n"
 		end
 
