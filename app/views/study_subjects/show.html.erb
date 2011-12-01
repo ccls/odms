@@ -1,10 +1,6 @@
 <% stylesheets(:study_subject) %>
 <% sub_menu_for(@study_subject) %>
 
-<%# content_for :id_bar do %>
-<%#= link_to "edit", edit_study_subject_path(@study_subject) %>
-<%# end if current_user.may_edit_study_subjects? %>
-
 <% id_bar_for(@study_subject) %>
 
 <% content_tag_for( :div, @study_subject ) do %>

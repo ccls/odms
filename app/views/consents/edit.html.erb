@@ -2,14 +2,6 @@
 <% javascripts('consent') %>
 <% sub_menu_for(@enrollment.study_subject) %>
 
-<%# content_for :id_bar do %>
-<%#= link_to 'Cancel', study_subject_consent_path(@study_subject) 
--%><%#= link_to( 'Save', nil, {
-	:id => "for_#{dom_id(@enrollment,:edit)}",	#	for_FORM_ID
-	:class => :submitter
-}) %>
-<%# end if current_user.may_edit_enrollments? %>
-
 <% id_bar_for(@enrollment.study_subject) %>
 
 <% form_for(@enrollment,

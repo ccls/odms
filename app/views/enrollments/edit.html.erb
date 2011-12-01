@@ -1,19 +1,9 @@
-<%# stylesheets('edit_enrollment','base/jquery.ui.all.css') %>
 <% stylesheets('edit_enrollment') %>
 
 <% @study_subject ||= @enrollment.study_subject %>
 
-<%# sub_menu_for(@enrollment.study_subject) %>
 <% sub_menu_for(@study_subject) %>
 
-<%# content_for :id_bar do %>
-<%#= link_to( 'Save', nil, {
-	:id => "for_#{dom_id(@enrollment,:edit)}",
-	:class => :submitter
-}) %>
-<%# end %>
-
-<%# id_bar_for(@enrollment.study_subject) %>
 <% id_bar_for(@study_subject) %>
 
 <% form_for(@enrollment,

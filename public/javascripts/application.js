@@ -12,8 +12,11 @@ jQuery(function(){
 		patients new/edit
 		phone_numbers new/edit
 		study_subjects edit
-*/
+
+In the ODMS layout, this no longer exists.  Just HomeX.
+
 	jQuery('a.submitter').click(submit_form);
+*/
 
 /*
 	form.confirm is used on most edit forms
@@ -35,24 +38,12 @@ var confirm_submission = function(){
 	}
 };
 
-
-/*
-	Gonna try to be more object oriented and also use jquery plugin stuff
+/* 
+	Used in ...
+		consent.js
+		contacts.js
 */
-/*
-	possibly things like ...
-
-	jQuery('a.submitter').formSubmitter();
-	jQuery('a.toggle_eligibility_criteria').togglerFor('.eligibility_criteria');
-
-*/
-
 (function ($){  
-	/* 
-		My first jquery plugin. Used from ...
-			public/javascripts/consent.js
-			public/javascripts/contacts.js
-	*/
 	$.fn.togglerFor = function (toggled_selector) {  
 		/*
 			If 'toggled_selector' is blank, or doesn't exist,
@@ -69,9 +60,8 @@ var confirm_submission = function(){
 
 
 /*
-	used in 
+	Used in ...
 		edit_addressing.js
-
 */
 (function ($){  
 	$.fn.smartShow = function (inoptions) {
@@ -96,40 +86,3 @@ var confirm_submission = function(){
 		});  
 	};  
 })(jQuery);
-
-
-/*
-http://asciicasts.com/episodes/261-testing-javascript-with-jasmine
-var CreditCard = {  
-  cleanNumber: function(number) {  
-    return number.replace(/[- ]/g, "");  
-  },  
-    
-  validNumber: function(number) {  
-    var total = 0;  
-    number = this.cleanNumber(number);  
-    for (var i=number.length-1; i >= 0; i--) {  
-      var n = parseInt(number[i]);  
-      if ((i+number.length) % 2 == 0) {  
-        n = n*2 > 9 ? n*2 - 9 : n*2;  
-      }  
-      total += n;  
-    };  
-    return total % 10 == 0;  
-  }  
-}  
-    (function ($){  
-      $.fn.validateCreditCardNumber = function () {  
-        return this.each(function () {  
-          $(this).blur(function () {  
-            if (!CreditCard.validNumber(this.value)) {  
-              $("#" + this.id + "_error").text("Invalid credit card number.");  
-            }  
-            else {  
-              $("#" + this.id + "_error").text("");  
-            }  
-          });  
-        });  
-      };  
-    })(jQuery);  
-*/
