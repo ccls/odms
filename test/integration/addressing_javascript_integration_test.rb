@@ -140,7 +140,8 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			select 'PA', :from => "addressing[address_attributes][state]"
 			select 'residence', :from => "addressing[address_attributes][address_type_id]"
 
-			click_link 'Create'
+#			click_link 'Create'
+			click_button 'Save'
 
 			#	This should raise a confirm window which will need dealt with.
 			#	press Cancel by ...
