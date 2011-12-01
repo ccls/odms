@@ -32,6 +32,8 @@
 	edit_study_subject_consent_path(@study_subject),
 	:class => 'toggle_eligibility_criteria' %></p>
 
+
+
 <div style='display:none' class='eligibility_criteria'>
 
 <p>This is gonna be very unconventional.  I'm gonna need to add explicit
@@ -41,18 +43,19 @@ Unless, I make this edit the subject instead?</p>
 
 <p>CASE ONLY:was_under_15_at_dx Is this patient under age 15? Yes / No</p>
 
-<p>Language of parent or caretaker: </p>
-<p>English (eligible)</p>
-<p>Spanish (eligible)</p>
-<p>Other (not eligible)</p>
-<p>specify: </p>
-<%#= subject_languages_select %>
+<% fields_for @study_subject do |s| %>
+<%= s.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
+<% end %>
 
 <p>CASE ONLY:was_previously_treated Has this patient received previous treatment for leukemia or another cancer at any institution? Yes / No</p>
 
 <p>CASE ONLY:was_ca_resident_at_diagnosis Does the patient currently reside in California? Yes / No</p>
 
 </div>
+
+
+
+
 
 
 <%= f.wrapped_y_n_dk_select :consented,
@@ -76,10 +79,6 @@ Unless, I make this edit the subject instead?</p>
 	:label_text => 'consent version:' %>
 </div><!-- id='subject_refused' -->
 
-<br/>
-<br/>
-<br/>
-<p>these appear to be all new fields ...</p>
 <hr/>
 <div>
 <p>Hospital Consent Opt-Outs</p>

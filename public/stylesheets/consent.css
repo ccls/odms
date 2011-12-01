@@ -55,3 +55,7 @@ form.enrollment .document_version_id {
 	vertical-align:top;
 }
 
+div#study_subject_languages > div {
+	vertical-align:top;
+	display:inline-block;
+}

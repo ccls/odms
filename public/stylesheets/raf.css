@@ -94,4 +94,9 @@ form.raf .field_wrapper span.label,
 form.raf .field_wrapper label {
 	width: 160px;
 }
-
+div.languages_label,
+div#languages,
+div.subject_language {
+	vertical-align:top;
+	display:inline-block;
+}
