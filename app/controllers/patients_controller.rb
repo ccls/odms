@@ -33,6 +33,7 @@ class PatientsController < ApplicationController
 
 	def show
 		if !@study_subject.is_case?
+			flash.now[:error] = "Hospital data is valid for case subjects only"
 			render :action => 'not_case' 
 		elsif( ( @patient = @study_subject.patient ).nil? )
 			access_denied("Valid patient required!",
