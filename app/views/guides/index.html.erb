@@ -10,4 +10,5 @@
 Sorry, no guides yet.
 <% end %>
 
-<p><%= button_link_to "Create new guide", new_guide_path %></p>
+<p><%= link_to( "Create new guide", new_guide_path,
+	:class => 'button' ) %></p>

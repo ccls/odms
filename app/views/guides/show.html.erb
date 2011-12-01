@@ -13,6 +13,5 @@
   <%=sanitize(textilize(@guide.body)) %>
 </div>
 
-
-<%= link_to 'Edit', edit_guide_path(@guide) %> |
-<%= link_to 'Back', guides_path %>
+<%= link_to( 'Edit', edit_guide_path(@guide), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', guides_path, :class => 'button' ) %>

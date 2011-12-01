@@ -4,6 +4,6 @@
   <%= render 'form', :f => f %>
   <p>
     <%= f.submit "Create", :id => nil %>&nbsp;
-		<%= button_link_to "Cancel", packages_path %>
+		<%= link_to( "Cancel", packages_path, :class => 'button' ) %>
   </p>
 <% end %>

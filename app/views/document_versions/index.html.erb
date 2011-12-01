@@ -7,4 +7,5 @@
 Sorry, no document_versions yet.
 <% end %>
 
-<p><%= button_link_to 'Create new document_version', new_document_version_path %></p>
+<p><%= link_to( 'Create new document_version', new_document_version_path,
+	:class => 'button' ) %></p>
