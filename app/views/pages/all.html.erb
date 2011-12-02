@@ -24,11 +24,12 @@
     <%= link_to page.title(session[:locale]), page -%>
    </td>
    <td class='manage'>
-    <%= link_to "Edit", edit_page_path(page), :class => 'button' -%>&nbsp;
-    <% destroy_link_to "Destroy", page_path(page) do %>
+    <%= link_to( "Edit", edit_page_path(page), :class => 'button' 
+		)-%>&nbsp;<% 
+		destroy_link_to "Destroy", page_path(page) do %>
      <%= hidden_field_tag 'confirm', "Destroy page '#{page}'?", 
 	   :id => nil %>
-     <%= submit_link_to 'Destroy' %>
+     <%#= submit_link_to 'Destroy' %>
     <% end %>
    </td>
   <% end %><%# tr %>

@@ -45,13 +45,13 @@
   <td>
    <% destroy_link_to "Destroy", bc_request_path(bc_request) do %>
     <%= hidden_field_tag 'confirm', "Destroy bc_request '#{bc_request}'?", :id => nil %>
-    <%= submit_link_to('Destroy') %>
+    <%#= submit_link_to('Destroy') %>
    <% end %>
   </td>
   <td>
    <% form_link_to 'Wait', update_status_bc_request_path(bc_request), 'method' => 'put' do %>
     <%= hidden_field_tag :status, 'waitlist' %>
-    <%= submit_link_to('Wait') %>
+    <%#= submit_link_to('Wait') %>
    <% end %>
   </td>
   <td><%= link_to study_subject.studyid, study_subject %></td>
@@ -91,7 +91,7 @@
   <td>
    <% form_link_to 'Activate', update_status_bc_request_path(bc_request), 'method' => 'put' do %>
     <%= hidden_field_tag :status, 'active' %>
-    <%= submit_link_to('Activate') %>
+    <%#= submit_link_to('Activate') %>
    <% end %>
 
 
