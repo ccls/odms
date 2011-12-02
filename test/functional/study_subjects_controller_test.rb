@@ -491,7 +491,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should update with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
@@ -597,7 +597,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT update with #{cu} login" <<
 			" and invalid" do
-			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
@@ -614,7 +614,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT update with #{cu} login" <<
 			" and save fails" do
-			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
@@ -630,7 +630,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should NOT update without subject_type_id with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
@@ -645,7 +645,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should NOT update without race_id with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 pending	#	TODO
 #			assert_difference('StudySubject.count',0){
@@ -661,7 +661,7 @@ pending	#	TODO
 		end
 	
 		test "should NOT update without valid subject_type_id with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
@@ -676,7 +676,7 @@ pending	#	TODO
 		end
 	
 		test "should NOT update without valid race_id with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 pending	#	TODO
 #			assert_difference('StudySubject.count',0){
@@ -696,7 +696,7 @@ pending	#	TODO
 	non_site_editors.each do |cu|
 
 		test "should NOT update with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
@@ -745,7 +745,7 @@ pending	#	TODO
 	end
 
 	test "should NOT update without login" do
-		study_subject = create_study_subject(:updated_at => Chronic.parse('yesterday'))
+		study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 		assert_difference('StudySubject.count',0){
 		assert_difference('SubjectType.count',0){
 		assert_difference('Race.count',0){

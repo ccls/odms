@@ -69,7 +69,7 @@ class DocumentVersionsControllerTest < ActionController::TestCase
 #		end
 #
 #		test "should NOT update document_version with #{cu} login when update fails" do
-#			document_version = create_document_version(:updated_at => Chronic.parse('yesterday'))
+#			document_version = create_document_version(:updated_at => ( Time.now - 1.day ) )
 #			DocumentVersion.any_instance.stubs(:create_or_update).returns(false)
 #			login_as send(cu)
 #			deny_changes("DocumentVersion.find(#{document_version.id}).updated_at") {
@@ -83,7 +83,7 @@ class DocumentVersionsControllerTest < ActionController::TestCase
 #		end
 #
 #		test "should NOT update document_version with #{cu} login and invalid document_version" do
-#			document_version = create_document_version(:updated_at => Chronic.parse('yesterday'))
+#			document_version = create_document_version(:updated_at => ( Time.now - 1.day ) )
 #			DocumentVersion.any_instance.stubs(:valid?).returns(false)
 #			login_as send(cu)
 #			deny_changes("DocumentVersion.find(#{document_version.id}).updated_at") {

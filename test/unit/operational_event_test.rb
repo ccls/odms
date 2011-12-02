@@ -110,10 +110,11 @@ protected
 	end
 
 	def create_occurred_on_objects
+		today = Date.today
 		create_objects(
-			{ :occurred_on => Chronic.parse('last month') },
-			{ :occurred_on => Chronic.parse('last year') },
-			{ :occurred_on => Chronic.parse('last week') }
+			{ :occurred_on => ( today - 1.month ) },
+			{ :occurred_on => ( today - 1.year ) },
+			{ :occurred_on => ( today - 1.week ) }
 		)
 	end
 
