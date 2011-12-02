@@ -34,6 +34,8 @@
 
 
 
+<%# if @study_subject.is_case? %>
+
 <div style='display:none' class='eligibility_criteria'>
 <p>This is gonna be very unconventional.  I'm gonna need to add explicit
 fields and they'll need to be special saves in the controller
@@ -56,6 +58,8 @@ In the import data, they are nil,1,2,9</p>
 	) unless @patient.nil? %>
 <% end %><%# fields_for @patient do |p| %>
 </div><!-- class='eligibility_criteria' -->
+
+<%# end %><%# if @study_subject.is_case? %>
 
 
 

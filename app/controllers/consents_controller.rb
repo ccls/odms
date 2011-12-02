@@ -17,7 +17,7 @@ class ConsentsController < ApplicationController
 
 	def show
 		if @study_subject.subject_type == SubjectType['Mother']
-			flash.now[:error] = "This is a mother subject. Eligibility data is only collected for child subjects. Please go to the record for the subject's child for details."
+#			flash.now[:error] = "This is a mother subject. Eligibility data is only collected for child subjects. Please go to the record for the subject's child for details."
 			render :action => 'show_mother'
 		else
 			@enrollment = @study_subject.enrollments.find_or_create_by_project_id(

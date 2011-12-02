@@ -184,8 +184,10 @@ class EnrollmentsControllerTest < ActionController::TestCase
 #			assert_not_nil ccls_enrollment
 			mother = Factory(:mother_study_subject)
 			get :index, :study_subject_id => mother.id
-			assert_not_nil flash[:error]
-			assert_match /This is a mother subject. .*data is only collected for child subjects. Please go to the record for the subject's child for details/, flash[:error]
+#			assert_not_nil flash[:error]
+#			assert_match /This is a mother subject. .*data is only collected for child subjects. Please go to the record for the subject's child for details/, flash[:error]
+			assert_nil flash[:error]
+			assert_match /data is only collected for child subjects. Please go to the record for the subject's child for details/, @response.body
 			assert_response :success
 			assert_template 'index_mother'
 		end

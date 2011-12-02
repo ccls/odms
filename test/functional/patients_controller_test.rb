@@ -54,9 +54,12 @@ class PatientsControllerTest < ActionController::TestCase
 			study_subject = create_control_study_subject
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
-			assert_not_nil flash[:error]
-			assert_equal flash[:error],
-				"Hospital data is valid for case subjects only"
+#			assert_not_nil flash[:error]
+#			assert_equal flash[:error],
+#				"Hospital data is valid for case subjects only"
+			assert_nil flash[:error]
+			assert_match /Hospital data is valid for case subjects only/,
+				@response.body
 			assert_template 'not_case'
 		end
 
@@ -64,9 +67,12 @@ class PatientsControllerTest < ActionController::TestCase
 			study_subject = create_mother_study_subject
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
-			assert_not_nil flash[:error]
-			assert_equal flash[:error],
-				"Hospital data is valid for case subjects only"
+#			assert_not_nil flash[:error]
+#			assert_equal flash[:error],
+#				"Hospital data is valid for case subjects only"
+			assert_nil flash[:error]
+			assert_match /Hospital data is valid for case subjects only/,
+				@response.body
 			assert_template 'not_case'
 		end
 
