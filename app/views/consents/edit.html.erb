@@ -38,34 +38,24 @@
 <p>This is gonna be very unconventional.  I'm gonna need to add explicit
 fields and they'll need to be special saves in the controller
 as these fields won't be nested_attributes.</p>
-
+<p>NOTE: This data is not yet saved.</p>
 <% fields_for @patient do |p| %>
-
 <p>Booleans or YNDK?  In the DB they are boolean.  
 In the import data, they are nil,1,2,9</p>
-
 <%= p.wrapped_y_n_dk_select( :was_under_15_at_dx,
 	:label_text => 'Is this patient under age 15?'
 	) unless @patient.nil? %>
-
 <% fields_for @study_subject do |s| %>
 <%= s.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
 <% end %>
-
 <%= p.wrapped_y_n_dk_select( :was_previously_treated,
 	:label_text => 'Has this patient received previous treatment for leukemia or another cancer at any institution?'
 	) unless @patient.nil? %>
-
 <%= p.wrapped_y_n_dk_select( :was_ca_resident_at_diagnosis,
 	:label_text => 'Does the patient currently reside in California?'
 	) unless @patient.nil? %>
-
-
 <% end %><%# fields_for @patient do |p| %>
-
 </div><!-- class='eligibility_criteria' -->
-
-
 
 
 
@@ -92,7 +82,7 @@ In the import data, they are nil,1,2,9</p>
 </div><!-- id='subject_refused' -->
 
 <hr/>
-<div>
+<div id='consent_opt_outs'>
 <p>Hospital Consent Opt-Outs</p>
 <hr/>
 <p>May CCLS use samples ...</p>
