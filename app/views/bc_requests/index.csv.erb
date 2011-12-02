@@ -4,7 +4,7 @@
         somewhere marking it as having a header row, but I don't 
         think that it actually does.
 -%>
-<%= %w( studyid icf_master_id name sex bornincali state_id_no dob ).to_csv(
+<%= ['studyid','icf_master_id','name','sex','Born in CA?','state_id_no','dob'].to_csv(
   :headers => true) -%>
 <% @bc_requests.each do |bc_request| -%>
 <% study_subject = bc_request.study_subject -%>
