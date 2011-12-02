@@ -1,9 +1,15 @@
 .study_subject .field_wrapper span.label {
 	width: 170px;
 }
+.study_subject .state_id_no.field_wrapper span.label {
+	width: auto;
+}
 form.edit_study_subject .field_wrapper span.label,
 form.edit_study_subject .field_wrapper label {
 	width: 140px;
+}
+form.edit_study_subject .field_wrapper.state_id_no span.label {
+	width: auto;
 }
 form.edit_study_subject .field_wrapper.reference_date span.label,
 form.edit_study_subject .field_wrapper.reference_date label {
@@ -27,11 +33,6 @@ form.edit_study_subject div.sex {
 	display:inline;
 }
 
-	/* otherwise, gets caught on dob fields */
-/*form.edit_study_subject div.race_wrapper {
-	clear:left;
-}
-*/
 form.edit_study_subject div.race_wrapper > * {
 	display:inline-block;
 	vertical-align:top;
@@ -44,9 +45,6 @@ form.edit_study_subject div.name > label {
 	width: 60px;
 }
 form.edit_study_subject div.name div.field_wrapper {
-/*
-	clear:none;
-*/
 	margin-bottom: 0px;
 }
 form.edit_study_subject div.name div.field_wrapper label {

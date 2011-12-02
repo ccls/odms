@@ -60,6 +60,9 @@
 		:label_text => 'local registrar no:' %>
 <% end %>
 
+<%= wrapped_spans :study_subject, :state_id_no,
+	:label_text => 'state id no (for legacy subjects):' %>
+
 <%= wrapped_date_spans :study_subject, :reference_date,
 	:label_text => 'admit (reference) date:' %>
 
