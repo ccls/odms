@@ -78,35 +78,44 @@ ActionView::Helpers::FormBuilder.class_eval do
 		language_ids = @template.params.dig('study_subject','subject_languages_attributes').try(
 			:collect) { |l| l[1]['language_id'] }
 
+#
+#	TODO would be nice, but not currently needed, to have a label option.
+#	TODO this is now on the consent form so may need to add the _destroy ability
+#			similar to the race selector above.
+#
+
 		s =  "<div id='study_subject_languages'>"
 		s << "<div class='languages_label'>Language of parent or caretaker:</div>\n"
 		s << "<div id='languages'>\n"
-
 		languages.each do |l|
 			sl = self.object.subject_languages.detect{|sl|sl.language_id == l.id } ||
 				self.object.subject_languages.build(:language => l)
 			s << "<div class='subject_language'>"
 			self.fields_for( :subject_languages, sl ) do |sl_fields|
-				s << "<div id='other_language'>" if( l.key == 'other' )
+#				s << "<div id='other_language'>" if( l.key == 'other' )
+				s << "<div id='other_language'>" if( l.is_other? )
 				s << sl_fields.check_box( :language_id, {
 					:checked => language_ids.include?(sl_fields.object.language_id.to_s),
 				}, sl_fields.object.language_id, '' ) << "\n"
 
 				label = sl_fields.object.language.key.dup.capitalize
-				label << (( l.key == 'other' ) ? ' (not eligible)' : ' (eligible)')
+#				label << (( l.key == 'other' ) ? ' (not eligible)' : ' (eligible)')
+				label << (( l.is_other? ) ? ' (not eligible)' : ' (eligible)')
 				s << sl_fields.label( :language_id, label ) << "\n"
-				if( l.key == 'other' )
+#				if( l.key == 'other' )
+				if( l.is_other? )
 					s << "<div id='specify_other_language'>"
 					s << sl_fields.label( :other, 'specify:' ) << "\n"
 					s << sl_fields.text_field( :other, :size => 12 ) << "\n"
 					s << "</div>"	# id='other_language'>"
 				end
-				s << "</div>"	if( l.key == 'other' ) # id='other_language'>" 
+#				s << "</div>"	if( l.key == 'other' ) # id='other_language'>" 
+				s << "</div>"	if( l.is_other? ) # id='other_language'>" 
 			end
-			s << "</div>"	# class='subject_language'>"
+			s << "</div>\n"	# class='subject_language'>"
 		end
 		s << "</div>\n"	#	languages
-		s << "</div>\n"	#	study_subject_languages
+		s << "</div><!-- study_subject_languages -->\n"	#	study_subject_languages
 	end
 
 end

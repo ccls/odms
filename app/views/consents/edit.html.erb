@@ -35,23 +35,35 @@
 
 
 <div style='display:none' class='eligibility_criteria'>
-
 <p>This is gonna be very unconventional.  I'm gonna need to add explicit
 fields and they'll need to be special saves in the controller
-as these fields won't be nested_attributes.
-Unless, I make this edit the subject instead?</p>
+as these fields won't be nested_attributes.</p>
 
-<p>CASE ONLY:was_under_15_at_dx Is this patient under age 15? Yes / No</p>
+<% fields_for @patient do |p| %>
+
+<p>Booleans or YNDK?  In the DB they are boolean.  
+In the import data, they are nil,1,2,9</p>
+
+<%= p.wrapped_y_n_dk_select( :was_under_15_at_dx,
+	:label_text => 'Is this patient under age 15?'
+	) unless @patient.nil? %>
 
 <% fields_for @study_subject do |s| %>
 <%= s.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
 <% end %>
 
-<p>CASE ONLY:was_previously_treated Has this patient received previous treatment for leukemia or another cancer at any institution? Yes / No</p>
+<%= p.wrapped_y_n_dk_select( :was_previously_treated,
+	:label_text => 'Has this patient received previous treatment for leukemia or another cancer at any institution?'
+	) unless @patient.nil? %>
 
-<p>CASE ONLY:was_ca_resident_at_diagnosis Does the patient currently reside in California? Yes / No</p>
+<%= p.wrapped_y_n_dk_select( :was_ca_resident_at_diagnosis,
+	:label_text => 'Does the patient currently reside in California?'
+	) unless @patient.nil? %>
 
-</div>
+
+<% end %><%# fields_for @patient do |p| %>
+
+</div><!-- class='eligibility_criteria' -->
 
 
 

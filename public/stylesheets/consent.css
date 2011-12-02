@@ -55,6 +55,14 @@ form.enrollment .document_version_id {
 	vertical-align:top;
 }
 
+form.enrollment .eligibility_criteria .field_wrapper > * {
+	display:inline;
+}
+form.enrollment .eligibility_criteria label {
+	width: auto;
+	padding-right:10px;
+}
+
 div#study_subject_languages > div {
 	vertical-align:top;
 	display:inline-block;

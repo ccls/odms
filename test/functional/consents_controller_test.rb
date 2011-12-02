@@ -43,11 +43,18 @@ class ConsentsControllerTest < ActionController::TestCase
 			}
 		end
 
+#
+#	Gotta handle cases and non-cases.
+#	Gotta deal with patient fields.
+#	Gotta deal with subject languages.
+#	These multiple models will need to be wrapped in a transaction.
+#
+
 		test "should get edit consent with #{cu} login" do
 			study_subject = Factory(:enrollment).study_subject
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
-			assert assigns(:study_subject)
+			assert_not_nil assigns(:study_subject)
 			assert_not_nil assigns(:enrollment)
 			assert_response :success
 			assert_template 'edit'
