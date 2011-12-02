@@ -1,21 +1,20 @@
 <% content_tag_for( :tr, enrollment, :class => 'row' ) do %>
-<td class='project'>
-<%= link_to enrollment.project.code, 
-	enrollment_path(enrollment) %>
-</td>
-<td class='candidate'>
-<%=y_n_dk enrollment.is_candidate %>
-</td>
-<td class='locate'>
-<%=y_n_dk enrollment.able_to_locate %>
-</td>
-<td class='eligible'>
-<%=y_n_dk enrollment.is_eligible %>
-</td>
-<td class='consented'>
-<%=mdy enrollment.consented_on %>
-</td>
-<td class='completed'>
-<%=mdy enrollment.completed_on %>
-</td>
+ <td class='project'>
+  <%= link_to enrollment.project.code, enrollment_path(enrollment) %>
+ </td>
+ <td class='candidate'>
+  <%=y_n_dk enrollment.is_candidate %>
+ </td>
+ <td class='locate'>
+  <%=y_n_dk enrollment.able_to_locate %>
+ </td>
+ <td class='eligible'>
+  <%=y_n_dk enrollment.is_eligible %>
+ </td>
+ <td class='consented'>
+  <%=mdy enrollment.consented_on %>
+ </td>
+ <td class='completed'>
+  <%=mdy enrollment.completed_on %>
+ </td>
 <% end %>

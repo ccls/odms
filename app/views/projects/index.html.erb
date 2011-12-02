@@ -1,12 +1,11 @@
 <h4>Projects:</h4>
 <% unless @projects.empty? %>
-<table id='projects'><thead><tr>
-<th>Description</th>
-</tr></thead><tbody>
-<%= render :partial => 'project', :collection => @projects %>
-</tbody></table><!-- id='projects' -->
+ <table id='projects'><thead><tr>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'project', :collection => @projects %>
+ </tbody></table><!-- id='projects' -->
 <% else %>
-Sorry, no projects yet.
+ <p>Sorry, no projects yet.</p>
 <% end %>
-
 <p><%= link_to( "Create new projects", new_project_path, :class => 'button' %></p>

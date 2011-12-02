@@ -1,10 +1,9 @@
 <h4>Races:</h4>
 <% unless @races.empty? %>
-<table id='races'><tbody>
-<%= render :partial => 'race', :collection => @races %>
-</tbody></table>
+ <table id='races'><tbody>
+  <%= render :partial => 'race', :collection => @races %>
+ </tbody></table>
 <% else %>
-Sorry, no races yet.
+ <p>Sorry, no races yet.</p>
 <% end %>
-
 <p><%= link_to( 'Create new race', new_race_path, :class => 'button' ) %></p>

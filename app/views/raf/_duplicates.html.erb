@@ -12,53 +12,7 @@
 	:locals => { :f => f } %>
 
 </tbody></table>
-<%#
-
-NOTE to self.  Be advised that pressing enter on a text field will submit
-	the form using the FIRST submit button on the form.  This will now
-	be the "Match Found" submit button.  I don't know if there is a
-	way to set the "default" submit button on a form.  There is no standard
-	defined for this behaviour although I could add some javascript that
-	intercepts the keypress and "clicks" on the .default submit button.
-	No idea whether this would fly across OS and browsers though.  It should
-	as it would be jQuery which is supposed to handle all that jazz.
-
-	I think that it may be better to NOT use multiple buttons, but rather
-	have a radio button in the list for NO MATCH.  
-
-	I need something to determine whether the form is ...
-		... acknowleding a match
-		... acknowleding no match
-		... just resubmitted as noticed a typo or something
-
-$(function() {
-    $("form input").keypress(function (e) {
-        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-// I don't think that 'button[type=submit]' is correct for me as
-// it should just be an 'input[type=submit]'
-            $('button[type=submit] .default').click();
-            return false;
-        } else {
-            return true;
-        }
-    });
-});
-
-
-
-
-	Or, perhaps a better solution.  HIDE all of the form except
-	the duplicates section so that the text fields aren't visible
-	and therefore the user can't press enter from within them.			#	This is my chosen solution.
-
-
-
-
-%>
 <p class='submit_bar'>
-<%# try to minimise the usage of my custom submit links %>
-<%#= f.submit_link_to 'Match Found' %>
-<%#= f.submit_link_to 'No Match' %>
 <%# Default id for submit button is study_subject_submit and having 2 will make the html invalid so must explicitly specify ids here.  Be aware that there is also another submit button on waivered/nonwaivered new forms, but I'll leave that as default id. %>
 <%= f.submit 'Match Found', :id => 'study_subject_submit_match_found' %>
 <%= f.submit 'No Match',    :id => 'study_subject_submit_no_match' %>

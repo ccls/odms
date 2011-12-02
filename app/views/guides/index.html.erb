@@ -1,14 +1,13 @@
 <h4>Guides:</h4>
 <% unless @guides.empty? %>
-<table id='guides'><thead><tr>
-<th>Controller</th>
-<th>Action</th>
-</tr></thead><tbody>
-<%= render :partial => 'guide', :collection => @guides %>
-</tbody></table><!-- id='guides' -->
+ <table id='guides'><thead><tr>
+  <th>Controller</th>
+  <th>Action</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'guide', :collection => @guides %>
+ </tbody></table><!-- id='guides' -->
 <% else %>
-Sorry, no guides yet.
+ <p>Sorry, no guides yet.</p>
 <% end %>
-
 <p><%= link_to( "Create new guide", new_guide_path,
 	:class => 'button' ) %></p>

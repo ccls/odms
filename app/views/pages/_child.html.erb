@@ -14,7 +14,6 @@
 	destroy_link_to "Destroy", page_path(child) do %>
    <%= hidden_field_tag 'confirm', "Destroy page '#{child}'?",
     :id => nil %>
-   <%#= submit_link_to 'Destroy' %>
   <% end %>
  </td>
 <% end %><!-- class='child' -->

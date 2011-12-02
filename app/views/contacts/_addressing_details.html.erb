@@ -38,7 +38,7 @@ What is 'edit' ?
 
 %>
 <% if edit -%>
-<%= link_to 'Edit', edit_addressing_path(addressing) %>
+<%= link_to 'Edit', edit_addressing_path(addressing), :class => 'button' %>
 <% else -%>
 &nbsp;
 <% end -%><%# if defined?(edit) and edit -%>

@@ -1,10 +1,10 @@
 <h4>DocumentVersion:</h4>
 <% form_for(@document_version) do |f| %>
-	<%= f.error_messages %>
-	<%= f.wrapped_text_field :title %>
-	<%= f.wrapped_text_field :description %>
-<%= f.wrapped_collection_select :document_type_id, DocumentType.all, 
-	:id, :to_s, :include_blank => true,
-	:label_text => "Document Type" %>
-	<p><%= f.submit( (@document_version.new_record?)?'Create':'Update' ) %></p>
+ <%= f.error_messages %>
+ <%= f.wrapped_text_field :title %>
+ <%= f.wrapped_text_field :description %>
+ <%= f.wrapped_collection_select :document_type_id, DocumentType.all, 
+  :id, :to_s, :include_blank => true,
+  :label_text => "Document Type" %>
+ <p><%= f.submit( (@document_version.new_record?)?'Create':'Update' ) %></p>
 <% end %>

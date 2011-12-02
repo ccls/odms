@@ -1,15 +1,7 @@
 <h4>New Patient Enrollment</h4>
 
-<!--
-<p>The new RAF is a ...</p>
-<%#= link_to('waivered RAF', new_waivered_path, :class => 'button') %>
-<%#= link_to('non-waivered RAF (e.g. CHLA)', new_nonwaivered_path, :class => 'button') %>
--->
-
 <% form_tag(cases_path,:method => :post) do %>
 <label>Treating Institution</label>
-<%#= select_tag 'study_subject[patient_attributes][organization_id]',
-	options_from_collection_for_select( Hospital.all, :organization_id, :to_s ) %>
 <%= select_tag 'hospital_id',
 	options_from_collection_for_select( 
 		Hospital.all(:include => :organization), :id, :to_s ) %>

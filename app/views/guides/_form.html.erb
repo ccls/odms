@@ -1,14 +1,11 @@
-<% form_for(@guide,
-	:html => { :class => 'edit_guide'} ) do |f| %>
-	<%= f.error_messages %>
-
-	<%= f.wrapped_text_field :controller %>
-	<%= f.wrapped_text_field :action %>
-	<%= f.wrapped_text_area :body, 
-		:label_text => "Body: (uses sanitized #{link_to('textile','http://redcloth.org',:target => 'new')})" %>
-
-<p><%= f.submit( (@guide.new_record?)? "Create" : "Update" )%>
-&nbsp;
+<% form_for(@guide, :html => { :class => 'edit_guide'} ) do |f| %>
+ <%= f.error_messages %>
+ <%= f.wrapped_text_field :controller %>
+ <%= f.wrapped_text_field :action %>
+ <%= f.wrapped_text_area :body, 
+ 	:label_text => "Body: (uses sanitized #{link_to('textile','http://redcloth.org',:target => 'new')})" %>
+<p>
+<%= f.submit( (@guide.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', guides_path, :class => 'button' %>
 </p>
 <% end %>

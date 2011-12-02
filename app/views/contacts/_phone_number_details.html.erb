@@ -31,7 +31,7 @@ What is 'edit' ?
 %>
 <%# if defined?(edit) and edit -%>
 <% if edit -%>
-<%= link_to 'Edit', edit_phone_number_path(phone_number) %>
+<%= link_to 'Edit', edit_phone_number_path(phone_number), :class => 'button' %>
 <% else -%>
 &nbsp;
 <% end -%><%# if defined?(edit) and edit -%>

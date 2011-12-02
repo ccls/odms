@@ -5,23 +5,23 @@
 <h3>Enrollments</h3>
 <% if @study_subject.enrollments.length > 0 %>
 <table id='enrollments'><thead><tr>
-<th class='project'>Study
-</th><!-- class='project' -->
-<th class='candidate'>candidate?
-</th><!-- class='candidate' -->
-<th class='locate'>located?
-</th><!-- class='locate' -->
-<th class='eligible'>eligible?
-</th><!-- class='eligible' -->
-<th class='consented'>consented on
-</th><!-- class='consented' -->
-<th class='completed'>completed on
-</th><!-- class='completed' -->
+ <th class='project'>Study
+ </th><!-- class='project' -->
+ <th class='candidate'>candidate?
+ </th><!-- class='candidate' -->
+ <th class='locate'>located?
+ </th><!-- class='locate' -->
+ <th class='eligible'>eligible?
+ </th><!-- class='eligible' -->
+ <th class='consented'>consented on
+ </th><!-- class='consented' -->
+ <th class='completed'>completed on
+ </th><!-- class='completed' -->
 </tr></thead><tbody>
-<%= render :partial => 'enrollment', 
+ <%= render :partial => 'enrollment', 
 	:collection => @study_subject.enrollments,
 	:locals => { :edit => current_user.may_edit_enrollments? } %>
 </tbody></table><!-- id='enrollments' -->
 <% else %>
-<p>This subject has no enrollments</p>
+ <p>This subject has no enrollments</p>
 <% end %>

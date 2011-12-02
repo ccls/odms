@@ -3,15 +3,14 @@
 
 <h3>Events</h3>
 <% unless @events.empty? %>
-<table id='events'><thead><tr>
-<th><%= sort_link(:occurred_on,'Date') %></th>
-<th><%= sort_link(:project,'Project') %></th>
-<th><%= sort_link(:type,'Event Type') %></th>
-<th><%= sort_link(:description,'Description') %></th>
-</tr></thead><tbody>
-<%= render :partial => 'event', :collection => @events %>
-</tbody>
-</table>
+ <table id='events'><thead><tr>
+  <th><%= sort_link(:occurred_on,'Date') %></th>
+  <th><%= sort_link(:project,'Project') %></th>
+  <th><%= sort_link(:type,'Event Type') %></th>
+  <th><%= sort_link(:description,'Description') %></th>
+ </tr></thead><tbody>
+  <%= render :partial => 'event', :collection => @events %>
+ </tbody></table>
 <% else %>
-<p>This subject has no operational events.</p>
+ <p>This subject has no operational events.</p>
 <% end %>
