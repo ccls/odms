@@ -6,6 +6,10 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 #	consent#edit (shouldn't have a consent#new)
 
+
+#	add tests which tests the subject languages checkboxes on kickbacks
+
+
 		test "should not have toggle eligibility criteria for non-case with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
