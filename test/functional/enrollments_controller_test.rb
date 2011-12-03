@@ -108,7 +108,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 
 		test "should NOT create enrollment with #{cu} login and " <<
 			"invalid enrollment" do
-			e = create_enrollment
+			e = Factory(:enrollment)
 			login_as send(cu)
 			assert_difference('Enrollment.count',0) do
 				post :create, :study_subject_id => e.study_subject.id,
@@ -122,7 +122,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 		end
 
 		test "should create operational event if consented on update with #{cu} login" do
-			enrollment = create_enrollment
+			enrollment = Factory(:enrollment)
 			login_as send(cu)
 			assert_changes("Enrollment.find(#{enrollment.id}).operational_events.count",1) {
 				put :update, :id => enrollment.id,
@@ -171,23 +171,11 @@ class EnrollmentsControllerTest < ActionController::TestCase
 
 		test "should NOT get consents for mother with #{cu} login" do
 			login_as send(cu)
-#			study_subject = mother = nil
-#			assert_difference('Enrollment.count',2) {
-#			assert_difference('StudySubject.count',2) {
-#				study_subject = Factory(:identifier).reload.study_subject
-#				assert_not_nil study_subject.identifier
-#				#	subject currently needs identifier to use create_mother
-#				mother = study_subject.create_mother
-#			} }
-#			assert_not_nil mother
-#			ccls_enrollment = mother.enrollments.find_by_project_id(Project['ccls'].id)
-#			assert_not_nil ccls_enrollment
 			mother = Factory(:mother_study_subject)
 			get :index, :study_subject_id => mother.id
-#			assert_not_nil flash[:error]
-#			assert_match /This is a mother subject. .*data is only collected for child subjects. Please go to the record for the subject's child for details/, flash[:error]
 			assert_nil flash[:error]
-			assert_match /data is only collected for child subjects. Please go to the record for the subject's child for details/, @response.body
+			assert_match /data is only collected for child subjects. Please go to the record for the subject's child for details/, 
+				@response.body
 			assert_response :success
 			assert_template 'index_mother'
 		end
