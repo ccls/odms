@@ -6,6 +6,13 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 #	consent#edit (shouldn't have a consent#new)
 
+		test "should not have toggle eligibility criteria for non-case with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			page.visit edit_study_subject_consent_path(study_subject)
+			assert !page.has_css?('div.eligibility_criteria')
+		end
+
 		#	jQuery('a.toggle_eligibility_criteria').togglerFor('.eligibility_criteria');
 		test "should toggle eligibility criteria with #{cu} login" do
 
