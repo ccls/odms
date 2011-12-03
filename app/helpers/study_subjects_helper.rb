@@ -51,8 +51,15 @@ module StudySubjectsHelper
 				#		because this is 0 and not the race.id, need to change
 				#		some javascript
 
+#
 #	TODO I don't think that the logic is correct in this dig.
 #			I think that it misses the first param
+#			I think that sr_params.dig(race.id.to_s,'_destroy') will be nil
+#				and therefore always checked on kickback.  Better than not though.
+#			Should add a hidden race_id field and then pull that out like in
+#				the recently developed language selector below.
+#			Should actually make this whole selector mimic the language selector.
+#
 
 				s << check_box_tag( "#{prefix}[#{race.id}]][_destroy]", 0, 
 					sr_params.dig(race.id.to_s,'_destroy') || true, 
@@ -102,14 +109,17 @@ ActionView::Helpers::FormBuilder.class_eval do
 			self.fields_for( :subject_languages, sl ) do |sl_fields|
 				s << "<div id='other_language'>" if( l.is_other? )
 
+					label = sl_fields.object.language.key.dup.capitalize
+					label << (( l.is_other? ) ? ' (not eligible)' : ' (eligible)')
+
 				if sl.id.nil?	#	not currently existing subject_language
 					#	If exists, the hidden id tag is actually immediately put in the html stream!
 					#	Don't think that it will be a problem, but erks me.
 					s << sl_fields.check_box( :language_id, {
 						:checked => selected_language_ids.include?(sl.language_id.to_s),
 					}, sl.language_id, '' ) << "\n"
-					label = sl_fields.object.language.key.dup.capitalize
-					label << (( l.is_other? ) ? ' (not eligible)' : ' (eligible)')
+#					label = sl_fields.object.language.key.dup.capitalize
+#					label << (( l.is_other? ) ? ' (not eligible)' : ' (eligible)')
 					s << sl_fields.label( :language_id, label ) << "\n"
 				else	#	language exists, this is for possible destruction
 					#	check_box(object_name, method, options = {}, 
@@ -121,19 +131,21 @@ ActionView::Helpers::FormBuilder.class_eval do
 					#	KEEP ME for finding _destroy!
 					s << sl_fields.hidden_field( :language_id, :value => sl.language_id )
 
-# {"study_subject"=>{"subject_languages_attributes"=>{"0"=>{"id"=>"1", "language_id"=>"1", "_destroy"=>"0"}, "1"=>{"language_id"=>""}, "2"=>{"language_id"=>"", "other"=>""}}}
+#	sl_params ...
+# {"0"=>{"id"=>"1", "language_id"=>"1", "_destroy"=>"0"}, "1"=>{"language_id"=>""}, "2"=>{"language_id"=>"", "other"=>""}}
 
 					attrs = sl_params.detect{|p| p[1]['language_id'] == sl.language_id.to_s }
 #					["0", {"id"=>"1", "language_id"=>"1", "_destroy"=>"1"}]
 
+					#	only uncheck the checkbox if it was unchecked.
 					language_checked = ( !attrs.nil? and attrs[1].has_key?('_destroy') ) ?
 						( attrs[1]['_destroy'] == '0' ) : true
 					
 					s << sl_fields.check_box( :_destroy, {
 						:checked => language_checked
 					}, 0, 1 ) << "\n"
-					label = sl_fields.object.language.key.dup.capitalize
-					label << (( l.is_other? ) ? ' (not eligible)' : ' (eligible)')
+#					label = sl_fields.object.language.key.dup.capitalize
+#					label << (( l.is_other? ) ? ' (not eligible)' : ' (eligible)')
 					s << sl_fields.label( :_destroy, label ) << "\n"
 				end
 

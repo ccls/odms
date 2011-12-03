@@ -8,7 +8,10 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 		#	jQuery('a.toggle_eligibility_criteria').togglerFor('.eligibility_criteria');
 		test "should toggle eligibility criteria with #{cu} login" do
-			study_subject = Factory(:study_subject)
+
+			#	NOTE only exists for case subjects
+			study_subject = Factory(:case_study_subject)
+
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
