@@ -41,7 +41,7 @@ pending	#	TODO
 			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type(
+			assert !assigns(:study_subject).errors.on_attr_and_type?(
 				"patient.hospital_no",:taken)
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -62,7 +62,7 @@ pending	#	TODO
 			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type(
+			assert !assigns(:study_subject).errors.on_attr_and_type?(
 				"patient.hospital_no",:taken)
 			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
@@ -84,7 +84,7 @@ pending	#	TODO
 			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type(
+			assert !assigns(:study_subject).errors.on_attr_and_type?(
 				"patient.hospital_no",:taken)
 			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
@@ -108,7 +108,7 @@ pending	#	TODO
 			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type(
+			assert !assigns(:study_subject).errors.on_attr_and_type?(
 				"patient.hospital_no",:taken)
 			assert_not_nil flash[:notice]
 			assert_redirected_to subject
@@ -126,7 +126,7 @@ pending	#	TODO
 			assert !assigns(:duplicates)
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type(
+			assert !assigns(:study_subject).errors.on_attr_and_type?(
 				"patient.hospital_no",:taken)
 		end
 
@@ -523,13 +523,13 @@ pending	#	TODO
 							:line_1 => '', :city => '',
 							:state  => '', :zip  => '' } } } } )
 			end
-			assert assigns(:study_subject).errors.on_attr_and_type(
+			assert assigns(:study_subject).errors.on_attr_and_type?(
 				'addressings.address.line_1',:blank)
-			assert assigns(:study_subject).errors.on_attr_and_type(
+			assert assigns(:study_subject).errors.on_attr_and_type?(
 				'addressings.address.city',:blank)
-			assert assigns(:study_subject).errors.on_attr_and_type(
+			assert assigns(:study_subject).errors.on_attr_and_type?(
 				'addressings.address.state',:blank)
-			assert assigns(:study_subject).errors.on_attr_and_type(
+			assert assigns(:study_subject).errors.on_attr_and_type?(
 				'addressings.address.zip',:blank)
 		end
 
