@@ -17,6 +17,14 @@ class ConsentsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+		test "should create subject_languages if given with #{cu} login" do
+pending	#	TODO
+		end
+
+		test "should destroy subject_languages if given with #{cu} login" do
+pending	#	TODO
+		end
+
 		test "should create ccls enrollment on edit if none exists with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)

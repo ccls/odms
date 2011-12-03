@@ -28,7 +28,7 @@ class ConsentsController < ApplicationController
 	def edit
 		@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
 			Project['ccls'].id )
-		@patient = @study_subject.patient
+#		@patient = @study_subject.patient
 	end
 
 # {
@@ -45,6 +45,8 @@ class ConsentsController < ApplicationController
 #	will need wrapped in a transaction from here ...
 		@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
 			Project['ccls'].id )
+#	testing kickback
+#raise ActiveRecord::RecordInvalid.new(@enrollment)
 		@enrollment.update_attributes!(params[:enrollment])
 #	TODO add patient update (currently debating proper values for those here)
 #	TODO add languages update (just the languages, not the subject)

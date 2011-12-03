@@ -16,6 +16,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+		test "should create subject_languages if given with #{cu} login" do
+pending	#	TODO
+		end
+
 ######################################################################
 #
 #		BEGIN DUPLICATE CHECKING TESTS
