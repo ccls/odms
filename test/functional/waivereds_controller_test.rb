@@ -16,6 +16,26 @@ class WaiveredsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+		test "should NOT have checked subject_languages with #{cu} login" do
+			login_as send(cu)
+			get :new
+			assert_select( "div#study_subject_languages" ){
+				assert_select( "div.languages_label" )
+				assert_select( "div#languages" ){
+					assert_select( "div.subject_language.creator", 3 ).each do |sl|
+						#	checkbox and hidden share the same name
+						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
+						assert_select( sl, "input[type=hidden][value='']", 1 )
+						assert_select( sl, "input[type=checkbox][value=?]", /\d/, 1 )	#	value is the language_id (could test each but iffy)
+						#	should not be checked
+						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
+						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
+					end
+pending	#	TODO finish this
+#	assert other text field
+			} }
+		end
+
 		test "should create subject_languages if given with #{cu} login" do
 pending	#	TODO
 		end

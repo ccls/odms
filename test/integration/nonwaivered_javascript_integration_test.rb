@@ -4,6 +4,11 @@ class NonwaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrati
 
 	site_administrators.each do |cu|
 
+
+
+#	TODO add tests which test the subject languages checkboxes on kickbacks
+
+
 		test "should should update blank address info on zip code change" <<
 			" with #{cu} login" do
 			login_as send(cu)

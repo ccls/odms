@@ -17,13 +17,101 @@ class ConsentsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+#<div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
+#<div id='languages'>
+#<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="study_subject_subject_languages_attributes_0_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
+#<label for="study_subject_subject_languages_attributes_0_language_id">English (eligible)</label>
+#</div>
+#<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][1][language_id]" type="hidden" value="" /><input id="study_subject_subject_languages_attributes_1_language_id" name="study_subject[subject_languages_attributes][1][language_id]" type="checkbox" value="2" />
+#<label for="study_subject_subject_languages_attributes_1_language_id">Spanish (eligible)</label>
+#</div>
+#<div class='subject_language creator'><div id='other_language'><input name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="" /><input id="study_subject_subject_languages_attributes_2_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="checkbox" value="3" />
+#<label for="study_subject_subject_languages_attributes_2_language_id">Other (not eligible)</label>
+#<div id='specify_other_language'><label for="study_subject_subject_languages_attributes_2_other">specify:</label>
+#<input id="study_subject_subject_languages_attributes_2_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" />
+#</div></div></div>
+#</div>
+#</div><!-- study_subject_languages -->
+
+
+#	as the language selector is a form builder, unlike the race selector, explicit helper tests will be challenging
+
+		test "should NOT have checked subject_languages on edit if don't exist with #{cu} login" do
+			assert_difference( 'SubjectLanguage.count', 0 ){
+				@study_subject = Factory(:case_study_subject)			#	CASE subject only (for now?)
+			}
+			login_as send(cu)
+			get :edit, :study_subject_id => @study_subject.id
+			assert_select( "div#study_subject_languages" ){
+				assert_select( "div.languages_label" )
+				assert_select( "div#languages" ){
+					assert_select( "div.subject_language.creator", 3 ).each do |sl|
+						#	checkbox and hidden share the same name
+						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
+						assert_select( sl, "input[type=hidden][value='']", 1 )
+						assert_select( sl, "input[type=checkbox][value=?]", /\d/, 1 )	#	value is the language_id (could test each but iffy)
+						#	should not be checked
+						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
+						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
+					end
+pending	#	TODO finish this
+#	assert other text field
+			} }
+		end
+
+		test "should have checked subject_languages on edit if don't exist with #{cu} login" do
+			language = Language['english']
+			assert_not_nil language
+			assert_difference( 'SubjectLanguage.count', 1 ){
+				@study_subject = Factory(:case_study_subject, :subject_languages_attributes => {			#	CASE subject only (for now?)
+					:some_random_id => { :language_id => language.id }
+			} ) }
+			login_as send(cu)
+			get :edit, :study_subject_id => @study_subject.id
+			assert_select( "div#study_subject_languages" ){
+				assert_select( "div.languages_label" )
+				assert_select( "div#languages" ){
+					assert_select( "div.subject_language.creator", 2 ).each do |sl|
+						#	checkbox and hidden share the same name
+						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
+						assert_select( sl, "input[type=hidden][value='']", 1 )
+						assert_select( sl, "input[type=checkbox][value=?]", /\d/, 1 )	#	value is the language_id (could test it)
+						#	should not be checked
+						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
+						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
+					end
+					assert_select( "div.subject_language.destroyer", 1 ).each do |sl|
+#<input name="study_subject[subject_languages_attributes][0][language_id]" id="study_subject_subject_languages_attributes_0_language_id" value="1" type="hidden" />
+						assert_select( sl, "input[type=hidden][name=?][value='#{language.id}']", 
+							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 1 )
+#	value is the language_id (could test it)
+#						assert_select( sl, "input[type=checkbox][value='#{language.id}']", 1 )
+
+#<input name="study_subject[subject_languages_attributes][0][_destroy]" value="1" type="hidden" />
+#<input name="study_subject[subject_languages_attributes][0][_destroy]" checked="checked" id="study_subject_subject_languages_attributes_0__destroy" value="0" type="checkbox" />
+						#	destroy checkbox and hidden share the same name
+						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[_destroy\]/, 2 ){
+							assert_select( "input[type=hidden][value='1']", 1 )
+							assert_select( "input[type=checkbox][value='0']", 1 )
+							assert_select( "input[type=checkbox][checked=checked]", 1 )	#	better be checked
+						}
+					end
+pending #	TODO assert other text field
+			} }
+#flunk
+		end
+
 		test "should update and create subject_languages if given with #{cu} login" do
+			language = Language['english']
+			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 0 ){
 				@study_subject = Factory(:study_subject)
 			}
 			login_as send(cu)
+#	CASE subject only (for now)
+#	NOTE controller won't care if not case, it's just the edit view that won't have the fields
 			put :update, :study_subject_id => @study_subject.id, :study_subject => { :subject_languages_attributes => {
-				:some_random_id => { :language_id => Language.first.id }
+				:some_random_id => { :language_id => language.id }
 			} }
 #	assert subject has languages
 pending	#	TODO
@@ -33,12 +121,17 @@ pending	#	TODO
 		end
 
 		test "should update and destroy subject_languages if given with #{cu} login" do
+			language = Language['english']
+			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				@study_subject = Factory(:study_subject, :subject_languages_attributes => {
-					:some_random_id => { :language_id => Language.first.id }
+					:some_random_id => { :language_id => language.id }
 			} ) }
 			subject_language = @study_subject.subject_languages.first
+			assert_equal language, subject_language.language
 			login_as send(cu)
+#	CASE subject only (for now)
+#	NOTE controller won't care if not case, it's just the edit view that won't have the fields
 #			assert_difference( 'SubjectLanguage.count', -1 ){
 				put :update, :study_subject_id => @study_subject.id, :study_subject => { :subject_languages_attributes => {
 					:some_random_id => { :id => subject_language.id, :_destroy => 1 } } }
