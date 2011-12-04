@@ -31,8 +31,9 @@ class WaiveredsControllerTest < ActionController::TestCase
 						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
 					end
-pending	#	TODO finish this
-#	assert other text field
+					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
+						assert_select("input[type=text][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+					}
 			} }
 		end
 

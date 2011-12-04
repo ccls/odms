@@ -6,8 +6,47 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 #	consent#edit (shouldn't have a consent#new)
 
+		test "should preserve checked subject_languages on edit kickback with #{cu} login" do
+			assert_difference( 'SubjectLanguage.count', 0 ){
+				@study_subject = Factory(:case_study_subject)			#	CASE subject only (for now?)
+			}
+			login_as send(cu)
+			page.visit edit_study_subject_consent_path(@study_subject.id)
+			assert_equal current_path, edit_study_subject_consent_path(@study_subject.id)
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			#	trigger a kickback from Enrollment update failure
+			Enrollment.any_instance.stubs(:valid?).returns(false)
 
-#	TODO add tests which test the subject languages checkboxes on kickbacks
+			check("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			click_button 'Save'
+			#	renders, doesn't redirect so path will change even though still on edit
+			assert_equal current_path, study_subject_consent_path(@study_subject.id)
+			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+
+			uncheck("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			click_button 'Save'
+			#	renders, doesn't redirect so path will change even though still on edit
+			assert_equal current_path, study_subject_consent_path(@study_subject.id)
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+
+			check("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
+			assert page.has_checked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
+			click_button 'Save'
+			#	renders, doesn't redirect so path will change even though still on edit
+			assert_equal current_path, study_subject_consent_path(@study_subject.id)
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert page.has_checked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+		end
+
 
 
 		test "should not have toggle eligibility criteria for non-case with #{cu} login" do
@@ -15,6 +54,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(study_subject)
 			assert !page.has_css?('div.eligibility_criteria')
+			assert  page.has_no_css?('div.eligibility_criteria')
 		end
 
 		#	jQuery('a.toggle_eligibility_criteria').togglerFor('.eligibility_criteria');

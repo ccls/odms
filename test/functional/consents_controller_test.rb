@@ -54,12 +54,13 @@ class ConsentsControllerTest < ActionController::TestCase
 						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
 					end
-pending	#	TODO finish this
-#	assert other text field
+					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
+						assert_select("input[type=text][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+					}
 			} }
 		end
 
-		test "should have checked subject_languages on edit if don't exist with #{cu} login" do
+		test "should have checked subject_language on edit if exists with #{cu} login" do
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
@@ -75,20 +76,14 @@ pending	#	TODO finish this
 						#	checkbox and hidden share the same name
 						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
 						assert_select( sl, "input[type=hidden][value='']", 1 )
-						assert_select( sl, "input[type=checkbox][value=?]", /\d/, 1 )	#	value is the language_id (could test it)
+						assert_select( sl, "input[type=checkbox][value=?]", /\d/, 1 )	#	value is the language_id (could test it, but would be complicated)
 						#	should not be checked
 						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
 					end
 					assert_select( "div.subject_language.destroyer", 1 ).each do |sl|
-#<input name="study_subject[subject_languages_attributes][0][language_id]" id="study_subject_subject_languages_attributes_0_language_id" value="1" type="hidden" />
 						assert_select( sl, "input[type=hidden][name=?][value='#{language.id}']", 
 							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 1 )
-#	value is the language_id (could test it)
-#						assert_select( sl, "input[type=checkbox][value='#{language.id}']", 1 )
-
-#<input name="study_subject[subject_languages_attributes][0][_destroy]" value="1" type="hidden" />
-#<input name="study_subject[subject_languages_attributes][0][_destroy]" checked="checked" id="study_subject_subject_languages_attributes_0__destroy" value="0" type="checkbox" />
 						#	destroy checkbox and hidden share the same name
 						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[_destroy\]/, 2 ){
 							assert_select( "input[type=hidden][value='1']", 1 )
@@ -96,9 +91,24 @@ pending	#	TODO finish this
 							assert_select( "input[type=checkbox][checked=checked]", 1 )	#	better be checked
 						}
 					end
-pending #	TODO assert other text field
+					assert_select("div.subject_language > div#other_language div#specify_other_language",1 ){
+						assert_select("input[type=text][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+					}
 			} }
-#flunk
+		end
+
+		test "should have other subject_languages on edit if exists with #{cu} login" do
+			language = Language['other']
+			assert_not_nil language
+			assert_difference( 'SubjectLanguage.count', 1 ){
+				@study_subject = Factory(:case_study_subject, :subject_languages_attributes => {			#	CASE subject only (for now?)
+					:some_random_id => { :other => 'redneck', :language_id => language.id }
+			} ) }
+			login_as send(cu)
+			get :edit, :study_subject_id => @study_subject.id
+			assert_select("div.subject_language.destroyer > div#other_language div#specify_other_language",1 ){
+				assert_select("input[type=text][value=redneck][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+			}
 		end
 
 		test "should update and create subject_languages if given with #{cu} login" do
