@@ -2,11 +2,20 @@ require 'integration_test_helper'
 
 class NonwaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
+#	has_field? ignores visibility and the :visible option!!!!!
+#		use find_field and visible? for form field names
+#		ie. use this ...
+#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+#		and not ...
+#			assert page.has_field?("study_subject[subject_languages_attributes][2][other]", :visible => false)	#	specify other hidden
+#		as the latter will be true if the field is there regardless of if it is visible
+
 	site_administrators.each do |cu|
 
 
-
 #	TODO add tests which test the subject languages checkboxes on kickbacks
+
+#	No 'other' language on nonwaivered form
 
 
 		test "should should update blank address info on zip code change" <<
@@ -56,18 +65,14 @@ class NonwaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrati
 				" with #{cu} login" do
 			login_as send(cu)
 			page.visit new_waivered_path
-			assert page.has_field?(
-				'study_subject[patient_attributes][other_diagnosis]', :visible => false)
+			assert !page.find_field( 'study_subject[patient_attributes][other_diagnosis]').visible?
 #	case sensitive? yep.
 			select "other", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert page.has_field?(
-				'study_subject[patient_attributes][other_diagnosis]', :visible => true)
+			assert page.find_field( 'study_subject[patient_attributes][other_diagnosis]').visible?
 			select "", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert page.has_field?(
-				'study_subject[patient_attributes][other_diagnosis]', :visible => false)
+			assert !page.find_field( 'study_subject[patient_attributes][other_diagnosis]').visible?
 			select "other", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert page.has_field?(
-				'study_subject[patient_attributes][other_diagnosis]', :visible => true)
+			assert page.find_field( 'study_subject[patient_attributes][other_diagnosis]').visible?
 		end
 
 	end

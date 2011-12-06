@@ -2,12 +2,50 @@ require 'integration_test_helper'
 
 class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
-	site_administrators.each do |cu|
+#	has_field? ignores visibility and the :visible option!!!!!
+#		use find_field and visible? for form field names
+#		ie. use this ...
+#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+#		and not ...
+#			assert page.has_field?("study_subject[subject_languages_attributes][2][other]", :visible => false)	#	specify other hidden
+#		as the latter will be true if the field is there regardless of if it is visible
 
+	site_administrators.each do |cu|
 
 
 #	TODO add tests which test the subject languages checkboxes on kickbacks
 
+		test "should toggle specify other language when other language checked with #{cu} login" do
+			login_as send(cu)
+			page.visit new_waivered_path
+			#	[2] since 'other' will be the third language in the array
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+
+
+
+#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+
+
+
+			check("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+
+
+			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other visible again
+
+
+
+			uncheck("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+
+
+
+
+#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+
+
+
+		end
 
 		test "should should update blank address info on zip code change" <<
 			" with #{cu} login" do
@@ -115,18 +153,14 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 				" with #{cu} login" do
 			login_as send(cu)
 			page.visit new_waivered_path
-			assert page.has_field?(
-				'study_subject[patient_attributes][other_diagnosis]', :visible => false)
+			assert !page.find_field('study_subject[patient_attributes][other_diagnosis]').visible?
 #	case sensitive? yep.
 			select "other", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert page.has_field?(
-				'study_subject[patient_attributes][other_diagnosis]', :visible => true)
+			assert page.find_field('study_subject[patient_attributes][other_diagnosis]').visible?
 			select "", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert page.has_field?(
-				'study_subject[patient_attributes][other_diagnosis]', :visible => false)
+			assert !page.find_field('study_subject[patient_attributes][other_diagnosis]').visible?
 			select "other", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert page.has_field?(
-				'study_subject[patient_attributes][other_diagnosis]', :visible => true)
+			assert page.find_field('study_subject[patient_attributes][other_diagnosis]').visible?
 		end
 
 	end

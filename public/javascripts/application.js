@@ -66,14 +66,18 @@ var confirm_submission = function(){
 (function ($){  
 	$.fn.smartShow = function (inoptions) {
 		var defaults = {
+//			this: this,
 			what: 'some css selector string',
 			when: function(){ /* some function that returns true or false */ }
 		};
 		var options = $.extend(defaults, inoptions);
 		var _smart_toggle = function () {
+//alert('smart toggling');
 			if( options.when() ){
+//alert('showing '+options.what);
 				$(options.what).show();
 			} else {
+//alert('hiding '+options.what);
 				$(options.what).hide();
 			};
 		};

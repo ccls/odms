@@ -26,6 +26,15 @@ jQuery(function(){
 		}
 	});
 
+// regardless of whether the first jquery selector matches anything something may be hidden based on the when function
+/*
+	jQuery('#XXXXstudy_subject_subject_languages_attributes_2_language_id').smartShow({
+		what: '#specify_other_language',
+		when: function(){ 
+			return $('#study_subject_subject_languages_attributes_2_language_id').attr('checked') }
+	});
+*/
+
 });
 
 var update_address_info = function(zip_code) {

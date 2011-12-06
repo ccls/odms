@@ -2,6 +2,14 @@ require 'integration_test_helper'
 
 class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
+#	has_field? ignores visibility and the :visible option!!!!!
+#		use find_field and visible? for form field names
+#		ie. use this ...
+#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+#		and not ...
+#			assert page.has_field?("study_subject[subject_languages_attributes][2][other]", :visible => false)	#	specify other hidden
+#		as the latter will be true if the field is there regardless of if it is visible
+
 	site_administrators.each do |cu|
 
 		test "addressing#edit should update blank address info on zip code change" <<
@@ -52,13 +60,13 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			addressing = Factory(:addressing)
 			login_as send(cu)
 			page.visit edit_addressing_path(addressing)
-			assert page.has_field?('addressing[why_invalid]', :visible => false)
+			assert !page.find_field('addressing[why_invalid]').visible?
 			select "No", :from => 'addressing[is_valid]'
-			assert page.has_field?('addressing[why_invalid]', :visible => true)
+			assert page.find_field('addressing[why_invalid]').visible?
 			select "", :from => 'addressing[is_valid]'
-			assert page.has_field?('addressing[why_invalid]', :visible => false)
+			assert !page.find_field('addressing[why_invalid]').visible?
 			select "No", :from => 'addressing[is_valid]'
-			assert page.has_field?('addressing[why_invalid]', :visible => true)
+			assert page.find_field('addressing[why_invalid]').visible?
 		end
 
 		test "addressing#edit should show why_invalid when is_valid is changed to" <<
@@ -66,13 +74,13 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			addressing = Factory(:addressing)
 			login_as send(cu)
 			page.visit edit_addressing_path(addressing)
-			assert page.has_field?('addressing[why_invalid]', :visible => false)
+			assert !page.find_field('addressing[why_invalid]').visible?
 			select "Don't Know", :from => 'addressing[is_valid]'
-			assert page.has_field?('addressing[why_invalid]', :visible => true)
+			assert page.find_field('addressing[why_invalid]').visible?
 			select "", :from => 'addressing[is_valid]'
-			assert page.has_field?('addressing[why_invalid]', :visible => false)
+			assert !page.find_field('addressing[why_invalid]').visible?
 			select "Don't Know", :from => 'addressing[is_valid]'
-			assert page.has_field?('addressing[why_invalid]', :visible => true)
+			assert page.find_field('addressing[why_invalid]').visible?
 		end
 
 		test "addressing#edit should show how_verified when is_verified is checked" <<
@@ -80,13 +88,13 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			addressing = Factory(:addressing)
 			login_as send(cu)
 			page.visit edit_addressing_path(addressing)
-			assert page.has_field?('addressing[how_verified]', :visible => false)
+			assert !page.find_field('addressing[how_verified]').visible?
 			check 'addressing[is_verified]'
-			assert page.has_field?('addressing[how_verified]', :visible => true)
+			assert page.find_field('addressing[how_verified]').visible?
 			uncheck 'addressing[is_verified]'
-			assert page.has_field?('addressing[how_verified]', :visible => false)
+			assert !page.find_field('addressing[how_verified]').visible?
 			check 'addressing[is_verified]'
-			assert page.has_field?('addressing[how_verified]', :visible => true)
+			assert page.find_field('addressing[how_verified]').visible?
 		end
 
 		test "addressing#edit should show data_source_other when 'Other Source'" <<
@@ -94,13 +102,13 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			addressing = Factory(:addressing)
 			login_as send(cu)
 			page.visit edit_addressing_path(addressing)
-			assert page.has_field?('addressing[data_source_other]', :visible => false)
+			assert !page.find_field('addressing[data_source_other]').visible?
 			select "Other Source", :from => 'addressing[data_source_id]'
-			assert page.has_field?('addressing[data_source_other]', :visible => true)
+			assert page.find_field('addressing[data_source_other]').visible?
 			select "", :from => 'addressing[data_source_id]'
-			assert page.has_field?('addressing[data_source_other]', :visible => false)
+			assert !page.find_field('addressing[data_source_other]').visible?
 			select "Other Source", :from => 'addressing[data_source_id]'
-			assert page.has_field?('addressing[data_source_other]', :visible => true)
+			assert page.find_field('addressing[data_source_other]').visible?
 		end
 
 		test "addressing#edit should show subject_moved when residence address" <<
@@ -108,13 +116,13 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
 			page.visit edit_addressing_path(addressing)
-			assert page.has_field?('addressing[subject_moved]', :visible => false)
+			assert !page.find_field('addressing[subject_moved]').visible?
 			select "No", :from => 'addressing[current_address]'
-			assert page.has_field?('addressing[subject_moved]', :visible => true)
+			assert page.find_field('addressing[subject_moved]').visible?
 			select "", :from => 'addressing[current_address]'
-			assert page.has_field?('addressing[subject_moved]', :visible => false)
+			assert !page.find_field('addressing[subject_moved]').visible?
 			select "No", :from => 'addressing[current_address]'
-			assert page.has_field?('addressing[subject_moved]', :visible => true)
+			assert page.find_field('addressing[subject_moved]').visible?
 		end
 
 		test "addressing#edit should NOT show subject_moved when residence address" <<
@@ -122,13 +130,13 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
 			page.visit edit_addressing_path(addressing)
-			assert page.has_field?('addressing[subject_moved]', :visible => false)
+			assert !page.find_field('addressing[subject_moved]').visible?
 			select "Don't Know", :from => 'addressing[current_address]'
-			assert page.has_field?('addressing[subject_moved]', :visible => false)
+			assert !page.find_field('addressing[subject_moved]').visible?
 			select "", :from => 'addressing[current_address]'
-			assert page.has_field?('addressing[subject_moved]', :visible => false)
+			assert !page.find_field('addressing[subject_moved]').visible?
 			select "Don't Know", :from => 'addressing[current_address]'
-			assert page.has_field?('addressing[subject_moved]', :visible => false)
+			assert !page.find_field('addressing[subject_moved]').visible?
 		end
 
 #	addressing#new
