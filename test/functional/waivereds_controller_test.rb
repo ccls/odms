@@ -509,7 +509,7 @@ pending	#	TODO
 		end
 
 		test "should create waivered case study_subject" <<
-				" with existing duplicate sex and dob and blank exiting mother_maiden_name" <<
+				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 				" and #{cu} login if 'No Match'" do
 			subject = Factory(:complete_waivered_case_study_subject)
 			login_as send(cu)
