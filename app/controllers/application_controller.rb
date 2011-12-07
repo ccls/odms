@@ -15,9 +15,9 @@ protected	#	private #	(does it matter which or if neither?)
 		#	to itself, so this tells the app to ignore it.
 		#	For testing, we cannot ignore the action check.
 		#	I could use an alias_method_chain here, but would actually take more lines.
-#		request.host == "odms.brg.berkeley.edu" || (
-#			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
-true
+		request.host == "odms.brg.berkeley.edu" || (
+			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
+#true
 	end
 
 	#	used in roles_controller
