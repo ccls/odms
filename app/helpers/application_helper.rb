@@ -87,7 +87,7 @@ module ApplicationHelper
 		end
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
-			s << [
+			links = [
 				link_to( "New BC Request", new_bc_request_path,
 					:class => ((current == :new_bc_request)?'current':nil) ),
 				link_to( "Pending Requests", bc_requests_path(:status => 'pending'),
@@ -103,10 +103,11 @@ module ApplicationHelper
 				link_to( "Waitlist Requests", bc_requests_path(:status => 'waitlist'),
 					:class => ((current == :waitlist_bc_requests)?'current':nil) ),
 				link_to( "Complete Requests", bc_requests_path(:status => 'complete'),
-					:class => ((current == :complete_bc_requests)?'current':nil) ),
+					:class => ((current == :complete_bc_requests)?'current':nil) )
 
-				"<span>Request History</span>"
-			].join("\n")
+			]
+#			links << "<span>Request History</span>"
+			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		end
 	end
