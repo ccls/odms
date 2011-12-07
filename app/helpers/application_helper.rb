@@ -66,26 +66,6 @@ module ApplicationHelper
 	end
 
 	def birth_certificates_sub_menu
-#
-#	TODO can I clean this up with nested case blocks???
-#
-#		current = case
-#			when( params[:controller] == 'bc_requests' and params[:action] == 'new' )
-#				:new_bc_request
-#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status].blank? )
-#				:all_bc_requests
-#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'pending' )
-#				:pending_bc_requests
-#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'active' )
-#				:active_bc_requests
-#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'waitlist' )
-#				:waitlist_bc_requests
-#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'complete' )
-#				:complete_bc_requests
-##			when( params[:controller] == 'bc_validations' )
-##				:bc_validations
-#			else nil
-#		end
 		#	added the to_s's to ensure not nil
 		current = case params[:controller].to_s
 			when 'bc_requests' 
@@ -132,24 +112,26 @@ module ApplicationHelper
 	end
 
 	def study_subject_sub_menu(study_subject)
-		current = case controller.class.name.sub(/Controller$/,'')
-			when *%w( StudySubjects ) then :general
-			when *%w( Patients ) then :hospital
-			when *%w( Addresses Addressings Contacts PhoneNumbers 
-				) then :contact
-			when *%w( Consents ) then :consents
-			when *%w( Enrollments ) then :eligibility
-			when *%w( Samples ) then :samples
-			when *%w( Interviews ) then :interviews
-			when *%w( Events ) then :events
-			when *%w( Documents ) then :documents
-			when *%w( Notes ) then :notes
-			when *%w( Cases ) then :cases
+		current = case params[:controller]
+			when 'study_subjects' then :general
+			when 'patients' then :hospital
+			when 'addresses' then :contact
+			when 'addressings' then :contact
+			when 'contacts' then :contact
+			when 'phone_numbers' then :contact
+			when 'consents' then :consents
+			when 'enrollments' then :eligibility
+			when 'samples' then :samples
+			when 'interviews' then :interviews
+			when 'events' then :events
+			when 'documents' then :documents
+			when 'notes' then :notes
+			when 'cases' then :cases
 			else nil
 		end
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
-			s << [
+			links = [
 				link_to( "back to subjects", dashboard_study_subjects_path ),
 				link_to( "Basic Info", study_subject_path(study_subject),
 					:class => ((current == :general)?'current':nil) ),
@@ -160,20 +142,28 @@ module ApplicationHelper
 				link_to( "Eligibility &amp; Consent", study_subject_consent_path(study_subject),
 					:class => ((current == :consents)?'current':nil) ),
 				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
-					:class => ((current == :eligibility)?'current':nil) ),
+					:class => ((current == :eligibility)?'current':nil) ) ]
+
+			links += [
 				link_to( "Samples", study_subject_samples_path(study_subject),
 					:class => ((current == :samples)?'current':nil) ),
 				link_to( "Interviews", study_subject_interviews_path(study_subject),
-					:class => ((current == :interviews)?'current':nil) ),
-				link_to( "Events", study_subject_events_path(study_subject),
-					:class => ((current == :events)?'current':nil) ),
+					:class => ((current == :interviews)?'current':nil) ) 
+			] if( logged_in? and current_user.may_administrate? )
+
+			links << link_to( "Events", study_subject_events_path(study_subject),
+					:class => ((current == :events)?'current':nil) )
+
+			links += [
 				link_to( "Documents", study_subject_documents_path(study_subject),
 					:class => ((current == :documents)?'current':nil) ),
 				link_to( "Notes", study_subject_notes_path(study_subject),
 					:class => ((current == :notes)?'current':nil) ),
-				link_to( "Related Subjects", case_path(study_subject),
+			] if( logged_in? and current_user.may_administrate? )
+
+			links << link_to( "Related Subjects", case_path(study_subject),
 					:class => ((current == :cases)?'current':nil) )
-			].join("\n")
+			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		end
 	end
