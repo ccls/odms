@@ -49,29 +49,25 @@ jQuery(function(){
 	});
 
 /*
- 28 #<div class='subject_language creator'><div id='other_language'><input name="study_subject[subject_languages_attributes][2][language_id]" type="hidden"     value="" /><input id="study_subject_subject_languages_attributes_2_language_id" name="study_subject[subject_languages_attributes][2][language_id]" typ    e="checkbox" value="3" />
- 29 #<label for="study_subject_subject_languages_attributes_2_language_id">Other (not eligible)</label>
- 30 #<div id='specify_other_language'><label for="study_subject_subject_languages_attributes_2_other">specify:</label>
- 31 #<input id="study_subject_subject_languages_attributes_2_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" />
- 32 #</div></div></div>
- 33 #</div>
-
-	while '2' is currently fixed, may want to change this to something more descriptive, like
-
-	$("div.subject_language.creator > #other_language input[type=checkbox]")
-would also like to use 'this' in the when function, but haven't implemented it just yet.
-*/
-// regardless of whether the first jquery selector matches anything something may be hidden based on the when function
-
-/*
 
 	This is complicated by the fact that the language_id may be a type=hidden field
 
+	This seems to work in practice, but testing is proving challenging
+
 */
-	jQuery('#study_subject_subject_languages_attributes_2_language_id').smartShow({
+	jQuery('input[type=checkbox]#study_subject_subject_languages_attributes_2_language_id').smartShow({
 		what: '#specify_other_language',
 		when: function(){
 			return $('#study_subject_subject_languages_attributes_2_language_id').attr('checked'); }
+	});
+/* 
+	put destroy AFTER language_id as both target the same element 
+	I should try to make this not matter.
+*/
+	jQuery('input[type=checkbox]#study_subject_subject_languages_attributes_2__destroy').smartShow({
+		what: '#specify_other_language',
+		when: function(){
+			return $('#study_subject_subject_languages_attributes_2__destroy').attr('checked'); }
 	});
 //			return true; }
 //			return /checked/i.test($('#study_subject_subject_languages_attributes_2_language_id').attr('checked')); }

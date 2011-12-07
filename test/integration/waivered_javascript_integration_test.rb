@@ -23,7 +23,10 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 
 
 
-#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+			assert page.has_css?("#specify_other_language", :visible => false)
+			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
+#	TODO should work, but doesn't
+#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other visible again
 
 
 
@@ -31,6 +34,8 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
 
 
+			assert page.has_css?("#specify_other_language", :visible => true)
+			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
 			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other visible again
 
 
@@ -41,6 +46,9 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 
 
 
+			assert page.has_css?("#specify_other_language", :visible => false)
+			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
+#	TODO should work, but doesn't
 #			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
 
 

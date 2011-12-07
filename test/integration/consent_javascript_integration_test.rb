@@ -20,22 +20,47 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(study_subject.id)
 			#	[2] since 'other' will be the third language in the array
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
 			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][_destroy]")	#	other
 
 #	TODO need to fix the javascript to deal with the _destroy fields
 
+#puts page.body
+#
+#<input id="study_subject_subject_languages_attributes_2_id" name="study_subject[subject_languages_attributes][2][id]" type="hidden" value="1"><div id="study_subject_languages"><div class="languages_label">Language of parent or caretaker:</div>
+#<div id="languages">
+#<div class="subject_language creator"><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value=""><input id="study_subject_subject_languages_attributes_0_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1">
+#<label for="study_subject_subject_languages_attributes_0_language_id">English (eligible)</label>
+#</div>
+#<div class="subject_language creator"><input name="study_subject[subject_languages_attributes][1][language_id]" type="hidden" value=""><input id="study_subject_subject_languages_attributes_1_language_id" name="study_subject[subject_languages_attributes][1][language_id]" type="checkbox" value="2">
+#<label for="study_subject_subject_languages_attributes_1_language_id">Spanish (eligible)</label>
+#</div>
+#<div class="subject_language destroyer"><div id="other_language"><input id="study_subject_subject_languages_attributes_2_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="3"><input name="study_subject[subject_languages_attributes][2][_destroy]" type="hidden" value="1"><input checked="checked" id="study_subject_subject_languages_attributes_2__destroy" name="study_subject[subject_languages_attributes][2][_destroy]" type="checkbox" value="0">
+#<label for="study_subject_subject_languages_attributes_2__destroy">Other (not eligible)</label>
+#<div id="specify_other_language"><label for="study_subject_subject_languages_attributes_2_other">specify:</label>
+#<input id="study_subject_subject_languages_attributes_2_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" value="redneck">
+#</div></div></div>
+#</div>
+#</div><!-- study_subject_languages -->
+#
+#	find_field can't find type=hidden fields??
+#			assert page.find_field("study_subject_subject_languages_attributes_2_language_id")	#	other (this is actually an type=hidden field)
+#			assert page.find_field("study_subject[subject_languages_attributes][2][language_id]")	#	other (this is actually an type=hidden field)
+#			assert page.has_field?("study_subject_subject_languages_attributes_2_language_id")	#	other (this is actually an type=hidden field)
 #			assert page.has_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other (this is actually an type=hidden field)
+
+
+
+			assert page.has_field?("study_subject[subject_languages_attributes][2][other]")	#	specify other VISIBLE
+			assert page.find_field("study_subject[subject_languages_attributes][2][other]")
+#	TODO this field is there and should be visible but fails??
 #			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other VISIBLE
+#	TODO this field is there and should be visible but fails??
 #			assert page.has_css?("#specify_other_language", :visible => true)
 
 
-#<div class="subject_language destroyer"><div id="other_language"><input id="study_subject_subject_languages_attributes_2_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="3"><input name="study_subject[subject_languages_attributes][2][_destroy]" type="hidden" value="1"><input checked="checked" id="study_subject_subject_languages_attributes_2__destroy" name="study_subject[subject_languages_attributes][2][_destroy]" type="checkbox" value="0">
-#<label for="study_subject_subject_languages_attributes_2__destroy">Other (not eligible)</label>
-#<div id="specify_other_language" style="display: none; "><label for="study_subject_subject_languages_attributes_2_other">specify:</label>
-#<input id="study_subject_subject_languages_attributes_2_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" value="redneck">
-
-
-#	TODO unchecking the _destroy should hide ther specify ???
+#	TODO unchecking the _destroy should hide other specify ???
 
 		end
 
@@ -45,8 +70,12 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			page.visit edit_study_subject_consent_path(study_subject.id)
 			#	[2] since 'other' will be the third language in the array
 			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+
+
+			#	specify other should be hidden
 			assert page.has_css?("#specify_other_language", :visible => false)
+			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
+			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
 
 
 			check("study_subject[subject_languages_attributes][2][language_id]")	#	other		#	this SHOULD toggle the specify other!
@@ -59,6 +88,8 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 #ALERT: smart toggling
 #ALERT: showing #specify_other_language
 
+			#	specify other should be visible
+#	TODO this isn't working
 #			assert page.has_css?("#specify_other_language", :visible => true)
 #			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
 #			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other visible again
@@ -66,8 +97,13 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 			uncheck("study_subject[subject_languages_attributes][2][language_id]")	#	other
 			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+
+			#	specify other should be hidden
 			assert page.has_css?("#specify_other_language", :visible => false)
+			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
+			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+
+#flunk
 		end
 
 		#	a bit excessive, but rather be excessive than skimp
@@ -134,6 +170,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 #	TODO this isn't working yet. why???? javascript seems to be working
 #		it even seems to be right on load, but not plain javascript.
 #		I don't even know how to guess what's wrong here.
+#	TODO
 #			assert page.has_css?("#specify_other_language", :visible => true)
 #			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
 #			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other toggled
@@ -146,9 +183,11 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
 			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other still checked
 
-
-#			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other still visible
+#	TODO
 #			assert page.has_css?("#specify_other_language", :visible => true)
+#			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
+#			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other still visible
+
 
 			uncheck("study_subject[subject_languages_attributes][2][language_id]")	#	other
 			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
@@ -157,8 +196,9 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			check("study_subject[subject_languages_attributes][2][language_id]")	#	other
 			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
 
-
+#	TODO
 #			assert page.has_css?("#specify_other_language", :visible => true)
+#			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
 #			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other visible again
 		end
 
