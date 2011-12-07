@@ -48,33 +48,16 @@ jQuery(function(){
 //				$(this).find('option:selected').text() ) }
 	});
 
-/*
-
-	This is complicated by the fact that the language_id may be a type=hidden field
-
-	This seems to work in practice, but testing is proving challenging
-
-*/
 	jQuery('input[type=checkbox]#study_subject_subject_languages_attributes_2_language_id').smartShow({
 		what: '#specify_other_language',
 		when: function(){
 			return $('#study_subject_subject_languages_attributes_2_language_id').attr('checked'); }
 	});
-/* 
-	put destroy AFTER language_id as both target the same element 
-	I should try to make this not matter.
-*/
+
 	jQuery('input[type=checkbox]#study_subject_subject_languages_attributes_2__destroy').smartShow({
 		what: '#specify_other_language',
 		when: function(){
 			return $('#study_subject_subject_languages_attributes_2__destroy').attr('checked'); }
 	});
-//			return true; }
-//			return /checked/i.test($('#study_subject_subject_languages_attributes_2_language_id').attr('checked')); }
-//			return /checked/i.test($('#study_subject_subject_languages_attributes_2_language_id').attr('checked')); }
-//			alert ( $('#study_subject_subject_languages_attributes_2_language_id').attr('checked') ) ;
-//			return $('#study_subject_subject_languages_attributes_2_language_id').attr('checked'); }
-//			return ( $('#study_subject_subject_languages_attributes_2_language_id').attr('checked') == 'checked' ) }
-//			return $(this).checked() }
 
 });

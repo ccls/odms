@@ -2,6 +2,19 @@ require 'integration_test_helper'
 
 class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
+	def assert_other_language_visible
+		assert page.has_css?("#specify_other_language", :visible => true)
+		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
+		assert page.has_field?("study_subject[subject_languages_attributes][2][other]")
+		assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
+	end
+	def assert_other_language_hidden
+		assert page.has_css?("#specify_other_language", :visible => false)
+		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
+		assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
+	end
+
+
 #	has_field? ignores visibility and the :visible option!!!!!
 #		use find_field and visible? for form field names
 #		ie. use this ...
@@ -12,47 +25,20 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 
 	site_administrators.each do |cu|
 
-
-#	TODO add tests which test the subject languages checkboxes on kickbacks
-
 		test "should toggle specify other language when other language checked with #{cu} login" do
 			login_as send(cu)
 			page.visit new_waivered_path
 			#	[2] since 'other' will be the third language in the array
 			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
-
-
-
-			assert page.has_css?("#specify_other_language", :visible => false)
-			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
-#	TODO should work, but doesn't
-#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other visible again
-
-
+			assert_other_language_hidden
 
 			check("study_subject[subject_languages_attributes][2][language_id]")	#	other
 			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
-
-
-			assert page.has_css?("#specify_other_language", :visible => true)
-			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
-			assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other visible again
-
-
+			assert_other_language_visible
 
 			uncheck("study_subject[subject_languages_attributes][2][language_id]")	#	other
 			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
-
-
-
-
-			assert page.has_css?("#specify_other_language", :visible => false)
-			assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
-#	TODO should work, but doesn't
-#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
-
-
-
+			assert_other_language_hidden
 		end
 
 		test "should should update blank address info on zip code change" <<

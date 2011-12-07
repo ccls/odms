@@ -61,32 +61,31 @@ var confirm_submission = function(){
 
 /*
 	Used in ...
+		consent.js
 		edit_addressing.js
+		edit_patient.js
+		edit_phone_number.js
+		raf.js
 */
 (function ($){  
 	$.fn.smartShow = function (inoptions) {
 		var defaults = {
-//			this: this,
+//			this: this,	// I'd really like to enable the ability to use 'this' in the when functions
 			what: 'some css selector string',
 			when: function(){ /* some function that returns true or false */ }
 		};
 		var options = $.extend(defaults, inoptions);
 		var _smart_toggle = function () {
-//alert('smart toggling');
 			if( options.when() ){
-//alert('showing '+options.what);
 				$(options.what).show();
 			} else {
-//alert('hiding '+options.what);
 				$(options.what).hide();
 			};
 		};
 		return this.each(function () {  
 			/* do initial toggle, then bind to change event. */
 			_smart_toggle();	
-			$(this).change(function(){
-				_smart_toggle();
-			});
+			$(this).change(function(){ _smart_toggle(); });
 		});  
 	};  
 })(jQuery);
