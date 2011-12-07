@@ -90,8 +90,6 @@ module ApplicationHelper
 			links = [
 				link_to( "New BC Request", new_bc_request_path,
 					:class => ((current == :new_bc_request)?'current':nil) ),
-				link_to( "Pending Requests", bc_requests_path(:status => 'pending'),
-					:class => ((current == :pending_bc_requests)?'current':nil) ),
 #				link_to( "BC Validation", bc_validations_path,
 #					:class => ((current == :bc_validations)?'current':nil) ),
 
@@ -102,6 +100,8 @@ module ApplicationHelper
 					:class => ((current == :active_bc_requests)?'current':nil) ),
 				link_to( "Waitlist Requests", bc_requests_path(:status => 'waitlist'),
 					:class => ((current == :waitlist_bc_requests)?'current':nil) ),
+				link_to( "Pending Requests", bc_requests_path(:status => 'pending'),
+					:class => ((current == :pending_bc_requests)?'current':nil) ),
 				link_to( "Complete Requests", bc_requests_path(:status => 'complete'),
 					:class => ((current == :complete_bc_requests)?'current':nil) )
 
