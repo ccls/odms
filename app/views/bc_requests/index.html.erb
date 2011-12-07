@@ -12,7 +12,7 @@
 <tr>
  <th>Study ID</th>
  <th>ICF Master ID</th>
- <th>Subject Initials</th>
+ <th>Subject Name</th>
  <th>USC Request Date</th>
  <th>Status</th>
  <th>&nbsp;</th>
@@ -23,7 +23,7 @@
  <tr class='row'>
   <td><%= link_to study_subject.studyid, study_subject %></td>
   <td><%= study_subject.icf_master_id %></td>
-  <td><%= study_subject.initials %></td>
+  <td><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
   <td><%=mdy bc_request.sent_on %></td>
   <td><%= bc_request.status %></td>
   <td><%= link_to 'Edit', edit_bc_request_path(bc_request), :class => 'button' %></td>
