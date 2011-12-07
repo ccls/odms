@@ -26,6 +26,12 @@ jQuery(function(){
 		}
 	});
 
+/*
+
+	While this will certainly work, '2' is not particularly descriptive.
+	I need to devise a way to make this more clearly, and flexibly, 'other'
+
+*/
 	jQuery('input[type=checkbox]#study_subject_subject_languages_attributes_2_language_id').smartShow({
 		what: '#specify_other_language',
 		when: function(){
