@@ -5,8 +5,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "odms_main_menu should return main menu without login" do
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
-			#	Home, Subjects, Interviews, Samples
-			assert_select 'div.menu_item', 4
+			#	Home, Subjects, Samples
+			assert_select 'div.menu_item', 3
 		end
 	end
 
@@ -14,8 +14,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		login_as send(:reader)
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
-			#	Home, Subjects, Interviews, Samples
-			assert_select 'div.menu_item', 4
+			#	Home, Subjects, Samples
+			assert_select 'div.menu_item', 3
 		end
 	end
 
@@ -23,8 +23,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		login_as send(:editor)
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
-			#	Home, Subjects, Interviews, Samples
-			assert_select 'div.menu_item', 4
+			#	Home, Subjects, Samples
+			assert_select 'div.menu_item', 3
 		end
 	end
 

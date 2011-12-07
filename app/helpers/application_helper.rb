@@ -24,7 +24,8 @@ module ApplicationHelper
 		s << "<div class='menu_item#{( 
 				params[:controller] == 'interviews' ) ? ' current' : nil}'>" <<
 			link_to('Interviews', dashboard_interviews_path) <<
-			"</div><!-- menu_item -->"
+			"</div><!-- menu_item -->" if (
+			logged_in? and current_user.may_administrate? )
 
 		s << "<div class='menu_item#{( 
 				params[:controller] == 'samples' ) ? ' current' : nil}'>" <<
@@ -36,20 +37,11 @@ module ApplicationHelper
 #			link_to('Studies', dashboard_studies_path) <<
 #			"</div><!-- menu_item -->"
 
-		if logged_in? and current_user.may_administrate?
-		s << "<div class='menu_item'>#{link_to( "Admin", admin_path )}</div>"
-		end
+		s << "<div class='menu_item'>#{link_to( "Admin", admin_path )}</div>" if(
+			logged_in? and current_user.may_administrate? )
 
 		s << "\n</div><!-- mainmenu -->\n"
 	end
-
-#	I'm gonna try to stop using this
-
-	#	This is called and parsed by javascript, so NO single quotes.
-#	def administrator_menu()
-##		link_to( "Admin", admin_path, :class => 'menu_item' )
-#		"<div class=\"menu_item\">#{link_to( "Admin", admin_path )}</div>"
-#	end
 
 	def id_bar_for(object,&block)
 		#	In development, the app will forget

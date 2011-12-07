@@ -12,9 +12,10 @@ ActionController::Routing::Routes.draw do |map|
 
 #	from calnet_authenticated
 	map.logout 'logout', :controller => 'sessions', :action => 'destroy'
-#	map.resources :users, :only => [:destroy,:show,:index],
-#		:collection => { :menu => :get } do |user|
-	map.resources :users, :only => [:destroy,:show,:index] do |user|
+	map.resources :users, :only => [:destroy,:show,:index],
+		:collection => { :menu => :get } do |user|
+#	don't use menu, but tests do, so keep it for now
+#	map.resources :users, :only => [:destroy,:show,:index] do |user|
 		user.resources :roles, :only => [:update,:destroy]
 	end
 	map.resource :session, :only => [ :destroy ]
