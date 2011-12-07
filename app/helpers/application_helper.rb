@@ -36,14 +36,20 @@ module ApplicationHelper
 #			link_to('Studies', dashboard_studies_path) <<
 #			"</div><!-- menu_item -->"
 
+		if logged_in? and current_user.may_administrate?
+		s << "<div class='menu_item'>#{link_to( "Admin", admin_path )}</div>"
+		end
+
 		s << "\n</div><!-- mainmenu -->\n"
 	end
 
+#	I'm gonna try to stop using this
+
 	#	This is called and parsed by javascript, so NO single quotes.
-	def administrator_menu()
-#		link_to( "Admin", admin_path, :class => 'menu_item' )
-		"<div class=\"menu_item\">#{link_to( "Admin", admin_path )}</div>"
-	end
+#	def administrator_menu()
+##		link_to( "Admin", admin_path, :class => 'menu_item' )
+#		"<div class=\"menu_item\">#{link_to( "Admin", admin_path )}</div>"
+#	end
 
 	def id_bar_for(object,&block)
 		#	In development, the app will forget
@@ -68,19 +74,41 @@ module ApplicationHelper
 	end
 
 	def birth_certificates_sub_menu
-		current = case
-			when( params[:controller] == 'bc_requests' and params[:action] == 'new' )
-				:new_bc_request
-			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status].blank? )
-				:all_bc_requests
-			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'pending' )
-				:pending_bc_requests
-			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'active' )
-				:active_bc_requests
-			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'waitlist' )
-				:waitlist_bc_requests
-			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'complete' )
-				:complete_bc_requests
+#
+#	TODO can I clean this up with nested case blocks???
+#
+#		current = case
+#			when( params[:controller] == 'bc_requests' and params[:action] == 'new' )
+#				:new_bc_request
+#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status].blank? )
+#				:all_bc_requests
+#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'pending' )
+#				:pending_bc_requests
+#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'active' )
+#				:active_bc_requests
+#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'waitlist' )
+#				:waitlist_bc_requests
+#			when( params[:controller] == 'bc_requests' and params[:action] == 'index' and params[:status] == 'complete' )
+#				:complete_bc_requests
+##			when( params[:controller] == 'bc_validations' )
+##				:bc_validations
+#			else nil
+#		end
+		#	added the to_s's to ensure not nil
+		current = case params[:controller].to_s
+			when 'bc_requests' 
+				case params[:action].to_s
+					when 'new' then :new_bc_request
+					when 'index' 
+						case params[:status].to_s
+							when 'pending'  then :pending_bc_requests
+							when 'active'   then :active_bc_requests
+							when 'waitlist' then :waitlist_bc_requests
+							when 'complete' then :complete_bc_requests
+							else :all_bc_requests
+						end
+					else nil
+				end
 #			when( params[:controller] == 'bc_validations' )
 #				:bc_validations
 			else nil

@@ -1,8 +1,10 @@
 jQuery(function(){
 
 //	var root = (location.host == 'ccls.berkeley.edu')?'/odms':''
+/*
 	var root = /(ccls|genepi.).berkeley.edu/.test(location.host)?'/odms':''
 	jQuery.getScript(root + '/users/menu.js');
+*/
 
 /*
 	a.submitter is used in basically all forms that use the "id_bar" which is not inside the form element.

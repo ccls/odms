@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
 
-	test "odms_main_menu should return main menu" do
+	test "odms_main_menu should return main menu without login" do
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
 			#	Home, Subjects, Interviews, Samples
@@ -10,12 +10,39 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-	test "administrator_menu should return admin link" do
-		response = HTML::Document.new(administrator_menu).root
-		assert_select response, 'div.menu_item', 1 do
-			assert_select "a[href=?]", "/admin"
+	test "odms_main_menu should return main menu with reader login" do
+		login_as send(:reader)
+		response = HTML::Document.new(odms_main_menu).root
+		assert_select response, 'div#mainmenu', 1 do
+			#	Home, Subjects, Interviews, Samples
+			assert_select 'div.menu_item', 4
 		end
 	end
+
+	test "odms_main_menu should return main menu with editor login" do
+		login_as send(:editor)
+		response = HTML::Document.new(odms_main_menu).root
+		assert_select response, 'div#mainmenu', 1 do
+			#	Home, Subjects, Interviews, Samples
+			assert_select 'div.menu_item', 4
+		end
+	end
+
+	test "odms_main_menu should return main menu with administrator login" do
+		login_as send(:administrator)
+		response = HTML::Document.new(odms_main_menu).root
+		assert_select response, 'div#mainmenu', 1 do
+			#	Home, Subjects, Interviews, Samples, Admin
+			assert_select 'div.menu_item', 5
+		end
+	end
+
+#	test "administrator_menu should return admin link" do
+#		response = HTML::Document.new(administrator_menu).root
+#		assert_select response, 'div.menu_item', 1 do
+#			assert_select "a[href=?]", "/admin"
+#		end
+#	end
 
 #	test "id_bar_for subject should return subject_id_bar" do
 #		subject = create_subject
@@ -157,6 +184,9 @@ pending
 	end
 
 private 
+
+#	"fake" controller methods
+
 	def params
 		@params || {}
 	end
@@ -167,6 +197,16 @@ private
 		#	placeholder so can call subject_id_bar and avoid
 		#		NoMethodError: undefined method `stylesheets' for #<ApplicationHelperTest:0x106049140>
 	end
+	def login_as(user)
+		@current_user = user
+	end
+	def current_user	
+		@current_user
+	end
+	def logged_in?
+		!current_user.nil?
+	end
+
 end
 
 __END__
