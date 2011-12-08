@@ -54,11 +54,15 @@ class StudySubjectsController < ApplicationController
 			conditions[0] << "( state_id_no LIKE :registrar_no OR state_registrar_no LIKE :registrar_no OR local_registrar_no LIKE :registrar_no )"
 			conditions[1][:registrar_no] = "%#{params[:registrar_no]}%"
 		end
+		if params[:subject_type_id] and !params[:subject_type_id].blank?
+			conditions[0] << "( subject_type_id = :subject_type_id )"
+			conditions[1][:subject_type_id] = params[:subject_type_id].to_i
+		end
 		params[:page] = ( !params[:page].blank? && ( params[:page].to_i > 0 ) 
 			) ? params[:page] : 1
 		@study_subjects = StudySubject.paginate(
 			:order   => search_order,
-			:include => [:pii,:patient,:identifier],
+			:include => [:pii,:patient,:identifier,:subject_type],
 			:joins => [
 				'LEFT JOIN piis ON study_subjects.id = piis.study_subject_id',
 				'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id',

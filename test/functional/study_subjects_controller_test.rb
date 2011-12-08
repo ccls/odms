@@ -157,6 +157,39 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_equal 3, assigns(:study_subjects).length
 		end
 
+		test "should find study_subjects by subject_type case and #{cu} login" do
+			s1 = Factory(:case_study_subject)
+			s2 = Factory(:control_study_subject)
+			s3 = Factory(:mother_study_subject)
+			login_as send(cu)
+			get :find, :subject_type_id => SubjectType['case'].id
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(s1)
+		end
+	
+		test "should find study_subjects by subject_type control and #{cu} login" do
+			s1 = Factory(:case_study_subject)
+			s2 = Factory(:control_study_subject)
+			s3 = Factory(:mother_study_subject)
+			login_as send(cu)
+			get :find, :subject_type_id => SubjectType['control'].id
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(s2)
+		end
+	
+		test "should find study_subjects by subject_type mother and #{cu} login" do
+			s1 = Factory(:case_study_subject)
+			s2 = Factory(:control_study_subject)
+			s3 = Factory(:mother_study_subject)
+			login_as send(cu)
+			get :find, :subject_type_id => SubjectType['mother'].id
+			assert_response :success
+			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(s3)
+		end
+	
 		test "should find study_subjects by first_name and #{cu} login" do
 			3.times{|i| Factory(:pii,:first_name => "First#{i}" ) }
 			login_as send(cu)

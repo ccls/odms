@@ -39,6 +39,11 @@
   <%= text_field_tag :hospital_no, params[:hospital_no] %></div>
 <div><label for='registrar_no'>state/local registrar no:</label>
   <%= text_field_tag :registrar_no, params[:registrar_no] %></div>
+<div><label for='subject_type_id'>subject type:</label>
+  <%= select_tag :subject_type_id, 
+		options_for_select(
+			[[nil,nil]] + SubjectType.all.collect{|s|[s.to_s,s.id]},
+			params[:subject_type_id].to_i)  %> </div>
 </div><!-- tablerow -->
 </div><!-- table -->
 
