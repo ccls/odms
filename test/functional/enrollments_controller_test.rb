@@ -130,6 +130,8 @@ class EnrollmentsControllerTest < ActionController::TestCase
 						:consented_on => Date.today }
 			}
 			assert assigns(:enrollment)
+			assert_equal OperationalEventType['subjectConsents'],
+				assigns(:enrollment).operational_events.first.operational_event_type
 			assert_redirected_to enrollment_path(enrollment)
 		end
 
@@ -143,6 +145,8 @@ class EnrollmentsControllerTest < ActionController::TestCase
 						:consented_on => Date.today }
 			}
 			assert assigns(:enrollment)
+			assert_equal OperationalEventType['subjectDeclines'],
+				assigns(:enrollment).operational_events.first.operational_event_type
 			assert_redirected_to enrollment_path(enrollment)
 		end
 
