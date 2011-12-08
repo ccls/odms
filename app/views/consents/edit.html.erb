@@ -34,10 +34,14 @@
 	:class => 'toggle_eligibility_criteria' %></p>
 
 <div style='display:none' class='eligibility_criteria'>
-<p>This is gonna be very unconventional.  I'm gonna need to add explicit
-fields and they'll need to be special saves in the controller
-as these fields won't be nested_attributes.</p>
-<p>NOTE: This data is not yet saved.</p>
+<p>NOTE: The patient data is not yet saved.</p>
+<%#
+
+	It is possible for me to include the nested patient attributes here.
+	Then I wouldn't need to explicitly update the patient.
+	Good idea?
+
+%>
 <% fields_for @study_subject.patient do |p| %>
 <p>Booleans or YNDK?  In the DB they are boolean.  
 In the import data, they are nil,1,2,9</p>

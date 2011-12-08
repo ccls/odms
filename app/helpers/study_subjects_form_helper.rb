@@ -133,6 +133,10 @@ module StudySubjectsFormHelper
 
 protected
 
+#
+#	Labels, ids and classes customized for javascript simplicity and usage.
+#
+
 	def race_label
 		label =  self.object.race.to_s	#.dup.capitalize
 #		label << (( self.object.race.is_other? ) ? ' (not eligible)' : ' (eligible)')
@@ -150,7 +154,8 @@ protected
 			:class   => 'race_selector',
 			:title   => "Set '#{self.object.race}' as one of the subject's race(s)"
 		}, self.object.race_id, '' ) << "\n"
-		s << self.label( :race_id, self.race_label ) << "\n"
+		s << self.label( :race_id, self.race_label,
+			:for => @template.dom_id(self.object.race) ) << "\n"
 	end
 
 	def subject_race_destroyer(checked=true)
@@ -170,7 +175,8 @@ protected
 			:class   => 'race_selector',
 			:title   => "Remove '#{self.object.race}' as one of the subject's race(s)"
 		}, 0, 1 ) << "\n"
-		s << self.label( :_destroy, self.race_label ) << "\n"
+		s << self.label( :_destroy, self.race_label,
+			:for => @template.dom_id(self.object.race) ) << "\n"
 	end
 
 #	def specify_other_race
