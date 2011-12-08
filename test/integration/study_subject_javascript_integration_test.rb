@@ -40,6 +40,50 @@ class StudySubjectJavascriptIntegrationTest < ActionController::CapybaraIntegrat
 #</fieldset><!-- id='race_selector' -->
 #</div>
 
+#	OLD AND BUSTED ABOVE
+#	NEW HOTNESS BELOW
+
+#<input id="study_subject_subject_races_attributes_1_is_primary" name="study_subject[subject_races_attributes[1]][is_primary]" type="hidden" value="false">
+#<input class="is_primary_selector" id="race_1_is_primary" name="study_subject[subject_races_attributes[1]][is_primary]" title="Set 'White, Non-Hispanic' as the subject's PRIMARY race" type="checkbox" value="true">
+#<input class="race_selector" id="race_1" name="study_subject[subject_races_attributes[1]][race_id]" title="Set 'White, Non-Hispanic' as one of the subject's race(s)" type="checkbox" value="1">
+#<label for="race_1">White, Non-Hispanic</label>
+
+
+		test "should preserve creation of subject_race on edit kickback with #{cu} login" do
+			assert_difference( 'SubjectRace.count', 0 ){
+				@study_subject = Factory(:study_subject)
+			}
+			login_as send(cu)
+			page.visit edit_study_subject_path(@study_subject.id)
+			assert_equal current_path, edit_study_subject_path(@study_subject.id)
+#	TODO
+#			assert page.has_unchecked_field?("study_subject[subject_races_attributes][0][race_id]")	#	white
+#			#	trigger a kickback from StudySubject update failure
+#			StudySubject.any_instance.stubs(:valid?).returns(false)
+#			click_button 'Save'
+#			assert page.has_css?("p.flash#error")	#>There was a problem updating the study_subject</p>
+#			assert_equal current_path, study_subject_path(@study_subject.id) #	still a kickback
+#			assert page.has_unchecked_field?("study_subject[subject_races_attributes][0][race_id]")	#	white
+		end
+
+		test "should preserve destruction of subject_race on edit kickback with #{cu} login" do
+			assert_difference( 'SubjectRace.count', 1 ){
+				@study_subject = Factory(:study_subject, :subject_races_attributes => { 
+					'0' => { :race_id => Race['white'].id }})
+			}
+			login_as send(cu)
+			page.visit edit_study_subject_path(@study_subject.id)
+			assert_equal current_path, edit_study_subject_path(@study_subject.id)
+#	TODO
+#			assert page.has_checked_field?("study_subject[subject_races_attributes][0][_destroy]")	#	white
+#			#	trigger a kickback from StudySubject update failure
+#			StudySubject.any_instance.stubs(:valid?).returns(false)
+#			click_button 'Save'
+#			assert page.has_css?("p.flash#error")	#>There was a problem updating the study_subject</p>
+#			assert page.has_checked_field?("study_subject[subject_races_attributes][0][_destroy]")	#	white
+		end
+
+#	The below tests will need updated as well as those below.
 
 		test "should check race when primary race is checked with #{cu} login" do
 			study_subject = Factory(:study_subject)

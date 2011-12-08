@@ -142,7 +142,7 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 #
 		[Address,Addressing,AddressType,County,Context,ContextDataSource,DataSource,
 			Enrollment,Patient,PhoneNumber,PhoneType,StudySubject,ZipCode,
-			SubjectLanguage,Language,
+			SubjectLanguage,Language,SubjectRace,Race,
 			Guide,Page,Role,User].each do |model|
 			model.saved_connection = model.connection
 		end

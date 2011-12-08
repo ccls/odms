@@ -17,7 +17,6 @@ class ConsentsController < ApplicationController
 
 	def show
 		if @study_subject.subject_type == SubjectType['Mother']
-#			flash.now[:error] = "This is a mother subject. Eligibility data is only collected for child subjects. Please go to the record for the subject's child for details."
 			render :action => 'show_mother'
 		else
 			@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
@@ -28,7 +27,6 @@ class ConsentsController < ApplicationController
 	def edit
 		@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
 			Project['ccls'].id )
-#		@patient = @study_subject.patient
 	end
 
 # {
@@ -38,19 +36,18 @@ class ConsentsController < ApplicationController
 #	"patient"=>{"was_previously_treated"=>"1", "was_under_15_at_dx"=>"2", "was_ca_resident_at_diagnosis"=>"999"}, 
 #	"study_subject_id"=>"2"}
 
-#	add unit test to see if I can just
-#	study_subject.update_attribute!(:subject_language_attributes => { ... })
-
 	def update
-#	will need wrapped in a transaction from here ...
-		@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
-			Project['ccls'].id )
-#	testing kickback
-#raise ActiveRecord::RecordInvalid.new(@enrollment)
-		@enrollment.update_attributes!(params[:enrollment])
-#	TODO add patient update (currently debating proper values for those here)
-#	TODO add languages update (just the languages, not the subject)
-#	... to here.
+		ActiveRecordShared.transaction do
+			@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
+				Project['ccls'].id )
+			@enrollment.attributes = params[:enrollment]
+			@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
+#			@study_subject.patient.attributes = params[:patient]
+#raise ActiveRecord::RecordNotSaved.new(@enrollment)
+			@enrollment.save!
+			@study_subject.save!
+			#	TODO add patient update (currently debating proper values for those here)
+		end
 		flash[:notice] = "Enrollment successfully updated."
 		redirect_to study_subject_consent_path(@study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid

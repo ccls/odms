@@ -120,11 +120,11 @@ class ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 #	CASE subject only (for now)
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
-			put :update, :study_subject_id => @study_subject.id, :study_subject => { :subject_languages_attributes => {
+			assert_difference('SubjectLanguage.count',1){
+				put :update, :study_subject_id => @study_subject.id, :study_subject => { :subject_languages_attributes => {
 				:some_random_id => { :language_id => language.id }
-			} }
-#	assert subject has languages
-pending	#	TODO
+			} } }
+			assert !@study_subject.reload.subject_languages.empty?
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
@@ -142,12 +142,11 @@ pending	#	TODO
 			login_as send(cu)
 #	CASE subject only (for now)
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
-#			assert_difference( 'SubjectLanguage.count', -1 ){
+			assert_difference( 'SubjectLanguage.count', -1 ){
 				put :update, :study_subject_id => @study_subject.id, :study_subject => { :subject_languages_attributes => {
 					:some_random_id => { :id => subject_language.id, :_destroy => 1 } } }
-#			}
-#	assert subject has no more languages
-pending	#	TODO
+			}
+			assert @study_subject.reload.subject_languages.empty?
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))

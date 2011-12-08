@@ -53,6 +53,8 @@
 <span class='label'>Race:</span><%= select_subject_races(@study_subject) %>
 </div>
 
+<%#= f.subject_races_select() %>
+
 <% f.fields_for :identifier do |identifier_fields| %>
 	<%= identifier_fields.wrapped_text_field :state_registrar_no,
 		:label_text => 'state registrar no:' %>

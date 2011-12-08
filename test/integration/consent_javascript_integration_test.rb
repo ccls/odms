@@ -32,7 +32,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 #	consent#edit (shouldn't have a consent#new)
 
-		test "should initial show specify other language when other language checked with #{cu} login" do
+		test "should initially show specify other language when other language checked with #{cu} login" do
 			study_subject = Factory(:case_study_subject, :subject_languages_attributes => { 
 				'0' => { :language_id => Language['other'].id, :other => 'redneck' }})			#	CASE subject only (for now?)
 			login_as send(cu)
@@ -69,6 +69,41 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			assert_other_language_hidden
 		end
 
+		test "should preserve creation of subject_language on edit kickback with #{cu} login" do
+			assert_difference( 'SubjectLanguage.count', 0 ){
+				#	CASE subject only (for now?)
+				@study_subject = Factory(:case_study_subject)
+			}
+			login_as send(cu)
+			page.visit edit_study_subject_consent_path(@study_subject.id)
+			show_eligibility_criteria_div
+			assert_equal current_path, edit_study_subject_consent_path(@study_subject.id)
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			#	trigger a kickback from Enrollment update failure
+			Enrollment.any_instance.stubs(:valid?).returns(false)	#	Could be StudySubject as well.  Doesn't matter.
+			click_button 'Save'
+			assert page.has_css?("p.flash#error")
+			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+		end
+
+		test "should preserve destruction of subject_language on edit kickback with #{cu} login" do
+			assert_difference( 'SubjectLanguage.count', 1 ){
+				#	CASE subject only (for now?)
+				@study_subject = Factory(:case_study_subject, :subject_languages_attributes => { 
+					'0' => { :language_id => Language['english'].id }})
+			}
+			login_as send(cu)
+			page.visit edit_study_subject_consent_path(@study_subject.id)
+			show_eligibility_criteria_div
+			assert_equal current_path, edit_study_subject_consent_path(@study_subject.id)
+			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][_destroy]")	#	english
+			#	trigger a kickback from Enrollment update failure
+			Enrollment.any_instance.stubs(:valid?).returns(false)	#	Could be StudySubject as well.  Doesn't matter.
+			click_button 'Save'
+			assert page.has_css?("p.flash#error")
+			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][_destroy]")	#	english
+		end
+
 		#	a bit excessive, but rather be excessive than skimp
 		test "should preserve checked subject_languages on edit kickback with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
@@ -90,6 +125,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			check("study_subject[subject_languages_attributes][0][language_id]")	#	english
 			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
 			click_button 'Save'
+			assert page.has_css?("p.flash#error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
@@ -101,6 +137,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			uncheck("study_subject[subject_languages_attributes][0][language_id]")	#	english
 			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
 			click_button 'Save'
+			assert page.has_css?("p.flash#error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
@@ -112,6 +149,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			check("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
 			assert page.has_checked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
 			click_button 'Save'
+			assert page.has_css?("p.flash#error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
@@ -128,6 +166,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			assert_other_language_visible
 
 			click_button 'Save'
+			assert page.has_css?("p.flash#error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
@@ -164,6 +203,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			page.visit edit_study_subject_consent_path(study_subject)
 			assert page.has_css?('div.eligibility_criteria', :visible => false)
 #Capybara::ElementNotFound: no link with title, id or text '.toggle_eligibility_criteria' found
+#	Doesn't have an id, but could use the text.  Using find().click works just fine.
 #			click_link '.toggle_eligibility_criteria'
 			find('a.toggle_eligibility_criteria').click
 			assert page.has_css?('div.eligibility_criteria', :visible => true)
