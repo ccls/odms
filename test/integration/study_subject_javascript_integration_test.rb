@@ -46,12 +46,9 @@ class StudySubjectJavascriptIntegrationTest < ActionController::CapybaraIntegrat
 			page.visit edit_study_subject_path(study_subject)
 			assert page.has_unchecked_field?(
 				"study_subject[subject_races_attributes][1][race_id]")
-#				"study_subject[subject_races_attributes[1]][race_id]")
-#			page.check "study_subject[subject_races_attributes[1]][is_primary]"
 			page.check "study_subject[subject_races_attributes][1][is_primary]"
 			assert page.has_checked_field?(
 				"study_subject[subject_races_attributes][1][race_id]")
-#				"study_subject[subject_races_attributes[1]][race_id]")
 		end
 
 		test "should uncheck other primary race when primary race is check" <<
@@ -59,19 +56,14 @@ class StudySubjectJavascriptIntegrationTest < ActionController::CapybaraIntegrat
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			page.visit edit_study_subject_path(study_subject)
-#			page.check "study_subject[subject_races_attributes[1]][is_primary]"
 			page.check "study_subject[subject_races_attributes][1][is_primary]"
 			assert page.has_checked_field?(
 				"study_subject[subject_races_attributes][1][is_primary]")
-#				"study_subject[subject_races_attributes[1]][is_primary]")
-#			page.check "study_subject[subject_races_attributes[2]][is_primary]"
 			page.check "study_subject[subject_races_attributes][2][is_primary]"
 			assert page.has_checked_field?(
 				"study_subject[subject_races_attributes][2][is_primary]")
-#				"study_subject[subject_races_attributes[2]][is_primary]")
 			assert page.has_unchecked_field?(
 				"study_subject[subject_races_attributes][1][is_primary]")
-#				"study_subject[subject_races_attributes[1]][is_primary]")
 		end
 
 		test "should uncheck primary race when race is unchecked" <<
@@ -79,22 +71,16 @@ class StudySubjectJavascriptIntegrationTest < ActionController::CapybaraIntegrat
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			page.visit edit_study_subject_path(study_subject)
-#			page.check "study_subject[subject_races_attributes[1]][is_primary]"
 			page.check "study_subject[subject_races_attributes][1][is_primary]"
 			assert page.has_checked_field?(
 				"study_subject[subject_races_attributes][1][race_id]")
-#				"study_subject[subject_races_attributes[1]][race_id]")
 			assert page.has_checked_field?(
 				"study_subject[subject_races_attributes][1][is_primary]")
-#				"study_subject[subject_races_attributes[1]][is_primary]")
-#			page.uncheck "study_subject[subject_races_attributes[1]][race_id]"
 			page.uncheck "study_subject[subject_races_attributes][1][race_id]"
 			assert page.has_unchecked_field?(
 				"study_subject[subject_races_attributes][1][race_id]")
-#				"study_subject[subject_races_attributes[1]][race_id]")
 			assert page.has_unchecked_field?(
 				"study_subject[subject_races_attributes][1][is_primary]")
-#				"study_subject[subject_races_attributes[1]][is_primary]")
 		end
 
 	end
