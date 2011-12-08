@@ -86,6 +86,24 @@ class PageTest < ActiveSupport::TestCase
 		assert_equal p, page
 	end
 
+	test "should assign menu_en on menu=" do
+		p = create_page
+		p.menu = 'My New Menu'
+		assert_equal p.menu_en, 'My New Menu'
+	end
+
+	test "should assign title_en on title=" do
+		p = create_page
+		p.title = 'My New Title'
+		assert_equal p.title_en, 'My New Title'
+	end
+
+	test "should assign body_en on body=" do
+		p = create_page
+		p.body = 'My New Body'
+		assert_equal p.body_en, 'My New Body'
+	end
+
 	test "should return english menu without locale" do
 		p = create_page
 		assert_equal p.menu, p.menu_en

@@ -89,19 +89,41 @@ class Page < ActiveRecord::Base
 		self.path == "/"
 	end
 
-	#	Virtual attributes
-	%w( menu title body ).each do |attr|
-		define_method "#{attr}" do |*args|
-			r = send("#{attr}_#{args[0]||'en'}")
-			(r.blank?) ? send("#{attr}_en") : r
-		end
-		define_method "#{attr}=" do |new_val|
-			self.send("#{attr}_en=",new_val)
-		end
-#		attr_accessible attr.to_sym
-#		%w( en es ).each do |lang|
-#			attr_accessible "#{attr}_#{lang}".to_sym
-#		end
+	def menu(locale='en')	#	sends session[:locale] which can be nil
+		r = send("menu_#{locale||'en'}")
+		( r.blank? ) ? send(:menu_en) : r
 	end
+	def menu=(new_menu)
+		self.menu_en = new_menu
+	end
+	def title(locale='en')	#	sends session[:locale] which can be nil
+		r = send("title_#{locale||'en'}")
+		( r.blank? ) ? send(:title_en) : r
+	end
+	def title=(new_title)
+		self.title_en = new_title
+	end
+	def body(locale='en')	#	sends session[:locale] which can be nil
+		r = send("body_#{locale||'en'}")
+		( r.blank? ) ? send(:body_en) : r
+	end
+	def body=(new_body)
+		self.body_en = new_body
+	end
+
+#	#	Virtual attributes
+#	%w( menu title body ).each do |attr|
+#		define_method "#{attr}" do |*args|
+#			r = send("#{attr}_#{args[0]||'en'}")
+#			(r.blank?) ? send("#{attr}_en") : r
+#		end
+#		define_method "#{attr}=" do |new_val|
+#			self.send("#{attr}_en=",new_val)
+#		end
+##		attr_accessible attr.to_sym
+##		%w( en es ).each do |lang|
+##			attr_accessible "#{attr}_#{lang}".to_sym
+##		end
+#	end
 
 end

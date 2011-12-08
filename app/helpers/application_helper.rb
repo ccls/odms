@@ -128,7 +128,7 @@ module ApplicationHelper
 			when 'documents' then :documents
 			when 'notes' then :notes
 			when 'cases' then :cases
-			else nil
+#			else nil
 		end
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
