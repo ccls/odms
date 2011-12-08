@@ -133,6 +133,19 @@ class EnrollmentsControllerTest < ActionController::TestCase
 			assert_redirected_to enrollment_path(enrollment)
 		end
 
+		test "should create operational event if declines on update with #{cu} login" do
+			enrollment = Factory(:enrollment)
+			login_as send(cu)
+			assert_changes("Enrollment.find(#{enrollment.id}).operational_events.count",1) {
+				put :update, :id => enrollment.id,
+					:enrollment => { :consented => YNDK[:no],
+						:refusal_reason => Factory(:refusal_reason),
+						:consented_on => Date.today }
+			}
+			assert assigns(:enrollment)
+			assert_redirected_to enrollment_path(enrollment)
+		end
+
 	end
 
 	non_site_editors.each do |cu|
