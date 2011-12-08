@@ -32,12 +32,19 @@ form.edit_study_subject div.subject_type,
 form.edit_study_subject div.sex {
 	display:inline;
 }
-
+/*
 form.edit_study_subject div.race_wrapper > * {
 	display:inline-block;
 	vertical-align:top;
 }
 form.edit_study_subject div.race_wrapper {
+	margin-bottom: 10px;
+}
+*/
+form.edit_study_subject div#races div.subject_race {
+	margin-left:30px;
+}
+form.edit_study_subject div#study_subject_races {
 	margin-bottom: 10px;
 }
 

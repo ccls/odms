@@ -93,36 +93,36 @@ module StudySubjectsFormHelper
 		#		self.object  #	<-- the subject
 		s =  "<div id='study_subject_races'>"
 		#	TODO would be nice, but not currently needed, to have a label option.
-		s << "<div class='races_label'>Race(s):</div>\n"
+		s << "<div class='races_label'>Select Race(s): "
+		s <<   ".... ( [primary] [partial] Text )</div>\n"
 		s << "<div id='races'>\n"
-#puts self.object.inspect
-#puts self.object.subject_races.inspect
-		races.each do |r|
-			sr = self.object.subject_races.detect{|sr|sr.race_id == r.id }
+		races.each do |race|
+			sr = self.object.subject_races.detect{|sr|sr.race_id == race.id }
 			#	This effectively requires that the attributes have been updated in the controller.
 			#	@study_subject.subject_races_attributes = params.dig('study_subject','subject_races_attributes')||{}
 			sr_built_or_exists = ( sr.nil? ) ? false : true												#	need to remember
-			sr = self.object.subject_races.build(:race => r) if sr.nil?
+			sr = self.object.subject_races.build(:race => race) if sr.nil?
 			classes = ['subject_race']
 			classes << ( ( sr.id.nil? ) ? 'creator' : 'destroyer' )
 			s << "<div class='#{classes.join(' ')}'>"
 			self.fields_for( :subject_races, sr ) do |sr_fields|
-#				s << "<div id='other_race'>" if( r.is_other? )
+#				s << "<div id='other_race'>" if( race.is_other? )
 
-#	TODO don't for get is_primary ...
-
-#puts 
-#puts "in subject_races_select"
-#puts sr.inspect
-#puts
+#				s << sr_fields.check_box(:is_primary, {}, true, false)
+#	default id="study_subject_subject_races_attributes_0_is_primary"
+#	default class=nil
+				s << sr_fields.check_box(:is_primary, { 
+					:id => "#{@template.dom_id(race)}_is_primary", 
+					:class => 'is_primary_selector',
+					:title => "Set '#{race}' as the subject's PRIMARY race" } ) << "\n"
 
 				if sr.id.nil?	#	not currently existing subject_race
 					s << sr_fields.subject_race_creator(sr_built_or_exists)
 				else	#	race exists, this is for possible destruction
 					s << sr_fields.subject_race_destroyer(!sr.marked_for_destruction?)
 				end
-#				s << sr_fields.specify_other_race() if r.is_other?
-#				s << "</div>"	if( r.is_other? ) # id='other_race'>" 
+#				s << sr_fields.specify_other_race() if race.is_other?
+#				s << "</div>"	if( race.is_other? ) # id='other_race'>" 
 			end
 			s << "</div>\n"	# class='subject_race'>"
 		end
@@ -134,7 +134,7 @@ module StudySubjectsFormHelper
 protected
 
 	def race_label
-		label =  self.object.race.key.dup.capitalize
+		label =  self.object.race.to_s	#.dup.capitalize
 #		label << (( self.object.race.is_other? ) ? ' (not eligible)' : ' (eligible)')
 	end
 
@@ -142,15 +142,18 @@ protected
 		#	self.object is a subject_race
 		#	If exists, the hidden id tag is actually immediately put in the html stream!
 		#	Don't think that it will be a problem, but erks me.
-		s = self.check_box( :race_id, { :checked => checked }, self.object.race_id, '' ) << "\n"
+#	default id="study_subject_subject_races_attributes_0_race_id"
+#	default class=nil
+		s = self.check_box( :race_id, { 
+			:checked => checked,
+			:id      => @template.dom_id(self.object.race), 
+			:class   => 'race_selector',
+			:title   => "Set '#{self.object.race}' as one of the subject's race(s)"
+		}, self.object.race_id, '' ) << "\n"
 		s << self.label( :race_id, self.race_label ) << "\n"
 	end
 
 	def subject_race_destroyer(checked=true)
-#puts
-#puts "In subject_race_destroyer"
-#puts self.object.inspect
-#puts
 		#	self.object is a subject_race
 		#	KEEP ME for finding _destroy to determine if checked
 		s =  self.hidden_field( :race_id, :value => self.object.race_id )
@@ -159,16 +162,23 @@ protected
 		#	when checked, I want it to do nothing (0), when unchecked I want destroy (1)
 		#	Here, I only want existing race_ids
 		#	Yes, this is very backwards.
-		s << self.check_box( :_destroy, { :checked => checked }, 0, 1 ) << "\n"
+#	default id="study_subject_subject_races_attributes_1__destroy"
+#	default class=nil
+		s << self.check_box( :_destroy, { 
+			:checked => checked,
+			:id      => @template.dom_id(self.object.race), 
+			:class   => 'race_selector',
+			:title   => "Remove '#{self.object.race}' as one of the subject's race(s)"
+		}, 0, 1 ) << "\n"
 		s << self.label( :_destroy, self.race_label ) << "\n"
 	end
 
-	def specify_other_race
-		s =  "<div id='specify_other_race'>"
-		s << self.label( :other, 'specify:' ) << "\n"
-		s << self.text_field( :other, :size => 12 ) << "\n"
-		s << "</div>"	# id='other_race'>"
-	end
+#	def specify_other_race
+#		s =  "<div id='specify_other_race'>"
+#		s << self.label( :other, 'specify:' ) << "\n"
+#		s << self.text_field( :other, :size => 12 ) << "\n"
+#		s << "</div>"	# id='other_race'>"
+#	end
 
 	def language_label
 		label =  self.object.language.key.dup.capitalize
