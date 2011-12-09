@@ -2,6 +2,14 @@
 <% sub_menu_for(@study_subject) %>
 <% id_bar_for(@study_subject) %>
 
+<div id='subject_control_bar'>
+<h3>Subject Sample</h3>
+<div class='buttons'>
+<%= link_to( 'Edit', edit_sample_path(@sample),
+	:class => 'button' ) %>
+</div><!-- class='buttons' -->
+</div>
+
 <%= wrapped_spans :sample, :sample_type_parent,
 	:label_text => 'sample type:' %>
 

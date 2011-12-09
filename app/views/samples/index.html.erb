@@ -3,3 +3,44 @@
 
 <h3>Subject Specimen Inventory</h3>
 <p>table(received on, sample id, project, sample type, sample subtype, sample status)</p>
+
+<table id='pending' class='sample_study_subject'><thead><tr>
+<th>Pending Samples</th>
+<th>type</th>
+<th>kit sent</th>
+<th>kit tracking no</th>
+<th>sample tracking no</th>
+</tr>
+</thead><tbody>
+<% @study_subject.samples.pending.each do |sample| %>
+	<tr><td>&nbsp;</td>
+		<td><%= link_to sample.sample_type.to_s, sample_path(sample) -%></td>
+		<td><%=mdy sample.sent_to_subject_on -%></td>
+		<td><%= sample.kit_tracking_number %></td>
+		<td><%= sample.sample_tracking_number %></td>
+	</tr>
+<% end %>
+<tr>
+<td>&nbsp;</td>
+<td><%= ( current_user.may_edit? ) ?
+	link_to( "add new ...", new_study_subject_sample_path(@study_subject) ) :
+	'&nbsp;'
+%></td>
+</tr>
+</tbody></table><!-- id='pending' -->
+
+<table id='collected' class='sample_study_subject'><tbody><tr>
+<th>Collected Samples</th>
+<th>type</th>
+<th>date collected</th>
+<th>date received</th>
+</tr>
+<% @study_subject.samples.collected.each do |sample| %>
+	<tr><td>&nbsp;</td>
+		<td><%= link_to sample.sample_type.to_s, sample_path(sample) -%></td>
+		<td><%=mdy sample.collected_on -%></td>
+		<td><%=mdy sample.received_by_ccls_on %></td>
+	</tr>
+<% end %>
+
+</tbody></table><!-- id='collected' -->
