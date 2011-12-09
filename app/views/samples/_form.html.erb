@@ -29,6 +29,8 @@
 	:class => 'datepicker',
 	:label_text => 'Received by CCLS on:' %>
 
+
+<%# This is too wide to sit on one line %>
 <% f.wrapped_date_text_field :sent_to_lab_on,
 	:class => 'datepicker',
 	:label_text => 'Sent to Lab on:' do %>
@@ -37,7 +39,8 @@
 	{ :include_blank => true }
 ) %>
 <% end %>
-	
+
+
 
 <%= f.wrapped_date_text_field :received_by_lab_on,
 	:class => 'datepicker',
