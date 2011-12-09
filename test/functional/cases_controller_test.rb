@@ -84,9 +84,12 @@ class CasesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			study_subject = create_study_subject
 			get :show, :id => study_subject.id
-			assert_not_nil flash[:error]
-#			assert_redirected_to cases_path
-			assert_redirected_to study_subject_path(assigns(:study_subject).id)
+#			assert_not_nil flash[:error]
+#			assert_redirected_to study_subject_path(assigns(:study_subject).id)
+			assert_nil flash[:error]
+			assert_match /for case subjects only/,
+				@response.body
+			assert_template 'not_case'
 		end
 
 		test "should get new with #{cu} login" do
