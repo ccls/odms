@@ -18,9 +18,9 @@
 
 <%= f.error_messages %>
 
-<div id='subject_is_eligible'>
 <%= f.wrapped_y_n_dk_select :is_eligible,
 	:label_text => 'is eligible?' %>
+<div id='subject_is_eligible'>
 <%= f.wrapped_collection_select :ineligible_reason_id,
 	IneligibleReason.all, :id, :to_s, :include_blank => true,
 	:label_text => 'reason ineligible:' %>
@@ -67,15 +67,15 @@ In the import data, they are nil,1,2,9</p>
 <%= f.wrapped_y_n_dk_select :consented,
 	:label_text => 'consented?' %>
 
-<div id='subject_consented'>
+<div id='subject_refused'>
 <%= f.wrapped_collection_select :refusal_reason_id,
 	RefusalReason.all, :id, :to_s, :include_blank => true,
 	:label_text => 'reason for refusal:' %>
 <%= f.wrapped_text_field :other_refusal_reason,
 	:label_text => 'specify reason:' %>
-</div><!-- id='subject_consented' -->
+</div><!-- id='subject_refused' -->
 
-<div id='subject_refused'>
+<div id='subject_consented'>
 <%= f.wrapped_date_text_field :consented_on,
 	:size => 20,
 	:class => 'datepicker',
@@ -83,7 +83,7 @@ In the import data, they are nil,1,2,9</p>
 <%= f.wrapped_collection_select :document_version_id,
 	DocumentVersion.type1, :id, :to_s, :include_blank => true,
 	:label_text => 'consent version:' %>
-</div><!-- id='subject_refused' -->
+</div><!-- id='subject_consented' -->
 
 <hr/>
 <div id='consent_opt_outs'>

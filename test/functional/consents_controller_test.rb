@@ -17,28 +17,11 @@ class ConsentsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-#<div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
-#<div id='languages'>
-#<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="study_subject_subject_languages_attributes_0_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
-#<label for="study_subject_subject_languages_attributes_0_language_id">English (eligible)</label>
-#</div>
-#<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][1][language_id]" type="hidden" value="" /><input id="study_subject_subject_languages_attributes_1_language_id" name="study_subject[subject_languages_attributes][1][language_id]" type="checkbox" value="2" />
-#<label for="study_subject_subject_languages_attributes_1_language_id">Spanish (eligible)</label>
-#</div>
-#<div class='subject_language creator'><div id='other_language'><input name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="" /><input id="study_subject_subject_languages_attributes_2_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="checkbox" value="3" />
-#<label for="study_subject_subject_languages_attributes_2_language_id">Other (not eligible)</label>
-#<div id='specify_other_language'><label for="study_subject_subject_languages_attributes_2_other">specify:</label>
-#<input id="study_subject_subject_languages_attributes_2_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" />
-#</div></div></div>
-#</div>
-#</div><!-- study_subject_languages -->
-
-
 #	as the language selector is a form builder, unlike the race selector, explicit helper tests will be challenging
 
 		test "should NOT have checked subject_languages on edit if don't exist with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
-				@study_subject = Factory(:case_study_subject)			#	CASE subject only (for now?)
+				@study_subject = Factory(:case_study_subject)	#	NOTE CASE subject only (for now?)
 			}
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
@@ -47,15 +30,20 @@ class ConsentsControllerTest < ActionController::TestCase
 				assert_select( "div#languages" ){
 					assert_select( "div.subject_language.creator", 3 ).each do |sl|
 						#	checkbox and hidden share the same name
-						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
+						assert_select( sl, "input[name=?]", 
+							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
 						assert_select( sl, "input[type=hidden][value='']", 1 )
-						assert_select( sl, "input[type=checkbox][value=?]", /\d/, 1 )	#	value is the language_id (could test each but iffy)
+						assert_select( sl, 
+							"input[type=checkbox][value=?]", /\d/, 1 )	
+							#	value is the language_id (could test each but iffy)
 						#	should not be checked
 						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
 					end
-					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
-						assert_select("input[type=text][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+#					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
+					assert_select("div#specify_other_language",1 ){
+						assert_select("input[type=text][name=?]",
+							/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
 					}
 			} }
 		end
@@ -64,8 +52,9 @@ class ConsentsControllerTest < ActionController::TestCase
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
-				@study_subject = Factory(:case_study_subject, :subject_languages_attributes => {			#	CASE subject only (for now?)
-					:some_random_id => { :language_id => language.id }
+				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
+					:subject_languages_attributes => {			
+						:some_random_id => { :language_id => language.id }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
@@ -74,9 +63,12 @@ class ConsentsControllerTest < ActionController::TestCase
 				assert_select( "div#languages" ){
 					assert_select( "div.subject_language.creator", 2 ).each do |sl|
 						#	checkbox and hidden share the same name
-						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
+						assert_select( sl, "input[name=?]", 
+							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
 						assert_select( sl, "input[type=hidden][value='']", 1 )
-						assert_select( sl, "input[type=checkbox][value=?]", /\d/, 1 )	#	value is the language_id (could test it, but would be complicated)
+						assert_select( sl, 
+							"input[type=checkbox][value=?]", /\d/, 1 )	
+							#	value is the language_id (could test it, but would be complicated)
 						#	should not be checked
 						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
@@ -85,14 +77,17 @@ class ConsentsControllerTest < ActionController::TestCase
 						assert_select( sl, "input[type=hidden][name=?][value='#{language.id}']", 
 							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 1 )
 						#	destroy checkbox and hidden share the same name
-						assert_select( sl, "input[name=?]", /study_subject\[subject_languages_attributes\]\[\d\]\[_destroy\]/, 2 ){
+						assert_select( sl, "input[name=?]", 
+							/study_subject\[subject_languages_attributes\]\[\d\]\[_destroy\]/, 2 ){
 							assert_select( "input[type=hidden][value='1']", 1 )
 							assert_select( "input[type=checkbox][value='0']", 1 )
-							assert_select( "input[type=checkbox][checked=checked]", 1 )	#	better be checked
+							assert_select( "input[type=checkbox][checked=checked]", 1 )
 						}
 					end
-					assert_select("div.subject_language > div#other_language div#specify_other_language",1 ){
-						assert_select("input[type=text][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+#					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
+					assert_select("div#specify_other_language",1 ){
+						assert_select("input[type=text][name=?]",
+							/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
 					}
 			} }
 		end
@@ -101,13 +96,16 @@ class ConsentsControllerTest < ActionController::TestCase
 			language = Language['other']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
-				@study_subject = Factory(:case_study_subject, :subject_languages_attributes => {			#	CASE subject only (for now?)
-					:some_random_id => { :other => 'redneck', :language_id => language.id }
+				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
+					:subject_languages_attributes => {			
+						:some_random_id => { :other => 'redneck', :language_id => language.id }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
-			assert_select("div.subject_language.destroyer > div#other_language div#specify_other_language",1 ){
-				assert_select("input[type=text][value=redneck][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+#			assert_select("div.subject_language.destroyer > div#other_language > div#specify_other_language",1 ){
+			assert_select("div#specify_other_language",1 ){
+				assert_select("input[type=text][value=redneck][name=?]",
+					/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
 			}
 		end
 
@@ -118,11 +116,12 @@ class ConsentsControllerTest < ActionController::TestCase
 				@study_subject = Factory(:study_subject)
 			}
 			login_as send(cu)
-#	CASE subject only (for now)
+#	NOTE CASE subject only (for now)
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
 			assert_difference('SubjectLanguage.count',1){
-				put :update, :study_subject_id => @study_subject.id, :study_subject => { :subject_languages_attributes => {
-				:some_random_id => { :language_id => language.id }
+				put :update, :study_subject_id => @study_subject.id, 
+					:study_subject => { :subject_languages_attributes => {
+					:some_random_id => { :language_id => language.id }
 			} } }
 			assert !@study_subject.reload.subject_languages.empty?
 			assert_nil     flash[:error]
@@ -134,17 +133,19 @@ class ConsentsControllerTest < ActionController::TestCase
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
-				@study_subject = Factory(:study_subject, :subject_languages_attributes => {
-					:some_random_id => { :language_id => language.id }
+				@study_subject = Factory(:study_subject, 
+					:subject_languages_attributes => {
+						:some_random_id => { :language_id => language.id }
 			} ) }
 			subject_language = @study_subject.subject_languages.first
 			assert_equal language, subject_language.language
 			login_as send(cu)
-#	CASE subject only (for now)
+#	NOTE CASE subject only (for now)
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
 			assert_difference( 'SubjectLanguage.count', -1 ){
-				put :update, :study_subject_id => @study_subject.id, :study_subject => { :subject_languages_attributes => {
-					:some_random_id => { :id => subject_language.id, :_destroy => 1 } } }
+				put :update, :study_subject_id => @study_subject.id, 
+					:study_subject => { :subject_languages_attributes => {
+						:some_random_id => { :id => subject_language.id, :_destroy => 1 } } }
 			}
 			assert @study_subject.reload.subject_languages.empty?
 			assert_nil     flash[:error]
@@ -153,13 +154,29 @@ class ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update consent if study_subject update fails with #{cu} login" do
-pending	#	TODO
+			language = Language['english']
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			StudySubject.any_instance.stubs(:create_or_update).returns(false)
+			#	Don't need to provide something new to save to trigger this failure.
+			put :update, :study_subject_id => study_subject.id
+			assert_nil     flash[:notice]
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should NOT update consent if patient update fails with #{cu} login" do
-pending	#	TODO
+pending	#	TODO as soon as 3 field data types are settled.
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			Patient.any_instance.stubs(:create_or_update).returns(false)
+#			put :update, :study_subject_id => study_subject.id
+#			assert_nil     flash[:notice]
+#			assert_not_nil flash[:error]
+#			assert_response :success
+#			assert_template 'edit'
 		end
-
 
 		test "should create ccls enrollment on edit if none exists with #{cu} login" do
 			study_subject = Factory(:study_subject)
@@ -195,7 +212,6 @@ pending	#	TODO
 #
 
 		test "should edit consent with #{cu} login" do
-#			study_subject = Factory(:enrollment).study_subject
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
@@ -240,7 +256,6 @@ pending	#	TODO
 		end
 
 		test "should update consent with #{cu} login" do
-#			study_subject = Factory(:enrollment).study_subject
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
@@ -258,7 +273,6 @@ pending	#	TODO
 		end
 
 		test "should NOT update consent with #{cu} login and invalid enrollment" do
-#			study_subject = Factory(:enrollment).study_subject
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:valid?).returns(false)
@@ -271,7 +285,6 @@ pending	#	TODO
 		end
 
 		test "should NOT update consent with #{cu} login and save fails" do
-#			study_subject = Factory(:enrollment).study_subject
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:create_or_update).returns(false)
@@ -288,7 +301,6 @@ pending	#	TODO
 	non_site_editors.each do |cu|
 
 		test "should NOT edit consent with #{cu} login" do
-#			study_subject = Factory(:enrollment).study_subject
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
@@ -297,7 +309,6 @@ pending	#	TODO
 		end
 
 		test "should NOT update consent with #{cu} login" do
-#			study_subject = Factory(:enrollment).study_subject
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id
@@ -310,7 +321,6 @@ pending	#	TODO
 	site_readers.each do |cu|
 
 		test "should get consents with #{cu} login" do
-#			study_subject = Factory(:enrollment).study_subject
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
@@ -345,7 +355,6 @@ pending	#	TODO
 	non_site_readers.each do |cu|
 
 		test "should NOT get consents with #{cu} login" do
-#			study_subject = Factory(:enrollment).study_subject
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
@@ -356,21 +365,18 @@ pending	#	TODO
 	end
 
 	test "should NOT get consents without login" do
-#		study_subject = Factory(:enrollment).study_subject
 		study_subject = Factory(:study_subject)
 		get :show, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT get edit consent without login" do
-#		study_subject = Factory(:enrollment).study_subject
 		study_subject = Factory(:study_subject)
 		get :edit, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT update consent without login" do
-#		study_subject = Factory(:enrollment).study_subject
 		study_subject = Factory(:study_subject)
 		put :update, :study_subject_id => study_subject.id
 		assert_redirected_to_login
