@@ -1,0 +1,57 @@
+<% javascripts('edit_sample') %>
+<% id_bar_for(@study_subject) %>
+
+<%= f.error_messages %>
+
+<%= f.wrapped_grouped_collection_select( :sample_type_id, 
+		SampleType.roots, :children, :to_s, :id, :to_s,
+	{ :include_blank => true }
+) %>
+
+<%= f.wrapped_date_text_field :sent_to_subject_on,
+	:class => 'datepicker',
+	:label_text => 'Sent to Subject on:' %>
+
+<%= f.wrapped_date_text_field :collected_on,
+	:class => 'datepicker',
+	:label_text => 'Collected on:' %>
+
+<%= f.wrapped_date_text_field :received_by_ccls_on,
+	:class => 'datepicker',
+	:label_text => 'Received by CCLS on:' %>
+
+<% f.wrapped_date_text_field :sent_to_lab_on,
+	:class => 'datepicker',
+	:label_text => 'Sent to Lab on:' do %>
+<%= f.wrapped_collection_select( :location_id,
+	Organization.all, :id, :to_s,
+	{ :include_blank => true }
+) %>
+<% end %>
+	
+
+<%= f.wrapped_date_text_field :received_by_lab_on,
+	:class => 'datepicker',
+	:label_text => 'Received by Lab on:' %>
+
+<%= f.wrapped_date_text_field :aliquotted_on,
+	:class => 'datepicker',
+	:label_text => 'Aliquotted on:' %>
+
+<h4>Sample Kit:</h4>
+<% @sample.build_sample_kit if @sample.sample_kit.nil? %>
+<% f.fields_for :sample_kit do |sk| %>
+	<% @sample.sample_kit.build_kit_package if 
+		@sample.sample_kit.kit_package.nil? %>
+	<% sk.fields_for :kit_package do |kp| %>
+		<%= kp.wrapped_text_field :tracking_number,
+			:label_text => "Kit Package Tracking Number:" %>
+	<% end %>
+
+	<% @sample.sample_kit.build_sample_package if 
+		@sample.sample_kit.sample_package.nil? %>
+	<% sk.fields_for :sample_package do |sp| %>
+		<%= sp.wrapped_text_field :tracking_number,
+			:label_text => "Sample Package Tracking Number:" %>
+	<% end %>
+<% end %>

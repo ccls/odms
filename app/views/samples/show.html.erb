@@ -1,0 +1,58 @@
+<% stylesheets('sample') %>
+<% sub_menu_for(@study_subject) %>
+<% id_bar_for(@study_subject) %>
+
+<%= wrapped_spans :sample, :sample_type_parent,
+	:label_text => 'sample type:' %>
+
+<%= wrapped_spans :sample, :sample_type,
+	:label_text => 'sample subtype:' %>
+
+<%= wrapped_date_spans :sample, :sent_to_subject_on,
+	:label_text => 'Sent to Subject on:' %>
+
+<%= wrapped_date_spans :sample, :collected_on,
+	:label_text => 'Collected on:' %>
+
+<%= wrapped_date_spans :sample, :received_by_ccls_on,
+	:label_text => 'Received by CCLS on:' %>
+
+<%= wrapped_date_spans :sample, :sent_to_lab_on,
+	:label_text => 'Sent to Lab on:' %>
+
+<%= wrapped_date_spans :sample, :received_by_lab_on,
+	:label_text => 'Received by Lab on:' %>
+
+<%= wrapped_date_spans :sample, :aliquotted_on,
+	:label_text => 'Aliquotted on:' %>
+
+
+<p id='shipping'>Shipping Information</p>
+
+<table><thead>
+<tr>
+  <th>&nbsp;</th>
+  <th>tracking no.</th>
+  <th>sent</th>
+  <th>received</th>
+</tr></thead><tbody>
+<tr><th>collection kit</th>
+<td>
+<%=link_to( @sample.kit_tracking_number,
+			@sample.kit_package, :class => 'ajax'
+	) unless @sample.kit_tracking_number.blank? %>&nbsp;
+</td>
+<td><%=mdy @sample.kit_sent_on %></td>
+<td><%=mdy @sample.kit_received_on %></td>
+</tr>
+<tr><th>sample</th>
+<td>
+<%=link_to( @sample.sample_tracking_number,
+			@sample.sample_package, :class => 'ajax'
+	) unless @sample.sample_tracking_number.blank? %>&nbsp;
+</td>
+<td><%=mdy @sample.sample_sent_on %></td>
+<td><%=mdy @sample.sample_received_on %></td>
+</tr>
+</tbody></table>
+<div id='ajax'></div>

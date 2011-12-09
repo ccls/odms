@@ -58,8 +58,8 @@ ActionController::Routing::Routes.draw do |map|
 			:only => [:new,:create,:show,:edit,:update,:index]
 		study_subject.resource  :consent,
 			:only => [:show,:edit,:update]
-		study_subject.resources :samples,
-			:only => [:index]
+#		study_subject.resources :samples, :only => [:index]
+		study_subject.resources :samples
 		study_subject.resources :interviews,
 			:only => [:index]
 		study_subject.resources :events,

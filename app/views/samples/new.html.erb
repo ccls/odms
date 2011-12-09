@@ -1,0 +1,8 @@
+<% sub_menu_for(@study_subject) %>
+<% id_bar_for(@study_subject) %>
+
+<% form_for( @sample,
+	:url => study_subject_samples_path(@study_subject),
+	:html => {:class => 'edit_sample'}) do |f| %>
+<%= render 'form', :f => f %>
+<% end %>
