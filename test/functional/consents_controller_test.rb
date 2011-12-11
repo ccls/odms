@@ -17,6 +17,13 @@ class ConsentsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+
+#
+#	TODO need to add tests for updating non-case and case without patient
+#	TODO add test for editing non-case to test that no patient fields on it
+#
+
+
 #	as the language selector is a form builder, unlike the race selector, explicit helper tests will be challenging
 
 		test "should NOT have checked subject_languages on edit if don't exist with #{cu} login" do
@@ -113,10 +120,11 @@ class ConsentsControllerTest < ActionController::TestCase
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 0 ){
-				@study_subject = Factory(:study_subject)
+#				@study_subject = Factory(:study_subject)
+				@study_subject = Factory(:complete_case_study_subject)
 			}
 			login_as send(cu)
-#	NOTE CASE subject only (for now)
+#	NOTE CASE subject only (for now) ... ONLY CASE WILL HAVE PATIENT (AND MUST) SO CASE ONLY
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
 			assert_difference('SubjectLanguage.count',1){
 				put :update, :study_subject_id => @study_subject.id, 
@@ -133,14 +141,15 @@ class ConsentsControllerTest < ActionController::TestCase
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
-				@study_subject = Factory(:study_subject, 
+#				@study_subject = Factory(:study_subject, 
+				@study_subject = Factory(:complete_case_study_subject, 
 					:subject_languages_attributes => {
 						:some_random_id => { :language_id => language.id }
 			} ) }
 			subject_language = @study_subject.subject_languages.first
 			assert_equal language, subject_language.language
 			login_as send(cu)
-#	NOTE CASE subject only (for now)
+#	NOTE CASE subject only (for now) ... ONLY CASE WILL HAVE PATIENT (AND MUST) SO CASE ONLY
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
 			assert_difference( 'SubjectLanguage.count', -1 ){
 				put :update, :study_subject_id => @study_subject.id, 
@@ -155,7 +164,8 @@ class ConsentsControllerTest < ActionController::TestCase
 
 		test "should NOT update consent if study_subject update fails with #{cu} login" do
 			language = Language['english']
-			study_subject = Factory(:study_subject)
+#			study_subject = Factory(:study_subject)
+			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			#	Don't need to provide something new to save to trigger this failure.
@@ -167,15 +177,16 @@ class ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update consent if patient update fails with #{cu} login" do
-pending	#	TODO as soon as 3 field data types are settled.
-			study_subject = Factory(:study_subject)
+#	TODO as soon as 3 field data types are settled.
+#			study_subject = Factory(:patient).study_subject
+			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			Patient.any_instance.stubs(:create_or_update).returns(false)
-#			put :update, :study_subject_id => study_subject.id
-#			assert_nil     flash[:notice]
-#			assert_not_nil flash[:error]
-#			assert_response :success
-#			assert_template 'edit'
+			put :update, :study_subject_id => study_subject.id
+			assert_nil     flash[:notice]
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should create ccls enrollment on edit if none exists with #{cu} login" do
@@ -256,7 +267,8 @@ pending	#	TODO as soon as 3 field data types are settled.
 		end
 
 		test "should update consent with #{cu} login" do
-			study_subject = Factory(:study_subject)
+#			study_subject = Factory(:patient).study_subject
+			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
 				:enrollment => Factory.attributes_for(:enrollment)
@@ -273,7 +285,8 @@ pending	#	TODO as soon as 3 field data types are settled.
 		end
 
 		test "should NOT update consent with #{cu} login and invalid enrollment" do
-			study_subject = Factory(:study_subject)
+#			study_subject = Factory(:study_subject)
+			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:valid?).returns(false)
 			put :update, :study_subject_id => study_subject.id,
@@ -285,7 +298,8 @@ pending	#	TODO as soon as 3 field data types are settled.
 		end
 
 		test "should NOT update consent with #{cu} login and save fails" do
-			study_subject = Factory(:study_subject)
+#			study_subject = Factory(:study_subject)
+			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:create_or_update).returns(false)
 			put :update, :study_subject_id => study_subject.id,

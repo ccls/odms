@@ -42,9 +42,12 @@ class ConsentsController < ApplicationController
 				Project['ccls'].id )
 			@enrollment.attributes = params[:enrollment]
 			@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
-#			@study_subject.patient.attributes = params[:patient]
+#	TODO what if case subject has no patient model??
+#	TODO what if isn't case subject?
+			@study_subject.patient.attributes = params[:patient]||{}
 #raise ActiveRecord::RecordNotSaved.new(@enrollment)
 			@enrollment.save!
+			@study_subject.patient.save!
 			@study_subject.save!
 			#	TODO add patient update (currently debating proper values for those here)
 		end

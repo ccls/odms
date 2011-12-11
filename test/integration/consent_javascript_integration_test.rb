@@ -2,46 +2,6 @@ require 'integration_test_helper'
 
 class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
-	def show_eligibility_criteria_div
-		#	FRICK n FRAK n!  They weren't visible because this was hidden.  Surprised that I was allowed to interact with the hidden checkboxes!!!!!
-		#	MUST, MUST, MUST show this div or the languages will always be hidden!
-		page.find('a.toggle_eligibility_criteria').click
-		assert self.has_css?('div.eligibility_criteria', :visible => true)
-	end
-	def assert_other_language_visible
-		assert page.has_css?("#specify_other_language", :visible => true)
-		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
-		assert page.has_field?("study_subject[subject_languages_attributes][2][other]")
-		assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
-	end
-	def assert_other_language_hidden
-		assert page.has_css?("#specify_other_language", :visible => false)
-		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
-		assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
-	end
-	def assert_subject_consented_visible
-		assert page.has_css?('#subject_consented', :visible => true)
-		assert page.find_field('enrollment[consented_on]').visible?
-		assert page.find_field('enrollment[document_version_id]').visible?
-	end
-	def assert_subject_consented_hidden
-		assert page.has_css?('#subject_consented', :visible => false)
-		assert !page.find_field('enrollment[consented_on]').visible?
-		assert !page.find_field('enrollment[document_version_id]').visible?
-	end
-	def assert_subject_refused_visible
-		assert page.has_css?('#subject_refused', :visible => true)
-		assert page.find_field('enrollment[refusal_reason_id]').visible?
-		#	can't explicitly say this as it depend if 'other' is selected
-		#	assert page.find_field('enrollment[other_refusal_reason]').visible?
-	end
-	def assert_subject_refused_hidden
-		assert page.has_css?('#subject_refused', :visible => false)
-		assert !page.find_field('enrollment[refusal_reason_id]').visible?
-		#	Can explicitly say this as the field is nested
-		assert !page.find_field('enrollment[other_refusal_reason]').visible?
-	end
-
 #	has_field? ignores visibility and the :visible option!!!!!
 #		use find_field and visible? for form field names
 #		ie. use this ...
@@ -54,10 +14,10 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 #	consent#edit (shouldn't have a consent#new)
 
-
+#	TODO this needs fixed somehow
 		test "should NOT update consent if ineligible reason given and eligible"<<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:complete_case_study_subject)	# NOTE CASE subject only (for now?) WITH patient as needed on update
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(study_subject.id)
 #	choose ineligible
@@ -141,7 +101,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 		test "should preserve creation of subject_language on edit kickback with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
-				@study_subject = Factory(:case_study_subject) # NOTE CASE subject only (for now?)
+				@study_subject = Factory(:complete_case_study_subject) # NOTE CASE subject only (for now?) WITH patient as needed on update
 			}
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(@study_subject.id)
@@ -157,7 +117,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 		test "should preserve destruction of subject_language on edit kickback with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 1 ){
-				@study_subject = Factory(:case_study_subject, # NOTE CASE subject only (for now?)
+				@study_subject = Factory(:complete_case_study_subject, # NOTE CASE subject only (for now?) WITH patient as needed on update
 					:subject_languages_attributes => { 
 						'0' => { :language_id => Language['english'].id }})
 			}
@@ -176,7 +136,7 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 		#	a bit excessive, but rather be excessive than skimp
 		test "should preserve checked subject_languages on edit kickback with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
-				@study_subject = Factory(:case_study_subject) # NOTE CASE subject only (for now?)
+				@study_subject = Factory(:complete_case_study_subject) # NOTE CASE subject only (for now?) WITH patient as needed on update
 			}
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(@study_subject.id)
@@ -543,6 +503,48 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 #	});
 		end
 
+	end
+
+protected
+
+	def show_eligibility_criteria_div
+		#	FRICK n FRAK n!  They weren't visible because this was hidden.  Surprised that I was allowed to interact with the hidden checkboxes!!!!!
+		#	MUST, MUST, MUST show this div or the languages will always be hidden!
+		page.find('a.toggle_eligibility_criteria').click
+		assert self.has_css?('div.eligibility_criteria', :visible => true)
+	end
+	def assert_other_language_visible
+		assert page.has_css?("#specify_other_language", :visible => true)
+		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
+		assert page.has_field?("study_subject[subject_languages_attributes][2][other]")
+		assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
+	end
+	def assert_other_language_hidden
+		assert page.has_css?("#specify_other_language", :visible => false)
+		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
+		assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
+	end
+	def assert_subject_consented_visible
+		assert page.has_css?('#subject_consented', :visible => true)
+		assert page.find_field('enrollment[consented_on]').visible?
+		assert page.find_field('enrollment[document_version_id]').visible?
+	end
+	def assert_subject_consented_hidden
+		assert page.has_css?('#subject_consented', :visible => false)
+		assert !page.find_field('enrollment[consented_on]').visible?
+		assert !page.find_field('enrollment[document_version_id]').visible?
+	end
+	def assert_subject_refused_visible
+		assert page.has_css?('#subject_refused', :visible => true)
+		assert page.find_field('enrollment[refusal_reason_id]').visible?
+		#	can't explicitly say this as it depend if 'other' is selected
+		#	assert page.find_field('enrollment[other_refusal_reason]').visible?
+	end
+	def assert_subject_refused_hidden
+		assert page.has_css?('#subject_refused', :visible => false)
+		assert !page.find_field('enrollment[refusal_reason_id]').visible?
+		#	Can explicitly say this as the field is nested
+		assert !page.find_field('enrollment[other_refusal_reason]').visible?
 	end
 
 end
