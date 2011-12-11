@@ -677,22 +677,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 	
-		test "should NOT update without race_id with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
-			login_as send(cu)
-pending	#	TODO
-#			assert_difference('StudySubject.count',0){
-#			assert_difference('SubjectType.count',0){
-#			assert_difference('Race.count',0){
-#			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
-#				put :update, :id => study_subject.id,
-#					:study_subject => { :race_id => nil }
-#			} } } }
-#			assert_not_nil flash[:error]
-#			assert_response :success
-#			assert_template 'edit'
-		end
-	
 		test "should NOT update without valid subject_type_id with #{cu} login" do
 			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
@@ -708,10 +692,29 @@ pending	#	TODO
 			assert_template 'edit'
 		end
 	
-		test "should NOT update without valid race_id with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
-			login_as send(cu)
-pending	#	TODO
+#	races are not currently required
+#		( and this isn't formatted correctly anyway )
+#
+#		test "should NOT update without race_id with #{cu} login" do
+#			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+#			login_as send(cu)
+#pending	#	TODO
+#			assert_difference('StudySubject.count',0){
+#			assert_difference('SubjectType.count',0){
+#			assert_difference('Race.count',0){
+#			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+#				put :update, :id => study_subject.id,
+#					:study_subject => { :race_id => nil }
+#			} } } }
+#			assert_not_nil flash[:error]
+#			assert_response :success
+#			assert_template 'edit'
+#		end
+#	
+#		test "should NOT update without valid race_id with #{cu} login" do
+#			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+#			login_as send(cu)
+#pending	#	TODO
 #			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
@@ -722,7 +725,7 @@ pending	#	TODO
 #			assert_not_nil flash[:error]
 #			assert_response :success
 #			assert_template 'edit'
-		end
+#		end
 	
 	end
 
