@@ -5,6 +5,8 @@ class ZipCodesControllerTest < ActionController::TestCase
 	def setup
 		#	only validates html pages, not json
 		#	no more html anyway
+		#	These are rendered json, so will be flagged to not 
+		#		validate anyway
 		#	don't validate this page.  Should be an easier way, but this works.
 #		Html::Test::ValidateFilter.any_instance.stubs(:should_validate?).returns(false)
 	end
