@@ -1,16 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
 
-#
-#	from simply_authorized
-#
-#	map.resources :users, :only => [:destroy,:show,:index],
-#		:collection => { :menu => :get } do |user|
-#		user.resources :roles, :only => [:update,:destroy]
-#	end
-
-
-
-#	from calnet_authenticated
 	map.logout 'logout', :controller => 'sessions', :action => 'destroy'
 	map.resources :users, :only => [:destroy,:show,:index],
 		:collection => { :menu => :get } do |user|
@@ -19,7 +8,6 @@ ActionController::Routing::Routes.draw do |map|
 		user.resources :roles, :only => [:update,:destroy]
 	end
 	map.resource :session, :only => [ :destroy ]
-
 
 #	Some of these should be removed from the gem's generator and just included in the appropriate apps.
 #	from ccls_engine
@@ -33,12 +21,32 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :ineligible_reasons
 	map.resources :zip_codes, :only => [ :index ]
 
-
-
-
 	map.resources :locales, :only => :show
 
 	map.root :controller => :odms, :action => :show
+
+	#	Route declaration order matters.
+	#	This MUST be BEFORE the declaration of
+	#	 study_subject.resources :samples
+	#	or 'dashboard' will be treated as a sample id.
+	map.resources :samples, :only => [],
+			:collection => { 
+				:dashboard => :get,
+				:find      => :get,
+				:followup  => :get,
+				:reports   => :get 
+			}
+
+	map.resources :interviews, :only => [],
+			:collection => { 
+				:dashboard => :get,
+				:find      => :get,
+				:followup  => :get,
+				:reports   => :get 
+			}
+
+	map.resources :studies, :only => [],
+			:collection => { :dashboard => :get }
 
 	map.resources :study_subjects, :only => [:edit,:update,:show,:index],
 			:collection => { 
@@ -58,7 +66,6 @@ ActionController::Routing::Routes.draw do |map|
 			:only => [:new,:create,:show,:edit,:update,:index]
 		study_subject.resource  :consent,
 			:only => [:show,:edit,:update]
-#		study_subject.resources :samples, :only => [:index]
 		study_subject.resources :samples
 		study_subject.resources :interviews,
 			:only => [:index]
@@ -69,25 +76,6 @@ ActionController::Routing::Routes.draw do |map|
 		study_subject.resources :notes,
 			:only => [:index]
 	end
-
-	map.resources :interviews, :only => [],
-			:collection => { 
-				:dashboard => :get,
-				:find      => :get,
-				:followup  => :get,
-				:reports   => :get 
-			}
-
-	map.resources :samples, :only => [],
-			:collection => { 
-				:dashboard => :get,
-				:find      => :get,
-				:followup  => :get,
-				:reports   => :get 
-			}
-
-	map.resources :studies, :only => [],
-			:collection => { :dashboard => :get }
 
 	map.resources :bc_requests, :only => [:new,:create,:edit,:update,:destroy,:index],
 		:collection => { :confirm => :get },

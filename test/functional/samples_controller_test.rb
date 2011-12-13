@@ -160,24 +160,28 @@ class SamplesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			get :dashboard
 			assert_response :success
+			assert_template 'dashboard'
 		end
 	
 		test "should get find with #{cu} login" do
 			login_as send(cu)
 			get :find
 			assert_response :success
+			assert_template 'find'
 		end
 	
 		test "should get followup with #{cu} login" do
 			login_as send(cu)
 			get :followup
 			assert_response :success
+			assert_template 'followup'
 		end
 	
 		test "should get reports with #{cu} login" do
 			login_as send(cu)
 			get :reports
 			assert_response :success
+			assert_template 'reports'
 		end
 	
 	end
