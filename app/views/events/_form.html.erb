@@ -5,6 +5,8 @@
 
 <%= f.error_messages %>
 
+<h2>This is still in development</h2>
+
 <div id='subject_control_bar'>
 <h3>New/Edit Subject Event</h3>
 <div class='buttons'>
@@ -28,7 +30,7 @@
 <label for='category'>category:</label>
 <%# can't be blank, so don't include blank %>
 <%= select_tag( :category,
-	options_for_select(OperationalEventType.categories)
+	options_for_select([nil]+OperationalEventType.categories)
 ) %>
 </div>
 
@@ -40,12 +42,14 @@
 	gonna need a operational_event_types controller similar to zip_codes
 
 %>
-<div id='operational_event_type_ajax'></div>
 
 
 <p>this will then be ajax loaded via a new operational_event_types controller action</p>
-<%# can't be blank, so don't include blank %>
-<%= f.wrapped_collection_select( :operational_event_type_id,
+<%# can't be blank, so don't include blank (need one item to be valid html in tests %>
+<%= f.wrapped_select( :operational_event_type_id,
+	[nil], { :label_text => 'type:' }) %>
+
+<%#= f.wrapped_collection_select( :operational_event_type_id,
 	OperationalEventType.all, :id, :description,
 	{ :label_text => 'type:' }
 ) %>
