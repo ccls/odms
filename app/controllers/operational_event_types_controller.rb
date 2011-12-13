@@ -11,15 +11,4 @@ class OperationalEventTypesController < ApplicationController
 		render :layout => false
 	end
 
-#	def index
-#		@zip_codes = ZipCode.find(:all,
-#			:select => "city, state, zip_code, county_id, counties.name as county_name",
-#			:joins => "LEFT JOIN counties ON zip_codes.county_id = counties.id",
-#			:conditions => [ 'zip_code LIKE ?', "#{params[:q]}%" ])
-#		respond_to do |format|
-#			format.html	#	for testing only
-#			format.json { render :json => @zip_codes }
-#		end
-#	end
-
 end
