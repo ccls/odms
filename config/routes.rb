@@ -70,7 +70,7 @@ ActionController::Routing::Routes.draw do |map|
 		study_subject.resources :interviews,
 			:only => [:index]
 		study_subject.resources :events,
-			:only => [:index]
+			:only => [:index,:new,:create]
 		study_subject.resources :documents,
 			:only => [:index]
 		study_subject.resources :notes,
