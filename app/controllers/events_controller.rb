@@ -19,6 +19,7 @@ class EventsController < ApplicationController
 #		why not just ...
 #		@events = @study_subject.operational_events
 #		I don't think that we do any 'searching' yet
+#		This was pre- has_many :through setup
 		@events = OperationalEvent.search(params)
 	end
 
