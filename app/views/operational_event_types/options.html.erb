@@ -1,1 +1,13 @@
-<%= options_for_select(@operational_event_types) %>
+<%#= options_for_select(@operational_event_types) -%>
+<%#
+	returns ...
+<option value="compensation:gift card issued">compensation:gift card issued</option>
+	... but need the value to be the id
+-%>
+<%= options_from_collection_for_select(@operational_event_types,:id,:to_s) -%>
+<%#
+
+<option value="2">interviews:interview scheduled with respondent</option>
+<option value="3">interviews:interview completed</option>
+
+-%>

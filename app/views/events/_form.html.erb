@@ -30,24 +30,31 @@
 <label for='category'>category:</label>
 <%# can't be blank, so don't include blank %>
 <%= select_tag( :category,
-	options_for_select([nil]+OperationalEventType.categories)
+	options_for_select([nil]+OperationalEventType.categories,params[:category])
 ) %>
 </div>
 
 
 <%#
 
-	gonna need a capybara test for this.
+TODO
 
-	gonna need a operational_event_types controller similar to zip_codes
+	gonna need a capybara test for the javascript functions
+
+	OperationalEvent doesn't require an occurred_on??  Interesting.
 
 %>
 
 
 <p>this will then be ajax loaded via a new operational_event_types controller action</p>
 <%# can't be blank, so don't include blank (need one item to be valid html in tests %>
-<%= f.wrapped_select( :operational_event_type_id,
+<%#= f.wrapped_select( :operational_event_type_id,
 	[nil], { :label_text => 'type:' }) %>
+
+<%= f.wrapped_collection_select( :operational_event_type_id,
+	OperationalEventType.all(:conditions => {:event_category => params[:category] }), 
+	:id, :to_s, { :label_text => 'type:' }
+) %>
 
 <%#= f.wrapped_collection_select( :operational_event_type_id,
 	OperationalEventType.all, :id, :description,
@@ -55,7 +62,9 @@
 ) %>
 
 
-specify ( Triggered by 'other' event type.  Will need to give 'other' an event category of probably 'other'.  Currently, there is no place for this unless overriding the description. )
+<p>specify ( Triggered by 'other' event type.  Will need to give 'other' an event category of probably 'other'.  Currently, there is no place for this unless overriding the description. )</p>
 
 
-<%= f.wrapped_text_area(:event_notes) %>
+<%= f.wrapped_text_area(:event_notes,
+	:class => 'autosize',
+	:label_text => 'notes:') %>

@@ -36,14 +36,16 @@ class EventsController < ApplicationController
 #	it is no different than
 		@operational_event = OperationalEvent.new(params[:operational_event])
 
+#	for testing
+#raise ActiveRecord::RecordInvalid.new(@operational_event)
+
 #	However, there should be a special check added to ensure that the
 #	study_subject from the route is the same study_subject attached
 #	to the enrollment.
 
 		enrollment = Enrollment.find(params[:operational_event][:enrollment_id])
+		#	This should only happen for all you hackers out there.
 		raise StudySubjectMismatch if @study_subject != enrollment.study_subject
-#	
-
 
 
 		@operational_event.save!
