@@ -10,6 +10,7 @@ class CasesController < ApplicationController
 		unless params[:patid].blank?
 			@study_subject = StudySubject.find_case_by_patid(params[:patid])
 		end
+		render :layout => 'application'
 	end
 
 	def show
@@ -25,6 +26,7 @@ class CasesController < ApplicationController
 
 	def new
 		@hospitals = Hospital.all
+		render :layout => 'application'
 	end
 
 	def create
