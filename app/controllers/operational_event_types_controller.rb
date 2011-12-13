@@ -5,7 +5,13 @@ class OperationalEventTypesController < ApplicationController
 
 	skip_before_filter :login_required
 
-	def index
+	def options
+		@operational_event_types = OperationalEventType.all(
+			:conditions => { :event_category => params[:category] } )
+		render :layout => false
+	end
+
+#	def index
 #		@zip_codes = ZipCode.find(:all,
 #			:select => "city, state, zip_code, county_id, counties.name as county_name",
 #			:joins => "LEFT JOIN counties ON zip_codes.county_id = counties.id",
@@ -14,6 +20,6 @@ class OperationalEventTypesController < ApplicationController
 #			format.html	#	for testing only
 #			format.json { render :json => @zip_codes }
 #		end
-	end
+#	end
 
 end
