@@ -58,20 +58,18 @@ class EventsControllerTest < ActionController::TestCase
 		test "should create new event for study_subject with #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:study_subject)
-pending
-#			assert_difference('study_subject.reload.operational_events.count',1){
-			assert_difference("StudySubject.find(#{study_subject.id}).operational_events.count",1){
+			assert_difference('study_subject.operational_events.count',1){
 			assert_difference('OperationalEvent.count',1){
+			assert_difference('Enrollment.count',0){
 				post :create, :study_subject_id => study_subject.id,
 					:operational_event => factory_attributes(
 						:enrollment_id => study_subject.enrollments.find_by_project_id(
 							Project['ccls'].id).id)
-			} }
+			} } }
 			assert_not_nil flash[:notice]
 			assert_nil flash[:error]
 			assert_redirected_to study_subject_events_path(study_subject)
 		end
-
 
 		test "should NOT create new event for study_subject with #{cu} login" <<
 				" and study_subject_id and enrollment.study_subject_id don't match" do
@@ -85,27 +83,21 @@ pending
 			route_study_subject = Factory(:study_subject)
 			enrollment_study_subject = Factory(:study_subject)
 
-pending	#	TODO
-#
-#
-			assert_difference("StudySubject.find(#{route_study_subject.id}).operational_events.count",0){
-			assert_difference("StudySubject.find(#{enrollment_study_subject.id}).operational_events.count",0){
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => route_study_subject.id,
 					:operational_event => factory_attributes(
 						:enrollment_id => enrollment_study_subject.enrollments.find_by_project_id(
 							Project['ccls'].id).id)
-			} } }
+			}
 			assert_nil flash[:notice]
 			assert_not_nil flash[:error]
+			assert_match /Mismatch/, flash[:error]
 			assert_response :success
 			assert_template 'new'
 		end
 
-
 		test "should NOT create new event for study_subject with #{cu} login" <<
 				" and invalid study_subject_id" do
-pending
 			login_as send(cu)
 			study_subject = Factory(:study_subject)
 			assert_difference('OperationalEvent.count',0){

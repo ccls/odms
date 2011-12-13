@@ -1,0 +1,56 @@
+<%# javascripts('edit_event') %>
+<% stylesheets('events') %>
+<% sub_menu_for(@study_subject) %>
+<% id_bar_for(@study_subject) %>
+
+<%= f.error_messages %>
+
+<div id='subject_control_bar'>
+<h3>New/Edit Subject Event</h3>
+<div class='buttons'>
+<%= link_to( 'Cancel', study_subject_events_path(@study_subject),
+	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
+</div><!-- class='buttons' -->
+</div>
+
+<%= f.wrapped_date_text_field :occurred_on,
+	:class => 'datepicker',
+	:label_text => 'Event date:' %>
+
+<%# can't be blank, so don't include blank %>
+<%= f.wrapped_collection_select( :enrollment_id,
+	@study_subject.enrollments, :id, :project,
+	{ :label_text => 'project:' }
+) %>
+
+<p>select category first</p>
+<div class='category field_wrapper'>
+<label for='category'>category:</label>
+<%# can't be blank, so don't include blank %>
+<%= select_tag( :category,
+	options_for_select(OperationalEventType.categories)
+) %>
+</div>
+
+
+<%#
+
+	gonna need a capybara test for this.
+
+	gonna need a operational_event_types controller similar to zip_codes
+
+%>
+
+
+<p>this will then be ajax loaded via a new operational_event_types controller action</p>
+<%# can't be blank, so don't include blank %>
+<%= f.wrapped_collection_select( :operational_event_type_id,
+	OperationalEventType.all, :id, :description,
+	{ :label_text => 'type:' }
+) %>
+
+
+specify ( Triggered by 'other' event type.  Will need to give 'other' an event category of probably 'other'.  Currently, there is no place for this unless overriding the description. )
+
+
+<%= f.wrapped_text_area(:event_notes) %>
