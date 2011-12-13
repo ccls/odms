@@ -20,6 +20,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :refusal_reasons
 	map.resources :ineligible_reasons
 	map.resources :zip_codes, :only => [ :index ]
+	map.resources :operational_event_types, :only => [ :index ]
 
 	map.resources :locales, :only => :show
 
