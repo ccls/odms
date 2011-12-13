@@ -109,6 +109,36 @@ class SamplesControllerTest < ActionController::TestCase
 	
 	site_readers.each do |cu|
 
+		test "should show with kit tracking number and #{cu} login" do
+			login_as send(cu)
+			sample = Factory(:sample,
+				:sample_kit_attributes => {
+					:kit_package_attributes => {
+						:tracking_number => '1234567890'
+				}})
+			get :show, :id => sample.id
+#	TODO package route and link currently disabled
+			assert_nil flash[:error]
+			assert assigns(:sample)
+			assert_response :success
+			assert_template 'show'
+		end
+
+		test "should show with sample tracking number and #{cu} login" do
+			login_as send(cu)
+			sample = Factory(:sample,
+				:sample_kit_attributes => {
+					:sample_package_attributes => {
+						:tracking_number => '1234567890'
+				}})
+			get :show, :id => sample.id
+#	TODO package route and link currently disabled
+			assert_nil flash[:error]
+			assert assigns(:sample)
+			assert_response :success
+			assert_template 'show'
+		end
+
 		test "should get index with #{cu} login and valid study_subject_id" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
