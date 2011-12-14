@@ -1,77 +1,70 @@
-
-#	Changing to use capybara from webrat in hopes of testing javascript.
-#
-#
-#	So, so, so many hacks.  All to possibly test javascript.
-#
-#	All this probably slows a lot of stuff down.
-#	About to run all the other stuff, and I expect a lot of failures.
-#
-#
-
-
 require 'capybara/rails'
+#
+#	Capybara.default_drivers [ :rack_test, :selenium/:selenium_firefox, :selenium_chrome, :selenium_safari, :webkit ]
+#
+#		Capybara.default_driver = :rack_test
+#			This is the default driver, but does not support javascript.  This is effectively the same
+#			as webrat, although the DSL is a bit different.  Webrat is still used a bit, but as these
+#			integration tests are primarily used to test javascript, all of my new tests are capybara 
+#			based and do not use rack_test
+#
+#		Capybara.default_driver = :selenium	#	defaults to firefox
+#		Capybara.default_driver = :selenium_firefox
+#			This is a decent tester, but will actually open a browser window.
+#			:selenium_firefox does not exist, but could be defined with ...
+#				Capybara.register_driver :selenium_firefox do |app|
+#					Capybara::Selenium::Driver.new(app, :browser => :firefox)
+#				end
+#			This is effectively the same as :selenium, as firefox is its default.
+#			I have found a bit of a catch when using this on my MacBook Pro.  There is a bit of a
+#			problem with using the firefox binary, which includes both 32 and 64 bit versions,
+#			on a 32-bit machine.  The 64-bit code must be removed. I ...
+#				cd /Applications/Firefox.app/Contents/MacOS/
+#				ditto --arch i386 firefox-bin firefox-bin-leopard-dittod
+#			This results in the requirement to specify this new binary to be used with ...
+#			if( Socket.gethostname == "mbp-3.local" )	#	jake's home machine
+#				Selenium::WebDriver::Firefox::Binary.path='/Applications/Firefox.app/Contents/MacOS/firefox-bin-leopard-dittod'
+#			end
+#			In addition, to use any selenium, the following is required...
+#				require 'selenium/webdriver'
+#
+#		Capybara.default_driver = :selenium_chrome
+#			In order to test with chrome, the chromedriver must be downloaded.  It is just a single file, 
+#			and must placed in the path.  Without it, you will see ...
+#				Selenium::WebDriver::Error::WebDriverError: Unable to find the chromedriver executable. 
+#				Please download the server from http://code.google.com/p/chromium/downloads/list and 
+#				place it somewhere on your PATH. More info at http://code.google.com/p/selenium/wiki/ChromeDriver.
+#			As this driver does not exist, it will need to be defined/registered with ...
+#				Capybara.register_driver :selenium_chrome do |app|
+#					Capybara::Selenium::Driver.new(app, :browser => :chrome)
+#				end
+#			In addition, to use any selenium, the following is required...
+#				require 'selenium/webdriver'
+#
+#		Capybara.default_driver = :selenium_safari
+#			There is no safari driver, so can't test in safari.  If there were, ...
+#			Capybara.register_driver :selenium_safari do |app|
+#				Capybara::Selenium::Driver.new(app, :browser => :safari)
+#			end
+#
+#		Capybara.default_driver = :webkit ( capybara-webkit )
+#			I have chosen to use webkit.  It requires a bit more installation, but is cleaner.  There are also
+#			a few things that do not work, mostly with respect to the alert/confirm pop-up windows.
+#			We cannot use switch_to for alert/confirm windows with webkit, as was done with selenium.
+#			In order to use webkit, qt4 must be installed before the gem.  On a mac, ...
+#				port install qt4-mac
+#				gem install capybara-webkit
+#			Instructions say to set the javascript_driver, but when I did, it made no difference.
+#				Capybara.javascript_driver = :webkit
+#			Instead if I set the default_driver, it runs ..
+#				Capybara.default_driver = :webkit
+#
+#			webkit and selenium do not support transactional fixtures as they do not share a database
+#				connection between the test and the browser.  A patch for this is to force a single
+#				database connection for each model.  It works, but is more of a hack.
+#			
 
-#Capybara.default_driver = :rack_test
-#	Instructions say to set the javascript_driver, but when I did, it made no difference.
-#Capybara.javascript_driver = :webkit
-#	Instead if I set the default_driver, it runs ..
 Capybara.default_driver = :webkit
-#	On my home mac, ...
-#	The first test fails, followed by ...
-#Capybara-webkit server started, listening on port: 51803
-#	Not all javascript tests work, however.
-#	Looks like there is a bit of a problem with the alert/confirm pop-ups.
-#	Will have to investigate these issues, as it would be nice to test javascript without a browser window coming open.
-#	That being said, it would also be nice to test with all possibles so webkit, chrome and firefox
-#		Unfortunately, not all test code is compatible with all the possible drivers.
-#	cannot use switch_to for alert/confirm windows with webkit
-
-#	port install qt4-mac
-#	gem install capybara-webkit
-
-#Capybara.default_driver = :selenium	#	defaults to firefox
-#Capybara.default_driver = :selenium_chrome
-#Capybara.default_driver = :selenium_firefox
-
-#	There is no safari driver, so can't test in safari.
-#Capybara.register_driver :selenium_safari do |app|
-#	Capybara::Selenium::Driver.new(app, :browser => :safari)
-#end
-
-# Selenium::WebDriver::Error::WebDriverError: Unable to find the chromedriver executable. Please download the server from http://code.google.com/p/chromium/downloads/list and place it somewhere on your PATH. More info at http://code.google.com/p/selenium/wiki/ChromeDriver.
-#	downloaded and installed 'chromedriver', which did open Chrome, 
-#	but http://127.0.0.1:64647/fake_session/new
-#	127.0.0.1 was rejected. The website may be down, or your network may not be properly configured.
-#Here are some suggestions:
-#Reload this webpage later.
-#Check your Internet connection. Restart any router, modem, or other network devices you may be using.
-#Add Google Chrome as a permitted program in your firewall's or antivirus software's settings. If it is already a permitted program, try deleting it from the list of permitted programs and adding it again.
-#If you use a proxy server, check your proxy settings or contact your network administrator to make sure the proxy server is working. If you don't believe you should be using a proxy server, adjust your proxy settings: Go to Applications > System Preferences > Network > Advanced > Proxies and deselect any proxies that have been selected.
-#
-#	No joy.  It even kept re-testing without changing the code.
-#
-Capybara.register_driver :selenium_chrome do |app|
-	Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
-
-#	First ... Make sure Firefox is installed or set the path manually with Selenium::WebDriver::Firefox::Binary.path=
-#	Then ...  Selenium::WebDriver::Error::WebDriverError: unable to start Firefox cleanly, args: ["-silent"]
-require 'selenium/webdriver'
-#	the firefox binary is currently not really compatible with command line as it contains 32 and 64bit.
-#	if I 'ditto' it to strip off the unnecessary 64bit, I now get the same error as Chrome returns
-#	'clearly' whatever is stopping me now will fix both firefox AND chrome
-#	at least firefox doesn't keep trying over and over
-#
-#	this may be ssl related.  I thought that I had installed ssl on this machine.
-#
-
-if( Socket.gethostname == "mbp-3.local" )	#	jake's home machine
-	Selenium::WebDriver::Firefox::Binary.path='/Applications/Firefox.app/Contents/MacOS/firefox-bin-leopard-dittod'
-end
-Capybara.register_driver :selenium_firefox do |app|
-	Capybara::Selenium::Driver.new(app, :browser => :firefox)
-end
 
 #	Using class_attribute instead of mattr_accessor so that
 #	each subclass (read model) has its own value as we have
@@ -83,28 +76,21 @@ class ActiveRecord::Base
 	end
 end
 
-
-
 #	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
 
 	setup :do_not_force_ssl
 	def do_not_force_ssl
-		#	fake all non-ssl JUST ON JAKE'S HOME MACBOOK as no ssl installed
-#	actually ssl is a bit of a problem on dev.sph.berkeley.edu as well
-#		probably has to do with the funky ports used and 
-#		possible using 127.0.0.1 instead of localhost (shouldn't be)
-#		if( Socket.gethostname == "mbp-3.local" )
-			#	ApplicationController.subclasses does not initially include FakeSessionsController
-			#	I explicitly 'ssl_allowed' new and create, so irrelevant.
-			#	After the first request, it will be included though.
-			ApplicationController.subclasses.each do |controller|
-				controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
-			end
-#		end
+		#	Forcing ssl is problematic in capybara unlike webrat, so I'm just skipping it.
+		#	ApplicationController.subclasses does not initially include FakeSessionsController
+		#	I explicitly 'ssl_allowed' new and create, so irrelevant.
+		#	After the first request, it will be included though.
+		ApplicationController.subclasses.each do |controller|
+			controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
+		end
 	end
 
-	setup :synchronize_selenium_connections
+	setup :synchronize_selenium_connections	#	this includes :webkit
 	def synchronize_selenium_connections
 		#	if driver is selenium based, need to synchronize the transactional connections
 		#
@@ -137,9 +123,10 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		#	I'd rather just loop through all the models, but there are a couple oddballs
 		#	from use_db that may cause issues.  Still polishing this one.
 		#	wonder what's gonna happen for modelless tables (roles_users)
-#
-#	Perhaps Shared.subclasses?
-#
+
+		#
+		#	Perhaps Shared.subclasses?
+		#
 		[Address,Addressing,AddressType,County,Context,ContextDataSource,DataSource,
 			Enrollment,Patient,PhoneNumber,PhoneType,StudySubject,ZipCode,
 			SubjectLanguage,Language,SubjectRace,Race,
@@ -151,56 +138,7 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 
 	include Capybara::DSL
 
-#	apparently unnecessary
-#	include CalnetAuthenticated::TestHelper
-
 	fixtures :all
-
-#	setup :turn_https_on_for_capybara
-
-	def turn_https_on_for_capybara
-		#	this seems like it may not be necessary
-		#	It appears that if the first request uses https, which the login does,
-		#	this is preserved, or at least the GET requests follow the redirect.
-		#	Not entirely sure just yet.
-		#	Protocol seems to be preserved.
-
-#	capybara is starting suck worse than webrat did.
-#	Of course, I ended up figuring that one out so ...
-
-#???
-#
-#Using the sessions manually
-#
-#For ultimate control, you can instantiate and use a Session manually.
-#
-#require 'capybara'
-#
-#session = Capybara::Session.new(:culerity, my_rack_app)
-#session.within("//form[@id='session']") do
-#  session.fill_in 'Login', :with => 'user@example.com'
-#  session.fill_in 'Password', :with => 'password'
-#end
-#session.click_link 'Sign in'
-
-# also see ...
-#	http://stackoverflow.com/questions/6605364
-#	about requesting through the page and driver?
-#	page.driver.post user_session_path, :user => {:email => user.email, :password => 'superpassword'}
-
-# Its always amazing how simple and powerful someone can make
-#	something look in a little demo.  Of course, they are ignoring
-#	all the complicated things that are gonna piss you off.
-#	None of the demos talk about the session or ssl.  Not one.
-
-#puts Capybara.current_driver.inspect
-#puts Capybara.methods.sort
-#puts self.class.current_driver
-#puts Capybara.inspect
-#puts @driver.response_headers.inspect
-		#	I always, so far anyway, use https in capybara tests so ...
-#		header('HTTPS', 'on')
-	end
 
 	#	Special login_as for integration testing.
 	def login_as( user=nil )
