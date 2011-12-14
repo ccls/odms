@@ -27,23 +27,6 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			assert page.find_field("addressing[address_attributes][zip]").value.blank?
 
 			fill_in "addressing[address_attributes][zip]",  :with => "17857"
-			#	I don't think that the change event get triggered correctly
-			#	in the test environment.
-			#
-			#	This may happen as the browser
-			#	actually exists and perhaps me coding while the browser is trying to
-			#	test takes focus away from it?  Can I force the browser into the background?
-			#
-			#	maybe "change" isn't the appropriate event trigger for this?
-			#	explicitly trigger the change event.
-			#	If the user running the tests is using the machine,
-			#	it can inhibit this test.  Don't know why.
-			#	It will send a blank zip code which will result in
-			#	no field updates.
-#	When using capybara-webkit, this isn't necessary!  Yay!
-#		If we change back to selenium, this may need uncommented.
-#			page.execute_script("$('#addressing_address_attributes_zip').change()" );
-#			sleep 1
 
 			assert_equal 'NORTHUMBERLAND',
 				page.find_field("addressing[address_attributes][city]").value
@@ -150,44 +133,17 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			select 'PA', :from => "addressing[address_attributes][state]"
 			select 'residence', :from => "addressing[address_attributes][address_type_id]"
 
-#	capybara-webkit doesn't have page.driver.browser.switch_to
-#		so if we're using it, we'll have to just ignore the pop-up.
-#	Do I need this? 
-#		In selenium, the confirm window will cause failures unless dealt with.
-#		In webkit, the confirm window will do nothing making this test pointless.
+			#	we don't want to actually save, so cancel with ....
 			page.evaluate_script('window.confirm = function() { return false; }')
 
 			click_button 'Save'
 
-#
-#	TODO with webkit, how do I test if a confirm window popped up????
-#		I could make this a legitimate address that would normally
-#			create an addressing/address and simply test that none were
-#			actually create because the browser kicked back?
-#
 			#	Without overriding the confirm function, clicking save will submit
 			#		and the current_path would be /study_subjects/:id/addressings
 			#	When confirm returns false, it will stay at same path.
 			#	Essentially, this works by testing that it didn't go anywhere.
 			assert_equal current_path,
 				new_study_subject_addressing_path(study_subject)
-
-
-			#	This should raise a confirm window which will need dealt with.
-			#	press Cancel by ...
-			#		page.driver.browser.switch_to.alert.dismiss
-			#	press OK by ...
-			#		page.driver.browser.switch_to.alert.accept
-			#	Or, before the popup is triggered, override the function with either ...
-			#		page.evaluate_script('window.confirm = function() { return false; }')
-			#		page.evaluate_script('window.confirm = function() { return true; }')
-			#	This will actually stop the window from appearing.
-			#	You won't be able to check the text if done this way.
-
-#	capybara-webkit doesn't have page.driver.browser.switch_to
-#		so if we're using it, we can't do this.
-#			assert_equal "This address is not in CA and will make study_subject ineligible.  Do you want to continue?", page.driver.browser.switch_to.alert.text
-#			page.driver.browser.switch_to.alert.dismiss
 		end
 
 		test "addressing#new should update blank city, state and county on zip code" <<
@@ -201,23 +157,6 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 			assert page.find_field("addressing[address_attributes][zip]").value.blank?
 
 			fill_in "addressing[address_attributes][zip]",  :with => "17857"
-			#	I don't think that the change event get triggered correctly
-			#	in the test environment.
-			#
-			#	This may happen as the browser
-			#	actually exists and perhaps me coding while the browser is trying to
-			#	test takes focus away from it?  Can I force the browser into the background?
-			#
-			#	maybe "change" isn't the appropriate event trigger for this?
-			#	explicitly trigger the change event.
-			#	If the user running the tests is using the machine,
-			#	it can inhibit this test.  Don't know why.
-			#	It will send a blank zip code which will result in
-			#	no field updates.
-#	When using capybara-webkit, this isn't necessary!  Yay!
-#		If we change back to selenium, this may need uncommented.
-#			page.execute_script("$('#addressing_address_attributes_zip').change()" );
-#			sleep 1
 
 			assert_equal 'NORTHUMBERLAND',
 				page.find_field("addressing[address_attributes][city]").value
