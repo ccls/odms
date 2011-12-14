@@ -59,9 +59,10 @@ require 'capybara/rails'
 #			Instead if I set the default_driver, it runs ..
 #				Capybara.default_driver = :webkit
 #
-#			webkit and selenium do not support transactional fixtures as they do not share a database
-#				connection between the test and the browser.  A patch for this is to force a single
-#				database connection for each model.  It works, but is more of a hack.
+#			webkit and selenium do not support transactional fixtures as they are in different
+#				thread and therefore do not share a database connection between the test and the 
+#				browser.  A patch for this is to force a single database connection for each model.  
+#				It works, but is more of a hack.
 #			
 
 Capybara.default_driver = :webkit

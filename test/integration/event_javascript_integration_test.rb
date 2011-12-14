@@ -24,14 +24,25 @@ class EventJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert page.find('select#operational_event_operational_event_type_id option').text.blank?
 
 			select 'operations', :from => 'category'
-			sleep 2	#	give ajax a couple seconds to actually do its thing
+
+#			sleep 2	#	give ajax a couple seconds to actually do its thing
+
+#			assert_equal 8, 
+#				page.all('select#operational_event_operational_event_type_id option').length
+			#	by doing it this was, capybara 'reloads' the contents before comparison
+			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
+			assert_equal 8, 
+				page.find('select#operational_event_operational_event_type_id').all('option').length
 
 			#	now has some options.  Yay!
-			page.all('select#operational_event_operational_event_type_id option').each do |option|
+#			page.all('select#operational_event_operational_event_type_id option').each do |option|
+#				assert !option.text.blank?
+#			end
+			page.find('select#operational_event_operational_event_type_id').all('option').each do |option|
 				assert !option.text.blank?
 			end
-			assert_equal 8, 
-				page.all('select#operational_event_operational_event_type_id option').length
+#			assert_equal 8, 
+#				page.all('select#operational_event_operational_event_type_id option').length
 		end
 
 	end
