@@ -1,19 +1,19 @@
-#require "test_helper"
-
-#	Webrat only works with integration tests which are a bit more difficult than
-#	the unit and functional tests.  However, using webrat allows us to confirm
-#	that the forms contain the necessary fields to create valid resources.
-
+#
+#	Webrat DSL only works with integration tests which are a 
+#	bit more difficult than the unit and functional tests.  
+#	However, using webrat allows us to confirm that the forms 
+#	contain the necessary fields to create valid resources.
+#	It does not test javascript.  For any javascript testing, 
+#	I use Capybara which, so far has worked well, now that many
+#	of the oddities have been dealt with.
+#
 require "webrat"
 
 Webrat.configure do |config|
   config.mode = :rails
 end
 
-#class ActionController::IntegrationTest
 class ActionController::WebRatIntegrationTest < ActionController::IntegrationTest
-#	I guess that this isn't necessary
-#	include CalnetAuthenticated::TestHelper
 
 	fixtures :all
 
@@ -30,29 +30,9 @@ class ActionController::WebRatIntegrationTest < ActionController::IntegrationTes
 		if !uid.blank?
 			stub_ucb_ldap_person()
 			u = User.find_create_and_update_by_uid(uid)
-			#	Rather than manually manipulate the session,
-			#	I created a fake controller to do it.
-			#	Still not using the @session provided by integration testing (open_session)
-
-#	webrat doesn't actually maintain the sessions like capybara,
-#		so we can explicitly post to the controller
-#			post fake_session_path(), { :id => u.id }, { 'HTTPS' => 'on' }
-#		or open the new fake_session and submit.  Either way.
-
-			visit new_fake_session_path()	#, { }, { 'HTTPS' => 'on' }
-
-
-
+			visit new_fake_session_path()
 			fill_in 'id', :with => u.id
-#			fill_in 'uid', :with => u.uid
-
-
-
-
 			click_button 'login'
-
-#	moved into fake_session controller
-#			CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
 		end
 	end
 

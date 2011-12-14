@@ -1,39 +1,61 @@
 require 'capybara/rails'
 #
-#	Capybara.default_drivers [ :rack_test, :selenium/:selenium_firefox, :selenium_chrome, :selenium_safari, :webkit ]
+#	Capybara.default_drivers [ :rack_test, :selenium/:selenium_firefox, 
+#		:selenium_chrome, :selenium_safari, :webkit ]
+#
+#		Unfortunately, each driver has different abilities and limitations.  
+#			We cannot develop for all of them.  We must choose.
+#			I chose capybara-webkit ( or just webkit ).
 #
 #		Capybara.default_driver = :rack_test
-#			This is the default driver, but does not support javascript.  This is effectively the same
-#			as webrat, although the DSL is a bit different.  Webrat is still used a bit, but as these
-#			integration tests are primarily used to test javascript, all of my new tests are capybara 
-#			based and do not use rack_test
+#			This is the default driver, but does not support javascript.  
+#			This is effectively the same as webrat, although the DSL is a 
+#			bit different.  Webrat is still used a bit, but as these
+#			integration tests are primarily used to test javascript, 
+#			all of my new tests are capybara based and do not use rack_test
 #
 #		Capybara.default_driver = :selenium	#	defaults to firefox
+#			This is a decent tester, but will actually open a browser window
+#			which you can watch.
+#			selenium can interact with alert/confirm pop-ups...
+#				press Cancel by ...
+#					page.driver.browser.switch_to.alert.dismiss
+#				press OK by ...
+#					page.driver.browser.switch_to.alert.accept
+#			selenium can also check the content of this window...
+#				page.driver.browser.switch_to.alert.text
+#
 #		Capybara.default_driver = :selenium_firefox
-#			This is a decent tester, but will actually open a browser window.
 #			:selenium_firefox does not exist, but could be defined with ...
 #				Capybara.register_driver :selenium_firefox do |app|
 #					Capybara::Selenium::Driver.new(app, :browser => :firefox)
 #				end
 #			This is effectively the same as :selenium, as firefox is its default.
-#			I have found a bit of a catch when using this on my MacBook Pro.  There is a bit of a
-#			problem with using the firefox binary, which includes both 32 and 64 bit versions,
-#			on a 32-bit machine.  The 64-bit code must be removed. I ...
+#			I have found a bit of a catch when using this on my MacBook Pro.  
+#			There is a bit of a problem with using the firefox binary, which 
+#			includes both 32 and 64 bit versions, on a 32-bit machine.  The 
+#			64-bit code must be removed. I ...
 #				cd /Applications/Firefox.app/Contents/MacOS/
 #				ditto --arch i386 firefox-bin firefox-bin-leopard-dittod
-#			This results in the requirement to specify this new binary to be used with ...
+#			This results in the requirement to specify this new binary to 
+#			be used with ...
 #			if( Socket.gethostname == "mbp-3.local" )	#	jake's home machine
-#				Selenium::WebDriver::Firefox::Binary.path='/Applications/Firefox.app/Contents/MacOS/firefox-bin-leopard-dittod'
+#				Selenium::WebDriver::Firefox::Binary.path=
+#					'/Applications/Firefox.app/Contents/MacOS/firefox-bin-leopard-dittod'
 #			end
 #			In addition, to use any selenium, the following is required...
 #				require 'selenium/webdriver'
 #
 #		Capybara.default_driver = :selenium_chrome
-#			In order to test with chrome, the chromedriver must be downloaded.  It is just a single file, 
-#			and must placed in the path.  Without it, you will see ...
-#				Selenium::WebDriver::Error::WebDriverError: Unable to find the chromedriver executable. 
-#				Please download the server from http://code.google.com/p/chromium/downloads/list and 
-#				place it somewhere on your PATH. More info at http://code.google.com/p/selenium/wiki/ChromeDriver.
+#			In order to test with chrome, the chromedriver must be downloaded.  
+#			It is just a single file, and must placed in the path.  Without 
+#			it, you will see ...
+#				Selenium::WebDriver::Error::WebDriverError: 
+#					Unable to find the chromedriver executable. 
+#				Please download the server from 
+#					http://code.google.com/p/chromium/downloads/list and 
+#				place it somewhere on your PATH. More info at 
+#					http://code.google.com/p/selenium/wiki/ChromeDriver.
 #			As this driver does not exist, it will need to be defined/registered with ...
 #				Capybara.register_driver :selenium_chrome do |app|
 #					Capybara::Selenium::Driver.new(app, :browser => :chrome)
@@ -48,20 +70,31 @@ require 'capybara/rails'
 #			end
 #
 #		Capybara.default_driver = :webkit ( capybara-webkit )
-#			I have chosen to use webkit.  It requires a bit more installation, but is cleaner.  There are also
-#			a few things that do not work, mostly with respect to the alert/confirm pop-up windows.
-#			We cannot use switch_to for alert/confirm windows with webkit, as was done with selenium.
-#			In order to use webkit, qt4 must be installed before the gem.  On a mac, ...
+#			I have chosen to use webkit.  It requires a bit more installation, 
+#			but is cleaner.  There are also a few things that do not work, 
+#			mostly with respect to the alert/confirm pop-up windows.
+#			We cannot use switch_to for alert/confirm windows with webkit, 
+#			as was done with selenium. We also cannot test the content
+#			of an alert/confirm pop-up window.
+#			webkit seems to automatically click ok on alert and confirm
+#			pop-ups.  In order to override this and click 'Cancel',
+#			something like ...
+#				page.evaluate_script('window.confirm = function() { return false; }')
+#			can be used.
+#			In order to use webkit, qt4 must be installed before the gem.  
+#			On a mac, ...
 #				port install qt4-mac
 #				gem install capybara-webkit
-#			Instructions say to set the javascript_driver, but when I did, it made no difference.
+#			Instructions say to set the javascript_driver, but when I did, 
+#			it made no difference.
 #				Capybara.javascript_driver = :webkit
 #			Instead if I set the default_driver, it runs ..
 #				Capybara.default_driver = :webkit
 #
-#			webkit and selenium do not support transactional fixtures as they are in different
-#				thread and therefore do not share a database connection between the test and the 
-#				browser.  A patch for this is to force a single database connection for each model.  
+#			webkit and selenium do not support transactional fixtures as they 
+#				are in different threads and therefore do not share a database 
+#				connection between the test and the browser.  A patch for this 
+#				is to force a single database connection for each model.  
 #				It works, but is more of a hack.
 #			
 
@@ -111,14 +144,17 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		###
 		#
 		#	connection hack for selenium
-		#	with selenium, the database connection from the test and from the controllers are different
-		#		and as the connections are transactional, I think, the test will be unaware of changes
-		#		that the controller makes and the controller will be unaware of changes that the test makes.
-		#		This seems to be why creating a user in the test does not result in a user being found in the controller.
-		#		The same goes for the user's roles.
-		#		It also means that the tests will not notice a difference after creating a page or other resource in the controller.
-		#		So.  Apparently, we need a hack in all the models that will do this. Normally, we could just hack AR::Base,
-		#		but since we already have 2 connection (one for shared, one for the app), we can't (unless I find a new way)
+		#	with selenium, the database connection from the test and from the controllers 
+		#		are different and as the connections are transactional, I think, the test 
+		#		will be unaware of changes that the controller makes and the controller 
+		#		will be unaware of changes that the test makes.  This seems to be why 
+		#		creating a user in the test does not result in a user being found in the 
+		#		controller.  The same goes for the user's roles.  It also means that the 
+		#		tests will not notice a difference after creating a page or other resource 
+		#		in the controller.  So.  Apparently, we need a hack in all the models that 
+		#		will do this. Normally, we could just hack AR::Base, but since we already 
+		#		have 2 connection (one for shared, one for the app), we can't (unless I 
+		#		find a new way)
 		#		So.  We need to individually hack any model that we may test.
 		#
 		#	I'd rather just loop through all the models, but there are a couple oddballs
