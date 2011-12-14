@@ -4,6 +4,7 @@ jQuery(function(){
 
 	$('select#category').change(function(){
 		$.get(root + '/operational_event_types/options.js?category=' + $(this).val(), 
+			/* data will be a list of options for select */
 			function(data){
 				$('select#operational_event_operational_event_type_id').html(data);
 			}
