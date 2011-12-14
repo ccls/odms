@@ -9,6 +9,7 @@ class ZipCodesControllerTest < ActionController::TestCase
 		#		validate anyway
 		#	don't validate this page.  Should be an easier way, but this works.
 #		Html::Test::ValidateFilter.any_instance.stubs(:should_validate?).returns(false)
+#		ZipCodesController.skip_after_filter :validate_page
 	end
 
 #	test "should get zip_codes with no q" do

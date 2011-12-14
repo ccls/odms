@@ -8,7 +8,9 @@ class OperationalEventTypesControllerTest < ActionController::TestCase
 		#		via javascript/ajax, they are still treated as html
 		#		and as such will attempt validation, so ...
 		#	don't validate this page.  Should be an easier way, but this works.
-		Html::Test::ValidateFilter.any_instance.stubs(:should_validate?).returns(false)
+#		Html::Test::ValidateFilter.any_instance.stubs(:should_validate?).returns(false)
+
+		OperationalEventTypesController.skip_after_filter :validate_page
 	end
 
 	test "should get options without category" do
