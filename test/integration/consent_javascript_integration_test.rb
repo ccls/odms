@@ -5,9 +5,13 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 #	has_field? ignores visibility and the :visible option!!!!!
 #		use find_field and visible? for form field names
 #		ie. use this ...
-#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+#			assert !page.find_field(
+#				"study_subject[subject_languages_attributes][2][other]").visible?	
+				#	specify other hidden
 #		and not ...
-#			assert page.has_field?("study_subject[subject_languages_attributes][2][other]", :visible => false)	#	specify other hidden
+#			assert page.has_field?(
+#				"study_subject[subject_languages_attributes][2][other]", 
+#					:visible => false)	#	specify other hidden
 #		as the latter will be true if the field is there regardless of if it is visible
 
 	site_administrators.each do |cu|
@@ -15,6 +19,8 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 #	consent#edit (shouldn't have a consent#new)
 
 #	TODO this needs fixed somehow
+#		everything works as it should, I just foresee that this is
+#		not really the desired effect.
 		test "should NOT update consent if ineligible reason given and eligible"<<
 				" with #{cu} login" do
 			study_subject = Factory(:complete_case_study_subject)	# NOTE CASE subject only (for now?) WITH patient as needed on update
@@ -59,47 +65,44 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 
 
 
-
-
-		test "should initially show specify other language when other language checked with #{cu} login" do
+		test "should initially show specify other language when other language checked" <<
+				" with #{cu} login" do
 			study_subject = Factory(:case_study_subject, # NOTE CASE subject only (for now?)
 				:subject_languages_attributes => { 
 					'0' => { :language_id => Language['other'].id, :other => 'redneck' }})
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(study_subject.id)
 			show_eligibility_criteria_div
-
-			#	[2] since 'other' will be the third language in the array
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][_destroy]")	#	other
+			assert_page_has_unchecked_language_id('english')
+			assert_page_has_unchecked_language_id('spanish')
+			assert_page_has_checked_language_destroy('other')
 			assert_other_language_visible
-			uncheck("study_subject[subject_languages_attributes][2][_destroy]")
+			uncheck(language_input_id('other','_destroy'))
 			assert_other_language_hidden
-			check("study_subject[subject_languages_attributes][2][_destroy]")
+			check(language_input_id('other','_destroy'))
 			assert_other_language_visible
-			uncheck("study_subject[subject_languages_attributes][2][_destroy]")
+			uncheck(language_input_id('other','_destroy'))
 			assert_other_language_hidden
 		end
 
-		test "should toggle specify other language when other language checked with #{cu} login" do
+		test "should toggle specify other language when other language checked" <<
+				" with #{cu} login" do
 			study_subject = Factory(:case_study_subject) # NOTE CASE subject only (for now?)
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(study_subject.id)
 			show_eligibility_criteria_div
-
-			#	[2] since 'other' will be the third language in the array
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
-			check("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			check(language_input_id('other'))
+			assert_page_has_checked_language_id('other')
 			assert_other_language_visible
-			uncheck("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			uncheck(language_input_id('other'))
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
 		end
 
-		test "should preserve creation of subject_language on edit kickback with #{cu} login" do
+		test "should preserve creation of subject_language on edit kickback" <<
+				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
 				@study_subject = Factory(:complete_case_study_subject) # NOTE CASE subject only (for now?) WITH patient as needed on update
 			}
@@ -107,15 +110,16 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			page.visit edit_study_subject_consent_path(@study_subject.id)
 			show_eligibility_criteria_div
 			assert_equal current_path, edit_study_subject_consent_path(@study_subject.id)
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert_page_has_unchecked_language_id('english')
 			#	trigger a kickback from Enrollment update failure
 			Enrollment.any_instance.stubs(:valid?).returns(false)	#	Could be StudySubject as well.  Doesn't matter.
 			click_button 'Save'
 			assert page.has_css?("p.flash#error")
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			assert_page_has_unchecked_language_id('english')
 		end
 
-		test "should preserve destruction of subject_language on edit kickback with #{cu} login" do
+		test "should preserve destruction of subject_language on edit kickback" <<
+				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				@study_subject = Factory(:complete_case_study_subject, # NOTE CASE subject only (for now?) WITH patient as needed on update
 					:subject_languages_attributes => { 
@@ -125,16 +129,17 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			page.visit edit_study_subject_consent_path(@study_subject.id)
 			show_eligibility_criteria_div
 			assert_equal current_path, edit_study_subject_consent_path(@study_subject.id)
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][_destroy]")	#	english
+			assert_page_has_checked_language_destroy('english')
 			#	trigger a kickback from Enrollment update failure
 			Enrollment.any_instance.stubs(:valid?).returns(false)	#	Could be StudySubject as well.  Doesn't matter.
 			click_button 'Save'
 			assert page.has_css?("p.flash#error")
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][_destroy]")	#	english
+			assert_page_has_checked_language_destroy('english')
 		end
 
 		#	a bit excessive, but rather be excessive than skimp
-		test "should preserve checked subject_languages on edit kickback with #{cu} login" do
+		test "should preserve checked subject_languages on edit kickback" <<
+				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
 				@study_subject = Factory(:complete_case_study_subject) # NOTE CASE subject only (for now?) WITH patient as needed on update
 			}
@@ -143,55 +148,55 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			show_eligibility_criteria_div
 
 			assert_equal current_path, edit_study_subject_consent_path(@study_subject.id)
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			assert_page_has_unchecked_language_id('english')
+			assert_page_has_unchecked_language_id('spanish')
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
 
 			#	trigger a kickback from Enrollment update failure
 			Enrollment.any_instance.stubs(:valid?).returns(false)
 
-			check("study_subject[subject_languages_attributes][0][language_id]")	#	english
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			check(language_input_id('english'))
+			assert_page_has_checked_language_id('english')
 			click_button 'Save'
 			assert page.has_css?("p.flash#error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english still checked
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			assert_page_has_checked_language_id('english')	#	still checked!
+			assert_page_has_unchecked_language_id('spanish')
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
 
-			uncheck("study_subject[subject_languages_attributes][0][language_id]")	#	english
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
+			uncheck(language_input_id('english'))
+			assert_page_has_unchecked_language_id('english')
 			click_button 'Save'
 			assert page.has_css?("p.flash#error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english still unchecked
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			assert_page_has_unchecked_language_id('english')	#	still unchecked!
+			assert_page_has_unchecked_language_id('spanish')
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
 
-			check("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
+			check(language_input_id('spanish'))
+			assert_page_has_checked_language_id('spanish')
 			click_button 'Save'
 			assert page.has_css?("p.flash#error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish still checked
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			assert_page_has_unchecked_language_id('english')
+			assert_page_has_checked_language_id('spanish')	#	still checked
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
 
-			uncheck("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
+			uncheck(language_input_id('spanish'))
+			assert_page_has_unchecked_language_id('spanish')
 
-			check("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			check(language_input_id('other'))
+			assert_page_has_checked_language_id('other')
 			assert_other_language_visible
 
 			click_button 'Save'
@@ -199,20 +204,21 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][0][language_id]")	#	english
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][1][language_id]")	#	spanish
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other still checked
+			assert_page_has_unchecked_language_id('english')
+			assert_page_has_unchecked_language_id('spanish')
+			assert_page_has_checked_language_id('other')	#	still checked!
 			assert_other_language_visible
 
-			uncheck("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			uncheck(language_input_id('other'))
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
-			check("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			check(language_input_id('other'))
+			assert_page_has_checked_language_id('other')
 			assert_other_language_visible
 		end
 
-		test "should not have toggle eligibility criteria for non-case with #{cu} login" do
+		test "should not have toggle eligibility criteria for non-case" <<
+				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(study_subject)
@@ -512,17 +518,6 @@ protected
 		#	MUST, MUST, MUST show this div or the languages will always be hidden!
 		page.find('a.toggle_eligibility_criteria').click
 		assert self.has_css?('div.eligibility_criteria', :visible => true)
-	end
-	def assert_other_language_visible
-		assert page.has_css?("#specify_other_language", :visible => true)
-		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
-		assert page.has_field?("study_subject[subject_languages_attributes][2][other]")
-		assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
-	end
-	def assert_other_language_hidden
-		assert page.has_css?("#specify_other_language", :visible => false)
-		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
-		assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
 	end
 	def assert_subject_consented_visible
 		assert page.has_css?('#subject_consented', :visible => true)

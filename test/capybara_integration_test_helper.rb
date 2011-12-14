@@ -191,6 +191,55 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		end
 	end
 
+
+#	common methods ( consent and nonwaivered both use languages )
+
+	def language_input_id(language,field='language_id')
+		#	[2] since 'other' will be the third language in the array
+#		case language
+#			when 'english'
+#				"study_subject_subject_languages_attributes_0_#{field}"	#	english
+#			when 'spanish'
+#				"study_subject_subject_languages_attributes_1_#{field}"	#	spanish
+#			when 'other'
+#				"study_subject_subject_languages_attributes_2_#{field}"	#	other
+#		end
+		"#{language}_#{field}"
+	end
+
+	def language_input_css_id(language,field='language_id')
+		"##{language_input_id(language,field)}"
+	end
+
+	def assert_page_has_unchecked_language_id(language)
+		assert page.has_unchecked_field?(language_input_id(language))
+	end
+
+	def assert_page_has_checked_language_id(language)
+		assert page.has_checked_field?(language_input_id(language))
+	end
+
+	def assert_page_has_unchecked_language_destroy(language)
+		assert page.has_unchecked_field?(language_input_id(language,'_destroy'))
+	end
+
+	def assert_page_has_checked_language_destroy(language)
+		assert page.has_checked_field?(language_input_id(language,'_destroy'))
+	end
+
+	def assert_other_language_visible
+		assert page.has_css?("#specify_other_language", :visible => true)
+		assert page.has_css?(language_input_css_id('other','other'),:visible => true)
+		assert page.has_field?(language_input_id('other','other'))
+		assert page.find_field(language_input_id('other','other')).visible?
+	end
+
+	def assert_other_language_hidden
+		assert page.has_css?("#specify_other_language", :visible => false)
+		assert page.has_css?(language_input_css_id('other','other'),:visible => false)
+		assert !page.find_field(language_input_id('other','other')).visible?
+	end
+
 end
 
 __END__

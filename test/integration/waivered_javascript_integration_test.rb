@@ -2,18 +2,6 @@ require 'integration_test_helper'
 
 class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
-	def assert_other_language_visible
-		assert page.has_css?("#specify_other_language", :visible => true)
-		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => true)
-		assert page.has_field?("study_subject[subject_languages_attributes][2][other]")
-		assert page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
-	end
-	def assert_other_language_hidden
-		assert page.has_css?("#specify_other_language", :visible => false)
-		assert page.has_css?("#study_subject_subject_languages_attributes_2_other",:visible => false)
-		assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?
-	end
-
 
 #	has_field? ignores visibility and the :visible option!!!!!
 #		use find_field and visible? for form field names
@@ -25,19 +13,17 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 
 	site_administrators.each do |cu|
 
-		test "should toggle specify other language when other language checked with #{cu} login" do
+		test "should toggle specify other language when other language checked" <<
+				" with #{cu} login" do
 			login_as send(cu)
 			page.visit new_waivered_path
-			#	[2] since 'other' will be the third language in the array
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
-
-			check("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert page.has_checked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			check(language_input_id('other'))
+			assert_page_has_checked_language_id('other')
 			assert_other_language_visible
-
-			uncheck("study_subject[subject_languages_attributes][2][language_id]")	#	other
-			assert page.has_unchecked_field?("study_subject[subject_languages_attributes][2][language_id]")	#	other
+			uncheck(language_input_id('other'))
+			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
 		end
 
@@ -60,23 +46,6 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 
 			fill_in "study_subject[addressings_attributes][0][address_attributes][zip]",  
 				:with => "17857"
-			#	I don't think that the change event get triggered correctly
-			#	in the test environment.
-			#
-			#	This may happen as the browser
-			#	actually exists and perhaps me coding while the browser is trying to
-			#	test takes focus away from it?  Can I force the browser into the background?
-			#
-			#	maybe "change" isn't the appropriate event trigger for this?
-			#	explicitly trigger the change event.
-			#	If the user running the tests is using the machine,
-			#	it can inhibit this test.  Don't know why.
-			#	It will send a blank zip code which will result in
-			#	no field updates.
-#	When using capybara-webkit, this isn't necessary!  Yay!
-#		If we change back to selenium, this may need uncommented.
-#			page.execute_script("$('#study_subject_addressings_attributes_0_address_attributes_zip').change()" );
-#			sleep 1
 
 			assert_equal 'NORTHUMBERLAND', page.find_field(
 				"study_subject[addressings_attributes][0][address_attributes][city]").value
@@ -110,23 +79,6 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 				"study_subject[patient_attributes][raf_zip]").value.blank?
 
 			fill_in "study_subject[patient_attributes][raf_zip]",  :with => "17857"
-			#	I don't think that the change event get triggered correctly
-			#	in the test environment.
-			#
-			#	This may happen as the browser
-			#	actually exists and perhaps me coding while the browser is trying to
-			#	test takes focus away from it?  Can I force the browser into the background?
-			#
-			#	maybe "change" isn't the appropriate event trigger for this?
-			#	explicitly trigger the change event.
-			#	If the user running the tests is using the machine,
-			#	it can inhibit this test.  Don't know why.
-			#	It will send a blank zip code which will result in
-			#	no field updates.
-#	When using capybara-webkit, this isn't necessary!  Yay!
-#		If we change back to selenium, this may need uncommented.
-#			page.execute_script("$('#study_subject_patient_attributes_raf_zip').change()" );
-#			sleep 1
 
 			assert_equal 'NORTHUMBERLAND', page.find_field(
 				"study_subject[addressings_attributes][0][address_attributes][city]").value

@@ -55,6 +55,7 @@ jQuery(function(){
 	I need to devise a way to make this more clearly, and flexibly, 'other'
 
 */
+/*
 	jQuery('input[type=checkbox]#study_subject_subject_languages_attributes_2_language_id').smartShow({
 		what: '#specify_other_language',
 		when: function(){
@@ -65,6 +66,18 @@ jQuery(function(){
 		what: '#specify_other_language',
 		when: function(){
 			return $('#study_subject_subject_languages_attributes_2__destroy').attr('checked'); }
+	});
+*/
+	jQuery('input[type=checkbox]#other_language_id').smartShow({
+		what: '#specify_other_language',
+		when: function(){
+			return $('#other_language_id').attr('checked'); }
+	});
+
+	jQuery('input[type=checkbox]#other__destroy').smartShow({
+		what: '#specify_other_language',
+		when: function(){
+			return $('#other__destroy').attr('checked'); }
 	});
 
 });

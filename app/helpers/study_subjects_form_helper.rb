@@ -149,8 +149,11 @@ protected
 		#	self.object is a subject_language
 		#	If exists, the hidden id tag is actually immediately put in the html stream!
 		#	Don't think that it will be a problem, but erks me.
-		s = self.check_box( :language_id, { :checked => checked }, self.object.language_id, '' ) << "\n"
-		s << self.label( :language_id, self.language_label ) << "\n"
+		s = self.check_box( :language_id, { 
+			:id => "#{self.object.language.key}_language_id",	#	english_language_id
+			:checked => checked }, self.object.language_id, '' ) << "\n"
+		s << self.label( :language_id, self.language_label,
+			:for => "#{self.object.language.key}_language_id" ) << "\n"
 	end
 
 	def subject_language_destroyer(checked=true)
@@ -162,14 +165,17 @@ protected
 		#	when checked, I want it to do nothing (0), when unchecked I want destroy (1)
 		#	Here, I only want existing language_ids
 		#	Yes, this is very backwards.
-		s << self.check_box( :_destroy, { :checked => checked }, 0, 1 ) << "\n"
-		s << self.label( :_destroy, self.language_label ) << "\n"
+		s << self.check_box( :_destroy, { 
+			:id => "#{self.object.language.key}__destroy",	# english__destroy
+			:checked => checked }, 0, 1 ) << "\n"
+		s << self.label( :_destroy, self.language_label,
+			:for => "#{self.object.language.key}__destroy" ) << "\n"
 	end
 
 	def specify_other_language
 		s =  "<div id='specify_other_language'>"
-		s << self.label( :other, 'specify:' ) << "\n"
-		s << self.text_field( :other, :size => 12 ) << "\n"
+		s << self.label( :other, 'specify:', :for => 'other_other' ) << "\n"
+		s << self.text_field( :other, :size => 12, :id => 'other_other' ) << "\n"
 		s << "</div>"	# id='other_language'>"
 	end
 
