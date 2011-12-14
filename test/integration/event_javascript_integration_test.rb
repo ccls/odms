@@ -1,8 +1,6 @@
 require 'integration_test_helper'
 
-class EventIntegrationTest < ActionController::CapybaraIntegrationTest
-
-#	rename this EventJavascriptIntegrationTest
+class EventJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	def setup
 		super
