@@ -47,22 +47,21 @@ TODO
 
 
 <p>this will then be ajax loaded via a new operational_event_types controller action</p>
-<%# can't be blank, so don't include blank (need one item to be valid html in tests %>
-<%#= f.wrapped_select( :operational_event_type_id,
+<%# can't be blank, so don't include blank 
+	(need one item to be valid html in tests.  I'd like to do this better.) %>
+<% if params[:category].blank? %>
+<%= f.wrapped_select( :operational_event_type_id,
 	[nil], { :label_text => 'type:' }) %>
-
+<% else %>
 <%= f.wrapped_collection_select( :operational_event_type_id,
 	OperationalEventType.all(:conditions => {:event_category => params[:category] }), 
 	:id, :to_s, { :label_text => 'type:' }
 ) %>
-
-<%#= f.wrapped_collection_select( :operational_event_type_id,
-	OperationalEventType.all, :id, :description,
-	{ :label_text => 'type:' }
-) %>
+<% end %>
 
 
-<p>specify ( Triggered by 'other' event type.  Will need to give 'other' an event category of probably 'other'.  Currently, there is no place for this unless overriding the description. )</p>
+
+<p>specify ( Triggered by 'other' event type.  Currently, there is no place for this unless overriding the description. )</p>
 
 
 <%= f.wrapped_text_area(:event_notes,
