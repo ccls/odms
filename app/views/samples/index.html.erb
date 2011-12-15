@@ -2,7 +2,36 @@
 <% id_bar_for(@study_subject) %>
 
 <h3>Subject Specimen Inventory</h3>
-<p>table(received on, sample id, project, sample type, sample subtype, sample status)</p>
+<table class='sample_study_subject'><thead><tr>
+<th>received on</th>
+<th>sample id</th>
+<th>project</th>
+<th>type</th>
+<th>subtype</th>
+<th>status</th>
+</tr>
+</thead><tbody>
+<% @study_subject.samples.each do |sample| %>
+	<tr>
+		<td><%=mdy sample.received_by_ccls_on -%></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+		<td><%= sample.sample_type_parent -%></td>
+		<td><%= sample.sample_type -%></td>
+<td>&nbsp;</td>
+	</tr>
+<% end %>
+</tbody></table>
+<p><%= ( current_user.may_edit_samples? ) ?
+	link_to( "add new ...", new_study_subject_sample_path(@study_subject) ) :
+	'&nbsp;'
+%></p>
+
+<hr/>
+
+<p>Currently there is no field in samples for a "sample id" unless that is the "external_id".</p>
+<p>Currently there is no field in samples for a "sample status".</p>
+<p>Currently the "project" is not set. This should probably be pulled from the enrollment when that is set but is currently a habtm relationship.</p>
 
 
 <h3>Homex sample tables</h3>

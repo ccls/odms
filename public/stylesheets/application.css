@@ -212,10 +212,11 @@ div#preview table tr th {
 table#guides td.controller {
 	width: 300px;
 }
-
+/*
 table.sample_study_subject {
 	margin-top: 30px;
 }
+*/
 
 input.datepicker {
 	width: 100px;
