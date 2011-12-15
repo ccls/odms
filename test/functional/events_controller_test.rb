@@ -1,13 +1,17 @@
 require 'test_helper'
 
 class EventsControllerTest < ActionController::TestCase
-#
-#	ASSERT_ACCESS_OPTIONS = {
-#		:model => 'Sample',
-#		:actions => [:edit,:update,:destroy],
-#		:attributes_for_create => :factory_attributes,
-#		:method_for_create => :create_sample
-#	}
+
+	ASSERT_ACCESS_OPTIONS = {
+		:model => 'OperationalEvent',
+		:actions => [:edit,:update,:destroy],
+		:attributes_for_create => :factory_attributes,
+		:method_for_create => :create_operational_event_with_enrollment
+	}
+	def create_operational_event_with_enrollment
+		Factory(:operational_event,
+			:enrollment => Factory(:enrollment) )
+	end
 	def factory_attributes(options={})
 
 #	An operational event should require an enrollment.
@@ -15,21 +19,20 @@ class EventsControllerTest < ActionController::TestCase
 
 		Factory.attributes_for(:operational_event,{
 			:operational_event_type_id => Factory(:operational_event_type).id
-#			:sample_type_id => Factory(:sample_type).id,
+#			:enrollment_id => Factory(:enrollment).id,
 #			:unit_id        => Factory(:unit).id 
 		}.merge(options))
 	end
 
-#	assert_access_with_login({    :logins => site_editors })
-#	assert_no_access_with_login({ :logins => non_site_editors })
-#	assert_access_with_login({    :logins => site_readers, 
-#		:actions => [:show] })
-#	assert_no_access_with_login({ :logins => non_site_readers, 
-#		:actions => [:show] })
-#	assert_no_access_without_login
-#	assert_access_with_https
-#	assert_no_access_with_http
-#
+	assert_access_with_login({    :logins => site_editors })
+	assert_no_access_with_login({ :logins => non_site_editors })
+	assert_access_with_login({    :logins => site_readers, 
+		:actions => [:show] })
+	assert_no_access_with_login({ :logins => non_site_readers, 
+		:actions => [:show] })
+	assert_no_access_without_login
+	assert_access_with_https
+	assert_no_access_with_http
 
 	#	no study_subject_id
 	assert_no_route(:get,:index)

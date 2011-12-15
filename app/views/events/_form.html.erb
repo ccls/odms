@@ -10,8 +10,14 @@
 <div id='subject_control_bar'>
 <h3>New/Edit Subject Event</h3>
 <div class='buttons'>
+<% if @operational_event.new_record? %>
 <%= link_to( 'Cancel', study_subject_events_path(@study_subject),
-	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
+	:class => 'button' ) %>
+<% else %>
+<%= link_to( 'Cancel', event_path(@operational_event),
+	:class => 'button' ) %>
+<% end %>
+&nbsp;<%= f.submit 'Save' %>
 </div><!-- class='buttons' -->
 </div>
 
@@ -30,7 +36,12 @@
 <label for='category'>category:</label>
 <%# can't be blank, so don't include blank %>
 <%= select_tag( :category,
-	options_for_select([nil]+OperationalEventType.categories,params[:category])
+	options_for_select([nil]+OperationalEventType.categories,
+		@operational_event.operational_event_type.try(:event_category) )
+) %>
+<%#= select_tag( :category,
+	options_for_select([nil]+OperationalEventType.categories,
+		params[:category] )
 ) %>
 </div>
 
@@ -49,16 +60,23 @@ TODO
 <p>this will then be ajax loaded via a new operational_event_types controller action</p>
 <%# can't be blank, so don't include blank 
 	(need one item to be valid html in tests.  I'd like to do this better.) %>
-<% if params[:category].blank? %>
-<%= f.wrapped_select( :operational_event_type_id,
-	[nil], { :label_text => 'type:' }) %>
-<% else %>
-<%= f.wrapped_collection_select( :operational_event_type_id,
+
+<div class='operational_event_type_id collection_select field_wrapper'>
+<label for="operational_event_operational_event_type_id">type:</label>
+<%# an empty select tag is invalid html -%>
+<% if @operational_event.operational_event_type.try(:event_category).blank? -%>
+<%= f.select( :operational_event_type_id, [nil] ) %>
+<% else -%>
+<%#= f.wrapped_collection_select( :operational_event_type_id,
 	OperationalEventType.all(:conditions => {:event_category => params[:category] }), 
 	:id, :to_s, { :label_text => 'type:' }
-) %>
+) -%>
+<%= f.collection_select( :operational_event_type_id,
+	OperationalEventType.all(:conditions => {
+		:event_category => @operational_event.operational_event_type.try(:event_category) 
+	}), :id, :to_s ) -%>
 <% end %>
-
+</div><!-- class='operational_event_type_id collection_select' -->
 
 
 <p>specify ( Triggered by 'other' event type.  Currently, there is no place for this unless overriding the description. )</p>

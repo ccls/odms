@@ -7,13 +7,19 @@ class EventsController < ApplicationController
 		:only => [:new,:create]
 	before_filter :may_read_events_required,
 		:only => [:show,:index]
-#	before_filter :may_update_events_required,
-#		:only => [:edit,:update]
-#	before_filter :may_destroy_events_required,
-#		:only => :destroy
+	before_filter :may_update_events_required,
+		:only => [:edit,:update]
+	before_filter :may_destroy_events_required,
+		:only => :destroy
 
 	before_filter :valid_study_subject_id_required,
 		:only => [:new,:create,:index]
+
+	before_filter :valid_id_required,
+		:only => [:show,:edit,:update,:destroy]
+
+	def show
+	end
 
 	def index
 #		why not just ...
@@ -63,6 +69,32 @@ class EventsController < ApplicationController
 		render :action => 'new'
 	end
 
+	def edit
+	end
+
+	def update
+		@operational_event.attributes = params[:operational_event]
+
+
+
+#	ensure enrollment_id doesn't change study_subjects???
+
+
+
+		@operational_event.save!
+
+		redirect_to event_path(@operational_event)
+	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
+		flash.now[:error] = "Operational Event update failed."
+		render :action => 'edit'
+	end
+
+	def destroy
+		@operational_event.destroy
+		redirect_to study_subject_events_path(
+			@operational_event.enrollment.study_subject)
+	end
+
 protected
 
 	#	override so can set redirection to something other than root_path
@@ -70,6 +102,16 @@ protected
 		( logged_in? and current_user.may_create_events? ) ||
 			access_denied("You do not have permission to create events!", 
 				study_subject_events_path)
+	end
+
+	def valid_id_required
+		if !params[:id].blank? and OperationalEvent.exists?(params[:id])
+			@operational_event = OperationalEvent.find(params[:id])
+			#	study_subject needed in edit form
+			@study_subject = @operational_event.enrollment.study_subject
+		else
+			access_denied("Valid operational_event id required!", study_subjects_path)
+		end
 	end
 
 end

@@ -8,6 +8,7 @@
   <th><%= sort_link(:project,'Project') %></th>
   <th><%= sort_link(:type,'Event Type') %></th>
   <th><%= sort_link(:description,'Description') %></th>
+  <th>&nbsp;</th>
  </tr></thead><tbody>
   <%= render :partial => 'event', :collection => @events %>
  </tbody></table>

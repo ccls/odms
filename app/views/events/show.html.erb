@@ -1,0 +1,38 @@
+<% stylesheets('events') %>
+<% sub_menu_for(@study_subject) %>
+<% id_bar_for(@study_subject) %>
+
+<div id='subject_control_bar'>
+<h3>Subject Event</h3>
+<div class='buttons'>
+<%= link_to( 'Edit', edit_event_path(@operational_event),
+	:class => 'button' ) %>
+</div><!-- class='buttons' -->
+</div>
+
+<%= wrapped_date_spans :operational_event, :occurred_on,
+	:label_text => 'event date:' %>
+
+<div class='project field_wrapper'>
+<span class='label'>project:</span>
+<span class='value'><%= @operational_event.enrollment.project %></span>
+</div><!-- class='project' -->
+
+<div class='category field_wrapper'>
+<span class='label'>category:</span>
+<span class='value'><%= @operational_event.operational_event_type.event_category %></span>
+</div><!-- class='category' -->
+
+<%= wrapped_spans :operational_event, :operational_event_type,
+	:label_text => 'type:' %>
+
+<%#
+
+	TODO specify
+
+%>
+
+<div class='event_notes field_wrapper'>
+<span class='label'>notes:</span>
+<p class='value'><%= @operational_event.event_notes %></p>
+</div><!-- class='event_notes' -->
