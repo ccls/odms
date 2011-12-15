@@ -2,6 +2,7 @@
 <% id_bar_for(@study_subject) %>
 
 <h3>Subject Specimen Inventory</h3>
+<% unless @study_subject.samples.empty? %>
 <table class='sample_study_subject'><thead><tr>
 <th>received on</th>
 <th>sample id</th>
@@ -22,6 +23,9 @@
 	</tr>
 <% end %>
 </tbody></table>
+<% else %>
+<p>Study Subject currently has no samples</p>
+<% end %>
 <p><%= ( current_user.may_edit_samples? ) ?
 	link_to( "add new ...", new_study_subject_sample_path(@study_subject) ) :
 	'&nbsp;'
