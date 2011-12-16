@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
+class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 #	has_field? ignores visibility and the :visible option!!!!!
 #		use find_field and visible? for form field names
@@ -14,7 +14,6 @@ class ConsentJavascriptIntegrationTest < ActionController::CapybaraIntegrationTe
 #					:visible => false)	#	specify other hidden
 #		as the latter will be true if the field is there regardless of if it is visible
 
-#	site_administrators.each do |cu|
 	site_editors.each do |cu|
 
 #	consent#edit (shouldn't have a consent#new)

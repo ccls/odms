@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
+class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 
 #	has_field? ignores visibility and the :visible option!!!!!
 #		use find_field and visible? for form field names
@@ -10,7 +10,6 @@ class AddressingJavascriptIntegrationTest < ActionController::CapybaraIntegratio
 #			assert page.has_field?("study_subject[subject_languages_attributes][2][other]", :visible => false)	#	specify other hidden
 #		as the latter will be true if the field is there regardless of if it is visible
 
-#	site_administrators.each do |cu|
 	site_editors.each do |cu|
 
 		test "addressing#edit should update blank address info on zip code change" <<

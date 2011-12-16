@@ -1,8 +1,7 @@
 require 'integration_test_helper'
 
-class StudySubjectJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
+class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
-#	site_administrators.each do |cu|
 	site_editors.each do |cu|
 
 		test "should preserve creation of subject_race on edit kickback with #{cu} login" do
