@@ -11,7 +11,8 @@ class WaiveredJavascriptIntegrationTest < ActionController::CapybaraIntegrationT
 #			assert page.has_field?("study_subject[subject_languages_attributes][2][other]", :visible => false)	#	specify other hidden
 #		as the latter will be true if the field is there regardless of if it is visible
 
-	site_administrators.each do |cu|
+#	site_administrators.each do |cu|
+	site_editors.each do |cu|
 
 		test "should toggle specify other language when other language checked" <<
 				" with #{cu} login" do

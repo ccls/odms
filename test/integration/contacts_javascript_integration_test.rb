@@ -2,7 +2,8 @@ require 'integration_test_helper'
 
 class ContactsJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
-	site_administrators.each do |cu|
+#	site_administrators.each do |cu|
+	site_editors.each do |cu|
 
 #	contacts#show
 

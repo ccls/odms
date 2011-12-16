@@ -2,7 +2,8 @@ require 'integration_test_helper'
 
 class PageJavascriptIntegrationTest < ActionController::CapybaraIntegrationTest
 
-	site_administrators.each do |cu|
+#	site_administrators.each do |cu|
+	site_editors.each do |cu|
 
 #	changing order should enable save_order button
 
