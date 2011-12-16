@@ -164,13 +164,26 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		#
 		#	Perhaps Shared.subclasses?
 		#
-		[Address,Addressing,AddressType,County,Context,ContextDataSource,DataSource,
-			Enrollment,Guide,Identifier,
-			OperationalEvent,OperationalEventType,
-			Page,Patient,PhoneNumber,PhoneType,Pii,
-			Project,StudySubject,
-			SubjectLanguage,Language,SubjectRace,Race,
-			Role,User,ZipCode].each do |model|
+		[Abstract,Address,Addressing,AddressType,
+			Aliquot,AliquotSampleFormat,Analysis,BcRequest,
+			CandidateControl,County,Context,
+			ContextDataSource,
+			County,
+			DataSource,Diagnosis,DocumentType,DocumentVersion,Enrollment,
+			FollowUp,FollowUpType,GiftCard,
+			Guide,
+			HomeExposureResponse,HomexOutcome,Hospital,
+			IcfMasterId,Identifier,
+			IneligibleReason,Instrument,InstrumentType,InstrumentVersion,
+			Interview,InterviewMethod,InterviewOutcome,
+			Language,
+			OperationalEvent,OperationalEventType,Organization,Package,Page,Patient,
+			PhoneNumber,PhoneType,Pii,Project,
+			Person,
+			ProjectOutcome,Race,RefusalReason,Sample,SampleKit,SampleOutcome,SampleType,Section,
+			StudySubject,
+			SubjectLanguage,Language,SubjectRace,SubjectRelationship,SubjectType,Race,
+			Role,Track,Transfer,Unit,User,VitalStatus,ZipCode].each do |model|
 			model.saved_connection = model.connection
 		end
 	end
