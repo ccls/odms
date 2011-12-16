@@ -5,7 +5,7 @@ class EventsControllerTest < ActionController::TestCase
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'OperationalEvent',
 		:actions => [:edit,:update,:destroy],
-		:attributes_for_create => :factory_attributes,
+		:attributes_for_create => :factory_attributes,	#	needed for update
 		:method_for_create => :create_operational_event_with_enrollment
 	}
 	def create_operational_event_with_enrollment
@@ -13,14 +13,8 @@ class EventsControllerTest < ActionController::TestCase
 			:enrollment => Factory(:enrollment) )
 	end
 	def factory_attributes(options={})
-
-#	An operational event should require an enrollment.
-#	I don't know why I haven't instituted this.
-
 		Factory.attributes_for(:operational_event,{
 			:operational_event_type_id => Factory(:operational_event_type).id
-#			:enrollment_id => Factory(:enrollment).id,
-#			:unit_id        => Factory(:unit).id 
 		}.merge(options))
 	end
 
@@ -36,6 +30,8 @@ class EventsControllerTest < ActionController::TestCase
 
 	#	no study_subject_id
 	assert_no_route(:get,:index)
+	assert_no_route(:get,:new)
+	assert_no_route(:post,:create)
 
 	#	no id
 	assert_no_route(:get, :show)
@@ -43,11 +39,16 @@ class EventsControllerTest < ActionController::TestCase
 	assert_no_route(:put, :update)
 	assert_no_route(:delete, :destroy)
 
-#	#	no route
-#	assert_no_route(:get,:new,:study_subject_id => 0)
-#	assert_no_route(:post,:create,:study_subject_id => 0)
-
 	site_editors.each do |cu|
+
+
+
+
+#	TODO add update tests that ensure event doesn't change subjects
+#			when changing enrollment_id
+
+
+
 
 		test "should get new event for study_subject with #{cu} login" do
 			login_as send(cu)
