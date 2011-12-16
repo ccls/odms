@@ -1,15 +1,13 @@
 require 'integration_test_helper'
 
-class NonwaiveredIntegrationTest < ActionController::WebRatIntegrationTest
-#class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
+class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 
-#	site_administrators.each do |cu|
 	site_editors.each do |cu|
 
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
 			duplicate = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
-			visit new_nonwaivered_path
+			page.visit new_nonwaivered_path
 
 			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
 			#	build, but DON'T save
@@ -46,19 +44,14 @@ class NonwaiveredIntegrationTest < ActionController::WebRatIntegrationTest
 			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
-				#	click_button(value)
 				click_button "Submit"	
+				sleep 1	#	pause to ensure no changes in capybara
 			} } } } } } } }
 
-			#	is not redirected, is rendered, therefore it is just a path, not a full url
-#			assert_equal nonwaivered_path, current_url
-#	capybara actually has a real current_path
-#			assert_equal nonwaivered_path, current_path
-#	puts capybara doesn't do flash
-#			assert_not_nil flash[:error]	#	Possible Duplicate(s) Found.
-#			assert page.has_css?("p.flash#error")
-
-#			assert_match /Possible Duplicate\(s\) Found/, flash[:error]
+			assert_equal nonwaivered_path, current_path
+			assert page.has_css?("p.flash#error")
+			assert_match /Possible Duplicate\(s\) Found/, 
+				page.find("p.flash#error").text
 
 			choose "duplicate_id_#{duplicate.id}"
 			assert_difference('PhoneNumber.count',0) {
@@ -70,25 +63,19 @@ class NonwaiveredIntegrationTest < ActionController::WebRatIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
-				#	click_button(value)
 				click_button "Match Found"	
+				sleep 1	#	capybara will require a moment to get the counts correct
 			} } } } } } } } }
-
-#	puts capybara doesn't do flash
-#			assert_not_nil flash[:notice]
-#			assert page.has_css?("p.flash#error")
-
-#			assert_match /Operational Event created marking this attempted entry/, flash[:notice]
-
-
-#			assert_equal study_subject_url( duplicate ), current_url
-#			assert_equal study_subject_path( duplicate ), current_path
+			assert page.has_css?("p.flash#notice")	#	success
+			assert_match /Operational Event created marking this attempted entry/,
+				page.find("p.flash#notice").text
+			assert_equal study_subject_path( duplicate ), current_path
 		end
 
 		test "should create subject if duplicate subject no match found with #{cu} login" do
 			duplicate = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
-			visit new_nonwaivered_path
+			page.visit new_nonwaivered_path
 
 			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
 			#	build, but DON'T save
@@ -125,19 +112,13 @@ class NonwaiveredIntegrationTest < ActionController::WebRatIntegrationTest
 			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
-				#	click_button(value)
 				click_button "Submit"	
+				sleep 1	#	pause to ensure no changes in capybara
 			} } } } } } } }
-
-			#	is not redirected, is rendered, therefore it is just a path, not a full url
-#			assert_equal nonwaivered_path, current_url
-#	capybara actually have a current_path
-#			assert_equal nonwaivered_path, current_path
-#	puts capybara doesn't do flash
-#			assert_not_nil flash[:error]	#	Possible Duplicate(s) Found.
-#			assert page.has_css?("p.flash#error")
-
-#			assert_match /Possible Duplicate\(s\) Found/, flash[:error]
+			assert_equal nonwaivered_path, current_path
+			assert page.has_css?("p.flash#error")
+			assert_match /Possible Duplicate\(s\) Found/, 
+				page.find("p.flash#error").text
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',1) {
@@ -149,16 +130,16 @@ class NonwaiveredIntegrationTest < ActionController::WebRatIntegrationTest
 			assert_difference('StudySubject.count',2) {
 				#	click_button(value)
 				click_button "No Match"	
+				sleep 1	#	capybara will require a moment to get the counts correct
 			} } } } } } } }
 
-#			assert_equal study_subject_url( assigns(:study_subject) ), current_url
-#			assert_equal study_subject_path( assigns(:study_subject) ), current_path
+			assert_match /\/study_subjects\/\d+/, current_path
 		end
 
 		test "should get new nonwaivered raf form and submit with #{cu} login" do
 			login_as send(cu)
 
-			visit new_nonwaivered_path
+			page.visit new_nonwaivered_path
 
 			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
 			#	build, but DON'T save
@@ -195,15 +176,11 @@ class NonwaiveredIntegrationTest < ActionController::WebRatIntegrationTest
 			assert_difference('Identifier.count',2) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
-				#	click_button(value)
 				click_button "Submit"	
+				sleep 1	#	capybara will require a moment to get the counts correct
 			} } } } } } } }
-#	puts capybara doesn't do flash
-#			assert_nil flash[:error]
-#			assert !page.has_css?("p.flash#error")
-
-#			assert_equal study_subject_url( assigns(:study_subject) ), current_url
-#			assert_equal study_subject_path( assigns(:study_subject) ), current_path
+			assert !page.has_css?("p.flash#error")
+			assert_match /\/study_subjects\/\d+/, current_path
 		end
 
 	end

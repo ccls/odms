@@ -1,11 +1,7 @@
 require 'integration_test_helper'
 
-#class CandidateControlIntegrationTest < ActionController::WebRatIntegrationTest
 class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTest
 
-#	TODO do I need a teardown logout method???
-
-#	site_administrators.each do |cu|
 	site_editors.each do |cu|
 
 		test "should create control for case with no duplicates and #{cu} login" do
@@ -13,11 +9,12 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(
 				:related_patid => case_study_subject.reload.patid,
-					:updated_at => Date.yesterday )
+					:updated_at => ( Date.today - 2.days ) )
 
-			visit case_path(case_study_subject.id)
+			page.visit case_path(case_study_subject.id)
 			assert_equal current_path, case_path(case_study_subject.id)
 			click_link 'add control'
+
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
 			assert !page.has_css?('div.possible_duplicates')
@@ -40,14 +37,14 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-#			assert_difference('Pii.count',2) {
-#			assert_difference('Identifier.count',2) {
-#			assert_difference('Enrollment.count',2) {
-#			assert_difference('StudySubject.count',2) {
-#			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-#	TODO capybara doesn't work right here
+			assert_difference('Pii.count',2) {
+			assert_difference('Identifier.count',2) {
+			assert_difference('Enrollment.count',2) {
+			assert_difference('StudySubject.count',2) {
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-			} } } } #} } } } }
+				sleep 1	#	If I don't sleep in capybara, the counts don't change???
+			} } } } } } } } }
 
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")
@@ -60,14 +57,15 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(
 				:related_patid => case_study_subject.reload.patid,
-					:updated_at => Date.yesterday )
+					:updated_at => ( Date.today - 2.days ) )
 			duplicate = create_study_subject(:sex => candidate.sex,
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-			visit case_path(case_study_subject.id)
+			page.visit case_path(case_study_subject.id)
 			assert_equal current_path, case_path(case_study_subject.id)
 			click_link 'add control'
+
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
 			assert !page.has_css?('div.possible_duplicates')
@@ -84,15 +82,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 			} } } } } } } } }
-#			assert !assigns(:duplicates).empty?	#	capybara doesn't use assigns
-			assert page.has_css?("p.flash#error")
 
 			#
 			#	this kicks back as a render, not a redirect so 
 			#	rather than actually being edit_candidate_control_path
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
-
+			assert page.has_css?("p.flash#error")
 			assert_equal current_path, candidate_control_path(candidate)
 			assert page.has_css?('div.possible_duplicates')
 
@@ -108,7 +104,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
 			} } } } } } } } }
-#			assert !assigns(:duplicates).empty?	#	capybara doesn't use assigns
+			assert page.has_css?('div.possible_duplicates')
 			assert page.has_css?("p.flash#error")
 			assert page.has_css?("p.flash#warn")
 
@@ -126,17 +122,17 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(
 				:related_patid => case_study_subject.reload.patid,
-					:updated_at => Date.yesterday )
+					:updated_at => ( Date.today - 2.days ) )
 			duplicate = create_study_subject(:sex => candidate.sex,
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-			visit case_path(case_study_subject.id)
+			page.visit case_path(case_study_subject.id)
 			click_link 'add control'
+
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
 			assert !page.has_css?('div.possible_duplicates')
-
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
@@ -150,15 +146,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 			} } } } } } } } }
-#			assert !assigns(:duplicates).empty?	#	capybara doesn't use assigns
-			assert page.has_css?("p.flash#error")
 
 			#
 			#	this kicks back as a render, not a redirect so 
 			#	rather than actually being edit_candidate_control_path
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
-
+			assert page.has_css?("p.flash#error")
 			assert_equal current_path, candidate_control_path(candidate)
 			assert page.has_css?('div.possible_duplicates')
 
@@ -173,18 +167,16 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
-#			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-#	TODO capybara doesn't work right here
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
-			} } } } } } } } #}
+				sleep 1	#	If I don't sleep in capybara, the counts don't change???
+			} } } } } } } } }
 
 			assert_candidate_rejected(candidate.reload)
 			# as the created duplicate is not explicitly a case
 			# the reason will be because it is a control
-#	TODO
-#			assert_match /ineligible control - control already exists in system/,
-#				candidate.rejection_reason
-
+			assert_match /ineligible control - control already exists in system/,
+				candidate.rejection_reason
 			assert !page.has_css?("p.flash#error")
 			assert_equal current_path, case_path(case_study_subject.id)
 		end
@@ -195,17 +187,17 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			case_study_subject = create_case_identifier.study_subject
 			candidate = create_candidate_control(
 				:related_patid => case_study_subject.reload.patid,
-					:updated_at => Date.yesterday )
+					:updated_at => ( Date.today - 2.days ) )
 			duplicate = create_study_subject(:sex => candidate.sex,
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-			visit case_path(case_study_subject.id)
+			page.visit case_path(case_study_subject.id)
 			click_link 'add control'
+
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
 			assert !page.has_css?('div.possible_duplicates')
-
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
@@ -220,15 +212,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				click_button 'continue'
 			} } } } } } } } }
 
-#			assert !assigns(:duplicates).empty?	#	capybara doesn't use assigns
-			assert page.has_css?("p.flash#error")
-
 			#
 			#	this kicks back as a render, not a redirect so 
 			#	rather than actually being edit_candidate_control_path
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
 
+			assert page.has_css?("p.flash#error")
 			assert_equal current_path, candidate_control_path(candidate)
 			assert page.has_css?('div.possible_duplicates')
 
@@ -237,18 +227,18 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-#			assert_difference('Pii.count',2) {
-#			assert_difference('Identifier.count',2) {
-#			assert_difference('Enrollment.count',2) {
-#	TODO doesn't update in capybara?
-#			assert_difference('StudySubject.count',2) {
-#			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('Pii.count',2) {
+			assert_difference('Identifier.count',2) {
+			assert_difference('Enrollment.count',2) {
+			assert_difference('StudySubject.count',2) {
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'No Match'
-			} } } } #} } } } }
+				sleep 2	#	If I don't sleep in capybara, the counts don't change???
+			} } } } } } } } }
 
-#			assert_candidate_assigned_and_accepted(candidate.reload)
-#			assert !page.has_css?("p.flash#error")
-#			assert_equal current_path, case_path(case_study_subject.id)
+			assert_candidate_assigned_and_accepted(candidate.reload)
+			assert !page.has_css?("p.flash#error")
+			assert_equal current_path, case_path(case_study_subject.id)
 		end
 
 	end
@@ -256,20 +246,18 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 protected
 
 	def assert_candidate_assigned_and_accepted(candidate)
-#	TODO capybara doesn't work right here
-#		assert        !candidate.reject_candidate
-#		assert         candidate.rejection_reason.blank?
-#		assert_not_nil candidate.assigned_on
-#		assert_not_nil candidate.study_subject
-#		assert_not_nil candidate.study_subject.mother
+		assert        !candidate.reject_candidate
+		assert         candidate.rejection_reason.blank?
+		assert_not_nil candidate.assigned_on
+		assert_not_nil candidate.study_subject
+		assert_not_nil candidate.study_subject.mother
 	end
 
 	def assert_candidate_rejected(candidate)
-#	TODO capybara doesn't work right here
-#		assert     candidate.reject_candidate
-#		assert    !candidate.rejection_reason.blank?
-#		assert_nil candidate.assigned_on
-#		assert_nil candidate.study_subject
+		assert     candidate.reject_candidate
+		assert    !candidate.rejection_reason.blank?
+		assert_nil candidate.assigned_on
+		assert_nil candidate.study_subject
 	end
 
 end
