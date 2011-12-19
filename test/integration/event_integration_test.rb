@@ -28,9 +28,9 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			select 'operations', :from => 'category'
 
 			#	now should have some options.
-			#	by doing it this was, capybara 'reloads' the contents before comparison
+			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
-			assert_equal 8, 
+			assert_equal 6, 
 				page.find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			page.find('select#operational_event_operational_event_type_id'
@@ -53,6 +53,7 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			study_subject = Factory(:study_subject)
 			ccls_enrollment = study_subject.enrollments.find_by_project_id(
 				Project['ccls'].id)
+			assert_equal 1, ccls_enrollment.operational_events.length
 			event = ccls_enrollment.operational_events.first	#	new subject
 			login_as send(cu)
 			page.visit edit_event_path(event)
@@ -62,24 +63,27 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			# [nil,ascertainment,compensation,completions,correspondence,
 			#		enrollments,interviews,operations,other,recruitment,samples]
 
-			assert_equal 'ascertainment',
+			event_category = event.operational_event_type.event_category
+			assert_equal 'recruitment', event_category
+
+			assert_equal event_category,
 				page.find('select#category option[selected=selected]').text
 
 			assert page.has_css?('select#operational_event_operational_event_type_id')
 
-			assert_equal 2, 
+			assert_equal 6, 
 				page.find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			page.find('select#operational_event_operational_event_type_id'
 				).all('option').each { |option|
 					assert !option.text.blank?
-					assert_match /^ascertainment:/, option.text }
+					assert_match /^#{event_category}:/, option.text }
 
 			select 'operations', :from => 'category'
 			#	now should have some different options.
-			#	by doing it this was, capybara 'reloads' the contents before comparison
+			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
-			assert_equal 8, 
+			assert_equal 6, 
 				page.find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			page.find('select#operational_event_operational_event_type_id'
