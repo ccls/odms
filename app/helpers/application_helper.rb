@@ -89,7 +89,8 @@ module ApplicationHelper
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
 			links = [
-				link_to( "New BC Request", new_bc_request_path,
+#				link_to( "New BC Request", new_bc_request_path,
+				link_to( "New Requests", new_bc_request_path,
 					:class => ((current == :new_bc_request)?'current':nil) ),
 #				link_to( "BC Validation", bc_validations_path,
 #					:class => ((current == :bc_validations)?'current':nil) ),
