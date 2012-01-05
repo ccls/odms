@@ -36,7 +36,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-		test "should NOT add case study_subject to bc_requests without patid and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests without patid" <<
+				" and #{cu} login" do
 			login_as send(cu)
 			assert_difference('BcRequest.count',0) {
 				post :create
@@ -46,7 +47,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should NOT add case study_subject to bc_requests without matching patid and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests without matching patid" <<
+				" and #{cu} login" do
 			login_as send(cu)
 			assert_difference('BcRequest.count',0) {
 				post :create, :patid => 'donotmatchpatid'
@@ -56,8 +58,10 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
-		#	create multiple study_subjects and stub search so all returned mimicing multiple matches
-		test "should NOT add case study_subject to bc_requests with multiple matching patid and #{cu} login" do
+		#	create multiple study_subjects and stub search so all returned
+		#	 mimicing multiple matches
+		test "should NOT add case study_subject to bc_requests with multiple matching" <<
+				" patid and #{cu} login" do
 			login_as send(cu)
 			create_case_control_study_subject
 			create_case_control_study_subject
@@ -71,7 +75,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 		end
 
 		#	non-case is effectively not a valid patid
-		test "should NOT add case study_subject to bc_requests with non-case study_subject and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests with non-case" <<
+				" study_subject and #{cu} login" do
 			login_as send(cu)
 			non_case_study_subject = create_study_subject_with_patid('1234')
 			assert !non_case_study_subject.new_record?
@@ -84,7 +89,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should NOT add case study_subject to bc_requests with existing incomplete bc_request and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests with existing incomplete" <<
+				" bc_request and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_case_control_study_subject
 			case_study_subject.bc_requests.create
@@ -97,7 +103,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should add case study_subject to bc_requests with existing complete bc_request and #{cu} login" do
+		test "should add case study_subject to bc_requests with existing complete" <<
+				" bc_request and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_case_control_study_subject
 			case_study_subject.bc_requests.create(:status => 'complete')
@@ -110,11 +117,30 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should add case study_subject to bc_requests with matching patid and #{cu} login" do
+		test "should add case study_subject to bc_requests with matching patid" <<
+				" and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_case_control_study_subject
 			assert_difference('BcRequest.count',1) {
 				post :create, :patid => case_study_subject.patid
+			}
+			assert_not_nil assigns(:study_subject)
+			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
+			assert_equal case_study_subject, assigns(:study_subject)
+			assert_redirected_to new_bc_request_path
+		end
+
+		test "should add case study_subject to bc_requests with matching patid" <<
+				" missing leading zeroes and #{cu} login" do
+			login_as send(cu)
+			case_study_subject = create_case_control_study_subject
+			# case_study_subject.patid should be a small 4-digit string
+			#		with leading zeroes. (probably 0001). Remove them before submit.
+			patid = case_study_subject.patid.to_i
+			assert patid < 1000, 
+				'Expected auto-generated patid to be less than 1000 for this test'
+			assert_difference('BcRequest.count',1) {
+				post :create, :patid => patid
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
@@ -294,7 +320,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 	non_site_editors.each do |cu|
 
-		test "should NOT add case study_subject to bc_requests with matching patid and #{cu} login" do
+		test "should NOT add case study_subject to bc_requests with matching patid" <<
+				" and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_case_control_study_subject
 			assert_difference('BcRequest.count',0) {
@@ -338,7 +365,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 #	no login ...
 #
 
-	test "should NOT add case study_subject to bc_requests with matching patid and without login" do
+	test "should NOT add case study_subject to bc_requests with matching patid" <<
+			" and without login" do
 		case_study_subject = create_case_control_study_subject
 		assert_difference('BcRequest.count',0) {
 			post :create, :patid => case_study_subject.patid

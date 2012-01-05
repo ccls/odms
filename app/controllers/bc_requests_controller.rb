@@ -100,9 +100,26 @@ protected
 
 	def valid_patid_required
 		if !params[:patid].blank? 
-			@study_subject = StudySubject.find_case_by_patid(params[:patid])
+			#	pad patid with leading 0's here
+			#	Do not use LIKE as would accept leading digits other than 0.
+			#	MUST use to_i to avoid octal conversion or error if leading zero given!
+			#	CANNOT have leading 0's in sprintf as it thinks its octal and converts
+			#>> sprintf("%06d","0001234")
+			#=> "000668"
+			#
+			# CANNOT have leading 0's and include and 8 or 9 as it thinks its octal
+			# so convert back to Integer first
+			#>> sprintf("%06d","0001280")
+			#ArgumentError: invalid value for Integer: "0001280"
+			# from (irb):24:in `sprintf'
+			# from (irb):24
+
+			patid = sprintf("%04d",params[:patid].to_i)	
+			@study_subject = StudySubject.find_case_by_patid(patid)
+
 			if @study_subject.blank?
-				access_denied("No case study_subject found with that patid!", new_bc_request_path)
+				access_denied("No case study_subject found with patid:#{patid}!", 
+					new_bc_request_path)
 			end
 		else
 			access_denied("Valid study_subject patid required!", new_bc_request_path)
