@@ -43,8 +43,8 @@
  <% study_subject = bc_request.study_subject %>
  <tr class='row'>
   <td>
-   <% destroy_link_to "Destroy", bc_request_path(bc_request) do %>
-    <%= hidden_field_tag 'confirm', "Destroy bc_request '#{bc_request}'?", :id => nil %>
+   <% destroy_link_to "Remove", bc_request_path(bc_request) do %>
+    <%= hidden_field_tag 'confirm', "Remove BC Request '#{bc_request}'?", :id => nil %>
    <% end %>
   </td>
   <td>
