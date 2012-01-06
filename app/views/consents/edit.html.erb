@@ -44,10 +44,12 @@
 	Good idea?
 
 %>
+<%# patient cannot be nil here %>
+<% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% @patient = @study_subject.patient %>
 <% fields_for @patient do |p| %>
 
-<p>This is an auto-updated field.  Should it really be editable? No. Display only.</p>
+<p>This is an auto-updated field.  Should it really be editable? No. Readonly.</p>
 <p>Also, the text seems incorrect.  This field is was_under_15_at_dx, which does not correspond correctly. It should be something like "Was this patient under age 15 at diagnosis?"</p>
 
 <%#= p.wrapped_y_n_dk_select( :was_under_15_at_dx,

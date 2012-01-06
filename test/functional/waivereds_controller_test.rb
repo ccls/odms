@@ -841,11 +841,14 @@ protected
 			"patient_attributes"=> Factory.attributes_for(:waivered_patient,{
 				"raf_zip" => '12345',
 				"raf_county" => "some county, usa",
-				"was_previously_treated"=>"false", 
+#				"was_previously_treated"=>"false", 
+				"was_previously_treated"=> YNDK[:no],
 				"admitting_oncologist"=>"", 
-				"was_under_15_at_dx"=>"true", 
+#				"was_under_15_at_dx"=>"true", 
+				"was_under_15_at_dx"=> YNDK[:yes],
 #				"diagnosis_id"=>"", 
-				"was_ca_resident_at_diagnosis"=>"true"
+#				"was_ca_resident_at_diagnosis"=>"true"
+				"was_ca_resident_at_diagnosis"=> YNDK[:yes]
 			})
 		}}.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end

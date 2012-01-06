@@ -8,8 +8,15 @@
 
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
+<%#
+
+	This is an auto-updated field.
+	The label text also does not correspond directly to the variable name.
+
+%>
  <p>Is this patient under age 15?
-  <%= patient_fields.check_box :was_under_15_at_dx, {}, true, false %>
+  <%#= patient_fields.check_box :was_under_15_at_dx, {}, true, false %>
+  <%= patient_fields.check_box :was_under_15_at_dx, {}, YNDK[:yes], YNDK[:no] %>
   <%= patient_fields.label :was_under_15_at_dx, 'yes (eligible)' %>
  </p>
 <% end %>
@@ -19,7 +26,8 @@
 <% f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
  <p>
-  <%= patient_fields.check_box :was_previously_treated, {}, true, false %>
+  <%#= patient_fields.check_box :was_previously_treated, {}, true, false %>
+  <%= patient_fields.check_box :was_previously_treated, {}, YNDK[:yes], YNDK[:no] %>
   <%= patient_fields.label :was_previously_treated, 'no (eligible)' %>
  </p>
 <% end %>
@@ -27,7 +35,8 @@
 
 <% f.fields_for :patient do |patient_fields| %>
  <p>Does the patient currently reside in California?
-  <%= patient_fields.check_box :was_ca_resident_at_diagnosis, {}, true, false %>
+  <%#= patient_fields.check_box :was_ca_resident_at_diagnosis, {}, true, false %>
+  <%= patient_fields.check_box :was_ca_resident_at_diagnosis, {}, YNDK[:yes], YNDK[:no] %>
   <%= patient_fields.label :was_ca_resident_at_diagnosis, 'yes (eligible)' %>
  </p>
 <% end %>

@@ -870,11 +870,14 @@ protected
 			}, 
 			"patient_attributes"=> Factory.attributes_for(:nonwaivered_patient,{
 				"sample_was_collected"=>"1",				
-				"was_previously_treated"=>"false", 
+#				"was_previously_treated"=>"false", 
+				"was_previously_treated"=> YNDK[:no],
 				"admitting_oncologist"=>"", 
-				"was_under_15_at_dx"=>"true", 
+#				"was_under_15_at_dx"=>"true", 
+				"was_under_15_at_dx"=> YNDK[:yes],
 #				"diagnosis_id"=>"", 
-				"was_ca_resident_at_diagnosis"=>"true"
+#				"was_ca_resident_at_diagnosis"=>"true"
+				"was_ca_resident_at_diagnosis"=> YNDK[:yes]
 			})
 		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
