@@ -46,10 +46,19 @@
 %>
 <% @patient = @study_subject.patient %>
 <% fields_for @patient do |p| %>
-<p>This is an auto-updated field.  Should it really be editable?</p>
-<%= p.wrapped_y_n_dk_select( :was_under_15_at_dx,
+
+<p>This is an auto-updated field.  Should it really be editable? No. Display only.</p>
+<p>Also, the text seems incorrect.  This field is was_under_15_at_dx, which does not correspond correctly. It should be something like "Was this patient under age 15 at diagnosis?"</p>
+
+<%#= p.wrapped_y_n_dk_select( :was_under_15_at_dx,
 	:label_text => 'Is this patient under age 15?'
 	) %>
+
+<%= wrapped_yndk_spans( :patient, :was_under_15_at_dx,
+	:label_text => 'Is this patient under age 15?'
+	) %>
+
+
 <% fields_for @study_subject do |s| %>
 <%= s.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
 <% end %>
