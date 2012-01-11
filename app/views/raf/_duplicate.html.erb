@@ -3,7 +3,12 @@
 		a radio button seems like it would be unnecessary %>
 <td><%= radio_button_tag('duplicate_id', duplicate.id ) %></td>
 <td><%= label_tag("duplicate_id_#{duplicate.id}",duplicate.full_name) %></td>
-<td><%= duplicate.organization.code %></td>
+
+<%# organization is from patient and therefore only cases.
+	as this duplicate subject may not be a case, we
+	must 'try' code as organization may be nil. %>
+<td><%= duplicate.organization.try(:code) %></td>
+
 <td><%=mdy duplicate.admit_date %></td>
 <td><%= duplicate.hospital_no %></td>
 <td><%=mdy duplicate.dob %></td>

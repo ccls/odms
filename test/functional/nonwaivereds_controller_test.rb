@@ -55,14 +55,11 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						:hospital_no     => subject.hospital_no
 					} })
 			end
-			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type?(
 				"patient.hospital_no",:taken)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -76,15 +73,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found')
 			end
-			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type?(
 				"patient.hospital_no",:taken)
-			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -98,16 +92,13 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						:hospital_no     => subject.hospital_no
 					} }, :commit => 'Match Found', :duplicate_id => 0 )
 			end
-			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
 			assert !assigns(:study_subject).errors.on_attr_and_type?(
 				"patient.hospital_no",:taken)
-			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
 			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -161,11 +152,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:organization_id => subject.organization_id
 					} })
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -180,12 +167,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:organization_id => subject.organization_id
 					} }, :commit => 'Match Found' )
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -200,13 +183,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:organization_id => subject.organization_id
 					} }, :commit => 'Match Found', :duplicate_id => 0 )
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
 			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -244,6 +223,28 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 #	Have the same birth date (piis.dob) and sex (subject.sex) as the new subject and 
 #		(same mother’s maiden name or existing mother’s maiden name is null)
 
+#	NOTE This could include non-case subjects
+#	Added this to test the view.
+#	I could do all of the following duplicate tests for the 2 factories ...
+#		complete_control_study_subject and complete_nonwaivered_case_study_subject
+#	Seems a bit excessive though.
+
+		test "should NOT create nonwaivered case study_subject" <<
+				" with existing control duplicate sex and dob and blank mother_maiden_names" <<
+				" and #{cu} login" do
+			subject = Factory(:complete_control_study_subject)
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_nonwaivered_form_attributes(
+					'study_subject' => { 'sex' => subject.sex,
+						'pii_attributes' => { :dob => subject.dob }
+					})
+			end
+			assert_duplicates_found_and_rerendered_new
+		end
+
+
+
 		test "should NOT create nonwaivered case study_subject" <<
 				" with existing duplicate sex and dob and blank mother_maiden_names" <<
 				" and #{cu} login" do
@@ -255,11 +256,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob }
 					})
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -273,11 +270,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'Match Found')
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -291,13 +284,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob }
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
 			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -344,11 +333,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					})
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -363,11 +348,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found')
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -382,13 +363,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
 			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -436,11 +413,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					})
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -454,11 +427,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found')
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -472,13 +441,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:error]
 			assert_not_nil flash[:warn]
 			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_response :success
-			assert_template 'new'
+			assert_duplicates_found_and_rerendered_new
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -908,6 +873,14 @@ protected
 		} } } } } } } } } # }
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)
+	end
+
+	def assert_duplicates_found_and_rerendered_new
+		assert !assigns(:duplicates).empty?
+		assert assigns(:study_subject)
+		assert_not_nil flash[:error]
+		assert_response :success
+		assert_template 'new'
 	end
 
 end
