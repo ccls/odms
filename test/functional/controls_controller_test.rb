@@ -8,7 +8,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should get new control with case_id, matching candidate and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = create_case_identifier.study_subject
+			case_study_subject = Factory(:complete_case_study_subject)
 			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 			get :new, :case_id => case_study_subject.id
 			assert_nil flash[:error]
@@ -17,10 +17,9 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get new control with case_id, no matching candidate and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = create_case_study_subject
+			case_study_subject = Factory(:case_study_subject)
 			get :new, :case_id => case_study_subject.id
 			assert_not_nil flash[:error]
-#			assert_redirected_to case_path(case_study_subject)
 			assert_redirected_to related_subject_path(case_study_subject)
 		end
 
@@ -33,7 +32,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get new control with #{cu} login and non-case study_subject" do
 			login_as send(cu)
-			study_subject = create_study_subject
+			study_subject = Factory(:study_subject)
 			get :new, :case_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to cases_path
@@ -45,7 +44,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get new control with case_id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = create_case_study_subject
+			case_study_subject = Factory(:case_study_subject)
 			get :new, :case_id => case_study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -56,7 +55,7 @@ class ControlsControllerTest < ActionController::TestCase
 #	no login ...
 
 	test "should NOT get new control with case_id and without login" do
-		case_study_subject = create_case_study_subject
+		case_study_subject = Factory(:case_study_subject)
 		get :new, :case_id => case_study_subject.id
 		assert_redirected_to_login
 	end

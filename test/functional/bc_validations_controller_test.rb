@@ -18,7 +18,7 @@ class BcValidationsControllerTest < ActionController::TestCase
 
 		test "should NOT show bc_validation with #{cu} login and non-case study_subject" do
 			login_as send(cu)
-			study_subject = create_study_subject
+			study_subject = Factory(:study_subject)
 			get :show, :id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to bc_validations_path
@@ -26,7 +26,7 @@ class BcValidationsControllerTest < ActionController::TestCase
 
 		test "should show bc_validation with candidate controls and #{cu} login" do
 			login_as send(cu)
-			study_subject = create_case_control_study_subject
+			study_subject = Factory(:complete_case_study_subject)
 			get :show, :id => study_subject.id
 			assert_nil flash[:error]
 			assert_response :success

@@ -6,7 +6,6 @@ class RelatedSubjectsControllerTest < ActionController::TestCase
 
 		test "should get show with case id and #{cu} login" do
 			login_as send(cu)
-#			study_subject = create_case_control_study_subject
 			study_subject = Factory(:complete_case_study_subject)
 			get :show, :id => study_subject.id
 			assert_response :success
@@ -32,10 +31,10 @@ class RelatedSubjectsControllerTest < ActionController::TestCase
 		test "should get show with #{cu} login and include rejected controls" do
 			login_as send(cu)
 			study_subject = Factory(:complete_case_study_subject)
-			candidate = create_candidate_control(
+			candidate = Factory(:candidate_control,{
 				:related_patid    => study_subject.patid,
 				:reject_candidate => true,
-				:rejection_reason => 'something' )
+				:rejection_reason => 'something' })
 			get :show, :id => study_subject.id
 			assert_response :success
 			assert_template 'show'

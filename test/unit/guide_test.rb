@@ -12,7 +12,7 @@ class GuideTest < ActiveSupport::TestCase
 	end
 
 	test "should return controller and action name as to_s" do
-		guide = create_guide
+		guide = Factory(:guide)
 		assert_equal "#{guide.controller}##{guide.action}", "#{guide}"
 	end
 

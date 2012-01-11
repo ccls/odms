@@ -194,7 +194,7 @@ class AddressingsControllerTest < ActionController::TestCase
 
 		test "should set verified_on on update if is_verified " <<
 				"with #{cu} login" do
-			addressing = create_addressing
+			addressing = Factory(:addressing)
 			login_as send(cu)
 			put :update, :id => addressing.id,
 				:addressing => factory_attributes(
@@ -207,7 +207,7 @@ class AddressingsControllerTest < ActionController::TestCase
 
 		test "should set verified_by on update if is_verified " <<
 				"with #{cu} login" do
-			addressing = create_addressing
+			addressing = Factory(:addressing)
 			login_as u = send(cu)
 			put :update, :id => addressing.id,
 				:addressing => factory_attributes(
@@ -221,7 +221,7 @@ class AddressingsControllerTest < ActionController::TestCase
 
 		test "should NOT update addressing with #{cu} login " <<
 				"when address update fails" do
-			addressing = create_addressing(:updated_at => ( Time.now - 1.day ) )
+			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
 			Address.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
@@ -236,7 +236,7 @@ class AddressingsControllerTest < ActionController::TestCase
 
 		test "should NOT update addressing with #{cu} login " <<
 				"and invalid address" do
-			addressing = create_addressing(:updated_at => ( Time.now - 1.day ) )
+			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
 			Address.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {

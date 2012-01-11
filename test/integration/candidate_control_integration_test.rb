@@ -6,14 +6,12 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 		test "should create control for case with no duplicates and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = create_case_identifier.study_subject
-			candidate = create_candidate_control(
+			case_study_subject = Factory(:complete_case_study_subject)
+			candidate = Factory(:candidate_control,
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
 
-#			page.visit case_path(case_study_subject.id)
 			page.visit related_subject_path(case_study_subject.id)
-#			assert_equal current_path, case_path(case_study_subject.id)
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
@@ -50,24 +48,22 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")
-#			assert_equal current_path, case_path(case_study_subject.id)
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 
 		test "should NOT create control subject if duplicate subject" <<
 				" with #{cu} login and 'Match Found' and no duplicate_id" do
 			login_as send(cu)
-			case_study_subject = create_case_identifier.study_subject
-			candidate = create_candidate_control(
+			case_study_subject = Factory(:complete_case_study_subject)
+			candidate = Factory(:candidate_control,
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
-			duplicate = create_study_subject(:sex => candidate.sex,
+			duplicate = Factory(:study_subject,
+				:sex => candidate.sex,
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-#			page.visit case_path(case_study_subject.id)
 			page.visit related_subject_path(case_study_subject.id)
-#			assert_equal current_path, case_path(case_study_subject.id)
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
@@ -124,15 +120,15 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 		test "should NOT create control subject if duplicate subject" <<
 				" with #{cu} login and 'Match Found' and valid duplicate_id" do
 			login_as send(cu)
-			case_study_subject = create_case_identifier.study_subject
-			candidate = create_candidate_control(
+			case_study_subject = Factory(:complete_case_study_subject)
+			candidate = Factory(:candidate_control,
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
-			duplicate = create_study_subject(:sex => candidate.sex,
+			duplicate = Factory(:study_subject,
+				:sex => candidate.sex,
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-#			page.visit case_path(case_study_subject.id)
 			page.visit related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
@@ -184,22 +180,21 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_match /ineligible control - control already exists in system/,
 				candidate.rejection_reason
 			assert !page.has_css?("p.flash#error")
-#			assert_equal current_path, case_path(case_study_subject.id)
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 
 		test "should create control subject if duplicate subject" <<
 				" with #{cu} login and 'No Match' found" do
 			login_as send(cu)
-			case_study_subject = create_case_identifier.study_subject
-			candidate = create_candidate_control(
+			case_study_subject = Factory(:complete_case_study_subject)
+			candidate = Factory(:candidate_control,
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
-			duplicate = create_study_subject(:sex => candidate.sex,
+			duplicate = Factory(:study_subject,
+				:sex => candidate.sex,
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-#			page.visit case_path(case_study_subject.id)
 			page.visit related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
@@ -246,7 +241,6 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")
-#			assert_equal current_path, case_path(case_study_subject.id)
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 

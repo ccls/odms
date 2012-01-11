@@ -54,7 +54,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get index with order and dir desc with #{cu} login" do
-			create_study_subject
+			Factory(:study_subject)
 			login_as send(cu)
 			get :index, :order => 'last_name', :dir => 'desc'
 			assert_response :success
@@ -64,7 +64,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should get index with order and dir asc with #{cu} login" do
-			create_study_subject
+			Factory(:study_subject)
 			login_as send(cu)
 			get :index, :order => 'last_name', :dir => 'asc'
 			assert_response :success
@@ -74,7 +74,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should get show with pii with #{cu} login" do
-			study_subject = create_study_subject(
+			study_subject = Factory(:study_subject,
 				:pii_attributes => Factory.attributes_for(:pii))
 			login_as send(cu)
 			get :show, :id => study_subject.id
@@ -84,7 +84,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should have do_not_contact if it is true "<<
 				"with #{cu} login" do
-			study_subject = create_study_subject(:do_not_contact => true)
+			study_subject = Factory(:study_subject, :do_not_contact => true)
 			login_as send(cu)
 			get :show, :id => study_subject.id
 			assert_response :success
@@ -95,7 +95,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT have do_not_contact if it is false "<<
 				"with #{cu} login" do
-			study_subject = create_study_subject(:do_not_contact => false)
+			study_subject = Factory(:study_subject, :do_not_contact => false)
 			login_as send(cu)
 			get :show, :id => study_subject.id
 			assert_response :success
@@ -107,7 +107,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should have hospital link if study_subject is case "<<
 				"with #{cu} login" do
-			study_subject = create_study_subject(:subject_type => SubjectType['Case'])
+			study_subject = Factory(:case_study_subject)
 			assert study_subject.reload.is_case?
 			login_as send(cu)
 			get :show, :id => study_subject.id
@@ -524,7 +524,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should update with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
@@ -630,7 +630,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT update with #{cu} login" <<
 			" and invalid" do
-			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
@@ -647,7 +647,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT update with #{cu} login" <<
 			" and save fails" do
-			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
@@ -663,7 +663,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should NOT update without subject_type_id with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
@@ -678,7 +678,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should NOT update without valid subject_type_id with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
@@ -732,7 +732,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT update with #{cu} login" do
-			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('SubjectType.count',0){
@@ -781,7 +781,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT update without login" do
-		study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
+		study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
 		assert_difference('StudySubject.count',0){
 		assert_difference('SubjectType.count',0){
 		assert_difference('Race.count',0){

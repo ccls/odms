@@ -314,17 +314,14 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-#	test "sub_menu_for(subject) for cases with admin login" do
 	test "sub_menu_for(subject) for related_subjects with admin login" do
 		login_as send(:administrator)
-#		self.params = { :controller => 'cases' }
 		self.params = { :controller => 'related_subjects' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
-#			assert_select 'a.current[href=?]', case_path(study_subject)
 			assert_select 'a.current[href=?]', related_subject_path(study_subject)
 		end
 	end
@@ -491,17 +488,14 @@ class ApplicationHelperTest < ActionView::TestCase
 			end
 		end
 
-#		test "sub_menu_for(subject) for cases with #{cu} login" do
 		test "sub_menu_for(subject) for related_subjects with #{cu} login" do
 			login_as send(cu)
-#			self.params = { :controller => 'cases' }
 			self.params = { :controller => 'related_subjects' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
 			response = HTML::Document.new(@content_for_side_menu).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
-#				assert_select 'a.current[href=?]', case_path(study_subject)
 				assert_select 'a.current[href=?]', related_subject_path(study_subject)
 			end
 		end
@@ -655,16 +649,13 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-#	test "sub_menu_for(subject) for cases without login" do
 	test "sub_menu_for(subject) for related_subjects without login" do
-#		self.params = { :controller => 'cases' }
 		self.params = { :controller => 'related_subjects' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
 		response = HTML::Document.new(@content_for_side_menu).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
-#			assert_select 'a.current[href=?]', case_path(study_subject)
 			assert_select 'a.current[href=?]', related_subject_path(study_subject)
 		end
 	end
