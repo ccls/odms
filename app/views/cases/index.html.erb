@@ -22,7 +22,8 @@
 <li>hispanicity:&nbsp;<%#= @study_subject.hispanicity %> </li>
 <li>reference date:&nbsp;<%=mdy @study_subject.reference_date %></li>
 </ul>
-<%= link_to( 'Continue', case_path(@study_subject), :class => 'button' ) %>
+<%#= link_to( 'Continue', case_path(@study_subject), :class => 'button' ) %>
+<%= link_to( 'Continue', related_subject_path(@study_subject), :class => 'button' ) %>
 <% else %>
 <p>No case study_subject found with patid:<%=params[:patid]%></p>
 <% end %>

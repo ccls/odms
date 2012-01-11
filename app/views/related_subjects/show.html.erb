@@ -1,9 +1,13 @@
 <% sub_menu_for(@study_subject) %>
 <% id_bar_for(@study_subject) %>
 
-<h3>Related Subjects <span>
+<h3>Related Subjects 
+<% if @study_subject.is_case? %>
+<span>
 <%= link_to 'add control', new_case_control_path(@study_subject.id),:class => 'button' %>
-</span></h3>
+</span>
+<% end %>
+</h3>
 
 <%#= render :partial => 'family' %>
 <%= render :partial => 'matching' %>

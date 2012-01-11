@@ -129,6 +129,7 @@ module ApplicationHelper
 			when 'events' then :events
 			when 'documents' then :documents
 			when 'notes' then :notes
+			when 'related_subjects' then :related_subjects
 			when 'cases' then :cases
 #			else nil
 		end
@@ -164,8 +165,10 @@ module ApplicationHelper
 					:class => ((current == :notes)?'current':nil) ),
 			] if( logged_in? and current_user.may_administrate? )
 
-			links << link_to( "Related Subjects", case_path(study_subject),
-					:class => ((current == :cases)?'current':nil) )
+#			links << link_to( "Related Subjects", case_path(study_subject),
+#					:class => ((current == :cases)?'current':nil) )
+			links << link_to( "Related Subjects", related_subject_path(study_subject),
+					:class => ((current == :related_subjects)?'current':nil) )
 			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		end

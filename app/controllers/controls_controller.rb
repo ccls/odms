@@ -14,7 +14,8 @@ class ControlsController < ApplicationController
 			redirect_to edit_candidate_control_path(candidate)
 		else
 			flash[:error] = "Sorry, but no candidate controls were found matching this subject."
-			redirect_to case_path(@study_subject.id)
+#			redirect_to case_path(@study_subject.id)
+			redirect_to related_subject_path(@study_subject.id)
 		end
 	end
 

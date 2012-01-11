@@ -88,7 +88,10 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resources :candidate_controls, :only => [:edit,:update]
 
-	map.resources :cases, :only => [:new,:create,:index,:show] do |c|
+	map.resources :related_subjects, :only => [:show]
+
+#	map.resources :cases, :only => [:new,:create,:index,:show] do |c|
+	map.resources :cases, :only => [:new,:create,:index] do |c|
 		#
 		#	WARNING be careful as "case" is a ruby keyword!
 		#

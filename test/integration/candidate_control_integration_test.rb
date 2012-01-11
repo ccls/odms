@@ -11,8 +11,10 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
 
-			page.visit case_path(case_study_subject.id)
-			assert_equal current_path, case_path(case_study_subject.id)
+#			page.visit case_path(case_study_subject.id)
+			page.visit related_subject_path(case_study_subject.id)
+#			assert_equal current_path, case_path(case_study_subject.id)
+			assert_equal current_path, related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
@@ -48,7 +50,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")
-			assert_equal current_path, case_path(case_study_subject.id)
+#			assert_equal current_path, case_path(case_study_subject.id)
+			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 
 		test "should NOT create control subject if duplicate subject" <<
@@ -62,8 +65,10 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-			page.visit case_path(case_study_subject.id)
-			assert_equal current_path, case_path(case_study_subject.id)
+#			page.visit case_path(case_study_subject.id)
+			page.visit related_subject_path(case_study_subject.id)
+#			assert_equal current_path, case_path(case_study_subject.id)
+			assert_equal current_path, related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
@@ -127,7 +132,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-			page.visit case_path(case_study_subject.id)
+#			page.visit case_path(case_study_subject.id)
+			page.visit related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
@@ -178,7 +184,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_match /ineligible control - control already exists in system/,
 				candidate.rejection_reason
 			assert !page.has_css?("p.flash#error")
-			assert_equal current_path, case_path(case_study_subject.id)
+#			assert_equal current_path, case_path(case_study_subject.id)
+			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 
 		test "should create control subject if duplicate subject" <<
@@ -192,7 +199,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:pii_attributes => Factory.attributes_for(:pii,
 					:dob => candidate.dob,
 					:mother_maiden_name => candidate.mother_maiden_name) )
-			page.visit case_path(case_study_subject.id)
+#			page.visit case_path(case_study_subject.id)
+			page.visit related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
@@ -238,7 +246,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")
-			assert_equal current_path, case_path(case_study_subject.id)
+#			assert_equal current_path, case_path(case_study_subject.id)
+			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 
 	end
