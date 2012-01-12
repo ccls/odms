@@ -46,7 +46,22 @@ jQuery(function(){
 					$('#addressing_address_attributes_address_type_id option:selected').text() ) ) }
 	});
 
+	var county_field = jQuery('#addressing_address_attributes_county');
+	var state_field = jQuery('#addressing_address_attributes_state');
+	// this will dump the value on page reload
+	county_field.autocomplete({ source : california_counties });
+	state_field.change(function(){
+		if( $(this).val() == 'CA' ){
+			county_field.autocomplete('option', 'disabled', false );
+		} else {
+			county_field.autocomplete('option', 'disabled', true );
+		}
+	}).change(); 
+
 });
+
+/* rather than pulling these from the database everytime, just hard code it. */
+var california_counties = ["Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Colusa", "Contra Costa", "Del Norte", "El Dorado", "Fresno", "Glenn", "Humboldt", "Imperial", "Inyo", "Kern", "Kings", "LAKE", "Lassen", "Los Angeles", "Madera", "Marin", "Mariposa", "Mendocino", "Merced", "Modoc", "Mono", "Monterey", "Napa", "NEVADA", "ORANGE", "Placer", "Plumas", "Riverside", "Sacramento", "San Benito", "San Bernardino", "San Diego", "San Francisco", "San Joaquin", "San Luis Obispo", "San Mateo", "Santa Barbara", "Santa Clara", "Santa Cruz", "Shasta", "Sierra", "Siskiyou", "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", "Trinity", "Tulare", "Tuolumne", "Ventura", "Yolo", "Yuba"];
 
 var update_city_state_county = function(zip_code) {
 /*
@@ -64,5 +79,8 @@ var update_city_state_county = function(zip_code) {
 	var address_state = jQuery('#addressing_address_attributes_state');
 	if( address_state && !address_state.val() ){
 		address_state.val(zip_code.state);
+		// changing the val does not trigger the change event
+		// so do it manually.
+		address_state.change();
 	}
 };

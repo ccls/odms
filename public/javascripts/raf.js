@@ -26,26 +26,35 @@ jQuery(function(){
 		}
 	});
 
-/*
-
-	While this will certainly work, '2' is not particularly descriptive.
-	I need to devise a way to make this more clearly, and flexibly, 'other'
-
-*/
-/*
-	jQuery('input[type=checkbox]#study_subject_subject_languages_attributes_2_language_id').smartShow({
-		what: '#specify_other_language',
-		when: function(){
-			return $('#study_subject_subject_languages_attributes_2_language_id').attr('checked'); }
-	});
-*/
 	jQuery('input[type=checkbox]#other_language_id').smartShow({
 		what: '#specify_other_language',
 		when: function(){
 			return $('#other_language_id').attr('checked'); }
 	});
 
+
+
+
+	// use class so that this works for both county fields.
+	var county_fields = jQuery('.county_field');
+	var state_field = jQuery(
+		'#study_subject_addressings_attributes_0_address_attributes_state');
+	// this will dump the value on page reload
+	county_fields.autocomplete({ source : california_counties });
+	state_field.change(function(){
+		if( $(this).val() == 'CA' ){
+			county_fields.autocomplete('option', 'disabled', false );
+		} else {
+			county_fields.autocomplete('option', 'disabled', true );
+		}
+	}).change(); 
+
 });
+
+/* rather than pulling these from the database everytime, just hard code it. */
+var california_counties = ["Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Colusa", "Contra Costa", "Del Norte", "El Dorado", "Fresno", "Glenn", "Humboldt", "Imperial", "Inyo", "Kern", "Kings", "LAKE", "Lassen", "Los Angeles", "Madera", "Marin", "Mariposa", "Mendocino", "Merced", "Modoc", "Mono", "Monterey", "Napa", "NEVADA", "ORANGE", "Placer", "Plumas", "Riverside", "Sacramento", "San Benito", "San Bernardino", "San Diego", "San Francisco", "San Joaquin", "San Luis Obispo", "San Mateo", "Santa Barbara", "Santa Clara", "Santa Cruz", "Shasta", "Sierra", "Siskiyou", "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", "Trinity", "Tulare", "Tuolumne", "Ventura", "Yolo", "Yuba"];
+
+
 
 var update_address_info = function(zip_code) {
 /*
