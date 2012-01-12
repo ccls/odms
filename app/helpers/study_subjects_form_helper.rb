@@ -1,8 +1,9 @@
 module StudySubjectsFormHelper
 
 #	def subject_languages_select( languages = Language.all )
+	#	doing it this way allows passing nothing, an array 
+	#	(as is currently in views), or just as list
 	def subject_languages_select( *args )
-#	doing it this way allows passing nothing, an array (as is currently in views), or just as list
 		languages = args.flatten
 		languages = Language.all if languages.empty?
 		#		self.object  #	<-- the subject
@@ -39,8 +40,9 @@ module StudySubjectsFormHelper
 	alias_method :select_subject_languages, :subject_languages_select
 
 #	def subject_races_select( races = Race.all )
+	#	doing it this way allows passing nothing, an array 
+	#	(as is currently in views), or just as list
 	def subject_races_select( *args )
-#	doing it this way allows passing nothing, an array (as is currently in views), or just as list
 		races = args.flatten
 		races = Race.all if races.empty?
 		#		self.object  #	<-- the subject
@@ -59,13 +61,14 @@ module StudySubjectsFormHelper
 			classes << ( ( sr.id.nil? ) ? 'creator' : 'destroyer' )
 			s << "<div class='#{classes.join(' ')}'>"
 			self.fields_for( :subject_races, sr ) do |sr_fields|
-#				s << "<div id='other_race'>" if( race.is_other? )
+				s << "<div id='other_race'>" if( race.is_other? )
 
 #				s << sr_fields.check_box(:is_primary, {}, true, false)
 #	default id="study_subject_subject_races_attributes_0_is_primary"
 #	default class=nil
 				s << sr_fields.check_box(:is_primary, { 
-					:id => "#{@template.dom_id(race)}_is_primary", 
+#					:id => "#{@template.dom_id(race)}_is_primary", 
+					:id => "#{race.key}_is_primary",	#	other_is_primary
 					:class => 'is_primary_selector',
 					:title => "Set '#{race}' as the subject's PRIMARY race" } ) << "\n"
 
@@ -74,8 +77,8 @@ module StudySubjectsFormHelper
 				else	#	race exists, this is for possible destruction
 					s << sr_fields.subject_race_destroyer(!sr.marked_for_destruction?)
 				end
-#				s << sr_fields.specify_other_race() if race.is_other?
-#				s << "</div>"	if( race.is_other? ) # id='other_race'>" 
+				s << sr_fields.specify_other_race() if race.is_other?
+				s << "</div>"	if( race.is_other? ) # id='other_race'>" 
 			end
 			s << "</div>\n"	# class='subject_race'>"
 		end
@@ -104,12 +107,14 @@ protected
 #	default class=nil
 		s = self.check_box( :race_id, { 
 			:checked => checked,
-			:id      => @template.dom_id(self.object.race), 
+#			:id      => @template.dom_id(self.object.race), 
+			:id      => "#{self.object.race.key}_race_id",	#	other_race_id
 			:class   => 'race_selector',
 			:title   => "Set '#{self.object.race}' as one of the subject's race(s)"
 		}, self.object.race_id, '' ) << "\n"
 		s << self.label( :race_id, self.race_label,
-			:for => @template.dom_id(self.object.race) ) << "\n"
+			:for => "#{self.object.race.key}_race_id" ) << "\n"
+#			:for => @template.dom_id(self.object.race) ) << "\n"
 	end
 
 	def subject_race_destroyer(checked=true)
@@ -125,20 +130,22 @@ protected
 #	default class=nil
 		s << self.check_box( :_destroy, { 
 			:checked => checked,
-			:id      => @template.dom_id(self.object.race), 
+#			:id      => @template.dom_id(self.object.race), 
+			:id      => "#{self.object.race.key}__destroy",	# other__destroy
 			:class   => 'race_selector',
 			:title   => "Remove '#{self.object.race}' as one of the subject's race(s)"
 		}, 0, 1 ) << "\n"
 		s << self.label( :_destroy, self.race_label,
-			:for => @template.dom_id(self.object.race) ) << "\n"
+			:for => "#{self.object.race.key}__destroy" ) << "\n"
+#			:for => @template.dom_id(self.object.race) ) << "\n"
 	end
 
-#	def specify_other_race
-#		s =  "<div id='specify_other_race'>"
-#		s << self.label( :other, 'specify:' ) << "\n"
-#		s << self.text_field( :other, :size => 12 ) << "\n"
-#		s << "</div>"	# id='other_race'>"
-#	end
+	def specify_other_race
+		s =  "<div id='specify_other_race'>"
+		s << self.label( :other, 'specify:', :for => 'race_other_other' ) << "\n"
+		s << self.text_field( :other, :size => 12, :id => 'race_other_other' ) << "\n"
+		s << "</div>"	# id='other_race'>"
+	end
 
 	def language_label
 		label =  self.object.language.key.dup.capitalize
@@ -172,6 +179,7 @@ protected
 			:for => "#{self.object.language.key}__destroy" ) << "\n"
 	end
 
+	#	should really change this to language_other_other for clarity
 	def specify_other_language
 		s =  "<div id='specify_other_language'>"
 		s << self.label( :other, 'specify:', :for => 'other_other' ) << "\n"

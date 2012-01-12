@@ -83,6 +83,34 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 				"study_subject[subject_races_attributes][1][is_primary]")
 		end
 
+		test "should toggle specify other race when other race is checked" <<
+				" with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			page.visit edit_study_subject_path(study_subject)
+			assert page.has_css?("#specify_other_race",:visible => false)
+
+			page.check "other_race_id"
+			assert page.has_checked_field?("other_race_id")
+			assert page.has_unchecked_field?("other_is_primary")
+			assert page.has_css?("#specify_other_race",:visible => true)
+
+			page.uncheck "other_race_id"
+			assert page.has_unchecked_field?("other_race_id")
+			assert page.has_unchecked_field?("other_is_primary")
+			assert page.has_css?("#specify_other_race",:visible => false)
+
+			page.check "other_is_primary"
+			assert page.has_checked_field?("other_race_id")
+			assert page.has_checked_field?("other_is_primary")
+			assert page.has_css?("#specify_other_race",:visible => true)
+
+			page.uncheck "other_is_primary"
+			assert page.has_checked_field?("other_race_id")
+			assert page.has_unchecked_field?("other_is_primary")
+			assert page.has_css?("#specify_other_race",:visible => true)
+		end
+
 	end
 
 end
