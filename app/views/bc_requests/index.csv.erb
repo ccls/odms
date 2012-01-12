@@ -51,11 +51,11 @@ father_race_other ).to_csv(
 	study_subject.mother_hispanicity_id,
 	study_subject.mother_hispanicity_mex,
 	study_subject.pii.try(:mother_race_id),
-	'mother_race_other',
+	study_subject.pii.try(:mother_race_other),
 	study_subject.father_hispanicity_id,
 	study_subject.father_hispanicity_mex,
 	study_subject.pii.try(:father_race_id),
-	'father_race_other' ].to_csv -%>
+	study_subject.pii.try(:father_race_other) ].to_csv -%>
 <%#=[
  study_subject.studyid,
  study_subject.icf_master_id,
