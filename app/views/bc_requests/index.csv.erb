@@ -4,11 +4,59 @@
         somewhere marking it as having a header row, but I don't 
         think that it actually does.
 -%>
-<%= ['studyid','icf_master_id','name','sex','Born in CA?','state_id_no','dob'].to_csv(
+<%#= ['studyid','icf_master_id','name','sex','Born in CA?','state_id_no','dob'].to_csv(
+  :headers => true) -%>
+<%= %w( masterid
+biomom
+biodad
+date
+mother_full_name
+mother_maiden_name
+father_full_name
+child_full_name
+child_dobm
+child_dobd
+child_doby
+child_gender
+birthplace_country
+birthplace_state
+birthplace_city
+mother_hispanicity
+mother_hispanicity_mex
+mother_race
+mother_race_other
+father_hispanicity
+father_hispanicity_mex
+father_race
+father_race_other ).to_csv(
   :headers => true) -%>
 <% @bc_requests.each do |bc_request| -%>
 <% study_subject = bc_request.study_subject -%>
-<%=[
+<%= [ 
+	study_subject.icf_master_id,
+	'biomom',
+	'biodad',
+	'date occurred on',
+	study_subject.mothers_name,
+	study_subject.mother_maiden_name,
+	study_subject.fathers_name,
+	study_subject.full_name,
+	study_subject.dob.try(:month),
+	study_subject.dob.try(:day),
+	study_subject.dob.try(:year),
+	study_subject.sex,
+	study_subject.pii.try(:birth_country),
+	study_subject.pii.try(:birth_state),
+	study_subject.pii.try(:birth_city),
+	study_subject.mother_hispanicity_id,
+	study_subject.mother_hispanicity_mex,
+	study_subject.pii.try(:mother_race_id),
+	'mother_race_other',
+	study_subject.father_hispanicity_id,
+	study_subject.father_hispanicity_mex,
+	study_subject.pii.try(:father_race_id),
+	'father_race_other' ].to_csv -%>
+<%#=[
  study_subject.studyid,
  study_subject.icf_master_id,
  "#{study_subject.first_name} #{study_subject.last_name}",

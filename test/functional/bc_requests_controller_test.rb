@@ -215,6 +215,11 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert assigns(:bc_requests)
 			assert !assigns(:bc_requests).empty?
 			assert_equal 1, assigns(:bc_requests).length
+#puts @response.body
+#studyid,icf_master_id,name,sex,Born in CA?,state_id_no,dob
+#0001-C-0,45, ,F,bornincali?,45,09/26/2003
+#masterid,biomom,biodad,date,mother_full_name,mother_maiden_name,father_full_name,child_full_name,child_dobm,child_dobd,child_doby,child_gender,birthplace_country,birthplace_state,birthplace_city,mother_hispanicity,mother_hispanicity_mex,mother_race,mother_race_other,father_hispanicity,father_hispanicity_mex,father_race,father_race_other
+#3,biomom,biodad,which date,[name not available],,[name not available],[name not available],3,8,1993,M,,,,,,,mother_race_other,,,,father_race_other
 		end
 
 		test "should get pending bc_requests with #{cu} login" do
