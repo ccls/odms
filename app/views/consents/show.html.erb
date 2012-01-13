@@ -1,8 +1,6 @@
 <% if @enrollment %>
 <% stylesheets('consent') %>
-
 <% sub_menu_for(@enrollment.study_subject) %>
-
 <% id_bar_for(@enrollment.study_subject) %>
 
 <div id='subject_control_bar'>
@@ -20,6 +18,30 @@
 	:label_text => 'reason ineligible:' %>
 <%= wrapped_spans :enrollment, :ineligible_reason_specify,
 	:label_text => 'specify:' %>
+
+<% if @enrollment.study_subject.is_case? && !@enrollment.study_subject.patient.nil? %>
+<p>RAF eligibility criteria ...</p>
+
+<div class='show_eligibility_criteria'>
+<% @patient = @enrollment.study_subject.patient %>
+
+<%= wrapped_yndk_spans( :patient, :was_under_15_at_dx,
+	:label_text => 'Was this patient under age 15 at diagnosis?'
+	) %>
+
+<div class='languages field_wrapper'>
+<span class='label'>Languages:</span>
+<span class='value'><%= @enrollment.study_subject.languages.collect(&:to_s).collect(&:titleize) %></span>
+</div>
+
+<%= wrapped_y_n_dk_spans( :patient, :was_previously_treated,
+	:label_text => 'Has this patient received previous treatment for leukemia or another cancer at any institution?'
+	) %>
+<%= wrapped_y_n_dk_spans( :patient, :was_ca_resident_at_diagnosis,
+	:label_text => 'Does the patient currently reside in California?'
+	) %>
+</div><!-- class='show_eligibility_criteria' -->
+<% end %><%# if @study_subject.is_case? %>
 
 <%= wrapped_y_n_dk_spans :enrollment, :consented,
 	:label_text => 'consented?' %>

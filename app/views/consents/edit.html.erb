@@ -28,9 +28,6 @@
 	:label_text => 'specify reason:' %>
 </div><!-- id='subject_is_eligible' -->
 
-
-
-
 <% if @study_subject.is_case? %>
 <p><%= link_to "show/hide RAF eligibility criteria", 
 	edit_study_subject_consent_path(@study_subject),
@@ -48,18 +45,9 @@
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% @patient = @study_subject.patient %>
 <% fields_for @patient do |p| %>
-
-<p>This is an auto-updated field.  Should it really be editable? No. Readonly.</p>
-<p>Also, the text seems incorrect.  This field is was_under_15_at_dx, which does not correspond correctly. It should be something like "Was this patient under age 15 at diagnosis?"</p>
-
-<%#= p.wrapped_y_n_dk_select( :was_under_15_at_dx,
-	:label_text => 'Is this patient under age 15?'
-	) %>
-
 <%= wrapped_yndk_spans( :patient, :was_under_15_at_dx,
-	:label_text => 'Is this patient under age 15?'
+	:label_text => 'Was this patient under age 15 at diagnosis?'
 	) %>
-
 
 <% fields_for @study_subject do |s| %>
 <%= s.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
@@ -73,11 +61,6 @@
 <% end %><%# fields_for @patient do |p| %>
 </div><!-- class='eligibility_criteria' -->
 <% end %><%# if @study_subject.is_case? %>
-
-
-
-
-
 
 <%= f.wrapped_y_n_dk_select :consented,
 	:label_text => 'consented?' %>
