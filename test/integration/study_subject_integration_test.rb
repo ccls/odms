@@ -40,7 +40,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 				"study_subject[subject_races_attributes][0][_destroy]")	#	white
 		end
 
-		test "should check race when primary race is checked with #{cu} login" do
+		test "should check race_id when is_primary is checked with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			page.visit edit_study_subject_path(study_subject)
@@ -51,7 +51,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 				"study_subject[subject_races_attributes][1][race_id]")
 		end
 
-		test "should uncheck other primary race when primary race is check" <<
+		test "should uncheck other is_primary's when is_primary is checked" <<
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
@@ -66,7 +66,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 				"study_subject[subject_races_attributes][1][is_primary]")
 		end
 
-		test "should uncheck primary race when race is unchecked" <<
+		test "should uncheck is_primary when race_id is unchecked" <<
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
@@ -83,7 +83,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 				"study_subject[subject_races_attributes][1][is_primary]")
 		end
 
-		test "should toggle specify other race when other race is checked" <<
+		test "should toggle specify other race when other race_id is checked" <<
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
