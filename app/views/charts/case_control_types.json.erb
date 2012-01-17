@@ -1,0 +1,43 @@
+{
+  "title":{
+    "text":  "Case Control Type Counts",
+    "style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
+  },
+
+  "x_legend":{
+    "text": "Case Control Type",
+    "style": "{font-size: 12px;}"
+  },
+  "y_legend":{
+    "text": "Count",
+    "style": "{font-size: 12px;}"
+  },
+
+  "elements":[
+    {
+      "type":      "bar",
+      "alpha":     0.5,
+      "colour":    "#CC9933",
+      "font-size": 10,
+      "values" :   [<%=@identifiers.collect(&:count).join(',')%>]
+    }
+  ],
+
+  "x_axis":{
+    "stroke":1,
+    "tick_height":10,
+    "grid_colour":"#00ff00",
+    "labels": {
+        "labels": [<%=@identifiers.collect{|i| "\"#{i.case_control_type}\""}.join(',')%>]
+    }
+   },
+
+  "y_axis":{
+    "stroke":      1,
+    "tick_length": 3,
+    "grid_colour": "#00ff00",
+    "offset":      0,
+    "max":         <%=@identifiers.collect{|i|i.count.to_i}.max%>
+  }
+}
+
