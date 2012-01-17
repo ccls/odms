@@ -217,7 +217,16 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_other_language_visible
 		end
 
-		test "should not have toggle eligibility criteria for non-case" <<
+		test "should not have toggle eligibility criteria on show for non-case" <<
+				" with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			page.visit study_subject_consent_path(study_subject)
+			assert !page.has_css?('div.eligibility_criteria')
+			assert  page.has_no_css?('div.eligibility_criteria')
+		end
+
+		test "should not have toggle eligibility criteria on edit for non-case" <<
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
@@ -226,20 +235,28 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert  page.has_no_css?('div.eligibility_criteria')
 		end
 
-		#	jQuery('a.toggle_eligibility_criteria').togglerFor('.eligibility_criteria');
-		test "should toggle eligibility criteria with #{cu} login" do
-
+		test "should toggle eligibility criteria on show screen with #{cu} login" do
 			#	NOTE only exists for case subjects
 			study_subject = Factory(:case_study_subject)
+			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
+			assert_not_nil consent
+			login_as send(cu)
+			page.visit study_subject_consent_path(study_subject)
+			assert page.has_css?('div.eligibility_criteria', :visible => false)
+			find('a.toggle_eligibility_criteria').click
+			assert page.has_css?('div.eligibility_criteria', :visible => true)
+			find('a.toggle_eligibility_criteria').click
+			assert page.has_css?('div.eligibility_criteria', :visible => false)
+		end
 
+		test "should toggle eligibility criteria on edit screen with #{cu} login" do
+			#	NOTE only exists for case subjects
+			study_subject = Factory(:case_study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(study_subject)
 			assert page.has_css?('div.eligibility_criteria', :visible => false)
-#Capybara::ElementNotFound: no link with title, id or text '.toggle_eligibility_criteria' found
-#	Doesn't have an id, but could use the text.  Using find().click works just fine.
-#			click_link '.toggle_eligibility_criteria'
 			find('a.toggle_eligibility_criteria').click
 			assert page.has_css?('div.eligibility_criteria', :visible => true)
 			find('a.toggle_eligibility_criteria').click

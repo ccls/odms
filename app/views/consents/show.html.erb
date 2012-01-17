@@ -1,5 +1,6 @@
 <% if @enrollment %>
 <% stylesheets('consent') %>
+<% javascripts('consent') %>
 <% sub_menu_for(@enrollment.study_subject) %>
 <% id_bar_for(@enrollment.study_subject) %>
 
@@ -20,9 +21,10 @@
 	:label_text => 'specify:' %>
 
 <% if @enrollment.study_subject.is_case? && !@enrollment.study_subject.patient.nil? %>
-<p>RAF eligibility criteria ...</p>
-
-<div class='show_eligibility_criteria'>
+<p><%= link_to "show/hide RAF eligibility criteria",
+	study_subject_consent_path(@study_subject),
+	:class => 'toggle_eligibility_criteria' %></p>
+<div style='display:none' class='eligibility_criteria'>
 <% @patient = @enrollment.study_subject.patient %>
 
 <%= wrapped_yndk_spans( :patient, :was_under_15_at_dx,

@@ -55,7 +55,7 @@ form.enrollment .document_version_id {
 	vertical-align:top;
 }
 
-.show_eligibility_criteria .field_wrapper > span {
+.eligibility_criteria .field_wrapper > span {
 	display:inline;
 }
 
