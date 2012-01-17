@@ -11,13 +11,20 @@
 <% javascripts('swfobject.js') %>
 <% content_for(:head) do %>
 <% javascript_tag do %>
-swfobject.embedSWF("/open-flash-chart.swf", "my_chart_1", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/case_control_types.json"} );
-swfobject.embedSWF("/open-flash-chart.swf", "my_chart_2", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/subject_types.json"} );
-swfobject.embedSWF("/open-flash-chart.swf", "my_chart_3", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/enrollments.json"} );
-swfobject.embedSWF("/open-flash-chart.swf", "my_chart_4", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/vital_statuses.json"} );
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_1", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/case_control_types.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_2", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/subject_types.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_3", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/enrollments.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_4", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/vital_statuses.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_5", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/case_control_types_pie.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_6", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/subject_types_pie.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_7", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/vital_statuses_pie.json"}, {"wmode" : "transparent"} );
 <% end %>
 <% end %>
 <div id="my_chart_1"></div>
 <div id="my_chart_2"></div>
 <div id="my_chart_3"></div>
 <div id="my_chart_4"></div>
+<div id="my_chart_5"></div>
+<div id="my_chart_6"></div>
+<div id="my_chart_7"></div>
+<div id="my_chart_8"></div>

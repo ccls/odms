@@ -1,0 +1,15 @@
+{
+  "title":{
+    "text":  "Case Control Type Counts",
+    "style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
+  },
+  "elements":[
+    {
+      "type":      "pie",
+      "alpha":     0.5,
+      "colour":    "#CC9933",
+      "font-size": 10,
+      "values" :   [ <%=@identifiers.collect{|i| "{ \"value\": #{i.count}, \"label\": \"#{i.case_control_type}\"}" }.join(',')%> ]
+    }
+  ]
+}
