@@ -236,8 +236,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "should toggle eligibility criteria on show screen with #{cu} login" do
-			#	NOTE only exists for case subjects
-			study_subject = Factory(:case_study_subject)
+			#	NOTE only exists for case subjects WITH PATIENT
+			study_subject = Factory(:complete_case_study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
