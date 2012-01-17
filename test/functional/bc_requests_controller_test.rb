@@ -215,11 +215,19 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert assigns(:bc_requests)
 			assert !assigns(:bc_requests).empty?
 			assert_equal 1, assigns(:bc_requests).length
-#puts @response.body
-#studyid,icf_master_id,name,sex,Born in CA?,state_id_no,dob
-#0001-C-0,45, ,F,bornincali?,45,09/26/2003
-#masterid,biomom,biodad,date,mother_full_name,mother_maiden_name,father_full_name,child_full_name,child_dobm,child_dobd,child_doby,child_gender,birthplace_country,birthplace_state,birthplace_city,mother_hispanicity,mother_hispanicity_mex,mother_race,mother_race_other,father_hispanicity,father_hispanicity_mex,father_race,father_race_other
-#3,biomom,biodad,which date,[name not available],,[name not available],[name not available],3,8,1993,M,,,,,,,mother_race_other,,,,father_race_other
+
+			require 'fastercsv'
+			f = FasterCSV.parse(@response.body)
+			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
+			assert_equal f[0], ["masterid", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "mother_race_other", "father_hispanicity", "father_hispanicity_mex", "father_race", "father_race_other"]
+
+			assert_equal 23, f[0].length
+#["46", nil, nil, nil, "[name not available]", nil, "[name not available]", "[name not available]", "3", "23", "2006", "F", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+			assert_equal f[1][0],  case_study_subject.icf_master_id
+			assert_equal f[1][8],  case_study_subject.dob.try(:month).to_s
+			assert_equal f[1][9],  case_study_subject.dob.try(:day).to_s
+			assert_equal f[1][10], case_study_subject.dob.try(:year).to_s
+			assert_equal f[1][11], case_study_subject.sex
 		end
 
 		test "should get pending bc_requests with #{cu} login" do
