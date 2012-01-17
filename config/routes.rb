@@ -110,6 +110,12 @@ ActionController::Routing::Routes.draw do |map|
 #		:translate => :get,
 		:order => :post }
 
+
+
+	map.connect 'charts/:action.:format', :controller => 'charts'
+
+
+
 	#	Create named routes for expected pages so can avoid
 	# needing to append the relative_url_root prefix manually.
 	#	ActionController::Base.relative_url_root + '/admin',

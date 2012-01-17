@@ -1,3 +1,18 @@
 <%= control_bar() %>
 
-Subject Dashboard
+<p>Subject Dashboard with random test graphs.</p>
+
+
+
+
+
+
+<% javascripts('swfobject.js') %>
+<% content_for(:head) do %>
+<% javascript_tag do %>
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_1", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/subject1.json"} );
+swfobject.embedSWF("/open-flash-chart.swf", "my_chart_2", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/subject2.json"} );
+<% end %>
+<% end %>
+<div id="my_chart_1"></div>
+<div id="my_chart_2"></div>
