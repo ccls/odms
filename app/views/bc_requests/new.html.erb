@@ -1,8 +1,8 @@
 <% birth_certificates_sub_menu %>
 
-<h4>Birth Certificate Requests for Control Matching</h4>
+<h4>Birth Data Requests for Control Matching</h4>
 
-<p>Add case to BC Request List</p>
+<p>Add case to Birth Data Request List</p>
 
 <% form_tag(bc_requests_path,:method => :post) do %>
 <p><span>Enter PatID:</span>
@@ -24,7 +24,7 @@
 </span>
 </h4>
 <% if @active_bc_requests.empty? %>
-<p>Sorry, but there are no active bc requests at this time.</p>
+<p>Sorry, but there are no active birth data requests at this time.</p>
 <% else %>
 <table style='font-size:8pt;'><thead>
 <tr>
@@ -70,7 +70,7 @@
 <h4>Waiting List</h4>
 
 <% if @waitlist_bc_requests.empty? %>
-<p>Sorry, but there are no waitlist bc requests at this time.</p>
+<p>Sorry, but there are no waitlist birth data requests at this time.</p>
 <% else %>
 <table style='font-size:8pt;'><thead>
 <tr>
