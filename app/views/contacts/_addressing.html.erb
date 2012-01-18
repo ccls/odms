@@ -14,14 +14,10 @@ What is 'dates' ?
 
 <% div_for addressing do %>
 <span class='line_1'><%= addressing.line_1 %></span>
-<span class='unit'><%= 
-	( addressing.unit.blank? ) ? '&nbsp;' : "Apt. #{addressing.unit}"
-%></span>
-<span class='line_2'><%= addressing.line_2 %></span>
+<%= "<span class='unit'>Apt. #{addressing.unit}</span>" unless addressing.unit.blank? %>
+<%= "<span class='line_2'>#{addressing.line_2}</span>"  unless addressing.line_2.blank? %>
 <span class='csz'><%= addressing.csz %></span>
-<span class='county'><%= 
-	( addressing.county.blank? ) ? '&nbsp;' :  "#{addressing.county} County" 
-%></span>
+<%= "<span class='county'>#{addressing.county} County</span>" unless addressing.county.blank?  %>
 <% end %><!-- class='addressing' -->
 
 <div class='addressing_meta contact_meta'>
