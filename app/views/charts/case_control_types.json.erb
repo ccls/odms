@@ -15,11 +15,18 @@
 
   "elements":[
     {
+<%#	this works		"on-click": "http://cnn.com", -%>
+<%# this works too			"on-click": "chart_click()", -%>
       "type":      "bar",
       "alpha":     0.5,
       "colour":    "#CC9933",
       "font-size": 10,
-      "values" :   [<%=@identifiers.collect(&:count).join(',')%>]
+<%#=@identifiers.collect(&:count).join(',')-%>
+<%# could use this style to call something more than just alert -%>
+<%# some values are so small that they may be difficult to click -%>
+      "values" :   [<%=@identifiers.collect{|i| 
+	"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"alert('#{i.case_control_type}:#{i.count}')\"}"
+}.join(',')%>]
     }
   ],
 

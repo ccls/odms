@@ -9,7 +9,8 @@
       "alpha":     0.5,
       "colour":    "#CC9933",
       "font-size": 10,
-      "values" :   [ <%=@identifiers.collect{|i| "{ \"value\": #{i.count}, \"label\": \"#{i.case_control_type}\"}" }.join(',')%> ]
+      "values" :   [ <%=@identifiers.collect{|i|
+"{\"value\":#{i.count},\"label\":\"#{i.case_control_type}\",\"on-click\":\"alert('#{i.case_control_type}:#{i.count}')\"}" }.join(',')-%> ]
     }
   ]
 }
