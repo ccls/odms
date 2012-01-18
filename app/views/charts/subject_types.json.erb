@@ -19,7 +19,9 @@
       "alpha":     0.5,
       "colour":    "#CC9933",
       "font-size": 10,
-      "values" :   [<%=@study_subjects.collect(&:count).join(',')%>]
+      "values" :   [ <%#=@study_subjects.collect(&:count).join(',')-%>
+<%=@study_subjects.collect{|i|
+"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"#{find_study_subjects_url(:subject_type_id => i.subject_type_id)}\"\}" }.join(",\n")-%> ]
     }
   ],
 
