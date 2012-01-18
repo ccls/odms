@@ -1,17 +1,19 @@
 {
-  "title":{
-    "text":  "Case Control Type Counts",
-    "style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
-  },
-  "elements":[
-    {
-      "type":      "pie",
-      "alpha":     0.5,
+	"title":{
+		"text":  "Case Control Type Counts",
+		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
+	},
+	"elements":[
+		{
+			"type":      "pie",
+			"alpha":     0.5,
+			"animate": [ { "type": "fade" }, { "type": "bounce", "distance": 5 } ],
+<%# "animate": [ { "type": "bounce", "distance": 5 } ], -%>
 <%# one colour results in all the same colour -%>
-      "colours":    ["#CC9933"],
-      "font-size": 10,
-      "values" :   [ <%=@identifiers.collect{|i|
+			"colours":    ["#CC9933"],
+			"font-size": 10,
+			"values" :   [ <%=@identifiers.collect{|i|
 "{\"value\":#{i.count},\"label\":\"#{i.case_control_type}\",\"on-click\":\"alert('#{i.case_control_type}:#{i.count}')\"}" }.join(',')-%> ]
-    }
-  ]
+		}
+	]
 }

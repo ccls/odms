@@ -1,19 +1,20 @@
 {
-  "title":{
-    "text":  "Subject Type Counts",
-    "style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
-  },
-  "elements":[
-    {
-      "type":      "pie",
-      "alpha":     0.5,
+	"title":{
+		"text":  "Subject Type Counts",
+		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
+	},
+	"elements":[
+		{
+			"type":      "pie",
+			"alpha":     0.5,
+			"animate": [ { "type": "fade" }, { "type": "bounce", "distance": 5 } ],
 <%# yes, rgb() works -%>
 <%#      "colours":    ["rgb(100,100,100)"], -%>
 <%# randomly selected values works nicely too -%>
 			"colours":   [<%=@study_subjects.length.times.collect{|i|"\"##{sprintf('%06s',(rand(16777215).to_i).to_s(16)).gsub(' ','0')}\""}.join(",") -%>],
-      "font-size": 10,
-      "values" :   [<%=@study_subjects.collect{|s| 
+			"font-size": 10,
+			"values" :   [<%=@study_subjects.collect{|s| 
 "{\"value\":#{s.count},\"label\":\"#{s.subject_type}\",\"on-click\":\"#{find_study_subjects_url(:subject_type_id => s.subject_type_id)}\"}" }.join(",\n")-%> ]
-    }
-  ]
+		}
+	]
 }

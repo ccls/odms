@@ -1,45 +1,40 @@
 {
-  "title":{
-    "text":  "Subject Type Counts",
-    "style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
-  },
-
-  "x_legend":{
-    "text": "Subject Type",
-    "style": "{font-size: 12px;}"
-  },
-  "y_legend":{
-    "text": "Count",
-    "style": "{font-size: 12px;}"
-  },
-
-  "elements":[
-    {
-      "type":      "bar_glass",
-      "alpha":     0.5,
-      "colour":    "#CC9933",
-      "font-size": 10,
-      "values" :   [ <%#=@study_subjects.collect(&:count).join(',')-%>
+	"title":{
+		"text":  "Subject Type Counts",
+		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
+	},
+	"x_legend":{
+		"text": "Subject Type",
+		"style": "{font-size: 12px;}"
+	},
+	"y_legend":{
+		"text": "Count",
+		"style": "{font-size: 12px;}"
+	},
+	"elements":[
+		{
+			"type":      "bar_glass",
+			"alpha":     0.5,
+			"colour":    "#CC9933",
+			"font-size": 10,
+			"values" :   [ <%#=@study_subjects.collect(&:count).join(',')-%>
 <%=@study_subjects.collect{|i|
 "{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"#{find_study_subjects_url(:subject_type_id => i.subject_type_id)}\"\}" }.join(",\n")-%> ]
-    }
-  ],
-
-  "x_axis":{
-    "stroke":1,
-    "tick_height":10,
-    "grid_colour":"#00ff00",
-    "labels": {
-        "labels": [<%=@study_subjects.collect{|s| "\"#{s.subject_type}\""}.join(',')%>]
-    }
-   },
-
-  "y_axis":{
-    "stroke":      1,
-    "tick_length": 3,
-    "grid_colour": "#00ff00",
-    "offset":      0,
-    "max":         <%=@study_subjects.collect{|s|s.count.to_i}.max%>
-  }
+		}
+	],
+	"x_axis":{
+		"stroke":1,
+		"tick_height":10,
+		"grid_colour":"#00ff00",
+		"labels": {
+			"labels": [<%=@study_subjects.collect{|s| "\"#{s.subject_type}\""}.join(',')%>]
+		}
+	},
+	"y_axis":{
+		"stroke":      1,
+		"tick_length": 3,
+		"grid_colour": "#00ff00",
+		"offset":      0,
+		"max":         <%=@study_subjects.collect{|s|s.count.to_i}.max%>
+	}
 }
-
