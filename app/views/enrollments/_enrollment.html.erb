@@ -3,13 +3,13 @@
   <%= link_to enrollment.project.code, enrollment_path(enrollment) %>
  </td>
  <td class='candidate'>
-  <%=y_n_dk enrollment.is_candidate %>
+  <%=yndk enrollment.is_candidate %>
  </td>
  <td class='locate'>
-  <%=y_n_dk enrollment.able_to_locate %>
+  <%=yndk enrollment.able_to_locate %>
  </td>
  <td class='eligible'>
-  <%=y_n_dk enrollment.is_eligible %>
+  <%=yndk enrollment.is_eligible %>
  </td>
  <td class='consented'>
   <%=mdy enrollment.consented_on %>

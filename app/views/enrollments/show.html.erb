@@ -12,14 +12,14 @@
 
 <% div_for @enrollment do %>
 
-<%= wrapped_y_n_dk_spans :enrollment, :is_candidate,
+<%= wrapped_yndk_spans :enrollment, :is_candidate,
 	:label_text => 'is_candidate?' %>
 
 <%# if @enrollment.is_candidate? %>
-	<%= wrapped_y_n_dk_spans :enrollment, :able_to_locate,
+	<%= wrapped_yndk_spans :enrollment, :able_to_locate,
 		:label_text => 'able to locate?' %>
 	<%# if @enrollment.able_to_locate? %>
-		<%= wrapped_y_n_dk_spans :enrollment, :is_eligible,
+		<%= wrapped_yndk_spans :enrollment, :is_eligible,
 			:label_text => 'is eligible?' %>
 		<%# unless @enrollment.is_eligible? %>
 			<%= wrapped_spans :enrollment, :ineligible_reason,
@@ -27,13 +27,13 @@
 			<%= wrapped_spans :enrollment, :ineligible_reason_specify,
 				:label_text => 'specify:' %>
 		<%# else %>
-			<%= wrapped_y_n_dk_spans :enrollment, :is_chosen,
+			<%= wrapped_yndk_spans :enrollment, :is_chosen,
 				:label_text => 'chosen to participate?' %>
 			<%# unless @enrollment.is_chosen? %>
 				<%= wrapped_spans :enrollment, :reason_not_chosen,
 					:label_text => 'reason not chosen:' %>
 			<%# else %>
-				<%= wrapped_y_n_dk_spans :enrollment, :consented,
+				<%= wrapped_yndk_spans :enrollment, :consented,
 					:label_text => 'consented?' %>
 
 				<%= wrapped_date_spans :enrollment, :consented_on,
@@ -48,14 +48,14 @@
 					<%= wrapped_spans :enrollment, :other_refusal_reason,
 						:label_text => 'specify:' %>
 				<%# else %>
-					<%= wrapped_y_n_dk_spans :enrollment, 
+					<%= wrapped_yndk_spans :enrollment, 
 						:terminated_participation,
 						:label_text => 'terminated participation?' %>
 					<%# unless @enrollment.terminated_participation? %>
 						<%= wrapped_spans :enrollment, :terminated_reason,
 							:label_text => 'reason:' %>
 					<%# else %>
-						<%= wrapped_y_n_dk_spans :enrollment, :is_complete,
+						<%= wrapped_yndk_spans :enrollment, :is_complete,
 							:label_text => 'study requirements completed?' %>
 						<%# if @enrollment.is_complete? %>
 

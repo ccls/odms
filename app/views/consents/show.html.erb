@@ -13,7 +13,7 @@
 </div>
 
 <div class='enrollment'>
-<%= wrapped_y_n_dk_spans :enrollment, :is_eligible,
+<%= wrapped_yndk_spans :enrollment, :is_eligible,
 	:label_text => 'is eligible?' %>
 <%= wrapped_spans :enrollment, :ineligible_reason,
 	:label_text => 'reason ineligible:' %>
@@ -36,16 +36,16 @@
 <span class='value'><%= @enrollment.study_subject.languages.collect(&:to_s).collect(&:titleize) %></span>
 </div>
 
-<%= wrapped_y_n_dk_spans( :patient, :was_previously_treated,
+<%= wrapped_yndk_spans( :patient, :was_previously_treated,
 	:label_text => 'Has this patient received previous treatment for leukemia or another cancer at any institution?'
 	) %>
-<%= wrapped_y_n_dk_spans( :patient, :was_ca_resident_at_diagnosis,
+<%= wrapped_yndk_spans( :patient, :was_ca_resident_at_diagnosis,
 	:label_text => 'Does the patient currently reside in California?'
 	) %>
 </div><!-- class='show_eligibility_criteria' -->
 <% end %><%# if @study_subject.is_case? %>
 
-<%= wrapped_y_n_dk_spans :enrollment, :consented,
+<%= wrapped_yndk_spans :enrollment, :consented,
 	:label_text => 'consented?' %>
 <%= wrapped_date_spans :enrollment, :consented_on,
 	:label_text => 'consent date:' %>

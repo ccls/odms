@@ -18,7 +18,7 @@
 
 <%= f.error_messages %>
 
-<%= f.wrapped_y_n_dk_select :is_eligible,
+<%= f.wrapped_yndk_select :is_eligible,
 	:label_text => 'is eligible?' %>
 <div id='subject_is_eligible'>
 <%= f.wrapped_collection_select :ineligible_reason_id,
@@ -52,17 +52,17 @@
 <% fields_for @study_subject do |s| %>
 <%= s.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
 <% end %>
-<%= p.wrapped_y_n_dk_select( :was_previously_treated,
+<%= p.wrapped_yndk_select( :was_previously_treated,
 	:label_text => 'Has this patient received previous treatment for leukemia or another cancer at any institution?'
 	) %>
-<%= p.wrapped_y_n_dk_select( :was_ca_resident_at_diagnosis,
+<%= p.wrapped_yndk_select( :was_ca_resident_at_diagnosis,
 	:label_text => 'Does the patient currently reside in California?'
 	) %>
 <% end %><%# fields_for @patient do |p| %>
 </div><!-- class='eligibility_criteria' -->
 <% end %><%# if @study_subject.is_case? %>
 
-<%= f.wrapped_y_n_dk_select :consented,
+<%= f.wrapped_yndk_select :consented,
 	:label_text => 'consented?' %>
 
 <div id='subject_refused'>
