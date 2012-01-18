@@ -10,7 +10,7 @@
 </div><!-- class='brief' -->
 <div class='details'>
 <span class='why'>
-<%= (!phone_number.is_valid?)?"why:&nbsp;#{phone_number.why_invalid}":"&nbsp;" %>
+<%= (phone_number.is_not_valid?)?"why:&nbsp;#{phone_number.why_invalid}":"&nbsp;" %>
 </span>
 <span class='how'>
 <%= (phone_number.is_verified?)?"how:&nbsp;#{phone_number.how_verified}":"&nbsp;" %>
