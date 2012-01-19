@@ -214,25 +214,66 @@ protected	#	private #	(does it matter which or if neither?)
 		} }
 	end
 
+	#	CAUTION: params come from forms as strings
 	def mark_as_eligible(default={})
-		if(
-			( default['patient_attributes']['was_under_15_at_dx'] == YNDK[:yes] ) and
-			( default['patient_attributes']['was_previously_treated'] == YNDK[:no] ) and
-			( default['patient_attributes']['was_ca_resident_at_diagnosis'] == YNDK[:yes] ) and
-			( !default['subject_languages_attributes']['0']['language_id'].blank? or
-				!default['subject_languages_attributes']['1']['language_id'].blank? ) )
-			default['enrollments_attributes']['0']['is_eligible'] = YNDK[:yes]
-		else
-			default['enrollments_attributes']['0']['is_eligible'] = YNDK[:no]
+		is_eligible = YNDK[:yes]
+		ineligible_reasons = []
 
-#	may wish to be more specific about which reason
+		if( default['patient_attributes'].is_a?(Hash) and
+			default['patient_attributes'][
+				'was_under_15_at_dx'].to_s == YNDK[:no].to_s )
+			is_eligible = YNDK[:no]
+			ineligible_reasons << "Was not under 15 at diagnosis."
+		end
+		if( default['patient_attributes'].is_a?(Hash) and
+			default['patient_attributes'][
+				'was_previously_treated'].to_s == YNDK[:yes].to_s )
+			is_eligible = YNDK[:no]
+			ineligible_reasons << "Was previously treated."
+		end
+		if( default['patient_attributes'].is_a?(Hash) and
+			default['patient_attributes'][
+				'was_ca_resident_at_diagnosis'].to_s == YNDK[:no].to_s )
+			is_eligible = YNDK[:no]
+			ineligible_reasons << "Was not CA resident at diagnosis."
+		end
+		if( default['subject_languages_attributes'].is_a?(Hash) and
+				default['subject_languages_attributes']['0'].is_a?(Hash) and
+				default['subject_languages_attributes']['0']['language_id'].to_s.blank? and
+				default['subject_languages_attributes']['1'].is_a?(Hash) and
+				default['subject_languages_attributes']['1']['language_id'].to_s.blank? )
+			is_eligible = YNDK[:no]
+			ineligible_reasons << "Language does not include English or Spanish."
+		end
 
+		default['enrollments_attributes']['0']['is_eligible'] = is_eligible
+		if( is_eligible == YNDK[:no] )
 			default['enrollments_attributes']['0'][
 				'ineligible_reason_id'] = IneligibleReason['other'].id
 			default['enrollments_attributes']['0'][
-				'ineligible_reason_specify'] = 'Ineligibility found in RAF data.'
+				'ineligible_reason_specify'] = ineligible_reasons.join("\n")
 		end
 	end
+
+#	def original_mark_as_eligible(default={})
+#		if(
+#			( default['patient_attributes']['was_under_15_at_dx'].to_s == YNDK[:yes].to_s ) and
+#			( default['patient_attributes']['was_previously_treated'].to_s == YNDK[:no].to_s ) and
+#			( default['patient_attributes']['was_ca_resident_at_diagnosis'].to_s == YNDK[:yes].to_s ) and
+#			( !default['subject_languages_attributes']['0']['language_id'].to_s.blank? or
+#				!default['subject_languages_attributes']['1']['language_id'].to_s.blank? ) )
+#			default['enrollments_attributes']['0']['is_eligible'] = YNDK[:yes]
+#		else
+#			default['enrollments_attributes']['0']['is_eligible'] = YNDK[:no]
+#
+##	may wish to be more specific about which reason
+#
+#			default['enrollments_attributes']['0'][
+#				'ineligible_reason_id'] = IneligibleReason['other'].id
+#			default['enrollments_attributes']['0'][
+#				'ineligible_reason_specify'] = 'Ineligibility found in RAF data.'
+#		end
+#	end
 
 	def allow_blank_address_line_1(default={})
 		#	as 'default' is a hash, 'address' is now just a pointer to part of it.

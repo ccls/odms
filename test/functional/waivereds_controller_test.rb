@@ -608,6 +608,10 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:yes],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 
@@ -623,6 +627,10 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert !assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 		test "should create waivered case study_subject" <<
@@ -635,6 +643,10 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert !assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 		test "should create waivered case study_subject" <<
@@ -647,6 +659,10 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert !assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 		test "should create waivered case study_subject" <<
@@ -664,6 +680,10 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert !assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 

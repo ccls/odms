@@ -611,6 +611,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:yes],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 
@@ -627,6 +631,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert !assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 #	nonwaivered doesn't actually have a was_previously_treated YES
@@ -640,6 +648,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert !assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 #	nonwaivered doesn't actually have a was_ca_resident_at_diagnosis NO
@@ -653,6 +665,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert !assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 #	nonwaivered doesn't actually have other language
@@ -671,6 +687,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
+			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_id
+			assert !assigns(:study_subject).enrollments.find_by_project_id(
+				Project['ccls'].id).ineligible_reason_specify.blank?
 		end
 
 
