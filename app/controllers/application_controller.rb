@@ -127,6 +127,8 @@ protected	#	private #	(does it matter which or if neither?)
 			}
 		})
 		allow_blank_address_line_1(study_subject_params)
+		mark_as_eligible(study_subject_params)
+#		puts( study_subject_params.inspect )
 		@study_subject = StudySubject.new(study_subject_params)
 
 		#	explicitly validate before searching for duplicates
@@ -178,6 +180,7 @@ protected	#	private #	(does it matter which or if neither?)
 		end
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "StudySubject creation failed"
+#puts @study_subject.errors.inspect
 		render :action => 'new'
 	rescue ActiveRecord::StatementInvalid => e
 		flash.now[:error] = "Database error.  Check production logs and contact Jake."
@@ -209,6 +212,26 @@ protected	#	private #	(does it matter which or if neither?)
 			'address_attributes' => { 
 				'address_type_id'  => AddressType['residence'].id
 		} }
+	end
+
+	def mark_as_eligible(default={})
+		if(
+			( default['patient_attributes']['was_under_15_at_dx'] == YNDK[:yes] ) and
+			( default['patient_attributes']['was_previously_treated'] == YNDK[:no] ) and
+			( default['patient_attributes']['was_ca_resident_at_diagnosis'] == YNDK[:yes] ) and
+			( !default['subject_languages_attributes']['0']['language_id'].blank? or
+				!default['subject_languages_attributes']['1']['language_id'].blank? ) )
+			default['enrollments_attributes']['0']['is_eligible'] = YNDK[:yes]
+		else
+			default['enrollments_attributes']['0']['is_eligible'] = YNDK[:no]
+
+#	may wish to be more specific about which reason
+
+			default['enrollments_attributes']['0'][
+				'ineligible_reason_id'] = IneligibleReason['other'].id
+			default['enrollments_attributes']['0'][
+				'ineligible_reason_specify'] = 'Ineligibility found in RAF data.'
+		end
 	end
 
 	def allow_blank_address_line_1(default={})

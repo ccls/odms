@@ -593,6 +593,92 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
 		end
 
+
+
+
+
+
+		test "should create nonwaivered case study_subject" <<
+				" and set is_eligible yes with #{cu} login" do
+			login_as send(cu)
+			nonwaivered_successful_creation
+			assert_equal YNDK[:yes], assigns(:study_subject).patient.was_under_15_at_dx
+			assert_equal YNDK[:no],  assigns(:study_subject).patient.was_previously_treated
+			assert_equal YNDK[:yes], assigns(:study_subject).patient.was_ca_resident_at_diagnosis
+			#	assert languages include english or spanish
+			assert assigns(:study_subject).language_ids.include?(Language['english'].id) or
+				assigns(:study_subject).language_ids.include?(Language['spanish'].id)
+			assert_equal YNDK[:yes],
+				assigns(:study_subject).enrollments.find_by_project_id(
+					Project['ccls'].id).is_eligible
+		end
+
+
+#	TODO test ineligiblity_reasons
+
+#	nonwaivered doesn't actually have a was_under_15_at_dx NO
+		test "should create nonwaivered case study_subject" <<
+				" and set is_eligible no with #{cu} login and over 15" do
+			login_as send(cu)
+			nonwaivered_successful_creation({ 'study_subject' => {
+				'patient_attributes' => { 
+					'was_under_15_at_dx' => YNDK[:no] } } } )
+			assert_equal YNDK[:no], assigns(:study_subject).patient.was_under_15_at_dx
+			assert_equal YNDK[:no],
+				assigns(:study_subject).enrollments.find_by_project_id(
+					Project['ccls'].id).is_eligible
+		end
+
+#	nonwaivered doesn't actually have a was_previously_treated YES
+		test "should create nonwaivered case study_subject" <<
+				" and set is_eligible no with #{cu} login and previously treated" do
+			login_as send(cu)
+			nonwaivered_successful_creation({ 'study_subject' => {
+				'patient_attributes' => { 
+					'was_previously_treated' => YNDK[:yes] } } } )
+			assert_equal YNDK[:yes], assigns(:study_subject).patient.was_previously_treated
+			assert_equal YNDK[:no],
+				assigns(:study_subject).enrollments.find_by_project_id(
+					Project['ccls'].id).is_eligible
+		end
+
+#	nonwaivered doesn't actually have a was_ca_resident_at_diagnosis NO
+		test "should create nonwaivered case study_subject" <<
+				" and set is_eligible no with #{cu} login and not ca resident" do
+			login_as send(cu)
+			nonwaivered_successful_creation({ 'study_subject' => {
+				'patient_attributes' => { 
+					'was_ca_resident_at_diagnosis' => YNDK[:no] } } } )
+			assert_equal YNDK[:no], assigns(:study_subject).patient.was_ca_resident_at_diagnosis
+			assert_equal YNDK[:no],
+				assigns(:study_subject).enrollments.find_by_project_id(
+					Project['ccls'].id).is_eligible
+		end
+
+#	nonwaivered doesn't actually have other language
+		test "should create nonwaivered case study_subject" <<
+				" and set is_eligible no with #{cu} login and not english or spanish" do
+			login_as send(cu)
+			#	remove english and add another so subject_language is created
+			nonwaivered_successful_creation({ 'study_subject' => {
+				'subject_languages_attributes' => {
+					'0' => {'language_id' => '' },
+					'2' => {'language_id' => Language['other'].id, 'other' => 'something else' }
+					} } } )
+			#	assert languages DO NOT include english or spanish
+			assert !assigns(:study_subject).language_ids.include?(Language['english'].id) and
+				!assigns(:study_subject).language_ids.include?(Language['spanish'].id)
+			assert_equal YNDK[:no],
+				assigns(:study_subject).enrollments.find_by_project_id(
+					Project['ccls'].id).is_eligible
+		end
+
+
+
+
+
+
+
 		test "should create mother on create with #{cu} login" do
 			login_as send(cu)
 			minimum_successful_creation
