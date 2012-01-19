@@ -130,7 +130,7 @@ module ApplicationHelper
 			when 'documents' then :documents
 			when 'notes' then :notes
 			when 'related_subjects' then :related_subjects
-			when 'cases' then :cases
+#			when 'cases' then :cases
 #			else nil
 		end
 		content_for :side_menu do
