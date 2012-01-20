@@ -279,25 +279,25 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects by state_id_no and #{cu} login" do
-			3.times{|i| Factory(:identifier,:state_id_no => "345#{i}" ) }
+			3.times{|i| Factory(:identifier,:state_id_no => "345x#{i}" ) }
 			login_as send(cu)
-			get :find, :registrar_no => '451'
+			get :find, :registrar_no => '45x1'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 		end
 	
 		test "should find study_subjects by state_registrar_no and #{cu} login" do
-			3.times{|i| Factory(:identifier,:state_registrar_no => "345#{i}" ) }
+			3.times{|i| Factory(:identifier,:state_registrar_no => "345x#{i}" ) }
 			login_as send(cu)
-			get :find, :registrar_no => '451'
+			get :find, :registrar_no => '45x1'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 		end
 	
 		test "should find study_subjects by local_registrar_no and #{cu} login" do
-			3.times{|i| Factory(:identifier,:local_registrar_no => "345#{i}" ) }
+			3.times{|i| Factory(:identifier,:local_registrar_no => "345x#{i}" ) }
 			login_as send(cu)
-			get :find, :registrar_no => '451'
+			get :find, :registrar_no => '45x1'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 		end
