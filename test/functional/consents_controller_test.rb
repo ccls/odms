@@ -222,6 +222,28 @@ class ConsentsControllerTest < ActionController::TestCase
 #	These multiple models will need to be wrapped in a transaction.
 #
 
+		test "should update consent for case without patient with #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			assert_nil study_subject.patient
+			login_as send(cu)
+			put :update, :study_subject_id => study_subject.id,
+				:enrollment => Factory.attributes_for(:enrollment)
+			assert_nil     flash[:error]
+			assert_not_nil flash[:notice]
+			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
+		end
+
+		test "should update consent for control with #{cu} login" do
+			study_subject = Factory(:complete_control_study_subject)
+			login_as send(cu)
+			put :update, :study_subject_id => study_subject.id,
+				:enrollment => Factory.attributes_for(:enrollment)
+			assert_nil     flash[:error]
+			assert_not_nil flash[:notice]
+			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
+		end
+
+
 		test "should edit consent with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
