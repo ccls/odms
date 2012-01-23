@@ -8,9 +8,9 @@ class EventsControllerTest < ActionController::TestCase
 		:attributes_for_create => :factory_attributes,	#	needed for update
 		:method_for_create => :create_operational_event_with_enrollment
 	}
-	def create_operational_event_with_enrollment
-		Factory(:operational_event,
-			:enrollment => Factory(:enrollment) )
+	def create_operational_event_with_enrollment(options={})
+		Factory(:operational_event,{
+			:enrollment => Factory(:enrollment)}.merge(options) )
 	end
 	def factory_attributes(options={})
 		Factory.attributes_for(:operational_event,{
