@@ -1,0 +1,11 @@
+<h1>New live_birth_data</h1>
+
+<% form_for(@live_birth_data) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', live_birth_datas_path %>

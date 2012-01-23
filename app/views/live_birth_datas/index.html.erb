@@ -1,0 +1,18 @@
+<h1>Listing live_birth_datas</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @live_birth_datas.each do |live_birth_data| %>
+  <tr>
+    <td><%= link_to 'Show', live_birth_data %></td>
+    <td><%= link_to 'Edit', edit_live_birth_data_path(live_birth_data) %></td>
+    <td><%= link_to 'Destroy', live_birth_data, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New live_birth_data', new_live_birth_data_path %>

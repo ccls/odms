@@ -104,6 +104,7 @@ ActionController::Routing::Routes.draw do |map|
 #	map.resources :projects
 	map.resources :guides
 #	map.resources :document_versions
+	map.resources :live_birth_datas
 
 	map.resources :pages, :collection => { 
 		:all => :get,
