@@ -165,6 +165,8 @@ protected	#	private #	(does it matter which or if neither?)
 			#	The raised error will still kick all the way out.
 			StudySubject.transaction do
 				@study_subject.save!
+# possibly put in a identifier#after_create ???
+#	or study_subject#after_create ???
 				@study_subject.assign_icf_master_id
 				@study_subject.create_mother
 			end
