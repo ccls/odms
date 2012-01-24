@@ -39,7 +39,7 @@ class User < Ccls::User
 #			document_versions
 
 
-	%w(	sample_kits gift_cards document_versions
+	%w(	sample_kits gift_cards document_versions live_birth_datas
 			people races languages refusal_reasons ineligible_reasons
 	).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
