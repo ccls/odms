@@ -37,7 +37,11 @@ class User < Ccls::User
 #	%w(	people races sample_kits
 #			languages gift_cards refusal_reasons ineligible_reasons
 #			document_versions
-	%w(	sample_kits gift_cards document_versions).each do |resource|
+
+
+	%w(	sample_kits gift_cards document_versions
+			people races languages refusal_reasons ineligible_reasons
+	).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_administrate?

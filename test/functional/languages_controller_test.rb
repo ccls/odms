@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class Ccls::LanguagesControllerTest < ActionController::TestCase
-	tests LanguagesController
+class LanguagesControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'Language',

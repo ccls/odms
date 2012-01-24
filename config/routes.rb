@@ -101,9 +101,9 @@ ActionController::Routing::Routes.draw do |map|
 	map.resource  :waivered, :only => [:new,:create]
 	map.resource  :nonwaivered, :only => [:new,:create]
 
-#	map.resources :projects
+	map.resources :projects
 	map.resources :guides
-#	map.resources :document_versions
+	map.resources :document_versions
 	map.resources :live_birth_datas
 
 	map.resources :pages, :collection => { 

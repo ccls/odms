@@ -1,16 +1,15 @@
 require 'test_helper'
 
-class Ccls::PeopleControllerTest < ActionController::TestCase
-	tests PeopleController
+class RacesControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
-		:model => 'Person',
+		:model => 'Race',
 		:actions => [:new,:create,:edit,:update,:show,:destroy,:index],
 		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_person
+		:method_for_create => :create_race
 	}
 	def factory_attributes(options={})
-		Factory.attributes_for(:person,options)
+		Factory.attributes_for(:race,options)
 	end
 
 	assert_access_with_login(    :logins => site_administrators )

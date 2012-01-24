@@ -1,16 +1,15 @@
 require 'test_helper'
 
-class Ccls::RefusalReasonsControllerTest < ActionController::TestCase
-	tests RefusalReasonsController
+class IneligibleReasonsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
-		:model => 'RefusalReason',
+		:model => 'IneligibleReason',
 		:actions => [:new,:create,:edit,:update,:show,:destroy,:index],
 		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_refusal_reason
+		:method_for_create => :create_ineligible_reason
 	}
 	def factory_attributes(options={})
-		Factory.attributes_for(:refusal_reason,options)
+		Factory.attributes_for(:ineligible_reason,options)
 	end
 
 	assert_access_with_login(    :logins => site_administrators )

@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class Ccls::SessionsControllerTest < ActionController::TestCase
-	tests SessionsController
+class SessionsControllerTest < ActionController::TestCase
 
 	test "should logout if authenticated" do
 		login_as active_user
