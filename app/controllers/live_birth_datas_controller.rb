@@ -1,7 +1,7 @@
 class LiveBirthDatasController < ApplicationController
 
 	before_filter :may_create_live_birth_datas_required,
-		:only => [:new,:create]
+		:only => [:new,:create,:parse]
 	before_filter :may_read_live_birth_datas_required,
 		:only => [:show,:index]
 	before_filter :may_update_live_birth_datas_required,
@@ -10,7 +10,7 @@ class LiveBirthDatasController < ApplicationController
 		:only => :destroy
 
 	before_filter :valid_id_required, 
-		:only => [:show,:edit,:update,:destroy]
+		:only => [:show,:edit,:update,:destroy,:parse]
 
 
 
@@ -110,6 +110,14 @@ class LiveBirthDatasController < ApplicationController
 #			format.html { redirect_to(live_birth_datas_url) }
 #			format.xml	{ head :ok }
 #		end
+	end
+
+
+	def parse
+		@results = @live_birth_data.to_candidate_controls
+		f=FasterCSV.open(@live_birth_data.csv_file.path,'rb',{:headers => true })
+		@csv_lines = f.readlines
+		f.close
 	end
 
 protected

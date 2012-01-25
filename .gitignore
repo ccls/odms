@@ -43,3 +43,6 @@ versions/
 config/*database.yml
 db/test_*_schema.rb
 *.swp
+
+test-livebirthdata_011912.csv
+test/live_birth_data/
