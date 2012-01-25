@@ -97,7 +97,7 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			create_case_for_live_birth_data
 			live_birth_data = create_test_file_and_live_birth_data
 			assert_difference('CandidateControl.count',1){
-				get :parse, :id => live_birth_data.id
+				post :parse, :id => live_birth_data.id
 			}
 			cleanup_live_birth_data_and_test_file(live_birth_data)
 		end
@@ -111,7 +111,7 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			create_case_for_live_birth_data
 			live_birth_data = create_test_file_and_live_birth_data
 			assert_difference('CandidateControl.count',0){
-				get :parse, :id => live_birth_data.id
+				post :parse, :id => live_birth_data.id
 			}
 			cleanup_live_birth_data_and_test_file(live_birth_data)
 		end
@@ -122,7 +122,7 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 		create_case_for_live_birth_data
 		live_birth_data = create_test_file_and_live_birth_data
 		assert_difference('CandidateControl.count',0){
-			get :parse, :id => live_birth_data.id
+			post :parse, :id => live_birth_data.id
 		}
 		cleanup_live_birth_data_and_test_file(live_birth_data)
 	end
