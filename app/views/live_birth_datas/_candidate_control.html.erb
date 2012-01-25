@@ -2,4 +2,5 @@
 <td><%= index %></td>
 <td>Candidate Control</td>
 <td><%= candidate_control.id %></td>
+<td><%= link_to(candidate_control.study_subject,candidate_control.study_subject) unless candidate_control.study_subject_id.nil? %></td>
 </tr>
