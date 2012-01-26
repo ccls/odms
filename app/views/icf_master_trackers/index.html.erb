@@ -1,0 +1,23 @@
+<h4>Listing icf_master_trackers</h4>
+
+<% if @icf_master_trackers.length > 0 %>
+<table id='icf_master_trackers'>
+<%# <thead><tr><th>&nbsp;</th><th>&nbsp;</th></tr></thead> -%>
+<tbody>
+<% @icf_master_trackers.each do |icf_master_tracker| %>
+  <tr class='row'>
+    <td><%= icf_master_tracker.csv_file_file_name || '&nbsp;' %></td>
+    <td class='manage'>
+<%= link_to( 'Show', icf_master_tracker, :class => 'button' ) %>
+<%= link_to( 'Edit', edit_icf_master_tracker_path(icf_master_tracker), :class => 'button' ) %>
+<%= link_to( 'Destroy', icf_master_tracker, :confirm => 'Are you sure?', :method => :delete, :class => 'button' ) %></td>
+  </tr>
+<% end %>
+</tbody></table>
+<% else %>
+<p>Sorry, no icf_master_trackers yet.</p>
+<% end %>
+
+<br />
+
+<%= link_to( 'New icf_master_tracker', new_icf_master_tracker_path, :class => 'button' ) %>

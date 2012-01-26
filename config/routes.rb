@@ -104,6 +104,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :projects
 	map.resources :guides
 	map.resources :document_versions
+	map.resources :icf_master_trackers
 	map.resources :live_birth_datas, :member => {
 		:parse => :post
 	}

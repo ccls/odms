@@ -88,10 +88,6 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			File.delete(test_file_name)	
 		end
 
-
-
-
-
 		test "should parse with #{cu} login" do
 			login_as send(cu)
 			create_case_for_live_birth_data
@@ -127,13 +123,14 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 		cleanup_live_birth_data_and_test_file(live_birth_data)
 	end
 
-
-
-
 protected
 
 	def create_test_file_and_live_birth_data
 		create_test_file
+		live_birth_data = create_live_birth_data_with_file
+	end
+
+	def create_live_birth_data_with_file
 		live_birth_data = Factory(:live_birth_data,
 			:csv_file => File.open(test_file_name) )
 		assert_not_nil live_birth_data.csv_file_file_name
@@ -157,11 +154,27 @@ protected
 		study_subject
 	end
 
+	def csv_file_header
+		"masterid,ca_co_status,biomom,biodad,date,mother_full_name,mother_maiden_name,father_full_name,child_full_name,child_dobm,child_dobd,child_doby,child_gender,birthplace_country,birthplace_state,birthplace_city,mother_hispanicity,mother_hispanicity_mex,mother_race,mother_race_other,father_hispanicity,father_hispanicity_mex,father_race,father_race_other"
+	end
+
+	def csv_file_unknown
+		"1234FAKE,unknown,1,,1/18/2012,Jane Smith,Jones,John Smith,Jimmy Smith,1,6,2009,M,United States,CA,Bakersfield,2,2,1,,2,2,1,"
+	end
+
+	def csv_file_case_study_subject
+		"1234FAKE,case,1,,1/18/2012,Jane Smith,Jones,John Smith,Jimmy Smith,1,6,2009,M,United States,CA,Bakersfield,2,2,1,,2,2,1,"
+	end
+
+	def csv_file_control
+		"#{control[:masterid]},#{control[:ca_co_status]},#{control[:biomom]},#{control[:biodad]},#{control[:date]},#{control[:mother_full_name]},#{control[:mother_maiden_name]},#{control[:father_full_name]},#{control[:child_full_name]},#{control[:child_dobm]},#{control[:child_dobd]},#{control[:child_doby]},#{control[:child_gender]},#{control[:birthplace_country]},#{control[:birthplace_state]},#{control[:birthplace_city]},#{control[:mother_hispanicity]},#{control[:mother_hispanicity_mex]},#{control[:mother_race]},#{control[:mother_race_other]},#{control[:father_hispanicity]},#{control[:father_hispanicity_mex]},#{control[:father_race]},#{control[:father_race_other]}"
+	end
+
 	def create_test_file
-		File.open(test_file_name,'w'){|f|f.puts %{masterid,ca_co_status,biomom,biodad,date,mother_full_name,mother_maiden_name,father_full_name,child_full_name,child_dobm,child_dobd,child_doby,child_gender,birthplace_country,birthplace_state,birthplace_city,mother_hispanicity,mother_hispanicity_mex,mother_race,mother_race_other,father_hispanicity,father_hispanicity_mex,father_race,father_race_other
-1234FAKE,case,1,,1/18/2012,Jane Smith,Jones,John Smith,Jimmy Smith,1,6,2009,M,United States,CA,Bakersfield,2,2,1,,2,2,1,
-#{control[:masterid]},#{control[:ca_co_status]},#{control[:biomom]},#{control[:biodad]},#{control[:date]},#{control[:mother_full_name]},#{control[:mother_maiden_name]},#{control[:father_full_name]},#{control[:child_full_name]},#{control[:child_dobm]},#{control[:child_dobd]},#{control[:child_doby]},#{control[:child_gender]},#{control[:birthplace_country]},#{control[:birthplace_state]},#{control[:birthplace_city]},#{control[:mother_hispanicity]},#{control[:mother_hispanicity_mex]},#{control[:mother_race]},#{control[:mother_race_other]},#{control[:father_hispanicity]},#{control[:father_hispanicity_mex]},#{control[:father_race]},#{control[:father_race_other]}} }
-#1234FAKE,control,1,,,Jill Johnson,Jackson,Jack Johnson,Michael Johnson,1,6,2009,M,United States,CA,Oakland,2,2,1,,2,2,1,} }
+		File.open(test_file_name,'w'){|f|
+			f.puts csv_file_header
+			f.puts csv_file_case_study_subject
+			f.puts csv_file_control }
 	end
 
 	#	broke it down like this so that can access and compare the attributes

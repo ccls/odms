@@ -1,0 +1,11 @@
+<h4><%= ( (@icf_master_tracker.new_record?)?'Creating':'Editting' ) %> icf_master_tracker</h4>
+
+<% form_for(@icf_master_tracker, :html => { :multipart => true } ) do |f| %>
+  <%= f.error_messages %>
+  <%= f.file_field :csv_file %>
+  <p>
+<%= f.submit( (@icf_master_tracker.new_record?)?'Create':'Update' ) %>
+<%= link_to( 'Show', @icf_master_tracker, :class => 'button' ) unless(@icf_master_tracker.new_record?)  %>
+<%= link_to( 'Back', icf_master_trackers_path, :class => 'button' ) %>
+</p>
+<% end %>
