@@ -46,3 +46,6 @@ db/test_*_schema.rb
 
 test-livebirthdata_011912.csv
 test/live_birth_data/
+development/live_birth_data/
+test/icf_master_tracker/
+development/icf_master_tracker/

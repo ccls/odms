@@ -26,7 +26,6 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 
 		test "should create with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-			test_file_name = "live_birth_data_test_file"
 			File.open(test_file_name,'w'){|f|f.puts 'testing'}
 			assert_difference('LiveBirthData.count',1) {
 				post :create, :live_birth_data => {
@@ -39,10 +38,7 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:live_birth_data).csv_file_content_type
 			assert_not_nil assigns(:live_birth_data).csv_file_file_size
 			assert_not_nil assigns(:live_birth_data).csv_file_updated_at
-			#	explicit destroy to remove attachment
-			assigns(:live_birth_data).destroy	
-			#	explicit delete to remove test file
-			File.delete(test_file_name)	
+			cleanup_live_birth_data_and_test_file(assigns(:live_birth_data))
 		end
 
 #	should I allow editting the file?
@@ -51,7 +47,6 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			login_as send(cu)
 			live_birth_data = Factory(:live_birth_data)
 			assert_nil live_birth_data.csv_file_file_name
-			test_file_name = "live_birth_data_test_file"
 			File.open(test_file_name,'w'){|f|f.puts 'testing'}
 			assert_difference('LiveBirthData.count',0) {
 				put :update, :id => live_birth_data.id, :live_birth_data => {
@@ -65,17 +60,13 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			assert_not_nil live_birth_data.csv_file_content_type
 			assert_not_nil live_birth_data.csv_file_file_size
 			assert_not_nil live_birth_data.csv_file_updated_at
-			#	explicit destroy to remove attachment
-			live_birth_data.destroy	
-			#	explicit delete to remove test file
-			File.delete(test_file_name)	
+			cleanup_live_birth_data_and_test_file(assigns(:live_birth_data))
 		end
 
 #	should I allow destroying?
 
 		test "should destroy with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-			test_file_name = "live_birth_data_test_file"
 			File.open(test_file_name,'w'){|f|f.puts 'testing'}
 			live_birth_data = Factory(:live_birth_data,
 				:csv_file => File.open(test_file_name) )

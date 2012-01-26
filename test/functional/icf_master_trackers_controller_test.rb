@@ -26,7 +26,6 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 
 		test "should create with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-			test_file_name = "icf_master_tracker_test_file"
 			File.open(test_file_name,'w'){|f|f.puts 'testing'}
 			assert_difference('IcfMasterTracker.count',1) {
 				post :create, :icf_master_tracker => {
@@ -39,10 +38,7 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:icf_master_tracker).csv_file_content_type
 			assert_not_nil assigns(:icf_master_tracker).csv_file_file_size
 			assert_not_nil assigns(:icf_master_tracker).csv_file_updated_at
-			#	explicit destroy to remove attachment
-			assigns(:icf_master_tracker).destroy	
-			#	explicit delete to remove test file
-			File.delete(test_file_name)	
+			cleanup_icf_master_tracker_and_test_file(assigns(:icf_master_tracker))
 		end
 
 #	should I allow editting the file?
@@ -51,7 +47,6 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			login_as send(cu)
 			icf_master_tracker = Factory(:icf_master_tracker)
 			assert_nil icf_master_tracker.csv_file_file_name
-			test_file_name = "icf_master_tracker_test_file"
 			File.open(test_file_name,'w'){|f|f.puts 'testing'}
 			assert_difference('IcfMasterTracker.count',0) {
 				put :update, :id => icf_master_tracker.id, :icf_master_tracker => {
@@ -65,17 +60,13 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			assert_not_nil icf_master_tracker.csv_file_content_type
 			assert_not_nil icf_master_tracker.csv_file_file_size
 			assert_not_nil icf_master_tracker.csv_file_updated_at
-			#	explicit destroy to remove attachment
-			icf_master_tracker.destroy	
-			#	explicit delete to remove test file
-			File.delete(test_file_name)	
+			cleanup_icf_master_tracker_and_test_file(assigns(:icf_master_tracker))
 		end
 
 #	should I allow destroying?
 
 		test "should destroy with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-			test_file_name = "icf_master_tracker_test_file"
 			File.open(test_file_name,'w'){|f|f.puts 'testing'}
 			icf_master_tracker = Factory(:icf_master_tracker,
 				:csv_file => File.open(test_file_name) )
@@ -87,10 +78,6 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			#	explicit delete to remove test file
 			File.delete(test_file_name)	
 		end
-
-
-
-
 
 #		test "should parse with #{cu} login" do
 #			login_as send(cu)
@@ -151,19 +138,12 @@ protected
 		assert !File.exists?(test_file_name)
 	end
 
-	def create_case_for_icf_master_tracker
-		icf_master_id = Factory(:icf_master_id,:icf_master_id => '1234FAKE')
-		study_subject = Factory(:complete_case_study_subject)
-		study_subject.assign_icf_master_id
-		assert_equal '1234FAKE', study_subject.icf_master_id
-		study_subject
-	end
-
-#	def create_test_file
-#		File.open(test_file_name,'w'){|f|f.puts %{masterid,ca_co_status,biomom,biodad,date,mother_full_name,mother_maiden_name,father_full_name,child_full_name,child_dobm,child_dobd,child_doby,child_gender,birthplace_country,birthplace_state,birthplace_city,mother_hispanicity,mother_hispanicity_mex,mother_race,mother_race_other,father_hispanicity,father_hispanicity_mex,father_race,father_race_other
-#1234FAKE,case,1,,1/18/2012,Jane Smith,Jones,John Smith,Jimmy Smith,1,6,2009,M,United States,CA,Bakersfield,2,2,1,,2,2,1,
-##{control[:masterid]},#{control[:ca_co_status]},#{control[:biomom]},#{control[:biodad]},#{control[:date]},#{control[:mother_full_name]},#{control[:mother_maiden_name]},#{control[:father_full_name]},#{control[:child_full_name]},#{control[:child_dobm]},#{control[:child_dobd]},#{control[:child_doby]},#{control[:child_gender]},#{control[:birthplace_country]},#{control[:birthplace_state]},#{control[:birthplace_city]},#{control[:mother_hispanicity]},#{control[:mother_hispanicity_mex]},#{control[:mother_race]},#{control[:mother_race_other]},#{control[:father_hispanicity]},#{control[:father_hispanicity_mex]},#{control[:father_race]},#{control[:father_race_other]}} }
-##1234FAKE,control,1,,,Jill Johnson,Jackson,Jack Johnson,Michael Johnson,1,6,2009,M,United States,CA,Oakland,2,2,1,,2,2,1,} }
+#	def create_case_for_icf_master_tracker
+#		icf_master_id = Factory(:icf_master_id,:icf_master_id => '1234FAKE')
+#		study_subject = Factory(:complete_case_study_subject)
+#		study_subject.assign_icf_master_id
+#		assert_equal '1234FAKE', study_subject.icf_master_id
+#		study_subject
 #	end
 
 	def csv_file_header
@@ -178,33 +158,33 @@ protected
 		}
 	end
 
-	#	broke it down like this so that can access and compare the attributes
-	def control
-		{	:masterid => '1234FAKE',
-			:ca_co_status => 'control',
-			:biomom => 1,
-			:biodad => nil,
-			:date => nil,
-			:mother_full_name => 'Jill Johnson',
-			:mother_maiden_name => 'Jackson',
-			:father_full_name => 'Jack Johnson',
-			:child_full_name => 'Michael Johnson',
-			:child_dobm => 1,
-			:child_dobd => 6,
-			:child_doby => 2009,
-			:child_gender => 'M',
-			:birthplace_country => 'United States',
-			:birthplace_state => 'CA',
-			:birthplace_city => 'Oakland',
-			:mother_hispanicity => 2,
-			:mother_hispanicity_mex => 2,
-			:mother_race => 1,
-			:mother_race_other => nil,
-			:father_hispanicity => 2,
-			:father_hispanicity_mex => 2,
-			:father_race => 1,
-			:father_race_other => nil }
-	end
+#	#	broke it down like this so that can access and compare the attributes
+#	def control
+#		{	:masterid => '1234FAKE',
+#			:ca_co_status => 'control',
+#			:biomom => 1,
+#			:biodad => nil,
+#			:date => nil,
+#			:mother_full_name => 'Jill Johnson',
+#			:mother_maiden_name => 'Jackson',
+#			:father_full_name => 'Jack Johnson',
+#			:child_full_name => 'Michael Johnson',
+#			:child_dobm => 1,
+#			:child_dobd => 6,
+#			:child_doby => 2009,
+#			:child_gender => 'M',
+#			:birthplace_country => 'United States',
+#			:birthplace_state => 'CA',
+#			:birthplace_city => 'Oakland',
+#			:mother_hispanicity => 2,
+#			:mother_hispanicity_mex => 2,
+#			:mother_race => 1,
+#			:mother_race_other => nil,
+#			:father_hispanicity => 2,
+#			:father_hispanicity_mex => 2,
+#			:father_race => 1,
+#			:father_race_other => nil }
+#	end
 
 #	def turn_off_paperclip_logging
 #		#	Is there I way to silence the paperclip output?  Yes...
