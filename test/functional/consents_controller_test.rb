@@ -62,7 +62,6 @@ class ConsentsControllerTest < ActionController::TestCase
 				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
 					:subject_languages_attributes => {			
 						'0' => { :language_id => language.id }
-#						:some_random_id => { :language_id => language.id }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
@@ -107,7 +106,6 @@ class ConsentsControllerTest < ActionController::TestCase
 				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
 					:subject_languages_attributes => {			
 						'0' => { :other => 'redneck', :language_id => language.id }
-#						:some_random_id => { :other => 'redneck', :language_id => language.id }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
@@ -131,7 +129,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference('SubjectLanguage.count',1){
 				put :update, :study_subject_id => @study_subject.id, 
 					:study_subject => { :subject_languages_attributes => {
-					:some_random_id => { :language_id => language.id }
+					'0' => { :language_id => language.id }
 			} } }
 			assert !@study_subject.reload.subject_languages.empty?
 			assert_nil     flash[:error]
@@ -146,7 +144,7 @@ class ConsentsControllerTest < ActionController::TestCase
 #				@study_subject = Factory(:study_subject, 
 				@study_subject = Factory(:complete_case_study_subject, 
 					:subject_languages_attributes => {
-						:some_random_id => { :language_id => language.id }
+						'0' => { :language_id => language.id }
 			} ) }
 			subject_language = @study_subject.subject_languages.first
 			assert_equal language, subject_language.language
@@ -156,7 +154,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference( 'SubjectLanguage.count', -1 ){
 				put :update, :study_subject_id => @study_subject.id, 
 					:study_subject => { :subject_languages_attributes => {
-						:some_random_id => { :id => subject_language.id, :_destroy => 1 } } }
+						'0' => { :id => subject_language.id, :_destroy => 1 } } }
 			}
 			assert @study_subject.reload.subject_languages.empty?
 			assert_nil     flash[:error]
