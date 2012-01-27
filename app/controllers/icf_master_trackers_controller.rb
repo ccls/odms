@@ -1,7 +1,7 @@
 class IcfMasterTrackersController < ApplicationController
 
 	before_filter :may_create_icf_master_trackers_required,
-		:only => [:new,:create]	#,:parse]
+		:only => [:new,:create,:parse]
 	before_filter :may_read_icf_master_trackers_required,
 		:only => [:show,:index]
 	before_filter :may_update_icf_master_trackers_required,
@@ -10,7 +10,7 @@ class IcfMasterTrackersController < ApplicationController
 		:only => :destroy
 
 	before_filter :valid_id_required, 
-		:only => [:show,:edit,:update,:destroy]	#,:parse]
+		:only => [:show,:edit,:update,:destroy,:parse]
 
 
 
@@ -113,12 +113,12 @@ class IcfMasterTrackersController < ApplicationController
 	end
 
 
-#	def parse
-#		@results = @icf_master_tracker.to_candidate_controls
-#		f=FasterCSV.open(@icf_master_tracker.csv_file.path,'rb',{:headers => true })
-#		@csv_lines = f.readlines
-#		f.close
-#	end
+	def parse
+		@results = @icf_master_tracker.parse
+		f=FasterCSV.open(@icf_master_tracker.csv_file.path,'rb',{:headers => true })
+		@csv_lines = f.readlines
+		f.close
+	end
 
 protected
 
