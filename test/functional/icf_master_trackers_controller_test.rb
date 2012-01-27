@@ -79,41 +79,44 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			File.delete(test_file_name)	
 		end
 
-#		test "should parse with #{cu} login" do
-#			login_as send(cu)
-#			create_case_for_icf_master_tracker
-#			icf_master_tracker = create_test_file_and_icf_master_tracker
+		test "should parse with #{cu} login" do
+			login_as send(cu)
+			create_case_for_icf_master_tracker
+			icf_master_tracker = create_test_file_and_icf_master_tracker
 #			assert_difference('CandidateControl.count',1){
-#				post :parse, :id => icf_master_tracker.id
+				post :parse, :id => icf_master_tracker.id
 #			}
-#			cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
-#		end
+			assert assigns(:csv_lines)
+			assert assigns(:results)
+			cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
+		end
+
+#	TODO test for parsing non-existant csv file
 
 	end
 
 	non_site_administrators.each do |cu|
 
-#		test "should not parse with #{cu} login" do
-#			login_as send(cu)
-#			create_case_for_icf_master_tracker
-#			icf_master_tracker = create_test_file_and_icf_master_tracker
+		test "should not parse with #{cu} login" do
+			login_as send(cu)
+			create_case_for_icf_master_tracker
+			icf_master_tracker = create_test_file_and_icf_master_tracker
 #			assert_difference('CandidateControl.count',0){
-#				post :parse, :id => icf_master_tracker.id
+				post :parse, :id => icf_master_tracker.id
 #			}
-#			cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
-#		end
+			cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
+		end
 
 	end
 
-#	test "should not parse without login" do
-#		create_case_for_icf_master_tracker
-#		icf_master_tracker = create_test_file_and_icf_master_tracker
+	test "should not parse without login" do
+		create_case_for_icf_master_tracker
+		icf_master_tracker = create_test_file_and_icf_master_tracker
 #		assert_difference('CandidateControl.count',0){
-#			post :parse, :id => icf_master_tracker.id
+			post :parse, :id => icf_master_tracker.id
 #		}
-#		cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
-#	end
-
+		cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
+	end
 
 protected
 
@@ -138,22 +141,26 @@ protected
 		assert !File.exists?(test_file_name)
 	end
 
-#	def create_case_for_icf_master_tracker
-#		icf_master_id = Factory(:icf_master_id,:icf_master_id => '1234FAKE')
-#		study_subject = Factory(:complete_case_study_subject)
-#		study_subject.assign_icf_master_id
-#		assert_equal '1234FAKE', study_subject.icf_master_id
-#		study_subject
-#	end
+	def create_case_for_icf_master_tracker
+		icf_master_id = Factory(:icf_master_id,:icf_master_id => '1234FAKE')
+		study_subject = Factory(:complete_case_study_subject)
+		study_subject.assign_icf_master_id
+		assert_equal '1234FAKE', study_subject.icf_master_id
+		study_subject
+	end
 
 	def csv_file_header
 		%{"Masterid","Motherid","Record_Owner","Datereceived","Lastatt","Lastdisp","Currphone","Vacauthrecd","Recollect","Needpreincentive","Active_Phone","Recordsentformatching","Recordreceivedfrommatching","Sentpreincentive","Releasedtocati","Confirmedcaticontact","Refused","Deceasednotification","Eligible","Confirmationpacketsent","Catiprotocolexhausted","Newphonenumreleasedtocati","Pleanotificationsent","Casereturnedtoberkeleyfornewinf","Casereturnedfromberkeley","Caticomplete","Kitmothersent","Kitinfantsent","Kitchildsent","Kitadolescentsent","Kitmotherrefusedcode","Kitchildrefusedcode","Noresponsetoplea","Responsereceivedfromplea","Senttoinpersonfollowup","Kitmotherrecd","Kitchildrecvd","Thankyousent","Physrequestsent","Physresponsereceived"}
 	end
 
+	def csv_file_study_subject
+		%{"1234FAKE","4567FAKE","ICF",9/9/2011,12/17/2011,113,"2 of 2",,,9/17/11 9:29 AM,,9/16/2011,9/16/2011,9/17/2011,9/17/2011,9/28/2011,12/15/2011,,,,12/17/2011,11/14/2011,11/14/2011,12/19/2011,12/22/2011,,,,,,,,,,,,,,,}
+	end
+
 	def create_test_file
 		File.open(test_file_name,'w'){|f|
 			f.puts csv_file_header
-#			f.puts csv_file_case_study_subject
+			f.puts csv_file_study_subject
 #			f.puts csv_file_control 
 		}
 	end

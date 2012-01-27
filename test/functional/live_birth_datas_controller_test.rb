@@ -86,8 +86,12 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			assert_difference('CandidateControl.count',1){
 				post :parse, :id => live_birth_data.id
 			}
+			assert assigns(:csv_lines)
+			assert assigns(:results)
 			cleanup_live_birth_data_and_test_file(live_birth_data)
 		end
+
+#	TODO test for parsing non-existant csv file
 
 	end
 
