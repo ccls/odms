@@ -23,15 +23,15 @@ class UserIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	get user_path(u), {}, { 'HTTPS' => 'on' }
 			#	get does not use the set headers
 			#	use visit instead
-			visit user_path(u)
-
-#			assert_redirected_to_login #	capybara follows redirects
-			assert_match /https:\/\/auth-test\.berkeley\.edu\/cas\/login/,
-				current_url
-#https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A50510%2Fusers%2F1
-
-
-
+#			begin
+				visit user_path(u)
+				assert_match /https:\/\/auth-test\.berkeley\.edu\/cas\/login/,
+					current_url
+				#https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A50510%2Fusers%2F1
+#			rescue Capybara::Driver::Webkit::WebkitInvalidResponseError => e
+#				#	probably not connected to the internet
+#				assert_match /Unable to load URL: https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/users\/\d+/, e.to_s
+#			end
 		end
 
 	end
