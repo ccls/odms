@@ -61,7 +61,8 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
 					:subject_languages_attributes => {			
-						:some_random_id => { :language_id => language.id }
+						'0' => { :language_id => language.id }
+#						:some_random_id => { :language_id => language.id }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
@@ -105,7 +106,8 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
 					:subject_languages_attributes => {			
-						:some_random_id => { :other => 'redneck', :language_id => language.id }
+						'0' => { :other => 'redneck', :language_id => language.id }
+#						:some_random_id => { :other => 'redneck', :language_id => language.id }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id

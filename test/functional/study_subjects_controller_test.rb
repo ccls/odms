@@ -17,8 +17,11 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	}
 	def factory_attributes(options={})
 		Factory.attributes_for(:study_subject,{
+			:updated_at => ( Time.now + 1.day ),
 			:subject_type_id => Factory(:subject_type).id,
-			:race_ids => [Race.random.id]}.merge(options))
+			:race_ids => [Race['white'].id]}.merge(options))
+#	Can't do random as may include 'other' which will require 'subject_race.other' 
+#			:race_ids => [Race.random.id]}.merge(options))
 	end
 
 	assert_access_with_login({ 
