@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class IcfMasterTrackersControllerTest < ActionController::TestCase
+	include Ccls::IcfMasterTrackerTestHelper
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'IcfMasterTracker',
@@ -26,7 +27,7 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 
 		test "should create with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-			File.open(test_file_name,'w'){|f|f.puts 'testing'}
+			create_icf_master_tracker_test_file
 			assert_difference('IcfMasterTracker.count',1) {
 				post :create, :icf_master_tracker => {
 					:csv_file => File.open(test_file_name)
@@ -47,7 +48,7 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			login_as send(cu)
 			icf_master_tracker = Factory(:icf_master_tracker)
 			assert_nil icf_master_tracker.csv_file_file_name
-			File.open(test_file_name,'w'){|f|f.puts 'testing'}
+			create_icf_master_tracker_test_file
 			assert_difference('IcfMasterTracker.count',0) {
 				put :update, :id => icf_master_tracker.id, :icf_master_tracker => {
 					:csv_file => File.open(test_file_name)
@@ -67,16 +68,11 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 
 		test "should destroy with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-			File.open(test_file_name,'w'){|f|f.puts 'testing'}
-			icf_master_tracker = Factory(:icf_master_tracker,
-				:csv_file => File.open(test_file_name) )
-			assert File.exists?(icf_master_tracker.csv_file.path)
+			icf_master_tracker = create_test_file_and_icf_master_tracker
 			assert_difference('IcfMasterTracker.count',-1) {
 				delete :destroy, :id => icf_master_tracker.id
 			}
-			assert !File.exists?(icf_master_tracker.csv_file.path)
-			#	explicit delete to remove test file
-			File.delete(test_file_name)	
+			cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
 		end
 
 		test "should parse with #{cu} login" do
@@ -88,10 +84,87 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 #			}
 			assert assigns(:csv_lines)
 			assert assigns(:results)
+			assert_template 'parse'
 			cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
 		end
 
-#	TODO test for parsing non-existant csv file
+		test "should parse with #{cu} login and nil csv_file" do
+			login_as send(cu)
+			icf_master_tracker = Factory(:icf_master_tracker)
+#			assert_difference('CandidateControl.count',1){
+				post :parse, :id => icf_master_tracker.id
+#			}
+			assert_not_nil flash[:error]
+			assert_redirected_to assigns(:icf_master_tracker)
+			cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
+		end
+
+		test "should parse with #{cu} login and missing csv_file" do
+			login_as send(cu)
+			icf_master_tracker = create_test_file_and_icf_master_tracker
+			File.delete(icf_master_tracker.csv_file.path)
+#			assert_difference('CandidateControl.count',1){
+				post :parse, :id => icf_master_tracker.id
+#			}
+			assert_not_nil flash[:error]
+			assert_redirected_to assigns(:icf_master_tracker)
+			cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
+		end
+
+		test "should parse with #{cu} login and real csv_file" do
+			#	real data and won't be in repository
+			unless File.exists?('icf_master_tracker_011712.csv')
+				puts
+				puts "-- Real data test file does not exist. Skipping."
+				return 
+			end
+			login_as send(cu)
+
+			#	minimal semi-real case creation
+			s1 = Factory(:study_subject,:sex => 'F')
+			s1.create_pii(:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
+				:dob => Date.parse('10/16/1977'))
+
+			s2 = Factory(:study_subject,:sex => 'F')
+			s2.create_identifier
+			s2.create_pii(:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
+				:dob => Date.parse('9/21/1988'))
+			Factory(:icf_master_id,:icf_master_id => '15270110G')
+			s2.assign_icf_master_id
+
+			s3 = Factory(:study_subject,:sex => 'M')
+			s3.create_identifier
+			s3.create_pii(:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+				:dob => Date.parse('6/1/2009'))
+			Factory(:icf_master_id,:icf_master_id => '15397125B')
+			s3.assign_icf_master_id
+
+			icf_master_tracker = Factory(:icf_master_tracker,
+				:csv_file => File.open('icf_master_tracker_011712.csv') )
+			assert_not_nil icf_master_tracker.csv_file_file_name
+
+#			assert_difference('CandidateControl.count',1){
+				post :parse, :id => icf_master_tracker.id
+#			}
+			assert_equal assigns(:results).length, 62
+			assert assigns(:results)[0].is_a?(String)
+			assert_equal assigns(:results)[0],
+				"Could not find identifier with masterid 10054956K"
+			assert       assigns(:results)[1].is_a?(StudySubject)
+			assert_equal assigns(:results)[1], s2
+			assert       assigns(:results)[2].is_a?(StudySubject)
+			assert_equal assigns(:results)[2], s3
+#			results.each { |r|
+#				if r.is_a?(CandidateControl) and r.new_record?
+#					puts r.inspect
+#					puts r.errors.full_messages.to_sentence
+#				end
+#			}
+
+			assert assigns(:csv_lines)
+			assert assigns(:results)
+			icf_master_tracker.destroy
+		end
 
 	end
 
@@ -116,91 +189,6 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			post :parse, :id => icf_master_tracker.id
 #		}
 		cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
-	end
-
-protected
-
-	def create_test_file_and_icf_master_tracker
-		create_test_file
-		icf_master_tracker = create_icf_master_tracker_with_file
-	end
-
-	def create_icf_master_tracker_with_file
-		icf_master_tracker = Factory(:icf_master_tracker,
-			:csv_file => File.open(test_file_name) )
-		assert_not_nil icf_master_tracker.csv_file_file_name
-		icf_master_tracker
-	end
-
-	def cleanup_icf_master_tracker_and_test_file(icf_master_tracker)
-		#	explicit destroy to remove attachment
-		icf_master_tracker.destroy	
-#		assert !File.exists?(icf_master_tracker.csv_file.path)
-		#	explicit delete to remove test file
-		File.delete(test_file_name)	
-		assert !File.exists?(test_file_name)
-	end
-
-	def create_case_for_icf_master_tracker
-		icf_master_id = Factory(:icf_master_id,:icf_master_id => '1234FAKE')
-		study_subject = Factory(:complete_case_study_subject)
-		study_subject.assign_icf_master_id
-		assert_equal '1234FAKE', study_subject.icf_master_id
-		study_subject
-	end
-
-	def csv_file_header
-		%{"Masterid","Motherid","Record_Owner","Datereceived","Lastatt","Lastdisp","Currphone","Vacauthrecd","Recollect","Needpreincentive","Active_Phone","Recordsentformatching","Recordreceivedfrommatching","Sentpreincentive","Releasedtocati","Confirmedcaticontact","Refused","Deceasednotification","Eligible","Confirmationpacketsent","Catiprotocolexhausted","Newphonenumreleasedtocati","Pleanotificationsent","Casereturnedtoberkeleyfornewinf","Casereturnedfromberkeley","Caticomplete","Kitmothersent","Kitinfantsent","Kitchildsent","Kitadolescentsent","Kitmotherrefusedcode","Kitchildrefusedcode","Noresponsetoplea","Responsereceivedfromplea","Senttoinpersonfollowup","Kitmotherrecd","Kitchildrecvd","Thankyousent","Physrequestsent","Physresponsereceived"}
-	end
-
-	def csv_file_study_subject
-		%{"1234FAKE","4567FAKE","ICF",9/9/2011,12/17/2011,113,"2 of 2",,,9/17/11 9:29 AM,,9/16/2011,9/16/2011,9/17/2011,9/17/2011,9/28/2011,12/15/2011,,,,12/17/2011,11/14/2011,11/14/2011,12/19/2011,12/22/2011,,,,,,,,,,,,,,,}
-	end
-
-	def create_test_file
-		File.open(test_file_name,'w'){|f|
-			f.puts csv_file_header
-			f.puts csv_file_study_subject
-#			f.puts csv_file_control 
-		}
-	end
-
-#	#	broke it down like this so that can access and compare the attributes
-#	def control
-#		{	:masterid => '1234FAKE',
-#			:ca_co_status => 'control',
-#			:biomom => 1,
-#			:biodad => nil,
-#			:date => nil,
-#			:mother_full_name => 'Jill Johnson',
-#			:mother_maiden_name => 'Jackson',
-#			:father_full_name => 'Jack Johnson',
-#			:child_full_name => 'Michael Johnson',
-#			:child_dobm => 1,
-#			:child_dobd => 6,
-#			:child_doby => 2009,
-#			:child_gender => 'M',
-#			:birthplace_country => 'United States',
-#			:birthplace_state => 'CA',
-#			:birthplace_city => 'Oakland',
-#			:mother_hispanicity => 2,
-#			:mother_hispanicity_mex => 2,
-#			:mother_race => 1,
-#			:mother_race_other => nil,
-#			:father_hispanicity => 2,
-#			:father_hispanicity_mex => 2,
-#			:father_race => 1,
-#			:father_race_other => nil }
-#	end
-
-#	def turn_off_paperclip_logging
-#		#	Is there I way to silence the paperclip output?  Yes...
-#		Paperclip.options[:log] = false
-#		#	Is there I way to capture the paperclip output for comparison?  Don't know.
-#	end
-
-	def test_file_name
-		"icf_master_tracker_test_file.csv"
 	end
 
 end

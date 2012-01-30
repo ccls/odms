@@ -114,10 +114,16 @@ class IcfMasterTrackersController < ApplicationController
 
 
 	def parse
-		@results = @icf_master_tracker.parse
-		f=FasterCSV.open(@icf_master_tracker.csv_file.path,'rb',{:headers => true })
-		@csv_lines = f.readlines
-		f.close
+		if !@icf_master_tracker.csv_file_file_name.blank? &&
+				File.exists?(@icf_master_tracker.csv_file.path)
+			@results = @icf_master_tracker.parse
+			f=FasterCSV.open(@icf_master_tracker.csv_file.path,'rb',{:headers => true })
+			@csv_lines = f.readlines
+			f.close
+		else
+			flash[:error] = "Icf Master Tracker csv file not found."
+			redirect_to @icf_master_tracker
+		end
 	end
 
 protected

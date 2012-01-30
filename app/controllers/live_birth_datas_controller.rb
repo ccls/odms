@@ -112,12 +112,17 @@ class LiveBirthDatasController < ApplicationController
 #		end
 	end
 
-
 	def parse
-		@results = @live_birth_data.to_candidate_controls
-		f=FasterCSV.open(@live_birth_data.csv_file.path,'rb',{:headers => true })
-		@csv_lines = f.readlines
-		f.close
+		if !@live_birth_data.csv_file_file_name.blank? &&
+				File.exists?(@live_birth_data.csv_file.path)
+			@results = @live_birth_data.to_candidate_controls
+			f=FasterCSV.open(@live_birth_data.csv_file.path,'rb',{:headers => true })
+			@csv_lines = f.readlines
+			f.close
+		else
+			flash[:error] = "Live Birth Data csv file not found."
+			redirect_to @live_birth_data
+		end
 	end
 
 protected

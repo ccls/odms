@@ -1,4 +1,4 @@
 <tr class='csv_line'>
 <td><%= index %></td>
-<td><%= @csv_lines[index] %></td>
+<td><%= @csv_lines[index].to_s.gsub(/\240/,' ') %></td>
 </tr>
