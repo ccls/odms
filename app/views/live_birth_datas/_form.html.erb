@@ -3,6 +3,7 @@
 <% form_for(@live_birth_data, :html => { :multipart => true } ) do |f| %>
   <%= f.error_messages %>
   <%= f.file_field :csv_file %>
+<p><%= f.object.csv_file_file_name unless f.object.csv_file_file_name.blank? %></p>
   <p>
 <%= f.submit( (@live_birth_data.new_record?)?'Create':'Update' ) %>
 <%= link_to( 'Show', @live_birth_data, :class => 'button' ) unless(@live_birth_data.new_record?)  %>

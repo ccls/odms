@@ -45,6 +45,7 @@ db/test_*_schema.rb
 *.swp
 
 test-livebirthdata_011912.csv
+live_birth_errors.csv
 test/live_birth_data/
 development/live_birth_data/
 
