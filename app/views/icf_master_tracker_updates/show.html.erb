@@ -1,0 +1,14 @@
+<% stylesheets(:icf_master_tracker_update) %>
+
+<p>Path: <%= @icf_master_tracker_update.csv_file.path %></p>
+<p>File: <%= @icf_master_tracker_update.csv_file_file_name %></p>
+<p>Size: <%= @icf_master_tracker_update.csv_file_file_size %></p>
+<p>Updated: <%= @icf_master_tracker_update.csv_file_updated_at %></p>
+
+<% unless @icf_master_tracker_update.csv_file_file_name.nil? %>
+<pre><%= IO.read(@icf_master_tracker_update.csv_file.path) %></pre>
+<% end %>
+
+<%= form_link_to( 'Parse', parse_icf_master_tracker_update_path(@icf_master_tracker_update) )%>
+<%= link_to( 'Edit', edit_icf_master_tracker_update_path(@icf_master_tracker_update), :class => 'button' ) %>
+<%= link_to( 'Back', icf_master_tracker_updates_path, :class => 'button' ) %>
