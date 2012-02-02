@@ -30,12 +30,12 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			create_live_birth_data_test_file
 			assert_difference('LiveBirthData.count',1) {
 				post :create, :live_birth_data => {
-					:csv_file => File.open(test_file_name)
+					:csv_file => File.open(csv_test_file_name)
 				}
 			}
 			assert_not_nil assigns(:live_birth_data).csv_file_file_name
 			assert_not_nil assigns(:live_birth_data).csv_file_file_name
-			assert_equal   assigns(:live_birth_data).csv_file_file_name, test_file_name
+			assert_equal   assigns(:live_birth_data).csv_file_file_name, csv_test_file_name
 			assert_not_nil assigns(:live_birth_data).csv_file_content_type
 			assert_not_nil assigns(:live_birth_data).csv_file_file_size
 			assert_not_nil assigns(:live_birth_data).csv_file_updated_at
@@ -51,13 +51,13 @@ class LiveBirthDatasControllerTest < ActionController::TestCase
 			create_live_birth_data_test_file
 			assert_difference('LiveBirthData.count',0) {
 				put :update, :id => live_birth_data.id, :live_birth_data => {
-					:csv_file => File.open(test_file_name)
+					:csv_file => File.open(csv_test_file_name)
 				}
 			}
 			live_birth_data.reload
 			assert File.exists?(live_birth_data.csv_file.path)
 			assert_not_nil live_birth_data.csv_file_file_name
-			assert_equal   live_birth_data.csv_file_file_name, test_file_name
+			assert_equal   live_birth_data.csv_file_file_name, csv_test_file_name
 			assert_not_nil live_birth_data.csv_file_content_type
 			assert_not_nil live_birth_data.csv_file_file_size
 			assert_not_nil live_birth_data.csv_file_updated_at

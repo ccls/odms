@@ -1,8 +1,3 @@
 <% common_options = { :object => result, :locals => { :index => result_counter }} %>
 <%= render( { :partial => 'csv' }.merge(common_options) ) %>
-<% if result.is_a?(StudySubject) %>
-	<%= render( { :partial => 'study_subject' }.merge(common_options) ) %>
-<% else %>
-<%# for the moment, this is nil, but I'd like it to be a string %>
-	<%= render( { :partial => 'other' }.merge(common_options) ) %>
-<% end %>
+<%= render( { :partial => 'icf_master_tracker' }.merge(common_options) ) %>

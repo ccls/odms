@@ -30,12 +30,12 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			create_icf_master_tracker_update_test_file
 			assert_difference('IcfMasterTrackerUpdate.count',1) {
 				post :create, :icf_master_tracker_update => {
-					:csv_file => File.open(test_file_name)
+					:csv_file => File.open(csv_test_file_name)
 				}
 			}
 			assert_not_nil assigns(:icf_master_tracker_update).csv_file_file_name
 			assert_not_nil assigns(:icf_master_tracker_update).csv_file_file_name
-			assert_equal   assigns(:icf_master_tracker_update).csv_file_file_name, test_file_name
+			assert_equal   assigns(:icf_master_tracker_update).csv_file_file_name, csv_test_file_name
 			assert_not_nil assigns(:icf_master_tracker_update).csv_file_content_type
 			assert_not_nil assigns(:icf_master_tracker_update).csv_file_file_size
 			assert_not_nil assigns(:icf_master_tracker_update).csv_file_updated_at
@@ -51,13 +51,13 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			create_icf_master_tracker_update_test_file
 			assert_difference('IcfMasterTrackerUpdate.count',0) {
 				put :update, :id => icf_master_tracker_update.id, :icf_master_tracker_update => {
-					:csv_file => File.open(test_file_name)
+					:csv_file => File.open(csv_test_file_name)
 				}
 			}
 			icf_master_tracker_update.reload
 			assert File.exists?(icf_master_tracker_update.csv_file.path)
 			assert_not_nil icf_master_tracker_update.csv_file_file_name
-			assert_equal   icf_master_tracker_update.csv_file_file_name, test_file_name
+			assert_equal   icf_master_tracker_update.csv_file_file_name, csv_test_file_name
 			assert_not_nil icf_master_tracker_update.csv_file_content_type
 			assert_not_nil icf_master_tracker_update.csv_file_file_size
 			assert_not_nil icf_master_tracker_update.csv_file_updated_at
@@ -79,9 +79,9 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			create_case_for_icf_master_tracker_update
 			icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
-#			assert_difference('CandidateControl.count',1){
+			assert_difference('IcfMasterTracker.count',1){
 				post :parse, :id => icf_master_tracker_update.id
-#			}
+			}
 			assert assigns(:csv_lines)
 			assert assigns(:results)
 			assert_template 'parse'
@@ -91,9 +91,9 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 		test "should parse with #{cu} login and nil csv_file" do
 			login_as send(cu)
 			icf_master_tracker_update = Factory(:icf_master_tracker_update)
-#			assert_difference('CandidateControl.count',1){
+			assert_difference('IcfMasterTracker.count',0){
 				post :parse, :id => icf_master_tracker_update.id
-#			}
+			}
 			assert_not_nil flash[:error]
 			assert_redirected_to assigns(:icf_master_tracker_update)
 			cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
@@ -103,9 +103,9 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
 			File.delete(icf_master_tracker_update.csv_file.path)
-#			assert_difference('CandidateControl.count',1){
+			assert_difference('IcfMasterTracker.count',0){
 				post :parse, :id => icf_master_tracker_update.id
-#			}
+			}
 			assert_not_nil flash[:error]
 			assert_redirected_to assigns(:icf_master_tracker_update)
 			cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
@@ -144,23 +144,14 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 				:csv_file => File.open(real_data_file) )
 			assert_not_nil icf_master_tracker_update.csv_file_file_name
 
-#			assert_difference('CandidateControl.count',1){
+			assert_difference('IcfMasterTracker.count',62){
 				post :parse, :id => icf_master_tracker_update.id
-#			}
+			}
 			assert_equal assigns(:results).length, 62
-			assert assigns(:results)[0].is_a?(String)
-			assert_equal assigns(:results)[0],
-				"Could not find identifier with masterid 10054956K"
-			assert       assigns(:results)[1].is_a?(StudySubject)
-			assert_equal assigns(:results)[1], s2
-			assert       assigns(:results)[2].is_a?(StudySubject)
-			assert_equal assigns(:results)[2], s3
-#			results.each { |r|
-#				if r.is_a?(CandidateControl) and r.new_record?
-#					puts r.inspect
-#					puts r.errors.full_messages.to_sentence
-#				end
-#			}
+			assigns(:results).each { |r|
+				assert  r.is_a?(IcfMasterTracker)
+				assert !r.new_record?
+			}
 
 			assert assigns(:csv_lines)
 			assert assigns(:results)
@@ -175,9 +166,9 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			create_case_for_icf_master_tracker_update
 			icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
-#			assert_difference('CandidateControl.count',0){
+			assert_difference('IcfMasterTracker.count',0){
 				post :parse, :id => icf_master_tracker_update.id
-#			}
+			}
 			cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
 		end
 
@@ -186,9 +177,9 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 	test "should not parse without login" do
 		create_case_for_icf_master_tracker_update
 		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
-#		assert_difference('CandidateControl.count',0){
+		assert_difference('IcfMasterTracker.count',0){
 			post :parse, :id => icf_master_tracker_update.id
-#		}
+		}
 		cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
 	end
 
