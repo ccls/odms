@@ -107,7 +107,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :icf_master_tracker_updates, :member => {
 		:parse => :post
 	}
-	map.resources :live_birth_datas, :member => {
+	map.resources :live_birth_data_updates, :member => {
 		:parse => :post
 	}
 
