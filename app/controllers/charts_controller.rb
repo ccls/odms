@@ -6,33 +6,25 @@ class ChartsController < ApplicationController
 	end
 	def vital_statuses
 		@study_subjects = StudySubject.all(
-#			:select => 'vital_status_id, count(*) as count', 
 			:joins => [:vital_status],
-#			:select => 'vital_status_id, count(*) as count, vital_statuses.id, vital_statuses.description', 
 			:select => 'vital_status_id, count(*) as count, vital_statuses.*', 
 			:group => 'vital_status_id')
 	end
 	def vital_statuses_pie
 		@study_subjects = StudySubject.all(
-#			:select => 'vital_status_id, count(*) as count', 
 			:joins => [:vital_status],
-#			:select => 'vital_status_id, count(*) as count, vital_statuses.id, vital_statuses.description', 
 			:select => 'vital_status_id, count(*) as count, vital_statuses.*', 
 			:group => 'vital_status_id')
 	end
 	def subject_types
 		@study_subjects = StudySubject.all(
-#			:select => 'subject_type_id, count(*) as count',
 			:joins => [:subject_type],
-#			:select => 'subject_type_id, count(*) as count, subject_types.id, subject_types.description', 
 			:select => 'subject_type_id, count(*) as count, subject_types.*', 
 			:group => 'subject_type_id')
 	end
 	def subject_types_pie
 		@study_subjects = StudySubject.all(
-#			:select => 'subject_type_id, count(*) as count', 
 			:joins => [:subject_type],
-#			:select => 'subject_type_id, count(*) as count, subject_types.id, subject_types.description', 
 			:select => 'subject_type_id, count(*) as count, subject_types.*', 
 			:group => 'subject_type_id')
 	end
@@ -45,5 +37,21 @@ class ChartsController < ApplicationController
 		@identifiers = Identifier.all(
 			:select => 'case_control_type, count(*) as count', 
 			:group => 'case_control_type')
+	end
+
+	def childidwho
+		@identifiers = Identifier.all(
+			:select => 'childidwho, count(*) as count', 
+			:group => 'childidwho')
+	end
+	def is_eligible
+		@enrollments = Enrollment.all(
+			:select => 'is_eligible, count(*) as count', 
+			:group => 'is_eligible')
+	end
+	def consented
+		@enrollments = Enrollment.all(
+			:select => 'consented, count(*) as count', 
+			:group => 'consented')
 	end
 end

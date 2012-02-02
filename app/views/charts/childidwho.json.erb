@@ -1,0 +1,45 @@
+{
+	"title":{
+		"text":  "Childidwho Counts",
+		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
+	},
+	"x_legend":{
+		"text": "Childidwho",
+		"style": "{font-size: 12px;}"
+	},
+	"y_legend":{
+		"text": "Count",
+		"style": "{font-size: 12px;}"
+	},
+	"elements":[
+		{
+<%#	this works		"on-click": "http://cnn.com", -%>
+<%# this works too			"on-click": "chart_click()", -%>
+			"type":      "bar",
+			"alpha":     0.5,
+			"colour":    "#CC9933",
+			"font-size": 10,
+<%#=@identifiers.collect(&:count).join(',')-%>
+<%# could use this style to call something more than just alert -%>
+<%# some values are so small that they may be difficult to click -%>
+			"values" :   [<%=@identifiers.collect{|i| 
+	"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"alert('#{i.childidwho}:#{i.count}')\"}"
+}.join(',')%>]
+		}
+	],
+	"x_axis":{
+		"stroke":1,
+		"tick_height":10,
+		"grid_colour":"#00ff00",
+		"labels": {
+			"labels": [<%=@identifiers.collect{|i| "\"#{i.childidwho}\""}.join(',')%>]
+		}
+	},
+	"y_axis":{
+		"stroke":      1,
+		"tick_length": 3,
+		"grid_colour": "#00ff00",
+		"offset":      0,
+		"max":         <%=@identifiers.collect{|i|i.count.to_i}.max%>
+	}
+}
