@@ -6,28 +6,27 @@ class ActiveScaffold::AddressingsController < ActiveScaffoldController
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Addressings"
 
+		config.actions.add :update
+		config.columns[:data_source].form_ui = :select
+
+		config.columns[:address_at_diagnosis].form_ui = :select
+		config.columns[:address_at_diagnosis].options[:options] = [
+			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+
+		config.columns[:is_valid].form_ui = :select
+		config.columns[:is_valid].options[:options] = [
+			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+
 		#	The columns shown in the list, show and edit
 		#	Don't include calculated columns.
 #		config.columns = [
-#			:identifier,:pii, :patient,
-#			:subject_languages,:subject_races,
-#			:birth_county,:birth_type, :dad_is_biodad,
-#			:do_not_contact, :father_hispanicity_mex, :father_yrs_educ,
-#			:is_duplicate_of, :mom_is_biomom, :mother_hispanicity_mex,
-#			:mother_yrs_educ, :sex ]
 
 #	Any associations need an activescaffold or normal controller as well.
 
-#		#	Or specifically exclude some columns
-#		config.columns.exclude :abstracts, :addresses, :addressings,
-#			:analyses, :bc_requests, :enrollments, :first_abstract, 
-#			:gift_cards, :home_exposure_response, :homex_outcome, 
-#			:identifier, :interviews, :languages, :merged_abstract,
-#			:operational_events, :patient, :phone_numbers, :pii, :races,
-#			:samples, :second_abstract, :subject_languages, :subject_races,
-#			:unmerged_abstracts
-#	would be simpler just to list the included columns in this case
-#	can I just exclude all associations?
+		#	Or specifically exclude some columns
+
+		#	use 'update' instead of 'config' to exclude from 'update' action.
+		update.columns.exclude :address
 	end
 
 end
