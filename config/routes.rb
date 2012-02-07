@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :abstracts
+
 
 	map.logout 'logout', :controller => 'sessions', :action => 'destroy'
 	map.resources :users, :only => [:destroy,:show,:index],
@@ -104,7 +106,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :projects
 	map.resources :guides
 	map.resources :document_versions
-	map.resources :icf_master_trackers, :only => [:index]
+	map.resources :icf_master_trackers, :only => [:index,:show,:update]
 	map.resources :icf_master_tracker_updates, :member => {
 		:parse => :post
 	}

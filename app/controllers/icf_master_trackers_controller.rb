@@ -14,6 +14,22 @@ class IcfMasterTrackersController < ApplicationController
 
 	def index
 		@icf_master_trackers = IcfMasterTracker.all
+#		@icf_master_trackers = IcfMasterTracker.have_changed
+	end
+
+	def show
+	end
+
+	#	Be advised that this is not an update of the IcfMasterTracker.
+	#	This is a trigger to update the associated models of the 
+	#	IcfMasterTracker.
+	def update
+		flash[:notice] = "Attempted update"
+
+#	attempt individual update
+
+
+		redirect_to icf_master_trackers_path
 	end
 
 protected

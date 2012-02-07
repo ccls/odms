@@ -1,0 +1,11 @@
+<% stylesheets(:icf_master_trackers) %>
+<h4>Icf Master Tracker:</h4>
+
+<table><tbody>
+<% @icf_master_tracker.attributes.keys.sort.each do |key| %>
+<tr class='row'><td><%= key %></td><td><%= @icf_master_tracker.send(key) %></td></tr>
+<% end %>
+</tbody></table>
+
+<p><%= link_to( 'See all ICF Master Trackers', icf_master_trackers_path,
+	:class => 'button' ) %></p>

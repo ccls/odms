@@ -4,7 +4,7 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'IcfMasterTracker',
-		:actions => [:index],
+		:actions => [:index,:show],
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_icf_master_tracker
 	}
@@ -17,5 +17,37 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 	assert_no_access_without_login
 	assert_access_with_https
 	assert_no_access_with_http
+
+	site_administrators.each do |cu|
+
+		test "should update with #{cu} login" do
+			login_as send(cu)
+			icf_master_tracker = Factory(:icf_master_tracker)
+			put :update, :id => icf_master_tracker.id
+			assert_not_nil flash[:notice]
+
+
+			assert_redirected_to icf_master_trackers_path
+		end
+	
+	end
+
+	non_site_administrators.each do |cu|
+
+		test "should NOT update with #{cu} login" do
+			login_as send(cu)
+			icf_master_tracker = Factory(:icf_master_tracker)
+			put :update, :id => icf_master_tracker.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+	
+	end
+
+	test "should NOT update without login" do
+		icf_master_tracker = Factory(:icf_master_tracker)
+		put :update, :id => icf_master_tracker.id
+		assert_redirected_to_login
+	end
 
 end
