@@ -20,7 +20,9 @@ class ActiveScaffold::AddressesController < ActiveScaffoldController
 #	Any associations need an activescaffold or normal controller as well.
 
 #		#	Or specifically exclude some columns
-		config.columns.exclude :addressing, :interviews
+
+		#	study_subject is a problem through addressing
+		config.columns.exclude :addressing, :interviews, :study_subject
 	end
 
 end

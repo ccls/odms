@@ -26,7 +26,7 @@ class ActiveScaffold::AddressingsController < ActiveScaffoldController
 		#	Or specifically exclude some columns
 
 		#	use 'update' instead of 'config' to exclude from 'update' action.
-		update.columns.exclude :address
+		update.columns.exclude :address, :study_subject
 	end
 
 end
