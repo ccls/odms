@@ -1,0 +1,9 @@
+.paired.row:nth-child(4n+1),
+.paired.row:nth-child(4n+2) { background-color: #FCF9EF; }
+.paired.row:nth-child(4n+3),
+.paired.row:nth-child(4n)   { background-color: #F5F1E8; }
+
+.paired.row:nth-child(4n+1),
+.paired.row:nth-child(4n+3) {
+	border-bottom: 0;
+}
