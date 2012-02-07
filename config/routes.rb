@@ -1,5 +1,17 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :abstracts
+
+	map.namespace :active_scaffold do |n|
+	  n.resources :study_subjects, :active_scaffold => true
+	  n.resources :subject_races, :active_scaffold => true
+	  n.resources :subject_languages, :active_scaffold => true
+	  n.resources :piis, :active_scaffold => true
+	  n.resources :patients, :active_scaffold => true
+	  n.resources :identifiers, :active_scaffold => true
+	  n.resources :addresses, :active_scaffold => true
+	  n.resources :addressings, :active_scaffold => true
+	  n.resources :phone_numbers, :active_scaffold => true
+	  n.resources :enrollments, :active_scaffold => true
+	end
 
 
 	map.logout 'logout', :controller => 'sessions', :action => 'destroy'
