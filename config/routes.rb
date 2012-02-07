@@ -104,6 +104,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :projects
 	map.resources :guides
 	map.resources :document_versions
+	map.resources :icf_master_trackers, :only => [:index]
 	map.resources :icf_master_tracker_updates, :member => {
 		:parse => :post
 	}

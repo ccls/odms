@@ -1,0 +1,9 @@
+<h4>Icf Master Trackers:</h4>
+
+<% unless @icf_master_trackers.empty? %>
+ <table id='icf_master_trackers'><tbody>
+  <%= render :partial => 'icf_master_tracker', :collection => @icf_master_trackers %>
+ </tbody></table>
+<% else %>
+ <p>Sorry, no icf_master_trackers yet.</p>
+<% end %>

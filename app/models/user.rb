@@ -41,6 +41,7 @@ class User < Ccls::User
 
 	%w(	sample_kits gift_cards document_versions 
 			people races languages refusal_reasons ineligible_reasons
+			icf_master_trackers
 			live_birth_data_updates icf_master_tracker_updates ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?
@@ -49,8 +50,7 @@ class User < Ccls::User
 		alias_method "may_destroy_#{resource}?".to_sym, :may_administrate?
 	end
 
-	%w(	contacts guides home_page_pics patients
-			response_sets interviews ).each do |resource|
+	%w(	contacts guides patients interviews ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_edit?
 		alias_method "may_read_#{resource}?".to_sym,    :may_edit?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_edit?
