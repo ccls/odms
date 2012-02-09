@@ -17,6 +17,10 @@ class ActiveScaffold::AddressingsController < ActiveScaffoldController
 		config.columns[:is_valid].options[:options] = [
 			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
 
+		config.columns[:current_address].form_ui = :select
+		config.columns[:current_address].options[:options] = [
+			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+
 		#	The columns shown in the list, show and edit
 		#	Don't include calculated columns.
 #		config.columns = [
