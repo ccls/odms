@@ -7,11 +7,7 @@
 <% id_bar_for(@study_subject) %>
 
 <div id='subject_control_bar'>
-<% if @addressing.new_record? %>
-<h3>New Address</h3>
-<% else %>
-<h3>Edit Address</h3>
-<% end %>
+<h3><%= ( @addressing.new_record? ) ? 'New' : 'Edit' %> Address</h3>
 <div class='buttons'>
 <%= link_to( 'Cancel', study_subject_contacts_path( @study_subject ),
 	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
