@@ -5,7 +5,7 @@
 <%= f.error_messages %>
 
 <div id='subject_control_bar'>
-<h3>Edit Subject Sample</h3>
+<h3><%= (@sample.new_record?)? 'New' : 'Edit' %> Subject Sample</h3>
 <div class='buttons'>
 <%= link_to( 'Cancel', study_subject_samples_path(@study_subject),
 	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
