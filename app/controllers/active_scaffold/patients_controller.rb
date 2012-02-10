@@ -4,6 +4,19 @@ class ActiveScaffold::PatientsController < ActiveScaffoldController
 		#	Not entirely necessary as uses titleized resource
 #		config.label = "Subject Race"
 
+		#	even though it isn't yet edittable, these convert the values in show.
+		config.columns[:was_ca_resident_at_diagnosis].form_ui = :select
+		config.columns[:was_ca_resident_at_diagnosis].options[:options] = [
+			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+
+		config.columns[:was_previously_treated].form_ui = :select
+		config.columns[:was_previously_treated].options[:options] = [
+			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+
+		config.columns[:was_under_15_at_dx].form_ui = :select
+		config.columns[:was_under_15_at_dx].options[:options] = [
+			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+
 		#	The columns shown in the list, show and edit
 		#	Don't include calculated columns.
 #		config.columns = [:races]
