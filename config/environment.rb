@@ -15,6 +15,8 @@ RAILS_APP_NAME = 'odms'
 
 Rails::Initializer.run do |config|
 
+	config.action_controller.session_store = :active_record_store
+
 	if RUBY_PLATFORM =~ /java/
 		config.gem 'activerecord-jdbcsqlite3-adapter',
 			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter'
