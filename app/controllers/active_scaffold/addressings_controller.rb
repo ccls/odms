@@ -6,6 +6,11 @@ class ActiveScaffold::AddressingsController < ActiveScaffoldController
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Addressings"
 
+		#	I NEED to explicitly set this to edit or in production it will be show.
+		#	config.cache_classes = true	seems to be the "cause"
+		#	changing it to false fixes it, but we want it to be true.
+		config.columns[:address].actions_for_association_links = [:edit]
+
 		config.actions.add :update
 		config.columns[:data_source].form_ui = :select
 
@@ -29,8 +34,9 @@ class ActiveScaffold::AddressingsController < ActiveScaffoldController
 
 		#	Or specifically exclude some columns
 
-		#	use 'update' instead of 'config' to exclude from 'update' action.
-		update.columns.exclude :address, :study_subject
+		#	use 'config.update' instead of 'config' to exclude from 'update' action.
+		#	config.update MUST be AFTER adding the update action.
+		config.update.columns.exclude :address, :study_subject
 	end
 
 end
