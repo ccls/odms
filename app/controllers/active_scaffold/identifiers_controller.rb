@@ -1,8 +1,6 @@
 class ActiveScaffold::IdentifiersController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :identifier do |config|
+	active_scaffold :identifier do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Identifier"
 

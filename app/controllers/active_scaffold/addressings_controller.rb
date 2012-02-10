@@ -1,8 +1,6 @@
 class ActiveScaffold::AddressingsController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :addressing do |config|
+	active_scaffold :addressing do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Addressings"
 

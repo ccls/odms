@@ -1,8 +1,6 @@
 class ActiveScaffold::PiisController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :pii do |config|
+	active_scaffold :pii do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "PII"
 

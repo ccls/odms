@@ -1,8 +1,6 @@
 class ActiveScaffold::SubjectLanguagesController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :subject_language do |config|
+	active_scaffold :subject_language do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Subject Language"
 

@@ -1,8 +1,6 @@
 class ActiveScaffold::PatientsController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :patient do |config|
+	active_scaffold :patient do |config|
 		#	Not entirely necessary as uses titleized resource
 #		config.label = "Subject Race"
 

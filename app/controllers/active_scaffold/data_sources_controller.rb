@@ -1,8 +1,6 @@
 class ActiveScaffold::DataSourcesController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :data_source do |config|
+	active_scaffold :data_source do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Data Source"
 

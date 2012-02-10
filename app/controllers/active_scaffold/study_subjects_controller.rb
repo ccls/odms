@@ -1,8 +1,6 @@
 class ActiveScaffold::StudySubjectsController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :study_subject do |config|
+	active_scaffold :study_subject do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Study Subjects"
 

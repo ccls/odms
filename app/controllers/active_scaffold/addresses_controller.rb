@@ -1,8 +1,6 @@
 class ActiveScaffold::AddressesController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :address do |config|
+	active_scaffold :address do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Addresses"
 

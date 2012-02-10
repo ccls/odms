@@ -1,8 +1,6 @@
 class ActiveScaffold::PhoneNumbersController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :phone_number do |config|
+	active_scaffold :phone_number do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Phone Numbers"
 

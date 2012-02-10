@@ -1,8 +1,6 @@
 class ActiveScaffold::EnrollmentsController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :enrollment do |config|
+	active_scaffold :enrollment do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Enrollments"
 

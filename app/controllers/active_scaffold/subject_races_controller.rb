@@ -1,8 +1,6 @@
 class ActiveScaffold::SubjectRacesController < ActiveScaffoldController
 
-#	TEST ME
-
-  active_scaffold :subject_race do |config|
+	active_scaffold :subject_race do |config|
 		#	Not entirely necessary as uses titleized resource
 		config.label = "Subject Race"
 
