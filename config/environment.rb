@@ -17,18 +17,18 @@ Rails::Initializer.run do |config|
 
 	config.action_controller.session_store = :active_record_store
 
-	if RUBY_PLATFORM =~ /java/
-		config.gem 'activerecord-jdbcsqlite3-adapter',
-			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter'
-		config.gem 'activerecord-jdbcmysql-adapter',
-			:lib => 'active_record/connection_adapters/jdbcmysql_adapter'
-		config.gem 'jdbc-mysql', :lib => 'jdbc/mysql'
-		config.gem 'jdbc-sqlite3', :lib => 'jdbc/sqlite3'
-		config.gem 'jruby-openssl', :lib => 'openssl'
-	else
+#	if RUBY_PLATFORM =~ /java/
+#		config.gem 'activerecord-jdbcsqlite3-adapter',
+#			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter'
+#		config.gem 'activerecord-jdbcmysql-adapter',
+#			:lib => 'active_record/connection_adapters/jdbcmysql_adapter'
+#		config.gem 'jdbc-mysql', :lib => 'jdbc/mysql'
+#		config.gem 'jdbc-sqlite3', :lib => 'jdbc/sqlite3'
+#		config.gem 'jruby-openssl', :lib => 'openssl'
+#	else
 		config.gem 'mysql'
 		config.gem "sqlite3"
-	end
+#	end
 
 	#	due to some enhancements, the db gems MUST come first
 	#	for use in the jruby environment.
@@ -39,7 +39,10 @@ Rails::Initializer.run do |config|
 
 	#		http://chronic.rubyforge.org/
 #	config.gem "chronic"	#, :version => '= 0.5.0'
-	config.gem 'active_shipping'
+
+#	Removed feature
+#	config.gem 'active_shipping'
+
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
 	config.gem 'hpricot'
