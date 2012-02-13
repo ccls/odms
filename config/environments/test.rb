@@ -65,3 +65,11 @@ ActionController::Base.view_paths <<
 	File.expand_path(
 		File.join(Rails.root,'/test/app/views'))
 
+
+#	Had to use active_record_store to accomodate ActiveScaffold,
+#	but apparently my capybara integration tests do not like this.
+#	So, set the session_store back to the default of cookies
+#	just for testing.  At least until I figure out how to make
+#	it work.
+config.action_controller.session_store = :cookie_store
+
