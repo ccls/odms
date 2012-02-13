@@ -1,0 +1,47 @@
+<p id='shipping'>Shipping Information</p>
+
+<table><thead>
+<tr>
+  <th>&nbsp;</th>
+  <th>tracking no.</th>
+  <th>sent</th>
+  <th>received</th>
+</tr></thead><tbody>
+<tr><th>collection kit</th>
+<td>
+
+
+<%#
+
+	TODO need to implement package controller and fedex stuff to use this
+
+%>
+<%= @sample.kit_tracking_number %>
+<%#=link_to( @sample.kit_tracking_number,
+			@sample.kit_package, :class => 'ajax'
+	) unless @sample.kit_tracking_number.blank? %></td>
+
+
+<td><%=mdy @sample.kit_sent_on %></td>
+<td><%=mdy @sample.kit_received_on %></td>
+</tr>
+<tr><th>sample</th>
+<td>
+
+
+<%#
+
+	TODO need to implement package controller and fedex stuff to use this
+
+%>
+<%= @sample.sample_tracking_number %>
+<%#=link_to( @sample.sample_tracking_number,
+			@sample.sample_package, :class => 'ajax'
+	) unless @sample.sample_tracking_number.blank? %></td>
+
+
+<td><%=mdy @sample.sample_sent_on %></td>
+<td><%=mdy @sample.sample_received_on %></td>
+</tr>
+</tbody></table>
+<div id='ajax'></div>

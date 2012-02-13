@@ -50,20 +50,4 @@
 	:class => 'datepicker',
 	:label_text => 'Aliquotted on:' %>
 
-<h4>Sample Kit:</h4>
-<% @sample.build_sample_kit if @sample.sample_kit.nil? %>
-<% f.fields_for :sample_kit do |sk| %>
-	<% @sample.sample_kit.build_kit_package if 
-		@sample.sample_kit.kit_package.nil? %>
-	<% sk.fields_for :kit_package do |kp| %>
-		<%= kp.wrapped_text_field :tracking_number,
-			:label_text => "Kit Package Tracking Number:" %>
-	<% end %>
-
-	<% @sample.sample_kit.build_sample_package if 
-		@sample.sample_kit.sample_package.nil? %>
-	<% sk.fields_for :sample_package do |sp| %>
-		<%= sp.wrapped_text_field :tracking_number,
-			:label_text => "Sample Package Tracking Number:" %>
-	<% end %>
-<% end %>
+<%#= render :partial => 'sample_kit', :locals => { :f => f } %>
