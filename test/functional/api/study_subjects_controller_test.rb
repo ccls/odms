@@ -36,7 +36,7 @@ class Api::StudySubjectsControllerTest < ActionController::TestCase
 protected 
 
 	def set_credentials
-		config = YAML::load(ERB.new(IO.read('config/api.yml')).result)
+		config = YAML::load(ERB.new(IO.read("#{RAILS_ROOT}/config/api.yml")).result)
 		@request.env['HTTP_AUTHORIZATION'
 			] = ActionController::HttpAuthentication::Basic.encode_credentials(
 				config[:user],config[:password])
