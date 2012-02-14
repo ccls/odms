@@ -17,4 +17,9 @@ protected
 		[['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
 	end
 
+	def self.user_uid_select
+		[['-select-',nil]] + User.all.collect{|u|[u.displayname ,u.uid]}
+	end
+
+
 end

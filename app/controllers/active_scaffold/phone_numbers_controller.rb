@@ -15,6 +15,10 @@ class ActiveScaffold::PhoneNumbersController < ActiveScaffoldController
 		config.columns[:current_phone].form_ui = :select
 		config.columns[:current_phone].options[:options] = as_yndk_select
 
+#	probably shouldn't have these verified columns as editable
+#		config.columns[:verified_by_uid].form_ui = :select
+#		config.columns[:verified_by_uid].options[:options] = user_uid_select
+
 
 		#	The columns shown in the list, show and edit
 		#	Don't include calculated columns.
