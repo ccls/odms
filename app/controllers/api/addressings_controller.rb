@@ -1,4 +1,4 @@
-class Api::StudySubjectsController < ApiController
+class Api::AddressingsController < ApiController
 
 	#	MUST skip this filter explicitly on each controller
 	#	Skip the calnet authentication
@@ -6,8 +6,8 @@ class Api::StudySubjectsController < ApiController
 	skip_before_filter :login_required
 
 	def index
-		@study_subjects = StudySubject.all
-		render :xml => @study_subjects
+		@addressings = Addressing.all
+		render :xml => @addressings
 	end
 
 end

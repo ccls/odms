@@ -139,6 +139,14 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.namespace :api do |api|
 		api.resources :study_subjects, :only => :index
+		api.resources :piis, :only => :index
+		api.resources :patients, :only => :index
+		api.resources :identifiers, :only => :index
+		api.resources :projects, :only => :index
+		api.resources :enrollments, :only => :index
+		api.resources :addresses, :only => :index
+		api.resources :addressings, :only => :index
+		api.resources :phone_numbers, :only => :index
 	end
 
 	#	Create named routes for expected pages so can avoid
