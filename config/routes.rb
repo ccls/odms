@@ -137,6 +137,9 @@ ActionController::Routing::Routes.draw do |map|
 	map.connect 'charts/:action.:format', :controller => 'charts'
 
 
+	map.namespace :api do |api|
+		api.resources :study_subjects, :only => :index
+	end
 
 	#	Create named routes for expected pages so can avoid
 	# needing to append the relative_url_root prefix manually.

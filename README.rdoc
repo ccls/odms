@@ -1,12 +1,22 @@
 = CCLS Operations and Data Management System
 
 
+
+== Additional files that will be needed
+
+ /config/api.yml
+ /config/database.yml
+ /config/shared_database.yml
+ /config/initializers/mail.rb
+ /config/initializers/session_store.rb
+ /config/s3.yml
+
 == Testing requirements
 
 * port qt4-mac
-* gem webkit
+* gem webkit (not used anymore)
 * gem capybara
-* gem selenium-webdriver
+* gem selenium-webdriver (not used anymore)
 * gem capybara-webkit
 
 

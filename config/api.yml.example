@@ -1,0 +1,6 @@
+#	This file contains the username and password used
+#	for http basic authentication which is used
+#	with the API that I am developing and will allow
+#	other apps access to the database.
+:user: admin
+:password: secret
