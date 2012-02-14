@@ -13,16 +13,16 @@ class ActiveScaffold::AddressingsController < ActiveScaffoldController
 		config.columns[:data_source].form_ui = :select
 
 		config.columns[:address_at_diagnosis].form_ui = :select
-		config.columns[:address_at_diagnosis].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:address_at_diagnosis].options[:options] = as_yndk_select
+#[ ['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
 
 		config.columns[:is_valid].form_ui = :select
-		config.columns[:is_valid].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:is_valid].options[:options] = as_yndk_select
+#[ ['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
 
 		config.columns[:current_address].form_ui = :select
-		config.columns[:current_address].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:current_address].options[:options] = as_yndk_select
+#[ ['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
 
 		#	The columns shown in the list, show and edit
 		#	Don't include calculated columns.

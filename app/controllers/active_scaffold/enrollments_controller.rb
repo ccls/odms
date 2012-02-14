@@ -12,47 +12,33 @@ class ActiveScaffold::EnrollmentsController < ActiveScaffoldController
 
 		#	even though it isn't yet edittable, these convert the values in show.
 		config.columns[:able_to_locate].form_ui = :select
-		config.columns[:able_to_locate].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:able_to_locate].options[:options] = as_yndk_select
 		config.columns[:is_candidate].form_ui = :select
-		config.columns[:is_candidate].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:is_candidate].options[:options] = as_yndk_select
 		config.columns[:is_eligible].form_ui = :select
-		config.columns[:is_eligible].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:is_eligible].options[:options] = as_yndk_select
 		config.columns[:consented].form_ui = :select
-		config.columns[:consented].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:consented].options[:options] = as_yndk_select
 		config.columns[:is_chosen].form_ui = :select
-		config.columns[:is_chosen].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:is_chosen].options[:options] = as_yndk_select
 		config.columns[:terminated_participation].form_ui = :select
-		config.columns[:terminated_participation].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:terminated_participation].options[:options] = as_yndk_select
 		config.columns[:is_complete].form_ui = :select
-		config.columns[:is_complete].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:is_complete].options[:options] = as_yndk_select
 		config.columns[:use_smp_future_rsrch].form_ui = :select
-		config.columns[:use_smp_future_rsrch].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:use_smp_future_rsrch].options[:options] = as_yndk_select
 		config.columns[:use_smp_future_cancer_rsrch].form_ui = :select
-		config.columns[:use_smp_future_cancer_rsrch].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:use_smp_future_cancer_rsrch].options[:options] = as_yndk_select
 		config.columns[:use_smp_future_other_rsrch].form_ui = :select
-		config.columns[:use_smp_future_other_rsrch].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:use_smp_future_other_rsrch].options[:options] = as_yndk_select
 		config.columns[:share_smp_with_others].form_ui = :select
-		config.columns[:share_smp_with_others].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:share_smp_with_others].options[:options] = as_yndk_select
 		config.columns[:contact_for_related_study].form_ui = :select
-		config.columns[:contact_for_related_study].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:contact_for_related_study].options[:options] = as_yndk_select
 		config.columns[:provide_saliva_smp].form_ui = :select
-		config.columns[:provide_saliva_smp].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:provide_saliva_smp].options[:options] = as_yndk_select
 		config.columns[:receive_study_findings].form_ui = :select
-		config.columns[:receive_study_findings].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:receive_study_findings].options[:options] = as_yndk_select
 
 		#	The columns shown in the list, show and edit
 		#	Don't include calculated columns.

@@ -10,4 +10,11 @@ class ActiveScaffoldController < ApplicationController
 #field_search, nested, subform, create, list, search, update, delete, live_search, show
 	end
 
+protected
+
+	#	used many times, so define as a class method.
+	def self.as_yndk_select
+		[['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+	end
+
 end

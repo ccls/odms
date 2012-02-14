@@ -10,12 +10,10 @@ class ActiveScaffold::PhoneNumbersController < ActiveScaffoldController
 		config.columns[:phone_type].form_ui = :select
 
 		config.columns[:is_valid].form_ui = :select
-		config.columns[:is_valid].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:is_valid].options[:options] = as_yndk_select
 
 		config.columns[:current_phone].form_ui = :select
-		config.columns[:current_phone].options[:options] = [
-			['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		config.columns[:current_phone].options[:options] = as_yndk_select
 
 
 		#	The columns shown in the list, show and edit
