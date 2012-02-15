@@ -31,7 +31,7 @@ class CasesController < ApplicationController
 
 	def create
 		#	use find_by_id rather than just find so that 
-		#	if returns nil rather than raise an error if not found
+		#	it returns nil rather than raise an error if not found
 		if params[:hospital_id] and
 			( hospital = Hospital.find_by_id( params[:hospital_id] ) )
 

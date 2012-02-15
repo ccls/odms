@@ -1,8 +1,5 @@
 class SamplesController < ApplicationController
 
-#	before_filter :may_read_study_subjects_required, 
-#		:only => [:dashboard,:find,:followup,:reports,:index]
-
 	before_filter :may_create_samples_required,
 		:only => [:new,:create]
 	before_filter :may_read_samples_required,
@@ -12,9 +9,12 @@ class SamplesController < ApplicationController
 	before_filter :may_destroy_samples_required,
 		:only => :destroy
 
+	before_filter :valid_study_subject_id_desired,
+		:only => [:new]
 	before_filter :valid_study_subject_id_required,
-		:except => [:dashboard,:find,:followup,:reports,:edit,:update,:show,:destroy]
-#		:only => [:index]
+		:only => [:create,:index]
+#		:except => [:dashboard,:find,:followup,:reports,:edit,:update,:show,:destroy]
+
 	before_filter :valid_id_required,
 		:only => [:show,:edit,:update,:destroy]
 
@@ -27,10 +27,28 @@ class SamplesController < ApplicationController
 		render :layout => 'subject'
 	end
 
+
+#
+#	If we are going to access "new" without a study_subject_id,
+#	we'll need to ...
+#		deal with a StudySubject.find
+#		deal with multiple StudySubjects found
+#
 	def new
-		@sample = @study_subject.samples.new
-		render :layout => 'subject'
+		if @study_subject
+			@sample = @study_subject.samples.new
+			render :layout => 'subject'
+		else
+			if params[:studyid] or params[:icf_master_id]
+				@identifiers = Identifier.find_all_by_studyid_or_icf_master_id(
+					params[:studyid]||nil, params[:icf_master_id]||nil )
+			end
+			render :action => "new_for_subject"
+		end
 	end
+
+
+
 
 	def create
 		@sample = @study_subject.samples.new(params[:sample])
@@ -68,6 +86,16 @@ protected
 #			@study_subject = StudySubject.find(@sample.study_subject_id)
 		else
 			access_denied("Valid sample id required!", study_subjects_path)
+		end
+	end
+
+	def valid_study_subject_id_desired
+		if !params[:study_subject_id].blank? 
+			if StudySubject.exists?(params[:study_subject_id])
+				@study_subject = StudySubject.find(params[:study_subject_id])
+			else
+				access_denied("Valid study_subject id required!", study_subjects_path)
+			end
 		end
 	end
 

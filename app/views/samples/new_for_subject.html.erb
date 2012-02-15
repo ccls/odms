@@ -1,0 +1,37 @@
+<h4>Receive Sample</h4>
+
+<% form_tag(new_sample_path,:method => :get) do %>
+<p>( Currently exact match only )</p>
+<p><span>Study ID:</span>
+<%= text_field_tag :studyid, params[:studyid], :id => nil  %>
+<span>or</span>
+<span>ICF Master ID:</span>
+<%= text_field_tag :icf_master_id, params[:icf_master_id], :id => nil  %>
+<%= submit_tag 'find subject', :name => nil %>
+</p>
+<% end %>
+
+
+
+<% unless params[:studyid].blank? and params[:icf_master_id].blank? %>
+<% if @identifiers and !@identifiers.empty? %>
+<p>Found the following subject(s)</p>
+<table><thead>
+<tr><th>name</th><th>studyid</th><th>icf_master_id</th><th>admit date</th><th>reference date</th><th>hospital_no</th><th>&nbsp;</th></tr>
+</thead><tbody>
+<% @identifiers.each do |identifier| %>
+<tr>
+<td><%= identifier.study_subject.full_name %></td>
+<td><%= identifier.study_subject.studyid %></td>
+<td><%= identifier.icf_master_id %></td>
+<td><%=mdy identifier.study_subject.admit_date %></td>
+<td><%=mdy identifier.study_subject.reference_date %></td>
+<td><%= identifier.study_subject.hospital_no %></td>
+<td><%= link_to "New Sample", new_study_subject_sample_path(identifier.study_subject_id) %></td>
+</tr>
+<% end %>
+</tbody></table>
+<% else %>
+<p>no subjects found matching that studyid or icf master id</p>
+<% end %>
+<% end %>

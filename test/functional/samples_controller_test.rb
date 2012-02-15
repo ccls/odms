@@ -36,14 +36,153 @@ class SamplesControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		test "should get new sample with #{cu} login" do
+		test "should get new sample with #{cu} login" <<
+				" and study_subject_id" do
 			login_as send(cu)
 			study_subject = Factory(:study_subject)
 			get :new, :study_subject_id => study_subject.id
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new'
+			assert assigns(:sample)
 		end
+
+		test "should NOT get new sample with #{cu} login" <<
+				" and invalid study_subject_id" do
+			login_as send(cu)
+			get :new, :study_subject_id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" do
+			login_as send(cu)
+			get :new
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert !assigns(:identifiers)
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and blank studyid" do
+			login_as send(cu)
+			get :new, :studyid => ''
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert assigns(:identifiers).empty?
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and blank icf_master_id" do
+			login_as send(cu)
+			get :new, :icf_master_id => ''
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert assigns(:identifiers).empty?
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and blank studyid and icf_master_id" do
+			login_as send(cu)
+			get :new, :studyid => '', :icf_master_id => ''
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert assigns(:identifiers).empty?
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and studyid" do
+			login_as send(cu)
+			get :new, :studyid => '1234-A-5'
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert assigns(:identifiers).empty?
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and icf_master_id" do
+			login_as send(cu)
+			get :new, :icf_master_id => '123456789'
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert assigns(:identifiers).empty?
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and studyid and icf_master_id" do
+			login_as send(cu)
+			get :new, :studyid => '1234-A-5', :icf_master_id => '123456789'
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert assigns(:identifiers).empty?
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and studyid of subject" do
+			subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			get :new, :studyid => subject.studyid
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert !assigns(:identifiers).empty?
+
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and icf_master_id of subject" do
+			subject = Factory(:complete_case_study_subject)
+			Factory(:icf_master_id, :icf_master_id => '123456789' )
+			subject.assign_icf_master_id
+			login_as send(cu)
+			get :new, :icf_master_id => subject.identifier.icf_master_id
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert !assigns(:identifiers).empty?
+
+		end
+
+		test "should get new sample wo study_subject_id and with #{cu} login" <<
+				" and studyid and icf_master_id of subject" do
+
+			s1 = Factory(:complete_case_study_subject)
+			Factory(:icf_master_id, :icf_master_id => '123456789' )
+			s1.assign_icf_master_id
+			s2 = Factory(:complete_case_study_subject)
+
+			login_as send(cu)
+			get :new, :studyid => s2.studyid, :icf_master_id => s1.identifier.icf_master_id
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new_for_subject'
+			assert assigns(:identifiers)
+			assert !assigns(:identifiers).empty?
+
+		end
+
+
+
+
+
+
+
+
 
 		test "should create new sample with #{cu} login" do
 			login_as send(cu)
@@ -57,7 +196,18 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create with #{cu} login " <<
-			"and invalid sample" do
+				"and invalid study_subject_id" do
+			login_as send(cu)
+			assert_difference('Sample.count',0) do
+				post :create, :study_subject_id => 0,
+					:sample => factory_attributes
+			end
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT create with #{cu} login " <<
+				"and invalid sample" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:valid?).returns(false)
 			study_subject = Factory(:study_subject)
@@ -71,7 +221,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create with #{cu} login " <<
-			"and save failure" do
+				"and save failure" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:create_or_update).returns(false)
 			study_subject = Factory(:study_subject)
