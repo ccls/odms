@@ -27,13 +27,6 @@ class SamplesController < ApplicationController
 		render :layout => 'subject'
 	end
 
-
-#
-#	If we are going to access "new" without a study_subject_id,
-#	we'll need to ...
-#		deal with a StudySubject.find
-#		deal with multiple StudySubjects found
-#
 	def new
 		if @study_subject
 			@sample = @study_subject.samples.new
@@ -46,9 +39,6 @@ class SamplesController < ApplicationController
 			render :action => "new_for_subject"
 		end
 	end
-
-
-
 
 	def create
 		@sample = @study_subject.samples.new(params[:sample])
