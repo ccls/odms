@@ -53,7 +53,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				sleep 1	#	pause to ensure no changes in capybara
+				sleep 2	#	pause to ensure no changes in capybara
 			} } } } } } } }
 
 			assert_equal nonwaivered_path, current_path
@@ -72,7 +72,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
-				sleep 1	#	capybara will require a moment to get the counts correct
+				sleep 2	#	capybara will require a moment to get the counts correct
 			} } } } } } } } }
 			assert page.has_css?("p.flash#notice")	#	success
 			assert_match /Operational Event created marking this attempted entry/,
@@ -121,7 +121,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				sleep 1	#	pause to ensure no changes in capybara
+				sleep 2	#	pause to ensure no changes in capybara
 			} } } } } } } }
 			assert_equal nonwaivered_path, current_path
 			assert page.has_css?("p.flash#error")
@@ -138,7 +138,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',2) {
 				#	click_button(value)
 				click_button "No Match"	
-				sleep 1	#	capybara will require a moment to get the counts correct
+				sleep 2	#	capybara will require a moment to get the counts correct
 			} } } } } } } }
 
 			assert_match /\/study_subjects\/\d+/, current_path
@@ -185,7 +185,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "Submit"	
-				sleep 1	#	capybara will require a moment to get the counts correct
+				sleep 2	#	capybara will require a moment to get the counts correct
 			} } } } } } } }
 			assert !page.has_css?("p.flash#error")
 			assert_match /\/study_subjects\/\d+/, current_path

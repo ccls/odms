@@ -44,7 +44,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				sleep 1	#	for capybara
+				sleep 2	#	for capybara
 			} } } } } } } }
 
 			assert_equal waivered_path, current_path
@@ -63,7 +63,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
-				sleep 1	#	for capybara
+				sleep 2	#	for capybara
 			} } } } } } } } }
 			assert page.has_css?("p.flash#notice")
 			assert_match /Operational Event created marking this attempted entry/,
@@ -103,7 +103,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				sleep 1	#	for capybara
+				sleep 2	#	for capybara
 			} } } } } } } }
 
 			assert_equal waivered_path, current_path
@@ -120,7 +120,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "No Match"	
-				sleep 1	#	for capybara
+				sleep 2	#	for capybara
 			} } } } } } } }
 
 			assert_match /\/study_subjects\/\d+/, current_path

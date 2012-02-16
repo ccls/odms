@@ -19,5 +19,18 @@
 * gem selenium-webdriver (not used anymore)
 * gem capybara-webkit
 
+== Notes 
+
+ Be advised that some of the integration tests will intermittantly
+ fail due to their threaded nature.  I've added several 'sleep 1'
+ lines to deal with this, but it isn't always enough.  They will 
+ pass if given enough wait time. This is mostly noticed when 
+ clicking a link or button and then expecting a change in the
+ database.  Sometimes there is none when there should be and
+ then the assert_difference fails.  I have changed the 'sleep 1'
+ to 'sleep 2' in the places where this commonly happens to 
+ try to avoid it.  As this behaviour is intermittant, it is a
+ bit difficult to debug.
+
 
 Copyright (c) 2011 [Jake Wendt], released under the MIT license

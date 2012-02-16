@@ -15,20 +15,15 @@ RAILS_APP_NAME = 'odms'
 
 Rails::Initializer.run do |config|
 
+	#	active_record_store needed to accomodate the cookie
+	#	excess created by ActiveScaffold.  Integration testing does 
+	#	not like this, so it is set back to cookie_store for testing.
+	#	Should we abandon the usage of ActiveScaffold, we can, but 
+	#	don't have to, switch back to the default.
 	config.action_controller.session_store = :active_record_store
 
-#	if RUBY_PLATFORM =~ /java/
-#		config.gem 'activerecord-jdbcsqlite3-adapter',
-#			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter'
-#		config.gem 'activerecord-jdbcmysql-adapter',
-#			:lib => 'active_record/connection_adapters/jdbcmysql_adapter'
-#		config.gem 'jdbc-mysql', :lib => 'jdbc/mysql'
-#		config.gem 'jdbc-sqlite3', :lib => 'jdbc/sqlite3'
-#		config.gem 'jruby-openssl', :lib => 'openssl'
-#	else
-		config.gem 'mysql'
-		config.gem "sqlite3"
-#	end
+	config.gem 'mysql'
+	config.gem "sqlite3"
 
 	#	due to some enhancements, the db gems MUST come first
 	#	for use in the jruby environment.
@@ -36,12 +31,6 @@ Rails::Initializer.run do |config|
 	config.gem 'ccls-simply_authorized'
 	config.gem 'ccls-common_lib'
 	config.gem 'jrails'
-
-	#		http://chronic.rubyforge.org/
-#	config.gem "chronic"	#, :version => '= 0.5.0'
-
-#	Removed feature
-#	config.gem 'active_shipping'
 
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
