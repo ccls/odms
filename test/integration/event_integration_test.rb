@@ -39,7 +39,7 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 					assert_match /^operations:/, option.text }
 
 			select 'samples', :from => 'category'
-
+sleep 1	#	sometimes the next statement is still 6
 			assert_equal 3, 
 				page.find('select#operational_event_operational_event_type_id'
 					).all('option').length
