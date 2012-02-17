@@ -31,6 +31,15 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				'study_subject_patient_attributes_was_previously_treated')
 			assert page.has_unchecked_field?(
 				'study_subject_patient_attributes_was_ca_resident_at_diagnosis')
+
+			check('study_subject_patient_attributes_was_ca_resident_at_diagnosis')
+			click_button "Submit"	
+			assert page.has_unchecked_field?(
+				'study_subject_patient_attributes_was_under_15_at_dx')
+			assert page.has_unchecked_field?(
+				'study_subject_patient_attributes_was_previously_treated')
+			assert page.has_checked_field?(
+				'study_subject_patient_attributes_was_ca_resident_at_diagnosis')
 		end
 
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
