@@ -1,12 +1,7 @@
 <tr>
 <td><%= index %></td>
 <td><%= icf_master_tracker.Masterid %></td>
-<%# 
-	study_subject.to_s will load Pii and Identifier which will add time.
-	Would be much faster if they weren't associations.
-%>
 <td>
-<%#= link_to(icf_master_tracker.study_subject, icf_master_tracker.study_subject) if icf_master_tracker.study_subject_id %>
 <%= link_to(icf_master_tracker.Masterid, study_subject_path(icf_master_tracker.study_subject_id) ) if icf_master_tracker.study_subject_id %>
 </td>
 </tr>

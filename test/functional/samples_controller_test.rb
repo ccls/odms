@@ -61,7 +61,7 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert !assigns(:identifiers)
+			assert !assigns(:study_subjects)
 		end
 
 		test "should get new sample wo study_subject_id and with #{cu} login" <<
@@ -71,8 +71,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert assigns(:study_subjects).empty?
 		end
 
 		test "should get new sample wo study_subject_id and with #{cu} login" <<
@@ -82,8 +82,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert assigns(:study_subjects).empty?
 		end
 
 		test "should get new sample wo study_subject_id and with #{cu} login" <<
@@ -93,8 +93,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert assigns(:study_subjects).empty?
 		end
 
 		test "should get new sample wo study_subject_id and with #{cu} login" <<
@@ -104,8 +104,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert assigns(:study_subjects).empty?
 		end
 
 		test "should get new sample wo study_subject_id and with #{cu} login" <<
@@ -115,8 +115,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert assigns(:study_subjects).empty?
 		end
 
 		test "should get new sample wo study_subject_id and with #{cu} login" <<
@@ -126,8 +126,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert assigns(:study_subjects).empty?
 		end
 
 		test "should get new sample wo study_subject_id and with #{cu} login" <<
@@ -138,8 +138,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert !assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
 
 		end
 
@@ -149,12 +149,12 @@ class SamplesControllerTest < ActionController::TestCase
 			Factory(:icf_master_id, :icf_master_id => '123456789' )
 			subject.assign_icf_master_id
 			login_as send(cu)
-			get :new, :icf_master_id => subject.identifier.icf_master_id
+			get :new, :icf_master_id => subject.icf_master_id
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert !assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
 
 		end
 
@@ -167,12 +167,12 @@ class SamplesControllerTest < ActionController::TestCase
 			s2 = Factory(:complete_case_study_subject)
 
 			login_as send(cu)
-			get :new, :studyid => s2.studyid, :icf_master_id => s1.identifier.icf_master_id
+			get :new, :studyid => s2.studyid, :icf_master_id => s1.icf_master_id
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new_for_subject'
-			assert assigns(:identifiers)
-			assert !assigns(:identifiers).empty?
+			assert assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
 
 		end
 

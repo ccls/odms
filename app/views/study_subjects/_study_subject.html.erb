@@ -4,10 +4,10 @@
 %>
 <% content_tag_for( :tr, study_subject, :class => classes.join(' ') ) do %>
 <td class='icf_master_id'>
-<%= link_to study_subject.icf_master_id, study_subject_path(study_subject) -%>
+<%= link_to study_subject.icf_master_id_to_s, study_subject_path(study_subject) -%>
 </td>
 <td class='studyid'>
-<%= study_subject.studyid %>
+<%= study_subject.studyid_to_s %>
 </td>
 <td class='full_name'>
 <%= study_subject.full_name %>

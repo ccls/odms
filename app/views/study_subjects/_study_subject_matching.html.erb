@@ -1,10 +1,9 @@
 <div class='matching'>
 <h3>Matching Subjects:</h3>
-<% if @study_subject and @study_subject.identifier %>
+<% if @study_subject %>
 <% StudySubject.find(:all,
-			:joins => :identifier,
 			:conditions => { 
-				'identifiers.matchingid' => @study_subject.identifier.matchingid
+				'matchingid' => @study_subject.matchingid
 			}
 		).each do |subject| %>
 

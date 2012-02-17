@@ -12,7 +12,7 @@
 <%# one colour results in all the same colour -%>
 			"colours":    ["#CC9933"],
 			"font-size": 10,
-			"values" :   [ <%=@identifiers.collect{|i|
+			"values" :   [ <%=@study_subjects.collect{|i|
 "{\"value\":#{i.count},\"label\":\"#{i.case_control_type}\",\"on-click\":\"alert('#{i.case_control_type}:#{i.count}')\"}" }.join(',')-%> ]
 		}
 	]

@@ -215,12 +215,12 @@ module ApplicationHelper
 			"<div class='icf_master_id'>\n" <<
 			"<span>ICFMasterID:</span>\n" <<
 #			"<span>#{study_subject.try(:icf_master_id)}</span>\n" <<
-			"<span>#{study_subject.icf_master_id}</span>\n" <<
+			"<span>#{study_subject.icf_master_id_to_s}</span>\n" <<	#	TODO add test for this
 			"</div><!-- class='icf_master_id' -->\n" <<
 			"<div class='studyid'>\n" <<
 			"<span>StudyID:</span>\n" <<
 #			"<span>#{study_subject.try(:studyid)}</span>\n" <<
-			"<span>#{study_subject.studyid}</span>\n" <<
+			"<span>#{study_subject.studyid_to_s}</span>\n" <<		#	TODO add test for this
 			"</div><!-- class='studyid' -->\n" <<
 #			"<div class='controls'>\n" <<
 #			@content_for_id_bar.to_s <<

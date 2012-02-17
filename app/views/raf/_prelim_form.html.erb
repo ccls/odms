@@ -4,6 +4,7 @@
 
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% f.fields_for :patient do |patient_fields| %>
+<%# f is still accessible in block so put all in one block %>
 <div class='tablerow'>
 <div class='organization_id'>
 	<p><%= "#{req('*')}&nbsp;treating institution:" %></p>
@@ -25,17 +26,14 @@
 	<%= patient_fields.text_field :admitting_oncologist %>
 </div><!-- class='admitting_oncologist' -->
 </div><!-- class='tablerow' -->
-<% end %>
 
 <div class='tablerow'>
-<% @study_subject.build_pii if @study_subject.pii.nil? %>
-<% f.fields_for :pii do |pii_fields| %>
  <div class='childs names'>
   <p>child's name</p>
   <div class='child tablerow'>
-   <span><%= pii_fields.text_field :first_name %></span>
-   <span><%= pii_fields.text_field :middle_name %></span>
-   <span><%= pii_fields.text_field :last_name %></span>
+   <span><%= f.text_field :first_name %></span>
+   <span><%= f.text_field :middle_name %></span>
+   <span><%= f.text_field :last_name %></span>
   </div><!-- class='child tablerow' -->
   <div class='child tablerow'>
    <span><%= "#{req('*')}&nbsp;first" %></span>
@@ -43,27 +41,19 @@
    <span><%= "#{req('*')}&nbsp;last" %></span>
   </div><!-- class='child tablerow' -->
  </div><!-- class='names' -->
-<% end %>
 
 <div class='hospital_no'>
-<%# @study_subject.build_identifier if @study_subject.identifier.nil? %>
-<% f.fields_for :patient do |patient_fields| %>
 	<p><%= "#{req('*')}&nbsp;hospital record number:" %></p>
 	<%= patient_fields.text_field :hospital_no %>
-<% end %>
 </div>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>
-<% f.fields_for :patient do |patient_fields| %>
 	<%= patient_fields.wrapped_date_text_field :admit_date,
 		:label_text => "#{req('*')}&nbsp;admit date:" %>
-<% end %>
 
-<% f.fields_for :pii do |pii_fields| %>
-	<%= pii_fields.wrapped_date_text_field :dob,
+	<%= f.wrapped_date_text_field :dob,
 		:label_text => "#{req('*')}&nbsp;child's date of birth:" %>
-<% end %>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>
@@ -71,7 +61,7 @@
 <%= f.wrapped_sex_select :sex,
 	:label_text => "#{req('*')}&nbsp;sex:" %>
 
-<% f.fields_for :patient do |patient_fields| %>
+<%# f.fields_for :patient do |patient_fields| %>
 <div>
 <%# wrapping in div unmucks alignment, but still needs to be better %>
 	<%= patient_fields.wrapped_collection_select :diagnosis_id,
@@ -82,7 +72,7 @@
 		:label_text => 'specify other:' %>
 
 </div>
-<% end %>
 </div><!-- class='tablerow' -->
+<% end %><%# f.fields_for :patient do |patient_fields| %>
 
 </div><!-- class='prelim_info' -->

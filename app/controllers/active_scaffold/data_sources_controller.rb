@@ -17,8 +17,8 @@ class ActiveScaffold::DataSourcesController < ActiveScaffoldController
 #		config.columns.exclude :abstracts, :addresses, :addressings,
 #			:analyses, :bc_requests, :enrollments, :first_abstract, 
 #			:gift_cards, :home_exposure_response, :homex_outcome, 
-#			:identifier, :interviews, :languages, :merged_abstract,
-#			:operational_events, :patient, :phone_numbers, :pii, :races,
+#			:interviews, :languages, :merged_abstract,
+#			:operational_events, :patient, :phone_numbers, :races,
 #			:samples, :second_abstract, :subject_languages, :subject_races,
 #			:unmerged_abstracts
 #	would be simpler just to list the included columns in this case

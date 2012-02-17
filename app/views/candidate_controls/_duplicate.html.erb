@@ -3,8 +3,8 @@
 		a radio button seems like it would be unnecessary %>
 <td><%= radio_button_tag('duplicate_id', duplicate.id ) %></td>
 <td><%= label_tag("duplicate_id_#{duplicate.id}",duplicate.full_name) %></td>
-<td><%= duplicate.studyid %></td>
-<td><%= duplicate.childid %></td>
+<td><%= duplicate.studyid_to_s %></td>
+<td><%= duplicate.childid_to_s %></td>
 <%#
 	Not all duplicates will be cases, so won't have a patient or organization
 %>

@@ -32,20 +32,18 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				:with => subject.admit_date.strftime("%m/%d/%Y")
 			select "AML", 
 				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[pii_attributes][dob]",
+			fill_in "study_subject[dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-			assert_difference('Pii.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
 				sleep 2	#	for capybara
-			} } } } } } } }
+			} } } } } }
 
 			assert_equal waivered_path, current_path
 			assert page.has_css?("p.flash#error")
@@ -56,15 +54,13 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-			assert_difference('Pii.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
 				sleep 2	#	for capybara
-			} } } } } } } } }
+			} } } } } } }
 			assert page.has_css?("p.flash#notice")
 			assert_match /Operational Event created marking this attempted entry/,
 				page.find("p.flash#notice").text
@@ -91,20 +87,18 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				:with => subject.admit_date.strftime("%m/%d/%Y")
 			select "AML", 
 				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[pii_attributes][dob]",
+			fill_in "study_subject[dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-			assert_difference('Pii.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
 				sleep 2	#	for capybara
-			} } } } } } } }
+			} } } } } }
 
 			assert_equal waivered_path, current_path
 			assert page.has_css?("p.flash#error")
@@ -114,14 +108,12 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-			assert_difference('Pii.count',2) {
 			assert_difference('Patient.count',1) {
-			assert_difference('Identifier.count',2) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "No Match"	
 				sleep 2	#	for capybara
-			} } } } } } } }
+			} } } } } }
 
 			assert_match /\/study_subjects\/\d+/, current_path
 		end
@@ -149,20 +141,18 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				:with => subject.admit_date.strftime("%m/%d/%Y")
 			select "AML", 
 				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[pii_attributes][dob]",
+			fill_in "study_subject[dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Pii.count',2) {
 			assert_difference('Patient.count',1) {
-			assert_difference('Identifier.count',2) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "Submit"	
 				sleep 2	#	for capybara
-			} } } } } } } }
+			} } } } } }
 			assert !page.has_css?("p.flash#error")
 			assert_match /\/study_subjects\/\d+/, current_path
 		end

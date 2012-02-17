@@ -29,18 +29,18 @@ class ChartsController < ApplicationController
 			:group => 'subject_type_id')
 	end
 	def case_control_types
-		@identifiers = Identifier.all(
+		@study_subjects = StudySubject.all(
 			:select => 'case_control_type, count(*) as count', 
 			:group => 'case_control_type')
 	end
 	def case_control_types_pie
-		@identifiers = Identifier.all(
+		@study_subjects = StudySubject.all(
 			:select => 'case_control_type, count(*) as count', 
 			:group => 'case_control_type')
 	end
 
 	def childidwho
-		@identifiers = Identifier.all(
+		@study_subjects = StudySubject.all(
 			:select => 'childidwho, count(*) as count', 
 			:group => 'childidwho')
 	end

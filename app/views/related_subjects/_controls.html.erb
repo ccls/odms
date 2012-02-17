@@ -7,7 +7,7 @@
  </tr></thead><tbody>
   <% @control_subjects.each do |subject| %>
    <tr>
-    <td><%= link_to(subject.studyid,study_subject_path(subject)) %></td>
+    <td><%= link_to(subject.studyid_to_s,study_subject_path(subject)) %></td>
     <td><%= subject.full_name %></td>
     <td><%= subject.subject_type %></td>
     <td><%=mdy subject.dob %></td>

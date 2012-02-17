@@ -4,9 +4,7 @@ ActionController::Routing::Routes.draw do |map|
 	  n.resources :study_subjects, :active_scaffold => true
 	  n.resources :subject_races, :active_scaffold => true
 	  n.resources :subject_languages, :active_scaffold => true
-	  n.resources :piis, :active_scaffold => true
 	  n.resources :patients, :active_scaffold => true
-	  n.resources :identifiers, :active_scaffold => true
 	  n.resources :addresses, :active_scaffold => true
 	  n.resources :addressings, :active_scaffold => true
 	  n.resources :phone_numbers, :active_scaffold => true
@@ -144,9 +142,7 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.namespace :api do |api|
 		api.resources :study_subjects, :only => :index
-		api.resources :piis, :only => :index
 		api.resources :patients, :only => :index
-		api.resources :identifiers, :only => :index
 		api.resources :projects, :only => :index
 		api.resources :enrollments, :only => :index
 		api.resources :addresses, :only => :index

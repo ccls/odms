@@ -62,11 +62,9 @@ class StudySubjectsController < ApplicationController
 			) ? params[:page] : 1
 		@study_subjects = StudySubject.paginate(
 			:order   => search_order,
-			:include => [:pii,:patient,:identifier,:subject_type],
+			:include => [:patient,:subject_type],
 			:joins => [
-				'LEFT JOIN piis ON study_subjects.id = piis.study_subject_id',
-				'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id',
-				'LEFT JOIN identifiers ON study_subjects.id = identifiers.study_subject_id',
+				'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
 			],
 			:conditions => [ conditions[0].join(operator), conditions[1] ],
 			:per_page => params[:per_page]||25,

@@ -4,7 +4,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 	test "case_study_subject creation test without patid" do
 		case_study_subject = Factory(:case_study_subject)	#	no identifier, no patid
-		assert_nil case_study_subject.patid
+#	NOTE actually, this will now have a patid
+#		assert_nil case_study_subject.patid
+		assert_not_nil case_study_subject.patid
 	end
 
 	test "case_study_subject creation test with patid" do
@@ -26,7 +28,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
 			dob = Date.today-1000
-			case_study_subject.pii.update_attribute(:dob, dob)
+			case_study_subject.update_attribute(:dob, dob)
 			candidate = Factory(:candidate_control,
 				:sex => case_study_subject.sex,
 				:dob => dob,
@@ -45,7 +47,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
 			dob = Date.today-1000
-			case_study_subject.pii.update_attribute(:dob, dob)
+			case_study_subject.update_attribute(:dob, dob)
 			candidate = Factory(:candidate_control,
 				:sex => case_study_subject.sex,
 				:dob => dob-1,
@@ -64,7 +66,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
 			dob = Date.today-1000
-			case_study_subject.pii.update_attribute(:dob, dob)
+			case_study_subject.update_attribute(:dob, dob)
 			candidate = Factory(:candidate_control,
 				:sex => (%w( M F ) - [case_study_subject.sex])[0],	#	the other sex
 				:dob => dob,
@@ -160,16 +162,13 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:updated_at    => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name )
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('StudySubject.count',0) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }
-			} } } }
+			} }
 			assert !assigns(:duplicates).empty?
 			assert_response :success
 			assert_template 'edit'
@@ -185,17 +184,14 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:updated_at    => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name)
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-			assert_difference('Pii.count',2) {
-			assert_difference('Identifier.count',2) {
 			assert_difference('StudySubject.count',2) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' },
 					:commit => 'No Match'
-			} } } }
+			} }
 			assert !assigns(:duplicates)
 			assert_redirected_to related_subject_path(case_study_subject.id)
 		end
@@ -209,18 +205,15 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:updated_at    => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name)
 			assert !duplicate.is_case?
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('StudySubject.count',0) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }, 
 					:commit => 'Match Found', :duplicate_id => duplicate.id
-			} } } }
+			} }
 			assert !assigns(:duplicates).empty?
 			assert assigns(:duplicates).include?(duplicate)
 			assert_redirected_to related_subject_path(case_study_subject.id)
@@ -241,18 +234,15 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:subject_type => SubjectType['Case'],
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name)
 			assert duplicate.is_case?
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('StudySubject.count',0) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }, 
 					:commit => 'Match Found', :duplicate_id => duplicate.id
-			} } } }
+			} }
 			assert !assigns(:duplicates).empty?
 			assert assigns(:duplicates).include?(duplicate)
 			assert_redirected_to related_subject_path(case_study_subject.id)
@@ -270,17 +260,14 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:updated_at    => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name)
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('StudySubject.count',0) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }, 
 					:commit => 'Match Found'
-			} } } }
+			} }
 			assert !assigns(:duplicates).empty?
 			assert_response :success
 			assert_template 'edit'
@@ -297,17 +284,14 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:updated_at    => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name)
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('StudySubject.count',0) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }, 
 					:commit => 'Match Found', :duplicate_id => 0
-			} } } }
+			} }
 			assert !assigns(:duplicates).empty?
 			assert_response :success
 			assert_template 'edit'
@@ -333,12 +317,12 @@ class CandidateControlsControllerTest < ActionController::TestCase
 					:reject_candidate => 'false' }
 			} }
 			candidate.reload
-			assert_not_nil candidate.study_subject.identifier.icf_master_id
+			assert_not_nil candidate.study_subject.icf_master_id
 			assert_equal '12345',
-				candidate.study_subject.identifier.icf_master_id
-			assert_not_nil candidate.study_subject.mother.identifier.icf_master_id
+				candidate.study_subject.icf_master_id
+			assert_not_nil candidate.study_subject.mother.icf_master_id
 			assert_equal '67890',
-				candidate.study_subject.mother.identifier.icf_master_id
+				candidate.study_subject.mother.icf_master_id
 			assert_nil flash[:warn]
 		end
 
@@ -356,10 +340,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 					:reject_candidate => 'false' }
 			} }
 			candidate.reload
-			assert_not_nil candidate.study_subject.identifier.icf_master_id
+			assert_not_nil candidate.study_subject.icf_master_id
 			assert_equal '12345',
-				candidate.study_subject.identifier.icf_master_id
-			assert_nil candidate.study_subject.mother.identifier.icf_master_id
+				candidate.study_subject.icf_master_id
+			assert_nil candidate.study_subject.mother.icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
@@ -376,8 +360,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 					:reject_candidate => 'false' }
 			} }
 			candidate.reload
-			assert_nil candidate.study_subject.identifier.icf_master_id
-			assert_nil candidate.study_subject.mother.identifier.icf_master_id
+			assert_nil candidate.study_subject.icf_master_id
+			assert_nil candidate.study_subject.mother.icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
@@ -420,7 +404,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #					" when Enrollment save fails" do
 #	pending
 #				login_as send(cu)
-#				case_study_subject = create_case_identifier.study_subject
+#				case_study_subject = create_case_study_subject
 #				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 #	#			Enrollment.any_instance.stubs(:create_or_update).returns(false)
 #	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
@@ -432,7 +416,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #					" when Enrollment invalid" do
 #	pending
 #				login_as send(cu)
-#				case_study_subject = create_case_identifier.study_subject
+#				case_study_subject = create_case_study_subject
 #				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 #	#			Enrollment.any_instance.stubs(:valid?).returns(false)
 #	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
@@ -440,58 +424,6 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #	#			assert_template 'edit'
 #			end
 #	
-#			test "should NOT put update with #{cu} login and accept candidate" <<
-#					" when Pii save fails" do
-#	pending
-#				login_as send(cu)
-#				case_study_subject = create_case_identifier.study_subject
-#				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
-#	#			Pii.any_instance.stubs(:create_or_update).returns(false)
-#	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
-#	#			assert_response :success
-#	#			assert_template 'edit'
-#			end
-#	
-#			test "should NOT put update with #{cu} login and accept candidate" <<
-#					" when Pii invalid" do
-#	pending
-#				login_as send(cu)
-#				case_study_subject = create_case_identifier.study_subject
-#				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
-#	#			Pii.any_instance.stubs(:valid?).returns(false)
-#	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
-#	#			assert_response :success
-#	#			assert_template 'edit'
-#			end
-#	
-#			test "should NOT put update with #{cu} login and accept candidate" <<
-#					" when Identifier save fails" do
-#	pending
-#				login_as send(cu)
-#				case_study_subject = create_case_identifier.study_subject
-#				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
-#	#			Identifier.any_instance.stubs(:create_or_update).returns(false)
-#	##			StudySubject.any_instance.stubs(:autosave_associated_records_for_identifier).returns(false)
-#	#			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
-#	#			assert_response :success
-#	#			assert_template 'edit'
-#			end
-#		
-#			test "should NOT put update with #{cu} login and accept candidate" <<
-#					" when Identifier invalid" do
-#	pending
-#				login_as send(cu)
-#				case_study_subject = create_case_identifier.study_subject
-#				candidate = create_candidate_control(:related_patid => case_study_subject.patid)
-#				Identifier.any_instance.stubs(:valid?).returns(false)
-#	#puts StudySubject.instance_methods.sort
-#	#			StudySubject.any_instance.stubs(:validate_associated_records_for_identifier).raises(ActiveRecord::RecordInvalid)
-#				StudySubject.any_instance.stubs(:validate_associated_records_for_identifier).returns(false)
-#				assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
-#	#			assert_response :success
-#	#			assert_template 'edit'
-#	flunk
-#			end
 #
 #	just can't get the stubs to work on nested attributes.
 
@@ -565,9 +497,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:complete_case_study_subject)
 			candidate = Factory(:candidate_control,
 				:related_patid => case_study_subject.patid)
-			Identifier.any_instance.stubs(:get_next_childid).returns(12345)
-			identifier1 = Factory(:identifier)
-			assert_not_nil identifier1.childid
+			StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
+			study_subject = Factory(:study_subject)
+			assert_not_nil study_subject.childid
 			login_as send(cu)
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success
@@ -578,9 +510,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:complete_case_study_subject)
 			candidate = Factory(:candidate_control,
 				:related_patid => case_study_subject.patid)
-			Identifier.any_instance.stubs(:generate_subjectid).returns('012345')
-			identifier1 = Factory(:identifier)
-			assert_not_nil identifier1.subjectid
+			StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
+			study_subject = Factory(:study_subject)
+			assert_not_nil study_subject.subjectid
 			login_as send(cu)
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success

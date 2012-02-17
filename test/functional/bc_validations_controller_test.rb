@@ -5,7 +5,7 @@ class BcValidationsControllerTest < ActionController::TestCase
 #	ASSERT_ACCESS_OPTIONS = { 
 ##		:model => 'StudySubject',
 #		:actions => [:index,:show],
-#		:method_for_create => :create_case_control_study_subject
+#		:method_for_create => :create_case_study_subject
 #	}
 #
 #	assert_access_with_login({    :logins => site_editors })

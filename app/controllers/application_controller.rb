@@ -118,7 +118,7 @@ protected	#	private #	(does it matter which or if neither?)
 		#
 		study_subject_params = incoming_params.deep_merge({
 			'subject_type_id' => SubjectType['Case'].id,
-			'identifier_attributes' => { 'case_control_type' => 'C' },
+			'case_control_type' => 'C',
 			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
 			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
 			'phone_numbers_attributes' => {
@@ -165,16 +165,14 @@ protected	#	private #	(does it matter which or if neither?)
 			#	The raised error will still kick all the way out.
 			StudySubject.transaction do
 				@study_subject.save!
-# possibly put in a identifier#after_create ???
-#	or study_subject#after_create ???
 				@study_subject.assign_icf_master_id
 				@study_subject.create_mother
 			end
 
-			if @study_subject.identifier.icf_master_id.blank?
+			if @study_subject.icf_master_id.blank?
 				warn << "Case was not assigned an icf_master_id."
 			end
-			if @study_subject.mother.identifier.icf_master_id.blank?
+			if @study_subject.mother.icf_master_id.blank?
 				warn << "Mother was not assigned an icf_master_id."
 			end
 			flash[:warn] = warn.join('<br/>') unless warn.empty?

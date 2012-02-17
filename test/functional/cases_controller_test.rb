@@ -12,9 +12,7 @@ class CasesControllerTest < ActionController::TestCase
 #		:method_for_create => :create_study_subject
 #	}
 #	def factory_attributes(options={})
-#		Factory.attributes_for(:study_subject,{
-#			'identifier_attributes' => Factory.attributes_for(:identifier)
-#		}.merge(options))
+#		Factory.attributes_for(:study_subject,options)
 #	end
 #
 #	assert_access_with_login({    :logins => site_editors })

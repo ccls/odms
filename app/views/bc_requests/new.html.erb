@@ -52,8 +52,8 @@
     <%= hidden_field_tag :status, 'waitlist' %>
    <% end %>
   </td>
-  <td><%= link_to study_subject.studyid, study_subject %></td>
-  <td><%= study_subject.icf_master_id %></td>
+  <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
+  <td><%= study_subject.icf_master_id_to_s %></td>
   <td><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
   <td><%= study_subject.sex %></td>
   <td>born in cali</td>
@@ -102,8 +102,8 @@
 
 
   </td>
-  <td><%= link_to study_subject.studyid, study_subject %></td>
-  <td><%= study_subject.icf_master_id %></td>
+  <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
+  <td><%= study_subject.icf_master_id_to_s %></td>
   <td><%= study_subject.full_name %></td>
   <td><%= bc_request.notes %></td>
   <td><%= link_to 'Edit', edit_bc_request_path(bc_request), :class => 'button' %></td>

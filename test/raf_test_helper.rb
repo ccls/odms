@@ -16,18 +16,18 @@ class ActiveSupport::TestCase
 #
 #		Must also be consious of whether the keys are STRINGs or SYMBOLs.
 #
-	def create_complete_case_study_subject_with_mother_maiden_name(mother_maiden_name)
-		subject = nil
-		assert_difference('Pii.count',1) {
-		assert_difference('Patient.count',1) {
-		assert_difference('Identifier.count',1) {
-		assert_difference('StudySubject.count',1) {
-			subject = Factory(:complete_case_study_subject, 
-				:pii_attributes => Factory.attributes_for(:pii, :mother_maiden_name => mother_maiden_name ))
-		} } } }
-		assert_equal mother_maiden_name, subject.mother_maiden_name
-		subject
-	end
+
+#	NOTE this method is almost unnecessary now that pii and identifier merged
+#	def create_complete_case_study_subject_with_mother_maiden_name(mother_maiden_name)
+#		subject = nil
+#		assert_difference('Patient.count',1) {
+#		assert_difference('StudySubject.count',1) {
+#			subject = Factory(:complete_case_study_subject, 
+#				:mother_maiden_name => mother_maiden_name )
+#		} }
+#		assert_equal mother_maiden_name, subject.mother_maiden_name
+#		subject
+#	end
 
 #			:race_ids => [Race.random.id],
 	def complete_case_study_subject_attributes(options={})
@@ -37,9 +37,7 @@ class ActiveSupport::TestCase
 #				"0"=>{"race_id"=>"1"} },
 			'subject_languages_attributes' => {
 				"0"=>{"language_id"=>"1"} },
-			'pii_attributes' => Factory.attributes_for(:pii),
 			'patient_attributes' => Factory.attributes_for(:patient),
-			'identifier_attributes' => Factory.attributes_for(:identifier),
 			'phone_numbers_attributes' => {
 				'0' => Factory.attributes_for(:phone_number) },
 			'addressings_attributes' => {
@@ -54,30 +52,26 @@ class ActiveSupport::TestCase
 		assert_difference('StudySubject.count',count){
 #		assert_difference('SubjectRace.count',count){
 		assert_difference('SubjectLanguage.count',count){
-		assert_difference('Identifier.count',count){
 		assert_difference('Patient.count',count){
-		assert_difference('Pii.count',count){
 		assert_difference('Enrollment.count',count){
 		assert_difference('PhoneNumber.count',count){
 		assert_difference('Addressing.count',count){
 		assert_difference('Address.count',count){
 			yield
-		} } } } } } } } } #}
+		} } } } } } } #}
 	end
 
 	def successful_raf_creation(&block)
 		assert_difference('StudySubject.count',2){
 #		assert_difference('SubjectRace.count',count){
 		assert_difference('SubjectLanguage.count',1){
-		assert_difference('Identifier.count',2){
 		assert_difference('Patient.count',1){
-		assert_difference('Pii.count',2){
 		assert_difference('Enrollment.count',2){	#	subject AND mother
 		assert_difference('PhoneNumber.count',1){
 		assert_difference('Addressing.count',1){
 		assert_difference('Address.count',1){
 			yield
-		} } } } } } } } } #}
+		} } } } } } } #}
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)
 	end
@@ -89,12 +83,10 @@ class ActiveSupport::TestCase
 #		assert_difference('Addressing.count',0){
 #		assert_difference('Address.count',0){
 #		assert_difference('Enrollment.count',2){	#	both child and mother
-#		assert_difference('Pii.count',2){
 #		assert_difference('Patient.count',1){
-#		assert_difference('Identifier.count',2){
 #		assert_difference('StudySubject.count',2){
 #			yield
-#		} } } } } } } } } # }
+#		} } } } } } } # }
 #		assert_nil flash[:error]
 #		assert_redirected_to assigns(:study_subject)
 #	end

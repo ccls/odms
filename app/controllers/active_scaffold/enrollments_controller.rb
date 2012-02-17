@@ -43,7 +43,7 @@ class ActiveScaffold::EnrollmentsController < ActiveScaffoldController
 		#	The columns shown in the list, show and edit
 		#	Don't include calculated columns.
 #		config.columns = [
-#			:identifier,:pii, :patient,
+#			:patient,
 #			:subject_languages,:subject_races,
 #			:birth_county,:birth_type, :dad_is_biodad,
 #			:do_not_contact, :father_hispanicity_mex, :father_yrs_educ,
@@ -56,8 +56,8 @@ class ActiveScaffold::EnrollmentsController < ActiveScaffoldController
 #		config.columns.exclude :abstracts, :addresses, :addressings,
 #			:analyses, :bc_requests, :enrollments, :first_abstract, 
 #			:gift_cards, :home_exposure_response, :homex_outcome, 
-#			:identifier, :interviews, :languages, :merged_abstract,
-#			:operational_events, :patient, :phone_numbers, :pii, :races,
+#			:interviews, :languages, :merged_abstract,
+#			:operational_events, :patient, :phone_numbers, :races,
 #			:samples, :second_abstract, :subject_languages, :subject_races,
 #			:unmerged_abstracts
 #	would be simpler just to list the included columns in this case

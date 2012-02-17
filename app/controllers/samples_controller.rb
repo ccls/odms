@@ -33,7 +33,7 @@ class SamplesController < ApplicationController
 			render :layout => 'subject'
 		else
 			if params[:studyid] or params[:icf_master_id]
-				@identifiers = Identifier.find_all_by_studyid_or_icf_master_id(
+				@study_subjects = StudySubject.find_all_by_studyid_or_icf_master_id(
 					params[:studyid]||nil, params[:icf_master_id]||nil )
 			end
 			render :action => "new_for_subject"

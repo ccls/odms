@@ -11,11 +11,7 @@ class BcValidationsController < ApplicationController
 ##		Search options aren't ever passed.
 ##		@cases = StudySubject.search(params.merge(:types => 'case',:order => 'studyid'))
 #		@cases = StudySubject.paginate(
-#			:include => [:pii,:identifier],
-#			:order => 'identifiers.patid',
-#			:joins => [
-#				'LEFT JOIN identifiers ON study_subjects.id = identifiers.study_subject_id'
-#			],
+#			:order => 'patid',
 #			:conditions => ['study_subjects.subject_type_id = ?',
 #				SubjectType['Case'].id],
 #			:per_page => params[:per_page]||25,

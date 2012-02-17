@@ -122,20 +122,18 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			login_as send(cu)
 
 			#	minimal semi-real case creation
-			s1 = Factory(:study_subject,:sex => 'F')
-			s1.create_pii(:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
+			s1 = Factory(:study_subject,:sex => 'F',
+				:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
 				:dob => Date.parse('10/16/1977'))
 
-			s2 = Factory(:study_subject,:sex => 'F')
-			s2.create_identifier
-			s2.create_pii(:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
+			s2 = Factory(:study_subject,:sex => 'F',
+				:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
 				:dob => Date.parse('9/21/1988'))
 			Factory(:icf_master_id,:icf_master_id => '15270110G')
 			s2.assign_icf_master_id
 
-			s3 = Factory(:study_subject,:sex => 'M')
-			s3.create_identifier
-			s3.create_pii(:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+			s3 = Factory(:study_subject,:sex => 'M',
+				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
 				:dob => Date.parse('6/1/2009'))
 			Factory(:icf_master_id,:icf_master_id => '15397125B')
 			s3.assign_icf_master_id

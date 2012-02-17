@@ -267,7 +267,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 #		test "should NOT confirm actives exported with #{cu} login if " <<
 #				"enrollment creation fails" do
 #			login_as send(cu)
-#			case_study_subject = create_case_control_study_subject
+#			case_study_subject = create_case_study_subject
 ##			assert case_study_subject.enrollments.empty?
 #			assert_equal 1, case_study_subject.enrollments.length
 #			bcr = case_study_subject.bc_requests.create(:status => 'active')
@@ -284,7 +284,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 #		test "should NOT confirm actives exported with #{cu} login if " <<
 #				"enrollment invalid" do
 #			login_as send(cu)
-#			case_study_subject = create_case_control_study_subject
+#			case_study_subject = create_case_study_subject
 ##			assert case_study_subject.enrollments.empty?
 #			assert_equal 1, case_study_subject.enrollments.length
 #			bcr = case_study_subject.bc_requests.create(:status => 'active')

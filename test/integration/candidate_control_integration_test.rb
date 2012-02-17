@@ -37,14 +37,12 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Pii.count',2) {
-			assert_difference('Identifier.count',2) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 				sleep 1	#	If I don't sleep in capybara, the counts don't change???
-			} } } } } } } } }
+			} } } } } } }
 
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")
@@ -60,9 +58,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 					:updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name)
 			page.visit related_subject_path(case_study_subject.id)
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 			click_link 'add control'
@@ -76,13 +73,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-			} } } } } } } } }
+			} } } } } } }
 
 			#
 			#	this kicks back as a render, not a redirect so 
@@ -98,13 +93,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
-			} } } } } } } } }
+			} } } } } } }
 			assert page.has_css?('div.possible_duplicates')
 			assert page.has_css?("p.flash#error")
 			assert page.has_css?("p.flash#warn")
@@ -126,9 +119,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 					:updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name)
 			page.visit related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
@@ -141,13 +133,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-			} } } } } } } } }
+			} } } } } } }
 
 			#
 			#	this kicks back as a render, not a redirect so 
@@ -165,14 +155,12 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
 				sleep 1	#	If I don't sleep in capybara, the counts don't change???
-			} } } } } } } } }
+			} } } } } } }
 
 			assert_candidate_rejected(candidate.reload)
 			# as the created duplicate is not explicitly a case
@@ -192,9 +180,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 					:updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
-				:pii_attributes => Factory.attributes_for(:pii,
-					:dob => candidate.dob,
-					:mother_maiden_name => candidate.mother_maiden_name) )
+				:dob => candidate.dob,
+				:mother_maiden_name => candidate.mother_maiden_name)
 			page.visit related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
@@ -207,13 +194,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Pii.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-			} } } } } } } } }
+			} } } } } } }
 
 			#
 			#	this kicks back as a render, not a redirect so 
@@ -230,14 +215,12 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Pii.count',2) {
-			assert_difference('Identifier.count',2) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'No Match'
 				sleep 2	#	If I don't sleep in capybara, the counts don't change???
-			} } } } } } } } }
+			} } } } } } }
 
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")

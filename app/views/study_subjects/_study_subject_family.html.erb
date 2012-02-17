@@ -1,10 +1,9 @@
 <div class='family'>
 <h3>Family Subjects:</h3>
-<% if @study_subject and @study_subject.identifier %>
+<% if @study_subject %>
 <% StudySubject.find(:all,
-			:joins => :identifier,
 			:conditions => { 
-				'identifiers.familyid' => @study_subject.identifier.familyid
+				'familyid' => @study_subject.familyid
 			}
 		).each do |subject| %>
 

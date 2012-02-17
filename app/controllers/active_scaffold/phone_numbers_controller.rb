@@ -23,7 +23,7 @@ class ActiveScaffold::PhoneNumbersController < ActiveScaffoldController
 		#	The columns shown in the list, show and edit
 		#	Don't include calculated columns.
 #		config.columns = [
-#			:identifier,:pii, :patient,
+#			:patient,
 #			:subject_languages,:subject_races,
 #			:birth_county,:birth_type, :dad_is_biodad,
 #			:do_not_contact, :father_hispanicity_mex, :father_yrs_educ,

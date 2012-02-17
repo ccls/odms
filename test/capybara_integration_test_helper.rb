@@ -166,22 +166,21 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		#
 		[Abstract,Address,Addressing,AddressType,
 			Aliquot,AliquotSampleFormat,Analysis,BcRequest,
-			CandidateControl,County,Context,
+			CandidateControl,Context,
 			ContextDataSource,County,
 			DataSource,Diagnosis,DocumentType,DocumentVersion,Enrollment,
 			FollowUp,FollowUpType,GiftCard,Guide,
 			HomeExposureResponse,HomexOutcome,Hospital,
-			IcfMasterId,Identifier,
+			IcfMasterId,
 			IneligibleReason,Instrument,InstrumentType,InstrumentVersion,
 			Interview,InterviewMethod,InterviewOutcome,
 			Language,
-			OperationalEvent,OperationalEventType,Organization,Package,Page,Patient,
-			PhoneNumber,PhoneType,Pii,Project,
-			Person,
-			ProjectOutcome,Race,RefusalReason,Sample,SampleKit,SampleOutcome,SampleType,Section,
-			StudySubject,
-			SubjectLanguage,Language,SubjectRace,SubjectRelationship,SubjectType,Race,
-			Role,Track,Transfer,Unit,User,VitalStatus,ZipCode].each do |model|
+			OperationalEvent,OperationalEventType,Organization,Page,Patient,
+			PhoneNumber,PhoneType,Project,Person,ProjectOutcome,
+			Race,RefusalReason,Role,
+			Sample,SampleKit,SampleOutcome,SampleType,Section,StudySubject,
+			SubjectLanguage,Language,SubjectRace,SubjectRelationship,SubjectType,
+			Transfer,Unit,User,VitalStatus,ZipCode].each do |model|
 			model.saved_connection = model.connection
 		end
 	end

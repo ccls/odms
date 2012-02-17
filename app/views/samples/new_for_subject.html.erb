@@ -14,20 +14,20 @@
 
 
 <% unless params[:studyid].blank? and params[:icf_master_id].blank? %>
-<% if @identifiers and !@identifiers.empty? %>
+<% if @study_subjects and !@study_subjects.empty? %>
 <p>Found the following subject(s)</p>
 <table><thead>
 <tr><th>name</th><th>studyid</th><th>icf_master_id</th><th>admit date</th><th>reference date</th><th>hospital_no</th><th>&nbsp;</th></tr>
 </thead><tbody>
-<% @identifiers.each do |identifier| %>
+<% @study_subjects.each do |study_subject| %>
 <tr>
-<td><%= identifier.study_subject.full_name %></td>
-<td><%= identifier.study_subject.studyid %></td>
-<td><%= identifier.icf_master_id %></td>
-<td><%=mdy identifier.study_subject.admit_date %></td>
-<td><%=mdy identifier.study_subject.reference_date %></td>
-<td><%= identifier.study_subject.hospital_no %></td>
-<td><%= link_to "New Sample", new_study_subject_sample_path(identifier.study_subject_id) %></td>
+<td><%= study_subject.full_name %></td>
+<td><%= study_subject.studyid_to_s %></td>
+<td><%= study_subject.icf_master_id_to_s %></td>
+<td><%=mdy study_subject.admit_date %></td>
+<td><%=mdy study_subject.reference_date %></td>
+<td><%= study_subject.hospital_no %></td>
+<td><%= link_to "New Sample", new_study_subject_sample_path(study_subject) %></td>
 </tr>
 <% end %>
 </tbody></table>

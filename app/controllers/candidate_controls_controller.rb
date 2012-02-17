@@ -62,10 +62,10 @@ class CandidateControlsController < ApplicationController
 					#	Transactions are only for marking a rollback point.
 					#	The raised error will still kick all the way out.
 					@candidate.create_study_subjects(@study_subject,'6')	#	'6' is default anyway
-					if @candidate.study_subject.identifier.icf_master_id.blank?
+					if @candidate.study_subject.icf_master_id.blank?
 						warn << "Control was not assigned an icf_master_id."
 					end
-					if @candidate.study_subject.mother.identifier.icf_master_id.blank?
+					if @candidate.study_subject.mother.icf_master_id.blank?
 						warn << "Mother was not assigned an icf_master_id."
 					end
 					flash[:warn] = warn.join('<br/>') unless warn.empty?

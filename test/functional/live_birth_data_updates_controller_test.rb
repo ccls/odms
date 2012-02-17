@@ -122,22 +122,19 @@ class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
 			login_as send(cu)
 
 			#	minimal semi-real case creation
-			s1 = Factory(:case_study_subject,:sex => 'F')
-			s1.create_identifier(:case_control_type => 'C')
-			s1.create_pii(:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
+			s1 = Factory(:case_study_subject,:sex => 'F',
+				:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
 				:dob => Date.parse('10/16/1977'))
 			#	s1 has no icf_master_id, so should be ignored
 	
-			s2 = Factory(:case_study_subject,:sex => 'F')
-			s2.create_identifier(:case_control_type => 'C')
-			s2.create_pii(:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
+			s2 = Factory(:case_study_subject,:sex => 'F',
+				:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
 				:dob => Date.parse('9/21/1988'))
 			Factory(:icf_master_id,:icf_master_id => '48882638A')
 			s2.assign_icf_master_id
 	
-			s3 = Factory(:case_study_subject,:sex => 'M')
-			s3.create_identifier(:case_control_type => 'C')
-			s3.create_pii(:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+			s3 = Factory(:case_study_subject,:sex => 'M',
+				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
 				:dob => Date.parse('6/1/2009'))
 			Factory(:icf_master_id,:icf_master_id => '16655682G')
 			s3.assign_icf_master_id
@@ -155,7 +152,7 @@ class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
 
 			assert assigns(:results)[0].is_a?(String)
 			assert_equal assigns(:results)[0],
-				"Could not find identifier with masterid [no ID assigned]"
+				"Could not find study_subject with masterid [no ID assigned]"
 			assert assigns(:results)[1].is_a?(StudySubject)
 			assert assigns(:results)[2].is_a?(StudySubject)
 			assigns(:results).each { |r|

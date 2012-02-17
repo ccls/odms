@@ -12,6 +12,27 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 
+		test "should keep unchecked checkboxes on re-render with #{cu} login" do
+#	TODO noticed that validation failure and re-render, checks these boxes???
+#	manually setting the checked attribute fixes, but don't understand why
+			login_as send(cu)
+			page.visit new_nonwaivered_path
+
+			assert page.has_unchecked_field?(
+				'study_subject_patient_attributes_was_under_15_at_dx')
+			assert page.has_unchecked_field?(
+				'study_subject_patient_attributes_was_previously_treated')
+			assert page.has_unchecked_field?(
+				'study_subject_patient_attributes_was_ca_resident_at_diagnosis')
+			click_button "Submit"	
+			assert page.has_unchecked_field?(
+				'study_subject_patient_attributes_was_under_15_at_dx')
+			assert page.has_unchecked_field?(
+				'study_subject_patient_attributes_was_previously_treated')
+			assert page.has_unchecked_field?(
+				'study_subject_patient_attributes_was_ca_resident_at_diagnosis')
+		end
+
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
 			duplicate = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
@@ -32,7 +53,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				:with => subject.admit_date.strftime("%m/%d/%Y")
 			select "AML", 
 				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[pii_attributes][dob]",
+			fill_in "study_subject[dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
 			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
@@ -47,14 +68,12 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-			assert_difference('Pii.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
 				sleep 2	#	pause to ensure no changes in capybara
-			} } } } } } } }
+			} } } } } }
 
 			assert_equal nonwaivered_path, current_path
 			assert page.has_css?("p.flash#error")
@@ -65,15 +84,13 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-			assert_difference('Pii.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
 				sleep 2	#	capybara will require a moment to get the counts correct
-			} } } } } } } } }
+			} } } } } } }
 			assert page.has_css?("p.flash#notice")	#	success
 			assert_match /Operational Event created marking this attempted entry/,
 				page.find("p.flash#notice").text
@@ -100,7 +117,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				:with => subject.admit_date.strftime("%m/%d/%Y")
 			select "AML", 
 				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[pii_attributes][dob]",
+			fill_in "study_subject[dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
 			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
@@ -115,14 +132,12 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
-			assert_difference('Pii.count',0) {
 			assert_difference('Patient.count',0) {
-			assert_difference('Identifier.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
 				sleep 2	#	pause to ensure no changes in capybara
-			} } } } } } } }
+			} } } } } }
 			assert_equal nonwaivered_path, current_path
 			assert page.has_css?("p.flash#error")
 			assert_match /Possible Duplicate\(s\) Found/, 
@@ -131,15 +146,13 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',1) {
 			assert_difference('Address.count',1) {
-			assert_difference('Pii.count',2) {
 			assert_difference('Patient.count',1) {
-			assert_difference('Identifier.count',2) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				#	click_button(value)
 				click_button "No Match"	
 				sleep 2	#	capybara will require a moment to get the counts correct
-			} } } } } } } }
+			} } } } } }
 
 			assert_match /\/study_subjects\/\d+/, current_path
 		end
@@ -164,7 +177,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				:with => subject.admit_date.strftime("%m/%d/%Y")
 			select "AML", 
 				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[pii_attributes][dob]",
+			fill_in "study_subject[dob]",
 				:with => subject.dob.strftime("%m/%d/%Y")
 
 			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
@@ -179,14 +192,12 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',1) {
 			assert_difference('Address.count',1) {
-			assert_difference('Pii.count',2) {
 			assert_difference('Patient.count',1) {
-			assert_difference('Identifier.count',2) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "Submit"	
 				sleep 2	#	capybara will require a moment to get the counts correct
-			} } } } } } } }
+			} } } } } }
 			assert !page.has_css?("p.flash#error")
 			assert_match /\/study_subjects\/\d+/, current_path
 		end

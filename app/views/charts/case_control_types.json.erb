@@ -19,10 +19,10 @@
 			"alpha":     0.5,
 			"colour":    "#CC9933",
 			"font-size": 10,
-<%#=@identifiers.collect(&:count).join(',')-%>
+<%#=@study_subjects.collect(&:count).join(',')-%>
 <%# could use this style to call something more than just alert -%>
 <%# some values are so small that they may be difficult to click -%>
-			"values" :   [<%=@identifiers.collect{|i| 
+			"values" :   [<%=@study_subjects.collect{|i| 
 	"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"alert('#{i.case_control_type}:#{i.count}')\"}"
 }.join(',')%>]
 		}
@@ -32,7 +32,7 @@
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=@identifiers.collect{|i| "\"#{i.case_control_type}\""}.join(',')%>]
+			"labels": [<%=@study_subjects.collect{|i| "\"#{i.case_control_type}\""}.join(',')%>]
 		}
 	},
 	"y_axis":{
@@ -40,6 +40,6 @@
 		"tick_length": 3,
 		"grid_colour": "#00ff00",
 		"offset":      0,
-		"max":         <%=@identifiers.collect{|i|i.count.to_i}.max%>
+		"max":         <%=@study_subjects.collect{|i|i.count.to_i}.max%>
 	}
 }

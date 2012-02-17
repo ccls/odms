@@ -220,7 +220,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert !assigns(:duplicates)
 		end
 
-#	Have the same birth date (piis.dob) and sex (subject.sex) as the new subject and 
+#	Have the same birth date (dob) and sex (subject.sex) as the new subject and 
 #		(same mother’s maiden name or existing mother’s maiden name is null)
 
 #	NOTE This could include non-case subjects
@@ -237,7 +237,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob }
+						:dob => subject.dob
 					})
 			end
 			assert_duplicates_found_and_rerendered_new
@@ -253,7 +253,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob }
+						:dob => subject.dob
 					})
 			end
 			assert_duplicates_found_and_rerendered_new
@@ -267,7 +267,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob }
+						:dob => subject.dob
 					}, :commit => 'Match Found')
 			end
 			assert_duplicates_found_and_rerendered_new
@@ -281,7 +281,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob }
+						:dob => subject.dob
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
 			assert_not_nil flash[:warn]
@@ -298,7 +298,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) {
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob }
+						:dob => subject.dob
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert !assigns(:duplicates).empty?
@@ -314,7 +314,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob }
+						:dob => subject.dob
 					}, :commit => 'No Match')
 			assert !assigns(:duplicates)
 		end
@@ -325,12 +325,13 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login" do
 			#	waivered / nonwaivered? does it matter here?
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					})
 			end
 			assert_duplicates_found_and_rerendered_new
@@ -340,12 +341,13 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' without duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					}, :commit => 'Match Found')
 			end
 			assert_duplicates_found_and_rerendered_new
@@ -355,12 +357,13 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
 			assert_not_nil flash[:warn]
@@ -372,13 +375,14 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with valid duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 			assert_all_differences(0) {
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert !assigns(:duplicates).empty?
@@ -391,11 +395,12 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'No Match'" do
 			#	waivered / nonwaivered? does it matter here?
-			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
+			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					}, :commit => 'No Match')
 			assert !assigns(:duplicates)
 		end
@@ -410,7 +415,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					})
 			end
 			assert_duplicates_found_and_rerendered_new
@@ -424,7 +429,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					}, :commit => 'Match Found')
 			end
 			assert_duplicates_found_and_rerendered_new
@@ -438,7 +443,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) do
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					}, :commit => 'Match Found', :duplicate_id => 0 )
 			end
 			assert_not_nil flash[:warn]
@@ -455,7 +460,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_all_differences(0) {
 				post :create, minimum_nonwaivered_form_attributes(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					}, :commit => 'Match Found', :duplicate_id => subject.id )
 			} }
 			assert !assigns(:duplicates).empty?
@@ -471,7 +476,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			minimum_successful_creation(
 					'study_subject' => { 'sex' => subject.sex,
-						'pii_attributes' => { :dob => subject.dob, :mother_maiden_name => 'Smith' }
+						:dob => subject.dob, :mother_maiden_name => 'Smith'
 					}, :commit => 'No Match')
 			assert !assigns(:duplicates)
 		end
@@ -540,8 +545,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with complete attributes and #{cu} login" do
 			login_as send(cu)
 			full_successful_creation
-			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
-			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
+			assert_equal 'C', assigns(:study_subject).case_control_type
+			assert_equal '0', assigns(:study_subject).orderno.to_s
 		end
 
 		test "should create nonwaivered case study_subject" <<
@@ -581,16 +586,16 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with minimum non-waivered attributes and #{cu} login" do
 			login_as send(cu)
 			minimum_successful_creation
-			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
-			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
+			assert_equal 'C', assigns(:study_subject).case_control_type
+			assert_equal '0', assigns(:study_subject).orderno.to_s
 		end
 
 		test "should create nonwaivered case study_subject" <<
 				" with non-waivered attributes and #{cu} login" do
 			login_as send(cu)
 			nonwaivered_successful_creation()
-			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
-			assert_equal '0', assigns(:study_subject).identifier.orderno.to_s
+			assert_equal 'C', assigns(:study_subject).case_control_type
+			assert_equal '0', assigns(:study_subject).orderno.to_s
 		end
 
 
@@ -709,7 +714,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with #{cu} login" do
 			login_as send(cu)
 			minimum_successful_creation
-			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
+			assert_nil assigns(:study_subject).mother.icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
@@ -718,7 +723,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
 			minimum_successful_creation
-			assert_nil assigns(:study_subject).mother.identifier.icf_master_id
+			assert_nil assigns(:study_subject).mother.icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
@@ -728,16 +733,16 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			Factory(:icf_master_id,:icf_master_id => '123456780')
 			Factory(:icf_master_id,:icf_master_id => '123456781')
 			minimum_successful_creation
-			assert_not_nil assigns(:study_subject).identifier.icf_master_id
-			assert_equal '123456780', assigns(:study_subject).identifier.icf_master_id
-			assert_not_nil assigns(:study_subject).mother.identifier.icf_master_id
-			assert_equal '123456781', assigns(:study_subject).mother.identifier.icf_master_id
+			assert_not_nil assigns(:study_subject).icf_master_id
+			assert_equal '123456780', assigns(:study_subject).icf_master_id
+			assert_not_nil assigns(:study_subject).mother.icf_master_id
+			assert_equal '123456781', assigns(:study_subject).mother.icf_master_id
 		end
 
 		test "should not assign icf_master_id if none exist on create with #{cu} login" do
 			login_as send(cu)
 			minimum_successful_creation
-			assert_nil assigns(:study_subject).identifier.icf_master_id
+			assert_nil assigns(:study_subject).icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
@@ -745,8 +750,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
 			minimum_successful_creation
-			assert_not_nil assigns(:study_subject).identifier.icf_master_id
-			assert_equal '123456789', assigns(:study_subject).identifier.icf_master_id
+			assert_not_nil assigns(:study_subject).icf_master_id
+			assert_equal '123456789', assigns(:study_subject).icf_master_id
 			#	only one icf_master_id so mother will raise warning
 			assert_not_nil flash[:warn]	
 		end
@@ -755,8 +760,8 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			nonwaivered_successful_creation('study_subject' => {
 				"enrollments_attributes"=>{ "0"=>{ "consented_on"=> Date.today } } })
-			assert_equal 'C', assigns(:study_subject).identifier.case_control_type
-			assert_equal  0 , assigns(:study_subject).identifier.orderno
+			assert_equal 'C', assigns(:study_subject).case_control_type
+			assert_equal  0 , assigns(:study_subject).orderno
 			assert_equal  1 , assigns(:study_subject).enrollments.first.consented
 		end
 
@@ -818,10 +823,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 #		end 
 
 		test "should do something if patid exists with #{cu} login" do
-#	TODO
-			Identifier.any_instance.stubs(:get_next_patid).returns('0123')
-			identifier1 = Factory(:case_identifier)
-			assert_not_nil identifier1.patid
+pending #	TODO
+			StudySubject.any_instance.stubs(:get_next_patid).returns('0123')
+			study_subject = Factory(:case_study_subject)
+			assert_not_nil study_subject.patid
 			login_as send(cu)
 			assert_all_differences(0) do
 				#	waivered / nonwaivered? does it matter?
@@ -833,10 +838,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		end
 
 		test "should do something if childid exists with #{cu} login" do
-#	TODO
-			Identifier.any_instance.stubs(:get_next_childid).returns(12345)
-			identifier1 = Factory(:identifier)
-			assert_not_nil identifier1.childid
+pending #	TODO
+			StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
+			study_subject = Factory(:study_subject)	#	doesn't need to be case
+			assert_not_nil study_subject.childid
 			login_as send(cu)
 			assert_all_differences(0) do
 				#	waivered / nonwaivered? does it matter?
@@ -849,9 +854,9 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should do something if subjectid exists with #{cu} login" do
 #	TODO
-			Identifier.any_instance.stubs(:generate_subjectid).returns('012345')
-			identifier1 = Factory(:identifier)
-			assert_not_nil identifier1.subjectid
+			StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
+			study_subject = Factory(:study_subject)	#	doesn't need to be case
+			assert_not_nil study_subject.subjectid
 			login_as send(cu)
 			assert_all_differences(0) do
 				#	waivered / nonwaivered? does it matter?
@@ -890,13 +895,12 @@ protected
 
 	def minimum_nonwaivered_form_attributes(options={})
 		{ 'study_subject' => {
-			"sex"                   => "M", 
+			"sex" => "M", 
+			"dob" => Date.jd(2440000+rand(15000)),
 #	nonwaivereds will require an address (waivereds won't)
 			"addressings_attributes"=>{
 				"0"=>{ "address_attributes"=> Factory.attributes_for(:address) }
 			}, 
-			"identifier_attributes" => { }, 
-			"pii_attributes"        => Factory.attributes_for(:pii),
 			"patient_attributes"    => Factory.attributes_for(:nonwaivered_patient)
 		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
@@ -907,24 +911,22 @@ protected
 #			"subject_races_attributes"=>{"0"=>{"race_id"=>"1"}},
 			"subject_languages_attributes"=>{"0"=>{"language_id"=>"1"}, "1"=>{"language_id"=>""}}, 
 			"sex"=>"M", 
-			"identifier_attributes"=>{ }, 
-			"pii_attributes"=> Factory.attributes_for(:pii, {
-				"first_name"=>"", 
-				"middle_name"=>"", 
-				"last_name"=>"", 
-				"mother_first_name"=>"", 
-				"mother_middle_name"=>"", 
-				"mother_last_name"=>"", 
-				"mother_maiden_name"=>"", 
-				"father_first_name"=>"", 
-				"father_middle_name"=>"", 
-				"father_last_name"=>"", 
-				"guardian_relationship_id"=>"", 
-				"guardian_relationship_other"=>"", 
-				"guardian_first_name"=>"",
-				"guardian_middle_name"=>"", 
-				"guardian_last_name"=>""
-			}), 
+			"dob" => Date.jd(2440000+rand(15000)),
+			"first_name"=>"", 
+			"middle_name"=>"", 
+			"last_name"=>"", 
+			"mother_first_name"=>"", 
+			"mother_middle_name"=>"", 
+			"mother_last_name"=>"", 
+			"mother_maiden_name"=>"", 
+			"father_first_name"=>"", 
+			"father_middle_name"=>"", 
+			"father_last_name"=>"", 
+			"guardian_relationship_id"=>"", 
+			"guardian_relationship_other"=>"", 
+			"guardian_first_name"=>"",
+			"guardian_middle_name"=>"", 
+			"guardian_last_name"=>"",
 			"addressings_attributes"=>{
 				"0"=>{
 					"address_attributes"=> Factory.attributes_for(:address)
@@ -971,12 +973,10 @@ protected
 		assert_difference('Addressing.count',1){
 		assert_difference('Address.count',1){
 		assert_difference('Enrollment.count',2){	#	both child and mother
-		assert_difference('Pii.count',2){
 		assert_difference('Patient.count',1){
-		assert_difference('Identifier.count',2){
 		assert_difference('StudySubject.count',2){
 			post :create, minimum_nonwaivered_form_attributes(options)
-		} } } } } } } } } # }
+		} } } } } } } #}
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)
 	end
