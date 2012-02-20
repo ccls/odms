@@ -853,7 +853,7 @@ pending #	TODO
 		end
 
 		test "should do something if subjectid exists with #{cu} login" do
-#	TODO
+pending #	TODO
 			StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
 			study_subject = Factory(:study_subject)	#	doesn't need to be case
 			assert_not_nil study_subject.subjectid
@@ -894,65 +894,69 @@ pending #	TODO
 protected
 
 	def minimum_nonwaivered_form_attributes(options={})
-		{ 'study_subject' => {
-			"sex" => "M", 
-			"dob" => Date.jd(2440000+rand(15000)),
-#	nonwaivereds will require an address (waivereds won't)
-			"addressings_attributes"=>{
-				"0"=>{ "address_attributes"=> Factory.attributes_for(:address) }
-			}, 
-			"patient_attributes"    => Factory.attributes_for(:nonwaivered_patient)
-		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+#		{ 'study_subject' => {
+#			"sex" => "M", 
+#			"dob" => Date.jd(2440000+rand(15000)),
+##	nonwaivereds will require an address (waivereds won't)
+#			"addressings_attributes"=>{
+#				"0"=>{ "address_attributes"=> Factory.attributes_for(:address) }
+#			}, 
+#			"patient_attributes"    => Factory.attributes_for(:nonwaivered_patient)
+#		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+		{ 'study_subject' => Factory.attributes_for(:minimum_nonwaivered_form_attributes
+			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
 	def nonwaivered_form_attributes(options={})
-		{ 'study_subject' => {
-#	NOT ACTUALLY ON THE FORM
-#			"subject_races_attributes"=>{"0"=>{"race_id"=>"1"}},
-			"subject_languages_attributes"=>{"0"=>{"language_id"=>"1"}, "1"=>{"language_id"=>""}}, 
-			"sex"=>"M", 
-			"dob" => Date.jd(2440000+rand(15000)),
-			"first_name"=>"", 
-			"middle_name"=>"", 
-			"last_name"=>"", 
-			"mother_first_name"=>"", 
-			"mother_middle_name"=>"", 
-			"mother_last_name"=>"", 
-			"mother_maiden_name"=>"", 
-			"father_first_name"=>"", 
-			"father_middle_name"=>"", 
-			"father_last_name"=>"", 
-			"guardian_relationship_id"=>"", 
-			"guardian_relationship_other"=>"", 
-			"guardian_first_name"=>"",
-			"guardian_middle_name"=>"", 
-			"guardian_last_name"=>"",
-			"addressings_attributes"=>{
-				"0"=>{
-					"address_attributes"=> Factory.attributes_for(:address)
-				}
-			}, 
-			"enrollments_attributes"=>{
-				"0"=>{
-					"consented_on"=>"", 
-					"document_version_id"=>""}
-			}, 
-			"phone_numbers_attributes"=>{
-				"0"=>{"phone_number"=>"1234567890" }, 
-				"1"=>{"phone_number"=>""}
-			}, 
-			"patient_attributes"=> Factory.attributes_for(:nonwaivered_patient,{
-				"sample_was_collected"=>"1",				
-#				"was_previously_treated"=>"false", 
-				"was_previously_treated"=> YNDK[:no],
-				"admitting_oncologist"=>"", 
-#				"was_under_15_at_dx"=>"true", 
-				"was_under_15_at_dx"=> YNDK[:yes],
-#				"diagnosis_id"=>"", 
-#				"was_ca_resident_at_diagnosis"=>"true"
-				"was_ca_resident_at_diagnosis"=> YNDK[:yes]
-			})
-		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+		{ 'study_subject' => Factory.attributes_for(:nonwaivered_form_attributes
+				) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+#		{ 'study_subject' => {
+##	NOT ACTUALLY ON THE FORM
+##			"subject_races_attributes"=>{"0"=>{"race_id"=>"1"}},
+#			"subject_languages_attributes"=>{"0"=>{"language_id"=>"1"}, "1"=>{"language_id"=>""}}, 
+#			"sex"=>"M", 
+#			"dob" => Date.jd(2440000+rand(15000)),
+#			"first_name"=>"", 
+#			"middle_name"=>"", 
+#			"last_name"=>"", 
+#			"mother_first_name"=>"", 
+#			"mother_middle_name"=>"", 
+#			"mother_last_name"=>"", 
+#			"mother_maiden_name"=>"", 
+#			"father_first_name"=>"", 
+#			"father_middle_name"=>"", 
+#			"father_last_name"=>"", 
+#			"guardian_relationship_id"=>"", 
+#			"guardian_relationship_other"=>"", 
+#			"guardian_first_name"=>"",
+#			"guardian_middle_name"=>"", 
+#			"guardian_last_name"=>"",
+#			"addressings_attributes"=>{
+#				"0"=>{
+#					"address_attributes"=> Factory.attributes_for(:address)
+#				}
+#			}, 
+#			"enrollments_attributes"=>{
+#				"0"=>{
+#					"consented_on"=>"", 
+#					"document_version_id"=>""}
+#			}, 
+#			"phone_numbers_attributes"=>{
+#				"0"=>{"phone_number"=>"1234567890" }, 
+#				"1"=>{"phone_number"=>""}
+#			}, 
+#			"patient_attributes"=> Factory.attributes_for(:nonwaivered_patient,{
+#				"sample_was_collected"=>"1",				
+##				"was_previously_treated"=>"false", 
+#				"was_previously_treated"=> YNDK[:no],
+#				"admitting_oncologist"=>"", 
+##				"was_under_15_at_dx"=>"true", 
+#				"was_under_15_at_dx"=> YNDK[:yes],
+##				"diagnosis_id"=>"", 
+##				"was_ca_resident_at_diagnosis"=>"true"
+#				"was_ca_resident_at_diagnosis"=> YNDK[:yes]
+#			})
+#		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
 	def full_successful_creation(options={})
