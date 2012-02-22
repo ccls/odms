@@ -822,8 +822,16 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 #pending # TODO should test when create_mother fails
 #		end 
 
-		test "should do something if patid exists with #{cu} login" do
-pending #	TODO
+#
+#	As patid, childid and subjectid are expected to be unique,
+#	I could add a unique validation, however, these values
+#	are not given by the user and a failed validation would
+#	be unresolvable by the user.  This should never actually
+#	happen as I explicitly select unique values at creation.
+#	However, just in case something might happen, I've tried
+#	to deal with it in the controller.
+#
+		test "should raise a database error if patid exists with #{cu} login" do
 			StudySubject.any_instance.stubs(:get_next_patid).returns('0123')
 			study_subject = Factory(:case_study_subject)
 			assert_not_nil study_subject.patid
@@ -833,12 +841,13 @@ pending #	TODO
 				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
+			#	Database error.  Check production logs and contact Jake.
+			assert_match /Database error/, flash[:error]
 			assert_response :success
 			assert_template 'new'
 		end
 
-		test "should do something if childid exists with #{cu} login" do
-pending #	TODO
+		test "should raise a database error if childid exists with #{cu} login" do
 			StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
 			study_subject = Factory(:study_subject)	#	doesn't need to be case
 			assert_not_nil study_subject.childid
@@ -848,12 +857,13 @@ pending #	TODO
 				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
+			#	Database error.  Check production logs and contact Jake.
+			assert_match /Database error/, flash[:error]
 			assert_response :success
 			assert_template 'new'
 		end
 
-		test "should do something if subjectid exists with #{cu} login" do
-pending #	TODO
+		test "should raise a database error if subjectid exists with #{cu} login" do
 			StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
 			study_subject = Factory(:study_subject)	#	doesn't need to be case
 			assert_not_nil study_subject.subjectid
@@ -863,6 +873,8 @@ pending #	TODO
 				post :create, complete_case_study_subject_attributes
 			end
 			assert_not_nil flash[:error]
+			#	Database error.  Check production logs and contact Jake.
+			assert_match /Database error/, flash[:error]
 			assert_response :success
 			assert_template 'new'
 		end
