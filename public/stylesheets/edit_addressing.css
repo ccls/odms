@@ -5,80 +5,69 @@
 #addressing_address_attributes_city {
 	width: 190px;
 }
+#addressing_data_source_other,
 #addressing_address_attributes_unit,
 #addressing_address_attributes_zip {
 	width: 100px;
 }
-
 .dev_only {
 	margin-top: 30px;
 }
 .dev_only span {
 	float:left;
 }
-/*
-.field_wrapper .fieldWithErrors:first-child {
-	float:left;
-}
-*/
 .field_wrapper label {
 	width:150px;
 }
-
-form.edit_addressing div.line_1 {
+div.line_1 {
 	margin-right: 20px;
 }
-form.edit_addressing div.line_1,
-form.edit_addressing div.unit {
+div.line_1,
+div.unit {
 	display:inline-block;
 }
-form.edit_addressing div.unit {
-	clear:none;
-}
-form.edit_addressing div.unit label {
+div.unit label {
 	width:30px;
 }
-form.edit_addressing div.dates_valid > div,
-form.edit_addressing div.dates_valid > span {
+div.dates_valid > div,
+div.dates_valid > span {
 	display:inline-block;
 	vertical-align:top;
 }
-form.edit_addressing div.dates_valid > span {
+div.dates_valid > span {
 	margin-right: 29px;
 }
-form.edit_addressing div.dates_valid > p {
+div.dates_valid > p {
 	margin-top: 0px;
 	margin-left: 200px;
 }
-form.edit_addressing div.dates_valid label {
+div.dates_valid label {
 	width: auto;
 }
-form.edit_addressing div.dates_valid .field_wrapper {
+div.dates_valid .field_wrapper {
 	margin-bottom: 0px;
 }
-form.edit_addressing div.moved > div,
-form.edit_addressing div.source > div,
-form.edit_addressing div.valid > div,
-form.edit_addressing div.verified > div {
+div.moved > div,
+div.source > div,
+div.valid > div,
+div.verified > div {
 	display:inline-block;
 	vertical-align:top;
 }
-form.edit_addressing div.data_source_id,
-form.edit_addressing div.is_valid,
-form.edit_addressing div.is_verified {
+div.data_source_id,
+div.is_valid,
+div.is_verified {
 	margin-right: 10px;
 }
-form.edit_addressing div.data_source_other,
-form.edit_addressing div.why_invalid,
-form.edit_addressing div.how_verified {
+div.unit,
+div.data_source_other,
+div.why_invalid,
+div.how_verified {
 	clear:none;
 }
-form.edit_addressing .data_source_other label,
-form.edit_addressing .why_invalid label,
-form.edit_addressing .how_verified label{
+.data_source_other label,
+.why_invalid label,
+.how_verified label{
 	width: auto;
 	padding-right: 10px;
-}
-form.edit_addressing #addressing_data_source_other {
-	width: 100px;
 }

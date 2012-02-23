@@ -4,16 +4,10 @@
 .historic {
 	background-color: #EEE;
 }
-
 .contact_wrapper {
 	padding-bottom:10px;
 	clear:left;	
 	border-top: 1px dotted silver;
-
-	/* using this to hack the floats, not needed now that not using as many floats */
-/*
-	overflow:hidden;
-*/
 }
 .contact_wrapper:nth-child(1) {
 	border-top: 0;
@@ -25,10 +19,7 @@ div.contact_wrapper > div {
 	display:inline-block;
 	vertical-align: top;
 }
-
-.when {
-	width: 200px;
-}
+.when,
 .phone_number,
 .addressing {
 	width: 200px;
@@ -36,15 +27,10 @@ div.contact_wrapper > div {
 .contact_meta {
 	width: 120px;
 }
-
-.contact_valid span {
-	display:block;
-}
-
 .contact_valid .brief {
 	width: 100px;
 }
-
+.contact_valid span,
 .addressing .line_1,
 .addressing .line_2,
 .addressing .unit,
@@ -60,7 +46,6 @@ div.contact_wrapper > div {
 	clear:both;
 	margin-top:0;
 }
-
 .contact_valid .brief .field_wrapper .label {
 	width:auto;
 	margin-right: 10px;

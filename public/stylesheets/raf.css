@@ -1,10 +1,3 @@
-
-h3 > span {
-	float:right;
-	font-size:10pt;
-	font-weight:normal;
-}
-
 form.raf {
 	border: 2px solid black;
 	border-top-width: 1px;
@@ -17,86 +10,91 @@ form.raf h3 {
 	border-bottom: 1px solid black;
 	margin-top: 0;
 }
-form.raf .raf_section {
+form.raf h3 > span {
+	float:right;
+	font-size:10pt;
+	font-weight:normal;
+}
+.raf_section {
 	clear:left;
 	margin:5px;
 }
-form.raf #errorExplanation {
+#errorExplanation {
 	margin:5px;
 }
-form.raf div.table > div {
+div.table > div {
 	display:table-row;
 }
-form.raf div.table > div.tablerow > div {
+div.table > div.tablerow > div {
 	display:table-cell;
 	vertical-align:top;
 }
-form.raf .field_wrapper span.label,
-form.raf .field_wrapper label {
+.field_wrapper span.label,
+.field_wrapper label {
 	width: 160px;
 }
 
 
-form.raf .names input {
+.names input {
 	width: 100px;
 }
-form.raf .names .tablerow {
+.names .tablerow {
 	margin-left: 20px;
 }
-form.raf .names .tablerow > span {
+.names .tablerow > span {
 	width: 120px;
 	display:inline-block;
 	text-align:center;
 }
-form.raf .names .tablerow p.guardian {
+.names .tablerow p.guardian {
 	display:inline-block;
 	margin-left: -20px;
 	width: 390px;
 }
 /* needs to be wider to fit the subject relationship selector */
-form.raf .names .tablerow span.big {
+.names .tablerow span.big {
 	width: 210px;
 }
 /*
-form.raf div.table > div.tablerow > div:nth-child(1) {
+div.table > div.tablerow > div:nth-child(1) {
 	width:470px;
 }
 */
-form.raf .organization_id p,
-form.raf .admitting_oncologist p,
-form.raf .hospital_no p,
-form.raf .names p {
+.organization_id p,
+.admitting_oncologist p,
+.hospital_no p,
+.names p {
 	margin-bottom: 0;
 }
 
-form.raf .raf_zip ,
-form.raf .diagnosis_id ,
-form.raf .admitting_oncologist ,
-form.raf .dob ,
-form.raf .hospital_no {
+.raf_zip ,
+.diagnosis_id ,
+.admitting_oncologist ,
+.dob ,
+.hospital_no {
 	margin-right:10px;
 	float:right;
 	clear:none;
 }
 /*
-form.raf div.diagnosis_id label,
+div.diagnosis_id label,
 	padding-right: 10px;
 	width:auto;
 }
 */
 
 
-form.raf #study_subject_patient_attributes_raf_zip,
-form.raf #study_subject_patient_attributes_raf_county {
+#study_subject_patient_attributes_raf_zip,
+#study_subject_patient_attributes_raf_county {
 	width: 170px;
 }
 
-form.raf div.other_diagnosis {
+div.other_diagnosis {
 	float:right;
 	margin-right:10px;
 }
-form.raf div.diagnosis_id label,
-form.raf div.other_diagnosis label {
+div.diagnosis_id label,
+div.other_diagnosis label {
 	padding-right: 10px;
 	width:auto;
 }
@@ -104,7 +102,7 @@ form.raf div.other_diagnosis label {
 /*
 	Hide the study subject field on kickback when possible duplicates are found
 */
-form.raf div#possible_duplicates + div.study_subject_fields {
+div#possible_duplicates + div.study_subject_fields {
 	display:none;
 }
 
@@ -115,6 +113,6 @@ div.subject_language {
 	display:inline-block;
 }
 
-form.raf p.subconsent {
+p.subconsent {
 	margin-left:50px;
 }
