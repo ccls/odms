@@ -24,6 +24,18 @@ form.raf .raf_section {
 form.raf #errorExplanation {
 	margin:5px;
 }
+form.raf div.table > div {
+	display:table-row;
+}
+form.raf div.table > div.tablerow > div {
+	display:table-cell;
+	vertical-align:top;
+}
+form.raf .field_wrapper span.label,
+form.raf .field_wrapper label {
+	width: 160px;
+}
+
 
 form.raf .names input {
 	width: 100px;
@@ -45,6 +57,11 @@ form.raf .names .tablerow p.guardian {
 form.raf .names .tablerow span.big {
 	width: 210px;
 }
+/*
+form.raf div.table > div.tablerow > div:nth-child(1) {
+	width:470px;
+}
+*/
 form.raf .organization_id p,
 form.raf .admitting_oncologist p,
 form.raf .hospital_no p,
@@ -52,13 +69,6 @@ form.raf .names p {
 	margin-bottom: 0;
 }
 
-form.raf div.table > div {
-	display:table-row;
-}
-form.raf div.table > div.tablerow > div {
-	display:table-cell;
-	vertical-align:top;
-}
 form.raf .raf_zip ,
 form.raf .diagnosis_id ,
 form.raf .admitting_oncologist ,
@@ -68,6 +78,12 @@ form.raf .hospital_no {
 	float:right;
 	clear:none;
 }
+/*
+form.raf div.diagnosis_id label,
+	padding-right: 10px;
+	width:auto;
+}
+*/
 
 
 form.raf #study_subject_patient_attributes_raf_zip,
@@ -79,7 +95,9 @@ form.raf div.other_diagnosis {
 	float:right;
 	margin-right:10px;
 }
+form.raf div.diagnosis_id label,
 form.raf div.other_diagnosis label {
+	padding-right: 10px;
 	width:auto;
 }
 
@@ -90,13 +108,13 @@ form.raf div#possible_duplicates + div.study_subject_fields {
 	display:none;
 }
 
-form.raf .field_wrapper span.label,
-form.raf .field_wrapper label {
-	width: 160px;
-}
 div.languages_label,
 div#languages,
 div.subject_language {
 	vertical-align:top;
 	display:inline-block;
+}
+
+form.raf p.subconsent {
+	margin-left:50px;
 }

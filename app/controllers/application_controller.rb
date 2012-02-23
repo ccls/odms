@@ -128,7 +128,6 @@ protected	#	private #	(does it matter which or if neither?)
 		})
 		allow_blank_address_line_1(study_subject_params)
 		mark_as_eligible(study_subject_params)
-#		puts( study_subject_params.inspect )
 		@study_subject = StudySubject.new(study_subject_params)
 
 		#	explicitly validate before searching for duplicates
@@ -180,7 +179,6 @@ protected	#	private #	(does it matter which or if neither?)
 		end
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "StudySubject creation failed"
-#puts @study_subject.errors.inspect
 		render :action => 'new'
 	rescue ActiveRecord::StatementInvalid => e
 		flash.now[:error] = "Database error.  Check production logs and contact Jake."
@@ -255,26 +253,6 @@ protected	#	private #	(does it matter which or if neither?)
 		end
 	end
 
-#	def original_mark_as_eligible(default={})
-#		if(
-#			( default['patient_attributes']['was_under_15_at_dx'].to_s == YNDK[:yes].to_s ) and
-#			( default['patient_attributes']['was_previously_treated'].to_s == YNDK[:no].to_s ) and
-#			( default['patient_attributes']['was_ca_resident_at_diagnosis'].to_s == YNDK[:yes].to_s ) and
-#			( !default['subject_languages_attributes']['0']['language_id'].to_s.blank? or
-#				!default['subject_languages_attributes']['1']['language_id'].to_s.blank? ) )
-#			default['enrollments_attributes']['0']['is_eligible'] = YNDK[:yes]
-#		else
-#			default['enrollments_attributes']['0']['is_eligible'] = YNDK[:no]
-#
-##	may wish to be more specific about which reason
-#
-#			default['enrollments_attributes']['0'][
-#				'ineligible_reason_id'] = IneligibleReason['other'].id
-#			default['enrollments_attributes']['0'][
-#				'ineligible_reason_specify'] = 'Ineligibility found in RAF data.'
-#		end
-#	end
-
 	def allow_blank_address_line_1(default={})
 		#	as 'default' is a hash, 'address' is now just a pointer to part of it.
 		address = default['addressings_attributes']['0']['address_attributes']
@@ -282,6 +260,7 @@ protected	#	private #	(does it matter which or if neither?)
 				!address['city'].blank? and
 				!address['state'].blank? and
 				!address['zip'].blank?
+			#	On validation failure, this will be visible on the re-rendered view.
 			address['line_1'] = '[no address provided]'
 		end
 	end
