@@ -1,6 +1,3 @@
-table#enrollments tr {
-	text-align:left;
-}
 .enrollment .field_wrapper.completed_on .label,
 .enrollment .field_wrapper.terminated_reason .label,
 .enrollment .field_wrapper.other_refusal_reason .label,

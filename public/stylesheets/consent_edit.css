@@ -1,0 +1,60 @@
+div.eligibility_criteria {
+	border: 1px solid black;
+	background-color: #DDD;
+	padding: 5px 20px;
+	margin: 10px;
+
+	/* http://css-radius.heroku.com */
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+.enrollment .field_wrapper .label,
+.enrollment .field_wrapper label {
+  width:180px;
+}
+
+/*
+
+	*_id .label is show action
+	* label is edit action
+
+*/
+.enrollment .field_wrapper.other_refusal_reason .label,
+.enrollment .field_wrapper.other_refusal_reason label,
+.enrollment .field_wrapper.refusal_reason_id label,
+.enrollment .field_wrapper.refusal_reason .label,
+.enrollment .field_wrapper.document_version_id label,
+.enrollment .field_wrapper.document_version .label,
+.enrollment .field_wrapper.consented_on .label,
+.enrollment .field_wrapper.consented_on label,
+.enrollment .field_wrapper.ineligible_reason_specify .label,
+.enrollment .field_wrapper.ineligible_reason_specify label,
+.enrollment .field_wrapper.ineligible_reason_id label,
+.enrollment .field_wrapper.ineligible_reason .label {
+	text-indent:50px;
+}
+
+div#study_subject_languages > div,
+form.enrollment .is_eligible,
+form.enrollment .ineligible_reason_id,
+form.enrollment .consented_on,
+form.enrollment .document_version_id {
+	display:inline-block;
+	vertical-align:top;
+}
+form.enrollment .ineligible_reason_specify label {
+	width:auto;
+	clear:left;
+}
+form.enrollment .ineligible_reason_specify #enrollment_ineligible_reason_specify {
+	width:70%;
+}
+.eligibility_criteria .field_wrapper > span,
+form.enrollment .eligibility_criteria .field_wrapper > * {
+	display:inline;
+}
+form.enrollment .eligibility_criteria label {
+	width: auto;
+	padding-right:10px;
+}

@@ -1,0 +1,46 @@
+.field_wrapper span.label,
+.field_wrapper label {
+	width: 140px;
+}
+div.name div.field_wrapper label,
+.field_wrapper.state_id_no span.label {
+	width: auto;
+}
+.field_wrapper.reference_date span.label,
+.field_wrapper.reference_date label {
+	width: 200px;
+}
+.field_wrapper input[type=text] {
+	width: 120px;
+}
+div.state_registrar_no,
+div.case_control_type,
+div.dob {
+	display:inline-block;
+	vertical-align: top;
+	width: 300px;
+}
+div.local_registrar_no,
+div.subject_type,
+div.sex {
+	display:inline;
+}
+div#races div.subject_race {
+	margin-left:30px;
+}
+div#study_subject_races {
+	margin-bottom: 10px;
+}
+div.name > label {
+	width: 60px;
+}
+div.name div.field_wrapper {
+	margin-bottom: 0px;
+}
+div.name div.field_wrapper input {
+	margin-left: 10px;
+	margin-right: 20px;
+}
+div.name.maiden {
+	margin-left: 420px;
+}
