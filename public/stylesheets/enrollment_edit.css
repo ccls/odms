@@ -9,7 +9,7 @@
 }
 .field_wrapper.consented_on label,
 .field_wrapper.is_candidate label,
-.field_wrapper.able_to_locate label,
+.field_wrapper.tracing_status_id label,
 .field_wrapper.is_eligible label,
 .field_wrapper.consented label,
 .field_wrapper.completed_on label {

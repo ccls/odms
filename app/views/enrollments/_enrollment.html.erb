@@ -6,7 +6,8 @@
   <%=yndk enrollment.is_candidate %>
  </td>
  <td class='locate'>
-  <%=yndk enrollment.able_to_locate %>
+  <%#=yndk enrollment.able_to_locate %>
+  <%= enrollment.tracing_status || '&nbsp;' %>
  </td>
  <td class='eligible'>
   <%=yndk enrollment.is_eligible %>

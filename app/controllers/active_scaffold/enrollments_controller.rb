@@ -11,8 +11,8 @@ class ActiveScaffold::EnrollmentsController < ActiveScaffoldController
 #	May need to convert to active_record_session_store
 
 		#	even though it isn't yet edittable, these convert the values in show.
-		config.columns[:able_to_locate].form_ui = :select
-		config.columns[:able_to_locate].options[:options] = as_yndk_select
+#		config.columns[:able_to_locate].form_ui = :select
+#		config.columns[:able_to_locate].options[:options] = as_yndk_select
 		config.columns[:is_candidate].form_ui = :select
 		config.columns[:is_candidate].options[:options] = as_yndk_select
 		config.columns[:is_eligible].form_ui = :select
