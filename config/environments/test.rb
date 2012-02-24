@@ -29,7 +29,7 @@ config.action_mailer.delivery_method = :test
 
 config.gem "rcov"
 
-#	Without the :lib => false, the 'rake test' actually fails?
+#	Without the :lib => false, 'rake test' actually fails?
 config.gem "mocha", :lib => false
 
 config.gem "autotest-rails", :lib => 'autotest/rails'
@@ -70,6 +70,6 @@ ActionController::Base.view_paths <<
 #	but apparently my capybara integration tests do not like this.
 #	So, set the session_store back to the default of cookies
 #	just for testing.  At least until I figure out how to make
-#	it work.
+#	it work. I think that I just need a bigger hammer.
 config.action_controller.session_store = :cookie_store
 

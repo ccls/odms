@@ -26,6 +26,14 @@ jQuery(function(){
 		}
 	});
 
+	jQuery('#study_subject_enrollments_attributes_0_refusal_reason_id').smartShow({
+		what: 'form.raf div.other_refusal_reason',
+		when: function(){ 
+			return /Other reason/i.test( 
+				$('#study_subject_enrollments_attributes_0_refusal_reason_id option:selected').text() )
+		}
+	});
+
 	jQuery('input[type=checkbox]#other_language_id').smartShow({
 		what: '#specify_other_language',
 		when: function(){
