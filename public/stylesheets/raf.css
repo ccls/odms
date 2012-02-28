@@ -116,3 +116,5 @@ div.subject_language {
 p.subconsent {
 	margin-left:50px;
 }
+
+span.refused_by { display:block; }
