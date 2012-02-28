@@ -205,7 +205,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "Submit"	
-				sleep 2	#	capybara will require a moment to get the counts correct
+				sleep 3	#	capybara will require a moment to get the counts correct
 			} } } } } }
 			assert !page.has_css?("p.flash#error")
 			assert_match /\/study_subjects\/\d+/, current_path

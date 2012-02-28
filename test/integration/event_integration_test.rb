@@ -26,7 +26,7 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 				).text.blank?
 
 			select 'operations', :from => 'category'
-
+sleep 1	#	sometimes the next statement is still 1
 			#	now should have some options.
 			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
