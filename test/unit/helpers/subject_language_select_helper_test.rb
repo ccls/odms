@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class StudySubjectsFormHelperTest < ActionView::TestCase
+class SubjectLanguageSelectHelperTest < ActionView::TestCase
 
 #	Don't quite understand why I don't need this here, but I do in ccls_engine form helper tests.
 #		f.instance_variable_set('@template',ActionView::Base.new)	#	fake the funk
@@ -103,6 +103,10 @@ class StudySubjectsFormHelperTest < ActionView::TestCase
 		assert_equal expected, output_buffer
 	end
 
+end
+
+__END__
+
 	test "subject_races_select" do
 		@study_subject = Factory(:study_subject)
 		form_for(:study_subject,@study_subject,:url => '/'){|f| 
@@ -187,4 +191,3 @@ class StudySubjectsFormHelperTest < ActionView::TestCase
 		assert_equal expected, output_buffer
 	end
 
-end

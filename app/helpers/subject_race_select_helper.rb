@@ -1,43 +1,4 @@
-module StudySubjectsFormHelper
-
-#	def subject_languages_select( languages = Language.all )
-	#	doing it this way allows passing nothing, an array 
-	#	(as is currently in views), or just as list
-	def subject_languages_select( *args )
-		languages = args.flatten
-		languages = Language.all if languages.empty?
-		#		self.object  #	<-- the subject
-		s =  "<div id='study_subject_languages'>"
-		#	TODO would be nice, but not currently needed, to have a label option.
-		s << "<div class='languages_label'>Language of parent or caretaker:</div>\n"
-		s << "<div id='languages'>\n"
-		languages.each do |l|
-			sl = self.object.subject_languages.detect{|sl|sl.language_id == l.id }
-			#	This effectively requires that the attributes have been updated in the controller.
-			#	@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
-			sl_built_or_exists = ( sl.nil? ) ? false : true												#	need to remember
-			sl = self.object.subject_languages.build(:language => l) if sl.nil?
-			classes = ['subject_language']
-			classes << ( ( sl.id.nil? ) ? 'creator' : 'destroyer' )
-			s << "<div class='#{classes.join(' ')}'>"
-			self.fields_for( :subject_languages, sl ) do |sl_fields|
-				s << "<div id='other_language'>" if( l.is_other? )
-
-				if sl.id.nil?	#	not currently existing subject_language
-					s << sl_fields.subject_language_creator(sl_built_or_exists)
-				else	#	language exists, this is for possible destruction
-					s << sl_fields.subject_language_destroyer(!sl.marked_for_destruction?)
-				end
-				s << sl_fields.specify_other_language() if l.is_other?
-				s << "</div>"	if( l.is_other? ) # id='other_language'>" 
-			end
-			s << "</div>\n"	# class='subject_language'>"
-		end
-		s << "</div>\n"	#	languages
-		s << "</div><!-- study_subject_languages -->\n"	#	study_subject_languages
-	end
-	alias_method :subject_languages_selector, :subject_languages_select
-	alias_method :select_subject_languages, :subject_languages_select
+module SubjectRaceSelectHelper
 
 #	def subject_races_select( races = Race.all )
 	#	doing it this way allows passing nothing, an array 
@@ -147,6 +108,52 @@ protected
 		s << "</div>"	# id='other_race'>"
 	end
 
+end
+ActionView::Helpers::FormBuilder.send(:include, SubjectRaceSelectHelper)
+
+__END__
+
+	def subject_languages_select( languages = Language.all )
+	#	doing it this way allows passing nothing, an array 
+	#	(as is currently in views), or just as list
+	def subject_languages_select( *args )
+		languages = args.flatten
+		languages = Language.all if languages.empty?
+		#		self.object  #	<-- the subject
+		s =  "<div id='study_subject_languages'>"
+		#	TODO would be nice, but not currently needed, to have a label option.
+		s << "<div class='languages_label'>Language of parent or caretaker:</div>\n"
+		s << "<div id='languages'>\n"
+		languages.each do |l|
+			sl = self.object.subject_languages.detect{|sl|sl.language_id == l.id }
+			#	This effectively requires that the attributes have been updated in the controller.
+			#	@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
+			sl_built_or_exists = ( sl.nil? ) ? false : true												#	need to remember
+			sl = self.object.subject_languages.build(:language => l) if sl.nil?
+			classes = ['subject_language']
+			classes << ( ( sl.id.nil? ) ? 'creator' : 'destroyer' )
+			s << "<div class='#{classes.join(' ')}'>"
+			self.fields_for( :subject_languages, sl ) do |sl_fields|
+				s << "<div id='other_language'>" if( l.is_other? )
+
+				if sl.id.nil?	#	not currently existing subject_language
+					s << sl_fields.subject_language_creator(sl_built_or_exists)
+				else	#	language exists, this is for possible destruction
+					s << sl_fields.subject_language_destroyer(!sl.marked_for_destruction?)
+				end
+				s << sl_fields.specify_other_language() if l.is_other?
+				s << "</div>"	if( l.is_other? ) # id='other_language'>" 
+			end
+			s << "</div>\n"	# class='subject_language'>"
+		end
+		s << "</div>\n"	#	languages
+		s << "</div><!-- study_subject_languages -->\n"	#	study_subject_languages
+	end
+	alias_method :subject_languages_selector, :subject_languages_select
+	alias_method :select_subject_languages, :subject_languages_select
+
+protected
+
 	def language_label
 		label =  self.object.language.key.dup.capitalize
 		label << (( self.object.language.is_other? ) ? ' (not eligible)' : ' (eligible)')
@@ -187,5 +194,3 @@ protected
 		s << "</div>"	# id='other_language'>"
 	end
 
-end
-ActionView::Helpers::FormBuilder.send(:include, StudySubjectsFormHelper)

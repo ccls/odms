@@ -103,7 +103,7 @@
 #  end
 #end
 
-module CountrySelector
+module CountrySelectHelper
 	# All the countries included in the country_options output.
 	COUNTRIES = [
 		"United States", 
@@ -146,20 +146,27 @@ module CountrySelector
 		"Viet Nam", "Virgin Islands, British", "Virgin Islands, U.S.", "Wallis and Futuna", "Western Sahara",
 		"Yemen", "Zambia", "Zimbabwe"] unless const_defined?("COUNTRIES")
 
-	def country_select(method, priority_countries = nil, options = {}, html_options = {})
+#	def country_select(method, priority_countries = nil, options = {}, html_options = {})
+	def country_select(method, options = {}, html_options = {})
+		#	not really using priority_countries so could just remove.
+		#	object_name => addressing[address_attributes]
+		#	method => country
 		@template.select(@object_name, method, COUNTRIES,
 			{:include_blank => true}.merge(objectify_options(options)), html_options)
 	end
 end
-ActionView::Helpers::FormBuilder.send(:include, CountrySelector )
+ActionView::Helpers::FormBuilder.send(:include, CountrySelectHelper )
 
 __END__
+
+#	This is untested.  Should put in the helpers dir, rename, then test.
 
 
 	def country_select(method, priority_countries = nil, options = {}, html_options = {})
 #				@template.country_select(@object_name, method, priority_countries, 
 #					options.merge(:object => @object), html_options)
 #	@object_name seems to be equal to object_name
+#	object_name is probably a method that returns @object_name. (it is an attr_accessor)
 #	objectify_options does options.merge(:object => @object)
 #	whole problems seemed to be with the value() method
 #	everybody is trying to be clever
