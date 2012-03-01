@@ -41,6 +41,10 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <input name="study_subject[subject_races_attributes][5][race_id]" type="hidden" value="" /><input class="race_selector" id="unknown_race_id" name="study_subject[subject_races_attributes][5][race_id]" title="Set 'Don't Know' as one of the subject's race(s)" type="checkbox" value="6" />
 <label for="unknown_race_id">Don't Know</label>
 </div>
+<div class='subject_race creator'><input name=\"study_subject[subject_races_attributes][6][is_primary]\" type=\"hidden\" value=\"0\" /><input class=\"is_primary_selector\" id=\"refused_is_primary\" name=\"study_subject[subject_races_attributes][6][is_primary]\" title=\"Set 'Refused to state' as the subject's PRIMARY race\" type=\"checkbox\" value=\"1\" />
+<input name=\"study_subject[subject_races_attributes][6][race_id]\" type=\"hidden\" value=\"\" /><input class=\"race_selector\" id=\"refused_race_id\" name=\"study_subject[subject_races_attributes][6][race_id]\" title=\"Set 'Refused to state' as one of the subject's race(s)\" type=\"checkbox\" value=\"7\" />
+<label for=\"refused_race_id\">Refused to state</label>
+</div>
 </div>
 </div><!-- study_subject_races -->
 </form>}
