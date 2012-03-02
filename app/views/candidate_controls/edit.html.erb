@@ -22,8 +22,14 @@
 <td><%= @study_subject.sex %></td>
 <td><%= (( !@study_subject.mother_race_id.blank?
 	) ? Race.find(@study_subject.mother_race_id) : '&nbsp;' ) %></td>
-<td><%= YNODK[@study_subject.mother_hispanicity_id]||'&nbsp;' %></td>
-<td><%= YNODK[@study_subject.father_hispanicity_id]||'&nbsp;' %></td>
+<td>
+<%#= YNODK[@study_subject.mother_hispanicity_id]||'&nbsp;' %>
+<%=ynodk @study_subject.mother_hispanicity_id %>
+</td>
+<td>
+<%#= YNODK[@study_subject.father_hispanicity_id]||'&nbsp;' %>
+<%=ynodk @study_subject.father_hispanicity_id %>
+</td>
 </tr>
 <tr>
 <td class='label'>candidate control</td>
@@ -34,8 +40,14 @@
 <td><%= @candidate.sex %></td>
 <td><%= (( @candidate.mother_race_id
 	) ? Race.find(@candidate.mother_race_id) : '&nbsp;' ) %></td>
-<td><%= YNODK[@candidate.mother_hispanicity_id]||'&nbsp;' %></td>
-<td><%= YNODK[@candidate.father_hispanicity_id]||'&nbsp;' %></td>
+<td>
+<%#= YNODK[@candidate.mother_hispanicity_id]||'&nbsp;' %>
+<%=ynodk @candidate.mother_hispanicity_id %>
+</td>
+<td>
+<%#= YNODK[@candidate.father_hispanicity_id]||'&nbsp;' %>
+<%=ynodk @candidate.father_hispanicity_id %>
+</td>
 </tr>
 </tbody></table>
 </div><!-- class='info' -->
