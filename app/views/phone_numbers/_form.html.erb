@@ -25,7 +25,7 @@
 <hr/>
 
 <%= f.wrapped_collection_select :phone_type_id, PhoneType.all, 
-			:id, :code, :include_blank => true, :label_text => 'Type:' %>
+			:id, :key, :include_blank => true, :label_text => 'Type:' %>
 
 <div class='source'>
 <%= f.wrapped_collection_select :data_source_id, Context['phones'].data_sources, 

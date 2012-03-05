@@ -21,7 +21,7 @@
 <% f.fields_for :address do |address_field| %>
 
 <%= address_field.wrapped_collection_select :address_type_id, 
-	AddressType.all, :id, :code, :include_blank => true, :label_text => 'Type' %>
+	AddressType.all, :id, :key, :include_blank => true, :label_text => 'Type' %>
 
 <div class='source'>
 <%= f.wrapped_collection_select :data_source_id, Context['addresses'].data_sources, 

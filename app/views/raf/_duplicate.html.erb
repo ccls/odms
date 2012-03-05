@@ -6,8 +6,8 @@
 
 <%# organization is from patient and therefore only cases.
 	as this duplicate subject may not be a case, we
-	must 'try' code as organization may be nil. %>
-<td><%= duplicate.organization.try(:code) %></td>
+	must 'try' key as organization may be nil. %>
+<td><%= duplicate.organization.try(:key) %></td>
 
 <td><%=mdy duplicate.admit_date %></td>
 <td><%= duplicate.hospital_no %></td>

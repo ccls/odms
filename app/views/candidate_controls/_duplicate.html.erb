@@ -8,7 +8,7 @@
 <%#
 	Not all duplicates will be cases, so won't have a patient or organization
 %>
-<td><%= duplicate.organization.try(:code) %></td>
+<td><%= duplicate.organization.try(:key) %></td>
 <td><%=mdy duplicate.dob %></td>
 <td><%= duplicate.sex %></td>
 </tr>
