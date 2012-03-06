@@ -18,9 +18,9 @@ class Page < ActiveRecord::Base
 	acts_as_list :scope => :parent_id
 #	acts_as_list :scope => "parent_id \#{(parent_id.nil?)?'IS NULL':'= parent_id'} AND locale = '\#{locale}'"
 
-	validates_presence_of :path
+#	validates_presence_of :path
 	validates_length_of :path,  :minimum => 1
-	validates_format_of :path,  :with => /^\//
+	validates_format_of :path,  :with => /^\//, :allow_blank => true
 #	validates_presence_of :menu_en
 	validates_length_of :menu_en,  :minimum => 4
 #	validates_presence_of :title_en
@@ -42,10 +42,11 @@ class Page < ActiveRecord::Base
 
 	named_scope :not_home, :conditions => [ "path != '/'" ]
 
-	attr_accessible :path, :parent_id, :hide_menu,
-		:menu,  :menu_en,  :menu_es, 
-		:title, :title_en, :title_es,
-		:body,  :body_en,  :body_es
+#	Why did I have this?
+#	attr_accessible :path, :parent_id, :hide_menu,
+#		:menu,  :menu_en,  :menu_es, 
+#		:title, :title_en, :title_es,
+#		:body,  :body_en,  :body_es
 
 	before_validation :adjust_path
 
@@ -79,6 +80,7 @@ class Page < ActiveRecord::Base
 
 	def root
 		page = self
+#	in theory, this could be an infinite loop.
 		until page.parent == nil
 			page = page.parent
 		end 
