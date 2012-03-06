@@ -5,9 +5,10 @@ class PagesController < ApplicationController
 	before_filter :may_maintain_pages_required, :except => :show
 	before_filter :id_required, :only => [ :edit, :update, :destroy ]
 
-	#	This will also cache the flash output so don't cache layout
-	caches_action :show, :layout => false
-	cache_sweeper :page_sweeper, :only => [:create, :update, :order, :destroy]
+#	Why even bother caching pages?
+#	#	This will also cache the flash output so don't cache layout
+#	caches_action :show, :layout => false
+#	cache_sweeper :page_sweeper, :only => [:create, :update, :order, :destroy]
 
 	ssl_allowed :show
 
