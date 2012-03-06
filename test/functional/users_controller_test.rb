@@ -86,13 +86,13 @@ class UsersControllerTest < ActionController::TestCase
 			assert_response :success
 		end
 	
-		test "should get private users menu via js with #{cu} login" do
-			login_as send(cu)
-			@request.accept = "text/javascript"
-			get :menu
-			assert_response :success
-			assert_match /jQuery/, @response.body
-		end
+#		test "should get private users menu via js with #{cu} login" do
+#			login_as send(cu)
+#			@request.accept = "text/javascript"
+#			get :menu
+#			assert_response :success
+#			assert_match /jQuery/, @response.body
+#		end
 	
 	end
 	
@@ -116,11 +116,11 @@ class UsersControllerTest < ActionController::TestCase
 	
 	end
 
-	test "should get empty private users menu via js without login" do
-		@request.accept = "text/javascript"
-		get :menu
-		assert_response :success
-		assert_match /\A\s*\z/, @response.body
-	end
+#	test "should get empty private users menu via js without login" do
+#		@request.accept = "text/javascript"
+#		get :menu
+#		assert_response :success
+#		assert_match /\A\s*\z/, @response.body
+#	end
 
 end

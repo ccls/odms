@@ -14,19 +14,14 @@ ActionController::Routing::Routes.draw do |map|
 
 
 	map.logout 'logout', :controller => 'sessions', :action => 'destroy'
-	map.resources :users, :only => [:destroy,:show,:index],
-		:collection => { :menu => :get } do |user|
+#	map.resources :users, :only => [:destroy,:show,:index],
+#		:collection => { :menu => :get } do |user|
 #	don't use menu, but tests do, so keep it for now
-#	map.resources :users, :only => [:destroy,:show,:index] do |user|
+	map.resources :users, :only => [:destroy,:show,:index] do |user|
 		user.resources :roles, :only => [:update,:destroy]
 	end
 	map.resource :session, :only => [ :destroy ]
 
-#	Some of these should be removed from the gem's generator and just included in the appropriate apps.
-#	from ccls_engine
-#	map.connect 'stylesheets/:action.:format', :controller => 'stylesheets'
-#	map.connect 'javascripts/:action.:format', :controller => 'javascripts'
-#	map.resource  :calendar,   :only => [ :show ]
 	map.resources :races
 	map.resources :languages
 	map.resources :people
@@ -63,7 +58,8 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :studies, :only => [],
 			:collection => { :dashboard => :get }
 
-	#	The shallow route MUST be defined before the nested route.
+	#	The shallow route MUST be defined before the nested route
+	#	or 'new' will be treated as an id.
 	map.resources :samples, :only => [:new]
 
 	map.resources :study_subjects, :only => [:edit,:update,:show,:index],
@@ -88,8 +84,6 @@ ActionController::Routing::Routes.draw do |map|
 		study_subject.resources :interviews,
 			:only => [:index]
 		study_subject.resources :events
-#		study_subject.resources :events,
-#			:only => [:index,:new,:create]
 		study_subject.resources :documents,
 			:only => [:index]
 		study_subject.resources :notes,
@@ -132,13 +126,9 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resources :pages, :collection => { 
 		:all => :get,
-#		:translate => :get,
 		:order => :post }
 
-
-
 	map.connect 'charts/:action.:format', :controller => 'charts'
-
 
 	map.namespace :api do |api|
 		api.resources :study_subjects, :only => :index
