@@ -14,9 +14,8 @@ protected
 
 	#	used many times, so define as a class method.
 	def self.as_yndk_select
-#	This should work.
-#		[['-select-',nil]] + YNDK.selector_options
-		[['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
+		[['-select-',nil]] + YNDK.selector_options
+#		[['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
 	end
 
 #	def self.user_uid_select
