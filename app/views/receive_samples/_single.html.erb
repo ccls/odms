@@ -1,0 +1,46 @@
+<%# javascripts('edit_sample') %>
+<%# stylesheets(:sample_edit) %>
+<%# sub_menu_for(@study_subject) %>
+<%# id_bar_for(@study_subject) %>
+
+
+<% form_for( @sample,
+	:url => receive_sample_path(:study_subject_id => @study_subject.id) ) do |f| %>
+
+<%= f.error_messages %>
+
+<div id='subject_control_bar'>
+<h3><%= (@sample.new_record?)? 'New' : 'Edit' %> Subject Sample</h3>
+<div class='buttons'>
+<%= link_to( 'Cancel', study_subject_samples_path(@study_subject),
+	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
+</div><!-- class='buttons' -->
+</div>
+
+
+<h3>INSERT PROJECTS</h3>
+
+<h3>INSERT SAMPLE SOURCE</h3>
+
+<%= f.wrapped_grouped_collection_select( :sample_type_id, 
+		SampleType.roots, :children, :to_s, :id, :to_s,
+	{ :include_blank => true }
+) %>
+
+<h3>INSERT STORAGE TEMPERATURE</h3>
+
+<p>Be advised that these datetime selectors will accept partial datetimes that will generate an incorrect datetime.</p>
+
+<%= f.wrapped_datetime_select :collected_at,
+	:prompt => true,
+	:label_text => 'Collected:' %>
+
+<%= f.wrapped_datetime_select :shipped_at,
+	:prompt => true,
+	:label_text => 'Shipped:' %>
+
+<%= f.wrapped_datetime_select :received_by_ccls_at,
+	:prompt => true,
+	:label_text => 'Received:' %>
+
+<% end %>

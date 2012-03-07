@@ -19,11 +19,15 @@
 <%= wrapped_date_spans :sample, :sent_to_subject_on,
 	:label_text => 'Sent to Subject on:' %>
 
-<%= wrapped_date_spans :sample, :collected_on,
-	:label_text => 'Collected on:' %>
+<%#= wrapped_date_spans :sample, :collected_at,
+	:label_text => 'Collected at:' %>
+<%= wrapped_spans :sample, :collected_at,
+	:label_text => 'Collected at:' %>
 
-<%= wrapped_date_spans :sample, :received_by_ccls_on,
-	:label_text => 'Received by CCLS on:' %>
+<%#= wrapped_date_spans :sample, :received_by_ccls_at,
+	:label_text => 'Received by CCLS at:' %>
+<%= wrapped_spans :sample, :received_by_ccls_at,
+	:label_text => 'Received by CCLS at:' %>
 
 <%= wrapped_date_spans :sample, :sent_to_lab_on,
 	:label_text => 'Sent to Lab on:' %>

@@ -14,7 +14,7 @@
 </thead><tbody>
 <% @study_subject.samples.each do |sample| %>
 	<tr>
-		<td><%=mdy sample.received_by_ccls_on -%></td>
+		<td><%= sample.received_by_ccls_at -%></td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 		<td><%= sample.sample_type_parent -%></td>
@@ -73,8 +73,8 @@
 <% @study_subject.samples.collected.each do |sample| %>
 	<tr><td>&nbsp;</td>
 		<td><%= link_to sample.sample_type.to_s, sample_path(sample) -%></td>
-		<td><%=mdy sample.collected_on -%></td>
-		<td><%=mdy sample.received_by_ccls_on %></td>
+		<td><%= sample.collected_at -%></td>
+		<td><%= sample.received_by_ccls_at %></td>
 	</tr>
 <% end %>
 

@@ -58,9 +58,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resources :studies, :only => [],
 			:collection => { :dashboard => :get }
 
-	#	The shallow route MUST be defined before the nested route
-	#	or 'new' will be treated as an id.
-	map.resources :samples, :only => [:new]
+	map.resource :receive_sample, :only => [:new,:create]
 
 	map.resources :study_subjects, :only => [:edit,:update,:show,:index],
 			:collection => { 

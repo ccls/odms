@@ -1,18 +1,3 @@
-<h4>Receive Sample</h4>
-
-<% form_tag(new_sample_path,:method => :get) do %>
-<p>( Currently exact match only )</p>
-<p><span>Study ID:</span>
-<%= text_field_tag :studyid, params[:studyid], :id => nil  %>
-<span>or</span>
-<span>ICF Master ID:</span>
-<%= text_field_tag :icf_master_id, params[:icf_master_id], :id => nil  %>
-<%= submit_tag 'find subject', :name => nil %>
-</p>
-<% end %>
-
-
-
 <% unless params[:studyid].blank? and params[:icf_master_id].blank? %>
 <% if @study_subjects and !@study_subjects.empty? %>
 <p>Found the following subject(s)</p>
@@ -27,7 +12,7 @@
 <td><%=mdy study_subject.admit_date %></td>
 <td><%=mdy study_subject.reference_date %></td>
 <td><%= study_subject.hospital_no %></td>
-<td><%= link_to "New Sample", new_study_subject_sample_path(study_subject) %></td>
+<td><%= link_to "New Sample", new_receive_sample_path(:study_subject_id => study_subject.id) %></td>
 </tr>
 <% end %>
 </tbody></table>

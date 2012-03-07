@@ -33,7 +33,7 @@ module ApplicationHelper
 			link_to('Samples', dashboard_samples_path) <<
 			"<div class='sub_menu'>\n    " <<
 			[
-				link_to('New/Receive Sample', new_sample_path),
+				link_to('New/Receive Sample', new_receive_sample_path),
 				'<span>Manage Samples</span>'
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"

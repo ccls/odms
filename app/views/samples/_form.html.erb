@@ -1,4 +1,5 @@
 <% javascripts('edit_sample') %>
+<% stylesheets(:sample_edit) %>
 <% sub_menu_for(@study_subject) %>
 <% id_bar_for(@study_subject) %>
 
@@ -21,11 +22,17 @@
 	:class => 'datepicker',
 	:label_text => 'Sent to Subject on:' %>
 
-<%= f.wrapped_date_text_field :collected_on,
+<%= f.wrapped_date_text_field :collected_at,
+	:class => 'datepicker',
+	:label_text => 'Collected at:' %>
+<%#= f.wrapped_date_text_field :collected_on,
 	:class => 'datepicker',
 	:label_text => 'Collected on:' %>
 
-<%= f.wrapped_date_text_field :received_by_ccls_on,
+<%= f.wrapped_date_text_field :received_by_ccls_at,
+	:class => 'datepicker',
+	:label_text => 'Received by CCLS at:' %>
+<%#= f.wrapped_date_text_field :received_by_ccls_on,
 	:class => 'datepicker',
 	:label_text => 'Received by CCLS on:' %>
 
