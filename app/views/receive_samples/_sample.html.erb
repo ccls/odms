@@ -1,0 +1,7 @@
+<h4>Your new sample has been created successfully.</h4>
+
+<p>It has been assigned a sample id of ......
+<%= link_to "add another for this subject", 
+	new_receive_sample_path(:study_subject_id => @study_subject.id),
+	:class => 'button' %>
+</p>

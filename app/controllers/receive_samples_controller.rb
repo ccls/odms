@@ -44,21 +44,9 @@ class ReceiveSamplesController < ApplicationController
 	def create
 		@sample = @study_subject.samples.new(params[:sample])
 		@sample.save!
-
-
-		redirect_to sample_path(@sample)
-#	NO.
-
-#		render :action => 'new'
-
-
+		render :action => 'new'
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-
-
-		#	will be needed on the form
 		@projects = @study_subject.enrollments.collect(&:project)
-
-
 		flash.now[:error] = "Sample creation failed."
 		render :action => 'new'
 	end

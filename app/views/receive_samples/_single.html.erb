@@ -20,11 +20,11 @@
 </div>
 <div>
 <p>icf master id: <%= @study_subject.icf_master_id_to_s %></p>
-<p>&amp; icf master id: <%= @study_subject.mother.icf_master_id_to_s %></p>
+<p>&amp; icf master id: <%= @study_subject.mother.try(:icf_master_id_to_s) %></p>
 <p>hospital record no: <%= @study_subject.hospital_no %></p>
 </div>
 <div class='buttons'>
-<%= link_to( 'Cancel', study_subject_samples_path(@study_subject),
+<%= link_to( 'Cancel', new_receive_sample_path,
 	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
 </div><!-- class='buttons' -->
 </div>

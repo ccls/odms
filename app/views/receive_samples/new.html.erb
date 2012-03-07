@@ -13,5 +13,11 @@
 <p>* Mother subjects do not have studyids.  Enter her child's studyid here or her icf master id in the next field.</p>
 <% end %>
 
-<%= render :partial => 'multiple' if @study_subjects %>
-<%= render :partial => 'single'   if @study_subject %>
+
+<% if @sample and !@sample.new_record? %>
+<%= render :partial => 'sample' %>
+<% elsif @study_subjects %>
+<%= render :partial => 'multiple' %>
+<% elsif @study_subject %>
+<%= render :partial => 'single' %>
+<% end %>

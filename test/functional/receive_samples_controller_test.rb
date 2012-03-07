@@ -210,7 +210,8 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			end
 			assert_nil flash[:error]
-#			assert_redirected_to sample_path(assigns(:sample))
+			assert_response :success
+			assert_template 'new'
 		end
 
 		test "should NOT create with #{cu} login " <<
