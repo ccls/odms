@@ -6,7 +6,6 @@ class ReceiveSamplesController < ApplicationController
 	before_filter :valid_study_subject_id_required,
 		:only => [:create]
 
-
 	def new
 		if !params[:study_subject_id].blank?
 			if StudySubject.exists?(params[:study_subject_id])
@@ -36,20 +35,32 @@ class ReceiveSamplesController < ApplicationController
 #
 
 #	SHOULD be at least CCLS.
-#	SHOULD also only include consented enrollments
+#	SHOULD also only include consented enrollments (but using all for now)
 			@projects = @study_subject.enrollments.collect(&:project)
-
 			@sample = @study_subject.samples.new
 		end
 	end
 
 	def create
-#		@sample = @study_subject.samples.new(params[:sample])
-#		@sample.save!
-#		redirect_to sample_path(@sample)
-#	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-#		flash.now[:error] = "Sample creation failed."
-#		render :action => 'new', :layout => 'subject'
+		@sample = @study_subject.samples.new(params[:sample])
+		@sample.save!
+
+
+		redirect_to sample_path(@sample)
+#	NO.
+
+#		render :action => 'new'
+
+
+	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
+
+
+		#	will be needed on the form
+		@projects = @study_subject.enrollments.collect(&:project)
+
+
+		flash.now[:error] = "Sample creation failed."
+		render :action => 'new'
 	end
 
 protected

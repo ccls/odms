@@ -12,13 +12,23 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 #		:attributes_for_create => :factory_attributes,
 #		:method_for_create => :create_sample
 #	}
-#	def factory_attributes(options={})
+	def factory_attributes(options={})
 #		# No attributes from Factory yet (what does this mean????)
 #		Factory.attributes_for(:sample,{
 #			:sample_type_id => Factory(:sample_type).id,	#	require only subtypes?
 #			}.merge(options))
-#	end
-#
+#	better to only use the fields on the form
+		{
+#			:project_id
+#			:sample_source
+			:sample_type_id => Factory(:sample_type).id		#	require only subtypes?
+#			:storage_temperature
+#			:collected_at
+#			:shipped_at
+#			:received_by_ccls_at
+		}.merge(options)
+	end
+
 #	assert_access_with_login({    :logins => site_editors })
 #	assert_no_access_with_login({ :logins => non_site_editors })
 #	assert_no_access_without_login
@@ -108,32 +118,15 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
-				" and studyid of subject" do
-			subject = Factory(:complete_case_study_subject)
+		test "should get new receive sample with #{cu} login" <<
+				" and invalid study_subject_id" do
 			login_as send(cu)
-			get :new, :studyid => subject.studyid
-			assert_nil flash[:warn]
+			get :new, :study_subject_id => 0
+			assert_not_nil flash[:warn]
+			assert_match /No Study Subjects Found/, flash[:warn]
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new'
-			assert assigns(:study_subject)
-			assert_equal subject, assigns(:study_subject)
-		end
-
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
-				" and icf_master_id of subject" do
-			subject = Factory(:complete_case_study_subject)
-			Factory(:icf_master_id, :icf_master_id => '123456789' )
-			subject.assign_icf_master_id
-			login_as send(cu)
-			get :new, :icf_master_id => subject.icf_master_id
-			assert_nil flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
-			assert assigns(:study_subject)
-			assert_equal subject, assigns(:study_subject)
 		end
 
 		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
@@ -155,6 +148,39 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert !assigns(:study_subjects).empty?
 		end
 
+
+#	SINGLE STUDY SUBJECT FOUND
+
+		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+				" and studyid of subject" do
+			study_subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			get :new, :studyid => study_subject.studyid
+			assert_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+			assert_equal study_subject, assigns(:study_subject)
+			assert assigns(:sample)
+			assert !assigns(:projects).empty?
+		end
+
+		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+				" and icf_master_id of subject" do
+			study_subject = Factory(:complete_case_study_subject)
+			Factory(:icf_master_id, :icf_master_id => '123456789' )
+			study_subject.assign_icf_master_id
+			login_as send(cu)
+			get :new, :icf_master_id => study_subject.icf_master_id
+			assert_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+			assert_equal study_subject, assigns(:study_subject)
+			assert assigns(:sample)
+			assert !assigns(:projects).empty?
+		end
+
 		test "should get new receive sample with #{cu} login" <<
 				" and study_subject_id" do
 			login_as send(cu)
@@ -163,71 +189,68 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new'
+			assert_equal study_subject, assigns(:study_subject)
 			assert assigns(:sample)
+			assert !assigns(:projects).empty?
 		end
 
-		test "should get new receive sample with #{cu} login" <<
-				" and invalid study_subject_id" do
+
+#	TODO what if subject has no enrollments
+#	TODO what if subject has no consented enrollments
+#	TODO what if subject is mother
+
+
+
+
+		test "should create new sample with #{cu} login" do
 			login_as send(cu)
-			get :new, :study_subject_id => 0
-			assert_not_nil flash[:warn]
-			assert_match /No Study Subjects Found/, flash[:warn]
+			study_subject = Factory(:study_subject)
+			assert_difference('Sample.count',1) do
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			end
 			assert_nil flash[:error]
+#			assert_redirected_to sample_path(assigns(:sample))
+		end
+
+		test "should NOT create with #{cu} login " <<
+				"and invalid study_subject_id" do
+			login_as send(cu)
+			assert_difference('Sample.count',0) do
+				post :create, :study_subject_id => 0,
+					:sample => factory_attributes
+			end
+			assert_not_nil flash[:error]
+			assert_redirected_to new_receive_sample_path
+		end
+
+		test "should NOT create with #{cu} login " <<
+				"and invalid sample" do
+			login_as send(cu)
+			Sample.any_instance.stubs(:valid?).returns(false)
+			study_subject = Factory(:study_subject)
+			assert_difference('Sample.count',0) do
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			end
+			assert_not_nil flash[:error]
 			assert_response :success
 			assert_template 'new'
 		end
 
-
-
-#		test "should create new sample with #{cu} login" do
-#			login_as send(cu)
-#			study_subject = Factory(:study_subject)
-#			assert_difference('Sample.count',1) do
-#				post :create, :study_subject_id => study_subject.id,
-#					:sample => factory_attributes
-#			end
-#			assert_nil flash[:error]
-#			assert_redirected_to sample_path(assigns(:sample))
-#		end
-#
-#		test "should NOT create with #{cu} login " <<
-#				"and invalid study_subject_id" do
-#			login_as send(cu)
-#			assert_difference('Sample.count',0) do
-#				post :create, :study_subject_id => 0,
-#					:sample => factory_attributes
-#			end
-#			assert_not_nil flash[:error]
-#			assert_redirected_to study_subjects_path
-#		end
-#
-#		test "should NOT create with #{cu} login " <<
-#				"and invalid sample" do
-#			login_as send(cu)
-#			Sample.any_instance.stubs(:valid?).returns(false)
-#			study_subject = Factory(:study_subject)
-#			assert_difference('Sample.count',0) do
-#				post :create, :study_subject_id => study_subject.id,
-#					:sample => factory_attributes
-#			end
-#			assert_not_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new'
-#		end
-#
-#		test "should NOT create with #{cu} login " <<
-#				"and save failure" do
-#			login_as send(cu)
-#			Sample.any_instance.stubs(:create_or_update).returns(false)
-#			study_subject = Factory(:study_subject)
-#			assert_difference('Sample.count',0) do
-#				post :create, :study_subject_id => study_subject.id,
-#					:sample => factory_attributes
-#			end
-#			assert_not_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new'
-#		end
+		test "should NOT create with #{cu} login " <<
+				"and save failure" do
+			login_as send(cu)
+			Sample.any_instance.stubs(:create_or_update).returns(false)
+			study_subject = Factory(:study_subject)
+			assert_difference('Sample.count',0) do
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			end
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
 
 	end
 
@@ -235,34 +258,36 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT get new receive sample with #{cu} login" do
 			login_as send(cu)
-#			study_subject = Factory(:study_subject)
-			get :new	#, :study_subject_id => study_subject.id
+			get :new
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
 
-#		test "should NOT create new sample with #{cu} login" do
-#			login_as send(cu)
-#			study_subject = Factory(:study_subject)
-#			post :create, :study_subject_id => study_subject.id,
-#				:sample => factory_attributes
-#			assert_not_nil flash[:error]
-#			assert_redirected_to root_path
-#		end
+		test "should NOT create new sample with #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:study_subject)
+			assert_difference('Sample.count',0){
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
 
 	end
 
 	test "should NOT get new receive sample without login" do
-#		study_subject = Factory(:study_subject)
-		get :new	#, :study_subject_id => study_subject.id
+		get :new
 		assert_redirected_to_login
 	end
 
-#	test "should NOT create new sample without login" do
-#		study_subject = Factory(:study_subject)
-#		post :create, :study_subject_id => study_subject.id,
-#			:sample => factory_attributes
-#		assert_redirected_to_login
-#	end
-#
+	test "should NOT create new sample without login" do
+		study_subject = Factory(:study_subject)
+		assert_difference('Sample.count',0){
+			post :create, :study_subject_id => study_subject.id,
+				:sample => factory_attributes
+		}
+		assert_redirected_to_login
+	end
+
 end

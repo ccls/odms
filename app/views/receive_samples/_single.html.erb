@@ -9,8 +9,20 @@
 
 <%= f.error_messages %>
 
+<%# this will get mucked up with big names %>
+
 <div id='subject_control_bar'>
-<h3><%= (@sample.new_record?)? 'New' : 'Edit' %> Subject Sample</h3>
+<h4><%= @study_subject.full_name %></h4>
+<div>
+<p>studyid: <%= @study_subject.studyid_to_s %></p>
+<p>mother name: <%= @study_subject.mothers_name %></p>
+<p>reference date: <%=mdy @study_subject.reference_date %></p>
+</div>
+<div>
+<p>icf master id: <%= @study_subject.icf_master_id_to_s %></p>
+<p>&amp; icf master id: <%= @study_subject.mother.icf_master_id_to_s %></p>
+<p>hospital record no: <%= @study_subject.hospital_no %></p>
+</div>
 <div class='buttons'>
 <%= link_to( 'Cancel', study_subject_samples_path(@study_subject),
 	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
@@ -18,7 +30,14 @@
 </div>
 
 
-<h3>INSERT PROJECTS</h3>
+
+<%# we don't want this as part of "f." as isn't a sample attribute %>
+<div class='field_wrapper'>
+<%= label_tag(:project_id) %>
+<%= select_tag( :project_id, "<option></option>" +
+	options_from_collection_for_select(@projects, :id, :to_s)) %>
+</div>
+
 
 <h3>INSERT SAMPLE SOURCE</h3>
 
