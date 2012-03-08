@@ -9,10 +9,11 @@ class SamplesControllerTest < ActionController::TestCase
 		:method_for_create => :create_sample
 	}
 	def factory_attributes(options={})
-		# No attributes from Factory yet (what does this mean????)
-		Factory.attributes_for(:sample,{
-			:sample_type_id => Factory(:sample_type).id,
-			:unit_id        => Factory(:unit).id }.merge(options))
+		#	Being more explicit to reflect what is actually on the form
+		{
+			:project_id     => Project['ccls'].id,
+			:sample_type_id => Factory(:sample_type).id
+		}.merge(options)
 	end
 
 	assert_access_with_login({    :logins => site_editors })
@@ -54,135 +55,6 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
-
-#		test "should get new sample wo study_subject_id and with #{cu} login" do
-#			login_as send(cu)
-#			get :new
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert !assigns(:study_subjects)
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and blank studyid" do
-#			login_as send(cu)
-#			get :new, :studyid => ''
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert assigns(:study_subjects).empty?
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and blank icf_master_id" do
-#			login_as send(cu)
-#			get :new, :icf_master_id => ''
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert assigns(:study_subjects).empty?
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and blank studyid and icf_master_id" do
-#			login_as send(cu)
-#			get :new, :studyid => '', :icf_master_id => ''
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert assigns(:study_subjects).empty?
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and studyid" do
-#			login_as send(cu)
-#			get :new, :studyid => '1234-A-5'
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert assigns(:study_subjects).empty?
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and icf_master_id" do
-#			login_as send(cu)
-#			get :new, :icf_master_id => '123456789'
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert assigns(:study_subjects).empty?
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and studyid and icf_master_id" do
-#			login_as send(cu)
-#			get :new, :studyid => '1234-A-5', :icf_master_id => '123456789'
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert assigns(:study_subjects).empty?
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and studyid of subject" do
-#			subject = Factory(:complete_case_study_subject)
-#			login_as send(cu)
-#			get :new, :studyid => subject.studyid
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert !assigns(:study_subjects).empty?
-#
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and icf_master_id of subject" do
-#			subject = Factory(:complete_case_study_subject)
-#			Factory(:icf_master_id, :icf_master_id => '123456789' )
-#			subject.assign_icf_master_id
-#			login_as send(cu)
-#			get :new, :icf_master_id => subject.icf_master_id
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert !assigns(:study_subjects).empty?
-#
-#		end
-#
-#		test "should get new sample wo study_subject_id and with #{cu} login" <<
-#				" and studyid and icf_master_id of subject" do
-#
-#			s1 = Factory(:complete_case_study_subject)
-#			Factory(:icf_master_id, :icf_master_id => '123456789' )
-#			s1.assign_icf_master_id
-#			s2 = Factory(:complete_case_study_subject)
-#
-#			login_as send(cu)
-#			get :new, :studyid => s2.studyid, :icf_master_id => s1.icf_master_id
-#			assert_nil flash[:error]
-#			assert_response :success
-#			assert_template 'new_for_subject'
-#			assert assigns(:study_subjects)
-#			assert !assigns(:study_subjects).empty?
-#
-#		end
-
-
-
-
-
-
-
-
 
 		test "should create new sample with #{cu} login" do
 			login_as send(cu)

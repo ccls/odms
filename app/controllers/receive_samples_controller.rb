@@ -11,33 +11,31 @@ class ReceiveSamplesController < ApplicationController
 			if StudySubject.exists?(params[:study_subject_id])
 				@study_subject = StudySubject.find(params[:study_subject_id])
 			else
-				flash[:warn] = "No Study Subjects Found."
+				flash.now[:warn] = "No Study Subjects Found."
 			end
 		elsif params[:studyid] or params[:icf_master_id]
 			study_subjects = StudySubject.find_all_by_studyid_or_icf_master_id(
 				params[:studyid]||nil, params[:icf_master_id]||nil )
 			case study_subjects.length 
 				when 0 
-					flash[:warn] = "No Study Subjects Found."
+					flash.now[:warn] = "No Study Subjects Found."
 				when 1 
 					@study_subject = study_subjects.first
 				else
-					flash[:warn] = "Multiple Study Subjects Found."
+					flash.now[:warn] = "Multiple Study Subjects Found."
 					@study_subjects = study_subjects
 			end
 		end
 		if @study_subject
-
 #
 #
 #	The subject returned should be the childs, not the mothers, I think.
 #
 #
-
 #	SHOULD be at least CCLS.
 #	SHOULD also only include consented enrollments (but using all for now)
-			@projects = @study_subject.enrollments.collect(&:project)
-			@sample = @study_subject.samples.new
+#
+			@sample = Sample.new
 		end
 	end
 
@@ -46,7 +44,6 @@ class ReceiveSamplesController < ApplicationController
 		@sample.save!
 		render :action => 'new'
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-		@projects = @study_subject.enrollments.collect(&:project)
 		flash.now[:error] = "Sample creation failed."
 		render :action => 'new'
 	end

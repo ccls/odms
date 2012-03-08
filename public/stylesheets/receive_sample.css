@@ -11,5 +11,5 @@ form.new_sample #subject_control_bar > div > p {
 	margin-top: 0; /* remove the double top margin which messes up alignment */
 }
 form.new_sample .field_wrapper label {
-	width: 100px;
+	width: 150px;
 }

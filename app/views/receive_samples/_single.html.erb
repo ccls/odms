@@ -29,15 +29,10 @@
 </div><!-- class='buttons' -->
 </div>
 
-
-
-<%# we don't want this as part of "f." as isn't a sample attribute %>
-<div class='field_wrapper'>
-<%= label_tag(:project_id) %>
-<%= select_tag( :project_id, "<option></option>" +
-	options_from_collection_for_select(@projects, :id, :to_s)) %>
-</div>
-
+<%= f.wrapped_collection_select(:project_id,
+	@study_subject.enrollments.collect(&:project), :id, :to_s,
+	{ :include_blank => true }
+) %>
 
 <h3>INSERT SAMPLE SOURCE</h3>
 
@@ -46,7 +41,10 @@
 	{ :include_blank => true }
 ) %>
 
-<h3>INSERT STORAGE TEMPERATURE</h3>
+<%= f.wrapped_collection_select(:sample_temperature_id,
+	SampleTemperature.all, :id, :to_s,
+	{ :include_blank => true }
+) %>
 
 <p>Be advised that these datetime selectors will accept partial datetimes that will generate an incorrect datetime.</p>
 

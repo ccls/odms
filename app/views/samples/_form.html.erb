@@ -13,6 +13,12 @@
 </div><!-- class='buttons' -->
 </div>
 
+
+<%= f.wrapped_collection_select(:project_id,
+	@study_subject.enrollments.collect(&:project), :id, :to_s,
+	{ :include_blank => true }
+) %>
+
 <%= f.wrapped_grouped_collection_select( :sample_type_id, 
 		SampleType.roots, :children, :to_s, :id, :to_s,
 	{ :include_blank => true }

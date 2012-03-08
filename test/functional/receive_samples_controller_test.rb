@@ -13,19 +13,15 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 #		:method_for_create => :create_sample
 #	}
 	def factory_attributes(options={})
-#		# No attributes from Factory yet (what does this mean????)
-#		Factory.attributes_for(:sample,{
-#			:sample_type_id => Factory(:sample_type).id,	#	require only subtypes?
-#			}.merge(options))
-#	better to only use the fields on the form
-		{
-#			:project_id
 #			:sample_source
-			:sample_type_id => Factory(:sample_type).id		#	require only subtypes?
 #			:storage_temperature
 #			:collected_at
 #			:shipped_at
 #			:received_by_ccls_at
+		#	Being more explicit to reflect what is actually on the form
+		{
+			:project_id     => Project['ccls'].id,
+			:sample_type_id => Factory(:sample_type).id
 		}.merge(options)
 	end
 
@@ -162,7 +158,6 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_template 'new'
 			assert_equal study_subject, assigns(:study_subject)
 			assert assigns(:sample)
-			assert !assigns(:projects).empty?
 		end
 
 		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
@@ -178,7 +173,6 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_template 'new'
 			assert_equal study_subject, assigns(:study_subject)
 			assert assigns(:sample)
-			assert !assigns(:projects).empty?
 		end
 
 		test "should get new receive sample with #{cu} login" <<
@@ -191,7 +185,6 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_template 'new'
 			assert_equal study_subject, assigns(:study_subject)
 			assert assigns(:sample)
-			assert !assigns(:projects).empty?
 		end
 
 

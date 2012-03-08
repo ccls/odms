@@ -9,8 +9,6 @@ class SamplesController < ApplicationController
 	before_filter :may_destroy_samples_required,
 		:only => :destroy
 
-#	before_filter :valid_study_subject_id_desired,
-#		:only => [:new]
 	before_filter :valid_study_subject_id_required,
 		:only => [:new,:create,:index]
 #		:except => [:dashboard,:find,:followup,:reports,:edit,:update,:show,:destroy]
@@ -28,16 +26,8 @@ class SamplesController < ApplicationController
 	end
 
 	def new
-#		if @study_subject
-			@sample = @study_subject.samples.new
-			render :layout => 'subject'
-#		else
-#			if params[:studyid] or params[:icf_master_id]
-#				@study_subjects = StudySubject.find_all_by_studyid_or_icf_master_id(
-#					params[:studyid]||nil, params[:icf_master_id]||nil )
-#			end
-#			render :action => "new_for_subject"
-#		end
+		@sample = Sample.new
+		render :layout => 'subject'
 	end
 
 	def create
@@ -78,15 +68,5 @@ protected
 			access_denied("Valid sample id required!", study_subjects_path)
 		end
 	end
-
-#	def valid_study_subject_id_desired
-#		if !params[:study_subject_id].blank? 
-#			if StudySubject.exists?(params[:study_subject_id])
-#				@study_subject = StudySubject.find(params[:study_subject_id])
-#			else
-#				access_denied("Valid study_subject id required!", study_subjects_path)
-#			end
-#		end
-#	end
 
 end
