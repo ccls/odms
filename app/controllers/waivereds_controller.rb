@@ -1,4 +1,5 @@
-class WaiveredsController < ApplicationController
+#class WaiveredsController < ApplicationController
+class WaiveredsController < RafController
 
 	before_filter :may_create_study_subjects_required
 
