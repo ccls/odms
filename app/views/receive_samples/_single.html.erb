@@ -9,7 +9,7 @@
 
 <%= f.error_messages %>
 
-<%# this will get mucked up with big names %>
+<%# this alignment will get mucked up with big names %>
 
 <div id='subject_control_bar'>
 <h4><%= @study_subject.full_name %></h4>
@@ -29,12 +29,15 @@
 </div><!-- class='buttons' -->
 </div>
 
+<h3>NOTE: THIS IS THE EXACTY SUBJECT GIVEN, WHETHER IT WAS MOTHER OR CHILD.</h3>
+
+<h3>NOTE: THESE ARE ALL THE SUBJECT ENROLLMENTS (ignoring consent for now)</h3>
 <%= f.wrapped_collection_select(:project_id,
 	@study_subject.enrollments.collect(&:project), :id, :to_s,
 	{ :include_blank => true }
 ) %>
 
-<h3>INSERT SAMPLE SOURCE</h3>
+<h3>INSERT SAMPLE SOURCE SELECTOR</h3>
 
 <%= f.wrapped_grouped_collection_select( :sample_type_id, 
 		SampleType.roots, :children, :to_s, :id, :to_s,
@@ -46,7 +49,7 @@
 	{ :include_blank => true }
 ) %>
 
-<p>Be advised that these datetime selectors will accept partial datetimes that will generate an incorrect datetime.</p>
+<p>Be advised that these datetime selectors will accept partial datetimes that can generate an incorrect datetime.</p>
 
 <%= f.wrapped_datetime_select :collected_at,
 	:prompt => true,
