@@ -1,0 +1,30 @@
+form#find_samples div.table {
+	clear:both;
+	/* this holds the table-row open, otherwise shrinks to whatever */
+	display:table;
+	width:100%;
+}
+form#find_samples div.table div.tablerow {
+	display:table-row;
+}
+form#find_samples div.table div.tablerow > div {
+	display:table-cell;
+	padding: 5px;
+}
+form#find_samples div.table div.tablerow > div input[type='text'] {
+	width: 100px;
+}
+
+
+div.pagination.wrapper {
+	margin-top:5px;
+}
+div.pagination.wrapper div.pagination {
+	display:inline;
+}
+div.pagination.wrapper label {
+	margin-left: 30px;
+}
+div.pagination.wrapper input {
+	width: 30px;
+}

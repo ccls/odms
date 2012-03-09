@@ -1,0 +1,5 @@
+table.sample_study_subject th,
+table.sample_study_subject td {
+	border: 1px solid gray;
+	text-align: center;
+}

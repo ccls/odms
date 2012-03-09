@@ -1,15 +1,70 @@
+<% stylesheets(:samples) %>
 <%= control_bar() %>
 
-Sample Find form
+<% form_tag(find_samples_path, :method => :get, :id => 'find_samples' ) do %>
 
-<p>Results must match [select(any,all)] of the following:    [find]</p>
-<p>sample id: [ ]</p>
-<p>sample type: [select from types]</p>
-<p>sample subtype: [select for subtypes of given type (will require ajax)]</p>
-<p>first name: [ ]</p>
-<p>last name: [ ]</p>
-<p>childid: [ ]</p>
-<p>icf master id: [ ]</p>
-<p>pat id: [ ]</p>
-<p>kit sent on: [ ]</p>
-<p>sample received on: [ ]</p>
+<p>Results must match 
+<%= select_tag 'operator', options_for_select(
+	[['ANY','OR'],['ALL','AND']], params[:operator] ) %>
+ of the following: 
+<%= submit_tag "Find", :id => nil, :name => nil  %>
+</p>
+<%#
+
+	The label "for"'s are nice for radio buttons and check boxes,
+	but are really unnecessary for text_fields.
+
+%>
+<div class='table'>
+<div class='tablerow'>
+<div><label for='sample_id'>sample id:</label></div>
+<div><%= text_field_tag :sample_id, params[:sample_id] %></div>
+<div><label for='sample_type'>sample type:</label></div>
+<div>XXX<%#= select_tag :sample_type, params[:sample_type] %></div>
+<div><label for='sample_subtype'>sample subtype:</label></div>
+<div>XXX<%#= select_tag :sample_subtype, params[:sample_subtype] %></div>
+</div><!-- tablerow -->
+
+<div class='tablerow'>
+<div><label for='first_name'>first name:</label></div>
+<div><%= text_field_tag :first_name, params[:first_name] %></div>
+<div><label for='last_name'>last name:</label></div>
+<div><%= text_field_tag :last_name, params[:last_name] %></div>
+</div><!-- tablerow -->
+
+<div class='tablerow'>
+<div><label for='childid'>child id:</label></div>
+<div><%= text_field_tag :childid, params[:childid] %></div>
+<div><label for='icf_master_id'>ICF master id:</label></div>
+<div><%= text_field_tag :icf_master_id, params[:icf_master_id] %></div>
+<div><label for='patid'>pat id:</label></div>
+<div><%= text_field_tag :patid, params[:patid] %></div>
+</div><!-- tablerow -->
+
+<div class='tablerow'>
+<div><label for='kit_sent_on'>kit sent on:</label></div>
+<div><%= text_field_tag :kit_sent_on, params[:kit_sent_on] %></div>
+<div><label for='sample_received_on'>sample received on:</label></div>
+<div><%= text_field_tag :sample_received_on, params[:sample_received_on] %></div>
+</div><!-- tablerow -->
+</div><!-- table -->
+
+
+
+
+<%# INSERT SAMPLES TABLE AND SAMPLE PARTIAL %>
+
+
+
+<div class='pagination wrapper'>
+
+
+<%# UNCOMMENT ONCE ACTUALLY HAVE SAMPLES %>
+<%#= will_paginate @samples %>
+
+
+
+<label>jump to page:</label>
+<%= text_field_tag :page, params[:page] %>
+</div>
+<% end %><%# form_tag(find_samples_path ... %>
