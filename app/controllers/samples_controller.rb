@@ -16,6 +16,51 @@ class SamplesController < ApplicationController
 	before_filter :valid_id_required,
 		:only => [:show,:edit,:update,:destroy]
 
+	def find
+		#	If this gets much more complex, we may want to consider using something like solr.
+		record_or_recall_sort_order
+		conditions = [[],{}]
+
+		#	Table names are not necessary if field is unambiguous.
+		%w( childid patid icf_master_id first_name ).each do |attr|
+			if params[attr] and !params[attr].blank?
+				conditions[0] << "( #{attr} LIKE :#{attr} )"
+				conditions[1][attr.to_sym] = "%#{params[attr]}%"
+			end
+		end
+
+		if params[:last_name] and !params[:last_name].blank?
+			conditions[0] << "( last_name LIKE :last_name OR maiden_name LIKE :last_name )"
+			conditions[1][:last_name] = "%#{params[:last_name]}%"
+		end
+
+		if params[:sample_type_id] and !params[:sample_type_id].blank? and 
+				SampleType.exists?(params[:sample_type_id])
+			sample_type = SampleType.find(params[:sample_type_id])
+			conditions[0] << "( sample_type_id IN ( :sample_type_ids ) )"
+			conditions[1][:sample_type_ids] = if( sample_type.is_root? )
+				sample_type.children.collect(&:id)
+			else
+				[sample_type.id]
+			end
+		end
+
+#	may want to implement this for study_subjects/find on dob as well
+		validate_valid_date_range_for(:sent_to_subject_on,conditions)
+		validate_valid_date_range_for(:received_by_ccls_at,conditions)
+
+		@samples = Sample.paginate(
+#			:order   => search_order,
+#			:include => [:patient,:subject_type],
+			:joins => [
+				'LEFT JOIN study_subjects ON study_subjects.id = samples.study_subject_id'
+			],
+			:conditions => [ conditions[0].join(valid_find_operator), conditions[1] ],
+			:per_page => params[:per_page]||25,
+			:page     => valid_find_page
+		)
+	end
+
 	def index
 		@samples = @study_subject.samples
 		render :layout => 'subject'

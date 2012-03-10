@@ -16,11 +16,6 @@ class StudySubjectsController < ApplicationController
 	def find
 #	If this gets much more complex, we may want to consider using something like solr.
 		record_or_recall_sort_order
-		operator = ' OR '
-		if params[:operator] and !params[:operator].blank? and 
-				['AND','OR'].include?(params[:operator])
-			operator = " #{params[:operator]} "
-		end
 		conditions = [[],{}]
 		#	Table names are not necessary if field is unambiguous.
 		%w( childid patid hospital_no icf_master_id first_name ).each do |attr|
@@ -58,17 +53,16 @@ class StudySubjectsController < ApplicationController
 			conditions[0] << "( subject_type_id = :subject_type_id )"
 			conditions[1][:subject_type_id] = params[:subject_type_id].to_i
 		end
-		params[:page] = ( !params[:page].blank? && ( params[:page].to_i > 0 ) 
-			) ? params[:page] : 1
+		params[:page] = valid_find_page	#(params)
 		@study_subjects = StudySubject.paginate(
 			:order   => search_order,
 			:include => [:patient,:subject_type],
 			:joins => [
 				'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
 			],
-			:conditions => [ conditions[0].join(operator), conditions[1] ],
+			:conditions => [ conditions[0].join(valid_find_operator), conditions[1] ],
 			:per_page => params[:per_page]||25,
-			:page     => params[:page]
+			:page     => valid_find_page
 		)
 	end
 

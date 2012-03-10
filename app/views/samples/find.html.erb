@@ -20,9 +20,24 @@
 <div><label for='sample_id'>sample id:</label></div>
 <div><%= text_field_tag :sample_id, params[:sample_id] %></div>
 <div><label for='sample_type'>sample type:</label></div>
-<div>XXX<%#= select_tag :sample_type, params[:sample_type] %></div>
+<div>
+<%#= select_tag :sample_type_id, "<option value=''></option>" + SampleType.roots.collect{|s|[["<option#{" selected='selected'" if s.id == params[:sample_type_id].to_i} value='#{s.id}' class='root'>#{s.to_s}</option>"]] + s.children.collect{|c| ["<option#{" selected='selected'" if c.id == params[:sample_type_id].to_i} value='#{c.id}' class='child'>#{c.to_s}</option>"] }}.flatten.join("\n") %>
+
+<%= select_tag :sample_type_id, "<option value=''></option>" + SampleType.roots.collect{|s|[["<option#{" selected='selected'" if s.id == params[:sample_type_id].to_i} value='#{s.id}'>#{s.to_s}</option>"]] + s.children.collect{|c| ["<option#{" selected='selected'" if c.id == params[:sample_type_id].to_i} value='#{c.id}'> - #{c.to_s}</option>"] }}.flatten.join("\n") %>
+
+</div>
+<!--
+<%#		[[nil,nil,{}]] + SampleType.roots.collect{|s|[[s.to_s,s.id,{:class => 'root'}]] + s.children.collect{|c| [c.to_s,c.id,{:class => 'child'}] }}.flatten(1), %>
+<div><%#= select_tag :sample_type_id,
+	options_for_select(
+		[[nil,nil]] + SampleType.roots.collect{|s|[s.to_s,s.id]},
+		params[:sample_type_id].to_i)  %></div>
 <div><label for='sample_subtype'>sample subtype:</label></div>
-<div>XXX<%#= select_tag :sample_subtype, params[:sample_subtype] %></div>
+<div>XXX<%#= select_tag :sample_subtype_id,
+	options_for_select(
+		[[nil,nil]] + SampleType.not_roots.collect{|s|[s.to_s,s.id]},
+		params[:sample_subtype_id].to_i)  %></div>
+-->
 </div><!-- tablerow -->
 
 <div class='tablerow'>
@@ -36,34 +51,43 @@
 <div><label for='childid'>child id:</label></div>
 <div><%= text_field_tag :childid, params[:childid] %></div>
 <div><label for='icf_master_id'>ICF master id:</label></div>
-<div><%= text_field_tag :icf_master_id, params[:icf_master_id] %></div>
-<div><label for='patid'>pat id:</label></div>
-<div><%= text_field_tag :patid, params[:patid] %></div>
+
+<div><%= text_field_tag :icf_master_id, params[:icf_master_id] %>
+<label for='patid'>pat id:</label>
+<%= text_field_tag :patid, params[:patid] %></div>
+
 </div><!-- tablerow -->
 
 <div class='tablerow'>
-<div><label for='kit_sent_on'>kit sent on:</label></div>
-<div><%= text_field_tag :kit_sent_on, params[:kit_sent_on] %></div>
-<div><label for='sample_received_on'>sample received on:</label></div>
-<div><%= text_field_tag :sample_received_on, params[:sample_received_on] %></div>
+<div><label for='sent_to_subject_on'>kit sent on:</label></div>
+<div><%= text_field_tag :sent_to_subject_on, params[:sent_to_subject_on],
+	:class => 'datepicker' %></div>
+<div><label for='received_by_ccls_at'>sample received on:</label></div>
+<div><%= text_field_tag :received_by_ccls_at, params[:received_by_ccls_at],
+	:class => 'datepicker' %></div>
 </div><!-- tablerow -->
 </div><!-- table -->
 
-
-
-
-<%# INSERT SAMPLES TABLE AND SAMPLE PARTIAL %>
-
-
+<hr/>
+<% if @samples.length > 0 %>
+<table id='samples'><thead><tr>
+<th>subject link</th>
+<th>received on</th>
+<th>sample id</th>
+<th>project</th>
+<th>type</th>
+<th>subtype</th>
+<th>status</th>
+</tr></thead><tbody>
+<%= render @samples %>
+</tbody></table>
+<% else %>
+<p>There are no samples.</p>
+<% end %>
+<hr/>
 
 <div class='pagination wrapper'>
-
-
-<%# UNCOMMENT ONCE ACTUALLY HAVE SAMPLES %>
-<%#= will_paginate @samples %>
-
-
-
+<%= will_paginate @samples %>
 <label>jump to page:</label>
 <%= text_field_tag :page, params[:page] %>
 </div>

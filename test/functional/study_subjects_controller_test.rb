@@ -2,11 +2,6 @@ require 'test_helper'
 
 class StudySubjectsControllerTest < ActionController::TestCase
 
-	#	Why exactly? Without it the order and dir tests fail
-	#	as the search finds no subjects and hence no table.
-	#	I put this in tests explicitly now.
-#	setup :create_study_subject
-
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'StudySubject',
 #		:actions => [:new,:create,:edit,:update,:show,:destroy,:index],
@@ -195,55 +190,67 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects by first_name and #{cu} login" do
-			3.times{|i| Factory(:study_subject, :first_name => "First#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject, :first_name => "First#{i}" ) }
 			login_as send(cu)
 			get :find, :first_name => 'st1'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects by last_name and #{cu} login" do
-			3.times{|i| Factory(:study_subject, :last_name => "Last#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject, :last_name => "Last#{i}" ) }
 			login_as send(cu)
 			get :find, :last_name => 'st1'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects by maiden_name and #{cu} login" do
-			3.times{|i| Factory(:study_subject, :maiden_name => "Maiden#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject, :maiden_name => "Maiden#{i}" ) }
 			login_as send(cu)
 			get :find, :last_name => 'en1'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects with dob as month day year and #{cu} login" do
-			study_subjects = 3.times.collect{|i| Factory(:study_subject,:dob => Date.today-100+i ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:dob => Date.today-100+i ) }
 			login_as send(cu)
-			get :find, :dob => study_subjects[1].dob.strftime("%b %d %Y")	#	Dec 1 2000
+			get :find, :dob => subjects[1].dob.strftime("%b %d %Y")	#	Dec 1 2000
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects with dob as MM/DD/YYYY and #{cu} login" do
-			study_subjects = 3.times.collect{|i| Factory(:study_subject,:dob => Date.today-100+i ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:dob => Date.today-100+i ) }
 			login_as send(cu)
-			get :find, :dob => study_subjects[1].dob.strftime("%m/%d/%Y")	#	javascript selector format
+			get :find, :dob => subjects[1].dob.strftime("%m/%d/%Y")	#	javascript selector format
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects with dob as YYYY-MM-DD and #{cu} login" do
-			study_subjects = 3.times.collect{|i| Factory(:study_subject,:dob => Date.today-100+i ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:dob => Date.today-100+i ) }
 			login_as send(cu)
-			get :find, :dob => study_subjects[1].dob.to_s	#	same as strftime('%Y-%m-%d')
+			get :find, :dob => subjects[1].dob.to_s	#	same as strftime('%Y-%m-%d')
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects ignoring poorly formatted dob and #{cu} login" do
-			study_subjects = 3.times.collect{|i| Factory(:study_subject,:dob => Date.today-100+i ) }
+			3.times{|i| Factory(:study_subject,:dob => Date.today-100+i ) }
 			login_as send(cu)
 			get :find, :dob => 'bad monkey'
 			assert_response :success
@@ -251,102 +258,136 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects with childid and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:childid => "12345#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:childid => "12345#{i}" ) }
 			login_as send(cu)
 			get :find, :childid => '451'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects with patid and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:patid => "345#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:patid => "345#{i}" ) }
 			login_as send(cu)
 			get :find, :patid => '451'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects with icf_master_id and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:icf_master_id => "345#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:icf_master_id => "345x#{i}" ) }
 			login_as send(cu)
-			get :find, :icf_master_id => '451'
+			get :find, :icf_master_id => '45x1'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 	
 		test "should find study_subjects with hospital_no and #{cu} login" do
-			3.times{|i| Factory(:patient,:hospital_no => "345#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:patient,:hospital_no => "345#{i}" ).study_subject }
 			login_as send(cu)
 			get :find, :hospital_no => '451'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
+		end
+
+		%w( state_id_no state_registrar_no local_registrar_no ).each do |field|
+	
+			test "should find study_subjects by #{field} and #{cu} login" do
+				subjects = 3.times.collect{|i| 
+					Factory(:study_subject, field => "345x#{i}" ) }
+				login_as send(cu)
+				get :find, :registrar_no => '45x1'
+				assert_response :success
+				assert_equal 1, assigns(:study_subjects).length
+				assert assigns(:study_subjects).include?(subjects[1])
+			end
+
 		end
 	
-		test "should find study_subjects by state_id_no and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:state_id_no => "345x#{i}" ) }
-			login_as send(cu)
-			get :find, :registrar_no => '45x1'
-			assert_response :success
-			assert_equal 1, assigns(:study_subjects).length
-		end
-	
-		test "should find study_subjects by state_registrar_no and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:state_registrar_no => "345x#{i}" ) }
-			login_as send(cu)
-			get :find, :registrar_no => '45x1'
-			assert_response :success
-			assert_equal 1, assigns(:study_subjects).length
-		end
-	
-		test "should find study_subjects by local_registrar_no and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:local_registrar_no => "345x#{i}" ) }
-			login_as send(cu)
-			get :find, :registrar_no => '45x1'
-			assert_response :success
-			assert_equal 1, assigns(:study_subjects).length
-		end
+#		test "should find study_subjects by state_id_no and #{cu} login" do
+#			3.times{|i| Factory(:study_subject,:state_id_no => "345x#{i}" ) }
+#			login_as send(cu)
+#			get :find, :registrar_no => '45x1'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#		end
+#	
+#		test "should find study_subjects by state_registrar_no and #{cu} login" do
+#			3.times{|i| Factory(:study_subject,:state_registrar_no => "345x#{i}" ) }
+#			login_as send(cu)
+#			get :find, :registrar_no => '45x1'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#		end
+#	
+#		test "should find study_subjects by local_registrar_no and #{cu} login" do
+#			3.times{|i| Factory(:study_subject,:local_registrar_no => "345x#{i}" ) }
+#			login_as send(cu)
+#			get :find, :registrar_no => '45x1'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#		end
+
+
 	
 #	I could add tons of tests for searching on multiple attributes
 #	but it would get ridiculous.  I do need to add a few to test the
 #	operator parameter so there will be a few here.	
 
 		test "should find study_subjects by first_name OR last_name and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:first_name => "First#{i}", :last_name => "Last#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:first_name => "First#{i}", :last_name => "Last#{i}" ) }
 			login_as send(cu)
 			get :find, :first_name => 'st1', :last_name => 'st2', :operator => 'OR'
 			assert_response :success
 			assert_equal 2, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
+			assert assigns(:study_subjects).include?(subjects[2])
 		end
 
 		test "should find study_subjects by first_name AND last_name and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:first_name => "First#{i}", :last_name => "Last#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:first_name => "First#{i}", :last_name => "Last#{i}" ) }
 			login_as send(cu)
 			get :find, :first_name => 'st1', :last_name => 'st1', :operator => 'AND'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 
 		test "should find study_subjects by childid OR patid and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:patid => "345#{i}", :childid => "12345#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:patid => "345#{i}", :childid => "12345#{i}" ) }
 			login_as send(cu)
 			get :find, :patid => '451', :childid => '452', :operator => 'OR'
 			assert_response :success
 			assert_equal 2, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
+			assert assigns(:study_subjects).include?(subjects[2])
 		end
 
 		test "should find study_subjects by childid AND patid and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:patid => "345#{i}", :childid => "12345#{i}" ) }
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:patid => "345#{i}", :childid => "12345#{i}" ) }
 			login_as send(cu)
 			get :find, :patid => '451', :childid => '451', :operator => 'AND'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
+			assert assigns(:study_subjects).include?(subjects[1])
 		end
 
 
 
 ######################################################################
 #
-#	BEGIN order tests
+#	BEGIN order tests (only on fields in table)
 #
 		%w( reference_date ).each do |attr|
 
@@ -388,7 +429,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 
 		end
 
-#		%w( childid studyid ).each do |attr|
 		%w( icf_master_id studyid ).each do |attr|
 
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
@@ -425,7 +465,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 
 		end
 
-#		%w( first_name last_name ).each do |attr|
 		%w( last_name ).each do |attr|
 
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
