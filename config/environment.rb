@@ -23,7 +23,7 @@ Rails::Initializer.run do |config|
 	config.action_controller.session_store = :active_record_store
 
 	config.gem 'mysql'
-	config.gem "sqlite3"
+#	config.gem "sqlite3"
 
 	#	due to some enhancements, the db gems MUST come first
 	#	for use in the jruby environment.
