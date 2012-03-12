@@ -68,24 +68,25 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
-		test "should make study_subject ineligible after create " <<
-				"with #{cu} login" do
-			study_subject = create_eligible_hx_study_subject
-			login_as send(cu)
-			assert_difference("StudySubject.find(#{study_subject.id}).addressings.count",1) {
-			assert_difference("StudySubject.find(#{study_subject.id}).addresses.count",1) {
-			assert_difference('Addressing.count',1) {
-			assert_difference('Address.count',1) {
-				post :create, :study_subject_id => study_subject.id,
-					:addressing => az_addressing()
-			} } } }
-			assert assigns(:study_subject)
-			assert_study_subject_is_not_eligible(study_subject)
-			hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-			assert_equal   hxe.ineligible_reason,
-				IneligibleReason['newnonCA']
-			assert_redirected_to study_subject_contacts_path(study_subject)
-		end
+#	HomeExposures-specific test
+#		test "should make study_subject ineligible after create " <<
+#				"with #{cu} login" do
+#			study_subject = create_eligible_hx_study_subject
+#			login_as send(cu)
+#			assert_difference("StudySubject.find(#{study_subject.id}).addressings.count",1) {
+#			assert_difference("StudySubject.find(#{study_subject.id}).addresses.count",1) {
+#			assert_difference('Addressing.count',1) {
+#			assert_difference('Address.count',1) {
+#				post :create, :study_subject_id => study_subject.id,
+#					:addressing => az_addressing()
+#			} } } }
+#			assert assigns(:study_subject)
+#			assert_study_subject_is_not_eligible(study_subject)
+#			hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+#			assert_equal   hxe.ineligible_reason,
+#				IneligibleReason['newnonCA']
+#			assert_redirected_to study_subject_contacts_path(study_subject)
+#		end
 
 		test "should create new addressing with #{cu} login" do
 			study_subject = Factory(:study_subject)
