@@ -37,7 +37,9 @@ class ConsentsController < ApplicationController
 #	"study_subject_id"=>"2"}
 
 	def update
-		ActiveRecordShared.transaction do
+#		ActiveRecordShared.transaction do
+		ActiveRecord::Base.transaction do
+#		transaction do
 			@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
 				Project['ccls'].id )
 			@enrollment.attributes = params[:enrollment]

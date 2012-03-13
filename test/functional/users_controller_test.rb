@@ -2,39 +2,6 @@ require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
 
-#	test "should get blank user menu in js without login" do
-#		@request.accept = "text/javascript"
-#		get :menu
-#		assert_response :success
-#		assert @response.body.blank?
-#	end
-#
-#	test "should get blank user menu in js with active_user login" do
-#		@request.accept = "text/javascript"
-#		login_as active_user
-#		get :menu
-#		assert_response :success
-#		assert @response.body.blank?
-#	end
-#
-#	test "should get user menu in js with admin login" do
-#		@request.accept = "text/javascript"
-#		login_as admin_user
-#		get :menu
-#		assert_response :success
-#		assert !@response.body.blank?
-#		assert_match /jQuery/, @response.body
-##jQuery(function(){
-##	jQuery('div#mainmenu').append('<a href="/admin">Admin</a>');
-##});
-#	end
-#
-#end
-#require 'test_helper'
-#
-#class Ccls::UsersControllerTest < ActionController::TestCase
-#	tests UsersController
-
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'User',
 		:actions => [:destroy,:index,:show],
@@ -86,14 +53,6 @@ class UsersControllerTest < ActionController::TestCase
 			assert_response :success
 		end
 	
-#		test "should get private users menu via js with #{cu} login" do
-#			login_as send(cu)
-#			@request.accept = "text/javascript"
-#			get :menu
-#			assert_response :success
-#			assert_match /jQuery/, @response.body
-#		end
-	
 	end
 	
 	all_test_roles.each do |cu|
@@ -115,12 +74,5 @@ class UsersControllerTest < ActionController::TestCase
 		end
 	
 	end
-
-#	test "should get empty private users menu via js without login" do
-#		@request.accept = "text/javascript"
-#		get :menu
-#		assert_response :success
-#		assert_match /\A\s*\z/, @response.body
-#	end
 
 end

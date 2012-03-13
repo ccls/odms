@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
-	include Ccls::IcfMasterTrackerUpdateTestHelper
+	include IcfMasterTrackerUpdateTestHelper
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'IcfMasterTrackerUpdate',

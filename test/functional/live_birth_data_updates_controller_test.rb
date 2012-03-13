@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
-	include Ccls::LiveBirthDataUpdateTestHelper
+	include LiveBirthDataUpdateTestHelper
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'LiveBirthDataUpdate',

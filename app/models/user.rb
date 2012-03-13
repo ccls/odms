@@ -6,7 +6,54 @@
 #	*	displayname
 #	*	mail
 #	*	telephonenumber
-class User < Ccls::User
+#class User < Ccls::User
+class User < ActiveRecord::Base
+
+	simply_authorized
+
+
+	def self.search(options={})
+		conditions = {}
+		includes = joins = []
+		if !options[:role_name].blank?
+			includes = [:roles]
+			if Role.all.collect(&:name).include?(options[:role_name])
+				joins = [:roles]
+				conditions = ["roles.name = ?",options[:role_name]]
+			end 
+		end 
+		self.all( 
+			:joins => joins, 
+			:include => includes,
+			:conditions => conditions )
+	end 
+
+	#	Find or Create a user from a given uid, and then 
+	#	proceed to update the user's information from the 
+	#	UCB::LDAP::Person.find_by_uid(uid) response.
+	#	
+	#	Returns: user
+	def self.find_create_and_update_by_uid(uid)
+		user = self.find_or_create_by_uid(uid)
+		person = UCB::LDAP::Person.find_by_uid(uid) 
+		user.update_attributes!({
+			:displayname     => person.displayname,
+			:sn              => person.sn.first,
+			:mail            => person.mail.first || '',
+			:telephonenumber => person.telephonenumber.first
+		}) unless person.nil?
+		user
+	end
+
+	def to_s
+		displayname
+	end
+
+			validates_presence_of   :uid
+			validates_uniqueness_of :uid
+
+
+
 
 #	ucb_authenticated
 
@@ -28,16 +75,9 @@ class User < Ccls::User
 #		).length > 0
 #	end
 
-#	alias_method :may_create?,  :may_edit?
-#	alias_method :may_update?,  :may_edit?
-#	alias_method :may_destroy?, :may_edit?
-#
-#	alias_method :may_take_surveys?, :may_administrate?
-
-#	%w(	people races sample_kits
-#			languages gift_cards refusal_reasons ineligible_reasons
-#			document_versions
-
+	alias_method :may_create?,  :may_edit?
+	alias_method :may_update?,  :may_edit?
+	alias_method :may_destroy?, :may_edit?
 
 	%w(	sample_kits gift_cards document_versions 
 			people races languages refusal_reasons ineligible_reasons

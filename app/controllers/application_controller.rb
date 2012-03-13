@@ -153,4 +153,42 @@ protected	#	private #	(does it matter which or if neither?)
 #		end
 #	end
 
+
+before_filter :login_required
+
+		base_server_url = ( RAILS_ENV == "production" ) ? 
+			"https://auth.berkeley.edu" : 
+			"https://auth-test.berkeley.edu"
+
+		CASClient::Frameworks::Rails::Filter.configure(
+			:username_session_key => :calnetuid,
+			:cas_base_url => "#{base_server_url}/cas/"
+		)
+
+		helper_method :current_user, :logged_in?
+
+
+		def logged_in?
+			!current_user.nil?
+		end
+
+		#	Force the user to be have an SSO session open.
+		def current_user_required
+			# Have to add ".filter(self)" when not in before_filter line.
+			CASClient::Frameworks::Rails::Filter.filter(self)
+		end
+		alias_method :login_required, :current_user_required
+
+		def current_user
+			load 'user.rb' unless defined?(User)
+			@current_user ||= if( session && session[:calnetuid] )
+					#	if the user model hasn't been loaded yet
+					#	this will return nil and fail.
+					User.find_create_and_update_by_uid(session[:calnetuid])
+				else
+					nil
+				end
+		end
+
+
 end

@@ -23,18 +23,24 @@ Rails::Initializer.run do |config|
 	config.action_controller.session_store = :active_record_store
 
 	config.gem 'mysql'
-#	config.gem "sqlite3"
 
-	#	due to some enhancements, the db gems MUST come first
-	#	for use in the jruby environment.
-	config.gem 'ccls-ccls_engine'
 	config.gem 'ccls-simply_authorized'
 	config.gem 'ccls-common_lib'
 	config.gem 'jrails'
 
+#	actually required in common_lib
+#	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
 	config.gem 'hpricot'
+	config.gem 'paperclip', '=2.4.2'
+
+	config.gem 'rubycas-client', '>= 2.2.1'
+
+#require 'casclient'
+#require 'casclient/frameworks/rails/filter'
+
+	config.gem 'ucb_ldap', '>= 1.4.2'
 
 	config.frameworks -= [ :active_resource ]
 
@@ -55,4 +61,24 @@ ActionView::Base.field_error_proc = Proc.new { |html_tag, instance|
 	}
 	nodes.to_html
 }
+
+
+
+##	methods or constants?
+#def valid_sex_values
+#	%w( M F DK )
+#end
+
+
+ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion( 
+	:ccls => ['scaffold','ccls_engine','application'] )
+ActionView::Helpers::AssetTagHelper.register_javascript_expansion( 
+	:ccls => ['jquery','jquery-ui','jrails','application'] )
+
+
+
+
+HTML::WhiteListSanitizer.allowed_attributes.merge(%w(
+	id class style
+))
 
