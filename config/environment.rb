@@ -24,7 +24,7 @@ Rails::Initializer.run do |config|
 
 	config.gem 'mysql'
 
-	config.gem 'ccls-simply_authorized'
+#	config.gem 'ccls-simply_authorized'
 	config.gem 'ccls-common_lib'
 	config.gem 'jrails'
 
@@ -37,6 +37,7 @@ Rails::Initializer.run do |config|
 
 	config.gem 'rubycas-client', '>= 2.2.1'
 
+#	This used to be required in the application controller?
 #require 'casclient'
 #require 'casclient/frameworks/rails/filter'
 

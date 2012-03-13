@@ -1,3 +1,0 @@
-##	From `script/generate ccls_engine` ...
-#gem 'ccls-ccls_engine'
-#require 'ccls_engine/autotest'

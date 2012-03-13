@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+	include SslRequirement
+	before_filter :ensure_proper_protocol
 
 	helper :all # include all helpers, all the time
 
@@ -6,6 +8,67 @@ class ApplicationController < ActionController::Base
 	protect_from_forgery 
 
 	before_filter :get_guidance
+
+
+
+
+
+		alias_method_chain :method_missing, :authorization
+
+		def auth_redirections(permission_name)
+			if respond_to?(:redirections) && 
+				redirections.is_a?(Hash) &&
+				!redirections[permission_name].blank?
+				redirections[permission_name]
+			else
+				HashWithIndifferentAccess.new
+			end
+		end
+
+		def method_missing_with_authorization(symb,*args, &block)
+			method_name = symb.to_s
+
+			if method_name =~ /^may_(not_)?(.+)_required$/
+				full_permission_name = "#{$1}#{$2}"
+				negate = !!$1		#	double bang converts to boolean
+				permission_name = $2
+				verb,target = permission_name.split(/_/,2)
+
+				#	using target words where singular == plural won't work here
+				if !target.blank? && target == target.singularize
+					unless permission = current_user.try(
+							"may_#{permission_name}?", 
+							instance_variable_get("@#{target}") 
+						)
+						message = "You don't have permission to " <<
+							"#{verb} this #{target}."
+					end
+				else
+					#	current_user may be nil so must use try and NOT send
+					unless permission = current_user.try("may_#{permission_name}?")
+						message = "You don't have permission to " <<
+							"#{permission_name.gsub(/_/,' ')}."
+					end
+				end
+
+				#	exclusive or
+				unless negate ^ permission
+					#	if message is nil, negate will be true
+					message ||= "Access denied.  May #{(negate)?'not ':''}" <<
+						"#{permission_name.gsub(/_/,' ')}."
+					ar = auth_redirections(full_permission_name)
+					access_denied(
+						(ar[:message]||message),
+						(ar[:redirect_to]||root_path||"/")
+					)
+				end
+			else
+				method_missing_without_authorization(symb, *args, &block)
+			end
+		end
+
+
+
 
 protected	#	private #	(does it matter which or if neither?)
 
@@ -19,6 +82,24 @@ protected	#	private #	(does it matter which or if neither?)
 			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
 #true
 	end
+
+
+
+		def redirect_to_referer_or_default(default)
+			redirect_to( session[:refer_to] || 
+				request.env["HTTP_REFERER"] || default )
+			session[:refer_to] = nil
+		end
+
+		#	Flash error message and redirect
+		def access_denied( 
+				message="You don't have permission to complete that action.", 
+				default=root_path )
+			session[:return_to] = request.request_uri unless params[:format] == 'js'
+			flash[:error] = message
+			redirect_to default
+		end
+
 
 	#	used in roles_controller
 	def may_not_be_user_required

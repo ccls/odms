@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+require 'simply_authorized_factory_test_helper'
 require 'factory_test_helper'
 require 'calnet_authenticated_test_helper'
 require 'ccls_assertions'
