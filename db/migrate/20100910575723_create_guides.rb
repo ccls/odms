@@ -1,15 +1,12 @@
 class CreateGuides < ActiveRecord::Migration
 	def self.up
-		table_name = 'guides'
-		create_table table_name do |t|
+		create_table :guides do |t|
 			t.string :controller
 			t.string :action
 			t.text :body
 			t.timestamps
-		end unless table_exists?(table_name)
-		idxs = indexes(table_name).map(&:name)
-		add_index( table_name, [:controller,:action], :unique => true
-			) unless idxs.include?("index_#{table_name}_on_controller_and_action")
+		end
+		add_index :guides, [:controller,:action], :unique => true
 	end
 
 	def self.down

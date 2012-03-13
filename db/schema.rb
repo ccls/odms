@@ -1507,7 +1507,7 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["sn"], :name => "index_users_on_sn"
+  add_index "users", ["sn"], :name => "index_users_on_sn", :unique => true
   add_index "users", ["uid"], :name => "index_users_on_uid", :unique => true
 
   create_table "vital_statuses", :force => true do |t|
