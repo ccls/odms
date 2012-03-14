@@ -69,7 +69,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	protected_attributes = %w( studyid studyid_nohyphen
 		studyid_intonly_nohyphen subjectid familyid childid patid 
-		matchingid icf_master_id )
+		matchingid icf_master_id subject_type_id )
 	assert_should_require( required )
 	assert_should_require_unique( unique )
 	assert_should_protect( protected_attributes )
