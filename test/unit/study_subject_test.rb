@@ -2,32 +2,13 @@ require 'test_helper'
 
 class StudySubjectTest < ActiveSupport::TestCase
 
-	[ :mom_is_biomom, :dad_is_biodad ].each do |field|
+	assert_should_accept_only_good_values( :sex,
+		{ :good_values => %w( M F DK ),
+			:bad_values  => 'X' })
 
-		#	Making assumption that 12345 will NEVER be a valid value.
-		test "should NOT allow 12345 for #{field}" do
-			study_subject = StudySubject.new(field => 12345)
-			study_subject.valid?
-			assert study_subject.errors.on_attr_and_type?(field,:inclusion)
-		end
-
-		test "should allow nil for #{field}" do
-			study_subject = StudySubject.new(field => nil)
-			assert_nil study_subject.send(field)
-			study_subject.valid?
-			assert !study_subject.errors.on(field)
-		end
-
-		test "should allow all valid YNDK values for #{field}" do
-			study_subject = StudySubject.new
-			YNDK.valid_values.each do |value|
-				study_subject.send("#{field}=", value)
-				study_subject.valid?
-				assert !study_subject.errors.on(field)
-			end
-		end
-
-	end
+	assert_should_accept_only_good_values( :mom_is_biomom, :dad_is_biodad,
+		{ :good_values => ( YNDK.valid_values + [nil] ), 
+			:bad_values  => 12345 })
 
 	assert_should_create_default_object
 
@@ -63,13 +44,14 @@ class StudySubjectTest < ActiveSupport::TestCase
 	required = %w( dob )
 	unique   = %w( email state_id_no state_registrar_no local_registrar_no
 		gbid lab_no_wiemels accession_no idno_wiemels 
-		subjectid childid studyid )
+		subjectid childid )
 
 #	NOTE icf_master_id is not set, so unique test doesn't fail
+#	NOTE studyid is not set, so unique test doesn't fail
 
 	protected_attributes = %w( studyid studyid_nohyphen
 		studyid_intonly_nohyphen subjectid familyid childid patid 
-		matchingid icf_master_id subject_type_id )
+		matchingid icf_master_id subject_type_id case_control_type )
 	assert_should_require( required )
 	assert_should_require_unique( unique )
 	assert_should_protect( protected_attributes )
@@ -226,12 +208,12 @@ class StudySubjectTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "should require sex be either M, F or DK" do
-		assert_difference( "StudySubject.count", 0 ) {
-			study_subject = create_study_subject(:sex => 'X')
-			assert study_subject.errors.on_attr_and_type?(:sex,:inclusion)
-		} 
-	end
+#	test "should require sex be either M, F or DK" do
+#		assert_difference( "StudySubject.count", 0 ) {
+#			study_subject = create_study_subject(:sex => 'X')
+#			assert study_subject.errors.on_attr_and_type?(:sex,:inclusion)
+#		} 
+#	end
 
 	test "should require sex with custom message" do
 		assert_difference( "StudySubject.count", 0 ) do
@@ -685,20 +667,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 		candidate_control = create_rejected_candidate_control(
 			:related_patid => study_subject.patid)
 		assert_equal [], study_subject.rejected_controls
-	end
-
-	test "should return case by patid" do
-		Factory(:case_study_subject)	#	just another for noise
-		study_subject = Factory(:case_study_subject)
-		found_study_subject = StudySubject.find_case_by_patid(study_subject.patid)
-		assert_not_nil found_study_subject
-		assert_equal study_subject, found_study_subject
-	end
-
-	test "should return nothing if no case matching patid" do
-		study_subject = Factory(:case_study_subject)
-		found_study_subject = StudySubject.find_case_by_patid('0000')
-		assert_nil found_study_subject
 	end
 
 	test "should return child if subject is mother of case" do

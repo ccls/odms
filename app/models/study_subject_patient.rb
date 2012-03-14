@@ -11,8 +11,7 @@ base.class_eval do
 
 	has_one :patient
 
-	delegate :admit_date, :hospital_no,
-		:organization, :organization_id,
+	delegate :admit_date, :hospital_no, :organization, :organization_id,
 			:to => :patient, :allow_nil => true
 
 	accepts_nested_attributes_for :patient
@@ -54,11 +53,6 @@ base.class_eval do
 			#		it straight to the database. It does not instantiate the involved 
 			#		models and it does not trigger Active Record callbacks. 
 			#
-#			Patient.update_all({
-#				:was_under_15_at_dx => (((
-#					my_patient.admit_date.to_date - my_pii.dob.to_date 
-#					) / 365 ) < 15 )}, { :id => my_patient.id })
-
 			#	crude and probably off by a couple days
 			#	would be better to compare year, month then day
 			was_under_15 = (((
@@ -85,14 +79,8 @@ base.class_eval do
 #	if matchingids ~ []
 #		trigger came from Patient so need to find matchingid
 
-		#	due to the high probability that self and identifier will not
-		#		yet be resolved, we have to get the associations manually.
-#		my_identifier = Identifier.find_by_study_subject_id(self.attributes['id'])
-#		matchingids.compact.push(my_identifier.try(:matchingid)).uniq.each do |matchingid|
 		matchingids.compact.push(matchingid).uniq.each do |mid|
 			study_subject_ids = if( !mid.nil? )
-#				Identifier.find_all_by_matchingid(mid).collect(&:study_subject_id)
-#				StudySubject.find_all_by_matchingid(mid).collect(&:id)
 				self.class.find_all_by_matchingid(mid).collect(&:id)
 			else
 				[id]
@@ -105,8 +93,8 @@ base.class_eval do
 			matching_patient = Patient.find_by_study_subject_id(study_subject_ids)
 			admit_date = matching_patient.try(:admit_date)
 
-			logger.debug "DEBUG: calling StudySubject.update_study_subjects_reference_date(#{study_subject_ids.join(',')},#{admit_date})"
-#			StudySubject.update_study_subjects_reference_date( study_subject_ids, admit_date )
+			logger.debug "DEBUG: calling StudySubject.update_study_subjects_reference_date"<<
+				"(#{study_subject_ids.join(',')},#{admit_date})"
 			self.class.update_study_subjects_reference_date( study_subject_ids, admit_date )
 		end
 		true
@@ -117,9 +105,6 @@ protected
 	#	This is a duplication of a patient validation that won't
 	#	work if using nested attributes.  Don't like doing this.
 	def patient_admit_date_is_after_dob
-#		if !patient.nil? && !patient.admit_date.blank? && 
-#			!pii.nil? && !pii.dob.blank? && patient.admit_date < pii.dob &&
-#			pii.dob.to_date != Date.parse('1/1/1900') &&
 		if !patient.nil? && !patient.admit_date.blank? && 
 			!dob.blank? && patient.admit_date < dob &&
 			dob.to_date != Date.parse('1/1/1900') &&
@@ -133,7 +118,6 @@ protected
 	def patient_diagnosis_date_is_after_dob
 		if !patient.nil? && !patient.diagnosis_date.blank? && 
 			!dob.blank? && patient.diagnosis_date < dob
-#			!pii.nil? && !pii.dob.blank? && patient.diagnosis_date < pii.dob
 			errors.add('patient:diagnosis_date', "is before study_subject's dob.") 
 		end
 	end
@@ -148,24 +132,26 @@ protected
 	# logger levels are ... debug, info, warn, error, and fatal.
 	#
 	def trigger_setting_was_under_15_at_dx
-		logger.debug "DEBUG: calling update_patient_was_under_15_at_dx from StudySubject:#{self.attributes['id']}"
+		logger.debug "DEBUG: calling update_patient_was_under_15_at_dx from "<<
+			"StudySubject:#{self.attributes['id']}"
 		logger.debug "DEBUG: DOB changed from:#{dob_was}:to:#{dob}"
 		update_patient_was_under_15_at_dx
 	end
 
 	def trigger_update_matching_study_subjects_reference_date
-		logger.debug "DEBUG: triggering_update_matching_study_subjects_reference_date from StudySubject:#{self.attributes['id']}"
+		logger.debug "DEBUG: triggering_update_matching_study_subjects_reference_date "<<
+			"from StudySubject:#{self.attributes['id']}"
 		logger.debug "DEBUG: matchingid changed from:#{matchingid_was}:to:#{matchingid}"
 		self.update_study_subjects_reference_date_matching(matchingid_was,matchingid)
 	end
 
 	def self.update_study_subjects_reference_date(study_subject_ids,new_reference_date)
 		logger.debug "DEBUG: In StudySubject.update_study_subjects_reference_date"
-		logger.debug "DEBUG: update_study_subjects_reference_date(#{study_subject_ids.join(',')},#{new_reference_date})"
+		logger.debug "DEBUG: update_study_subjects_reference_date"<<
+			"(#{study_subject_ids.join(',')},#{new_reference_date})"
 		# UPDATE `study_subjects` SET `reference_date` = '2011-06-02' WHERE (`subjects`.`id` IN (1,2)) 
 		# UPDATE `study_subjects` SET `reference_date` = '2011-06-02' WHERE (`subjects`.`id` IN (NULL)) 
 		unless study_subject_ids.empty?
-#			StudySubject.update_all(
 			self.update_all(
 				{:reference_date => new_reference_date },
 				{ :id => study_subject_ids })

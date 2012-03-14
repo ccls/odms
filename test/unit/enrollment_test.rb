@@ -2,70 +2,21 @@ require 'test_helper'
 
 class EnrollmentTest < ActiveSupport::TestCase
 
-	[ :use_smp_future_rsrch,
+	assert_should_accept_only_good_values( :use_smp_future_rsrch,
 		:use_smp_future_cancer_rsrch, :use_smp_future_other_rsrch,
 		:share_smp_with_others, :contact_for_related_study,
-		:provide_saliva_smp, :receive_study_findings ].each do |field|
+		:provide_saliva_smp, :receive_study_findings ,
+		{ :good_values => ( ADNA.valid_values + [nil] ), 
+			:bad_values  => 12345 })
 
-		#	Making assumption that 12345 will NEVER be a valid value.
-		test "should NOT allow 12345 for #{field}" do
-			enrollment = Enrollment.new(field => 12345)
-			enrollment.valid?
-			assert enrollment.errors.on_attr_and_type?(field,:inclusion)
-		end
-
-		test "should allow nil for #{field}" do
-			enrollment = Enrollment.new(field => nil)
-			assert_nil enrollment.send(field)
-			enrollment.valid?
-			assert !enrollment.errors.on(field)
-		end
-
-		test "should allow all valid ADNA values for #{field}" do
-			enrollment = Enrollment.new
-			ADNA.valid_values.each do |value|
-				enrollment.send("#{field}=", value)
-				enrollment.valid?
-				assert !enrollment.errors.on(field)
-			end
-		end
-
-	end
-
-	[ :consented, :is_eligible,
+	assert_should_accept_only_good_values( :consented, :is_eligible,
 		:is_chosen, :is_complete, :terminated_participation,
-		:is_candidate ].each do |field|
-
-		#	Making assumption that 12345 will NEVER be a valid value.
-		test "should NOT allow 12345 for #{field}" do
-			enrollment = Enrollment.new(field => 12345)
-			enrollment.valid?
-			assert enrollment.errors.on_attr_and_type?(field,:inclusion)
-		end
-
-		test "should allow nil for #{field}" do
-			enrollment = Enrollment.new(field => nil)
-			assert_nil enrollment.send(field)
-			enrollment.valid?
-			assert !enrollment.errors.on(field)
-		end
-
-		test "should allow all valid YNDK values for #{field}" do
-			enrollment = Enrollment.new
-			YNDK.valid_values.each do |value|
-				enrollment.send("#{field}=", value)
-				enrollment.valid?
-				assert !enrollment.errors.on(field)
-			end
-		end
-
-	end
-
-
+		:is_candidate,
+		{ :good_values => ( YNDK.valid_values + [nil] ), 
+			:bad_values  => 12345 })
 
 	assert_should_create_default_object
 	assert_should_protect(:study_subject_id, :study_subject)
-
 
 	attributes = %w( completed_on contact_for_related_study document_version_id 
 		ineligible_reason_id ineligible_reason_specify is_candidate is_chosen 

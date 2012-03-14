@@ -23,6 +23,16 @@ class AddressingTest < ActiveSupport::TestCase
 		:valid_from, 
 		:valid_to )
 
+	#	Someone always has to think that they are special!
+	assert_should_accept_only_good_values( :current_address,
+		{ :good_values => ( YNDK.valid_values ), 
+			:bad_values  => 12345 })
+
+	assert_should_accept_only_good_values( :is_valid, :address_at_diagnosis,
+		{ :good_values => ( YNDK.valid_values + [nil] ), 
+			:bad_values  => 12345 })
+
+
 	test "explicit Factory addressing test" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('Address.count',1) {
@@ -371,61 +381,6 @@ class AddressingTest < ActiveSupport::TestCase
 				:current_address => '2',
 				:subject_moved => nil)
 		}
-	end
-
-	#	current_address has a database default of 1
-	[ :current_address ].each do |field|
-
-		#	Making assumption that 12345 will NEVER be a valid value.
-		test "should NOT allow 12345 for #{field}" do
-			addressing = Addressing.new(field => 12345)
-			addressing.valid?
-			assert addressing.errors.on_attr_and_type?(field,:inclusion)
-		end
-
-#		test "should allow nil for #{field}" do
-#			addressing = Addressing.new(field => nil)
-#			assert_nil addressing.send(field)
-#			addressing.valid?
-#			assert !addressing.errors.on(field)
-#		end
-
-		test "should allow all valid YNDK values for #{field}" do
-			addressing = Addressing.new
-			YNDK.valid_values.each do |value|
-				addressing.send("#{field}=", value)
-				addressing.valid?
-				assert !addressing.errors.on(field)
-			end
-		end
-
-	end
-
-	[ :is_valid, :address_at_diagnosis ].each do |field|
-
-		#	Making assumption that 12345 will NEVER be a valid value.
-		test "should NOT allow 12345 for #{field}" do
-			addressing = Addressing.new(field => 12345)
-			addressing.valid?
-			assert addressing.errors.on_attr_and_type?(field,:inclusion)
-		end
-
-		test "should allow nil for #{field}" do
-			addressing = Addressing.new(field => nil)
-			assert_nil addressing.send(field)
-			addressing.valid?
-			assert !addressing.errors.on(field)
-		end
-
-		test "should allow all valid YNDK values for #{field}" do
-			addressing = Addressing.new
-			YNDK.valid_values.each do |value|
-				addressing.send("#{field}=", value)
-				addressing.valid?
-				assert !addressing.errors.on(field)
-			end
-		end
-
 	end
 
 protected

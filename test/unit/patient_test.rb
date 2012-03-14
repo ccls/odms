@@ -2,33 +2,10 @@ require 'test_helper'
 
 class PatientTest < ActiveSupport::TestCase
 
-	[ :was_under_15_at_dx, :was_previously_treated,
-		:was_ca_resident_at_diagnosis ].each do |field|
-
-		#	Making assumption that 12345 will NEVER be a valid value.
-		test "should NOT allow 12345 for #{field}" do
-			patient = Patient.new(field => 12345)
-			patient.valid?
-			assert patient.errors.on_attr_and_type?(field,:inclusion)
-		end
-
-		test "should allow nil for #{field}" do
-			patient = Patient.new(field => nil)
-			assert_nil patient.send(field)
-			patient.valid?
-			assert !patient.errors.on(field)
-		end
-
-		test "should allow all valid YNDK values for #{field}" do
-			patient = Patient.new
-			YNDK.valid_values.each do |value|
-				patient.send("#{field}=", value)
-				patient.valid?
-				assert !patient.errors.on(field)
-			end
-		end
-
-	end
+	assert_should_accept_only_good_values( :was_under_15_at_dx, 
+		:was_previously_treated, :was_ca_resident_at_diagnosis,
+		{ :good_values => ( YNDK.valid_values + [nil] ), 
+			:bad_values  => 12345 })
 
 	assert_should_create_default_object
 	assert_should_initially_belong_to :study_subject

@@ -29,6 +29,7 @@ class StudySubject < ActiveRecord::Base
 
 	include StudySubjectHomexOutcome
 	include StudySubjectInterviews
+	include StudySubjectFinders
 
 	delegate :is_other?, :to => :guardian_relationship, 
 		:allow_nil => true, :prefix => true 
@@ -48,77 +49,6 @@ class StudySubject < ActiveRecord::Base
 	accepts_nested_attributes_for :phone_numbers,
 		:reject_if => proc { |attrs| attrs[:phone_number].blank? }
 	accepts_nested_attributes_for :gift_cards
-
-	#	Find the case or control subject with matching familyid except self.
-	def child
-		if (subject_type_id == self.class.subject_type_mother_id) && !familyid.blank?
-			self.class.find(:first,
-				:include => [:subject_type],
-				:conditions => [
-					"study_subjects.id != ? AND subjectid = ? AND subject_type_id IN (?)", 
-						id, familyid, 
-						[self.class.subject_type_case_id,self.class.subject_type_control_id] ]
-			)
-		else
-			nil
-		end
-	end
-
-	#	Find the subject with matching familyid and subject_type of Mother.
-	def mother
-		return nil if familyid.blank?
-		self.class.find(:first,
-			:include => [:subject_type],
-			:conditions => { 
-				:familyid        => familyid,
-				:subject_type_id => self.class.subject_type_mother_id
-			}
-		)
-	end
-
-	#	Find all the subjects with matching familyid except self.
-	def family
-		return [] if familyid.blank?
-		self.class.find(:all,
-			:include => [:subject_type],
-			:conditions => [
-				"study_subjects.id != ? AND familyid = ?", id, familyid ]
-		)
-	end
-
-	#	Find all the subjects with matching matchingid except self.
-	def matching
-		return [] if matchingid.blank?
-		self.class.find(:all,
-			:include => [:subject_type],
-			:conditions => [
-				"study_subjects.id != ? AND matchingid = ?", 
-					id, matchingid ]
-		)
-	end
-
-	#	Find all the subjects with matching patid with subject_type Control except self.
-	#	If patid is nil, this sql doesn't work.  
-	#			TODO Could fix, but this situation is unlikely.
-	def controls
-		return [] unless is_case?
-		self.class.find(:all, 
-			:include => [:subject_type],
-			:conditions => [
-				"study_subjects.id != ? AND patid = ? AND subject_type_id = ?", 
-					id, patid, self.class.subject_type_control_id ] 
-		)
-	end
-
-	def rejected_controls
-		return [] unless is_case?
-		CandidateControl.find(:all,
-			:conditions => {
-				:related_patid    => patid,
-				:reject_candidate => true
-			}
-		)
-	end
 
 	def to_s
 		[childid,'(',studyid,full_name,')'].compact.join(' ')
@@ -198,15 +128,6 @@ class StudySubject < ActiveRecord::Base
 			}
 		)
 		( last_control.try(:orderno) || 0 ) + 1
-	end
-
-	def self.find_case_by_patid(patid)
-		self.find(:first,	#	patid is unique so better only be 1
-			:conditions => [
-				'subject_type_id = ? AND patid = ?',
-				subject_type_case_id, patid
-			]
-		)
 	end
 
 	def icf_master_id_to_s

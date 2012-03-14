@@ -62,8 +62,48 @@ module CclsAssertions
 				assert_equal object, found
 			end
 
-		end
+		end	#	def assert_should_behave_like_a_hash(*args)
 
-	end
+		def assert_should_accept_only_good_values(*attributes)
+			options = {
+				:good_values => [],
+				:bad_values  => []
+			}
+			options.update(attributes.extract_options!)
+
+			attributes.flatten.each do |field|
+
+				[options[:bad_values]].flatten.each do |value|
+
+#	could be a naming problem if both nil and blank are passed
+
+					test "should NOT allow #{value||'nil'} for #{field}" do
+						object = model_name.constantize.new(field => value)
+						assert_equal object.send(field), value
+						object.valid?
+						assert object.errors.on_attr_and_type?(field,:inclusion)
+					end
+
+				end
+
+				[options[:good_values]].flatten.each do |value|
+		
+#	could be a naming problem if both nil and blank are passed
+
+					test "should allow #{value||'nil'} for #{field}" do
+						object = model_name.constantize.new(field => value)
+						assert_equal object.send(field), value
+						object.valid?
+						assert !object.errors.on(field)
+					end
+
+				end
+		
+			end	#	attributes.flatten.each do |field|
+
+		end	#	def assert_should_accept_only_good_values(*attributes)
+
+	end	#	module ClassMethods
+
 end
 ActiveSupport::TestCase.send(:include,CclsAssertions)

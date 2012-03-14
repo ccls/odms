@@ -18,8 +18,8 @@ protected
 		#		real requests do not send symbols
 		#
 		study_subject_params = incoming_params.deep_merge({
-			'subject_type_id' => SubjectType['Case'].id,
-			'case_control_type' => 'C',
+#			'subject_type_id' => SubjectType['Case'].id,
+#			'case_control_type' => 'C',
 			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
 			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
 			'phone_numbers_attributes' => {
@@ -30,6 +30,9 @@ protected
 		allow_blank_address_line_1(study_subject_params)
 		mark_as_eligible(study_subject_params)
 		@study_subject = StudySubject.new(study_subject_params)
+		#	protected attributes
+		@study_subject.subject_type_id   = SubjectType['Case'].id	
+		@study_subject.case_control_type = 'C'
 
 		#	explicitly validate before searching for duplicates
 		raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?

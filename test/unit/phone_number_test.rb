@@ -2,37 +2,12 @@ require 'test_helper'
 
 class PhoneNumberTest < ActiveSupport::TestCase
 
-	[ :current_phone, :is_valid ].each do |field|
-
-		#	Making assumption that 12345 will NEVER be a valid value.
-		test "should NOT allow 12345 for #{field}" do
-			phone_number = PhoneNumber.new(field => 12345)
-			phone_number.valid?
-			assert phone_number.errors.on_attr_and_type?(field,:inclusion)
-		end
-
-		test "should allow nil for #{field}" do
-			phone_number = PhoneNumber.new(field => nil)
-			assert_nil phone_number.send(field)
-			phone_number.valid?
-			assert !phone_number.errors.on(field)
-		end
-
-		test "should allow all valid YNDK values for #{field}" do
-			phone_number = PhoneNumber.new
-			YNDK.valid_values.each do |value|
-				phone_number.send("#{field}=", value)
-				phone_number.valid?
-				assert !phone_number.errors.on(field)
-			end
-		end
-
-	end
+	assert_should_accept_only_good_values( :current_phone, :is_valid,
+		{ :good_values => ( YNDK.valid_values + [nil] ), 
+			:bad_values  => 12345 })
 
 	assert_should_create_default_object
-#	assert_should_protect(:study_subject_id, :study_subject)
 	assert_should_act_as_list( :scope => :study_subject_id )
-
 	assert_should_initially_belong_to( :study_subject, :phone_type )
 
 

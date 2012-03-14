@@ -198,7 +198,10 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		other   = create_study_subject( :matchingid => '12345' )
 		study_subject = create_case_study_subject_with_patient
 		assert_not_nil other.reload.reference_date
-		study_subject.update_attributes(:matchingid => '12346')
+#		study_subject.update_attributes(:matchingid => '12346')
+#	matchingid is now protected
+		study_subject.matchingid = '12346'
+		study_subject.save
 		assert_nil     other.reload.reference_date
 	end
 
@@ -206,7 +209,10 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		other   = create_study_subject( :matchingid => '12345' )
 		study_subject = create_case_study_subject_with_patient
 		assert_not_nil other.reload.reference_date
-		study_subject.update_attributes(:matchingid => nil)
+#		study_subject.update_attributes(:matchingid => nil)
+#	matchingid is now protected
+		study_subject.matchingid = nil
+		study_subject.save
 		assert_nil     other.reload.reference_date
 	end
 

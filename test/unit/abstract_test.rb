@@ -588,7 +588,7 @@ class AbstractTest < ActiveSupport::TestCase
 		assert db_fields.first.is_a?(String)
 	end
 
-	[ :cbc_report_found,
+	assert_should_accept_only_good_values( :cbc_report_found,
 		:cerebrospinal_fluid_report_found,
 		:chemo_protocol_report_found,
 		:chest_ct_medmass_present,
@@ -647,31 +647,8 @@ class AbstractTest < ActiveSupport::TestCase
 		:response_report_found_day_28,
 		:splenomegaly_present,
 		:tdt_often_found_flow_cytometry,
-		:tdt_report_found ].each do |field|
-
-		#	Making assumption that 12345 will NEVER be a valid value.
-		test "should NOT allow 12345 for #{field}" do
-			abstract = Abstract.new(field => 12345)
-			abstract.valid?
-			assert abstract.errors.on_attr_and_type?(field,:inclusion)
-		end
-
-		test "should allow nil for #{field}" do
-			abstract = Abstract.new(field => nil)
-			assert_nil abstract.send(field)
-			abstract.valid?
-			assert !abstract.errors.on(field)
-		end
-
-		test "should allow all valid YNDK values for #{field}" do
-			abstract = Abstract.new
-			YNDK.valid_values.each do |value|
-				abstract.send("#{field}=", value)
-				abstract.valid?
-				assert !abstract.errors.on(field)
-			end
-		end
-
-	end
+		:tdt_report_found,
+		{ :good_values => ( YNDK.valid_values + [nil] ), 
+			:bad_values  => 12345 })
 
 end

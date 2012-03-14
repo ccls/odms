@@ -13,21 +13,14 @@ base.class_eval do
 	#	it will stop the study_subject nested_attribute tests though
 	attr_protected :studyid, :studyid_nohyphen, :studyid_intonly_nohyphen,
 		:familyid, :childid, :subjectid, :patid, :orderno,
-		:matchingid, :icf_master_id, :subject_type_id
+		:matchingid, :icf_master_id, :subject_type_id, :case_control_type
+#
+#	Will require major modification for RAF creation to add this one ...
+#, :subject_type_id
+#
 
 	before_validation :prepare_fields_for_validation
 	before_create     :prepare_fields_for_creation
-
-	def self.find_all_by_studyid_or_icf_master_id(studyid,icf_master_id)
-#	if decide to use LIKE, will need to NOT include nils so
-#	will need to add some conditions to the conditions.
-		self.find( :all, 
-			:conditions => [
-				"studyid = :studyid OR icf_master_id = :icf_master_id",
-				{ :studyid => studyid, :icf_master_id => icf_master_id }
-			]
-		)
-	end
 
 protected
 
