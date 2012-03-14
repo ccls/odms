@@ -1,6 +1,13 @@
+
+#	This should be required, but seems auto loaded (config.gem probably)
+#require 'ssl_requirement'
+
+# This used to be required in the application controller?
+#require 'casclient'
+#require 'casclient/frameworks/rails/filter'
+
 class ApplicationController < ActionController::Base
 	include SslRequirement
-	before_filter :ensure_proper_protocol
 
 	helper :all # include all helpers, all the time
 
@@ -9,68 +16,79 @@ class ApplicationController < ActionController::Base
 
 	before_filter :get_guidance
 
+	before_filter :login_required
+
+	base_server_url = ( RAILS_ENV == "production" ) ? 
+		"https://auth.berkeley.edu" : 
+		"https://auth-test.berkeley.edu"
+
+	CASClient::Frameworks::Rails::Filter.configure(
+		:username_session_key => :calnetuid,
+		:cas_base_url => "#{base_server_url}/cas/"
+	)
+
+	helper_method :current_user, :logged_in?
 
 
-
-
-		alias_method_chain :method_missing, :authorization
-
-		def auth_redirections(permission_name)
-			if respond_to?(:redirections) && 
-				redirections.is_a?(Hash) &&
-				!redirections[permission_name].blank?
-				redirections[permission_name]
-			else
-				HashWithIndifferentAccess.new
-			end
+	def auth_redirections(permission_name)
+		if respond_to?(:redirections) && 
+			redirections.is_a?(Hash) &&
+			!redirections[permission_name].blank?
+			redirections[permission_name]
+		else
+			HashWithIndifferentAccess.new
 		end
+	end
 
-		def method_missing_with_authorization(symb,*args, &block)
-			method_name = symb.to_s
+	def method_missing_with_authorization(symb,*args, &block)
+		method_name = symb.to_s
 
-			if method_name =~ /^may_(not_)?(.+)_required$/
-				full_permission_name = "#{$1}#{$2}"
-				negate = !!$1		#	double bang converts to boolean
-				permission_name = $2
-				verb,target = permission_name.split(/_/,2)
+		if method_name =~ /^may_(not_)?(.+)_required$/
+			full_permission_name = "#{$1}#{$2}"
+			negate = !!$1		#	double bang converts to boolean
+			permission_name = $2
+			verb,target = permission_name.split(/_/,2)
 
-				#	using target words where singular == plural won't work here
-				if !target.blank? && target == target.singularize
-					unless permission = current_user.try(
-							"may_#{permission_name}?", 
-							instance_variable_get("@#{target}") 
-						)
-						message = "You don't have permission to " <<
-							"#{verb} this #{target}."
-					end
-				else
-					#	current_user may be nil so must use try and NOT send
-					unless permission = current_user.try("may_#{permission_name}?")
-						message = "You don't have permission to " <<
-							"#{permission_name.gsub(/_/,' ')}."
-					end
-				end
-
-				#	exclusive or
-				unless negate ^ permission
-					#	if message is nil, negate will be true
-					message ||= "Access denied.  May #{(negate)?'not ':''}" <<
-						"#{permission_name.gsub(/_/,' ')}."
-					ar = auth_redirections(full_permission_name)
-					access_denied(
-						(ar[:message]||message),
-						(ar[:redirect_to]||root_path||"/")
+			#	using target words where singular == plural won't work here
+			if !target.blank? && target == target.singularize
+				unless permission = current_user.try(
+						"may_#{permission_name}?", 
+						instance_variable_get("@#{target}") 
 					)
+					message = "You don't have permission to " <<
+						"#{verb} this #{target}."
 				end
 			else
-				method_missing_without_authorization(symb, *args, &block)
+				#	current_user may be nil so must use try and NOT send
+				unless permission = current_user.try("may_#{permission_name}?")
+					message = "You don't have permission to " <<
+						"#{permission_name.gsub(/_/,' ')}."
+				end
 			end
+
+			#	exclusive or
+			unless negate ^ permission
+				#	if message is nil, negate will be true
+				message ||= "Access denied.  May #{(negate)?'not ':''}" <<
+					"#{permission_name.gsub(/_/,' ')}."
+				ar = auth_redirections(full_permission_name)
+				access_denied(
+					(ar[:message]||message),
+					(ar[:redirect_to]||root_path||"/")
+				)
+			end
+		else
+			method_missing_without_authorization(symb, *args, &block)
 		end
-
-
-
+	end
+	alias_method_chain :method_missing, :authorization
 
 protected	#	private #	(does it matter which or if neither?)
+
+	def ssl_required?
+		# Force https everywhere (that doesn't have ssl_allowed set)
+		true
+	end
 
 	def ssl_allowed?
 		#	Gary has setup the genepi server to force https with its own redirection.
@@ -80,26 +98,22 @@ protected	#	private #	(does it matter which or if neither?)
 		#	I could use an alias_method_chain here, but would actually take more lines.
 		request.host == "odms.brg.berkeley.edu" || (
 			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
-#true
 	end
 
+	def redirect_to_referer_or_default(default)
+		redirect_to( session[:refer_to] || 
+			request.env["HTTP_REFERER"] || default )
+		session[:refer_to] = nil
+	end
 
-
-		def redirect_to_referer_or_default(default)
-			redirect_to( session[:refer_to] || 
-				request.env["HTTP_REFERER"] || default )
-			session[:refer_to] = nil
-		end
-
-		#	Flash error message and redirect
-		def access_denied( 
-				message="You don't have permission to complete that action.", 
-				default=root_path )
-			session[:return_to] = request.request_uri unless params[:format] == 'js'
-			flash[:error] = message
-			redirect_to default
-		end
-
+	#	Flash error message and redirect
+	def access_denied( 
+			message="You don't have permission to complete that action.", 
+			default=root_path )
+		session[:return_to] = request.request_uri unless params[:format] == 'js'
+		flash[:error] = message
+		redirect_to default
+	end
 
 	#	used in roles_controller
 	def may_not_be_user_required
@@ -114,42 +128,6 @@ protected	#	private #	(does it matter which or if neither?)
 			access_denied("Valid study_subject id required!", study_subjects_path)
 		end
 	end
-
-#	def block_all_access
-#		access_denied("That route is no longer available")
-#	end
-#
-#	def valid_hx_study_subject_id_required
-#		validate_hx_study_subject_id(params[:study_subject_id])
-#	end
-#
-#	def valid_id_for_hx_study_subject_required
-#		validate_hx_study_subject_id(params[:id])
-#	end
-#
-#	#	I intended to check that the study_subject is actually
-#	#	enrolled in HomeExposures, but haven't yet.
-#	def validate_hx_study_subject_id(id,redirect=nil)
-#		if !id.blank? and StudySubject.exists?(id)
-#			@study_subject = StudySubject.find(id)
-#		else
-#			access_denied("Valid study_subject id required!", 
-#				redirect || study_subjects_path)
-#		end
-#	end
-
-#	Don't know if I'll use this or not.
-#
-#	def get_hx_study_subjects
-#		hx = Project['HomeExposures']
-#		if params[:commit] && params[:commit] == 'download'
-#			params[:paginate] = false
-#		end
-#		#   params[:projects] ||= {}
-#		#   params[:projects][hx.id] ||= {}
-#		#   @study_subjects = StudySubject.search(params)
-#		@study_subjects = hx.study_subjects.search(params)
-#	end
 
 	def record_or_recall_sort_order
 		%w( dir order ).map(&:to_sym).each do |param|
@@ -235,41 +213,29 @@ protected	#	private #	(does it matter which or if neither?)
 #	end
 
 
-before_filter :login_required
+	def logged_in?
+		!current_user.nil?
+	end
 
-		base_server_url = ( RAILS_ENV == "production" ) ? 
-			"https://auth.berkeley.edu" : 
-			"https://auth-test.berkeley.edu"
+	#	Force the user to be have an SSO session open.
+	def current_user_required
+		# Have to add ".filter(self)" when not in before_filter line.
+		CASClient::Frameworks::Rails::Filter.filter(self)
+	end
+	alias_method :login_required, :current_user_required
 
-		CASClient::Frameworks::Rails::Filter.configure(
-			:username_session_key => :calnetuid,
-			:cas_base_url => "#{base_server_url}/cas/"
-		)
-
-		helper_method :current_user, :logged_in?
-
-
-		def logged_in?
-			!current_user.nil?
-		end
-
-		#	Force the user to be have an SSO session open.
-		def current_user_required
-			# Have to add ".filter(self)" when not in before_filter line.
-			CASClient::Frameworks::Rails::Filter.filter(self)
-		end
-		alias_method :login_required, :current_user_required
-
-		def current_user
-			load 'user.rb' unless defined?(User)
-			@current_user ||= if( session && session[:calnetuid] )
-					#	if the user model hasn't been loaded yet
-					#	this will return nil and fail.
-					User.find_create_and_update_by_uid(session[:calnetuid])
-				else
-					nil
-				end
-		end
-
+	def current_user
+#	DO NOT USE load. Reloads model and drops associations.
+#		load 'user.rb' unless defined?(User)
+#	this is better but probably not needed any longer
+#		require_dependency 'user.rb' unless User
+		@current_user ||= if( session && session[:calnetuid] )
+				#	if the user model hasn't been loaded yet
+				#	this will return nil and fail.
+				User.find_create_and_update_by_uid(session[:calnetuid])
+			else
+				nil
+			end
+	end
 
 end

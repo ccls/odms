@@ -8,25 +8,26 @@
 #	*	telephonenumber
 class User < ActiveRecord::Base
 
+	has_and_belongs_to_many :roles, :uniq => true
 
-			has_and_belongs_to_many :roles,  :uniq => true, 
-				:before_add => :before_add_role,
-				:after_add  => :after_add_role,
-				:before_remove => :before_remove_role,
-				:after_remove  => :after_remove_role
-
-
-		def before_add_role(role)
-		end
-
-		def after_add_role(role)
-		end
-
-		def before_remove_role(role)
-		end
-
-		def after_remove_role(role)
-		end
+#			has_and_belongs_to_many :roles,  :uniq => true, 
+#				:before_add => :before_add_role,
+#				:after_add  => :after_add_role,
+#				:before_remove => :before_remove_role,
+#				:after_remove  => :after_remove_role
+#
+#
+#		def before_add_role(role)
+#		end
+#
+#		def after_add_role(role)
+#		end
+#
+#		def before_remove_role(role)
+#		end
+#
+#		def after_remove_role(role)
+#		end
 
 		def role_names
 			roles.collect(&:name).uniq

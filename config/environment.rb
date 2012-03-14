@@ -22,14 +22,13 @@ Rails::Initializer.run do |config|
 	#	don't have to, switch back to the default.
 	config.action_controller.session_store = :active_record_store
 
+	config.gem 'ssl_requirement'
 	config.gem 'mysql'
 
-#	config.gem 'ccls-simply_authorized'
 	config.gem 'ccls-common_lib'
 	config.gem 'jrails'
 
-#	actually required in common_lib
-#	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
+	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
 	config.gem 'hpricot'
