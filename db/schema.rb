@@ -1501,13 +1501,13 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "uid"
     t.string   "sn"
     t.string   "displayname"
-    t.string   "mail",            :default => "", :null => false
+    t.string   "mail"
     t.string   "telephonenumber"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "users", ["sn"], :name => "index_users_on_sn", :unique => true
+  add_index "users", ["sn"], :name => "index_users_on_sn"
   add_index "users", ["uid"], :name => "index_users_on_uid", :unique => true
 
   create_table "vital_statuses", :force => true do |t|

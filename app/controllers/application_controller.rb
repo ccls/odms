@@ -29,16 +29,17 @@ class ApplicationController < ActionController::Base
 
 	helper_method :current_user, :logged_in?
 
+protected	#	private #	(does it matter which or if neither?)
 
-	def auth_redirections(permission_name)
-		if respond_to?(:redirections) && 
-			redirections.is_a?(Hash) &&
-			!redirections[permission_name].blank?
-			redirections[permission_name]
-		else
-			HashWithIndifferentAccess.new
-		end
-	end
+#	def auth_redirections(permission_name)
+#		if respond_to?(:redirections) && 
+#			redirections.is_a?(Hash) &&
+#			!redirections[permission_name].blank?
+#			redirections[permission_name]
+#		else
+#			HashWithIndifferentAccess.new
+#		end
+#	end
 
 	def method_missing_with_authorization(symb,*args, &block)
 		method_name = symb.to_s
@@ -71,19 +72,18 @@ class ApplicationController < ActionController::Base
 				#	if message is nil, negate will be true
 				message ||= "Access denied.  May #{(negate)?'not ':''}" <<
 					"#{permission_name.gsub(/_/,' ')}."
-				ar = auth_redirections(full_permission_name)
-				access_denied(
-					(ar[:message]||message),
-					(ar[:redirect_to]||root_path||"/")
-				)
+#				ar = auth_redirections(full_permission_name)
+#				access_denied(
+#					(ar[:message]||message),
+#					(ar[:redirect_to]||root_path||"/")
+#				)
+				access_denied( message, (root_path||"/") )
 			end
 		else
 			method_missing_without_authorization(symb, *args, &block)
 		end
 	end
 	alias_method_chain :method_missing, :authorization
-
-protected	#	private #	(does it matter which or if neither?)
 
 	def ssl_required?
 		# Force https everywhere (that doesn't have ssl_allowed set)
@@ -148,7 +148,6 @@ protected	#	private #	(does it matter which or if neither?)
 				:action => params[:action] })
 	end
 
-
 	#	used by study_subjects/find and samples/find
 	#	As 'page' is on the form, it could be blank.
 	#	This can result in ...
@@ -211,7 +210,6 @@ protected	#	private #	(does it matter which or if neither?)
 #			end
 #		end
 #	end
-
 
 	def logged_in?
 		!current_user.nil?

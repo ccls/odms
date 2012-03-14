@@ -2,8 +2,28 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
 
-	assert_should_require(:uid)
-	assert_should_require_unique(:uid)
+	#	test both sides of the coin by starting with all of the attributes
+	#	could be a challenge since all things aren't black and white
+	attributes = %w( uid sn displayname mail telephonenumber )
+	required = %w( uid )
+	unique = %w( uid )
+
+#	modify these tests to check for arrays?
+#	changing
+#		39       attributes.each do |attr|
+#	to
+#		39       attributes.flatten.each do |attr|
+#	should do it.
+
+	assert_should_require( *required )
+	assert_should_not_require( *(attributes - required) )
+
+	assert_should_require_unique( *unique )
+#	doesn't exist yet, but create one
+#	assert_should_not_require_unique( attributes - unique )
+
+#	assert_should_require(:uid)
+#	assert_should_require_unique(:uid)
 	assert_should_habtm(:roles)
 
 	test "should create user" do
@@ -71,8 +91,8 @@ class UserTest < ActiveSupport::TestCase
 			assert user.may_view_user?
 			assert user.is_user?(user)
 			assert user.may_be_user?(user)
-			assert user.may_share_document?('document')
-			assert user.may_view_document?('document')
+#			assert user.may_share_document?('document')
+#			assert user.may_view_document?('document')
 
 			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
 		end
@@ -100,14 +120,9 @@ class UserTest < ActiveSupport::TestCase
 		assert  u.role_names.include?('administrator')
 	end
 
-	test "should return non-nil mail" do
-		user = create_object
-		assert_not_nil user.mail
-	end
-
-#	test "should return non-nil gravatar_url" do
+#	test "should return non-nil mail" do			#	why is mail so special?
 #		user = create_object
-#		assert_not_nil user.gravatar_url
+#		assert_not_nil user.mail
 #	end
 
 	test "should respond to roles" do

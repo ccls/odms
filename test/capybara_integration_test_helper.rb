@@ -100,15 +100,29 @@ require 'capybara/rails'
 
 Capybara.default_driver = :webkit
 
-#	Using class_attribute instead of mattr_accessor so that
-#	each subclass (read model) has its own value as we have
-#	two databases meaning not all models have the same connection.
+##	Using class_attribute instead of mattr_accessor so that
+##	each subclass (read model) has its own value as we have
+##	two databases meaning not all models have the same connection.
+#class ActiveRecord::Base
+#	class_attribute :saved_connection
+#	def self.connection
+#		saved_connection || retrieve_connection
+#	end
+#end
+#
+#	back to the original ...
+#
+#	initially based on http://pastie.org/1745020, but has changed
 class ActiveRecord::Base
-	class_attribute :saved_connection
+	mattr_accessor :shared_connection
+	@@shared_connection = nil
 	def self.connection
-		saved_connection || retrieve_connection
+		@@shared_connection || retrieve_connection
 	end
 end
+# Forces all threads to share the same connection. This works on
+# Capybara because it starts the web server in a thread.
+ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
 #	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
@@ -124,66 +138,66 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		end
 	end
 
-	setup :synchronize_selenium_connections	#	this includes :webkit
-	def synchronize_selenium_connections
-		#	if driver is selenium based, need to synchronize the transactional connections
-		#
-		###	initially based on http://pastie.org/1745020, but has changed
-		#
-		#		class ActiveRecord::Base
-		#			mattr_accessor :shared_connection
-		#			@@shared_connection = nil
-		#			def self.connection
-		#				@@shared_connection || retrieve_connection
-		#			end
-		#		end
-		#		# Forces all threads to share the same connection. This works on
-		#		# Capybara because it starts the web server in a thread.
-		#		ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
-		#
-		###
-		#
-		#	connection hack for selenium
-		#	with selenium, the database connection from the test and from the controllers 
-		#		are different and as the connections are transactional, I think, the test 
-		#		will be unaware of changes that the controller makes and the controller 
-		#		will be unaware of changes that the test makes.  This seems to be why 
-		#		creating a user in the test does not result in a user being found in the 
-		#		controller.  The same goes for the user's roles.  It also means that the 
-		#		tests will not notice a difference after creating a page or other resource 
-		#		in the controller.  So.  Apparently, we need a hack in all the models that 
-		#		will do this. Normally, we could just hack AR::Base, but since we already 
-		#		have 2 connection (one for shared, one for the app), we can't (unless I 
-		#		find a new way)
-		#		So.  We need to individually hack any model that we may test.
-		#
-		#	I'd rather just loop through all the models, but there are a couple oddballs
-		#	from use_db that may cause issues.  Still polishing this one.
-		#	wonder what's gonna happen for modelless tables (roles_users)
-
-		#
-		#	Perhaps Shared.subclasses?
-		#
-		[Abstract,Address,Addressing,AddressType,
-			Aliquot,AliquotSampleFormat,Analysis,BcRequest,
-			CandidateControl,Context,
-			ContextDataSource,County,
-			DataSource,Diagnosis,DocumentType,DocumentVersion,Enrollment,
-			FollowUp,FollowUpType,GiftCard,Guide,
-			HomeExposureResponse,HomexOutcome,Hospital,
-			IcfMasterId,
-			IneligibleReason,Instrument,InstrumentType,InstrumentVersion,
-			Interview,InterviewMethod,InterviewOutcome,
-			Language,
-			OperationalEvent,OperationalEventType,Organization,Page,Patient,
-			PhoneNumber,PhoneType,Project,Person,ProjectOutcome,
-			Race,RefusalReason,Role,
-			Sample,SampleKit,SampleOutcome,SampleType,Section,StudySubject,
-			SubjectLanguage,Language,SubjectRace,SubjectRelationship,SubjectType,
-			Transfer,Unit,User,VitalStatus,ZipCode].each do |model|
-			model.saved_connection = model.connection
-		end
-	end
+#	setup :synchronize_selenium_connections	#	this includes :webkit
+#	def synchronize_selenium_connections
+#		#	if driver is selenium based, need to synchronize the transactional connections
+#		#
+#		###	initially based on http://pastie.org/1745020, but has changed
+#		#
+#		#		class ActiveRecord::Base
+#		#			mattr_accessor :shared_connection
+#		#			@@shared_connection = nil
+#		#			def self.connection
+#		#				@@shared_connection || retrieve_connection
+#		#			end
+#		#		end
+#		#		# Forces all threads to share the same connection. This works on
+#		#		# Capybara because it starts the web server in a thread.
+#		#		ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+#		#
+#		###
+#		#
+#		#	connection hack for selenium
+#		#	with selenium, the database connection from the test and from the controllers 
+#		#		are different and as the connections are transactional, I think, the test 
+#		#		will be unaware of changes that the controller makes and the controller 
+#		#		will be unaware of changes that the test makes.  This seems to be why 
+#		#		creating a user in the test does not result in a user being found in the 
+#		#		controller.  The same goes for the user's roles.  It also means that the 
+#		#		tests will not notice a difference after creating a page or other resource 
+#		#		in the controller.  So.  Apparently, we need a hack in all the models that 
+#		#		will do this. Normally, we could just hack AR::Base, but since we already 
+#		#		have 2 connection (one for shared, one for the app), we can't (unless I 
+#		#		find a new way)
+#		#		So.  We need to individually hack any model that we may test.
+#		#
+#		#	I'd rather just loop through all the models, but there are a couple oddballs
+#		#	from use_db that may cause issues.  Still polishing this one.
+#		#	wonder what's gonna happen for modelless tables (roles_users)
+#
+#		#
+#		#	Perhaps Shared.subclasses?
+#		#
+#		[Abstract,Address,Addressing,AddressType,
+#			Aliquot,AliquotSampleFormat,Analysis,BcRequest,
+#			CandidateControl,Context,
+#			ContextDataSource,County,
+#			DataSource,Diagnosis,DocumentType,DocumentVersion,Enrollment,
+#			FollowUp,FollowUpType,GiftCard,Guide,
+#			HomeExposureResponse,HomexOutcome,Hospital,
+#			IcfMasterId,
+#			IneligibleReason,Instrument,InstrumentType,InstrumentVersion,
+#			Interview,InterviewMethod,InterviewOutcome,
+#			Language,
+#			OperationalEvent,OperationalEventType,Organization,Page,Patient,
+#			PhoneNumber,PhoneType,Project,Person,ProjectOutcome,
+#			Race,RefusalReason,Role,
+#			Sample,SampleKit,SampleOutcome,SampleType,Section,StudySubject,
+#			SubjectLanguage,Language,SubjectRace,SubjectRelationship,SubjectType,
+#			Transfer,Unit,User,VitalStatus,ZipCode].each do |model|
+#			model.saved_connection = model.connection
+#		end
+#	end
 
 	include Capybara::DSL
 
@@ -195,14 +209,50 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		if !uid.blank?
 			stub_ucb_ldap_person()
 			u = User.find_create_and_update_by_uid(uid)
+
+			assert u.is_a?(User), "Created User isn't a User?"
+
 			#	Rather than manually manipulate the session,
 			#	I created a fake controller to do it.
+
+#puts User.all.inspect
+
+
+#	I don't quite understand what is happening, but now it seems as if the user doesn't logout
+#	do I need to add a teardown :logout?
+
+
+#CASClient::Frameworks::Rails::Filter.unstub(:filter)
+#			page.visit logout_path
+
 			page.visit new_fake_session_path()	#, { }, { 'HTTPS' => 'on' }
+			assert_equal current_path, new_fake_session_path,
+				"Didn't actually get new fake session path?"
+
+#	It would seem that I accidentally created a "unique" index for :sn !!!!!
+#	I don't completely see why it matters as they should be destroyed after
+#	each test so there should never actually be more than one User.
+
+#<p>
+#  Showing <i>app/views/layouts/_header.html.erb</i> where line <b>#8</b> raised:
+#  </p><pre><code>Mysql::Error: Duplicate entry 'Wendt' for key 2: UPDATE `users` SET `updated_at` = '2012-03-14 05:11:15', `sn` = 'Wendt', `telephonenumber` = '+1 510 642-9749', `displayname` = 'Mr. Jake Wendt, BA' WHERE `id` = 5148</code></pre>
+#<p></p>
+#
+
+#puts page.body
+			assert page.has_field?('id'),
+				"id field not found.  Probably didn't actually load new session page."
+
+			#Capybara::ElementNotFound: cannot fill in, no text field, text area or password field with id, name, or label 'id' found
 			page.fill_in 'id', :with => u.id
+
 			page.click_button 'login'
+
+			#	assert that there is a user logged in			
+			assert_equal current_path, user_path(u),
+				"Login as seems to have failed." 
 		end
 	end
-
 
 #	common methods ( consent and nonwaivered both use languages )
 

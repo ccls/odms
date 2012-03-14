@@ -13,13 +13,21 @@ class FakeSessionsController < ApplicationController
 #		not even bother searching for it.
 #	This would require modifications to both capybara and webrat tests.
 
-
-#puts "in controller connection check"
+#puts "in controller connection check:#{params[:id]}:"
 #puts User.connection.inspect
 
+		unless User.exists?(params[:id])
+			puts "\n\nUH-OH.  User not found with id:#{params[:id]}:"
+			puts "About to fail in weird ways."
+			puts
+		end
 		user = User.find(params[:id])
+#puts user.inspect
+
 		session[:calnetuid] = user.uid
-CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
+		CASClient::Frameworks::Rails::Filter.stubs(:filter).returns(true)
+
+#puts "Logged in"
 		redirect_to user_path(user)
 
 
