@@ -70,10 +70,10 @@ ActionView::Base.field_error_proc = Proc.new { |html_tag, instance|
 #end
 
 
-ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion( 
-	:ccls => ['scaffold','ccls_engine','application'] )
-ActionView::Helpers::AssetTagHelper.register_javascript_expansion( 
-	:ccls => ['jquery','jquery-ui','jrails','application'] )
+#ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion( 
+#	:ccls => ['scaffold','ccls_engine','application'] )
+#ActionView::Helpers::AssetTagHelper.register_javascript_expansion( 
+#	:ccls => ['jquery','jquery-ui','jrails','application'] )
 
 
 
