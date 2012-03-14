@@ -1,3 +1,0 @@
-##	From `script/generate simply_authorized` ...
-#gem 'ccls-simply_authorized'
-#require 'simply_authorized/autotest'
