@@ -13,10 +13,5 @@ class DocumentsController < ApplicationController
 
 	before_filter :valid_study_subject_id_required,
 		:only => [:index]
-#		:only => [:new,:create,:index]
-
-	def index
-#		@events = OperationalEvent.search(params)
-	end
 
 end

@@ -63,7 +63,6 @@ class BcRequestsController < ApplicationController
 				study_subject = bc_request.study_subject
 				enrollment = study_subject.enrollments.find_or_create_by_project_id(
 					Project['ccls'].id )
-#				enrollment.operational_events << OperationalEvent.create!(
 				OperationalEvent.create!(
 					:enrollment => enrollment,
 					:operational_event_type => OperationalEventType['bc_request_sent'],

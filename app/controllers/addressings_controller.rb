@@ -11,7 +11,6 @@ class AddressingsController < ApplicationController
 	before_filter :may_destroy_addressings_required,
 		:only => :destroy
 
-#	before_filter :valid_hx_study_subject_id_required,
 	before_filter :valid_study_subject_id_required,
 		:only => [:new,:create,:index]
 	before_filter :valid_id_required,
@@ -25,6 +24,7 @@ class AddressingsController < ApplicationController
 		#	If create fails and re-renders 'new', then the
 		#	address id may be on the form due to after_create
 		#	modifications and it causes problems.
+		#	I believe that this is a rails issue.
 		if params[:addressing] && params[:addressing][:address_attributes] 
 			params[:addressing][:address_attributes][:id] = nil
 		end

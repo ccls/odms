@@ -3,26 +3,16 @@ class CasesController < ApplicationController
 	layout 'subject'
 
 	before_filter :may_create_study_subjects_required
-#	before_filter :valid_id_required, :only => :show
-#	before_filter :case_study_subject_required, :only => :show
 
+	#
+	#	I think that this is the beginning of selecting a new control
+	#
 	def index
 		unless params[:patid].blank?
 			@study_subject = StudySubject.find_case_by_patid(params[:patid])
 		end
 		render :layout => 'application'
 	end
-
-#	def show
-#		if !@study_subject.is_case?
-#			render :action => 'not_case' 
-#		else
-#			#@control_subjects  = @study_subject.controls
-#			@matching_subjects = @study_subject.matching
-#			#@family_subjects   = @study_subject.family
-#			@rejected_controls = @study_subject.rejected_controls
-#		end
-#	end
 
 	def new
 		@hospitals = Hospital.all
@@ -49,22 +39,5 @@ class CasesController < ApplicationController
 			redirect_to new_case_path
 		end
 	end
-
-protected
-
-#	def valid_id_required
-#		if !params[:id].blank? and StudySubject.exists?(params[:id])
-#			@study_subject = StudySubject.find(params[:id])
-#		else
-#			access_denied("Valid study_subject id required!", cases_path)
-#		end
-#	end
-
-#	def case_study_subject_required
-#		unless @study_subject.is_case?
-#			access_denied("Valid case study_subject required!", #	cases_path)
-#				study_subject_path(@study_subject) )
-#		end
-#	end
 
 end

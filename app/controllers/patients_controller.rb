@@ -14,7 +14,6 @@ class PatientsController < ApplicationController
 	before_filter :valid_study_subject_id_required
 	before_filter :valid_patient_required,
 		:only => [:edit,:update,:destroy]
-#		:only => [:show,:edit,:update,:destroy]
 	before_filter :case_study_subject_required,
 		:only => [:new,:create]
 	before_filter :no_patient_required,
@@ -33,12 +32,10 @@ class PatientsController < ApplicationController
 
 	def show
 		if !@study_subject.is_case?
-#			flash.now[:error] = "Hospital data is valid for case subjects only"
 			render :action => 'not_case' 
 		elsif( ( @patient = @study_subject.patient ).nil? )
 			access_denied("Valid patient required!",
 				new_study_subject_patient_path(@study_subject))
-#			redirect_to new_study_subject_patient_path(@study_subject)
 		end
 	end
 

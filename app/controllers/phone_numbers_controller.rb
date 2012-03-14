@@ -11,7 +11,6 @@ class PhoneNumbersController < ApplicationController
 	before_filter :may_destroy_phone_numbers_required,
 		:only => :destroy
 
-#	before_filter :valid_hx_study_subject_id_required,
 	before_filter :valid_study_subject_id_required,
 		:only => [:new,:create,:index]
 	before_filter :valid_id_required,
@@ -24,7 +23,6 @@ class PhoneNumbersController < ApplicationController
 	def create
 		@phone_number = @study_subject.phone_numbers.build(
 			params[:phone_number].merge( :current_user => current_user ) )
-#		@phone_number = @study_subject.phone_numbers.build(params[:phone_number])
 		@phone_number.save!
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -41,7 +39,6 @@ class PhoneNumbersController < ApplicationController
 	def update
 		@phone_number.update_attributes!(
 			params[:phone_number].merge( :current_user => current_user ) )
-#		@phone_number.update_attributes!(params[:phone_number])
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "PhoneNumber update failed"

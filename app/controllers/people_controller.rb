@@ -1,9 +1,5 @@
 class PeopleController < ApplicationController
 
-#	resourceful
-
-#	FYI. Now that I've explicitly added the code here, it may not be 100% covered by testing.
-
 	before_filter :may_create_people_required,
 		:only => [:new,:create]
 	before_filter :may_read_people_required,

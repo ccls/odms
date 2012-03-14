@@ -1,9 +1,5 @@
 class DocumentVersionsController < ApplicationController
 
-#	resourceful
-
-#	FYI. Now that I've explicitly added the code here, it may not be 100% covered by testing.
-
 	before_filter :may_create_document_versions_required,
 		:only => [:new,:create]
 	before_filter :may_read_document_versions_required,

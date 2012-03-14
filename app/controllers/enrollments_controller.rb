@@ -18,7 +18,6 @@ class EnrollmentsController < ApplicationController
 
 	def index
 		if @study_subject.subject_type == SubjectType['Mother']
-#			flash.now[:error] = "This is a mother subject. Enrollment data is only collected for child subjects. Please go to the record for the subject's child for details."
 			render :action => 'index_mother'
 		end
 	end

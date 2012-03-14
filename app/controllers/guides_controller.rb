@@ -1,10 +1,5 @@
 class GuidesController < ApplicationController
 
-	#	Basic CRUD and permissive features defined in simply_authorized
-#	resourceful
-
-#	FYI. Now that I've explicitly added the code here, it may not be 100% covered by testing.
-
 	before_filter :may_create_guides_required,
 		:only => [:new,:create]
 	before_filter :may_read_guides_required,

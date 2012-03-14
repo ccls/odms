@@ -1,9 +1,5 @@
 class RefusalReasonsController < ApplicationController
 
-#	resourceful
-
-#	FYI. Now that I've explicitly added the code here, it may not be 100% covered by testing.
-
 	before_filter :may_create_refusal_reasons_required,
 		:only => [:new,:create]
 	before_filter :may_read_refusal_reasons_required,

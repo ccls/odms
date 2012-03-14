@@ -1,14 +1,8 @@
 class PagesController < ApplicationController
 
-#	before_filter :login_required
 	skip_before_filter :login_required, :only => :show
 	before_filter :may_maintain_pages_required, :except => :show
 	before_filter :id_required, :only => [ :edit, :update, :destroy ]
-
-#	Why even bother caching pages?
-#	#	This will also cache the flash output so don't cache layout
-#	caches_action :show, :layout => false
-#	cache_sweeper :page_sweeper, :only => [:create, :update, :order, :destroy]
 
 	ssl_allowed :show
 

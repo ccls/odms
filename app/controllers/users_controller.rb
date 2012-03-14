@@ -1,18 +1,8 @@
 class UsersController < ApplicationController
 
-#	skip_before_filter :login_required, :only => :menu
-
 	before_filter :id_required, :only => [:edit, :show, :update, :destroy]
 	before_filter :may_view_user_required, :except => [:index,:menu]
 	before_filter :may_view_users_required, :only => :index
-
-#	ssl_allowed :menu
-#
-#	def menu
-#		respond_to do |format|
-#			format.js {}
-#		end
-#	end
 
 	def show
 		@roles = Role.all

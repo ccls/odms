@@ -15,7 +15,6 @@ class CandidateControlsController < ApplicationController
 		@candidate.reject_candidate = params[:candidate_control][:reject_candidate]
 		@candidate.rejection_reason = params[:candidate_control][:rejection_reason]
 		CandidateControl.transaction do
-#			if params[:candidate_control][:reject_candidate] == 'false'
 			unless @candidate.reject_candidate
 				#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
 				#	this form's submit button is 'continue' NOT 'Submit'
@@ -38,8 +37,6 @@ class CandidateControlsController < ApplicationController
 					if params[:duplicate_id] and
 							( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
 							@duplicates.include?(duplicate)
-#						params[:candidate_control][:reject_candidate] = true
-#						params[:candidate_control][:rejection_reason] = "ineligible control - ......."
 						@candidate.reject_candidate = true
 						@candidate.rejection_reason = "ineligible control - "
 						if duplicate.is_case?
@@ -72,16 +69,8 @@ class CandidateControlsController < ApplicationController
 				end	#	else of if params[:commit] == 'Match Found'
 			end	#	if params[:candidate_control][:reject_candidate] == 'false'
 
-			# don't do it this way as opens ALL the attrs for change
-			#	@candidate.update_attributes(params[:candidate_control])
-#			@candidate.reject_candidate = params[:candidate_control][:reject_candidate]
-#			@candidate.rejection_reason = params[:candidate_control][:rejection_reason]
 			@candidate.save!
-#			@candidate.update_attributes!(
-#				:reject_candidate => params[:candidate_control][:reject_candidate],
-#				:rejection_reason => params[:candidate_control][:rejection_reason] )
 		end	#	CandidateControl.transaction do
-#		redirect_to case_path(@study_subject)
 		redirect_to related_subject_path(@study_subject)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Candidate control update failed."
@@ -114,7 +103,6 @@ protected
 
 	def unused_candidate_control_required
 		unless @candidate.study_subject_id.blank?
-#			access_denied("Candidate is already used!", case_path(@study_subject.id))
 			access_denied("Candidate is already used!", related_subject_path(@study_subject.id))
 		end
 	end
