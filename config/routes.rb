@@ -1,22 +1,29 @@
 ActionController::Routing::Routes.draw do |map|
 
 	map.namespace :active_scaffold do |n|
-	  n.resources :study_subjects, :active_scaffold => true
-	  n.resources :subject_races, :active_scaffold => true
-	  n.resources :subject_languages, :active_scaffold => true
-	  n.resources :patients, :active_scaffold => true
-	  n.resources :addresses, :active_scaffold => true
-	  n.resources :addressings, :active_scaffold => true
-	  n.resources :phone_numbers, :active_scaffold => true
-	  n.resources :enrollments, :active_scaffold => true
-	  n.resources :data_sources, :active_scaffold => true
+#	  n.resources :study_subjects, :active_scaffold => true
+#	  n.resources :subject_races, :active_scaffold => true
+#	  n.resources :subject_languages, :active_scaffold => true
+#	  n.resources :patients, :active_scaffold => true
+#	  n.resources :addresses, :active_scaffold => true
+#	  n.resources :addressings, :active_scaffold => true
+#	  n.resources :phone_numbers, :active_scaffold => true
+#	  n.resources :enrollments, :active_scaffold => true
+#	  n.resources :data_sources, :active_scaffold => true
+		n.with_options :active_scaffold => true do |as|
+	  	as.resources :study_subjects
+	  	as.resources :subject_races
+	  	as.resources :subject_languages
+	  	as.resources :patients
+	  	as.resources :addresses
+	  	as.resources :addressings
+	  	as.resources :phone_numbers
+	  	as.resources :enrollments
+	  	as.resources :data_sources
+		end
 	end
 
-
 	map.logout 'logout', :controller => 'sessions', :action => 'destroy'
-#	map.resources :users, :only => [:destroy,:show,:index],
-#		:collection => { :menu => :get } do |user|
-#	don't use menu, but tests do, so keep it for now
 	map.resources :users, :only => [:destroy,:show,:index] do |user|
 		user.resources :roles, :only => [:update,:destroy]
 	end
@@ -69,26 +76,22 @@ ActionController::Routing::Routes.draw do |map|
 			},
 			:shallow => true do |study_subject|
 		study_subject.resource  :patient
-		study_subject.resources :contacts, :only => :index
-		study_subject.resources :phone_numbers,		#	TEMP ADD DESTROY FOR DEV ONLY!
-			:only => [:new,:create,:edit,:update,   :destroy   ]
-		study_subject.resources :addressings,		#	TEMP ADD DESTROY FOR DEV ONLY!
-			:only => [:new,:create,:edit,:update,   :destroy   ]
-		study_subject.resources :enrollments,
-			:only => [:new,:create,:show,:edit,:update,:index]
+		#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
+		study_subject.resources :phone_numbers, :except => [:index,:show]
+		study_subject.resources :addressings,   :except => [:index,:show]
+		study_subject.resources :enrollments,   :except => :destroy
 		study_subject.resource  :consent,
 			:only => [:show,:edit,:update]
 		study_subject.resources :samples
-		study_subject.resources :interviews,
-			:only => [:index]
 		study_subject.resources :events
-		study_subject.resources :documents,
-			:only => [:index]
-		study_subject.resources :notes,
-			:only => [:index]
+		study_subject.resources :contacts,   :only => :index
+		study_subject.resources :interviews, :only => :index
+		study_subject.resources :documents,  :only => :index
+		study_subject.resources :notes,      :only => :index
 	end
 
-	map.resources :bc_requests, :only => [:new,:create,:edit,:update,:destroy,:index],
+#	map.resources :bc_requests, :only => [:new,:create,:edit,:update,:destroy,:index],
+	map.resources :bc_requests, :except => :show,
 		:collection => { :confirm => :get },
 		:member => { :update_status => :put }
 
@@ -100,7 +103,6 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resources :related_subjects, :only => [:show]
 
-#	map.resources :cases, :only => [:new,:create,:index,:show] do |c|
 	map.resources :cases, :only => [:new,:create,:index] do |c|
 		#
 		#	WARNING be careful as "case" is a ruby keyword!
@@ -108,7 +110,7 @@ ActionController::Routing::Routes.draw do |map|
 		c.resources :controls,   :only => [:new]	#,:create]
 	end
 
-	map.resource  :waivered, :only => [:new,:create]
+	map.resource  :waivered,    :only => [:new,:create]
 	map.resource  :nonwaivered, :only => [:new,:create]
 
 	map.resources :projects
@@ -130,12 +132,12 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.namespace :api do |api|
 		api.resources :study_subjects, :only => :index
-		api.resources :patients, :only => :index
-		api.resources :projects, :only => :index
-		api.resources :enrollments, :only => :index
-		api.resources :addresses, :only => :index
-		api.resources :addressings, :only => :index
-		api.resources :phone_numbers, :only => :index
+		api.resources :patients,       :only => :index
+		api.resources :projects,       :only => :index
+		api.resources :enrollments,    :only => :index
+		api.resources :addresses,      :only => :index
+		api.resources :addressings,    :only => :index
+		api.resources :phone_numbers,  :only => :index
 	end
 
 	#	Create named routes for expected pages so can avoid

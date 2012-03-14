@@ -1,0 +1,1579 @@
+(in /Users/jakewendt/github_repo/ccls/odms)
+
+FYI: This task ONLY works on MYSQL databases.
+
+Table: abstracts
++--------------------------------------------+---------------+------+-----+---------+----------------+
+| Field                                      | Type          | Null | Key | Default | Extra          |
++--------------------------------------------+---------------+------+-----+---------+----------------+
+| id                                         | int(11)       | NO   | PRI | NULL    | auto_increment |
+| study_subject_id                           | int(11)       | YES  |     | NULL    |                |
+| response_day14or28_flag                    | int(11)       | YES  |     | NULL    |                |
+| received_bone_marrow_biopsy                | int(11)       | YES  |     | NULL    |                |
+| received_h_and_p                           | int(11)       | YES  |     | NULL    |                |
+| received_other_reports                     | int(11)       | YES  |     | NULL    |                |
+| received_discharge_summary                 | int(11)       | YES  |     | NULL    |                |
+| received_chemo_protocol                    | int(11)       | YES  |     | NULL    |                |
+| received_resp_to_therapy                   | int(11)       | YES  |     | NULL    |                |
+| received_specify_other_reports             | text          | YES  |     | NULL    |                |
+| received_bone_marrow_aspirate              | int(11)       | YES  |     | NULL    |                |
+| received_flow_cytometry                    | int(11)       | YES  |     | NULL    |                |
+| received_ploidy                            | int(11)       | YES  |     | NULL    |                |
+| received_hla_typing                        | int(11)       | YES  |     | NULL    |                |
+| received_cytogenetics                      | int(11)       | YES  |     | NULL    |                |
+| received_cbc                               | int(11)       | YES  |     | NULL    |                |
+| received_csf                               | int(11)       | YES  |     | NULL    |                |
+| received_chest_xray                        | int(11)       | YES  |     | NULL    |                |
+| response_report_found_day_14               | int(11)       | YES  |     | NULL    |                |
+| response_report_found_day_28               | int(11)       | YES  |     | NULL    |                |
+| response_report_found_day_7                | int(11)       | YES  |     | NULL    |                |
+| response_report_on_day_14                  | date          | YES  |     | NULL    |                |
+| response_report_on_day_28                  | date          | YES  |     | NULL    |                |
+| response_report_on_day_7                   | date          | YES  |     | NULL    |                |
+| response_classification_day_14             | varchar(2)    | YES  |     | NULL    |                |
+| response_classification_day_28             | varchar(2)    | YES  |     | NULL    |                |
+| response_classification_day_7              | varchar(2)    | YES  |     | NULL    |                |
+| response_blasts_day_14                     | int(11)       | YES  |     | NULL    |                |
+| response_blasts_day_28                     | int(11)       | YES  |     | NULL    |                |
+| response_blasts_day_7                      | int(11)       | YES  |     | NULL    |                |
+| response_blasts_units_day_14               | varchar(15)   | YES  |     | NULL    |                |
+| response_blasts_units_day_28               | varchar(15)   | YES  |     | NULL    |                |
+| response_blasts_units_day_7                | varchar(15)   | YES  |     | NULL    |                |
+| response_in_remission_day_14               | int(11)       | YES  |     | NULL    |                |
+| marrow_biopsy_report_found                 | int(11)       | YES  |     | NULL    |                |
+| marrow_biopsy_on                           | date          | YES  |     | NULL    |                |
+| marrow_biopsy_diagnosis                    | text          | YES  |     | NULL    |                |
+| marrow_aspirate_report_found               | int(11)       | YES  |     | NULL    |                |
+| marrow_aspirate_taken_on                   | date          | YES  |     | NULL    |                |
+| marrow_aspirate_diagnosis                  | text          | YES  |     | NULL    |                |
+| response_marrow_kappa_day_14               | int(11)       | YES  |     | NULL    |                |
+| response_marrow_kappa_day_7                | int(11)       | YES  |     | NULL    |                |
+| response_marrow_lambda_day_14              | int(11)       | YES  |     | NULL    |                |
+| response_marrow_lambda_day_7               | int(11)       | YES  |     | NULL    |                |
+| cbc_report_found                           | int(11)       | YES  |     | NULL    |                |
+| cbc_report_on                              | date          | YES  |     | NULL    |                |
+| cbc_white_blood_count                      | decimal(10,0) | YES  |     | NULL    |                |
+| cbc_percent_blasts                         | int(11)       | YES  |     | NULL    |                |
+| cbc_number_blasts                          | int(11)       | YES  |     | NULL    |                |
+| cbc_hemoglobin_level                       | decimal(10,0) | YES  |     | NULL    |                |
+| cbc_platelet_count                         | int(11)       | YES  |     | NULL    |                |
+| cerebrospinal_fluid_report_found           | int(11)       | YES  |     | NULL    |                |
+| csf_report_on                              | date          | YES  |     | NULL    |                |
+| csf_white_blood_count                      | int(11)       | YES  |     | NULL    |                |
+| csf_white_blood_count_text                 | text          | YES  |     | NULL    |                |
+| csf_red_blood_count                        | int(11)       | YES  |     | NULL    |                |
+| csf_red_blood_count_text                   | varchar(255)  | YES  |     | NULL    |                |
+| blasts_are_present                         | varchar(255)  | YES  |     | NULL    |                |
+| number_of_blasts                           | int(11)       | YES  |     | NULL    |                |
+| peripheral_blood_in_csf                    | varchar(255)  | YES  |     | NULL    |                |
+| csf_comment                                | text          | YES  |     | NULL    |                |
+| chemo_protocol_report_found                | int(11)       | YES  |     | NULL    |                |
+| patient_on_chemo_protocol                  | int(11)       | YES  |     | NULL    |                |
+| chemo_protocol_name                        | varchar(255)  | YES  |     | NULL    |                |
+| chemo_protocol_agent_description           | text          | YES  |     | NULL    |                |
+| response_cd10_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd10_day_7                        | varchar(10)   | YES  |     | NULL    |                |
+| response_cd13_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd13_day_7                        | varchar(10)   | YES  |     | NULL    |                |
+| response_cd14_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd14_day_7                        | varchar(10)   | YES  |     | NULL    |                |
+| response_cd15_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd15_day_7                        | varchar(10)   | YES  |     | NULL    |                |
+| response_cd19_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd19_day_7                        | varchar(10)   | YES  |     | NULL    |                |
+| response_cd19cd10_day_14                   | varchar(10)   | YES  |     | NULL    |                |
+| response_cd19cd10_day_7                    | varchar(10)   | YES  |     | NULL    |                |
+| response_cd1a_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd2a_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd20_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd20_day_7                        | varchar(10)   | YES  |     | NULL    |                |
+| response_cd3a_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd3_day_7                         | varchar(10)   | YES  |     | NULL    |                |
+| response_cd33_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd33_day_7                        | varchar(10)   | YES  |     | NULL    |                |
+| response_cd34_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd34_day_7                        | varchar(10)   | YES  |     | NULL    |                |
+| response_cd4a_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd5a_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd56_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd61_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd7a_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_cd8a_day_14                       | varchar(10)   | YES  |     | NULL    |                |
+| response_day30_is_in_remission             | int(11)       | YES  |     | NULL    |                |
+| chest_imaging_report_found                 | int(11)       | YES  |     | NULL    |                |
+| chest_imaging_report_on                    | date          | YES  |     | NULL    |                |
+| mediastinal_mass_present                   | int(11)       | YES  |     | NULL    |                |
+| chest_imaging_comment                      | text          | YES  |     | NULL    |                |
+| received_chest_ct                          | int(11)       | YES  |     | NULL    |                |
+| chest_ct_taken_on                          | date          | YES  |     | NULL    |                |
+| chest_ct_medmass_present                   | int(11)       | YES  |     | NULL    |                |
+| cytogen_trisomy10                          | int(11)       | YES  |     | NULL    |                |
+| cytogen_trisomy17                          | int(11)       | YES  |     | NULL    |                |
+| cytogen_trisomy21                          | int(11)       | YES  |     | NULL    |                |
+| is_down_syndrome_phenotype                 | int(11)       | YES  |     | NULL    |                |
+| cytogen_trisomy4                           | int(11)       | YES  |     | NULL    |                |
+| cytogen_trisomy5                           | int(11)       | YES  |     | NULL    |                |
+| cytogen_report_found                       | int(11)       | YES  |     | NULL    |                |
+| cytogen_report_on                          | date          | YES  |     | NULL    |                |
+| conventional_karyotype_results             | varchar(255)  | YES  |     | NULL    |                |
+| normal_cytogen                             | varchar(5)    | YES  |     | NULL    |                |
+| is_cytogen_hosp_fish_t1221_done            | varchar(5)    | YES  |     | NULL    |                |
+| is_karyotype_normal                        | varchar(5)    | YES  |     | NULL    |                |
+| number_normal_metaphase_karyotype          | int(11)       | YES  |     | NULL    |                |
+| number_metaphase_tested_karyotype          | int(11)       | YES  |     | NULL    |                |
+| cytogen_comment                            | text          | YES  |     | NULL    |                |
+| is_verification_complete                   | tinyint(1)    | YES  |     | NULL    |                |
+| discharge_summary                          | text          | YES  |     | NULL    |                |
+| diagnosis_is_b_all                         | int(11)       | YES  |     | NULL    |                |
+| diagnosis_is_t_all                         | int(11)       | YES  |     | NULL    |                |
+| diagnosis_is_all                           | int(11)       | YES  |     | NULL    |                |
+| diagnosis_all_type_id                      | int(11)       | YES  |     | NULL    |                |
+| diagnosis_is_cml                           | int(11)       | YES  |     | NULL    |                |
+| diagnosis_is_cll                           | int(11)       | YES  |     | NULL    |                |
+| diagnosis_is_aml                           | int(11)       | YES  |     | NULL    |                |
+| diagnosis_aml_type_id                      | int(11)       | YES  |     | NULL    |                |
+| diagnosis_is_other                         | int(11)       | YES  |     | NULL    |                |
+| flow_cyto_report_found                     | int(11)       | YES  |     | NULL    |                |
+| received_flow_cyto_day_14                  | int(11)       | YES  |     | NULL    |                |
+| received_flow_cyto_day_7                   | int(11)       | YES  |     | NULL    |                |
+| flow_cyto_report_on                        | date          | YES  |     | NULL    |                |
+| response_flow_cyto_day_14_on               | date          | YES  |     | NULL    |                |
+| response_flow_cyto_day_7_on                | date          | YES  |     | NULL    |                |
+| flow_cyto_cd10                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_igm                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_igm_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_bm_kappa                         | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_bm_kappa_text                    | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_bm_lambda                        | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_bm_lambda_text                   | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd10_19                          | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd10_19_text                     | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd10_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd19                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd19_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd20                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd20_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd21                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd21_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd22                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd22_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd23                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd23_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd24                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd24_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd40                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd40_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_surface_ig                       | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_surface_ig_text                  | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd1a                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd1a_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd2                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd2_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd3                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd3_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd4                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd4_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd5                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd5_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd7                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd7_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd8                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd8_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd3_cd4                          | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd3_cd4_text                     | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd3_cd8                          | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd3_cd8_text                     | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd11b                            | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd11b_text                       | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd11c                            | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd11c_text                       | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd13                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd13_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd15                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd15_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd33                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd33_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd41                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd41_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cdw65                            | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cdw65_text                       | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd34                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd34_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd61                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd61_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd14                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd14_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_glycoa                           | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_glycoa_text                      | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd16                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd16_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd56                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd56_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd57                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd57_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd9                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd9_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd25                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd25_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd38                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd38_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd45                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd45_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_cd71                             | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_cd71_text                        | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_tdt                              | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_tdt_text                         | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_hladr                            | varchar(10)   | YES  |     | NULL    |                |
+| flow_cyto_hladr_text                       | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_1_name              | varchar(20)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_1                   | varchar(4)    | YES  |     | NULL    |                |
+| flow_cyto_other_marker_1_text              | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_2_name              | varchar(20)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_2                   | varchar(4)    | YES  |     | NULL    |                |
+| flow_cyto_other_marker_2_text              | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_3_name              | varchar(20)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_3                   | varchar(4)    | YES  |     | NULL    |                |
+| flow_cyto_other_marker_3_text              | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_4_name              | varchar(20)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_4                   | varchar(4)    | YES  |     | NULL    |                |
+| flow_cyto_other_marker_4_text              | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_5_name              | varchar(20)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_5                   | varchar(4)    | YES  |     | NULL    |                |
+| flow_cyto_other_marker_5_text              | varchar(50)   | YES  |     | NULL    |                |
+| flow_cyto_remarks                          | text          | YES  |     | NULL    |                |
+| tdt_often_found_flow_cytometry             | int(11)       | YES  |     | NULL    |                |
+| tdt_report_found                           | int(11)       | YES  |     | NULL    |                |
+| tdt_report_on                              | date          | YES  |     | NULL    |                |
+| tdt_positive_or_negative                   | int(11)       | YES  |     | NULL    |                |
+| tdt_numerical_result                       | int(11)       | YES  |     | NULL    |                |
+| tdt_found_in_flow_cyto_chart               | tinyint(1)    | YES  |     | NULL    |                |
+| tdt_found_in_separate_report               | tinyint(1)    | YES  |     | NULL    |                |
+| response_comment_day_7                     | text          | YES  |     | NULL    |                |
+| response_comment_day_14                    | text          | YES  |     | NULL    |                |
+| cytogen_karyotype_done                     | int(11)       | YES  |     | NULL    |                |
+| cytogen_hospital_fish_done                 | int(11)       | YES  |     | NULL    |                |
+| hospital_fish_results                      | varchar(255)  | YES  |     | NULL    |                |
+| cytogen_ucb_fish_done                      | int(11)       | YES  |     | NULL    |                |
+| ucb_fish_results                           | varchar(50)   | YES  |     | NULL    |                |
+| response_hladr_day_14                      | varchar(10)   | YES  |     | NULL    |                |
+| response_hladr_day_7                       | varchar(10)   | YES  |     | NULL    |                |
+| histo_report_found                         | varchar(5)    | YES  |     | NULL    |                |
+| histo_report_on                            | date          | YES  |     | NULL    |                |
+| histo_report_results                       | text          | YES  |     | NULL    |                |
+| diagnosed_on                               | date          | YES  |     | NULL    |                |
+| treatment_began_on                         | date          | YES  |     | NULL    |                |
+| response_is_inconclusive_day_14            | int(11)       | YES  |     | NULL    |                |
+| response_is_inconclusive_day_21            | int(11)       | YES  |     | NULL    |                |
+| response_is_inconclusive_day_28            | int(11)       | YES  |     | NULL    |                |
+| response_is_inconclusive_day_7             | int(11)       | YES  |     | NULL    |                |
+| abstractor_id                              | int(11)       | YES  |     | NULL    |                |
+| abstracted_on                              | date          | YES  |     | NULL    |                |
+| reviewer_id                                | int(11)       | YES  |     | NULL    |                |
+| reviewed_on                                | date          | YES  |     | NULL    |                |
+| data_entry_done_on                         | date          | YES  |     | NULL    |                |
+| flow_cyto_num_results_available            | int(11)       | YES  |     | NULL    |                |
+| response_other1_value_day_14               | varchar(4)    | YES  |     | NULL    |                |
+| response_other1_value_day_7                | varchar(4)    | YES  |     | NULL    |                |
+| response_other2_value_day_14               | varchar(4)    | YES  |     | NULL    |                |
+| response_other2_value_day_7                | varchar(4)    | YES  |     | NULL    |                |
+| response_other3_value_day_14               | varchar(4)    | YES  |     | NULL    |                |
+| response_other4_value_day_14               | varchar(4)    | YES  |     | NULL    |                |
+| response_other5_value_day_14               | varchar(4)    | YES  |     | NULL    |                |
+| h_and_p_reports_found                      | int(11)       | YES  |     | NULL    |                |
+| is_h_and_p_report_found                    | tinyint(1)    | YES  |     | NULL    |                |
+| h_and_p_reports_on                         | date          | YES  |     | NULL    |                |
+| physical_neuro                             | varchar(5)    | YES  |     | NULL    |                |
+| physical_other_soft_2                      | varchar(5)    | YES  |     | NULL    |                |
+| vital_status_id                            | int(11)       | YES  |     | NULL    |                |
+| dod                                        | date          | YES  |     | NULL    |                |
+| discharge_summary_found                    | int(11)       | YES  |     | NULL    |                |
+| physical_gingival                          | varchar(5)    | YES  |     | NULL    |                |
+| physical_leukemic_skin                     | varchar(5)    | YES  |     | NULL    |                |
+| physical_lymph                             | varchar(5)    | YES  |     | NULL    |                |
+| physical_spleen                            | varchar(5)    | YES  |     | NULL    |                |
+| physical_testicle                          | varchar(5)    | YES  |     | NULL    |                |
+| physical_other_soft                        | varchar(5)    | YES  |     | NULL    |                |
+| ploidy_report_found                        | int(11)       | YES  |     | NULL    |                |
+| ploidy_report_on                           | date          | YES  |     | NULL    |                |
+| is_hypodiploid                             | varchar(5)    | YES  |     | NULL    |                |
+| is_hyperdiploid                            | varchar(5)    | YES  |     | NULL    |                |
+| is_diploid                                 | varchar(5)    | YES  |     | NULL    |                |
+| dna_index                                  | varchar(5)    | YES  |     | NULL    |                |
+| other_dna_measure                          | varchar(15)   | YES  |     | NULL    |                |
+| ploidy_comment                             | varchar(100)  | YES  |     | NULL    |                |
+| hepatomegaly_present                       | int(11)       | YES  |     | NULL    |                |
+| splenomegaly_present                       | int(11)       | YES  |     | NULL    |                |
+| response_comment                           | text          | YES  |     | NULL    |                |
+| response_other1_name_day_14                | varchar(25)   | YES  |     | NULL    |                |
+| response_other1_name_day_7                 | varchar(25)   | YES  |     | NULL    |                |
+| response_other2_name_day_14                | varchar(25)   | YES  |     | NULL    |                |
+| response_other2_name_day_7                 | varchar(25)   | YES  |     | NULL    |                |
+| response_other3_name_day_14                | varchar(25)   | YES  |     | NULL    |                |
+| response_other4_name_day_14                | varchar(25)   | YES  |     | NULL    |                |
+| response_other5_name_day_14                | varchar(25)   | YES  |     | NULL    |                |
+| fab_classification                         | varchar(50)   | YES  |     | NULL    |                |
+| diagnosis_icdo_description                 | varchar(55)   | YES  |     | NULL    |                |
+| diagnosis_icdo_number                      | varchar(50)   | YES  |     | NULL    |                |
+| cytogen_t1221                              | varchar(9)    | YES  |     | NULL    |                |
+| cytogen_inv16                              | varchar(9)    | YES  |     | NULL    |                |
+| cytogen_t119                               | varchar(9)    | YES  |     | NULL    |                |
+| cytogen_t821                               | varchar(9)    | YES  |     | NULL    |                |
+| cytogen_t1517                              | varchar(9)    | YES  |     | NULL    |                |
+| cytogen_is_hyperdiploidy                   | varchar(5)    | YES  |     | NULL    |                |
+| cytogen_chromosome_number                  | varchar(3)    | YES  |     | NULL    |                |
+| cytogen_other_trans_1                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_2                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_3                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_4                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_5                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_6                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_7                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_8                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_9                      | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_other_trans_10                     | varchar(35)   | YES  |     | NULL    |                |
+| cytogen_t922                               | varchar(50)   | YES  |     | NULL    |                |
+| response_fab_subtype                       | varchar(15)   | YES  |     | NULL    |                |
+| response_tdt_day_14                        | varchar(10)   | YES  |     | NULL    |                |
+| response_tdt_day_7                         | varchar(10)   | YES  |     | NULL    |                |
+| abstract_version_id                        | int(11)       | YES  |     | NULL    |                |
+| height_at_diagnosis                        | float         | YES  |     | NULL    |                |
+| weight_at_diagnosis                        | float         | YES  |     | NULL    |                |
+| hyperdiploidy_by                           | varchar(255)  | YES  |     | NULL    |                |
+| cbc_percent_blasts_unknown                 | tinyint(1)    | YES  |     | 0       |                |
+| response_day_7_days_since_treatment_began  | int(11)       | YES  |     | NULL    |                |
+| response_day_7_days_since_diagnosis        | int(11)       | YES  |     | NULL    |                |
+| response_day_14_days_since_treatment_began | int(11)       | YES  |     | NULL    |                |
+| response_day_14_days_since_diagnosis       | int(11)       | YES  |     | NULL    |                |
+| response_day_28_days_since_treatment_began | int(11)       | YES  |     | NULL    |                |
+| response_day_28_days_since_diagnosis       | int(11)       | YES  |     | NULL    |                |
+| entry_1_by_uid                             | varchar(255)  | YES  |     | NULL    |                |
+| entry_2_by_uid                             | varchar(255)  | YES  |     | NULL    |                |
+| merged_by_uid                              | varchar(255)  | YES  |     | NULL    |                |
+| discharge_summary_found_on                 | date          | YES  |     | NULL    |                |
+| created_at                                 | datetime      | YES  |     | NULL    |                |
+| updated_at                                 | datetime      | YES  |     | NULL    |                |
++--------------------------------------------+---------------+------+-----+---------+----------------+
+Table: address_types
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: addresses
++---------------------+--------------+------+-----+---------+----------------+
+| Field               | Type         | Null | Key | Default | Extra          |
++---------------------+--------------+------+-----+---------+----------------+
+| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
+| address_type_id     | int(11)      | YES  |     | NULL    |                |
+| data_source_id      | int(11)      | YES  |     | NULL    |                |
+| line_1              | varchar(255) | YES  |     | NULL    |                |
+| line_2              | varchar(255) | YES  |     | NULL    |                |
+| city                | varchar(255) | YES  |     | NULL    |                |
+| state               | varchar(255) | YES  |     | NULL    |                |
+| zip                 | varchar(10)  | YES  |     | NULL    |                |
+| external_address_id | int(11)      | YES  | UNI | NULL    |                |
+| county              | varchar(255) | YES  |     | NULL    |                |
+| unit                | varchar(255) | YES  |     | NULL    |                |
+| country             | varchar(255) | YES  |     | NULL    |                |
+| created_at          | datetime     | YES  |     | NULL    |                |
+| updated_at          | datetime     | YES  |     | NULL    |                |
++---------------------+--------------+------+-----+---------+----------------+
+Table: addressings
++----------------------+--------------+------+-----+---------+----------------+
+| Field                | Type         | Null | Key | Default | Extra          |
++----------------------+--------------+------+-----+---------+----------------+
+| id                   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id     | int(11)      | YES  | MUL | NULL    |                |
+| address_id           | int(11)      | YES  | MUL | NULL    |                |
+| current_address      | int(11)      | YES  |     | 1       |                |
+| address_at_diagnosis | int(11)      | YES  |     | NULL    |                |
+| valid_from           | date         | YES  |     | NULL    |                |
+| valid_to             | date         | YES  |     | NULL    |                |
+| is_valid             | int(11)      | YES  |     | NULL    |                |
+| why_invalid          | varchar(255) | YES  |     | NULL    |                |
+| is_verified          | tinyint(1)   | YES  |     | NULL    |                |
+| how_verified         | varchar(255) | YES  |     | NULL    |                |
+| verified_on          | datetime     | YES  |     | NULL    |                |
+| verified_by_uid      | varchar(255) | YES  |     | NULL    |                |
+| data_source_id       | int(11)      | YES  |     | NULL    |                |
+| data_source_other    | varchar(255) | YES  |     | NULL    |                |
+| created_at           | datetime     | YES  |     | NULL    |                |
+| updated_at           | datetime     | YES  |     | NULL    |                |
++----------------------+--------------+------+-----+---------+----------------+
+Table: aliquot_sample_formats
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: aliquots
++----------------------------+--------------+------+-----+---------+----------------+
+| Field                      | Type         | Null | Key | Default | Extra          |
++----------------------------+--------------+------+-----+---------+----------------+
+| id                         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position                   | int(11)      | YES  |     | NULL    |                |
+| owner_id                   | int(11)      | YES  | MUL | NULL    |                |
+| sample_id                  | int(11)      | YES  | MUL | NULL    |                |
+| unit_id                    | int(11)      | YES  | MUL | NULL    |                |
+| aliquot_sample_format_id   | int(11)      | YES  | MUL | NULL    |                |
+| location                   | varchar(255) | YES  |     | NULL    |                |
+| mass                       | varchar(255) | YES  |     | NULL    |                |
+| external_aliquot_id        | varchar(255) | YES  |     | NULL    |                |
+| external_aliquot_id_source | varchar(255) | YES  |     | NULL    |                |
+| created_at                 | datetime     | YES  |     | NULL    |                |
+| updated_at                 | datetime     | YES  |     | NULL    |                |
++----------------------------+--------------+------+-----+---------+----------------+
+Table: analyses
++--------------------------------+--------------+------+-----+---------+----------------+
+| Field                          | Type         | Null | Key | Default | Extra          |
++--------------------------------+--------------+------+-----+---------+----------------+
+| id                             | int(11)      | NO   | PRI | NULL    | auto_increment |
+| analyst_id                     | int(11)      | YES  |     | NULL    |                |
+| project_id                     | int(11)      | YES  |     | NULL    |                |
+| key                            | varchar(255) | NO   | UNI | NULL    |                |
+| description                    | varchar(255) | YES  |     | NULL    |                |
+| analytic_file_creator_id       | int(11)      | YES  |     | NULL    |                |
+| analytic_file_created_date     | date         | YES  |     | NULL    |                |
+| analytic_file_last_pulled_date | date         | YES  |     | NULL    |                |
+| analytic_file_location         | varchar(255) | YES  |     | NULL    |                |
+| analytic_file_filename         | varchar(255) | YES  |     | NULL    |                |
+| created_at                     | datetime     | YES  |     | NULL    |                |
+| updated_at                     | datetime     | YES  |     | NULL    |                |
++--------------------------------+--------------+------+-----+---------+----------------+
+Table: analyses_study_subjects
++------------------+---------+------+-----+---------+-------+
+| Field            | Type    | Null | Key | Default | Extra |
++------------------+---------+------+-----+---------+-------+
+| analysis_id      | int(11) | YES  | MUL | NULL    |       |
+| study_subject_id | int(11) | YES  | MUL | NULL    |       |
++------------------+---------+------+-----+---------+-------+
+Table: bc_requests
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id | int(11)      | YES  |     | NULL    |                |
+| sent_on          | date         | YES  |     | NULL    |                |
+| status           | varchar(255) | YES  |     | NULL    |                |
+| notes            | text         | YES  |     | NULL    |                |
+| request_type     | varchar(255) | YES  |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+Table: candidate_controls
++-----------------------+--------------+------+-----+---------+----------------+
+| Field                 | Type         | Null | Key | Default | Extra          |
++-----------------------+--------------+------+-----+---------+----------------+
+| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| icf_master_id         | int(11)      | YES  |     | NULL    |                |
+| related_patid         | varchar(5)   | YES  |     | NULL    |                |
+| study_subject_id      | int(11)      | YES  |     | NULL    |                |
+| first_name            | varchar(255) | YES  |     | NULL    |                |
+| middle_name           | varchar(255) | YES  |     | NULL    |                |
+| last_name             | varchar(255) | YES  |     | NULL    |                |
+| dob                   | date         | YES  |     | NULL    |                |
+| state_registrar_no    | varchar(25)  | YES  |     | NULL    |                |
+| local_registrar_no    | varchar(25)  | YES  |     | NULL    |                |
+| sex                   | varchar(255) | YES  |     | NULL    |                |
+| birth_county          | varchar(255) | YES  |     | NULL    |                |
+| assigned_on           | date         | YES  |     | NULL    |                |
+| mother_race_id        | int(11)      | YES  |     | NULL    |                |
+| mother_hispanicity_id | int(11)      | YES  |     | NULL    |                |
+| father_race_id        | int(11)      | YES  |     | NULL    |                |
+| father_hispanicity_id | int(11)      | YES  |     | NULL    |                |
+| birth_type            | varchar(255) | YES  |     | NULL    |                |
+| mother_maiden_name    | varchar(255) | YES  |     | NULL    |                |
+| mother_yrs_educ       | int(11)      | YES  |     | NULL    |                |
+| father_yrs_educ       | int(11)      | YES  |     | NULL    |                |
+| reject_candidate      | tinyint(1)   | NO   |     | 0       |                |
+| rejection_reason      | varchar(255) | YES  |     | NULL    |                |
+| mother_first_name     | varchar(255) | YES  |     | NULL    |                |
+| mother_middle_name    | varchar(255) | YES  |     | NULL    |                |
+| mother_last_name      | varchar(255) | YES  |     | NULL    |                |
+| mother_dob            | date         | YES  |     | NULL    |                |
+| mom_is_biomom         | int(11)      | YES  |     | NULL    |                |
+| dad_is_biodad         | int(11)      | YES  |     | NULL    |                |
+| created_at            | datetime     | YES  |     | NULL    |                |
+| updated_at            | datetime     | YES  |     | NULL    |                |
++-----------------------+--------------+------+-----+---------+----------------+
+Table: context_data_sources
++----------------+----------+------+-----+---------+----------------+
+| Field          | Type     | Null | Key | Default | Extra          |
++----------------+----------+------+-----+---------+----------------+
+| id             | int(11)  | NO   | PRI | NULL    | auto_increment |
+| context_id     | int(11)  | YES  |     | NULL    |                |
+| data_source_id | int(11)  | YES  |     | NULL    |                |
+| created_at     | datetime | YES  |     | NULL    |                |
+| updated_at     | datetime | YES  |     | NULL    |                |
++----------------+----------+------+-----+---------+----------------+
+Table: contexts
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  | UNI | NULL    |                |
+| notes       | text         | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: counties
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name         | varchar(255) | YES  |     | NULL    |                |
+| fips_code    | varchar(5)   | YES  |     | NULL    |                |
+| state_abbrev | varchar(2)   | YES  | MUL | NULL    |                |
+| created_at   | datetime     | YES  |     | NULL    |                |
+| updated_at   | datetime     | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+Table: data_sources
++--------------------+--------------+------+-----+---------+----------------+
+| Field              | Type         | Null | Key | Default | Extra          |
++--------------------+--------------+------+-----+---------+----------------+
+| id                 | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position           | int(11)      | YES  |     | NULL    |                |
+| data_origin        | varchar(255) | YES  |     | NULL    |                |
+| key                | varchar(255) | NO   | UNI | NULL    |                |
+| description        | varchar(255) | NO   |     | NULL    |                |
+| organization_id    | int(11)      | YES  |     | NULL    |                |
+| other_organization | varchar(255) | YES  |     | NULL    |                |
+| person_id          | int(11)      | YES  |     | NULL    |                |
+| other_person       | varchar(255) | YES  |     | NULL    |                |
+| created_at         | datetime     | YES  |     | NULL    |                |
+| updated_at         | datetime     | YES  |     | NULL    |                |
++--------------------+--------------+------+-----+---------+----------------+
+Table: diagnoses
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| code        | int(11)      | NO   | UNI | NULL    |                |
+| description | varchar(255) | NO   | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: document_types
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| title       | varchar(255) | YES  |     | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: document_versions
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position         | int(11)      | YES  |     | NULL    |                |
+| document_type_id | int(11)      | NO   |     | NULL    |                |
+| title            | varchar(255) | YES  |     | NULL    |                |
+| description      | varchar(255) | YES  |     | NULL    |                |
+| indicator        | varchar(255) | YES  |     | NULL    |                |
+| language_id      | int(11)      | YES  |     | NULL    |                |
+| began_use_on     | date         | YES  |     | NULL    |                |
+| ended_use_on     | date         | YES  |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+Table: enrollments
++-----------------------------+--------------+------+-----+---------+----------------+
+| Field                       | Type         | Null | Key | Default | Extra          |
++-----------------------------+--------------+------+-----+---------+----------------+
+| id                          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position                    | int(11)      | YES  |     | NULL    |                |
+| study_subject_id            | int(11)      | YES  |     | NULL    |                |
+| project_id                  | int(11)      | YES  | MUL | NULL    |                |
+| recruitment_priority        | varchar(255) | YES  |     | NULL    |                |
+| tracing_status_id           | int(11)      | YES  |     | NULL    |                |
+| is_candidate                | int(11)      | YES  |     | NULL    |                |
+| is_eligible                 | int(11)      | YES  |     | NULL    |                |
+| ineligible_reason_id        | int(11)      | YES  |     | NULL    |                |
+| ineligible_reason_specify   | varchar(255) | YES  |     | NULL    |                |
+| consented                   | int(11)      | YES  |     | NULL    |                |
+| consented_on                | date         | YES  |     | NULL    |                |
+| refusal_reason_id           | int(11)      | YES  |     | NULL    |                |
+| other_refusal_reason        | varchar(255) | YES  |     | NULL    |                |
+| is_chosen                   | int(11)      | YES  |     | NULL    |                |
+| reason_not_chosen           | varchar(255) | YES  |     | NULL    |                |
+| terminated_participation    | int(11)      | YES  |     | NULL    |                |
+| terminated_reason           | varchar(255) | YES  |     | NULL    |                |
+| is_complete                 | int(11)      | YES  |     | NULL    |                |
+| completed_on                | date         | YES  |     | NULL    |                |
+| is_closed                   | tinyint(1)   | YES  |     | NULL    |                |
+| reason_closed               | varchar(255) | YES  |     | NULL    |                |
+| notes                       | text         | YES  |     | NULL    |                |
+| document_version_id         | int(11)      | YES  |     | NULL    |                |
+| project_outcome_id          | int(11)      | YES  |     | NULL    |                |
+| project_outcome_on          | date         | YES  |     | NULL    |                |
+| use_smp_future_rsrch        | int(11)      | YES  |     | NULL    |                |
+| use_smp_future_cancer_rsrch | int(11)      | YES  |     | NULL    |                |
+| use_smp_future_other_rsrch  | int(11)      | YES  |     | NULL    |                |
+| share_smp_with_others       | int(11)      | YES  |     | NULL    |                |
+| contact_for_related_study   | int(11)      | YES  |     | NULL    |                |
+| provide_saliva_smp          | int(11)      | YES  |     | NULL    |                |
+| receive_study_findings      | int(11)      | YES  |     | NULL    |                |
+| refused_by_physician        | tinyint(1)   | YES  |     | NULL    |                |
+| refused_by_family           | tinyint(1)   | YES  |     | NULL    |                |
+| created_at                  | datetime     | YES  |     | NULL    |                |
+| updated_at                  | datetime     | YES  |     | NULL    |                |
++-----------------------------+--------------+------+-----+---------+----------------+
+Table: follow_up_types
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: follow_ups
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| id                | int(11)      | NO   | PRI | NULL    | auto_increment |
+| section_id        | int(11)      | NO   |     | NULL    |                |
+| enrollment_id     | int(11)      | NO   |     | NULL    |                |
+| follow_up_type_id | int(11)      | NO   |     | NULL    |                |
+| completed_on      | date         | YES  |     | NULL    |                |
+| completed_by_uid  | varchar(255) | YES  |     | NULL    |                |
+| created_at        | datetime     | YES  |     | NULL    |                |
+| updated_at        | datetime     | YES  |     | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+Table: gift_cards
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id | int(11)      | YES  |     | NULL    |                |
+| project_id       | int(11)      | YES  |     | NULL    |                |
+| issued_on        | date         | YES  |     | NULL    |                |
+| expiration       | varchar(25)  | YES  |     | NULL    |                |
+| vendor           | varchar(255) | YES  |     | NULL    |                |
+| number           | varchar(255) | NO   | UNI | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+Table: guides
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| controller | varchar(255) | YES  | MUL | NULL    |                |
+| action     | varchar(255) | YES  |     | NULL    |                |
+| body       | text         | YES  |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+Table: home_exposure_responses
++------------------------------------+--------------+------+-----+---------+----------------+
+| Field                              | Type         | Null | Key | Default | Extra          |
++------------------------------------+--------------+------+-----+---------+----------------+
+| id                                 | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id                   | int(11)      | YES  | UNI | NULL    |                |
+| vacuum_has_disposable_bag          | int(11)      | YES  |     | NULL    |                |
+| how_often_vacuumed_12mos           | int(11)      | YES  |     | NULL    |                |
+| shoes_usually_off_inside_12mos     | int(11)      | YES  |     | NULL    |                |
+| someone_ate_meat_12mos             | int(11)      | YES  |     | NULL    |                |
+| freq_pan_fried_meat_12mos          | int(11)      | YES  |     | NULL    |                |
+| freq_deep_fried_meat_12mos         | int(11)      | YES  |     | NULL    |                |
+| freq_oven_fried_meat_12mos         | int(11)      | YES  |     | NULL    |                |
+| freq_grilled_meat_outside_12mos    | int(11)      | YES  |     | NULL    |                |
+| freq_other_high_temp_cooking_12mos | int(11)      | YES  |     | NULL    |                |
+| other_type_high_temp_cooking       | varchar(255) | YES  |     | NULL    |                |
+| doneness_of_meat_exterior_12mos    | int(11)      | YES  |     | NULL    |                |
+| job_is_plane_mechanic_12mos        | int(11)      | YES  |     | NULL    |                |
+| job_is_artist_12mos                | int(11)      | YES  |     | NULL    |                |
+| job_is_janitor_12mos               | int(11)      | YES  |     | NULL    |                |
+| job_is_construction_12mos          | int(11)      | YES  |     | NULL    |                |
+| job_is_dentist_12mos               | int(11)      | YES  |     | NULL    |                |
+| job_is_electrician_12mos           | int(11)      | YES  |     | NULL    |                |
+| job_is_engineer_12mos              | int(11)      | YES  |     | NULL    |                |
+| job_is_farmer_12mos                | int(11)      | YES  |     | NULL    |                |
+| job_is_gardener_12mos              | int(11)      | YES  |     | NULL    |                |
+| job_is_lab_worker_12mos            | int(11)      | YES  |     | NULL    |                |
+| job_is_manufacturer_12mos          | int(11)      | YES  |     | NULL    |                |
+| job_auto_mechanic_12mos            | int(11)      | YES  |     | NULL    |                |
+| job_is_patient_care_12mos          | int(11)      | YES  |     | NULL    |                |
+| job_is_agr_packer_12mos            | int(11)      | YES  |     | NULL    |                |
+| job_is_painter_12mos               | int(11)      | YES  |     | NULL    |                |
+| job_is_pesticides_12mos            | int(11)      | YES  |     | NULL    |                |
+| job_is_photographer_12mos          | int(11)      | YES  |     | NULL    |                |
+| job_is_teacher_12mos               | int(11)      | YES  |     | NULL    |                |
+| job_is_welder_12mos                | int(11)      | YES  |     | NULL    |                |
+| used_flea_control_12mos            | int(11)      | YES  |     | NULL    |                |
+| freq_used_flea_control_12mos       | int(11)      | YES  |     | NULL    |                |
+| used_ant_control_12mos             | int(11)      | YES  |     | NULL    |                |
+| freq_ant_control_12mos             | int(11)      | YES  |     | NULL    |                |
+| used_bee_control_12mos             | int(11)      | YES  |     | NULL    |                |
+| freq_bee_control_12mos             | int(11)      | YES  |     | NULL    |                |
+| used_indoor_plant_prod_12mos       | int(11)      | YES  |     | NULL    |                |
+| freq_indoor_plant_product_12mos    | int(11)      | YES  |     | NULL    |                |
+| used_other_indoor_product_12mos    | int(11)      | YES  |     | NULL    |                |
+| freq_other_indoor_product_12mos    | int(11)      | YES  |     | NULL    |                |
+| used_indoor_foggers                | int(11)      | YES  |     | NULL    |                |
+| freq_indoor_foggers_12mos          | int(11)      | YES  |     | NULL    |                |
+| used_pro_pest_inside_12mos         | int(11)      | YES  |     | NULL    |                |
+| freq_pro_pest_inside_12mos         | int(11)      | YES  |     | NULL    |                |
+| used_pro_pest_outside_12mos        | int(11)      | YES  |     | NULL    |                |
+| freq_used_pro_pest_outside_12mos   | int(11)      | YES  |     | NULL    |                |
+| used_pro_lawn_service_12mos        | int(11)      | YES  |     | NULL    |                |
+| freq_pro_lawn_service_12mos        | int(11)      | YES  |     | NULL    |                |
+| used_lawn_products_12mos           | int(11)      | YES  |     | NULL    |                |
+| freq_lawn_products_12mos           | int(11)      | YES  |     | NULL    |                |
+| used_slug_control_12mos            | int(11)      | YES  |     | NULL    |                |
+| freq_slug_control_12mos            | int(11)      | YES  |     | NULL    |                |
+| used_rat_control_12mos             | int(11)      | YES  |     | NULL    |                |
+| freq_rat_control_12mos             | int(11)      | YES  |     | NULL    |                |
+| used_mothballs_12mos               | int(11)      | YES  |     | NULL    |                |
+| cmty_sprayed_gypsy_moths_12mos     | int(11)      | YES  |     | NULL    |                |
+| cmty_sprayed_medflies_12mos        | int(11)      | YES  |     | NULL    |                |
+| cmty_sprayed_mosquitoes_12mos      | int(11)      | YES  |     | NULL    |                |
+| cmty_sprayed_sharpshooters_12mos   | int(11)      | YES  |     | NULL    |                |
+| cmty_sprayed_apple_moths_12mos     | int(11)      | YES  |     | NULL    |                |
+| cmty_sprayed_other_pest_12mos      | int(11)      | YES  |     | NULL    |                |
+| other_pest_community_sprayed       | varchar(255) | YES  |     | NULL    |                |
+| type_of_residence                  | int(11)      | YES  |     | NULL    |                |
+| other_type_of_residence            | varchar(255) | YES  |     | NULL    |                |
+| number_of_floors_in_residence      | int(11)      | YES  |     | NULL    |                |
+| number_of_stories_in_building      | int(11)      | YES  |     | NULL    |                |
+| year_home_built                    | int(11)      | YES  |     | NULL    |                |
+| home_square_footage                | int(11)      | YES  |     | NULL    |                |
+| number_of_rooms_in_home            | int(11)      | YES  |     | NULL    |                |
+| home_constructed_of                | int(11)      | YES  |     | NULL    |                |
+| other_home_material                | varchar(255) | YES  |     | NULL    |                |
+| home_has_attached_garage           | int(11)      | YES  |     | NULL    |                |
+| vehicle_in_garage_1mo              | int(11)      | YES  |     | NULL    |                |
+| freq_in_out_garage_1mo             | int(11)      | YES  |     | NULL    |                |
+| home_has_electric_cooling          | int(11)      | YES  |     | NULL    |                |
+| freq_windows_open_cold_mos_12mos   | int(11)      | YES  |     | NULL    |                |
+| freq_windows_open_warm_mos_12mos   | int(11)      | YES  |     | NULL    |                |
+| used_electric_heat_12mos           | int(11)      | YES  |     | NULL    |                |
+| used_kerosene_heat_12mos           | int(11)      | YES  |     | NULL    |                |
+| used_radiator_12mos                | int(11)      | YES  |     | NULL    |                |
+| used_gas_heat_12mos                | int(11)      | YES  |     | NULL    |                |
+| used_wood_burning_stove_12mos      | int(11)      | YES  |     | NULL    |                |
+| freq_used_wood_stove_12mos         | int(11)      | YES  |     | NULL    |                |
+| used_wood_fireplace_12mos          | int(11)      | YES  |     | NULL    |                |
+| freq_used_wood_fireplace_12mos     | int(11)      | YES  |     | NULL    |                |
+| used_fireplace_insert_12mos        | int(11)      | YES  |     | NULL    |                |
+| used_gas_stove_12mos               | int(11)      | YES  |     | NULL    |                |
+| used_gas_dryer_12mos               | int(11)      | YES  |     | NULL    |                |
+| used_gas_water_heater_12mos        | int(11)      | YES  |     | NULL    |                |
+| used_other_gas_appliance_12mos     | int(11)      | YES  |     | NULL    |                |
+| type_of_other_gas_appliance        | varchar(255) | YES  |     | NULL    |                |
+| painted_inside_home                | int(11)      | YES  |     | NULL    |                |
+| carpeted_in_home                   | int(11)      | YES  |     | NULL    |                |
+| refloored_in_home                  | int(11)      | YES  |     | NULL    |                |
+| weather_proofed_home               | int(11)      | YES  |     | NULL    |                |
+| replaced_home_windows              | int(11)      | YES  |     | NULL    |                |
+| roof_work_on_home                  | int(11)      | YES  |     | NULL    |                |
+| construction_in_home               | int(11)      | YES  |     | NULL    |                |
+| other_home_remodelling             | int(11)      | YES  |     | NULL    |                |
+| type_other_home_remodelling        | varchar(255) | YES  |     | NULL    |                |
+| regularly_smoked_indoors           | int(11)      | YES  |     | NULL    |                |
+| regularly_smoked_indoors_12mos     | int(11)      | YES  |     | NULL    |                |
+| regularly_smoked_outdoors          | int(11)      | YES  |     | NULL    |                |
+| regularly_smoked_outdoors_12mos    | int(11)      | YES  |     | NULL    |                |
+| used_smokeless_tobacco_12mos       | int(11)      | YES  |     | NULL    |                |
+| qty_of_upholstered_furniture       | int(11)      | YES  |     | NULL    |                |
+| qty_bought_after_2006              | int(11)      | YES  |     | NULL    |                |
+| furniture_has_exposed_foam         | int(11)      | YES  |     | NULL    |                |
+| home_has_carpets                   | int(11)      | YES  |     | NULL    |                |
+| percent_home_with_carpet           | int(11)      | YES  |     | NULL    |                |
+| home_has_televisions               | int(11)      | YES  |     | NULL    |                |
+| number_of_televisions_in_home      | int(11)      | YES  |     | NULL    |                |
+| avg_number_hours_tvs_used          | int(11)      | YES  |     | NULL    |                |
+| home_has_computers                 | int(11)      | YES  |     | NULL    |                |
+| number_of_computers_in_home        | int(11)      | YES  |     | NULL    |                |
+| avg_number_hours_computers_used    | int(11)      | YES  |     | NULL    |                |
+| additional_comments                | text         | YES  |     | NULL    |                |
+| vacuum_bag_last_changed            | int(11)      | YES  |     | NULL    |                |
+| vacuum_used_outside_home           | int(11)      | YES  |     | NULL    |                |
+| consent_read_over_phone            | tinyint(1)   | YES  |     | NULL    |                |
+| respondent_requested_new_consent   | tinyint(1)   | YES  |     | NULL    |                |
+| consent_reviewed_with_respondent   | tinyint(1)   | YES  |     | NULL    |                |
+| created_at                         | datetime     | YES  |     | NULL    |                |
+| updated_at                         | datetime     | YES  |     | NULL    |                |
++------------------------------------+--------------+------+-----+---------+----------------+
+Table: homex_outcomes
++----------------------+----------+------+-----+---------+----------------+
+| Field                | Type     | Null | Key | Default | Extra          |
++----------------------+----------+------+-----+---------+----------------+
+| id                   | int(11)  | NO   | PRI | NULL    | auto_increment |
+| position             | int(11)  | YES  |     | NULL    |                |
+| study_subject_id     | int(11)  | YES  | UNI | NULL    |                |
+| sample_outcome_id    | int(11)  | YES  |     | NULL    |                |
+| sample_outcome_on    | date     | YES  |     | NULL    |                |
+| interview_outcome_id | int(11)  | YES  |     | NULL    |                |
+| interview_outcome_on | date     | YES  |     | NULL    |                |
+| created_at           | datetime | YES  |     | NULL    |                |
+| updated_at           | datetime | YES  |     | NULL    |                |
++----------------------+----------+------+-----+---------+----------------+
+Table: hospitals
++-----------------+------------+------+-----+---------+----------------+
+| Field           | Type       | Null | Key | Default | Extra          |
++-----------------+------------+------+-----+---------+----------------+
+| id              | int(11)    | NO   | PRI | NULL    | auto_increment |
+| position        | int(11)    | YES  |     | NULL    |                |
+| organization_id | int(11)    | YES  | MUL | NULL    |                |
+| has_irb_waiver  | tinyint(1) | NO   |     | 0       |                |
+| created_at      | datetime   | YES  |     | NULL    |                |
+| updated_at      | datetime   | YES  |     | NULL    |                |
++-----------------+------------+------+-----+---------+----------------+
+Table: icf_master_ids
++------------------+------------+------+-----+---------+----------------+
+| Field            | Type       | Null | Key | Default | Extra          |
++------------------+------------+------+-----+---------+----------------+
+| id               | int(11)    | NO   | PRI | NULL    | auto_increment |
+| icf_master_id    | varchar(9) | YES  | UNI | NULL    |                |
+| assigned_on      | date       | YES  |     | NULL    |                |
+| study_subject_id | int(11)    | YES  | UNI | NULL    |                |
+| created_at       | datetime   | YES  |     | NULL    |                |
+| updated_at       | datetime   | YES  |     | NULL    |                |
++------------------+------------+------+-----+---------+----------------+
+Table: icf_master_tracker_changes
++---------------------+--------------+------+-----+---------+----------------+
+| Field               | Type         | Null | Key | Default | Extra          |
++---------------------+--------------+------+-----+---------+----------------+
+| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
+| icf_master_id       | varchar(255) | NO   | MUL | NULL    |                |
+| master_tracker_date | date         | YES  |     | NULL    |                |
+| new_tracker_record  | tinyint(1)   | NO   |     | 0       |                |
+| modified_column     | varchar(255) | YES  |     | NULL    |                |
+| previous_value      | varchar(255) | YES  |     | NULL    |                |
+| new_value           | varchar(255) | YES  |     | NULL    |                |
+| created_at          | datetime     | YES  |     | NULL    |                |
+| updated_at          | datetime     | YES  |     | NULL    |                |
++---------------------+--------------+------+-----+---------+----------------+
+Table: icf_master_tracker_updates
++-----------------------+--------------+------+-----+---------+----------------+
+| Field                 | Type         | Null | Key | Default | Extra          |
++-----------------------+--------------+------+-----+---------+----------------+
+| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| created_at            | datetime     | YES  |     | NULL    |                |
+| updated_at            | datetime     | YES  |     | NULL    |                |
+| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
+| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
+| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
+| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
++-----------------------+--------------+------+-----+---------+----------------+
+Table: icf_master_trackers
++---------------------------------+--------------+------+-----+---------+----------------+
+| Field                           | Type         | Null | Key | Default | Extra          |
++---------------------------------+--------------+------+-----+---------+----------------+
+| id                              | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id                | int(11)      | YES  |     | NULL    |                |
+| flagged_for_update              | tinyint(1)   | YES  |     | 0       |                |
+| last_update_attempt_errors      | text         | YES  |     | NULL    |                |
+| last_update_attempted_at        | datetime     | YES  |     | NULL    |                |
+| Masterid                        | varchar(255) | YES  | UNI | NULL    |                |
+| Motherid                        | varchar(255) | YES  |     | NULL    |                |
+| Record_Owner                    | varchar(255) | YES  |     | NULL    |                |
+| Datereceived                    | varchar(255) | YES  |     | NULL    |                |
+| Lastatt                         | varchar(255) | YES  |     | NULL    |                |
+| Lastdisp                        | varchar(255) | YES  |     | NULL    |                |
+| Currphone                       | varchar(255) | YES  |     | NULL    |                |
+| Vacauthrecd                     | varchar(255) | YES  |     | NULL    |                |
+| Recollect                       | varchar(255) | YES  |     | NULL    |                |
+| Needpreincentive                | varchar(255) | YES  |     | NULL    |                |
+| Active_Phone                    | varchar(255) | YES  |     | NULL    |                |
+| Recordsentformatching           | varchar(255) | YES  |     | NULL    |                |
+| Recordreceivedfrommatching      | varchar(255) | YES  |     | NULL    |                |
+| Sentpreincentive                | varchar(255) | YES  |     | NULL    |                |
+| Releasedtocati                  | varchar(255) | YES  |     | NULL    |                |
+| Confirmedcaticontact            | varchar(255) | YES  |     | NULL    |                |
+| Refused                         | varchar(255) | YES  |     | NULL    |                |
+| Deceasednotification            | varchar(255) | YES  |     | NULL    |                |
+| Eligible                        | varchar(255) | YES  |     | NULL    |                |
+| Confirmationpacketsent          | varchar(255) | YES  |     | NULL    |                |
+| Catiprotocolexhausted           | varchar(255) | YES  |     | NULL    |                |
+| Newphonenumreleasedtocati       | varchar(255) | YES  |     | NULL    |                |
+| Pleanotificationsent            | varchar(255) | YES  |     | NULL    |                |
+| Casereturnedtoberkeleyfornewinf | varchar(255) | YES  |     | NULL    |                |
+| Casereturnedfromberkeley        | varchar(255) | YES  |     | NULL    |                |
+| Caticomplete                    | varchar(255) | YES  |     | NULL    |                |
+| Kitmothersent                   | varchar(255) | YES  |     | NULL    |                |
+| Kitinfantsent                   | varchar(255) | YES  |     | NULL    |                |
+| Kitchildsent                    | varchar(255) | YES  |     | NULL    |                |
+| Kitadolescentsent               | varchar(255) | YES  |     | NULL    |                |
+| Kitmotherrefusedcode            | varchar(255) | YES  |     | NULL    |                |
+| Kitchildrefusedcode             | varchar(255) | YES  |     | NULL    |                |
+| Noresponsetoplea                | varchar(255) | YES  |     | NULL    |                |
+| Responsereceivedfromplea        | varchar(255) | YES  |     | NULL    |                |
+| Senttoinpersonfollowup          | varchar(255) | YES  |     | NULL    |                |
+| Kitmotherrecd                   | varchar(255) | YES  |     | NULL    |                |
+| Kitchildrecvd                   | varchar(255) | YES  |     | NULL    |                |
+| Thankyousent                    | varchar(255) | YES  |     | NULL    |                |
+| Physrequestsent                 | varchar(255) | YES  |     | NULL    |                |
+| Physresponsereceived            | varchar(255) | YES  |     | NULL    |                |
+| created_at                      | datetime     | YES  |     | NULL    |                |
+| updated_at                      | datetime     | YES  |     | NULL    |                |
++---------------------------------+--------------+------+-----+---------+----------------+
+Table: ineligible_reasons
++--------------------+--------------+------+-----+---------+----------------+
+| Field              | Type         | Null | Key | Default | Extra          |
++--------------------+--------------+------+-----+---------+----------------+
+| id                 | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position           | int(11)      | YES  |     | NULL    |                |
+| key                | varchar(255) | NO   | UNI | NULL    |                |
+| description        | varchar(255) | YES  | UNI | NULL    |                |
+| ineligible_context | varchar(255) | YES  |     | NULL    |                |
+| created_at         | datetime     | YES  |     | NULL    |                |
+| updated_at         | datetime     | YES  |     | NULL    |                |
++--------------------+--------------+------+-----+---------+----------------+
+Table: instrument_types
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| project_id  | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: instrument_versions
++--------------------+--------------+------+-----+---------+----------------+
+| Field              | Type         | Null | Key | Default | Extra          |
++--------------------+--------------+------+-----+---------+----------------+
+| id                 | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position           | int(11)      | YES  |     | NULL    |                |
+| instrument_type_id | int(11)      | YES  |     | NULL    |                |
+| language_id        | int(11)      | YES  |     | NULL    |                |
+| instrument_id      | int(11)      | YES  |     | NULL    |                |
+| began_use_on       | date         | YES  |     | NULL    |                |
+| ended_use_on       | date         | YES  |     | NULL    |                |
+| key                | varchar(255) | NO   | UNI | NULL    |                |
+| description        | varchar(255) | YES  | UNI | NULL    |                |
+| created_at         | datetime     | YES  |     | NULL    |                |
+| updated_at         | datetime     | YES  |     | NULL    |                |
++--------------------+--------------+------+-----+---------+----------------+
+Table: instruments
++---------------------+--------------+------+-----+---------+----------------+
+| Field               | Type         | Null | Key | Default | Extra          |
++---------------------+--------------+------+-----+---------+----------------+
+| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position            | int(11)      | YES  |     | NULL    |                |
+| project_id          | int(11)      | YES  | MUL | NULL    |                |
+| results_table_id    | int(11)      | YES  |     | NULL    |                |
+| key                 | varchar(255) | NO   | UNI | NULL    |                |
+| name                | varchar(255) | NO   |     | NULL    |                |
+| description         | varchar(255) | YES  | UNI | NULL    |                |
+| interview_method_id | int(11)      | YES  |     | NULL    |                |
+| began_use_on        | date         | YES  |     | NULL    |                |
+| ended_use_on        | date         | YES  |     | NULL    |                |
+| created_at          | datetime     | YES  |     | NULL    |                |
+| updated_at          | datetime     | YES  |     | NULL    |                |
++---------------------+--------------+------+-----+---------+----------------+
+Table: interview_methods
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: interview_outcomes
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: interviews
++----------------------------------+--------------+------+-----+---------+----------------+
+| Field                            | Type         | Null | Key | Default | Extra          |
++----------------------------------+--------------+------+-----+---------+----------------+
+| id                               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position                         | int(11)      | YES  |     | NULL    |                |
+| study_subject_id                 | int(11)      | YES  | MUL | NULL    |                |
+| address_id                       | int(11)      | YES  |     | NULL    |                |
+| interviewer_id                   | int(11)      | YES  |     | NULL    |                |
+| instrument_version_id            | int(11)      | YES  |     | NULL    |                |
+| interview_method_id              | int(11)      | YES  |     | NULL    |                |
+| language_id                      | int(11)      | YES  |     | NULL    |                |
+| began_on                         | date         | YES  |     | NULL    |                |
+| ended_on                         | date         | YES  |     | NULL    |                |
+| respondent_first_name            | varchar(255) | YES  |     | NULL    |                |
+| respondent_last_name             | varchar(255) | YES  |     | NULL    |                |
+| subject_relationship_id          | int(11)      | YES  |     | NULL    |                |
+| subject_relationship_other       | varchar(255) | YES  |     | NULL    |                |
+| intro_letter_sent_on             | date         | YES  |     | NULL    |                |
+| consent_read_over_phone          | tinyint(1)   | YES  |     | NULL    |                |
+| respondent_requested_new_consent | tinyint(1)   | YES  |     | NULL    |                |
+| consent_reviewed_with_respondent | tinyint(1)   | YES  |     | NULL    |                |
+| began_at                         | datetime     | YES  |     | NULL    |                |
+| began_at_hour                    | int(11)      | YES  |     | NULL    |                |
+| began_at_minute                  | int(11)      | YES  |     | NULL    |                |
+| began_at_meridiem                | varchar(255) | YES  |     | NULL    |                |
+| ended_at                         | datetime     | YES  |     | NULL    |                |
+| ended_at_hour                    | int(11)      | YES  |     | NULL    |                |
+| ended_at_minute                  | int(11)      | YES  |     | NULL    |                |
+| ended_at_meridiem                | varchar(255) | YES  |     | NULL    |                |
+| created_at                       | datetime     | YES  |     | NULL    |                |
+| updated_at                       | datetime     | YES  |     | NULL    |                |
++----------------------------------+--------------+------+-----+---------+----------------+
+Table: languages
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| code        | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: live_birth_data_updates
++-----------------------+--------------+------+-----+---------+----------------+
+| Field                 | Type         | Null | Key | Default | Extra          |
++-----------------------+--------------+------+-----+---------+----------------+
+| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| created_at            | datetime     | YES  |     | NULL    |                |
+| updated_at            | datetime     | YES  |     | NULL    |                |
+| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
+| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
+| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
+| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
++-----------------------+--------------+------+-----+---------+----------------+
+Table: operational_event_types
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| id             | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position       | int(11)      | YES  |     | NULL    |                |
+| key            | varchar(255) | NO   | UNI | NULL    |                |
+| description    | varchar(255) | YES  | UNI | NULL    |                |
+| event_category | varchar(255) | YES  |     | NULL    |                |
+| created_at     | datetime     | YES  |     | NULL    |                |
+| updated_at     | datetime     | YES  |     | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+Table: operational_events
++---------------------------+--------------+------+-----+---------+----------------+
+| Field                     | Type         | Null | Key | Default | Extra          |
++---------------------------+--------------+------+-----+---------+----------------+
+| id                        | int(11)      | NO   | PRI | NULL    | auto_increment |
+| operational_event_type_id | int(11)      | YES  |     | NULL    |                |
+| occurred_on               | date         | YES  |     | NULL    |                |
+| enrollment_id             | int(11)      | YES  |     | NULL    |                |
+| description               | varchar(255) | YES  |     | NULL    |                |
+| event_notes               | text         | YES  |     | NULL    |                |
+| created_at                | datetime     | YES  |     | NULL    |                |
+| updated_at                | datetime     | YES  |     | NULL    |                |
++---------------------------+--------------+------+-----+---------+----------------+
+Table: organizations
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position   | int(11)      | YES  |     | NULL    |                |
+| key        | varchar(255) | NO   | UNI | NULL    |                |
+| name       | varchar(255) | YES  | UNI | NULL    |                |
+| person_id  | int(11)      | YES  |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+Table: pages
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position   | int(11)      | YES  |     | NULL    |                |
+| parent_id  | int(11)      | YES  | MUL | NULL    |                |
+| hide_menu  | tinyint(1)   | YES  |     | 0       |                |
+| path       | varchar(255) | YES  | UNI | NULL    |                |
+| title_en   | varchar(255) | YES  |     | NULL    |                |
+| title_es   | varchar(255) | YES  |     | NULL    |                |
+| menu_en    | varchar(255) | YES  |     | NULL    |                |
+| menu_es    | varchar(255) | YES  |     | NULL    |                |
+| body_en    | text         | YES  |     | NULL    |                |
+| body_es    | text         | YES  |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+Table: patients
++------------------------------+--------------+------+-----+---------+----------------+
+| Field                        | Type         | Null | Key | Default | Extra          |
++------------------------------+--------------+------+-----+---------+----------------+
+| id                           | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id             | int(11)      | YES  | UNI | NULL    |                |
+| diagnosis_date               | date         | YES  |     | NULL    |                |
+| diagnosis_id                 | int(11)      | YES  |     | NULL    |                |
+| organization_id              | int(11)      | YES  | MUL | NULL    |                |
+| admit_date                   | date         | YES  |     | NULL    |                |
+| treatment_began_on           | date         | YES  |     | NULL    |                |
+| sample_was_collected         | int(11)      | YES  |     | NULL    |                |
+| admitting_oncologist         | varchar(255) | YES  |     | NULL    |                |
+| was_ca_resident_at_diagnosis | int(11)      | YES  |     | NULL    |                |
+| was_previously_treated       | int(11)      | YES  |     | NULL    |                |
+| was_under_15_at_dx           | int(11)      | YES  |     | NULL    |                |
+| raf_zip                      | varchar(10)  | YES  |     | NULL    |                |
+| raf_county                   | varchar(255) | YES  |     | NULL    |                |
+| hospital_no                  | varchar(25)  | YES  | MUL | NULL    |                |
+| other_diagnosis              | varchar(255) | YES  |     | NULL    |                |
+| created_at                   | datetime     | YES  |     | NULL    |                |
+| updated_at                   | datetime     | YES  |     | NULL    |                |
++------------------------------+--------------+------+-----+---------+----------------+
+Table: people
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| id              | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position        | int(11)      | YES  |     | NULL    |                |
+| first_name      | varchar(255) | YES  |     | NULL    |                |
+| last_name       | varchar(255) | YES  |     | NULL    |                |
+| honorific       | varchar(20)  | YES  |     | NULL    |                |
+| person_type_id  | int(11)      | YES  |     | NULL    |                |
+| organization_id | int(11)      | YES  |     | NULL    |                |
+| created_at      | datetime     | YES  |     | NULL    |                |
+| updated_at      | datetime     | YES  |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+Table: phone_numbers
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| id                | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position          | int(11)      | YES  |     | NULL    |                |
+| study_subject_id  | int(11)      | YES  | MUL | NULL    |                |
+| phone_type_id     | int(11)      | YES  |     | NULL    |                |
+| data_source_id    | int(11)      | YES  |     | NULL    |                |
+| phone_number      | varchar(255) | YES  |     | NULL    |                |
+| is_primary        | tinyint(1)   | YES  |     | NULL    |                |
+| is_valid          | int(11)      | YES  |     | NULL    |                |
+| why_invalid       | varchar(255) | YES  |     | NULL    |                |
+| is_verified       | tinyint(1)   | YES  |     | NULL    |                |
+| how_verified      | varchar(255) | YES  |     | NULL    |                |
+| verified_on       | datetime     | YES  |     | NULL    |                |
+| verified_by_uid   | varchar(255) | YES  |     | NULL    |                |
+| current_phone     | int(11)      | YES  |     | 1       |                |
+| data_source_other | varchar(255) | YES  |     | NULL    |                |
+| created_at        | datetime     | YES  |     | NULL    |                |
+| updated_at        | datetime     | YES  |     | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+Table: phone_types
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: project_outcomes
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| project_id  | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: projects
++----------------------+--------------+------+-----+---------+----------------+
+| Field                | Type         | Null | Key | Default | Extra          |
++----------------------+--------------+------+-----+---------+----------------+
+| id                   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position             | int(11)      | YES  |     | NULL    |                |
+| began_on             | date         | YES  |     | NULL    |                |
+| ended_on             | date         | YES  |     | NULL    |                |
+| key                  | varchar(255) | NO   | UNI | NULL    |                |
+| description          | varchar(255) | YES  | UNI | NULL    |                |
+| eligibility_criteria | text         | YES  |     | NULL    |                |
+| created_at           | datetime     | YES  |     | NULL    |                |
+| updated_at           | datetime     | YES  |     | NULL    |                |
++----------------------+--------------+------+-----+---------+----------------+
+Table: races
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| code        | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: refusal_reasons
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: roles
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position   | int(11)      | YES  |     | NULL    |                |
+| name       | varchar(255) | YES  | UNI | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+Table: roles_users
++---------+---------+------+-----+---------+-------+
+| Field   | Type    | Null | Key | Default | Extra |
++---------+---------+------+-----+---------+-------+
+| role_id | int(11) | YES  | MUL | NULL    |       |
+| user_id | int(11) | YES  | MUL | NULL    |       |
++---------+---------+------+-----+---------+-------+
+Table: sample_kits
++------------+----------+------+-----+---------+----------------+
+| Field      | Type     | Null | Key | Default | Extra          |
++------------+----------+------+-----+---------+----------------+
+| id         | int(11)  | NO   | PRI | NULL    | auto_increment |
+| sample_id  | int(11)  | YES  |     | NULL    |                |
+| created_at | datetime | YES  |     | NULL    |                |
+| updated_at | datetime | YES  |     | NULL    |                |
++------------+----------+------+-----+---------+----------------+
+Table: sample_outcomes
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: sample_temperatures
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: sample_types
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| parent_id   | int(11)      | YES  | MUL | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: samples
++------------------------------+---------------+------+-----+---------+----------------+
+| Field                        | Type          | Null | Key | Default | Extra          |
++------------------------------+---------------+------+-----+---------+----------------+
+| id                           | int(11)       | NO   | PRI | NULL    | auto_increment |
+| position                     | int(11)       | YES  |     | NULL    |                |
+| parent_sample_id             | int(11)       | YES  |     | NULL    |                |
+| aliquot_sample_format_id     | int(11)       | YES  |     | NULL    |                |
+| sample_type_id               | int(11)       | YES  |     | NULL    |                |
+| project_id                   | int(11)       | YES  |     | NULL    |                |
+| study_subject_id             | int(11)       | YES  |     | NULL    |                |
+| unit_id                      | int(11)       | YES  |     | NULL    |                |
+| location_id                  | int(11)       | YES  |     | NULL    |                |
+| sample_temperature_id        | int(11)       | YES  |     | NULL    |                |
+| sample_collector_id          | int(11)       | YES  |     | NULL    |                |
+| order_no                     | int(11)       | YES  |     | 1       |                |
+| quantity_in_sample           | decimal(10,0) | YES  |     | NULL    |                |
+| aliquot_or_sample_on_receipt | varchar(255)  | YES  |     | Sample  |                |
+| sent_to_subject_on           | date          | YES  |     | NULL    |                |
+| collected_at                 | datetime      | YES  |     | NULL    |                |
+| shipped_at                   | datetime      | YES  |     | NULL    |                |
+| received_by_ccls_at          | datetime      | YES  |     | NULL    |                |
+| sent_to_lab_on               | date          | YES  |     | NULL    |                |
+| received_by_lab_on           | date          | YES  |     | NULL    |                |
+| aliquotted_on                | date          | YES  |     | NULL    |                |
+| external_id                  | varchar(255)  | YES  |     | NULL    |                |
+| external_id_source           | varchar(255)  | YES  |     | NULL    |                |
+| receipt_confirmed_on         | date          | YES  |     | NULL    |                |
+| receipt_confirmed_by         | varchar(255)  | YES  |     | NULL    |                |
+| future_use_prohibited        | tinyint(1)    | NO   |     | 0       |                |
+| created_at                   | datetime      | YES  |     | NULL    |                |
+| updated_at                   | datetime      | YES  |     | NULL    |                |
++------------------------------+---------------+------+-----+---------+----------------+
+Table: schema_migrations
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| version | varchar(255) | NO   | PRI | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+Table: sections
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: sessions
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| session_id | varchar(255) | NO   | MUL | NULL    |                |
+| data       | text         | YES  |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  | MUL | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+Table: states
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| id                | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position          | int(11)      | YES  |     | NULL    |                |
+| code              | varchar(255) | NO   | UNI | NULL    |                |
+| name              | varchar(255) | NO   | UNI | NULL    |                |
+| fips_country_code | varchar(2)   | NO   | MUL | NULL    |                |
+| fips_state_code   | varchar(2)   | NO   | UNI | NULL    |                |
+| created_at        | datetime     | YES  |     | NULL    |                |
+| updated_at        | datetime     | YES  |     | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+Table: study_subjects
++-----------------------------+--------------+------+-----+---------+----------------+
+| Field                       | Type         | Null | Key | Default | Extra          |
++-----------------------------+--------------+------+-----+---------+----------------+
+| id                          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| subject_type_id             | int(11)      | YES  |     | NULL    |                |
+| vital_status_id             | int(11)      | YES  |     | 1       |                |
+| hispanicity_id              | int(11)      | YES  |     | NULL    |                |
+| reference_date              | date         | YES  |     | NULL    |                |
+| sex                         | varchar(255) | YES  |     | NULL    |                |
+| do_not_contact              | tinyint(1)   | NO   |     | 0       |                |
+| abstracts_count             | int(11)      | YES  |     | 0       |                |
+| mother_yrs_educ             | int(11)      | YES  |     | NULL    |                |
+| father_yrs_educ             | int(11)      | YES  |     | NULL    |                |
+| birth_type                  | varchar(255) | YES  |     | NULL    |                |
+| mother_hispanicity_id       | int(11)      | YES  |     | NULL    |                |
+| father_hispanicity_id       | int(11)      | YES  |     | NULL    |                |
+| birth_county                | varchar(255) | YES  |     | NULL    |                |
+| is_duplicate_of             | varchar(6)   | YES  |     | NULL    |                |
+| mother_hispanicity_mex      | int(11)      | YES  |     | NULL    |                |
+| father_hispanicity_mex      | int(11)      | YES  |     | NULL    |                |
+| mom_is_biomom               | int(11)      | YES  |     | NULL    |                |
+| dad_is_biodad               | int(11)      | YES  |     | NULL    |                |
+| first_name                  | varchar(255) | YES  |     | NULL    |                |
+| middle_name                 | varchar(255) | YES  |     | NULL    |                |
+| last_name                   | varchar(255) | YES  |     | NULL    |                |
+| dob                         | date         | YES  |     | NULL    |                |
+| died_on                     | date         | YES  |     | NULL    |                |
+| mother_first_name           | varchar(255) | YES  |     | NULL    |                |
+| mother_middle_name          | varchar(255) | YES  |     | NULL    |                |
+| mother_maiden_name          | varchar(255) | YES  |     | NULL    |                |
+| mother_last_name            | varchar(255) | YES  |     | NULL    |                |
+| father_first_name           | varchar(255) | YES  |     | NULL    |                |
+| father_middle_name          | varchar(255) | YES  |     | NULL    |                |
+| father_last_name            | varchar(255) | YES  |     | NULL    |                |
+| email                       | varchar(255) | YES  | UNI | NULL    |                |
+| guardian_first_name         | varchar(255) | YES  |     | NULL    |                |
+| guardian_middle_name        | varchar(255) | YES  |     | NULL    |                |
+| guardian_last_name          | varchar(255) | YES  |     | NULL    |                |
+| guardian_relationship_id    | int(11)      | YES  |     | NULL    |                |
+| guardian_relationship_other | varchar(255) | YES  |     | NULL    |                |
+| mother_race_id              | int(11)      | YES  |     | NULL    |                |
+| father_race_id              | int(11)      | YES  |     | NULL    |                |
+| maiden_name                 | varchar(255) | YES  |     | NULL    |                |
+| generational_suffix         | varchar(10)  | YES  |     | NULL    |                |
+| father_generational_suffix  | varchar(10)  | YES  |     | NULL    |                |
+| birth_year                  | varchar(4)   | YES  |     | NULL    |                |
+| birth_city                  | varchar(255) | YES  |     | NULL    |                |
+| birth_state                 | varchar(255) | YES  |     | NULL    |                |
+| birth_country               | varchar(255) | YES  |     | NULL    |                |
+| mother_race_other           | varchar(255) | YES  |     | NULL    |                |
+| father_race_other           | varchar(255) | YES  |     | NULL    |                |
+| childid                     | int(11)      | YES  | UNI | NULL    |                |
+| patid                       | varchar(4)   | YES  | MUL | NULL    |                |
+| case_control_type           | varchar(1)   | YES  |     | NULL    |                |
+| orderno                     | int(11)      | YES  |     | NULL    |                |
+| lab_no                      | varchar(255) | YES  |     | NULL    |                |
+| related_childid             | varchar(255) | YES  |     | NULL    |                |
+| related_case_childid        | varchar(255) | YES  |     | NULL    |                |
+| ssn                         | varchar(255) | YES  | UNI | NULL    |                |
+| subjectid                   | varchar(6)   | YES  | UNI | NULL    |                |
+| matchingid                  | varchar(6)   | YES  |     | NULL    |                |
+| familyid                    | varchar(6)   | YES  |     | NULL    |                |
+| state_id_no                 | varchar(255) | YES  | UNI | NULL    |                |
+| childidwho                  | varchar(10)  | YES  |     | NULL    |                |
+| studyid                     | varchar(14)  | YES  | UNI | NULL    |                |
+| newid                       | varchar(6)   | YES  |     | NULL    |                |
+| gbid                        | varchar(26)  | YES  | UNI | NULL    |                |
+| lab_no_wiemels              | varchar(25)  | YES  | UNI | NULL    |                |
+| idno_wiemels                | varchar(10)  | YES  | UNI | NULL    |                |
+| accession_no                | varchar(25)  | YES  | UNI | NULL    |                |
+| studyid_nohyphen            | varchar(12)  | YES  | UNI | NULL    |                |
+| studyid_intonly_nohyphen    | varchar(12)  | YES  | UNI | NULL    |                |
+| icf_master_id               | varchar(9)   | YES  | UNI | NULL    |                |
+| state_registrar_no          | varchar(255) | YES  | UNI | NULL    |                |
+| local_registrar_no          | varchar(255) | YES  | UNI | NULL    |                |
+| is_matched                  | tinyint(1)   | YES  |     | NULL    |                |
+| created_at                  | datetime     | YES  |     | NULL    |                |
+| updated_at                  | datetime     | YES  |     | NULL    |                |
++-----------------------------+--------------+------+-----+---------+----------------+
+Table: subject_languages
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id | int(11)      | YES  |     | NULL    |                |
+| language_id      | int(11)      | YES  |     | NULL    |                |
+| other            | varchar(255) | YES  |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+Table: subject_races
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id | int(11)      | YES  |     | NULL    |                |
+| race_id          | int(11)      | YES  |     | NULL    |                |
+| is_primary       | tinyint(1)   | NO   |     | 0       |                |
+| other            | varchar(255) | YES  |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+Table: subject_relationships
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | NO   | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: subject_types
++---------------------------+--------------+------+-----+---------+----------------+
+| Field                     | Type         | Null | Key | Default | Extra          |
++---------------------------+--------------+------+-----+---------+----------------+
+| id                        | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position                  | int(11)      | YES  |     | NULL    |                |
+| key                       | varchar(255) | NO   | UNI | NULL    |                |
+| description               | varchar(255) | YES  | UNI | NULL    |                |
+| related_case_control_type | varchar(255) | YES  |     | NULL    |                |
+| created_at                | datetime     | YES  |     | NULL    |                |
+| updated_at                | datetime     | YES  |     | NULL    |                |
++---------------------------+--------------+------+-----+---------+----------------+
+Table: tracing_statuses
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | NO   | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: transfers
++----------------------+---------------+------+-----+---------+----------------+
+| Field                | Type          | Null | Key | Default | Extra          |
++----------------------+---------------+------+-----+---------+----------------+
+| id                   | int(11)       | NO   | PRI | NULL    | auto_increment |
+| position             | int(11)       | YES  |     | NULL    |                |
+| aliquot_id           | int(11)       | YES  | MUL | NULL    |                |
+| from_organization_id | int(11)       | NO   | MUL | NULL    |                |
+| to_organization_id   | int(11)       | NO   | MUL | NULL    |                |
+| amount               | decimal(10,0) | YES  |     | NULL    |                |
+| reason               | varchar(255)  | YES  |     | NULL    |                |
+| is_permanent         | tinyint(1)    | YES  |     | NULL    |                |
+| created_at           | datetime      | YES  |     | NULL    |                |
+| updated_at           | datetime      | YES  |     | NULL    |                |
++----------------------+---------------+------+-----+---------+----------------+
+Table: units
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| context_id  | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| description | varchar(255) | YES  | UNI | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: users
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| id              | int(11)      | NO   | PRI | NULL    | auto_increment |
+| uid             | varchar(255) | YES  | UNI | NULL    |                |
+| sn              | varchar(255) | YES  | MUL | NULL    |                |
+| displayname     | varchar(255) | YES  |     | NULL    |                |
+| mail            | varchar(255) | YES  |     | NULL    |                |
+| telephonenumber | varchar(255) | YES  |     | NULL    |                |
+| created_at      | datetime     | YES  |     | NULL    |                |
+| updated_at      | datetime     | YES  |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+Table: vital_statuses
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position    | int(11)      | YES  |     | NULL    |                |
+| key         | varchar(255) | NO   | UNI | NULL    |                |
+| code        | int(11)      | YES  | UNI | NULL    |                |
+| description | varchar(255) | NO   |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+Table: zip_codes
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| zip_code   | varchar(5)   | NO   | UNI | NULL    |                |
+| city       | varchar(255) | NO   |     | NULL    |                |
+| state      | varchar(255) | NO   |     | NULL    |                |
+| zip_class  | varchar(255) | NO   |     | NULL    |                |
+| county_id  | int(11)      | YES  |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+/Users/jakewendt/github_repo/ccls/odms
+Wed Mar 14 15:08:07 -0700 2012
