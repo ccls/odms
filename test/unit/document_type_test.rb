@@ -5,8 +5,14 @@ class DocumentTypeTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_act_as_list
 	assert_should_have_many(:document_versions)
-	assert_should_require_attributes( :title )
-	assert_should_not_require_attributes( :position, :description )
+
+	attributes = %w( title description position )
+	required   = %w( title )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length( 
 		:title, 
 		:description, 

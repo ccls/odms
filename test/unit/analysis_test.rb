@@ -5,14 +5,14 @@ class AnalysisTest < ActiveSupport::TestCase
 	assert_should_behave_like_a_hash
 
 	assert_should_create_default_object
-	assert_should_not_require_attributes( 
-		:analyst_id,
-		:project_id,
-		:analytic_file_creator_id,
-		:analytic_file_created_date,
-		:analytic_file_last_pulled_date,
-		:analytic_file_location,
-		:analytic_file_filename )
+
+	attributes = %w( analyst_id project_id analytic_file_creator_id
+		analytic_file_created_date analytic_file_last_pulled_date
+		analytic_file_location analytic_file_filename )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_belong_to( 
 		:analytic_file_creator, 
 		:analyst,

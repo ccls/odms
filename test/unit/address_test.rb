@@ -2,11 +2,9 @@ require 'test_helper'
 
 class AddressTest < ActiveSupport::TestCase
 
-
-#	TODO	this should really be unique, only used during importing
-#	validates_uniqueness_of :external_address_id, :allow_blank => true
-
 	#	external_address_id isn't required so don't use class level test
+	#	would have to modify class level test to try to put something
+	#	in the field, but would have to determine datatype and ......
 	test "should require unique external_address_id" do
 		Factory(:address,:external_address_id => 123456789)
 		assert_difference('Address.count',0){
@@ -16,20 +14,17 @@ class AddressTest < ActiveSupport::TestCase
 		}
 	end
 
-
-
 	assert_should_create_default_object
-	assert_should_require_attributes( 
-		:line_1, 
-		:city, 
-		:state, 
-		:zip )
-	assert_should_not_require_attributes( 
-		:country, 
-		:county, 
-		:line_2, 
-		:unit,
-		:external_address_id )
+
+	attributes = %w( line_1 line_2 unit city state zip county country external_address_id )
+	required   = %w( line_1 city state zip )
+	unique     = %w( external_address_id )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+#	assert_should_require_unique( unique )
+	assert_should_not_require_unique( attributes - unique )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length( 
 		:zip, 
 			:maximum => 10 )

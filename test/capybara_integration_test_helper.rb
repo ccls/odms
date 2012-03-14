@@ -100,29 +100,35 @@ require 'capybara/rails'
 
 Capybara.default_driver = :webkit
 
-##	Using class_attribute instead of mattr_accessor so that
-##	each subclass (read model) has its own value as we have
-##	two databases meaning not all models have the same connection.
-#class ActiveRecord::Base
-#	class_attribute :saved_connection
-#	def self.connection
-#		saved_connection || retrieve_connection
-#	end
-#end
-#
-#	back to the original ...
-#
-#	initially based on http://pastie.org/1745020, but has changed
+#	Using class_attribute instead of mattr_accessor so that
+#	each subclass (read model) has its own value as we have
+#	two databases meaning not all models have the same connection.
 class ActiveRecord::Base
-	mattr_accessor :shared_connection
-	@@shared_connection = nil
+	class_attribute :saved_connection
 	def self.connection
-		@@shared_connection || retrieve_connection
+		saved_connection || retrieve_connection
 	end
 end
-# Forces all threads to share the same connection. This works on
-# Capybara because it starts the web server in a thread.
-ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+#	when using multiple databases, I did this below for each model.
+#	Then I commented it all out!!! Err! Capybara is threaded and
+#	testing is transactional so we must force them to use the
+#	same connection or they will not see each others mods.
+ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
+
+#
+#	back to the original ... ?
+#
+#	initially based on http://pastie.org/1745020, but has changed
+#class ActiveRecord::Base
+#	mattr_accessor :shared_connection
+#	@@shared_connection = nil
+#	def self.connection
+#		@@shared_connection || retrieve_connection
+#	end
+#end
+## Forces all threads to share the same connection. This works on
+## Capybara because it starts the web server in a thread.
+#ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
 #	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
@@ -209,8 +215,8 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		if !uid.blank?
 			stub_ucb_ldap_person()
 			u = User.find_create_and_update_by_uid(uid)
-
 			assert u.is_a?(User), "Created User isn't a User?"
+			assert !u.new_record?, "Created user didn't save?"
 
 			#	Rather than manually manipulate the session,
 			#	I created a fake controller to do it.
@@ -233,6 +239,8 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 #	I don't completely see why it matters as they should be destroyed after
 #	each test so there should never actually be more than one User.
 
+#	This has got to be a connection thing
+
 #<p>
 #  Showing <i>app/views/layouts/_header.html.erb</i> where line <b>#8</b> raised:
 #  </p><pre><code>Mysql::Error: Duplicate entry 'Wendt' for key 2: UPDATE `users` SET `updated_at` = '2012-03-14 05:11:15', `sn` = 'Wendt', `telephonenumber` = '+1 510 642-9749', `displayname` = 'Mr. Jake Wendt, BA' WHERE `id` = 5148</code></pre>
@@ -250,7 +258,7 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 
 			#	assert that there is a user logged in			
 			assert_equal current_path, user_path(u),
-				"Login as seems to have failed." 
+				"Login_as seems to have failed." 
 		end
 	end
 

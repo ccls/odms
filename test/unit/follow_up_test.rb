@@ -4,9 +4,7 @@ class FollowUpTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_initially_belong_to(
-		:section,
-		:enrollment,
-		:follow_up_type)
+		:section, :enrollment, :follow_up_type)
 
 	test "explicit Factory follow_up test" do
 		assert_difference('FollowUpType.count',1) {

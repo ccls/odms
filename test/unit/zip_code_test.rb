@@ -6,9 +6,17 @@ require 'test_helper'
 class ZipCodeTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-	assert_should_require_unique_attribute(:zip_code)
 	assert_should_belong_to(:county)
-	assert_should_require_attributes( :zip_code, :city, :state, :zip_class )
+
+	attributes = %w( zip_code city state zip_class )
+	required   = %w( zip_code city state zip_class )
+	unique     = %w( zip_code )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+	assert_should_require_unique( unique )
+	assert_should_not_require_unique( attributes - unique )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length( :zip_code, :is => 5 )
 	assert_should_require_attribute_length( :city, :state, :zip_class,
 		:maximum => 250 )

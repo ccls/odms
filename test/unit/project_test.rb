@@ -8,8 +8,14 @@ class ProjectTest < ActiveSupport::TestCase
 
 	assert_should_have_many( :instrument_types, :enrollments, :instruments, 
 		:samples, :gift_cards )
-	assert_should_not_require_attributes( :position, :began_on, :ended_on, 
-		:eligibility_criteria )
+
+
+	attributes = %w( position began_on ended_on eligibility_criteria )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
+
 	assert_should_require_attribute_length( :eligibility_criteria, :maximum => 65000 )
 	assert_should_act_as_list
 

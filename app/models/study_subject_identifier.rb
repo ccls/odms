@@ -12,7 +12,8 @@ base.class_eval do
 	#	Very cool that this doesn't stop factory girl from using them.
 	#	it will stop the study_subject nested_attribute tests though
 	attr_protected :studyid, :studyid_nohyphen, :studyid_intonly_nohyphen,
-		:familyid, :childid, :subjectid, :patid, :orderno
+		:familyid, :childid, :subjectid, :patid, :orderno,
+		:matchingid, :icf_master_id, :subject_type_id
 
 	before_validation :prepare_fields_for_validation
 	before_create     :prepare_fields_for_creation

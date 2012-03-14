@@ -7,9 +7,15 @@ class LanguageTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_act_as_list
 	assert_should_have_many( :interviews, :instrument_versions )
-	assert_should_require_attributes( :code )
-	assert_should_require_unique_attributes( :code )
-	assert_should_not_require_attributes( :position )
+
+	attributes = %w( code position )
+	required   = %w( code )
+	unique     = %w( code )
+	assert_should_require( required )
+	assert_should_require_unique( unique )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes - unique )
+	assert_should_not_protect( attributes )
 
 	test "explicit Factory language test" do
 		assert_difference('Language.count',1) {

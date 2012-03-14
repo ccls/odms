@@ -6,8 +6,14 @@ class OperationalEventTest < ActiveSupport::TestCase
 	assert_should_initially_belong_to(:enrollment)
 	assert_should_initially_belong_to(:operational_event_type)
 
-	assert_should_require_attributes( :enrollment_id )
-	assert_should_not_require_attributes( :occurred_on, :description, :event_notes )
+
+	attributes = %w( enrollment_id occurred_on description event_notes )
+	required   = %w( enrollment_id )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 
 	assert_requires_complete_date(:occurred_on)
 	assert_should_require_attribute_length( :description, :maximum => 250 )

@@ -8,7 +8,12 @@ class TransferTest < ActiveSupport::TestCase
 		:class_name => 'Organization' )
 #	assert_should_require_attributes( :aliquot_id, 
 #		:from_organization_id, :to_organization_id )
-	assert_should_not_require_attributes( :position, :amount, :reason, :is_permanent )
+
+	attributes = %w( position amount reason is_permanent )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length( :reason, :maximum => 250 )
 
 	test "explicit Factory transfer test" do

@@ -44,49 +44,39 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_habtm(:analyses)
 	assert_should_belong_to( :guardian_relationship, :class_name => 'SubjectRelationship' )
 
-	assert_should_not_require_attributes( :vital_status_id, :hispanicity_id, 
-		:mom_is_biomom, :dad_is_biodad,
-		:mother_hispanicity_id, :father_hispanicity_id,
-		:mother_hispanicity_mex, :father_hispanicity_mex,
-		:reference_date, :mother_yrs_educ, :father_yrs_educ, 
-		:birth_type, :birth_county, :is_duplicate_of,
-		:first_name, :last_name,
-		:died_on, :birth_year,
-		:birth_city, :birth_state, :birth_country,
-		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
-		:father_first_name, :father_middle_name, :father_last_name,
-		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
-		:guardian_relationship_other, :email,
-		:middle_name, :maiden_name,
-		:mother_race_other, :father_race_other,
-		:generational_suffix, :father_generational_suffix,
-		:case_control_type,
-		:ssn,
-		:subjectid,
-		:lab_no,
-		:related_childid,
-		:related_case_childid,
-		:state_id_no,
-		:state_registrar_no,
-		:local_registrar_no,
-		:matchingid,
-		:gbid,
-		:lab_no_wiemels,
-		:accession_no,
-		:idno_wiemels,
-		:is_matched,
-		:familyid )
 
-	assert_should_require_attributes( :dob )
+	attributes = %w( accession_no birth_city birth_country birth_county birth_state 
+		birth_type birth_year case_control_type dad_is_biodad died_on dob email 
+		familyid father_first_name father_generational_suffix father_hispanicity_id 
+		father_hispanicity_mex father_last_name father_middle_name father_race_other 
+		father_yrs_educ first_name gbid generational_suffix guardian_first_name 
+		guardian_last_name guardian_middle_name guardian_relationship_other hispanicity_id 
+		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels last_name 
+		local_registrar_no maiden_name matchingid middle_name mom_is_biomom 
+		mother_first_name mother_hispanicity_id mother_hispanicity_mex mother_last_name 
+		mother_maiden_name mother_middle_name mother_race_other mother_yrs_educ 
+		reference_date related_case_childid related_childid ssn state_id_no 
+		state_registrar_no subjectid vital_status_id )
 
-	assert_should_require_unique_attributes( :email,
-		:state_id_no,
-		:state_registrar_no,
-		:local_registrar_no,
-		:gbid,
-		:lab_no_wiemels,
-		:accession_no,
-		:idno_wiemels )
+#	no familyid, childid, patid, studyid, matchingid, icf_master_id ???
+
+	required = %w( dob )
+	unique   = %w( email state_id_no state_registrar_no local_registrar_no
+		gbid lab_no_wiemels accession_no idno_wiemels 
+		subjectid childid studyid )
+
+#	NOTE icf_master_id is not set, so unique test doesn't fail
+
+	protected_attributes = %w( studyid studyid_nohyphen
+		studyid_intonly_nohyphen subjectid familyid childid patid 
+		matchingid icf_master_id )
+	assert_should_require( required )
+	assert_should_require_unique( unique )
+	assert_should_protect( protected_attributes )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes - unique )
+	assert_should_not_protect( attributes - protected_attributes )
+
 
 	assert_requires_complete_date( :reference_date, :dob, :died_on )
 	assert_requires_past_date( :dob )
@@ -124,14 +114,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 #	assert_should_not_require :hospital_no
 
 
-	assert_should_protect_attributes(
-		:studyid,
-		:studyid_nohyphen,
-		:studyid_intonly_nohyphen,
-		:familyid,
-		:childid,
-		:subjectid,
-		:patid )
 
 
 
@@ -424,7 +406,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert !study_subject.is_case?
 	end
 
-	test "should case if explicitly told" do
+	test "should be case if explicitly told" do
 		study_subject = Factory(:case_study_subject)
 		assert study_subject.is_case?
 	end

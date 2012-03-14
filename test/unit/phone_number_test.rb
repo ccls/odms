@@ -30,16 +30,25 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	end
 
 	assert_should_create_default_object
-	assert_should_protect(:study_subject_id, :study_subject)
+#	assert_should_protect(:study_subject_id, :study_subject)
 	assert_should_act_as_list( :scope => :study_subject_id )
 
 	assert_should_initially_belong_to( :study_subject, :phone_type )
-	assert_should_require_attribute(:phone_number )
-	assert_should_not_require_attributes( :position, :study_subject_id,
-#		:data_source_id, :is_primary, :is_valid,
-		:is_primary, :is_valid,
-		:why_invalid, :is_verified, :how_verified,
-		:verified_on, :verified_by_uid, :current_phone )
+
+
+	attributes = %w( phone_number position study_subject_id
+		is_primary is_valid
+		why_invalid is_verified how_verified
+		verified_on verified_by_uid current_phone )
+	required = %w( phone_number )
+	protected_attributes = %w( study_subject_id study_subject )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes )
+	assert_should_protect( protected_attributes )
+	assert_should_not_protect( attributes - protected_attributes )
+
+
 	assert_should_require_attribute_length( :how_verified, :why_invalid, 
 		:maximum => 250 )
 

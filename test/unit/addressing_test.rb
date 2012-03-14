@@ -4,19 +4,14 @@ class AddressingTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_protect(:study_subject_id, :study_subject)
-	assert_should_not_require_attributes( 
-		:address_id,
-		:current_address,
-		:address_at_diagnosis,
-		:is_valid,
-		:why_invalid,
-		:is_verified,
-		:how_verified,
-		:valid_from,
-		:valid_to,
-		:verified_on,
-		:verified_by_uid )
-#		:data_source_id )
+
+	attributes = %w( address_id current_address address_at_diagnosis
+		is_valid why_invalid is_verified how_verified valid_from
+		valid_to verified_on verified_by_uid )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_initially_belong_to( 
 		:study_subject, 
 		:address )

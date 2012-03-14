@@ -4,33 +4,28 @@ class InterviewTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_initially_belong_to(:study_subject)
-	assert_should_protect( :study_subject_id, :study_subject )
-	assert_should_belong_to( :address,
-		:instrument_version,
-		:interview_method,
-		:language,
-		:subject_relationship )
+	assert_should_belong_to( :address, :instrument_version,
+		:interview_method, :language, :subject_relationship )
 	assert_should_belong_to( :interviewer, :class_name => 'Person')
-	assert_should_not_require_attributes( 
-		:address_id,
-		:language_id,
-		:interviewer_id,
-		:instrument_version_id,
-		:interview_method_id,
-		:study_subject_id,
-		:began_on,
-		:ended_on,
-		:intro_letter_sent_on,
-		:consent_read_over_phone,
-		:respondent_requested_new_consent,
-		:consent_reviewed_with_respondent )
+
+
+	attributes = %w( address_id began_at began_on consent_read_over_phone 
+		consent_reviewed_with_respondent ended_at ended_on instrument_version_id 
+		interview_method_id interviewer_id intro_letter_sent_on language_id 
+		respondent_requested_new_consent study_subject_id )
+	protected_attributes = %w( study_subject_id study_subject began_at ended_at )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_protect( protected_attributes )
+	assert_should_not_protect( attributes - protected_attributes )
+
+
 	assert_should_require_attribute_length( 
 		:subject_relationship_other, 
 		:respondent_first_name,
 		:respondent_last_name, 
 			:maximum => 250 )
 	assert_requires_complete_date( :began_on, :ended_on, :intro_letter_sent_on )
-	assert_should_protect( :began_at, :ended_at )
 
 	test "explicit Factory interview test" do
 		assert_difference('StudySubject.count',1) {

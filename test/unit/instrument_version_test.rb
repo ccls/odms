@@ -9,12 +9,12 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 	assert_should_have_many( :interviews )
 	assert_should_belong_to( :language, :instrument )
 	assert_should_initially_belong_to( :instrument_type )
-	assert_should_not_require_attributes( 
-		:position,
-		:language_id,
-		:began_use_on,
-		:ended_use_on,
-		:instrument_id )
+
+	attributes = %w( position language_id
+		began_use_on ended_use_on instrument_id )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
 
 	assert_requires_complete_date( :began_use_on, :ended_use_on )
 

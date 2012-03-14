@@ -70,7 +70,9 @@ class HomeExposureResponseTest < ActiveSupport::TestCase
 #		assert_equal field_names, db_field_names
 #	end
 
-	assert_should_not_require_attributes( *HomeExposureResponse.db_field_names )
+#	assert_should_not_require_attributes( *HomeExposureResponse.db_field_names )
+	assert_should_not_require( HomeExposureResponse.db_field_names )
+	assert_should_not_require_unique( HomeExposureResponse.db_field_names )
 
 #protected
 #

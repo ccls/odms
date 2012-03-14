@@ -4,17 +4,22 @@ class GiftCardTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_belong_to(:study_subject, :project)
-	assert_should_protect( :study_subject_id, :study_subject )
-	assert_should_require_attributes(:number)
-	assert_should_require_unique_attributes(:number)
-	assert_should_not_require_attributes( :study_subject_id,
-		:project_id,
-		:issued_on,
-		:expiration,
-		:vendor )
+#	assert_should_protect( :study_subject_id, :study_subject )
+
+	attributes = %w( number study_subject_id
+		project_id issued_on expiration vendor )
+	required = %w( number )
+	unique   = %w( number )
+	protected_attributes = %w( study_subject_id study_subject )
+	assert_should_require( required )
+	assert_should_require_unique( unique )
+	assert_should_protect( protected_attributes )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes - unique )
+	assert_should_not_protect( attributes - protected_attributes )
+
 	assert_should_require_attribute_length( :expiration,
-		:vendor,
-		:number, 
+		:vendor, :number, 
 			:maximum => 250 )
 
 	test "explicit Factory gift_card test" do

@@ -52,6 +52,10 @@ class Abstract < ActiveRecord::Base
 		Abstract.db_fields
 	end
 
+	#	db_fields need defined first though
+#	attr_accessible *(Abstract.db_fields + [:current_user,:weight_units,:height_units,:merging])
+#	attr_accessible *Abstract.db_fields
+
 	def comparable_attributes
 		HashWithIndifferentAccess[attributes.select {|k,v| db_fields.include?(k)}]
 	end

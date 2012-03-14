@@ -6,13 +6,13 @@ class DataSourceTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_act_as_list
-	assert_should_not_require_attributes( 
-		:position, 
-		:organization_id, 
-		:other_organization, 
-		:person_id, 
-		:other_person, 
-		:data_origin )
+
+	attributes = %w( position organization_id other_organization
+		person_id other_person data_origin )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length( 
 		:other_organization, 
 		:other_person, 

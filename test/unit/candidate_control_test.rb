@@ -60,33 +60,21 @@ class CandidateControlTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_belong_to( :study_subject )
 	assert_should_protect( :study_subject_id, :study_subject )
-	assert_should_require_attributes( 
-		:first_name,
-		:last_name,
-		:dob )
-	assert_should_not_require_attributes( 
-		:dad_is_biodad,
-		:mom_is_biomom,
-		:mother_first_name,
-		:mother_middle_name,
-		:mother_last_name,
-		:mother_dob,
-		:icf_master_id,
-		:related_patid,
-		:middle_name,
-		:state_registrar_no,
-		:local_registrar_no,
-		:birth_county,
-		:assigned_on,
-		:mother_race_id,
-		:mother_hispanicity_id,
-		:father_race_id,
-		:father_hispanicity_id,
-		:birth_type,
-		:mother_maiden_name,
-		:mother_yrs_educ,
-		:father_yrs_educ,
-		:rejection_reason )
+
+
+	attributes = %w( assigned_on birth_county birth_type dad_is_biodad dob 
+		father_hispanicity_id father_race_id father_yrs_educ first_name icf_master_id 
+		last_name local_registrar_no middle_name mom_is_biomom mother_dob 
+		mother_first_name mother_hispanicity_id mother_last_name mother_maiden_name 
+		mother_middle_name mother_race_id mother_yrs_educ rejection_reason 
+		related_patid state_registrar_no )
+	required = %w( first_name last_name dob )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
+
 	assert_should_require_attribute_length( :related_patid, :is => 4 )
 	assert_should_require_attribute_length( :state_registrar_no, :maximum => 25 )
 	assert_should_require_attribute_length( :local_registrar_no, :maximum => 25 )

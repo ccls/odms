@@ -5,7 +5,10 @@ class AbstractTest < ActiveSupport::TestCase
 	assert_should_belong_to :study_subject
 	assert_should_protect( :study_subject_id, :study_subject, :entry_1_by_uid, 
 		:entry_2_by_uid, :merged_by_uid )
-	assert_should_not_require( *Abstract.db_fields )
+
+	assert_should_not_require( Abstract.db_fields )
+	assert_should_not_require_unique( Abstract.db_fields )
+	assert_should_not_protect( Abstract.db_fields )
 
 	assert_should_require_length( 
 		:response_classification_day_7, 

@@ -3,8 +3,19 @@ require 'test_helper'
 class PageTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-	assert_should_require(:path,:menu_en,:title_en,:body_en)
-	assert_should_require_unique(:path,:menu_en)
+
+#	assert_should_require(:path,:menu_en,:title_en,:body_en)
+#	assert_should_require_unique(:path,:menu_en)
+
+	attributes = %w( path menu_en title_en body_en menu_es title_es body_es)
+	required   = %w( path menu_en title_en body_en )
+	unique     = %w( path menu_en )
+	assert_should_require( required )
+	assert_should_require_unique( unique )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes - unique )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length(:path,:minimum => 1)
 	assert_should_require_attribute_length(:menu_en,:title_en,:body_en,
 		:minimum => 4)

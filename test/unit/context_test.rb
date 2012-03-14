@@ -5,7 +5,12 @@ class ContextTest < ActiveSupport::TestCase
 	assert_should_behave_like_a_hash
 
 	assert_should_create_default_object
-	assert_should_not_require_attributes( :position, :notes )
+
+	attributes = %w( position notes )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 	assert_should_act_as_list
 	assert_should_have_many(:units)

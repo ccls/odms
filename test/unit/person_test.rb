@@ -3,13 +3,15 @@ require 'test_helper'
 class PersonTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-	assert_should_require_attribute( :last_name )
-	assert_should_not_require_attributes( 
-		:position, 
-		:first_name, 
-		:honorific, 
-		:organization_id, 
-		:person_type_id )
+
+	attributes = %w( last_name position first_name
+		honorific organization_id person_type_id )
+	required   = %w( last_name )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_act_as_list
 	assert_should_have_many( :organizations )
 

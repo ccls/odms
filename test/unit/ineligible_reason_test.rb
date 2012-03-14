@@ -10,7 +10,10 @@ class IneligibleReasonTest < ActiveSupport::TestCase
 #	only if study_subject is ineligible
 #	assert_should_have_many(:enrollments)
 
-	assert_should_not_require_attributes( :position, :ineligible_context )
+	attributes = %w( position ineligible_context )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
 
 	test "explicit Factory ineligible_reason test" do
 		assert_difference('IneligibleReason.count',1) {

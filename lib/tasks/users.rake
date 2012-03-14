@@ -1,3 +1,5 @@
+require 'acts_as_list'
+
 namespace :app do
 namespace :users do
 
@@ -83,6 +85,19 @@ def assign_user_role(user_uid,role_name)
 	end
 	user = User.find_by_uid(user_uid)
 	role = Role.find_by_name(role_name)
+
+#	This should've loaded environment and the gems so I don't understand?
+#	Explicitly added ... 
+#	require 'acts_as_list'
+#	just cause its easier?
+
+#undefined local variable or method `acts_as_list' for #<Class:0x105390688>
+#/Library/Ruby/Gems/1.8/gems/activerecord-2.3.14/lib/active_record/base.rb:1998:in `method_missing_without_paginate'
+#/Library/Ruby/Gems/1.8/gems/will_paginate-2.3.16/lib/will_paginate/finder.rb:170:in `method_missing'
+#/Users/jakewendt/github_repo/ccls/odms/app/models/role.rb:29
+
+#/Users/jakewendt/github_repo/ccls/odms/lib/tasks/users.rake:85:in `assign_user_role'
+
 	if role.nil?
 		puts
 		puts "No Role found with role name:#{role_name}:"

@@ -65,35 +65,19 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_protect(:study_subject_id, :study_subject)
-	assert_should_not_require_attributes( 
-		:refused_by_physician,
-		:refused_by_family,
-		:use_smp_future_rsrch,
-		:use_smp_future_cancer_rsrch,
-		:use_smp_future_other_rsrch,
-		:share_smp_with_others,
-		:contact_for_related_study,
-		:provide_saliva_smp,
-		:receive_study_findings,
-		:position,
-		:recruitment_priority,
-#		:able_to_locate,
-		:is_candidate,
-		:is_eligible,
-		:ineligible_reason_id,
-		:ineligible_reason_specify,
-		:refusal_reason_id,
-		:other_refusal_reason,
-		:is_chosen,
-		:reason_not_chosen,
-		:terminated_participation,
-		:terminated_reason,
-		:is_complete,
-		:completed_on,
-		:is_closed,
-		:reason_closed,
-		:notes,
-		:document_version_id )
+
+
+	attributes = %w( completed_on contact_for_related_study document_version_id 
+		ineligible_reason_id ineligible_reason_specify is_candidate is_chosen 
+		is_closed is_complete is_eligible notes other_refusal_reason position 
+		provide_saliva_smp reason_closed reason_not_chosen receive_study_findings 
+		recruitment_priority refusal_reason_id refused_by_family refused_by_physician 
+		share_smp_with_others terminated_participation terminated_reason 
+		use_smp_future_cancer_rsrch use_smp_future_other_rsrch use_smp_future_rsrch )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length( 
 		:recruitment_priority,
 		:ineligible_reason_specify,

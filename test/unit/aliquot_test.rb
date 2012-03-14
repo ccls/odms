@@ -3,16 +3,15 @@ require 'test_helper'
 class AliquotTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-	assert_should_not_require_attributes( 
-		:position,
-		:aliquot_sample_format_id,
-		:location,
-		:mass,
-		:external_aliquot_id,
-		:external_aliquot_id_source )
+
+	attributes = %w( position aliquot_sample_format_id
+		location mass external_aliquot_id external_aliquot_id_source )
+	assert_should_not_require( attributes )
+	assert_should_not_require_unique( attributes )
+	assert_should_not_protect( attributes )
+
 	assert_should_require_attribute_length( 
-		:location, 
-		:mass, 
+		:location, :mass, 
 			:maximum => 250 )
 	assert_should_have_many(:transfers)
 	assert_should_belong_to( :aliquot_sample_format )

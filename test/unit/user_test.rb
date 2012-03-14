@@ -5,25 +5,14 @@ class UserTest < ActiveSupport::TestCase
 	#	test both sides of the coin by starting with all of the attributes
 	#	could be a challenge since all things aren't black and white
 	attributes = %w( uid sn displayname mail telephonenumber )
-	required = %w( uid )
-	unique = %w( uid )
+	required   = %w( uid )
+	unique     = %w( uid )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+	assert_should_require_unique( unique )
+	assert_should_not_require_unique( attributes - unique )
+	assert_should_not_protect( attributes )
 
-#	modify these tests to check for arrays?
-#	changing
-#		39       attributes.each do |attr|
-#	to
-#		39       attributes.flatten.each do |attr|
-#	should do it.
-
-	assert_should_require( *required )
-	assert_should_not_require( *(attributes - required) )
-
-	assert_should_require_unique( *unique )
-#	doesn't exist yet, but create one
-#	assert_should_not_require_unique( attributes - unique )
-
-#	assert_should_require(:uid)
-#	assert_should_require_unique(:uid)
 	assert_should_habtm(:roles)
 
 	test "should create user" do

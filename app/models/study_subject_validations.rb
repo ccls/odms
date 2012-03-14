@@ -24,8 +24,13 @@ base.class_eval do
 	validates_past_date_for     :dob, :allow_nil => true
 	validates_complete_date_for :died_on, :allow_nil => true
 	validates_uniqueness_of     :email, :icf_master_id, :state_id_no, 
+:childid, :studyid,
 		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
-		:accession_no, :idno_wiemels, :studyid, :allow_nil => true
+		:accession_no, :idno_wiemels, :studyid, :subjectid, :allow_nil => true
+#
+#	patid IS NOT UNIQUE as will be shared by controls
+#	childid and studyid should be
+#
 
 	validates_format_of :email,
 	  :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
