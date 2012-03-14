@@ -41,7 +41,8 @@ class CreateStudySubjects < ActiveRecord::Migration
 			t.string  :guardian_middle_name
 			t.string  :guardian_last_name
 			t.integer :guardian_relationship_id
-			t.string  :guardian_relationship_other
+#			t.string  :guardian_relationship_other
+			t.string  :other_guardian_relationship
 			t.integer :mother_race_id
 			t.integer :father_race_id
 			t.string  :maiden_name
@@ -51,8 +52,10 @@ class CreateStudySubjects < ActiveRecord::Migration
 			t.string  :birth_city
 			t.string  :birth_state
 			t.string  :birth_country
-			t.string  :mother_race_other
-			t.string  :father_race_other
+#			t.string  :mother_race_other
+#			t.string  :father_race_other
+			t.string  :other_mother_race
+			t.string  :other_father_race
 
 
 

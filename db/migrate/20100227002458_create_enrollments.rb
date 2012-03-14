@@ -9,7 +9,8 @@ class CreateEnrollments < ActiveRecord::Migration
 			t.integer :is_candidate
 			t.integer :is_eligible
 			t.integer :ineligible_reason_id
-			t.string  :ineligible_reason_specify
+#			t.string  :ineligible_reason_specify
+			t.string  :other_ineligible_reason
 			t.integer :consented
 			t.date    :consented_on
 			t.integer :refusal_reason_id

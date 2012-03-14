@@ -3,7 +3,8 @@ class CreateSubjectLanguages < ActiveRecord::Migration
 		create_table :subject_languages do |t|
 			t.integer :study_subject_id
 			t.integer :language_id
-			t.string  :other
+#			t.string  :other
+			t.string  :other_language
 			t.timestamps
 		end
 	end

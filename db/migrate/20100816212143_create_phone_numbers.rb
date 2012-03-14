@@ -14,7 +14,8 @@ class CreatePhoneNumbers < ActiveRecord::Migration
 			t.datetime :verified_on
 			t.string   :verified_by_uid
 			t.integer  :current_phone, :default => 1
-			t.string   :data_source_other
+#			t.string   :data_source_other
+			t.string   :other_data_source
 			t.timestamps
 		end
 		add_index :phone_numbers, :study_subject_id

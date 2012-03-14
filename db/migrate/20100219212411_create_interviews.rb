@@ -13,7 +13,8 @@ class CreateInterviews < ActiveRecord::Migration
 			t.string  :respondent_first_name
 			t.string  :respondent_last_name
 			t.integer :subject_relationship_id
-			t.string  :subject_relationship_other
+#			t.string  :subject_relationship_other
+			t.string  :other_subject_relationship
 			t.date    :intro_letter_sent_on
 			t.boolean :consent_read_over_phone
 			t.boolean :respondent_requested_new_consent
