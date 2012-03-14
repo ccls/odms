@@ -24,11 +24,11 @@ module SimplyAuthorizedFactoryTestHelper
 	alias_method :admin, :admin_user
 	alias_method :administrator, :admin_user
 
-	def interviewer(options={})
-		u = active_user(options)
-		u.roles << Role.find_or_create_by_name('interviewer')
-		u
-	end
+#	def interviewer(options={})
+#		u = active_user(options)
+#		u.roles << Role.find_or_create_by_name('interviewer')
+#		u
+#	end
 
 	def reader(options={})
 		u = active_user(options)

@@ -28,9 +28,9 @@ reader:
 #	The IDs MUST REMAIN AS THEY ARE or it could inadvertantly
 #	give an existing user more (or less) power as the join
 #	tables already exist.
-
-interviewer:
-  id: 5
-  position: 4
-  name: interviewer
-
+#
+#interviewer:
+#  id: 5
+#  position: 4
+#  name: interviewer
+#

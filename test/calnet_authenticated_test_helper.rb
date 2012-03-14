@@ -81,7 +81,8 @@ module CalnetAuthenticatedTestHelper
 		end
 
 		def site_readers
-			@site_readers ||= %w( superuser administrator editor interviewer reader )
+#			@site_readers ||= %w( superuser administrator editor interviewer reader )
+			@site_readers ||= %w( superuser administrator editor reader )
 		end
 
 		def non_site_readers
@@ -89,7 +90,8 @@ module CalnetAuthenticatedTestHelper
 		end
 
 		def all_test_roles
-			@all_test_roles = %w( superuser administrator editor interviewer reader active_user )
+#			@all_test_roles = %w( superuser administrator editor interviewer reader active_user )
+			@all_test_roles = %w( superuser administrator editor reader active_user )
 		end
 	end
 
