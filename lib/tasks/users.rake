@@ -1,5 +1,3 @@
-require 'acts_as_list'
-
 namespace :app do
 namespace :users do
 
@@ -77,6 +75,7 @@ def env_uid_required
 	end
 end
 def assign_user_role(user_uid,role_name)
+	require 'acts_as_list'
 	if !User.exists?(:uid => user_uid)
 		puts "No user found with uid=#{user_uid}. Adding..."
 		User.find_create_and_update_by_uid(user_uid)

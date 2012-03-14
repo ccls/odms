@@ -1,3 +1,3 @@
-##	From `script/generate ccls_common_lib` ...
-#gem 'ccls-common_lib'
-#require 'common_lib/autotest'
+#	From `script/generate ccls_common_lib` ...
+gem 'ccls-common_lib'
+require 'common_lib/autotest'
