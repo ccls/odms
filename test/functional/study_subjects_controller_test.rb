@@ -697,36 +697,38 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 	
-		test "should NOT update without subject_type_id with #{cu} login" do
-			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
-			login_as send(cu)
-			assert_difference('StudySubject.count',0){
-			assert_difference('SubjectType.count',0){
-			assert_difference('Race.count',0){
-			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
-				put :update, :id => study_subject.id,
-					:study_subject => { :subject_type_id => nil }
-			} } } }
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'edit'
-		end
-	
-		test "should NOT update without valid subject_type_id with #{cu} login" do
-			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
-			login_as send(cu)
-			assert_difference('StudySubject.count',0){
-			assert_difference('SubjectType.count',0){
-			assert_difference('Race.count',0){
-			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
-				put :update, :id => study_subject.id,
-					:study_subject => { :subject_type_id => 0 }
-			} } } }
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'edit'
-		end
-	
+#	subject_type_id is now protected, so these tests are irrelevant
+#
+#		test "should NOT update without subject_type_id with #{cu} login" do
+#			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
+#			login_as send(cu)
+#			assert_difference('StudySubject.count',0){
+#			assert_difference('SubjectType.count',0){
+#			assert_difference('Race.count',0){
+#			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+#				put :update, :id => study_subject.id,
+#					:study_subject => { :subject_type_id => nil }
+#			} } } }
+#			assert_not_nil flash[:error]
+#			assert_response :success
+#			assert_template 'edit'
+#		end
+#	
+#		test "should NOT update without valid subject_type_id with #{cu} login" do
+#			study_subject = Factory(:study_subject, :updated_at => ( Time.now - 1.day ) )
+#			login_as send(cu)
+#			assert_difference('StudySubject.count',0){
+#			assert_difference('SubjectType.count',0){
+#			assert_difference('Race.count',0){
+#			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
+#				put :update, :id => study_subject.id,
+#					:study_subject => { :subject_type_id => 0 }
+#			} } } }
+#			assert_not_nil flash[:error]
+#			assert_response :success
+#			assert_template 'edit'
+#		end
+#	
 #	races are not currently required
 #		( and this isn't formatted correctly anyway )
 #
