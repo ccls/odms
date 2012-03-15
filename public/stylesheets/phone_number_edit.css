@@ -26,18 +26,18 @@ form.edit_phone_number div.is_valid,
 form.edit_phone_number div.is_verified {
 	margin-right: 10px;
 }
-form.edit_phone_number div.data_source_other,
+form.edit_phone_number div.other_data_source,
 form.edit_phone_number div.why_invalid,
 form.edit_phone_number div.how_verified {
 	clear:none;
 }
-form.edit_phone_number .data_source_other label,
+form.edit_phone_number .other_data_source label,
 form.edit_phone_number .why_invalid label,
 form.edit_phone_number .how_verified label{
 	width: auto;
 	padding-right: 10px;
 }
 
-form.edit_phone_number #phone_number_data_source_other {
+form.edit_phone_number #phone_number_other_data_source {
 	width: 150px;
 }

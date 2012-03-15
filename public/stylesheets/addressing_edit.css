@@ -5,7 +5,7 @@
 #addressing_address_attributes_city {
 	width: 190px;
 }
-#addressing_data_source_other,
+#addressing_other_data_source,
 #addressing_address_attributes_unit,
 #addressing_address_attributes_zip {
 	width: 100px;
@@ -60,12 +60,12 @@ div.is_verified {
 	margin-right: 10px;
 }
 div.unit,
-div.data_source_other,
+div.other_data_source,
 div.why_invalid,
 div.how_verified {
 	clear:none;
 }
-.data_source_other label,
+.other_data_source label,
 .why_invalid label,
 .how_verified label{
 	width: auto;

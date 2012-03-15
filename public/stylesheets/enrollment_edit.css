@@ -21,7 +21,7 @@
 .field_wrapper.consented_on label ,
 .field_wrapper.completed_on label ,
 .field_wrapper.document_version_id ,
-.field_wrapper.ineligible_reason_specify ,
+.field_wrapper.other_ineligible_reason ,
 .field_wrapper.reason_not_chosen ,
 .field_wrapper.other_refusal_reason {
 	text-align:right;

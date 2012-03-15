@@ -84,11 +84,11 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 						:mother_hispanicity_id => line["mother_hispanicity"].nilify_blank,
 #"mother_hispanicity_mex":"2" 	#	doesn't exist
 						:mother_race_id => line["mother_race"].nilify_blank,
-#"mother_race_other":nil 	#	doesn't exist
+#"other_mother_race":nil 	#	doesn't exist
 						:father_hispanicity_id => line["father_hispanicity"].nilify_blank,
 #"father_hispanicity_mex":"2" 	#	doesn't exist
 						:father_race_id => line["father_race"].nilify_blank
-#"father_race_other":nil	#	doesn't exist
+#"other_father_race":nil	#	doesn't exist
 					}
 					candidate_control = CandidateControl.find(:first,
 						:conditions => candidate_control_options )

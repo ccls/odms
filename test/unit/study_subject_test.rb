@@ -29,13 +29,13 @@ class StudySubjectTest < ActiveSupport::TestCase
 	attributes = %w( accession_no birth_city birth_country birth_county birth_state 
 		birth_type birth_year case_control_type dad_is_biodad died_on dob email 
 		familyid father_first_name father_generational_suffix father_hispanicity_id 
-		father_hispanicity_mex father_last_name father_middle_name father_race_other 
+		father_hispanicity_mex father_last_name father_middle_name other_father_race 
 		father_yrs_educ first_name gbid generational_suffix guardian_first_name 
-		guardian_last_name guardian_middle_name guardian_relationship_other hispanicity_id 
+		guardian_last_name guardian_middle_name other_guardian_relationship hispanicity_id 
 		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels last_name 
 		local_registrar_no maiden_name matchingid middle_name mom_is_biomom 
 		mother_first_name mother_hispanicity_id mother_hispanicity_mex mother_last_name 
-		mother_maiden_name mother_middle_name mother_race_other mother_yrs_educ 
+		mother_maiden_name mother_middle_name other_mother_race mother_yrs_educ 
 		reference_date related_case_childid related_childid ssn state_id_no 
 		state_registrar_no subjectid vital_status_id )
 
@@ -70,9 +70,9 @@ class StudySubjectTest < ActiveSupport::TestCase
 		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
 		:father_first_name, :father_middle_name, :father_last_name,
 		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
-		:guardian_relationship_other,
+		:other_guardian_relationship,
 		:birth_city, :birth_state, :birth_country,
-		:mother_race_other, :father_race_other,
+		:other_mother_race, :other_father_race,
 		:state_id_no,
 		:state_registrar_no,
 		:local_registrar_no,

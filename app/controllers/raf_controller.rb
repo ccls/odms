@@ -153,7 +153,7 @@ protected
 			default['enrollments_attributes']['0'][
 				'ineligible_reason_id'] = IneligibleReason['other'].id
 			default['enrollments_attributes']['0'][
-				'ineligible_reason_specify'] = ineligible_reasons.join("\n")
+				'other_ineligible_reason'] = ineligible_reasons.join("\n")
 		end
 	end
 

@@ -24,14 +24,14 @@ class Interview < ActiveRecord::Base
 	validates_complete_date_for :ended_on, :allow_nil => true
 	validates_complete_date_for :intro_letter_sent_on, :allow_nil => true
 
-	validates_length_of :subject_relationship_other, :maximum => 250, :allow_blank => true
+	validates_length_of :other_subject_relationship, :maximum => 250, :allow_blank => true
 	validates_length_of :respondent_first_name,      :maximum => 250, :allow_blank => true
 	validates_length_of :respondent_last_name,       :maximum => 250, :allow_blank => true
 
-	validate :presence_of_subject_relationship_other,
+	validate :presence_of_other_subject_relationship,
 		:if => :subject_relationship_is_other?
 
-	validates_absence_of :subject_relationship_other,
+	validates_absence_of :other_subject_relationship,
 		:message => "not allowed",
 		:if => :subject_relationship_id_blank?
 
@@ -99,7 +99,6 @@ protected
 					:occurred_on => intro_letter_sent_on
 				)
 			else
-#				hxe.operational_events << OperationalEvent.create!(
 				OperationalEvent.create!(
 					:enrollment => hxe,
 					:operational_event_type => oet,
@@ -111,9 +110,9 @@ protected
 	end
 
 	#	custom validation for custom message without standard attribute prefix
-	def presence_of_subject_relationship_other
-		if subject_relationship_other.blank?
-			errors.add(:subject_relationship_other, ActiveRecord::Error.new(
+	def presence_of_other_subject_relationship
+		if other_subject_relationship.blank?
+			errors.add(:other_subject_relationship, ActiveRecord::Error.new(
 				self, :base, :blank, { 
 					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
 		end

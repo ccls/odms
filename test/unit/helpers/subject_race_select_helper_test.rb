@@ -34,8 +34,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][4][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][4][is_primary]" title="Set 'Other' as the subject's PRIMARY race" type="checkbox" value="1" />
 <input name="study_subject[subject_races_attributes][4][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][4][race_id]" title="Set 'Other' as one of the subject's race(s)" type="checkbox" value="5" />
 <label for="other_race_id">Other</label>
-<div id='specify_other_race'><label for="race_other_other">specify:</label>
-<input id="race_other_other" name="study_subject[subject_races_attributes][4][other]" size="12" type="text" />
+<div id='specify_other_race'><label for="race_other_other_race">specify:</label>
+<input id="race_other_other_race" name="study_subject[subject_races_attributes][4][other_race]" size="12" type="text" />
 </div></div></div>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][5][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="unknown_is_primary" name="study_subject[subject_races_attributes][5][is_primary]" title="Set 'Don't Know' as the subject's PRIMARY race" type="checkbox" value="1" />
 <input name="study_subject[subject_races_attributes][5][race_id]" type="hidden" value="" /><input class="race_selector" id="unknown_race_id" name="study_subject[subject_races_attributes][5][race_id]" title="Set 'Don't Know' as one of the subject's race(s)" type="checkbox" value="6" />

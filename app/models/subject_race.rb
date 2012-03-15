@@ -6,6 +6,6 @@ class SubjectRace < ActiveRecord::Base
 
 	delegate :is_other?, :to => :race, :allow_nil => true, :prefix => true
 
-	validates_presence_of :other, :if => :race_is_other?
+	validates_presence_of :other_race, :if => :race_is_other?
 
 end

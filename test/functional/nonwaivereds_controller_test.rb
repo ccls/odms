@@ -619,11 +619,11 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 
-#	TODO test ineligiblity_reasons
+#	TODO test ineligibility_reasons
 
 #	nonwaivered doesn't actually have a was_under_15_at_dx NO
 		test "should create nonwaivered case study_subject" <<
@@ -639,7 +639,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert !assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 #	nonwaivered doesn't actually have a was_previously_treated YES
@@ -656,7 +656,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert !assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 #	nonwaivered doesn't actually have a was_ca_resident_at_diagnosis NO
@@ -673,7 +673,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert !assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 #	nonwaivered doesn't actually have other language
@@ -695,7 +695,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert !assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 
@@ -939,7 +939,7 @@ protected
 #			"father_middle_name"=>"", 
 #			"father_last_name"=>"", 
 #			"guardian_relationship_id"=>"", 
-#			"guardian_relationship_other"=>"", 
+#			"other_guardian_relationship"=>"", 
 #			"guardian_first_name"=>"",
 #			"guardian_middle_name"=>"", 
 #			"guardian_last_name"=>"",

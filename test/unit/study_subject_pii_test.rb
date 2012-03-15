@@ -217,20 +217,20 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		assert_equal 'Jack Frost', study_subject.guardians_name 
 	end
 
-	test "should require guardian_relationship_other if " <<
+	test "should require other_guardian_relationship if " <<
 			"guardian_relationship == other" do
 		assert_difference( "StudySubject.count", 0 ) do
 			study_subject = create_study_subject(
 				:guardian_relationship => SubjectRelationship['other'] )
-			assert study_subject.errors.on_attr_and_type?(:guardian_relationship_other,:blank)
+			assert study_subject.errors.on_attr_and_type?(:other_guardian_relationship,:blank)
 		end
 	end
 
-	test "should require guardian_relationship_other with custom message" do
+	test "should require other_guardian_relationship with custom message" do
 		assert_difference( "StudySubject.count", 0 ) do
 			study_subject = create_study_subject(
 				:guardian_relationship => SubjectRelationship['other'] )
-			assert study_subject.errors.on_attr_and_type?(:guardian_relationship_other,:blank)
+			assert study_subject.errors.on_attr_and_type?(:other_guardian_relationship,:blank)
 			assert_match /You must specify a relationship with 'other relationship' is selected/, 
 				study_subject.errors.full_messages.to_sentence
 			assert_no_match /Guardian relationship other/, 

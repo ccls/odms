@@ -299,15 +299,20 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 
 	def assert_other_language_visible
 		assert page.has_css?("#specify_other_language", :visible => true)
-		assert page.has_css?(language_input_css_id('other','other'),:visible => true)
-		assert page.has_field?(language_input_id('other','other'))
-		assert page.find_field(language_input_id('other','other')).visible?
+#		assert page.has_css?(language_input_css_id('other','other'),:visible => true)
+#		assert page.has_field?(language_input_id('other','other'))
+#		assert page.find_field(language_input_id('other','other')).visible?
+		assert page.has_css?(language_input_css_id('other','other_language'),:visible => true)
+		assert page.has_field?(language_input_id('other','other_language'))
+		assert page.find_field(language_input_id('other','other_language')).visible?
 	end
 
 	def assert_other_language_hidden
 		assert page.has_css?("#specify_other_language", :visible => false)
-		assert page.has_css?(language_input_css_id('other','other'),:visible => false)
-		assert !page.find_field(language_input_id('other','other')).visible?
+#		assert page.has_css?(language_input_css_id('other','other'),:visible => false)
+#		assert !page.find_field(language_input_id('other','other')).visible?
+		assert page.has_css?(language_input_css_id('other','other_language'),:visible => false)
+		assert !page.find_field(language_input_id('other','other_language')).visible?
 	end
 
 end

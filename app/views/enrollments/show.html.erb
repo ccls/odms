@@ -25,7 +25,7 @@
 		<%# unless @enrollment.is_eligible? %>
 			<%= wrapped_spans :enrollment, :ineligible_reason,
 				:label_text => 'reason ineligible:' %>
-			<%= wrapped_spans :enrollment, :ineligible_reason_specify,
+			<%= wrapped_spans :enrollment, :other_ineligible_reason,
 				:label_text => 'specify:' %>
 		<%# else %>
 			<%= wrapped_yndk_spans :enrollment, :is_chosen,

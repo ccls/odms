@@ -19,7 +19,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	assert_should_protect(:study_subject_id, :study_subject)
 
 	attributes = %w( completed_on contact_for_related_study document_version_id 
-		ineligible_reason_id ineligible_reason_specify is_candidate is_chosen 
+		ineligible_reason_id other_ineligible_reason is_candidate is_chosen 
 		is_closed is_complete is_eligible notes other_refusal_reason position 
 		provide_saliva_smp reason_closed reason_not_chosen receive_study_findings 
 		recruitment_priority refusal_reason_id refused_by_family refused_by_physician 
@@ -31,7 +31,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	assert_should_require_attribute_length( 
 		:recruitment_priority,
-		:ineligible_reason_specify,
+		:other_ineligible_reason,
 		:other_refusal_reason,
 		:reason_not_chosen,
 		:terminated_reason,
@@ -165,36 +165,36 @@ class EnrollmentTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "should require ineligible_reason_specify if " <<
+	test "should require other_ineligible_reason if " <<
 			"ineligible_reason == other" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(
 				:is_eligible => YNDK[:no],
 				:ineligible_reason => IneligibleReason['other'] )
-			assert enrollment.errors.on(:ineligible_reason_specify)
-			assert enrollment.errors.on_attr_and_type?(:ineligible_reason_specify,:blank)
+			assert enrollment.errors.on(:other_ineligible_reason)
+			assert enrollment.errors.on_attr_and_type?(:other_ineligible_reason,:blank)
 		end
 	end
-	test "should ALLOW ineligible_reason_specify if " <<
+	test "should ALLOW other_ineligible_reason if " <<
 			"ineligible_reason != other" do
 		assert_difference( "Enrollment.count", 1 ) do
 			enrollment = create_subjectless_enrollment(
 				:is_eligible => YNDK[:no],
 				:ineligible_reason => Factory(:ineligible_reason),
-				:ineligible_reason_specify => 'blah blah blah' )
-			assert !enrollment.errors.on(:ineligible_reason_specify)
+				:other_ineligible_reason => 'blah blah blah' )
+			assert !enrollment.errors.on(:other_ineligible_reason)
 		end
 	end
 	[:yes,:dk,:nil].each do |yndk|
-		test "should NOT ALLOW ineligible_reason_specify if " <<
+		test "should NOT ALLOW other_ineligible_reason if " <<
 				"is_eligible == #{yndk}" do
 			assert_difference( "Enrollment.count", 0 ) do
 				enrollment = create_subjectless_enrollment(
 					:is_eligible => YNDK[yndk],
 					:ineligible_reason => Factory(:ineligible_reason),
-					:ineligible_reason_specify => 'blah blah blah' )
-				assert enrollment.errors.on(:ineligible_reason_specify)
-				assert enrollment.errors.on_attr_and_type?(:ineligible_reason_specify,:present)
+					:other_ineligible_reason => 'blah blah blah' )
+				assert enrollment.errors.on(:other_ineligible_reason)
+				assert enrollment.errors.on_attr_and_type?(:other_ineligible_reason,:present)
 			end
 		end
 	end

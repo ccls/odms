@@ -25,8 +25,8 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 </div>
 <div class='subject_language creator'><div id='other_language'><input name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="" /><input id="other_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="checkbox" value="3" />
 <label for="other_language_id">Other (not eligible)</label>
-<div id='specify_other_language'><label for="other_other">specify:</label>
-<input id="other_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" />
+<div id='specify_other_language'><label for="other_other_language">specify:</label>
+<input id="other_other_language" name="study_subject[subject_languages_attributes][2][other_language]" size="12" type="text" />
 </div></div></div>
 <div class='subject_language creator'><input name="study_subject[subject_languages_attributes][3][language_id]" type="hidden" value="" /><input id="unknown_language_id" name="study_subject[subject_languages_attributes][3][language_id]" type="checkbox" value="4" />
 <label for="unknown_language_id">Unknown (eligible)</label>
@@ -69,8 +69,8 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 </div>
 <div class='subject_language creator'><div id='other_language'><input name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="" /><input id="other_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="checkbox" value="3" />
 <label for="other_language_id">Other (not eligible)</label>
-<div id='specify_other_language'><label for="other_other">specify:</label>
-<input id="other_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" />
+<div id='specify_other_language'><label for="other_other_language">specify:</label>
+<input id="other_other_language" name="study_subject[subject_languages_attributes][2][other_language]" size="12" type="text" />
 </div></div></div>
 </div>
 </div><!-- study_subject_languages -->
@@ -80,7 +80,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 
 	test "subject_languages_select English, Spanish, Other with Other" do
 		@study_subject = Factory(:study_subject, :subject_languages_attributes => {
-			'0' => { :language_id => Language['other'].id, :other => 'redneck' } } )
+			'0' => { :language_id => Language['other'].id, :other_language => 'redneck' } } )
 		subject_language_id = @study_subject.subject_language_ids.first	#	this can vary so cannot assume that it will be 1
 		form_for(:study_subject,@study_subject,:url => '/'){|f| 
 			concat f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
@@ -94,8 +94,8 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 </div>
 <div class='subject_language destroyer'><div id='other_language'><input id="study_subject_subject_languages_attributes_2_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="3" /><input name="study_subject[subject_languages_attributes][2][_destroy]" type="hidden" value="1" /><input checked="checked" id="other__destroy" name="study_subject[subject_languages_attributes][2][_destroy]" type="checkbox" value="0" />
 <label for="other__destroy">Other (not eligible)</label>
-<div id='specify_other_language'><label for="other_other">specify:</label>
-<input id="other_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" value="redneck" />
+<div id='specify_other_language'><label for="other_other_language">specify:</label>
+<input id="other_other_language" name="study_subject[subject_languages_attributes][2][other_language]" size="12" type="text" value="redneck" />
 </div></div></div>
 </div>
 </div><!-- study_subject_languages -->

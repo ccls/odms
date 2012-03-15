@@ -28,8 +28,8 @@ div.eligibility_criteria {
 .enrollment .field_wrapper.document_version .label,
 .enrollment .field_wrapper.consented_on .label,
 .enrollment .field_wrapper.consented_on label,
-.enrollment .field_wrapper.ineligible_reason_specify .label,
-.enrollment .field_wrapper.ineligible_reason_specify label,
+.enrollment .field_wrapper.other_ineligible_reason .label,
+.enrollment .field_wrapper.other_ineligible_reason label,
 .enrollment .field_wrapper.ineligible_reason_id label,
 .enrollment .field_wrapper.ineligible_reason .label {
 	text-indent:50px;
@@ -43,11 +43,11 @@ form.enrollment .document_version_id {
 	display:inline-block;
 	vertical-align:top;
 }
-form.enrollment .ineligible_reason_specify label {
+form.enrollment .other_ineligible_reason label {
 	width:auto;
 	clear:left;
 }
-form.enrollment .ineligible_reason_specify #enrollment_ineligible_reason_specify {
+form.enrollment .other_ineligible_reason #enrollment_other_ineligible_reason {
 	width:70%;
 }
 .eligibility_criteria .field_wrapper > span,

@@ -21,7 +21,7 @@ class InterviewTest < ActiveSupport::TestCase
 
 
 	assert_should_require_attribute_length( 
-		:subject_relationship_other, 
+		:other_subject_relationship, 
 		:respondent_first_name,
 		:respondent_last_name, 
 			:maximum => 250 )
@@ -111,39 +111,39 @@ class InterviewTest < ActiveSupport::TestCase
 		assert_equal 'Santa Claus', interview.respondent_full_name
 	end
 
-	test "should require subject_relationship_other if " <<
+	test "should require other_subject_relationship if " <<
 			"subject_relationship == other" do
 		assert_difference( "Interview.count", 0 ) do
 			interview = create_interview(
 				:subject_relationship => SubjectRelationship['other'] )
-			assert interview.errors.on(:subject_relationship_other)
+			assert interview.errors.on(:other_subject_relationship)
 		end
 	end
 
-	test "should NOT ALLOW subject_relationship_other if " <<
+	test "should NOT ALLOW other_subject_relationship if " <<
 			"subject_relationship is blank" do
 		assert_difference( "Interview.count", 0 ) do
 			interview = create_interview(
 				:subject_relationship_id => '',
-				:subject_relationship_other => 'asdfasdf' )
-			assert interview.errors.on(:subject_relationship_other)
+				:other_subject_relationship => 'asdfasdf' )
+			assert interview.errors.on(:other_subject_relationship)
 		end
 	end
 
-	test "should ALLOW subject_relationship_other if " <<
+	test "should ALLOW other_subject_relationship if " <<
 			"subject_relationship != other" do
 		assert_difference( "Interview.count", 1 ) do
 			interview = create_interview(
 				:subject_relationship => Factory(:subject_relationship),
-				:subject_relationship_other => 'asdfasdf' )
+				:other_subject_relationship => 'asdfasdf' )
 		end
 	end
 
-	test "should require subject_relationship_other with custom message" do
+	test "should require other_subject_relationship with custom message" do
 		assert_difference( "Interview.count", 0 ) do
 			interview = create_interview(
 				:subject_relationship => SubjectRelationship['other'] )
-			assert interview.errors.on(:subject_relationship_other)
+			assert interview.errors.on(:other_subject_relationship)
 			assert_match /You must specify a relationship with 'other relationship' is selected/, 
 				interview.errors.full_messages.to_sentence
 			assert_no_match /Subject relationship other/, 

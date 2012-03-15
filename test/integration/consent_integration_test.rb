@@ -6,11 +6,11 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 #		use find_field and visible? for form field names
 #		ie. use this ...
 #			assert !page.find_field(
-#				"study_subject[subject_languages_attributes][2][other]").visible?	
+#				"study_subject[subject_languages_attributes][2][other_language]").visible?	
 				#	specify other hidden
 #		and not ...
 #			assert page.has_field?(
-#				"study_subject[subject_languages_attributes][2][other]", 
+#				"study_subject[subject_languages_attributes][2][other_language]", 
 #					:visible => false)	#	specify other hidden
 #		as the latter will be true if the field is there regardless of if it is visible
 
@@ -31,17 +31,17 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			select "No", :from => 'enrollment[is_eligible]'
 			assert page.find_field('enrollment[ineligible_reason_id]').visible?
 #	choose other reason
-			assert !page.find_field('enrollment[ineligible_reason_specify]').visible?
+			assert !page.find_field('enrollment[other_ineligible_reason]').visible?
 			select "other", :from => 'enrollment[ineligible_reason_id]'
-			assert page.find_field('enrollment[ineligible_reason_specify]').visible?
+			assert page.find_field('enrollment[other_ineligible_reason]').visible?
 #	fill in ineligible reason
-			fill_in 'enrollment[ineligible_reason_specify]', :with => 'Just Testing'
+			fill_in 'enrollment[other_ineligible_reason]', :with => 'Just Testing'
 #	choose eligible
 			select "Yes", :from => 'enrollment[is_eligible]'
 #	These fields are now hidden, but still contain user data
 			assert !page.find_field('enrollment[ineligible_reason_id]').visible?
 #	not nested, so this is actually visible.  Should nest this.
-#			assert !page.find_field('enrollment[ineligible_reason_specify]').visible?
+#			assert !page.find_field('enrollment[other_ineligible_reason]').visible?
 
 #	submit
 			click_button 'Save'
@@ -69,7 +69,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			study_subject = Factory(:case_study_subject, # NOTE CASE subject only (for now?)
 				:subject_languages_attributes => { 
-					'0' => { :language_id => Language['other'].id, :other => 'redneck' }})
+					'0' => { :language_id => Language['other'].id, :other_language => 'redneck' }})
 			login_as send(cu)
 			page.visit edit_study_subject_consent_path(study_subject.id)
 			show_eligibility_criteria_div
@@ -332,7 +332,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 #	});
 		end
 
-		test "should show ineligible_reason_specify if 'Other' reason selected" <<
+		test "should show other_ineligible_reason if 'Other' reason selected" <<
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -343,17 +343,17 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			select "No", :from => 'enrollment[is_eligible]'
 			assert page.find_field('enrollment[ineligible_reason_id]').visible?
 
-			assert !page.find_field('enrollment[ineligible_reason_specify]').visible?
+			assert !page.find_field('enrollment[other_ineligible_reason]').visible?
 #	case sensitive? yep.
 			select "other", :from => 'enrollment[ineligible_reason_id]'
-			assert page.find_field('enrollment[ineligible_reason_specify]').visible?
+			assert page.find_field('enrollment[other_ineligible_reason]').visible?
 			select "", :from => 'enrollment[ineligible_reason_id]'
-			assert !page.find_field('enrollment[ineligible_reason_specify]').visible?
+			assert !page.find_field('enrollment[other_ineligible_reason]').visible?
 			select "other", :from => 'enrollment[ineligible_reason_id]'
-			assert page.find_field('enrollment[ineligible_reason_specify]').visible?
+			assert page.find_field('enrollment[other_ineligible_reason]').visible?
 
 #	jQuery('#enrollment_ineligible_reason_id').smartShow({
-#		what: '.ineligible_reason_specify.field_wrapper',
+#		what: '.other_ineligible_reason.field_wrapper',
 #		when: function(){ 
 #			return /other/i.test( 
 #				$('#enrollment_ineligible_reason_id option:selected').text() ) }

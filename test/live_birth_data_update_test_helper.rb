@@ -41,7 +41,7 @@ module LiveBirthDataUpdateTestHelper
 	end
 
 	def csv_file_header_array
-		%w{masterid ca_co_status biomom biodad date mother_full_name mother_maiden_name father_full_name child_full_name child_dobm child_dobd child_doby child_gender birthplace_country birthplace_state birthplace_city mother_hispanicity mother_hispanicity_mex mother_race mother_race_other father_hispanicity father_hispanicity_mex father_race father_race_other}
+		%w{masterid ca_co_status biomom biodad date mother_full_name mother_maiden_name father_full_name child_full_name child_dobm child_dobd child_doby child_gender birthplace_country birthplace_state birthplace_city mother_hispanicity mother_hispanicity_mex mother_race other_mother_race father_hispanicity father_hispanicity_mex father_race other_father_race}
 	end
 
 	def csv_file_header
@@ -89,11 +89,11 @@ module LiveBirthDataUpdateTestHelper
 			:mother_hispanicity => 2,
 			:mother_hispanicity_mex => 2,
 			:mother_race => 1,
-			:mother_race_other => nil,
+			:other_mother_race => nil,
 			:father_hispanicity => 2,
 			:father_hispanicity_mex => 2,
 			:father_race => 1,
-			:father_race_other => nil }
+			:other_father_race => nil }
 	end
 
 	def turn_off_paperclip_logging

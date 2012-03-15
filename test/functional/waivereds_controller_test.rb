@@ -32,7 +32,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
 					end
 					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
-						assert_select("input[type=text][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+						assert_select("input[type=text][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other_language\]/)
 					}
 			} }
 		end
@@ -614,7 +614,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 
@@ -633,7 +633,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert !assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 		test "should create waivered case study_subject" <<
@@ -649,7 +649,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert !assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 		test "should create waivered case study_subject" <<
@@ -665,7 +665,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert !assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 		test "should create waivered case study_subject" <<
@@ -675,7 +675,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			waivered_successful_creation({ 'study_subject' => {
 				'subject_languages_attributes' => {
 					'0' => {'language_id' => '' },
-					'2' => {'language_id' => Language['other'].id, 'other' => 'something else' }
+					'2' => {'language_id' => Language['other'].id, 'other_language' => 'something else' }
 					} } } )
 			#	assert languages DO NOT include english or spanish
 			assert !assigns(:study_subject).language_ids.include?(Language['english'].id) and
@@ -686,7 +686,7 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 				Project['ccls'].id).ineligible_reason_id
 			assert !assigns(:study_subject).enrollments.find_by_project_id(
-				Project['ccls'].id).ineligible_reason_specify.blank?
+				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
 
@@ -880,7 +880,7 @@ protected
 #			"subject_languages_attributes"=>{
 #				"0"=>{"language_id"=>"1"}, 
 #				"1"=>{"language_id"=>""}, 
-#				"2"=>{"language_id"=>"", "other"=>""}
+#				"2"=>{"language_id"=>"", "other_language"=>""}
 #			}, 
 #			"sex"=>"M", 
 #			"dob" => Date.jd(2440000+rand(15000)),
@@ -895,7 +895,7 @@ protected
 #			"father_middle_name"=>"", 
 #			"father_last_name"=>"", 
 #			"guardian_relationship_id"=>"", 
-#			"guardian_relationship_other"=>"", 
+#			"other_guardian_relationship"=>"", 
 #			"guardian_first_name"=>"",
 #			"guardian_middle_name"=>"", 
 #			"guardian_last_name"=>"",

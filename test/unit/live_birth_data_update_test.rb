@@ -254,11 +254,11 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 			assert_equal candidate_control.mother_hispanicity_id, control[:mother_hispanicity]
 #control[:mother_hispanicity_mex]},#{
 			assert_equal candidate_control.mother_race_id, control[:mother_race]
-#control[:mother_race_other]},#{
+#control[:other_mother_race]},#{
 			assert_equal candidate_control.father_hispanicity_id, control[:father_hispanicity]
 #control[:father_hispanicity_mex]},#{
 			assert_equal candidate_control.father_race_id, control[:father_race]
-#control[:father_race_other]}} }
+#control[:other_father_race]}} }
 		}
 		cleanup_live_birth_data_update_and_test_file(live_birth_data_update)
 	end

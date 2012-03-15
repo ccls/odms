@@ -12,7 +12,7 @@ jQuery(function(){
 	});
 
 	jQuery('#enrollment_ineligible_reason_id').smartShow({
-		what: '.ineligible_reason_specify.field_wrapper',
+		what: '.other_ineligible_reason.field_wrapper',
 		when: function(){ 
 			return /other/i.test( 
 				$('#enrollment_ineligible_reason_id option:selected').text() ) }

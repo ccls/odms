@@ -17,7 +17,7 @@
 	:label_text => 'is eligible?' %>
 <%= wrapped_spans :enrollment, :ineligible_reason,
 	:label_text => 'reason ineligible:' %>
-<%= wrapped_spans :enrollment, :ineligible_reason_specify,
+<%= wrapped_spans :enrollment, :other_ineligible_reason,
 	:label_text => 'specify:' %>
 
 <% if @enrollment.study_subject.is_case? && !@enrollment.study_subject.patient.nil? %>

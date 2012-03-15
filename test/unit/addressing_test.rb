@@ -110,21 +110,21 @@ class AddressingTest < ActiveSupport::TestCase
 #	end
 
 
-	test "should require data_source_other if data_source is other" do
+	test "should require other_data_source if data_source is other" do
 		assert_difference( "Addressing.count", 0 ) {
 #		assert_difference( "Address.count", 0 ) {
 			#	The factory will create the associations regardless
 			#	so an Address and StudySubject gets created regardless
 			addressing = create_addressing( :data_source => DataSource['Other'] )
-			assert addressing.errors.on_attr_and_type?(:data_source_other,:blank)
+			assert addressing.errors.on_attr_and_type?(:other_data_source,:blank)
 		} # }
 	end
 
-	test "should NOT require data_source_other if data_source is not other" do
+	test "should NOT require other_data_source if data_source is not other" do
 		assert_difference( "Address.count", 1 ) {
 		assert_difference( "Addressing.count", 1 ) {
 			addressing = create_addressing( :data_source => DataSource['raf'])
-			assert !addressing.errors.on_attr_and_type?(:data_source_other,:blank)
+			assert !addressing.errors.on_attr_and_type?(:other_data_source,:blank)
 		} }
 	end
 

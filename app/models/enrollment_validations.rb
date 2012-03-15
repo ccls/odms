@@ -23,10 +23,10 @@ base.class_eval do
 		:unless => :is_not_eligible?
 	validates_presence_of :ineligible_reason, :if => :ineligible_reason_id
 
-	validates_presence_of :ineligible_reason_specify,
+	validates_presence_of :other_ineligible_reason,
 		:message => 'required if ineligible reason is Other',
 		:if => :ineligible_reason_is_other?
-	validates_absence_of :ineligible_reason_specify,
+	validates_absence_of :other_ineligible_reason,
 		:message => 'not allowed unless is_eligible is No',
 		:unless => :is_not_eligible?
 
@@ -88,7 +88,7 @@ base.class_eval do
 	validates_complete_date_for :completed_on, :allow_nil => true
 
 	validates_length_of :recruitment_priority,      :maximum => 250, :allow_blank => true
-	validates_length_of :ineligible_reason_specify, :maximum => 250, :allow_blank => true
+	validates_length_of :other_ineligible_reason,   :maximum => 250, :allow_blank => true
 	validates_length_of :other_refusal_reason,      :maximum => 250, :allow_blank => true
 	validates_length_of :reason_not_chosen,         :maximum => 250, :allow_blank => true
 	validates_length_of :terminated_reason,         :maximum => 250, :allow_blank => true

@@ -4,7 +4,7 @@
 .enrollment .field_wrapper.refusal_reason .label,
 .enrollment .field_wrapper.document_version .label,
 .enrollment .field_wrapper.consented_on .label,
-.enrollment .field_wrapper.ineligible_reason_specify .label,
+.enrollment .field_wrapper.other_ineligible_reason .label,
 .enrollment .field_wrapper.ineligible_reason .label,
 .enrollment .field_wrapper.reason_not_chosen  .label{
 	text-indent:50px;

@@ -30,7 +30,7 @@ class Addressing < ActiveRecord::Base
 	validates_complete_date_for :valid_from, :allow_nil => true
 	validates_complete_date_for :valid_to,   :allow_nil => true
 
-	validates_presence_of :data_source_other, :if => :data_source_is_other?
+	validates_presence_of :other_data_source, :if => :data_source_is_other?
 
 
 

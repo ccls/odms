@@ -6,6 +6,6 @@ class SubjectLanguage < ActiveRecord::Base
 
 	delegate :is_other?, :to => :language, :allow_nil => true, :prefix => true
 
-	validates_presence_of :other, :if => :language_is_other?
+	validates_presence_of :other_language, :if => :language_is_other?
 
 end

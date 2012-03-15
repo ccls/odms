@@ -29,7 +29,7 @@
 <%= f.wrapped_collection_select :ineligible_reason_id,
 	IneligibleReason.all, :id, :to_s, :include_blank => true,
 	:label_text => 'reason ineligible:' %>
-<%= f.wrapped_text_field :ineligible_reason_specify,
+<%= f.wrapped_text_field :other_ineligible_reason,
 	:label_text => 'specify:' %>
 
 <%= f.wrapped_yndk_select :is_chosen,

@@ -401,7 +401,7 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.datetime "verified_on"
     t.string   "verified_by_uid"
     t.integer  "data_source_id"
-    t.string   "data_source_other"
+    t.string   "other_data_source"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -593,7 +593,7 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "is_candidate"
     t.integer  "is_eligible"
     t.integer  "ineligible_reason_id"
-    t.string   "ineligible_reason_specify"
+    t.string   "other_ineligible_reason"
     t.integer  "consented"
     t.date     "consented_on"
     t.integer  "refusal_reason_id"
@@ -996,7 +996,7 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "respondent_first_name"
     t.string   "respondent_last_name"
     t.integer  "subject_relationship_id"
-    t.string   "subject_relationship_other"
+    t.string   "other_subject_relationship"
     t.date     "intro_letter_sent_on"
     t.boolean  "consent_read_over_phone"
     t.boolean  "respondent_requested_new_consent"
@@ -1137,7 +1137,7 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.datetime "verified_on"
     t.string   "verified_by_uid"
     t.integer  "current_phone",     :default => 1
-    t.string   "data_source_other"
+    t.string   "other_data_source"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -1360,7 +1360,7 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "guardian_middle_name"
     t.string   "guardian_last_name"
     t.integer  "guardian_relationship_id"
-    t.string   "guardian_relationship_other"
+    t.string   "other_guardian_relationship"
     t.integer  "mother_race_id"
     t.integer  "father_race_id"
     t.string   "maiden_name"
@@ -1370,8 +1370,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "birth_city"
     t.string   "birth_state"
     t.string   "birth_country"
-    t.string   "mother_race_other"
-    t.string   "father_race_other"
+    t.string   "other_mother_race"
+    t.string   "other_father_race"
     t.integer  "childid"
     t.string   "patid",                       :limit => 4
     t.string   "case_control_type",           :limit => 1
@@ -1421,7 +1421,7 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
   create_table "subject_languages", :force => true do |t|
     t.integer  "study_subject_id"
     t.integer  "language_id"
-    t.string   "other"
+    t.string   "other_language"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -1430,7 +1430,7 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "study_subject_id"
     t.integer  "race_id"
     t.boolean  "is_primary",       :default => false, :null => false
-    t.string   "other"
+    t.string   "other_race"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

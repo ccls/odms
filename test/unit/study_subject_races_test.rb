@@ -153,14 +153,14 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT create study_subject with subject_races_attributes " <<
-			"if race is other and no other given" do
+			"if race is other_race and no other given" do
 		assert Race.count > 0
 		assert_difference( 'SubjectRace.count', 0 ){
 		assert_difference( "StudySubject.count", 0 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {
 				'0' => { :race_id => Race['other'].id }
 			})
-			assert @study_subject.errors.on_attr_and_type?("subject_races.other",:blank)
+			assert @study_subject.errors.on_attr_and_type?("subject_races.other_race",:blank)
 		} }
 	end
 

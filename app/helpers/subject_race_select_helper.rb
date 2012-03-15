@@ -103,8 +103,8 @@ protected
 
 	def specify_other_race
 		s =  "<div id='specify_other_race'>"
-		s << self.label( :other, 'specify:', :for => 'race_other_other' ) << "\n"
-		s << self.text_field( :other, :size => 12, :id => 'race_other_other' ) << "\n"
+		s << self.label( :other_race, 'specify:', :for => 'race_other_other_race' ) << "\n"
+		s << self.text_field( :other_race, :size => 12, :id => 'race_other_other_race' ) << "\n"
 		s << "</div>"	# id='other_race'>"
 	end
 

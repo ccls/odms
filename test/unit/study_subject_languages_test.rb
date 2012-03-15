@@ -104,14 +104,14 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT create study_subject with subject_languages_attributes " <<
-			"if language is other and no other given" do
+			"if language is other and no other_language given" do
 		assert Language.count > 0
 		assert_difference( 'SubjectLanguage.count', 0 ){
 		assert_difference( "StudySubject.count", 0 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => {
 				'0' => { :language_id => Language['other'].id }
 			})
-			assert @study_subject.errors.on_attr_and_type?("subject_languages.other",:blank)
+			assert @study_subject.errors.on_attr_and_type?("subject_languages.other_language",:blank)
 		} }
 	end
 

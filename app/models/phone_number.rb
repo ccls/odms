@@ -24,7 +24,7 @@ class PhoneNumber < ActiveRecord::Base
 
 	validates_presence_of :why_invalid,       :if => :is_not_valid?
 	validates_presence_of :how_verified,      :if => :is_verified?
-	validates_presence_of :data_source_other, :if => :data_source_is_other?
+	validates_presence_of :other_data_source, :if => :data_source_is_other?
 	validates_length_of   :why_invalid,  :maximum => 250, :allow_blank => true
 	validates_length_of   :how_verified, :maximum => 250, :allow_blank => true
 

@@ -50,7 +50,7 @@ class ConsentsControllerTest < ActionController::TestCase
 #					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
 					assert_select("div#specify_other_language",1 ){
 						assert_select("input[type=text][name=?]",
-							/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+							/study_subject\[subject_languages_attributes\]\[\d\]\[other_language\]/)
 					}
 			} }
 		end
@@ -94,7 +94,7 @@ class ConsentsControllerTest < ActionController::TestCase
 #					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
 					assert_select("div#specify_other_language",1 ){
 						assert_select("input[type=text][name=?]",
-							/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+							/study_subject\[subject_languages_attributes\]\[\d\]\[other_language\]/)
 					}
 			} }
 		end
@@ -105,14 +105,14 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
 					:subject_languages_attributes => {			
-						'0' => { :other => 'redneck', :language_id => language.id }
+						'0' => { :other_language => 'redneck', :language_id => language.id }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
 #			assert_select("div.subject_language.destroyer > div#other_language > div#specify_other_language",1 ){
 			assert_select("div#specify_other_language",1 ){
 				assert_select("input[type=text][value=redneck][name=?]",
-					/study_subject\[subject_languages_attributes\]\[\d\]\[other\]/)
+					/study_subject\[subject_languages_attributes\]\[\d\]\[other_language\]/)
 			}
 		end
 

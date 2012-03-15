@@ -5,8 +5,8 @@
 .interview .field_wrapper .label {
 	width: 160px;
 }
-.interview .subject_relationship_other .label,
-.edit_interview .subject_relationship_other label {
+.interview .other_subject_relationship .label,
+.edit_interview .other_subject_relationship label {
 	text-align:center;
 }
 

@@ -80,8 +80,8 @@ protected
 	#	should really change this to language_other_other for clarity
 	def specify_other_language
 		s =  "<div id='specify_other_language'>"
-		s << self.label( :other, 'specify:', :for => 'other_other' ) << "\n"
-		s << self.text_field( :other, :size => 12, :id => 'other_other' ) << "\n"
+		s << self.label( :other_language, 'specify:', :for => 'other_other_language' ) << "\n"
+		s << self.text_field( :other_language, :size => 12, :id => 'other_other_language' ) << "\n"
 		s << "</div>"	# id='other_language'>"
 	end
 

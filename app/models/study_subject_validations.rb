@@ -36,7 +36,7 @@ base.class_eval do
 	  :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
 		:allow_blank => true
 
-	validate :presence_of_guardian_relationship_other,
+	validate :presence_of_other_guardian_relationship,
 		:if => :guardian_relationship_is_other?
 
 	validates_presence_of :birth_city,
@@ -65,11 +65,11 @@ base.class_eval do
 	validates_length_of :gbid, 
 			:maximum => 26, :allow_blank => true
 	validates_length_of :first_name, :last_name, 
-		:middle_name, :maiden_name, :guardian_relationship_other,
+		:middle_name, :maiden_name, :other_guardian_relationship,
 		:father_first_name, :father_middle_name, :father_last_name,
 		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
 		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
-		:mother_race_other, :father_race_other,
+		:other_mother_race, :other_father_race,
 		:birth_city, :birth_state, :birth_country,
 		:state_id_no, :state_registrar_no, :local_registrar_no,
 		:lab_no, :related_childid, :related_case_childid,
@@ -96,9 +96,9 @@ protected
 	end
 
 	#	custom validation for custom message without standard attribute prefix
-	def presence_of_guardian_relationship_other
-		if guardian_relationship_other.blank?
-			errors.add(:guardian_relationship_other, ActiveRecord::Error.new(
+	def presence_of_other_guardian_relationship
+		if other_guardian_relationship.blank?
+			errors.add(:other_guardian_relationship, ActiveRecord::Error.new(
 				self, :base, :blank, { 
 					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
 		end

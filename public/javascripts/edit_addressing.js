@@ -24,7 +24,7 @@ jQuery(function(){
 	});
 
 	jQuery('#addressing_data_source_id').smartShow({
-		what: '.data_source_other.field_wrapper',
+		what: '.other_data_source.field_wrapper',
 		when: function(){ 
 			return /Other Source/.test( 
 				$('#addressing_data_source_id option:selected').text() ) }

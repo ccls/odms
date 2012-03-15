@@ -45,17 +45,17 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		assert_equal phone_number.phone_number, "#{phone_number}"
 	end
 
-	test "should require data_source_other if data_source is other" do
+	test "should require other_data_source if data_source is other" do
 		assert_difference( "PhoneNumber.count", 0 ) do
 			phone_number = create_phone_number( :data_source => DataSource['Other'])
-			assert phone_number.errors.on_attr_and_type?(:data_source_other,:blank)
+			assert phone_number.errors.on_attr_and_type?(:other_data_source,:blank)
 		end
 	end
 
-	test "should NOT require data_source_other if data_source is not other" do
+	test "should NOT require other_data_source if data_source is not other" do
 		assert_difference( "PhoneNumber.count", 1 ) do
 			phone_number = create_phone_number( :data_source => DataSource['raf'])
-			assert !phone_number.errors.on_attr_and_type?(:data_source_other,:blank)
+			assert !phone_number.errors.on_attr_and_type?(:other_data_source,:blank)
 		end
 	end
 

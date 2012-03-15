@@ -5,9 +5,9 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 #	has_field? ignores visibility and the :visible option!!!!!
 #		use find_field and visible? for form field names
 #		ie. use this ...
-#			assert !page.find_field("study_subject[subject_languages_attributes][2][other]").visible?	#	specify other hidden
+#			assert !page.find_field("study_subject[subject_languages_attributes][2][other_language]").visible?	#	specify other hidden
 #		and not ...
-#			assert page.has_field?("study_subject[subject_languages_attributes][2][other]", :visible => false)	#	specify other hidden
+#			assert page.has_field?("study_subject[subject_languages_attributes][2][other_language]", :visible => false)	#	specify other hidden
 #		as the latter will be true if the field is there regardless of if it is visible
 
 	site_editors.each do |cu|
