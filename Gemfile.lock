@@ -1,0 +1,109 @@
+GEM
+  remote: http://rubygems.org/
+  remote: http://gems.rubyforge.org/
+  remote: http://gemcutter.org/
+  remote: http://gems.github.com/
+  specs:
+    RedCloth (4.2.7)
+    ZenTest (4.5.0)
+    actionmailer (2.3.14)
+      actionpack (= 2.3.14)
+    actionpack (2.3.14)
+      activesupport (= 2.3.14)
+      rack (~> 1.1.0)
+    activerecord (2.3.14)
+      activesupport (= 2.3.14)
+    activeresource (2.3.14)
+      activesupport (= 2.3.14)
+    activesupport (2.3.14)
+    arel (2.0.2)
+    autotest-rails (4.1.2)
+      ZenTest (~> 4.5)
+    aws-s3 (0.6.2)
+      builder
+      mime-types
+      xml-simple
+    builder (3.0.0)
+    ccls-common_lib (0.1.9)
+      actionpack (~> 2)
+      activerecord (~> 2)
+      activeresource (~> 2)
+      activesupport (~> 2)
+      rails (~> 2)
+      ryanb-acts-as-list
+      ssl_requirement (>= 0.1.0)
+    ccls-html_test (0.2.3)
+    ccls-simply_authorized (1.4.1)
+      ccls-common_lib
+      rails (~> 2)
+      ryanb-acts-as-list
+    chronic (0.6.7)
+    cocaine (0.2.1)
+    fastercsv (1.5.4)
+    git (1.2.5)
+    haml (3.1.4)
+    hpricot (0.8.6)
+    i18n (0.6.0)
+    jeweler (1.8.3)
+      bundler (~> 1.0)
+      git (>= 1.2.5)
+      rake
+      rdoc
+    jrails (0.6.0)
+    json (1.6.5)
+    mime-types (1.17.2)
+    mysql (2.8.1)
+    packet (0.1.15)
+    paperclip (2.4.2)
+      activerecord (>= 2.3.0)
+      activesupport (>= 2.3.2)
+      cocaine (>= 0.0.2)
+      mime-types
+    rack (1.1.3)
+    rails (2.3.14)
+      actionmailer (= 2.3.14)
+      actionpack (= 2.3.14)
+      activerecord (= 2.3.14)
+      activeresource (= 2.3.14)
+      activesupport (= 2.3.14)
+      rake (>= 0.8.3)
+    rake (0.8.7)
+    rcov (1.0.0)
+    rdoc (3.12)
+      json (~> 1.4)
+    ryanb-acts-as-list (0.1.2)
+    ssl_requirement (0.1.0)
+    thoughtbot-factory_girl (1.2.2)
+    will_paginate (2.3.16)
+    xml-simple (1.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  RedCloth (< 4.2.8)
+  ZenTest (~> 4.5.0)
+  arel (= 2.0.2)
+  autotest-rails
+  aws-s3
+  ccls-common_lib
+  ccls-html_test
+  ccls-simply_authorized
+  chronic
+  fastercsv
+  haml
+  hpricot
+  i18n
+  jeweler
+  jrails
+  mysql
+  packet
+  paperclip (= 2.4.2)
+  rails (~> 2)
+  rake (= 0.8.7)
+  rcov
+  rdoc
+  ryanb-acts-as-list
+  ssl_requirement
+  thoughtbot-factory_girl
+  will_paginate (~> 2)

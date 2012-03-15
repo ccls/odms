@@ -60,7 +60,7 @@ gem "will_paginate", "~>2"
 #gem "ccls-calnet_authenticated"
 #gem "ccls-ccls_engine"
 gem "ccls-common_lib"
-gem "ccls-simply_authorized"
+#gem "ccls-simply_authorized"
 #gem "ccls-use_db"
 
 #if RUBY_PLATFORM =~ /java/
