@@ -5,13 +5,24 @@ class StudySubject < ActiveRecord::Base
 	class NotTwoAbstracts < StandardError; end
 	class DuplicatesFound < StandardError; end
 
+	belongs_to :subject_type
+	belongs_to :vital_status
+
+	has_and_belongs_to_many :analyses
+	has_many :gift_cards
+	has_many :phone_numbers
+	has_many :samples
+	has_one :home_exposure_response
+	has_many :bc_requests
+	belongs_to :guardian_relationship, :class_name => 'SubjectRelationship'
+
 	#	This is purely an attempt at organization.
 	#	Initially, this was by purpose, but now modifying to
 	#	be by association or topic as this seems more logical.
 	#	Also trying to map this same organization in the tests
 	#	so that autotest triggers the more likely effected tests.
-	include StudySubjectAssociations
-	include StudySubjectValidations
+#	include StudySubjectAssociations
+#	include StudySubjectValidations
 
 	include StudySubjectPatient
 	include StudySubjectPii
@@ -49,6 +60,77 @@ class StudySubject < ActiveRecord::Base
 	accepts_nested_attributes_for :phone_numbers,
 		:reject_if => proc { |attrs| attrs[:phone_number].blank? }
 	accepts_nested_attributes_for :gift_cards
+
+	validates_presence_of :subject_type_id
+	validates_presence_of :subject_type, :if => :subject_type_id
+
+	validate :presence_of_sex
+	validates_inclusion_of :sex, :in => %w( M F DK ), :allow_blank => true
+#	validates_inclusion_of :sex, :in => valid_sex_values, :allow_blank => true
+	validates_inclusion_of :do_not_contact, :in => [ true, false ]
+
+	validates_complete_date_for :reference_date, :allow_nil => true
+
+	validate :presence_of_dob, :unless => :is_mother?
+	validates_complete_date_for :dob, :allow_nil => true
+	validates_past_date_for     :dob, :allow_nil => true
+	validates_complete_date_for :died_on, :allow_nil => true
+	validates_uniqueness_of     :email, :icf_master_id, :state_id_no, 
+:childid, :studyid,
+		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
+		:accession_no, :idno_wiemels, :studyid, :subjectid, :allow_nil => true
+#
+#	patid IS NOT UNIQUE as will be shared by controls
+#	childid and studyid should be
+#
+
+	validates_format_of :email,
+	  :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
+		:allow_blank => true
+
+	validate :presence_of_other_guardian_relationship,
+		:if => :guardian_relationship_is_other?
+
+	validates_presence_of :birth_city,
+		:if => :birth_country_is_united_states?
+	validates_presence_of :birth_state,
+		:if => :birth_country_is_united_states?
+
+	validates_length_of :case_control_type, :is => 1, :allow_nil => true
+
+	validates_length_of     :ssn, :maximum => 250, :allow_nil => true
+	validates_uniqueness_of :ssn, :allow_nil => true
+	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
+		:message => "should be formatted ###-##-####", :allow_nil => true
+
+ 	validates_length_of :birth_year, 
+			:maximum => 4, :allow_blank => true
+	validates_length_of :newid, 
+			:maximum => 6, :allow_blank => true
+	validates_length_of :icf_master_id, 
+			:maximum => 9, :allow_blank => true
+	validates_length_of :childidwho, :idno_wiemels, 
+ 		:generational_suffix, :father_generational_suffix, 
+			:maximum => 10, :allow_blank => true
+	validates_length_of :lab_no_wiemels, :accession_no, 
+			:maximum => 25, :allow_blank => true
+	validates_length_of :gbid, 
+			:maximum => 26, :allow_blank => true
+	validates_length_of :first_name, :last_name, 
+		:middle_name, :maiden_name, :other_guardian_relationship,
+		:father_first_name, :father_middle_name, :father_last_name,
+		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
+		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
+		:other_mother_race, :other_father_race,
+		:birth_city, :birth_state, :birth_country,
+		:state_id_no, :state_registrar_no, :local_registrar_no,
+		:lab_no, :related_childid, :related_case_childid,
+			:maximum => 250, :allow_blank => true
+
+
+	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
+			:in => YNDK.valid_values, :allow_nil => true
+
 
 	def to_s
 		[childid,'(',studyid,full_name,')'].compact.join(' ')
@@ -144,6 +226,37 @@ class StudySubject < ActiveRecord::Base
 
 protected
 
+	# custom validation for custom message without standard attribute prefix
+	def presence_of_sex
+		if sex.blank?
+			errors.add(:sex, ActiveRecord::Error.new(
+				self, :base, :blank, {
+					:message => "No sex has been chosen." } ) )
+		end
+	end
+
+	def birth_country_is_united_states?
+		birth_country == 'United States'
+	end
+
+	#	custom validation for custom message without standard attribute prefix
+	def presence_of_other_guardian_relationship
+		if other_guardian_relationship.blank?
+			errors.add(:other_guardian_relationship, ActiveRecord::Error.new(
+				self, :base, :blank, { 
+					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
+		end
+	end
+
+	#	custom validation for custom message without standard attribute prefix
+	def presence_of_dob
+		if dob.blank?
+			errors.add(:dob, ActiveRecord::Error.new(
+				self, :base, :blank, { 
+					:message => "Date of birth can't be blank." } ) )
+		end
+	end
+
 	#	Use these to stop the constant checking.
 	def self.subject_type_mother_id
 		@@subject_type_mother_id ||= SubjectType['Mother'].id
@@ -156,3 +269,4 @@ protected
 	end
 
 end
+__END__
