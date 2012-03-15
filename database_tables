@@ -401,7 +401,7 @@ Table: addressings
 | verified_on          | datetime     | YES  |     | NULL    |                |
 | verified_by_uid      | varchar(255) | YES  |     | NULL    |                |
 | data_source_id       | int(11)      | YES  |     | NULL    |                |
-| data_source_other    | varchar(255) | YES  |     | NULL    |                |
+| other_data_source    | varchar(255) | YES  |     | NULL    |                |
 | created_at           | datetime     | YES  |     | NULL    |                |
 | updated_at           | datetime     | YES  |     | NULL    |                |
 +----------------------+--------------+------+-----+---------+----------------+
@@ -607,7 +607,7 @@ Table: enrollments
 | is_candidate                | int(11)      | YES  |     | NULL    |                |
 | is_eligible                 | int(11)      | YES  |     | NULL    |                |
 | ineligible_reason_id        | int(11)      | YES  |     | NULL    |                |
-| ineligible_reason_specify   | varchar(255) | YES  |     | NULL    |                |
+| other_ineligible_reason     | varchar(255) | YES  |     | NULL    |                |
 | consented                   | int(11)      | YES  |     | NULL    |                |
 | consented_on                | date         | YES  |     | NULL    |                |
 | refusal_reason_id           | int(11)      | YES  |     | NULL    |                |
@@ -1026,7 +1026,7 @@ Table: interviews
 | respondent_first_name            | varchar(255) | YES  |     | NULL    |                |
 | respondent_last_name             | varchar(255) | YES  |     | NULL    |                |
 | subject_relationship_id          | int(11)      | YES  |     | NULL    |                |
-| subject_relationship_other       | varchar(255) | YES  |     | NULL    |                |
+| other_subject_relationship       | varchar(255) | YES  |     | NULL    |                |
 | intro_letter_sent_on             | date         | YES  |     | NULL    |                |
 | consent_read_over_phone          | tinyint(1)   | YES  |     | NULL    |                |
 | respondent_requested_new_consent | tinyint(1)   | YES  |     | NULL    |                |
@@ -1176,7 +1176,7 @@ Table: phone_numbers
 | verified_on       | datetime     | YES  |     | NULL    |                |
 | verified_by_uid   | varchar(255) | YES  |     | NULL    |                |
 | current_phone     | int(11)      | YES  |     | 1       |                |
-| data_source_other | varchar(255) | YES  |     | NULL    |                |
+| other_data_source | varchar(255) | YES  |     | NULL    |                |
 | created_at        | datetime     | YES  |     | NULL    |                |
 | updated_at        | datetime     | YES  |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
@@ -1413,7 +1413,7 @@ Table: study_subjects
 | guardian_middle_name        | varchar(255) | YES  |     | NULL    |                |
 | guardian_last_name          | varchar(255) | YES  |     | NULL    |                |
 | guardian_relationship_id    | int(11)      | YES  |     | NULL    |                |
-| guardian_relationship_other | varchar(255) | YES  |     | NULL    |                |
+| other_guardian_relationship | varchar(255) | YES  |     | NULL    |                |
 | mother_race_id              | int(11)      | YES  |     | NULL    |                |
 | father_race_id              | int(11)      | YES  |     | NULL    |                |
 | maiden_name                 | varchar(255) | YES  |     | NULL    |                |
@@ -1423,8 +1423,8 @@ Table: study_subjects
 | birth_city                  | varchar(255) | YES  |     | NULL    |                |
 | birth_state                 | varchar(255) | YES  |     | NULL    |                |
 | birth_country               | varchar(255) | YES  |     | NULL    |                |
-| mother_race_other           | varchar(255) | YES  |     | NULL    |                |
-| father_race_other           | varchar(255) | YES  |     | NULL    |                |
+| other_mother_race           | varchar(255) | YES  |     | NULL    |                |
+| other_father_race           | varchar(255) | YES  |     | NULL    |                |
 | childid                     | int(11)      | YES  | UNI | NULL    |                |
 | patid                       | varchar(4)   | YES  | MUL | NULL    |                |
 | case_control_type           | varchar(1)   | YES  |     | NULL    |                |
@@ -1460,7 +1460,7 @@ Table: subject_languages
 | id               | int(11)      | NO   | PRI | NULL    | auto_increment |
 | study_subject_id | int(11)      | YES  |     | NULL    |                |
 | language_id      | int(11)      | YES  |     | NULL    |                |
-| other            | varchar(255) | YES  |     | NULL    |                |
+| other_language   | varchar(255) | YES  |     | NULL    |                |
 | created_at       | datetime     | YES  |     | NULL    |                |
 | updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
@@ -1472,7 +1472,7 @@ Table: subject_races
 | study_subject_id | int(11)      | YES  |     | NULL    |                |
 | race_id          | int(11)      | YES  |     | NULL    |                |
 | is_primary       | tinyint(1)   | NO   |     | 0       |                |
-| other            | varchar(255) | YES  |     | NULL    |                |
+| other_race       | varchar(255) | YES  |     | NULL    |                |
 | created_at       | datetime     | YES  |     | NULL    |                |
 | updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
@@ -1576,4 +1576,4 @@ Table: zip_codes
 | updated_at | datetime     | YES  |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 /Users/jakewendt/github_repo/ccls/odms
-Wed Mar 14 15:08:07 -0700 2012
+Thu Mar 15 09:43:04 -0700 2012
