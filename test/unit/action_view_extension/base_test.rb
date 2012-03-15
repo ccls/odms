@@ -10,13 +10,7 @@ class SomeModel
 	end
 end
 
-#	needed for wrapped_*_spans and wrapped_*_select
-#require 'common_lib/action_view_extension'
-
 class ActionViewExtension::BaseTest < ActionView::TestCase
-
-	#	needed for wrapped_*_spans and wrapped_*_select
-#	include CommonLib::ActionViewExtension::Base 
 
 	test "adna(1) should return 'Agree'" do
 		assert_equal 'Agree', adna(1)
@@ -205,10 +199,6 @@ class ActionViewExtension::BaseTest < ActionView::TestCase
 			assert_select 'span.value', '&nbsp;', 1
 		end
 	end
-#end
-
-#module CommonLib::ActionViewExtension; end
-#class CommonLib::ActionViewExtension::BaseTest < ActionView::TestCase
 
 	def flash
 		{:notice => "Hello There"}

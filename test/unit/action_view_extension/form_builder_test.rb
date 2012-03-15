@@ -12,15 +12,10 @@ class SomeModel
 	end
 end
 
-#	needed for wrapped_*_spans and wrapped_*_select
-#require 'common_lib/action_view_extension'
-
 class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 
 	#	needed for field_wrapper
-#	include CommonLib::ActionViewExtension::Base
-	#	needed for wrapped_*_spans and wrapped_*_select
-#	include CommonLib::ActionViewExtension::FormBuilder
+	include ActionViewExtension::Base
 
 #	setting template no longer needed as do not have methods in base and form_builder with the same name
 #	form_for(:some_model,@some_model,ActionView::Base.new,:url => '/'){|f| concat f.a_d_na_select(:adna) }
@@ -127,18 +122,6 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 </div><!-- class='int_field adna_select' --></form>}
 		assert_equal expected, output_buffer
 	end
-
-#end
-
-#	needed to include field_wrapper
-#require 'lib/common_lib/action_view_extension/base'
-
-#module CommonLib; end
-#module CommonLib::ActionViewExtension; end
-#class CommonLib::ActionViewExtension::FormBuilderTest < ActionView::TestCase
-
-	#	needed to include field_wrapper
-#	include CommonLib::ActionViewExtension::Base
 
 	test "sex_select" do
 		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
