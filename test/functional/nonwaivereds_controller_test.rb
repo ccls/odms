@@ -325,7 +325,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -341,7 +340,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' without duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -357,7 +355,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -375,7 +372,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'Match Found' with valid duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
@@ -395,7 +391,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login and 'No Match'" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			minimum_successful_creation(
@@ -684,7 +679,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			nonwaivered_successful_creation({ 'study_subject' => {
 				'subject_languages_attributes' => {
 					'0' => {'language_id' => '' },
-					'2' => {'language_id' => Language['other'].id, 'other' => 'something else' }
+					'2' => {'language_id' => Language['other'].id, 'other_language' => 'something else' }
 					} } } )
 			#	assert languages DO NOT include english or spanish
 			assert !assigns(:study_subject).language_ids.include?(Language['english'].id) and
@@ -906,15 +901,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 protected
 
 	def minimum_nonwaivered_form_attributes(options={})
-#		{ 'study_subject' => {
-#			"sex" => "M", 
-#			"dob" => Date.jd(2440000+rand(15000)),
-##	nonwaivereds will require an address (waivereds won't)
-#			"addressings_attributes"=>{
-#				"0"=>{ "address_attributes"=> Factory.attributes_for(:address) }
-#			}, 
-#			"patient_attributes"    => Factory.attributes_for(:nonwaivered_patient)
-#		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 		{ 'study_subject' => Factory.attributes_for(:minimum_nonwaivered_form_attributes
 			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
@@ -922,53 +908,6 @@ protected
 	def nonwaivered_form_attributes(options={})
 		{ 'study_subject' => Factory.attributes_for(:nonwaivered_form_attributes
 				) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
-#		{ 'study_subject' => {
-##	NOT ACTUALLY ON THE FORM
-##			"subject_races_attributes"=>{"0"=>{"race_id"=>"1"}},
-#			"subject_languages_attributes"=>{"0"=>{"language_id"=>"1"}, "1"=>{"language_id"=>""}}, 
-#			"sex"=>"M", 
-#			"dob" => Date.jd(2440000+rand(15000)),
-#			"first_name"=>"", 
-#			"middle_name"=>"", 
-#			"last_name"=>"", 
-#			"mother_first_name"=>"", 
-#			"mother_middle_name"=>"", 
-#			"mother_last_name"=>"", 
-#			"mother_maiden_name"=>"", 
-#			"father_first_name"=>"", 
-#			"father_middle_name"=>"", 
-#			"father_last_name"=>"", 
-#			"guardian_relationship_id"=>"", 
-#			"other_guardian_relationship"=>"", 
-#			"guardian_first_name"=>"",
-#			"guardian_middle_name"=>"", 
-#			"guardian_last_name"=>"",
-#			"addressings_attributes"=>{
-#				"0"=>{
-#					"address_attributes"=> Factory.attributes_for(:address)
-#				}
-#			}, 
-#			"enrollments_attributes"=>{
-#				"0"=>{
-#					"consented_on"=>"", 
-#					"document_version_id"=>""}
-#			}, 
-#			"phone_numbers_attributes"=>{
-#				"0"=>{"phone_number"=>"1234567890" }, 
-#				"1"=>{"phone_number"=>""}
-#			}, 
-#			"patient_attributes"=> Factory.attributes_for(:nonwaivered_patient,{
-#				"sample_was_collected"=>"1",				
-##				"was_previously_treated"=>"false", 
-#				"was_previously_treated"=> YNDK[:no],
-#				"admitting_oncologist"=>"", 
-##				"was_under_15_at_dx"=>"true", 
-#				"was_under_15_at_dx"=> YNDK[:yes],
-##				"diagnosis_id"=>"", 
-##				"was_ca_resident_at_diagnosis"=>"true"
-#				"was_ca_resident_at_diagnosis"=> YNDK[:yes]
-#			})
-#		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
 	def full_successful_creation(options={})

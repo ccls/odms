@@ -328,7 +328,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 		test "should NOT create waivered case study_subject" <<
 				" with existing duplicate sex and dob and mother_maiden_names and #{cu} login" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -344,7 +343,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login if 'Match Found' without duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -362,7 +360,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -380,7 +377,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login if 'Match Found' with valid duplicate_id" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
@@ -400,7 +396,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 				" with existing duplicate sex and dob and mother_maiden_names" <<
 				" and #{cu} login if 'No Match'" do
 			#	waivered / nonwaivered? does it matter here?
-#			subject = create_complete_case_study_subject_with_mother_maiden_name('Smith')
 			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 			login_as send(cu)
 			minimum_successful_creation(
@@ -864,11 +859,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 protected
 
 	def minimum_waivered_form_attributes(options={})
-#		{ 'study_subject' => {
-#			"sex" => "M", 
-#			"dob" => Date.jd(2440000+rand(15000)),
-#			"patient_attributes"    => Factory.attributes_for(:waivered_patient)
-#		} }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 		{ 'study_subject' => Factory.attributes_for(:minimum_waivered_form_attributes
 			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
@@ -876,61 +866,6 @@ protected
 	def waivered_form_attributes(options={})
 		{ 'study_subject' => Factory.attributes_for(:waivered_form_attributes
 			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
-#		{ 'study_subject' => {
-#			"subject_languages_attributes"=>{
-#				"0"=>{"language_id"=>"1"}, 
-#				"1"=>{"language_id"=>""}, 
-#				"2"=>{"language_id"=>"", "other_language"=>""}
-#			}, 
-#			"sex"=>"M", 
-#			"dob" => Date.jd(2440000+rand(15000)),
-#			"first_name"=>"", 
-#			"middle_name"=>"", 
-#			"last_name"=>"", 
-#			"mother_first_name"=>"", 
-#			"mother_middle_name"=>"", 
-#			"mother_last_name"=>"", 
-#			"mother_maiden_name"=>"", 
-#			"father_first_name"=>"", 
-#			"father_middle_name"=>"", 
-#			"father_last_name"=>"", 
-#			"guardian_relationship_id"=>"", 
-#			"other_guardian_relationship"=>"", 
-#			"guardian_first_name"=>"",
-#			"guardian_middle_name"=>"", 
-#			"guardian_last_name"=>"",
-#			"addressings_attributes"=>{
-#				"0"=>{
-#					"address_attributes"=> Factory.attributes_for(:address)
-#				}
-#			},
-#			"phone_numbers_attributes"=>{
-#				"0"=>{"phone_number"=>"1234567890"},
-#				"1"=>{"phone_number"=>""}
-#			}, 
-#			"enrollments_attributes"=>{
-##	consented does not have a default value, so can send nothing if one button not checked
-##	TODO add consented field
-#				"0"=>{
-#					"other_refusal_reason"=>"", 
-#					"consented_on"=>"", 
-#					"document_version_id"=>"", 
-#					"refusal_reason_id"=>""
-#				}
-#			}, 
-#			"patient_attributes"=> Factory.attributes_for(:waivered_patient,{
-#				"raf_zip" => '12345',
-#				"raf_county" => "some county, usa",
-##				"was_previously_treated"=>"false", 
-#				"was_previously_treated"=> YNDK[:no],
-#				"admitting_oncologist"=>"", 
-##				"was_under_15_at_dx"=>"true", 
-#				"was_under_15_at_dx"=> YNDK[:yes],
-##				"diagnosis_id"=>"", 
-##				"was_ca_resident_at_diagnosis"=>"true"
-#				"was_ca_resident_at_diagnosis"=> YNDK[:yes]
-#			})
-#		}}.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
 	def full_successful_creation(options={})

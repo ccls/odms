@@ -22,18 +22,15 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
 
-			select "male", 	#	text NOT the value
-				:from => "study_subject[sex]"
-			fill_in "study_subject[patient_attributes][hospital_no]",
-				:with => duplicate.hospital_no						#	should trigger duplicate found
-			select subject.organization.to_s,
-				:from => "study_subject[patient_attributes][organization_id]"
-			fill_in "study_subject[patient_attributes][admit_date]",
-				:with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML", 
-				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[dob]",
-				:with => subject.dob.strftime("%m/%d/%Y")
+			patient = 'study_subject[patient_attributes]'
+			#	text NOT the value
+			select "male", 	:from => "study_subject[sex]"
+			#	should trigger duplicate found
+			fill_in "#{patient}[hospital_no]", :with => duplicate.hospital_no
+			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
+			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
+			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
@@ -77,18 +74,15 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
 
-			select "male", 	#	text NOT the value
-				:from => "study_subject[sex]"
-			fill_in "study_subject[patient_attributes][hospital_no]",
-				:with => duplicate.hospital_no						#	should trigger duplicate found
-			select subject.organization.to_s,
-				:from => "study_subject[patient_attributes][organization_id]"
-			fill_in "study_subject[patient_attributes][admit_date]",
-				:with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML", 
-				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[dob]",
-				:with => subject.dob.strftime("%m/%d/%Y")
+			patient = 'study_subject[patient_attributes]'
+			#	text NOT the value
+			select "male", 	:from => "study_subject[sex]"
+			#	should trigger duplicate found
+			fill_in "#{patient}[hospital_no]", :with => duplicate.hospital_no
+			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
+			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
+			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
@@ -131,18 +125,13 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	select(option_text, options = {})	
 			#	selects on the inner content of the option tag, NOT the option tag's value.
 			#	it would be very nice to be able to select something without knowing (ie select first)
-			select "male", 
-				:from => "study_subject[sex]"
-			fill_in "study_subject[patient_attributes][hospital_no]",
-				:with => subject.hospital_no
-			select subject.organization.to_s,
-				:from => "study_subject[patient_attributes][organization_id]"
-			fill_in "study_subject[patient_attributes][admit_date]",
-				:with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML", 
-				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[dob]",
-				:with => subject.dob.strftime("%m/%d/%Y")
+			patient = 'study_subject[patient_attributes]'
+			select "male", :from => "study_subject[sex]"
+			fill_in "#{patient}[hospital_no]", :with => subject.hospital_no
+			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
+			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
+			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Address.count',0) {
@@ -176,25 +165,22 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			login_as send(cu)
 			page.visit new_waivered_path
 			address = "study_subject[addressings_attributes][0][address_attributes]"
+			patient = 'study_subject[patient_attributes]'
 			assert page.find_field("#{address}[city]").value.blank?
 			assert page.find_field("#{address}[county]").value.blank?
 			assert page.find_field("#{address}[state]").value.blank?
 			assert page.find_field("#{address}[zip]").value.blank?
-			assert page.find_field(
-				"study_subject[patient_attributes][raf_county]").value.blank?
-			assert page.find_field(
-				"study_subject[patient_attributes][raf_zip]").value.blank?
+			assert page.find_field("#{patient}[raf_county]").value.blank?
+			assert page.find_field("#{patient}[raf_zip]").value.blank?
 
 			fill_in "#{address}[zip]", :with => "17857"
 
 			assert_equal 'NORTHUMBERLAND', page.find_field("#{address}[city]").value
 			assert_equal 'Northumberland', page.find_field("#{address}[county]").value
-			assert_equal 'PA', page.find_field("#{address}[state]").value
-			assert_equal '17857', page.find_field("#{address}[zip]").value
-			assert_equal 'Northumberland', page.find_field(
-				"study_subject[patient_attributes][raf_county]").value
-			assert_equal '17857', page.find_field(
-				"study_subject[patient_attributes][raf_zip]").value
+			assert_equal 'PA',             page.find_field("#{address}[state]").value
+			assert_equal '17857',          page.find_field("#{address}[zip]").value
+			assert_equal 'Northumberland', page.find_field("#{patient}[raf_county]").value
+			assert_equal '17857',          page.find_field("#{patient}[raf_zip]").value
 		end
 
 		test "should should update blank address info on raf_zip code change" <<
@@ -202,53 +188,50 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			login_as send(cu)
 			page.visit new_waivered_path
 			address = "study_subject[addressings_attributes][0][address_attributes]"
+			patient = 'study_subject[patient_attributes]'
 			assert page.find_field("#{address}[city]").value.blank?
 			assert page.find_field("#{address}[county]").value.blank?
 			assert page.find_field("#{address}[state]").value.blank?
 			assert page.find_field("#{address}[zip]").value.blank?
-			assert page.find_field(
-				"study_subject[patient_attributes][raf_county]").value.blank?
-			assert page.find_field(
-				"study_subject[patient_attributes][raf_zip]").value.blank?
+			assert page.find_field("#{patient}[raf_county]").value.blank?
+			assert page.find_field("#{patient}[raf_zip]").value.blank?
 
-			fill_in "study_subject[patient_attributes][raf_zip]",  :with => "17857"
+			fill_in "#{patient}[raf_zip]",  :with => "17857"
 
 			assert_equal 'NORTHUMBERLAND', page.find_field("#{address}[city]").value
 			assert_equal 'Northumberland', page.find_field("#{address}[county]").value
-			assert_equal 'PA', page.find_field("#{address}[state]").value
-			assert_equal '17857', page.find_field("#{address}[zip]").value
-			assert_equal 'Northumberland', page.find_field(
-				"study_subject[patient_attributes][raf_county]").value
-			assert_equal '17857', page.find_field(
-				"study_subject[patient_attributes][raf_zip]").value
+			assert_equal 'PA',             page.find_field("#{address}[state]").value
+			assert_equal '17857',          page.find_field("#{address}[zip]").value
+			assert_equal 'Northumberland', page.find_field("#{patient}[raf_county]").value
+			assert_equal '17857',          page.find_field("#{patient}[raf_zip]").value
 		end
 
 		test "should show other_diagnosis when diagnosis is Other" <<
 				" with #{cu} login" do
 			login_as send(cu)
 			page.visit new_waivered_path
-			base = 'study_subject[patient_attributes]'
-			assert !page.find_field("#{base}[other_diagnosis]").visible?
-			select "other", :from => "#{base}[diagnosis_id]"
-			assert page.find_field("#{base}[other_diagnosis]").visible?
-			select "", :from => "#{base}[diagnosis_id]"
-			assert !page.find_field("#{base}[other_diagnosis]").visible?
-			select "other", :from => "#{base}[diagnosis_id]"
-			assert page.find_field("#{base}[other_diagnosis]").visible?
+			patient = 'study_subject[patient_attributes]'
+			assert !page.find_field("#{patient}[other_diagnosis]").visible?
+			select "other", :from => "#{patient}[diagnosis_id]"
+			assert page.find_field("#{patient}[other_diagnosis]").visible?
+			select "",      :from => "#{patient}[diagnosis_id]"
+			assert !page.find_field("#{patient}[other_diagnosis]").visible?
+			select "other", :from => "#{patient}[diagnosis_id]"
+			assert page.find_field("#{patient}[other_diagnosis]").visible?
 		end
 
 		test "should show other_refusal_reason when refusal_reason is Other" <<
 				" with #{cu} login" do
 			login_as send(cu)
 			page.visit new_waivered_path
-			base = "study_subject[enrollments_attributes][0]"
-			assert !page.find_field("#{base}[other_refusal_reason]").visible?
-			select "other reason for refusal", :from => "#{base}[refusal_reason_id]"
-			assert page.find_field("#{base}[other_refusal_reason]").visible?
-			select "", :from => "#{base}[refusal_reason_id]"
-			assert !page.find_field("#{base}[other_refusal_reason]").visible?
-			select "other reason for refusal", :from => "#{base}[refusal_reason_id]"
-			assert page.find_field("#{base}[other_refusal_reason]").visible?
+			patient = "study_subject[enrollments_attributes][0]"
+			assert !page.find_field("#{patient}[other_refusal_reason]").visible?
+			select "other reason for refusal", :from => "#{patient}[refusal_reason_id]"
+			assert page.find_field("#{patient}[other_refusal_reason]").visible?
+			select "",                         :from => "#{patient}[refusal_reason_id]"
+			assert !page.find_field("#{patient}[other_refusal_reason]").visible?
+			select "other reason for refusal", :from => "#{patient}[refusal_reason_id]"
+			assert page.find_field("#{patient}[other_refusal_reason]").visible?
 		end
 
 	end

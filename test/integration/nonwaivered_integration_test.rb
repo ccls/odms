@@ -18,28 +18,20 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			login_as send(cu)
 			page.visit new_nonwaivered_path
 
-			assert page.has_unchecked_field?(
-				'study_subject_patient_attributes_was_under_15_at_dx')
-			assert page.has_unchecked_field?(
-				'study_subject_patient_attributes_was_previously_treated')
-			assert page.has_unchecked_field?(
-				'study_subject_patient_attributes_was_ca_resident_at_diagnosis')
+			patient = 'study_subject_patient_attributes_'
+			assert page.has_unchecked_field?("#{patient}was_under_15_at_dx")
+			assert page.has_unchecked_field?("#{patient}was_previously_treated")
+			assert page.has_unchecked_field?("#{patient}was_ca_resident_at_diagnosis")
 			click_button "Submit"	
-			assert page.has_unchecked_field?(
-				'study_subject_patient_attributes_was_under_15_at_dx')
-			assert page.has_unchecked_field?(
-				'study_subject_patient_attributes_was_previously_treated')
-			assert page.has_unchecked_field?(
-				'study_subject_patient_attributes_was_ca_resident_at_diagnosis')
+			assert page.has_unchecked_field?("#{patient}was_under_15_at_dx")
+			assert page.has_unchecked_field?("#{patient}was_previously_treated")
+			assert page.has_unchecked_field?("#{patient}was_ca_resident_at_diagnosis")
 
-			check('study_subject_patient_attributes_was_ca_resident_at_diagnosis')
+			check("#{patient}was_ca_resident_at_diagnosis")
 			click_button "Submit"	
-			assert page.has_unchecked_field?(
-				'study_subject_patient_attributes_was_under_15_at_dx')
-			assert page.has_unchecked_field?(
-				'study_subject_patient_attributes_was_previously_treated')
-			assert page.has_checked_field?(
-				'study_subject_patient_attributes_was_ca_resident_at_diagnosis')
+			assert page.has_unchecked_field?("#{patient}was_under_15_at_dx")
+			assert page.has_unchecked_field?("#{patient}was_previously_treated")
+			assert page.has_checked_field?("#{patient}was_ca_resident_at_diagnosis")
 		end
 
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
@@ -52,27 +44,21 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
 
-			select "male", 	#	text NOT the value
-				:from => "study_subject[sex]"
-			fill_in "study_subject[patient_attributes][hospital_no]",
-				:with => duplicate.hospital_no						#	should trigger duplicate found
-			select subject.organization.to_s,
-				:from => "study_subject[patient_attributes][organization_id]"
-			fill_in "study_subject[patient_attributes][admit_date]",
-				:with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML", 
-				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[dob]",
-				:with => subject.dob.strftime("%m/%d/%Y")
+			#	text NOT the value
+			patient = "study_subject[patient_attributes]"
+			select "male", 	:from => "study_subject[sex]"
+			#	should trigger duplicate found
+			fill_in "#{patient}[hospital_no]", :with => duplicate.hospital_no						
+			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
+			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
+			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
-				:with => '123 Main St'
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][city]',
-				:with => 'Berkeley'
-			select 'CA',
-				:from => 'study_subject[addressings_attributes][0][address_attributes][state]'
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][zip]',
-				:with => '94703'
+			address = 'study_subject[addressings_attributes][0][address_attributes]'
+			fill_in "#{address}[line_1]", :with => '123 Main St'
+			fill_in "#{address}[city]",   :with => 'Berkeley'
+			select 'CA',                  :from => "#{address}[state]"
+			fill_in "#{address}[zip]",    :with => '94703'
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
@@ -116,27 +102,21 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
 
-			select "male", 	#	text NOT the value
-				:from => "study_subject[sex]"
-			fill_in "study_subject[patient_attributes][hospital_no]",
-				:with => duplicate.hospital_no						#	should trigger duplicate found
-			select subject.organization.to_s,
-				:from => "study_subject[patient_attributes][organization_id]"
-			fill_in "study_subject[patient_attributes][admit_date]",
-				:with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML", 
-				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[dob]",
-				:with => subject.dob.strftime("%m/%d/%Y")
+			patient = 'study_subject[patient_attributes]'
+			#	text NOT the value
+			select "male", 	:from => "study_subject[sex]"
+			#	should trigger duplicate found
+			fill_in "#{patient}[hospital_no]", :with => duplicate.hospital_no						
+			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
+			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
+			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
-				:with => '123 Main St'
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][city]',
-				:with => 'Berkeley'
-			select 'CA',
-				:from => 'study_subject[addressings_attributes][0][address_attributes][state]'
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][zip]',
-				:with => '94703'
+			address = 'study_subject[addressings_attributes][0][address_attributes]'
+			fill_in "#{address}[line_1]", :with => '123 Main St'
+			fill_in "#{address}[city]",   :with => 'Berkeley'
+			select 'CA',                  :from => "#{address}[state]"
+			fill_in "#{address}[zip]",    :with => '94703'
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
@@ -176,27 +156,20 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
 
-			select "male", 	#	text NOT the value
-				:from => "study_subject[sex]"
-			fill_in "study_subject[patient_attributes][hospital_no]",
-				:with => subject.hospital_no
-			select subject.organization.to_s,
-				:from => "study_subject[patient_attributes][organization_id]"
-			fill_in "study_subject[patient_attributes][admit_date]",
-				:with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML", 
-				:from => "study_subject[patient_attributes][diagnosis_id]"
-			fill_in "study_subject[dob]",
-				:with => subject.dob.strftime("%m/%d/%Y")
+			patient = 'study_subject[patient_attributes]'
+			#	text NOT the value
+			select "male", 	:from => "study_subject[sex]"
+			fill_in "#{patient}[hospital_no]", :with => subject.hospital_no
+			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
+			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
+			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][line_1]',
-				:with => '123 Main St'
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][city]',
-				:with => 'Berkeley'
-			select 'CA',
-				:from => 'study_subject[addressings_attributes][0][address_attributes][state]'
-			fill_in 'study_subject[addressings_attributes][0][address_attributes][zip]',
-				:with => '94703'
+			address = 'study_subject[addressings_attributes][0][address_attributes]'
+			fill_in "#{address}[line_1]", :with => '123 Main St'
+			fill_in "#{address}[city]",   :with => 'Berkeley'
+			select 'CA',                  :from => "#{address}[state]"
+			fill_in "#{address}[zip]",    :with => '94703'
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',1) {
@@ -221,17 +194,13 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			" with #{cu} login" do
 			login_as send(cu)
 			page.visit new_waivered_path
-			assert page.find_field(
-				"study_subject[addressings_attributes][0][address_attributes][city]").value.blank?
-			assert page.find_field(
-				"study_subject[addressings_attributes][0][address_attributes][county]").value.blank?
-			assert page.find_field(
-				"study_subject[addressings_attributes][0][address_attributes][state]").value.blank?
-			assert page.find_field(
-				"study_subject[addressings_attributes][0][address_attributes][zip]").value.blank?
+			address = 'study_subject[addressings_attributes][0][address_attributes]'
+			assert page.find_field("#{address}[city]").value.blank?
+			assert page.find_field("#{address}[county]").value.blank?
+			assert page.find_field("#{address}[state]").value.blank?
+			assert page.find_field("#{address}[zip]").value.blank?
 
-			fill_in "study_subject[addressings_attributes][0][address_attributes][zip]",  
-				:with => "17857"
+			fill_in "#{address}[zip]",  :with => "17857"
 			#	I don't think that the change event get triggered correctly
 			#	in the test environment.
 			#
@@ -250,28 +219,25 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 #			page.execute_script("$('#study_subject_addressings_attributes_0_address_attributes_zip').change()" );
 #			sleep 1
 
-			assert_equal 'NORTHUMBERLAND', page.find_field(
-				"study_subject[addressings_attributes][0][address_attributes][city]").value
-			assert_equal 'Northumberland', page.find_field(
-				"study_subject[addressings_attributes][0][address_attributes][county]").value
-			assert_equal 'PA', page.find_field(
-				"study_subject[addressings_attributes][0][address_attributes][state]").value
-			assert_equal '17857', page.find_field(
-				"study_subject[addressings_attributes][0][address_attributes][zip]").value
+			assert_equal 'NORTHUMBERLAND', page.find_field("#{address}[city]").value
+			assert_equal 'Northumberland', page.find_field("#{address}[county]").value
+			assert_equal 'PA',             page.find_field("#{address}[state]").value
+			assert_equal '17857',          page.find_field("#{address}[zip]").value
 		end
 
 		test "should show other_diagnosis when diagnosis is Other" <<
 				" with #{cu} login" do
 			login_as send(cu)
 			page.visit new_waivered_path
-			assert !page.find_field( 'study_subject[patient_attributes][other_diagnosis]').visible?
+			patient = 'study_subject[patient_attributes]'
+			assert !page.find_field( "#{patient}[other_diagnosis]").visible?
 #	case sensitive? yep.
-			select "other", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert page.find_field( 'study_subject[patient_attributes][other_diagnosis]').visible?
-			select "", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert !page.find_field( 'study_subject[patient_attributes][other_diagnosis]').visible?
-			select "other", :from => 'study_subject[patient_attributes][diagnosis_id]'
-			assert page.find_field( 'study_subject[patient_attributes][other_diagnosis]').visible?
+			select "other", :from => "#{patient}[diagnosis_id]"
+			assert page.find_field( "#{patient}[other_diagnosis]").visible?
+			select "",      :from => "#{patient}[diagnosis_id]"
+			assert !page.find_field( "#{patient}[other_diagnosis]").visible?
+			select "other", :from => "#{patient}[diagnosis_id]"
+			assert page.find_field( "#{patient}[other_diagnosis]").visible?
 		end
 
 	end

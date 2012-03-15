@@ -113,6 +113,7 @@ end
 #	Then I commented it all out!!! Err! Capybara is threaded and
 #	testing is transactional so we must force them to use the
 #	same connection or they will not see each others mods.
+#	Original way or my way.  No matter.  But we must set the connection first.
 ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 
 #

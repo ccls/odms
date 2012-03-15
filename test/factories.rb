@@ -75,7 +75,7 @@ Factory.define :waivered_form_attributes, :parent => :minimum_waivered_form_attr
 	f.subject_languages_attributes {{
 		"0"=>{"language_id"=>"1"}, 
 		"1"=>{"language_id"=>""}, 
-		"2"=>{"language_id"=>"", "other"=>""} }}
+		"2"=>{"language_id"=>"", "other_language"=>""} }}
 	f.addressings_attributes {{
 		"0"=>{ "address_attributes"=> Factory.attributes_for(:address) } }}
 	f.phone_numbers_attributes {{
