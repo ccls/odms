@@ -25,7 +25,6 @@ Rails::Initializer.run do |config|
 	config.gem 'ssl_requirement'
 	config.gem 'mysql'
 
-	config.gem 'ccls-common_lib'
 	config.gem 'jrails'
 
 	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'

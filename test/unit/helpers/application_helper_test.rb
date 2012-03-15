@@ -842,13 +842,16 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert subject.is_a?(StudySubject)
 		assert !subject.do_not_contact?
 		assert_nil subject_id_bar(subject)	#	sets content_for :main
-		response = HTML::Document.new(@content_for_main).root
+#		response = HTML::Document.new(@content_for_main).root
+		response = HTML::Document.new(@content_for_subject_header).root
 		assert_select response, 'div#id_bar' do
 			assert_select 'div.icf_master_id'
 			assert_select 'div.studyid'
 			assert_select 'div.full_name'
 		end
-		assert_select response, 'div#do_not_contact', 0
+		assert_nil @content_for_main
+#		response = HTML::Document.new(@content_for_main).root
+#		assert_select response, 'div#do_not_contact', 0
 	end
 
 	test "subject_id_bar should return subject_id_bar with do not contact" do
@@ -856,12 +859,14 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert subject.is_a?(StudySubject)
 		assert subject.do_not_contact?
 		assert_nil subject_id_bar(subject)	#	sets content_for :main
-		response = HTML::Document.new(@content_for_main).root
+#		response = HTML::Document.new(@content_for_main).root
+		response = HTML::Document.new(@content_for_subject_header).root
 		assert_select response, 'div#id_bar' do
 			assert_select 'div.icf_master_id'
 			assert_select 'div.studyid'
 			assert_select 'div.full_name'
 		end
+		response = HTML::Document.new(@content_for_main).root
 		assert_select response, 'div#do_not_contact'
 	end
 

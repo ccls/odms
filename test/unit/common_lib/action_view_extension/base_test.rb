@@ -1,5 +1,5 @@
-require 'test_helper'
-
+#require 'test_helper'
+#
 #class CommonLib::User
 #	attr_accessor :yes_or_no, :yndk, :dob, :sex, :name, :dob_before_type_cast
 #	def initialize(*args,&block)
@@ -9,9 +9,11 @@ require 'test_helper'
 #		!!yes_or_no
 #	end
 #end
-
+#
+module CommonLib; end
+module CommonLib::ActionViewExtension; end
 class CommonLib::ActionViewExtension::BaseTest < ActionView::TestCase
-
+#
 #	def flash
 #		{:notice => "Hello There"}
 #	end
@@ -337,5 +339,5 @@ class CommonLib::ActionViewExtension::BaseTest < ActionView::TestCase
 ##			end
 ##		end
 ##	end
-
+#
 end

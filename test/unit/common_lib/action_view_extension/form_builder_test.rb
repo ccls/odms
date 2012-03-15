@@ -1,15 +1,17 @@
-require 'test_helper'
-
+#require 'test_helper'
+#
 #class SomeModel
 #	attr_accessor :some_attribute
 #	attr_accessor :some_attribute_before_type_cast #	for date_text_field
 #end
 #
 ##	needed to include field_wrapper
-#require 'lib/common_lib/action_view_extension/base'
-
+##require 'lib/common_lib/action_view_extension/base'
+#
+module CommonLib; end
+module CommonLib::ActionViewExtension; end
 class CommonLib::ActionViewExtension::FormBuilderTest < ActionView::TestCase
-
+#
 #	#	needed to include field_wrapper
 #	include CommonLib::ActionViewExtension::Base
 #
@@ -258,5 +260,5 @@ class CommonLib::ActionViewExtension::FormBuilderTest < ActionView::TestCase
 #</div><!-- class='some_attribute hour_select' --></form>}
 #		assert_equal expected, output_buffer
 #	end
-
+#
 end
