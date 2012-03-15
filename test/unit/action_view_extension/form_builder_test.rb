@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SomeModel
 	attr_accessor :some_attribute
-	attr_accessor :some_attribute_before_type_cast #	for date_text_field
+	attr_accessor :some_attribute_before_type_cast #	for date_text_field validation
 	attr_accessor :yes_or_no, :int_field
 	def initialize(*args,&block)
 		yield self if block_given?

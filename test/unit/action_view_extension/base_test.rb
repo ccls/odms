@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class SomeModel
-	attr_accessor :yes_or_no, :yndk, :dob, :sex, :name, :dob_before_type_cast
+	attr_accessor :dob_before_type_cast	#	for date_text_field validation
+	attr_accessor :yes_or_no, :yndk, :dob, :sex, :name
+	attr_accessor :int_field
 	def initialize(*args,&block)
 		yield self if block_given?
 	end
