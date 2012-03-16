@@ -42,7 +42,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 #		assert_difference( "HomexOutcome.count", 1 ) do
 #			homex_outcome = create_homex_outcome
 #			homex_outcome.reload.update_attributes(:updated_at => Time.now)
-#			assert !homex_outcome.errors.on(:study_subject)
+#			assert !homex_outcome.errors.include?(:study_subject)
 #			assert  homex_outcome.errors.on_attr_and_type?(:study_subject_id,:blank)
 #		end
 #	end
@@ -56,7 +56,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		create_homex_outcome(:study_subject => study_subject)
 		assert_difference( "HomexOutcome.count", 0 ) do
 			homex_outcome = create_homex_outcome(:study_subject => study_subject)
-			assert homex_outcome.errors.on(:study_subject_id)
+			assert homex_outcome.errors.include?(:study_subject_id)
 		end
 	end
 
@@ -65,7 +65,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 			homex_outcome = create_homex_outcome(
 				:interview_outcome_on => nil,
 				:interview_outcome_id => InterviewOutcome.first.id)
-			assert homex_outcome.errors.on(:interview_outcome_on)
+			assert homex_outcome.errors.include?(:interview_outcome_on)
 		end
 	end
 
@@ -74,7 +74,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 			homex_outcome = create_homex_outcome(
 				:sample_outcome_on => nil,
 				:sample_outcome_id => SampleOutcome.first.id)
-			assert homex_outcome.errors.on(:sample_outcome_on)
+			assert homex_outcome.errors.include?(:sample_outcome_on)
 		end
 	end
 

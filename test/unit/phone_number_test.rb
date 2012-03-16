@@ -64,7 +64,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	test "should require phone_type" do
 		assert_difference( "PhoneNumber.count", 0 ) do
 			phone_number = create_phone_number( :phone_type => nil)
-			assert !phone_number.errors.on(:phone_type)
+			assert !phone_number.errors.include?(:phone_type)
 #			assert  phone_number.errors.on_attr_and_type?(:phone_type_id, :blank)
 			assert  phone_number.errors.matching?(:phone_type_id,"can't be blank")
 		end
@@ -73,7 +73,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	test "should require valid phone_type" do
 		assert_difference( "PhoneNumber.count", 0 ) do
 			phone_number = create_phone_number( :phone_type_id => 0)
-			assert !phone_number.errors.on(:phone_type_id)
+			assert !phone_number.errors.include?(:phone_type_id)
 #			assert  phone_number.errors.on_attr_and_type?(:phone_type,:blank)
 			assert  phone_number.errors.matching?(:phone_type,"can't be blank")
 		end
@@ -140,7 +140,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	test "should format phone number" do
 		assert_difference( "PhoneNumber.count", 1 ) do
 			phone_number = create_phone_number( :phone_number => '1234567890' )
-			assert !phone_number.errors.on(:phone_number)
+			assert !phone_number.errors.include?(:phone_number)
 			assert phone_number.phone_number =~ /\A\(\d{3}\)\s+\d{3}-\d{4}\z/
 			assert_equal '(123) 456-7890', phone_number.phone_number
 		end
@@ -158,7 +158,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		test "should require why_invalid if is_valid is #{yndk}" do
 			assert_difference( "PhoneNumber.count", 0 ) do
 				phone_number = create_phone_number(:is_valid => YNDK[yndk])
-				assert phone_number.errors.on(:why_invalid)
+				assert phone_number.errors.include?(:why_invalid)
 			end
 		end
 	end
@@ -172,7 +172,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	test "should require how_verified if is_verified is true" do
 		assert_difference( "PhoneNumber.count", 0 ) do
 			phone_number = create_phone_number(:is_verified => true)
-			assert phone_number.errors.on(:how_verified)
+			assert phone_number.errors.include?(:how_verified)
 		end
 	end
 

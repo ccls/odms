@@ -324,7 +324,9 @@ module ActionControllerExtension::AccessibleViaProtocol
 				end
 				assert_match @controller.url_for(
 					:controller => @controller.controller_name,
-					:action => 'create', :protocol => "https://"),@response.redirected_to
+					:action => 'create', :protocol => "https://"
+				),@response.redirect_url
+#				),@response.redirected_to
 			end if actions.include?(:create) || options.keys.include?(:create)
 
 			test "#{brand}NAWiHTTP should NOT get edit #{nawihttp_title(options)}" do
@@ -356,7 +358,9 @@ module ActionControllerExtension::AccessibleViaProtocol
 				assert_equal( before.to_s(:db), after.to_s(:db), "updated_at changed" ) if obj
 				assert_match @controller.url_for(
 					:controller => @controller.controller_name,
-					:action => 'update', :id => args[:id], :protocol => "https://"), @response.redirected_to
+					:action => 'update', :id => args[:id], :protocol => "https://"
+				), @response.redirect_url
+#				), @response.redirected_to
 			end if actions.include?(:update) || options.keys.include?(:update)
 
 			test "#{brand}NAWiHTTP should NOT get show #{nawihttp_title(options)}" do

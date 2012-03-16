@@ -131,7 +131,7 @@ class PatientTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 		assert_difference( "Patient.count", 0 ) {
 			patient = create_patient(:study_subject => Factory(:study_subject))
-			assert patient.errors.on(:study_subject)
+			assert patient.errors.include?(:study_subject)
 		} }
 	end
 
@@ -141,7 +141,7 @@ class PatientTest < ActiveSupport::TestCase
 			study_subject = create_study_subject(
 				:patient_attributes => Factory.attributes_for(:patient))
 			#	raised from study_subject model, NOT patient
-			assert study_subject.errors.on(:patient)
+			assert study_subject.errors.include?(:patient)
 		} }
 	end
 
@@ -151,7 +151,7 @@ class PatientTest < ActiveSupport::TestCase
 			patient = create_patient(
 				:study_subject => study_subject,
 				:admit_date => study_subject.dob )
-			assert !patient.errors.on(:admit_date)
+			assert !patient.errors.include?(:admit_date)
 			assert_equal study_subject.dob, patient.admit_date
 		}
 	end
@@ -164,9 +164,9 @@ class PatientTest < ActiveSupport::TestCase
 				:study_subject => study_subject,
 				:admit_date => Date.jd(2430000) ) 
 				# BEFORE my factory set dob to raise error (Date.jd(2440000+rand(15000))
-			assert patient.errors.on(:admit_date)
+			assert patient.errors.include?(:admit_date)
 			assert_match(/before.*dob/,
-				patient.errors.on(:admit_date))
+				patient.errors.include?(:admit_date))
 		}
 	end
 
@@ -176,7 +176,7 @@ class PatientTest < ActiveSupport::TestCase
 			patient = create_patient(
 				:study_subject => study_subject,
 				:admit_date => Date.parse('1/1/1900') )
-			assert !patient.errors.on(:admit_date)
+			assert !patient.errors.include?(:admit_date)
 		}
 	end
 
@@ -188,9 +188,9 @@ class PatientTest < ActiveSupport::TestCase
 					# BEFORE my factory set dob to raise error (Date.jd(2440000+rand(15000))
 					:admit_date => Date.jd(2430000)
 				}))
-			assert study_subject.errors.on('patient:admit_date')
+			assert study_subject.errors.include?('patient:admit_date')
 			assert_match(/before.*dob/,
-				study_subject.errors.on('patient:admit_date'))
+				study_subject.errors.include?('patient:admit_date'))
 		} }
 	end
 
@@ -202,7 +202,7 @@ class PatientTest < ActiveSupport::TestCase
 				:patient_attributes => Factory.attributes_for(:patient,{
 					:admit_date => Date.parse('1/1/1900')
 				}))
-			assert !study_subject.errors.on('patient:admit_date')
+			assert !study_subject.errors.include?('patient:admit_date')
 		} }
 	end
 
@@ -213,7 +213,7 @@ class PatientTest < ActiveSupport::TestCase
 			patient = create_patient(
 				:study_subject => study_subject,
 				:diagnosis_date => study_subject.dob )
-			assert !patient.errors.on(:diagnosis_date)
+			assert !patient.errors.include?(:diagnosis_date)
 			assert_equal patient.diagnosis_date, study_subject.dob
 		end
 	end
@@ -226,9 +226,9 @@ class PatientTest < ActiveSupport::TestCase
 				:study_subject => study_subject,
 				:diagnosis_date => Date.jd(2430000) ) 
 				# BEFORE my factory set dob to raise error (Date.jd(2440000+rand(15000))
-			assert patient.errors.on(:diagnosis_date)
+			assert patient.errors.include?(:diagnosis_date)
 			assert_match(/before.*dob/,
-				patient.errors.on(:diagnosis_date))
+				patient.errors.include?(:diagnosis_date))
 		end
 	end
 
@@ -240,7 +240,7 @@ class PatientTest < ActiveSupport::TestCase
 					# BEFORE my factory set dob to raise error
 					:diagnosis_date => Date.jd(2430000),
 				}))
-			assert study_subject.errors.on('patient:diagnosis_date')
+			assert study_subject.errors.include?('patient:diagnosis_date')
 		} }
 	end
 
@@ -253,9 +253,9 @@ class PatientTest < ActiveSupport::TestCase
 				:study_subject => study_subject,
 				:diagnosis_date => Date.jd(2440000),
 				:treatment_began_on => Date.jd(2430000) ) 
-			assert patient.errors.on(:treatment_began_on)
+			assert patient.errors.include?(:treatment_began_on)
 			assert_match(/Date treatment began must be on or after the diagnosis date/,
-				patient.errors.on(:treatment_began_on))
+				patient.errors.include?(:treatment_began_on))
 		end
 	end
 
@@ -269,10 +269,10 @@ class PatientTest < ActiveSupport::TestCase
 					:diagnosis_date => Date.jd(2440000),
 					:treatment_began_on => Date.jd(2430000),
 				}))
-			assert study_subject.patient.errors.on(:treatment_began_on)
-			assert study_subject.errors.on('patient.treatment_began_on')
+			assert study_subject.patient.errors.include?(:treatment_began_on)
+			assert study_subject.errors.include?('patient.treatment_began_on')
 			assert_match(/Date treatment began must be on or after the diagnosis date/,
-				study_subject.patient.errors.on(:treatment_began_on))
+				study_subject.patient.errors.include?(:treatment_began_on))
 		} }
 	end
 
@@ -447,13 +447,13 @@ class PatientTest < ActiveSupport::TestCase
 		%w( asdf 1234 123456 1234Q ).each do |bad_zip|
 			assert_difference( "Patient.count", 0 ) do
 				patient = create_patient( :raf_zip => bad_zip )
-				assert patient.errors.on(:raf_zip)
+				assert patient.errors.include?(:raf_zip)
 			end
 		end
 		%w( 12345 12345-6789 123456789 ).each do |good_zip|
 			assert_difference( "Patient.count", 1 ) do
 				patient = create_patient( :raf_zip => good_zip )
-				assert !patient.errors.on(:raf_zip)
+				assert !patient.errors.include?(:raf_zip)
 				assert patient.raf_zip =~ /\A\d{5}(-)?(\d{4})?\z/
 			end
 		end
@@ -462,7 +462,7 @@ class PatientTest < ActiveSupport::TestCase
 	test "should format 9 digit zip" do
 		assert_difference( "Patient.count", 1 ) do
 			patient = create_patient( :raf_zip => '123456789' )
-			assert !patient.errors.on(:raf_zip)
+			assert !patient.errors.include?(:raf_zip)
 			assert patient.raf_zip =~ /\A\d{5}(-)?(\d{4})?\z/
 			assert_equal '12345-6789', patient.raf_zip
 		end

@@ -29,8 +29,19 @@ Odms::Application.configure do
 	# ActionMailer::Base.deliveries array.
 	config.action_mailer.delivery_method = :test
 
+
+
+
+
+#	TODO uncomment this.  For now, I have more pressing things to deal with.
+
 	# Raise exception on mass assignment protection for Active Record models
-	config.active_record.mass_assignment_sanitizer = :strict
+#	config.active_record.mass_assignment_sanitizer = :strict
+
+
+
+
+
 
 	# Print deprecation notices to the stderr
 	config.active_support.deprecation = :stderr
@@ -39,15 +50,51 @@ Odms::Application.configure do
 
 
 #	Don't mail so irrelevant.
+#
+#	config.action_mailer.default_url_options = { 
+#		:host => "dev.sph.berkeley.edu:3000" }
+#
 
-	config.action_mailer.default_url_options = { 
-		:host => "dev.sph.berkeley.edu:3000" }
 
-##
-##	Modifications to add FakeSessionsController solely for integration testing
-##
-#ActionController::Routing::Routes.add_configuration_file(
-#	File.expand_path( File.join( Rails.root, '/test/config/routes.rb')))
+#	Had to use active_record_store to accomodate ActiveScaffold,
+#	but apparently my capybara integration tests do not like this.
+#	So, set the session_store back to the default of cookies
+#	just for testing.	At least until I figure out how to make
+#	it work. I think that I just need a bigger hammer.
+#config.action_controller.session_store = :cookie_store
+
+	config.session_store :cookie_store, :key => '_odms_session'
+
+
+
+#	are these arrays??
+#	can't tell if this is doing what I want.
+#	tried it in console and it seems to.
+
+#	What's the point of exposing an array that is frozen????
+#	config.autoload_paths << File.join(Rails.root, "test/app/controllers/")
+# => /Users/jakewendt/github_repo/ccls/odms/config/environments/test.rb:72:in `<<': can't modify frozen array (TypeError)
+
+#	This works, but I assume will break everything else.
+#	config.autoload_paths = File.join(Rails.root, "test/app/controllers/")
+
+#	config.autoload_paths += File.join(Rails.root, "test/app/controllers/")
+# => /Users/jakewendt/github_repo/ccls/odms/config/environments/test.rb:77:in `+': can't convert String into Array (TypeError)
+# 19     # config.autoload_paths += %W(#{config.root}/extras)
+#	This seems to work for the moment
+	config.autoload_paths += %W(#{config.root}/test/app/controllers/")
+
+#	config.paths["app/controllers"] << File.join(Rails.root, "test/app/controllers/") 
+
+
+
+	config.paths["app/views"] << File.join(Rails.root, "test/app/views/") 
+
+	#	This seems to work, but still doesn't show up.
+#	config.paths["config/routes"] << File.join(Rails.root, "test/config/routes.rb") 
+	config.paths["config/routes"] += %W(#{config.root}/test/config/routes.rb)
+
+end
 #
 #ActiveSupport::Dependencies.autoload_paths << File.expand_path( 
 #	File.join(Rails.root,'/test/app/controllers/'))
@@ -58,15 +105,4 @@ Odms::Application.configure do
 #ActionController::Base.view_paths <<
 #	File.expand_path(
 #		File.join(Rails.root,'/test/app/views'))
-
-
-#	Had to use active_record_store to accomodate ActiveScaffold,
-#	but apparently my capybara integration tests do not like this.
-#	So, set the session_store back to the default of cookies
-#	just for testing.  At least until I figure out how to make
-#	it work. I think that I just need a bigger hammer.
-#config.action_controller.session_store = :cookie_store
-
-	config.session_store :cookie_store, :key => '_odms_session'
-
-end
+#

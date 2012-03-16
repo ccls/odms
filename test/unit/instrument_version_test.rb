@@ -31,7 +31,7 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 	test "should require instrument_type" do
 		assert_difference( "InstrumentVersion.count", 0 ) do
 			instrument_version = create_instrument_version( :instrument_type => nil)
-			assert !instrument_version.errors.on(:instrument_type)
+			assert !instrument_version.errors.include?(:instrument_type)
 #			assert  instrument_version.errors.on_attr_and_type?(:instrument_type_id,:blank)
 			assert  instrument_version.errors.matching?(:instrument_type_id,"can't be blank")
 		end
@@ -40,7 +40,7 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 	test "should require valid instrument_type" do
 		assert_difference( "InstrumentVersion.count", 0 ) do
 			instrument_version = create_instrument_version( :instrument_type_id => 0)
-			assert !instrument_version.errors.on(:instrument_type_id)
+			assert !instrument_version.errors.include?(:instrument_type_id)
 #			assert  instrument_version.errors.on_attr_and_type?(:instrument_type,:blank)
 			assert  instrument_version.errors.matching?(:instrument_type,"can't be blank")
 		end

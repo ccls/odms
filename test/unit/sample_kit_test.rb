@@ -20,7 +20,7 @@ class SampleKitTest < ActiveSupport::TestCase
 			sample_kit = create_sample_kit
 			assert_not_nil sample_kit.sample
 			sample_kit = create_sample_kit(:sample_id => sample_kit.sample_id)
-			assert sample_kit.errors.on(:sample_id)
+			assert sample_kit.errors.include?(:sample_id)
 		} }
 	end
 

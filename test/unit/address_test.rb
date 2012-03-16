@@ -73,7 +73,7 @@ class AddressTest < ActiveSupport::TestCase
 	test "should require address_type" do
 		assert_difference( "Address.count", 0 ) do
 			address = create_address( :address_type => nil)
-			assert !address.errors.on(:address_type)
+			assert !address.errors.include?(:address_type)
 #			assert  address.errors.on_attr_and_type?(:address_type_id,:blank)
 			assert  address.errors.matching?(:address_type_id, "can't be blank")
 		end
@@ -82,7 +82,7 @@ class AddressTest < ActiveSupport::TestCase
 	test "should require valid address_type" do
 		assert_difference( "Address.count", 0 ) do
 			address = create_address( :address_type_id => 0)
-			assert !address.errors.on(:address_type_id)
+			assert !address.errors.include?(:address_type_id)
 #			assert  address.errors.on_attr_and_type?(:address_type,:blank)
 			assert  address.errors.matching?(:address_type, "can't be blank")
 		end
@@ -92,13 +92,13 @@ class AddressTest < ActiveSupport::TestCase
 		%w( asdf 1234 123456 1234Q ).each do |bad_zip|
 			assert_difference( "Address.count", 0 ) do
 				address = create_address( :zip => bad_zip )
-				assert address.errors.on(:zip)
+				assert address.errors.include?(:zip)
 			end
 		end
 		%w( 12345 12345-6789 123456789 ).each do |good_zip|
 			assert_difference( "Address.count", 1 ) do
 				address = create_address( :zip => good_zip )
-				assert !address.errors.on(:zip)
+				assert !address.errors.include?(:zip)
 				assert address.zip =~ /\A\d{5}(-)?(\d{4})?\z/
 			end
 		end
@@ -107,7 +107,7 @@ class AddressTest < ActiveSupport::TestCase
 	test "should format 9 digit zip" do
 		assert_difference( "Address.count", 1 ) do
 			address = create_address( :zip => '123456789' )
-			assert !address.errors.on(:zip)
+			assert !address.errors.include?(:zip)
 			assert address.zip =~ /\A\d{5}(-)?(\d{4})?\z/
 			assert_equal '12345-6789', address.zip
 		end
@@ -138,7 +138,7 @@ class AddressTest < ActiveSupport::TestCase
 					:line_1 => pobox,
 					:address_type => AddressType['residence']
 				)
-				assert address.errors.on(:address_type_id)
+				assert address.errors.include?(:address_type_id)
 			end
 		end
 	end

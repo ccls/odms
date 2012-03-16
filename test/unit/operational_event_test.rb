@@ -30,7 +30,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 	test "should require operational_event_type" do
 		assert_difference( "OperationalEvent.count", 0 ) do
 			operational_event = create_operational_event( :operational_event_type => nil)
-			assert !operational_event.errors.on(:operational_event_type)
+			assert !operational_event.errors.include?(:operational_event_type)
 #			assert  operational_event.errors.on_attr_and_type?(:operational_event_type_id,:blank)
 			assert  operational_event.errors.matching?(:operational_event_type_id,"can't be blank")
 		end
@@ -39,7 +39,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 	test "should require valid operational_event_type" do
 		assert_difference( "OperationalEvent.count", 0 ) do
 			operational_event = create_operational_event( :operational_event_type_id => 0)
-			assert !operational_event.errors.on(:operational_event_type_id)
+			assert !operational_event.errors.include?(:operational_event_type_id)
 #			assert  operational_event.errors.on_attr_and_type?(:operational_event_type,:blank)
 			assert  operational_event.errors.matching?(:operational_event_type,"can't be blank")
 		end

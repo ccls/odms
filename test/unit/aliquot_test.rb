@@ -33,42 +33,42 @@ class AliquotTest < ActiveSupport::TestCase
 	test "should require owner" do
 		assert_difference( "Aliquot.count", 0 ) do
 			aliquot = create_aliquot( :owner => nil)
-			assert aliquot.errors.on(:owner)
+			assert aliquot.errors.include?(:owner)
 		end
 	end
 
 	test "should require valid owner" do
 		assert_difference( "Aliquot.count", 0 ) do
 			aliquot = create_aliquot( :owner_id => 0)
-			assert aliquot.errors.on(:owner)
+			assert aliquot.errors.include?(:owner)
 		end
 	end
 
 	test "should require unit" do
 		assert_difference( "Aliquot.count", 0 ) do
 			aliquot = create_aliquot( :unit => nil)
-			assert aliquot.errors.on(:unit)
+			assert aliquot.errors.include?(:unit)
 		end
 	end
 
 	test "should require valid unit" do
 		assert_difference( "Aliquot.count", 0 ) do
 			aliquot = create_aliquot( :unit_id => 0)
-			assert aliquot.errors.on(:unit)
+			assert aliquot.errors.include?(:unit)
 		end
 	end
 
 	test "should require sample" do
 		assert_difference( "Aliquot.count", 0 ) do
 			aliquot = create_aliquot( :sample => nil)
-			assert aliquot.errors.on(:sample)
+			assert aliquot.errors.include?(:sample)
 		end
 	end
 
 	test "should require valid sample" do
 		assert_difference( "Aliquot.count", 0 ) do
 			aliquot = create_aliquot( :sample_id => 0)
-			assert aliquot.errors.on(:sample)
+			assert aliquot.errors.include?(:sample)
 		end
 	end
 

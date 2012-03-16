@@ -65,42 +65,42 @@ class InterviewTest < ActiveSupport::TestCase
 	test "should NOT require valid address_id" do
 		assert_difference( "Interview.count", 1 ) do
 			interview = create_interview(:address_id => 0)
-			assert !interview.errors.on(:address)
+			assert !interview.errors.include?(:address)
 		end
 	end
 
 	test "should NOT require valid interviewer_id" do
 		assert_difference( "Interview.count", 1 ) do
 			interview = create_interview(:interviewer_id => 0)
-			assert !interview.errors.on(:interviewer)
+			assert !interview.errors.include?(:interviewer)
 		end
 	end
 
 	test "should NOT require valid instrument_version_id" do
 		assert_difference( "Interview.count", 1 ) do
 			interview = create_interview(:instrument_version_id => 0)
-			assert !interview.errors.on(:instrument_version_id)
+			assert !interview.errors.include?(:instrument_version_id)
 		end
 	end
 
 	test "should NOT require valid interview_method_id" do
 		assert_difference( "Interview.count", 1 ) do
 			interview = create_interview(:interview_method_id => 0)
-			assert !interview.errors.on(:interview_method_id)
+			assert !interview.errors.include?(:interview_method_id)
 		end
 	end
 
 	test "should NOT require valid language_id" do
 		assert_difference( "Interview.count", 1 ) do
 			interview = create_interview(:language_id => 0)
-			assert !interview.errors.on(:language_id)
+			assert !interview.errors.include?(:language_id)
 		end
 	end
 
 	test "should NOT require valid study_subject_id" do
 		assert_difference( "Interview.count", 1 ) do
 			interview = create_interview(:study_subject_id => 0)
-			assert !interview.errors.on(:study_subject_id)
+			assert !interview.errors.include?(:study_subject_id)
 		end
 	end
 
@@ -116,7 +116,7 @@ class InterviewTest < ActiveSupport::TestCase
 		assert_difference( "Interview.count", 0 ) do
 			interview = create_interview(
 				:subject_relationship => SubjectRelationship['other'] )
-			assert interview.errors.on(:other_subject_relationship)
+			assert interview.errors.include?(:other_subject_relationship)
 		end
 	end
 
@@ -126,7 +126,7 @@ class InterviewTest < ActiveSupport::TestCase
 			interview = create_interview(
 				:subject_relationship_id => '',
 				:other_subject_relationship => 'asdfasdf' )
-			assert interview.errors.on(:other_subject_relationship)
+			assert interview.errors.include?(:other_subject_relationship)
 		end
 	end
 
@@ -143,7 +143,7 @@ class InterviewTest < ActiveSupport::TestCase
 		assert_difference( "Interview.count", 0 ) do
 			interview = create_interview(
 				:subject_relationship => SubjectRelationship['other'] )
-			assert interview.errors.on(:other_subject_relationship)
+			assert interview.errors.include?(:other_subject_relationship)
 			assert_match /You must specify a relationship with 'other relationship' is selected/, 
 				interview.errors.full_messages.to_sentence
 			assert_no_match /Subject relationship other/, 

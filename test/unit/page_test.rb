@@ -32,7 +32,7 @@ class PageTest < ActiveSupport::TestCase
 		assert_no_difference 'Page.count' do
 			page = Factory.build(:page, :path => 'Hey')
 			page.save
-			assert page.errors.on(:path)
+			assert page.errors.include?(:path)
 		end
 	end
 

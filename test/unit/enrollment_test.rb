@@ -105,7 +105,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "should require project" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment( :project => nil)
-			assert !enrollment.errors.on(:project)
+			assert !enrollment.errors.include?(:project)
 #			assert  enrollment.errors.on_attr_and_type?(:project_id,:blank)
 			assert  enrollment.errors.matching?(:project_id,"can't be blank")
 		end
@@ -114,7 +114,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "should require valid project" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment( :project_id => 0)
-			assert !enrollment.errors.on(:project_id)
+			assert !enrollment.errors.include?(:project_id)
 #			assert  enrollment.errors.on_attr_and_type?(:project,:blank)
 			assert  enrollment.errors.matching?(:project,"can't be blank")
 		end
@@ -136,16 +136,16 @@ class EnrollmentTest < ActiveSupport::TestCase
 #				:is_complete  => YNDK[:yes],
 #				:completed_on => Date.tomorrow )
 #			#	sometimes this fails during test:coverage?
-#			assert enrollment.errors.on(:completed_on)
+#			assert enrollment.errors.include?(:completed_on)
 #			assert_match(/future/,
-#				enrollment.errors.on(:completed_on))
+#				enrollment.errors.include?(:completed_on))
 #		end
 #	end
 
 	test "should require ineligible_reason if is_eligible == :no" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:is_eligible => YNDK[:no])
-			assert !enrollment.errors.on(:ineligible_reason)
+			assert !enrollment.errors.include?(:ineligible_reason)
 #			assert  enrollment.errors.on_attr_and_type?(:ineligible_reason_id,:blank)
 			assert  enrollment.errors.matching?(:ineligible_reason_id,"can't be blank")
 		end
@@ -154,7 +154,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:is_eligible => YNDK[:no],
 				:ineligible_reason_id => 0)
-			assert !enrollment.errors.on(:ineligible_reason_id)
+			assert !enrollment.errors.include?(:ineligible_reason_id)
 #			assert  enrollment.errors.on_attr_and_type?(:ineligible_reason,:blank)
 			assert  enrollment.errors.matching?(:ineligible_reason,"can't be blank")
 		end
@@ -164,7 +164,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			assert_difference( "Enrollment.count", 0 ) do
 				enrollment = create_subjectless_enrollment(:is_eligible => YNDK[yndk],
 					:ineligible_reason => Factory(:ineligible_reason) )
-				assert !enrollment.errors.on(:ineligible_reason)
+				assert !enrollment.errors.include?(:ineligible_reason)
 #				assert  enrollment.errors.on_attr_and_type?(:ineligible_reason_id,:present)
 				assert  enrollment.errors.matching?(:ineligible_reason_id,
 					'is present and must be absent')
@@ -178,7 +178,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			enrollment = create_subjectless_enrollment(
 				:is_eligible => YNDK[:no],
 				:ineligible_reason => IneligibleReason['other'] )
-			assert enrollment.errors.on(:other_ineligible_reason)
+			assert enrollment.errors.include?(:other_ineligible_reason)
 #			assert enrollment.errors.on_attr_and_type?(:other_ineligible_reason,:blank)
 			assert enrollment.errors.matching?(:other_ineligible_reason,"can't be blank")
 		end
@@ -190,7 +190,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 				:is_eligible => YNDK[:no],
 				:ineligible_reason => Factory(:ineligible_reason),
 				:other_ineligible_reason => 'blah blah blah' )
-			assert !enrollment.errors.on(:other_ineligible_reason)
+			assert !enrollment.errors.include?(:other_ineligible_reason)
 		end
 	end
 	[:yes,:dk,:nil].each do |yndk|
@@ -201,7 +201,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 					:is_eligible => YNDK[yndk],
 					:ineligible_reason => Factory(:ineligible_reason),
 					:other_ineligible_reason => 'blah blah blah' )
-				assert enrollment.errors.on(:other_ineligible_reason)
+				assert enrollment.errors.include?(:other_ineligible_reason)
 #				assert enrollment.errors.on_attr_and_type?(:other_ineligible_reason,:present)
 				assert enrollment.errors.matching?(:other_ineligible_reason,
 					'is present and must be absent')
@@ -213,7 +213,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "should require reason_not_chosen if is_chosen == :no" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:is_chosen => YNDK[:no])
-			assert enrollment.errors.on(:reason_not_chosen)
+			assert enrollment.errors.include?(:reason_not_chosen)
 #			assert enrollment.errors.on_attr_and_type?(:reason_not_chosen,:blank)
 			assert enrollment.errors.matching?(:reason_not_chosen,"can't be blank")
 		end
@@ -223,7 +223,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			assert_difference( "Enrollment.count", 0 ) do
 				enrollment = create_subjectless_enrollment(:is_chosen => YNDK[yndk],
 					:reason_not_chosen => "blah blah blah")
-				assert enrollment.errors.on(:reason_not_chosen)
+				assert enrollment.errors.include?(:reason_not_chosen)
 #				assert enrollment.errors.on_attr_and_type?(:reason_not_chosen,:present)
 				assert enrollment.errors.matching?(:reason_not_chosen,
 					'is present and must be absent')
@@ -235,7 +235,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "should require refusal_reason if consented == :no" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:consented => YNDK[:no])
-			assert !enrollment.errors.on(:refusal_reason)
+			assert !enrollment.errors.include?(:refusal_reason)
 #			assert  enrollment.errors.on_attr_and_type?(:refusal_reason_id,:blank)
 			assert  enrollment.errors.matching?(:refusal_reason_id,"can't be blank")
 		end
@@ -244,7 +244,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:consented => YNDK[:no],
 				:refusal_reason_id => 0)
-			assert !enrollment.errors.on(:refusal_reason_id)
+			assert !enrollment.errors.include?(:refusal_reason_id)
 #			assert  enrollment.errors.on_attr_and_type?(:refusal_reason,:blank)
 			assert  enrollment.errors.matching?(:refusal_reason,"can't be blank")
 		end
@@ -254,7 +254,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			assert_difference( "Enrollment.count", 0 ) do
 				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
 					:refusal_reason => Factory(:refusal_reason))
-				assert !enrollment.errors.on(:refusal_reason)
+				assert !enrollment.errors.include?(:refusal_reason)
 #				assert  enrollment.errors.on_attr_and_type?(:refusal_reason_id,:present)
 				assert  enrollment.errors.matching?(:refusal_reason_id,
 					'is present and must be absent')
@@ -267,7 +267,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:consented => YNDK[:no],
 				:refusal_reason => RefusalReason['other'] )
-			assert enrollment.errors.on(:other_refusal_reason)
+			assert enrollment.errors.include?(:other_refusal_reason)
 #			assert enrollment.errors.on_attr_and_type?(:other_refusal_reason,:blank)
 			assert enrollment.errors.matching?(:other_refusal_reason,"can't be blank")
 		end
@@ -279,7 +279,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 				:consented_on => Date.today,
 				:refusal_reason => Factory(:refusal_reason),
 				:other_refusal_reason => 'asdfasdf' )
-			assert !enrollment.errors.on(:other_refusal_reason)
+			assert !enrollment.errors.include?(:other_refusal_reason)
 		end
 	end
 	[:yes,:dk,:nil].each do |yndk|
@@ -289,7 +289,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
 					:refusal_reason => Factory(:refusal_reason),
 					:other_refusal_reason => 'asdfasdf' )
-				assert enrollment.errors.on(:other_refusal_reason)
+				assert enrollment.errors.include?(:other_refusal_reason)
 #				assert enrollment.errors.on_attr_and_type?(:other_refusal_reason,:present)
 				assert enrollment.errors.matching?(:other_refusal_reason,
 					'is present and must be absent')
@@ -313,7 +313,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			assert_difference( "Enrollment.count", 0 ) do
 				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
 					:consented_on => Date.today)
-				assert enrollment.errors.on(:consented_on)
+				assert enrollment.errors.include?(:consented_on)
 #				assert enrollment.errors.on_attr_and_type?(:consented_on,:present)
 				assert enrollment.errors.matching?(:consented_on,
 					'is present and must be absent')
@@ -326,7 +326,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			"terminated_participation == :yes" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:terminated_participation => YNDK[:yes])
-			assert enrollment.errors.on(:terminated_reason)
+			assert enrollment.errors.include?(:terminated_reason)
 #			assert enrollment.errors.on_attr_and_type?(:terminated_reason,:blank)
 			assert enrollment.errors.matching?(:terminated_reason,"can't be blank")
 		end
@@ -338,7 +338,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 				enrollment = create_subjectless_enrollment(
 					:terminated_participation => YNDK[yndk],
 					:terminated_reason => 'some bogus reason')
-				assert enrollment.errors.on(:terminated_reason)
+				assert enrollment.errors.include?(:terminated_reason)
 #				assert enrollment.errors.on_attr_and_type?(:terminated_reason,:present)
 				assert enrollment.errors.matching?(:terminated_reason,
 					'is present and must be absent')
@@ -350,7 +350,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "should require completed_on if is_complete == :yes" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:is_complete => YNDK[:yes])
-			assert enrollment.errors.on(:completed_on)
+			assert enrollment.errors.include?(:completed_on)
 #			assert enrollment.errors.on_attr_and_type?(:completed_on,:blank)
 			assert enrollment.errors.matching?(:completed_on,"can't be blank")
 		end
@@ -360,7 +360,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			assert_difference( "Enrollment.count", 0 ) do
 				enrollment = create_subjectless_enrollment(:is_complete => YNDK[yndk],
 					:completed_on => Date.today)
-				assert enrollment.errors.on(:completed_on)
+				assert enrollment.errors.include?(:completed_on)
 #				assert enrollment.errors.on_attr_and_type?(:completed_on,:present)
 				assert enrollment.errors.matching?(:completed_on,
 					'is present and must be absent')
@@ -374,7 +374,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			assert_difference( "Enrollment.count", 0 ) do
 				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
 					:document_version => Factory(:document_version) )
-				assert !enrollment.errors.on(:document_version)
+				assert !enrollment.errors.include?(:document_version)
 #				assert  enrollment.errors.on_attr_and_type?(:document_version_id,:present)
 				assert  enrollment.errors.matching?(:document_version_id,
 					'is present and must be absent')
@@ -401,7 +401,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			enrollment = create_subjectless_enrollment(:consented => YNDK[:yes],
 				:consented_on     => Date.today,
 				:document_version_id => 0 )
-			assert !enrollment.errors.on(:document_version_id)
+			assert !enrollment.errors.include?(:document_version_id)
 #			assert  enrollment.errors.on_attr_and_type?(:document_version,:blank)
 			assert  enrollment.errors.matching?(:document_version,"can't be blank")
 		end

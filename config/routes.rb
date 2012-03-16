@@ -61,6 +61,8 @@ Odms::Application.routes.draw do
 #
 #		http://yehudakatz.com/2009/12/26/the-rails-3-router-rack-it-up/
 #
+#		http://guides.rubyonrails.org/routing.html
+#
 #
 
 

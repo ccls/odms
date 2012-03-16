@@ -5,7 +5,7 @@
 
 
 
-== Rails 3 Upgrade 
+== Rails 3 Upgrade Modifications
 
 So many things have changed from 2 to 3 and not all are good.  
 
@@ -13,10 +13,55 @@ Perhaps I should have stepped into this Rails 3.0, 3.1 then 3.2?
 Then would've seen deprecation warnings?
 
 
-
 No more "errors.on(:field_name)" which was actually a built in rails staple!
 -	Rewrote it myself
 ... but should remove? Isn't hurting anyone.
+- modified tests to use .includes? instead
+
+
+Our Context[...] model causes this ...
+ActionView::Template::Error: undefined method `[]' for ActionView::Context:Module
+Added :: prefix where I use it to see if makes a difference
+
+
+
+
+
+== Rails 3 Upgrade TODOs
+
+
+* (20120316a) 7886 tests, 18416 assertions, 907 failures, 1439 errors
+* (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
+
+
+* integration tests running
+	* #Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:62152/fake_session/new
+* integration tests passing
+* all tests passing
+* write replacement for f.error_messages
+* custom error messages without attribute
+* humanized versions of attributes for now
+* rake db:load:fixtures with csv files (works in testing)
+* config/initializers/action_view_extension/base.rb to simple helper
+* ZipCode failures??
+* json format
+* controllers now raises MassAssignmentSecurity::Error
+  * add a rescue to ignore it
+
+	*	I could simply remove this ... but seems scandalous
+	# Raise exception on mass assignment protection for Active Record models
+	config.active_record.mass_assignment_sanitizer = :strict
+	* I'd rather just silently ignore, but probably shouldn't
+
+* remove any unused code
+* datetime still accept partial?
+* remove soon to be deprecate code
+* my custom validations
+* catch-all page path route string not array
+* reenable raising mass assignment error in environments/test.rb
+* no more 'redirected_to' test method? NoMethodError: undefined method `redirected_to' for #<ActionController::TestResponse:0x10c01d120>
+
+*	get acts_as_list working (actually seems to work fine.  tests don't though)
 
 
 
@@ -25,7 +70,50 @@ No more "errors.on(:field_name)" which was actually a built in rails staple!
 
 
 
-No more form f.error_messages in rails 3
+
+
+
+
+
+No more form f.error_messages in rails 3 so I'll need to do something there.
+Build my own helper that creates something like ...
+
+<div class="errorExplanation" id="errorExplanation">
+<h2>5 errors prohibited this study subject from being saved</h2>
+<p>There were problems with the following fields:</p>
+<ul>
+<li>No sex has been chosen.</li>
+<li>Date of birth can't be blank.</li>
+<li>Admit date can't be blank</li>
+<li>Diagnosis can't be blank</li>
+<li>Hospital record number can't be blank.</li>
+</ul>
+</div>
+
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+
+Use locales or HUMANIZED ATTRIBUE NAME to convert things like ...
+	dob to Date of birth
+	hospital_no to Hospital record number
+
+
+
+
+
+
+
+Integration tests now ignored by autotest???
+I just added a mapping in .autotest so lets see.  Testing is taking FOREVER!
+
+
 
 
 
@@ -72,6 +160,13 @@ At least autotest runs
 
 Would probably be much better if I could remove all of my custom mods,
 but I'll probably have to add more.
+
+
+
+
+
+
+
 
 
 

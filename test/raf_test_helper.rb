@@ -30,6 +30,10 @@ class ActiveSupport::TestCase
 #	end
 
 #			:race_ids => [Race.random.id],
+
+#ActiveModel::MassAssignmentSecurity::Error: Can't mass-assign protected attributes: case_control_type
+#	if I set it to nil, will it stop the above?
+
 	def complete_case_study_subject_attributes(options={})
 		{ 'study_subject' => Factory.attributes_for(:study_subject,
 #	NOT on the form or currently required
@@ -45,7 +49,13 @@ class ActiveSupport::TestCase
 				'address_attributes' => Factory.attributes_for(:address) ) },
 			'enrollments_attributes' => {
 				'0' => Factory.attributes_for(:enrollment) }
-		) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+
+
+			).delete_keys!(:case_control_type)
+#	remove protected attributes
+
+
+		}.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
 	def assert_all_differences(count=0,&block)

@@ -41,7 +41,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 			study_subject = create_study_subject(
 				:patient_attributes => Factory.attributes_for(:patient))
 			assert !study_subject.is_case?
-			assert study_subject.errors.on(:patient)	#	no type
+			assert study_subject.errors.include?(:patient)	#	no type
 			assert  study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }
@@ -69,7 +69,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 				"#{study_subject.errors.full_messages.to_sentence}"
 			patient = Factory.build(:patient, :study_subject => study_subject)
 			patient.save	#	avoid an exception being raised
-			assert patient.errors.on(:study_subject)
+			assert patient.errors.include?(:study_subject)
 		} }
 	end
 
@@ -77,16 +77,16 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		assert_difference( 'Patient.count', 0) {
 		assert_difference( "StudySubject.count", 0 ) {
 			study_subject = create_study_subject( :patient_attributes => {})
-			assert study_subject.errors.on('patient.diagnosis_id')
+			assert study_subject.errors.include?('patient.diagnosis_id')
 #			assert study_subject.errors.on_attr_and_type?('patient.diagnosis_id',:blank)
 			assert study_subject.errors.matching?('patient.diagnosis_id',"can't be blank")
-			assert study_subject.errors.on('patient.hospital_no')
+			assert study_subject.errors.include?('patient.hospital_no')
 #			assert study_subject.errors.on_attr_and_type?('patient.hospital_no',:blank)
 			assert study_subject.errors.matching?('patient.hospital_no',"can't be blank")
-			assert study_subject.errors.on('patient.admit_date')
+			assert study_subject.errors.include?('patient.admit_date')
 #			assert study_subject.errors.on_attr_and_type?('patient.admit_date',:blank)
 			assert study_subject.errors.matching?('patient.admit_date',"can't be blank")
-			assert study_subject.errors.on('patient.organization_id')
+			assert study_subject.errors.include?('patient.organization_id')
 #			assert study_subject.errors.on_attr_and_type?('patient.organization_id',:blank)
 			assert study_subject.errors.matching?('patient.organization_id',"can't be blank")
 		} }

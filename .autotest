@@ -1,2 +1,11 @@
 #	From `script/generate simply_testable` ...
 Dir["#{File.dirname(__FILE__)}/config/autotest/**/*rb"].sort.each { |ext| load ext }
+
+
+#	Actually, I don't think that I need this.
+
+#Autotest.add_hook :initialize do |at|
+#  at.add_mapping(%r%^test/(integration)/.*rb$%) {|filename, _|
+#    filename
+#  }
+#end

@@ -99,7 +99,7 @@ module CclsAssertions
 						object = model_name.constantize.new(field => value)
 						assert_equal object.send(field), value
 						object.valid?
-						assert !object.errors.on(field)
+						assert !object.errors.include?(field)
 					end
 
 				end

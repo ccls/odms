@@ -21,7 +21,7 @@ class HomeExposureResponseTest < ActiveSupport::TestCase
 #	test "should require study_subject" do
 #		assert_difference( "HomeExposureResponse.count", 0 ) do
 #			home_exposure_response = create_home_exposure_response( :study_subject => nil)
-#			assert !home_exposure_response.errors.on(:study_subject)
+#			assert !home_exposure_response.errors.include?(:study_subject)
 #			assert  home_exposure_response.errors.on_attr_and_type?(:study_subject_id, :blank)
 #		end
 #	end
@@ -29,7 +29,7 @@ class HomeExposureResponseTest < ActiveSupport::TestCase
 #	test "should require valid study_subject" do
 #		assert_difference( "HomeExposureResponse.count", 0 ) do
 #			home_exposure_response = create_home_exposure_response( :study_subject_id => 0)
-#			assert !home_exposure_response.errors.on(:study_subject_id)
+#			assert !home_exposure_response.errors.include?(:study_subject_id)
 #			assert  home_exposure_response.errors.on_attr_and_type?(:study_subject,:blank)
 #		end
 #	end

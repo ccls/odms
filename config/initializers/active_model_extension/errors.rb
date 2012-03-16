@@ -27,7 +27,8 @@ puts
 #=> false
 			#	all keys seem to be converted to symbols? NOT indifferent.
 			self.include?(attribute.to_sym) &&
-				@messages[attribute].any?{|m| m.match(/#{message.to_s}/) }
+				self.messages[attribute.to_sym].any?{|m| m.match(/#{message.to_s}/) }
+#				@messages[attribute.to_sym].any?{|m| m.match(/#{message.to_s}/) }
 		end
 
 

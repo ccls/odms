@@ -115,7 +115,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 					:enrollment => factory_attributes(
 						:project_id => e.project_id)
 			end
-			assert assigns(:enrollment).errors.on(:project_id)
+			assert assigns(:enrollment).errors.include?(:project_id)
 			assert_response :success
 			assert_template 'new'
 			assert_not_nil flash[:error]
@@ -141,7 +141,8 @@ class EnrollmentsControllerTest < ActionController::TestCase
 			assert_changes("Enrollment.find(#{enrollment.id}).operational_events.count",1) {
 				put :update, :id => enrollment.id,
 					:enrollment => { :consented => YNDK[:no],
-						:refusal_reason => Factory(:refusal_reason),
+#						:refusal_reason => Factory(:refusal_reason),
+						:refusal_reason_id => Factory(:refusal_reason).id,
 						:consented_on => Date.today }
 			}
 			assert assigns(:enrollment)

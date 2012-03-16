@@ -166,6 +166,7 @@ module ActiveSupportExtension::Associations
 			end
 		end
 
+#	TODO can I toss this
 		def assert_requires_valid_associations(*associations)
 #				options = associations.extract_options!
 #				model = options[:model] || st_model_name

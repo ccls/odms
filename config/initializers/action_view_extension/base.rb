@@ -132,11 +132,11 @@ module ActionViewExtension::Base
 	#				send("_#{method_name}",*args) << 
 	#					(( block_given? )? capture(&block) : '')
 				end
-				if block_called_from_erb?(block)
-					concat(content)
-				else
+#				if block_called_from_erb?(block)
+#					concat(content)
+#				else
 					content
-				end
+#				end
 			else
 				method_missing_without_wrapping(symb,*args, &block)
 			end
@@ -170,11 +170,11 @@ module ActionViewExtension::Base
 			s << (( block_given? )? capture(&block) : '')
 			s << submit_tag(title, :name => nil ) << "\n" <<
 				"</form>\n"
-			if block_called_from_erb?(block)
-				concat(s)
-			else
+#			if block_called_from_erb?(block)
+#				concat(s)
+#			else
 				s
-			end
+#			end
 		end
 
 		def destroy_link_to( title, url, options={}, &block )

@@ -105,7 +105,7 @@ class AddressingTest < ActiveSupport::TestCase
 #			addressing = create_addressing(:address_id => nil)
 #			addressing.reload.update_attributes(
 #				:created_at => Date.yesterday )
-#			assert addressing.errors.on(:address)
+#			assert addressing.errors.include?(:address)
 #		end
 #	end
 
@@ -149,7 +149,7 @@ class AddressingTest < ActiveSupport::TestCase
 		test "should require why_invalid if is_valid is #{yndk}" do
 			assert_difference("Addressing.count", 0 ) do
 				addressing = create_addressing(:is_valid => YNDK[yndk])
-				assert addressing.errors.on(:why_invalid)
+				assert addressing.errors.include?(:why_invalid)
 			end
 		end
 	end
@@ -162,7 +162,7 @@ class AddressingTest < ActiveSupport::TestCase
 	test "should require how_verified if is_verified is true" do
 		assert_difference("Addressing.count", 0 ) do
 			addressing = create_addressing(:is_verified => true)
-			assert addressing.errors.on(:how_verified)
+			assert addressing.errors.include?(:how_verified)
 		end
 	end
 

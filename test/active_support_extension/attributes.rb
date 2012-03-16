@@ -179,14 +179,16 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal length-1, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-							assert object.errors.on_attr_and_type(attr.to_sym, :wrong_length)
+#							assert object.errors.on_attr_and_type(attr.to_sym, :wrong_length)
+							assert object.errors.matching?(attr,'is the wrong length')
 						end
 						assert_no_difference "#{model}.count" do
 							value = 'x'*(length+1)
 							object = create_object(attr.to_sym => value)
 							assert_equal length+1, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-							assert object.errors.on_attr_and_type(attr.to_sym, :wrong_length)
+#							assert object.errors.on_attr_and_type(attr.to_sym, :wrong_length)
+							assert object.errors.matching?(attr,'is the wrong length')
 						end
 					end
 				end

@@ -45,13 +45,15 @@ module CalnetAuthenticatedTestHelper
 	def assert_redirected_to_login
 		assert_response :redirect
 		assert_match "https://auth-test.berkeley.edu/cas/login",
-			@response.redirected_to
+			@response.redirect_url
+#			@response.redirected_to
 	end
 
 	def assert_redirected_to_logout
 		assert_response :redirect
 		assert_match "https://auth-test.berkeley.edu/cas/logout",
-			@response.redirected_to
+			@response.redirect_url
+#			@response.redirected_to
 	end
 
 	def assert_logged_in

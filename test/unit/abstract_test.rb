@@ -510,7 +510,7 @@ class AbstractTest < ActiveSupport::TestCase
 		assert_difference('Abstract.count',0) {
 			abstract = create_abstract(:current_user => @current_user,
 				:study_subject => @study_subject.reload)
-			assert abstract.errors.on(:study_subject_id)
+			assert abstract.errors.include?(:study_subject_id)
 		}
 	end
 
@@ -544,7 +544,7 @@ class AbstractTest < ActiveSupport::TestCase
 		assert a1.merged?
 		assert_difference('Abstract.count',0) {
 			a2 = create_abstract( :study_subject => study_subject, :merging => true)
-			assert a2.errors.on(:study_subject_id)
+			assert a2.errors.include?(:study_subject_id)
 		}
 	end
 

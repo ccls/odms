@@ -341,7 +341,10 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
 		study_subject1 = Factory(:study_subject)
 		assert_not_nil study_subject1.childid
-		assert_raises(ActiveRecord::StatementInvalid){
+#	rails 2
+#		assert_raises(ActiveRecord::StatementInvalid){
+#	rails 3
+		assert_raises(ActiveRecord::RecordNotUnique){
 			study_subject2 = Factory(:study_subject)
 		}
 	end
@@ -351,7 +354,10 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		StudySubject.any_instance.stubs(:get_next_patid).returns('0123')
 		study_subject1 = Factory(:case_study_subject)
 		assert_not_nil study_subject1.patid
-		assert_raises(ActiveRecord::StatementInvalid){
+#	rails 2
+#		assert_raises(ActiveRecord::StatementInvalid){
+#	rails 3
+		assert_raises(ActiveRecord::RecordNotUnique){
 			study_subject2 = Factory(:case_study_subject)
 		}
 	end
@@ -364,7 +370,10 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
 		study_subject1 = Factory(:study_subject)
 		assert_not_nil study_subject1.subjectid
-		assert_raises(ActiveRecord::StatementInvalid){
+#	rails 2
+#		assert_raises(ActiveRecord::StatementInvalid){
+#	rails 3
+		assert_raises(ActiveRecord::RecordNotUnique){
 			study_subject2 = Factory(:study_subject)
 		}
 	end

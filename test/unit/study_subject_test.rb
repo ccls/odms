@@ -195,7 +195,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 	test "should require subject_type" do
 		assert_difference( "StudySubject.count", 0 ) do
 			study_subject = create_study_subject( :subject_type => nil)
-			assert !study_subject.errors.on(:subject_type)
+			assert !study_subject.errors.include?(:subject_type)
 #			assert  study_subject.errors.on_attr_and_type?(:subject_type_id,:blank)
 			assert  study_subject.errors.matching?(:subject_type_id,"can't be blank")
 		end
@@ -204,7 +204,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 	test "should require valid subject_type" do
 		assert_difference( "StudySubject.count", 0 ) do
 			study_subject = create_study_subject( :subject_type_id => 0)
-			assert !study_subject.errors.on(:subject_type_id)
+			assert !study_subject.errors.include?(:subject_type_id)
 #			assert  study_subject.errors.on_attr_and_type?(:subject_type,:blank)
 			assert  study_subject.errors.matching?(:subject_type,"can't be blank")
 		end

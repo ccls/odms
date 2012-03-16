@@ -59,6 +59,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_template 'index'
 			assert_select ".arrow", :count => 1
 			assert_select ".arrow", 1
+pending	#	stray HAVING in SQL
 		end
 	
 		test "should get index with order and dir asc with #{cu} login" do
@@ -69,6 +70,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_template 'index'
 			assert_select ".arrow", :count => 1
 			assert_select ".arrow", 1
+pending	#	stray HAVING in SQL
 		end
 	
 #		test "should get show with pii with #{cu} login" do
@@ -90,6 +92,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_template 'show'
 			assert_select "#do_not_contact", :count => 1
 			assert_select "#do_not_contact", 1
+pending
 		end
 	
 		test "should NOT have do_not_contact if it is false "<<

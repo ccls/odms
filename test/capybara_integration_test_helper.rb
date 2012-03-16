@@ -141,7 +141,9 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		#	I explicitly 'ssl_allowed' new and create, so irrelevant.
 		#	After the first request, it will be included though.
 		ApplicationController.subclasses.each do |controller|
-			controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
+#			controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
+#	actually passes the class in Rails3 
+			controller.any_instance.stubs(:ssl_allowed?).returns(true) 
 		end
 	end
 
