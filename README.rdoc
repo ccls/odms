@@ -5,6 +5,24 @@
 
 
 
+== Rails 3 Upgrade 
+
+So many things have changed from 2 to 3 and not all are good.  
+Some feature are just gone, like error types.
+Many of my extensions and modification will never work and must simply be removed.
+Most unfortunate.  I'll need to find alternatives.
+json output format no longer has the initial key.
+assert_difference always seems to fail as the Model.count doesn't change even on successfull creation.
+
+rake db:load:fixtures does not work for csv files????
+
+the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
+
+
+So many changes that don't seem to be "better" just "different."
+
+This sucks.  Shoulda stuck with Rails 2. 
+
 
 
 

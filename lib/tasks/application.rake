@@ -1,5 +1,9 @@
 namespace :app do
 
+#	TODO csvs don't load in Rails 3 ????
+#			document_versions
+#			zip_codes 
+
 	desc "Load some fixtures to database for application"
 	task :update => :environment do
 		fixtures = %w(
@@ -9,7 +13,6 @@ namespace :app do
 			data_sources
 			diagnoses
 			document_types
-			document_versions
 			follow_up_types
 			hospitals
 			ineligible_reasons

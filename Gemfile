@@ -5,7 +5,8 @@ gem 'rails', '3.2.2'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+#	Don't need it.
+#gem 'sqlite3'
 
 gem 'json'
 
@@ -43,29 +44,30 @@ gem 'jquery-rails'
 
 
 gem "mysql"
-#	Why?  Can't remember.
-gem "RedCloth"	#, '<4.2.8'
+gem "RedCloth"
+
 #	Used for cvs parsing on data import
 #	Also used to csv output.
 gem "fastercsv"
+
 #	Trying to remove Chronic usage
 #	still in calnet_authenticated
 #	0.6.7 doesn't install in jruby?
 gem "chronic"	#,	'<=0.6.6'
 
 #gem "ssl_requirement"
+#	rails 3 version, but apparently there is a better way
 gem 'bartt-ssl_requirement', :require => 'ssl_requirement'
 
-
+#	don't need it and its not rails 3 compatible
 #gem "jrails"
 
 gem "ryanb-acts-as-list", :require => 'acts_as_list'
-#	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
+
 gem "will_paginate"
-#	config.gem 'will_paginate'
-#	config.gem 'fastercsv'
-#	config.gem 'hpricot'
+
 gem "hpricot"
+
 #	config.gem 'paperclip'	#, '=2.4.2'
 #	2.4.3, 2.4.5 causes a lot of ...
 #	NameError: `@[]' is not allowed as an instance variable name
@@ -74,15 +76,9 @@ gem "hpricot"
 gem "paperclip"	#, '=2.4.2'	#	only used by buffler and clic
 #	actually, now will be used for live_birth_data, so all apps need it
 
-#	config.gem 'rubycas-client'	#, '>= 2.2.1'
 gem 'rubycas-client'
 
-#	This used to be required in the application controller?
-#require 'casclient'
-#require 'casclient/frameworks/rails/filter'
-
 gem 'ucb_ldap'
-#	config.gem 'ucb_ldap'	#, '>= 1.4.2'
 
 gem "mongrel"
 
@@ -92,30 +88,26 @@ gem "active_scaffold"
 
 
 group :test do
-gem "rcov"
-#	Without the :lib => false, 'rake test' actually fails?
-#gem "mocha", :lib => false
-gem "autotest-rails", :require => 'autotest/rails'
-gem 'ZenTest'	#	, '~>4.5.0'
-#		#Fetching: ZenTest-4.6.2.gem (100%)
-#		#ERROR:  Error installing ZenTest:
-#		#	ZenTest requires RubyGems version ~> 1.8. (which is evil I tell you)
-#gem "thoughtbot-factory_girl", :require    => "factory_girl"
-gem "factory_girl_rails"	#, :require    => "factory_girl"
-#	:source => "http://gems.github.com"
+	gem "rcov"
+	#	Without the :lib => false, 'rake test' actually fails?
+	#gem "mocha", :lib => false
+	gem "autotest-rails", :require => 'autotest/rails'
+	gem 'ZenTest'	#	, '~>4.5.0'
+	#		#Fetching: ZenTest-4.6.2.gem (100%)
+	#		#ERROR:  Error installing ZenTest:
+	#		#	ZenTest requires RubyGems version ~> 1.8. (which is evil I tell you)
+	#gem "thoughtbot-factory_girl", :require    => "factory_girl"
 
+	#	rails 3 version
+	gem "factory_girl_rails"	#, :require    => "factory_girl"
+	#	:source => "http://gems.github.com"
 
+	#	TODO gonna need to fix this
+	#gem 'ccls-html_test'
 
-
-#	TODO gonna need to fix this
-#gem 'ccls-html_test'
-
-
-
-
-gem 'webrat'
-gem 'capybara'
-gem 'capybara-webkit'
+	gem 'webrat'
+	gem 'capybara'
+	gem 'capybara-webkit'
 end
 
 

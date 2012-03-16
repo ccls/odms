@@ -2,6 +2,9 @@ module CclsAssertions
 
 	def self.included(base)
 		base.extend(ClassMethods)
+
+		#	basically to include the model_name method
+		base.extend ActiveModel::Naming
 	end
 
 	def assert_subject_is_eligible(study_subject)

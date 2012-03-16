@@ -89,6 +89,11 @@ module ActiveRecordExtension::Base
 			send(validation_method(configuration[:on]), configuration) do |record|
 				attr_names.each do |attr_name|
 					unless record.send(attr_name).blank?
+#
+#	No longer an ActiveRecord::Error class
+#		just an attribute and message I guess?
+#	    errors.add(:name, "can not be nil")
+#
 						record.errors.add(attr_name, 
 							ActiveRecord::Error.new(record,attr_name,:present,
 								{ :message => configuration[:message] }))
@@ -148,6 +153,11 @@ module ActiveRecordExtension::Base
 #	actually, this allows today by default
 #					if !date.blank? && Date.today < date
 					if !date.blank? && base_date < date
+#
+#	No longer an ActiveRecord::Error class
+#		just an attribute and message I guess?
+#	    errors.add(:name, "can not be nil")
+#
 						record.errors.add(attr_name, 
 							ActiveRecord::Error.new(record,attr_name,:not_past_date,
 								{ :message => configuration[:message] }))
@@ -177,6 +187,11 @@ module ActiveRecordExtension::Base
 						unless date_hash.has_key?(:year) &&
 							date_hash.has_key?(:mon) &&
 							date_hash.has_key?(:mday)
+#
+#	No longer an ActiveRecord::Error class
+#		just an attribute and message I guess?
+#	    errors.add(:name, "can not be nil")
+#
 							record.errors.add(attr_name, 
 								ActiveRecord::Error.new(record,attr_name,:not_complete_date,
 									{ :message => configuration[:message] }))

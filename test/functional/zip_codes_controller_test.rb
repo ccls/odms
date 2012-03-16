@@ -36,6 +36,12 @@ class ZipCodesControllerTest < ActionController::TestCase
 ##		puts @response.body
 #	end
 
+#--- expected
+#+++ actual
+#@@ -1 +1 @@
+#-[{\"zip_code\":{\"county_name\":\"Northumberland\",\"city\":\"NORTHUMBERLAND\",\"zip_code\":\"17857\",\"county_id\":2144,\"state\":\"PA\"}}]
+#+[{\"county_name\":\"Northumberland\",\"city\":\"NORTHUMBERLAND\",\"zip_code\":\"17857\",\"county_id\":2144,\"state\":\"PA\"}]
+
 	test "should get zip_codes.json with full q" do
 		#	:format MUST be a string and NOT a symbol
 		get :index, :q => '17857', :format => 'json'

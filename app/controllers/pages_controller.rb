@@ -7,9 +7,6 @@ class PagesController < ApplicationController
 	ssl_allowed :show
 
 	def show
-puts 
-puts params.inspect
-puts 
 		if params[:path]
 # 			@page = Page.by_path("/#{params[:path].join('/')}")
  			@page = Page.by_path("/#{[params[:path]].flatten.join('/')}")

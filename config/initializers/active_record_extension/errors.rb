@@ -23,9 +23,7 @@ module ActiveRecordExtension::Errors
 end	#	ActiveRecordExtension::Errors
 
 
-
-
-
 #	TODO Removed for rails 3
+#	This appears to have moved to ActiveModel
 
 #ActiveRecord::Errors.send(:include,ActiveRecordExtension::Errors)
