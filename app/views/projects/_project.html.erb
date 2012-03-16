@@ -1,4 +1,4 @@
-<% content_tag_for( :tr, project, :class => 'row' ) do %>
+<%= content_tag_for( :tr, project, :class => 'row' ) do %>
  <td class='description'><%= project.description %></td>
  <td class='manage'>
   <%= link_to( "View", project_path(project), :class => 'button' ) -%>&nbsp;

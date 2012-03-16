@@ -1,6 +1,6 @@
 <h4>New Patient Enrollment</h4>
 
-<% form_tag(cases_path,:method => :post) do %>
+<%= form_tag(cases_path,:method => :post) do %>
 <label>Treating Institution</label>
 <%= select_tag 'hospital_id',
 	options_from_collection_for_select( 

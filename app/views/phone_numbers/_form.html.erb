@@ -14,7 +14,10 @@
 </div><!-- class='buttons' -->
 </div>
 
-<%= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <%= f.wrapped_check_box :is_primary,
 	:label_text => 'Primary Phone Number?' %>

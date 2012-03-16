@@ -3,7 +3,7 @@
 
 <% id_bar_for(@study_subject) %>
 
-<% content_tag_for( :div, @study_subject ) do %>
+<%= content_tag_for( :div, @study_subject ) do %>
 <%= render 'study_subject_personal' %>
 <%= render 'study_subject_parent' %>
 <%#= render 'study_subject_consent' %>

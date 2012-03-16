@@ -2,10 +2,13 @@
 
 <h3>Rapid Ascertainment Form (RAF) - non-waiver version</h3>
 
-<% form_for(@study_subject, :url => nonwaivered_path,
+<%= form_for(@study_subject, :url => nonwaivered_path,
 	:html => { :class => 'nonwaivered raf edit_study_subject' }) do |f| %>
 
-<%= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <%= render( :partial => 'raf/duplicates', 
 	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>

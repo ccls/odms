@@ -2,8 +2,11 @@
 
 <h4>Edit BC Request</h4>
 
-<% form_for(@bc_request) do |f| %>
- <%= f.error_messages %>
+<%= form_for(@bc_request) do |f| %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
  <%= f.wrapped_select :status, BcRequest.statuses %>
  <%= f.wrapped_text_area :notes %>
  <%= f.submit 'Update', :id => nil, :name => nil %>

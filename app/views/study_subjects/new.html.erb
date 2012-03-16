@@ -1,10 +1,13 @@
 <h3>New Subject</h3>
 
-<% form_for(@study_subject, :url => study_subjects_path,
+<%= form_for(@study_subject, :url => study_subjects_path,
 	:html => { :class => 'edit_study_subject' }) do |f| %>
 <%#= render 'form', :f => f %>
 
-<%= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <div class='do_not_contact field_wrapper'>
 <%= f.label :do_not_contact, "Contact Status:" %>

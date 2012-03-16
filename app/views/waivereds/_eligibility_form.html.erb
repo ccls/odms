@@ -8,7 +8,7 @@
 %>
 
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
-<% f.fields_for :patient do |patient_fields| %>
+<%= f.fields_for :patient do |patient_fields| %>
 <%#
 
 	This is an auto-updated field.

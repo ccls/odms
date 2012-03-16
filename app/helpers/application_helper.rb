@@ -232,7 +232,8 @@ module ApplicationHelper
 	#	Just a simple method to wrap the passed text in a span
 	#	with class='required'
 	def required(text)
-		"<span class='required'>#{text}</span>"
+		s = "<span class='required'>#{text}</span>"
+		s.html_safe
 	end
 	alias_method :req, :required
 

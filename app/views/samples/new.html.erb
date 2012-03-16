@@ -1,4 +1,4 @@
-<% form_for( @sample,
+<%= form_for( @sample,
 	:url => study_subject_samples_path(@study_subject),
 	:html => {:class => 'edit_sample'}) do |f| %>
 <%= render 'form', :f => f %>

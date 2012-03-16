@@ -1,8 +1,11 @@
 <% stylesheets(:candidate_control) %>
 <h2>Candidate Control</h2>
 
-<% form_for @candidate do |f| %>
-<%= f.error_messages %>
+<%= form_for @candidate do |f| %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <%= render( :partial => 'duplicates', 
 	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>

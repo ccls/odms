@@ -1,7 +1,7 @@
 <% stylesheets(:study_subjects) %>
 <%= control_bar() %>
 
-<% form_tag(find_study_subjects_path, :method => :get, :id => 'find_study_subjects' ) do %>
+<%= form_tag(find_study_subjects_path, :method => :get, :id => 'find_study_subjects' ) do %>
 
 <p>Results must match 
 <%= select_tag 'operator', options_for_select(

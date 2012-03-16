@@ -1,6 +1,6 @@
 <h4>New Control Selection</h4>
 
-<% form_tag(cases_path,:method => :get) do %>
+<%= form_tag(cases_path,:method => :get) do %>
 <p><span>PatID:</span>
 <%= text_field_tag :patid, params[:patid], :id => nil  %>
 <%= submit_tag 'find', :name => nil %>

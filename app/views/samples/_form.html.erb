@@ -3,7 +3,10 @@
 <% sub_menu_for(@study_subject) %>
 <% id_bar_for(@study_subject) %>
 
-<%= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <div id='subject_control_bar'>
 <h3><%= (@sample.new_record?)? 'New' : 'Edit' %> Subject Sample</h3>

@@ -1,6 +1,6 @@
 <% sub_menu_for(@study_subject) %>
 
-<% form_for(@study_subject, 
+<%= form_for(@study_subject, 
 	:url => study_subject_path(@study_subject),
 	:html => { :class => 'confirm edit_study_subject' } ) do |f| %>
 <%= render 'form', :f => f %>

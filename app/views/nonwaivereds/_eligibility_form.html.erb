@@ -7,7 +7,7 @@
 %>
 
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
-<% f.fields_for :patient do |patient_fields| %>
+<%= f.fields_for :patient do |patient_fields| %>
 <%#
 
 	This is an auto-updated field.
@@ -32,7 +32,7 @@
 
 <%= f.subject_languages_select( [ Language['english'], Language['spanish'] ]) %>
 
-<% f.fields_for :patient do |patient_fields| %>
+<%= f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
  <p>
   <%= patient_fields.check_box :was_previously_treated, {
@@ -42,7 +42,7 @@
  </p>
 <% end %>
 
-<% f.fields_for :patient do |patient_fields| %>
+<%= f.fields_for :patient do |patient_fields| %>
  <p>Does the patient currently reside in California?
   <%= patient_fields.check_box :was_ca_resident_at_diagnosis, {
 		:checked => ( @study_subject.patient.was_ca_resident_at_diagnosis == YNDK[:yes] )

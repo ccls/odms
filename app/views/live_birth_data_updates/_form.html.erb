@@ -1,7 +1,10 @@
 <h4><%= ( (@live_birth_data_update.new_record?)?'Creating':'Editting' ) %> live_birth_data_update</h4>
 
-<% form_for(@live_birth_data_update, :html => { :multipart => true } ) do |f| %>
-  <%= f.error_messages %>
+<%= form_for(@live_birth_data_update, :html => { :multipart => true } ) do |f| %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
   <%= f.file_field :csv_file %>
 <p><%= f.object.csv_file_file_name unless f.object.csv_file_file_name.blank? %></p>
   <p>

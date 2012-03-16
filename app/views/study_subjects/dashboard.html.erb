@@ -11,7 +11,7 @@
 <% javascripts('swfobject.js') %>
 <% javascripts('study_subjects_dashboard.js') %>
 <% content_for(:head) do %>
-<% javascript_tag do %>
+<%= javascript_tag do %>
 swfobject.embedSWF("/open-flash-chart.swf", "my_chart_1", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/case_control_types.json"}, {"wmode" : "transparent"} );
 swfobject.embedSWF("/open-flash-chart.swf", "my_chart_2", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/subject_types.json"}, {"wmode" : "transparent"} );
 swfobject.embedSWF("/open-flash-chart.swf", "my_chart_3", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/enrollments.json"}, {"wmode" : "transparent"} );

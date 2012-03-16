@@ -35,6 +35,7 @@ module SubjectLanguageSelectHelper
 		end
 		s << "</div>\n"	#	languages
 		s << "</div><!-- study_subject_languages -->\n"	#	study_subject_languages
+		s.html_safe
 	end
 	alias_method :subject_languages_selector, :subject_languages_select
 	alias_method :select_subject_languages, :subject_languages_select

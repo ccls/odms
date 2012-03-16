@@ -15,7 +15,7 @@
 	]
 %>
 
-<% form_for HomeExposureResponse.new, 
+<%= form_for HomeExposureResponse.new, 
 	:url => study_subject_home_exposure_response_path(@study_subject) do |f| %>
 <table>
 <tbody>
@@ -23,7 +23,7 @@
 <%	classes = ['row'];
 		classes.push('diff') if (@diffs[column])
 %>
-	<% content_tag( :tr, :class => classes.join(' ') ) do %>
+	<%= content_tag( :tr, :class => classes.join(' ') ) do %>
 		<td><%=column.titleize-%></td>
 		<td>
 

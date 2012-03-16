@@ -120,8 +120,9 @@ module ActionViewExtension::FormBuilder
 					s << (( block_given? )? @template.capture(&block) : '')
 				end
 				#	ActionView::TemplateError (private method `block_called_from_erb?' 
-				( @template.send(:block_called_from_erb?,block) ) ? 
-					@template.concat(content) : content
+#				( @template.send(:block_called_from_erb?,block) ) ? 
+#					@template.concat(content) : content
+content.html_safe
 			else
 				method_missing_without_field_wrapping(symb,*args, &block)
 			end

@@ -2,7 +2,7 @@
 	classes = ['row']
 #	classes.push('ui-state-error') if study_subject.do_not_contact? 
 %>
-<% content_tag_for( :tr, study_subject, :class => classes.join(' ') ) do %>
+<%= content_tag_for( :tr, study_subject, :class => classes.join(' ') ) do %>
 <td class='icf_master_id'>
 <%= link_to study_subject.icf_master_id_to_s, study_subject_path(study_subject) -%>
 </td>

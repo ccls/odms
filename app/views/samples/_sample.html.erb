@@ -1,7 +1,7 @@
 <%
 	classes = ['row']
 %>
-<% content_tag_for( :tr, sample, :class => classes.join(' ') ) do %>
+<%= content_tag_for( :tr, sample, :class => classes.join(' ') ) do %>
 <td>link to subject</td>
 <td><%= sample.received_by_ccls_at -%></td>
 <td><%= sprintf('%07d',sample.id) -%></td>

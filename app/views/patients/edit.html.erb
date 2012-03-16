@@ -1,4 +1,4 @@
-<% form_for(@patient,
+<%= form_for(@patient,
 	:url => study_subject_patient_path(@study_subject),
 	:html => { :class => 'edit_patient confirm' }) do |f| %>
 <%= render 'form', :f => f %>

@@ -1,6 +1,8 @@
-<%= error_messages_for :page %>
+<%= form_for(@page) do |f| %>
 
-<% form_for(@page) do |f| %>
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
  <%= render 'form', :f => f %>
  <p>
   <%= f.submit "Update", :id => nil %>&nbsp;

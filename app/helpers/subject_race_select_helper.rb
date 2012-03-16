@@ -45,6 +45,7 @@ module SubjectRaceSelectHelper
 		end
 		s << "</div>\n"	#	races
 		s << "</div><!-- study_subject_races -->\n"	#	study_subject_races
+		s.html_safe
 	end
 	alias_method :subject_races_selector, :subject_races_select
 	alias_method :select_subject_races, :subject_races_select

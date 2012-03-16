@@ -1,7 +1,7 @@
 <% stylesheets(:samples) %>
 <%= control_bar() %>
 
-<% form_tag(find_samples_path, :method => :get, :id => 'find_samples' ) do %>
+<%= form_tag(find_samples_path, :method => :get, :id => 'find_samples' ) do %>
 
 <p>Results must match 
 <%= select_tag 'operator', options_for_select(

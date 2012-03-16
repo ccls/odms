@@ -4,10 +4,13 @@
 <%# id_bar_for(@study_subject) %>
 
 
-<% form_for( @sample,
+<%= form_for( @sample,
 	:url => receive_sample_path(:study_subject_id => @study_subject.id) ) do |f| %>
 
-<%= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <%# this alignment will get mucked up with big names %>
 

@@ -3,7 +3,7 @@
 <% sub_menu_for(@study_subject) %>
 <% id_bar_for(@study_subject) %>
 
-<% form_for(@enrollment,
+<%= form_for(@enrollment,
 	:url => enrollment_path(@enrollment),
 	:html => { :class => 'confirm' }) do |f| %>
 
@@ -15,7 +15,10 @@
 </div><!-- class='buttons' -->
 </div>
 
-<%= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <%= f.wrapped_yndk_select :is_candidate,
 	:label_text => 'is candidate?' %>

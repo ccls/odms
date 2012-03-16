@@ -1,6 +1,9 @@
 <h4>IneligibleReason:</h4>
-<% form_for(@ineligible_reason) do |f| %>
- <%= f.error_messages %>
+<%= form_for(@ineligible_reason) do |f| %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
  <%= f.wrapped_text_field :key %>
  <%= f.wrapped_text_field :description %>
  <p><%= f.submit( (@ineligible_reason.new_record?)?'Create':'Update' ) %></p>

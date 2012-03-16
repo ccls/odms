@@ -4,7 +4,7 @@
 
 <p>Add case to Birth Data Request List</p>
 
-<% form_tag(bc_requests_path,:method => :post) do %>
+<%= form_tag(bc_requests_path,:method => :post) do %>
 <p><span>Enter PatID:</span>
 <%= text_field_tag :patid, params[:patid], :id => nil  %>
 <%= submit_tag 'submit', :name => nil %>

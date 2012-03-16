@@ -67,6 +67,7 @@ module ActionViewExtension::Base
 			s =  "<div class='#{classes} field_wrapper'>\n"
 			s << yield 
 			s << "\n</div><!-- class='#{classes}' -->"
+			s.html_safe
 		end
 
 		#	This is NOT a form field

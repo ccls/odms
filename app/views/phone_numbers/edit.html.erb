@@ -1,4 +1,4 @@
-<% form_for(@phone_number,
+<%= form_for(@phone_number,
 	:url => phone_number_path(@phone_number),
 	:html => { :class => 'confirm edit_phone_number' }) do |f| %>
 <%= render 'form', :f => f %>

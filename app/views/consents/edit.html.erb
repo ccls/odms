@@ -4,7 +4,7 @@
 
 <% id_bar_for(@enrollment.study_subject) %>
 
-<% form_for(@enrollment,
+<%= form_for(@enrollment,
 	:url => study_subject_consent_path(@study_subject),
 	:html => { :class => 'enrollment confirm' }) do |f| %>
 
@@ -16,7 +16,10 @@
 </div><!-- class='buttons' -->
 </div>
 
-<%= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <%= f.wrapped_yndk_select :is_eligible,
 	:label_text => 'is eligible?' %>
@@ -44,12 +47,12 @@
 <%# patient cannot be nil here %>
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
 <% @patient = @study_subject.patient %>
-<% fields_for @patient do |p| %>
+<%= fields_for @patient do |p| %>
 <%= wrapped_yndk_spans( :patient, :was_under_15_at_dx,
 	:label_text => 'Was this patient under age 15 at diagnosis?'
 	) %>
 
-<% fields_for @study_subject do |s| %>
+<%= fields_for @study_subject do |s| %>
 <%= s.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
 <% end %>
 <%= p.wrapped_yndk_select( :was_previously_treated,

@@ -3,11 +3,11 @@
 <div class='prelim_info raf_section table'>
 
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
-<% f.fields_for :patient do |patient_fields| %>
+<%= f.fields_for :patient do |patient_fields| %>
 <%# f is still accessible in block so put all in one block %>
 <div class='tablerow'>
 <div class='organization_id'>
-	<p><%= "#{req('*')}&nbsp;treating institution:" %></p>
+	<p><%= "#{req('*')}&nbsp;treating institution:".html_safe %></p>
 
 <% if @study_subject.try(:patient).try(:organization) %>
   <span><%= @study_subject.try(:patient).try(:organization) -%></span>
@@ -36,37 +36,37 @@
    <span><%= f.text_field :last_name %></span>
   </div><!-- class='child tablerow' -->
   <div class='child tablerow'>
-   <span><%= "#{req('*')}&nbsp;first" %></span>
+   <span><%= "#{req('*')}&nbsp;first".html_safe %></span>
    <span>middle</span>
-   <span><%= "#{req('*')}&nbsp;last" %></span>
+   <span><%= "#{req('*')}&nbsp;last".html_safe %></span>
   </div><!-- class='child tablerow' -->
  </div><!-- class='names' -->
 
 <div class='hospital_no'>
-	<p><%= "#{req('*')}&nbsp;hospital record number:" %></p>
+	<p><%= "#{req('*')}&nbsp;hospital record number:".html_safe %></p>
 	<%= patient_fields.text_field :hospital_no %>
 </div>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>
 	<%= patient_fields.wrapped_date_text_field :admit_date,
-		:label_text => "#{req('*')}&nbsp;admit date:" %>
+		:label_text => "#{req('*')}&nbsp;admit date:".html_safe %>
 
 	<%= f.wrapped_date_text_field :dob,
-		:label_text => "#{req('*')}&nbsp;child's date of birth:" %>
+		:label_text => "#{req('*')}&nbsp;child's date of birth:".html_safe %>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>
 <%# MAY need to change this to a radio button group %>
 <%= f.wrapped_sex_select :sex,
-	:label_text => "#{req('*')}&nbsp;sex:" %>
+	:label_text => "#{req('*')}&nbsp;sex:".html_safe %>
 
 <div class='diagnosis'>
 	<%= patient_fields.wrapped_collection_select :diagnosis_id,
 		Diagnosis.all, :id, :to_s, :include_blank => true, 
-		:label_text => "#{req('*')}&nbsp;diagnosis:" %>
+		:label_text => "#{req('*')}&nbsp;diagnosis:".html_safe %>
 	<%= patient_fields.wrapped_text_field :other_diagnosis,
-		:label_text => "#{req('*')}&nbsp;specify other:" %>
+		:label_text => "#{req('*')}&nbsp;specify other:".html_safe %>
 </div>
 </div><!-- class='tablerow' -->
 <% end %><%# f.fields_for :patient do |patient_fields| %>

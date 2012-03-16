@@ -2,7 +2,7 @@
 <%# form_tag( ActionController::Base.relative_url_root +
 	"/#{params[:controller]}",
 	:method => :get) do %>
-<% form_tag( url_for(:controller => params[:controller]),
+<%= form_tag( url_for(:controller => params[:controller]),
 	:method => :get) do %>
 <%# params.dup.delete_keys!(:q,:commit,:action,:controller).each_pair do |k,v| -%>
 	<%#= hidden_field_tag k, v %>

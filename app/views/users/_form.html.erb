@@ -1,7 +1,10 @@
 <% stylesheets(:user) %>
 
-<% form_for @user do |form| %>
-	<%= form.error_messages %>
+<%= form_for @user do |form| %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= form.error_messages %>
+
 <% if params[:token] %>
 	<%= hidden_field_tag :token, params[:token] %>
 <% end %>

@@ -2,7 +2,10 @@
 <% javascripts('edit_study_subject') %>
 <% id_bar_for(@study_subject) %>
 
-<%= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3 %>
+<%#= f.error_messages %>
+
 
 <div class='do_not_contact field_wrapper'>
 <%= f.label :do_not_contact, "Contact Status:" %>

@@ -8,7 +8,7 @@
 %>
 
 <% @study_subject.enrollments.build if @study_subject.enrollments.empty? %>
-<% f.fields_for :enrollments do |enrollment_fields| %>
+<%= f.fields_for :enrollments do |enrollment_fields| %>
 
 <p>
 <%= enrollment_fields.radio_button :consented, 1 %>
