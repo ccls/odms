@@ -62,7 +62,8 @@ module ActiveSupportExtension::Attributes
 #	this isn't perfect, cause if they are both blank and allowed blank
 #	it doesn't really test anything
 						object = create_object(attrs)
-						assert !object.errors.on_attr_and_type(attr.to_sym, :taken)
+#						assert !object.errors.on_attr_and_type(attr.to_sym, :taken)
+						assert !object.errors.matching?(attr,'has already been taken')
 #					end
 				end
 			end
@@ -93,7 +94,8 @@ module ActiveSupportExtension::Attributes
 							end
 						end 
 						object = create_object(attrs)
-						assert object.errors.on_attr_and_type(attr.to_sym, :taken)
+#						assert object.errors.on_attr_and_type(attr.to_sym, :taken)
+						assert object.errors.matching?(attr,'has already been taken')
 					end
 				end
 			end
@@ -109,7 +111,8 @@ module ActiveSupportExtension::Attributes
 				test "#{brand}should require #{attr} not nil" do
 					assert_no_difference "#{model}.count" do
 						object = create_object(attr.to_sym => nil)
-						assert object.errors.on(attr.to_sym)
+#						assert object.errors.on(attr.to_sym)
+						assert object.errors.include?(attr.to_sym)
 					end
 				end
 			end
@@ -125,8 +128,10 @@ module ActiveSupportExtension::Attributes
 				test "#{brand}should require #{attr}" do
 					assert_no_difference "#{model}.count" do
 						object = create_object(attr.to_sym => nil)
-						assert object.errors.on_attr_and_type(attr.to_sym, :blank) ||
-							object.errors.on_attr_and_type(attr.to_sym, :too_short)
+#						assert object.errors.on_attr_and_type(attr.to_sym, :blank) ||
+#							object.errors.on_attr_and_type(attr.to_sym, :too_short)
+						assert object.errors.matching?(attr,"can't be blank") ||
+							object.errors.matching?(attr,'is too short')
 					end
 				end
 			end
@@ -142,9 +147,11 @@ module ActiveSupportExtension::Attributes
 				test "#{brand}should not require #{attr}" do
 					assert_difference( "#{model}.count", 1 ) do
 						object = create_object(attr.to_sym => nil)
-						assert !object.errors.on(attr.to_sym)
+#						assert !object.errors.on(attr.to_sym)
+						assert !object.errors.include?(attr.to_sym)
 						if attr =~ /^(.*)_id$/
-							assert !object.errors.on($1.to_sym)
+#							assert !object.errors.on($1.to_sym)
+							assert !object.errors.include?($1.to_sym)
 						end
 					end
 				end
@@ -194,14 +201,16 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal min, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-							assert !object.errors.on_attr_and_type(attr.to_sym, :too_short)
+#							assert !object.errors.on_attr_and_type(attr.to_sym, :too_short)
+							assert !object.errors.matching?(attr,'is too short')
 #						end
 						assert_no_difference "#{model}.count" do
 							value = 'x'*(min-1)
 							object = create_object(attr.to_sym => value)
 							assert_equal min-1, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-							assert object.errors.on_attr_and_type(attr.to_sym, :too_short)
+#							assert object.errors.on_attr_and_type(attr.to_sym, :too_short)
+							assert object.errors.matching?(attr,'is too short')
 						end
 					end
 				end
@@ -216,14 +225,16 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal max, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-							assert !object.errors.on_attr_and_type(attr.to_sym, :too_long)
+#							assert !object.errors.on_attr_and_type(attr.to_sym, :too_long)
+							assert !object.errors.matching?(attr,'is too long')
 #						end
 						assert_no_difference "#{model}.count" do
 							value = 'x'*(max+1)
 							object = create_object(attr.to_sym => value)
 							assert_equal max+1, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-							assert object.errors.on_attr_and_type(attr.to_sym, :too_long)
+#							assert object.errors.on_attr_and_type(attr.to_sym, :too_long)
+							assert object.errors.matching?(attr,'is too long')
 						end
 					end
 				end
@@ -252,6 +263,12 @@ module ActiveSupportExtension::Attributes
 			end
 		end
 
+#	>> Abstract.accessible_attributes
+#	=> #<ActiveModel::MassAssignmentSecurity::WhiteList: {}>
+
+#	>> Abstract.protected_attributes
+#	=> #<ActiveModel::MassAssignmentSecurity::BlackList: {"study_subject", "entry_2_by_uid", "entry_1_by_uid", "id", "type", "study_subject_id", "merged_by_uid"}>
+
 		def assert_should_not_protect_attribute(*attributes)
 			options = attributes.extract_options!
 			model_name = options[:model] || st_model_name
@@ -261,12 +278,18 @@ module ActiveSupportExtension::Attributes
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should not protect attribute #{attr}" do
-					assert !(model.protected_attributes||[]).include?(attr),
+#					assert !(model.protected_attributes||[]).include?(attr),
+#						"#{attr} is included in protected attributes"
+					assert !model.protected_attributes.include?(attr),
 						"#{attr} is included in protected attributes"
-					if !model.accessible_attributes.nil?
-						assert model.accessible_attributes.include?(attr),
-							"#{attr} is not included in accessible attributes"
-					end
+
+#	Rails 3 change
+#	apparently no longer always true
+#					if !model.accessible_attributes.nil?
+#						assert model.accessible_attributes.include?(attr),
+#							"#{attr} is not included in accessible attributes"
+#					end
+
 				end
 			end
 		end

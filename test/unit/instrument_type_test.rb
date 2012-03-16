@@ -24,7 +24,8 @@ class InstrumentTypeTest < ActiveSupport::TestCase
 		assert_difference( "InstrumentType.count", 0 ) do
 			instrument_type = create_instrument_type( :project => nil)
 			assert !instrument_type.errors.on(:project)
-			assert  instrument_type.errors.on_attr_and_type?(:project_id,:blank)
+#			assert  instrument_type.errors.on_attr_and_type?(:project_id,:blank)
+			assert  instrument_type.errors.matching?(:project_id,"can't be blank")
 		end
 	end
 
@@ -32,7 +33,8 @@ class InstrumentTypeTest < ActiveSupport::TestCase
 		assert_difference( "InstrumentType.count", 0 ) do
 			instrument_type = create_instrument_type( :project_id => 0)
 			assert !instrument_type.errors.on(:project_id)
-			assert  instrument_type.errors.on_attr_and_type?(:project,:blank)
+#			assert  instrument_type.errors.on_attr_and_type?(:project,:blank)
+			assert  instrument_type.errors.matching?(:project,"can't be blank")
 		end
 	end
 

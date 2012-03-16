@@ -64,3 +64,16 @@ module Odms
 		config.assets.version = '1.0'
 	end
 end
+
+
+
+require 'hpricot'
+ActionView::Base.field_error_proc = Proc.new { |html_tag, instance| 
+	error_class = 'field_error'
+	nodes = Hpricot(html_tag)
+	nodes.each_child { |node| 
+		node[:class] = node.classes.push(error_class).join(' ') unless !node.elem? || node[:type] == 'hidden' || node.classes.include?(error_class) 
+	}
+	nodes.to_html.html_safe
+}
+

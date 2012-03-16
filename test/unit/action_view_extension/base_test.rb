@@ -262,22 +262,25 @@ class ActionViewExtension::BaseTest < ActionView::TestCase
 		end
 	end
 
-	test "button_link_to without block" do
-		response = HTML::Document.new(button_link_to('mytitle','/myurl')).root
-		assert_select response, 'a[href=/myurl]', 1 do
-			assert_select 'button[type=button]', 1
-		end
-#<a href="/myurl" style="text-decoration:none;"><button type="button">mytitle</button></a>
-	end
-
-	test "aws_image_tag" do
-		response = HTML::Document.new(
-			aws_image_tag('myimage')
-		).root
-		bucket = ( defined?(RAILS_APP_NAME) && RAILS_APP_NAME ) || 'ccls'
-#<img alt="myimage" src="http://s3.amazonaws.com/ccls/images/myimage" />
-		assert_select response, "img[src=http://s3.amazonaws.com/#{bucket}/images/myimage]", 1
-	end
+#
+# 20120316 : Don't believe that these are used anymore
+#
+#	test "button_link_to without block" do
+#		response = HTML::Document.new(button_link_to('mytitle','/myurl')).root
+#		assert_select response, 'a[href=/myurl]', 1 do
+#			assert_select 'button[type=button]', 1
+#		end
+##<a href="/myurl" style="text-decoration:none;"><button type="button">mytitle</button></a>
+#	end
+#
+#	test "aws_image_tag" do
+#		response = HTML::Document.new(
+#			aws_image_tag('myimage')
+#		).root
+#		bucket = ( defined?(RAILS_APP_NAME) && RAILS_APP_NAME ) || 'ccls'
+##<img alt="myimage" src="http://s3.amazonaws.com/ccls/images/myimage" />
+#		assert_select response, "img[src=http://s3.amazonaws.com/#{bucket}/images/myimage]", 1
+#	end
 
 	test "flasher" do
 		response = HTML::Document.new(

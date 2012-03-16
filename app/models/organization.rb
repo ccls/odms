@@ -17,8 +17,9 @@ class Organization < ActiveRecord::Base
 	has_one  :hospital
 	has_many :patients
 
-	validates_presence_of   :name
-	validates_uniqueness_of :name
+#	included in acts_like_a_hash so don't include here
+#	validates_presence_of   :name
+#	validates_uniqueness_of :name
 
 	#	Returns name
 	def to_s

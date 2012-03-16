@@ -160,7 +160,8 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 			@study_subject = create_study_subject(:subject_races_attributes => {
 				'0' => { :race_id => Race['other'].id }
 			})
-			assert @study_subject.errors.on_attr_and_type?("subject_races.other_race",:blank)
+#			assert @study_subject.errors.on_attr_and_type?("subject_races.other_race",:blank)
+			assert @study_subject.errors.matching?("subject_races.other_race","can't be blank")
 		} }
 	end
 

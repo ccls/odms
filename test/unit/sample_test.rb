@@ -54,7 +54,8 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :sample_type => nil)
 			assert !sample.errors.on(:sample_type)
-			assert  sample.errors.on_attr_and_type?(:sample_type_id,:blank)
+#			assert  sample.errors.on_attr_and_type?(:sample_type_id,:blank)
+			assert  sample.errors.matching?(:sample_type_id,"can't be blank")
 		end
 	end
 
@@ -62,7 +63,8 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :sample_type_id => 0)
 			assert !sample.errors.on(:sample_type_id)
-			assert  sample.errors.on_attr_and_type?(:sample_type,:blank)
+#			assert  sample.errors.on_attr_and_type?(:sample_type,:blank)
+			assert  sample.errors.matching?(:sample_type,"can't be blank")
 		end
 	end
 
@@ -70,7 +72,8 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :study_subject => nil)
 			assert !sample.errors.on(:study_subject)
-			assert  sample.errors.on_attr_and_type?(:study_subject_id,:blank)
+#			assert  sample.errors.on_attr_and_type?(:study_subject_id,:blank)
+			assert  sample.errors.matching?(:study_subject_id,"can't be blank")
 		end
 	end
 
@@ -78,7 +81,8 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :study_subject_id => 0)
 			assert !sample.errors.on(:study_subject_id)
-			assert  sample.errors.on_attr_and_type?(:study_subject,:blank)
+#			assert  sample.errors.on_attr_and_type?(:study_subject,:blank)
+			assert  sample.errors.matching?(:study_subject,"can't be blank")
 		end
 	end
 
@@ -86,7 +90,8 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :project => nil)
 			assert !sample.errors.on(:project)
-			assert  sample.errors.on_attr_and_type?(:project_id,:blank)
+#			assert  sample.errors.on_attr_and_type?(:project_id,:blank)
+			assert  sample.errors.matching?(:project_id,"can't be blank")
 		end
 	end
 
@@ -94,7 +99,8 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :project_id => 0)
 			assert !sample.errors.on(:project_id)
-			assert  sample.errors.on_attr_and_type?(:project,:blank)
+#			assert  sample.errors.on_attr_and_type?(:project,:blank)
+			assert  sample.errors.matching?(:project,"can't be blank")
 		end
 	end
 

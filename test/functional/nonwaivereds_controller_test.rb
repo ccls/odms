@@ -57,8 +57,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			end
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type?(
-				"patient.hospital_no",:taken)
+#			assert !assigns(:study_subject).errors.on_attr_and_type?(
+#				"patient.hospital_no",:taken)
+			assert !assigns(:study_subject).errors.matching?(
+				"patient.hospital_no",'has already been taken')
 			assert_duplicates_found_and_rerendered_new
 		end
 
@@ -75,8 +77,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			end
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type?(
-				"patient.hospital_no",:taken)
+#			assert !assigns(:study_subject).errors.on_attr_and_type?(
+#				"patient.hospital_no",:taken)
+			assert !assigns(:study_subject).errors.matching?(
+				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:warn]
 			assert_duplicates_found_and_rerendered_new
 		end
@@ -94,8 +98,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			end
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type?(
-				"patient.hospital_no",:taken)
+#			assert !assigns(:study_subject).errors.on_attr_and_type?(
+#				"patient.hospital_no",:taken)
+			assert !assigns(:study_subject).errors.matching?(
+				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:warn]
 			assert_match /No valid duplicate_id given/, flash[:warn]
 			assert_duplicates_found_and_rerendered_new
@@ -116,8 +122,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type?(
-				"patient.hospital_no",:taken)
+#			assert !assigns(:study_subject).errors.on_attr_and_type?(
+#				"patient.hospital_no",:taken)
+			assert !assigns(:study_subject).errors.matching?(
+				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:notice]
 			assert_redirected_to subject
 		end
@@ -134,8 +142,10 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert !assigns(:duplicates)
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.on_attr_and_type?(
-				"patient.hospital_no",:taken)
+#			assert !assigns(:study_subject).errors.on_attr_and_type?(
+#				"patient.hospital_no",:taken)
+			assert !assigns(:study_subject).errors.matching?(
+				"patient.hospital_no",'has already been taken')
 		end
 
 #	Case subjects:  Are admitted the same admit date (patients.admit_date) at the same institution (patients.organization_id)
@@ -505,14 +515,22 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:line_1 => '', :city => '',
 							:state  => '', :zip  => '' } } } } )
 			end
-			assert assigns(:study_subject).errors.on_attr_and_type?(
-				'addressings.address.line_1',:blank)
-			assert assigns(:study_subject).errors.on_attr_and_type?(
-				'addressings.address.city',:blank)
-			assert assigns(:study_subject).errors.on_attr_and_type?(
-				'addressings.address.state',:blank)
-			assert assigns(:study_subject).errors.on_attr_and_type?(
-				'addressings.address.zip',:blank)
+#			assert assigns(:study_subject).errors.on_attr_and_type?(
+#				'addressings.address.line_1',:blank)
+#			assert assigns(:study_subject).errors.on_attr_and_type?(
+#				'addressings.address.city',:blank)
+#			assert assigns(:study_subject).errors.on_attr_and_type?(
+#				'addressings.address.state',:blank)
+#			assert assigns(:study_subject).errors.on_attr_and_type?(
+#				'addressings.address.zip',:blank)
+			assert assigns(:study_subject).errors.matching?(
+				'addressings.address.line_1',"can't be blank")
+			assert assigns(:study_subject).errors.matching?(
+				'addressings.address.city',"can't be blank")
+			assert assigns(:study_subject).errors.matching?(
+				'addressings.address.state',"can't be blank")
+			assert assigns(:study_subject).errors.matching?(
+				'addressings.address.zip',"can't be blank")
 		end
 
 		test "should add '[no address provided]' to blank line_1 if city, state, zip" <<

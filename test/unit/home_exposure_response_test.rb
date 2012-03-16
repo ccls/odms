@@ -39,7 +39,9 @@ class HomeExposureResponseTest < ActiveSupport::TestCase
 		assert_no_difference "HomeExposureResponse.count" do
 			home_exposure_response = create_home_exposure_response(
 				:study_subject => o.study_subject)
-			assert home_exposure_response.errors.on_attr_and_type?(:study_subject_id, :taken)
+#			assert home_exposure_response.errors.on_attr_and_type?(:study_subject_id, :taken)
+			assert home_exposure_response.errors.matching?(:study_subject_id, 
+				'has already been taken')
 		end
 	end
 

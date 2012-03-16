@@ -94,9 +94,12 @@ module ActiveRecordExtension::Base
 #		just an attribute and message I guess?
 #	    errors.add(:name, "can not be nil")
 #
-						record.errors.add(attr_name, 
-							ActiveRecord::Error.new(record,attr_name,:present,
-								{ :message => configuration[:message] }))
+# TODO Rails 3 difference breaks my custom error messages without
+#       field name prefix in message!!!!
+#						record.errors.add(attr_name, 
+#							ActiveRecord::Error.new(record,attr_name,:present,
+#								{ :message => configuration[:message] }))
+						record.errors.add(attr_name, configuration[:message])
 					end
 				end
 			end
@@ -158,9 +161,12 @@ module ActiveRecordExtension::Base
 #		just an attribute and message I guess?
 #	    errors.add(:name, "can not be nil")
 #
-						record.errors.add(attr_name, 
-							ActiveRecord::Error.new(record,attr_name,:not_past_date,
-								{ :message => configuration[:message] }))
+# TODO Rails 3 difference breaks my custom error messages without
+#       field name prefix in message!!!!
+#						record.errors.add(attr_name, 
+#							ActiveRecord::Error.new(record,attr_name,:not_past_date,
+#								{ :message => configuration[:message] }))
+						record.errors.add(attr_name, configuration[:message] )
 					end
 				end
 			end
@@ -192,9 +198,12 @@ module ActiveRecordExtension::Base
 #		just an attribute and message I guess?
 #	    errors.add(:name, "can not be nil")
 #
-							record.errors.add(attr_name, 
-								ActiveRecord::Error.new(record,attr_name,:not_complete_date,
-									{ :message => configuration[:message] }))
+# TODO Rails 3 difference breaks my custom error messages without
+#       field name prefix in message!!!!
+#							record.errors.add(attr_name, 
+#								ActiveRecord::Error.new(record,attr_name,:not_complete_date,
+#									{ :message => configuration[:message] }))
+							record.errors.add(attr_name, configuration[:message] )
 						end
 					end
 				end

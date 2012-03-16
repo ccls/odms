@@ -111,7 +111,8 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 			@study_subject = create_study_subject(:subject_languages_attributes => {
 				'0' => { :language_id => Language['other'].id }
 			})
-			assert @study_subject.errors.on_attr_and_type?("subject_languages.other_language",:blank)
+#			assert @study_subject.errors.on_attr_and_type?("subject_languages.other_language",:blank)
+			assert @study_subject.errors.matching?("subject_languages.other_language","can't be blank")
 		} }
 	end
 

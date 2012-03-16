@@ -112,9 +112,13 @@ protected
 	#	custom validation for custom message without standard attribute prefix
 	def presence_of_other_subject_relationship
 		if other_subject_relationship.blank?
-			errors.add(:other_subject_relationship, ActiveRecord::Error.new(
-				self, :base, :blank, { 
-					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
+#	TODO Rails 3 difference breaks my custom error messages without
+#				field name prefix in message!!!!
+#			errors.add(:other_subject_relationship, ActiveRecord::Error.new(
+#				self, :base, :blank, { 
+#					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
+			errors.add(:other_subject_relationship, 
+					"You must specify a relationship with 'other relationship' is selected." )
 		end
 	end
 

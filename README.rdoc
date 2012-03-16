@@ -8,11 +8,54 @@
 == Rails 3 Upgrade 
 
 So many things have changed from 2 to 3 and not all are good.  
-Some feature are just gone, like error types.
+
+Perhaps I should have stepped into this Rails 3.0, 3.1 then 3.2?
+Then would've seen deprecation warnings?
+
+
+
+No more "errors.on(:field_name)" which was actually a built in rails staple!
+-	Rewrote it myself
+... but should remove? Isn't hurting anyone.
+
+
+
+
+
+
+
+
+No more form f.error_messages in rails 3
+
+
+
+
+
+Not all of my rails2 routes are reproducable in rails3
+admin_path ... can't seem to define the path to pass other stuff to route?
+
+
+
+Some feature are just gone, like error types so cannot use my on_attr_and_type test!
+Will have to compare error message with match or something.
+
+No more ActiveRecord::Error so need to do something in my validation.
+
+Have to find new way for custom error messages, AGAIN.
+
+
+
+
 Many of my extensions and modification will never work and must simply be removed.
 Most unfortunate.  I'll need to find alternatives.
+
+
+
 json output format no longer has the initial key.
+
+
 assert_difference always seems to fail as the Model.count doesn't change even on successfull creation.
+
 
 rake db:load:fixtures does not work for csv files????
 
@@ -22,6 +65,23 @@ the rake task supports csv, but ActiveRecord apparently does not, even though al
 So many changes that don't seem to be "better" just "different."
 
 This sucks.  Shoulda stuck with Rails 2. 
+
+
+
+At least autotest runs
+
+Would probably be much better if I could remove all of my custom mods,
+but I'll probably have to add more.
+
+
+
+
+
+
+
+
+
+
 
 
 

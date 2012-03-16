@@ -16,6 +16,8 @@ module ActiveRecordExtension::Errors
 		alias_method :on_attr_and_type?, :on_attr_and_type
 	end
 	module ClassMethods
+#	This was for removing :username and :password from 
+#	failed session login so it wouldn't show on view
 		def delete(key)
 			@errors.delete(key.to_s)
 		end

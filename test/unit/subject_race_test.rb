@@ -20,7 +20,8 @@ class SubjectRaceTest < ActiveSupport::TestCase
 		assert_difference( "SubjectRace.count", 0 ) do
 			subject_race = create_subject_race(
 				:race_id => Race['other'].id )
-			assert subject_race.errors.on_attr_and_type?(:other_race,:blank)
+#			assert subject_race.errors.on_attr_and_type?(:other_race,:blank)
+			assert subject_race.errors.matching?(:other_race,"can't be blank")
 		end
 	end
 
@@ -28,7 +29,8 @@ class SubjectRaceTest < ActiveSupport::TestCase
 		assert_difference( "SubjectRace.count", 1 ) do
 			subject_race = create_subject_race(
 				:race_id => Race['white'].id )
-			assert !subject_race.errors.on_attr_and_type?(:other_race,:blank)
+#			assert !subject_race.errors.on_attr_and_type?(:other_race,:blank)
+			assert !subject_race.errors.matching?(:other_race,"can't be blank")
 		end
 	end
 

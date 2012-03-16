@@ -79,9 +79,13 @@ protected
 			!diagnosis_date.blank? && 
 			treatment_began_on < diagnosis_date
 #			errors.add(:treatment_began_on, "is before diagnosis_date.") 
-			errors.add(:treatment_began_on, ActiveRecord::Error.new(
-				self, :base, :blank, { 
-					:message => "Date treatment began must be on or after the diagnosis date." } ) )
+#	TODO Rails 3 difference breaks my custom error messages without
+#				field name prefix in message!!!!
+#			errors.add(:treatment_began_on, ActiveRecord::Error.new(
+#				self, :base, :blank, { 
+#					:message => "Date treatment began must be on or after the diagnosis date." } ) )
+			errors.add(:treatment_began_on, 
+				"Date treatment began must be on or after the diagnosis date." )
 		end
 	end
 
@@ -98,18 +102,24 @@ protected
 	#	custom validation for custom message without standard attribute prefix
 	def presence_of_organization_id
 		if organization_id.blank?
-			errors.add(:organization_id, ActiveRecord::Error.new(
-				self, :base, :blank, { 
-					:message => "Treating institution can't be blank." } ) )
+#	TODO Rails 3 difference breaks my custom error messages without
+#				field name prefix in message!!!!
+#			errors.add(:organization_id, ActiveRecord::Error.new(
+#				self, :base, :blank, { 
+#					:message => "Treating institution can't be blank." } ) )
+			errors.add(:organization_id, "Treating institution can't be blank." )
 		end
 	end
 
 	#	custom validation for custom message without standard attribute prefix
 	def presence_of_hospital_no
 		if hospital_no.blank?
-			errors.add(:hospital_no, ActiveRecord::Error.new(
-				self, :base, :blank, { 
-					:message => "Hospital record number can't be blank." } ) )
+#	TODO Rails 3 difference breaks my custom error messages without
+#				field name prefix in message!!!!
+#			errors.add(:hospital_no, ActiveRecord::Error.new(
+#				self, :base, :blank, { 
+#					:message => "Hospital record number can't be blank." } ) )
+			errors.add(:hospital_no, "Hospital record number can't be blank." )
 		end
 	end
 

@@ -116,7 +116,8 @@ class AddressingTest < ActiveSupport::TestCase
 			#	The factory will create the associations regardless
 			#	so an Address and StudySubject gets created regardless
 			addressing = create_addressing( :data_source => DataSource['Other'] )
-			assert addressing.errors.on_attr_and_type?(:other_data_source,:blank)
+#			assert addressing.errors.on_attr_and_type?(:other_data_source,:blank)
+			assert addressing.errors.matching?(:other_data_source, "can't be blank")
 		} # }
 	end
 
@@ -124,7 +125,8 @@ class AddressingTest < ActiveSupport::TestCase
 		assert_difference( "Address.count", 1 ) {
 		assert_difference( "Addressing.count", 1 ) {
 			addressing = create_addressing( :data_source => DataSource['raf'])
-			assert !addressing.errors.on_attr_and_type?(:other_data_source,:blank)
+#			assert !addressing.errors.on_attr_and_type?(:other_data_source,:blank)
+			assert !addressing.errors.matching?(:other_data_source, "can't be blank")
 		} }
 	end
 

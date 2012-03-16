@@ -196,7 +196,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) do
 			study_subject = create_study_subject( :subject_type => nil)
 			assert !study_subject.errors.on(:subject_type)
-			assert  study_subject.errors.on_attr_and_type?(:subject_type_id,:blank)
+#			assert  study_subject.errors.on_attr_and_type?(:subject_type_id,:blank)
+			assert  study_subject.errors.matching?(:subject_type_id,"can't be blank")
 		end
 	end
 
@@ -204,7 +205,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) do
 			study_subject = create_study_subject( :subject_type_id => 0)
 			assert !study_subject.errors.on(:subject_type_id)
-			assert  study_subject.errors.on_attr_and_type?(:subject_type,:blank)
+#			assert  study_subject.errors.on_attr_and_type?(:subject_type,:blank)
+			assert  study_subject.errors.matching?(:subject_type,"can't be blank")
 		end
 	end
 
@@ -218,7 +220,9 @@ class StudySubjectTest < ActiveSupport::TestCase
 	test "should require sex with custom message" do
 		assert_difference( "StudySubject.count", 0 ) do
 			study_subject = create_study_subject( :sex => nil )
-			assert study_subject.errors.on_attr_and_type?(:sex,:blank)
+#			assert study_subject.errors.on_attr_and_type?(:sex,:blank)
+			assert study_subject.errors.matching?(:sex,"can't be blank")
+#	TODO
 			assert_match /No sex has been chosen/, 
 				study_subject.errors.full_messages.to_sentence
 			assert_no_match /Sex can't be blank/i, 

@@ -84,7 +84,10 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    metaclass (0.0.1)
     mime-types (1.17.2)
+    mocha (0.10.5)
+      metaclass (~> 0.0.1)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -181,6 +184,7 @@ DEPENDENCIES
   hpricot
   jquery-rails
   json
+  mocha
   mongrel
   mysql
   paperclip

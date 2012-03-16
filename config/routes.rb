@@ -56,32 +56,34 @@ Odms::Application.routes.draw do
 	# Note: This route will make all actions in every controller accessible via GET requests.
 	# match ':controller(/:action(/:id))(.:format)'
 
-#end
-#__END__
-#ActionController::Routing::Routes.draw do |map|
-
-	namespace :active_scaffold do
-		with_options :active_scaffold => true do |as|
-	  	as.resources :study_subjects
-	  	as.resources :subject_races
-	  	as.resources :subject_languages
-	  	as.resources :patients
-	  	as.resources :addresses
-	  	as.resources :addressings
-	  	as.resources :phone_numbers
-	  	as.resources :enrollments
-	  	as.resources :data_sources
-		end
-	end
-
-
-
 
 #
 #
 #		http://yehudakatz.com/2009/12/26/the-rails-3-router-rack-it-up/
 #
 #
+
+
+#
+#	Rails 3 not compatible with Rails 2 version of ActiveScaffold.
+#
+#	For the moment, I have commented out tests for these.
+#
+#	namespace :active_scaffold do
+#		with_options :active_scaffold => true do |as|
+#	  	as.resources :study_subjects
+#	  	as.resources :subject_races
+#	  	as.resources :subject_languages
+#	  	as.resources :patients
+#	  	as.resources :addresses
+#	  	as.resources :addressings
+#	  	as.resources :phone_numbers
+#	  	as.resources :enrollments
+#	  	as.resources :data_sources
+#		end
+#	end
+#
+
 
 
 
@@ -254,6 +256,7 @@ Odms::Application.routes.draw do
 #		page.reports '/reports', :path => ["reports"]
 #	end
 
+#	TODO can't seem to duplicate the above.  Boo.
 
 	#	TODO don't think this is quite right
 #	match 'admin'   => 'pages#show', :as => 'admin', :path => ["admin"]

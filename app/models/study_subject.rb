@@ -229,9 +229,12 @@ protected
 	# custom validation for custom message without standard attribute prefix
 	def presence_of_sex
 		if sex.blank?
-			errors.add(:sex, ActiveRecord::Error.new(
-				self, :base, :blank, {
-					:message => "No sex has been chosen." } ) )
+#	TODO Rails 3 difference breaks my custom error messages without
+#				field name prefix in message!!!!
+#			errors.add(:sex, ActiveRecord::Error.new(
+#				self, :base, :blank, {
+#					:message => "No sex has been chosen." } ) )
+			errors.add(:sex, "No sex has been chosen." )
 		end
 	end
 
@@ -242,18 +245,25 @@ protected
 	#	custom validation for custom message without standard attribute prefix
 	def presence_of_other_guardian_relationship
 		if other_guardian_relationship.blank?
-			errors.add(:other_guardian_relationship, ActiveRecord::Error.new(
-				self, :base, :blank, { 
-					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
+#	TODO Rails 3 difference breaks my custom error messages without
+#				field name prefix in message!!!!
+#			errors.add(:other_guardian_relationship, ActiveRecord::Error.new(
+#				self, :base, :blank, { 
+#					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
+			errors.add(:other_guardian_relationship, 
+					"You must specify a relationship with 'other relationship' is selected." )
 		end
 	end
 
 	#	custom validation for custom message without standard attribute prefix
 	def presence_of_dob
 		if dob.blank?
-			errors.add(:dob, ActiveRecord::Error.new(
-				self, :base, :blank, { 
-					:message => "Date of birth can't be blank." } ) )
+#	TODO Rails 3 difference breaks my custom error messages without
+#				field name prefix in message!!!!
+#			errors.add(:dob, ActiveRecord::Error.new(
+#				self, :base, :blank, { 
+#					:message => "Date of birth can't be blank." } ) )
+			errors.add(:dob, "Date of birth can't be blank." )
 		end
 	end
 

@@ -43,7 +43,6 @@ module ApplicationHelper
 #			link_to('Studies', dashboard_studies_path) <<
 #			"</div><!-- menu_item -->"
 
-#		s << "<div class='menu_item'>#{link_to( "Admin", admin_path )}</div>" if(
 		s << "<div class='menu_item'>#{link_to( "Admin", '/admin' )}</div>" if(
 			logged_in? and current_user.may_administrate? )
 
@@ -52,9 +51,6 @@ module ApplicationHelper
 	end
 
 	def id_bar_for(object,&block)
-		#	In development, the app will forget
-#		require_dependency 'study_subject.rb' unless StudySubject	#	don't think true anymore
-#		require_dependency 'gift_card.rb' unless GiftCard
 		case object
 			when StudySubject  then study_subject_id_bar(object,&block)
 #			when GiftCard then gift_card_id_bar(object,&block)
@@ -63,9 +59,6 @@ module ApplicationHelper
 	end
 
 	def sub_menu_for(object)
-		#	In development, the app will forget
-#		require_dependency 'study_subject.rb' unless StudySubject	# don't think true anymore
-#		require_dependency 'interview.rb' unless Interview
 		case object
 			when StudySubject   then study_subject_sub_menu(object)
 #			when Interview then interview_sub_menu(object)
@@ -172,8 +165,6 @@ module ApplicationHelper
 					:class => ((current == :notes)?'current':nil) ),
 			] if( logged_in? and current_user.may_administrate? )
 
-#			links << link_to( "Related Subjects", case_path(study_subject),
-#					:class => ((current == :cases)?'current':nil) )
 			links << link_to( "Related Subjects", related_subject_path(study_subject),
 					:class => ((current == :related_subjects)?'current':nil) )
 			s << links.join("\n")
@@ -201,37 +192,6 @@ module ApplicationHelper
 		s.html_safe
 	end
 
-#	#	Used to replace the _id_bar partial
-#	def subject_id_bar(study_subject,&block)
-#		stylesheets('study_subject_id_bar')
-#		content_for :main do
-#			"<div id='id_bar'>\n" <<
-#			"<div class='childid'>\n" <<
-#			"<span>ChildID:</span>\n" <<
-#			"<span>#{study_subject.try(:childid)}</span>\n" <<
-#			"</div><!-- class='childid' -->\n" <<
-#			"<div class='studyid'>\n" <<
-#			"<span>StudyID:</span>\n" <<
-#			"<span>#{study_subject.try(:studyid)}</span>\n" <<
-#			"</div><!-- class='studyid' -->\n" <<
-#			"<div class='full_name'>\n" <<
-#			"<span>#{study_subject.full_name}</span>\n" <<
-#			"</div><!-- class='full_name' -->\n" <<
-#			"<div class='controls'>\n" <<
-#			@content_for_id_bar.to_s <<
-#			((block_given?)?yield: '') <<
-#			"</div><!-- class='controls' -->\n" <<
-#			"</div><!-- id='id_bar' -->\n"
-#		end
-#
-#		content_for :main do
-#			"<div id='do_not_contact'>\n" <<
-#			"Study Subject requests no further contact with Study.\n" <<
-#			"</div>\n" 
-#		end if study_subject.try(:do_not_contact?)
-#	end	#	id_bar_for
-#	alias_method :study_subject_id_bar, :subject_id_bar
-
 	#	Overrides the method of the same name in ccls_engine
 	#	Used to replace the _id_bar partial
 	def subject_id_bar(study_subject,&block)
@@ -256,10 +216,6 @@ module ApplicationHelper
 #			"<span>#{study_subject.try(:studyid)}</span>\n" <<
 			"<span>#{study_subject.studyid_to_s}</span>\n" <<		#	TODO add test for this
 			"</div><!-- class='studyid' -->\n" <<
-#			"<div class='controls'>\n" <<
-#			@content_for_id_bar.to_s <<
-#			((block_given?)?yield: '') <<
-#			"</div><!-- class='controls' -->\n" <<
 			"</div><!-- class='id_numbers' -->\n" <<
 			"</div><!-- id='id_bar' -->\n"
 		end
@@ -336,11 +292,17 @@ module ApplicationHelper
 			@roles.each do |role|
 				s << "<li>"
 				if @user.role_names.include?(role.name)
-					s << link_to( "Remove user role of '#{role.name}'", 
+#	TODO rails 3 does some new stuff for links with methods?
+#	data-method, etc.
+#					s << link_to( "Remove user role of '#{role.name}'", 
+					s << button_to( "Remove user role of '#{role.name}'", 
 						user_role_path(@user,role.name),
 						:method => :delete )
 				else
-					s << link_to( "Assign user role of '#{role.name}'", 
+#	TODO rails 3 does some new stuff for links with methods?
+#	data-method, etc.
+#					s << link_to( "Assign user role of '#{role.name}'", 
+					s << button_to( "Assign user role of '#{role.name}'", 
 						user_role_path(@user,role.name),
 						:method => :put )
 				end
@@ -348,10 +310,8 @@ module ApplicationHelper
 			end
 			s << "</ul>\n"
 		end
-		s
+		s.html_safe
 	end
-
-
 
 end
 

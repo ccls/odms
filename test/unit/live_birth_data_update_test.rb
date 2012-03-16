@@ -152,8 +152,10 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
-			assert results[1].errors.on_attr_and_type?(:first_name, :blank)
-			assert results[1].errors.on_attr_and_type?(:last_name,  :blank)
+#			assert results[1].errors.on_attr_and_type?(:first_name, :blank)
+			assert results[1].errors.matching?(:first_name,"can't be blank")
+#			assert results[1].errors.on_attr_and_type?(:last_name,  :blank)
+			assert results[1].errors.matching?(:last_name,"can't be blank")
 		}
 		cleanup_live_birth_data_update_and_test_file(live_birth_data_update)
 	end
@@ -168,7 +170,8 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
-			assert results[1].errors.on_attr_and_type?(:dob, :blank)
+#			assert results[1].errors.on_attr_and_type?(:dob, :blank)
+			assert results[1].errors.matching?(:dob,"can't be blank")
 		}
 		cleanup_live_birth_data_update_and_test_file(live_birth_data_update)
 	end
@@ -183,7 +186,8 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
-			assert results[1].errors.on_attr_and_type?(:dob, :blank)
+#			assert results[1].errors.on_attr_and_type?(:dob, :blank)
+			assert results[1].errors.matching?(:dob,"can't be blank")
 		}
 		cleanup_live_birth_data_update_and_test_file(live_birth_data_update)
 	end
@@ -198,7 +202,8 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
-			assert results[1].errors.on_attr_and_type?(:dob, :blank)
+#			assert results[1].errors.on_attr_and_type?(:dob, :blank)
+			assert results[1].errors.matching?(:dob,"can't be blank")
 		}
 		cleanup_live_birth_data_update_and_test_file(live_birth_data_update)
 	end
@@ -213,7 +218,8 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
-			assert results[1].errors.on_attr_and_type?(:sex, :inclusion)
+#			assert results[1].errors.on_attr_and_type?(:sex, :inclusion)
+			assert results[1].errors.matching?(:sex,'is not included in the list')
 		}
 		cleanup_live_birth_data_update_and_test_file(live_birth_data_update)
 	end

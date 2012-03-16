@@ -86,11 +86,10 @@ gem "active_scaffold"
 
 
 
-
 group :test do
 	gem "rcov"
 	#	Without the :lib => false, 'rake test' actually fails?
-	#gem "mocha", :lib => false
+	gem "mocha", :require => false
 	gem "autotest-rails", :require => 'autotest/rails'
 	gem 'ZenTest'	#	, '~>4.5.0'
 	#		#Fetching: ZenTest-4.6.2.gem (100%)

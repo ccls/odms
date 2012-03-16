@@ -119,7 +119,9 @@ protected	#	private #	(does it matter which or if neither?)
 	def access_denied( 
 			message="You don't have permission to complete that action.", 
 			default=root_path )
-		session[:return_to] = request.request_uri unless params[:format] == 'js'
+#	TODO RAILS 3 change?
+#		session[:return_to] = request.request_uri unless params[:format] == 'js'
+		session[:return_to] = request.url unless params[:format] == 'js'
 		flash[:error] = message
 		redirect_to default
 	end

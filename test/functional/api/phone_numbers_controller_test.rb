@@ -70,7 +70,8 @@ protected
 	end
 
 	def username_and_password
-		config = YAML::load(ERB.new(IO.read("#{RAILS_ROOT}/config/api.yml")).result)
+#		config = YAML::load(ERB.new(IO.read("#{RAILS_ROOT}/config/api.yml")).result)
+		config = YAML::load(ERB.new(IO.read("#{Rails.root}/config/api.yml")).result)
 		[ config[:user], config[:password] ]
 	end
 
