@@ -22,8 +22,10 @@ class Abstract < ActiveRecord::Base
 
 	#	The :on => :create doesn't seem to work as described
 	#	validate_on_create is technically deprecated, but still works
-	validate_on_create :subject_has_less_than_three_abstracts	#, :on => :create
-	validate_on_create :subject_has_no_merged_abstract	#, :on => :create
+#	validate_on_create :subject_has_less_than_three_abstracts	#, :on => :create
+#	validate_on_create :subject_has_no_merged_abstract	#, :on => :create
+	validate :subject_has_less_than_three_abstracts, :on => :create
+	validate :subject_has_no_merged_abstract, :on => :create
 
 	before_create :set_user
 	after_create  :delete_unmerged

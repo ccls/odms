@@ -96,13 +96,23 @@ gem "rcov"
 #	Without the :lib => false, 'rake test' actually fails?
 #gem "mocha", :lib => false
 gem "autotest-rails", :require => 'autotest/rails'
-gem 'ZenTest', '~>4.5.0'
+gem 'ZenTest'	#	, '~>4.5.0'
 #		#Fetching: ZenTest-4.6.2.gem (100%)
 #		#ERROR:  Error installing ZenTest:
 #		#	ZenTest requires RubyGems version ~> 1.8. (which is evil I tell you)
-gem "thoughtbot-factory_girl", :require    => "factory_girl"
+#gem "thoughtbot-factory_girl", :require    => "factory_girl"
+gem "factory_girl_rails"	#, :require    => "factory_girl"
 #	:source => "http://gems.github.com"
-gem 'ccls-html_test'
+
+
+
+
+#	TODO gonna need to fix this
+#gem 'ccls-html_test'
+
+
+
+
 gem 'webrat'
 gem 'capybara'
 gem 'capybara-webkit'
@@ -113,6 +123,7 @@ end
 #	The server starts
 #	Can't run autotest yet though
 #	I remember having to fix something like this before....
+#	I is in my ~/.autotest file
 
 #	/Library/Ruby/Gems/1.8/gems/ZenTest-4.5.0/lib/unit_diff.rb:72:in `gets': No such file or directory - -u (Errno::ENOENT)
 
