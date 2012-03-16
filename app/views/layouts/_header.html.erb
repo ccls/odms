@@ -3,8 +3,8 @@
  <div id='logo'><h2>Operations and Data Management System <span>[beta]</span></h2></div>
  <div id='minimenu'>
   <%= link_to "Home", root_path %>&nbsp;|&nbsp;
-  <%= link_to 'Reports', reports_path %>&nbsp;|&nbsp;
-  <%= link_to 'FAQs', faqs_path %>
+  <%= link_to 'Reports', '/reports' %>&nbsp;|&nbsp;
+  <%= link_to 'FAQs', '/faq' %>
   <% if logged_in? %>
     &nbsp;|&nbsp;<%= link_to 'Logout', logout_path %>
   <% end %>

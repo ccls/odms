@@ -17,10 +17,10 @@ class Sample < ActiveRecord::Base
 	has_one :sample_kit
 	accepts_nested_attributes_for :sample_kit
 
-	named_scope :pending, :conditions => {
+	scope :pending, :conditions => {
 		:received_by_ccls_at => nil }
 		
-	named_scope :collected, :conditions => [
+	scope :collected, :conditions => [
 		'received_by_ccls_at IS NOT NULL' ]
 
 	validates_presence_of :sample_type_id

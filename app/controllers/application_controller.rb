@@ -18,7 +18,8 @@ class ApplicationController < ActionController::Base
 
 	before_filter :login_required
 
-	base_server_url = ( RAILS_ENV == "production" ) ? 
+#	base_server_url = ( RAILS_ENV == "production" ) ? 
+	base_server_url = ( Rails.env == "production" ) ? 
 		"https://auth.berkeley.edu" : 
 		"https://auth-test.berkeley.edu"
 
@@ -90,15 +91,23 @@ protected	#	private #	(does it matter which or if neither?)
 		true
 	end
 
-	def ssl_allowed?
-		#	Gary has setup the genepi server to force https with its own redirection.
-		#	Forcing ssl in the application results in about 20 redirections back
-		#	to itself, so this tells the app to ignore it.
-		#	For testing, we cannot ignore the action check.
-		#	I could use an alias_method_chain here, but would actually take more lines.
-		request.host == "odms.brg.berkeley.edu" || (
-			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
-	end
+
+#	http://stackoverflow.com/questions/3634100/rails-3-ssl-deprecation
+
+
+#	def ssl_allowed?
+#		#	Gary has setup the genepi server to force https with its own redirection.
+#		#	Forcing ssl in the application results in about 20 redirections back
+#		#	to itself, so this tells the app to ignore it.
+#		#	For testing, we cannot ignore the action check.
+#		#	I could use an alias_method_chain here, but would actually take more lines.
+#
+#
+##	TODO	Rails 3
+##	NoMethodError (undefined method `read_inheritable_attribute' for OdmsController:Class):
+#		request.host == "odms.brg.berkeley.edu" || (
+#			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
+#	end
 
 	def redirect_to_referer_or_default(default)
 		redirect_to( session[:refer_to] || 

@@ -8,6 +8,16 @@ module ActiveRecordExtension::Base
 
 	module ClassMethods
 
+#	api says this is deprecated as of 2.3.8, but is in ActiveModel????
+#
+        def validation_method(on)
+          case on
+            when :save   then :validate
+            when :create then :validate_on_create
+            when :update then :validate_on_update
+          end
+        end
+
 		def acts_like_a_hash(*args)
 			options = {
 				:key   => :key,

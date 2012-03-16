@@ -22,6 +22,6 @@ class DocumentVersion < ActiveRecord::Base
 		title
 	end
 
-	named_scope :type1, :conditions => { :document_type_id => 1 }
+	scope :type1, :conditions => { :document_type_id => 1 }
 
 end

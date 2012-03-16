@@ -9,9 +9,9 @@
 			"alpha":     0.5,
 			"animate": [ { "type": "fade" }, { "type": "bounce", "distance": 5 } ],
 <%# this results in an even distributed gray scale. -%>
-			"colours":   [<%=@study_subjects.length.times.collect{|i|"\"##{sprintf('%06s',(i*(16777215/@study_subjects.length).to_i).to_s(16)).gsub(' ','0')}\""}.join(",") -%>],
+			"colours":   [<%=@study_subjects.length.times.collect{|i|"\"##{sprintf('%06s',(i*(16777215/@study_subjects.length).to_i).to_s(16)).gsub(' ','0')}\""}.join(",").html_safe -%>],
 			"font-size": 10,
-			"values" :   [ <%=@study_subjects.collect{|s| "{ \"value\": #{s.count}, \"label\": \"#{s.vital_status}\"}" }.join(',')%> ]
+			"values" :   [ <%=@study_subjects.collect{|s| "{ \"value\": #{s.count}, \"label\": \"#{s.vital_status}\"}" }.join(',').html_safe%> ]
 		}
 	]
 }

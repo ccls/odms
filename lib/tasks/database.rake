@@ -5,7 +5,8 @@ namespace :db do
 	task :extract_fixtures_from => :environment do
 		me = $*.shift
 		while( table_name = $*.shift )
-			File.open("#{RAILS_ROOT}/db/#{table_name}.yml", 'w') do |file|
+#			File.open("#{RAILS_ROOT}/db/#{table_name}.yml", 'w') do |file|
+			File.open("#{Rails.root}/db/#{table_name}.yml", 'w') do |file|
 #				data = table_name.singularize.capitalize.constantize.find(
 				data = table_name.singularize.classify.constantize.find(
 					:all).collect(&:attributes)

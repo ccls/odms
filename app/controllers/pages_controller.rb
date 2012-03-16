@@ -7,8 +7,12 @@ class PagesController < ApplicationController
 	ssl_allowed :show
 
 	def show
+puts 
+puts params.inspect
+puts 
 		if params[:path]
- 			@page = Page.by_path("/#{params[:path].join('/')}")
+# 			@page = Page.by_path("/#{params[:path].join('/')}")
+ 			@page = Page.by_path("/#{[params[:path]].flatten.join('/')}")
 			raise ActiveRecord::RecordNotFound if @page.nil?
 		else
 			@page = Page.find(params[:id])
@@ -16,7 +20,8 @@ class PagesController < ApplicationController
 		@page_title = @page.title(session[:locale])
 	rescue ActiveRecord::RecordNotFound
 		flash_message = "Page not found with "
-		flash_message << (( params[:id].blank? ) ? "path '/#{params[:path].join('/')}'" : "ID #{params[:id]}")
+#		flash_message << (( params[:id].blank? ) ? "path '/#{params[:path].join('/')}'" : "ID #{params[:id]}")
+		flash_message << (( params[:id].blank? ) ? "path '/#{[params[:path]].flatten.join('/')}'" : "ID #{params[:id]}")
 		flash.now[:error] = flash_message
 	end
 

@@ -45,11 +45,11 @@ class Addressing < ActiveRecord::Base
 			:in => YNDK.valid_values, :allow_nil => true
 
 
-	named_scope :current, :conditions => [
+	scope :current, :conditions => [
 		'current_address IS NOT NULL AND current_address != 2'
 	]
 
-	named_scope :historic, :conditions => [
+	scope :historic, :conditions => [
 		'current_address IS NULL OR current_address = 2'
 	]
 

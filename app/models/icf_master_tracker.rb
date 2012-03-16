@@ -19,7 +19,7 @@ class IcfMasterTracker < ActiveRecord::Base
 	before_save :flag_for_update
 	before_save :save_all_changes
 
-	named_scope :have_changed, :conditions => {
+	scope :have_changed, :conditions => {
 		:flagged_for_update => true
 	}
 

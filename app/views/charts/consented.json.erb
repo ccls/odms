@@ -24,7 +24,7 @@
 <%# some values are so small that they may be difficult to click -%>
 			"values" :   [<%=@enrollments.collect{|i| 
 	"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"alert('#{i.consented}:#{i.count}')\"}"
-}.join(',')%>]
+}.join(',').html_safe%>]
 		}
 	],
 	"x_axis":{
@@ -32,7 +32,7 @@
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=@enrollments.collect{|i| "\"#{i.consented}\""}.join(',')%>]
+			"labels": [<%=@enrollments.collect{|i| "\"#{i.consented}\""}.join(',').html_safe%>]
 		}
 	},
 	"y_axis":{

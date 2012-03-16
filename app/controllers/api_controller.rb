@@ -12,7 +12,8 @@ class ApiController < ApplicationController
 protected
 
 	def authenticate
-		config = YAML::load(ERB.new(IO.read("#{RAILS_ROOT}/config/api.yml")).result)
+#		config = YAML::load(ERB.new(IO.read("#{RAILS_ROOT}/config/api.yml")).result)
+		config = YAML::load(ERB.new(IO.read("#{Rails.root}/config/api.yml")).result)
 		authenticate_or_request_with_http_basic do |username, password|
 				username == config[:user] && password == config[:password]
 		end

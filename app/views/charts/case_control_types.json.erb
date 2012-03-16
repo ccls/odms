@@ -24,7 +24,7 @@
 <%# some values are so small that they may be difficult to click -%>
 			"values" :   [<%=@study_subjects.collect{|i| 
 	"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"alert('#{i.case_control_type}:#{i.count}')\"}"
-}.join(',')%>]
+}.join(',').html_safe%>]
 		}
 	],
 	"x_axis":{
@@ -32,7 +32,7 @@
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=@study_subjects.collect{|i| "\"#{i.case_control_type}\""}.join(',')%>]
+			"labels": [<%=@study_subjects.collect{|i| "\"#{i.case_control_type}\""}.join(',').html_safe%>]
 		}
 	},
 	"y_axis":{

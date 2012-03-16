@@ -13,7 +13,7 @@ class Person < ActiveRecord::Base
 	validates_length_of   :last_name,  :maximum => 250, :allow_blank => true
 	validates_length_of   :honorific,  :maximum => 250, :allow_blank => true
 
-	named_scope :interviewers, :conditions => { :person_type_id => 3 }
+	scope :interviewers, :conditions => { :person_type_id => 3 }
 
 	#	Returns string containing first and last name
 	def full_name

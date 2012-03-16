@@ -11,10 +11,10 @@
 <%# yes, rgb() works -%>
 <%#      "colours":    ["rgb(100,100,100)"], -%>
 <%# randomly selected values works nicely too -%>
-			"colours":   [<%=@study_subjects.length.times.collect{|i|"\"##{sprintf('%06s',(rand(16777215).to_i).to_s(16)).gsub(' ','0')}\""}.join(",") -%>],
+			"colours":   [<%=@study_subjects.length.times.collect{|i|"\"##{sprintf('%06s',(rand(16777215).to_i).to_s(16)).gsub(' ','0')}\""}.join(",").html_safe -%>],
 			"font-size": 10,
 			"values" :   [<%=@study_subjects.collect{|s| 
-"{\"value\":#{s.count},\"label\":\"#{s.subject_type}\",\"on-click\":\"#{find_study_subjects_url(:subject_type_id => s.subject_type_id)}\"}" }.join(",\n")-%> ]
+"{\"value\":#{s.count},\"label\":\"#{s.subject_type}\",\"on-click\":\"#{find_study_subjects_url(:subject_type_id => s.subject_type_id)}\"}" }.join(",\n").html_safe-%> ]
 		}
 	]
 }

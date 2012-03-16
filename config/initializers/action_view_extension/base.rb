@@ -1,3 +1,6 @@
+#
+#	Now that this is in the app, this could really just be a helper!
+#
 module ActionViewExtension; end
 module ActionViewExtension::Base
 
@@ -235,6 +238,7 @@ module ActionViewExtension::Base
 			s << "<noscript><p id='noscript' class='flash'>\n"
 			s << "Javascript is required for this site to be fully functional.\n"
 			s << "</p></noscript>\n"
+			s.html_safe
 		end
 
 		#	Created to stop multiple entries of same stylesheet

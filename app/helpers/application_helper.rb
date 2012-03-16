@@ -43,10 +43,12 @@ module ApplicationHelper
 #			link_to('Studies', dashboard_studies_path) <<
 #			"</div><!-- menu_item -->"
 
-		s << "<div class='menu_item'>#{link_to( "Admin", admin_path )}</div>" if(
+#		s << "<div class='menu_item'>#{link_to( "Admin", admin_path )}</div>" if(
+		s << "<div class='menu_item'>#{link_to( "Admin", '/admin' )}</div>" if(
 			logged_in? and current_user.may_administrate? )
 
 		s << "\n</div><!-- mainmenu -->\n"
+		s.html_safe
 	end
 
 	def id_bar_for(object,&block)
@@ -196,6 +198,7 @@ module ApplicationHelper
 			:class => (params[:action] == 'reports') ? 'current' : nil )
 		s << links.join('&nbsp;')
 		s << "</div>"
+		s.html_safe
 	end
 
 #	#	Used to replace the _id_bar partial

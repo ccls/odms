@@ -4,7 +4,7 @@
 #	*	title ( > 3 chars )
 #	*	body ( > 3 chars )
 #
-#	==	named_scope(s)
+#	==	scope(s)
 #	*	not_home (returns those pages where path is not just '/')
 #	*	roots
 #
@@ -34,13 +34,13 @@ class Page < ActiveRecord::Base
 	has_many :children, :class_name => 'Page', :foreign_key => 'parent_id',
 		:dependent => :nullify
 	
-	named_scope :roots, :conditions => { 
+	scope :roots, :conditions => { 
 		:parent_id => nil, :hide_menu => false }
 
-	named_scope :hidden, :conditions => { 
+	scope :hidden, :conditions => { 
 		:hide_menu => true }
 
-	named_scope :not_home, :conditions => [ "path != '/'" ]
+	scope :not_home, :conditions => [ "path != '/'" ]
 
 #	Why did I have this?
 #	attr_accessible :path, :parent_id, :hide_menu,
@@ -66,7 +66,7 @@ class Page < ActiveRecord::Base
 		end
 	end
 
-	#	named_scopes ALWAYS return an "Array"
+	#	scope ALWAYS return an "Array"
 	#	so if ONLY want one, MUST use a method.
 	#	by_path returns the one(max) page that
 	#	matches the given path.

@@ -45,11 +45,11 @@ class PhoneNumber < ActiveRecord::Base
 			:in => YNDK.valid_values, :allow_nil => true
 
 
-	named_scope :current, :conditions => [
+	scope :current, :conditions => [
 		'current_phone IS NOT NULL AND current_phone != 2'
 	]
 
-	named_scope :historic, :conditions => [
+	scope :historic, :conditions => [
 		'current_phone IS NULL OR current_phone = 2'
 	]
 
