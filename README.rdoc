@@ -49,11 +49,12 @@ Added :: prefix where I use it to see if makes a difference
 * paths not available in helper tests??
   * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
 
-
 * integration tests running
 	* #Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:62152/fake_session/new
 * integration tests passing
 * all tests passing
+
+
 * write replacement for f.error_messages
 * custom error messages without attribute
 * humanized versions of attributes for now
@@ -77,16 +78,6 @@ Added :: prefix where I use it to see if makes a difference
 * reenable raising mass assignment error in environments/test.rb
 
 *	get acts_as_list working (actually seems to work fine.  tests don't though)
-
-
-
-
-
-
-
-
-
-
 
 
 
