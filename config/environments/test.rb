@@ -82,18 +82,20 @@ Odms::Application.configure do
 # => /Users/jakewendt/github_repo/ccls/odms/config/environments/test.rb:77:in `+': can't convert String into Array (TypeError)
 # 19     # config.autoload_paths += %W(#{config.root}/extras)
 #	This seems to work for the moment
-	config.autoload_paths += %W(#{config.root}/test/app/controllers/")
-
-#	config.paths["app/controllers"] << File.join(Rails.root, "test/app/controllers/") 
-
-
-
-	config.paths["app/views"] << File.join(Rails.root, "test/app/views/") 
-
-	#	This seems to work, but still doesn't show up.
-#	config.paths["config/routes"] << File.join(Rails.root, "test/config/routes.rb") 
-	config.paths["config/routes"] += %W(#{config.root}/test/config/routes.rb)
-
+#
+#
+#	config.autoload_paths += %W(#{config.root}/test/app/controllers/")
+#
+##	config.paths["app/controllers"] << File.join(Rails.root, "test/app/controllers/") 
+#
+#
+#
+#	config.paths["app/views"] << File.join(Rails.root, "test/app/views/") 
+#
+#	#	This seems to work, but still doesn't show up.
+##	config.paths["config/routes"] << File.join(Rails.root, "test/config/routes.rb") 
+#	config.paths["config/routes"] += %W(#{config.root}/test/config/routes.rb)
+#
 end
 #
 #ActiveSupport::Dependencies.autoload_paths << File.expand_path( 

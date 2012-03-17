@@ -35,6 +35,13 @@ Added :: prefix where I use it to see if makes a difference
 * (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
 * (20120316c) 
 
+* move my action_view/base.rb into helper
+* change all of my form_link_to's to button_to's
+* change all of my destroy_link_to's to button_to's (think that I have some javascript attached to these so add class-'destroy_link_to')
+* paths not available in helper tests??
+  * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
+
+
 * integration tests running
 	* #Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:62152/fake_session/new
 * integration tests passing

@@ -1,18 +1,19 @@
 #
 #	Now that this is in the app, this could really just be a helper!
 #
-module ActionViewExtension; end
-module ActionViewExtension::Base
-#
-#	def self.included(base)
-#		base.send(:include, InstanceMethods)
-#		base.class_eval do
-#			alias_method_chain( :method_missing, :wrapping 
-#				) unless base.respond_to?(:method_missing_without_wrapping)
-#		end
-#	end
-#
-#	module InstanceMethods
+#module ActionViewExtension; end
+#module ActionViewExtension::Base
+module ActionViewBaseHelper
+
+##	def self.included(base)
+##		base.send(:include, InstanceMethods)
+##		base.class_eval do
+##			alias_method_chain( :method_missing, :wrapping 
+##				) unless base.respond_to?(:method_missing_without_wrapping)
+##		end
+##	end
+##
+##	module InstanceMethods
 #
 #		def yndk(value=nil)
 #			YNDK[value]||'&nbsp;'
@@ -141,6 +142,7 @@ module ActionViewExtension::Base
 #				method_missing_without_wrapping(symb,*args, &block)
 #			end
 #		end
+#		alias_method_chain( :method_missing, :wrapping )	# unless base.respond_to?(:method_missing_without_wrapping)
 #
 #
 #		#	Just add the classes 'submit' and 'button'
@@ -261,21 +263,52 @@ module ActionViewExtension::Base
 #				end
 #			end
 #		end
+
+		def javascripts(*args)
+			@javascripts ||= []
+			args.each do |javascript|
+				unless @javascripts.include?(javascript.to_s)
+					@javascripts.push(javascript.to_s)	#	remember
+
+#	the following raises NoMethodError: undefined method `append' for nil:NilClass ????
+#	I really don't understand.  I use content_for in other places just like this?
+#	Actually, the other tests may be failing before the content_for call
 #
-#		def javascripts(*args)
-#			@javascripts ||= []
-#			args.each do |javascript|
-#				unless @javascripts.include?(javascript.to_s)
-#					@javascripts.push(javascript.to_s)
-##	the following raises NoMethodError: undefined method `append' for nil:NilClass ????
-##					content_for(:head,javascript_include_tag(javascript).to_s)
-##					content_for(:head){ javascript_include_tag(javascript).to_s }
-#					content_for(:head){ javascript_include_tag(javascript).to_s }
-#				end
-#			end
+#	what is nil? This works in reality, but not in testing
+#
+#puts @content_for_head 
+#@content_for_head ||= ''
+#puts @content_for_head 
+					content_for(:head,javascript_include_tag(javascript).to_s)
+#puts @content_for_head
+#
+#
+#					jtag = javascript_include_tag(javascript).to_s
+#					content_for(:head, jtag )
+
+#content_for :main do
+#"<div id='do_not_contact'>\n" <<
+#"Study Subject requests no further contact with Study.\n" <<
+#"</div>\n"
+#end 
+#		content_for :side_menu do
+#			s = "<div id='sidemenu'>\n"
 #		end
 #
+#
+#					content_for(:head){ javascript_include_tag(javascript).to_s }
+#					content_for(:head) do 
+#						javascript_include_tag(javascript).to_s
+#					end
+#					content_for :head  do 
+#						s = javascript_include_tag(javascript).to_s
+#					end
+#					content_for(:head,"<script src='/javascripts/#{javascript}' type='text/javascript'></script>")
+				end
+			end
+		end
+
 #	end	#	module InstanceMethods
 #
 end	#	module ActionViewExtension::Base
-ActionView::Base.send(:include, ActionViewExtension::Base )
+#ActionView::Base.send(:include, ActionViewExtension::Base )

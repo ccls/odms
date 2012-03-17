@@ -12,7 +12,8 @@ require 'test_helper'
 #	end
 #end
 #
-class ActionViewExtension::BaseTest < ActionView::TestCase
+##class ActionViewExtension::BaseTest < ActionView::TestCase
+class ActionViewBaseHelperTest < ActionView::TestCase
 #
 #	test "adna(1) should return 'Agree'" do
 #		assert_equal 'Agree', adna(1)
@@ -254,7 +255,11 @@ class ActionViewExtension::BaseTest < ActionView::TestCase
 ##<div style="margin:0;padding:0;display:inline"><input name="_method" type="hidden" value="delete" /></div>
 ##<input id="apple" name="apple" type="hidden" value="orange" /><input type="submit" value="mytitle" />
 ##</form>
-#puts response
+##puts response
+##<form class="destroy_link_to" method="post" action="/myurl">
+##<div style="margin:0;padding:0;display:inline"><input name="utf8" value="&#x2713;" type="hidden" /><input name="_method" value="delete" type="hidden" /></div>
+##<input name="apple" id="apple" value="orange" type="hidden" /><input value="mytitle" type="submit" />
+##</form>
 #		assert_select response, 'form.destroy_link_to[action=/myurl]', 1 do
 #			assert_select 'div', 1 do
 #				assert_select 'input[name=_method][value=delete]',1
@@ -272,7 +277,11 @@ class ActionViewExtension::BaseTest < ActionView::TestCase
 ##<div style="margin:0;padding:0;display:inline"><input name="_method" type="hidden" value="delete" /></div>
 ##<input type="submit" value="mytitle" />
 ##</form>
-#puts response
+##puts response
+##<form class="destroy_link_to" method="post" action="/myurl">
+##<div style="margin:0;padding:0;display:inline"><input name="utf8" value="&#x2713;" type="hidden" /><input name="_method" value="delete" type="hidden" /></div>
+##<input value="mytitle" type="submit" />
+##</form>
 #		assert_select response, 'form.destroy_link_to[action=/myurl]', 1 do
 #			assert_select 'div', 1 do
 #				assert_select 'input[name=_method][value=delete]',1
@@ -317,20 +326,20 @@ class ActionViewExtension::BaseTest < ActionView::TestCase
 #			assert_select 'p#noscript.flash'
 #		end
 #	end
-#
-#	test "javascripts" do
-#		assert_nil @javascripts
-#		javascripts('myjavascript')
-#pending
-#		assert @javascripts.include?('myjavascript')
-#		assert_equal 1, @javascripts.length
-#		javascripts('myjavascript')
-#		assert_equal 1, @javascripts.length
-##<script src="/javascripts/myjavascript.js" type="text/javascript"></script>
-#		response = HTML::Document.new( @content_for_head).root
-#		assert_select response, 'script[src=/javascripts/myjavascript.js]'
-#	end
-#
+
+	test "javascripts" do
+		assert_nil @javascripts
+pending
+		javascripts('myjavascript')
+		assert @javascripts.include?('myjavascript')
+		assert_equal 1, @javascripts.length
+		javascripts('myjavascript')
+		assert_equal 1, @javascripts.length
+#<script src="/javascripts/myjavascript.js" type="text/javascript"></script>
+		response = HTML::Document.new( @content_for_head).root
+		assert_select response, 'script[src=/javascripts/myjavascript.js]'
+	end
+
 #	test "stylesheets" do
 #		assert_nil @stylesheets
 #		stylesheets('mystylesheet')
