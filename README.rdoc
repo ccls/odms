@@ -1,10 +1,6 @@
 = CCLS Operations and Data Management System
 
 
-
-
-
-
 == Rails 3 Upgrade Modifications
 
 So many things have changed from 2 to 3 and not all are good.  
@@ -24,6 +20,11 @@ ActionView::Template::Error: undefined method `[]' for ActionView::Context:Modul
 Added :: prefix where I use it to see if makes a difference
 
 
+* all of my custom validations have been converted and seem to work now
+	* validates_complete_date_for
+	* validates_past_date_for
+	* validates_absence_of
+* copy /lib/active_model/validations/presence.rb for use with absence.rb
 
 
 
@@ -32,7 +33,7 @@ Added :: prefix where I use it to see if makes a difference
 
 * (20120316a) 7886 tests, 18416 assertions, 907 failures, 1439 errors
 * (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
-
+* (20120316c) 
 
 * integration tests running
 	* #Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:62152/fake_session/new
@@ -56,7 +57,8 @@ Added :: prefix where I use it to see if makes a difference
 * remove any unused code
 * datetime still accept partial?
 * remove soon to be deprecate code
-* my custom validations
+
+
 * catch-all page path route string not array
 * reenable raising mass assignment error in environments/test.rb
 * no more 'redirected_to' test method? NoMethodError: undefined method `redirected_to' for #<ActionController::TestResponse:0x10c01d120>

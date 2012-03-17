@@ -65,7 +65,11 @@ module ActiveSupportExtension::TestCase
 
 			test "#{brand}should act as list" do
 				model = create_object.class.name
+
+#	NOTE I don't like this technique
 				model.constantize.destroy_all
+
+
 				object = create_object
 				assert_equal 1, object.position
 				attrs = {}
@@ -81,9 +85,11 @@ module ActiveSupportExtension::TestCase
 #	TODO another assert difference that seems to cache?
 #				assert_difference("#{model}.maximum(:position)",1) do
 puts "JAKE"
+puts model.constantize.all.inspect
 puts model.constantize.maximum(:position)
 					object = create_object(attrs)
 puts object.inspect
+puts model.constantize.all.inspect
 puts model.constantize.maximum(:position)
 puts "JAKE"
 #				end
@@ -112,7 +118,6 @@ pending
 #						assert !object.errors.on_attr_and_type(attr_name,:not_past_date)
 						assert !object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
-pending
 					end
 				else
 					test "#{brand}should NOT allow #{attr_name} to be today" do
@@ -120,7 +125,6 @@ pending
 #						assert object.errors.on_attr_and_type(attr_name,:not_past_date)
 						assert object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
-pending
 					end
 				end
 				test "#{brand}should require #{attr_name} be in the past" do
@@ -135,9 +139,9 @@ pending
 #						assert object.errors.on_attr_and_type(attr_name,:not_past_date)
 
 
-					puts "JAKE"
-					puts object.errors.inspect
-					puts "JAKE"
+#					puts "JAKE"
+#					puts object.errors.inspect
+#					puts "JAKE"
 #	TODO this fails
 						assert object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
@@ -145,7 +149,6 @@ pending
 
 
 					end
-pending
 				end
 			end
 		end
@@ -168,10 +171,9 @@ pending
 
 
 
-					puts "JAKE"
-					puts object.errors.inspect
-					puts "JAKE"
-#	TODO this fails
+#					puts "JAKE"
+#					puts object.errors.inspect
+#					puts "JAKE"
 						assert object.errors.matching?(attr_name,'is not a complete date')
 
 
@@ -183,7 +185,6 @@ pending
 #						assert object.errors.on_attr_and_type(attr_name,:not_complete_date)
 						assert object.errors.matching?(attr_name,'is not a complete date')
 					end
-pending
 				end
 			end
 		end
