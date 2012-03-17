@@ -26,6 +26,15 @@ Added :: prefix where I use it to see if makes a difference
 	* validates_absence_of
 * copy /lib/active_model/validations/presence.rb for use with absence.rb
 
+* move my action_view/base.rb into helper
+* config/initializers/action_view_extension/base.rb to simple helper
+
+* no more 'redirected_to' test method? NoMethodError: undefined method `redirected_to' for #<ActionController::TestResponse:0x10c01d120>
+
+
+
+
+
 
 
 == Rails 3 Upgrade TODOs
@@ -35,7 +44,6 @@ Added :: prefix where I use it to see if makes a difference
 * (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
 * (20120316c) 
 
-* move my action_view/base.rb into helper
 * change all of my form_link_to's to button_to's
 * change all of my destroy_link_to's to button_to's (think that I have some javascript attached to these so add class-'destroy_link_to')
 * paths not available in helper tests??
@@ -50,7 +58,6 @@ Added :: prefix where I use it to see if makes a difference
 * custom error messages without attribute
 * humanized versions of attributes for now
 * rake db:load:fixtures with csv files (works in testing)
-* config/initializers/action_view_extension/base.rb to simple helper
 * ZipCode failures??
 * json format
 * controllers now raises MassAssignmentSecurity::Error
@@ -68,7 +75,6 @@ Added :: prefix where I use it to see if makes a difference
 
 * catch-all page path route string not array
 * reenable raising mass assignment error in environments/test.rb
-* no more 'redirected_to' test method? NoMethodError: undefined method `redirected_to' for #<ActionController::TestResponse:0x10c01d120>
 
 *	get acts_as_list working (actually seems to work fine.  tests don't though)
 

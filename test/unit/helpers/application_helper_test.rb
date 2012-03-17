@@ -14,6 +14,31 @@ end
 
 class ApplicationHelperTest < ActionView::TestCase
 
+	setup :enable_content_for_usage
+	def enable_content_for_usage
+#
+# the following raises NoMethodError: undefined method `append' for nil:NilClass ????
+# I really don't understand.  I use content_for in other places just like this?
+# Actually, the other tests may be failing before the content_for call
+#
+# what is nil? This works in reality, but not in testing
+# wouldn't be surprised if this is controller related.
+#
+#   in rails 3, there is something called "@view_flow"
+# 
+# adding '_prepare_context' before the call fixes the nil, but then there's another error
+#
+# NoMethodError: undefined method `encoding_aware?' for nil:NilClass
+#    test/unit/helpers/action_view_base_helper_test.rb:340:in `new'
+#
+# don't use @content_for_head anymore.  Just use content_for(:head)
+#
+
+#	Is this the best way?  Doubt it, but it works.
+
+		_prepare_context	#	need this to set @view_flow so content_for works
+	end
+
 	test "odms_main_menu should return main menu without login" do
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
@@ -54,7 +79,8 @@ class ApplicationHelperTest < ActionView::TestCase
 #		assert subject.is_a?(Subject)
 #		#	subject_id_bar(subject,&block) is in subjects_helper.rb
 #		assert_nil id_bar_for(subject)	#	sets content_for :main
-#		response = HTML::Document.new(@content_for_main).root
+##		response = HTML::Document.new(@content_for_main).root
+#		response = HTML::Document.new( content_for(:side_menu) ).root
 #		assert_select response, 'div#id_bar' do
 #			assert_select 'div.childid'
 #			assert_select 'div.studyid'
@@ -81,7 +107,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_requests#new" do
 		self.params = { :controller => 'bc_requests', :action => 'new' }
 		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -94,7 +121,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_requests#index" do
 		self.params = { :controller => 'bc_requests', :action => 'index' }
 		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -107,7 +135,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_requests#index?status=active" do
 		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'active' }
 		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -120,7 +149,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_requests#index?status=complete" do
 		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'complete' }
 		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -133,7 +163,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_requests#index?status=waitlist" do
 		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'waitlist' }
 		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -146,7 +177,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_requests#index?status=pending" do
 		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'pending' }
 		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -159,7 +191,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_validations" do
 		self.params = { :controller => 'bc_validations' }
 		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -175,7 +208,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'study_subjects' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_path(study_subject)
@@ -187,7 +221,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'patients' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
@@ -199,7 +234,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'addresses' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -211,7 +247,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'addressings' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -223,7 +260,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'contacts' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -235,7 +273,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'phone_numbers' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -247,7 +286,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'consents' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
@@ -259,7 +299,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'enrollments' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
@@ -271,7 +312,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'samples' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
@@ -283,7 +325,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'interviews' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
@@ -295,7 +338,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'events' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
@@ -307,7 +351,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'documents' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
@@ -319,7 +364,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'notes' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
@@ -331,7 +377,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'related_subjects' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', related_subject_path(study_subject)
@@ -345,7 +392,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'study_subjects' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_path(study_subject)
@@ -357,7 +405,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'patients' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
@@ -369,7 +418,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'addresses' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -381,7 +431,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'addressings' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -393,7 +444,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'contacts' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -405,7 +457,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'phone_numbers' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -417,7 +470,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'consents' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
@@ -429,7 +483,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'enrollments' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
@@ -441,7 +496,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'samples' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current', 0
@@ -454,7 +510,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'interviews' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current', 0
@@ -467,7 +524,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'events' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
@@ -479,7 +537,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'documents' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current', 0
@@ -492,7 +551,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'notes' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current', 0
@@ -505,7 +565,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'related_subjects' }
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
-			response = HTML::Document.new(@content_for_side_menu).root
+#			response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', related_subject_path(study_subject)
@@ -518,7 +579,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'study_subjects' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_path(study_subject)
@@ -529,7 +591,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'patients' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
@@ -540,7 +603,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'addresses' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -551,7 +615,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'addressings' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -562,7 +627,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'contacts' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -573,7 +639,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'phone_numbers' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -584,7 +651,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'consents' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
@@ -595,7 +663,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'enrollments' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
@@ -606,7 +675,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'samples' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current', 0
@@ -618,7 +688,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'interviews' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current', 0
@@ -630,7 +701,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'events' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
@@ -641,7 +713,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'documents' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current', 0
@@ -653,7 +726,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'notes' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current', 0
@@ -665,7 +739,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'related_subjects' }
 		study_subject = Factory(:study_subject)
 		assert_nil sub_menu_for(study_subject)
-		response = HTML::Document.new(@content_for_side_menu).root
+#		response = HTML::Document.new(@content_for_side_menu).root
+		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', related_subject_path(study_subject)
@@ -681,6 +756,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "should get user_roles with superuser login" do
+pending
 		@user = send(:superuser)
 		login_as @user
 		@roles = Role.all
@@ -697,6 +773,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #<li><a href="/users/#{@user.id}/roles/interviewer" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'interviewer'</a></li>
 
 	test "should get user_roles with administrator login" do
+pending
 		@user = send(:administrator)
 		login_as @user
 		@roles = Role.all
@@ -854,13 +931,15 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert subject.is_a?(StudySubject)
 		assert !subject.do_not_contact?
 		assert_nil subject_id_bar(subject)	#	sets content_for :subject_header and :main
-		response = HTML::Document.new(@content_for_subject_header).root
+#		response = HTML::Document.new(@content_for_subject_header).root
+		response = HTML::Document.new( content_for(:subject_header) ).root
 		assert_select response, 'div#id_bar' do
 			assert_select 'div.icf_master_id'
 			assert_select 'div.studyid'
 			assert_select 'div.full_name'
 		end
-		assert_nil @content_for_main
+		assert_nil content_for(:main)
+#		assert_nil @content_for_main
 	end
 
 	test "subject_id_bar should return subject_id_bar with do not contact" do
@@ -868,13 +947,15 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert subject.is_a?(StudySubject)
 		assert subject.do_not_contact?
 		assert_nil subject_id_bar(subject)	#	sets content_for :subject_header and :main
-		response = HTML::Document.new(@content_for_subject_header).root
+#		response = HTML::Document.new(@content_for_subject_header).root
+		response = HTML::Document.new( content_for(:subject_header) ).root
 		assert_select response, 'div#id_bar' do
 			assert_select 'div.icf_master_id'
 			assert_select 'div.studyid'
 			assert_select 'div.full_name'
 		end
-		response = HTML::Document.new(@content_for_main).root
+#		response = HTML::Document.new(@content_for_main).root
+		response = HTML::Document.new( content_for(:main) ).root
 		assert_select response, 'div#do_not_contact'
 	end
 
@@ -894,13 +975,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_select response, 'span.required', 'something', 1
 	end
 
-
-
-#require 'test_helper'
-
-
-#class ActionViewExtension::BaseTest < ActionView::TestCase
-#class ActionViewBaseHelperTest < ActionView::TestCase
 
 	test "adna(1) should return 'Agree'" do
 		assert_equal 'Agree', adna(1)
@@ -926,8 +1000,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_equal "&nbsp;", adna()
 	end
 
-
-
 	test "yndk(1) should return 'Yes'" do
 		assert_equal 'Yes', yndk(1)
 	end
@@ -951,8 +1023,6 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "yndk() should return '&nbsp;'" do
 		assert_equal "&nbsp;", yndk()
 	end
-
-
 
 	test "ynodk(1) should return 'Yes'" do
 		assert_equal 'Yes', ynodk(1)
@@ -978,8 +1048,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_equal "&nbsp;", ynodk()
 	end
 
-
-
 	test "ynrdk(1) should return 'Yes'" do
 		assert_equal 'Yes', ynrdk(1)
 	end
@@ -1004,13 +1072,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_equal "&nbsp;", ynrdk()
 	end
 
-
-
-
-
-
-
-
 	test "unwrapped _wrapped_adna_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
@@ -1029,7 +1090,6 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_select 'span.value', '&nbsp;', 1
 		end
 	end
-
 
 	test "unwrapped _wrapped_yndk_spans" do
 		@some_model = SomeModel.new
@@ -1069,7 +1129,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-
 	test "unwrapped _wrapped_ynodk_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
@@ -1089,11 +1148,6 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_select 'span.value', '&nbsp;', 1
 		end
 	end
-
-	def flash
-		{:notice => "Hello There"}
-	end
-#	delegate :flash, :to => :controller
 
 	test "form_link_to with block" do
 		response = HTML::Document.new(
@@ -1180,26 +1234,6 @@ pending
 		end
 	end
 
-#
-# 20120316 : Don't believe that these are used anymore
-#
-#	test "button_link_to without block" do
-#		response = HTML::Document.new(button_link_to('mytitle','/myurl')).root
-#		assert_select response, 'a[href=/myurl]', 1 do
-#			assert_select 'button[type=button]', 1
-#		end
-##<a href="/myurl" style="text-decoration:none;"><button type="button">mytitle</button></a>
-#	end
-#
-#	test "aws_image_tag" do
-#		response = HTML::Document.new(
-#			aws_image_tag('myimage')
-#		).root
-#		bucket = ( defined?(RAILS_APP_NAME) && RAILS_APP_NAME ) || 'ccls'
-##<img alt="myimage" src="http://s3.amazonaws.com/ccls/images/myimage" />
-#		assert_select response, "img[src=http://s3.amazonaws.com/#{bucket}/images/myimage]", 1
-#	end
-
 	test "flasher" do
 		response = HTML::Document.new(
 			flasher
@@ -1216,27 +1250,25 @@ pending
 
 	test "javascripts" do
 		assert_nil @javascripts
-pending
 		javascripts('myjavascript')
 		assert @javascripts.include?('myjavascript')
 		assert_equal 1, @javascripts.length
 		javascripts('myjavascript')
 		assert_equal 1, @javascripts.length
-#<script src="/javascripts/myjavascript.js" type="text/javascript"></script>
-		response = HTML::Document.new( @content_for_head).root
+		#<script src="/javascripts/myjavascript.js" type="text/javascript"></script>
+		response = HTML::Document.new( content_for(:head) ).root
 		assert_select response, 'script[src=/javascripts/myjavascript.js]'
 	end
 
 	test "stylesheets" do
 		assert_nil @stylesheets
-pending
 		stylesheets('mystylesheet')
 		assert @stylesheets.include?('mystylesheet')
 		assert_equal 1, @stylesheets.length
 		stylesheets('mystylesheet')
 		assert_equal 1, @stylesheets.length
-#<link href="/stylesheets/mystylesheet.css" media="screen" rel="stylesheet" type="text/css" />
-		response = HTML::Document.new( @content_for_head).root
+		#<link href="/stylesheets/mystylesheet.css" media="screen" rel="stylesheet" type="text/css" />
+		response = HTML::Document.new( content_for(:head) ).root
 		assert_select response, 'link[href=/stylesheets/mystylesheet.css]'
 	end
 
@@ -1341,117 +1373,6 @@ pending
 		end
 	end
 
-#	test "wrapped_sex_select" do
-#		@user = SomeModel.new
-#		response = HTML::Document.new(
-#			wrapped_sex_select(:user, :sex)).root
-##<div class="sex field_wrapper">
-##<label for="user_sex">Sex</label><select id="user_sex" name="user[sex]"><option value="M">male</option>
-##<option value="F">female</option></select>
-##</div><!-- class='sex' -->
-#		assert_select response, 'div.sex.field_wrapper', 1 do
-#			assert_select 'label[for=user_sex]','Sex',1 
-#			assert_select "select#user_sex[name='user[sex]']" do
-#				assert_select 'option[value=M]', 'male'
-#				assert_select 'option[value=F]', 'female'
-#				assert_select 'option[value=DK]', "don't know"
-#			end
-#		end
-#	end
-#
-#	test "wrapped_gender_select" do
-#		@user = SomeModel.new
-#		response = HTML::Document.new(
-#			wrapped_gender_select(:user, :sex)).root
-##<div class="sex field_wrapper">
-##<label for="user_sex">Sex</label><select id="user_sex" name="user[sex]"><option value="M">male</option>
-##<option value="F">female</option></select>
-##</div><!-- class='sex' -->
-#		assert_select response, 'div.sex.field_wrapper', 1 do
-#			assert_select 'label[for=user_sex]','Sex',1 
-#			assert_select "select#user_sex[name='user[sex]']" do
-#				assert_select 'option[value=M]', 'male'
-#				assert_select 'option[value=F]', 'female'
-#			end
-#		end
-#	end
-#
-#	test "wrapped_date_text_field" do
-#		@user = SomeModel.new
-#		response = HTML::Document.new(
-#			wrapped_date_text_field(:user,:dob, :object => @user)).root
-##<div class="dob field_wrapper">
-##<label for="user_dob">Dob</label><input id="user_dob" name="user[dob]" size="30" type="text" />
-##</div><!-- class='dob' -->
-#		assert_select response, 'div.dob.field_wrapper', 1 do
-#			assert_select 'label[for=user_dob]','Dob', 1 
-#			assert_select "input#user_dob[name='user[dob]']"
-#		end
-#	end
-#
-#	test "wrapped_date_text_field with invalid dob" do
-#		@user = SomeModel.new
-#		@user.dob = "07181989"	
-##	will raise ...
-##ArgumentError: invalid date
-##    /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/date.rb:752:in `new'
-##    lib/simply_helpful/form_helper.rb:67:in `date_text_field'
-##    lib/simply_helpful/form_helper.rb:123:in `send'
-##    lib/simply_helpful/form_helper.rb:123:in `method_missing'
-##    lib/simply_helpful/form_helper.rb:19:in `field_wrapper'
-##    lib/simply_helpful/form_helper.rb:114:in `method_missing'
-##    /test/unit/helpful/form_helper_test.rb:134:in `test_wrapped_date_text_field_with_invalid_dob'
-##
-#		response = HTML::Document.new(
-#			wrapped_date_text_field(:user,:dob, :object => @user)).root
-##<div class="dob field_wrapper">
-##<label for="user_dob">Dob</label><input id="user_dob" name="user[dob]" size="30" type="text" />
-##</div><!-- class='dob' -->
-#		assert_select response, 'div.dob.field_wrapper', 1 do
-#			assert_select 'label[for=user_dob]','Dob', 1 
-#			assert_select "input#user_dob[name='user[dob]']"
-#		end
-#	end
-#
-#	test "wrapped_y_n_dk_select" do
-#		@user = SomeModel.new
-#		response = HTML::Document.new(
-#			wrapped_y_n_dk_select(:user, :yndk)).root
-##<div class="yndk field_wrapper">
-##<label for="user_yndk">Yndk</label><select id="user_yndk" name="user[yndk]"><option value="1">Yes</option>
-##<option value="2">No</option>
-##<option value="999">Don't Know</option></select>
-##</div><!-- class='yndk' -->
-#		assert_select response, 'div.yndk.field_wrapper', 1 do
-#			assert_select 'label[for=user_yndk]','Yndk',1 
-#			assert_select "select#user_yndk[name='user[yndk]']" do
-#				assert_select 'option[value=1]', 'Yes'
-#				assert_select 'option[value=2]', 'No'
-#				assert_select 'option[value=999]', "Don't Know"
-#			end
-#		end
-#	end
-#
-#	test "wrapped_yndk_select" do
-#		@user = SomeModel.new
-#		response = HTML::Document.new(
-#			wrapped_yndk_select(:user, :yndk)).root
-##<div class="yndk field_wrapper">
-##<label for="user_yndk">Yndk</label><select id="user_yndk" name="user[yndk]"><option value="1">Yes</option>
-##<option value="2">No</option>
-##<option value="999">Don't Know</option></select>
-##</div><!-- class='yndk' -->
-#		assert_select response, 'div.yndk.field_wrapper', 1 do
-#			assert_select 'label[for=user_yndk]','Yndk',1 
-#			assert_select "select#user_yndk[name='user[yndk]']" do
-#				assert_select 'option[value=1]', 'Yes'
-#				assert_select 'option[value=2]', 'No'
-#				assert_select 'option[value=999]', "Don't Know"
-#			end
-#		end
-#	end
-
-#end	#	class ActionViewExtension::BaseTest < ActionView::TestCase
 private 
 	def params
 		@params || {}
@@ -1459,6 +1380,7 @@ private
 	def params=(new_params)
 		@params = new_params
 	end
+#		this method is now local
 #	def stylesheets(*args)
 #		#	placeholder so can call subject_id_bar and avoid
 #		#		NoMethodError: undefined method `stylesheets' for #<Ccls::HelperTest:0x109e8ef90>
@@ -1472,5 +1394,10 @@ private
 	def logged_in?
 		!current_user.nil?
 	end
+	def flash
+		{:notice => "Hello There"}
+	end
+#	delegate :flash, :to => :controller
+
 end
 __END__
