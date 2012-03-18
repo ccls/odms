@@ -19,7 +19,8 @@ module ActiveModel
 
 
 					value = record.send(attribute)
-					record.errors.add(attribute, "is present and must be absent.", options) unless value.blank?
+#					record.errors.add(attribute, "is present and must be absent.", options) unless value.blank?
+					record.errors.add(attribute, :absent, options) unless value.blank?
 				end
 			end
 		end

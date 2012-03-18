@@ -22,7 +22,8 @@ module ActiveModel
 						unless date_hash.has_key?(:year) &&
 							date_hash.has_key?(:mon) &&
 							date_hash.has_key?(:mday)
-							record.errors.add(attribute, "is not a complete date.", options)
+#							record.errors.add(attribute, "is not a complete date.", options)
+							record.errors.add(attribute, :incomplete_date, options)
 						end
 					end
 				end

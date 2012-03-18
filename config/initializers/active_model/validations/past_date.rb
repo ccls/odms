@@ -45,7 +45,8 @@ module ActiveModel
 
 #					if !value.blank? && base_date < value
 					if !value.blank? && value > base_date
-						record.errors.add(attribute, "is in the future and must be in the past.", options)
+#						record.errors.add(attribute, "is in the future and must be in the past.", options)
+						record.errors.add(attribute, :future_date, options)
 					end
 				end
 			end
