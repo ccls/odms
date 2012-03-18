@@ -21,14 +21,21 @@ module SubjectRaceSelectHelper
 			classes = ['subject_race']
 			classes << ( ( sr.id.nil? ) ? 'creator' : 'destroyer' )
 			s << "<div class='#{classes.join(' ')}'>"
+
+
+#	TODO fields_for is what would generate the id field (I think)
+#	gotta figure out how to get it back in there
+
 			self.fields_for( :subject_races, sr ) do |sr_fields|
+#			s << self.fields_for( :subject_races, sr ) do |sr_fields|
 				s << "<div id='other_race'>" if( race.is_other? )
 
 #				s << sr_fields.check_box(:is_primary, {}, true, false)
 #	default id="study_subject_subject_races_attributes_0_is_primary"
 #	default class=nil
-				s << sr_fields.check_box(:is_primary, { 
 #					:id => "#{@template.dom_id(race)}_is_primary", 
+
+				s << sr_fields.check_box(:is_primary, { 
 					:id => "#{race.key}_is_primary",	#	other_is_primary
 					:class => 'is_primary_selector',
 					:title => "Set '#{race}' as the subject's PRIMARY race" } ) << "\n"
@@ -41,6 +48,7 @@ module SubjectRaceSelectHelper
 				s << sr_fields.specify_other_race() if race.is_other?
 				s << "</div>"	if( race.is_other? ) # id='other_race'>" 
 			end
+
 			s << "</div>\n"	# class='subject_race'>"
 		end
 		s << "</div>\n"	#	races
@@ -113,85 +121,3 @@ end
 ActionView::Helpers::FormBuilder.send(:include, SubjectRaceSelectHelper)
 
 __END__
-
-	def subject_languages_select( languages = Language.all )
-	#	doing it this way allows passing nothing, an array 
-	#	(as is currently in views), or just as list
-	def subject_languages_select( *args )
-		languages = args.flatten
-		languages = Language.all if languages.empty?
-		#		self.object  #	<-- the subject
-		s =  "<div id='study_subject_languages'>"
-		#	TODO would be nice, but not currently needed, to have a label option.
-		s << "<div class='languages_label'>Language of parent or caretaker:</div>\n"
-		s << "<div id='languages'>\n"
-		languages.each do |l|
-			sl = self.object.subject_languages.detect{|sl|sl.language_id == l.id }
-			#	This effectively requires that the attributes have been updated in the controller.
-			#	@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
-			sl_built_or_exists = ( sl.nil? ) ? false : true												#	need to remember
-			sl = self.object.subject_languages.build(:language => l) if sl.nil?
-			classes = ['subject_language']
-			classes << ( ( sl.id.nil? ) ? 'creator' : 'destroyer' )
-			s << "<div class='#{classes.join(' ')}'>"
-			self.fields_for( :subject_languages, sl ) do |sl_fields|
-				s << "<div id='other_language'>" if( l.is_other? )
-
-				if sl.id.nil?	#	not currently existing subject_language
-					s << sl_fields.subject_language_creator(sl_built_or_exists)
-				else	#	language exists, this is for possible destruction
-					s << sl_fields.subject_language_destroyer(!sl.marked_for_destruction?)
-				end
-				s << sl_fields.specify_other_language() if l.is_other?
-				s << "</div>"	if( l.is_other? ) # id='other_language'>" 
-			end
-			s << "</div>\n"	# class='subject_language'>"
-		end
-		s << "</div>\n"	#	languages
-		s << "</div><!-- study_subject_languages -->\n"	#	study_subject_languages
-	end
-	alias_method :subject_languages_selector, :subject_languages_select
-	alias_method :select_subject_languages, :subject_languages_select
-
-protected
-
-	def language_label
-		label =  self.object.language.key.dup.capitalize
-		label << (( self.object.language.is_other? ) ? ' (not eligible)' : ' (eligible)')
-	end
-
-	def subject_language_creator(checked=false)
-		#	self.object is a subject_language
-		#	If exists, the hidden id tag is actually immediately put in the html stream!
-		#	Don't think that it will be a problem, but erks me.
-		s = self.check_box( :language_id, { 
-			:id => "#{self.object.language.key}_language_id",	#	english_language_id
-			:checked => checked }, self.object.language_id, '' ) << "\n"
-		s << self.label( :language_id, self.language_label,
-			:for => "#{self.object.language.key}_language_id" ) << "\n"
-	end
-
-	def subject_language_destroyer(checked=true)
-		#	self.object is a subject_language
-		#	KEEP ME for finding _destroy to determine if checked
-		s =  self.hidden_field( :language_id, :value => self.object.language_id )
-		#	check_box(object_name, method, options = {}, 
-		#		checked_value = "1", unchecked_value = "0")
-		#	when checked, I want it to do nothing (0), when unchecked I want destroy (1)
-		#	Here, I only want existing language_ids
-		#	Yes, this is very backwards.
-		s << self.check_box( :_destroy, { 
-			:id => "#{self.object.language.key}__destroy",	# english__destroy
-			:checked => checked }, 0, 1 ) << "\n"
-		s << self.label( :_destroy, self.language_label,
-			:for => "#{self.object.language.key}__destroy" ) << "\n"
-	end
-
-	#	should really change this to language_other_other for clarity
-	def specify_other_language
-		s =  "<div id='specify_other_language'>"
-		s << self.label( :other, 'specify:', :for => 'other_other' ) << "\n"
-		s << self.text_field( :other, :size => 12, :id => 'other_other' ) << "\n"
-		s << "</div>"	# id='other_language'>"
-	end
-

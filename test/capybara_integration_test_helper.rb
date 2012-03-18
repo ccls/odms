@@ -1,4 +1,9 @@
 require 'capybara/rails'
+
+#	Explicitly require the FakeSessionsController
+require 'test/app/controllers/fake_sessions_controller'
+
+
 #
 #	Capybara.default_drivers [ :rack_test, :selenium/:selenium_firefox, 
 #		:selenium_chrome, :selenium_safari, :webkit ]
@@ -131,6 +136,16 @@ ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 ## Capybara because it starts the web server in a thread.
 #ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
+
+class ApplicationController
+	def ssl_required?
+		false
+	end
+	def ssl_allowed?
+		true
+	end
+end
+
 #	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
 
@@ -140,11 +155,19 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 		#	ApplicationController.subclasses does not initially include FakeSessionsController
 		#	I explicitly 'ssl_allowed' new and create, so irrelevant.
 		#	After the first request, it will be included though.
-		ApplicationController.subclasses.each do |controller|
-#			controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
-#	actually passes the class in Rails3 
-			controller.any_instance.stubs(:ssl_allowed?).returns(true) 
-		end
+
+#		ApplicationController.any_instance.stubs(:ssl_required?).returns(false)
+#		ApplicationController.any_instance.stubs(:ssl_allowed?).returns(true)
+
+#
+#	NOTE not sure which is better anymore
+#
+
+#		ApplicationController.subclasses.each do |controller|
+##			controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
+##	actually passes the class in Rails3 
+#			controller.any_instance.stubs(:ssl_allowed?).returns(true) 
+#		end
 	end
 
 #	setup :synchronize_selenium_connections	#	this includes :webkit

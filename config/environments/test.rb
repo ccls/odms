@@ -85,17 +85,26 @@ Odms::Application.configure do
 #
 #
 #	config.autoload_paths += %W(#{config.root}/test/app/controllers/")
+#	config.autoload_paths += %W(#{config.root}/test/app/controllers/)
+#	config.autoload_paths += %W(test/app/controllers)
 #
-##	config.paths["app/controllers"] << File.join(Rails.root, "test/app/controllers/") 
+#	config.paths["app/controllers"] << File.join(Rails.root, "test/app/controllers/") 
+#	config.paths["app/controllers"] << "test/app/controllers" 
 #
 #
 #
 #	config.paths["app/views"] << File.join(Rails.root, "test/app/views/") 
+#	config.paths["app/views"] << "test/app/views/"
 #
 #	#	This seems to work, but still doesn't show up.
 ##	config.paths["config/routes"] << File.join(Rails.root, "test/config/routes.rb") 
 #	config.paths["config/routes"] += %W(#{config.root}/test/config/routes.rb)
 #
+
+
+#	all these get set in the config.paths world, but don't seem to actually DO anything
+
+
 end
 #
 #ActiveSupport::Dependencies.autoload_paths << File.expand_path( 
@@ -104,7 +113,12 @@ end
 #ActionController::Base.view_paths <<
 #	File.expand_path(
 #		File.join(Rails.root,'/app/views'))
-#ActionController::Base.view_paths <<
-#	File.expand_path(
-#		File.join(Rails.root,'/test/app/views'))
+
+
 #
+#	Can't seem to do this in the configure block
+#
+ActionController::Base.view_paths <<
+	File.expand_path(
+		File.join(Rails.root,'/test/app/views'))
+

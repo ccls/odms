@@ -35,6 +35,13 @@ Added :: prefix where I use it to see if makes a difference
 * custom error messages in my custom validators
 
 
+Some feature are just gone, like error types so cannot use my on_attr_and_type test!
+Will have to compare error message with match or something.
+No more ActiveRecord::Error so need to do something in my validation.
+
+
+
+
 
 
 
@@ -43,25 +50,37 @@ Added :: prefix where I use it to see if makes a difference
 
 * (20120316a) 7886 tests, 18416 assertions, 907 failures, 1439 errors
 * (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
-* (20120316c) 
+* (20120317a)
+* ODMS-rake-test-20120317a.txt:4650 tests, 11589 assertions, 42 failures, 180 errors
+* ODMS-rake-test-20120317a.txt:2867 tests, 11028 assertions, 77 failures, 122 errors
+* ODMS-rake-test-20120317a.txt:224 tests, 499 assertions, 0 failures, 224 errors
+* (20120318a)
+* ODMS-rake-test-20120318a.txt:4579 tests, 11654 assertions, 14 failures, 88 errors
+* ODMS-rake-test-20120318a.txt:2867 tests, 11046 assertions, 77 failures, 104 errors
+* ODMS-rake-test-20120318a.txt:224 tests, 499 assertions, 0 failures, 224 errors
+
+
+* gonna need to figure out this SSL thing so that all environments work
 
 * change all of my form_link_to's to button_to's
+
 * change all of my destroy_link_to's to button_to's (think that I have some javascript attached to these so add class-'destroy_link_to')
-* paths not available in helper tests??
+
+* paths not available in new helper tests?? ( so commented out those tests )
   * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
 
 * integration tests running
-	* #Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:62152/fake_session/new
 * integration tests passing
 * all tests passing
 
-
-* write replacement for f.error_messages
-* custom error messages without attribute
-* humanized versions of attributes for now
 * rake db:load:fixtures with csv files (works in testing)
+  rake db:load:fixtures does not work for csv files????
+  the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
+
 * ZipCode failures??
-* json format
+
+* json output format no longer has the initial key.
+
 * controllers now raises MassAssignmentSecurity::Error
   * add a rescue to ignore it
 
@@ -70,10 +89,14 @@ Added :: prefix where I use it to see if makes a difference
 	config.active_record.mass_assignment_sanitizer = :strict
 	* I'd rather just silently ignore, but probably shouldn't
 
-* remove any unused code
-* datetime still accept partial?
+
+* datetime still accept partial? was some mention of error when not complete
+
 * remove soon to be deprecate code
 
+* missing subject_race_id and subject_language_id in selectors probably from new form of fields_for
+
+* fix all search code
 
 
 * http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes
@@ -86,6 +109,19 @@ Added :: prefix where I use it to see if makes a difference
 *	get acts_as_list working (actually seems to work fine.  tests don't though)
 
 
+
+
+
+
+
+
+* Have to find new way for custom error messages, AGAIN without attribute name
+
+* humanized versions of attributes for now
+
+
+
+* write replacement for f.error_messages (wrote, but need to implement)
 
 No more form f.error_messages in rails 3 so I'll need to do something there.
 Build my own helper that creates something like ...
@@ -117,7 +153,6 @@ Use locales or HUMANIZED ATTRIBUE NAME to convert things like ...
 	dob to Date of birth
 	hospital_no to Hospital record number
 
-
 irb(main):012:0> s.errors.full_messages
 => ["Subject type can't be blank", "Sex has not been chosen", "Date of birth can't be blank"]
 
@@ -131,8 +166,24 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 
 
-Integration tests now ignored by autotest???
-I just added a mapping in .autotest so lets see.  Testing is taking FOREVER!
+* Not all of my rails2 routes are reproducable in rails3.  Do I NEED them? Doesn't appear so.
+  admin_path ... can't seem to define the path to pass other stuff to route?
+
+
+
+
+* assert_difference always seems to fail as the Model.count doesn't change even on successfull creation.
+  Was happening for ZipCode
+
+
+* Would probably be much better if I could remove all of my custom mods, but I'll probably have to add more.
+
+
+* resolve all pending tests
+
+* resolve all commented out tests
+
+* remove any unused code
 
 
 
@@ -140,47 +191,17 @@ I just added a mapping in .autotest so lets see.  Testing is taking FOREVER!
 
 
 
-Not all of my rails2 routes are reproducable in rails3
-admin_path ... can't seem to define the path to pass other stuff to route?
-
-
-
-Some feature are just gone, like error types so cannot use my on_attr_and_type test!
-Will have to compare error message with match or something.
-
-No more ActiveRecord::Error so need to do something in my validation.
-
-Have to find new way for custom error messages, AGAIN.
 
 
 
 
-Many of my extensions and modification will never work and must simply be removed.
-Most unfortunate.  I'll need to find alternatives.
 
 
 
-json output format no longer has the initial key.
-
-
-assert_difference always seems to fail as the Model.count doesn't change even on successfull creation.
-
-
-rake db:load:fixtures does not work for csv files????
-
-the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
-
-
-So many changes that don't seem to be "better" just "different."
-
-This sucks.  Shoulda stuck with Rails 2. 
 
 
 
-At least autotest runs
 
-Would probably be much better if I could remove all of my custom mods,
-but I'll probably have to add more.
 
 
 

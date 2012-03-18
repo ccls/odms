@@ -1,4 +1,12 @@
 Odms::Application.routes.draw do
+
+#	rather than try to get multiple route files working,
+#	just conditionally add this testing route.
+if Rails.env == 'test'
+	resource :fake_session, :only => [:new,:create]
+end
+
+
 	# The priority is based upon order of creation:
 	# first created -> highest priority.
 

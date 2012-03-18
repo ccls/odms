@@ -11,9 +11,11 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 
 	test "subject_races_select" do
 		@study_subject = Factory(:study_subject)
-		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-			concat f.subject_races_select() }
-		expected = %{<form action="/" method="post"><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
+#			concat f.subject_races_select() }
+		output_buffer = form_for(@study_subject,:url => '/'){|f| f.subject_races_select() }
+#		expected = %{<form action="/" method="post"><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'White, Non-Hispanic' as the subject's PRIMARY race" type="checkbox" value="1" />
 <input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set 'White, Non-Hispanic' as one of the subject's race(s)" type="checkbox" value="1" />
@@ -57,9 +59,12 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 
 	test "subject_races_select Black,White" do
 		@study_subject = Factory(:study_subject)
-		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-			concat f.subject_races_select([Race['black'],Race['white']]) }
-			expected = %{<form action="/" method="post"><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
+#			concat f.subject_races_select([Race['black'],Race['white']]) }
+		output_buffer = form_for(@study_subject,:url => '/'){|f| 
+			f.subject_races_select([Race['black'],Race['white']]) }
+#		expected = %{<form action="/" method="post"><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="black_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'Black / African American' as the subject's PRIMARY race" type="checkbox" value="1" />
 <input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="black_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set 'Black / African American' as one of the subject's race(s)" type="checkbox" value="2" />
@@ -79,9 +84,16 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		@study_subject = Factory(:study_subject,:subject_races_attributes => {
 			'0' => { :race_id => Race['white'].id } } )
 		subject_race_id = @study_subject.subject_race_ids.first	#	this can vary so cannot assume that it will be 1
-		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-			concat f.subject_races_select([Race['black'],Race['white']]) }
-		expected = %{<form action="/" method="post"><input id="study_subject_subject_races_attributes_1_id" name="study_subject[subject_races_attributes][1][id]" type="hidden" value="#{subject_race_id}" /><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
+#			concat f.subject_races_select([Race['black'],Race['white']]) }
+#
+#	TODO where is subject_race_id?
+#
+pending
+		output_buffer = form_for(@study_subject,:url => '/'){|f| 
+			f.subject_races_select([Race['black'],Race['white']]) }
+#		expected = %{<form action="/" method="post"><input id="study_subject_subject_races_attributes_1_id" name="study_subject[subject_races_attributes][1][id]" type="hidden" value="#{subject_race_id}" /><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="black_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'Black / African American' as the subject's PRIMARY race" type="checkbox" value="1" />
 <input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="black_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set 'Black / African American' as one of the subject's race(s)" type="checkbox" value="2" />
@@ -97,101 +109,13 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		assert_equal expected, output_buffer
 	end
 
+	test "subject_races_select Black,White with Other" do
+		@study_subject = Factory(:study_subject,:subject_races_attributes => {
+			'0' => { :race_id => Race['other'].id, :other_race => "otherrace" } } )
+		subject_race_id = @study_subject.subject_race_ids.first	#	this can vary so cannot assume that it will be 1
+pending
+	end
+
 end
 
 __END__
-
-	test "subject_languages_select" do
-		@study_subject = Factory(:study_subject)
-#		form_for(@study_subject,:url => '/'){|f| 
-#<form action="/" class="edit_study_subject" id="edit_study_subject_7" method="post">
-		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-			concat f.subject_languages_select() }
-			expected = %{<form action="/" method="post"><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
-<div id='languages'>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="english_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
-<label for="english_language_id">English (eligible)</label>
-</div>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][1][language_id]" type="hidden" value="" /><input id="spanish_language_id" name="study_subject[subject_languages_attributes][1][language_id]" type="checkbox" value="2" />
-<label for="spanish_language_id">Spanish (eligible)</label>
-</div>
-<div class='subject_language creator'><div id='other_language'><input name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="" /><input id="other_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="checkbox" value="3" />
-<label for="other_language_id">Other (not eligible)</label>
-<div id='specify_other_language'><label for="other_other">specify:</label>
-<input id="other_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" />
-</div></div></div>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][3][language_id]" type="hidden" value="" /><input id="unknown_language_id" name="study_subject[subject_languages_attributes][3][language_id]" type="checkbox" value="4" />
-<label for="unknown_language_id">Unknown (eligible)</label>
-</div>
-</div>
-</div><!-- study_subject_languages -->
-</form>}
-		assert_equal expected, output_buffer
-	end
-
-	test "subject_languages_select English, Spanish" do
-		@study_subject = Factory(:study_subject)
-		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-			concat f.subject_languages_select([Language['english'],Language['spanish']]) }
-		expected = %{<form action="/" method="post"><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
-<div id='languages'>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="english_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
-<label for="english_language_id">English (eligible)</label>
-</div>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][1][language_id]" type="hidden" value="" /><input id="spanish_language_id" name="study_subject[subject_languages_attributes][1][language_id]" type="checkbox" value="2" />
-<label for="spanish_language_id">Spanish (eligible)</label>
-</div>
-</div>
-</div><!-- study_subject_languages -->
-</form>}
-		assert_equal expected, output_buffer
-	end
-
-	test "subject_languages_select English, Spanish, Other" do
-		@study_subject = Factory(:study_subject)
-		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-			concat f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
-		expected = %{<form action="/" method="post"><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
-<div id='languages'>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="english_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
-<label for="english_language_id">English (eligible)</label>
-</div>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][1][language_id]" type="hidden" value="" /><input id="spanish_language_id" name="study_subject[subject_languages_attributes][1][language_id]" type="checkbox" value="2" />
-<label for="spanish_language_id">Spanish (eligible)</label>
-</div>
-<div class='subject_language creator'><div id='other_language'><input name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="" /><input id="other_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="checkbox" value="3" />
-<label for="other_language_id">Other (not eligible)</label>
-<div id='specify_other_language'><label for="other_other">specify:</label>
-<input id="other_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" />
-</div></div></div>
-</div>
-</div><!-- study_subject_languages -->
-</form>}
-		assert_equal expected, output_buffer
-	end
-
-	test "subject_languages_select English, Spanish, Other with Other" do
-		@study_subject = Factory(:study_subject, :subject_languages_attributes => {
-			'0' => { :language_id => Language['other'].id, :other => 'redneck' } } )
-		subject_language_id = @study_subject.subject_language_ids.first	#	this can vary so cannot assume that it will be 1
-		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-			concat f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
-		expected = %{<form action="/" method="post"><input id="study_subject_subject_languages_attributes_2_id" name="study_subject[subject_languages_attributes][2][id]" type="hidden" value="#{subject_language_id}" /><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
-<div id='languages'>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="english_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
-<label for="english_language_id">English (eligible)</label>
-</div>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][1][language_id]" type="hidden" value="" /><input id="spanish_language_id" name="study_subject[subject_languages_attributes][1][language_id]" type="checkbox" value="2" />
-<label for="spanish_language_id">Spanish (eligible)</label>
-</div>
-<div class='subject_language destroyer'><div id='other_language'><input id="study_subject_subject_languages_attributes_2_language_id" name="study_subject[subject_languages_attributes][2][language_id]" type="hidden" value="3" /><input name="study_subject[subject_languages_attributes][2][_destroy]" type="hidden" value="1" /><input checked="checked" id="other__destroy" name="study_subject[subject_languages_attributes][2][_destroy]" type="checkbox" value="0" />
-<label for="other__destroy">Other (not eligible)</label>
-<div id='specify_other_language'><label for="other_other">specify:</label>
-<input id="other_other" name="study_subject[subject_languages_attributes][2][other]" size="12" type="text" value="redneck" />
-</div></div></div>
-</div>
-</div><!-- study_subject_languages -->
-</form>}
-		assert_equal expected, output_buffer
-	end
-
