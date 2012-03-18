@@ -23,6 +23,7 @@ module ActiveModel
 							date_hash.has_key?(:mon) &&
 							date_hash.has_key?(:mday)
 #							record.errors.add(attribute, "is not a complete date.", options)
+							#	associated default error message is in config/locales/en.yml
 							record.errors.add(attribute, :incomplete_date, options)
 						end
 					end
