@@ -58,6 +58,11 @@ No more ActiveRecord::Error so need to do something in my validation.
 * ODMS-rake-test-20120318a.txt:4579 tests, 11654 assertions, 14 failures, 88 errors
 * ODMS-rake-test-20120318a.txt:2867 tests, 11046 assertions, 77 failures, 104 errors
 * ODMS-rake-test-20120318a.txt:224 tests, 499 assertions, 0 failures, 224 errors
+* (20120318b)
+* ODMS-rake-test-20120318b.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
+* ODMS-rake-test-20120318b.txt:2867 tests, 11178 assertions, 77 failures, 77 errors
+* ODMS-rake-test-20120318b.txt:224 tests, 2827 assertions, 47 failures, 0 errors
+
 
 
 * gonna need to figure out this SSL thing so that all environments work
@@ -186,7 +191,11 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 * remove any unused code
 
 
+* put fake_sessions#new view into controller rather than separate file?
+* put FakeSessionsController into the Capybara test helper rather than separate file?
 
+
+* surprised my home computer tested without a config/api.yml ??
 
 
 

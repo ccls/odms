@@ -1,4 +1,5 @@
-<% unless @content_for_side_menu.blank? %>
+<%# unless @content_for_side_menu.blank? %>
+<% if content_for?(:side_menu) %>
 <div id='left_side_menu'>
 <%= yield :side_menu %>
 </div><!-- id='left_side_menu' -->

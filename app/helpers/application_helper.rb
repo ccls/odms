@@ -111,6 +111,8 @@ module ApplicationHelper
 #			links << "<span>Request History</span>"
 			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
+			s.html_safe
+#	NOTE test this as I suspect that it needs an "html_safe" added
 		end
 	end
 
@@ -169,6 +171,8 @@ module ApplicationHelper
 					:class => ((current == :related_subjects)?'current':nil) )
 			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
+			s.html_safe
+#	NOTE test this as I suspect that it needs an "html_safe" added
 		end
 	end
 
@@ -197,7 +201,7 @@ module ApplicationHelper
 	def subject_id_bar(study_subject,&block)
 		stylesheets('study_subject_id_bar')
 		content_for :subject_header do
-			"<div id='id_bar'>\n" <<
+			s = "<div id='id_bar'>\n" <<
 			"<div class='full_name'>\n" <<
 			"<span>#{study_subject.full_name}</span>\n" <<
 			"</div><!-- class='full_name' -->\n" <<
@@ -218,12 +222,14 @@ module ApplicationHelper
 			"</div><!-- class='studyid' -->\n" <<
 			"</div><!-- class='id_numbers' -->\n" <<
 			"</div><!-- id='id_bar' -->\n"
+			s.html_safe
 		end
 
 		content_for :main do
-			"<div id='do_not_contact'>\n" <<
+			s = "<div id='do_not_contact'>\n" <<
 			"Study Subject requests no further contact with Study.\n" <<
-			"</div>\n" 
+			"</div>\n"
+			s.html_safe
 		end if study_subject.try(:do_not_contact?)
 	end	#	id_bar_for
 	alias_method :study_subject_id_bar, :subject_id_bar
@@ -283,7 +289,8 @@ module ApplicationHelper
 		s << link_to(link_text,local_params.merge(:order => order,:dir => dir))
 		s << arrow unless arrow.blank?
 		s << "</div>"
-		s
+		s.html_safe
+#	NOTE test this as I suspect that it needs an "html_safe" added
 	end
 
 	def user_roles
