@@ -90,10 +90,8 @@ pending	#	stray HAVING in SQL
 			get :show, :id => study_subject.id
 			assert_response :success
 			assert_template 'show'
-puts @response.body
 			assert_select "#do_not_contact", :count => 1
 			assert_select "#do_not_contact", 1
-pending
 		end
 	
 		test "should NOT have do_not_contact if it is false "<<
@@ -117,8 +115,6 @@ pending
 			assert_response :success
 			assert_template 'show'
 #			assert_select "#submenu", :count => 1 do
-puts @response.body
-pending
 			assert_select "#sidemenu", :count => 1 do
 
 #				assert_select "span", :count => 1
