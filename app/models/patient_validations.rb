@@ -10,9 +10,11 @@ def self.included(base)
 base.class_eval do
 
 	validates_presence_of :admit_date
-	validate :presence_of_organization_id
+#	validate :presence_of_organization_id
+	validates_presence_of :organization_id
 	validates_presence_of :diagnosis_id
-	validate :presence_of_hospital_no
+#	validate :presence_of_hospital_no
+	validates_presence_of :hospital_no
 	validates_length_of   :hospital_no, :maximum => 25, :allow_blank => true
 	validates_uniqueness_of :hospital_no, :scope => :organization_id
 	validates_past_date_for :admit_date
@@ -99,29 +101,29 @@ protected
 		end
 	end
 
-	#	custom validation for custom message without standard attribute prefix
-	def presence_of_organization_id
-		if organization_id.blank?
-#	TODO Rails 3 difference breaks my custom error messages without
-#				field name prefix in message!!!!
-#			errors.add(:organization_id, ActiveRecord::Error.new(
-#				self, :base, :blank, { 
-#					:message => "Treating institution can't be blank." } ) )
-			errors.add(:organization_id, "Treating institution can't be blank." )
-		end
-	end
-
-	#	custom validation for custom message without standard attribute prefix
-	def presence_of_hospital_no
-		if hospital_no.blank?
-#	TODO Rails 3 difference breaks my custom error messages without
-#				field name prefix in message!!!!
-#			errors.add(:hospital_no, ActiveRecord::Error.new(
-#				self, :base, :blank, { 
-#					:message => "Hospital record number can't be blank." } ) )
-			errors.add(:hospital_no, "Hospital record number can't be blank." )
-		end
-	end
+#	#	custom validation for custom message without standard attribute prefix
+#	def presence_of_organization_id
+#		if organization_id.blank?
+##	TODO Rails 3 difference breaks my custom error messages without
+##				field name prefix in message!!!!
+##			errors.add(:organization_id, ActiveRecord::Error.new(
+##				self, :base, :blank, { 
+##					:message => "Treating institution can't be blank." } ) )
+#			errors.add(:organization_id, "Treating institution can't be blank." )
+#		end
+#	end
+#
+#	#	custom validation for custom message without standard attribute prefix
+#	def presence_of_hospital_no
+#		if hospital_no.blank?
+##	TODO Rails 3 difference breaks my custom error messages without
+##				field name prefix in message!!!!
+##			errors.add(:hospital_no, ActiveRecord::Error.new(
+##				self, :base, :blank, { 
+##					:message => "Hospital record number can't be blank." } ) )
+#			errors.add(:hospital_no, "Hospital record number can't be blank." )
+#		end
+#	end
 
 end	#	class_eval
 end	#	included

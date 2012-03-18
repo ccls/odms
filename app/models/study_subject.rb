@@ -21,8 +21,6 @@ class StudySubject < ActiveRecord::Base
 	#	be by association or topic as this seems more logical.
 	#	Also trying to map this same organization in the tests
 	#	so that autotest triggers the more likely effected tests.
-#	include StudySubjectAssociations
-#	include StudySubjectValidations
 
 	include StudySubjectPatient
 	include StudySubjectPii
@@ -64,14 +62,16 @@ class StudySubject < ActiveRecord::Base
 	validates_presence_of :subject_type_id
 	validates_presence_of :subject_type, :if => :subject_type_id
 
-	validate :presence_of_sex
+#	validate :presence_of_sex
+	validates_presence_of  :sex
 	validates_inclusion_of :sex, :in => %w( M F DK ), :allow_blank => true
 #	validates_inclusion_of :sex, :in => valid_sex_values, :allow_blank => true
 	validates_inclusion_of :do_not_contact, :in => [ true, false ]
 
 	validates_complete_date_for :reference_date, :allow_nil => true
 
-	validate :presence_of_dob, :unless => :is_mother?
+#	validate :presence_of_dob, :unless => :is_mother?
+	validates_presence_of :dob, :unless => :is_mother?
 	validates_complete_date_for :dob, :allow_nil => true
 	validates_past_date_for     :dob, :allow_nil => true
 	validates_complete_date_for :died_on, :allow_nil => true
@@ -88,8 +88,9 @@ class StudySubject < ActiveRecord::Base
 	  :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
 		:allow_blank => true
 
-	validate :presence_of_other_guardian_relationship,
-		:if => :guardian_relationship_is_other?
+	validate :presence_of_other_guardian_relationship
+#	validate :presence_of_other_guardian_relationship,
+#		:if => :guardian_relationship_is_other?
 
 	validates_presence_of :birth_city,
 		:if => :birth_country_is_united_states?
@@ -226,17 +227,17 @@ class StudySubject < ActiveRecord::Base
 
 protected
 
-	# custom validation for custom message without standard attribute prefix
-	def presence_of_sex
-		if sex.blank?
-#	TODO Rails 3 difference breaks my custom error messages without
-#				field name prefix in message!!!!
-#			errors.add(:sex, ActiveRecord::Error.new(
-#				self, :base, :blank, {
-#					:message => "No sex has been chosen." } ) )
-			errors.add(:sex, "No sex has been chosen." )
-		end
-	end
+#	# custom validation for custom message without standard attribute prefix
+#	def presence_of_sex
+#		if sex.blank?
+##	TODO Rails 3 difference breaks my custom error messages without
+##				field name prefix in message!!!!
+##			errors.add(:sex, ActiveRecord::Error.new(
+##				self, :base, :blank, {
+##					:message => "No sex has been chosen." } ) )
+#			errors.add(:sex, "No sex has been chosen." )
+#		end
+#	end
 
 	def birth_country_is_united_states?
 		birth_country == 'United States'
@@ -244,7 +245,8 @@ protected
 
 	#	custom validation for custom message without standard attribute prefix
 	def presence_of_other_guardian_relationship
-		if other_guardian_relationship.blank?
+		if guardian_relationship_is_other? && other_guardian_relationship.blank?
+#		:if => :guardian_relationship_is_other?
 #	TODO Rails 3 difference breaks my custom error messages without
 #				field name prefix in message!!!!
 #			errors.add(:other_guardian_relationship, ActiveRecord::Error.new(
@@ -256,16 +258,17 @@ protected
 	end
 
 	#	custom validation for custom message without standard attribute prefix
-	def presence_of_dob
-		if dob.blank?
+#	custom attribute name in config/locales
+#	def presence_of_dob
+#		if dob.blank?
 #	TODO Rails 3 difference breaks my custom error messages without
 #				field name prefix in message!!!!
 #			errors.add(:dob, ActiveRecord::Error.new(
 #				self, :base, :blank, { 
 #					:message => "Date of birth can't be blank." } ) )
-			errors.add(:dob, "Date of birth can't be blank." )
-		end
-	end
+#			errors.add(:dob, "Date of birth can't be blank." )
+#		end
+#	end
 
 	#	Use these to stop the constant checking.
 	def self.subject_type_mother_id

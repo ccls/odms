@@ -11,6 +11,7 @@ class GiftCardSearchTest < ActiveSupport::TestCase
 	end
 
 	test "should return Array" do
+pending
 		gift_cards = GiftCard.search()
 		assert gift_cards.is_a?(Array)
 	end
@@ -91,6 +92,7 @@ class GiftCardSearchTest < ActiveSupport::TestCase
 	end
 
 	test "should include gift_card by q patid" do
+pending
 		g1,g2 = create_gift_cards_with_patids(999999,'1')
 		gift_cards = GiftCard.search(:q => g1.study_subject.patid)
 		assert  gift_cards.include?(g1)

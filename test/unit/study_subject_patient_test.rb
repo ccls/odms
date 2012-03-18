@@ -77,18 +77,15 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		assert_difference( 'Patient.count', 0) {
 		assert_difference( "StudySubject.count", 0 ) {
 			study_subject = create_study_subject( :patient_attributes => {})
-			assert study_subject.errors.include?('patient.diagnosis_id')
-#			assert study_subject.errors.on_attr_and_type?('patient.diagnosis_id',:blank)
+			assert study_subject.errors.include?('patient.diagnosis_id'.to_sym)
 			assert study_subject.errors.matching?('patient.diagnosis_id',"can't be blank")
-			assert study_subject.errors.include?('patient.hospital_no')
-#			assert study_subject.errors.on_attr_and_type?('patient.hospital_no',:blank)
+			assert study_subject.errors.include?('patient.hospital_no'.to_sym)
 			assert study_subject.errors.matching?('patient.hospital_no',"can't be blank")
-			assert study_subject.errors.include?('patient.admit_date')
-#			assert study_subject.errors.on_attr_and_type?('patient.admit_date',:blank)
+			assert study_subject.errors.include?('patient.admit_date'.to_sym)
 			assert study_subject.errors.matching?('patient.admit_date',"can't be blank")
-			assert study_subject.errors.include?('patient.organization_id')
-#			assert study_subject.errors.on_attr_and_type?('patient.organization_id',:blank)
+			assert study_subject.errors.include?('patient.organization_id'.to_sym)
 			assert study_subject.errors.matching?('patient.organization_id',"can't be blank")
+pending
 		} }
 	end
 

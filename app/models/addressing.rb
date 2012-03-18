@@ -132,7 +132,8 @@ protected
 		#	.true? is a common_lib#object method.
 #	being more specific
 #		if subject_moved.true? &&
-		if subject_moved == '1' &&
+#		if subject_moved == '1' &&
+		if ['1','true'].include?(subject_moved) &&
 				current_address == YNDK[:no] &&
 				current_address_was != YNDK[:no] &&
 				address.address_type == AddressType['residence']

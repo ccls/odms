@@ -5,6 +5,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 	assert_should_have_many(:addressings, :model => 'StudySubject')
 
 	test "should create study_subject and accept_nested_attributes_for addressings" do
+pending
 		assert_difference( 'Address.count', 1) {
 		assert_difference( 'Addressing.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
@@ -49,6 +50,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 	end
 
 	test "should respond to residence_addresses_count" do
+pending
 		study_subject = create_study_subject
 		assert study_subject.respond_to?(:residence_addresses_count)
 		assert_equal 0, study_subject.residence_addresses_count

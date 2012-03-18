@@ -32,6 +32,7 @@ Added :: prefix where I use it to see if makes a difference
 * no more 'redirected_to' test method? NoMethodError: undefined method `redirected_to' for #<ActionController::TestResponse:0x10c01d120>
 
 
+* custom error messages in my custom validators
 
 
 
@@ -73,7 +74,10 @@ Added :: prefix where I use it to see if makes a difference
 * datetime still accept partial?
 * remove soon to be deprecate code
 
-* custom error messages in my custom validators
+
+
+* http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes
+* put all of my custom error message in locale file like above???
 
 
 * catch-all page path route string not array
@@ -108,9 +112,18 @@ Build my own helper that creates something like ...
       </ul>
     </div>
 
+These ONLY show up with full messages.
 Use locales or HUMANIZED ATTRIBUE NAME to convert things like ...
 	dob to Date of birth
 	hospital_no to Hospital record number
+
+
+irb(main):012:0> s.errors.full_messages
+=> ["Subject type can't be blank", "Sex has not been chosen", "Date of birth can't be blank"]
+
+irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
+=> "Date of birth can't be blank"
+
 
 
 

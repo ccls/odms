@@ -28,8 +28,9 @@ class Interview < ActiveRecord::Base
 	validates_length_of :respondent_first_name,      :maximum => 250, :allow_blank => true
 	validates_length_of :respondent_last_name,       :maximum => 250, :allow_blank => true
 
-	validate :presence_of_other_subject_relationship,
-		:if => :subject_relationship_is_other?
+	validate :presence_of_other_subject_relationship
+#	validate :presence_of_other_subject_relationship,
+#		:if => :subject_relationship_is_other?
 
 	validates_absence_of :other_subject_relationship,
 		:message => "not allowed",
@@ -111,7 +112,7 @@ protected
 
 	#	custom validation for custom message without standard attribute prefix
 	def presence_of_other_subject_relationship
-		if other_subject_relationship.blank?
+		if subject_relationship_is_other? and other_subject_relationship.blank?
 #	TODO Rails 3 difference breaks my custom error messages without
 #				field name prefix in message!!!!
 #			errors.add(:other_subject_relationship, ActiveRecord::Error.new(

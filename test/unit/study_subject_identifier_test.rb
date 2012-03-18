@@ -93,7 +93,6 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		assert_difference('StudySubject.count',0){
 			study_subject = Factory.build(:study_subject, :icf_master_id => 'Fake1234')
 			study_subject.save
-#			assert study_subject.errors.on_attr_and_type?(:icf_master_id, :taken)
 			assert study_subject.errors.matching?(:icf_master_id,'has already been taken')
 		}
 	end
@@ -157,7 +156,6 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		assert_difference('StudySubject.count',0){
 			study_subject = Factory.build(:study_subject,:ssn => '123-45-6789')
 			study_subject.save
-#			assert study_subject.errors.on_attr_and_type?(:ssn,:taken)
 			assert study_subject.errors.matching?(:ssn,'has already been taken')
 		}
 	end
@@ -180,9 +178,9 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 
 	test "should require standard formatted ssn" do
 		%w( 1s2n3-4k5=6;7sdfg89 123456789 12345678X 12345678 1-34-56-789 ).each do |invalid_ssn|
+pending
 			assert_difference( "StudySubject.count", 0 ) do
 				study_subject = create_study_subject(:ssn => invalid_ssn)
-#				assert study_subject.errors.on_attr_and_type?(:ssn,:invalid)
 				assert study_subject.errors.matching?(:ssn,'is invalid')
 			end
 		end

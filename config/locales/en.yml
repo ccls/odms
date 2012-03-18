@@ -2,9 +2,28 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+#  hello: "Hello world"
 
-# from activemodel-3.2.2/lib/active_model/locale/en.yml
+  activerecord:
+    attributes:
+      patient:
+        organization_id: "Treating institution"
+        hospital_no: "Hospital record number"
+      study_subject:
+        dob: "Date of birth"
+    errors:
+      models:
+        study_subject:
+          attributes:
+            sex:
+              blank: "has not been chosen"
+
+#	how to have custom full messages NOT in the format "%{attribute} %{message}"
+# No attribute, just message?  Message with attribute in the middle?
+#	 want "No sex has been chosen", not "Sex has not been chosen"
+#	Probably have to modify "full_message" in
+#		active_model/errors.rb
+
   errors:
     # The default format to use in full error messages.
     format: "%{attribute} %{message}"
@@ -15,6 +34,15 @@ en:
       absent: "is present and must be absent"
       incomplete_date: "is not a complete date"
       future_date: "is in the future and must be in the past"
+
+# from activemodel-3.2.2/lib/active_model/locale/en.yml
+#  errors:
+#    # The default format to use in full error messages.
+#    format: "%{attribute} %{message}"
+#
+#    # The values :model, :attribute and :value are always available for interpolation
+#    # The value :count is available when applicable. Can be used for pluralization.
+#    messages:
 #      inclusion: "is not included in the list"
 #      exclusion: "is reserved"
 #      invalid: "is invalid"
