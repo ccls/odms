@@ -112,6 +112,7 @@ base.class_eval do
 #		Rails SHOULD actually convert the incoming 
 #		params (which are strings) to integers or nil.
 #
+#	Rails 3 does not seem to cast the values to the datatype on creation.
 
 	#	Return boolean of comparison
 	#	true only if is_eligible == 2
@@ -151,6 +152,12 @@ base.class_eval do
 	#	Return boolean of comparison
 	#	true only if terminated_participation == 1
 	def terminated_participation?
+#puts "Checking if terminated participation"
+#puts "terminated_participation:#{terminated_participation}:"
+#puts "terminated_participation:#{terminated_participation.class}:"
+#puts "yes:#{YNDK[:yes]}:"
+#puts "yes:#{YNDK[:yes].class}:"
+#puts "equality:#{terminated_participation.to_i == YNDK[:yes]}:"
 #		terminated_participation.to_i == YNDK[:yes]	#	1
 		terminated_participation == YNDK[:yes]	#	1
 	end

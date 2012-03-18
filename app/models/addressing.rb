@@ -130,7 +130,9 @@ protected
 		#	subject_moved will most likely be a string 'true' or 'false'
 		#		as it will really only come as a hash value from a view.
 		#	.true? is a common_lib#object method.
-		if subject_moved.true? &&
+#	being more specific
+#		if subject_moved.true? &&
+		if subject_moved == '1' &&
 				current_address == YNDK[:no] &&
 				current_address_was != YNDK[:no] &&
 				address.address_type == AddressType['residence']

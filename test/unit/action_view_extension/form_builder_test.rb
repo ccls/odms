@@ -1,9 +1,12 @@
 require 'test_helper'
 
 class SomeModel
+	extend ActiveModel::Naming
 	attr_accessor :some_attribute
 	attr_accessor :some_attribute_before_type_cast #	for date_text_field validation
 	attr_accessor :yes_or_no, :int_field
+	def to_key
+	end
 	def initialize(*args,&block)
 		yield self if block_given?
 	end
@@ -15,7 +18,8 @@ end
 class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 
 	#	needed for field_wrapper
-	include ActionViewExtension::Base
+	include ApplicationHelper
+#	include ActionViewExtension::Base
 
 #	setting template no longer needed as do not have methods in base and form_builder with the same name
 #	form_for(:some_model,@some_model,ActionView::Base.new,:url => '/'){|f| concat f.a_d_na_select(:adna) }
@@ -28,10 +32,15 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 ##			f.instance_variable_set('@template',ActionView::Base.new)	#	fake the funk
 #			concat f.y_n_dk_select(:yndk) }
 
+#	no more buffer
+#	no more concat
+
 	test "yndk_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.yndk_select(:int_field) }
-		expected = %{<form action="/" method="post"><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.yndk_select(:int_field) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.yndk_select(:int_field) }
+#		expected = %{<form action="/" method="post"><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="999">Don't Know</option></select></form>}
@@ -39,9 +48,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "wrapped_yndk_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_yndk_select(:int_field) }
-		expected = %{<form action="/" method="post"><div class='int_field yndk_select field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_yndk_select(:int_field) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_yndk_select(:int_field) }
+#		expected = %{<form action="/" method="post"><div class='int_field yndk_select field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field yndk_select field_wrapper'>
 <label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
@@ -52,9 +63,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 
 
 	test "ynrdk_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.ynrdk_select(:int_field) }
-		expected = %{<form action="/" method="post"><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.ynrdk_select(:int_field) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.ynrdk_select(:int_field) }
+#		expected = %{<form action="/" method="post"><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="999">Don't Know</option>
@@ -63,9 +76,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "wrapped_ynrdk_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_ynrdk_select(:int_field) }
-		expected = %{<form action="/" method="post"><div class='int_field ynrdk_select field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_ynrdk_select(:int_field) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_ynrdk_select(:int_field) }
+#		expected = %{<form action="/" method="post"><div class='int_field ynrdk_select field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field ynrdk_select field_wrapper'>
 <label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
@@ -76,9 +91,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "ynodk_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.ynodk_select(:int_field) }
-		expected = %{<form action="/" method="post"><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.ynodk_select(:int_field) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.ynodk_select(:int_field) }
+#		expected = %{<form action="/" method="post"><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="3">Other</option>
@@ -87,9 +104,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "wrapped_ynodk_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_ynodk_select(:int_field) }
-		expected = %{<form action="/" method="post"><div class='int_field ynodk_select field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_ynodk_select(:int_field) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_ynodk_select(:int_field) }
+#		expected = %{<form action="/" method="post"><div class='int_field ynodk_select field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field ynodk_select field_wrapper'>
 <label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
@@ -100,9 +119,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "adna_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.adna_select(:int_field) }
-		expected = %{<form action="/" method="post"><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.adna_select(:int_field) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.adna_select(:int_field) }
+#		expected = %{<form action="/" method="post"><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Agree</option>
 <option value="2">Do Not Agree</option>
 <option value="555">N/A</option>
@@ -111,9 +132,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "wrapped_adna_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_adna_select(:int_field) }
-		expected = %{<form action="/" method="post"><div class='int_field adna_select field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_adna_select(:int_field) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_adna_select(:int_field) }
+#		expected = %{<form action="/" method="post"><div class='int_field adna_select field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field adna_select field_wrapper'>
 <label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Agree</option>
 <option value="2">Do Not Agree</option>
@@ -124,9 +147,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "sex_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.sex_select(:some_attribute) }
-		expected = %{<form action="/" method="post"><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">-select-</option>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.sex_select(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.sex_select(:some_attribute) }
+#		expected = %{<form action="/" method="post"><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">-select-</option>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">-select-</option>
 <option value="M">male</option>
 <option value="F">female</option>
 <option value="DK">don't know</option></select></form>}
@@ -134,9 +159,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "wrapped_sex_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_sex_select(:some_attribute) }
-		expected = %{<form action="/" method="post"><div class='some_attribute sex_select field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_sex_select(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_sex_select(:some_attribute) }
+#		expected = %{<form action="/" method="post"><div class='some_attribute sex_select field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute sex_select field_wrapper'>
 <label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">-select-</option>
 <option value="M">male</option>
 <option value="F">female</option>
@@ -146,16 +173,20 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "date_text_field" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.date_text_field(:some_attribute) }
-		expected = %{<form action="/" method="post"><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" /></form>}
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.date_text_field(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.date_text_field(:some_attribute) }
+#		expected = %{<form action="/" method="post"><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" /></form>}
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" /></form>}
 		assert_equal expected, output_buffer
 	end
 
 	test "wrapped_date_text_field" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_date_text_field(:some_attribute) }
-		expected = %{<form action="/" method="post"><div class='some_attribute date_text_field field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_date_text_field(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_date_text_field(:some_attribute) }
+#		expected = %{<form action="/" method="post"><div class='some_attribute date_text_field field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute date_text_field field_wrapper'>
 <label for="some_model_some_attribute">Some attribute</label><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" />
 </div><!-- class='some_attribute date_text_field' --></form>}
 		assert_equal expected, output_buffer
@@ -163,29 +194,35 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 
 	#	This isn't in an 'erb block' so it isn't really testing what I wanted.
 	test "wrapped_date_text_field with block" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_date_text_field(:some_attribute){
-				'testing'
-			} }
-		expected = %{<form action="/" method="post"><div class='some_attribute date_text_field field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_date_text_field(:some_attribute){
+#				'testing'
+#			} }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_date_text_field(:some_attribute){ 'testing' } }
+#		expected = %{<form action="/" method="post"><div class='some_attribute date_text_field field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute date_text_field field_wrapper'>
 <label for="some_model_some_attribute">Some attribute</label><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" />testing
 </div><!-- class='some_attribute date_text_field' --></form>}
 		assert_equal expected, output_buffer
 	end
 
 	test "meridiem_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.meridiem_select(:some_attribute) }
-		expected = %{<form action="/" method="post"><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Meridiem</option>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.meridiem_select(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.meridiem_select(:some_attribute) }
+#		expected = %{<form action="/" method="post"><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Meridiem</option>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Meridiem</option>
 <option value="AM">AM</option>
 <option value="PM">PM</option></select></form>}
 		assert_equal expected, output_buffer
 	end
 
 	test "wrapped_meridiem_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_meridiem_select(:some_attribute) }
-		expected = %{<form action="/" method="post"><div class='some_attribute meridiem_select field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_meridiem_select(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_meridiem_select(:some_attribute) }
+#		expected = %{<form action="/" method="post"><div class='some_attribute meridiem_select field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute meridiem_select field_wrapper'>
 <label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Meridiem</option>
 <option value="AM">AM</option>
 <option value="PM">PM</option></select>
@@ -194,9 +231,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "minute_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.minute_select(:some_attribute) }
-		expected = %{<form action="/" method="post"><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Minute</option>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.minute_select(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.minute_select(:some_attribute) }
+#		expected = %{<form action="/" method="post"><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Minute</option>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Minute</option>
 <option value="0">00</option>
 <option value="1">01</option>
 <option value="2">02</option>
@@ -261,9 +300,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "wrapped_minute_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_minute_select(:some_attribute) }
-		expected = %{<form action="/" method="post"><div class='some_attribute minute_select field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_minute_select(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_minute_select(:some_attribute) }
+#		expected = %{<form action="/" method="post"><div class='some_attribute minute_select field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute minute_select field_wrapper'>
 <label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Minute</option>
 <option value="0">00</option>
 <option value="1">01</option>
@@ -330,9 +371,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "hour_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.hour_select(:some_attribute) }
-		expected = %{<form action="/" method="post"><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Hour</option>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.hour_select(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.hour_select(:some_attribute) }
+#		expected = %{<form action="/" method="post"><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Hour</option>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Hour</option>
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -349,9 +392,11 @@ class ActionViewExtension::FormBuilderTest < ActionView::TestCase
 	end
 
 	test "wrapped_hour_select" do
-		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
-			concat f.wrapped_hour_select(:some_attribute) }
-		expected = %{<form action="/" method="post"><div class='some_attribute hour_select field_wrapper'>
+#		form_for(:some_model,SomeModel.new,:url => '/'){|f| 
+#			concat f.wrapped_hour_select(:some_attribute) }
+		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_hour_select(:some_attribute) }
+#		expected = %{<form action="/" method="post"><div class='some_attribute hour_select field_wrapper'>
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute hour_select field_wrapper'>
 <label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Hour</option>
 <option value="1">1</option>
 <option value="2">2</option>

@@ -109,6 +109,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -123,6 +124,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -137,6 +139,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -151,6 +154,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -165,6 +169,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -179,6 +184,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -193,6 +199,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
@@ -210,6 +217,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_path(study_subject)
@@ -223,6 +231,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
@@ -236,6 +245,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -249,6 +259,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -262,6 +273,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -275,6 +287,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -288,6 +301,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
@@ -301,6 +315,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
@@ -314,6 +329,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
@@ -327,6 +343,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
@@ -340,6 +357,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
@@ -353,6 +371,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
@@ -366,6 +385,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
@@ -379,6 +399,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 12
 			assert_select 'a.current[href=?]', related_subject_path(study_subject)
@@ -393,7 +414,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
-		response = HTML::Document.new( content_for(:side_menu) ).root
+			response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_path(study_subject)
@@ -406,7 +428,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
-		response = HTML::Document.new( content_for(:side_menu) ).root
+			response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
@@ -420,6 +443,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -433,6 +457,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -446,6 +471,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -459,6 +485,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -472,6 +499,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
@@ -485,6 +513,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
@@ -498,6 +527,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current', 0
@@ -512,6 +542,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current', 0
@@ -526,6 +557,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
@@ -539,6 +571,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current', 0
@@ -553,6 +586,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current', 0
@@ -567,6 +601,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			assert_nil sub_menu_for(study_subject)
 #			response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', related_subject_path(study_subject)
@@ -581,6 +616,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_path(study_subject)
@@ -593,6 +629,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
@@ -605,6 +642,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -617,6 +655,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -629,6 +668,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -641,6 +681,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
@@ -653,6 +694,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
@@ -665,6 +707,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
@@ -677,6 +720,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current', 0
@@ -690,6 +734,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current', 0
@@ -703,6 +748,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
@@ -715,6 +761,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current', 0
@@ -728,6 +775,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current', 0
@@ -741,6 +789,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_nil sub_menu_for(study_subject)
 #		response = HTML::Document.new(@content_for_side_menu).root
 		response = HTML::Document.new( content_for(:side_menu) ).root
+puts response
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
 			assert_select 'a.current[href=?]', related_subject_path(study_subject)
@@ -762,10 +811,16 @@ pending
 		@roles = Role.all
 		response = HTML::Document.new(user_roles).root
 		#	I don't like using super precise matching like this, however,
-		expected = %{<ul><li><a href="/users/#{@user.id}/roles/superuser" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit();return false;">Remove user role of 'superuser'</a></li>
-<li><a href="/users/#{@user.id}/roles/administrator" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'administrator'</a></li>
-<li><a href="/users/#{@user.id}/roles/editor" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'editor'</a></li>
-<li><a href="/users/#{@user.id}/roles/reader" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'reader'</a></li>
+#		expected = %{<ul><li><a href="/users/#{@user.id}/roles/superuser" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit();return false;">Remove user role of 'superuser'</a></li>
+#<li><a href="/users/#{@user.id}/roles/administrator" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'administrator'</a></li>
+#<li><a href="/users/#{@user.id}/roles/editor" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'editor'</a></li>
+#<li><a href="/users/#{@user.id}/roles/reader" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'reader'</a></li>
+#</ul>
+#}
+		expected = %{<ul><li><form class="button_to" method="post" action="/users/#{@user.id}/roles/superuser"><div><input name="_method" value="delete" type="hidden" /><input value="Remove user role of 'superuser'" type="submit" /></div></form></li>
+<li><form class="button_to" method="post" action="/users/#{@user.id}/roles/administrator"><div><input name="_method" value="put" type="hidden" /><input value="Assign user role of 'administrator'" type="submit" /></div></form></li>
+<li><form class="button_to" method="post" action="/users/#{@user.id}/roles/editor"><div><input name="_method" value="put" type="hidden" /><input value="Assign user role of 'editor'" type="submit" /></div></form></li>
+<li><form class="button_to" method="post" action="/users/#{@user.id}/roles/reader"><div><input name="_method" value="put" type="hidden" /><input value="Assign user role of 'reader'" type="submit" /></div></form></li>
 </ul>
 }
 		assert_equal expected, response.to_s
@@ -779,10 +834,17 @@ pending
 		@roles = Role.all
 		response = HTML::Document.new(user_roles).root
 		#	I don't like using super precise matching like this, however,
-		expected = %{<ul><li><a href="/users/#{@user.id}/roles/superuser" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'superuser'</a></li>
-<li><a href="/users/#{@user.id}/roles/administrator" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit();return false;">Remove user role of 'administrator'</a></li>
-<li><a href="/users/#{@user.id}/roles/editor" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'editor'</a></li>
-<li><a href="/users/#{@user.id}/roles/reader" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'reader'</a></li>
+#		expected = %{<ul><li><a href="/users/#{@user.id}/roles/superuser" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'superuser'</a></li>
+#<li><a href="/users/#{@user.id}/roles/administrator" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit();return false;">Remove user role of 'administrator'</a></li>
+#<li><a href="/users/#{@user.id}/roles/editor" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'editor'</a></li>
+#<li><a href="/users/#{@user.id}/roles/reader" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">Assign user role of 'reader'</a></li>
+#</ul>
+#}
+			expected = %{<ul><li><form class="button_to" method="post" action="/users/#{@user.id}/roles/superuser"><div><input name="_method" value="put" type="hidden" />
+<input value="Assign user role of 'superuser'" type="submit" /></div></form></li>
+<li><form class=\"button_to\" method=\"post\" action=\"/users/#{@user.id}/roles/administrator"><div><input name="_method" value="delete" type="hidden" /><input value="Remove user role of 'administrator'" type="submit" /></div></form></li>
+<li><form class="button_to" method="post" action="/users/#{@user.id}/roles/editor"><div><input name="_method" value="put" type="hidden" /><input value="Assign user role of 'editor'" type="submit" /></div></form></li>
+<li><form class="button_to" method="post" action="/users/#{@user.id}/roles/reader"><div><input name="_method" value="put" type="hidden" /><input value="Assign user role of 'reader'" type="submit" /></div></form></li>
 </ul>
 }
 		assert_equal expected, response.to_s
@@ -949,6 +1011,7 @@ pending
 		assert_nil subject_id_bar(subject)	#	sets content_for :subject_header and :main
 #		response = HTML::Document.new(@content_for_subject_header).root
 		response = HTML::Document.new( content_for(:subject_header) ).root
+puts response
 		assert_select response, 'div#id_bar' do
 			assert_select 'div.icf_master_id'
 			assert_select 'div.studyid'

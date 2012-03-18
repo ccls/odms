@@ -73,6 +73,8 @@ Added :: prefix where I use it to see if makes a difference
 * datetime still accept partial?
 * remove soon to be deprecate code
 
+* custom error messages in my custom validators
+
 
 * catch-all page path route string not array
 * reenable raising mass assignment error in environments/test.rb

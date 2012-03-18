@@ -10,6 +10,14 @@ module ActiveModel
 #					value = record.send(:read_attribute_for_validation, attribute)
 #	same thing since :read_attribute_for_validation is an alias for :send
 #	which is technically record.send(:send,attribute) which is the same as ...
+
+
+#	TODO
+#	custom validation messages don't seem to be making it through.
+#	i think I need to add something in the locales and pass a symbol that finds the default.
+#	Still not sure
+
+
 					value = record.send(attribute)
 					record.errors.add(attribute, "is present and must be absent.", options) unless value.blank?
 				end

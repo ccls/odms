@@ -4,9 +4,11 @@ class CountrySelectHelperTest < ActionView::TestCase
 
 	test "basic addressing form" do
 		@addressing = Factory(:addressing)
-		form_for(:addressing,@addressing,:url => '/'){|f| 
-			f.fields_for(:address){ |address|
-				concat address.country_select(:country) } }
+#		form_for(:addressing,@addressing,:url => '/'){|f| 
+#			f.fields_for(:address){ |address|
+#				concat address.country_select(:country) } }
+		output_buffer = form_for(@addressing,:url => '/'){|f| 
+			f.fields_for(:address){ |address| address.country_select(:country) } }
 		response = HTML::Document.new(output_buffer).root
 		assert_select( response, 'form', 1 ){ |f|	
 			f = f.first		#	f is an array of the 1 matching element!
@@ -30,7 +32,8 @@ I could do an exact comparison to this, but no.
 I don't really agree with the big exact comparisons.
 But I will leave it here.
 
-<form action="/" method="post"><select id="addressing_address_attributes_country" name="addressing[address_attributes][country]"><option value=""></option>
+<form accept-charset="UTF-8" action="/" class="edit_addressing" id="edit_addressing_235" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><select id="addressing_address_attributes_country" name="addressing[address_attributes][country]"><option value=""></option>
+
 <option value="United States">United States</option>
 <option value="Afghanistan">Afghanistan</option>
 <option value="Aland Islands">Aland Islands</option>

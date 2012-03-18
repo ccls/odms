@@ -442,7 +442,9 @@ module ApplicationHelper
 			method_missing_without_wrapping(symb,*args, &block)
 		end
 	end
-	alias_method_chain( :method_missing, :wrapping )	# unless base.respond_to?(:method_missing_without_wrapping)
+	alias_method_chain( :method_missing, :wrapping )	unless respond_to?(:method_missing_without_wrapping)
+
+
 
 
 	#	Just add the classes 'submit' and 'button'
