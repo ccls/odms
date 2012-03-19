@@ -54,7 +54,6 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :sample_type => nil)
 			assert !sample.errors.include?(:sample_type)
-#			assert  sample.errors.on_attr_and_type?(:sample_type_id,:blank)
 			assert  sample.errors.matching?(:sample_type_id,"can't be blank")
 		end
 	end
@@ -63,7 +62,6 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :sample_type_id => 0)
 			assert !sample.errors.include?(:sample_type_id)
-#			assert  sample.errors.on_attr_and_type?(:sample_type,:blank)
 			assert  sample.errors.matching?(:sample_type,"can't be blank")
 		end
 	end
@@ -72,7 +70,6 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :study_subject => nil)
 			assert !sample.errors.include?(:study_subject)
-#			assert  sample.errors.on_attr_and_type?(:study_subject_id,:blank)
 			assert  sample.errors.matching?(:study_subject_id,"can't be blank")
 		end
 	end
@@ -81,7 +78,6 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :study_subject_id => 0)
 			assert !sample.errors.include?(:study_subject_id)
-#			assert  sample.errors.on_attr_and_type?(:study_subject,:blank)
 			assert  sample.errors.matching?(:study_subject,"can't be blank")
 		end
 	end
@@ -90,7 +86,6 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :project => nil)
 			assert !sample.errors.include?(:project)
-#			assert  sample.errors.on_attr_and_type?(:project_id,:blank)
 			assert  sample.errors.matching?(:project_id,"can't be blank")
 		end
 	end
@@ -99,7 +94,6 @@ class SampleTest < ActiveSupport::TestCase
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :project_id => 0)
 			assert !sample.errors.include?(:project_id)
-#			assert  sample.errors.on_attr_and_type?(:project,:blank)
 			assert  sample.errors.matching?(:project,"can't be blank")
 		end
 	end
@@ -146,9 +140,6 @@ class SampleTest < ActiveSupport::TestCase
 				:collected_at       => Date.yesterday
 			)
 			assert sample.errors.matching?(:sent_to_subject_on,"can't be blank")
-#			assert sample.errors.include?(:sent_to_subject_on)
-#			assert_match(/be blank/,
-#				sample.errors.include?(:sent_to_subject_on) )
 		end
 	end
 
@@ -159,9 +150,6 @@ class SampleTest < ActiveSupport::TestCase
 				:collected_at       => Date.yesterday
 			)
 			assert sample.errors.matching?(:collected_at,"after sent_to_subject_on")
-#			assert sample.errors.include?(:collected_at)
-#			assert_match(/after sent_to_subject_on/,
-#				sample.errors.include?(:collected_at) )
 		end
 	end
 
@@ -172,9 +160,6 @@ class SampleTest < ActiveSupport::TestCase
 				:received_by_ccls_at => Date.yesterday
 			)
 			assert sample.errors.matching?(:collected_at,"can't be blank")
-#			assert sample.errors.include?(:collected_at)
-#			assert_match(/be blank/,
-#				sample.errors.include?(:collected_at) )
 		end
 	end
 
@@ -185,9 +170,6 @@ class SampleTest < ActiveSupport::TestCase
 				:received_by_ccls_at => Date.yesterday
 			)
 			assert sample.errors.matching?(:received_by_ccls_at,"after collected_at")
-#			assert sample.errors.include?(:received_by_ccls_at)
-#			assert_match(/after collected_at/,
-#				sample.errors.include?(:received_by_ccls_at) )
 		end
 	end
 
@@ -198,9 +180,6 @@ class SampleTest < ActiveSupport::TestCase
 				:sent_to_lab_on      => Date.yesterday
 			)
 			assert sample.errors.matching?(:received_by_ccls_at,"can't be blank")
-#			assert sample.errors.include?(:received_by_ccls_at)
-#			assert_match(/be blank/,
-#				sample.errors.include?(:received_by_ccls_at) )
 		end
 	end
 
@@ -211,9 +190,6 @@ class SampleTest < ActiveSupport::TestCase
 				:received_by_ccls_at => ( DateTime.now + 1.day ),
 				:sent_to_lab_on      => Date.yesterday
 			)
-#			assert sample.errors.include?(:sent_to_lab_on)
-#			assert_match(/after received_by_ccls_at/,
-#				sample.errors.include?(:sent_to_lab_on) )
 			assert sample.errors.matching?(:sent_to_lab_on,"after received_by_ccls_at")
 		end
 	end
@@ -224,9 +200,6 @@ class SampleTest < ActiveSupport::TestCase
 				:sent_to_lab_on     => nil,
 				:received_by_lab_on => Date.yesterday
 			)
-#			assert sample.errors.include?(:sent_to_lab_on)
-#			assert_match(/be blank/,
-#				sample.errors.include?(:sent_to_lab_on) )
 			assert sample.errors.matching?(:sent_to_lab_on,"can't be blank")
 		end
 	end
@@ -237,9 +210,6 @@ class SampleTest < ActiveSupport::TestCase
 				:sent_to_lab_on     => Date.tomorrow,
 				:received_by_lab_on => Date.yesterday
 			)
-#			assert sample.errors.include?(:received_by_lab_on)
-#			assert_match(/after sent_to_lab_on/,
-#				sample.errors.include?(:received_by_lab_on) )
 			assert sample.errors.matching?(:received_by_lab_on,"after sent_to_lab_on")
 		end
 	end
@@ -249,8 +219,6 @@ class SampleTest < ActiveSupport::TestCase
 			sample = create_sample(
 				:sent_to_lab_on => Date.yesterday
 			)
-#			assert sample.errors.include?(:location_id)
-#			assert_match(/blank/, sample.errors.include?(:location_id) )
 			assert sample.errors.matching?(:location_id,"can't be blank")
 		end
 	end
@@ -261,9 +229,6 @@ class SampleTest < ActiveSupport::TestCase
 				:received_by_lab_on => nil,
 				:aliquotted_on      => Date.yesterday
 			)
-#			assert sample.errors.include?(:received_by_lab_on)
-#			assert_match(/be blank/,
-#				sample.errors.include?(:received_by_lab_on) )
 			assert sample.errors.matching?(:received_by_lab_on,"can't be blank")
 		end
 	end
@@ -274,9 +239,6 @@ class SampleTest < ActiveSupport::TestCase
 				:received_by_lab_on => Date.tomorrow,
 				:aliquotted_on      => Date.yesterday
 			)
-#			assert sample.errors.include?(:aliquotted_on)
-#			assert_match(/after received_by_lab_on/,
-#				sample.errors.include?(:aliquotted_on) )
 			assert sample.errors.matching?(:aliquotted_on,"after received_by_lab_on")
 		end
 	end

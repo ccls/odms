@@ -58,21 +58,12 @@ class CandidateControlTest < ActiveSupport::TestCase
 		}
 	end
 
-#	test "should require sex be either M, F or DK" do
-#		assert_difference("CandidateControl.count",0) {
-#			candidate_control = Factory.build(:candidate_control, :sex => 'X')
-#			candidate_control.save
-#			assert candidate_control.errors.on_attr_and_type?(:sex,:inclusion)
-#		} 
-#	end
-
 	test "should require rejection_reason if reject_candidate is true" do
 		assert_difference("CandidateControl.count",0) {
 			candidate_control = Factory.build(:candidate_control,
 				:reject_candidate => true,
 				:rejection_reason => nil)
 			candidate_control.save
-#			assert candidate_control.errors.on_attr_and_type?(:rejection_reason,:blank)
 			assert candidate_control.errors.matching?(:rejection_reason, "can't be blank")
 		}
 	end
@@ -89,7 +80,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_difference("CandidateControl.count",0) {
 			candidate_control = Factory.build(:candidate_control, :reject_candidate => nil)
 			candidate_control.save
-#			assert candidate_control.errors.on_attr_and_type?(:reject_candidate,:inclusion)
 			assert candidate_control.errors.matching?(:reject_candidate,
 				'is not included in the list')
 		}

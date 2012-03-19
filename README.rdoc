@@ -183,6 +183,9 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 * Would probably be much better if I could remove all of my custom mods, but I'll probably have to add more.
 
+* implement the user_roles helper tests in the users_controller?
+
+* rake test:coverage
 
 * resolve all pending tests
 
@@ -193,6 +196,13 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 * put fake_sessions#new view into controller rather than separate file?
 * put FakeSessionsController into the Capybara test helper rather than separate file?
+
+
+* The test error messages could use the key in the translator rather that the text itself???
+  * not 100% as some message include variable for interpolation
+  * irb(main):011:0> I18n.t('errors.messages.blank')
+  * => "can't be blank"
+
 
 
 * surprised my home computer tested without a config/api.yml ??

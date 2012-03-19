@@ -31,7 +31,6 @@ class TransferTest < ActiveSupport::TestCase
 		assert_difference( "Transfer.count", 0 ) do
 			transfer = create_transfer( :aliquot => nil)
 			assert !transfer.errors.include?(:aliquot)
-#			assert  transfer.errors.on_attr_and_type?(:aliquot_id,:blank)
 			assert  transfer.errors.matching?(:aliquot_id,"can't be blank")
 		end
 	end
@@ -40,7 +39,6 @@ class TransferTest < ActiveSupport::TestCase
 		assert_difference( "Transfer.count", 0 ) do
 			transfer = create_transfer( :aliquot_id => 0)
 			assert !transfer.errors.include?(:aliquot_id)
-#			assert  transfer.errors.on_attr_and_type?(:aliquot,:blank)
 			assert  transfer.errors.matching?(:aliquot,"can't be blank")
 		end
 	end
@@ -49,7 +47,6 @@ class TransferTest < ActiveSupport::TestCase
 		assert_difference( "Transfer.count", 0 ) do
 			transfer = create_transfer( :from_organization => nil)
 			assert !transfer.errors.include?(:from_organization)
-#			assert  transfer.errors.on_attr_and_type?(:from_organization_id,:blank)
 			assert  transfer.errors.matching?(:from_organization_id,"can't be blank")
 		end
 	end
@@ -58,7 +55,6 @@ class TransferTest < ActiveSupport::TestCase
 		assert_difference( "Transfer.count", 0 ) do
 			transfer = create_transfer( :from_organization_id => 0)
 			assert !transfer.errors.include?(:from_organization_id)
-#			assert  transfer.errors.on_attr_and_type?(:from_organization,:blank)
 			assert  transfer.errors.matching?(:from_organization,"can't be blank")
 		end
 	end
@@ -67,7 +63,6 @@ class TransferTest < ActiveSupport::TestCase
 		assert_difference( "Transfer.count", 0 ) do
 			transfer = create_transfer( :to_organization => nil)
 			assert !transfer.errors.include?(:to_organization)
-#			assert  transfer.errors.on_attr_and_type?(:to_organization_id,:blank)
 			assert  transfer.errors.matching?(:to_organization_id,"can't be blank")
 		end
 	end
@@ -76,7 +71,6 @@ class TransferTest < ActiveSupport::TestCase
 		assert_difference( "Transfer.count", 0 ) do
 			transfer = create_transfer( :to_organization_id => 0)
 			assert !transfer.errors.include?(:to_organization_id)
-#			assert  transfer.errors.on_attr_and_type?(:to_organization,:blank)
 			assert  transfer.errors.matching?(:to_organization,"can't be blank")
 		end
 	end

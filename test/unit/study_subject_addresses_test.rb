@@ -38,10 +38,6 @@ pending
 				:addressings_attributes => [Factory.attributes_for(:addressing,
 					:address_required   => true,
 					:address_attributes => { :address_type => AddressType['residence'] } )])
-#			assert study_subject.errors.on_attr_and_type?('addressings.address.line_1',:blank)
-#			assert study_subject.errors.on_attr_and_type?('addressings.address.city',:blank)
-#			assert study_subject.errors.on_attr_and_type?('addressings.address.state',:blank)
-#			assert study_subject.errors.on_attr_and_type?('addressings.address.zip',:blank)
 			assert study_subject.errors.matching?('addressings.address.line_1',"can't be blank")
 			assert study_subject.errors.matching?('addressings.address.city',"can't be blank")
 			assert study_subject.errors.matching?('addressings.address.state',"can't be blank")

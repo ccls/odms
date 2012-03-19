@@ -57,8 +57,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 			end
 			#	these share the same factory which means that the organization_id 
 			#	is the same so the hospital_id won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 			assert_duplicates_found_and_rerendered_new
@@ -77,8 +75,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 			end
 			#	these share the same factory which means that the organization_id 
 			#	is the same so the hospital_id won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:warn]
@@ -99,8 +95,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 			end
 			#	these share the same factory which means that the organization_id 
 			#	is the same so the hospital_id won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:warn]
@@ -123,8 +117,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert !assigns(:duplicates).empty?
 			#	these share the same factory which means that the organization_id 
 			#	is the same so the hospital_id won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:notice]
@@ -143,8 +135,6 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert !assigns(:duplicates)
 			#	these share the same factory which means that the organization_id 
 			#	is the same so the hospital_id won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 		end

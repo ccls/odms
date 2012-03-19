@@ -39,7 +39,6 @@ module ActiveSupportExtension::Attributes
 			options = attributes.extract_options!
 			model = options[:model] || st_model_name
 			
-#			attributes.each do |attr|
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				title = "#{brand}should not require unique #{attr}"
@@ -62,7 +61,6 @@ module ActiveSupportExtension::Attributes
 #	this isn't perfect, cause if they are both blank and allowed blank
 #	it doesn't really test anything
 						object = create_object(attrs)
-#						assert !object.errors.on_attr_and_type(attr.to_sym, :taken)
 						assert !object.errors.matching?(attr,'has already been taken')
 #					end
 				end
@@ -73,7 +71,6 @@ module ActiveSupportExtension::Attributes
 			options = attributes.extract_options!
 			model = options[:model] || st_model_name
 			
-#			attributes.each do |attr|
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				title = "#{brand}should require unique #{attr}"
@@ -94,7 +91,6 @@ module ActiveSupportExtension::Attributes
 							end
 						end 
 						object = create_object(attrs)
-#						assert object.errors.on_attr_and_type(attr.to_sym, :taken)
 						assert object.errors.matching?(attr,'has already been taken')
 					end
 				end
@@ -105,13 +101,11 @@ module ActiveSupportExtension::Attributes
 			options = attributes.extract_options!
 			model = options[:model] || st_model_name
 			
-#			attributes.each do |attr|
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should require #{attr} not nil" do
 					assert_no_difference "#{model}.count" do
 						object = create_object(attr.to_sym => nil)
-#						assert object.errors.on(attr.to_sym)
 						assert object.errors.include?(attr.to_sym)
 					end
 				end
@@ -122,14 +116,11 @@ module ActiveSupportExtension::Attributes
 			options = attributes.extract_options!
 			model = options[:model] || st_model_name
 			
-#			attributes.each do |attr|
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should require #{attr}" do
 					assert_no_difference "#{model}.count" do
 						object = create_object(attr.to_sym => nil)
-#						assert object.errors.on_attr_and_type(attr.to_sym, :blank) ||
-#							object.errors.on_attr_and_type(attr.to_sym, :too_short)
 						assert object.errors.matching?(attr,"can't be blank") ||
 							object.errors.matching?(attr,'is too short')
 					end
@@ -141,16 +132,13 @@ module ActiveSupportExtension::Attributes
 			options = attributes.extract_options!
 			model = options[:model] || st_model_name
 			
-#			attributes.each do |attr|
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should not require #{attr}" do
 					assert_difference( "#{model}.count", 1 ) do
 						object = create_object(attr.to_sym => nil)
-#						assert !object.errors.on(attr.to_sym)
 						assert !object.errors.include?(attr.to_sym)
 						if attr =~ /^(.*)_id$/
-#							assert !object.errors.on($1.to_sym)
 							assert !object.errors.include?($1.to_sym)
 						end
 					end
@@ -168,7 +156,6 @@ module ActiveSupportExtension::Attributes
 				options[:maximum] = range.max
 			end
 			
-#			attributes.each do |attr|
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				if options.keys.include?(:is)
@@ -179,7 +166,6 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal length-1, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-#							assert object.errors.on_attr_and_type(attr.to_sym, :wrong_length)
 							assert object.errors.matching?(attr,'is the wrong length')
 						end
 						assert_no_difference "#{model}.count" do
@@ -187,7 +173,6 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal length+1, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-#							assert object.errors.on_attr_and_type(attr.to_sym, :wrong_length)
 							assert object.errors.matching?(attr,'is the wrong length')
 						end
 					end
@@ -203,7 +188,6 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal min, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-#							assert !object.errors.on_attr_and_type(attr.to_sym, :too_short)
 							assert !object.errors.matching?(attr,'is too short')
 #						end
 						assert_no_difference "#{model}.count" do
@@ -211,7 +195,6 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal min-1, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-#							assert object.errors.on_attr_and_type(attr.to_sym, :too_short)
 							assert object.errors.matching?(attr,'is too short')
 						end
 					end
@@ -227,7 +210,6 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal max, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-#							assert !object.errors.on_attr_and_type(attr.to_sym, :too_long)
 							assert !object.errors.matching?(attr,'is too long')
 #						end
 						assert_no_difference "#{model}.count" do
@@ -235,7 +217,6 @@ module ActiveSupportExtension::Attributes
 							object = create_object(attr.to_sym => value)
 							assert_equal max+1, object.send(attr.to_sym).length
 							assert_equal object.send(attr.to_sym), value
-#							assert object.errors.on_attr_and_type(attr.to_sym, :too_long)
 							assert object.errors.matching?(attr,'is too long')
 						end
 					end
@@ -249,7 +230,6 @@ module ActiveSupportExtension::Attributes
 			model_name = options[:model] || st_model_name
 			model = model_name.constantize
 			
-#			attributes.each do |attr|
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should protect attribute #{attr}" do
@@ -276,7 +256,6 @@ module ActiveSupportExtension::Attributes
 			model_name = options[:model] || st_model_name
 			model = model_name.constantize
 			
-#			attributes.each do |attr|
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should not protect attribute #{attr}" do

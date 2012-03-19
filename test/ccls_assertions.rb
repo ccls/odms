@@ -84,8 +84,6 @@ module CclsAssertions
 						object = model_name.constantize.new(field => value)
 						assert_equal object.send(field), value
 						object.valid?
-#	Thanks Rails 3
-#						assert object.errors.on_attr_and_type?(field,:inclusion)
 						assert object.errors.matching?(field,'is not included in the list')
 					end
 

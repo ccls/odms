@@ -57,8 +57,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			end
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 			assert_duplicates_found_and_rerendered_new
@@ -77,8 +75,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			end
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:warn]
@@ -98,8 +94,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			end
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:warn]
@@ -122,8 +116,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert !assigns(:duplicates).empty?
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 			assert_not_nil flash[:notice]
@@ -142,8 +134,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert !assigns(:duplicates)
 			# these share the same factory which means that the organization_id 
 			# is the same so the hospital_no won't be unique
-#			assert !assigns(:study_subject).errors.on_attr_and_type?(
-#				"patient.hospital_no",:taken)
 			assert !assigns(:study_subject).errors.matching?(
 				"patient.hospital_no",'has already been taken')
 		end
@@ -515,14 +505,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 							:line_1 => '', :city => '',
 							:state  => '', :zip  => '' } } } } )
 			end
-#			assert assigns(:study_subject).errors.on_attr_and_type?(
-#				'addressings.address.line_1',:blank)
-#			assert assigns(:study_subject).errors.on_attr_and_type?(
-#				'addressings.address.city',:blank)
-#			assert assigns(:study_subject).errors.on_attr_and_type?(
-#				'addressings.address.state',:blank)
-#			assert assigns(:study_subject).errors.on_attr_and_type?(
-#				'addressings.address.zip',:blank)
 			assert assigns(:study_subject).errors.matching?(
 				'addressings.address.line_1',"can't be blank")
 			assert assigns(:study_subject).errors.matching?(

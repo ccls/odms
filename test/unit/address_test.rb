@@ -10,7 +10,6 @@ class AddressTest < ActiveSupport::TestCase
 		assert_difference('Address.count',0){
 			address = Factory.build(:address,:external_address_id => 123456789)
 			address.save
-#			assert address.errors.on_attr_and_type?(:external_address_id,:taken)
 			assert address.errors.matching?(:external_address_id,
 				'has already been taken')
 		}
@@ -74,7 +73,6 @@ class AddressTest < ActiveSupport::TestCase
 		assert_difference( "Address.count", 0 ) do
 			address = create_address( :address_type => nil)
 			assert !address.errors.include?(:address_type)
-#			assert  address.errors.on_attr_and_type?(:address_type_id,:blank)
 			assert  address.errors.matching?(:address_type_id, "can't be blank")
 		end
 	end
@@ -83,7 +81,6 @@ class AddressTest < ActiveSupport::TestCase
 		assert_difference( "Address.count", 0 ) do
 			address = create_address( :address_type_id => 0)
 			assert !address.errors.include?(:address_type_id)
-#			assert  address.errors.on_attr_and_type?(:address_type,:blank)
 			assert  address.errors.matching?(:address_type, "can't be blank")
 		end
 	end

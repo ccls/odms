@@ -69,6 +69,8 @@ module ActiveSupportExtension::TestCase
 #	NOTE I don't like this technique
 				model.constantize.destroy_all
 
+#	will be problematic with regards to scope
+#				current_max = model.constantize.maximum(:position)
 
 				object = create_object
 				assert_equal 1, object.position
@@ -84,18 +86,23 @@ module ActiveSupportExtension::TestCase
 #				assert_difference("#{model}.last.position",1) do
 #	TODO another assert difference that seems to cache?
 #				assert_difference("#{model}.maximum(:position)",1) do
-puts "JAKE"
-puts model.constantize.all.inspect
-puts model.constantize.maximum(:position)
-					object = create_object(attrs)
-puts object.inspect
-puts model.constantize.all.inspect
-puts model.constantize.maximum(:position)
-puts "JAKE"
+#puts "JAKE"
+#puts model.constantize.all.inspect
+#puts model.constantize.maximum(:position)
+#					object = create_object(attrs)
+#puts object.inspect
+#puts model.constantize.all.inspect
+#puts model.constantize.maximum(:position)
+#puts "JAKE"
 #				end
 
-#	Doesn't show a message.
-# "Still need to get acts_as_list test assert_difference working."
+#[#<AddressType id: 63, position: 1, key: "Key58", description: "Desc58", created_at: "2012-03-19 01:40:24", updated_at: "2012-03-19 01:40:24">, #<AddressType id: 64, position: 2, key: "Key59", description: "Desc59", created_at: "2012-03-19 01:40:24", updated_at: "2012-03-19 01:40:24">]
+#2
+##<AddressType id: 65, position: 2, key: "Key60", description: "Desc60", created_at: "2012-03-19 01:40:25", updated_at: "2012-03-19 01:40:25">
+#[#<AddressType id: 63, position: 1, key: "Key58", description: "Desc58", created_at: "2012-03-19 01:40:24", updated_at: "2012-03-19 01:40:24">, #<AddressType id: 64, position: 2, key: "Key59", description: "Desc59", created_at: "2012-03-19 01:40:24", updated_at: "2012-03-19 01:40:24">, #<AddressType id: 65, position: 2, key: "Key60", description: "Desc60", created_at: "2012-03-19 01:40:25", updated_at: "2012-03-19 01:40:25">]
+#2
+
+# Still need to get acts_as_list test assert_difference working
 pending 
 			end
 
@@ -115,14 +122,12 @@ pending
 				if options[:allow_today]
 					test "#{brand}should allow #{attr_name} to be today" do
 						object = create_object( attr_name => Date.today )
-#						assert !object.errors.on_attr_and_type(attr_name,:not_past_date)
 						assert !object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
 					end
 				else
 					test "#{brand}should NOT allow #{attr_name} to be today" do
 						object = create_object( attr_name => Date.today )
-#						assert object.errors.on_attr_and_type(attr_name,:not_past_date)
 						assert object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
 					end
@@ -130,13 +135,11 @@ pending
 				test "#{brand}should require #{attr_name} be in the past" do
 					#	can't assert difference of 1 as may be other errors
 					object = create_object( attr_name => Date.yesterday )
-#					assert !object.errors.on_attr_and_type(attr_name,:not_past_date)
 					assert !object.errors.matching?(attr_name,
 						'is in the future and must be in the past')
 					#	However, can assert difference of 0 as shouldn't create.
 					assert_difference( "#{model_name}.count", 0 ) do
 						object = create_object( attr_name => Date.tomorrow )
-#						assert object.errors.on_attr_and_type(attr_name,:not_past_date)
 
 
 #					puts "JAKE"
@@ -161,13 +164,11 @@ pending
 #	We can only assert that there isn't a not_complete_date error.
 #					assert_difference( "#{model_name}.count", 1 ) do
 						object = create_object( attr_name => "Sept 11, 2001")
-#						assert !object.errors.on_attr_and_type(attr_name,:not_complete_date)
 						assert !object.errors.matching?(attr_name,'is not a complete date')
 #					end
 #
 					assert_difference( "#{model_name}.count", 0 ) do
 						object = create_object( attr_name => "Sept 2010")
-#						assert object.errors.on_attr_and_type(attr_name,:not_complete_date)
 
 
 
@@ -182,7 +183,6 @@ pending
 					end
 					assert_difference( "#{model_name}.count", 0 ) do
 						object = create_object( attr_name => "9/2010")
-#						assert object.errors.on_attr_and_type(attr_name,:not_complete_date)
 						assert object.errors.matching?(attr_name,'is not a complete date')
 					end
 				end

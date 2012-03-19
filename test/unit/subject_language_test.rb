@@ -20,7 +20,6 @@ class SubjectLanguageTest < ActiveSupport::TestCase
 		assert_difference( "SubjectLanguage.count", 0 ) do
 			subject_language = create_subject_language(
 				:language_id => Language['other'].id )
-#			assert subject_language.errors.on_attr_and_type?(:other_language,:blank)
 			assert subject_language.errors.matching?(:other_language,"can't be blank")
 		end
 	end
@@ -29,7 +28,6 @@ class SubjectLanguageTest < ActiveSupport::TestCase
 		assert_difference( "SubjectLanguage.count", 1 ) do
 			subject_language = create_subject_language(
 				:language_id => Language['ENglish'].id )
-#			assert !subject_language.errors.on_attr_and_type?(:other_language,:blank)
 			assert !subject_language.errors.matching?(:other_language,"can't be blank")
 		end
 	end
