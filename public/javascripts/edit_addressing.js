@@ -5,7 +5,11 @@ jQuery(function(){
 	jQuery('#addressing_address_attributes_zip').change(function(){
 		jQuery.get(root + '/zip_codes.json?q=' + jQuery(this).val(), function(data){
 			if(data.length == 1) {
+/*
 				update_city_state_county(data[0].zip_code);
+	in rails 3, doesn't include first key so trying without
+*/
+				update_city_state_county(data[0]);
 			}
 		});
 	});
