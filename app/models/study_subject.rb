@@ -72,9 +72,10 @@ class StudySubject < ActiveRecord::Base
 
 #	validate :presence_of_dob, :unless => :is_mother?
 	validates_presence_of :dob, :unless => :is_mother?
-	validates_complete_date_for :dob, :allow_nil => true
-	validates_past_date_for     :dob, :allow_nil => true
-	validates_complete_date_for :died_on, :allow_nil => true
+#	changed from allow_nil to allow_blank
+	validates_complete_date_for :dob, :allow_blank => true
+	validates_past_date_for     :dob, :allow_blank => true
+	validates_complete_date_for :died_on, :allow_blank => true
 	validates_uniqueness_of     :email, :icf_master_id, :state_id_no, 
 :childid, :studyid,
 		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 

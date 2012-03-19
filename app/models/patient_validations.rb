@@ -24,9 +24,10 @@ base.class_eval do
 	validate :diagnosis_date_is_after_dob
 	validate :treatment_began_on_is_after_diagnosis_date
 	validate :subject_is_case
-	validates_complete_date_for :admit_date,         :allow_nil => true
-	validates_complete_date_for :diagnosis_date,     :allow_nil => true
-	validates_complete_date_for :treatment_began_on, :allow_nil => true
+#	changed from allow_nil to allow_blank
+	validates_complete_date_for :admit_date,         :allow_blank => true
+	validates_complete_date_for :diagnosis_date,     :allow_blank => true
+	validates_complete_date_for :treatment_began_on, :allow_blank => true
 
 	validates_length_of :raf_zip, :maximum => 10, :allow_blank => true
 

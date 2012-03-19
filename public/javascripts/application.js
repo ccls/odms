@@ -1,4 +1,4 @@
-t jQuery(function(){
+jQuery(function(){
 
 //	var root = (location.host == 'ccls.berkeley.edu')?'/odms':''
 /*

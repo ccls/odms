@@ -27,8 +27,9 @@ class Addressing < ActiveRecord::Base
 	validates_presence_of :why_invalid,  :if => :is_not_valid?
 	validates_length_of   :how_verified, :maximum => 250, :allow_blank => true
 	validates_presence_of :how_verified, :if => :is_verified?
-	validates_complete_date_for :valid_from, :allow_nil => true
-	validates_complete_date_for :valid_to,   :allow_nil => true
+#	changed from allow_nil to allow_blank
+	validates_complete_date_for :valid_from, :allow_blank => true
+	validates_complete_date_for :valid_to,   :allow_blank => true
 
 	validates_presence_of :other_data_source, :if => :data_source_is_other?
 

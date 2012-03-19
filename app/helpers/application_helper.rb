@@ -141,11 +141,11 @@ module ApplicationHelper
 				link_to( "back to subjects", dashboard_study_subjects_path ),
 				link_to( "Basic Info", study_subject_path(study_subject),
 					:class => ((current == :general)?'current':nil) ),
-				link_to( "Address &amp; Phone", study_subject_contacts_path(study_subject),
+				link_to( "Address & Phone", study_subject_contacts_path(study_subject),
 					:class => ((current == :contact)?'current':nil) ),
 				link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 					:class => ((current == :hospital)?'current':nil) ),
-				link_to( "Eligibility &amp; Consent", study_subject_consent_path(study_subject),
+				link_to( "Eligibility & Consent", study_subject_consent_path(study_subject),
 					:class => ((current == :consents)?'current':nil) ),
 				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
 					:class => ((current == :eligibility)?'current':nil) ) ]
@@ -323,19 +323,19 @@ module ApplicationHelper
 
 
 	def yndk(value=nil)
-		YNDK[value]||'&nbsp;'
+		(YNDK[value]||'&nbsp;').html_safe
 	end
 
 	def ynodk(value=nil)
-		YNODK[value]||'&nbsp;'
+		(YNODK[value]||'&nbsp;').html_safe
 	end
 
 	def ynrdk(value=nil)
-		YNRDK[value]||'&nbsp;'
+		(YNRDK[value]||'&nbsp;').html_safe
 	end
 
 	def adna(value=nil)
-		ADNA[value]||'&nbsp;'
+		(ADNA[value]||'&nbsp;').html_safe
 	end
 
 	def _wrapped_yndk_spans(object_name,method,options={})
@@ -363,11 +363,11 @@ module ApplicationHelper
 	end
 
 	def mdy(date)
-		( date.nil? ) ? '&nbsp;' : date.strftime("%m/%d/%Y")
+		(( date.nil? ) ? '&nbsp;' : date.strftime("%m/%d/%Y")).html_safe
 	end
 
 	def time_mdy(time)
-		( time.nil? ) ? '&nbsp;' : time.strftime("%I:%M %p %m/%d/%Y")
+		(( time.nil? ) ? '&nbsp;' : time.strftime("%I:%M %p %m/%d/%Y")).html_safe
 	end
 
 	def field_wrapper(method,options={},&block)

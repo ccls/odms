@@ -19,12 +19,12 @@ module ActionViewExtension::FormBuilder
 
 		def error_messages
 			if self.object.errors.count > 0
-				s  = '<div id="error_explanation" class="error_explanation">'
-				s << '<h2><%= pluralize(self.object.errors.count, "error") %> prohibited this <%= self.object.class_name %> from being saved:</h2>'
+				s  = '<div id="errorExplanation" class="errorExplanation">'
+				s << "<h2>#{self.object.errors.count} #{"error".pluralize(self.object.errors.count)} prohibited this #{self.object.class} from being saved:</h2>"
 				s << '<p>There were problems with the following fields:</p>'
 				s << '<ul>'
 				self.object.errors.full_messages.each do |msg|
-					s << '<li><%= msg %></li>'
+					s << "<li>#{msg}</li>"
 				end
 				s << '</ul></div>'
 				s.html_safe
