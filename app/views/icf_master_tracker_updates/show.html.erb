@@ -9,6 +9,6 @@
 <pre><%= IO.read(@icf_master_tracker_update.csv_file.path) %></pre>
 <% end %>
 
-<%= form_link_to( 'Parse', parse_icf_master_tracker_update_path(@icf_master_tracker_update) )%>
+<%= button_to( 'Parse', parse_icf_master_tracker_update_path(@icf_master_tracker_update) )%>
 <%= link_to( 'Edit', edit_icf_master_tracker_update_path(@icf_master_tracker_update), :class => 'button' ) %>
 <%= link_to( 'Back', icf_master_tracker_updates_path, :class => 'button' ) %>

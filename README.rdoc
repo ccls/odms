@@ -213,6 +213,7 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
   * => "can't be blank"
 
 
+* include acts_as_list functionality
 
 * surprised my home computer tested without a config/api.yml ??
 

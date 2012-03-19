@@ -1,6 +1,9 @@
 tr.csv_line {
 	border-top: 1px solid gray;
 }
-form.form_link_to {
+/* form.form_link_to { */
+
+form.button_to div,
+form.button_to {
 	display:inline;
 }

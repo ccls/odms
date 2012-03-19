@@ -18,8 +18,8 @@
 
 
 <td class='manage'><% if icf_master_tracker.flagged_for_update %>
-<%= form_link_to 'Update', icf_master_tracker_path(icf_master_tracker),
-	'method' => 'put' %>
+<%= button_to 'Update', icf_master_tracker_path(icf_master_tracker),
+	:method => 'put' %>
 <% else %>
 &nbsp;
 <% end %></td>

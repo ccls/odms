@@ -470,6 +470,7 @@ module ApplicationHelper
 
 
 #	TODO replace me with button_to calls
+#	Can't remove until destroy_link_to is gone
 	def form_link_to( title, url, options={}, &block )
 #			"action='#{url}' " <<
 		extra_tags = extra_tags_for_form(options)

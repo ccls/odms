@@ -35,6 +35,6 @@
 <% end %>
 </div><!-- id='packages' -->
 
-<%= form_link_to "Create new package", new_package_path -%>
+<%= button_to "Create new package", new_package_path -%>
 
 <%= "<p id='status_updated'>Last bulk shipping status update: #{time_ago_in_words(@last_shipping_update)} ago</p>" unless(@last_shipping_update.blank?) %>

@@ -48,9 +48,8 @@
    <% end %>
   </td>
   <td>
-   <% form_link_to 'Wait', update_status_bc_request_path(bc_request), 'method' => 'put' do %>
-    <%= hidden_field_tag :status, 'waitlist' %>
-   <% end %>
+   <%# status is part of the action url, not an input field here %>
+   <%= button_to( 'Wait', update_status_bc_request_path(bc_request, :status => 'waitlist' ), :method => 'put')  %>
   </td>
   <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
   <td><%= study_subject.icf_master_id_to_s %></td>
@@ -87,10 +86,8 @@
  <% study_subject = bc_request.study_subject %>
  <tr class='row'>
   <td>
-   <% form_link_to 'Activate', update_status_bc_request_path(bc_request), 'method' => 'put' do %>
-    <%= hidden_field_tag :status, 'active' %>
-   <% end %>
-
+   <%# status is part of the action url, not an input field here %>
+   <%= button_to( 'Activate', update_status_bc_request_path(bc_request, :status => 'active'), :method => 'put' ) %>
 
 <%# 
 	TODO
