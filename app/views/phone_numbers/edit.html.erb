@@ -6,7 +6,6 @@
 
 <% if current_user.may_destroy_phone_numbers? %>
 <div class='dev_only'><span>Development only:</span>
-<%#= (@phone_number.new_record?)? "&nbsp" : destroy_link_to( "Destroy", phone_number_path(@phone_number) ) %>
 <%= (@phone_number.new_record?)? "&nbsp".html_safe : button_to( "Destroy", phone_number_path(@phone_number), :method => 'delete', :form_class => 'destroy_link_to' ) %>
 </div>
 <% end %>

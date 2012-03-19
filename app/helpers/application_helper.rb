@@ -469,29 +469,29 @@ module ApplicationHelper
 	end
 
 
-#	TODO replace me with button_to calls
-#	Can't remove until destroy_link_to is gone
-	def form_link_to( title, url, options={}, &block )
-		extra_tags = extra_tags_for_form(options)
-		s =  "\n" <<
-			"<form " <<
-			"class='#{options.delete(:class)||'form_link_to'}' " <<
-			"action='#{url_for(url)}' " <<
-			"method='#{options.delete('method')}'>\n" <<
-			extra_tags << "\n"
-		s << (( block_given? )? capture(&block) : '')
-		s << submit_tag(title, :name => nil ) << "\n" <<
-			"</form>\n"
-		s.html_safe
-	end
-
-#	TODO replace me with button_to calls
-	def destroy_link_to( title, url, options={}, &block )
-		s = form_link_to( title, url, options.merge(
-			'method' => 'delete',
-			:class => 'destroy_link_to'
-		),&block )
-	end
+##	TODO replace me with button_to calls
+##	Can't remove until destroy_link_to is gone
+#	def form_link_to( title, url, options={}, &block )
+#		extra_tags = extra_tags_for_form(options)
+#		s =  "\n" <<
+#			"<form " <<
+#			"class='#{options.delete(:class)||'form_link_to'}' " <<
+#			"action='#{url_for(url)}' " <<
+#			"method='#{options.delete('method')}'>\n" <<
+#			extra_tags << "\n"
+#		s << (( block_given? )? capture(&block) : '')
+#		s << submit_tag(title, :name => nil ) << "\n" <<
+#			"</form>\n"
+#		s.html_safe
+#	end
+#
+##	TODO replace me with button_to calls
+#	def destroy_link_to( title, url, options={}, &block )
+#		s = form_link_to( title, url, options.merge(
+#			'method' => 'delete',
+#			:class => 'destroy_link_to'
+#		),&block )
+#	end
 
 	def flasher
 		s = ''

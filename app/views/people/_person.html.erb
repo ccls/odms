@@ -13,8 +13,12 @@
  </td>
  <td class='manage'>
   <%= link_to( 'Edit', edit_person_path(person), :class => 'button' ) %>&nbsp;
-  <%= destroy_link_to 'Destroy', person_path(person) do %>
-   <%= hidden_field_tag 'confirm', "Destroy person '#{person}'?", :id => nil %>
-  <% end %>
+<%#= destroy_link_to 'Destroy', person_path(person) do %>
+<%#= hidden_field_tag 'confirm', "Destroy person '#{person}'?", :id => nil %>
+<%# end %>
+<%= form_tag person, :method => :delete, :class => 'destroy_link_to' do |f| %>
+<%= hidden_field_tag 'confirm', "Destroy person '#{person}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
  </td>
 <% end %>

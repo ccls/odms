@@ -8,9 +8,12 @@
  <td class='manage'>
   <%= link_to( 'Edit', edit_ineligible_reason_path(ineligible_reason),
   :class => 'button' ) %>&nbsp;
-  <%= destroy_link_to 'Destroy', ineligible_reason_path(ineligible_reason) do %>
-   <%= hidden_field_tag 'confirm', 
-    "Destroy ineligible_reason '#{ineligible_reason}'?", :id => nil %>
- <% end %>
+<%#= destroy_link_to 'Destroy', ineligible_reason_path(ineligible_reason) do %>
+<%#= hidden_field_tag 'confirm', "Destroy ineligible_reason '#{ineligible_reason}'?", :id => nil %>
+<%# end %>
+<%= form_tag ineligible_reason, :method => :delete, :class => 'destroy_link_to' do |f| %>
+<%= hidden_field_tag 'confirm', "Destroy ineligible_reason '#{ineligible_reason}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
  </td>
 <% end %>

@@ -4,8 +4,12 @@
  <td class='description'><%= language.description %></td>
  <td class='manage'>
   <%= link_to( 'Edit', edit_language_path(language), :class => 'button' ) %>&nbsp;
-  <%= destroy_link_to 'Destroy', language_path(language) do %>
-   <%= hidden_field_tag 'confirm', "Destroy language '#{language}'?", :id => nil %>
-  <% end %>
+<%#= destroy_link_to 'Destroy', language_path(language) do %>
+<%#= hidden_field_tag 'confirm', "Destroy language '#{language}'?", :id => nil %>
+<%# end %>
+<%= form_tag language, :method => :delete, :class => 'destroy_link_to' do |f| %>
+<%= hidden_field_tag 'confirm', "Destroy language '#{language}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
  </td>
 <% end %>
