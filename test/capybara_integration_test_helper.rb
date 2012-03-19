@@ -119,7 +119,7 @@ end
 #	testing is transactional so we must force them to use the
 #	same connection or they will not see each others mods.
 #	Original way or my way.  No matter.  But we must set the connection first.
-ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
+#ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 
 #
 #	back to the original ... ?
@@ -137,14 +137,16 @@ ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 #ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
 
-class ApplicationController
-	def ssl_required?
-		false
-	end
-	def ssl_allowed?
-		true
-	end
-end
+#	I think that this oversteps its bounds and sets it in 
+#	ALL tests, even functionals.  Doubt it
+#class ApplicationController
+#	def ssl_required?
+#		false
+#	end
+#	def ssl_allowed?
+#		true
+#	end
+#end
 
 #	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
@@ -168,10 +170,20 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 ##	actually passes the class in Rails3 
 #			controller.any_instance.stubs(:ssl_allowed?).returns(true) 
 #		end
+
+ApplicationController.class_eval do
+	def ssl_required?
+		false
+	end
+	def ssl_allowed?
+		true
+	end
+end
+
 	end
 
-#	setup :synchronize_selenium_connections	#	this includes :webkit
-#	def synchronize_selenium_connections
+	setup :synchronize_selenium_connections	#	this includes :webkit
+	def synchronize_selenium_connections
 #		#	if driver is selenium based, need to synchronize the transactional connections
 #		#
 #		###	initially based on http://pastie.org/1745020, but has changed
@@ -229,7 +241,8 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 #			Transfer,Unit,User,VitalStatus,ZipCode].each do |model|
 #			model.saved_connection = model.connection
 #		end
-#	end
+ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
+	end
 
 	include Capybara::DSL
 

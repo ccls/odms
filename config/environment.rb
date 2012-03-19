@@ -3,3 +3,6 @@ require File.expand_path('../application', __FILE__)
 
 # Initialize the rails application
 Odms::Application.initialize!
+
+
+#ActiveRecord::Base.include_root_in_json = true

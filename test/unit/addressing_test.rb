@@ -260,8 +260,12 @@ pending
 		assert_difference('OperationalEvent.count',1) {
 		assert_difference('Address.count',2) {
 		assert_difference("Addressing.count", 2 ) {
-			create_ca_addressing(study_subject)
-			create_az_addressing(study_subject)
+			ca_addressing = create_ca_addressing(study_subject)
+puts ca_addressing.inspect
+puts ca_addressing.errors.inspect
+			az_addressing = create_az_addressing(study_subject)
+puts az_addressing.inspect
+puts az_addressing.errors.inspect
 		} } }
 		assert_study_subject_is_not_eligible(study_subject)
 		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
@@ -279,7 +283,9 @@ pending
 		assert_difference("Addressing.count", 1 ) {
 			create_ca_addressing(study_subject)
 			assert_raise(ActiveRecord::RecordNotSaved){
-				create_az_addressing(study_subject)
+				addressing = create_az_addressing(study_subject)
+puts addressing.inspect
+puts addressing.errors.inspect
 		} } } }
 		assert_study_subject_is_eligible(study_subject)
 	end
@@ -291,8 +297,10 @@ pending
 		assert_difference('OperationalEvent.count',0) {
 		assert_difference('Address.count',1) {
 		assert_difference("Addressing.count", 1 ) {
-			create_az_addressing(study_subject,
+			addressing = create_az_addressing(study_subject,
 				:address => { :address_type => AddressType['mailing'] })
+puts addressing.inspect
+puts addressing.errors.inspect
 		} } }
 		assert_study_subject_is_eligible(study_subject)
 	end
@@ -304,7 +312,9 @@ pending
 		assert_difference('OperationalEvent.count',0) {
 		assert_difference('Address.count',1) {
 		assert_difference("Addressing.count", 1 ) {
-			create_ca_addressing(study_subject)
+			addressing = create_ca_addressing(study_subject)
+puts addressing.inspect
+puts addressing.errors.inspect
 		} } }
 		assert_study_subject_is_eligible(study_subject)
 	end

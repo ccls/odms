@@ -13,6 +13,8 @@ pending
 				:addressings_attributes => [Factory.attributes_for(:addressing,
 					:address_attributes => Factory.attributes_for(:address,
 					:address_type => AddressType['residence'] ) )])
+puts study_subject.inspect
+puts study_subject.errors.inspect
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
@@ -54,6 +56,8 @@ pending
 				:addressings_attributes => [Factory.attributes_for(:addressing,
 					:address_attributes => Factory.attributes_for(:address,
 					{ :address_type => AddressType['residence'] } ))])
+puts study_subject.inspect
+puts study_subject.errors.inspect
 		assert_equal 1, study_subject.reload.residence_addresses_count
 		study_subject.update_attributes(
 				:addressings_attributes => [Factory.attributes_for(:addressing,

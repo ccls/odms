@@ -42,103 +42,8 @@ No more ActiveRecord::Error so need to do something in my validation.
 
 * change all of my form_link_to's to button_to's
 
-
-
-
-
-
-
-
-
-== Rails 3 Upgrade TODOs
-
-
-* (20120316a) 7886 tests, 18416 assertions, 907 failures, 1439 errors
-* (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
-* (20120317a)
-* ODMS-rake-test-20120317a.txt:4650 tests, 11589 assertions, 42 failures, 180 errors
-* ODMS-rake-test-20120317a.txt:2867 tests, 11028 assertions, 77 failures, 122 errors
-* ODMS-rake-test-20120317a.txt:224 tests, 499 assertions, 0 failures, 224 errors
-* (20120318a)
-* ODMS-rake-test-20120318a.txt:4579 tests, 11654 assertions, 14 failures, 88 errors
-* ODMS-rake-test-20120318a.txt:2867 tests, 11046 assertions, 77 failures, 104 errors
-* ODMS-rake-test-20120318a.txt:224 tests, 499 assertions, 0 failures, 224 errors
-* (20120318b)
-* ODMS-rake-test-20120318b.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
-* ODMS-rake-test-20120318b.txt:2867 tests, 11178 assertions, 77 failures, 77 errors
-* ODMS-rake-test-20120318b.txt:224 tests, 2827 assertions, 47 failures, 0 errors
-* (20120318c)
-* ODMS-rake-test-20120318c.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
-* ODMS-rake-test-20120318c.txt:2867 tests, 11238 assertions, 69 failures, 49 errors
-* ODMS-rake-test-20120318c.txt:224 tests, 2810 assertions, 41 failures, 6 errors
-* (20120318d) 7672 tests, 25642 assertions, 305 failures, 143 errors
-
-
-
-
-* gonna need to figure out this SSL thing so that all environments work
-
 * change all of my destroy_link_to's to button_to's (think that I have some javascript attached to these so add class-'destroy_link_to')
   * don't know if i can as button_to doesn't accept hidden field parameters
-
-* paths not available in new helper tests?? ( so commented out those tests )
-  * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
-
-* integration tests running
-* integration tests passing
-* all tests passing
-
-* rake db:load:fixtures with csv files (works in testing)
-  rake db:load:fixtures does not work for csv files????
-  the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
-
-* ZipCode failures??
-
-* json output format no longer has the initial key.
-
-* controllers now raises MassAssignmentSecurity::Error
-  * add a rescue to ignore it
-
-	*	I could simply remove this ... but seems scandalous
-	# Raise exception on mass assignment protection for Active Record models
-	config.active_record.mass_assignment_sanitizer = :strict
-	* I'd rather just silently ignore, but probably shouldn't
-
-
-* datetime still accept partial? was some mention of error when not complete
-
-* remove soon to be deprecate code
-
-* missing subject_race_id and subject_language_id in selectors probably from new form of fields_for
-
-
-* fix all search code
-  * Remove GiftCardSearch as it is not used
-  * Try to remove AbstractSearch if possible
-
-
-* http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes
-* put all of my custom error message in locale file like above???
-
-
-* catch-all page path route string not array
-* reenable raising mass assignment error in environments/test.rb
-
-*	get acts_as_list working (actually seems to work fine.  tests don't though)
-  * include acts_as_list functionality
-  * don't really use acts_as_list functionality much
-
-
-
-
-
-
-
-
-* Have to find new way for custom error messages, AGAIN without attribute name
-
-* humanized versions of attributes for now
-
 
 
 * write replacement for f.error_messages (wrote, but need to implement)
@@ -184,6 +89,116 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Rails 3 Upgrade TODOs
+
+
+* (20120316a) 7886 tests, 18416 assertions, 907 failures, 1439 errors
+* (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
+* (20120317a)
+* ODMS-rake-test-20120317a.txt:4650 tests, 11589 assertions, 42 failures, 180 errors
+* ODMS-rake-test-20120317a.txt:2867 tests, 11028 assertions, 77 failures, 122 errors
+* ODMS-rake-test-20120317a.txt:224 tests, 499 assertions, 0 failures, 224 errors
+* (20120318a)
+* ODMS-rake-test-20120318a.txt:4579 tests, 11654 assertions, 14 failures, 88 errors
+* ODMS-rake-test-20120318a.txt:2867 tests, 11046 assertions, 77 failures, 104 errors
+* ODMS-rake-test-20120318a.txt:224 tests, 499 assertions, 0 failures, 224 errors
+* (20120318b)
+* ODMS-rake-test-20120318b.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
+* ODMS-rake-test-20120318b.txt:2867 tests, 11178 assertions, 77 failures, 77 errors
+* ODMS-rake-test-20120318b.txt:224 tests, 2827 assertions, 47 failures, 0 errors
+* (20120318c)
+* ODMS-rake-test-20120318c.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
+* ODMS-rake-test-20120318c.txt:2867 tests, 11238 assertions, 69 failures, 49 errors
+* ODMS-rake-test-20120318c.txt:224 tests, 2810 assertions, 41 failures, 6 errors
+* (20120318d) 7672 tests, 25642 assertions, 305 failures, 143 errors
+* (20120319)  7682 tests, 27538 assertions, 147 failures, 25 errors
+
+
+
+* gonna need to figure out this SSL thing so that all environments work
+
+* paths not available in new helper tests?? ( so commented out those tests )
+  * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
+
+* integration tests running
+* integration tests passing
+* all tests passing
+
+* rake db:load:fixtures with csv files (works in testing)
+  * CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
+  rake db:load:fixtures does not work for csv files????
+  the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
+
+* ZipCode failures??
+
+* json output format no longer has the initial key.
+
+* controllers now raises MassAssignmentSecurity::Error
+  * add a rescue to ignore it
+
+	*	I could simply remove this ... but seems scandalous
+	# Raise exception on mass assignment protection for Active Record models
+	config.active_record.mass_assignment_sanitizer = :strict
+	* I'd rather just silently ignore, but probably shouldn't
+
+
+* datetime still accept partial? was some mention of error when not complete
+
+* remove soon to be deprecate code
+
+* missing subject_race_id and subject_language_id in selectors probably from new form of fields_for
+
+
+* fix all search code
+  * Remove GiftCardSearch as it is not used
+  * Try to remove AbstractSearch if possible
+
+
+* http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes
+* put all of my custom error message in locale file like above???
+
+
+* catch-all page path route string not array
+* reenable raising mass assignment error in environments/test.rb
+
+*	get acts_as_list working (actually seems to work fine.  tests don't though)
+  * include acts_as_list functionality
+  * don't really use acts_as_list functionality much
+
+
+* Have to find new way for custom error messages, AGAIN without attribute name
+
+* humanized versions of attributes for now
 
 
 * Not all of my rails2 routes are reproducable in rails3.  Do I NEED them? Doesn't appear so.

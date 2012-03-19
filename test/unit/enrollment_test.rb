@@ -446,6 +446,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 				:is_complete => YNDK[:no],
 				:completed_on => nil)
 		end
+puts enrollment.operational_events.inspect
 		oe = enrollment.operational_events.find(:last,:order => 'id ASC')
 pending
 		assert_equal 'reopened', oe.operational_event_type.key

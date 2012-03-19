@@ -30,7 +30,11 @@ class Sample < ActiveRecord::Base
 	validates_presence_of :project_id
 	validates_presence_of :project, :if => :project_id
 
-	validates_presence_of :sent_to_subject_on,  :if => :collected_at
+
+#	gonna need custom messages here
+#	gonna be a problems as sent to subject on NOT on receive sample on
+	validates_presence_of :sent_to_subject_on,  :if => :collected_at,
+		:message => "can't be blank if collected_at"
 	validates_presence_of :collected_at,        :if => :received_by_ccls_at
 	validates_presence_of :location_id,         :if => :sent_to_lab_on
 	validates_presence_of :received_by_ccls_at, :if => :sent_to_lab_on

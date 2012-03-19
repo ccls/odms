@@ -77,11 +77,23 @@ class StudySubjectsController < ApplicationController
 
 #	this appears to be rendering the index.html for csv download in rails 3
 
+puts "for downloading in csv should have commit=download"
+puts params.inspect
+#	maybe I need an explicit respond to block
+
 		if params[:commit] && params[:commit] == 'download'
 			params[:format] = 'csv'
-			headers["Content-disposition"] = "attachment; " <<
-				"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 
+#			headers["Content-disposition"] = "attachment; " <<
+#				"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 
 		end
+
+		respond_to do |format|
+			format.html	
+			format.csv { 
+			headers["Content-disposition"] = "attachment; " <<
+				"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" }
+		end
+
 	end
 
 	def edit
