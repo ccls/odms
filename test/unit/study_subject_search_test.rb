@@ -11,7 +11,9 @@ class StudySubjectSearchTest < ActiveSupport::TestCase
 	end
 
 	test "should return Array" do
-		study_subjects = StudySubject.search()
+#		study_subjects = StudySubject.search()
+# rails 3 uses ActiveRecord::Relation which doesn't actually search until needed
+		study_subjects = StudySubject.search().all
 		assert study_subjects.is_a?(Array)
 	end
 

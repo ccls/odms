@@ -39,15 +39,29 @@ class StudySubjectSearch < Search
 
 	def study_subjects
 		require_dependency 'gift_card.rb' unless GiftCard
+
+		find_options = {
+			:select  => select,
+			:group   => group,
+			:order   => search_order,
+			:joins   => joins,
+			:conditions => conditions
+		}
+#			:having  => having,	#	in rails 3 this will leave an empty having clause
+		temp = having
+		find_options[:having] = temp unless temp == ["", nil]
+
+#			(paginate?)?'paginate':'all',{
+#				:select  => select,
+#				:group   => group,
+#				:having  => having,	#	in rails 3 this will leave an empty having clause
+#				:order   => search_order,
+#				:joins   => joins,
+#				:conditions => conditions
+#			}.merge(
 		@subjects ||= StudySubject.send(
-			(paginate?)?'paginate':'all',{
-				:select  => select,
-				:group   => group,
-				:having  => having,
-				:order   => search_order,
-				:joins   => joins,
-				:conditions => conditions
-			}.merge(
+			(paginate?)?'paginate':'all',
+			find_options.merge(
 				(paginate?)?{
 					:per_page => per_page||25,
 					:page     => page||1
@@ -215,7 +229,7 @@ private	#	THIS IS REQUIRED
 			projects.each do |id,attributes|
 				attributes.each do |attr,val|
 					val = [val].flatten
-					if val.true_xor_false?
+					if val.true_xor_false?			#	one of my custom methods that should probably be clarified and removed
 						new_condition = case attr.to_s.downcase
 							when 'eligible'
 								"proj_#{id}.is_eligible " <<

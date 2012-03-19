@@ -1,7 +1,11 @@
 <%= form_for(@project) do |f| %>
 
-<%# TODO NOT IN RAILS 3 %>
-<%#= f.error_messages %>
+
+
+<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
+<%= f.error_messages %>
+
+
 
  Project <%= f.label :description %><br/>
  <%= f.text_field :description %><br/>

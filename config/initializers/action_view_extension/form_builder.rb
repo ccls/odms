@@ -13,23 +13,23 @@ module ActionViewExtension::FormBuilder
 
 
 
-#	TODO
+#	TODO	add tests for this
 #	COMING SOON
 #		Replacement for Rails 3 deprecated helper.
 
-#		def error_messages
-#			if self.object.errors.count > 0
-#				s  = '<div id="error_explanation" class="error_explanation">'
-#				s << '<h2><%= pluralize(self.object.errors.count, "error") %> prohibited this <%= self.object.class_name %> from being saved:</h2>'
-#				s << '<p>There were problems with the following fields:</p>'
-#				s << '<ul>'
-#				<% self.object.errors.full_messages.each do |msg| %>
-#					s << '<li><%= msg %></li>'
-#				<% end %>
-#				s << '</ul></div>'
-#				s.html_safe
-#			end
-#		end
+		def error_messages
+			if self.object.errors.count > 0
+				s  = '<div id="error_explanation" class="error_explanation">'
+				s << '<h2><%= pluralize(self.object.errors.count, "error") %> prohibited this <%= self.object.class_name %> from being saved:</h2>'
+				s << '<p>There were problems with the following fields:</p>'
+				s << '<ul>'
+				self.object.errors.full_messages.each do |msg|
+					s << '<li><%= msg %></li>'
+				end
+				s << '</ul></div>'
+				s.html_safe
+			end
+		end
 
 
 

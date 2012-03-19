@@ -11,9 +11,11 @@ class AbstractSearchTest < ActiveSupport::TestCase
 	end
 
 	test "should return Array" do
-		abstracts = Abstract.search()
+#		abstracts = Abstract.search()
+#	Abstract Search should return Array: ActiveRecord::Relation
+# rails 3 uses ActiveRecord::Relation which doesn't actually search until needed
+		abstracts = Abstract.search().all
 		assert abstracts.is_a?(Array)		
-pending #	TODO
 	end
 
 	test "should include abstract" do

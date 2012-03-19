@@ -62,6 +62,12 @@ No more ActiveRecord::Error so need to do something in my validation.
 * ODMS-rake-test-20120318b.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
 * ODMS-rake-test-20120318b.txt:2867 tests, 11178 assertions, 77 failures, 77 errors
 * ODMS-rake-test-20120318b.txt:224 tests, 2827 assertions, 47 failures, 0 errors
+* (20120318c)
+* ODMS-rake-test-20120318c.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
+* ODMS-rake-test-20120318c.txt:2867 tests, 11238 assertions, 69 failures, 49 errors
+* ODMS-rake-test-20120318c.txt:224 tests, 2810 assertions, 41 failures, 6 errors
+* (20120318d) 7672 tests, 25642 assertions, 305 failures, 143 errors
+
 
 
 
@@ -101,7 +107,10 @@ No more ActiveRecord::Error so need to do something in my validation.
 
 * missing subject_race_id and subject_language_id in selectors probably from new form of fields_for
 
+
 * fix all search code
+  * Remove GiftCardSearch as it is not used
+  * Try to remove AbstractSearch if possible
 
 
 * http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes

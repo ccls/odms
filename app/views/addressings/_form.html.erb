@@ -14,8 +14,12 @@
 </div><!-- class='buttons' -->
 </div>
 
-<%# TODO NOT IN RAILS 3 %>
-<%#= f.error_messages %>
+
+
+<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
+<%= f.error_messages %>
+
+
 
 <div class='fields_for_address'>
 <% @addressing.build_address if @addressing.address.nil? %>

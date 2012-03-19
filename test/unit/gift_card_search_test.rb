@@ -11,8 +11,9 @@ class GiftCardSearchTest < ActiveSupport::TestCase
 	end
 
 	test "should return Array" do
-pending
-		gift_cards = GiftCard.search()
+#		gift_cards = GiftCard.search()
+#	rails 3 uses ActiveRecord::Relation which doesn't actually search until needed
+		gift_cards = GiftCard.search().all
 		assert gift_cards.is_a?(Array)
 	end
 
@@ -93,7 +94,8 @@ pending
 
 	test "should include gift_card by q patid" do
 pending
-		g1,g2 = create_gift_cards_with_patids(999999,'1')
+#		g1,g2 = create_gift_cards_with_patids(999999,'1')	#	6 digit patid??? rails 2 would've stripped it.
+		g1,g2 = create_gift_cards_with_patids(9999,'1')
 		gift_cards = GiftCard.search(:q => g1.study_subject.patid)
 		assert  gift_cards.include?(g1)
 		assert !gift_cards.include?(g2)

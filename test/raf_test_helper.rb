@@ -51,8 +51,8 @@ class ActiveSupport::TestCase
 				'0' => Factory.attributes_for(:enrollment) }
 
 
-			).delete_keys!(:case_control_type)
-#	remove protected attributes
+			)	#.delete_keys!(:case_control_type)
+#	TODO remove protected attributes
 
 
 		}.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
@@ -81,6 +81,12 @@ class ActiveSupport::TestCase
 		assert_difference('Addressing.count',1){
 		assert_difference('Address.count',1){
 			yield
+
+#	TODO
+if assigns(:study_subject).errors.count > 0
+puts assigns(:study_subject).errors.inspect
+end
+
 		} } } } } } } #}
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)

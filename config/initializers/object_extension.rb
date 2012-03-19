@@ -1,15 +1,15 @@
 module ObjectExtension	#	:nodoc:
-#	def self.included(base)
-##		base.extend(ClassMethods)
-#		base.instance_eval do
-#			include InstanceMethods
-#		end
+	def self.included(base)
+#		base.extend(ClassMethods)
+		base.instance_eval do
+			include InstanceMethods
+		end
+	end
+
+#	module ClassMethods	#	:nodoc:
 #	end
-#
-##	module ClassMethods	#	:nodoc:
-##	end
-#
-#	module InstanceMethods
+
+	module InstanceMethods
 ##
 ##		#	originally from ActiveSupport::Callbacks::Callback
 ###	needs modified to actually work the way I'd like
@@ -42,25 +42,25 @@ module ObjectExtension	#	:nodoc:
 ##		end
 ##		alias_method :x, :evaluate_method
 ##
-#		def to_boolean
-##			return [true, 'true', 1, '1', 't'].include?(
-#			return ![nil, false, 'false', 0, '0', 'f'].include?(
-#				( self.is_a?(String) ) ? self.downcase : self )
-#		end
-#
-#		#	looking for an explicit true
-#		def true?
+		def to_boolean
 #			return [true, 'true', 1, '1', 't'].include?(
-#				( self.is_a?(String) ) ? self.downcase : self )
-#		end
-#
-#		#	looking for an explicit false (not nil)
-#		def false?
-#			return [false, 'false', 0, '0', 'f'].include?(
-#				( self.is_a?(String) ) ? self.downcase : self )
-#		end
-#
-#	end
-#
+			return ![nil, false, 'false', 0, '0', 'f'].include?(
+				( self.is_a?(String) ) ? self.downcase : self )
+		end
+
+		#	looking for an explicit true
+		def true?
+			return [true, 'true', 1, '1', 't'].include?(
+				( self.is_a?(String) ) ? self.downcase : self )
+		end
+
+		#	looking for an explicit false (not nil)
+		def false?
+			return [false, 'false', 0, '0', 'f'].include?(
+				( self.is_a?(String) ) ? self.downcase : self )
+		end
+
+	end
+
 end
-#Object.send(:include, ObjectExtension)
+Object.send(:include, ObjectExtension)

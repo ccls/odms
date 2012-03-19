@@ -4,8 +4,12 @@
 
 <%= form_for(@bc_request) do |f| %>
 
-<%# TODO NOT IN RAILS 3 %>
-<%#= f.error_messages %>
+
+
+<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
+<%= f.error_messages %>
+
+
 
  <%= f.wrapped_select :status, BcRequest.statuses %>
  <%= f.wrapped_text_area :notes %>

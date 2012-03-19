@@ -6,8 +6,10 @@
 	:html => { :class => 'waivered raf edit_study_subject' }) do |f| %>
 
 
-<%# TODO NOT IN RAILS 3 %>
-<%#= f.error_messages %>
+
+<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
+<%= f.error_messages %>
+
 
 
 <%= render( :partial => 'raf/duplicates', 

@@ -2,8 +2,12 @@
 
 <%= form_for @user do |form| %>
 
-<%# TODO NOT IN RAILS 3 %>
-<%#= form.error_messages %>
+
+
+<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
+<%= f.error_messages %>
+
+
 
 <% if params[:token] %>
 	<%= hidden_field_tag :token, params[:token] %>

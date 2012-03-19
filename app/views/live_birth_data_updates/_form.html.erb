@@ -2,8 +2,12 @@
 
 <%= form_for(@live_birth_data_update, :html => { :multipart => true } ) do |f| %>
 
-<%# TODO NOT IN RAILS 3 %>
-<%#= f.error_messages %>
+
+
+<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
+<%= f.error_messages %>
+
+
 
   <%= f.file_field :csv_file %>
 <p><%= f.object.csv_file_file_name unless f.object.csv_file_file_name.blank? %></p>

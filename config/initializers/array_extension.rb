@@ -1,15 +1,19 @@
 module ArrayExtension	#	:nodoc:
-#	def self.included(base)
-##		base.extend(ClassMethods)
-#		base.instance_eval do
-#			include InstanceMethods
-#		end
+	def self.included(base)
+#		base.extend(ClassMethods)
+
+#	instance_eval????
+#	why not just include
+		base.instance_eval do
+			include InstanceMethods
+		end
+#		base.send(:include, InstanceMethods)
+	end
+
+#	module ClassMethods	#	:nodoc:
 #	end
-#
-##	module ClassMethods	#	:nodoc:
-##	end
-#
-#	module InstanceMethods
+
+	module InstanceMethods
 #
 #		#	['a','b','c'].arrange([2,0,1]) => ['c','a','b']
 #		def arrange(new_array_index=[])
@@ -100,10 +104,10 @@ module ArrayExtension	#	:nodoc:
 #			end
 #			return nil
 #		end
-#
-#		def to_boolean
-#			!empty? && all?{|v| v.to_boolean }
-#		end
+
+		def to_boolean
+			!empty? && all?{|v| v.to_boolean }
+		end
 ##		alias_method :true?, :to_boolean
 #		alias_method :to_b,  :to_boolean
 #
@@ -124,17 +128,17 @@ module ArrayExtension	#	:nodoc:
 #		end
 #
 #		#	I need to work on this one ...
-#		def true_xor_false?
-##			self.include?('true') ^ self.include?('false') ^
-##				self.include?(true) ^ self.include?(false)
-#			contains_true = contains_false = false
-#			each {|v|
-##				( v.to_boolean ) ? contains_true = true : contains_false = true
-#				eval("contains_#{v.to_boolean}=true")
-#			}
-#			contains_true ^ contains_false
-#		end
+		def true_xor_false?
+#			self.include?('true') ^ self.include?('false') ^
+#				self.include?(true) ^ self.include?(false)
+			contains_true = contains_false = false
+			each {|v|
+#				( v.to_boolean ) ? contains_true = true : contains_false = true
+				eval("contains_#{v.to_boolean}=true")
+			}
+			contains_true ^ contains_false
+		end
 #
-#	end
+	end
 end
-#Array.send(:include, ArrayExtension)
+Array.send(:include, ArrayExtension)

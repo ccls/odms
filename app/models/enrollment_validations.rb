@@ -84,7 +84,9 @@ base.class_eval do
 		:if => :consent_unknown?
 	validates_presence_of :document_version, :if => :document_version_id
 	
-	validates_complete_date_for :consented_on, :allow_nil => true
+#	validates_complete_date_for :consented_on, :allow_nil => true
+#	changed to allow_blank as will be blank coming from form
+	validates_complete_date_for :consented_on, :allow_blank => true
 	validates_complete_date_for :completed_on, :allow_nil => true
 
 	validates_length_of :recruitment_priority,      :maximum => 250, :allow_blank => true

@@ -74,6 +74,9 @@ class StudySubjectsController < ApplicationController
 		end
 #	TODO stop using StudySubject.search, but here it may be needed
 		@study_subjects = StudySubject.search(params)
+
+#	this appears to be rendering the index.html for csv download in rails 3
+
 		if params[:commit] && params[:commit] == 'download'
 			params[:format] = 'csv'
 			headers["Content-disposition"] = "attachment; " <<
