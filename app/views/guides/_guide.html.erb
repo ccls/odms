@@ -7,7 +7,7 @@
 <%#= destroy_link_to "Destroy", guide_path(guide) do %>
 <%#= hidden_field_tag 'confirm', "Destroy guide '#{guide}'?", :id => nil %>
 <%# end %>
-<%= form_tag guide, :method => :delete, :class => 'destroy_link_to' do |f| %>
+<%= form_tag guide, :method => :delete, :class => 'destroy_link_to' do %>
 <%= hidden_field_tag 'confirm', "Destroy guide '#{guide}'?", :id => nil %>
 <%= submit_tag 'Destroy', :name => nil %>
 <% end %>

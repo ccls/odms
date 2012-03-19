@@ -6,7 +6,7 @@
 <%#= destroy_link_to "Destroy", project_path(project) do %>
 <%#= hidden_field_tag 'confirm', "Destroy project '#{project}'?", :id => nil %>
 <%# end %>
-<%= form_tag project, :method => :delete, :class => 'destroy_link_to' do |f| %>
+<%= form_tag project, :method => :delete, :class => 'destroy_link_to' do %>
 <%= hidden_field_tag 'confirm', "Destroy project '#{project}'?", :id => nil %>
 <%= submit_tag 'Destroy', :name => nil %>
 <% end %>

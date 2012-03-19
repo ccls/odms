@@ -7,7 +7,7 @@
 <%#= destroy_link_to 'Destroy', race_path(race) do %>
 <%#= hidden_field_tag 'confirm', "Destroy race '#{race}'?", :id => nil %>
 <%# end %>
-<%= form_tag race, :method => :delete, :class => 'destroy_link_to' do |f| %>
+<%= form_tag race, :method => :delete, :class => 'destroy_link_to' do %>
 <%= hidden_field_tag 'confirm', "Destroy race '#{race}'?", :id => nil %>
 <%= submit_tag 'Destroy', :name => nil %>
 <% end %>

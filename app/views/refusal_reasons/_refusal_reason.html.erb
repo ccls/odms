@@ -7,7 +7,7 @@
 <%#= destroy_link_to 'Destroy', refusal_reason_path(refusal_reason) do %>
 <%#= hidden_field_tag 'confirm', "Destroy refusal_reason '#{refusal_reason}'?", :id => nil %>
 <%# end %>
-<%= form_tag refusal_reason, :method => :delete, :class => 'destroy_link_to' do |f| %>
+<%= form_tag refusal_reason, :method => :delete, :class => 'destroy_link_to' do %>
 <%= hidden_field_tag 'confirm', "Destroy refusal_reason '#{refusal_reason}'?", :id => nil %>
 <%= submit_tag 'Destroy', :name => nil %>
 <% end %>

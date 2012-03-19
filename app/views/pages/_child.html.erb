@@ -14,7 +14,7 @@
 <%#= destroy_link_to "Destroy", page_path(child) do %>
 <%#= hidden_field_tag 'confirm', "Destroy page '#{child}'?", :id => nil %>
 <%# end %>
-<%= form_tag child, :method => :delete, :class => 'destroy_link_to' do |f| %>
+<%= form_tag child, :method => :delete, :class => 'destroy_link_to' do %>
 <%= hidden_field_tag 'confirm', "Destroy page '#{child}'?", :id => nil %>
 <%= submit_tag 'Destroy', :name => nil %>
 <% end %>
