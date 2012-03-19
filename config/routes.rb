@@ -96,14 +96,7 @@ end
 
 
 
-
-#	TODO	don't know if this is right
-#	logout 'logout', :controller => 'sessions', :action => 'destroy'
-#	controller :sessions do
-#		delete 'logout' => :destroy
-#	end
 	match 'logout', :to => 'sessions#destroy'
-
 
 	resources :users, :only => [:destroy,:show,:index] do
 		resources :roles, :only => [:update,:destroy]
@@ -119,25 +112,15 @@ end
 	resources :operational_event_types, :only => [] do
 		collection { get 'options' }
 	end
-#	resources :operational_event_types, :only => [],
-#		:collection => { :options => :get }
 
 	resources :locales, :only => :show
 
-#	root :controller => :odms, :action => :show
 	root :to => 'odms#show'
 
 	#	Route declaration order matters.
 	#	This MUST be BEFORE the declaration of
 	#	 study_subject.resources :samples
 	#	or 'dashboard' will be treated as a sample id.
-#	resources :samples, :only => [],
-#			:collection => { 
-#				:dashboard => :get,
-#				:find      => :get,
-#				:followup  => :get,
-#				:reports   => :get 
-#			}
 	resources :samples, :only => [] do
 		collection do
 			get :dashboard
@@ -147,13 +130,6 @@ end
 		end
 	end
 
-#	resources :interviews, :only => [],
-#			:collection => { 
-#				:dashboard => :get,
-#				:find      => :get,
-#				:followup  => :get,
-#				:reports   => :get 
-#			}
 	resources :interviews, :only => [] do
 		collection do
 			get :dashboard
@@ -169,14 +145,6 @@ end
 
 	resource :receive_sample, :only => [:new,:create]
 
-#	resources :study_subjects, :only => [:edit,:update,:show,:index],
-#			:collection => { 
-#				:dashboard => :get,
-#				:find      => :get,
-#				:followup  => :get,
-#				:reports   => :get 
-#			},
-#			:shallow => true do 
 	resources :study_subjects, :only => [:edit,:update,:show,:index],
 			:shallow => true do 
 		collection do
@@ -200,7 +168,6 @@ end
 		resources :notes,      :only => :index
 	end
 
-#	resources :bc_requests, :only => [:new,:create,:edit,:update,:destroy,:index],
 	resources :bc_requests, :except => :show do
 		collection { get :confirm }
 		member     { put :update_status }
@@ -242,20 +209,17 @@ end
 		end
 	end
 
-#	TODO don't know if this is right either
-#	connect 'charts/:action.:format', :controller => 'charts'
-#	match 'charts(/:action(/:id))(.:format)'
 	match 'charts/:action.:format' => 'charts'
 
-	namespace :api do
-		resources :study_subjects, :only => :index
-		resources :patients,       :only => :index
-		resources :projects,       :only => :index
-		resources :enrollments,    :only => :index
-		resources :addresses,      :only => :index
-		resources :addressings,    :only => :index
-		resources :phone_numbers,  :only => :index
-	end
+#	namespace :api do
+#		resources :study_subjects, :only => :index
+#		resources :patients,       :only => :index
+#		resources :projects,       :only => :index
+#		resources :enrollments,    :only => :index
+#		resources :addresses,      :only => :index
+#		resources :addressings,    :only => :index
+#		resources :phone_numbers,  :only => :index
+#	end
 
 	#	Create named routes for expected pages so can avoid
 	# needing to append the relative_url_root prefix manually.
