@@ -1,0 +1,14 @@
+alameda:
+  id: 149
+  name: Alameda
+  fips_code: 6001
+  state_abbrev: CA
+norry:
+  id: 2144
+  name: Northumberland
+  fips_code: 42097
+  state_abbrev: PA
+
+#"id","name","fips_code","state_abbrev"
+#149,"Alameda","6001","CA"
+#2144,"Northumberland","42097","PA"

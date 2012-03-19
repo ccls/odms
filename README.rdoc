@@ -142,6 +142,8 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 * ODMS-rake-test-20120318c.txt:224 tests, 2810 assertions, 41 failures, 6 errors
 * (20120318d) 7672 tests, 25642 assertions, 305 failures, 143 errors
 * (20120319)  7682 tests, 27538 assertions, 147 failures, 25 errors
+* (20120319)  7678 tests, 27383 assertions, 133 failures, 25 errors
+
 
 
 

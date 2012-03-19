@@ -27,7 +27,17 @@ Odms::Application.configure do
 
 	# Log the query plan for queries taking more than this (works
 	# with SQLite, MySQL, and PostgreSQL)
-	config.active_record.auto_explain_threshold_in_seconds = 0.5
+#
+#	This is really irritating.  Any query that takes longer than this
+#	will raise the following error and stopping everything.
+#		undefined method `explain' for #<ActiveRecord::ConnectionAdapters::MysqlAdapter
+#	The error apparently comes from the common mysql adapter 
+#	NOT having an explain method.  Some recommend installing
+#	the mysql2 adapter. Commenting out for now.
+#
+#	ZipCode.destroy_all or others will take more than 0.5 seconds.
+#
+#	config.active_record.auto_explain_threshold_in_seconds = 0.5
 
 	# Do not compress assets
 	config.assets.compress = false
