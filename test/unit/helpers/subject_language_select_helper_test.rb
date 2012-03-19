@@ -2,21 +2,12 @@ require 'test_helper'
 
 class SubjectLanguageSelectHelperTest < ActionView::TestCase
 
-#	Don't quite understand why I don't need this here, but I do in ccls_engine form helper tests.
-#		f.instance_variable_set('@template',ActionView::Base.new)	#	fake the funk
-#	Both define the methods the same.  The only difference is that there are form builder and helper methods of the same name.
-
 #	These tests are VERY specific and even minor changes to the method or even
 #	in rails' helper methods will require updates or corrections.
 
 	test "subject_languages_select" do
 		@study_subject = Factory(:study_subject)
-#		form_for(@study_subject,:url => '/'){|f| 
-#<form action="/" class="edit_study_subject" id="edit_study_subject_7" method="post">
-#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-#			concat f.subject_languages_select() }
 		output_buffer = form_for(@study_subject,:url => '/'){|f| f.subject_languages_select() }
-#			expected = %{<form action="/" method="post"><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
 			expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
 <div id='languages'>
 <div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="english_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
@@ -41,11 +32,8 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 
 	test "subject_languages_select English, Spanish" do
 		@study_subject = Factory(:study_subject)
-#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-#			concat f.subject_languages_select([Language['english'],Language['spanish']]) }
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish']]) }
-#		expected = %{<form action="/" method="post"><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
 <div id='languages'>
 <div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="english_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
@@ -62,11 +50,8 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 
 	test "subject_languages_select English, Spanish, Other" do
 		@study_subject = Factory(:study_subject)
-#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-#			concat f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
-#		expected = %{<form action="/" method="post"><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
 <div id='languages'>
 <div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="english_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
@@ -91,11 +76,12 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 			'0' => { :language_id => Language['english'].id } } )
 		subject_language_id = @study_subject.subject_language_ids.first	#	this can vary so cannot assume that it will be 1
 #
-#	TODO where is subject_language_id?  Does this still work?
+#	TODO where is subject_language_id?  Does this still work? No, it doesn't.  Now it does.
 #
 pending
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
+puts output_buffer
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
 <div id='languages'>
 <div class='subject_language destroyer'><input id="study_subject_subject_languages_attributes_0_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="1" /><input name="study_subject[subject_languages_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" id="english__destroy" name="study_subject[subject_languages_attributes][0][_destroy]" type="checkbox" value="0" />
@@ -120,11 +106,10 @@ pending
 			'0' => { :language_id => Language['other'].id, :other_language => 'redneck' } } )
 		subject_language_id = @study_subject.subject_language_ids.first	#	this can vary so cannot assume that it will be 1
 
-#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-#			concat f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
-#		expected = %{<form action="/" method="post"><input id="study_subject_subject_languages_attributes_2_id" name="study_subject[subject_languages_attributes][2][id]" type="hidden" value="#{subject_language_id}" /><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
+puts output_buffer
+
 #
 #	TODO where'd the subject_language_id go??
 #	TODO where is subject_language_id?  Does this still work?

@@ -2,19 +2,12 @@ require 'test_helper'
 
 class SubjectRaceSelectHelperTest < ActionView::TestCase
 
-#	Don't quite understand why I don't need this here, but I do in ccls_engine form helper tests.
-#		f.instance_variable_set('@template',ActionView::Base.new)	#	fake the funk
-#	Both define the methods the same.  The only difference is that there are form builder and helper methods of the same name.
-
 #	These tests are VERY specific and even minor changes to the method or even
 #	in rails' helper methods will require updates or corrections.
 
 	test "subject_races_select" do
 		@study_subject = Factory(:study_subject)
-#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-#			concat f.subject_races_select() }
 		output_buffer = form_for(@study_subject,:url => '/'){|f| f.subject_races_select() }
-#		expected = %{<form action="/" method="post"><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'White, Non-Hispanic' as the subject's PRIMARY race" type="checkbox" value="1" />
@@ -52,18 +45,11 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 </form>}
 		assert_equal expected, output_buffer
 	end
-#<div class='subject_race creator'><input name="study_subject[subject_races_attributes][4][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][4][is_primary]" title="Set 'Other' as the subject's PRIMARY race" type="checkbox" value="1" />
-#<input name="study_subject[subject_races_attributes][4][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][4][race_id]" title="Set 'Other' as one of the subject's race(s)" type="checkbox" value="5" />
-#<label for="other_race_id">Other</label>
-#</div>
 
 	test "subject_races_select Black,White" do
 		@study_subject = Factory(:study_subject)
-#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-#			concat f.subject_races_select([Race['black'],Race['white']]) }
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select([Race['black'],Race['white']]) }
-#		expected = %{<form action="/" method="post"><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="black_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'Black / African American' as the subject's PRIMARY race" type="checkbox" value="1" />
@@ -84,15 +70,13 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		@study_subject = Factory(:study_subject,:subject_races_attributes => {
 			'0' => { :race_id => Race['white'].id } } )
 		subject_race_id = @study_subject.subject_race_ids.first	#	this can vary so cannot assume that it will be 1
-#		form_for(:study_subject,@study_subject,:url => '/'){|f| 
-#			concat f.subject_races_select([Race['black'],Race['white']]) }
 #
 #	TODO where is subject_race_id?
 #
 pending
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select([Race['black'],Race['white']]) }
-#		expected = %{<form action="/" method="post"><input id="study_subject_subject_races_attributes_1_id" name="study_subject[subject_races_attributes][1][id]" type="hidden" value="#{subject_race_id}" /><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+puts output_buffer
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="black_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'Black / African American' as the subject's PRIMARY race" type="checkbox" value="1" />
@@ -109,11 +93,16 @@ pending
 		assert_equal expected, output_buffer
 	end
 
-	test "subject_races_select Black,White with Other" do
+	test "subject_races_select Black,White,Other with Other" do
 		@study_subject = Factory(:study_subject,:subject_races_attributes => {
 			'0' => { :race_id => Race['other'].id, :other_race => "otherrace" } } )
 		subject_race_id = @study_subject.subject_race_ids.first	#	this can vary so cannot assume that it will be 1
 pending
+		output_buffer = form_for(@study_subject,:url => '/'){|f| 
+			f.subject_races_select([Race['black'],Race['white'],Race['other']]) }
+puts output_buffer
+		expected = %{}
+#		assert_equal expected, output_buffer
 	end
 
 end

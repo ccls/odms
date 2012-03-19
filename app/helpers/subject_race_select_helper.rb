@@ -26,27 +26,28 @@ module SubjectRaceSelectHelper
 #	TODO fields_for is what would generate the id field (I think)
 #	gotta figure out how to get it back in there
 
-			self.fields_for( :subject_races, sr ) do |sr_fields|
-#			s << self.fields_for( :subject_races, sr ) do |sr_fields|
-				s << "<div id='other_race'>" if( race.is_other? )
+			s << self.fields_for( :subject_races, sr ) do |sr_fields|
+				srf = ''
+				srf << "<div id='other_race'>" if( race.is_other? )
 
 #				s << sr_fields.check_box(:is_primary, {}, true, false)
 #	default id="study_subject_subject_races_attributes_0_is_primary"
 #	default class=nil
 #					:id => "#{@template.dom_id(race)}_is_primary", 
 
-				s << sr_fields.check_box(:is_primary, { 
+				srf << sr_fields.check_box(:is_primary, { 
 					:id => "#{race.key}_is_primary",	#	other_is_primary
 					:class => 'is_primary_selector',
 					:title => "Set '#{race}' as the subject's PRIMARY race" } ) << "\n"
 
 				if sr.id.nil?	#	not currently existing subject_race
-					s << sr_fields.subject_race_creator(sr_built_or_exists)
+					srf << sr_fields.subject_race_creator(sr_built_or_exists)
 				else	#	race exists, this is for possible destruction
-					s << sr_fields.subject_race_destroyer(!sr.marked_for_destruction?)
+					srf << sr_fields.subject_race_destroyer(!sr.marked_for_destruction?)
 				end
-				s << sr_fields.specify_other_race() if race.is_other?
-				s << "</div>"	if( race.is_other? ) # id='other_race'>" 
+				srf << sr_fields.specify_other_race() if race.is_other?
+				srf << "</div>"	if( race.is_other? ) # id='other_race'>" 
+				srf.html_safe
 			end
 
 			s << "</div>\n"	# class='subject_race'>"

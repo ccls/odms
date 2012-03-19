@@ -27,16 +27,18 @@ module SubjectLanguageSelectHelper
 # gotta figure out how to get it back in there
 
 
-			self.fields_for( :subject_languages, sl ) do |sl_fields|
-				s << "<div id='other_language'>" if( l.is_other? )
+			s << self.fields_for( :subject_languages, sl ) do |sl_fields|
+				srl = ''
+				srl << "<div id='other_language'>" if( l.is_other? )
 
 				if sl.id.nil?	#	not currently existing subject_language
-					s << sl_fields.subject_language_creator(sl_built_or_exists)
+					srl << sl_fields.subject_language_creator(sl_built_or_exists)
 				else	#	language exists, this is for possible destruction
-					s << sl_fields.subject_language_destroyer(!sl.marked_for_destruction?)
+					srl << sl_fields.subject_language_destroyer(!sl.marked_for_destruction?)
 				end
-				s << sl_fields.specify_other_language() if l.is_other?
-				s << "</div>"	if( l.is_other? ) # id='other_language'>" 
+				srl << sl_fields.specify_other_language() if l.is_other?
+				srl << "</div>"	if( l.is_other? ) # id='other_language'>" 
+				srl.html_safe
 			end
 			s << "</div>\n"	# class='subject_language'>"
 		end
