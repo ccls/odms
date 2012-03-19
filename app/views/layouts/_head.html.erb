@@ -11,7 +11,8 @@
 	'common_lib','base/jquery.ui.all.css' %>
 <%#= javascript_include_tag :ccls,'common_lib' %>
 <%# No more :ccls javascript expansion %>
-<%= javascript_include_tag 'jquery','jquery-ui','jrails','application','common_lib' %>
+<%#= javascript_include_tag 'jquery','jquery-ui','jrails','application','common_lib' %>
+<%= javascript_include_tag 'jquery','jquery-ui','jrails','application' %>
 <%= yield :head %>
 <% unless Rails.env.test? %>
 <script type="text/javascript">

@@ -119,6 +119,7 @@ th {
 	width: 250px;
 }
 
+form.destroy_link_to div,
 form.destroy_link_to {
 	display:inline;
 }

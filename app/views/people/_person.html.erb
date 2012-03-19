@@ -13,7 +13,7 @@
  </td>
  <td class='manage'>
   <%= link_to( 'Edit', edit_person_path(person), :class => 'button' ) %>&nbsp;
-  <% destroy_link_to 'Destroy', person_path(person) do %>
+  <%= destroy_link_to 'Destroy', person_path(person) do %>
    <%= hidden_field_tag 'confirm', "Destroy person '#{person}'?", :id => nil %>
   <% end %>
  </td>

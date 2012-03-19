@@ -9,5 +9,4 @@
 </tbody></table>
 
 <p>Development Only</p>
-<%= destroy_link_to 'Destroy', 
-	study_subject_home_exposure_response_path(@study_subject) %>
+<%= button_to( 'Destroy', study_subject_home_exposure_response_path(@study_subject), :method => 'delete', :form_class => 'destroy_link_to' ) %>

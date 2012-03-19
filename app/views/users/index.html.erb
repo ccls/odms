@@ -16,7 +16,7 @@
 <% end %>
 </td>
 <td class='manage'>
-<%= destroy_link_to( 'Destroy', user_path(user) ) %>
+<%= button_to( 'Destroy', user_path(user), :method => 'delete', :form_class => 'destroy_link_to' ) %>
 </td>
 </tr>
 <% end %>

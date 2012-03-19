@@ -10,7 +10,7 @@
  </td>
  <td class='manage'>
   <%= link_to( "Edit", edit_page_path(child), :class => 'button' 
-	)-%>&nbsp;<% 
+	)-%>&nbsp;<%= 
 	destroy_link_to "Destroy", page_path(child) do %>
    <%= hidden_field_tag 'confirm', "Destroy page '#{child}'?",
     :id => nil %>

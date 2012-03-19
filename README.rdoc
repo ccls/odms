@@ -40,6 +40,11 @@ Will have to compare error message with match or something.
 No more ActiveRecord::Error so need to do something in my validation.
 
 
+* change all of my form_link_to's to button_to's
+
+
+
+
 
 
 
@@ -73,9 +78,8 @@ No more ActiveRecord::Error so need to do something in my validation.
 
 * gonna need to figure out this SSL thing so that all environments work
 
-* change all of my form_link_to's to button_to's
-
 * change all of my destroy_link_to's to button_to's (think that I have some javascript attached to these so add class-'destroy_link_to')
+  * don't know if i can as button_to doesn't accept hidden field parameters
 
 * paths not available in new helper tests?? ( so commented out those tests )
   * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
@@ -121,6 +125,8 @@ No more ActiveRecord::Error so need to do something in my validation.
 * reenable raising mass assignment error in environments/test.rb
 
 *	get acts_as_list working (actually seems to work fine.  tests don't though)
+  * include acts_as_list functionality
+  * don't really use acts_as_list functionality much
 
 
 
@@ -213,11 +219,15 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
   * => "can't be blank"
 
 
-* include acts_as_list functionality
 
 * surprised my home computer tested without a config/api.yml ??
 
+* merge all previously separate css files
+  * ccls_engine
+  * common_lib
 
+
+* re-enable ccls-html_test for validation (incompatible with rails 3?)
 
 
 

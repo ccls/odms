@@ -7,7 +7,7 @@
  </td>
  <td class='manage'>
   <%= link_to( 'Edit', edit_document_version_path(document_version),
-   :class => 'button' ) %>&nbsp;<% 
+   :class => 'button' ) %>&nbsp;<%= 
   destroy_link_to 'Destroy', document_version_path(document_version) do %>
     <%= hidden_field_tag 'confirm', 
       "Destroy document_version '#{document_version}'?", :id => nil %>

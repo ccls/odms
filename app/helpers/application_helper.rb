@@ -472,7 +472,6 @@ module ApplicationHelper
 #	TODO replace me with button_to calls
 #	Can't remove until destroy_link_to is gone
 	def form_link_to( title, url, options={}, &block )
-#			"action='#{url}' " <<
 		extra_tags = extra_tags_for_form(options)
 		s =  "\n" <<
 			"<form " <<
@@ -483,11 +482,7 @@ module ApplicationHelper
 		s << (( block_given? )? capture(&block) : '')
 		s << submit_tag(title, :name => nil ) << "\n" <<
 			"</form>\n"
-#			if block_called_from_erb?(block)
-#				concat(s)
-#			else
-			s
-#			end
+		s.html_safe
 	end
 
 #	TODO replace me with button_to calls

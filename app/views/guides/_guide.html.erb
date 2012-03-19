@@ -4,7 +4,7 @@
  <td class='manage'>
   <%= link_to( "View", guide_path(guide), :class => 'button' ) -%>&nbsp;
   <%= link_to( "Edit", edit_guide_path(guide), :class => 'button' ) -%>&nbsp;
-  <% destroy_link_to "Destroy", guide_path(guide) do %>
+  <%= destroy_link_to "Destroy", guide_path(guide) do %>
    <%= hidden_field_tag 'confirm', "Destroy guide '#{guide}'?", :id => nil %>
   <% end %>
  </td>
