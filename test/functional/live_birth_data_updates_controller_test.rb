@@ -32,7 +32,9 @@ puts csv_test_file_name
 puts File.exists?(csv_test_file_name)
 			assert_difference('LiveBirthDataUpdate.count',1) {
 				post :create, :live_birth_data_update => {
-					:csv_file => File.open(csv_test_file_name)
+#					:csv_file => File.open(csv_test_file_name)
+					:csv_file => ActionDispatch::Http::UploadedFile.new(
+						:tempfile => File.open(csv_test_file_name) )
 				}
 			}
 #			assert_not_nil assigns(:live_birth_data_update).csv_file_file_name	#	duplicate
@@ -59,7 +61,11 @@ puts csv_test_file_name
 puts File.exists?(csv_test_file_name)
 			assert_difference('LiveBirthDataUpdate.count',0) {
 				put :update, :id => live_birth_data_update.id, :live_birth_data_update => {
-					:csv_file => File.open(csv_test_file_name)
+#					:csv_file => File.open(csv_test_file_name)
+#	just doesn't seem to upload. works perfectly in console
+#	but not with post and put in a functional test??
+					:csv_file => ActionDispatch::Http::UploadedFile.new(
+						:tempfile => File.open(csv_test_file_name) )
 				}
 			}
 			live_birth_data_update.reload

@@ -148,6 +148,13 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 
 * gonna need to figure out this SSL thing so that all environments work
+  * I may not need to do anything except remove stuff
+  * production server forces https
+  * adding config.force_ssl to application.rb is supposed to do this
+  * then I can remove all kinds of stuff
+
+
+
 
 * paths not available in new helper tests?? ( so commented out those tests )
   * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>

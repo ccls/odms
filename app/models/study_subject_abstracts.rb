@@ -28,6 +28,7 @@ base.class_eval do
 		:conditions => [ "merged_by_uid IS NULL" ]
 
 	def abstracts_the_same?
+puts "abstracts_count:#{abstracts_count}:"
 		raise StudySubject::NotTwoAbstracts unless abstracts_count == 2
 		#	abstracts.inject(:is_the_same_as?) was nice
 		#	but using inject is ruby >= 1.8.7
@@ -35,6 +36,7 @@ base.class_eval do
 	end
 
 	def abstract_diffs
+puts "abstracts_count:#{abstracts_count}:"
 		raise StudySubject::NotTwoAbstracts unless abstracts_count == 2
 		#	abstracts.inject(:diff) was nice
 		#	but using inject is ruby >= 1.8.7

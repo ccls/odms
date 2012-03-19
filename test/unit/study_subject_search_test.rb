@@ -168,14 +168,17 @@ class StudySubjectSearchTest < ActiveSupport::TestCase
 	test "should include study_subject by project indifferent completed" do
 		e1 = Factory(:enrollment, :completed_on => nil,
 			:is_complete => YNDK[:no])
+puts e1.errors.inspect
 		e2 = Factory(:enrollment, :completed_on => Time.now,
 			:is_complete => YNDK[:yes],
 			:project => e1.project )
+puts e2.errors.inspect
 		study_subjects = StudySubject.search(:projects => {
 			e1.project.id => { :completed => [true,false] }
 		})
 		assert study_subjects.include?(e1.study_subject)
 		assert study_subjects.include?(e2.study_subject)
+pending
 	end
 
 	test "should include study_subject by project not completed" do
@@ -194,14 +197,17 @@ class StudySubjectSearchTest < ActiveSupport::TestCase
 	test "should include study_subject by project is completed" do
 		e1 = Factory(:enrollment, :completed_on => nil,
 			:is_complete => YNDK[:no])
+puts e1.errors.inspect
 		e2 = Factory(:enrollment, :completed_on => Time.now,
 			:is_complete => YNDK[:yes],
 			:project => e1.project )
+puts e2.errors.inspect
 		study_subjects = StudySubject.search(:projects => {
 			e1.project.id => { :completed => true }
 		})
 		assert !study_subjects.include?(e1.study_subject)
 		assert  study_subjects.include?(e2.study_subject)
+pending
 	end
 
 	test "should include study_subject by project indifferent closed" do
@@ -228,13 +234,16 @@ class StudySubjectSearchTest < ActiveSupport::TestCase
 
 	test "should include study_subject by project is closed" do
 		e1 = Factory(:enrollment, :is_closed => false)
+puts e1.errors.inspect
 		e2 = Factory(:enrollment, :is_closed => true,
 			:project => e1.project )
+puts e2.errors.inspect
 		study_subjects = StudySubject.search(:projects => {
 			e1.project.id => { :closed => true }
 		})
 		assert !study_subjects.include?(e1.study_subject)
 		assert  study_subjects.include?(e2.study_subject)
+pending
 	end
 
 	test "should include study_subject by project indifferent terminated" do
@@ -409,8 +418,10 @@ puts study_subject.inspect
 	test "should include study_subject by project is eligible" do
 		e1 = Factory(:enrollment, :is_eligible => YNDK[:no],
 			:ineligible_reason_id => IneligibleReason.first.id)
+puts e1.errors.inspect
 		e2 = Factory(:enrollment, :is_eligible => YNDK[:yes],
 			:project => e1.project )
+puts e2.errors.inspect
 		study_subjects = StudySubject.search(:projects => {
 			e1.project.id => { :eligible => true }
 		})

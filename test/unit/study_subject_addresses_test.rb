@@ -5,16 +5,13 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 	assert_should_have_many(:addressings, :model => 'StudySubject')
 
 	test "should create study_subject and accept_nested_attributes_for addressings" do
-pending
 		assert_difference( 'Address.count', 1) {
 		assert_difference( 'Addressing.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
 					:address_attributes => Factory.attributes_for(:address,
-					:address_type => AddressType['residence'] ) )])
-puts study_subject.inspect
-puts study_subject.errors.inspect
+					:address_type_id => AddressType['residence'].id ) )])
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
@@ -26,7 +23,7 @@ puts study_subject.errors.inspect
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
-					:address_attributes => { :address_type => AddressType['residence'] } )])
+					:address_attributes => { :address_type_id => AddressType['residence'].id } )])
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
@@ -39,7 +36,7 @@ puts study_subject.errors.inspect
 			study_subject = create_study_subject(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
 					:address_required   => true,
-					:address_attributes => { :address_type => AddressType['residence'] } )])
+					:address_attributes => { :address_type_id => AddressType['residence'].id } )])
 			assert study_subject.errors.matching?('addressings.address.line_1',"can't be blank")
 			assert study_subject.errors.matching?('addressings.address.city',"can't be blank")
 			assert study_subject.errors.matching?('addressings.address.state',"can't be blank")
@@ -48,21 +45,18 @@ puts study_subject.errors.inspect
 	end
 
 	test "should respond to residence_addresses_count" do
-pending
 		study_subject = create_study_subject
 		assert study_subject.respond_to?(:residence_addresses_count)
 		assert_equal 0, study_subject.residence_addresses_count
 		study_subject.update_attributes(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
 					:address_attributes => Factory.attributes_for(:address,
-					{ :address_type => AddressType['residence'] } ))])
-puts study_subject.inspect
-puts study_subject.errors.inspect
+					{ :address_type_id => AddressType['residence'].id } ))])
 		assert_equal 1, study_subject.reload.residence_addresses_count
 		study_subject.update_attributes(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
 					:address_attributes => Factory.attributes_for(:address,
-					{ :address_type => AddressType['residence'] } ))])
+					{ :address_type_id => AddressType['residence'].id } ))])
 		assert_equal 2, study_subject.reload.residence_addresses_count
 	end
 

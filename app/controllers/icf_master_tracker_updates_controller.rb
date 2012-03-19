@@ -50,6 +50,7 @@ class IcfMasterTrackerUpdatesController < ApplicationController
 	# POST /icf_master_tracker_updates
 	# POST /icf_master_tracker_updates.xml
 	def create
+puts "in controller#create"
 puts params[:icf_master_tracker_update].inspect
 		@icf_master_tracker_update = IcfMasterTrackerUpdate.new(params[:icf_master_tracker_update])
 
@@ -80,6 +81,7 @@ puts params[:icf_master_tracker_update].inspect
 	# PUT /icf_master_tracker_updates/1
 	# PUT /icf_master_tracker_updates/1.xml
 	def update
+puts "in controller#update"
 puts params[:icf_master_tracker_update].inspect
 	#	@icf_master_tracker_update = IcfMasterTrackerUpdate.find(params[:id])
 
