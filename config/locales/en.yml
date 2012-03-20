@@ -13,10 +13,20 @@ en:
         dob: "Date of birth"
     errors:
       models:
+#        address:
+#          attributes:
+#            zip:
+#              invalid: "should be formatted ##### or #####-####"
+#        patient:
+#          attributes:
+#            raf_zip:
+#              invalid: "should be formatted ##### or #####-####"
         study_subject:
           attributes:
             sex:
               blank: "has not been chosen"
+            ssn:
+              invalid: "should be formatted ###-##-####"
 
 #	how to have custom full messages NOT in the format "%{attribute} %{message}"
 # No attribute, just message?  Message with attribute in the middle?
