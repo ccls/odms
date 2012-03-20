@@ -18,14 +18,10 @@ class Page < ActiveRecord::Base
 	acts_as_list :scope => :parent_id
 #	acts_as_list :scope => "parent_id \#{(parent_id.nil?)?'IS NULL':'= parent_id'} AND locale = '\#{locale}'"
 
-#	validates_presence_of :path
 	validates_length_of :path,  :minimum => 1
 	validates_format_of :path,  :with => /^\//, :allow_blank => true
-#	validates_presence_of :menu_en
 	validates_length_of :menu_en,  :minimum => 4
-#	validates_presence_of :title_en
 	validates_length_of :title_en, :minimum => 4
-#	validates_presence_of :body_en
 	validates_length_of :body_en,  :minimum => 4
 	validates_uniqueness_of :menu_en
 	validates_uniqueness_of :path
@@ -41,12 +37,6 @@ class Page < ActiveRecord::Base
 		:hide_menu => true }
 
 	scope :not_home, :conditions => [ "path != '/'" ]
-
-#	Why did I have this?
-#	attr_accessible :path, :parent_id, :hide_menu,
-#		:menu,  :menu_en,  :menu_es, 
-#		:title, :title_en, :title_es,
-#		:body,  :body_en,  :body_es
 
 	before_validation :adjust_path
 
@@ -112,20 +102,5 @@ class Page < ActiveRecord::Base
 	def body=(new_body)
 		self.body_en = new_body
 	end
-
-#	#	Virtual attributes
-#	%w( menu title body ).each do |attr|
-#		define_method "#{attr}" do |*args|
-#			r = send("#{attr}_#{args[0]||'en'}")
-#			(r.blank?) ? send("#{attr}_en") : r
-#		end
-#		define_method "#{attr}=" do |new_val|
-#			self.send("#{attr}_en=",new_val)
-#		end
-##		attr_accessible attr.to_sym
-##		%w( en es ).each do |lang|
-##			attr_accessible "#{attr}_#{lang}".to_sym
-##		end
-#	end
 
 end

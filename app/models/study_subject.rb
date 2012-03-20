@@ -62,7 +62,6 @@ class StudySubject < ActiveRecord::Base
 	validates_presence_of :subject_type_id
 	validates_presence_of :subject_type, :if => :subject_type_id
 
-#	validate :presence_of_sex
 	validates_presence_of  :sex
 	validates_inclusion_of :sex, :in => %w( M F DK ), :allow_blank => true
 #	validates_inclusion_of :sex, :in => valid_sex_values, :allow_blank => true
@@ -70,7 +69,6 @@ class StudySubject < ActiveRecord::Base
 
 	validates_complete_date_for :reference_date, :allow_nil => true
 
-#	validate :presence_of_dob, :unless => :is_mother?
 	validates_presence_of :dob, :unless => :is_mother?
 #	changed from allow_nil to allow_blank
 	validates_complete_date_for :dob, :allow_blank => true
@@ -90,8 +88,6 @@ class StudySubject < ActiveRecord::Base
 		:allow_blank => true
 
 	validate :presence_of_other_guardian_relationship
-#	validate :presence_of_other_guardian_relationship,
-#		:if => :guardian_relationship_is_other?
 
 	validates_presence_of :birth_city,
 		:if => :birth_country_is_united_states?
@@ -102,8 +98,9 @@ class StudySubject < ActiveRecord::Base
 
 	validates_length_of     :ssn, :maximum => 250, :allow_nil => true
 	validates_uniqueness_of :ssn, :allow_nil => true
-	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
-		:message => "should be formatted ###-##-####", :allow_nil => true
+#	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
+#		:message => "should be formatted ###-##-####", :allow_nil => true
+	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/, :allow_nil => true
 
  	validates_length_of :birth_year, 
 			:maximum => 4, :allow_blank => true
@@ -228,18 +225,6 @@ class StudySubject < ActiveRecord::Base
 
 protected
 
-#	# custom validation for custom message without standard attribute prefix
-#	def presence_of_sex
-#		if sex.blank?
-##	TODO Rails 3 difference breaks my custom error messages without
-##				field name prefix in message!!!!
-##			errors.add(:sex, ActiveRecord::Error.new(
-##				self, :base, :blank, {
-##					:message => "No sex has been chosen." } ) )
-#			errors.add(:sex, "No sex has been chosen." )
-#		end
-#	end
-
 	def birth_country_is_united_states?
 		birth_country == 'United States'
 	end
@@ -257,19 +242,6 @@ protected
 					"You must specify a relationship with 'other relationship' is selected." )
 		end
 	end
-
-	#	custom validation for custom message without standard attribute prefix
-#	custom attribute name in config/locales
-#	def presence_of_dob
-#		if dob.blank?
-#	TODO Rails 3 difference breaks my custom error messages without
-#				field name prefix in message!!!!
-#			errors.add(:dob, ActiveRecord::Error.new(
-#				self, :base, :blank, { 
-#					:message => "Date of birth can't be blank." } ) )
-#			errors.add(:dob, "Date of birth can't be blank." )
-#		end
-#	end
 
 	#	Use these to stop the constant checking.
 	def self.subject_type_mother_id

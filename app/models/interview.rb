@@ -29,8 +29,6 @@ class Interview < ActiveRecord::Base
 	validates_length_of :respondent_last_name,       :maximum => 250, :allow_blank => true
 
 	validate :presence_of_other_subject_relationship
-#	validate :presence_of_other_subject_relationship,
-#		:if => :subject_relationship_is_other?
 
 	validates_absence_of :other_subject_relationship,
 		:message => "not allowed",

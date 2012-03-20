@@ -112,13 +112,7 @@ protected
 	end
 
 	def update_sample_outcome
-
-
 		if study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-#		if enrollment.project_id == Project['HomeExposures'].id
-#			study_subject = enrollment.study_subject
-
-
 			ho = study_subject.homex_outcome || study_subject.create_homex_outcome
 			so,date = if sent_to_lab_on_changed? && !sent_to_lab_on.nil?
 				[SampleOutcome['lab'], sent_to_lab_on ]
