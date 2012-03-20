@@ -108,22 +108,6 @@ class User < ActiveRecord::Base
 #		document
 #	end
 
-#	def self.search(options={})
-#		conditions = {}
-#		includes = joins = []
-#		if !options[:role_name].blank?
-#			includes = [:roles]
-#			if Role.all.collect(&:name).include?(options[:role_name])
-#				joins = [:roles]
-#				conditions = ["roles.name = ?",options[:role_name]]
-#			end 
-#		end 
-#		self.all( 
-#			:joins => joins, 
-#			:include => includes,
-#			:conditions => conditions )
-#	end 
-
 	#	Find or Create a user from a given uid, and then 
 	#	proceed to update the user's information from the 
 	#	UCB::LDAP::Person.find_by_uid(uid) response.
