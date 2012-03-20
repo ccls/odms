@@ -87,7 +87,6 @@ pending
 <label for="white__destroy">White, Non-Hispanic</label>
 <input id="study_subject_subject_races_attributes_1_id" name="study_subject[subject_races_attributes][1][id]" type="hidden" value="#{subject_race_id}" /></div>
 </div>
-</div>
 </div><!-- study_subject_races -->
 </form>}
 		assert_equal expected, output_buffer
