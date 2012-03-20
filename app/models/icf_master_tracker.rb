@@ -19,9 +19,8 @@ class IcfMasterTracker < ActiveRecord::Base
 	before_save :flag_for_update
 	before_save :save_all_changes
 
-	scope :have_changed, :conditions => {
-		:flagged_for_update => true
-	}
+#	scope :have_changed, :conditions => { :flagged_for_update => true }
+	scope :have_changed, where( :flagged_for_update => true )
 
 	#	This may not be the best way to update.
 	#	We may have to implement something like BackgrounDRb.

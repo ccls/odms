@@ -17,11 +17,10 @@ class Sample < ActiveRecord::Base
 	has_one :sample_kit
 	accepts_nested_attributes_for :sample_kit
 
-	scope :pending, :conditions => {
-		:received_by_ccls_at => nil }
-		
-	scope :collected, :conditions => [
-		'received_by_ccls_at IS NOT NULL' ]
+#	scope :pending, :conditions => { :received_by_ccls_at => nil }
+#	scope :collected, :conditions => [ 'received_by_ccls_at IS NOT NULL' ]
+	scope :pending,   where( :received_by_ccls_at => nil )
+	scope :collected, where( 'received_by_ccls_at IS NOT NULL' )
 
 	validates_presence_of :sample_type_id
 	validates_presence_of :sample_type, :if => :sample_type_id
@@ -30,7 +29,7 @@ class Sample < ActiveRecord::Base
 	validates_presence_of :project_id
 	validates_presence_of :project, :if => :project_id
 
-#	validates_length_of   :state, :maximum => 250, :allow_blank => true
+	validates_length_of   :state, :maximum => 250, :allow_blank => true
 
 #	gonna need custom messages here
 #	gonna be a problems as sent to subject on NOT on receive sample on

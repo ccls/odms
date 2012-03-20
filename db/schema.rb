@@ -1,10 +1,11 @@
-# This file is auto-generated from the current state of the database. Instead of editing this file, 
-# please use the migrations feature of Active Record to incrementally modify your database, and
-# then regenerate this schema definition.
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your database schema. If you need
-# to create the application database on another system, you should be using db:schema:load, not running
-# all the migrations from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# Note that this schema.rb definition is the authoritative source for your
+# database schema. If you need to create the application database on another
+# system, you should be using db:schema:load, not running all the migrations
+# from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended to check this file into your version control system.
@@ -57,10 +58,10 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "response_marrow_lambda_day_7"
     t.integer  "cbc_report_found"
     t.date     "cbc_report_on"
-    t.integer  "cbc_white_blood_count",                      :limit => 10,  :precision => 10, :scale => 0
+    t.decimal  "cbc_white_blood_count",                                     :precision => 10, :scale => 0
     t.integer  "cbc_percent_blasts"
     t.integer  "cbc_number_blasts"
-    t.integer  "cbc_hemoglobin_level",                       :limit => 10,  :precision => 10, :scale => 0
+    t.decimal  "cbc_hemoglobin_level",                                      :precision => 10, :scale => 0
     t.integer  "cbc_platelet_count"
     t.integer  "cerebrospinal_fluid_report_found"
     t.date     "csf_report_on"
@@ -355,16 +356,16 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "entry_2_by_uid"
     t.string   "merged_by_uid"
     t.date     "discharge_summary_found_on"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                                                                                  :null => false
+    t.datetime "updated_at",                                                                                                  :null => false
   end
 
   create_table "address_types", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "address_types", ["key"], :name => "index_address_types_on_key", :unique => true
@@ -381,8 +382,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "county"
     t.string   "unit"
     t.string   "country"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   add_index "addresses", ["external_address_id"], :name => "index_addresses_on_external_address_id", :unique => true
@@ -402,8 +403,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "verified_by_uid"
     t.integer  "data_source_id"
     t.string   "other_data_source"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
   add_index "addressings", ["address_id"], :name => "index_addressings_on_address_id"
@@ -413,8 +414,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "aliquot_sample_formats", ["description"], :name => "index_aliquot_sample_formats_on_description", :unique => true
@@ -430,8 +431,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "mass"
     t.string   "external_aliquot_id"
     t.string   "external_aliquot_id_source"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   add_index "aliquots", ["aliquot_sample_format_id"], :name => "index_aliquots_on_aliquot_sample_format_id"
@@ -449,8 +450,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.date     "analytic_file_last_pulled_date"
     t.string   "analytic_file_location"
     t.string   "analytic_file_filename"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   add_index "analyses", ["key"], :name => "index_analyses_on_key", :unique => true
@@ -469,8 +470,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "status"
     t.text     "notes"
     t.string   "request_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "candidate_controls", :force => true do |t|
@@ -502,15 +503,15 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.date     "mother_dob"
     t.integer  "mom_is_biomom"
     t.integer  "dad_is_biodad"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
   end
 
   create_table "context_data_sources", :force => true do |t|
     t.integer  "context_id"
     t.integer  "data_source_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "contexts", :force => true do |t|
@@ -518,8 +519,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",         :null => false
     t.string   "description"
     t.text     "notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "contexts", ["description"], :name => "index_contexts_on_description", :unique => true
@@ -529,8 +530,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "name"
     t.string   "fips_code",    :limit => 5
     t.string   "state_abbrev", :limit => 2
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   add_index "counties", ["state_abbrev"], :name => "index_counties_on_state_abbrev"
@@ -544,8 +545,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "other_organization"
     t.integer  "person_id"
     t.string   "other_person"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   add_index "data_sources", ["key"], :name => "index_data_sources_on_key", :unique => true
@@ -555,8 +556,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",         :null => false
     t.integer  "code",        :null => false
     t.string   "description", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "diagnoses", ["code"], :name => "index_diagnoses_on_code", :unique => true
@@ -567,8 +568,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "title"
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "document_versions", :force => true do |t|
@@ -580,8 +581,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "language_id"
     t.date     "began_use_on"
     t.date     "ended_use_on"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "enrollments", :force => true do |t|
@@ -619,8 +620,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "receive_study_findings"
     t.boolean  "refused_by_physician"
     t.boolean  "refused_by_family"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
   add_index "enrollments", ["project_id", "study_subject_id"], :name => "index_enrollments_on_project_id_and_study_subject_id", :unique => true
@@ -629,8 +630,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "follow_up_types", ["key"], :name => "index_follow_up_types_on_key", :unique => true
@@ -641,8 +642,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "follow_up_type_id", :null => false
     t.date     "completed_on"
     t.string   "completed_by_uid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "gift_cards", :force => true do |t|
@@ -652,8 +653,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "expiration",       :limit => 25
     t.string   "vendor"
     t.string   "number",                         :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   add_index "gift_cards", ["number"], :name => "index_gift_cards_on_number", :unique => true
@@ -662,8 +663,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "controller"
     t.string   "action"
     t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "guides", ["controller", "action"], :name => "index_guides_on_controller_and_action", :unique => true
@@ -792,8 +793,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.boolean  "consent_read_over_phone"
     t.boolean  "respondent_requested_new_consent"
     t.boolean  "consent_reviewed_with_respondent"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   add_index "home_exposure_responses", ["study_subject_id"], :name => "index_home_exposure_responses_on_study_subject_id", :unique => true
@@ -805,8 +806,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.date     "sample_outcome_on"
     t.integer  "interview_outcome_id"
     t.date     "interview_outcome_on"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   add_index "homex_outcomes", ["study_subject_id"], :name => "index_homex_outcomes_on_study_subject_id", :unique => true
@@ -815,8 +816,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.integer  "organization_id"
     t.boolean  "has_irb_waiver",  :default => false, :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   add_index "hospitals", ["organization_id"], :name => "index_hospitals_on_organization_id"
@@ -825,8 +826,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "icf_master_id",    :limit => 9
     t.date     "assigned_on"
     t.integer  "study_subject_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   add_index "icf_master_ids", ["icf_master_id"], :name => "index_icf_master_ids_on_icf_master_id", :unique => true
@@ -839,15 +840,15 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "modified_column"
     t.string   "previous_value"
     t.string   "new_value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
   end
 
   add_index "icf_master_tracker_changes", ["icf_master_id"], :name => "index_icf_master_tracker_changes_on_icf_master_id"
 
   create_table "icf_master_tracker_updates", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
     t.string   "csv_file_file_name"
     t.string   "csv_file_content_type"
     t.integer  "csv_file_file_size"
@@ -899,8 +900,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "Thankyousent"
     t.string   "Physrequestsent"
     t.string   "Physresponsereceived"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
   end
 
   add_index "icf_master_trackers", ["Masterid"], :name => "index_icf_master_trackers_on_Masterid", :unique => true
@@ -910,8 +911,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",                :null => false
     t.string   "description"
     t.string   "ineligible_context"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   add_index "ineligible_reasons", ["description"], :name => "index_ineligible_reasons_on_description", :unique => true
@@ -922,8 +923,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "project_id"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "instrument_types", ["description"], :name => "index_instrument_types_on_description", :unique => true
@@ -938,8 +939,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.date     "ended_use_on"
     t.string   "key",                :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   add_index "instrument_versions", ["description"], :name => "index_instrument_versions_on_description", :unique => true
@@ -955,8 +956,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "interview_method_id"
     t.date     "began_use_on"
     t.date     "ended_use_on"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   add_index "instruments", ["description"], :name => "index_instruments_on_description", :unique => true
@@ -967,8 +968,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "interview_methods", ["key"], :name => "index_interview_methods_on_key", :unique => true
@@ -977,8 +978,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "interview_outcomes", ["key"], :name => "index_interview_outcomes_on_key", :unique => true
@@ -1009,8 +1010,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "ended_at_hour"
     t.integer  "ended_at_minute"
     t.string   "ended_at_meridiem"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   add_index "interviews", ["study_subject_id"], :name => "index_interviews_on_study_subject_id"
@@ -1020,16 +1021,16 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",         :null => false
     t.string   "code",        :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "languages", ["code"], :name => "index_languages_on_code", :unique => true
   add_index "languages", ["key"], :name => "index_languages_on_key", :unique => true
 
   create_table "live_birth_data_updates", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
     t.string   "csv_file_file_name"
     t.string   "csv_file_content_type"
     t.integer  "csv_file_file_size"
@@ -1041,8 +1042,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",            :null => false
     t.string   "description"
     t.string   "event_category"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   add_index "operational_event_types", ["description"], :name => "index_operational_event_types_on_description", :unique => true
@@ -1054,8 +1055,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "enrollment_id"
     t.string   "description"
     t.text     "event_notes"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "organizations", :force => true do |t|
@@ -1063,8 +1064,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",        :null => false
     t.string   "name"
     t.integer  "person_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "organizations", ["key"], :name => "index_organizations_on_key", :unique => true
@@ -1081,8 +1082,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "menu_es"
     t.text     "body_en"
     t.text     "body_es"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"
@@ -1104,8 +1105,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "raf_county"
     t.string   "hospital_no",                  :limit => 25
     t.string   "other_diagnosis"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   add_index "patients", ["hospital_no", "organization_id"], :name => "hosp_org", :unique => true
@@ -1119,8 +1120,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "honorific",       :limit => 20
     t.integer  "person_type_id"
     t.integer  "organization_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "phone_numbers", :force => true do |t|
@@ -1138,8 +1139,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "verified_by_uid"
     t.integer  "current_phone",     :default => 1
     t.string   "other_data_source"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   add_index "phone_numbers", ["study_subject_id"], :name => "index_phone_numbers_on_study_subject_id"
@@ -1148,8 +1149,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "phone_types", ["key"], :name => "index_phone_types_on_key", :unique => true
@@ -1159,8 +1160,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "project_id"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "project_outcomes", ["key"], :name => "index_project_outcomes_on_key", :unique => true
@@ -1172,8 +1173,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",                  :null => false
     t.string   "description"
     t.text     "eligibility_criteria"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   add_index "projects", ["description"], :name => "index_projects_on_description", :unique => true
@@ -1184,8 +1185,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",         :null => false
     t.string   "code",        :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "races", ["code"], :name => "index_races_on_code", :unique => true
@@ -1196,8 +1197,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "refusal_reasons", ["description"], :name => "index_refusal_reasons_on_description", :unique => true
@@ -1206,8 +1207,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
   create_table "roles", :force => true do |t|
     t.integer  "position"
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "roles", ["name"], :name => "index_roles_on_name", :unique => true
@@ -1222,16 +1223,16 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
 
   create_table "sample_kits", :force => true do |t|
     t.integer  "sample_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "sample_outcomes", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "sample_outcomes", ["key"], :name => "index_sample_outcomes_on_key", :unique => true
@@ -1240,8 +1241,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "sample_temperatures", ["key"], :name => "index_sample_temperatures_on_key", :unique => true
@@ -1251,8 +1252,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "parent_id"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "sample_types", ["description"], :name => "index_sample_types_on_description", :unique => true
@@ -1270,9 +1271,9 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "location_id"
     t.integer  "sample_temperature_id"
     t.integer  "sample_collector_id"
-    t.integer  "order_no",                                                                  :default => 1
-    t.integer  "quantity_in_sample",           :limit => 10, :precision => 10, :scale => 0
-    t.string   "aliquot_or_sample_on_receipt",                                              :default => "Sample"
+    t.integer  "order_no",                                                    :default => 1
+    t.decimal  "quantity_in_sample",           :precision => 10, :scale => 0
+    t.string   "aliquot_or_sample_on_receipt",                                :default => "Sample"
     t.date     "sent_to_subject_on"
     t.datetime "collected_at"
     t.datetime "shipped_at"
@@ -1284,17 +1285,18 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "external_id_source"
     t.date     "receipt_confirmed_on"
     t.string   "receipt_confirmed_by"
-    t.boolean  "future_use_prohibited",                                                     :default => false,    :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.boolean  "future_use_prohibited",                                       :default => false,    :null => false
+    t.string   "state"
+    t.datetime "created_at",                                                                        :null => false
+    t.datetime "updated_at",                                                                        :null => false
   end
 
   create_table "sections", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "sections", ["key"], :name => "index_sections_on_key", :unique => true
@@ -1302,8 +1304,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
@@ -1315,8 +1317,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "name",                           :null => false
     t.string   "fips_country_code", :limit => 2, :null => false
     t.string   "fips_state_code",   :limit => 2, :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   add_index "states", ["code"], :name => "index_states_on_code", :unique => true
@@ -1397,8 +1399,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "state_registrar_no"
     t.string   "local_registrar_no"
     t.boolean  "is_matched"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
   end
 
   add_index "study_subjects", ["accession_no"], :name => "index_study_subjects_on_accession_no", :unique => true
@@ -1422,8 +1424,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "study_subject_id"
     t.integer  "language_id"
     t.string   "other_language"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "subject_races", :force => true do |t|
@@ -1431,16 +1433,16 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "race_id"
     t.boolean  "is_primary",       :default => false, :null => false
     t.string   "other_race"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
   create_table "subject_relationships", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "subject_relationships", ["description"], :name => "index_subject_relationships_on_description", :unique => true
@@ -1451,8 +1453,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",                       :null => false
     t.string   "description"
     t.string   "related_case_control_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   add_index "subject_types", ["description"], :name => "index_subject_types_on_description", :unique => true
@@ -1462,8 +1464,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "position"
     t.string   "key",         :null => false
     t.string   "description", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "tracing_statuses", ["description"], :name => "index_tracing_statuses_on_description", :unique => true
@@ -1472,13 +1474,13 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
   create_table "transfers", :force => true do |t|
     t.integer  "position"
     t.integer  "aliquot_id"
-    t.integer  "from_organization_id",                                              :null => false
-    t.integer  "to_organization_id",                                                :null => false
-    t.integer  "amount",               :limit => 10, :precision => 10, :scale => 0
+    t.integer  "from_organization_id",                                :null => false
+    t.integer  "to_organization_id",                                  :null => false
+    t.decimal  "amount",               :precision => 10, :scale => 0
     t.string   "reason"
     t.boolean  "is_permanent"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
   end
 
   add_index "transfers", ["aliquot_id"], :name => "index_transfers_on_aliquot_id"
@@ -1490,8 +1492,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.integer  "context_id"
     t.string   "key",         :null => false
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "units", ["description"], :name => "index_units_on_description", :unique => true
@@ -1503,8 +1505,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "displayname"
     t.string   "mail"
     t.string   "telephonenumber"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   add_index "users", ["sn"], :name => "index_users_on_sn"
@@ -1515,8 +1517,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "key",         :null => false
     t.integer  "code"
     t.string   "description", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "vital_statuses", ["code"], :name => "index_vital_statuses_on_code", :unique => true
@@ -1528,8 +1530,8 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
     t.string   "state",                   :null => false
     t.string   "zip_class",               :null => false
     t.integer  "county_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   add_index "zip_codes", ["zip_code"], :name => "index_zip_codes_on_zip_code", :unique => true

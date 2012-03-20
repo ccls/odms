@@ -39,8 +39,10 @@ class Addressing < ActiveRecord::Base
 		:address_at_diagnosis,
 			:in => YNDK.valid_values, :allow_nil => true
 
-	scope :current,  :conditions => [ 'current_address IS NOT NULL AND current_address != 2' ]
-	scope :historic, :conditions => [ 'current_address IS NULL OR current_address = 2' ]
+#	scope :current,  :conditions => ['current_address IS NOT NULL AND current_address != 2' ]
+#	scope :historic, :conditions => ['current_address IS NULL OR current_address = 2' ]
+	scope :current,  where('current_address IS NOT NULL AND current_address != 2')
+	scope :historic, where('current_address IS NULL OR current_address = 2')
 
 	#	Don't do the rejections here.
 	accepts_nested_attributes_for :address

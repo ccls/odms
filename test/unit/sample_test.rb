@@ -9,20 +9,19 @@ class SampleTest < ActiveSupport::TestCase
 		:organization, :sample_temperature )
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 
-#	TODO add 'state' not required, and max length of 250
-
 	attributes = %w( aliquot_or_sample_on_receipt aliquot_sample_format 
 		aliquot_sample_format_id aliquotted_on collected_at external_id 
 		external_id_source location_id order_no parent_sample_id position 
 		quantity_in_sample receipt_confirmed_by receipt_confirmed_on 
 		received_by_ccls_at received_by_lab_on sample_collector_id sample_temperature 
-		sample_temperature_id sent_to_lab_on sent_to_subject_on unit unit_id )
+		sample_temperature_id sent_to_lab_on sent_to_subject_on state unit unit_id )
 	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_protect( protected_attributes )
 	assert_should_not_protect( attributes - protected_attributes )
 
+	assert_should_require_attribute_length( :state, :maximum => 250 )
 
 #	TODO These seem to fail for DateTimes.  Need to check it out.
 	assert_requires_complete_date( :sent_to_subject_on, 
