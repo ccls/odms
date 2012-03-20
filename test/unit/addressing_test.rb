@@ -255,17 +255,12 @@ pending
 
 	test "should make study_subject ineligible "<<
 			"on create if state NOT 'CA' and address is ANOTHER residence" do
-pending
 		study_subject = create_eligible_hx_study_subject
 		assert_difference('OperationalEvent.count',1) {
 		assert_difference('Address.count',2) {
 		assert_difference("Addressing.count", 2 ) {
 			ca_addressing = create_ca_addressing(study_subject)
-puts ca_addressing.inspect
-puts ca_addressing.errors.inspect
 			az_addressing = create_az_addressing(study_subject)
-puts az_addressing.inspect
-puts az_addressing.errors.inspect
 		} } }
 		assert_study_subject_is_not_eligible(study_subject)
 		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
@@ -275,7 +270,6 @@ puts az_addressing.errors.inspect
 
 	test "should NOT make study_subject ineligible "<<
 			"on create if OET is missing" do
-pending
 		OperationalEventType['ineligible'].destroy
 		study_subject = create_eligible_hx_study_subject
 		assert_difference('OperationalEvent.count',0) {
@@ -284,8 +278,6 @@ pending
 			create_ca_addressing(study_subject)
 			assert_raise(ActiveRecord::RecordNotSaved){
 				addressing = create_az_addressing(study_subject)
-puts addressing.inspect
-puts addressing.errors.inspect
 		} } } }
 		assert_study_subject_is_eligible(study_subject)
 	end
@@ -304,14 +296,11 @@ puts addressing.errors.inspect
 
 	test "should NOT make study_subject ineligible "<<
 			"on create if state 'CA' and address is residence" do
-pending
 		study_subject = create_eligible_hx_study_subject
 		assert_difference('OperationalEvent.count',0) {
 		assert_difference('Address.count',1) {
 		assert_difference("Addressing.count", 1 ) {
 			addressing = create_ca_addressing(study_subject)
-puts addressing.inspect
-puts addressing.errors.inspect
 		} } }
 		assert_study_subject_is_eligible(study_subject)
 	end
