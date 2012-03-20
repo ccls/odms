@@ -111,9 +111,9 @@ class PagesControllerTest < ActionController::TestCase
 	#ruby 1.8.6 (2008-08-11 patchlevel 287) [universal-darwin9.0]
 			pages = []
 			3.times{ pages.push(factory_create) }
-			before_page_ids = Page.all.collect(&:id)
+			before_page_ids = Page.order('position').collect(&:id)
 			post :order, :pages => before_page_ids.reverse
-			after_page_ids = Page.all.collect(&:id)
+			after_page_ids = Page.order('position').collect(&:id)
 			assert_equal after_page_ids, before_page_ids.reverse
 			assert_redirected_to pages_path
 		end
@@ -130,22 +130,20 @@ class PagesControllerTest < ActionController::TestCase
 			parent = factory_create
 			pages = []
 			3.times{ pages.push(factory_create(:parent_id => parent.id)) }
-pending
+			# must make children of new page to for positions 1,2,3
 			assert_equal [1,2,3], pages.collect(&:position)
-#	acts_as_list does not appears to really be working anymore in rails 3
-#	It doesn't even get to the controller?  Why 1 and 2, but not 3?????
-#	This function works just fine in reality.
-#	Removed default_scope from Page model.  Will it make a difference?
-#	Yeah.  Don't do that.
-#test_should_order_sub_pages_with_superuser_login(PagesControllerTest) [/test/functional/pages_controller_test.rb:133]:
-#<[1, 2, 3]> expected but was
-#<[1, 2, 2]>.
-			before_page_ids = parent.reload.children.collect(&:id)
+			before_page_ids = parent.reload.children.order('position').collect(&:id)
 			post :order,:parent_id => parent.id, :pages => before_page_ids.reverse
-			after_page_ids = parent.reload.children.collect(&:id)
+			after_page_ids = parent.reload.children.order('position').collect(&:id)
 			assert_equal after_page_ids, before_page_ids.reverse
 			assert_redirected_to pages_path(:parent_id => parent.id)
 		end
+
+
+#  1) Failure:
+#test_should_order_sub_pages_with_administrator_login(PagesControllerTest) [test/functional/pages_controller_test.rb:146]:
+#<[238, 239, 240]> expected but was
+#<[240, 239, 238]>.
 
 	end
 

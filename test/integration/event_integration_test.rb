@@ -7,7 +7,7 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 		OperationalEventTypesController.skip_after_filter :validate_page
 	end
 
-	site_editors.each do |cu|
+	site_administrators.each do |cu|
 
 		test "should change event types on category change on new event with #{cu} login" do
 			study_subject = Factory(:study_subject)
