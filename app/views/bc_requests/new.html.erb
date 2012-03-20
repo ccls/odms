@@ -9,8 +9,10 @@
 <%= text_field_tag :patid, params[:patid], :id => nil  %>
 <%= submit_tag 'submit', :name => nil %>
 </p>
+<!--
 <div><span>Try one of ...</span>
-<%= StudySubject.search(:types => 'case').collect(&:patid).sort.join(', ') %></div>
+<%#= StudySubject.search(:types => 'case').collect(&:patid).sort.join(', ') %></div>
+-->
 <% end %>
 
 <hr/>
