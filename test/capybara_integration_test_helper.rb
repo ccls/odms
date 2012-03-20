@@ -152,35 +152,35 @@ end
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
 
 #	setup :do_not_force_ssl
-	def do_not_force_ssl
-		#	Forcing ssl is problematic in capybara unlike webrat, so I'm just skipping it.
-		#	ApplicationController.subclasses does not initially include FakeSessionsController
-		#	I explicitly 'ssl_allowed' new and create, so irrelevant.
-		#	After the first request, it will be included though.
-
-#		ApplicationController.any_instance.stubs(:ssl_required?).returns(false)
-#		ApplicationController.any_instance.stubs(:ssl_allowed?).returns(true)
-
+#	def do_not_force_ssl
+#		#	Forcing ssl is problematic in capybara unlike webrat, so I'm just skipping it.
+#		#	ApplicationController.subclasses does not initially include FakeSessionsController
+#		#	I explicitly 'ssl_allowed' new and create, so irrelevant.
+#		#	After the first request, it will be included though.
 #
-#	NOTE not sure which is better anymore
+##		ApplicationController.any_instance.stubs(:ssl_required?).returns(false)
+##		ApplicationController.any_instance.stubs(:ssl_allowed?).returns(true)
 #
-
-#		ApplicationController.subclasses.each do |controller|
-##			controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
-##	actually passes the class in Rails3 
-#			controller.any_instance.stubs(:ssl_allowed?).returns(true) 
-#		end
-
-ApplicationController.class_eval do
-	def ssl_required?
-		false
-	end
-	def ssl_allowed?
-		true
-	end
-end
-
-	end
+##
+##	NOTE not sure which is better anymore
+##
+#
+##		ApplicationController.subclasses.each do |controller|
+###			controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
+###	actually passes the class in Rails3 
+##			controller.any_instance.stubs(:ssl_allowed?).returns(true) 
+##		end
+#
+#ApplicationController.class_eval do
+#	def ssl_required?
+#		false
+#	end
+#	def ssl_allowed?
+#		true
+#	end
+#end
+#
+#	end
 
 	setup :synchronize_selenium_connections	#	this includes :webkit
 	def synchronize_selenium_connections
@@ -304,15 +304,6 @@ ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 #	common methods ( consent and nonwaivered both use languages )
 
 	def language_input_id(language,field='language_id')
-		#	[2] since 'other' will be the third language in the array
-#		case language
-#			when 'english'
-#				"study_subject_subject_languages_attributes_0_#{field}"	#	english
-#			when 'spanish'
-#				"study_subject_subject_languages_attributes_1_#{field}"	#	spanish
-#			when 'other'
-#				"study_subject_subject_languages_attributes_2_#{field}"	#	other
-#		end
 		"#{language}_#{field}"
 	end
 
@@ -338,9 +329,6 @@ ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 
 	def assert_other_language_visible
 		assert page.has_css?("#specify_other_language", :visible => true)
-#		assert page.has_css?(language_input_css_id('other','other'),:visible => true)
-#		assert page.has_field?(language_input_id('other','other'))
-#		assert page.find_field(language_input_id('other','other')).visible?
 		assert page.has_css?(language_input_css_id('other','other_language'),:visible => true)
 		assert page.has_field?(language_input_id('other','other_language'))
 		assert page.find_field(language_input_id('other','other_language')).visible?
@@ -348,8 +336,6 @@ ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 
 	def assert_other_language_hidden
 		assert page.has_css?("#specify_other_language", :visible => false)
-#		assert page.has_css?(language_input_css_id('other','other'),:visible => false)
-#		assert !page.find_field(language_input_id('other','other')).visible?
 		assert page.has_css?(language_input_css_id('other','other_language'),:visible => false)
 		assert !page.find_field(language_input_id('other','other_language')).visible?
 	end
