@@ -29,13 +29,17 @@ class UsersControllerTest < ActionController::TestCase
 #		they don't test the exclusion
 	
 		test "should filter users index by role with #{cu} login" do
+			roleless_user = Factory(:user)
 			some_other_user = send(cu)
 			login_as send(cu)
+			assert_equal User.all.length, 3
 			get :index, :role_name => cu
-			assert assigns(:users).length >= 2
+#			assert assigns(:users).length >= 2	#	>= ?? 
+			assert assigns(:users).length == 2
 			assigns(:users).each do |u|
 				assert u.role_names.include?(cu)
 			end
+			assert !assigns(:users).include?(roleless_user)
 			assert_nil flash[:error]
 			assert_response :success
 		end
