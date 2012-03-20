@@ -355,6 +355,20 @@ test_should_order_sub_pages_with_superuser_login(PagesControllerTest) [/test/fun
 
 
 
+* try using gem 'metawhere' for more powerful searching
+
+
+http://railscasts.com/episodes/202-active-record-queries-in-rails-3
+http://railscasts.com/episodes/215-advanced-queries-in-rails-3
+http://railscasts.com/episodes/239-activerecord-relation-walkthrough
+
+
+
+
+
+
+
+
 
 
 

@@ -22,7 +22,9 @@ class UsersController < ApplicationController
 
 		#	Doing it this way seems cleaner, but a bit honky?
 		#	be nice if there were ! versions of these methods.
-		users = ActiveRecord::Relation.new(User,User.arel_table)
+#		users = ActiveRecord::Relation.new(User,User.arel_table)
+#		Feeling better about this.
+		users = User.scoped
 		if params[:role_name] && !params[:role_name].blank?
 #			users = users.joins(:roles).where("roles.name".to_sym => params[:role_name])
 			users = users.with_role_name(params[:role_name])
