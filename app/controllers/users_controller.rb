@@ -21,10 +21,12 @@ class UsersController < ApplicationController
 #		end
 
 		#	Doing it this way seems cleaner, but a bit honky?
-		@users = ActiveRecord::Relation.new(User,User.arel_table)
+		#	be nice if there were ! versions of these methods.
+		users = ActiveRecord::Relation.new(User,User.arel_table)
 		if params[:role_name] && !params[:role_name].blank?
-			@users.joins(:roles).where("roles.name".to_sym => params[:role_name])
+			users = users.joins(:roles).where("roles.name".to_sym => params[:role_name])
 		end
+		@users = users
 	end
 
 	def destroy

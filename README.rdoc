@@ -121,6 +121,13 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
     * app/models/abstract.rb - removed
     * app/models/gift_card.rb - removed
 
+* remove User.search 
+    * app/models/user.rb
+      * only appears to search on role name in users controller 
+      * "users_path( :role_name => role_name )"
+* remove StudySubject.search on projects
+* debug integration tests
+
 
 
 
@@ -216,11 +223,6 @@ test_should_order_sub_pages_with_administrator_login(PagesControllerTest) [/test
 
 PRIORITY
 
-* remove User.search 
-* remove StudySubject.search on projects
-
-* debug integration tests
-
 * integration tests passing
 * all tests passing
 * ZipCode failures??
@@ -230,9 +232,6 @@ PRIORITY
     * app/models/study_subject.rb
     * app/models/operational_event.rb
       * events_path, although don't know why (probably just sorting)
-    * app/models/user.rb
-      * only appears to search on role name in users controller 
-      * "users_path( :role_name => role_name )"
 * default_scopes mucks up searching in rails 3
   * they take precedence over the request? seems backwards
   * remove them all??
@@ -347,90 +346,6 @@ test_should_order_sub_pages_with_superuser_login(PagesControllerTest) [/test/fun
 @@ -1 +1 @@
 -<[1, 2, 3]>
 +<[1, 2, 2]>
-
-
-
-210) Failure:
-test_should_NOT_order_by_bogus_column(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:452]:
-211) Failure:
-test_should_NOT_order_by_bogus_column_with_dir(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:446]:
-212) Error:
-test_should_include_study_subject_by_project_indifferent_completed(StudySubjectSearchTest):
-ActiveRecord::RecordInvalid: Validation failed: Completed on is in the future and must be in the past
-    /test/unit/study_subject_search_test.rb:172:in `test_should_include_study_subject_by_project_indifferent_completed'
-
-213) Failure:
-test_should_include_study_subject_by_project_is_candidate(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:354]:
-<false> is not true.
-
-214) Failure:
-test_should_include_study_subject_by_project_is_chosen(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:390]:
-<false> is not true.
-
-215) Failure:
-test_should_include_study_subject_by_project_is_closed(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:244]:
-<false> is not true.
-
-216) Error:
-test_should_include_study_subject_by_project_is_completed(StudySubjectSearchTest):
-ActiveRecord::RecordInvalid: Validation failed: Completed on is in the future and must be in the past
-    /test/unit/study_subject_search_test.rb:201:in `test_should_include_study_subject_by_project_is_completed'
-
-217) Error:
-test_should_include_study_subject_by_project_is_consented(StudySubjectSearchTest):
-NameError: undefined local variable or method `study_subject' for #<StudySubjectSearchTest:0x8636b38>
-    /test/active_support_extension/test_case.rb:232:in `method_missing_without_pluralization'
-    /test/factory_test_helper.rb:197:in `method_missing'
-    /test/unit/study_subject_search_test.rb:320:in `test_should_include_study_subject_by_project_is_consented'
-
-218) Failure:
-test_should_include_study_subject_by_project_is_eligible(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:430]:
-<false> is not true.
-
-219) Error:
-test_should_include_study_subject_by_project_is_terminated(StudySubjectSearchTest):
-NameError: undefined local variable or method `study_subject' for #<StudySubjectSearchTest:0x8636ac0>
-    /test/active_support_extension/test_case.rb:232:in `method_missing_without_pluralization'
-    /test/factory_test_helper.rb:197:in `method_missing'
-    /test/unit/study_subject_search_test.rb:282:in `test_should_include_study_subject_by_project_is_terminated'
-
-220) Error:
-test_should_include_study_subject_by_project_not_completed(StudySubjectSearchTest):
-ActiveRecord::RecordInvalid: Validation failed: Completed on is in the future and must be in the past
-    /test/unit/study_subject_search_test.rb:187:in `test_should_include_study_subject_by_project_not_completed'
-
-227) Failure:
-test_should_order_by_first_name_asc(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:517]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<3>
-+<8>
-
-228) Failure:
-test_should_order_by_first_name_asc_by_default(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:510]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<3>
-+<8>
-
-229) Failure:
-test_should_order_by_first_name_desc(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:524]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<3>
-+<8>
-
-230) Failure:
-test_should_order_by_id_asc(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:488]:
-
-231) Failure:
-test_should_order_by_id_asc_by_default(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:481]:
-
-232) Failure:
-test_should_order_by_id_desc(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:495]:
 
 
 

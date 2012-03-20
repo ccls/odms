@@ -24,6 +24,9 @@ class UsersControllerTest < ActionController::TestCase
 
 	#	use full role names as used in one test method
 	site_administrators.each do |cu|
+
+#	TODO these tests only test the inclusion
+#		they don't test the exclusion
 	
 		test "should filter users index by role with #{cu} login" do
 			some_other_user = send(cu)
