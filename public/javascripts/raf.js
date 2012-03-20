@@ -17,7 +17,11 @@ jQuery(function(){
 	jQuery('#study_subject_addressings_attributes_0_address_attributes_zip').change(function(){
 		jQuery.get(root + '/zip_codes.json?q=' + jQuery(this).val(), function(data){
 			if(data.length == 1) {
+/*
 				update_address_info(data[0].zip_code);
+	in rails 3, doesn't include first key so trying without
+*/
+				update_address_info(data[0]);
 			}
 		});
 	});

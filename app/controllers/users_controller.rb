@@ -9,7 +9,22 @@ class UsersController < ApplicationController
 	end
 
 	def index
-		@users = User.search(params)
+#	Only a role_name is every passed here an no one really uses it.
+#		@users = User.search(params)
+#	Nevertheless a Rails 3 version
+#User.joins(:roles).where("roles.name = 'reader'")
+#		@users = if params[:role_name] && !params[:role_name].blank?
+##			User.joins(:roles).where("roles.name = ?",params[:role_name])
+#			User.joins(:roles).where("roles.name".to_sym => params[:role_name])
+#		else
+#			User.all
+#		end
+
+		#	Doing it this way seems cleaner, but a bit honky?
+		@users = ActiveRecord::Relation.new(User,User.arel_table)
+		if params[:role_name] && !params[:role_name].blank?
+			@users.joins(:roles).where("roles.name".to_sym => params[:role_name])
+		end
 	end
 
 	def destroy
@@ -28,3 +43,14 @@ protected
 	end
 
 end
+__END__
+
+Build a query ...
+
+
+x=ActiveRecord::Relation.new(User,User.arel_table)
+x.class
+=> ActiveRecord::Relation
+>> x = x.joins(:roles)
+x.where('roles.name'.to_sym => 'administrator')
+
