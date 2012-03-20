@@ -43,23 +43,32 @@ class InterviewTest < ActiveSupport::TestCase
 			@interview = create_interview( :study_subject => study_subject,
 				:intro_letter_sent_on => Date.yesterday ).reload
 		} }
-		assert_equal OperationalEventType['intro'],
-			OperationalEvent.last.operational_event_type
-		assert_equal @interview.intro_letter_sent_on,
-			OperationalEvent.last.occurred_on
+		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+		oe = hxe.operational_events.first
+		assert_equal OperationalEventType['intro'],   oe.operational_event_type
+		assert_equal @interview.intro_letter_sent_on, oe.occurred_on
+#puts OperationalEvent.all.inspect
+#		assert_equal OperationalEventType['intro'],
+#			OperationalEvent.last.operational_event_type
+#		assert_equal @interview.intro_letter_sent_on,
+#			OperationalEvent.last.occurred_on
 	end
 
 	test "should update intro letter operational event " <<
 			"when intro_letter_sent_on updated" do
+		study_subject = create_hx_study_subject
 		interview = create_interview(
-			:study_subject => create_hx_study_subject,
+			:study_subject => study_subject,
 			:intro_letter_sent_on => Date.yesterday )
 		assert_difference( "OperationalEvent.count", 0 ) {
 		assert_difference( "Interview.count", 0 ) {
 			interview.update_attributes(:intro_letter_sent_on => Date.today )
 		} }
-		assert_equal Date.today,
-			OperationalEvent.last.occurred_on
+		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+		oe = hxe.operational_events.first
+		assert_equal Date.today, oe.occurred_on
+#		assert_equal Date.today,
+#			OperationalEvent.last.occurred_on
 	end
 
 	test "should NOT require valid address_id" do

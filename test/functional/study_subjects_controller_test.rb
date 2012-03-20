@@ -139,6 +139,9 @@ pending	#	stray HAVING in SQL
 	
 		test "should download csv with #{cu} login" do
 			login_as send(cu)
+#	This works, but the link for this is a button on a form.
+#	So I really need to deal with this in the controller
+#			get :index, :commit => 'download', :format => 'csv'
 			get :index, :commit => 'download'
 			assert_response :success
 			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)

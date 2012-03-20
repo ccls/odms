@@ -68,9 +68,17 @@ class StudySubjectsController < ApplicationController
 
 	#	there is no longer a link to this action, nevertheless
 	def index
+#puts "first"
+#puts params.inspect
+#puts request.format.inspect
+#puts request.format.class	#	Mime::Type
 		record_or_recall_sort_order
 		if params[:commit] && params[:commit] == 'download'
-			params[:format] = 'csv'
+#			params[:format] = 'csv'		#	unfortunately, in rails 3, this DOES NOT CHANGE THE FORMAT for a respond_to block
+#			request.format = 'text/csv'	#	will this work???
+#			request.format = Mime::Type["text/csv"]	#'text/csv'	#	will this work???
+#			request.format = Mime::Type.lookup('text/csv')
+			request.format = :csv
 			params[:paginate] = false
 		end
 #	TODO stop using StudySubject.search, but here it may be needed
@@ -88,8 +96,12 @@ class StudySubjectsController < ApplicationController
 #				"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 
 #		end
 
+#puts params.inspect
+#puts request.format.inspect
+
+		#	respond_to blocks are based on 'request.format' which is usually text/html or text/csv
 		respond_to do |format|
-			format.html	{}
+			format.html
 			format.csv { 
 				headers["Content-disposition"] = "attachment; " <<
 					"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 

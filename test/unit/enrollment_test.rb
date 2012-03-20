@@ -446,9 +446,9 @@ class EnrollmentTest < ActiveSupport::TestCase
 				:is_complete => YNDK[:no],
 				:completed_on => nil)
 		end
-puts enrollment.operational_events.inspect
-		oe = enrollment.operational_events.find(:last,:order => 'id ASC')
-pending
+		#	default_scope is mucking this up.  Unscope it!
+		#	 ORDER BY occurred_on ASC, id DESC LIMIT 1
+		oe = enrollment.operational_events.unscoped.find(:last,:order => 'id ASC')
 		assert_equal 'reopened', oe.operational_event_type.key
 		assert_equal Date.today, oe.occurred_on
 		assert_equal enrollment.study_subject_id, oe.enrollment.study_subject_id
