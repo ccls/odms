@@ -292,15 +292,12 @@ puts addressing.errors.inspect
 
 	test "should NOT make study_subject ineligible "<<
 			"on create if state NOT 'CA' and address is NOT residence" do
-pending
 		study_subject = create_eligible_hx_study_subject
 		assert_difference('OperationalEvent.count',0) {
 		assert_difference('Address.count',1) {
 		assert_difference("Addressing.count", 1 ) {
 			addressing = create_az_addressing(study_subject,
-				:address => { :address_type => AddressType['mailing'] })
-puts addressing.inspect
-puts addressing.errors.inspect
+				:address => { :address_type_id => AddressType['mailing'].id })
 		} } }
 		assert_study_subject_is_eligible(study_subject)
 	end
@@ -413,7 +410,7 @@ protected
 #			:address => nil,	#	block address_attributes
 			:address_id => nil,	#	block address_attributes
 			:address_attributes => Factory.attributes_for(:address,{
-				:address_type => AddressType['residence']
+				:address_type_id => AddressType['residence'].id
 			}.merge(options[:address]||{}))
 		}.merge(options[:addressing]||{}))
 	end
