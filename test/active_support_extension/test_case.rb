@@ -65,20 +65,7 @@ module ActiveSupportExtension::TestCase
 
 			test "#{brand}should act as list" do
 				model = create_object.class.name
-
-#	NOTE I don't like this technique
-#				model.constantize.destroy_all
-
-#	will be problematic with regards to scope
-#				current_max = model.constantize.maximum(:position)
-
-#	Could ..
-#		not destroy
-#		don't test first position, but read
-#		next one should be 1 more
-
 				object = create_object
-#				assert_equal 1, object.position
 				first_position = object.position
 				assert first_position > 0
 				attrs = {}
@@ -86,29 +73,9 @@ module ActiveSupportExtension::TestCase
 					attrs[attr.to_sym] = object.send(attr)
 				end if scope
 				object = create_object(attrs)
-#				assert_equal 2, object.position
 				assert_equal ( first_position + 1 ), object.position
-
 				object = create_object(attrs)
 				assert_equal ( first_position + 2 ), object.position
-
-				# gotta be a relative test as there may already
-				# by existing objects (unless I destroy them)
-#				assert_difference("#{model}.last.position",1) do
-#	TODO another assert difference that seems to cache?
-#				assert_difference("#{model}.maximum(:position)",1) do
-#	this won't be true anymore
-#puts "JAKE"
-#puts model.constantize.all.inspect
-#puts model.constantize.maximum(:position)
-#					object = create_object(attrs)
-#puts object.inspect
-#puts model.constantize.all.inspect
-#puts model.constantize.maximum(:position)
-#puts "JAKE"
-#				end
-
-pending 
 			end
 
 		end
@@ -145,17 +112,8 @@ pending
 					#	However, can assert difference of 0 as shouldn't create.
 					assert_difference( "#{model_name}.count", 0 ) do
 						object = create_object( attr_name => Date.tomorrow )
-
-
-#					puts "JAKE"
-#					puts object.errors.inspect
-#					puts "JAKE"
-#	TODO this fails
 						assert object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
-
-
-
 					end
 				end
 			end
@@ -174,17 +132,7 @@ pending
 #
 					assert_difference( "#{model_name}.count", 0 ) do
 						object = create_object( attr_name => "Sept 2010")
-
-
-
-#					puts "JAKE"
-#					puts object.errors.inspect
-#					puts "JAKE"
 						assert object.errors.matching?(attr_name,'is not a complete date')
-
-
-
-
 					end
 					assert_difference( "#{model_name}.count", 0 ) do
 						object = create_object( attr_name => "9/2010")
@@ -270,3 +218,60 @@ pending
 	end	#	InstanceMethods
 end	#	ActiveSupportExtension::TestCase
 ActiveSupport::TestCase.send(:include, ActiveSupportExtension::TestCase)
+
+
+__END__
+		def assert_should_act_as_list(*args)
+			options = args.extract_options!
+			scope = options[:scope]
+
+			test "#{brand}should act as list" do
+				model = create_object.class.name
+
+#	NOTE I don't like this technique
+#				model.constantize.destroy_all
+
+#	will be problematic with regards to scope
+#				current_max = model.constantize.maximum(:position)
+
+#	Could ..
+#		not destroy
+#		don't test first position, but read
+#		next one should be 1 more
+
+				object = create_object
+#				assert_equal 1, object.position
+				first_position = object.position
+				assert first_position > 0
+				attrs = {}
+				Array(scope).each do |attr|
+					attrs[attr.to_sym] = object.send(attr)
+				end if scope
+				object = create_object(attrs)
+#				assert_equal 2, object.position
+				assert_equal ( first_position + 1 ), object.position
+
+				object = create_object(attrs)
+				assert_equal ( first_position + 2 ), object.position
+
+				# gotta be a relative test as there may already
+				# by existing objects (unless I destroy them)
+#				assert_difference("#{model}.last.position",1) do
+#	TODO another assert difference that seems to cache?
+#				assert_difference("#{model}.maximum(:position)",1) do
+#	this won't be true anymore
+#puts "JAKE"
+#puts model.constantize.all.inspect
+#puts model.constantize.maximum(:position)
+#					object = create_object(attrs)
+#puts object.inspect
+#puts model.constantize.all.inspect
+#puts model.constantize.maximum(:position)
+#puts "JAKE"
+#				end
+
+pending 
+			end
+
+		end
+
