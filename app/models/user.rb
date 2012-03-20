@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
 		roles.collect(&:name).uniq
 	end
 
+	def self.with_role_name(role_name)
+		joins(:roles).where("roles.name".to_sym => role_name)
+	end
+
 	def deputize
 		roles << Role.find_or_create_by_name('administrator')
 	end

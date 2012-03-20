@@ -24,7 +24,8 @@ class UsersController < ApplicationController
 		#	be nice if there were ! versions of these methods.
 		users = ActiveRecord::Relation.new(User,User.arel_table)
 		if params[:role_name] && !params[:role_name].blank?
-			users = users.joins(:roles).where("roles.name".to_sym => params[:role_name])
+#			users = users.joins(:roles).where("roles.name".to_sym => params[:role_name])
+			users = users.with_role_name(params[:role_name])
 		end
 		@users = users
 	end
