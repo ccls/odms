@@ -34,13 +34,15 @@ class PagesController < ApplicationController
 
 	def all
 		@page_title = "All CCLS Pages"
-		@pages = Page.all
+#		@pages = Page.all
+		@pages = Page.order('parent_id, position')
 	end
 
 	def index
 		@page_title = "CCLS Pages"
 		params[:parent_id] = nil if params[:parent_id].blank?
-		@pages = Page.all(:conditions => { :parent_id => params[:parent_id] })
+#		@pages = Page.all(:conditions => { :parent_id => params[:parent_id] })
+		@pages = Page.where(:parent_id => params[:parent_id]).order('parent_id, position')
 	end
 
 	def new

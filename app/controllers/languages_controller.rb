@@ -13,7 +13,7 @@ class LanguagesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@languages = Language.all
+		@languages = Language.order('position')
 	end
 
 	def new

@@ -2,7 +2,8 @@
 class Person < ActiveRecord::Base
 
 	acts_as_list
-	default_scope :order => :position
+#	Don't use default_scope with acts_as_list
+#	default_scope :order => :position
 
 #	belongs_to :context
 	has_many :interviews, :foreign_key => 'interviewer_id'

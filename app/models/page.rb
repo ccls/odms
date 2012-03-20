@@ -13,7 +13,15 @@
 #	were to get any deeper, the list should probably be changed
 #	to something like a nested set.
 class Page < ActiveRecord::Base
-	default_scope :order => 'position ASC'
+#	default_scope :order => 'position ASC'
+
+#	This is odd.
+#	Create a page and it get position 1
+#	Create another page and it get position 2
+#	Create yet another page and it get position 2 also????
+#	Create yet another page and it get position 2 also????
+#	remove the default scope and it works.
+#	I'm quickly learning that default scopes suck.
 
 	acts_as_list :scope => :parent_id
 #	acts_as_list :scope => "parent_id \#{(parent_id.nil?)?'IS NULL':'= parent_id'} AND locale = '\#{locale}'"

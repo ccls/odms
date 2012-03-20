@@ -292,6 +292,7 @@ PRIORITY
 *	get acts_as_list working (actually seems to work fine.  tests don't though)
   * include acts_as_list functionality
   * don't really use acts_as_list functionality much
+  * default_scopes seem to be the problem.  Don't use them.
 
 
 * Have to find new way for custom error messages, AGAIN without attribute name
@@ -333,25 +334,6 @@ PRIORITY
   * This results in the count comparisons being way off.
   * when its clean, some of these tests actually work?
  
-
-
-
-
-
-
-173) Failure:
-test_should_order_sub_pages_with_superuser_login(PagesControllerTest) [/test/functional/pages_controller_test.rb:133]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<[1, 2, 3]>
-+<[1, 2, 2]>
-
-
-
-
-
-
 
 
 

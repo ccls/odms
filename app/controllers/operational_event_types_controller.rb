@@ -6,8 +6,10 @@ class OperationalEventTypesController < ApplicationController
 	skip_before_filter :login_required
 
 	def options
-		@operational_event_types = OperationalEventType.all(
-			:conditions => { :event_category => params[:category] } )
+#		@operational_event_types = OperationalEventType.all(
+#			:conditions => { :event_category => params[:category] } )
+		@operational_event_types = OperationalEventType.where(
+			:event_category => params[:category] )
 		render :layout => false
 	end
 

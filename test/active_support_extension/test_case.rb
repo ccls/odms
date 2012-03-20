@@ -67,25 +67,37 @@ module ActiveSupportExtension::TestCase
 				model = create_object.class.name
 
 #	NOTE I don't like this technique
-				model.constantize.destroy_all
+#				model.constantize.destroy_all
 
 #	will be problematic with regards to scope
 #				current_max = model.constantize.maximum(:position)
 
+#	Could ..
+#		not destroy
+#		don't test first position, but read
+#		next one should be 1 more
+
 				object = create_object
-				assert_equal 1, object.position
+#				assert_equal 1, object.position
+				first_position = object.position
+				assert first_position > 0
 				attrs = {}
 				Array(scope).each do |attr|
 					attrs[attr.to_sym] = object.send(attr)
 				end if scope
 				object = create_object(attrs)
-				assert_equal 2, object.position
+#				assert_equal 2, object.position
+				assert_equal ( first_position + 1 ), object.position
+
+				object = create_object(attrs)
+				assert_equal ( first_position + 2 ), object.position
 
 				# gotta be a relative test as there may already
 				# by existing objects (unless I destroy them)
 #				assert_difference("#{model}.last.position",1) do
 #	TODO another assert difference that seems to cache?
 #				assert_difference("#{model}.maximum(:position)",1) do
+#	this won't be true anymore
 #puts "JAKE"
 #puts model.constantize.all.inspect
 #puts model.constantize.maximum(:position)
@@ -96,13 +108,6 @@ module ActiveSupportExtension::TestCase
 #puts "JAKE"
 #				end
 
-#[#<AddressType id: 63, position: 1, key: "Key58", description: "Desc58", created_at: "2012-03-19 01:40:24", updated_at: "2012-03-19 01:40:24">, #<AddressType id: 64, position: 2, key: "Key59", description: "Desc59", created_at: "2012-03-19 01:40:24", updated_at: "2012-03-19 01:40:24">]
-#2
-##<AddressType id: 65, position: 2, key: "Key60", description: "Desc60", created_at: "2012-03-19 01:40:25", updated_at: "2012-03-19 01:40:25">
-#[#<AddressType id: 63, position: 1, key: "Key58", description: "Desc58", created_at: "2012-03-19 01:40:24", updated_at: "2012-03-19 01:40:24">, #<AddressType id: 64, position: 2, key: "Key59", description: "Desc59", created_at: "2012-03-19 01:40:24", updated_at: "2012-03-19 01:40:24">, #<AddressType id: 65, position: 2, key: "Key60", description: "Desc60", created_at: "2012-03-19 01:40:25", updated_at: "2012-03-19 01:40:25">]
-#2
-
-# Still need to get acts_as_list test assert_difference working
 pending 
 			end
 

@@ -13,7 +13,7 @@ class IneligibleReasonsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@ineligible_reasons = IneligibleReason.all
+		@ineligible_reasons = IneligibleReason.order('position')
 	end
 
 	def new

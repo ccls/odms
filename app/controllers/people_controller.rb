@@ -13,7 +13,7 @@ class PeopleController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@people = Person.all
+		@people = Person.order('position')
 	end
 
 	def new

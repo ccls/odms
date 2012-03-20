@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@projects = Project.all
+		@projects = Project.order('position')
 	end
 
 	def new

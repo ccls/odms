@@ -5,11 +5,13 @@ class ControlsController < ApplicationController
 	before_filter :case_study_subject_required
 
 	def new
-		candidate = CandidateControl.find(:first,
-			:conditions => [
-				"related_patid = ? AND reject_candidate = false AND assigned_on IS NULL AND study_subject_id IS NULL",
-				@study_subject.patid ]
-		)
+#		candidate = CandidateControl.find(:first,
+#			:conditions => [
+#				"related_patid = ? AND reject_candidate = false AND assigned_on IS NULL AND study_subject_id IS NULL",
+#				@study_subject.patid ]
+#		)
+		candidate = CandidateControl.where(
+				"related_patid = ? AND reject_candidate = false AND assigned_on IS NULL AND study_subject_id IS NULL", @study_subject.patid ).limit(1).first	#	scopes always return arrays
 		if candidate
 			redirect_to edit_candidate_control_path(candidate)
 		else

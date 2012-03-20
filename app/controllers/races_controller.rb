@@ -13,7 +13,7 @@ class RacesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@races = Race.all
+		@races = Race.order('position')
 	end
 
 	def new

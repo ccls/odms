@@ -13,7 +13,7 @@ class RefusalReasonsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@refusal_reasons = RefusalReason.all
+		@refusal_reasons = RefusalReason.order('position')
 	end
 
 	def new

@@ -49,13 +49,17 @@ class SamplesController < ApplicationController
 		validate_valid_date_range_for(:sent_to_subject_on,conditions)
 		validate_valid_date_range_for(:received_by_ccls_at,conditions)
 
-		@samples = Sample.paginate(
-#			:order   => search_order,
-#			:include => [:patient,:subject_type],
-			:joins => [
-				'LEFT JOIN study_subjects ON study_subjects.id = samples.study_subject_id'
-			],
-			:conditions => [ conditions[0].join(valid_find_operator), conditions[1] ],
+#		@samples = Sample.paginate(
+#			:joins => [ 'LEFT JOIN study_subjects ON study_subjects.id = samples.study_subject_id' ],
+#			:conditions => [ conditions[0].join(valid_find_operator), conditions[1] ],
+#			:per_page => params[:per_page]||25,
+#			:page     => valid_find_page
+#		)
+		@samples = Sample.joins(
+			'LEFT JOIN study_subjects ON study_subjects.id = samples.study_subject_id'
+		).where( 
+			conditions[0].join(valid_find_operator), conditions[1] 
+		).paginate(
 			:per_page => params[:per_page]||25,
 			:page     => valid_find_page
 		)

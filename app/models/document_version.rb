@@ -1,7 +1,8 @@
 class DocumentVersion < ActiveRecord::Base
 
 	acts_as_list
-	default_scope :order => 'position, title ASC'
+#	Don't use default_scope with acts_as_list
+#	default_scope :order => 'position, title ASC'
 
 	belongs_to :document_type
 	belongs_to :language

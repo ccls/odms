@@ -9,8 +9,8 @@ class BcRequestsController < ApplicationController
 
 	def new
 		@bc_request           = BcRequest.new #	sole purpose is to make testing happy
-		@active_bc_requests   = BcRequest.find(:all, :conditions => { :status => 'active' })
-		@waitlist_bc_requests = BcRequest.find(:all, :conditions => { :status => 'waitlist' })
+		@active_bc_requests   = BcRequest.where( :status => 'active' )
+		@waitlist_bc_requests = BcRequest.where( :status => 'waitlist' )
 	end
 
 	def create
@@ -44,9 +44,10 @@ class BcRequestsController < ApplicationController
 	end
 
 	def index
-		conditions = {}
-		conditions[:status] = params[:status] if params[:status]
-		@bc_requests  = BcRequest.find(:all, :conditions => conditions )
+#		conditions = {}
+#		conditions[:status] = params[:status] if params[:status]
+		@bc_requests = BcRequest.scoped
+		@bc_requests = @bc_requests.where(:status => params[:status]) if params[:status]
 		respond_to do |format|
 			format.html
 			format.csv { 
@@ -58,7 +59,8 @@ class BcRequestsController < ApplicationController
 
 	def confirm
 		BcRequest.transaction do
-			active_bc_requests  = BcRequest.find(:all, :conditions => { :status => 'active' })
+#			active_bc_requests  = BcRequest.find(:all, :conditions => { :status => 'active' })
+			active_bc_requests  = BcRequest.where( :status => 'active' )
 			active_bc_requests.each do |bc_request|
 				study_subject = bc_request.study_subject
 				enrollment = study_subject.enrollments.find_or_create_by_project_id(
@@ -136,7 +138,8 @@ protected
 				["study_subject_id = ? AND ( status != 'complete' OR status IS NULL )", @study_subject.id]) )
 #	TODO need the null.  should set default to '' 
 #				["study_subject_id = ? AND ( status != 'complete' )", @study_subject.id]) )
-			access_denied("case study_subject has an incomplete bc_request already!", new_bc_request_path)
+			access_denied("case study_subject has an incomplete bc_request already!", 
+				new_bc_request_path)
 		end
 	end
 

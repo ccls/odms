@@ -53,7 +53,7 @@ class StudySubjectsController < ApplicationController
 			conditions[0] << "( subject_type_id = :subject_type_id )"
 			conditions[1][:subject_type_id] = params[:subject_type_id].to_i
 		end
-		params[:page] = valid_find_page	#(params)
+#		params[:page] = valid_find_page	#(params)
 		@study_subjects = StudySubject.paginate(
 			:order   => search_order,
 			:include => [:patient,:subject_type],

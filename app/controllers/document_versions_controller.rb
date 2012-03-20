@@ -13,7 +13,7 @@ class DocumentVersionsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@document_versions = DocumentVersion.all
+		@document_versions = DocumentVersion.order('position')
 	end
 
 	def new
