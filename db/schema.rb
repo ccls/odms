@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120308204347) do
+ActiveRecord::Schema.define(:version => 20120320234705) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1220,6 +1220,17 @@ ActiveRecord::Schema.define(:version => 20120308204347) do
 
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
+
+  create_table "sample_formats", :force => true do |t|
+    t.integer  "position"
+    t.string   "key",         :null => false
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "sample_formats", ["description"], :name => "index_sample_formats_on_description", :unique => true
+  add_index "sample_formats", ["key"], :name => "index_sample_formats_on_key", :unique => true
 
   create_table "sample_kits", :force => true do |t|
     t.integer  "sample_id"

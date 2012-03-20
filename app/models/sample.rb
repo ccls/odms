@@ -10,6 +10,7 @@ class Sample < ActiveRecord::Base
 	has_many :aliquots
 	belongs_to :project
 	belongs_to :study_subject
+	belongs_to :sample_format
 	belongs_to :sample_temperature
 
 	attr_protected :study_subject_id, :study_subject
@@ -28,6 +29,8 @@ class Sample < ActiveRecord::Base
 	validates_presence_of :study_subject, :if => :study_subject_id
 	validates_presence_of :project_id
 	validates_presence_of :project, :if => :project_id
+	validates_presence_of :sample_format, :if => :sample_format_id
+	validates_presence_of :sample_temperature, :if => :sample_temperature_id
 
 	validates_length_of   :state, :maximum => 250, :allow_blank => true
 

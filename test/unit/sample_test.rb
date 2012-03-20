@@ -6,14 +6,15 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_have_one( :sample_kit )
 	assert_should_have_many( :aliquots )
 	assert_should_belong_to( :aliquot_sample_format, :unit, 
-		:organization, :sample_temperature )
+		:organization, :sample_format, :sample_temperature )
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 
 	attributes = %w( aliquot_or_sample_on_receipt aliquot_sample_format 
 		aliquot_sample_format_id aliquotted_on collected_at external_id 
 		external_id_source location_id order_no parent_sample_id position 
 		quantity_in_sample receipt_confirmed_by receipt_confirmed_on 
-		received_by_ccls_at received_by_lab_on sample_collector_id sample_temperature 
+		received_by_ccls_at received_by_lab_on sample_collector_id 
+		sample_format sample_format_id sample_temperature 
 		sample_temperature_id sent_to_lab_on sent_to_subject_on state unit unit_id )
 	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
@@ -58,7 +59,7 @@ class SampleTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "should require valid sample_type" do
+	test "should require valid sample_type if given" do
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :sample_type_id => 0)
 			assert !sample.errors.include?(:sample_type_id)
@@ -74,7 +75,7 @@ class SampleTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "should require valid study_subject" do
+	test "should require valid study_subject if given" do
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :study_subject_id => 0)
 			assert !sample.errors.include?(:study_subject_id)
@@ -90,11 +91,27 @@ class SampleTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "should require valid project" do
+	test "should require valid project if given" do
 		assert_difference( "Sample.count", 0 ) do
 			sample = create_sample( :project_id => 0)
 			assert !sample.errors.include?(:project_id)
 			assert  sample.errors.matching?(:project,"can't be blank")
+		end
+	end
+
+	test "should require valid sample_format if given" do
+		assert_difference( "Sample.count", 0 ) do
+			sample = create_sample( :sample_format_id => 0)
+			assert !sample.errors.include?(:sample_format_id)
+			assert  sample.errors.matching?(:sample_format,"can't be blank")
+		end
+	end
+
+	test "should require valid sample_temperature if given" do
+		assert_difference( "Sample.count", 0 ) do
+			sample = create_sample( :sample_temperature_id => 0)
+			assert !sample.errors.include?(:sample_temperature_id)
+			assert  sample.errors.matching?(:sample_temperature,"can't be blank")
 		end
 	end
 
