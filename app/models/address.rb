@@ -15,7 +15,7 @@ class Address < ActiveRecord::Base
 	validates_presence_of :address_type, :if => :address_type_id
 
 	validates_presence_of :line_1, :city, :state, :zip
-	validates_length_of   :line_1, :line_2, :unit, :city, :state,i
+	validates_length_of   :line_1, :line_2, :unit, :city, :state,
 		:maximum => 250, :allow_blank => true
 	validates_length_of   :zip, :maximum => 10, :allow_blank => true
 
