@@ -211,55 +211,55 @@ private	#	THIS IS REQUIRED
 		end
 	end
 
-	def projects_joins
-		unless projects.blank?
-			s = ''
-			projects.keys.each do |id|
-				s << "JOIN enrollments proj_#{id} ON study_subjects.id "<<
-						"= proj_#{id}.study_subject_id AND proj_#{id}.project_id = #{id} " 
-			end
-			s
-		end
-	end
-
-	def projects_conditions
-		unless projects.blank?
-			conditions = []
-			values = []
-			projects.each do |id,attributes|
-				attributes.each do |attr,val|
-					val = [val].flatten
-					if val.true_xor_false?			#	one of my custom methods that should probably be clarified and removed
-						new_condition = case attr.to_s.downcase
-							when 'eligible'
-								"proj_#{id}.is_eligible " <<
-									((val.true?)?'= 1':'!= 1')
-							when 'candidate'
-								"proj_#{id}.is_candidate " <<
-									((val.true?)?'= 1':'!= 1')
-							when 'chosen'
-								"proj_#{id}.is_chosen " <<
-									((val.true?)?'= 1':'!= 1')
-							when 'consented'
-								"proj_#{id}.consented " <<
-									((val.true?)?'= 1':'!= 1')
-							when 'terminated'
-								"proj_#{id}.terminated_participation " <<
-									((val.true?)?'= 1':'!= 1')
-							when 'closed'
-								"proj_#{id}.is_closed " <<
-									((val.true?)?'= 1':'!= 1')
-							when 'completed'
-								"proj_#{id}.completed_on IS " <<
-									((val.true?)?'NOT NULL':'NULL')
-						end	#	case attr.to_s.downcase
-						conditions << new_condition unless new_condition.blank?
-					end	#	if val.true_xor_false?
-				end	#	attributes.each
-			end #	projects.each
-			[conditions.compact,values].flatten(1) unless conditions.empty?
-		end #	unless projects.blank?
-	end	#	def projects_conditions
+#	def projects_joins
+#		unless projects.blank?
+#			s = ''
+#			projects.keys.each do |id|
+#				s << "JOIN enrollments proj_#{id} ON study_subjects.id "<<
+#						"= proj_#{id}.study_subject_id AND proj_#{id}.project_id = #{id} " 
+#			end
+#			s
+#		end
+#	end
+#
+#	def projects_conditions
+#		unless projects.blank?
+#			conditions = []
+#			values = []
+#			projects.each do |id,attributes|
+#				attributes.each do |attr,val|
+#					val = [val].flatten
+#					if val.true_xor_false?			#	one of my custom methods that should probably be clarified and removed
+#						new_condition = case attr.to_s.downcase
+#							when 'eligible'
+#								"proj_#{id}.is_eligible " <<
+#									((val.true?)?'= 1':'!= 1')
+#							when 'candidate'
+#								"proj_#{id}.is_candidate " <<
+#									((val.true?)?'= 1':'!= 1')
+#							when 'chosen'
+#								"proj_#{id}.is_chosen " <<
+#									((val.true?)?'= 1':'!= 1')
+#							when 'consented'
+#								"proj_#{id}.consented " <<
+#									((val.true?)?'= 1':'!= 1')
+#							when 'terminated'
+#								"proj_#{id}.terminated_participation " <<
+#									((val.true?)?'= 1':'!= 1')
+#							when 'closed'
+#								"proj_#{id}.is_closed " <<
+#									((val.true?)?'= 1':'!= 1')
+#							when 'completed'
+#								"proj_#{id}.completed_on IS " <<
+#									((val.true?)?'NOT NULL':'NULL')
+#						end	#	case attr.to_s.downcase
+#						conditions << new_condition unless new_condition.blank?
+#					end	#	if val.true_xor_false?
+#				end	#	attributes.each
+#			end #	projects.each
+#			[conditions.compact,values].flatten(1) unless conditions.empty?
+#		end #	unless projects.blank?
+#	end	#	def projects_conditions
 
 	def abstracts_count_conditions
 		unless @abstracts_count.blank?

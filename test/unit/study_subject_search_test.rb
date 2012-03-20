@@ -144,292 +144,292 @@ class StudySubjectSearchTest < ActiveSupport::TestCase
 #		assert !study_subjects.include?(subject1)
 #	end
 
-	test "should include study_subject by having project" do
-		e1 = Factory(:enrollment)
-		e2 = Factory(:enrollment)
-		study_subjects = StudySubject.search(
-			:projects => {e1.project.id => ''})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e2.study_subject)
-	end 
-
-	test "should include study_subject by multiple projects" do
-		e1 = Factory(:enrollment)
-		e2 = Factory(:enrollment,:study_subject => e1.study_subject)
-		e3 = Factory(:enrollment,:project => e2.project)
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => '', 
-			e2.project.id => ''
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e3.study_subject)
-	end
-
-	test "should include study_subject by project indifferent completed" do
-		e1 = Factory(:enrollment, :completed_on => nil,
-			:is_complete => YNDK[:no])
-puts e1.errors.inspect
-		e2 = Factory(:enrollment, :completed_on => Time.now,
-			:is_complete => YNDK[:yes],
-			:project => e1.project )
-puts e2.errors.inspect
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :completed => [true,false] }
-		})
-		assert study_subjects.include?(e1.study_subject)
-		assert study_subjects.include?(e2.study_subject)
-pending
-	end
-
-	test "should include study_subject by project not completed" do
-		e1 = Factory(:enrollment, :completed_on => nil,
-			:is_complete => YNDK[:no])
-		e2 = Factory(:enrollment, :completed_on => Time.now,
-			:is_complete => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :completed => false }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project is completed" do
-		e1 = Factory(:enrollment, :completed_on => nil,
-			:is_complete => YNDK[:no])
-puts e1.errors.inspect
-		e2 = Factory(:enrollment, :completed_on => Time.now,
-			:is_complete => YNDK[:yes],
-			:project => e1.project )
-puts e2.errors.inspect
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :completed => true }
-		})
-		assert !study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-pending
-	end
-
-	test "should include study_subject by project indifferent closed" do
-		e1 = Factory(:enrollment, :is_closed => false)
-		e2 = Factory(:enrollment, :is_closed => true,
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :closed => [true,false] }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project not closed" do
-		e1 = Factory(:enrollment, :is_closed => false)
-		e2 = Factory(:enrollment, :is_closed => true,
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :closed => false }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project is closed" do
-		e1 = Factory(:enrollment, :is_closed => false)
-puts e1.errors.inspect
-		e2 = Factory(:enrollment, :is_closed => true,
-			:project => e1.project )
-puts e2.errors.inspect
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :closed => true }
-		})
-		assert !study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-pending
-	end
-
-	test "should include study_subject by project indifferent terminated" do
-		e1 = Factory(:enrollment, :terminated_participation => YNDK[:no])
-		e2 = Factory(:enrollment, :terminated_participation => YNDK[:yes],
-			:terminated_reason => 'unknown',
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :terminated => [true,false] }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project not terminated" do
-		e1 = Factory(:enrollment, :terminated_participation => YNDK[:no])
-		e2 = Factory(:enrollment, :terminated_participation => YNDK[:yes],
-			:terminated_reason => 'unknown',
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :terminated => false }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project is terminated" do
-		e1 = Factory(:enrollment, :terminated_participation => YNDK[:no])
-		e2 = Factory(:enrollment, :terminated_participation => YNDK[:yes],
-			:terminated_reason => 'unknown',
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :terminated => true }
-		})
-pending
-puts study_subject.inspect
-		assert !study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project indifferent consented" do
-		e1 = Factory(:consented_enrollment, :consented => YNDK[:no],
-			:refusal_reason_id => RefusalReason.first.id)
-		e2 = Factory(:consented_enrollment, :consented => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :consented => [true,false] }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project not consented" do
-		e1 = Factory(:consented_enrollment, :consented => YNDK[:no],
-			:refusal_reason_id => RefusalReason.first.id)
-		e2 = Factory(:consented_enrollment, :consented => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :consented => YNDK[:no] }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project is consented" do
-		e1 = Factory(:consented_enrollment, :consented => YNDK[:no],
-			:refusal_reason_id => RefusalReason.first.id)
-		e2 = Factory(:consented_enrollment, :consented => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :consented => true }
-		})
-pending
-puts study_subject.inspect
-		assert !study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project indifferent candidate" do
-		e1 = Factory(:enrollment, :is_candidate => YNDK[:no])
-		e2 = Factory(:enrollment, :is_candidate => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :candidate => [true,false] }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project not candidate" do
-		e1 = Factory(:enrollment, :is_candidate => YNDK[:no])
-		e2 = Factory(:enrollment, :is_candidate => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :candidate => false }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project is candidate" do
-		e1 = Factory(:enrollment, :is_candidate => YNDK[:no])
-		e2 = Factory(:enrollment, :is_candidate => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :candidate => true }
-		})
-		assert !study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project indifferent chosen" do
-		e1 = Factory(:enrollment, :is_chosen => YNDK[:no],
-			:reason_not_chosen => 'unknown')
-		e2 = Factory(:enrollment, :is_chosen => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :chosen => [true,false] }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project not chosen" do
-		e1 = Factory(:enrollment, :is_chosen => YNDK[:no],
-			:reason_not_chosen => 'unknown')
-		e2 = Factory(:enrollment, :is_chosen => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :chosen => false }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project is chosen" do
-		e1 = Factory(:enrollment, :is_chosen => YNDK[:no],
-			:reason_not_chosen => 'unknown')
-		e2 = Factory(:enrollment, :is_chosen => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :chosen => true }
-		})
-		assert !study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project indifferent eligible" do
-		e1 = Factory(:enrollment, :is_eligible => YNDK[:no],
-			:ineligible_reason_id => IneligibleReason.first.id)
-		e2 = Factory(:enrollment, :is_eligible => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :eligible => [true,false] }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project not eligible" do
-		e1 = Factory(:enrollment, :is_eligible => YNDK[:no],
-			:ineligible_reason_id => IneligibleReason.first.id)
-		e2 = Factory(:enrollment, :is_eligible => YNDK[:yes],
-			:project => e1.project )
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :eligible => false }
-		})
-		assert  study_subjects.include?(e1.study_subject)
-		assert !study_subjects.include?(e2.study_subject)
-	end
-
-	test "should include study_subject by project is eligible" do
-		e1 = Factory(:enrollment, :is_eligible => YNDK[:no],
-			:ineligible_reason_id => IneligibleReason.first.id)
-puts e1.errors.inspect
-		e2 = Factory(:enrollment, :is_eligible => YNDK[:yes],
-			:project => e1.project )
-puts e2.errors.inspect
-		study_subjects = StudySubject.search(:projects => {
-			e1.project.id => { :eligible => true }
-		})
-pending
-puts study_subjects.inspect
-		assert !study_subjects.include?(e1.study_subject)
-		assert  study_subjects.include?(e2.study_subject)
-	end
+#	test "should include study_subject by having project" do
+#		e1 = Factory(:enrollment)
+#		e2 = Factory(:enrollment)
+#		study_subjects = StudySubject.search(
+#			:projects => {e1.project.id => ''})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e2.study_subject)
+#	end 
+#
+#	test "should include study_subject by multiple projects" do
+#		e1 = Factory(:enrollment)
+#		e2 = Factory(:enrollment,:study_subject => e1.study_subject)
+#		e3 = Factory(:enrollment,:project => e2.project)
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => '', 
+#			e2.project.id => ''
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e3.study_subject)
+#	end
+#
+#	test "should include study_subject by project indifferent completed" do
+#		e1 = Factory(:enrollment, :completed_on => nil,
+#			:is_complete => YNDK[:no])
+#puts e1.errors.inspect
+#		e2 = Factory(:enrollment, :completed_on => Time.now,
+#			:is_complete => YNDK[:yes],
+#			:project => e1.project )
+#puts e2.errors.inspect
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :completed => [true,false] }
+#		})
+#		assert study_subjects.include?(e1.study_subject)
+#		assert study_subjects.include?(e2.study_subject)
+#pending
+#	end
+#
+#	test "should include study_subject by project not completed" do
+#		e1 = Factory(:enrollment, :completed_on => nil,
+#			:is_complete => YNDK[:no])
+#		e2 = Factory(:enrollment, :completed_on => Time.now,
+#			:is_complete => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :completed => false }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project is completed" do
+#		e1 = Factory(:enrollment, :completed_on => nil,
+#			:is_complete => YNDK[:no])
+#puts e1.errors.inspect
+#		e2 = Factory(:enrollment, :completed_on => Time.now,
+#			:is_complete => YNDK[:yes],
+#			:project => e1.project )
+#puts e2.errors.inspect
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :completed => true }
+#		})
+#		assert !study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#pending
+#	end
+#
+#	test "should include study_subject by project indifferent closed" do
+#		e1 = Factory(:enrollment, :is_closed => false)
+#		e2 = Factory(:enrollment, :is_closed => true,
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :closed => [true,false] }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project not closed" do
+#		e1 = Factory(:enrollment, :is_closed => false)
+#		e2 = Factory(:enrollment, :is_closed => true,
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :closed => false }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project is closed" do
+#		e1 = Factory(:enrollment, :is_closed => false)
+#puts e1.errors.inspect
+#		e2 = Factory(:enrollment, :is_closed => true,
+#			:project => e1.project )
+#puts e2.errors.inspect
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :closed => true }
+#		})
+#		assert !study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#pending
+#	end
+#
+#	test "should include study_subject by project indifferent terminated" do
+#		e1 = Factory(:enrollment, :terminated_participation => YNDK[:no])
+#		e2 = Factory(:enrollment, :terminated_participation => YNDK[:yes],
+#			:terminated_reason => 'unknown',
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :terminated => [true,false] }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project not terminated" do
+#		e1 = Factory(:enrollment, :terminated_participation => YNDK[:no])
+#		e2 = Factory(:enrollment, :terminated_participation => YNDK[:yes],
+#			:terminated_reason => 'unknown',
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :terminated => false }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project is terminated" do
+#		e1 = Factory(:enrollment, :terminated_participation => YNDK[:no])
+#		e2 = Factory(:enrollment, :terminated_participation => YNDK[:yes],
+#			:terminated_reason => 'unknown',
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :terminated => true }
+#		})
+#pending
+#puts study_subject.inspect
+#		assert !study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project indifferent consented" do
+#		e1 = Factory(:consented_enrollment, :consented => YNDK[:no],
+#			:refusal_reason_id => RefusalReason.first.id)
+#		e2 = Factory(:consented_enrollment, :consented => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :consented => [true,false] }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project not consented" do
+#		e1 = Factory(:consented_enrollment, :consented => YNDK[:no],
+#			:refusal_reason_id => RefusalReason.first.id)
+#		e2 = Factory(:consented_enrollment, :consented => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :consented => YNDK[:no] }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project is consented" do
+#		e1 = Factory(:consented_enrollment, :consented => YNDK[:no],
+#			:refusal_reason_id => RefusalReason.first.id)
+#		e2 = Factory(:consented_enrollment, :consented => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :consented => true }
+#		})
+#pending
+#puts study_subject.inspect
+#		assert !study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project indifferent candidate" do
+#		e1 = Factory(:enrollment, :is_candidate => YNDK[:no])
+#		e2 = Factory(:enrollment, :is_candidate => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :candidate => [true,false] }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project not candidate" do
+#		e1 = Factory(:enrollment, :is_candidate => YNDK[:no])
+#		e2 = Factory(:enrollment, :is_candidate => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :candidate => false }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project is candidate" do
+#		e1 = Factory(:enrollment, :is_candidate => YNDK[:no])
+#		e2 = Factory(:enrollment, :is_candidate => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :candidate => true }
+#		})
+#		assert !study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project indifferent chosen" do
+#		e1 = Factory(:enrollment, :is_chosen => YNDK[:no],
+#			:reason_not_chosen => 'unknown')
+#		e2 = Factory(:enrollment, :is_chosen => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :chosen => [true,false] }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project not chosen" do
+#		e1 = Factory(:enrollment, :is_chosen => YNDK[:no],
+#			:reason_not_chosen => 'unknown')
+#		e2 = Factory(:enrollment, :is_chosen => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :chosen => false }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project is chosen" do
+#		e1 = Factory(:enrollment, :is_chosen => YNDK[:no],
+#			:reason_not_chosen => 'unknown')
+#		e2 = Factory(:enrollment, :is_chosen => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :chosen => true }
+#		})
+#		assert !study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project indifferent eligible" do
+#		e1 = Factory(:enrollment, :is_eligible => YNDK[:no],
+#			:ineligible_reason_id => IneligibleReason.first.id)
+#		e2 = Factory(:enrollment, :is_eligible => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :eligible => [true,false] }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project not eligible" do
+#		e1 = Factory(:enrollment, :is_eligible => YNDK[:no],
+#			:ineligible_reason_id => IneligibleReason.first.id)
+#		e2 = Factory(:enrollment, :is_eligible => YNDK[:yes],
+#			:project => e1.project )
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :eligible => false }
+#		})
+#		assert  study_subjects.include?(e1.study_subject)
+#		assert !study_subjects.include?(e2.study_subject)
+#	end
+#
+#	test "should include study_subject by project is eligible" do
+#		e1 = Factory(:enrollment, :is_eligible => YNDK[:no],
+#			:ineligible_reason_id => IneligibleReason.first.id)
+#puts e1.errors.inspect
+#		e2 = Factory(:enrollment, :is_eligible => YNDK[:yes],
+#			:project => e1.project )
+#puts e2.errors.inspect
+#		study_subjects = StudySubject.search(:projects => {
+#			e1.project.id => { :eligible => true }
+#		})
+#pending
+#puts study_subjects.inspect
+#		assert !study_subjects.include?(e1.study_subject)
+#		assert  study_subjects.include?(e2.study_subject)
+#	end
 
 	test "should include study_subject by complete patid" do
 		s1,s2,s3 = create_study_subjects_with_patids(1234,5678,9)
@@ -452,27 +452,27 @@ puts study_subjects.inspect
 		assert_equal [s1,s2,s3], study_subjects
 	end
 
-	test "should order by priority asc by default" do
-		project,s1,s2,s3 = create_study_subjects_with_recruitment_priorities(9,3,6)
-		study_subjects = StudySubject.search(:order => 'priority',
-			:projects=>{ project.id => {} })
-		assert_equal [s2,s3,s1], study_subjects
-	end
-
-	test "should order by priority asc" do
-		project,s1,s2,s3 = create_study_subjects_with_recruitment_priorities(9,3,6)
-		study_subjects = StudySubject.search(:order => 'priority',
-			:dir => 'asc',
-			:projects=>{ project.id => {} })
-		assert_equal [s2,s3,s1], study_subjects
-	end
-
-	test "should order by priority desc" do
-		project,s1,s2,s3 = create_study_subjects_with_recruitment_priorities(9,3,6)
-		study_subjects = StudySubject.search(:order => 'priority',:dir => 'desc',
-			:projects=>{ project.id => {} })
-		assert_equal [s1,s3,s2], study_subjects
-	end
+#	test "should order by priority asc by default" do
+#		project,s1,s2,s3 = create_study_subjects_with_recruitment_priorities(9,3,6)
+#		study_subjects = StudySubject.search(:order => 'priority',
+#			:projects=>{ project.id => {} })
+#		assert_equal [s2,s3,s1], study_subjects
+#	end
+#
+#	test "should order by priority asc" do
+#		project,s1,s2,s3 = create_study_subjects_with_recruitment_priorities(9,3,6)
+#		study_subjects = StudySubject.search(:order => 'priority',
+#			:dir => 'asc',
+#			:projects=>{ project.id => {} })
+#		assert_equal [s2,s3,s1], study_subjects
+#	end
+#
+#	test "should order by priority desc" do
+#		project,s1,s2,s3 = create_study_subjects_with_recruitment_priorities(9,3,6)
+#		study_subjects = StudySubject.search(:order => 'priority',:dir => 'desc',
+#			:projects=>{ project.id => {} })
+#		assert_equal [s1,s3,s2], study_subjects
+#	end
 
 	test "should order by id asc by default" do
 		s1,s2,s3 = create_study_subjects_with_childids(9,3,6)
