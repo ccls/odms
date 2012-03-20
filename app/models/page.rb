@@ -13,30 +13,26 @@
 #	were to get any deeper, the list should probably be changed
 #	to something like a nested set.
 class Page < ActiveRecord::Base
-	default_scope :order => :position
+	default_scope :order => 'position ASC'
 
 	acts_as_list :scope => :parent_id
 #	acts_as_list :scope => "parent_id \#{(parent_id.nil?)?'IS NULL':'= parent_id'} AND locale = '\#{locale}'"
 
 	validates_length_of :path,  :minimum => 1
 	validates_format_of :path,  :with => /^\//, :allow_blank => true
-	validates_length_of :menu_en,  :minimum => 4
-	validates_length_of :title_en, :minimum => 4
-	validates_length_of :body_en,  :minimum => 4
-	validates_uniqueness_of :menu_en
-	validates_uniqueness_of :path
+	validates_length_of :menu_en, :title_en, :body_en, :minimum => 4
+	validates_uniqueness_of :menu_en, :path
 
 	belongs_to :parent, :class_name => 'Page'
 	has_many :children, :class_name => 'Page', :foreign_key => 'parent_id',
 		:dependent => :nullify
 	
-	scope :roots, :conditions => { 
-		:parent_id => nil, :hide_menu => false }
-
-	scope :hidden, :conditions => { 
-		:hide_menu => true }
-
-	scope :not_home, :conditions => [ "path != '/'" ]
+#	scope :roots, :conditions => { :parent_id => nil, :hide_menu => false }
+#	scope :hidden, :conditions => { :hide_menu => true }
+#	scope :not_home, :conditions => [ "path != '/'" ]
+	scope :roots,    where(:parent_id => nil, :hide_menu => false)
+	scope :hidden,   where(:hide_menu => true)
+	scope :not_home, where("path != '/'")
 
 	before_validation :adjust_path
 
@@ -61,11 +57,13 @@ class Page < ActiveRecord::Base
 	#	by_path returns the one(max) page that
 	#	matches the given path.
 	def self.by_path(path)
-		page = find(:first,
-			:conditions => {
-				:path   => path.downcase
-			}
-		)
+#		page = find(:first,
+#			:conditions => {
+#				:path   => path.downcase
+#			}
+#		)
+		#	interesting.  limit 1 still returns an array
+		page = where(:path => path.downcase ).limit(1).first
 	end
 
 	def root
