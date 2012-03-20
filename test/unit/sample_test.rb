@@ -9,6 +9,7 @@ class SampleTest < ActiveSupport::TestCase
 		:organization, :sample_temperature )
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 
+#	TODO add 'state' not required, and max length of 250
 
 	attributes = %w( aliquot_or_sample_on_receipt aliquot_sample_format 
 		aliquot_sample_format_id aliquotted_on collected_at external_id 

@@ -30,6 +30,7 @@ class Sample < ActiveRecord::Base
 	validates_presence_of :project_id
 	validates_presence_of :project, :if => :project_id
 
+#	validates_length_of   :state, :maximum => 250, :allow_blank => true
 
 #	gonna need custom messages here
 #	gonna be a problems as sent to subject on NOT on receive sample on
