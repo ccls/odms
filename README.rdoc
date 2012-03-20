@@ -207,6 +207,16 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 * fix all search code
   * Remove GiftCardSearch as it is not used
   * Try to remove AbstractSearch if possible
+  * searching is not terribly important, but does need to work
+  * the following have some type of homemade 'search' method that will NEED updated
+    * app/models/abstract.rb
+    * app/models/gift_card.rb
+    * app/models/study_subject.rb
+    * app/models/operational_event.rb
+      * no idea where this search is ever called
+    * app/models/user.rb
+      * only appears to search on role name in users controller 
+      * "users_path( :role_name => role_name )"
 
 
 * http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes
@@ -273,7 +283,29 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 * Keep or Remove HomexOutcome and custom HomeExposure callbacks????
 
 
-* It seems that the test database doesn't completely clean itself before each test
+
+
+
+* It seems that the test database doesn't completely clean itself before each test.
+  * This results in the count comparisons being way off.
+  * when its clean, some of these tests actually work?
+ 
+
+* default_scopes mucks up searching in rails 3
+
+
+
+
+
+
+
+
+TUESDAY
+  remove User.search and OperationalEvent.seach
+  debug integration tests
+
+
+
 
 
 
@@ -285,60 +317,6 @@ test_contacts#show_should_toggle_historic_phone_numbers_with_superuser_login(Con
 Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:50369/fake_session/new
     /test/capybara_integration_test_helper.rb:273:in `login_as'
     /test/integration/contacts_integration_test.rb:44:in `test_contacts#show_should_toggle_historic_phone_numbers_with_superuser_login'
-
-121) Failure:
-test_should_create_operational_event_when_enrollment_complete_UNSET(EnrollmentTest) [/test/unit/enrollment_test.rb:452]:
---- expected
-+++ actual
-@@ -1 +1 @@
--reopened
-+complete
-
-128) Failure:
-test_should_create_intro_letter_operational_event_when_intro_letter_sent_on_set(InterviewTest) [/test/unit/interview_test.rb:46]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<#<OperationalEventType id: 1, position: nil, key: "intro", description: "intro letter sent", event_category: "correspondence", created_at: "2012-03-20 01:01:28", updated_at: "2012-03-20 01:01:28">>
-+<#<OperationalEventType id: 21, position: nil, key: "NewSubject", description: "New subject created by CCLS", event_category: "recruitment", created_at: "2012-03-20 01:01:28", updated_at: "2012-03-20 01:01:28">>
-
-129) Failure:
-test_should_update_intro_letter_operational_event_when_intro_letter_sent_on_updated(InterviewTest) [/test/unit/interview_test.rb:61]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<Mon, 19 Mar 2012>
-+<Sun, 18 Mar 2012>
-
-
-
-148) Failure:
-test_should_ignore_invalid_dir(OperationalEventTest) [/test/unit/operational_event_test.rb:127]:
-149) Failure:
-test_should_ignore_invalid_order(OperationalEventTest) [/test/unit/operational_event_test.rb:120]:
-150) Failure:
-test_should_ignore_valid_dir_without_order(OperationalEventTest) [/test/unit/operational_event_test.rb:133]:
-151) Failure:
-test_should_order_by_description_ASC(OperationalEventTest) [/test/unit/operational_event_test.rb:78]:
-152) Failure:
-test_should_order_by_description_DESC(OperationalEventTest) [/test/unit/operational_event_test.rb:84]:
-153) Failure:
-test_should_order_by_description_and_DESC_as_default_dir(OperationalEventTest) [/test/unit/operational_event_test.rb:90]:
-154) Failure:
-test_should_order_by_occurred_on_ASC(OperationalEventTest) [/test/unit/operational_event_test.rb:96]:
-155) Failure:
-test_should_order_by_occurred_on_DESC(OperationalEventTest) [/test/unit/operational_event_test.rb:102]:
-156) Failure:
-test_should_order_by_occurred_on_DESC_as_defaults(OperationalEventTest) [/test/unit/operational_event_test.rb:114]:
-157) Failure:
-test_should_order_by_occurred_on_and_DESC_as_default_dir(OperationalEventTest) [/test/unit/operational_event_test.rb:108]:
-158) Failure:
-test_should_order_by_type_ASC(OperationalEventTest) [/test/unit/operational_event_test.rb:60]:
-159) Failure:
-test_should_order_by_type_DESC(OperationalEventTest) [/test/unit/operational_event_test.rb:66]:
-160) Failure:
-test_should_order_by_type_and_DESC_as_default_dir(OperationalEventTest) [/test/unit/operational_event_test.rb:72]:
-
 
 
 173) Failure:
@@ -432,95 +410,6 @@ test_should_order_by_id_asc_by_default(StudySubjectSearchTest) [/test/unit/study
 
 232) Failure:
 test_should_order_by_id_desc(StudySubjectSearchTest) [/test/unit/study_subject_search_test.rb:495]:
-
-
-254) Error:
-test_should_download_csv_with_superuser_login(StudySubjectsControllerTest):
-ActionView::Template::Error: undefined method `total_pages' for #<Array:0x1cf06ca4>
-    app/views/study_subjects/_index.html.erb:18:in `_app_views_study_subjects__index_html_erb__967763478_243312710'
-    app/views/study_subjects/index.html.erb:2:in `_app_views_study_subjects_index_html_erb__898114597_243323470'
-    app/controllers/study_subjects_controller.rb:90:in `index'
-    /test/functional/study_subjects_controller_test.rb:142:in `test_should_download_csv_with_superuser_login'
-
-258) Failure:
-test_should_find_study_subjects_and_order_by_icf_master_id_dir_asc_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:449]:
-
-262) Failure:
-test_should_find_study_subjects_and_order_by_icf_master_id_dir_desc_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:457]:
-
-266) Failure:
-test_should_find_study_subjects_and_order_by_icf_master_id_invalid_dir_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:465]:
-
-270) Failure:
-test_should_find_study_subjects_and_order_by_icf_master_id_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:441]:
-
-274) Failure:
-test_should_find_study_subjects_and_order_by_last_name_dir_asc_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:485]:
-
-278) Failure:
-test_should_find_study_subjects_and_order_by_last_name_dir_desc_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:493]:
-
-282) Failure:
-test_should_find_study_subjects_and_order_by_last_name_invalid_dir_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:501]:
-
-286) Failure:
-test_should_find_study_subjects_and_order_by_last_name_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:477]:
-
-290) Failure:
-test_should_find_study_subjects_and_order_by_reference_date_dir_asc_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:411]:
-
-294) Failure:
-test_should_find_study_subjects_and_order_by_reference_date_dir_desc_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:420]:
-
-298) Failure:
-test_should_find_study_subjects_and_order_by_reference_date_invalid_dir_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:429]:
-
-302) Failure:
-test_should_find_study_subjects_and_order_by_reference_date_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:402]:
-
-306) Failure:
-test_should_find_study_subjects_and_order_by_studyid_dir_asc_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:449]:
-
-310) Failure:
-test_should_find_study_subjects_and_order_by_studyid_dir_desc_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:457]:
-
-314) Failure:
-test_should_find_study_subjects_and_order_by_studyid_invalid_dir_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:465]:
-
-318) Failure:
-test_should_find_study_subjects_and_order_by_studyid_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:441]:
-
-322) Failure:
-test_should_find_study_subjects_by_subject_type_mother_and_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:190]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<1>
-+<6>
-
-326) Failure:
-test_should_find_study_subjects_ignoring_poorly_formatted_dob_and_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:259]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<3>
-+<8>
-
-330) Failure:
-test_should_get_study_subjects_find_with_superuser_login(StudySubjectsControllerTest) [/test/functional/study_subjects_controller_test.rb:158]:
---- expected
-+++ actual
-@@ -1 +1 @@
--<3>
-+<8>
-
-
-
-
-
-
-
-
 
 
 
