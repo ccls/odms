@@ -50,8 +50,6 @@ class LiveBirthDataUpdatesController < ApplicationController
 	# POST /live_birth_data_updates
 	# POST /live_birth_data_updates.xml
 	def create
-puts "in controller#create"
-puts params[:live_birth_data_update].inspect
 		@live_birth_data_update = LiveBirthDataUpdate.new(params[:live_birth_data_update])
 
 		@live_birth_data_update.save!
@@ -81,8 +79,6 @@ puts params[:live_birth_data_update].inspect
 	# PUT /live_birth_data_updates/1
 	# PUT /live_birth_data_updates/1.xml
 	def update
-puts "in controller#update"
-puts params[:live_birth_data_update].inspect
 	#	@live_birth_data_update = LiveBirthDataUpdate.find(params[:id])
 
 		@live_birth_data_update.update_attributes!(params[:live_birth_data_update])

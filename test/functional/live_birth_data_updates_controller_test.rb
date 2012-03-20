@@ -28,20 +28,12 @@ class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
 		test "should create with csv_file attachment and #{cu} login" do
 			login_as send(cu)
 			create_live_birth_data_update_test_file
-puts csv_test_file_name
-puts File.exists?(csv_test_file_name)
 			assert_difference('LiveBirthDataUpdate.count',1) {
 				post :create, :live_birth_data_update => {
-#					:csv_file => File.open(csv_test_file_name)
-					:csv_file => ActionDispatch::Http::UploadedFile.new(
-						:tempfile => File.open(csv_test_file_name) )
+					:csv_file => Rack::Test::UploadedFile.new(csv_test_file_name)
 				}
 			}
-#			assert_not_nil assigns(:live_birth_data_update).csv_file_file_name	#	duplicate
-puts assigns(:live_birth_data_update).inspect
-assert_not_nil flash[:notice]
-#	did it create?
-pending
+			assert_not_nil flash[:notice]
 			assert_not_nil assigns(:live_birth_data_update).csv_file_file_name
 			assert_equal   assigns(:live_birth_data_update).csv_file_file_name, csv_test_file_name
 			assert_not_nil assigns(:live_birth_data_update).csv_file_content_type
@@ -57,23 +49,13 @@ pending
 			live_birth_data_update = Factory(:live_birth_data_update)
 			assert_nil live_birth_data_update.csv_file_file_name
 			create_live_birth_data_update_test_file
-puts csv_test_file_name
-puts File.exists?(csv_test_file_name)
 			assert_difference('LiveBirthDataUpdate.count',0) {
 				put :update, :id => live_birth_data_update.id, :live_birth_data_update => {
-#					:csv_file => File.open(csv_test_file_name)
-#	just doesn't seem to upload. works perfectly in console
-#	but not with post and put in a functional test??
-					:csv_file => ActionDispatch::Http::UploadedFile.new(
-						:tempfile => File.open(csv_test_file_name) )
+					:csv_file => Rack::Test::UploadedFile.new(csv_test_file_name)
 				}
 			}
 			live_birth_data_update.reload
-#	did it update?
-assert_not_nil flash[:notice]
-puts assigns(:live_birth_data_update).inspect
-puts live_birth_data_update.inspect
-pending
+			assert_not_nil flash[:notice]
 			assert_not_nil live_birth_data_update.csv_file_file_name
 			assert_equal   live_birth_data_update.csv_file_file_name, csv_test_file_name
 			assert File.exists?(live_birth_data_update.csv_file.path)

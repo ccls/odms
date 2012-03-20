@@ -28,19 +28,14 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 		test "should create with csv_file attachment and #{cu} login" do
 			login_as send(cu)
 			create_icf_master_tracker_update_test_file
-puts csv_test_file_name
-puts File.exists?(csv_test_file_name)
 			assert_difference('IcfMasterTrackerUpdate.count',1) {
 				post :create, :icf_master_tracker_update => {
-					:csv_file => File.open(csv_test_file_name)
+					:csv_file => Rack::Test::UploadedFile.new(csv_test_file_name)
 				}
 			}
-pending
-#			assert_not_nil assigns(:icf_master_tracker_update).csv_file_file_name	# duplicate line
 			assigns(:icf_master_tracker_update).reload
-puts flash.inspect
-puts assigns(:icf_master_tracker_update).inspect
-puts assigns(:icf_master_tracker_update).errors.inspect
+			assert_not_nil flash[:notice]
+			assert_nil     flash[:error]
 			assert_not_nil assigns(:icf_master_tracker_update).csv_file_file_name
 			assert_equal   assigns(:icf_master_tracker_update).csv_file_file_name, csv_test_file_name
 			assert_not_nil assigns(:icf_master_tracker_update).csv_file_content_type
@@ -56,18 +51,12 @@ puts assigns(:icf_master_tracker_update).errors.inspect
 			icf_master_tracker_update = Factory(:icf_master_tracker_update)
 			assert_nil icf_master_tracker_update.csv_file_file_name
 			create_icf_master_tracker_update_test_file
-puts csv_test_file_name
-puts File.exists?(csv_test_file_name)
 			assert_difference('IcfMasterTrackerUpdate.count',0) {
 				put :update, :id => icf_master_tracker_update.id, :icf_master_tracker_update => {
-					:csv_file => File.open(csv_test_file_name)
+					:csv_file => Rack::Test::UploadedFile.new(csv_test_file_name)
 				}
 			}
 			icf_master_tracker_update.reload
-pending
-puts flash.inspect
-puts icf_master_tracker_update.inspect
-puts icf_master_tracker_update.errors.inspect
 			assert_not_nil icf_master_tracker_update.csv_file_file_name
 			assert_equal   icf_master_tracker_update.csv_file_file_name, csv_test_file_name
 			assert File.exists?(icf_master_tracker_update.csv_file.path)
