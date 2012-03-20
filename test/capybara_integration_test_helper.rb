@@ -151,7 +151,7 @@ end
 #	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
 
-	setup :do_not_force_ssl
+#	setup :do_not_force_ssl
 	def do_not_force_ssl
 		#	Forcing ssl is problematic in capybara unlike webrat, so I'm just skipping it.
 		#	ApplicationController.subclasses does not initially include FakeSessionsController

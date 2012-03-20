@@ -1,4 +1,3 @@
-
 #	This should be required, but seems auto loaded (config.gem probably)
 #require 'ssl_requirement'
 
@@ -7,7 +6,7 @@
 #require 'casclient/frameworks/rails/filter'
 
 class ApplicationController < ActionController::Base
-	include SslRequirement
+#	include SslRequirement
 
 	helper :all # include all helpers, all the time
 
@@ -86,37 +85,37 @@ protected	#	private #	(does it matter which or if neither?)
 	end
 	alias_method_chain :method_missing, :authorization
 
-	def ssl_required?
-		# Force https everywhere (that doesn't have ssl_allowed set)
-		true
-	end
-
+#	def ssl_required?
+#		# Force https everywhere (that doesn't have ssl_allowed set)
+#		true
+#	end
 #
-#	TODO
+##
+##	TODO
+##
+###	http://stackoverflow.com/questions/3634100/rails-3-ssl-deprecation
+##
+##
+#	def ssl_allowed?
+####		#	Gary has setup the genepi server to force https with its own redirection.
+####		#	Forcing ssl in the application results in about 20 redirections back
+####		#	to itself, so this tells the app to ignore it.
+####		#	For testing, we cannot ignore the action check.
+####		#	I could use an alias_method_chain here, but would actually take more lines.
+####
+####
+#####	TODO	Rails 3
+#####	NoMethodError (undefined method `read_inheritable_attribute' for OdmsController:Class):
+###		request.host == "odms.brg.berkeley.edu" || (
+###			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
+##
+##		#	In rails 3, we don't need the read_inheritable_attribute anymore
+##		#	Did I really need the rails 3 version of ssl_requirement?
+##		#	This ignores the controller, because it is included in the calling "self.class" (I think)
 #
-##	http://stackoverflow.com/questions/3634100/rails-3-ssl-deprecation
-#
-#
-	def ssl_allowed?
-###		#	Gary has setup the genepi server to force https with its own redirection.
-###		#	Forcing ssl in the application results in about 20 redirections back
-###		#	to itself, so this tells the app to ignore it.
-###		#	For testing, we cannot ignore the action check.
-###		#	I could use an alias_method_chain here, but would actually take more lines.
-###
-###
-####	TODO	Rails 3
-####	NoMethodError (undefined method `read_inheritable_attribute' for OdmsController:Class):
-##		request.host == "odms.brg.berkeley.edu" || (
-##			self.class.read_inheritable_attribute(:ssl_allowed_actions) || []).include?(action_name.to_sym)
-#
-#		#	In rails 3, we don't need the read_inheritable_attribute anymore
-#		#	Did I really need the rails 3 version of ssl_requirement?
-#		#	This ignores the controller, because it is included in the calling "self.class" (I think)
-
-		request.host == "odms.brg.berkeley.edu" || (
-			self.class.ssl_allowed_actions || []).include?(action_name.to_sym)
-	end
+#		request.host == "odms.brg.berkeley.edu" || (
+#			self.class.ssl_allowed_actions || []).include?(action_name.to_sym)
+#	end
 
 	def redirect_to_referer_or_default(default)
 		redirect_to( session[:refer_to] || 

@@ -4,7 +4,7 @@ class PagesController < ApplicationController
 	before_filter :may_maintain_pages_required, :except => :show
 	before_filter :id_required, :only => [ :edit, :update, :destroy ]
 
-	ssl_allowed :show
+#	ssl_allowed :show
 
 	def show
 		if params[:path]

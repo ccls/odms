@@ -41,6 +41,9 @@ gem 'jquery-rails'
 
 
 
+gem 'rack-ssl', :require => 'rack/ssl'
+
+
 
 
 gem "mysql"
@@ -57,7 +60,7 @@ gem "chronic"	#,	'<=0.6.6'
 
 #gem "ssl_requirement"
 #	rails 3 version, but apparently there is a better way
-gem 'bartt-ssl_requirement', :require => 'ssl_requirement'
+#gem 'bartt-ssl_requirement', :require => 'ssl_requirement'
 
 #	don't need it and its not rails 3 compatible
 #gem "jrails"

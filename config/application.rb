@@ -60,7 +60,7 @@ module Odms
 
 
 
-#config.force_ssl = true
+		config.force_ssl = true
 
 
 		# Version of your assets, change this if you want to expire all your assets
