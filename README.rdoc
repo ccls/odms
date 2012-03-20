@@ -88,10 +88,32 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 
 
+* gonna need to figure out this SSL thing so that all environments work
+  * I may not need to do anything except remove stuff
+  * production server forces https
+  * adding config.force_ssl to application.rb is supposed to do this
+  * then I can remove all kinds of stuff
+  * add config.force_ssl, but no tests actually prove this.
+  * relying on production server to enforce SSL
+
+
+* rake db:load:fixtures with csv files (works in testing)
+  * CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
+  * rake db:load:fixtures does not work for csv files????
+  * the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
+  * manually importing with own rake tasks now
+
+
+
+* json output format no longer has the initial key.
+  * can change this by modifying application.rb
+  * config.active_record.include_root_in_json = false
 
 
 
 
+* missing subject_race_id and subject_language_id in selectors probably from new form of fields_for
+  * Done
 
 
 
@@ -147,14 +169,6 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 
 
-* gonna need to figure out this SSL thing so that all environments work
-  * I may not need to do anything except remove stuff
-  * production server forces https
-  * adding config.force_ssl to application.rb is supposed to do this
-  * then I can remove all kinds of stuff
-
-
-
 
 * paths not available in new helper tests?? ( so commented out those tests )
   * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
@@ -163,14 +177,7 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 * integration tests passing
 * all tests passing
 
-* rake db:load:fixtures with csv files (works in testing)
-  * CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
-  rake db:load:fixtures does not work for csv files????
-  the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
-
 * ZipCode failures??
-
-* json output format no longer has the initial key.
 
 * controllers now raises MassAssignmentSecurity::Error
   * add a rescue to ignore it
@@ -185,7 +192,6 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 * remove soon to be deprecate code
 
-* missing subject_race_id and subject_language_id in selectors probably from new form of fields_for
 
 
 * fix all search code
