@@ -34,7 +34,7 @@ module ApplicationHelper
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('New/Receive Sample', new_receive_sample_path),
-				'<span>Manage Samples</span>'
+				'<span>Sample Manifests</span>'
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 

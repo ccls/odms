@@ -193,8 +193,10 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 PRIORITY
 
-  remove User.search 
-  debug integration tests
+* remove User.search 
+* remove StudySubject.search on projects
+
+* debug integration tests
 
 * integration tests passing
 * all tests passing
