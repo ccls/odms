@@ -9,15 +9,12 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	validates_presence_of :admit_date
-	validates_presence_of :organization_id
-	validates_presence_of :diagnosis_id
-	validates_presence_of :hospital_no
+	validates_presence_of :admit_date, :organization_id, :diagnosis_id, :hospital_no
+	validates_presence_of :other_diagnosis, :if => :diagnosis_is_other?
+
 	validates_length_of   :hospital_no, :maximum => 25, :allow_blank => true
 	validates_uniqueness_of :hospital_no, :scope => :organization_id
-	validates_past_date_for :admit_date
-	validates_past_date_for :diagnosis_date
-	validates_past_date_for :treatment_began_on
+	validates_past_date_for :admit_date, :diagnosis_date, :treatment_began_on
 	validate :admit_date_is_after_dob
 	validate :diagnosis_date_is_after_dob
 	validate :treatment_began_on_is_after_diagnosis_date
@@ -33,8 +30,6 @@ base.class_eval do
 		:with => /\A\s*\d{5}(-)?(\d{4})?\s*\z/,
 		:message => "should be 12345 or 12345-1234",
 		:allow_blank => true
-
-	validates_presence_of :other_diagnosis, :if => :diagnosis_is_other?
 
 	validates_inclusion_of :was_under_15_at_dx, :was_previously_treated,
 		:was_ca_resident_at_diagnosis,

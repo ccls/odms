@@ -87,7 +87,7 @@ base.class_eval do
 #	validates_complete_date_for :consented_on, :allow_nil => true
 #	changed to allow_blank as will be blank coming from form
 	validates_complete_date_for :consented_on, :allow_blank => true
-	validates_complete_date_for :completed_on, :allow_nil => true
+	validates_complete_date_for :completed_on, :allow_blank => true
 
 	validates_length_of :recruitment_priority,      :maximum => 250, :allow_blank => true
 	validates_length_of :other_ineligible_reason,   :maximum => 250, :allow_blank => true

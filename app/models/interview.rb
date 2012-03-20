@@ -24,9 +24,8 @@ class Interview < ActiveRecord::Base
 	validates_complete_date_for :ended_on, :allow_nil => true
 	validates_complete_date_for :intro_letter_sent_on, :allow_nil => true
 
-	validates_length_of :other_subject_relationship, :maximum => 250, :allow_blank => true
-	validates_length_of :respondent_first_name,      :maximum => 250, :allow_blank => true
-	validates_length_of :respondent_last_name,       :maximum => 250, :allow_blank => true
+	validates_length_of :other_subject_relationship, :respondent_first_name, :respondent_last_name,
+		:maximum => 250, :allow_blank => true
 
 	validate :presence_of_other_subject_relationship
 

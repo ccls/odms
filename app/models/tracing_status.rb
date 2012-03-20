@@ -12,9 +12,4 @@ class TracingStatus < ActiveRecord::Base
 		description
 	end
 
-#	#	Returns description
-#	def name
-#		description
-#	end
-
 end

@@ -3,28 +3,24 @@ class CandidateControl < ActiveRecord::Base
 	belongs_to :study_subject
 	attr_protected :study_subject_id, :study_subject
 
-	validates_presence_of  :first_name
-	validates_presence_of  :last_name
-	validates_presence_of  :dob
+	validates_presence_of  :first_name, :last_name, :dob
 	validates_inclusion_of :reject_candidate, :in => [true, false]
 	validates_presence_of  :rejection_reason, :if => :reject_candidate
 	validates_length_of    :related_patid, :is => 4, :allow_blank => true
-	validates_length_of    :state_registrar_no, :maximum => 25, :allow_blank => true
-	validates_length_of    :local_registrar_no, :maximum => 25, :allow_blank => true
+	validates_length_of    :state_registrar_no, :local_registrar_no, 
+		:maximum => 25, :allow_blank => true
 
 	validates_length_of    :first_name, :middle_name, :last_name,
-		:birth_county, :birth_type, :mother_maiden_name,
-		:rejection_reason, :maximum => 250, :allow_blank => true
+		:birth_county, :birth_type, :mother_maiden_name, :rejection_reason, 
+			:maximum => 250, :allow_blank => true
 
 	validates_inclusion_of :sex, :in => %w( M F DK )
 #	validates_inclusion_of :sex, :in => valid_sex_values
 
-
 	validates_inclusion_of :mother_hispanicity_id, :father_hispanicity_id,
-			:in => YNODK.valid_values, :allow_nil => true
+			:in => YNODK.valid_values, :allow_blank => true
 	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
-			:in => YNDK.valid_values, :allow_nil => true
-
+			:in => YNDK.valid_values,  :allow_blank => true
 
 	#	Returns string containing candidates's first, middle and last name
 	def full_name

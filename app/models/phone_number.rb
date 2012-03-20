@@ -5,6 +5,7 @@ class PhoneNumber < ActiveRecord::Base
 	default_scope :order => :position
 
 	belongs_to :study_subject
+	attr_protected :study_subject_id, :study_subject
 	belongs_to :phone_type
 	belongs_to :data_source
 
@@ -25,33 +26,19 @@ class PhoneNumber < ActiveRecord::Base
 	validates_presence_of :why_invalid,       :if => :is_not_valid?
 	validates_presence_of :how_verified,      :if => :is_verified?
 	validates_presence_of :other_data_source, :if => :data_source_is_other?
-	validates_length_of   :why_invalid,  :maximum => 250, :allow_blank => true
-	validates_length_of   :how_verified, :maximum => 250, :allow_blank => true
+	validates_length_of   :why_invalid,  :how_verified, 
+		:maximum => 250, :allow_blank => true
 
 	#	Want to ensure contains 10 digits.
 	#	I'm kinda surprised that this regex works.
 	validates_format_of   :phone_number, :with => /\A(\D*\d\D*){10}\z/,
 		:allow_blank => true
 
-
-
-
-	attr_protected :study_subject_id, :study_subject
-
-
-
-
 	validates_inclusion_of :current_phone, :is_valid,
 			:in => YNDK.valid_values, :allow_nil => true
 
-
-	scope :current, :conditions => [
-		'current_phone IS NOT NULL AND current_phone != 2'
-	]
-
-	scope :historic, :conditions => [
-		'current_phone IS NULL OR current_phone = 2'
-	]
+	scope :current,  :conditions => [ 'current_phone IS NOT NULL AND current_phone != 2' ]
+	scope :historic, :conditions => [ 'current_phone IS NULL OR current_phone = 2' ]
 
 	before_save :format_phone_number, :if => :phone_number_changed?
 

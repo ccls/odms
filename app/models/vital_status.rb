@@ -8,9 +8,6 @@ class VitalStatus < ActiveRecord::Base
 
 	has_many :study_subjects
 
-#	validates_presence_of   :code
-#	validates_uniqueness_of :code
-
 	#	Returns description
 	def to_s
 		description

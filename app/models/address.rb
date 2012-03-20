@@ -14,15 +14,9 @@ class Address < ActiveRecord::Base
 	validates_presence_of :address_type_id
 	validates_presence_of :address_type, :if => :address_type_id
 
-	validates_presence_of :line_1
-	validates_length_of   :line_1, :maximum => 250, :allow_blank => true
-	validates_length_of   :line_2, :maximum => 250, :allow_blank => true
-	validates_length_of   :unit,   :maximum => 250, :allow_blank => true
-	validates_presence_of :city
-	validates_length_of   :city,   :maximum => 250, :allow_blank => true
-	validates_presence_of :state
-	validates_length_of   :state,  :maximum => 250, :allow_blank => true
-	validates_presence_of :zip
+	validates_presence_of :line_1, :city, :state, :zip
+	validates_length_of   :line_1, :line_2, :unit, :city, :state,i
+		:maximum => 250, :allow_blank => true
 	validates_length_of   :zip, :maximum => 10, :allow_blank => true
 
 	#	this needs to be unique, but is only used during importing
