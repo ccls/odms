@@ -190,6 +190,107 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 * (20120319)  7643 tests, 24321 assertions, 134 failures, 233 errors
 
 
+  1) Failure:
+test_should_should_update_blank_address_info_on_zip_code_change_with_administrator_login(NonwaiveredIntegrationTest) [/test/integration/nonwaivered_integration_test.rb:222]:
+<"NORTHUMBERLAND"> expected but was
+<"">.
+
+  2) Failure:
+test_should_should_update_blank_address_info_on_zip_code_change_with_editor_login(NonwaiveredIntegrationTest) [/test/integration/nonwaivered_integration_test.rb:222]:
+<"NORTHUMBERLAND"> expected but was
+<"">.
+
+  3) Failure:
+test_should_should_update_blank_address_info_on_zip_code_change_with_superuser_login(NonwaiveredIntegrationTest) [/test/integration/nonwaivered_integration_test.rb:222]:
+<"NORTHUMBERLAND"> expected but was
+<"">.
+
+  4) Failure:
+test_should_order_sub_pages_with_administrator_login(PagesControllerTest) [/test/functional/pages_controller_test.rb:133]:
+<[1, 2, 3]> expected but was
+<[1, 2, 2]>.
+
+  5) Failure:
+test_should_order_sub_pages_with_editor_login(PagesControllerTest) [/test/functional/pages_controller_test.rb:133]:
+<[1, 2, 3]> expected but was
+<[1, 2, 2]>.
+
+  6) Failure:
+test_should_order_sub_pages_with_superuser_login(PagesControllerTest) [/test/functional/pages_controller_test.rb:133]:
+<[1, 2, 3]> expected but was
+<[1, 2, 2]>.
+
+  7) Error:
+test_should_include_study_subject_by_project_indifferent_completed(StudySubjectSearchTest):
+ActiveRecord::RecordInvalid: Validation failed: Completed on is in the future and must be in the past
+    /test/unit/study_subject_search_test.rb:172:in `test_should_include_study_subject_by_project_indifferent_completed'
+
+ 16) Failure:
+test_should_not_get_active_user_info_if_not_logged_in(UserIntegrationTest) [/test/integration/user_integration_test.rb:28]:
+<"http://127.0.0.1:57588/users/2484"> expected to be =~
+</https:\/\/auth-test\.berkeley\.edu\/cas\/login/>.
+
+ 17) Failure:
+test_should_not_get_administrator_info_if_not_logged_in(UserIntegrationTest) [/test/integration/user_integration_test.rb:28]:
+<"http://127.0.0.1:57588/users/2485"> expected to be =~
+</https:\/\/auth-test\.berkeley\.edu\/cas\/login/>.
+
+ 18) Failure:
+test_should_not_get_editor_info_if_not_logged_in(UserIntegrationTest) [/test/integration/user_integration_test.rb:28]:
+<"http://127.0.0.1:57588/users/2486"> expected to be =~
+</https:\/\/auth-test\.berkeley\.edu\/cas\/login/>.
+
+ 19) Failure:
+test_should_not_get_reader_info_if_not_logged_in(UserIntegrationTest) [/test/integration/user_integration_test.rb:28]:
+<"http://127.0.0.1:57588/users/2487"> expected to be =~
+</https:\/\/auth-test\.berkeley\.edu\/cas\/login/>.
+
+ 20) Failure:
+test_should_not_get_superuser_info_if_not_logged_in(UserIntegrationTest) [/test/integration/user_integration_test.rb:28]:
+<"http://127.0.0.1:57588/users/2488"> expected to be =~
+</https:\/\/auth-test\.berkeley\.edu\/cas\/login/>.
+
+ 21) Failure:
+test_should_create_subject_if_duplicate_subject_no_match_found_with_superuser_login(WaiveredIntegrationTest)
+    [/test/integration/waivered_integration_test.rb:106:in `test_should_create_subject_if_duplicate_subject_no_match_found_with_superuser_login'
+     /test/integration/waivered_integration_test.rb:105:in `test_should_create_subject_if_duplicate_subject_no_match_found_with_superuser_login'
+     /test/integration/waivered_integration_test.rb:104:in `test_should_create_subject_if_duplicate_subject_no_match_found_with_superuser_login'
+     /test/integration/waivered_integration_test.rb:103:in `test_should_create_subject_if_duplicate_subject_no_match_found_with_superuser_login'
+     /test/integration/waivered_integration_test.rb:102:in `test_should_create_subject_if_duplicate_subject_no_match_found_with_superuser_login']:
+"Enrollment.count" didn't change by 2.
+<3> expected but was
+<2>.
+
+ 22) Failure:
+test_should_should_update_blank_address_info_on_zip_code_change_with_administrator_login(WaiveredIntegrationTest) [/test/integration/waivered_integration_test.rb:178]:
+<"NORTHUMBERLAND"> expected but was
+<"">.
+
+ 23) Failure:
+test_should_should_update_blank_address_info_on_zip_code_change_with_editor_login(WaiveredIntegrationTest) [/test/integration/waivered_integration_test.rb:178]:
+<"NORTHUMBERLAND"> expected but was
+<"">.
+
+ 24) Failure:
+test_should_should_update_blank_address_info_on_zip_code_change_with_superuser_login(WaiveredIntegrationTest) [/test/integration/waivered_integration_test.rb:178]:
+<"NORTHUMBERLAND"> expected but was
+<"">.
+
+7615 tests, 27293 assertions, 19 failures, 5 errors
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 PRIORITY
 

@@ -55,7 +55,7 @@ base.class_eval do
 	validates_absence_of :consented_on,
 		:message => "not allowed if consented is blank or Don't Know",
 		:if => :consent_unknown?
-	validates_past_date_for :consented_on
+	validates_past_date_for :consented_on, :allow_blank => true
 
 	validates_presence_of :other_refusal_reason,
 		:message => "required if refusal reason is Other",
@@ -77,7 +77,7 @@ base.class_eval do
 	validates_absence_of :completed_on,
 		:message => "not allowed unless is_complete is Yes",
 		:unless => :is_complete?
-	validates_past_date_for :completed_on
+	validates_past_date_for :completed_on, :allow_blank => true
 
 	validates_absence_of :document_version_id,
 		:message => "not allowed if consented is blank or Don't Know",
