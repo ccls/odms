@@ -119,7 +119,10 @@ jQuery(function(){
 		}
 	});
 
+/*	Don't do this anymore. */
+/*
 	jQuery('p.flash').click(function(){$(this).remove();});
+*/
 
 	if( typeof jQuery('.datepicker').datepicker == 'function' ){
 		jQuery('.datepicker').datepicker();
