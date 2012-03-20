@@ -103,6 +103,14 @@ require 'test/app/controllers/fake_sessions_controller'
 #				It works, but is more of a hack.
 #			
 
+#
+#	new ssl implementation method raises issues
+#
+#Capybara.register_driver :webkit do |app|
+##	Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:57186/fake_session/new
+##  Capybara::Webkit::Driver.new(app, :ignore_ssl_errors => true)
+#  Capybara::Driver::Webkit.new(app, :ignore_ssl_errors => true)
+#end
 Capybara.default_driver = :webkit
 
 #	Using class_attribute instead of mattr_accessor so that
@@ -180,6 +188,11 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 #	end
 #end
 #
+
+
+#		ssl
+#	Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:57186/fake_session/new
+
 #	end
 
 	setup :synchronize_selenium_connections	#	this includes :webkit
@@ -241,7 +254,8 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 #			Transfer,Unit,User,VitalStatus,ZipCode].each do |model|
 #			model.saved_connection = model.connection
 #		end
-ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
+
+		ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 	end
 
 	include Capybara::DSL

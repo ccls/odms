@@ -59,8 +59,18 @@ module Odms
 #		config.assets.enabled = true
 
 
-
-		config.force_ssl = true
+#
+#	Dealing with SSL/HTTPS is being dealt with on the web server level
+#	Even when enabled, ssl seems to be ignored during testing and development
+#		as the browser and the server are the same machine?
+#
+#		config.force_ssl = true
+#railties-3.2.2/lib/rails/application.rb
+#238         if config.force_ssl
+#239           require "rack/ssl"
+#240           middleware.use ::Rack::SSL, config.ssl_options
+#241         end
+#
 
 
 		# Version of your assets, change this if you want to expire all your assets

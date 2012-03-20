@@ -24,6 +24,9 @@ end
 
 class ActionController::TestCase
 
-	setup :turn_https_on
+#
+#	Don't think that I need this with force_ssl
+#
+#	setup :turn_https_on
 
 end
