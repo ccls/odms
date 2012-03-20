@@ -74,12 +74,12 @@ class Abstract < ActiveRecord::Base
 	end
 
 #	include AbstractSearch
-	def self.search(params={})
-		#	TODO	stop using this.  Now that study subjects and abstracts are in
-		#		the same database, this should be simplified.  Particularly since
-		#		the only searching is really on the study subject and not the abstract.
-		AbstractSearch.new(params).abstracts
-	end
+#	def self.search(params={})
+#		#	TODO	stop using this.  Now that study subjects and abstracts are in
+#		#		the same database, this should be simplified.  Particularly since
+#		#		the only searching is really on the study subject and not the abstract.
+#		AbstractSearch.new(params).abstracts
+#	end
 
 	def self.sections
 		#	:label: Cytogenetics
