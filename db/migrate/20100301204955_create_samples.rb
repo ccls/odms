@@ -27,6 +27,7 @@ class CreateSamples < ActiveRecord::Migration
 			t.date    :receipt_confirmed_on
 			t.string  :receipt_confirmed_by
 			t.boolean :future_use_prohibited, :default => false, :null => false
+			t.string  :state
 			t.timestamps
 		end
 	end
