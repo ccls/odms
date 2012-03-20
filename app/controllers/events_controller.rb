@@ -23,14 +23,14 @@ class EventsController < ApplicationController
 
 	def index
 #		why not just ...
-#		@events = @study_subject.operational_events
+		@events = @study_subject.operational_events
 #			or
 #		@events = @study_subject.operational_events(:include => :operational_event_type)
 #		doesn't seem to actually get the operational event type.
 #		Should try to get the enrollment, project and operational event type
 #		I don't think that we do any 'searching' yet
 #		This was pre- has_many :through setup
-		@events = OperationalEvent.search(params)
+#		@events = OperationalEvent.search(params)
 	end
 
 	def new

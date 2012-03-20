@@ -23,14 +23,14 @@ class OperationalEvent < ActiveRecord::Base
 
 #	TODO perhaps move the search stuff into OperationalEventSearch?
 
-	#	find wrapper
-	def self.search(options={})
-		find(:all,
-			:joins => joins(options),
-			:order => order(options),
-			:conditions => conditions(options)
-		)
-	end
+#	#	find wrapper
+#	def self.search(options={})
+#		find(:all,
+#			:joins => joins(options),
+#			:order => order(options),
+#			:conditions => conditions(options)
+#		)
+#	end
 
 	before_save :copy_operational_event_type_description
 
@@ -42,58 +42,58 @@ protected
 		end
 	end
 
-	def self.valid_orders
-		%w( id occurred_on description type )
-	end
-
-	def self.valid_order?(order)
-		valid_orders.include?(order)
-	end
-
-	def self.order(options={})
-		if options.has_key?(:order) && valid_order?(options[:order])
-			order_string = case options[:order]
-				when 'type' then 'operational_event_types.description'
-				else options[:order]
-			end
-			dir = case options[:dir].try(:downcase)
-				when 'asc'  then 'asc'
-				when 'desc' then 'desc'
-				else 'desc'
-			end
-			[order_string,dir].join(' ')
-		else
-			nil
-		end
-	end
-
-	def self.joins(options={})
-#	TODO may have to use sql for LEFT JOINS rather than the rails symbol
-		joins = []
-		if options.has_key?(:order) && valid_order?(options[:order])
-			case options[:order]
-				when 'type' then joins << :operational_event_type
-#	'LEFT JOIN operational_event_types ON operational_events.operational_event_type_id = operational_event_types.id',
-			end
-		end	
-		if options.has_key?(:study_subject_id) and !options[:study_subject_id].blank?
-			joins << :enrollment
-#	'LEFT JOIN enrollments ON operational_events.enrollment_id = enrollments.id',
-		end
-		joins
-	end
-
-	def self.conditions(options={})
-		conditions = [[],[]]
-		if options.has_key?(:study_subject_id) and !options[:study_subject_id].blank?
-			conditions[0] << '(enrollments.study_subject_id = ?)'
-			conditions[1] << options[:study_subject_id]
-		end
-		unless conditions.flatten.empty?
-			[ conditions[0].join(' AND '), *(conditions[1].flatten) ]
-		else
-			nil
-		end
-	end
+#	def self.valid_orders
+#		%w( id occurred_on description type )
+#	end
+#
+#	def self.valid_order?(order)
+#		valid_orders.include?(order)
+#	end
+#
+#	def self.order(options={})
+#		if options.has_key?(:order) && valid_order?(options[:order])
+#			order_string = case options[:order]
+#				when 'type' then 'operational_event_types.description'
+#				else options[:order]
+#			end
+#			dir = case options[:dir].try(:downcase)
+#				when 'asc'  then 'asc'
+#				when 'desc' then 'desc'
+#				else 'desc'
+#			end
+#			[order_string,dir].join(' ')
+#		else
+#			nil
+#		end
+#	end
+#
+#	def self.joins(options={})
+##	TODO may have to use sql for LEFT JOINS rather than the rails symbol
+#		joins = []
+#		if options.has_key?(:order) && valid_order?(options[:order])
+#			case options[:order]
+#				when 'type' then joins << :operational_event_type
+##	'LEFT JOIN operational_event_types ON operational_events.operational_event_type_id = operational_event_types.id',
+#			end
+#		end	
+#		if options.has_key?(:study_subject_id) and !options[:study_subject_id].blank?
+#			joins << :enrollment
+##	'LEFT JOIN enrollments ON operational_events.enrollment_id = enrollments.id',
+#		end
+#		joins
+#	end
+#
+#	def self.conditions(options={})
+#		conditions = [[],[]]
+#		if options.has_key?(:study_subject_id) and !options[:study_subject_id].blank?
+#			conditions[0] << '(enrollments.study_subject_id = ?)'
+#			conditions[1] << options[:study_subject_id]
+#		end
+#		unless conditions.flatten.empty?
+#			[ conditions[0].join(' AND '), *(conditions[1].flatten) ]
+#		else
+#			nil
+#		end
+#	end
 
 end

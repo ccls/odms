@@ -1,6 +1,10 @@
 = CCLS Operations and Data Management System
 
 
+
+
+
+
 == Rails 3 Upgrade Modifications
 
 So many things have changed from 2 to 3 and not all are good.  
@@ -84,10 +88,6 @@ irb(main):012:0> s.errors.full_messages
 irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 => "Date of birth can't be blank"
 
-
-
-
-
 * gonna need to figure out this SSL thing so that all environments work
   * I may not need to do anything except remove stuff
   * production server forces https
@@ -96,30 +96,47 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
   * add config.force_ssl, but no tests actually prove this.
   * relying on production server to enforce SSL
 
-
 * rake db:load:fixtures with csv files (works in testing)
   * CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
   * rake db:load:fixtures does not work for csv files????
   * the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
   * manually importing with own rake tasks now
 
-
-
 * json output format no longer has the initial key.
   * can change this by modifying application.rb
   * config.active_record.include_root_in_json = false
 
-
-
-
 * missing subject_race_id and subject_language_id in selectors probably from new form of fields_for
   * Done
-
 
 * surprised my home computer tested without a config/api.yml ??
   * removing api controllers
 
 * integration tests running
+
+* fix all search code
+  * Remove GiftCardSearch as it is not used
+  * Try to remove AbstractSearch if possible
+  * remove OperationalEvent.seach
+    * app/models/abstract.rb - removed
+    * app/models/gift_card.rb - removed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -146,7 +163,6 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 
 == Rails 3 Upgrade TODOs
-
 
 * (20120316a) 7886 tests, 18416 assertions, 907 failures, 1439 errors
 * (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
@@ -175,48 +191,71 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 
 
+PRIORITY
+
+  remove User.search 
+  debug integration tests
+
+* integration tests passing
+* all tests passing
+* ZipCode failures??
+* fix all search code
+  * searching is not terribly important, but does need to work
+  * the following have some type of homemade 'search' method that will NEED updated
+    * app/models/study_subject.rb
+    * app/models/operational_event.rb
+      * events_path, although don't know why (probably just sorting)
+    * app/models/user.rb
+      * only appears to search on role name in users controller 
+      * "users_path( :role_name => role_name )"
+* default_scopes mucks up searching in rails 3
+  * they take precedence over the request? seems backwards
+  * remove them all??
+
+* rake test:coverage
+
+* resolve all pending tests
+
+* resolve all commented out tests
+
+* reenable raising mass assignment error in environments/test.rb
+
+* re-enable ccls-html_test for validation (incompatible with rails 3?)
+
+* change functional tests to only include fields on the forms
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 * paths not available in new helper tests?? ( so commented out those tests )
   * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
 
-* integration tests passing
-* all tests passing
-
-* ZipCode failures??
 
 * controllers now raises MassAssignmentSecurity::Error
   * add a rescue to ignore it
-
+  * only raises in dev and test, so no rescue
 	*	I could simply remove this ... but seems scandalous
 	# Raise exception on mass assignment protection for Active Record models
 	config.active_record.mass_assignment_sanitizer = :strict
 	* I'd rather just silently ignore, but probably shouldn't
 
-
-
 * datetime still accept partial? was some mention of error when not complete
   * think that there is some setting 
-
 
 * remove soon to be deprecate code
 
 
-
-* fix all search code
-  * Remove GiftCardSearch as it is not used
-  * Try to remove AbstractSearch if possible
-  * searching is not terribly important, but does need to work
-  * the following have some type of homemade 'search' method that will NEED updated
-    * app/models/abstract.rb
-    * app/models/gift_card.rb
-    * app/models/study_subject.rb
-    * app/models/operational_event.rb
-      * no idea where this search is ever called
-    * app/models/user.rb
-      * only appears to search on role name in users controller 
-      * "users_path( :role_name => role_name )"
 
 
 * http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes
@@ -224,7 +263,6 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 
 * catch-all page path route string not array
-* reenable raising mass assignment error in environments/test.rb
 
 *	get acts_as_list working (actually seems to work fine.  tests don't though)
   * include acts_as_list functionality
@@ -240,8 +278,6 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
   admin_path ... can't seem to define the path to pass other stuff to route?
 
 
-
-
 * assert_difference always seems to fail as the Model.count doesn't change even on successfull creation.
   Was happening for ZipCode
 
@@ -250,14 +286,7 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 * implement the user_roles helper tests in the users_controller?
 
-* rake test:coverage
-
-* resolve all pending tests
-
-* resolve all commented out tests
-
 * remove any unused code
-
 
 * put fake_sessions#new view into controller rather than separate file?
 * put FakeSessionsController into the Capybara test helper rather than separate file?
@@ -273,50 +302,16 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
   * ccls_engine
   * common_lib
 
-
-* re-enable ccls-html_test for validation (incompatible with rails 3?)
-
-
-* change functional tests to only include fields on the forms
-
-
 * Keep or Remove HomexOutcome and custom HomeExposure callbacks????
-
-
-
-
 
 * It seems that the test database doesn't completely clean itself before each test.
   * This results in the count comparisons being way off.
   * when its clean, some of these tests actually work?
  
 
-* default_scopes mucks up searching in rails 3
 
 
 
-
-
-
-
-
-TUESDAY
-  remove User.search and OperationalEvent.seach
-  debug integration tests
-
-
-
-
-
-
-
-MANY OF THESE (basically all of the integration tests.)
-
-120) Error:
-test_contacts#show_should_toggle_historic_phone_numbers_with_superuser_login(ContactsIntegrationTest):
-Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:50369/fake_session/new
-    /test/capybara_integration_test_helper.rb:273:in `login_as'
-    /test/integration/contacts_integration_test.rb:44:in `test_contacts#show_should_toggle_historic_phone_numbers_with_superuser_login'
 
 
 173) Failure:
