@@ -3,5 +3,5 @@
  <td><%= event.enrollment.project.key %></td>
  <td><%= event.operational_event_type.event_category %></td>
  <td><%= event.to_s %></td>
- <td><%= link_to 'edit', edit_event_path(event) %></td>
+ <td><%= ( current_user.may_edit_events? ) ? link_to( 'edit', edit_event_path(event) ) : '&nbsp;'%></td>
 <% end %>

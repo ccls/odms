@@ -4,10 +4,12 @@
 
 <div id='subject_control_bar'>
 <h3>Subject Event</h3>
+<% if current_user.may_edit_events? %>
 <div class='buttons'>
 <%= link_to( 'Edit', edit_event_path(@operational_event),
 	:class => 'button' ) %>
 </div><!-- class='buttons' -->
+<% end %>
 </div>
 
 <%= wrapped_date_spans :operational_event, :occurred_on,

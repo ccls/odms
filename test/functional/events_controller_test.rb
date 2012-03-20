@@ -18,8 +18,8 @@ class EventsControllerTest < ActionController::TestCase
 		}.merge(options))
 	end
 
-	assert_access_with_login({    :logins => site_editors })
-	assert_no_access_with_login({ :logins => non_site_editors })
+	assert_access_with_login({    :logins => site_administrators })
+	assert_no_access_with_login({ :logins => non_site_administrators })
 	assert_access_with_login({    :logins => site_readers, 
 		:actions => [:show] })
 	assert_no_access_with_login({ :logins => non_site_readers, 
@@ -39,7 +39,7 @@ class EventsControllerTest < ActionController::TestCase
 	assert_no_route(:put, :update)
 	assert_no_route(:delete, :destroy)
 
-	site_editors.each do |cu|
+	site_administrators.each do |cu|
 
 
 
@@ -148,7 +148,7 @@ class EventsControllerTest < ActionController::TestCase
 
 	end
 
-	non_site_editors.each do |cu|
+	non_site_administrators.each do |cu|
 
 		test "should NOT get new event for study_subject with #{cu} login" do
 			login_as send(cu)
