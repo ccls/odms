@@ -74,7 +74,8 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	test "subject_languages_select English, Spanish, Other with English" do
 		@study_subject = Factory(:study_subject, :subject_languages_attributes => {
 			'0' => { :language_id => Language['english'].id } } )
-		subject_language_id = @study_subject.subject_language_ids.first	#	this can vary so cannot assume that it will be 1
+		#	this can vary so cannot assume that it will be 1
+		subject_language_id = @study_subject.subject_language_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
@@ -99,7 +100,8 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	test "subject_languages_select English, Spanish, Other with Other" do
 		@study_subject = Factory(:study_subject, :subject_languages_attributes => {
 			'0' => { :language_id => Language['other'].id, :other_language => 'redneck' } } )
-		subject_language_id = @study_subject.subject_language_ids.first	#	this can vary so cannot assume that it will be 1
+		#	this can vary so cannot assume that it will be 1
+		subject_language_id = @study_subject.subject_language_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>

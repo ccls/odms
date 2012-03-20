@@ -69,11 +69,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 	test "subject_races_select Black,White with White" do
 		@study_subject = Factory(:study_subject,:subject_races_attributes => {
 			'0' => { :race_id => Race['white'].id } } )
-		subject_race_id = @study_subject.subject_race_ids.first	#	this can vary so cannot assume that it will be 1
-#
-#	TODO where is subject_race_id? got it, i think
-#
-pending
+		#	this can vary so cannot assume that it will be 1
+		subject_race_id = @study_subject.subject_race_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select([Race['black'],Race['white']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
@@ -95,8 +92,8 @@ pending
 	test "subject_races_select Black,White,Other with Other" do
 		@study_subject = Factory(:study_subject,:subject_races_attributes => {
 			'0' => { :race_id => Race['other'].id, :other_race => "otherrace" } } )
-		subject_race_id = @study_subject.subject_race_ids.first	#	this can vary so cannot assume that it will be 1
-pending
+		#	this can vary so cannot assume that it will be 1
+		subject_race_id = @study_subject.subject_race_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select([Race['black'],Race['white'],Race['other']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
