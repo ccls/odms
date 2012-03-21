@@ -23,6 +23,7 @@ rake app:full_update
 rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
 
 
+#	gotta add document_versions.csv somewhere
 
 
 #	Dump database table descriptions
