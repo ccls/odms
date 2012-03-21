@@ -223,10 +223,11 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 			study_subject = create_study_subject(
 				:guardian_relationship => SubjectRelationship['other'] )
 			assert study_subject.errors.include?(:other_guardian_relationship)
-#			assert study_subject.errors.matching?(:other_guardian_relationship,"can't be blank")
-#	NOTE custom error message
+			#	NOTE custom error message
 pending
-#You must specify a relationship with 'other relationship' is selected.
+			assert study_subject.errors.matching?(:other_guardian_relationship,
+				"You must specify a relationship with 'other relationship' is selected.")
+#				"can't be blank")
 		end
 	end
 
@@ -237,6 +238,10 @@ pending
 			assert study_subject.errors.matching?(:other_guardian_relationship,
 				"You must specify a relationship with 'other relationship' is selected")
 pending
+puts "JAKE"
+puts study_subject.errors.full_messages.to_sentence
+puts study_subject.errors.inspect
+puts "JAKE"
 #	TODO and this should now fail as rails 3 changes
 			assert_no_match /Guardian relationship other/, 
 				study_subject.errors.full_messages.to_sentence

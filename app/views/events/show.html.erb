@@ -17,12 +17,12 @@
 
 <div class='project field_wrapper'>
 <span class='label'>project:</span>
-<span class='value'><%= @operational_event.enrollment.project %></span>
+<span class='value'><%= @operational_event.project %></span>
 </div><!-- class='project' -->
 
 <div class='category field_wrapper'>
 <span class='label'>category:</span>
-<span class='value'><%= @operational_event.operational_event_type.event_category %></span>
+<span class='value'><%= @operational_event.operational_event_type.try(:event_category) %></span>
 </div><!-- class='category' -->
 
 <%= wrapped_spans :operational_event, :operational_event_type,

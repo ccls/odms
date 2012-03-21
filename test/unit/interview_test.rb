@@ -43,15 +43,10 @@ class InterviewTest < ActiveSupport::TestCase
 			@interview = create_interview( :study_subject => study_subject,
 				:intro_letter_sent_on => Date.yesterday ).reload
 		} }
-		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-		oe = hxe.operational_events.first
+		oe = study_subject.operational_events.where(
+			:project_id => Project['HomeExposures'].id).first
 		assert_equal OperationalEventType['intro'],   oe.operational_event_type
 		assert_equal @interview.intro_letter_sent_on, oe.occurred_on
-#puts OperationalEvent.all.inspect
-#		assert_equal OperationalEventType['intro'],
-#			OperationalEvent.last.operational_event_type
-#		assert_equal @interview.intro_letter_sent_on,
-#			OperationalEvent.last.occurred_on
 	end
 
 	test "should update intro letter operational event " <<
@@ -64,12 +59,14 @@ class InterviewTest < ActiveSupport::TestCase
 		assert_difference( "Interview.count", 0 ) {
 			interview.update_attributes(:intro_letter_sent_on => Date.today )
 		} }
-		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-		oe = hxe.operational_events.first
-		assert_equal Date.today, oe.occurred_on
-#		assert_equal Date.today,
-#			OperationalEvent.last.occurred_on
+		assert_equal interview.intro_letter_sent_on, Date.today
+		oe = study_subject.operational_events.where(
+			:project_id => Project['HomeExposures'].id).first
+		assert_equal interview.intro_letter_sent_on, oe.occurred_on
 	end
+
+#	TODO I think that these should require valid
+#		They shouldn't require the _id, but if given the association should be valid.
 
 	test "should NOT require valid address_id" do
 		assert_difference( "Interview.count", 1 ) do

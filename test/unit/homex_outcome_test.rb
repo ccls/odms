@@ -20,8 +20,6 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		:interview_outcome_id,
 		:interview_outcome_on )
 
-#	TODO Need to add something to allow_nil => true
-#	assert_should_require_unique_attribute(:study_subject_id)
 
 	test "explicit Factory homex_outcome test" do
 		assert_difference('HomexOutcome.count',1) {
@@ -32,24 +30,6 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 			assert_not_nil homex_outcome.interview_outcome_on	#	because of InterviewOutcome test
 		}
 	end
-
-	#
-	#	study_subject uses accepts_attributes_for :pii
-	#	so the pii can't require study_subject_id on create
-	#	or this test fails.
-	#
-#	test "should require study_subject_id on update" do
-#		assert_difference( "HomexOutcome.count", 1 ) do
-#			homex_outcome = create_homex_outcome
-#			homex_outcome.reload.update_attributes(:updated_at => Time.now)
-#			assert !homex_outcome.errors.include?(:study_subject)
-#			assert  homex_outcome.errors.on_attr_and_type?(:study_subject_id,:blank)
-#		end
-#	end
-
-# validate on foreign key rather than association so error shows up correctly in view.
-#	test "should require valid study_subject" do
-#	end
 
 	test "should require unique study_subject_id" do
 		study_subject = Factory(:study_subject)
@@ -90,7 +70,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		oe = OperationalEvent.last
 		assert_equal 'scheduled', oe.operational_event_type.key
 		assert_equal past_date,   oe.occurred_on
-		assert_equal homex_outcome.study_subject_id, oe.enrollment.study_subject_id
+		assert_equal homex_outcome.study_subject_id, oe.study_subject_id
 	end
 
 	test "should create operational event when interview completed" do
@@ -105,7 +85,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		oe = OperationalEvent.last
 		assert_equal 'iv_complete', oe.operational_event_type.key
 		assert_equal past_date,   oe.occurred_on
-		assert_equal homex_outcome.study_subject_id, oe.enrollment.study_subject_id
+		assert_equal homex_outcome.study_subject_id, oe.study_subject_id
 	end
 
 	test "should raise NoHomeExposureEnrollment on create_interview_outcome_update" <<
@@ -132,7 +112,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		oe = OperationalEvent.last
 		assert_equal 'kit_sent', oe.operational_event_type.key
 		assert_equal past_date,  oe.occurred_on
-		assert_equal homex_outcome.study_subject_id, oe.enrollment.study_subject_id
+		assert_equal homex_outcome.study_subject_id, oe.study_subject_id
 	end
 
 	test "should create operational event when sample received" do
@@ -147,7 +127,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		oe = OperationalEvent.last
 		assert_equal 'sample_received', oe.operational_event_type.key
 		assert_equal past_date,  oe.occurred_on
-		assert_equal homex_outcome.study_subject_id, oe.enrollment.study_subject_id
+		assert_equal homex_outcome.study_subject_id, oe.study_subject_id
 	end
 
 	test "should create operational event when sample complete" do
@@ -162,7 +142,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		oe = OperationalEvent.last
 		assert_equal 'sample_complete', oe.operational_event_type.key
 		assert_equal past_date,  oe.occurred_on
-		assert_equal homex_outcome.study_subject_id, oe.enrollment.study_subject_id
+		assert_equal homex_outcome.study_subject_id, oe.study_subject_id
 	end
 
 	test "should raise NoHomeExposureEnrollment on create_sample_outcome_update" <<

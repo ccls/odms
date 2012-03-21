@@ -46,6 +46,7 @@ class UserIntegrationTest < ActionController::CapybaraIntegrationTest
 #				assert_match /https:\/\/auth-test\.berkeley\.edu\/cas\/login/,
 #					page.current_url
 pending
+#	current_url is not following redirect
 
 #    <title>CalNet Central Authentication Service - Single Sign-on</title>
 #	This isn't perfect, but it does test that the redirect is to CalNet

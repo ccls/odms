@@ -2,45 +2,94 @@ require 'test_helper'
 
 class OperationalEventTest < ActiveSupport::TestCase
 
+#
+#	NOTE An Operational Event currently has minimal requirments.
+#		If Study Subject or Project are added requirements,
+#		there will be many callbacks that need incorporated
+#		all throughout the apps tests.
+#
+
 	assert_should_create_default_object
-	assert_should_initially_belong_to(:enrollment)
-	assert_should_initially_belong_to(:operational_event_type)
+#	assert_should_initially_belong_to(:study_subject,:project)
+#	assert_should_initially_belong_to(:operational_event_type)
+	assert_should_belong_to(:study_subject,:project,:operational_event_type)
 
-
-	attributes = %w( enrollment_id occurred_on description event_notes )
-	required   = %w( enrollment_id )
-	assert_should_require( required )
-	assert_should_not_require( attributes - required )
+#	TODO counts incorrect in tests due to callbacks
+#	attributes = %w( enrollment_id occurred_on description event_notes )
+#	required   = %w( enrollment_id )
+#	attributes = %w( study_subject_id project_id occurred_on description event_notes )
+	attributes = %w( occurred_on description event_notes )
+#	required   = %w( study_subject_id project_id )	#	TODO try to figure this out
+#	assert_should_require( required )
+	assert_should_not_require( attributes )	#- required )
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
+
+	assert_should_protect(:study_subject_id, :study_subject)
 
 	assert_requires_complete_date(:occurred_on)
 	assert_should_require_attribute_length( :description, :maximum => 250 )
 	assert_should_require_attribute_length( :event_notes, :maximum => 65000 )
 
 	test "explicit Factory operational_event test" do
-		assert_difference('OperationalEventType.count',1) {
+		assert_difference('OperationalEventType.count',0) {
+		assert_difference('Project.count',0) {
+		assert_difference('StudySubject.count',0) {
 		assert_difference('OperationalEvent.count',1) {
 			operational_event = Factory(:operational_event)
-			assert_not_nil operational_event.operational_event_type
-		} }
+			assert_nil operational_event.study_subject
+			assert_nil operational_event.project
+			assert_nil operational_event.operational_event_type
+		} } } }
 	end
 
-	test "should require operational_event_type" do
-		assert_difference( "OperationalEvent.count", 0 ) do
-			operational_event = create_operational_event( :operational_event_type => nil)
-			assert !operational_event.errors.include?(:operational_event_type)
-			assert  operational_event.errors.matching?(:operational_event_type_id,"can't be blank")
-		end
+#	test "should require project" do
+#		assert_difference( "OperationalEvent.count", 0 ) do
+#			operational_event = create_operational_event( :project => nil)
+#			assert !operational_event.errors.include?(:project)
+#			assert  operational_event.errors.matching?(:project_id,"can't be blank")
+#		end
+#	end
+
+	test "should require valid project if given" do
+		operational_event = Factory.build(:operational_event, :project_id => 0)
+		operational_event.valid?
+		assert !operational_event.errors.include?(:project_id)
+		assert  operational_event.errors.matching?(:project,"can't be blank")
 	end
 
-	test "should require valid operational_event_type" do
-		assert_difference( "OperationalEvent.count", 0 ) do
-			operational_event = create_operational_event( :operational_event_type_id => 0)
-			assert !operational_event.errors.include?(:operational_event_type_id)
-			assert  operational_event.errors.matching?(:operational_event_type,"can't be blank")
-		end
+#	test "should require study_subject" do
+#		assert_difference( "OperationalEvent.count", 0 ) do
+#			operational_event = create_operational_event( :study_subject => nil)
+#			assert !operational_event.errors.include?(:study_subject)
+#			assert  operational_event.errors.matching?(:study_subject_id,"can't be blank")
+#		end
+#	end
+
+	test "should require valid study_subject if given" do
+		operational_event = Factory.build(:operational_event,:study_subject_id => 0)
+		operational_event.valid?
+		assert !operational_event.errors.include?(:study_subject_id)
+		assert  operational_event.errors.matching?(:study_subject,"can't be blank")
+	end
+
+#	test "should require operational_event_type" do
+#pending	#	does this test correctly?
+##		assert_difference( "OperationalEvent.count", 0 ) do
+##			operational_event = create_operational_event( :operational_event_type => nil)
+#			operational_event = Factory.build(:operational_event, :operational_event_type => nil)
+#			operational_event.valid?
+#			assert !operational_event.errors.include?(:operational_event_type)
+#			assert  operational_event.errors.matching?(:operational_event_type_id,"can't be blank")
+##		end
+#	end
+
+	test "should require valid operational_event_type if given" do
+		operational_event = Factory.build(:operational_event, :operational_event_type_id => 0)
+		operational_event.valid?
+		assert !operational_event.errors.include?(:operational_event_type_id)
+		assert  operational_event.errors.matching?(:operational_event_type,"can't be blank")
 	end
 
 	#	description is not required so ...

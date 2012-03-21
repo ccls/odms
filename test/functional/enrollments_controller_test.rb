@@ -123,31 +123,38 @@ class EnrollmentsControllerTest < ActionController::TestCase
 
 		test "should create operational event if consented on update with #{cu} login" do
 			enrollment = Factory(:enrollment)
+			study_subject = enrollment.study_subject
 			login_as send(cu)
-			assert_changes("Enrollment.find(#{enrollment.id}).operational_events.count",1) {
+			assert_difference("study_subject.operational_events.count",1) {
 				put :update, :id => enrollment.id,
 					:enrollment => { :consented => YNDK[:yes],
 						:consented_on => Date.today }
 			}
 			assert assigns(:enrollment)
+			oe = study_subject.operational_events.where(
+				:project_id => enrollment.project_id).first
 			assert_equal OperationalEventType['subjectConsents'],
-				assigns(:enrollment).operational_events.first.operational_event_type
+				oe.operational_event_type
 			assert_redirected_to enrollment_path(enrollment)
 		end
 
 		test "should create operational event if declines on update with #{cu} login" do
 			enrollment = Factory(:enrollment)
+			study_subject = enrollment.study_subject
 			login_as send(cu)
-			assert_changes("Enrollment.find(#{enrollment.id}).operational_events.count",1) {
+			assert_difference("study_subject.operational_events.count",1) {
 				put :update, :id => enrollment.id,
 					:enrollment => { :consented => YNDK[:no],
-#						:refusal_reason => Factory(:refusal_reason),
 						:refusal_reason_id => Factory(:refusal_reason).id,
 						:consented_on => Date.today }
 			}
 			assert assigns(:enrollment)
+			oe = study_subject.operational_events.where(
+				:project_id => enrollment.project_id).first
 			assert_equal OperationalEventType['subjectDeclines'],
-				assigns(:enrollment).operational_events.first.operational_event_type
+				oe.operational_event_type
+#			assert_equal OperationalEventType['subjectDeclines'],
+#				assigns(:enrollment).operational_events.first.operational_event_type
 			assert_redirected_to enrollment_path(enrollment)
 		end
 

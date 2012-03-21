@@ -12,10 +12,10 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 		assert_difference('StudySubject.count',1) {
 			study_subject = Factory(:study_subject)
 		} } }
-		ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
-		assert_not_nil ccls_enrollment
-		assert_not_nil ccls_enrollment.operational_events.find_by_operational_event_type_id(
-			OperationalEventType['newSubject'].id )
+		events = study_subject.operational_events.where(
+			:project_id => Project['ccls'].id).where(
+			:operational_event_type_id => OperationalEventType['newSubject'].id)
+		assert_equal 1, events.count
 	end
 
 	test "should create subjectDied operational event when vital status changed to deceased" do
@@ -26,10 +26,10 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 			study_subject.update_attributes(:vital_status_id => VitalStatus['deceased'].id)
 		} }
 		assert_equal study_subject.reload.vital_status, VitalStatus['deceased']
-		ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
-		assert_not_nil ccls_enrollment
-		assert_not_nil ccls_enrollment.operational_events.find_by_operational_event_type_id(
-			OperationalEventType['subjectDied'].id )
+		events = study_subject.operational_events.where(
+			:project_id => Project['ccls'].id).where(
+			:operational_event_type_id => OperationalEventType['subjectDied'].id)
+		assert_equal 1, events.count
 	end
 
 	test "should return nil for subject's screener_complete_date_for_open_project" <<
@@ -42,8 +42,8 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 			" when subject has associated operational event type" do
 		study_subject = Factory(:study_subject)
 		assert_nil study_subject.screener_complete_date_for_open_project
-		ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
-		ccls_enrollment.operational_events.create(
+		study_subject.operational_events.create(
+			:project => Project['ccls'],
 			:operational_event_type_id => OperationalEventType['screener_complete'].id,
 			:occurred_on => Date.today)
 		date = study_subject.screener_complete_date_for_open_project

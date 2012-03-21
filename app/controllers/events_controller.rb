@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-	class StudySubjectMismatch < StandardError; end
+#	class StudySubjectMismatch < StandardError; end
 
 	layout 'subject'
 
@@ -41,21 +41,11 @@ class EventsController < ApplicationController
 	end
 
 	def create
-#	As this is a has_many :through relationship
-#		@operational_event = @study_subject.operational_events.new(params[:operational_event])
-#	it is no different than
-		@operational_event = OperationalEvent.new(params[:operational_event])
+		@operational_event = @study_subject.operational_events.new(params[:operational_event])
 
-#	for testing
-#raise ActiveRecord::RecordInvalid.new(@operational_event)
-
-#	However, there should be a special check added to ensure that the
-#	study_subject from the route is the same study_subject attached
-#	to the enrollment.
-
-		enrollment = Enrollment.find(params[:operational_event][:enrollment_id])
-		#	This should only happen for all you hackers out there.
-		raise StudySubjectMismatch if @study_subject != enrollment.study_subject
+#		enrollment = Enrollment.find(params[:operational_event][:enrollment_id])
+#		#	This should only happen for all you hackers out there.
+#		raise StudySubjectMismatch if @study_subject != enrollment.study_subject
 
 
 		@operational_event.save!
@@ -64,25 +54,19 @@ class EventsController < ApplicationController
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Operational Event creation failed."
 		render :action => 'new'
-	rescue EventsController::StudySubjectMismatch
-		flash.now[:error] = "Operational Event creation failed. Subject Mismatch."
-		render :action => 'new'
+#	rescue EventsController::StudySubjectMismatch
+#		flash.now[:error] = "Operational Event creation failed. Subject Mismatch."
+#		render :action => 'new'
 	end
 
 	def edit
 	end
 
 	def update
+#		@operational_event.update_attributes!(params[:operational_event])
+#		@operational_event.update_attributes(params[:operational_event])
 		@operational_event.attributes = params[:operational_event]
-
-
-
-#	ensure enrollment_id doesn't change study_subjects???
-
-
-
 		@operational_event.save!
-
 		redirect_to event_path(@operational_event)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Operational Event update failed."
@@ -91,8 +75,7 @@ class EventsController < ApplicationController
 
 	def destroy
 		@operational_event.destroy
-		redirect_to study_subject_events_path(
-			@operational_event.enrollment.study_subject)
+		redirect_to study_subject_events_path(@operational_event.study_subject)
 	end
 
 protected
@@ -108,7 +91,7 @@ protected
 		if !params[:id].blank? and OperationalEvent.exists?(params[:id])
 			@operational_event = OperationalEvent.find(params[:id])
 			#	study_subject needed in edit form
-			@study_subject = @operational_event.enrollment.study_subject
+			@study_subject = @operational_event.study_subject
 		else
 			access_denied("Valid operational_event id required!", study_subjects_path)
 		end

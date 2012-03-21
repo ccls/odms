@@ -105,12 +105,15 @@ protected
 				raise ActiveRecord::RecordNotSaved
 			end
 
-			OperationalEvent.create!(
-				:enrollment => hxe,
+#			OperationalEvent.create!(
+#				:enrollment => hxe,
+			study_subject.operational_events.new(
+				:project => Project['HomeExposures'],
 				:operational_event_type => oet,
 				:occurred_on => Date.today,
 				:description => ineligible_reason.to_s
-			)
+			).save!
+			
 
 		end
 	end
@@ -128,13 +131,15 @@ protected
 				current_address == YNDK[:no] &&
 				current_address_was != YNDK[:no] &&
 				address.address_type == AddressType['residence']
-			ccls_enrollment = study_subject.enrollments.find_or_create_by_project_id(
-				Project['ccls'].id)
-			OperationalEvent.create!(
-				:enrollment => ccls_enrollment,
+#			ccls_enrollment = study_subject.enrollments.find_or_create_by_project_id(
+#				Project['ccls'].id)
+#			OperationalEvent.create!(
+#				:enrollment => ccls_enrollment,
+			study_subject.operational_events.new(
+				:project                => Project['ccls'],
 				:operational_event_type => OperationalEventType['subject_moved'],
 				:occurred_on            => Date.today
-			)
+			).save!
 		end
 	end
 

@@ -147,6 +147,22 @@ pending	#	stray HAVING in SQL
 			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
 		end
 
+		test "should download csv matching content with #{cu} login" do
+pending
+			login_as send(cu)
+			get :index, :format => 'csv'
+			assert_response :success
+			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+			assert_template 'index'
+			assert assigns(:study_subjects)
+#			assert !assigns(:study_subjects).empty?
+#			assert_equal 1, assigns(:study_subjects).length
+
+#			require 'fastercsv'
+#			f = FasterCSV.parse(@response.body)
+
+		end
+
 		test "should get study_subjects dashboard with #{cu} login" do
 			login_as send(cu)
 			get :dashboard

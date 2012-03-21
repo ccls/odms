@@ -261,6 +261,7 @@ Factory.define :subjectless_enrollment, :class => 'Enrollment' do |f|
 	f.association :project
 end
 Factory.define :enrollment, :parent => :subjectless_enrollment do |f|
+#Factory.define :enrollment do |f|
 	f.association :study_subject
 #	f.association :project
 #	f.is_eligible 1	#true
@@ -385,9 +386,17 @@ Factory.define :language do |f|
 end
 
 Factory.define :operational_event do |f|
-	f.association :enrollment, :factory => :subjectless_enrollment
-	f.association :operational_event_type
+#	f.association :study_subject
+#	f.association :project
+#	f.association :operational_event_type
 end
+
+#	DO NOT DO THIS model_name_with_something
+#	then call create_model_name_with_something
+#	my method_missing handlers will freak out
+#Factory.define :operational_event_with_subject, :parent => :operational_event do |f|
+#	f.association :study_subject
+#end
 
 Factory.define :operational_event_type do |f|
 	f.sequence(:key)            { |n| "Key#{n}" }

@@ -38,11 +38,13 @@ protected
 		end
 		unless operational_event_type.nil?
 			if hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-				OperationalEvent.create!(
-					:enrollment => hxe,
+#				OperationalEvent.create!(
+#					:enrollment => hxe,
+				study_subject.operational_events.new(
+					:project => Project['HomeExposures'],
 					:operational_event_type => operational_event_type,
 					:occurred_on => interview_outcome_on
-				)
+				).save!
 			else
 				raise NoHomeExposureEnrollment 
 			end
@@ -62,11 +64,13 @@ protected
 		end
 		unless operational_event_type.nil?
 			if hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-				OperationalEvent.create!(
-					:enrollment => hxe,
+#				OperationalEvent.create!(
+#					:enrollment => hxe,
+				study_subject.operational_events.new(
+					:project => Project['HomeExposures'],
 					:operational_event_type => operational_event_type,
 					:occurred_on => sample_outcome_on
-				)
+				).save!
 			else
 				raise NoHomeExposureEnrollment 
 			end

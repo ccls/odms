@@ -51,10 +51,12 @@ sleep 1	#	sometimes the next statement is still 6
 
 		test "should change event types on category change on edit event with #{cu} login" do
 			study_subject = Factory(:study_subject)
-			ccls_enrollment = study_subject.enrollments.find_by_project_id(
-				Project['ccls'].id)
-			assert_equal 1, ccls_enrollment.operational_events.length
-			event = ccls_enrollment.operational_events.first	#	new subject
+#			ccls_enrollment = study_subject.enrollments.find_by_project_id(
+#				Project['ccls'].id)
+			events = study_subject.operational_events.where(
+				:project_id => Project['ccls'].id)
+			assert_equal 1, events.length
+			event = events.first	#	new subject
 			login_as send(cu)
 			page.visit edit_event_path(event)
 			assert page.has_css?('select#category')

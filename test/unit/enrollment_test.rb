@@ -39,7 +39,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 			:maximum => 250 )
 
 	assert_should_have_many(:follow_ups)
-	assert_should_have_many(:operational_events)
 	assert_should_belong_to( 
 		:tracing_status,
 		:project_outcome,
@@ -49,17 +48,17 @@ class EnrollmentTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
 #	using subjectless_enrollment so, this isn't true
-#	assert_should_initially_belong_to(:study_subject, :project)
 	assert_should_belong_to(:study_subject)
-
 	assert_should_initially_belong_to(:project)
+
 	assert_requires_complete_date(:completed_on, :consented_on)
 	assert_requires_past_date(    :completed_on, :consented_on)
 
 	test "explicit Factory enrollment test" do
 		assert_difference('Project.count',1) {
 		assert_difference('StudySubject.count',1) {
-		assert_difference('Enrollment.count',2) {	#	this enrollment AND the subject's ccls enrollment
+		#	NOTE this enrollment AND the subject's ccls enrollment
+		assert_difference('Enrollment.count',2) {	
 			enrollment = Factory(:enrollment)
 			assert !enrollment.consented
 			assert_not_nil enrollment.project
@@ -81,7 +80,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "explicit Factory consented_enrollment test" do
 		assert_difference('Project.count',1) {
 		assert_difference('StudySubject.count',1) {
-		assert_difference('Enrollment.count',2) {	#	this enrollment AND the subject's ccls enrollment
+		#	NOTE this enrollment AND the subject's ccls enrollment
+		assert_difference('Enrollment.count',2) {	
 			enrollment = Factory(:consented_enrollment)
 			assert enrollment.consented
 			assert_equal enrollment.consented, YNDK[:yes]
@@ -93,7 +93,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "explicit Factory declined_enrollment test" do
 		assert_difference('Project.count',1) {
 		assert_difference('StudySubject.count',1) {
-		assert_difference('Enrollment.count',2) {	#	this enrollment AND the subject's ccls enrollment
+		#	NOTE this enrollment AND the subject's ccls enrollment
+		assert_difference('Enrollment.count',2) {	
 			enrollment = Factory(:declined_enrollment)
 			assert enrollment.consented
 			assert_equal enrollment.consented, YNDK[:no]
@@ -127,24 +128,13 @@ class EnrollmentTest < ActiveSupport::TestCase
 		end
 	end
 
-#	test "should require completed_on be in the past" do
-#		assert_difference( "Enrollment.count", 0 ) do
-#			enrollment = create_enrollment(
-#				:is_complete  => YNDK[:yes],
-#				:completed_on => Date.tomorrow )
-#			#	sometimes this fails during test:coverage?
-#			assert enrollment.errors.include?(:completed_on)
-#			assert_match(/future/,
-#				enrollment.errors.include?(:completed_on))
-#		end
-#	end
-
 	test "should require ineligible_reason if is_eligible == :no" do
 		assert_difference( "Enrollment.count", 0 ) do
 			enrollment = create_subjectless_enrollment(:is_eligible => YNDK[:no])
 			assert !enrollment.errors.include?(:ineligible_reason)
 			#	NOTE custom message
-			assert  enrollment.errors.matching?(:ineligible_reason_id,"required if is_eligible is No")
+			assert  enrollment.errors.matching?(:ineligible_reason_id,
+				"required if is_eligible is No")
 		end
 	end
 	test "should require valid ineligible_reason if is_eligible == :no" do
@@ -177,7 +167,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 				:ineligible_reason => IneligibleReason['other'] )
 			assert enrollment.errors.include?(:other_ineligible_reason)
 			#	NOTE custom error message
-			assert enrollment.errors.matching?(:other_ineligible_reason,"required if ineligible reason is Other")
+			assert enrollment.errors.matching?(:other_ineligible_reason,
+				"required if ineligible reason is Other")
 		end
 	end
 	test "should ALLOW other_ineligible_reason if " <<
@@ -202,7 +193,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 				#	NOTE custom error message
 				assert enrollment.errors.matching?(:other_ineligible_reason,
 					'not allowed unless is_eligible is No')
-#					'is present and must be absent')
 			end
 		end
 	end
@@ -224,7 +214,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 				#	NOTE custom error message
 				assert enrollment.errors.matching?(:reason_not_chosen,
 					'not allowed unless is_chosen is No')
-#					'is present and must be absent')
 			end
 		end
 	end
@@ -234,7 +223,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 			enrollment = create_subjectless_enrollment(:consented => YNDK[:no])
 			assert !enrollment.errors.include?(:refusal_reason)
 			#	NOTE custom error message
-			assert  enrollment.errors.matching?(:refusal_reason_id,"required if consented is No")
+			assert  enrollment.errors.matching?(:refusal_reason_id,
+				"required if consented is No")
 		end
 	end
 	test "should require valid refusal_reason if consented == :no" do
@@ -249,12 +239,11 @@ class EnrollmentTest < ActiveSupport::TestCase
 		test "should NOT ALLOW refusal_reason if consented == #{yndk}" do
 			assert_difference( "Enrollment.count", 0 ) do
 				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
-					:refusal_reason => Factory(:refusal_reason))
+					:refusal_reason_id => Factory(:refusal_reason).id)	#	added id
 				assert !enrollment.errors.include?(:refusal_reason)
 				#	NOTE custom error message
 				assert  enrollment.errors.matching?(:refusal_reason_id,
 					"not allowed unless consented is No")
-#					'is present and must be absent')
 			end
 		end
 	end
@@ -267,7 +256,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 				:refusal_reason => RefusalReason['other'] )
 			assert enrollment.errors.include?(:other_refusal_reason)
 			#	NOTE custom error message
-			assert enrollment.errors.matching?(:other_refusal_reason,"required if refusal reason is Other")
+			assert enrollment.errors.matching?(:other_refusal_reason,
+				"required if refusal reason is Other")
 		end
 	end
 	test "should ALLOW other_refusal_reason if " <<
@@ -291,13 +281,9 @@ class EnrollmentTest < ActiveSupport::TestCase
 				#	NOTE custom error message
 				assert enrollment.errors.matching?(:other_refusal_reason,
 					"not allowed unless consented is No")
-#					'is present and must be absent')
 			end
 		end
 	end
-
-
-
 
 	[:yes,:no].each do |yndk|
 		test "should require consented_on if consented == #{yndk}" do
@@ -305,7 +291,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
 					:consented_on => nil)
 				#	NOTE Custom error message
-				assert enrollment.errors.matching?(:consented_on,"date is required when adding consent information")
+				assert enrollment.errors.matching?(:consented_on,
+					"date is required when adding consent information")
 			end
 		end
 	end
@@ -318,7 +305,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 				#	NOTE Custom error message
 				assert enrollment.errors.matching?(:consented_on,
 					"not allowed if consented is blank or Don't Know")
-#					'is present and must be absent')
 			end
 		end
 	end
@@ -343,10 +329,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 					:terminated_reason => 'some bogus reason')
 				assert enrollment.errors.include?(:terminated_reason)
 				#	NOTE custom message
-#	TODO, custom message isn't being passed through custom validator??
 				assert enrollment.errors.matching?(:terminated_reason,
 					"not allowed unless terminated participation is Yes")
-#					'is present and must be absent')
 			end
 		end
 	end
@@ -368,7 +352,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 				#	NOTE custom error message
 				assert enrollment.errors.matching?(:completed_on,
 					"not allowed unless is_complete is Yes")
-#					'is present and must be absent')
 			end
 		end
 	end
@@ -383,7 +366,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 				#	NOTE custom error message
 				assert  enrollment.errors.matching?(:document_version_id,
 					"not allowed if consented is blank or Don't Know")
-#					'is present and must be absent')
 			end
 		end
 	end
@@ -414,32 +396,35 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 
 	test "should create operational event when enrollment complete" do
-		enrollment = create_subjectless_enrollment(
+		enrollment = Factory(:enrollment,
 			:completed_on => nil,
-			:is_complete => YNDK[:no])
+			:is_complete  => YNDK[:no])
 		#	arbitrary past date
 		past_date = Date.parse('Jan 15 2003')
-		assert_difference('OperationalEvent.count',1) do
+		assert_difference("enrollment.study_subject.operational_events.count",1){
 			enrollment.update_attributes(
 				:completed_on => past_date,
 				:is_complete => YNDK[:yes])
-		end
-		oe = enrollment.operational_events.find(:last,:order => 'id ASC')
+		}
+		oe = enrollment.study_subject.operational_events.where(
+			:project_id => enrollment.project_id).order('id ASC').last
 		assert_equal 'complete', oe.operational_event_type.key
 		assert_equal past_date,  oe.occurred_on
-		assert_equal enrollment.study_subject_id, oe.enrollment.study_subject_id
 	end
 
 	test "should create operational event when enrollment complete UNSET" do
 		#	arbitrary past date
 		past_date = Date.parse('Jan 15 2003')
 		enrollment = nil
+		study_subject = Factory(:study_subject)
 		assert_difference('OperationalEvent.count',1) do
-			enrollment = create_subjectless_enrollment(
-				:completed_on => past_date,
-				:is_complete => YNDK[:yes])
+			enrollment = Factory(:enrollment,
+				:study_subject => study_subject,
+				:completed_on  => past_date,
+				:is_complete   => YNDK[:yes])
 		end
-		oe = enrollment.operational_events.find(:last,:order => 'id ASC')
+		oe = study_subject.operational_events.where(
+			:project_id => enrollment.project_id).order('id ASC').last
 		assert_equal 'complete', oe.operational_event_type.key
 		assert_difference('OperationalEvent.count',1) do
 			enrollment.update_attributes(
@@ -448,46 +433,48 @@ class EnrollmentTest < ActiveSupport::TestCase
 		end
 		#	default_scope is mucking this up.  Unscope it!
 		#	 ORDER BY occurred_on ASC, id DESC LIMIT 1
-		oe = enrollment.operational_events.unscoped.find(:last,:order => 'id ASC')
+		oe = study_subject.operational_events.where(
+			:project_id => enrollment.project_id).order('id ASC').last
 		assert_equal 'reopened', oe.operational_event_type.key
 		assert_equal Date.today, oe.occurred_on
-		assert_equal enrollment.study_subject_id, oe.enrollment.study_subject_id
 	end
 
 	test "should create subjectConsents operational event if consent changes to yes" do
-		enrollment = Factory(:subjectless_enrollment)
+		enrollment = Factory(:enrollment)
 		assert_nil enrollment.consented
-		assert_difference("Enrollment.find(#{enrollment.id}).operational_events.count",1){
+		assert_difference("enrollment.study_subject.operational_events.count",1){
 			enrollment.update_attributes(:consented => YNDK[:yes],
 				:consented_on => Date.today )
 		}
 		enrollment.reload
 		assert_equal enrollment.consented, YNDK[:yes]
 		assert_equal enrollment.consented_on, Date.today
-		consented_event = enrollment.operational_events.find(:first,:conditions => {
-			:operational_event_type_id => OperationalEventType['subjectConsents'].id })
+		consented_event = enrollment.study_subject.operational_events.where(
+			:project_id => enrollment.project_id).where(
+			:operational_event_type_id => OperationalEventType['subjectConsents'].id ).first
 		assert_not_nil consented_event
 	end
 
 	test "should not create subjectConsents operational event if consent doesn't change" do
 		enrollment = Factory(:consented_enrollment)
 		assert_not_nil enrollment.consented
-		assert_difference("Enrollment.find(#{enrollment.id}).operational_events.count",0){
+		assert_difference("enrollment.study_subject.operational_events.count",0){
 			enrollment.update_attributes(:consented => YNDK[:yes],
 				:consented_on => Date.today )
 		}
 		enrollment.reload
 		assert_equal enrollment.consented, YNDK[:yes]
 		assert_equal enrollment.consented_on, Date.today
-		consented_event = enrollment.operational_events.find(:first,:conditions => {
-			:operational_event_type_id => OperationalEventType['subjectConsents'].id })
+		consented_event = enrollment.study_subject.operational_events.where(
+			:project_id => enrollment.project_id).where(
+			:operational_event_type_id => OperationalEventType['subjectConsents'].id ).first
 		assert_not_nil consented_event
 	end
 
 	test "should create subjectDeclines operational event if consent changes to no" do
-		enrollment = Factory(:subjectless_enrollment)
+		enrollment = Factory(:enrollment)
 		assert_nil enrollment.consented
-		assert_difference("Enrollment.find(#{enrollment.id}).operational_events.count",1){
+		assert_difference("enrollment.study_subject.operational_events.count",1){
 			enrollment.update_attributes(:consented => YNDK[:no],
 				:refusal_reason => Factory(:refusal_reason),
 				:consented_on   => Date.today )
@@ -495,23 +482,25 @@ class EnrollmentTest < ActiveSupport::TestCase
 		enrollment.reload
 		assert_equal enrollment.consented, YNDK[:no]
 		assert_equal enrollment.consented_on, Date.today
-		declined_event = enrollment.operational_events.find(:first,:conditions => {
-			:operational_event_type_id => OperationalEventType['subjectDeclines'].id })
+		declined_event = enrollment.study_subject.operational_events.where(
+			:project_id => enrollment.project_id).where(
+			:operational_event_type_id => OperationalEventType['subjectDeclines'].id ).first
 		assert_not_nil declined_event
 	end
 
 	test "should not create subjectDeclines operational event if consent doesn't change" do
 		enrollment = Factory(:declined_enrollment)
 		assert_not_nil enrollment.consented
-		assert_difference("Enrollment.find(#{enrollment.id}).operational_events.count",0){
+		assert_difference("enrollment.study_subject.operational_events.count",0){
 			enrollment.update_attributes(:consented => YNDK[:no],
 				:consented_on => Date.today )
 		}
 		enrollment.reload
 		assert_equal enrollment.consented, YNDK[:no]
 		assert_equal enrollment.consented_on, Date.today
-		declined_event = enrollment.operational_events.find(:first,:conditions => {
-			:operational_event_type_id => OperationalEventType['subjectDeclines'].id })
+		declined_event = enrollment.study_subject.operational_events.where(
+			:project_id => enrollment.project_id).where(
+			:operational_event_type_id => OperationalEventType['subjectDeclines'].id ).first
 		assert_not_nil declined_event
 	end
 

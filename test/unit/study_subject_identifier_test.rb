@@ -178,7 +178,6 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 
 	test "should require standard formatted ssn" do
 		%w( 1s2n3-4k5=6;7sdfg89 123456789 12345678X 12345678 1-34-56-789 ).each do |invalid_ssn|
-pending	#	TODO move custom message to locales
 			assert_difference( "StudySubject.count", 0 ) do
 				study_subject = create_study_subject(:ssn => invalid_ssn)
 				#	NOTE custom error message

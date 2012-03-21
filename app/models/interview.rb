@@ -89,20 +89,25 @@ protected
 		oet = OperationalEventType['intro']
 		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 		if oet && hxe
-			oe = hxe.operational_events.find(:first,
-				:conditions => { :operational_event_type_id => oet.id } )
+#			oe = hxe.operational_events.find(:first,
+			oe = study_subject.operational_events.find(:first,
+				:conditions => { 
+					:project_id => Project['HomeExposures'].id,
+					:operational_event_type_id => oet.id } )
 			if oe
 				oe.update_attributes(
 					:description => oet.description,
 					:occurred_on => intro_letter_sent_on
 				)
 			else
-				OperationalEvent.create!(
-					:enrollment => hxe,
+#				OperationalEvent.create!(
+#					:enrollment => hxe,
+				study_subject.operational_events.new(
+					:project => Project['HomeExposures'],
 					:operational_event_type => oet,
 					:description => oet.description,
 					:occurred_on => intro_letter_sent_on
-				)
+				).save!
 			end
 		end
 	end

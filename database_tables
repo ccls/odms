@@ -1081,9 +1081,10 @@ Table: operational_events
 | Field                     | Type         | Null | Key | Default | Extra          |
 +---------------------------+--------------+------+-----+---------+----------------+
 | id                        | int(11)      | NO   | PRI | NULL    | auto_increment |
-| operational_event_type_id | int(11)      | YES  |     | NULL    |                |
+| operational_event_type_id | int(11)      | YES  | MUL | NULL    |                |
 | occurred_on               | date         | YES  |     | NULL    |                |
-| enrollment_id             | int(11)      | YES  |     | NULL    |                |
+| study_subject_id          | int(11)      | YES  | MUL | NULL    |                |
+| project_id                | int(11)      | YES  | MUL | NULL    |                |
 | description               | varchar(255) | YES  |     | NULL    |                |
 | event_notes               | text         | YES  |     | NULL    |                |
 | created_at                | datetime     | NO   |     | NULL    |                |
@@ -1316,7 +1317,6 @@ Table: samples
 | position                     | int(11)       | YES  |     | NULL    |                |
 | parent_sample_id             | int(11)       | YES  |     | NULL    |                |
 | sample_format_id             | int(11)       | YES  |     | NULL    |                |
-| aliquot_sample_format_id     | int(11)       | YES  |     | NULL    |                |
 | sample_type_id               | int(11)       | YES  |     | NULL    |                |
 | project_id                   | int(11)       | YES  |     | NULL    |                |
 | study_subject_id             | int(11)       | YES  |     | NULL    |                |

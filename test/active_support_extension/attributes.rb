@@ -104,10 +104,12 @@ module ActiveSupportExtension::Attributes
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should require #{attr} not nil" do
-					assert_no_difference "#{model}.count" do
-						object = create_object(attr.to_sym => nil)
-						assert object.errors.include?(attr.to_sym)
-					end
+					object = model.constantize.new
+					object.send("#{attr}=", nil)
+					assert !object.valid?
+					#		message could be a number of things ...
+					# "is not included in the list","can't be blank"
+					assert object.errors.include?(attr.to_sym)
 				end
 			end
 		end
@@ -119,11 +121,12 @@ module ActiveSupportExtension::Attributes
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should require #{attr}" do
-					assert_no_difference "#{model}.count" do
-						object = create_object(attr.to_sym => nil)
-						assert object.errors.matching?(attr,"can't be blank") ||
-							object.errors.matching?(attr,'is too short')
-					end
+					object = model.constantize.new
+					object.send("#{attr}=", nil)
+					assert !object.valid?
+					assert object.errors.include?(attr.to_sym)
+					assert object.errors.matching?(attr,"can't be blank") ||
+						object.errors.matching?(attr,'is too short')
 				end
 			end
 		end
@@ -135,12 +138,13 @@ module ActiveSupportExtension::Attributes
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should not require #{attr}" do
-					assert_difference( "#{model}.count", 1 ) do
-						object = create_object(attr.to_sym => nil)
-						assert !object.errors.include?(attr.to_sym)
-						if attr =~ /^(.*)_id$/
-							assert !object.errors.include?($1.to_sym)
-						end
+					object = model.constantize.new
+					object.send("#{attr}=", nil)
+					#	don't know if it will be true or false, but must be called
+					object.valid?	
+					assert !object.errors.include?(attr.to_sym)
+					if attr =~ /^(.*)_id$/
+						assert !object.errors.include?($1.to_sym)
 					end
 				end
 			end
@@ -161,64 +165,69 @@ module ActiveSupportExtension::Attributes
 				if options.keys.include?(:is)
 					length = options[:is]
 					test "#{brand}should require exact length of #{length} for #{attr}" do
-						assert_no_difference "#{model}.count" do
-							value = 'x'*(length-1)
-							object = create_object(attr.to_sym => value)
-							assert_equal length-1, object.send(attr.to_sym).length
-							assert_equal object.send(attr.to_sym), value
-							assert object.errors.matching?(attr,'is the wrong length')
-						end
-						assert_no_difference "#{model}.count" do
-							value = 'x'*(length+1)
-							object = create_object(attr.to_sym => value)
-							assert_equal length+1, object.send(attr.to_sym).length
-							assert_equal object.send(attr.to_sym), value
-							assert object.errors.matching?(attr,'is the wrong length')
-						end
+						value = 'x'*(length-1)
+						object = model.constantize.new
+						object.send("#{attr}=", value)
+						assert !object.valid?
+						assert_equal length-1, object.send(attr.to_sym).length
+						assert_equal object.send(attr.to_sym), value
+						assert object.errors.include?(attr.to_sym)
+						assert object.errors.matching?(attr,'is the wrong length')
+
+						value = 'x'*(length+1)
+						object = model.constantize.new
+						object.send("#{attr}=", value)
+						assert !object.valid?
+						assert_equal length+1, object.send(attr.to_sym).length
+						assert_equal object.send(attr.to_sym), value
+						assert object.errors.include?(attr.to_sym)
+						assert object.errors.matching?(attr,'is the wrong length')
 					end
 				end
 
 				if options.keys.include?(:minimum)
 					min = options[:minimum]
 					test "#{brand}should require min length of #{min} for #{attr}" do
-#	because the model may have other requirements
-#	just check to ensure that we don't get a :too_short error
-#						assert_difference "#{model}.count" do
-							value = 'x'*(min)
-							object = create_object(attr.to_sym => value)
-							assert_equal min, object.send(attr.to_sym).length
-							assert_equal object.send(attr.to_sym), value
-							assert !object.errors.matching?(attr,'is too short')
-#						end
-						assert_no_difference "#{model}.count" do
-							value = 'x'*(min-1)
-							object = create_object(attr.to_sym => value)
-							assert_equal min-1, object.send(attr.to_sym).length
-							assert_equal object.send(attr.to_sym), value
-							assert object.errors.matching?(attr,'is too short')
-						end
+						value = 'x'*(min)
+						object = model.constantize.new
+						object.send("#{attr}=", value)
+						#	don't know if really valid
+						object.valid?
+						assert_equal min, object.send(attr.to_sym).length
+						assert_equal object.send(attr.to_sym), value
+						assert !object.errors.matching?(attr,'is too short')
+
+						value = 'x'*(min-1)
+						object = model.constantize.new
+						object.send("#{attr}=", value)
+						assert !object.valid?
+						assert_equal min-1, object.send(attr.to_sym).length
+						assert_equal object.send(attr.to_sym), value
+						assert object.errors.include?(attr.to_sym)
+						assert object.errors.matching?(attr,'is too short')
 					end
 				end
 
 				if options.keys.include?(:maximum)
 					max = options[:maximum]
 					test "#{brand}should require max length of #{max} for #{attr}" do
-#	because the model may have other requirements
-#	just check to ensure that we don't get a :too_long error
-#						assert_difference "#{model}.count" do
-							value = 'x'*(max)
-							object = create_object(attr.to_sym => value)
-							assert_equal max, object.send(attr.to_sym).length
-							assert_equal object.send(attr.to_sym), value
-							assert !object.errors.matching?(attr,'is too long')
-#						end
-						assert_no_difference "#{model}.count" do
-							value = 'x'*(max+1)
-							object = create_object(attr.to_sym => value)
-							assert_equal max+1, object.send(attr.to_sym).length
-							assert_equal object.send(attr.to_sym), value
-							assert object.errors.matching?(attr,'is too long')
-						end
+						value = 'x'*(max)
+						object = model.constantize.new
+						object.send("#{attr}=", value)
+						#	don't know if really valid
+						object.valid?
+						assert_equal max, object.send(attr.to_sym).length
+						assert_equal object.send(attr.to_sym), value
+						assert !object.errors.matching?(attr,'is too long')
+
+						value = 'x'*(max+1)
+						object = model.constantize.new
+						object.send("#{attr}=", value)
+						assert !object.valid?
+						assert_equal max+1, object.send(attr.to_sym).length
+						assert_equal object.send(attr.to_sym), value
+						assert object.errors.include?(attr.to_sym)
+						assert object.errors.matching?(attr,'is too long')
 					end
 				end
 

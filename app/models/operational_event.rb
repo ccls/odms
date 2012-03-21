@@ -2,15 +2,22 @@
 #	*	operational_event_type_id
 class OperationalEvent < ActiveRecord::Base
 
-	default_scope :order => 'occurred_on DESC'
-	belongs_to :enrollment
+#	default_scope :order => 'occurred_on DESC'
+#	default_scope just keeps mucking stuff up
+#	belongs_to :enrollment
+
 	belongs_to :operational_event_type
-
-	validates_presence_of :enrollment_id
-	validates_presence_of :enrollment, :if => :enrollment_id
-
-	validates_presence_of :operational_event_type_id
+#	validates_presence_of :operational_event_type_id
 	validates_presence_of :operational_event_type, :if => :operational_event_type_id
+
+	belongs_to :study_subject
+#	validates_presence_of :study_subject_id
+	validates_presence_of :study_subject, :if => :study_subject_id
+	attr_protected :study_subject_id, :study_subject
+
+	belongs_to :project
+#	validates_presence_of :project_id
+	validates_presence_of :project, :if => :project_id
 
 	validates_complete_date_for :occurred_on, :allow_nil => true
 	validates_length_of :description, :maximum => 250, :allow_blank => true
@@ -37,7 +44,7 @@ class OperationalEvent < ActiveRecord::Base
 protected
 
 	def copy_operational_event_type_description
-		if self.description.blank?
+		if self.description.blank? and !operational_event_type.nil?
 			self.description = operational_event_type.description
 		end
 	end

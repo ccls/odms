@@ -39,39 +39,41 @@ class Enrollment < ActiveRecord::Base
 protected
 
 	def create_enrollment_update
-		operational_event_type, occurred_on = if( is_complete == YNDK[:yes] )
-			[OperationalEventType['complete'], completed_on]
-		elsif( is_complete_was == YNDK[:yes] )
-			[OperationalEventType['reopened'], Date.today]
-		else 
-			[nil, nil]
-		end
-		unless operational_event_type.nil?
-			OperationalEvent.create!(
-				:enrollment => self,
-				:operational_event_type => operational_event_type,
-				:occurred_on => occurred_on
-			)
+		if study_subject
+			operational_event_type, occurred_on = if( is_complete == YNDK[:yes] )
+				[OperationalEventType['complete'], completed_on]
+			elsif( is_complete_was == YNDK[:yes] )
+				[OperationalEventType['reopened'], Date.today]
+			else 
+				[nil, nil]
+			end
+			unless operational_event_type.nil?
+				self.study_subject.operational_events.new(
+					:project                => self.project,
+					:operational_event_type => operational_event_type,
+					:occurred_on            => occurred_on
+				).save!
+			end
 		end
 	end
 
 	def create_subject_consents_operational_event
-		if( ( consented == YNDK[:yes] ) and ( consented_was != YNDK[:yes] ) )
-			OperationalEvent.create!(
-				:enrollment => self,
+		if( study_subject and ( consented == YNDK[:yes] ) and ( consented_was != YNDK[:yes] ) )
+			self.study_subject.operational_events.new(
+				:project                => self.project,
 				:operational_event_type => OperationalEventType['subjectConsents'],
 				:occurred_on            => consented_on
-			)
+			).save!
 		end
 	end
 
 	def create_subject_declines_operational_event
-		if( ( consented == YNDK[:no] ) and ( consented_was != YNDK[:no] ) )
-			OperationalEvent.create!(
-				:enrollment => self,
+		if( study_subject and ( consented == YNDK[:no] ) and ( consented_was != YNDK[:no] ) )
+			self.study_subject.operational_events.new(
+				:project                => self.project,
 				:operational_event_type => OperationalEventType['subjectDeclines'],
 				:occurred_on            => consented_on
-			)
+			).save!
 		end
 	end
 

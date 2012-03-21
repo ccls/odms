@@ -262,11 +262,11 @@ assert f[2].blank?
 			assert !case_study_subject.reload.enrollments.empty?
 			enrollment = case_study_subject.enrollments.first
 			assert_equal Project['ccls'], enrollment.project
-			assert !enrollment.operational_events.empty?
-#			assert_equal 1, enrollment.operational_events.length
-			assert_equal 2, enrollment.operational_events.length
+
+			assert !case_study_subject.operational_events.empty?
+			assert_equal 2, case_study_subject.operational_events.length
 			assert_equal OperationalEventType['bc_request_sent'],
-				enrollment.operational_events.last.operational_event_type
+				case_study_subject.operational_events.last.operational_event_type
 		end
 
 #	Enrollment in ccls is not longer created here so this test is invalid

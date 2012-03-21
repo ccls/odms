@@ -240,7 +240,6 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "should make study_subject ineligible "<<
 			"on create if state NOT 'CA' and address is ONLY residence" do
-pending
 		study_subject = create_eligible_hx_study_subject
 		assert_difference('OperationalEvent.count',1) {
 		assert_difference('Addressing.count',1) {

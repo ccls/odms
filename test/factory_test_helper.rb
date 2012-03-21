@@ -6,10 +6,12 @@ module FactoryTestHelper
 			options[:study_subject] ||= {}
 			options[:study_subject][:subject_type] = SubjectType['Case']
 		end
+		assert_difference('Enrollment.count',1) {	#	ccls
 		assert_difference('StudySubject.count',1) {
 			study_subject    = Factory(:study_subject,options[:study_subject]||{})
-		}
-		project = Project.find_or_create_by_key('HomeExposures')
+		} }
+#		project = Project.find_or_create_by_key('HomeExposures')
+		project = Project['HomeExposures']
 		assert_not_nil project
 		assert_difference('StudySubject.count',0) {
 		assert_difference('Enrollment.count',1) {

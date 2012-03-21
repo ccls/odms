@@ -165,9 +165,6 @@ class PatientTest < ActiveSupport::TestCase
 				:admit_date => Date.jd(2430000) ) 
 				# BEFORE my factory set dob to raise error (Date.jd(2440000+rand(15000))
 			assert patient.errors.include?(:admit_date)
-pending
-#			assert_match(/before.*dob/,
-#				patient.errors.include?(:admit_date))
 			assert patient.errors.matching?(:admit_date, "before.*dob")
 		}
 	end
@@ -191,9 +188,6 @@ pending
 					:admit_date => Date.jd(2430000)
 				}))
 			assert study_subject.errors.include?('patient:admit_date'.to_sym)
-pending
-#			assert_match(/before.*dob/,
-#				study_subject.errors.include?('patient:admit_date'))
 			assert study_subject.errors.matching?('patient:admit_date',"before.*dob")
 		} }
 	end
@@ -231,9 +225,6 @@ pending
 				:diagnosis_date => Date.jd(2430000) ) 
 				# BEFORE my factory set dob to raise error (Date.jd(2440000+rand(15000))
 			assert patient.errors.include?(:diagnosis_date)
-pending
-#			assert_match(/before.*dob/,
-#				patient.errors.include?(:diagnosis_date))
 			assert patient.errors.matching?(:diagnosis_date, "before.*dob")
 		end
 	end
@@ -246,7 +237,6 @@ pending
 					# BEFORE my factory set dob to raise error
 					:diagnosis_date => Date.jd(2430000),
 				}))
-pending
 			assert study_subject.errors.include?('patient:diagnosis_date'.to_sym)
 		} }
 	end
@@ -261,9 +251,6 @@ pending
 				:diagnosis_date => Date.jd(2440000),
 				:treatment_began_on => Date.jd(2430000) ) 
 			assert patient.errors.include?(:treatment_began_on)
-pending
-#			assert_match(/Date treatment began must be on or after the diagnosis date/,
-#				patient.errors.include?(:treatment_began_on))
 			assert patient.errors.matching?(:treatment_began_on,
 				"Date treatment began must be on or after the diagnosis date")
 		end
@@ -281,9 +268,6 @@ pending
 				}))
 			assert study_subject.patient.errors.include?(:treatment_began_on)
 			assert study_subject.errors.include?('patient.treatment_began_on'.to_sym)
-pending
-#			assert_match(/Date treatment began must be on or after the diagnosis date/,
-#				study_subject.patient.errors.include?(:treatment_began_on))
 			assert study_subject.patient.errors.matching?(:treatment_began_on,
 				"Date treatment began must be on or after the diagnosis date")
 		} }

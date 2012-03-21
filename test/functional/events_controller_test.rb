@@ -6,15 +6,16 @@ class EventsControllerTest < ActionController::TestCase
 		:model => 'OperationalEvent',
 		:actions => [:edit,:update,:destroy],
 		:attributes_for_create => :factory_attributes,	#	needed for update
-		:method_for_create => :create_operational_event_with_enrollment
+		:method_for_create => :create_operational_event_with_subject
 	}
-	def create_operational_event_with_enrollment(options={})
+	def create_operational_event_with_subject(options={})
 		Factory(:operational_event,{
-			:enrollment => Factory(:enrollment)}.merge(options) )
+			:study_subject => Factory(:study_subject)}.merge(options) )
 	end
 	def factory_attributes(options={})
 		Factory.attributes_for(:operational_event,{
-			:operational_event_type_id => Factory(:operational_event_type).id
+			:operational_event_type_id => Factory(:operational_event_type).id,
+			:project_id => Project['ccls'].id
 		}.merge(options))
 	end
 
@@ -41,15 +42,6 @@ class EventsControllerTest < ActionController::TestCase
 
 	site_administrators.each do |cu|
 
-
-
-
-#	TODO add update tests that ensure event doesn't change subjects
-#			when changing enrollment_id
-
-
-
-
 		test "should get new event for study_subject with #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:study_subject)
@@ -64,40 +56,12 @@ class EventsControllerTest < ActionController::TestCase
 			study_subject = Factory(:study_subject)
 			assert_difference('study_subject.operational_events.count',1){
 			assert_difference('OperationalEvent.count',1){
-			assert_difference('Enrollment.count',0){
 				post :create, :study_subject_id => study_subject.id,
-					:operational_event => factory_attributes(
-						:enrollment_id => study_subject.enrollments.find_by_project_id(
-							Project['ccls'].id).id)
-			} } }
+					:operational_event => factory_attributes
+			} }
 			assert_not_nil flash[:notice]
 			assert_nil flash[:error]
 			assert_redirected_to study_subject_events_path(study_subject)
-		end
-
-		test "should NOT create new event for study_subject with #{cu} login" <<
-				" and study_subject_id and enrollment.study_subject_id don't match" do
-			login_as send(cu)
-#
-#	we don't want to allow using one subject to assign an event to an
-#	enrollment of another subject.	This could be dangerous.
-#	So assign to the route study_subject?
-#	What if doesn't have an enrollment in that project?
-#
-			route_study_subject = Factory(:study_subject)
-			enrollment_study_subject = Factory(:study_subject)
-
-			assert_difference('OperationalEvent.count',0){
-				post :create, :study_subject_id => route_study_subject.id,
-					:operational_event => factory_attributes(
-						:enrollment_id => enrollment_study_subject.enrollments.find_by_project_id(
-							Project['ccls'].id).id)
-			}
-			assert_nil flash[:notice]
-			assert_not_nil flash[:error]
-			assert_match /Mismatch/, flash[:error]
-			assert_response :success
-			assert_template 'new'
 		end
 
 		test "should NOT create new event for study_subject with #{cu} login" <<
@@ -106,12 +70,10 @@ class EventsControllerTest < ActionController::TestCase
 			study_subject = Factory(:study_subject)
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => 0,
-					:operational_event => factory_attributes(
-						:enrollment_id => study_subject.enrollments.find_by_project_id(
-							Project['ccls'].id).id)
+					:operational_event => factory_attributes
 			}
 			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path	#study_subject_events_path(study_subject)
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT create new event for study_subject with #{cu} login" <<
@@ -121,9 +83,7 @@ class EventsControllerTest < ActionController::TestCase
 			OperationalEvent.any_instance.stubs(:valid?).returns(false)
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => study_subject.id,
-					:operational_event => factory_attributes(
-						:enrollment_id => study_subject.enrollments.find_by_project_id(
-							Project['ccls'].id).id)
+					:operational_event => factory_attributes
 			}
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -137,9 +97,7 @@ class EventsControllerTest < ActionController::TestCase
 			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => study_subject.id,
-					:operational_event => factory_attributes(
-						:enrollment_id => study_subject.enrollments.find_by_project_id(
-							Project['ccls'].id).id)
+					:operational_event => factory_attributes
 			}
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -163,9 +121,7 @@ class EventsControllerTest < ActionController::TestCase
 			study_subject = Factory(:study_subject)
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => study_subject.id,
-					:operational_event => factory_attributes(
-						:enrollment_id => study_subject.enrollments.find_by_project_id(
-							Project['ccls'].id).id)
+					:operational_event => factory_attributes
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subject_events_path(study_subject)
@@ -222,9 +178,7 @@ class EventsControllerTest < ActionController::TestCase
 		study_subject = Factory(:study_subject)
 		assert_difference('OperationalEvent.count',0){
 			post :create, :study_subject_id => study_subject.id,
-				:operational_event => factory_attributes(
-					:enrollment_id => study_subject.enrollments.find_by_project_id(
-						Project['ccls'].id).id)
+				:operational_event => factory_attributes
 		}
 		assert_redirected_to_login
 	end
