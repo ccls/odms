@@ -8,28 +8,30 @@ namespace :app do
 	task :update => :environment do
 		fixtures = %w(
 			address_types
-			contexts
 			context_data_sources
+			contexts
 			data_sources
 			diagnoses
 			document_types
 			follow_up_types
 			hospitals
 			ineligible_reasons
+			instrument_types
 			instrument_versions
 			instruments
 			interview_methods
 			interview_outcomes
-			instrument_types
 			languages
-			organizations
 			operational_event_types
+			organizations
 			people
 			phone_types
+			project_outcomes
 			projects
 			races
 			refusal_reasons
 			roles
+			sample_formats
 			sample_outcomes
 			sample_temperatures
 			sample_types

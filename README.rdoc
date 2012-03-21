@@ -1,6 +1,35 @@
 = CCLS Operations and Data Management System
 
 
+#	Start from scratch?
+
+#	drop existing dev db
+mysqladmin -u root drop odms_development
+
+#	create new empty dev db
+mysqladmin -u root create odms_development
+
+#	Add expected users and roles
+rake app:users:add_default
+
+#	Install most test fixtures in database
+rake app:update
+
+#	OR Install zip_code and county csv fixtures in database (takes a while)
+#	( this will do app:update as well )
+rake app:full_update
+
+#	Install "production" pages and guides (as of Mar 12, 2012)
+rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
+
+
+
+
+#	Dump database table descriptions
+rake db:describe
+
+
+
 
 
 
