@@ -1274,6 +1274,7 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
   create_table "samples", :force => true do |t|
     t.integer  "position"
     t.integer  "parent_sample_id"
+    t.integer  "sample_format_id"
     t.integer  "aliquot_sample_format_id"
     t.integer  "sample_type_id"
     t.integer  "project_id"
