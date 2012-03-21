@@ -138,6 +138,10 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal object.displayname, "#{object}"
 	end
 
+	test "should find users by role name" do
+pending
+	end
+
 #protected
 #
 #	def create_user(options = {})

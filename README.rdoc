@@ -9,8 +9,7 @@ mysqladmin -u root drop odms_development
 #	create new empty dev db
 mysqladmin -u root create odms_development
 
-#	Add expected users and roles
-rake app:users:add_default
+rake db:migrate
 
 #	Install most test fixtures in database
 rake app:update
@@ -18,6 +17,9 @@ rake app:update
 #	OR Install zip_code and county csv fixtures in database (takes a while)
 #	( this will do app:update as well )
 rake app:full_update
+
+#	Add expected users and roles (after roles are loaded)
+rake app:users:add_default
 
 #	Install "production" pages and guides (as of Mar 12, 2012)
 rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
@@ -158,6 +160,9 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 * remove StudySubject.search on projects
 * debug integration tests
 
+* default_scopes mucks up searching in rails 3
+  * they take precedence over the request? seems backwards
+  * remove them all??
 
 
 
@@ -201,70 +206,27 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 == Rails 3 Upgrade TODOs
 
-* (20120316a) 7886 tests, 18416 assertions, 907 failures, 1439 errors
-* (20120316b) 7849 tests, 17906 assertions, 166 failures, 2043 errors
-* (20120317a)
-* ODMS-rake-test-20120317a.txt:4650 tests, 11589 assertions, 42 failures, 180 errors
-* ODMS-rake-test-20120317a.txt:2867 tests, 11028 assertions, 77 failures, 122 errors
-* ODMS-rake-test-20120317a.txt:224 tests, 499 assertions, 0 failures, 224 errors
-* (20120318a)
-* ODMS-rake-test-20120318a.txt:4579 tests, 11654 assertions, 14 failures, 88 errors
-* ODMS-rake-test-20120318a.txt:2867 tests, 11046 assertions, 77 failures, 104 errors
-* ODMS-rake-test-20120318a.txt:224 tests, 499 assertions, 0 failures, 224 errors
-* (20120318b)
-* ODMS-rake-test-20120318b.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
-* ODMS-rake-test-20120318b.txt:2867 tests, 11178 assertions, 77 failures, 77 errors
-* ODMS-rake-test-20120318b.txt:224 tests, 2827 assertions, 47 failures, 0 errors
-* (20120318c)
-* ODMS-rake-test-20120318c.txt:4581 tests, 11662 assertions, 14 failures, 81 errors
-* ODMS-rake-test-20120318c.txt:2867 tests, 11238 assertions, 69 failures, 49 errors
-* ODMS-rake-test-20120318c.txt:224 tests, 2810 assertions, 41 failures, 6 errors
-* (20120318d) 7672 tests, 25642 assertions, 305 failures, 143 errors
-* (20120319)  7682 tests, 27538 assertions, 147 failures, 25 errors
-* (20120319)  7678 tests, 27383 assertions, 133 failures, 25 errors
 
-* going in the wrong direction now?
-* (20120319)  7643 tests, 24321 assertions, 134 failures, 233 errors
-* now we're getting somewhere
-* (20120320)  7615 tests, 27293 assertions, 19 failures, 5 errors
+This is looking good.
 
+	def self.no_change_in_query(*args)
+		scoped	#	just return scoped to do nothing apparently
+	end
 
+Repeated joins seem to be ignored.  Yay!
 
-  4) Failure:
-test_should_order_sub_pages_with_administrator_login(PagesControllerTest) [/test/functional/pages_controller_test.rb:133]:
-<[1, 2, 3]> expected but was
-<[1, 2, 2]>.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+> User.joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).to_sql
+=> "SELECT `users`.* FROM `users` INNER JOIN `roles_users` ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` ON `roles`.`id` = `roles_users`.`role_id`"
 
 
 PRIORITY
 
-* integration tests passing
-* all tests passing
-* ZipCode failures??
 * fix all search code
   * searching is not terribly important, but does need to work
   * the following have some type of homemade 'search' method that will NEED updated
     * app/models/study_subject.rb
     * app/models/operational_event.rb
       * events_path, although don't know why (probably just sorting)
-* default_scopes mucks up searching in rails 3
-  * they take precedence over the request? seems backwards
-  * remove them all??
 
 * rake test:coverage
 
@@ -277,6 +239,12 @@ PRIORITY
 * re-enable ccls-html_test for validation (incompatible with rails 3?)
 
 * change functional tests to only include fields on the forms
+
+* add User.with_role_names tests
+
+* update subject race and language selectors
+
+* investigate candidate control integration test failures
 
 
 
@@ -295,7 +263,7 @@ PRIORITY
 * paths not available in new helper tests?? ( so commented out those tests )
   * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
 
-* fix user not logged in integration test.
+* fix user not logged in integration test.  current_url doesn't seem to match followed redirect.
 
 * controllers now raises MassAssignmentSecurity::Error
   * add a rescue to ignore it
@@ -308,7 +276,7 @@ PRIORITY
 * datetime still accept partial? was some mention of error when not complete
   * think that there is some setting 
 
-* remove soon to be deprecate code
+* remove soon to be deprecated code
 
 
 
@@ -399,14 +367,6 @@ http://railscasts.com/episodes/239-activerecord-relation-walkthrough
 
 As this code is stored in publicly accessible repositories,
 DO NOT UNDER ANY CIRCUMSTANCES PUT ANY REAL SUBJECT DATA IN THE CODE!
-
-The models in this gem are stored in a shared database, therefore, the migrations
-that create and modify it, as well as the ActiveRecord models that use it must
-reflect this.  Currently, the models which are normally subclasses of ActiveRecord::Base
-need to now by subclasses of ActiveRecordShared.  The migrations, normally subclasses 
-of ActiveRecord::Migration, need to be subclasses of SharedMigration.
-
-
 
 Several errors I get on my MacBook when running rake test:coverage that I don't get running autotest,
   I also don't get these on my Mac Pro ???

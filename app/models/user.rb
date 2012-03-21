@@ -17,8 +17,9 @@ class User < ActiveRecord::Base
 		roles.collect(&:name).uniq
 	end
 
-	def self.with_role_name(role_name)
-		joins(:roles).where("roles.name".to_sym => role_name)
+	def self.with_role_name(role_name=nil)
+		( role_name.blank? ) ? scoped :
+			joins(:roles).where("roles.name".to_sym => role_name)
 	end
 
 	def deputize

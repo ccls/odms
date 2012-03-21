@@ -5,6 +5,15 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 #	These tests are VERY specific and even minor changes to the method or even
 #	in rails' helper methods will require updates or corrections.
 
+#	If the races fixtures change, they may need updated to match races, order, ids, etc.
+#	TODO try to loosen the ties.
+
+#	Clean this up.  One race per test. With and without
+#	test "subject_races_select White" do
+#	test "subject_races_select White with White" do
+#	test "subject_races_select Other" do
+#	test "subject_races_select Other with Other" do
+
 	test "subject_races_select" do
 		@study_subject = Factory(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| f.subject_races_select() }
@@ -26,19 +35,19 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <input name="study_subject[subject_races_attributes][3][race_id]" type="hidden" value="" /><input class="race_selector" id="asian_race_id" name="study_subject[subject_races_attributes][3][race_id]" title="Set 'Asian / Pacific Islander' as one of the subject's race(s)" type="checkbox" value="4" />
 <label for="asian_race_id">Asian / Pacific Islander</label>
 </div>
-<div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][4][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][4][is_primary]" title="Set 'Other' as the subject's PRIMARY race" type="checkbox" value="1" />
-<input name="study_subject[subject_races_attributes][4][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][4][race_id]" title="Set 'Other' as one of the subject's race(s)" type="checkbox" value="5" />
-<label for="other_race_id">Other</label>
+<div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][4][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][4][is_primary]" title="Set 'Other race' as the subject's PRIMARY race" type="checkbox" value="1" />
+<input name="study_subject[subject_races_attributes][4][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][4][race_id]" title="Set 'Other race' as one of the subject's race(s)" type="checkbox" value="7" />
+<label for="other_race_id">Other race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][4][other_race]" size="12" type="text" />
 </div></div></div>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][5][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="unknown_is_primary" name="study_subject[subject_races_attributes][5][is_primary]" title="Set 'Don't Know' as the subject's PRIMARY race" type="checkbox" value="1" />
-<input name="study_subject[subject_races_attributes][5][race_id]" type="hidden" value="" /><input class="race_selector" id="unknown_race_id" name="study_subject[subject_races_attributes][5][race_id]" title="Set 'Don't Know' as one of the subject's race(s)" type="checkbox" value="6" />
+<input name="study_subject[subject_races_attributes][5][race_id]" type="hidden" value="" /><input class="race_selector" id="unknown_race_id" name="study_subject[subject_races_attributes][5][race_id]" title="Set 'Don't Know' as one of the subject's race(s)" type="checkbox" value="999" />
 <label for="unknown_race_id">Don't Know</label>
 </div>
-<div class='subject_race creator'><input name=\"study_subject[subject_races_attributes][6][is_primary]\" type=\"hidden\" value=\"0\" /><input class=\"is_primary_selector\" id=\"refused_is_primary\" name=\"study_subject[subject_races_attributes][6][is_primary]\" title=\"Set 'Refused to state' as the subject's PRIMARY race\" type=\"checkbox\" value=\"1\" />
-<input name=\"study_subject[subject_races_attributes][6][race_id]\" type=\"hidden\" value=\"\" /><input class=\"race_selector\" id=\"refused_race_id\" name=\"study_subject[subject_races_attributes][6][race_id]\" title=\"Set 'Refused to state' as one of the subject's race(s)\" type=\"checkbox\" value=\"7\" />
-<label for=\"refused_race_id\">Refused to state</label>
+<div class='subject_race creator'><input name="study_subject[subject_races_attributes][6][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="refused_is_primary" name="study_subject[subject_races_attributes][6][is_primary]" title="Set 'Refused to state' as the subject's PRIMARY race" type="checkbox" value="1" />
+<input name="study_subject[subject_races_attributes][6][race_id]" type="hidden" value="" /><input class="race_selector" id="refused_race_id" name="study_subject[subject_races_attributes][6][race_id]" title="Set 'Refused to state' as one of the subject's race(s)" type="checkbox" value="888" />
+<label for="refused_race_id">Refused to state</label>
 </div>
 </div>
 </div><!-- study_subject_races -->
@@ -106,9 +115,9 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <input name="study_subject[subject_races_attributes][1][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][1][race_id]" title="Set 'White, Non-Hispanic' as one of the subject's race(s)" type="checkbox" value="1" />
 <label for="white_race_id">White, Non-Hispanic</label>
 </div>
-<div class='subject_race destroyer'><div id='other_race'><input name="study_subject[subject_races_attributes][2][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][2][is_primary]" title="Set 'Other' as the subject's PRIMARY race" type="checkbox" value="1" />
-<input id="study_subject_subject_races_attributes_2_race_id" name="study_subject[subject_races_attributes][2][race_id]" type="hidden" value="5" /><input name="study_subject[subject_races_attributes][2][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][2][_destroy]" title="Remove 'Other' as one of the subject's race(s)" type="checkbox" value="0" />
-<label for="other__destroy">Other</label>
+<div class='subject_race destroyer'><div id='other_race'><input name="study_subject[subject_races_attributes][2][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][2][is_primary]" title="Set 'Other race' as the subject's PRIMARY race" type="checkbox" value="1" />
+<input id="study_subject_subject_races_attributes_2_race_id" name="study_subject[subject_races_attributes][2][race_id]" type="hidden" value="7" /><input name="study_subject[subject_races_attributes][2][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][2][_destroy]" title="Remove 'Other race' as one of the subject's race(s)" type="checkbox" value="0" />
+<label for="other__destroy">Other race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][2][other_race]" size="12" type="text" value="otherrace" />
 </div></div><input id="study_subject_subject_races_attributes_2_id" name="study_subject[subject_races_attributes][2][id]" type="hidden" value="#{subject_race_id}" /></div>

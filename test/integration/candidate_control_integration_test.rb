@@ -41,7 +41,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',2) {
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-				sleep 1	#	If I don't sleep in capybara, the counts don't change???
+				sleep 2	#	If I don't sleep in capybara, the counts don't change???
 			} } } } } } }
 
 			assert_candidate_assigned_and_accepted(candidate.reload)

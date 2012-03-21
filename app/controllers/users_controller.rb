@@ -9,10 +9,7 @@ class UsersController < ApplicationController
 	end
 
 	def index
-		@users = User.scoped
-		if params[:role_name] && !params[:role_name].blank?
-			@users = @users.with_role_name(params[:role_name])
-		end
+		@users = User.with_role_name(params[:role_name])
 	end
 
 	def destroy

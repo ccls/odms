@@ -5,7 +5,7 @@ module SubjectLanguageSelectHelper
 	#	(as is currently in views), or just as list
 	def subject_languages_select( *args )
 		languages = args.flatten
-		languages = Language.all if languages.empty?
+		languages = Language.order('position') if languages.empty?
 		#		self.object  #	<-- the subject
 		s =  "<div id='study_subject_languages'>"
 		#	TODO would be nice, but not currently needed, to have a label option.

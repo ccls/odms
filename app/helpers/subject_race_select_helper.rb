@@ -5,7 +5,7 @@ module SubjectRaceSelectHelper
 	#	(as is currently in views), or just as list
 	def subject_races_select( *args )
 		races = args.flatten
-		races = Race.all if races.empty?
+		races = Race.order('position') if races.empty?
 		#		self.object  #	<-- the subject
 		s =  "<div id='study_subject_races'>"
 		#	TODO would be nice, but not currently needed, to have a label option.

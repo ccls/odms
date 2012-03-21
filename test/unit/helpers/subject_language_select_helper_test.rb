@@ -5,9 +5,20 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 #	These tests are VERY specific and even minor changes to the method or even
 #	in rails' helper methods will require updates or corrections.
 
-	test "subject_languages_select" do
+#	If the languages fixtures change, they may need updated to match languages, order, ids, etc.
+#	TODO try to loosen the ties.
+
+#	Simplify.  Test just one language.  With or without selection.
+
+#	test "subject_languages_select English" do
+#	test "subject_languages_select English with English" do
+#	test "subject_languages_select Other" do
+#	test "subject_languages_select Other with Other" do
+
+	test "subject_languages_select English, Spanish, Other, Unknown" do
 		@study_subject = Factory(:study_subject)
-		output_buffer = form_for(@study_subject,:url => '/'){|f| f.subject_languages_select() }
+		output_buffer = form_for(@study_subject,:url => '/'){|f| 
+			f.subject_languages_select([Language['english'],Language['spanish'],Language['other'],Language['unknown']]) }
 			expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
 <div id='languages'>
 <div class='subject_language creator'><input name="study_subject[subject_languages_attributes][0][language_id]" type="hidden" value="" /><input id="english_language_id" name="study_subject[subject_languages_attributes][0][language_id]" type="checkbox" value="1" />
@@ -21,7 +32,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 <div id='specify_other_language'><label for="other_other_language">specify:</label>
 <input id="other_other_language" name="study_subject[subject_languages_attributes][2][other_language]" size="12" type="text" />
 </div></div></div>
-<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][3][language_id]" type="hidden" value="" /><input id="unknown_language_id" name="study_subject[subject_languages_attributes][3][language_id]" type="checkbox" value="4" />
+<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][3][language_id]" type="hidden" value="" /><input id="unknown_language_id" name="study_subject[subject_languages_attributes][3][language_id]" type="checkbox" value="999" />
 <label for="unknown_language_id">Unknown (eligible)</label>
 </div>
 </div>
