@@ -554,23 +554,24 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
   create_table "diagnoses", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
-    t.integer  "code",        :null => false
     t.string   "description", :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "diagnoses", ["code"], :name => "index_diagnoses_on_code", :unique => true
   add_index "diagnoses", ["description"], :name => "index_diagnoses_on_description", :unique => true
   add_index "diagnoses", ["key"], :name => "index_diagnoses_on_key", :unique => true
 
   create_table "document_types", :force => true do |t|
     t.integer  "position"
+    t.string   "key",         :null => false
     t.string   "title"
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  add_index "document_types", ["key"], :name => "index_document_types_on_key", :unique => true
 
   create_table "document_versions", :force => true do |t|
     t.integer  "position"
@@ -1019,13 +1020,11 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
   create_table "languages", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
-    t.string   "code",        :null => false
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "languages", ["code"], :name => "index_languages_on_code", :unique => true
   add_index "languages", ["key"], :name => "index_languages_on_key", :unique => true
 
   create_table "live_birth_data_updates", :force => true do |t|

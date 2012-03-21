@@ -241,13 +241,15 @@ Factory.define :data_source do |f|
 end
 
 Factory.define :diagnosis do |f|
-	f.sequence(:key)         { |n| "key#{n}"}
-	f.sequence(:code)        { |n| n+4 }	#	1, 2 and 3 are in the fixtures
+	f.sequence(:key)         { |n| "Key#{n}"}
+#	f.sequence(:code)        { |n| n+4 }	#	1, 2 and 3 are in the fixtures
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
 Factory.define :document_type do |f|
-	f.sequence(:title) { |n| "Title#{n}" }
+	f.sequence(:key)         { |n| "Key#{n}" }
+	f.sequence(:title)       { |n| "Title#{n}" }
+	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
 Factory.define :document_version do |f|
@@ -378,7 +380,7 @@ end
 
 Factory.define :language do |f|
 	f.sequence(:key)         { |n| "Key#{n}" }
-	f.sequence(:code)        { |n| "Code#{n}" }
+#	f.sequence(:code)        { |n| "Code#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 

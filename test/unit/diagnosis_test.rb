@@ -6,13 +6,14 @@ class DiagnosisTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 
-	attributes = %w( code position )
-	required   = %w( code )
-	unique     = %w( code )
-	assert_should_require( required )
-	assert_should_require_unique( unique )
-	assert_should_not_require( attributes - required )
-	assert_should_not_require_unique( attributes - unique )
+#	attributes = %w( code position )
+#	required   = %w( code )
+#	unique     = %w( code )
+	attributes = %w( position )
+#	assert_should_require( required )
+#	assert_should_require_unique( unique )
+	assert_should_not_require( attributes )	#- required )
+	assert_should_not_require_unique( attributes )	#- unique )
 	assert_should_not_protect( attributes )
 
 	assert_should_act_as_list
@@ -21,8 +22,8 @@ class DiagnosisTest < ActiveSupport::TestCase
 	test "explicit Factory diagnosis test" do
 		assert_difference('Diagnosis.count',1) {
 			diagnosis = Factory(:diagnosis)
-			assert_match /key\d*/,  diagnosis.key
-			assert_match /\d*/,     diagnosis.code.to_s
+			assert_match /Key\d*/,  diagnosis.key
+#			assert_match /\d*/,     diagnosis.code.to_s
 			assert_match /Desc\d*/, diagnosis.description
 		}
 	end
