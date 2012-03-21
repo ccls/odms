@@ -1182,13 +1182,11 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
   create_table "races", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
-    t.string   "code",        :null => false
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "races", ["code"], :name => "index_races_on_code", :unique => true
   add_index "races", ["description"], :name => "index_races_on_description", :unique => true
   add_index "races", ["key"], :name => "index_races_on_key", :unique => true
 

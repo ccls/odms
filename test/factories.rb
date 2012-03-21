@@ -465,8 +465,8 @@ Factory.define :project do |f|
 end
 
 Factory.define :race do |f|
-	f.sequence(:key)        {|n| "key#{n}"}
-	f.sequence(:code)       {|n| "Race#{n}"}
+	f.sequence(:key)        {|n| "Key#{n}"}
+#	f.sequence(:code)       {|n| "Race#{n}"}
 	f.sequence(:description){|n| "Desc#{n}"}
 end
 
