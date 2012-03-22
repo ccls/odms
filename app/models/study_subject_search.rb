@@ -1,7 +1,7 @@
 # This has gotton out of control.  While it certainly still functions,
 #	I would advise that search commands be a bit more concise as most
 #	are only used in one location.
-#class StudySubjectSearch < Search
+class StudySubjectSearch < Search
 #
 #	self.searchable_attributes += [ :races, :types, :vital_statuses, :q,
 #		:sample_outcome, :interview_outcome,
