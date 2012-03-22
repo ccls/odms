@@ -437,14 +437,8 @@ module ApplicationHelper
 				end
 
 				s << (( block_given? )? capture(&block) : '')
-#				send("_#{method_name}",*args) << 
-#					(( block_given? )? capture(&block) : '')
 			end
-#				if block_called_from_erb?(block)
-#					concat(content)
-#				else
-				content
-#				end
+			content
 		else
 			method_missing_without_wrapping(symb,*args, &block)
 		end
@@ -454,49 +448,24 @@ module ApplicationHelper
 
 
 
-	#	Just add the classes 'submit' and 'button'
-	#	for styling and function
-	def submit_link_to(*args,&block)
-		html_options = if block_given?
-			args[1] ||= {}
-		else
-			args[2] ||= {}
-		end
-		html_options.delete(:value)   #	possible key meant for submit button
-		html_options.delete('value')  #	possible key meant for submit button
-		( html_options[:class] ||= '' ) << ' submit button'
-		link_to( *args, &block )
-	end
-
-
-##	TODO replace me with button_to calls
-##	Can't remove until destroy_link_to is gone
-#	def form_link_to( title, url, options={}, &block )
-#		extra_tags = extra_tags_for_form(options)
-#		s =  "\n" <<
-#			"<form " <<
-#			"class='#{options.delete(:class)||'form_link_to'}' " <<
-#			"action='#{url_for(url)}' " <<
-#			"method='#{options.delete('method')}'>\n" <<
-#			extra_tags << "\n"
-#		s << (( block_given? )? capture(&block) : '')
-#		s << submit_tag(title, :name => nil ) << "\n" <<
-#			"</form>\n"
-#		s.html_safe
-#	end
-#
-##	TODO replace me with button_to calls
-#	def destroy_link_to( title, url, options={}, &block )
-#		s = form_link_to( title, url, options.merge(
-#			'method' => 'delete',
-#			:class => 'destroy_link_to'
-#		),&block )
+#	#	Just add the classes 'submit' and 'button'
+#	#	for styling and function
+#	def submit_link_to(*args,&block)
+#		html_options = if block_given?
+#			args[1] ||= {}
+#		else
+#			args[2] ||= {}
+#		end
+#		html_options.delete(:value)   #	possible key meant for submit button
+#		html_options.delete('value')  #	possible key meant for submit button
+#		( html_options[:class] ||= '' ) << ' submit button'
+#		link_to( *args, &block )
 #	end
 
 	def flasher
 		s = ''
 		flash.each do |key, msg|
-			s << content_tag( :p, msg, :id => key, :class => 'flash' )
+			s << content_tag( :p, msg.html_safe, :id => key, :class => 'flash' )
 			s << "\n"
 		end
 		s << "<noscript><p id='noscript' class='flash'>\n"

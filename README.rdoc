@@ -1,7 +1,7 @@
 = CCLS Operations and Data Management System
 
 
-#	Start from scratch?
+#	Starting from scratch?
 
 #	drop existing dev db
 mysqladmin -u root drop odms_development
@@ -39,148 +39,23 @@ rake db:describe
 
 == Rails 3 Upgrade Modifications
 
-So many things have changed from 2 to 3 and not all are good.  
-
-Perhaps I should have stepped into this Rails 3.0, 3.1 then 3.2?
-Then would've seen deprecation warnings?
-
-
-No more "errors.on(:field_name)" which was actually a built in rails staple!
--	Rewrote it myself
-... but should remove? Isn't hurting anyone.
-- modified tests to use .includes? instead
-
+No more ActiveRecord::Error and therefore no error :type which destroys my test method
+No more f.error_messages
 
 Our Context[...] model causes this ...
 ActionView::Template::Error: undefined method `[]' for ActionView::Context:Module
 Added :: prefix where I use it to see if makes a difference
 
+Rewrite my custom validations
 
-* all of my custom validations have been converted and seem to work now
-	* validates_complete_date_for
-	* validates_past_date_for
-	* validates_absence_of
-* copy /lib/active_model/validations/presence.rb for use with absence.rb
+ssl/https implementation very different and seemingly untestable
 
-* move my action_view/base.rb into helper
-* config/initializers/action_view_extension/base.rb to simple helper
+CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
 
-* no more 'redirected_to' test method? NoMethodError: undefined method `redirected_to' for #<ActionController::TestResponse:0x10c01d120>
+json defautl output format no longer has the initial root key.
+config.active_record.include_root_in_json = false
 
-
-* custom error messages in my custom validators
-
-
-Some feature are just gone, like error types so cannot use my on_attr_and_type test!
-Will have to compare error message with match or something.
-No more ActiveRecord::Error so need to do something in my validation.
-
-
-* change all of my form_link_to's to button_to's
-
-* change all of my destroy_link_to's to button_to's (think that I have some javascript attached to these so add class-'destroy_link_to')
-  * don't know if i can as button_to doesn't accept hidden field parameters
-
-
-* write replacement for f.error_messages (wrote, but need to implement)
-
-No more form f.error_messages in rails 3 so I'll need to do something there.
-Build my own helper that creates something like ...
-
-<div class="errorExplanation" id="errorExplanation">
-<h2>5 errors prohibited this study subject from being saved</h2>
-<p>There were problems with the following fields:</p>
-<ul>
-<li>No sex has been chosen.</li>
-<li>Date of birth can't be blank.</li>
-<li>Admit date can't be blank</li>
-<li>Diagnosis can't be blank</li>
-<li>Hospital record number can't be blank.</li>
-</ul>
-</div>
-
-    <div id="error_explanation">
-      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
-      <ul>
-      <% @post.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-
-These ONLY show up with full messages.
-Use locales or HUMANIZED ATTRIBUE NAME to convert things like ...
-	dob to Date of birth
-	hospital_no to Hospital record number
-
-irb(main):012:0> s.errors.full_messages
-=> ["Subject type can't be blank", "Sex has not been chosen", "Date of birth can't be blank"]
-
-irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
-=> "Date of birth can't be blank"
-
-* gonna need to figure out this SSL thing so that all environments work
-  * I may not need to do anything except remove stuff
-  * production server forces https
-  * adding config.force_ssl to application.rb is supposed to do this
-  * then I can remove all kinds of stuff
-  * add config.force_ssl, but no tests actually prove this.
-  * relying on production server to enforce SSL
-
-* rake db:load:fixtures with csv files (works in testing)
-  * CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
-  * rake db:load:fixtures does not work for csv files????
-  * the rake task supports csv, but ActiveRecord apparently does not, even though all the documentation still says it does.
-  * manually importing with own rake tasks now
-
-* json output format no longer has the initial key.
-  * can change this by modifying application.rb
-  * config.active_record.include_root_in_json = false
-
-* missing subject_race_id and subject_language_id in selectors probably from new form of fields_for
-  * Done
-
-* surprised my home computer tested without a config/api.yml ??
-  * removing api controllers
-
-* integration tests running
-
-* fix all search code
-  * Remove GiftCardSearch as it is not used
-  * Try to remove AbstractSearch if possible
-  * remove OperationalEvent.seach
-    * app/models/abstract.rb - removed
-    * app/models/gift_card.rb - removed
-
-* remove User.search 
-    * app/models/user.rb
-      * only appears to search on role name in users controller 
-      * "users_path( :role_name => role_name )"
-* remove StudySubject.search on projects
-* debug integration tests
-
-* default_scopes mucks up searching in rails 3
-  * they take precedence over the request? seems backwards
-  * remove them all??
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+default_scopes take precedence over the request? seems backwards
 
 
 
@@ -206,7 +81,6 @@ irb(main):011:0> s.errors.full_message(:dob,"can't be blank")
 
 == Rails 3 Upgrade TODOs
 
-
 This is looking good.
 
 	def self.no_change_in_query(*args)
@@ -225,8 +99,6 @@ PRIORITY
   * searching is not terribly important, but does need to work
   * the following have some type of homemade 'search' method that will NEED updated
     * app/models/study_subject.rb
-    * app/models/operational_event.rb
-      * events_path, although don't know why (probably just sorting)
 
 * rake test:coverage
 
@@ -234,20 +106,13 @@ PRIORITY
 
 * resolve all commented out tests
 
-* reenable raising mass assignment error in environments/test.rb
-
 * re-enable ccls-html_test for validation (incompatible with rails 3?)
 
 * change functional tests to only include fields on the forms
 
-* add User.with_role_names tests
-
-* update subject race and language selectors
-
-* investigate candidate control integration test failures
-
 * Is there a way to save without callbacks?
   * could be very useful in testing?
+  * really trying to simplify all the testing as there are so many things that trigger other things.  It is becoming difficult to test.  Add one callback that creates something and all of the sudden 100 tests fail because some count is now off by 1.
 
 
 
@@ -255,18 +120,12 @@ PRIORITY
 
 
 
+* newer version of active scaffold?
 
 
+* fix user not logged in integration test.  current_url doesn't seem to match followed redirect. Also in CaseIntegrationTest
 
-
-
-
-
-* paths not available in new helper tests?? ( so commented out those tests )
-  * NameError: undefined local variable or method `dashboard_study_subjects_path' for #<ApplicationHelperTest:0x362afa4>
-
-* fix user not logged in integration test.  current_url doesn't seem to match followed redirect.
-
+* reenable raising mass assignment error in environments/test.rb
 * controllers now raises MassAssignmentSecurity::Error
   * add a rescue to ignore it
   * only raises in dev and test, so no rescue
@@ -281,32 +140,12 @@ PRIORITY
 * remove soon to be deprecated code
 
 
-
-
 * http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes
 * put all of my custom error message in locale file like above???
-
-
-* catch-all page path route string not array
-
-*	get acts_as_list working (actually seems to work fine.  tests don't though)
-  * include acts_as_list functionality
-  * don't really use acts_as_list functionality much
-  * default_scopes seem to be the problem.  Don't use them.
-
 
 * Have to find new way for custom error messages, AGAIN without attribute name
 
 * humanized versions of attributes for now
-
-
-* Not all of my rails2 routes are reproducable in rails3.  Do I NEED them? Doesn't appear so.
-  admin_path ... can't seem to define the path to pass other stuff to route?
-
-
-* assert_difference always seems to fail as the Model.count doesn't change even on successfull creation.
-  Was happening for ZipCode
-
 
 * Would probably be much better if I could remove all of my custom mods, but I'll probably have to add more.
 

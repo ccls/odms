@@ -17,8 +17,6 @@ class SampleType < ActiveRecord::Base
 		:foreign_key => 'parent_id',
 		:dependent => :nullify
 	
-#	scope :roots, :conditions => { :parent_id => nil }
-#	scope :not_roots, :conditions => ['sample_types.parent_id IS NOT NULL' ]
 	scope :roots,     where( :parent_id => nil )
 	scope :not_roots, where( 'sample_types.parent_id IS NOT NULL' )
 

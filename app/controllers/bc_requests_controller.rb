@@ -67,11 +67,13 @@ class BcRequestsController < ApplicationController
 #					Project['ccls'].id )
 #				OperationalEvent.create!(
 #					:enrollment => enrollment,
-				study_subject.operational_events.new(
+#				study_subject.operational_events.new(
+				study_subject.operational_events.create!(
 					:project => Project['ccls'],
 					:operational_event_type => OperationalEventType['bc_request_sent'],
 					:occurred_on => Date.today
-				).save!
+				)
+#				).save!
 			end
 #	I don't think that this can raise an error, but if the above do it will be skipped
 			BcRequest.update_all(

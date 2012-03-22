@@ -22,7 +22,6 @@ class DocumentVersion < ActiveRecord::Base
 		title
 	end
 
-#	scope :type1, :conditions => { :document_type_id => 1 }
 	scope :type1, where(:document_type_id => 1)
 
 end

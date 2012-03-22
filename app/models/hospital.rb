@@ -15,8 +15,6 @@ class Hospital < ActiveRecord::Base
 	validates_presence_of   :organization, :if => :organization_id
 	validates_uniqueness_of :organization_id, :allow_blank => true
 
-#	scope :waivered,    :conditions => { :has_irb_waiver => true }
-#	scope :nonwaivered, :conditions => { :has_irb_waiver => false }
 	scope :waivered,    where( :has_irb_waiver => true )
 	scope :nonwaivered, where( :has_irb_waiver => false )
 

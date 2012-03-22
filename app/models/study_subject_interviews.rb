@@ -14,7 +14,6 @@ base.class_eval do
 	#	Returns home exposures interview
 	def hx_interview
 		interviews.find(:first,
-#			:conditions => "projects.key = 'HomeExposures'",
 			:conditions => { 'projects.id' => Project['HomeExposures'].id },
 			:joins => [:instrument_version => [:instrument => :project]]
 		)

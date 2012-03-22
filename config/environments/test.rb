@@ -62,6 +62,9 @@ Odms::Application.configure do
 #	just for testing.	At least until I figure out how to make
 #	it work. I think that I just need a bigger hammer.
 #config.action_controller.session_store = :cookie_store
+#
+#	of course ActiveScaffold isn't working right now.
+#	Hope to install an Rails 3 version, then maybe I can undo this.
 
 	config.session_store :cookie_store, :key => '_odms_session'
 

@@ -3,16 +3,9 @@
 <%# sub_menu_for(@study_subject) %>
 <%# id_bar_for(@study_subject) %>
 
-
 <%= form_for( @sample,
 	:url => receive_sample_path(:study_subject_id => @study_subject.id) ) do |f| %>
-
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
 
 <%# this alignment will get mucked up with big names %>
 
@@ -55,6 +48,8 @@
 ) %>
 
 <p>Be advised that these datetime selectors will accept partial datetimes that can generate an incorrect datetime.</p>
+<p>In Rails 3, Year, Month and Day are required.
+<p>Of course this won't work as sent_to_subject_on is also required. Errr</p>
 
 <%= f.wrapped_datetime_select :collected_at,
 	:prompt => true,

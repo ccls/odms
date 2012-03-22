@@ -187,7 +187,7 @@ class StudySubject < ActiveRecord::Base
 
 	def assign_icf_master_id
 		if icf_master_id.blank?
-			next_icf_master_id = IcfMasterId.next_unused
+			next_icf_master_id = IcfMasterId.next_unused.first
 			if next_icf_master_id
 				self.update_attribute(:icf_master_id, next_icf_master_id.to_s)
 				next_icf_master_id.study_subject = self

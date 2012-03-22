@@ -24,8 +24,9 @@ class Interview < ActiveRecord::Base
 	validates_complete_date_for :ended_on, :allow_nil => true
 	validates_complete_date_for :intro_letter_sent_on, :allow_nil => true
 
-	validates_length_of :other_subject_relationship, :respondent_first_name, :respondent_last_name,
-		:maximum => 250, :allow_blank => true
+	validates_length_of :other_subject_relationship, 
+		:respondent_first_name, :respondent_last_name,
+			:maximum => 250, :allow_blank => true
 
 	validate :presence_of_other_subject_relationship
 
@@ -89,25 +90,28 @@ protected
 		oet = OperationalEventType['intro']
 		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 		if oet && hxe
-#			oe = hxe.operational_events.find(:first,
-			oe = study_subject.operational_events.find(:first,
-				:conditions => { 
-					:project_id => Project['HomeExposures'].id,
-					:operational_event_type_id => oet.id } )
+#			oe = study_subject.operational_events.find(:first,
+#				:conditions => { 
+#					:project_id                => Project['HomeExposures'].id,
+#					:operational_event_type_id => oet.id } )
+			oe = study_subject.operational_events.where(
+					:project_id => Project['HomeExposures'].id ).where(
+					:operational_event_type_id => oet.id ).limit(1).first
 			if oe
-				oe.update_attributes(
+#				oe.update_attributes(
+				oe.update_attributes!(
 					:description => oet.description,
 					:occurred_on => intro_letter_sent_on
 				)
 			else
-#				OperationalEvent.create!(
-#					:enrollment => hxe,
-				study_subject.operational_events.new(
-					:project => Project['HomeExposures'],
-					:operational_event_type => oet,
-					:description => oet.description,
-					:occurred_on => intro_letter_sent_on
-				).save!
+#				study_subject.operational_events.new(
+				study_subject.operational_events.create!(
+					:project_id                => Project['HomeExposures'].id,
+					:operational_event_type_id => oet.id,
+					:description               => oet.description,
+					:occurred_on               => intro_letter_sent_on
+				)
+#				).save!
 			end
 		end
 	end

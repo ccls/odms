@@ -28,6 +28,37 @@ class OperationalEvent < ActiveRecord::Base
 		description
 	end
 
+	before_save :copy_operational_event_type_description
+
+#	This kinda works, but needs more love
+#
+	#	1 column with optional direction "id ASC" 
+	def self.valid_order(query_order=nil)
+		col,dir = (query_order||'').split()
+		dir ||= 'ASC'
+#		( valid_orders.include?(col.downcase) and %w(ASC DESC).include?(dir.upcase) ) ?
+		( valid_column?(col) and %w(ASC DESC).include?(dir.upcase) ) ?
+			order( [col,dir].join(' ') ) : scoped
+	end
+
+protected
+
+	def copy_operational_event_type_description
+		if self.description.blank? and !operational_event_type.nil?
+			self.description = operational_event_type.description
+		end
+	end
+
+	def self.valid_column?(col)
+		valid_columns.include?(col.downcase)
+	end
+
+	def self.valid_columns
+		%w( id occurred_on description )	#type )
+	end
+
+end
+
 #	TODO perhaps move the search stuff into OperationalEventSearch?
 
 #	#	find wrapper
@@ -39,24 +70,6 @@ class OperationalEvent < ActiveRecord::Base
 #		)
 #	end
 
-	before_save :copy_operational_event_type_description
-
-protected
-
-	def copy_operational_event_type_description
-		if self.description.blank? and !operational_event_type.nil?
-			self.description = operational_event_type.description
-		end
-	end
-
-#	def self.valid_orders
-#		%w( id occurred_on description type )
-#	end
-#
-#	def self.valid_order?(order)
-#		valid_orders.include?(order)
-#	end
-#
 #	def self.order(options={})
 #		if options.has_key?(:order) && valid_order?(options[:order])
 #			order_string = case options[:order]
@@ -103,4 +116,3 @@ protected
 #		end
 #	end
 
-end

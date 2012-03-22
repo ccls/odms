@@ -9,7 +9,7 @@ class Project < ActiveRecord::Base
 
 	acts_like_a_hash
 
-#	has_many :operational_event_types
+	has_many :operational_events
 	has_many :instrument_types
 	has_many :enrollments
 	has_many :samples

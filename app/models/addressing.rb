@@ -39,8 +39,6 @@ class Addressing < ActiveRecord::Base
 		:address_at_diagnosis,
 			:in => YNDK.valid_values, :allow_nil => true
 
-#	scope :current,  :conditions => ['current_address IS NOT NULL AND current_address != 2' ]
-#	scope :historic, :conditions => ['current_address IS NULL OR current_address = 2' ]
 	scope :current,  where('current_address IS NOT NULL AND current_address != 2')
 	scope :historic, where('current_address IS NULL OR current_address = 2')
 
@@ -85,7 +83,7 @@ protected
 	def check_state_for_eligibilty
 		if( state != 'CA' && study_subject && 
 			( hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id) ) &&
-			address_type == AddressType['residence'] )
+			address_type_id == AddressType['residence'].id )
 
 			#	This is an after_save so using 1 NOT 0
 			ineligible_reason = if( study_subject.residence_addresses_count == 1 )
@@ -96,7 +94,7 @@ protected
 
 			hxe.update_attributes(
 				:is_eligible => YNDK[:no],
-				:ineligible_reason => ineligible_reason
+				:ineligible_reason_id => ineligible_reason.id
 			)
 
 			oet = OperationalEventType['ineligible']
@@ -105,41 +103,31 @@ protected
 				raise ActiveRecord::RecordNotSaved
 			end
 
-#			OperationalEvent.create!(
-#				:enrollment => hxe,
-			study_subject.operational_events.new(
-				:project => Project['HomeExposures'],
-				:operational_event_type => oet,
+#			study_subject.operational_events.new(
+			study_subject.operational_events.create!(
+				:project_id => Project['HomeExposures'].id,
+				:operational_event_type_id => oet.id,
 				:occurred_on => Date.today,
 				:description => ineligible_reason.to_s
-			).save!
-			
-
+			)
+#			).save!
 		end
 	end
 
 	#	this will actually create an event on creation as well
 	#	if attributes match
 	def create_subject_moved_event
-		#	subject_moved will most likely be a string 'true' or 'false'
-		#		as it will really only come as a hash value from a view.
-		#	.true? is a common_lib#object method.
-#	being more specific
-#		if subject_moved.true? &&
-#		if subject_moved == '1' &&
 		if ['1','true'].include?(subject_moved) &&
 				current_address == YNDK[:no] &&
 				current_address_was != YNDK[:no] &&
-				address.address_type == AddressType['residence']
-#			ccls_enrollment = study_subject.enrollments.find_or_create_by_project_id(
-#				Project['ccls'].id)
-#			OperationalEvent.create!(
-#				:enrollment => ccls_enrollment,
-			study_subject.operational_events.new(
-				:project                => Project['ccls'],
-				:operational_event_type => OperationalEventType['subject_moved'],
+				address.address_type_id == AddressType['residence'].id
+#			study_subject.operational_events.new(
+			study_subject.operational_events.create!(
+				:project_id                => Project['ccls'].id,
+				:operational_event_type_id => OperationalEventType['subject_moved'].id,
 				:occurred_on            => Date.today
-			).save!
+			)
+#			).save!
 		end
 	end
 

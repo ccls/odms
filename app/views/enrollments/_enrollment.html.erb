@@ -1,6 +1,6 @@
 <%= content_tag_for( :tr, enrollment, :class => 'row' ) do %>
  <td class='project'>
-  <%= link_to enrollment.project.key, enrollment_path(enrollment) %>
+  <%= link_to enrollment.project.try(:key), enrollment_path(enrollment) %>
  </td>
  <td class='candidate'>
   <%=yndk enrollment.is_candidate %>

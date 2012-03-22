@@ -13,9 +13,4 @@ class GiftCard < ActiveRecord::Base
 		number
 	end
 
-#	include GiftCardSearch
-#	def self.search(params={})
-#		GiftCardSearch.new(params).gift_cards
-#	end
-
 end

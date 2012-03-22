@@ -15,17 +15,10 @@
 </div><!-- class='buttons' -->
 </div>
 
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
 
 <%= f.wrapped_yndk_select :is_candidate,
 	:label_text => 'is candidate?' %>
-<%#= f.wrapped_yndk_select :able_to_locate,
-	:label_text => 'able to locate?' %>
 <%= f.wrapped_collection_select :tracing_status_id,
 	TracingStatus.all, :id, :to_s, :include_blank => true %>
 <%= f.wrapped_yndk_select :is_eligible,

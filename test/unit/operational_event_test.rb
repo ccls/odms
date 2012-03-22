@@ -111,86 +111,108 @@ class OperationalEventTest < ActiveSupport::TestCase
 #
 #	unscoping makes the tests pass, but kinda make the settings idea
 #
-#
-#	test "should order by type ASC" do
-#		oes = create_oet_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'type',:dir => 'asc')
+#	with ActiveRecord::Relation, my 'search' seems pointless
+
+#	type was intended to be a shortcut to operational_event_type.description
+#	later perhaps
+
+	test "should order by type ASC" do
+		oes = create_oet_operational_events
+#		events = OperationalEvent.valid_order('type asc')
+pending
 #		assert_equal events, [oes[1],oes[0],oes[2]]
-#	end
-#
-#	test "should order by type DESC" do
-#		oes = create_oet_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'type',:dir => 'desc')
+	end
+
+	test "should order by type DESC" do
+		oes = create_oet_operational_events
+#		events = OperationalEvent.valid_order('type desc')
+pending
 #		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
-#	test "should order by type and DESC as default dir" do
-#		oes = create_oet_operational_events
-#		events = OperationalEvent.search(:order => 'type')
-#		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
-#	test "should order by description ASC" do
-#		oes = create_description_operational_events
+	end
+
+	test "should order by type and ASC as default dir" do
+		oes = create_oet_operational_events
+#		events = OperationalEvent.valid_order('type')
+pending
+#		assert_equal events, [oes[1],oes[0],oes[2]]
+	end
+
+	test "should order by description ASC" do
+		oes = create_description_operational_events
 #		events = OperationalEvent.unscoped.search(:order => 'description',:dir => 'asc')
-#		assert_equal events, [oes[1],oes[0],oes[2]]
-#	end
-#
-#	test "should order by description DESC" do
-#		oes = create_description_operational_events
+		events = OperationalEvent.valid_order('description asc')
+		assert_equal events, [oes[1],oes[0],oes[2]]
+	end
+
+	test "should order by description DESC" do
+		oes = create_description_operational_events
 #		events = OperationalEvent.unscoped.search(:order => 'description',:dir => 'desc')
-#		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
-#	test "should order by description and DESC as default dir" do
-#		oes = create_description_operational_events
+		events = OperationalEvent.valid_order('description desc')
+		assert_equal events, [oes[2],oes[0],oes[1]]
+	end
+
+	test "should order by description and ASC as default dir" do
+		oes = create_description_operational_events
 #		events = OperationalEvent.unscoped.search(:order => 'description')
-#		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
-#	test "should order by occurred_on ASC" do
-#		oes = create_occurred_on_operational_events
+		events = OperationalEvent.valid_order('description')
+		assert_equal events, [oes[1],oes[0],oes[2]]
+	end
+
+	test "should order by occurred_on ASC" do
+		oes = create_occurred_on_operational_events
 #		events = OperationalEvent.unscoped.search(:order => 'occurred_on',:dir => 'asc')
-#		assert_equal events, [oes[1],oes[0],oes[2]]
-#	end
-#
-#	test "should order by occurred_on DESC" do
-#		oes = create_occurred_on_operational_events
+		events = OperationalEvent.valid_order('occurred_on asc')
+		assert_equal events, [oes[1],oes[0],oes[2]]
+	end
+
+	test "should order by occurred_on DESC" do
+		oes = create_occurred_on_operational_events
 #		events = OperationalEvent.unscoped.search(:order => 'occurred_on',:dir => 'desc')
-#		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
-#	test "should order by occurred_on and DESC as default dir" do
-#		oes = create_occurred_on_operational_events
+		events = OperationalEvent.valid_order('occurred_on desc')
+		assert_equal events, [oes[2],oes[0],oes[1]]
+	end
+
+	test "should order by occurred_on and ASC as default dir" do
+		oes = create_occurred_on_operational_events
 #		events = OperationalEvent.unscoped.search(:order => 'occurred_on')
+		events = OperationalEvent.valid_order('occurred_on')
 #		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
+		assert_equal events, [oes[1],oes[0],oes[2]]
+	end
+
 #	test "should order by occurred_on DESC as defaults" do
 #		oes = create_occurred_on_operational_events
 #		events = OperationalEvent.search()
 #		assert_equal events, [oes[2],oes[0],oes[1]]
 #	end
-#
-#	test "should ignore invalid order" do
-#		oes = create_occurred_on_operational_events
+
+	test "should ignore invalid order" do
+		oes = create_occurred_on_operational_events
 #		events = OperationalEvent.search(:order => 'iambogus')	#	don't unscope
-#		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
-#	test "should ignore invalid dir" do
-#		oes = create_occurred_on_operational_events
+		events = OperationalEvent.valid_order('iambogus')
+pending		#	should order by id asc
+		assert_equal events, [oes[0],oes[1],oes[2]]
+	end
+
+	test "should ignore invalid dir" do
+		oes = create_occurred_on_operational_events
 #		events = OperationalEvent.unscoped.search(:order => 'occurred_on',
 #			:dir => 'iambogus')
-#		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
-#	test "should ignore valid dir without order" do
-#		oes = create_occurred_on_operational_events
+		events = OperationalEvent.valid_order('occurred_on iambogus')
+pending	#	should order by id asc
+		assert_equal events, [oes[0],oes[1],oes[2]]
+	end
+
+#	should crash
+
+	test "should ignore valid dir without order" do
+		oes = create_occurred_on_operational_events
 #		events = OperationalEvent.search(:dir => 'ASC')	#	don't unscope
-#		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-#
+		events = OperationalEvent.valid_order('ASC')
+pending		#	should order by id asc
+		assert_equal events, [oes[0],oes[1],oes[2]]
+	end
+
 #	test "should copy operational event type description on create" do
 #		operational_event = create_operational_event
 #		assert_equal operational_event.reload.description, 

@@ -35,9 +35,6 @@ class Page < ActiveRecord::Base
 	has_many :children, :class_name => 'Page', :foreign_key => 'parent_id',
 		:dependent => :nullify
 	
-#	scope :roots, :conditions => { :parent_id => nil, :hide_menu => false }
-#	scope :hidden, :conditions => { :hide_menu => true }
-#	scope :not_home, :conditions => [ "path != '/'" ]
 	scope :roots,    where(:parent_id => nil, :hide_menu => false)
 	scope :hidden,   where(:hide_menu => true)
 	scope :not_home, where("path != '/'")

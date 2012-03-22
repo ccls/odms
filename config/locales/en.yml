@@ -21,6 +21,10 @@ en:
 #          attributes:
 #            raf_zip:
 #              invalid: "should be formatted ##### or #####-####"
+        patient:
+          attributes:
+            organization_id:
+              blank: "funky test %{attribute}"
         study_subject:
           attributes:
             sex:
@@ -37,6 +41,9 @@ en:
   errors:
     # The default format to use in full error messages.
     format: "%{attribute} %{message}"
+#	can do this, but then must add the attribute to ALL the messages
+#	that you intend to use it on.
+#    format: "%{message}"
 
     # The values :model, :attribute and :value are always available for interpolation
     # The value :count is available when applicable. Can be used for pluralization.

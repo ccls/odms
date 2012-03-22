@@ -19,7 +19,6 @@ class IcfMasterTracker < ActiveRecord::Base
 	before_save :flag_for_update
 	before_save :save_all_changes
 
-#	scope :have_changed, :conditions => { :flagged_for_update => true }
 	scope :have_changed, where( :flagged_for_update => true )
 
 	#	This may not be the best way to update.
@@ -37,7 +36,7 @@ class IcfMasterTracker < ActiveRecord::Base
 
 	def attach_study_subject
 		unless study_subject_id
-			self.study_subject = StudySubject.find_by_icf_master_id(self.Masterid)
+			self.study_subject_id = StudySubject.find_by_icf_master_id(self.Masterid).id
 		end
 	end
 

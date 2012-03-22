@@ -7,9 +7,6 @@ class Diagnosis < ActiveRecord::Base
 
 	acts_like_a_hash
 
-#	validates_presence_of   :code
-#	validates_uniqueness_of :code
-
 	#	Return description
 	def to_s
 		description

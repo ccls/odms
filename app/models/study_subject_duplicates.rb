@@ -92,19 +92,18 @@ base.class_eval do
 	end
 
 	def raf_duplicate_creation_attempted(attempted_subject)
-#		ccls_enrollment = enrollments.find_or_create_by_project_id(Project['ccls'].id)
-#		OperationalEvent.create!(
-#			:enrollment => ccls_enrollment,
-		self.operational_events.new(
-			:project                => Project['ccls'],
-			:operational_event_type => OperationalEventType['DuplicateCase'],
-			:occurred_on            => Date.today,
-			:description            => "a new RAF for this subject was submitted by " <<
+#		self.operational_events.new(
+		self.operational_events.create!(
+			:project_id                => Project['ccls'].id,
+			:operational_event_type_id => OperationalEventType['DuplicateCase'].id,
+			:occurred_on               => Date.today,
+			:description               => "a new RAF for this subject was submitted by " <<
 				"#{attempted_subject.admitting_oncologist} of " <<
 				"#{attempted_subject.organization} " <<
 				"with hospital number: " <<
 				"#{attempted_subject.hospital_no}."
-		).save!
+		)
+#		).save!
 	end
 
 end	#	class_eval

@@ -20,11 +20,7 @@ class IcfMasterId < ActiveRecord::Base
 		icf_master_id
 	end
 
-#	a named scope would be nice but
-	def self.next_unused
-		find(:first,
-			:conditions => ['study_subject_id IS NULL']
-		)
-	end
+	scope :unused,      where('study_subject_id IS NULL')
+	scope :next_unused, unused.limit(1)	#	NOTE still returns an array
 
 end

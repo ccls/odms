@@ -48,32 +48,38 @@ protected
 				[nil, nil]
 			end
 			unless operational_event_type.nil?
-				self.study_subject.operational_events.new(
-					:project                => self.project,
-					:operational_event_type => operational_event_type,
-					:occurred_on            => occurred_on
-				).save!
+#				self.study_subject.operational_events.new(
+				self.study_subject.operational_events.create!(
+					:project_id                => self.project.id,
+					:operational_event_type_id => operational_event_type.id,
+					:occurred_on               => occurred_on
+				)
+#				).save!
 			end
 		end
 	end
 
 	def create_subject_consents_operational_event
 		if( study_subject and ( consented == YNDK[:yes] ) and ( consented_was != YNDK[:yes] ) )
-			self.study_subject.operational_events.new(
-				:project                => self.project,
-				:operational_event_type => OperationalEventType['subjectConsents'],
-				:occurred_on            => consented_on
-			).save!
+#			self.study_subject.operational_events.new(
+			self.study_subject.operational_events.create!(
+				:project_id                => self.project.id,
+				:operational_event_type_id => OperationalEventType['subjectConsents'].id,
+				:occurred_on               => consented_on
+			)
+#			).save!
 		end
 	end
 
 	def create_subject_declines_operational_event
 		if( study_subject and ( consented == YNDK[:no] ) and ( consented_was != YNDK[:no] ) )
-			self.study_subject.operational_events.new(
-				:project                => self.project,
-				:operational_event_type => OperationalEventType['subjectDeclines'],
-				:occurred_on            => consented_on
-			).save!
+#			self.study_subject.operational_events.new(
+			self.study_subject.operational_events.create!(
+				:project_id                => self.project.id,
+				:operational_event_type_id => OperationalEventType['subjectDeclines'].id,
+				:occurred_on               => consented_on
+			)
+#			).save!
 		end
 	end
 

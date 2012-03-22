@@ -26,7 +26,8 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 #
 				icf_master_tracker = IcfMasterTracker.find_or_create_by_Masterid(line['Masterid'])
 				#	NO BANG. Don't want to raise any errors.
-				successfully_updated = icf_master_tracker.update_attributes(line.to_hash)
+				successfully_updated = icf_master_tracker.update_attributes(
+					line.to_hash.delete(:Masterid))
 #
 #	errors = icf_master_tracker.errors.full_messages.to_sentence
 #	These won't be validation errors as there shouldn't be any.

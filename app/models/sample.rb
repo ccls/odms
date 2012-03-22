@@ -18,8 +18,6 @@ class Sample < ActiveRecord::Base
 	has_one :sample_kit
 	accepts_nested_attributes_for :sample_kit
 
-#	scope :pending, :conditions => { :received_by_ccls_at => nil }
-#	scope :collected, :conditions => [ 'received_by_ccls_at IS NOT NULL' ]
 	scope :pending,   where( :received_by_ccls_at => nil )
 	scope :collected, where( 'received_by_ccls_at IS NOT NULL' )
 
@@ -45,13 +43,13 @@ class Sample < ActiveRecord::Base
 	validates_presence_of :received_by_lab_on,  :if => :aliquotted_on
 
 	#	NOTE I'm not sure how this validation will work for datetimes.
-	validates_complete_date_for :sent_to_subject_on,   :allow_nil => true
-#	validates_complete_date_for :collected_at,         :allow_nil => true
-#	validates_complete_date_for :received_by_ccls_at,  :allow_nil => true
-	validates_complete_date_for :sent_to_lab_on,       :allow_nil => true
-	validates_complete_date_for :received_by_lab_on,   :allow_nil => true
-	validates_complete_date_for :aliquotted_on,        :allow_nil => true
-	validates_complete_date_for :receipt_confirmed_on, :allow_nil => true
+	validates_complete_date_for :sent_to_subject_on,   :allow_blank => true
+#	validates_complete_date_for :collected_at,         :allow_blank => true
+#	validates_complete_date_for :received_by_ccls_at,  :allow_blank => true
+	validates_complete_date_for :sent_to_lab_on,       :allow_blank => true
+	validates_complete_date_for :received_by_lab_on,   :allow_blank => true
+	validates_complete_date_for :aliquotted_on,        :allow_blank => true
+	validates_complete_date_for :receipt_confirmed_on, :allow_blank => true
 
 	validates_past_date_for :sent_to_subject_on
 	validates_past_date_for :collected_at
@@ -125,7 +123,7 @@ protected
 				[SampleOutcome['sent'], sent_to_subject_on ]
 			end
 			ho.update_attributes({
-				:sample_outcome => so,
+				:sample_outcome_id => so.id,
 				:sample_outcome_on => date }) if so
 		end
 	end

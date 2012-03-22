@@ -12,9 +12,6 @@ class Language < ActiveRecord::Base
 	has_many :interviews
 	has_many :instrument_versions
 
-#	validates_presence_of   :code
-#	validates_uniqueness_of :code
-
 	#	Returns description
 	def to_s
 		description

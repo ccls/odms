@@ -13,7 +13,6 @@ class Person < ActiveRecord::Base
 	validates_length_of   :first_name, :last_name,  :honorific,
 		:maximum => 250, :allow_blank => true
 
-#	scope :interviewers, :conditions => { :person_type_id => 3 }
 	scope :interviewers, where( :person_type_id => 3 )
 
 	#	Returns string containing first and last name

@@ -7,7 +7,7 @@ class ProjectTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 
 	assert_should_have_many( :instrument_types, :enrollments, :instruments, 
-		:samples, :gift_cards )
+		:samples, :gift_cards, :operational_events )
 
 
 	attributes = %w( position began_on ended_on eligibility_criteria )
