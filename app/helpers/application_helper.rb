@@ -137,7 +137,11 @@ module ApplicationHelper
 		end
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
-			links = [
+			links = []
+			if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
+				links << link_to( "back to search", request.env["HTTP_REFERER"] )
+			end
+			links += [
 				link_to( "back to subjects", dashboard_study_subjects_path ),
 				link_to( "Basic Info", study_subject_path(study_subject),
 					:class => ((current == :general)?'current':nil) ),
