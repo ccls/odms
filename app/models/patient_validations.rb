@@ -43,12 +43,12 @@ protected
 	#	This results in a similar validation in Subject.
 	def admit_date_is_after_dob
 		if !admit_date.blank? && 
-			!study_subject.blank? && 
-			!study_subject.dob.blank? && 
-			study_subject.dob.to_date != Date.parse('1/1/1900') &&
-			admit_date < study_subject.dob &&
-			admit_date.to_date != Date.parse('1/1/1900')
-			errors.add(:admit_date, "is before study_subject's dob.") 
+				!study_subject.blank? && 
+				!study_subject.dob.blank? && 
+				study_subject.dob.to_date != Date.parse('1/1/1900') &&
+				admit_date < study_subject.dob &&
+				admit_date.to_date != Date.parse('1/1/1900')
+			errors.add(:admit_date, "Admit date is before study_subject's dob.") 
 		end
 	end
 
@@ -58,10 +58,10 @@ protected
 	#	This results in a similar validation in Subject.
 	def diagnosis_date_is_after_dob
 		if !diagnosis_date.blank? && 
-			!study_subject.blank? && 
-			!study_subject.dob.blank? && 
-			diagnosis_date < study_subject.dob
-			errors.add(:diagnosis_date, "is before study_subject's dob.") 
+				!study_subject.blank? && 
+				!study_subject.dob.blank? && 
+				diagnosis_date < study_subject.dob
+			errors.add(:diagnosis_date, "Diagnosis date is before study_subject's dob.") 
 		end
 	end
 
@@ -70,16 +70,10 @@ protected
 	#	custom validation and custom message
 	def treatment_began_on_is_after_diagnosis_date
 		if !treatment_began_on.blank? && 
-			!diagnosis_date.blank? && 
-			treatment_began_on < diagnosis_date
-#			errors.add(:treatment_began_on, "is before diagnosis_date.") 
-#	TODO Rails 3 difference breaks my custom error messages without
-#				field name prefix in message!!!!
-#			errors.add(:treatment_began_on, ActiveRecord::Error.new(
-#				self, :base, :blank, { 
-#					:message => "Date treatment began must be on or after the diagnosis date." } ) )
+				!diagnosis_date.blank? && 
+				treatment_began_on < diagnosis_date
 			errors.add(:treatment_began_on, 
-				"Date treatment began must be on or after the diagnosis date." )
+				"Date treatment began must be on or after the diagnosis date" )
 		end
 	end
 
@@ -89,7 +83,7 @@ protected
 	#	This results in a similar validation in Subject.
 	def subject_is_case
 		if study_subject and !study_subject.is_case?
-			errors.add(:study_subject,"must be case to have patient info")
+			errors.add(:study_subject,"Study subject must be case to have patient info")
 		end
 	end
 

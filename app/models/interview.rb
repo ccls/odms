@@ -28,7 +28,10 @@ class Interview < ActiveRecord::Base
 		:respondent_first_name, :respondent_last_name,
 			:maximum => 250, :allow_blank => true
 
-	validate :presence_of_other_subject_relationship
+#	validate :presence_of_other_subject_relationship
+	validates_presence_of :other_subject_relationship,
+		:message => "You must specify a relationship with 'other relationship' is selected",
+		:if => :subject_relationship_is_other?
 
 	validates_absence_of :other_subject_relationship,
 		:message => "not allowed",
@@ -116,17 +119,12 @@ protected
 		end
 	end
 
-	#	custom validation for custom message without standard attribute prefix
-	def presence_of_other_subject_relationship
-		if subject_relationship_is_other? and other_subject_relationship.blank?
-#	TODO Rails 3 difference breaks my custom error messages without
-#				field name prefix in message!!!!
-#			errors.add(:other_subject_relationship, ActiveRecord::Error.new(
-#				self, :base, :blank, { 
-#					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
-			errors.add(:other_subject_relationship, 
-					"You must specify a relationship with 'other relationship' is selected." )
-		end
-	end
+#	#	custom validation for custom message without standard attribute prefix
+#	def presence_of_other_subject_relationship
+#		if subject_relationship_is_other? and other_subject_relationship.blank?
+#			errors.add(:other_subject_relationship, 
+#					"You must specify a relationship with 'other relationship' is selected." )
+#		end
+#	end
 
 end

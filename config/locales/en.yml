@@ -2,8 +2,6 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-#  hello: "Hello world"
-
   activerecord:
     attributes:
       patient:
@@ -11,8 +9,8 @@ en:
         hospital_no: "Hospital record number"
       study_subject:
         dob: "Date of birth"
-    errors:
-      models:
+#    errors:
+#      models:
 #        address:
 #          attributes:
 #            zip:
@@ -21,16 +19,22 @@ en:
 #          attributes:
 #            raf_zip:
 #              invalid: "should be formatted ##### or #####-####"
-        patient:
-          attributes:
-            organization_id:
-              blank: "funky test %{attribute}"
-        study_subject:
-          attributes:
-            sex:
-              blank: "has not been chosen"
-            ssn:
-              invalid: "should be formatted ###-##-####"
+#        patient:
+#          attributes:
+#            organization_id:
+#              blank: "funky test %{attribute}"
+#        study_subject:
+#          attributes:
+#            sex:
+#              blank: "%{attribute} has not been chosen"
+#            ssn:
+#              invalid: "%{attribute} should be formatted ###-##-####"
+#            other_guardian_relationship:
+#              blank: "You must specify a relationship with 'other relationship' is selected"
+#        interview:
+#          attributes:
+#            other_subject_relationship:
+#              blank: "You must specify a relationship with 'other relationship' is selected"
 
 #	how to have custom full messages NOT in the format "%{attribute} %{message}"
 # No attribute, just message?  Message with attribute in the middle?
@@ -40,17 +44,39 @@ en:
 
   errors:
     # The default format to use in full error messages.
-    format: "%{attribute} %{message}"
+#    format: "%{attribute} %{message}"
 #	can do this, but then must add the attribute to ALL the messages
-#	that you intend to use it on.
-#    format: "%{message}"
+#	that you intend to use it on. Actually, I think that I like this better.
+    format: "%{message}"
 
     # The values :model, :attribute and :value are always available for interpolation
     # The value :count is available when applicable. Can be used for pluralization.
     messages:
-      absent: "is present and must be absent"
-      incomplete_date: "is not a complete date"
-      future_date: "is in the future and must be in the past"
+#      absent: "is present and must be absent"
+#      incomplete_date: "is not a complete date"
+#      future_date: "is in the future and must be in the past"
+      absent: "%{attribute} is present and must be absent"
+      incomplete_date: "%{attribute} is not a complete date"
+      future_date: "%{attribute} is in the future and must be in the past"
+      inclusion: "%{attribute} is not included in the list"
+      exclusion: "%{attribute} is reserved"
+      invalid: "%{attribute} is invalid"
+      confirmation: "%{attribute} doesn't match confirmation"
+      accepted: "%{attribute} must be accepted"
+      empty: "%{attribute} can't be empty"
+      blank: "%{attribute} can't be blank"
+      too_long: "%{attribute} is too long (maximum is %{count} characters)"
+      too_short: "%{attribute} is too short (minimum is %{count} characters)"
+      wrong_length: "%{attribute} is the wrong length (should be %{count} characters)"
+      not_a_number: "%{attribute} is not a number"
+      not_an_integer: "%{attribute} must be an integer"
+      greater_than: "%{attribute} must be greater than %{count}"
+      greater_than_or_equal_to: "%{attribute} must be greater than or equal to %{count}"
+      equal_to: "%{attribute} must be equal to %{count}"
+      less_than: "%{attribute} must be less than %{count}"
+      less_than_or_equal_to: "%{attribute} must be less than or equal to %{count}"
+      odd: "%{attribute} must be odd"
+      even: "%{attribute} must be even"
 
 # from activemodel-3.2.2/lib/active_model/locale/en.yml
 #  errors:

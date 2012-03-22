@@ -106,10 +106,10 @@ protected
 	#	work if using nested attributes.  Don't like doing this.
 	def patient_admit_date_is_after_dob
 		if !patient.nil? && !patient.admit_date.blank? && 
-			!dob.blank? && patient.admit_date < dob &&
-			dob.to_date != Date.parse('1/1/1900') &&
-			patient.admit_date.to_date != Date.parse('1/1/1900')
-			errors.add('patient:admit_date', "is before study_subject's dob.") 
+				!dob.blank? && patient.admit_date < dob &&
+				dob.to_date != Date.parse('1/1/1900') &&
+				patient.admit_date.to_date != Date.parse('1/1/1900')
+			errors.add('patient:admit_date', "Admit date is before study_subject's dob") 
 		end
 	end
 
@@ -117,14 +117,14 @@ protected
 	#	work if using nested attributes.  Don't like doing this.
 	def patient_diagnosis_date_is_after_dob
 		if !patient.nil? && !patient.diagnosis_date.blank? && 
-			!dob.blank? && patient.diagnosis_date < dob
-			errors.add('patient:diagnosis_date', "is before study_subject's dob.") 
+				!dob.blank? && patient.diagnosis_date < dob
+			errors.add('patient:diagnosis_date', "Diagnosis date is before study_subject's dob") 
 		end
 	end
 
 	def must_be_case_if_patient
 		if !patient.nil? and !is_case?
-			errors.add(:patient ,"must be case to have patient info")
+			errors.add(:patient ,"Study subject must be case to have patient info")
 		end
 	end
 

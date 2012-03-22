@@ -62,7 +62,8 @@ class StudySubject < ActiveRecord::Base
 	validates_presence_of :subject_type_id
 	validates_presence_of :subject_type, :if => :subject_type_id
 
-	validates_presence_of  :sex
+	validates_presence_of  :sex,
+		:message => "Sex has not been chosen"
 	validates_inclusion_of :sex, :in => %w( M F DK ), :allow_blank => true
 #	validates_inclusion_of :sex, :in => valid_sex_values, :allow_blank => true
 	validates_inclusion_of :do_not_contact, :in => [ true, false ]
@@ -87,7 +88,10 @@ class StudySubject < ActiveRecord::Base
 	  :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
 		:allow_blank => true
 
-	validate :presence_of_other_guardian_relationship
+#	validate :presence_of_other_guardian_relationship
+	validates_presence_of :other_guardian_relationship,
+		:message => "You must specify a relationship with 'other relationship' is selected",
+		:if => :guardian_relationship_is_other?
 
 	validates_presence_of :birth_city,
 		:if => :birth_country_is_united_states?
@@ -98,9 +102,9 @@ class StudySubject < ActiveRecord::Base
 
 	validates_length_of     :ssn, :maximum => 250, :allow_nil => true
 	validates_uniqueness_of :ssn, :allow_nil => true
-#	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
-#		:message => "should be formatted ###-##-####", :allow_nil => true
-	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/, :allow_nil => true
+	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
+		:message => "should be formatted ###-##-####", :allow_nil => true
+#	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/, :allow_nil => true
 
  	validates_length_of :birth_year, 
 			:maximum => 4, :allow_blank => true
@@ -229,19 +233,13 @@ protected
 		birth_country == 'United States'
 	end
 
-	#	custom validation for custom message without standard attribute prefix
-	def presence_of_other_guardian_relationship
-		if guardian_relationship_is_other? && other_guardian_relationship.blank?
-#		:if => :guardian_relationship_is_other?
-#	TODO Rails 3 difference breaks my custom error messages without
-#				field name prefix in message!!!!
-#			errors.add(:other_guardian_relationship, ActiveRecord::Error.new(
-#				self, :base, :blank, { 
-#					:message => "You must specify a relationship with 'other relationship' is selected." } ) )
-			errors.add(:other_guardian_relationship, 
-					"You must specify a relationship with 'other relationship' is selected." )
-		end
-	end
+#	#	custom validation for custom message without standard attribute prefix
+#	def presence_of_other_guardian_relationship
+#		if guardian_relationship_is_other? && other_guardian_relationship.blank?
+#			errors.add(:other_guardian_relationship, 
+#					"You must specify a relationship with 'other relationship' is selected." )
+#		end
+#	end
 
 	#	Use these to stop the constant checking.
 	def self.subject_type_mother_id

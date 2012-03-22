@@ -225,7 +225,7 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 			assert study_subject.errors.include?(:other_guardian_relationship)
 			#	NOTE custom error message
 			assert study_subject.errors.matching?(:other_guardian_relationship,
-				"You must specify a relationship with 'other relationship' is selected.")
+				"You must specify a relationship with 'other relationship' is selected")
 		end
 	end
 
@@ -235,9 +235,9 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 				:guardian_relationship => SubjectRelationship['other'] )
 			assert study_subject.errors.matching?(:other_guardian_relationship,
 				"You must specify a relationship with 'other relationship' is selected")
-#	TODO and this should now fail as rails 3 changes
-#			assert_no_match /Other guardian relationship/, 
-#				study_subject.errors.full_messages.to_sentence
+			#	NOTE custom error message WITHOUT attribute name
+			assert_no_match /Other guardian relationship/, 
+				study_subject.errors.full_messages.to_sentence
 		end
 	end
 

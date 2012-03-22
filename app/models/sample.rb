@@ -71,15 +71,15 @@ class Sample < ActiveRecord::Base
 protected
 
 	def date_chronology
-		errors.add(:collected_at,        "must be after sent_to_subject_on"
+		errors.add(:collected_at,        "Collected at must be after sent_to_subject_on"
 			) if collected_at_is_before_sent_to_subject_on?
-		errors.add(:received_by_ccls_at, "must be after collected_at"
+		errors.add(:received_by_ccls_at, "Received by CCLS at must be after collected_at"
 			) if received_by_ccls_at_is_before_collected_at?
-		errors.add(:sent_to_lab_on,      "must be after received_by_ccls_at"
+		errors.add(:sent_to_lab_on,      "Sent to lab on must be after received_by_ccls_at"
 			) if sent_to_lab_on_is_before_received_by_ccls_at?
-		errors.add(:received_by_lab_on,  "must be after sent_to_lab_on"
+		errors.add(:received_by_lab_on,  "Received by lab on must be after sent_to_lab_on"
 			) if received_by_lab_on_is_before_sent_to_lab_on?
-		errors.add(:aliquotted_on,       "must be after received_by_lab_on"
+		errors.add(:aliquotted_on,       "Aliquotted on must be after received_by_lab_on"
 			) if aliquotted_on_is_before_received_by_lab_on?
 	end
 

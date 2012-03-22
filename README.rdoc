@@ -139,16 +139,6 @@ PRIORITY
 
 * remove soon to be deprecated code
 
-
-* http://stackoverflow.com/questions/3953757/rails-3-how-do-i-define-activemodel-translations-for-several-attributes
-* put all of my custom error message in locale file like above???
-
-* Have to find new way for custom error messages, AGAIN without attribute name
-
-* humanized versions of attributes for now
-
-* Would probably be much better if I could remove all of my custom mods, but I'll probably have to add more.
-
 * implement the user_roles helper tests in the users_controller?
 
 * remove any unused code
@@ -156,24 +146,11 @@ PRIORITY
 * put fake_sessions#new view into controller rather than separate file?
 * put FakeSessionsController into the Capybara test helper rather than separate file?
 
-
-* The test error messages could use the key in the translator rather that the text itself???
-  * not 100% as some message include variable for interpolation
-  * irb(main):011:0> I18n.t('errors.messages.blank')
-  * => "can't be blank"
-
-
 * merge all previously separate css files
   * ccls_engine
   * common_lib
 
 * Keep or Remove HomexOutcome and custom HomeExposure callbacks????
-
-* It seems that the test database doesn't completely clean itself before each test.
-  * This results in the count comparisons being way off.
-  * when its clean, some of these tests actually work?
- 
-
 
 
 * try using gem 'metawhere' for more powerful searching
@@ -202,6 +179,12 @@ http://railscasts.com/episodes/239-activerecord-relation-walkthrough
 
 
 
+Due to our desire to have custom error messages, it was simplest to change the config/locales/en.yml file,
+which is used for the error messages to change the default format from "%{attribute} %{message}" to just
+"%{message}" and then add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in
+the butt, but certainly effective.  That being said, anytime a special error is explicitly added using
+something like "errors.add(:some_attribute,'my custom message')", the custom message must include the
+attribute if desired as the system will not add it.
 
 
 == Development Notes

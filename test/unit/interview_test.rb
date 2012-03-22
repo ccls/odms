@@ -152,7 +152,7 @@ class InterviewTest < ActiveSupport::TestCase
 			assert interview.errors.include?(:other_subject_relationship)
 			assert_match /You must specify a relationship with 'other relationship' is selected/, 
 				interview.errors.full_messages.to_sentence
-			assert_no_match /Subject relationship other/, 
+			assert_no_match /Other subject relationship/, 
 				interview.errors.full_messages.to_sentence
 		end
 	end

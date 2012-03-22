@@ -45,7 +45,7 @@ protected
 		if(( line_1 =~ /p.*o.*box/i ) &&
 			( address_type_id.to_s == '1' ))	#	1 is 'residence'
 			errors.add(:address_type_id,
-				"must not be residence with PO Box") 
+				"Address type must not be residence with PO Box") 
 		end
 	end
 
