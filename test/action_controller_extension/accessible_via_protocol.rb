@@ -1,4 +1,3 @@
-module ActionControllerExtension; end
 module ActionControllerExtension::AccessibleViaProtocol
 
 	def self.included(base)

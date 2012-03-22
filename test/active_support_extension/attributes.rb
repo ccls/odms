@@ -1,4 +1,3 @@
-module ActiveSupportExtension; end
 module ActiveSupportExtension::Attributes
 
 	def self.included(base)

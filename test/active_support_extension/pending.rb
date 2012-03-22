@@ -1,7 +1,6 @@
 # Some code from jeremymcanally's "pending"
 # http://github.com/jeremymcanally/pending/tree/master
 
-module ActiveSupportExtension; end
 module ActiveSupportExtension::Pending
 	unless defined?(Spec)
 

@@ -1,4 +1,3 @@
-module ActionControllerExtension; end
 module ActionControllerExtension::Routing
 
 	def self.included(base)

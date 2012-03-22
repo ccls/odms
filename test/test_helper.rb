@@ -2,12 +2,10 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
+require 'active_model_extension'
 require 'action_controller_extension'
 require 'active_support_extension'
-require 'simply_authorized_factory_test_helper'
 require 'factory_test_helper'
-require 'calnet_authenticated_test_helper'
-require 'ccls_assertions'
 
 #	These are not automatically included as they
 #		contain duplicate methods names.

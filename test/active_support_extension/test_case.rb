@@ -1,4 +1,3 @@
-module ActiveSupportExtension; end
 module ActiveSupportExtension::TestCase
 
 	def self.included(base)

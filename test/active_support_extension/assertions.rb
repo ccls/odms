@@ -1,4 +1,4 @@
-module CclsAssertions
+module ActiveSupportExtension::Assertions
 
 	def self.included(base)
 		base.extend(ClassMethods)
@@ -108,5 +108,5 @@ module CclsAssertions
 
 	end	#	module ClassMethods
 
-end
-ActiveSupport::TestCase.send(:include,CclsAssertions)
+end	#	module ActiveSupportExtension::Assertions
+ActiveSupport::TestCase.send(:include,ActiveSupportExtension::Assertions)

@@ -1,4 +1,5 @@
-class ActiveSupport::TestCase
+#class ActiveSupport::TestCase
+module RafTestHelper
 
 #	def create_complete_case_study_subject(options={})
 #		subject = Factory(:complete_case_study_subject,options)
@@ -107,4 +108,5 @@ end
 #		assert_redirected_to assigns(:study_subject)
 #	end
 
-end
+end	#	module RafTestHelper
+ActiveSupport::TestCase.send(:include,RafTestHelper)

@@ -1,4 +1,3 @@
-module ActiveSupportExtension; end
 module ActiveSupportExtension::Associations
 
 	def self.included(base)

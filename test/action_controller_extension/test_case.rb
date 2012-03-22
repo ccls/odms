@@ -1,4 +1,3 @@
-module ActionControllerExtension; end
 module ActionControllerExtension::TestCase
 
 	def turn_https_on
