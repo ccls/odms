@@ -35,12 +35,17 @@ class Sample < ActiveRecord::Base
 #	gonna need custom messages here
 #	gonna be a problems as sent to subject on NOT on receive sample on
 	validates_presence_of :sent_to_subject_on,  :if => :collected_at,
-		:message => "can't be blank if collected_at"
-	validates_presence_of :collected_at,        :if => :received_by_ccls_at
-	validates_presence_of :location_id,         :if => :sent_to_lab_on
-	validates_presence_of :received_by_ccls_at, :if => :sent_to_lab_on
-	validates_presence_of :sent_to_lab_on,      :if => :received_by_lab_on
-	validates_presence_of :received_by_lab_on,  :if => :aliquotted_on
+		:message => "Sent to subject on can't be blank if collected_at"
+	validates_presence_of :collected_at,        :if => :received_by_ccls_at,
+		:message => "Collected at can't be blank if received by ccls at"
+	validates_presence_of :location_id,         :if => :sent_to_lab_on,
+		:message => "Location can't be blank if sent to lab on"
+	validates_presence_of :received_by_ccls_at, :if => :sent_to_lab_on,
+		:message => "Received by CCLS at can't be blank if sent to lab on"
+	validates_presence_of :sent_to_lab_on,      :if => :received_by_lab_on,
+		:message => "Sent to lab on can't be blank if received by lab on"
+	validates_presence_of :received_by_lab_on,  :if => :aliquotted_on,
+		:message => "Received by lab on can't be blank if aliquotted on"
 
 	#	NOTE I'm not sure how this validation will work for datetimes.
 	validates_complete_date_for :sent_to_subject_on,   :allow_blank => true

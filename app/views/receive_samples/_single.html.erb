@@ -32,24 +32,23 @@
 <h3>NOTE: THESE ARE ALL THE SUBJECT ENROLLMENTS (ignoring consent for now)</h3>
 <%= f.wrapped_collection_select(:project_id,
 	@study_subject.enrollments.collect(&:project), :id, :to_s,
-	{ :include_blank => true }
-) %>
+	{ :include_blank => true }) %>
 
-<h3>INSERT SAMPLE SOURCE SELECTOR</h3>
-
-<%= f.wrapped_grouped_collection_select( :sample_type_id, 
+<%= f.wrapped_grouped_collection_select(:sample_type_id, 
 		SampleType.roots, :children, :to_s, :id, :to_s,
-	{ :include_blank => true }
-) %>
+	{ :include_blank => true }) %>
 
 <%= f.wrapped_collection_select(:sample_temperature_id,
 	SampleTemperature.all, :id, :to_s,
-	{ :include_blank => true }
-) %>
+	{ :include_blank => true }) %>
 
-<p>Be advised that these datetime selectors will accept partial datetimes that can generate an incorrect datetime.</p>
+<p>Be advised that these datetime selectors will accept partial datetimes that can generate an incorrect datetime. May not be true in Rails 3.</p>
 <p>In Rails 3, Year, Month and Day are required.
-<p>Of course this won't work as sent_to_subject_on is also required. Errr</p>
+<p>Added sent_to_subject_on as is required in chronology. Change to sent_to_subject_at datetime like the others?</p>
+
+<%= f.wrapped_date_text_field :sent_to_subject_on,
+	:class => 'datepicker',
+	:label_text => 'Sent to Subject on:' %>
 
 <%= f.wrapped_datetime_select :collected_at,
 	:prompt => true,

@@ -3,12 +3,7 @@
 <% sub_menu_for(@study_subject) %>
 <% id_bar_for(@study_subject) %>
 
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
 
 <div id='subject_control_bar'>
 <h3><%= (@sample.new_record?)? 'New' : 'Edit' %> Subject Sample</h3>
@@ -18,38 +13,34 @@
 </div><!-- class='buttons' -->
 </div>
 
-
 <%= f.wrapped_collection_select(:project_id,
 	@study_subject.enrollments.collect(&:project), :id, :to_s,
-	{ :include_blank => true }
-) %>
+	{ :include_blank => true }) %>
 
 <%= f.wrapped_grouped_collection_select( :sample_type_id, 
 		SampleType.roots, :children, :to_s, :id, :to_s,
-	{ :include_blank => true }
-) %>
+	{ :include_blank => true }) %>
 
 <%= f.wrapped_date_text_field :sent_to_subject_on,
 	:class => 'datepicker',
 	:label_text => 'Sent to Subject on:' %>
 
-<%= f.wrapped_date_text_field :collected_at,
+<%#= f.wrapped_date_text_field :collected_at,
 	:class => 'datepicker',
 	:label_text => 'Collected at:' %>
-<%#= f.wrapped_date_text_field :collected_on,
-	:class => 'datepicker',
-	:label_text => 'Collected on:' %>
+<%= f.wrapped_datetime_select :collected_at,
+	:prompt => true,
+	:label_text => 'Collected at:' %>
 
-<%= f.wrapped_date_text_field :received_by_ccls_at,
+<%#= f.wrapped_date_text_field :received_by_ccls_at,
 	:class => 'datepicker',
 	:label_text => 'Received by CCLS at:' %>
-<%#= f.wrapped_date_text_field :received_by_ccls_on,
-	:class => 'datepicker',
-	:label_text => 'Received by CCLS on:' %>
-
+<%= f.wrapped_datetime_select :received_by_ccls_at,
+	:prompt => true,
+	:label_text => 'Received by CCLS at:' %>
 
 <%# This is too wide to sit on one line %>
-<% f.wrapped_date_text_field :sent_to_lab_on,
+<%= f.wrapped_date_text_field :sent_to_lab_on,
 	:class => 'datepicker',
 	:label_text => 'Sent to Lab on:' do %>
 <%= f.wrapped_collection_select( :location_id,
@@ -57,8 +48,6 @@
 	{ :include_blank => true }
 ) %>
 <% end %>
-
-
 
 <%= f.wrapped_date_text_field :received_by_lab_on,
 	:class => 'datepicker',

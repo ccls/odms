@@ -36,7 +36,12 @@ class IcfMasterTracker < ActiveRecord::Base
 
 	def attach_study_subject
 		unless study_subject_id
-			self.study_subject_id = StudySubject.find_by_icf_master_id(self.Masterid).id
+#	if there is no subject found, nil.id raises an error
+#	perhaps use try(:id) instead
+#			self.study_subject_id = StudySubject.find_by_icf_master_id(self.Masterid).id
+#			self.study_subject = StudySubject.find_by_icf_master_id(self.Masterid)
+			self.study_subject = StudySubject.where(
+				:icf_master_id => self.Masterid).limit(1).first.try(:id)
 		end
 	end
 

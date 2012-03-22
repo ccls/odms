@@ -20,7 +20,7 @@
 <td><%= sample.project.key %></td>
 <td><%= sample.sample_type_parent -%></td>
 <td><%= sample.sample_type -%></td>
-<td>&nbsp;</td>
+<td><%= sample.state -%></td>
 </tr>
 <% end %>
 </tbody></table>
@@ -32,8 +32,3 @@
 		:class => 'button' ) :
 	'&nbsp;'
 %></p>
-
-<hr/>
-
-<p>Currently there is no field in samples for a "sample id" unless that is the "external_id".</p>
-<p>Currently there is no field in samples for a "sample status".</p>
