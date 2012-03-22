@@ -32,8 +32,6 @@ class Sample < ActiveRecord::Base
 
 	validates_length_of   :state, :maximum => 250, :allow_blank => true
 
-#	gonna need custom messages here
-#	gonna be a problems as sent to subject on NOT on receive sample on
 	validates_presence_of :sent_to_subject_on,  :if => :collected_at,
 		:message => "Sent to subject on can't be blank if collected_at"
 	validates_presence_of :collected_at,        :if => :received_by_ccls_at,

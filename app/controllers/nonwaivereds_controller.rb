@@ -3,12 +3,16 @@ class NonwaiveredsController < RafController
 	before_filter :may_create_study_subjects_required
 
 	def new
-		@hospitals = Hospital.nonwaivered(:include => :organization)
+#		@hospitals = Hospital.nonwaivered(:include => :organization)
+		@hospitals = Hospital.nonwaivered.includes(:organization)
 		@study_subject = StudySubject.new(params[:study_subject])
 	end
 
+#	@hospitals only actually needed if organization not passed to study_subject
+
 	def create
-		@hospitals = Hospital.nonwaivered(:include => :organization)
+#		@hospitals = Hospital.nonwaivered(:include => :organization)
+		@hospitals = Hospital.nonwaivered.includes(:organization)
 		study_subject_params = params[:study_subject].dup.to_hash
 
 		#	Paper form does not have consented checkbox, but our model

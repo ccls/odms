@@ -92,7 +92,6 @@ base.class_eval do
 	end
 
 	def raf_duplicate_creation_attempted(attempted_subject)
-#		self.operational_events.new(
 		self.operational_events.create!(
 			:project_id                => Project['ccls'].id,
 			:operational_event_type_id => OperationalEventType['DuplicateCase'].id,
@@ -103,7 +102,6 @@ base.class_eval do
 				"with hospital number: " <<
 				"#{attempted_subject.hospital_no}."
 		)
-#		).save!
 	end
 
 end	#	class_eval

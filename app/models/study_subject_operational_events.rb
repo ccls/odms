@@ -23,13 +23,11 @@ base.class_eval do
 	#	All subjects are to have this operational event, so create after create.
 	#	I suspect that this'll be attached to the CCLS project enrollment.
 	def add_new_subject_operational_event
-#		self.operational_events.new(
 		self.operational_events.create!(
 			:project_id                => Project['ccls'].id,
 			:operational_event_type_id => OperationalEventType['newSubject'].id,
 			:occurred_on               => Date.today
 		)
-#		).save!
 	end
 
 	#	Add this if the vital status changes to deceased.
@@ -37,40 +35,17 @@ base.class_eval do
 	def add_subject_died_operational_event
 		if( ( vital_status_id == VitalStatus['deceased'].id ) && 
 				( vital_status_id_was != VitalStatus['deceased'].id ) )
-#			self.operational_events.new(
 			self.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subjectDied'].id,
 				:occurred_on               => Date.today
 			)
-#			).save!
 		end
 	end
 
 #	operational_events.occurred_on where operational_event_type_id = 26 and enrollment_id is for any open project (where projects.ended_on is null) for study_subject_id
 
 	def screener_complete_date_for_open_project
-#				'LEFT JOIN enrollments ON operational_events.enrollment_id = enrollments.id',
-#				'LEFT JOIN projects ON enrollments.project_id = projects.id'
-
-#		OperationalEvent.find(:first,
-#			:joins => [
-#				'LEFT JOIN projects ON operational_events.project_id = projects.id'
-#			],
-#			:conditions => [
-#				"study_subject_id = :subject_id AND " <<
-#				"operational_event_type_id = :screener_complete AND " <<
-#				'projects.ended_on IS NULL', 
-#				{
-#					:subject_id => self.id,
-#					:screener_complete => OperationalEventType['screener_complete'].id
-#				}
-#			]
-#		).try(:occurred_on)
-
-#	chained wheres are AND'd
-#	This works in console.  Waiting for autotest to get to it to confirm.
-
 		self.operational_events.joins(:project).where(
 			'projects.ended_on IS NULL').where(
 			"operational_event_type_id = ?",OperationalEventType['screener_complete'].id

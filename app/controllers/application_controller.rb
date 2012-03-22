@@ -162,9 +162,11 @@ protected	#	private #	(does it matter which or if neither?)
 	def get_guidance
 		return unless [nil,'html'].include?(params[:format])
 		require_dependency 'guide.rb' unless Guide
-		@guidance = Guide.find(:first, :conditions => {
-				:controller => params[:controller],
-				:action => params[:action] })
+#		@guidance = Guide.find(:first, :conditions => {
+#				:controller => params[:controller],
+#				:action => params[:action] })
+		@guidance = Guide.where(:controller => params[:controller]).where(
+				:action => params[:action]).first
 	end
 
 	#	used by study_subjects/find and samples/find

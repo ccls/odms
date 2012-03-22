@@ -36,7 +36,7 @@ protected
 	#	owner(#Organization)
 	def transfer
 		Transfer.new({
-			:aliquot_id => self.id,
+			:aliquot_id           => self.id,
 			:from_organization_id => self.owner_id
 		})
 	end

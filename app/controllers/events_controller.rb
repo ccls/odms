@@ -1,5 +1,4 @@
 class EventsController < ApplicationController
-#	class StudySubjectMismatch < StandardError; end
 
 	layout 'subject'
 
@@ -22,51 +21,30 @@ class EventsController < ApplicationController
 	end
 
 	def index
-#		why not just ...
 		@events = @study_subject.operational_events
-#			or
-#		@events = @study_subject.operational_events(:include => :operational_event_type)
-#		doesn't seem to actually get the operational event type.
-#		Should try to get the enrollment, project and operational event type
-#		I don't think that we do any 'searching' yet
-#		This was pre- has_many :through setup
-#		@events = OperationalEvent.search(params)
 	end
 
 	def new
-#	As this is a has_many :through relationship
-#		@operational_event = @study_subject.operational_events.new
-#	it is no different than
 		@operational_event = OperationalEvent.new
 	end
 
 	def create
 		@operational_event = @study_subject.operational_events.new(params[:operational_event])
-
-#		enrollment = Enrollment.find(params[:operational_event][:enrollment_id])
-#		#	This should only happen for all you hackers out there.
-#		raise StudySubjectMismatch if @study_subject != enrollment.study_subject
-
-
 		@operational_event.save!
 		flash[:notice] = "Operational Event successfully created."
 		redirect_to study_subject_events_path(@study_subject)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Operational Event creation failed."
 		render :action => 'new'
-#	rescue EventsController::StudySubjectMismatch
-#		flash.now[:error] = "Operational Event creation failed. Subject Mismatch."
-#		render :action => 'new'
 	end
 
 	def edit
 	end
 
 	def update
-#		@operational_event.update_attributes!(params[:operational_event])
-#		@operational_event.update_attributes(params[:operational_event])
-		@operational_event.attributes = params[:operational_event]
-		@operational_event.save!
+		@operational_event.update_attributes!(params[:operational_event])
+#		@operational_event.attributes = params[:operational_event]
+#		@operational_event.save!
 		redirect_to event_path(@operational_event)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Operational Event update failed."

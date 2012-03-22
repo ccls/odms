@@ -62,11 +62,6 @@ class Page < ActiveRecord::Base
 	#	by_path returns the one(max) page that
 	#	matches the given path.
 	def self.by_path(path)
-#		page = find(:first,
-#			:conditions => {
-#				:path   => path.downcase
-#			}
-#		)
 		#	interesting.  limit 1 still returns an array
 		page = where(:path => path.downcase ).limit(1).first
 	end

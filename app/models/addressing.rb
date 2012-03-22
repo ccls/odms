@@ -100,17 +100,16 @@ protected
 			oet = OperationalEventType['ineligible']
 			if( oet.blank? )
 				errors.add(:base,"OperationalEventType['ineligible'] not found")
+				#	I'm surprised that I need this raise?
 				raise ActiveRecord::RecordNotSaved
 			end
 
-#			study_subject.operational_events.new(
 			study_subject.operational_events.create!(
-				:project_id => Project['HomeExposures'].id,
+				:project_id                => Project['HomeExposures'].id,
 				:operational_event_type_id => oet.id,
-				:occurred_on => Date.today,
-				:description => ineligible_reason.to_s
+				:occurred_on               => Date.today,
+				:description               => ineligible_reason.to_s
 			)
-#			).save!
 		end
 	end
 
@@ -121,13 +120,11 @@ protected
 				current_address == YNDK[:no] &&
 				current_address_was != YNDK[:no] &&
 				address.address_type_id == AddressType['residence'].id
-#			study_subject.operational_events.new(
 			study_subject.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subject_moved'].id,
-				:occurred_on            => Date.today
+				:occurred_on               => Date.today
 			)
-#			).save!
 		end
 	end
 

@@ -54,16 +54,28 @@ class StudySubjectsController < ApplicationController
 			conditions[1][:subject_type_id] = params[:subject_type_id].to_i
 		end
 #		params[:page] = valid_find_page	#(params)
-		@study_subjects = StudySubject.paginate(
-			:order   => search_order,
-			:include => [:patient,:subject_type],
-			:joins => [
-				'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
-			],
-			:conditions => [ conditions[0].join(valid_find_operator), conditions[1] ],
-			:per_page => params[:per_page]||25,
-			:page     => valid_find_page
-		)
+
+#	LEFT JOIN because not all subjects will have a patient.
+#	otherwise, we'd effectively only search cases
+
+#		@study_subjects = StudySubject.paginate(
+#			:order   => search_order,
+#			:include => [:patient,:subject_type],
+#			:joins => [
+#				'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
+#			],
+#			:conditions => [ conditions[0].join(valid_find_operator), conditions[1] ],
+#			:per_page => params[:per_page]||25,
+#			:page     => valid_find_page
+#		)
+		@study_subjects = StudySubject.order(search_order
+			).includes(:patient,:subject_type
+			).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
+			).where(conditions[0].join(valid_find_operator), conditions[1]
+			).paginate(
+				:per_page => params[:per_page]||25,
+				:page     => valid_find_page
+			)
 	end
 
 	#	there is no longer a link to this action, nevertheless

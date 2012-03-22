@@ -28,7 +28,6 @@ class Interview < ActiveRecord::Base
 		:respondent_first_name, :respondent_last_name,
 			:maximum => 250, :allow_blank => true
 
-#	validate :presence_of_other_subject_relationship
 	validates_presence_of :other_subject_relationship,
 		:message => "You must specify a relationship with 'other relationship' is selected",
 		:if => :subject_relationship_is_other?
@@ -93,38 +92,23 @@ protected
 		oet = OperationalEventType['intro']
 		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 		if oet && hxe
-#			oe = study_subject.operational_events.find(:first,
-#				:conditions => { 
-#					:project_id                => Project['HomeExposures'].id,
-#					:operational_event_type_id => oet.id } )
 			oe = study_subject.operational_events.where(
 					:project_id => Project['HomeExposures'].id ).where(
 					:operational_event_type_id => oet.id ).limit(1).first
 			if oe
-#				oe.update_attributes(
 				oe.update_attributes!(
 					:description => oet.description,
 					:occurred_on => intro_letter_sent_on
 				)
 			else
-#				study_subject.operational_events.new(
 				study_subject.operational_events.create!(
 					:project_id                => Project['HomeExposures'].id,
 					:operational_event_type_id => oet.id,
 					:description               => oet.description,
 					:occurred_on               => intro_letter_sent_on
 				)
-#				).save!
 			end
 		end
 	end
-
-#	#	custom validation for custom message without standard attribute prefix
-#	def presence_of_other_subject_relationship
-#		if subject_relationship_is_other? and other_subject_relationship.blank?
-#			errors.add(:other_subject_relationship, 
-#					"You must specify a relationship with 'other relationship' is selected." )
-#		end
-#	end
 
 end

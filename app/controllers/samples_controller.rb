@@ -55,14 +55,18 @@ class SamplesController < ApplicationController
 #			:per_page => params[:per_page]||25,
 #			:page     => valid_find_page
 #		)
-		@samples = Sample.joins(
-			'LEFT JOIN study_subjects ON study_subjects.id = samples.study_subject_id'
-		).where( 
-			conditions[0].join(valid_find_operator), conditions[1] 
-		).paginate(
-			:per_page => params[:per_page]||25,
-			:page     => valid_find_page
-		)
+
+#	why left join?  
+#		@samples = Sample.joins(
+#			'LEFT JOIN study_subjects ON study_subjects.id = samples.study_subject_id'
+#		).where( 
+
+		@samples = Sample.joins(:study_subject
+			).where(conditions[0].join(valid_find_operator), conditions[1] 
+			).paginate(
+				:per_page => params[:per_page]||25,
+				:page     => valid_find_page
+			)
 	end
 
 	def index

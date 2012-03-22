@@ -88,7 +88,6 @@ class StudySubject < ActiveRecord::Base
 	  :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
 		:allow_blank => true
 
-#	validate :presence_of_other_guardian_relationship
 	validates_presence_of :other_guardian_relationship,
 		:message => "You must specify a relationship with 'other relationship' is selected",
 		:if => :guardian_relationship_is_other?
@@ -104,7 +103,6 @@ class StudySubject < ActiveRecord::Base
 	validates_uniqueness_of :ssn, :allow_nil => true
 	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
 		:message => "should be formatted ###-##-####", :allow_nil => true
-#	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/, :allow_nil => true
 
  	validates_length_of :birth_year, 
 			:maximum => 4, :allow_blank => true
@@ -130,10 +128,8 @@ class StudySubject < ActiveRecord::Base
 		:lab_no, :related_childid, :related_case_childid,
 			:maximum => 250, :allow_blank => true
 
-
 	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
 			:in => YNDK.valid_values, :allow_nil => true
-
 
 	def to_s
 		[childid,'(',studyid,full_name,')'].compact.join(' ')
@@ -232,14 +228,6 @@ protected
 	def birth_country_is_united_states?
 		birth_country == 'United States'
 	end
-
-#	#	custom validation for custom message without standard attribute prefix
-#	def presence_of_other_guardian_relationship
-#		if guardian_relationship_is_other? && other_guardian_relationship.blank?
-#			errors.add(:other_guardian_relationship, 
-#					"You must specify a relationship with 'other relationship' is selected." )
-#		end
-#	end
 
 	#	Use these to stop the constant checking.
 	def self.subject_type_mother_id
