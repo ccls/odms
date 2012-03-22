@@ -106,8 +106,6 @@ PRIORITY
 
 * resolve all commented out tests
 
-* re-enable ccls-html_test for validation (incompatible with rails 3?)
-
 * change functional tests to only include fields on the forms
 
 * Is there a way to save without callbacks?
@@ -162,6 +160,8 @@ http://railscasts.com/episodes/239-activerecord-relation-walkthrough
 
 
 
+* database access seems MUCH slower in Rails 3.
+  * modifying many tests to try to not actually use the database.
 
 
 
@@ -169,22 +169,23 @@ http://railscasts.com/episodes/239-activerecord-relation-walkthrough
 
 
 
+These extra attributes are not valid html. They are meant to be used by javascript confirmation, but they are still not valid html.  So, since I'm not using them, I'll replace them with forms like the others.
+
+<a href="/icf_master_tracker_updates/5806" class="button" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a></td>
 
 
 
 
 
 
-
-
-
-
-Due to our desire to have custom error messages, it was simplest to change the config/locales/en.yml file,
-which is used for the error messages to change the default format from "%{attribute} %{message}" to just
-"%{message}" and then add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in
-the butt, but certainly effective.  That being said, anytime a special error is explicitly added using
-something like "errors.add(:some_attribute,'my custom message')", the custom message must include the
-attribute if desired as the system will not add it.
+Due to our desire to have custom error messages, it was simplest to change the 
+config/locales/en.yml file, which is used for the error messages to change the 
+default format from "%{attribute} %{message}" to just "%{message}" and then 
+add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in
+the butt, but certainly effective.  That being said, anytime a special error is 
+explicitly added using something like 
+"errors.add(:some_attribute,'my custom message')", the custom message must 
+include the attribute if desired as the system will not add it.
 
 
 == Development Notes

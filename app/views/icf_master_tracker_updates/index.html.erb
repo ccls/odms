@@ -10,7 +10,13 @@
     <td class='manage'>
 <%= link_to( 'Show', icf_master_tracker_update, :class => 'button' ) %>
 <%= link_to( 'Edit', edit_icf_master_tracker_update_path(icf_master_tracker_update), :class => 'button' ) %>
-<%= link_to( 'Destroy', icf_master_tracker_update, :confirm => 'Are you sure?', :method => :delete, :class => 'button' ) %></td>
+<%# invalid html %>
+<%#= link_to( 'Destroy', icf_master_tracker_update, :confirm => 'Are you sure?', :method => :delete, :class => 'button' ) %>
+<%= form_tag icf_master_tracker_update, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy icf_master_tracker_update? Are you sure?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+</td>
   </tr>
 <% end %>
 </tbody></table>

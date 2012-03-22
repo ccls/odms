@@ -105,7 +105,7 @@ group :test do
 	#	:source => "http://gems.github.com"
 
 	#	TODO gonna need to fix this
-	#gem 'ccls-html_test'
+	gem 'ccls-html_test'
 
 	gem 'webrat'
 	gem 'capybara'

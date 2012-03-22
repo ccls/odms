@@ -46,6 +46,7 @@ GEM
     capybara-webkit (0.11.0)
       capybara (>= 1.0.0, < 1.2)
       json
+    ccls-html_test (0.3.0)
     cgi_multipart_eof_fix (2.5.0)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
@@ -84,7 +85,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
-    mime-types (1.17.2)
+    mime-types (1.18)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
     mongrel (1.1.5)
@@ -175,6 +176,7 @@ DEPENDENCIES
   autotest-rails
   capybara
   capybara-webkit
+  ccls-html_test
   chronic
   coffee-rails (~> 3.2.1)
   factory_girl_rails

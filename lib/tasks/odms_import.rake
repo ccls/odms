@@ -18,6 +18,7 @@ PHONENUMBERS_CSV = "#{BASEDIR}/ODMS_Phone_Numbers_xxxxxx.csv"
 EVENTS_CSV = "#{BASEDIR}/ODMS_Operational_Events_xxxxxx.csv"
 ICFMASTERIDS_CSV = "#{BASEDIR}/export_ODMS_ICF_Master_IDs.csv"
 ENROLLMENTS_CSV = "#{BASEDIR}/ODMS_Enrollments_xxxxxx.csv"
+SAMPLES_CSV = "#{BASEDIR}/ODMS_samples_031912.csv"
 
 def format_date(date)
 	( date.blank? ) ? nil : date.try(:strftime,"%m/%d/%Y")
@@ -245,6 +246,83 @@ namespace :odms_import do
 	]
 
 
+	task :samples => :environment do 
+		puts "Destroying samples"
+		Sample.destroy_all
+		puts "Importing samples"
+
+		error_file = File.open('samples_errors.txt','w')	#	overwrite existing
+
+		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
+		(f=FasterCSV.open(SAMPLES_CSV, 'rb',{ :headers => true })).each do |line|
+			puts "Processing line #{f.lineno}"
+			puts line
+
+#"id","childid","subjectID","parent_sample_id","ODMS_sample_type_id","project_id","location_id","storage_temp","aliquot_or_sample_on_receipt","received_by_ccls_at","originally_received_at","external_id","external_id_source"
+
+			if line['subjectID'].blank?	#	NOTE misnamed field
+				error_file.puts 
+				error_file.puts "Line #:#{f.lineno}: subjectid blank."
+				error_file.puts line
+				error_file.puts
+				next
+			end
+			study_subject = StudySubject.where(:subjectid => line['subjectID']).first
+			unless study_subject
+				error_file.puts 
+				error_file.puts "Line #:#{f.lineno}: subjectid #{line['subjectID']} not found."
+				error_file.puts line
+				error_file.puts
+				next
+			end
+
+#	TODO convert this to block creation. Why?
+			sample = study_subject.samples.create({
+				:project_id         => line['project_id'],	#	NOTE many are blank
+				:parent_sample_id   => line['parent_sample_id'],	#	NOTE includes 0s ???
+				:sample_type_id     => line['ODMS_sample_type_id'],
+#				:location_id        => line['location_id'],	#	will break chronology
+#				:sample_temperature_id => find on line['storage_temp'],
+
+#	Caplitalize? Database default is 'Sample'
+#				:aliquot_or_sample_on_receipt => line['aliquot_or_sample_on_receipt'],
+
+#				:received_by_ccls_at       => (( line['received_by_ccls_at'].blank? ) ?
+#														nil : Time.parse(line['received_by_ccls_at'])),
+
+#				:UNKNOWN         => (( line['originally_received_at'].blank? ) ?
+#														nil : Time.parse(line['originally_received_at']) ),
+
+				:external_id        => line["external_id"],
+				:external_id_source => line["external_id_source"]
+			})
+
+			if sample.new_record?
+				error_file.puts 
+				error_file.puts "Line #:#{f.lineno}: #{sample.errors.full_messages.to_sentence}"
+				error_file.puts line
+				error_file.puts
+			else
+				sample.reload
+				assert sample.study_subject_id == study_subject.id,
+					'Study Subject mismatch'
+#				if line['valid_to'].blank?
+#					assert addressing.valid_to.nil?, 'Valid To not nil'
+#				else
+#					assert !addressing.valid_to.nil?, 'Valid To is nil'
+#					assert addressing.valid_to == Time.parse(line['valid_to']).to_date,
+#						"Valid To mismatch"
+#				end
+				assert sample.external_id == line["external_id"],
+					'Study Subject mismatch'
+				assert sample.external_id_source == line["external_id_source"],
+					'Study Subject mismatch'
+			end
+
+		end
+	end
+
+
 	task :addresses => :environment do 
 		puts "Destroying addresses"
 		Address.destroy_all
@@ -259,6 +337,7 @@ namespace :odms_import do
 
 #"address_type_id","data_source_id","line_1","unit","city","state","zip","external_address_id","county","country","created_at"
 
+#	TODO convert this to block creation. Why?
 			address = Address.create({
 				:address_type_id => line["address_type_id"],
 				:data_source_id  => line["data_source_id"],
@@ -331,7 +410,7 @@ namespace :odms_import do
 				error_file.puts
 				next
 			end
-			study_subject = StudySubject.find_by_subjectid(line['subjectid'])
+			study_subject = StudySubject.where(:subjectid => line['subjectid']).first
 			unless study_subject
 				error_file.puts 
 				error_file.puts "Line #:#{f.lineno}: subjectid #{line['subjectid']} not found."
@@ -340,7 +419,7 @@ namespace :odms_import do
 				next
 			end
 
-			address = Address.find_by_external_address_id(line['external_address_id'])
+			address = Address.where(:external_address_id => line['external_address_id']).first
 			unless address
 				error_file.puts 
 				error_file.puts "Line #:#{f.lineno}: address with external id #{line['external_address_id']} not found."
@@ -349,6 +428,7 @@ namespace :odms_import do
 				next
 			end
 
+#	TODO convert this to block creation. Why?
 #			addressing = Addressing.create({
 #	study_subject_id is attr_protected
 #				:study_subject_id => study_subject.id,
@@ -423,7 +503,7 @@ namespace :odms_import do
 				error_file.puts
 				next
 			end
-			study_subject = StudySubject.find_by_subjectid(line['subjectid'])
+			study_subject = StudySubject.where(:subjectid => line['subjectid']).first
 			unless study_subject
 				error_file.puts 
 				error_file.puts "Line #:#{f.lineno}: subjectid #{line['subjectid']} not found."
@@ -432,6 +512,7 @@ namespace :odms_import do
 				next
 			end
 
+#	TODO convert this to block creation. Why?
 			phone_number = study_subject.phone_numbers.create({
 #			phone_number = PhoneNumber.create({
 #	study_subject_id is attr_protected
@@ -490,7 +571,7 @@ namespace :odms_import do
 
 #"subjectID","project_id","operational_event_id","occurred_on","description","enrollment_id","event_notes"
 
-			study_subject = StudySubject.find_by_subjectid(line['subjectID'])	#	misnamed field
+			study_subject = StudySubject.where(:subjectid => line['subjectID']).first
 			unless study_subject
 				error_file.puts 
 				error_file.puts "Line #:#{f.lineno}: subjectid #{line['subjectID']} not found."
@@ -499,9 +580,12 @@ namespace :odms_import do
 				next
 			end
 
-			ccls_enrollment = study_subject.enrollments.find_by_project_id(line['project_id'])
-			operational_event = OperationalEvent.create({
-				:enrollment_id => ccls_enrollment.id,
+#	TODO convert this to block creation. Why?
+#			ccls_enrollment = study_subject.enrollments.find_by_project_id(line['project_id'])
+#			operational_event = OperationalEvent.create({
+#				:enrollment_id => ccls_enrollment.id,
+			operational_event = study_subject.operational_events.create({
+				:project_id  => line['project_id'],
 				:operational_event_type_id => line['operational_event_id'],	#	NOTE misnamed field
 				:occurred_on => Time.parse(line['occurred_on']).to_date,
 				:description => line['description'],
@@ -509,13 +593,16 @@ namespace :odms_import do
 			})
 			if operational_event.new_record?
 				error_file.puts 
-				error_file.puts "Line #:#{f.lineno}: #{operational_event.errors.full_messages.to_sentence}"
+				error_file.puts "Line #:#{f.lineno}: " <<
+					"#{operational_event.errors.full_messages.to_sentence}"
 				error_file.puts line
 				error_file.puts
 			else
 				operational_event.reload
-				assert operational_event.enrollment_id == ccls_enrollment.id,
-					"Enrollment mismatch"
+				assert operational_event.study_subject_id == study_subject.id,
+					"Study Subject mismatch"
+				assert operational_event.project_id == line['project_id'].to_i,
+					"Project mismatch"
 				assert operational_event.operational_event_type_id == line['operational_event_id'].to_nil_or_i, 
 					"operational_event_type mismatch:#{operational_event.operational_event_type_id}:#{line["operational_event_id"]}:"
 				assert operational_event.occurred_on == Time.parse(line['occurred_on']).to_date,
@@ -541,70 +628,70 @@ namespace :odms_import do
 
 			raise "Given icf_master_id is blank?" if line['icf_master_id'].blank?
 
-			attributes = { :icf_master_id => line['icf_master_id'] }
+			#	by block to avoid protected attributes (study_subject_id)
+			icf_master_id = IcfMasterId.new do |imi|
+				imi.icf_master_id = line['icf_master_id']
 
-
-
-
-#
-#	subjectid is unique so this should NEVER happen
-#
-			if line['subjectid'] and !line['subjectid'].blank?
-				study_subjects = StudySubject.find(:all,
-					:conditions => { :subjectid => line['subjectid'] } )
-				case 
-					when study_subjects.length > 1
-						raise "More than one study_subject found matching subjectid:#{line['subjectid']}:"
-					when study_subjects.length == 0
-						raise "No study_subject found matching subjectid:#{line['subjectid']}:"
-					else
-						puts "Found study_subject matching subjectid:#{line['subjectid']}:"
-				end
-				study_subject = study_subjects.first
-
-
-
-
-
-
-				#	Fortunately, these never happen
-				if study_subject.icf_master_id.blank?
-					#	assign it?
-					raise "ICF Master ID isn't actually set in the StudySubject!"
-				else
-					#	different?
-					if study_subject.icf_master_id != line['icf_master_id']
-						raise "ICF Master ID is different than that set in the StudySubject!\n" <<
-							"#{study_subject.icf_master_id}:#{line['icf_master_id']}"
+				if line['subjectid'] and !line['subjectid'].blank?
+#					study_subjects = StudySubject.find(:all,
+#						:conditions => { :subjectid => line['subjectid'] } )
+					study_subjects = StudySubject.where(:subjectid => line['subjectid'])
+					case 
+						#
+						#	subjectid is unique so this should NEVER happen
+						#
+						when study_subjects.length > 1
+							raise "More than one study_subject found matching subjectid" <<
+								":#{line['subjectid']}:"
+						when study_subjects.length == 0
+							raise "No study_subject found matching subjectid:#{line['subjectid']}:"
+						else
+							puts "Found study_subject matching subjectid:#{line['subjectid']}:"
 					end
-				end
+					study_subject = study_subjects.first
+	
+					#	Fortunately, these never happen
+					if study_subject.icf_master_id.blank?
+						#	assign it?
+						raise "ICF Master ID isn't actually set in the StudySubject!"
+					else
+						#	different?
+						if study_subject.icf_master_id != line['icf_master_id']
+							raise "ICF Master ID is different than that set in the StudySubject!\n" <<
+								"#{study_subject.icf_master_id}:#{line['icf_master_id']}"
+						end
+					end
+					imi.study_subject_id = study_subject.id
+					imi.assigned_on = Time.parse(line['assigned_on'])
 
-
-				attributes[:study_subject_id] = study_subject.id
-				attributes[:assigned_on] = Time.parse(line['assigned_on'])
-			else
-				#	I just noticed that some of the icf_master_ids are actually
-				#	assigned in the subject data, but not marked as being
-				#	assigned in the icf_master_id list.  So, search for them.
-				study_subjects = StudySubject.find(:all,
-					:conditions => { :icf_master_id => line['icf_master_id'] } )
-				case 
-#
-#	icf_master_id is unique, so should NEVER find more than 1 unless it is nil.
-#
-					when study_subjects.length > 1
-						raise "More than one study_subject found matching icf_master_id:#{line['icf_master_id']}:"
+				else
+					#	I just noticed that some of the icf_master_ids are actually
+					#	assigned in the subject data, but not marked as being
+					#	assigned in the icf_master_id list.  So, search for them.
+#					study_subjects = StudySubject.find(:all,
+#						:conditions => { :icf_master_id => line['icf_master_id'] } )
+					study_subjects = StudySubject.where(:icf_master_id => line['icf_master_id'])
+					case 
+						#
+						#	icf_master_id is unique, so should NEVER find more than 1 unless it is nil.
+						#
+						when study_subjects.length > 1
+							raise "More than one study_subject found matching "<<
+								"icf_master_id:#{line['icf_master_id']}:"
 #					when study_subjects.length == 0
 #						raise "No study_subject found matching icf_master_id:#{line['icf_master_id']}:"
-					when study_subjects.length == 1
-						puts "Found study_subject matching icf_master_id:#{line['icf_master_id']}:"
-						attributes[:study_subject_id] = study_subjects.first.id
-						attributes[:assigned_on] = Date.today
+						when study_subjects.length == 1
+							puts "Found study_subject matching icf_master_id:#{line['icf_master_id']}:"
+							imi.study_subject_id = study_subjects.first.id
+							imi.assigned_on = Date.today
+					end
 				end
-			end
+			end	#	IcfMasterId.new do |imi|
 
-			IcfMasterId.create!(attributes)
-		end
+			icf_master_id.save!
+			assert icf_master_id.icf_master_id == line['icf_master_id'],
+				"ICF Master ID mismatch"
+		end	
 
 	end
 
@@ -656,7 +743,7 @@ namespace :odms_import do
 				error_file.puts
 				next
 			end
-			study_subject = StudySubject.find_by_subjectid(line['subjectID'])	#	misnamed field
+			study_subject = StudySubject.where(:subjectid => line['subjectID']).first
 			unless study_subject
 				error_file.puts 
 				error_file.puts "Line #:#{f.lineno}: subjectid #{line['subjectID']} not found."
@@ -694,6 +781,7 @@ namespace :odms_import do
 
 			#	END	TEMPORARY "FIXES" to get most enrollments imported
 
+#	TODO convert this to block creation. Why?
 			saved = enrollment.update_attributes(
 				:consented           => consented,
 				:consented_on        => consented_on,
@@ -867,6 +955,9 @@ namespace :odms_import do
 
 end	#	namespace :odms_import do
 
+
+
+
 namespace :odms_compare do
 	desc "Compare data from subjects.csv file"
 	task :subjects => :environment do
@@ -877,7 +968,7 @@ namespace :odms_compare do
 			puts "Processing line #{f.lineno}"
 			puts line
 
-			s = StudySubject.find_by_subjectid(line['subjectid'])
+			s = StudySubject.where(:subjectid => line['subjectid'])
 			if s
 				compare_subject_and_line(s,line,warn_file)
 			else
@@ -890,6 +981,10 @@ namespace :odms_compare do
 	end		#	task :subjects => :environment do
 end	#	namespace :odms_compare do
 
+
+
+
+
 def compare_subject_and_line(s,line,warn_file=nil)
 #
 #	TODO Add a "warnings" file containing some of these changes?
@@ -897,28 +992,28 @@ def compare_subject_and_line(s,line,warn_file=nil)
 #			Would have to loop to loop through the csv file again to actually compare.
 #
 
-				assert s.subject_type_id == line['subject_type_id'].to_nil_or_i,
-					"subject_type_id mismatch:#{s.subject_type_id}:#{line['subject_type_id']}:"
+	assert s.subject_type_id == line['subject_type_id'].to_nil_or_i,
+		"subject_type_id mismatch:#{s.subject_type_id}:#{line['subject_type_id']}:"
 
-				if line['vital_status_id'].blank?
-					assert s.vital_status_id == 1,
-						"Vital Status not set to default"
-				else
-					assert s.vital_status_id.to_s == line['vital_status_id'],
-						"Vital Status mismatch:#{s.vital_status_id}:#{line['vital_status_id']}:"
-				end
+	if line['vital_status_id'].blank?
+		assert s.vital_status_id == 1,
+			"Vital Status not set to default"
+	else
+		assert s.vital_status_id.to_s == line['vital_status_id'],
+			"Vital Status mismatch:#{s.vital_status_id}:#{line['vital_status_id']}:"
+	end
 
 #	TODO 	TRUE / FALSE
-				assert s.do_not_contact == line['do_not_contact'].to_nil_or_boolean,
-					'Do Not Contact mismatch'
-				assert s.sex == line['sex'],
-					"sex mismatch:#{s.sex}:#{line['sex']}:"
-				assert s.hispanicity_id == line['hispanicity_id'].to_nil_or_i,
-					"hispanicity_id mismatch:#{s.hispanicity_id}:#{line['hispanicity_id']}:"
-				assert s.mother_hispanicity_id == line['mother_hispanicity_id'].to_nil_or_i,
-					"mother_hispanicity_id mismatch:#{s.mother_hispanicity_id}:#{line['mother_hispanicity_id']}:"
-				assert s.father_hispanicity_id == line['father_hispanicity_id'].to_nil_or_i,
-					"father_hispanicity_id mismatch:#{s.father_hispanicity_id}:#{line['father_hispanicity_id']}:"
+	assert s.do_not_contact == line['do_not_contact'].to_nil_or_boolean,
+		'Do Not Contact mismatch'
+	assert s.sex == line['sex'],
+		"sex mismatch:#{s.sex}:#{line['sex']}:"
+	assert s.hispanicity_id == line['hispanicity_id'].to_nil_or_i,
+		"hispanicity_id mismatch:#{s.hispanicity_id}:#{line['hispanicity_id']}:"
+	assert s.mother_hispanicity_id == line['mother_hispanicity_id'].to_nil_or_i,
+		"mother_hispanicity_id mismatch:#{s.mother_hispanicity_id}:#{line['mother_hispanicity_id']}:"
+	assert s.father_hispanicity_id == line['father_hispanicity_id'].to_nil_or_i,
+		"father_hispanicity_id mismatch:#{s.father_hispanicity_id}:#{line['father_hispanicity_id']}:"
 
 #	TODO not always be true due to callbacks
 #				if line['reference_date'].blank?
@@ -929,104 +1024,107 @@ def compare_subject_and_line(s,line,warn_file=nil)
 #						"reference_date mismatch:#{s.reference_date}:#{line['reference_date']}:"
 #				end
 
-				unless warn_file.nil?
+	unless warn_file.nil?
 
-					#	reference_date is changed to Patient#admit_date for all matching matchingid
-					#		when matchingid or admit_date changes
-					#	FYI ... During import, the case may not exist yet.
-					matching_case = if s.is_case?
-						s
-					else
-						matching_cases = StudySubject.find(:all,	#	should only be one
-							:conditions => { 
-								:subject_type_id => StudySubject.subject_type_case_id,
-								:matchingid      => s.matchingid
-							})
-						#	still in testing so there isn't always one
-						raise "There can be only One!" if matching_cases.length > 1
+		#	reference_date is changed to Patient#admit_date for all matching matchingid
+		#		when matchingid or admit_date changes
+		#	FYI ... During import, the case may not exist yet.
+		matching_case = if s.is_case?
+			s
+		else
+#			matching_cases = StudySubject.find(:all,	#	should only be one
+#				:conditions => { 
+#					:subject_type_id => StudySubject.subject_type_case_id,
+#					:matchingid      => s.matchingid
+#				})
+			matching_cases = StudySubject.where(
+				:subject_type_id => StudySubject.subject_type_case_id).where(
+				:matchingid      => s.matchingid)
+			#	still in testing so there isn't always one
+			raise "There can be only One!" if matching_cases.length > 1
 #						raise "There must be One!" if matching_cases.length < 1
-						( matching_cases.length == 1 ) ? matching_cases[0] : nil
-					end
+			( matching_cases.length == 1 ) ? matching_cases[0] : nil
+		end
 
-					if line['reference_date'].blank? 
-						if !s.reference_date.nil?
-							warn_file.puts s.inspect
-							warn_file.puts "-reference_date not nil:"
-							warn_file.puts "-reference_date csv :#{line['reference_date']}:" 
-							warn_file.puts "-reference_date db  :#{s.reference_date}:"
-if matching_case
-							warn_file.puts "-case admit_date    :#{matching_case.admit_date}:"
-else
-							warn_file.puts "-case admit_date    :no case found:"
-end
-							warn_file.puts
-						end
-					else
-						if s.reference_date != Time.parse(line['reference_date']).to_date
-							warn_file.puts s.inspect
-							warn_file.puts "-reference_date mismatch:"
-							warn_file.puts "-reference_date csv :#{line['reference_date']}:" 
-							warn_file.puts "-reference_date db  :#{s.reference_date}:"
-if matching_case
-							warn_file.puts "-case admit_date    :#{matching_case.admit_date}:"
-else
-							warn_file.puts "-case admit_date    :no case found:"
-end
-							warn_file.puts
-						end
-					end
-				end
-
-				assert s.first_name == line['first_name'],
-					"first_name mismatch:#{s.first_name}:#{line['first_name']}:"
-				assert s.middle_name == line['middle_name'],
-					"middle_name mismatch:#{s.middle_name}:#{line['middle_name']}:"
-				assert s.last_name == line['last_name'],
-					"last_name mismatch:#{s.last_name}:#{line['last_name']}:"
-				assert s.maiden_name == line['maiden_name'],
-					"maiden_name mismatch:#{s.maiden_name}:#{line['maiden_name']}:"
-
-				if line['dob'].blank?
-					assert s.dob.nil?, 'dob not nil'
+		if line['reference_date'].blank? 
+			if !s.reference_date.nil?
+				warn_file.puts s.inspect
+				warn_file.puts "-reference_date not nil:"
+				warn_file.puts "-reference_date csv :#{line['reference_date']}:" 
+				warn_file.puts "-reference_date db  :#{s.reference_date}:"
+				if matching_case
+					warn_file.puts "-case admit_date    :#{matching_case.admit_date}:"
 				else
-					assert !s.dob.nil?, 'dob nil'
-					assert s.dob == Time.parse(line['dob']).to_date,
-						"dob mismatch:#{s.dob}:#{line['dob']}:"
+					warn_file.puts "-case admit_date    :no case found:"
 				end
-				if line['died_on'].blank?
-					assert s.died_on.nil?, 'died_on not nil'
+				warn_file.puts
+			end
+		else
+			if s.reference_date != Time.parse(line['reference_date']).to_date
+				warn_file.puts s.inspect
+				warn_file.puts "-reference_date mismatch:"
+				warn_file.puts "-reference_date csv :#{line['reference_date']}:" 
+				warn_file.puts "-reference_date db  :#{s.reference_date}:"
+				if matching_case
+					warn_file.puts "-case admit_date    :#{matching_case.admit_date}:"
 				else
-					assert !s.died_on.nil?, 'died_on nil'
-					assert s.died_on == Time.parse(line['died_on']).to_date,
-						"died_on mismatch:#{s.died_on}:#{line['died_on']}:"
+					warn_file.puts "-case admit_date    :no case found:"
 				end
+				warn_file.puts
+			end
+		end
+	end
 
-				assert s.mother_first_name == line['mother_first_name'],
-					"mother_first_name mismatch:#{s.mother_first_name}:#{line['mother_first_name']}:"
-				assert s.mother_maiden_name == line['mother_maiden_name'],
-					"mother_maiden_name mismatch:#{s.mother_maiden_name}:#{line['mother_maiden_name']}:"
-				assert s.mother_last_name == line['mother_last_name'],
-					"mother_last_name mismatch:#{s.mother_last_name}:#{line['mother_last_name']}:"
-				assert s.father_first_name == line['father_first_name'],
-					"father_first_name mismatch:#{s.father_first_name}:#{line['father_first_name']}:"
-				assert s.father_last_name == line['father_last_name'],
-					"father_last_name mismatch:#{s.father_last_name}:#{line['father_last_name']}:"
-				assert s.birth_year == line['birth_year'],
-					"birth_year mismatch:#{s.birth_year}:#{line['birth_year']}:"
+	assert s.first_name == line['first_name'],
+		"first_name mismatch:#{s.first_name}:#{line['first_name']}:"
+	assert s.middle_name == line['middle_name'],
+		"middle_name mismatch:#{s.middle_name}:#{line['middle_name']}:"
+	assert s.last_name == line['last_name'],
+		"last_name mismatch:#{s.last_name}:#{line['last_name']}:"
+	assert s.maiden_name == line['maiden_name'],
+		"maiden_name mismatch:#{s.maiden_name}:#{line['maiden_name']}:"
+
+	if line['dob'].blank?
+		assert s.dob.nil?, 'dob not nil'
+	else
+		assert !s.dob.nil?, 'dob nil'
+		assert s.dob == Time.parse(line['dob']).to_date,
+			"dob mismatch:#{s.dob}:#{line['dob']}:"
+	end
+	if line['died_on'].blank?
+		assert s.died_on.nil?, 'died_on not nil'
+	else
+		assert !s.died_on.nil?, 'died_on nil'
+		assert s.died_on == Time.parse(line['died_on']).to_date,
+			"died_on mismatch:#{s.died_on}:#{line['died_on']}:"
+	end
+
+	assert s.mother_first_name == line['mother_first_name'],
+		"mother_first_name mismatch:#{s.mother_first_name}:#{line['mother_first_name']}:"
+	assert s.mother_maiden_name == line['mother_maiden_name'],
+		"mother_maiden_name mismatch:#{s.mother_maiden_name}:#{line['mother_maiden_name']}:"
+	assert s.mother_last_name == line['mother_last_name'],
+		"mother_last_name mismatch:#{s.mother_last_name}:#{line['mother_last_name']}:"
+	assert s.father_first_name == line['father_first_name'],
+		"father_first_name mismatch:#{s.father_first_name}:#{line['father_first_name']}:"
+	assert s.father_last_name == line['father_last_name'],
+		"father_last_name mismatch:#{s.father_last_name}:#{line['father_last_name']}:"
+	assert s.birth_year == line['birth_year'],
+		"birth_year mismatch:#{s.birth_year}:#{line['birth_year']}:"
 
 
-				pa = s.patient
-				if s.subject_type == SubjectType['case']
-					pa.reload
+	pa = s.patient
+	if s.subject_type == SubjectType['case']
+		pa.reload
 
 #	TODO may not always be true
-					if line['admit_date'].blank?
-						assert pa.admit_date.nil?, 'admit_date not nil'
-					else
-						assert !pa.admit_date.nil?, 'admit_date nil'
-						assert pa.admit_date == Time.parse(line['admit_date']).to_date,
-							'admit_date mismatch'
-					end
+		if line['admit_date'].blank?
+			assert pa.admit_date.nil?, 'admit_date not nil'
+		else
+			assert !pa.admit_date.nil?, 'admit_date nil'
+			assert pa.admit_date == Time.parse(line['admit_date']).to_date,
+				'admit_date mismatch'
+		end
 
 #					unless warn_file.nil?
 #						if pa.admit_date != Time.parse(line['admit_date']).to_date
@@ -1042,75 +1140,75 @@ end
 #					end
 
 
-					assert pa.diagnosis_id == line['diagnosis_id'].to_nil_or_i,
-						"diagnosis_id mismatch:#{pa.diagnosis_id}:#{line['diagnosis_id']}:"
-					assert pa.raf_zip.only_numeric == line['raf_zip'].only_numeric,
-						"raf_zip mismatch:#{pa.raf_zip}:#{line['raf_zip']}:"
-					assert pa.raf_county == line['raf_county'],
-						"raf_county mismatch:#{pa.raf_county}:#{line['raf_county']}:"
-					assert pa.hospital_no == line['hospital_no'],
-						"hospital_no mismatch:#{pa.hospital_no}:#{line['hospital_no']}:"
+		assert pa.diagnosis_id == line['diagnosis_id'].to_nil_or_i,
+			"diagnosis_id mismatch:#{pa.diagnosis_id}:#{line['diagnosis_id']}:"
+		assert pa.raf_zip.only_numeric == line['raf_zip'].only_numeric,
+			"raf_zip mismatch:#{pa.raf_zip}:#{line['raf_zip']}:"
+		assert pa.raf_county == line['raf_county'],
+			"raf_county mismatch:#{pa.raf_county}:#{line['raf_county']}:"
+		assert pa.hospital_no == line['hospital_no'],
+			"hospital_no mismatch:#{pa.hospital_no}:#{line['hospital_no']}:"
 
 
 # TODO
 #					assert pa.organization_id == line['organization_id'].to_dk_or_i,
-					assert pa.organization_id == line['organization_id'].to_nil_or_i,
-						"organization_id mismatch:#{pa.organization_id}:#{line['organization_id']}:"
+		assert pa.organization_id == line['organization_id'].to_nil_or_i,
+			"organization_id mismatch:#{pa.organization_id}:#{line['organization_id']}:"
 
 
-					assert pa.other_diagnosis == line['other_diagnosis'],
-						"other_diagnosis mismatch:#{pa.other_diagnosis}:#{line['other_diagnosis']}:"
+		assert pa.other_diagnosis == line['other_diagnosis'],
+			"other_diagnosis mismatch:#{pa.other_diagnosis}:#{line['other_diagnosis']}:"
 
 #	TODO problem with the 9 and 999 issue as well
 #					assert pa.was_previously_treated == line['was_previously_treated'].to_nil_or_i,
-					assert pa.was_previously_treated == line['was_previously_treated'].to_nil_or_999_or_i,
-						"was_previously_treated mismatch:#{pa.was_previously_treated}:#{line['was_previously_treated']}:"
+		assert pa.was_previously_treated == line['was_previously_treated'].to_nil_or_999_or_i,
+			"was_previously_treated mismatch:#{pa.was_previously_treated}:#{line['was_previously_treated']}:"
 #	TODO probably won't be true all the time
 #					assert pa.was_under_15_at_dx == line['was_under_15_at_dx'],
 #						'was_under_15_at_dx mismatch'
 
-					unless warn_file.nil?
-						if pa.was_under_15_at_dx != line['was_under_15_at_dx'].to_nil_or_i
-							warn_file.puts s.inspect
-							warn_file.puts pa.inspect
-							warn_file.puts "was_under_15_at_dx mismatch:"
-							warn_file.puts "was_under_15_at_dx csv :#{line['was_under_15_at_dx']}:" 
-							warn_file.puts "was_under_15_at_dx db  :#{pa.was_under_15_at_dx}:"
-							warn_file.puts "dob db           :#{s.dob}:"
-							warn_file.puts "admit_date db    :#{pa.admit_date}:"
-							warn_file.puts "admit_date - dob :#{((pa.admit_date.to_date - s.dob.to_date).to_f/365)}:"
-							warn_file.puts
-						end
-					end
+		unless warn_file.nil?
+			if pa.was_under_15_at_dx != line['was_under_15_at_dx'].to_nil_or_i
+				warn_file.puts s.inspect
+				warn_file.puts pa.inspect
+				warn_file.puts "was_under_15_at_dx mismatch:"
+				warn_file.puts "was_under_15_at_dx csv :#{line['was_under_15_at_dx']}:" 
+				warn_file.puts "was_under_15_at_dx db  :#{pa.was_under_15_at_dx}:"
+				warn_file.puts "dob db           :#{s.dob}:"
+				warn_file.puts "admit_date db    :#{pa.admit_date}:"
+				warn_file.puts "admit_date - dob :#{((pa.admit_date.to_date - s.dob.to_date).to_f/365)}:"
+				warn_file.puts
+			end
+		end
 
-				else
-					assert pa.nil?, 'Patient for non-case'
-				end
+	else
+		assert pa.nil?, 'Patient for non-case'
+	end
 
-				assert s.subjectid == line['subjectid'],
-					"subjectid mismatch:#{s.subjectid}:#{line['subjectid']}:"
-				assert s.childid.to_s == line['childid'],
-					"childid mismatch:#{s.childid}:#{line['childid']}:"
-				assert s.icf_master_id == line['icf_master_id'],
-					"icf_master_id mismatch:#{s.icf_master_id}:#{line['icf_master_id']}:"
-				assert s.childidwho == line['childidwho'],
-					"childidwho mismatch:#{s.childidwho}:#{line['childidwho']}:"
-				assert s.familyid == line['familyid'],
-					"familyid mismatch:#{s.familyid}:#{line['familyid']}:"
-				assert s.matchingid == line['matchingid'],
-					"matchingid mismatch:#{s.matchingid}:#{line['matchingid']}:"
-				assert s.patid == line['patid'],
-					"patid mismatch:#{s.patid}:#{line['patid']}:"
-				assert s.case_control_type == line['case_control_type'],
-					"case_control_type mismatch:#{s.case_control_type}:#{line['case_control_type']}:"
-				assert s.orderno == line['orderno'].to_nil_or_i,
-					"orderno mismatch:#{s.orderno}:#{line['orderno']}:"
-				assert s.newid == line['newid'],
-					"newid mismatch:#{s.newid}:#{line['newid']}:"
-				assert s.studyid == line['studyid'],
-					"studyid mismatch:#{s.studyid}:#{line['studyid']}:"
-				assert s.related_case_childid == line['related_case_childid'],
-					"related_case_childid mismatch:#{s.related_case_childid}:#{line['related_case_childid']}:"
-				assert s.state_id_no == line['state_id_no'],
-					"state_id_no mismatch:#{s.state_id_no}:#{line['state_id_no']}:"
+	assert s.subjectid == line['subjectid'],
+		"subjectid mismatch:#{s.subjectid}:#{line['subjectid']}:"
+	assert s.childid.to_s == line['childid'],
+		"childid mismatch:#{s.childid}:#{line['childid']}:"
+	assert s.icf_master_id == line['icf_master_id'],
+		"icf_master_id mismatch:#{s.icf_master_id}:#{line['icf_master_id']}:"
+	assert s.childidwho == line['childidwho'],
+		"childidwho mismatch:#{s.childidwho}:#{line['childidwho']}:"
+	assert s.familyid == line['familyid'],
+		"familyid mismatch:#{s.familyid}:#{line['familyid']}:"
+	assert s.matchingid == line['matchingid'],
+		"matchingid mismatch:#{s.matchingid}:#{line['matchingid']}:"
+	assert s.patid == line['patid'],
+		"patid mismatch:#{s.patid}:#{line['patid']}:"
+	assert s.case_control_type == line['case_control_type'],
+		"case_control_type mismatch:#{s.case_control_type}:#{line['case_control_type']}:"
+	assert s.orderno == line['orderno'].to_nil_or_i,
+		"orderno mismatch:#{s.orderno}:#{line['orderno']}:"
+	assert s.newid == line['newid'],
+		"newid mismatch:#{s.newid}:#{line['newid']}:"
+	assert s.studyid == line['studyid'],
+		"studyid mismatch:#{s.studyid}:#{line['studyid']}:"
+	assert s.related_case_childid == line['related_case_childid'],
+		"related_case_childid mismatch:#{s.related_case_childid}:#{line['related_case_childid']}:"
+	assert s.state_id_no == line['state_id_no'],
+		"state_id_no mismatch:#{s.state_id_no}:#{line['state_id_no']}:"
 end

@@ -13,13 +13,16 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 #			select hospital.organization.to_s, :from => "hospital_id"
 #			click_button "New Case"	
 
-puts "added page."
+#puts "added page."
 			page.select hospital.organization.to_s, :from => "hospital_id"
 			page.click_button "New Case"	
 
 #	current_url is not following redirect
 pending	#	TODO the page content appears correct, but the url is cases_path
-puts page.current_url
+#puts page.current_path
+#puts page.current_url
+##puts page.url
+#puts page.status_code
 
 
 #			assert_match /http(s)?:\/\/.*\/waivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
@@ -51,7 +54,7 @@ puts page.current_url
 			click_button "New Case"	
 
 
-puts page.current_url
+#puts page.current_url
 
 pending	#	TODO the page content appears correct, but the url is cases_path
 #			assert_match /http(s)?:\/\/.*\/nonwaivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url

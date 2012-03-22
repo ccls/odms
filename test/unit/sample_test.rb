@@ -5,8 +5,7 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_have_one( :sample_kit )
 	assert_should_have_many( :aliquots )
-#	assert_should_belong_to( :aliquot_sample_format, :unit, 
-	assert_should_belong_to( :unit, 
+	assert_should_belong_to( :aliquot_sample_format, :unit, 
 		:organization, :sample_format, :sample_temperature )
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 

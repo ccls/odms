@@ -7,7 +7,7 @@ class AliquotSampleFormatTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_not_require_attributes(:position)
 	assert_should_act_as_list
-	assert_should_have_many( :aliquots ) #, :samples )
+	assert_should_have_many( :aliquots, :samples )
 
 	test "explicit Factory aliquot_sample_format test" do
 		assert_difference('AliquotSampleFormat.count',1) {

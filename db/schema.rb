@@ -1277,6 +1277,7 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
     t.integer  "position"
     t.integer  "parent_sample_id"
     t.integer  "sample_format_id"
+    t.integer  "aliquot_sample_format_id"
     t.integer  "sample_type_id"
     t.integer  "project_id"
     t.integer  "study_subject_id"

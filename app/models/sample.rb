@@ -3,7 +3,7 @@
 #	*	unit_id
 class Sample < ActiveRecord::Base
 
-#	belongs_to :aliquot_sample_format
+	belongs_to :aliquot_sample_format
 	belongs_to :sample_type
 	belongs_to :organization, :foreign_key => 'location_id'
 	belongs_to :unit

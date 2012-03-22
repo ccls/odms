@@ -9,6 +9,6 @@ class AliquotSampleFormat < ActiveRecord::Base
 	acts_like_a_hash
 
 	has_many :aliquots
-#	has_many :samples
+	has_many :samples
 
 end

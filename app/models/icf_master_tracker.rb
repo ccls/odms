@@ -40,7 +40,9 @@ class IcfMasterTracker < ActiveRecord::Base
 #	perhaps use try(:id) instead
 #			self.study_subject_id = StudySubject.find_by_icf_master_id(self.Masterid).id
 #			self.study_subject = StudySubject.find_by_icf_master_id(self.Masterid)
-			self.study_subject = StudySubject.where(
+#			self.study_subject = StudySubject.where(
+#				:icf_master_id => self.Masterid).limit(1).first
+			self.study_subject_id = StudySubject.where(
 				:icf_master_id => self.Masterid).limit(1).first.try(:id)
 		end
 	end
