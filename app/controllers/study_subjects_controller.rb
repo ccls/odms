@@ -94,7 +94,15 @@ class StudySubjectsController < ApplicationController
 			params[:paginate] = false
 		end
 #	TODO stop using StudySubject.search, but here it may be needed
-		@study_subjects = StudySubject.search(params)
+		
+#	You are the last.
+#		@study_subjects = StudySubject.search(params)
+
+		flash.now[:notice] = "This page isn't used at the moment."
+		@study_subjects = StudySubject.paginate(
+				:per_page => params[:per_page]||25,
+				:page     => valid_find_page
+			)
 
 #	this appears to be rendering the index.html for csv download in rails 3
 

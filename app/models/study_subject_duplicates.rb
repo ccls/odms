@@ -65,16 +65,22 @@ base.class_eval do
 #puts conditions_array.inspect
 #["((hospital_no = :hospital_no) OR (dob = :dob AND sex = :sex AND ( mother_maiden_name IS NULL OR mother_maiden_name = :mother_maiden_name )) OR (admit_date = :admit AND organization_id = :org)) AND study_subjects.id != :exclude_id", {:hospital_no=>"matchthis", :org=>31, :admit=>Wed, 16 Nov 2011, :sex=>"F", :exclude_id=>3, :mother_maiden_name=>"", :dob=>Wed, 16 Nov 2011}]
 
-			find(:all,
+#			find(:all,
+#				#	have to do a LEFT JOIN, not the default INNER JOIN, here
+#				#			:joins => [:pii,:patient,:identifier]
+#				#	otherwise would only include subjects with pii, patient and identifier,
+#				#	which would effectively exclude controls. (maybe that's ok?. NOT OK.)
+#				:joins => [
+#					'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
+#				],
+#				:conditions => conditions_array
+#			) 
 				#	have to do a LEFT JOIN, not the default INNER JOIN, here
 				#			:joins => [:pii,:patient,:identifier]
 				#	otherwise would only include subjects with pii, patient and identifier,
 				#	which would effectively exclude controls. (maybe that's ok?. NOT OK.)
-				:joins => [
-					'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
-				],
-				:conditions => conditions_array
-			) 
+			self.where(conditions_array
+				).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
 		else
 			[]
 		end

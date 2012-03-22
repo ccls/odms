@@ -65,7 +65,10 @@ class BcRequestsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Factory(:complete_case_study_subject)
 			Factory(:complete_case_study_subject)
-			StudySubject.stubs(:search).returns(StudySubject.all)
+
+#	I think that this was for the view, but is no longer used.
+#			StudySubject.stubs(:search).returns(StudySubject.all)
+
 			assert_difference('BcRequest.count',0) {
 				post :create, :patid => 'irrelevant_for_this_test'
 			}

@@ -153,9 +153,9 @@ class StudySubject < ActiveRecord::Base
 		subject_type_id == self.class.subject_type_mother_id
 	end
 
-	def self.search(params={})
-		StudySubjectSearch.new(params).study_subjects
-	end
+#	def self.search(params={})
+#		StudySubjectSearch.new(params).study_subjects
+#	end
 
 	#	Create (or just return mother) a mother subject based on subject's own data.
 	def create_mother
