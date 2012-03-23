@@ -4,6 +4,16 @@ class FakeSessionsController < ApplicationController
 
 #	ssl_allowed	:new, :create	#	in integration testing, just skip it
 
+	def new
+		render :layout => true, :inline => <<EOF
+<%= form_tag fake_session_path do %>
+<%= text_field_tag :id %>
+<%= text_field_tag :uid %>
+<%= submit_tag 'login' %>
+<% end %>
+EOF
+	end
+
 	#	Solely for integration testing.
 	def create
 #	For some reason, if using capybara and selenium, the user is not found?

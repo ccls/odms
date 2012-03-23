@@ -143,6 +143,9 @@ PRIORITY
    * submit_tag 'login'
   * end
   * And then drop the view and the modifications for view_path in test.rb
+  * A modified version of this should work
+    * render :inline => "<%= form_tag() %>", :layout => true
+
 
 
 * Keep or Remove HomexOutcome and custom HomeExposure callbacks????
