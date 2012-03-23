@@ -49,6 +49,18 @@ Odms::Application.configure do
 
 
 
+#
+#	trying disabling this so that missing routes raise error
+#
+#	Won't work as integration tests need the javascript!
+#
+#		config.assets.enabled = false
+
+
+
+
+
+
 #	Don't mail so irrelevant.
 #
 #	config.action_mailer.default_url_options = { 
