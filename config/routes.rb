@@ -74,27 +74,16 @@ end
 #
 
 
-#
-#	Rails 3 not compatible with Rails 2 version of ActiveScaffold.
-#
-#	For the moment, I have commented out tests for these.
-#
-#	namespace :active_scaffold do
-#		with_options :active_scaffold => true do |as|
-#	  	as.resources :study_subjects
-#	  	as.resources :subject_races
-#	  	as.resources :subject_languages
-#	  	as.resources :patients
-#	  	as.resources :addresses
-#	  	as.resources :addressings
-#	  	as.resources :phone_numbers
-#	  	as.resources :enrollments
-#	  	as.resources :data_sources
-#		end
-#	end
-#
-
-
+	namespace :active_scaffold do
+		resources :study_subjects	do as_routes end
+		resources :addressings	do as_routes end
+		resources :phone_numbers	do as_routes end
+		resources :enrollments	do as_routes end
+		resources :patients	do as_routes end
+		resources :subject_languages	do as_routes end
+		resources :subject_races	do as_routes end
+		resources :data_sources	do as_routes end
+	end
 
 	match 'logout', :to => 'sessions#destroy'
 

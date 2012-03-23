@@ -9,9 +9,10 @@
 <link rel="shortcut icon" href="<%=root_url%><%=image_path('cal.ico')%>" />
 <title><%= "CCLS ODMS Active Scaffold" -%></title>
 <%# ActiveScaffold seems to need BOTH prototype AND jquery.  Dangerous. %>
-<%= javascript_include_tag 'jquery','jquery-ui'%>
-<%= javascript_include_tag 'prototype' %>
-<%= active_scaffold_includes %>
+<%= javascript_include_tag 'jquery','jquery-ui','active_scaffold' %>
+<%#= javascript_include_tag 'prototype' %>
+<%#= active_scaffold_includes %>
+<%= stylesheet_link_tag 'active_scaffold' %>
 </head>
 <body>
 <%= yield %>

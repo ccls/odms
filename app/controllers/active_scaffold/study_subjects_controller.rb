@@ -14,7 +14,7 @@ class ActiveScaffold::StudySubjectsController < ActiveScaffoldController
 			:birth_county,:birth_type, :dad_is_biodad,
 			:do_not_contact, :father_hispanicity_mex, :father_yrs_educ,
 			:is_duplicate_of, :mom_is_biomom, :mother_hispanicity_mex,
-			:mother_yrs_educ, :sex ]
+			:mother_yrs_educ, :sex, :subject_type ]
 
 #	Any associations need an activescaffold or normal controller as well.
 

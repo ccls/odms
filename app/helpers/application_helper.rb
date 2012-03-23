@@ -249,11 +249,13 @@ module ApplicationHelper
 
 
 	def sort_up_image
-		"#{Rails.root}/public/images/sort_up.png"
+#		"#{Rails.root}/public/images/sort_up.png"
+		"#{Rails.root}/app/assets/images/sort_up.png"
 	end
 
 	def sort_down_image
-		"#{Rails.root}/public/images/sort_down.png"
+#		"#{Rails.root}/public/images/sort_down.png"
+		"#{Rails.root}/app/assets/images/sort_down.png"
 	end
 
 	#	&uarr; and &darr;

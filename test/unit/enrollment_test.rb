@@ -394,6 +394,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 		end
 	end
 
+#	Operational Event ARE NOT directly associated with enrollments,
+#	but I left the tests here.
 
 	test "should create operational event when enrollment complete" do
 		enrollment = Factory(:enrollment,

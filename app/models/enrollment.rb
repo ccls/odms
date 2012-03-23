@@ -10,9 +10,9 @@ class Enrollment < ActiveRecord::Base
 	belongs_to :project
 	belongs_to :project_outcome
 	belongs_to :tracing_status
-	has_many   :operational_events
+#	has_many   :operational_events
 	has_many   :follow_ups
-	has_many   :samples
+#	has_many   :samples
 
 	attr_protected :study_subject_id, :study_subject
 

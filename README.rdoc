@@ -148,6 +148,13 @@ http://railscasts.com/episodes/239-activerecord-relation-walkthrough
   * modifying many tests to try to not actually use the database.
 
 
+* begin taking advantage of the asset pipeline for merging js and css
+  * baby steps using the manifest
+  * http://guides.rubyonrails.org/asset_pipeline.html
+
+
+
+
 
 These extra attributes are not valid html. They are meant to be used by javascript confirmation, but they are still not valid html.  So, since I'm not using them, I'll replace them with forms like the others.
 

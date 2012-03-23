@@ -58,7 +58,8 @@ module Odms
 #	Don't know exactly what this is about, but it looks for assets
 #	in non-Rails2 places. Don't want to deal with this now.
 		# Enable the asset pipeline
-#		config.assets.enabled = true
+		config.assets.enabled = true
+
 
 
 
