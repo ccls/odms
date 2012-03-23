@@ -200,14 +200,20 @@ class StudySubject < ActiveRecord::Base
 
 	def next_control_orderno(grouping='6')
 		return nil unless is_case?
-		last_control = self.class.find(:first, 
-			:order => 'orderno DESC', 
-			:conditions => { 
+#		last_control = self.class.find(:first, 
+#			:order => 'orderno DESC', 
+#			:conditions => { 
+#				:subject_type_id   => self.class.subject_type_control_id,
+#				:case_control_type => grouping,
+#				:matchingid        => self.subjectid
+#			}
+#		)
+		last_control = self.class.select('orderno').order('orderno DESC'
+			).where(
 				:subject_type_id   => self.class.subject_type_control_id,
 				:case_control_type => grouping,
 				:matchingid        => self.subjectid
-			}
-		)
+			).first
 		( last_control.try(:orderno) || 0 ) + 1
 	end
 
