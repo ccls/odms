@@ -42,9 +42,9 @@ rake db:describe
 No more ActiveRecord::Error and therefore no error :type which destroys my test method
 No more f.error_messages
 
-Our Context[...] model causes this ...
+Our Context\[...\] model causes this ...
 ActionView::Template::Error: undefined method `[]' for ActionView::Context:Module
-Added :: prefix where I use it to see if makes a difference
+Added \:\: prefix where I use it to see if makes a difference
 
 Rewrite my custom validations
 
@@ -89,8 +89,8 @@ This is looking good.
 
 Repeated joins seem to be ignored.  Yay!
 
-> User.joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).to_sql
-=> "SELECT `users`.* FROM `users` INNER JOIN `roles_users` ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` ON `roles`.`id` = `roles_users`.`role_id`"
+ \> User.joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).to_sql
+ \=> "SELECT `users`.* FROM `users` INNER JOIN `roles_users` ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` ON `roles`.`id` = `roles_users`.`role_id`"
 
 
 PRIORITY
@@ -112,7 +112,9 @@ PRIORITY
   * could be very useful in testing?
   * really trying to simplify all the testing as there are so many things that trigger other things.  It is becoming difficult to test.  Add one callback that creates something and all of the sudden 100 tests fail because some count is now off by 1.
 
+
 * fix user not logged in integration test.  current_url doesn't seem to match followed redirect. Also in CaseIntegrationTest
+
 
 * reenable raising mass assignment error in environments/test.rb
 * controllers now raises MassAssignmentSecurity::Error
@@ -134,9 +136,18 @@ PRIORITY
 
 * put fake_sessions#new view into controller rather than separate file?
 * put FakeSessionsController into the Capybara test helper rather than separate file?
+* For cleanliness, figure out how to render this from the controller
+  * form_tag fake_session_path do
+   * text_field_tag :id
+   * text_field_tag :uid
+   * submit_tag 'login'
+  * end
+  * And then drop the view and the modifications for view_path in test.rb
+
 
 * Keep or Remove HomexOutcome and custom HomeExposure callbacks????
 
+* fix assert_no_route test (doesn't work with assets.enabled)
 
 http://railscasts.com/episodes/202-active-record-queries-in-rails-3
 http://railscasts.com/episodes/215-advanced-queries-in-rails-3
