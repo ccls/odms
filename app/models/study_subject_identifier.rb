@@ -127,7 +127,9 @@ protected
 #	Would this be faster?
 #
 	def generate_subjectid
-		subjectids = ( (1..999999).to_a - self.class.find(:all,:select => 'subjectid'
+#		subjectids = ( (1..999999).to_a - self.class.find(:all,:select => 'subjectid'
+#			).collect(&:subjectid).collect(&:to_i) )
+		subjectids = ( (1..999999).to_a - self.class.select('subjectid'
 			).collect(&:subjectid).collect(&:to_i) )
 		#	CANNOT have leading 0' as it thinks its octal and converts
 		#>> sprintf("%06d","0001234")

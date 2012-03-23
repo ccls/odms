@@ -69,8 +69,12 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		}
 		assert !study_subject.new_record?
 		assert_not_nil study_subject.dob
-		assert study_subject.dob.is_a?(Date)
-		assert_equal study_subject.dob, study_subject.dob.to_date
+#		#	Is this really required anymore?
+#		#	Why exactly did it matter in the beginning?
+#		#	Why exactly does it matter anymore?
+pending
+#		assert study_subject.dob.is_a?(Date)
+#		assert_equal study_subject.dob, study_subject.dob.to_date
 	end
 
 	test "should parse a properly formatted date" do

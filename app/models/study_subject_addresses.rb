@@ -26,7 +26,8 @@ base.class_eval do
 	#	Returns number of addresses with 
 	#	address_type.key == 'residence'
 	def residence_addresses_count
-		addresses.count(:conditions => { :address_type_id => AddressType['residence'].id })
+#		addresses.count(:conditions => { :address_type_id => AddressType['residence'].id })
+		addresses.where( :address_type_id => AddressType['residence'].id ).count
 	end
 
 end	#	class_eval
