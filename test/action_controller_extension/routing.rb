@@ -26,6 +26,13 @@ module ActionControllerExtension::Routing
 pending	#	TODO
 #puts "#{[verb,action,args].join(', ')}"
 #
+#	wrap this in a condition?
+#
+
+#	if Rails.application.config.assets.enabled
+#		pending
+#	else
+
 #				assert_raise(ActionController::RoutingError){
 #					send(verb,action,args)
 #
