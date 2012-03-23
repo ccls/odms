@@ -14,8 +14,26 @@ Odms::Application.configure do
 	# Compress JavaScripts and CSS
 	config.assets.compress = true
 
+
+
+
+
 	# Don't fallback to assets pipeline if a precompiled asset is missed
-	config.assets.compile = false
+#	config.assets.compile = false
+#
+#	false is the default, but will raise many of these if they aren't
+#
+#		Completed 500 Internal Server Error in 129ms
+#		
+#		ActionView::Template::Error (cal.ico isn't precompiled):
+#		
+#	and won't run.
+#
+	config.assets.compile = true
+
+
+
+
 
 	# Generate digests for assets URLs
 	config.assets.digest = true
