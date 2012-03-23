@@ -75,7 +75,11 @@ protected
 			if @study_subject.icf_master_id.blank?
 				warn << "Case was not assigned an icf_master_id."
 			end
-			if @study_subject.mother.icf_master_id.blank?
+#			if @study_subject.mother.icf_master_id.blank?
+#
+#	If mother is nil, we've got other problems
+#
+			if @study_subject.mother.try(:icf_master_id).blank?
 				warn << "Mother was not assigned an icf_master_id."
 			end
 			flash[:warn] = warn.join('<br/>') unless warn.empty?

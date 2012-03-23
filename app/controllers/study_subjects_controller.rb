@@ -80,6 +80,10 @@ class StudySubjectsController < ApplicationController
 
 	#	there is no longer a link to this action, nevertheless
 	def index
+
+#	perhaps add a
+#		redirect_to find_study_subjects_path
+
 #puts "first"
 #puts params.inspect
 #puts request.format.inspect
