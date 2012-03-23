@@ -95,6 +95,11 @@ Repeated joins seem to be ignored.  Yay!
 
 PRIORITY
 
+* live_birth_data_update and icf_master_tracker_updates aren't always being deleted
+  * may just be when there are errors.  unfortunately it can leave a mess.
+  * hmmm
+
+
 * rake test:coverage
 
 * resolve all pending tests

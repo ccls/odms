@@ -79,7 +79,7 @@ base.class_eval do
 				#			:joins => [:pii,:patient,:identifier]
 				#	otherwise would only include subjects with pii, patient and identifier,
 				#	which would effectively exclude controls. (maybe that's ok?. NOT OK.)
-			self.where(conditions_array
+			where(conditions_array
 				).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
 		else
 			[]

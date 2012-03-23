@@ -22,10 +22,14 @@ class OperationalEventType < ActiveRecord::Base
 	end
 
 	def self.categories
-		find(:all,
-			:conditions => 'event_category IS NOT NULL',
-			:order => 'event_category ASC',
-			:group => :event_category
+#		find(:all,
+#			:conditions => 'event_category IS NOT NULL',
+#			:order => 'event_category ASC',
+#			:group => :event_category
+#		).collect(&:event_category)
+		where('event_category IS NOT NULL'
+			).order('event_category ASC'
+			).group(:event_category
 		).collect(&:event_category)
 	end
 

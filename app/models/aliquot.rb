@@ -10,11 +10,9 @@ class Aliquot < ActiveRecord::Base
 	belongs_to :owner, :class_name => "Organization"
 	has_many :transfers
 
-	validates_presence_of :sample
-	validates_presence_of :unit
-	validates_presence_of :owner
-	validates_length_of   :location, :maximum => 250, :allow_blank => true
-	validates_length_of   :mass,     :maximum => 250, :allow_blank => true
+	validates_presence_of :sample, :unit, :owner
+	validates_length_of   :location, :mass,     
+		:maximum => 250, :allow_blank => true
 
 	#	Create a #Transfer for the given #Aliquot from the 
 	#	current owner(#Organization) to the given #Organization.

@@ -13,10 +13,12 @@ base.class_eval do
 
 	#	Returns home exposures interview
 	def hx_interview
-		interviews.find(:first,
-			:conditions => { 'projects.id' => Project['HomeExposures'].id },
-			:joins => [:instrument_version => [:instrument => :project]]
-		)
+#		interviews.find(:first,
+#			:conditions => { 'projects.id' => Project['HomeExposures'].id },
+#			:joins => [:instrument_version => [:instrument => :project]]
+#		)
+		interviews.joins(:instrument_version => [:instrument => :project]
+			).where('projects.id' => Project['HomeExposures'].id).first
 	end
 
 end	#	class_eval

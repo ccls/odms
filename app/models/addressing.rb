@@ -25,9 +25,9 @@ class Addressing < ActiveRecord::Base
 	#		to not reject if address fields are blank.
 	attr_accessor :address_required
 
-	validates_length_of   :why_invalid,  :maximum => 250, :allow_blank => true
+	validates_length_of   :why_invalid, :how_verified, 
+		:maximum => 250, :allow_blank => true
 	validates_presence_of :why_invalid,  :if => :is_not_valid?
-	validates_length_of   :how_verified, :maximum => 250, :allow_blank => true
 	validates_presence_of :how_verified, :if => :is_verified?
 #	changed from allow_nil to allow_blank
 	validates_complete_date_for :valid_from, :allow_blank => true

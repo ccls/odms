@@ -89,12 +89,10 @@ base.class_eval do
 	validates_complete_date_for :consented_on, :allow_blank => true
 	validates_complete_date_for :completed_on, :allow_blank => true
 
-	validates_length_of :recruitment_priority,      :maximum => 250, :allow_blank => true
-	validates_length_of :other_ineligible_reason,   :maximum => 250, :allow_blank => true
-	validates_length_of :other_refusal_reason,      :maximum => 250, :allow_blank => true
-	validates_length_of :reason_not_chosen,         :maximum => 250, :allow_blank => true
-	validates_length_of :terminated_reason,         :maximum => 250, :allow_blank => true
-	validates_length_of :reason_closed,             :maximum => 250, :allow_blank => true
+	validates_length_of :recruitment_priority, :other_ineligible_reason,
+		:other_refusal_reason, :reason_not_chosen,
+		:terminated_reason, :reason_closed,
+			:maximum => 250, :allow_blank => true
 
 
 	validates_inclusion_of :consented, :is_eligible,
@@ -107,7 +105,6 @@ base.class_eval do
 		:share_smp_with_others, :contact_for_related_study,
 		:provide_saliva_smp, :receive_study_findings,
 			:in => ADNA.valid_values, :allow_nil => true
-
 
 #
 #	NOTE: BEWARE of POSSIBLE strings in these comparisons.

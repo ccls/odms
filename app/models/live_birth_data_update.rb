@@ -15,7 +15,8 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 #	masterid,ca_co_status,biomom,biodad,date,mother_full_name,mother_maiden_name,father_full_name,child_full_name,child_dobm,child_dobd,child_doby,child_gender,birthplace_country,birthplace_state,birthplace_city,mother_hispanicity,mother_hispanicity_mex,mother_race,mother_race_other,father_hispanicity,father_hispanicity_mex,father_race,father_race_other
 
 				if line['ca_co_status'] == 'case'
-					study_subject = StudySubject.find_by_icf_master_id(line['masterid'])
+#					study_subject = StudySubject.find_by_icf_master_id(line['masterid'])
+					study_subject = StudySubject.where(:icf_master_id => line['masterid']).first
 					if study_subject
 						results.push(study_subject)
 					else
@@ -23,7 +24,8 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 						next
 					end
 				elsif line['ca_co_status'] == 'control'
-					study_subject = StudySubject.find_by_icf_master_id(line['masterid'])
+#					study_subject = StudySubject.find_by_icf_master_id(line['masterid'])
+					study_subject = StudySubject.where(:icf_master_id => line['masterid']).first
 					unless study_subject
 						results.push("Could not find study_subject with masterid #{line['masterid']}")
 						next
@@ -90,8 +92,10 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 						:father_race_id => line["father_race"].nilify_blank
 #"other_father_race":nil	#	doesn't exist
 					}
-					candidate_control = CandidateControl.find(:first,
-						:conditions => candidate_control_options )
+#					candidate_control = CandidateControl.find(:first,
+#						:conditions => candidate_control_options )
+					candidate_control = CandidateControl.where(candidate_control_options
+						).first
 
 					if candidate_control.nil?
 						candidate_control = CandidateControl.create( candidate_control_options )

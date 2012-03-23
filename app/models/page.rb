@@ -63,7 +63,8 @@ class Page < ActiveRecord::Base
 	#	matches the given path.
 	def self.by_path(path)
 		#	interesting.  limit 1 still returns an array
-		page = where(:path => path.downcase ).limit(1).first
+#		page = where(:path => path.downcase ).limit(1).first
+		where(:path => path.downcase ).limit(1).first
 	end
 
 	def root
