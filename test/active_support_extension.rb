@@ -12,7 +12,7 @@ require 'active_support_extension/user_login'
 
 Rails.backtrace_cleaner.add_silencer {|line|
 
-# 48         send("_#{test_name}_without_verbosity")
-	line =~ /active_support_extension\/test_case\.rb:48:/
+# 47         send("_#{test_name}_without_verbosity")
+	line =~ /active_support_extension\/test_case\.rb:47:/
 
 } if defined? Rails
