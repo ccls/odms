@@ -165,7 +165,7 @@ http://railscasts.com/episodes/239-activerecord-relation-walkthrough
   * baby steps using the manifest
   * http://guides.rubyonrails.org/asset_pipeline.html
 
-
+* fix ActiveScaffold skip_after_filter :validate_page
 
 
 
