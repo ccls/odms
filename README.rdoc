@@ -83,9 +83,9 @@ default_scopes take precedence over the request? seems backwards
 
 This is looking good.
 
-	def self.no_change_in_query(*args)
-		scoped	#	just return scoped to do nothing apparently
-	end
+ def self.no_change_in_query(*args)
+  scoped	#	just return scoped to do nothing apparently
+ end
 
 Repeated joins seem to be ignored.  Yay!
 
@@ -98,7 +98,6 @@ PRIORITY
 * live_birth_data_update and icf_master_tracker_updates aren't always being deleted
   * may just be when there are errors.  unfortunately it can leave a mess.
   * hmmm
-
 
 * rake test:coverage
 
