@@ -7,5 +7,16 @@
  *
  * http://docs.jquery.com/UI/Theming
  */
+/*
 @import "jquery.ui.base.css";
 @import "jquery.ui.theme.css";
+*/
+/*
+	Rather than explicitly import them all, use the below
+	styling to have sprockets merge and cache them all
+	as one file.
+*/
+/*
+ *= require ./jquery.ui.base.css
+ *= require ./jquery.ui.theme.css
+*/

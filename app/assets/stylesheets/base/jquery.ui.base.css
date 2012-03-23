@@ -1,3 +1,4 @@
+/*
 @import url("jquery.ui.core.css");
 @import url("jquery.ui.resizable.css");
 @import url("jquery.ui.selectable.css");
@@ -9,3 +10,22 @@
 @import url("jquery.ui.tabs.css");
 @import url("jquery.ui.datepicker.css");
 @import url("jquery.ui.progressbar.css");
+*/
+/*
+	Rather than explicitly import them all, use the below
+	styling to have sprockets merge and cache them all
+	as one file.
+*/
+/*
+ *= require ./jquery.ui.core.css
+ *= require ./jquery.ui.resizable.css
+ *= require ./jquery.ui.selectable.css
+ *= require ./jquery.ui.accordion.css
+ *= require ./jquery.ui.autocomplete.css
+ *= require ./jquery.ui.button.css
+ *= require ./jquery.ui.dialog.css
+ *= require ./jquery.ui.slider.css
+ *= require ./jquery.ui.tabs.css
+ *= require ./jquery.ui.datepicker.css
+ *= require ./jquery.ui.progressbar.css
+*/
