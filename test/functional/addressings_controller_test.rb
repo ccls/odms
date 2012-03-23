@@ -50,16 +50,6 @@ class AddressingsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-#	it would seem that assert_no_route no longer works since
-#	reinstalling activescaffold and using asset pipeline????
-		test "should TESTING edit addressing without id with #{cu} login" do
-pending
-			login_as send(cu)
-			get :edit
-			puts @response.body
-		end
-
-
 		test "should get new addressing with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)

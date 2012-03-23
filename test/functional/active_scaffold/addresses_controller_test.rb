@@ -101,7 +101,8 @@ class ActiveScaffold::AddressesControllerTest < ActionController::TestCase
 	non_site_administrators.each do |cu|
 
 		#	get collection
-		%w( index edit_associated new_existing list render_field show_search new ).each do |action|
+#		%w( index edit_associated new_existing list render_field show_search new ).each do |action|
+		%w( index edit_associated list render_field show_search ).each do |action|
 	
 			test "should NOT get #{action} with #{cu} login" do
 				login_as send(cu)
@@ -123,7 +124,8 @@ class ActiveScaffold::AddressesControllerTest < ActionController::TestCase
 		end
 	
 		#	get member
-		%w( edit edit_associated nested row render_field delete add_association show ).each do |action|
+#		%w( edit edit_associated nested row render_field delete add_association show ).each do |action|
+		%w( edit edit_associated row render_field delete show ).each do |action|
 	
 			test "should NOT get #{action} member with #{cu} login" do
 				login_as send(cu)
@@ -226,7 +228,8 @@ class ActiveScaffold::AddressesControllerTest < ActionController::TestCase
 	end
 
 	#	delete member
-	%w( destroy destroy_existing ).each do |action|
+#	%w( destroy destroy_existing ).each do |action|
+	%w( destroy ).each do |action|
 
 		test "should NOT delete #{action} member without login" do
 			address = Factory(:address)
