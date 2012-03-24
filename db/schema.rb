@@ -410,23 +410,11 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
   add_index "addressings", ["address_id"], :name => "index_addressings_on_address_id"
   add_index "addressings", ["study_subject_id"], :name => "index_addressings_on_study_subject_id"
 
-  create_table "aliquot_sample_formats", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "aliquot_sample_formats", ["description"], :name => "index_aliquot_sample_formats_on_description", :unique => true
-  add_index "aliquot_sample_formats", ["key"], :name => "index_aliquot_sample_formats_on_key", :unique => true
-
   create_table "aliquots", :force => true do |t|
     t.integer  "position"
     t.integer  "owner_id"
     t.integer  "sample_id"
     t.integer  "unit_id"
-    t.integer  "aliquot_sample_format_id"
     t.string   "location"
     t.string   "mass"
     t.string   "external_aliquot_id"
@@ -435,7 +423,6 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
     t.datetime "updated_at",                 :null => false
   end
 
-  add_index "aliquots", ["aliquot_sample_format_id"], :name => "index_aliquots_on_aliquot_sample_format_id"
   add_index "aliquots", ["owner_id"], :name => "index_aliquots_on_owner_id"
   add_index "aliquots", ["sample_id"], :name => "index_aliquots_on_sample_id"
   add_index "aliquots", ["unit_id"], :name => "index_aliquots_on_unit_id"
@@ -1277,7 +1264,6 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
     t.integer  "position"
     t.integer  "parent_sample_id"
     t.integer  "sample_format_id"
-    t.integer  "aliquot_sample_format_id"
     t.integer  "sample_type_id"
     t.integer  "project_id"
     t.integer  "study_subject_id"

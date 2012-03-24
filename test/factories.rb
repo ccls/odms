@@ -194,11 +194,6 @@ Factory.define :aliquot do |f|
 	f.association :owner, :factory => :organization
 end
 
-Factory.define :aliquot_sample_format do |f|
-	f.sequence(:key)         { |n| "Key#{n}" }
-	f.sequence(:description) { |n| "Desc#{n}" }
-end
-
 Factory.define :analysis do |f|
 	f.sequence(:key)         { |n| "Key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }

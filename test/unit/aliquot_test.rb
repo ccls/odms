@@ -4,7 +4,7 @@ class AliquotTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 
-	attributes = %w( position aliquot_sample_format_id
+	attributes = %w( position 
 		location mass external_aliquot_id external_aliquot_id_source )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
@@ -14,7 +14,6 @@ class AliquotTest < ActiveSupport::TestCase
 		:location, :mass, 
 			:maximum => 250 )
 	assert_should_have_many(:transfers)
-	assert_should_belong_to( :aliquot_sample_format )
 	assert_should_initially_belong_to( :sample, :unit )
 	assert_should_initially_belong_to( :owner, :class_name => 'Organization' )
 

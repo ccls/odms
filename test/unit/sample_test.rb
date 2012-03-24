@@ -5,11 +5,10 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_have_one( :sample_kit )
 	assert_should_have_many( :aliquots )
-	assert_should_belong_to( :aliquot_sample_format, :unit, 
+	assert_should_belong_to( :unit, 
 		:organization, :sample_format, :sample_temperature )
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 
-#aliquot_sample_format aliquot_sample_format_id 
 	attributes = %w( aliquot_or_sample_on_receipt 
 		aliquotted_on collected_at external_id 
 		external_id_source location_id order_no parent_sample_id position 
