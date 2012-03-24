@@ -23,11 +23,19 @@ base.class_eval do
 #	scope :children, where('subject_type_id IN (?)', 
 #		lambda {[ SubjectType['case'].id,SubjectType['Control'].id ]})
 
-	scope :cases,    where('subject_type_id = ?', SubjectType['Case'].id)
-	scope :controls, where('subject_type_id = ?', SubjectType['Control'].id)
-	scope :mothers,  where('subject_type_id = ?', SubjectType['Mother'].id)
-	scope :children, where('subject_type_id IN (?)', 
-		[SubjectType['case'].id,SubjectType['Control'].id])
+#
+#	This bombs even in test if SubjectTypes aren't loaded.
+#
+#	scope :cases,    where('subject_type_id = ?', SubjectType['Case'].id)
+#	scope :controls, where('subject_type_id = ?', SubjectType['Control'].id)
+#	scope :mothers,  where('subject_type_id = ?', SubjectType['Mother'].id)
+#	scope :children, where('subject_type_id IN (?)', 
+#		[SubjectType['case'].id,SubjectType['Control'].id])
+
+	scope :cases,    joins(:subject_type).where('subject_types.key = ?', 'Case')
+	scope :controls, joins(:subject_type).where('subject_types.key = ?', 'Control')
+	scope :mothers,  joins(:subject_type).where('subject_types.key = ?', 'Mother')
+	scope :children, joins(:subject_type).where('subject_types.key IN (?)', ['Case','Control'])
 
 	def self.with_patid(patid)
 		where(:patid => patid)
