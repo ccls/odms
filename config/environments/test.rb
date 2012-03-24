@@ -133,7 +133,9 @@ end
 #
 #	Can't seem to do this in the configure block
 #
-ActionController::Base.view_paths <<
-	File.expand_path(
-		File.join(Rails.root,'/test/app/views'))
+#	I put the form in the controller so I shouldn't need this anymore!
+#
+#ActionController::Base.view_paths <<
+#	File.expand_path(
+#		File.join(Rails.root,'/test/app/views'))
 
