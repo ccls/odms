@@ -29,6 +29,8 @@ Odms::Application.configure do
 	# ActionMailer::Base.deliveries array.
 	config.action_mailer.delivery_method = :test
 
+	# Print deprecation notices to the stderr
+	config.active_support.deprecation = :stderr
 
 
 
@@ -40,23 +42,12 @@ Odms::Application.configure do
 
 
 
-
-
-
-	# Print deprecation notices to the stderr
-	config.active_support.deprecation = :stderr
-
-
-
-
 #
 #	trying disabling this so that missing routes raise error
 #
 #	Won't work as integration tests need the javascript!
 #
 #		config.assets.enabled = false
-
-
 
 
 
@@ -80,62 +71,4 @@ Odms::Application.configure do
 
 	config.session_store :cookie_store, :key => '_odms_session'
 
-
-
-#	are these arrays??
-#	can't tell if this is doing what I want.
-#	tried it in console and it seems to.
-
-#	What's the point of exposing an array that is frozen????
-#	config.autoload_paths << File.join(Rails.root, "test/app/controllers/")
-# => /Users/jakewendt/github_repo/ccls/odms/config/environments/test.rb:72:in `<<': can't modify frozen array (TypeError)
-
-#	This works, but I assume will break everything else.
-#	config.autoload_paths = File.join(Rails.root, "test/app/controllers/")
-
-#	config.autoload_paths += File.join(Rails.root, "test/app/controllers/")
-# => /Users/jakewendt/github_repo/ccls/odms/config/environments/test.rb:77:in `+': can't convert String into Array (TypeError)
-# 19     # config.autoload_paths += %W(#{config.root}/extras)
-#	This seems to work for the moment
-#
-#
-#	config.autoload_paths += %W(#{config.root}/test/app/controllers/")
-#	config.autoload_paths += %W(#{config.root}/test/app/controllers/)
-#	config.autoload_paths += %W(test/app/controllers)
-#
-#	config.paths["app/controllers"] << File.join(Rails.root, "test/app/controllers/") 
-#	config.paths["app/controllers"] << "test/app/controllers" 
-#
-#
-#
-#	config.paths["app/views"] << File.join(Rails.root, "test/app/views/") 
-#	config.paths["app/views"] << "test/app/views/"
-#
-#	#	This seems to work, but still doesn't show up.
-##	config.paths["config/routes"] << File.join(Rails.root, "test/config/routes.rb") 
-#	config.paths["config/routes"] += %W(#{config.root}/test/config/routes.rb)
-#
-
-
-#	all these get set in the config.paths world, but don't seem to actually DO anything
-
-
 end
-#
-#ActiveSupport::Dependencies.autoload_paths << File.expand_path( 
-#	File.join(Rails.root,'/test/app/controllers/'))
-#
-#ActionController::Base.view_paths <<
-#	File.expand_path(
-#		File.join(Rails.root,'/app/views'))
-
-
-#
-#	Can't seem to do this in the configure block
-#
-#	I put the form in the controller so I shouldn't need this anymore!
-#
-#ActionController::Base.view_paths <<
-#	File.expand_path(
-#		File.join(Rails.root,'/test/app/views'))
-
