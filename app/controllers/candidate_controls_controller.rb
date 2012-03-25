@@ -95,7 +95,19 @@ protected
 	end
 
 	def valid_case_study_subject_required
-		@study_subject = StudySubject.find_case_by_patid(@candidate.related_patid)
+#
+#		@study_subject = StudySubject.find_case_by_patid(@candidate.related_patid)
+#test_should_put_update_with_superuser_login_and_accept_candidate(CandidateControlsControllerTest):
+#ActiveRecord::ReadOnlyRecord: ActiveRecord::ReadOnlyRecord
+#    app/models/candidate_control.rb:80:in `create_study_subjects'
+#    app/models/candidate_control.rb:38:in `create_study_subjects'
+#    app/controllers/candidate_controls_controller.rb:61:in `update'
+#
+#	Apparently some scopes, 'joins' seems likely, can set readonly.  Don't know why,
+#		but explicitly setting readonly to false stops the error.
+#
+		@study_subject = StudySubject.cases.with_patid(@candidate.related_patid).readonly(false).first
+
 		if @study_subject.blank?
 			access_denied("No valid case study subject found for that candidate!", cases_path)
 		end
