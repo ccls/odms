@@ -33,6 +33,22 @@ rake db:describe
 
 
 
+== Production check
+
+after going to production ...
+* make sure ssl / https is being forced.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
