@@ -111,9 +111,16 @@ PRIORITY
   * could be very useful in testing?
   * really trying to simplify all the testing as there are so many things that trigger other things.  It is becoming difficult to test.  Add one callback that creates something and all of the sudden 100 tests fail because some count is now off by 1.
 
-
 * fix user not logged in integration test.  current_url doesn't seem to match followed redirect. Also in CaseIntegrationTest
 
+* fix all integration test "sleep" issues
+
+* remove all method_missings from app and write explicit ones
+  * wrapped_* ( helper and form builder )
+  * may_*_required
+  * create_* ( if possible )
+
+* don't create in tests unless necessary.  just build.
 
 * reenable raising mass assignment error in environments/test.rb
 * controllers now raises MassAssignmentSecurity::Error
@@ -133,20 +140,6 @@ PRIORITY
 
 * remove any unused code
 
-* put fake_sessions#new view into controller rather than separate file?
-* put FakeSessionsController into the Capybara test helper rather than separate file?
-* For cleanliness, figure out how to render this from the controller
-  * form_tag fake_session_path do
-   * text_field_tag :id
-   * text_field_tag :uid
-   * submit_tag 'login'
-  * end
-  * And then drop the view and the modifications for view_path in test.rb
-  * A modified version of this should work
-    * render :inline => "<%= form_tag() %>", :layout => true
-
-
-
 * Keep or Remove HomexOutcome and custom HomeExposure callbacks????
 
 * fix assert_no_route test (doesn't work with assets.enabled)
@@ -164,8 +157,6 @@ http://railscasts.com/episodes/239-activerecord-relation-walkthrough
 * begin taking advantage of the asset pipeline for merging js and css
   * baby steps using the manifest
   * http://guides.rubyonrails.org/asset_pipeline.html
-
-* fix ActiveScaffold skip_after_filter :validate_page
 
 
 
