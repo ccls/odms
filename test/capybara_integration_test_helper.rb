@@ -274,33 +274,10 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 			#	Rather than manually manipulate the session,
 			#	I created a fake controller to do it.
 
-#puts User.all.inspect
-
-
-#	I don't quite understand what is happening, but now it seems as if the user doesn't logout
-#	do I need to add a teardown :logout?
-
-
-#CASClient::Frameworks::Rails::Filter.unstub(:filter)
-#			page.visit logout_path
-
 			page.visit new_fake_session_path()	#, { }, { 'HTTPS' => 'on' }
 			assert_equal current_path, new_fake_session_path,
 				"Didn't actually get new fake session path?"
 
-#	It would seem that I accidentally created a "unique" index for :sn !!!!!
-#	I don't completely see why it matters as they should be destroyed after
-#	each test so there should never actually be more than one User.
-
-#	This has got to be a connection thing
-
-#<p>
-#  Showing <i>app/views/layouts/_header.html.erb</i> where line <b>#8</b> raised:
-#  </p><pre><code>Mysql::Error: Duplicate entry 'Wendt' for key 2: UPDATE `users` SET `updated_at` = '2012-03-14 05:11:15', `sn` = 'Wendt', `telephonenumber` = '+1 510 642-9749', `displayname` = 'Mr. Jake Wendt, BA' WHERE `id` = 5148</code></pre>
-#<p></p>
-#
-
-#puts page.body
 			assert page.has_field?('id'),
 				"id field not found.  Probably didn't actually load new session page."
 

@@ -10,38 +10,18 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal new_case_path, current_path
 
 			hospital = Hospital.waivered.first
-#			select hospital.organization.to_s, :from => "hospital_id"
-#			click_button "New Case"	
 
-#puts "added page."
 			page.select hospital.organization.to_s, :from => "hospital_id"
 			page.click_button "New Case"	
 
 #	current_url is not following redirect
 pending	#	TODO the page content appears correct, but the url is cases_path
-#puts page.current_path
-#puts page.current_url
-##puts page.url
-#puts page.status_code
-
-
 #			assert_match /http(s)?:\/\/.*\/waivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
-
-
-#	capybara doesn't use assert_select
-#			assert_select "input" <<
-#				"#study_subject_patient_attributes_organization_id" <<
-#				"[name='study_subject[patient_attributes][organization_id]']" <<
-#				"[value=#{hospital.organization_id}]" <<
-#				"[type='hidden']", 1
-#			page.find('study_subject[patient_attributes][organization_id]')
 
 			#	capybara apparently won't find a field by name that is
 			#		type=hidden, however, finding it by css works.
-
 			assert_equal hospital.organization_id.to_s,
 				page.find('#study_subject_patient_attributes_organization_id').value
-#				page.find('study_subject[patient_attributes][organization_id]').value
 		end
 
 		test "should preselect nonwaivered organization_id from new case with #{cu} login" do
@@ -53,27 +33,13 @@ pending	#	TODO the page content appears correct, but the url is cases_path
 			select hospital.organization.to_s, :from => "hospital_id"
 			click_button "New Case"	
 
-
-#puts page.current_url
-
 pending	#	TODO the page content appears correct, but the url is cases_path
 #			assert_match /http(s)?:\/\/.*\/nonwaivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
 
-
-#	capybara doesn't use assert_select
-#			assert_select "input" <<
-#				"#study_subject_patient_attributes_organization_id" <<
-#				"[name='study_subject[patient_attributes][organization_id]']" <<
-#				"[value=#{hospital.organization_id}]" <<
-#				"[type='hidden']", 1
-#			page.find('study_subject[patient_attributes][organization_id]')
-
 			#	capybara apparently won't find a field by name that is
 			#		type=hidden, however, finding it by css works.
-
 			assert_equal hospital.organization_id.to_s,
 				page.find('#study_subject_patient_attributes_organization_id').value
-#				page.find('study_subject[patient_attributes][organization_id]').value
 		end
 
 	end
