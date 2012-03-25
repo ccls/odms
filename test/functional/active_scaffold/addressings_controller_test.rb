@@ -2,19 +2,31 @@ require 'test_helper'
 
 class ActiveScaffold::AddressingsControllerTest < ActionController::TestCase
 
+#	def setup
+		#	We can skip the after_filter in setup, but not in the test itself.
+		#	@controller.class.skip_after_filter :validate_page
+		#	Or stub should_validate? in the test.
+		#	Html::Test::ValidateFilter.any_instance.stubs(:should_validate?).returns(false)
+#	end
+
 	site_administrators.each do |cu|
 
 		test "should get index with #{cu} login" do
 			#	active_scaffold pages won't be 100% valid html.
-#	Don't know why it won't work here.
-#			@controller.class.skip_after_filter :validate_page
-Html::Test::ValidateFilter.any_instance.stubs(:should_validate?).returns(false)
+			Html::Test::ValidateFilter.any_instance.stubs(:should_validate?).returns(false)
 			login_as send(cu)
 			get :index
 			assert_response :success
 		end
 
 	end
+
+#
+#	I am more interested that the following will NOT happen 
+#	rather than the prior will.  Below are all of the
+#	ActiveScaffold and RESTful routes, none of which should
+#	work for anyone other that administrators.
+#
 
 	non_site_administrators.each do |cu|
 
