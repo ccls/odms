@@ -62,9 +62,9 @@ namespace :app do
 
 #			pages
 #			guides
-		fixtures = %w(
 #			zip_codes
 #			counties
+		fixtures = %w(
 		)
 #	Do not import icf_master_ids this way in production as these are real
 #	icf_master_ids and some may be assigned to real subjects already.
