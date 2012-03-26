@@ -23,18 +23,11 @@
 
 <%= f.wrapped_date_text_field :sent_to_subject_on,
 	:label_text => 'Sent to Subject on:' %>
-<%#	:class => 'datepicker', %>
 
-<%#= f.wrapped_date_text_field :collected_at,
-	:class => 'datepicker',
-	:label_text => 'Collected at:' %>
 <%= f.wrapped_datetime_select :collected_at,
 	:prompt => true,
 	:label_text => 'Collected at:' %>
 
-<%#= f.wrapped_date_text_field :received_by_ccls_at,
-	:class => 'datepicker',
-	:label_text => 'Received by CCLS at:' %>
 <%= f.wrapped_datetime_select :received_by_ccls_at,
 	:prompt => true,
 	:label_text => 'Received by CCLS at:' %>
@@ -42,7 +35,6 @@
 <%# This is too wide to sit on one line %>
 <%= f.wrapped_date_text_field :sent_to_lab_on,
 	:label_text => 'Sent to Lab on:' do %>
-<%#	:class => 'datepicker', %>
 <%= f.wrapped_collection_select( :location_id,
 	Organization.all, :id, :to_s,
 	{ :include_blank => true }
@@ -51,10 +43,8 @@
 
 <%= f.wrapped_date_text_field :received_by_lab_on,
 	:label_text => 'Received by Lab on:' %>
-<%#	:class => 'datepicker', %>
 
 <%= f.wrapped_date_text_field :aliquotted_on,
 	:label_text => 'Aliquotted on:' %>
-<%#	:class => 'datepicker', %>
 
 <%#= render :partial => 'sample_kit', :locals => { :f => f } %>

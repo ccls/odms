@@ -42,11 +42,8 @@
 	SampleTemperature.all, :id, :to_s,
 	{ :include_blank => true }) %>
 
-<p>Be advised that these datetime selectors will accept partial datetimes that can generate an incorrect datetime. May not be true in Rails 3.</p>
 <p>In Rails 3, Year, Month and Day are required.</p>
 <p>Added sent_to_subject_on as is required in chronology. Change to sent_to_subject_at datetime like the others?</p>
-
-<%#	:class => 'datepicker',  unneeded as helper adds it %>
 
 <%= f.wrapped_date_text_field :sent_to_subject_on,
 	:label_text => 'Sent to Subject on:' %>
