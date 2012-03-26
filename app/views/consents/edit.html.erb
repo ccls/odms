@@ -81,8 +81,8 @@
 <div id='subject_consented'>
 <%= f.wrapped_date_text_field :consented_on,
 	:size => 20,
-	:class => 'datepicker',
 	:label_text => 'consent date:' %>
+<%#	:class => 'datepicker', %>
 <%= f.wrapped_collection_select :document_version_id,
 	DocumentVersion.type1, :id, :to_s, :include_blank => true,
 	:label_text => 'consent version:' %>
