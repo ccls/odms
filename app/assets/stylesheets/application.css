@@ -1,6 +1,14 @@
 
 /* Interesting info.  @imports must be first */
+/*
 @import url('menus.css');
+*/
+/*
+	Include it via manifesting instead?
+*/
+/*
+ *= require ./menus.css
+*/
 
 body {
 	padding:0;
