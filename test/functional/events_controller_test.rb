@@ -26,8 +26,8 @@ class EventsControllerTest < ActionController::TestCase
 	assert_no_access_with_login({ :logins => non_site_readers, 
 		:actions => [:show] })
 	assert_no_access_without_login
-	assert_access_with_https
-	assert_no_access_with_http
+#	assert_access_with_https
+#	assert_no_access_with_http
 
 	#	no study_subject_id
 	assert_no_route(:get,:index)

@@ -25,7 +25,12 @@ rake app:users:add_default
 rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
 
 
-#	gotta add document_versions.csv somewhere
+
+#
+#			gotta add document_versions.csv somewhere
+#
+
+
 
 
 #	Dump database table descriptions
@@ -35,8 +40,6 @@ rake db:describe
 
 == Production check
 
-after going to production ...
-* make sure ssl / https is being forced.
 
 
 
@@ -58,13 +61,11 @@ after going to production ...
 No more ActiveRecord::Error and therefore no error :type which destroys my test method
 No more f.error_messages
 
-Our Context\[...\] model causes this ...
+Our Context \[ ... \] model method causes this ...
 ActionView::Template::Error: undefined method `[]' for ActionView::Context:Module
 Added \:\: prefix where I use it to see if makes a difference
 
 Rewrite my custom validations
-
-ssl/https implementation very different and seemingly untestable
 
 CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
 
@@ -72,6 +73,7 @@ json default output format no longer has the initial root key.
 config.active_record.include_root_in_json = false
 
 default_scopes take precedence over the request? seems backwards
+DO NOT use default scopes.
 
 
 
@@ -132,11 +134,10 @@ PRIORITY
 * fix all integration test "sleep" issues
 
 * remove all method_missings from app and write explicit ones
-  * wrapped_* ( helper and form builder )
   * may_*_required
   * create_* ( if possible )
 
-* don't create in tests unless necessary.  just build.
+* don't create database record in tests unless necessary.  just build.
 
 * reenable raising mass assignment error in environments/test.rb
 * controllers now raises MassAssignmentSecurity::Error
