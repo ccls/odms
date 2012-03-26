@@ -8,8 +8,15 @@ namespace :db do
 #			File.open("#{RAILS_ROOT}/db/#{table_name}.yml", 'w') do |file|
 			File.open("#{Rails.root}/db/#{table_name}.yml", 'w') do |file|
 #				data = table_name.singularize.capitalize.constantize.find(
-				data = table_name.singularize.classify.constantize.find(
-					:all).collect(&:attributes)
+#				data = table_name.singularize.classify.constantize.find(
+#					:all).collect(&:attributes)
+#	Added unscoped to break any default scope and sort by id to add some order.
+#	Doesn't seem to actually work though.  Still not sorted properly.
+#	Cause the result is an unordered hash. Bummer
+#	Still use unscoped, just in case there is a default scope with a limit.
+#	
+				data = table_name.singularize.classify.constantize.unscoped.order(
+					'id asc').collect(&:attributes)
 				file.write data.inject({}) { |hash, record|
 					record.delete('created_at')
 					record.delete('updated_at')

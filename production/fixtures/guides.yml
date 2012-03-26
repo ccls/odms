@@ -1,73 +1,5 @@
 --- 
-guides_1: 
-  action: index
-  controller: study_subjects
-  id: 1
-  body: |
-    Click on any childID to see details.
-    
-    *Download*: The list displayed can be downloaded and opened in Excel.
-    
-    *IMPORTANT: This is restricted data.  Data may only be downloaded onto CCLS systems and must be stored on the R: drive.*
-    
-    *Sorting*: Sort subjects by clicking on the column name.  The first click sorts in ascending order.  Click a second time to change to descending order.
-    
-    *Searching*: To find a subject, enter all or part of their first name, last name, childid or patid into the text box at the top of the list and press "find."  Note: the list of results will include any records that match the search text in any of the four fields.  That is, entering 938 will display subjects with childIDs of 938, 11938, 9381 as well as studyIDs of 938-C-0, 938-4-1, 938-5-1, 1938-C-0, etc.  Similarly, entering "David" will show all David's, Davidof's, Davidson's, etc.
-
-guides_5: 
-  action: edit
-  controller: study_subjects
-  id: 5
-  body: "Addresses and phone numbers are edited on the \"Address/Contact\" screen.\r\n\
-    \r\n\
-    Consent information is modified on the \"Eligibility/Enrollments\" screen.\r\n\
-    \r\n\
-    To access the menu bar to go to those screens, exit this one by pressing the back button to cancel or pressing Save if you have made changes.  "
-guides_4: 
-  action: edit
-  controller: phone_numbers
-  id: 4
-  body: |-
-    CCLS does not maintain a phone number history.  Only current phone numbers are kept in the system.
-    
-    Consequently, any changes to this phone number are destructive.  That is, you will lose the previous number that was listed.
-guides_7: 
-  action: show
-  controller: patients
-  id: 7
-  body: "Hospital/Medical information exists for case subjects only.  \r\n\
-    \r\n\
-    To find medical data for a control's associated case subject, click on \"Related Subjects\" at left and click on the case subject listed there.  Once in the case subject's record, you can navigate to their hospital/medical screen for more information.\r\n\
-    \r\n\
-    For patients...\r\n\
-    \r\n\
-    *Admit/Reference Date*\r\n\
-    Only Case Subjects have an Admit Date.  However, this date is used as a point of reference for many study operations regardless of subject type so a Reference Date exists for all subjects.  Admit date and Reference date are always identical.\r\n\
-    \r\n\
-    *Diagnosis Date*\r\n\
-    Diagnosis date is provided during medical record abstracting.  It may or may not be the same as the admit date.  "
-guides_3: 
-  action: index
-  controller: guides
-  id: 3
-  body: This is the guides / index
-guides_6: 
-  action: index
-  controller: contacts
-  id: 6
-  body: |-
-    A subject may have multiple current addresses and phone numbers to accommodate work, mailing and residential information.
-    
-    New addresses and phone numbers may be added by clicking the "add new" link under the last item listed in each section. 
-    
-    Corrections to current addresses and phone numbers may be made by clicking the edit link to their right. 
-    
-    *Note:* Although the system maintains a history of addresses, edits to modify current records are destructive -- that is, *we do not keep a history of the old information once it has been changed*
-    
-    Addresses in the history are not editable in this system.  If a correction must be made to an address that is not current, please notify a system Administrator.
 guides_22: 
-  action: create
-  controller: waivereds
   id: 22
   body: |-
     Depending upon whether the referring hospital has an IRB-waiver or not, you will see one of two versions of Rapid Ascertainment Form on this screen.  The one displayed should match the one received from the hospital.  If not, please notify the Study Coordinator that they don't match before continuing.
@@ -77,9 +9,19 @@ guides_22:
     The RAF specifies fields that are required to be provided by the hospital.  The red asterisks on this page match those on the RAF.  
     
     However, ODMS does not necessarily require that all of the data be available in order to create a subject.  If you have any question because required data is missing from the RAF, please see the Study Coordinator.  Otherwise, the system will allow you to create a record with some missing required information.
-guides_23: 
+  action: create
+  controller: waivereds
+guides_27: 
+  id: 27
+  body: |-
+    Please enter the study ID using this format:  
+    
+         0382-C-0, 1847-6-2, etc.
+    
+    All non-mother subjects are assigned study IDs composed of PatID, subject Type and the subject's OrderNo.  They are assigned when new subjects are created and can be found in the header of the subject's information pages here in ODMS.
   action: new
-  controller: nonwaivereds
+  controller: receive_samples
+guides_23: 
   id: 23
   body: |-
     Depending upon whether the referring hospital has an IRB-waiver or not, you will see one of two versions of Rapid Ascertainment Form on this screen.  The one displayed should match the one received from the hospital.  If not, please notify the Study Coordinator that they don't match before continuing.
@@ -89,9 +31,9 @@ guides_23:
     The RAF specifies fields that are required to be provided by the hospital.  The red asterisks on this page match those on the RAF.  
     
     However, ODMS does not necessarily require that all of the data be available in order to create a subject.  If you have any question because required data is missing from the RAF, please see the Study Coordinator.  Otherwise, the system will allow you to create a record with some missing required information.
-guides_24: 
-  action: create
+  action: new
   controller: nonwaivereds
+guides_24: 
   id: 24
   body: |-
     Depending upon whether the referring hospital has an IRB-waiver or not, you will see one of two versions of Rapid Ascertainment Form on this screen.  The one displayed should match the one received from the hospital.  If not, please notify the Study Coordinator that they don't match before continuing.
@@ -101,9 +43,9 @@ guides_24:
     The RAF specifies fields that are required to be provided by the hospital.  The red asterisks on this page match those on the RAF.  
     
     However, ODMS does not necessarily require that all of the data be available in order to create a subject.  If you have any question because required data is missing from the RAF, please see the Study Coordinator.  Otherwise, the system will allow you to create a record with some missing required information.
+  action: create
+  controller: nonwaivereds
 guides_20: 
-  action: edit
-  controller: enrollments
   id: 20
   body: |-
     *is candidate?* -- was this subject part of a pool of subjects identified as subjects to evaluate for participation in this study
@@ -121,9 +63,9 @@ guides_20:
     *completed?* -- study participant completed all study requirements.
     
     *Notes* -- any other information related  to eligibility and participation in the study that CCLS would like to keep.
+  action: edit
+  controller: enrollments
 guides_25: 
-  action: show
-  controller: consents
   id: 25
   body: |-
     Eligibility & Consent data are related to the subject's participation in the larger CCLS Leukemia study as a whole.  For information on eligibility or consent to participate in a later sub-study (e.g., EMF, Home Exposures, etc.), please refer to the Subject's Enrollments page.
@@ -136,9 +78,9 @@ guides_25:
     
     *Consent Opt-Outs*
     Different hospitals have different consent opt-outs in their consent forms.  Only opt-outs from the consent form signed by the subject's parent or guardian should be entered.
-guides_26: 
-  action: edit
+  action: show
   controller: consents
+guides_26: 
   id: 26
   body: |-
     *Eligibility*
@@ -149,18 +91,84 @@ guides_26:
     
     *Consent Opt-Outs*
     Different hospitals have different consent opt-outs in their consent forms.  Only answer the opt-outs on the consent form signed by the subject's parent or guardian.
+  action: edit
+  controller: consents
 guides_21: 
-  action: index
-  controller: bc_requests
   id: 21
   body: |
     The subjects listed on this page are those subjects whose data was sent to USC for live birth record lookup and for which we have not yet received live birth record data.
     
     Editing any of these records allows you to change their status (to "complete," for example) or to add miscellaneous Notes related to the request.
 
-guides_19: 
-  action: show
+  action: index
+  controller: bc_requests
+guides_1: 
+  id: 1
+  body: |
+    Click on any childID to see details.
+    
+    *Download*: The list displayed can be downloaded and opened in Excel.
+    
+    *IMPORTANT: This is restricted data.  Data may only be downloaded onto CCLS systems and must be stored on the R: drive.*
+    
+    *Sorting*: Sort subjects by clicking on the column name.  The first click sorts in ascending order.  Click a second time to change to descending order.
+    
+    *Searching*: To find a subject, enter all or part of their first name, last name, childid or patid into the text box at the top of the list and press "find."  Note: the list of results will include any records that match the search text in any of the four fields.  That is, entering 938 will display subjects with childIDs of 938, 11938, 9381 as well as studyIDs of 938-C-0, 938-4-1, 938-5-1, 1938-C-0, etc.  Similarly, entering "David" will show all David's, Davidof's, Davidson's, etc.
+
+  action: index
   controller: study_subjects
+guides_5: 
+  id: 5
+  body: "Addresses and phone numbers are edited on the \"Address/Contact\" screen.\r\n\
+    \r\n\
+    Consent information is modified on the \"Eligibility/Enrollments\" screen.\r\n\
+    \r\n\
+    To access the menu bar to go to those screens, exit this one by pressing the back button to cancel or pressing Save if you have made changes.  "
+  action: edit
+  controller: study_subjects
+guides_4: 
+  id: 4
+  body: |-
+    CCLS does not maintain a phone number history.  Only current phone numbers are kept in the system.
+    
+    Consequently, any changes to this phone number are destructive.  That is, you will lose the previous number that was listed.
+  action: edit
+  controller: phone_numbers
+guides_7: 
+  id: 7
+  body: "Hospital/Medical information exists for case subjects only.  \r\n\
+    \r\n\
+    To find medical data for a control's associated case subject, click on \"Related Subjects\" at left and click on the case subject listed there.  Once in the case subject's record, you can navigate to their hospital/medical screen for more information.\r\n\
+    \r\n\
+    For patients...\r\n\
+    \r\n\
+    *Admit/Reference Date*\r\n\
+    Only Case Subjects have an Admit Date.  However, this date is used as a point of reference for many study operations regardless of subject type so a Reference Date exists for all subjects.  Admit date and Reference date are always identical.\r\n\
+    \r\n\
+    *Diagnosis Date*\r\n\
+    Diagnosis date is provided during medical record abstracting.  It may or may not be the same as the admit date.  "
+  action: show
+  controller: patients
+guides_3: 
+  id: 3
+  body: This is the guides / index
+  action: index
+  controller: guides
+guides_6: 
+  id: 6
+  body: |-
+    A subject may have multiple current addresses and phone numbers to accommodate work, mailing and residential information.
+    
+    New addresses and phone numbers may be added by clicking the "add new" link under the last item listed in each section. 
+    
+    Corrections to current addresses and phone numbers may be made by clicking the edit link to their right. 
+    
+    *Note:* Although the system maintains a history of addresses, edits to modify current records are destructive -- that is, *we do not keep a history of the old information once it has been changed*
+    
+    Addresses in the history are not editable in this system.  If a correction must be made to an address that is not current, please notify a system Administrator.
+  action: index
+  controller: contacts
+guides_19: 
   id: 19
   body: |-
     *Editors*
@@ -174,9 +182,9 @@ guides_19:
     **Admit or Reference Date** - click on the Hospital/Medical submenu of case subject (For control subjects, reference date is modified on the Hospital/Medical screen of the related case.  Go to the Related Subject screen and navigate to the controls associated case subject and make the change there.)
     
     **all other data** - click the edit button on this screen.
-guides_14: 
   action: show
-  controller: samples
+  controller: study_subjects
+guides_14: 
   id: 14
   body: |-
     **Subjects** -- all candidate CCLS study participants considered for participation in the Home Exposures study.  This section is where basic subject information can be found (e.g., addresses, DOB, eligibility and consent info., etc.
@@ -186,9 +194,9 @@ guides_14:
     **Samples** -- dust samples collected as part of the Home Exposures study are managed in this section.  The landing page only shows subjects who have completed the Interview.
     
     **Follow up** -- Track gift cards, issue thank you letters, etc.  Only subjects who have completed both the interview and have sent in dust samples appear on the landing page for this section.
+  action: show
+  controller: samples
 guides_13: 
-  action: edit
-  controller: guides
   id: 13
   body: |
     If you have any questions about the controller or action name to enter, contact Magee or Jake.
@@ -202,9 +210,9 @@ guides_13:
     
     Controller names are usually be found in the URL.  The are most often plural nouns and are often found in the last section before (e.g. *subjects*/new, *subjects*/3/edit, etc. or the last section itself (e.g., /*subjects*)
 
+  action: edit
+  controller: guides
 guides_11: 
-  action: show
-  controller: enrollments
   id: 11
   body: |-
     *is candidate?* -- was this subject part of a pool of subjects identified as subjects to evaluate for participation in this study
@@ -222,14 +230,14 @@ guides_11:
     *completed?* -- study participant completed all study requirements.
     
     *Notes* -- any other information related  to eligibility and participation in the study that CCLS would like to keep.
-guides_12: 
-  action: index
+  action: show
   controller: enrollments
+guides_12: 
   id: 12
   body: enrollments stuff
+  action: index
+  controller: enrollments
 guides_18: 
-  action: new
-  controller: addressings
   id: 18
   body: |-
     **What does "don't know" mean?**  Use don't know when you have specifically reviewed hard copy and other CCLS documentation and have determined that we don't have the answer to the question.  Otherwise, leave the response blank.
@@ -263,9 +271,9 @@ guides_18:
     **Verified?:**  If the address has been verified by some mechanism, indicate that it has by checking this box and providing specifics.  Examples: "USPS address service card received," "interviewer confirmed address with respondent," etc.
     
     **Current address:**  A respondent may have more than one current address.  However, that is to permit tracking of a current residence, current mailing address, current work address, etc.  If a respondent changes residence, however, be sure to change "current address?" to no for the previous address.
-guides_17: 
-  action: edit
+  action: new
   controller: addressings
+guides_17: 
   id: 17
   body: |-
     **What does "don't know" mean?**  Use don't know when you have specifically reviewed hard copy and other CCLS documentation and have determined that we don't have the answer to the question.  Otherwise, leave the response blank.
@@ -299,3 +307,5 @@ guides_17:
     **Verified?:**  If the address has been verified by some mechanism, indicate that it has by checking this box and providing specifics.  Examples: "USPS address service card received," "interviewer confirmed address with respondent," etc.
     
     **Current address:**  A respondent may have more than one current address.  However, that is to permit tracking of a current residence, current mailing address, current work address, etc.  If a respondent changes residence, however, be sure to change "current address?" to no for the previous address.
+  action: edit
+  controller: addressings
