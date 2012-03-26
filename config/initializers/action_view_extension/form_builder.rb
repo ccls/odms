@@ -186,6 +186,35 @@ content.html_safe
 #			end
 #		end
 
+
+#	This way just raises errors
+#	ArgumentError: wrong number of arguments (0 for 1)
+#		%w( adna_select date_text_field hour_select meridiem_select minute_select sex_select
+#				yndk_select ynodk_select ynrdk_select ).each do |unwrapped_method_name|
+#class_eval <<EOF
+#			def wrapped_#{unwrapped_method_name}(*args, &block)
+#				method      = args[0]
+#				content = @template.field_wrapper(method,:class => #{unwrapped_method_name}) do
+#					s = if respond_to?(unwrapped_method_name)
+#						options    = args.detect{|i| i.is_a?(Hash) }
+#						label_text = options.delete(:label_text) unless options.nil?
+#						if #{unwrapped_method_name} == 'check_box'
+#							send("#{unwrapped_method_name}",*args,&block) <<
+#							self.label( method, label_text )
+#						else
+#							self.label( method, label_text ) <<
+#							send("#{unwrapped_method_name}",*args,&block)
+#						end
+#					else
+#						send("_wrapped_#{unwrapped_method_name}",*args,&block)
+#					end
+#					s << (( block_given? )? @template.capture(&block) : '')
+#				end
+#				content.html_safe
+#			end
+#EOF
+#		end
+
 	end	#	module InstanceMethods
 
 end
