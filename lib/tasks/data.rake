@@ -91,6 +91,20 @@ namespace :data do
 		else
 			"."
 		end
+#
+#	redefine the to_xs method. This should be unnecessary
+#	if we upgrade ruby from 1.8.7 to 1.9
+#
+  class String
+    # XML escaped version of to_s. When <tt>escape</tt> is set to false
+    # the CP1252 fix is still applied but utf-8 characters are not
+    # converted to character entities.
+    def to_xs(escape=true)
+      unpack('U*').map {|n| n.xchr(escape)}.join # ASCII, UTF-8
+    rescue
+      unpack('C*').map {|n| n.xchr}.join # ISO-8859-1, WIN-1252
+    end
+  end
 		%w( project enrollment study_subject 
 				patient phone_number address addressing ).each do |model|
 			puts "Exporting #{model.pluralize} ..."
@@ -101,3 +115,30 @@ namespace :data do
 
 end	#	namespace :data do
 end	#	namespace :app do
+#
+#	Somewhere along the line someone, hpricot I believe, redefines to_xs
+#	which raises ...
+#	ArgumentError: wrong number of arguments (1 for 0)
+#		from /Library/Ruby/Gems/1.8/gems/builder-3.0.0/lib/builder/xmlbase.rb:135:in `to_xs'
+#		from /Library/Ruby/Gems/1.8/gems/builder-3.0.0/lib/builder/xmlbase.rb:135:in `_escape'
+#		from /Library/Ruby/Gems/1.8/gems/builder-3.0.0/lib/builder/xmlbase.rb:140:in `_escape_quote'
+#	
+#	I can't find the redefinition in the code, but it could be compiled.
+#
+#	If we simply redefine it again back to the way it is in Builder 3.0.0
+#
+#	/usr/lib/ruby/user-gems/1.8/gems/builder-3.0.0/lib/builder/xchar.rb
+#
+#	Putting this here actually causes Builder to complain,
+#	however, putting it in the rake task seems to work! Yay!
+#
+#  class String
+#    # XML escaped version of to_s. When <tt>escape</tt> is set to false
+#    # the CP1252 fix is still applied but utf-8 characters are not
+#    # converted to character entities.
+#    def to_xs(escape=true)
+#      unpack('U*').map {|n| n.xchr(escape)}.join # ASCII, UTF-8
+#    rescue
+#      unpack('C*').map {|n| n.xchr}.join # ISO-8859-1, WIN-1252
+#    end
+#  end
