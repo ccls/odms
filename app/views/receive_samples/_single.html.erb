@@ -46,8 +46,9 @@
 <p>In Rails 3, Year, Month and Day are required.</p>
 <p>Added sent_to_subject_on as is required in chronology. Change to sent_to_subject_at datetime like the others?</p>
 
+<%#	:class => 'datepicker',  unneeded as helper adds it %>
+
 <%= f.wrapped_date_text_field :sent_to_subject_on,
-	:class => 'datepicker',
 	:label_text => 'Sent to Subject on:' %>
 
 <%= f.wrapped_datetime_select :collected_at,
