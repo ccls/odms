@@ -6,11 +6,14 @@ module ActionControllerExtension::Routing
 
 	module ClassMethods
 
-#		def assert_route
-#		end
-
 		def assert_no_route(verb,action,args={})
 			test "#{brand}no route to #{verb} #{action} #{args.inspect}" do
+
+#				if Rails.application.config.assets.enabled
+				if Odms::Application.config.assets.enabled
+					puts "\n-No valid test for this with the assets pipeline enabled just yet."
+					pending
+
 #
 #	Apparently, when using the asset pipeline, this routing error
 #	will not get raised.  I don't know why just yet.  The request
@@ -23,18 +26,18 @@ module ActionControllerExtension::Routing
 #
 #	Perhaps its is better to just search for the route?
 #
-pending	#	TODO
+#pending	#	TODO
 #puts "#{[verb,action,args].join(', ')}"
 #
-#	wrap this in a condition?
-#
-
-#	if Rails.application.config.assets.enabled
-#		pending
-#	else
-
-#				assert_raise(ActionController::RoutingError){
-#					send(verb,action,args)
+#	enabled asset pipeline
+#	HOWEVER, now, for whatever reason, all of my expected 
+#		ActionController::RoutingError tests fail as the routes
+#		exists?  I'm confused as to why that should happen.
+#		And its not like the request is sent to some assets controller
+#		or even my pages controller catch.  It goes to the
+#		associated controller!!!!
+#	Fortunately, this does not appear to be the case in reality.
+#	Non-existant routes are still non-existant, but not in testing
 #
 #	Before asset pipeline, it never made it this far ...
 #
@@ -50,13 +53,8 @@ pending	#	TODO
 #		ActionController::RoutingError: No route matches 
 #			{:controller=>"addressings", :action=>"destroy"}
 #
-#
-#
-#				}
-#
 #Rails.application.routes.recognize_path(
 #	'/addressings',{:method => verb})
-#
 #
 #	actually I'd want an assert_not_recognizes, but it doesn't exist
 #
@@ -64,7 +62,18 @@ pending	#	TODO
 #	{:method => verb})
 #assert_recognizes({:controller => 'addressings', :action => :destroy},
 #	{:method => :delete})
+#
 
+				else
+					#	In rails 2 and before enabling the assets pipeline this worked perfectly.
+#					assert_raise(ActionController::RoutingError){
+
+#	raise the error here.  I'm tired and going to bed
+#	514           path, params = @set.formatter.generate(:path_info, named_route, options, recall, PARAMETERIZE)
+
+						send(verb,action,args)
+#					}
+				end
 			end
 		end
 

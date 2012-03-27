@@ -51,27 +51,8 @@ module Odms
 		# parameters by using an attr_accessible or attr_protected declaration.
 		# config.active_record.whitelist_attributes = true
 
-
-
-
-
-#	Don't know exactly what this is about, but it looks for assets
-#	in non-Rails2 places. Don't want to deal with this now.
 		# Enable the asset pipeline
 		config.assets.enabled = true
-
-#	enabled asset pipeline
-#	HOWEVER, now, for whatever reason, all of my expected 
-#		ActionController::RoutingError tests fail as the routes
-#		exists?  I'm confused as to why that should happen.
-#		And its not like the request is sent to some assets controller
-#		or even my pages controller catch.  It goes to the
-#		associated controller!!!!
-#	Fortunately, this does not appear to be the case in reality.
-#	Non-existant routes are still non-existant, but not in testing
-
-
-
 
 #
 #	Dealing with SSL/HTTPS is being dealt with on the web server level
