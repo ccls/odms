@@ -72,9 +72,6 @@ CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
 json default output format no longer has the initial root key.
 config.active_record.include_root_in_json = false
 
-default_scopes take precedence over the request? seems backwards
-DO NOT use default scopes.
-
 
 
 
@@ -99,16 +96,6 @@ DO NOT use default scopes.
 
 == Rails 3 Upgrade TODOs
 
-This is looking good.
-
- def self.no_change_in_query(*args)
-  scoped	#	just return scoped to do nothing apparently
- end
-
-Repeated joins seem to be ignored.  Yay!
-
- \> User.joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).to_sql
- \=> "SELECT `users`.* FROM `users` INNER JOIN `roles_users` ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` ON `roles`.`id` = `roles_users`.`role_id`"
 
 
 PRIORITY
@@ -160,11 +147,8 @@ PRIORITY
 * Keep or Remove HomexOutcome and custom HomeExposure callbacks????
 
 * fix assert_no_route test (doesn't work with assets.enabled)
-
-http://railscasts.com/episodes/202-active-record-queries-in-rails-3
-http://railscasts.com/episodes/215-advanced-queries-in-rails-3
-http://railscasts.com/episodes/239-activerecord-relation-walkthrough
-
+  * perhaps I can temporarily disable the assets pipeline?
+    * No, it doesn't appear so
 
 
 * database access seems MUCH slower in Rails 3.
@@ -177,29 +161,91 @@ http://railscasts.com/episodes/239-activerecord-relation-walkthrough
 
 
 
-These extra attributes are not valid html. They are meant to be used by javascript confirmation, but they are still not valid html.  So, since I'm not using them, I'll replace them with forms like the others.
+* make extract_fixtures_from rake task sort model attributes somehow
+
+
+
+
+
+
+
+
+
+
+
+== Rails 3 Notes
+
+=== Custom Error messaging
+
+Due to our desire to have custom error messages, it was simplest to change the config/locales/en.yml file, which is used for the error messages to change the default format from "%{attribute} %{message}" to just "%{message}" and then add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in the butt, but certainly effective.  That being said, anytime a special error is explicitly added using something like "errors.add(:some_attribute,'my custom message')", the custom message must include the attribute if desired as the system will not add it.  This is actually working quite well.
+
+
+
+=== Don't pass "method => :delete" to link_to anymore
+
+This will create links like ...
 
 <a href="/icf_master_tracker_updates/5806" class="button" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a></td>
 
+which contain a number of extra attributes.  These extra attributes are not valid html. They are meant to be used by javascript confirmation, but they are still not valid html.  So, since I'm not using them, I'll replace these links with forms like the others.
+
+
+=== Record Querying with ActiveRecord Relation and AREL
+
+http://railscasts.com/episodes/202-active-record-queries-in-rails-3
+http://railscasts.com/episodes/215-advanced-queries-in-rails-3
+http://railscasts.com/episodes/239-activerecord-relation-walkthrough
+
+
+This is looking good.
+
+ def self.no_change_in_query(*args)
+  scoped	#	just return scoped to do nothing apparently
+ end
+
+
+Repeated joins seem to be ignored.  Yay!
+
+ \> User.joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).to_sql
+ \=> "SELECT `users`.* FROM `users` INNER JOIN `roles_users` ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` ON `roles`.`id` = `roles_users`.`role_id`"
+
+ def self.with_role_name(role_name=nil)
+  ( role_name.blank? ) ? scoped :
+   joins(:roles).where("roles.name".to_sym => role_name)
+ end
+
+
+=== DO NOT USE DEFAULT_SCOPE
+
+I do not like this as it takes precedence over your search unless you add 'unscoped' to your chain.  It has caused me much grief.  It caused grief with acts_as_list not properly scoping.  It caused gried with my ZipCode limit not destroying all when I told it to destroy_all because it had "limit(10)" as part of its default_scope.  Conclusion.  DO NOT USE DEFAULT_SCOPE.
 
 
 
 
 
-Due to our desire to have custom error messages, it was simplest to change the 
-config/locales/en.yml file, which is used for the error messages to change the 
-default format from "%{attribute} %{message}" to just "%{message}" and then 
-add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in
-the butt, but certainly effective.  That being said, anytime a special error is 
-explicitly added using something like 
-"errors.add(:some_attribute,'my custom message')", the custom message must 
-include the attribute if desired as the system will not add it.
+
+
+
+
 
 
 == Development Notes
 
 As this code is stored in publicly accessible repositories,
 DO NOT UNDER ANY CIRCUMSTANCES PUT ANY REAL SUBJECT DATA IN THE CODE!
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
