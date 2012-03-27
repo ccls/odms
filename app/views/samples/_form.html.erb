@@ -24,12 +24,13 @@
 <%= f.wrapped_date_text_field :sent_to_subject_on,
 	:label_text => 'Sent to Subject on:' %>
 
-<%= f.wrapped_datetime_select :collected_at,
-	:prompt => true,
+<%= f.wrapped_datetime_text_field :collected_at,
 	:label_text => 'Collected at:' %>
 
-<%= f.wrapped_datetime_select :received_by_ccls_at,
-	:prompt => true,
+<%= f.wrapped_datetime_text_field :shipped_at,
+	:label_text => 'Shipped at:' %>
+
+<%= f.wrapped_datetime_text_field :received_by_ccls_at,
 	:label_text => 'Received by CCLS at:' %>
 
 <%# This is too wide to sit on one line %>

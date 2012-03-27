@@ -1,33 +1,49 @@
+#	don't think that this is necessary here, but ...
 require 'active_support/core_ext/object/blank'
+
+#
+#	This is just a modified version of validates_presence_of
+#
 
 module ActiveModel
 
 	# == Active Model Absence Validator
 	module Validations
 		class AbsenceValidator < EachValidator
+
 			def validate(record)
 				[attributes].flatten.each do |attribute|
-#					value = record.send(:read_attribute_for_validation, attribute)
-#	same thing since :read_attribute_for_validation is an alias for :send
-#	which is technically record.send(:send,attribute) which is the same as ...
-
-
-#	TODO
-#	custom validation messages don't seem to be making it through.
-#	i think I need to add something in the locales and pass a symbol that finds the default.
-#	Still not sure
-
-
-					value = record.send(attribute)
-#					record.errors.add(attribute, "is present and must be absent.", options) unless value.blank?
+					value = record.send(:read_attribute_for_validation, attribute)
 					#	associated default error message is in config/locales/en.yml
 					record.errors.add(attribute, :absent, options) unless value.blank?
 				end
 			end
+
+#			def validate(record)
+#				[attributes].flatten.each do |attribute|
+#					value = record.send(:read_attribute_for_validation, attribute)
+#
+##	same thing since :read_attribute_for_validation is an alias for :send
+##	which is technically record.send(:send,attribute) which is the same as ...
+#
+#
+##	TODO
+##	custom validation messages don't seem to be making it through.
+##	i think I need to add something in the locales and pass a symbol that finds the default.
+##	Still not sure
+#
+#
+##					value = record.send(attribute)
+##					record.errors.add(attribute, "is present and must be absent.", options) unless value.blank?
+#					#	associated default error message is in config/locales/en.yml
+#					record.errors.add(attribute, :absent, options) unless value.blank?
+#				end
+#			end
+
 		end
 
 		module HelperMethods
-			# Validates that the specified attributes are not blank (as defined by Object#blank?). Happens by default on save. Example:
+			# Validates that the specified attributes are  blank (as defined by Object#blank?). Happens by default on save. Example:
 			#
 			#	 class Person < ActiveRecord::Base
 			#		 validates_absence_of :first_name
@@ -60,25 +76,3 @@ module ActiveModel
 		end
 	end
 end
-
-
-#
-#	Basically I copied the "presence" validator and inverted it.
-#	Is this better than before?  Doubt it.  Actually seems like a whole lot of extra.
-#	Nevertheless, the old version doesn't seem to work in Rails 3.
-#	Let's see if this one does. I am curious as to what I need to do to load this
-#	as I'm not sure that this'll make it all the way down to ActiveRecord.
-#	Should be obvious and raise a method_missing if it doesn't.
-#
-#	If it does, I'll have to do the same for "complete_date" and "past_date"
-#
-#	Seems to work.
-#
-
-
-
-
-
-
-
-

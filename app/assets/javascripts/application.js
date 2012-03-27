@@ -128,6 +128,12 @@ jQuery(function(){
 		jQuery('.datepicker').datepicker();
 	}
 
+/* try to make sure that the format here is the same in the ruby helper */
+	if( typeof jQuery('.datetimepicker').datetimepicker == 'function' ){
+		jQuery('.datetimepicker').datetimepicker({
+		});
+	}
+
 	jQuery('form a.submit.button').siblings('input[type=submit]').hide();
 
 	jQuery('form a.submit.button').click(function(){

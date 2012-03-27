@@ -25,14 +25,17 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :state, :maximum => 250 )
 
 #	TODO These seem to fail for DateTimes.  Need to check it out.
+
 	assert_requires_complete_date( :sent_to_subject_on, 
-#		:received_by_ccls_at, 
+		:shipped_at, 
+		:received_by_ccls_at, 
 		:sent_to_lab_on,
 		:received_by_lab_on, :aliquotted_on,
-#		:collected_at,
+		:collected_at,
 		:receipt_confirmed_on )
 
 	assert_requires_past_date( :sent_to_subject_on,
+:shipped_at,
 		:received_by_ccls_at,  :sent_to_lab_on,
 		:received_by_lab_on,   :aliquotted_on,
 		:receipt_confirmed_on, :collected_at )

@@ -63,7 +63,12 @@ module ActiveSupportExtension::TestCase
 			scope = options[:scope]
 
 			test "#{brand}should act as list" do
-				model = create_object.class.name
+
+
+#		don't think that this is used anymore
+#				model = create_object.class.name
+
+
 				object = create_object
 				first_position = object.position
 				assert first_position > 0
@@ -118,25 +123,51 @@ module ActiveSupportExtension::TestCase
 			end
 		end
 	
+
 		def assert_requires_complete_date(*attr_names)
+			options = attr_names.extract_options!
+			model = options[:model] || st_model_name
+
 			attr_names.each do |attr_name|
 				test "#{brand}should require a complete date for #{attr_name}" do
 #
-#	Cannot assert that one was created as there may be other errors.
-#	We can only assert that there isn't a not_complete_date error.
-#					assert_difference( "#{model_name}.count", 1 ) do
-						object = create_object( attr_name => "Sept 11, 2001")
-						assert !object.errors.matching?(attr_name,'is not a complete date')
+#	Testing without creating.  Database just too slow.
+#
+					object = model.constantize.new
+					object.send("#{attr_name}=", "Sept 11, 2001")
+					object.valid?		#	could be, but probably isn't
+					assert !object.errors.matching?(attr_name,'is not a complete date')
+
+					object = model.constantize.new
+					object.send("#{attr_name}=", "Sept 2001")
+					assert !object.valid?
+					assert object.errors.matching?(attr_name,'is not a complete date')
+
+					object = model.constantize.new
+					object.send("#{attr_name}=", "9/2001")
+					assert !object.valid?
+					assert object.errors.matching?(attr_name,'is not a complete date')
+
+
+##
+##	Cannot assert that one was created as there may be other errors.
+##	We can only assert that there isn't a not_complete_date error.
+##					assert_difference( "#{model_name}.count", 1 ) do
+#						object = create_object( attr_name => "Sept 11, 2001")
+#						assert !object.errors.matching?(attr_name,'is not a complete date')
+##					end
+##
+#					assert_difference( "#{model_name}.count", 0 ) do
+#						object = create_object( attr_name => "Sept 2010")
+#						assert object.errors.matching?(attr_name,'is not a complete date')
+#					end
+#					assert_difference( "#{model_name}.count", 0 ) do
+#						object = create_object( attr_name => "9/2010")
+#						assert object.errors.matching?(attr_name,'is not a complete date')
 #					end
 #
-					assert_difference( "#{model_name}.count", 0 ) do
-						object = create_object( attr_name => "Sept 2010")
-						assert object.errors.matching?(attr_name,'is not a complete date')
-					end
-					assert_difference( "#{model_name}.count", 0 ) do
-						object = create_object( attr_name => "9/2010")
-						assert object.errors.matching?(attr_name,'is not a complete date')
-					end
+
+
 				end
 			end
 		end

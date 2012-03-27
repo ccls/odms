@@ -85,6 +85,7 @@ module RafTestHelper
 
 #	TODO
 if assigns(:study_subject).errors.count > 0
+puts "\nIn raf_test_helper.  Shouldn't've been any errors."
 puts assigns(:study_subject).errors.inspect
 end
 

@@ -372,6 +372,10 @@ module ApplicationHelper
 		(( date.nil? ) ? '&nbsp;' : date.strftime("%m/%d/%Y")).html_safe
 	end
 
+	def mdyhm(datetime)
+		(( datetime.nil? ) ? '&nbsp;' : datetime.strftime("%m/%d/%Y %H:%M (%Z)")).html_safe
+	end
+
 	def time_mdy(time)
 		(( time.nil? ) ? '&nbsp;' : time.strftime("%I:%M %p %m/%d/%Y")).html_safe
 	end
@@ -401,6 +405,12 @@ module ApplicationHelper
 		object = instance_variable_get("@#{object_name}")
 		_wrapped_spans(object_name,method,options.update(
 			:value => mdy(object.send(method)) ) )
+	end
+
+	def _wrapped_datetime_spans(object_name,method,options={})
+		object = instance_variable_get("@#{object_name}")
+		_wrapped_spans(object_name,method,options.update(
+			:value => mdyhm(object.send(method)) ) )
 	end
 
 	#	This is NOT a form field
@@ -451,7 +461,9 @@ module ApplicationHelper
 #	end
 #	alias_method_chain( :method_missing, :wrapping )	unless respond_to?(:method_missing_without_wrapping)
 
-	%w( spans date_spans yes_or_no_spans yndk_spans ynrdk_spans ynodk_spans adna_spans ).each do |unwrapped_method_name|
+#	%w( spans date_spans yes_or_no_spans yndk_spans ynrdk_spans ynodk_spans adna_spans ).each do |unwrapped_method_name|
+	%w( adna_spans date_spans datetime_spans spans yes_or_no_spans 
+			yndk_spans ynrdk_spans ynodk_spans ).each do |unwrapped_method_name|
 #
 #	Can't define a method that accepts a block with define_method.
 #	I don't think that I need it, so no big deal. For now.

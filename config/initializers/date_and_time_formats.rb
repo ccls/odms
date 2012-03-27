@@ -24,6 +24,8 @@
 #	%Y - Year with century
 #	%Z - Time zone name
 
+Time::DATE_FORMATS[:mdyhm] = "%b %d, %Y %H:%M %p"   # Jan 01, 2009
+
 Time::DATE_FORMATS[:mdy] = "%b %d, %Y"   # Jan 01, 2009
 Time::DATE_FORMATS[:dob] = "%m/%d/%Y"   # 01/01/2009
 Date::DATE_FORMATS[:dob] = "%m/%d/%Y"   # 01/01/2009

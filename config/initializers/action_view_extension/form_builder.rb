@@ -124,6 +124,24 @@ module ActionViewExtension::FormBuilder
 			@template.text_field( object_name, method, options )
 		end
 
+		def datetime_text_field(method, options = {})
+#			format = options.delete(:format) || '%m/%d/%Y %I:%M %p'
+			format = options.delete(:format) || '%m/%d/%Y %H:%M'
+			tmp_value = if options[:value].blank?
+				tmp = self.object.send("#{method}") ||
+				      self.object.send("#{method}_before_type_cast")
+			else
+				options[:value]
+			end
+			begin
+				options[:value] = tmp_value.to_datetime.try(:strftime,format)
+			rescue NoMethodError, ArgumentError
+				options[:value] = tmp_value
+			end
+			options.update(:class => [options[:class],'datetimepicker'].compact.join(' '))
+			@template.text_field( object_name, method, options )
+		end
+
 #		def method_missing_with_field_wrapping(symb,*args, &block)
 #			method_name = symb.to_s
 #			if method_name =~ /^wrapped_(.+)$/
@@ -312,7 +330,8 @@ module ActionViewExtension::FormBuilder
 #	define_method. And no method_missing.
 #
 #	adna_select
-		%w( collection_select date_text_field country_select datetime_select
+		%w( collection_select country_select 
+				datetime_select date_text_field datetime_text_field 
 				grouped_collection_select select sex_select text_area
 				text_field yndk_select ).each do |unwrapped_method_name|
 

@@ -22,14 +22,13 @@
 <%= wrapped_date_spans :sample, :sent_to_subject_on,
 	:label_text => 'Sent to Subject on:' %>
 
-<%#= wrapped_date_spans :sample, :collected_at,
-	:label_text => 'Collected at:' %>
-<%= wrapped_spans :sample, :collected_at,
+<%= wrapped_datetime_spans :sample, :collected_at,
 	:label_text => 'Collected at:' %>
 
-<%#= wrapped_date_spans :sample, :received_by_ccls_at,
-	:label_text => 'Received by CCLS at:' %>
-<%= wrapped_spans :sample, :received_by_ccls_at,
+<%= wrapped_datetime_spans :sample, :shipped_at,
+	:label_text => 'Shipped at:' %>
+
+<%= wrapped_datetime_spans :sample, :received_by_ccls_at,
 	:label_text => 'Received by CCLS at:' %>
 
 <%= wrapped_date_spans :sample, :sent_to_lab_on,

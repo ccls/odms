@@ -5,8 +5,8 @@ class Sample < ActiveRecord::Base
 
 	belongs_to :sample_type
 	belongs_to :organization, :foreign_key => 'location_id'
-	belongs_to :unit
-	has_many :aliquots
+	belongs_to :unit     #	NOTE not yet really used
+	has_many :aliquots   #	NOTE not yet really used
 	belongs_to :project
 	belongs_to :study_subject
 	belongs_to :sample_format
@@ -14,11 +14,17 @@ class Sample < ActiveRecord::Base
 
 	attr_protected :study_subject_id, :study_subject
 
+
+#	TODO I don't beleive that a sample_kit has any meaning anymore. Remove?
 	has_one :sample_kit
 	accepts_nested_attributes_for :sample_kit
 
-	scope :pending,   where( :received_by_ccls_at => nil )
-	scope :collected, where( 'received_by_ccls_at IS NOT NULL' )
+
+
+#	TODO I don't believe that these scopes are actually used anymore. Remove?
+#	scope :pending,   where( :received_by_ccls_at => nil )
+#	scope :collected, where( 'received_by_ccls_at IS NOT NULL' )
+
 
 	validates_presence_of :sample_type_id
 	validates_presence_of :sample_type, :if => :sample_type_id
@@ -45,14 +51,22 @@ class Sample < ActiveRecord::Base
 		:message => "Received by lab on can't be blank if aliquotted on"
 
 	#	NOTE I'm not sure how this validation will work for datetimes.
-	validates_complete_date_for :sent_to_subject_on,   :allow_blank => true
-#	validates_complete_date_for :collected_at,         :allow_blank => true
-#	validates_complete_date_for :received_by_ccls_at,  :allow_blank => true
-	validates_complete_date_for :sent_to_lab_on,       :allow_blank => true
-	validates_complete_date_for :received_by_lab_on,   :allow_blank => true
-	validates_complete_date_for :aliquotted_on,        :allow_blank => true
-	validates_complete_date_for :receipt_confirmed_on, :allow_blank => true
+#
+#	datetimes do seem to validate correctly here,
+#	however my tests do not. 
+#	for some reason the view shows the partial datetime even when the attribute
+#		has been type cast with the holes filled in????
+#
+	validates_complete_date_for :sent_to_subject_on
+	validates_complete_date_for :collected_at
+	validates_complete_date_for :received_by_ccls_at
+	validates_complete_date_for :shipped_at
+	validates_complete_date_for :sent_to_lab_on
+	validates_complete_date_for :received_by_lab_on
+	validates_complete_date_for :aliquotted_on
+	validates_complete_date_for :receipt_confirmed_on
 
+	validates_past_date_for :shipped_at
 	validates_past_date_for :sent_to_subject_on
 	validates_past_date_for :collected_at
 	validates_past_date_for :received_by_ccls_at

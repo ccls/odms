@@ -1,60 +1,92 @@
+#	don't think that this is necessary here, but ...
 require 'active_support/core_ext/object/blank'
+
+#
+#	This is just a modified version of validates_presence_of
+#
+#	I think that this validation inherently is allow_blank => true
+#
 
 module ActiveModel
 
-	# == Active Model Absence Validator
+	# == Active Model Past Date Validator
 	module Validations
 		class PastDateValidator < EachValidator
 			def validate(record)
 				[attributes].flatten.each do |attribute|
-					value = record.send(attribute)
+#					value = record.send(attribute)
+					value = record.send(:read_attribute_for_validation, attribute)
 
-#
-#	Do this differenly for Dates and DateTimes?
-#	How to know what it is when the value is blank?
-#
 					allow_today = ( options.has_key?(:allow_today) ) ? options[:allow_today] : true
 
 					base_date = if value.is_a?(ActiveSupport::TimeWithZone)
-#puts "Comparing as ActiveSupport::TimeWithZone"
+						#puts "Comparing as ActiveSupport::TimeWithZone"
 						( allow_today ) ? Time.zone.now : ( Time.zone.now - 1.day )
 					elsif value.is_a?(DateTime)
-#puts "Comparing as DateTime"
+						#puts "Comparing as DateTime"
 						( allow_today ) ? Time.now : ( Time.now - 1.day )
 					else
-#puts "Comparing as Date"
+						#puts "Comparing as Date"
 						( allow_today ) ? Date.today : Date.yesterday
 					end
-#	usually dates
-#Sample @@ should allow collected_at to be today: Comparing as Date
-#Comparing as Date
-#Comparing as Date
-#Comparing as Date
-#Comparing as ActiveSupport::TimeWithZone
-#Comparing as Date
-#Comparing as Date
-#Comparing as Date
-#Comparing as Date
-#Comparing as Date
-
-
-#
-#	if base_date is a date and value is a DateTime
-#	ArgumentError: comparison of Date with ActiveSupport::TimeWithZone failed
-#
-
-#					if !value.blank? && base_date < value
 					if !value.blank? && value > base_date
-#						record.errors.add(attribute, "is in the future and must be in the past.", options)
 						#	associated default error message is in config/locales/en.yml
 						record.errors.add(attribute, :future_date, options)
 					end
 				end
 			end
+
+#			def validate(record)
+#				[attributes].flatten.each do |attribute|
+##					value = record.send(attribute)
+#					value = record.send(:read_attribute_for_validation, attribute)
+#
+##
+##	Do this differenly for Dates and DateTimes?
+##	How to know what it is when the value is blank?
+##
+#					allow_today = ( options.has_key?(:allow_today) ) ? options[:allow_today] : true
+#
+#					base_date = if value.is_a?(ActiveSupport::TimeWithZone)
+##puts "Comparing as ActiveSupport::TimeWithZone"
+#						( allow_today ) ? Time.zone.now : ( Time.zone.now - 1.day )
+#					elsif value.is_a?(DateTime)
+##puts "Comparing as DateTime"
+#						( allow_today ) ? Time.now : ( Time.now - 1.day )
+#					else
+##puts "Comparing as Date"
+#						( allow_today ) ? Date.today : Date.yesterday
+#					end
+##	usually dates
+##Sample @@ should allow collected_at to be today: Comparing as Date
+##Comparing as Date
+##Comparing as Date
+##Comparing as Date
+##Comparing as ActiveSupport::TimeWithZone
+##Comparing as Date
+##Comparing as Date
+##Comparing as Date
+##Comparing as Date
+##Comparing as Date
+#
+#
+##
+##	if base_date is a date and value is a DateTime
+##	ArgumentError: comparison of Date with ActiveSupport::TimeWithZone failed
+##
+#
+##					if !value.blank? && base_date < value
+#					if !value.blank? && value > base_date
+##						record.errors.add(attribute, "is in the future and must be in the past.", options)
+#						#	associated default error message is in config/locales/en.yml
+#						record.errors.add(attribute, :future_date, options)
+#					end
+#				end
+#			end
 		end
 
 		module HelperMethods
-			# Validates that the specified attributes are not blank (as defined by Object#blank?). Happens by default on save. Example:
+			# Validates that the specified attributes contain a date in the past. Happens by default on save. Example:
 			#
 			#	 class Person < ActiveRecord::Base
 			#		 validates_past_date_for :dob
@@ -87,17 +119,3 @@ module ActiveModel
 		end
 	end
 end
-
-
-#
-#	Basically I copied the "presence" validator and inverted it.
-#	Is this better than before?  Doubt it.  Actually seems like a whole lot of extra.
-#	Nevertheless, the old version doesn't seem to work in Rails 3.
-#	Let's see if this one does. I am curious as to what I need to do to load this
-#	as I'm not sure that this'll make it all the way down to ActiveRecord.
-#	Should be obvious and raise a method_missing if it doesn't.
-#
-#	If it does, I'll have to do the same for "complete_date" and "past_date"
-#
-#	Seems to work.
-#
