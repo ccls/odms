@@ -38,8 +38,6 @@ rake db:describe
 
 
 
-== Production check
-
 
 
 
@@ -193,7 +191,9 @@ which contain a number of extra attributes.  These extra attributes are not vali
 === Record Querying with ActiveRecord Relation and AREL
 
 http://railscasts.com/episodes/202-active-record-queries-in-rails-3
+
 http://railscasts.com/episodes/215-advanced-queries-in-rails-3
+
 http://railscasts.com/episodes/239-activerecord-relation-walkthrough
 
 
@@ -206,8 +206,10 @@ This is looking good.
 
 Repeated joins seem to be ignored.  Yay!
 
- \> User.joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).to_sql
- \=> "SELECT `users`.* FROM `users` INNER JOIN `roles_users` ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` ON `roles`.`id` = `roles_users`.`role_id`"
+ > User.joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).to_sql
+ => "SELECT `users`.* FROM `users` INNER JOIN `roles_users` ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` ON `roles`.`id` = `roles_users`.`role_id`"
+
+
 
  def self.with_role_name(role_name=nil)
   ( role_name.blank? ) ? scoped :
@@ -261,7 +263,7 @@ When validating the presence of associations, validate on foreign key rather tha
  validates_presence_of :project ( will not raise error on project_id so in the view, the project_id selector won't have an error and so won't be highlighted like other errors will be.)
  validates_presence_of :project_id ( will not ensure that an actual project for the given id exists, but will show the error correctly in the view. )
 
- I would like to have a validation that ensures that the _id is legitimate.  I do not think that validates_associated is what I want.  Having the both does what I want, but then the view will show "Project is blank" twice.
+I would like to have a validation that ensures that the _id is legitimate.  I do not think that validates_associated is what I want.  Having the both does what I want, but then the view will show "Project is blank" twice.
 
 
 This seems to work ...
@@ -299,11 +301,11 @@ but I've yet to figure that out.
 
 == Additional files that will be needed
 
- /config/api.yml
+ /config/api.yml ( probably removing )
  /config/database.yml
  /config/initializers/mail.rb
  /config/initializers/secret_token.rb
- /config/s3.yml
+ /config/s3.yml ( will be storing uploads locally )
 
 == Testing requirements
 
@@ -315,16 +317,16 @@ but I've yet to figure that out.
 
 == Notes 
 
- Be advised that some of the integration tests will intermittantly
- fail due to their threaded nature.  I've added several 'sleep 1'
- lines to deal with this, but it isn't always enough.  They will 
- pass if given enough wait time. This is mostly noticed when 
- clicking a link or button and then expecting a change in the
- database.  Sometimes there is none when there should be and
- then the assert_difference fails.  I have changed the 'sleep 1'
- to 'sleep 2' in the places where this commonly happens to 
- try to avoid it.  As this behaviour is intermittant, it is a
- bit difficult to debug.
+Be advised that some of the integration tests will intermittantly
+fail due to their threaded nature.  I've added several 'sleep 1'
+lines to deal with this, but it isn't always enough.  They will 
+pass if given enough wait time. This is mostly noticed when 
+clicking a link or button and then expecting a change in the
+database.  Sometimes there is none when there should be and
+then the assert_difference fails.  I have changed the 'sleep 1'
+to 'sleep 2' in the places where this commonly happens to 
+try to avoid it.  As this behaviour is intermittant, it is a
+bit difficult to debug.
 
 
 Copyright (c) 2011 [Jake Wendt], released under the MIT license
