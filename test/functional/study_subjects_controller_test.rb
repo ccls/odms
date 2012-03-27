@@ -37,9 +37,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 
 	assert_no_access_without_login
 
-#	assert_access_with_https
-#	assert_no_access_with_http
-
 	assert_no_access_with_login(
 		:actions => nil,
 		:suffix => " and invalid id",

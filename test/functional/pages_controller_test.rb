@@ -17,8 +17,6 @@ class PagesControllerTest < ActionController::TestCase
 	end
 
 	with_options :actions => [:show] do |show|
-#		show.assert_access_with_http
-#		show.assert_access_with_https
 		show.assert_access_with_login({
 			:logins => all_test_roles,
 			:skip_show_failure => true })
@@ -28,7 +26,6 @@ class PagesControllerTest < ActionController::TestCase
 	assert_access_with_login({    :logins => site_editors })
 	assert_no_access_with_login({ :logins => non_site_editors })
 	assert_no_access_without_login
-#	assert_no_access_with_http 
 
 	site_editors.each do |cu|
 		#
