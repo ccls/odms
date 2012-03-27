@@ -1,7 +1,23 @@
+class Hash
+	#	From http://snippets.dzone.com/posts/show/5811
+  # Renaming and replacing the to_yaml function so it'll serialize hashes sorted (by their keys)
+  # Original function is in /usr/lib/ruby/1.8/yaml/rubytypes.rb
+  def to_ordered_yaml( opts = {} )
+    YAML::quick_emit( object_id, opts ) do |out|
+      out.map( taguri, to_yaml_style ) do |map|
+        sort.each do |k, v|   # <-- here's my addition (the 'sort')
+          map.add( k, v )
+        end
+      end
+    end
+  end
+end
+
+namespace :app do
 namespace :db do
 
 	desc "Create yml fixtures for given model in database\n" <<
-	     "rake db:extract_fixtures_from pages"
+	     "rake app:db:extract_fixtures_from pages"
 	task :extract_fixtures_from => :environment do
 		me = $*.shift
 		while( table_name = $*.shift )
@@ -20,9 +36,10 @@ namespace :db do
 				file.write data.inject({}) { |hash, record|
 					record.delete('created_at')
 					record.delete('updated_at')
-					hash["#{table_name}_#{record['id']}"] = record
+					#	so that it is really string sortable, add leading zeros
+					hash["#{table_name}_#{sprintf('%03d',record['id'])}"] = record
 					hash
-				}.to_yaml
+				}.to_ordered_yaml
 			end
 		end
 		exit
@@ -58,4 +75,5 @@ namespace :db do
 		end
 	end
 
-end
+end	#	namespace :db do
+end	#	namespace :app do

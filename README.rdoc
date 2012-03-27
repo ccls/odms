@@ -117,6 +117,8 @@ PRIORITY
   * may just be when there are errors.  unfortunately it can leave a mess.
   * hmmm
 
+* move config/initializers/common_lib.rb # brand into tests where it belongs
+
 * rake test:coverage
 
 * resolve all pending tests
