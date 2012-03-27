@@ -28,3 +28,7 @@ class ActionController::TestCase
 #	setup :turn_https_on
 
 end
+
+def brand	#	for auto-generated tests
+	"@@ "
+end
