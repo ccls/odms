@@ -13,7 +13,7 @@
 
 
 
-#!/usr/bin/env ruby
+##!/usr/bin/env ruby
 
 #gem 'activesupport', '~> 2'
 #require 'active_support/core_ext'	#	for alias_method_chain
@@ -22,16 +22,16 @@
 #
 #class Autotest
 #
-#	def run_tests_with_correct_unit_diff
-#		#http://syntatic.wordpress.com/2009/08/13/jruby-1-3-0-with-autotest/
-#		self.unit_diff = if RUBY_PLATFORM == 'java'
-#			"unit_diff"
-#		else
-#			"unit_diff -u"
-#		end
-#		run_tests_without_correct_unit_diff
-#	end
-#	alias_method_chain :run_tests, :correct_unit_diff
+##	def run_tests_with_correct_unit_diff
+##		#http://syntatic.wordpress.com/2009/08/13/jruby-1-3-0-with-autotest/
+##		self.unit_diff = if RUBY_PLATFORM == 'java'
+##			"unit_diff"
+##		else
+##			"unit_diff -u"
+##		end
+##		run_tests_without_correct_unit_diff
+##	end
+##	alias_method_chain :run_tests, :correct_unit_diff
 #
 #	def rerun_all_tests_with_flag
 #		#

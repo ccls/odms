@@ -329,12 +329,12 @@ module ActionViewExtension::FormBuilder
 #	Dynamically defined using a class_eval rather than
 #	define_method. And no method_missing.
 #
-#	adna_select
-		%w( collection_select country_select 
+		%w( adna_select collection_select country_select 
 				datetime_select date_text_field datetime_text_field 
+				hour_select minute_select meridiem_select
 				grouped_collection_select select sex_select text_area
-				text_field yndk_select ).each do |unwrapped_method_name|
-
+				text_field yndk_select ynodk_select ynrdk_select 
+			).each do |unwrapped_method_name|
 class_eval %Q"
 		def wrapped_#{unwrapped_method_name}(*args,&block)
 			method      = args[0]
