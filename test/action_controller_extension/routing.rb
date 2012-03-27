@@ -13,6 +13,12 @@ module ActionControllerExtension::Routing
 				if Odms::Application.config.assets.enabled
 					puts "\n-No valid test for this with the assets pipeline enabled just yet."
 					pending
+#Odms::Application.config.assets.enabled = false
+#	doesn't un-enable 
+#					assert_raise(ActionController::RoutingError){
+#						send(verb,action,args)
+#					}
+#Odms::Application.config.assets.enabled = true
 
 #
 #	Apparently, when using the asset pipeline, this routing error
@@ -66,13 +72,13 @@ module ActionControllerExtension::Routing
 
 				else
 					#	In rails 2 and before enabling the assets pipeline this worked perfectly.
-#					assert_raise(ActionController::RoutingError){
+					assert_raise(ActionController::RoutingError){
 
 #	raise the error here.  I'm tired and going to bed
 #	514           path, params = @set.formatter.generate(:path_info, named_route, options, recall, PARAMETERIZE)
 
 						send(verb,action,args)
-#					}
+					}
 				end
 			end
 		end
