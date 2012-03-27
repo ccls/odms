@@ -1,40 +1,40 @@
 = CCLS Operations and Data Management System
 
 
-#	Starting from scratch?
-
-#	drop existing dev db
-mysqladmin -u root drop odms_development
-
-#	create new empty dev db
-mysqladmin -u root create odms_development
-
-rake db:migrate
-
-#	Install most test fixtures in database
-rake app:update
-
-#	OR Install zip_code and county csv fixtures in database (takes a while)
-#	( this will do app:update as well )
-rake app:full_update
-
-#	Add expected users and roles (after roles are loaded)
-rake app:users:add_default
-
-#	Install "production" pages and guides (as of Mar 12, 2012)
-rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
-
-
-
-#
-#			gotta add document_versions.csv somewhere
-#
-
-
-
-
-#	Dump database table descriptions
-rake db:describe
+ #	Starting from scratch?
+ 
+ #	drop existing dev db
+ mysqladmin -u root drop odms_development
+ 
+ #	create new empty dev db
+ mysqladmin -u root create odms_development
+ 
+ rake db:migrate
+ 
+ #	Install most test fixtures in database
+ rake app:update
+ 
+ #	OR Install zip_code and county csv fixtures in database (takes a while)
+ #	( this will do app:update as well )
+ rake app:full_update
+ 
+ #	Add expected users and roles (after roles are loaded)
+ rake app:users:add_default
+ 
+ #	Install "production" pages and guides (as of Mar 12, 2012)
+ rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
+ 
+ 
+ 
+ #
+ #			gotta add document_versions.csv somewhere
+ #
+ 
+ 
+ 
+ 
+ #	Dump database table descriptions
+ rake db:describe
 
 
 
@@ -98,7 +98,7 @@ config.active_record.include_root_in_json = false
 
 PRIORITY
 
-* live_birth_data_update and icf_master_tracker_updates aren't always being deleted
+* live_birth_data_update and icf_master_tracker_updates aren't always being deleted in testing
   * may just be when there are errors.  unfortunately it can leave a mess.
   * hmmm
 
@@ -129,8 +129,8 @@ PRIORITY
   * add a rescue to ignore it
   * only raises in dev and test, so no rescue
 	*	I could simply remove this ... but seems scandalous
-	# Raise exception on mass assignment protection for Active Record models
-	config.active_record.mass_assignment_sanitizer = :strict
+	* Raise exception on mass assignment protection for Active Record models
+	* config.active_record.mass_assignment_sanitizer = :strict
 	* I'd rather just silently ignore, but probably shouldn't
 
 * datetime still accept partial? was some mention of error when not complete
