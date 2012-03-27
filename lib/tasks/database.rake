@@ -6,7 +6,18 @@ class Hash
     YAML::quick_emit( object_id, opts ) do |out|
       out.map( taguri, to_yaml_style ) do |map|
         sort.each do |k, v|   # <-- here's my addition (the 'sort')
+#	The above sort, sorts the main yaml 'keys' or fixture labels.
+#	k is a fixture label here, eg. "pages_001"
+#	v is the attributes hash
+#	The hash attributes are NOT sorted, unfortunately.
+#	Still working on that one.
           map.add( k, v )
+
+
+#pages_001:
+#  position: 1
+#  menu_en: CCLS
+#  body_es:
         end
       end
     end
