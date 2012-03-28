@@ -159,12 +159,6 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_homex_outcome(options={})
-#		homex_outcome = Factory.build(:homex_outcome,options)
-#		homex_outcome.save
-#		homex_outcome
-#	end
-
 	def create_complete_homex_outcome(options={})
 		s = Factory(:study_subject,options[:study_subject]||{})
 		p = Project.find_or_create_by_key('HomeExposures')

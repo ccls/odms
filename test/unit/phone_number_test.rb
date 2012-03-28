@@ -219,12 +219,6 @@ class PhoneNumberTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_phone_number(options={})
-#		phone_number = Factory.build(:phone_number,options)
-#		phone_number.save
-#		phone_number
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_phone_number
 

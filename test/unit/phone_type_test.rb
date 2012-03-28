@@ -23,12 +23,6 @@ class PhoneTypeTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_phone_type(options={})
-#		phone_type = Factory.build(:phone_type,options)
-#		phone_type.save
-#		phone_type
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_phone_type
 

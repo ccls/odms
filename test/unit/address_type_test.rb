@@ -24,13 +24,6 @@ class AddressTypeTest < ActiveSupport::TestCase
 
 protected
 
-#	#	create_object is called from within the common class tests
-#	def create_object(options={})
-#		object = Factory.build(:address_type,options)
-#		object.save
-#		object
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_address_type
 

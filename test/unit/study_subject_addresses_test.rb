@@ -84,13 +84,6 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 
 protected
 
-#	#	create_object is called from within the common class tests
-#	def create_object
-#		study_subject = Factory.build(:study_subject)
-#		study_subject.save
-#		study_subject
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_study_subject
 

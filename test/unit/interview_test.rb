@@ -276,12 +276,6 @@ class InterviewTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_interview(options={})
-#		interview = Factory.build(:interview,options)
-#		interview.save
-#		interview
-#	end
-
 	def create_interview_with_times(options={})
 		ioptions = HashWithIndifferentAccess.new({
 			:began_on => Date.parse('May 12, 2000'),

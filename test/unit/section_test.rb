@@ -25,12 +25,6 @@ class SectionTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_section(options={})
-#		section = Factory.build(:section,options)
-#		section.save
-#		section
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_section
 

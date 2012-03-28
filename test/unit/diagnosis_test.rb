@@ -50,12 +50,6 @@ class DiagnosisTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_diagnosis(options={})
-#		diagnosis = Factory.build(:diagnosis,options)
-#		diagnosis.save
-#		diagnosis
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_diagnosis
 

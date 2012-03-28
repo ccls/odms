@@ -34,10 +34,4 @@ protected
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_tracing_status
 
-#	def create_object(options={})
-#		object = Factory.build(:tracing_status,options)
-#		object.save
-#		object
-#	end
-
 end

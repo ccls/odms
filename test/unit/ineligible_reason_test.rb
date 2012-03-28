@@ -42,12 +42,6 @@ class IneligibleReasonTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_ineligible_reason(options={})
-#		ineligible_reason = Factory.build(:ineligible_reason,options)
-#		ineligible_reason.save
-#		ineligible_reason
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_ineligible_reason
 

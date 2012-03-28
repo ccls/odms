@@ -35,12 +35,6 @@ class InterviewMethodTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_interview_method(options={})
-#		interview_method = Factory.build(:interview_method,options)
-#		interview_method.save
-#		interview_method
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_interview_method
 

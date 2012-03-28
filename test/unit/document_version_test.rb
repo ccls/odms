@@ -64,12 +64,6 @@ class DocumentVersionTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_document_version(options={})
-#		document_version = Factory.build(:document_version,options)
-#		document_version.save
-#		document_version
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_document_version
 

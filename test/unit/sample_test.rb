@@ -341,12 +341,6 @@ class SampleTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_sample(options={})
-#		sample = Factory.build(:sample,options)
-#		sample.save
-#		sample
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_sample
 

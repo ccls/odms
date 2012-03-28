@@ -142,12 +142,6 @@ class AddressTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_address(options={})
-#		address = Factory.build(:address,options)
-#		address.save
-#		address
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_address
 

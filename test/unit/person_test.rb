@@ -48,12 +48,6 @@ class PersonTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_person(options={})
-#		person = Factory.build(:person,options)
-#		person.save
-#		person
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_person
 

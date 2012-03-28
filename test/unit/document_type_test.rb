@@ -34,12 +34,6 @@ class DocumentTypeTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_document_type(options={})
-#		document_type = Factory.build(:document_type,options)
-#		document_type.save
-#		document_type
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_document_type
 

@@ -385,12 +385,6 @@ class AddressingTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_addressing(options={})
-#		addressing = Factory.build(:addressing,options)
-#		addressing.save
-#		addressing
-#	end
-
 	def create_addressing_with_address(study_subject,options={})
 		create_addressing({
 			:study_subject => study_subject,

@@ -507,12 +507,6 @@ class PatientTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_patient(options={})
-#		patient = Factory.build(:patient,options)
-#		patient.save
-#		patient
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_patient
 

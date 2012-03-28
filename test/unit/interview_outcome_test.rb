@@ -25,12 +25,6 @@ class InterviewOutcomeTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_interview_outcome(options={})
-#		interview_outcome = Factory.build(:interview_outcome,options)
-#		interview_outcome.save
-#		interview_outcome
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_interview_outcome
 

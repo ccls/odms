@@ -28,12 +28,6 @@ class RaceTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_race(options={})
-#		race = Factory.build(:race,options)
-#		race.save
-#		race
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_race
 

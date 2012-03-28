@@ -17,12 +17,6 @@ class ContextDataSourceTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_context_data_source(options={})
-#		context_data_source = Factory.build(:context_data_source,options)
-#		context_data_source.save
-#		context_data_source
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_context_data_source
 

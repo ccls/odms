@@ -26,12 +26,6 @@ class SampleKitTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_sample_kit(options={})
-#		sample_kit = Factory.build(:sample_kit,options)
-#		sample_kit.save
-#		sample_kit
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_sample_kit
 

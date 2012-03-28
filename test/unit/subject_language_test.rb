@@ -34,12 +34,6 @@ class SubjectLanguageTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_subject_language(options={})
-#		subject_language = Factory.build(:subject_language,options)
-#		subject_language.save
-#		subject_language
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_subject_language
 

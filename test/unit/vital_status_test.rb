@@ -24,12 +24,6 @@ class VitalStatusTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_vital_status(options={})
-#		vital_status = Factory.build(:vital_status,options)
-#		vital_status.save
-#		vital_status
-#	end
-#
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_vital_status
 

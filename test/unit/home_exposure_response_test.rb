@@ -78,12 +78,6 @@ class HomeExposureResponseTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_home_exposure_response(options={})
-#		home_exposure_response = Factory.build(:home_exposure_response,options)
-#		home_exposure_response.save
-#		home_exposure_response
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_home_exposure_response
 

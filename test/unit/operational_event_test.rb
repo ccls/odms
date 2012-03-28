@@ -232,12 +232,6 @@ pending		#	should order by id asc
 
 protected
 
-#	def create_operational_event(options={})
-#		operational_event = Factory.build(:operational_event,options)
-#		operational_event.save
-#		operational_event
-#	end
-
 	def create_operational_events(*args)
 		args.collect{|options| create_operational_event(options) }
 	end

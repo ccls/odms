@@ -37,10 +37,4 @@ protected
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_subject_race
 
-#	def create_object(options={})
-#		object = Factory.build(:subject_race,options)
-#		object.save
-#		object
-#	end
-
 end

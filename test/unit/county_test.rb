@@ -31,12 +31,6 @@ class CountyTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_county(options={})
-#		county = Factory.build(:county,options)
-#		county.save
-#		county
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_county
 

@@ -57,12 +57,6 @@ class ProjectTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_project(options={})
-#		project = Factory.build(:project,options)
-#		project.save
-#		project
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_project
 

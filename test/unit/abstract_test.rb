@@ -654,12 +654,6 @@ class AbstractTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_abstract(options={})
-#		object = Factory.build(:abstract,options)
-#		object.save
-#		object
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_abstract
 

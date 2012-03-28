@@ -77,12 +77,6 @@ class TransferTest < ActiveSupport::TestCase
 
 protected
 
-#	def create_transfer(options={})
-#		transfer = Factory.build(:transfer,options)
-#		transfer.save
-#		transfer
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_transfer
 
