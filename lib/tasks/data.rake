@@ -109,12 +109,14 @@ namespace :data do
       unpack('C*').map {|n| n.xchr}.join # ISO-8859-1, WIN-1252
     end
   end
+		puts "Starting...(#{Time.now})"
 		%w( project enrollment study_subject 
 				patient phone_number address addressing ).each do |model|
 			puts "Exporting #{model.pluralize} ..."
 			File.open("#{outdir}/#{model.pluralize}.xml",'w'){|f| 
 				f.puts model.camelize.constantize.all.to_xml }
 		end
+		puts "Done.(#{Time.now})"
 	end
 
 end	#	namespace :data do
