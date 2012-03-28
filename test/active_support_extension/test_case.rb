@@ -6,32 +6,6 @@ module ActiveSupportExtension::TestCase
 
 		base.extend(ClassMethods)
 		base.send(:include, InstanceMethods)
-#		base.alias_method_chain :method_missing, :create_object
-
-#	I can't seem to find out how to confirm that 
-#	method_missing_without_create_object
-#	doesn't already exist! WTF
-#	We don't want to alias it if we already have.
-#	tried viewing methods, instance_methods, etc.
-#	seems to only work when "inherited" and since 
-#	some thing are inherited from subclasses it
-#	might get a bit hairy.  No problems now, just
-#	trying to avoid them in the future.
-
-		base.class_eval do
-#alias_method(:method_missing_without_create_object,:method_missing)
-#alias_method(:method_missing,:method_missing_with_create_object)
-#			class << self
-#				alias_method_chain :method_missing, :create_object #unless
-#					respond_to?(:method_missing_without_create_object)
-#			end
-			class << self
-				alias_method_chain( :test, :verbosity ) unless method_defined?(:test_without_verbosity)
-			end
-		end #unless base.respond_to?(:test_without_verbosity)
-#puts base.respond_to?(:method_missing_without_create_object)
-#puts base.method_defined?(:method_missing_without_create_object)
-#	apparently medding with method_missing is also a bit of an issue
 	end
 
 	module ClassMethods
@@ -43,29 +17,6 @@ module ActiveSupportExtension::TestCase
 		def model_name_without_test
 			self.name.demodulize.sub(/Test$/,'')
 		end
-
-#		def test_with_verbosity(name,&block)
-#			test_without_verbosity(name,&block)
-#
-#			test_name = "test_#{name.gsub(/\s+/,'_')}".to_sym
-#			define_method("_#{test_name}_with_verbosity") do
-#				print "\n#{self.class.name.gsub(/Test$/,'').titleize} #{name}: "
-##
-##	This is the line that should be added to the backtrace cleaner
-##
-#				send("_#{test_name}_without_verbosity")
-#			end
-#			#
-#			#	can't do this.  
-#			#		alias_method_chain test_name, :verbosity
-#			#	end up with 2 methods that begin
-#			#	with 'test_' so they both get run
-#			#
-#			alias_method "_#{test_name}_without_verbosity".to_sym,
-#				test_name
-#			alias_method test_name,
-#				"_#{test_name}_with_verbosity".to_sym
-#		end
 
 		def assert_should_act_as_list(*args)
 			options = args.extract_options!
@@ -192,35 +143,6 @@ module ActiveSupportExtension::TestCase
 ##			self.class.name.sub(/Test$/,'')
 ##			self.class.name.demodulize.sub(/Test$/,'')
 #			self.class.model_name_without_test
-#		end
-
-#		def method_missing_with_create_object(symb,*args, &block)
-#			method = symb.to_s
-##			if method =~ /^create_(.+)(\!?)$/
-#			if method =~ /^create_([^!]+)(!?)$/
-#				factory = if( $1 == 'object' )
-##	doesn't work for controllers yet.  Need to consider
-##	singular and plural as well as "tests" method.
-##	Probably should just use the explicit factory
-##	name in the controller tests.
-##				self.class.name.sub(/Test$/,'').underscore
-#					model_name.underscore
-#				else
-#					$1
-#				end
-#				bang = $2
-#				options = args.extract_options!
-#				if bang.blank?
-#					record = Factory.build(factory,options)
-#					record.save
-#					record
-#				else
-#					Factory(factory,options)
-#				end
-#			else
-##				super(symb,*args, &block)
-#				method_missing_without_create_object(symb,*args, &block)
-#			end
 #		end
 
 		#	basically a copy of assert_difference, but
