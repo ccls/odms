@@ -3,16 +3,9 @@ module ActionViewExtension::FormBuilder
 
 	def self.included(base)
 		base.send(:include,InstanceMethods)
-#	no more method missing
-#		base.class_eval do
-#			alias_method_chain( :method_missing, :field_wrapping 
-#				) unless base.respond_to?(:method_missing_without_field_wrapping)
-#		end
 	end
 
 	module InstanceMethods
-
-
 
 #	TODO	add tests for this
 #	COMING SOON
@@ -31,17 +24,6 @@ module ActionViewExtension::FormBuilder
 				s.html_safe
 			end
 		end
-
-
-
-
-
-
-#	NOTE 
-#		calling <%= f.wrapped_yndk_select :code %> will NOT call these methods.
-#		It will call the method missing and then the @template.method
-#		Actually, now I believe that it will.
-#
 
 		def yndk_select(method,options={},html_options={})
 			@template.select(object_name, method, YNDK.selector_options,
@@ -62,23 +44,6 @@ module ActionViewExtension::FormBuilder
 			@template.select(object_name, method, ADNA.selector_options,
 				{:include_blank => true}.merge(objectify_options(options)), html_options)
 		end
-
-		def submit_link_to(value=nil,options={})
-			#	submit_link_to will remove :value, which is intended for submit
-			#	so it MUST be executed first.  Unfortunately, my javascript
-			#	expects it to be AFTER the a tag.
-	#		s = submit(value,options.reverse_merge(
-	#				:id => "#{object_name}_submit_#{value.try(:downcase).try(:gsub,/\s+/,'_')}"
-	#			) ) << @template.submit_link_to(value,nil,options)
-			s1 = submit(value,options.reverse_merge(
-					:id => "#{object_name}_submit_#{value.try(:downcase).try(
-						:gsub,/\s+/,'_').try(
-						:gsub,/(&amp;|'|\/)/,'').try(
-						:gsub,/_+/,'_')}"
-				) ) 
-			s2 = @template.submit_link_to(value,nil,options)
-			s2 << s1
-		end 
 
 		def hour_select(method,options={},html_options={})
 			@template.select(object_name, method,
@@ -125,7 +90,6 @@ module ActionViewExtension::FormBuilder
 		end
 
 		def datetime_text_field(method, options = {})
-#			format = options.delete(:format) || '%m/%d/%Y %I:%M %p'
 			format = options.delete(:format) || '%m/%d/%Y %H:%M'
 			tmp_value = if options[:value].blank?
 				tmp = self.object.send("#{method}") ||
@@ -142,184 +106,19 @@ module ActionViewExtension::FormBuilder
 			@template.text_field( object_name, method, options )
 		end
 
-#		def method_missing_with_field_wrapping(symb,*args, &block)
-#			method_name = symb.to_s
-#			if method_name =~ /^wrapped_(.+)$/
-#				unwrapped_method_name = $1	#	check_box, select, ...
-#				method      = args[0]	#	attribute name
-#				content = @template.field_wrapper(method,:class => unwrapped_method_name) do
-#					s = if respond_to?(unwrapped_method_name)
-#						options    = args.detect{|i| i.is_a?(Hash) }
-#						label_text = options.delete(:label_text) unless options.nil?
-#						if unwrapped_method_name == 'check_box'
-#							send("#{unwrapped_method_name}",*args,&block) <<
-#							self.label( method, label_text )
-#						else
-#							self.label( method, label_text ) <<
-#							send("#{unwrapped_method_name}",*args,&block)
-#						end
-#					else
-#						send("_#{method_name}",*args,&block)
-#					end
-#					s << (( block_given? )? @template.capture(&block) : '')
-#				end
-#				#	ActionView::TemplateError (private method `block_called_from_erb?' 
-##				( @template.send(:block_called_from_erb?,block) ) ? 
-##					@template.concat(content) : content
-#content.html_safe
-#			else
-#				method_missing_without_field_wrapping(symb,*args, &block)
-#			end
-#		end
-
-#		def wrapped_adna_select(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'adna_select') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					adna_select(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
 
 		def wrapped_check_box(*args,&block)
 			method      = args[0]
 			content = @template.field_wrapper(method,:class => 'check_box') do
 				options    = args.detect{|i| i.is_a?(Hash) }
 				label_text = options.delete(:label_text) unless options.nil?
-#	INVERTED ORDER
+#	INVERTED ORDER SO NOT INCLUDED BELOW
 				s  = check_box(*args,&block) <<
 					self.label( method, label_text )
 				s << (( block_given? )? @template.capture(&block) : '')
 			end
 			content.html_safe
 		end
-
-#	I could dynamically define these with define_method
-#	and a loop, but can't define_method that takes a block
-#	as an argument in ruby 1.8.7
-
-#		def wrapped_collection_select(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'collection_select') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					collection_select(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_date_text_field(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'date_text_field') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					date_text_field(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_country_select(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'country_select') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					country_select(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_datetime_select(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'datetime_select') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					datetime_select(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_grouped_collection_select(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'grouped_collection_select') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					grouped_collection_select(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_select(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'select') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					select(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_sex_select(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'sex_select') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					sex_select(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_text_area(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'text_area') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					text_area(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_text_field(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'text_field') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					text_field(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
-#
-#		def wrapped_yndk_select(*args,&block)
-#			method      = args[0]
-#			content = @template.field_wrapper(method,:class => 'yndk_select') do
-#				options    = args.detect{|i| i.is_a?(Hash) }
-#				label_text = options.delete(:label_text) unless options.nil?
-#				s  = self.label( method, label_text ) <<
-#					yndk_select(*args,&block)
-#				s << (( block_given? )? @template.capture(&block) : '')
-#			end
-#			content.html_safe
-#		end
 
 #	special
 #		def wrapped_check_box(*args,&block)
@@ -349,71 +148,6 @@ class_eval %Q"
 		end
 "
 end
-
-
-
-
-#		%w( adna_select date_text_field hour_select meridiem_select minute_select sex_select
-#				yndk_select ynodk_select ynrdk_select ).each do |unwrapped_method_name|
-##	can't define methods that accept blocks in ruby 1.8
-##
-##	could try it with class eval?
-##	http://stackoverflow.com/questions/9561072/ruby-using-class-eval-to-define-methods
-##
-#			define_method "wrapped_#{unwrapped_method_name}" do |*args, &block|
-#				method      = args[0]
-#				content = @template.field_wrapper(method,:class => unwrapped_method_name) do
-#					s = if respond_to?(unwrapped_method_name)
-#						options    = args.detect{|i| i.is_a?(Hash) }
-#						label_text = options.delete(:label_text) unless options.nil?
-#						if unwrapped_method_name == 'check_box'
-#							send("#{unwrapped_method_name}",*args,&block) <<
-#							self.label( method, label_text )
-#						else
-#							self.label( method, label_text ) <<
-#							send("#{unwrapped_method_name}",*args,&block)
-#						end
-#					else
-#						send("_wrapped_#{unwrapped_method_name}",*args,&block)
-#					end
-##	one of these should work.  
-##					s << (( block_given? )? @template.capture(&block) : '')
-##					s << ( ( block_given? ) ? yield : '' )
-##					s << ( ( block_given? ) ? block.call : '' )
-##					s << block.call if block_given?
-#				end
-#				content.html_safe
-#			end
-#		end
-
-
-#	This way just raises errors
-#	ArgumentError: wrong number of arguments (0 for 1)
-#		%w( adna_select date_text_field hour_select meridiem_select minute_select sex_select
-#				yndk_select ynodk_select ynrdk_select ).each do |unwrapped_method_name|
-#class_eval <<EOF
-#			def wrapped_#{unwrapped_method_name}(*args, &block)
-#				method      = args[0]
-#				content = @template.field_wrapper(method,:class => #{unwrapped_method_name}) do
-#					s = if respond_to?(unwrapped_method_name)
-#						options    = args.detect{|i| i.is_a?(Hash) }
-#						label_text = options.delete(:label_text) unless options.nil?
-#						if #{unwrapped_method_name} == 'check_box'
-#							send("#{unwrapped_method_name}",*args,&block) <<
-#							self.label( method, label_text )
-#						else
-#							self.label( method, label_text ) <<
-#							send("#{unwrapped_method_name}",*args,&block)
-#						end
-#					else
-#						send("_wrapped_#{unwrapped_method_name}",*args,&block)
-#					end
-#					s << (( block_given? )? @template.capture(&block) : '')
-#				end
-#				content.html_safe
-#			end
-#EOF
-#		end
 
 	end	#	module InstanceMethods
 

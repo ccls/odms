@@ -2,14 +2,7 @@
 
 <%= form_for(@study_subject, :url => study_subjects_path,
 	:html => { :class => 'edit_study_subject' }) do |f| %>
-<%#= render 'form', :f => f %>
-
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
 
 <div class='do_not_contact field_wrapper'>
 <%= f.label :do_not_contact, "Contact Status:" %>
@@ -23,7 +16,5 @@
 <%= render :partial => 'eligibility_form', :locals => {:f=>f} %>
 <%= render :partial => 'consent_form', :locals => {:f=>f} %>
 
-
-<%#= f.submit_link_to 'Create new study_subject' %>
 <%= f.submit 'Create new study_subject' %>
 <% end %>

@@ -12,6 +12,14 @@ class SomeModel
 	end
 end
 
+
+#
+#	Paths are no longer known in helper tests as of rails 3?
+#	That makes most of these tests fail.
+#
+
+
+
 class ApplicationHelperTest < ActionView::TestCase
 
 	setup :enable_content_for_usage

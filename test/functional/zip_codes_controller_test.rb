@@ -46,10 +46,17 @@ class ZipCodesControllerTest < ActionController::TestCase
 		#	:format MUST be a string and NOT a symbol
 		get :index, :q => '17857', :format => 'json'
 #		expected = %{[{"zip_code":{"county_name":"Northumberland","city":"NORTHUMBERLAND","zip_code":"17857","county_id":2144,"state":"PA"}}]}
-pending
 #	rails 3 removes initial key
-		expected = %{[{"county_name":"Northumberland","city":"NORTHUMBERLAND","zip_code":"17857","county_id":2144,"state":"PA"}]}
-		assert_equal expected, @response.body
+#		expected = %{[{"county_name":"Northumberland","city":"NORTHUMBERLAND","zip_code":"17857","county_id":2144,"state":"PA"}]}
+#	the output is no longer always sorted this way
+# expected = %{[{"state":"PA","city":"NORTHUMBERLAND","county_id":2144,"county_name":"Northumberland","zip_code":"17857"}]"}
+#		assert_equal expected, @response.body
+
+		assert_match /"state":"PA"/, @response.body
+		assert_match /"city":"NORTHUMBERLAND"/, @response.body
+		assert_match /"county_id":2144/, @response.body
+		assert_match /"county_name":"Northumberland"/, @response.body
+		assert_match /"zip_code":"17857"/, @response.body
 	end
 
 #	test "should get zip_codes with invalid q" do

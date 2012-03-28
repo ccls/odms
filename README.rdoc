@@ -95,33 +95,37 @@ config.active_record.include_root_in_json = false
 == Rails 3 Upgrade TODOs
 
 
+* I'll need to check on this, but for live_birth_date and icf_master_tracker updates, I do assign both the url and the path
 
-PRIORITY
+ Post-install message from paperclip:
+ ##################################################
+ #  NOTE FOR UPGRADING FROM PRE-3.0 VERSION       #
+ ##################################################
+ 
+ Paperclip 3.0 introduces a non-backward compatible change in your attachment
+ path. This will help to prevent attachment name clashes when you have
+ multiple attachments with the same name. If you didn't alter your
+ attachment's path and are using Paperclip's default, you'll have to add
+ `:path` and `:url` to your `has_attached_file` definition. For example:
+ 
+     has_attached_file :avatar,
+       :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+       :url => "/system/:attachment/:id/:style/:filename"
 
-
-
-I'll need to check on this, but for live_birth_date and icf_master_tracker updates, I do assign both the url and the path
-
-Post-install message from paperclip:
-##################################################
-#  NOTE FOR UPGRADING FROM PRE-3.0 VERSION       #
-##################################################
-
-Paperclip 3.0 introduces a non-backward compatible change in your attachment
-path. This will help to prevent attachment name clashes when you have
-multiple attachments with the same name. If you didn't alter your
-attachment's path and are using Paperclip's default, you'll have to add
-`:path` and `:url` to your `has_attached_file` definition. For example:
-
-    has_attached_file :avatar,
-      :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
- \     :url => "/system/:attachment/:id/:style/:filename"
+* test paperclip again
+* test paperclip upload in production
 
 
-* autotest now hangs on my work computer??
-  * works on my old laptop at home
-  * works on other apps
-  * so what happened around March 25th ?
+
+
+
+
+* remove the special interview fields
+  * could also remove the special selectors
+
+
+
+
 
 
 

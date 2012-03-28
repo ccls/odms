@@ -421,47 +421,6 @@ module ApplicationHelper
 		s << "<span class='value'>#{value}</span>"
 	end
 
-#	def method_missing_with_wrapping(symb,*args, &block)
-#		method_name = symb.to_s
-#		if method_name =~ /^wrapped_(.+)$/
-#			unwrapped_method_name = $1
-##
-##	It'd be nice to be able to genericize all of the
-##	wrapped_* methods since they are all basically
-##	the same.
-##		Strip of the "wrapped_"
-##		Label
-##		Call "unwrapped" method
-##
-#
-#			object_name = args[0]
-#			method      = args[1]
-#
-#			content = field_wrapper(method,:class => unwrapped_method_name) do
-#				s = if respond_to?(unwrapped_method_name)
-#					options    = args.detect{|i| i.is_a?(Hash) }
-#					label_text = options.delete(:label_text) unless options.nil?
-#					if unwrapped_method_name == 'check_box'
-#						send("#{unwrapped_method_name}",*args,&block) <<
-#						label( object_name, method, label_text )
-#					else
-#						label( object_name, method, label_text ) <<
-#						send("#{unwrapped_method_name}",*args,&block)
-#					end
-#				else
-#					send("_#{method_name}",*args,&block)
-#				end
-#
-#				s << (( block_given? )? capture(&block) : '')
-#			end
-#			content
-#		else
-#			method_missing_without_wrapping(symb,*args, &block)
-#		end
-#	end
-#	alias_method_chain( :method_missing, :wrapping )	unless respond_to?(:method_missing_without_wrapping)
-
-#	%w( spans date_spans yes_or_no_spans yndk_spans ynrdk_spans ynodk_spans adna_spans ).each do |unwrapped_method_name|
 	%w( adna_spans date_spans datetime_spans spans yes_or_no_spans 
 			yndk_spans ynrdk_spans ynodk_spans ).each do |unwrapped_method_name|
 #
@@ -470,53 +429,18 @@ module ApplicationHelper
 #	HOWEVER, in the form builder, I do send blocks, so I'll need to fix this or
 #	just explicitly write a method for those that need it.
 #
-#	Actually, maybe I can? No.  Can't.
-#
-#		define_method "wrapped_#{unwrapped_method_name}" do |*args,&block|
+
 		define_method "wrapped_#{unwrapped_method_name}" do |*args|
 			object_name = args[0]
 			method      = args[1]
 			content = field_wrapper(method,:class => unwrapped_method_name) do
-#				s = if respond_to?(unwrapped_method_name)
-#					options    = args.detect{|i| i.is_a?(Hash) }
-#					label_text = options.delete(:label_text) unless options.nil?
-#					if unwrapped_method_name == 'check_box'
-##						send("#{unwrapped_method_name}",*args,&block) <<
-#						send("#{unwrapped_method_name}",*args) <<
-#						label( object_name, method, label_text )
-#					else
-#						label( object_name, method, label_text ) <<
-##						send("#{unwrapped_method_name}",*args,&block)
-#						send("#{unwrapped_method_name}",*args)
-#					end
-#				else
-##					send("_#{method_name}",*args,&block)
-##					send("_#{method_name}",*args)
-#					send("_wrapped_#{unwrapped_method_name}",*args)
-#				end
-##				s << (( block_given? )? capture(&block) : '')
-
-				#	all of my methods have _wrapped_* versions so far, but this could probably be simplified
+				#	all of my methods have _wrapped_* versions so far, 
+				#	but this could probably be simplified
 				send("_wrapped_#{unwrapped_method_name}",*args)
 			end
 			content
 		end
 	end
-
-
-#	#	Just add the classes 'submit' and 'button'
-#	#	for styling and function
-#	def submit_link_to(*args,&block)
-#		html_options = if block_given?
-#			args[1] ||= {}
-#		else
-#			args[2] ||= {}
-#		end
-#		html_options.delete(:value)   #	possible key meant for submit button
-#		html_options.delete('value')  #	possible key meant for submit button
-#		( html_options[:class] ||= '' ) << ' submit button'
-#		link_to( *args, &block )
-#	end
 
 	def flasher
 		s = ''
