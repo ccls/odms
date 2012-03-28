@@ -36,7 +36,7 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_not_require_unique_attribute(*attributes)
 			options = attributes.extract_options!
-			model = options[:model] || st_model_name
+#			model = options[:model] || model_name_without_test
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
@@ -68,7 +68,7 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_require_unique_attribute(*attributes)
 			options = attributes.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
@@ -98,7 +98,7 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_require_attribute_not_nil(*attributes)
 			options = attributes.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
@@ -115,7 +115,7 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_require_attribute(*attributes)
 			options = attributes.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
@@ -132,7 +132,7 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_not_require_attribute(*attributes)
 			options = attributes.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
@@ -151,7 +151,7 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_require_attribute_length(*attributes)
 			options = attributes.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 
 			if( ( options.keys & [:in,:within] ).length >= 1 )
 				range = options[:in]||options[:within]
@@ -235,18 +235,18 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_protect_attribute(*attributes)
 			options = attributes.extract_options!
-			model_name = options[:model] || st_model_name
-			model = model_name.constantize
+			model = options[:model] || model_name_without_test
+#			model = model_name.constantize
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should protect attribute #{attr}" do
-					assert model.accessible_attributes||model.protected_attributes,
+					assert model.constantize.accessible_attributes||model.constantize.protected_attributes,
 						"Both accessible and protected attributes are empty"
-					assert !(model.accessible_attributes||[]).include?(attr),
+					assert !(model.constantize.accessible_attributes||[]).include?(attr),
 						"#{attr} is included in accessible attributes"
-					if !model.protected_attributes.nil?
-						assert model.protected_attributes.include?(attr),
+					if !model.constantize.protected_attributes.nil?
+						assert model.constantize.protected_attributes.include?(attr),
 							"#{attr} is not included in protected attributes"
 					end
 				end
@@ -261,15 +261,15 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_not_protect_attribute(*attributes)
 			options = attributes.extract_options!
-			model_name = options[:model] || st_model_name
-			model = model_name.constantize
+			model = options[:model] || model_name_without_test
+#			model = model_name.constantize
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should not protect attribute #{attr}" do
 #					assert !(model.protected_attributes||[]).include?(attr),
 #						"#{attr} is included in protected attributes"
-					assert !model.protected_attributes.include?(attr),
+					assert !model.constantize.protected_attributes.include?(attr),
 						"#{attr} is included in protected attributes"
 
 #	Rails 3 change

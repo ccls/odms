@@ -1,6 +1,9 @@
 module ActiveSupportExtension::TestCase
 
 	def self.included(base)
+		# basically to include the model_name method to the CLASS
+		base.extend ActiveModel::Naming
+
 		base.extend(ClassMethods)
 		base.send(:include, InstanceMethods)
 #		base.alias_method_chain :method_missing, :create_object
@@ -32,43 +35,43 @@ module ActiveSupportExtension::TestCase
 	end
 
 	module ClassMethods
-
-		#	I don't like this quick and dirty name
-		def st_model_name
+#
+#	this used to be called st_model_name, which I think
+#	was short for simply_testable_model_name. Of course,
+#	I left no description
+#
+		def model_name_without_test
 			self.name.demodulize.sub(/Test$/,'')
 		end
 
-		def test_with_verbosity(name,&block)
-			test_without_verbosity(name,&block)
-
-			test_name = "test_#{name.gsub(/\s+/,'_')}".to_sym
-			define_method("_#{test_name}_with_verbosity") do
-				print "\n#{self.class.name.gsub(/Test$/,'').titleize} #{name}: "
-				send("_#{test_name}_without_verbosity")
-			end
-			#
-			#	can't do this.  
-			#		alias_method_chain test_name, :verbosity
-			#	end up with 2 methods that begin
-			#	with 'test_' so they both get run
-			#
-			alias_method "_#{test_name}_without_verbosity".to_sym,
-				test_name
-			alias_method test_name,
-				"_#{test_name}_with_verbosity".to_sym
-		end
+#		def test_with_verbosity(name,&block)
+#			test_without_verbosity(name,&block)
+#
+#			test_name = "test_#{name.gsub(/\s+/,'_')}".to_sym
+#			define_method("_#{test_name}_with_verbosity") do
+#				print "\n#{self.class.name.gsub(/Test$/,'').titleize} #{name}: "
+##
+##	This is the line that should be added to the backtrace cleaner
+##
+#				send("_#{test_name}_without_verbosity")
+#			end
+#			#
+#			#	can't do this.  
+#			#		alias_method_chain test_name, :verbosity
+#			#	end up with 2 methods that begin
+#			#	with 'test_' so they both get run
+#			#
+#			alias_method "_#{test_name}_without_verbosity".to_sym,
+#				test_name
+#			alias_method test_name,
+#				"_#{test_name}_with_verbosity".to_sym
+#		end
 
 		def assert_should_act_as_list(*args)
 			options = args.extract_options!
 			scope = options[:scope]
 
 			test "#{brand}should act as list" do
-
-
-#		don't think that this is used anymore
-#				model = create_object.class.name
-
-
 				object = create_object
 				first_position = object.position
 				assert first_position > 0
@@ -93,6 +96,7 @@ module ActiveSupportExtension::TestCase
 		def assert_requires_past_date(*attr_names)
 			options = { :allow_today => true }
 			options.update(attr_names.extract_options!)
+			model = options[:model] || model_name_without_test
 
 			attr_names.each do |attr_name|
 				if options[:allow_today]
@@ -114,7 +118,7 @@ module ActiveSupportExtension::TestCase
 					assert !object.errors.matching?(attr_name,
 						'is in the future and must be in the past')
 					#	However, can assert difference of 0 as shouldn't create.
-					assert_difference( "#{model_name}.count", 0 ) do
+					assert_difference( "#{model}.count", 0 ) do
 						object = create_object( attr_name => Date.tomorrow )
 						assert object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
@@ -126,7 +130,7 @@ module ActiveSupportExtension::TestCase
 
 		def assert_requires_complete_date(*attr_names)
 			options = attr_names.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 
 			attr_names.each do |attr_name|
 				test "#{brand}should require a complete date for #{attr_name}" do
@@ -181,11 +185,14 @@ module ActiveSupportExtension::TestCase
 			puts Time.now
 		}
 
-		def model_name
-#			self.class.name.sub(/Test$/,'')
-#			self.class.name.demodulize.sub(/Test$/,'')
-			self.class.st_model_name
-		end
+#
+#	Don't think that I need this anymore
+#
+#		def model_name
+##			self.class.name.sub(/Test$/,'')
+##			self.class.name.demodulize.sub(/Test$/,'')
+#			self.class.model_name_without_test
+#		end
 
 #		def method_missing_with_create_object(symb,*args, &block)
 #			method = symb.to_s

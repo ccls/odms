@@ -26,7 +26,7 @@ module ActiveSupportExtension::Associations
 
 		def assert_should_initially_belong_to(*associations)
 			options = associations.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 			associations.each do |assoc|
 				class_name = ( assoc = assoc.to_s ).camelize
 				title = "#{brand}should initially belong to #{assoc}"
@@ -51,7 +51,7 @@ module ActiveSupportExtension::Associations
 
 		def assert_should_belong_to(*associations)
 			options = associations.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 			associations.each do |assoc|
 				class_name = ( assoc = assoc.to_s ).camelize
 				title = "#{brand}should belong to #{assoc}" 
@@ -76,7 +76,7 @@ module ActiveSupportExtension::Associations
 
 		def assert_should_have_one(*associations)
 			options = associations.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 #			foreign_key = if !options[:foreign_key].blank?
 #				options[:foreign_key].to_sym
 #			else
@@ -98,7 +98,7 @@ module ActiveSupportExtension::Associations
 
 		def assert_should_have_many_(*associations)
 			options = associations.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 #			foreign_key = if !options[:foreign_key].blank?
 #				options[:foreign_key].to_sym
 #			else
@@ -145,7 +145,7 @@ module ActiveSupportExtension::Associations
 
 		def assert_should_habtm(*associations)
 			options = associations.extract_options!
-			model = options[:model] || st_model_name
+			model = options[:model] || model_name_without_test
 			associations.each do |assoc|
 				assoc = assoc.to_s
 				test "#{brand}should habtm #{assoc}" do
@@ -168,7 +168,7 @@ module ActiveSupportExtension::Associations
 #	TODO can I toss this
 		def assert_requires_valid_associations(*associations)
 #				options = associations.extract_options!
-#				model = options[:model] || st_model_name
+#				model = options[:model] || model_name_without_test
 #	
 #				associations.each do |assoc|
 #					as = assoc = assoc.to_s

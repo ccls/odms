@@ -3,8 +3,9 @@ module ActiveSupportExtension::Assertions
 	def self.included(base)
 		base.extend(ClassMethods)
 
-		#	basically to include the model_name method
-		base.extend ActiveModel::Naming
+		#	basically to include the model_name method to the CLASS
+#	moved into test_case.rb
+#		base.extend ActiveModel::Naming
 	end
 
 	def assert_subject_is_eligible(study_subject)
@@ -25,11 +26,20 @@ module ActiveSupportExtension::Assertions
 
 	module ClassMethods
 
-		def assert_should_create_default_object
+		def assert_should_create_default_object(*args)
+			options = {
+				:key => :key,
+				:value => :description
+			}
+			options.update(args.extract_options!)
+			model = options[:model] || model_name_without_test
+
 			#	It appears that model_name is a defined class method already in ...
 			#	activesupport-####/lib/active_support/core_ext/module/model_naming.rb
-			test "should create default #{model_name.sub(/Test$/,'').underscore}" do
-				assert_difference( "#{model_name}.count", 1 ) do
+#			test "should create default #{model_name.sub(/Test$/,'').underscore}" do
+#				assert_difference( "#{model_name}.count", 1 ) do
+			test "should create default #{model.underscore}" do
+				assert_difference( "#{model}.count", 1 ) do
 					object = create_object
 					assert !object.new_record?, 
 						"#{object.errors.full_messages.to_sentence}"
@@ -43,6 +53,7 @@ module ActiveSupportExtension::Assertions
 				:value => :description
 			}
 			options.update(args.extract_options!)
+			model = options[:model] || model_name_without_test
 
 			assert_should_require_attribute( options[:key], options[:value] )
 			assert_should_require_unique_attribute( options[:key], options[:value] )
@@ -51,17 +62,23 @@ module ActiveSupportExtension::Assertions
 
 			test "should find by key with ['string']" do
 				object = create_object
-				assert object.is_a?(model_name.constantize)
-				found = (model_name.constantize)[object.key.to_s]
-				assert found.is_a?(model_name.constantize)
+#				assert object.is_a?(model_name.constantize)
+				assert object.is_a?(model.constantize)
+#				found = (model_name.constantize)[object.key.to_s]
+				found = (model.constantize)[object.key.to_s]
+#				assert found.is_a?(model_name.constantize)
+				assert found.is_a?(model.constantize)
 				assert_equal object, found
 			end
 
 			test "should find by key with [:symbol]" do
 				object = create_object
-				assert object.is_a?(model_name.constantize)
-				found = (model_name.constantize)[object.key.to_sym]
-				assert found.is_a?(model_name.constantize)
+#				assert object.is_a?(model_name.constantize)
+				assert object.is_a?(model.constantize)
+#				found = (model_name.constantize)[object.key.to_sym]
+				found = (model.constantize)[object.key.to_sym]
+#				assert found.is_a?(model_name.constantize)
+				assert found.is_a?(model.constantize)
 				assert_equal object, found
 			end
 
@@ -73,6 +90,7 @@ module ActiveSupportExtension::Assertions
 				:bad_values  => []
 			}
 			options.update(attributes.extract_options!)
+			model = options[:model] || model_name_without_test
 
 			attributes.flatten.each do |field|
 
@@ -81,7 +99,8 @@ module ActiveSupportExtension::Assertions
 #	could be a naming problem if both nil and blank are passed
 
 					test "should NOT allow #{value||'nil'} for #{field}" do
-						object = model_name.constantize.new(field => value)
+#						object = model_name.constantize.new(field => value)
+						object = model.constantize.new(field => value)
 						assert_equal object.send(field), value
 						object.valid?
 						assert object.errors.matching?(field,'is not included in the list')
@@ -94,7 +113,8 @@ module ActiveSupportExtension::Assertions
 #	could be a naming problem if both nil and blank are passed
 
 					test "should allow #{value||'nil'} for #{field}" do
-						object = model_name.constantize.new(field => value)
+#						object = model_name.constantize.new(field => value)
+						object = model.constantize.new(field => value)
 						assert_equal object.send(field), value
 						object.valid?
 						assert !object.errors.include?(field)
