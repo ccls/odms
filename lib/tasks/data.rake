@@ -99,16 +99,16 @@ namespace :data do
 #		This MAY be interfering with autotest as it seems to hang at the end forever at 100%
 #
 #
-#  class String
-#    # XML escaped version of to_s. When <tt>escape</tt> is set to false
-#    # the CP1252 fix is still applied but utf-8 characters are not
-#    # converted to character entities.
-#    def to_xs(escape=true)
-#      unpack('U*').map {|n| n.xchr(escape)}.join # ASCII, UTF-8
-#    rescue
-#      unpack('C*').map {|n| n.xchr}.join # ISO-8859-1, WIN-1252
-#    end
-#  end
+  class String
+    # XML escaped version of to_s. When <tt>escape</tt> is set to false
+    # the CP1252 fix is still applied but utf-8 characters are not
+    # converted to character entities.
+    def to_xs(escape=true)
+      unpack('U*').map {|n| n.xchr(escape)}.join # ASCII, UTF-8
+    rescue
+      unpack('C*').map {|n| n.xchr}.join # ISO-8859-1, WIN-1252
+    end
+  end
 		%w( project enrollment study_subject 
 				patient phone_number address addressing ).each do |model|
 			puts "Exporting #{model.pluralize} ..."
