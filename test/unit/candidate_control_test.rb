@@ -647,4 +647,7 @@ protected
 #		candidate_control
 #	end
 
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_candidate_control
+
 end

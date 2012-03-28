@@ -29,12 +29,15 @@ class CountyTest < ActiveSupport::TestCase
 		assert_equal "#{county.name}, #{county.state_abbrev}", "#{county}"
 	end
 
-#protected
-#
+protected
+
 #	def create_county(options={})
 #		county = Factory.build(:county,options)
 #		county.save
 #		county
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_county
 
 end

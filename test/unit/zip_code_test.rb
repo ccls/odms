@@ -52,12 +52,15 @@ class ZipCodeTest < ActiveSupport::TestCase
 		assert zip_code.is_a?(ZipCode)
 	end
 
-#protected
-#
+protected
+
 #	def create_zip_code(options={})
 #		zip_code = Factory.build(:zip_code,options)
 #		zip_code.save
 #		zip_code
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_zip_code
 
 end

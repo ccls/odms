@@ -85,18 +85,21 @@ class HospitalTest < ActiveSupport::TestCase
 		end
 	end
 
-#protected
-#
+protected
+
 #	def create_hospital(options={})
 #		hospital = Factory.build(:hospital,options)
 #		hospital.save
 #		hospital
 #	end
-#
+
 #	def create_organization(options={})
 #		organization = Factory.build(:organization,options)
 #		organization.save
 #		organization
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_hospital
 
 end

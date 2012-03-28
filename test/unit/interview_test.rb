@@ -296,4 +296,7 @@ protected
 		create_interview(ioptions)
 	end
 
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_interview
+
 end

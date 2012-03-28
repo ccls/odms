@@ -18,4 +18,15 @@ class UnitTest < ActiveSupport::TestCase
 		}
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_unit
+
+#	def create_object(options={})
+#		object = Factory.build(:unit,options)
+#		object.save
+#		object
+#	end
+
 end

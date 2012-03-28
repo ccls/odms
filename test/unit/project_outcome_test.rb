@@ -23,12 +23,15 @@ class ProjectOutcomeTest < ActiveSupport::TestCase
 			"#{project_outcome}"
 	end
 
-#protected
-#
+protected
+
 #	def create_project_outcome(options={})
 #		project_outcome = Factory.build(:project_outcome,options)
 #		project_outcome.save
 #		project_outcome
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_project_outcome
 
 end

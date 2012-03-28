@@ -41,12 +41,15 @@ class RefusalReasonTest < ActiveSupport::TestCase
 		assert refusal_reason.is_other?
 	end
 
-#protected
-#
+protected
+
 #	def create_refusal_reason(options={})
 #		refusal_reason = Factory.build(:refusal_reason,options)
 #		refusal_reason.save
 #		refusal_reason
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_refusal_reason
 
 end

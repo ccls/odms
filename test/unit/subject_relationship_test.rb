@@ -32,12 +32,15 @@ class SubjectRelationshipTest < ActiveSupport::TestCase
 		assert_nil subject_relationship
 	end
 
-#protected
-#
+protected
+
 #	def create_subject_relationship(options={})
 #		subject_relationship = Factory.build(:subject_relationship,options)
 #		subject_relationship.save
 #		subject_relationship
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_subject_relationship
 
 end

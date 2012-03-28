@@ -23,12 +23,15 @@ class SectionTest < ActiveSupport::TestCase
 		assert_equal section.description, "#{section}"
 	end
 
-#protected
-#
+protected
+
 #	def create_section(options={})
 #		section = Factory.build(:section,options)
 #		section.save
 #		section
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_section
 
 end

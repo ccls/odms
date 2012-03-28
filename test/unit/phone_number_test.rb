@@ -217,12 +217,15 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		assert_nil phone_number.verified_by_uid
 	end
 
-#protected
-#
+protected
+
 #	def create_phone_number(options={})
 #		phone_number = Factory.build(:phone_number,options)
 #		phone_number.save
 #		phone_number
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_phone_number
 
 end

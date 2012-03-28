@@ -178,4 +178,15 @@ class PageTest < ActiveSupport::TestCase
 		assert_equal p.body('es'), p.body_en
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_page
+
+#	def create_object(options={})
+#		object = Factory.build(:page,options)
+#		object.save
+#		object
+#	end
+
 end

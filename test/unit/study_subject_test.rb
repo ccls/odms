@@ -712,4 +712,16 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert_equal 'n/a', mother.studyid_to_s
 	end
 
+protected
+
+#	#	create_object is called from within the common class tests
+#	def create_object(options={})
+#		object = Factory.build(:study_subject,options)
+#		object.save
+#		object
+#	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_study_subject
+
 end

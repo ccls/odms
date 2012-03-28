@@ -76,12 +76,15 @@ class HomeExposureResponseTest < ActiveSupport::TestCase
 	assert_should_not_require( HomeExposureResponse.db_field_names )
 	assert_should_not_require_unique( HomeExposureResponse.db_field_names )
 
-#protected
-#
+protected
+
 #	def create_home_exposure_response(options={})
 #		home_exposure_response = Factory.build(:home_exposure_response,options)
 #		home_exposure_response.save
 #		home_exposure_response
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_home_exposure_response
 
 end

@@ -18,4 +18,15 @@ class FollowUpTest < ActiveSupport::TestCase
 		} } } }
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_diagnosis
+
+#	def create_object(options={})
+#		object = Factory.build(:diagnosis,options)
+#		object.save
+#		object
+#	end
+
 end

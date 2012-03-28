@@ -23,12 +23,15 @@ class FollowUpTypeTest < ActiveSupport::TestCase
 		assert_equal follow_up_type.description, "#{follow_up_type}"
 	end
 
-#protected
-#
+protected
+
 #	def create_follow_up_type(options={})
 #		follow_up_type = Factory.build(:follow_up_type,options)
 #		follow_up_type.save
 #		follow_up_type
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_follow_up_type
 
 end

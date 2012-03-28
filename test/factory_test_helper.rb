@@ -1,5 +1,33 @@
 module FactoryTestHelper
 
+#	can I just Factory.list_all.each or something??
+
+	%w( abstract address address_type addressing aliquot
+analysis bc_request candidate_control context context_data_source
+county data_source diagnosis document_type document_version
+enrollment follow_up follow_up_type gift_card guide
+home_exposure_response homex_outcome hospital icf_master_id
+icf_master_tracker icf_master_tracker_change icf_master_tracker_update
+ineligible_reason instrument instrument_type instrument_version
+interview interview_method interview_outcome language
+live_birth_data_update operational_event operational_event_type
+organization page patient person phone_number phone_type
+project project_outcome race refusal_reason role sample
+sample_format sample_kit sample_outcome sample_temperature
+sample_type section state study_subject subject_language
+subject_race subject_relationship subject_type tracing_status
+transfer unit user vital_status zip_code ).each do |object|
+#
+#	define a method that is commonly used in these class level tests
+#
+		define_method "create_#{object}" do |*args|
+			options = args.extract_options!
+			new_object = Factory.build(object,options)
+			new_object.save
+			new_object
+		end
+	end
+
 	def create_home_exposure_with_study_subject(options={})
 		study_subject = project = nil
 		unless options[:patient].nil?

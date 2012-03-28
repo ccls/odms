@@ -36,4 +36,15 @@ class InstrumentTypeTest < ActiveSupport::TestCase
 		end
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_instrument_type
+
+#	def create_object(options={})
+#		object = Factory.build(:instrument_type,options)
+#		object.save
+#		object
+#	end
+
 end

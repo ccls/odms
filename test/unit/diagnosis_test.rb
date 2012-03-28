@@ -48,12 +48,15 @@ class DiagnosisTest < ActiveSupport::TestCase
 		assert !diagnosis.is_other?
 	end
 
-#protected
-#
+protected
+
 #	def create_diagnosis(options={})
 #		diagnosis = Factory.build(:diagnosis,options)
 #		diagnosis.save
 #		diagnosis
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_diagnosis
 
 end

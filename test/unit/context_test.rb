@@ -42,4 +42,15 @@ class ContextTest < ActiveSupport::TestCase
 		assert !context.data_sources.empty?
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_context
+
+#	def create_object(options={})
+#		object = Factory.build(:context,options)
+#		object.save
+#		object
+#	end
+
 end

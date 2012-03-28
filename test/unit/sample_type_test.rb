@@ -55,4 +55,7 @@ protected
 		record
 	end
 
+#	MAYBE, but need to define create_sample_type_parent
+#	alias_method :create_object, :create_sample_type_parent
+
 end

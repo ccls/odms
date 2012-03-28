@@ -29,12 +29,15 @@ class SubjectTypeTest < ActiveSupport::TestCase
 			"#{subject_type}"
 	end
 
-#protected
-#
+protected
+
 #	def create_subject_type(options={})
 #		subject_type = Factory.build(:subject_type,options)
 #		subject_type.save
 #		subject_type
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_subject_type
 
 end

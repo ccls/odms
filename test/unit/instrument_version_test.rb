@@ -60,12 +60,15 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 		assert_nil instrument_version
 	end
 
-#protected
-#
+protected
+
 #	def create_instrument_version(options={})
 #		instrument_version = Factory.build(:instrument_version,options)
 #		instrument_version.save
 #		instrument_version
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_instrument_version
 
 end

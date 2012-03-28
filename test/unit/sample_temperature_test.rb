@@ -22,4 +22,15 @@ class SampleTemperatureTest < ActiveSupport::TestCase
 		assert_equal sample_temperature.description, "#{sample_temperature}"
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_sample_temperature
+
+#	def create_object(options={})
+#		object = Factory.build(:sample_temperature,options)
+#		object.save
+#		object
+#	end
+
 end

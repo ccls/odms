@@ -28,4 +28,16 @@ class AnalysisTest < ActiveSupport::TestCase
 		}
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_analysis
+
+#	#	create_object is called from within the common class tests
+#	def create_object(options={})
+#		object = Factory.build(:analysis,options)
+#		object.save
+#		object
+#	end
+
 end

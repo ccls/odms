@@ -32,12 +32,15 @@ class DocumentTypeTest < ActiveSupport::TestCase
 		assert_equal document_type.title, "#{document_type}"
 	end
 
-#protected
-#
+protected
+
 #	def create_document_type(options={})
 #		document_type = Factory.build(:document_type,options)
 #		document_type.save
 #		document_type
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_document_type
 
 end

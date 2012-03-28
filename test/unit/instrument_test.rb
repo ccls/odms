@@ -55,12 +55,15 @@ class InstrumentTest < ActiveSupport::TestCase
 		end
 	end
 
-#protected
-#
+protected
+
 #	def create_instrument(options={})
 #		instrument = Factory.build(:instrument,options)
 #		instrument.save
 #		instrument
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_instrument
 
 end

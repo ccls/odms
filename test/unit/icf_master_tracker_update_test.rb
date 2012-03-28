@@ -173,4 +173,15 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 		icf_master_tracker_update.destroy
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_icf_master_tracker_update
+
+#	def create_object(options={})
+#		object = Factory.build(:icf_master_tracker_update,options)
+#		object.save
+#		object
+#	end
+
 end

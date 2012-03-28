@@ -21,12 +21,15 @@ class PhoneTypeTest < ActiveSupport::TestCase
 		assert_equal phone_type.key, "#{phone_type}"
 	end
 
-#protected
-#
+protected
+
 #	def create_phone_type(options={})
 #		phone_type = Factory.build(:phone_type,options)
 #		phone_type.save
 #		phone_type
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_phone_type
 
 end

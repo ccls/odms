@@ -28,4 +28,15 @@ class GuideTest < ActiveSupport::TestCase
 		assert_equal "#{guide.controller}##{guide.action}", "#{guide}"
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_guide
+
+#	def create_object(options={})
+#		object = Factory.build(:guide,options)
+#		object.save
+#		object
+#	end
+
 end

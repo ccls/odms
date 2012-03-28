@@ -355,4 +355,15 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 		cleanup_live_birth_data_update_and_test_file(live_birth_data_update)
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_live_birth_data_update
+
+#	def create_object(options={})
+#		object = Factory.build(:live_birth_data_update,options)
+#		object.save
+#		object
+#	end
+
 end

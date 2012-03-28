@@ -22,5 +22,15 @@ class SampleFormatTest < ActiveSupport::TestCase
 		assert_equal sample_format.description, "#{sample_format}"
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_sample_format
+
+#	def create_object(options={})
+#		object = Factory.build(:sample_format,options)
+#		object.save
+#		object
+#	end
 
 end

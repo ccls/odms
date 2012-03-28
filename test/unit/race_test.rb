@@ -26,12 +26,15 @@ class RaceTest < ActiveSupport::TestCase
 		assert_equal race.name, "#{race}"
 	end
 
-#protected
-#
+protected
+
 #	def create_race(options={})
 #		race = Factory.build(:race,options)
 #		race.save
 #		race
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_race
 
 end

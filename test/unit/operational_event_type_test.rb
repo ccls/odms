@@ -40,12 +40,15 @@ class OperationalEventTypeTest < ActiveSupport::TestCase
 		end
 	end
 
-#protected
-#
+protected
+
 #	def create_operational_event_type(options={})
 #		operational_event_type = Factory.build(:operational_event_type,options)
 #		operational_event_type.save
 #		operational_event_type
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_operational_event_type
 
 end

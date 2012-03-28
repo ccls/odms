@@ -22,12 +22,15 @@ class VitalStatusTest < ActiveSupport::TestCase
 		assert_equal vital_status.description, "#{vital_status}"
 	end
 
-#protected
-#
+protected
+
 #	def create_vital_status(options={})
 #		vital_status = Factory.build(:vital_status,options)
 #		vital_status.save
 #		vital_status
 #	end
+#
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_vital_status
 
 end

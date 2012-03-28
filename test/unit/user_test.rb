@@ -142,12 +142,15 @@ class UserTest < ActiveSupport::TestCase
 pending
 	end
 
-#protected
-#
+protected
+
 #	def create_user(options = {})
 #		user = Factory.build(:user,options)
 #		user.save
 #		user
 #	end
 	
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_user
+
 end

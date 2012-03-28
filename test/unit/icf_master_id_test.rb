@@ -19,12 +19,15 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 		assert_equal "123456789", "#{icf_master_id}"
 	end
 
-#protected
-#
+protected
+
 #	def create_icf_master_id(options={})
 #		icf_master_id = Factory.build(:icf_master_id,options)
 #		icf_master_id.save
 #		icf_master_id
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_icf_master_id
 
 end

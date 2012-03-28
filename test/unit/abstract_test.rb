@@ -651,4 +651,16 @@ class AbstractTest < ActiveSupport::TestCase
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
+
+protected
+
+#	def create_abstract(options={})
+#		object = Factory.build(:abstract,options)
+#		object.save
+#		object
+#	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_abstract
+
 end

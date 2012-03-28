@@ -34,12 +34,15 @@ class GiftCardTest < ActiveSupport::TestCase
 		assert_equal gift_card.number, "#{gift_card}"
 	end
 
-#protected
-#
+protected
+
 #	def create_gift_card(options={})
 #		gift_card = Factory.build(:gift_card,options)
 #		gift_card.save
 #		gift_card
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_gift_card
 
 end

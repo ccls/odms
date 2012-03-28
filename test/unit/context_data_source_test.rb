@@ -23,4 +23,7 @@ protected
 #		context_data_source
 #	end
 
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_context_data_source
+
 end

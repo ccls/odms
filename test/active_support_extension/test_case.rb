@@ -3,7 +3,7 @@ module ActiveSupportExtension::TestCase
 	def self.included(base)
 		base.extend(ClassMethods)
 		base.send(:include, InstanceMethods)
-		base.alias_method_chain :method_missing, :create_object
+#		base.alias_method_chain :method_missing, :create_object
 
 #	I can't seem to find out how to confirm that 
 #	method_missing_without_create_object
@@ -187,34 +187,34 @@ module ActiveSupportExtension::TestCase
 			self.class.st_model_name
 		end
 
-		def method_missing_with_create_object(symb,*args, &block)
-			method = symb.to_s
-#			if method =~ /^create_(.+)(\!?)$/
-			if method =~ /^create_([^!]+)(!?)$/
-				factory = if( $1 == 'object' )
-#	doesn't work for controllers yet.  Need to consider
-#	singular and plural as well as "tests" method.
-#	Probably should just use the explicit factory
-#	name in the controller tests.
-#				self.class.name.sub(/Test$/,'').underscore
-					model_name.underscore
-				else
-					$1
-				end
-				bang = $2
-				options = args.extract_options!
-				if bang.blank?
-					record = Factory.build(factory,options)
-					record.save
-					record
-				else
-					Factory(factory,options)
-				end
-			else
-#				super(symb,*args, &block)
-				method_missing_without_create_object(symb,*args, &block)
-			end
-		end
+#		def method_missing_with_create_object(symb,*args, &block)
+#			method = symb.to_s
+##			if method =~ /^create_(.+)(\!?)$/
+#			if method =~ /^create_([^!]+)(!?)$/
+#				factory = if( $1 == 'object' )
+##	doesn't work for controllers yet.  Need to consider
+##	singular and plural as well as "tests" method.
+##	Probably should just use the explicit factory
+##	name in the controller tests.
+##				self.class.name.sub(/Test$/,'').underscore
+#					model_name.underscore
+#				else
+#					$1
+#				end
+#				bang = $2
+#				options = args.extract_options!
+#				if bang.blank?
+#					record = Factory.build(factory,options)
+#					record.save
+#					record
+#				else
+#					Factory(factory,options)
+#				end
+#			else
+##				super(symb,*args, &block)
+#				method_missing_without_create_object(symb,*args, &block)
+#			end
+#		end
 
 		#	basically a copy of assert_difference, but
 		#	without any explicit comparison as it is 

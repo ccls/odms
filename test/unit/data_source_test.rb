@@ -38,4 +38,15 @@ class DataSourceTest < ActiveSupport::TestCase
 		assert data_source.is_other?
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_data_source
+
+#	def create_object(options={})
+#		object = Factory.build(:data_source)
+#		object.save
+#		object
+#	end
+
 end

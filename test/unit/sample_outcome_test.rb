@@ -23,12 +23,15 @@ class SampleOutcomeTest < ActiveSupport::TestCase
 			"#{sample_outcome}"
 	end
 
-#protected
-#
+protected
+
 #	def create_sample_outcome(options={})
 #		sample_outcome = Factory.build(:sample_outcome,options)
 #		sample_outcome.save
 #		sample_outcome
 #	end
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_sample_outcome
 
 end
