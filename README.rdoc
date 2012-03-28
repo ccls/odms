@@ -98,6 +98,33 @@ config.active_record.include_root_in_json = false
 
 PRIORITY
 
+
+
+I'll need to check on this, but for live_birth_date and icf_master_tracker updates, I do assign both the url and the path
+
+Post-install message from paperclip:
+##################################################
+#  NOTE FOR UPGRADING FROM PRE-3.0 VERSION       #
+##################################################
+
+Paperclip 3.0 introduces a non-backward compatible change in your attachment
+path. This will help to prevent attachment name clashes when you have
+multiple attachments with the same name. If you didn't alter your
+attachment's path and are using Paperclip's default, you'll have to add
+`:path` and `:url` to your `has_attached_file` definition. For example:
+
+    has_attached_file :avatar,
+      :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+ \     :url => "/system/:attachment/:id/:style/:filename"
+
+
+* autotest now hangs on my work computer??
+  * works on my old laptop at home
+  * works on other apps
+  * so what happened around March 25th ?
+
+
+
 * live_birth_data_update and icf_master_tracker_updates aren't always being deleted in testing
   * may just be when there are errors.  unfortunately it can leave a mess.
   * hmmm
