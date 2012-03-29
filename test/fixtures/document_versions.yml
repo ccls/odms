@@ -1,3 +1,13 @@
+#
+#	Do not change id or key
+#		'id' could be referenced by existing data
+#		'key' is used in the rails code for searching 
+#
+#	Be Advised.  Yaml fixture labels MUST BE UNIQUE.
+#		If a label is repeated, only the last one will exist.
+#
+#	Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+#
 --- 
 document_versions_001: 
   title: MCLB-05112010-eng
