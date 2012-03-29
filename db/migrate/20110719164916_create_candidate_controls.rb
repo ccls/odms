@@ -1,7 +1,7 @@
 class CreateCandidateControls < ActiveRecord::Migration
 	def self.up
 		create_table :candidate_controls do |t|
-			t.integer :icf_master_id
+			t.string  :icf_master_id
 			t.string  :related_patid, :limit => 5
 			t.integer :study_subject_id
 			t.string  :first_name
