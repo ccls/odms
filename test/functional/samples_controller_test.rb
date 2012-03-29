@@ -164,7 +164,13 @@ class SamplesControllerTest < ActionController::TestCase
 	#		Begin Find Tests
 	
 		test "should find samples by sample_id and #{cu} login" do
-pending	#	TODO
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+#	There is no actual sampleid field. It is just id with leading zeros.
+			get :find, :sampleid => samples[1].id
+			assert_response :success
+			assert_equal 1, assigns(:samples).length
+			assert assigns(:samples).include?(samples[1])
 		end
 
 		test "should find samples by parent sample_type and #{cu} login" do

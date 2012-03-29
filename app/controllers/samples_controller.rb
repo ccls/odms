@@ -34,6 +34,13 @@ class SamplesController < ApplicationController
 			conditions[1][:last_name] = "%#{params[:last_name]}%"
 		end
 
+		if params[:sampleid] and !params[:sampleid].blank?
+#			conditions[0] << "( samples.id LIKE :sampleid )"		#	LIKE?  REALLY?
+#			conditions[1][:sampleid] = "%#{params[:sampleid]}%"
+			conditions[0] << "( samples.id = :sampleid )"	#	MUST include table name here
+			conditions[1][:sampleid] = params[:sampleid].gsub(/^0*/,'')
+		end
+
 		if params[:sample_type_id] and !params[:sample_type_id].blank? and 
 				SampleType.exists?(params[:sample_type_id])
 			sample_type = SampleType.find(params[:sample_type_id])
@@ -45,21 +52,9 @@ class SamplesController < ApplicationController
 			end
 		end
 
-#	may want to implement this for study_subjects/find on dob as well
+		#	may want to implement this for study_subjects/find on dob as well
 		validate_valid_date_range_for(:sent_to_subject_on,conditions)
 		validate_valid_date_range_for(:received_by_ccls_at,conditions)
-
-#		@samples = Sample.paginate(
-#			:joins => [ 'LEFT JOIN study_subjects ON study_subjects.id = samples.study_subject_id' ],
-#			:conditions => [ conditions[0].join(valid_find_operator), conditions[1] ],
-#			:per_page => params[:per_page]||25,
-#			:page     => valid_find_page
-#		)
-
-#	why left join?  
-#		@samples = Sample.joins(
-#			'LEFT JOIN study_subjects ON study_subjects.id = samples.study_subject_id'
-#		).where( 
 
 		@samples = Sample.joins(:study_subject
 			).where(conditions[0].join(valid_find_operator), conditions[1] 
