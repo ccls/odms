@@ -110,22 +110,7 @@ config.active_record.include_root_in_json = false
 
 
 
-
-* remove the special interview fields
-  * could also remove the special selectors
-
-
-
-
-* convert zip_codes, counties and document_versions into yml?
-  * perhaps just document_versions
-
-
-
-
 * rake test:coverage
-
-* resolve all pending tests
 
 * resolve all commented out tests
 
@@ -163,11 +148,6 @@ config.active_record.include_root_in_json = false
 * remove any unused code
 
 * Keep or Remove HomexOutcome and custom HomeExposure callbacks????
-
-* fix assert_no_route test (doesn't work with assets.enabled)
-  * perhaps I can temporarily disable the assets pipeline?
-    * No, it doesn't appear so
-
 
 * database access seems MUCH slower in Rails 3.
   * modifying many tests to try to not actually use the database.
