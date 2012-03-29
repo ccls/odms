@@ -2,24 +2,34 @@ module FactoryTestHelper
 
 #	can I just Factory.list_all.each or something??
 
-	%w( abstract address address_type addressing aliquot
-analysis bc_request candidate_control context context_data_source
-county data_source diagnosis document_type document_version
-enrollment follow_up follow_up_type gift_card guide
-home_exposure_response homex_outcome hospital icf_master_id
-icf_master_tracker icf_master_tracker_change icf_master_tracker_update
-ineligible_reason instrument instrument_type instrument_version
-interview interview_method interview_outcome language
-live_birth_data_update operational_event operational_event_type
-organization page patient person phone_number phone_type
-project project_outcome race refusal_reason role sample
-sample_format sample_kit sample_outcome sample_temperature
-sample_type section state study_subject subject_language
-subject_race subject_relationship subject_type tracing_status
-transfer unit user vital_status zip_code ).each do |object|
+#	%w( abstract address address_type addressing aliquot
+#analysis bc_request candidate_control context context_data_source
+#county data_source diagnosis document_type document_version
+#enrollment follow_up follow_up_type gift_card guide
+#home_exposure_response homex_outcome hospital icf_master_id
+#icf_master_tracker icf_master_tracker_change icf_master_tracker_update
+#ineligible_reason instrument instrument_type instrument_version
+#interview interview_method interview_outcome language
+#live_birth_data_update operational_event operational_event_type
+#organization page patient person phone_number phone_type
+#project project_outcome race refusal_reason role sample
+#sample_format sample_kit sample_outcome sample_temperature
+#sample_type section state study_subject subject_language
+#subject_race subject_relationship subject_type tracing_status
+#transfer unit user vital_status zip_code 
+#case_study_subject control_study_subject mother_study_subject
+#complete_case_study_subject 
+#).each do |object|
+
+#	
+#	If these aren't defined, autotest can hang indefinitly
+#	and you won't know why.
 #
-#	define a method that is commonly used in these class level tests
-#
+	FactoryGirl.factories.collect(&:name).each do |object|
+		#
+		#	define a method that is commonly used in these class level tests
+		#	I'd actually prefer to not do this, but is very helpful.
+		#
 		define_method "create_#{object}" do |*args|
 			options = args.extract_options!
 			new_object = Factory.build(object,options)
@@ -38,7 +48,6 @@ transfer unit user vital_status zip_code ).each do |object|
 		assert_difference('StudySubject.count',1) {
 			study_subject    = Factory(:study_subject,options[:study_subject]||{})
 		} }
-#		project = Project.find_or_create_by_key('HomeExposures')
 		project = Project['HomeExposures']
 		assert_not_nil project
 		assert_difference('StudySubject.count',0) {
