@@ -1,165 +1,1541 @@
-
-1:
-  document_type_id: 1
+--- 
+document_versions_001: 
   title: MCLB-05112010-eng
-  language_id: 1
   indicator: 4/18/2011
-  began_use_on: 5/11/2010
-  ended_use_on: 4/18/2011
-
-
-#document_type_id,title,language_id,indicator,began_use_on,ended_use_on
-#1,MCLB-05112010-eng,1,4/18/2011,5/11/2010,4/18/2011
-#1,CHO-1999-eng,1,12/31/1999,12/31/1999,
-#1,CHO-2000-eng,1,12/31/2000,12/31/2000,
-#1,CHO-2000-span,3,12/31/2000,12/31/2000,
-#1,CHO-05282002-eng,1,5/28/2003,5/28/2002,5/28/2003
-#1,CHO-10162002-span,3,10/16/2003,10/16/2002,10/16/2003
-#1,CHO-06192003-eng,1,6/19/2004,6/19/2003,6/19/2004
-#1,CHO-06192003-span,3,6/19/2004,6/19/2003,6/19/2004
-#1,CHO-03252004-eng,1,3/25/2006,3/25/2004,3/25/2006
-#1,CHO-03252004-span,3,3/25/2005,3/25/2004,3/25/2005
-#1,CHO-06162005-eng,1,6/16/2006,6/16/2005,6/16/2006
-#1,CHO-06162005-span,3,6/16/2006,6/16/2005,6/16/2006
-#1,CHO-06182006-eng,1,6/28/2007,6/18/2006,6/28/2007
-#1,CHO-06042007-eng,1,6/27/2008,06/04/2007,06/27/2008
-#1,CHO-06042007-span,3,6/27/2008,06/04/2007,06/27/2008
-#1,CHO-03252008-eng,1,6/27/2008,03/25/2008,06/27/2008
-#1,CHO-06262008-eng,1,6/26/2009,06/26/2008,06/26/2009
-#1,CHO-06262008-span,3,6/26/2010,06/26/2008,06/26/2010
-#1,CHO-06012009-eng,1,6/25/2010,06/01/2009,06/25/2010
-#1,CHO-07072009-span,3,6/25/2010,07/07/2009,06/25/2010
-#1,CHO-06242010-eng,1,6/24/2011,06/24/2010,06/24/2011
-#1,CHO-06242010-span,3,6/24/2011,06/24/2010,06/24/2011
-#1,PCHS-09011999-eng,1,9/1/2000,9/1/1999,9/1/2000
-#1,PCHS-08222000-span,3,8/21/2001,8/22/2000,8/21/2001
-#1,PCHS-08222000-eng,1,8/21/2001,8/22/2000,8/21/2001
-#1,PCHS-09012000-eng,1,9/1/2001,9/1/2000,9/1/2001
-#1,PCHS-08142001-span,3,8/13/2002,8/14/2001,8/13/2002
-#1,PCHS-08142001-eng,1,8/13/2002,8/14/2001,8/13/2002
-#1,PCHS-08132002-span,3,8/12/2003,8/13/2002,8/12/2003
-#1,PCHS-08132002-eng,1,8/12/2003,8/13/2002,8/12/2003
-#1,PCHS-08122003-span,3,8/11/2004,8/12/2003,8/11/2004
-#1,PCHS-08122003-eng,1,8/11/2004,8/12/2003,8/11/2004
-#1,PCHS-08102004-span,3,8/9/2005,8/10/2004,8/9/2005
-#1,PCHS-08102004-eng,1,8/10/2005,8/10/2004,8/10/2005
-#1,PCHS-08092005-span,3,8/8/2006,8/9/2005,8/8/2006
-#1,PCHS-08092005-eng,1,8/8/2006,8/9/2005,8/8/2006
-#1,PCHS-07262006-span,3,7/25/2007,7/26/2006,7/25/2007
-#1,PCHS-07192006-eng,1,7/18/2007,7/19/2006,7/18/2007
-#1,PCHS-07182007-span,3,7/17/2008,7/18/2007,7/17/2008
-#1,PCHS-07182007-eng,1,7/17/2008,7/18/2007,7/17/2008
-#1,PCHS-03192008-span,3,7/17/2008,3/19/2008,7/17/2008
-#1,PCHS-03192008-eng,1,7/17/2008,3/19/2008,7/17/2008
-#1,PCHS-07162008-span,3,7/15/2009,7/16/2008,7/15/2009
-#1,PCHS-07162008-eng,1,7/15/2009,7/16/2008,7/15/2009
-#1,PCHS-06172009-span,3,6/16/2010,6/17/2009,6/16/2010
-#1,PCHS-06172009-eng,1,6/16/2010,6/17/2009,6/16/2010
-#1,PCHS-05122010-span,3,5/11/2011,5/12/2010,5/11/2011
-#1,PCHS-05122010-eng,1,5/11/2011,5/12/2010,5/11/2011
-#1,PCHS-04132011-span,3,4/12/2012,4/13/2011,4/12/2012
-#1,PCHS-04132011-eng,1,4/12/2010,4/13/2011,4/12/2010
-#1,KPSC-,1,9/25/2011,10/21/2010,9/25/2011
-#1,CHCC-1999-eng,1,12/31/1999,12/31/1999,
-#1,CHCC-2000-eng,1,12/31/2000,12/31/2000,
-#1,CHCC-04032001-eng,1,4/3/2002,4/3/2001,4/3/2002
-#1,CHCC-03062002-eng,1,3/5/2003,3/6/2002,3/5/2003
-#1,CHCC-06052002-eng,1,3/5/2003,6/5/2002,3/5/2003
-#1,CHCC-06052002-span,3,3/5/2003,6/5/2002,3/5/2003
-#1,CHCC-02052003-eng,1,2/4/2004,2/5/2003,2/4/2004
-#1,CHCC-02052003-span,3,1/7/2004,2/5/2003,1/7/2004
-#1,CHCC-01072004-eng,1,1/6/2005,1/7/2004,1/6/2005
-#1,CHCC-01072004-span,3,1/6/2005,1/7/2004,1/6/2005
-#1,CHCC-12012004-eng,1,11/30/2005,12/1/2004,11/30/2005
-#1,CHCC-01042005-eng,1,11/2/2005,1/4/2005,11/2/2005
-#1,CHCC-05242005-eng,1,11/30/2005,5/24/2005,11/30/2005
-#1,CHCC-05242005-span,3,11/30/2005,5/24/2005,11/30/2005
-#1,CHCC-10052005-eng,1,10/4/2006,10/5/2005,10/4/2006
-#1,CHCC-10052005-span,3,10/4/2006,10/5/2005,10/4/2006
-#1,CHCC-02272006-eng,1,10/4/2006,2/27/2006,10/4/2006
-#1,CHCC-04102006-span,3,10/4/2006,4/10/2006,10/4/2006
-#1,CHCC-10042006-eng,1,10/3/2007,10/4/2006,10/3/2007
-#1,CHCC-10032006-span,3,10/3/2007,10/3/2006,10/3/2007
-#1,CHCC-03202007-eng,1,10/3/2007,3/20/2007,10/3/2007
-#1,CHCC-03202007-span,3,10/3/2007,3/20/2007,10/3/2007
-#1,CHCC-09052007-eng,1,9/4/2008,09/05/2007,09/04/2008
-#1,CHCC-09052007-span,3,9/4/2008,09/05/2007,09/04/2008
-#1,CHCC-03132008-eng,1,9/4/2008,03/13/2008,09/04/2008
-#1,CHCC-03132008-span,3,9/4/2008,03/13/2008,09/04/2008
-#1,CHCC-08132008-eng,1,8/5/2009,08/13/2008,08/05/2009
-#1,CHCC-08132008-span,3,8/5/2009,08/13/2008,08/05/2009
-#1,CHCC-08052009-eng,1,8/4/2010,08/05/2009,08/04/2010
-#1,CHCC-08052009-span,3,8/4/2010,08/05/2009,08/04/2010
-#1,CHCC-07072010-eng,1,7/6/2011,07/07/2010,07/06/2011
-#1,CHCC-07072010-span,3,7/6/2011,07/07/2010,07/06/2011
-#1,KPNC-1996-eng,1,12/31/1996,12/31/1996,
-#1,KPNC-1999-eng,1,12/31/1999,12/31/1999,
-#1,KPNC-1999-span,3,12/31/1999,12/31/1999,
-#1,KPNC-2000-eng,1,12/31/2000,12/31/2000,
-#1,KPNC-2000-span,3,12/31/2000,12/31/2000,
-#1,KPNC-2001-eng,1,12/31/2001,12/31/2001,
-#1,KPNC-2001-span,3,12/31/2001,12/31/2001,
-#1,KPNC-06202002-eng,1,3/28/2003,6/20/2002,3/28/2003
-#1,KPNC-06202002-span,3,3/28/2003,6/20/2002,3/28/2003
-#1,KPNC-08202003-eng,1,3/18/2004,8/20/2003,3/18/2004
-#1,KPNC-03282003-eng,1,3/18/2004,3/28/2003,3/18/2004
-#1,KPNC-03182004-eng,1,3/17/2005,3/18/2004,3/17/2005
-#1,KPNC-02182005-eng,1,2/16/2006,2/18/2005,2/16/2006
-#1,KPNC-02182005-span,3,2/16/2006,2/18/2005,2/16/2006
-#1,KPNC-08112006-eng,1,2/15/2007,8/11/2006,2/15/2007
-#1,KPNC-08112006-span,3,2/15/2007,8/11/2006,2/15/2007
-#1,KPNC-02192007-eng,1,2/19/2008,2/19/2007,2/19/2008
-#1,KPNC-02192007-span,3,2/19/2008,2/19/2007,2/19/2008
-#1,KPNC-05272008-eng,1,8/1/2009,5/27/2008,8/1/2009
-#1,KPNC-05272008-span,3,8/1/2009,5/27/2008,8/1/2009
-#1,UCD-01052000-eng,1,1/5/2001,1/5/2000,1/5/2001
-#1,UCD-11012000-span,3,11/1/2001,11/1/2000,11/1/2001
-#1,UCD-11012001-eng,1,10/11/2002,11/1/2001,10/11/2002
-#1,UCD-11012001-span,3,10/11/2002,11/1/2001,10/11/2002
-#1,UCD-10112002-eng,1,8/25/2003,10/11/2002,8/25/2003
-#1,UCD-12182003-span,3,8/25/2004,12/18/2003,8/25/2004
-#1,UCD-08252003-eng,1,6/12/2004,8/25/2003,6/12/2004
-#1,UCD-07122004-eng,1,7/12/2005,7/12/2004,7/12/2005
-#1,UCD-05232005-eng,1,5/23/2006,5/23/2005,5/23/2006
-#1,UCD-05082006-eng,1,5/8/2007,5/8/2006,5/8/2007
-#1,UCD-04182007-span,3,4/18/2008,4/18/2007,4/18/2008
-#1,UCD-04182007-eng,1,4/18/2008,4/18/2007,4/18/2008
-#1,UCD-03242008-span,3,3/24/2009,3/24/2008,3/24/2009
-#1,UCD-03242008-eng,1,3/24/2009,3/24/2008,3/24/2009
-#1,UCD-04092009-span,3,2/22/2010,4/9/2009,2/22/2010
-#1,UCD-02232009-eng,1,2/22/2010,2/23/2009,2/22/2010
-#1,UCD-02222010-span,3,2/21/2011,2/22/2010,2/21/2011
-#1,UCD-02222010-eng,1,2/21/2011,2/22/2010,2/21/2011
-#1,UCD-02182011-span,3,2/17/2012,2/18/2011,2/17/2012
-#1,UCD-02182011-eng,1,2/17/2012,2/18/2011,2/17/2012
-#1,CPMC-03102011-eng,1,2/21/2010,3/10/2011,2/21/2010
-#1,UCSF-12201999-eng,1,9/11/2000,12/20/1999,9/11/2000
-#1,UCSF-08032000-span,3,8/3/2001,8/3/2000,8/3/2001
-#1,UCSF-08032000-eng,1,8/3/2001,8/3/2000,8/3/2001
-#1,UCSF-07192001-span,3,7/19/2002,7/19/2001,7/19/2002
-#1,UCSF-07192001-eng,1,7/19/2002,7/19/2001,7/19/2002
-#1,UCSF-11142002-span,3,7/16/2003,11/14/2002,7/16/2003
-#1,UCSF-07302002-eng,1,7/30/2003,7/30/2002,7/30/2003
-#1,UCSF-08162002-eng,1,7/16/2003,8/16/2002,7/16/2003
-#1,UCSF-05022003-span,3,5/2/2004,5/2/2003,5/2/2004
-#1,UCSF-05022003-eng,1,5/2/2004,5/2/2003,5/2/2004
-#1,UCSF-08272003-eng,1,8/27/2004,8/27/2003,8/27/2004
-#1,UCSF-06172004-span,3,6/17/2005,6/17/2004,6/17/2005
-#1,UCSF-06172004-eng,1,6/17/2005,6/17/2004,6/17/2005
-#1,UCSF-06242005-eng,1,6/9/2006,6/24/2005,6/9/2006
-#1,UCSF-06242005-span,3,6/9/2006,6/24/2005,6/9/2006
-#1,UCSF-06202006-eng,1,5/11/2007,6/20/2006,5/11/2007
-#1,UCSF-06202006-span,3,5/11/2007,6/20/2006,5/11/2007
-#1,UCSF-04262007-eng,1,5/11/2008,4/26/2007,5/11/2008
-#1,UCSF-04262007-span,3,5/11/2008,4/26/2007,5/11/2008
-#1,UCSF-05082008-span,3,5/11/2009,5/8/2008,5/11/2009
-#1,UCSF-05082008-eng,1,5/11/2009,5/8/2008,5/11/2009
-#1,UCSF-05122009-span,3,5/12/2010,5/12/2009,5/12/2010
-#1,UCSF-05122009-eng,1,5/12/2009,5/12/2009,5/12/2009
-#1,UCSF-05112010-span,3,5/12/2011,5/11/2010,5/12/2011
-#1,UCSF-05112010-eng,1,5/12/2011,5/11/2010,5/12/2011
-#1,RCSD-03032011-eng,1,3/1/2012,3/3/2011,3/1/2012
-#1,UCLA-10282010-eng,1,10/27/2011,10/28/2010,10/27/2011
-#1,CHOC-11152010-eng,1,10/18/2011,11/15/2010,10/18/2011
-#1,CCLS-control-eng,1,,,
-#1,CCLS-control-span,3,,,
+  position: 1
+  description: 
+  began_use_on: 2010-05-11
+  language_id: 1
+  document_type_id: 1
+  id: 1
+  ended_use_on: 2011-04-18
+document_versions_002: 
+  title: CHO-1999-eng
+  indicator: 12/31/1999
+  position: 2
+  description: 
+  began_use_on: 1999-12-31
+  language_id: 1
+  document_type_id: 1
+  id: 2
+  ended_use_on: 
+document_versions_003: 
+  title: CHO-2000-eng
+  indicator: 12/31/2000
+  position: 3
+  description: 
+  began_use_on: 2000-12-31
+  language_id: 1
+  document_type_id: 1
+  id: 3
+  ended_use_on: 
+document_versions_004: 
+  title: CHO-2000-span
+  indicator: 12/31/2000
+  position: 4
+  description: 
+  began_use_on: 2000-12-31
+  language_id: 3
+  document_type_id: 1
+  id: 4
+  ended_use_on: 
+document_versions_005: 
+  title: CHO-05282002-eng
+  indicator: 5/28/2003
+  position: 5
+  description: 
+  began_use_on: 2002-05-28
+  language_id: 1
+  document_type_id: 1
+  id: 5
+  ended_use_on: 2003-05-28
+document_versions_006: 
+  title: CHO-10162002-span
+  indicator: 10/16/2003
+  position: 6
+  description: 
+  began_use_on: 2002-10-16
+  language_id: 3
+  document_type_id: 1
+  id: 6
+  ended_use_on: 2003-10-16
+document_versions_007: 
+  title: CHO-06192003-eng
+  indicator: 6/19/2004
+  position: 7
+  description: 
+  began_use_on: 2003-06-19
+  language_id: 1
+  document_type_id: 1
+  id: 7
+  ended_use_on: 2004-06-19
+document_versions_008: 
+  title: CHO-06192003-span
+  indicator: 6/19/2004
+  position: 8
+  description: 
+  began_use_on: 2003-06-19
+  language_id: 3
+  document_type_id: 1
+  id: 8
+  ended_use_on: 2004-06-19
+document_versions_009: 
+  title: CHO-03252004-eng
+  indicator: 3/25/2006
+  position: 9
+  description: 
+  began_use_on: 2004-03-25
+  language_id: 1
+  document_type_id: 1
+  id: 9
+  ended_use_on: 2006-03-25
+document_versions_010: 
+  title: CHO-03252004-span
+  indicator: 3/25/2005
+  position: 10
+  description: 
+  began_use_on: 2004-03-25
+  language_id: 3
+  document_type_id: 1
+  id: 10
+  ended_use_on: 2005-03-25
+document_versions_011: 
+  title: CHO-06162005-eng
+  indicator: 6/16/2006
+  position: 11
+  description: 
+  began_use_on: 2005-06-16
+  language_id: 1
+  document_type_id: 1
+  id: 11
+  ended_use_on: 2006-06-16
+document_versions_012: 
+  title: CHO-06162005-span
+  indicator: 6/16/2006
+  position: 12
+  description: 
+  began_use_on: 2005-06-16
+  language_id: 3
+  document_type_id: 1
+  id: 12
+  ended_use_on: 2006-06-16
+document_versions_013: 
+  title: CHO-06182006-eng
+  indicator: 6/28/2007
+  position: 13
+  description: 
+  began_use_on: 2006-06-18
+  language_id: 1
+  document_type_id: 1
+  id: 13
+  ended_use_on: 2007-06-28
+document_versions_014: 
+  title: CHO-06042007-eng
+  indicator: 6/27/2008
+  position: 14
+  description: 
+  began_use_on: 2007-06-04
+  language_id: 1
+  document_type_id: 1
+  id: 14
+  ended_use_on: 2008-06-27
+document_versions_015: 
+  title: CHO-06042007-span
+  indicator: 6/27/2008
+  position: 15
+  description: 
+  began_use_on: 2007-06-04
+  language_id: 3
+  document_type_id: 1
+  id: 15
+  ended_use_on: 2008-06-27
+document_versions_016: 
+  title: CHO-03252008-eng
+  indicator: 6/27/2008
+  position: 16
+  description: 
+  began_use_on: 2008-03-25
+  language_id: 1
+  document_type_id: 1
+  id: 16
+  ended_use_on: 2008-06-27
+document_versions_017: 
+  title: CHO-06262008-eng
+  indicator: 6/26/2009
+  position: 17
+  description: 
+  began_use_on: 2008-06-26
+  language_id: 1
+  document_type_id: 1
+  id: 17
+  ended_use_on: 2009-06-26
+document_versions_018: 
+  title: CHO-06262008-span
+  indicator: 6/26/2010
+  position: 18
+  description: 
+  began_use_on: 2008-06-26
+  language_id: 3
+  document_type_id: 1
+  id: 18
+  ended_use_on: 2010-06-26
+document_versions_019: 
+  title: CHO-06012009-eng
+  indicator: 6/25/2010
+  position: 19
+  description: 
+  began_use_on: 2009-06-01
+  language_id: 1
+  document_type_id: 1
+  id: 19
+  ended_use_on: 2010-06-25
+document_versions_020: 
+  title: CHO-07072009-span
+  indicator: 6/25/2010
+  position: 20
+  description: 
+  began_use_on: 2009-07-07
+  language_id: 3
+  document_type_id: 1
+  id: 20
+  ended_use_on: 2010-06-25
+document_versions_021: 
+  title: CHO-06242010-eng
+  indicator: 6/24/2011
+  position: 21
+  description: 
+  began_use_on: 2010-06-24
+  language_id: 1
+  document_type_id: 1
+  id: 21
+  ended_use_on: 2011-06-24
+document_versions_022: 
+  title: CHO-06242010-span
+  indicator: 6/24/2011
+  position: 22
+  description: 
+  began_use_on: 2010-06-24
+  language_id: 3
+  document_type_id: 1
+  id: 22
+  ended_use_on: 2011-06-24
+document_versions_023: 
+  title: PCHS-09011999-eng
+  indicator: 9/1/2000
+  position: 23
+  description: 
+  began_use_on: 1999-09-01
+  language_id: 1
+  document_type_id: 1
+  id: 23
+  ended_use_on: 2000-09-01
+document_versions_024: 
+  title: PCHS-08222000-span
+  indicator: 8/21/2001
+  position: 24
+  description: 
+  began_use_on: 2000-08-22
+  language_id: 3
+  document_type_id: 1
+  id: 24
+  ended_use_on: 2001-08-21
+document_versions_025: 
+  title: PCHS-08222000-eng
+  indicator: 8/21/2001
+  position: 25
+  description: 
+  began_use_on: 2000-08-22
+  language_id: 1
+  document_type_id: 1
+  id: 25
+  ended_use_on: 2001-08-21
+document_versions_026: 
+  title: PCHS-09012000-eng
+  indicator: 9/1/2001
+  position: 26
+  description: 
+  began_use_on: 2000-09-01
+  language_id: 1
+  document_type_id: 1
+  id: 26
+  ended_use_on: 2001-09-01
+document_versions_027: 
+  title: PCHS-08142001-span
+  indicator: 8/13/2002
+  position: 27
+  description: 
+  began_use_on: 2001-08-14
+  language_id: 3
+  document_type_id: 1
+  id: 27
+  ended_use_on: 2002-08-13
+document_versions_028: 
+  title: PCHS-08142001-eng
+  indicator: 8/13/2002
+  position: 28
+  description: 
+  began_use_on: 2001-08-14
+  language_id: 1
+  document_type_id: 1
+  id: 28
+  ended_use_on: 2002-08-13
+document_versions_029: 
+  title: PCHS-08132002-span
+  indicator: 8/12/2003
+  position: 29
+  description: 
+  began_use_on: 2002-08-13
+  language_id: 3
+  document_type_id: 1
+  id: 29
+  ended_use_on: 2003-08-12
+document_versions_030: 
+  title: PCHS-08132002-eng
+  indicator: 8/12/2003
+  position: 30
+  description: 
+  began_use_on: 2002-08-13
+  language_id: 1
+  document_type_id: 1
+  id: 30
+  ended_use_on: 2003-08-12
+document_versions_031: 
+  title: PCHS-08122003-span
+  indicator: 8/11/2004
+  position: 31
+  description: 
+  began_use_on: 2003-08-12
+  language_id: 3
+  document_type_id: 1
+  id: 31
+  ended_use_on: 2004-08-11
+document_versions_032: 
+  title: PCHS-08122003-eng
+  indicator: 8/11/2004
+  position: 32
+  description: 
+  began_use_on: 2003-08-12
+  language_id: 1
+  document_type_id: 1
+  id: 32
+  ended_use_on: 2004-08-11
+document_versions_033: 
+  title: PCHS-08102004-span
+  indicator: 8/9/2005
+  position: 33
+  description: 
+  began_use_on: 2004-08-10
+  language_id: 3
+  document_type_id: 1
+  id: 33
+  ended_use_on: 2005-08-09
+document_versions_034: 
+  title: PCHS-08102004-eng
+  indicator: 8/10/2005
+  position: 34
+  description: 
+  began_use_on: 2004-08-10
+  language_id: 1
+  document_type_id: 1
+  id: 34
+  ended_use_on: 2005-08-10
+document_versions_035: 
+  title: PCHS-08092005-span
+  indicator: 8/8/2006
+  position: 35
+  description: 
+  began_use_on: 2005-08-09
+  language_id: 3
+  document_type_id: 1
+  id: 35
+  ended_use_on: 2006-08-08
+document_versions_036: 
+  title: PCHS-08092005-eng
+  indicator: 8/8/2006
+  position: 36
+  description: 
+  began_use_on: 2005-08-09
+  language_id: 1
+  document_type_id: 1
+  id: 36
+  ended_use_on: 2006-08-08
+document_versions_037: 
+  title: PCHS-07262006-span
+  indicator: 7/25/2007
+  position: 37
+  description: 
+  began_use_on: 2006-07-26
+  language_id: 3
+  document_type_id: 1
+  id: 37
+  ended_use_on: 2007-07-25
+document_versions_038: 
+  title: PCHS-07192006-eng
+  indicator: 7/18/2007
+  position: 38
+  description: 
+  began_use_on: 2006-07-19
+  language_id: 1
+  document_type_id: 1
+  id: 38
+  ended_use_on: 2007-07-18
+document_versions_039: 
+  title: PCHS-07182007-span
+  indicator: 7/17/2008
+  position: 39
+  description: 
+  began_use_on: 2007-07-18
+  language_id: 3
+  document_type_id: 1
+  id: 39
+  ended_use_on: 2008-07-17
+document_versions_040: 
+  title: PCHS-07182007-eng
+  indicator: 7/17/2008
+  position: 40
+  description: 
+  began_use_on: 2007-07-18
+  language_id: 1
+  document_type_id: 1
+  id: 40
+  ended_use_on: 2008-07-17
+document_versions_041: 
+  title: PCHS-03192008-span
+  indicator: 7/17/2008
+  position: 41
+  description: 
+  began_use_on: 2008-03-19
+  language_id: 3
+  document_type_id: 1
+  id: 41
+  ended_use_on: 2008-07-17
+document_versions_042: 
+  title: PCHS-03192008-eng
+  indicator: 7/17/2008
+  position: 42
+  description: 
+  began_use_on: 2008-03-19
+  language_id: 1
+  document_type_id: 1
+  id: 42
+  ended_use_on: 2008-07-17
+document_versions_043: 
+  title: PCHS-07162008-span
+  indicator: 7/15/2009
+  position: 43
+  description: 
+  began_use_on: 2008-07-16
+  language_id: 3
+  document_type_id: 1
+  id: 43
+  ended_use_on: 2009-07-15
+document_versions_044: 
+  title: PCHS-07162008-eng
+  indicator: 7/15/2009
+  position: 44
+  description: 
+  began_use_on: 2008-07-16
+  language_id: 1
+  document_type_id: 1
+  id: 44
+  ended_use_on: 2009-07-15
+document_versions_045: 
+  title: PCHS-06172009-span
+  indicator: 6/16/2010
+  position: 45
+  description: 
+  began_use_on: 2009-06-17
+  language_id: 3
+  document_type_id: 1
+  id: 45
+  ended_use_on: 2010-06-16
+document_versions_046: 
+  title: PCHS-06172009-eng
+  indicator: 6/16/2010
+  position: 46
+  description: 
+  began_use_on: 2009-06-17
+  language_id: 1
+  document_type_id: 1
+  id: 46
+  ended_use_on: 2010-06-16
+document_versions_047: 
+  title: PCHS-05122010-span
+  indicator: 5/11/2011
+  position: 47
+  description: 
+  began_use_on: 2010-05-12
+  language_id: 3
+  document_type_id: 1
+  id: 47
+  ended_use_on: 2011-05-11
+document_versions_048: 
+  title: PCHS-05122010-eng
+  indicator: 5/11/2011
+  position: 48
+  description: 
+  began_use_on: 2010-05-12
+  language_id: 1
+  document_type_id: 1
+  id: 48
+  ended_use_on: 2011-05-11
+document_versions_049: 
+  title: PCHS-04132011-span
+  indicator: 4/12/2012
+  position: 49
+  description: 
+  began_use_on: 2011-04-13
+  language_id: 3
+  document_type_id: 1
+  id: 49
+  ended_use_on: 2012-04-12
+document_versions_050: 
+  title: PCHS-04132011-eng
+  indicator: 4/12/2010
+  position: 50
+  description: 
+  began_use_on: 2011-04-13
+  language_id: 1
+  document_type_id: 1
+  id: 50
+  ended_use_on: 2010-04-12
+document_versions_051: 
+  title: KPSC-
+  indicator: 9/25/2011
+  position: 51
+  description: 
+  began_use_on: 2010-10-21
+  language_id: 1
+  document_type_id: 1
+  id: 51
+  ended_use_on: 2011-09-25
+document_versions_052: 
+  title: CHCC-1999-eng
+  indicator: 12/31/1999
+  position: 52
+  description: 
+  began_use_on: 1999-12-31
+  language_id: 1
+  document_type_id: 1
+  id: 52
+  ended_use_on: 
+document_versions_053: 
+  title: CHCC-2000-eng
+  indicator: 12/31/2000
+  position: 53
+  description: 
+  began_use_on: 2000-12-31
+  language_id: 1
+  document_type_id: 1
+  id: 53
+  ended_use_on: 
+document_versions_054: 
+  title: CHCC-04032001-eng
+  indicator: 4/3/2002
+  position: 54
+  description: 
+  began_use_on: 2001-04-03
+  language_id: 1
+  document_type_id: 1
+  id: 54
+  ended_use_on: 2002-04-03
+document_versions_055: 
+  title: CHCC-03062002-eng
+  indicator: 3/5/2003
+  position: 55
+  description: 
+  began_use_on: 2002-03-06
+  language_id: 1
+  document_type_id: 1
+  id: 55
+  ended_use_on: 2003-03-05
+document_versions_056: 
+  title: CHCC-06052002-eng
+  indicator: 3/5/2003
+  position: 56
+  description: 
+  began_use_on: 2002-06-05
+  language_id: 1
+  document_type_id: 1
+  id: 56
+  ended_use_on: 2003-03-05
+document_versions_057: 
+  title: CHCC-06052002-span
+  indicator: 3/5/2003
+  position: 57
+  description: 
+  began_use_on: 2002-06-05
+  language_id: 3
+  document_type_id: 1
+  id: 57
+  ended_use_on: 2003-03-05
+document_versions_058: 
+  title: CHCC-02052003-eng
+  indicator: 2/4/2004
+  position: 58
+  description: 
+  began_use_on: 2003-02-05
+  language_id: 1
+  document_type_id: 1
+  id: 58
+  ended_use_on: 2004-02-04
+document_versions_059: 
+  title: CHCC-02052003-span
+  indicator: 1/7/2004
+  position: 59
+  description: 
+  began_use_on: 2003-02-05
+  language_id: 3
+  document_type_id: 1
+  id: 59
+  ended_use_on: 2004-01-07
+document_versions_060: 
+  title: CHCC-01072004-eng
+  indicator: 1/6/2005
+  position: 60
+  description: 
+  began_use_on: 2004-01-07
+  language_id: 1
+  document_type_id: 1
+  id: 60
+  ended_use_on: 2005-01-06
+document_versions_061: 
+  title: CHCC-01072004-span
+  indicator: 1/6/2005
+  position: 61
+  description: 
+  began_use_on: 2004-01-07
+  language_id: 3
+  document_type_id: 1
+  id: 61
+  ended_use_on: 2005-01-06
+document_versions_062: 
+  title: CHCC-12012004-eng
+  indicator: 11/30/2005
+  position: 62
+  description: 
+  began_use_on: 2004-12-01
+  language_id: 1
+  document_type_id: 1
+  id: 62
+  ended_use_on: 2005-11-30
+document_versions_063: 
+  title: CHCC-01042005-eng
+  indicator: 11/2/2005
+  position: 63
+  description: 
+  began_use_on: 2005-01-04
+  language_id: 1
+  document_type_id: 1
+  id: 63
+  ended_use_on: 2005-11-02
+document_versions_064: 
+  title: CHCC-05242005-eng
+  indicator: 11/30/2005
+  position: 64
+  description: 
+  began_use_on: 2005-05-24
+  language_id: 1
+  document_type_id: 1
+  id: 64
+  ended_use_on: 2005-11-30
+document_versions_065: 
+  title: CHCC-05242005-span
+  indicator: 11/30/2005
+  position: 65
+  description: 
+  began_use_on: 2005-05-24
+  language_id: 3
+  document_type_id: 1
+  id: 65
+  ended_use_on: 2005-11-30
+document_versions_066: 
+  title: CHCC-10052005-eng
+  indicator: 10/4/2006
+  position: 66
+  description: 
+  began_use_on: 2005-10-05
+  language_id: 1
+  document_type_id: 1
+  id: 66
+  ended_use_on: 2006-10-04
+document_versions_067: 
+  title: CHCC-10052005-span
+  indicator: 10/4/2006
+  position: 67
+  description: 
+  began_use_on: 2005-10-05
+  language_id: 3
+  document_type_id: 1
+  id: 67
+  ended_use_on: 2006-10-04
+document_versions_068: 
+  title: CHCC-02272006-eng
+  indicator: 10/4/2006
+  position: 68
+  description: 
+  began_use_on: 2006-02-27
+  language_id: 1
+  document_type_id: 1
+  id: 68
+  ended_use_on: 2006-10-04
+document_versions_069: 
+  title: CHCC-04102006-span
+  indicator: 10/4/2006
+  position: 69
+  description: 
+  began_use_on: 2006-04-10
+  language_id: 3
+  document_type_id: 1
+  id: 69
+  ended_use_on: 2006-10-04
+document_versions_070: 
+  title: CHCC-10042006-eng
+  indicator: 10/3/2007
+  position: 70
+  description: 
+  began_use_on: 2006-10-04
+  language_id: 1
+  document_type_id: 1
+  id: 70
+  ended_use_on: 2007-10-03
+document_versions_071: 
+  title: CHCC-10032006-span
+  indicator: 10/3/2007
+  position: 71
+  description: 
+  began_use_on: 2006-10-03
+  language_id: 3
+  document_type_id: 1
+  id: 71
+  ended_use_on: 2007-10-03
+document_versions_072: 
+  title: CHCC-03202007-eng
+  indicator: 10/3/2007
+  position: 72
+  description: 
+  began_use_on: 2007-03-20
+  language_id: 1
+  document_type_id: 1
+  id: 72
+  ended_use_on: 2007-10-03
+document_versions_073: 
+  title: CHCC-03202007-span
+  indicator: 10/3/2007
+  position: 73
+  description: 
+  began_use_on: 2007-03-20
+  language_id: 3
+  document_type_id: 1
+  id: 73
+  ended_use_on: 2007-10-03
+document_versions_074: 
+  title: CHCC-09052007-eng
+  indicator: 9/4/2008
+  position: 74
+  description: 
+  began_use_on: 2007-09-05
+  language_id: 1
+  document_type_id: 1
+  id: 74
+  ended_use_on: 2008-09-04
+document_versions_075: 
+  title: CHCC-09052007-span
+  indicator: 9/4/2008
+  position: 75
+  description: 
+  began_use_on: 2007-09-05
+  language_id: 3
+  document_type_id: 1
+  id: 75
+  ended_use_on: 2008-09-04
+document_versions_076: 
+  title: CHCC-03132008-eng
+  indicator: 9/4/2008
+  position: 76
+  description: 
+  began_use_on: 2008-03-13
+  language_id: 1
+  document_type_id: 1
+  id: 76
+  ended_use_on: 2008-09-04
+document_versions_077: 
+  title: CHCC-03132008-span
+  indicator: 9/4/2008
+  position: 77
+  description: 
+  began_use_on: 2008-03-13
+  language_id: 3
+  document_type_id: 1
+  id: 77
+  ended_use_on: 2008-09-04
+document_versions_078: 
+  title: CHCC-08132008-eng
+  indicator: 8/5/2009
+  position: 78
+  description: 
+  began_use_on: 2008-08-13
+  language_id: 1
+  document_type_id: 1
+  id: 78
+  ended_use_on: 2009-08-05
+document_versions_079: 
+  title: CHCC-08132008-span
+  indicator: 8/5/2009
+  position: 79
+  description: 
+  began_use_on: 2008-08-13
+  language_id: 3
+  document_type_id: 1
+  id: 79
+  ended_use_on: 2009-08-05
+document_versions_080: 
+  title: CHCC-08052009-eng
+  indicator: 8/4/2010
+  position: 80
+  description: 
+  began_use_on: 2009-08-05
+  language_id: 1
+  document_type_id: 1
+  id: 80
+  ended_use_on: 2010-08-04
+document_versions_081: 
+  title: CHCC-08052009-span
+  indicator: 8/4/2010
+  position: 81
+  description: 
+  began_use_on: 2009-08-05
+  language_id: 3
+  document_type_id: 1
+  id: 81
+  ended_use_on: 2010-08-04
+document_versions_082: 
+  title: CHCC-07072010-eng
+  indicator: 7/6/2011
+  position: 82
+  description: 
+  began_use_on: 2010-07-07
+  language_id: 1
+  document_type_id: 1
+  id: 82
+  ended_use_on: 2011-07-06
+document_versions_083: 
+  title: CHCC-07072010-span
+  indicator: 7/6/2011
+  position: 83
+  description: 
+  began_use_on: 2010-07-07
+  language_id: 3
+  document_type_id: 1
+  id: 83
+  ended_use_on: 2011-07-06
+document_versions_084: 
+  title: KPNC-1996-eng
+  indicator: 12/31/1996
+  position: 84
+  description: 
+  began_use_on: 1996-12-31
+  language_id: 1
+  document_type_id: 1
+  id: 84
+  ended_use_on: 
+document_versions_085: 
+  title: KPNC-1999-eng
+  indicator: 12/31/1999
+  position: 85
+  description: 
+  began_use_on: 1999-12-31
+  language_id: 1
+  document_type_id: 1
+  id: 85
+  ended_use_on: 
+document_versions_086: 
+  title: KPNC-1999-span
+  indicator: 12/31/1999
+  position: 86
+  description: 
+  began_use_on: 1999-12-31
+  language_id: 3
+  document_type_id: 1
+  id: 86
+  ended_use_on: 
+document_versions_087: 
+  title: KPNC-2000-eng
+  indicator: 12/31/2000
+  position: 87
+  description: 
+  began_use_on: 2000-12-31
+  language_id: 1
+  document_type_id: 1
+  id: 87
+  ended_use_on: 
+document_versions_088: 
+  title: KPNC-2000-span
+  indicator: 12/31/2000
+  position: 88
+  description: 
+  began_use_on: 2000-12-31
+  language_id: 3
+  document_type_id: 1
+  id: 88
+  ended_use_on: 
+document_versions_089: 
+  title: KPNC-2001-eng
+  indicator: 12/31/2001
+  position: 89
+  description: 
+  began_use_on: 2001-12-31
+  language_id: 1
+  document_type_id: 1
+  id: 89
+  ended_use_on: 
+document_versions_090: 
+  title: KPNC-2001-span
+  indicator: 12/31/2001
+  position: 90
+  description: 
+  began_use_on: 2001-12-31
+  language_id: 3
+  document_type_id: 1
+  id: 90
+  ended_use_on: 
+document_versions_091: 
+  title: KPNC-06202002-eng
+  indicator: 3/28/2003
+  position: 91
+  description: 
+  began_use_on: 2002-06-20
+  language_id: 1
+  document_type_id: 1
+  id: 91
+  ended_use_on: 2003-03-28
+document_versions_092: 
+  title: KPNC-06202002-span
+  indicator: 3/28/2003
+  position: 92
+  description: 
+  began_use_on: 2002-06-20
+  language_id: 3
+  document_type_id: 1
+  id: 92
+  ended_use_on: 2003-03-28
+document_versions_093: 
+  title: KPNC-08202003-eng
+  indicator: 3/18/2004
+  position: 93
+  description: 
+  began_use_on: 2003-08-20
+  language_id: 1
+  document_type_id: 1
+  id: 93
+  ended_use_on: 2004-03-18
+document_versions_094: 
+  title: KPNC-03282003-eng
+  indicator: 3/18/2004
+  position: 94
+  description: 
+  began_use_on: 2003-03-28
+  language_id: 1
+  document_type_id: 1
+  id: 94
+  ended_use_on: 2004-03-18
+document_versions_095: 
+  title: KPNC-03182004-eng
+  indicator: 3/17/2005
+  position: 95
+  description: 
+  began_use_on: 2004-03-18
+  language_id: 1
+  document_type_id: 1
+  id: 95
+  ended_use_on: 2005-03-17
+document_versions_096: 
+  title: KPNC-02182005-eng
+  indicator: 2/16/2006
+  position: 96
+  description: 
+  began_use_on: 2005-02-18
+  language_id: 1
+  document_type_id: 1
+  id: 96
+  ended_use_on: 2006-02-16
+document_versions_097: 
+  title: KPNC-02182005-span
+  indicator: 2/16/2006
+  position: 97
+  description: 
+  began_use_on: 2005-02-18
+  language_id: 3
+  document_type_id: 1
+  id: 97
+  ended_use_on: 2006-02-16
+document_versions_098: 
+  title: KPNC-08112006-eng
+  indicator: 2/15/2007
+  position: 98
+  description: 
+  began_use_on: 2006-08-11
+  language_id: 1
+  document_type_id: 1
+  id: 98
+  ended_use_on: 2007-02-15
+document_versions_099: 
+  title: KPNC-08112006-span
+  indicator: 2/15/2007
+  position: 99
+  description: 
+  began_use_on: 2006-08-11
+  language_id: 3
+  document_type_id: 1
+  id: 99
+  ended_use_on: 2007-02-15
+document_versions_100: 
+  title: KPNC-02192007-eng
+  indicator: 2/19/2008
+  position: 100
+  description: 
+  began_use_on: 2007-02-19
+  language_id: 1
+  document_type_id: 1
+  id: 100
+  ended_use_on: 2008-02-19
+document_versions_101: 
+  title: KPNC-02192007-span
+  indicator: 2/19/2008
+  position: 101
+  description: 
+  began_use_on: 2007-02-19
+  language_id: 3
+  document_type_id: 1
+  id: 101
+  ended_use_on: 2008-02-19
+document_versions_102: 
+  title: KPNC-05272008-eng
+  indicator: 8/1/2009
+  position: 102
+  description: 
+  began_use_on: 2008-05-27
+  language_id: 1
+  document_type_id: 1
+  id: 102
+  ended_use_on: 2009-08-01
+document_versions_103: 
+  title: KPNC-05272008-span
+  indicator: 8/1/2009
+  position: 103
+  description: 
+  began_use_on: 2008-05-27
+  language_id: 3
+  document_type_id: 1
+  id: 103
+  ended_use_on: 2009-08-01
+document_versions_104: 
+  title: UCD-01052000-eng
+  indicator: 1/5/2001
+  position: 104
+  description: 
+  began_use_on: 2000-01-05
+  language_id: 1
+  document_type_id: 1
+  id: 104
+  ended_use_on: 2001-01-05
+document_versions_105: 
+  title: UCD-11012000-span
+  indicator: 11/1/2001
+  position: 105
+  description: 
+  began_use_on: 2000-11-01
+  language_id: 3
+  document_type_id: 1
+  id: 105
+  ended_use_on: 2001-11-01
+document_versions_106: 
+  title: UCD-11012001-eng
+  indicator: 10/11/2002
+  position: 106
+  description: 
+  began_use_on: 2001-11-01
+  language_id: 1
+  document_type_id: 1
+  id: 106
+  ended_use_on: 2002-10-11
+document_versions_107: 
+  title: UCD-11012001-span
+  indicator: 10/11/2002
+  position: 107
+  description: 
+  began_use_on: 2001-11-01
+  language_id: 3
+  document_type_id: 1
+  id: 107
+  ended_use_on: 2002-10-11
+document_versions_108: 
+  title: UCD-10112002-eng
+  indicator: 8/25/2003
+  position: 108
+  description: 
+  began_use_on: 2002-10-11
+  language_id: 1
+  document_type_id: 1
+  id: 108
+  ended_use_on: 2003-08-25
+document_versions_109: 
+  title: UCD-12182003-span
+  indicator: 8/25/2004
+  position: 109
+  description: 
+  began_use_on: 2003-12-18
+  language_id: 3
+  document_type_id: 1
+  id: 109
+  ended_use_on: 2004-08-25
+document_versions_110: 
+  title: UCD-08252003-eng
+  indicator: 6/12/2004
+  position: 110
+  description: 
+  began_use_on: 2003-08-25
+  language_id: 1
+  document_type_id: 1
+  id: 110
+  ended_use_on: 2004-06-12
+document_versions_111: 
+  title: UCD-07122004-eng
+  indicator: 7/12/2005
+  position: 111
+  description: 
+  began_use_on: 2004-07-12
+  language_id: 1
+  document_type_id: 1
+  id: 111
+  ended_use_on: 2005-07-12
+document_versions_112: 
+  title: UCD-05232005-eng
+  indicator: 5/23/2006
+  position: 112
+  description: 
+  began_use_on: 2005-05-23
+  language_id: 1
+  document_type_id: 1
+  id: 112
+  ended_use_on: 2006-05-23
+document_versions_113: 
+  title: UCD-05082006-eng
+  indicator: 5/8/2007
+  position: 113
+  description: 
+  began_use_on: 2006-05-08
+  language_id: 1
+  document_type_id: 1
+  id: 113
+  ended_use_on: 2007-05-08
+document_versions_114: 
+  title: UCD-04182007-span
+  indicator: 4/18/2008
+  position: 114
+  description: 
+  began_use_on: 2007-04-18
+  language_id: 3
+  document_type_id: 1
+  id: 114
+  ended_use_on: 2008-04-18
+document_versions_115: 
+  title: UCD-04182007-eng
+  indicator: 4/18/2008
+  position: 115
+  description: 
+  began_use_on: 2007-04-18
+  language_id: 1
+  document_type_id: 1
+  id: 115
+  ended_use_on: 2008-04-18
+document_versions_116: 
+  title: UCD-03242008-span
+  indicator: 3/24/2009
+  position: 116
+  description: 
+  began_use_on: 2008-03-24
+  language_id: 3
+  document_type_id: 1
+  id: 116
+  ended_use_on: 2009-03-24
+document_versions_117: 
+  title: UCD-03242008-eng
+  indicator: 3/24/2009
+  position: 117
+  description: 
+  began_use_on: 2008-03-24
+  language_id: 1
+  document_type_id: 1
+  id: 117
+  ended_use_on: 2009-03-24
+document_versions_118: 
+  title: UCD-04092009-span
+  indicator: 2/22/2010
+  position: 118
+  description: 
+  began_use_on: 2009-04-09
+  language_id: 3
+  document_type_id: 1
+  id: 118
+  ended_use_on: 2010-02-22
+document_versions_119: 
+  title: UCD-02232009-eng
+  indicator: 2/22/2010
+  position: 119
+  description: 
+  began_use_on: 2009-02-23
+  language_id: 1
+  document_type_id: 1
+  id: 119
+  ended_use_on: 2010-02-22
+document_versions_120: 
+  title: UCD-02222010-span
+  indicator: 2/21/2011
+  position: 120
+  description: 
+  began_use_on: 2010-02-22
+  language_id: 3
+  document_type_id: 1
+  id: 120
+  ended_use_on: 2011-02-21
+document_versions_121: 
+  title: UCD-02222010-eng
+  indicator: 2/21/2011
+  position: 121
+  description: 
+  began_use_on: 2010-02-22
+  language_id: 1
+  document_type_id: 1
+  id: 121
+  ended_use_on: 2011-02-21
+document_versions_122: 
+  title: UCD-02182011-span
+  indicator: 2/17/2012
+  position: 122
+  description: 
+  began_use_on: 2011-02-18
+  language_id: 3
+  document_type_id: 1
+  id: 122
+  ended_use_on: 2012-02-17
+document_versions_123: 
+  title: UCD-02182011-eng
+  indicator: 2/17/2012
+  position: 123
+  description: 
+  began_use_on: 2011-02-18
+  language_id: 1
+  document_type_id: 1
+  id: 123
+  ended_use_on: 2012-02-17
+document_versions_124: 
+  title: CPMC-03102011-eng
+  indicator: 2/21/2010
+  position: 124
+  description: 
+  began_use_on: 2011-03-10
+  language_id: 1
+  document_type_id: 1
+  id: 124
+  ended_use_on: 2010-02-21
+document_versions_125: 
+  title: UCSF-12201999-eng
+  indicator: 9/11/2000
+  position: 125
+  description: 
+  began_use_on: 1999-12-20
+  language_id: 1
+  document_type_id: 1
+  id: 125
+  ended_use_on: 2000-09-11
+document_versions_126: 
+  title: UCSF-08032000-span
+  indicator: 8/3/2001
+  position: 126
+  description: 
+  began_use_on: 2000-08-03
+  language_id: 3
+  document_type_id: 1
+  id: 126
+  ended_use_on: 2001-08-03
+document_versions_127: 
+  title: UCSF-08032000-eng
+  indicator: 8/3/2001
+  position: 127
+  description: 
+  began_use_on: 2000-08-03
+  language_id: 1
+  document_type_id: 1
+  id: 127
+  ended_use_on: 2001-08-03
+document_versions_128: 
+  title: UCSF-07192001-span
+  indicator: 7/19/2002
+  position: 128
+  description: 
+  began_use_on: 2001-07-19
+  language_id: 3
+  document_type_id: 1
+  id: 128
+  ended_use_on: 2002-07-19
+document_versions_129: 
+  title: UCSF-07192001-eng
+  indicator: 7/19/2002
+  position: 129
+  description: 
+  began_use_on: 2001-07-19
+  language_id: 1
+  document_type_id: 1
+  id: 129
+  ended_use_on: 2002-07-19
+document_versions_130: 
+  title: UCSF-11142002-span
+  indicator: 7/16/2003
+  position: 130
+  description: 
+  began_use_on: 2002-11-14
+  language_id: 3
+  document_type_id: 1
+  id: 130
+  ended_use_on: 2003-07-16
+document_versions_131: 
+  title: UCSF-07302002-eng
+  indicator: 7/30/2003
+  position: 131
+  description: 
+  began_use_on: 2002-07-30
+  language_id: 1
+  document_type_id: 1
+  id: 131
+  ended_use_on: 2003-07-30
+document_versions_132: 
+  title: UCSF-08162002-eng
+  indicator: 7/16/2003
+  position: 132
+  description: 
+  began_use_on: 2002-08-16
+  language_id: 1
+  document_type_id: 1
+  id: 132
+  ended_use_on: 2003-07-16
+document_versions_133: 
+  title: UCSF-05022003-span
+  indicator: 5/2/2004
+  position: 133
+  description: 
+  began_use_on: 2003-05-02
+  language_id: 3
+  document_type_id: 1
+  id: 133
+  ended_use_on: 2004-05-02
+document_versions_134: 
+  title: UCSF-05022003-eng
+  indicator: 5/2/2004
+  position: 134
+  description: 
+  began_use_on: 2003-05-02
+  language_id: 1
+  document_type_id: 1
+  id: 134
+  ended_use_on: 2004-05-02
+document_versions_135: 
+  title: UCSF-08272003-eng
+  indicator: 8/27/2004
+  position: 135
+  description: 
+  began_use_on: 2003-08-27
+  language_id: 1
+  document_type_id: 1
+  id: 135
+  ended_use_on: 2004-08-27
+document_versions_136: 
+  title: UCSF-06172004-span
+  indicator: 6/17/2005
+  position: 136
+  description: 
+  began_use_on: 2004-06-17
+  language_id: 3
+  document_type_id: 1
+  id: 136
+  ended_use_on: 2005-06-17
+document_versions_137: 
+  title: UCSF-06172004-eng
+  indicator: 6/17/2005
+  position: 137
+  description: 
+  began_use_on: 2004-06-17
+  language_id: 1
+  document_type_id: 1
+  id: 137
+  ended_use_on: 2005-06-17
+document_versions_138: 
+  title: UCSF-06242005-eng
+  indicator: 6/9/2006
+  position: 138
+  description: 
+  began_use_on: 2005-06-24
+  language_id: 1
+  document_type_id: 1
+  id: 138
+  ended_use_on: 2006-06-09
+document_versions_139: 
+  title: UCSF-06242005-span
+  indicator: 6/9/2006
+  position: 139
+  description: 
+  began_use_on: 2005-06-24
+  language_id: 3
+  document_type_id: 1
+  id: 139
+  ended_use_on: 2006-06-09
+document_versions_140: 
+  title: UCSF-06202006-eng
+  indicator: 5/11/2007
+  position: 140
+  description: 
+  began_use_on: 2006-06-20
+  language_id: 1
+  document_type_id: 1
+  id: 140
+  ended_use_on: 2007-05-11
+document_versions_141: 
+  title: UCSF-06202006-span
+  indicator: 5/11/2007
+  position: 141
+  description: 
+  began_use_on: 2006-06-20
+  language_id: 3
+  document_type_id: 1
+  id: 141
+  ended_use_on: 2007-05-11
+document_versions_142: 
+  title: UCSF-04262007-eng
+  indicator: 5/11/2008
+  position: 142
+  description: 
+  began_use_on: 2007-04-26
+  language_id: 1
+  document_type_id: 1
+  id: 142
+  ended_use_on: 2008-05-11
+document_versions_143: 
+  title: UCSF-04262007-span
+  indicator: 5/11/2008
+  position: 143
+  description: 
+  began_use_on: 2007-04-26
+  language_id: 3
+  document_type_id: 1
+  id: 143
+  ended_use_on: 2008-05-11
+document_versions_144: 
+  title: UCSF-05082008-span
+  indicator: 5/11/2009
+  position: 144
+  description: 
+  began_use_on: 2008-05-08
+  language_id: 3
+  document_type_id: 1
+  id: 144
+  ended_use_on: 2009-05-11
+document_versions_145: 
+  title: UCSF-05082008-eng
+  indicator: 5/11/2009
+  position: 145
+  description: 
+  began_use_on: 2008-05-08
+  language_id: 1
+  document_type_id: 1
+  id: 145
+  ended_use_on: 2009-05-11
+document_versions_146: 
+  title: UCSF-05122009-span
+  indicator: 5/12/2010
+  position: 146
+  description: 
+  began_use_on: 2009-05-12
+  language_id: 3
+  document_type_id: 1
+  id: 146
+  ended_use_on: 2010-05-12
+document_versions_147: 
+  title: UCSF-05122009-eng
+  indicator: 5/12/2009
+  position: 147
+  description: 
+  began_use_on: 2009-05-12
+  language_id: 1
+  document_type_id: 1
+  id: 147
+  ended_use_on: 2009-05-12
+document_versions_148: 
+  title: UCSF-05112010-span
+  indicator: 5/12/2011
+  position: 148
+  description: 
+  began_use_on: 2010-05-11
+  language_id: 3
+  document_type_id: 1
+  id: 148
+  ended_use_on: 2011-05-12
+document_versions_149: 
+  title: UCSF-05112010-eng
+  indicator: 5/12/2011
+  position: 149
+  description: 
+  began_use_on: 2010-05-11
+  language_id: 1
+  document_type_id: 1
+  id: 149
+  ended_use_on: 2011-05-12
+document_versions_150: 
+  title: RCSD-03032011-eng
+  indicator: 3/1/2012
+  position: 150
+  description: 
+  began_use_on: 2011-03-03
+  language_id: 1
+  document_type_id: 1
+  id: 150
+  ended_use_on: 2012-03-01
+document_versions_151: 
+  title: UCLA-10282010-eng
+  indicator: 10/27/2011
+  position: 151
+  description: 
+  began_use_on: 2010-10-28
+  language_id: 1
+  document_type_id: 1
+  id: 151
+  ended_use_on: 2011-10-27
+document_versions_152: 
+  title: CHOC-11152010-eng
+  indicator: 10/18/2011
+  position: 152
+  description: 
+  began_use_on: 2010-11-15
+  language_id: 1
+  document_type_id: 1
+  id: 152
+  ended_use_on: 2011-10-18
+document_versions_153: 
+  title: CCLS-control-eng
+  indicator: 
+  position: 153
+  description: 
+  began_use_on: 
+  language_id: 1
+  document_type_id: 1
+  id: 153
+  ended_use_on: 
+document_versions_154: 
+  title: CCLS-control-span
+  indicator: 
+  position: 154
+  description: 
+  began_use_on: 
+  language_id: 3
+  document_type_id: 1
+  id: 154
+  ended_use_on: 
