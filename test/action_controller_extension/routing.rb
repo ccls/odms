@@ -9,18 +9,51 @@ module ActionControllerExtension::Routing
 		def assert_no_route(verb,action,args={})
 			test "#{brand}no route to #{verb} #{action} #{args.inspect}" do
 
-#				if Rails.application.config.assets.enabled
 				if Odms::Application.config.assets.enabled
-					puts "\n-No valid test for this with the assets pipeline enabled just yet."
-					pending
-#Odms::Application.config.assets.enabled = false
-#	doesn't un-enable 
-#					assert_raise(ActionController::RoutingError){
-#						send(verb,action,args)
-#					}
-#Odms::Application.config.assets.enabled = true
+#					puts "\n-No valid test for this with the assets pipeline enabled just yet."
 
-#
+					#	In rails 2, and before enabling the assets pipeline 
+					#	in rails 3, this worked perfectly.
+					#	The assets pipeline is almost acting like a catch all route.
+					#	Attempting to visit these routes in tests does not raise an error.
+#					assert_raise(ActionController::RoutingError){
+
+#	It would normally raise the error here
+#	actionpack-3.2.2/lib/action_dispatch/routing/route_set.rb
+#	514           path, params = @set.formatter.generate(:path_info, named_route, options, recall, PARAMETERIZE)
+#	but with assets pipeline enabled, path is "/assets"
+#	and then does not raise the routing error.  So I'll just
+#	check it myself.
+#	
+#	irb(main):013:0> Odms::Application.routes.formatter.generate(:path_info,nil,{})
+#	=> ["/assets", {}]
+#	irb(main):014:0> Odms::Application.routes.formatter.generate(:path_info,nil,{:action => 'index'})
+#	=> ["/assets", {:action=>"index"}]
+#	irb(main):015:0> Odms::Application.routes.formatter.generate(:path_info,nil,{:action => 'index', :controller => 'pages'})
+#	=> ["/pages", {}]
+#	irb(main):016:0> Odms::Application.routes.formatter.generate(:path_info,nil,{:action => 'index', :controller => 'pages', :method => :post})
+#	=> ["/pages", {:method=>:post}]
+#	irb(main):017:0> Odms::Application.routes.formatter.generate(:path_info,nil,{:action => 'index', :controller => 'pages', :method => :pos})
+#	=> ["/pages", {:method=>:pos}]
+#	irb(main):018:0> Odms::Application.routes.formatter.generate(:path_info,nil,{:action => 'index', :controller => 'pges'})
+#	=> ["/assets", {:controller=>"pges", :action=>"index"}]
+
+						path, params = Odms::Application.routes.formatter.generate(
+							:path_info,nil,{ :method => verb, :action => action }.merge(args))
+
+						#	If there isn't a defined route, this should be true
+						assert_equal path, "/assets"
+
+#						if path.blank? or path == "/assets"
+#							raise ActionController::RoutingError, "No route matches ..." 
+
+
+#					}
+
+
+
+
+
 #	Apparently, when using the asset pipeline, this routing error
 #	will not get raised.  I don't know why just yet.  The request
 #	will actually get passed to the controller without regard
@@ -71,12 +104,9 @@ module ActionControllerExtension::Routing
 #
 
 				else
-					#	In rails 2 and before enabling the assets pipeline this worked perfectly.
+					#	In rails 2, and before enabling the assets pipeline 
+					#	in rails 3, this worked perfectly.
 					assert_raise(ActionController::RoutingError){
-
-#	raise the error here.  I'm tired and going to bed
-#	514           path, params = @set.formatter.generate(:path_info, named_route, options, recall, PARAMETERIZE)
-
 						send(verb,action,args)
 					}
 				end
