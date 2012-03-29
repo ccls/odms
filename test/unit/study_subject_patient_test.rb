@@ -85,7 +85,6 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 			assert study_subject.errors.matching?('patient.admit_date',"can't be blank")
 			assert study_subject.errors.include?('patient.organization_id'.to_sym)
 			assert study_subject.errors.matching?('patient.organization_id',"can't be blank")
-pending
 		} }
 	end
 

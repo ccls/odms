@@ -139,7 +139,20 @@ class UserTest < ActiveSupport::TestCase
 	end
 
 	test "should find users by role name" do
-pending
+		admin  = send(:administrator)
+		editor = send(:editor)
+		reader = send(:reader)
+		all_users = User.with_role_name()
+		assert_equal 3, all_users.length
+		admins  = User.with_role_name(:administrator)
+		assert_equal 1, admins.length
+		assert admins.include?(admin)
+		editors = User.with_role_name(:editor)
+		assert_equal 1, editors.length
+		assert editors.include?(editor)
+		readers = User.with_role_name(:reader)
+		assert_equal 1, readers.length
+		assert readers.include?(reader)
 	end
 
 protected

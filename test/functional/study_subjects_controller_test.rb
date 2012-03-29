@@ -56,7 +56,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_template 'index'
 			assert_select ".arrow", :count => 1
 			assert_select ".arrow", 1
-pending	#	stray HAVING in SQL
 		end
 	
 		test "should get index with order and dir asc with #{cu} login" do
@@ -67,7 +66,6 @@ pending	#	stray HAVING in SQL
 			assert_template 'index'
 			assert_select ".arrow", :count => 1
 			assert_select ".arrow", 1
-pending	#	stray HAVING in SQL
 		end
 	
 #		test "should get show with pii with #{cu} login" do
@@ -145,19 +143,36 @@ pending	#	stray HAVING in SQL
 		end
 
 		test "should download csv matching content with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject,
+					:first_name => 'Sam', :last_name => 'Adams')
+			assert_not_nil study_subject.childid
+			assert_not_nil study_subject.last_name
+			assert_not_nil study_subject.first_name
+			assert_not_nil study_subject.dob
+
 			login_as send(cu)
 			get :index, :format => 'csv'
 			assert_response :success
 			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
 			assert_template 'index'
 			assert assigns(:study_subjects)
-#			assert !assigns(:study_subjects).empty?
-#			assert_equal 1, assigns(:study_subjects).length
+			assert !assigns(:study_subjects).empty?
+			assert_equal 1, assigns(:study_subjects).length
 
-#			require 'fastercsv'
-#			f = FasterCSV.parse(@response.body)
+			require 'fastercsv'
+			f = FasterCSV.parse(@response.body)
+			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
+			assert_equal f[0], ["childid", "studyid", "last_name", "first_name", "dob"]
+			assert_equal 5, f[0].length
 
+			assert_equal f[1][0], study_subject.childid.to_s
+#			assert_equal f[1][1], study_subject.studyid 	#	blank
+			assert_equal f[1][2], study_subject.last_name
+			assert_equal f[1][3], study_subject.first_name
+			assert_equal f[1][4], study_subject.dob.to_s(:db)	#	YYYY-MM-DD
+
+#	don't know why bc_requests have a blank line and this doesn't
+#assert f[2].blank?
 		end
 
 		test "should get study_subjects dashboard with #{cu} login" do

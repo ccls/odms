@@ -72,9 +72,9 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 #		#	Is this really required anymore?
 #		#	Why exactly did it matter in the beginning?
 #		#	Why exactly does it matter anymore?
-pending
-#		assert study_subject.dob.is_a?(Date)
-#		assert_equal study_subject.dob, study_subject.dob.to_date
+		assert study_subject.dob.is_a?(Time)
+		#	will actually keep as time if given time until reloaded
+		assert study_subject.reload.dob.is_a?(Date)
 	end
 
 	test "should parse a properly formatted date" do

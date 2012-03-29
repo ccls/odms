@@ -115,101 +115,83 @@ class OperationalEventTest < ActiveSupport::TestCase
 
 #	type was intended to be a shortcut to operational_event_type.description
 #	later perhaps
+#	These tests don't really test my code now.
+#	Except the valid_order method now.
+
+#	valid_order doesn't work for joins
 
 	test "should order by type ASC" do
 		oes = create_oet_operational_events
-#		events = OperationalEvent.valid_order('type asc')
-pending
-#		assert_equal events, [oes[1],oes[0],oes[2]]
+		events = OperationalEvent.joins(:operational_event_type
+			).order('operational_event_types.description asc')
+		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
 	test "should order by type DESC" do
 		oes = create_oet_operational_events
-#		events = OperationalEvent.valid_order('type desc')
-pending
-#		assert_equal events, [oes[2],oes[0],oes[1]]
+		events = OperationalEvent.joins(:operational_event_type
+			).order('operational_event_types.description desc')
+		assert_equal events, [oes[2],oes[0],oes[1]]
 	end
 
 	test "should order by type and ASC as default dir" do
 		oes = create_oet_operational_events
-#		events = OperationalEvent.valid_order('type')
-pending
-#		assert_equal events, [oes[1],oes[0],oes[2]]
+		events = OperationalEvent.joins(:operational_event_type
+			).order('operational_event_types.description')
+		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
 	test "should order by description ASC" do
 		oes = create_description_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'description',:dir => 'asc')
 		events = OperationalEvent.valid_order('description asc')
 		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
 	test "should order by description DESC" do
 		oes = create_description_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'description',:dir => 'desc')
 		events = OperationalEvent.valid_order('description desc')
 		assert_equal events, [oes[2],oes[0],oes[1]]
 	end
 
 	test "should order by description and ASC as default dir" do
 		oes = create_description_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'description')
 		events = OperationalEvent.valid_order('description')
 		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
 	test "should order by occurred_on ASC" do
 		oes = create_occurred_on_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'occurred_on',:dir => 'asc')
 		events = OperationalEvent.valid_order('occurred_on asc')
 		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
 	test "should order by occurred_on DESC" do
 		oes = create_occurred_on_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'occurred_on',:dir => 'desc')
 		events = OperationalEvent.valid_order('occurred_on desc')
 		assert_equal events, [oes[2],oes[0],oes[1]]
 	end
 
 	test "should order by occurred_on and ASC as default dir" do
 		oes = create_occurred_on_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'occurred_on')
 		events = OperationalEvent.valid_order('occurred_on')
-#		assert_equal events, [oes[2],oes[0],oes[1]]
 		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
-#	test "should order by occurred_on DESC as defaults" do
-#		oes = create_occurred_on_operational_events
-#		events = OperationalEvent.search()
-#		assert_equal events, [oes[2],oes[0],oes[1]]
-#	end
-
 	test "should ignore invalid order" do
 		oes = create_occurred_on_operational_events
-#		events = OperationalEvent.search(:order => 'iambogus')	#	don't unscope
 		events = OperationalEvent.valid_order('iambogus')
-pending		#	should order by id asc
 		assert_equal events, [oes[0],oes[1],oes[2]]
 	end
 
 	test "should ignore invalid dir" do
 		oes = create_occurred_on_operational_events
-#		events = OperationalEvent.unscoped.search(:order => 'occurred_on',
-#			:dir => 'iambogus')
 		events = OperationalEvent.valid_order('occurred_on iambogus')
-pending	#	should order by id asc
 		assert_equal events, [oes[0],oes[1],oes[2]]
 	end
 
-#	should crash
-
 	test "should ignore valid dir without order" do
 		oes = create_occurred_on_operational_events
-#		events = OperationalEvent.search(:dir => 'ASC')	#	don't unscope
 		events = OperationalEvent.valid_order('ASC')
-pending		#	should order by id asc
 		assert_equal events, [oes[0],oes[1],oes[2]]
 	end
 

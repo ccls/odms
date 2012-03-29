@@ -196,8 +196,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			ccls_enrollment.destroy
 			ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_nil ccls_enrollment
-pending
-study_subject.reload
+			study_subject.reload	#	gotta reload
 			assert_equal 0, study_subject.enrollments.length
 			login_as send(cu)
 			assert_difference('Enrollment.count',1) {

@@ -220,7 +220,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			require 'fastercsv'
 			f = FasterCSV.parse(@response.body)
 
-pending	#	TODO apparantly now adds an extra blank line to csv
+#	NOTE apparantly now adds an extra blank line to csv
 
 #			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
 			assert_equal 3, f.length	#	3 rows, 1 header and 1 data and 1 blank
