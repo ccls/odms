@@ -180,8 +180,9 @@ namespace :odms_import do
 		FasterCSV.open('subject_out.csv','w', {:force_quotes=>true}) do |f|
 			f.add_row ["subjectid","subject_type_id","vital_status_id","do_not_contact","sex","reference_date","childidwho","hispanicity_id","childid","icf_master_id","matchingid","familyid","patid","case_control_type","orderno","newid","studyid","related_case_childid","state_id_no","admit_date","diagnosis_id","created_at","first_name","middle_name","last_name","maiden_name","dob","died_on","mother_first_name","mother_maiden_name","mother_last_name","father_first_name","father_last_name","was_previously_treated","was_under_15_at_dx","raf_zip","raf_county","birth_year","hospital_no","organization_id","other_diagnosis"]
 
-			StudySubject.find(:all,
-					:order => 'subjectid ASC' ).each do |s|
+#			StudySubject.find(:all,
+#					:order => 'subjectid ASC' ).each do |s|
+			StudySubject.order( 'subjectid ASC' ).all.each do |s|
 
 				f.add_row([
 					s.subjectid,
