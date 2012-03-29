@@ -29,7 +29,7 @@
 
 
  #	Dump database table descriptions
- rake db:describe
+ rake app:db:describe
 
 
 

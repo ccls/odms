@@ -7,11 +7,7 @@ module ActiveSupportExtension::Associations
 			class << self
 				alias_methods = {
 					:should_have_many                  => :should_have_many_,
-					:should_have_many_associations     => :should_have_many_,
-					:should_require_valid_associations => :requires_valid_associations,
-					:should_require_valid_association  => :requires_valid_associations,
-					:requires_valid_association        => :requires_valid_associations,
-					:requires_valid                    => :requires_valid_associations
+					:should_have_many_associations     => :should_have_many_
 				}
 				alias_methods.each do |alias_name,method_name|
 					alias_method( "assert_#{alias_name}",
@@ -163,44 +159,6 @@ module ActiveSupportExtension::Associations
 					end
 				end
 			end
-		end
-
-#	TODO can I toss this
-		def assert_requires_valid_associations(*associations)
-#				options = associations.extract_options!
-#				model = options[:model] || model_name_without_test
-#	
-#				associations.each do |assoc|
-#					as = assoc = assoc.to_s
-#					as = options[:as] if !options[:as].blank?
-#	
-#					test "#{brand}should require foreign key #{as}_id" do
-#						assert_difference("#{model}.count",0) do
-#							object = create_object("#{as}_id".to_sym => nil)
-#							assert object.errors.on("#{as}_id".to_sym)
-#						end
-#					end
-#	
-#	#				test "#{brand}should require valid foreign key #{as}_id" do
-#	#					assert_difference("#{model}.count",0) do
-#	#						object = create_object("#{as}_id".to_sym => 0)
-#	#						assert object.errors.on("#{as}_id".to_sym)
-#	#					end
-#	#				end
-#	
-#					title = "#{brand}should require valid association #{assoc}"
-#					title << " as #{options[:as]}" if !options[:as].blank?
-#					test title do
-#						assert_difference("#{model}.count",0) { 
-#							object = create_object(
-#								assoc.to_sym => Factory.build(assoc.to_sym))
-#	#							as.to_sym => Factory.build(assoc.to_sym))
-#							assert object.errors.on("#{as}_id".to_sym)
-#						}    
-#					end 
-#	
-#				end
-
 		end
 
 	end	# ClassMethods

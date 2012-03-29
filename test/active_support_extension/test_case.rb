@@ -52,28 +52,33 @@ module ActiveSupportExtension::TestCase
 			attr_names.each do |attr_name|
 				if options[:allow_today]
 					test "#{brand}should allow #{attr_name} to be today" do
-						object = create_object( attr_name => Date.today )
+						object = model.constantize.new
+						object.send("#{attr_name}=", Date.today)
+						object.valid?		#	could be, but probably isn't
 						assert !object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
 					end
 				else
 					test "#{brand}should NOT allow #{attr_name} to be today" do
-						object = create_object( attr_name => Date.today )
+						object = model.constantize.new
+						object.send("#{attr_name}=", Date.today)
+						assert !object.valid?
 						assert object.errors.matching?(attr_name,
 							'is in the future and must be in the past')
 					end
 				end
 				test "#{brand}should require #{attr_name} be in the past" do
-					#	can't assert difference of 1 as may be other errors
-					object = create_object( attr_name => Date.yesterday )
+					object = model.constantize.new
+					object.send("#{attr_name}=", Date.yesterday)
+					object.valid?		#	could be, but probably isn't
 					assert !object.errors.matching?(attr_name,
 						'is in the future and must be in the past')
-					#	However, can assert difference of 0 as shouldn't create.
-					assert_difference( "#{model}.count", 0 ) do
-						object = create_object( attr_name => Date.tomorrow )
-						assert object.errors.matching?(attr_name,
-							'is in the future and must be in the past')
-					end
+
+					object = model.constantize.new
+					object.send("#{attr_name}=", Date.tomorrow)
+					assert !object.valid?
+					assert object.errors.matching?(attr_name,
+						'is in the future and must be in the past')
 				end
 			end
 		end
@@ -85,9 +90,6 @@ module ActiveSupportExtension::TestCase
 
 			attr_names.each do |attr_name|
 				test "#{brand}should require a complete date for #{attr_name}" do
-#
-#	Testing without creating.  Database just too slow.
-#
 					object = model.constantize.new
 					object.send("#{attr_name}=", "Sept 11, 2001")
 					object.valid?		#	could be, but probably isn't
@@ -102,27 +104,6 @@ module ActiveSupportExtension::TestCase
 					object.send("#{attr_name}=", "9/2001")
 					assert !object.valid?
 					assert object.errors.matching?(attr_name,'is not a complete date')
-
-
-##
-##	Cannot assert that one was created as there may be other errors.
-##	We can only assert that there isn't a not_complete_date error.
-##					assert_difference( "#{model_name}.count", 1 ) do
-#						object = create_object( attr_name => "Sept 11, 2001")
-#						assert !object.errors.matching?(attr_name,'is not a complete date')
-##					end
-##
-#					assert_difference( "#{model_name}.count", 0 ) do
-#						object = create_object( attr_name => "Sept 2010")
-#						assert object.errors.matching?(attr_name,'is not a complete date')
-#					end
-#					assert_difference( "#{model_name}.count", 0 ) do
-#						object = create_object( attr_name => "9/2010")
-#						assert object.errors.matching?(attr_name,'is not a complete date')
-#					end
-#
-
-
 				end
 			end
 		end
@@ -135,15 +116,6 @@ module ActiveSupportExtension::TestCase
 			puts Dir.pwd() 
 			puts Time.now
 		}
-
-#
-#	Don't think that I need this anymore
-#
-#		def model_name
-##			self.class.name.sub(/Test$/,'')
-##			self.class.name.demodulize.sub(/Test$/,'')
-#			self.class.model_name_without_test
-#		end
 
 		#	basically a copy of assert_difference, but
 		#	without any explicit comparison as it is 

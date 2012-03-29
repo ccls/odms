@@ -236,7 +236,6 @@ module ActiveSupportExtension::Attributes
 		def assert_should_protect_attribute(*attributes)
 			options = attributes.extract_options!
 			model = options[:model] || model_name_without_test
-#			model = model_name.constantize
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
@@ -262,13 +261,10 @@ module ActiveSupportExtension::Attributes
 		def assert_should_not_protect_attribute(*attributes)
 			options = attributes.extract_options!
 			model = options[:model] || model_name_without_test
-#			model = model_name.constantize
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
 				test "#{brand}should not protect attribute #{attr}" do
-#					assert !(model.protected_attributes||[]).include?(attr),
-#						"#{attr} is included in protected attributes"
 					assert !model.constantize.protected_attributes.include?(attr),
 						"#{attr} is included in protected attributes"
 
