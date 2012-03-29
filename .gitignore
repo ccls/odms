@@ -64,11 +64,13 @@ config/*database.yml
 db/test_*_schema.rb
 *.swp
 
-test-livebirthdata_011912.csv
+#	not in gem, so don't have to ignore
+#test-livebirthdata_011912.csv
 live_birth_errors.csv
 test/live_birth_data_update/
 development/live_birth_data_update/
 
-icf_master_tracker_011712.csv
+#	not in gem, so don't have to ignore
+#icf_master_tracker_011712.csv
 test/icf_master_tracker_update/
 development/icf_master_tracker_update/
