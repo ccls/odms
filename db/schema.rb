@@ -399,7 +399,7 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
     t.string   "why_invalid"
     t.boolean  "is_verified"
     t.string   "how_verified"
-    t.datetime "verified_on"
+    t.date     "verified_on"
     t.string   "verified_by_uid"
     t.integer  "data_source_id"
     t.string   "other_data_source"
@@ -462,7 +462,7 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
   end
 
   create_table "candidate_controls", :force => true do |t|
-    t.integer  "icf_master_id"
+    t.string   "icf_master_id"
     t.string   "related_patid",         :limit => 5
     t.integer  "study_subject_id"
     t.string   "first_name"
@@ -980,8 +980,6 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
     t.integer  "instrument_version_id"
     t.integer  "interview_method_id"
     t.integer  "language_id"
-    t.date     "began_on"
-    t.date     "ended_on"
     t.string   "respondent_first_name"
     t.string   "respondent_last_name"
     t.integer  "subject_relationship_id"
@@ -991,13 +989,7 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
     t.boolean  "respondent_requested_new_consent"
     t.boolean  "consent_reviewed_with_respondent"
     t.datetime "began_at"
-    t.integer  "began_at_hour"
-    t.integer  "began_at_minute"
-    t.string   "began_at_meridiem"
     t.datetime "ended_at"
-    t.integer  "ended_at_hour"
-    t.integer  "ended_at_minute"
-    t.string   "ended_at_meridiem"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
   end
@@ -1126,7 +1118,7 @@ ActiveRecord::Schema.define(:version => 20120320234705) do
     t.string   "why_invalid"
     t.boolean  "is_verified"
     t.string   "how_verified"
-    t.datetime "verified_on"
+    t.date     "verified_on"
     t.string   "verified_by_uid"
     t.integer  "current_phone",     :default => 1
     t.string   "other_data_source"
