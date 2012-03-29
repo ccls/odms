@@ -69,13 +69,13 @@ class PhoneNumber < ActiveRecord::Base
 
 protected
 
-	#	Set verified time and user if given
+	#	Set verified date and user if given
 	def set_verifier
-		self.verified_on = Time.now
+		self.verified_on = Date.today	#	Time.now
 		self.verified_by_uid = current_user.try(:uid)||''
 	end
 
-	#	Unset verified time and user
+	#	Unset verified date and user
 	def nullify_verifier
 		self.verified_on = nil
 		self.verified_by_uid = nil

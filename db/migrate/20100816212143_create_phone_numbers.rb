@@ -11,7 +11,7 @@ class CreatePhoneNumbers < ActiveRecord::Migration
 			t.string   :why_invalid
 			t.boolean  :is_verified
 			t.string   :how_verified
-			t.datetime :verified_on
+			t.date     :verified_on
 			t.string   :verified_by_uid
 			t.integer  :current_phone, :default => 1
 #			t.string   :data_source_other
