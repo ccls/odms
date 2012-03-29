@@ -9,17 +9,11 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	has_many :operational_events	#, :through => :enrollments
+	has_many :operational_events
 
-	after_create :add_ccls_enrollment
 	after_create :add_new_subject_operational_event
 	after_save   :add_subject_died_operational_event
 
-	def add_ccls_enrollment
-		self.enrollments.find_or_create_by_project_id(Project['ccls'].id)
-	end
-
-	#	All subjects are to have a CCLS project enrollment, so create after create.
 	#	All subjects are to have this operational event, so create after create.
 	#	I suspect that this'll be attached to the CCLS project enrollment.
 	def add_new_subject_operational_event
