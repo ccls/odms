@@ -9,11 +9,11 @@ class InterviewTest < ActiveSupport::TestCase
 	assert_should_belong_to( :interviewer, :class_name => 'Person')
 
 
-	attributes = %w( address_id began_at began_on consent_read_over_phone 
-		consent_reviewed_with_respondent ended_at ended_on instrument_version_id 
+	attributes = %w( address_id began_at consent_read_over_phone 
+		consent_reviewed_with_respondent ended_at instrument_version_id 
 		interview_method_id interviewer_id intro_letter_sent_on language_id 
 		respondent_requested_new_consent study_subject_id )
-	protected_attributes = %w( study_subject_id study_subject began_at ended_at )
+	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_protect( protected_attributes )
@@ -25,7 +25,8 @@ class InterviewTest < ActiveSupport::TestCase
 		:respondent_first_name,
 		:respondent_last_name, 
 			:maximum => 250 )
-	assert_requires_complete_date( :began_on, :ended_on, :intro_letter_sent_on )
+#	assert_requires_complete_date( :began_on, :ended_on, :intro_letter_sent_on )
+	assert_requires_complete_date( :began_at, :ended_at, :intro_letter_sent_on )
 
 	test "explicit Factory interview test" do
 		assert_difference('StudySubject.count',1) {
@@ -157,138 +158,138 @@ class InterviewTest < ActiveSupport::TestCase
 		end
 	end
 
-	%w( began ended ).each do |time|
-
-		test "should NOT create #{time}_at on save if time fields NOT given" do
-			assert_difference( "Interview.count", 1 ) do
-				interview = create_interview
-				assert_nil interview.send("#{time}_at")
-			end
-		end
-	
-		test "should NOT create #{time}_at on save if #{time}_on NOT given" do
-			assert_difference( "Interview.count", 1 ) do
-				interview = create_interview_with_times("#{time}_on" => nil)
-				assert_nil interview.send("#{time}_at")
-			end
-		end
-	
-		test "should NOT create #{time}_at on save if #{time}_at_hour NOT given" do
-			assert_difference( "Interview.count", 1 ) do
-				interview = create_interview_with_times("#{time}_at_hour" => nil)
-				assert_nil interview.send("#{time}_at")
-			end
-		end
-	
-		test "should NOT create #{time}_at on save if #{time}_at_minute NOT given" do
-			assert_difference( "Interview.count", 1 ) do
-				interview = create_interview_with_times("#{time}_at_minute" => nil)
-				assert_nil interview.send("#{time}_at")
-			end
-		end
-	
-		test "should NOT create #{time}_at on save if #{time}_at_meridiem NOT given" do
-			assert_difference( "Interview.count", 1 ) do
-				interview = create_interview_with_times("#{time}_at_meridiem" => nil)
-				assert_nil interview.send("#{time}_at")
-			end
-		end
-	
-		test "should create #{time}_at on save if time fields given" do
-			assert_difference( "Interview.count", 1 ) do
-				interview = create_interview_with_times
-				assert_not_nil interview.send("#{time}_at")
-				assert_equal interview.send("#{time}_at"),
-					DateTime.parse("May 12, 2000 1:30 PM")
-#					DateTime.parse("May 12, 2000 1:30 PM PST")
-			end
-		end
-
-		test "should nilify #{time}_at on update if #{time}_on NOT given" do
-			interview = create_interview_with_times
-			assert_not_nil interview.send("#{time}_at")
-			interview.update_attributes("#{time}_on" => nil)
-			assert_nil interview.send("#{time}_at")
-		end
-
-		test "should nilify #{time}_at on update if #{time}_at_hour NOT given" do
-			interview = create_interview_with_times
-			assert_not_nil interview.send("#{time}_at")
-			interview.update_attributes("#{time}_at_hour" => nil)
-			assert_nil interview.send("#{time}_at")
-		end
-
-		test "should nilify #{time}_at on update if #{time}_at_minute NOT given" do
-			interview = create_interview_with_times
-			assert_not_nil interview.send("#{time}_at")
-			interview.update_attributes("#{time}_at_minute" => nil)
-			assert_nil interview.send("#{time}_at")
-		end
-
-		test "should nilify #{time}_at on update if #{time}_at_meridiem NOT given" do
-			interview = create_interview_with_times
-			assert_not_nil interview.send("#{time}_at")
-			interview.update_attributes("#{time}_at_meridiem" => nil)
-			assert_nil interview.send("#{time}_at")
-		end
-
-		test "should require #{time}_at_hour be greater than 0" do
-			assert_difference( "Interview.count", 0 ) do
-				interview = create_interview_with_times("#{time}_at_hour" => 0)
-				assert_nil interview.send("#{time}_at")
-				assert interview.errors.matching?("#{time}_at_hour",'is not included in the list')
-			end
-		end
-
-		test "should require #{time}_at_hour be less than 13" do
-			assert_difference( "Interview.count", 0 ) do
-				interview = create_interview_with_times("#{time}_at_hour" => 13)
-				assert_nil interview.send("#{time}_at")
-				assert interview.errors.matching?("#{time}_at_hour",'is not included in the list')
-			end
-		end
-
-		test "should require #{time}_at_minute be greater than -1" do
-			assert_difference( "Interview.count", 0 ) do
-				interview = create_interview_with_times("#{time}_at_minute" => -1)
-				assert_nil interview.send("#{time}_at")
-				assert interview.errors.matching?("#{time}_at_minute",'is not included in the list')
-			end
-		end
-
-		test "should require #{time}_at_minute be less than 60" do
-			assert_difference( "Interview.count", 0 ) do
-				interview = create_interview_with_times("#{time}_at_minute" => 60)
-				assert_nil interview.send("#{time}_at")
-				assert interview.errors.matching?("#{time}_at_minute",'is not included in the list')
-			end
-		end
-
-		test "should require #{time}_at_meridiem is AM or PM" do
-			assert_difference( "Interview.count", 0 ) do
-				interview = create_interview_with_times("#{time}_at_meridiem" => 'MM')
-				assert_nil interview.send("#{time}_at")
-				assert interview.errors.matching?("#{time}_at_meridiem",'is invalid')
-			end
-		end
-
-	end
+#	%w( began ended ).each do |time|
+#
+#		test "should NOT create #{time}_at on save if time fields NOT given" do
+#			assert_difference( "Interview.count", 1 ) do
+#				interview = create_interview
+#				assert_nil interview.send("#{time}_at")
+#			end
+#		end
+#	
+#		test "should NOT create #{time}_at on save if #{time}_on NOT given" do
+#			assert_difference( "Interview.count", 1 ) do
+#				interview = create_interview_with_times("#{time}_on" => nil)
+#				assert_nil interview.send("#{time}_at")
+#			end
+#		end
+#	
+#		test "should NOT create #{time}_at on save if #{time}_at_hour NOT given" do
+#			assert_difference( "Interview.count", 1 ) do
+#				interview = create_interview_with_times("#{time}_at_hour" => nil)
+#				assert_nil interview.send("#{time}_at")
+#			end
+#		end
+#	
+#		test "should NOT create #{time}_at on save if #{time}_at_minute NOT given" do
+#			assert_difference( "Interview.count", 1 ) do
+#				interview = create_interview_with_times("#{time}_at_minute" => nil)
+#				assert_nil interview.send("#{time}_at")
+#			end
+#		end
+#	
+#		test "should NOT create #{time}_at on save if #{time}_at_meridiem NOT given" do
+#			assert_difference( "Interview.count", 1 ) do
+#				interview = create_interview_with_times("#{time}_at_meridiem" => nil)
+#				assert_nil interview.send("#{time}_at")
+#			end
+#		end
+#	
+#		test "should create #{time}_at on save if time fields given" do
+#			assert_difference( "Interview.count", 1 ) do
+#				interview = create_interview_with_times
+#				assert_not_nil interview.send("#{time}_at")
+#				assert_equal interview.send("#{time}_at"),
+#					DateTime.parse("May 12, 2000 1:30 PM")
+##					DateTime.parse("May 12, 2000 1:30 PM PST")
+#			end
+#		end
+#
+#		test "should nilify #{time}_at on update if #{time}_on NOT given" do
+#			interview = create_interview_with_times
+#			assert_not_nil interview.send("#{time}_at")
+#			interview.update_attributes("#{time}_on" => nil)
+#			assert_nil interview.send("#{time}_at")
+#		end
+#
+#		test "should nilify #{time}_at on update if #{time}_at_hour NOT given" do
+#			interview = create_interview_with_times
+#			assert_not_nil interview.send("#{time}_at")
+#			interview.update_attributes("#{time}_at_hour" => nil)
+#			assert_nil interview.send("#{time}_at")
+#		end
+#
+#		test "should nilify #{time}_at on update if #{time}_at_minute NOT given" do
+#			interview = create_interview_with_times
+#			assert_not_nil interview.send("#{time}_at")
+#			interview.update_attributes("#{time}_at_minute" => nil)
+#			assert_nil interview.send("#{time}_at")
+#		end
+#
+#		test "should nilify #{time}_at on update if #{time}_at_meridiem NOT given" do
+#			interview = create_interview_with_times
+#			assert_not_nil interview.send("#{time}_at")
+#			interview.update_attributes("#{time}_at_meridiem" => nil)
+#			assert_nil interview.send("#{time}_at")
+#		end
+#
+#		test "should require #{time}_at_hour be greater than 0" do
+#			assert_difference( "Interview.count", 0 ) do
+#				interview = create_interview_with_times("#{time}_at_hour" => 0)
+#				assert_nil interview.send("#{time}_at")
+#				assert interview.errors.matching?("#{time}_at_hour",'is not included in the list')
+#			end
+#		end
+#
+#		test "should require #{time}_at_hour be less than 13" do
+#			assert_difference( "Interview.count", 0 ) do
+#				interview = create_interview_with_times("#{time}_at_hour" => 13)
+#				assert_nil interview.send("#{time}_at")
+#				assert interview.errors.matching?("#{time}_at_hour",'is not included in the list')
+#			end
+#		end
+#
+#		test "should require #{time}_at_minute be greater than -1" do
+#			assert_difference( "Interview.count", 0 ) do
+#				interview = create_interview_with_times("#{time}_at_minute" => -1)
+#				assert_nil interview.send("#{time}_at")
+#				assert interview.errors.matching?("#{time}_at_minute",'is not included in the list')
+#			end
+#		end
+#
+#		test "should require #{time}_at_minute be less than 60" do
+#			assert_difference( "Interview.count", 0 ) do
+#				interview = create_interview_with_times("#{time}_at_minute" => 60)
+#				assert_nil interview.send("#{time}_at")
+#				assert interview.errors.matching?("#{time}_at_minute",'is not included in the list')
+#			end
+#		end
+#
+#		test "should require #{time}_at_meridiem is AM or PM" do
+#			assert_difference( "Interview.count", 0 ) do
+#				interview = create_interview_with_times("#{time}_at_meridiem" => 'MM')
+#				assert_nil interview.send("#{time}_at")
+#				assert interview.errors.matching?("#{time}_at_meridiem",'is invalid')
+#			end
+#		end
+#
+#	end
 
 protected
 
-	def create_interview_with_times(options={})
-		ioptions = HashWithIndifferentAccess.new({
-			:began_on => Date.parse('May 12, 2000'),
-			:began_at_hour => 1,
-			:began_at_minute => 30,
-			:began_at_meridiem => 'PM',
-			:ended_on => Date.parse('May 12, 2000'),
-			:ended_at_hour => 1,
-			:ended_at_minute => 30,
-			:ended_at_meridiem => 'PM'
- 		}).merge(options)
-		create_interview(ioptions)
-	end
+#	def create_interview_with_times(options={})
+#		ioptions = HashWithIndifferentAccess.new({
+#			:began_on => Date.parse('May 12, 2000'),
+#			:began_at_hour => 1,
+#			:began_at_minute => 30,
+#			:began_at_meridiem => 'PM',
+#			:ended_on => Date.parse('May 12, 2000'),
+#			:ended_at_hour => 1,
+#			:ended_at_minute => 30,
+#			:ended_at_meridiem => 'PM'
+# 		}).merge(options)
+#		create_interview(ioptions)
+#	end
 
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_interview

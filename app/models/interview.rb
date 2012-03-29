@@ -20,8 +20,10 @@ class Interview < ActiveRecord::Base
 
 	delegate :is_other?, :to => :subject_relationship, :allow_nil => true, :prefix => true
 
-	validates_complete_date_for :began_on, :allow_nil => true
-	validates_complete_date_for :ended_on, :allow_nil => true
+	validates_complete_date_for :began_at, :allow_nil => true
+	validates_complete_date_for :ended_at, :allow_nil => true
+#	validates_complete_date_for :began_on, :allow_nil => true
+#	validates_complete_date_for :ended_on, :allow_nil => true
 	validates_complete_date_for :intro_letter_sent_on, :allow_nil => true
 
 	validates_length_of :other_subject_relationship, 
@@ -36,26 +38,26 @@ class Interview < ActiveRecord::Base
 		:message => "not allowed",
 		:if => :subject_relationship_id_blank?
 
-	validates_inclusion_of :began_at_hour, :in => (1..12),
-		:allow_blank => true
-	validates_inclusion_of :began_at_minute, :in => (0..59),
-		:allow_blank => true
-	validates_format_of    :began_at_meridiem, :with => /\A(AM|PM)\z/i,
-		:allow_blank => true
-	validates_inclusion_of :ended_at_hour, :in => (1..12),
-		:allow_blank => true
-	validates_inclusion_of :ended_at_minute, :in => (0..59),
-		:allow_blank => true
-	validates_format_of    :ended_at_meridiem, :with => /\A(AM|PM)\z/i,
-		:allow_blank => true
+#	validates_inclusion_of :began_at_hour, :in => (1..12),
+#		:allow_blank => true
+#	validates_inclusion_of :began_at_minute, :in => (0..59),
+#		:allow_blank => true
+#	validates_format_of    :began_at_meridiem, :with => /\A(AM|PM)\z/i,
+#		:allow_blank => true
+#	validates_inclusion_of :ended_at_hour, :in => (1..12),
+#		:allow_blank => true
+#	validates_inclusion_of :ended_at_minute, :in => (0..59),
+#		:allow_blank => true
+#	validates_format_of    :ended_at_meridiem, :with => /\A(AM|PM)\z/i,
+#		:allow_blank => true
 
 	before_save :update_intro_operational_event,
 		:if => :intro_letter_sent_on_changed?
 
-	before_save :set_began_at
-	before_save :set_ended_at
-	attr_protected :began_at
-	attr_protected :ended_at
+#	before_save :set_began_at
+#	before_save :set_ended_at
+#	attr_protected :began_at
+#	attr_protected :ended_at
 
 	#	Returns string containing respondent's first and last name
 	def respondent_full_name
@@ -64,25 +66,25 @@ class Interview < ActiveRecord::Base
 
 protected
 
-	def set_began_at
-		if [began_on, began_at_hour,began_at_minute,began_at_meridiem].all?
-			self.began_at = DateTime.parse(
-				"#{began_on} #{began_at_hour}:#{began_at_minute} #{began_at_meridiem}")
-#				"#{began_on} #{began_at_hour}:#{began_at_minute} #{began_at_meridiem} PST")
-		else
-			self.began_at = nil
-		end
-	end
-
-	def set_ended_at
-		if [ended_on, ended_at_hour,ended_at_minute,ended_at_meridiem].all?
-			self.ended_at = DateTime.parse(
-				"#{ended_on} #{ended_at_hour}:#{ended_at_minute} #{ended_at_meridiem}")
-#				"#{ended_on} #{ended_at_hour}:#{ended_at_minute} #{ended_at_meridiem} PST")
-		else
-			self.ended_at = nil
-		end
-	end
+#	def set_began_at
+#		if [began_on, began_at_hour,began_at_minute,began_at_meridiem].all?
+#			self.began_at = DateTime.parse(
+#				"#{began_on} #{began_at_hour}:#{began_at_minute} #{began_at_meridiem}")
+##				"#{began_on} #{began_at_hour}:#{began_at_minute} #{began_at_meridiem} PST")
+#		else
+#			self.began_at = nil
+#		end
+#	end
+#
+#	def set_ended_at
+#		if [ended_on, ended_at_hour,ended_at_minute,ended_at_meridiem].all?
+#			self.ended_at = DateTime.parse(
+#				"#{ended_on} #{ended_at_hour}:#{ended_at_minute} #{ended_at_meridiem}")
+##				"#{ended_on} #{ended_at_hour}:#{ended_at_minute} #{ended_at_meridiem} PST")
+#		else
+#			self.ended_at = nil
+#		end
+#	end
 
 	def subject_relationship_id_blank?
 		subject_relationship_id.blank?
