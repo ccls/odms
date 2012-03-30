@@ -286,7 +286,7 @@ namespace :odms_import do
 #				:sample_temperature_id => find on line['storage_temp'],
 
 #	Caplitalize? Database default is 'Sample'
-#				:aliquot_or_sample_on_receipt => line['aliquot_or_sample_on_receipt'],
+				:aliquot_or_sample_on_receipt => line['aliquot_or_sample_on_receipt'],
 
 				:received_by_ccls_at       => (( line['received_by_ccls_at'].blank? ) ?
 														nil : Time.parse(line['received_by_ccls_at'])),

@@ -86,13 +86,18 @@ namespace :data do
 		printf "%-25s %5d\n", "Address.count:", Address.count
 		printf "%-25s %5d\n", "Addressing.count:", Addressing.count
 		printf "%-25s %5d\n", "PhoneNumber.count:", PhoneNumber.count
+
 		printf "%-25s %5d\n", "Sample.count:", Sample.count
-		%w{ sample_type_id }.each do |field|
+		%w{ aliquot_or_sample_on_receipt sample_temperature_id sample_format_id project_id parent_sample_id location_id sample_type_id }.each do |field|
 			Sample.select( "#{field}, COUNT(*) AS count"
 					).group( field ).each do |e|
 				printf "%-25s %5d\n", "#{field} = #{e.send(field)}:", e.count
 			end
 		end
+		printf "%-25s %5d\n", "Samples with received_by_ccls_at:", 
+			Sample.where( 'received_by_ccls_at IS NOT NULL' ).count
+		printf "%-25s %5d\n", "Samples without received_by_ccls_at:", 
+			Sample.where( 'received_by_ccls_at IS NULL' ).count
 
 	end
 
