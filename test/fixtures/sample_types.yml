@@ -141,22 +141,29 @@ otherair:
 otheractual:
   id: 29
   parent_id: 7
-  key: other
+#  key: other
+  key: otheractual
   description: other type of sample(actual)
 dkactual:
   id: 30
   parent_id: 8
-  key: unknown
+  key: dontknow
+#unknown
   description: unspecified sample type (don't know)(actual)
 periph:
   id: 31
   parent_id: 2
   key: periph
   description: peripheral blood - diagnostic
-marrow:
+#marrow:
+#  id: 32
+#  parent_id: 7
+#  key: marrow
+#  description:  bone marrow - diagnostic
+marrowdiag:
   id: 32
   parent_id: 7
-  key: marrow
+  key: marrowdiag
   description:  bone marrow - diagnostic
 momblood:
   id: 33
@@ -168,6 +175,20 @@ momurine:
   parent_id: 5
   key: momurine
   description:  maternal urine
+
+
+
+
+#	Insert real id 35 sample type here
+missing:
+  id: 35
+  key: missing
+  description:  missing
+
+
+
+
+
 hvs:
   id: 36
   parent_id: 1
@@ -177,18 +198,23 @@ og250:
   id: 37
   parent_id: 3
   key: og250
-  description:  OG250: < 12 mos (five sponges)
+#	gotta quote this
+  description:  "OG250: < 12 mos (five sponges)"
 og575:
   id: 38
   parent_id: 3
   key: og575
-  description:  OG575: 12-36 mos (two sponges)
+#	gotta quote this
+  description:  "OG575: 12-36 mos (two sponges)"
 og500:
   id: 39
   parent_id: 3
   key: og500
-  description:  OG500:  > 36 mos (spit kit)
+#	gotta quote this
+  description:  "OG500:  > 36 mos (spit kit)"
 dksubtype:
   id: 999
   parent_id: 8
+  key: dksubtype
+  description:  dksubtype
   
