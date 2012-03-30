@@ -279,17 +279,17 @@ namespace :odms_import do
 
 #	TODO convert this to block creation. Why?
 			sample = study_subject.samples.create({
-				:project_id         => line['project_id'],	#	NOTE many are blank
+				:project_id         => Project['ccls'].id,	#line['project_id'],	#	NOTE many are blank
 				:parent_sample_id   => line['parent_sample_id'],	#	NOTE includes 0s ???
 				:sample_type_id     => line['ODMS_sample_type_id'],
-#				:location_id        => line['location_id'],	#	will break chronology
+				:location_id        => line['location_id'],	#	will break chronology
 #				:sample_temperature_id => find on line['storage_temp'],
 
 #	Caplitalize? Database default is 'Sample'
 #				:aliquot_or_sample_on_receipt => line['aliquot_or_sample_on_receipt'],
 
-#				:received_by_ccls_at       => (( line['received_by_ccls_at'].blank? ) ?
-#														nil : Time.parse(line['received_by_ccls_at'])),
+				:received_by_ccls_at       => (( line['received_by_ccls_at'].blank? ) ?
+														nil : Time.parse(line['received_by_ccls_at'])),
 
 #				:UNKNOWN         => (( line['originally_received_at'].blank? ) ?
 #														nil : Time.parse(line['originally_received_at']) ),

@@ -82,6 +82,18 @@ namespace :data do
 			StudySubject.where( 'subjectid IS NOT NULL' ).count
 		printf "%-25s %5d\n", "Subjects without subjectid:", 
 			StudySubject.where( 'subjectid IS NULL' ).count
+
+		printf "%-25s %5d\n", "Address.count:", Address.count
+		printf "%-25s %5d\n", "Addressing.count:", Addressing.count
+		printf "%-25s %5d\n", "PhoneNumber.count:", PhoneNumber.count
+		printf "%-25s %5d\n", "Sample.count:", Sample.count
+		%w{ sample_type_id }.each do |field|
+			Sample.select( "#{field}, COUNT(*) AS count"
+					).group( field ).each do |e|
+				printf "%-25s %5d\n", "#{field} = #{e.send(field)}:", e.count
+			end
+		end
+
 	end
 
 	desc "Dump some database tables to xml files"
