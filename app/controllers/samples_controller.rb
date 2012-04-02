@@ -53,7 +53,7 @@ class SamplesController < ApplicationController
 		end
 
 		#	may want to implement this for study_subjects/find on dob as well
-		validate_valid_date_range_for(:sent_to_subject_on,conditions)
+		validate_valid_date_range_for(:sent_to_subject_at,conditions)
 		validate_valid_date_range_for(:received_by_ccls_at,conditions)
 
 		@samples = Sample.joins(:study_subject

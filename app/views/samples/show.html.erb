@@ -19,25 +19,25 @@
 <%= wrapped_spans :sample, :sample_type,
 	:label_text => 'sample subtype:' %>
 
-<%= wrapped_date_spans :sample, :sent_to_subject_on,
-	:label_text => 'Sent to Subject on:' %>
+<%= wrapped_datetime_spans :sample, :sent_to_subject_at,
+	:label_text => 'Sent to Subject at:' %>
 
-<%= wrapped_datetime_spans :sample, :collected_at,
-	:label_text => 'Collected at:' %>
+<%= wrapped_datetime_spans :sample, :collected_from_subject_at,
+	:label_text => 'Collected from Subject at:' %>
 
-<%= wrapped_datetime_spans :sample, :shipped_at,
-	:label_text => 'Shipped at:' %>
+<%= wrapped_datetime_spans :sample, :shipped_to_ccls_at,
+	:label_text => 'Shipped to CCLS at:' %>
 
 <%= wrapped_datetime_spans :sample, :received_by_ccls_at,
 	:label_text => 'Received by CCLS at:' %>
 
-<%= wrapped_date_spans :sample, :sent_to_lab_on,
-	:label_text => 'Sent to Lab on:' %>
+<%= wrapped_datetime_spans :sample, :sent_to_lab_at,
+	:label_text => 'Sent to Lab at:' %>
 
-<%= wrapped_date_spans :sample, :received_by_lab_on,
-	:label_text => 'Received by Lab on:' %>
+<%= wrapped_datetime_spans :sample, :received_by_lab_at,
+	:label_text => 'Received by Lab at:' %>
 
-<%= wrapped_date_spans :sample, :aliquotted_on,
-	:label_text => 'Aliquotted on:' %>
+<%= wrapped_datetime_spans :sample, :aliquotted_at,
+	:label_text => 'Aliquotted at:' %>
 
 <%#= render 'shipping_info' %>

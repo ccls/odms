@@ -261,48 +261,48 @@ class SamplesControllerTest < ActionController::TestCase
 	
 
 
-		test "should find samples with sent_to_subject_on as month day year and #{cu} login" do
+		test "should find samples with sent_to_subject_at as month day year and #{cu} login" do
 			base_date = Date.today-100.days
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sent_to_subject_on => base_date + (5*i).days ) }
+				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	Dec 1 2000
-			get :find, :sent_to_subject_on => samples[1].sent_to_subject_on.strftime("%b %d %Y")
+			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.strftime("%b %d %Y")
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
 		end
 	
-		test "should find samples with sent_to_subject_on as MM/DD/YYYY and #{cu} login" do
+		test "should find samples with sent_to_subject_at as MM/DD/YYYY and #{cu} login" do
 			base_date = Date.today-100.days
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sent_to_subject_on => base_date + (5*i).days ) }
+				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	javascript selector format
-			get :find, :sent_to_subject_on => samples[1].sent_to_subject_on.strftime("%m/%d/%Y")
+			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.strftime("%m/%d/%Y")
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
 		end
 	
-		test "should find samples with sent_to_subject_on as YYYY-MM-DD and #{cu} login" do
+		test "should find samples with sent_to_subject_at as YYYY-MM-DD and #{cu} login" do
 			base_date = Date.today-100.days
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sent_to_subject_on => base_date + (5*i).days ) }
+				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	same as strftime('%Y-%m-%d')
-			get :find, :sent_to_subject_on => samples[1].sent_to_subject_on.to_s	
+			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.to_s	
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
 		end
 	
-		test "should find samples ignoring poorly formatted sent_to_subject_on and #{cu} login" do
+		test "should find samples ignoring poorly formatted sent_to_subject_at and #{cu} login" do
 			base_date = Date.today-100.days
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sent_to_subject_on => base_date + (5*i).days ) }
+				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
-			get :find, :sent_to_subject_on => 'bad monkey'
+			get :find, :sent_to_subject_at => 'bad monkey'
 			assert_response :success
 			assert_equal 3, assigns(:samples).length
 		end
@@ -311,9 +311,9 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples with received_by_ccls_at as month day year and #{cu} login" do
 			base_date = Date.today-100.days
 			samples = 3.times.collect{|i| Factory(:sample,
-					:sent_to_subject_on  => base_date + (5*i-2).days,
-					:collected_at        => base_date + (5*i-1).days,
-					:received_by_ccls_at => base_date + (5*i).days )}
+					:sent_to_subject_at        => base_date + (5*i-2).days,
+					:collected_from_subject_at => base_date + (5*i-1).days,
+					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	Dec 1 2000
 			get :find, :received_by_ccls_at => samples[1].received_by_ccls_at.strftime("%b %d %Y")
@@ -325,9 +325,9 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples with received_by_ccls_at as MM/DD/YYYY and #{cu} login" do
 			base_date = Date.today-100.days
 			samples = 3.times.collect{|i| Factory(:sample,
-					:sent_to_subject_on  => base_date + (5*i-2).days,
-					:collected_at        => base_date + (5*i-1).days,
-					:received_by_ccls_at => base_date + (5*i).days )}
+					:sent_to_subject_at        => base_date + (5*i-2).days,
+					:collected_from_subject_at => base_date + (5*i-1).days,
+					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	javascript selector format
 			get :find, :received_by_ccls_at => samples[1].received_by_ccls_at.strftime("%m/%d/%Y")
@@ -339,9 +339,9 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples with received_by_ccls_at as YYYY-MM-DD and #{cu} login" do
 			base_date = Date.today-100.days
 			samples = 3.times.collect{|i| Factory(:sample,
-					:sent_to_subject_on  => base_date + (5*i-2).days,
-					:collected_at        => base_date + (5*i-1).days,
-					:received_by_ccls_at => base_date + (5*i).days )}
+					:sent_to_subject_at        => base_date + (5*i-2).days,
+					:collected_from_subject_at => base_date + (5*i-1).days,
+					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	same as strftime('%Y-%m-%d')
 			get :find, :received_by_ccls_at => samples[1].received_by_ccls_at.to_s	
@@ -353,9 +353,9 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples ignoring poorly formatted received_by_ccls_at and #{cu} login" do
 			base_date = Date.today-100.days
 			samples = 3.times.collect{|i| Factory(:sample,
-					:sent_to_subject_on  => base_date + (5*i-2).days,
-					:collected_at        => base_date + (5*i-1).days,
-					:received_by_ccls_at => base_date + (5*i).days )}
+					:sent_to_subject_at        => base_date + (5*i-2).days,
+					:collected_from_subject_at => base_date + (5*i-1).days,
+					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			get :find, :received_by_ccls_at => 'bad monkey'
 			assert_response :success

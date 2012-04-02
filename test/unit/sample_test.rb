@@ -10,12 +10,13 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 
 	attributes = %w( aliquot_or_sample_on_receipt 
-		aliquotted_on collected_at external_id 
-		external_id_source location_id order_no parent_sample_id position 
-		quantity_in_sample receipt_confirmed_by receipt_confirmed_on 
-		received_by_ccls_at received_by_lab_on sample_collector_id 
+		aliquotted_at collected_from_subject_at external_id 
+		external_id_source location_id order_no parent_sample_id 
+		quantity_in_sample receipt_confirmed_by receipt_confirmed_at
+		received_by_ccls_at received_by_lab_at sample_collector_id 
 		sample_format sample_format_id sample_temperature 
-		sample_temperature_id sent_to_lab_on sent_to_subject_on state unit unit_id )
+		sample_temperature_id sent_to_lab_at sent_to_subject_at
+		shipped_to_ccls_at state unit unit_id )
 	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
@@ -24,21 +25,19 @@ class SampleTest < ActiveSupport::TestCase
 
 	assert_should_require_attribute_length( :state, :maximum => 250 )
 
-#	TODO These seem to fail for DateTimes.  Need to check it out.
-
-	assert_requires_complete_date( :sent_to_subject_on, 
-		:shipped_at, 
+	assert_requires_complete_date( :sent_to_subject_at, 
+		:shipped_to_ccls_at, 
 		:received_by_ccls_at, 
-		:sent_to_lab_on,
-		:received_by_lab_on, :aliquotted_on,
-		:collected_at,
-		:receipt_confirmed_on )
+		:sent_to_lab_at,
+		:received_by_lab_at, :aliquotted_at,
+		:collected_from_subject_at,
+		:receipt_confirmed_at )
 
-	assert_requires_past_date( :sent_to_subject_on,
-:shipped_at,
-		:received_by_ccls_at,  :sent_to_lab_on,
-		:received_by_lab_on,   :aliquotted_on,
-		:receipt_confirmed_on, :collected_at )
+	assert_requires_past_date( :sent_to_subject_at,
+		:shipped_to_ccls_at,
+		:received_by_ccls_at,  :sent_to_lab_at,
+		:received_by_lab_at,   :aliquotted_at,
+		:receipt_confirmed_at, :collected_from_subject_at )
 
 	test "explicit Factory sample test" do
 		assert_difference('StudySubject.count',1) {
@@ -119,13 +118,17 @@ class SampleTest < ActiveSupport::TestCase
 	end
 
 	test "should default order_no to 1" do
-		sample = create_sample
+		sample = Sample.new
 		assert_equal 1, sample.order_no
+		sample = Sample.new(:order_no => 9)
+		assert_equal 9, sample.order_no
 	end
 
 	test "should default aliquot_or_sample_on_receipt to 'Sample'" do
-		sample = create_sample
+		sample = Sample.new
 		assert_equal 'Sample', sample.aliquot_or_sample_on_receipt
+		sample = Sample.new(:aliquot_or_sample_on_receipt => 'something')
+		assert_equal 'something', sample.aliquot_or_sample_on_receipt
 	end
 
 #	somehow, through location_id I think
@@ -153,115 +156,115 @@ class SampleTest < ActiveSupport::TestCase
 #	Even if the *_at field is given a Date value, it will be typecast to ActiveSupport::TimeWithZone so there is no terrible need to update all of the tests to send one.
 
 
-	test "should require sent_to_subject_on if collected_at" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:sent_to_subject_on => nil,
-				:collected_at       => Date.yesterday
-			)
-			assert sample.errors.matching?(:sent_to_subject_on,"can't be blank")
-		end
-	end
-
-	test "should require collected_at be after sent_to_subject_on" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:sent_to_subject_on => Date.tomorrow,
-				:collected_at       => Date.yesterday
-			)
-			assert sample.errors.matching?(:collected_at,"after sent_to_subject_on")
-		end
-	end
-
-	test "should require collected_at if received_by_ccls_at" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:collected_at        => nil,
-				:received_by_ccls_at => Date.yesterday
-			)
-			assert sample.errors.matching?(:collected_at,"can't be blank")
-		end
-	end
-
-	test "should require received_by_ccls_at be after collected_at" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:collected_at        => Date.tomorrow,
-				:received_by_ccls_at => Date.yesterday
-			)
-			assert sample.errors.matching?(:received_by_ccls_at,"after collected_at")
-		end
-	end
-
-	test "should require received_by_ccls_at if sent_to_lab_on" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:received_by_ccls_at => nil,
-				:sent_to_lab_on      => Date.yesterday
-			)
-			assert sample.errors.matching?(:received_by_ccls_at,"can't be blank")
-		end
-	end
-
-	test "should require sent_to_lab_on be after received_by_ccls_at" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:received_by_ccls_at => Date.tomorrow,
-				:received_by_ccls_at => ( DateTime.now + 1.day ),
-				:sent_to_lab_on      => Date.yesterday
-			)
-			assert sample.errors.matching?(:sent_to_lab_on,"after received_by_ccls_at")
-		end
-	end
-
-	test "should require sent_to_lab_on if received_by_lab_on" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:sent_to_lab_on     => nil,
-				:received_by_lab_on => Date.yesterday
-			)
-			assert sample.errors.matching?(:sent_to_lab_on,"can't be blank")
-		end
-	end
-
-	test "should require received_by_lab_on be after sent_to_lab_on" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:sent_to_lab_on     => Date.tomorrow,
-				:received_by_lab_on => Date.yesterday
-			)
-			assert sample.errors.matching?(:received_by_lab_on,"after sent_to_lab_on")
-		end
-	end
-
-	test "should require location_id be after sent_to_lab_on" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:sent_to_lab_on => Date.yesterday
-			)
-			assert sample.errors.matching?(:location_id,"can't be blank")
-		end
-	end
-
-	test "should require received_by_lab_on if aliquotted_on" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:received_by_lab_on => nil,
-				:aliquotted_on      => Date.yesterday
-			)
-			assert sample.errors.matching?(:received_by_lab_on,"can't be blank")
-		end
-	end
-
-	test "should require aliquotted_on be after received_by_lab_on" do
-		assert_difference( 'Sample.count', 0 ) do
-			sample = create_sample(
-				:received_by_lab_on => Date.tomorrow,
-				:aliquotted_on      => Date.yesterday
-			)
-			assert sample.errors.matching?(:aliquotted_on,"after received_by_lab_on")
-		end
-	end
+#	test "should require sent_to_subject_on if collected_at" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:sent_to_subject_on => nil,
+#				:collected_at       => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:sent_to_subject_on,"can't be blank")
+#		end
+#	end
+#
+#	test "should require collected_at be after sent_to_subject_on" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:sent_to_subject_on => Date.tomorrow,
+#				:collected_at       => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:collected_at,"after sent_to_subject_on")
+#		end
+#	end
+#
+#	test "should require collected_at if received_by_ccls_at" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:collected_at        => nil,
+#				:received_by_ccls_at => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:collected_at,"can't be blank")
+#		end
+#	end
+#
+#	test "should require received_by_ccls_at be after collected_at" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:collected_at        => Date.tomorrow,
+#				:received_by_ccls_at => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:received_by_ccls_at,"after collected_at")
+#		end
+#	end
+#
+#	test "should require received_by_ccls_at if sent_to_lab_on" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:received_by_ccls_at => nil,
+#				:sent_to_lab_on      => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:received_by_ccls_at,"can't be blank")
+#		end
+#	end
+#
+#	test "should require sent_to_lab_on be after received_by_ccls_at" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:received_by_ccls_at => Date.tomorrow,
+#				:received_by_ccls_at => ( DateTime.now + 1.day ),
+#				:sent_to_lab_on      => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:sent_to_lab_on,"after received_by_ccls_at")
+#		end
+#	end
+#
+#	test "should require sent_to_lab_on if received_by_lab_on" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:sent_to_lab_on     => nil,
+#				:received_by_lab_on => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:sent_to_lab_on,"can't be blank")
+#		end
+#	end
+#
+#	test "should require received_by_lab_on be after sent_to_lab_on" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:sent_to_lab_on     => Date.tomorrow,
+#				:received_by_lab_on => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:received_by_lab_on,"after sent_to_lab_on")
+#		end
+#	end
+#
+#	test "should require location_id be after sent_to_lab_on" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:sent_to_lab_on => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:location_id,"can't be blank")
+#		end
+#	end
+#
+#	test "should require received_by_lab_on if aliquotted_on" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:received_by_lab_on => nil,
+#				:aliquotted_on      => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:received_by_lab_on,"can't be blank")
+#		end
+#	end
+#
+#	test "should require aliquotted_on be after received_by_lab_on" do
+#		assert_difference( 'Sample.count', 0 ) do
+#			sample = create_sample(
+#				:received_by_lab_on => Date.tomorrow,
+#				:aliquotted_on      => Date.yesterday
+#			)
+#			assert sample.errors.matching?(:aliquotted_on,"after received_by_lab_on")
+#		end
+#	end
 
 	test "should create homex outcome with sample" do
 		study_subject = create_hx_study_subject
@@ -281,10 +284,10 @@ class SampleTest < ActiveSupport::TestCase
 			sample = create_sample(
 				:study_subject      => study_subject,
 				:project            => Project['HomeExposures'],
-				:sent_to_subject_on => Date.yesterday )
+				:sent_to_subject_at => Date.yesterday )
 			assert_equal SampleOutcome['sent'],
 				sample.study_subject.homex_outcome.sample_outcome
-			assert_equal sample.sent_to_subject_on,
+			assert_equal sample.sent_to_subject_at,
 				sample.study_subject.homex_outcome.sample_outcome_on
 		} } }
 	end
@@ -298,8 +301,8 @@ class SampleTest < ActiveSupport::TestCase
 			sample = create_sample(
 				:study_subject          => study_subject,
 				:project          => Project['HomeExposures'],
-				:sent_to_subject_on  => ( today - 3.days ),
-				:collected_at        => ( today - 2.days ),
+				:sent_to_subject_at  => ( today - 3.days ),
+				:collected_from_subject_at => ( today - 2.days ),
 				:received_by_ccls_at => ( today - 1.day ) )
 			assert_equal SampleOutcome['received'],
 				sample.study_subject.homex_outcome.sample_outcome
@@ -319,14 +322,14 @@ class SampleTest < ActiveSupport::TestCase
 				:study_subject          => study_subject,
 				:project          => Project['HomeExposures'],
 				:organization        => Factory(:organization),
-				:sent_to_subject_on  => ( today - 4.days ),
-				:collected_at        => ( today - 3.days ),
+				:sent_to_subject_at  => ( today - 4.days ),
+				:collected_from_subject_at => ( today - 3.days ),
 				:received_by_ccls_at => ( today - 2.days ),
-				:sent_to_lab_on      => ( today - 1.day ) )
+				:sent_to_lab_at      => ( today - 1.day ) )
 			assert !sample.new_record?, "Object was not created"
 			assert_equal SampleOutcome['lab'],
 				sample.study_subject.homex_outcome.sample_outcome
-			assert_equal sample.sent_to_lab_on,
+			assert_equal sample.sent_to_lab_at,
 				sample.study_subject.homex_outcome.sample_outcome_on
 		} } #}
 	end

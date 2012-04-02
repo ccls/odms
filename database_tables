@@ -866,57 +866,59 @@ Table: icf_master_tracker_updates
 | csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
 +-----------------------+--------------+------+-----+---------+----------------+
 Table: icf_master_trackers
-+---------------------------------+--------------+------+-----+---------+----------------+
-| Field                           | Type         | Null | Key | Default | Extra          |
-+---------------------------------+--------------+------+-----+---------+----------------+
-| id                              | int(11)      | NO   | PRI | NULL    | auto_increment |
-| study_subject_id                | int(11)      | YES  |     | NULL    |                |
-| flagged_for_update              | tinyint(1)   | YES  |     | 0       |                |
-| last_update_attempt_errors      | text         | YES  |     | NULL    |                |
-| last_update_attempted_at        | datetime     | YES  |     | NULL    |                |
-| Masterid                        | varchar(255) | YES  | UNI | NULL    |                |
-| Motherid                        | varchar(255) | YES  |     | NULL    |                |
-| Record_Owner                    | varchar(255) | YES  |     | NULL    |                |
-| Datereceived                    | varchar(255) | YES  |     | NULL    |                |
-| Lastatt                         | varchar(255) | YES  |     | NULL    |                |
-| Lastdisp                        | varchar(255) | YES  |     | NULL    |                |
-| Currphone                       | varchar(255) | YES  |     | NULL    |                |
-| Vacauthrecd                     | varchar(255) | YES  |     | NULL    |                |
-| Recollect                       | varchar(255) | YES  |     | NULL    |                |
-| Needpreincentive                | varchar(255) | YES  |     | NULL    |                |
-| Active_Phone                    | varchar(255) | YES  |     | NULL    |                |
-| Recordsentformatching           | varchar(255) | YES  |     | NULL    |                |
-| Recordreceivedfrommatching      | varchar(255) | YES  |     | NULL    |                |
-| Sentpreincentive                | varchar(255) | YES  |     | NULL    |                |
-| Releasedtocati                  | varchar(255) | YES  |     | NULL    |                |
-| Confirmedcaticontact            | varchar(255) | YES  |     | NULL    |                |
-| Refused                         | varchar(255) | YES  |     | NULL    |                |
-| Deceasednotification            | varchar(255) | YES  |     | NULL    |                |
-| Eligible                        | varchar(255) | YES  |     | NULL    |                |
-| Confirmationpacketsent          | varchar(255) | YES  |     | NULL    |                |
-| Catiprotocolexhausted           | varchar(255) | YES  |     | NULL    |                |
-| Newphonenumreleasedtocati       | varchar(255) | YES  |     | NULL    |                |
-| Pleanotificationsent            | varchar(255) | YES  |     | NULL    |                |
-| Casereturnedtoberkeleyfornewinf | varchar(255) | YES  |     | NULL    |                |
-| Casereturnedfromberkeley        | varchar(255) | YES  |     | NULL    |                |
-| Caticomplete                    | varchar(255) | YES  |     | NULL    |                |
-| Kitmothersent                   | varchar(255) | YES  |     | NULL    |                |
-| Kitinfantsent                   | varchar(255) | YES  |     | NULL    |                |
-| Kitchildsent                    | varchar(255) | YES  |     | NULL    |                |
-| Kitadolescentsent               | varchar(255) | YES  |     | NULL    |                |
-| Kitmotherrefusedcode            | varchar(255) | YES  |     | NULL    |                |
-| Kitchildrefusedcode             | varchar(255) | YES  |     | NULL    |                |
-| Noresponsetoplea                | varchar(255) | YES  |     | NULL    |                |
-| Responsereceivedfromplea        | varchar(255) | YES  |     | NULL    |                |
-| Senttoinpersonfollowup          | varchar(255) | YES  |     | NULL    |                |
-| Kitmotherrecd                   | varchar(255) | YES  |     | NULL    |                |
-| Kitchildrecvd                   | varchar(255) | YES  |     | NULL    |                |
-| Thankyousent                    | varchar(255) | YES  |     | NULL    |                |
-| Physrequestsent                 | varchar(255) | YES  |     | NULL    |                |
-| Physresponsereceived            | varchar(255) | YES  |     | NULL    |                |
-| created_at                      | datetime     | NO   |     | NULL    |                |
-| updated_at                      | datetime     | NO   |     | NULL    |                |
-+---------------------------------+--------------+------+-----+---------+----------------+
++-------------------------------+--------------+------+-----+---------+----------------+
+| Field                         | Type         | Null | Key | Default | Extra          |
++-------------------------------+--------------+------+-----+---------+----------------+
+| id                            | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id              | int(11)      | YES  |     | NULL    |                |
+| flagged_for_update            | tinyint(1)   | YES  |     | 0       |                |
+| last_update_attempt_errors    | text         | YES  |     | NULL    |                |
+| last_update_attempted_at      | datetime     | YES  |     | NULL    |                |
+| master_id                     | varchar(255) | YES  | UNI | NULL    |                |
+| master_id_mother              | varchar(255) | YES  |     | NULL    |                |
+| language                      | varchar(255) | YES  |     | NULL    |                |
+| record_owner                  | varchar(255) | YES  |     | NULL    |                |
+| record_status                 | varchar(255) | YES  |     | NULL    |                |
+| record_status_date            | varchar(255) | YES  |     | NULL    |                |
+| date_received                 | varchar(255) | YES  |     | NULL    |                |
+| last_attempt                  | varchar(255) | YES  |     | NULL    |                |
+| last_disposition              | varchar(255) | YES  |     | NULL    |                |
+| curr_phone                    | varchar(255) | YES  |     | NULL    |                |
+| record_sent_for_matching      | varchar(255) | YES  |     | NULL    |                |
+| record_received_from_matching | varchar(255) | YES  |     | NULL    |                |
+| sent_pre_incentive            | varchar(255) | YES  |     | NULL    |                |
+| released_to_cati              | varchar(255) | YES  |     | NULL    |                |
+| confirmed_cati_contact        | varchar(255) | YES  |     | NULL    |                |
+| refused                       | varchar(255) | YES  |     | NULL    |                |
+| deceased_notification         | varchar(255) | YES  |     | NULL    |                |
+| is_eligible                   | varchar(255) | YES  |     | NULL    |                |
+| ineligible_reason             | varchar(255) | YES  |     | NULL    |                |
+| confirmation_packet_sent      | varchar(255) | YES  |     | NULL    |                |
+| cati_protocol_exhausted       | varchar(255) | YES  |     | NULL    |                |
+| new_phone_released_to_cati    | varchar(255) | YES  |     | NULL    |                |
+| plea_notification_sent        | varchar(255) | YES  |     | NULL    |                |
+| case_returned_for_new_info    | varchar(255) | YES  |     | NULL    |                |
+| case_returned_from_berkeley   | varchar(255) | YES  |     | NULL    |                |
+| cati_complete                 | varchar(255) | YES  |     | NULL    |                |
+| kit_mother_sent               | varchar(255) | YES  |     | NULL    |                |
+| kit_infant_sent               | varchar(255) | YES  |     | NULL    |                |
+| kit_child_sent                | varchar(255) | YES  |     | NULL    |                |
+| kid_adolescent_sent           | varchar(255) | YES  |     | NULL    |                |
+| kit_mother_refused_code       | varchar(255) | YES  |     | NULL    |                |
+| kit_child_refused_code        | varchar(255) | YES  |     | NULL    |                |
+| no_response_to_plea           | varchar(255) | YES  |     | NULL    |                |
+| response_received_from_plea   | varchar(255) | YES  |     | NULL    |                |
+| sent_to_in_person_followup    | varchar(255) | YES  |     | NULL    |                |
+| kit_mother_received           | varchar(255) | YES  |     | NULL    |                |
+| kit_child_received            | varchar(255) | YES  |     | NULL    |                |
+| thank_you_sent                | varchar(255) | YES  |     | NULL    |                |
+| physician_request_sent        | varchar(255) | YES  |     | NULL    |                |
+| physician_response_received   | varchar(255) | YES  |     | NULL    |                |
+| vaccine_auth_received         | varchar(255) | YES  |     | NULL    |                |
+| recollect                     | varchar(255) | YES  |     | NULL    |                |
+| created_at                    | datetime     | NO   |     | NULL    |                |
+| updated_at                    | datetime     | NO   |     | NULL    |                |
++-------------------------------+--------------+------+-----+---------+----------------+
 Table: ineligible_reasons
 +--------------------+--------------+------+-----+---------+----------------+
 | Field              | Type         | Null | Key | Default | Extra          |
@@ -1294,7 +1296,6 @@ Table: samples
 | Field                        | Type          | Null | Key | Default | Extra          |
 +------------------------------+---------------+------+-----+---------+----------------+
 | id                           | int(11)       | NO   | PRI | NULL    | auto_increment |
-| position                     | int(11)       | YES  |     | NULL    |                |
 | parent_sample_id             | int(11)       | YES  |     | NULL    |                |
 | sample_format_id             | int(11)       | YES  |     | NULL    |                |
 | sample_type_id               | int(11)       | YES  |     | NULL    |                |
@@ -1304,19 +1305,19 @@ Table: samples
 | location_id                  | int(11)       | YES  |     | NULL    |                |
 | sample_temperature_id        | int(11)       | YES  |     | NULL    |                |
 | sample_collector_id          | int(11)       | YES  |     | NULL    |                |
-| order_no                     | int(11)       | YES  |     | 1       |                |
+| order_no                     | int(11)       | YES  |     | NULL    |                |
 | quantity_in_sample           | decimal(10,0) | YES  |     | NULL    |                |
-| aliquot_or_sample_on_receipt | varchar(255)  | YES  |     | Sample  |                |
-| sent_to_subject_on           | date          | YES  |     | NULL    |                |
-| collected_at                 | datetime      | YES  |     | NULL    |                |
-| shipped_at                   | datetime      | YES  |     | NULL    |                |
+| aliquot_or_sample_on_receipt | varchar(255)  | YES  |     | NULL    |                |
+| sent_to_subject_at           | datetime      | YES  |     | NULL    |                |
+| collected_from_subject_at    | datetime      | YES  |     | NULL    |                |
+| shipped_to_ccls_at           | datetime      | YES  |     | NULL    |                |
 | received_by_ccls_at          | datetime      | YES  |     | NULL    |                |
-| sent_to_lab_on               | date          | YES  |     | NULL    |                |
-| received_by_lab_on           | date          | YES  |     | NULL    |                |
-| aliquotted_on                | date          | YES  |     | NULL    |                |
+| sent_to_lab_at               | datetime      | YES  |     | NULL    |                |
+| received_by_lab_at           | datetime      | YES  |     | NULL    |                |
+| aliquotted_at                | datetime      | YES  |     | NULL    |                |
 | external_id                  | varchar(255)  | YES  |     | NULL    |                |
 | external_id_source           | varchar(255)  | YES  |     | NULL    |                |
-| receipt_confirmed_on         | date          | YES  |     | NULL    |                |
+| receipt_confirmed_at         | datetime      | YES  |     | NULL    |                |
 | receipt_confirmed_by         | varchar(255)  | YES  |     | NULL    |                |
 | future_use_prohibited        | tinyint(1)    | NO   |     | 0       |                |
 | state                        | varchar(255)  | YES  |     | NULL    |                |
