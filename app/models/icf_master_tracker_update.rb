@@ -25,7 +25,7 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 #	be used?
 #
 #				icf_master_tracker = IcfMasterTracker.find_or_create_by_Masterid(line['Masterid'])
-				icf_master_tracker = IcfMasterTracker.find_or_create_by_Masterid(line['master_id'])
+				icf_master_tracker = IcfMasterTracker.find_or_create_by_master_id(line['master_id'])
 				#	NO BANG. Don't want to raise any errors.
 				successfully_updated = icf_master_tracker.update_attributes(
 					line.to_hash.delete(:master_id))

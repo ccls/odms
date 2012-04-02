@@ -46,7 +46,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 		assert  icf_master_tracker.flagged_for_update
 		icf_master_tracker.update_attribute(:flagged_for_update,false)
 		assert !icf_master_tracker.flagged_for_update
-		icf_master_tracker.update_attribute(:Eligible, 'trigger change')
+		icf_master_tracker.update_attribute(:is_eligible, 'trigger change')
 		assert  icf_master_tracker.flagged_for_update
 	end
 
@@ -74,7 +74,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 #		study_subject.assign_icf_master_id
 #		assert_difference('OperationalEvent.count',1) {
 #			icf_master_tracker = Factory(:icf_master_tracker,
-#				:master_id => '1234', :Eligible => 'trigger change')
+#				:master_id => '1234', :is_eligible => 'trigger change')
 #			assert_not_nil icf_master_tracker.study_subject
 #			assert_equal   icf_master_tracker.study_subject, study_subject
 #			assert icf_master_tracker.study_subject.enrollments.find_by_project_id(
@@ -89,7 +89,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 #		study_subject.assign_icf_master_id
 #		assert_difference('OperationalEvent.count',0) {
 #			icf_master_tracker = Factory(:icf_master_tracker,
-#				:master_id => '1234')	#, :Eligible => 'trigger change')
+#				:master_id => '1234')	#, :is_eligible => 'trigger change')
 #			assert_not_nil icf_master_tracker.study_subject
 #			assert_equal   icf_master_tracker.study_subject, study_subject
 #			assert !icf_master_tracker.study_subject.enrollments.find_by_project_id(
@@ -117,14 +117,14 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 	end
 
 	test "should create one icf_master_tracker_change on save if one change" do
-		icf_master_tracker = Factory(:icf_master_tracker, :Currphone => "something")
+		icf_master_tracker = Factory(:icf_master_tracker, :curr_phone => "something")
 		assert_difference('IcfMasterTracker.count',0) {
 		assert_difference('IcfMasterTrackerChange.count',1) {
-			icf_master_tracker.update_attribute(:Currphone, "something else")
+			icf_master_tracker.update_attribute(:curr_phone, "something else")
 		} }
 		last_tracker = IcfMasterTrackerChange.last
 		assert !last_tracker.new_tracker_record
-		assert_equal last_tracker.modified_column, 'Currphone'
+		assert_equal last_tracker.modified_column, 'curr_phone'
 		assert_equal last_tracker.previous_value, 'something'
 		assert_equal last_tracker.new_value, 'something else'
 	end
