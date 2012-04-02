@@ -14,8 +14,15 @@ class ReceiveSamplesController < ApplicationController
 				flash.now[:warn] = "No Study Subjects Found."
 			end
 		elsif params[:studyid] or params[:icf_master_id]
-			study_subjects = StudySubject.find_all_by_studyid_or_icf_master_id(
-				params[:studyid]||nil, params[:icf_master_id]||nil )
+			conditions = [[],{}]
+			%w( studyid icf_master_id ).each do |attr|
+				if params[attr] and !params[attr].blank?
+					conditions[0] << "( #{attr} LIKE :#{attr} )"
+					conditions[1][attr.to_sym] = "%#{params[attr].split(/\s+/).join('%')}%"
+				end
+			end
+			study_subjects = StudySubject.where(
+				conditions[0].join(' OR '), conditions[1])
 			case study_subjects.length 
 				when 0 
 					flash.now[:warn] = "No Study Subjects Found."
@@ -29,7 +36,7 @@ class ReceiveSamplesController < ApplicationController
 		if @study_subject
 #
 #
-#	The subject returned should be the childs, not the mothers, I think.
+#	TODO The subject returned should be the childs, not the mothers, I think.
 #
 #
 #	SHOULD be at least CCLS.

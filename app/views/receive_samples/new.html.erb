@@ -2,7 +2,7 @@
 <h4>Receive Sample</h4>
 
 <%= form_tag(new_receive_sample_path,:method => :get) do %>
-<p>( Currently exact match only )</p>
+<p>( searching by partial studyid or icf_master_id is ok. )</p>
 <p><span>Study ID:*</span>
 <%= text_field_tag :studyid, params[:studyid], :id => nil  %>
 <span>or</span>

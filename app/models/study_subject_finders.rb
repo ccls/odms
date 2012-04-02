@@ -9,28 +9,10 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-#	interesting that SOMETIMES (now with activescaffold and asset pipline)
-#	these SubjectTypes aren't found, so I wrapped them in a lambda
-#	Don't like it. Seems to only be a problem when running 
-#	individual tests like ...
-#		ruby -I.:lib:test -rubygems test/functional/addressings_controller_test.rb
-#	Having the lambda breaks a lot of other tests when running autotest.
-#	Removing.
-#
-#	scope :cases,    where('subject_type_id = ?', lambda {SubjectType['Case'].id })
-#	scope :controls, where('subject_type_id = ?', lambda {SubjectType['Control'].id })
-#	scope :mothers,  where('subject_type_id = ?', lambda {SubjectType['Mother'].id })
-#	scope :children, where('subject_type_id IN (?)', 
-#		lambda {[ SubjectType['case'].id,SubjectType['Control'].id ]})
-
-#
-#	This bombs even in test if SubjectTypes aren't loaded.
-#
-#	scope :cases,    where('subject_type_id = ?', SubjectType['Case'].id)
-#	scope :controls, where('subject_type_id = ?', SubjectType['Control'].id)
-#	scope :mothers,  where('subject_type_id = ?', SubjectType['Mother'].id)
-#	scope :children, where('subject_type_id IN (?)', 
-#		[SubjectType['case'].id,SubjectType['Control'].id])
+#	Be advised that using a join in a scope will, by default, render those
+#	found as "ReadOnly" so attempting to write to one will fail.  This can
+#	be countered by adding a "readonly(false)" to the scope chain.  Or you
+#	can simply re-find the given subject by id.
 
 	scope :cases,    joins(:subject_type).where('subject_types.key = ?', 'Case')
 	scope :controls, joins(:subject_type).where('subject_types.key = ?', 'Control')
@@ -108,13 +90,6 @@ base.class_eval do
 
 	def self.find_case_by_patid(patid)
 		cases.with_patid(patid).first
-	end
-
-	def self.find_all_by_studyid_or_icf_master_id(studyid,icf_master_id)
-#	if decide to use LIKE, will need to NOT include nils so
-#	will need to add some conditions to the conditions.
-		where("studyid = :studyid OR icf_master_id = :icf_master_id",
-				{ :studyid => studyid, :icf_master_id => icf_master_id })
 	end
 
 end	#	class_eval

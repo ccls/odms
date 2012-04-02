@@ -37,140 +37,148 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" do
+		test "should get new receive sample with #{cu} login" do
 			login_as send(cu)
 			get :new
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_new_success
 			assert !assigns(:study_subjects)
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+		test "should get new receive sample with #{cu} login" <<
 				" and blank studyid" do
 			login_as send(cu)
 			get :new, :studyid => ''
-			assert_not_nil flash[:warn]
-			assert_match /No Study Subjects Found/, flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_no_study_subjects_found
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+		test "should get new receive sample with #{cu} login" <<
 				" and blank icf_master_id" do
 			login_as send(cu)
 			get :new, :icf_master_id => ''
-			assert_not_nil flash[:warn]
-			assert_match /No Study Subjects Found/, flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_no_study_subjects_found
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+		test "should get new receive sample with #{cu} login" <<
 				" and blank studyid and icf_master_id" do
 			login_as send(cu)
 			get :new, :studyid => '', :icf_master_id => ''
-			assert_not_nil flash[:warn]
-			assert_match /No Study Subjects Found/, flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_no_study_subjects_found
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+		test "should get new receive sample with #{cu} login" <<
 				" and nonexistant studyid" do
 			login_as send(cu)
 			get :new, :studyid => '1234-A-5'
-			assert_not_nil flash[:warn]
-			assert_match /No Study Subjects Found/, flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_no_study_subjects_found
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+		test "should get new receive sample with #{cu} login" <<
 				" and nonexistant icf_master_id" do
 			login_as send(cu)
 			get :new, :icf_master_id => '123456789'
-			assert_not_nil flash[:warn]
-			assert_match /No Study Subjects Found/, flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_no_study_subjects_found
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+		test "should get new receive sample with #{cu} login" <<
 				" and nonexistant studyid and nonexistant icf_master_id" do
 			login_as send(cu)
 			get :new, :studyid => '1234-A-5', :icf_master_id => '123456789'
-			assert_not_nil flash[:warn]
-			assert_match /No Study Subjects Found/, flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_no_study_subjects_found
 		end
 
 		test "should get new receive sample with #{cu} login" <<
 				" and invalid study_subject_id" do
 			login_as send(cu)
 			get :new, :study_subject_id => 0
-			assert_not_nil flash[:warn]
-			assert_match /No Study Subjects Found/, flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_no_study_subjects_found
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+		test "should get new receive sample with #{cu} login" <<
 				" and studyid and icf_master_id of subjects" do
 
-			s1 = Factory(:complete_case_study_subject)
-			Factory(:icf_master_id, :icf_master_id => '123456789' )
-			s1.assign_icf_master_id
+			s1 = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
+			assert_not_nil s1.icf_master_id
 			s2 = Factory(:complete_case_study_subject)
 
 			login_as send(cu)
 			get :new, :studyid => s2.studyid, :icf_master_id => s1.icf_master_id
+			assert_new_success
 			assert_not_nil flash[:warn]
 			assert_match /Multiple Study Subjects Found/, flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
 			assert assigns(:study_subjects)
 			assert !assigns(:study_subjects).empty?
 		end
 
-
 #	SINGLE STUDY SUBJECT FOUND
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
+		test "should get new receive sample with #{cu} login" <<
 				" and studyid of subject" do
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			get :new, :studyid => study_subject.studyid
-			assert_nil flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
-			assert_equal study_subject, assigns(:study_subject)
-			assert assigns(:sample)
+			assert_found_single_study_subject(study_subject)
 		end
 
-		test "should get new receive sample wo study_subject_id and with #{cu} login" <<
-				" and icf_master_id of subject" do
+		test "should get new receive sample with #{cu} login" <<
+				" and patid as studyid of subject" do
 			study_subject = Factory(:complete_case_study_subject)
-			Factory(:icf_master_id, :icf_master_id => '123456789' )
-			study_subject.assign_icf_master_id
+			login_as send(cu)
+			get :new, :studyid => study_subject.patid
+			assert_found_single_study_subject(study_subject)
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" and case_control_type as studyid of subject" do
+			study_subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			get :new, :studyid => study_subject.case_control_type
+			assert_found_single_study_subject(study_subject)
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" and icf_master_id of subject" do
+			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
+			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
 			get :new, :icf_master_id => study_subject.icf_master_id
-			assert_nil flash[:warn]
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
-			assert_equal study_subject, assigns(:study_subject)
-			assert assigns(:sample)
+			assert_found_single_study_subject(study_subject)
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" and first 3 of icf_master_id of subject" do
+			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
+			assert_not_nil study_subject.icf_master_id
+			login_as send(cu)
+			get :new, :icf_master_id => study_subject.icf_master_id[0..2]
+			assert_found_single_study_subject(study_subject)
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" and middle 3 of icf_master_id of subject" do
+			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
+			assert_not_nil study_subject.icf_master_id
+			login_as send(cu)
+			get :new, :icf_master_id => study_subject.icf_master_id[3..5]
+			assert_found_single_study_subject(study_subject)
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" and last 3 of icf_master_id of subject" do
+			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
+			assert_not_nil study_subject.icf_master_id
+			login_as send(cu)
+			get :new, :icf_master_id => study_subject.icf_master_id[6..8]
+			assert_found_single_study_subject(study_subject)
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" and first and last 3 of icf_master_id of subject" do
+			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
+			assert_not_nil study_subject.icf_master_id
+			login_as send(cu)
+			get :new, :icf_master_id => [study_subject.icf_master_id[0..2],
+				study_subject.icf_master_id[6..8]].join('  ')
+			assert_found_single_study_subject(study_subject)
 		end
 
 		test "should get new receive sample with #{cu} login" <<
@@ -178,11 +186,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			study_subject = Factory(:study_subject)
 			get :new, :study_subject_id => study_subject.id
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
-			assert_equal study_subject, assigns(:study_subject)
-			assert assigns(:sample)
+			assert_found_single_study_subject(study_subject)
 		end
 
 
@@ -204,9 +208,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 #	It is very difficult to compare equality of datetime
 #	but this test could easily be off by a day due to time zones.
 			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
-			assert_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_new_success
 		end
 
 		test "should NOT create with #{cu} login " <<
@@ -284,6 +286,30 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				:sample => factory_attributes
 		}
 		assert_redirected_to_login
+	end
+
+protected
+
+	def assert_found_single_study_subject(study_subject=nil)
+		assert_new_success
+		assert_nil flash[:warn]
+		unless study_subject.nil?
+			assert_equal study_subject, assigns(:study_subject)
+		end
+		assert assigns(:sample)
+	end
+
+	def assert_no_study_subjects_found
+		assert_new_success
+		assert_not_nil flash[:warn]
+		assert_match /No Study Subjects Found/, flash[:warn]
+		assert !assigns(:study_subjects)
+	end
+
+	def assert_new_success
+		assert_nil flash[:error]
+		assert_response :success
+		assert_template 'new'
 	end
 
 end
