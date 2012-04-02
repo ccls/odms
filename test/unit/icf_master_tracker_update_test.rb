@@ -127,7 +127,8 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = 'icf_master_tracker_011712.csv'
+#		real_data_file = 'icf_master_tracker_011712.csv'
+		real_data_file = 'ICF_Master_Tracker.csv'
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."
@@ -155,9 +156,9 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 			:csv_file => File.open(real_data_file) )
 		assert_not_nil icf_master_tracker_update.csv_file_file_name
 
-		assert_difference('IcfMasterTracker.count',62){
+		assert_difference('IcfMasterTracker.count',95){
 			results = icf_master_tracker_update.parse
-			assert_equal results.length, 62
+			assert_equal results.length, 95
 			assert_nil   results[0].study_subject
 			assert_equal results[1].study_subject, s1
 			assert_equal results[2].study_subject, s2

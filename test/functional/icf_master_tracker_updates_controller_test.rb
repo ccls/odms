@@ -112,7 +112,8 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 		end
 
 		test "should parse with #{cu} login and real csv_file" do
-			real_data_file = 'icf_master_tracker_011712.csv'
+#			real_data_file = 'icf_master_tracker_011712.csv'
+			real_data_file = 'ICF_Master_Tracker.csv'
 			#	real data and won't be in repository
 			unless File.exists?(real_data_file)
 				puts
@@ -142,10 +143,10 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 				:csv_file => File.open(real_data_file) )
 			assert_not_nil icf_master_tracker_update.csv_file_file_name
 
-			assert_difference('IcfMasterTracker.count',62){
+			assert_difference('IcfMasterTracker.count',95){
 				post :parse, :id => icf_master_tracker_update.id
 			}
-			assert_equal assigns(:results).length, 62
+			assert_equal assigns(:results).length, 95
 			assigns(:results).each { |r|
 				assert  r.is_a?(IcfMasterTracker)
 				assert !r.new_record?

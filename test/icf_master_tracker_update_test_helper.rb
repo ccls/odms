@@ -42,7 +42,8 @@ module IcfMasterTrackerUpdateTestHelper
 
 	def csv_file_header_array
 #		["Masterid","Motherid","Record_Owner","Datereceived","Lastatt","Lastdisp","Currphone","Vacauthrecd","Recollect","Needpreincentive","Active_Phone","Recordsentformatching","Recordreceivedfrommatching","Sentpreincentive","Releasedtocati","Confirmedcaticontact","Refused","Deceasednotification","Eligible","Confirmationpacketsent","Catiprotocolexhausted","Newphonenumreleasedtocati","Pleanotificationsent","Casereturnedtoberkeleyfornewinf","Casereturnedfromberkeley","Caticomplete","Kitmothersent","Kitinfantsent","Kitchildsent","Kitadolescentsent","Kitmotherrefusedcode","Kitchildrefusedcode","Noresponsetoplea","Responsereceivedfromplea","Senttoinpersonfollowup","Kitmotherrecd","Kitchildrecvd","Thankyousent","Physrequestsent","Physresponsereceived"]
-		%w{Masterid Motherid Record_Owner Datereceived Lastatt Lastdisp Currphone Vacauthrecd Recollect Needpreincentive Active_Phone Recordsentformatching Recordreceivedfrommatching Sentpreincentive Releasedtocati Confirmedcaticontact Refused Deceasednotification Eligible Confirmationpacketsent Catiprotocolexhausted Newphonenumreleasedtocati Pleanotificationsent Casereturnedtoberkeleyfornewinf Casereturnedfromberkeley Caticomplete Kitmothersent Kitinfantsent Kitchildsent Kitadolescentsent Kitmotherrefusedcode Kitchildrefusedcode Noresponsetoplea Responsereceivedfromplea Senttoinpersonfollowup Kitmotherrecd Kitchildrecvd Thankyousent Physrequestsent Physresponsereceived}
+#		%w{Masterid Motherid Record_Owner Datereceived Lastatt Lastdisp Currphone Vacauthrecd Recollect Needpreincentive Active_Phone Recordsentformatching Recordreceivedfrommatching Sentpreincentive Releasedtocati Confirmedcaticontact Refused Deceasednotification Eligible Confirmationpacketsent Catiprotocolexhausted Newphonenumreleasedtocati Pleanotificationsent Casereturnedtoberkeleyfornewinf Casereturnedfromberkeley Caticomplete Kitmothersent Kitinfantsent Kitchildsent Kitadolescentsent Kitmotherrefusedcode Kitchildrefusedcode Noresponsetoplea Responsereceivedfromplea Senttoinpersonfollowup Kitmotherrecd Kitchildrecvd Thankyousent Physrequestsent Physresponsereceived}
+		"master_id,master_id_mother,language,record_owner,record_status,record_status_date,date_received,last_attempt,last_disposition,curr_phone,record_sent_for_matching,record_received_from_matching,sent_pre_incentive,released_to_cati,confirmed_cati_contact,refused,deceased_notification,is_eligible,ineligible_reason,confirmation_packet_sent,cati_protocol_exhausted,new_phone_released_to_cati,plea_notification_sent,case_returned_for_new_info,case_returned_from_berkeley,cati_complete,kit_mother_sent,kit_infant_sent,kit_child_sent,kid_adolescent_sent,kit_mother_refused_code,kit_child_refused_code,no_response_to_plea,response_received_from_plea,sent_to_in_person_followup,kit_mother_received,kit_child_received,thank_you_sent,physician_request_sent,physician_response_received,vaccine_auth_received,recollect".split(',')
 	end
 
 	def csv_file_header
@@ -56,8 +57,8 @@ module IcfMasterTrackerUpdateTestHelper
 
 	def study_subject_hash
 		{
-			"Masterid" => "1234FAKE",
-			"Motherid" => "4567FAKE"
+			"master_id" => "1234FAKE",
+			"master_id_mother" => "4567FAKE"
 
 #			"Record_Owner" => "ICF",
 #			"Datereceived" => "9/9/2011",
