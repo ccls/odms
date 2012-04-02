@@ -5,8 +5,10 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_have_one( :sample_kit )
 	assert_should_have_many( :aliquots )
-	assert_should_belong_to( :unit, 
-		:organization, :sample_format, :sample_temperature )
+	assert_should_belong_to( :unit, :sample_format, :sample_temperature )
+#	because organization is location_id which is now autoset, 
+#	this common class test won't work for it.
+#	assert_should_belong_to( :unit, :organization, :sample_format, :sample_temperature )
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 
 	attributes = %w( aliquot_or_sample_on_receipt 
@@ -117,8 +119,20 @@ class SampleTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "should default location_id to 19" do
+		assert_equal 19, Organization['CCLS'].id
+		sample = Sample.new
+		assert_equal 19, sample.location_id
+		sample = Sample.new(:location_id => '')
+		assert_equal 19, sample.location_id
+		sample = Sample.new(:location_id => 1)
+		assert_equal 1, sample.location_id
+	end
+
 	test "should default order_no to 1" do
 		sample = Sample.new
+		assert_equal 1, sample.order_no
+		sample = Sample.new(:order_no => '')
 		assert_equal 1, sample.order_no
 		sample = Sample.new(:order_no => 9)
 		assert_equal 9, sample.order_no
@@ -127,21 +141,18 @@ class SampleTest < ActiveSupport::TestCase
 	test "should default aliquot_or_sample_on_receipt to 'Sample'" do
 		sample = Sample.new
 		assert_equal 'Sample', sample.aliquot_or_sample_on_receipt
+#		sample = Sample.new(:aliquot_or_sample_on_receipt => '')
+#		assert_equal 'Sample', sample.aliquot_or_sample_on_receipt
 		sample = Sample.new(:aliquot_or_sample_on_receipt => 'something')
 		assert_equal 'something', sample.aliquot_or_sample_on_receipt
 	end
 
-#	somehow, through location_id I think
-
-#	TODO haven't really implemented organization samples yet
-#	test "should belong to organization" do
-#		sample = create_sample
-#		assert_nil sample.organization
-#		sample.organization = Factory(:organization)
-#		assert_not_nil sample.organization
-#		#	this is not clear in my UML diagram
-#		pending
-#	end
+	test "should belong to organization through location_id" do
+		sample = create_sample
+		assert_not_nil sample.organization
+		assert_equal   sample.organization, Organization['ccls']
+		assert_equal   sample.location_id,  Organization['ccls'].id
+	end
 
 
 #	I get this in the functional tests, but I can't seem

@@ -79,8 +79,10 @@ class Sample < ActiveRecord::Base
 	after_initialize :set_defaults, :if => :new_record?
 	def set_defaults
 #	location_id: default=19 ("CCLS").
+# ||= doesn't work with ''
 		self.aliquot_or_sample_on_receipt ||= 'Sample'
 		self.order_no ||= 1
+		self.location_id ||= Organization['CCLS'].id
 	end
 
 protected
