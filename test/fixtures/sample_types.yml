@@ -11,46 +11,15 @@
 #	Sample types without a child or parent generate invalid html in testing.  
 #	All parents must have children and all children must have parents
 #
+#	I have reordered the list (no number changes) for parent/child clarity
+#
+#	For sample types, key and description must be unique.
+#		The value for key does not have to be meaningful unless
+#		it is to be used in the code.
 dust:
   id: 1
   key: 1
   description: dust sample
-blood:
-  id: 2
-  key: 2
-  description: blood sample
-saliva:
-  id: 3
-  key: 3
-  description: saliva sample
-buccal:
-  id: 4
-  key: buccal
-  description: buccal cell sample
-urine:
-  id: 5
-  key: urine
-  description: urine sample
-air:
-  id: 6
-  key: air
-  description: air sample
-marrow:
-  id: 7
-  key: marrow
-  description: bone marrow sample
-unspecified:
-  id: 8
-  key: unspecified
-  description: unspecified sample type
-dk:
-  id: 9
-  key: unknown
-  description: unknown sample type
-other:
-  id: 10
-  key: other
-  description: other type of sample
 unspecifieddust:
   id: 11
   parent_id: 1
@@ -71,6 +40,17 @@ otherdust:
   parent_id: 1
   key: 12
   description: other type of dust sample
+hvs:
+  id: 36
+  parent_id: 1
+  key: hvs3
+  description:  HVS3
+
+
+blood:
+  id: 2
+  key: 2
+  description: blood sample
 unspecifiedblood:
   id: 15
   parent_id: 2
@@ -86,6 +66,22 @@ otherblood:
   parent_id: 2
   key: 16
   description: other type of blood sample
+periph:
+  id: 31
+  parent_id: 2
+  key: periph
+  description: peripheral blood - diagnostic
+momblood:
+  id: 33
+  parent_id: 2
+  key: momblood
+  description: maternal blood
+
+
+saliva:
+  id: 3
+  key: 3
+  description: saliva sample
 unspecifiedsaliva:
   id: 18
   parent_id: 3
@@ -106,98 +102,6 @@ othersaliva:
   parent_id: 3
   key: 20
   description: other type of saliva sample
-unspecifiedbuccal:
-  id: 22
-  parent_id: 4
-  key: 21
-  description: unspecified buccal sample type
-cytobrush:
-  id: 23
-  parent_id: 4
-  key: 22
-  description: cytobrush
-otherbuccal:
-  id: 24
-  parent_id: 4
-  key: otherbuccal
-  description: other type of buccal sample
-unspecifiedurine:
-  id: 25
-  parent_id: 5
-  key: unspecifiedurine
-  description: unspecified urine sample type
-otherurine:
-  id: 26
-  parent_id: 5
-  key: otherurine
-  description: other type of urine sample
-unspecifiedair:
-  id: 27
-  parent_id: 6
-  key: unspecifiedair
-  description: unspecified air sample type
-otherair:
-  id: 28
-  parent_id: 6
-  key: otherair
-  description: other type of air sample
-otheractual:
-  id: 29
-  parent_id: 7
-#  key: other
-  key: otheractual
-  description: other type of sample(actual)
-dkactual:
-  id: 30
-  parent_id: 8
-  key: dontknow
-#unknown
-  description: unspecified sample type (don't know)(actual)
-periph:
-  id: 31
-  parent_id: 2
-  key: periph
-  description: peripheral blood - diagnostic
-#marrow:
-#  id: 32
-#  parent_id: 7
-#  key: marrow
-#  description:  bone marrow - diagnostic
-marrowdiag:
-  id: 32
-  parent_id: 7
-  key: marrowdiag
-  description:  bone marrow - diagnostic
-momblood:
-  id: 33
-  parent_id: 2
-  key: momblood
-  description: maternal blood
-momurine:
-  id: 34
-  parent_id: 5
-  key: momurine
-  description:  maternal urine
-
-
-
-
-#	Insert real id 35 sample type here
-missing:
-  id: 35
-  parent_id: 10
-  key: missing
-  description:  missing
-
-
-
-
-
-hvs:
-  id: 36
-  parent_id: 1
-  key: hvs3
-  description:  HVS3
 og250:
   id: 37
   parent_id: 3
@@ -216,9 +120,130 @@ og500:
   key: og500
 #	gotta quote this
   description:  "OG500:  > 36 mos (spit kit)"
+
+
+buccal:
+  id: 4
+  key: buccal
+  description: buccal cell sample
+unspecifiedbuccal:
+  id: 22
+  parent_id: 4
+  key: 21
+  description: unspecified buccal sample type
+cytobrush:
+  id: 23
+  parent_id: 4
+  key: 22
+  description: cytobrush
+otherbuccal:
+  id: 24
+  parent_id: 4
+  key: otherbuccal
+  description: other type of buccal sample
+
+
+urine:
+  id: 5
+  key: urine
+  description: urine sample
+unspecifiedurine:
+  id: 25
+  parent_id: 5
+  key: unspecifiedurine
+  description: unspecified urine sample type
+otherurine:
+  id: 26
+  parent_id: 5
+  key: otherurine
+  description: other type of urine sample
+momurine:
+  id: 34
+  parent_id: 5
+  key: momurine
+  description:  maternal urine
+
+
+air:
+  id: 6
+  key: air
+  description: air sample
+unspecifiedair:
+  id: 27
+  parent_id: 6
+  key: unspecifiedair
+  description: unspecified air sample type
+otherair:
+  id: 28
+  parent_id: 6
+  key: otherair
+  description: other type of air sample
+
+
+marrow:
+  id: 7
+  key: marrow
+  description: bone marrow sample
+otheractual:
+  id: 29
+  parent_id: 7
+#  key: other
+  key: otheractual
+  description: other type of sample(actual)
+#marrow:
+#  id: 32
+#  parent_id: 7
+#  key: marrow
+#  description:  bone marrow - diagnostic
+marrowdiag:
+  id: 32
+  parent_id: 7
+  key: marrowdiag
+  description:  bone marrow - diagnostic
+
+
+unspecified:
+  id: 8
+  key: unspecified
+  description: unspecified sample type
+dkactual:
+  id: 30
+  parent_id: 8
+  key: dontknow
+#unknown
+  description: unspecified sample type (don't know)(actual)
 dksubtype:
   id: 999
   parent_id: 8
   key: dksubtype
   description:  dksubtype
-  
+
+
+dk:
+  id: 9
+  key: unknown
+  description: unknown sample type
+#
+#	insert real child of unknown here
+#
+40:
+  id: 40
+  parent_id: 9
+  key: unknownsubtype
+  description: unknown sample sub type
+
+
+
+other:
+  id: 10
+  key: other
+  description: other type of sample
+#
+#	Insert real id 35 sample type here
+#
+missing:
+  id: 35
+  parent_id: 10
+  key: missing
+  description:  missing
+
