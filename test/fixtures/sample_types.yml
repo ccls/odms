@@ -8,6 +8,9 @@
 #
 #	Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 #
+#	Sample types without a child or parent generate invalid html in testing.  
+#	All parents must have children and all children must have parents
+#
 dust:
   id: 1
   key: 1
@@ -182,6 +185,7 @@ momurine:
 #	Insert real id 35 sample type here
 missing:
   id: 35
+  parent_id: 10
   key: missing
   description:  missing
 
