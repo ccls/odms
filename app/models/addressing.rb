@@ -57,7 +57,7 @@ class Addressing < ActiveRecord::Base
 		:unless => :is_verified?,
 		:if => :is_verified_was
 
-	after_create :check_state_for_eligibilty
+#	after_create :check_state_for_eligibilty
 
 	#	Returns boolean of comparison of is_valid == 2 or 999
 	#	Rails SHOULD convert incoming string params to integer.
@@ -80,38 +80,38 @@ protected
 		self.verified_by_uid = nil
 	end
 
-	def check_state_for_eligibilty
-		if( state != 'CA' && study_subject && 
-			( hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id) ) &&
-			address_type_id == AddressType['residence'].id )
-
-			#	This is an after_save so using 1 NOT 0
-			ineligible_reason = if( study_subject.residence_addresses_count == 1 )
-				IneligibleReason['newnonCA']
-			else
-				IneligibleReason['moved']
-			end
-
-			hxe.update_attributes(
-				:is_eligible => YNDK[:no],
-				:ineligible_reason_id => ineligible_reason.id
-			)
-
-			oet = OperationalEventType['ineligible']
-			if( oet.blank? )
-				errors.add(:base,"OperationalEventType['ineligible'] not found")
-				#	I'm surprised that I need this raise?
-				raise ActiveRecord::RecordNotSaved
-			end
-
-			study_subject.operational_events.create!(
-				:project_id                => Project['HomeExposures'].id,
-				:operational_event_type_id => oet.id,
-				:occurred_on               => Date.today,
-				:description               => ineligible_reason.to_s
-			)
-		end
-	end
+#	def check_state_for_eligibilty
+#		if( state != 'CA' && study_subject && 
+#			( hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id) ) &&
+#			address_type_id == AddressType['residence'].id )
+#
+#			#	This is an after_save so using 1 NOT 0
+#			ineligible_reason = if( study_subject.residence_addresses_count == 1 )
+#				IneligibleReason['newnonCA']
+#			else
+#				IneligibleReason['moved']
+#			end
+#
+#			hxe.update_attributes(
+#				:is_eligible => YNDK[:no],
+#				:ineligible_reason_id => ineligible_reason.id
+#			)
+#
+#			oet = OperationalEventType['ineligible']
+#			if( oet.blank? )
+#				errors.add(:base,"OperationalEventType['ineligible'] not found")
+#				#	I'm surprised that I need this raise?
+#				raise ActiveRecord::RecordNotSaved
+#			end
+#
+#			study_subject.operational_events.create!(
+#				:project_id                => Project['HomeExposures'].id,
+#				:operational_event_type_id => oet.id,
+#				:occurred_on               => Date.today,
+#				:description               => ineligible_reason.to_s
+#			)
+#		end
+#	end
 
 	#	this will actually create an event on creation as well
 	#	if attributes match

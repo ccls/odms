@@ -74,7 +74,7 @@ class Sample < ActiveRecord::Base
 		sample_type.parent
 	end
 
-	before_save :update_sample_outcome
+#	before_save :update_sample_outcome
 
 	after_initialize :set_defaults, :if => :new_record?
 	def set_defaults
@@ -127,27 +127,27 @@ protected
 #			( received_by_lab_on >  aliquotted_on ))
 #	end
 
-	def update_sample_outcome
-		if study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-			ho = study_subject.homex_outcome || study_subject.create_homex_outcome
-#			so,date = if sent_to_lab_on_changed? && !sent_to_lab_on.nil?
-#				[SampleOutcome['lab'], sent_to_lab_on ]
+#	def update_sample_outcome
+#		if study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+#			ho = study_subject.homex_outcome || study_subject.create_homex_outcome
+##			so,date = if sent_to_lab_on_changed? && !sent_to_lab_on.nil?
+##				[SampleOutcome['lab'], sent_to_lab_on ]
+##			elsif received_by_ccls_at_changed? && !received_by_ccls_at.nil?
+##				[SampleOutcome['received'], received_by_ccls_at ]
+##			elsif sent_to_subject_on_changed? && !sent_to_subject_on.nil?
+##				[SampleOutcome['sent'], sent_to_subject_on ]
+#			so,date = if sent_to_lab_at_changed? && !sent_to_lab_at.nil?
+#				[SampleOutcome['lab'], sent_to_lab_at ]
 #			elsif received_by_ccls_at_changed? && !received_by_ccls_at.nil?
 #				[SampleOutcome['received'], received_by_ccls_at ]
-#			elsif sent_to_subject_on_changed? && !sent_to_subject_on.nil?
-#				[SampleOutcome['sent'], sent_to_subject_on ]
-			so,date = if sent_to_lab_at_changed? && !sent_to_lab_at.nil?
-				[SampleOutcome['lab'], sent_to_lab_at ]
-			elsif received_by_ccls_at_changed? && !received_by_ccls_at.nil?
-				[SampleOutcome['received'], received_by_ccls_at ]
-			elsif sent_to_subject_at_changed? && !sent_to_subject_at.nil?
-				[SampleOutcome['sent'], sent_to_subject_at ]
-			end
-			ho.update_attributes({
-				:sample_outcome_id => so.id,
-				:sample_outcome_on => date }) if so
-		end
-	end
+#			elsif sent_to_subject_at_changed? && !sent_to_subject_at.nil?
+#				[SampleOutcome['sent'], sent_to_subject_at ]
+#			end
+#			ho.update_attributes({
+#				:sample_outcome_id => so.id,
+#				:sample_outcome_on => date }) if so
+#		end
+#	end
 
 end
 __END__

@@ -36,35 +36,35 @@ class InterviewTest < ActiveSupport::TestCase
 		} }
 	end
 
-	test "should create intro letter operational event " <<
-			"when intro_letter_sent_on set" do
-		study_subject = create_hx_study_subject
-		assert_difference( "OperationalEvent.count", 1 ) {
-		assert_difference( "Interview.count", 1 ) {
-			@interview = create_interview( :study_subject => study_subject,
-				:intro_letter_sent_on => Date.yesterday ).reload
-		} }
-		oe = study_subject.operational_events.where(
-			:project_id => Project['HomeExposures'].id).first
-		assert_equal OperationalEventType['intro'],   oe.operational_event_type
-		assert_equal @interview.intro_letter_sent_on, oe.occurred_on
-	end
-
-	test "should update intro letter operational event " <<
-			"when intro_letter_sent_on updated" do
-		study_subject = create_hx_study_subject
-		interview = create_interview(
-			:study_subject => study_subject,
-			:intro_letter_sent_on => Date.yesterday )
-		assert_difference( "OperationalEvent.count", 0 ) {
-		assert_difference( "Interview.count", 0 ) {
-			interview.update_attributes(:intro_letter_sent_on => Date.today )
-		} }
-		assert_equal interview.intro_letter_sent_on, Date.today
-		oe = study_subject.operational_events.where(
-			:project_id => Project['HomeExposures'].id).first
-		assert_equal interview.intro_letter_sent_on, oe.occurred_on
-	end
+#	test "should create intro letter operational event " <<
+#			"when intro_letter_sent_on set" do
+#		study_subject = create_hx_study_subject
+#		assert_difference( "OperationalEvent.count", 1 ) {
+#		assert_difference( "Interview.count", 1 ) {
+#			@interview = create_interview( :study_subject => study_subject,
+#				:intro_letter_sent_on => Date.yesterday ).reload
+#		} }
+#		oe = study_subject.operational_events.where(
+#			:project_id => Project['HomeExposures'].id).first
+#		assert_equal OperationalEventType['intro'],   oe.operational_event_type
+#		assert_equal @interview.intro_letter_sent_on, oe.occurred_on
+#	end
+#
+#	test "should update intro letter operational event " <<
+#			"when intro_letter_sent_on updated" do
+#		study_subject = create_hx_study_subject
+#		interview = create_interview(
+#			:study_subject => study_subject,
+#			:intro_letter_sent_on => Date.yesterday )
+#		assert_difference( "OperationalEvent.count", 0 ) {
+#		assert_difference( "Interview.count", 0 ) {
+#			interview.update_attributes(:intro_letter_sent_on => Date.today )
+#		} }
+#		assert_equal interview.intro_letter_sent_on, Date.today
+#		oe = study_subject.operational_events.where(
+#			:project_id => Project['HomeExposures'].id).first
+#		assert_equal interview.intro_letter_sent_on, oe.occurred_on
+#	end
 
 #	TODO I think that these should require valid
 #		They shouldn't require the _id, but if given the association should be valid.
