@@ -41,6 +41,7 @@ class ReceiveSamplesController < ApplicationController
 
 	def create
 		@sample = @study_subject.samples.new(params[:sample])
+		@sample.received_by_ccls_at = DateTime.now
 		@sample.save!
 		render :action => 'new'
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved

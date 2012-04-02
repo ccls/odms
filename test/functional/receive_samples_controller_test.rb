@@ -200,6 +200,10 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
 			end
+			assert_not_nil assigns(:sample).received_by_ccls_at
+#	It is very difficult to compare equality of datetime
+#	but this test could easily be off by a day due to time zones.
+			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new'
