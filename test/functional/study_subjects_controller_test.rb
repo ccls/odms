@@ -46,6 +46,17 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		:show => { :id => 0 }
 	)
 
+	setup :destroy_all_study_subjects
+	def destroy_all_study_subjects
+#
+#	For some reason, some tests don't actually cleanup after themselves
+#	and rollback correctly.  Destroy all subjects so counts are correct.
+#	Or don't use absolute counts.
+#	Or figure out why it does that.
+#
+		StudySubject.destroy_all
+	end
+
 	site_readers.each do |cu|
 
 		test "should get index with order and dir desc with #{cu} login" do
