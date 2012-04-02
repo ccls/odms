@@ -9,11 +9,11 @@
 	:label_text => "verified:") %>
 </div><!-- class='brief' -->
 <div class='details'>
-<span class='why'>
-<%= (phone_number.is_not_valid?)?"why:&nbsp;#{phone_number.why_invalid}":"&nbsp;" %>
+<span class='why'><%= ( (phone_number.is_not_valid? ) ? 
+	"why:&nbsp;#{h(phone_number.why_invalid)}" : "&nbsp;" ).html_safe %>
 </span>
-<span class='how'>
-<%= (phone_number.is_verified?)?"how:&nbsp;#{phone_number.how_verified}":"&nbsp;" %>
+<span class='how'><%= ( (phone_number.is_verified?) ? 
+	"how:&nbsp;#{h(phone_number.how_verified)}" : "&nbsp;" ).html_safe %>
 </span>
 </div><!-- class='details' -->
 </div><!-- class='phone_number_valid contact_valid' -->

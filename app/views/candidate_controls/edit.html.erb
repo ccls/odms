@@ -27,7 +27,7 @@
 <td><%=mdy @study_subject.dob %></td>
 <td><%= @study_subject.sex %></td>
 <td><%= (( !@study_subject.mother_race_id.blank?
-	) ? Race.find(@study_subject.mother_race_id) : '&nbsp;' ) %></td>
+	) ? Race.find(@study_subject.mother_race_id) : '&nbsp;'.html_safe ) %></td>
 <td><%=ynodk @study_subject.mother_hispanicity_id %></td>
 <td><%=ynodk @study_subject.father_hispanicity_id %></td>
 </tr>
@@ -39,7 +39,7 @@
 <td><%=mdy @candidate.dob %></td>
 <td><%= @candidate.sex %></td>
 <td><%= (( @candidate.mother_race_id
-	) ? Race.find(@candidate.mother_race_id) : '&nbsp;' ) %></td>
+	) ? Race.find(@candidate.mother_race_id) : '&nbsp;'.html_safe ) %></td>
 <td><%=ynodk @candidate.mother_hispanicity_id %></td>
 <td><%=ynodk @candidate.father_hispanicity_id %></td>
 </tr>

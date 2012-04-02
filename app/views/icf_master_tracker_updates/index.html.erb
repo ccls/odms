@@ -6,7 +6,7 @@
 <tbody>
 <% @icf_master_tracker_updates.each do |icf_master_tracker_update| %>
   <tr class='row'>
-    <td><%= icf_master_tracker_update.csv_file_file_name || '&nbsp;' %></td>
+    <td><%= icf_master_tracker_update.csv_file_file_name || '&nbsp;'.html_safe %></td>
     <td class='manage'>
 <%= link_to( 'Show', icf_master_tracker_update, :class => 'button' ) %>
 <%= link_to( 'Edit', edit_icf_master_tracker_update_path(icf_master_tracker_update), :class => 'button' ) %>

@@ -25,7 +25,7 @@
 <%= "#{time_ago_in_words(package.updated_at)} ago" -%>
 </div>
 <div class='update'>
-<%= ( package.delivered? ) ? "&nbsp;" : link_to( 'Update status', package, :method => :put ) %>
+<%= ( package.delivered? ) ? "&nbsp;".html_safe : link_to( 'Update status', package, :method => :put ) %>
 </div>
 <div class='status'>
 <%= package.status -%>

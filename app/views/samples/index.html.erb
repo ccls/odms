@@ -29,6 +29,5 @@
 <% end %>
 <p><%= ( current_user.may_edit_samples? ) ?
 	link_to( "new sample", new_study_subject_sample_path(@study_subject),
-		:class => 'button' ) :
-	'&nbsp;'
+		:class => 'button' ) : '&nbsp;'.html_safe
 %></p>
