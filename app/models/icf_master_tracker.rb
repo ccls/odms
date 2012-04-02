@@ -5,9 +5,9 @@ class IcfMasterTracker < ActiveRecord::Base
 #	Of course that may create the new_tracker_record
 #	And then on update it would create all the others?
 
-	validates_presence_of   :Masterid
-	validates_uniqueness_of :Masterid, :allow_blank => true
-	attr_protected :Masterid
+	validates_presence_of   :master_id
+	validates_uniqueness_of :master_id, :allow_blank => true
+	attr_protected :master_id
 
 #	validate all string field lengths ?
 	validates_length_of :last_update_attempt_errors, :maximum => 65000, :allow_blank => true
@@ -38,17 +38,17 @@ class IcfMasterTracker < ActiveRecord::Base
 		unless study_subject_id
 #	if there is no subject found, nil.id raises an error
 #	perhaps use try(:id) instead
-#			self.study_subject_id = StudySubject.find_by_icf_master_id(self.Masterid).id
-#			self.study_subject = StudySubject.find_by_icf_master_id(self.Masterid)
+#			self.study_subject_id = StudySubject.find_by_icf_master_id(self.master_id).id
+#			self.study_subject = StudySubject.find_by_icf_master_id(self.master_id)
 #			self.study_subject = StudySubject.where(
-#				:icf_master_id => self.Masterid).limit(1).first
+#				:icf_master_id => self.master_id).limit(1).first
 			self.study_subject_id = StudySubject.where(
-				:icf_master_id => self.Masterid).limit(1).first.try(:id)
+				:icf_master_id => self.master_id).limit(1).first.try(:id)
 		end
 	end
 
 	def ignorable_changes
-#		%w{id flagged_for_update study_subject_id Masterid created_at updated_at}
+#		%w{id flagged_for_update study_subject_id master_id created_at updated_at}
 		%w{ id created_at updated_at
 			flagged_for_update last_update_attempt_errors last_update_attempted_at }
 	end
@@ -64,14 +64,14 @@ class IcfMasterTracker < ActiveRecord::Base
 	def save_all_changes
 		if new_record?
 			IcfMasterTrackerChange.create(
-				:icf_master_id => self.Masterid,
+				:icf_master_id => self.master_id,
 #  5       t.date :master_tracker_date	#	Hmm.
 				:new_tracker_record => true
 			)
 		else
 			unignorable_changes.each do |field,values|
 				IcfMasterTrackerChange.create(
-					:icf_master_id => self.Masterid,
+					:icf_master_id => self.master_id,
 #  5       t.date :master_tracker_date	#	Hmm.
 					:modified_column => field,
 					:previous_value => values[0],

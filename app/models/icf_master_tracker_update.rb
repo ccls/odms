@@ -24,10 +24,12 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 #	table, perhaps add a successfully_updated_models flag which could
 #	be used?
 #
-				icf_master_tracker = IcfMasterTracker.find_or_create_by_Masterid(line['Masterid'])
+#				icf_master_tracker = IcfMasterTracker.find_or_create_by_Masterid(line['Masterid'])
+				icf_master_tracker = IcfMasterTracker.find_or_create_by_Masterid(line['master_id'])
 				#	NO BANG. Don't want to raise any errors.
 				successfully_updated = icf_master_tracker.update_attributes(
-					line.to_hash.delete(:Masterid))
+					line.to_hash.delete(:master_id))
+#					line.to_hash.delete(:Masterid))
 #
 #	errors = icf_master_tracker.errors.full_messages.to_sentence
 #	These won't be validation errors as there shouldn't be any.
