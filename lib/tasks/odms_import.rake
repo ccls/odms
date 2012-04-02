@@ -242,6 +242,7 @@ namespace :odms_import do
 		'odms_import:phone_numbers',
 		'odms_import:addresses',
 		'odms_import:addressings',
+		'odms_import:samples',
 #		'odms_import:create_dummy_candidate_controls',
 		'app:data:report'
 	]
@@ -283,6 +284,12 @@ namespace :odms_import do
 				:parent_sample_id   => line['parent_sample_id'],	#	NOTE includes 0s ???
 				:sample_type_id     => line['ODMS_sample_type_id'],
 				:location_id        => line['location_id'],	#	will break chronology
+
+
+#"Refrigerator"
+#"Room Temperature"
+#  key: roomtemp
+#  key: refrigerated
 #				:sample_temperature_id => find on line['storage_temp'],
 
 #	Caplitalize? Database default is 'Sample'
