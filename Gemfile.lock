@@ -19,7 +19,7 @@ GEM
       rack-cache (~> 1.1)
       rack-test (~> 0.6.1)
       sprockets (~> 2.1.2)
-    active_scaffold (3.2.2)
+    active_scaffold (3.2.3)
       rails (>= 3.1.3)
     activemodel (3.2.2)
       activesupport (= 3.2.2)
@@ -99,7 +99,7 @@ GEM
     multi_json (1.2.0)
     mysql (2.8.1)
     nokogiri (1.5.2)
-    paperclip (3.0.0)
+    paperclip (3.0.1)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -198,6 +198,7 @@ DEPENDENCIES
   rcov
   rubycas-client
   ryanb-acts-as-list
+  sass
   sass-rails (~> 3.2.3)
   ucb_ldap
   uglifier (>= 1.0.3)

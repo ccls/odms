@@ -13,8 +13,9 @@ class ActiveScaffoldController < ApplicationController
 protected
 
 	#	used many times, so define as a class method.
+	#	Use a '' and NOT nil.  Using nil will have '-select-' as the value too.
 	def self.as_yndk_select
-		[['-select-',nil]] + YNDK.selector_options
+		[['-select-','']] + YNDK.selector_options
 #		[['-select-',nil],["Yes",  1], ["No", 2],["Don't Know",999]]
 	end
 
