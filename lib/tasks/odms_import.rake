@@ -34,6 +34,10 @@ def assert(expression,message = 'Assertion failed.')
 	raise "#{message} :\n #{caller[0]}" unless expression
 end
 
+def assert_string_equal(a,b,field)
+	assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
+end
+
 #	Object and not String because could be NilClass
 Object.class_eval do
 	def nilify_blank
@@ -278,32 +282,39 @@ namespace :odms_import do
 				next
 			end
 
-#	TODO convert this to block creation. Why?
-			sample = study_subject.samples.create({
-				:project_id         => Project['ccls'].id,	#line['project_id'],	#	NOTE many are blank
-				:parent_sample_id   => line['parent_sample_id'],	#	NOTE includes 0s ???
-				:sample_type_id     => line['ODMS_sample_type_id'],
-				:location_id        => line['location_id'],	#	will break chronology
+			sample = study_subject.samples.create do |s|
+				s.id = line['id']
+				s.project_id = if line['project_id'].blank? or line['project_id'].to_s == '0'
+					Project['ccls'].id
+				else
+					line['project_id']
+				end
 
+				s.parent_sample_id = line['parent_sample_id']
+				s.sample_type_id = line['ODMS_sample_type_id']
+				s.location_id = line['location_id']
 
-#"Refrigerator"
-#"Room Temperature"
-#  key: roomtemp
-#  key: refrigerated
-#				:sample_temperature_id => find on line['storage_temp'],
+				s.sample_temperature_id = if line['storage_temp'].blank?
+					nil
+				elsif line['storage_temp'] == 'Refrigerator'
+					SampleTemperature['refrigerated'].id
+				elsif line['storage_temp'] == 'Room Temperature'
+					SampleTemperature['roomtemp'].id
+				else
+					0	#	should crash
+				end
 
-#	Caplitalize? Database default is 'Sample'
-				:aliquot_or_sample_on_receipt => line['aliquot_or_sample_on_receipt'],
+				s.aliquot_or_sample_on_receipt = line['aliquot_or_sample_on_receipt']
 
-				:received_by_ccls_at       => (( line['received_by_ccls_at'].blank? ) ?
-														nil : Time.parse(line['received_by_ccls_at'])),
+				s.received_by_ccls_at = (( line['received_by_ccls_at'].blank? ) ?
+														nil : Time.parse(line['received_by_ccls_at']))
 
 #				:UNKNOWN         => (( line['originally_received_at'].blank? ) ?
 #														nil : Time.parse(line['originally_received_at']) ),
 
-				:external_id        => line["external_id"],
-				:external_id_source => line["external_id_source"]
-			})
+				s.external_id        = line["external_id"]
+				s.external_id_source = line["external_id_source"]
+			end
 
 			if sample.new_record?
 				error_file.puts 
@@ -312,8 +323,23 @@ namespace :odms_import do
 				error_file.puts
 			else
 				sample.reload
+				assert_string_equal sample.id, line["id"], 
+					'id'
 				assert sample.study_subject_id == study_subject.id,
 					'Study Subject mismatch'
+				assert_string_equal sample.parent_sample_id, line["parent_sample_id"], 
+					'parent_sample_id'
+				assert_string_equal sample.sample_type_id, line["ODMS_sample_type_id"], 
+					'sample_type_id'
+				assert_string_equal sample.external_id, line["external_id"], 
+					'external_id'
+				assert_string_equal sample.external_id_source, line["external_id_source"], 
+					'external_id_source'
+
+
+#	TODO compare project_id
+#	TODO compare aliquot_or_sample_on_receipt
+#	TODO compare storage_temp
 #				if line['valid_to'].blank?
 #					assert addressing.valid_to.nil?, 'Valid To not nil'
 #				else
@@ -321,10 +347,14 @@ namespace :odms_import do
 #					assert addressing.valid_to == Time.parse(line['valid_to']).to_date,
 #						"Valid To mismatch"
 #				end
-				assert sample.external_id == line["external_id"],
-					'Study Subject mismatch'
-				assert sample.external_id_source == line["external_id_source"],
-					'Study Subject mismatch'
+#	NOTE, this won't work due to defaults
+#				assert sample.aliquot_or_sample_on_receipt == line["aliquot_or_sample_on_receipt"],
+#					'aliquot_or_sample_on_receipt mismatch'
+
+#				assert sample.location_id == line["location_id"],
+#					"location_id mismatch"
+#				assert sample.location_id == line["location_id"],
+
 			end
 
 		end
