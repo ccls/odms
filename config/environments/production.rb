@@ -11,8 +11,19 @@ Odms::Application.configure do
 	# Disable Rails's static asset server (Apache or nginx will already do this)
 	config.serve_static_assets = false
 
+
+
+
 	# Compress JavaScripts and CSS
-	config.assets.compress = true
+#	config.assets.compress = true
+#
+#	I don't know exactly why, but on the real production server,
+#	compressing causes ActiveScaffold to fail...
+# (in /my/ruby/gems/1.8/gems/active_scaffold-3.2.3/app/assets/javascripts/active_scaffold.js.erb)
+#	399: unexpected token at '"/*\u000a* jQuery 
+#	It isn't a problem when I run the production environment on my Mac?
+#
+	config.assets.compress = false
 
 
 
