@@ -76,6 +76,7 @@ end
 
 	namespace :active_scaffold do
 		resources :study_subjects	do as_routes end
+		resources :addresses	do as_routes end
 		resources :addressings	do as_routes end
 		resources :phone_numbers	do as_routes end
 		resources :enrollments	do as_routes end
