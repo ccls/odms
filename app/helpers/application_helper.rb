@@ -141,8 +141,8 @@ module ApplicationHelper
 			if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
 				links << link_to( "back to search", request.env["HTTP_REFERER"] )
 			end
+#				link_to( "back to subjects", dashboard_study_subjects_path ),
 			links += [
-				link_to( "back to subjects", dashboard_study_subjects_path ),
 				link_to( "Basic Info", study_subject_path(study_subject),
 					:class => ((current == :general)?'current':nil) ),
 				link_to( "Address & Phone", study_subject_contacts_path(study_subject),
