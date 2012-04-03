@@ -465,78 +465,66 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 	test "should create first abstract for study_subject with current_user" do
-		assert_difference('StudySubject.count',1) {
-			@study_subject = create_case_study_subject_with_patid(1234)
-			assert_equal '1234', @study_subject.patid
-		}
-		@current_user = Factory(:user)
+		study_subject = Factory(:case_study_subject)
+		current_user = Factory(:user)
 		assert_difference('Abstract.count',1) {
-			abstract = create_abstract(:current_user => @current_user,
-				:study_subject => @study_subject)
-			assert_equal abstract.entry_1_by, @current_user
-			assert_equal abstract.entry_2_by, @current_user
-			assert_equal abstract.study_subject, @study_subject
+			abstract = Factory(:abstract,:current_user => current_user,
+				:study_subject => study_subject)
+			assert_equal abstract.entry_1_by, current_user
+			assert_equal abstract.entry_2_by, current_user
+			assert_equal abstract.study_subject, study_subject
 		}
 	end
 
 	test "should create second abstract for study_subject with current_user" do
-		assert_difference('StudySubject.count',1) {
-			@study_subject = create_case_study_subject_with_patid(1234)
-			assert_equal '1234', @study_subject.patid
-		}
-		@current_user = Factory(:user)
-		abstract = create_abstract(:current_user => @current_user,
-			:study_subject => @study_subject)
+		study_subject = Factory(:case_study_subject)
+		current_user = Factory(:user)
+		abstract = Factory(:abstract,:current_user => current_user,
+			:study_subject => study_subject)
 		assert_difference('Abstract.count',1) {
-			abstract = create_abstract(:current_user => @current_user,
-				:study_subject => @study_subject.reload)
-			assert_equal abstract.entry_1_by, @current_user
-			assert_equal abstract.entry_2_by, @current_user
-			assert_equal abstract.study_subject, @study_subject
+			abstract = Factory(:abstract,:current_user => current_user,
+				:study_subject => study_subject)	#.reload)
+			assert_equal abstract.entry_1_by, current_user
+			assert_equal abstract.entry_2_by, current_user
+			assert_equal abstract.study_subject, study_subject
 		}
 	end
 
 	test "should NOT create third abstract for study_subject with current_user " <<
 			"without merging flag" do
-		assert_difference('StudySubject.count',1) {
-			@study_subject = create_case_study_subject_with_patid(1234)
-			assert_equal '1234', @study_subject.patid
-		}
-		@current_user = Factory(:user)
-		abstract = create_abstract(:current_user => @current_user,
-			:study_subject => @study_subject)
-		abstract = create_abstract(:current_user => @current_user,
-			:study_subject => @study_subject.reload)
+		study_subject = Factory(:case_study_subject)
+		current_user = Factory(:user)
+		abstract = Factory(:abstract,:current_user => current_user,
+			:study_subject => study_subject)
+		abstract = Factory(:abstract,:current_user => current_user,
+			:study_subject => study_subject.reload)
 		assert_difference('Abstract.count',0) {
-			abstract = create_abstract(:current_user => @current_user,
-				:study_subject => @study_subject.reload)
+			abstract = create_abstract(:current_user => current_user,
+				:study_subject => study_subject.reload)
 			assert abstract.errors.include?(:study_subject_id)
 		}
 	end
 
 	test "should create third abstract for study_subject with current_user " <<
 			"with merging flag" do
-		assert_difference('StudySubject.count',1) {
-			@study_subject = create_case_study_subject_with_patid(1234)
-			assert_equal '1234', @study_subject.patid
-		}
-		@current_user = Factory(:user)
-		abstract = create_abstract(:current_user => @current_user,
-			:study_subject => @study_subject)
-		abstract = create_abstract(:current_user => @current_user,
-			:study_subject => @study_subject.reload)
-#	yes, when creating the merged, the other 2 go away
+		study_subject = Factory(:case_study_subject)
+		current_user = Factory(:user)
+		abstract = Factory(:abstract,:current_user => current_user,
+			:study_subject => study_subject)
+		abstract = Factory(:abstract,:current_user => current_user,
+			:study_subject => study_subject.reload)
+		#	yes, -1 , because when creating the merged, the other 2 go away
 		assert_difference('Abstract.count',-1) {
-			abstract = create_abstract(:current_user => @current_user,
-				:study_subject => @study_subject.reload, :merging => true)
-			assert_equal abstract.merged_by, @current_user
-			assert_equal abstract.study_subject, @study_subject
+			abstract = Factory(:abstract,:current_user => current_user,
+				:study_subject => study_subject.reload, :merging => true)
+			assert_equal abstract.merged_by, current_user
+			assert_equal abstract.study_subject, study_subject
 		}
 	end
 
 	test "should NOT create merged abstract if study_subject already has one" do
-		study_subject = create_case_study_subject_with_patid(1234)
-		a1 = create_abstract(:study_subject => study_subject)
+		study_subject = Factory(:case_study_subject)
+		a1 = Factory(:abstract,:study_subject => study_subject)
 		a1.merged_by = Factory(:user)
 		a1.save
 		assert_not_nil study_subject.reload.merged_abstract

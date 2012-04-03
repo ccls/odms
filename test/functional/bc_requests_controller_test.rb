@@ -79,9 +79,11 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with non-case" <<
 				" study_subject and #{cu} login" do
 			login_as send(cu)
-			non_case_study_subject = create_study_subject_with_patid('1234')
+#			non_case_study_subject = create_study_subject_with_patid('1234')
+			non_case_study_subject = Factory(:study_subject, :patid => '1234')
 			assert !non_case_study_subject.new_record?
 			assert_not_nil non_case_study_subject.patid
+			assert_equal non_case_study_subject.patid, '1234'
 			assert_difference('BcRequest.count',0) {
 				post :create, :patid => non_case_study_subject.patid
 			}

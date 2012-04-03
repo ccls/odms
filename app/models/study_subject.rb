@@ -14,6 +14,7 @@ class StudySubject < ActiveRecord::Base
 	has_many :samples
 	has_one :home_exposure_response
 	has_many :bc_requests
+	has_many :interviews
 	belongs_to :guardian_relationship, :class_name => 'SubjectRelationship'
 
 	#	This is purely an attempt at organization.
@@ -37,7 +38,7 @@ class StudySubject < ActiveRecord::Base
 	include StudySubjectOperationalEvents
 
 	include StudySubjectHomexOutcome
-	include StudySubjectInterviews
+#	include StudySubjectInterviews
 	include StudySubjectFinders
 
 	delegate :is_other?, :to => :guardian_relationship, 

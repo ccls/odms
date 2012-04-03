@@ -69,8 +69,8 @@ class Abstract < ActiveRecord::Base
 		:cytogen_t1517,
 			:maximum => 9, :allow_blank => true
 
-	validates_length_of :response_cd10_day_14,
-		:response_cd10_day_7,
+	validates_length_of :response_cd10_day_7,
+		:response_cd10_day_14,
 		:response_cd13_day_14,
 		:response_cd13_day_7,
 		:response_cd14_day_14,
@@ -139,135 +139,132 @@ class Abstract < ActiveRecord::Base
 		:flow_cyto_cd45,
 		:flow_cyto_cd71,
 		:flow_cyto_tdt,
-		:flow_cyto_hladr
+		:flow_cyto_hladr,
+		:response_hladr_day_7,
 		:response_hladr_day_14,
-		:response_hladr_day_7
-		:response_tdt_day_14,
 		:response_tdt_day_7,
+		:response_tdt_day_14,
 			:maximum => 10, :allow_blank => true
 
-	with_options :allow_blank => true do |b|
-		b.with_options :maximum => 15 do |o|
-			o.validates_length_of( :response_blasts_units_day_14 )
-			o.validates_length_of( :response_blasts_units_day_28 )
-			o.validates_length_of( :response_blasts_units_day_7 )
-			o.validates_length_of( :other_dna_measure )
-			o.validates_length_of( :response_fab_subtype )
-		end
-		b.with_options :maximum => 20 do |o|
-			o.validates_length_of( :flow_cyto_other_marker_1_name )
-			o.validates_length_of( :flow_cyto_other_marker_2_name )
-			o.validates_length_of( :flow_cyto_other_marker_3_name )
-			o.validates_length_of( :flow_cyto_other_marker_4_name )
-			o.validates_length_of( :flow_cyto_other_marker_5_name )
-		end
-		b.with_options :maximum => 25 do |o|
-			o.validates_length_of( :response_other1_name_day_14 )
-			o.validates_length_of( :response_other1_name_day_7 )
-			o.validates_length_of( :response_other2_name_day_14 )
-			o.validates_length_of( :response_other2_name_day_7 )
-			o.validates_length_of( :response_other3_name_day_14 )
-			o.validates_length_of( :response_other4_name_day_14 )
-			o.validates_length_of( :response_other5_name_day_14 )
-		end
-		b.with_options :maximum => 35 do |o|
-			o.validates_length_of( :cytogen_other_trans_1 )
-			o.validates_length_of( :cytogen_other_trans_2 )
-			o.validates_length_of( :cytogen_other_trans_3 )
-			o.validates_length_of( :cytogen_other_trans_4 )
-			o.validates_length_of( :cytogen_other_trans_5 )
-			o.validates_length_of( :cytogen_other_trans_6 )
-			o.validates_length_of( :cytogen_other_trans_7 )
-			o.validates_length_of( :cytogen_other_trans_8 )
-			o.validates_length_of( :cytogen_other_trans_9 )
-			o.validates_length_of( :cytogen_other_trans_10 )
-		end
-		b.with_options :maximum => 50 do |o|
-			o.validates_length_of( :flow_cyto_igm_text )
-			o.validates_length_of( :flow_cyto_bm_kappa_text )
-			o.validates_length_of( :flow_cyto_bm_lambda_text )
-			o.validates_length_of( :flow_cyto_cd10_19_text )
-			o.validates_length_of( :flow_cyto_cd10_text )
-			o.validates_length_of( :flow_cyto_cd19_text )
-			o.validates_length_of( :flow_cyto_cd20_text )
-			o.validates_length_of( :flow_cyto_cd21_text )
-			o.validates_length_of( :flow_cyto_cd22_text )
-			o.validates_length_of( :flow_cyto_cd23_text )
-			o.validates_length_of( :flow_cyto_cd24_text )
-			o.validates_length_of( :flow_cyto_cd40_text )
-			o.validates_length_of( :flow_cyto_surface_ig_text )
-			o.validates_length_of( :flow_cyto_cd1a_text )
-			o.validates_length_of( :flow_cyto_cd2_text )
-			o.validates_length_of( :flow_cyto_cd3_text )
-			o.validates_length_of( :flow_cyto_cd4_text )
-			o.validates_length_of( :flow_cyto_cd5_text )
-			o.validates_length_of( :flow_cyto_cd7_text )
-			o.validates_length_of( :flow_cyto_cd8_text )
-			o.validates_length_of( :flow_cyto_cd3_cd4_text )
-			o.validates_length_of( :flow_cyto_cd3_cd8_text )
-			o.validates_length_of( :flow_cyto_cd11b_text )
-			o.validates_length_of( :flow_cyto_cd11c_text )
-			o.validates_length_of( :flow_cyto_cd13_text )
-			o.validates_length_of( :flow_cyto_cd15_text )
-			o.validates_length_of( :flow_cyto_cd33_text )
-			o.validates_length_of( :flow_cyto_cd41_text )
-			o.validates_length_of( :flow_cyto_cdw65_text )
-			o.validates_length_of( :flow_cyto_cd34_text )
-			o.validates_length_of( :flow_cyto_cd61_text )
-			o.validates_length_of( :flow_cyto_cd14_text )
-			o.validates_length_of( :flow_cyto_glycoa_text )
-			o.validates_length_of( :flow_cyto_cd16_text )
-			o.validates_length_of( :flow_cyto_cd56_text )
-			o.validates_length_of( :flow_cyto_cd57_text )
-			o.validates_length_of( :flow_cyto_cd9_text )
-			o.validates_length_of( :flow_cyto_cd25_text )
-			o.validates_length_of( :flow_cyto_cd38_text )
-			o.validates_length_of( :flow_cyto_cd45_text )
-			o.validates_length_of( :flow_cyto_cd71_text )
-			o.validates_length_of( :flow_cyto_tdt_text )
-			o.validates_length_of( :flow_cyto_hladr_text )
-			o.validates_length_of( :flow_cyto_other_marker_1_text )
-			o.validates_length_of( :flow_cyto_other_marker_2_text )
-			o.validates_length_of( :flow_cyto_other_marker_3_text )
-			o.validates_length_of( :flow_cyto_other_marker_4_text )
-			o.validates_length_of( :flow_cyto_other_marker_5_text )
-			o.validates_length_of( :ucb_fish_results )
-			o.validates_length_of( :fab_classification )
-			o.validates_length_of( :diagnosis_icdo_number )
-			o.validates_length_of( :cytogen_t922 )
-		end
-		b.with_options :maximum => 55 do |o|
-			o.validates_length_of( :diagnosis_icdo_description )
-		end
-		b.with_options :maximum => 100 do |o|
-			o.validates_length_of( :ploidy_comment )
-		end
-		b.with_options :maximum => 250 do |o|
-			o.validates_length_of( :csf_red_blood_count_text )
-			o.validates_length_of( :blasts_are_present )
-			o.validates_length_of( :peripheral_blood_in_csf )
-			o.validates_length_of( :chemo_protocol_report_found )
-			o.validates_length_of( :chemo_protocol_name )
-			o.validates_length_of( :conventional_karyotype_results )
-			o.validates_length_of( :hospital_fish_results )
-			o.validates_length_of( :hyperdiploidy_by )
-		end
-		b.with_options :maximum => 65000 do |o|
-			o.validates_length_of( :marrow_biopsy_diagnosis )
-			o.validates_length_of( :marrow_aspirate_diagnosis )
-			o.validates_length_of( :csf_white_blood_count_text )
-			o.validates_length_of( :csf_comment )
-			o.validates_length_of( :chemo_protocol_agent_description )
-			o.validates_length_of( :chest_imaging_comment )
-			o.validates_length_of( :cytogen_comment )
-			o.validates_length_of( :discharge_summary )
-			o.validates_length_of( :flow_cyto_remarks )
-			o.validates_length_of( :response_comment_day_7 )
-			o.validates_length_of( :response_comment_day_14 )
-			o.validates_length_of( :histo_report_results )
-			o.validates_length_of( :response_comment )
-		end
-	end
+	validates_length_of :response_blasts_units_day_7,
+		:response_blasts_units_day_14,
+		:response_blasts_units_day_28,
+		:other_dna_measure,
+		:response_fab_subtype,
+			:maximum => 15, :allow_blank => true
+
+	validates_length_of :flow_cyto_other_marker_1_name,
+		:flow_cyto_other_marker_2_name,
+		:flow_cyto_other_marker_3_name,
+		:flow_cyto_other_marker_4_name,
+		:flow_cyto_other_marker_5_name,
+			:maximum => 20, :allow_blank => true
+
+	validates_length_of :response_other1_name_day_7,
+		:response_other1_name_day_14,
+		:response_other2_name_day_7,
+		:response_other2_name_day_14,
+		:response_other3_name_day_14,
+		:response_other4_name_day_14,
+		:response_other5_name_day_14,
+			:maximum => 25, :allow_blank => true
+
+	validates_length_of :cytogen_other_trans_1,
+		:cytogen_other_trans_2,
+		:cytogen_other_trans_3,
+		:cytogen_other_trans_4,
+		:cytogen_other_trans_5,
+		:cytogen_other_trans_6,
+		:cytogen_other_trans_7,
+		:cytogen_other_trans_8,
+		:cytogen_other_trans_9,
+		:cytogen_other_trans_10,
+			:maximum => 35, :allow_blank => true
+
+	validates_length_of :flow_cyto_igm_text,
+		:flow_cyto_bm_kappa_text,
+		:flow_cyto_bm_lambda_text,
+		:flow_cyto_cd10_19_text,
+		:flow_cyto_cd10_text,
+		:flow_cyto_cd19_text,
+		:flow_cyto_cd20_text,
+		:flow_cyto_cd21_text,
+		:flow_cyto_cd22_text,
+		:flow_cyto_cd23_text,
+		:flow_cyto_cd24_text,
+		:flow_cyto_cd40_text,
+		:flow_cyto_surface_ig_text,
+		:flow_cyto_cd1a_text,
+		:flow_cyto_cd2_text,
+		:flow_cyto_cd3_text,
+		:flow_cyto_cd4_text,
+		:flow_cyto_cd5_text,
+		:flow_cyto_cd7_text,
+		:flow_cyto_cd8_text,
+		:flow_cyto_cd3_cd4_text,
+		:flow_cyto_cd3_cd8_text,
+		:flow_cyto_cd11b_text,
+		:flow_cyto_cd11c_text,
+		:flow_cyto_cd13_text,
+		:flow_cyto_cd15_text,
+		:flow_cyto_cd33_text,
+		:flow_cyto_cd41_text,
+		:flow_cyto_cdw65_text,
+		:flow_cyto_cd34_text,
+		:flow_cyto_cd61_text,
+		:flow_cyto_cd14_text,
+		:flow_cyto_glycoa_text,
+		:flow_cyto_cd16_text,
+		:flow_cyto_cd56_text,
+		:flow_cyto_cd57_text,
+		:flow_cyto_cd9_text,
+		:flow_cyto_cd25_text,
+		:flow_cyto_cd38_text,
+		:flow_cyto_cd45_text,
+		:flow_cyto_cd71_text,
+		:flow_cyto_tdt_text,
+		:flow_cyto_hladr_text,
+		:flow_cyto_other_marker_1_text,
+		:flow_cyto_other_marker_2_text,
+		:flow_cyto_other_marker_3_text,
+		:flow_cyto_other_marker_4_text,
+		:flow_cyto_other_marker_5_text,
+		:ucb_fish_results,
+		:fab_classification,
+		:diagnosis_icdo_number,
+		:cytogen_t922,
+			:maximum => 50, :allow_blank => true
+
+	validates_length_of :diagnosis_icdo_description,
+			:maximum => 55, :allow_blank => true
+
+	validates_length_of :ploidy_comment,
+			:maximum => 100, :allow_blank => true
+
+	validates_length_of :csf_red_blood_count_text,
+		:blasts_are_present,
+		:peripheral_blood_in_csf,
+		:chemo_protocol_report_found,
+		:chemo_protocol_name,
+		:conventional_karyotype_results,
+		:hospital_fish_results,
+		:hyperdiploidy_by,
+			:maximum => 250, :allow_blank => true
+
+	validates_length_of :marrow_biopsy_diagnosis,
+		:marrow_aspirate_diagnosis,
+		:csf_white_blood_count_text,
+		:csf_comment,
+		:chemo_protocol_agent_description,
+		:chest_imaging_comment,
+		:cytogen_comment,
+		:discharge_summary,
+		:flow_cyto_remarks,
+		:response_comment_day_7,
+		:response_comment_day_14,
+		:histo_report_results,
+		:response_comment,
+			:maximum => 65000, :allow_blank => true
 
 	validates_inclusion_of(
 		:cbc_report_found,
