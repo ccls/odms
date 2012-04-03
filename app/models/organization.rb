@@ -17,10 +17,17 @@ class Organization < ActiveRecord::Base
 #	has_many :hospitals
 	has_one  :hospital
 	has_many :patients
+#	has_many :sample_collectors
 
 	#	Returns name
 	def to_s
 		name
+	end
+
+	#	Returns boolean of comparison
+	#	true only if key == 'other'
+	def is_other?
+		key == 'other'
 	end
 
 end

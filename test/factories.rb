@@ -495,6 +495,10 @@ Factory.define :sample do |f|
 	f.association :sample_type
 end
 
+Factory.define :sample_collector do |f|
+	f.association :organization
+end
+
 Factory.define :sample_format do |f|
 	f.sequence(:key) { |n| "Key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }

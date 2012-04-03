@@ -1237,6 +1237,16 @@ Table: roles_users
 | role_id | int(11) | YES  | MUL | NULL    |       |
 | user_id | int(11) | YES  | MUL | NULL    |       |
 +---------+---------+------+-----+---------+-------+
+Table: sample_collectors
++--------------------+--------------+------+-----+---------+----------------+
+| Field              | Type         | Null | Key | Default | Extra          |
++--------------------+--------------+------+-----+---------+----------------+
+| id                 | int(11)      | NO   | PRI | NULL    | auto_increment |
+| organization_id    | int(11)      | YES  | MUL | NULL    |                |
+| other_organization | varchar(255) | YES  |     | NULL    |                |
+| created_at         | datetime     | NO   |     | NULL    |                |
+| updated_at         | datetime     | NO   |     | NULL    |                |
++--------------------+--------------+------+-----+---------+----------------+
 Table: sample_formats
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |

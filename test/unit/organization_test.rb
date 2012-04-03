@@ -31,13 +31,13 @@ class OrganizationTest < ActiveSupport::TestCase
 	end
 
 	test "new incoming_transfer should have matching organization id" do
-		organization = create_organization
+		organization = Factory(:organization)
 		transfer = organization.incoming_transfers.build
 		assert_equal organization.id, transfer.to_organization_id
 	end
 
 	test "new outgoing_transfer should have matching organization id" do
-		organization = create_organization
+		organization = Factory(:organization)
 		transfer = organization.outgoing_transfers.build
 		assert_equal organization.id, transfer.from_organization_id
 	end
@@ -49,8 +49,18 @@ class OrganizationTest < ActiveSupport::TestCase
 #	end
 
 	test "should return name as to_s" do
-		organization = create_organization
+		organization = Factory(:organization)
 		assert_equal organization.name, "#{organization}"
+	end
+
+	test "should be other if is other" do
+		organization = Organization['other']
+		assert organization.is_other?
+	end
+
+	test "should not be other if is not other" do
+		organization = Factory(:organization)
+		assert !organization.is_other?
 	end
 
 protected
