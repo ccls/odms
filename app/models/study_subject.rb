@@ -38,7 +38,6 @@ class StudySubject < ActiveRecord::Base
 	include StudySubjectOperationalEvents
 
 	include StudySubjectHomexOutcome
-#	include StudySubjectInterviews
 	include StudySubjectFinders
 
 	delegate :is_other?, :to => :guardian_relationship, 
