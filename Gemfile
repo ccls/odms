@@ -65,7 +65,13 @@ gem "will_paginate"
 
 gem "hpricot"
 
-gem "paperclip"
+
+#	20120403 - paperclip 3.0.1 yields ...
+#	https://github.com/thoughtbot/paperclip/issues/807
+#	NoMethodError: undefined method `tempfile' for #<Tempfile:0x106350550>
+gem "paperclip", '3.0.0'
+
+
 
 gem 'rubycas-client'
 
