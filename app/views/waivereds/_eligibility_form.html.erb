@@ -16,10 +16,6 @@
 
 %>
  <p>Is this patient under age 15?
-  <%#= patient_fields.radio_button :was_under_15_at_dx, true %>
-  <%#= patient_fields.label :was_under_15_at_dx, 'yes (eligible)', :value => true %>
-  <%#= patient_fields.radio_button :was_under_15_at_dx, false %>
-  <%#= patient_fields.label :was_under_15_at_dx, 'no (not eligible)', :value => false %>
   <%= patient_fields.radio_button :was_under_15_at_dx, YNDK[:yes] %>
   <%= patient_fields.label :was_under_15_at_dx, 'yes (eligible)', :value => YNDK[:yes] %>
   <%= patient_fields.radio_button :was_under_15_at_dx, YNDK[:no] %>
@@ -30,30 +26,17 @@
 <%#= f.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
 <%#
 
-be advised that Context is also class in rails, so we must prefix
-our Context with our app name
+	undefined method `[]' for ActionView::Context:Module
 
-undefined method `[]' for ActionView::Context:Module
-
-doesn't seem true in rails 3 now
-
-Odms::Context only works the first time???
-
-::Context seems to always work
+	be advised that Context is also class in rails, so we must add :: prefix
 
 %>
-<%#= f.subject_languages_select( Odms::Context['wraf1'].languages ) %>
-<%#= f.subject_languages_select( Context['wraf1'].languages ) %>
 <%= f.subject_languages_select( ::Context['wraf1'].languages ) %>
 
 
 <% f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
  <p>
-  <%#= patient_fields.radio_button :was_previously_treated, false %>
-  <%#= patient_fields.label :was_previously_treated, 'no (eligible)', :value => false %>
-  <%#= patient_fields.radio_button :was_previously_treated, true %>
-  <%#= patient_fields.label :was_previously_treated, 'yes (not eligible)', :value => true %>
   <%= patient_fields.radio_button :was_previously_treated, YNDK[:no] %>
   <%= patient_fields.label :was_previously_treated, 'no (eligible)', :value => YNDK[:no] %>
   <%= patient_fields.radio_button :was_previously_treated, YNDK[:yes] %>
@@ -61,16 +44,11 @@ Odms::Context only works the first time???
  </p>
 
  <p>Does the patient currently reside in California?
-  <%#= patient_fields.radio_button :was_ca_resident_at_diagnosis, true %>
-  <%#= patient_fields.label :was_ca_resident_at_diagnosis, 'yes (eligible)', :value => true %>
-  <%#= patient_fields.radio_button :was_ca_resident_at_diagnosis, false %>
-  <%#= patient_fields.label :was_ca_resident_at_diagnosis, 'no (not eligible)', :value => false %>
   <%= patient_fields.radio_button :was_ca_resident_at_diagnosis, YNDK[:yes] %>
   <%= patient_fields.label :was_ca_resident_at_diagnosis, 'yes (eligible)', :value => YNDK[:yes] %>
   <%= patient_fields.radio_button :was_ca_resident_at_diagnosis, YNDK[:no] %>
   <%= patient_fields.label :was_ca_resident_at_diagnosis, 'no (not eligible)', :value => YNDK[:no] %>
  </p>
 <% end %>
-
 
 </div><!-- class='eligibility' -->
