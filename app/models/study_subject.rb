@@ -16,6 +16,7 @@ class StudySubject < ActiveRecord::Base
 	has_many :bc_requests
 	has_many :interviews
 	belongs_to :guardian_relationship, :class_name => 'SubjectRelationship'
+	has_many :abstracts
 
 	#	This is purely an attempt at organization.
 	#	Initially, this was by purpose, but now modifying to
@@ -27,7 +28,6 @@ class StudySubject < ActiveRecord::Base
 	include StudySubjectPii
 	include StudySubjectIdentifier
 	include StudySubjectDuplicates
-	include StudySubjectAbstracts
 	include StudySubjectRaces
 	include StudySubjectLanguages
 	include StudySubjectAddresses
@@ -153,10 +153,6 @@ class StudySubject < ActiveRecord::Base
 		subject_type_id == self.class.subject_type_mother_id
 	end
 
-#	def self.search(params={})
-#		StudySubjectSearch.new(params).study_subjects
-#	end
-
 	#	Create (or just return mother) a mother subject based on subject's own data.
 	def create_mother
 		return self if is_mother?
@@ -227,6 +223,20 @@ class StudySubject < ActiveRecord::Base
 
 	def studyid_to_s
 		( is_mother? ) ? "n/a" : studyid
+	end
+
+	def abstracts_the_same?
+		raise StudySubject::NotTwoAbstracts unless abstracts_count == 2
+		#	abstracts.inject(:is_the_same_as?) was nice
+		#	but using inject is ruby >= 1.8.7
+		return abstracts[0].is_the_same_as?(abstracts[1])
+	end
+
+	def abstract_diffs
+		raise StudySubject::NotTwoAbstracts unless abstracts_count == 2
+		#	abstracts.inject(:diff) was nice
+		#	but using inject is ruby >= 1.8.7
+		return abstracts[0].diff(abstracts[1])
 	end
 
 protected
