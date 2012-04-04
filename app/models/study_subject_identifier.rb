@@ -53,12 +53,12 @@ protected
 
 	#	made separate method so can be stubbed
 	def get_next_childid
-		self.class.maximum(:childid).to_i + 1
+		StudySubject.maximum(:childid).to_i + 1
 	end
 
 	#	made separate method so can be stubbed
 	def get_next_patid
-		self.class.maximum(:patid).to_i + 1
+		StudySubject.maximum(:patid).to_i + 1
 #
 #	What happens if/when this goes over 4 digits? 
 #	The database field is only 4 chars.
@@ -127,9 +127,9 @@ protected
 #	Would this be faster?
 #
 	def generate_subjectid
-#		subjectids = ( (1..999999).to_a - self.class.find(:all,:select => 'subjectid'
+#		subjectids = ( (1..999999).to_a - StudySubject.find(:all,:select => 'subjectid'
 #			).collect(&:subjectid).collect(&:to_i) )
-		subjectids = ( (1..999999).to_a - self.class.select('subjectid'
+		subjectids = ( (1..999999).to_a - StudySubject.select('subjectid'
 			).collect(&:subjectid).collect(&:to_i) )
 		#	CANNOT have leading 0' as it thinks its octal and converts
 		#>> sprintf("%06d","0001234")

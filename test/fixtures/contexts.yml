@@ -9,6 +9,11 @@
 #	Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 #
 
+#	I don't think that anything will ever explicitly reference
+#	a context so the id could probably be removed.  This 
+#	will generate an id based on a hash of the label (big random number).
+#	I don't particularly like it, but can be convenient.
+
 addresses:
   id: 1 
   key: addresses 
@@ -17,6 +22,14 @@ phones:
   id: 2 
   key: phones 
   description: phone number combo boxes in ODMS
+
+#	currently, both addresses and phones are the same
+#	DataSource filter.  Will they always be the same?
+#	Should I merge them?  Or leave it be?
+
+
+
+
 waivered_raf_1:
   id: 3 
   key: wraf1

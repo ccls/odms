@@ -108,7 +108,8 @@ protected
 	end
 
 	def trigger_setting_was_under_15_at_dx
-		logger.debug "DEBUG: calling update_patient_was_under_15_at_dx from Patient:#{self.attributes['id']}"
+		logger.debug "DEBUG: calling update_patient_was_under_15_at_dx from " <<
+			"Patient:#{self.attributes['id']}"
 		logger.debug "DEBUG: Admit date changed from:#{admit_date_was}:to:#{admit_date}"
 		if study_subject
 			logger.debug "DEBUG: study_subject:#{study_subject.id}"
@@ -122,7 +123,8 @@ protected
 #	logger levels are ... debug, info, warn, error, and fatal.
 #
 	def trigger_update_matching_study_subjects_reference_date
-		logger.debug "DEBUG: calling update_study_subjects_reference_date_matching from Patient:#{self.attributes['id']}"
+		logger.debug "DEBUG: calling update_study_subjects_reference_date_matching from " <<
+			"Patient:#{self.attributes['id']}"
 		logger.debug "DEBUG: Admit date changed from:#{admit_date_was}:to:#{admit_date}"
 		if study_subject
 			logger.debug "DEBUG: study_subject:#{study_subject.id}"

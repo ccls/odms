@@ -1,11 +1,14 @@
-module ActionViewExtension; end
-module ActionViewExtension::FormBuilder
+#module ActionViewExtension; end
+#module ActionViewExtension::FormBuilder
+module FormBuilderHelper
 
-	def self.included(base)
-		base.send(:include,InstanceMethods)
-	end
-
-	module InstanceMethods
+#	why include after included?
+#	there are no class methods, so just keep it simple.
+#	def self.included(base)
+#		base.send(:include,InstanceMethods)
+#	end
+#
+#	module InstanceMethods
 
 #	TODO	add tests for this
 #	COMING SOON
@@ -45,24 +48,24 @@ module ActionViewExtension::FormBuilder
 				{:include_blank => true}.merge(objectify_options(options)), html_options)
 		end
 
-		def hour_select(method,options={},html_options={})
-			@template.select(object_name, method,
-				(1..12),
-				{:include_blank => 'Hour'}.merge(options), html_options)
-		end
-
-		def minute_select(method,options={},html_options={})
-			minutes = (0..59).to_a.collect{|m|[sprintf("%02d",m),m]}
-			@template.select(object_name, method,
-				minutes,
-				{:include_blank => 'Minute'}.merge(options), html_options)
-		end
-
-		def meridiem_select(method,options={},html_options={})
-			@template.select(object_name, method,
-				['AM','PM'], 
-				{:include_blank => 'Meridiem'}.merge(options), html_options)
-		end
+#		def hour_select(method,options={},html_options={})
+#			@template.select(object_name, method,
+#				(1..12),
+#				{:include_blank => 'Hour'}.merge(options), html_options)
+#		end
+#
+#		def minute_select(method,options={},html_options={})
+#			minutes = (0..59).to_a.collect{|m|[sprintf("%02d",m),m]}
+#			@template.select(object_name, method,
+#				minutes,
+#				{:include_blank => 'Minute'}.merge(options), html_options)
+#		end
+#
+#		def meridiem_select(method,options={},html_options={})
+#			@template.select(object_name, method,
+#				['AM','PM'], 
+#				{:include_blank => 'Meridiem'}.merge(options), html_options)
+#		end
 
 		def sex_select(method,options={},html_options={})
 			@template.select(object_name, method,
@@ -149,7 +152,8 @@ class_eval %Q"
 "
 end
 
-	end	#	module InstanceMethods
+#	end	#	module InstanceMethods
 
 end
-ActionView::Helpers::FormBuilder.send(:include, ActionViewExtension::FormBuilder )
+#ActionView::Helpers::FormBuilder.send(:include, ActionViewExtension::FormBuilder )
+ActionView::Helpers::FormBuilder.send(:include, FormBuilderHelper )

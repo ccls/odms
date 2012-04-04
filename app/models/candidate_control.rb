@@ -69,6 +69,12 @@ class CandidateControl < ActiveRecord::Base
 				s.orderno            = next_orderno
 				s.matchingid         = case_subject.subjectid
 				s.patid              = case_subject.patid
+#
+#	I suppose that I could also set the reference date, but
+#	the current callbacks DO take care of that. (tested)
+#				s.reference_date     = case_subject.reference_date
+#				s.reference_date     = case_subject.patient.admit_date
+#
 				s.is_matched         = true
 			end
 			child.save!

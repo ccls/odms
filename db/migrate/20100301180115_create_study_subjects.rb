@@ -4,7 +4,9 @@ class CreateStudySubjects < ActiveRecord::Migration
 			t.integer :subject_type_id
 
 			# 1 = VitalStatus['living']
-			t.integer :vital_status_id, :default => 1
+#			t.integer :vital_status_id, :default => 1
+#	setting default in the app
+			t.integer :vital_status_id
 
 			t.integer :hispanicity_id
 			t.date    :reference_date

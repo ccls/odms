@@ -55,10 +55,26 @@ base.class_eval do
 			#
 			#	crude and probably off by a couple days
 			#	would be better to compare year, month then day
-			was_under_15 = (((
-				my_patient.admit_date.to_date - dob.to_date 
-				) / 365 ) < 15 ) ? YNDK[:yes] : YNDK[:no]
-			Patient.update_all({ :was_under_15_at_dx => was_under_15 }, 
+#			was_under_15 = (((
+#				my_patient.admit_date.to_date - dob.to_date 
+#				) / 365 ) < 15 ) ? YNDK[:yes] : YNDK[:no]
+
+			#	Seems likely to be more accurate as accounts for differing year 
+			#	lengths rather than the number of days.
+			#	As this is completely a computable field, I don't really
+			#	like doing this.  The existence of incorrect data already
+			#	is reason enough.  Nevertheless, if you're gonna do it,
+			#	do it right.
+#irb(main):038:0> Date.today
+#=> Wed, 04 Apr 2012
+#irb(main):039:0> Date.today + 15.years
+#=> Sun, 04 Apr 2027
+			fifteenth_birthday = dob.to_date + 15.years
+			was_under_15 = ( my_patient.admit_date.to_date < fifteenth_birthday ) ? 
+				YNDK[:yes] : YNDK[:no]
+
+			Patient.update_all(
+				{ :was_under_15_at_dx => was_under_15 }, 
 				{ :id => my_patient.id })
 		end
 		#	make sure we return true as is a callback
@@ -69,36 +85,74 @@ base.class_eval do
 	#	
 	def update_study_subjects_reference_date_matching(*matchingids)
 		logger.debug "DEBUG: In update_study_subjects_reference_date_matching(*matchingids)"
-		logger.debug "DEBUG: update_study_subjects_reference_date_matching(#{matchingids.join(',')})"
-#	if matchingids ~ [nil,12345]
-#		identifier was either just created or matchingid added (compact as nil not needed)
-#	if matchingids ~ [12345,nil]
-#		matchingid was removed (compact as nil not needed)
-#	if matchingids ~ [12345,54321]
-#		matchingid was just changed
-#	if matchingids ~ []
-#		trigger came from Patient so need to find matchingid
+		logger.debug "DEBUG: update_study_subjects_reference_date_matching" <<
+			"(#{matchingids.join(',')})"
+		#	if matchingids ~ [nil,12345]
+		#		identifier was either just created or matchingid added (compact as nil not needed)
+		#	if matchingids ~ [12345,nil]
+		#		matchingid was removed (compact as nil not needed) (should never happen)
+		#	if matchingids ~ [12345,54321]
+		#		matchingid was just changed (should never happen)
 
+		#	if matchingids ~ []
+		#		trigger came from Patient (admit date changed) so need to find matchingid
 		matchingids.compact.push(matchingid).uniq.each do |mid|
-			study_subject_ids = if( !mid.nil? )
-				self.class.find_all_by_matchingid(mid).collect(&:id)
-			else
-				[id]
+			unless mid.blank?
+				#	subjectid is unique, so can be only 1 unless nil
+				matching_patient = StudySubject.where(:subjectid => mid).first.try(:patient)
+				unless matching_patient.nil?
+					admit_date = matching_patient.try(:admit_date)
+					StudySubject.update_all(
+						{:reference_date => admit_date },
+						{:matchingid     => mid })
+				end
 			end
-
-			#	SHOULD only ever be 1 patient found amongst the study_subject_ids although there is
-			#		currently no validation applied to the uniqueness of matchingid
-			#	If there is more than one patient for a given matchingid, this'll just be wrong.
-
-			matching_patient = Patient.find_by_study_subject_id(study_subject_ids)
-			admit_date = matching_patient.try(:admit_date)
-
-			logger.debug "DEBUG: calling StudySubject.update_study_subjects_reference_date"<<
-				"(#{study_subject_ids.join(',')},#{admit_date})"
-			self.class.update_study_subjects_reference_date( study_subject_ids, admit_date )
 		end
 		true
 	end
+
+
+#	##
+#	#	
+#	def update_study_subjects_reference_date_matching(*matchingids)
+#		logger.debug "DEBUG: In update_study_subjects_reference_date_matching(*matchingids)"
+#		logger.debug "DEBUG: update_study_subjects_reference_date_matching" <<
+#			"(#{matchingids.join(',')})"
+#		#	if matchingids ~ [nil,12345]
+#		#		identifier was either just created or matchingid added (compact as nil not needed)
+#		#	if matchingids ~ [12345,nil]
+#		#		matchingid was removed (compact as nil not needed)
+#		#	if matchingids ~ [12345,54321]
+#		#		matchingid was just changed
+#
+#		#	if matchingids ~ []
+#		#		trigger came from Patient so need to find matchingid
+#
+#		matchingids.compact.push(matchingid).uniq.each do |mid|
+##
+##	now that matchingid is part of study_subject, why do we need the id?
+##	The case should be StudySubject.where(:subjectid => mid)
+##	This is just more complicated than necessary
+##
+#			study_subject_ids = if( !mid.nil? )
+#				StudySubject.find_all_by_matchingid(mid).collect(&:id)
+#			else
+#				[id]
+#			end
+#
+#			#	SHOULD only ever be 1 patient found amongst the study_subject_ids although there is
+#			#		currently no validation applied to the uniqueness of matchingid
+#			#	If there is more than one patient for a given matchingid, this'll just be wrong.
+#
+#			matching_patient = Patient.find_by_study_subject_id(study_subject_ids)
+#			admit_date = matching_patient.try(:admit_date)
+#
+#			logger.debug "DEBUG: calling StudySubject.update_study_subjects_reference_date"<<
+#				"(#{study_subject_ids.join(',')},#{admit_date})"
+#			StudySubject.update_study_subjects_reference_date( study_subject_ids, admit_date )
+#		end
+#		true
+#	end
 
 protected
 
@@ -145,18 +199,18 @@ protected
 		self.update_study_subjects_reference_date_matching(matchingid_was,matchingid)
 	end
 
-	def self.update_study_subjects_reference_date(study_subject_ids,new_reference_date)
-		logger.debug "DEBUG: In StudySubject.update_study_subjects_reference_date"
-		logger.debug "DEBUG: update_study_subjects_reference_date"<<
-			"(#{study_subject_ids.join(',')},#{new_reference_date})"
-		# UPDATE `study_subjects` SET `reference_date` = '2011-06-02' WHERE (`subjects`.`id` IN (1,2)) 
-		# UPDATE `study_subjects` SET `reference_date` = '2011-06-02' WHERE (`subjects`.`id` IN (NULL)) 
-		unless study_subject_ids.empty?
-			self.update_all(
-				{:reference_date => new_reference_date },
-				{ :id => study_subject_ids })
-		end
-	end
+#	def self.update_study_subjects_reference_date(study_subject_ids,new_reference_date)
+#		logger.debug "DEBUG: In StudySubject.update_study_subjects_reference_date"
+#		logger.debug "DEBUG: update_study_subjects_reference_date"<<
+#			"(#{study_subject_ids.join(',')},#{new_reference_date})"
+#		# UPDATE `study_subjects` SET `reference_date` = '2011-06-02' WHERE (`subjects`.`id` IN (1,2)) 
+#		# UPDATE `study_subjects` SET `reference_date` = '2011-06-02' WHERE (`subjects`.`id` IN (NULL)) 
+#		unless study_subject_ids.empty?
+#			self.update_all(
+#				{:reference_date => new_reference_date },
+#				{ :id => study_subject_ids })
+#		end
+#	end
 
 end	#	class_eval
 end	#	included

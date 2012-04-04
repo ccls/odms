@@ -42,8 +42,8 @@ base.class_eval do
 
 	#	Find the case or control subject with matching familyid except self.
 	def child
-		if (subject_type_id == self.class.subject_type_mother_id) && !familyid.blank?
-			self.class.children.with_subjectid(familyid).where("study_subjects.id != ?",
+		if (subject_type_id == StudySubject.subject_type_mother_id) && !familyid.blank?
+			StudySubject.children.with_subjectid(familyid).where("study_subjects.id != ?",
 				id ).includes(:subject_type).first
 		else
 			nil
@@ -53,21 +53,21 @@ base.class_eval do
 	#	Find the subject with matching familyid and subject_type of Mother.
 	def mother
 		return nil if familyid.blank?
-		self.class.mothers.with_familyid(familyid
+		StudySubject.mothers.with_familyid(familyid
 			).includes(:subject_type).first
 	end
 
 	#	Find all the subjects with matching familyid except self.
 	def family
 		return [] if familyid.blank?
-		self.class.with_familyid(familyid).where("study_subjects.id != ?", id
+		StudySubject.with_familyid(familyid).where("study_subjects.id != ?", id
 			).includes(:subject_type)
 	end
 
 	#	Find all the subjects with matching matchingid except self.
 	def matching
 		return [] if matchingid.blank?
-		self.class.with_matchingid(matchingid).where("study_subjects.id != ?", id
+		StudySubject.with_matchingid(matchingid).where("study_subjects.id != ?", id
 			).includes(:subject_type)
 	end
 
@@ -76,7 +76,7 @@ base.class_eval do
 	#			TODO Could fix, but this situation is unlikely.
 	def controls
 		return [] unless is_case?
-		self.class.controls.with_patid(patid).where("study_subjects.id != ?", id
+		StudySubject.controls.with_patid(patid).where("study_subjects.id != ?", id
 			).includes(:subject_type)
 	end
 

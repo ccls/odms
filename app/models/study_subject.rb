@@ -118,6 +118,14 @@ class StudySubject < ActiveRecord::Base
 	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
 			:in => YNDK.valid_values, :allow_nil => true
 
+	after_initialize :set_defaults, :if => :new_record?
+	def set_defaults
+		# ||= doesn't work with ''
+		self.vital_status_id ||= VitalStatus['living'].id
+	end
+
+
+
 	def to_s
 		[childid,'(',studyid,full_name,')'].compact.join(' ')
 	end
@@ -125,19 +133,19 @@ class StudySubject < ActiveRecord::Base
 	#	Returns boolean of comparison
 	#	true only if type is Case
 	def is_case?
-		subject_type_id == self.class.subject_type_case_id
+		subject_type_id == StudySubject.subject_type_case_id
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Control
 	def is_control?
-		subject_type_id == self.class.subject_type_control_id
+		subject_type_id == StudySubject.subject_type_control_id
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Mother
 	def is_mother?
-		subject_type_id == self.class.subject_type_mother_id
+		subject_type_id == StudySubject.subject_type_mother_id
 	end
 
 	#	Create (or just return) a mother subject based on subject's own data.
@@ -148,8 +156,8 @@ class StudySubject < ActiveRecord::Base
 		if existing_mother
 			existing_mother
 		else
-			new_mother = self.class.new do |s|
-				s.subject_type_id = self.class.subject_type_mother_id
+			new_mother = StudySubject.new do |s|
+				s.subject_type_id = StudySubject.subject_type_mother_id
 				s.vital_status_id = VitalStatus['living'].id
 				s.sex = 'F'
 				s.hispanicity_id = mother_hispanicity_id
@@ -183,9 +191,9 @@ class StudySubject < ActiveRecord::Base
 
 	def next_control_orderno(grouping='6')
 		return nil unless is_case?
-		last_control = self.class.select('orderno').order('orderno DESC'
+		last_control = StudySubject.select('orderno').order('orderno DESC'
 			).where(
-				:subject_type_id   => self.class.subject_type_control_id,
+				:subject_type_id   => StudySubject.subject_type_control_id,
 				:case_control_type => grouping,
 				:matchingid        => self.subjectid
 			).first

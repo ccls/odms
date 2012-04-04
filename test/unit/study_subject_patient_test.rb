@@ -157,10 +157,11 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 	test "should update all matching study_subjects' reference date " <<
 			"with updated admit date" do
 		study_subject = create_case_study_subject(
-			:matchingid => '12345',
+#			:matchingid => '012345',	#	seriously? set the subjecid
+			:subjectid => '012345',
 			:patient_attributes    => Factory.attributes_for(:patient)).reload
-		other   = create_study_subject( :matchingid => '12345' )
-		nobody  = create_study_subject( :matchingid => '54321' )
+		other   = create_study_subject( :matchingid => '012345' )
+		nobody  = create_study_subject( :matchingid => '054321' )
 #	admit_date is now required, so will exist initially
 #		assert_nil study_subject.reference_date
 #		assert_nil study_subject.patient.admit_date
@@ -179,7 +180,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 	test "should set study_subject.reference_date to matching patient.admit_date " <<
 			"on create with patient created first" do
 		study_subject = create_case_study_subject_with_patient
-		other   = create_study_subject( :matchingid => '12345' )
+		other   = create_study_subject( :matchingid => '012345' )
 		assert_not_nil other.reload.reference_date
 		assert_equal   other.reference_date, study_subject.reference_date
 		assert_equal   other.reference_date, study_subject.patient.admit_date
@@ -187,49 +188,59 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 
 	test "should set study_subject.reference_date to matching patient.admit_date " <<
 			"on create with patient created last" do
-		other   = create_study_subject( :matchingid => '12345' )
+		other   = create_study_subject( :matchingid => '012345' )
 		study_subject = create_case_study_subject_with_patient
 		assert_not_nil other.reload.reference_date
 		assert_equal   other.reference_date, study_subject.reference_date
 		assert_equal   other.reference_date, study_subject.patient.admit_date
 	end
 
-	test "should nullify study_subject.reference_date if matching patient changes matchingid" do
-		other   = create_study_subject( :matchingid => '12345' )
-		study_subject = create_case_study_subject_with_patient
-		assert_not_nil other.reload.reference_date
-#		study_subject.update_attributes(:matchingid => '12346')
-#	matchingid is now protected
-		study_subject.matchingid = '12346'
-		study_subject.save
-		assert_nil     other.reload.reference_date
-	end
-
-	test "should nullify study_subject.reference_date if matching patient nullifies matchingid" do
-		other   = create_study_subject( :matchingid => '12345' )
-		study_subject = create_case_study_subject_with_patient
-		assert_not_nil other.reload.reference_date
-#		study_subject.update_attributes(:matchingid => nil)
-#	matchingid is now protected
-		study_subject.matchingid = nil
-		study_subject.save
-		assert_nil     other.reload.reference_date
-	end
-
-	test "should nullify study_subject.reference_date if matching patient nullifies admit_date (admit_date now required)" do
-		other   = create_study_subject( :matchingid => '12345' )
-		study_subject = create_case_study_subject_with_patient
-		assert_not_nil study_subject.patient.admit_date
-		assert_not_nil study_subject.reference_date
-		assert_not_nil other.reload.reference_date
-#	admit_date is now required, so can't nullify admit_date
-#	This actually now returns false
-		assert !study_subject.patient.update_attributes(:admit_date => nil)
-		assert_not_nil study_subject.patient.reload.admit_date
-		assert_not_nil study_subject.reference_date
-		assert_not_nil other.reload.reference_date
+#	NOTE no more nullifying.  In actuallity, shouldn't happen
+#		as can't really edit matchingid or subjectid.
+#	test "should nullify study_subject.reference_date if matching patient changes matchingid" do
+#		other   = create_study_subject( :matchingid => '012345' )
+#		study_subject = create_case_study_subject_with_patient
+#		assert_not_nil other.reload.reference_date
+##		study_subject.update_attributes(:matchingid => '012346')
+##	matchingid is now protected
+#		study_subject.matchingid = '012346'
+#		study_subject.save
 #		assert_nil     other.reload.reference_date
+#	end
+#
+#	test "should nullify study_subject.reference_date if matching patient nullifies matchingid" do
+#		other   = create_study_subject( :matchingid => '012345' )
+#		study_subject = create_case_study_subject_with_patient
+#		assert_not_nil other.reload.reference_date
+##		study_subject.update_attributes(:matchingid => nil)
+##	matchingid is now protected
+#		study_subject.matchingid = nil
+#		study_subject.save
+#		assert_nil     other.reload.reference_date
+#	end
+
+	test "should NOT nullify study_subject.reference_date on create if no patient" do
+		other   = create_study_subject( 
+			:reference_date => Date.today,
+			:matchingid     => '012345' )
+		other.reload
+		assert_not_nil other.reference_date
 	end
+
+#	admit_date is now required, so can't nullify admit_date
+#	test "should nullify study_subject.reference_date if matching patient nullifies admit_date (admit_date now required)" do
+#		other   = create_study_subject( :matchingid => '012345' )
+#		study_subject = create_case_study_subject_with_patient
+#		assert_not_nil study_subject.patient.admit_date
+#		assert_not_nil study_subject.reference_date
+#		assert_not_nil other.reload.reference_date
+##	This actually now returns false
+#		assert !study_subject.patient.update_attributes(:admit_date => nil)
+#		assert_not_nil study_subject.patient.reload.admit_date
+#		assert_not_nil study_subject.reference_date
+#		assert_not_nil other.reload.reference_date
+##		assert_nil     other.reload.reference_date
+#	end
 
 protected
 
@@ -241,13 +252,14 @@ protected
 #	end
 
 	#	Used more than once so ...
+	#	And the case ALWAYS has '012345' for subjectid/matchingid
 	def create_case_study_subject_with_patient
 		study_subject = create_case_study_subject( 
-			:matchingid => '12345',		#	NOTE expected
+			:subjectid => '012345',		#	NOTE set subjectid instead
 			:patient_attributes    => Factory.attributes_for(:patient,
 				{ :admit_date => Date.yesterday })).reload
-		assert_not_nil study_subject.reference_date
 		assert_not_nil study_subject.patient.admit_date
+		assert_not_nil study_subject.reference_date
 		assert_equal study_subject.reference_date, study_subject.patient.admit_date
 		study_subject
 	end

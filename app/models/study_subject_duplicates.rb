@@ -87,7 +87,7 @@ base.class_eval do
 	end
 
 	def duplicates(options={})
-		self.class.duplicates({
+		StudySubject.duplicates({
 			:mother_maiden_name => self.mother_maiden_name,
 			:hospital_no => self.hospital_no,
 			:dob => self.dob,
