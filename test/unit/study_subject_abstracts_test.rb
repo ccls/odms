@@ -96,6 +96,10 @@ class StudySubjectAbstractsTest < ActiveSupport::TestCase
 		study_subject = Factory(:study_subject)
 		Factory(:abstract, :study_subject => study_subject)
 		Factory(:abstract, :study_subject => study_subject)
+#
+#	TODO this should break, but doesn't because study_subject hasn't been reloaded.
+#		should probably stub something to actually test this
+#
 		Factory(:abstract, :study_subject => study_subject)
 		study_subject.reload
 		assert_equal 3, study_subject.abstracts.length
