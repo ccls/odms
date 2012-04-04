@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120403204723) do
+ActiveRecord::Schema.define(:version => 20120403224020) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -493,6 +493,16 @@ ActiveRecord::Schema.define(:version => 20120403204723) do
     t.datetime "created_at",                                             :null => false
     t.datetime "updated_at",                                             :null => false
   end
+
+  create_table "context_contextables", :force => true do |t|
+    t.integer  "context_id"
+    t.integer  "contextable_id"
+    t.string   "contextable_type"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "context_contextables", ["context_id", "contextable_id", "contextable_type"], :name => "ccc", :unique => true
 
   create_table "context_data_sources", :force => true do |t|
     t.integer  "context_id"

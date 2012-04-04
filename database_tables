@@ -493,6 +493,17 @@ Table: candidate_controls
 | created_at            | datetime     | NO   |     | NULL    |                |
 | updated_at            | datetime     | NO   |     | NULL    |                |
 +-----------------------+--------------+------+-----+---------+----------------+
+Table: context_contextables
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| context_id       | int(11)      | YES  | MUL | NULL    |                |
+| contextable_id   | int(11)      | YES  |     | NULL    |                |
+| contextable_type | varchar(255) | YES  |     | NULL    |                |
+| created_at       | datetime     | NO   |     | NULL    |                |
+| updated_at       | datetime     | NO   |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
 Table: context_data_sources
 +----------------+----------+------+-----+---------+----------------+
 | Field          | Type     | Null | Key | Default | Extra          |

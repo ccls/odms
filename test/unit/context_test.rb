@@ -24,22 +24,27 @@ class ContextTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		context = create_context
+		context = Factory(:context)
 		assert_equal context.description,
 			"#{context}"
 	end
 
-	test "should have many context_data_sources" do
-		context = Context[:addresses]
-		assert !context.context_data_sources.empty?
-		assert_difference('ContextDataSource.count',1) {
-			context.data_sources << Factory(:data_source)
-		}
+#	test "should have many context_data_sources" do
+#		context = Context[:addresses]
+#		assert !context.context_data_sources.empty?
+#		assert_difference('ContextDataSource.count',1) {
+#			context.data_sources << Factory(:data_source)
+#		}
+#	end
+
+	test "should have many context_contextables" do
+		context = Factory(:context)
+		assert context.context_contextables.empty?
 	end
 
-	test "should have many data_sources through context_data_sources" do
-		context = Context[:addresses]
-		assert !context.data_sources.empty?
+	test "should have many data_sources" do
+		context = Factory(:context)
+		assert context.data_sources.empty?
 	end
 
 protected

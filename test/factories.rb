@@ -220,6 +220,15 @@ Factory.define :context do |f|
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
+Factory.define :context_contextable do |f|
+	f.association :context
+#
+#	This is polymorphic, and data source is just one example
+#	of a contextable.
+#
+	f.association :data_source
+end
+
 Factory.define :context_data_source do |f|
 	f.association :context
 	f.association :data_source
