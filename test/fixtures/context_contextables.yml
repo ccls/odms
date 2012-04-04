@@ -1,0 +1,104 @@
+#
+#	Do not change id or key
+#		'id' could be referenced by existing data
+#		'key' is used in the rails code for searching 
+#
+#	Be Advised.  Yaml fixture labels MUST BE UNIQUE.
+#		If a label is repeated, only the last one will exist.
+#
+#	Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+#
+
+1:
+  id: 1
+  context_id:  1
+  contextable_type:  DataSource
+  contextable_id:  1
+2:
+  id: 2
+  context_id:  1
+  contextable_type:  DataSource
+  contextable_id:  2
+3:
+  id:  3
+  context_id:  1
+  contextable_type:  DataSource
+  contextable_id:  3
+4:
+  id:  4
+  context_id:  1
+  contextable_type:  DataSource
+  contextable_id:  4
+5:
+  id: 5
+  context_id:  2
+  contextable_type:  DataSource
+  contextable_id:  1
+6:
+  id: 6
+  context_id:  2
+  contextable_type:  DataSource
+  contextable_id:  2
+7:
+  id:  7
+  context_id:  2
+  contextable_type:  DataSource
+  contextable_id:  3
+8:
+  id:  8
+  context_id:  2
+  contextable_type:  DataSource
+  contextable_id:  4
+
+
+#	Other Source
+9:
+  id:  9
+  context_id:  1
+  contextable_type:  DataSource
+  contextable_id:  5
+10:
+  id: 10
+  context_id:  2
+  contextable_type:  DataSource
+  contextable_id:  5
+
+
+
+# 20 waivered_raf_1:
+# 21   id: 3 
+# 22   key: wraf1
+# 24 nonwaivered_raf_1:
+# 25   id: 4 
+# 26   key: nwraf1
+
+
+11:
+  id: 11
+  context_id: 3
+  contextable_type:  Language
+  contextable_id:  1
+12:
+  id: 12
+  context_id: 3
+  contextable_type:  Language
+  contextable_id:  2
+13:
+  id: 13
+  context_id: 3
+  contextable_type:  Language
+  contextable_id:  3
+
+
+14:
+  id: 14
+  context_id: 4
+  contextable_type:  Language
+  contextable_id:  1
+15:
+  id: 15
+  context_id: 4
+  contextable_type:  Language
+  contextable_id:  2
+
+
