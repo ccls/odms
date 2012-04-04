@@ -405,6 +405,9 @@ class Abstract < ActiveRecord::Base
 		!merged_by_uid.blank?
 	end
 
+	scope :merged,   where('merged_by_uid IS NOT NULL')
+	scope :unmerged, where('merged_by_uid IS NULL')
+
 protected
 
 	def set_days_since_fields
@@ -478,7 +481,8 @@ protected
 	def delete_unmerged
 		if study_subject and !merged_by_uid.blank?
 			#	use delete and not destroy to preserve the abstracts_count
-			study_subject.unmerged_abstracts.each{|a|a.delete}
+#			study_subject.unmerged_abstracts.each{|a|a.delete}
+			study_subject.abstracts.unmerged.each{|a|a.delete}
 		end
 	end
 
@@ -490,7 +494,8 @@ protected
 	end
 
 	def subject_has_no_merged_abstract
-		if study_subject and study_subject.merged_abstract
+#		if study_subject and study_subject.merged_abstract
+		if study_subject and !study_subject.abstracts.merged.empty?
 			errors.add(:study_subject_id,"Study Subject already has a merged abstract." )
 		end
 	end
