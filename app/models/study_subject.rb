@@ -40,20 +40,9 @@ class StudySubject < ActiveRecord::Base
 	include StudySubjectHomexOutcome
 	include StudySubjectFinders
 
+	#	generates guardian_relationship_is_other? method
 	delegate :is_other?, :to => :guardian_relationship, 
 		:allow_nil => true, :prefix => true 
-
-	#	can lead to multiple piis in db for study_subject
-	#	if not done correctly
-	#	s.update_attributes({"pii_attributes" => { "ssn" => "123456789", 'state_id_no' => 'x'}})
-	#	s.update_attributes({"pii_attributes" => { "ssn" => "987654321", 'state_id_no' => 'a'}})
-	#	Pii.find(:all, :conditions => {:study_subject_id => s.id }).count 
-	#	=> 2
-	#	without the :id attribute, it will create, but NOT destroy
-	#	s.reload.pii  will return the first one (sorts by id)
-	#	s.pii.destroy will destroy the last one !?!?!?
-	#	Make all these require a unique study_subject_id
-	#	Newer versions of rails actually nullify the old record
 
 	accepts_nested_attributes_for :phone_numbers,
 		:reject_if => proc { |attrs| attrs[:phone_number].blank? }
@@ -71,9 +60,9 @@ class StudySubject < ActiveRecord::Base
 	validates_complete_date_for :reference_date, :allow_nil => true
 
 	validates_presence_of :dob, :unless => :is_mother?
-#	changed from allow_nil to allow_blank
 	validates_complete_date_for :dob, :allow_blank => true
 	validates_past_date_for     :dob, :allow_blank => true
+
 	validates_complete_date_for :died_on, :allow_blank => true
 	validates_uniqueness_of     :email, :icf_master_id, :state_id_no, 
 :childid, :studyid,
@@ -92,17 +81,15 @@ class StudySubject < ActiveRecord::Base
 		:message => "You must specify a relationship with 'other relationship' is selected",
 		:if => :guardian_relationship_is_other?
 
-	validates_presence_of :birth_city,
-		:if => :birth_country_is_united_states?
-	validates_presence_of :birth_state,
-		:if => :birth_country_is_united_states?
+	validates_presence_of :birth_city,  :if => :birth_country_is_united_states?
+	validates_presence_of :birth_state, :if => :birth_country_is_united_states?
 
 	validates_length_of :case_control_type, :is => 1, :allow_nil => true
 
 	validates_length_of     :ssn, :maximum => 250, :allow_nil => true
 	validates_uniqueness_of :ssn, :allow_nil => true
 	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
-		:message => "should be formatted ###-##-####", :allow_nil => true
+		:message => "SSN should be formatted ###-##-####", :allow_nil => true
 
  	validates_length_of :birth_year, 
 			:maximum => 4, :allow_blank => true
@@ -153,7 +140,7 @@ class StudySubject < ActiveRecord::Base
 		subject_type_id == self.class.subject_type_mother_id
 	end
 
-	#	Create (or just return mother) a mother subject based on subject's own data.
+	#	Create (or just return) a mother subject based on subject's own data.
 	def create_mother
 		return self if is_mother?
 		#	The mother method will effectively find and itself.
@@ -196,14 +183,6 @@ class StudySubject < ActiveRecord::Base
 
 	def next_control_orderno(grouping='6')
 		return nil unless is_case?
-#		last_control = self.class.find(:first, 
-#			:order => 'orderno DESC', 
-#			:conditions => { 
-#				:subject_type_id   => self.class.subject_type_control_id,
-#				:case_control_type => grouping,
-#				:matchingid        => self.subjectid
-#			}
-#		)
 		last_control = self.class.select('orderno').order('orderno DESC'
 			).where(
 				:subject_type_id   => self.class.subject_type_control_id,

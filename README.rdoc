@@ -2,38 +2,68 @@
 
 
  #	Starting from scratch?
+
+ #	Assuming that ruby 1.8.7 is installed.
+ #	Should probably update to the latest rubygems (1.8.21 as of 20120404)
+ gem update --system
+
+ #	Install bundler which will be managing all of the gems
+ gem install bundler
+
+ #	Install all of the gems
+ bundle install
  
- #	drop existing dev db
+ #	drop existing dev db.
+ #	This is obviously destructive so don't do it 
+ #	unless you know that.
  mysqladmin -u root drop odms_development
  
  #	create new empty dev db
  mysqladmin -u root create odms_development
  
+ #	Run all of the migrations.
  rake db:migrate
  
- #	Install most test fixtures in database
+ #	Install most test fixtures in database.
+ #	This is destructive and will remove all existing
+ #	before adding those in the fixtures.
  rake app:update
  
  #	OR Install zip_code and county csv fixtures in database (takes a while)
  #	( this will do app:update as well )
  rake app:full_update
  
- #	Add expected users and roles (after roles are loaded)
+ #	Add expected users and roles (must be after roles are loaded)
+ #	This isn't destructive, so you can call this as many times as you like.
  rake app:users:add_default
  
  #	Install "production" pages and guides if necessary (as of Mar 25, 2012)
+ #	This is also destructive.  Once in production, you may never
+ #	want to do this again as the pages and guides can be maintained
+ #	through the application.
  rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
  
+ #	start the server (common development mode)
+ script/rails server
 
+ #
+ #	That will use the development environment by default unless
+ #	the environment variable RAILS_ENV is set to something
+ #	or the option -e or --environment is given.
+ #
+ #	In addition, this will default to port 3000 unless
+ #	the -p or --port option is given.
+ #
+ #	This will also run the server in non-Daemon mode
+ #	unless the -d or --daemon option is given.
+ #	Daemon mode effectively starts the server in the background.
+ #
+ #	This will se Webrick by default.  I don't know if it
+ #	make much difference, but you can also specify mongrel.
+ #
 
-
-
- #	Dump database table descriptions
- rake app:db:describe
-
-
-
-
+ #	OR start the server on our production server
+ script/rails server -p 3000 -e production -d mongrel
 
 
 

@@ -28,8 +28,12 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 				icf_master_tracker = IcfMasterTracker.find_or_create_by_master_id(line['master_id'])
 				#	NO BANG. Don't want to raise any errors.
 				successfully_updated = icf_master_tracker.update_attributes(
-					line.to_hash.delete(:master_id))
-#					line.to_hash.delete(:Masterid))
+					line.to_hash.delete_keys!('master_id'))
+
+#	can't do this ... as it returns the value of the deleted key
+#					line.to_hash.delete('master_id'))
+
+
 #
 #	errors = icf_master_tracker.errors.full_messages.to_sentence
 #	These won't be validation errors as there shouldn't be any.

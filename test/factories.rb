@@ -224,9 +224,10 @@ Factory.define :context_contextable do |f|
 	f.association :context
 #
 #	This is polymorphic, and data source is just one example
-#	of a contextable.
+#	of a contextable that it referenced from Context.
+#	Could be any model though.
 #
-	f.association :data_source
+	f.association :contextable, :factory => :data_source
 end
 
 Factory.define :context_data_source do |f|
