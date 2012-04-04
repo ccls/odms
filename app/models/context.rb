@@ -25,5 +25,7 @@ class Context < ActiveRecord::Base
 	has_many :context_contextables
 	has_many :data_sources, :through => :context_contextables, 
 		:source => :contextable, :source_type => 'DataSource'
+	has_many :languages, :through => :context_contextables, 
+		:source => :contextable, :source_type => 'Language'
 
 end

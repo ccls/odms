@@ -2,9 +2,10 @@ namespace :app do
 
 	desc "Load some fixtures to database for application"
 	task :update => :environment do
+#			context_data_sources
 		fixtures = %w(
 			address_types
-			context_data_sources
+			context_contextables
 			contexts
 			data_sources
 			diagnoses

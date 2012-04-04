@@ -17,3 +17,11 @@ phones:
   id: 2 
   key: phones 
   description: phone number combo boxes in ODMS
+waivered_raf_1:
+  id: 3 
+  key: wraf1
+  description: Those things specific to the waivered raf form
+nonwaivered_raf_1:
+  id: 4 
+  key: nwraf1
+  description: Those things specific to the nonwaivered raf form

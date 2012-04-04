@@ -27,7 +27,25 @@
  </p>
 <% end %>
 
-<%= f.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
+<%#= f.subject_languages_select( [ Language['english'], Language['spanish'], Language['other'] ]) %>
+<%#
+
+be advised that Context is also class in rails, so we must prefix
+our Context with our app name
+
+undefined method `[]' for ActionView::Context:Module
+
+doesn't seem true in rails 3 now
+
+Odms::Context only works the first time???
+
+::Context seems to always work
+
+%>
+<%#= f.subject_languages_select( Odms::Context['wraf1'].languages ) %>
+<%#= f.subject_languages_select( Context['wraf1'].languages ) %>
+<%= f.subject_languages_select( ::Context['wraf1'].languages ) %>
+
 
 <% f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
