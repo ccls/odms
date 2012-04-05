@@ -17,7 +17,7 @@ class Addressing < ActiveRecord::Base
 	delegate :is_other?, :to => :data_source, :allow_nil => true, :prefix => true
 	delegate :address_type, :address_type_id,
 		:line_1,:line_2,:unit,:city,:state,:zip,:csz,:county,
-		:to => :address, :allow_nil => true
+			:to => :address, :allow_nil => true
 
 	attr_accessor :current_user
 
@@ -29,14 +29,13 @@ class Addressing < ActiveRecord::Base
 		:maximum => 250, :allow_blank => true
 	validates_presence_of :why_invalid,  :if => :is_not_valid?
 	validates_presence_of :how_verified, :if => :is_verified?
-#	changed from allow_nil to allow_blank
-	validates_complete_date_for :valid_from, :allow_blank => true
-	validates_complete_date_for :valid_to,   :allow_blank => true
+
+	validates_complete_date_for :valid_from, :valid_to,
+		:allow_blank => true
 
 	validates_presence_of :other_data_source, :if => :data_source_is_other?
 
-	validates_inclusion_of :current_address, :is_valid,
-		:address_at_diagnosis,
+	validates_inclusion_of :current_address, :is_valid, :address_at_diagnosis,
 			:in => YNDK.valid_values, :allow_nil => true
 
 	scope :current,  where('current_address IS NOT NULL AND current_address != 2')
@@ -56,8 +55,6 @@ class Addressing < ActiveRecord::Base
 	before_save :nullify_verifier, 
 		:unless => :is_verified?,
 		:if => :is_verified_was
-
-#	after_create :check_state_for_eligibilty
 
 	#	Returns boolean of comparison of is_valid == 2 or 999
 	#	Rails SHOULD convert incoming string params to integer.
@@ -79,6 +76,26 @@ protected
 		self.verified_on = nil
 		self.verified_by_uid = nil
 	end
+
+	#	this will actually create an event on creation as well
+	#	if attributes match
+	def create_subject_moved_event
+		if ['1','true'].include?(subject_moved) &&
+				current_address == YNDK[:no] &&
+				current_address_was != YNDK[:no] &&
+				address.address_type_id == AddressType['residence'].id
+			study_subject.operational_events.create!(
+				:project_id                => Project['ccls'].id,
+				:operational_event_type_id => OperationalEventType['subject_moved'].id,
+				:occurred_on               => Date.today
+			)
+		end
+	end
+
+end
+__END__
+
+#	after_create :check_state_for_eligibilty
 
 #	def check_state_for_eligibilty
 #		if( state != 'CA' && study_subject && 
@@ -113,19 +130,3 @@ protected
 #		end
 #	end
 
-	#	this will actually create an event on creation as well
-	#	if attributes match
-	def create_subject_moved_event
-		if ['1','true'].include?(subject_moved) &&
-				current_address == YNDK[:no] &&
-				current_address_was != YNDK[:no] &&
-				address.address_type_id == AddressType['residence'].id
-			study_subject.operational_events.create!(
-				:project_id                => Project['ccls'].id,
-				:operational_event_type_id => OperationalEventType['subject_moved'].id,
-				:occurred_on               => Date.today
-			)
-		end
-	end
-
-end

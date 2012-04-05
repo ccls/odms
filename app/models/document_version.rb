@@ -1,9 +1,6 @@
 class DocumentVersion < ActiveRecord::Base
 
 	acts_as_list
-#	Don't use default_scope with acts_as_list
-#	default_scope :order => 'position, title ASC'
-
 	belongs_to :document_type
 	belongs_to :language
 	has_many :enrollments
@@ -14,8 +11,8 @@ class DocumentVersion < ActiveRecord::Base
 	validates_length_of   :title, :description, :indicator,
 		:maximum => 250, :allow_blank => true
 
-	validates_complete_date_for :began_use_on, :allow_nil => true
-	validates_complete_date_for :ended_use_on, :allow_nil => true
+	validates_complete_date_for :began_use_on, :ended_use_on, 
+		:allow_nil => true
 
 	#	Return title
 	def to_s

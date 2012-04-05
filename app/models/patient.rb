@@ -19,10 +19,9 @@ class Patient < ActiveRecord::Base
 	validate :diagnosis_date_is_after_dob
 	validate :treatment_began_on_is_after_diagnosis_date
 	validate :subject_is_case
-#	changed from allow_nil to allow_blank
-	validates_complete_date_for :admit_date,         :allow_blank => true
-	validates_complete_date_for :diagnosis_date,     :allow_blank => true
-	validates_complete_date_for :treatment_began_on, :allow_blank => true
+
+	validates_complete_date_for :admit_date, :diagnosis_date, :treatment_began_on, 
+		:allow_blank => true
 
 	validates_length_of :raf_zip, :maximum => 10, :allow_blank => true
 

@@ -5,9 +5,6 @@
 class InstrumentVersion < ActiveRecord::Base
 
 	acts_as_list
-#	Don't use default_scope with acts_as_list
-#	default_scope :order => :position
-
 	acts_like_a_hash
 
 	belongs_to :language
@@ -15,11 +12,11 @@ class InstrumentVersion < ActiveRecord::Base
 	belongs_to :instrument
 	has_many :interviews
 
-	validates_presence_of   :instrument_type_id
-	validates_presence_of   :instrument_type, :if => :instrument_type_id
+	validates_presence_of :instrument_type_id
+	validates_presence_of :instrument_type, :if => :instrument_type_id
 
-	validates_complete_date_for :began_use_on, :allow_nil => true
-	validates_complete_date_for :ended_use_on, :allow_nil => true
+	validates_complete_date_for :began_use_on, :ended_use_on, 
+		:allow_nil => true
 
 	#	Returns description
 	def to_s

@@ -2,10 +2,6 @@
 #	*	operational_event_type_id
 class OperationalEvent < ActiveRecord::Base
 
-#	default_scope :order => 'occurred_on DESC'
-#	default_scope just keeps mucking stuff up
-#	belongs_to :enrollment
-
 	belongs_to :operational_event_type
 #	validates_presence_of :operational_event_type_id
 	validates_presence_of :operational_event_type, :if => :operational_event_type_id

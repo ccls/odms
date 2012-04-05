@@ -29,26 +29,6 @@ class Sample < ActiveRecord::Base
 
 	validates_length_of   :state, :maximum => 250, :allow_blank => true
 
-#	validates_presence_of :sent_to_subject_on,  :if => :collected_at,
-#		:message => "Sent to subject on can't be blank if collected_at"
-#	validates_presence_of :collected_at,        :if => :received_by_ccls_at,
-#		:message => "Collected at can't be blank if received by ccls at"
-#	validates_presence_of :location_id,         :if => :sent_to_lab_on,
-#		:message => "Location can't be blank if sent to lab on"
-#	validates_presence_of :received_by_ccls_at, :if => :sent_to_lab_on,
-#		:message => "Received by CCLS at can't be blank if sent to lab on"
-#	validates_presence_of :sent_to_lab_on,      :if => :received_by_lab_on,
-#		:message => "Sent to lab on can't be blank if received by lab on"
-#	validates_presence_of :received_by_lab_on,  :if => :aliquotted_on,
-#		:message => "Received by lab on can't be blank if aliquotted on"
-
-	#	NOTE I'm not sure how this validation will work for datetimes.
-#
-#	datetimes do seem to validate correctly here,
-#	however my tests do not. 
-#	for some reason the view shows the partial datetime even when the attribute
-#		has been type cast with the holes filled in????
-#
 	validates_complete_date_for :sent_to_subject_at
 	validates_complete_date_for :collected_from_subject_at
 	validates_complete_date_for :received_by_ccls_at
@@ -67,14 +47,10 @@ class Sample < ActiveRecord::Base
 	validates_past_date_for :aliquotted_at
 	validates_past_date_for :receipt_confirmed_at
 
-#	validate :date_chronology
-
 	#	Returns the parent of this sample type
 	def sample_type_parent
 		sample_type.parent
 	end
-
-#	before_save :update_sample_outcome
 
 	after_initialize :set_defaults, :if => :new_record?
 	def set_defaults
@@ -85,6 +61,26 @@ class Sample < ActiveRecord::Base
 	end
 
 protected
+
+end
+__END__
+
+#	validates_presence_of :sent_to_subject_on,  :if => :collected_at,
+#		:message => "Sent to subject on can't be blank if collected_at"
+#	validates_presence_of :collected_at,        :if => :received_by_ccls_at,
+#		:message => "Collected at can't be blank if received by ccls at"
+#	validates_presence_of :location_id,         :if => :sent_to_lab_on,
+#		:message => "Location can't be blank if sent to lab on"
+#	validates_presence_of :received_by_ccls_at, :if => :sent_to_lab_on,
+#		:message => "Received by CCLS at can't be blank if sent to lab on"
+#	validates_presence_of :sent_to_lab_on,      :if => :received_by_lab_on,
+#		:message => "Sent to lab on can't be blank if received by lab on"
+#	validates_presence_of :received_by_lab_on,  :if => :aliquotted_on,
+#		:message => "Received by lab on can't be blank if aliquotted on"
+
+#	validate :date_chronology
+
+#	before_save :update_sample_outcome
 
 #	def date_chronology
 #		errors.add(:collected_at,        "Collected at must be after sent_to_subject_on"
@@ -149,9 +145,6 @@ protected
 #				:sample_outcome_on => date }) if so
 #		end
 #	end
-
-end
-__END__
 
 
 It appears that the "newer" classes know how to compare with the "older" ones, but not vice versa, which makes sense.

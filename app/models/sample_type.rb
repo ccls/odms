@@ -3,10 +3,6 @@
 class SampleType < ActiveRecord::Base
 
 	acts_as_list :scope => :parent_id
-#	default_scope :order => :position
-#	Don't use default_scope with acts_as_list
-#	default_scope :order => 'parent_id, position, description ASC'
-
 	acts_like_a_hash
 
 	has_many :samples

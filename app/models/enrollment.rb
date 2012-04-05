@@ -10,9 +10,7 @@ class Enrollment < ActiveRecord::Base
 	belongs_to :project
 	belongs_to :project_outcome
 	belongs_to :tracing_status
-#	has_many   :operational_events
 	has_many   :follow_ups
-#	has_many   :samples
 
 	attr_protected :study_subject_id, :study_subject
 
@@ -116,13 +114,6 @@ class Enrollment < ActiveRecord::Base
 		:provide_saliva_smp, :receive_study_findings,
 			:in => ADNA.valid_values, :allow_nil => true
 
-#
-#	NOTE: BEWARE of POSSIBLE strings in these comparisons.
-#		Rails SHOULD actually convert the incoming 
-#		params (which are strings) to integers or nil.
-#
-#	Rails 3 does not seem to cast the values to the datatype on creation.
-
 	#	Return boolean of comparison
 	#	true only if is_eligible == 2
 	def is_not_eligible?
@@ -172,11 +163,6 @@ class Enrollment < ActiveRecord::Base
 		is_complete == YNDK[:yes]	#	1
 	end
 
-
-	#	use after_save, rather than before_save,
-	#	so that enrollment exists and can be used to create
-	# the operational event as the enrollment is validated
-#	before_save :create_enrollment_update,
 	after_save :create_enrollment_update,
 		:if => :is_complete_changed?
 

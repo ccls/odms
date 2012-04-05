@@ -2,8 +2,6 @@
 class PhoneNumber < ActiveRecord::Base
 
 	acts_as_list :scope => :study_subject_id
-#	Don't use default_scope with acts_as_list
-#	default_scope :order => :position
 
 	belongs_to :study_subject
 	attr_protected :study_subject_id, :study_subject
