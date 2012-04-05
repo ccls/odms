@@ -1,3 +1,7 @@
+#
+#	The ICF Master Tracker Update simply takes an uploaded file
+#	for parsing to create and update ICF Master Tracker records.
+#
 class IcfMasterTrackerUpdate < ActiveRecord::Base
 
 	has_attached_file :csv_file,
@@ -14,8 +18,6 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 			(f=FasterCSV.open( self.csv_file.path, 'rb',{
 				:headers => true })).each do |line|
 
-#	"Masterid","Motherid","Record_Owner","Datereceived","Lastatt","Lastdisp","Currphone","Vacauthrecd","Recollect","Needpreincentive","Active_Phone","Recordsentformatching","Recordreceivedfrommatching","Sentpreincentive","Releasedtocati","Confirmedcaticontact","Refused","Deceasednotification","Eligible","Confirmationpacketsent","Catiprotocolexhausted","Newphonenumreleasedtocati","Pleanotificationsent","Casereturnedtoberkeleyfornewinf","Casereturnedfromberkeley","Caticomplete","Kitmothersent","Kitinfantsent","Kitchildsent","Kitadolescentsent","Kitmotherrefusedcode","Kitchildrefusedcode","Noresponsetoplea","Responsereceivedfromplea","Senttoinpersonfollowup","Kitmotherrecd","Kitchildrecvd","Thankyousent","Physrequestsent","Physresponsereceived"
-
 #
 #	The IcfMasterTracker will include an after_save or something that will
 #	determine what has changed and update appropriately.  It may also
@@ -24,8 +26,10 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 #	table, perhaps add a successfully_updated_models flag which could
 #	be used?
 #
-#				icf_master_tracker = IcfMasterTracker.find_or_create_by_Masterid(line['Masterid'])
-				icf_master_tracker = IcfMasterTracker.find_or_create_by_master_id(line['master_id'])
+
+				icf_master_tracker = IcfMasterTracker.find_or_create_by_master_id(
+					line['master_id'])
+
 				#	NO BANG. Don't want to raise any errors.
 				successfully_updated = icf_master_tracker.update_attributes(
 					line.to_hash.delete_keys!('master_id'))

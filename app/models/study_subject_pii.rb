@@ -57,21 +57,6 @@ base.class_eval do
 		( guardiansname.blank? ) ? '[name not available]' : guardiansname
 	end
 
-#
-#	TODO I hate this.  It is revolting.  More?  Yes, please.
-#
-#	#	I don't know if I still need this
-#	#	commented out 20101014
-#	#	uncommented 20101014
-#
-#	#	commented out again 20120322.  Not using MySQL.  Is this relevant any more?
-#
-#	def dob	#	overwrite default dob method for formatting
-#		#	added to_date to fix sqlite3 quirk which doesn't	(why am I using sqlite3?)  old comment?
-#		#	differentiate between times and dates.
-#		read_attribute(:dob).try(:to_s,:dob).try(:to_date)
-#	end
-
 end	#	class_eval
 end	#	included
 end	#	StudySubjectPii

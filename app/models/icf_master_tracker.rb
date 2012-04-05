@@ -1,9 +1,12 @@
+#
+#	The ICF Master Tracker table should be an exact duplicate
+#	of ICF's Master Tracker table.
+#
+#	When a record in this table is updated, a new record
+#	in ICF Master Tracker Changes should be created
+#	documenting the change.
+#
 class IcfMasterTracker < ActiveRecord::Base
-
-#	can I attr_protected for update only?
-#	or perhaps find_or_create_by_masterid?
-#	Of course that may create the new_tracker_record
-#	And then on update it would create all the others?
 
 	validates_presence_of   :master_id
 	validates_uniqueness_of :master_id, :allow_blank => true
@@ -36,19 +39,12 @@ class IcfMasterTracker < ActiveRecord::Base
 
 	def attach_study_subject
 		unless study_subject_id
-#	if there is no subject found, nil.id raises an error
-#	perhaps use try(:id) instead
-#			self.study_subject_id = StudySubject.find_by_icf_master_id(self.master_id).id
-#			self.study_subject = StudySubject.find_by_icf_master_id(self.master_id)
-#			self.study_subject = StudySubject.where(
-#				:icf_master_id => self.master_id).limit(1).first
 			self.study_subject_id = StudySubject.where(
 				:icf_master_id => self.master_id).limit(1).first.try(:id)
 		end
 	end
 
 	def ignorable_changes
-#		%w{id flagged_for_update study_subject_id master_id created_at updated_at}
 		%w{ id created_at updated_at
 			flagged_for_update last_update_attempt_errors last_update_attempted_at }
 	end
@@ -81,32 +77,32 @@ class IcfMasterTracker < ActiveRecord::Base
 		end
 	end
 
-	def self.update_models_flagged_for_update
-		puts "Searching for changed Icf Master Tracker records."
-		changed_records = self.have_changed
-		if changed_records.empty?
-			puts "- Found no changed records."
-		else
-			puts "- Found #{changed_records} changed records."
-			changed_records.each do |record|
-#				record.last_update_attempted_at = Time.now
-#				unless record.study_subject_id.nil?
-#					try to update models
-#					if successful
-#						record.flagged_for_update = false
-#						record.last_update_attempt_errors = nil
-#					else
-#						set last_update_attempt_error
-#						leave flagged_for_update as true
-#					end
-#				else
-#					record.last_update_attempt_errors = "study_subject is nil.  Nothing to update."
-#					leave flagged_for_update as true
-#				end
-#				record.save
-			end
-		end
-	end
+#	def self.update_models_flagged_for_update
+#		puts "Searching for changed Icf Master Tracker records."
+#		changed_records = self.have_changed
+#		if changed_records.empty?
+#			puts "- Found no changed records."
+#		else
+#			puts "- Found #{changed_records} changed records."
+#			changed_records.each do |record|
+##				record.last_update_attempted_at = Time.now
+##				unless record.study_subject_id.nil?
+##					try to update models
+##					if successful
+##						record.flagged_for_update = false
+##						record.last_update_attempt_errors = nil
+##					else
+##						set last_update_attempt_error
+##						leave flagged_for_update as true
+##					end
+##				else
+##					record.last_update_attempt_errors = "study_subject is nil.  Nothing to update."
+##					leave flagged_for_update as true
+##				end
+##				record.save
+#			end
+#		end
+#	end
 
 
 

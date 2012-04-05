@@ -13,14 +13,4 @@ class StudySubjectInterviewsTest < ActiveSupport::TestCase
 		} }
 	end
 
-#	test "should not have hx_interview" do
-#		study_subject = create_study_subject
-#		assert_nil study_subject.hx_interview
-#	end
-#
-#	test "should have hx_interview" do
-#		study_subject = create_hx_interview_study_subject
-#		assert_not_nil study_subject.hx_interview
-#	end
-
 end

@@ -1,5 +1,12 @@
-#	==	requires
-#	*	subject_type_id
+#
+#	The StudySubject is the heart of our little application.
+#	It contains a ridiculous number of associations, validations,
+#	delegations, etc.  I am trying to organize it all, but due
+#	to the volume, this may be a bit challenging.  I am trying to
+#	group code related to specific associations into their own
+#	files in hopes of making it simpler to follow.  In addition,
+#	there are matching test classes.
+#
 class StudySubject < ActiveRecord::Base
 
 	class NotTwoAbstracts < StandardError; end
@@ -17,12 +24,6 @@ class StudySubject < ActiveRecord::Base
 	has_many :interviews
 	belongs_to :guardian_relationship, :class_name => 'SubjectRelationship'
 	has_many :abstracts
-
-	#	This is purely an attempt at organization.
-	#	Initially, this was by purpose, but now modifying to
-	#	be by association or topic as this seems more logical.
-	#	Also trying to map this same organization in the tests
-	#	so that autotest triggers the more likely effected tests.
 
 	include StudySubjectPatient
 	include StudySubjectPii
@@ -48,6 +49,10 @@ class StudySubject < ActiveRecord::Base
 		:reject_if => proc { |attrs| attrs[:phone_number].blank? }
 	accepts_nested_attributes_for :gift_cards
 
+##################################################
+#
+#	Begin validations
+#
 	validates_presence_of :subject_type_id
 	validates_presence_of :subject_type, :if => :subject_type_id
 
@@ -117,6 +122,10 @@ class StudySubject < ActiveRecord::Base
 
 	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
 			:in => YNDK.valid_values, :allow_nil => true
+#
+#	End validations
+#
+##################################################
 
 	after_initialize :set_defaults, :if => :new_record?
 	def set_defaults
@@ -124,8 +133,6 @@ class StudySubject < ActiveRecord::Base
 		self.vital_status_id ||= VitalStatus['living'].id
 #		self.vital_status ||= VitalStatus['living']
 	end
-
-
 
 	def to_s
 		[childid,'(',studyid,full_name,')'].compact.join(' ')
@@ -159,7 +166,7 @@ class StudySubject < ActiveRecord::Base
 		else
 			new_mother = StudySubject.new do |s|
 				s.subject_type_id = StudySubject.subject_type_mother_id
-				s.vital_status_id = VitalStatus['living'].id
+				s.vital_status_id = VitalStatus['living'].id	 #	default
 				s.sex = 'F'
 				s.hispanicity_id = mother_hispanicity_id
 				s.first_name  = mother_first_name
@@ -177,6 +184,10 @@ class StudySubject < ActiveRecord::Base
 		end
 	end
 
+	#	We probably don't want to auto assign icf_master_ids 
+	#		as it would add icf_master_ids to the old data.
+	#	Perhaps, after the old data is imported, but that
+	#		will definitely break a bunch of existing tests.
 	def assign_icf_master_id
 		if icf_master_id.blank?
 			next_icf_master_id = IcfMasterId.next_unused.first

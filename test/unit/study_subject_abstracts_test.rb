@@ -55,6 +55,10 @@ class StudySubjectAbstractsTest < ActiveSupport::TestCase
 		Factory(:abstract, :study_subject => study_subject)
 		Factory(:abstract, :study_subject => study_subject)
 		study_subject.reload
+#
+#	Creating 3 abstracts should not work, but since the
+#	subject was not reloaded, if will work.
+#
 		assert_equal 3, study_subject.abstracts.length
 		assert_raise(StudySubject::NotTwoAbstracts) {
 			study_subject.abstracts_the_same?

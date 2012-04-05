@@ -115,31 +115,6 @@ config.active_record.include_root_in_json = false
 
 == Rails 3 Upgrade TODOs
 
-
-* I'll need to check on this, but for live_birth_date and icf_master_tracker updates, I do assign both the url and the path
-
- Post-install message from paperclip:
- ##################################################
- #  NOTE FOR UPGRADING FROM PRE-3.0 VERSION       #
- ##################################################
- 
- Paperclip 3.0 introduces a non-backward compatible change in your attachment
- path. This will help to prevent attachment name clashes when you have
- multiple attachments with the same name. If you didn't alter your
- attachment's path and are using Paperclip's default, you'll have to add
- `:path` and `:url` to your `has_attached_file` definition. For example:
- 
-     has_attached_file :avatar,
-       :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
-       :url => "/system/:attachment/:id/:style/:filename"
-
-* test paperclip again
-* test paperclip upload in production
-
-
-
-
-
 * rake test:coverage
 
 * resolve all commented out tests
@@ -252,6 +227,19 @@ Repeated joins seem to be ignored.  Yay!
 I do not like this as it takes precedence over your search unless you add 'unscoped' to your chain.  It has caused me much grief.  It caused grief with acts_as_list not properly scoping.  It caused gried with my ZipCode limit not destroying all when I told it to destroy_all because it had "limit(10)" as part of its default_scope.  Conclusion.  DO NOT USE DEFAULT_SCOPE.
 
 
+=== sprintf and integers ( not just rails 3 )
+
+CANNOT have leading 0's in a string that is being printed as a decimal as ruby thinks its octal and converts.  Unless, of course, converting to octal was the intention.
+
+ >> sprintf("%06d","0001234")
+ => "000668"
+
+CANNOT have leading 0's and include and 8 or 9 in a string that is being printed as a decimal as ruby thinks its octal and 8 and 9 are invalid octal characters so convert back to Integer first.
+
+ >> sprintf("%06d","0001280")
+ ArgumentError: invalid value for Integer: "0001280"
+ from (irb):24:in `sprintf'
+ from (irb):24
 
 
 
@@ -267,7 +255,14 @@ As this code is stored in publicly accessible repositories,
 DO NOT UNDER ANY CIRCUMSTANCES PUT ANY REAL SUBJECT DATA IN THE CODE!
 
 
-
+Developers will certainly disagree with what to test and what not to test.
+I test A LOT.  I test too much, perhaps.  So much so that changing one
+thing can cause tests to fail way over there.  I would rather that happen
+than having the app fail.  I have tried to focus my tests so things are 
+clearer, but there is certainly much more work to do in this arena.  There
+are over 7000 tests and 27000 assertions as of right now.  23000 lines of
+code in the app and tests.  It has become a daunting task to do much of 
+anything without some repercussions.
 
 
 

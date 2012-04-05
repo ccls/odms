@@ -90,18 +90,14 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :newid, :maximum => 6 )
 	assert_should_require_attribute_length( :birth_year, :maximum => 4 )
 
-#	assert_should_require :hospital_no
-#	assert_should_not_require :hospital_no
-
 	test "explicit Factory study_subject test" do
-#		assert_difference('VitalStatus.count',1) {
 		assert_difference('SubjectType.count',1) {
 		assert_difference('StudySubject.count',1) {
 			study_subject = Factory(:study_subject)
 			assert_not_nil study_subject.subject_type
 			assert_not_nil study_subject.vital_status
 			assert_not_nil study_subject.sex
-		} } #}
+		} }
 	end
 
 	test "explicit Factory case study_subject test" do
@@ -232,13 +228,12 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "should create study_subject" do
-#		assert_difference( 'VitalStatus.count', 1 ){
 		assert_difference( 'SubjectType.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} } #}
+		} }
 	end
 
 	test "should create study_subject and accept_nested_attributes_for phone_numbers" do
@@ -288,15 +283,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert_equal   study_subject.vital_status_id, VitalStatus['living'].id
 		assert_equal   study_subject.vital_status, VitalStatus['living']
 	end
-
-#	test "should NOT destroy dust_kit with study_subject" do
-#		study_subject = create_study_subject
-#		Factory(:dust_kit, :study_subject => study_subject)
-#		assert_difference('StudySubject.count',-1) {
-#		assert_difference('DustKit.count',0) {
-#			study_subject.destroy
-#		} }
-#	end
 
 	#
 	#	The dependency relationships are left undefined for most models.
@@ -360,17 +346,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 			@study_subject.destroy
 		} }
 	end
-
-#	test "should have many samples through enrollments" do
-#		assert_difference('StudySubject.count',1) {
-#		assert_difference('Enrollment.count',2) {
-#		assert_difference('Sample.count',1) {
-#			sample = Factory(:sample)
-##			subject = sample.enrollment.study_subject
-#			subject = sample.study_subject
-#			assert subject.samples.include?(sample)
-#		} } }
-#	end
 
 	test "should have and belong to many analyses" do
 		study_subject = create_study_subject
@@ -531,14 +506,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert_nil study_subject.mother
 		assert_equal study_subject, study_subject.create_mother
 	end
-
-#	test "should not create mother for subject without identifier" do
-#		study_subject = Factory(:study_subject)
-#		assert_nil study_subject.identifier
-##	TODO raise an error?
-##		mother = study_subject.create_mother
-##flunk
-#	end
 
 	test "should get control subjects for case subject" do
 		study_subject = create_complete_case_study_subject

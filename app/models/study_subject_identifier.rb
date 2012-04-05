@@ -127,20 +127,8 @@ protected
 #	Would this be faster?
 #
 	def generate_subjectid
-#		subjectids = ( (1..999999).to_a - StudySubject.find(:all,:select => 'subjectid'
-#			).collect(&:subjectid).collect(&:to_i) )
 		subjectids = ( (1..999999).to_a - StudySubject.select('subjectid'
 			).collect(&:subjectid).collect(&:to_i) )
-		#	CANNOT have leading 0' as it thinks its octal and converts
-		#>> sprintf("%06d","0001234")
-		#=> "000668"
-		#
-		# CANNOT have leading 0's and include and 8 or 9 as it thinks its octal
-		# so convert back to Integer first
-		#>> sprintf("%06d","0001280")
-		#ArgumentError: invalid value for Integer: "0001280"
-		# from (irb):24:in `sprintf'
-		# from (irb):24
 		sprintf("%06d",subjectids[rand(subjectids.length)].to_i)
 	end
 
