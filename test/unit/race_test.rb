@@ -16,14 +16,14 @@ class RaceTest < ActiveSupport::TestCase
 		assert_difference('Race.count',1) {
 			race = Factory(:race)
 			assert_match /Key\d*/,  race.key
-#			assert_match /Race\d*/, race.code
 			assert_match /Desc\d*/, race.description
 		}
 	end
 
-	test "should return name as to_s" do
-		race = create_race
-		assert_equal race.name, "#{race}"
+	test "should return description as to_s" do
+		race = Race.new(:description => 'testing')
+		assert_equal race.description, 'testing'
+		assert_equal race.description, "#{race}"
 	end
 
 protected

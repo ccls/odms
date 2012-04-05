@@ -41,21 +41,19 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 	end
 
 	test "should require interview_outcome_on if interview_outcome_id?" do
-		assert_difference( "HomexOutcome.count", 0 ) do
-			homex_outcome = create_homex_outcome(
-				:interview_outcome_on => nil,
-				:interview_outcome_id => InterviewOutcome.first.id)
-			assert homex_outcome.errors.include?(:interview_outcome_on)
-		end
+		homex_outcome = HomexOutcome.new(
+			:interview_outcome_on => nil,
+			:interview_outcome_id => InterviewOutcome.first.id)
+		assert !homex_outcome.valid?
+		assert homex_outcome.errors.include?(:interview_outcome_on)
 	end
 
 	test "should require sample_outcome_on if sample_outcome_id?" do
-		assert_difference( "HomexOutcome.count", 0 ) do
-			homex_outcome = create_homex_outcome(
-				:sample_outcome_on => nil,
-				:sample_outcome_id => SampleOutcome.first.id)
-			assert homex_outcome.errors.include?(:sample_outcome_on)
-		end
+		homex_outcome = HomexOutcome.new(
+			:sample_outcome_on => nil,
+			:sample_outcome_id => SampleOutcome.first.id)
+		assert !homex_outcome.valid?
+		assert homex_outcome.errors.include?(:sample_outcome_on)
 	end
 
 	test "should create operational event when interview scheduled" do

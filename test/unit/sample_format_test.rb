@@ -18,7 +18,8 @@ class SampleFormatTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		sample_format = create_sample_format
+		sample_format = SampleFormat.new(:description => 'testing')
+		assert_equal sample_format.description, 'testing'
 		assert_equal sample_format.description, "#{sample_format}"
 	end
 

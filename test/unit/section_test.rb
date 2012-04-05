@@ -19,7 +19,8 @@ class SectionTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		section = create_section
+		section = Section.new(:description => 'testing')
+		assert_equal section.description, 'testing'
 		assert_equal section.description, "#{section}"
 	end
 

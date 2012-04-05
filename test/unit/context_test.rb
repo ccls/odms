@@ -24,9 +24,9 @@ class ContextTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		context = Factory(:context)
-		assert_equal context.description,
-			"#{context}"
+		context = Context.new(:description => 'testing')
+		assert_equal context.description, 'testing'
+		assert_equal context.description, "#{context}"
 	end
 
 	test "should have many context_contextables" do

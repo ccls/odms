@@ -29,7 +29,8 @@ class DiagnosisTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		diagnosis = create_diagnosis
+		diagnosis = Diagnosis.new(:description => 'testing')
+		assert_equal diagnosis.description, 'testing'
 		assert_equal diagnosis.description, "#{diagnosis}"
 	end
 

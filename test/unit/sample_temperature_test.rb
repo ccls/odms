@@ -18,7 +18,8 @@ class SampleTemperatureTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		sample_temperature = create_sample_temperature
+		sample_temperature = SampleTemperature.new(:description => 'testing')
+		assert_equal sample_temperature.description, 'testing'
 		assert_equal sample_temperature.description, "#{sample_temperature}"
 	end
 

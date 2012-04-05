@@ -31,7 +31,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
-
 	assert_should_require_attribute_length( :related_patid, :is => 4 )
 	assert_should_require_attribute_length( :state_registrar_no, :maximum => 25 )
 	assert_should_require_attribute_length( :local_registrar_no, :maximum => 25 )
@@ -44,7 +43,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		:mother_maiden_name,
 		:rejection_reason,
 			:maximum => 250 )
-	assert_should_require_attributes_not_nil( :sex )
+	assert_should_require_attributes_not_nil( :sex, :reject_candidate )
 
 	test "explicit Factory candidate_control test" do
 		assert_difference('CandidateControl.count',1) {
@@ -59,34 +58,23 @@ class CandidateControlTest < ActiveSupport::TestCase
 	end
 
 	test "should require rejection_reason if reject_candidate is true" do
-		assert_difference("CandidateControl.count",0) {
-			candidate_control = Factory.build(:candidate_control,
-				:reject_candidate => true,
-				:rejection_reason => nil)
-			candidate_control.save
-			assert candidate_control.errors.matching?(:rejection_reason, "can't be blank")
-		}
+		candidate_control = CandidateControl.new(
+			:reject_candidate => true,
+			:rejection_reason => nil)
+		assert !candidate_control.valid?
+		assert candidate_control.errors.matching?(:rejection_reason, "can't be blank")
 	end
 
 	test "should not require rejection_reason if reject_candidate is false" do
-		assert_difference("CandidateControl.count",1) {
-			candidate_control = Factory(:candidate_control,
-				:reject_candidate => false,
-				:rejection_reason => nil)
-		}
-	end
-
-	test "should require reject_candidate is not nil" do
-		assert_difference("CandidateControl.count",0) {
-			candidate_control = Factory.build(:candidate_control, :reject_candidate => nil)
-			candidate_control.save
-			assert candidate_control.errors.matching?(:reject_candidate,
-				'is not included in the list')
-		}
+		candidate_control = CandidateControl.new(
+			:reject_candidate => false,
+			:rejection_reason => nil)
+		candidate_control.valid?
+		assert !candidate_control.errors.include?(:rejection_reason)
 	end
 
 	test "should return join of candidate's name" do
-		candidate_control = Factory(:candidate_control,
+		candidate_control = CandidateControl.new(
 			:first_name  => "John",
 			:middle_name => "Michael",
 			:last_name   => "Smith" )
@@ -94,7 +82,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 	end
 
 	test "should return join of candidate's name with blank middle name" do
-		candidate_control = Factory(:candidate_control,
+		candidate_control = CandidateControl.new(
 			:first_name  => "John",
 			:middle_name => "",
 			:last_name   => "Smith" )
@@ -102,7 +90,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 	end
 
 	test "should return join of candidate's mother's name" do
-		candidate_control = Factory(:candidate_control,
+		candidate_control = CandidateControl.new(
 			:mother_first_name  => "Jane",
 			:mother_middle_name => "Anne",
 			:mother_last_name   => "Smith" )
@@ -110,7 +98,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 	end
 
 	test "should return join of candidate's mother's name with blank mother's middle name" do
-		candidate_control = Factory(:candidate_control,
+		candidate_control = CandidateControl.new(
 			:mother_first_name  => "Jane",
 			:mother_middle_name => "",
 			:mother_last_name   => "Smith" )

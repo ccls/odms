@@ -18,7 +18,8 @@ class ProjectOutcomeTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		project_outcome = create_project_outcome
+		project_outcome = ProjectOutcome.new(:description => 'testing')
+		assert_equal project_outcome.description, 'testing'
 		assert_equal project_outcome.description,
 			"#{project_outcome}"
 	end

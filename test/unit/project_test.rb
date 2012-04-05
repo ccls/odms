@@ -9,12 +9,10 @@ class ProjectTest < ActiveSupport::TestCase
 	assert_should_have_many( :instrument_types, :enrollments, :instruments, 
 		:samples, :gift_cards, :operational_events )
 
-
 	attributes = %w( position began_on ended_on eligibility_criteria )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
-
 
 	assert_should_require_attribute_length( :eligibility_criteria, :maximum => 65000 )
 	assert_should_act_as_list
@@ -30,7 +28,8 @@ class ProjectTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		project = create_project
+		project = Project.new(:description => 'testing')
+		assert_equal project.description, 'testing'
 		assert_equal project.description, "#{project}"
 	end
 
@@ -49,7 +48,7 @@ class ProjectTest < ActiveSupport::TestCase
 		study_subject = create_study_subject
 		unenrolled = Project.unenrolled_projects(study_subject)
 		assert_not_nil unenrolled
-		assert unenrolled.is_a?(Array)
+		assert unenrolled.all.is_a?(Array)
 		assert_equal 10, Project.count
 		#	due to the auto-enrollment in ccls, there are only 9 now
 		assert_equal 9, unenrolled.length

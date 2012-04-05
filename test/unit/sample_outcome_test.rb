@@ -18,9 +18,9 @@ class SampleOutcomeTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		sample_outcome = create_sample_outcome(:description => "Description")
-		assert_equal sample_outcome.description,
-			"#{sample_outcome}"
+		sample_outcome = SampleOutcome.new(:description => "testing")
+		assert_equal sample_outcome.description, 'testing'
+		assert_equal sample_outcome.description, "#{sample_outcome}"
 	end
 
 protected

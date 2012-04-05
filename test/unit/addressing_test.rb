@@ -12,16 +12,10 @@ class AddressingTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
-	assert_should_initially_belong_to( 
-		:study_subject, 
-		:address )
-	assert_should_require_attribute_length( 
-		:why_invalid, 
-		:how_verified, 
+	assert_should_initially_belong_to( :study_subject, :address )
+	assert_should_require_attribute_length( :why_invalid, :how_verified, 
 			:maximum => 250 )
-	assert_requires_complete_date( 
-		:valid_from, 
-		:valid_to )
+	assert_requires_complete_date( :valid_from, :valid_to )
 
 	#	Someone always has to think that they are special!
 	assert_should_accept_only_good_values( :current_address,
@@ -42,7 +36,8 @@ class AddressingTest < ActiveSupport::TestCase
 			assert_not_nil addressing.study_subject
 			assert_equal 1, addressing.is_valid
 #			assert_equal 2, addressing.is_verified
-			assert         !addressing.is_verified	#	noticed that this is NOT int for YNDK, but boolean
+			#	noticed that this is NOT int for YNDK, but boolean
+			assert         !addressing.is_verified	
 		} } }
 	end
 
@@ -95,37 +90,18 @@ class AddressingTest < ActiveSupport::TestCase
 		assert_equal 1, addressing.current_address
 	end
 
-	#
-	# addressing uses accepts_attributes_for :address
-	# so the addressing can't require address_id on create
-	# or this test fails.
-	#
-#	test "should require address on update" do
-#		assert_difference("Addressing.count", 1 ) do
-#			addressing = create_addressing(:address_id => nil)
-#			addressing.reload.update_attributes(
-#				:created_at => Date.yesterday )
-#			assert addressing.errors.include?(:address)
-#		end
-#	end
-
-
 	test "should require other_data_source if data_source is other" do
-		assert_difference( "Addressing.count", 0 ) {
-#		assert_difference( "Address.count", 0 ) {
-			#	The factory will create the associations regardless
-			#	so an Address and StudySubject gets created regardless
-			addressing = create_addressing( :data_source => DataSource['Other'] )
-			assert addressing.errors.matching?(:other_data_source, "can't be blank")
-		} # }
+		#	The factory will create the associations regardless
+		#	so an Address and StudySubject gets created regardless
+		addressing = Addressing.new( :data_source => DataSource['Other'] )
+		assert !addressing.valid?
+		assert addressing.errors.matching?(:other_data_source, "can't be blank")
 	end
 
 	test "should NOT require other_data_source if data_source is not other" do
-		assert_difference( "Address.count", 1 ) {
-		assert_difference( "Addressing.count", 1 ) {
-			addressing = create_addressing( :data_source => DataSource['raf'])
-			assert !addressing.errors.matching?(:other_data_source, "can't be blank")
-		} }
+		addressing = Addressing.new( :data_source => DataSource['raf'])
+		addressing.valid?
+		assert !addressing.errors.matching?(:other_data_source, "can't be blank")
 	end
 
 	test "should require a valid address with address_attributes" do
@@ -138,38 +114,34 @@ class AddressingTest < ActiveSupport::TestCase
 
 	[:yes,:nil].each do |yndk|
 		test "should NOT require why_invalid if is_valid is #{yndk}" do
-			assert_difference("Addressing.count", 1 ) do
-				addressing = create_addressing(:is_valid => YNDK[yndk])
-			end
+			addressing = Addressing.new(:is_valid => YNDK[yndk])
+			addressing.valid?
+			assert !addressing.errors.include?(:why_invalid)
 		end
 	end
 	[:no,:dk].each do |yndk|
 		test "should require why_invalid if is_valid is #{yndk}" do
-			assert_difference("Addressing.count", 0 ) do
-				addressing = create_addressing(:is_valid => YNDK[yndk])
-				assert addressing.errors.include?(:why_invalid)
-			end
+			addressing = Addressing.new(:is_valid => YNDK[yndk])
+			assert !addressing.valid?
+			assert addressing.errors.include?(:why_invalid)
 		end
 	end
 
 	test "should NOT require how_verified if is_verified is false" do
-		assert_difference("Addressing.count", 1 ) do
-			addressing = create_addressing(:is_verified => false)
-		end
+		addressing = Addressing.new(:is_verified => false)
+		addressing.valid?
+		assert !addressing.errors.include?(:how_verified)
 	end
 	test "should require how_verified if is_verified is true" do
-		assert_difference("Addressing.count", 0 ) do
-			addressing = create_addressing(:is_verified => true)
-			assert addressing.errors.include?(:how_verified)
-		end
+		addressing = Addressing.new(:is_verified => true)
+		assert !addressing.valid?
+		assert addressing.errors.include?(:how_verified)
 	end
-
 
 	test "should NOT set verified_on if is_verified NOT changed to true" do
 		addressing = create_addressing(:is_verified => false)
 		assert_nil addressing.verified_on
 	end
-
 
 	test "should set verified_on if is_verified changed to true" do
 		addressing = create_addressing(:is_verified => true,
@@ -214,7 +186,6 @@ class AddressingTest < ActiveSupport::TestCase
 		addressing.update_attributes(:is_verified => false)
 		assert_nil addressing.verified_by_uid
 	end
-
 
 	test "should only return current addressings" do
 		create_addressing(:current_address => YNDK[:yes])
@@ -311,7 +282,7 @@ class AddressingTest < ActiveSupport::TestCase
 	%w( address_type address_type_id
 			line_1 line_2 unit city state zip csz county ).each do |method_name|
 		test "should respond to #{method_name}" do
-			addressing = create_addressing
+			addressing = Addressing.new
 			assert addressing.respond_to?(method_name)
 		end
 	end

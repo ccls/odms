@@ -20,7 +20,8 @@ class RefusalReasonTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		refusal_reason = create_refusal_reason
+		refusal_reason = RefusalReason.new(:description => 'testing')
+		assert_equal refusal_reason.description, 'testing'
 		assert_equal refusal_reason.description, "#{refusal_reason}"
 	end
 

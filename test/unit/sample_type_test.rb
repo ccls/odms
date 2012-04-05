@@ -15,9 +15,10 @@ class SampleTypeTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position, :parent_id )
 
 	test "should return description as to_s" do
-		object = create_object(:description => "Description")
-		assert_equal object.description,
-			"#{object}"
+		sample_type = SampleType.new(:description => "testing")
+		assert_equal sample_type.description, 'testing'
+		assert_equal sample_type.description,
+			"#{sample_type}"
 	end
 
 	test "explicit Factory sample_type test" do

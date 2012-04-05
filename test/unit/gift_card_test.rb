@@ -30,7 +30,8 @@ class GiftCardTest < ActiveSupport::TestCase
 	end
 
 	test "should return number as to_s" do
-		gift_card = create_gift_card
+		gift_card = GiftCard.new(:number => '123456789')
+		assert_equal gift_card.number, '123456789'
 		assert_equal gift_card.number, "#{gift_card}"
 	end
 

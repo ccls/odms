@@ -29,23 +29,22 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 	end
 
 	test "should require instrument_type" do
-		assert_difference( "InstrumentVersion.count", 0 ) do
-			instrument_version = create_instrument_version( :instrument_type => nil)
-			assert !instrument_version.errors.include?(:instrument_type)
-			assert  instrument_version.errors.matching?(:instrument_type_id,"can't be blank")
-		end
+		instrument_version = InstrumentVersion.new( :instrument_type => nil)
+		assert !instrument_version.valid?
+		assert !instrument_version.errors.include?(:instrument_type)
+		assert  instrument_version.errors.matching?(:instrument_type_id,"can't be blank")
 	end
 
 	test "should require valid instrument_type" do
-		assert_difference( "InstrumentVersion.count", 0 ) do
-			instrument_version = create_instrument_version( :instrument_type_id => 0)
-			assert !instrument_version.errors.include?(:instrument_type_id)
-			assert  instrument_version.errors.matching?(:instrument_type,"can't be blank")
-		end
+		instrument_version = InstrumentVersion.new( :instrument_type_id => 0)
+		assert !instrument_version.valid?
+		assert !instrument_version.errors.include?(:instrument_type_id)
+		assert  instrument_version.errors.matching?(:instrument_type,"can't be blank")
 	end
 
 	test "should return description as to_s" do
-		instrument_version = create_instrument_version
+		instrument_version = InstrumentVersion.new(:description => 'testing')
+		assert_equal instrument_version.description, 'testing'
 		assert_equal instrument_version.description, "#{instrument_version}"
 	end
 

@@ -18,9 +18,7 @@ class PersonTest < ActiveSupport::TestCase
 #	TODO assert_should_have_many( :interviews, :foreign_key => :interviewer_id )
 
 	assert_should_require_attribute_length( 
-		:first_name, 
-		:last_name, 
-		:honorific, 
+		:first_name, :last_name, :honorific, 
 			:maximum => 250 )
 
 	test "explicit Factory person test" do

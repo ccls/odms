@@ -41,38 +41,35 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	end
 
 	test "should return phone number as to_s" do
-		phone_number = create_phone_number
+		phone_number = PhoneNumber.new(:phone_number => '123456789')
+		assert_equal phone_number.phone_number, '123456789'
 		assert_equal phone_number.phone_number, "#{phone_number}"
 	end
 
 	test "should require other_data_source if data_source is other" do
-		assert_difference( "PhoneNumber.count", 0 ) do
-			phone_number = create_phone_number( :data_source => DataSource['Other'])
-			assert phone_number.errors.matching?(:other_data_source,"can't be blank")
-		end
+		phone_number = PhoneNumber.new( :data_source => DataSource['Other'])
+		assert !phone_number.valid?
+		assert  phone_number.errors.matching?(:other_data_source,"can't be blank")
 	end
 
 	test "should NOT require other_data_source if data_source is not other" do
-		assert_difference( "PhoneNumber.count", 1 ) do
-			phone_number = create_phone_number( :data_source => DataSource['raf'])
-			assert !phone_number.errors.matching?(:other_data_source,"can't be blank")
-		end
+		phone_number = PhoneNumber.new( :data_source => DataSource['raf'])
+		phone_number.valid?
+		assert !phone_number.errors.matching?(:other_data_source,"can't be blank")
 	end
 
 	test "should require phone_type" do
-		assert_difference( "PhoneNumber.count", 0 ) do
-			phone_number = create_phone_number( :phone_type => nil)
-			assert !phone_number.errors.include?(:phone_type)
-			assert  phone_number.errors.matching?(:phone_type_id,"can't be blank")
-		end
+		phone_number = PhoneNumber.new( :phone_type => nil)
+		assert !phone_number.valid?
+		assert !phone_number.errors.include?(:phone_type)
+		assert  phone_number.errors.matching?(:phone_type_id,"can't be blank")
 	end
 
 	test "should require valid phone_type" do
-		assert_difference( "PhoneNumber.count", 0 ) do
-			phone_number = create_phone_number( :phone_type_id => 0)
-			assert !phone_number.errors.include?(:phone_type_id)
-			assert  phone_number.errors.matching?(:phone_type,"can't be blank")
-		end
+		phone_number = PhoneNumber.new( :phone_type_id => 0)
+		assert !phone_number.valid?
+		assert !phone_number.errors.include?(:phone_type_id)
+		assert  phone_number.errors.matching?(:phone_type,"can't be blank")
 	end
 
 	test "current_phone should default to 1" do
@@ -103,32 +100,32 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	end
 
 	test "should not have multiple errors for blank phone number" do
-		assert_difference( "PhoneNumber.count", 0 ) do
-			phone_number = create_phone_number(:phone_number => '')
-			assert !phone_number.errors.matching?(:phone_number,'is invalid')
-			assert  phone_number.errors.matching?(:phone_number,"can't be blank")
-		end
+		phone_number = PhoneNumber.new(:phone_number => '')
+		assert !phone_number.valid?
+		assert !phone_number.errors.matching?(:phone_number,'is invalid')
+		assert  phone_number.errors.matching?(:phone_number,"can't be blank")
 	end
 
 	test "should require properly formated phone number" do
 		[ 'asdf', 'me@some@where.com','12345678','12345678901' 
 		].each do |bad_phone|
-			assert_difference( "PhoneNumber.count", 0 ) do
-				phone_number = create_phone_number(:phone_number => bad_phone)
-				assert phone_number.errors.matching?(:phone_number,'is invalid')
-			end
+			phone_number = PhoneNumber.new(:phone_number => bad_phone)
+			assert !phone_number.valid?
+			assert  phone_number.errors.matching?(:phone_number,'is invalid')
 		end
 		[ "(123)456-7890", "1234567890", 
 			"  1 asdf23,4()5\+67   8 9   0asdf" ].each do |good_phone|
 			assert_difference( "PhoneNumber.count", 1 ) do
 				phone_number = create_phone_number(:phone_number => good_phone)
 				assert !phone_number.errors.matching?(:phone_number,'is invalid')
+#	formatting is done before save so must save
 				assert phone_number.reload.phone_number =~ /\A\(\d{3}\)\s+\d{3}-\d{4}\z/
 				assert_equal '(123) 456-7890', phone_number.phone_number
 			end
 		end
 	end
 
+#	formatting is done before save so must save
 	test "should format phone number" do
 		assert_difference( "PhoneNumber.count", 1 ) do
 			phone_number = create_phone_number( :phone_number => '1234567890' )
@@ -141,31 +138,29 @@ class PhoneNumberTest < ActiveSupport::TestCase
 
 	[:yes,:nil].each do |yndk|
 		test "should NOT require why_invalid if is_valid is #{yndk}" do
-			assert_difference( "PhoneNumber.count", 1 ) do
-				phone_number = create_phone_number(:is_valid => YNDK[yndk])
-			end
+			phone_number = PhoneNumber.new(:is_valid => YNDK[yndk])
+			phone_number.valid?
+			assert !phone_number.errors.include?(:why_invalid)
 		end
 	end
 	[:no,:dk].each do |yndk|
 		test "should require why_invalid if is_valid is #{yndk}" do
-			assert_difference( "PhoneNumber.count", 0 ) do
-				phone_number = create_phone_number(:is_valid => YNDK[yndk])
-				assert phone_number.errors.include?(:why_invalid)
-			end
+			phone_number = PhoneNumber.new(:is_valid => YNDK[yndk])
+			assert !phone_number.valid?
+			assert  phone_number.errors.include?(:why_invalid)
 		end
 	end
 
 	test "should NOT require how_verified if is_verified is false" do
-		assert_difference( "PhoneNumber.count", 1 ) do
-			phone_number = create_phone_number(:is_verified => false)
-		end
+		phone_number = PhoneNumber.new(:is_verified => false)
+		phone_number.valid?
+		assert !phone_number.errors.include?(:how_verified)
 	end
 
 	test "should require how_verified if is_verified is true" do
-		assert_difference( "PhoneNumber.count", 0 ) do
-			phone_number = create_phone_number(:is_verified => true)
-			assert phone_number.errors.include?(:how_verified)
-		end
+		phone_number = PhoneNumber.new(:is_verified => true)
+		assert !phone_number.valid?
+		assert  phone_number.errors.include?(:how_verified)
 	end
 
 	test "should NOT set verified_on if is_verified NOT changed to true" do

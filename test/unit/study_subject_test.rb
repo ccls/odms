@@ -179,32 +179,31 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "should require subject_type" do
-		assert_difference( "StudySubject.count", 0 ) do
-			study_subject = create_study_subject( :subject_type => nil)
-			assert !study_subject.errors.include?(:subject_type)
-			assert  study_subject.errors.matching?(:subject_type_id,"can't be blank")
-		end
+#	protected
+		study_subject = StudySubject.new{|s|s.subject_type = nil}
+		assert !study_subject.valid?
+		assert !study_subject.errors.include?(:subject_type)
+		assert  study_subject.errors.matching?(:subject_type_id,"can't be blank")
 	end
 
 	test "should require valid subject_type" do
-		assert_difference( "StudySubject.count", 0 ) do
-			study_subject = create_study_subject( :subject_type_id => 0)
-			assert !study_subject.errors.include?(:subject_type_id)
-			assert  study_subject.errors.matching?(:subject_type,"can't be blank")
-		end
+#	protected
+		study_subject = StudySubject.new{|s|s.subject_type_id = 0}
+		assert !study_subject.valid?
+		assert !study_subject.errors.include?(:subject_type_id)
+		assert  study_subject.errors.matching?(:subject_type,"can't be blank")
 	end
 
 	test "should require sex with custom message" do
 		#	NOTE custom message
-		assert_difference( "StudySubject.count", 0 ) do
-			study_subject = create_study_subject( :sex => nil )
-			assert study_subject.errors.include?(:sex)
-			assert study_subject.errors.matching?(:sex,"has not been chosen")
-			assert_match /Sex has not been chosen/, 
-				study_subject.errors.full_messages.to_sentence
-			assert_no_match /Sex can't be blank/i, 
-				study_subject.errors.full_messages.to_sentence
-		end
+		study_subject = StudySubject.new( :sex => nil )
+		assert !study_subject.valid?
+		assert  study_subject.errors.include?(:sex)
+		assert  study_subject.errors.matching?(:sex,"has not been chosen")
+		assert_match /Sex has not been chosen/, 
+			study_subject.errors.full_messages.to_sentence
+		assert_no_match /Sex can't be blank/i, 
+			study_subject.errors.full_messages.to_sentence
 	end
 
 	test "create_control_study_subject should not create a subject type" do

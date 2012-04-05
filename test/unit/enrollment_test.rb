@@ -104,294 +104,271 @@ class EnrollmentTest < ActiveSupport::TestCase
 	end
 
 	test "should require project" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment( :project => nil)
-			assert !enrollment.errors.include?(:project)
-			assert  enrollment.errors.matching?(:project_id,"can't be blank")
-		end
+		enrollment = Enrollment.new( :project => nil)
+		assert !enrollment.valid?
+		assert !enrollment.errors.include?(:project)
+		assert  enrollment.errors.matching?(:project_id,"can't be blank")
 	end
 
 	test "should require valid project" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment( :project_id => 0)
-			assert !enrollment.errors.include?(:project_id)
-			assert  enrollment.errors.matching?(:project,"can't be blank")
-		end
+		enrollment = Enrollment.new( :project_id => 0)
+		assert !enrollment.valid?
+		assert !enrollment.errors.include?(:project_id)
+		assert  enrollment.errors.matching?(:project,"can't be blank")
 	end
 
 	test "should require unique project_id scope study_subject_id" do
 		o = create_enrollment
-		assert_no_difference "Enrollment.count" do
-			enrollment = create_enrollment(:project => o.project,
-				:study_subject => o.study_subject)
-			assert enrollment.errors.matching?(:project_id,'has already been taken')
-		end
+		enrollment = Enrollment.new { |e|
+			e.project_id = o.project_id
+			e.study_subject_id = o.study_subject_id }	#	protected
+		assert !enrollment.valid?
+		assert  enrollment.errors.matching?(:project_id,'has already been taken')
 	end
 
 	test "should require ineligible_reason if is_eligible == :no" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:is_eligible => YNDK[:no])
-			assert !enrollment.errors.include?(:ineligible_reason)
-			#	NOTE custom message
-			assert  enrollment.errors.matching?(:ineligible_reason_id,
-				"required if is_eligible is No")
-		end
+		enrollment = Enrollment.new(:is_eligible => YNDK[:no])
+		assert !enrollment.valid?
+		assert !enrollment.errors.include?(:ineligible_reason)
+		#	NOTE custom message
+		assert  enrollment.errors.matching?(:ineligible_reason_id,
+			"required if is_eligible is No")
 	end
 	test "should require valid ineligible_reason if is_eligible == :no" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:is_eligible => YNDK[:no],
-				:ineligible_reason_id => 0)
-			assert !enrollment.errors.include?(:ineligible_reason_id)
-			assert  enrollment.errors.matching?(:ineligible_reason,"can't be blank")
-		end
+		enrollment = Enrollment.new(:is_eligible => YNDK[:no],
+			:ineligible_reason_id => 0)
+		assert !enrollment.valid?
+		assert !enrollment.errors.include?(:ineligible_reason_id)
+		assert  enrollment.errors.matching?(:ineligible_reason,"can't be blank")
 	end
 	[:yes,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW ineligible_reason if is_eligible == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(:is_eligible => YNDK[yndk],
-					:ineligible_reason => Factory(:ineligible_reason) )
-				assert !enrollment.errors.include?(:ineligible_reason)
-				#	NOTE custom message
-				assert  enrollment.errors.matching?(:ineligible_reason_id,
-					"not allowed unless is_eligible is No")
-			end
+			enrollment = Enrollment.new(:is_eligible => YNDK[yndk],
+				:ineligible_reason => Factory(:ineligible_reason) )
+			assert !enrollment.valid?
+			assert !enrollment.errors.include?(:ineligible_reason)
+			#	NOTE custom message
+			assert  enrollment.errors.matching?(:ineligible_reason_id,
+				"not allowed unless is_eligible is No")
 		end
 	end
-
 
 	test "should require other_ineligible_reason if " <<
 			"ineligible_reason == other" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(
-				:is_eligible => YNDK[:no],
-				:ineligible_reason => IneligibleReason['other'] )
-			assert enrollment.errors.include?(:other_ineligible_reason)
-			#	NOTE custom error message
-			assert enrollment.errors.matching?(:other_ineligible_reason,
-				"required if ineligible reason is Other")
-		end
+		enrollment = Enrollment.new(
+			:is_eligible => YNDK[:no],
+			:ineligible_reason => IneligibleReason['other'] )
+		assert !enrollment.valid?
+		assert  enrollment.errors.include?(:other_ineligible_reason)
+		#	NOTE custom error message
+		assert  enrollment.errors.matching?(:other_ineligible_reason,
+			"required if ineligible reason is Other")
 	end
 	test "should ALLOW other_ineligible_reason if " <<
 			"ineligible_reason != other" do
-		assert_difference( "Enrollment.count", 1 ) do
-			enrollment = create_subjectless_enrollment(
-				:is_eligible => YNDK[:no],
-				:ineligible_reason => Factory(:ineligible_reason),
-				:other_ineligible_reason => 'blah blah blah' )
-			assert !enrollment.errors.include?(:other_ineligible_reason)
-		end
+		enrollment = Enrollment.new(
+			:is_eligible => YNDK[:no],
+			:ineligible_reason => Factory(:ineligible_reason),
+			:other_ineligible_reason => 'blah blah blah' )
+		enrollment.valid?
+		assert !enrollment.errors.include?(:other_ineligible_reason)
 	end
 	[:yes,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW other_ineligible_reason if " <<
 				"is_eligible == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(
-					:is_eligible => YNDK[yndk],
-					:ineligible_reason => Factory(:ineligible_reason),
-					:other_ineligible_reason => 'blah blah blah' )
-				assert enrollment.errors.include?(:other_ineligible_reason)
-				#	NOTE custom error message
-				assert enrollment.errors.matching?(:other_ineligible_reason,
-					'not allowed unless is_eligible is No')
-			end
+			enrollment = Enrollment.new(
+				:is_eligible => YNDK[yndk],
+				:ineligible_reason => Factory(:ineligible_reason),
+				:other_ineligible_reason => 'blah blah blah' )
+			enrollment.valid?
+			assert enrollment.errors.include?(:other_ineligible_reason)
+			#	NOTE custom error message
+			assert enrollment.errors.matching?(:other_ineligible_reason,
+				'not allowed unless is_eligible is No')
 		end
 	end
 
 	test "should require reason_not_chosen if is_chosen == :no" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:is_chosen => YNDK[:no])
-			assert enrollment.errors.include?(:reason_not_chosen)
-			#	NOTE custom error message
-			assert enrollment.errors.matching?(:reason_not_chosen,"requires if is_chosen is No")
-		end
+		enrollment = Enrollment.new(:is_chosen => YNDK[:no])
+		assert !enrollment.valid?
+		assert  enrollment.errors.include?(:reason_not_chosen)
+		#	NOTE custom error message
+		assert  enrollment.errors.matching?(:reason_not_chosen,"requires if is_chosen is No")
 	end
 	[:yes,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW reason_not_chosen if is_chosen == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(:is_chosen => YNDK[yndk],
-					:reason_not_chosen => "blah blah blah")
-				assert enrollment.errors.include?(:reason_not_chosen)
-				#	NOTE custom error message
-				assert enrollment.errors.matching?(:reason_not_chosen,
-					'not allowed unless is_chosen is No')
-			end
+			enrollment = Enrollment.new(:is_chosen => YNDK[yndk],
+				:reason_not_chosen => "blah blah blah")
+			assert !enrollment.valid?
+			assert  enrollment.errors.include?(:reason_not_chosen)
+			#	NOTE custom error message
+			assert  enrollment.errors.matching?(:reason_not_chosen,
+				'not allowed unless is_chosen is No')
 		end
 	end
 
 	test "should require refusal_reason if consented == :no" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:consented => YNDK[:no])
-			assert !enrollment.errors.include?(:refusal_reason)
-			#	NOTE custom error message
-			assert  enrollment.errors.matching?(:refusal_reason_id,
-				"required if consented is No")
-		end
+		enrollment = Enrollment.new(:consented => YNDK[:no])
+		assert !enrollment.valid?
+		assert !enrollment.errors.include?(:refusal_reason)
+		#	NOTE custom error message
+		assert  enrollment.errors.matching?(:refusal_reason_id,
+			"required if consented is No")
 	end
 	test "should require valid refusal_reason if consented == :no" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:consented => YNDK[:no],
-				:refusal_reason_id => 0)
-			assert !enrollment.errors.include?(:refusal_reason_id)
-			assert  enrollment.errors.matching?(:refusal_reason,"can't be blank")
-		end
+		enrollment = Enrollment.new(:consented => YNDK[:no],
+			:refusal_reason_id => 0)
+		assert !enrollment.valid?
+		assert !enrollment.errors.include?(:refusal_reason_id)
+		assert  enrollment.errors.matching?(:refusal_reason,"can't be blank")
 	end
 	[:yes,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW refusal_reason if consented == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
-					:refusal_reason_id => Factory(:refusal_reason).id)	#	added id
-				assert !enrollment.errors.include?(:refusal_reason)
-				#	NOTE custom error message
-				assert  enrollment.errors.matching?(:refusal_reason_id,
-					"not allowed unless consented is No")
-			end
+			enrollment = Enrollment.new(:consented => YNDK[yndk],
+				:refusal_reason_id => Factory(:refusal_reason).id)	#	added id
+			assert !enrollment.valid?
+			assert !enrollment.errors.include?(:refusal_reason)
+			#	NOTE custom error message
+			assert  enrollment.errors.matching?(:refusal_reason_id,
+				"not allowed unless consented is No")
 		end
 	end
 
 
 	test "should require other_refusal_reason if " <<
 			"refusal_reason == other" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:consented => YNDK[:no],
-				:refusal_reason => RefusalReason['other'] )
-			assert enrollment.errors.include?(:other_refusal_reason)
-			#	NOTE custom error message
-			assert enrollment.errors.matching?(:other_refusal_reason,
-				"required if refusal reason is Other")
-		end
+		enrollment = Enrollment.new(:consented => YNDK[:no],
+			:refusal_reason => RefusalReason['other'] )
+		assert !enrollment.valid?
+		assert  enrollment.errors.include?(:other_refusal_reason)
+		#	NOTE custom error message
+		assert  enrollment.errors.matching?(:other_refusal_reason,
+			"required if refusal reason is Other")
 	end
 	test "should ALLOW other_refusal_reason if " <<
 			"refusal_reason != other" do
-		assert_difference( "Enrollment.count", 1 ) do
-			enrollment = create_subjectless_enrollment(:consented => YNDK[:no],
-				:consented_on => Date.today,
-				:refusal_reason => Factory(:refusal_reason),
-				:other_refusal_reason => 'asdfasdf' )
-			assert !enrollment.errors.include?(:other_refusal_reason)
-		end
+		enrollment = Enrollment.new(:consented => YNDK[:no],
+			:consented_on => Date.today,
+			:refusal_reason => Factory(:refusal_reason),
+			:other_refusal_reason => 'asdfasdf' )
+		enrollment.valid?
+		assert !enrollment.errors.include?(:other_refusal_reason)
 	end
 	[:yes,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW other_refusal_reason if "<<
 				"consented == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
-					:refusal_reason => Factory(:refusal_reason),
-					:other_refusal_reason => 'asdfasdf' )
-				assert enrollment.errors.include?(:other_refusal_reason)
-				#	NOTE custom error message
-				assert enrollment.errors.matching?(:other_refusal_reason,
-					"not allowed unless consented is No")
-			end
+			enrollment = Enrollment.new(:consented => YNDK[yndk],
+				:refusal_reason => Factory(:refusal_reason),
+				:other_refusal_reason => 'asdfasdf' )
+			assert !enrollment.valid?
+			assert  enrollment.errors.include?(:other_refusal_reason)
+			#	NOTE custom error message
+			assert  enrollment.errors.matching?(:other_refusal_reason,
+				"not allowed unless consented is No")
 		end
 	end
 
 	[:yes,:no].each do |yndk|
 		test "should require consented_on if consented == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
-					:consented_on => nil)
-				#	NOTE Custom error message
-				assert enrollment.errors.matching?(:consented_on,
-					"date is required when adding consent information")
-			end
+			enrollment = Enrollment.new(:consented => YNDK[yndk],
+				:consented_on => nil)
+			assert !enrollment.valid?
+			#	NOTE Custom error message
+			assert  enrollment.errors.matching?(:consented_on,
+				"date is required when adding consent information")
 		end
 	end
 	[:dk,:nil].each do |yndk|
 		test "should NOT ALLOW consented_on if consented == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
-					:consented_on => Date.today)
-				assert enrollment.errors.include?(:consented_on)
-				#	NOTE Custom error message
-				assert enrollment.errors.matching?(:consented_on,
-					"not allowed if consented is blank or Don't Know")
-			end
+			enrollment = Enrollment.new(:consented => YNDK[yndk],
+				:consented_on => Date.today)
+			assert !enrollment.valid?
+			assert  enrollment.errors.include?(:consented_on)
+			#	NOTE Custom error message
+			assert  enrollment.errors.matching?(:consented_on,
+				"not allowed if consented is blank or Don't Know")
 		end
 	end
 
 
 	test "should require terminated_reason if " <<
 			"terminated_participation == :yes" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:terminated_participation => YNDK[:yes])
-			assert enrollment.errors.include?(:terminated_reason)
-			#	NOTE custom message
-			assert enrollment.errors.matching?(:terminated_reason,
-				"required if terminated participation is Yes")
-		end
+		enrollment = Enrollment.new(:terminated_participation => YNDK[:yes])
+		assert !enrollment.valid?
+		assert  enrollment.errors.include?(:terminated_reason)
+		#	NOTE custom message
+		assert  enrollment.errors.matching?(:terminated_reason,
+			"required if terminated participation is Yes")
 	end
 	[:no,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW terminated_reason if " <<
 				"terminated_participation == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(
-					:terminated_participation => YNDK[yndk],
-					:terminated_reason => 'some bogus reason')
-				assert enrollment.errors.include?(:terminated_reason)
-				#	NOTE custom message
-				assert enrollment.errors.matching?(:terminated_reason,
-					"not allowed unless terminated participation is Yes")
-			end
+			enrollment = Enrollment.new(
+				:terminated_participation => YNDK[yndk],
+				:terminated_reason => 'some bogus reason')
+			assert !enrollment.valid?
+			assert enrollment.errors.include?(:terminated_reason)
+			#	NOTE custom message
+			assert enrollment.errors.matching?(:terminated_reason,
+				"not allowed unless terminated participation is Yes")
 		end
 	end
 
 	test "should require completed_on if is_complete == :yes" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:is_complete => YNDK[:yes])
-			assert enrollment.errors.include?(:completed_on)
-			#	NOTE custom error message
-			assert enrollment.errors.matching?(:completed_on,"required if is_complete is Yes")
-		end
+		enrollment = Enrollment.new(:is_complete => YNDK[:yes])
+		assert !enrollment.valid?
+		assert  enrollment.errors.include?(:completed_on)
+		#	NOTE custom error message
+		assert  enrollment.errors.matching?(:completed_on,"required if is_complete is Yes")
 	end
 	[:no,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW completed_on if is_complete == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(:is_complete => YNDK[yndk],
-					:completed_on => Date.today)
-				assert enrollment.errors.include?(:completed_on)
-				#	NOTE custom error message
-				assert enrollment.errors.matching?(:completed_on,
-					"not allowed unless is_complete is Yes")
-			end
+			enrollment = Enrollment.new(:is_complete => YNDK[yndk],
+				:completed_on => Date.today)
+			assert !enrollment.valid?
+			assert  enrollment.errors.include?(:completed_on)
+			#	NOTE custom error message
+			assert  enrollment.errors.matching?(:completed_on,
+				"not allowed unless is_complete is Yes")
 		end
 	end
 
 
 	[:dk,:nil].each do |yndk|
 		test "should NOT ALLOW document_version_id if consented == #{yndk}" do
-			assert_difference( "Enrollment.count", 0 ) do
-				enrollment = create_subjectless_enrollment(:consented => YNDK[yndk],
-					:document_version => Factory(:document_version) )
-				assert !enrollment.errors.include?(:document_version)
-				#	NOTE custom error message
-				assert  enrollment.errors.matching?(:document_version_id,
-					"not allowed if consented is blank or Don't Know")
-			end
+			enrollment = Enrollment.new(:consented => YNDK[yndk],
+				:document_version => Factory(:document_version) )
+			assert !enrollment.valid?
+			assert !enrollment.errors.include?(:document_version)
+			#	NOTE custom error message
+			assert  enrollment.errors.matching?(:document_version_id,
+				"not allowed if consented is blank or Don't Know")
 		end
 	end
 	test "should allow document_version_id if consented == :yes" do
-		assert_difference( "Enrollment.count", 1 ) do
-			enrollment = create_subjectless_enrollment(:consented => YNDK[:yes],
-				:consented_on     => Date.today,
-				:document_version => Factory(:document_version) )
-		end
+		enrollment = Enrollment.new(:consented => YNDK[:yes],
+			:consented_on     => Date.today,
+			:document_version => Factory(:document_version) )
+		enrollment.valid?
+		assert !enrollment.errors.include?(:document_version)
+		assert !enrollment.errors.include?(:document_version_id)
 	end
 	test "should allow document_version_id if consented == :no" do
-		assert_difference( "Enrollment.count", 1 ) do
-			enrollment = create_subjectless_enrollment(:consented => YNDK[:no],
-				:consented_on     => Date.today,
-				:refusal_reason   => Factory(:refusal_reason),
-				:document_version => Factory(:document_version) )
-		end
+		enrollment = Enrollment.new(:consented => YNDK[:no],
+			:consented_on     => Date.today,
+			:refusal_reason   => Factory(:refusal_reason),
+			:document_version => Factory(:document_version) )
+		enrollment.valid?
+		assert !enrollment.errors.include?(:document_version)
+		assert !enrollment.errors.include?(:document_version_id)
 	end
 	test "should require valid document_version if given" do
-		assert_difference( "Enrollment.count", 0 ) do
-			enrollment = create_subjectless_enrollment(:consented => YNDK[:yes],
-				:consented_on     => Date.today,
-				:document_version_id => 0 )
-			assert !enrollment.errors.include?(:document_version_id)
-			assert  enrollment.errors.matching?(:document_version,"can't be blank")
-		end
+		enrollment = Enrollment.new(:consented => YNDK[:yes],
+			:consented_on     => Date.today,
+			:document_version_id => 0 )
+		assert !enrollment.valid?
+		assert !enrollment.errors.include?(:document_version_id)
+		assert  enrollment.errors.matching?(:document_version,"can't be blank")
 	end
 
 #	Operational Event ARE NOT directly associated with enrollments,

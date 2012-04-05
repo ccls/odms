@@ -14,33 +14,30 @@ class SampleCollectorTest < ActiveSupport::TestCase
 	end
 
 	test "should require organization" do
-		assert_difference( "SampleCollector.count", 0 ) do
-			sample_collector = create_sample_collector( :organization => nil)
-			assert !sample_collector.errors.include?(:organization)
-			assert  sample_collector.errors.matching?(:organization_id,"can't be blank")
-		end
+		sample_collector = SampleCollector.new( :organization => nil)
+		assert !sample_collector.valid?
+		assert !sample_collector.errors.include?(:organization)
+		assert  sample_collector.errors.matching?(:organization_id,"can't be blank")
 	end
 
 	test "should require valid organization" do
-		assert_difference( "SampleCollector.count", 0 ) do
-			sample_collector = create_sample_collector( :organization_id => 0)
-			assert !sample_collector.errors.include?(:organization_id)
-			assert  sample_collector.errors.matching?(:organization,"can't be blank")
-		end
+		sample_collector = SampleCollector.new( :organization_id => 0)
+		assert !sample_collector.valid?
+		assert !sample_collector.errors.include?(:organization_id)
+		assert  sample_collector.errors.matching?(:organization,"can't be blank")
 	end
 
 	test "should require other_organization if organization is other" do
-		assert_difference( "SampleCollector.count", 0 ) do
-			sample_collector = create_sample_collector( 
-				:organization_id => Organization['other'].id )
-			assert sample_collector.errors.include?(:other_organization)
-			assert sample_collector.errors.matching?(:other_organization,"can't be blank")
-		end
+		sample_collector = SampleCollector.new( 
+			:organization_id => Organization['other'].id )
+		assert !sample_collector.valid?
+		assert  sample_collector.errors.include?(:other_organization)
+		assert  sample_collector.errors.matching?(:other_organization,"can't be blank")
 	end
 
 	test "should return organization name as to_s if organization" do
 		organization = create_organization
-		sample_collector = create_sample_collector(:organization => organization)
+		sample_collector = SampleCollector.new(:organization => organization)
 		assert_not_nil sample_collector.organization
 		assert_equal organization.name, "#{sample_collector}"
 	end

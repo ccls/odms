@@ -35,24 +35,23 @@ class InstrumentTest < ActiveSupport::TestCase
 
 	#	unfortunately name is NOT unique so should change this
 	test "should return name as to_s" do
-		instrument = create_instrument
+		instrument = Instrument.new(:name => 'testing')
+		assert_equal instrument.name, 'testing'
 		assert_equal instrument.name, "#{instrument}"
 	end
 
 	test "should require project" do
-		assert_difference( "Instrument.count", 0 ) do
-			instrument = create_instrument( :project => nil)
-			assert !instrument.errors.include?(:project)
-			assert  instrument.errors.matching?(:project_id,"can't be blank")
-		end
+		instrument = Instrument.new( :project => nil)
+		assert !instrument.valid?
+		assert !instrument.errors.include?(:project)
+		assert  instrument.errors.matching?(:project_id,"can't be blank")
 	end
 
 	test "should require valid project" do
-		assert_difference( "Instrument.count", 0 ) do
-			instrument = create_instrument( :project_id => 0)
-			assert !instrument.errors.include?(:project_id)
-			assert  instrument.errors.matching?(:project,"can't be blank")
-		end
+		instrument = Instrument.new( :project_id => 0)
+		assert !instrument.valid?
+		assert !instrument.errors.include?(:project_id)
+		assert  instrument.errors.matching?(:project,"can't be blank")
 	end
 
 protected

@@ -13,9 +13,7 @@ class AnalysisTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
-	assert_should_belong_to( 
-		:analytic_file_creator, 
-		:analyst,
+	assert_should_belong_to( :analytic_file_creator, :analyst,
 			:class_name => 'Person' )
 	assert_should_belong_to( :project )
 	assert_should_habtm( :study_subjects )

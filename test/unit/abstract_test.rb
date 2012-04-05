@@ -465,8 +465,6 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 	test "should create first abstract for study_subject with current_user" do
-assert_equal 0, Abstract.count
-assert_equal 0, StudySubject.count
 		study_subject = Factory(:case_study_subject)
 		current_user = Factory(:user)
 		assert_difference('Abstract.count',1) {
@@ -479,8 +477,6 @@ assert_equal 0, StudySubject.count
 	end
 
 	test "should create second abstract for study_subject with current_user" do
-assert_equal 0, Abstract.count
-assert_equal 0, StudySubject.count
 		study_subject = Factory(:case_study_subject)
 		current_user = Factory(:user)
 		abstract = Factory(:abstract,:current_user => current_user,
@@ -496,8 +492,6 @@ assert_equal 0, StudySubject.count
 
 	test "should NOT create third abstract for study_subject with current_user " <<
 			"without merging flag" do
-assert_equal 0, Abstract.count
-assert_equal 0, StudySubject.count
 		study_subject = Factory(:case_study_subject)
 		current_user = Factory(:user)
 		abstract = Factory(:abstract,:current_user => current_user,
@@ -514,8 +508,6 @@ assert_equal 0, StudySubject.count
 
 	test "should create third abstract for study_subject with current_user " <<
 			"with merging flag" do
-assert_equal 0, Abstract.count
-assert_equal 0, StudySubject.count
 		study_subject = Factory(:case_study_subject)
 		current_user = Factory(:user)
 		abstract = Factory(:abstract,:current_user => current_user,
@@ -533,18 +525,12 @@ assert_equal 0, StudySubject.count
 	end
 
 	test "should NOT create merged abstract if study_subject already has one" do
-assert_equal 0, Abstract.count
-assert_equal 0, StudySubject.count
 		study_subject = Factory(:case_study_subject)
 		a1 = Factory(:abstract,:study_subject => study_subject)
 		a1.merged_by = Factory(:user)
 		a1.save
-#		assert_not_nil study_subject.reload.merged_abstract
-#		assert_not_nil study_subject.reload.abstracts.merged
 		assert_not_nil study_subject.abstracts.merged
-#		assert !study_subject.reload.abstracts.merged.empty?
 		assert !study_subject.abstracts.merged.empty?
-#		assert_not_nil a1.reload.merged_by
 		assert_not_nil a1.merged_by
 		assert a1.merged?
 		assert_difference('Abstract.count',0) {
@@ -655,7 +641,6 @@ assert_equal 0, StudySubject.count
 		:tdt_report_found,
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
-
 
 protected
 

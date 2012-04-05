@@ -28,7 +28,8 @@ class DataSourceTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		data_source = create_data_source
+		data_source = DataSource.new(:description => 'testing')
+		assert_equal data_source.description, 'testing'
 		assert_equal data_source.description,
 			"#{data_source}"
 	end

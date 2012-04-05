@@ -49,7 +49,8 @@ class OrganizationTest < ActiveSupport::TestCase
 #	end
 
 	test "should return name as to_s" do
-		organization = Factory(:organization)
+		organization = Organization.new(:name => 'testing')
+		assert_equal organization.name, 'testing'
 		assert_equal organization.name, "#{organization}"
 	end
 

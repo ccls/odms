@@ -17,7 +17,8 @@ class SubjectRelationshipTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		subject_relationship = create_subject_relationship
+		subject_relationship = SubjectRelationship.new(:description => 'testing')
+		assert_equal subject_relationship.description, 'testing'
 		assert_equal subject_relationship.description, "#{subject_relationship}"
 	end
 

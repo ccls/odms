@@ -24,7 +24,8 @@ class TracingStatusTest < ActiveSupport::TestCase
 #	end
 
 	test "should return description as to_s" do
-		tracing_status = create_tracing_status
+		tracing_status = TracingStatus.new(:description => 'testing')
+		assert_equal tracing_status.description, 'testing'
 		assert_equal tracing_status.description,
 			"#{tracing_status}"
 	end

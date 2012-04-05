@@ -37,24 +37,22 @@ class HospitalTest < ActiveSupport::TestCase
 	end
 
 	test "should require organization" do
-		assert_difference( "Hospital.count", 0 ) do
-			hospital = create_hospital( :organization => nil)
-			assert !hospital.errors.include?(:organization)
-			assert  hospital.errors.matching?(:organization_id,"can't be blank")
-		end
+		hospital = Hospital.new( :organization => nil)
+		assert !hospital.valid?
+		assert !hospital.errors.include?(:organization)
+		assert  hospital.errors.matching?(:organization_id,"can't be blank")
 	end
 
 	test "should require valid organization" do
-		assert_difference( "Hospital.count", 0 ) do
-			hospital = create_hospital( :organization_id => 0)
-			assert !hospital.errors.include?(:organization_id)
-			assert  hospital.errors.matching?(:organization,"can't be blank")
-		end
+		hospital = Hospital.new( :organization_id => 0)
+		assert !hospital.valid?
+		assert !hospital.errors.include?(:organization_id)
+		assert  hospital.errors.matching?(:organization,"can't be blank")
 	end
 
 	test "should return organization name as to_s if organization" do
 		organization = create_organization
-		hospital = create_hospital(:organization => organization)
+		hospital = Hospital.new(:organization => organization)
 		assert_not_nil hospital.organization
 		assert_equal organization.name, "#{hospital}"
 	end

@@ -54,7 +54,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 
 	test "should require valid project if given" do
 		operational_event = Factory.build(:operational_event, :project_id => 0)
-		operational_event.valid?
+		assert !operational_event.valid?
 		assert !operational_event.errors.include?(:project_id)
 		assert  operational_event.errors.matching?(:project,"can't be blank")
 	end
@@ -69,7 +69,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 
 	test "should require valid study_subject if given" do
 		operational_event = Factory.build(:operational_event,:study_subject_id => 0)
-		operational_event.valid?
+		assert !operational_event.valid?
 		assert !operational_event.errors.include?(:study_subject_id)
 		assert  operational_event.errors.matching?(:study_subject,"can't be blank")
 	end
@@ -87,14 +87,15 @@ class OperationalEventTest < ActiveSupport::TestCase
 
 	test "should require valid operational_event_type if given" do
 		operational_event = Factory.build(:operational_event, :operational_event_type_id => 0)
-		operational_event.valid?
+		assert !operational_event.valid?
 		assert !operational_event.errors.include?(:operational_event_type_id)
 		assert  operational_event.errors.matching?(:operational_event_type,"can't be blank")
 	end
 
 	#	description is not required so ...
 	test "should return description as to_s if not nil" do
-		operational_event = create_operational_event(:description => 'testing')
+		operational_event = OperationalEvent.new(:description => 'testing')
+		assert_equal operational_event.description, 'testing'
 		assert_equal operational_event.description, "#{operational_event}"
 	end
 

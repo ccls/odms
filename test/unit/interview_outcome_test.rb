@@ -18,7 +18,8 @@ class InterviewOutcomeTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		interview_outcome = create_interview_outcome(:description => "Description")
+		interview_outcome = InterviewOutcome.new(:description => "testing")
+		assert_equal interview_outcome.description, 'testing'
 		assert_equal interview_outcome.description,
 			"#{interview_outcome}"
 	end

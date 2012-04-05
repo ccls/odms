@@ -18,13 +18,15 @@ class SubjectTypeTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as name" do
-		subject_type = create_subject_type
+		subject_type = SubjectType.new(:description => 'testing')
+		assert_equal subject_type.description, 'testing'
 		assert_equal subject_type.description,
 			subject_type.name
 	end
 
 	test "should return description as to_s" do
-		subject_type = create_subject_type
+		subject_type = SubjectType.new(:description => 'testing')
+		assert_equal subject_type.description, 'testing'
 		assert_equal subject_type.description,
 			"#{subject_type}"
 	end

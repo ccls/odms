@@ -19,7 +19,8 @@ class FollowUpTypeTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		follow_up_type = create_follow_up_type
+		follow_up_type = FollowUpType.new(:description => 'testing')
+		assert_equal follow_up_type.description, 'testing'
 		assert_equal follow_up_type.description, "#{follow_up_type}"
 	end
 

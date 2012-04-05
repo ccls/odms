@@ -17,7 +17,8 @@ class PhoneTypeTest < ActiveSupport::TestCase
 	end
 
 	test "should return key as to_s" do
-		phone_type = create_phone_type
+		phone_type = PhoneType.new(:key => 'testing')
+		assert_equal phone_type.key, 'testing'
 		assert_equal phone_type.key, "#{phone_type}"
 	end
 

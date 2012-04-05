@@ -22,13 +22,13 @@ class LanguageTest < ActiveSupport::TestCase
 		assert_difference('Language.count',1) {
 			language = Factory(:language)
 			assert_match /Key\d*/,  language.key
-#			assert_match /Code\d*/, language.code
 			assert_match /Desc\d*/, language.description
 		}
 	end
 
 	test "should return description as to_s" do
-		language = create_language
+		language = Language.new(:description => 'testing')
+		assert_equal language.description, 'testing'
 		assert_equal language.description, "#{language}"
 	end
 

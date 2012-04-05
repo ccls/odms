@@ -25,7 +25,7 @@ class Project < ActiveRecord::Base
 #			:joins => "LEFT JOIN enrollments ON " <<
 #				"projects.id = enrollments.project_id AND " <<
 #				"enrollments.study_subject_id = #{study_subject.id}",
-			:conditions => [ "enrollments.study_subject_id IS NULL" ])
+#			:conditions => [ "enrollments.study_subject_id IS NULL" ])
 		Project.joins("LEFT JOIN enrollments ON " <<
 				"projects.id = enrollments.project_id AND " <<
 				"enrollments.study_subject_id = #{study_subject.id}"

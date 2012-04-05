@@ -21,19 +21,17 @@ class InstrumentTypeTest < ActiveSupport::TestCase
 	end
 
 	test "should require project" do
-		assert_difference( "InstrumentType.count", 0 ) do
-			instrument_type = create_instrument_type( :project => nil)
-			assert !instrument_type.errors.include?(:project)
-			assert  instrument_type.errors.matching?(:project_id,"can't be blank")
-		end
+		instrument_type = InstrumentType.new( :project => nil)
+		assert !instrument_type.valid?
+		assert !instrument_type.errors.include?(:project)
+		assert  instrument_type.errors.matching?(:project_id,"can't be blank")
 	end
 
 	test "should require valid project" do
-		assert_difference( "InstrumentType.count", 0 ) do
-			instrument_type = create_instrument_type( :project_id => 0)
-			assert !instrument_type.errors.include?(:project_id)
-			assert  instrument_type.errors.matching?(:project,"can't be blank")
-		end
+		instrument_type = InstrumentType.new( :project_id => 0)
+		assert !instrument_type.valid?
+		assert !instrument_type.errors.include?(:project_id)
+		assert  instrument_type.errors.matching?(:project,"can't be blank")
 	end
 
 protected

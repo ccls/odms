@@ -18,7 +18,7 @@ class AddressTypeTest < ActiveSupport::TestCase
 	end
 
 	test "should return key as to_s" do
-		address_type = Factory(:address_type)
+		address_type = AddressType.new(:key => 'testing')
 		assert_equal address_type.key, "#{address_type}"
 	end
 

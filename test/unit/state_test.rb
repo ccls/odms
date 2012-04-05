@@ -5,7 +5,6 @@ class StateTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_act_as_list
 
-
 	attributes = %w( position code name fips_state_code fips_country_code )
 	required = %w( code name fips_state_code fips_country_code )
 	unique   = %w( code name fips_state_code )
@@ -14,7 +13,6 @@ class StateTest < ActiveSupport::TestCase
 	assert_should_not_require( attributes - required )
 	assert_should_not_require_unique( attributes - unique )
 	assert_should_not_protect( attributes )
-
 
 	assert_should_require_attribute_length( :code, :name, 
 		:fips_state_code, :fips_country_code, 

@@ -27,19 +27,17 @@ class DocumentVersionTest < ActiveSupport::TestCase
 	end
 
 	test "should require document_type" do
-		assert_difference( "DocumentVersion.count", 0 ) do
-			document_version = create_document_version( :document_type => nil)
-			assert !document_version.errors.include?(:document_type)
-			assert  document_version.errors.matching?(:document_type_id,"can't be blank")
-		end
+		document_version = DocumentVersion.new( :document_type => nil)
+		assert !document_version.valid?
+		assert !document_version.errors.include?(:document_type)
+		assert  document_version.errors.matching?(:document_type_id,"can't be blank")
 	end
 
 	test "should require valid document_type" do
-		assert_difference( "DocumentVersion.count", 0 ) do
-			document_version = create_document_version( :document_type_id => 0)
-			assert !document_version.errors.include?(:document_type_id)
-			assert  document_version.errors.matching?(:document_type,"can't be blank")
-		end
+		document_version = DocumentVersion.new( :document_type_id => 0)
+		assert !document_version.valid?
+		assert !document_version.errors.include?(:document_type_id)
+		assert  document_version.errors.matching?(:document_type,"can't be blank")
 	end
 
 	test "should only return document type id == 1 for type1" do
@@ -51,7 +49,8 @@ class DocumentVersionTest < ActiveSupport::TestCase
 	end
 
 	test "should return title as to_s" do
-		document_version = create_document_version
+		document_version = DocumentVersion.new(:title => 'testing')
+		assert_equal document_version.title, 'testing'
 		assert_equal document_version.title, "#{document_version}"
 	end
 

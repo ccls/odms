@@ -24,7 +24,8 @@ class IneligibleReasonTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		ineligible_reason = create_ineligible_reason
+		ineligible_reason = IneligibleReason.new(:description => 'testing')
+		assert_equal ineligible_reason.description, 'testing'
 		assert_equal ineligible_reason.description, "#{ineligible_reason}"
 	end
 

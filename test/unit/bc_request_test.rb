@@ -29,10 +29,8 @@ class BcRequestTest < ActiveSupport::TestCase
 	end
 
 	test "should return self for to_s if no study subject" do
-		assert_difference('BcRequest.count',1) {
-			bc_request = Factory(:bc_request)
-			assert_match /^#<BcRequest:0x.+>$/, "#{bc_request}"
-		}
+		bc_request = BcRequest.new
+		assert_match /^#<BcRequest:0x.+>$/, "#{bc_request}"
 	end
 
 	test "should return study subject's studyid for to_s if study subject" do

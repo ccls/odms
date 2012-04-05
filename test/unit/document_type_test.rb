@@ -28,7 +28,8 @@ class DocumentTypeTest < ActiveSupport::TestCase
 	end
 
 	test "should return title as to_s" do
-		document_type = create_document_type
+		document_type = DocumentType.new(:title => 'testing')
+		assert_equal document_type.title, 'testing'
 		assert_equal document_type.title, "#{document_type}"
 	end
 

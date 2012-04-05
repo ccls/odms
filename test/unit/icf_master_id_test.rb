@@ -14,7 +14,7 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 	end
 
 	test "should return icf_master_id as to_s" do
-		icf_master_id = create_icf_master_id(:icf_master_id => '123456789')
+		icf_master_id = IcfMasterId.new(:icf_master_id => '123456789')
 		assert_equal "#{icf_master_id.icf_master_id}", "#{icf_master_id}"
 		assert_equal "123456789", "#{icf_master_id}"
 	end

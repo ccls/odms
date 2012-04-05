@@ -56,67 +56,59 @@ class SampleTest < ActiveSupport::TestCase
 	end
 
 	test "should require sample_type" do
-		assert_difference( "Sample.count", 0 ) do
-			sample = create_sample( :sample_type => nil)
-			assert !sample.errors.include?(:sample_type)
-			assert  sample.errors.matching?(:sample_type_id,"can't be blank")
-		end
+		sample = Sample.new( :sample_type => nil)
+		assert !sample.valid?
+		assert !sample.errors.include?(:sample_type)
+		assert  sample.errors.matching?(:sample_type_id,"can't be blank")
 	end
 
 	test "should require valid sample_type if given" do
-		assert_difference( "Sample.count", 0 ) do
-			sample = create_sample( :sample_type_id => 0)
-			assert !sample.errors.include?(:sample_type_id)
-			assert  sample.errors.matching?(:sample_type,"can't be blank")
-		end
+		sample = Sample.new( :sample_type_id => 0)
+		assert !sample.valid?
+		assert !sample.errors.include?(:sample_type_id)
+		assert  sample.errors.matching?(:sample_type,"can't be blank")
 	end
 
 	test "should require study_subject" do
-		assert_difference( "Sample.count", 0 ) do
-			sample = create_sample( :study_subject => nil)
-			assert !sample.errors.include?(:study_subject)
-			assert  sample.errors.matching?(:study_subject_id,"can't be blank")
-		end
+		sample = Sample.new{|s| s.study_subject = nil }
+		assert !sample.valid?
+		assert !sample.errors.include?(:study_subject)
+		assert  sample.errors.matching?(:study_subject_id,"can't be blank")
 	end
-
+#	study_subject and study_subject_id are protected
 	test "should require valid study_subject if given" do
-		assert_difference( "Sample.count", 0 ) do
-			sample = create_sample( :study_subject_id => 0)
-			assert !sample.errors.include?(:study_subject_id)
-			assert  sample.errors.matching?(:study_subject,"can't be blank")
-		end
+		sample = Sample.new{|s| s.study_subject_id = 0 }
+		assert !sample.valid?
+		assert !sample.errors.include?(:study_subject_id)
+		assert  sample.errors.matching?(:study_subject,"can't be blank")
 	end
 
 	test "should require project" do
-		assert_difference( "Sample.count", 0 ) do
-			sample = create_sample( :project => nil)
-			assert !sample.errors.include?(:project)
-			assert  sample.errors.matching?(:project_id,"can't be blank")
-		end
+		sample = Sample.new( :project => nil)
+		assert !sample.valid?
+		assert !sample.errors.include?(:project)
+		assert  sample.errors.matching?(:project_id,"can't be blank")
 	end
 
 	test "should require valid project if given" do
-		assert_difference( "Sample.count", 0 ) do
-			sample = create_sample( :project_id => 0)
-			assert !sample.errors.include?(:project_id)
-			assert  sample.errors.matching?(:project,"can't be blank")
-		end
+		sample = Sample.new( :project_id => 0)
+		assert !sample.valid?
+		assert !sample.errors.include?(:project_id)
+		assert  sample.errors.matching?(:project,"can't be blank")
 	end
 
 	test "should require valid sample_format if given" do
-		assert_difference( "Sample.count", 0 ) do
-			sample = create_sample( :sample_format_id => 0)
-			assert !sample.errors.include?(:sample_format_id)
-			assert  sample.errors.matching?(:sample_format,"can't be blank")
-		end
+		sample = Sample.new( :sample_format_id => 0)
+		assert !sample.valid?
+		assert !sample.errors.include?(:sample_format_id)
+		assert  sample.errors.matching?(:sample_format,"can't be blank")
 	end
 
 	test "should require valid sample_temperature if given" do
-		assert_difference( "Sample.count", 0 ) do
-			sample = create_sample( :sample_temperature_id => 0)
-			assert !sample.errors.include?(:sample_temperature_id)
-			assert  sample.errors.matching?(:sample_temperature,"can't be blank")
-		end
+		sample = Sample.new( :sample_temperature_id => 0)
+		assert !sample.valid?
+		assert !sample.errors.include?(:sample_temperature_id)
+		assert  sample.errors.matching?(:sample_temperature,"can't be blank")
 	end
 
 	test "should default location_id to 19" do
@@ -148,7 +140,7 @@ class SampleTest < ActiveSupport::TestCase
 	end
 
 	test "should belong to organization through location_id" do
-		sample = create_sample
+		sample = Sample.new
 		assert_not_nil sample.organization
 		assert_equal   sample.organization, Organization['ccls']
 		assert_equal   sample.location_id,  Organization['ccls'].id

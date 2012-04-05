@@ -18,7 +18,8 @@ class VitalStatusTest < ActiveSupport::TestCase
 	end
 
 	test "should return description as to_s" do
-		vital_status = create_vital_status
+		vital_status = VitalStatus.new(:description => 'testing')
+		assert_equal vital_status.description, 'testing'
 		assert_equal vital_status.description, "#{vital_status}"
 	end
 

@@ -7,12 +7,10 @@ class AddressTest < ActiveSupport::TestCase
 	#	in the field, but would have to determine datatype and ......
 	test "should require unique external_address_id" do
 		Factory(:address,:external_address_id => 123456789)
-		assert_difference('Address.count',0){
-			address = Factory.build(:address,:external_address_id => 123456789)
-			address.save
-			assert address.errors.matching?(:external_address_id,
-				'has already been taken')
-		}
+		address = Address.new(:external_address_id => 123456789)
+		assert !address.valid?
+		assert address.errors.matching?(:external_address_id,
+			'has already been taken')
 	end
 
 	assert_should_create_default_object
@@ -70,40 +68,39 @@ class AddressTest < ActiveSupport::TestCase
 	end
 
 	test "should require address_type" do
-		assert_difference( "Address.count", 0 ) do
-			address = create_address( :address_type => nil)
-			assert !address.errors.include?(:address_type)
-			assert  address.errors.matching?(:address_type_id, "can't be blank")
-		end
+		address = Address.new( :address_type => nil)
+		assert !address.valid?
+		assert !address.errors.include?(:address_type)
+		assert  address.errors.matching?(:address_type_id, "can't be blank")
 	end
 
 	test "should require valid address_type" do
-		assert_difference( "Address.count", 0 ) do
-			address = create_address( :address_type_id => 0)
-			assert !address.errors.include?(:address_type_id)
-			assert  address.errors.matching?(:address_type, "can't be blank")
-		end
+		address = Address.new( :address_type_id => 0)
+		assert !address.valid?
+		assert !address.errors.include?(:address_type_id)
+		assert  address.errors.matching?(:address_type, "can't be blank")
 	end
 
 	test "should require 5 or 9 digit zip" do
 		%w( asdf 1234 123456 1234Q ).each do |bad_zip|
-			assert_difference( "Address.count", 0 ) do
-				address = create_address( :zip => bad_zip )
-				assert address.errors.include?(:zip)
-			end
+			address = Address.new( :zip => bad_zip )
+			assert !address.valid?
+			assert address.errors.include?(:zip)
 		end
 		%w( 12345 12345-6789 123456789 ).each do |good_zip|
-			assert_difference( "Address.count", 1 ) do
-				address = create_address( :zip => good_zip )
-				assert !address.errors.include?(:zip)
-				assert address.zip =~ /\A\d{5}(-)?(\d{4})?\z/
-			end
+			address = Address.new( :zip => good_zip )
+			address.valid?
+			assert !address.errors.include?(:zip)
+			assert address.zip =~ /\A\d{5}(-)?(\d{4})?\z/
 		end
 	end
 
 	test "should format 9 digit zip" do
 		assert_difference( "Address.count", 1 ) do
 			address = create_address( :zip => '123456789' )
+#			address = Address.new( :zip => '123456789' )
+#			address.valid?
+#	the formating is currently in a before save, so have to save it.
 			assert !address.errors.include?(:zip)
 			assert address.zip =~ /\A\d{5}(-)?(\d{4})?\z/
 			assert_equal '12345-6789', address.zip
@@ -119,7 +116,7 @@ class AddressTest < ActiveSupport::TestCase
 	end
 
 	test "should return city state and zip with csz" do
-		address = Factory(:address,
+		address = Address.new(
 			:city  => 'City',
 			:state => 'CA',
 			:zip   => '12345')
@@ -130,13 +127,12 @@ class AddressTest < ActiveSupport::TestCase
 	#	that will match the p.*o.*box regex.
 	test "should require non-residence address type with pobox in line" do
 		["P.O. Box 123","PO Box 123","P O Box 123","Post Office Box 123"].each do |pobox|
-			assert_difference( "Address.count", 0 ) do
-				address = create_address( 
-					:line_1 => pobox,
-					:address_type => AddressType['residence']
-				)
-				assert address.errors.include?(:address_type_id)
-			end
+			address = Address.new( 
+				:line_1 => pobox,
+				:address_type => AddressType['residence']
+			)
+			assert !address.valid?
+			assert address.errors.include?(:address_type_id)
 		end
 	end
 

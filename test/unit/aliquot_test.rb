@@ -10,8 +10,7 @@ class AliquotTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
-	assert_should_require_attribute_length( 
-		:location, :mass, 
+	assert_should_require_attribute_length( :location, :mass, 
 			:maximum => 250 )
 	assert_should_have_many(:transfers)
 	assert_should_initially_belong_to( :sample, :unit )
@@ -30,45 +29,39 @@ class AliquotTest < ActiveSupport::TestCase
 	end
 
 	test "should require owner" do
-		assert_difference( "Aliquot.count", 0 ) do
-			aliquot = create_aliquot( :owner => nil)
-			assert aliquot.errors.include?(:owner)
-		end
+		aliquot = Aliquot.new( :owner => nil)
+		assert !aliquot.valid?
+		assert aliquot.errors.include?(:owner)
 	end
 
 	test "should require valid owner" do
-		assert_difference( "Aliquot.count", 0 ) do
-			aliquot = create_aliquot( :owner_id => 0)
-			assert aliquot.errors.include?(:owner)
-		end
+		aliquot = Aliquot.new( :owner_id => 0)
+		assert !aliquot.valid?
+		assert aliquot.errors.include?(:owner)
 	end
 
 	test "should require unit" do
-		assert_difference( "Aliquot.count", 0 ) do
-			aliquot = create_aliquot( :unit => nil)
-			assert aliquot.errors.include?(:unit)
-		end
+		aliquot = Aliquot.new( :unit => nil)
+		assert !aliquot.valid?
+		assert aliquot.errors.include?(:unit)
 	end
 
 	test "should require valid unit" do
-		assert_difference( "Aliquot.count", 0 ) do
-			aliquot = create_aliquot( :unit_id => 0)
-			assert aliquot.errors.include?(:unit)
-		end
+		aliquot = Aliquot.new( :unit_id => 0)
+		assert !aliquot.valid?
+		assert aliquot.errors.include?(:unit)
 	end
 
 	test "should require sample" do
-		assert_difference( "Aliquot.count", 0 ) do
-			aliquot = create_aliquot( :sample => nil)
-			assert aliquot.errors.include?(:sample)
-		end
+		aliquot = Aliquot.new( :sample => nil)
+		assert !aliquot.valid?
+		assert aliquot.errors.include?(:sample)
 	end
 
 	test "should require valid sample" do
-		assert_difference( "Aliquot.count", 0 ) do
-			aliquot = create_aliquot( :sample_id => 0)
-			assert aliquot.errors.include?(:sample)
-		end
+		aliquot = Aliquot.new( :sample_id => 0)
+		assert !aliquot.valid?
+		assert aliquot.errors.include?(:sample)
 	end
 
 

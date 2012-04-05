@@ -10,7 +10,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		).each do |method_name|
 
 		test "should respond to #{method_name}" do
-			study_subject = create_study_subject
+			study_subject = StudySubject.new
 			assert study_subject.respond_to?(method_name)
 		end
 
@@ -105,12 +105,12 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		).each do |method_name|
 
 		test "should return nil #{method_name} without patient" do
-			study_subject = create_study_subject
+			study_subject = StudySubject.new
 			assert_nil study_subject.send(method_name)
 		end
 
 		test "should return #{method_name} with patient" do
-			study_subject = create_study_subject(
+			study_subject = StudySubject.new(
 				:patient_attributes => Factory.attributes_for(:patient))
 			assert_not_nil study_subject.send(method_name)
 		end
