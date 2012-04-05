@@ -546,7 +546,10 @@ end
 
 Factory.define :study_subject do |f|
 	f.association :subject_type
-	f.association :vital_status
+
+#	This now defaults to living
+#	f.association :vital_status
+
 	f.sex { random_sex }
 	f.sequence(:email){|n| "email#{n}@example.com"}	#	required here only to test uniqueness
 	f.dob { random_date }	#Date.jd(2440000+rand(15000))

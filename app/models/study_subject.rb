@@ -122,6 +122,7 @@ class StudySubject < ActiveRecord::Base
 	def set_defaults
 		# ||= doesn't work with ''
 		self.vital_status_id ||= VitalStatus['living'].id
+#		self.vital_status ||= VitalStatus['living']
 	end
 
 

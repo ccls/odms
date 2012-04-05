@@ -59,7 +59,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes - unique )
 	assert_should_not_protect( attributes - protected_attributes )
 
-
 	assert_requires_complete_date( :reference_date, :dob, :died_on )
 	assert_requires_past_date( :dob )
 
@@ -91,27 +90,18 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :newid, :maximum => 6 )
 	assert_should_require_attribute_length( :birth_year, :maximum => 4 )
 
-
 #	assert_should_require :hospital_no
 #	assert_should_not_require :hospital_no
 
-
-
-
-
-
-
-
-
 	test "explicit Factory study_subject test" do
-		assert_difference('VitalStatus.count',1) {
+#		assert_difference('VitalStatus.count',1) {
 		assert_difference('SubjectType.count',1) {
 		assert_difference('StudySubject.count',1) {
 			study_subject = Factory(:study_subject)
 			assert_not_nil study_subject.subject_type
 			assert_not_nil study_subject.vital_status
 			assert_not_nil study_subject.sex
-		} } }
+		} } #}
 	end
 
 	test "explicit Factory case study_subject test" do
@@ -242,13 +232,13 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "should create study_subject" do
-		assert_difference( 'VitalStatus.count', 1 ){
+#		assert_difference( 'VitalStatus.count', 1 ){
 		assert_difference( 'SubjectType.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} } }
+		} } #}
 	end
 
 	test "should create study_subject and accept_nested_attributes_for phone_numbers" do
@@ -273,11 +263,30 @@ class StudySubjectTest < ActiveSupport::TestCase
 		} }
 	end
 
+#	The factory sets the values AFTER after_initialize
+#	so the defaults will be overwritten.
 	test "should belong to vital_status" do
+		study_subject = create_study_subject
+		assert_not_nil study_subject.vital_status
+		assert_not_nil study_subject.vital_status_id
 		study_subject = create_study_subject(:vital_status => nil)
+		study_subject.reload
 		assert_nil study_subject.vital_status
+		assert_nil study_subject.vital_status_id
+		study_subject = create_study_subject(:vital_status_id => nil)
+		study_subject.reload
+		assert_nil study_subject.vital_status
+		assert_nil study_subject.vital_status_id
 		study_subject.vital_status = Factory(:vital_status)
 		assert_not_nil study_subject.vital_status
+	end
+
+	test "should set default vital status to living" do
+		study_subject = StudySubject.new
+		assert_not_nil study_subject.vital_status_id
+		assert_not_nil study_subject.vital_status
+		assert_equal   study_subject.vital_status_id, VitalStatus['living'].id
+		assert_equal   study_subject.vital_status, VitalStatus['living']
 	end
 
 #	test "should NOT destroy dust_kit with study_subject" do
