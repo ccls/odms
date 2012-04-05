@@ -29,14 +29,6 @@ class ContextTest < ActiveSupport::TestCase
 			"#{context}"
 	end
 
-#	test "should have many context_data_sources" do
-#		context = Context[:addresses]
-#		assert !context.context_data_sources.empty?
-#		assert_difference('ContextDataSource.count',1) {
-#			context.data_sources << Factory(:data_source)
-#		}
-#	end
-
 	test "should have many context_contextables" do
 		context = Factory(:context)
 		assert context.context_contextables.empty?

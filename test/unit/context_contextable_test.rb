@@ -31,6 +31,12 @@ class ContextContextableTest < ActiveSupport::TestCase
 		} } }
 	end
 
+	test "should require unique context_id, contextable_id and contextable_type" do
+#	TODO (index in db, but validation not in model)
+#	remove this index?? Let's see how this goes
+pending	
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

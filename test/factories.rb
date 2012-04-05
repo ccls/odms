@@ -230,11 +230,6 @@ Factory.define :context_contextable do |f|
 	f.association :contextable, :factory => :data_source
 end
 
-Factory.define :context_data_source do |f|
-	f.association :context
-	f.association :data_source
-end
-
 Factory.define :county do |f|
 	f.sequence(:name){ |n| "Name #{n}" }
 	f.state_abbrev 'XX'

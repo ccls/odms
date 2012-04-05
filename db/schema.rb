@@ -504,13 +504,6 @@ ActiveRecord::Schema.define(:version => 20120403224020) do
 
   add_index "context_contextables", ["context_id", "contextable_id", "contextable_type"], :name => "ccc", :unique => true
 
-  create_table "context_data_sources", :force => true do |t|
-    t.integer  "context_id"
-    t.integer  "data_source_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-  end
-
   create_table "contexts", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
@@ -1340,7 +1333,7 @@ ActiveRecord::Schema.define(:version => 20120403224020) do
 
   create_table "study_subjects", :force => true do |t|
     t.integer  "subject_type_id"
-    t.integer  "vital_status_id",                           :default => 1
+    t.integer  "vital_status_id"
     t.integer  "hispanicity_id"
     t.date     "reference_date"
     t.string   "sex"
