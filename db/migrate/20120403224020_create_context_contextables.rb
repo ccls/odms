@@ -6,7 +6,8 @@ class CreateContextContextables < ActiveRecord::Migration
 			t.string :contextable_type
 			t.timestamps
 		end
-		add_index :context_contextables, [:context_id,
-			:contextable_id, :contextable_type ],:unique => true,:name => 'ccc'
+#	Is this really needed?
+#		add_index :context_contextables, [:context_id,
+#			:contextable_id, :contextable_type ],:unique => true,:name => 'ccc'
 	end
 end
