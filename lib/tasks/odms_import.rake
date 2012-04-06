@@ -283,7 +283,9 @@ namespace :odms_import do
 			end
 
 			sample = study_subject.samples.create do |s|
-				s.id = line['id']
+
+				s.id = line['id']	#	THIS IS ACTUALLY IMPORTANT!
+
 				s.project_id = if line['project_id'].blank? or line['project_id'].to_s == '0'
 					Project['ccls'].id
 				else
