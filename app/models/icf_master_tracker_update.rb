@@ -61,8 +61,13 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 #						:master_tracker_date => self.master_tracker_date )
 #				end
 
+#
+#	NOTE Why no errors?  I think that it should raise errors,
+#		although I really hope that there aren't any.
+#
+
 				#	NO BANG. Don't want to raise any errors.
-				successfully_updated = icf_master_tracker.update_attributes(
+				successfully_updated = icf_master_tracker.update_attributes!(
 					line.to_hash.delete_keys!(
 						'master_id').merge(
 						:master_tracker_date => self.master_tracker_date) )

@@ -68,15 +68,17 @@ class IcfMasterTracker < ActiveRecord::Base
 #	then immediately create changes for each non-nil value. This may be
 #	desired, but be aware.
 #
+
+#	NOTE 20120406 add the !'s
 		if new_record?
-			IcfMasterTrackerChange.create(
+			IcfMasterTrackerChange.create!(
 				:icf_master_id       => self.master_id,
 				:master_tracker_date => self.master_tracker_date,
 				:new_tracker_record  => true
 			)
 		else
 			unignorable_changes.each do |field,values|
-				IcfMasterTrackerChange.create(
+				IcfMasterTrackerChange.create!(
 					:icf_master_id       => self.master_id,
 					:master_tracker_date => self.master_tracker_date,
 					:modified_column     => field,
