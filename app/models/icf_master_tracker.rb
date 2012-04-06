@@ -58,17 +58,23 @@ class IcfMasterTracker < ActiveRecord::Base
 	end
 
 	def save_all_changes
+#
+#	this won't really work as the record is first created from the master_id
+#	and then it is updated. This means that it create the 'new tracker' and
+#	then immediately create changes for each non-nil value. This may be
+#	desired, but be aware.
+#
 		if new_record?
 			IcfMasterTrackerChange.create(
 				:icf_master_id => self.master_id,
-#  5       t.date :master_tracker_date	#	Hmm.
+#t.date :master_tracker_date	#	Hmm.
 				:new_tracker_record => true
 			)
 		else
 			unignorable_changes.each do |field,values|
 				IcfMasterTrackerChange.create(
 					:icf_master_id => self.master_id,
-#  5       t.date :master_tracker_date	#	Hmm.
+#t.date :master_tracker_date	#	Hmm.
 					:modified_column => field,
 					:previous_value => values[0],
 					:new_value => values[1]

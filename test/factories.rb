@@ -338,7 +338,15 @@ Factory.define :icf_master_tracker_change do |f|
 end
 Factory.define :icf_master_tracker_update do |f|
 	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/empty_icf_master_tracker_update_test_file.csv' , 'text/csv')
+		'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/csv')
+end
+Factory.define :empty_icf_master_tracker_update, 
+	:parent => :icf_master_tracker_update do |f|
+end
+Factory.define :one_record_icf_master_tracker_update, 
+	:parent => :icf_master_tracker_update do |f|
+	f.csv_file Rack::Test::UploadedFile.new( 
+		'test/assets/one_record_icf_master_tracker_update_test_file.csv', 'text/csv')
 end
 
 Factory.define :ineligible_reason do |f|
@@ -380,6 +388,16 @@ Factory.define :interview do |f|
 end
 
 Factory.define :live_birth_data_update do |f|
+	f.csv_file Rack::Test::UploadedFile.new( 
+		'test/assets/empty_live_birth_data_update_test_file.csv', 'text/csv')
+end
+Factory.define :empty_live_birth_data_update, 
+	:parent => :live_birth_data_update do |f|
+end
+Factory.define :one_record_live_birth_data_update, 
+	:parent => :live_birth_data_update do |f|
+	f.csv_file Rack::Test::UploadedFile.new( 
+		'test/assets/one_record_live_birth_data_update_test_file.csv', 'text/csv')
 end
 
 Factory.define :language do |f|

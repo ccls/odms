@@ -12,19 +12,23 @@ module LiveBirthDataUpdateTestHelper
 		live_birth_data_update
 	end
 
+#
+#	No longer necessary
+#	Actually, should probably remove the source file.
+#
 	def cleanup_live_birth_data_update_and_test_file(live_birth_data_update=nil)
-		if live_birth_data_update
-			live_birth_data_update_file = live_birth_data_update.csv_file.path
-			#	explicit destroy to remove attachment
-			live_birth_data_update.destroy	
-			unless live_birth_data_update_file.blank?
-				assert !File.exists?(live_birth_data_update_file)
-			end
-			if File.exists?("test/live_birth_data_update/#{live_birth_data_update.id}") &&
-				File.directory?("test/live_birth_data_update/#{live_birth_data_update.id}")
-				Dir.delete("test/live_birth_data_update/#{live_birth_data_update.id}")
-			end
-		end
+#		if live_birth_data_update
+#			live_birth_data_update_file = live_birth_data_update.csv_file.path
+#			#	explicit destroy to remove attachment
+#			live_birth_data_update.destroy	
+#			unless live_birth_data_update_file.blank?
+#				assert !File.exists?(live_birth_data_update_file)
+#			end
+#			if File.exists?("test/live_birth_data_update/#{live_birth_data_update.id}") &&
+#				File.directory?("test/live_birth_data_update/#{live_birth_data_update.id}")
+#				Dir.delete("test/live_birth_data_update/#{live_birth_data_update.id}")
+#			end
+#		end
 		if File.exists?(csv_test_file_name)
 			#	explicit delete to remove test file
 			File.delete(csv_test_file_name)	
@@ -41,7 +45,6 @@ module LiveBirthDataUpdateTestHelper
 	end
 
 	def csv_file_header_array
-#		%w{masterid ca_co_status biomom biodad date mother_full_name mother_maiden_name father_full_name child_full_name child_dobm child_dobd child_doby child_gender birthplace_country birthplace_state birthplace_city mother_hispanicity mother_hispanicity_mex mother_race other_mother_race father_hispanicity father_hispanicity_mex father_race other_father_race}
 		%w{masterid ca_co_status biomom biodad date mother_full_name mother_maiden_name father_full_name child_full_name child_dobm child_dobd child_doby child_gender birthplace_country birthplace_state birthplace_city mother_hispanicity mother_hispanicity_mex mother_race mother_race_other father_hispanicity father_hispanicity_mex father_race father_race_other}
 	end
 
@@ -105,7 +108,7 @@ module LiveBirthDataUpdateTestHelper
 
 #	shouldn't be called test_... as makes it a test method!
 	def csv_test_file_name
-		"live_birth_data_update_test_file.csv"
+		"tmp/live_birth_data_update_test_file.csv"
 	end
 
 end

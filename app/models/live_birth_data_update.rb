@@ -9,9 +9,30 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 
 
 #	validates_attachment :csv_file, :presence => true,
-	validates_attachment :csv_file, 
-		:content_type => { :content_type => "text/csv" }
+#	validates_attachment :csv_file, 
+#		:content_type => { :content_type => "text/csv" }
 
+
+#	validates_attachment :csv_file, :presence => true
+	validates_attachment_presence     :csv_file
+#	validates_attachment_content_type :csv_file,
+#		:content_type => ["text/csv","text/plain","application/vnd.ms-excel"]
+	validates_inclusion_of :csv_file_content_type,
+		:in => ["text/csv","text/plain","application/vnd.ms-excel"],
+		:allow_blank => true
+
+#	the paperclip content type validator does not work for multiple possible
+#	content types.  It loops over all possible and basically will always
+#	raise an error.  Using the core rails inclusion validator works fine.
+#text/csv
+#text/plain
+#text/csv, text/plain, application/vnd.ms-excel
+
+
+#	validates_attachment :csv_file, :presence => true,
+#		:content_type => { :content_type => "text/csv" }
+#	It seems that our csv files are uploaded with the content_type ...
+#	@content_type="application/vnd.ms-excel"
 
 
 
