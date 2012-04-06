@@ -9,6 +9,8 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 			File.join(File.dirname(__FILE__),'../..','config/icf_master_tracker_update.yml')
 		))).result)[Rails.env]
 
+	validates_attachment :csv_file, :presence => true,
+		:content_type => { :content_type => "text/csv" }
 
 	#	This doesn't really do much of anything yet.
 	def parse

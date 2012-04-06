@@ -51,6 +51,13 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 #	TODO test for name with 2 first names
 
 
+	test "should require csv_file" do
+pending
+	end
+
+	test "should require that attached csv_file be csv" do
+pending
+	end
 
 
 	test "should create without attached csv_file" do

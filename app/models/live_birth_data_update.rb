@@ -5,6 +5,17 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 			File.join(File.dirname(__FILE__),'../..','config/live_birth_data_update.yml')
 		))).result)[Rails.env]
 
+
+
+
+#	validates_attachment :csv_file, :presence => true,
+	validates_attachment :csv_file, 
+		:content_type => { :content_type => "text/csv" }
+
+
+
+
+
 	def to_candidate_controls
 		results = []
 		if !self.csv_file_file_name.blank? &&

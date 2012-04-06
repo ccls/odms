@@ -5,16 +5,14 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 
 	setup :turn_off_paperclip_logging
 
-	assert_should_create_default_object
+	test "should require csv_file" do
+		icf_master_tracker_update = IcfMasterTrackerUpdate.new
+		assert !icf_master_tracker_update.valid?
+		assert  icf_master_tracker_update.errors.include?(:csv_file)
+	end
 
-	test "should create without attached csv_file" do
-		assert_difference('IcfMasterTrackerUpdate.count',1) {
-			@object = Factory(:icf_master_tracker_update)
-		}
-		assert_nil @object.csv_file_file_name
-		assert_nil @object.csv_file_content_type
-		assert_nil @object.csv_file_file_size
-		assert_nil @object.csv_file_updated_at
+	test "should require that attached csv_file be csv" do
+pending
 	end
 
 	test "should create with attached csv_file" do
@@ -27,15 +25,6 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 		assert_not_nil @object.csv_file_file_size
 		assert_not_nil @object.csv_file_updated_at
 		cleanup_icf_master_tracker_update_and_test_file(@object)
-	end
-
-	test "should parse nil attached csv_file" do
-		icf_master_tracker_update = Factory(:icf_master_tracker_update)
-		assert_nil icf_master_tracker_update.csv_file_file_name
-		assert_difference('IcfMasterTracker.count',0) {
-			results = icf_master_tracker_update.parse
-			assert_equal [], results
-		}
 	end
 
 	test "should parse non-existant attached csv_file" do

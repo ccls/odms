@@ -337,6 +337,8 @@ Factory.define :icf_master_tracker_change do |f|
 	f.sequence(:icf_master_id){|n| "#{n}"}
 end
 Factory.define :icf_master_tracker_update do |f|
+	f.csv_file Rack::Test::UploadedFile.new( 
+		'test/empty_icf_master_tracker_update_test_file.csv' , 'text/csv')
 end
 
 Factory.define :ineligible_reason do |f|
