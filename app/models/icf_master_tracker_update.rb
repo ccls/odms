@@ -9,6 +9,8 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 			File.join(File.dirname(__FILE__),'../..','config/icf_master_tracker_update.yml')
 		))).result)[Rails.env]
 
+	validates_presence_of :master_tracker_date
+
 #	validates_attachment :csv_file, :presence => true
 	validates_attachment_presence     :csv_file
 #	validates_attachment_content_type :csv_file,
@@ -48,11 +50,22 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 #
 
 				icf_master_tracker = IcfMasterTracker.find_or_create_by_master_id(
-					line['master_id'])
+					line['master_id'],
+					:master_tracker_date => self.master_tracker_date )
+
+#				icf_master_tracker = IcfMasterTracker.where(
+#					:master_id => line['master_id']).first
+#				if icf_master_tracker.nil?
+#					icf_master_tracker = IcfMasterTracker.create(
+#						:master_id           => line['master_id'],
+#						:master_tracker_date => self.master_tracker_date )
+#				end
 
 				#	NO BANG. Don't want to raise any errors.
 				successfully_updated = icf_master_tracker.update_attributes(
-					line.to_hash.delete_keys!('master_id'))
+					line.to_hash.delete_keys!(
+						'master_id').merge(
+						:master_tracker_date => self.master_tracker_date) )
 
 #	can't do this ... as it returns the value of the deleted key
 #					line.to_hash.delete('master_id'))

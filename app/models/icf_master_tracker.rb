@@ -22,6 +22,10 @@ class IcfMasterTracker < ActiveRecord::Base
 	before_save :flag_for_update
 	before_save :save_all_changes
 
+	#	purely for passing the date from the IcfMasterTrackerUpdate
+	#	to the IcfMasterTrackerChange
+	attr_accessor :master_tracker_date
+
 	scope :have_changed, where( :flagged_for_update => true )
 
 	#	This may not be the best way to update.
@@ -66,18 +70,18 @@ class IcfMasterTracker < ActiveRecord::Base
 #
 		if new_record?
 			IcfMasterTrackerChange.create(
-				:icf_master_id => self.master_id,
-#t.date :master_tracker_date	#	Hmm.
-				:new_tracker_record => true
+				:icf_master_id       => self.master_id,
+				:master_tracker_date => self.master_tracker_date,
+				:new_tracker_record  => true
 			)
 		else
 			unignorable_changes.each do |field,values|
 				IcfMasterTrackerChange.create(
-					:icf_master_id => self.master_id,
-#t.date :master_tracker_date	#	Hmm.
-					:modified_column => field,
-					:previous_value => values[0],
-					:new_value => values[1]
+					:icf_master_id       => self.master_id,
+					:master_tracker_date => self.master_tracker_date,
+					:modified_column     => field,
+					:previous_value      => values[0],
+					:new_value           => values[1]
 				)
 			end
 		end

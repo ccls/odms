@@ -133,6 +133,7 @@ module FormBuilderHelper
 #
 		%w( adna_select collection_select country_select 
 				datetime_select date_text_field datetime_text_field 
+				file_field
 				hour_select minute_select meridiem_select
 				grouped_collection_select select sex_select text_area
 				text_field yndk_select ynodk_select ynrdk_select 

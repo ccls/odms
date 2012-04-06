@@ -332,11 +332,14 @@ end
 Factory.define :icf_master_tracker do |f|
 #	f.sequence(:Masterid){|n| "#{n}"}	#	in order to test uniqueness, MUST BE HERE
 	f.sequence(:master_id){|n| "#{n}"}	#	in order to test uniqueness, MUST BE HERE
+	f.master_tracker_date Date.today	#	virtual attribute needed for Change
 end
 Factory.define :icf_master_tracker_change do |f|
+	f.master_tracker_date Date.today
 	f.sequence(:icf_master_id){|n| "#{n}"}
 end
 Factory.define :icf_master_tracker_update do |f|
+	f.master_tracker_date Date.today
 	f.csv_file Rack::Test::UploadedFile.new( 
 		'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/csv')
 end

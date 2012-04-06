@@ -1,16 +1,11 @@
 <h4><%= ( (@icf_master_tracker_update.new_record?)?'Creating':'Editting' ) %> icf_master_tracker_update</h4>
 
 <%= form_for(@icf_master_tracker_update, :html => { :multipart => true } ) do |f| %>
-
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
-
-  <%= f.file_field :csv_file %>
-  <p>
+<%= f.wrapped_date_text_field :master_tracker_date %>
+<%= f.wrapped_file_field :csv_file,
+	:label_text => "CSV File" %>
+<p>
 <%= f.submit( (@icf_master_tracker_update.new_record?)?'Create':'Update' ) %>
 <%= link_to( 'Show', @icf_master_tracker_update, :class => 'button' ) unless(@icf_master_tracker_update.new_record?)  %>
 <%= link_to( 'Back', icf_master_tracker_updates_path, :class => 'button' ) %>

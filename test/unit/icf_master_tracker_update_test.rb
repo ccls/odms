@@ -57,6 +57,12 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 		}
 	end
 
+	test "should require master_tracker_date" do
+		icf_master_tracker_update = IcfMasterTrackerUpdate.new
+		assert !icf_master_tracker_update.valid?
+		assert  icf_master_tracker_update.errors.include?(:master_tracker_date)
+	end
+
 	test "should require csv_file" do
 		icf_master_tracker_update = IcfMasterTrackerUpdate.new
 		assert !icf_master_tracker_update.valid?

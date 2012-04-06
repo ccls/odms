@@ -502,8 +502,6 @@ ActiveRecord::Schema.define(:version => 20120403224020) do
     t.datetime "updated_at",       :null => false
   end
 
-  add_index "context_contextables", ["context_id", "contextable_id", "contextable_type"], :name => "ccc", :unique => true
-
   create_table "contexts", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
@@ -838,6 +836,7 @@ ActiveRecord::Schema.define(:version => 20120403224020) do
   add_index "icf_master_tracker_changes", ["icf_master_id"], :name => "index_icf_master_tracker_changes_on_icf_master_id"
 
   create_table "icf_master_tracker_updates", :force => true do |t|
+    t.date     "master_tracker_date"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
     t.string   "csv_file_file_name"

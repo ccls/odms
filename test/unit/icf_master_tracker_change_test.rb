@@ -9,7 +9,7 @@ class IcfMasterTrackerChangeTest < ActiveSupport::TestCase
 #			t.string :new_value
 
 	assert_should_create_default_object
-	assert_should_require( :icf_master_id )
+	assert_should_require( :icf_master_id, :master_tracker_date )
 
 protected
 
