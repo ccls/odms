@@ -101,6 +101,15 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 		assert  icf_master_tracker_update.errors.include?(:csv_file_content_type)
 	end
 
+	test "should require expected column names in csv file" do
+		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
+			:csv_file => Rack::Test::UploadedFile.new(
+				'test/assets/bad_header_test_file.csv', 'text/csv') )
+		assert !icf_master_tracker_update.valid?
+		assert  icf_master_tracker_update.errors.include?(:csv_file)
+		assert  icf_master_tracker_update.errors.matching?(:csv_file,
+			'Invalid column names in csv_file')
+	end
 
 
 
