@@ -14,7 +14,6 @@ class StudySubjectsController < ApplicationController
 
 
 	def find
-#	If this gets much more complex, we may want to consider using something like solr.
 		record_or_recall_sort_order
 		conditions = [[],{}]
 		#	Table names are not necessary if field is unambiguous.
@@ -24,23 +23,7 @@ class StudySubjectsController < ApplicationController
 				conditions[1][attr.to_sym] = "%#{params[attr]}%"
 			end
 		end
-		if params[:dob] and !params[:dob].blank?
-			begin
-				#	ensure correct format. Could raise error if parser fails so do first.
-				valid_date = params[:dob].to_date	
-				conditions[1][:dob] = valid_date
-				conditions[0] << "( dob = :dob )"
-			rescue
-#	probably a poorly formatted date.
-#	>> 'asdf'.to_date
-#NoMethodError: undefined method `<' for nil:NilClass
-#	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.14/lib/active_support/whiny_nil.rb:52:in `method_missing'
-#	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/date.rb:621:in `valid_civil?'
-#	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/date.rb:751:in `new'
-#	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.14/lib/active_support/core_ext/string/conversions.rb:19:in `to_date'
-#	from (irb):2
-			end
-		end
+		validate_valid_date_range_for(:dob,conditions)
 		if params[:last_name] and !params[:last_name].blank?
 			conditions[0] << "( last_name LIKE :last_name OR maiden_name LIKE :last_name )"
 			conditions[1][:last_name] = "%#{params[:last_name]}%"
@@ -53,21 +36,8 @@ class StudySubjectsController < ApplicationController
 			conditions[0] << "( subject_type_id = :subject_type_id )"
 			conditions[1][:subject_type_id] = params[:subject_type_id].to_i
 		end
-#		params[:page] = valid_find_page	#(params)
-
-#	LEFT JOIN because not all subjects will have a patient.
-#	otherwise, we'd effectively only search cases
-
-#		@study_subjects = StudySubject.paginate(
-#			:order   => search_order,
-#			:include => [:patient,:subject_type],
-#			:joins => [
-#				'LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
-#			],
-#			:conditions => [ conditions[0].join(valid_find_operator), conditions[1] ],
-#			:per_page => params[:per_page]||25,
-#			:page     => valid_find_page
-#		)
+		#	LEFT JOIN because not all subjects will have a patient.
+		#	otherwise, we'd effectively only search cases
 		@study_subjects = StudySubject.order(search_order
 			).includes(:patient,:subject_type
 			).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
@@ -80,50 +50,18 @@ class StudySubjectsController < ApplicationController
 
 	#	there is no longer a link to this action, nevertheless
 	def index
-
-#	perhaps add a
-#		redirect_to find_study_subjects_path
-
-#puts "first"
-#puts params.inspect
-#puts request.format.inspect
-#puts request.format.class	#	Mime::Type
 		record_or_recall_sort_order
 		if params[:commit] && params[:commit] == 'download'
-#			params[:format] = 'csv'		#	unfortunately, in rails 3, this DOES NOT CHANGE THE FORMAT for a respond_to block
-#			request.format = 'text/csv'	#	will this work???
-#			request.format = Mime::Type["text/csv"]	#'text/csv'	#	will this work???
-#			request.format = Mime::Type.lookup('text/csv')
+			#	Manually set to the csv format for rendering
 			request.format = :csv
 			params[:paginate] = false
 		end
-#	TODO stop using StudySubject.search, but here it may be needed
-		
-#	You are the last.
-#		@study_subjects = StudySubject.search(params)
-
 		flash.now[:notice] = "This page isn't used at the moment."
 		@study_subjects = StudySubject.paginate(
 				:per_page => params[:per_page]||25,
 				:page     => valid_find_page
 			)
-
-#	this appears to be rendering the index.html for csv download in rails 3
-
-#puts "for downloading in csv should have commit=download"
-#puts params.inspect
-#	maybe I need an explicit respond to block
-
-#		if params[:commit] && params[:commit] == 'download'
-#			params[:format] = 'csv'
-#			headers["Content-disposition"] = "attachment; " <<
-#				"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 
-#		end
-
-#puts params.inspect
-#puts request.format.inspect
-
-		#	respond_to blocks are based on 'request.format' which is usually text/html or text/csv
+		#	respond_to blocks are based on 'request.format', not params[:format]
 		respond_to do |format|
 			format.html
 			format.csv { 

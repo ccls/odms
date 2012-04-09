@@ -17,10 +17,8 @@ class SamplesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def find
-		#	If this gets much more complex, we may want to consider using something like solr.
 		record_or_recall_sort_order
 		conditions = [[],{}]
-
 		#	Table names are not necessary if field is unambiguous.
 		%w( childid patid icf_master_id first_name ).each do |attr|
 			if params[attr] and !params[attr].blank?
@@ -28,19 +26,16 @@ class SamplesController < ApplicationController
 				conditions[1][attr.to_sym] = "%#{params[attr]}%"
 			end
 		end
-
 		if params[:last_name] and !params[:last_name].blank?
 			conditions[0] << "( last_name LIKE :last_name OR maiden_name LIKE :last_name )"
 			conditions[1][:last_name] = "%#{params[:last_name]}%"
 		end
-
 		if params[:sampleid] and !params[:sampleid].blank?
 #			conditions[0] << "( samples.id LIKE :sampleid )"		#	LIKE?  REALLY?
 #			conditions[1][:sampleid] = "%#{params[:sampleid]}%"
 			conditions[0] << "( samples.id = :sampleid )"	#	MUST include table name here
 			conditions[1][:sampleid] = params[:sampleid].gsub(/^0*/,'')
 		end
-
 		if params[:sample_type_id] and !params[:sample_type_id].blank? and 
 				SampleType.exists?(params[:sample_type_id])
 			sample_type = SampleType.find(params[:sample_type_id])
@@ -51,11 +46,8 @@ class SamplesController < ApplicationController
 				[sample_type.id]
 			end
 		end
-
-		#	may want to implement this for study_subjects/find on dob as well
 		validate_valid_date_range_for(:sent_to_subject_at,conditions)
 		validate_valid_date_range_for(:received_by_ccls_at,conditions)
-
 		@samples = Sample.joins(:study_subject
 			).where(conditions[0].join(valid_find_operator), conditions[1] 
 			).paginate(

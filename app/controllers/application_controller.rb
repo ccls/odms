@@ -141,14 +141,14 @@ protected	#	private #	(does it matter which or if neither?)
 				conditions[1]["#{key}_2".to_sym] = valid_date + 1.day
 				conditions[0] << "( #{key} BETWEEN :#{key}_1 AND :#{key}_2 )"
 			rescue
-#	probably a poorly formatted date.
-#	>> 'asdf'.to_date
-#NoMethodError: undefined method `<' for nil:NilClass
-#	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.14/lib/active_support/whiny_nil.rb:52:in `method_missing'
-#	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/date.rb:621:in `valid_civil?'
-#	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/date.rb:751:in `new'
-#	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.14/lib/active_support/core_ext/string/conversions.rb:19:in `to_date'
-#	from (irb):2
+			#	probably a poorly formatted date.
+			#	irb(main):002:0> "asdf".to_date
+			#	NoMethodError: undefined method `<' for nil:NilClass
+			#		from /opt/local/lib/ruby/1.8/date.rb:621:in `valid_civil?'
+			#		from /opt/local/lib/ruby/1.8/date.rb:751:in `new'
+			#		from /opt/local/lib/ruby/gems/1.8/gems/activesupport-3.2.2/
+			#			lib/active_support/core_ext/string/conversions.rb:45:in `to_date'
+			#		from (irb):2
 			end
 		end
 

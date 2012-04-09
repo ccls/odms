@@ -264,8 +264,10 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects with dob as month day year and #{cu} login" do
+			base_date = Date.today-100.days
+			#	spread dates out by a few days so outside date range
 			subjects = 3.times.collect{|i| 
-				Factory(:study_subject,:dob => Date.today-100+i ) }
+				Factory(:study_subject,:dob => base_date + (5*i).days ) }
 			login_as send(cu)
 			get :find, :dob => subjects[1].dob.strftime("%b %d %Y")	#	Dec 1 2000
 			assert_response :success
@@ -274,8 +276,10 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects with dob as MM/DD/YYYY and #{cu} login" do
+			base_date = Date.today-100.days
+			#	spread dates out by a few days so outside date range
 			subjects = 3.times.collect{|i| 
-				Factory(:study_subject,:dob => Date.today-100+i ) }
+				Factory(:study_subject,:dob => base_date + (5*i).days ) }
 			login_as send(cu)
 			get :find, :dob => subjects[1].dob.strftime("%m/%d/%Y")	#	javascript selector format
 			assert_response :success
@@ -284,8 +288,10 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects with dob as YYYY-MM-DD and #{cu} login" do
+			base_date = Date.today-100.days
+			#	spread dates out by a few days so outside date range
 			subjects = 3.times.collect{|i| 
-				Factory(:study_subject,:dob => Date.today-100+i ) }
+				Factory(:study_subject,:dob => base_date + (5*i).days ) }
 			login_as send(cu)
 			get :find, :dob => subjects[1].dob.to_s	#	same as strftime('%Y-%m-%d')
 			assert_response :success
@@ -294,7 +300,10 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects ignoring poorly formatted dob and #{cu} login" do
-			3.times{|i| Factory(:study_subject,:dob => Date.today-100+i ) }
+			base_date = Date.today-100.days
+			#	spread dates out by a few days so outside date range
+			subjects = 3.times.collect{|i| 
+				Factory(:study_subject,:dob => base_date + (5*i).days ) }
 			login_as send(cu)
 			get :find, :dob => 'bad monkey'
 			assert_response :success
