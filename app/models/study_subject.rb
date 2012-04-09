@@ -12,9 +12,6 @@ class StudySubject < ActiveRecord::Base
 	class NotTwoAbstracts < StandardError; end
 	class DuplicatesFound < StandardError; end
 
-	belongs_to :subject_type
-	belongs_to :vital_status
-
 	has_and_belongs_to_many :analyses
 	has_many :gift_cards
 	has_many :phone_numbers
@@ -22,9 +19,9 @@ class StudySubject < ActiveRecord::Base
 	has_one :home_exposure_response
 	has_many :bc_requests
 	has_many :interviews
-	belongs_to :guardian_relationship, :class_name => 'SubjectRelationship'
-	has_many :abstracts
 
+	include StudySubjectSubjectType
+	include StudySubjectVitalStatus
 	include StudySubjectPatient
 	include StudySubjectPii
 	include StudySubjectIdentifier
@@ -40,10 +37,8 @@ class StudySubject < ActiveRecord::Base
 
 	include StudySubjectHomexOutcome
 	include StudySubjectFinders
-
-	#	generates guardian_relationship_is_other? method
-	delegate :is_other?, :to => :guardian_relationship, 
-		:allow_nil => true, :prefix => true 
+	include StudySubjectGuardianRelationship
+	include StudySubjectAbstracts
 
 	accepts_nested_attributes_for :phone_numbers,
 		:reject_if => proc { |attrs| attrs[:phone_number].blank? }
@@ -53,9 +48,6 @@ class StudySubject < ActiveRecord::Base
 #
 #	Begin validations
 #
-	validates_presence_of :subject_type_id
-	validates_presence_of :subject_type, :if => :subject_type_id
-
 	validates_presence_of  :sex,
 		:message => "Sex has not been chosen"
 	validates_inclusion_of :sex, :in => %w( M F DK ), :allow_blank => true
@@ -81,10 +73,6 @@ class StudySubject < ActiveRecord::Base
 	validates_format_of :email,
 	  :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
 		:allow_blank => true
-
-	validates_presence_of :other_guardian_relationship,
-		:message => "You must specify a relationship with 'other relationship' is selected",
-		:if => :guardian_relationship_is_other?
 
 	validates_presence_of :birth_city,  :if => :birth_country_is_united_states?
 	validates_presence_of :birth_state, :if => :birth_country_is_united_states?
@@ -127,33 +115,8 @@ class StudySubject < ActiveRecord::Base
 #
 ##################################################
 
-	after_initialize :set_defaults, :if => :new_record?
-	def set_defaults
-		# ||= doesn't work with ''
-		self.vital_status_id ||= VitalStatus['living'].id
-#		self.vital_status ||= VitalStatus['living']
-	end
-
 	def to_s
 		[childid,'(',studyid,full_name,')'].compact.join(' ')
-	end
-
-	#	Returns boolean of comparison
-	#	true only if type is Case
-	def is_case?
-		subject_type_id == StudySubject.subject_type_case_id
-	end
-
-	#	Returns boolean of comparison
-	#	true only if type is Control
-	def is_control?
-		subject_type_id == StudySubject.subject_type_control_id
-	end
-
-	#	Returns boolean of comparison
-	#	true only if type is Mother
-	def is_mother?
-		subject_type_id == StudySubject.subject_type_mother_id
 	end
 
 	#	Create (or just return) a mother subject based on subject's own data.
@@ -224,35 +187,10 @@ class StudySubject < ActiveRecord::Base
 		( is_mother? ) ? "n/a" : studyid
 	end
 
-	def abstracts_the_same?
-		raise StudySubject::NotTwoAbstracts unless abstracts_count == 2
-		#	abstracts.inject(:is_the_same_as?) was nice
-		#	but using inject is ruby >= 1.8.7
-		return abstracts[0].is_the_same_as?(abstracts[1])
-	end
-
-	def abstract_diffs
-		raise StudySubject::NotTwoAbstracts unless abstracts_count == 2
-		#	abstracts.inject(:diff) was nice
-		#	but using inject is ruby >= 1.8.7
-		return abstracts[0].diff(abstracts[1])
-	end
-
 protected
 
 	def birth_country_is_united_states?
 		birth_country == 'United States'
-	end
-
-	#	Use these to stop the constant checking.
-	def self.subject_type_mother_id
-		@@subject_type_mother_id ||= SubjectType['Mother'].id
-	end
-	def self.subject_type_control_id
-		@@subject_type_control_id ||= SubjectType['Control'].id
-	end
-	def self.subject_type_case_id
-		@@subject_type_case_id ||= SubjectType['Case'].id
 	end
 
 end
