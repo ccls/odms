@@ -44,6 +44,9 @@ module LiveBirthDataUpdateTestHelper
 		study_subject
 	end
 
+#
+#	This should match LiveBirthDataUpdate.expected_column_names
+#
 	def csv_file_header_array
 		%w{masterid ca_co_status biomom biodad date mother_full_name mother_maiden_name father_full_name child_full_name child_dobm child_dobd child_doby child_gender birthplace_country birthplace_state birthplace_city mother_hispanicity mother_hispanicity_mex mother_race mother_race_other father_hispanicity father_hispanicity_mex father_race father_race_other}
 	end
