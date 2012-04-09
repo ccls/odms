@@ -2,11 +2,12 @@
 
 <% if @icf_master_tracker_updates.length > 0 %>
 <table id='icf_master_tracker_updates'>
-<%# <thead><tr><th>&nbsp;</th><th>&nbsp;</th></tr></thead> -%>
+<thead><tr><th>file name</th><th>tracker date</th><th>&nbsp;</th></tr></thead>
 <tbody>
 <% @icf_master_tracker_updates.each do |icf_master_tracker_update| %>
   <tr class='row'>
     <td><%= icf_master_tracker_update.csv_file_file_name || '&nbsp;'.html_safe %></td>
+    <td><%=mdy icf_master_tracker_update.master_tracker_date %></td>
     <td class='manage'>
 <%= link_to( 'Show', icf_master_tracker_update, :class => 'button' ) %>
 <%= link_to( 'Edit', edit_icf_master_tracker_update_path(icf_master_tracker_update), :class => 'button' ) %>

@@ -1,19 +1,13 @@
 <h4><%= ( (@live_birth_data_update.new_record?)?'Creating':'Editting' ) %> live_birth_data_update</h4>
 
 <%= form_for(@live_birth_data_update, :html => { :multipart => true } ) do |f| %>
-
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
-
-  <%= f.file_field :csv_file %>
+<%= f.wrapped_file_field :csv_file, :label_text => "CSV File" %>
 <p><%= f.object.csv_file_file_name unless f.object.csv_file_file_name.blank? %></p>
-  <p>
+<p>
 <%= f.submit( (@live_birth_data_update.new_record?)?'Create':'Update' ) %>
-<%= link_to( 'Show', @live_birth_data_update, :class => 'button' ) unless(@live_birth_data_update.new_record?)  %>
+<%= link_to( 'Show', @live_birth_data_update, :class => 'button' 
+	) unless(@live_birth_data_update.new_record?)  %>
 <%= link_to( 'Back', live_birth_data_updates_path, :class => 'button' ) %>
 </p>
 <% end %>
