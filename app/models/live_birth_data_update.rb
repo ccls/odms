@@ -36,6 +36,12 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 
 
 
+#	perhaps by file extension rather than mime type?
+#	validates_format_of :csv_file_file_name,
+#		:with => %r{\.csv$}i,
+#		:allow_blank => true
+
+
 	validate :valid_csv_file_column_names
 
 	def valid_csv_file_column_names
