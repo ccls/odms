@@ -17,7 +17,8 @@ base.class_eval do
 	scope :cases,    joins(:subject_type).where('subject_types.key = ?', 'Case')
 	scope :controls, joins(:subject_type).where('subject_types.key = ?', 'Control')
 	scope :mothers,  joins(:subject_type).where('subject_types.key = ?', 'Mother')
-	scope :children, joins(:subject_type).where('subject_types.key IN (?)', ['Case','Control'])
+	scope :children, joins(:subject_type).where('subject_types.key IN (?)', 
+		['Case','Control'])
 
 	def self.with_patid(patid)
 		where(:patid => patid)
@@ -35,16 +36,17 @@ base.class_eval do
 		where(:subjectid => subjectid)
 	end
 
-#	HMM?
-	#	def not_id(study_subject_id)
-	#		where("study_subjects.id != ?", study_subject_id)
-	#	end
+	def self.not_id(study_subject_id)
+		where("study_subjects.id != ?", study_subject_id)
+	end
 
 	#	Find the case or control subject with matching familyid except self.
 	def child
 		if (subject_type_id == StudySubject.subject_type_mother_id) && !familyid.blank?
-			StudySubject.children.with_subjectid(familyid).where("study_subjects.id != ?",
-				id ).includes(:subject_type).first
+#			StudySubject.children.with_subjectid(familyid).where("study_subjects.id != ?",
+#				id ).includes(:subject_type).first
+			StudySubject.children.with_subjectid(familyid).not_id(id 
+				).includes(:subject_type).first
 		else
 			nil
 		end
@@ -60,15 +62,13 @@ base.class_eval do
 	#	Find all the subjects with matching familyid except self.
 	def family
 		return [] if familyid.blank?
-		StudySubject.with_familyid(familyid).where("study_subjects.id != ?", id
-			).includes(:subject_type)
+		StudySubject.with_familyid(familyid).not_id(id).includes(:subject_type)
 	end
 
 	#	Find all the subjects with matching matchingid except self.
 	def matching
 		return [] if matchingid.blank?
-		StudySubject.with_matchingid(matchingid).where("study_subjects.id != ?", id
-			).includes(:subject_type)
+		StudySubject.with_matchingid(matchingid).not_id(id).includes(:subject_type)
 	end
 
 	#	Find all the subjects with matching patid with subject_type Control except self.
@@ -76,8 +76,7 @@ base.class_eval do
 	#			TODO Could fix, but this situation is unlikely.
 	def controls
 		return [] unless is_case?
-		StudySubject.controls.with_patid(patid).where("study_subjects.id != ?", id
-			).includes(:subject_type)
+		StudySubject.controls.with_patid(patid).not_id(id).includes(:subject_type)
 	end
 
 	def rejected_controls
