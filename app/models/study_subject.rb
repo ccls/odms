@@ -98,7 +98,7 @@ class StudySubject < ActiveRecord::Base
 	validates_length_of :gbid, 
 			:maximum => 26, :allow_blank => true
 	validates_length_of :first_name, :last_name, 
-		:middle_name, :maiden_name, :other_guardian_relationship,
+		:middle_name, :maiden_name, 
 		:father_first_name, :father_middle_name, :father_last_name,
 		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
 		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
