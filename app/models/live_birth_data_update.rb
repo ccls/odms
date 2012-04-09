@@ -36,6 +36,23 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 
 
 
+	validate :valid_csv_file_column_names
+
+	def valid_csv_file_column_names
+##		f=FasterCSV.open(self.csv_file.path,'rb')
+##	if new record, csv_file.path doesn't work as is no id
+##	if updating the csv_file, the existing csv_file.path is (may be?) the existing file
+##		not the new file.
+		if self.csv_file && self.csv_file.to_file
+			f=FasterCSV.open(self.csv_file.to_file.path,'rb')
+			column_names = f.readline
+			f.close
+			if column_names != expected_column_names 
+				errors.add(:csv_file, "Invalid column names in csv_file.")
+			end
+		end
+	end
+
 
 	def to_candidate_controls
 		results = []
@@ -143,6 +160,14 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 		end	#	if !self.csv_file_file_name.blank? && File.exists?(self.csv_file.path)
 		results	#	TODO why am I returning anything?  will I use this later?
 	end	#	def to_candidate_controls
+
+	def self.expected_column_names
+		["masterid", "ca_co_status", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "mother_race_other", "father_hispanicity", "father_hispanicity_mex", "father_race", "father_race_other"]
+	end
+
+	def expected_column_names
+		LiveBirthDataUpdate.expected_column_names
+	end
 
 end
 

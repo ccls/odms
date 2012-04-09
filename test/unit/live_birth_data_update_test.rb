@@ -142,6 +142,17 @@ class LiveBirthDataUpdateTest < ActiveSupport::TestCase
 		assert  live_birth_data_update.errors.include?(:csv_file_content_type)
 	end
 
+	test "should require expected column names in csv file" do
+		live_birth_data_update = LiveBirthDataUpdate.new(
+			:csv_file => Rack::Test::UploadedFile.new(
+				'test/assets/bad_header_test_file.csv', 'text/csv') )
+		assert !live_birth_data_update.valid?
+		assert  live_birth_data_update.errors.include?(:csv_file)
+		assert  live_birth_data_update.errors.matching?(:csv_file,
+			'Invalid column names in csv_file')
+	end
+
+
 
 
 
