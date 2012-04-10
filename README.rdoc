@@ -74,7 +74,7 @@
  #	unless the -d or --daemon option is given.
  #	Daemon mode effectively starts the server in the background.
  #
- #	This will se Webrick by default.  I don't know if it
+ #	This will use Webrick by default.  I don't know if it
  #	make much difference, but you can also specify mongrel.
  #
 
