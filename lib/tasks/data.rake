@@ -6,41 +6,33 @@ namespace :data do
 		puts
 		puts "Report data counts in database"
 		puts
-		printf "%-25s %5d\n", "StudySubject.count:", StudySubject.count
+		printf "%-45s %5d\n", "StudySubject.count:", StudySubject.count
 
 		StudySubject.select("subject_type_id, COUNT(*) AS count"
 				).group(:subject_type_id ).each do |e|
-			printf "%-25s %5d\n", "subject_type = #{e.subject_type}:", e.count
+			printf "%-45s %5d\n", "subject_type = #{e.subject_type}:", e.count
 		end
 
 		%w{ case_control_type childidwho hispanicity_id father_hispanicity_id
 				mother_hispanicity_id sex do_not_contact }.each do |field|
 			StudySubject.select("#{field}, COUNT(*) AS count"
 					).group( field ).each do |e|
-				printf "%-25s %5d\n", "#{field} = #{e.send(field)}:", e.count
+				printf "%-45s %5d\n", "#{field} = #{e.send(field)}:", e.count
 			end
 		end
-
-		printf "%-25s %5d\n", "Patient.count:", Patient.count
+		puts
+		printf "%-45s %5d\n", "Patient.count:", Patient.count
 		%w{ was_under_15_at_dx was_previously_treated was_ca_resident_at_diagnosis 
 			organization_id diagnosis_id
 		}.each do |field|
 			Patient.select( "#{field}, COUNT(*) AS count"
 					).group( field ).each do |e|
-				printf "%-25s %5d\n", "#{field} = #{e.send(field)}:", e.count
+				printf "%-45s %5d\n", "#{field} = #{e.send(field)}:", e.count
 			end
 		end
-
-		printf "%-25s %5d\n", "Enrollment.count:", Enrollment.count
-		printf "%-25s %5d\n", "OperationalEvent.count:", OperationalEvent.count
-		%w{ operational_event_type_id }.each do |field|
-			OperationalEvent.select( "#{field}, COUNT(*) AS count"
-					).group( field ).each do |e|
-				printf "%-25s %5d\n", "#{field} = #{e.send(field)}:", e.count
-			end
-		end
-
-		printf "%-25s %5d\n", "CCLS Enrollments.count:", Enrollment.count(
+		puts
+		printf "%-45s %5d\n", "Enrollment.count:", Enrollment.count
+		printf "%-45s %5d\n", "CCLS Enrollments.count:", Enrollment.count(
 			:conditions => { :project_id => Project['ccls'].id })
 		%w{ consented is_eligible refusal_reason_id document_version_id
 			ineligible_reason_id
@@ -48,55 +40,62 @@ namespace :data do
 			Enrollment.select( "#{field}, COUNT(*) AS count"
 					).where( :project_id => Project['ccls'].id 
 					).group( field ).each do |e|
-				printf "%-25s %5d\n", "#{field} = #{e.send(field)}:", e.count
+				printf "%-45s %5d\n", "#{field} = #{e.send(field)}:", e.count
 			end
 		end
-
-		printf "%-25s %5d\n", "IcfMasterId.count:", IcfMasterId.count
-		printf "%-25s %5d\n", "Used IcfMasterId.count:", 
+		puts
+		printf "%-45s %5d\n", "OperationalEvent.count:", OperationalEvent.count
+		%w{ operational_event_type_id }.each do |field|
+			OperationalEvent.select( "#{field}, COUNT(*) AS count"
+					).group( field ).each do |e|
+				printf "%-45s %5d\n", "#{field} = #{e.send(field)}:", e.count
+			end
+		end
+		puts
+		printf "%-45s %5d\n", "IcfMasterId.count:", IcfMasterId.count
+		printf "%-45s %5d\n", "Used IcfMasterId.count:", 
 			IcfMasterId.where( 'study_subject_id IS NOT NULL' ).count
-		printf "%-25s %5d\n", "Unused IcfMasterId.count:", 
+		printf "%-45s %5d\n", "Unused IcfMasterId.count:", 
 			IcfMasterId.where( 'study_subject_id IS NULL' ).count
-
-		printf "%-25s %5d\n", "Subjects with icf_master_id:", 
+		printf "%-45s %5d\n", "Subjects with icf_master_id:", 
 			StudySubject.where( 'icf_master_id IS NOT NULL' ).count
-		printf "%-25s %5d\n", "Subjects without icf_master_id:", 
+		printf "%-45s %5d\n", "Subjects without icf_master_id:", 
 			StudySubject.where( 'icf_master_id IS NULL' ).count
-
-		printf "%-25s %5d\n", "Subjects with childid:", 
+		puts
+		printf "%-45s %5d\n", "Subjects with childid:", 
 			StudySubject.where( 'childid IS NOT NULL' ).count
-		printf "%-25s %5d\n", "Subjects without childid:", 
+		printf "%-45s %5d\n", "Subjects without childid:", 
 			StudySubject.where( 'childid IS NULL' ).count
 
-		printf "%-25s %5d\n", "Subjects with patid:", 
+		printf "%-45s %5d\n", "Subjects with patid:", 
 			StudySubject.where( 'patid IS NOT NULL' ).count
-		printf "%-25s %5d\n", "Subjects without patid:", 
+		printf "%-45s %5d\n", "Subjects without patid:", 
 			StudySubject.where( 'patid IS NULL' ).count
 
-		printf "%-25s %5d\n", "Subjects with studyid:", 
+		printf "%-45s %5d\n", "Subjects with studyid:", 
 			StudySubject.where( 'studyid IS NOT NULL' ).count
-		printf "%-25s %5d\n", "Subjects without studyid:", 
+		printf "%-45s %5d\n", "Subjects without studyid:", 
 			StudySubject.where( 'studyid IS NULL' ).count
 
-		printf "%-25s %5d\n", "Subjects with subjectid:", 
+		printf "%-45s %5d\n", "Subjects with subjectid:", 
 			StudySubject.where( 'subjectid IS NOT NULL' ).count
-		printf "%-25s %5d\n", "Subjects without subjectid:", 
+		printf "%-45s %5d\n", "Subjects without subjectid:", 
 			StudySubject.where( 'subjectid IS NULL' ).count
-
-		printf "%-25s %5d\n", "Address.count:", Address.count
-		printf "%-25s %5d\n", "Addressing.count:", Addressing.count
-		printf "%-25s %5d\n", "PhoneNumber.count:", PhoneNumber.count
-
-		printf "%-25s %5d\n", "Sample.count:", Sample.count
+		puts
+		printf "%-45s %5d\n", "Address.count:", Address.count
+		printf "%-45s %5d\n", "Addressing.count:", Addressing.count
+		printf "%-45s %5d\n", "PhoneNumber.count:", PhoneNumber.count
+		puts
+		printf "%-45s %5d\n", "Sample.count:", Sample.count
 		%w{ aliquot_or_sample_on_receipt sample_temperature_id sample_format_id project_id parent_sample_id location_id sample_type_id }.each do |field|
 			Sample.select( "#{field}, COUNT(*) AS count"
 					).group( field ).each do |e|
-				printf "%-25s %5d\n", "#{field} = #{e.send(field)}:", e.count
+				printf "%-45s %5d\n", "#{field} = #{e.send(field)}:", e.count
 			end
 		end
-		printf "%-25s %5d\n", "Samples with received_by_ccls_at:", 
+		printf "%-45s %5d\n", "Samples with received_by_ccls_at:", 
 			Sample.where( 'received_by_ccls_at IS NOT NULL' ).count
-		printf "%-25s %5d\n", "Samples without received_by_ccls_at:", 
+		printf "%-45s %5d\n", "Samples without received_by_ccls_at:", 
 			Sample.where( 'received_by_ccls_at IS NULL' ).count
 
 	end
