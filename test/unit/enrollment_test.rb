@@ -193,7 +193,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert !enrollment.valid?
 		assert  enrollment.errors.include?(:reason_not_chosen)
 		#	NOTE custom error message
-		assert  enrollment.errors.matching?(:reason_not_chosen,"requires if is_chosen is No")
+		assert  enrollment.errors.matching?(:reason_not_chosen,"required if is_chosen is No")
 	end
 	[:yes,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW reason_not_chosen if is_chosen == #{yndk}" do
