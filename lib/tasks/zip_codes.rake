@@ -19,6 +19,10 @@ namespace :zip_codes do
 #2,"00544","HOLTSVILLE","NY","UNIQUE",1735
 
 			zip_code = ZipCode.create! do |z|
+#
+#	I don't think that anything references a zip code id,
+#	but since I have one, there is no reason not to copy it.
+#
 				z.id = line['id']
 				z.zip_code = line['zip_code']
 				z.city = line['city']
