@@ -17,7 +17,7 @@ namespace :odms_import do
 
 #"address_type_id","data_source_id","line_1","unit","city","state","zip","external_address_id","county","country","created_at"
 
-	TODO convert this to block creation. Why?
+#	TODO convert this to block creation. Why?
 			address = Address.create({
 				:address_type_id => line["address_type_id"],
 				:data_source_id  => line["data_source_id"],
