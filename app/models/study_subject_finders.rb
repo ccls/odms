@@ -42,9 +42,7 @@ base.class_eval do
 
 	#	Find the case or control subject with matching familyid except self.
 	def child
-		if (subject_type_id == StudySubject.subject_type_mother_id) && !familyid.blank?
-#			StudySubject.children.with_subjectid(familyid).where("study_subjects.id != ?",
-#				id ).includes(:subject_type).first
+		if is_mother? && !familyid.blank?
 			StudySubject.children.with_subjectid(familyid).not_id(id 
 				).includes(:subject_type).first
 		else
