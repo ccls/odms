@@ -1,5 +1,3 @@
-require 'tasks/odms_import/base'
-
 namespace :odms_import do
 
 	desc "Import data from icf master ids csv file"

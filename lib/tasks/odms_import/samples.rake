@@ -1,5 +1,3 @@
-require 'tasks/odms_import/base'
-
 namespace :odms_import do
 
 	desc "Import data from samples csv file"
