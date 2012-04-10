@@ -24,71 +24,71 @@ class Enrollment < ActiveRecord::Base
 	validates_length_of :notes, :maximum => 65000, :allow_blank => true
 
 	validates_presence_of :ineligible_reason_id,
-		:message => 'required if is_eligible is No',
+		:message => 'Ineligible reason is required if is_eligible is No',
 		:if => :is_not_eligible?
 	validates_absence_of :ineligible_reason_id,
-		:message => 'not allowed unless is_eligible is No',
+		:message => 'Ineligible reason is not allowed unless is_eligible is No',
 		:unless => :is_not_eligible?
 	validates_presence_of :ineligible_reason, :if => :ineligible_reason_id
 
 	validates_presence_of :other_ineligible_reason,
-		:message => 'required if ineligible reason is Other',
+		:message => 'Other ineligible reason is required if ineligible reason is Other',
 		:if => :ineligible_reason_is_other?
 	validates_absence_of :other_ineligible_reason,
-		:message => 'not allowed unless is_eligible is No',
+		:message => 'Other ineligible reason is not allowed unless is_eligible is No',
 		:unless => :is_not_eligible?
 
 	validates_presence_of :reason_not_chosen,
-		:message => 'requires if is_chosen is No',
+		:message => 'Reason not chosen is required if is_chosen is No',
 		:if => :is_not_chosen?
 	validates_absence_of :reason_not_chosen,
-		:message => 'not allowed unless is_chosen is No',
+		:message => 'Reason not chosen is not allowed unless is_chosen is No',
 		:unless => :is_not_chosen?
 
 	validates_presence_of :refusal_reason_id,
-		:message => "required if consented is No",
+		:message => "Refusal reason is required if consented is No",
 		:if => :not_consented?
 	validates_absence_of :refusal_reason_id,
-		:message => "not allowed unless consented is No",
+		:message => "Refusal reason is not allowed unless consented is No",
 		:unless => :not_consented?
 	validates_presence_of :refusal_reason, :if => :refusal_reason_id
 
 #	validates_presence_of :consented_on,
-#		:message => 'date is required when adding consent information',
+#		:message => 'Consented on date is required when adding consent information',
 #		:if => :consented?
 	validates_presence_of :consented_on,
-		:message => 'date is required when adding consent information',
+		:message => 'Consented on date is required when adding consent information',
 		:unless => :consent_unknown?
 #		:if => :not_consented?
 	validates_absence_of :consented_on,
-		:message => "not allowed if consented is blank or Don't Know",
+		:message => "Consented on date is not allowed if consented is blank or Don't Know",
 		:if => :consent_unknown?
 	validates_past_date_for :consented_on, :allow_blank => true
 
 	validates_presence_of :other_refusal_reason,
-		:message => "required if refusal reason is Other",
+		:message => "Other refusal reason is required if refusal reason is Other",
 		:if => :refusal_reason_is_other?
 	validates_absence_of :other_refusal_reason,
-		:message => "not allowed unless consented is No",
+		:message => "Other refusal reason not allowed unless consented is No",
 		:unless => :not_consented?
 
 	validates_presence_of :terminated_reason,
-		:message => "required if terminated participation is Yes",
+		:message => "Terminated reason is required if terminated participation is Yes",
 		:if => :terminated_participation?
 	validates_absence_of :terminated_reason,
-		:message => "not allowed unless terminated participation is Yes",
+		:message => "Terminated reason is not allowed unless terminated participation is Yes",
 		:unless => :terminated_participation?
 
 	validates_presence_of :completed_on,
-		:message => "required if is_complete is Yes",
+		:message => "Completed on is required if is_complete is Yes",
 		:if => :is_complete?
 	validates_absence_of :completed_on,
-		:message => "not allowed unless is_complete is Yes",
+		:message => "Completed on is not allowed unless is_complete is Yes",
 		:unless => :is_complete?
 	validates_past_date_for :completed_on, :allow_blank => true
 
 	validates_absence_of :document_version_id,
-		:message => "not allowed if consented is blank or Don't Know",
+		:message => "Document version is not allowed if consented is blank or Don't Know",
 		:if => :consent_unknown?
 	validates_presence_of :document_version, :if => :document_version_id
 	
