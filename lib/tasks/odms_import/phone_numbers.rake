@@ -31,11 +31,10 @@ namespace :odms_import do
 				next
 			end
 
-#	TODO convert this to block creation. Why?
+			#
+			#	Only study_subject_id protected so block creation not needed.
+			#
 			phone_number = study_subject.phone_numbers.create({
-#			phone_number = PhoneNumber.create({
-#	study_subject_id is attr_protected
-#				:study_subject_id => study_subject.id,
 				:phone_type_id    => line["phone_type_id"],
 				:data_source_id   => line["data_source_id"],
 				:phone_number     => line["phone_number"],
@@ -56,17 +55,22 @@ namespace :odms_import do
 				assert phone_number.study_subject_id == study_subject.id, 
 					"Study Subject mismatch"
 				assert phone_number.phone_type_id == line["phone_type_id"].to_nil_or_i,
-					"phone_type_id mismatch:#{phone_number.phone_type_id}:#{line["phone_type_id"]}:"
+					"phone_type_id mismatch:#{phone_number.phone_type_id}:" <<
+						"#{line["phone_type_id"]}:"
 				assert phone_number.data_source_id == line["data_source_id"].to_nil_or_i,
-					"data_source_id mismatch:#{phone_number.data_source_id}:#{line["data_source_id"]}:"
+					"data_source_id mismatch:#{phone_number.data_source_id}:" <<
+						"#{line["data_source_id"]}:"
 				#	import will change format of phone number (adds () and - )
 				assert phone_number.phone_number.only_numeric == line["phone_number"].only_numeric,
-					"phone_number mismatch:#{phone_number.phone_number}:#{line["phone_number"]}:"
+					"phone_number mismatch:#{phone_number.phone_number}:" <<
+						"#{line["phone_number"]}:"
 #				assert phone_number.current_phone == line["current_phone"].to_nil_or_yndk,
 				assert phone_number.current_phone == line["current_phone"].to_nil_or_i,
-					"current_phone mismatch:#{phone_number.current_phone}:#{line["current_phone"]}:"
+					"current_phone mismatch:#{phone_number.current_phone}:" <<
+						"#{line["current_phone"]}:"
 				assert phone_number.is_primary       == line["is_primary"].to_nil_or_boolean, 
-					"is_primary mismatch:#{phone_number.is_primary}:#{line["is_primary"]}:"
+					"is_primary mismatch:#{phone_number.is_primary}:" <<
+						"#{line["is_primary"]}:"
 			end
 
 		end	#	).each do |line|

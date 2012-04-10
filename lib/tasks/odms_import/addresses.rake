@@ -4,6 +4,8 @@ namespace :odms_import do
 	task :addresses => :odms_import_base do 
 		puts "Destroying addresses"
 		Address.destroy_all
+		#	once the addresses are destroyed, any addressing would be invalid
+		Addressing.destroy_all
 		puts "Importing addresses"
 
 		error_file = File.open('addresses_errors.txt','w')	#	overwrite existing
@@ -15,7 +17,9 @@ namespace :odms_import do
 
 #"address_type_id","data_source_id","line_1","unit","city","state","zip","external_address_id","county","country","created_at"
 
-#	TODO convert this to block creation. Why?
+			#
+			#	There are no protected attributes, so block creation not needed.
+			#
 			address = Address.create({
 				:address_type_id => line["address_type_id"],
 				:data_source_id  => line["data_source_id"],

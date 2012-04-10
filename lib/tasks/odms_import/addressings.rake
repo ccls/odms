@@ -32,6 +32,9 @@ namespace :odms_import do
 				next
 			end
 
+			#
+			#	Addresses must exist before the addressings can be made.
+			#
 			address = Address.where(:external_address_id => line['external_address_id']).first
 			unless address
 				error_file.puts 
@@ -41,10 +44,9 @@ namespace :odms_import do
 				next
 			end
 
-#	TODO convert this to block creation. Why?
-#			addressing = Addressing.create({
-#	study_subject_id is attr_protected
-#				:study_subject_id => study_subject.id,
+			#
+			#	Only study_subject_id is attr_protected so don't need block creation.
+			#
 			addressing = study_subject.addressings.create({
 				:address_id       => address.id,
 				:current_address  => line["current_address"],           # yndk integer

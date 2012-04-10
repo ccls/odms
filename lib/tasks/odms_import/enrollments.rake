@@ -43,40 +43,20 @@ namespace :odms_import do
 			consented           = line['consented']
 			consented_on        = (( line['consented_on'].blank? ) ?
 					nil : Time.parse(line['consented_on']).to_date )
-#			consented_on        = if [nil,999,'','999'].include?(consented)
-#				nil
-#			else
-#				(( line['consented_on'].blank? ) ?
-#					nil : Time.parse(line['consented_on']).to_date )
-#			end
 			refusal_reason_id   = line['refusal_reason_id']
-#			refusal_reason_id   = if consented.to_i == 2
-#				line['refusal_reason_id']
-#			else
-#				nil
-#			end
 			document_version_id = line['document_version_id']
-#			document_version_id = if [nil,999,'','999'].include?(consented)
-#				nil
-#			else
-#				line['document_version_id']
-#			end
 
-			#	END	TEMPORARY "FIXES" to get most enrollments imported
-
-#	TODO convert this to block creation. Why?
+			#
+			#	Only study_subject_id is protected, so no need for block creation.
+			#
 			saved = enrollment.update_attributes(
 				:consented           => consented,
 				:consented_on        => consented_on,
 				:refusal_reason_id   => refusal_reason_id,
+#	Including this raises this ... times.
+#Line #:495: Other refusal reason not allowed unless consented is No
 #				:other_refusal_reason => line['tlDeclineReasons_DeclineReason'],
-
-
-#	TODO
-#				:document_version_id => document_version_id,
-
-
-
+				:document_version_id => document_version_id,
 				:is_eligible         => line['is_eligible'],
 				:ineligible_reason_id => line['ineligible_reason_id']
 			)
@@ -93,18 +73,16 @@ namespace :odms_import do
 				assert enrollment.consented_on        == consented_on,
 					"consented_on mismatch:#{enrollment.consented_on}:#{line["consented_on"]}:"
 				assert enrollment.refusal_reason_id   == refusal_reason_id.to_nil_or_i,
-					"refusal_reason_id mismatch:#{enrollment.refusal_reason_id}:#{line["refusal_reason_id"]}:"
-
-
-#	TODO
-#				assert enrollment.document_version_id == document_version_id.to_nil_or_i,
-#					"document_version_id mismatch:#{enrollment.document_version_id}:#{line["document_version_id"]}:"
-
-
+					"refusal_reason_id mismatch:#{enrollment.refusal_reason_id}:" <<
+						"#{line["refusal_reason_id"]}:"
+				assert enrollment.document_version_id == document_version_id.to_nil_or_i,
+					"document_version_id mismatch:#{enrollment.document_version_id}:" <<
+						"#{line["document_version_id"]}:"
 				assert enrollment.is_eligible == line['is_eligible'].to_nil_or_i,
 					"is_eligible mismatch:#{enrollment.is_eligible}:#{line['is_eligible']}:"
 				assert enrollment.ineligible_reason_id   == line['ineligible_reason_id'].to_nil_or_i,
-					"ineligible_reason_id mismatch:#{enrollment.ineligible_reason_id}:#{line["ineligible_reason_id"]}:"
+					"ineligible_reason_id mismatch:#{enrollment.ineligible_reason_id}:" <<
+						"#{line["ineligible_reason_id"]}:"
 			end
 
 		end

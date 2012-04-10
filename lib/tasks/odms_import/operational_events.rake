@@ -27,10 +27,9 @@ namespace :odms_import do
 				next
 			end
 
-#	TODO convert this to block creation. Why?
-#			ccls_enrollment = study_subject.enrollments.find_by_project_id(line['project_id'])
-#			operational_event = OperationalEvent.create({
-#				:enrollment_id => ccls_enrollment.id,
+			#
+			#	Only study_subject_id protected so block creation not needed.
+			#
 			operational_event = study_subject.operational_events.create({
 				:project_id  => line['project_id'],
 				:operational_event_type_id => line['operational_event_id'],	#	NOTE misnamed field
@@ -51,13 +50,18 @@ namespace :odms_import do
 				assert operational_event.project_id == line['project_id'].to_i,
 					"Project mismatch"
 				assert operational_event.operational_event_type_id == line['operational_event_id'].to_nil_or_i, 
-					"operational_event_type mismatch:#{operational_event.operational_event_type_id}:#{line["operational_event_id"]}:"
+					"operational_event_type mismatch:" <<
+						"#{operational_event.operational_event_type_id}:" <<
+						"#{line["operational_event_id"]}:"
 				assert operational_event.occurred_on == Time.parse(line['occurred_on']).to_date,
-					"occurred_on mismatch:#{operational_event.occurred_on}:#{line["occurred_on"]}:"
+					"occurred_on mismatch:#{operational_event.occurred_on}:" <<
+						"#{line["occurred_on"]}:"
 				assert operational_event.description == line['description'],
-					"description mismatch:#{operational_event.description}:#{line["description"]}:"
+					"description mismatch:#{operational_event.description}:" <<
+						"#{line["description"]}:"
 				assert operational_event.event_notes == line['event_notes'],
-					"event_notes mismatch:#{operational_event.event_notes}:#{line["event_notes"]}:"
+					"event_notes mismatch:#{operational_event.event_notes}:" <<
+						"#{line["event_notes"]}:"
 			end
 		end	#	).each do |line|
 		error_file.close
