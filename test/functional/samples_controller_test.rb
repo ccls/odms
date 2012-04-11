@@ -164,14 +164,13 @@ class SamplesControllerTest < ActionController::TestCase
 	#		Begin Find Tests
 	
 		test "should get samples find with #{cu} login and page too high" do
-pending
 			3.times{Factory(:sample)}
 			login_as send(cu)
 			get :find, :page => 999
 			assert_not_nil flash[:warn]
-puts @response.body
+			assert_equal 3, assigns(:samples).count
+			assert_equal 0, assigns(:samples).length
 			assert_redirected_to find_samples_path(:page => 1)
-flunk
 		end
 
 		test "should find samples by sample_id and #{cu} login" do

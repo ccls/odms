@@ -201,14 +201,13 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 
 		test "should find study_subjects with #{cu} login and page too high" do
-pending
 			3.times{Factory(:study_subject)}
 			login_as send(cu)
 			get :find, :page => 999
 			assert_not_nil flash[:warn]
-puts @response.body
+			assert_equal 3, assigns(:study_subjects).count
+			assert_equal 0, assigns(:study_subjects).length
 			assert_redirected_to find_study_subjects_path(:page => 1)
-flunk
 		end
 
 		test "should find study_subjects by subject_type case and #{cu} login" do
