@@ -83,8 +83,8 @@ base.class_eval do
 			:dob => self.dob,
 			:sex => self.sex,
 			:admit_date => self.admit_date,
-			:organization_id => self.organization_id
-		}.merge(options))
+			:organization_id => self.organization_id }.merge(options))
+#	trying to get 100% test coverage (20120411)
 	end
 
 	def raf_duplicate_creation_attempted(attempted_subject)

@@ -19,10 +19,15 @@ class OperationalEventType < ActiveRecord::Base
 	end
 
 	def self.categories
-		where('event_category IS NOT NULL'
-			).order('event_category ASC'
-			).group(:event_category
-		).collect(&:event_category)
+#		where('event_category IS NOT NULL'
+#			).order('event_category ASC'
+#			).group(:event_category
+#		).collect(&:event_category)
+#	breaking up to try to make 100% coverage (20120411)
+		oets = where('event_category IS NOT NULL')
+		oets = oets.order('event_category ASC')
+		oets = oets.group(:event_category)
+		oets.collect(&:event_category)
 	end
 
 end

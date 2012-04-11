@@ -14,6 +14,11 @@ base.class_eval do
 #	be countered by adding a "readonly(false)" to the scope chain.  Or you
 #	can simply re-find the given subject by id.
 
+	#	making separate to avoid open ended string line in controller
+	#	which screws up code coverage counting. (20120411)
+	scope :join_patients,
+		joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
+
 	scope :cases,    joins(:subject_type).where('subject_types.key = ?', 'Case')
 	scope :controls, joins(:subject_type).where('subject_types.key = ?', 'Control')
 	scope :mothers,  joins(:subject_type).where('subject_types.key = ?', 'Mother')

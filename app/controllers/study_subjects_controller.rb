@@ -38,9 +38,9 @@ class StudySubjectsController < ApplicationController
 		end
 		#	LEFT JOIN because not all subjects will have a patient.
 		#	otherwise, we'd effectively only search cases
+#			).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
 		@study_subjects = StudySubject.order(search_order
-			).includes(:patient,:subject_type
-			).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
+			).includes(:patient,:subject_type).join_patients(
 			).where(conditions[0].join(valid_find_operator), conditions[1]
 			).paginate(
 				:per_page => params[:per_page]||25,

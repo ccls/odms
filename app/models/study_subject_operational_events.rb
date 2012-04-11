@@ -40,10 +40,12 @@ base.class_eval do
 #	operational_events.occurred_on where operational_event_type_id = 26 and enrollment_id is for any open project (where projects.ended_on is null) for study_subject_id
 
 	def screener_complete_date_for_open_project
-		self.operational_events.joins(:project).where(
+		oe = self.operational_events.joins(:project).where(
 			'projects.ended_on IS NULL').where(
 			"operational_event_type_id = ?",OperationalEventType['screener_complete'].id
-			).limit(1).first.try(:occurred_on)
+			).limit(1).first
+#	separated to try to make 100% coverage (20120411)
+		oe.try(:occurred_on)
 	end
 
 end	#	class_eval
