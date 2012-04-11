@@ -2,6 +2,8 @@ require 'test_helper'
 
 class StudySubjectInterviewsTest < ActiveSupport::TestCase
 
+	assert_should_have_many( :interviews, :model => 'StudySubject' )
+
 	test "should NOT destroy interviews with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('Interview.count',1) {

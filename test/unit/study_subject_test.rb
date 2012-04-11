@@ -19,11 +19,13 @@ class StudySubjectTest < ActiveSupport::TestCase
 #		:enrollments,
 
 	assert_should_have_many( :samples,
-		:gift_cards, :phone_numbers, :interviews, :bc_requests )
-	assert_should_initially_belong_to( :subject_type, :vital_status )
+		:gift_cards, :phone_numbers, :bc_requests )
+#		:gift_cards, :phone_numbers, :interviews, :bc_requests )
+#	assert_should_initially_belong_to( :subject_type, :vital_status )
+#	assert_should_initially_belong_to( :subject_type )
 	assert_should_have_one( :home_exposure_response, :homex_outcome )
 	assert_should_habtm(:analyses)
-	assert_should_belong_to( :guardian_relationship, :class_name => 'SubjectRelationship' )
+#	assert_should_belong_to( :guardian_relationship, :class_name => 'SubjectRelationship' )
 
 
 	attributes = %w( accession_no birth_city birth_country birth_county birth_state 
@@ -178,22 +180,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 		} }
 	end
 
-	test "should require subject_type" do
-#	protected
-		study_subject = StudySubject.new{|s|s.subject_type = nil}
-		assert !study_subject.valid?
-		assert !study_subject.errors.include?(:subject_type)
-		assert  study_subject.errors.matching?(:subject_type_id,"can't be blank")
-	end
-
-	test "should require valid subject_type" do
-#	protected
-		study_subject = StudySubject.new{|s|s.subject_type_id = 0}
-		assert !study_subject.valid?
-		assert !study_subject.errors.include?(:subject_type_id)
-		assert  study_subject.errors.matching?(:subject_type,"can't be blank")
-	end
-
 	test "should require sex with custom message" do
 		#	NOTE custom message
 		study_subject = StudySubject.new( :sex => nil )
@@ -255,32 +241,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }
-	end
-
-#	The factory sets the values AFTER after_initialize
-#	so the defaults will be overwritten.
-	test "should belong to vital_status" do
-		study_subject = create_study_subject
-		assert_not_nil study_subject.vital_status
-		assert_not_nil study_subject.vital_status_id
-		study_subject = create_study_subject(:vital_status => nil)
-		study_subject.reload
-		assert_nil study_subject.vital_status
-		assert_nil study_subject.vital_status_id
-		study_subject = create_study_subject(:vital_status_id => nil)
-		study_subject.reload
-		assert_nil study_subject.vital_status
-		assert_nil study_subject.vital_status_id
-		study_subject.vital_status = Factory(:vital_status)
-		assert_not_nil study_subject.vital_status
-	end
-
-	test "should set default vital status to living" do
-		study_subject = StudySubject.new
-		assert_not_nil study_subject.vital_status_id
-		assert_not_nil study_subject.vital_status
-		assert_equal   study_subject.vital_status_id, VitalStatus['living'].id
-		assert_equal   study_subject.vital_status, VitalStatus['living']
 	end
 
 	#
@@ -353,12 +313,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert_equal 1, study_subject.reload.analyses.length
 		study_subject.analyses << Factory(:analysis)
 		assert_equal 2, study_subject.reload.analyses.length
-	end
-
-	test "should return subject_type description for string" do
-		study_subject = create_study_subject
-		assert_equal study_subject.subject_type.description,
-			"#{study_subject.subject_type}"
 	end
 
 	test "should not be case unless explicitly told" do
