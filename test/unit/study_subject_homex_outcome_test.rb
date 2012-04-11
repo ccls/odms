@@ -63,4 +63,9 @@ class StudySubjectHomexOutcomeTest < ActiveSupport::TestCase
 
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_study_subject
+
 end

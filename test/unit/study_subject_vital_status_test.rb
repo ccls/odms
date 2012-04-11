@@ -30,4 +30,9 @@ class StudySubjectVitalStatusTest < ActiveSupport::TestCase
 		assert_equal   study_subject.vital_status, VitalStatus['living']
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_study_subject
+
 end

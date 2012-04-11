@@ -26,4 +26,9 @@ class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 			"#{study_subject.subject_type}"
 	end
 
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_study_subject
+
 end
