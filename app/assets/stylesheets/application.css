@@ -392,6 +392,13 @@ div#preview table tr th {
 table#guides td.controller {
 	width: 300px;
 }
+/* 
+	I don't know why I need to do this, but without this, the datepicker border 
+	actually shows up in the lower left corner until it is used.  After that it 
+	is properly hidden.  Perhaps a newer theme version would fix this?
+*/
+div.ui-datepicker { display:none; }
+
 input.datepicker {
 	width: 100px;
 }
