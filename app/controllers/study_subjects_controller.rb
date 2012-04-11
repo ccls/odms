@@ -46,6 +46,20 @@ class StudySubjectsController < ApplicationController
 				:per_page => params[:per_page]||25,
 				:page     => valid_find_page
 			)
+
+		#
+		#	As it is possible to set a page and then add a filter,
+		#	one could have samples but be on to high of a page to see them.
+		#	length would return 0, but count is the total database count
+		#
+		if @study_subjects.length == 0 and @study_subjects.count > 0
+			flash[:warn] = "Page number was too high, so set to highest valid page number."
+			#	Doesn't change the url string, but does work.
+			params[:page] = @study_subjects.total_pages
+			#	It seems excessive to redirect and do it all again.
+			#	Nevertheless ...
+			redirect_to find_study_subjects_path(params)
+		end
 	end
 
 	#	there is no longer a link to this action, nevertheless
