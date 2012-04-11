@@ -4,8 +4,6 @@
         somewhere marking it as having a header row, but I don't 
         think that it actually does.
 -%>
-<%#= ['studyid','icf_master_id','name','sex','Born in CA?','state_id_no','dob'].to_csv(
-  :headers => true) -%>
 <%= %w( masterid
 biomom
 biodad
@@ -56,4 +54,4 @@ other_father_race ).to_csv(
 	study_subject.father_hispanicity_mex,
 	study_subject.father_race_id,
 	study_subject.other_father_race ].to_csv -%>
-<% end -%><%# @bc_requests.each do |bc_request| -%>
+<% end -%>

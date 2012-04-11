@@ -139,9 +139,8 @@ class FormBuilderHelperTest < ActionView::TestCase
 
 	test "datetime_text_field with value" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.datetime_text_field(:some_attribute, :value => 'sometestvalue' ) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datetimepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" /></form>}
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datetimepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" value="sometestvalue" /></form>}
 		assert_equal expected, output_buffer
-flunk
 	end
 
 	test "wrapped_datetime_text_field" do
@@ -160,9 +159,8 @@ flunk
 
 	test "date_text_field with value" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.date_text_field(:some_attribute, :value => 'sometestvalue') }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" /></form>}
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" value="sometestvalue" /></form>}
 		assert_equal expected, output_buffer
-flunk
 	end
 
 	test "wrapped_date_text_field" do

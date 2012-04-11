@@ -170,8 +170,7 @@ class StudySubject < ActiveRecord::Base
 			).where(
 				:subject_type_id   => StudySubject.subject_type_control_id,
 				:case_control_type => grouping,
-				:matchingid        => self.subjectid
-			).first
+				:matchingid        => self.subjectid ).first
 		( last_control.try(:orderno) || 0 ) + 1
 	end
 

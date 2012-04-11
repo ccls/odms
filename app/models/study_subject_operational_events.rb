@@ -42,8 +42,8 @@ base.class_eval do
 	def screener_complete_date_for_open_project
 		oe = self.operational_events.joins(:project).where(
 			'projects.ended_on IS NULL').where(
-			"operational_event_type_id = ?",OperationalEventType['screener_complete'].id
-			).limit(1).first
+			"operational_event_type_id = ?",
+				OperationalEventType['screener_complete'].id).limit(1).first
 #	separated to try to make 100% coverage (20120411)
 		oe.try(:occurred_on)
 	end

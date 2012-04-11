@@ -224,8 +224,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 #	NOTE apparantly now adds an extra blank line to csv
 
-#			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
-			assert_equal 3, f.length	#	3 rows, 1 header and 1 data and 1 blank
+			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
+#			assert_equal 3, f.length	#	3 rows, 1 header and 1 data and 1 blank
 			assert_equal f[0], ["masterid", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "other_mother_race", "father_hispanicity", "father_hispanicity_mex", "father_race", "other_father_race"]
 
 			assert_equal 23, f[0].length
@@ -236,7 +236,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_equal f[1][10], case_study_subject.dob.try(:year).to_s
 			assert_equal f[1][11], case_study_subject.sex
 
-assert f[2].blank?
+#assert f[2].blank?
 		end
 
 		test "should get pending bc_requests with #{cu} login" do
