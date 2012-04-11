@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
 	# See ActionController::RequestForgeryProtection for details
 	protect_from_forgery 
 
-	before_filter :get_guidance
-
 	before_filter :login_required
+
+	before_filter :get_guidance
 
 	base_server_url = ( Rails.env == "production" ) ? 
 		"https://auth.berkeley.edu" : 
