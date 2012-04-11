@@ -23,7 +23,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 #		:gift_cards, :phone_numbers, :interviews, :bc_requests )
 #	assert_should_initially_belong_to( :subject_type, :vital_status )
 #	assert_should_initially_belong_to( :subject_type )
-	assert_should_have_one( :home_exposure_response, :homex_outcome )
+#	assert_should_have_one( :home_exposure_response, :homex_outcome )
+	assert_should_have_one( :home_exposure_response )
 	assert_should_habtm(:analyses)
 #	assert_should_belong_to( :guardian_relationship, :class_name => 'SubjectRelationship' )
 

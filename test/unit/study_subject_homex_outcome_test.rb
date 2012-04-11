@@ -2,6 +2,8 @@ require 'test_helper'
 
 class StudySubjectHomexOutcomeTest < ActiveSupport::TestCase
 
+	assert_should_have_one( :homex_outcome, :model => 'StudySubject' )
+
 	test "should create study_subject and accept_nested_attributes_for homex_outcome" do
 		assert_difference( 'HomexOutcome.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
