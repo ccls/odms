@@ -190,7 +190,7 @@ config.active_record.include_root_in_json = false
 
 Due to our desire to have custom error messages, it was simplest to change the config/locales/en.yml file, which is used for the error messages to change the default format from "%{attribute} %{message}" to just "%{message}" and then add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in the butt, but certainly effective.  That being said, anytime a special error is explicitly added using something like "errors.add(:some_attribute,'my custom message')", the custom message must include the attribute if desired as the system will not add it.  This is actually working quite well.
 
---
+---
 
 === Don't pass "method => :delete" to link_to anymore
 
@@ -200,7 +200,7 @@ This will create links like ...
 
 which contain a number of extra attributes.  These extra attributes are not valid html. They are meant to be used by javascript confirmation, but they are still not valid html.  So, since I'm not using them, I'll replace these links with forms like the others.
 
-----
+---
 
 === Record Querying with ActiveRecord Relation and AREL
 
@@ -231,11 +231,13 @@ Repeated joins seem to be ignored.  Yay!
  end
 
 
+---
 === DO NOT USE DEFAULT_SCOPE
 
 I do not like this as it takes precedence over your search unless you add 'unscoped' to your chain.  It has caused me much grief.  It caused grief with acts_as_list not properly scoping.  It caused gried with my ZipCode limit not destroying all when I told it to destroy_all because it had "limit(10)" as part of its default_scope.  Conclusion.  DO NOT USE DEFAULT_SCOPE.
 
 
+---
 === sprintf and integers ( not just rails 3 )
 
 CANNOT have leading 0's in a string that is being printed as a decimal as ruby thinks its octal and converts.  Unless, of course, converting to octal was the intention.
@@ -258,6 +260,7 @@ CANNOT have leading 0's and include and 8 or 9 in a string that is being printed
 
 
 
+---
 == Development Notes
 
 As this code is stored in publicly accessible repositories,
@@ -286,7 +289,8 @@ anything without some repercussions.
 
 
 
-===Some general ActiveRecord model notes:
+---
+=== Some general ActiveRecord model notes:
 
 Don't have validations that could raise errors that the user can't do anything about.
 
@@ -308,6 +312,7 @@ This seems to work ...
 
 Still some models and associations may need done due to priorities and the fact that some never end up in a view and the association may be problematic. (Aliquot,HomexOutcome,Patient)
 
+---
 === Paperclip validations
 
 Validating the content type of a paperclip attachment seems to be a bit tricky.  A big problem seems to be the possibility of multiple content types.  The paperclip validation seems to always fail.
@@ -324,7 +329,6 @@ So, using the standard rails 'validates inclusion of' seems to work quite well.
    :allow_blank => true
 
 ---
-
 == Additional files that will be needed
 
  /config/api.yml ( probably removing )
