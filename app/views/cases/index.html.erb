@@ -6,10 +6,6 @@
 <%= submit_tag 'find', :name => nil %>
 </p>
 <p>Enter the case's PatID to go to their Related Subjects screen. Once there, add controls by pressing the "Add Control" button.</p>
-<!--
-<div><span>Try one of ...</span>
-<%#= StudySubject.search(:types => 'case').collect(&:patid).sort.collect{|p| link_to(p, cases_path(:patid => p)) }.join(', ').html_safe %></div>
--->
 <% end %>
 
 <% unless params[:patid].blank? %>

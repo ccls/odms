@@ -22,20 +22,12 @@
 <span class='value'><%= @study_subject.case_control_type||'&nbsp;'.html_safe %></span>
 </div><!-- class='case_control_type spans' -->
 
-<%#= wrapped_spans :study_subject, :case_control_type,
-	:label_text => 'case/control status:' %>
-
 <%= wrapped_spans :study_subject, :subject_type,
 	:label_text => 'subject type:' %>
 <%= wrapped_date_spans :study_subject, :dob,
 	:label_text => 'date of birth:' %>
 
 <%# unfortunately, I've allowed sex to be blank %>
-<%#= wrapped_spans :study_subject, :sex,
-	:value => ( ( @study_subject.sex.blank? ) ? '&nbsp;' : ( ( 
-		@study_subject.sex.match(/f/i) ) ? 'female' : 'male' ) ),
-	:label_text => 'sex:' %>
-<%#	:value => ( ( @study_subject.sex.blank? ) ? '&nbsp;' : @study_subject.sex ), %>
 <%= wrapped_spans :study_subject, :sex,
 	:value => ( @study_subject.sex || '&nbsp;'.html_safe ),
 	:label_text => 'sex:' %>

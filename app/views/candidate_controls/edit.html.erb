@@ -2,13 +2,7 @@
 <h2>Candidate Control</h2>
 
 <%= form_for @candidate do |f| %>
-
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
 
 <%= render( :partial => 'duplicates', 
 	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>
@@ -63,7 +57,6 @@
 </div><!-- class='disposition' -->
 </div>
 <p>
-<%#= link_to 'cancel', case_path(@study_subject),:class => 'button' %>
 <%= link_to 'cancel', related_subject_path(@study_subject),:class => 'button' %>
 <%= f.submit 'continue' %>
 </p>

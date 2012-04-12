@@ -9,10 +9,6 @@
 <%= text_field_tag :patid, params[:patid], :id => nil  %>
 <%= submit_tag 'submit', :name => nil %>
 </p>
-<!--
-<div><span>Try one of ...</span>
-<%#= StudySubject.search(:types => 'case').collect(&:patid).sort.join(', ') %></div>
--->
 <% end %>
 
 <hr/>
@@ -45,10 +41,6 @@
  <% study_subject = bc_request.study_subject %>
  <tr class='row'>
   <td>
-   <%#= destroy_link_to "Remove", bc_request_path(bc_request) do %>
-    <%#= hidden_field_tag 'confirm', 	
-			"Remove Birth Data Request '#{bc_request}'?", :id => nil %>
-   <%# end %>
 <%= form_tag bc_request, :method => :delete, :class => 'destroy_link_to' do %>
 <%= hidden_field_tag 'confirm', "Remove Birth Data Request '#{bc_request}'?", :id => nil %>
 <%= submit_tag 'Remove', :name => nil %>

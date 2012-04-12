@@ -1,16 +1,9 @@
 <h4>Person:</h4>
 <%= form_for(@person) do |f| %>
-
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
-
-	<%= f.wrapped_text_field :honorific %>
-	<%= f.wrapped_text_field :first_name %>
-	<%= f.wrapped_text_field :last_name %>
-	<%= f.wrapped_text_field :person_type_id %>
-	<p><%= f.submit( (@person.new_record?)?'Create':'Update' ) %></p>
+<%= f.wrapped_text_field :honorific %>
+<%= f.wrapped_text_field :first_name %>
+<%= f.wrapped_text_field :last_name %>
+<%= f.wrapped_text_field :person_type_id %>
+<p><%= f.submit( (@person.new_record?)?'Create':'Update' ) %></p>
 <% end %>

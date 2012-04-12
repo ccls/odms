@@ -14,17 +14,11 @@
 </div><!-- class='buttons' -->
 </div>
 
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
 
 <div class='fields_for_address'>
 <% @addressing.build_address if @addressing.address.nil? %>
 <%= f.fields_for :address do |address_field| %>
-
 <%= address_field.wrapped_collection_select :address_type_id, 
 	AddressType.all, :id, :key, :include_blank => true, :label_text => 'Type' %>
 

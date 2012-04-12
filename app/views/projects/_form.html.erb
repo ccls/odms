@@ -1,13 +1,6 @@
 <%= form_for(@project) do |f| %>
-
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
-
- Project <%= f.label :description %><br/>
- <%= f.text_field :description %><br/>
- <p><%= f.submit( (@project.new_record?)?'Create':'Update' ) %></p>
+Project <%= f.label :description %><br/>
+<%= f.text_field :description %><br/>
+<p><%= f.submit( (@project.new_record?)?'Create':'Update' ) %></p>
 <% end %>

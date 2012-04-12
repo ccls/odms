@@ -3,9 +3,6 @@
  <td class='manage'>
   <%= link_to( "View", project_path(project), :class => 'button' ) -%>&nbsp;
   <%= link_to( "Edit", edit_project_path(project), :class => 'button' ) -%>&nbsp;
-<%#= destroy_link_to "Destroy", project_path(project) do %>
-<%#= hidden_field_tag 'confirm', "Destroy project '#{project}'?", :id => nil %>
-<%# end %>
 <%= form_tag project, :method => :delete, :class => 'destroy_link_to' do %>
 <%= hidden_field_tag 'confirm', "Destroy project '#{project}'?", :id => nil %>
 <%= submit_tag 'Destroy', :name => nil %>

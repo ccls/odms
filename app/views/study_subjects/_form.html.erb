@@ -2,12 +2,7 @@
 <% javascripts('edit_study_subject') %>
 <% id_bar_for(@study_subject) %>
 
-
-
-<%# TODO NOT IN RAILS 3, but I wrote custom method similar %>
 <%= f.error_messages %>
-
-
 
 <div class='do_not_contact field_wrapper'>
 <%= f.label :do_not_contact, "Contact Status:" %>
@@ -48,11 +43,6 @@
 <%= f.wrapped_sex_select :sex,
 	:label_text => 'sex:' %>
 
-<!--
-<div class='race_wrapper'>
-<span class='label'>Race:</span><%#= select_subject_races(@study_subject) %>
-</div>
--->
 <%= f.subject_races_select() %>
 
 	<%= f.wrapped_text_field :state_registrar_no,
