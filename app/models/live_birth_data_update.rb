@@ -5,50 +5,22 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 			File.join(File.dirname(__FILE__),'../..','config/live_birth_data_update.yml')
 		))).result)[Rails.env]
 
-
-
-
-#	validates_attachment :csv_file, :presence => true,
-#	validates_attachment :csv_file, 
-#		:content_type => { :content_type => "text/csv" }
-
-
-#	validates_attachment :csv_file, :presence => true
 	validates_attachment_presence     :csv_file
-#	validates_attachment_content_type :csv_file,
-#		:content_type => ["text/csv","text/plain","application/vnd.ms-excel"]
+
 	validates_inclusion_of :csv_file_content_type,
 		:in => ["text/csv","text/plain","application/vnd.ms-excel"],
 		:allow_blank => true
-
-#	the paperclip content type validator does not work for multiple possible
-#	content types.  It loops over all possible and basically will always
-#	raise an error.  Using the core rails inclusion validator works fine.
-#text/csv
-#text/plain
-#text/csv, text/plain, application/vnd.ms-excel
-
-
-#	validates_attachment :csv_file, :presence => true,
-#		:content_type => { :content_type => "text/csv" }
-#	It seems that our csv files are uploaded with the content_type ...
-#	@content_type="application/vnd.ms-excel"
-
-
 
 #	perhaps by file extension rather than mime type?
 #	validates_format_of :csv_file_file_name,
 #		:with => %r{\.csv$}i,
 #		:allow_blank => true
 
-
 	validate :valid_csv_file_column_names
 
 	def valid_csv_file_column_names
-##		f=FasterCSV.open(self.csv_file.path,'rb')
-##	if new record, csv_file.path doesn't work as is no id
-##	if updating the csv_file, the existing csv_file.path is (may be?) the existing file
-##		not the new file.
+		#	'to_file' needed as the path method wouldn't be
+		#	defined until after save.
 		if self.csv_file && self.csv_file.to_file
 			f=FasterCSV.open(self.csv_file.to_file.path,'rb')
 			column_names = f.readline

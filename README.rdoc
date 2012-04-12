@@ -307,7 +307,22 @@ This seems to work ...
 
 Still some models and associations may need done due to priorities and the fact that some never end up in a view and the association may be problematic. (Aliquot,HomexOutcome,Patient)
 
+=== Paperclip validations
 
+Validating the content type of a paperclip attachment seems to be a bit tricky.  A big problem seems to be the possibility of multiple content types.  The paperclip validation seems to always fail.
+
+ validates_attachment_content_type :csv_file,
+   :content_type => ["text/csv","text/plain","application/vnd.ms-excel"]
+
+It seems like it almost expects the attachment to be ALL of the content types.
+
+So, using the standard rails 'validates inclusion of' seems to work quite well.
+
+ validates_inclusion_of :csv_file_content_type,
+   :in => ["text/csv","text/plain","application/vnd.ms-excel"],
+   :allow_blank => true
+
+---
 
 == Additional files that will be needed
 
