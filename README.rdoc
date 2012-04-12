@@ -190,7 +190,7 @@ config.active_record.include_root_in_json = false
 
 Due to our desire to have custom error messages, it was simplest to change the config/locales/en.yml file, which is used for the error messages to change the default format from "%{attribute} %{message}" to just "%{message}" and then add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in the butt, but certainly effective.  That being said, anytime a special error is explicitly added using something like "errors.add(:some_attribute,'my custom message')", the custom message must include the attribute if desired as the system will not add it.  This is actually working quite well.
 
-
+--
 
 === Don't pass "method => :delete" to link_to anymore
 
@@ -200,6 +200,7 @@ This will create links like ...
 
 which contain a number of extra attributes.  These extra attributes are not valid html. They are meant to be used by javascript confirmation, but they are still not valid html.  So, since I'm not using them, I'll replace these links with forms like the others.
 
+----
 
 === Record Querying with ActiveRecord Relation and AREL
 
