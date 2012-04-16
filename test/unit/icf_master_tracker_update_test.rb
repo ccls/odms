@@ -63,6 +63,18 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 		assert  icf_master_tracker_update.errors.include?(:master_tracker_date)
 	end
 
+
+
+	test "should require unique master_tracker_date" do
+		existing_icf_master_tracker_update = Factory(:icf_master_tracker_update)
+		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
+			:master_tracker_date => existing_icf_master_tracker_update.master_tracker_date )
+		assert !icf_master_tracker_update.valid?
+		assert  icf_master_tracker_update.errors.include?(:master_tracker_date)
+	end
+
+
+
 	test "should require csv_file" do
 		icf_master_tracker_update = IcfMasterTrackerUpdate.new
 		assert !icf_master_tracker_update.valid?

@@ -9,7 +9,8 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 			File.join(File.dirname(__FILE__),'../..','config/icf_master_tracker_update.yml')
 		))).result)[Rails.env]
 
-	validates_presence_of :master_tracker_date
+	validates_presence_of   :master_tracker_date
+	validates_uniqueness_of :master_tracker_date
 
 	validates_attachment_presence     :csv_file
 
