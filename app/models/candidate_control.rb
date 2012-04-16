@@ -22,6 +22,14 @@ class CandidateControl < ActiveRecord::Base
 	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
 			:in => YNDK.valid_values,  :allow_blank => true
 
+	scope :rejected,   where('reject_candidate = true')
+	scope :unrejected, where('reject_candidate = false or reject_candidate IS NULL')
+	scope :unassigned, where('assigned_on IS NULL AND study_subject_id IS NULL')
+
+	def self.related_patid(patid)
+		where(:related_patid => patid)
+	end
+
 	#	Returns string containing candidates's first, middle and last name
 	def full_name
 		[first_name, middle_name, last_name].delete_if(&:blank?).join(' ')

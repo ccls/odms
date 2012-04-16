@@ -4,7 +4,12 @@
 <h3>Related Subjects 
 <% if @study_subject.is_case? %>
 <span>
-<%= link_to 'add control', new_case_control_path(@study_subject.id),:class => 'button' %>
+<% if @unrejected_controls.count > 0 %>
+<%= link_to "add control ( #{@unrejected_controls.count} available )",
+	new_case_control_path(@study_subject.id),:class => 'button' %>
+<% else %>
+No controls available.
+<% end %>
 </span>
 <% end %>
 </h3>

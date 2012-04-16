@@ -39,6 +39,19 @@ class RelatedSubjectsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_template 'show'
 			assert !assigns(:rejected_controls).empty?
+			assert  assigns(:unrejected_controls).empty?
+		end
+
+		test "should get show with #{cu} login and with unrejected controls" do
+			login_as send(cu)
+			study_subject = Factory(:complete_case_study_subject)
+			candidate = Factory(:candidate_control,{
+				:related_patid    => study_subject.patid })
+			get :show, :id => study_subject.id
+			assert_response :success
+			assert_template 'show'
+			assert  assigns(:rejected_controls).empty?
+			assert !assigns(:unrejected_controls).empty?
 		end
 
 		test "should NOT show related study_subjects with #{cu} login and invalid id" do

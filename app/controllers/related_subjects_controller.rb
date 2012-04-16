@@ -11,6 +11,8 @@ class RelatedSubjectsController < ApplicationController
 	#	controller ... study_subjects/:id/related_subjects
 	#	Nicer perhaps, but no different functionally.
 	def show
+		@unrejected_controls = CandidateControl.related_patid(
+			@study_subject.patid).unassigned.unrejected
 		#@control_subjects  = @study_subject.controls
 		@matching_subjects = @study_subject.matching
 		#@family_subjects   = @study_subject.family

@@ -10,8 +10,10 @@ class ControlsController < ApplicationController
 #				"related_patid = ? AND reject_candidate = false AND assigned_on IS NULL AND study_subject_id IS NULL",
 #				@study_subject.patid ]
 #		)
-		candidate = CandidateControl.where(
-				"related_patid = ? AND reject_candidate = false AND assigned_on IS NULL AND study_subject_id IS NULL", @study_subject.patid ).limit(1).first	#	scopes always return arrays
+#		candidate = CandidateControl.where(
+#				"related_patid = ? AND reject_candidate = false AND assigned_on IS NULL AND study_subject_id IS NULL", @study_subject.patid ).limit(1).first	#	scopes always return arrays
+		candidate = CandidateControl.unassigned.unrejected.related_patid(
+			@study_subject.patid ).limit(1).first	#	scopes always return arrays
 		if candidate
 			redirect_to edit_candidate_control_path(candidate)
 		else
