@@ -46,6 +46,9 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, page_path(p)
 		end
 
+
+#	How to drag the rows to change the order and test this?
+
 #	changing order should enable save_order button
 
 #var initial_page_order;

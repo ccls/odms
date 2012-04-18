@@ -6,9 +6,6 @@ class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
 
 #	contacts#show
 
-##Capybara::ElementNotFound: no link with title, id or text '.toggle_eligibility_criteria' found
-##			click_link '.toggle_eligibility_criteria'
-
 		test "contacts#show should not have toggle_historic_addressings link" <<
 				" without historic addressings and with #{cu} login" do
 			addressing = Factory(:addressing,:current_address => YNDK[:yes])

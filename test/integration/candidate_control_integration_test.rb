@@ -19,18 +19,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_equal current_path, edit_candidate_control_path(candidate)
 			assert !has_css?('div.possible_duplicates')
 
-			#	realistically, must 'choose' a radio button by id as the name is not likely unique
-			#	as most radio buttons are part of a 'group' and the group is defined by a shared name value.
-			#	Apparently, we can also choose by the label text, but haven't tried this.
-#<p><input id="candidate_control_reject_candidate_false" name="candidate_control[reject_candidate]" type="radio" value="false" />
-#<label for="candidate_control_reject_candidate_false">accept control</label></p>
-#<p><input checked="checked" id="candidate_control_reject_candidate_true" name="candidate_control[reject_candidate]" type="radio" value="true" />
-#<label for="candidate_control_reject_candidate_true">reject control</label></p>
-			#choose 'candidate_control[reject_candidate][value=false]'
-			#choose 'candidate_control[reject_candidate]'	#	works, but how?  chooses the first one?
+			#	realistically, must 'choose' a radio button by id as the name is not 
+			#	likely unique as most radio buttons are part of a 'group' and the 
+			#	group is defined by a shared name value.
 			choose 'candidate_control_reject_candidate_false'
-#<textarea cols="40" id="candidate_control_rejection_reason" name="candidate_control[rejection_reason]" rows="10">DOB does not match.
 			# fill_in 'candidate_control_rejection_reason', :with => ''
+			#	'candidate_control[rejection_reason]' will most likely
+			#	be prerejected with "DOB does not match."
 			fill_in 'candidate_control[rejection_reason]', :with => ''
 
 			assert_difference('PhoneNumber.count',0) {
@@ -165,10 +160,10 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
-#				sleep 1	#	If I don't sleep in capybara, the counts don't change???
+				wait_until { 
+					current_path == related_subject_path(case_study_subject.id) }
 
-wait_until { current_path == related_subject_path(case_study_subject.id) }
-#	i still don't know why some redirects are followed by capybara and some aren't
+				#	i still don't know why some redirects are followed by capybara and some aren't
 
 			} } } } } } }
 

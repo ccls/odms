@@ -96,10 +96,6 @@
 No more ActiveRecord::Error and therefore no error :type which destroys my test method
 No more f.error_messages
 
-Our Context \[ ... \] model method causes this ...
-ActionView::Template::Error: undefined method `[]' for ActionView::Context:Module
-Added \:\: prefix where I use it to see if makes a difference
-
 Rewrite my custom validations
 
 CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
@@ -131,8 +127,6 @@ config.active_record.include_root_in_json = false
 
 == Rails 3 Upgrade TODOs
 
-* rake test:coverage
-
 * resolve all commented out tests
 
 * change functional tests to only include fields on the forms
@@ -142,8 +136,6 @@ config.active_record.include_root_in_json = false
   * really trying to simplify all the testing as there are so many things that trigger other things.  It is becoming difficult to test.  Add one callback that creates something and all of the sudden 100 tests fail because some count is now off by 1.
 
 * fix user not logged in integration test.  current_url doesn't seem to match followed redirect. Also in CaseIntegrationTest
-
-* fix all integration test "sleep" issues
 
 * remove all method_missings from app and write explicit ones
   * may_*_required
@@ -161,8 +153,6 @@ config.active_record.include_root_in_json = false
   * think that there is/was some setting but can't remember (seems to work)
 
 * remove soon to be deprecated code
-
-* implement the user_roles helper tests in the users_controller?
 
 * remove any unused code
 
@@ -184,14 +174,43 @@ config.active_record.include_root_in_json = false
 
 
 
-== Rails 3 Notes
 
-=== Custom Error messaging
+== Development Notes
+
+As this code is stored in publicly accessible repositories,
+DO NOT UNDER ANY CIRCUMSTANCES PUT ANY REAL SUBJECT DATA IN THE CODE!
+
+
+Developers will certainly disagree with what to test and what not to test.
+I test A LOT.  I test too much, perhaps.  So much so that changing one
+thing can cause tests to fail way over there.  I would rather that happen
+than having the app fail.  I have tried to focus my tests so things are 
+clearer, but there is certainly much more work to do in this arena.  There
+are over 7000 tests and 27000 assertions as of right now.  23000 lines of
+code in the app and tests.  It has become a daunting task to do much of 
+anything without some repercussions.
+
+
+
+---
+=== Context class name conflict
+
+Our Context \[ ... \] model method causes this ...
+
+  ActionView::Template::Error: undefined method `[]' for ActionView::Context:Module
+
+Added \:\: prefix where I use it to see if makes a difference
+
+
+
+---
+=== Rails 3 Custom Error messaging
 
 Due to our desire to have custom error messages, it was simplest to change the config/locales/en.yml file, which is used for the error messages to change the default format from "%{attribute} %{message}" to just "%{message}" and then add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in the butt, but certainly effective.  That being said, anytime a special error is explicitly added using something like "errors.add(:some_attribute,'my custom message')", the custom message must include the attribute if desired as the system will not add it.  This is actually working quite well.
 
----
 
+
+---
 === Don't pass "method => :delete" to link_to anymore
 
 This will create links like ...
@@ -200,8 +219,9 @@ This will create links like ...
 
 which contain a number of extra attributes.  These extra attributes are not valid html. They are meant to be used by javascript confirmation, but they are still not valid html.  So, since I'm not using them, I'll replace these links with forms like the others.
 
----
 
+
+---
 === Record Querying with ActiveRecord Relation and AREL
 
 http://railscasts.com/episodes/202-active-record-queries-in-rails-3
@@ -231,10 +251,12 @@ Repeated joins seem to be ignored.  Yay!
  end
 
 
+
 ---
 === DO NOT USE DEFAULT_SCOPE
 
 I do not like this as it takes precedence over your search unless you add 'unscoped' to your chain.  It has caused me much grief.  It caused grief with acts_as_list not properly scoping.  It caused gried with my ZipCode limit not destroying all when I told it to destroy_all because it had "limit(10)" as part of its default_scope.  Conclusion.  DO NOT USE DEFAULT_SCOPE.
+
 
 
 ---
@@ -251,41 +273,6 @@ CANNOT have leading 0's and include and 8 or 9 in a string that is being printed
  ArgumentError: invalid value for Integer: "0001280"
  from (irb):24:in `sprintf'
  from (irb):24
-
-
-
-
-
-
-
-
-
----
-== Development Notes
-
-As this code is stored in publicly accessible repositories,
-DO NOT UNDER ANY CIRCUMSTANCES PUT ANY REAL SUBJECT DATA IN THE CODE!
-
-
-Developers will certainly disagree with what to test and what not to test.
-I test A LOT.  I test too much, perhaps.  So much so that changing one
-thing can cause tests to fail way over there.  I would rather that happen
-than having the app fail.  I have tried to focus my tests so things are 
-clearer, but there is certainly much more work to do in this arena.  There
-are over 7000 tests and 27000 assertions as of right now.  23000 lines of
-code in the app and tests.  It has become a daunting task to do much of 
-anything without some repercussions.
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -312,6 +299,8 @@ This seems to work ...
 
 Still some models and associations may need done due to priorities and the fact that some never end up in a view and the association may be problematic. (Aliquot,HomexOutcome,Patient)
 
+
+
 ---
 === Paperclip validations
 
@@ -328,8 +317,10 @@ So, using the standard rails 'validates inclusion of' seems to work quite well.
    :in => ["text/csv","text/plain","application/vnd.ms-excel"],
    :allow_blank => true
 
+
+
 ---
-== Integration Testing
+=== Integration Testing
 
 Unit tests are just simple tests, but are generally used to test the model.
 Functional tests are paired with a controller based on some simple
@@ -384,14 +375,15 @@ and not this ...
 as the latter will be true if the field is there regardless of if it is visible
 
 
----
+
 == Additional files that will be needed
 
  /config/api.yml ( probably removing )
  /config/database.yml
  /config/initializers/mail.rb
  /config/initializers/secret_token.rb
- /config/s3.yml ( will be storing uploads locally )
+ /config/s3.yml ( will be storing uploads locally, so not anymore )
+
 
 == Testing requirements
 
@@ -400,6 +392,7 @@ as the latter will be true if the field is there regardless of if it is visible
 * gem capybara
 * gem selenium-webdriver (not used anymore)
 * gem capybara-webkit
+
 
 == Other Notes 
 

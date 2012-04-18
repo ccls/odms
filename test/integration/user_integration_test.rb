@@ -37,7 +37,7 @@ class UserIntegrationTest < ActionController::CapybaraIntegrationTest
 				#	Doesn't seem to follow redirects in rails 3 as this did work in rails 2.
 				#	The page.body is correct, but the page.current_url
 				#		and page.current_path are not????
-#				assert_match /https:\/\/auth-test\.berkeley\.edu\/cas\/login/, page.current_url
+#				assert_match /https:\/\/auth-test\.berkeley\.edu\/cas\/login/, current_url
 
 #	NOTE current_url is not following redirect
 

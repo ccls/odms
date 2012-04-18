@@ -2,18 +2,6 @@ require 'integration_test_helper'
 
 class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
-#	has_field? ignores visibility and the :visible option!!!!!
-#		use find_field and visible? for form field names
-#		ie. use this ...
-#			assert !page.find_field(
-#				"study_subject[subject_languages_attributes][2][other_language]").visible?	
-				#	specify other hidden
-#		and not ...
-#			assert page.has_field?(
-#				"study_subject[subject_languages_attributes][2][other_language]", 
-#					:visible => false)	#	specify other hidden
-#		as the latter will be true if the field is there regardless of if it is visible
-
 	site_editors.each do |cu|
 
 #	consent#edit (shouldn't have a consent#new)
@@ -67,7 +55,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should initially show specify other language when other language checked" <<
 				" with #{cu} login" do
-			study_subject = Factory(:case_study_subject, # NOTE CASE subject only (for now?)
+			# NOTE CASE subject only (for now?)
+			study_subject = Factory(:case_study_subject, 
 				:subject_languages_attributes => { 
 					'0' => { :language_id => Language['other'].id, :other_language => 'redneck' }})
 			login_as send(cu)
@@ -87,7 +76,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should toggle specify other language when other language checked" <<
 				" with #{cu} login" do
-			study_subject = Factory(:case_study_subject) # NOTE CASE subject only (for now?)
+			# NOTE CASE subject only (for now?)
+			study_subject = Factory(:case_study_subject) 
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject.id)
 			show_eligibility_criteria_div
@@ -104,7 +94,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should preserve creation of subject_language on edit kickback" <<
 				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
-				@study_subject = Factory(:complete_case_study_subject) # NOTE CASE subject only (for now?) WITH patient as needed on update
+				# NOTE CASE subject only (for now?) WITH patient as needed on update
+				@study_subject = Factory(:complete_case_study_subject) 
 			}
 			login_as send(cu)
 			visit edit_study_subject_consent_path(@study_subject.id)
@@ -112,7 +103,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, edit_study_subject_consent_path(@study_subject.id)
 			assert_page_has_unchecked_language_id('english')
 			#	trigger a kickback from Enrollment update failure
-			Enrollment.any_instance.stubs(:valid?).returns(false)	#	Could be StudySubject as well.  Doesn't matter.
+			#	Could be StudySubject as well.  Doesn't matter.
+			Enrollment.any_instance.stubs(:valid?).returns(false)	
 			click_button 'Save'
 			assert has_css?("p.flash#error")
 			assert_page_has_unchecked_language_id('english')
@@ -121,7 +113,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should preserve destruction of subject_language on edit kickback" <<
 				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 1 ){
-				@study_subject = Factory(:complete_case_study_subject, # NOTE CASE subject only (for now?) WITH patient as needed on update
+				# NOTE CASE subject only (for now?) WITH patient as needed on update
+				@study_subject = Factory(:complete_case_study_subject, 
 					:subject_languages_attributes => { 
 						'0' => { :language_id => Language['english'].id }})
 			}
@@ -131,7 +124,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, edit_study_subject_consent_path(@study_subject.id)
 			assert_page_has_checked_language_destroy('english')
 			#	trigger a kickback from Enrollment update failure
-			Enrollment.any_instance.stubs(:valid?).returns(false)	#	Could be StudySubject as well.  Doesn't matter.
+			#	Could be StudySubject as well.  Doesn't matter.
+			Enrollment.any_instance.stubs(:valid?).returns(false)	
 			click_button 'Save'
 			assert has_css?("p.flash#error")
 			assert_page_has_checked_language_destroy('english')
@@ -141,7 +135,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should preserve checked subject_languages on edit kickback" <<
 				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
-				@study_subject = Factory(:complete_case_study_subject) # NOTE CASE subject only (for now?) WITH patient as needed on update
+				# NOTE CASE subject only (for now?) WITH patient as needed on update
+				@study_subject = Factory(:complete_case_study_subject) 
 			}
 			login_as send(cu)
 			visit edit_study_subject_consent_path(@study_subject.id)
@@ -277,13 +272,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert !find_field('enrollment[ineligible_reason_id]').visible?
 			select "No", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
-
-#	jQuery('#enrollment_is_eligible').smartShow({
-#		what: '.ineligible_reason_id.field_wrapper',
-#		when: function(){ 
-#			return /no/i.test( 
-#				$('#enrollment_is_eligible option:selected').text() ) }
-#	});
 		end
 
 		test "should show ineligible_reason selector if 'Don't Know' for is_eligible" <<
@@ -300,13 +288,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert !find_field('enrollment[ineligible_reason_id]').visible?
 			select "Don't Know", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
-
-#	jQuery('#enrollment_is_eligible').smartShow({
-#		what: '#subject_is_eligible',
-#		when: function(){ 
-#			return /no/i.test( 
-#				$('#enrollment_is_eligible option:selected').text() ) }
-#	});
 		end
 
 		test "should NOT show ineligible_reason selector if 'Yes' for is_eligible" <<
@@ -323,13 +304,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert !find_field('enrollment[ineligible_reason_id]').visible?
 			select "Yes", :from => 'enrollment[is_eligible]'
 			assert !find_field('enrollment[ineligible_reason_id]').visible?
-
-#	jQuery('#enrollment_is_eligible').smartShow({
-#		what: '#subject_is_eligible',
-#		when: function(){ 
-#			return /no/i.test( 
-#				$('#enrollment_is_eligible option:selected').text() ) }
-#	});
 		end
 
 		test "should show other_ineligible_reason if 'Other' reason selected" <<
@@ -351,13 +325,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert !find_field('enrollment[other_ineligible_reason]').visible?
 			select "other", :from => 'enrollment[ineligible_reason_id]'
 			assert find_field('enrollment[other_ineligible_reason]').visible?
-
-#	jQuery('#enrollment_ineligible_reason_id').smartShow({
-#		what: '.other_ineligible_reason.field_wrapper',
-#		when: function(){ 
-#			return /other/i.test( 
-#				$('#enrollment_ineligible_reason_id option:selected').text() ) }
-#	});
 		end
 
 		test "should show subject_consented if consent is 'Yes'"<<
@@ -374,13 +341,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_subject_consented_hidden
 			select "Yes", :from => 'enrollment[consented]'
 			assert_subject_consented_visible
-
-#	jQuery('#enrollment_consented').smartShow({
-#		what: '#subject_consented',
-#		when: function(){ 
-#			return /^(yes|no)/i.test( 
-#				$('#enrollment_consented option:selected').text() ) }
-#	});
 		end
 
 		test "should show subject_consented if consent is 'No'"<<
@@ -397,13 +357,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_subject_consented_hidden
 			select "No", :from => 'enrollment[consented]'
 			assert_subject_consented_visible
-
-#	jQuery('#enrollment_consented').smartShow({
-#		what: '#subject_consented',
-#		when: function(){ 
-#			return /^(yes|no)/i.test( 
-#				$('#enrollment_consented option:selected').text() ) }
-#	});
 		end
 
 		test "should NOT show subject_consented if consent is 'Don't Know'"<<
@@ -420,13 +373,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_subject_consented_hidden
 			select "Don't Know", :from => 'enrollment[consented]'
 			assert_subject_consented_hidden
-
-#	jQuery('#enrollment_consented').smartShow({
-#		what: '#subject_consented',
-#		when: function(){ 
-#			return /^(yes|no)/i.test( 
-#				$('#enrollment_consented option:selected').text() ) }
-#	});
 		end
 
 		test "should show subject_refused if consent is 'No'"<<
@@ -443,13 +389,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_subject_refused_hidden
 			select "No", :from => 'enrollment[consented]'
 			assert_subject_refused_visible
-
-#	jQuery('#enrollment_consented').smartShow({
-#		what: '#subject_refused',
-#		when: function(){ 
-#			return /^no/i.test( 
-#				$('#enrollment_consented option:selected').text() ) }
-#	});
 		end
 
 		test "should NOT show subject_refused if consent is 'Yes'"<<
@@ -466,13 +405,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_subject_refused_hidden
 			select "Yes", :from => 'enrollment[consented]'
 			assert_subject_refused_hidden
-
-#	jQuery('#enrollment_consented').smartShow({
-#		what: '#subject_refused',
-#		when: function(){ 
-#			return /^no/i.test( 
-#				$('#enrollment_consented option:selected').text() ) }
-#	});
 		end
 
 		test "should NOT show subject_refused if consent is 'Don't Know'"<<
@@ -489,13 +421,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_subject_refused_hidden
 			select "Don't Know", :from => 'enrollment[consented]'
 			assert_subject_refused_hidden
-
-#	jQuery('#enrollment_consented').smartShow({
-#		what: '#subject_refused',
-#		when: function(){ 
-#			return /^no/i.test( 
-#				$('#enrollment_consented option:selected').text() ) }
-#	});
 		end
 
 
@@ -518,12 +443,6 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert !find_field('enrollment[other_refusal_reason]').visible?
 			select "other", :from => 'enrollment[refusal_reason_id]'
 			assert find_field('enrollment[other_refusal_reason]').visible?
-#	jQuery('#enrollment_refusal_reason_id').smartShow({
-#		what: '.other_refusal_reason.field_wrapper',
-#		when: function(){ 
-#			return /other/i.test( 
-#				$('#enrollment_refusal_reason_id option:selected').text() ) }
-#	});
 		end
 
 	end
@@ -531,7 +450,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 protected
 
 	def show_eligibility_criteria_div
-		#	FRICK n FRAK n!  They weren't visible because this was hidden.  Surprised that I was allowed to interact with the hidden checkboxes!!!!!
+		#	FRICK n FRAK n!  They weren't visible because this was hidden.  
+		#	Surprised that I was allowed to interact with the hidden checkboxes!!!!!
 		#	MUST, MUST, MUST show this div or the languages will always be hidden!
 		find('a.toggle_eligibility_criteria').click
 		assert self.has_css?('div.eligibility_criteria', :visible => true)

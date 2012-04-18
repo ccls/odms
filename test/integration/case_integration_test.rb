@@ -15,6 +15,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			click_button "New Case"	
 
 #	current_url is not following redirect
+#	This used to work in rails 2 and does work in the functional tests.
 #	TODO the page content appears correct, but the url is cases_path
 #			assert_match /http(s)?:\/\/.*\/waivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
 
@@ -39,6 +40,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			click_button "New Case"	
 
 #	current_url is not following redirect
+#	This used to work in rails 2 and does work in the functional tests.
 #	TODO the page content appears correct, but the url is cases_path
 #			assert_match /http(s)?:\/\/.*\/nonwaivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
 

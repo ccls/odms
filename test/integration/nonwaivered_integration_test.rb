@@ -2,19 +2,9 @@ require 'integration_test_helper'
 
 class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 
-#	has_field? ignores visibility and the :visible option!!!!!
-#		use find_field and visible? for form field names
-#		ie. use this ...
-#			assert !page.find_field("study_subject[subject_languages_attributes][2][other_language]").visible?	#	specify other hidden
-#		and not ...
-#			assert page.has_field?("study_subject[subject_languages_attributes][2][other_language]", :visible => false)	#	specify other hidden
-#		as the latter will be true if the field is there regardless of if it is visible
-
 	site_editors.each do |cu|
 
 		test "should keep unchecked checkboxes on re-render with #{cu} login" do
-#	TODO noticed that validation failure and re-render, checks these boxes???
-#	manually setting the checked attribute fixes, but don't understand why
 			login_as send(cu)
 			visit new_nonwaivered_path
 			patient = 'study_subject_patient_attributes_'
@@ -218,23 +208,6 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert find_field("#{address}[zip]").value.blank?
 
 			fill_in "#{address}[zip]",  :with => "17857"
-			#	I don't think that the change event get triggered correctly
-			#	in the test environment.
-			#
-			#	This may happen as the browser
-			#	actually exists and perhaps me coding while the browser is trying to
-			#	test takes focus away from it?  Can I force the browser into the background?
-			#
-			#	maybe "change" isn't the appropriate event trigger for this?
-			#	explicitly trigger the change event.
-			#	If the user running the tests is using the machine,
-			#	it can inhibit this test.  Don't know why.
-			#	It will send a blank zip code which will result in
-			#	no field updates.
-#	When using capybara-webkit, this isn't necessary!  Yay!
-#		If we change back to selenium, this may need uncommented.
-#			execute_script("$('#study_subject_addressings_attributes_0_address_attributes_zip').change()" );
-#			sleep 1
 
 			assert_equal 'NORTHUMBERLAND', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
@@ -248,7 +221,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit new_nonwaivered_path
 			patient = 'study_subject[patient_attributes]'
 			assert !find_field( "#{patient}[other_diagnosis]").visible?
-#	case sensitive? yep.
+			#	case sensitive? yep.
 			select "other", :from => "#{patient}[diagnosis_id]"
 			assert find_field( "#{patient}[other_diagnosis]").visible?
 			select "",      :from => "#{patient}[diagnosis_id]"
