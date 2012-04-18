@@ -12,9 +12,12 @@ class ApplicationController < ActionController::Base
 
 	before_filter :get_guidance
 
-	base_server_url = ( Rails.env == "production" ) ? 
-		"https://auth.berkeley.edu" : 
-		"https://auth-test.berkeley.edu"
+#	base_server_url = ( Rails.env == "production" ) ? 
+#		"https://auth.berkeley.edu" : 
+#		"https://auth-test.berkeley.edu"
+
+	base_server_url = "https://auth#{
+		( Rails.env == "production" ) ? nil : '-test' }.berkeley.edu"
 
 	CASClient::Frameworks::Rails::Filter.configure(
 		:username_session_key => :calnetuid,
