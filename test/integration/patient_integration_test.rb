@@ -18,16 +18,16 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			study_subject = Factory(:patient).study_subject.reload
 			login_as send(cu)
-			page.visit edit_study_subject_patient_path(study_subject)
+			visit edit_study_subject_patient_path(study_subject)
 
-			assert !page.find_field('patient[other_diagnosis]').visible?
+			assert !find_field('patient[other_diagnosis]').visible?
 #	case sensitive? yep.
 			select "other", :from => 'patient[diagnosis_id]'
-			assert page.find_field('patient[other_diagnosis]').visible?
+			assert find_field('patient[other_diagnosis]').visible?
 			select "", :from => 'patient[diagnosis_id]'
-			assert !page.find_field('patient[other_diagnosis]').visible?
+			assert !find_field('patient[other_diagnosis]').visible?
 			select "other", :from => 'patient[diagnosis_id]'
-			assert page.find_field('patient[other_diagnosis]').visible?
+			assert find_field('patient[other_diagnosis]').visible?
 #	jQuery('#patient_diagnosis_id').smartShow({
 #		what: 'form.edit_patient div.other_diagnosis',
 #		when: function(){ 
@@ -41,13 +41,13 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			study_subject = Factory(:patient).study_subject.reload
 			login_as send(cu)
-			page.visit edit_study_subject_patient_path(study_subject)
+			visit edit_study_subject_patient_path(study_subject)
 
-			assert page.has_no_css?('div.admit_date_wrapper.changed')
-			assert page.has_css?('div.admit_date_wrapper > div.warning', :visible => false)
-			page.fill_in 'patient[admit_date]', :with => 'something else'
-			assert page.has_css?('div.admit_date_wrapper.changed')
-			assert page.has_css?('div.admit_date_wrapper > div.warning', :visible => true)
+			assert has_no_css?('div.admit_date_wrapper.changed')
+			assert has_css?('div.admit_date_wrapper > div.warning', :visible => false)
+			fill_in 'patient[admit_date]', :with => 'something else'
+			assert has_css?('div.admit_date_wrapper.changed')
+			assert has_css?('div.admit_date_wrapper > div.warning', :visible => true)
 		end
 
 	end

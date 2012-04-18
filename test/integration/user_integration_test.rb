@@ -7,7 +7,7 @@ class UserIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should get #{cu} info with #{cu} login" do
 			u = send(cu)
 			login_as u
-			page.visit user_path(u)
+			visit user_path(u)
 
 			assert_equal user_path(u), current_path
 
@@ -17,7 +17,7 @@ class UserIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	<title>CCLS ODMS</title>
 			#	This isn't perfect, but it does test that the page is CCLS and not redirect to Calnet
 			#	If I can't test that I've been redirected, test the page content.
-			page_body = HTML::Document.new(page.body).root
+			page_body = HTML::Document.new(body).root
 			assert_select page_body, 'title', :text => "CCLS ODMS"
 			assert_select( page_body, 'div#main', 1 ){|main|	#	Array!
 			assert_select( main.first,    'div#content', 1 ){ |content|	#	Array!
@@ -32,7 +32,7 @@ class UserIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	open begin block with rescue ...
 			begin
 				u = send(cu)
-				page.visit user_path(u)
+				visit user_path(u)
 
 				#	Doesn't seem to follow redirects in rails 3 as this did work in rails 2.
 				#	The page.body is correct, but the page.current_url
@@ -45,7 +45,7 @@ class UserIntegrationTest < ActionController::CapybaraIntegrationTest
 
 				#	This isn't perfect, but it does test that the redirect is to CalNet
 				#	If I can't test that I've been redirected, test the page content.
-				assert_select HTML::Document.new(page.body).root, 'title', 
+				assert_select HTML::Document.new(body).root, 'title', 
 					:text => "CalNet Central Authentication Service - Single Sign-on"
 
 				#https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A50510%2Fusers%2F1

@@ -20,7 +20,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			#	This isn't perfect, but it does test that the redirect is correct.
 			#	If I can't test that I've been redirected, test the page content.
-			assert_select HTML::Document.new(page.body).root, 'div#main h3', 
+			assert_select HTML::Document.new(body).root, 'div#main h3', 
 				:text => "Rapid Ascertainment Form (RAF) - waiver version"
 
 			#	capybara apparently won't find a field by name that is
@@ -44,7 +44,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			#	This isn't perfect, but it does test that the redirect is correct.
 			#	If I can't test that I've been redirected, test the page content.
-			assert_select HTML::Document.new(page.body).root, 'div#main h3', 
+			assert_select HTML::Document.new(body).root, 'div#main h3', 
 				:text => "Rapid Ascertainment Form (RAF) - non-waiver version"
 
 			#	capybara apparently won't find a field by name that is

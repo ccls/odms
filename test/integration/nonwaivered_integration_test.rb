@@ -16,28 +16,28 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 #	TODO noticed that validation failure and re-render, checks these boxes???
 #	manually setting the checked attribute fixes, but don't understand why
 			login_as send(cu)
-			page.visit new_nonwaivered_path
-
+			visit new_nonwaivered_path
 			patient = 'study_subject_patient_attributes_'
-			assert page.has_unchecked_field?("#{patient}was_under_15_at_dx")
-			assert page.has_unchecked_field?("#{patient}was_previously_treated")
-			assert page.has_unchecked_field?("#{patient}was_ca_resident_at_diagnosis")
+			assert has_unchecked_field?("#{patient}was_under_15_at_dx")
+			assert has_unchecked_field?("#{patient}was_previously_treated")
+			assert has_unchecked_field?("#{patient}was_ca_resident_at_diagnosis")
 			click_button "Submit"	
-			assert page.has_unchecked_field?("#{patient}was_under_15_at_dx")
-			assert page.has_unchecked_field?("#{patient}was_previously_treated")
-			assert page.has_unchecked_field?("#{patient}was_ca_resident_at_diagnosis")
-
+			wait_until { has_css?("p.flash#error") }
+			assert has_unchecked_field?("#{patient}was_under_15_at_dx")
+			assert has_unchecked_field?("#{patient}was_previously_treated")
+			assert has_unchecked_field?("#{patient}was_ca_resident_at_diagnosis")
 			check("#{patient}was_ca_resident_at_diagnosis")
 			click_button "Submit"	
-			assert page.has_unchecked_field?("#{patient}was_under_15_at_dx")
-			assert page.has_unchecked_field?("#{patient}was_previously_treated")
-			assert page.has_checked_field?("#{patient}was_ca_resident_at_diagnosis")
+			wait_until { has_css?("p.flash#error") }
+			assert has_unchecked_field?("#{patient}was_under_15_at_dx")
+			assert has_unchecked_field?("#{patient}was_previously_treated")
+			assert has_checked_field?("#{patient}was_ca_resident_at_diagnosis")
 		end
 
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
 			duplicate = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
-			page.visit new_nonwaivered_path
+			visit new_nonwaivered_path
 
 			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
 			#	build, but DON'T save
@@ -67,13 +67,13 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				wait_until { page.has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash#error") }
 			} } } } } }
 
 			assert_equal nonwaivered_path, current_path
-			assert page.has_css?("p.flash#error")
+			assert has_css?("p.flash#error")
 			assert_match /Possible Duplicate\(s\) Found/, 
-				page.find("p.flash#error").text
+				find("p.flash#error").text
 
 			choose "duplicate_id_#{duplicate.id}"
 			assert_difference('PhoneNumber.count',0) {
@@ -84,18 +84,18 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
-				wait_until { page.has_css?("p.flash#notice")	}
+				wait_until { has_css?("p.flash#notice")	}
 			} } } } } } }
-			assert page.has_css?("p.flash#notice")	#	success
+			assert has_css?("p.flash#notice")	#	success
 			assert_match /Operational Event created marking this attempted entry/,
-				page.find("p.flash#notice").text
+				find("p.flash#notice").text
 			assert_equal study_subject_path( duplicate ), current_path
 		end
 
 		test "should create subject if duplicate subject no match found with #{cu} login" do
 			duplicate = Factory(:complete_nonwaivered_case_study_subject)
 			login_as send(cu)
-			page.visit new_nonwaivered_path
+			visit new_nonwaivered_path
 
 			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
 			#	build, but DON'T save
@@ -125,12 +125,12 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				wait_until { page.has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash#error") }
 			} } } } } }
 			assert_equal nonwaivered_path, current_path
-			assert page.has_css?("p.flash#error")
+			assert has_css?("p.flash#error")
 			assert_match /Possible Duplicate\(s\) Found/, 
-				page.find("p.flash#error").text
+				find("p.flash#error").text
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',1) {
@@ -141,18 +141,18 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				#	click_button(value)
 				click_button "No Match"	
 				#	no icf master ids warning
-				wait_until { page.has_css?('p.flash#warn') }
+				wait_until { has_css?('p.flash#warn') }
 			} } } } } }
 
 			#	no icf master ids warning
-			assert page.has_css?('p.flash#warn')
+			assert has_css?('p.flash#warn')
 			assert_match /\/study_subjects\/\d+/, current_path
 		end
 
 		test "should get new nonwaivered raf form and submit with #{cu} login" do
 			login_as send(cu)
 
-			page.visit new_nonwaivered_path
+			visit new_nonwaivered_path
 
 			subject = Factory.build(:complete_nonwaivered_case_study_subject)	
 			#	build, but DON'T save
@@ -182,29 +182,40 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',2) {
 				click_button "Submit"	
 				#	no icf master ids warning
-				wait_until { page.has_css?('p.flash#warn') }
+				wait_until { has_css?('p.flash#warn') }
 			} } } } } }
 			#	no icf master ids warning
-			assert page.has_css?('p.flash#warn')
-			assert !page.has_css?("p.flash#error")
+			assert has_css?('p.flash#warn')
+			assert !has_css?("p.flash#error")
 			assert_match /\/study_subjects\/\d+/, current_path
 		end
 
-
-#	TODO add tests which test the subject languages checkboxes on kickbacks
-
-#	No 'other' language on nonwaivered form
-
+		test "should maintain checked languages" <<
+			" with #{cu} login" do
+			login_as send(cu)
+			visit new_nonwaivered_path
+			assert_page_has_unchecked_language_id('english')
+			check(language_input_id('english'))
+			assert_page_has_checked_language_id('english')
+			click_button "Submit"	
+			wait_until { has_css?('p.flash#error') }
+			assert_page_has_checked_language_id('english')
+			uncheck(language_input_id('english'))
+			assert_page_has_unchecked_language_id('english')
+			click_button "Submit"	
+			wait_until { has_css?('p.flash#error') }
+			assert_page_has_unchecked_language_id('english')
+		end
 
 		test "should should update blank address info on zip code change" <<
 			" with #{cu} login" do
 			login_as send(cu)
-			page.visit new_waivered_path
+			visit new_nonwaivered_path
 			address = 'study_subject[addressings_attributes][0][address_attributes]'
-			assert page.find_field("#{address}[city]").value.blank?
-			assert page.find_field("#{address}[county]").value.blank?
-			assert page.find_field("#{address}[state]").value.blank?
-			assert page.find_field("#{address}[zip]").value.blank?
+			assert find_field("#{address}[city]").value.blank?
+			assert find_field("#{address}[county]").value.blank?
+			assert find_field("#{address}[state]").value.blank?
+			assert find_field("#{address}[zip]").value.blank?
 
 			fill_in "#{address}[zip]",  :with => "17857"
 			#	I don't think that the change event get triggered correctly
@@ -222,28 +233,28 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	no field updates.
 #	When using capybara-webkit, this isn't necessary!  Yay!
 #		If we change back to selenium, this may need uncommented.
-#			page.execute_script("$('#study_subject_addressings_attributes_0_address_attributes_zip').change()" );
+#			execute_script("$('#study_subject_addressings_attributes_0_address_attributes_zip').change()" );
 #			sleep 1
 
-			assert_equal 'NORTHUMBERLAND', page.find_field("#{address}[city]").value
-			assert_equal 'Northumberland', page.find_field("#{address}[county]").value
-			assert_equal 'PA',             page.find_field("#{address}[state]").value
-			assert_equal '17857',          page.find_field("#{address}[zip]").value
+			assert_equal 'NORTHUMBERLAND', find_field("#{address}[city]").value
+			assert_equal 'Northumberland', find_field("#{address}[county]").value
+			assert_equal 'PA',             find_field("#{address}[state]").value
+			assert_equal '17857',          find_field("#{address}[zip]").value
 		end
 
 		test "should show other_diagnosis when diagnosis is Other" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			page.visit new_waivered_path
+			visit new_nonwaivered_path
 			patient = 'study_subject[patient_attributes]'
-			assert !page.find_field( "#{patient}[other_diagnosis]").visible?
+			assert !find_field( "#{patient}[other_diagnosis]").visible?
 #	case sensitive? yep.
 			select "other", :from => "#{patient}[diagnosis_id]"
-			assert page.find_field( "#{patient}[other_diagnosis]").visible?
+			assert find_field( "#{patient}[other_diagnosis]").visible?
 			select "",      :from => "#{patient}[diagnosis_id]"
-			assert !page.find_field( "#{patient}[other_diagnosis]").visible?
+			assert !find_field( "#{patient}[other_diagnosis]").visible?
 			select "other", :from => "#{patient}[diagnosis_id]"
-			assert page.find_field( "#{patient}[other_diagnosis]").visible?
+			assert find_field( "#{patient}[other_diagnosis]").visible?
 		end
 
 	end

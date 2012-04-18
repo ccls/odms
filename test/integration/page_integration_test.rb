@@ -4,7 +4,7 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	test "should get home page if not logged in" do
 		visit root_path()
-		assert !page.has_css?("p.flash#error")
+		assert !has_css?("p.flash#error")
 		assert_equal root_path, current_path
 	end
 
@@ -12,7 +12,7 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should create new page with #{cu} login" do
 			login_as send(cu)
-			page.visit new_page_path
+			visit new_page_path
 			fill_in "page[path]",     :with => "/MyNewPath"
 			fill_in "page[menu_en]",  :with => "MyNewMenu"
 			fill_in "page[title_en]", :with => "MyNewTitle"
@@ -20,10 +20,10 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			assert_difference('Page.count',1) {
 				click_button "Create"	
-				wait_until { page.has_css?("p.flash#notice") }
+				wait_until { has_css?("p.flash#notice") }
 			}
 
-			assert page.has_css?("p.flash#notice")	#	success
+			assert has_css?("p.flash#notice")	#	success
 			assert_match /\/pages\/\d+/, current_path
 		end
 
@@ -31,7 +31,7 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert Page.count > 0
 			p = Page.first	#	DO NOT USE 'page' as it is part of capybara
 			login_as send(cu)
-			page.visit edit_page_path(p)
+			visit edit_page_path(p)
 			assert_equal edit_page_path(p), current_path
 		end
 
@@ -39,10 +39,10 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert Page.count > 0
 			p = Page.first	#	DO NOT USE 'page' as it is part of capybara
 			login_as send(cu)
-			page.visit edit_page_path(p)
+			visit edit_page_path(p)
 			fill_in "page[menu_en]", :with => "MyNewMenu"
 			click_button "Update"	
-			assert page.has_css?("p.flash#notice")
+			assert has_css?("p.flash#notice")
 			assert_equal current_path, page_path(p)
 		end
 

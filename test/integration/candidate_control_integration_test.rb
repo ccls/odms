@@ -11,13 +11,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
 
-			page.visit related_subject_path(case_study_subject.id)
+			visit related_subject_path(case_study_subject.id)
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
-			assert !page.has_css?('div.possible_duplicates')
+			assert !has_css?('div.possible_duplicates')
 
 			#	realistically, must 'choose' a radio button by id as the name is not likely unique
 			#	as most radio buttons are part of a 'group' and the group is defined by a shared name value.
@@ -42,13 +42,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 				#	out of icf master ids warning
-				wait_until { page.has_css?("p.flash#warn") }
+				wait_until { has_css?("p.flash#warn") }
 			} } } } } } }
 
 			#	out of icf master ids warning
-			assert page.has_css?("p.flash#warn")
+			assert has_css?("p.flash#warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
-			assert !page.has_css?("p.flash#error")
+			assert !has_css?("p.flash#error")
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 
@@ -63,13 +63,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
-			page.visit related_subject_path(case_study_subject.id)
+			visit related_subject_path(case_study_subject.id)
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
-			assert !page.has_css?('div.possible_duplicates')
+			assert !has_css?('div.possible_duplicates')
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
@@ -80,7 +80,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-				wait_until { page.has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash#error") }
 			} } } } } } }
 
 			#
@@ -88,9 +88,9 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			#	rather than actually being edit_candidate_control_path
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
-			assert page.has_css?("p.flash#error")
+			assert has_css?("p.flash#error")
 			assert_equal current_path, candidate_control_path(candidate)
-			assert page.has_css?('div.possible_duplicates')
+			assert has_css?('div.possible_duplicates')
 
 			#	don't choose a duplicate
 			assert_difference('PhoneNumber.count',0) {
@@ -101,11 +101,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
-				wait_until { page.has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash#error") }
 			} } } } } } }
-			assert page.has_css?('div.possible_duplicates')
-			assert page.has_css?("p.flash#error")
-			assert page.has_css?("p.flash#warn")
+			assert has_css?('div.possible_duplicates')
+			assert has_css?("p.flash#error")
+			assert has_css?("p.flash#warn")
 
 			#
 			#	this kicks back as a render, not a redirect so 
@@ -126,12 +126,12 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
-			page.visit related_subject_path(case_study_subject.id)
+			visit related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
-			assert !page.has_css?('div.possible_duplicates')
+			assert !has_css?('div.possible_duplicates')
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
@@ -142,7 +142,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-				wait_until { page.has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash#error") }
 			} } } } } } }
 
 			#
@@ -150,9 +150,9 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			#	rather than actually being edit_candidate_control_path
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
-			assert page.has_css?("p.flash#error")
+			assert has_css?("p.flash#error")
 			assert_equal current_path, candidate_control_path(candidate)
-			assert page.has_css?('div.possible_duplicates')
+			assert has_css?('div.possible_duplicates')
 
 			#	choose a duplicate
 			choose "duplicate_id_#{duplicate.id}"
@@ -177,7 +177,7 @@ wait_until { current_path == related_subject_path(case_study_subject.id) }
 			# the reason will be because it is a control
 			assert_match /ineligible control - control already exists in system/,
 				candidate.rejection_reason
-			assert !page.has_css?("p.flash#error")
+			assert !has_css?("p.flash#error")
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 
@@ -192,12 +192,12 @@ wait_until { current_path == related_subject_path(case_study_subject.id) }
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
-			page.visit related_subject_path(case_study_subject.id)
+			visit related_subject_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
-			assert !page.has_css?('div.possible_duplicates')
+			assert !has_css?('div.possible_duplicates')
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
@@ -208,7 +208,7 @@ wait_until { current_path == related_subject_path(case_study_subject.id) }
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-				wait_until { page.has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash#error") }
 			} } } } } } }
 
 			#
@@ -217,9 +217,9 @@ wait_until { current_path == related_subject_path(case_study_subject.id) }
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
 
-			assert page.has_css?("p.flash#error")
+			assert has_css?("p.flash#error")
 			assert_equal current_path, candidate_control_path(candidate)
-			assert page.has_css?('div.possible_duplicates')
+			assert has_css?('div.possible_duplicates')
 
 			#	don't choose a duplicate
 			assert_difference('PhoneNumber.count',0) {
@@ -231,12 +231,12 @@ wait_until { current_path == related_subject_path(case_study_subject.id) }
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'No Match'
 				#	no icf master ids warning
-				wait_until { page.has_css?("p.flash#warn") }
+				wait_until { has_css?("p.flash#warn") }
 			} } } } } } }
 
-			assert page.has_css?("p.flash#warn")
+			assert has_css?("p.flash#warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
-			assert !page.has_css?("p.flash#error")
+			assert !has_css?("p.flash#error")
 			assert_equal current_path, related_subject_path(case_study_subject.id)
 		end
 

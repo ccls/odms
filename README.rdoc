@@ -329,6 +329,62 @@ So, using the standard rails 'validates inclusion of' seems to work quite well.
    :allow_blank => true
 
 ---
+== Integration Testing
+
+Unit tests are just simple tests, but are generally used to test the model.
+Functional tests are paired with a controller based on some simple
+conventions pulled from the test name.
+Integration tests are a little funky.  They aren't quite as popular
+and are very application specific.  They aren't tied to anything and
+and kinda meant to allow for testing a whole situation.  I needed
+them for testing all of our javascript.
+
+Initially, I tried using WebRat, but that does not test javascript.
+I then tried Capybara, with Selenium, which did test the javascript,
+but actually had to open a browser and only worked with Firefox, or
+Chrome with a special driver added.  These were cool, but then I found
+Capybara-Webkit works as a simulated browser with Capybara.
+This is now the chosen setup for integration testing, 
+
+In these integration tests, the Capybara DSL, which has commands like
+'visit', 'find_field', 'fill_in', etc., can be executed on the 'page'
+object, but is not necessary as these methods appear to be directly
+available to the test.
+
+Be advised that some of the integration tests will intermittantly
+fail due to their threaded nature.  I've added several 'sleep 1'
+lines to deal with this, but it isn't always enough.  They will 
+pass if given enough wait time. This is mostly noticed when 
+clicking a link or button and then expecting a change in the
+database.  Sometimes there is none when there should be and
+then the assert_difference fails.  I have changed the 'sleep 1'
+to 'sleep 2' in the places where this commonly happens to 
+try to avoid it.  As this behaviour is intermittant, it is a
+bit difficult to debug.
+
+I have now replaced these sleep commands with more logical
+'wait_until' blocks which seems to work just fine.  In addition,
+I upped the default time out.  Now they rarely fail, but when
+they do, it is usually due to a timeout.
+
+
+Also note, that while has_css? can take an options hash with :visible, like ...
+has_css?('div.phone_numbers div.historic', :visible => false)
+... has_field? DOES NOT. It also does not correctly respond the the visible?
+method. If needing to test the presence and visibility
+of a form field, use find_field and then visible?.
+
+ie. use this ...
+  assert !page.find_field(
+    "study_subject[subject_languages_attributes][2][other_language]").visible?  
+and not this ...
+  assert page.has_field?(
+    "study_subject[subject_languages_attributes][2][other_language]", 
+    :visible => false)
+as the latter will be true if the field is there regardless of if it is visible
+
+
+---
 == Additional files that will be needed
 
  /config/api.yml ( probably removing )
@@ -345,18 +401,10 @@ So, using the standard rails 'validates inclusion of' seems to work quite well.
 * gem selenium-webdriver (not used anymore)
 * gem capybara-webkit
 
-== Notes 
+== Other Notes 
 
-Be advised that some of the integration tests will intermittantly
-fail due to their threaded nature.  I've added several 'sleep 1'
-lines to deal with this, but it isn't always enough.  They will 
-pass if given enough wait time. This is mostly noticed when 
-clicking a link or button and then expecting a change in the
-database.  Sometimes there is none when there should be and
-then the assert_difference fails.  I have changed the 'sleep 1'
-to 'sleep 2' in the places where this commonly happens to 
-try to avoid it.  As this behaviour is intermittant, it is a
-bit difficult to debug.
+
+
 
 
 Copyright (c) 2011 [Jake Wendt], released under the MIT license
