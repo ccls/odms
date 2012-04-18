@@ -18,11 +18,9 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "page[title_en]", :with => "MyNewTitle"
 			fill_in "page[body_en]",  :with => "MyNewBody"
 
-#	I don't understand why capybara doesn't work here
-#	TODO doesn't seem to work in capybara? basic db and not shared db??
 			assert_difference('Page.count',1) {
 				click_button "Create"	
-sleep 1	#	if I don't pause for a second, the new page won't be counted???
+				wait_until { page.has_css?("p.flash#notice") }
 			}
 
 			assert page.has_css?("p.flash#notice")	#	success

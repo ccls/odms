@@ -39,7 +39,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				sleep 2	#	for capybara
+				wait_until { page.has_css?("p.flash#error") }
 			} } } } } }
 
 			assert_equal waivered_path, current_path
@@ -56,7 +56,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
-				sleep 2	#	for capybara
+				wait_until { page.has_css?("p.flash#notice") }
 			} } } } } } }
 			assert page.has_css?("p.flash#notice")
 			assert_match /Operational Event created marking this attempted entry/,
@@ -91,7 +91,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				sleep 2	#	for capybara
+				wait_until { page.has_css?("p.flash#error") }
 			} } } } } }
 
 			assert_equal waivered_path, current_path
@@ -106,9 +106,12 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "No Match"	
-				sleep 3	#	for capybara
+				#	no icf master ids warning
+				wait_until { page.has_css?('p.flash#warn') }
 			} } } } } }
 
+			#	no icf master ids warning
+			assert page.has_css?('p.flash#warn')
 			assert_match /\/study_subjects\/\d+/, current_path
 		end
 
@@ -140,8 +143,11 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "Submit"	
-				sleep 3	#	for capybara
+				#	no icf master ids
+				wait_until { page.has_css?('p.flash#warn') }
 			} } } } } }
+			#	no icf master ids
+			assert page.has_css?('p.flash#warn')
 			assert !page.has_css?("p.flash#error")
 			assert_match /\/study_subjects\/\d+/, current_path
 		end

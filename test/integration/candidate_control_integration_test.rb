@@ -41,9 +41,12 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',2) {
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-				sleep 2	#	If I don't sleep in capybara, the counts don't change???
+				#	out of icf master ids warning
+				wait_until { page.has_css?("p.flash#warn") }
 			} } } } } } }
 
+			#	out of icf master ids warning
+			assert page.has_css?("p.flash#warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")
 			assert_equal current_path, related_subject_path(case_study_subject.id)
@@ -77,6 +80,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
+				wait_until { page.has_css?("p.flash#error") }
 			} } } } } } }
 
 			#
@@ -97,6 +101,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
+				wait_until { page.has_css?("p.flash#error") }
 			} } } } } } }
 			assert page.has_css?('div.possible_duplicates')
 			assert page.has_css?("p.flash#error")
@@ -137,6 +142,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
+				wait_until { page.has_css?("p.flash#error") }
 			} } } } } } }
 
 			#
@@ -159,7 +165,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
-				sleep 1	#	If I don't sleep in capybara, the counts don't change???
+#				sleep 1	#	If I don't sleep in capybara, the counts don't change???
+
+wait_until { current_path == related_subject_path(case_study_subject.id) }
+#	i still don't know why some redirects are followed by capybara and some aren't
+
 			} } } } } } }
 
 			assert_candidate_rejected(candidate.reload)
@@ -198,6 +208,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
+				wait_until { page.has_css?("p.flash#error") }
 			} } } } } } }
 
 			#
@@ -219,9 +230,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',2) {
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'No Match'
-				sleep 2	#	If I don't sleep in capybara, the counts don't change???
+				#	no icf master ids warning
+				wait_until { page.has_css?("p.flash#warn") }
 			} } } } } } }
 
+			assert page.has_css?("p.flash#warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !page.has_css?("p.flash#error")
 			assert_equal current_path, related_subject_path(case_study_subject.id)

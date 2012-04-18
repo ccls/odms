@@ -67,7 +67,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				sleep 2	#	pause to ensure no changes in capybara
+				wait_until { page.has_css?("p.flash#error") }
 			} } } } } }
 
 			assert_equal nonwaivered_path, current_path
@@ -84,7 +84,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
-				sleep 2	#	capybara will require a moment to get the counts correct
+				wait_until { page.has_css?("p.flash#notice")	}
 			} } } } } } }
 			assert page.has_css?("p.flash#notice")	#	success
 			assert_match /Operational Event created marking this attempted entry/,
@@ -125,7 +125,7 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				sleep 2	#	pause to ensure no changes in capybara
+				wait_until { page.has_css?("p.flash#error") }
 			} } } } } }
 			assert_equal nonwaivered_path, current_path
 			assert page.has_css?("p.flash#error")
@@ -140,9 +140,12 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',2) {
 				#	click_button(value)
 				click_button "No Match"	
-				sleep 2	#	capybara will require a moment to get the counts correct
+				#	no icf master ids warning
+				wait_until { page.has_css?('p.flash#warn') }
 			} } } } } }
 
+			#	no icf master ids warning
+			assert page.has_css?('p.flash#warn')
 			assert_match /\/study_subjects\/\d+/, current_path
 		end
 
@@ -178,8 +181,11 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "Submit"	
-				sleep 3	#	capybara will require a moment to get the counts correct
+				#	no icf master ids warning
+				wait_until { page.has_css?('p.flash#warn') }
 			} } } } } }
+			#	no icf master ids warning
+			assert page.has_css?('p.flash#warn')
 			assert !page.has_css?("p.flash#error")
 			assert_match /\/study_subjects\/\d+/, current_path
 		end

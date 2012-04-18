@@ -25,8 +25,17 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert page.find('select#operational_event_operational_event_type_id option'
 				).text.blank?
 
+			#	on load it does have this css so we can't use it to test
+			#assert	!page.has_css?('select#operational_event_operational_event_type_id option')
+
 			select 'operations', :from => 'category'
-sleep 1	#	sometimes the next statement is still 1
+
+			wait_until { 
+				!page.find('select#operational_event_operational_event_type_id option'
+				).text.blank? }
+			#sleep 1	#	sometimes the next statement is still 1
+			#assert page.has_css?('select#operational_event_operational_event_type_id option')
+
 			#	now should have some options.
 			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
@@ -38,8 +47,22 @@ sleep 1	#	sometimes the next statement is still 1
 					assert !option.text.blank?
 					assert_match /^operations:/, option.text }
 
+			#	select nothing so can test if cleared
+			#	and can then test not cleared again.
+			#	selecting nothing will trigger the loading of nothing in the selector
+			select '', :from => 'category'
+			wait_until { 
+				!page.has_css?('select#operational_event_operational_event_type_id option')
+			}
+			assert !page.has_css?('select#operational_event_operational_event_type_id option')
+
 			select 'samples', :from => 'category'
-sleep 1	#	sometimes the next statement is still 6
+
+			wait_until { 
+				page.has_css?('select#operational_event_operational_event_type_id option') }
+			#sleep 1	#	sometimes the next statement is still 6
+			assert	page.has_css?('select#operational_event_operational_event_type_id option')
+
 			assert_equal 3, 
 				page.find('select#operational_event_operational_event_type_id'
 					).all('option').length
