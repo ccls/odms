@@ -19,23 +19,34 @@ class BcRequestsController < ApplicationController
 	end
 
 	def edit
+		session[:bc_request_return_to] = request.env["HTTP_REFERER"]
 	end
 
 	#		transform update to more generic update for status and comments/notes
 	def update
 #	TODO add validation in bc_request model that request status in statuses (don't forget factory)
 		@bc_request.update_attributes(params[:bc_request])
-		redirect_to new_bc_request_path
+
+
+		redirect_path = session[:bc_request_return_to] || new_bc_request_path
+		session[:bc_request_return_to] = nil
+		redirect_to redirect_path
+
+
 # TODO add rescues for failed update
-#
-#
+
+
 	end
 
 	#		for updating only status
 	def update_status
 		@bc_request.update_attribute(:status,params[:status])
-# TODO add rescues for failed update
 		redirect_to new_bc_request_path
+
+
+# TODO add rescues for failed update
+
+
 	end
 
 	def destroy
