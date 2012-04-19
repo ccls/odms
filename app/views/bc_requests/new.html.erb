@@ -1,3 +1,4 @@
+<% stylesheets(:bc_requests) %>
 <% birth_certificates_sub_menu %>
 
 <h4>Birth Data Requests for Control Matching</h4>
@@ -24,7 +25,7 @@
 <% if @active_bc_requests.empty? %>
 <p>Sorry, but there are no active birth data requests at this time.</p>
 <% else %>
-<table style='font-size:8pt;'><thead>
+<table class='bc_requests'><thead>
 <tr>
  <th>Remove</th>
  <th>Wait</th>
@@ -46,15 +47,13 @@
 <%= submit_tag 'Remove', :name => nil %>
 <% end %>
   </td>
-  <td>
    <%# status is part of the action url, not an input field here %>
-   <%= button_to( 'Wait', update_status_bc_request_path(bc_request, :status => 'waitlist' ), :method => 'put')  %>
-  </td>
+  <td><%= button_to( 'Wait', update_status_bc_request_path(bc_request, :status => 'waitlist' ), :method => 'put')  -%></td>
   <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
-  <td><%= study_subject.icf_master_id_to_s %></td>
-  <td><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
+  <td class='nowrap'><%= study_subject.icf_master_id_to_s %></td>
+  <td class='nowrap'><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
   <td><%= study_subject.sex %></td>
-  <td>born in cali</td>
+  <td>TODO</td>
   <td><%= study_subject.state_id_no %></td>
   <td><%=mdy study_subject.dob %></td>
  </tr>
@@ -70,7 +69,7 @@
 <% if @waitlist_bc_requests.empty? %>
 <p>Sorry, but there are no waitlist birth data requests at this time.</p>
 <% else %>
-<table style='font-size:8pt;'><thead>
+<table class='bc_requests'><thead>
 <tr>
  <th>Move to Request</th>
  <th>StudyID</th>
@@ -84,10 +83,6 @@
 <% @waitlist_bc_requests.each do |bc_request| %>
  <% study_subject = bc_request.study_subject %>
  <tr class='row'>
-  <td>
-   <%# status is part of the action url, not an input field here %>
-   <%= button_to( 'Activate', update_status_bc_request_path(bc_request, :status => 'active'), :method => 'put' ) %>
-
 <%# 
 	TODO
 
@@ -95,12 +90,11 @@
 	as they will be editable (comments only) OR need to change :status to 'bc_request[status]'
 	and do a more general update
 %>
-
-
-  </td>
+   <%# status is part of the action url, not an input field here %>
+  <td><%= button_to( 'Activate', update_status_bc_request_path(bc_request, :status => 'active'), :method => 'put' ) -%></td>
   <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
-  <td><%= study_subject.icf_master_id_to_s %></td>
-  <td><%= study_subject.full_name %></td>
+  <td class='nowrap'><%= study_subject.icf_master_id_to_s %></td>
+  <td class='nowrap'><%= study_subject.full_name %></td>
   <td><%= bc_request.notes %></td>
   <td><%= link_to 'Edit', edit_bc_request_path(bc_request), :class => 'button' %></td>
  </tr>
