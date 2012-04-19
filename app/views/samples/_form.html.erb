@@ -34,7 +34,7 @@
 	:label_text => 'Received by CCLS at:' %>
 
 <%= f.wrapped_datetime_text_field :sent_to_lab_at,
-	:label_text => 'Sent to Lab on:' %>
+	:label_text => 'Sent to Lab at:' %>
 
 <%= f.wrapped_collection_select( :location_id,
 	Organization.all, :id, :to_s,
