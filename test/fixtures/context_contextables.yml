@@ -64,15 +64,6 @@
   contextable_id:  5
 
 
-
-# 20 waivered_raf_1:
-# 21   id: 3 
-# 22   key: wraf1
-# 24 nonwaivered_raf_1:
-# 25   id: 4 
-# 26   key: nwraf1
-
-
 11:
   id: 11
   context_id: 3
@@ -99,6 +90,20 @@
   id: 15
   context_id: 4
   contextable_type:  Language
+  contextable_id:  2
+
+
+16:
+  id: 16
+  context_id: 5
+  contextable_type:  Diagnosis
+#	ALL
+  contextable_id:  1
+17:
+  id: 17
+  context_id: 5
+  contextable_type:  Diagnosis
+#	AML
   contextable_id:  2
 
 

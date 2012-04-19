@@ -221,19 +221,19 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal '17857',          find_field("#{patient}[raf_zip]").value
 		end
 
-		test "should show other_diagnosis when diagnosis is Other" <<
-				" with #{cu} login" do
-			login_as send(cu)
-			visit new_waivered_path
-			patient = 'study_subject[patient_attributes]'
-			assert !find_field("#{patient}[other_diagnosis]").visible?
-			select "other", :from => "#{patient}[diagnosis_id]"
-			assert find_field("#{patient}[other_diagnosis]").visible?
-			select "",      :from => "#{patient}[diagnosis_id]"
-			assert !find_field("#{patient}[other_diagnosis]").visible?
-			select "other", :from => "#{patient}[diagnosis_id]"
-			assert find_field("#{patient}[other_diagnosis]").visible?
-		end
+#		test "should show other_diagnosis when diagnosis is Other" <<
+#				" with #{cu} login" do
+#			login_as send(cu)
+#			visit new_waivered_path
+#			patient = 'study_subject[patient_attributes]'
+#			assert !find_field("#{patient}[other_diagnosis]").visible?
+#			select "other", :from => "#{patient}[diagnosis_id]"
+#			assert find_field("#{patient}[other_diagnosis]").visible?
+#			select "",      :from => "#{patient}[diagnosis_id]"
+#			assert !find_field("#{patient}[other_diagnosis]").visible?
+#			select "other", :from => "#{patient}[diagnosis_id]"
+#			assert find_field("#{patient}[other_diagnosis]").visible?
+#		end
 
 		test "should show other_refusal_reason when refusal_reason is Other" <<
 				" with #{cu} login" do

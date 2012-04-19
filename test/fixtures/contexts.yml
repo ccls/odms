@@ -38,3 +38,7 @@ nonwaivered_raf_1:
   id: 4 
   key: nwraf1
   description: Those things specific to the nonwaivered raf form
+raf_1:
+  id: 5 
+  key: raf1
+  description: Those things specific to both raf forms

@@ -39,6 +39,16 @@ class ContextTest < ActiveSupport::TestCase
 		assert context.data_sources.empty?
 	end
 
+	test "should have many languages" do
+		context = Factory(:context)
+		assert context.languages.empty?
+	end
+
+	test "should have many diagnoses" do
+		context = Factory(:context)
+		assert context.diagnoses.empty?
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

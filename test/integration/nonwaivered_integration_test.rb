@@ -215,20 +215,20 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal '17857',          find_field("#{address}[zip]").value
 		end
 
-		test "should show other_diagnosis when diagnosis is Other" <<
-				" with #{cu} login" do
-			login_as send(cu)
-			visit new_nonwaivered_path
-			patient = 'study_subject[patient_attributes]'
-			assert !find_field( "#{patient}[other_diagnosis]").visible?
-			#	case sensitive? yep.
-			select "other", :from => "#{patient}[diagnosis_id]"
-			assert find_field( "#{patient}[other_diagnosis]").visible?
-			select "",      :from => "#{patient}[diagnosis_id]"
-			assert !find_field( "#{patient}[other_diagnosis]").visible?
-			select "other", :from => "#{patient}[diagnosis_id]"
-			assert find_field( "#{patient}[other_diagnosis]").visible?
-		end
+#		test "should show other_diagnosis when diagnosis is Other" <<
+#				" with #{cu} login" do
+#			login_as send(cu)
+#			visit new_nonwaivered_path
+#			patient = 'study_subject[patient_attributes]'
+#			assert !find_field( "#{patient}[other_diagnosis]").visible?
+#			#	case sensitive? yep.
+#			select "other", :from => "#{patient}[diagnosis_id]"
+#			assert find_field( "#{patient}[other_diagnosis]").visible?
+#			select "",      :from => "#{patient}[diagnosis_id]"
+#			assert !find_field( "#{patient}[other_diagnosis]").visible?
+#			select "other", :from => "#{patient}[diagnosis_id]"
+#			assert find_field( "#{patient}[other_diagnosis]").visible?
+#		end
 
 	end
 

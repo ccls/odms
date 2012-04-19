@@ -13,6 +13,8 @@ class Context < ActiveRecord::Base
 		:source => :contextable, :source_type => 'DataSource'
 	has_many :languages, :through => :context_contextables, 
 		:source => :contextable, :source_type => 'Language'
+	has_many :diagnoses, :through => :context_contextables, 
+		:source => :contextable, :source_type => 'Diagnosis'
 
 	validates_length_of :notes, :maximum => 65000, :allow_blank => true
 
