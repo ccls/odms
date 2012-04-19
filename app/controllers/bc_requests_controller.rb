@@ -9,8 +9,8 @@ class BcRequestsController < ApplicationController
 
 	def new
 		@bc_request           = BcRequest.new #	sole purpose is to make testing happy
-		@active_bc_requests   = BcRequest.where( :status => 'active' )
-		@waitlist_bc_requests = BcRequest.where( :status => 'waitlist' )
+		@active_bc_requests   = BcRequest.active
+		@waitlist_bc_requests = BcRequest.waitlist
 	end
 
 	def create
@@ -39,10 +39,6 @@ class BcRequestsController < ApplicationController
 #		@bc_request.update_attribute(:status,params[:status])
 		@bc_request.update_attributes!(:status => params[:status])
 		redirect_to new_bc_request_path
-
-
-# TODO add rescues for failed update
-#		rescue
 #	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
 	rescue ActiveRecord::RecordInvalid 
 		flash.now[:error] = "BC Request Update failed"
@@ -73,7 +69,8 @@ class BcRequestsController < ApplicationController
 	def confirm
 		BcRequest.transaction do
 #			active_bc_requests  = BcRequest.find(:all, :conditions => { :status => 'active' })
-			active_bc_requests  = BcRequest.where( :status => 'active' )
+#			active_bc_requests  = BcRequest.where( :status => 'active' )
+			active_bc_requests  = BcRequest.active
 			active_bc_requests.each do |bc_request|
 				study_subject = bc_request.study_subject
 #				enrollment = study_subject.enrollments.find_or_create_by_project_id(

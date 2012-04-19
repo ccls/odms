@@ -12,6 +12,11 @@ class BcRequest < ActiveRecord::Base
 	#	statuses must be defined above before it can be used below.
 	validates_inclusion_of :status, :in => statuses, :allow_blank => true
 
+	scope :active,   where( :status => 'active' )
+	scope :waitlist, where( :status => 'waitlist' )
+	scope :pending,  where( :status => 'pending' )
+	scope :complete, where( :status => 'complete' )
+
 	def to_s
 		( study_subject ) ? study_subject.studyid : self
 	end
