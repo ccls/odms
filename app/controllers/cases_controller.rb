@@ -15,7 +15,7 @@ class CasesController < ApplicationController
 	end
 
 	def new
-		@hospitals = Hospital.all
+		@hospitals = Hospital.active
 		render :layout => 'application'
 	end
 

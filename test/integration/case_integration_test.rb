@@ -9,7 +9,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit new_case_path
 			assert_equal new_case_path, current_path
 
-			hospital = Hospital.waivered.first
+			hospital = Hospital.active.waivered.first
 
 			select hospital.organization.to_s, :from => "hospital_id"
 			click_button "New Case"	
@@ -35,7 +35,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit new_case_path
 			assert_equal new_case_path, current_path
 
-			hospital = Hospital.nonwaivered.first
+			hospital = Hospital.active.nonwaivered.first
 			select hospital.organization.to_s, :from => "hospital_id"
 			click_button "New Case"	
 

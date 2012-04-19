@@ -13,6 +13,7 @@ class Hospital < ActiveRecord::Base
 	validates_presence_of   :organization, :if => :organization_id
 	validates_uniqueness_of :organization_id, :allow_blank => true
 
+	scope :active,      where( :is_active => true )
 	scope :waivered,    where( :has_irb_waiver => true )
 	scope :nonwaivered, where( :has_irb_waiver => false )
 

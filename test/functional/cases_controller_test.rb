@@ -57,7 +57,8 @@ class CasesControllerTest < ActionController::TestCase
 
 		test "should post new case and redirect to waivered with #{cu} login" do
 			login_as send(cu)
-			hospital = Hospital.find_by_has_irb_waiver(true)
+#			hospital = Hospital.find_by_has_irb_waiver(true)
+			hospital = Hospital.active.waivered.first
 			post :create, { "hospital_id"=> hospital.id }
 			assert_redirected_to new_waivered_path("study_subject"=>{"patient_attributes"=>{
 				"organization_id"=> hospital.organization_id }})
@@ -65,7 +66,8 @@ class CasesControllerTest < ActionController::TestCase
 
 		test "should post new case and redirect to nonwaivered with #{cu} login" do
 			login_as send(cu)
-			hospital = Hospital.find_by_has_irb_waiver(false)
+#			hospital = Hospital.find_by_has_irb_waiver(false)
+			hospital = Hospital.active.nonwaivered.first
 			post :create, { "hospital_id"=> hospital.id }
 			assert_redirected_to new_nonwaivered_path("study_subject"=>{"patient_attributes"=>{
 				"organization_id"=> hospital.organization_id }})
