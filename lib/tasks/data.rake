@@ -122,8 +122,11 @@ namespace :data do
     end
   end
 		puts "Starting...(#{Time.now})"
-		%w( address address_type addressing candidate_control enrollment 
-				interview operational_event patient phone_number phone_type
+		%w( abstract address address_type addressing bc_request 
+				candidate_control enrollment icf_master_id
+				icf_master_tracker icf_master_tracker_change icf_master_tracker_update
+				interview operational_event operational_event_type 
+				patient phone_number phone_type
 				project sample study_subject ).each do |model|
 			puts "Exporting #{model.pluralize} ..."
 			File.open("#{outdir}/#{model.pluralize}.xml",'w'){|f| 
