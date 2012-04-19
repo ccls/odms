@@ -4,7 +4,7 @@ class CreateHospitals < ActiveRecord::Migration
 			t.integer :position
 			t.integer :organization_id
 			t.boolean :has_irb_waiver, :null => false, :default => false
-			t.boolean :is_active, :null => false, :default => true
+#			t.boolean :is_active, :null => false, :default => true
 			t.timestamps
 		end
 		add_index :hospitals, :organization_id
