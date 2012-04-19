@@ -451,7 +451,8 @@ Factory.define :subjectless_patient, :class => 'Patient' do |f|
 #	f.organization_id { Hospital.first.organization_id }		#	make this a sequence rather than just first?
 #	This sequence seems to work, but lets see if it has any repercusions.  May have to modify
 #	some other existing tests that may have expected it not to change.
-	f.sequence(:organization_id){|n| Hospital.all()[ n % Hospital.count ].organization_id }
+#	f.sequence(:organization_id){|n| Hospital.all()[ n % Hospital.count ].organization_id }
+	f.sequence(:organization_id){|n| Hospital.active()[ n % Hospital.active.count ].organization_id }
 
 	f.diagnosis_id { Diagnosis['ALL'].id }
 end
@@ -461,11 +462,13 @@ Factory.define :patient, :parent => :subjectless_patient do |f|
 end
 Factory.define :waivered_patient, :parent => :patient do |f|
 #	f.organization_id { Hospital.waivered.first.organization_id }		#	make this a sequence rather than just first?
-	f.sequence(:organization_id){|n| Hospital.waivered()[ n % Hospital.waivered.length ].organization_id }
+#	f.sequence(:organization_id){|n| Hospital.waivered()[ n % Hospital.waivered.length ].organization_id }
+	f.sequence(:organization_id){|n| Hospital.active.waivered()[ n % Hospital.active.waivered.length ].organization_id }
 end
 Factory.define :nonwaivered_patient, :parent => :patient do |f|
 #	f.organization_id { Hospital.nonwaivered.first.organization_id }		#	make this a sequence rather than just first?
-	f.sequence(:organization_id){|n| Hospital.nonwaivered()[ n % Hospital.nonwaivered.length ].organization_id }
+#	f.sequence(:organization_id){|n| Hospital.nonwaivered()[ n % Hospital.nonwaivered.length ].organization_id }
+	f.sequence(:organization_id){|n| Hospital.active.nonwaivered()[ n % Hospital.active.nonwaivered.length ].organization_id }
 end
 
 Factory.define :person do |f|
