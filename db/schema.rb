@@ -805,6 +805,7 @@ ActiveRecord::Schema.define(:version => 20120403224020) do
     t.integer  "position"
     t.integer  "organization_id"
     t.boolean  "has_irb_waiver",  :default => false, :null => false
+    t.boolean  "is_active",       :default => true,  :null => false
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
   end
