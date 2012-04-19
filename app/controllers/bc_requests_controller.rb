@@ -5,7 +5,7 @@ class BcRequestsController < ApplicationController
 #	before_filter :case_study_subject_required, :only => :create
 	before_filter :no_existing_incomplete_bc_request_required, :only => :create
 	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
-	before_filter :valid_status_required, :only => [:update_status]
+#	before_filter :valid_status_required, :only => [:update_status]
 
 	def new
 		@bc_request           = BcRequest.new #	sole purpose is to make testing happy
@@ -24,30 +24,32 @@ class BcRequestsController < ApplicationController
 
 	#		transform update to more generic update for status and comments/notes
 	def update
-#	TODO add validation in bc_request model that request status in statuses (don't forget factory)
-		@bc_request.update_attributes(params[:bc_request])
-
-
+		@bc_request.update_attributes!(params[:bc_request])
 		redirect_path = session[:bc_request_return_to] || new_bc_request_path
 		session[:bc_request_return_to] = nil
 		redirect_to redirect_path
-
-
-# TODO add rescues for failed update
-
-
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
+		flash.now[:error] = "BC Request Update failed"
+		render :action => 'edit'
 	end
 
 	#		for updating only status
 	def update_status
-		@bc_request.update_attribute(:status,params[:status])
+#	update_attribute DOES NOT VALIDATE
+#		@bc_request.update_attribute(:status,params[:status])
+		@bc_request.update_attributes!(:status => params[:status])
 		redirect_to new_bc_request_path
 
 
 # TODO add rescues for failed update
-
-
+#		rescue
+#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
+	rescue ActiveRecord::RecordInvalid 
+		flash.now[:error] = "BC Request Update failed"
+		render :action => 'edit'
 	end
+
+
 
 	def destroy
 		@bc_request.destroy
@@ -99,12 +101,12 @@ class BcRequestsController < ApplicationController
 
 protected
 
-	def valid_status_required
-		if params[:status].blank? or !BcRequest.statuses.include?(params[:status])
-			access_denied("Valid bc_request status required! Status '#{params[:status]}' is unknown.", 
-				new_bc_request_path)
-		end
-	end
+#	def valid_status_required
+#		if params[:status].blank? or !BcRequest.statuses.include?(params[:status])
+#			access_denied("Valid bc_request status required! Status '#{params[:status]}' is unknown.", 
+#				new_bc_request_path)
+#		end
+#	end
 
 	def valid_id_required
 		if !params[:id].blank? and BcRequest.exists?(params[:id])

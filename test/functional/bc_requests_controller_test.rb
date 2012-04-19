@@ -14,8 +14,9 @@ class BcRequestsControllerTest < ActionController::TestCase
 		Factory.attributes_for(:bc_request)
 	end
 
-	assert_access_with_login({    :logins => site_editors,
-		:skip_update_failure => true })		#	TODO for now, this doesn't work
+	assert_access_with_login({    :logins => site_editors })
+#	assert_access_with_login({    :logins => site_editors,
+#		:skip_update_failure => true })		#	TODO for now, this doesn't work
 	assert_no_access_with_login({ :logins => non_site_editors })
 	assert_no_access_without_login
 
@@ -159,7 +160,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 				put :update_status, :id => bcr.id, :status => 'bogus'
 			}
 			assert_not_nil flash[:error]
-			assert_redirected_to new_bc_request_path
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should NOT update bc_request status with invalid id and #{cu} login" do

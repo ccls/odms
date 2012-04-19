@@ -14,6 +14,10 @@ class BcRequestTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :request_type, :status, :maximum => 250 )
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
+	assert_should_accept_only_good_values( :status,
+		{ :good_values => BcRequest.statuses,
+			:bad_values  => 'Funky' })
+
 	test "statuses should return an array of strings" do
 		statuses = BcRequest.statuses
 		assert statuses.is_a?(Array)
