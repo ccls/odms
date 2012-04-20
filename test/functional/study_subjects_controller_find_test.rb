@@ -1,6 +1,5 @@
 require 'test_helper'
 
-#class StudySubjectsFindControllerTest < ActionController::TestCase
 class StudySubjectsControllerFindTest < ActionController::TestCase
 	tests StudySubjectsController
 
