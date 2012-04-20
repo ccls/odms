@@ -1,6 +1,7 @@
 require 'test_helper'
 
-class StudySubjectsFindControllerTest < ActionController::TestCase
+#class StudySubjectsFindControllerTest < ActionController::TestCase
+class StudySubjectsControllerFindTest < ActionController::TestCase
 	tests StudySubjectsController
 
 	setup :destroy_all_study_subjects
