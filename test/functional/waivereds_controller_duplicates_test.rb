@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'raf_test_helper'
 
-class WaiveredDuplicatesControllerTest < ActionController::TestCase
+class WaiveredsControllerDuplicatesTest < ActionController::TestCase
 	tests WaiveredsController
 
 	site_editors.each do |cu|

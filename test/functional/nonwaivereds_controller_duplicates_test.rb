@@ -1,7 +1,8 @@
 require 'test_helper'
 require 'raf_test_helper'
 
-class NonwaiveredDuplicatesControllerTest < ActionController::TestCase
+#class NonwaiveredDuplicatesControllerTest < ActionController::TestCase
+class NonwaiveredsControllerDuplicatesTest < ActionController::TestCase
 	tests NonwaiveredsController
 
 	site_editors.each do |cu|
