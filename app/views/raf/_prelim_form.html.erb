@@ -73,7 +73,7 @@
 	<%= patient_fields.wrapped_collection_select :diagnosis_id,
 		::Context['raf1'].diagnoses, :id, :to_s, :include_blank => true, 
 		:label_text => "#{req('*')}&nbsp;diagnosis:".html_safe %>
-	<%#= patient_fields.wrapped_text_field :other_diagnosis,
+	<%= patient_fields.wrapped_text_field :other_diagnosis,
 		:label_text => "#{req('*')}&nbsp;specify other:".html_safe %>
 </div>
 </div><!-- class='tablerow' -->

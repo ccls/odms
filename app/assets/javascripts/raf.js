@@ -26,7 +26,6 @@ jQuery(function(){
 		});
 	});
 
-/*
 	jQuery('#study_subject_patient_attributes_diagnosis_id').smartShow({
 		what: 'form.raf div.other_diagnosis',
 		when: function(){ 
@@ -34,7 +33,6 @@ jQuery(function(){
 				$('#study_subject_patient_attributes_diagnosis_id option:selected').text() )
 		}
 	});
-*/
 
 	jQuery('#study_subject_enrollments_attributes_0_refusal_reason_id').smartShow({
 		what: 'form.raf div.other_refusal_reason',
