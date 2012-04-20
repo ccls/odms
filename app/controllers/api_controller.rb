@@ -1,24 +1,24 @@
 class ApiController < ApplicationController
-
-	#	MUST skip this filter explicitly on each controller
-
-#	#	Skip the calnet authentication
-#	#	This means no current user and therefore no roles.
-#	skip_before_filter :login_required
-
-	#	Everything relies on this ...
-	before_filter :authenticate
-
-protected
-
-	def authenticate
-#		config = YAML::load(ERB.new(IO.read("#{RAILS_ROOT}/config/api.yml")).result)
-		config = YAML::load(ERB.new(IO.read("#{Rails.root}/config/api.yml")).result)
-		authenticate_or_request_with_http_basic do |username, password|
-				username == config[:user] && password == config[:password]
-		end
-	end
-
+#
+#	#	MUST skip this filter explicitly on each controller
+#
+##	#	Skip the calnet authentication
+##	#	This means no current user and therefore no roles.
+##	skip_before_filter :login_required
+#
+#	#	Everything relies on this ...
+#	before_filter :authenticate
+#
+#protected
+#
+#	def authenticate
+##		config = YAML::load(ERB.new(IO.read("#{RAILS_ROOT}/config/api.yml")).result)
+#		config = YAML::load(ERB.new(IO.read("#{Rails.root}/config/api.yml")).result)
+#		authenticate_or_request_with_http_basic do |username, password|
+#				username == config[:user] && password == config[:password]
+#		end
+#	end
+#
 end
 
 __END__
