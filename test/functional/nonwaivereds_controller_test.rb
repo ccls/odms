@@ -35,454 +35,454 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			} }
 		end
 
-######################################################################
+#######################################################################
+##
+##		BEGIN DUPLICATE CHECKING TESTS
+##
 #
-#		BEGIN DUPLICATE CHECKING TESTS
+##	Case subjects: Have the same hospital_no (patient.hospital_no) as the new subject
+##	Only cases have a patient record, so not explicit check for Case is done.
 #
-
-#	Case subjects: Have the same hospital_no (patient.hospital_no) as the new subject
-#	Only cases have a patient record, so not explicit check for Case is done.
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate hospital_no and #{cu} login" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'patient_attributes' => {
-						:hospital_no     => subject.hospital_no
-					} })
-			end
-			# these share the same factory which means that the organization_id 
-			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.matching?(
-				"patient.hospital_no",'has already been taken')
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate hospital_no" <<
-				" and #{cu} login if 'Match Found' without duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'patient_attributes' => {
-						:hospital_no     => subject.hospital_no
-					} }, :commit => 'Match Found')
-			end
-			# these share the same factory which means that the organization_id 
-			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.matching?(
-				"patient.hospital_no",'has already been taken')
-			assert_not_nil flash[:warn]
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate hospital_no" <<
-				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'patient_attributes' => {
-						:hospital_no     => subject.hospital_no
-					} }, :commit => 'Match Found', :duplicate_id => 0 )
-			end
-			# these share the same factory which means that the organization_id 
-			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.matching?(
-				"patient.hospital_no",'has already been taken')
-			assert_not_nil flash[:warn]
-			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate hospital_no" <<
-				" and #{cu} login if 'Match Found' with valid duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_difference('OperationalEvent.count',1) {
-			assert_all_differences(0) {
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'patient_attributes' => {
-						:hospital_no     => subject.hospital_no
-					} }, :commit => 'Match Found', :duplicate_id => subject.id )
-			} }
-			assert !assigns(:duplicates).empty?
-			# these share the same factory which means that the organization_id 
-			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.matching?(
-				"patient.hospital_no",'has already been taken')
-			assert_not_nil flash[:notice]
-			assert_redirected_to subject
-		end
-
-		test "should create nonwaivered case study_subject" <<
-				" with existing duplicate hospital_no" <<
-				" and #{cu} login if 'No Match'" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			minimum_successful_creation( 
-					'study_subject' => { 'patient_attributes' => {
-						:hospital_no     => subject.hospital_no
-					} }, :commit => 'No Match' )
-			assert !assigns(:duplicates)
-			# these share the same factory which means that the organization_id 
-			# is the same so the hospital_no won't be unique
-			assert !assigns(:study_subject).errors.matching?(
-				"patient.hospital_no",'has already been taken')
-		end
-
-#	Case subjects:  Are admitted the same admit date (patients.admit_date) at the same institution (patients.organization_id)
-#	Only cases have a patient record, so not explicit check for Case is done.
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate admit_date and organization_id and #{cu} login" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { :patient_attributes => {
-							:admit_date      => subject.admit_date,
-							:organization_id => subject.organization_id
-					} })
-			end
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate admit_date and organization_id" <<
-				" and #{cu} login if 'Match Found' without duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'patient_attributes' => {
-							:admit_date      => subject.admit_date,
-							:organization_id => subject.organization_id
-					} }, :commit => 'Match Found' )
-			end
-			assert_not_nil flash[:warn]
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate admit_date and organization_id" <<
-				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'patient_attributes' => {
-							:admit_date      => subject.admit_date,
-							:organization_id => subject.organization_id
-					} }, :commit => 'Match Found', :duplicate_id => 0 )
-			end
-			assert_not_nil flash[:warn]
-			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate admit_date and organization_id" <<
-				" and #{cu} login if 'Match Found' with valid duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_difference('OperationalEvent.count',1) {
-			assert_all_differences(0) {
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'patient_attributes' => {
-							:admit_date      => subject.admit_date,
-							:organization_id => subject.organization_id
-					} }, :commit => 'Match Found', :duplicate_id => subject.id )
-			} }
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:notice]
-			assert_redirected_to subject
-		end
-
-		test "should create nonwaivered case study_subject" <<
-				" with existing duplicate admit_date and organization_id" <<
-				" and #{cu} login if 'No Match'" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			minimum_successful_creation(
-					'study_subject' => { 'patient_attributes' => {
-							:admit_date      => subject.admit_date,
-							:organization_id => subject.organization_id
-					} }, :commit => 'No Match' )
-			assert !assigns(:duplicates)
-		end
-
-#	Have the same birth date (dob) and sex (subject.sex) as the new subject and 
-#		(same mother’s maiden name or existing mother’s maiden name is null)
-
-#	NOTE This could include non-case subjects
-#	Added this to test the view.
-#	I could do all of the following duplicate tests for the 2 factories ...
-#		complete_control_study_subject and complete_nonwaivered_case_study_subject
-#	Seems a bit excessive though.
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing control duplicate sex and dob and blank mother_maiden_names" <<
-				" and #{cu} login" do
-			subject = Factory(:complete_control_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob
-					})
-			end
-			assert_duplicates_found_and_rerendered_new
-		end
-
-
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank mother_maiden_names" <<
-				" and #{cu} login" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob
-					})
-			end
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank mother_maiden_names" <<
-				" and #{cu} login and 'Match Found' without duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob
-					}, :commit => 'Match Found')
-			end
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank mother_maiden_names" <<
-				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob
-					}, :commit => 'Match Found', :duplicate_id => 0 )
-			end
-			assert_not_nil flash[:warn]
-			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank mother_maiden_names" <<
-				" and #{cu} login and 'Match Found' with valid duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_difference('OperationalEvent.count',1) {
-			assert_all_differences(0) {
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob
-					}, :commit => 'Match Found', :duplicate_id => subject.id )
-			} }
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:notice]
-			assert_redirected_to subject
-		end
-
-		test "should create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank mother_maiden_names" <<
-				" and #{cu} login and 'No Match'" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			minimum_successful_creation(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob
-					}, :commit => 'No Match')
-			assert !assigns(:duplicates)
-		end
-
-#	add mother's maiden name match
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and mother_maiden_names" <<
-				" and #{cu} login" do
-			#	waivered / nonwaivered? does it matter here?
-			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					})
-			end
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and mother_maiden_names" <<
-				" and #{cu} login and 'Match Found' without duplicate_id" do
-			#	waivered / nonwaivered? does it matter here?
-			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					}, :commit => 'Match Found')
-			end
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and mother_maiden_names" <<
-				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
-			#	waivered / nonwaivered? does it matter here?
-			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					}, :commit => 'Match Found', :duplicate_id => 0 )
-			end
-			assert_not_nil flash[:warn]
-			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and mother_maiden_names" <<
-				" and #{cu} login and 'Match Found' with valid duplicate_id" do
-			#	waivered / nonwaivered? does it matter here?
-			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
-			login_as send(cu)
-			assert_difference('OperationalEvent.count',1) {
-			assert_all_differences(0) {
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					}, :commit => 'Match Found', :duplicate_id => subject.id )
-			} }
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:notice]
-			assert_redirected_to subject
-		end
-
-		test "should create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and mother_maiden_names" <<
-				" and #{cu} login and 'No Match'" do
-			#	waivered / nonwaivered? does it matter here?
-			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
-			login_as send(cu)
-			minimum_successful_creation(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					}, :commit => 'No Match')
-			assert !assigns(:duplicates)
-		end
-
-#	existing mother's maiden name null
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
-				" and #{cu} login" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					})
-			end
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
-				" and #{cu} login and 'Match Found' without duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					}, :commit => 'Match Found')
-			end
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
-				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					}, :commit => 'Match Found', :duplicate_id => 0 )
-			end
-			assert_not_nil flash[:warn]
-			assert_match /No valid duplicate_id given/, flash[:warn]
-			assert_duplicates_found_and_rerendered_new
-		end
-
-		test "should NOT create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
-				" and #{cu} login and 'Match Found' with valid duplicate_id" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			assert_difference('OperationalEvent.count',1) {
-			assert_all_differences(0) {
-				post :create, minimum_nonwaivered_form_attributes(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					}, :commit => 'Match Found', :duplicate_id => subject.id )
-			} }
-			assert !assigns(:duplicates).empty?
-			assert assigns(:study_subject)
-			assert_not_nil flash[:notice]
-			assert_redirected_to subject
-		end
-
-		test "should create nonwaivered case study_subject" <<
-				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
-				" and #{cu} login and 'No Match'" do
-			subject = Factory(:complete_nonwaivered_case_study_subject)
-			login_as send(cu)
-			minimum_successful_creation(
-					'study_subject' => { 'sex' => subject.sex,
-						:dob => subject.dob, :mother_maiden_name => 'Smith'
-					}, :commit => 'No Match')
-			assert !assigns(:duplicates)
-		end
-
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate hospital_no and #{cu} login" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'patient_attributes' => {
+#						:hospital_no     => subject.hospital_no
+#					} })
+#			end
+#			# these share the same factory which means that the organization_id 
+#			# is the same so the hospital_no won't be unique
+#			assert !assigns(:study_subject).errors.matching?(
+#				"patient.hospital_no",'has already been taken')
+#			assert_duplicates_found_and_rerendered_new
+#		end
 #
-#		END DUPLICATE CHECKING TESTS
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate hospital_no" <<
+#				" and #{cu} login if 'Match Found' without duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'patient_attributes' => {
+#						:hospital_no     => subject.hospital_no
+#					} }, :commit => 'Match Found')
+#			end
+#			# these share the same factory which means that the organization_id 
+#			# is the same so the hospital_no won't be unique
+#			assert !assigns(:study_subject).errors.matching?(
+#				"patient.hospital_no",'has already been taken')
+#			assert_not_nil flash[:warn]
+#			assert_duplicates_found_and_rerendered_new
+#		end
 #
-######################################################################
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate hospital_no" <<
+#				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'patient_attributes' => {
+#						:hospital_no     => subject.hospital_no
+#					} }, :commit => 'Match Found', :duplicate_id => 0 )
+#			end
+#			# these share the same factory which means that the organization_id 
+#			# is the same so the hospital_no won't be unique
+#			assert !assigns(:study_subject).errors.matching?(
+#				"patient.hospital_no",'has already been taken')
+#			assert_not_nil flash[:warn]
+#			assert_match /No valid duplicate_id given/, flash[:warn]
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate hospital_no" <<
+#				" and #{cu} login if 'Match Found' with valid duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_difference('OperationalEvent.count',1) {
+#			assert_all_differences(0) {
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'patient_attributes' => {
+#						:hospital_no     => subject.hospital_no
+#					} }, :commit => 'Match Found', :duplicate_id => subject.id )
+#			} }
+#			assert !assigns(:duplicates).empty?
+#			# these share the same factory which means that the organization_id 
+#			# is the same so the hospital_no won't be unique
+#			assert !assigns(:study_subject).errors.matching?(
+#				"patient.hospital_no",'has already been taken')
+#			assert_not_nil flash[:notice]
+#			assert_redirected_to subject
+#		end
+#
+#		test "should create nonwaivered case study_subject" <<
+#				" with existing duplicate hospital_no" <<
+#				" and #{cu} login if 'No Match'" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			minimum_nonwaivered_successful_creation( 
+#					'study_subject' => { 'patient_attributes' => {
+#						:hospital_no     => subject.hospital_no
+#					} }, :commit => 'No Match' )
+#			assert !assigns(:duplicates)
+#			# these share the same factory which means that the organization_id 
+#			# is the same so the hospital_no won't be unique
+#			assert !assigns(:study_subject).errors.matching?(
+#				"patient.hospital_no",'has already been taken')
+#		end
+#
+##	Case subjects:  Are admitted the same admit date (patients.admit_date) at the same institution (patients.organization_id)
+##	Only cases have a patient record, so not explicit check for Case is done.
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate admit_date and organization_id and #{cu} login" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { :patient_attributes => {
+#							:admit_date      => subject.admit_date,
+#							:organization_id => subject.organization_id
+#					} })
+#			end
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate admit_date and organization_id" <<
+#				" and #{cu} login if 'Match Found' without duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'patient_attributes' => {
+#							:admit_date      => subject.admit_date,
+#							:organization_id => subject.organization_id
+#					} }, :commit => 'Match Found' )
+#			end
+#			assert_not_nil flash[:warn]
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate admit_date and organization_id" <<
+#				" and #{cu} login if 'Match Found' with invalid duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'patient_attributes' => {
+#							:admit_date      => subject.admit_date,
+#							:organization_id => subject.organization_id
+#					} }, :commit => 'Match Found', :duplicate_id => 0 )
+#			end
+#			assert_not_nil flash[:warn]
+#			assert_match /No valid duplicate_id given/, flash[:warn]
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate admit_date and organization_id" <<
+#				" and #{cu} login if 'Match Found' with valid duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_difference('OperationalEvent.count',1) {
+#			assert_all_differences(0) {
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'patient_attributes' => {
+#							:admit_date      => subject.admit_date,
+#							:organization_id => subject.organization_id
+#					} }, :commit => 'Match Found', :duplicate_id => subject.id )
+#			} }
+#			assert !assigns(:duplicates).empty?
+#			assert assigns(:study_subject)
+#			assert_not_nil flash[:notice]
+#			assert_redirected_to subject
+#		end
+#
+#		test "should create nonwaivered case study_subject" <<
+#				" with existing duplicate admit_date and organization_id" <<
+#				" and #{cu} login if 'No Match'" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			minimum_nonwaivered_successful_creation(
+#					'study_subject' => { 'patient_attributes' => {
+#							:admit_date      => subject.admit_date,
+#							:organization_id => subject.organization_id
+#					} }, :commit => 'No Match' )
+#			assert !assigns(:duplicates)
+#		end
+#
+##	Have the same birth date (dob) and sex (subject.sex) as the new subject and 
+##		(same mother’s maiden name or existing mother’s maiden name is null)
+#
+##	NOTE This could include non-case subjects
+##	Added this to test the view.
+##	I could do all of the following duplicate tests for the 2 factories ...
+##		complete_control_study_subject and complete_nonwaivered_case_study_subject
+##	Seems a bit excessive though.
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing control duplicate sex and dob and blank mother_maiden_names" <<
+#				" and #{cu} login" do
+#			subject = Factory(:complete_control_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob
+#					})
+#			end
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank mother_maiden_names" <<
+#				" and #{cu} login" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob
+#					})
+#			end
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank mother_maiden_names" <<
+#				" and #{cu} login and 'Match Found' without duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob
+#					}, :commit => 'Match Found')
+#			end
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank mother_maiden_names" <<
+#				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob
+#					}, :commit => 'Match Found', :duplicate_id => 0 )
+#			end
+#			assert_not_nil flash[:warn]
+#			assert_match /No valid duplicate_id given/, flash[:warn]
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank mother_maiden_names" <<
+#				" and #{cu} login and 'Match Found' with valid duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_difference('OperationalEvent.count',1) {
+#			assert_all_differences(0) {
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob
+#					}, :commit => 'Match Found', :duplicate_id => subject.id )
+#			} }
+#			assert !assigns(:duplicates).empty?
+#			assert assigns(:study_subject)
+#			assert_not_nil flash[:notice]
+#			assert_redirected_to subject
+#		end
+#
+#		test "should create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank mother_maiden_names" <<
+#				" and #{cu} login and 'No Match'" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			minimum_nonwaivered_successful_creation(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob
+#					}, :commit => 'No Match')
+#			assert !assigns(:duplicates)
+#		end
+#
+##	add mother's maiden name match
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and mother_maiden_names" <<
+#				" and #{cu} login" do
+#			#	waivered / nonwaivered? does it matter here?
+#			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					})
+#			end
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and mother_maiden_names" <<
+#				" and #{cu} login and 'Match Found' without duplicate_id" do
+#			#	waivered / nonwaivered? does it matter here?
+#			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					}, :commit => 'Match Found')
+#			end
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and mother_maiden_names" <<
+#				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
+#			#	waivered / nonwaivered? does it matter here?
+#			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					}, :commit => 'Match Found', :duplicate_id => 0 )
+#			end
+#			assert_not_nil flash[:warn]
+#			assert_match /No valid duplicate_id given/, flash[:warn]
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and mother_maiden_names" <<
+#				" and #{cu} login and 'Match Found' with valid duplicate_id" do
+#			#	waivered / nonwaivered? does it matter here?
+#			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+#			login_as send(cu)
+#			assert_difference('OperationalEvent.count',1) {
+#			assert_all_differences(0) {
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					}, :commit => 'Match Found', :duplicate_id => subject.id )
+#			} }
+#			assert !assigns(:duplicates).empty?
+#			assert assigns(:study_subject)
+#			assert_not_nil flash[:notice]
+#			assert_redirected_to subject
+#		end
+#
+#		test "should create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and mother_maiden_names" <<
+#				" and #{cu} login and 'No Match'" do
+#			#	waivered / nonwaivered? does it matter here?
+#			subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+#			login_as send(cu)
+#			minimum_nonwaivered_successful_creation(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					}, :commit => 'No Match')
+#			assert !assigns(:duplicates)
+#		end
+#
+##	existing mother's maiden name null
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+#				" and #{cu} login" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					})
+#			end
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+#				" and #{cu} login and 'Match Found' without duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					}, :commit => 'Match Found')
+#			end
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+#				" and #{cu} login and 'Match Found' with invalid duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_all_differences(0) do
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					}, :commit => 'Match Found', :duplicate_id => 0 )
+#			end
+#			assert_not_nil flash[:warn]
+#			assert_match /No valid duplicate_id given/, flash[:warn]
+#			assert_duplicates_found_and_rerendered_new
+#		end
+#
+#		test "should NOT create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+#				" and #{cu} login and 'Match Found' with valid duplicate_id" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			assert_difference('OperationalEvent.count',1) {
+#			assert_all_differences(0) {
+#				post :create, minimum_nonwaivered_form_attributes(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					}, :commit => 'Match Found', :duplicate_id => subject.id )
+#			} }
+#			assert !assigns(:duplicates).empty?
+#			assert assigns(:study_subject)
+#			assert_not_nil flash[:notice]
+#			assert_redirected_to subject
+#		end
+#
+#		test "should create nonwaivered case study_subject" <<
+#				" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
+#				" and #{cu} login and 'No Match'" do
+#			subject = Factory(:complete_nonwaivered_case_study_subject)
+#			login_as send(cu)
+#			minimum_nonwaivered_successful_creation(
+#					'study_subject' => { 'sex' => subject.sex,
+#						:dob => subject.dob, :mother_maiden_name => 'Smith'
+#					}, :commit => 'No Match')
+#			assert !assigns(:duplicates)
+#		end
+#
+##
+##		END DUPLICATE CHECKING TESTS
+##
+#######################################################################
 
 		test "should create nonwaivered case study_subject enrolled in ccls" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_equal [Project['ccls']],
 				assigns(:study_subject).enrollments.collect(&:project)
 		end
@@ -490,7 +490,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with minimum requirements and #{cu} login" do
 			login_as send(cu)
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 		end
 
 		test "should NOT create nonwaivered case study_subject" <<
@@ -516,7 +516,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should add '[no address provided]' to blank line_1 if city, state, zip" <<
 				" are not blank with #{cu} login" do
 			login_as send(cu)
-			minimum_successful_creation(
+			minimum_nonwaivered_successful_creation(
 				:study_subject => { :addressings_attributes => { '0' => {
 					"address_attributes"=> Factory.attributes_for(:address, 
 						:line_1 => '') } 
@@ -529,7 +529,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with #{cu} login and create studyid" do
 			login_as send(cu)
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_not_nil assigns(:study_subject).studyid
 			assert_match /\d{4}-C-0/, assigns(:study_subject).studyid
 		end
@@ -586,7 +586,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should create nonwaivered case study_subject" <<
 				" with minimum non-waivered attributes and #{cu} login" do
 			login_as send(cu)
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_equal 'C', assigns(:study_subject).case_control_type
 			assert_equal '0', assigns(:study_subject).orderno.to_s
 		end
@@ -707,14 +707,14 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should create mother on create with #{cu} login" do
 			login_as send(cu)
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_not_nil assigns(:study_subject).mother
 		end
 
 		test "should not assign icf_master_id to mother if none exist on create" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_nil assigns(:study_subject).mother.icf_master_id
 			assert_not_nil flash[:warn]
 		end
@@ -723,7 +723,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 				" with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_nil assigns(:study_subject).mother.icf_master_id
 			assert_not_nil flash[:warn]
 		end
@@ -733,7 +733,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456780')
 			Factory(:icf_master_id,:icf_master_id => '123456781')
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_not_nil assigns(:study_subject).icf_master_id
 			assert_equal '123456780', assigns(:study_subject).icf_master_id
 			assert_not_nil assigns(:study_subject).mother.icf_master_id
@@ -742,7 +742,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 
 		test "should not assign icf_master_id if none exist on create with #{cu} login" do
 			login_as send(cu)
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_nil assigns(:study_subject).icf_master_id
 			assert_not_nil flash[:warn]
 		end
@@ -750,7 +750,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		test "should assign icf_master_id if any exist on create with #{cu} login" do
 			login_as send(cu)
 			Factory(:icf_master_id,:icf_master_id => '123456789')
-			minimum_successful_creation
+			minimum_nonwaivered_successful_creation
 			assert_not_nil assigns(:study_subject).icf_master_id
 			assert_equal '123456789', assigns(:study_subject).icf_master_id
 			#	only one icf_master_id so mother will raise warning
@@ -904,50 +904,50 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-protected
-
-	def minimum_nonwaivered_form_attributes(options={})
-		{ 'study_subject' => Factory.attributes_for(:minimum_nonwaivered_form_attributes
-			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
-	end
-
-	def nonwaivered_form_attributes(options={})
-		{ 'study_subject' => Factory.attributes_for(:nonwaivered_form_attributes
-				) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
-	end
-
-	def full_successful_creation(options={})
-		successful_raf_creation { 
-			post :create, complete_case_study_subject_attributes(options) }
-			#	waivered / nonwaivered? does it matter?
-	end
-
-	def nonwaivered_successful_creation(options={})
-		successful_raf_creation { 
-			post :create, nonwaivered_form_attributes(options) }
-	end
-
-	def minimum_successful_creation(options={})
-#		assert_difference('SubjectRace.count',count){
-		assert_difference('SubjectLanguage.count',0){
-		assert_difference('PhoneNumber.count',0){
-		assert_difference('Addressing.count',1){
-		assert_difference('Address.count',1){
-		assert_difference('Enrollment.count',2){	#	both child and mother
-		assert_difference('Patient.count',1){
-		assert_difference('StudySubject.count',2){
-			post :create, minimum_nonwaivered_form_attributes(options)
-		} } } } } } } #}
-		assert_nil flash[:error]
-		assert_redirected_to assigns(:study_subject)
-	end
-
-	def assert_duplicates_found_and_rerendered_new
-		assert !assigns(:duplicates).empty?
-		assert assigns(:study_subject)
-		assert_not_nil flash[:error]
-		assert_response :success
-		assert_template 'new'
-	end
-
+#protected
+#
+#	def minimum_nonwaivered_form_attributes(options={})
+#		{ 'study_subject' => Factory.attributes_for(:minimum_nonwaivered_form_attributes
+#			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+#	end
+#
+#	def nonwaivered_form_attributes(options={})
+#		{ 'study_subject' => Factory.attributes_for(:nonwaivered_form_attributes
+#				) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+#	end
+#
+#	def full_successful_creation(options={})
+#		successful_raf_creation { 
+#			post :create, complete_case_study_subject_attributes(options) }
+#			#	waivered / nonwaivered? does it matter?
+#	end
+#
+#	def nonwaivered_successful_creation(options={})
+#		successful_raf_creation { 
+#			post :create, nonwaivered_form_attributes(options) }
+#	end
+#
+#	def minimum_successful_creation(options={})
+##		assert_difference('SubjectRace.count',count){
+#		assert_difference('SubjectLanguage.count',0){
+#		assert_difference('PhoneNumber.count',0){
+#		assert_difference('Addressing.count',1){
+#		assert_difference('Address.count',1){
+#		assert_difference('Enrollment.count',2){	#	both child and mother
+#		assert_difference('Patient.count',1){
+#		assert_difference('StudySubject.count',2){
+#			post :create, minimum_nonwaivered_form_attributes(options)
+#		} } } } } } } #}
+#		assert_nil flash[:error]
+#		assert_redirected_to assigns(:study_subject)
+#	end
+#
+#	def assert_duplicates_found_and_rerendered_new
+#		assert !assigns(:duplicates).empty?
+#		assert assigns(:study_subject)
+#		assert_not_nil flash[:error]
+#		assert_response :success
+#		assert_template 'new'
+#	end
+#
 end
