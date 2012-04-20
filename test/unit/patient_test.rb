@@ -242,6 +242,39 @@ class PatientTest < ActiveSupport::TestCase
 	end
 
 
+	test "should require treatment_began_on be after admit_date" do
+		assert_difference( "Patient.count", 0 ) do
+			study_subject = Factory(:case_study_subject,
+				:dob => Date.jd(2420000) )
+			patient = create_patient(
+				:study_subject => study_subject,
+				:admit_date => Date.jd(2440000),
+				:treatment_began_on => Date.jd(2430000) ) 
+			assert patient.errors.include?(:treatment_began_on)
+			assert patient.errors.matching?(:treatment_began_on,
+				"Date treatment began must be on or after the admit date")
+		end
+	end
+
+	test "should require treatment_began_on be after admit_date" <<
+			" when using nested attributes" do
+		assert_difference( "StudySubject.count", 0 ) {
+		assert_difference( "Patient.count", 0 ) {
+			study_subject = create_case_study_subject(
+				:dob => Date.jd(2420000),
+				:patient_attributes => Factory.attributes_for(:patient,{
+					:admit_date => Date.jd(2440000),
+					:treatment_began_on => Date.jd(2430000),
+				}))
+			assert study_subject.patient.errors.include?(:treatment_began_on)
+			assert study_subject.errors.include?('patient.treatment_began_on'.to_sym)
+			assert study_subject.patient.errors.matching?(:treatment_began_on,
+				"Date treatment began must be on or after the admit date")
+		} }
+	end
+
+
+
 	test "should require treatment_began_on be after diagnosis_date" do
 		assert_difference( "Patient.count", 0 ) do
 			study_subject = Factory(:case_study_subject,

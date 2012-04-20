@@ -15,9 +15,10 @@ class Patient < ActiveRecord::Base
 	validates_length_of   :hospital_no, :maximum => 25, :allow_blank => true
 	validates_uniqueness_of :hospital_no, :scope => :organization_id
 	validates_past_date_for :admit_date, :diagnosis_date, :treatment_began_on
-	validate :admit_date_is_after_dob
-	validate :diagnosis_date_is_after_dob
-	validate :treatment_began_on_is_after_diagnosis_date
+	validate :admit_date_is_on_or_after_dob
+	validate :diagnosis_date_is_on_or_after_dob
+	validate :treatment_began_on_is_on_or_after_diagnosis_date
+	validate :treatment_began_on_is_on_or_after_admit_date
 	validate :subject_is_case
 
 	validates_complete_date_for :admit_date, :diagnosis_date, :treatment_began_on, 
@@ -49,7 +50,7 @@ protected
 	#	This validation does not work when using nested attributes as 
 	#	the study_subject has not been resolved yet, unless this is an update.
 	#	This results in a similar validation in Subject.
-	def admit_date_is_after_dob
+	def admit_date_is_on_or_after_dob
 		if !admit_date.blank? && 
 				!study_subject.blank? && 
 				!study_subject.dob.blank? && 
@@ -64,7 +65,7 @@ protected
 	#	This validation does not work when using nested attributes as 
 	#	the study_subject has not been resolved yet, unless this is an update.
 	#	This results in a similar validation in Subject.
-	def diagnosis_date_is_after_dob
+	def diagnosis_date_is_on_or_after_dob
 		if !diagnosis_date.blank? && 
 				!study_subject.blank? && 
 				!study_subject.dob.blank? && 
@@ -74,14 +75,26 @@ protected
 	end
 
 	##
-	#	Both are patient dates so this doesn't need in subject!
+	#	Both are patient dates so this doesn't need duplicated in subject!
 	#	custom validation and custom message
-	def treatment_began_on_is_after_diagnosis_date
+	def treatment_began_on_is_on_or_after_diagnosis_date
 		if !treatment_began_on.blank? && 
 				!diagnosis_date.blank? && 
 				treatment_began_on < diagnosis_date
 			errors.add(:treatment_began_on, 
 				"Date treatment began must be on or after the diagnosis date" )
+		end
+	end
+
+	##
+	#	Both are patient dates so this doesn't need duplicated in subject!
+	#	custom validation and custom message
+	def treatment_began_on_is_on_or_after_admit_date
+		if !treatment_began_on.blank? && 
+				!admit_date.blank? && 
+				treatment_began_on < admit_date
+			errors.add(:treatment_began_on, 
+				"Date treatment began must be on or after the admit date" )
 		end
 	end
 
