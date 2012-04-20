@@ -40,5 +40,6 @@ module MethodMissingWithAuthorization
 	alias_method_chain :method_missing, :authorization
 
 	protected	:method_missing_with_authorization
+	protected	:method_missing_without_authorization
 
 end
