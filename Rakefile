@@ -20,3 +20,8 @@ Odms::Application.load_tasks
 #	
 #	require 'tasks/rails'
 #	
+
+#	This is an array of Regexs excluded from test coverage report.
+RCOV_EXCLUDES = [
+	'lib/method_missing_with_authorization.rb'
+]
