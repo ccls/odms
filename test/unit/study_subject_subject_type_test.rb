@@ -2,6 +2,7 @@ require 'test_helper'
 
 class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 
+	assert_should_protect( :subject_type_id, :model => 'StudySubject' )
 	assert_should_initially_belong_to( :subject_type, :model => 'StudySubject' )
 
 	test "should require subject_type" do

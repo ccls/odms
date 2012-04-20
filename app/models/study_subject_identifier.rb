@@ -13,11 +13,7 @@ base.class_eval do
 	#	it will stop the study_subject nested_attribute tests though
 	attr_protected :studyid, :studyid_nohyphen, :studyid_intonly_nohyphen,
 		:familyid, :childid, :subjectid, :patid, :orderno,
-		:matchingid, :subject_type_id, :case_control_type
-#
-#	Will require major modification for RAF creation to add this one ...
-#, :subject_type_id
-#
+		:matchingid, :case_control_type
 
 	before_validation :prepare_fields_for_validation
 	before_create     :prepare_fields_for_creation
@@ -29,7 +25,7 @@ protected
 		#	to NOT be blank.  Multiple nils are acceptable in index,
 		#	but multiple blanks are NOT.  Nilify ALL fields with
 		#	unique indexes in the database.
-		self.email = nil if email.blank?
+#		self.email = nil if email.blank?
 		self.ssn = nil if ssn.blank?
 		self.state_id_no = nil if state_id_no.blank?
 		self.state_registrar_no = nil if state_registrar_no.blank?

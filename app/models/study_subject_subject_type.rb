@@ -14,6 +14,8 @@ base.class_eval do
 	validates_presence_of :subject_type_id
 	validates_presence_of :subject_type, :if => :subject_type_id
 
+	attr_protected :subject_type_id
+
 	#	Returns boolean of comparison
 	#	true only if type is Case
 	def is_case?

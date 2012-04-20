@@ -13,7 +13,7 @@ base.class_eval do
 	validates_complete_date_for :dob, :allow_blank => true
 	validates_past_date_for     :dob, :allow_blank => true
 
-	validates_uniqueness_of     :email, :allow_nil => true
+	validates_uniqueness_of     :email, :allow_blank => true
 
 #	:with => /
 #		\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*
@@ -35,7 +35,17 @@ base.class_eval do
 	validates_length_of :birth_city, :birth_county, :birth_state, :birth_country,
 			:maximum => 250, :allow_blank => true
 
+	before_validation :nilify_blank_email
+
 protected
+
+	def nilify_blank_email
+		#	NOTE ANY field that has a unique index in the database NEEDS
+		#	to NOT be blank.  Multiple nils are acceptable in index,
+		#	but multiple blanks are NOT.  Nilify ALL fields with
+		#	unique indexes in the database.
+		self.email = nil if email.blank?
+	end
 
 	def birth_country_is_united_states?
 		birth_country == 'United States'
