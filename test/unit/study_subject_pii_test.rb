@@ -5,13 +5,20 @@ require 'test_helper'
 #	to the size of the StudySubjectTest class.
 class StudySubjectPiiTest < ActiveSupport::TestCase
 
-	test "should return 'name not available' for study_subject without names" do
-		study_subject = StudySubject.new
-		assert_nil study_subject.first_name
-		assert_nil study_subject.middle_name
-		assert_nil study_subject.last_name
-		assert_equal '[name not available]', study_subject.full_name
-	end
+	assert_should_require( :dob, :model => 'StudySubject' )
+	assert_should_require_unique( :email, :model => 'StudySubject' )
+	assert_should_not_require( :birth_city, :birth_county,
+		:birth_state, :birth_country, :email, :model => 'StudySubject' )
+	assert_should_not_require_unique( :dob, :birth_city, :birth_county,
+		:birth_state, :birth_country, :model => 'StudySubject' )
+	assert_should_not_protect( :dob, :email, :birth_city, :birth_county,
+		:birth_state, :birth_country, :model => 'StudySubject' )
+	assert_should_require_attribute_length(
+		:birth_city, :birth_county,
+		:birth_state, :birth_country, 
+		:model => 'StudySubject', :maximum => 250 )
+	assert_requires_complete_date( :dob, :model => 'StudySubject' )
+	assert_requires_past_date( :dob, :model => 'StudySubject' )
 
 	test "should not require dob on creation for mother" do
 		assert_difference( "StudySubject.count", 1 ) {
@@ -77,226 +84,12 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		assert study_subject.reload.dob.is_a?(Date)
 	end
 
-	test "should parse a properly formatted date" do
+	test "should parse a properly formatted date for dob" do
 		assert_difference( "StudySubject.count", 1 ) do
 			study_subject = create_study_subject(
 				:dob => Date.parse("January 1 2001") )
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		end
-	end
-
-	test "should return join of study_subject's initials" do
-		study_subject = StudySubject.new(
-			:first_name  => "John",
-			:middle_name => "X",
-			:last_name   => "Smith" )
-		assert_not_nil study_subject.first_name
-		assert_not_nil study_subject.middle_name
-		assert_not_nil study_subject.last_name
-		assert_equal 'JXS', study_subject.initials 
-	end
-
-	test "should return join of study_subject's initials without middle name" do
-		study_subject = StudySubject.new(
-			:first_name => "John",
-			:last_name  => "Smith" )
-		assert_not_nil study_subject.first_name
-		assert_nil     study_subject.middle_name
-		assert_not_nil study_subject.last_name
-		assert_equal 'JS', study_subject.initials 
-	end
-
-	test "should return join of study_subject's initials with blank middle name" do
-		study_subject = StudySubject.new(
-			:first_name  => "John",
-			:middle_name => "",
-			:last_name   => "Smith" )
-		assert_not_nil study_subject.first_name
-		assert_not_nil study_subject.middle_name
-		assert_not_nil study_subject.last_name
-		assert_equal 'JS', study_subject.initials 
-	end
-
-	test "should return join of study_subject's name" do
-		study_subject = StudySubject.new(
-			:first_name  => "John",
-			:middle_name => "Xavier",
-			:last_name   => "Smith" )
-		assert_not_nil study_subject.first_name
-		assert_not_nil study_subject.middle_name
-		assert_not_nil study_subject.last_name
-		assert_equal 'John Xavier Smith', study_subject.full_name 
-	end
-
-	test "should return join of study_subject's name without middle name" do
-		study_subject = StudySubject.new(
-			:first_name => "John",
-			:last_name  => "Smith" )
-		assert_not_nil study_subject.first_name
-		assert_nil     study_subject.middle_name
-		assert_not_nil study_subject.last_name
-		assert_equal 'John Smith', study_subject.full_name 
-	end
-
-	test "should return join of study_subject's name with blank middle name" do
-		study_subject = StudySubject.new(
-			:first_name => "John",
-			:middle_name => "",
-			:last_name  => "Smith" )
-		assert_not_nil study_subject.first_name
-		assert_not_nil study_subject.middle_name
-		assert_not_nil study_subject.last_name
-		assert_equal 'John Smith', study_subject.full_name 
-	end
-
-#	test "should return 'name not available' if study_subject's names are blank" do
-#		study_subject = create_study_subject
-#		assert_equal '[name not available]', study_subject.full_name 
-#	end
-
-	test "should return 'name not available' if study_subject's father's names are blank" do
-		study_subject = create_study_subject
-		study_subject = StudySubject.new
-		assert_nil study_subject.father_first_name
-		assert_nil study_subject.father_middle_name
-		assert_nil study_subject.father_last_name
-		assert_equal '[name not available]', study_subject.fathers_name
-	end
-
-	test "should return 'name not available' if study_subject's mother's names are blank" do
-		study_subject = create_study_subject
-		assert_nil study_subject.mother_first_name
-		assert_nil study_subject.mother_middle_name
-		assert_nil study_subject.mother_last_name
-		assert_equal '[name not available]', study_subject.mothers_name
-	end
-
-	test "should return 'name not available' if study_subject's guardian's names are blank" do
-		study_subject = create_study_subject
-		assert_nil study_subject.guardian_first_name
-		assert_nil study_subject.guardian_middle_name
-		assert_nil study_subject.guardian_last_name
-		assert_equal '[name not available]', study_subject.guardians_name
-	end
-
-	test "should return join of father's name" do
-		study_subject = create_study_subject(
-			:father_first_name  => "Santa",
-			:father_middle_name => "X.",
-			:father_last_name   => "Claus" )
-		assert_not_nil study_subject.father_first_name
-		assert_not_nil study_subject.father_middle_name
-		assert_not_nil study_subject.father_last_name
-		assert_equal 'Santa X. Claus', study_subject.fathers_name 
-	end
-
-	test "should return join of father's name without middle name" do
-		study_subject = create_study_subject(
-			:father_first_name => "Santa",
-			:father_last_name  => "Claus" )
-		assert_not_nil study_subject.father_first_name
-		assert_nil     study_subject.father_middle_name
-		assert_not_nil study_subject.father_last_name
-		assert_equal 'Santa Claus', study_subject.fathers_name 
-	end
-
-	test "should return join of father's name with blank middle name" do
-		study_subject = create_study_subject(
-			:father_first_name  => "Santa",
-			:father_middle_name => "",
-			:father_last_name   => "Claus" )
-		assert_not_nil study_subject.father_first_name
-		assert_not_nil study_subject.father_middle_name
-		assert_not_nil study_subject.father_last_name
-		assert_equal 'Santa Claus', study_subject.fathers_name 
-	end
-
-	test "should return join of mother's name" do
-		study_subject = create_study_subject(
-			:mother_first_name  => "Ms",
-			:mother_middle_name => "X.",
-			:mother_last_name   => "Claus" )
-		assert_not_nil study_subject.mother_first_name
-		assert_not_nil study_subject.mother_middle_name
-		assert_not_nil study_subject.mother_last_name
-		assert_equal 'Ms X. Claus', study_subject.mothers_name 
-	end
-
-	test "should return join of mother's name without middle name" do
-		study_subject = create_study_subject(
-			:mother_first_name => "Ms",
-			:mother_last_name  => "Claus" )
-		assert_not_nil study_subject.mother_first_name
-		assert_nil     study_subject.mother_middle_name
-		assert_not_nil study_subject.mother_last_name
-		assert_equal 'Ms Claus', study_subject.mothers_name 
-	end
-
-	test "should return join of mother's name with blank middle name" do
-		study_subject = create_study_subject(
-			:mother_first_name  => "Ms",
-			:mother_middle_name => "",
-			:mother_last_name   => "Claus" )
-		assert_not_nil study_subject.mother_first_name
-		assert_not_nil study_subject.mother_middle_name
-		assert_not_nil study_subject.mother_last_name
-		assert_equal 'Ms Claus', study_subject.mothers_name 
-	end
-
-	test "should return join of guardian's name" do
-		study_subject = create_study_subject(
-			:guardian_first_name  => "Jack",
-			:guardian_middle_name => "X.",
-			:guardian_last_name   => "Frost" )
-		assert_not_nil study_subject.guardian_first_name
-		assert_not_nil study_subject.guardian_middle_name
-		assert_not_nil study_subject.guardian_last_name
-		assert_equal 'Jack X. Frost', study_subject.guardians_name 
-	end
-
-	test "should return join of guardian's name without middle name" do
-		study_subject = create_study_subject(
-			:guardian_first_name => "Jack",
-			:guardian_last_name  => "Frost" )
-		assert_not_nil study_subject.guardian_first_name
-		assert_nil     study_subject.guardian_middle_name
-		assert_not_nil study_subject.guardian_last_name
-		assert_equal 'Jack Frost', study_subject.guardians_name 
-	end
-
-	test "should return join of guardian's name with blank middle name" do
-		study_subject = create_study_subject(
-			:guardian_first_name  => "Jack",
-			:guardian_middle_name => "",
-			:guardian_last_name   => "Frost" )
-		assert_not_nil study_subject.guardian_first_name
-		assert_not_nil study_subject.guardian_middle_name
-		assert_not_nil study_subject.guardian_last_name
-		assert_equal 'Jack Frost', study_subject.guardians_name 
-	end
-
-	test "should require other_guardian_relationship if " <<
-			"guardian_relationship == other" do
-		assert_difference( "StudySubject.count", 0 ) do
-			study_subject = create_study_subject(
-				:guardian_relationship => SubjectRelationship['other'] )
-			assert study_subject.errors.include?(:other_guardian_relationship)
-			#	NOTE custom error message
-			assert study_subject.errors.matching?(:other_guardian_relationship,
-				"You must specify a relationship with 'other relationship' is selected")
-		end
-	end
-
-	test "should require other_guardian_relationship with custom message" do
-		assert_difference( "StudySubject.count", 0 ) do
-			study_subject = create_study_subject(
-				:guardian_relationship => SubjectRelationship['other'] )
-			assert study_subject.errors.matching?(:other_guardian_relationship,
-				"You must specify a relationship with 'other relationship' is selected")
-			#	NOTE custom error message WITHOUT attribute name
-			assert_no_match /Other guardian relationship/, 
-				study_subject.errors.full_messages.to_sentence
 		end
 	end
 
@@ -337,5 +130,10 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 			assert study_subject.errors.matching?(:birth_state,"can't be blank")
 		end
 	end
+
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_study_subject
 
 end

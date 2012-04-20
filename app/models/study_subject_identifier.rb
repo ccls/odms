@@ -13,7 +13,7 @@ base.class_eval do
 	#	it will stop the study_subject nested_attribute tests though
 	attr_protected :studyid, :studyid_nohyphen, :studyid_intonly_nohyphen,
 		:familyid, :childid, :subjectid, :patid, :orderno,
-		:matchingid, :icf_master_id, :subject_type_id, :case_control_type
+		:matchingid, :subject_type_id, :case_control_type
 #
 #	Will require major modification for RAF creation to add this one ...
 #, :subject_type_id

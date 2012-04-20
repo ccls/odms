@@ -18,34 +18,27 @@ class StudySubjectTest < ActiveSupport::TestCase
 #	in the creation of the enrollment so not really needed.
 #		:enrollments,
 
-	assert_should_have_many( :samples,
-		:gift_cards, :phone_numbers, :bc_requests )
-#		:gift_cards, :phone_numbers, :interviews, :bc_requests )
-#	assert_should_initially_belong_to( :subject_type, :vital_status )
-#	assert_should_initially_belong_to( :subject_type )
-#	assert_should_have_one( :home_exposure_response, :homex_outcome )
+	assert_should_have_many( :bc_requests )
 	assert_should_have_one( :home_exposure_response )
 	assert_should_habtm(:analyses)
-#	assert_should_belong_to( :guardian_relationship, :class_name => 'SubjectRelationship' )
 
-
-	attributes = %w( accession_no birth_city birth_country birth_county birth_state 
-		birth_type birth_year case_control_type dad_is_biodad died_on dob email 
-		familyid father_first_name father_generational_suffix father_hispanicity_id 
-		father_hispanicity_mex father_last_name father_middle_name other_father_race 
-		father_yrs_educ first_name gbid generational_suffix guardian_first_name 
-		guardian_last_name guardian_middle_name other_guardian_relationship hispanicity_id 
-		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels last_name 
-		local_registrar_no maiden_name matchingid middle_name mom_is_biomom 
-		mother_first_name mother_hispanicity_id mother_hispanicity_mex mother_last_name 
-		mother_maiden_name mother_middle_name other_mother_race mother_yrs_educ 
+	attributes = %w( accession_no 
+		birth_type birth_year case_control_type dad_is_biodad died_on 
+		familyid father_hispanicity_id 
+		father_hispanicity_mex other_father_race 
+		father_yrs_educ gbid 
+		other_guardian_relationship hispanicity_id 
+		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels 
+		local_registrar_no matchingid mom_is_biomom 
+		mother_hispanicity_id mother_hispanicity_mex 
+		other_mother_race mother_yrs_educ 
 		reference_date related_case_childid related_childid ssn state_id_no 
 		state_registrar_no subjectid vital_status_id )
 
 #	no familyid, childid, patid, studyid, matchingid, icf_master_id ???
 
-	required = %w( dob )
-	unique   = %w( email state_id_no state_registrar_no local_registrar_no
+	required = %w( )
+	unique   = %w( state_id_no state_registrar_no local_registrar_no
 		gbid lab_no_wiemels accession_no idno_wiemels 
 		subjectid childid )
 
@@ -54,7 +47,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	protected_attributes = %w( studyid studyid_nohyphen
 		studyid_intonly_nohyphen subjectid familyid childid patid 
-		matchingid icf_master_id subject_type_id case_control_type )
+		matchingid subject_type_id case_control_type )
 	assert_should_require( required )
 	assert_should_require_unique( unique )
 	assert_should_protect( protected_attributes )
@@ -62,18 +55,12 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes - unique )
 	assert_should_not_protect( attributes - protected_attributes )
 
-	assert_requires_complete_date( :reference_date, :dob, :died_on )
-	assert_requires_past_date( :dob )
+	assert_requires_complete_date( :reference_date, :died_on )
 
 	assert_should_require_attributes_not_nil( :do_not_contact, :sex )
 
 	assert_should_require_attribute_length( 
-		:first_name, :middle_name, :maiden_name, :last_name,
-		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
-		:father_first_name, :father_middle_name, :father_last_name,
-		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
 		:other_guardian_relationship,
-		:birth_city, :birth_state, :birth_country,
 		:other_mother_race, :other_father_race,
 		:state_id_no,
 		:state_registrar_no,
@@ -86,10 +73,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :gbid, :maximum => 26 )
 	assert_should_require_attribute_length( :lab_no_wiemels, :accession_no, 
 		:maximum => 25 )
-	assert_should_require_attribute_length( :generational_suffix, 
-		:father_generational_suffix, :childidwho, :idno_wiemels,
+	assert_should_require_attribute_length( :childidwho, :idno_wiemels,
 			:maximum => 10 )
-	assert_should_require_attribute_length( :icf_master_id, :maximum => 9 )
 	assert_should_require_attribute_length( :newid, :maximum => 6 )
 	assert_should_require_attribute_length( :birth_year, :maximum => 4 )
 
@@ -222,28 +207,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 		} }
 	end
 
-	test "should create study_subject and accept_nested_attributes_for phone_numbers" do
-		assert_difference( 'PhoneNumber.count', 1) {
-		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = create_study_subject(
-				:phone_numbers_attributes => [Factory.attributes_for(:phone_number,
-					:phone_type_id => PhoneType['home'].id )])
-			assert !study_subject.new_record?, 
-				"#{study_subject.errors.full_messages.to_sentence}"
-		} }
-	end
-
-	test "should create study_subject and ignore blank phone_number" do
-		assert_difference( 'PhoneNumber.count', 0) {
-		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = create_study_subject(
-				:phone_numbers_attributes => [Factory.attributes_for(:phone_number,
-					:phone_number => '' )])
-			assert !study_subject.new_record?, 
-				"#{study_subject.errors.full_messages.to_sentence}"
-		} }
-	end
-
 	#
 	#	The dependency relationships are left undefined for most models.
 	#	Because of this, associated records are neither nullfied nor destroyed
@@ -262,18 +225,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 		} }
 	end
 
-	test "should NOT destroy gift_cards with study_subject" do
-		assert_difference('StudySubject.count',1) {
-		assert_difference('GiftCard.count',1) {
-			@study_subject = Factory(:study_subject)
-			Factory(:gift_card, :study_subject => @study_subject)
-		} }
-		assert_difference('StudySubject.count',-1) {
-		assert_difference('GiftCard.count',0) {
-			@study_subject.destroy
-		} }
-	end
-
 	test "should NOT destroy home_exposure_response with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('HomeExposureResponse.count',1) {
@@ -281,28 +232,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('HomeExposureResponse.count',0) {
-			@study_subject.destroy
-		} }
-	end
-
-	test "should NOT destroy phone_numbers with study_subject" do
-		assert_difference('StudySubject.count',1) {
-		assert_difference('PhoneNumber.count',1) {
-			@study_subject = Factory(:phone_number).study_subject
-		} }
-		assert_difference('StudySubject.count',-1) {
-		assert_difference('PhoneNumber.count',0) {
-			@study_subject.destroy
-		} }
-	end
-
-	test "should NOT destroy samples with study_subject" do
-		assert_difference('StudySubject.count',1) {
-		assert_difference('Sample.count',1) {
-			@study_subject = Factory(:sample).study_subject
-		} }
-		assert_difference('StudySubject.count',-1) {
-		assert_difference('Sample.count',0) {
 			@study_subject.destroy
 		} }
 	end

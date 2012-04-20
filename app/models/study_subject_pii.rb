@@ -9,52 +9,36 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	#	TODO include maiden_name just in case is mother???
-	def childs_names
-		[first_name, middle_name, last_name ]
-	end
+	validates_presence_of       :dob, :unless => :is_mother?
+	validates_complete_date_for :dob, :allow_blank => true
+	validates_past_date_for     :dob, :allow_blank => true
 
-	#	Returns string containing study_subject's first, middle and last initials
-	def initials
-		childs_names.delete_if(&:blank?).collect{|s|s.chars.first}.join()
-	end
+	validates_uniqueness_of     :email, :allow_nil => true
 
-	#	Returns string containing study_subject's first, middle and last name
-	#	Use delete_if(&:blank?) instead of compact, which only removes nils.
-	def full_name
-		fullname = childs_names.delete_if(&:blank?).join(' ')
-		( fullname.blank? ) ? '[name not available]' : fullname
-	end
+#	:with => /
+#		\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*
+#		[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+
+#		@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
+#	using Regexp.new instead so that I can split it on several lines
+#	The trailing 'true' makes it case insensitive
 
-	def fathers_names
-		[father_first_name, father_middle_name, father_last_name ]
-	end
+	validates_format_of :email,
+	  :with => Regexp.new(
+			'\A([-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+\.)*' <<
+			'[-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+' <<
+			'@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z', true), 
+		:allow_blank => true
 
-	#	Returns string containing study_subject's father's first, middle and last name
-	def fathers_name
-		fathersname = fathers_names.delete_if(&:blank?).join(' ')
-		( fathersname.blank? ) ? '[name not available]' : fathersname
-	end
+	validates_presence_of :birth_city,  :if => :birth_country_is_united_states?
+	validates_presence_of :birth_state, :if => :birth_country_is_united_states?
 
-	def mothers_names
-		[mother_first_name, mother_middle_name, mother_last_name ]
-	end
+	validates_length_of :birth_city, :birth_county, :birth_state, :birth_country,
+			:maximum => 250, :allow_blank => true
 
-	#	Returns string containing study_subject's mother's first, middle and last name
-	#	TODO what? no maiden name?
-	def mothers_name
-		mothersname = mothers_names.delete_if(&:blank?).join(' ')
-		( mothersname.blank? ) ? '[name not available]' : mothersname
-	end
+protected
 
-	def guardians_names
-		[guardian_first_name, guardian_middle_name, guardian_last_name ]
-	end
-
-	#	Returns string containing study_subject's guardian's first, middle and last name
-	def guardians_name
-		guardiansname = guardians_names.delete_if(&:blank?).join(' ')
-		( guardiansname.blank? ) ? '[name not available]' : guardiansname
+	def birth_country_is_united_states?
+		birth_country == 'United States'
 	end
 
 end	#	class_eval
