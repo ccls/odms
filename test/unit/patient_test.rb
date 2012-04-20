@@ -47,7 +47,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "explicit Factory patient hospital sequence test" do
 		patient = Factory(:patient)		#	'first' hospital
-		(Hospital.count - 1).times {	#	loop over the rest of the hospitals
+		(Hospital.active.count - 1).times {	#	loop over the rest of the hospitals
 			new_patient = Factory(:patient)
 			assert patient.organization_id != new_patient.organization_id
 		}
@@ -66,7 +66,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "explicit Factory waivered patient hospital sequence test" do
 		patient = Factory(:waivered_patient)		#	'first' hospital
-		(Hospital.waivered.count - 1).times {	#	loop over the rest of the hospitals
+		(Hospital.active.waivered.count - 1).times {	#	loop over the rest of the hospitals
 			new_patient = Factory(:waivered_patient)
 			assert patient.organization_id != new_patient.organization_id
 		}
@@ -86,7 +86,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "explicit Factory nonwaivered patient hospital sequence test" do
 		patient = Factory(:nonwaivered_patient)		#	'first' hospital
-		(Hospital.nonwaivered.count - 1).times {	#	loop over the rest of the hospitals
+		(Hospital.active.nonwaivered.count - 1).times {	#	loop over the rest of the hospitals
 			new_patient = Factory(:nonwaivered_patient)
 			assert patient.organization_id != new_patient.organization_id
 		}
