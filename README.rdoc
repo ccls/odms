@@ -380,9 +380,8 @@ as the latter will be true if the field is there regardless of if it is visible
 
  /config/api.yml ( probably removing )
  /config/database.yml
- /config/initializers/mail.rb
+ /config/initializers/mail.rb	(not doing mail anymore so irrelevant)
  /config/initializers/secret_token.rb
- /config/s3.yml ( will be storing uploads locally, so not anymore )
 
 
 == Testing requirements
