@@ -6,21 +6,6 @@ require File.expand_path('../config/application', __FILE__)
 
 Odms::Application.load_tasks
 
-
-#	require(File.join(File.dirname(__FILE__), 'config', 'boot'))
-#	
-#	#	Use the updated rdoc gem rather than version
-#	#	included with ruby.
-#	require 'rdoc'
-#	require 'rdoc/rdoc'
-#	
-#	require 'rake'
-#	require 'rake/testtask'
-#	require 'rdoc/task'
-#	
-#	require 'tasks/rails'
-#	
-
 #	This is an array of Regexs excluded from test coverage report.
 RCOV_EXCLUDES = [
 	'lib/method_missing_with_authorization.rb'
