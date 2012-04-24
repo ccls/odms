@@ -24,7 +24,10 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 	}
 	def factory_attributes(options={})
 		Factory.attributes_for(:phone_number,{
-			:phone_type_id => Factory(:phone_type).id
+#			:data_source_id => Factory(:data_source).id
+			:data_source_id => DataSource['unknown'].id,
+#			:phone_type_id  => Factory(:phone_type).id
+			:phone_type_id  => PhoneType['unknown'].id
 		}.merge(options))
 	end
 

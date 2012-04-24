@@ -10,6 +10,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
+					:data_source_id => DataSource['unknown'].id,
 					:address_attributes => Factory.attributes_for(:address,
 					:address_type_id => AddressType['residence'].id ) )])
 			assert !study_subject.new_record?, 
@@ -23,6 +24,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
+					:data_source_id => DataSource['unknown'].id,
 					:address_attributes => { :address_type_id => AddressType['residence'].id } )])
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
@@ -35,6 +37,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) {
 			study_subject = create_study_subject(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
+					:data_source_id => DataSource['unknown'].id,
 					:address_required   => true,
 					:address_attributes => { :address_type_id => AddressType['residence'].id } )])
 			assert study_subject.errors.matching?('addressings.address.line_1',"can't be blank")
@@ -50,11 +53,13 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_equal 0, study_subject.residence_addresses_count
 		study_subject.update_attributes(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
+					:data_source_id => DataSource['unknown'].id,
 					:address_attributes => Factory.attributes_for(:address,
 					{ :address_type_id => AddressType['residence'].id } ))])
 		assert_equal 1, study_subject.reload.residence_addresses_count
 		study_subject.update_attributes(
 				:addressings_attributes => [Factory.attributes_for(:addressing,
+					:data_source_id => DataSource['unknown'].id,
 					:address_attributes => Factory.attributes_for(:address,
 					{ :address_type_id => AddressType['residence'].id } ))])
 		assert_equal 2, study_subject.reload.residence_addresses_count

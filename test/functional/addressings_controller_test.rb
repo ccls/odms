@@ -24,7 +24,11 @@ class AddressingsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:addressing,options)
+		Factory.attributes_for(:addressing,{
+#			:data_source_id => Factory(:data_source).id
+#			:data_source_id => DataSource['raf'].id
+			:data_source_id => DataSource['unknown'].id
+		}.merge(options))
 	end
 
 	def address_attributes(options={})
