@@ -19,6 +19,9 @@ class PhoneNumber < ActiveRecord::Base
 
 	validates_presence_of :phone_number
 
+	validates_presence_of :data_source_id
+	validates_presence_of :data_source, :if => :data_source_id
+
 	validates_presence_of :phone_type_id
 	validates_presence_of :phone_type, :if => :phone_type_id
 

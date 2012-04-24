@@ -8,8 +8,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_act_as_list( :scope => :study_subject_id )
-	assert_should_initially_belong_to( :study_subject, :phone_type )
-
+	assert_should_initially_belong_to( :study_subject, :phone_type, :data_source )
 
 	attributes = %w( phone_number position study_subject_id
 		is_primary is_valid
@@ -22,7 +21,6 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )
 	assert_should_protect( protected_attributes )
 	assert_should_not_protect( attributes - protected_attributes )
-
 
 	assert_should_require_attribute_length( :how_verified, :why_invalid, 
 		:maximum => 250 )
@@ -56,6 +54,20 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		phone_number = PhoneNumber.new( :data_source => DataSource['raf'])
 		phone_number.valid?
 		assert !phone_number.errors.matching?(:other_data_source,"can't be blank")
+	end
+
+	test "should require data_source" do
+		phone_number = PhoneNumber.new( :data_source => nil)
+		assert !phone_number.valid?
+		assert !phone_number.errors.include?(:data_source)
+		assert  phone_number.errors.matching?(:data_source_id,"can't be blank")
+	end
+
+	test "should require valid data_source" do
+		phone_number = PhoneNumber.new( :data_source_id => 0)
+		assert !phone_number.valid?
+		assert !phone_number.errors.include?(:data_source_id)
+		assert  phone_number.errors.matching?(:data_source,"can't be blank")
 	end
 
 	test "should require phone_type" do

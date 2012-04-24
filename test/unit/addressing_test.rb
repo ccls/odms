@@ -12,7 +12,7 @@ class AddressingTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
-	assert_should_initially_belong_to( :study_subject, :address )
+	assert_should_initially_belong_to( :study_subject, :address, :data_source )
 	assert_should_require_attribute_length( :why_invalid, :how_verified, 
 			:maximum => 250 )
 	assert_requires_complete_date( :valid_from, :valid_to )
@@ -88,6 +88,20 @@ class AddressingTest < ActiveSupport::TestCase
 	test "current_address should default to 1" do
 		addressing = Addressing.new
 		assert_equal 1, addressing.current_address
+	end
+
+	test "should require data_source" do
+		addressing = Addressing.new( :data_source => nil)
+		assert !addressing.valid?
+		assert !addressing.errors.include?(:data_source)
+		assert  addressing.errors.matching?(:data_source_id,"can't be blank")
+	end
+
+	test "should require valid data_source" do
+		addressing = Addressing.new( :data_source_id => 0)
+		assert !addressing.valid?
+		assert !addressing.errors.include?(:data_source_id)
+		assert  addressing.errors.matching?(:data_source,"can't be blank")
 	end
 
 	test "should require other_data_source if data_source is other" do

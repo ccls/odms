@@ -33,6 +33,9 @@ class Addressing < ActiveRecord::Base
 	validates_complete_date_for :valid_from, :valid_to,
 		:allow_blank => true
 
+	validates_presence_of :data_source_id
+	validates_presence_of :data_source, :if => :data_source_id
+
 	validates_presence_of :other_data_source, :if => :data_source_is_other?
 
 	validates_inclusion_of :current_address, :is_valid, :address_at_diagnosis,

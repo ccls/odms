@@ -162,6 +162,7 @@ end
 Factory.define :addressing do |f|
 	f.association :address
 	f.association :study_subject
+	f.association :data_source
 	f.is_valid    1
 	f.is_verified false		#		2		#	20111110 just noticed that this is boolean and not int for YNDK
 	f.updated_at Time.now	#	to make it dirty
@@ -479,6 +480,7 @@ end
 Factory.define :phone_number do |f|
 	f.association :study_subject
 	f.association :phone_type
+	f.association :data_source
 	f.sequence(:phone_number){|n| sprintf("%010d",n) }
 	f.is_valid    1
 	f.is_verified false		#		2		#	20111110 just noticed that this is boolean and not int for YNDK
