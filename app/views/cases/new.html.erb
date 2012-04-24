@@ -4,6 +4,7 @@
 <label>Treating Institution</label>
 <%= select_tag 'hospital_id',
 	options_from_collection_for_select( 
-		Hospital.all(:include => :organization), :id, :to_s ) %>
+		@hospitals, :id, :to_s ) %>
+<%#		Hospital.active.all(:include => :organization), :id, :to_s ) %>
 <%= submit_tag 'New Case' %>
 <% end %>

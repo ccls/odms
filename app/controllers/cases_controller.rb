@@ -15,7 +15,7 @@ class CasesController < ApplicationController
 	end
 
 	def new
-		@hospitals = Hospital.active
+		@hospitals = Hospital.active(:include => :organization)
 		render :layout => 'application'
 	end
 
