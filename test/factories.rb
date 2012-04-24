@@ -393,6 +393,8 @@ end
 
 Factory.define :birth_data do |f|
 end
+Factory.define :birth_data_change do |f|
+end
 Factory.define :live_birth_data_update do |f|
 	f.csv_file Rack::Test::UploadedFile.new( 
 		'test/assets/empty_live_birth_data_update_test_file.csv', 'text/csv')
