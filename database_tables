@@ -457,6 +457,79 @@ Table: bc_requests
 | created_at       | datetime     | NO   |     | NULL    |                |
 | updated_at       | datetime     | NO   |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
+Table: birth_data
++-----------------------------------+---------------+------+-----+---------+----------------+
+| Field                             | Type          | Null | Key | Default | Extra          |
++-----------------------------------+---------------+------+-----+---------+----------------+
+| id                                | int(11)       | NO   | PRI | NULL    | auto_increment |
+| abnormal_conditions               | varchar(255)  | YES  |     | NULL    |                |
+| apgar_1min                        | int(11)       | YES  |     | NULL    |                |
+| apgar_5min                        | int(11)       | YES  |     | NULL    |                |
+| apgar_10min                       | int(11)       | YES  |     | NULL    |                |
+| birth_order                       | int(11)       | YES  |     | NULL    |                |
+| birth_type                        | varchar(255)  | YES  |     | NULL    |                |
+| birth_weight_gms                  | decimal(10,0) | YES  |     | NULL    |                |
+| complications_labor_delivery      | varchar(255)  | YES  |     | NULL    |                |
+| complications_pregnancy           | varchar(255)  | YES  |     | NULL    |                |
+| county_of_delivery                | varchar(255)  | YES  |     | NULL    |                |
+| daily_cigarette_cnt_1st_tri       | int(11)       | YES  |     | NULL    |                |
+| daily_cigarette_cnt_2nd_tri       | int(11)       | YES  |     | NULL    |                |
+| daily_cigarette_cnt_3rd_tri       | int(11)       | YES  |     | NULL    |                |
+| daily_cigarette_cnt_3mo_preconc   | int(11)       | YES  |     | NULL    |                |
+| dob                               | date          | YES  |     | NULL    |                |
+| father_job_industry               | varchar(255)  | YES  |     | NULL    |                |
+| father_dob                        | date          | YES  |     | NULL    |                |
+| father_hispanic_origin_code       | varchar(255)  | YES  |     | NULL    |                |
+| father_first_name                 | varchar(255)  | YES  |     | NULL    |                |
+| father_last_name                  | varchar(255)  | YES  |     | NULL    |                |
+| father_middle_name                | varchar(255)  | YES  |     | NULL    |                |
+| father_occupation                 | varchar(255)  | YES  |     | NULL    |                |
+| father_race_ethnicity             | varchar(255)  | YES  |     | NULL    |                |
+| father_years_education            | int(11)       | YES  |     | NULL    |                |
+| fetal_presentation_at_birth       | varchar(255)  | YES  |     | NULL    |                |
+| first_name                        | varchar(255)  | YES  |     | NULL    |                |
+| forceps_attempt_unsuccessful      | tinyint(1)    | YES  |     | NULL    |                |
+| last_live_birth_on                | date          | YES  |     | NULL    |                |
+| last_menses_on                    | date          | YES  |     | NULL    |                |
+| last_name                         | varchar(255)  | YES  |     | NULL    |                |
+| last_termination_on               | date          | YES  |     | NULL    |                |
+| length_of_gestation_days          | int(11)       | YES  |     | NULL    |                |
+| live_births_now_deceased          | int(11)       | YES  |     | NULL    |                |
+| live_births_now_living            | int(11)       | YES  |     | NULL    |                |
+| local_registrar_district          | varchar(255)  | YES  |     | NULL    |                |
+| local_registrar_no                | varchar(255)  | YES  |     | NULL    |                |
+| method_of_delivery                | varchar(255)  | YES  |     | NULL    |                |
+| middle_name                       | varchar(255)  | YES  |     | NULL    |                |
+| month_prenatal_care_began         | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_county_ef        | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_line_1           | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_zip              | varchar(255)  | YES  |     | NULL    |                |
+| mother_weight_at_delivery         | int(11)       | YES  |     | NULL    |                |
+| mother_birthplace_state           | varchar(255)  | YES  |     | NULL    |                |
+| mother_city                       | varchar(255)  | YES  |     | NULL    |                |
+| mother_dob                        | date          | YES  |     | NULL    |                |
+| mother_first_name                 | varchar(255)  | YES  |     | NULL    |                |
+| mother_height                     | int(11)       | YES  |     | NULL    |                |
+| mother_hispanic_origin_code       | varchar(255)  | YES  |     | NULL    |                |
+| mother_industry                   | varchar(255)  | YES  |     | NULL    |                |
+| mother_maiden_name                | varchar(255)  | YES  |     | NULL    |                |
+| mother_middle_name                | varchar(255)  | YES  |     | NULL    |                |
+| mother_occupation                 | varchar(255)  | YES  |     | NULL    |                |
+| mother_race_ethnicity             | varchar(255)  | YES  |     | NULL    |                |
+| mother_received_wic               | tinyint(1)    | YES  |     | NULL    |                |
+| mother_residence_state            | varchar(255)  | YES  |     | NULL    |                |
+| mother_weight_pre_pregnancy       | int(11)       | YES  |     | NULL    |                |
+| mother_years_education            | int(11)       | YES  |     | NULL    |                |
+| ob_gestation_estimate_at_delivery | int(11)       | YES  |     | NULL    |                |
+| prenatal_care_visit_count         | int(11)       | YES  |     | NULL    |                |
+| sex                               | varchar(255)  | YES  |     | NULL    |                |
+| state_registrar_no                | varchar(255)  | YES  |     | NULL    |                |
+| termination_count_20_plus_weeks   | int(11)       | YES  |     | NULL    |                |
+| termination_count_before_20_weeks | int(11)       | YES  |     | NULL    |                |
+| vacuum_attempt_unsuccessful       | tinyint(1)    | YES  |     | NULL    |                |
+| created_at                        | datetime      | NO   |     | NULL    |                |
+| updated_at                        | datetime      | NO   |     | NULL    |                |
++-----------------------------------+---------------+------+-----+---------+----------------+
 Table: candidate_controls
 +-----------------------+--------------+------+-----+---------+----------------+
 | Field                 | Type         | Null | Key | Default | Extra          |
@@ -498,7 +571,7 @@ Table: context_contextables
 | Field            | Type         | Null | Key | Default | Extra          |
 +------------------+--------------+------+-----+---------+----------------+
 | id               | int(11)      | NO   | PRI | NULL    | auto_increment |
-| context_id       | int(11)      | YES  | MUL | NULL    |                |
+| context_id       | int(11)      | YES  |     | NULL    |                |
 | contextable_id   | int(11)      | YES  |     | NULL    |                |
 | contextable_type | varchar(255) | YES  |     | NULL    |                |
 | created_at       | datetime     | NO   |     | NULL    |                |
@@ -828,6 +901,7 @@ Table: hospitals
 | has_irb_waiver  | tinyint(1) | NO   |     | 0       |                |
 | created_at      | datetime   | NO   |     | NULL    |                |
 | updated_at      | datetime   | NO   |     | NULL    |                |
+| is_active       | tinyint(1) | NO   |     | 1       |                |
 +-----------------+------------+------+-----+---------+----------------+
 Table: icf_master_ids
 +------------------+------------+------+-----+---------+----------------+
@@ -859,6 +933,7 @@ Table: icf_master_tracker_updates
 | Field                 | Type         | Null | Key | Default | Extra          |
 +-----------------------+--------------+------+-----+---------+----------------+
 | id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| master_tracker_date   | date         | YES  |     | NULL    |                |
 | created_at            | datetime     | NO   |     | NULL    |                |
 | updated_at            | datetime     | NO   |     | NULL    |                |
 | csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
