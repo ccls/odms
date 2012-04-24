@@ -101,6 +101,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 	test "should create one new icf_master_tracker_change record on create" do
 		assert_difference('IcfMasterTracker.count',1) {
 #		assert_difference('IcfMasterTrackerChange.count',1) {
+#	this will now be a "new_tracker_record" AND a "master_id" changed
 		assert_difference('IcfMasterTrackerChange.count',2) {
 			@icf_master_tracker = Factory(:icf_master_tracker)
 		} }

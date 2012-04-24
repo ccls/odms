@@ -149,7 +149,8 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 	test "should parse one record existant attached csv_file" do
 		icf_master_tracker_update = Factory(:one_record_icf_master_tracker_update)
 #	A Change record for all non-nil plus the "new tracker record"
-		assert_difference('IcfMasterTrackerChange.count',17) {
+#		and also the master_id changed
+		assert_difference('IcfMasterTrackerChange.count',18) {
 		assert_difference('IcfMasterTracker.count',1) {
 			results = icf_master_tracker_update.parse
 			assert_equal results.length, 1
@@ -281,7 +282,9 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 			:csv_file => File.open(real_data_file) )
 		assert_not_nil icf_master_tracker_update.csv_file_file_name
 
-		assert_difference('IcfMasterTrackerChange.count',1861){
+#		and also the master_id changed
+#		assert_difference('IcfMasterTrackerChange.count',1861){
+		assert_difference('IcfMasterTrackerChange.count',1958){
 		assert_difference('IcfMasterTracker.count',95){
 			results = icf_master_tracker_update.parse
 			assert_equal results.length, 95
