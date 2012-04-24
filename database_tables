@@ -530,6 +530,32 @@ Table: birth_data
 | created_at                        | datetime      | NO   |     | NULL    |                |
 | updated_at                        | datetime      | NO   |     | NULL    |                |
 +-----------------------------------+---------------+------+-----+---------+----------------+
+Table: birth_data_changes
++----------------------+--------------+------+-----+---------+----------------+
+| Field                | Type         | Null | Key | Default | Extra          |
++----------------------+--------------+------+-----+---------+----------------+
+| id                   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| birth_data_update_id | int(11)      | YES  |     | NULL    |                |
+| birth_data_id        | int(11)      | YES  |     | NULL    |                |
+| new_data_record      | tinyint(1)   | NO   |     | 0       |                |
+| modified_column      | varchar(255) | YES  |     | NULL    |                |
+| previous_value       | varchar(255) | YES  |     | NULL    |                |
+| new_value            | varchar(255) | YES  |     | NULL    |                |
+| created_at           | datetime     | NO   |     | NULL    |                |
+| updated_at           | datetime     | NO   |     | NULL    |                |
++----------------------+--------------+------+-----+---------+----------------+
+Table: birth_data_updates
++-----------------------+--------------+------+-----+---------+----------------+
+| Field                 | Type         | Null | Key | Default | Extra          |
++-----------------------+--------------+------+-----+---------+----------------+
+| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| created_at            | datetime     | NO   |     | NULL    |                |
+| updated_at            | datetime     | NO   |     | NULL    |                |
+| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
+| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
+| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
+| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
++-----------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
 +-----------------------+--------------+------+-----+---------+----------------+
 | Field                 | Type         | Null | Key | Default | Extra          |
@@ -1110,18 +1136,6 @@ Table: languages
 | created_at  | datetime     | NO   |     | NULL    |                |
 | updated_at  | datetime     | NO   |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
-Table: live_birth_data_updates
-+-----------------------+--------------+------+-----+---------+----------------+
-| Field                 | Type         | Null | Key | Default | Extra          |
-+-----------------------+--------------+------+-----+---------+----------------+
-| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
-| created_at            | datetime     | NO   |     | NULL    |                |
-| updated_at            | datetime     | NO   |     | NULL    |                |
-| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
-| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
-| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
-| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
-+-----------------------+--------------+------+-----+---------+----------------+
 Table: operational_event_types
 +----------------+--------------+------+-----+---------+----------------+
 | Field          | Type         | Null | Key | Default | Extra          |
