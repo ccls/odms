@@ -506,7 +506,7 @@ ActiveRecord::Schema.define(:version => 20120424210109) do
     t.string   "mother_residence_zip"
     t.integer  "mother_weight_at_delivery"
     t.string   "mother_birthplace_state"
-    t.string   "mother_city"
+    t.string   "mother_residence_city"
     t.date     "mother_dob"
     t.string   "mother_first_name"
     t.integer  "mother_height"

@@ -1,4 +1,10 @@
 class CreateBirthData < ActiveRecord::Migration
+
+#	"Data" doesn't pluralize well so had to force it.
+
+#	Actually, don't force it.  It would require
+#	several other inflection modifications.
+
 	def change
 		create_table :birth_data do |t|
 			t.string  :abnormal_conditions, :length => 2
@@ -46,7 +52,7 @@ class CreateBirthData < ActiveRecord::Migration
 			t.string  :mother_residence_zip
 			t.integer :mother_weight_at_delivery
 			t.string  :mother_birthplace_state
-			t.string  :mother_city
+			t.string  :mother_residence_city
 			t.date    :mother_dob
 			t.string  :mother_first_name
 			t.integer :mother_height

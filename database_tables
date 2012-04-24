@@ -506,7 +506,7 @@ Table: birth_data
 | mother_residence_zip              | varchar(255)  | YES  |     | NULL    |                |
 | mother_weight_at_delivery         | int(11)       | YES  |     | NULL    |                |
 | mother_birthplace_state           | varchar(255)  | YES  |     | NULL    |                |
-| mother_city                       | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_city             | varchar(255)  | YES  |     | NULL    |                |
 | mother_dob                        | date          | YES  |     | NULL    |                |
 | mother_first_name                 | varchar(255)  | YES  |     | NULL    |                |
 | mother_height                     | int(11)       | YES  |     | NULL    |                |
