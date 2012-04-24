@@ -100,12 +100,15 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 
 	test "should create one new icf_master_tracker_change record on create" do
 		assert_difference('IcfMasterTracker.count',1) {
-		assert_difference('IcfMasterTrackerChange.count',1) {
+#		assert_difference('IcfMasterTrackerChange.count',1) {
+		assert_difference('IcfMasterTrackerChange.count',2) {
 			@icf_master_tracker = Factory(:icf_master_tracker)
 		} }
-		last_tracker_change = IcfMasterTrackerChange.last
-		assert       last_tracker_change.new_tracker_record
-		assert_equal last_tracker_change.icf_master_id, @icf_master_tracker.master_id
+		tracker_change = IcfMasterTrackerChange.first
+		assert       tracker_change.new_tracker_record
+		assert_equal tracker_change.icf_master_id, @icf_master_tracker.master_id
+		tracker_change = IcfMasterTrackerChange.last
+		assert      !tracker_change.new_tracker_record
 	end
 
 	test "should not create icf_master_tracker_change on save if no change" do

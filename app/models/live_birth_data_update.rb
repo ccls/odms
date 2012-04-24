@@ -32,6 +32,46 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 	end
 
 
+
+#
+#	to_candidate_controls is being deprecated in favor of parse.
+#
+#	most of the column names have changed
+#
+#	the icf_master_tracker uses a unique icf_master_id.
+#	the birth data doesn't have the icf_master_id so
+#		which column is the unique defining column?
+#		state_id_no or something
+#
+#	def parse
+#		results = []
+#		if !self.csv_file_file_name.blank? &&
+#				File.exists?(self.csv_file.path)
+#			(f=FasterCSV.open( self.csv_file.path, 'rb',{
+#				:headers => true })).each do |line|
+#
+##				icf_master_tracker = IcfMasterTracker.find_or_create_by_master_id(
+##					line['master_id'],
+##					:master_tracker_date => self.master_tracker_date )
+#
+#				successfully_updated = birth_data.update_attributes!(
+#					line.to_hash.delete_keys!(
+##						'master_id').merge(
+##						:master_tracker_date => self.master_tracker_date) )
+#
+#				results.push(birth_data)
+#			end	#	(f=FasterCSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
+#		end	#	if !self.csv_file_file_name.blank? && File.exists?(self.csv_file.path)
+#		results	#	TODO why am I returning anything?  will I use this later?
+#	end	#	def parse
+
+
+
+
+
+
+
+
 	def to_candidate_controls
 		results = []
 		if !self.csv_file_file_name.blank? &&
