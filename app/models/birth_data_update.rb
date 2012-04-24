@@ -52,12 +52,12 @@ class BirthDataUpdate < ActiveRecord::Base
 #
 ##				icf_master_tracker = IcfMasterTracker.find_or_create_by_master_id(
 ##					line['master_id'],
-##					:master_tracker_date => self.master_tracker_date )
+##					:birth_data_update_id => self.id )
 #
 #				successfully_updated = birth_data.update_attributes!(
 #					line.to_hash.delete_keys!(
 ##						'master_id').merge(
-##						:master_tracker_date => self.master_tracker_date) )
+##					:birth_data_update_id => self.id ) )
 #
 #				results.push(birth_data)
 #			end	#	(f=FasterCSV.open( self.csv_file.path, 'rb',{ :headers => true })).each

@@ -8,6 +8,10 @@ class BirthData < ActiveRecord::Base
 #	This will be true in named routes.
 #
 
+	# purely for passing to Change from the Update
+	attr_accessor :birth_data_update_id
+
+
 #	gotta use after_* so that have own id to pass
 
 #	still need to know which field is the unique one.
@@ -20,19 +24,21 @@ class BirthData < ActiveRecord::Base
 
 	def create_new_data_record_change
 #		BirthDataChange.create!({
-#			:birth_data_id   => self.id,
-#			:new_data_record => true
+#			:birth_data_id        => self.id,
+#			:birth_data_update_id => self.birth_data_update_id,
+#			:new_data_record      => true
 #		})
 	end
 
 	def create_data_record_changes
 #		unignorable_changes.each do |field,values|
 #			BirthDataChange.create!({
-#				:birth_data_id   => self.id,
-#				:new_data_record => false,
-#				:modified_column     => field,
-#				:previous_value      => values[0],
-#				:new_value           => values[1]
+#				:birth_data_id        => self.id,
+#				:birth_data_update_id => self.birth_data_update_id,
+#				:new_data_record      => false,
+#				:modified_column      => field,
+#				:previous_value       => values[0],
+#				:new_value            => values[1]
 #			})
 #		end
 	end
