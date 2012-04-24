@@ -12,7 +12,7 @@ require 'factory_test_helper'
 #	They must be explicitly included in the test classes
 #		that use them.
 require 'icf_master_tracker_update_test_helper'
-require 'live_birth_data_update_test_helper'
+require 'birth_data_update_test_helper'
 
 class ActiveSupport::TestCase
 

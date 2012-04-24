@@ -395,17 +395,17 @@ Factory.define :birth_data do |f|
 end
 Factory.define :birth_data_change do |f|
 end
-Factory.define :live_birth_data_update do |f|
+Factory.define :birth_data_update do |f|
 	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/assets/empty_live_birth_data_update_test_file.csv', 'text/csv')
+		'test/assets/empty_birth_data_update_test_file.csv', 'text/csv')
 end
-Factory.define :empty_live_birth_data_update, 
-	:parent => :live_birth_data_update do |f|
+Factory.define :empty_birth_data_update, 
+	:parent => :birth_data_update do |f|
 end
-Factory.define :one_record_live_birth_data_update, 
-	:parent => :live_birth_data_update do |f|
+Factory.define :one_record_birth_data_update, 
+	:parent => :birth_data_update do |f|
 	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/assets/one_record_live_birth_data_update_test_file.csv', 'text/csv')
+		'test/assets/one_record_birth_data_update_test_file.csv', 'text/csv')
 end
 
 Factory.define :language do |f|

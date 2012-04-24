@@ -1,8 +1,8 @@
-class LiveBirthDataUpdate < ActiveRecord::Base
+class BirthDataUpdate < ActiveRecord::Base
 
 	has_attached_file :csv_file,
 		YAML::load(ERB.new(IO.read(File.expand_path(
-			File.join(File.dirname(__FILE__),'../..','config/live_birth_data_update.yml')
+			File.join(File.dirname(__FILE__),'../..','config/birth_data_update.yml')
 		))).result)[Rails.env]
 
 	validates_attachment_presence     :csv_file
@@ -184,7 +184,7 @@ class LiveBirthDataUpdate < ActiveRecord::Base
 	end
 
 	def expected_column_names
-		LiveBirthDataUpdate.expected_column_names
+		BirthDataUpdate.expected_column_names
 	end
 
 end

@@ -1,36 +1,36 @@
 require 'test_helper'
 
-class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
-	include LiveBirthDataUpdateTestHelper
+class BirthDataUpdatesControllerTest < ActionController::TestCase
+	include BirthDataUpdateTestHelper
 
 	#
 	#	NOTE that paperclip attachments apparently don't get removed
 	#		so we must do it on our own.  In addition, if the test
 	#		fails before you do so, these files end up lying around.
 	#		A bit of a pain in the butt.  So I added this explicit
-	#		cleanup of the live_birth_data_update csv_files.
+	#		cleanup of the birth_data_update csv_files.
 	#		Works very nicely.
 	#
 	
 	#	setup :turn_off_paperclip_logging
 
-	teardown :delete_all_possible_live_birth_data_update_attachments
-	def delete_all_possible_live_birth_data_update_attachments
-		#	/bin/rm -rf test/live_birth_data_update
-		FileUtils.rm_rf('test/live_birth_data_update')
+	teardown :delete_all_possible_birth_data_update_attachments
+	def delete_all_possible_birth_data_update_attachments
+		#	/bin/rm -rf test/birth_data_update
+		FileUtils.rm_rf('test/birth_data_update')
 	end
 
 	ASSERT_ACCESS_OPTIONS = {
-		:model => 'LiveBirthDataUpdate',
+		:model => 'BirthDataUpdate',
 		:actions => [:new,:create,:edit,:update,:show,:destroy,:index],
 		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_live_birth_data_update
+		:method_for_create => :create_birth_data_update
 	}
-	#	LiveBirthDataUpdate have no attributes other than the csv_file
+	#	BirthDataUpdate have no attributes other than the csv_file
 	#	so need to add the updated_at to force a difference
 	#	on update.
 	def factory_attributes(options={})
-		Factory.attributes_for(:live_birth_data_update,{
+		Factory.attributes_for(:birth_data_update,{
 			:updated_at => Time.now }.merge(options))
 	end
 
@@ -42,71 +42,71 @@ class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
 
 		test "should create with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-#			create_live_birth_data_update_test_file
-			assert_difference('LiveBirthDataUpdate.count',1) {
-				post :create, :live_birth_data_update => factory_attributes
+#			create_birth_data_update_test_file
+			assert_difference('BirthDataUpdate.count',1) {
+				post :create, :birth_data_update => factory_attributes
 #					:csv_file => Rack::Test::UploadedFile.new(csv_test_file_name)
 #				}
 			}
 			assert_not_nil flash[:notice]
-			assert_not_nil assigns(:live_birth_data_update).csv_file_file_name
-#			assert_equal   assigns(:live_birth_data_update).csv_file_file_name, csv_test_file_name
-			assert_not_nil assigns(:live_birth_data_update).csv_file_content_type
-			assert_not_nil assigns(:live_birth_data_update).csv_file_file_size
-			assert_not_nil assigns(:live_birth_data_update).csv_file_updated_at
+			assert_not_nil assigns(:birth_data_update).csv_file_file_name
+#			assert_equal   assigns(:birth_data_update).csv_file_file_name, csv_test_file_name
+			assert_not_nil assigns(:birth_data_update).csv_file_content_type
+			assert_not_nil assigns(:birth_data_update).csv_file_file_size
+			assert_not_nil assigns(:birth_data_update).csv_file_updated_at
 		end
 
 #	should I allow editting the file?
 
 		test "should update with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-			live_birth_data_update = Factory(:live_birth_data_update)
-#			assert_nil live_birth_data_update.csv_file_file_name
-#			create_live_birth_data_update_test_file
-			assert_difference('LiveBirthDataUpdate.count',0) {
-				put :update, :id => live_birth_data_update.id, 
-					:live_birth_data_update => factory_attributes
+			birth_data_update = Factory(:birth_data_update)
+#			assert_nil birth_data_update.csv_file_file_name
+#			create_birth_data_update_test_file
+			assert_difference('BirthDataUpdate.count',0) {
+				put :update, :id => birth_data_update.id, 
+					:birth_data_update => factory_attributes
 #					:csv_file => Rack::Test::UploadedFile.new(csv_test_file_name)
 #				}
 			}
-			live_birth_data_update.reload
+			birth_data_update.reload
 			assert_not_nil flash[:notice]
-			assert_not_nil live_birth_data_update.csv_file_file_name
-#			assert_equal   live_birth_data_update.csv_file_file_name, csv_test_file_name
-			assert File.exists?(live_birth_data_update.csv_file.path)
-			assert_not_nil live_birth_data_update.csv_file_content_type
-			assert_not_nil live_birth_data_update.csv_file_file_size
-			assert_not_nil live_birth_data_update.csv_file_updated_at
+			assert_not_nil birth_data_update.csv_file_file_name
+#			assert_equal   birth_data_update.csv_file_file_name, csv_test_file_name
+			assert File.exists?(birth_data_update.csv_file.path)
+			assert_not_nil birth_data_update.csv_file_content_type
+			assert_not_nil birth_data_update.csv_file_file_size
+			assert_not_nil birth_data_update.csv_file_updated_at
 		end
 
 #	should I allow destroying?
 
 		test "should destroy with csv_file attachment and #{cu} login" do
 			login_as send(cu)
-			live_birth_data_update = Factory(:live_birth_data_update)
-			assert_difference('LiveBirthDataUpdate.count',-1) {
-				delete :destroy, :id => live_birth_data_update.id
+			birth_data_update = Factory(:birth_data_update)
+			assert_difference('BirthDataUpdate.count',-1) {
+				delete :destroy, :id => birth_data_update.id
 			}
 		end
 
 		test "should parse with #{cu} login" do
 			login_as send(cu)
-			create_case_for_live_birth_data_update
-			live_birth_data_update = create_test_file_and_live_birth_data_update
+			create_case_for_birth_data_update
+			birth_data_update = create_test_file_and_birth_data_update
 			assert_difference('CandidateControl.count',1){
-				post :parse, :id => live_birth_data_update.id
+				post :parse, :id => birth_data_update.id
 			}
 			assert assigns(:csv_lines)
 			assert assigns(:results)
 			assert_template 'parse'
-			cleanup_live_birth_data_update_and_test_file
+			cleanup_birth_data_update_and_test_file
 		end
 
 		test "should parse with #{cu} login and empty csv_file" do
 			login_as send(cu)
-			live_birth_data_update = Factory(:empty_live_birth_data_update)
+			birth_data_update = Factory(:empty_birth_data_update)
 			assert_difference('CandidateControl.count',0){
-				post :parse, :id => live_birth_data_update.id
+				post :parse, :id => birth_data_update.id
 			}
 			assert_nil flash[:error]
 			assert assigns(:csv_lines)
@@ -116,13 +116,13 @@ class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
 
 		test "should parse with #{cu} login and missing csv_file" do
 			login_as send(cu)
-			live_birth_data_update = Factory(:live_birth_data_update)
-			File.delete(live_birth_data_update.csv_file.path)
+			birth_data_update = Factory(:birth_data_update)
+			File.delete(birth_data_update.csv_file.path)
 			assert_difference('CandidateControl.count',0){
-				post :parse, :id => live_birth_data_update.id
+				post :parse, :id => birth_data_update.id
 			}
 			assert_not_nil flash[:error]
-			assert_redirected_to assigns(:live_birth_data_update)
+			assert_redirected_to assigns(:birth_data_update)
 		end
 
 		test "should parse with #{cu} login and real csv_file" do
@@ -152,13 +152,13 @@ class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
 			Factory(:icf_master_id,:icf_master_id => '16655682G')
 			s3.assign_icf_master_id
 	
-			live_birth_data_update = Factory(:live_birth_data_update,
+			birth_data_update = Factory(:birth_data_update,
 				:csv_file => File.open('test-livebirthdata_011912.csv') )
-			assert_not_nil live_birth_data_update.csv_file_file_name
+			assert_not_nil birth_data_update.csv_file_file_name
 	
 			#	35 lines - 1 header - 3 cases = 31
 			assert_difference('CandidateControl.count',31){
-				post :parse, :id => live_birth_data_update.id
+				post :parse, :id => birth_data_update.id
 			}
 			assert assigns(:csv_lines)
 			assert assigns(:results)
@@ -174,7 +174,7 @@ class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
 					puts r.errors.full_messages.to_sentence
 				end
 			}
-			live_birth_data_update.destroy
+			birth_data_update.destroy
 		end
 
 	end
@@ -183,23 +183,23 @@ class LiveBirthDataUpdatesControllerTest < ActionController::TestCase
 
 		test "should not parse with #{cu} login" do
 			login_as send(cu)
-			create_case_for_live_birth_data_update
-			live_birth_data_update = create_test_file_and_live_birth_data_update
+			create_case_for_birth_data_update
+			birth_data_update = create_test_file_and_birth_data_update
 			assert_difference('CandidateControl.count',0){
-				post :parse, :id => live_birth_data_update.id
+				post :parse, :id => birth_data_update.id
 			}
-			cleanup_live_birth_data_update_and_test_file
+			cleanup_birth_data_update_and_test_file
 		end
 
 	end
 
 	test "should not parse without login" do
-		create_case_for_live_birth_data_update
-		live_birth_data_update = create_test_file_and_live_birth_data_update
+		create_case_for_birth_data_update
+		birth_data_update = create_test_file_and_birth_data_update
 		assert_difference('CandidateControl.count',0){
-			post :parse, :id => live_birth_data_update.id
+			post :parse, :id => birth_data_update.id
 		}
-		cleanup_live_birth_data_update_and_test_file
+		cleanup_birth_data_update_and_test_file
 	end
 
 end

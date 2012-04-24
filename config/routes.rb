@@ -188,7 +188,7 @@ end
 	resources :icf_master_tracker_updates do 
 		member { post :parse }
 	end
-	resources :live_birth_data_updates do 
+	resources :birth_data_updates do 
 		member { post :parse }
 	end
 

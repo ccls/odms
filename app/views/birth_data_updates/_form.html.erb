@@ -1,0 +1,13 @@
+<h4><%= ( (@birth_data_update.new_record?)?'Creating':'Editting' ) %> birth_data_update</h4>
+
+<%= form_for(@birth_data_update, :html => { :multipart => true } ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_file_field :csv_file, :label_text => "CSV File" %>
+<p><%= f.object.csv_file_file_name unless f.object.csv_file_file_name.blank? %></p>
+<p>
+<%= f.submit( (@birth_data_update.new_record?)?'Create':'Update' ) %>
+<%= link_to( 'Show', @birth_data_update, :class => 'button' 
+	) unless(@birth_data_update.new_record?)  %>
+<%= link_to( 'Back', birth_data_updates_path, :class => 'button' ) %>
+</p>
+<% end %>

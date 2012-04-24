@@ -1,0 +1,23 @@
+<h4>Listing birth_data_updates</h4>
+
+<% if @birth_data_updates.length > 0 %>
+<table id='birth_data_updates'>
+<thead><tr><th>file name</th><th>&nbsp;</th></tr></thead>
+<tbody>
+<% @birth_data_updates.each do |birth_data_update| %>
+  <tr class='row'>
+    <td><%= birth_data_update.csv_file_file_name || '&nbsp;'.html_safe %></td>
+    <td class='manage'>
+<%= link_to( 'Show', birth_data_update, :class => 'button' ) %>
+<%= link_to( 'Edit', edit_birth_data_update_path(birth_data_update), :class => 'button' ) %>
+<%= button_to( 'Destroy', birth_data_update, :method => 'delete', :form_class => 'destroy_link_to' ) %></td>
+  </tr>
+<% end %>
+</tbody></table>
+<% else %>
+<p>Sorry, no birth datas yet.</p>
+<% end %>
+
+<br />
+
+<%= link_to( 'New birth_data_update', new_birth_data_update_path, :class => 'button' ) %>

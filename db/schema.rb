@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424191032) do
+ActiveRecord::Schema.define(:version => 20120424210109) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -529,6 +529,26 @@ ActiveRecord::Schema.define(:version => 20120424191032) do
     t.boolean  "vacuum_attempt_unsuccessful"
     t.datetime "created_at",                                                       :null => false
     t.datetime "updated_at",                                                       :null => false
+  end
+
+  create_table "birth_data_changes", :force => true do |t|
+    t.integer  "birth_data_update_id"
+    t.integer  "birth_data_id"
+    t.boolean  "new_data_record",      :default => false, :null => false
+    t.string   "modified_column"
+    t.string   "previous_value"
+    t.string   "new_value"
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+  end
+
+  create_table "birth_data_updates", :force => true do |t|
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.string   "csv_file_file_name"
+    t.string   "csv_file_content_type"
+    t.integer  "csv_file_file_size"
+    t.datetime "csv_file_updated_at"
   end
 
   create_table "candidate_controls", :force => true do |t|
@@ -1080,15 +1100,6 @@ ActiveRecord::Schema.define(:version => 20120424191032) do
   end
 
   add_index "languages", ["key"], :name => "index_languages_on_key", :unique => true
-
-  create_table "live_birth_data_updates", :force => true do |t|
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-    t.string   "csv_file_file_name"
-    t.string   "csv_file_content_type"
-    t.integer  "csv_file_file_size"
-    t.datetime "csv_file_updated_at"
-  end
 
   create_table "operational_event_types", :force => true do |t|
     t.integer  "position"
