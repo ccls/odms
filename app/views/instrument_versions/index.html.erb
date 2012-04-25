@@ -1,0 +1,13 @@
+<h4>InstrumentVersions:</h4>
+<% unless @instument_versions.empty? %>
+ <table id='instument_versions'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'instument_version', :collection => @instument_versions %>
+ </tbody></table><!-- id='instument_versions' -->
+<% else %>
+ <p>Sorry, no instument_versions yet.</p>
+<% end %>
+<p><%= link_to( "Create new instument_version", new_instument_version_path,
+	:class => 'button' ) %></p>
