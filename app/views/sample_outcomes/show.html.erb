@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @sample_outcome.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @sample_outcome.description %>
+</p>
+
+<%= link_to( 'Edit', edit_sample_outcome_path(@sample_outcome), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', sample_outcomes_path, :class => 'button' ) %>

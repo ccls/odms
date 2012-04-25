@@ -195,6 +195,7 @@ end
 	resources :interview_methods
 	resources :interview_outcomes
 	resources :project_outcomes
+	resources :sample_outcomes
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]
