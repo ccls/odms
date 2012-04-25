@@ -1,0 +1,9 @@
+<%= form_for(@interview_method, :html => { :class => 'edit_interview_method'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_text_field :key %>
+<%= f.wrapped_text_field :description %>
+<p>
+<%= f.submit( (@interview_method.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', interview_methods_path, :class => 'button' %>
+</p>
+<% end %>
