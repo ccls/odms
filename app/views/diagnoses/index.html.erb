@@ -1,0 +1,13 @@
+<h4>Diagnoses:</h4>
+<% unless @diagnoses.empty? %>
+ <table id='diagnoses'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'diagnosis', :collection => @diagnoses %>
+ </tbody></table><!-- id='diagnoses' -->
+<% else %>
+ <p>Sorry, no diagnoses yet.</p>
+<% end %>
+<p><%= link_to( "Create new diagnosis", new_diagnosis_path,
+	:class => 'button' ) %></p>
