@@ -1,6 +1,7 @@
 <%= content_tag_for( :tr, instrument_version, :class => 'row' ) do %>
  <td class='key'><%= instrument_version.key -%></td>
  <td class='description'><%= instrument_version.description -%></td>
+ <td class='instrument_type'><%= instrument_version.instrument_type -%></td>
  <td class='manage'>
 <%= link_to( "View", instrument_version_path(instrument_version), :class => 'button' ) -%>&nbsp;
 <%= link_to( "Edit", edit_instrument_version_path(instrument_version), :class => 'button' ) -%>&nbsp;

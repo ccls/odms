@@ -8,5 +8,10 @@
   <%=h @instrument_version.description %>
 </p>
 
+<p>
+  <b>Instrument Type:</b>
+  <%=h @instrument_version.instrument_type %>
+</p>
+
 <%= link_to( 'Edit', edit_instrument_version_path(@instrument_version), :class => 'button' ) 
 -%>&nbsp;<%= link_to( 'Back', instrument_versions_path, :class => 'button' ) %>
