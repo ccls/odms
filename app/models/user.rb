@@ -136,7 +136,7 @@ class User < ActiveRecord::Base
 	%w(	address_types data_sources diagnoses document_types
 			document_versions follow_up_types gift_cards 
 			icf_master_trackers
-			icf_master_tracker_updates ineligible_reasons languages 
+			icf_master_tracker_updates ineligible_reasons instrument_types languages 
 			birth_data_updates people phone_types races refusal_reasons 
 			sample_kits sample_types ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
