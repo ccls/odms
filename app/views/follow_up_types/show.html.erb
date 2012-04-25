@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @follow_up_type.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @follow_up_type.description %>
+</p>
+
+<%= link_to( 'Edit', edit_follow_up_type_path(@follow_up_type), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', follow_up_types_path, :class => 'button' ) %>

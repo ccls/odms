@@ -1,0 +1,13 @@
+<h4>FollowUpTypes:</h4>
+<% unless @follow_up_types.empty? %>
+ <table id='follow_up_types'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'follow_up_type', :collection => @follow_up_types %>
+ </tbody></table><!-- id='follow_up_types' -->
+<% else %>
+ <p>Sorry, no follow_up_types yet.</p>
+<% end %>
+<p><%= link_to( "Create new follow_up_type", new_follow_up_type_path,
+	:class => 'button' ) %></p>

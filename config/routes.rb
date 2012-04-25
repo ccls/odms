@@ -188,6 +188,7 @@ end
 	resources :diagnoses
 	resources :sample_types
 	resources :document_types
+	resources :follow_up_types
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]
