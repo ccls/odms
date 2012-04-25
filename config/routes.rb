@@ -202,6 +202,7 @@ end
 	resources :subject_types
 	resources :vital_statuses
 	resources :tracing_statuses
+	resources :units
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]

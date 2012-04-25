@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @unit.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @unit.description %>
+</p>
+
+<%= link_to( 'Edit', edit_unit_path(@unit), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', units_path, :class => 'button' ) %>

@@ -143,7 +143,7 @@ class User < ActiveRecord::Base
 			races refusal_reasons 
 			sample_formats sample_kits sample_outcomes sample_temperatures
 			sample_types subject_relationships subject_types 
-			tracing_statuses vital_statuses ).each do |resource|
+			tracing_statuses units vital_statuses ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_administrate?

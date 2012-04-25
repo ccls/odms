@@ -1,0 +1,9 @@
+<%= form_for(@unit, :html => { :class => 'edit_unit'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_text_field :key %>
+<%= f.wrapped_text_field :description %>
+<p>
+<%= f.submit( (@unit.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', units_path, :class => 'button' %>
+</p>
+<% end %>

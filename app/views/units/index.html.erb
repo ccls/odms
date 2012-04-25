@@ -1,0 +1,13 @@
+<h4>Units:</h4>
+<% unless @units.empty? %>
+ <table id='units'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'unit', :collection => @units %>
+ </tbody></table><!-- id='units' -->
+<% else %>
+ <p>Sorry, no units yet.</p>
+<% end %>
+<p><%= link_to( "Create new unit", new_unit_path,
+	:class => 'button' ) %></p>
