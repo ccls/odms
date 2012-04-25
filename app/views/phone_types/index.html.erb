@@ -1,0 +1,13 @@
+<h4>PhoneTypes:</h4>
+<% unless @phone_types.empty? %>
+ <table id='phone_types'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'phone_type', :collection => @phone_types %>
+ </tbody></table><!-- id='phone_types' -->
+<% else %>
+ <p>Sorry, no phone_types yet.</p>
+<% end %>
+<p><%= link_to( "Create new phone_type", new_phone_type_path,
+	:class => 'button' ) %></p>

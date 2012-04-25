@@ -135,7 +135,7 @@ class User < ActiveRecord::Base
 	# Controllers solely accessible by administrators.
 	%w(	address_types document_versions gift_cards icf_master_trackers
 			icf_master_tracker_updates ineligible_reasons languages 
-			birth_data_updates people races refusal_reasons 
+			birth_data_updates people phone_types races refusal_reasons 
 			sample_kits ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?

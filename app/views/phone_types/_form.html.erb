@@ -1,0 +1,9 @@
+<%= form_for(@phone_type, :html => { :class => 'edit_phone_type'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_text_field :key %>
+<%= f.wrapped_text_field :description %>
+<p>
+<%= f.submit( (@phone_type.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', phone_types_path, :class => 'button' %>
+</p>
+<% end %>
