@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @subject_type.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @subject_type.description %>
+</p>
+
+<%= link_to( 'Edit', edit_subject_type_path(@subject_type), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', subject_types_path, :class => 'button' ) %>
