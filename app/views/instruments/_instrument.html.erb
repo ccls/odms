@@ -1,0 +1,13 @@
+<%= content_tag_for( :tr, instrument, :class => 'row' ) do %>
+ <td class='key'><%= instrument.key -%></td>
+ <td class='name'><%= instrument.name -%></td>
+ <td class='description'><%= instrument.description -%></td>
+ <td class='manage'>
+<%= link_to( "View", instrument_path(instrument), :class => 'button' ) -%>&nbsp;
+<%= link_to( "Edit", edit_instrument_path(instrument), :class => 'button' ) -%>&nbsp;
+<%= form_tag instrument, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy instrument '#{instrument}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+ </td>
+<% end %><!-- class='instrument' -->

@@ -1,0 +1,14 @@
+<h4>Instruments:</h4>
+<% unless @instruments.empty? %>
+ <table id='instruments'><thead><tr>
+  <th>Key</th>
+  <th>Name</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'instrument', :collection => @instruments %>
+ </tbody></table><!-- id='instruments' -->
+<% else %>
+ <p>Sorry, no instruments yet.</p>
+<% end %>
+<p><%= link_to( "Create new instrument", new_instrument_path,
+	:class => 'button' ) %></p>

@@ -1,16 +1,16 @@
 require 'test_helper'
 
-class InstrumentVersionsControllerTest < ActionController::TestCase
+class InstrumentsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
-		:model => 'InstrumentVersion',
+		:model => 'Instrument',
 		:actions => [:new,:create,:edit,:update,:show,:index,:destroy],
 		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_instrument_version
+		:method_for_create => :create_instrument
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:instrument_version,options)
+		Factory.attributes_for(:instrument,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

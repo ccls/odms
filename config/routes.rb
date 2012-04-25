@@ -191,6 +191,7 @@ end
 	resources :follow_up_types
 	resources :instrument_types
 	resources :instrument_versions
+	resources :instruments
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]

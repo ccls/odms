@@ -1,0 +1,10 @@
+<%= form_for(@instrument, :html => { :class => 'edit_instrument'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_text_field :key %>
+<%= f.wrapped_text_field :name %>
+<%= f.wrapped_text_field :description %>
+<p>
+<%= f.submit( (@instrument.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', instruments_path, :class => 'button' %>
+</p>
+<% end %>

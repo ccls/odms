@@ -1,9 +1,9 @@
-<%= form_for(@instument_version, :html => { :class => 'edit_instument_version'} ) do |f| %>
+<%= form_for(@instrument_version, :html => { :class => 'edit_instrument_version'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>
 <%= f.wrapped_text_field :description %>
 <p>
-<%= f.submit( (@instument_version.new_record?)? "Create" : "Update" )%>&nbsp;
-<%= link_to 'Back', instument_versions_path, :class => 'button' %>
+<%= f.submit( (@instrument_version.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', instrument_versions_path, :class => 'button' %>
 </p>
 <% end %>
