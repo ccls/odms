@@ -1,6 +1,6 @@
 <%= content_tag_for( :tr, organization, :class => 'row' ) do %>
  <td class='key'><%= organization.key -%></td>
- <td class='description'><%= organization.description -%></td>
+ <td class='name'><%= organization.name -%></td>
  <td class='manage'>
 <%= link_to( "View", organization_path(organization), :class => 'button' ) -%>&nbsp;
 <%= link_to( "Edit", edit_organization_path(organization), :class => 'button' ) -%>&nbsp;

@@ -1,7 +1,7 @@
 <%= form_for(@organization, :html => { :class => 'edit_organization'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>
-<%= f.wrapped_text_field :description %>
+<%= f.wrapped_text_field :name %>
 <p>
 <%= f.submit( (@organization.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', organizations_path, :class => 'button' %>
