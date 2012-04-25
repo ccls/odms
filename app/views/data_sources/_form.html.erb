@@ -4,6 +4,15 @@
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>
 <%= f.wrapped_text_field :description %>
+<%#= f.wrapped_text_field :data_origin %>
+<%#= f.wrapped_collection_select :organization_id, Organization.all, 
+  :id, :to_s, :include_blank => true,
+  :label_text => "Organization" %>
+<%#= f.wrapped_text_field :other_organization %>
+<%#= f.wrapped_collection_select :person_id, Person.all, 
+  :id, :to_s, :include_blank => true,
+  :label_text => "Person" %>
+<%#= f.wrapped_text_field :other_person %>
 <p>
 <%= f.submit( (@data_source.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', data_sources_path, :class => 'button' %>

@@ -7,6 +7,12 @@
   <b>Description:</b>
   <%=h @project_outcome.description %>
 </p>
+<!--
+<p>
+  <b>Project:</b>
+  <%#=h @project_outcome.project %>
+</p>
+-->
 
 <%= link_to( 'Edit', edit_project_outcome_path(@project_outcome), :class => 'button' ) 
 -%>&nbsp;<%= link_to( 'Back', project_outcomes_path, :class => 'button' ) %>

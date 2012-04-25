@@ -7,6 +7,14 @@
 <%= f.wrapped_collection_select :instrument_type_id, InstrumentType.all, 
   :id, :to_s, :include_blank => true,
   :label_text => "Instrument Type" %>
+<%= f.wrapped_collection_select :language_id, Language.all, 
+  :id, :to_s, :include_blank => true,
+  :label_text => "Language" %>
+<%= f.wrapped_collection_select :instrument_id, Instrument.all, 
+  :id, :to_s, :include_blank => true,
+  :label_text => "Instrument" %>
+<%= f.wrapped_date_text_field :began_use_on %>
+<%= f.wrapped_date_text_field :ended_use_on %>
 <p>
 <%= f.submit( (@instrument_version.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', instrument_versions_path, :class => 'button' %>

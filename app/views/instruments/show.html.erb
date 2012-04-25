@@ -18,5 +18,20 @@
   <%=h @instrument.project %>
 </p>
 
+<p>
+  <b>Interview Method:</b>
+  <%=h @instrument.interview_method %>
+</p>
+
+<p>
+  <b>Began Use On:</b>
+  <%=mdy @instrument.began_use_on %>
+</p>
+
+<p>
+  <b>Ended Use On:</b>
+  <%=mdy @instrument.ended_use_on %>
+</p>
+
 <%= link_to( 'Edit', edit_instrument_path(@instrument), :class => 'button' ) 
 -%>&nbsp;<%= link_to( 'Back', instruments_path, :class => 'button' ) %>

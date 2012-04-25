@@ -1,4 +1,5 @@
 <%= content_tag_for( :tr, sample_type, :class => 'row' ) do %>
+ <td class='parent_id'><%= sample_type.parent_id -%></td>
  <td class='key'><%= sample_type.key -%></td>
  <td class='description'><%= sample_type.description -%></td>
  <td class='manage'>

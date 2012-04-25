@@ -8,6 +8,11 @@
 <%= f.wrapped_collection_select :project_id, Project.all, 
   :id, :to_s, :include_blank => true,
   :label_text => "Project" %>
+<%= f.wrapped_collection_select :interview_method_id, InterviewMethod.all, 
+  :id, :to_s, :include_blank => true,
+  :label_text => "InterviewMethod" %>
+<%= f.wrapped_date_text_field :began_use_on %>
+<%= f.wrapped_date_text_field :ended_use_on %>
 <p>
 <%= f.submit( (@instrument.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', instruments_path, :class => 'button' %>

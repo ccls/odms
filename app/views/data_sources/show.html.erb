@@ -7,6 +7,31 @@
   <b>Description:</b>
   <%=h @data_source.description %>
 </p>
+<!--
+<p>
+  <b>Data Origin:</b>
+  <%#=h @data_source.data_origin %>
+</p>
 
+<p>
+  <b>Organization:</b>
+  <%#=h @data_source.organization %>
+</p>
+
+<p>
+  <b>Other Organization:</b>
+  <%#=h @data_source.other_organization %>
+</p>
+
+<p>
+  <b>Person:</b>
+  <%#=h @data_source.person %>
+</p>
+
+<p>
+  <b>Other Person:</b>
+  <%#=h @data_source.other_person %>
+</p>
+-->
 <%= link_to( 'Edit', edit_data_source_path(@data_source), :class => 'button' ) 
 -%>&nbsp;<%= link_to( 'Back', data_sources_path, :class => 'button' ) %>

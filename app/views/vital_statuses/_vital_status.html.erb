@@ -1,5 +1,8 @@
 <%= content_tag_for( :tr, vital_status, :class => 'row' ) do %>
  <td class='key'><%= vital_status.key -%></td>
+<!--
+ <td class='code'><%#= vital_status.code -%></td>
+-->
  <td class='description'><%= vital_status.description -%></td>
  <td class='manage'>
 <%= link_to( "View", vital_status_path(vital_status), :class => 'button' ) -%>&nbsp;

@@ -2,6 +2,9 @@
 <% unless @vital_statuses.empty? %>
  <table id='vital_statuses'><thead><tr>
   <th>Key</th>
+<!--
+  <th>Code</th>
+-->
   <th>Description</th>
  </tr></thead><tbody>
   <%= render :partial => 'vital_status', :collection => @vital_statuses %>

@@ -13,7 +13,7 @@ class SampleTypesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@sample_types = SampleType.all
+		@sample_types = SampleType.order('parent_id ASC, id ASC')
 	end
 
 	def new
