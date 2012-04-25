@@ -139,9 +139,9 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 		test "should parse one record csv file with #{cu} login" do
 			login_as send(cu)
 			icf_master_tracker_update = Factory(:one_record_icf_master_tracker_update)
-#			assert_difference('IcfMasterTrackerChange.count',17){
-#	and now with the master_id changed
-			assert_difference('IcfMasterTrackerChange.count',18){
+			assert_difference('IcfMasterTrackerChange.count',17){
+#	and now with the master_id changed (irrelevant so changed callback)
+#			assert_difference('IcfMasterTrackerChange.count',18){
 			assert_difference('IcfMasterTracker.count',1){
 				post :parse, :id => icf_master_tracker_update.id
 			} }
@@ -193,9 +193,9 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 				:csv_file => File.open(real_data_file) )
 			assert_not_nil icf_master_tracker_update.csv_file_file_name
 
-#			assert_difference('IcfMasterTrackerChange.count',1861){
-#	and now with the master_id changed
-			assert_difference('IcfMasterTrackerChange.count',1958){
+			assert_difference('IcfMasterTrackerChange.count',1861){
+#	and now with the master_id changed (irrelevant so changed callback)
+#			assert_difference('IcfMasterTrackerChange.count',1958){
 			assert_difference('IcfMasterTracker.count',95){
 				post :parse, :id => icf_master_tracker_update.id
 			} }
