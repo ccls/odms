@@ -1,0 +1,14 @@
+<h4>DocumentTypes:</h4>
+<% unless @document_types.empty? %>
+ <table id='document_types'><thead><tr>
+  <th>Key</th>
+  <th>Title</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'document_type', :collection => @document_types %>
+ </tbody></table><!-- id='document_types' -->
+<% else %>
+ <p>Sorry, no document_types yet.</p>
+<% end %>
+<p><%= link_to( "Create new document_type", new_document_type_path,
+	:class => 'button' ) %></p>
