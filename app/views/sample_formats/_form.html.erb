@@ -1,0 +1,9 @@
+<%= form_for(@sample_format, :html => { :class => 'edit_sample_format'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_text_field :key %>
+<%= f.wrapped_text_field :description %>
+<p>
+<%= f.submit( (@sample_format.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', sample_formats_path, :class => 'button' %>
+</p>
+<% end %>

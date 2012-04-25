@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @sample_format.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @sample_format.description %>
+</p>
+
+<%= link_to( 'Edit', edit_sample_format_path(@sample_format), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', sample_formats_path, :class => 'button' ) %>

@@ -1,0 +1,12 @@
+<%= content_tag_for( :tr, sample_format, :class => 'row' ) do %>
+ <td class='key'><%= sample_format.key -%></td>
+ <td class='description'><%= sample_format.description -%></td>
+ <td class='manage'>
+<%= link_to( "View", sample_format_path(sample_format), :class => 'button' ) -%>&nbsp;
+<%= link_to( "Edit", edit_sample_format_path(sample_format), :class => 'button' ) -%>&nbsp;
+<%= form_tag sample_format, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy sample_format '#{sample_format}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+ </td>
+<% end %><!-- class='sample_format' -->
