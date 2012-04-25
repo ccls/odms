@@ -1,0 +1,14 @@
+<h4>OperationalEventTypes:</h4>
+<% unless @operational_event_types.empty? %>
+ <table id='operational_event_types'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+  <th>Event Category</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'operational_event_type', :collection => @operational_event_types %>
+ </tbody></table><!-- id='operational_event_types' -->
+<% else %>
+ <p>Sorry, no operational_event_types yet.</p>
+<% end %>
+<p><%= link_to( "Create new operational_event_type", new_operational_event_type_path,
+	:class => 'button' ) %></p>

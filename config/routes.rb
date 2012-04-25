@@ -99,7 +99,8 @@ end
 	resources :refusal_reasons
 	resources :ineligible_reasons
 	resources :zip_codes, :only => [ :index ]
-	resources :operational_event_types, :only => [] do
+#	resources :operational_event_types, :only => [] do
+	resources :operational_event_types do
 		collection { get 'options' }
 	end
 

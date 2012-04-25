@@ -1,0 +1,10 @@
+<%= form_for(@operational_event_type, :html => { :class => 'edit_operational_event_type'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_text_field :key %>
+<%= f.wrapped_text_field :description %>
+<%= f.wrapped_text_field :event_category %>
+<p>
+<%= f.submit( (@operational_event_type.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', operational_event_types_path, :class => 'button' %>
+</p>
+<% end %>

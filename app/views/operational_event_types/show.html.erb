@@ -1,0 +1,17 @@
+<p>
+  <b>Key:</b>
+  <%=h @operational_event_type.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @operational_event_type.description %>
+</p>
+
+<p>
+  <b>Event Category:</b>
+  <%=h @operational_event_type.event_category %>
+</p>
+
+<%= link_to( 'Edit', edit_operational_event_type_path(@operational_event_type), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', operational_event_types_path, :class => 'button' ) %>

@@ -1,0 +1,13 @@
+<%= content_tag_for( :tr, operational_event_type, :class => 'row' ) do %>
+ <td class='key'><%= operational_event_type.key -%></td>
+ <td class='description'><%= operational_event_type.description -%></td>
+ <td class='event_category'><%= operational_event_type.event_category -%></td>
+ <td class='manage'>
+<%= link_to( "View", operational_event_type_path(operational_event_type), :class => 'button' ) -%>&nbsp;
+<%= link_to( "Edit", edit_operational_event_type_path(operational_event_type), :class => 'button' ) -%>&nbsp;
+<%= form_tag operational_event_type, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy operational_event_type '#{operational_event_type}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+ </td>
+<% end %><!-- class='operational_event_type' -->

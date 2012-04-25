@@ -140,7 +140,7 @@ class User < ActiveRecord::Base
 			instruments instrument_types instrument_versions 
 			interview_methods interview_outcomes languages 
 			birth_data_updates 
-			organizations
+			operational_event_types organizations
 			people phone_types project_outcomes
 			races refusal_reasons 
 			sample_formats sample_kits sample_outcomes sample_temperatures
