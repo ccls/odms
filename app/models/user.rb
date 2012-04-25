@@ -139,7 +139,9 @@ class User < ActiveRecord::Base
 			icf_master_tracker_updates ineligible_reasons 
 			instruments instrument_types instrument_versions 
 			interview_methods interview_outcomes languages 
-			birth_data_updates people phone_types project_outcomes
+			birth_data_updates 
+			organizations
+			people phone_types project_outcomes
 			races refusal_reasons 
 			sample_formats sample_kits sample_outcomes sample_temperatures
 			sample_types subject_relationships subject_types 

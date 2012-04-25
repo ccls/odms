@@ -1,0 +1,13 @@
+<h4>Organizations:</h4>
+<% unless @organizations.empty? %>
+ <table id='organizations'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'organization', :collection => @organizations %>
+ </tbody></table><!-- id='organizations' -->
+<% else %>
+ <p>Sorry, no organizations yet.</p>
+<% end %>
+<p><%= link_to( "Create new organization", new_organization_path,
+	:class => 'button' ) %></p>
