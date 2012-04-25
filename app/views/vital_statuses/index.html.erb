@@ -1,0 +1,13 @@
+<h4>VitalStatuses:</h4>
+<% unless @vital_statuses.empty? %>
+ <table id='vital_statuses'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'vital_status', :collection => @vital_statuses %>
+ </tbody></table><!-- id='vital_statuses' -->
+<% else %>
+ <p>Sorry, no vital_statuses yet.</p>
+<% end %>
+<p><%= link_to( "Create new vital_status", new_vital_status_path,
+	:class => 'button' ) %></p>
