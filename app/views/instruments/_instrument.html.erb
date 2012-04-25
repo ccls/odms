@@ -2,6 +2,7 @@
  <td class='key'><%= instrument.key -%></td>
  <td class='name'><%= instrument.name -%></td>
  <td class='description'><%= instrument.description -%></td>
+ <td class='project'><%= instrument.project -%></td>
  <td class='manage'>
 <%= link_to( "View", instrument_path(instrument), :class => 'button' ) -%>&nbsp;
 <%= link_to( "Edit", edit_instrument_path(instrument), :class => 'button' ) -%>&nbsp;

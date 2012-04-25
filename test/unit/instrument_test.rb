@@ -40,11 +40,14 @@ class InstrumentTest < ActiveSupport::TestCase
 		assert_equal instrument.name, "#{instrument}"
 	end
 
-	test "should require project" do
+#	test "should require project" do
+	test "should NOT require project" do
 		instrument = Instrument.new( :project => nil)
-		assert !instrument.valid?
+#		assert !instrument.valid?
+		instrument.valid?
 		assert !instrument.errors.include?(:project)
-		assert  instrument.errors.matching?(:project_id,"can't be blank")
+#		assert  instrument.errors.matching?(:project_id,"can't be blank")
+		assert !instrument.errors.matching?(:project_id)
 	end
 
 	test "should require valid project" do

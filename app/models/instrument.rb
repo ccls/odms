@@ -7,7 +7,8 @@ class Instrument < ActiveRecord::Base
 	belongs_to :interview_method
 	has_many :instrument_versions
 
-	validates_presence_of   :project_id
+#	validates_presence_of   :project_id
+#		those in fixtures do not have projects
 	validates_presence_of   :project, :if => :project_id
 
 	validates_presence_of   :name

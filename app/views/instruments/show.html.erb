@@ -13,5 +13,10 @@
   <%=h @instrument.description %>
 </p>
 
+<p>
+  <b>Project:</b>
+  <%=h @instrument.project %>
+</p>
+
 <%= link_to( 'Edit', edit_instrument_path(@instrument), :class => 'button' ) 
 -%>&nbsp;<%= link_to( 'Back', instruments_path, :class => 'button' ) %>

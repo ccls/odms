@@ -18,6 +18,7 @@ homex:
 phase5:
   id: 2
   project_id: 8
+  key: ccls
   name: CCLS Phase 5 Leukemia Survey
   description:  Main Study Interview as modified for Phase 5 data collection.
   interview_method_id: 1
