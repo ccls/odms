@@ -193,6 +193,7 @@ end
 	resources :instrument_versions
 	resources :instruments
 	resources :interview_methods
+	resources :interview_outcomes
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]

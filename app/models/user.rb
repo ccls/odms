@@ -138,7 +138,7 @@ class User < ActiveRecord::Base
 			icf_master_trackers
 			icf_master_tracker_updates ineligible_reasons 
 			instruments instrument_types instrument_versions 
-			interview_methods languages 
+			interview_methods interview_outcomes languages 
 			birth_data_updates people phone_types races refusal_reasons 
 			sample_kits sample_types ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
