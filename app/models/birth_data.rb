@@ -19,7 +19,9 @@ class BirthData < ActiveRecord::Base
 	#	Fortunately, in rails 3, after_create seems to be called before after_save
 	#	I don't think that this was true in rails 2.
 	after_create :create_new_data_record_change
-	after_save   :create_data_record_changes
+#	after_save or after_update?
+#	after_save   :create_data_record_changes
+	after_update :create_data_record_changes
 
 
 	def create_new_data_record_change
