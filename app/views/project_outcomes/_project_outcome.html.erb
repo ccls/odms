@@ -1,0 +1,12 @@
+<%= content_tag_for( :tr, project_outcome, :class => 'row' ) do %>
+ <td class='key'><%= project_outcome.key -%></td>
+ <td class='description'><%= project_outcome.description -%></td>
+ <td class='manage'>
+<%= link_to( "View", project_outcome_path(project_outcome), :class => 'button' ) -%>&nbsp;
+<%= link_to( "Edit", edit_project_outcome_path(project_outcome), :class => 'button' ) -%>&nbsp;
+<%= form_tag project_outcome, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy project_outcome '#{project_outcome}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+ </td>
+<% end %><!-- class='project_outcome' -->

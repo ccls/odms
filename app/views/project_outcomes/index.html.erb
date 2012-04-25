@@ -1,0 +1,13 @@
+<h4>ProjectOutcomes:</h4>
+<% unless @project_outcomes.empty? %>
+ <table id='project_outcomes'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'project_outcome', :collection => @project_outcomes %>
+ </tbody></table><!-- id='project_outcomes' -->
+<% else %>
+ <p>Sorry, no project_outcomes yet.</p>
+<% end %>
+<p><%= link_to( "Create new project_outcome", new_project_outcome_path,
+	:class => 'button' ) %></p>

@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @project_outcome.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @project_outcome.description %>
+</p>
+
+<%= link_to( 'Edit', edit_project_outcome_path(@project_outcome), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', project_outcomes_path, :class => 'button' ) %>
