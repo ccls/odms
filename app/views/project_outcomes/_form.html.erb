@@ -1,3 +1,5 @@
+<h4><%= ( (@project_outcome.new_record?)?'Creating':'Editting' ) %> project_outcome</h4>
+
 <%= form_for(@project_outcome, :html => { :class => 'edit_project_outcome'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>

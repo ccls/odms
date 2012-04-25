@@ -1,3 +1,5 @@
+<h4><%= ( (@instrument_type.new_record?)?'Creating':'Editting' ) %> instrument_type</h4>
+
 <%= form_for(@instrument_type, :html => { :class => 'edit_instrument_type'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>

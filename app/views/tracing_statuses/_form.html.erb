@@ -1,3 +1,5 @@
+<h4><%= ( (@tracing_status.new_record?)?'Creating':'Editting' ) %> tracing_status</h4>
+
 <%= form_for(@tracing_status, :html => { :class => 'edit_tracing_status'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>

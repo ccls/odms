@@ -1,4 +1,5 @@
-<h4>Person:</h4>
+<h4><%= ( (@person.new_record?)?'Creating':'Editting' ) %> person</h4>
+
 <%= form_for(@person) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :honorific %>

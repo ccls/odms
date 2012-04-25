@@ -1,3 +1,5 @@
+<h4><%= ( (@operational_event_type.new_record?)?'Creating':'Editting' ) %> operational_event_type</h4>
+
 <%= form_for(@operational_event_type, :html => { :class => 'edit_operational_event_type'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>

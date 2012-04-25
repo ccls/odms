@@ -1,3 +1,5 @@
+<h4><%= ( (@organization.new_record?)?'Creating':'Editting' ) %> organization</h4>
+
 <%= form_for(@organization, :html => { :class => 'edit_organization'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>

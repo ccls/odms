@@ -1,3 +1,5 @@
+<h4><%= ( (@guide.new_record?)?'Creating':'Editting' ) %> guide</h4>
+
 <%= form_for(@guide, :html => { :class => 'edit_guide'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :controller %>

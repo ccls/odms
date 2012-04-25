@@ -1,3 +1,5 @@
+<h4><%= ( (@diagnosis.new_record?)?'Creating':'Editting' ) %> diagnosis</h4>
+
 <%= form_for(@diagnosis, :html => { :class => 'edit_diagnosis'} ) do |f| %>
 <%= f.error_messages %>
 <%= f.wrapped_text_field :key %>
