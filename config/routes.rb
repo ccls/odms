@@ -184,6 +184,7 @@ end
 	resources :projects
 	resources :address_types
 	resources :phone_types
+	resources :data_sources
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]

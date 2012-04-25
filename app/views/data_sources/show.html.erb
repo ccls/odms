@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @data_source.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @data_source.description %>
+</p>
+
+<%= link_to( 'Edit', edit_data_source_path(@data_source), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', data_sources_path, :class => 'button' ) %>

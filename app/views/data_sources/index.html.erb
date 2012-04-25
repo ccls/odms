@@ -1,0 +1,13 @@
+<h4>DataSources:</h4>
+<% unless @data_sources.empty? %>
+ <table id='data_sources'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'data_source', :collection => @data_sources %>
+ </tbody></table><!-- id='data_sources' -->
+<% else %>
+ <p>Sorry, no data_sources yet.</p>
+<% end %>
+<p><%= link_to( "Create new data_source", new_data_source_path,
+	:class => 'button' ) %></p>
