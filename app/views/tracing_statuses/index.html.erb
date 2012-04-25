@@ -1,0 +1,13 @@
+<h4>TracingStatuses:</h4>
+<% unless @tracing_statuses.empty? %>
+ <table id='tracing_statuses'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'tracing_status', :collection => @tracing_statuses %>
+ </tbody></table><!-- id='tracing_statuses' -->
+<% else %>
+ <p>Sorry, no tracing_statuses yet.</p>
+<% end %>
+<p><%= link_to( "Create new tracing_status", new_tracing_status_path,
+	:class => 'button' ) %></p>

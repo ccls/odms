@@ -201,6 +201,7 @@ end
 	resources :subject_relationships
 	resources :subject_types
 	resources :vital_statuses
+	resources :tracing_statuses
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]

@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @tracing_status.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @tracing_status.description %>
+</p>
+
+<%= link_to( 'Edit', edit_tracing_status_path(@tracing_status), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', tracing_statuses_path, :class => 'button' ) %>

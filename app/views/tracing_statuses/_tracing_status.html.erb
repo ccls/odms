@@ -1,0 +1,12 @@
+<%= content_tag_for( :tr, tracing_status, :class => 'row' ) do %>
+ <td class='key'><%= tracing_status.key -%></td>
+ <td class='description'><%= tracing_status.description -%></td>
+ <td class='manage'>
+<%= link_to( "View", tracing_status_path(tracing_status), :class => 'button' ) -%>&nbsp;
+<%= link_to( "Edit", edit_tracing_status_path(tracing_status), :class => 'button' ) -%>&nbsp;
+<%= form_tag tracing_status, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy tracing_status '#{tracing_status}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+ </td>
+<% end %><!-- class='tracing_status' -->
