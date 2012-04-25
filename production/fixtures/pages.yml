@@ -63,11 +63,33 @@ pages_004:
     * "Manage Users":/users
     * "Manage Guides":/guides
     * "Manage Pages":/pages
-    * "Manage People":/people
-    * "Manage Races":/races
-    * "Manage Languages":/languages
-    * "Manage RefusalReasons":/refusal_reasons
+    * "Manage Address Types":/address_types
+    * "Manage Data Sources":/data_sources
+    * "Manage Diagnoses":/diagnoses
+    * "Manage Document Types":/document_types
+    * "Manage Follow Up Types":/follow_up_types
     * "Manage IneligibleReasons":/ineligible_reasons
+    * "Manage Instruments":/instruments
+    * "Manage Instrument Types":/instrument_types
+    * "Manage Instrument Versions":/instrument_versions
+    * "Manage Interview Methods":/interview_methods
+    * "Manage Interview Outcomes":/interview_outcomes
+    * "Manage Languages":/languages
+    * "Manage Organizations":/organizations
+    * "Manage People":/people
+    * "Manage Phone Types":/phone_types
+    * "Manage Project Outcomes":/project_outcomes
+    * "Manage Races":/races
+    * "Manage RefusalReasons":/refusal_reasons
+    * "Manage Sample Types":/sample_types
+    * "Manage Sample Outcomes":/sample_outcomes
+    * "Manage Sample Formats":/sample_formats
+    * "Manage Sample Temperatures":/sample_temperatures
+    * "Manage Subject Relationships":/subject_relationships
+    * "Manage Subject Types":/subject_types
+    * "Manage Tracing Statuses":/tracing_statuses
+    * "Manage Units":/units
+    * "Manage Vital Statuses":/vital_statuses
     * "Logout":/logout
     
     
