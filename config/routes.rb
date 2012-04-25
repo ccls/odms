@@ -182,6 +182,7 @@ end
 	resource  :nonwaivered, :only => [:new,:create]
 
 	resources :projects
+	resources :address_types
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]

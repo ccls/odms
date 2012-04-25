@@ -133,7 +133,7 @@ class User < ActiveRecord::Base
 
 
 	# Controllers solely accessible by administrators.
-	%w(	document_versions gift_cards icf_master_trackers
+	%w(	address_types document_versions gift_cards icf_master_trackers
 			icf_master_tracker_updates ineligible_reasons languages 
 			birth_data_updates people races refusal_reasons 
 			sample_kits ).each do |resource|

@@ -1,0 +1,12 @@
+<%= content_tag_for( :tr, address_type, :class => 'row' ) do %>
+ <td class='key'><%= address_type.key -%></td>
+ <td class='description'><%= address_type.description -%></td>
+ <td class='manage'>
+<%= link_to( "View", address_type_path(address_type), :class => 'button' ) -%>&nbsp;
+<%= link_to( "Edit", edit_address_type_path(address_type), :class => 'button' ) -%>&nbsp;
+<%= form_tag address_type, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy address_type '#{address_type}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+ </td>
+<% end %><!-- class='address_type' -->

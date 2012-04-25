@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @address_type.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @address_type.description %>
+</p>
+
+<%= link_to( 'Edit', edit_address_type_path(@address_type), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', address_types_path, :class => 'button' ) %>
