@@ -28,11 +28,15 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 		} }
 	end
 
-	test "should require instrument_type" do
+#	test "should require instrument_type" do
+	test "should NOT require instrument_type" do
+#		those in fixtures do have have
 		instrument_version = InstrumentVersion.new( :instrument_type => nil)
-		assert !instrument_version.valid?
+#		assert !instrument_version.valid?
+		instrument_version.valid?
 		assert !instrument_version.errors.include?(:instrument_type)
-		assert  instrument_version.errors.matching?(:instrument_type_id,"can't be blank")
+#		assert  instrument_version.errors.matching?(:instrument_type_id,"can't be blank")
+		assert !instrument_version.errors.matching?(:instrument_type_id)
 	end
 
 	test "should require valid instrument_type" do

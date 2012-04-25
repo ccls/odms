@@ -13,4 +13,9 @@ class InstrumentType < ActiveRecord::Base
 #		those in fixtures don't have projects
 	validates_presence_of   :project, :if => :project_id
 
+	#	Returns description
+	def to_s
+		description
+	end
+
 end

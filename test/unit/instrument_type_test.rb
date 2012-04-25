@@ -37,6 +37,12 @@ class InstrumentTypeTest < ActiveSupport::TestCase
 		assert  instrument_type.errors.matching?(:project,"can't be blank")
 	end
 
+	test "should return description as to_s" do
+		instrument_type = InstrumentType.new(:description => 'testing')
+		assert_equal instrument_type.description, 'testing'
+		assert_equal instrument_type.description, "#{instrument_type}"
+	end
+
 protected
 
 	#	create_object is called from within the common class tests
