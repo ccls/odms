@@ -197,6 +197,7 @@ end
 	resources :project_outcomes
 	resources :sample_formats
 	resources :sample_outcomes
+	resources :sample_temperatures
 	resources :guides
 	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]

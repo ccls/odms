@@ -141,7 +141,8 @@ class User < ActiveRecord::Base
 			interview_methods interview_outcomes languages 
 			birth_data_updates people phone_types project_outcomes
 			races refusal_reasons 
-			sample_formats sample_kits sample_outcomes sample_types ).each do |resource|
+			sample_formats sample_kits sample_outcomes sample_temperatures
+			sample_types ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_administrate?
