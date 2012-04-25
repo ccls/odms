@@ -471,6 +471,7 @@ protected
 	end
 
 	#	create_object is called from within the common class tests
+#	Never used here
 #	alias_method :create_object, :create_birth_data_update
 
 end
