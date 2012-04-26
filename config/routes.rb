@@ -199,6 +199,7 @@ end
 	resources :sample_formats
 	resources :sample_outcomes
 	resources :sample_temperatures
+	resources :sections
 	resources :subject_relationships
 	resources :subject_types
 	resources :vital_statuses

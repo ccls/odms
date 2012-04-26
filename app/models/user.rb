@@ -144,7 +144,7 @@ class User < ActiveRecord::Base
 			people phone_types project_outcomes
 			races refusal_reasons 
 			sample_formats sample_kits sample_outcomes sample_temperatures
-			sample_types subject_relationships subject_types 
+			sample_types sections subject_relationships subject_types 
 			tracing_statuses units vital_statuses ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?

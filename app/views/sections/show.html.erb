@@ -1,0 +1,12 @@
+<p>
+  <b>Key:</b>
+  <%=h @section.key %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @section.description %>
+</p>
+
+<%= link_to( 'Edit', edit_section_path(@section), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', sections_path, :class => 'button' ) %>

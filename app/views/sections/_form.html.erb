@@ -1,0 +1,11 @@
+<h4><%= ( (@section.new_record?)?'Creating':'Editting' ) %> section</h4>
+
+<%= form_for(@section, :html => { :class => 'edit_section'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_text_field :key %>
+<%= f.wrapped_text_field :description %>
+<p>
+<%= f.submit( (@section.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', sections_path, :class => 'button' %>
+</p>
+<% end %>
