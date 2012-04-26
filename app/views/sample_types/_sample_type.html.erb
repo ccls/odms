@@ -11,3 +11,6 @@
 <% end %>
  </td>
 <% end %><!-- class='sample_type' -->
+<% if sample_type.is_root? && sample_type.children.length > 0 %>
+<%= render :partial => 'sample_type', :collection => sample_type.children %>
+<% end %>

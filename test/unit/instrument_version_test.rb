@@ -36,7 +36,7 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 		instrument_version.valid?
 		assert !instrument_version.errors.include?(:instrument_type)
 #		assert  instrument_version.errors.matching?(:instrument_type_id,"can't be blank")
-		assert !instrument_version.errors.matching?(:instrument_type_id)
+		assert !instrument_version.errors.include?(:instrument_type_id)
 	end
 
 	test "should require valid instrument_type" do

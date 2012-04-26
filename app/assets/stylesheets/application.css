@@ -258,6 +258,7 @@ tr.row td {
 }
 td.manage {
 	text-align:right;
+	white-space: nowrap;
 }
 
 form.link_to {

@@ -27,7 +27,7 @@ class InstrumentTypeTest < ActiveSupport::TestCase
 		instrument_type.valid?
 		assert !instrument_type.errors.include?(:project)
 #		assert  instrument_type.errors.matching?(:project_id,"can't be blank")
-		assert !instrument_type.errors.matching?(:project_id)
+		assert !instrument_type.errors.include?(:project_id)
 	end
 
 	test "should require valid project" do
