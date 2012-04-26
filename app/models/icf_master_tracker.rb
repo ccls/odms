@@ -82,33 +82,33 @@ after_update :create_tracker_record_changes
 			end
 	end
 
-	def save_all_changes
+#	def save_all_changes
+##
+##	this won't really work as the record is first created from the master_id
+##	and then it is updated. This means that it create the 'new tracker' and
+##	then immediately create changes for each non-nil value. This may be
+##	desired, but be aware.
+##
 #
-#	this won't really work as the record is first created from the master_id
-#	and then it is updated. This means that it create the 'new tracker' and
-#	then immediately create changes for each non-nil value. This may be
-#	desired, but be aware.
-#
-
-#	NOTE 20120406 add the !'s
-		if new_record?
-			IcfMasterTrackerChange.create!(
-				:icf_master_id       => self.master_id,
-				:master_tracker_date => self.master_tracker_date,
-				:new_tracker_record  => true
-			)
-		else
-			unignorable_changes.each do |field,values|
-				IcfMasterTrackerChange.create!(
-					:icf_master_id       => self.master_id,
-					:master_tracker_date => self.master_tracker_date,
-					:modified_column     => field,
-					:previous_value      => values[0],
-					:new_value           => values[1]
-				)
-			end
-		end
-	end
+##	NOTE 20120406 add the !'s
+#		if new_record?
+#			IcfMasterTrackerChange.create!(
+#				:icf_master_id       => self.master_id,
+#				:master_tracker_date => self.master_tracker_date,
+#				:new_tracker_record  => true
+#			)
+#		else
+#			unignorable_changes.each do |field,values|
+#				IcfMasterTrackerChange.create!(
+#					:icf_master_id       => self.master_id,
+#					:master_tracker_date => self.master_tracker_date,
+#					:modified_column     => field,
+#					:previous_value      => values[0],
+#					:new_value           => values[1]
+#				)
+#			end
+#		end
+#	end
 
 end
 

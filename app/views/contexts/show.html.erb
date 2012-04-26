@@ -15,6 +15,7 @@
 
 <p>
   <b>Contextables:</b>
+</p>
 <% if @context.context_contextables.length > 0 %>
 <ul>
 <% @context.context_contextables.each do |context_contextable| %>
@@ -22,7 +23,6 @@
 <% end %>
 </ul>
 <% end %>
-</p>
 
 <%= link_to( 'Edit', edit_context_path(@context), :class => 'button' ) 
 -%>&nbsp;<%= link_to( 'Back', contexts_path, :class => 'button' ) %>
