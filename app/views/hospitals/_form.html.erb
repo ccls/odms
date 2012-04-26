@@ -1,0 +1,14 @@
+<h4><%= ( (@hospital.new_record?)?'Creating':'Editting' ) %> hospital</h4>
+
+<%= form_for(@hospital, :html => { :class => 'edit_hospital'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_check_box :is_active %>
+<%= f.wrapped_check_box :has_irb_waiver %>
+<%= f.wrapped_collection_select :organization_id, Organization.all, 
+  :id, :to_s, :include_blank => true,
+  :label_text => "Organization" %>
+<p>
+<%= f.submit( (@hospital.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', hospitals_path, :class => 'button' %>
+</p>
+<% end %>

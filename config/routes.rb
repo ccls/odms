@@ -73,6 +73,34 @@ end
 #
 #
 
+	resources :address_types
+	resources :data_sources
+	resources :diagnoses
+	resources :document_types
+	resources :document_versions
+	resources :follow_up_types
+	resources :guides
+	resources :hospitals
+	resources :instrument_types
+	resources :instrument_versions
+	resources :instruments
+	resources :interview_methods
+	resources :interview_outcomes
+	resources :organizations
+	resources :phone_types
+	resources :project_outcomes
+	resources :projects
+	resources :sample_formats
+	resources :sample_outcomes
+	resources :sample_temperatures
+	resources :sample_types
+	resources :sections
+	resources :subject_relationships
+	resources :subject_types
+	resources :tracing_statuses
+	resources :units
+	resources :vital_statuses
+
 
 	namespace :active_scaffold do
 		resources :study_subjects	do as_routes end
@@ -182,32 +210,6 @@ end
 	resource  :waivered,    :only => [:new,:create]
 	resource  :nonwaivered, :only => [:new,:create]
 
-	resources :projects
-	resources :address_types
-	resources :phone_types
-	resources :data_sources
-	resources :diagnoses
-	resources :sample_types
-	resources :document_types
-	resources :follow_up_types
-	resources :instrument_types
-	resources :instrument_versions
-	resources :instruments
-	resources :interview_methods
-	resources :interview_outcomes
-	resources :project_outcomes
-	resources :sample_formats
-	resources :sample_outcomes
-	resources :sample_temperatures
-	resources :sections
-	resources :subject_relationships
-	resources :subject_types
-	resources :vital_statuses
-	resources :tracing_statuses
-	resources :organizations
-	resources :units
-	resources :guides
-	resources :document_versions
 	resources :icf_master_trackers, :only => [:index,:show,:update]
 	resources :icf_master_tracker_updates do 
 		member { post :parse }

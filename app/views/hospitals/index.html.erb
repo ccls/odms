@@ -1,0 +1,14 @@
+<h4>Hospitals:</h4>
+<% unless @hospitals.empty? %>
+ <table id='hospitals'><thead><tr>
+  <th>Is Active</th>
+  <th>Has IRB Waiver</th>
+  <th>Organization</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'hospital', :collection => @hospitals %>
+ </tbody></table><!-- id='hospitals' -->
+<% else %>
+ <p>Sorry, no hospitals yet.</p>
+<% end %>
+<p><%= link_to( "Create new hospital", new_hospital_path,
+	:class => 'button' ) %></p>

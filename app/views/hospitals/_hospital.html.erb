@@ -1,0 +1,13 @@
+<%= content_tag_for( :tr, hospital, :class => 'row' ) do %>
+ <td class='is_active'><%= hospital.is_active -%></td>
+ <td class='has_irb_waiver'><%= hospital.has_irb_waiver -%></td>
+ <td class='organization'><%= hospital.organization -%></td>
+ <td class='manage'>
+<%= link_to( "View", hospital_path(hospital), :class => 'button' ) -%>&nbsp;
+<%= link_to( "Edit", edit_hospital_path(hospital), :class => 'button' ) -%>&nbsp;
+<%= form_tag hospital, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy hospital '#{hospital}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+ </td>
+<% end %><!-- class='hospital' -->

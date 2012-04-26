@@ -135,7 +135,7 @@ class User < ActiveRecord::Base
 	# Controllers solely accessible by administrators.
 	%w(	address_types data_sources diagnoses document_types
 			document_versions follow_up_types gift_cards 
-			icf_master_trackers
+			hospitals icf_master_trackers
 			icf_master_tracker_updates ineligible_reasons 
 			instruments instrument_types instrument_versions 
 			interview_methods interview_outcomes languages 
