@@ -64,10 +64,12 @@ pages_004:
     * "Manage Guides":/guides
     * "Manage Pages":/pages
     * "Manage Address Types":/address_types
+    * "Manage Contexts":/contexts
     * "Manage Data Sources":/data_sources
     * "Manage Diagnoses":/diagnoses
     * "Manage Document Types":/document_types
     * "Manage Follow Up Types":/follow_up_types
+    * "Manage Hospitals":/hospitals
     * "Manage IneligibleReasons":/ineligible_reasons
     * "Manage Instruments":/instruments
     * "Manage Instrument Types":/instrument_types
@@ -76,6 +78,7 @@ pages_004:
     * "Manage Interview Outcomes":/interview_outcomes
     * "Manage Languages":/languages
     * "Manage Organizations":/organizations
+    * "Manage Operational Event Types":/operational_event_types
     * "Manage People":/people
     * "Manage Phone Types":/phone_types
     * "Manage Project Outcomes":/project_outcomes
@@ -85,6 +88,7 @@ pages_004:
     * "Manage Sample Outcomes":/sample_outcomes
     * "Manage Sample Formats":/sample_formats
     * "Manage Sample Temperatures":/sample_temperatures
+    * "Manage Sections":/sections
     * "Manage Subject Relationships":/subject_relationships
     * "Manage Subject Types":/subject_types
     * "Manage Tracing Statuses":/tracing_statuses
@@ -92,7 +96,7 @@ pages_004:
     * "Manage Vital Statuses":/vital_statuses
     * "Logout":/logout
     
-    
+    ( many of those could have just been active scaffold controllers )
     Feel free to add any notes here...
 
   body_es: 

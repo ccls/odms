@@ -1,0 +1,13 @@
+<h4>Contexts:</h4>
+<% unless @contexts.empty? %>
+ <table id='contexts'><thead><tr>
+  <th>Key</th>
+  <th>Description</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'context', :collection => @contexts %>
+ </tbody></table><!-- id='contexts' -->
+<% else %>
+ <p>Sorry, no contexts yet.</p>
+<% end %>
+<p><%= link_to( "Create new context", new_context_path,
+	:class => 'button' ) %></p>

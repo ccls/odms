@@ -74,6 +74,7 @@ end
 #
 
 	resources :address_types
+	resources :contexts
 	resources :data_sources
 	resources :diagnoses
 	resources :document_types
