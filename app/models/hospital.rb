@@ -11,7 +11,9 @@ class Hospital < ActiveRecord::Base
 	#	WILL cause problems as it will only ever return the first match
 	validates_presence_of   :organization_id
 	validates_presence_of   :organization, :if => :organization_id
-	validates_uniqueness_of :organization_id, :allow_blank => true
+	validates_uniqueness_of :organization_id, 
+		:message => "Organization has already been taken",
+		:allow_blank => true
 
 	scope :active,      where( :is_active => true )
 	scope :waivered,    where( :has_irb_waiver => true )
