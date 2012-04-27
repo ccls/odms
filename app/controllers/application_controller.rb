@@ -12,7 +12,27 @@ class ApplicationController < ActionController::Base
 
 	before_filter :login_required
 
-	before_filter :get_guidance
+#	before_filter :get_guidance
+#	Change this to an after filter so can deal with possible
+#		validation failures and rescue/renders.
+#	Right.  Can't set instance variable that you intend to use 
+#		in a view in an after_filter as it is too late.
+#	after_filter :get_guidance
+
+	#	Override the default render simply to catch the action name
+	#	if given for use when getting the appropriate guidance.
+	#	Without this, guides would need duplicated for new and create,
+	#	as well as for edit and update.
+	def render(*args,&block)
+		options = args.dup.extract_options!
+		@rendered_action = options[:action]
+		super
+	end
+
+	#	controller.rendered_action_name
+	def rendered_action_name
+		@rendered_action || params[:action]
+	end
 
 #	base_server_url = ( Rails.env == "production" ) ? 
 #		"https://auth.berkeley.edu" : 
@@ -109,12 +129,14 @@ protected	#	private #	(does it matter which or if neither?)
 	end
 	alias_method :recall_or_record_sort_order, :record_or_recall_sort_order
 
-	def get_guidance
-		return unless [nil,'html'].include?(params[:format])
-		require_dependency 'guide.rb' unless Guide
-		@guidance = Guide.where(:controller => params[:controller],
-				:action => params[:action]).first
-	end
+#	def get_guidance
+#		return unless [nil,'html'].include?(params[:format])
+#		require_dependency 'guide.rb' unless Guide
+##		@guidance = Guide.where(:controller => params[:controller],
+##				:action => params[:action]).first
+#		@guidance = Guide.where(:controller => controller_name,
+#				:action => rendered_action_name).first
+#	end
 
 	#	used by study_subjects/find and samples/find
 	#	As 'page' is on the form, it could be blank.

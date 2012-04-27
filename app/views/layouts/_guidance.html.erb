@@ -1,16 +1,18 @@
 <div id='guidance'>
 <h3>Guidance</h3>
-<% if @guidance %>
-<%= sanitize(textilize(@guidance.body)) %>
+<% if guidance = Guide.where(
+	:controller => controller.controller_name,
+	:action => controller.rendered_action_name).first %>
+<%= sanitize(textilize(guidance.body)) %>
 <% if logged_in? and current_user.may_administrate? %>
-<p><%= link_to "Edit this Guide.", edit_guide_path( @guidance.id ) %></p>
+<p><%= link_to "Edit this Guide.", edit_guide_path( guidance.id ) %></p>
 <% end %>
 <% else %>
 <p>Page-specific guidance or cautions will be listed in this region of system pages.</p>
 <p>If you have any questions about how to use the system, or recommendations for guidance that would be helpful, please contact Magee Mooney.</p>
 <% if logged_in? and current_user.may_administrate? %>
 <p><%= link_to "Create New Guide for this controller and action.",
-	new_guide_path(:guide => { :action => controller.action_name,
+	new_guide_path(:guide => { :action => controller.rendered_action_name,
 		:controller => controller.controller_name }) %></p>
 <% end %>
 <% end %>
