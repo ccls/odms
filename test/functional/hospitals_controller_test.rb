@@ -12,7 +12,7 @@ class HospitalsControllerTest < ActionController::TestCase
 	def factory_attributes(options={})
 		Factory.attributes_for(:hospital,{
 			:organization_id => Factory(:organization).id
-		}.merge(options)
+		}.merge(options))
 	end
 
 	assert_access_with_login({    :logins => site_administrators })
