@@ -445,8 +445,10 @@ module ApplicationHelper
 	def flasher
 		s = ''
 		flash.each do |key, msg|
-			s << content_tag( :p, msg.html_safe, :id => key, :class => 'flash' )
-			s << "\n"
+			unless msg.blank?
+				s << content_tag( :p, msg.html_safe, :id => key, :class => 'flash' )
+				s << "\n"
+			end
 		end
 		s << "<noscript><p id='noscript' class='flash'>\n"
 		s << "Javascript is required for this site to be fully functional.\n"
