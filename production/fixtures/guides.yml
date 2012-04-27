@@ -1,7 +1,6 @@
---- 
 guides_001: 
-  id: 1
-  body: |
+  action: index
+  body: |-
     Click on any childID to see details.
     
     *Download*: The list displayed can be downloaded and opened in Excel.
@@ -11,33 +10,38 @@ guides_001:
     *Sorting*: Sort subjects by clicking on the column name.  The first click sorts in ascending order.  Click a second time to change to descending order.
     
     *Searching*: To find a subject, enter all or part of their first name, last name, childid or patid into the text box at the top of the list and press "find."  Note: the list of results will include any records that match the search text in any of the four fields.  That is, entering 938 will display subjects with childIDs of 938, 11938, 9381 as well as studyIDs of 938-C-0, 938-4-1, 938-5-1, 1938-C-0, etc.  Similarly, entering "David" will show all David's, Davidof's, Davidson's, etc.
-
-  action: index
   controller: study_subjects
+  id: 1
 guides_002: 
-  id: 2
-  body: This is the guides / index
   action: index
+  body: |-
+    This is the guides / index
+    
+    I am currently in the process of removing the need for duplicate new and create as well as edit and update guides.
+    
+    Just use "new" and "edit"
   controller: guides
+  id: 2
 guides_003: 
-  id: 3
+  action: edit
   body: |-
     CCLS does not maintain a phone number history.  Only current phone numbers are kept in the system.
     
     Consequently, any changes to this phone number are destructive.  That is, you will lose the previous number that was listed.
-  action: edit
   controller: phone_numbers
+  id: 3
 guides_004: 
-  id: 4
-  body: "Addresses and phone numbers are edited on the \"Address/Contact\" screen.\r\n\
-    \r\n\
-    Consent information is modified on the \"Eligibility/Enrollments\" screen.\r\n\
-    \r\n\
-    To access the menu bar to go to those screens, exit this one by pressing the back button to cancel or pressing Save if you have made changes.  "
   action: edit
+  body: |-
+    Addresses and phone numbers are edited on the "Address/Contact" screen.
+    
+    Consent information is modified on the "Eligibility/Enrollments" screen.
+    
+    To access the menu bar to go to those screens, exit this one by pressing the back button to cancel or pressing Save if you have made changes.  
   controller: study_subjects
+  id: 4
 guides_005: 
-  id: 5
+  action: index
   body: |-
     A subject may have multiple current addresses and phone numbers to accommodate work, mailing and residential information.
     
@@ -48,25 +52,26 @@ guides_005:
     *Note:* Although the system maintains a history of addresses, edits to modify current records are destructive -- that is, *we do not keep a history of the old information once it has been changed*
     
     Addresses in the history are not editable in this system.  If a correction must be made to an address that is not current, please notify a system Administrator.
-  action: index
   controller: contacts
+  id: 5
 guides_006: 
-  id: 6
-  body: "Hospital/Medical information exists for case subjects only.  \r\n\
-    \r\n\
-    To find medical data for a control's associated case subject, click on \"Related Subjects\" at left and click on the case subject listed there.  Once in the case subject's record, you can navigate to their hospital/medical screen for more information.\r\n\
-    \r\n\
-    For patients...\r\n\
-    \r\n\
-    *Admit/Reference Date*\r\n\
-    Only Case Subjects have an Admit Date.  However, this date is used as a point of reference for many study operations regardless of subject type so a Reference Date exists for all subjects.  Admit date and Reference date are always identical.\r\n\
-    \r\n\
-    *Diagnosis Date*\r\n\
-    Diagnosis date is provided during medical record abstracting.  It may or may not be the same as the admit date.  "
   action: show
+  body: |-
+    Hospital/Medical information exists for case subjects only.  
+    
+    To find medical data for a control's associated case subject, click on "Related Subjects" at left and click on the case subject listed there.  Once in the case subject's record, you can navigate to their hospital/medical screen for more information.
+    
+    For patients...
+    
+    *Admit/Reference Date*
+    Only Case Subjects have an Admit Date.  However, this date is used as a point of reference for many study operations regardless of subject type so a Reference Date exists for all subjects.  Admit date and Reference date are always identical.
+    
+    *Diagnosis Date*
+    Diagnosis date is provided during medical record abstracting.  It may or may not be the same as the admit date.  
   controller: patients
-guides_007:
-  id: 7
+  id: 6
+guides_007: 
+  action: show
   body: |-
     *is candidate?* -- was this subject part of a pool of subjects identified as subjects to evaluate for participation in this study
     
@@ -83,16 +88,16 @@ guides_007:
     *completed?* -- study participant completed all study requirements.
     
     *Notes* -- any other information related  to eligibility and participation in the study that CCLS would like to keep.
-  action: show
   controller: enrollments
+  id: 7
 guides_008: 
-  id: 8
-  body: enrollments stuff
   action: index
+  body: enrollments stuff
   controller: enrollments
+  id: 8
 guides_009: 
-  id: 9
-  body: |
+  action: edit
+  body: |-
     If you have any questions about the controller or action name to enter, contact Magee or Jake.
     
     The most common action options are:
@@ -103,11 +108,10 @@ guides_009:
     *edit* -- for editing existing entries
     
     Controller names are usually be found in the URL.  The are most often plural nouns and are often found in the last section before (e.g. *subjects*/new, *subjects*/3/edit, etc. or the last section itself (e.g., /*subjects*)
-
-  action: edit
   controller: guides
+  id: 9
 guides_010: 
-  id: 10
+  action: show
   body: |-
     **Subjects** -- all candidate CCLS study participants considered for participation in the Home Exposures study.  This section is where basic subject information can be found (e.g., addresses, DOB, eligibility and consent info., etc.
     
@@ -116,46 +120,10 @@ guides_010:
     **Samples** -- dust samples collected as part of the Home Exposures study are managed in this section.  The landing page only shows subjects who have completed the Interview.
     
     **Follow up** -- Track gift cards, issue thank you letters, etc.  Only subjects who have completed both the interview and have sent in dust samples appear on the landing page for this section.
-  action: show
   controller: samples
+  id: 10
 guides_011: 
-  id: 11
-  body: |-
-    **What does "don't know" mean?**  Use don't know when you have specifically reviewed hard copy and other CCLS documentation and have determined that we don't have the answer to the question.  Otherwise, leave the response blank.
-    
-    **What's the difference between 'valid' and 'current address?'**
-    
-    When we learn specifically that an address for a subject is no longer good or conversely is accurate, we indicate either by changing the valid? setting.  
-    
-    If the address is bad, we may not be sure why -- we just know that we can't reach the subject there.  In that event, we set valid? to "No."  On the other hand, if we know it's invalid because we have learned that a subject has moved, we set both valid? and "current address" to "no".  
-    
-    For example, a newsletter is returned as undeliverable (valid? = no) but we receive an address service post card from the USPS with a new address (current address = no', new address added in system).  
-    
-    **Examples**
-    
-    Birth Certificate address:  valid? "yes" (from a known, reliable source); verified? "yes" (known, reliable source); current address? blank or "don't know"; address at diagnosis: blank or "don't know"
-    
-    RAF addresses:  valid? "yes", verified? "yes" (provided by respondent at diagnosis), current address? "yes", address at diagnosis? "yes"
-    
-    subject moves:  valid? "yes", verified? "yes" (because we only know a subject has moved when we've received some sort of notification), current address? "yes" (for new address, change old address to "no"), address at diagnosis? "no" 
-    
-    address of unknown origin (existing addresses, addresses from SRC with no supporting info, etc.):  blank or "don't know" for all responses until such time as an interviewer or other staff member has verified the address information or determined it is invalid.
-    
-    **More Guidance**
-    
-    **Address Type:**  If adding a new residence address for an existing subject, please be certain to change any previous residence addresses so that "Current Address" = "No."  Except in rare instances, subjects should have only one current residence.
-    
-    **Valid?:**  Have we learned that attempts to contact subject at the address shown fail; e.g., a letter been returned by the postal service.  Or we have confirmed unequivocally that it is accurate; e.g., an Interviewer verified the address with a respondent.  
-    
-    If the address is invalid, an explanation is required (e.g. "newsletter returned as undeliverable").  This is used in conjunction with "current address" when a subject moves.  (See above for explanation.)
-    
-    **Verified?:**  If the address has been verified by some mechanism, indicate that it has by checking this box and providing specifics.  Examples: "USPS address service card received," "interviewer confirmed address with respondent," etc.
-    
-    **Current address:**  A respondent may have more than one current address.  However, that is to permit tracking of a current residence, current mailing address, current work address, etc.  If a respondent changes residence, however, be sure to change "current address?" to no for the previous address.
   action: edit
-  controller: addressings
-guides_012: 
-  id: 12
   body: |-
     **What does "don't know" mean?**  Use don't know when you have specifically reviewed hard copy and other CCLS documentation and have determined that we don't have the answer to the question.  Otherwise, leave the response blank.
     
@@ -188,10 +156,46 @@ guides_012:
     **Verified?:**  If the address has been verified by some mechanism, indicate that it has by checking this box and providing specifics.  Examples: "USPS address service card received," "interviewer confirmed address with respondent," etc.
     
     **Current address:**  A respondent may have more than one current address.  However, that is to permit tracking of a current residence, current mailing address, current work address, etc.  If a respondent changes residence, however, be sure to change "current address?" to no for the previous address.
-  action: new
   controller: addressings
+  id: 11
+guides_012: 
+  action: new
+  body: |-
+    **What does "don't know" mean?**  Use don't know when you have specifically reviewed hard copy and other CCLS documentation and have determined that we don't have the answer to the question.  Otherwise, leave the response blank.
+    
+    **What's the difference between 'valid' and 'current address?'**
+    
+    When we learn specifically that an address for a subject is no longer good or conversely is accurate, we indicate either by changing the valid? setting.  
+    
+    If the address is bad, we may not be sure why -- we just know that we can't reach the subject there.  In that event, we set valid? to "No."  On the other hand, if we know it's invalid because we have learned that a subject has moved, we set both valid? and "current address" to "no".  
+    
+    For example, a newsletter is returned as undeliverable (valid? = no) but we receive an address service post card from the USPS with a new address (current address = no', new address added in system).  
+    
+    **Examples**
+    
+    Birth Certificate address:  valid? "yes" (from a known, reliable source); verified? "yes" (known, reliable source); current address? blank or "don't know"; address at diagnosis: blank or "don't know"
+    
+    RAF addresses:  valid? "yes", verified? "yes" (provided by respondent at diagnosis), current address? "yes", address at diagnosis? "yes"
+    
+    subject moves:  valid? "yes", verified? "yes" (because we only know a subject has moved when we've received some sort of notification), current address? "yes" (for new address, change old address to "no"), address at diagnosis? "no" 
+    
+    address of unknown origin (existing addresses, addresses from SRC with no supporting info, etc.):  blank or "don't know" for all responses until such time as an interviewer or other staff member has verified the address information or determined it is invalid.
+    
+    **More Guidance**
+    
+    **Address Type:**  If adding a new residence address for an existing subject, please be certain to change any previous residence addresses so that "Current Address" = "No."  Except in rare instances, subjects should have only one current residence.
+    
+    **Valid?:**  Have we learned that attempts to contact subject at the address shown fail; e.g., a letter been returned by the postal service.  Or we have confirmed unequivocally that it is accurate; e.g., an Interviewer verified the address with a respondent.  
+    
+    If the address is invalid, an explanation is required (e.g. "newsletter returned as undeliverable").  This is used in conjunction with "current address" when a subject moves.  (See above for explanation.)
+    
+    **Verified?:**  If the address has been verified by some mechanism, indicate that it has by checking this box and providing specifics.  Examples: "USPS address service card received," "interviewer confirmed address with respondent," etc.
+    
+    **Current address:**  A respondent may have more than one current address.  However, that is to permit tracking of a current residence, current mailing address, current work address, etc.  If a respondent changes residence, however, be sure to change "current address?" to no for the previous address.
+  controller: addressings
+  id: 12
 guides_013: 
-  id: 13
+  action: show
   body: |-
     *Editors*
     
@@ -204,10 +208,10 @@ guides_013:
     **Admit or Reference Date** - click on the Hospital/Medical submenu of case subject (For control subjects, reference date is modified on the Hospital/Medical screen of the related case.  Go to the Related Subject screen and navigate to the controls associated case subject and make the change there.)
     
     **all other data** - click the edit button on this screen.
-  action: show
   controller: study_subjects
+  id: 13
 guides_014: 
-  id: 14
+  action: edit
   body: |-
     *is candidate?* -- was this subject part of a pool of subjects identified as subjects to evaluate for participation in this study
     
@@ -224,43 +228,18 @@ guides_014:
     *completed?* -- study participant completed all study requirements.
     
     *Notes* -- any other information related  to eligibility and participation in the study that CCLS would like to keep.
-  action: edit
   controller: enrollments
+  id: 14
 guides_015: 
-  id: 15
-  body: |
+  action: index
+  body: |-
     The subjects listed on this page are those subjects whose data was sent to USC for live birth record lookup and for which we have not yet received live birth record data.
     
     Editing any of these records allows you to change their status (to "complete," for example) or to add miscellaneous Notes related to the request.
-
-  action: index
   controller: bc_requests
+  id: 15
 guides_016: 
-  id: 16
-  body: |-
-    Depending upon whether the referring hospital has an IRB-waiver or not, you will see one of two versions of Rapid Ascertainment Form on this screen.  The one displayed should match the one received from the hospital.  If not, please notify the Study Coordinator that they don't match before continuing.
-    
-    *Required Fields*
-    
-    The RAF specifies fields that are required to be provided by the hospital.  The red asterisks on this page match those on the RAF.  
-    
-    However, ODMS does not necessarily require that all of the data be available in order to create a subject.  If you have any question because required data is missing from the RAF, please see the Study Coordinator.  Otherwise, the system will allow you to create a record with some missing required information.
-  action: create
-  controller: waivereds
-guides_017: 
-  id: 17
-  body: |-
-    Depending upon whether the referring hospital has an IRB-waiver or not, you will see one of two versions of Rapid Ascertainment Form on this screen.  The one displayed should match the one received from the hospital.  If not, please notify the Study Coordinator that they don't match before continuing.
-    
-    *Required Fields*
-    
-    The RAF specifies fields that are required to be provided by the hospital.  The red asterisks on this page match those on the RAF.  
-    
-    However, ODMS does not necessarily require that all of the data be available in order to create a subject.  If you have any question because required data is missing from the RAF, please see the Study Coordinator.  Otherwise, the system will allow you to create a record with some missing required information.
   action: new
-  controller: nonwaivereds
-guides_018: 
-  id: 18
   body: |-
     Depending upon whether the referring hospital has an IRB-waiver or not, you will see one of two versions of Rapid Ascertainment Form on this screen.  The one displayed should match the one received from the hospital.  If not, please notify the Study Coordinator that they don't match before continuing.
     
@@ -269,10 +248,22 @@ guides_018:
     The RAF specifies fields that are required to be provided by the hospital.  The red asterisks on this page match those on the RAF.  
     
     However, ODMS does not necessarily require that all of the data be available in order to create a subject.  If you have any question because required data is missing from the RAF, please see the Study Coordinator.  Otherwise, the system will allow you to create a record with some missing required information.
-  action: create
+  controller: waivereds
+  id: 16
+guides_017: 
+  action: new
+  body: |-
+    Depending upon whether the referring hospital has an IRB-waiver or not, you will see one of two versions of Rapid Ascertainment Form on this screen.  The one displayed should match the one received from the hospital.  If not, please notify the Study Coordinator that they don't match before continuing.
+    
+    *Required Fields*
+    
+    The RAF specifies fields that are required to be provided by the hospital.  The red asterisks on this page match those on the RAF.  
+    
+    However, ODMS does not necessarily require that all of the data be available in order to create a subject.  If you have any question because required data is missing from the RAF, please see the Study Coordinator.  Otherwise, the system will allow you to create a record with some missing required information.
   controller: nonwaivereds
+  id: 17
 guides_019: 
-  id: 19
+  action: show
   body: |-
     Eligibility & Consent data are related to the subject's participation in the larger CCLS Leukemia study as a whole.  For information on eligibility or consent to participate in a later sub-study (e.g., EMF, Home Exposures, etc.), please refer to the Subject's Enrollments page.
     
@@ -284,10 +275,10 @@ guides_019:
     
     *Consent Opt-Outs*
     Different hospitals have different consent opt-outs in their consent forms.  Only opt-outs from the consent form signed by the subject's parent or guardian should be entered.
-  action: show
   controller: consents
+  id: 19
 guides_020: 
-  id: 20
+  action: edit
   body: |-
     *Eligibility*
     For case subjects, eligibilty is initially determined based upon data provided at hospital notification.  Eligibility may change later based upon other data collected during screening, birth data evaluation, etc.
@@ -297,15 +288,15 @@ guides_020:
     
     *Consent Opt-Outs*
     Different hospitals have different consent opt-outs in their consent forms.  Only answer the opt-outs on the consent form signed by the subject's parent or guardian.
-  action: edit
   controller: consents
+  id: 20
 guides_021: 
-  id: 21
+  action: new
   body: |-
-    Please enter the study ID using this format:  
+    Study ID is comprised of three parts:  PatID, Type (C, 4, 5, 6), and OrderNo (0=case, >0 = control) .  You can enter a partial Study ID -- PatID only, for example -- or the entire identifier.  When entering the whole study ID, enter it using this format:  
     
          0382-C-0, 1847-6-2, etc.
     
     All non-mother subjects are assigned study IDs composed of PatID, subject Type and the subject's OrderNo.  They are assigned when new subjects are created and can be found in the header of the subject's information pages here in ODMS.
-  action: new
   controller: receive_samples
+  id: 21

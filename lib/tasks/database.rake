@@ -44,13 +44,26 @@ namespace :db do
 #	
 				data = table_name.singularize.classify.constantize.unscoped.order(
 					'id asc').collect(&:attributes)
-				file.write data.inject({}) { |hash, record|
-					record.delete('created_at')
-					record.delete('updated_at')
-					#	so that it is really string sortable, add leading zeros
-					hash["#{table_name}_#{sprintf('%03d',record['id'])}"] = record
-					hash
-				}.to_ordered_yaml
+
+#				file.write data.inject({}) { |hash, record|
+#					record.delete('created_at')
+#					record.delete('updated_at')
+#					#	so that it is really string sortable, add leading zeros
+#					hash["#{table_name}_#{sprintf('%03d',record['id'])}"] = record
+#					hash
+#				}.to_ordered_yaml
+
+
+				file.write recursive_hash_to_yml_string(
+					data.inject({}) { |hash, record|
+						record.delete('created_at')
+						record.delete('updated_at')
+						#	so that it is really string sortable, add leading zeros
+						hash["#{table_name}_#{sprintf('%03d',record['id'])}"] = record
+						hash
+					}
+				)
+
 			end
 		end
 		exit
@@ -88,3 +101,57 @@ namespace :db do
 
 end	#	namespace :db do
 end	#	namespace :app do
+
+
+
+
+
+#	Would have to be very careful here as to not break anything.
+#	I don't know when to quote, add a | or a |- (or what the diff is)
+
+
+#Possible yaml sort.  Doesn't use the yaml library 
+
+#http://stackoverflow.com/questions/7275952/how-can-i-sort-yaml-files
+#	(modified)
+
+
+#	This WILL NOT WORK when the hash contains values that contains multi-line
+#	strings (like a text area).  Somehow things need quoted or | or |- added.
+
+#	needed for escape
+require 'yaml'
+require 'yaml/encoding'
+
+def recursive_hash_to_yml_string(hash, depth=0)
+	yml_string = ''
+	spacer = ""
+	depth.times { spacer += "  "}
+	hash.keys.sort.each do |sorted_key|
+		yml_string += spacer + sorted_key + ": "
+		if hash[sorted_key].is_a?(Hash)
+			yml_string += "\n"
+			yml_string += recursive_hash_to_yml_string(hash[sorted_key], depth+1)
+		else
+			s = hash[sorted_key].to_s
+			if s.match("\n")
+				yml_string += "|-\n"
+				s.split(/\n/).each do |line|
+					yml_string += "#{spacer}  #{line}\n"
+				end
+			else
+#	YAML.escape doesn't actually seem to escape as I would expect
+#				yml_string += "#{s.gsub(/([:>])/,"\\1")}\n"
+#				yml_string += "\"#{s}\"\n"
+
+				if s.match(/:/)
+					yml_string += "\"#{s}\"\n"
+				else
+					yml_string += "#{s}\n"
+				end
+			end
+		end
+	end
+	yml_string
+end
+
