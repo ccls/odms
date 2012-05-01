@@ -24,19 +24,19 @@ class AbstractsControllerTest < ActionController::TestCase
 
 #	assert_access_with_https
 #	assert_no_access_with_http
-
-	assert_no_access_with_login(
-		:attributes_for_create => nil,
-		:method_for_create => nil,
-		:actions => nil,
-		:suffix => " and invalid id",
-		:login => :superuser,
-		:redirect => :abstracts_path,
-		:edit => { :id => 0 },
-		:update => { :id => 0 },
-		:show => { :id => 0 },
-		:destroy => { :id => 0 }
-	)
+#
+#	assert_no_access_with_login(
+#		:attributes_for_create => nil,
+#		:method_for_create => nil,
+#		:actions => nil,
+#		:suffix => " and invalid id",
+#		:login => :superuser,
+#		:redirect => :abstracts_path,
+#		:edit => { :id => 0 },
+#		:update => { :id => 0 },
+#		:show => { :id => 0 },
+#		:destroy => { :id => 0 }
+#	)
 
 	assert_no_route(:get,:new)
 	assert_no_route(:post,:create)
