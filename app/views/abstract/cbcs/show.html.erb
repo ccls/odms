@@ -1,10 +1,12 @@
+<% sub_menu_for(@study_subject) %>
+
 <%= edit_link() %>
 <div class='cbc'>
 <%= wrapped_yndk_spans(:abstract,:cbc_report_found,
 	:label_text => "Found" ) %>
 <%= wrapped_date_spans(:abstract,:cbc_report_on,
 	:label_text => "Date" ) %>
-<% wrapped_spans(:abstract,:cbc_white_blood_count,
+<%= wrapped_spans(:abstract,:cbc_white_blood_count,
 	:label_text => "Leukocyte count (WBC)" ) do %>
 <span>K/mm<span class='superscript'>3</span></span>
 <% end %>
@@ -12,23 +14,23 @@
 <div>
 <%= wrapped_yes_or_no_spans(:abstract,:cbc_percent_blasts_unknown,
 	:label_text => "% Blasts Unknown?" ) %>
-<% wrapped_spans(:abstract,:cbc_percent_blasts,
-	:label_text => "% Blasts" ) do %>
-<span>%</span>
-<% end %>
+<div class="cbc_percent_blasts spans field_wrapper">
+<span class="label">% Blasts</span>
+<span class="value"><%= @abstract.cbc_percent_blasts || nbsp %><span>%</span></span>
+</div>
 <h4>OR</h4>
 <%= wrapped_spans(:abstract,:cbc_number_blasts,
 	:label_text => "Number of Blasts" ) %>
 </div>
-
-<% wrapped_spans(:abstract,:cbc_hemoglobin_level,
-	:label_text => "Hemoglobin" ) do %>
-<span>GM/DL</span>
-<% end %>
-<% wrapped_spans(:abstract,:cbc_platelet_count,
-	:label_text => "Platelet count" ) do %>
-<span>K/mm<span class='superscript'>3</span></span>
-<% end %>
+<div class="cbc_hemoglobin_level spans field_wrapper">
+<span class="label">Hemoglobin</span>
+<span class="value"><%= @abstract.cbc_hemoglobin_level || nbsp %><span>GM/DL</span></span>
+</div>
+<div class="cbc_platelet_count spans field_wrapper">
+<span class="label">Platelet count</span>
+<span class="value"><%= @abstract.cbc_platelet_count || nbsp %><span>K/mm<span class='superscript'>3</span></span>
+</span>
+</div>
 </div><!-- class='cbc' -->
 
 <%= abstract_pages(@abstract) %>

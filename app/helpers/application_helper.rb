@@ -1,6 +1,10 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+	def nbsp
+		"&nbsp;".html_safe
+	end
+
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
 
@@ -50,13 +54,13 @@ module ApplicationHelper
 		s.html_safe
 	end
 
-	def id_bar_for(object,&block)
-		case object
-			when StudySubject  then study_subject_id_bar(object,&block)
-#			when GiftCard then gift_card_id_bar(object,&block)
-			else nil
-		end
-	end
+#	def id_bar_for(object,&block)
+#		case object
+#			when StudySubject  then study_subject_id_bar(object,&block)
+##			when GiftCard then gift_card_id_bar(object,&block)
+#			else nil
+#		end
+#	end
 
 	def sub_menu_for(object)
 		case object
@@ -200,44 +204,73 @@ module ApplicationHelper
 		s.html_safe
 	end
 
-	#	Overrides the method of the same name in ccls_engine
-	#	Used to replace the _id_bar partial
-	def subject_id_bar(study_subject,&block)
-		stylesheets('study_subject_id_bar')
-		content_for :subject_header do
-			s = "<div id='id_bar'>\n" <<
+	def actual_subject_id_bar(study_subject)
+		s = "<div id='id_bar'>\n" <<
 			"<div class='full_name'>\n" <<
 			"<span>#{study_subject.full_name}</span>\n" <<
 			"</div><!-- class='full_name' -->\n" <<
 			"<div class='id_numbers'>" <<
-#			"<div class='childid'>\n" <<
-#			"<span>ChildID:</span>\n" <<
-#			"<span>#{study_subject.try(:childid)}</span>\n" <<
-#			"</div><!-- class='childid' -->\n" <<
 			"<div class='icf_master_id'>\n" <<
 			"<span>ICFMasterID:</span>\n" <<
-#			"<span>#{study_subject.try(:icf_master_id)}</span>\n" <<
 			"<span>#{study_subject.icf_master_id_to_s}</span>\n" <<	#	TODO add test for this
 			"</div><!-- class='icf_master_id' -->\n" <<
 			"<div class='studyid'>\n" <<
 			"<span>StudyID:</span>\n" <<
-#			"<span>#{study_subject.try(:studyid)}</span>\n" <<
 			"<span>#{study_subject.studyid_to_s}</span>\n" <<		#	TODO add test for this
 			"</div><!-- class='studyid' -->\n" <<
 			"</div><!-- class='id_numbers' -->\n" <<
 			"</div><!-- id='id_bar' -->\n"
-			s.html_safe
-		end
+		s.html_safe
+	end
 
-		content_for :main do
-			s = "<div id='do_not_contact'>\n" <<
-			"Study Subject requests no further contact with Study.\n" <<
-			"</div>\n"
-			s.html_safe
-		end if study_subject.try(:do_not_contact?)
-	end	#	id_bar_for
-	alias_method :study_subject_id_bar, :subject_id_bar
+#	#	Overrides the method of the same name in ccls_engine
+#	#	Used to replace the _id_bar partial
+#	def subject_id_bar(study_subject,&block)
+#		stylesheets('study_subject_id_bar')
+#		content_for :subject_header do
+#			s = "<div id='id_bar'>\n" <<
+#			"<div class='full_name'>\n" <<
+#			"<span>#{study_subject.full_name}</span>\n" <<
+#			"</div><!-- class='full_name' -->\n" <<
+#			"<div class='id_numbers'>" <<
+##			"<div class='childid'>\n" <<
+##			"<span>ChildID:</span>\n" <<
+##			"<span>#{study_subject.try(:childid)}</span>\n" <<
+##			"</div><!-- class='childid' -->\n" <<
+#			"<div class='icf_master_id'>\n" <<
+#			"<span>ICFMasterID:</span>\n" <<
+##			"<span>#{study_subject.try(:icf_master_id)}</span>\n" <<
+#			"<span>#{study_subject.icf_master_id_to_s}</span>\n" <<	#	TODO add test for this
+#			"</div><!-- class='icf_master_id' -->\n" <<
+#			"<div class='studyid'>\n" <<
+#			"<span>StudyID:</span>\n" <<
+##			"<span>#{study_subject.try(:studyid)}</span>\n" <<
+#			"<span>#{study_subject.studyid_to_s}</span>\n" <<		#	TODO add test for this
+#			"</div><!-- class='studyid' -->\n" <<
+#			"</div><!-- class='id_numbers' -->\n" <<
+#			"</div><!-- id='id_bar' -->\n"
+#			s.html_safe
+#		end
+#
+#		content_for :main do
+#			s = "<div id='do_not_contact'>\n" <<
+#			"Study Subject requests no further contact with Study.\n" <<
+#			"</div>\n"
+#			s.html_safe
+#		end if study_subject.try(:do_not_contact?)
+#	end	#	id_bar_for
+#	alias_method :study_subject_id_bar, :subject_id_bar
 
+	def do_not_contact(study_subject)
+		s = if study_subject.try(:do_not_contact?)
+			"<div id='do_not_contact'>\n" <<
+				"Study Subject requests no further contact with Study.\n" <<
+				"</div>\n"
+		else
+			''
+		end 
+		s.html_safe
+	end
 
 	#	Just a simple method to wrap the passed text in a span
 	#	with class='required'
@@ -421,12 +454,11 @@ module ApplicationHelper
 		s << "<span class='value'>#{value}</span>"
 	end
 
-def _wrapped_pos_neg_spans(object_name,method,options={})
-object = instance_variable_get("@#{object_name}")
-_wrapped_spans(object_name,method,options.update(
-:value => pos_neg(object.send(method)) ) )
-end
-
+	def _wrapped_pos_neg_spans(object_name,method,options={})
+		object = instance_variable_get("@#{object_name}")
+		_wrapped_spans(object_name,method,options.update(
+			:value => pos_neg(object.send(method)) ) )
+	end
 
 	%w( adna_spans date_spans datetime_spans pos_neg_spans spans yes_or_no_spans 
 			yndk_spans ynrdk_spans ynodk_spans ).each do |unwrapped_method_name|

@@ -1,3 +1,5 @@
+<% sub_menu_for(@study_subject) %>
+
 <%= edit_link() %>
 
 <div class='cerebrospinal_fluid'>
@@ -5,21 +7,34 @@
 	:label_text => "Found?" ) %>
 <%= wrapped_date_spans(:abstract,:csf_report_on,
 	:label_text => "Date" ) %>
-<% wrapped_spans(:abstract,:csf_white_blood_count,
-	:label_text => "WBC*" ) do %>
-<%= wrapped_spans(:abstract,:csf_white_blood_count_text,
-	:label_text => "&nbsp;" ) %>
-<% end %>
-<% wrapped_spans(:abstract,:csf_red_blood_count,
-	:label_text => "RBC*" ) do %>
-<%= wrapped_spans(:abstract,:csf_red_blood_count_text,
-	:label_text => "&nbsp;" ) %>
-<% end %>
-<% wrapped_spans(:abstract,:blasts_are_present,
-	:label_text => "Blasts present:" ) do %>
-<%= wrapped_spans(:abstract,:number_of_blasts,
-	:label_text => "number:" ) %>
-<% end %>
+
+<div class="csf_white_blood_count spans field_wrapper">
+<span class="label">WBC*</span>
+<span class="value"><%= @abstract.csf_white_blood_count || nbsp %></span>
+<div class="csf_white_blood_count_text spans field_wrapper">
+<span class="label">&nbsp;</span>
+<span class="value"><%= @abstract.csf_white_blood_count_text || nbsp %></span>
+</div>
+</div>
+
+<div class="csf_red_blood_count spans field_wrapper">
+<span class="label">RBC*</span>
+<span class="value"><%= @abstract.csf_red_blood_count || nbsp %></span>
+<div class="csf_red_blood_count_text spans field_wrapper">
+<span class="label">&nbsp;</span>
+<span class="value"><%= @abstract.csf_red_blood_count_text || nbsp %></span>
+</div>
+</div>
+
+<div class="blasts_are_present spans field_wrapper">
+<span class="label">Blasts present:</span>
+<span class="value"><%= @abstract.blasts_are_present || nbsp %></span>
+<div class="number_of_blasts spans field_wrapper">
+<span class="label">number:</span>
+<span class="value"><%= @abstract.number_of_blasts || nbsp %></span>
+</div>
+</div>
+
 <%= wrapped_spans(:abstract,:peripheral_blood_in_csf,
 	:label_text => "PB contamination" ) %>
 <%= wrapped_spans(:abstract,:csf_comment,

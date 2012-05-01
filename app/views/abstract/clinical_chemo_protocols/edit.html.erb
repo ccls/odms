@@ -1,3 +1,5 @@
+<% sub_menu_for(@study_subject) %>
+
 <%= form_for(@abstract,:url => abstract_clinical_chemo_protocol_path(@abstract)) do |f| %>
 
 <%= f.error_messages %>
@@ -9,10 +11,12 @@
 <%= f.wrapped_yndk_select(:patient_on_chemo_protocol,
 	:label_text => "Was patient put on a COG/POG/CCG Protocol?:") %>
 
-<% f.wrapped_text_field(:chemo_protocol_name,
+<%= f.wrapped_text_field(:chemo_protocol_name,
 	:label_text => "If yes, indicate protocol used:") do %>
 <span>(e.g. COG XXXX, POG XXXX, CCG XXXX)</span>
 <% end %>
+
+
 <!--
 <p>If no, specify any therapeutic agents (expecially the first 3-4 induction agents) and if the patients was 'treated per _______'</p>
 <%#= f.wrapped_text_area(:chemo_protocol_agent_description,

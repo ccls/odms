@@ -53,6 +53,8 @@ protected
 	def valid_id_required
 		if !params[:id].blank? and Enrollment.exists?(params[:id])
 			@enrollment = Enrollment.find(params[:id])
+			#	for the id_bar
+			@study_subject = @enrollment.study_subject
 		else
 			access_denied("Valid enrollment id required!", 
 				study_subjects_path)

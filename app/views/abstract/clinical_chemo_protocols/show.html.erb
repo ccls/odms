@@ -1,3 +1,5 @@
+<% sub_menu_for(@study_subject) %>
+
 <%= edit_link() %>
 
 <%= wrapped_yndk_spans(:abstract,:chemo_protocol_report_found,
@@ -5,10 +7,12 @@
 <%= wrapped_yndk_spans(:abstract,:patient_on_chemo_protocol,
 	:label_text => "Was patient put on a COG/POG/CCG Protocol?" ) %>
 
-<% wrapped_spans(:abstract,:chemo_protocol_name,
-	:label_text => "If yes, indicate protocol used:" ) do %>
+<div class="chemo_protocol_name spans field_wrapper">
+<span class="label">If yes, indicate protocol used:</span>
+<span class="value"><%= @abstract.chemo_protocol_name || nbsp %></span>
 <span>(e.g. COG XXXX, POG XXXX, CCG XXXX)</span>
-<% end %>
+</div>
+
 <!--
 <p>If no, specify any therapeutic agents (expecially the first 3-4 induction agents) and if the patients was 'treated per _______'</p>
 <%#= wrapped_spans(:abstract,:chemo_protocol_agent_description,

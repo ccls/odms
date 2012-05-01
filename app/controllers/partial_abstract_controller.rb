@@ -12,6 +12,8 @@ class PartialAbstractController < ApplicationController
 	before_filter :set_page_title
 	before_filter :valid_abstract_id_required
 
+	layout 'subject'
+
 	def update
 		@abstract.update_attributes!(params[:abstract])
 		flash[:notice] = "Abstract updated"
@@ -45,6 +47,7 @@ protected
 	def valid_abstract_id_required
 		if !params[:abstract_id].blank? and Abstract.exists?(params[:abstract_id])
 			@abstract = Abstract.find(params[:abstract_id])
+			@study_subject = @abstract.study_subject
 		else
 			access_denied("Valid abstract id required!", 
 				abstracts_path)

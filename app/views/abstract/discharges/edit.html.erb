@@ -1,8 +1,10 @@
+<% sub_menu_for(@study_subject) %>
+
 <%= form_for(@abstract,:url => abstract_discharge_path(@abstract)) do |f| %>
 
 <%= f.error_messages %>
 
-<fieldset><legend><%= @page_title %></legend>
+<fieldset><legend><%= @page_title.html_safe %></legend>
 
 <p>Check relevant report(s):</p>
 
@@ -19,14 +21,14 @@
 <%= f.wrapped_yndk_select(:splenomegaly_present,
 	:label_text => "Splenomegaly? *" ) %>
 
-<% f.wrapped_text_field(:height_at_diagnosis,
+<%= f.wrapped_text_field(:height_at_diagnosis,
 	:label_text => "Height at Diagnosis:" ) do %>
-<%= f.wrapped_select(:height_units,['cm','in'], :label_text => '&nbsp;' ) %>
+<%= f.wrapped_select(:height_units,['cm','in'], :label_text => nbsp ) %>
 <% end %>
 
-<% f.wrapped_text_field(:weight_at_diagnosis,
+<%= f.wrapped_text_field(:weight_at_diagnosis,
 	:label_text => "Weight at Diagnosis:" ) do %>
-<%= f.wrapped_select(:weight_units,['kg','lb'], :label_text => '&nbsp;' ) %>
+<%= f.wrapped_select(:weight_units,['kg','lb'], :label_text => nbsp ) %>
 <% end %>
 
 <%= f.wrapped_yndk_select(:is_down_syndrome_phenotype,

@@ -1,3 +1,5 @@
+<% sub_menu_for(@study_subject) %>
+
 <%= form_for(@abstract,:url => abstract_identifying_data_path(@abstract)) do |f| %>
 
 <%= f.error_messages %>
@@ -11,15 +13,15 @@
 <div class='column'>
 <div class='first_name field_wrapper'>
 <span class='label'>Patient First Name</span>
-<span class='value'><%= @abstract.try(:study_subject).try(:first_name) || '&nbsp;' %></span>
+<span class='value'><%= @abstract.try(:study_subject).try(:first_name) || nbsp %></span>
 </div><!-- class='first_name' -->
 <div class='middle_name field_wrapper'>
 <span class='label'>Patient Middle Name</span>
-<span class='value'><%= @abstract.try(:study_subject).try(:middle_name) || '&nbsp;' %></span>
+<span class='value'><%= @abstract.try(:study_subject).try(:middle_name) || nbsp %></span>
 </div><!-- class='middle_name' -->
 <div class='last_name field_wrapper'>
 <span class='label'>Patient Last Name</span>
-<span class='value'><%= @abstract.try(:study_subject).try(:last_name) || '&nbsp;' %></span>
+<span class='value'><%= @abstract.try(:study_subject).try(:last_name) || nbsp %></span>
 </div><!-- class='last_name' -->
 <div class='institution field_wrapper'>
 <span class='label'>Treatment Institution</span>
@@ -27,7 +29,7 @@
 </div><!-- class='institution' -->
 <div class='hospital_number field_wrapper'>
 <span class='label'>Hospital Record #</span>
-<span class='value'><%= @abstract.try(:study_subject).try(:patient).try(:hospital_no) || '&nbsp;' %></span>
+<span class='value'><%= @abstract.try(:study_subject).try(:patient).try(:hospital_no) || nbsp %></span>
 </div><!-- class='hospital_number' -->
 <div class='dob field_wrapper'>
 <span class='label'>Patient Birth Date</span>

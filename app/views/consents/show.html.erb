@@ -2,7 +2,7 @@
 <% stylesheets(:consent) %>
 <% javascripts('consent') %>
 <% sub_menu_for(@enrollment.study_subject) %>
-<% id_bar_for(@enrollment.study_subject) %>
+<%# id_bar_for(@enrollment.study_subject) %>
 
 <div id='subject_control_bar'>
 <h3>Study Consent Info</h3>
@@ -73,10 +73,10 @@
 
 <% else %>
 <% sub_menu_for(@study_subject) %>
-<% content_for :id_bar do %>
-<%= link_to "edit", edit_study_subject_path(@study_subject) %>
-<% end if current_user.may_edit_study_subjects? %>
-<% id_bar_for(@study_subject) %>
+<%# content_for :id_bar do %>
+<%#= link_to "edit", edit_study_subject_path(@study_subject) %>
+<%# end if current_user.may_edit_study_subjects? %>
+<%# id_bar_for(@study_subject) %>
 <p>Subject has no CCLS enrollment. This should NEVER happen.</p>
 <p>If one didn't exist, it should have been just created.</p>
 <% end %>

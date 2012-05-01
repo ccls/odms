@@ -1,6 +1,8 @@
 #	Abstract controller
 class AbstractsController < ApplicationController
 
+	layout 'subject'
+
 	before_filter :append_current_user_to_params, :only => [:create,:merge]
 
 	before_filter :may_create_abstracts_required,
@@ -27,6 +29,7 @@ class AbstractsController < ApplicationController
 	def index
 #		@abstracts = Abstract.search(params)
 		@abstracts = Abstract.all
+		render :layout => 'application'
 	end
 
 	def new

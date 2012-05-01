@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<% stylesheets 'study_subject_id_bar' %>
 <%= render 'layouts/head' %>
 <body>
 <div id='container'>
@@ -10,7 +11,8 @@
  <div class='columns'>
   <%= render 'layouts/side_menu' %>
   <div id='main'>
-   <%= yield :main %>
+   <%#= yield :main %>
+   <%= do_not_contact(@study_subject) if @study_subject %>
    <div id='content'>
     <%= flasher() %>
     <%= yield %>

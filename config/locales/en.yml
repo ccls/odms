@@ -2,6 +2,7 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+#  activemodel:
   activerecord:
     attributes:
       patient:
@@ -9,6 +10,34 @@ en:
         hospital_no: "Hospital record number"
       study_subject:
         dob: "Date of birth"
+  # Active Record models configuration
+#  activerecord:
+    errors:
+      messages:
+#	This is specific to activerecord and not activemodel for some reason
+        taken: "%{attribute} has already been taken"
+
+#	overwriting keys effectively destroys the first set
+#
+#	ie.
+#	activerecord:
+#   something:
+#     willbe: overwritten
+# activerecord:
+#   somethingelse:
+#     completely: unrelated
+#
+#	Therefore, once a tree is started, it must be completed.
+#	It can't be put together in pieces.
+
+
+#	ActiveRecord sets the taken message, so MUST override there
+#		or won't actually override.
+#	Could simplify and override all there, probably.
+#	activerecord-3.2.2/lib/active_record/locale/en.yml
+#        taken: "has already been taken"
+#        record_invalid: "Validation failed: %{errors}"
+
 #    errors:
 #      models:
 #        address:
@@ -79,18 +108,6 @@ en:
       odd: "%{attribute} must be odd"
       even: "%{attribute} must be even"
 
-  # Active Record models configuration
-  activerecord:
-    errors:
-      messages:
-        taken: "%{attribute} has already been taken"
-
-#	ActiveRecord sets the taken message, so MUST override there
-#		or won't actually override.
-#	Could simplify and override all there, probably.
-#	activerecord-3.2.2/lib/active_record/locale/en.yml
-#        taken: "has already been taken"
-#        record_invalid: "Validation failed: %{errors}"
 
 # from activemodel-3.2.2/lib/active_model/locale/en.yml
 #  errors:
