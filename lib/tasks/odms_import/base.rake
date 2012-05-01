@@ -18,14 +18,15 @@ namespace :odms_import do
 		#	can be referenced.  
 		#
 
-		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/"
-		SUBJECTS_CSV = "#{BASEDIR}/ODMS_SubjectData_Combined_xxxxxx.csv"
-		ADDRESSES_CSV = "#{BASEDIR}/ODMS_Addresses_xxxxxx.csv"
-		ADDRESSINGS_CSV = "#{BASEDIR}/ODMS_Addressings_xxxxxx.csv"
-		PHONENUMBERS_CSV = "#{BASEDIR}/ODMS_Phone_Numbers_xxxxxx.csv"
-		EVENTS_CSV = "#{BASEDIR}/ODMS_Operational_Events_xxxxxx.csv"
+#		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/"
+		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/20120427/"
+		SUBJECTS_CSV = "#{BASEDIR}/ODMS_SubjectData_Combined_042712.csv"
+		ADDRESSES_CSV = "#{BASEDIR}/ODMS_Addresses_042712.csv"
+		ADDRESSINGS_CSV = "#{BASEDIR}/ODMS_Addressings_042712.csv"
+		PHONENUMBERS_CSV = "#{BASEDIR}/ODMS_Phone_Numbers_042712.csv"
+		EVENTS_CSV = "#{BASEDIR}/ODMS_Operational_Events_042712.csv"
 		ICFMASTERIDS_CSV = "#{BASEDIR}/export_ODMS_ICF_Master_IDs.csv"
-		ENROLLMENTS_CSV = "#{BASEDIR}/ODMS_Enrollments_xxxxxx.csv"
+		ENROLLMENTS_CSV = "#{BASEDIR}/ODMS_Enrollments_042712.csv"
 		SAMPLES_CSV = "#{BASEDIR}/ODMS_samples_031912.csv"
 
 		def format_date(date)

@@ -160,7 +160,7 @@ namespace :odms_import do
 		'odms_import:phone_numbers',
 		'odms_import:addresses',
 		'odms_import:addressings',
-		'odms_import:samples',
+#		'odms_import:samples',
 #		'odms_import:create_dummy_candidate_controls',
 		'app:data:report'
 	]
