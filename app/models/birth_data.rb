@@ -2,14 +2,14 @@ class BirthData < ActiveRecord::Base
 #
 #	Be advised the "data" pluralized is "data" which
 #	means that this table name is "birth_data".
-#	This inflection "problem" could be an issue elsehwere
+#	This inflection "problem" could be an issue elsewhere
 #	if a difference between the singular and plural in expected.
 #
 #	This will be true in named routes.
 #
 
-	# purely for passing to Change from the Update
-	attr_accessor :birth_data_update_id
+#	# purely for passing to Change from the Update
+#	attr_accessor :birth_data_update_id
 
 
 #	gotta use after_* so that have own id to pass

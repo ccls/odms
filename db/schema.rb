@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120501165346) do
+ActiveRecord::Schema.define(:version => 20120424191032) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -884,9 +884,9 @@ ActiveRecord::Schema.define(:version => 20120501165346) do
     t.integer  "position"
     t.integer  "organization_id"
     t.boolean  "has_irb_waiver",  :default => false, :null => false
+    t.boolean  "is_active",       :default => true,  :null => false
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
-    t.boolean  "is_active",       :default => true,  :null => false
   end
 
   add_index "hospitals", ["organization_id"], :name => "index_hospitals_on_organization_id"
