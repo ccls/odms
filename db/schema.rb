@@ -461,7 +461,16 @@ ActiveRecord::Schema.define(:version => 20120424191032) do
     t.datetime "updated_at",       :null => false
   end
 
-  create_table "birth_data", :force => true do |t|
+  create_table "birth_data_updates", :force => true do |t|
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.string   "csv_file_file_name"
+    t.string   "csv_file_content_type"
+    t.integer  "csv_file_file_size"
+    t.datetime "csv_file_updated_at"
+  end
+
+  create_table "birth_datas", :force => true do |t|
     t.string   "abnormal_conditions"
     t.integer  "apgar_1min"
     t.integer  "apgar_5min"
@@ -529,15 +538,6 @@ ActiveRecord::Schema.define(:version => 20120424191032) do
     t.boolean  "vacuum_attempt_unsuccessful"
     t.datetime "created_at",                                                       :null => false
     t.datetime "updated_at",                                                       :null => false
-  end
-
-  create_table "birth_data_updates", :force => true do |t|
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-    t.string   "csv_file_file_name"
-    t.string   "csv_file_content_type"
-    t.integer  "csv_file_file_size"
-    t.datetime "csv_file_updated_at"
   end
 
   create_table "candidate_controls", :force => true do |t|

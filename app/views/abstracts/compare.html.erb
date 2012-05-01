@@ -1,0 +1,64 @@
+<p>PatID: <%= @study_subject.patid %></p>
+
+<%= form_for Abstract.new,
+	:url => merge_study_subject_abstracts_path(@study_subject) do |f| %>
+
+<p>These are the fields in an abstract.  They are 'humanized' and sorted alphabetically
+which is probably not the favored order.  Please let Jake know what a more appropriate
+order would be and what more clear 'humanized' field names would be.</p>
+<p>Merging will destroy the two source abstracts and create a new one from the selections.</p>
+<p>If you see a red row, it is because the entered values differ.</p>
+
+<table>
+<thead><tr><th>Field</th><th>&nbsp;</th></tr></thead>
+<tbody>
+<% Abstract.fields.each do |column| %>
+<%	classes = ['row'];
+		classes.push('diff') if (@diffs.has_key?(column[:db]))
+%>
+	<% content_tag( :tr, :class => classes.join(' ') ) do %>
+<td><%= column[:human] %></td>
+<td>
+<% if @diffs.has_key?(column[:db]) -%>
+<%#
+	radio_button(object_name, method, tag_value, options = {})
+	label(object_name, method, content_or_options = nil, options = nil, &block)
+	text_field(object_name, method, options = {})
+
+	Radio buttons append the value to the id joined by an _
+		If the value is nil, it does nothing, so make sure with a ||''
+-%>
+	<%= f.radio_button( column[:db], @abstracts[0][column[:db]] || '',
+		:checked => false )%>
+	<%= f.label( column[:db], @abstracts[0][column[:db]] || 'BLANK',
+		:value => "#{@abstracts[0][column[:db]]}" ) %>
+
+	<%#= f.radio_button( column[:db], @abstracts[0][column[:db]],
+		:checked => false, :id => "abstract_0_#{column[:db]}" ) %>
+	<%#= f.label( column[:db], @abstracts[0][column[:db]] || 'BLANK',
+		:for => "abstract_0_#{column[:db]}" ) %>
+<br/>
+	<%= f.radio_button( column[:db], @abstracts[1][column[:db]] || '',
+		:checked => true ) %>
+	<%= f.label( column[:db], @abstracts[1][column[:db]] || 'BLANK',
+		:value => "#{@abstracts[1][column[:db]]}" ) %>
+
+	<%#= f.radio_button( column[:db], @abstracts[1][column[:db]],
+		:checked => true, :id => "abstract_1_#{column[:db]}" ) %>
+	<%#= f.label( column[:db], @abstracts[1][column[:db]] || 'BLANK',
+		:for => "abstract_1_#{column[:db]}" ) %>
+<% else -%>
+	<%= f.text_field column[:db], :value => @abstracts[0][column[:db]],
+		:readonly => true %>
+<% end -%>
+</td>
+  <% end %>
+<% end %>
+</tbody>
+</table>
+
+<p class='submit_bar'><%= 
+	f.submit_link_to "Merge abstracts from selections", :name => nil, :id => nil 
+%></p>
+
+<% end %>

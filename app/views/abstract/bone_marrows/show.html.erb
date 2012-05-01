@@ -1,0 +1,17 @@
+<%= edit_link() %>
+
+<%= wrapped_yndk_spans(:abstract,:marrow_biopsy_report_found,
+	:label_text => "Biopsy Found?") %>
+<%= wrapped_date_spans(:abstract,:marrow_biopsy_on,
+	:label_text => "Date") %>
+<%= wrapped_spans(:abstract,:marrow_biopsy_diagnosis,
+	:label_text => "Diag/Intrep") %>
+
+<%= wrapped_yndk_spans(:abstract,:marrow_aspirate_report_found,
+	:label_text => "Aspiration Found?") %>
+<%= wrapped_date_spans(:abstract,:marrow_aspirate_taken_on,
+	:label_text => "Date") %>
+<%= wrapped_spans(:abstract,:marrow_aspirate_diagnosis,
+	:label_text => "Diagnosis/Interpretation") %>
+
+<%= abstract_pages(@abstract) %>

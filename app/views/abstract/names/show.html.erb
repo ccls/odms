@@ -1,0 +1,23 @@
+<%= edit_link() %>
+
+<%= wrapped_spans(:abstract,:abstractor_id,
+	:label_text => 'Abstractor Name' ) %>
+<%= wrapped_date_spans(:abstract,:abstracted_on,
+	:label_text => 'Abstractor Date' ) %>
+<%= wrapped_spans(:abstract,:reviewer_id,
+	:label_text => 'Reviewer Name' ) %>
+<%= wrapped_date_spans(:abstract,:reviewed_on,
+	:label_text => 'Reviewer Date' ) %>
+<%#= wrapped_spans(:abstract,:user_id,
+	:label_text => 'Data Entry Name' ) %>
+<%= wrapped_date_spans(:abstract,:data_entry_done_on,
+	:label_text => 'Data Entry Date' ) %>
+<%= wrapped_spans(:abstract,:entry_1_by,
+	:label_text => 'Data Entry 1 By' ) %>
+<%= wrapped_spans(:abstract,:entry_2_by,
+	:label_text => 'Data Entry 2 By' ) %>
+<%= wrapped_spans(:abstract,:merged_by,
+	:label_text => 'Data Merged By' ) %>
+<p>Abstract Version</p>
+
+<%= abstract_pages(@abstract) %>

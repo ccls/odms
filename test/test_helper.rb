@@ -7,6 +7,8 @@ require 'action_controller_extension'
 require 'active_support_extension'
 require 'factory_test_helper'
 
+require 'partial_abstract_controller_test_helper'
+
 #	These are not automatically included as they
 #		contain duplicate methods names.
 #	They must be explicitly included in the test classes

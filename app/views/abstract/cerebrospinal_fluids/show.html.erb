@@ -1,0 +1,32 @@
+<%= edit_link() %>
+
+<div class='cerebrospinal_fluid'>
+<%= wrapped_yndk_spans(:abstract,:cerebrospinal_fluid_report_found,
+	:label_text => "Found?" ) %>
+<%= wrapped_date_spans(:abstract,:csf_report_on,
+	:label_text => "Date" ) %>
+<% wrapped_spans(:abstract,:csf_white_blood_count,
+	:label_text => "WBC*" ) do %>
+<%= wrapped_spans(:abstract,:csf_white_blood_count_text,
+	:label_text => "&nbsp;" ) %>
+<% end %>
+<% wrapped_spans(:abstract,:csf_red_blood_count,
+	:label_text => "RBC*" ) do %>
+<%= wrapped_spans(:abstract,:csf_red_blood_count_text,
+	:label_text => "&nbsp;" ) %>
+<% end %>
+<% wrapped_spans(:abstract,:blasts_are_present,
+	:label_text => "Blasts present:" ) do %>
+<%= wrapped_spans(:abstract,:number_of_blasts,
+	:label_text => "number:" ) %>
+<% end %>
+<%= wrapped_spans(:abstract,:peripheral_blood_in_csf,
+	:label_text => "PB contamination" ) %>
+<%= wrapped_spans(:abstract,:csf_comment,
+	:label_text => "Cytology" ) %>
+</div><!-- class='cerebrospinal_fluid' -->
+
+<p>* Enter Numerical data only</p>
+
+
+<%= abstract_pages(@abstract) %>

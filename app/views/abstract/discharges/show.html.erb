@@ -1,0 +1,39 @@
+<%= edit_link() %>
+
+<p>Check relevant report(s):</p>
+
+<%= wrapped_yndk_spans(:abstract,:h_and_p_reports_found,
+	:label_text => "Found?" ) %>
+<%= wrapped_date_spans(:abstract,:h_and_p_reports_on,
+	:label_text => "Date" ) %>
+
+<%#= wrapped_yes_or_no_spans(:abstract,:is_h_and_p_report_found,
+	:label_text => "Found" ) %>
+
+<%= wrapped_yndk_spans(:abstract,:hepatomegaly_present,
+	:label_text => "Hepatomegaly? *" ) %>
+<%= wrapped_yndk_spans(:abstract,:splenomegaly_present,
+	:label_text => "Splenomegaly? *" ) %>
+
+<%= wrapped_spans(:abstract,:height_at_diagnosis,
+	:label_text => "Height at Diagnosis (in cm):" ) %>
+
+<%= wrapped_spans(:abstract,:weight_at_diagnosis,
+	:label_text => "Weight at Diagnosis (in kg):" ) %>
+
+<%= wrapped_yndk_spans(:abstract,:is_down_syndrome_phenotype,
+	:label_text => "Down Syndrome Phenotype" ) %>
+
+<p>Discharge Summary</p>
+<%= wrapped_yndk_spans(:abstract,:discharge_summary_found,
+	:label_text => "Found?" ) %>
+<%= wrapped_date_spans(:abstract,:discharge_summary_found_on,
+	:label_text => "Date" ) %>
+
+
+<p>* From Admitting H &amp; P</p>
+<hr/>
+<%= wrapped_spans(:abstract,:discharge_summary,
+	:label_text => "Discharge Diagnosis" ) %>
+
+<%= abstract_pages(@abstract) %>

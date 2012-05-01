@@ -165,6 +165,43 @@ end
 
 	resource :receive_sample, :only => [:new,:create]
 
+	#	I think that these MUST come before the study subject sub routes
+	resources :abstracts, :except => [:new,:create] do
+		#	specify custom location controllers to avoid conflict
+		#	with app controllers ( just diagnoses now )
+		resource :identifying_data, :only => [:edit,:update,:show],
+			:controller => 'abstract/identifying_datas'
+		resource :bone_marrow, :only => [:edit,:update,:show],
+			:controller => 'abstract/bone_marrows'
+		resource :cbc, :only => [:edit,:update,:show],
+			:controller => 'abstract/cbcs'
+		resource :cerebrospinal_fluid, :only => [:edit,:update,:show],
+			:controller => 'abstract/cerebrospinal_fluids'
+		resource :checklist, :only => [:edit,:update,:show],
+			:controller => 'abstract/checklists'
+		resource :chest_imaging, :only => [:edit,:update,:show],
+			:controller => 'abstract/chest_imagings'
+		resource :clinical_chemo_protocol, :only => [:edit,:update,:show],
+			:controller => 'abstract/clinical_chemo_protocols'
+		resource :cytogenetic, :only => [:edit,:update,:show],
+			:controller => 'abstract/cytogenetics'
+		resource :diagnosis, :only => [:edit,:update,:show],
+			:controller => 'abstract/diagnoses'
+		resource :discharge, :only => [:edit,:update,:show],
+			:controller => 'abstract/discharges'
+		resource :flow_cytometry, :only => [:edit,:update,:show],
+			:controller => 'abstract/flow_cytometries'
+		resource :histocompatibility, :only => [:edit,:update,:show],
+			:controller => 'abstract/histocompatibilities'
+		resource :name, :only => [:edit,:update,:show],
+			:controller => 'abstract/names'
+		resource :tdt, :only => [:edit,:update,:show],
+			:controller => 'abstract/tdts'
+		resource :therapy_response, :only => [:edit,:update,:show],
+			:controller => 'abstract/therapy_responses'
+	end
+
+
 	resources :study_subjects, :only => [:edit,:update,:show,:index],
 			:shallow => true do 
 		collection do
@@ -186,6 +223,14 @@ end
 		resources :interviews, :only => :index
 		resources :documents,  :only => :index
 		resources :notes,      :only => :index
+
+#		resources :abstracts, :only => [:create] do
+		resources :abstracts, :only => [:new,:create] do
+			collection do
+				get :compare
+				post :merge
+			end
+		end
 	end
 
 	resources :bc_requests, :except => :show do
@@ -218,6 +263,9 @@ end
 	resources :birth_data_updates do 
 		member { post :parse }
 	end
+
+
+
 
 	resources :pages do
 		collection do

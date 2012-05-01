@@ -67,6 +67,12 @@ module FormBuilderHelper
 #				{:include_blank => 'Meridiem'}.merge(options), html_options)
 #		end
 
+	def pos_neg_select(method, options={}, html_options={})
+		@template.select(object_name, method,
+			[['Positive',1],['Negative',2]],
+			{:include_blank => true}.merge(options), html_options)
+	end
+
 		def sex_select(method,options={},html_options={})
 			@template.select(object_name, method,
 				[['-select-',''],['male','M'],['female','F'],["don't know",'DK']],
@@ -135,7 +141,7 @@ module FormBuilderHelper
 				datetime_select date_text_field datetime_text_field 
 				file_field
 				hour_select minute_select meridiem_select
-				grouped_collection_select select sex_select text_area
+				grouped_collection_select pos_neg_select select sex_select text_area
 				text_field yndk_select ynodk_select ynrdk_select 
 			).each do |unwrapped_method_name|
 class_eval %Q"

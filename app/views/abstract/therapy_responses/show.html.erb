@@ -1,0 +1,67 @@
+<%= edit_link() %>
+
+<%= wrapped_spans(:abstract,:response_fab_subtype,
+	:label_text => "Diagnosed Subtype" ) %>
+
+<p>Notes: Test dates may not correspond exactly to days 7, 14, &amp; 28.  Please note the dates of each biopsy.  Check the calculated field to see exact number days betwen diagnosis and test.</p>
+
+<h4>Day 7: Bone Marrow Biopsy/Aspirate</h4>
+<%= wrapped_yndk_spans(:abstract,:response_report_found_day_7,
+	:label_text => "Found?" ) %>
+<%= wrapped_date_spans(:abstract,:response_report_on_day_7,
+	:label_text => "Date" ) %>
+<%= wrapped_spans(:abstract,:response_day_7_days_since_diagnosis,
+	:label_text => "Days Since Diagnosis" ) %>
+<%= wrapped_spans(:abstract,:response_day_7_days_since_treatment_began,
+	:label_text => "Days Since Treatment" ) %>
+<%= wrapped_spans(:abstract,:response_classification_day_7,
+	:label_text => "Classification" ) %>
+<%= wrapped_spans(:abstract,:response_blasts_day_7,
+	:label_text => "Percentage blasts" ) %>
+<%= wrapped_yndk_spans(:abstract,:response_is_inconclusive_day_7,
+	:label_text => "Inconclusive Results?" ) %>
+<%#= wrapped_spans(:abstract,:response_blasts_units_day_7,
+	:label_text => "Units" ) %>
+
+<h4>Day 14: Bone Marrow Biopsy/Aspirate</h4>
+<%= wrapped_yndk_spans(:abstract,:response_report_found_day_14,
+	:label_text => "Found?" ) %>
+<%= wrapped_date_spans(:abstract,:response_report_on_day_14,
+	:label_text => "Date" ) %>
+<%= wrapped_spans(:abstract,:response_day_14_days_since_diagnosis,
+	:label_text => "Days Since Diagnosis" ) %>
+<%= wrapped_spans(:abstract,:response_day_14_days_since_treatment_began,
+	:label_text => "Days Since Treatment" ) %>
+<%= wrapped_spans(:abstract,:response_classification_day_14,
+	:label_text => "Classification" ) %>
+<%= wrapped_spans(:abstract,:response_blasts_day_14,
+	:label_text => "Percentage blasts" ) %>
+<%= wrapped_yndk_spans(:abstract,:response_is_inconclusive_day_14,
+	:label_text => "Inconclusive Results?" ) %>
+<%#= wrapped_spans(:abstract,:response_blasts_units_day_14,
+	:label_text => "Units" ) %>
+
+<h4>Day 28: Bone Marrow Biopsy/Aspirate</h4>
+<%= wrapped_yndk_spans(:abstract,:response_report_found_day_28,
+	:label_text => "Found?" ) %>
+<%= wrapped_date_spans(:abstract,:response_report_on_day_28,
+	:label_text => "Date" ) %>
+<%= wrapped_spans(:abstract,:response_day_28_days_since_diagnosis,
+	:label_text => "Days Since Diagnosis" ) %>
+<%= wrapped_spans(:abstract,:response_day_28_days_since_treatment_began,
+	:label_text => "Days Since Treatment" ) %>
+<%= wrapped_spans(:abstract,:response_classification_day_28,
+	:label_text => "Classification" ) %>
+<%= wrapped_spans(:abstract,:response_blasts_day_28,
+	:label_text => "Percentage blasts" ) %>
+<%= wrapped_yndk_spans(:abstract,:response_is_inconclusive_day_28,
+	:label_text => "Inconclusive Results" ) %>
+<%#= wrapped_spans(:abstract,:response_blasts_units_day_28,
+	:label_text => "Units" ) %>
+
+<%= wrapped_yndk_spans(:abstract,:response_day30_is_in_remission,
+	:label_text => "At the end of induction (30 days), was the child in clinical remission?" ) %>
+
+<p>* If no diagnosis date is entered, count will remain 0</p>
+
+<%= abstract_pages(@abstract) %>

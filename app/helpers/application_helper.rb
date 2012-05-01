@@ -421,7 +421,14 @@ module ApplicationHelper
 		s << "<span class='value'>#{value}</span>"
 	end
 
-	%w( adna_spans date_spans datetime_spans spans yes_or_no_spans 
+def _wrapped_pos_neg_spans(object_name,method,options={})
+object = instance_variable_get("@#{object_name}")
+_wrapped_spans(object_name,method,options.update(
+:value => pos_neg(object.send(method)) ) )
+end
+
+
+	%w( adna_spans date_spans datetime_spans pos_neg_spans spans yes_or_no_spans 
 			yndk_spans ynrdk_spans ynodk_spans ).each do |unwrapped_method_name|
 #
 #	Can't define a method that accepts a block with define_method.
