@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424210109) do
+ActiveRecord::Schema.define(:version => 20120501165346) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -529,17 +529,6 @@ ActiveRecord::Schema.define(:version => 20120424210109) do
     t.boolean  "vacuum_attempt_unsuccessful"
     t.datetime "created_at",                                                       :null => false
     t.datetime "updated_at",                                                       :null => false
-  end
-
-  create_table "birth_data_changes", :force => true do |t|
-    t.integer  "birth_data_update_id"
-    t.integer  "birth_data_id"
-    t.boolean  "new_data_record",      :default => false, :null => false
-    t.string   "modified_column"
-    t.string   "previous_value"
-    t.string   "new_value"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
   end
 
   create_table "birth_data_updates", :force => true do |t|
