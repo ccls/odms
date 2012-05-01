@@ -142,7 +142,9 @@ module PartialAbstractControllerTestHelper
 #						:commit => 'edit_next'
 					assert assigns(:abstract)
 					sections = Abstract.sections
-					ci = sections.find_index{|i| i[:controller] == @controller.class.name }
+#					ci = sections.find_index{|i| i[:controller] == @controller.class.name }
+					ci = sections.find_index{|i| 
+						i[:controller] == @controller.class.name.demodulize }
 					if( !ci.nil? && ci < ( sections.length - 1 ) )
 						assert_redirected_to send(sections[ci+1][:edit],abstract)
 					end
@@ -159,7 +161,9 @@ module PartialAbstractControllerTestHelper
 #						:commit => 'edit_previous'
 					assert assigns(:abstract)
 					sections = Abstract.sections
-					ci = sections.find_index{|i| i[:controller] == @controller.class.name }
+#					ci = sections.find_index{|i| i[:controller] == @controller.class.name }
+					ci = sections.find_index{|i| 
+						i[:controller] == @controller.class.name.demodulize }
 					if( !ci.nil? && ci > 0 )
 						assert_redirected_to send(sections[ci-1][:edit],abstract)
 					end
