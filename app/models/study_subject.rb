@@ -56,7 +56,7 @@ class StudySubject < ActiveRecord::Base
 
 	validates_complete_date_for :died_on, :allow_blank => true
 	validates_uniqueness_of     :state_id_no, 
-:childid, :studyid,
+:childid, 
 		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
 		:accession_no, :idno_wiemels, :studyid, :subjectid, :allow_nil => true
 #
