@@ -48,10 +48,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		_prepare_context	#	need this to set @view_flow so content_for works
 	end
 
-	test "should add test for separate actual_subject_id_bar helper method" do
-		pending	#	TODO
-	end
-
 	test "odms_main_menu should return main menu without login" do
 		response = HTML::Document.new(odms_main_menu).root
 		assert_select response, 'div#mainmenu', 1 do
@@ -87,34 +83,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-#	test "id_bar_for subject should return subject_id_bar" do
-##pending	#	TODO moved
-#		subject = Factory(:study_subject)
-#		assert subject.is_a?(StudySubject)
-#		#	subject_id_bar(subject,&block) is in subjects_helper.rb
-##		assert_nil id_bar_for(subject)	#	sets content_for :main
-##		response = HTML::Document.new( content_for(:subject_header) ).root
-#		response = HTML::Document.new( actual_subject_id_bar(subject) ).root
-#		assert_select response, 'div#id_bar' do
-#			assert_select 'div.full_name'
-#			assert_select 'div.id_numbers' do
-#				assert_select 'div.icf_master_id'
-#				assert_select 'div.studyid'
-#			end
-#		end
-##		assert !content_for?(:main)
-#	end
-
-#	test "id_bar_for other object should return nil" do
-#pending	#	TODO moved
-#		response = id_bar_for(Object)
-#		assert response.blank?
-#		assert response.nil?
-#	end
-
-#	test "sub_menu_for Subject should return subject_sub_menu" do
-#pending
-#	end
 
 	test "sub_menu_for nil should return nil" do
 		response = sub_menu_for(nil)
