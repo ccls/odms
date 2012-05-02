@@ -68,9 +68,10 @@ module FormBuilderHelper
 #		end
 
 	def pos_neg_select(method, options={}, html_options={})
-		@template.select(object_name, method,
-			[['Positive',1],['Negative',2]],
-			{:include_blank => true}.merge(options), html_options)
+#		@template.select(object_name, method,
+#			[['Positive',1],['Negative',2]],
+		@template.select(object_name, method, POSNEG.selector_options,
+			{:include_blank => true}.merge(objectify_options(options)), html_options)
 	end
 
 		def sex_select(method,options={},html_options={})
@@ -159,8 +160,49 @@ class_eval %Q"
 "
 end
 
+#
+#	wouldn't the controller name already be accessible and therefore
+#	not need to be passed as a parameter?
+#
+#	Possibly, but not directly. Actually, through @template
+#
+	def submit_bar(ignore_incoming_controller_name)
+		controller_name = @template.controller.class.name
+		s = "<div class='submit_bar'>"
+		s << "<p class='submit_bar'>"
+		s << @template.link_to( "Cancel and Show Section", 
+			{ :action => 'show' }, { :class => 'button' } )
+		s << "&nbsp;\n"
+		s << submit( 'Save and Show Section',:name => nil )
+		s << "</p>\n"
+		sections = Abstract.sections
+		ci = sections.find_index{|i| 
+			i[:controller] =~ /^#{controller_name.demodulize}$/i }
+		s << "<p class='submit_bar'>"
+		s << (( !ci.nil? && ci > 0 ) ? 
+
+#	these values were used in the controllers before as the value
+#	of a HIDDEN submit button.  As the submit button is no longer
+#	hidden, must find a different way.  I'm thinking of rather
+#	than getting the value of the commit param, simply looking
+#	for the edit_next or edit_previous param.
+
+#			submit_link_to( "Save and Edit '#{sections[ci-1][:label]}'",
+#				:value => 'edit_previous') : '' )
+			submit( "Save and Edit '#{sections[ci-1][:label]}'".html_safe,
+				:name => 'edit_previous') : '' )
+		s << "&nbsp;\n"
+		s << (( !ci.nil? && ci < ( sections.length - 1 ) ) ?
+#			submit_link_to( "Save and Edit '#{sections[ci+1][:label]}'",
+#				:value => 'edit_next') : '' )
+			submit( "Save and Edit '#{sections[ci+1][:label]}'".html_safe,
+				:name => 'edit_next') : '' )
+		s << "</p>\n"
+		s << "</div><!-- class='submit_bar' -->"
+		s.html_safe
+	end
+
 #	end	#	module InstanceMethods
 
 end
-#ActionView::Helpers::FormBuilder.send(:include, ActionViewExtension::FormBuilder )
 ActionView::Helpers::FormBuilder.send(:include, FormBuilderHelper )

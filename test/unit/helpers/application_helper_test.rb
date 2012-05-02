@@ -1245,6 +1245,27 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
+
+
+
+#	abstract_pages
+
+	test "should respond abstract_pages" do
+		assert respond_to?(:abstract_pages)
+	end
+
+#	edit_link
+
+	test "should respond edit_link" do
+		assert respond_to?(:edit_link)
+	end
+
+
+
+
+
+
+
 private 
 	def params
 		@params || {}
@@ -1252,11 +1273,6 @@ private
 	def params=(new_params)
 		@params = new_params
 	end
-#		this method is now local
-#	def stylesheets(*args)
-#		#	placeholder so can call subject_id_bar and avoid
-#		#		NoMethodError: undefined method `stylesheets' for #<Ccls::HelperTest:0x109e8ef90>
-#	end
 	def login_as(user)
 		@current_user = user
 	end
