@@ -37,4 +37,13 @@ class TranslationTableTest < ActiveSupport::TestCase
 			[['Agree',1],['Do Not Agree',2],['N/A',555],["Don't Know",999]]
 	end
 
+	test "POSNEG valid values" do
+		assert_equal POSNEG.valid_values, [1,2]
+	end
+
+	test "POSNEG selector options" do
+		assert_equal POSNEG.selector_options, 
+			[['Positive',1],['Negative',2]]
+	end
+
 end
