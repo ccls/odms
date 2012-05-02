@@ -48,10 +48,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		_prepare_context	#	need this to set @view_flow so content_for works
 	end
 
-	test "should add test for separate do_not_contact helper method" do
-		pending	#	TODO
-	end
-
 	test "should add test for separate actual_subject_id_bar helper method" do
 		pending	#	TODO
 	end
@@ -867,21 +863,33 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-#	actual_subject_id_bar
+#	subject_id_bar
 
 	test "should respond to subject_id_bar" do
-		assert respond_to?(:actual_subject_id_bar)
+		assert respond_to?(:subject_id_bar)
 	end
 
-	test "actual_subject_id_bar should return actual_subject_id_bar" do
+	test "subject_id_bar should return subject_id_bar with study_subject" do
 		subject = Factory(:study_subject)
 		assert subject.is_a?(StudySubject)
-		response = HTML::Document.new( actual_subject_id_bar(subject)	).root
+		response = HTML::Document.new( subject_id_bar(subject)	).root
 		assert_select response, 'div#id_bar' do
 			assert_select 'div.icf_master_id'
 			assert_select 'div.studyid'
 			assert_select 'div.full_name'
 		end
+	end
+
+	test "subject_id_bar should NOT return subject_id_bar without study_subject" do
+		response = HTML::Document.new( subject_id_bar(nil)	).root
+		assert response.blank?
+		assert_select response, 'div#id_bar', 0
+	end
+
+#	do_not_contact
+
+	test "should respond to do_not_contact" do
+		assert respond_to?(:do_not_contact)
 	end
 
 	test "do_not_contact should return do_not_contact if do not contact" do
@@ -898,6 +906,16 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert !subject.do_not_contact?
 		response = HTML::Document.new( do_not_contact(subject) ).root
 		assert_select response, 'div#do_not_contact', 0
+		assert response.blank?
+	end
+
+	test "do_not_contact should NOT return do_not_contact if nil do not contact" do
+		subject = Factory(:study_subject,:do_not_contact => nil)
+		assert  subject.is_a?(StudySubject)
+		assert_nil subject.do_not_contact
+		response = HTML::Document.new( do_not_contact(subject) ).root
+		assert_select response, 'div#do_not_contact', 0
+		assert response.blank?
 	end
 
 #	required
@@ -1013,6 +1031,18 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_equal "&nbsp;", ynrdk()
 	end
 
+	test "posneg(1) should return 'Positive'" do
+		assert_equal 'Positive', posneg(1)
+	end
+
+	test "posneg(2) should return 'Negative'" do
+		assert_equal 'Negative', posneg(2)
+	end
+
+	test "posneg() should return '&nbsp;'" do
+		assert_equal "&nbsp;", posneg()
+	end
+
 	test "unwrapped _wrapped_adna_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
@@ -1078,7 +1108,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_select response, 'span.value', '&nbsp;', 1
 	end
 
-
 	test "wrapped_ynodk_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
@@ -1090,90 +1119,24 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-#	test "form_link_to with block" do
-#		response = HTML::Document.new(
-#			form_link_to('mytitle','/myurl') do
-#				hidden_field_tag('apple','orange')
-#			end).root
-##<form class='form_link_to' action='/myurl' method='post'>
-##<input id="apple" name="apple" type="hidden" value="orange" />
-##<input type="submit" value="mytitle" />
-##</form>
-##<form class="form_link_to" method="post" action="/myurl">
-##<div style="margin:0;padding:0;display:inline"><input name="utf8" value="&#x2713;" type="hidden" /></div>
-##<input name="apple" id="apple" value="orange" type="hidden" /><input value="mytitle" type="submit" />
-##</form>
-#		assert_select response, 'form.form_link_to[action=/myurl]', 1 do
-##			assert_select 'input', 2
-##	rails 3 has another input field 'utf8'
-#			assert_select 'input', 3
-#pending
-#		end
-#	end
-#
-#	test "form_link_to without block" do
-#		response = HTML::Document.new(form_link_to('mytitle','/myurl')).root
-##<form class="form_link_to" method="post" action="/myurl">
-##<div style="margin:0;padding:0;display:inline"><input name="utf8" value="&#x2713;" type="hidden" /></div>
-##<input value="mytitle" type="submit" />
-##</form>
-#		assert_select response, 'form.form_link_to[action=/myurl]', 1 do
-##	rails 3 has another input field 'utf8'
-## 		assert_select 'input', 1
-#			assert_select 'input', 2
-#pending
-#		end
-##<form class="form_link_to" action="/myurl" method="post">
-##<input type="submit" value="mytitle" />
-##</form>
-#	end
-#
-#	test "destroy_link_to with block" do
-#		response = HTML::Document.new(
-#			destroy_link_to('mytitle','/myurl') do
-#				hidden_field_tag('apple','orange')
-#			end).root
-##<form class="destroy_link_to" action="/myurl" method="post">
-##<div style="margin:0;padding:0;display:inline"><input name="_method" type="hidden" value="delete" /></div>
-##<input id="apple" name="apple" type="hidden" value="orange" /><input type="submit" value="mytitle" />
-##</form>
-##puts response
-##<form class="destroy_link_to" method="post" action="/myurl">
-##<div style="margin:0;padding:0;display:inline"><input name="utf8" value="&#x2713;" type="hidden" /><input name="_method" value="delete" type="hidden" /></div>
-##<input name="apple" id="apple" value="orange" type="hidden" /><input value="mytitle" type="submit" />
-##</form>
-#		assert_select response, 'form.destroy_link_to[action=/myurl]', 1 do
-#			assert_select 'div', 1 do
-#				assert_select 'input[name=_method][value=delete]',1
-#			end
-##	rails 3 has another input field 'utf8'
-##			assert_select 'input', 3
-#			assert_select 'input', 4
-#pending
-#		end
-#	end
-#
-#	test "destroy_link_to without block" do
-#		response = HTML::Document.new(destroy_link_to('mytitle','/myurl')).root
-##<form class="destroy_link_to" action="/myurl" method="post">
-##<div style="margin:0;padding:0;display:inline"><input name="_method" type="hidden" value="delete" /></div>
-##<input type="submit" value="mytitle" />
-##</form>
-##puts response
-##<form class="destroy_link_to" method="post" action="/myurl">
-##<div style="margin:0;padding:0;display:inline"><input name="utf8" value="&#x2713;" type="hidden" /><input name="_method" value="delete" type="hidden" /></div>
-##<input value="mytitle" type="submit" />
-##</form>
-#		assert_select response, 'form.destroy_link_to[action=/myurl]', 1 do
-#			assert_select 'div', 1 do
-#				assert_select 'input[name=_method][value=delete]',1
-#			end
-##	rails 3 has another input field 'utf8'
-##			assert_select 'input', 2
-#			assert_select 'input', 3
-#pending
-#		end
-#	end
+	test "unwrapped _wrapped_pos_neg_spans" do
+		@some_model = SomeModel.new
+		response = HTML::Document.new(
+			_wrapped_pos_neg_spans(:some_model, :int_field)).root
+		assert_select response, 'span.label', 'int_field', 1
+		assert_select response, 'span.value', '&nbsp;', 1
+	end
+
+	test "wrapped_pos_neg_spans" do
+		@some_model = SomeModel.new
+		response = HTML::Document.new(
+			wrapped_pos_neg_spans(:some_model, :int_field)).root
+		assert_select response, 'div.int_field.field_wrapper', 1 do
+			assert_select 'label', 0
+			assert_select 'span.label', 'int_field', 1
+			assert_select 'span.value', '&nbsp;', 1
+		end
+	end
 
 	test "flasher" do
 		response = HTML::Document.new(
