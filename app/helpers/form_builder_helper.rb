@@ -166,7 +166,7 @@ end
 #
 #	Possibly, but not directly. Actually, through @template
 #
-	def submit_bar(ignore_incoming_controller_name)
+	def submit_bar()
 		controller_name = @template.controller.class.name
 		s = "<div class='submit_bar'>"
 		s << "<p class='submit_bar'>"

@@ -62,13 +62,13 @@ module ApplicationHelper
 #		end
 #	end
 
-	def sub_menu_for(object)
-		case object
-			when StudySubject   then study_subject_sub_menu(object)
-#			when Interview then interview_sub_menu(object)
-			else nil
-		end
-	end
+#	def sub_menu_for(object)
+#		case object
+#			when StudySubject   then study_subject_sub_menu(object)
+##			when Interview then interview_sub_menu(object)
+#			else nil
+#		end
+#	end
 
 	def birth_certificates_sub_menu
 		#	added the to_s's to ensure not nil
@@ -120,7 +120,7 @@ module ApplicationHelper
 		end
 	end
 
-	def study_subject_sub_menu(study_subject)
+	def subject_side_menu(study_subject)
 		current = case params[:controller]
 			when 'study_subjects' then :general
 			when 'patients' then :hospital
@@ -136,11 +136,9 @@ module ApplicationHelper
 			when 'documents' then :documents
 			when 'notes' then :notes
 			when 'related_subjects' then :related_subjects
-#			when 'cases' then :cases
-#			else nil
 		end
-		content_for :side_menu do
-			s = "<div id='sidemenu'>\n"
+		return '' unless study_subject
+		s = "<div id='sidemenu'>\n"
 			links = []
 			if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
 				links << link_to( "back to search", request.env["HTTP_REFERER"] )
@@ -179,10 +177,72 @@ module ApplicationHelper
 					:class => ((current == :related_subjects)?'current':nil) )
 			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
-			s.html_safe
-#	NOTE test this as I suspect that it needs an "html_safe" added
-		end
+		s.html_safe
 	end
+
+#	def study_subject_sub_menu(study_subject)
+#		current = case params[:controller]
+#			when 'study_subjects' then :general
+#			when 'patients' then :hospital
+#			when 'addresses' then :contact
+#			when 'addressings' then :contact
+#			when 'contacts' then :contact
+#			when 'phone_numbers' then :contact
+#			when 'consents' then :consents
+#			when 'enrollments' then :eligibility
+#			when 'samples' then :samples
+#			when 'interviews' then :interviews
+#			when 'events' then :events
+#			when 'documents' then :documents
+#			when 'notes' then :notes
+#			when 'related_subjects' then :related_subjects
+##			when 'cases' then :cases
+##			else nil
+#		end
+#		content_for :side_menu do
+#			s = "<div id='sidemenu'>\n"
+#			links = []
+#			if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
+#				links << link_to( "back to search", request.env["HTTP_REFERER"] )
+#			end
+##				link_to( "back to subjects", dashboard_study_subjects_path ),
+#			links += [
+#				link_to( "Basic Info", study_subject_path(study_subject),
+#					:class => ((current == :general)?'current':nil) ),
+#				link_to( "Address & Phone", study_subject_contacts_path(study_subject),
+#					:class => ((current == :contact)?'current':nil) ),
+#				link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
+#					:class => ((current == :hospital)?'current':nil) ),
+#				link_to( "Eligibility & Consent", study_subject_consent_path(study_subject),
+#					:class => ((current == :consents)?'current':nil) ),
+#				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
+#					:class => ((current == :eligibility)?'current':nil) ) ]
+#
+#			links += [
+#				link_to( "Samples", study_subject_samples_path(study_subject),
+#					:class => ((current == :samples)?'current':nil) ),
+#				link_to( "Interviews", study_subject_interviews_path(study_subject),
+#					:class => ((current == :interviews)?'current':nil) ) 
+#			] if( logged_in? and current_user.may_administrate? )
+#
+#			links << link_to( "Events", study_subject_events_path(study_subject),
+#					:class => ((current == :events)?'current':nil) )
+#
+#			links += [
+#				link_to( "Documents", study_subject_documents_path(study_subject),
+#					:class => ((current == :documents)?'current':nil) ),
+#				link_to( "Notes", study_subject_notes_path(study_subject),
+#					:class => ((current == :notes)?'current':nil) ),
+#			] if( logged_in? and current_user.may_administrate? )
+#
+#			links << link_to( "Related Subjects", related_subject_path(study_subject),
+#					:class => ((current == :related_subjects)?'current':nil) )
+#			s << links.join("\n")
+#			s << "\n</div><!-- submenu -->\n"
+#			s.html_safe
+##	NOTE test this as I suspect that it needs an "html_safe" added
+#		end
+#	end
 
 	def control_bar
 		s  = "<div id='dashboard_control_bar'>"

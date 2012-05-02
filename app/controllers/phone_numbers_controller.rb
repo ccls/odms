@@ -59,6 +59,7 @@ protected
 	def valid_id_required
 		if !params[:id].blank? and PhoneNumber.exists?(params[:id])
 			@phone_number = PhoneNumber.find(params[:id])
+			@study_subject = @phone_number.study_subject
 		else
 			access_denied("Valid phone_number id required!", 
 				study_subjects_path)

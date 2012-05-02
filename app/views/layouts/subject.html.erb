@@ -9,7 +9,9 @@
  <%= render 'layouts/subject_header' %>
  <div class='table'>
  <div class='columns'>
-  <%= render 'layouts/side_menu' %>
+<div id='left_side_menu'>
+<%= subject_side_menu(@study_subject) %>
+</div><!-- id='left_side_menu' -->
   <div id='main'>
    <%#= yield :main %>
    <%#= do_not_contact(@study_subject) if @study_subject %>

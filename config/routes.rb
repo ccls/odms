@@ -84,13 +84,18 @@ end
 	resources :hospitals
 	resources :instrument_types
 	resources :instrument_versions
+	resources :ineligible_reasons
 	resources :instruments
 	resources :interview_methods
 	resources :interview_outcomes
+	resources :languages
 	resources :organizations
+	resources :people
 	resources :phone_types
 	resources :project_outcomes
 	resources :projects
+	resources :races
+	resources :refusal_reasons
 	resources :sample_formats
 	resources :sample_outcomes
 	resources :sample_temperatures
@@ -122,11 +127,6 @@ end
 	end
 	resource :session, :only => [ :destroy ]
 
-	resources :races
-	resources :languages
-	resources :people
-	resources :refusal_reasons
-	resources :ineligible_reasons
 	resources :zip_codes, :only => [ :index ]
 #	resources :operational_event_types, :only => [] do
 	resources :operational_event_types do
@@ -224,10 +224,14 @@ end
 		resources :documents,  :only => :index
 		resources :notes,      :only => :index
 
-#		resources :abstracts, :only => [:create] do
-		resources :abstracts, :only => [:new,:create] do
+#
+#	Add index action and set custom controller name
+#
+		resources :abstracts, :only => [:new,:create,:index],
+			:controller => 'study_subject_abstracts' do
+#		resources :abstracts, :only => [:new,:create] do
 			collection do
-				get :compare
+				get  :compare
 				post :merge
 			end
 		end

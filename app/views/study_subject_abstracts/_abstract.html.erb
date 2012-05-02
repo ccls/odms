@@ -1,0 +1,25 @@
+<%= content_tag_for :tr, abstract, :class => 'row' do %>
+<td class='id'>
+	<%= link_to abstract.id, abstract_path(abstract) %>
+</td>
+<td class='subject'>
+<%= abstract.study_subject.try(:patid) || '&nbsp;' %>
+</td>
+<td class='entry_1'>
+<%= abstract.try(:entry_1_by) || '&nbsp;'.html_safe %>
+</td>
+<td class='entry_2'>
+<%= abstract.try(:entry_2_by) || '&nbsp;'.html_safe %>
+</td>
+<td class='merged'>
+<%= abstract.try(:merged_by) || '&nbsp;'.html_safe %>
+</td>
+<td class='manage'>
+	<%= link_to 'Edit', edit_abstract_path(abstract),
+		:class => 'button' %>&nbsp;
+	<%# destroy_link_to 'Destroy', abstract_path(abstract) do %>
+		<%#= hidden_field_tag 'confirm', "Destroy abstract '#{abstract.id}'?", :id => nil %>
+		<%#= submit_link_to 'Destroy' %>
+	<%# end %>
+</td>
+<% end %>

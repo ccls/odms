@@ -67,6 +67,7 @@ protected
 	def valid_id_required
 		if !params[:id].blank? and Addressing.exists?(params[:id])
 			@addressing = Addressing.find(params[:id])
+			@study_subject = @addressing.study_subject
 		else
 			access_denied("Valid address id required!", 
 				study_subjects_path)

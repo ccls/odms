@@ -1,0 +1,28 @@
+<h4>Abstracts:</h4>
+
+<% unless @abstracts.empty? %>
+<table id='abstracts'><thead>
+<tr><th>ID</th><th>Pat ID</th>
+<th>Entry 1 By</th>
+<th>Entry 2 By</th>
+<th>Merged By</th>
+<th class='manage'>Manage</th></tr>
+</thead><tbody>
+<%= render @abstracts %>
+</tbody></table>
+<% else %>
+Sorry, no abstracts yet.
+<% end %>
+
+<ul>
+<li><%= link_to "Subjects", 
+	study_subjects_path() %></li>
+<li><%= link_to "Subjects awaiting first entry", 
+	study_subjects_path(:abstracts_count => 0) %></li>
+<li><%= link_to "Subjects awaiting second entry", 
+	study_subjects_path(:abstracts_count => 1) %></li>
+<li><%= link_to "Subjects awaiting abstract merging", 
+	study_subjects_path(:abstracts_count => 2) %></li>
+<li><%= link_to "Merged Abstracts", 
+	abstracts_path(:merged => true) %></li>
+</ul>
