@@ -7,37 +7,41 @@
 #	I use Capybara which, so far has worked well, now that many
 #	of the oddities have been dealt with.
 #
-require "webrat"
-
-Webrat.configure do |config|
-  config.mode = :rails
-end
-
-class ActionController::WebRatIntegrationTest < ActionController::IntegrationTest
-
-	fixtures :all
-
-	setup :turn_https_on_for_webrat
-
-	def turn_https_on_for_webrat
-		#	I always, so far anyway, use https in webrat tests so ...
-		header('HTTPS', 'on')
-	end
-
-	#	Special login_as for integration testing.
-	def login_as( user=nil )
-		uid = ( user.is_a?(User) ) ? user.uid : user
-		if !uid.blank?
-			stub_ucb_ldap_person()
-			u = User.find_create_and_update_by_uid(uid)
-			visit new_fake_session_path()
-			fill_in 'id', :with => u.id
-			click_button 'login'
-		end
-	end
-
-end
-
+#
+#	WebRat and my WebRatIntegrationTest is no longer used
+#		so commenting this all out.
+#
+#require "webrat"
+#
+#Webrat.configure do |config|
+#  config.mode = :rails
+#end
+#
+#class ActionController::WebRatIntegrationTest < ActionController::IntegrationTest
+#
+#	fixtures :all
+#
+#	setup :turn_https_on_for_webrat
+#
+#	def turn_https_on_for_webrat
+#		#	I always, so far anyway, use https in webrat tests so ...
+#		header('HTTPS', 'on')
+#	end
+#
+#	#	Special login_as for integration testing.
+#	def login_as( user=nil )
+#		uid = ( user.is_a?(User) ) ? user.uid : user
+#		if !uid.blank?
+#			stub_ucb_ldap_person()
+#			u = User.find_create_and_update_by_uid(uid)
+#			visit new_fake_session_path()
+#			fill_in 'id', :with => u.id
+#			click_button 'login'
+#		end
+#	end
+#
+#end
+#
 __END__
 
 #	From http://cheat.errtheblog.com/s/webrat/
