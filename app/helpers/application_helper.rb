@@ -204,8 +204,9 @@ module ApplicationHelper
 		s.html_safe
 	end
 
-	def actual_subject_id_bar(study_subject)
-		s = "<div id='id_bar'>\n" <<
+	def subject_id_bar(study_subject)
+		s = if study_subject
+			"<div id='id_bar'>\n" <<
 			"<div class='full_name'>\n" <<
 			"<span>#{study_subject.full_name}</span>\n" <<
 			"</div><!-- class='full_name' -->\n" <<
@@ -220,6 +221,9 @@ module ApplicationHelper
 			"</div><!-- class='studyid' -->\n" <<
 			"</div><!-- class='id_numbers' -->\n" <<
 			"</div><!-- id='id_bar' -->\n"
+		else
+			''
+		end
 		s.html_safe
 	end
 
@@ -377,6 +381,11 @@ module ApplicationHelper
 		(ADNA[value]||'&nbsp;').html_safe
 	end
 
+	def pos_neg(value=nil)
+		(POSNEG[value]||'&nbsp;').html_safe
+	end
+	alias_method :posneg, :pos_neg
+
 	def _wrapped_yndk_spans(object_name,method,options={})
 		object = instance_variable_get("@#{object_name}")
 		_wrapped_spans(object_name,method,options.update(
@@ -399,6 +408,13 @@ module ApplicationHelper
 		object = instance_variable_get("@#{object_name}")
 		_wrapped_spans(object_name,method,options.update(
 			:value => (ADNA[object.send(method)]||'&nbsp;') ) )
+	end
+
+	def _wrapped_pos_neg_spans(object_name,method,options={})
+		object = instance_variable_get("@#{object_name}")
+		_wrapped_spans(object_name,method,options.update(
+			:value => (POSNEG[object.send(method)]||'&nbsp;') ) )
+#			:value => pos_neg(object.send(method)) ) )
 	end
 
 	def mdy(date)
@@ -452,12 +468,6 @@ module ApplicationHelper
 		s =  "<span class='label'>#{options[:label_text]||method}</span>\n"
 		value = (object.send("#{method}?"))?'Yes':'No'
 		s << "<span class='value'>#{value}</span>"
-	end
-
-	def _wrapped_pos_neg_spans(object_name,method,options={})
-		object = instance_variable_get("@#{object_name}")
-		_wrapped_spans(object_name,method,options.update(
-			:value => pos_neg(object.send(method)) ) )
 	end
 
 	%w( adna_spans date_spans datetime_spans pos_neg_spans spans yes_or_no_spans 

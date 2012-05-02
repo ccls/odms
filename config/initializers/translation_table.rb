@@ -84,3 +84,11 @@ class ADNA < TranslationTable
 		]
 	end
 end
+class POSNEG < TranslationTable
+	def self.table
+		@@table ||= [
+			{ :value => 1,   :short => 'pos', :long => "Positive" },
+			{ :value => 2,   :short => 'neg', :long => "Negative" }
+		]
+	end
+end

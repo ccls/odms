@@ -27,20 +27,12 @@ module AbstractsHelper
 		s.html_safe
 	end
 
-	def pos_neg(value)
-		case value
-			when 1   then 'Positive'
-			when 2   then 'Negative'
-			else '&nbsp;'
-		end
-	end
-
 end
 
 
 ActionView::Helpers::FormBuilder.class_eval do
 
-	def submit_bar(controller=nil)
+	def submit_bar(controller_name)
 		s = "<div class='submit_bar'>"
 		s << "<p class='submit_bar'>"
 		s << @template.link_to( "Cancel and Show Section", 
@@ -50,7 +42,7 @@ ActionView::Helpers::FormBuilder.class_eval do
 		s << "</p>\n"
 		sections = Abstract.sections
 		ci = sections.find_index{|i| 
-			i[:controller] =~ /^#{controller.demodulize}$/i }
+			i[:controller] =~ /^#{controller_name.demodulize}$/i }
 		s << "<p class='submit_bar'>"
 		s << (( !ci.nil? && ci > 0 ) ? 
 
