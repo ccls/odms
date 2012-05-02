@@ -266,6 +266,10 @@ class Abstract < ActiveRecord::Base
 		:response_comment,
 			:maximum => 65000, :allow_blank => true
 
+#	histo_report_found is a string.  needs to be an int for this validation
+#| histo_report_found                         | varchar(5)    | YES  |     | NULL    
+#		:histo_report_found,
+
 	validates_inclusion_of(
 		:cbc_report_found,
 		:cerebrospinal_fluid_report_found,
@@ -293,7 +297,6 @@ class Abstract < ActiveRecord::Base
 		:flow_cyto_report_found,
 		:h_and_p_reports_found,
 		:hepatomegaly_present,
-		:histo_report_found,
 		:is_down_syndrome_phenotype,
 		:marrow_aspirate_report_found,
 		:marrow_biopsy_report_found,

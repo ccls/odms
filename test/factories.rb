@@ -956,7 +956,10 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:ucb_fish_results){|n| "#{n}"}
 	f.sequence(:response_hladr_day_14){|n| "#{n}"}
 	f.sequence(:response_hladr_day_7){|n| "#{n}"}
-	f.histo_report_found { random_yndk() }
+
+#	NOTE this is actually a string (should probably be changed to an int like the others)
+	f.histo_report_found { random_yndk() }		
+
 	f.histo_report_on { random_date() }
 	f.sequence(:histo_report_results){|n| "#{n}"}
 	f.diagnosed_on { random_date() }

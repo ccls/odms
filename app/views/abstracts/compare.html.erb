@@ -16,7 +16,7 @@ order would be and what more clear 'humanized' field names would be.</p>
 <%	classes = ['row'];
 		classes.push('diff') if (@diffs.has_key?(column[:db]))
 %>
-	<% content_tag( :tr, :class => classes.join(' ') ) do %>
+	<%= content_tag( :tr, :class => classes.join(' ') ) do %>
 <td><%= column[:human] %></td>
 <td>
 <% if @diffs.has_key?(column[:db]) -%>
@@ -57,8 +57,9 @@ order would be and what more clear 'humanized' field names would be.</p>
 </tbody>
 </table>
 
-<p class='submit_bar'><%= 
-	f.submit_link_to "Merge abstracts from selections", :name => nil, :id => nil 
-%></p>
+<p class='submit_bar'>
+<%= f.submit "Merge abstracts from selections", :name => nil, :id => nil %>
+<%#= f.submit_link_to "Merge abstracts from selections", :name => nil, :id => nil %>
+</p>
 
 <% end %>

@@ -97,6 +97,8 @@ protected
 	def valid_id_required
 		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
 			@abstract = Abstract.find(params[:id])
+			#	for id bar
+			@study_subject = @abstract.study_subject
 		else
 			access_denied("Valid id required!", abstracts_path)
 		end
