@@ -11,18 +11,8 @@
 <%= render @abstracts %>
 </tbody></table>
 <% else %>
-Sorry, no abstracts yet.
+Sorry, no abstracts for this subject yet.
 <% end %>
 
-<ul>
-<li><%= link_to "Subjects", 
-	study_subjects_path() %></li>
-<li><%= link_to "Subjects awaiting first entry", 
-	study_subjects_path(:abstracts_count => 0) %></li>
-<li><%= link_to "Subjects awaiting second entry", 
-	study_subjects_path(:abstracts_count => 1) %></li>
-<li><%= link_to "Subjects awaiting abstract merging", 
-	study_subjects_path(:abstracts_count => 2) %></li>
-<li><%= link_to "Merged Abstracts", 
-	abstracts_path(:merged => true) %></li>
-</ul>
+
+<p>Perhaps I should put a "new" button here.</p>

@@ -136,6 +136,14 @@ module ApplicationHelper
 			when 'documents' then :documents
 			when 'notes' then :notes
 			when 'related_subjects' then :related_subjects
+
+
+#	TODO don't forget to test this
+#			when 'study_subject_abstracts' then :abstracts
+
+
+
+
 		end
 		return '' unless study_subject
 		s = "<div id='sidemenu'>\n"
@@ -175,6 +183,12 @@ module ApplicationHelper
 
 			links << link_to( "Related Subjects", related_subject_path(study_subject),
 					:class => ((current == :related_subjects)?'current':nil) )
+
+#	NOTE this will change the counts in the tests
+#			links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
+#					:class => ((current == :abstracts)?'current':nil) )
+
+
 			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		s.html_safe
