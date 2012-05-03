@@ -1,11 +1,3 @@
-<%# sub_menu_for(@study_subject) %>
-
-<p class='center'>
-<span class='left'>Abstract for study_subject:<%= @abstract.study_subject %>
-</span>
-<%#= link_to( "Edit", edit_abstract_path(@abstract), :class => 'button right' ) %>
-</p>
-
 <ul style="clear:both;">
 <% Abstract.sections.each do |section| -%>
 <li><%= link_to section[:label].html_safe, send(section[:show],@abstract) %></li>

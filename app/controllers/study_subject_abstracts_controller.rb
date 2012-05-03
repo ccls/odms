@@ -1,4 +1,4 @@
-#	Abstract controller
+#	Abstracts controller to be used only as nested from StudySubject
 class StudySubjectAbstractsController < ApplicationController
 
 	layout 'subject'
@@ -20,6 +20,9 @@ class StudySubjectAbstractsController < ApplicationController
 
 	before_filter :valid_study_subject_id_required
 
+	before_filter :case_study_subject_required,
+		:only => [:new,:create,:compare,:merge]
+
 	before_filter :two_abstracts_required, 
 		:only => [:compare,:merge]
 
@@ -27,22 +30,28 @@ class StudySubjectAbstractsController < ApplicationController
 		:only => [:compare,:merge]
 
 	def index
-		@abstracts = @study_subject.abstracts
+		if !@study_subject.is_case?
+			render :action => 'not_case' 
+		else
+			@abstracts = @study_subject.abstracts
+		end
 	end
 
 	def new
 		@abstract = Abstract.new(params[:abstract])
 	end
 
-	#	override's resourceful create
 	def create
 		@abstract = @study_subject.abstracts.new(params[:abstract])
 		@abstract.save!
 		flash[:notice] = 'Success!'
 		redirect_to @abstract
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		flash.now[:error] = "There was a problem creating the abstract"
-		redirect_to abstracts_path
+		#	flash.now[:error] = "There was a problem creating the abstract"
+		#	render :action => 'new'
+		#	flash, not flash.now since redirecting and not rendering
+		flash[:error] = "There was a problem creating the abstract"
+		redirect_to study_subject_abstracts_path(@study_subject)
 	end
 
 #	def update
@@ -99,6 +108,13 @@ protected
 			@study_subject = @abstract.study_subject
 		else
 			access_denied("Valid id required!", abstracts_path)
+		end
+	end
+
+	def case_study_subject_required
+		unless( @study_subject.is_case? )
+			access_denied("StudySubject must be Case to have abstract data!",
+				@study_subject)
 		end
 	end
 

@@ -15,11 +15,11 @@
 <%= abstract.try(:merged_by) || '&nbsp;'.html_safe %>
 </td>
 <td class='manage'>
-	<%= link_to 'Edit', edit_abstract_path(abstract),
-		:class => 'button' %>&nbsp;
-	<%# destroy_link_to 'Destroy', abstract_path(abstract) do %>
-		<%#= hidden_field_tag 'confirm', "Destroy abstract '#{abstract.id}'?", :id => nil %>
-		<%#= submit_link_to 'Destroy' %>
-	<%# end %>
+<%= link_to 'Edit', edit_abstract_path(abstract),
+	:class => 'button' %>&nbsp;
+<%= form_tag abstract, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy abstract '#{abstract}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
 </td>
 <% end %>

@@ -1,1 +1,7 @@
-<%= render 'form' %>
+<h4>Abstract:</h4>
+
+<%= form_for(@abstract) do |f| %>
+<%= f.error_messages %>
+<p>Sorry, no general editting yet.</p>
+<p><%= f.submit( 'Update' ) %></p>
+<% end %>

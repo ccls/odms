@@ -1,6 +1,7 @@
 #	Abstract controller
 class AbstractsController < ApplicationController
 
+	#	for 'edit' and 'show'
 	layout 'subject'
 
 #	before_filter :append_current_user_to_params, :only => [:create,:merge]
@@ -28,8 +29,8 @@ class AbstractsController < ApplicationController
 #		:only => [:compare,:merge]
 
 	def index
-#		@abstracts = Abstract.search(params)
-		@abstracts = Abstract.all
+		@abstracts = Abstract.scoped
+		@abstracts = @abstracts.merged if params[:merged] == 'true'
 		render :layout => 'application'
 	end
 
@@ -51,7 +52,9 @@ class AbstractsController < ApplicationController
 	def update
 		@abstract.update_attributes!(params[:abstract])
 		flash[:notice] = 'Success!'
-		redirect_to abstracts_path
+#		redirect_to abstracts_path
+#	this'll probably muck up the common tests
+		redirect_to study_subject_abstracts_path(@study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "There was a problem updating the abstract"
 		render :action => "edit"

@@ -136,15 +136,18 @@ module ApplicationHelper
 			when 'documents' then :documents
 			when 'notes' then :notes
 			when 'related_subjects' then :related_subjects
-
+			else nil
+		end
 
 #	TODO don't forget to test this
-#			when 'study_subject_abstracts' then :abstracts
-
-
-
-
+#	I could refine this logically, but this works
+#	Abstract::HistocompatibilitiesController
+#	AbstractsController
+#	StudySubjectAbstractsController
+		if current.nil? and controller.class.name =~ /Abstract/
+			current = :abstracts
 		end
+
 		return '' unless study_subject
 		s = "<div id='sidemenu'>\n"
 			links = []
@@ -185,8 +188,8 @@ module ApplicationHelper
 					:class => ((current == :related_subjects)?'current':nil) )
 
 #	NOTE this will change the counts in the tests
-#			links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
-#					:class => ((current == :abstracts)?'current':nil) )
+			links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
+					:class => ((current == :abstracts)?'current':nil) )
 
 
 			s << links.join("\n")

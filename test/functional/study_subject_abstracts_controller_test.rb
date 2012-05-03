@@ -56,6 +56,10 @@ class StudySubjectAbstractsControllerTest < ActionController::TestCase
 #			assert_equal assigns(:abstract).study_subject_id, @study_subject.id
 		end
 
+		test "should NOT get index with non case study subject and #{cu} login" do
+pending	#	TODO
+		end
+
 		test "should NOT get new without study_subject_id and with #{cu} login" do
 			u = send(cu)
 			login_as u
@@ -79,8 +83,12 @@ class StudySubjectAbstractsControllerTest < ActionController::TestCase
 			login_as u
 			get :new, :study_subject_id => @study_subject.id
 			assert_nil flash[:error]
-			assert assigns(:abstract)
+			assert assigns(:abstract).reload
 			assert_equal assigns(:abstract).study_subject_id, @study_subject.id
+		end
+
+		test "should NOT get new with non case study subject and #{cu} login" do
+pending	#	TODO
 		end
 
 		test "should set entry_1_by_uid on creation with #{cu} login" <<
@@ -128,6 +136,10 @@ class StudySubjectAbstractsControllerTest < ActionController::TestCase
 			}
 			assert assigns(:abstract)
 			assert_equal u, assigns(:abstract).entry_2_by
+		end
+
+		test "should NOT create with non case study subject and #{cu} login" do
+pending	#	TODO
 		end
 
 		test "should NOT get compare if study_subject only has 0 abstract with #{cu} login" do

@@ -1,5 +1,3 @@
-<%# sub_menu_for(@study_subject) %>
-
 <%= form_for(@abstract,
 	:url => abstract_checklist_path(@abstract),
 	:html => { :class => 'edit_abstract checklist' }) do |f| %>
@@ -48,6 +46,5 @@
 
 </fieldset>
 
-<%#= f.submit_bar(controller.class.name) %>
 <%= f.submit_bar() %>
 <% end %>

@@ -8,11 +8,24 @@
 <th>Merged By</th>
 <th class='manage'>Manage</th></tr>
 </thead><tbody>
+<%# THIS WILL RENDER abstracts/_abstract.html.erb NOT A LOCAL ONE. %>
 <%= render @abstracts %>
+<%# WOULD NEED TO BE MORE EXPLICIT TO RENDER LOCAL %>
+<%# WAS NO DIFFERENCE BETWEEN THE TWO SO REMOVED LOCAL %>
+<%#= render :partial => 'abstract', :collection => @abstracts %>
 </tbody></table>
 <% else %>
-Sorry, no abstracts for this subject yet.
+<p>Sorry, no abstracts for this subject yet.</p>
 <% end %>
 
+<hr/>
 
-<p>Perhaps I should put a "new" button here.</p>
+<p>Create 2 abstracts and then compare and merge them.</p>
+<% if( ( @abstracts.length == 0 ) || 
+	( ( @abstracts.length == 1 ) && !@abstracts.first.merged? ) ) %>
+<p><%= link_to "New Abstract", new_study_subject_abstract_path(@study_subject),
+:class => 'button' %></p>
+<% elsif @abstracts.length == 2 %>
+<p><%= link_to "Compare & Merge Abstracts", compare_study_subject_abstracts_path(@study_subject),
+:class => 'button' %></p>
+<% end %>
