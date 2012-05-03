@@ -5,7 +5,7 @@ class CountyTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_have_many(:zip_codes)
 
-	attributes = %w( name state_abbrev fips_code )
+	attributes = %w( name state_abbrev fips_code usc_code )
 	required   = %w( name state_abbrev )
 	assert_should_require( required )
 	assert_should_not_require( attributes - required )
@@ -13,8 +13,9 @@ class CountyTest < ActiveSupport::TestCase
 	assert_should_not_protect( attributes )
 
 	assert_should_require_length( :name, :maximum => 250 )
-	assert_should_require_length( :state_abbrev, :maximum => 2 )
 	assert_should_require_length( :fips_code, :maximum => 5 )
+	assert_should_require_length( :state_abbrev, :maximum => 2 )
+	assert_should_require_length( :usc_code, :maximum => 2 )
 
 	test "explicit Factory county test" do
 		assert_difference('County.count',1) {

@@ -256,7 +256,7 @@ Table: abstracts
 | ucb_fish_results                           | varchar(50)   | YES  |     | NULL    |                |
 | response_hladr_day_14                      | varchar(10)   | YES  |     | NULL    |                |
 | response_hladr_day_7                       | varchar(10)   | YES  |     | NULL    |                |
-| histo_report_found                         | varchar(5)    | YES  |     | NULL    |                |
+| histo_report_found                         | int(11)       | YES  |     | NULL    |                |
 | histo_report_on                            | date          | YES  |     | NULL    |                |
 | histo_report_results                       | text          | YES  |     | NULL    |                |
 | diagnosed_on                               | date          | YES  |     | NULL    |                |
@@ -457,7 +457,19 @@ Table: bc_requests
 | created_at       | datetime     | NO   |     | NULL    |                |
 | updated_at       | datetime     | NO   |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
-Table: birth_data
+Table: birth_data_updates
++-----------------------+--------------+------+-----+---------+----------------+
+| Field                 | Type         | Null | Key | Default | Extra          |
++-----------------------+--------------+------+-----+---------+----------------+
+| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| created_at            | datetime     | NO   |     | NULL    |                |
+| updated_at            | datetime     | NO   |     | NULL    |                |
+| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
+| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
+| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
+| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
++-----------------------+--------------+------+-----+---------+----------------+
+Table: birth_datas
 +-----------------------------------+---------------+------+-----+---------+----------------+
 | Field                             | Type          | Null | Key | Default | Extra          |
 +-----------------------------------+---------------+------+-----+---------+----------------+
@@ -530,32 +542,6 @@ Table: birth_data
 | created_at                        | datetime      | NO   |     | NULL    |                |
 | updated_at                        | datetime      | NO   |     | NULL    |                |
 +-----------------------------------+---------------+------+-----+---------+----------------+
-Table: birth_data_changes
-+----------------------+--------------+------+-----+---------+----------------+
-| Field                | Type         | Null | Key | Default | Extra          |
-+----------------------+--------------+------+-----+---------+----------------+
-| id                   | int(11)      | NO   | PRI | NULL    | auto_increment |
-| birth_data_update_id | int(11)      | YES  |     | NULL    |                |
-| birth_data_id        | int(11)      | YES  |     | NULL    |                |
-| new_data_record      | tinyint(1)   | NO   |     | 0       |                |
-| modified_column      | varchar(255) | YES  |     | NULL    |                |
-| previous_value       | varchar(255) | YES  |     | NULL    |                |
-| new_value            | varchar(255) | YES  |     | NULL    |                |
-| created_at           | datetime     | NO   |     | NULL    |                |
-| updated_at           | datetime     | NO   |     | NULL    |                |
-+----------------------+--------------+------+-----+---------+----------------+
-Table: birth_data_updates
-+-----------------------+--------------+------+-----+---------+----------------+
-| Field                 | Type         | Null | Key | Default | Extra          |
-+-----------------------+--------------+------+-----+---------+----------------+
-| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
-| created_at            | datetime     | NO   |     | NULL    |                |
-| updated_at            | datetime     | NO   |     | NULL    |                |
-| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
-| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
-| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
-| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
-+-----------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
 +-----------------------+--------------+------+-----+---------+----------------+
 | Field                 | Type         | Null | Key | Default | Extra          |
@@ -625,6 +611,7 @@ Table: counties
 | state_abbrev | varchar(2)   | YES  | MUL | NULL    |                |
 | created_at   | datetime     | NO   |     | NULL    |                |
 | updated_at   | datetime     | NO   |     | NULL    |                |
+| usc_code     | varchar(2)   | YES  |     | NULL    |                |
 +--------------+--------------+------+-----+---------+----------------+
 Table: data_sources
 +--------------------+--------------+------+-----+---------+----------------+
@@ -925,9 +912,9 @@ Table: hospitals
 | position        | int(11)    | YES  |     | NULL    |                |
 | organization_id | int(11)    | YES  | MUL | NULL    |                |
 | has_irb_waiver  | tinyint(1) | NO   |     | 0       |                |
+| is_active       | tinyint(1) | NO   |     | 1       |                |
 | created_at      | datetime   | NO   |     | NULL    |                |
 | updated_at      | datetime   | NO   |     | NULL    |                |
-| is_active       | tinyint(1) | NO   |     | 1       |                |
 +-----------------+------------+------+-----+---------+----------------+
 Table: icf_master_ids
 +------------------+------------+------+-----+---------+----------------+
