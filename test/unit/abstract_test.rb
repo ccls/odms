@@ -2,7 +2,8 @@ require 'test_helper'
 
 class AbstractTest < ActiveSupport::TestCase
 
-	assert_should_belong_to :study_subject
+#	assert_should_belong_to :study_subject
+	assert_should_initially_belong_to :study_subject
 	assert_should_protect( :study_subject_id, :study_subject, :entry_1_by_uid, 
 		:entry_2_by_uid, :merged_by_uid )
 
@@ -272,7 +273,8 @@ class AbstractTest < ActiveSupport::TestCase
 		assert_difference('Abstract.count',1) {
 			@abstract = Factory(:abstract)
 		}
-		( not_nil = %w( id created_at updated_at cbc_percent_blasts_unknown ) ).each do |c|
+#		( not_nil = %w( id created_at updated_at cbc_percent_blasts_unknown ) ).each do |c|
+		( not_nil = %w( id created_at updated_at cbc_percent_blasts_unknown study_subject_id entry_1_by_uid entry_2_by_uid ) ).each do |c|
 			assert_not_nil @abstract.send(c), "#{c} is nil"
 		end
 		( Abstract.column_names - not_nil ).each do |c|
@@ -582,8 +584,10 @@ class AbstractTest < ActiveSupport::TestCase
 #	This is currently just a string which fails here
 #	as the validates inclusion is integers
 #		:histo_report_found,
+#	changed to integer
 
 	assert_should_accept_only_good_values( :cbc_report_found,
+		:histo_report_found,
 		:cerebrospinal_fluid_report_found,
 		:chemo_protocol_report_found,
 		:chest_ct_medmass_present,

@@ -38,7 +38,8 @@ class StudySubjectAbstractsController < ApplicationController
 	end
 
 	def new
-		@abstract = Abstract.new(params[:abstract])
+#		@abstract = Abstract.new(params[:abstract])
+		@abstract = @study_subject.abstracts.new(params[:abstract])
 	end
 
 	def create

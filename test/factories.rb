@@ -701,6 +701,7 @@ end
 
 
 Factory.define :abstract do |f|
+	f.association :study_subject, :factory => :case_study_subject
 	f.updated_at Time.now	#	to make it dirty
 end
 Factory.define :complete_abstract, :class => 'Abstract' do |f|

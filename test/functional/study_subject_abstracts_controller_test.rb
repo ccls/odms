@@ -83,7 +83,7 @@ pending	#	TODO
 			login_as u
 			get :new, :study_subject_id => @study_subject.id
 			assert_nil flash[:error]
-			assert assigns(:abstract).reload
+			assert assigns(:abstract)
 			assert_equal assigns(:abstract).study_subject_id, @study_subject.id
 		end
 
@@ -215,7 +215,8 @@ pending	#	TODO
 				post :create, :study_subject_id => @study_subject.id
 			end
 			assert_not_nil flash[:error]
-			assert_redirected_to abstracts_path
+#			assert_redirected_to abstracts_path
+			assert_redirected_to study_subject_abstracts_path(@study_subject)
 		end
 
 		test "should NOT create abstract when save fails with #{cu} login" do
@@ -226,7 +227,8 @@ pending	#	TODO
 				post :create, :study_subject_id => @study_subject.id
 			end
 			assert_not_nil flash[:error]
-			assert_redirected_to abstracts_path
+#			assert_redirected_to abstracts_path
+			assert_redirected_to study_subject_abstracts_path(@study_subject)
 		end
 
 		test "should NOT create merged invalid abstract with #{cu} login" do

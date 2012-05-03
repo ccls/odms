@@ -269,8 +269,10 @@ class Abstract < ActiveRecord::Base
 #	histo_report_found is a string.  needs to be an int for this validation
 #| histo_report_found                         | varchar(5)    | YES  |     | NULL    
 #		:histo_report_found,
+#	changed to integer
 
 	validates_inclusion_of(
+		:histo_report_found,
 		:cbc_report_found,
 		:cerebrospinal_fluid_report_found,
 		:chemo_protocol_report_found,

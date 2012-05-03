@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424191032) do
+ActiveRecord::Schema.define(:version => 20120503163603) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -263,7 +263,7 @@ ActiveRecord::Schema.define(:version => 20120424191032) do
     t.string   "ucb_fish_results",                           :limit => 50
     t.string   "response_hladr_day_14",                      :limit => 10
     t.string   "response_hladr_day_7",                       :limit => 10
-    t.string   "histo_report_found",                         :limit => 5
+    t.integer  "histo_report_found"
     t.date     "histo_report_on"
     t.text     "histo_report_results"
     t.date     "diagnosed_on"
