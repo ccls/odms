@@ -54,7 +54,7 @@ class AbstractsController < ApplicationController
 		flash[:notice] = 'Success!'
 #		redirect_to abstracts_path
 #	this'll probably muck up the common tests
-#	In testing, the abstract doesn't have a subject
+
 		redirect_to study_subject_abstracts_path(@study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "There was a problem updating the abstract"
