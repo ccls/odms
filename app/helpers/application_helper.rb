@@ -54,22 +54,6 @@ module ApplicationHelper
 		s.html_safe
 	end
 
-#	def id_bar_for(object,&block)
-#		case object
-#			when StudySubject  then study_subject_id_bar(object,&block)
-##			when GiftCard then gift_card_id_bar(object,&block)
-#			else nil
-#		end
-#	end
-
-#	def sub_menu_for(object)
-#		case object
-#			when StudySubject   then study_subject_sub_menu(object)
-##			when Interview then interview_sub_menu(object)
-#			else nil
-#		end
-#	end
-
 	def birth_certificates_sub_menu
 		#	added the to_s's to ensure not nil
 		current = case params[:controller].to_s
@@ -180,12 +164,8 @@ module ApplicationHelper
 
 			links << link_to( "Related Subjects", related_subject_path(study_subject),
 					:class => ((current == :related_subjects)?'current':nil) )
-
-#	NOTE this will change the counts in the tests
 			links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) )
-
-
 			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		s.html_safe
@@ -383,7 +363,6 @@ module ApplicationHelper
 		object = instance_variable_get("@#{object_name}")
 		_wrapped_spans(object_name,method,options.update(
 			:value => (POSNEG[object.send(method)]||'&nbsp;') ) )
-#			:value => pos_neg(object.send(method)) ) )
 	end
 
 	def mdy(date)
