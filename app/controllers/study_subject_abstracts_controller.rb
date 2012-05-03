@@ -102,15 +102,15 @@ protected
 		params[:abstract].merge!(:current_user => current_user)
 	end
 
-	def valid_id_required
-		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
-			@abstract = Abstract.find(params[:id])
-			#	for id bar
-			@study_subject = @abstract.study_subject
-		else
-			access_denied("Valid id required!", abstracts_path)
-		end
-	end
+#	def valid_id_required
+#		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
+#			@abstract = Abstract.find(params[:id])
+#			#	for id bar
+#			@study_subject = @abstract.study_subject
+#		else
+#			access_denied("Valid id required!", abstracts_path)
+#		end
+#	end
 
 	def case_study_subject_required
 		unless( @study_subject.is_case? )
