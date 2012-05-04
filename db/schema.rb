@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120503165636) do
+ActiveRecord::Schema.define(:version => 20120424191032) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -360,6 +360,8 @@ ActiveRecord::Schema.define(:version => 20120503165636) do
     t.datetime "updated_at",                                                                                                  :null => false
   end
 
+  add_index "abstracts", ["study_subject_id"], :name => "index_abstracts_on_study_subject_id"
+
   create_table "address_types", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
@@ -597,9 +599,9 @@ ActiveRecord::Schema.define(:version => 20120503165636) do
     t.string   "name"
     t.string   "fips_code",    :limit => 5
     t.string   "state_abbrev", :limit => 2
+    t.string   "usc_code",     :limit => 2
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
-    t.string   "usc_code",     :limit => 2
   end
 
   add_index "counties", ["state_abbrev"], :name => "index_counties_on_state_abbrev"

@@ -1,5 +1,6 @@
 class CreateAbstracts < ActiveRecord::Migration
-	def self.up
+#	def self.up
+	def change
 		create_table :abstracts do |t|
 			t.integer  :study_subject_id							#, :null => false
 			t.integer  :response_day14or28_flag
@@ -273,7 +274,11 @@ class CreateAbstracts < ActiveRecord::Migration
 			t.string   :ucb_fish_results, :limit => 50
 			t.string   :response_hladr_day_14, :limit => 10
 			t.string   :response_hladr_day_7, :limit => 10
-			t.string   :histo_report_found, :limit => 5
+
+#			t.string   :histo_report_found, :limit => 5
+#	change to integer for YNDK like all other *_report_found
+			t.integer  :histo_report_found
+
 			t.date     :histo_report_on
 			t.text     :histo_report_results
 			t.date     :diagnosed_on
@@ -377,9 +382,10 @@ class CreateAbstracts < ActiveRecord::Migration
 			t.date     :discharge_summary_found_on
 			t.timestamps
 		end
+		add_index :abstracts, :study_subject_id
 	end
 
-	def self.down
-		drop_table :abstracts
-	end
+#	def self.down
+#		drop_table :abstracts
+#	end
 end

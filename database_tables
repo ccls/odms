@@ -6,7 +6,7 @@ Table: abstracts
 | Field                                      | Type          | Null | Key | Default | Extra          |
 +--------------------------------------------+---------------+------+-----+---------+----------------+
 | id                                         | int(11)       | NO   | PRI | NULL    | auto_increment |
-| study_subject_id                           | int(11)       | YES  |     | NULL    |                |
+| study_subject_id                           | int(11)       | YES  | MUL | NULL    |                |
 | response_day14or28_flag                    | int(11)       | YES  |     | NULL    |                |
 | received_bone_marrow_biopsy                | int(11)       | YES  |     | NULL    |                |
 | received_h_and_p                           | int(11)       | YES  |     | NULL    |                |
@@ -609,9 +609,9 @@ Table: counties
 | name         | varchar(255) | YES  |     | NULL    |                |
 | fips_code    | varchar(5)   | YES  |     | NULL    |                |
 | state_abbrev | varchar(2)   | YES  | MUL | NULL    |                |
+| usc_code     | varchar(2)   | YES  |     | NULL    |                |
 | created_at   | datetime     | NO   |     | NULL    |                |
 | updated_at   | datetime     | NO   |     | NULL    |                |
-| usc_code     | varchar(2)   | YES  |     | NULL    |                |
 +--------------+--------------+------+-----+---------+----------------+
 Table: data_sources
 +--------------------+--------------+------+-----+---------+----------------+
