@@ -1,16 +1,6 @@
-#class CreateBirthData < ActiveRecord::Migration
-class CreateBirthDatas < ActiveRecord::Migration
-
-#	"Data" doesn't pluralize well so had to force it.
-
-#	Actually, don't force it.  It would require
-#	several other inflection modifications.
-
-#	Changed the inflection so should pay attention
-
+class CreateBirthData < ActiveRecord::Migration
 	def change
-#		create_table :birth_data do |t|
-		create_table :birth_datas do |t|
+		create_table :birth_data do |t|
 			t.string  :abnormal_conditions, :length => 2
 			t.integer :apgar_1min
 			t.integer :apgar_5min

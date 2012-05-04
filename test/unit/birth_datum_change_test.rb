@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BirthDataChangeTest < ActiveSupport::TestCase
+class BirthDatumChangeTest < ActiveSupport::TestCase
 #
 #	assert_should_create_default_object
 ##	assert_should_require( :icf_master_id, :master_tracker_date )

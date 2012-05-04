@@ -457,19 +457,7 @@ Table: bc_requests
 | created_at       | datetime     | NO   |     | NULL    |                |
 | updated_at       | datetime     | NO   |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
-Table: birth_data_updates
-+-----------------------+--------------+------+-----+---------+----------------+
-| Field                 | Type         | Null | Key | Default | Extra          |
-+-----------------------+--------------+------+-----+---------+----------------+
-| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
-| created_at            | datetime     | NO   |     | NULL    |                |
-| updated_at            | datetime     | NO   |     | NULL    |                |
-| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
-| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
-| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
-| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
-+-----------------------+--------------+------+-----+---------+----------------+
-Table: birth_datas
+Table: birth_data
 +-----------------------------------+---------------+------+-----+---------+----------------+
 | Field                             | Type          | Null | Key | Default | Extra          |
 +-----------------------------------+---------------+------+-----+---------+----------------+
@@ -542,6 +530,18 @@ Table: birth_datas
 | created_at                        | datetime      | NO   |     | NULL    |                |
 | updated_at                        | datetime      | NO   |     | NULL    |                |
 +-----------------------------------+---------------+------+-----+---------+----------------+
+Table: birth_datum_updates
++-----------------------+--------------+------+-----+---------+----------------+
+| Field                 | Type         | Null | Key | Default | Extra          |
++-----------------------+--------------+------+-----+---------+----------------+
+| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| created_at            | datetime     | NO   |     | NULL    |                |
+| updated_at            | datetime     | NO   |     | NULL    |                |
+| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
+| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
+| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
+| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
++-----------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
 +-----------------------+--------------+------+-----+---------+----------------+
 | Field                 | Type         | Null | Key | Default | Extra          |

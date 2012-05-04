@@ -13,12 +13,8 @@
 # ActiveSupport::Inflector.inflections do |inflect|
 #   inflect.acronym 'RESTful'
 # end
-ActiveSupport::Inflector.inflections do |inflect|
+#ActiveSupport::Inflector.inflections do |inflect|
 #   inflect.plural /^(ox)$/i, '\1en'
 #   inflect.singular /^(ox)en/i, '\1'
-
-#	this is an issue for the BirthData model
-#	and the IdentifyingData controller
-  inflect.irregular 'data', 'datas'
 #   inflect.uncountable %w( fish sheep )
-end
+#end

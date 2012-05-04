@@ -1,10 +1,14 @@
 #use the "- " prefix to force an array rather than an unordered hash
 
 -
-  :label: Identifying Data
-  :controller: IdentifyingDatasController
-  :edit:  :edit_abstract_identifying_data_path
-  :show:  :abstract_identifying_data_path
+#  :label: Identifying Data
+#  :controller: IdentifyingDatasController
+#  :edit:  :edit_abstract_identifying_data_path
+#  :show:  :abstract_identifying_data_path
+  :label: Identifying Datum
+  :controller: IdentifyingDataController
+  :edit:  :edit_abstract_identifying_datum_path
+  :show:  :abstract_identifying_datum_path
 -
   :label: Bone Marrow
   :controller: BoneMarrowsController

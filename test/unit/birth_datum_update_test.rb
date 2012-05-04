@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class BirthDataUpdateTest < ActiveSupport::TestCase
-	include BirthDataUpdateTestHelper
+class BirthDatumUpdateTest < ActiveSupport::TestCase
+	include BirthDatumUpdateTestHelper
 
 	setup :turn_off_paperclip_logging
 	#
@@ -9,10 +9,10 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 	#		so we must do it on our own.  In addition, if the test
 	#		fails before you do so, these files end up lying around.
 	#		A bit of a pain in the butt.  So I added this explicit
-	#		cleanup of the birth_data_update csv_files.
+	#		cleanup of the birth_datum_update csv_files.
 	#		Works very nicely.
 	#
-	teardown :delete_all_possible_birth_data_update_attachments
+	teardown :delete_all_possible_birth_datum_update_attachments
 
 
 #	These are String tests and these tests and this method should 
@@ -62,93 +62,93 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 
 
 
-	test "explicit Factory birth_data_update test" do
-		assert_difference('BirthDataUpdate.count',1) {
-			birth_data_update = Factory(:birth_data_update)
-			assert_not_nil birth_data_update.csv_file_file_name
-			assert_equal   birth_data_update.csv_file_file_name, 
-				'empty_birth_data_update_test_file.csv'
-			assert_not_nil birth_data_update.csv_file_content_type
-			assert_equal birth_data_update.csv_file_content_type,
+	test "explicit Factory birth_datum_update test" do
+		assert_difference('BirthDatumUpdate.count',1) {
+			birth_datum_update = Factory(:birth_datum_update)
+			assert_not_nil birth_datum_update.csv_file_file_name
+			assert_equal   birth_datum_update.csv_file_file_name, 
+				'empty_birth_datum_update_test_file.csv'
+			assert_not_nil birth_datum_update.csv_file_content_type
+			assert_equal birth_datum_update.csv_file_content_type,
 				'text/csv'
-			assert_not_nil birth_data_update.csv_file_file_size
-			assert_not_nil birth_data_update.csv_file_updated_at
+			assert_not_nil birth_datum_update.csv_file_file_size
+			assert_not_nil birth_datum_update.csv_file_updated_at
 		}
 	end
 
-	test "explicit Factory empty_birth_data_update test" do
-		assert_difference('BirthDataUpdate.count',1) {
-			birth_data_update = Factory(:empty_birth_data_update)
-			assert_not_nil birth_data_update.csv_file_file_name
-			assert_equal   birth_data_update.csv_file_file_name, 
-				'empty_birth_data_update_test_file.csv'
-			assert_not_nil birth_data_update.csv_file_content_type
-			assert_equal birth_data_update.csv_file_content_type,
+	test "explicit Factory empty_birth_datum_update test" do
+		assert_difference('BirthDatumUpdate.count',1) {
+			birth_datum_update = Factory(:empty_birth_datum_update)
+			assert_not_nil birth_datum_update.csv_file_file_name
+			assert_equal   birth_datum_update.csv_file_file_name, 
+				'empty_birth_datum_update_test_file.csv'
+			assert_not_nil birth_datum_update.csv_file_content_type
+			assert_equal birth_datum_update.csv_file_content_type,
 				'text/csv'
-			assert_not_nil birth_data_update.csv_file_file_size
-			assert_not_nil birth_data_update.csv_file_updated_at
+			assert_not_nil birth_datum_update.csv_file_file_size
+			assert_not_nil birth_datum_update.csv_file_updated_at
 		}
 	end
 
-	test "explicit Factory one_record_birth_data_update test" do
-		assert_difference('BirthDataUpdate.count',1) {
-			birth_data_update = Factory(:one_record_birth_data_update)
-			assert_not_nil birth_data_update.csv_file_file_name
-			assert_equal   birth_data_update.csv_file_file_name, 
-				'one_record_birth_data_update_test_file.csv'
-			assert_not_nil birth_data_update.csv_file_content_type
-			assert_equal birth_data_update.csv_file_content_type,
+	test "explicit Factory one_record_birth_datum_update test" do
+		assert_difference('BirthDatumUpdate.count',1) {
+			birth_datum_update = Factory(:one_record_birth_datum_update)
+			assert_not_nil birth_datum_update.csv_file_file_name
+			assert_equal   birth_datum_update.csv_file_file_name, 
+				'one_record_birth_datum_update_test_file.csv'
+			assert_not_nil birth_datum_update.csv_file_content_type
+			assert_equal birth_datum_update.csv_file_content_type,
 				'text/csv'
-			assert_not_nil birth_data_update.csv_file_file_size
-			assert_not_nil birth_data_update.csv_file_updated_at
+			assert_not_nil birth_datum_update.csv_file_file_size
+			assert_not_nil birth_datum_update.csv_file_updated_at
 		}
 	end
 
 	test "should require csv_file" do
-		birth_data_update = BirthDataUpdate.new
-		assert !birth_data_update.valid?
-		assert  birth_data_update.errors.include?(:csv_file)
+		birth_datum_update = BirthDatumUpdate.new
+		assert !birth_datum_update.valid?
+		assert  birth_datum_update.errors.include?(:csv_file)
 	end
 
 	test "should allow that attached csv_file content_type be text/plain" do
-		birth_data_update = BirthDataUpdate.new(
+		birth_datum_update = BirthDatumUpdate.new(
 			:csv_file => Rack::Test::UploadedFile.new(
-				'test/assets/empty_birth_data_update_test_file.csv', 'text/plain') )
-		birth_data_update.valid?
-		assert !birth_data_update.errors.include?(:csv_file_content_type)
+				'test/assets/empty_birth_datum_update_test_file.csv', 'text/plain') )
+		birth_datum_update.valid?
+		assert !birth_datum_update.errors.include?(:csv_file_content_type)
 	end
 
 	test "should allow that attached csv_file content_type be text/csv" do
-		birth_data_update = BirthDataUpdate.new(
+		birth_datum_update = BirthDatumUpdate.new(
 			:csv_file => Rack::Test::UploadedFile.new(
-				'test/assets/empty_birth_data_update_test_file.csv', 'text/csv') )
-		birth_data_update.valid?
-		assert !birth_data_update.errors.include?(:csv_file_content_type)
+				'test/assets/empty_birth_datum_update_test_file.csv', 'text/csv') )
+		birth_datum_update.valid?
+		assert !birth_datum_update.errors.include?(:csv_file_content_type)
 	end
 
 	test "should allow that attached csv_file content_type be application/vnd.ms-excel" do
-		birth_data_update = BirthDataUpdate.new(
+		birth_datum_update = BirthDatumUpdate.new(
 			:csv_file => Rack::Test::UploadedFile.new(
-				'test/assets/empty_birth_data_update_test_file.csv', 'application/vnd.ms-excel') )
-		birth_data_update.valid?
-		assert !birth_data_update.errors.include?(:csv_file_content_type)
+				'test/assets/empty_birth_datum_update_test_file.csv', 'application/vnd.ms-excel') )
+		birth_datum_update.valid?
+		assert !birth_datum_update.errors.include?(:csv_file_content_type)
 	end
 
 	test "should require that attached csv_file be csv" do
-		birth_data_update = BirthDataUpdate.new(
+		birth_datum_update = BirthDatumUpdate.new(
 			:csv_file => Rack::Test::UploadedFile.new(
-				'test/assets/empty_birth_data_update_test_file.csv', 'text/funky') )
-		assert !birth_data_update.valid?
-		assert  birth_data_update.errors.include?(:csv_file_content_type)
+				'test/assets/empty_birth_datum_update_test_file.csv', 'text/funky') )
+		assert !birth_datum_update.valid?
+		assert  birth_datum_update.errors.include?(:csv_file_content_type)
 	end
 
 	test "should require expected column names in csv file" do
-		birth_data_update = BirthDataUpdate.new(
+		birth_datum_update = BirthDatumUpdate.new(
 			:csv_file => Rack::Test::UploadedFile.new(
 				'test/assets/bad_header_test_file.csv', 'text/csv') )
-		assert !birth_data_update.valid?
-		assert  birth_data_update.errors.include?(:csv_file)
-		assert  birth_data_update.errors.matching?(:csv_file,
+		assert !birth_datum_update.valid?
+		assert  birth_datum_update.errors.include?(:csv_file)
+		assert  birth_datum_update.errors.matching?(:csv_file,
 			'Invalid column names in csv_file')
 	end
 
@@ -157,8 +157,8 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 
 
 #	test "should create without attached csv_file" do
-#		assert_difference('BirthDataUpdate.count',1) {
-#			@object = Factory(:birth_data_update)
+#		assert_difference('BirthDatumUpdate.count',1) {
+#			@object = Factory(:birth_datum_update)
 #		}
 #		assert_nil @object.csv_file_file_name
 #		assert_nil @object.csv_file_content_type
@@ -167,8 +167,8 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 #	end
 #
 #	test "should create with attached csv_file" do
-#		assert_difference('BirthDataUpdate.count',1) {
-#			@object = create_test_file_and_birth_data_update
+#		assert_difference('BirthDatumUpdate.count',1) {
+#			@object = create_test_file_and_birth_datum_update
 #		}
 #		assert_not_nil @object.csv_file_file_name
 #		assert_equal   @object.csv_file_file_name, csv_test_file_name
@@ -178,85 +178,85 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 #	end
 #
 #	test "should convert nil attached csv_file to candidate controls" do
-#		birth_data_update = Factory(:birth_data_update)
-#		assert_nil birth_data_update.csv_file_file_name
+#		birth_datum_update = Factory(:birth_datum_update)
+#		assert_nil birth_datum_update.csv_file_file_name
 #		assert_difference('CandidateControl.count',0) {
-#			results = birth_data_update.to_candidate_controls
+#			results = birth_datum_update.to_candidate_controls
 #			assert_equal [], results
 #		}
 #	end
 
 	test "should convert empty attached csv_file to candidate controls" do
-		birth_data_update = Factory(:empty_birth_data_update)
+		birth_datum_update = Factory(:empty_birth_datum_update)
 		assert_difference('CandidateControl.count',0) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal [], results
 		}
 	end
 
 	test "should convert non-existant attached csv_file to candidate controls" do
-		birth_data_update = Factory(:birth_data_update)
-		assert  File.exists?(birth_data_update.csv_file.path)
-		File.delete(birth_data_update.csv_file.path)
-		assert !File.exists?(birth_data_update.csv_file.path)
+		birth_datum_update = Factory(:birth_datum_update)
+		assert  File.exists?(birth_datum_update.csv_file.path)
+		File.delete(birth_datum_update.csv_file.path)
+		assert !File.exists?(birth_datum_update.csv_file.path)
 		assert_difference('CandidateControl.count',0) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal [], results
 		}
 	end
 
 	test "should convert attached csv_file to candidate controls with matching case" do
-		create_case_for_birth_data_update
-		birth_data_update = create_test_file_and_birth_data_update
+		create_case_for_birth_datum_update
+		birth_datum_update = create_test_file_and_birth_datum_update
 		assert_difference('CandidateControl.count',1) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  results.length
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should convert attached csv_file to candidate controls with missing case" do
-		birth_data_update = create_test_file_and_birth_data_update
+		birth_datum_update = create_test_file_and_birth_datum_update
 		assert_difference('CandidateControl.count',0) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal results,
 				["Could not find study_subject with masterid 1234FAKE",
 				"Could not find study_subject with masterid 1234FAKE"]
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should convert attached csv_file to candidate controls with existing candidate control" do
-		create_case_for_birth_data_update
-		birth_data_update = create_test_file_and_birth_data_update
+		create_case_for_birth_datum_update
+		birth_datum_update = create_test_file_and_birth_datum_update
 		results = nil
 		assert_difference('CandidateControl.count',1) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  results.length
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
 		}
 		assert_difference('CandidateControl.count',0) {
-			new_results = birth_data_update.to_candidate_controls
+			new_results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  new_results.length
 			assert new_results[0].is_a?(StudySubject)
 			assert new_results[0].is_case?
 			assert new_results[1].is_a?(CandidateControl)
 			assert_equal results, new_results
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should convert attached csv_file to candidate controls with blank child_full_name" do
-		create_case_for_birth_data_update
-		birth_data_update = create_test_file_and_birth_data_update(:child_full_name => '')
+		create_case_for_birth_datum_update
+		birth_datum_update = create_test_file_and_birth_datum_update(:child_full_name => '')
 		results = nil
 		assert_difference('CandidateControl.count',0) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  results.length
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
@@ -264,67 +264,67 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 			assert results[1].errors.matching?(:first_name,"can't be blank")
 			assert results[1].errors.matching?(:last_name,"can't be blank")
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should convert attached csv_file to candidate controls with blank child_dobm" do
-		create_case_for_birth_data_update
-		birth_data_update = create_test_file_and_birth_data_update(:child_dobm => '')
+		create_case_for_birth_datum_update
+		birth_datum_update = create_test_file_and_birth_datum_update(:child_dobm => '')
 		results = nil
 		assert_difference('CandidateControl.count',0) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  results.length
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
 			assert results[1].errors.matching?(:dob,"can't be blank")
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should convert attached csv_file to candidate controls with blank child_dobd" do
-		create_case_for_birth_data_update
-		birth_data_update = create_test_file_and_birth_data_update(:child_dobd => '')
+		create_case_for_birth_datum_update
+		birth_datum_update = create_test_file_and_birth_datum_update(:child_dobd => '')
 		results = nil
 		assert_difference('CandidateControl.count',0) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  results.length
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
 			assert results[1].errors.matching?(:dob,"can't be blank")
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should convert attached csv_file to candidate controls with blank child_doby" do
-		create_case_for_birth_data_update
-		birth_data_update = create_test_file_and_birth_data_update(:child_doby => '')
+		create_case_for_birth_datum_update
+		birth_datum_update = create_test_file_and_birth_datum_update(:child_doby => '')
 		results = nil
 		assert_difference('CandidateControl.count',0) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  results.length
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
 			assert results[1].errors.matching?(:dob,"can't be blank")
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should convert attached csv_file to candidate controls with blank child_gender" do
-		create_case_for_birth_data_update
-		birth_data_update = create_test_file_and_birth_data_update(:child_gender => '')
+		create_case_for_birth_datum_update
+		birth_datum_update = create_test_file_and_birth_datum_update(:child_gender => '')
 		results = nil
 		assert_difference('CandidateControl.count',0) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  results.length
 			assert results[0].is_a?(StudySubject)
 			assert results[0].is_case?
 			assert results[1].is_a?(CandidateControl)
 			assert results[1].errors.matching?(:sex,'is not included in the list')
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 #	TODO CandidateControl has the following potential validation failures.  
@@ -339,10 +339,10 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 
 
 	test "should copy attributes when csv_file converted to candidate control" do
-		study_subject = create_case_for_birth_data_update
-		birth_data_update = create_test_file_and_birth_data_update
+		study_subject = create_case_for_birth_datum_update
+		birth_datum_update = create_test_file_and_birth_datum_update
 		assert_difference('CandidateControl.count',1) {
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert_equal 2,  results.length
 			candidate_control = results.last
 			assert_equal candidate_control.related_patid, study_subject.patid
@@ -369,7 +369,7 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 			assert_equal candidate_control.father_race_id, control[:father_race]
 #control[:other_father_race]}} }
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should test with real data file" do
@@ -398,13 +398,13 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 		Factory(:icf_master_id,:icf_master_id => '16655682G')
 		s2.assign_icf_master_id
 
-		birth_data_update = Factory(:birth_data_update,
+		birth_datum_update = Factory(:birth_datum_update,
 			:csv_file => File.open('test-livebirthdata_011912.csv') )
-		assert_not_nil birth_data_update.csv_file_file_name
+		assert_not_nil birth_datum_update.csv_file_file_name
 
 		#	35 lines - 1 header - 3 cases = 31
 		assert_difference('CandidateControl.count',31){
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert results[0].is_a?(String)
 			assert_equal results[0],
 				"Could not find study_subject with masterid [no ID assigned]"
@@ -419,59 +419,59 @@ class BirthDataUpdateTest < ActiveSupport::TestCase
 				end
 			}
 		}
-		birth_data_update.destroy
+		birth_datum_update.destroy
 	end
 
 	test "should return a StudySubject in results for case" do
-		study_subject = create_case_for_birth_data_update
+		study_subject = create_case_for_birth_datum_update
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_case_study_subject }
-		birth_data_update = create_birth_data_update_with_file
+		birth_datum_update = create_birth_datum_update_with_file
 		assert_difference('CandidateControl.count',0){
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert results[0].is_a?(StudySubject)
 			assert_equal results[0], study_subject
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should return a CandidateControl in results for control" do
-		study_subject = create_case_for_birth_data_update
+		study_subject = create_case_for_birth_datum_update
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_control }
-		birth_data_update = create_birth_data_update_with_file
+		birth_datum_update = create_birth_datum_update_with_file
 		assert_difference('CandidateControl.count',1){
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert results[0].is_a?(CandidateControl)
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should return a String in results for unknown ca_co_status" do
-		study_subject = create_case_for_birth_data_update
+		study_subject = create_case_for_birth_datum_update
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_unknown }
-		birth_data_update = create_birth_data_update_with_file
+		birth_datum_update = create_birth_datum_update_with_file
 		assert_difference('CandidateControl.count',0){
-			results = birth_data_update.to_candidate_controls
+			results = birth_datum_update.to_candidate_controls
 			assert results[0].is_a?(String)
 			assert_equal results[0], "Unexpected ca_co_status :unknown:"
 		}
-		cleanup_birth_data_update_and_test_file
+		cleanup_birth_datum_update_and_test_file
 	end
 
 protected
 
-	def delete_all_possible_birth_data_update_attachments
-		#	/bin/rm -rf test/birth_data_update
-		FileUtils.rm_rf('test/birth_data_update')
+	def delete_all_possible_birth_datum_update_attachments
+		#	/bin/rm -rf test/birth_datum_update
+		FileUtils.rm_rf('test/birth_datum_update')
 	end
 
 	#	create_object is called from within the common class tests
 #	Never used here
-#	alias_method :create_object, :create_birth_data_update
+#	alias_method :create_object, :create_birth_datum_update
 
 end

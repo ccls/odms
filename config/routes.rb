@@ -169,8 +169,10 @@ end
 	resources :abstracts, :except => [:new,:create] do
 		#	specify custom location controllers to avoid conflict
 		#	with app controllers ( just diagnoses now )
-		resource :identifying_data, :only => [:edit,:update,:show],
-			:controller => 'abstract/identifying_datas'
+#		resource :identifying_data, :only => [:edit,:update,:show],
+#			:controller => 'abstract/identifying_datas'
+		resource :identifying_datum, :only => [:edit,:update,:show],
+			:controller => 'abstract/identifying_data'
 		resource :bone_marrow, :only => [:edit,:update,:show],
 			:controller => 'abstract/bone_marrows'
 		resource :cbc, :only => [:edit,:update,:show],
