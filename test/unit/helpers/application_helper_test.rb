@@ -1261,27 +1261,79 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-
-
-
 #	abstract_pages
 
 	test "should respond abstract_pages" do
 		assert respond_to?(:abstract_pages)
-pending	#	TODO add some real tests for this
 	end
+
+#
+#	Calling the named route methods raises
+#
+#NoMethodError: undefined method `host' for nil:NilClass
+#
+#	and this is proving a bit tricky to deal with here.
+#
+#	test "abstract_pages should return without being at subsection" do
+#		abstract = Factory(:abstract)
+#		response = HTML::Document.new( abstract_pages(abstract) ).root 
+#		assert_select response, 'p.center' do
+#			assert_select 'a','Back to Abstract',1
+#			assert_select 'a[href=?]', abstract_path(abstract)
+#		end
+#	end
+#
+#	test "abstract_pages should return being at the first subsection" do
+#		controller_name = Abstract.sections.first[:controller]
+#		@controller = "Abstract::#{controller_name}".constantize.new
+#		abstract = Factory(:abstract)
+#		response = abstract_pages(abstract)
+#		puts response
+#	end
+#
+#	test "abstract_pages should return being at a middle subsection" do
+#		controller_name = Abstract.sections[6][:controller]
+#		@controller = "Abstract::#{controller_name}".constantize.new
+#		abstract = Factory(:abstract)
+#		response = abstract_pages(abstract)
+#		puts response
+#	end
+#
+#	test "abstract_pages should return being at the last subsection" do
+#		controller_name = Abstract.sections.last[:controller]
+#		@controller = "Abstract::#{controller_name}".constantize.new
+#		abstract = Factory(:abstract)
+#		response = abstract_pages(abstract)
+#		puts response
+#	end
 
 #	edit_link
 
 	test "should respond edit_link" do
 		assert respond_to?(:edit_link)
-pending	#	TODO add some real tests for this
 	end
 
+	test "edit_link should return link without controller and id" do
+		response = HTML::Document.new( edit_link ).root
+		#	without a set controller uses assets
+		#	<p class='center'><a href="/assets?action=edit" class="right button">Edit</a></p>
+		assert_select response, 'p.center' do
+			assert_select 'a.right.button','Edit',1
+			assert_select 'a[href=?]', "/assets?action=edit"
+		end
+	end
 
-
-
-
+	test "edit_link should return link with controller and id" do
+		self.params = { :controller => 'abstracts', :id => 0 }
+		response = HTML::Document.new( edit_link ).root
+		#	with a set controller and id
+		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
+		assert_select response, 'p.center' do
+			assert_select 'a.right.button','Edit',1
+			assert_select 'a[href=?]', "/abstracts/0/edit"
+			assert_select 'a[href=?]', edit_abstract_path(0)
+		end
+	end
 
 
 private 
@@ -1309,12 +1361,18 @@ private
 #141       if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
 		 ActionController::TestRequest.new
 	end
+#	def response
+#		ActionController::TestResponse.new
+#	end
 
-#	#	fake the funk for controller as well. (for the subject_side_menu tests)
+#	#	fake the funk for controller as well. (for the abstract_pages tests)
 #	def controller
-#		@controller
+#puts "reading set controller"
+#		@controller || TestController.new
+#		instance_variable_get("@controller") || TestController.new
 #	end
 #	def controller=(new_controller)
+#puts "setting new controller"
 #		@controller = new_controller
 #	end
 end
