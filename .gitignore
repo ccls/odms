@@ -64,8 +64,8 @@ db/test_*_schema.rb
 #	not in gem, so don't have to ignore
 #test-livebirthdata_011912.csv
 live_birth_errors.csv
-test/live_birth_data_update/
-development/live_birth_data_update/
+test/birth_datum_update/
+development/birth_datum_update/
 
 #	not in gem, so don't have to ignore
 #icf_master_tracker_011712.csv
