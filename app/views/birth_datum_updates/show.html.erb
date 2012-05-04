@@ -1,14 +1,14 @@
-<% stylesheets(:birth_data_update) %>
+<% stylesheets(:birth_datum_update) %>
 
-<p>Path: <%= @birth_data_update.csv_file.path %></p>
-<p>File: <%= @birth_data_update.csv_file_file_name %></p>
-<p>Size: <%= @birth_data_update.csv_file_file_size %></p>
-<p>Updated: <%= @birth_data_update.csv_file_updated_at %></p>
+<p>Path: <%= @birth_datum_update.csv_file.path %></p>
+<p>File: <%= @birth_datum_update.csv_file_file_name %></p>
+<p>Size: <%= @birth_datum_update.csv_file_file_size %></p>
+<p>Updated: <%= @birth_datum_update.csv_file_updated_at %></p>
 
-<% unless @birth_data_update.csv_file_file_name.nil? %>
-<pre><%= IO.read(@birth_data_update.csv_file.path) %></pre>
+<% unless @birth_datum_update.csv_file_file_name.nil? %>
+<pre><%= IO.read(@birth_datum_update.csv_file.path) %></pre>
 <% end %>
 
-<%= button_to( 'Parse', parse_birth_data_update_path(@birth_data_update) )%>
-<%= link_to( 'Edit', edit_birth_data_update_path(@birth_data_update), :class => 'button' ) %>
-<%= link_to( 'Back', birth_data_updates_path, :class => 'button' ) %>
+<%= button_to( 'Parse', parse_birth_datum_update_path(@birth_datum_update) )%>
+<%= link_to( 'Edit', edit_birth_datum_update_path(@birth_datum_update), :class => 'button' ) %>
+<%= link_to( 'Back', birth_datum_updates_path, :class => 'button' ) %>

@@ -266,7 +266,7 @@ end
 	resources :icf_master_tracker_updates do 
 		member { post :parse }
 	end
-	resources :birth_data_updates do 
+	resources :birth_datum_updates do 
 		member { post :parse }
 	end
 
