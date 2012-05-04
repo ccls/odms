@@ -32,6 +32,11 @@ namespace :odms_import do
 				next
 			end
 
+
+			data_source_id = line["data_source_id"]
+#			data_source_id = 777 if data_source_id == '6'
+
+
 			#
 			#	Addresses must exist before the addressings can be made.
 			#
@@ -55,7 +60,7 @@ namespace :odms_import do
 														nil : Time.parse(line['valid_from']).to_date ),
 				:valid_to         => (( line['valid_to'].blank? ) ?
 														nil : Time.parse(line['valid_to']).to_date ),
-				:data_source_id   => line["data_source_id"],
+				:data_source_id   => data_source_id,
 				:created_at       => (( line['created_at'].blank? ) ?
 														nil : Time.parse(line['created_at']) )
 			})
@@ -75,8 +80,14 @@ namespace :odms_import do
 					'Current Address mismatch'
 				assert addressing.address_at_diagnosis == line["address_at_diagnosis"].to_nil_or_i,
 					'Address at Diagnosis mismatch'
+
+
+
 				assert addressing.data_source_id == line["data_source_id"].to_nil_or_i,
 					'Data Source mismatch'
+
+
+
 				if line['valid_from'].blank?
 					assert addressing.valid_from.nil?, 'Valid From not nil'
 				else
