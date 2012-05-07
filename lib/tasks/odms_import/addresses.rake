@@ -31,8 +31,9 @@ namespace :odms_import do
 				:external_address_id => line["external_address_id"],
 				:county          => line["county"],
 				:country         => line["country"],
-				:created_at      => (( line['created_at'].blank? ) ?
-														nil : Time.parse(line['created_at']) )
+				:created_at      => line['created_at'].to_nil_or_time
+#				:created_at      => (( line['created_at'].blank? ) ?
+#														nil : Time.parse(line['created_at']) )
 			})
 
 			if address.new_record?

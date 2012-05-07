@@ -18,8 +18,8 @@ namespace :odms_import do
 		#	can be referenced.  
 		#
 
-#		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/"
-		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/20120427/"
+		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/"
+#		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/20120427/"
 		SUBJECTS_CSV = "#{BASEDIR}/ODMS_SubjectData_Combined_042712.csv"
 		ADDRESSES_CSV = "#{BASEDIR}/ODMS_Addresses_042712.csv"
 		ADDRESSINGS_CSV = "#{BASEDIR}/ODMS_Addressings_042712.csv"
@@ -72,6 +72,14 @@ namespace :odms_import do
 
 			def to_nil_or_i
 				( self.blank? ) ? nil : self.to_i
+			end
+
+			def to_nil_or_time
+				( self.blank? ) ? nil : Time.parse(self)
+			end
+
+			def to_nil_or_date
+				( self.blank? ) ? nil : Time.parse(self).to_date
 			end
 
 			#	this is only used for a missing organization_id

@@ -44,8 +44,9 @@ namespace :odms_import do
 				:is_primary       => line["is_primary"],         #	boolean
 				:current_phone    => line["current_phone"],      #	yndk integer
 #				:current_phone    => line["current_phone"].to_nil_or_yndk,
-				:created_at       => (( line['created_at'].blank? ) ?
-														nil : Time.parse(line['created_at']) )
+#				:created_at       => (( line['created_at'].blank? ) ?
+#														nil : Time.parse(line['created_at']) )
+				:created_at       => line['created_at'].to_nil_or_time
 			})
 
 			if phone_number.new_record?

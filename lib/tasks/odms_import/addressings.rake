@@ -56,13 +56,16 @@ namespace :odms_import do
 				:address_id       => address.id,
 				:current_address  => line["current_address"],           # yndk integer
 				:address_at_diagnosis => line["address_at_diagnosis"],  # yndk integer
-				:valid_from       => (( line['valid_from'].blank? ) ?
-														nil : Time.parse(line['valid_from']).to_date ),
-				:valid_to         => (( line['valid_to'].blank? ) ?
-														nil : Time.parse(line['valid_to']).to_date ),
 				:data_source_id   => data_source_id,
-				:created_at       => (( line['created_at'].blank? ) ?
-														nil : Time.parse(line['created_at']) )
+				:valid_from       => line['valid_from'].to_nil_or_date,
+				:valid_to         => line['valid_to'].to_nil_or_date,
+				:created_at       => line['created_at'].to_nil_or_time
+#				:valid_from       => (( line['valid_from'].blank? ) ?
+#														nil : Time.parse(line['valid_from']).to_date ),
+#				:valid_to         => (( line['valid_to'].blank? ) ?
+#														nil : Time.parse(line['valid_to']).to_date ),
+#				:created_at       => (( line['created_at'].blank? ) ?
+#														nil : Time.parse(line['created_at']) )
 			})
 
 			if addressing.new_record?

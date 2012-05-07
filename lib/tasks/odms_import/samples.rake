@@ -31,37 +31,51 @@ namespace :odms_import do
 				next
 			end
 
+			project_id = if line['project_id'].blank? or line['project_id'].to_s == '0'
+				Project['ccls'].id
+			else
+				line['project_id']
+			end
+			sample_temperature_id = if line['storage_temp'].blank?
+				nil
+			elsif line['storage_temp'] == 'Refrigerator'
+				SampleTemperature['refrigerated'].id
+			elsif line['storage_temp'] == 'Room Temperature'
+				SampleTemperature['roomtemp'].id
+			else
+				0	#	should crash
+			end
+
 			sample = study_subject.samples.create do |s|
 
-				s.id = line['id']	#	THIS IS ACTUALLY IMPORTANT!
 
-				s.project_id = if line['project_id'].blank? or line['project_id'].to_s == '0'
-					Project['ccls'].id
-				else
-					line['project_id']
-				end
+
+				s.id = line['id']	#	THIS IS ACTUALLY REALLY REALLY IMPORTANT!
+
+
+
+				s.project_id = project_id
 
 				s.parent_sample_id = line['parent_sample_id']
 				s.sample_type_id = line['ODMS_sample_type_id']
-				s.location_id = line['location_id']
-
-				s.sample_temperature_id = if line['storage_temp'].blank?
-					nil
-				elsif line['storage_temp'] == 'Refrigerator'
-					SampleTemperature['refrigerated'].id
-				elsif line['storage_temp'] == 'Room Temperature'
-					SampleTemperature['roomtemp'].id
-				else
-					0	#	should crash
+				unless line['location_id'].blank?
+					s.location_id = line['location_id']
 				end
 
-				s.aliquot_or_sample_on_receipt = line['aliquot_or_sample_on_receipt']
+				s.sample_temperature_id = sample_temperature_id
 
-				s.received_by_ccls_at = (( line['received_by_ccls_at'].blank? ) ?
-														nil : Time.parse(line['received_by_ccls_at']))
+				unless line['aliquot_or_sample_on_receipt'].blank?
+					s.aliquot_or_sample_on_receipt = line['aliquot_or_sample_on_receipt']
+				end
 
-#				:UNKNOWN         => (( line['originally_received_at'].blank? ) ?
-#														nil : Time.parse(line['originally_received_at']) ),
+#				s.received_by_ccls_at = (( line['received_by_ccls_at'].blank? ) ?
+#														nil : Time.parse(line['received_by_ccls_at']))
+				s.received_by_ccls_at = line['received_by_ccls_at'].to_nil_or_time
+
+
+#	created_at ???
+				s.created_at         = line['originally_received_at'].to_nil_or_time
+
 
 				s.external_id        = line["external_id"]
 				s.external_id_source = line["external_id_source"]
@@ -78,6 +92,8 @@ namespace :odms_import do
 					'id'
 				assert sample.study_subject_id == study_subject.id,
 					'Study Subject mismatch'
+				assert_string_equal sample.project_id, project_id,
+					'project_id'
 				assert_string_equal sample.parent_sample_id, line["parent_sample_id"], 
 					'parent_sample_id'
 				assert_string_equal sample.sample_type_id, line["ODMS_sample_type_id"], 
@@ -86,25 +102,51 @@ namespace :odms_import do
 					'external_id'
 				assert_string_equal sample.external_id_source, line["external_id_source"], 
 					'external_id_source'
+				assert_string_equal sample.sample_temperature_id, sample_temperature_id,
+					'sample_temperature_id'
 
+				unless line['created_at'].blank?
+					assert !sample.created_at.nil?, 'created_at is nil'
+					assert sample.created_at == Time.parse(line['originally_received_at']),
+						"created_at mismatch :" <<
+							"#{sample.created_at}:" <<
+							"#{Time.parse(line['originally_received_at'])}:"
+				end
 
-#	TODO compare project_id
-#	TODO compare aliquot_or_sample_on_receipt
-#	TODO compare storage_temp
-#				if line['valid_to'].blank?
-#					assert addressing.valid_to.nil?, 'Valid To not nil'
-#				else
-#					assert !addressing.valid_to.nil?, 'Valid To is nil'
-#					assert addressing.valid_to == Time.parse(line['valid_to']).to_date,
-#						"Valid To mismatch"
-#				end
-#	NOTE, this won't work due to defaults
-#				assert sample.aliquot_or_sample_on_receipt == line["aliquot_or_sample_on_receipt"],
-#					'aliquot_or_sample_on_receipt mismatch'
+				if line['received_by_ccls_at'].blank?
+					assert sample.received_by_ccls_at.nil?, 'received_by_ccls_at not nil'
+				else
+					assert !sample.received_by_ccls_at.nil?, 'received_by_ccls_at is nil'
+					assert sample.received_by_ccls_at == Time.parse(line['received_by_ccls_at']),
+						"received_by_ccls_at mismatch :" <<
+							"#{sample.received_by_ccls_at}:" <<
+							"#{Time.parse(line['received_by_ccls_at'])}:"
+				end
 
-#				assert sample.location_id == line["location_id"],
-#					"location_id mismatch"
-#				assert sample.location_id == line["location_id"],
+#	defaults
+#       self.aliquot_or_sample_on_receipt ||= 'Sample'
+#       self.order_no ||= 1
+#       self.location_id ||= Organization['CCLS'].id
+
+				if line['aliquot_or_sample_on_receipt'].blank?
+					assert_string_equal sample.aliquot_or_sample_on_receipt, 'Sample',
+						'aliquot_or_sample_on_receipt(blank)'
+				else
+					assert_string_equal sample.aliquot_or_sample_on_receipt, 
+						line['aliquot_or_sample_on_receipt'],
+							'aliquot_or_sample_on_receipt(!blank)'
+				end
+
+				assert_string_equal sample.order_no, '1',
+
+				if line['location_id'].blank?
+					assert_string_equal sample.location_id, Organization['CCLS'].id,
+						'location_id(blank)'
+				else
+					assert_string_equal sample.location_id, 
+						line['location_id'],
+							'location_id(!blank)'
+				end
 
 			end
 

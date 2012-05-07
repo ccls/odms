@@ -34,24 +34,27 @@ namespace :odms_import do
 				x.do_not_contact  = line['do_not_contact']
 
 				x.sex             = line['sex']
-				x.reference_date  = ( line['reference_date'].blank?
-						) ? nil : Time.parse(line['reference_date'])
+#				x.reference_date  = ( line['reference_date'].blank?
+#						) ? nil : Time.parse(line['reference_date'])
+				x.reference_date  = line['reference_date'].to_nil_or_time
 
 				x.birth_year         = line['birth_year']
 				x.first_name         = line['first_name']
 				x.middle_name        = line['middle_name']
 				x.last_name          = line['last_name']
 				x.maiden_name        = line['maiden_name']
-				x.died_on            = ( line['died_on'].blank? 
-					) ? nil : Time.parse(line['died_on'])
+#				x.died_on            = ( line['died_on'].blank? 
+#					) ? nil : Time.parse(line['died_on'])
+				x.died_on            = line['died_on'].to_nil_or_time
 				x.mother_first_name  = line['mother_first_name']
 				x.mother_maiden_name = line['mother_maiden_name']
 				x.mother_last_name   = line['mother_last_name']
 				x.father_first_name  = line['father_first_name']
 				x.father_last_name   = line['father_last_name']
 
-				x.dob                = ( line['dob'].blank? 
-						) ? nil : Time.parse(line['dob']).to_date
+#				x.dob                = ( line['dob'].blank? 
+#						) ? nil : Time.parse(line['dob']).to_date
+				x.dob                = line['dob'].to_nil_or_date
 
 				x.subjectid     = line['subjectid']
 				x.childid       = line['childid']
@@ -76,8 +79,9 @@ namespace :odms_import do
 
 			if line['subject_type_id'].to_i == StudySubject.subject_type_case_id
 				patient = Patient.new do |m|
-					m.admit_date = ( line['admit_date'].blank?
-						) ? nil : Time.parse(line['admit_date'])
+#					m.admit_date = ( line['admit_date'].blank?
+#						) ? nil : Time.parse(line['admit_date'])
+					m.admit_date = line['admit_date'].to_nil_or_time
 					m.diagnosis_id    = line['diagnosis_id']
 					m.other_diagnosis = line['other_diagnosis']
 

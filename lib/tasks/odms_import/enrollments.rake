@@ -41,8 +41,9 @@ namespace :odms_import do
 			#	TEMPORARY "FIXES" to get most enrollments imported
 
 			consented           = line['consented']
-			consented_on        = (( line['consented_on'].blank? ) ?
-					nil : Time.parse(line['consented_on']).to_date )
+#			consented_on        = (( line['consented_on'].blank? ) ?
+#					nil : Time.parse(line['consented_on']).to_date )
+			consented_on        = line['consented_on'].to_nil_or_date
 			refusal_reason_id   = line['refusal_reason_id']
 			document_version_id = line['document_version_id']
 
