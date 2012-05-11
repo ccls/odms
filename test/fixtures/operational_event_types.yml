@@ -138,4 +138,14 @@ screener:
   key: screener_complete
   event_category:  recruitment
   description: ICF completed screening interview with respondent
+birthdatareceived:
+  id: 27
+  key: birthDataReceived
+  event_category: operations
+  description: Birth Data for subject received from USC
+birthdataconflict:
+  id: 28
+  key: birthDataConflict
+  event_category: errors
+  description: A data conflict was found between ODMS subject data and USC Birth data.
 
