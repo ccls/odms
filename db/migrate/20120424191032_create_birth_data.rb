@@ -1,6 +1,7 @@
 class CreateBirthData < ActiveRecord::Migration
 	def change
 		create_table :birth_data do |t|
+			t.integer :study_subject_id
 			t.string  :abnormal_conditions, :length => 2
 			t.integer :apgar_1min
 			t.integer :apgar_5min
