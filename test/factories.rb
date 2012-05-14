@@ -204,6 +204,23 @@ Factory.define :bc_request do |f|
 	f.sequence(:notes) { |n| "Notes#{n}" }	#	forces an update
 end
 
+Factory.define :birth_datum do |f|
+end
+#Factory.define :birth_datum_change do |f|
+#end
+Factory.define :birth_datum_update do |f|
+	f.csv_file Rack::Test::UploadedFile.new( 
+		'test/assets/empty_birth_datum_update_test_file.csv', 'text/csv')
+end
+Factory.define :empty_birth_datum_update, 
+	:parent => :birth_datum_update do |f|
+end
+Factory.define :one_record_birth_datum_update, 
+	:parent => :birth_datum_update do |f|
+	f.csv_file Rack::Test::UploadedFile.new( 
+		'test/assets/one_record_birth_datum_update_test_file.csv', 'text/csv')
+end
+
 Factory.define :candidate_control do |f|
 	f.first_name "First"
 	f.last_name  "Last"
@@ -391,27 +408,13 @@ Factory.define :interview do |f|
 	f.association :study_subject
 end
 
-Factory.define :birth_datum do |f|
-end
-#Factory.define :birth_datum_change do |f|
-#end
-Factory.define :birth_datum_update do |f|
-	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/assets/empty_birth_datum_update_test_file.csv', 'text/csv')
-end
-Factory.define :empty_birth_datum_update, 
-	:parent => :birth_datum_update do |f|
-end
-Factory.define :one_record_birth_datum_update, 
-	:parent => :birth_datum_update do |f|
-	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/assets/one_record_birth_datum_update_test_file.csv', 'text/csv')
-end
-
 Factory.define :language do |f|
 	f.sequence(:key)         { |n| "Key#{n}" }
 #	f.sequence(:code)        { |n| "Code#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
+end
+
+Factory.define :odms_exception do |f|
 end
 
 Factory.define :operational_event do |f|

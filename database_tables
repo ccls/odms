@@ -1124,6 +1124,19 @@ Table: languages
 | created_at  | datetime     | NO   |     | NULL    |                |
 | updated_at  | datetime     | NO   |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
+Table: odms_exceptions
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(255) | YES  |     | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| occurred_at | datetime     | YES  |     | NULL    |                |
+| is_resolved | tinyint(1)   | YES  |     | 0       |                |
+| notes       | text         | YES  |     | NULL    |                |
+| created_at  | datetime     | NO   |     | NULL    |                |
+| updated_at  | datetime     | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
 Table: operational_event_types
 +----------------+--------------+------+-----+---------+----------------+
 | Field          | Type         | Null | Key | Default | Extra          |

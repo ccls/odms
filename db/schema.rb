@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120514172723) do
+ActiveRecord::Schema.define(:version => 20120514212129) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1093,6 +1093,16 @@ ActiveRecord::Schema.define(:version => 20120514172723) do
   end
 
   add_index "languages", ["key"], :name => "index_languages_on_key", :unique => true
+
+  create_table "odms_exceptions", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "occurred_at"
+    t.boolean  "is_resolved", :default => false
+    t.text     "notes"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
 
   create_table "operational_event_types", :force => true do |t|
     t.integer  "position"
