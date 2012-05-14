@@ -15,8 +15,9 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit new_study_subject_event_path(study_subject)
 			assert has_css?('select#category')
 
-			assert_equal 11, all('select#category option').length
+			assert_equal 12, all('select#category option').length
 			# [nil,ascertainment,compensation,completions,correspondence,
+#	20120514 - added 'errors'
 			#		enrollments,interviews,operations,other,recruitment,samples]
 
 			assert has_css?('select#operational_event_operational_event_type_id')
@@ -37,7 +38,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	now should have some options.
 			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
-			assert_equal 6, 
+#	20120514 - added 'operations:birthDataReceived'
+			assert_equal 7, 
 				find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
@@ -79,8 +81,9 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit edit_event_path(event)
 			assert has_css?('select#category')
 
-			assert_equal 11, all('select#category option').length
+			assert_equal 12, all('select#category option').length
 			# [nil,ascertainment,compensation,completions,correspondence,
+#	20120514 - added 'errors'
 			#		enrollments,interviews,operations,other,recruitment,samples]
 
 			event_category = event.operational_event_type.event_category
@@ -103,7 +106,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	now should have some different options.
 			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
-			assert_equal 6, 
+#	20120514 - added 'operations:birthDataReceived'
+			assert_equal 7, 
 				find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
