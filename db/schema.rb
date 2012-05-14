@@ -464,6 +464,7 @@ ActiveRecord::Schema.define(:version => 20120514212129) do
   end
 
   create_table "birth_data", :force => true do |t|
+    t.integer  "study_subject_id"
     t.string   "abnormal_conditions"
     t.integer  "apgar_1min"
     t.integer  "apgar_5min"
@@ -531,7 +532,6 @@ ActiveRecord::Schema.define(:version => 20120514212129) do
     t.boolean  "vacuum_attempt_unsuccessful"
     t.datetime "created_at",                                                       :null => false
     t.datetime "updated_at",                                                       :null => false
-    t.integer  "study_subject_id"
   end
 
   create_table "birth_datum_updates", :force => true do |t|
