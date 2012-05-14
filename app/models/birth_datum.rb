@@ -4,6 +4,8 @@ class BirthDatum < ActiveRecord::Base
 
 #	still need to know which field is the unique one.
 
+	belongs_to :study_subject
+
 	#	Fortunately, in rails 3, after_create seems to be called before after_save
 	#	I don't think that this was true in rails 2.
 	after_create :create_new_datum_record_change

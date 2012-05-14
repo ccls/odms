@@ -20,6 +20,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	assert_should_have_many( :bc_requests )
 	assert_should_have_one( :home_exposure_response )
+	assert_should_have_one( :birth_datum )
 	assert_should_habtm(:analyses)
 
 	attributes = %w( accession_no 
