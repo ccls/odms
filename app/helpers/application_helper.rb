@@ -162,7 +162,9 @@ module ApplicationHelper
 					:class => ((current == :notes)?'current':nil) ),
 			] if( logged_in? and current_user.may_administrate? )
 
-			links << link_to( "Related Subjects", related_subject_path(study_subject),
+#			links << link_to( "Related Subjects", related_subject_path(study_subject),
+			links << link_to( "Related Subjects", 
+					study_subject_related_subjects_path(study_subject),
 					:class => ((current == :related_subjects)?'current':nil) )
 			links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) )
