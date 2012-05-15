@@ -40,6 +40,8 @@
  #	Perhaps prep the test db
  rake db:test:prepare
  
+ #	The test fixtures contain REAL data to be used in
+ #	the REAL application and so it MUST be installed.
  #	Install most test fixtures in database.
  #	This is destructive and will remove all existing
  #	before adding those in the fixtures.
@@ -47,6 +49,9 @@
  
  #	OR Install zip_code and county csv fixtures in database (takes a while)
  #	( this will do app:update as well )
+ #	As the zip_code and county info doesn't really ever change,
+ #	I separated it out.  As Rails 3 doesn't do csv fixtures,
+ #	I had to custom write the task as well.
  rake app:full_update
  
  #	Add expected users and roles (must be after roles are loaded)
