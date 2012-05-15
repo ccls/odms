@@ -4,59 +4,59 @@ class RelatedSubjectsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		test "should get show with case id and #{cu} login" do
+		test "should get index with case study_subject_id and #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:complete_case_study_subject)
-			get :show, :id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert_response :success
-			assert_template 'show'
+			assert_template 'index'
 		end
 
-		test "should get show with control id and #{cu} login" do
+		test "should get index with control study_subject_id and #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:complete_control_study_subject)
-			get :show, :id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert_response :success
-			assert_template 'show'
+			assert_template 'index'
 		end
 
-		test "should get show with mother id and #{cu} login" do
+		test "should get index with mother study_subject_id and #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:complete_mother_study_subject)
-			get :show, :id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert_response :success
-			assert_template 'show'
+			assert_template 'index'
 		end
 
-		test "should get show with #{cu} login and include rejected controls" do
+		test "should get index with #{cu} login and include rejected controls" do
 			login_as send(cu)
 			study_subject = Factory(:complete_case_study_subject)
 			candidate = Factory(:candidate_control,{
 				:related_patid    => study_subject.patid,
 				:reject_candidate => true,
 				:rejection_reason => 'something' })
-			get :show, :id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert_response :success
-			assert_template 'show'
+			assert_template 'index'
 			assert !assigns(:rejected_controls).empty?
 			assert  assigns(:unrejected_controls).empty?
 		end
 
-		test "should get show with #{cu} login and with unrejected controls" do
+		test "should get index with #{cu} login and with unrejected controls" do
 			login_as send(cu)
 			study_subject = Factory(:complete_case_study_subject)
 			candidate = Factory(:candidate_control,{
 				:related_patid    => study_subject.patid })
-			get :show, :id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert_response :success
-			assert_template 'show'
+			assert_template 'index'
 			assert  assigns(:rejected_controls).empty?
 			assert !assigns(:unrejected_controls).empty?
 		end
 
-		test "should NOT show related study_subjects with #{cu} login and invalid id" do
+		test "should NOT index related study_subjects with #{cu} login and invalid study_subject_id" do
 			login_as send(cu)
-			get :show, :id => 0
+			get :index, :study_subject_id => 0
 			assert_not_nil flash[:error]
 			assert_redirected_to cases_path
 		end
@@ -65,10 +65,10 @@ class RelatedSubjectsControllerTest < ActionController::TestCase
 
 	non_site_editors.each do |cu|
 
-		test "should NOT get show with id and #{cu} login" do
+		test "should NOT get index with study_subject_id and #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:study_subject)
-			get :show, :id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -77,9 +77,9 @@ class RelatedSubjectsControllerTest < ActionController::TestCase
 
 #	no login ...
 
-	test "should NOT get show without login" do
+	test "should NOT get index without login" do
 		study_subject = Factory(:study_subject)
-		get :show, :id => study_subject.id
+		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 

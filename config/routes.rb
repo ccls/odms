@@ -1,11 +1,10 @@
 Odms::Application.routes.draw do
 
-#	rather than try to get multiple route files working,
-#	just conditionally add this testing route.
-if Rails.env == 'test'
-	resource :fake_session, :only => [:new,:create]
-end
-
+	#	rather than try to get multiple route files working,
+	#	just conditionally add this testing route.
+	if Rails.env == 'test'
+		resource :fake_session, :only => [:new,:create]
+	end
 
 	# The priority is based upon order of creation:
 	# first created -> highest priority.
@@ -73,7 +72,23 @@ end
 #
 #
 
+	root :to => 'odms#show'
+
 	resources :address_types
+	resources :bc_requests, :except => :show do
+		collection { get :confirm }
+		member     { put :update_status }
+	end
+	resources :birth_datum_updates do 
+		member { post :parse }
+	end
+	resources :candidate_controls, :only => [:edit,:update]
+	resources :cases, :only => [:new,:create,:index] do
+		#
+		#	WARNING be careful as "case" is a ruby keyword!
+		#
+		resources :controls,   :only => [:new]	#,:create]
+	end
 	resources :contexts
 	resources :data_sources
 	resources :diagnoses
@@ -82,6 +97,10 @@ end
 	resources :follow_up_types
 	resources :guides
 	resources :hospitals
+	resources :icf_master_trackers, :only => [:index,:show,:update]
+	resources :icf_master_tracker_updates do 
+		member { post :parse }
+	end
 	resources :instrument_types
 	resources :instrument_versions
 	resources :ineligible_reasons
@@ -89,12 +108,23 @@ end
 	resources :interview_methods
 	resources :interview_outcomes
 	resources :languages
+	resources :locales, :only => :show
+	resources :operational_event_types do
+		collection { get 'options' }
+	end
 	resources :organizations
+	resources :pages do
+		collection do
+			get  :all
+			post :order
+		end
+	end
 	resources :people
 	resources :phone_types
 	resources :project_outcomes
 	resources :projects
 	resources :races
+	resource  :receive_sample, :only => [:new,:create]
 	resources :refusal_reasons
 	resources :sample_formats
 	resources :sample_outcomes
@@ -106,7 +136,10 @@ end
 	resources :tracing_statuses
 	resources :units
 	resources :vital_statuses
+	resources :zip_codes, :only => [ :index ]
 
+	resource  :waivered,    :only => [:new,:create]
+	resource  :nonwaivered, :only => [:new,:create]
 
 	namespace :active_scaffold do
 		resources :study_subjects	do as_routes end
@@ -126,16 +159,6 @@ end
 		resources :roles, :only => [:update,:destroy]
 	end
 	resource :session, :only => [ :destroy ]
-
-	resources :zip_codes, :only => [ :index ]
-#	resources :operational_event_types, :only => [] do
-	resources :operational_event_types do
-		collection { get 'options' }
-	end
-
-	resources :locales, :only => :show
-
-	root :to => 'odms#show'
 
 	#	Route declaration order matters.
 	#	This MUST be BEFORE the declaration of
@@ -162,8 +185,6 @@ end
 	resources :studies, :only => [] do
 		collection { get :dashboard }
 	end
-
-	resource :receive_sample, :only => [:new,:create]
 
 	#	I think that these MUST come before the study subject sub routes
 	resources :abstracts, :except => [:new,:create] do
@@ -226,59 +247,27 @@ end
 		resources :documents,  :only => :index
 		resources :notes,      :only => :index
 
-#
-#	Add index action and set custom controller name
-#
+		#
+		#	Add index action and set custom controller name
+		#
 		resources :abstracts, :only => [:new,:create,:index],
 			:controller => 'study_subject_abstracts' do
-#		resources :abstracts, :only => [:new,:create] do
 			collection do
 				get  :compare
 				post :merge
 			end
 		end
+		resources :related_subjects, :only => [:index]
 	end
 
-	resources :bc_requests, :except => :show do
-		collection { get :confirm }
-		member     { put :update_status }
-	end
 
-	#	These are currently not used
+	#	These are currently not used ... and should probably be destroyed
 	#	resources :bc_validations, :only => [:index, :show]
 	#	resources :birth_certificates, :only => :index
 
-	resources :candidate_controls, :only => [:edit,:update]
-
-	resources :related_subjects, :only => [:show]
-
-	resources :cases, :only => [:new,:create,:index] do
-		#
-		#	WARNING be careful as "case" is a ruby keyword!
-		#
-		resources :controls,   :only => [:new]	#,:create]
-	end
-
-	resource  :waivered,    :only => [:new,:create]
-	resource  :nonwaivered, :only => [:new,:create]
-
-	resources :icf_master_trackers, :only => [:index,:show,:update]
-	resources :icf_master_tracker_updates do 
-		member { post :parse }
-	end
-	resources :birth_datum_updates do 
-		member { post :parse }
-	end
 
 
 
-
-	resources :pages do
-		collection do
-			get  :all
-			post :order
-		end
-	end
 
 	match 'charts/:action.:format' => 'charts'
 
