@@ -144,7 +144,7 @@ module ApplicationHelper
 
 			links += [
 				link_to( "Birth Record", study_subject_birth_record_path(study_subject),
-					:class => ((current == :birth_record)?'current':nil) ) ]
+					:class => ((current == :birth_record)?'current':nil) )
 			] if( logged_in? and current_user.may_administrate? )
 
 			links += [
