@@ -234,6 +234,7 @@ Odms::Application.routes.draw do
 			get :reports
 		end
 		resource  :patient
+		resource  :birth_record, :only => :show
 		#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
 		resources :phone_numbers, :except => [:index,:show]
 		resources :addressings,   :except => [:index,:show]
