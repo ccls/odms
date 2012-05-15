@@ -1,3 +1,11 @@
+<div id='birth_record'>
+<h3>Birth Record</h3>
+<% unless @study_subject.birth_record.nil? %>
 
-Birth Record
+<h4>Here is the Study Subject's birth record .....</h4>
+<h4>coming soon .....</h4>
 
+<% else %>
+<h4>Study Subject does not have a birth record on file.</h4>
+<% end %>
+</div><!-- id='birth_record' -->
