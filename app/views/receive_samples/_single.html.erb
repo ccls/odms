@@ -38,8 +38,16 @@
 		SampleType.roots, :children, :to_s, :id, :to_s,
 	{ :include_blank => true }) %>
 
+<%#
+
+	Be Advised.  Context alone will ge confused with ActionView::Context:Module
+	which will raise the error ...
+	    undefined method `[]' for ActionView::Context:Module
+	Change to ::Context for clarification.
+
+%>
 <%= f.wrapped_collection_select(:sample_temperature_id,
-	SampleTemperature.all, :id, :to_s,
+	::Context['receive_sample'].sample_temperatures, :id, :to_s,
 	{ :include_blank => true }) %>
 
 <%= f.wrapped_datetime_text_field :sent_to_subject_at,
