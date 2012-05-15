@@ -120,6 +120,7 @@ module ApplicationHelper
 			when 'documents' then :documents
 			when 'notes' then :notes
 			when 'related_subjects' then :related_subjects
+			when 'birth_records' then :birth_record
 #	this will catch abstracts, study_subject_abstracts and 
 #		all of the abstract/whatevers
 			when /abstract/ then :abstracts
@@ -139,7 +140,14 @@ module ApplicationHelper
 				link_to( "Address & Phone", study_subject_contacts_path(study_subject),
 					:class => ((current == :contact)?'current':nil) ),
 				link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
-					:class => ((current == :hospital)?'current':nil) ),
+					:class => ((current == :hospital)?'current':nil) ) ]
+
+			links += [
+				link_to( "Birth Record", study_subject_birth_record_path(study_subject),
+					:class => ((current == :birth_record)?'current':nil) ) ]
+			] if( logged_in? and current_user.may_administrate? )
+
+			links += [
 				link_to( "Eligibility & Consent", study_subject_consent_path(study_subject),
 					:class => ((current == :consents)?'current':nil) ),
 				link_to( "Enrollments",study_subject_enrollments_path(study_subject),

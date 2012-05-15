@@ -187,7 +187,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_path(study_subject)
 		end
 	end
@@ -198,8 +198,19 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
+		end
+	end
+
+	test "subject_side_menu for birth_record with admin login" do
+		login_as send(:administrator)
+		self.params = { :controller => 'birth_records' }
+		study_subject = Factory(:study_subject)
+		response = HTML::Document.new( subject_side_menu(study_subject) ).root
+		assert_select response, 'div#sidemenu' do
+			assert_select 'a', 13
+			assert_select 'a.current[href=?]', study_subject_birth_record_path(study_subject)
 		end
 	end
 
@@ -209,7 +220,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -220,7 +231,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -231,7 +242,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -242,7 +253,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -253,7 +264,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
 		end
 	end
@@ -264,7 +275,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
 		end
 	end
@@ -275,7 +286,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
 		end
 	end
@@ -286,7 +297,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
 		end
 	end
@@ -297,7 +308,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
 		end
 	end
@@ -308,7 +319,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
 		end
 	end
@@ -319,7 +330,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
 		end
 	end
@@ -330,7 +341,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', related_subject_path(study_subject)
 		end
 	end
@@ -341,7 +352,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
 		end
 	end
@@ -352,7 +363,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
 		end
 	end
@@ -363,7 +374,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 12
+			assert_select 'a', 13
 			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
 		end
 	end
