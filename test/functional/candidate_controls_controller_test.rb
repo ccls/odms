@@ -104,7 +104,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:study_subject_id => case_study_subject.id )
 			get :edit, :id => candidate.id
 			assert_not_nil flash[:error]
-			assert_redirected_to related_subject_path(case_study_subject.id)
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 		end
 
 		test "should put update with #{cu} login and mark candidate as rejected" do
@@ -124,7 +124,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_not_nil candidate.rejection_reason
 			assert_nil     candidate.assigned_on
 			assert_nil     candidate.study_subject_id
-			assert_redirected_to related_subject_path(case_study_subject.id)
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 		end
 
 		test "should put update with #{cu} login and accept candidate" do
@@ -144,7 +144,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_not_nil candidate.assigned_on
 			assert_not_nil candidate.study_subject
 			assert_not_nil candidate.study_subject.mother
-			assert_redirected_to related_subject_path(case_study_subject.id)
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 		end
 
 ######################################################################
@@ -193,7 +193,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 					:commit => 'No Match'
 			} }
 			assert !assigns(:duplicates)
-			assert_redirected_to related_subject_path(case_study_subject.id)
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 		end
 
 		test "should NOT create control subject on update with duplicates and" <<
@@ -216,7 +216,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			} }
 			assert !assigns(:duplicates).empty?
 			assert assigns(:duplicates).include?(duplicate)
-			assert_redirected_to related_subject_path(case_study_subject.id)
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 			assert candidate.reload.reject_candidate
 			#	as the created duplicate is not explicitly a case
 			#	the reason will be because it is a control
@@ -245,7 +245,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			} }
 			assert !assigns(:duplicates).empty?
 			assert assigns(:duplicates).include?(duplicate)
-			assert_redirected_to related_subject_path(case_study_subject.id)
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 			assert candidate.reload.reject_candidate
 			assert_match /ineligible control - child is already a case subject/, 
 				candidate.rejection_reason
@@ -397,7 +397,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:study_subject_id => case_study_subject.id )
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_not_nil flash[:error]
-			assert_redirected_to related_subject_path(case_study_subject.id)
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 		end
 
 #			test "should NOT put update with #{cu} login and accept candidate" <<

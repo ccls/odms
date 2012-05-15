@@ -57,7 +57,8 @@
 </div><!-- class='disposition' -->
 </div>
 <p>
-<%= link_to 'cancel', related_subject_path(@study_subject),:class => 'button' %>
+<%= link_to 'cancel', study_subject_related_subjects_path(@study_subject),
+	:class => 'button' %>
 <%= f.submit 'continue' %>
 </p>
 </div><!-- class='reject_control_wrapper' -->

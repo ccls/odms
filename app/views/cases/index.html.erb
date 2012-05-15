@@ -21,7 +21,8 @@
 <li>reference date:&nbsp;<%=mdy @study_subject.reference_date %></li>
 </ul>
 <%#= link_to( 'Continue', case_path(@study_subject), :class => 'button' ) %>
-<%= link_to( 'Continue', related_subject_path(@study_subject), :class => 'button' ) %>
+<%= link_to( 'Continue', study_subject_related_subjects_path(@study_subject), 
+	:class => 'button' ) %>
 <% else %>
 <p>No case study_subject found with patid:<%=params[:patid]%></p>
 <% end %>

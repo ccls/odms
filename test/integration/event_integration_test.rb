@@ -102,7 +102,19 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 					assert !option.text.blank?
 					assert_match /^#{event_category}:/, option.text }
 
+			#	select nothing so can test if cleared
+			#	and can then test not cleared again.
+			#	selecting nothing will trigger the loading of nothing in the selector
+			select '', :from => 'category'
+			wait_until { 
+				!has_css?('select#operational_event_operational_event_type_id option')
+			}
+			assert !has_css?('select#operational_event_operational_event_type_id option')
+
 			select 'operations', :from => 'category'
+			wait_until { 
+				has_css?('select#operational_event_operational_event_type_id option') }
+
 			#	now should have some different options.
 			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.

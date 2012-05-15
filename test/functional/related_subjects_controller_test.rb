@@ -54,11 +54,12 @@ class RelatedSubjectsControllerTest < ActionController::TestCase
 			assert !assigns(:unrejected_controls).empty?
 		end
 
-		test "should NOT index related study_subjects with #{cu} login and invalid study_subject_id" do
+		test "should NOT get index related study_subjects with #{cu} login and invalid study_subject_id" do
 			login_as send(cu)
 			get :index, :study_subject_id => 0
 			assert_not_nil flash[:error]
-			assert_redirected_to cases_path
+#			assert_redirected_to cases_path
+			assert_redirected_to study_subjects_path
 		end
 
 	end

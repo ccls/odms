@@ -11,8 +11,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
 
-			visit related_subject_path(case_study_subject.id)
-			assert_equal current_path, related_subject_path(case_study_subject.id)
+			visit study_subject_related_subjects_path(case_study_subject.id)
+			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
@@ -44,7 +44,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert has_css?("p.flash#warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !has_css?("p.flash#error")
-			assert_equal current_path, related_subject_path(case_study_subject.id)
+			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
 		end
 
 		test "should NOT create control subject if duplicate subject" <<
@@ -58,8 +58,8 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
-			visit related_subject_path(case_study_subject.id)
-			assert_equal current_path, related_subject_path(case_study_subject.id)
+			visit study_subject_related_subjects_path(case_study_subject.id)
+			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
@@ -121,7 +121,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
-			visit related_subject_path(case_study_subject.id)
+			visit study_subject_related_subjects_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
@@ -161,7 +161,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
 				wait_until { 
-					current_path == related_subject_path(case_study_subject.id) }
+					current_path == study_subject_related_subjects_path(case_study_subject.id) }
 
 				#	i still don't know why some redirects are followed by capybara and some aren't
 
@@ -173,7 +173,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_match /ineligible control - control already exists in system/,
 				candidate.rejection_reason
 			assert !has_css?("p.flash#error")
-			assert_equal current_path, related_subject_path(case_study_subject.id)
+			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
 		end
 
 		test "should create control subject if duplicate subject" <<
@@ -187,7 +187,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
-			visit related_subject_path(case_study_subject.id)
+			visit study_subject_related_subjects_path(case_study_subject.id)
 			click_link 'add control'
 
 			#	Only one control so should go to it.
@@ -232,7 +232,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert has_css?("p.flash#warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
 			assert !has_css?("p.flash#error")
-			assert_equal current_path, related_subject_path(case_study_subject.id)
+			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
 		end
 
 	end

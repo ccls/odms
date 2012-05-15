@@ -71,7 +71,7 @@ class CandidateControlsController < ApplicationController
 
 			@candidate.save!
 		end	#	CandidateControl.transaction do
-		redirect_to related_subject_path(@study_subject)
+		redirect_to study_subject_related_subjects_path(@study_subject)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Candidate control update failed."
 		render :action => 'edit'
@@ -115,7 +115,8 @@ protected
 
 	def unused_candidate_control_required
 		unless @candidate.study_subject_id.blank?
-			access_denied("Candidate is already used!", related_subject_path(@study_subject.id))
+			access_denied("Candidate is already used!", 
+				study_subject_related_subjects_path(@study_subject.id))
 		end
 	end
 

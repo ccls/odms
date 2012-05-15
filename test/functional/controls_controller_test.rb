@@ -20,7 +20,7 @@ class ControlsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:case_study_subject)
 			get :new, :case_id => case_study_subject.id
 			assert_not_nil flash[:error]
-			assert_redirected_to related_subject_path(case_study_subject)
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject)
 		end
 
 		test "should NOT get new control with #{cu} login and invalid case_id" do

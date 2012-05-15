@@ -342,7 +342,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 13
-			assert_select 'a.current[href=?]', related_subject_path(study_subject)
+			assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
 		end
 	end
 
@@ -535,7 +535,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
-				assert_select 'a.current[href=?]', related_subject_path(study_subject)
+				assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
 			end
 		end
 
@@ -693,7 +693,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
 			assert_select 'a', 8
-			assert_select 'a.current[href=?]', related_subject_path(study_subject)
+			assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
 		end
 	end
 
