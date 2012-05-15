@@ -27,7 +27,7 @@ legacy:
   id: 777
   position: 4
   key: legacy
-  description:  missing data (eg. legacy nulls)
+  description:  missing data (e.g. legacy nulls)
 dk:
   id: 999
   position: 5
