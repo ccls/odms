@@ -6,6 +6,13 @@
 <%= f.wrapped_text_field :description %>
 <%= f.wrapped_text_area :notes %>
 
+<%#
+
+	This is getting kinda heavy and I'd like to clean it up if its gonna
+	ever actually be used.
+
+%>
+
 <p>Diagnoses:</p>
 <ul>
 <% Diagnosis.all.each do |diagnosis| %>
@@ -46,6 +53,18 @@
 </ul>
 
 
+<p>Sample Temperatures:</p>
+<ul>
+<% SampleTemperature.all.each do |temperature| %>
+<li>
+<%= f.check_box 'sample_temperature_ids', { 
+	:id => "sample_temperature_id_#{temperature.id}",
+	:multiple => true,
+	:checked => ( @context.sample_temperature_ids.include?(temperature.id) )
+	 }, temperature.id, nil %>
+<label for="sample_temperature_id_<%=temperature.id-%>"><%=temperature.to_s-%></label></li>
+<% end %>
+</ul>
 
 
 <p>
