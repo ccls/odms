@@ -139,7 +139,7 @@ class User < ActiveRecord::Base
 			icf_master_tracker_updates ineligible_reasons 
 			instruments instrument_types instrument_versions 
 			interview_methods interview_outcomes languages 
-			birth_datum_updates 
+			birth_datum_updates birth_records
 			operational_event_types organizations
 			people phone_types project_outcomes
 			races refusal_reasons 

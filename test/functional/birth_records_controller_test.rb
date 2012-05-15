@@ -15,7 +15,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 
 	#	All nested routes, so common class-level assertions won't work
 
-	site_editors.each do |cu|
+	site_administrators.each do |cu|
 
 		test "should show birth_record with birth record and #{cu} login" do
 			study_subject = Factory(:study_subject)
@@ -37,7 +37,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 			assert_template 'show'
 		end
 
-		test "should NOT show birth_datum with invalid study_subject_id " <<
+		test "should NOT show birth_record with invalid study_subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
 			get :show, :study_subject_id => 0
@@ -47,12 +47,10 @@ class BirthRecordsControllerTest < ActionController::TestCase
 
 	end
 
-	non_site_editors.each do |cu|
+	non_site_administrators.each do |cu|
 
-		test "should NOT show birth_datum with #{cu} login" do
+		test "should NOT show birth_record with #{cu} login" do
 			study_subject = Factory(:study_subject)
-			birth_datum = Factory(:birth_datum,
-				:study_subject => study_subject )
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -61,10 +59,8 @@ class BirthRecordsControllerTest < ActionController::TestCase
 
 	end
 
-	test "should NOT show patient without login" do
+	test "should NOT show birth_record without login" do
 		study_subject = Factory(:study_subject)
-		birth_datum = Factory(:birth_datum,
-			:study_subject => study_subject )
 		get :show, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end

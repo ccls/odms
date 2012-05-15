@@ -2,7 +2,7 @@ class BirthRecordsController < ApplicationController
 
 	layout 'subject'
 
-	before_filter :may_create_study_subjects_required
+	before_filter :may_read_birth_records_required
 
 #	before_filter :may_create_patients_required,
 #		:only => [:new,:create]
