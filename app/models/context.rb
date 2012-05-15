@@ -15,6 +15,8 @@ class Context < ActiveRecord::Base
 		:source => :contextable, :source_type => 'Language'
 	has_many :diagnoses, :through => :context_contextables, 
 		:source => :contextable, :source_type => 'Diagnosis'
+	has_many :sample_temperatures, :through => :context_contextables, 
+		:source => :contextable, :source_type => 'SampleTemperature'
 
 	validates_length_of :notes, :maximum => 65000, :allow_blank => true
 

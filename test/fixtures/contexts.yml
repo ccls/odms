@@ -42,3 +42,11 @@ raf_1:
   id: 5 
   key: raf1
   description: Those things specific to both raf forms
+
+
+
+
+receive_sample:
+  id: 6 
+  key: receive_sample
+  description: Those things specific to the receive sample form

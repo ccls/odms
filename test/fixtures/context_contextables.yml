@@ -112,3 +112,20 @@
 #	other
   contextable_id:  3
 
+
+
+
+19:
+  id: 19
+#	receive_sample
+  context_id: 6
+  contextable_type: SampleTemperature
+  contextable_id: 1
+20:
+  id: 20
+#	receive_sample
+  context_id: 6
+  contextable_type: SampleTemperature
+  contextable_id: 2
+
+

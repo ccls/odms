@@ -49,6 +49,11 @@ class ContextTest < ActiveSupport::TestCase
 		assert context.diagnoses.empty?
 	end
 
+	test "should have many sample_temperatures" do
+		context = Factory(:context)
+		assert context.sample_temperatures.empty?
+	end
+
 protected
 
 	#	create_object is called from within the common class tests
