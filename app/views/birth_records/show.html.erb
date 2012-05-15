@@ -1,10 +1,12 @@
 <div id='birth_record'>
 <h3>Birth Record</h3>
 <% unless @study_subject.birth_datum.nil? %>
-
-<h4>Here is the Study Subject's birth record .....</h4>
-<h4>coming soon .....</h4>
-
+<% attrs = @study_subject.birth_datum.attributes %>
+<% attrs.delete('id') %>
+<% attrs.delete('study_subject_id') %>
+<% attrs.sort.each do |k,v| %>
+<p><%= "#{k}:#{v}" %></p>
+<% end %>
 <% else %>
 <h4>Study Subject does not have a birth record on file.</h4>
 <% end %>
