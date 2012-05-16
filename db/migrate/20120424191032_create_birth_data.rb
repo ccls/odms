@@ -1,7 +1,20 @@
 class CreateBirthData < ActiveRecord::Migration
 	def change
 		create_table :birth_data do |t|
-			t.integer :study_subject_id
+			t.integer :birth_datum_update_id
+			t.integer :study_subject_id	#	the actual study subject
+			t.string  :master_id	#	case icf_master_id
+			t.boolean :found_in_state_db
+			t.string  :birth_state
+			t.string  :case_control_flag
+			t.integer :length_of_gestion_weeks
+			t.integer :father_race_ethn_1
+			t.integer :father_race_ethn_2
+			t.integer :father_race_ethn_3
+			t.integer :mother_race_ethn_1
+			t.integer :mother_race_ethn_2
+			t.integer :mother_race_ethn_3
+
 			t.string  :abnormal_conditions, :length => 2
 			t.integer :apgar_1min
 			t.integer :apgar_5min
@@ -26,7 +39,8 @@ class CreateBirthData < ActiveRecord::Migration
 			t.string  :father_occupation, :length => 20
 			t.string  :father_race_ethnicity, :length => 15
 #father_ssn
-			t.integer :father_years_education
+#			t.integer :father_years_education
+			t.integer :father_yrs_educ
 			t.string  :fetal_presentation_at_birth
 			t.string  :first_name
 			t.boolean :forceps_attempt_unsuccessful
@@ -61,13 +75,16 @@ class CreateBirthData < ActiveRecord::Migration
 			t.string  :mother_residence_state
 #mother_ssn
 			t.integer :mother_weight_pre_pregnancy
-			t.integer :mother_years_education
+#			t.integer :mother_years_education
+			t.integer :mother_yrs_educ
 			t.integer :ob_gestation_estimate_at_delivery
 			t.integer :prenatal_care_visit_count
 			t.string  :sex
 			t.string  :state_registrar_no
-			t.integer :termination_count_20_plus_weeks
-			t.integer :termination_count_before_20_weeks
+#			t.integer :termination_count_20_plus_weeks
+			t.integer :term_count_20_plus_weeks
+#			t.integer :termination_count_before_20_weeks
+			t.integer :term_count_pre_20_weeks
 			t.boolean :vacuum_attempt_unsuccessful
 			t.timestamps
 		end
