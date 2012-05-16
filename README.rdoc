@@ -381,6 +381,28 @@ as the latter will be true if the field is there regardless of if it is visible
 
 
 
+
+---
+=== Odd testing errors
+
+I noticed that occassionally something fails to rollback properly leaving
+some records in the database.  This can and does causes some odd and confusing errors.
+Some of the difference tests are just wrong and it isn't completely clear why.
+I believe that the integration tests are the initial cause as they
+are threaded.  If something times out or errors in the integration test,
+things can get kinda funky.  I have considered adding a couple destroy_alls,
+but that really slows things down, and I think would just undo on the
+rollback anyway.  So this appears to be a framework issue.  The only "fix"
+that I have found is to rerun "rake db:test:prepare" which wipes the
+test database clean.  Just an FYI.
+
+
+
+
+
+
+
+
 == Additional files that will be needed
 
  /config/api.yml ( probably removing )
