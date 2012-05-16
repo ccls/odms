@@ -7,7 +7,9 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 		test "should create control for case with no duplicates and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			birth_datum = Factory(:birth_datum)
+			candidate = birth_datum.candidate_control
+			candidate.update_attributes(
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
 
@@ -51,7 +53,9 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				" with #{cu} login and 'Match Found' and no duplicate_id" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			birth_datum = Factory(:birth_datum)
+			candidate = birth_datum.candidate_control
+			candidate.update_attributes(
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
@@ -114,7 +118,9 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				" with #{cu} login and 'Match Found' and valid duplicate_id" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			birth_datum = Factory(:birth_datum)
+			candidate = birth_datum.candidate_control
+			candidate.update_attributes(
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
@@ -180,7 +186,9 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				" with #{cu} login and 'No Match' found" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			birth_datum = Factory(:birth_datum)
+			candidate = birth_datum.candidate_control
+			candidate.update_attributes(
 				:related_patid => case_study_subject.reload.patid,
 					:updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,

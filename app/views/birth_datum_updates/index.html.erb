@@ -9,7 +9,7 @@
     <td><%= birth_datum_update.csv_file_file_name || '&nbsp;'.html_safe %></td>
     <td class='manage'>
 <%= link_to( 'Show', birth_datum_update, :class => 'button' ) %>
-<%= link_to( 'Edit', edit_birth_datum_update_path(birth_datum_update), :class => 'button' ) %>
+<%#= link_to( 'Edit', edit_birth_datum_update_path(birth_datum_update), :class => 'button' ) %>
 <%= button_to( 'Destroy', birth_datum_update, :method => 'delete', :form_class => 'destroy_link_to' ) %></td>
   </tr>
 <% end %>

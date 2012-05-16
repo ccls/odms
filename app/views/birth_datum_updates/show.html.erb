@@ -9,6 +9,6 @@
 <pre><%= IO.read(@birth_datum_update.csv_file.path) %></pre>
 <% end %>
 
-<%= button_to( 'Parse', parse_birth_datum_update_path(@birth_datum_update) )%>
-<%= link_to( 'Edit', edit_birth_datum_update_path(@birth_datum_update), :class => 'button' ) %>
+<%#= button_to( 'Parse', parse_birth_datum_update_path(@birth_datum_update) )%>
+<%#= link_to( 'Edit', edit_birth_datum_update_path(@birth_datum_update), :class => 'button' ) %>
 <%= link_to( 'Back', birth_datum_updates_path, :class => 'button' ) %>

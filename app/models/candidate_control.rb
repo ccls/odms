@@ -2,29 +2,32 @@ class CandidateControl < ActiveRecord::Base
 
 	belongs_to :study_subject
 	attr_protected :study_subject_id, :study_subject
+	belongs_to :birth_datum
+	attr_protected :birth_datum_id, :birth_datum
 
-	validates_presence_of  :first_name, :last_name, :dob
 	validates_inclusion_of :reject_candidate, :in => [true, false]
 	validates_presence_of  :rejection_reason, :if => :reject_candidate
 	validates_length_of    :related_patid, :is => 4, :allow_blank => true
-	validates_length_of    :state_registrar_no, :local_registrar_no, 
-		:maximum => 25, :allow_blank => true
 
-	validates_length_of    :first_name, :middle_name, :last_name,
-		:birth_county, :birth_type, :mother_maiden_name, :rejection_reason, 
+	validates_length_of    :rejection_reason, 
 			:maximum => 250, :allow_blank => true
 
-	validates_inclusion_of :sex, :in => %w( M F DK )
-#	validates_inclusion_of :sex, :in => valid_sex_values
-
-	validates_inclusion_of :mother_hispanicity_id, :father_hispanicity_id,
-			:in => YNODK.valid_values, :allow_blank => true
 	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
 			:in => YNDK.valid_values,  :allow_blank => true
 
 	scope :rejected,   where('reject_candidate = true')
 	scope :unrejected, where('reject_candidate = false or reject_candidate IS NULL')
 	scope :unassigned, where('assigned_on IS NULL AND study_subject_id IS NULL')
+
+	delegate :sex, :full_name, :first_name, :middle_name, :last_name,
+		:mother_full_name, :mother_first_name, :mother_middle_name, :mother_maiden_name, 
+#		:mother_hispanicity_id, :father_hispanicity_id,
+		:dob, :birth_type, 
+#		:birth_county,
+		:mother_yrs_educ, :father_yrs_educ,
+#		:mother_race_id, :father_race_id,
+		:state_registrar_no, :local_registrar_no,
+			:to => :birth_datum, :allow_nil => true
 
 	def self.related_patid(patid)
 		where(:related_patid => patid)
@@ -52,24 +55,24 @@ class CandidateControl < ActiveRecord::Base
 				s.sex                   = sex
 				s.mom_is_biomom         = mom_is_biomom
 				s.dad_is_biodad         = dad_is_biodad
-				s.mother_hispanicity_id = mother_hispanicity_id
-				s.father_hispanicity_id = father_hispanicity_id
+#				s.mother_hispanicity_id = mother_hispanicity_id
+#				s.father_hispanicity_id = father_hispanicity_id
 				s.birth_type            = birth_type
 				s.mother_yrs_educ       = mother_yrs_educ
 				s.father_yrs_educ       = father_yrs_educ
-				s.birth_county          = birth_county
-				s.hispanicity_id        = ( 
-					( [mother_hispanicity_id,father_hispanicity_id].include?(1) ) ? 1 : nil )
+#				s.birth_county          = birth_county
+#				s.hispanicity_id        = ( 
+#					( [mother_hispanicity_id,father_hispanicity_id].include?(1) ) ? 1 : nil )
 				s.first_name         = first_name
 				s.middle_name        = middle_name
 				s.last_name          = last_name
 				s.dob                = dob
 				s.mother_first_name  = mother_first_name
 				s.mother_middle_name = mother_middle_name
-				s.mother_last_name   = mother_last_name
+#				s.mother_last_name   = mother_last_name
 				s.mother_maiden_name = mother_maiden_name
-				s.mother_race_id     = mother_race_id
-				s.father_race_id     = father_race_id
+#				s.mother_race_id     = mother_race_id
+#				s.father_race_id     = father_race_id
 
 				s.case_control_type  = grouping
 				s.state_registrar_no = state_registrar_no

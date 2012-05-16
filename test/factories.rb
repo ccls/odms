@@ -205,6 +205,25 @@ Factory.define :bc_request do |f|
 end
 
 Factory.define :birth_datum do |f|
+#
+#	These are not required, but without them, conversion to subject will fail
+#
+	f.first_name "First"
+	f.last_name  "Last"
+	f.dob { random_date }
+	f.sex { random_sex }
+end
+Factory.define :case_birth_datum,
+	:parent => :birth_datum do |f|
+
+#	something here to flag as case
+
+end
+Factory.define :control_birth_datum,
+	:parent => :birth_datum do |f|
+
+#	something here to flag as control
+
 end
 #Factory.define :birth_datum_change do |f|
 #end
@@ -222,11 +241,11 @@ Factory.define :one_record_birth_datum_update,
 end
 
 Factory.define :candidate_control do |f|
-	f.first_name "First"
-	f.last_name  "Last"
-	f.dob { random_date }	#Date.jd(2440000+rand(15000))
+#	f.first_name "First"
+#	f.last_name  "Last"
+#	f.dob { random_date }	#Date.jd(2440000+rand(15000))
 	f.reject_candidate false
-	f.sex { random_sex }
+#	f.sex { random_sex }
 end
 Factory.define :rejected_candidate_control, :parent => :candidate_control do |f|
 	f.reject_candidate true

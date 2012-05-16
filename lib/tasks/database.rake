@@ -77,8 +77,11 @@ namespace :db do
 		config = ActiveRecord::Base.connection.instance_variable_get(:@config)
 #=> {:adapter=>"mysql", :host=>"localhost", :password=>nil, :username=>"root", :database=>"my_development", :encoding=>"utf8"}
 
-		tables = ActiveRecord::Base.connection.execute('show tables;')
-		while( table = tables.fetch_row ) do
+#		tables = ActiveRecord::Base.connection.execute('show tables;')
+#		while( table = tables.fetch_row ) do
+#	changes for MySQL2
+		tables = ActiveRecord::Base.connection.execute('show tables;').to_a.flatten.sort
+		while( table = tables.shift ) do
 			puts "Table: #{table}"
 
 			#	may have to include host and port

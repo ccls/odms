@@ -462,6 +462,19 @@ Table: birth_data
 | Field                             | Type          | Null | Key | Default | Extra          |
 +-----------------------------------+---------------+------+-----+---------+----------------+
 | id                                | int(11)       | NO   | PRI | NULL    | auto_increment |
+| birth_datum_update_id             | int(11)       | YES  |     | NULL    |                |
+| study_subject_id                  | int(11)       | YES  |     | NULL    |                |
+| master_id                         | varchar(255)  | YES  |     | NULL    |                |
+| found_in_state_db                 | tinyint(1)    | YES  |     | NULL    |                |
+| birth_state                       | varchar(255)  | YES  |     | NULL    |                |
+| case_control_flag                 | varchar(255)  | YES  |     | NULL    |                |
+| length_of_gestation_weeks         | int(11)       | YES  |     | NULL    |                |
+| father_race_ethn_1                | int(11)       | YES  |     | NULL    |                |
+| father_race_ethn_2                | int(11)       | YES  |     | NULL    |                |
+| father_race_ethn_3                | int(11)       | YES  |     | NULL    |                |
+| mother_race_ethn_1                | int(11)       | YES  |     | NULL    |                |
+| mother_race_ethn_2                | int(11)       | YES  |     | NULL    |                |
+| mother_race_ethn_3                | int(11)       | YES  |     | NULL    |                |
 | abnormal_conditions               | varchar(255)  | YES  |     | NULL    |                |
 | apgar_1min                        | int(11)       | YES  |     | NULL    |                |
 | apgar_5min                        | int(11)       | YES  |     | NULL    |                |
@@ -485,7 +498,7 @@ Table: birth_data
 | father_middle_name                | varchar(255)  | YES  |     | NULL    |                |
 | father_occupation                 | varchar(255)  | YES  |     | NULL    |                |
 | father_race_ethnicity             | varchar(255)  | YES  |     | NULL    |                |
-| father_years_education            | int(11)       | YES  |     | NULL    |                |
+| father_yrs_educ                   | int(11)       | YES  |     | NULL    |                |
 | fetal_presentation_at_birth       | varchar(255)  | YES  |     | NULL    |                |
 | first_name                        | varchar(255)  | YES  |     | NULL    |                |
 | forceps_attempt_unsuccessful      | tinyint(1)    | YES  |     | NULL    |                |
@@ -519,17 +532,16 @@ Table: birth_data
 | mother_received_wic               | tinyint(1)    | YES  |     | NULL    |                |
 | mother_residence_state            | varchar(255)  | YES  |     | NULL    |                |
 | mother_weight_pre_pregnancy       | int(11)       | YES  |     | NULL    |                |
-| mother_years_education            | int(11)       | YES  |     | NULL    |                |
+| mother_yrs_educ                   | int(11)       | YES  |     | NULL    |                |
 | ob_gestation_estimate_at_delivery | int(11)       | YES  |     | NULL    |                |
 | prenatal_care_visit_count         | int(11)       | YES  |     | NULL    |                |
 | sex                               | varchar(255)  | YES  |     | NULL    |                |
 | state_registrar_no                | varchar(255)  | YES  |     | NULL    |                |
-| termination_count_20_plus_weeks   | int(11)       | YES  |     | NULL    |                |
-| termination_count_before_20_weeks | int(11)       | YES  |     | NULL    |                |
+| term_count_20_plus_weeks          | int(11)       | YES  |     | NULL    |                |
+| term_count_pre_20_weeks           | int(11)       | YES  |     | NULL    |                |
 | vacuum_attempt_unsuccessful       | tinyint(1)    | YES  |     | NULL    |                |
 | created_at                        | datetime      | NO   |     | NULL    |                |
 | updated_at                        | datetime      | NO   |     | NULL    |                |
-| study_subject_id                  | int(11)       | YES  |     | NULL    |                |
 +-----------------------------------+---------------+------+-----+---------+----------------+
 Table: birth_datum_updates
 +-----------------------+--------------+------+-----+---------+----------------+
@@ -544,41 +556,21 @@ Table: birth_datum_updates
 | csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
 +-----------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
-+-----------------------+--------------+------+-----+---------+----------------+
-| Field                 | Type         | Null | Key | Default | Extra          |
-+-----------------------+--------------+------+-----+---------+----------------+
-| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
-| icf_master_id         | varchar(255) | YES  |     | NULL    |                |
-| related_patid         | varchar(5)   | YES  |     | NULL    |                |
-| study_subject_id      | int(11)      | YES  |     | NULL    |                |
-| first_name            | varchar(255) | YES  |     | NULL    |                |
-| middle_name           | varchar(255) | YES  |     | NULL    |                |
-| last_name             | varchar(255) | YES  |     | NULL    |                |
-| dob                   | date         | YES  |     | NULL    |                |
-| state_registrar_no    | varchar(25)  | YES  |     | NULL    |                |
-| local_registrar_no    | varchar(25)  | YES  |     | NULL    |                |
-| sex                   | varchar(255) | YES  |     | NULL    |                |
-| birth_county          | varchar(255) | YES  |     | NULL    |                |
-| assigned_on           | date         | YES  |     | NULL    |                |
-| mother_race_id        | int(11)      | YES  |     | NULL    |                |
-| mother_hispanicity_id | int(11)      | YES  |     | NULL    |                |
-| father_race_id        | int(11)      | YES  |     | NULL    |                |
-| father_hispanicity_id | int(11)      | YES  |     | NULL    |                |
-| birth_type            | varchar(255) | YES  |     | NULL    |                |
-| mother_maiden_name    | varchar(255) | YES  |     | NULL    |                |
-| mother_yrs_educ       | int(11)      | YES  |     | NULL    |                |
-| father_yrs_educ       | int(11)      | YES  |     | NULL    |                |
-| reject_candidate      | tinyint(1)   | NO   |     | 0       |                |
-| rejection_reason      | varchar(255) | YES  |     | NULL    |                |
-| mother_first_name     | varchar(255) | YES  |     | NULL    |                |
-| mother_middle_name    | varchar(255) | YES  |     | NULL    |                |
-| mother_last_name      | varchar(255) | YES  |     | NULL    |                |
-| mother_dob            | date         | YES  |     | NULL    |                |
-| mom_is_biomom         | int(11)      | YES  |     | NULL    |                |
-| dad_is_biodad         | int(11)      | YES  |     | NULL    |                |
-| created_at            | datetime     | NO   |     | NULL    |                |
-| updated_at            | datetime     | NO   |     | NULL    |                |
-+-----------------------+--------------+------+-----+---------+----------------+
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| birth_datum_id   | int(11)      | YES  |     | NULL    |                |
+| related_patid    | varchar(5)   | YES  |     | NULL    |                |
+| study_subject_id | int(11)      | YES  |     | NULL    |                |
+| assigned_on      | date         | YES  |     | NULL    |                |
+| reject_candidate | tinyint(1)   | NO   |     | 0       |                |
+| rejection_reason | varchar(255) | YES  |     | NULL    |                |
+| mom_is_biomom    | int(11)      | YES  |     | NULL    |                |
+| dad_is_biodad    | int(11)      | YES  |     | NULL    |                |
+| created_at       | datetime     | NO   |     | NULL    |                |
+| updated_at       | datetime     | NO   |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
 Table: context_contextables
 +------------------+--------------+------+-----+---------+----------------+
 | Field            | Type         | Null | Key | Default | Extra          |

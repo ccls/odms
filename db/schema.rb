@@ -464,7 +464,19 @@ ActiveRecord::Schema.define(:version => 20120514212129) do
   end
 
   create_table "birth_data", :force => true do |t|
+    t.integer  "birth_datum_update_id"
     t.integer  "study_subject_id"
+    t.string   "master_id"
+    t.boolean  "found_in_state_db"
+    t.string   "birth_state"
+    t.string   "case_control_flag"
+    t.integer  "length_of_gestation_weeks"
+    t.integer  "father_race_ethn_1"
+    t.integer  "father_race_ethn_2"
+    t.integer  "father_race_ethn_3"
+    t.integer  "mother_race_ethn_1"
+    t.integer  "mother_race_ethn_2"
+    t.integer  "mother_race_ethn_3"
     t.string   "abnormal_conditions"
     t.integer  "apgar_1min"
     t.integer  "apgar_5min"
@@ -488,7 +500,7 @@ ActiveRecord::Schema.define(:version => 20120514212129) do
     t.string   "father_middle_name"
     t.string   "father_occupation"
     t.string   "father_race_ethnicity"
-    t.integer  "father_years_education"
+    t.integer  "father_yrs_educ"
     t.string   "fetal_presentation_at_birth"
     t.string   "first_name"
     t.boolean  "forceps_attempt_unsuccessful"
@@ -522,13 +534,13 @@ ActiveRecord::Schema.define(:version => 20120514212129) do
     t.boolean  "mother_received_wic"
     t.string   "mother_residence_state"
     t.integer  "mother_weight_pre_pregnancy"
-    t.integer  "mother_years_education"
+    t.integer  "mother_yrs_educ"
     t.integer  "ob_gestation_estimate_at_delivery"
     t.integer  "prenatal_care_visit_count"
     t.string   "sex"
     t.string   "state_registrar_no"
-    t.integer  "termination_count_20_plus_weeks"
-    t.integer  "termination_count_before_20_weeks"
+    t.integer  "term_count_20_plus_weeks"
+    t.integer  "term_count_pre_20_weeks"
     t.boolean  "vacuum_attempt_unsuccessful"
     t.datetime "created_at",                                                       :null => false
     t.datetime "updated_at",                                                       :null => false
@@ -544,36 +556,16 @@ ActiveRecord::Schema.define(:version => 20120514212129) do
   end
 
   create_table "candidate_controls", :force => true do |t|
-    t.string   "icf_master_id"
-    t.string   "related_patid",         :limit => 5
+    t.integer  "birth_datum_id"
+    t.string   "related_patid",    :limit => 5
     t.integer  "study_subject_id"
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "last_name"
-    t.date     "dob"
-    t.string   "state_registrar_no",    :limit => 25
-    t.string   "local_registrar_no",    :limit => 25
-    t.string   "sex"
-    t.string   "birth_county"
     t.date     "assigned_on"
-    t.integer  "mother_race_id"
-    t.integer  "mother_hispanicity_id"
-    t.integer  "father_race_id"
-    t.integer  "father_hispanicity_id"
-    t.string   "birth_type"
-    t.string   "mother_maiden_name"
-    t.integer  "mother_yrs_educ"
-    t.integer  "father_yrs_educ"
-    t.boolean  "reject_candidate",                    :default => false, :null => false
+    t.boolean  "reject_candidate",              :default => false, :null => false
     t.string   "rejection_reason"
-    t.string   "mother_first_name"
-    t.string   "mother_middle_name"
-    t.string   "mother_last_name"
-    t.date     "mother_dob"
     t.integer  "mom_is_biomom"
     t.integer  "dad_is_biodad"
-    t.datetime "created_at",                                             :null => false
-    t.datetime "updated_at",                                             :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
   end
 
   create_table "context_contextables", :force => true do |t|
