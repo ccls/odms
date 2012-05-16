@@ -7,7 +7,7 @@ class CreateBirthData < ActiveRecord::Migration
 			t.boolean :found_in_state_db
 			t.string  :birth_state
 			t.string  :case_control_flag
-			t.integer :length_of_gestion_weeks
+			t.integer :length_of_gestation_weeks
 			t.integer :father_race_ethn_1
 			t.integer :father_race_ethn_2
 			t.integer :father_race_ethn_3
