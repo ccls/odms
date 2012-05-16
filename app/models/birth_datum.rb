@@ -22,6 +22,10 @@ class BirthDatum < ActiveRecord::Base
 	def create_initial_candidate_control
 		#	create the associated candidate control association
 		#	with any other needed attributes
+#
+#	TODO will need to pass on the related_patid so will
+#				need to find the case via the master_id
+#
 		self.create_candidate_control
 	end
 

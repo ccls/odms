@@ -50,7 +50,7 @@ class BirthDatumUpdate < ActiveRecord::Base
 #		state_id_no or something
 #
 	def parse_csv_file
-		results = []
+#		results = []
 		unless self.csv_file_file_name.blank?
 			csv_file_path = if File.exists?(self.csv_file.to_file.path)
 				self.csv_file.to_file.path
@@ -65,6 +65,9 @@ class BirthDatumUpdate < ActiveRecord::Base
 #	these attributes won't work yet
 #					birth_datum = self.birth_data.create!( line.to_hash )
 
+					birth_datum_attributes = line.dup.to_hash
+#	remove invalid attributes, if there are any
+#					birth_datum_attributes.delete('something')
 
 					birth_datum = self.birth_data.create!( )
 #	may need to NOT do create! and just create and check
@@ -72,11 +75,11 @@ class BirthDatumUpdate < ActiveRecord::Base
 
 
 
-					results.push(birth_data)
+#					results.push(birth_data)
 				end	#	(f=FasterCSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
 			end	#	unless csv_file_path.nil?
 		end	#	if !self.csv_file_file_name.blank? && File.exists?(self.csv_file.path)
-		results	#	TODO why am I returning anything?  will I use this later?
+#		results	#	TODO why am I returning anything?  will I use this later?
 	end	#	def parse_csv_file
 
 
