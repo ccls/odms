@@ -3,9 +3,12 @@ class CreateBirthData < ActiveRecord::Migration
 		create_table :birth_data do |t|
 			t.integer :birth_datum_update_id
 			t.integer :study_subject_id	#	the actual study subject
-			t.string  :master_id	#	case icf_master_id
+#			t.string  :master_id	#	case icf_master_id
+			t.string  :masterid	#	case icf_master_id
 			t.boolean :found_in_state_db
+#			t.boolean :FoundInStateDB
 			t.string  :birth_state
+			t.string  :match_confidence
 			t.string  :case_control_flag
 			t.integer :length_of_gestation_weeks
 			t.integer :father_race_ethn_1
@@ -37,7 +40,7 @@ class CreateBirthData < ActiveRecord::Migration
 			t.string  :father_last_name
 			t.string  :father_middle_name
 			t.string  :father_occupation, :length => 20
-			t.string  :father_race_ethnicity, :length => 15
+#			t.string  :father_race_ethnicity, :length => 15
 #father_ssn
 #			t.integer :father_years_education
 			t.integer :father_yrs_educ
@@ -59,7 +62,9 @@ class CreateBirthData < ActiveRecord::Migration
 			t.string  :mother_residence_county_ef
 			t.string  :mother_residence_line_1
 			t.string  :mother_residence_zip
+			t.string  :mother_residence_county		#	NEW
 			t.integer :mother_weight_at_delivery
+			t.string  :mother_birthplace					#	NEW
 			t.string  :mother_birthplace_state
 			t.string  :mother_residence_city
 			t.date    :mother_dob
@@ -67,10 +72,11 @@ class CreateBirthData < ActiveRecord::Migration
 			t.integer :mother_height
 			t.string  :mother_hispanic_origin_code
 			t.string  :mother_industry
+			t.string  :mother_job_industry		#	NEW
 			t.string  :mother_maiden_name
 			t.string  :mother_middle_name
 			t.string  :mother_occupation
-			t.string  :mother_race_ethnicity
+#			t.string  :mother_race_ethnicity
 			t.boolean :mother_received_wic
 			t.string  :mother_residence_state
 #mother_ssn

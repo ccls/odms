@@ -32,8 +32,12 @@ class BirthDatumUpdate < ActiveRecord::Base
 			f=FasterCSV.open(self.csv_file.to_file.path,'rb')
 			column_names = f.readline
 			f.close
-			if column_names != expected_column_names 
-				errors.add(:csv_file, "Invalid column names in csv_file.")
+#			if column_names != expected_column_names 
+#				errors.add(:csv_file, "Invalid column names in csv_file.")
+#			end
+			column_names.each do |column_name|
+				errors.add(:csv_file, "Invalid column name '#{column_name}' in csv_file."
+					) unless expected_column_names.include?(column_name)
 			end
 		end
 	end
@@ -61,19 +65,22 @@ class BirthDatumUpdate < ActiveRecord::Base
 			end
 			unless csv_file_path.nil?
 				(f=FasterCSV.open( csv_file_path, 'rb',{
-					:headers => true })).each do |line|
-#	these attributes won't work yet
-#					birth_datum = self.birth_data.create!( line.to_hash )
-
+						:headers => true })).each do |line|
 					birth_datum_attributes = line.dup.to_hash
 #	remove invalid attributes, if there are any
-#					birth_datum_attributes.delete('something')
+					birth_datum_attributes.delete('father_ssn')
+					birth_datum_attributes.delete('mother_ssn')
 
-					birth_datum = self.birth_data.create!( )
+#	just finding the problems ...
+#					birth_datum_attributes.delete('live_births_not_living')
+					birth_datum_attributes.delete('ignore')
+					birth_datum_attributes.delete('ignore1')
+					birth_datum_attributes.delete('ignore2')
+					birth_datum_attributes.delete('ignore3')
+
+					birth_datum = self.birth_data.create!( birth_datum_attributes )
 #	may need to NOT do create! and just create and check
 #	to see if actually saved and create some odms exception
-
-
 
 #					results.push(birth_data)
 				end	#	(f=FasterCSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
@@ -197,7 +204,8 @@ class BirthDatumUpdate < ActiveRecord::Base
 #	end	#	def to_candidate_controls
 
 	def self.expected_column_names
-		["masterid", "ca_co_status", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "mother_race_other", "father_hispanicity", "father_hispanicity_mex", "father_race", "father_race_other"]
+#		["masterid", "ca_co_status", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "mother_race_other", "father_hispanicity", "father_hispanicity_mex", "father_race", "father_race_other"]
+		%w( masterid found_in_state_db match_confidence case_control_flag birth_state sex dob ignore1 ignore2 ignore3 last_name first_name middle_name state_registrar_no county_of_delivery local_registrar_no local_registrar_district birth_type birth_order birth_weight_gms method_of_delivery abnormal_conditions apgar_1min apgar_5min apgar_10min complications_labor_delivery fetal_presentation_at_birth forceps_attempt_unsuccessful vacuum_attempt_unsuccessful mother_maiden_name mother_first_name mother_middle_name mother_residence_line_1 mother_residence_city mother_residence_county mother_residence_state mother_residence_zip mother_dob mother_birthplace mother_ssn mother_race_ethn_1 mother_race_ethn_2 mother_race_ethn_3 mother_hispanic_origin_code mother_yrs_educ mother_occupation mother_job_industry mother_received_wic mother_weight_pre_pregnancy mother_weight_at_delivery mother_height month_prenatal_care_began prenatal_care_visit_count complications_pregnancy length_of_gestation_days length_of_gestation_weeks last_menses_on live_births_now_living last_live_birth_on live_births_now_deceased term_count_pre_20_weeks term_count_20_plus_weeks last_termination_on daily_cigarette_cnt_3mo_preconc daily_cigarette_cnt_1st_tri daily_cigarette_cnt_2nd_tri daily_cigarette_cnt_3rd_tri father_last_name father_first_name father_middle_name father_dob father_ssn father_race_ethn_1 father_race_ethn_2 father_race_ethn_3 father_hispanic_origin_code father_yrs_educ father_occupation father_job_industry )
 	end
 
 	def expected_column_names

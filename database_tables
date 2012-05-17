@@ -464,9 +464,10 @@ Table: birth_data
 | id                                | int(11)       | NO   | PRI | NULL    | auto_increment |
 | birth_datum_update_id             | int(11)       | YES  |     | NULL    |                |
 | study_subject_id                  | int(11)       | YES  |     | NULL    |                |
-| master_id                         | varchar(255)  | YES  |     | NULL    |                |
+| masterid                          | varchar(255)  | YES  |     | NULL    |                |
 | found_in_state_db                 | tinyint(1)    | YES  |     | NULL    |                |
 | birth_state                       | varchar(255)  | YES  |     | NULL    |                |
+| match_confidence                  | varchar(255)  | YES  |     | NULL    |                |
 | case_control_flag                 | varchar(255)  | YES  |     | NULL    |                |
 | length_of_gestation_weeks         | int(11)       | YES  |     | NULL    |                |
 | father_race_ethn_1                | int(11)       | YES  |     | NULL    |                |
@@ -497,7 +498,6 @@ Table: birth_data
 | father_last_name                  | varchar(255)  | YES  |     | NULL    |                |
 | father_middle_name                | varchar(255)  | YES  |     | NULL    |                |
 | father_occupation                 | varchar(255)  | YES  |     | NULL    |                |
-| father_race_ethnicity             | varchar(255)  | YES  |     | NULL    |                |
 | father_yrs_educ                   | int(11)       | YES  |     | NULL    |                |
 | fetal_presentation_at_birth       | varchar(255)  | YES  |     | NULL    |                |
 | first_name                        | varchar(255)  | YES  |     | NULL    |                |
@@ -517,7 +517,9 @@ Table: birth_data
 | mother_residence_county_ef        | varchar(255)  | YES  |     | NULL    |                |
 | mother_residence_line_1           | varchar(255)  | YES  |     | NULL    |                |
 | mother_residence_zip              | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_county           | varchar(255)  | YES  |     | NULL    |                |
 | mother_weight_at_delivery         | int(11)       | YES  |     | NULL    |                |
+| mother_birthplace                 | varchar(255)  | YES  |     | NULL    |                |
 | mother_birthplace_state           | varchar(255)  | YES  |     | NULL    |                |
 | mother_residence_city             | varchar(255)  | YES  |     | NULL    |                |
 | mother_dob                        | date          | YES  |     | NULL    |                |
@@ -525,10 +527,10 @@ Table: birth_data
 | mother_height                     | int(11)       | YES  |     | NULL    |                |
 | mother_hispanic_origin_code       | varchar(255)  | YES  |     | NULL    |                |
 | mother_industry                   | varchar(255)  | YES  |     | NULL    |                |
+| mother_job_industry               | varchar(255)  | YES  |     | NULL    |                |
 | mother_maiden_name                | varchar(255)  | YES  |     | NULL    |                |
 | mother_middle_name                | varchar(255)  | YES  |     | NULL    |                |
 | mother_occupation                 | varchar(255)  | YES  |     | NULL    |                |
-| mother_race_ethnicity             | varchar(255)  | YES  |     | NULL    |                |
 | mother_received_wic               | tinyint(1)    | YES  |     | NULL    |                |
 | mother_residence_state            | varchar(255)  | YES  |     | NULL    |                |
 | mother_weight_pre_pregnancy       | int(11)       | YES  |     | NULL    |                |

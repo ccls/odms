@@ -109,8 +109,12 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 				'test/assets/bad_header_test_file.csv', 'text/csv') )
 		assert !birth_datum_update.valid?
 		assert  birth_datum_update.errors.include?(:csv_file)
+#		assert  birth_datum_update.errors.matching?(:csv_file,
+#			'Invalid column names in csv_file')
+#"Invalid column name '#{column_name}' in csv_file."
+#	the string is converted to a Regexp so .* works nicely
 		assert  birth_datum_update.errors.matching?(:csv_file,
-			'Invalid column names in csv_file')
+			'Invalid column name .* in csv_file')
 	end
 
 
