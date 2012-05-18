@@ -10,33 +10,27 @@ class BirthDatum < ActiveRecord::Base
 	attr_protected :study_subject_id, :study_subject
 	has_one :candidate_control
 
-	after_create :update_case_study_subject, :if => :is_case?
-	after_create :create_initial_candidate_control, :if => :is_control?
+	after_create :post_processing
 
-	def is_control?
-		true	#	case_control_flag == 'control'
+	def post_processing
+#	masterid nil?
+#		error
+#	else
+#		case_subject = StudySubject.where(:icf_master_id => masterid).first
+#	case_subject not found?
+#		error
+#	else
+
+		if case_control_flag == 'control'
+			self.create_candidate_control
+#				:related_patid => case_subject.patid
+		elsif case_control_flag == 'case'
+			#	update case study_subject data
+
+		else
+
+		end
 	end
-
-	#	NOTE that this is NOT create_candidate_control which is
-	#	a method created automatically by rails.
-	def create_initial_candidate_control
-		#	create the associated candidate control association
-		#	with any other needed attributes
-#
-#	TODO will need to pass on the related_patid so will
-#				need to find the case via the master_id
-#
-		self.create_candidate_control
-	end
-
-	def is_case?
-		false	#	case_control_flag == 'case'
-	end
-
-	def update_case_study_subject
-		#	update case study_subject data
-	end
-
 
 	#	Returns string containing candidates's first, middle and last name
 	def full_name
