@@ -29,7 +29,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:complete_case_study_subject)
 			dob = Date.today-1000
 			case_study_subject.update_attribute(:dob, dob)
-			birth_datum = Factory(:birth_datum,
+			birth_datum = Factory(:control_birth_datum,
 				:sex => case_study_subject.sex,
 				:dob => dob )
 			candidate = birth_datum.candidate_control
@@ -50,7 +50,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:complete_case_study_subject)
 			dob = Date.today-1000
 			case_study_subject.update_attribute(:dob, dob)
-			birth_datum = Factory(:birth_datum,
+			birth_datum = Factory(:control_birth_datum,
 				:sex => case_study_subject.sex,
 				:dob => dob-1 )
 			candidate = birth_datum.candidate_control
@@ -71,7 +71,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:complete_case_study_subject)
 			dob = Date.today-1000
 			case_study_subject.update_attribute(:dob, dob)
-			birth_datum = Factory(:birth_datum,
+			birth_datum = Factory(:control_birth_datum,
 				:sex => (%w( M F ) - [case_study_subject.sex])[0],	#	the other sex
 				:dob => dob )
 			candidate = birth_datum.candidate_control
@@ -116,7 +116,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should put update with #{cu} login and mark candidate as rejected" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -138,7 +138,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should put update with #{cu} login and accept candidate" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -167,7 +167,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -191,7 +191,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'No Match' and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -214,7 +214,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'Match Found' and valid control duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -244,7 +244,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'Match Found' and valid case duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -273,7 +273,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'Match Found' and no duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -299,7 +299,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'Match Found' and invalid duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -330,7 +330,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			Factory(:icf_master_id, :icf_master_id => '67890')
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -355,7 +355,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			Factory(:icf_master_id, :icf_master_id => '12345')
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,
@@ -377,7 +377,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				"with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.patid,

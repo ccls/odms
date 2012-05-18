@@ -7,7 +7,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 		test "should create control for case with no duplicates and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.reload.patid,
@@ -53,7 +53,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				" with #{cu} login and 'Match Found' and no duplicate_id" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.reload.patid,
@@ -118,7 +118,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				" with #{cu} login and 'Match Found' and valid duplicate_id" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.reload.patid,
@@ -186,7 +186,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				" with #{cu} login and 'No Match' found" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes(
 				:related_patid => case_study_subject.reload.patid,

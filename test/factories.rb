@@ -215,15 +215,11 @@ Factory.define :birth_datum do |f|
 end
 Factory.define :case_birth_datum,
 	:parent => :birth_datum do |f|
-
-#	something here to flag as case
-
+	f.case_control_flag 'case'
 end
 Factory.define :control_birth_datum,
 	:parent => :birth_datum do |f|
-
-#	something here to flag as control
-
+	f.case_control_flag 'control'
 end
 #Factory.define :birth_datum_change do |f|
 #end
