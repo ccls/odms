@@ -26,7 +26,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "explicit Factory case_birth_datum test" do
 		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',1) {
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:case_birth_datum)
 			assert_equal 'First', birth_datum.first_name
 			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
@@ -38,7 +38,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "explicit Factory control_birth_datum test" do
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',1) {
-			birth_datum = Factory(:birth_datum)
+			birth_datum = Factory(:control_birth_datum)
 			assert_equal 'First', birth_datum.first_name
 			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
