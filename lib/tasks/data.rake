@@ -123,6 +123,7 @@ namespace :data do
   end
 		puts "Starting...(#{Time.now})"
 		%w( abstract address address_type addressing bc_request 
+				birth_datum
 				candidate_control enrollment icf_master_id
 				icf_master_tracker icf_master_tracker_change icf_master_tracker_update
 				interview operational_event operational_event_type 
