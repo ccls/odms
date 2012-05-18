@@ -12,13 +12,39 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 
 	test "explicit Factory birth_datum test" do
+		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',1) {
 			birth_datum = Factory(:birth_datum)
 			assert_equal 'First', birth_datum.first_name
 			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
-		}
+			assert_nil     birth_datum.case_control_flag
+		} }
+	end
+
+	test "explicit Factory case_birth_datum test" do
+		assert_difference('CandidateControl.count',0) {
+		assert_difference('BirthDatum.count',1) {
+			birth_datum = Factory(:birth_datum)
+			assert_equal 'First', birth_datum.first_name
+			assert_equal 'Last',  birth_datum.last_name
+			assert_not_nil birth_datum.dob
+			assert_not_nil birth_datum.sex
+			assert_equal  'case', birth_datum.case_control_flag
+		} }
+	end
+
+	test "explicit Factory control_birth_datum test" do
+		assert_difference('CandidateControl.count',1) {
+		assert_difference('BirthDatum.count',1) {
+			birth_datum = Factory(:birth_datum)
+			assert_equal 'First', birth_datum.first_name
+			assert_equal 'Last',  birth_datum.last_name
+			assert_not_nil birth_datum.dob
+			assert_not_nil birth_datum.sex
+			assert_equal  'control', birth_datum.case_control_flag
+		} }
 	end
 
 	test "should return join of birth_datum's name" do
