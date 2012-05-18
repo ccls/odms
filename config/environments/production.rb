@@ -63,7 +63,7 @@ Odms::Application.configure do
 
 
 	# See everything in the log (default is :info)
-	config.log_level = :debug
+#	config.log_level = :debug
 
 
 
