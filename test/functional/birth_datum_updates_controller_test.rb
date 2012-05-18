@@ -57,6 +57,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 
 		test "should create with csv_file attachment control record and #{cu} login" do
 			login_as send(cu)
+			create_case_for_birth_datum_update
 			assert_difference('CandidateControl.count',1) {	#	may depend on record content!
 			assert_difference('BirthDatum.count',1) {
 			assert_difference('BirthDatumUpdate.count',1) {

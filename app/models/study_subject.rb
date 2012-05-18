@@ -14,7 +14,8 @@ class StudySubject < ActiveRecord::Base
 
 	has_and_belongs_to_many :analyses
 	has_one :home_exposure_response
-	has_one :birth_datum
+#	has_one :birth_datum
+	has_many :birth_data
 	has_many :bc_requests
 	has_many :interviews
 

@@ -37,10 +37,10 @@ module BirthDatumUpdateTestHelper
 	end
 
 	def create_case_for_birth_datum_update
-		icf_master_id = Factory(:icf_master_id,:icf_master_id => '1234FAKE')
+		icf_master_id = Factory(:icf_master_id,:icf_master_id => '12345FAKE')
 		study_subject = Factory(:complete_case_study_subject)
 		study_subject.assign_icf_master_id
-		assert_equal '1234FAKE', study_subject.icf_master_id
+		assert_equal '12345FAKE', study_subject.icf_master_id
 		study_subject
 	end
 
@@ -82,7 +82,7 @@ module BirthDatumUpdateTestHelper
 	end
 
 	def unknown_subject_hash
-		{	:masterid => '1234FAKE' }
+		{	:masterid => '12345FAKE' }
 	end
 
 	def case_subject_hash

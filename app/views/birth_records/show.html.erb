@@ -1,7 +1,10 @@
 <div id='birth_record'>
 <h3>Birth Record</h3>
-<% unless @study_subject.birth_datum.nil? %>
-<% attrs = @study_subject.birth_datum.attributes %>
+<%# unless @study_subject.birth_datum.nil? %>
+<% unless @study_subject.birth_data.empty? %>
+<h4>Study Subject has <%=pluralize(@study_subject.birth_data.length, 'birth record')%> on file.</h4>
+<%# attrs = @study_subject.birth_datum.attributes %>
+<% attrs = @study_subject.birth_data.order('id asc').last.attributes %>
 <% attrs.delete('id') %>
 <% attrs.delete('study_subject_id') %>
 <% attrs.sort.each do |k,v| %>

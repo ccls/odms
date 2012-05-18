@@ -51,6 +51,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	end
 
 	test "explicit Factory one_record_birth_datum_update test" do
+		study_subject = create_case_for_birth_datum_update
 		assert_difference('CandidateControl.count',1) {	#	after_create should add this
 		assert_difference('BirthDatum.count',1) {	#	after_create should add this
 		assert_difference('BirthDatumUpdate.count',1) {
@@ -139,16 +140,14 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		cleanup_birth_datum_update_and_test_file
 	end
 
-	test "should convert attached csv_file to candidate controls with missing case" do
-		assert_difference('CandidateControl.count',1) {
+	test "should convert attached csv_file but no candidate controls with missing case" do
+		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',2) {
 #
 #	Shouldn't happen, but matching case DOES NOT EXIST and get a control
 #	Should do something special here, like create an OdmsException
 #
-pending	#	TODO
 			birth_datum_update = create_test_file_and_birth_datum_update
-#system("cat #{birth_datum_update.csv_file.path}")
 #			results = birth_datum_update.to_candidate_controls
 #			assert_equal results,
 #				["Could not find study_subject with masterid 1234FAKE",

@@ -7,3 +7,7 @@ form.button_to div,
 form.button_to {
 	display:inline;
 }
+
+pre.csv_file_content {
+	display:none
+}

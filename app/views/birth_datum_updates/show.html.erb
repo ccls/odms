@@ -1,3 +1,4 @@
+<% javascripts(:birth_datum_update) %>
 <% stylesheets(:birth_datum_update) %>
 
 <p>Path: <%= @birth_datum_update.csv_file.path %></p>
@@ -6,7 +7,9 @@
 <p>Updated: <%= @birth_datum_update.csv_file_updated_at %></p>
 
 <% unless @birth_datum_update.csv_file_file_name.nil? %>
-<pre><%= IO.read(@birth_datum_update.csv_file.path) %></pre>
+<p><%= link_to "show/hide csv file content",
+	params, :class => 'toggle_csv_file_content' %></p>
+<pre class='csv_file_content'><%= IO.read(@birth_datum_update.csv_file.path) %></pre>
 <% end %>
 
 <h4>Record count:<%=@birth_datum_update.birth_data.length%></h4>
@@ -14,7 +17,20 @@
 <% if @birth_datum_update.birth_data.length > 0 -%>
 <table><thead>
 <% @birth_datum_update.birth_data.order('id ASC').each do |birth_datum| -%>
-<tr class='row'><td><%= birth_datum.id %></td></tr>
+<tr class='row'>
+<td><%= birth_datum.id %></td>
+<td><%= birth_datum.case_control_flag %></td>
+<td><% if birth_datum.study_subject %>
+<%= link_to birth_datum.study_subject, birth_datum.study_subject %>
+<% else %>
+No Study Subject Set
+<% end %></td>
+<td><% if birth_datum.candidate_control %>
+related patid:<%= birth_datum.candidate_control.related_patid %>
+<% else %>
+No Candidate Control Set
+<% end %></td>
+</tr>
 <% end -%>
 </tbody></table>
 <% end -%>

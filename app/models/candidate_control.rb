@@ -105,6 +105,10 @@ class CandidateControl < ActiveRecord::Base
 			child.create_mother	#	({ .... })
 	
 			self.study_subject_id = child.id
+
+			birth_datum.study_subject = child
+			birth_datum.save!
+
 			self.assigned_on = Date.today
 			self.save!
 		end

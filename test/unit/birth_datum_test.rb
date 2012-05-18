@@ -36,14 +36,41 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "explicit Factory control_birth_datum test" do
+		study_subject = create_case_study_subject_with_icf_master_id
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',1) {
-			birth_datum = Factory(:control_birth_datum)
+			birth_datum = Factory(:control_birth_datum,
+				:masterid => study_subject.icf_master_id )
 			assert_equal 'First', birth_datum.first_name
 			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'control', birth_datum.case_control_flag
+			assert_not_nil birth_datum.masterid
+			assert_equal   birth_datum.masterid, study_subject.icf_master_id
+		} }
+	end
+
+	test "should assign study_subject_id on case create if exists" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id)
+		assert_not_nil birth_datum.study_subject_id
+		assert_equal   birth_datum.study_subject_id, study_subject.id
+	end
+
+	test "should NOT assign study_subject_id on case create if doesn't exist" do
+		birth_datum = Factory(:case_birth_datum)
+		assert_nil birth_datum.study_subject_id
+	end
+
+	test "should assign related patid to candidate control on control create" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert_difference('CandidateControl.count',1) {
+		assert_difference('BirthDatum.count',1) {
+			birth_datum = Factory(:control_birth_datum,
+				:masterid => study_subject.icf_master_id)
+			assert_not_nil birth_datum.candidate_control
+			assert_not_nil birth_datum.candidate_control.related_patid
 		} }
 	end
 
@@ -80,6 +107,18 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 protected
+
+	def create_case_study_subject_with_icf_master_id
+#		study_subject = Factory(:case_study_subject)
+		study_subject = Factory(:case_study_subject,
+			:icf_master_id => '12345678A')
+#		assert_nil study_subject.icf_master_id
+#		imi = Factory(:icf_master_id,:icf_master_id => '12345678A')
+#		study_subject.assign_icf_master_id
+		assert_not_nil study_subject.icf_master_id
+		assert_equal '12345678A', study_subject.icf_master_id
+		study_subject
+	end
 
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_birth_datum

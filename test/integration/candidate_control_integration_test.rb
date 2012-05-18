@@ -6,12 +6,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 		test "should create control for case with no duplicates and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum, 
+				:masterid => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.reload.patid,
-					:updated_at => ( Date.today - 2.days ) )
+			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
 
 			visit study_subject_related_subjects_path(case_study_subject.id)
 			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
@@ -52,12 +51,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 		test "should NOT create control subject if duplicate subject" <<
 				" with #{cu} login and 'Match Found' and no duplicate_id" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum, 
+				:masterid => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.reload.patid,
-					:updated_at => ( Date.today - 2.days ) )
+			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -117,12 +115,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 		test "should NOT create control subject if duplicate subject" <<
 				" with #{cu} login and 'Match Found' and valid duplicate_id" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum, 
+				:masterid => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.reload.patid,
-					:updated_at => ( Date.today - 2.days ) )
+			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -185,12 +182,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 		test "should create control subject if duplicate subject" <<
 				" with #{cu} login and 'No Match' found" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum, 
+				:masterid => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.reload.patid,
-					:updated_at => ( Date.today - 2.days ) )
+			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -260,6 +256,16 @@ protected
 		assert    !candidate.rejection_reason.blank?
 		assert_nil candidate.assigned_on
 		assert_nil candidate.study_subject
+	end
+
+	def create_complete_case_study_subject_with_icf_master_id
+		study_subject = Factory(:complete_case_study_subject)
+		assert_nil study_subject.icf_master_id
+		imi = Factory(:icf_master_id,:icf_master_id => 'ICASE4BIR')
+		study_subject.assign_icf_master_id
+		assert_not_nil study_subject.icf_master_id
+		assert_equal 'ICASE4BIR', study_subject.icf_master_id
+		study_subject
 	end
 
 end

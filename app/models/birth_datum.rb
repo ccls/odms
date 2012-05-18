@@ -13,22 +13,33 @@ class BirthDatum < ActiveRecord::Base
 	after_create :post_processing
 
 	def post_processing
-#	masterid nil?
-#		error
-#	else
-#		case_subject = StudySubject.where(:icf_master_id => masterid).first
-#	case_subject not found?
-#		error
-#	else
-
-		if case_control_flag == 'control'
-			self.create_candidate_control
-#				:related_patid => case_subject.patid
-		elsif case_control_flag == 'case'
-			#	update case study_subject data
-
+		if masterid.blank?
+			#		error
 		else
+			subject = StudySubject.where(:icf_master_id => masterid).first
+			if subject.nil?
+#	subject not found?
+#		error
+			elsif !subject.is_case?
+#	subject not case?
+#		error
+			else
+				if case_control_flag == 'control'
+					self.create_candidate_control( :related_patid => subject.patid )
+				elsif case_control_flag == 'case'
+					#	assign study_subject_id to case's id
+					self.update_attribute(:study_subject_id, subject.id)
+#					study_subject = subject
+#					save
+					#	update case study_subject data
+	
 
+				else
+#	unknown case_control_flag
+#	error
+
+				end
+			end
 		end
 	end
 

@@ -26,15 +26,14 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should get edit with #{cu} login and preselect accept if matches sex and dob" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.today-1000
 			case_study_subject.update_attribute(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
+				:masterid => case_study_subject.icf_master_id,
 				:sex => case_study_subject.sex,
 				:dob => dob )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.reload.patid)
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false", 1 do
 				assert_select '[value=false]'
@@ -47,15 +46,14 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should get edit with #{cu} login and preselect reject if mismatched dob" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.today-1000
 			case_study_subject.update_attribute(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
+				:masterid => case_study_subject.icf_master_id,
 				:sex => case_study_subject.sex,
 				:dob => dob-1 )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.reload.patid)
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false", 1 do
 				assert_select '[value=false]'
@@ -68,15 +66,14 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should get edit with #{cu} login and preselect reject if mismatched sex" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.today-1000
 			case_study_subject.update_attribute(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
+				:masterid => case_study_subject.icf_master_id,
 				:sex => (%w( M F ) - [case_study_subject.sex])[0],	#	the other sex
 				:dob => dob )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.reload.patid)
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false", 1 do
 				assert_select '[value=false]'
@@ -115,12 +112,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should put update with #{cu} login and mark candidate as rejected" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',0) {
 				put :update, :id => candidate.id, :candidate_control => {
@@ -137,12 +132,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should put update with #{cu} login and accept candidate" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',2) {
 				put :update, :id => candidate.id, :candidate_control => {
@@ -166,12 +159,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should NOT create control subject on update with duplicates and" <<
 				" #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -190,12 +181,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should create control subject on update with duplicates and" <<
 				" 'No Match' and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -213,12 +202,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should NOT create control subject on update with duplicates and" <<
 				" 'Match Found' and valid control duplicate_id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -243,12 +230,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should NOT create control subject on update with duplicates and" <<
 				" 'Match Found' and valid case duplicate_id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:subject_type => SubjectType['Case'],
@@ -272,12 +257,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should NOT create control subject on update with duplicates and" <<
 				" 'Match Found' and no duplicate_id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -298,12 +281,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should NOT create control subject on update with duplicates and" <<
 				" 'Match Found' and invalid duplicate_id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -326,15 +307,13 @@ class CandidateControlsControllerTest < ActionController::TestCase
 ######################################################################
 
 		test "should assign icf_master_id on acceptance if available with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			Factory(:icf_master_id, :icf_master_id => '12345')
 			Factory(:icf_master_id, :icf_master_id => '67890')
-			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',2) {
 				put :update, :id => candidate.id, :candidate_control => {
@@ -352,14 +331,12 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should not assign icf_master_id to control on acceptance if none left " <<
 				"with #{cu} login" do
-			Factory(:icf_master_id, :icf_master_id => '12345')
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			Factory(:icf_master_id, :icf_master_id => '12345')
+			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',2) {
 				put :update, :id => candidate.id, :candidate_control => {
@@ -376,12 +353,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should not assign icf_master_id to mother on acceptance if only one left " <<
 				"with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			birth_datum = Factory(:control_birth_datum)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum, :masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes(
-				:related_patid => case_study_subject.patid,
-				:updated_at    => Date.yesterday)
+			candidate.update_attributes( :updated_at => Date.yesterday)
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',2) {
 				put :update, :id => candidate.id, :candidate_control => {
@@ -597,6 +572,18 @@ protected
 		assert_nil flash[:error]
 		assert_response :success
 		assert_template 'edit'
+	end
+
+	def create_complete_case_study_subject_with_icf_master_id
+#		study_subject = Factory(:complete_case_study_subject)
+		study_subject = Factory(:complete_case_study_subject,
+			:icf_master_id => 'FCASE4BIR')
+#		assert_nil study_subject.icf_master_id
+#		imi = Factory(:icf_master_id,:icf_master_id => 'FCASE4BIR')
+#		study_subject.assign_icf_master_id
+		assert_not_nil study_subject.icf_master_id
+		assert_equal 'FCASE4BIR', study_subject.icf_master_id
+		study_subject
 	end
 
 end
