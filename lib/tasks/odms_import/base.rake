@@ -19,7 +19,7 @@ namespace :odms_import do
 		#
 
 #		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/"
-		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/20120514/"
+		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/20120517/"
 		SUBJECTS_CSV = "#{BASEDIR}/ODMS_SubjectData_Combined_xxxxxx.csv"
 		ADDRESSES_CSV = "#{BASEDIR}/ODMS_Addresses_xxxxxx.csv"
 		ADDRESSINGS_CSV = "#{BASEDIR}/ODMS_Addressings_xxxxxx.csv"
@@ -27,7 +27,7 @@ namespace :odms_import do
 		EVENTS_CSV = "#{BASEDIR}/ODMS_Operational_Events_xxxxxx.csv"
 		ICFMASTERIDS_CSV = "#{BASEDIR}/export_ODMS_ICF_Master_IDs.csv"
 		ENROLLMENTS_CSV = "#{BASEDIR}/ODMS_Enrollments_xxxxxx.csv"
-		SAMPLES_CSV = "#{BASEDIR}/ODMS_samples_031912.csv"
+		SAMPLES_CSV = "#{BASEDIR}/ODMS_Samples_xxxxxx.csv"
 
 		def format_date(date)
 			( date.blank? ) ? nil : date.try(:strftime,"%m/%d/%Y")

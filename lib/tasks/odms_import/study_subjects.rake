@@ -34,28 +34,19 @@ namespace :odms_import do
 				x.do_not_contact  = line['do_not_contact']
 
 				x.sex             = line['sex']
-#				x.reference_date  = ( line['reference_date'].blank?
-#						) ? nil : Time.parse(line['reference_date'])
 				x.reference_date  = line['reference_date'].to_nil_or_time
-
 				x.birth_year         = line['birth_year']
 				x.first_name         = line['first_name']
 				x.middle_name        = line['middle_name']
 				x.last_name          = line['last_name']
 				x.maiden_name        = line['maiden_name']
-#				x.died_on            = ( line['died_on'].blank? 
-#					) ? nil : Time.parse(line['died_on'])
 				x.died_on            = line['died_on'].to_nil_or_time
 				x.mother_first_name  = line['mother_first_name']
 				x.mother_maiden_name = line['mother_maiden_name']
 				x.mother_last_name   = line['mother_last_name']
 				x.father_first_name  = line['father_first_name']
 				x.father_last_name   = line['father_last_name']
-
-#				x.dob                = ( line['dob'].blank? 
-#						) ? nil : Time.parse(line['dob']).to_date
 				x.dob                = line['dob'].to_nil_or_date
-
 				x.subjectid     = line['subjectid']
 				x.childid       = line['childid']
 				x.childidwho    = line['childidwho']
@@ -79,23 +70,10 @@ namespace :odms_import do
 
 			if line['subject_type_id'].to_i == StudySubject.subject_type_case_id
 				patient = Patient.new do |m|
-#					m.admit_date = ( line['admit_date'].blank?
-#						) ? nil : Time.parse(line['admit_date'])
 					m.admit_date = line['admit_date'].to_nil_or_time
 					m.diagnosis_id    = line['diagnosis_id']
 					m.other_diagnosis = line['other_diagnosis']
-
-
-
-
-					#	1 record is missing organization_id so must do this. (9999999)
-#					m.organization_id = line['organization_id'].to_dk_or_i
 					m.organization_id = line['organization_id']
-
-
-
-
-
 					m.hospital_no     = line['hospital_no']
 
 #	TODO deal with incorrect value 9 in was_* fields
@@ -209,17 +187,11 @@ def compare_subject_and_line(s,line,warn_file=nil)
 		matching_case = if s.is_case?
 			s
 		else
-#			matching_cases = StudySubject.find(:all,	#	should only be one
-#				:conditions => { 
-#					:subject_type_id => StudySubject.subject_type_case_id,
-#					:matchingid      => s.matchingid
-#				})
 			matching_cases = StudySubject.where(
 				:subject_type_id => StudySubject.subject_type_case_id).where(
 				:matchingid      => s.matchingid)
 			#	still in testing so there isn't always one
 			raise "There can be only One!" if matching_cases.length > 1
-#						raise "There must be One!" if matching_cases.length < 1
 			( matching_cases.length == 1 ) ? matching_cases[0] : nil
 		end
 
@@ -326,12 +298,8 @@ def compare_subject_and_line(s,line,warn_file=nil)
 		assert pa.hospital_no == line['hospital_no'],
 			"hospital_no mismatch:#{pa.hospital_no}:#{line['hospital_no']}:"
 
-
-# TODO
-#					assert pa.organization_id == line['organization_id'].to_dk_or_i,
 		assert pa.organization_id == line['organization_id'].to_nil_or_i,
 			"organization_id mismatch:#{pa.organization_id}:#{line['organization_id']}:"
-
 
 		assert pa.other_diagnosis == line['other_diagnosis'],
 			"other_diagnosis mismatch:#{pa.other_diagnosis}:#{line['other_diagnosis']}:"

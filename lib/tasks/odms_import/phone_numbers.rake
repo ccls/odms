@@ -31,21 +31,15 @@ namespace :odms_import do
 				next
 			end
 
-			data_source_id = line["data_source_id"]
-#			data_source_id = 777 if data_source_id == '6'
-
 			#
 			#	Only study_subject_id protected so block creation not needed.
 			#
 			phone_number = study_subject.phone_numbers.create({
 				:phone_type_id    => line["phone_type_id"],
-				:data_source_id   => data_source_id,
+				:data_source_id   => line['data_source_id'],
 				:phone_number     => line["phone_number"],
 				:is_primary       => line["is_primary"],         #	boolean
 				:current_phone    => line["current_phone"],      #	yndk integer
-#				:current_phone    => line["current_phone"].to_nil_or_yndk,
-#				:created_at       => (( line['created_at'].blank? ) ?
-#														nil : Time.parse(line['created_at']) )
 				:created_at       => line['created_at'].to_nil_or_time
 			})
 
@@ -61,15 +55,9 @@ namespace :odms_import do
 				assert phone_number.phone_type_id == line["phone_type_id"].to_nil_or_i,
 					"phone_type_id mismatch:#{phone_number.phone_type_id}:" <<
 						"#{line["phone_type_id"]}:"
-
-
-
 				assert phone_number.data_source_id == line["data_source_id"].to_nil_or_i,
 					"data_source_id mismatch:#{phone_number.data_source_id}:" <<
 						"#{line["data_source_id"]}:"
-
-
-
 				#	import will change format of phone number (adds () and - )
 				assert phone_number.phone_number.only_numeric == line["phone_number"].only_numeric,
 					"phone_number mismatch:#{phone_number.phone_number}:" <<

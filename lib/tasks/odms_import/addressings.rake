@@ -32,11 +32,6 @@ namespace :odms_import do
 				next
 			end
 
-
-			data_source_id = line["data_source_id"]
-#			data_source_id = 777 if data_source_id == '6'
-
-
 			#
 			#	Addresses must exist before the addressings can be made.
 			#
@@ -49,6 +44,13 @@ namespace :odms_import do
 				next
 			end
 
+
+
+
+			data_source_id = line["data_source_id"]
+			data_source_id = 777 if data_source_id == '6'
+
+
 			#
 			#	Only study_subject_id is attr_protected so don't need block creation.
 			#
@@ -60,12 +62,6 @@ namespace :odms_import do
 				:valid_from       => line['valid_from'].to_nil_or_date,
 				:valid_to         => line['valid_to'].to_nil_or_date,
 				:created_at       => line['created_at'].to_nil_or_time
-#				:valid_from       => (( line['valid_from'].blank? ) ?
-#														nil : Time.parse(line['valid_from']).to_date ),
-#				:valid_to         => (( line['valid_to'].blank? ) ?
-#														nil : Time.parse(line['valid_to']).to_date ),
-#				:created_at       => (( line['created_at'].blank? ) ?
-#														nil : Time.parse(line['created_at']) )
 			})
 
 			if addressing.new_record?
@@ -86,8 +82,8 @@ namespace :odms_import do
 
 
 
-				assert addressing.data_source_id == line["data_source_id"].to_nil_or_i,
-					'Data Source mismatch'
+#				assert addressing.data_source_id == line["data_source_id"].to_nil_or_i,
+#					'Data Source mismatch'
 
 
 

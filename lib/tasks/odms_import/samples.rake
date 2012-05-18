@@ -68,8 +68,6 @@ namespace :odms_import do
 					s.aliquot_or_sample_on_receipt = line['aliquot_or_sample_on_receipt']
 				end
 
-#				s.received_by_ccls_at = (( line['received_by_ccls_at'].blank? ) ?
-#														nil : Time.parse(line['received_by_ccls_at']))
 				s.received_by_ccls_at = line['received_by_ccls_at'].to_nil_or_time
 
 
