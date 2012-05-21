@@ -93,13 +93,41 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_no_study_subjects_found
 		end
 
-		test "should get new receive sample with #{cu} login" <<
-				" and studyid and icf_master_id of subjects" do
+#	MULTIPLE STUDY SUBJECTS FOUND
 
+		test "should get new receive sample with #{cu} login" <<
+				" and studyid and icf_master_id of multiple child case subjects" do
 			s1 = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil s1.icf_master_id
 			s2 = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			get :new, :studyid => s2.studyid, :icf_master_id => s1.icf_master_id
+			assert_new_success
+			assert_not_nil flash[:warn]
+			assert_match /Multiple Study Subjects Found/, flash[:warn]
+			assert assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+		end
 
+		test "should get new receive sample with #{cu} login" <<
+				" and studyid and icf_master_id of multiple child control subjects" do
+			s1 = Factory(:complete_control_study_subject, :icf_master_id => '123456789' )
+			assert_not_nil s1.icf_master_id
+			s2 = Factory(:complete_control_study_subject, :studyid => '1234-X-9')
+			login_as send(cu)
+			get :new, :studyid => s2.studyid, :icf_master_id => s1.icf_master_id
+			assert_new_success
+			assert_not_nil flash[:warn]
+			assert_match /Multiple Study Subjects Found/, flash[:warn]
+			assert assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" and studyid and icf_master_id of multiple child mixed subjects" do
+			s1 = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
+			assert_not_nil s1.icf_master_id
+			s2 = Factory(:complete_control_study_subject, :studyid => '1234-X-9')
 			login_as send(cu)
 			get :new, :studyid => s2.studyid, :icf_master_id => s1.icf_master_id
 			assert_new_success
@@ -182,17 +210,153 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should get new receive sample with #{cu} login" <<
-				" and study_subject_id" do
+				" and case study_subject_id" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:case_study_subject)
 			get :new, :study_subject_id => study_subject.id
 			assert_found_single_study_subject(study_subject)
 		end
 
+		test "should get new receive sample with #{cu} login" <<
+				" and control study_subject_id" do
+			login_as send(cu)
+			study_subject = Factory(:control_study_subject)
+			get :new, :study_subject_id => study_subject.id
+			assert_found_single_study_subject(study_subject)
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" and mother study_subject_id" do
+			login_as send(cu)
+			study_subject = Factory(:mother_study_subject)
+#	just mother, no child
+			get :new, :study_subject_id => study_subject.id
+#			assert_found_single_study_subject(study_subject)
+			assert_no_study_subjects_found
+		end
+
+
+
+
+
 
 #	TODO what if subject has no enrollments
 #	TODO what if subject has no consented enrollments
-#	TODO what if subject is mother
+
+
+
+
+
+
+
+		test "should get new receive sample with #{cu} login" <<
+				" for control mother study subject id" do
+			login_as send(cu)
+			study_subject = Factory(:control_study_subject)
+			mother = study_subject.create_mother
+			get :new, :study_subject_id => mother.id
+			#	subject is child, NOT mother
+			assert_equal assigns(:study_subject), study_subject
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" for case mother study subject id" do
+			login_as send(cu)
+			study_subject = Factory(:case_study_subject)
+			mother = study_subject.create_mother
+			get :new, :study_subject_id => mother.id
+			#	subject is child, NOT mother
+			assert_equal assigns(:study_subject), study_subject
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" for control mother icf master id" do
+			login_as send(cu)
+			study_subject = Factory(:control_study_subject)
+			Factory(:icf_master_id, :icf_master_id => 'ID4MOM01')
+			mother = study_subject.create_mother
+			assert_not_nil mother.icf_master_id
+			get :new, :icf_master_id => mother.icf_master_id
+			#	subject is child, NOT mother
+			assert_equal assigns(:study_subject), study_subject
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" for case mother icf master id" do
+			login_as send(cu)
+			study_subject = Factory(:case_study_subject)
+			Factory(:icf_master_id, :icf_master_id => 'ID4MOM02')
+			mother = study_subject.create_mother
+			assert_not_nil mother.icf_master_id
+			get :new, :icf_master_id => mother.icf_master_id
+			#	subject is child, NOT mother
+			assert_equal assigns(:study_subject), study_subject
+		end
+
+		#
+		#	mother has no studyid, so shouldn't matter, so no tests
+		#
+
+		test "should get new receive sample with #{cu} login" <<
+				" for control studyid and mother icf master id" do
+			#	rather than getting multiple subjects, should just be child
+			login_as send(cu)
+			study_subject = Factory(:control_study_subject, :studyid => '1234-X-9')
+			assert_not_nil study_subject.studyid
+			Factory(:icf_master_id, :icf_master_id => 'ID4MOM03')
+			mother = study_subject.create_mother
+			assert_not_nil mother.icf_master_id
+			get :new, :studyid => study_subject.studyid,
+				:icf_master_id => mother.icf_master_id
+			#	subject is child, NOT mother
+			assert_equal assigns(:study_subject), study_subject
+		end
+
+		test "should get new receive sample with #{cu} login" <<
+				" for case studyid and mother icf master id" do
+			#	rather than getting multiple subjects, should just be child
+			login_as send(cu)
+			study_subject = Factory(:case_study_subject)
+			assert_not_nil study_subject.studyid
+			Factory(:icf_master_id, :icf_master_id => 'ID4MOM04')
+			mother = study_subject.create_mother
+			assert_not_nil mother.icf_master_id
+			get :new, :studyid => study_subject.studyid,
+				:icf_master_id => mother.icf_master_id
+			#	subject is child, NOT mother
+			assert_equal assigns(:study_subject), study_subject
+		end
+
+
+
+#
+#		assigns(:study_subject) should always be a child (case or control)
+#
+#		if passed a mother's icf master id, the child should still be returned
+#
+#		multiple subjects should all be children, no mothers
+#
+#		created samples depend on params[:sample_source] 
+#			( this is NOT part of the sample params )
+#
+#		what if given existing mother with no actual child (should never happen)
+#
+#		what if given subject with no familyid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

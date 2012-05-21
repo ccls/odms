@@ -8,9 +8,12 @@ class ReceiveSamplesController < ApplicationController
 
 	def new
 		if !params[:study_subject_id].blank?
-			if StudySubject.exists?(params[:study_subject_id])
-				@study_subject = StudySubject.find(params[:study_subject_id])
-			else
+#			if StudySubject.exists?(params[:study_subject_id])
+#				@study_subject = StudySubject.find(params[:study_subject_id])
+#	what if subject exists, but there is no child?
+#	use where instead of find so doesn't raise error on bad id
+			unless @study_subject = StudySubject.where(
+					:id => params[:study_subject_id] ).first.try(:child)
 				flash.now[:warn] = "No Study Subjects Found."
 			end
 		elsif params[:studyid] or params[:icf_master_id]
@@ -23,6 +26,19 @@ class ReceiveSamplesController < ApplicationController
 			end
 			study_subjects = StudySubject.where(
 				conditions[0].join(' OR '), conditions[1])
+
+			#	get the children, in case given mother's icf_master_id
+			study_subjects = study_subjects.collect(&:child)
+#	 StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
+			#	uniqify in case child and mother both found
+			study_subjects = study_subjects.uniq
+
+			#	actually don't think compacting is needed
+			#
+			#	UNLESS subject has blank familyid (shouldn't happen)
+			#
+#			study_subjects = study_subjects.compact
+
 			case study_subjects.length 
 				when 0 
 					flash.now[:warn] = "No Study Subjects Found."
@@ -34,10 +50,6 @@ class ReceiveSamplesController < ApplicationController
 			end
 		end
 		if @study_subject
-#
-#
-#	TODO The subject returned should be the childs, not the mothers, I think.
-#
 #
 #	SHOULD be at least CCLS.
 #	SHOULD also only include consented enrollments (but using all for now)

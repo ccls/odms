@@ -124,10 +124,11 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert_equal mother.child, study_subject
 	end
 
-	test "should return nil for child if is not mother" do
-		study_subject = Factory(:complete_control_study_subject)
-		assert_nil study_subject.child
-	end
+#	test "should return nil for child if is not mother" do
+#		study_subject = Factory(:complete_control_study_subject)
+##		assert_nil study_subject.child
+#		assert_equal study_subject, study_subject.child
+#	end
 
 	test "should find case child if is mother and has familyid" do
 		study_subject = Factory(:case_study_subject)
@@ -144,9 +145,10 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert_nil mother.child
 	end
 
-	test "should not find case child if is not mother" do
+	test "should find case child if subject is child" do
 		study_subject = Factory(:case_study_subject)
-		assert_nil study_subject.child
+#		assert_nil study_subject.child
+		assert_equal study_subject, study_subject.child
 	end
 
 	test "should find control child if is mother and has familyid" do
@@ -164,9 +166,10 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert_nil mother.child
 	end
 
-	test "should not find control child if is not mother" do
+	test "should find control child if subject is child" do
 		study_subject = Factory(:control_study_subject)
-		assert_nil study_subject.child
+#		assert_nil study_subject.child
+		assert_equal study_subject, study_subject.child
 	end
 
 	test "should return nil for mother with nil familyid" do
