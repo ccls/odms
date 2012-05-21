@@ -59,9 +59,22 @@ class ReceiveSamplesController < ApplicationController
 	end
 
 	def create
-		@sample = @study_subject.samples.new(params[:sample])
+
+#	here, we need to consider the :sample_source parameter
+#		if is 'mother', 
+#
+#	what if is mother, but there is no mother????
+#
+		sample_source = params[:sample_source] || 'child'
+
+		subject = ( sample_source.match(/mother/i) ) ? 
+			@study_subject.mother : @study_subject
+
+#		@sample = @study_subject.samples.new(params[:sample])
+		@sample = subject.samples.new(params[:sample])
 		@sample.received_by_ccls_at = DateTime.now
 		@sample.save!
+		flash.now[:notice] = "Sample creation for #{sample_source} succeeded."
 		render :action => 'new'
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Sample creation failed."

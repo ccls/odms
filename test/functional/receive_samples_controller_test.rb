@@ -327,41 +327,16 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_equal assigns(:study_subject), study_subject
 		end
 
-
-
-#
-#		assigns(:study_subject) should always be a child (case or control)
-#
-#		if passed a mother's icf master id, the child should still be returned
-#
-#		multiple subjects should all be children, no mothers
 #
 #		created samples depend on params[:sample_source] 
 #			( this is NOT part of the sample params )
 #
-#		what if given existing mother with no actual child (should never happen)
-#
-#		what if given subject with no familyid
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		test "should create new sample with #{cu} login" do
+		test "should create new sample default for child with #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:study_subject)
 			assert_difference('Sample.count',1) do
@@ -369,11 +344,51 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			end
 			assert_not_nil assigns(:sample).received_by_ccls_at
-#	It is very difficult to compare equality of datetime
-#	but this test could easily be off by a day due to time zones.
+			#	It is very difficult to compare equality of datetime
+			#	but this test could easily be off by a day due to time zones.
 			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
+			assert_equal   assigns(:sample).study_subject, study_subject
 			assert_new_success
 		end
+
+		test "should create new sample for child with #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:study_subject)
+			assert_difference('Sample.count',1) do
+				post :create, :study_subject_id => study_subject.id,
+					:sample_source => 'child',
+					:sample => factory_attributes
+			end
+			assert_not_nil assigns(:sample).received_by_ccls_at
+			#	It is very difficult to compare equality of datetime
+			#	but this test could easily be off by a day due to time zones.
+			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
+			assert_equal   assigns(:sample).study_subject, study_subject
+			assert_new_success
+		end
+
+		test "should create new sample for mother with #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:study_subject)
+			study_subject.create_mother
+			assert_difference('Sample.count',1) do
+				post :create, :study_subject_id => study_subject.id,
+					:sample_source => 'mother',
+					:sample => factory_attributes
+			end
+			assert_not_nil assigns(:sample).received_by_ccls_at
+			#	It is very difficult to compare equality of datetime
+			#	but this test could easily be off by a day due to time zones.
+			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
+			assert_equal   assigns(:sample).study_subject, study_subject.mother
+			assert_new_success
+		end
+
+#	TODO what if is no mother?
+#	TODO what if study subject is mother?
+
+
+
 
 		test "should NOT create with #{cu} login " <<
 				"and invalid study_subject_id" do
@@ -471,6 +486,7 @@ protected
 	end
 
 	def assert_new_success
+		assert_not_nil flash[:notice]
 		assert_nil flash[:error]
 		assert_response :success
 		assert_template 'new'
