@@ -69,7 +69,7 @@ class ReceiveSamplesController < ApplicationController
 #	If used the form correctly, the @study_subject is a child (not a mother)
 #	However, just to be sure ....
 		@study_subject = @study_subject.child
-#	what is is no child? this shouldn't happen
+#	what if is no child? this shouldn't happen
 
 		subject = ( sample_source.match(/mother/i) ) ? 
 			@study_subject.mother : @study_subject

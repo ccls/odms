@@ -338,7 +338,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should create new sample default for child with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:case_study_subject)
 			assert_difference('Sample.count',1) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -348,12 +348,12 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			#	but this test could easily be off by a day due to time zones.
 			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
 			assert_equal   assigns(:sample).study_subject, study_subject
-			assert_new_success
+			assert_create_success
 		end
 
 		test "should create new sample for child with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:case_study_subject)
 			assert_difference('Sample.count',1) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample_source => 'child',
@@ -364,12 +364,12 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			#	but this test could easily be off by a day due to time zones.
 			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
 			assert_equal   assigns(:sample).study_subject, study_subject
-			assert_new_success
+			assert_create_success
 		end
 
 		test "should create new sample for mother with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:case_study_subject)
 			study_subject.create_mother
 			assert_difference('Sample.count',1) do
 				post :create, :study_subject_id => study_subject.id,
@@ -381,7 +381,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			#	but this test could easily be off by a day due to time zones.
 			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
 			assert_equal   assigns(:sample).study_subject, study_subject.mother
-			assert_new_success
+			assert_create_success
 		end
 
 #	TODO what if is no mother?
@@ -405,7 +405,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				"and invalid sample" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:valid?).returns(false)
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:case_study_subject)
 			assert_difference('Sample.count',0) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -419,7 +419,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				"and save failure" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:create_or_update).returns(false)
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:case_study_subject)
 			assert_difference('Sample.count',0) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -442,7 +442,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT create new sample with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:case_study_subject)
 			assert_difference('Sample.count',0){
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -459,7 +459,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT create new sample without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = Factory(:case_study_subject)
 		assert_difference('Sample.count',0){
 			post :create, :study_subject_id => study_subject.id,
 				:sample => factory_attributes
@@ -485,8 +485,12 @@ protected
 		assert !assigns(:study_subjects)
 	end
 
-	def assert_new_success
+	def assert_create_success
 		assert_not_nil flash[:notice]
+		assert_new_success
+	end
+
+	def assert_new_success
 		assert_nil flash[:error]
 		assert_response :success
 		assert_template 'new'
