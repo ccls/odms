@@ -34,6 +34,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:sex => case_study_subject.sex,
 				:dob => dob )
 			candidate = birth_datum.candidate_control
+			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false", 1 do
 				assert_select '[value=false]'
@@ -54,6 +55,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:sex => case_study_subject.sex,
 				:dob => dob-1 )
 			candidate = birth_datum.candidate_control
+			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false", 1 do
 				assert_select '[value=false]'
@@ -74,6 +76,49 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:sex => (%w( M F ) - [case_study_subject.sex])[0],	#	the other sex
 				:dob => dob )
 			candidate = birth_datum.candidate_control
+			assert_equal candidate.related_patid, case_study_subject.patid
+			assert_successful_edit(candidate)
+			assert_select "input#candidate_control_reject_candidate_false", 1 do
+				assert_select '[value=false]'
+			end
+			assert_select "input#candidate_control_reject_candidate_true", 1 do
+				assert_select '[value=true]'
+				assert_select "[checked=checked]"
+			end
+		end
+
+		test "should get edit with #{cu} login and preselect reject if missing sex" do
+			login_as send(cu)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			dob = Date.today-1000
+			case_study_subject.update_attribute(:dob, dob)
+			birth_datum = Factory(:control_birth_datum,
+				:masterid => case_study_subject.icf_master_id,
+				:sex => nil,
+				:dob => dob )
+			candidate = birth_datum.candidate_control
+			assert_equal candidate.related_patid, case_study_subject.patid
+			assert_successful_edit(candidate)
+			assert_select "input#candidate_control_reject_candidate_false", 1 do
+				assert_select '[value=false]'
+			end
+			assert_select "input#candidate_control_reject_candidate_true", 1 do
+				assert_select '[value=true]'
+				assert_select "[checked=checked]"
+			end
+		end
+
+		test "should get edit with #{cu} login and preselect reject if missing dob" do
+			login_as send(cu)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+#			dob = Date.today-1000
+#			case_study_subject.update_attribute(:dob, dob)
+			birth_datum = Factory(:control_birth_datum,
+				:masterid => case_study_subject.icf_master_id,
+				:sex => case_study_subject.sex,
+				:dob => nil )
+			candidate = birth_datum.candidate_control
+			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false", 1 do
 				assert_select '[value=false]'
@@ -130,10 +175,57 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 		end
 
+		test "should put update with #{cu} login and mark candidate as rejected" <<
+				" when missing dob" do
+			login_as send(cu)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,
+				:dob => nil,
+				:masterid => case_study_subject.icf_master_id)
+			candidate = birth_datum.candidate_control
+			candidate.update_attributes( :updated_at => Date.yesterday)
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('StudySubject.count',0) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'true',
+					:rejection_reason => 'Some fake reason.' }
+			} }
+			candidate.reload
+			assert         candidate.reject_candidate
+			assert_not_nil candidate.rejection_reason
+			assert_nil     candidate.assigned_on
+			assert_nil     candidate.study_subject_id
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
+		end
+
+		test "should put update with #{cu} login and mark candidate as rejected" <<
+				" when missing sex" do
+			login_as send(cu)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,
+				:sex => nil,
+				:masterid => case_study_subject.icf_master_id)
+			candidate = birth_datum.candidate_control
+			candidate.update_attributes( :updated_at => Date.yesterday)
+			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('StudySubject.count',0) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'true',
+					:rejection_reason => 'Some fake reason.' }
+			} }
+			candidate.reload
+			assert         candidate.reject_candidate
+			assert_not_nil candidate.rejection_reason
+			assert_nil     candidate.assigned_on
+			assert_nil     candidate.study_subject_id
+			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
+		end
+
 		test "should put update with #{cu} login and accept candidate" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,:masterid => case_study_subject.icf_master_id)
+			birth_datum = Factory(:control_birth_datum,
+				:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
@@ -149,6 +241,66 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_not_nil candidate.study_subject.mother
 			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 		end
+
+
+
+
+
+		test "should FAIL put update with #{cu} login and accept candidate" <<
+				" when missing dob" do
+			login_as send(cu)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,
+				:dob => nil,
+				:masterid => case_study_subject.icf_master_id)
+			candidate = birth_datum.candidate_control
+			candidate.update_attributes( :updated_at => Date.yesterday)
+pending	#	TODO fix this?
+#	@candidate.create_study_subjects will fail
+#	study subject will be invalid
+#			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+#			assert_difference('StudySubject.count',2) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }
+#			} }
+			candidate.reload
+			assert        !candidate.reject_candidate	#	no change
+			assert_nil     candidate.rejection_reason	#	no change
+#			assert_not_nil candidate.assigned_on
+#			assert_not_nil candidate.study_subject
+#			assert_not_nil candidate.study_subject.mother
+#			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
+		end
+
+		test "should FAIL put update with #{cu} login and accept candidate" <<
+				" when missing sex" do
+			login_as send(cu)
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,
+				:sex => nil,
+				:masterid => case_study_subject.icf_master_id)
+			candidate = birth_datum.candidate_control
+			candidate.update_attributes( :updated_at => Date.yesterday)
+pending	#	TODO fix this?
+#	@candidate.create_study_subjects will fail
+#	study subject will be invalid
+#			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+#			assert_difference('StudySubject.count',2) {
+				put :update, :id => candidate.id, :candidate_control => {
+					:reject_candidate => 'false' }
+#			} }
+			candidate.reload
+			assert        !candidate.reject_candidate	#	no change
+			assert_nil     candidate.rejection_reason	#	no change
+#			assert_not_nil candidate.assigned_on
+#			assert_not_nil candidate.study_subject
+#			assert_not_nil candidate.study_subject.mother
+#			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
+		end
+
+
+
+
 
 ######################################################################
 #

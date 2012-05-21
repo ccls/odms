@@ -60,6 +60,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 			:masterid => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 pending # TODO fix this somehow?
+#	study subject will be invalid
 		assert_raises(ActiveRecord::RecordInvalid) {
 			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		}
@@ -75,6 +76,7 @@ pending # TODO fix this somehow?
 			:masterid => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 pending	#	TODO fix this somehow?
+#	study subject will be invalid
 		assert_raises(ActiveRecord::RecordInvalid) {
 			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		}
