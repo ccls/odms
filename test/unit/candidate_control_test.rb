@@ -53,6 +53,66 @@ class CandidateControlTest < ActiveSupport::TestCase
 	#	BEGIN: MANY subject creation tests
 	#
 
+	test "should FAIL create study_subjects from attributes missing sex" do
+		case_study_subject = create_complete_case_study_subject_with_icf_master_id
+		birth_datum = Factory(:control_birth_datum, 
+			:sex => nil,
+			:masterid => case_study_subject.icf_master_id)
+		candidate_control = birth_datum.candidate_control
+pending # TODO fix this somehow?
+		assert_raises(ActiveRecord::RecordInvalid) {
+			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+		}
+#		candidate_control.reload	# ensure that it is saved in the db!
+#		assert_not_nil candidate_control.assigned_on
+#		assert_not_nil candidate_control.study_subject_id
+	end
+
+	test "should FAIL create study_subjects from attributes missing dob" do
+		case_study_subject = create_complete_case_study_subject_with_icf_master_id
+		birth_datum = Factory(:control_birth_datum, 
+			:dob => nil,
+			:masterid => case_study_subject.icf_master_id)
+		candidate_control = birth_datum.candidate_control
+pending	#	TODO fix this somehow?
+		assert_raises(ActiveRecord::RecordInvalid) {
+			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+		}
+#		candidate_control.reload	# ensure that it is saved in the db!
+#		assert_not_nil candidate_control.assigned_on
+#		assert_not_nil candidate_control.study_subject_id
+	end
+
+	test "should FAIL create study_subjects from attributes missing first_name" do
+		case_study_subject = create_complete_case_study_subject_with_icf_master_id
+		birth_datum = Factory(:control_birth_datum, 
+			:first_name => nil,
+			:masterid => case_study_subject.icf_master_id)
+		candidate_control = birth_datum.candidate_control
+		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+		candidate_control.reload	# ensure that it is saved in the db!
+		assert_not_nil candidate_control.assigned_on
+		assert_not_nil candidate_control.study_subject_id
+		assert_nil candidate_control.study_subject.first_name
+	end
+
+	test "should FAIL create study_subjects from attributes missing last_name" do
+		case_study_subject = create_complete_case_study_subject_with_icf_master_id
+		birth_datum = Factory(:control_birth_datum, 
+			:last_name => nil,
+			:masterid => case_study_subject.icf_master_id)
+		candidate_control = birth_datum.candidate_control
+		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+		candidate_control.reload	# ensure that it is saved in the db!
+		assert_not_nil candidate_control.assigned_on
+		assert_not_nil candidate_control.study_subject_id
+		assert_nil candidate_control.study_subject.last_name
+	end
+
+
+
+
+
 	test "should create study_subjects from attributes" do
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
 		birth_datum = Factory(:control_birth_datum, 
