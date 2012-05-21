@@ -27,8 +27,6 @@
 </div><!-- class='buttons' -->
 </div>
 
-<h3>NOTE: THIS IS THE EXACT SUBJECT GIVEN, WHETHER IT WAS MOTHER OR CHILD.</h3>
-
 <h3>NOTE: THESE ARE ALL THE SUBJECT ENROLLMENTS (ignoring consent for now)</h3>
 <%= f.wrapped_collection_select(:project_id,
 	@study_subject.enrollments.collect(&:project), :id, :to_s,
