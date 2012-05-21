@@ -59,13 +59,17 @@ class ReceiveSamplesController < ApplicationController
 	end
 
 	def create
-
+#
 #	here, we need to consider the :sample_source parameter
-#		if is 'mother', 
 #
 #	what if is mother, but there is no mother????
 #
 		sample_source = params[:sample_source] || 'child'
+
+#	If used the form correctly, the @study_subject is a child (not a mother)
+#	However, just to be sure ....
+		@study_subject = @study_subject.child
+#	what is is no child? this shouldn't happen
 
 		subject = ( sample_source.match(/mother/i) ) ? 
 			@study_subject.mother : @study_subject
