@@ -10,12 +10,12 @@
 
 ##!/usr/bin/env ruby
 
-#gem 'activesupport', '~> 2'
-#require 'active_support/core_ext'	#	for alias_method_chain
+gem 'activesupport'	#, '~> 2'
+require 'active_support/core_ext'	#	for alias_method_chain
 #
 ##	how do I colorize with the whole red green thing
 #
-#class Autotest
+class Autotest
 #
 #
 #	jruby needed this for proper testing.
@@ -39,21 +39,22 @@
 #	While this may be the best way, there are A LOT of tests
 #	for the ODMS app and running them all takes about 2 hours.
 #
-#	def rerun_all_tests_with_flag
-#		#
-#		#		use some sort of command line option to stop this
-#		#		surprised this doesn't exist
-#		#
-#
-#		#	perhaps set this flag in a file so that can be modified
-#		#	without restarting autotest.
-#
+	def rerun_all_tests_with_flag
+		#
+		#		use some sort of command line option to stop this
+		#		surprised this doesn't exist
+		#
+
+		#	perhaps set this flag in a file so that can be modified
+		#	without restarting autotest.
+
 #		unless ENV['AUTOTEST_RERUN_ALL'] == 'false'
-#			rerun_all_tests_without_flag
-#		end
-#	end
-#	alias_method_chain :rerun_all_tests, :flag
-#
-#end
+#	default to doing it my way.
+#	out of the box, this take WAY TOO LONG
+		if ENV['AUTOTEST_RERUN_ALL'] == 'true'
+			rerun_all_tests_without_flag
+		end
+	end
+	alias_method_chain :rerun_all_tests, :flag
 
-
+end
