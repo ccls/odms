@@ -33,6 +33,9 @@
  
  #	create new empty dev db
  mysqladmin -u root create odms_development
+
+ #	create all the other databases (could skip the above create)
+ rake db:create:all
  
  #	Run all of the migrations.
  rake db:migrate
@@ -89,6 +92,11 @@
 
 
 
+ #	You should also be able to run
+ script/rails console
+
+ #	As well as ...
+ autotest
 
 
 
