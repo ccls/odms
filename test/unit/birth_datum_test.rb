@@ -36,6 +36,49 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "explicit Factory control_birth_datum test" do
+		assert_difference('CandidateControl.count',0) {
+		assert_difference('BirthDatum.count',1) {
+			birth_datum = Factory(:control_birth_datum)
+			assert_equal 'First', birth_datum.first_name
+			assert_equal 'Last',  birth_datum.last_name
+			assert_not_nil birth_datum.dob
+			assert_not_nil birth_datum.sex
+			assert_equal  'control', birth_datum.case_control_flag
+		} }
+	end
+
+	test "explicit Factory bogus_birth_datum test" do
+		assert_difference('CandidateControl.count',0) {
+		assert_difference('BirthDatum.count',1) {
+			birth_datum = Factory(:bogus_birth_datum)
+			assert_equal 'First', birth_datum.first_name
+			assert_equal 'Last',  birth_datum.last_name
+			assert_not_nil birth_datum.dob
+			assert_not_nil birth_datum.sex
+			assert_equal  'bogus', birth_datum.case_control_flag
+		} }
+	end
+
+	test "explicit Factory case_birth_datum test with matching case" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert_difference('CandidateControl.count',0) {
+		assert_difference('BirthDatum.count',1) {
+			birth_datum = Factory(:case_birth_datum,
+				:masterid => study_subject.icf_master_id )
+
+pending	#	TODO should update case attributes, but which ones?
+
+#			assert_equal 'First', birth_datum.first_name
+#			assert_equal 'Last',  birth_datum.last_name
+#			assert_not_nil birth_datum.dob
+#			assert_not_nil birth_datum.sex
+			assert_equal  'case', birth_datum.case_control_flag
+			assert_not_nil birth_datum.masterid
+			assert_equal   birth_datum.masterid, study_subject.icf_master_id
+		} }
+	end
+
+	test "explicit Factory control_birth_datum test with matching case" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',1) {
@@ -48,6 +91,21 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_equal  'control', birth_datum.case_control_flag
 			assert_not_nil birth_datum.masterid
 			assert_equal   birth_datum.masterid, study_subject.icf_master_id
+		} }
+	end
+
+	test "explicit Factory bogus_birth_datum test with matching case" do
+		#	shouldn't really do anything different
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert_difference('CandidateControl.count',0) {
+		assert_difference('BirthDatum.count',1) {
+			birth_datum = Factory(:bogus_birth_datum,
+				:masterid => study_subject.icf_master_id )
+			assert_equal 'First', birth_datum.first_name
+			assert_equal 'Last',  birth_datum.last_name
+			assert_not_nil birth_datum.dob
+			assert_not_nil birth_datum.sex
+			assert_equal  'bogus', birth_datum.case_control_flag
 		} }
 	end
 

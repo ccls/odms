@@ -56,13 +56,20 @@ class BirthDatumUpdate < ActiveRecord::Base
 	def parse_csv_file
 #		results = []
 		unless self.csv_file_file_name.blank?
-			csv_file_path = if File.exists?(self.csv_file.to_file.path)
-				self.csv_file.to_file.path
-			elsif File.exists?(self.csv_file.path)
-				self.csv_file.path
-			else 
-				nil
-			end
+			csv_file_path = self.csv_file.to_file.path
+#			csv_file_path = if File.exists?(self.csv_file.to_file.path)
+#				self.csv_file.to_file.path
+#			elsif File.exists?(self.csv_file.path)
+##	this would only happen on an update.
+##	after create will use the above "csv_file.to_file.path"
+##		for some reason as file hasn't yet been saved.
+##	"csv_file.to_file.path" works on existing models too, 
+##		so perhaps its best to use it anyway
+#				self.csv_file.path
+#			else 
+##	This should never happen as the csv_file is required.
+#				nil
+#			end
 			unless csv_file_path.nil?
 				(f=FasterCSV.open( csv_file_path, 'rb',{
 						:headers => true })).each do |line|
@@ -234,11 +241,11 @@ end
 #
 #end
 
-#	Object and not String because could be NilClass
-Object.class_eval do
-
-	def nilify_blank
-		( self.blank? ) ? nil : self
-	end
-
-end
+##	Object and not String because could be NilClass
+#Object.class_eval do
+#
+#	def nilify_blank
+#		( self.blank? ) ? nil : self
+#	end
+#
+#end

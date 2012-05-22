@@ -221,6 +221,10 @@ Factory.define :control_birth_datum,
 	:parent => :birth_datum do |f|
 	f.case_control_flag 'control'
 end
+Factory.define :bogus_birth_datum,
+	:parent => :birth_datum do |f|
+	f.case_control_flag 'bogus'
+end
 #Factory.define :birth_datum_change do |f|
 #end
 Factory.define :birth_datum_update do |f|

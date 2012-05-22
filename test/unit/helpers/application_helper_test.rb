@@ -542,12 +542,23 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for abstracts with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'abstracts' }
-			controller = AbstractsController.new
+#			controller = AbstractsController.new
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', 8
 				assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
+			end
+		end
+
+		test "subject_side_menu for bogus controller with #{cu} login" do
+			login_as send(cu)
+			self.params = { :controller => 'bogus' }
+			study_subject = Factory(:study_subject)
+			response = HTML::Document.new( subject_side_menu(study_subject) ).root
+			assert_select response, 'div#sidemenu' do
+				assert_select 'a', 8
+				assert_select 'a.current', 0
 			end
 		end
 

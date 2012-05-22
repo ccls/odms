@@ -47,6 +47,37 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert !candidate_control.errors.include?(:rejection_reason)
 	end
 
+	test "should return join of birth_datum's name" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:first_name  => "John",
+			:middle_name => "Michael",
+			:last_name   => "Smith" )
+		assert_equal 'John Michael Smith', birth_datum.candidate_control.full_name 
+	end
+
+	test "should return join of birth_datum's name with blank middle name" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:first_name  => "John",
+			:middle_name => "",
+			:last_name   => "Smith" )
+		assert_equal 'John Smith', birth_datum.candidate_control.full_name 
+	end
+
+	test "should return join of birth_datum's mother's name" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:mother_first_name  => "Jane",
+			:mother_middle_name => "Anne",
+			:mother_maiden_name => "Smith" )
+		assert_equal 'Jane Anne Smith', birth_datum.candidate_control.mother_full_name 
+	end
+
+	test "should return join of birth_datum's mother's name with blank mother's middle name" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:mother_first_name  => "Jane",
+			:mother_middle_name => "",
+			:mother_maiden_name => "Smith" )
+		assert_equal 'Jane Smith', birth_datum.candidate_control.mother_full_name 
+	end
 
 	################################################################################
 	#
@@ -54,10 +85,8 @@ class CandidateControlTest < ActiveSupport::TestCase
 	#
 
 	test "should FAIL create study_subjects from attributes missing sex" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:sex => nil,
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:sex => nil )
 		candidate_control = birth_datum.candidate_control
 pending # TODO fix this somehow?
 #	study subject will be invalid
@@ -70,10 +99,8 @@ pending # TODO fix this somehow?
 	end
 
 	test "should FAIL create study_subjects from attributes missing dob" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:dob => nil,
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:dob => nil )
 		candidate_control = birth_datum.candidate_control
 pending	#	TODO fix this somehow?
 #	study subject will be invalid
@@ -86,10 +113,8 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create study_subjects from attributes missing first_name" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:first_name => nil,
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:first_name => nil )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		candidate_control.reload	# ensure that it is saved in the db!
@@ -99,10 +124,8 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create study_subjects from attributes missing last_name" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:last_name => nil,
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:last_name => nil )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		candidate_control.reload	# ensure that it is saved in the db!
@@ -116,9 +139,7 @@ pending	#	TODO fix this somehow?
 
 
 	test "should create study_subjects from attributes" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		candidate_control.reload	# ensure that it is saved in the db!
@@ -127,9 +148,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should set birth datum study subject id on study subject creation" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		candidate_control.reload	# ensure that it is saved in the db!
@@ -140,10 +159,8 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create study_subjects and set is_matched" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		assert_nil case_study_subject.is_matched
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		candidate_control.reload	# ensure that it is saved in the db!
@@ -157,9 +174,7 @@ pending	#	TODO fix this somehow?
 	#	this enrollment is actually a callback in study_subject
 	# now and is not explictly called.
 	test "should create control with enrollment in ccls" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert !candidate_control.study_subject.enrollments.empty?
@@ -179,9 +194,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create control from attributes and copy case patid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -220,9 +233,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy state_registrar_no" do
 		attribute = 'fake number'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:state_registrar_no => attribute, :masterid => case_study_subject.icf_master_id )
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:state_registrar_no => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -232,9 +244,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy local_registrar_no" do
 		attribute = 'fake number'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:local_registrar_no => attribute, :masterid => case_study_subject.icf_master_id )
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:local_registrar_no => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -244,9 +255,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy sex" do
 		attribute = 'DK'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:sex => attribute, :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:sex => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -276,9 +286,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy birth_type" do
 		attribute = 'xyz'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:birth_type => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:birth_type => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -288,9 +297,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy mother_yrs_educ" do
 		attribute = 7
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:mother_yrs_educ => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:mother_yrs_educ => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -300,9 +308,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy father_yrs_educ" do
 		attribute = 7
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:father_yrs_educ => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:father_yrs_educ => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -322,9 +329,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy first_name" do
 		attribute = 'SomeName'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:first_name => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:first_name => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -334,9 +340,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy middle_name" do
 		attribute = 'SomeName'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:middle_name => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:middle_name => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -346,9 +351,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy last_name" do
 		attribute = 'SomeName'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:last_name => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:last_name => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -358,9 +362,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy dob" do
 		attribute = Date.parse('Dec 5, 1971')
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:dob => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:dob => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -370,9 +373,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy mother_first_name" do
 		attribute = 'SomeName'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:mother_first_name => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:mother_first_name => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -382,9 +384,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy mother_middle_name" do
 		attribute = 'SomeName'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:mother_middle_name => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:mother_middle_name => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -404,9 +405,8 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy mother_maiden_name" do
 		attribute = 'SomeName'
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:mother_maiden_name => attribute , :masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+			:mother_maiden_name => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -436,9 +436,7 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy mom_is_biomom" do
 		attribute = 999
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		candidate_control.update_attributes( :mom_is_biomom => attribute )
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
@@ -449,9 +447,7 @@ pending	#	TODO fix this somehow?
 
 	test "should create control from attributes and copy dad_is_biodad" do
 		attribute = 999
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		candidate_control.update_attributes( :dad_is_biodad => attribute )
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
@@ -471,10 +467,8 @@ pending	#	TODO fix this somehow?
 #	end
 
 	test "should create control from attributes with patient and copy case admit_date" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		assert_not_nil case_study_subject.patient
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
@@ -483,9 +477,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create control from attributes and add subjectid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_not_nil candidate_control.study_subject.subjectid
@@ -493,9 +485,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create control from attributes and add familyid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_not_nil candidate_control.study_subject.familyid
@@ -503,9 +493,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create control from attributes and subjectid should equal familyid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_equal   candidate_control.study_subject.familyid, 
@@ -513,9 +501,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create control from attributes and copy case matchingid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_not_nil candidate_control.study_subject.matchingid
@@ -524,9 +510,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create control from attributes and add orderno = 1" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_not_nil candidate_control.study_subject.orderno
@@ -535,9 +519,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create second control from attributes and add orderno = 2" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control_1 = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control_1,case_study_subject)
 		birth_datum = Factory(:control_birth_datum, 
@@ -550,9 +532,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create control from attributes and add studyid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_not_nil candidate_control.study_subject.studyid		
@@ -576,9 +556,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create mother from attributes" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_not_nil candidate_control.study_subject.mother
@@ -588,9 +566,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create mother from attributes and NOT copy case patid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		mother = candidate_control.study_subject.mother
@@ -598,10 +574,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create mother from attributes with patient and copy case admit_date" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		case_study_subject.reload
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		mother = candidate_control.study_subject.reload.mother
@@ -610,9 +583,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create mother from attributes and copy case matchingid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		mother = candidate_control.study_subject.mother
@@ -622,9 +593,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should create mother from attributes and copy child familyid" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		mother = candidate_control.study_subject.mother
@@ -673,9 +642,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should rollback if create_mother raises error" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		StudySubject.any_instance.stubs(:create_mother
 			).raises(ActiveRecord::RecordNotSaved)
@@ -687,9 +654,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should rollback if assign_icf_master_id raises error" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		StudySubject.any_instance.stubs(:assign_icf_master_id
 			).raises(ActiveRecord::RecordNotSaved)
@@ -701,9 +666,7 @@ pending	#	TODO fix this somehow?
 	end
 
 	test "should rollback if create_study_subject raises error" do
-		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		StudySubject.any_instance.stubs(:create_or_update).returns(false)
 		assert_difference('Enrollment.count',0) {
@@ -746,6 +709,14 @@ protected
 		assert_not_nil study_subject.icf_master_id
 		assert_equal 'UCASE4BIR', study_subject.icf_master_id
 		study_subject
+	end
+
+	def create_case_and_control_birth_datum(options={})
+		case_study_subject = create_complete_case_study_subject_with_icf_master_id
+		birth_datum = Factory(:control_birth_datum,{
+			:masterid => case_study_subject.icf_master_id
+		}.merge(options) )
+		return case_study_subject, birth_datum
 	end
 
 end
