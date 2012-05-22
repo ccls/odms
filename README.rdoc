@@ -5,7 +5,7 @@
  git pull
 
  #	create a big hash (rake secret) and insert as your secret token
- cp config/initializaers/secret_token.rb.example config/initializers/secret_token.rb
+ cp config/initializers/secret_token.rb.example config/initializers/secret_token.rb
 
  #	define your databases
  cp config/database.yml.example config/database.yml
