@@ -254,18 +254,24 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:dob => nil,
 				:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
+			assert         candidate.reject_candidate	#	pre-rejected
+			assert_not_nil candidate.rejection_reason	#	pre-rejected
 			candidate.update_attributes( :updated_at => Date.yesterday)
 pending	#	TODO fix this?
 #	@candidate.create_study_subjects will fail
 #	study subject will be invalid
 #			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 #			assert_difference('StudySubject.count',2) {
+			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('StudySubject.count',0) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }
-#			} }
+			} }
 			candidate.reload
-			assert        !candidate.reject_candidate	#	no change
-			assert_nil     candidate.rejection_reason	#	no change
+#			assert        !candidate.reject_candidate	#	no change
+#			assert_nil     candidate.rejection_reason	#	no change
+			assert         candidate.reject_candidate	#	pre-rejected
+			assert_not_nil candidate.rejection_reason	#	pre-rejected
 #			assert_not_nil candidate.assigned_on
 #			assert_not_nil candidate.study_subject
 #			assert_not_nil candidate.study_subject.mother
@@ -280,6 +286,8 @@ pending	#	TODO fix this?
 				:sex => nil,
 				:masterid => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
+			assert         candidate.reject_candidate	#	pre-rejected
+			assert_not_nil candidate.rejection_reason	#	pre-rejected
 			candidate.update_attributes( :updated_at => Date.yesterday)
 pending	#	TODO fix this?
 #	@candidate.create_study_subjects will fail
@@ -290,8 +298,10 @@ pending	#	TODO fix this?
 					:reject_candidate => 'false' }
 #			} }
 			candidate.reload
-			assert        !candidate.reject_candidate	#	no change
-			assert_nil     candidate.rejection_reason	#	no change
+#			assert        !candidate.reject_candidate	#	no change
+#			assert_nil     candidate.rejection_reason	#	no change
+			assert         candidate.reject_candidate	#	pre-rejected
+			assert_not_nil candidate.rejection_reason	#	pre-rejected
 #			assert_not_nil candidate.assigned_on
 #			assert_not_nil candidate.study_subject
 #			assert_not_nil candidate.study_subject.mother

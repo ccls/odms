@@ -208,8 +208,8 @@ Factory.define :birth_datum do |f|
 #
 #	These are not required, but without them, conversion to subject will fail
 #
-	f.first_name "First"
-	f.last_name  "Last"
+#	f.first_name "First"
+#	f.last_name  "Last"
 	f.dob { random_date }
 	f.sex { random_sex }
 end

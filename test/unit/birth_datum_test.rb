@@ -15,8 +15,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',1) {
 			birth_datum = Factory(:birth_datum)
-			assert_equal 'First', birth_datum.first_name
-			assert_equal 'Last',  birth_datum.last_name
+#			assert_equal 'First', birth_datum.first_name
+#			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_nil     birth_datum.case_control_flag
@@ -27,8 +27,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',1) {
 			birth_datum = Factory(:case_birth_datum)
-			assert_equal 'First', birth_datum.first_name
-			assert_equal 'Last',  birth_datum.last_name
+#			assert_equal 'First', birth_datum.first_name
+#			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'case', birth_datum.case_control_flag
@@ -39,8 +39,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',1) {
 			birth_datum = Factory(:control_birth_datum)
-			assert_equal 'First', birth_datum.first_name
-			assert_equal 'Last',  birth_datum.last_name
+#			assert_equal 'First', birth_datum.first_name
+#			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'control', birth_datum.case_control_flag
@@ -51,8 +51,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',1) {
 			birth_datum = Factory(:bogus_birth_datum)
-			assert_equal 'First', birth_datum.first_name
-			assert_equal 'Last',  birth_datum.last_name
+#			assert_equal 'First', birth_datum.first_name
+#			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'bogus', birth_datum.case_control_flag
@@ -84,8 +84,8 @@ pending	#	TODO should update case attributes, but which ones?
 		assert_difference('BirthDatum.count',1) {
 			birth_datum = Factory(:control_birth_datum,
 				:masterid => study_subject.icf_master_id )
-			assert_equal 'First', birth_datum.first_name
-			assert_equal 'Last',  birth_datum.last_name
+#			assert_equal 'First', birth_datum.first_name
+#			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'control', birth_datum.case_control_flag
@@ -101,13 +101,173 @@ pending	#	TODO should update case attributes, but which ones?
 		assert_difference('BirthDatum.count',1) {
 			birth_datum = Factory(:bogus_birth_datum,
 				:masterid => study_subject.icf_master_id )
-			assert_equal 'First', birth_datum.first_name
-			assert_equal 'Last',  birth_datum.last_name
+#			assert_equal 'First', birth_datum.first_name
+#			assert_equal 'Last',  birth_datum.last_name
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'bogus', birth_datum.case_control_flag
 		} }
 	end
+
+	test "should create odms exception if masterid is blank" <<
+			" for case birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+			birth_datum = Factory(:case_birth_datum)
+			assert_nil birth_datum.masterid
+			assert_match /masterid blank for birth datum id:\d+:/,
+				OdmsException.last.notes
+		} }
+	end
+
+	test "should create odms exception if masterid is not blank, but not used by a subject" <<
+			" for case birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+			birth_datum = Factory(:case_birth_datum,:masterid => 'IAMUNUSED')
+			assert_equal birth_datum.masterid, 'IAMUNUSED'
+			assert_match /No subject found with masterid :\w+: for birth datum id:\d+:/,
+				OdmsException.last.notes
+		} }
+	end
+
+	test "should update case subject if masterid is not blank and used by a case" <<
+			" for case birth datum" do
+pending	#	TODO
+#
+#	should possibly update some fields for the subject
+#	which fields has yet to be determined
+#
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',0) {
+			study_subject = create_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+		} }
+	end
+
+	test "should create odms exception if masterid is not blank and used by a control" <<
+			" for case birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+			study_subject = create_control_study_subject_with_icf_master_id
+			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
+				OdmsException.last.notes
+		} }
+	end
+
+	test "should create odms exception if masterid is not blank and used by a mother" <<
+			" for case birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+			study_subject = create_mother_study_subject_with_icf_master_id
+			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
+				OdmsException.last.notes
+		} }
+	end
+
+	test "should create odms exception if masterid is blank" <<
+			" for control birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+			birth_datum = Factory(:control_birth_datum)
+			assert_nil birth_datum.masterid
+			assert_match /masterid blank for birth datum id:\d+:/,
+				OdmsException.last.notes
+		} }
+	end
+
+	test "should create odms exception if masterid is not blank, but not used by a subject" <<
+			" for control birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+			birth_datum = Factory(:control_birth_datum,:masterid => 'IAMUNUSED')
+			assert_equal birth_datum.masterid, 'IAMUNUSED'
+			assert_match /No subject found with masterid :\w+: for birth datum id:\d+:/,
+				OdmsException.last.notes
+		} }
+	end
+
+	test "should create candidate control if masterid is not blank and used by a case" <<
+			" for control birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',0) {
+		assert_difference('CandidateControl.count',1) {
+			study_subject = create_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_not_nil birth_datum.candidate_control
+			assert !birth_datum.candidate_control.reject_candidate
+			assert_equal birth_datum.candidate_control.related_patid, 
+				study_subject.patid
+		} } }
+	end
+
+	test "should create odms exception if masterid is not blank and used by a control" <<
+			" for control birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+			study_subject = create_control_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
+				OdmsException.last.notes
+		} }
+	end
+
+	test "should create odms exception if masterid is not blank and used by a mother" <<
+			" for control birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+			study_subject = create_mother_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
+				OdmsException.last.notes
+		} }
+	end
+
+#	TODO and don't forget about match_confidence
+
+	test "should pre-reject candidate if sex is blank for control birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+		assert_difference('CandidateControl.count',1) {
+			study_subject = create_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,
+				:sex => nil,
+				:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_not_nil birth_datum.candidate_control
+			assert birth_datum.candidate_control.reject_candidate
+			assert_match /Candidate control for birth datum id:\d+: was pre-rejected because Birth datum sex is blank/,
+				OdmsException.last.notes
+		} } }
+	end
+
+	test "should pre-reject candidate if dob is blank for control birth datum" do
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+		assert_difference('CandidateControl.count',1) {
+			study_subject = create_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,
+				:dob => nil,
+				:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_not_nil birth_datum.candidate_control
+			assert birth_datum.candidate_control.reject_candidate
+			assert_match /Candidate control for birth datum id:\d+: was pre-rejected because Birth datum dob is blank/,
+				OdmsException.last.notes
+		} } }
+	end
+
+
+
+
 
 	test "should assign study_subject_id on case create if exists" do
 		study_subject = create_case_study_subject_with_icf_master_id
@@ -167,9 +327,24 @@ pending	#	TODO should update case attributes, but which ones?
 protected
 
 	def create_case_study_subject_with_icf_master_id
-#		study_subject = Factory(:case_study_subject)
 		study_subject = Factory(:case_study_subject,
 			:icf_master_id => '12345678A')
+		check_icf_master_id(study_subject)
+	end
+
+	def create_control_study_subject_with_icf_master_id
+		study_subject = Factory(:control_study_subject,
+			:icf_master_id => '12345678A')
+		check_icf_master_id(study_subject)
+	end
+
+	def create_mother_study_subject_with_icf_master_id
+		study_subject = Factory(:mother_study_subject,
+			:icf_master_id => '12345678A')
+		check_icf_master_id(study_subject)
+	end
+
+	def check_icf_master_id(study_subject)
 #		assert_nil study_subject.icf_master_id
 #		imi = Factory(:icf_master_id,:icf_master_id => '12345678A')
 #		study_subject.assign_icf_master_id

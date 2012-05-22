@@ -14,30 +14,41 @@ class BirthDatum < ActiveRecord::Base
 
 	def post_processing
 		if masterid.blank?
-			#		error
+			OdmsException.create(:notes => "masterid blank for birth datum id:#{attributes['id']}:")
 		else
 			subject = StudySubject.where(:icf_master_id => masterid).first
 			if subject.nil?
-#	subject not found?
-#		error
+				OdmsException.create(:notes => "No subject found with masterid :#{masterid}: for birth datum id:#{attributes['id']}:")
 			elsif !subject.is_case?
-#	subject not case?
-#		error
+				OdmsException.create(:notes => "Subject found with masterid :#{masterid}: for birth datum id:#{attributes['id']}: is not a case subject.")
 			else
 				if case_control_flag == 'control'
-					self.create_candidate_control( :related_patid => subject.patid )
+					control_options = { :related_patid => subject.patid }
+#
+#	if dob or sex is blank, pre-reject control on creation
+#	create an OdmsException too????
+#
+					reasons = []
+					if dob.blank?
+						control_options[:reject_candidate] = true
+						reasons << "Birth datum dob is blank."
+					end
+					if sex.blank?
+						control_options[:reject_candidate] = true
+						reasons << "Birth datum sex is blank."
+					end
+					control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
+
+					self.create_candidate_control( control_options )
+					OdmsException.create(:notes => "Candidate control for birth datum id:#{attributes['id']}: was pre-rejected because #{reasons.join(',')}.") unless reasons.empty?
 				elsif case_control_flag == 'case'
 					#	assign study_subject_id to case's id
 					self.update_attribute(:study_subject_id, subject.id)
 #					study_subject = subject
 #					save
 					#	update case study_subject data
-	
-
 				else
-#	unknown case_control_flag
-#	error
-
+					OdmsException.create(:notes => "Unknown case_control_flag for birth datum id:#{attributes['id']}:")
 				end
 			end
 		end
