@@ -25,4 +25,14 @@ class Context < ActiveRecord::Base
 		description
 	end
 
+#	has_many :contextables, :through => :context_contextables
+#	raises error when called
+#	irb(main):010:0> c.contextables
+#	ActiveRecord::HasManyThroughAssociationPolymorphicSourceError: Cannot have a has_many :through association 'Context#contextables' on the polymorphic object 'Contextable#contextable'.
+#	however, this method works
+
+	def contextables
+		context_contextables.collect(&:contextable)
+	end
+
 end

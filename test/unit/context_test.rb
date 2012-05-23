@@ -34,6 +34,15 @@ class ContextTest < ActiveSupport::TestCase
 		assert context.context_contextables.empty?
 	end
 
+	test "should have many contextables through context_contextables (sort of)" do
+		#	apparently can't have many through a polymorphic relationship
+		#	so this is really just a method that mimics it.
+		context = Factory(:context)
+		assert context.contextables.empty?
+		Factory(:context_contextable, :context => context )
+		assert !context.reload.contextables.empty?
+	end
+
 	test "should have many data_sources" do
 		context = Factory(:context)
 		assert context.data_sources.empty?
