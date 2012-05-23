@@ -118,6 +118,10 @@ class CandidateControl < ActiveRecord::Base
 #	condition checking, and yada yada.  For this reason, we MAY want to 
 #	"unbang" the methods and manually raise ActiveRecord::Rollback
 #	to trigger a rollback if necessary.
+#
+#	If adding an OdmsException, would have to do outside the transaction
+#	as it would be rolled back if done inside.  So we'd need to set a
+#	variable or something to reference.
 #	
 
 
