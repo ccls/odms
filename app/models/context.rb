@@ -5,7 +5,14 @@ class Context < ActiveRecord::Base
 	acts_as_list
 	acts_like_a_hash
 
+
+
+#	This should probably go away as I do not think that it is ever used
+#	Not really sure if it ever was.
 	has_many :units
+
+
+
 #	has_many :people
 
 	has_many :context_contextables
