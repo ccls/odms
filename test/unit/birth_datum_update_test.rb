@@ -16,6 +16,10 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	#
 	teardown :delete_all_possible_birth_datum_update_attachments
 
+#
+#	TODO add some tests for odms_exceptions association
+#		both explicit tests and those that are commented out.
+#
 
 	test "explicit Factory birth_datum_update test" do
 		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing

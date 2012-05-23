@@ -11,6 +11,12 @@ class BirthDatumTest < ActiveSupport::TestCase
 #	assert_should_have_one( :candidate_control )
 
 
+#
+#	TODO add some tests for odms_exceptions association
+#		just explicit tests here
+#
+
+
 	test "explicit Factory birth_datum test" do
 		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',1) {

@@ -435,6 +435,21 @@ end
 
 Factory.define :odms_exception do |f|
 end
+Factory.define :odms_exception_exceptable do |f|
+	f.association :odms_exception
+#
+#	This is polymorphic, and birth datum is just one example
+#	of a exceptable.  Could be any model though. (if coded)
+#
+	f.association :exceptable, :factory => :birth_datum
+end
+
+
+
+
+
+
+
 
 Factory.define :operational_event do |f|
 #	f.association :study_subject
