@@ -98,7 +98,7 @@ class CandidateControl < ActiveRecord::Base
 
 
 			#	NOTE this may require passing info
-			#	that is in the candidate_control record, but not in the child subject
+			#	that is in this record, but not in the child subject
 			#		mother_hispanicity_id	(actually this is now)
 			#	worst case scenario is just create the full mother here
 			#	rather than through the child.
@@ -111,6 +111,16 @@ class CandidateControl < ActiveRecord::Base
 
 			self.assigned_on = Date.today
 			self.save!
+
+
+#	NOTE
+#	This method and transaction may require more personnal handling,
+#	condition checking, and yada yada.  For this reason, we MAY want to 
+#	"unbang" the methods and manually raise ActiveRecord::Rollback
+#	to trigger a rollback if necessary.
+#	
+
+
 		end
 		self
 	end
