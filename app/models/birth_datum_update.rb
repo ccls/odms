@@ -32,13 +32,13 @@ class BirthDatumUpdate < ActiveRecord::Base
 			f=FasterCSV.open(self.csv_file.to_file.path,'rb')
 			column_names = f.readline
 			f.close
-#			if column_names != expected_column_names 
-#				errors.add(:csv_file, "Invalid column names in csv_file.")
-#			end
 			column_names.each do |column_name|
 				errors.add(:csv_file, "Invalid column name '#{column_name}' in csv_file."
 					) unless expected_column_names.include?(column_name)
 			end
+#
+#	what about missing columns???
+#
 		end
 	end
 
@@ -71,8 +71,23 @@ class BirthDatumUpdate < ActiveRecord::Base
 #				nil
 #			end
 			unless csv_file_path.nil?
+				csv_line_count = 0
+
+#	TODO remember line count
+#		may have to do this loop a little differently
+#			so am not setting every time
+#			explicitly open
+#			get line count
+#			loop
+#			explicitly close
+#		not sure what method returns the number of lines
+#			f.line_count
+
+
 				(f=FasterCSV.open( csv_file_path, 'rb',{
 						:headers => true })).each do |line|
+
+
 					birth_datum_attributes = line.dup.to_hash
 #	remove invalid attributes, if there are any
 					birth_datum_attributes.delete('father_ssn')
@@ -85,12 +100,25 @@ class BirthDatumUpdate < ActiveRecord::Base
 					birth_datum_attributes.delete('ignore2')
 					birth_datum_attributes.delete('ignore3')
 
-					birth_datum = self.birth_data.create!( birth_datum_attributes )
-#	may need to NOT do create! and just create and check
-#	to see if actually saved and create some odms exception
+
+
+					birth_datum = self.birth_data.create( birth_datum_attributes )
+#	TODO if birth_datum.new_record? (means fail) 
+#			add an OdmsException
+#	a.name: “birth_data append” 
+#	description:  programmer-specified error (to include master_id or errant record) or “Error importing record into birth_data table.  Exception record master_id = xxxxxxxxx.”  or “Error importing record into birth_data table.  Exception record master_id not provided.”
+
 
 #					results.push(birth_data)
 				end	#	(f=FasterCSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
+
+
+#	TODO if line count != self.birth_datum.count (or length)
+#			add an OdmsException
+#	a.name: “birth_data append” 
+#	description: “Birth data upload validation failed:  incorrect number of birth data records appended to birth_data.”
+
+
 			end	#	unless csv_file_path.nil?
 		end	#	if !self.csv_file_file_name.blank? && File.exists?(self.csv_file.path)
 #		results	#	TODO why am I returning anything?  will I use this later?
