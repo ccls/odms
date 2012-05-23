@@ -7,6 +7,9 @@ class BirthDatumUpdate < ActiveRecord::Base
 
 	has_many :birth_data
 
+	has_many :odms_exception_exceptables, :as => :exceptable
+	has_many :odms_exceptions, :through => :odms_exception_exceptables
+
 	validates_attachment_presence     :csv_file
 
 	validates_inclusion_of :csv_file_content_type,

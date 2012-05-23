@@ -10,17 +10,23 @@ class BirthDatum < ActiveRecord::Base
 	attr_protected :study_subject_id, :study_subject
 	has_one :candidate_control
 
+	has_many :odms_exception_exceptables, :as => :exceptable
+	has_many :odms_exceptions, :through => :odms_exception_exceptables
+
 	after_create :post_processing
 
 	def post_processing
 		if masterid.blank?
-			OdmsException.create(:notes => "masterid blank for birth datum id:#{attributes['id']}:")
+#			OdmsException.create(:notes => "masterid blank for birth datum id:#{attributes['id']}:")
+			odms_exceptions.create(:notes => "masterid blank")
 		else
 			subject = StudySubject.where(:icf_master_id => masterid).first
 			if subject.nil?
-				OdmsException.create(:notes => "No subject found with masterid :#{masterid}: for birth datum id:#{attributes['id']}:")
+#				OdmsException.create(:notes => "No subject found with masterid :#{masterid}: for birth datum id:#{attributes['id']}:")
+				odms_exceptions.create(:notes => "No subject found with masterid :#{masterid}:")
 			elsif !subject.is_case?
-				OdmsException.create(:notes => "Subject found with masterid :#{masterid}: for birth datum id:#{attributes['id']}: is not a case subject.")
+#				OdmsException.create(:notes => "Subject found with masterid :#{masterid}: for birth datum id:#{attributes['id']}: is not a case subject.")
+				odms_exceptions.create(:notes => "Subject found with masterid :#{masterid}: is not a case subject.")
 			else
 				if case_control_flag == 'control'
 					control_options = { :related_patid => subject.patid }
@@ -40,7 +46,8 @@ class BirthDatum < ActiveRecord::Base
 					control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
 
 					self.create_candidate_control( control_options )
-					OdmsException.create(:notes => "Candidate control for birth datum id:#{attributes['id']}: was pre-rejected because #{reasons.join(',')}.") unless reasons.empty?
+#					OdmsException.create(:notes => "Candidate control for birth datum id:#{attributes['id']}: was pre-rejected because #{reasons.join(',')}.") unless reasons.empty?
+					odms_exceptions.create(:notes => "Candidate control was pre-rejected because #{reasons.join(',')}.") unless reasons.empty?
 				elsif case_control_flag == 'case'
 
 
@@ -77,7 +84,8 @@ class BirthDatum < ActiveRecord::Base
 #		mother_first_name mother_middle_name mother_maiden_name
 
 				else
-					OdmsException.create(:notes => "Unknown case_control_flag for birth datum id:#{attributes['id']}:")
+#					OdmsException.create(:notes => "Unknown case_control_flag for birth datum id:#{attributes['id']}:")
+					odms_exceptions.create(:notes => "Unknown case_control_flag")
 				end
 			end
 		end

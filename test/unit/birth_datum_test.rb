@@ -115,8 +115,10 @@ pending	#	TODO should update case attributes, but which ones?
 		assert_difference('OdmsException.count',1) {
 			birth_datum = Factory(:case_birth_datum)
 			assert_nil birth_datum.masterid
-			assert_match /masterid blank for birth datum id:\d+:/,
-				OdmsException.last.notes
+#			assert_match /masterid blank for birth datum id:\d+:/,
+#				OdmsException.last.notes
+			assert_match /masterid blank/,
+				birth_datum.odms_exceptions.last.notes
 		} }
 	end
 
@@ -126,8 +128,10 @@ pending	#	TODO should update case attributes, but which ones?
 		assert_difference('OdmsException.count',1) {
 			birth_datum = Factory(:case_birth_datum,:masterid => 'IAMUNUSED')
 			assert_equal birth_datum.masterid, 'IAMUNUSED'
-			assert_match /No subject found with masterid :\w+: for birth datum id:\d+:/,
-				OdmsException.last.notes
+#			assert_match /No subject found with masterid :\w+: for birth datum id:\d+:/,
+#				OdmsException.last.notes
+			assert_match /No subject found with masterid :\w+:/,
+				birth_datum.odms_exceptions.last.notes
 		} }
 	end
 
@@ -153,8 +157,10 @@ pending	#	TODO
 			study_subject = create_control_study_subject_with_icf_master_id
 			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
-			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
-				OdmsException.last.notes
+#			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
+#				OdmsException.last.notes
+			assert_match /Subject found with masterid :\w+: is not a case subject/,
+				birth_datum.odms_exceptions.last.notes
 		} }
 	end
 
@@ -165,8 +171,10 @@ pending	#	TODO
 			study_subject = create_mother_study_subject_with_icf_master_id
 			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
-			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
-				OdmsException.last.notes
+#			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
+#				OdmsException.last.notes
+			assert_match /Subject found with masterid :\w+: is not a case subject/,
+				birth_datum.odms_exceptions.last.notes
 		} }
 	end
 
@@ -176,8 +184,10 @@ pending	#	TODO
 		assert_difference('OdmsException.count',1) {
 			birth_datum = Factory(:control_birth_datum)
 			assert_nil birth_datum.masterid
-			assert_match /masterid blank for birth datum id:\d+:/,
-				OdmsException.last.notes
+#			assert_match /masterid blank for birth datum id:\d+:/,
+#				OdmsException.last.notes
+			assert_match /masterid blank/,
+				birth_datum.odms_exceptions.last.notes
 		} }
 	end
 
@@ -187,8 +197,10 @@ pending	#	TODO
 		assert_difference('OdmsException.count',1) {
 			birth_datum = Factory(:control_birth_datum,:masterid => 'IAMUNUSED')
 			assert_equal birth_datum.masterid, 'IAMUNUSED'
-			assert_match /No subject found with masterid :\w+: for birth datum id:\d+:/,
-				OdmsException.last.notes
+#			assert_match /No subject found with masterid :\w+: for birth datum id:\d+:/,
+#				OdmsException.last.notes
+			assert_match /No subject found with masterid :\w+:/,
+				birth_datum.odms_exceptions.last.notes
 		} }
 	end
 
@@ -214,8 +226,10 @@ pending	#	TODO
 			study_subject = create_control_study_subject_with_icf_master_id
 			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
-			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
-				OdmsException.last.notes
+#			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
+#				OdmsException.last.notes
+			assert_match /Subject found with masterid :\w+: is not a case subject/,
+				birth_datum.odms_exceptions.last.notes
 		} }
 	end
 
@@ -226,8 +240,10 @@ pending	#	TODO
 			study_subject = create_mother_study_subject_with_icf_master_id
 			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
-			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
-				OdmsException.last.notes
+#			assert_match /Subject found with masterid :\w+: for birth datum id:\d+: is not a case subject/,
+#				OdmsException.last.notes
+			assert_match /Subject found with masterid :\w+: is not a case subject/,
+				birth_datum.odms_exceptions.last.notes
 		} }
 	end
 
@@ -244,8 +260,10 @@ pending	#	TODO
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_not_nil birth_datum.candidate_control
 			assert birth_datum.candidate_control.reject_candidate
-			assert_match /Candidate control for birth datum id:\d+: was pre-rejected because Birth datum sex is blank/,
-				OdmsException.last.notes
+#			assert_match /Candidate control for birth datum id:\d+: was pre-rejected because Birth datum sex is blank/,
+#				OdmsException.last.notes
+			assert_match /Candidate control was pre-rejected because Birth datum sex is blank/,
+				birth_datum.odms_exceptions.last.notes
 		} } }
 	end
 
@@ -260,8 +278,10 @@ pending	#	TODO
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_not_nil birth_datum.candidate_control
 			assert birth_datum.candidate_control.reject_candidate
-			assert_match /Candidate control for birth datum id:\d+: was pre-rejected because Birth datum dob is blank/,
-				OdmsException.last.notes
+#			assert_match /Candidate control for birth datum id:\d+: was pre-rejected because Birth datum dob is blank/,
+#				OdmsException.last.notes
+			assert_match /Candidate control was pre-rejected because Birth datum dob is blank/,
+				birth_datum.odms_exceptions.last.notes
 		} } }
 	end
 
