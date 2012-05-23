@@ -242,11 +242,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
 		end
 
-
-
-
-
-		test "should FAIL put update with #{cu} login and accept candidate" <<
+		test "should NOT put update with #{cu} login and accept candidate" <<
 				" when missing dob" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
@@ -257,28 +253,30 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert         candidate.reject_candidate	#	pre-rejected
 			assert_not_nil candidate.rejection_reason	#	pre-rejected
 			candidate.update_attributes( :updated_at => Date.yesterday)
-pending	#	TODO fix this?
-#	@candidate.create_study_subjects will fail
-#	study subject will be invalid
-#			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-#			assert_difference('StudySubject.count',2) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',0) {
+			assert_difference('OdmsException.count',1) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }
-			} }
+			} } }
+
+			#	MUST use the assigns(:candidate) to check for errors
+			assert assigns(:candidate).errors.include?(:base)
+#You should probably reject this candidate. Study Subject invalid. Date of birth can't be blank
+
 			candidate.reload
-#			assert        !candidate.reject_candidate	#	no change
-#			assert_nil     candidate.rejection_reason	#	no change
+			assert_match /Date of birth can't be blank/,
+				candidate.odms_exceptions.first.notes
 			assert         candidate.reject_candidate	#	pre-rejected
 			assert_not_nil candidate.rejection_reason	#	pre-rejected
-#			assert_not_nil candidate.assigned_on
-#			assert_not_nil candidate.study_subject
-#			assert_not_nil candidate.study_subject.mother
-#			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
+			assert_nil     candidate.assigned_on
+			assert_nil     candidate.study_subject
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
 		end
 
-		test "should FAIL put update with #{cu} login and accept candidate" <<
+		test "should NOT put update with #{cu} login and accept candidate" <<
 				" when missing sex" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
@@ -289,27 +287,28 @@ pending	#	TODO fix this?
 			assert         candidate.reject_candidate	#	pre-rejected
 			assert_not_nil candidate.rejection_reason	#	pre-rejected
 			candidate.update_attributes( :updated_at => Date.yesterday)
-pending	#	TODO fix this?
-#	@candidate.create_study_subjects will fail
-#	study subject will be invalid
-#			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
-#			assert_difference('StudySubject.count',2) {
+			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
+			assert_difference('StudySubject.count',0) {
+			assert_difference('OdmsException.count',1) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }
-#			} }
+			} } }
+
+			#	MUST use the assigns(:candidate) to check for errors
+			assert assigns(:candidate).errors.include?(:base)
+#	You should probably reject this candidate. Study Subject invalid. Sex has not been chosen
+
 			candidate.reload
-#			assert        !candidate.reject_candidate	#	no change
-#			assert_nil     candidate.rejection_reason	#	no change
+			assert_match /Sex has not been chosen/,
+				candidate.odms_exceptions.first.notes
 			assert         candidate.reject_candidate	#	pre-rejected
 			assert_not_nil candidate.rejection_reason	#	pre-rejected
-#			assert_not_nil candidate.assigned_on
-#			assert_not_nil candidate.study_subject
-#			assert_not_nil candidate.study_subject.mother
-#			assert_redirected_to study_subject_related_subjects_path(case_study_subject.id)
+			assert_nil     candidate.assigned_on
+			assert_nil     candidate.study_subject
+			assert_response :success
+			assert_template 'edit'
+			assert_not_nil flash[:error]
 		end
-
-
-
 
 
 ######################################################################

@@ -84,32 +84,58 @@ class CandidateControlTest < ActiveSupport::TestCase
 	#	BEGIN: MANY subject creation tests
 	#
 
-	test "should FAIL create study_subjects from attributes missing sex" do
+	test "should NOT create study_subjects from attributes if invalid" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum
+		candidate_control = birth_datum.candidate_control
+		StudySubject.any_instance.stubs(:valid?).returns(false)
+		assert_difference('OdmsException.count',1) {
+		assert_difference('Enrollment.count',0) {
+		assert_difference('StudySubject.count',0) {
+		assert_raises(ActiveRecord::RecordNotSaved){
+			candidate_control.create_study_subjects(case_study_subject)
+		} } } }
+		candidate_control.reload
+		assert_nil candidate_control.assigned_on
+		assert_nil candidate_control.study_subject_id
+		assert_equal 1, candidate_control.odms_exceptions.length
+		#	 as I just stubbed it, the error messages are blank
+		assert candidate_control.odms_exceptions.first.notes.blank?
+	end
+
+	test "should NOT create study_subjects from attributes missing sex" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
 			:sex => nil )
 		candidate_control = birth_datum.candidate_control
-pending # TODO fix this somehow?
-#	study subject will be invalid
-		assert_raises(ActiveRecord::RecordInvalid) {
-			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		}
-#		candidate_control.reload	# ensure that it is saved in the db!
-#		assert_not_nil candidate_control.assigned_on
-#		assert_not_nil candidate_control.study_subject_id
+		assert_difference('OdmsException.count',1) {
+		assert_difference('Enrollment.count',0) {
+		assert_difference('StudySubject.count',0) {
+		assert_raises(ActiveRecord::RecordNotSaved){
+			candidate_control.create_study_subjects(case_study_subject)
+		} } } }
+		candidate_control.reload	# ensure that it is saved in the db!
+		assert_nil candidate_control.assigned_on
+		assert_nil candidate_control.study_subject_id
+		assert_equal 1, candidate_control.odms_exceptions.length
+		assert_match /Sex has not been chosen/,
+			candidate_control.odms_exceptions.first.notes
 	end
 
-	test "should FAIL create study_subjects from attributes missing dob" do
+	test "should NOT create study_subjects from attributes missing dob" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
 			:dob => nil )
 		candidate_control = birth_datum.candidate_control
-pending	#	TODO fix this somehow?
-#	study subject will be invalid
-		assert_raises(ActiveRecord::RecordInvalid) {
-			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		}
-#		candidate_control.reload	# ensure that it is saved in the db!
-#		assert_not_nil candidate_control.assigned_on
-#		assert_not_nil candidate_control.study_subject_id
+		assert_difference('OdmsException.count',1) {
+		assert_difference('Enrollment.count',0) {
+		assert_difference('StudySubject.count',0) {
+		assert_raises(ActiveRecord::RecordNotSaved){
+			candidate_control.create_study_subjects(case_study_subject)
+		} } } }
+		candidate_control.reload	# ensure that it is saved in the db!
+		assert_nil candidate_control.assigned_on
+		assert_nil candidate_control.study_subject_id
+		assert_equal 1, candidate_control.odms_exceptions.length
+		assert_match /Date of birth can't be blank/,
+			candidate_control.odms_exceptions.first.notes
 	end
 
 	test "should create study_subjects from attributes missing first_name" do
@@ -665,7 +691,7 @@ pending	#	TODO fix this somehow?
 		} } }
 	end
 
-	test "should rollback if create_study_subject raises error" do
+	test "should rollback if create_study_subjects raises error" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		StudySubject.any_instance.stubs(:create_or_update).returns(false)

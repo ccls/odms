@@ -14,7 +14,7 @@ class CandidateControlsController < ApplicationController
 		#	by presetting them, we keep them should we bounce back to edit
 		@candidate.reject_candidate = params[:candidate_control][:reject_candidate]
 		@candidate.rejection_reason = params[:candidate_control][:rejection_reason]
-		CandidateControl.transaction do
+#		CandidateControl.transaction do
 			unless @candidate.reject_candidate
 				#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
 				#	this form's submit button is 'continue' NOT 'Submit'
@@ -44,6 +44,7 @@ class CandidateControlsController < ApplicationController
 						else	#	is a control
 							@candidate.rejection_reason << "control already exists in system."
 						end
+@candidate.save!
 					else
 						#
 						#	Match Found, but no duplicate_id or subject with the id
@@ -67,10 +68,18 @@ class CandidateControlsController < ApplicationController
 					end
 					flash[:warn] = warn.join('<br/>') unless warn.empty?
 				end	#	else of if params[:commit] == 'Match Found'
-			end	#	if params[:candidate_control][:reject_candidate] == 'false'
 
-			@candidate.save!
-		end	#	CandidateControl.transaction do
+else
+@candidate.save!
+			end	#	unless @candidate.reject_candidate
+
+
+#		CandidateControl.transaction do
+#	is this save REALLY needed.  Yes. If rejected.
+#	otherwise, not really, as create_study_subjects calls save!
+#	duplicate needs as well
+#			@candidate.save!
+#		end	#	CandidateControl.transaction do
 		redirect_to study_subject_related_subjects_path(@study_subject)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Candidate control update failed."

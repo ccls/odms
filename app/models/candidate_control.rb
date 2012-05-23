@@ -5,6 +5,9 @@ class CandidateControl < ActiveRecord::Base
 	belongs_to :birth_datum
 	attr_protected :birth_datum_id, :birth_datum
 
+	has_many :odms_exception_exceptables, :as => :exceptable
+	has_many :odms_exceptions, :through => :odms_exception_exceptables
+
 	validates_inclusion_of :reject_candidate, :in => [true, false]
 	validates_presence_of  :rejection_reason, :if => :reject_candidate
 	validates_length_of    :related_patid, :is => 4, :allow_blank => true
@@ -46,6 +49,9 @@ class CandidateControl < ActiveRecord::Base
 	def create_study_subjects(case_subject,grouping = '6')
 		next_orderno = case_subject.next_control_orderno(grouping)
 
+		options_for_odms_exceptions = []
+
+#		begin
 		CandidateControl.transaction do
 
 			#	Use a block so can assign all attributes without concern for attr_protected
@@ -88,7 +94,37 @@ class CandidateControl < ActiveRecord::Base
 #
 				s.is_matched         = true
 			end
-			child.save!
+
+
+#			child.save!
+#				OR
+			child.save
+			if child.new_record?
+#				#	child didn't save
+#				#	make candidate_control 'exceptable'???
+#				#	set some variable so can do ... after transaction
+#				#odms_exceptions.create( ..... 
+#	this shouldn't happen as the record should've been flagged
+#	so I'm not putting a lot of effort in here.
+#	However, if it does happen in the controller should add some errors
+#		that will end up in the view
+#
+				errors.add(:base, 
+					"You should probably reject this candidate. Study Subject invalid. " <<
+						child.errors.full_messages.to_sentence )
+
+				options_for_odms_exceptions.push({
+					:notes => child.errors.full_messages.to_sentence })
+#	raising Rollback will end transaction but won't be passed on 
+				raise ActiveRecord::Rollback
+#	raising ActiveRecord::RecordNotSaved gets passed to controller
+#	unless I rescue from it below!
+#	if I raise this, then the odms exceptions won't get created
+#	so rescue, create exceptions, then re-raise
+#puts "about to raise record not saved"
+#				raise ActiveRecord::RecordNotSaved
+			end
+
 			child.assign_icf_master_id
 
 
@@ -126,6 +162,15 @@ class CandidateControl < ActiveRecord::Base
 
 
 		end
+#	rescue Exception => e
+#	rescue => e
+#puts "just rescued from #{e}"
+		options_for_odms_exceptions.each do |options_for_odms_exception|
+			oe = odms_exceptions.create(options_for_odms_exception)
+		end
+#		ensure
+#		raise e if e
+		raise ActiveRecord::RecordNotSaved unless options_for_odms_exceptions.empty?
 		self
 	end
 

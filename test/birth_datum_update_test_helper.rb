@@ -81,8 +81,14 @@ module BirthDatumUpdateTestHelper
 			f.puts csv_file_control(options) }
 	end
 
+	#	just enough for no exceptions
+	#	this could be Factory(:at
 	def unknown_subject_hash
-		{	:masterid => '12345FAKE' }
+#		{	:masterid => '12345FAKE',
+#			:sex => 'M',
+#			:dob => 'Dec 5, 1971' }
+		Factory.attributes_for(:birth_datum,
+			:masterid => '12345FAKE' )
 	end
 
 	def case_subject_hash

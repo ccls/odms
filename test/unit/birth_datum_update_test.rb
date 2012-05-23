@@ -16,11 +16,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	#
 	teardown :delete_all_possible_birth_datum_update_attachments
 
-#
-#	TODO add some tests for odms_exceptions association
-#		both explicit tests and those that are commented out.
-#
-
 	test "explicit Factory birth_datum_update test" do
 		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
 		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
@@ -117,10 +112,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 				'test/assets/bad_header_test_file.csv', 'text/csv') )
 		assert !birth_datum_update.valid?
 		assert  birth_datum_update.errors.include?(:csv_file)
-#		assert  birth_datum_update.errors.matching?(:csv_file,
-#			'Invalid column names in csv_file')
-#"Invalid column name '#{column_name}' in csv_file."
-#	the string is converted to a Regexp so .* works nicely
 		assert  birth_datum_update.errors.matching?(:csv_file,
 			'Invalid column name .* in csv_file')
 	end
@@ -136,9 +127,9 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		create_case_for_birth_datum_update
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',2) {
-#
-#	As expected.  Case exists and file contains a control
-#
+			#
+			#	As expected.  Case exists and file contains a control
+			#
 			create_test_file_and_birth_datum_update
 		} }
 		cleanup_birth_datum_update_and_test_file
@@ -147,23 +138,27 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	test "should convert attached csv_file but no candidate controls with missing case" do
 		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',2) {
-#
-#	Shouldn't happen, but matching case DOES NOT EXIST and get a control
-#	Should do something special here, like create an OdmsException
-#
+		assert_difference('OdmsException.count',2) {
+			#
+			#	Shouldn't happen, but matching case DOES NOT EXIST and get a control
+			#	Should do something special here, like create an OdmsException
+			#
 			birth_datum_update = create_test_file_and_birth_datum_update
-#			results = birth_datum_update.to_candidate_controls
-#			assert_equal results,
-#				["Could not find study_subject with masterid 1234FAKE",
-#				"Could not find study_subject with masterid 1234FAKE"]
-		} }
+			assert_equal 2, birth_datum_update.birth_data.length
+			birth_datum_update.birth_data.each do |birth_datum|
+				assert_match /No subject found with masterid :\w+:/,
+					birth_datum.odms_exceptions.first.notes
+			end
+		} } }
 		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should copy attributes when csv_file converted to candidate control" do
 		study_subject = create_case_for_birth_datum_update
-		birth_datum_update = create_test_file_and_birth_datum_update
-#		assert_difference('CandidateControl.count',1) {
+		assert_difference('CandidateControl.count',1) {
+		assert_difference('BirthDatum.count',2) {
+		assert_difference('OdmsException.count',0) {
+			birth_datum_update = create_test_file_and_birth_datum_update
 #			results = birth_datum_update.to_candidate_controls
 #			assert_equal 2,  results.length
 #			candidate_control = results.last
@@ -190,13 +185,13 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 ##control[:father_hispanicity_mex]},#{
 #			assert_equal candidate_control.father_race_id, control[:father_race]
 ##control[:other_father_race]}} }
-#		}
+		} } }
 		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		unless File.exists?('test-livebirthdata_011912.csv')
+		unless File.exists?('test-livebirthdata_011912.csv')	#	no longer valid file
 			puts
 			puts "-- Real data test file does not exist. Skipping."
 			return 
@@ -249,13 +244,11 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_case_study_subject }
+		assert_difference('OdmsException.count',0){
 		assert_difference('CandidateControl.count',0){
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
-#			results = birth_datum_update.to_candidate_controls
-#			assert results[0].is_a?(StudySubject)
-#			assert_equal results[0], study_subject
-		} }
+		} } }
 		cleanup_birth_datum_update_and_test_file
 	end
 
@@ -264,27 +257,29 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_control }
+		assert_difference('OdmsException.count',0){
 		assert_difference('CandidateControl.count',1){
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
-#			results = birth_datum_update.to_candidate_controls
-#			assert results[0].is_a?(CandidateControl)
-		} }
+		} } }
 		cleanup_birth_datum_update_and_test_file
 	end
 
-	test "should return a String in results for unknown ca_co_status" do
+	test "should return a String in results for unknown case_control_flag" do
 		study_subject = create_case_for_birth_datum_update
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_unknown }
+		assert_difference('OdmsException.count',1){
 		assert_difference('CandidateControl.count',0){
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
-#			results = birth_datum_update.to_candidate_controls
-#			assert results[0].is_a?(String)
-#			assert_equal results[0], "Unexpected ca_co_status :unknown:"
-		} }
+			assert_equal 1, birth_datum_update.birth_data.length
+			birth_datum_update.birth_data.each do |birth_datum|
+				assert_match /Unknown case_control_flag/,
+					birth_datum.odms_exceptions.first.notes
+			end
+		} } }
 		cleanup_birth_datum_update_and_test_file
 	end
 

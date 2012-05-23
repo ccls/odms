@@ -441,7 +441,10 @@ Factory.define :odms_exception_exceptable do |f|
 #	This is polymorphic, and birth datum is just one example
 #	of a exceptable.  Could be any model though. (if coded)
 #
-	f.association :exceptable, :factory => :birth_datum
+#	the creation of a birth_datum_update shouldn't
+#		create another odms_exception_exceptable.
+#		(a birth_datum will unless prepared)
+	f.association :exceptable, :factory => :birth_datum_update
 end
 
 
