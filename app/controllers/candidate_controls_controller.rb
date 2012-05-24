@@ -19,21 +19,12 @@ class CandidateControlsController < ApplicationController
 				#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
 				#	this form's submit button is 'continue' NOT 'Submit'
 				if params[:commit].blank? or params[:commit] == 'continue'
-					@duplicates = StudySubject.duplicates(
-						:sex => @candidate.sex,
-						:dob => @candidate.dob,
-						:mother_maiden_name => @candidate.mother_maiden_name,
-						:exclude_id => @study_subject.id)
+					@duplicates = study_subject_duplicates
 					raise StudySubject::DuplicatesFound unless @duplicates.empty?
 				end	#	if params[:commit].blank? or params[:commit] == 'Submit'
 
 				if params[:commit] == 'Match Found'
-					@duplicates = StudySubject.duplicates(
-						:sex => @candidate.sex,
-						:dob => @candidate.dob,
-						:mother_maiden_name => @candidate.mother_maiden_name,
-						:exclude_id => @study_subject.id)
-
+					@duplicates = study_subject_duplicates
 					if params[:duplicate_id] and
 							( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
 							@duplicates.include?(duplicate)
@@ -44,7 +35,6 @@ class CandidateControlsController < ApplicationController
 						else	#	is a control
 							@candidate.rejection_reason << "control already exists in system."
 						end
-@candidate.save!
 					else
 						#
 						#	Match Found, but no duplicate_id or subject with the id
@@ -52,6 +42,7 @@ class CandidateControlsController < ApplicationController
 						warn << "No valid duplicate_id given"
 						raise StudySubject::DuplicatesFound unless @duplicates.empty?
 					end
+#@candidate.save!
 
 				#	params[:commit].blank? or params[:commit] == 'Submit' 
 				#		or params[:commit] == 'No Match'
@@ -69,16 +60,16 @@ class CandidateControlsController < ApplicationController
 					flash[:warn] = warn.join('<br/>') unless warn.empty?
 				end	#	else of if params[:commit] == 'Match Found'
 
-else
-@candidate.save!
+#else	#	unless @candidate.reject_candidate
+#@candidate.save!
 			end	#	unless @candidate.reject_candidate
 
-
+#	a transaction just doesn't seem needed anymore
 #		CandidateControl.transaction do
 #	is this save REALLY needed.  Yes. If rejected.
 #	otherwise, not really, as create_study_subjects calls save!
 #	duplicate needs as well
-#			@candidate.save!
+			@candidate.save!
 #		end	#	CandidateControl.transaction do
 		redirect_to study_subject_related_subjects_path(@study_subject)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
@@ -140,6 +131,14 @@ protected
 			reasons << "Sex does not match."
 		end
 		@candidate.rejection_reason = reasons.join("\n") unless reasons.empty?
+	end
+
+	def study_subject_duplicates
+		StudySubject.duplicates(
+			:sex => @candidate.sex,
+			:dob => @candidate.dob,
+			:mother_maiden_name => @candidate.mother_maiden_name,
+			:exclude_id => @study_subject.id)
 	end
 
 end
