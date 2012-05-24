@@ -45,19 +45,7 @@ class BirthDatumUpdate < ActiveRecord::Base
 		end
 	end
 
-
-#
-#	to_candidate_controls is being deprecated in favor of parse.
-#
-#	most of the column names have changed
-#
-#	the icf_master_tracker uses a unique icf_master_id.
-#	the birth data doesn't have the icf_master_id so
-#		which column is the unique defining column?
-#		state_id_no or something
-#
 	def parse_csv_file
-#		results = []
 		unless self.csv_file_file_name.blank?
 			csv_file_path = self.csv_file.to_file.path
 #			csv_file_path = if File.exists?(self.csv_file.to_file.path)
@@ -74,22 +62,10 @@ class BirthDatumUpdate < ActiveRecord::Base
 #				nil
 #			end
 			unless csv_file_path.nil?
-				csv_line_count = 0
-
-#	TODO remember line count
-#		may have to do this loop a little differently
-#			so am not setting every time
-#			explicitly open
-#			get line count
-#			loop
-#			explicitly close
-#		not sure what method returns the number of lines
-#			f.line_count
-
-
+				line_count = 0
 				(f=FasterCSV.open( csv_file_path, 'rb',{
 						:headers => true })).each do |line|
-
+					line_count += 1
 
 					birth_datum_attributes = line.dup.to_hash
 #	remove invalid attributes, if there are any
@@ -100,32 +76,35 @@ class BirthDatumUpdate < ActiveRecord::Base
 					birth_datum_attributes.delete('ignore2')
 					birth_datum_attributes.delete('ignore3')
 
-
-
 					birth_datum = self.birth_data.create( birth_datum_attributes )
-#	TODO if birth_datum.new_record? (means fail) 
-#			add an OdmsException
+					if birth_datum.new_record?
+						odms_exceptions.create({
+							:name        => "birth_data append",
+							:description => "Record failed to save"
+#
+#	TODO which record?  include the actual line?  and the line number?
+#
+						})
 #1.Any records that fail to append will be noted in the odms_exceptions table with an exception-specific error message (to be defined at the judgment of the programmer) as follows:
-#a.name: “birth_data append” 
 #b.description:  programmer-specified error (to include master_id or errant record) or “Error importing record into birth_data table.  Exception record master_id = xxxxxxxxx.”  or “Error importing record into birth_data table.  Exception record master_id not provided.”
 #c.occurred_at: timestamp
-
-#					results.push(birth_data)
+					end	#	if birth_datum.new_record?
 				end	#	(f=FasterCSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
 
-
-#	TODO if line count != self.birth_datum.count (or length)
-#			add an OdmsException
-#1.When the appends are complete, if the count of records added to birth_data does not match the count of records in the uploaded birth_data table a record will be added as follows:
-#a.name: “birth_data append” 
-#b.description: “Birth data upload validation failed:  incorrect number of birth data records appended to birth_data.”
-#c.occurred_at: timestamp
-
-
+				if line_count != birth_data_count
+					odms_exceptions.create({
+						:name        => "birth_data append",
+						:description => "Birth data upload validation failed: incorrect number of birth data records appended to birth_data."
+					})
+				end	#	if line_count != birth_data_count
 			end	#	unless csv_file_path.nil?
-		end	#	if !self.csv_file_file_name.blank? && File.exists?(self.csv_file.path)
-#		results	#	TODO why am I returning anything?  will I use this later?
+		end	#	unless self.csv_file_file_name.blank?
 	end	#	def parse_csv_file
+
+	#	separated purely to allow stubbing in testing
+	def birth_data_count
+		birth_data.count
+	end
 
 
 

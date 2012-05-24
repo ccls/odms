@@ -13,13 +13,13 @@ class BirthDatum < ActiveRecord::Base
 
 	def post_processing
 		if masterid.blank?
-			odms_exceptions.create(:notes => "masterid blank")
+			odms_exceptions.create(:description => "masterid blank")
 		else
 			subject = StudySubject.where(:icf_master_id => masterid).first
 			if subject.nil?
-				odms_exceptions.create(:notes => "No subject found with masterid :#{masterid}:")
+				odms_exceptions.create(:description => "No subject found with masterid :#{masterid}:")
 			elsif !subject.is_case?
-				odms_exceptions.create(:notes => "Subject found with masterid :#{masterid}: is not a case subject.")
+				odms_exceptions.create(:description => "Subject found with masterid :#{masterid}: is not a case subject.")
 			else
 				if case_control_flag == 'control'
 					control_options = { :related_patid => subject.patid }
@@ -35,7 +35,7 @@ class BirthDatum < ActiveRecord::Base
 					control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
 
 					self.create_candidate_control( control_options )
-					odms_exceptions.create(:notes => "Candidate control was pre-rejected because #{reasons.join(',')}.") unless reasons.empty?
+					odms_exceptions.create(:description => "Candidate control was pre-rejected because #{reasons.join(',')}.") unless reasons.empty?
 				elsif case_control_flag == 'case'
 
 					if match_confidence.match(/definite/i)
@@ -85,7 +85,7 @@ class BirthDatum < ActiveRecord::Base
 					end
 
 				else
-					odms_exceptions.create(:notes => "Unknown case_control_flag")
+					odms_exceptions.create(:description => "Unknown case_control_flag")
 				end
 			end
 		end

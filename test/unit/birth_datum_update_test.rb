@@ -147,7 +147,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			assert_equal 2, birth_datum_update.birth_data.length
 			birth_datum_update.birth_data.each do |birth_datum|
 				assert_match /No subject found with masterid :\w+:/,
-					birth_datum.odms_exceptions.first.notes
+					birth_datum.odms_exceptions.first.to_s
 			end
 		} } }
 		cleanup_birth_datum_update_and_test_file
@@ -159,32 +159,26 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		assert_difference('BirthDatum.count',2) {
 		assert_difference('OdmsException.count',0) {
 			birth_datum_update = create_test_file_and_birth_datum_update
-#			results = birth_datum_update.to_candidate_controls
-#			assert_equal 2,  results.length
-#			candidate_control = results.last
-#			assert_equal candidate_control.related_patid, study_subject.patid
-#			assert_equal candidate_control.mom_is_biomom, control[:biomom]
-#			assert_equal candidate_control.dad_is_biodad, control[:biodad]
-##control[:date]},#{
-#			assert_equal candidate_control.mother_full_name, control[:mother_full_name]
-#			assert_equal candidate_control.mother_maiden_name, control[:mother_maiden_name]
-##control[:father_full_name]},#{
-#			assert_equal candidate_control.full_name, control[:child_full_name]
-#			assert_equal candidate_control.dob, 
-#				Date.new(control[:child_doby], control[:child_dobm], control[:child_dobd])
-##				Date.new(control[:child_doby].to_i, control[:child_dobm].to_i, control[:child_dobd].to_i)
-#			assert_equal candidate_control.sex, control[:child_gender]
-##control[:birthplace_country]},#{
-##control[:birthplace_state]},#{
-##control[:birthplace_city]},#{
-#			assert_equal candidate_control.mother_hispanicity_id, control[:mother_hispanicity]
-##control[:mother_hispanicity_mex]},#{
-#			assert_equal candidate_control.mother_race_id, control[:mother_race]
-##control[:other_mother_race]},#{
-#			assert_equal candidate_control.father_hispanicity_id, control[:father_hispanicity]
-##control[:father_hispanicity_mex]},#{
-#			assert_equal candidate_control.father_race_id, control[:father_race]
-##control[:other_father_race]}} }
+
+			f=FasterCSV.open( birth_datum_update.csv_file.path, 'rb',{
+					:headers => true })
+			line = f.readline	#	case
+			birth_datum = birth_datum_update.birth_data[0]
+			assert_equal birth_datum.masterid, '12345FAKE'
+			assert_equal birth_datum.case_control_flag, 'case'
+			assert_equal birth_datum.match_confidence, 'definite'
+			assert_equal birth_datum.sex, line['sex']
+			assert_equal birth_datum.dob, Date.parse(line['dob'])
+
+			line = f.readline	#	control
+			birth_datum = birth_datum_update.birth_data[1]
+			assert_equal birth_datum.masterid, '12345FAKE'
+			assert_equal birth_datum.case_control_flag, 'control'
+			assert       birth_datum.match_confidence.blank?
+			assert_equal birth_datum.sex, line['sex']
+			assert_equal birth_datum.dob, Date.parse(line['dob'])
+
+			f.close
 		} } }
 		cleanup_birth_datum_update_and_test_file
 	end
@@ -196,6 +190,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			puts "-- Real data test file does not exist. Skipping."
 			return 
 		end
+pending	#	TODO try this with a real file
 
 #		#	minimal semi-real case creation
 #		s0 = Factory(:case_study_subject,:sex => 'F',
@@ -277,26 +272,47 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			assert_equal 1, birth_datum_update.birth_data.length
 			birth_datum_update.birth_data.each do |birth_datum|
 				assert_match /Unknown case_control_flag/,
-					birth_datum.odms_exceptions.first.notes
+					birth_datum.odms_exceptions.first.to_s
 			end
 		} } }
 		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should create odms exception if birth datum creation fails" do
-pending	#	TODO
-#1.Any records that fail to append will be noted in the odms_exceptions table with an exception-specific error message (to be defined at the judgment of the programmer) as follows:
-#a.name: “birth_data append” 
-#b.description:  programmer-specified error (to include master_id or errant record) or “Error importing record into birth_data table.  Exception record master_id = xxxxxxxxx.”  or “Error importing record into birth_data table.  Exception record master_id not provided.”
-#c.occurred_at: timestamp
+		study_subject = create_case_for_birth_datum_update
+		assert_difference('OdmsException.count',2) {
+		assert_difference('CandidateControl.count',0) {
+		assert_difference('BirthDatum.count',0) {
+		assert_difference('BirthDatumUpdate.count',1) {
+			BirthDatum.any_instance.stubs(:create_or_update).returns(false)
+			birth_datum_update = Factory(:one_record_birth_datum_update)
+			assert_match /Record failed to save/,
+				birth_datum_update.odms_exceptions.first.to_s
+			assert_match /birth_data append/,
+				birth_datum_update.odms_exceptions.last.name
+		} } } }
 	end
-
+#
+#	These two will seemingly not really happen, but if they do,
+#	I would expect them both to always happen together, logically.
+#	Kinda redundant. If one record fails to save, then the count
+#	should be wrong as well.
+#
 	test "should create odms exception if birth datum count incorrect" do
-pending	#	TODO
-#1.When the appends are complete, if the count of records added to birth_data does not match the count of records in the uploaded birth_data table a record will be added as follows:
-#a.name: “birth_data append” 
-#b.description: “Birth data upload validation failed:  incorrect number of birth data records appended to birth_data.”
-#c.occurred_at: timestamp
+		study_subject = create_case_for_birth_datum_update
+#		assert_difference('OdmsException.count',2) {
+#	I haven't stopped the creation, just stubbed the count
+		assert_difference('OdmsException.count',1) {
+		assert_difference('CandidateControl.count',1) {	#	after_create should add this
+		assert_difference('BirthDatum.count',1) {	#	after_create should add this
+		assert_difference('BirthDatumUpdate.count',1) {
+			BirthDatumUpdate.any_instance.stubs(:birth_data_count).returns(0)
+			birth_datum_update = Factory(:one_record_birth_datum_update)
+			assert_match /Birth data upload validation failed: incorrect number of birth data records appended to birth_data/,
+				birth_datum_update.odms_exceptions.last.to_s
+			assert_match /birth_data append/,
+				birth_datum_update.odms_exceptions.last.name
+		} } } }
 	end
 
 protected

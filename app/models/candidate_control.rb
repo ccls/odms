@@ -114,7 +114,7 @@ class CandidateControl < ActiveRecord::Base
 						child.errors.full_messages.to_sentence )
 
 				options_for_odms_exceptions.push({
-					:notes => child.errors.full_messages.to_sentence })
+					:description => child.errors.full_messages.to_sentence })
 #	raising Rollback will end transaction but won't be passed on 
 				raise ActiveRecord::Rollback
 #	raising ActiveRecord::RecordNotSaved gets passed to controller

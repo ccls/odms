@@ -99,7 +99,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_nil candidate_control.study_subject_id
 		assert_equal 1, candidate_control.odms_exceptions.length
 		#	 as I just stubbed it, the error messages are blank
-		assert candidate_control.odms_exceptions.first.notes.blank?
+		assert candidate_control.odms_exceptions.first.to_s.blank?
 	end
 
 	test "should NOT create study_subjects from attributes missing sex" do
@@ -117,7 +117,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_nil candidate_control.study_subject_id
 		assert_equal 1, candidate_control.odms_exceptions.length
 		assert_match /Sex has not been chosen/,
-			candidate_control.odms_exceptions.first.notes
+			candidate_control.odms_exceptions.first.to_s
 	end
 
 	test "should NOT create study_subjects from attributes missing dob" do
@@ -135,7 +135,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_nil candidate_control.study_subject_id
 		assert_equal 1, candidate_control.odms_exceptions.length
 		assert_match /Date of birth can't be blank/,
-			candidate_control.odms_exceptions.first.notes
+			candidate_control.odms_exceptions.first.to_s
 	end
 
 	test "should create study_subjects from attributes missing first_name" do
@@ -159,10 +159,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_not_nil candidate_control.study_subject_id
 		assert_nil candidate_control.study_subject.last_name
 	end
-
-
-
-
 
 	test "should create study_subjects from attributes" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum

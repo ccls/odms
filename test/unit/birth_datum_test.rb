@@ -20,7 +20,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_nil     birth_datum.case_control_flag
 			assert_nil     birth_datum.match_confidence
 			assert_match /masterid blank/,
-				birth_datum.odms_exceptions.first.notes
+				birth_datum.odms_exceptions.first.to_s
 		} } }
 	end
 
@@ -33,7 +33,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_not_nil birth_datum.sex
 			assert_equal  'case', birth_datum.case_control_flag
 			assert_match /masterid blank/,
-				birth_datum.odms_exceptions.first.notes
+				birth_datum.odms_exceptions.first.to_s
 			assert_equal   'definite', birth_datum.match_confidence
 		} } }
 	end
@@ -47,7 +47,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_not_nil birth_datum.sex
 			assert_equal  'control', birth_datum.case_control_flag
 			assert_match /masterid blank/,
-				birth_datum.odms_exceptions.first.notes
+				birth_datum.odms_exceptions.first.to_s
 			assert_nil     birth_datum.match_confidence
 		} } }
 	end
@@ -61,7 +61,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_not_nil birth_datum.sex
 			assert_equal  'bogus', birth_datum.case_control_flag
 			assert_match /masterid blank/,
-				birth_datum.odms_exceptions.first.notes
+				birth_datum.odms_exceptions.first.to_s
 			assert_nil     birth_datum.match_confidence
 		} } }
 	end
@@ -114,7 +114,7 @@ pending	#	TODO should update case attributes, but which ones?
 			assert_not_nil birth_datum.sex
 			assert_equal  'bogus', birth_datum.case_control_flag
 			assert_match /Unknown case_control_flag/,
-				birth_datum.odms_exceptions.first.notes
+				birth_datum.odms_exceptions.first.to_s
 		} } }
 	end
 
@@ -125,7 +125,7 @@ pending	#	TODO should update case attributes, but which ones?
 			birth_datum = Factory(:case_birth_datum)
 			assert_nil birth_datum.masterid
 			assert_match /masterid blank/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
 
@@ -136,7 +136,7 @@ pending	#	TODO should update case attributes, but which ones?
 			birth_datum = Factory(:case_birth_datum,:masterid => 'IAMUNUSED')
 			assert_equal birth_datum.masterid, 'IAMUNUSED'
 			assert_match /No subject found with masterid :\w+:/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
 
@@ -190,7 +190,7 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_match /Subject found with masterid :\w+: is not a case subject/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
 
@@ -202,7 +202,7 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_match /Subject found with masterid :\w+: is not a case subject/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
 
@@ -213,7 +213,7 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			birth_datum = Factory(:control_birth_datum)
 			assert_nil birth_datum.masterid
 			assert_match /masterid blank/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
 
@@ -224,7 +224,7 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			birth_datum = Factory(:control_birth_datum,:masterid => 'IAMUNUSED')
 			assert_equal birth_datum.masterid, 'IAMUNUSED'
 			assert_match /No subject found with masterid :\w+:/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
 
@@ -251,7 +251,7 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_match /Subject found with masterid :\w+: is not a case subject/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
 
@@ -263,7 +263,7 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_match /Subject found with masterid :\w+: is not a case subject/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
 
@@ -279,7 +279,7 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			assert_not_nil birth_datum.candidate_control
 			assert birth_datum.candidate_control.reject_candidate
 			assert_match /Candidate control was pre-rejected because Birth datum sex is blank/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} } }
 	end
 
@@ -295,7 +295,7 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			assert_not_nil birth_datum.candidate_control
 			assert birth_datum.candidate_control.reject_candidate
 			assert_match /Candidate control was pre-rejected because Birth datum dob is blank/,
-				birth_datum.odms_exceptions.last.notes
+				birth_datum.odms_exceptions.last.to_s
 		} } }
 	end
 
