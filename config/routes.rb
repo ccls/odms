@@ -110,6 +110,7 @@ Odms::Application.routes.draw do
 	resources :interview_outcomes
 	resources :languages
 	resources :locales, :only => :show
+	resources :odms_exceptions, :except => [:new,:create]
 	resources :operational_event_types do
 		collection { get 'options' }
 	end
