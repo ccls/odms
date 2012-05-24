@@ -1,7 +1,12 @@
 = CCLS Operations and Data Management System
 
-
  #	Starting from scratch?
+ #	You will need 'git' installed.  If using a Mac, probably best
+ #	installed via MacPorts' 'port' command, which you may need
+ #	to install as well.
+ git clone git@github.com:ccls/odms.git
+
+ #	Or just give it a pull to update.
  git pull
 
  #	create a big hash (rake secret) and insert as your secret token
@@ -9,7 +14,6 @@
 
  #	define your databases
  cp config/database.yml.example config/database.yml
- rake db:create:all
 
  #	we no longer use mail, but you may have to copy
  #	in some mail credentials ...
@@ -17,6 +21,8 @@
 
 
  #	Assuming that ruby 1.8.7 is installed.
+ #	Of course, some version of rubygems will need to be installed
+ #	as well, otherwise there is no 'gem' command.
  #	Should probably update to the latest rubygems (1.8.21 as of 20120404)
  gem update --system
 
