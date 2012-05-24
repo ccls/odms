@@ -38,6 +38,7 @@ class BirthDatum < ActiveRecord::Base
 					odms_exceptions.create(:notes => "Candidate control was pre-rejected because #{reasons.join(',')}.") unless reasons.empty?
 				elsif case_control_flag == 'case'
 
+					if match_confidence.match(/definite/i)
 
 #a.for records with match_confidence = “definite”, processes case subjects and updates pertinent study_subjects fields as necessary,
 					#	assign study_subject_id to case's id
@@ -70,6 +71,12 @@ class BirthDatum < ActiveRecord::Base
 #	Add if missing.  Otherwise, confirm and create exception if no match.
 #		middle_name father_first_name father_first_name father_middle_name father_last_name 
 #		mother_first_name mother_middle_name mother_maiden_name
+
+					else
+
+						#	TODO I'm guessing, add an odms exception here
+
+					end
 
 				else
 					odms_exceptions.create(:notes => "Unknown case_control_flag")

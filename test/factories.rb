@@ -216,6 +216,7 @@ end
 Factory.define :case_birth_datum,
 	:parent => :birth_datum do |f|
 	f.case_control_flag 'case'
+	f.match_confidence 'definite'
 end
 Factory.define :control_birth_datum,
 	:parent => :birth_datum do |f|

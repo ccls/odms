@@ -18,6 +18,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_nil     birth_datum.case_control_flag
+			assert_nil     birth_datum.match_confidence
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.first.notes
 		} } }
@@ -33,6 +34,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_equal  'case', birth_datum.case_control_flag
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.first.notes
+			assert_equal   'definite', birth_datum.match_confidence
 		} } }
 	end
 
@@ -46,6 +48,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_equal  'control', birth_datum.case_control_flag
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.first.notes
+			assert_nil     birth_datum.match_confidence
 		} } }
 	end
 
@@ -59,6 +62,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_equal  'bogus', birth_datum.case_control_flag
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.first.notes
+			assert_nil     birth_datum.match_confidence
 		} } }
 	end
 
@@ -79,6 +83,7 @@ pending	#	TODO should update case attributes, but which ones?
 			assert_equal  'case', birth_datum.case_control_flag
 			assert_not_nil birth_datum.masterid
 			assert_equal   birth_datum.masterid, study_subject.icf_master_id
+			assert_equal   'definite', birth_datum.match_confidence
 		} } }
 	end
 
@@ -140,7 +145,7 @@ pending	#	TODO should update case attributes, but which ones?
 #	TODO and don't forget about match_confidence (only refers to cases if I read it right)
 
 	test "should update case subject if masterid is not blank and used by a case" <<
-			" for case birth datum" do
+			" for case birth datum and match_confidence is definite" do
 pending	#	TODO
 #
 #	should possibly update some fields for the subject
@@ -149,7 +154,26 @@ pending	#	TODO
 		assert_difference('BirthDatum.count',1) {
 		assert_difference('OdmsException.count',0) {
 			study_subject = create_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
+			birth_datum = Factory(:case_birth_datum,
+				:match_confidence => 'definite', 	#	default
+				:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+		} }
+	end
+
+	test "should NOT update case subject if masterid is not blank and used by a case" <<
+			" for case birth datum and match_confidence is NOT definite" do
+pending	#	TODO
+#
+#	should possibly update some fields for the subject
+#	which fields has yet to be determined
+#
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',0) {
+			study_subject = create_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:case_birth_datum,
+				:match_confidence => 'somethingelse',
+				:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 		} }
 	end
