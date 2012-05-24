@@ -1118,6 +1118,17 @@ Table: languages
 | created_at  | datetime     | NO   |     | NULL    |                |
 | updated_at  | datetime     | NO   |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
+Table: odms_exception_exceptables
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| id                | int(11)      | NO   | PRI | NULL    | auto_increment |
+| odms_exception_id | int(11)      | YES  |     | NULL    |                |
+| exceptable_id     | int(11)      | YES  |     | NULL    |                |
+| exceptable_type   | varchar(255) | YES  |     | NULL    |                |
+| created_at        | datetime     | NO   |     | NULL    |                |
+| updated_at        | datetime     | NO   |     | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
 Table: odms_exceptions
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |
