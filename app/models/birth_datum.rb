@@ -39,25 +39,29 @@ class BirthDatum < ActiveRecord::Base
 				elsif case_control_flag == 'case'
 
 					if match_confidence.match(/definite/i)
-
 #a.for records with match_confidence = “definite”, processes case subjects and updates pertinent study_subjects fields as necessary,
+
+
+#1.For each record in the USC birth data file identified as a “case,” find the corresponding ODMS subject using the master_id provided by USC (name to be determined -- it may be icf_master_id or master_id).  
+#2.Write the study_subject_id of the case found in it’s correspondent birth_data record.
 					#	assign study_subject_id to case's id
 					self.update_attribute(:study_subject_id, subject.id)
 #					study_subject = subject
 #					save
 					#	update case study_subject data
+#	TODO	TODO	TODO
 #
-#
-#1.For each record in the USC birth data file identified as a “case,” find the corresponding ODMS subject using the master_id provided by USC (name to be determined -- it may be icf_master_id or master_id).  
-#2.Write the study_subject_id of the case found in it’s correspondent birth_data record.
 #3.Evaluate and modify the USC birth data identified in the table below resolving conflicts between the USC and ODMS data as follows:
 #a.Columns in ODMS missing values are modified using the data from USC.
 #b.Values in ODMS that conflict with USC data are replaced by the USC data provided and an operational_event is created as described below.
 #c.Errors updating case records in ODMS are noted in the odms_exceptions table (see below).
+
 #4.A new operational event (id 27: birthDataReceived) is added for each subject successfully updated.
+
 #5.Add a new operational event for each occurrence described in aboven
 #a.id 28 (birthDataConflict) 
 #b.description: “Birth record data conflicted with existing ODMS data.  Field: [fieldname], ODMS Value: [original value],  Birth Record Value: [birth data value].  ODMS record modified with birth record data.”
+
 #6.Add an odms_exception for each case record that cannot be successfully updated in ODMS as follows:
 #a.name: “birth_data update” 
 #b.description: exception-specific error message (to be defined at the judgment of the programmer) or a general error: “Error importing record into birth_data table.  Exception record master_id = xxxxxxxxx.”  Or “Error importing record into birth_data table.  Exception record master_id not provided.”
@@ -65,12 +69,14 @@ class BirthDatum < ActiveRecord::Base
 #
 #The fields to be evaluated and updated, as necessary for case records are:
 #
-#
 #	Confirm, create exception if no match
 #		dob sex first_name last_name
 #	Add if missing.  Otherwise, confirm and create exception if no match.
 #		middle_name father_first_name father_first_name father_middle_name father_last_name 
 #		mother_first_name mother_middle_name mother_maiden_name
+#
+
+
 
 					else
 

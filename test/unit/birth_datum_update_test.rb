@@ -283,6 +283,22 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		cleanup_birth_datum_update_and_test_file
 	end
 
+	test "should create odms exception if birth datum creation fails" do
+pending	#	TODO
+#1.Any records that fail to append will be noted in the odms_exceptions table with an exception-specific error message (to be defined at the judgment of the programmer) as follows:
+#a.name: “birth_data append” 
+#b.description:  programmer-specified error (to include master_id or errant record) or “Error importing record into birth_data table.  Exception record master_id = xxxxxxxxx.”  or “Error importing record into birth_data table.  Exception record master_id not provided.”
+#c.occurred_at: timestamp
+	end
+
+	test "should create odms exception if birth datum count incorrect" do
+pending	#	TODO
+#1.When the appends are complete, if the count of records added to birth_data does not match the count of records in the uploaded birth_data table a record will be added as follows:
+#a.name: “birth_data append” 
+#b.description: “Birth data upload validation failed:  incorrect number of birth data records appended to birth_data.”
+#c.occurred_at: timestamp
+	end
+
 protected
 
 	def delete_all_possible_birth_datum_update_attachments

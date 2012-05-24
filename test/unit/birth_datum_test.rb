@@ -158,16 +158,13 @@ pending	#	TODO
 				:match_confidence => 'definite', 	#	default
 				:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_equal birth_datum.match_confidence, 'definite'
 		} }
 	end
 
 	test "should NOT update case subject if masterid is not blank and used by a case" <<
 			" for case birth datum and match_confidence is NOT definite" do
-pending	#	TODO
-#
-#	should possibly update some fields for the subject
-#	which fields has yet to be determined
-#
+pending	#	TODO	add something that would update if was definite, add odms exception ????
 		assert_difference('BirthDatum.count',1) {
 		assert_difference('OdmsException.count',0) {
 			study_subject = create_case_study_subject_with_icf_master_id
@@ -175,6 +172,10 @@ pending	#	TODO
 				:match_confidence => 'somethingelse',
 				:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_equal birth_datum.match_confidence, 'somethingelse'
+#
+#	TODO			assert study subject attributes did not change
+#
 		} }
 	end
 

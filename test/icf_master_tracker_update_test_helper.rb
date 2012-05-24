@@ -44,11 +44,8 @@ module IcfMasterTrackerUpdateTestHelper
 		study_subject
 	end
 
-#
-#	This should match IcfMasterTrackerUpdate.expected_column_names
-#
 	def csv_file_header_array
-		"master_id,master_id_mother,language,record_owner,record_status,record_status_date,date_received,last_attempt,last_disposition,curr_phone,record_sent_for_matching,record_received_from_matching,sent_pre_incentive,released_to_cati,confirmed_cati_contact,refused,deceased_notification,is_eligible,ineligible_reason,confirmation_packet_sent,cati_protocol_exhausted,new_phone_released_to_cati,plea_notification_sent,case_returned_for_new_info,case_returned_from_berkeley,cati_complete,kit_mother_sent,kit_infant_sent,kit_child_sent,kid_adolescent_sent,kit_mother_refused_code,kit_child_refused_code,no_response_to_plea,response_received_from_plea,sent_to_in_person_followup,kit_mother_received,kit_child_received,thank_you_sent,physician_request_sent,physician_response_received,vaccine_auth_received,recollect".split(',')
+		IcfMasterTrackerUpdate.expected_column_names
 	end
 
 	def csv_file_header
@@ -60,6 +57,7 @@ module IcfMasterTrackerUpdateTestHelper
 		csv_file_header_array.collect{|s|"\"#{subject[s]}\""}.join(',')
 	end
 
+	#	no factory for this, although could create one (a bit excessive)
 	def study_subject_hash
 		{
 			"master_id" => "1234FAKE",
@@ -72,12 +70,6 @@ module IcfMasterTrackerUpdateTestHelper
 			f.puts csv_file_header
 			f.puts csv_file_study_subject(options)
 		}
-	end
-
-	def turn_off_paperclip_logging
-		#	Is there I way to silence the paperclip output?  Yes...
-		Paperclip.options[:log] = false
-		#	Is there I way to capture the paperclip output for comparison?  Don't know.
 	end
 
 #	shouldn't be called test_... as makes it a test method!

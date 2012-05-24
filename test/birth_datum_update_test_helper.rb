@@ -44,12 +44,8 @@ module BirthDatumUpdateTestHelper
 		study_subject
 	end
 
-#
-#	This should match BirthDataUpdate.expected_column_names
-#
 	def csv_file_header_array
-	#	%w{masterid ca_co_status biomom biodad date mother_full_name mother_maiden_name father_full_name child_full_name child_dobm child_dobd child_doby child_gender birthplace_country birthplace_state birthplace_city mother_hispanicity mother_hispanicity_mex mother_race mother_race_other father_hispanicity father_hispanicity_mex father_race father_race_other}
-		%w( masterid found_in_state_db match_confidence case_control_flag birth_state sex dob ignore1 ignore2 ignore3 last_name first_name middle_name state_registrar_no county_of_delivery local_registrar_no local_registrar_district birth_type birth_order birth_weight_gms method_of_delivery abnormal_conditions apgar_1min apgar_5min apgar_10min complications_labor_delivery fetal_presentation_at_birth forceps_attempt_unsuccessful vacuum_attempt_unsuccessful mother_maiden_name mother_first_name mother_middle_name mother_residence_line_1 mother_residence_city mother_residence_county mother_residence_state mother_residence_zip mother_dob mother_birthplace mother_ssn mother_race_ethn_1 mother_race_ethn_2 mother_race_ethn_3 mother_hispanic_origin_code mother_yrs_educ mother_occupation mother_job_industry mother_received_wic mother_weight_pre_pregnancy mother_weight_at_delivery mother_height month_prenatal_care_began prenatal_care_visit_count complications_pregnancy length_of_gestation_days length_of_gestation_weeks last_menses_on live_births_now_living last_live_birth_on live_births_now_deceased term_count_pre_20_weeks term_count_20_plus_weeks last_termination_on daily_cigarette_cnt_3mo_preconc daily_cigarette_cnt_1st_tri daily_cigarette_cnt_2nd_tri daily_cigarette_cnt_3rd_tri father_last_name father_first_name father_middle_name father_dob father_ssn father_race_ethn_1 father_race_ethn_2 father_race_ethn_3 father_hispanic_origin_code father_yrs_educ father_occupation father_job_industry )
+		BirthDatumUpdate.expected_column_names
 	end
 
 	def csv_file_header
@@ -92,49 +88,19 @@ module BirthDatumUpdateTestHelper
 	end
 
 	def case_subject_hash
-		unknown_subject_hash.merge({
-			:case_control_flag => 'case'
-		})
+#		unknown_subject_hash.merge({
+#			:case_control_flag => 'case'
+#		})
+		Factory.attributes_for(:case_birth_datum,
+			:masterid => '12345FAKE' )
 	end
 
 	def control_subject_hash
-		unknown_subject_hash.merge({
-			:case_control_flag => 'control'
-		})
-	end
-
-#	#	broke it down like this so that can access and compare the attributes
-#	def control
-#		{	:masterid => '1234FAKE',
-#			:ca_co_status => 'control',
-#			:biomom => 1,
-#			:biodad => nil,
-#			:date => nil,
-#			:mother_full_name => 'Jill Johnson',
-#			:mother_maiden_name => 'Jackson',
-#			:father_full_name => 'Jack Johnson',
-#			:child_full_name => 'Michael Johnson',
-#			:child_dobm => 1,
-#			:child_dobd => 6,
-#			:child_doby => 2009,
-#			:child_gender => 'M',
-#			:birthplace_country => 'United States',
-#			:birthplace_state => 'CA',
-#			:birthplace_city => 'Oakland',
-#			:mother_hispanicity => 2,
-#			:mother_hispanicity_mex => 2,
-#			:mother_race => 1,
-#			:other_mother_race => nil,
-#			:father_hispanicity => 2,
-#			:father_hispanicity_mex => 2,
-#			:father_race => 1,
-#			:other_father_race => nil }
-#	end
-
-	def turn_off_paperclip_logging
-		#	Is there I way to silence the paperclip output?  Yes...
-		Paperclip.options[:log] = false
-		#	Is there I way to capture the paperclip output for comparison?  Don't know.
+#		unknown_subject_hash.merge({
+#			:case_control_flag => 'control'
+#		})
+		Factory.attributes_for(:control_birth_datum,
+			:masterid => '12345FAKE' )
 	end
 
 #	shouldn't be called test_... as makes it a test method!

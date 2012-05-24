@@ -146,6 +146,12 @@ module ActiveSupportExtension::TestCase
 			end
 		end
 
+		def turn_off_paperclip_logging
+			#	Is there I way to silence the paperclip output?  Yes...
+			Paperclip.options[:log] = false
+			#	Is there I way to capture the paperclip output for comparison?  Don't know.
+		end
+
 	end	#	InstanceMethods
 end	#	ActiveSupportExtension::TestCase
 ActiveSupport::TestCase.send(:include, ActiveSupportExtension::TestCase)
