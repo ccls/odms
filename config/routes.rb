@@ -79,6 +79,7 @@ Odms::Application.routes.draw do
 		collection { get :confirm }
 		member     { put :update_status }
 	end
+	resources :birth_data, :except => [:new,:create]
 	resources :birth_datum_updates, :except => [:edit,:update]
 #	resources :birth_datum_updates do 
 #		member { post :parse }
