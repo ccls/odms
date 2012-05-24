@@ -99,6 +99,7 @@ Odms::Application.routes.draw do
 	resources :follow_up_types
 	resources :guides
 	resources :hospitals
+	resources :icf_master_ids, :only => [:index,:show]
 	resources :icf_master_trackers, :only => [:index,:show,:update]
 	resources :icf_master_tracker_updates do 
 		member { post :parse }
