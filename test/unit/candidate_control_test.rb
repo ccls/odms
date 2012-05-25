@@ -99,7 +99,8 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_nil candidate_control.study_subject_id
 		assert_equal 1, candidate_control.odms_exceptions.length
 		#	 as I just stubbed it, the error messages are blank
-		assert candidate_control.odms_exceptions.first.to_s.blank?
+		#	"#{name}:#{description}" ( so actually it will be ":" )
+		assert_equal ":", candidate_control.odms_exceptions.first.to_s
 	end
 
 	test "should NOT create study_subjects from attributes missing sex" do
