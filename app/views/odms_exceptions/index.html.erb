@@ -1,5 +1,27 @@
 <h4>ODMS Exceptions</h4>
+
+<% unless @odms_exceptions.empty? %>
 <p>This is all a bit much. name/description.  links to edit, resolve, add notes. link to the exceptables.</p>
+<table id='odms_exceptions'><thead><tr>
+<th>name</th>
+<th>description</th>
+<th>resolved?</th>
+<th>exceptable(s)</th>
+<th></th>
+</tr></thead><tbody>
 <% @odms_exceptions.each do |odms_exception| %>
-<p><%= odms_exception.inspect %><%= odms_exception.exceptables.inspect %></p>
+<tr class='row'>
+<td><%= odms_exception.name %></td>
+<td><%= odms_exception.description %></td>
+<td><%= odms_exception.is_resolved %></td>
+<td><%= odms_exception.exceptables.collect{|e| "#{e.class}(#{e.id})" }.join(',') %></td>
+<td class='manage'>
+<%= link_to 'View', odms_exception, :class => :button %>
+<%= link_to 'Edit', edit_odms_exception_path(odms_exception), :class => :button %>
+</td>
+</tr>
+<% end %>
+</tbody></table><!-- id='odms_exceptions' -->
+<% else %>
+<p>Sorry, but no OdmsExceptions exist.</p>
 <% end %>

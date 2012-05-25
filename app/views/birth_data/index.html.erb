@@ -1,5 +1,47 @@
 <h4>Birth Data</h4>
+
+<% unless @birth_data.empty? %>
 <p>This is all a bit much. Perhaps just some key info, link to case and subject, link to complete birth datum all in a nice clean table.</p>
+
+<table id='birth_data'><thead>
+<tr>
+<th></th>
+<th>masterid</th>
+<th>case/control</th>
+<th>match confidence</th>
+<th>study subject</th>
+<th>candidate control</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
 <% @birth_data.each do |birth_datum| %>
-<p><%= birth_datum.inspect %></p>
+<tr class='row'>
+<td><%= link_to 'BDU', birth_datum.birth_datum_update %></td>
+<td><%= birth_datum.masterid %></td>
+<td><%= birth_datum.case_control_flag %></td>
+<td><%= birth_datum.match_confidence %></td>
+<td><% if birth_datum.study_subject %>
+<%= link_to birth_datum.study_subject, birth_datum.study_subject %>
+<% else %>
+No Study Subject Set
+<% end %></td>
+<td><% if birth_datum.candidate_control %>
+related patid:<%= birth_datum.candidate_control.related_patid %>
+<% else %>
+No Candidate Control Set
+<% end %></td>
+<td class='manage'><%= link_to 'View', birth_datum, :class => :button %></td>
+</tr>
 <% end %>
+</tbody>
+</table><!-- id='birth_data' --> 
+<% else %>
+<p>Sorry, but no birth data exist.</p>
+<% end %>
+
+<%# 
+
+#<BirthDatum id: 69, birth_datum_update_id: 5, study_subject_id: 11099, masterid: "15851196C", found_in_state_db: false, birth_state: "CA", match_confidence: "definite", case_control_flag: "case", length_of_gestation_weeks: 39, father_race_ethn_1: 10, father_race_ethn_2: nil, father_race_ethn_3: nil, mother_race_ethn_1: 10, mother_race_ethn_2: 44, mother_race_ethn_3: nil, abnormal_conditions: "0", apgar_1min: 8, apgar_5min: 9, apgar_10min: 99, birth_order: 1, birth_type: "1", birth_weight_gms: 3827, complications_labor_delivery: "3637", complications_pregnancy: "0", county_of_delivery: " ", daily_cigarette_cnt_1st_tri: 0, daily_cigarette_cnt_2nd_tri: 0, daily_cigarette_cnt_3rd_tri: 0, daily_cigarette_cnt_3mo_preconc: 0, dob: "2007-02-28", father_job_industry: " ", father_dob: "1981-07-08", father_hispanic_origin_code: "N", father_first_name: "CHAD", father_last_name: "SEILER", father_middle_name: " ", father_occupation: " ", father_yrs_educ: 6, fetal_presentation_at_birth: "2", first_name: "CARSON", forceps_attempt_unsuccessful: false, last_live_birth_on: nil, last_menses_on: "2125-09-07", last_name: " ", last_termination_on: nil, length_of_gestation_days: 289, live_births_now_deceased: 0, live_births_now_living: 0, local_registrar_district: " ", local_registrar_no: "2778", method_of_delivery: "3", middle_name: "ROBERT", month_prenatal_care_began: "1", mother_residence_county_ef: nil, mother_residence_line_1: "373 W. NEES #227", mother_residence_zip: "93711", mother_residence_county: "10", mother_weight_at_delivery: 187, mother_birthplace: "CA", mother_birthplace_state: nil, mother_residence_city: "FRESNO", mother_dob: "1982-03-30", mother_first_name: "NICOLE", mother_height: 507, mother_hispanic_origin_code: "N", mother_industry: nil, mother_job_industry: " ", mother_maiden_name: "ROSS", mother_middle_name: " ", mother_occupation: " ", mother_received_wic: false, mother_residence_state: "5", mother_weight_pre_pregnancy: 146, mother_yrs_educ: 3, ob_gestation_estimate_at_delivery: nil, prenatal_care_visit_count: 12, sex: "M", state_registrar_no: "67486", term_count_20_plus_weeks: 0, term_count_pre_20_weeks: 0, vacuum_attempt_unsuccessful: false, created_at: "2012-05-18 21:28:12", updated_at: "2012-05-18 21:28:12">
+
+%>

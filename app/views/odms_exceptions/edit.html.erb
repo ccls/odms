@@ -1,2 +1,20 @@
+<h4><%= ( (@odms_exception.new_record?)?'Creating':'Editting' ) %> odms_exception</h4>
 
+<%= form_for(@odms_exception, :html => { :class => 'edit_odms_exception'} ) do |f| %>
+<%= f.error_messages %>
 
+<%= f.wrapped_text_field :name %>
+<%= f.wrapped_text_field :description %>
+<%= f.wrapped_check_box  :is_resolved %>
+<%= f.wrapped_text_area  :notes %>
+
+<div class='exceptables field_wrapper'>
+<span class='label'>Exceptable(s)</span>
+<span class='value'><%= @odms_exception.exceptables.collect{|e| "#{e.class}(#{e.id})" }.join(',') %></span>
+</div><!-- class='exceptables field_wrapper' -->
+
+<p>
+<%= f.submit( (@odms_exception.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', odms_exceptions_path, :class => 'button' %>
+</p>
+<% end %>

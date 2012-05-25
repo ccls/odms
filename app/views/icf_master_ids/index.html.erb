@@ -1,5 +1,28 @@
 <h4>ICF Master Ids</h4>
+
+<% unless @icf_master_ids.empty? %>
 <p>This is all a bit much. Perhaps a nice table, link to subject, sortable.</p>
+<table id='icf_master_ids'><thead><tr>
+<th>icf master id</th>
+<th>study subject</th>
+<th>assigned on</th>
+</tr></thead><tbody>
 <% @icf_master_ids.each do |icf_master_id| %>
-<p><%= icf_master_id.inspect %></p>
+<tr class='row'>
+<td><%= icf_master_id.icf_master_id %></td>
+<td><% if icf_master_id.study_subject %>
+<%= link_to icf_master_id.study_subject, icf_master_id.study_subject %>
+<% else %>
+No Study Subject Set
+<% end %></td>
+<td><%=mdy icf_master_id.assigned_on %></td>
+</tr>
+<% end %>
+</tbody></table><!-- id='icf_master_ids' -->
+<% else %>
+
+
+<p>Sorry, but no icf master ids exist.</p>
+
+
 <% end %>
