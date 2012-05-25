@@ -133,13 +133,15 @@ class User < ActiveRecord::Base
 
 
 	# Controllers solely accessible by administrators.
-	%w(	abstracts address_types contexts data_sources diagnoses document_types
+	%w(	abstracts address_types birth_data 
+			birth_datum_updates birth_records
+			contexts data_sources diagnoses document_types
 			document_versions follow_up_types gift_cards 
-			hospitals icf_master_trackers
+			hospitals icf_master_ids icf_master_trackers
 			icf_master_tracker_updates ineligible_reasons 
 			instruments instrument_types instrument_versions 
 			interview_methods interview_outcomes languages 
-			birth_datum_updates birth_records
+			odms_exceptions
 			operational_event_types organizations
 			people phone_types project_outcomes
 			races refusal_reasons 

@@ -1,2 +1,5 @@
-
-
+<h4>ODMS Exceptions</h4>
+<p>This is all a bit much. name/description.  links to edit, resolve, add notes. link to the exceptables.</p>
+<% @odms_exceptions.each do |odms_exception| %>
+<p><%= odms_exception.inspect %><%= odms_exception.exceptables.inspect %></p>
+<% end %>
