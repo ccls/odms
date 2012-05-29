@@ -107,6 +107,30 @@
 
 
 
+== Testing this app
+
+ #	One pass, running all tests ...
+ rake test
+
+ #	Or, since this is the default task, just ...
+ rake
+
+
+ #	One pass, running all tests and checking code coverage ...
+ rake test:coverage
+ #	DO NOT edit the app while this is running, or the resulting
+ #	coverage information will be corrupt.
+
+
+ #	Continual testing triggered by file changes ...
+ autotest
+ #	Be aware that changes don't necessarily trigger
+ #	all necessary testing of the given change.
+ #	They just trigger the associated mapped files.
+
+
+
+
 
 
 
