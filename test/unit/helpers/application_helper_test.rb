@@ -163,22 +163,6 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 
-
-	test "birth_certificates_sub_menu for bc_validations" do
-		self.params = { :controller => 'bc_validations' }
-		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, 'div#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', 6
-#	Since removed, this link will no longer show.
-#			assert_select 'a.current[href=?]', bc_validations_path
-		end
-	end
-
-
 #subject_side_menu
 
 	test "subject_side_menu for study_subjects with admin login" do

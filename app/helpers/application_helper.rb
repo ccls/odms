@@ -20,8 +20,6 @@ module ApplicationHelper
 			[
 				link_to('New Case', new_case_path),
 				link_to('New Control', cases_path),
-#				link_to('Manage Birth Certificates', birth_certificates_path)
-#				link_to('Manage Birth Certificates', new_bc_request_path)
 				link_to('Birth Data Requests', new_bc_request_path)
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
@@ -70,19 +68,13 @@ module ApplicationHelper
 						end
 					else nil
 				end
-#			when( params[:controller] == 'bc_validations' )
-#				:bc_validations
 			else nil
 		end
 		content_for :side_menu do
 			s = "<div id='sidemenu'>\n"
 			links = [
-#				link_to( "New BC Request", new_bc_request_path,
 				link_to( "New Requests", new_bc_request_path,
 					:class => ((current == :new_bc_request)?'current':nil) ),
-#				link_to( "BC Validation", bc_validations_path,
-#					:class => ((current == :bc_validations)?'current':nil) ),
-
 				"<hr/>",
 				link_to( "All Requests", bc_requests_path,
 					:class => ((current == :all_bc_requests)?'current':nil) ),

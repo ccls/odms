@@ -14,6 +14,10 @@ class CasesController < ApplicationController
 		render :layout => 'application'
 	end
 
+	############################################################
+	#
+	#	This is the beginning of a new RAF entry
+	#
 	def new
 		@hospitals = Hospital.active(:include => :organization)
 		render :layout => 'application'

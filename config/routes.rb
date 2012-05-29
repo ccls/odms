@@ -265,15 +265,6 @@ Odms::Application.routes.draw do
 		resources :related_subjects, :only => [:index]
 	end
 
-
-	#	These are currently not used ... and should probably be destroyed
-	#	resources :bc_validations, :only => [:index, :show]
-	#	resources :birth_certificates, :only => :index
-
-
-
-
-
 	match 'charts/:action.:format' => 'charts'
 
 #	namespace :api do

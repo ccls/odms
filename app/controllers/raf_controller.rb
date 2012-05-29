@@ -18,8 +18,6 @@ protected
 		#		real requests do not send symbols
 		#
 		study_subject_params = incoming_params.deep_merge({
-#			'subject_type_id' => SubjectType['Case'].id,
-#			'case_control_type' => 'C',
 			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
 			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
 			'phone_numbers_attributes' => {
