@@ -1,7 +1,7 @@
 <% stylesheets(:candidate_control) %>
 <h2>Candidate Control</h2>
 
-<%= form_for @candidate do |f| %>
+<%= form_for @candidate_control do |f| %>
 <%= f.error_messages %>
 
 <%= render( :partial => 'duplicates', 
@@ -27,15 +27,15 @@
 </tr>
 <tr>
 <td class='label'>candidate control</td>
-<td><%= @candidate.full_name %></td>
+<td><%= @candidate_control.full_name %></td>
 <td>-</td>
 <td>-</td>
-<td><%=mdy @candidate.dob %></td>
-<td><%= @candidate.sex %></td>
-<td><%#= (( @candidate.mother_race_id
-	) ? Race.find(@candidate.mother_race_id) : '&nbsp;'.html_safe ) %></td>
-<td><%#=ynodk @candidate.mother_hispanicity_id %></td>
-<td><%#=ynodk @candidate.father_hispanicity_id %></td>
+<td><%=mdy @candidate_control.dob %></td>
+<td><%= @candidate_control.sex %></td>
+<td><%#= (( @candidate_control.mother_race_id
+	) ? Race.find(@candidate_control.mother_race_id) : '&nbsp;'.html_safe ) %></td>
+<td><%#=ynodk @candidate_control.mother_hispanicity_id %></td>
+<td><%#=ynodk @candidate_control.father_hispanicity_id %></td>
 </tr>
 </tbody></table>
 </div><!-- class='info' -->

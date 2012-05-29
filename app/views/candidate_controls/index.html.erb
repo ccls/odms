@@ -1,0 +1,33 @@
+<h4>Candidate Controls</h4>
+
+<% unless @candidate_controls.empty? %>
+<table id='candidate_controls'><thead><tr>
+<th></th>
+<th>related patid</th>
+<th>study subject</th>
+<th>assigned on</th>
+<th>reject candidate</th>
+<th></th>
+</tr></thead><tbody>
+<% @candidate_controls.each do |candidate_control| %>
+<tr class='row'>
+<td><%= link_to "BD-#{candidate_control.birth_datum_id}", 
+		candidate_control.birth_datum %></td>
+<td><%= candidate_control.related_patid %></td>
+<td><% if candidate_control.study_subject %>
+<%= link_to candidate_control.study_subject, candidate_control.study_subject %>
+<% else %>
+No Study Subject Set
+<% end %></td>
+<td><%=mdy candidate_control.assigned_on %></td>
+<td><%= candidate_control.reject_candidate %></td>
+<td class='manage'>
+<%= link_to 'View', candidate_control, :class => :button %>
+<%#= link_to 'Edit', edit_odms_exception_path(odms_exception), :class => :button %>
+</td>
+</tr>
+<% end %>
+</tbody></table><!-- id='candidate_controls' -->
+<% else %>
+<p>Sorry, but no Candidate Controls exist.</p>
+<% end %>

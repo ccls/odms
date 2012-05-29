@@ -84,7 +84,7 @@ Odms::Application.routes.draw do
 #	resources :birth_datum_updates do 
 #		member { post :parse }
 #	end
-	resources :candidate_controls, :only => [:edit,:update]
+	resources :candidate_controls, :only => [:edit,:update,:index,:show]
 	resources :cases, :only => [:new,:create,:index] do
 		#
 		#	WARNING be careful as "case" is a ruby keyword!

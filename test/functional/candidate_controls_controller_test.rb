@@ -16,6 +16,21 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+		test "should get index with #{cu} login" do
+			login_as send(cu)
+			get :index
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get show with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = Factory(:complete_case_study_subject)
+			candidate = Factory(:candidate_control,
+				:related_patid => case_study_subject.reload.patid)
+			assert_successful_show(candidate)
+		end
+
 		test "should get edit with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
@@ -259,8 +274,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 					:reject_candidate => 'false' }
 			} } }
 
-			#	MUST use the assigns(:candidate) to check for errors
-			assert assigns(:candidate).errors.include?(:base)
+			#	MUST use the assigns(:candidate_control) to check for errors
+			assert assigns(:candidate_control).errors.include?(:base)
 #You should probably reject this candidate. Study Subject invalid. Date of birth can't be blank
 
 			candidate.reload
@@ -293,8 +308,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 					:reject_candidate => 'false' }
 			} } }
 
-			#	MUST use the assigns(:candidate) to check for errors
-			assert assigns(:candidate).errors.include?(:base)
+			#	MUST use the assigns(:candidate_control) to check for errors
+			assert assigns(:candidate_control).errors.include?(:base)
 #	You should probably reject this candidate. Study Subject invalid. Sex has not been chosen
 
 			candidate.reload
@@ -707,6 +722,21 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 	non_site_editors.each do |cu|
 
+		test "should NOT get index with #{cu} login" do
+			login_as send(cu)
+			get :index
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT get show with #{cu} login" do
+			login_as send(cu)
+			candidate = Factory(:candidate_control)
+			get :show, :id => candidate.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
 		test "should NOT get edit with #{cu} login" do
 			login_as send(cu)
 			candidate = Factory(:candidate_control)
@@ -726,6 +756,17 @@ class CandidateControlsControllerTest < ActionController::TestCase
 	end
 
 	#	not logged in
+	test "should NOT get index without login" do
+		get :index
+		assert_redirected_to_login
+	end
+
+	test "should NOT get show without login" do
+		candidate = Factory(:candidate_control)
+		get :show, :id => candidate.id
+		assert_redirected_to_login
+	end
+
 	test "should NOT get edit without login" do
 		candidate = Factory(:candidate_control)
 		get :edit, :id => candidate.id
@@ -753,6 +794,13 @@ protected
 		assert_nil flash[:error]
 		assert_response :success
 		assert_template 'edit'
+	end
+
+	def assert_successful_show(candidate)
+		get :show, :id => candidate.id
+		assert_nil flash[:error]
+		assert_response :success
+		assert_template 'show'
 	end
 
 	def create_complete_case_study_subject_with_icf_master_id

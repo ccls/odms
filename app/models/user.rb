@@ -157,7 +157,7 @@ class User < ActiveRecord::Base
 	end
 
 	# Controllers accessible by editors and administrators.
-	%w(	contacts guides interviews patients ).each do |resource|
+	%w(	candidate_controls contacts guides interviews patients ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_edit?
 		alias_method "may_read_#{resource}?".to_sym,    :may_edit?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_edit?
