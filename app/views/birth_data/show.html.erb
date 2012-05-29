@@ -1,3 +1,8 @@
 <h4>Birth Datum</h4>
 
 <%= @birth_datum.inspect %>
+
+<% attrs = @birth_datum.attributes %>
+<% attrs.sort.each do |k,v| %>
+<p><%= "#{k}:#{v}" %></p>
+<% end %>
