@@ -131,12 +131,13 @@ class User < ActiveRecord::Base
 		displayname
 	end
 
-
 	# Controllers solely accessible by administrators.
+	#	( multi-line arrays, like this one, usually don't test as 
+	#	100% coverage.  Not sure exactly why, but it doesn't.
 	%w(	abstracts address_types birth_data 
 			birth_datum_updates birth_records
 			contexts data_sources diagnoses document_types
-			document_versions follow_up_types gift_cards 
+			document_versions follow_up_types 
 			hospitals icf_master_ids icf_master_trackers
 			icf_master_tracker_updates ineligible_reasons 
 			instruments instrument_types instrument_versions 
@@ -145,7 +146,7 @@ class User < ActiveRecord::Base
 			operational_event_types organizations
 			people phone_types project_outcomes
 			races refusal_reasons 
-			sample_formats sample_kits sample_outcomes sample_temperatures
+			sample_formats sample_outcomes sample_temperatures
 			sample_types sections subject_relationships subject_types 
 			tracing_statuses units vital_statuses ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?

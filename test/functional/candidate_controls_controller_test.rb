@@ -663,30 +663,44 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		#	only cases get patids and this create controls, so only testing 
 		#	duplicate childid and subjectid
 
-		test "should do something if childid exists with #{cu} login" do
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
-				:related_patid => case_study_subject.patid)
+		#	THIS IS BAD IF THIS HAPPENS, WHICH IT SHOULDN'T
+		test "should raise a database error if childid exists with #{cu} login" do
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,
+				:masterid => case_study_subject.icf_master_id )
+			candidate = birth_datum.candidate_control
 			StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:study_subject)	#	use this childid
 			assert_not_nil study_subject.childid
+			assert_equal   study_subject.childid, 12345
 			login_as send(cu)
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success
 			assert_template 'edit'
+			#Mysql2::Error: Duplicate entry '12345' for key 'index_study_subjects_on_childid'
+			#	Database error.  Check production logs and contact Jake.
+			#	tried to use the childid again
+			assert_match /Database error/, flash[:error]
 		end
 
-		test "should do something if subjectid exists with #{cu} login" do
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
-				:related_patid => case_study_subject.patid)
+		#	THIS IS BAD IF THIS HAPPENS, WHICH IT SHOULDN'T
+		test "should raise a database error if subjectid exists with #{cu} login" do
+			case_study_subject = create_complete_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,
+				:masterid => case_study_subject.icf_master_id )
+			candidate = birth_datum.candidate_control
 			StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:study_subject)	#	use this subjectid
 			assert_not_nil study_subject.subjectid
+			assert_equal   study_subject.subjectid, '012345'
 			login_as send(cu)
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
 			assert_response :success
 			assert_template 'edit'
+			#Mysql2::Error: Duplicate entry '012345' for key 'index_study_subjects_on_subjectid'
+			#	Database error.  Check production logs and contact Jake.
+			#	tried to use the subjectid again
+			assert_match /Database error/, flash[:error]
 		end
 
 	end

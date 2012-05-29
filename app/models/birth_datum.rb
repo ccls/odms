@@ -78,7 +78,7 @@ class BirthDatum < ActiveRecord::Base
 
 
 
-					else
+#					else
 
 						#	TODO I'm guessing, add an odms exception here
 
