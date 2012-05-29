@@ -81,9 +81,6 @@ Odms::Application.routes.draw do
 	end
 	resources :birth_data, :except => [:new,:create]
 	resources :birth_datum_updates, :except => [:edit,:update]
-#	resources :birth_datum_updates do 
-#		member { post :parse }
-#	end
 	resources :candidate_controls, :only => [:edit,:update,:index,:show]
 	resources :cases, :only => [:new,:create,:index] do
 		#
@@ -194,8 +191,6 @@ Odms::Application.routes.draw do
 	resources :abstracts, :except => [:new,:create] do
 		#	specify custom location controllers to avoid conflict
 		#	with app controllers ( just diagnoses now )
-#		resource :identifying_data, :only => [:edit,:update,:show],
-#			:controller => 'abstract/identifying_datas'
 		resource :identifying_datum, :only => [:edit,:update,:show],
 			:controller => 'abstract/identifying_data'
 		resource :bone_marrow, :only => [:edit,:update,:show],
@@ -227,7 +222,6 @@ Odms::Application.routes.draw do
 		resource :therapy_response, :only => [:edit,:update,:show],
 			:controller => 'abstract/therapy_responses'
 	end
-
 
 	resources :study_subjects, :only => [:edit,:update,:show,:index],
 			:shallow => true do 
