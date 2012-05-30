@@ -126,7 +126,7 @@ namespace :data do
 				birth_datum
 				candidate_control enrollment icf_master_id
 				icf_master_tracker icf_master_tracker_change icf_master_tracker_update
-				interview operational_event operational_event_type 
+				interview odms_exception operational_event operational_event_type 
 				patient phone_number phone_type
 				project sample study_subject ).each do |model|
 			puts "Exporting #{model.pluralize} ..."
