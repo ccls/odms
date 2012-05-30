@@ -3,39 +3,6 @@ source "http://gems.rubyforge.org"
 source "http://gemcutter.org"
 source "http://gems.github.com"
 
-#
-#	Tried upgrading to the mysql2 gem as it is supposed to be faster.
-#	Started getting 500 errors midway through testing.  These always
-#	occurred on testing "without login" tests.
-#		SystemStackError: stack level too deep
-#	Once this is "tripped", it always happens.
-#	I'm not really sure what the issue is, but reverting back to
-#	the mysql gem and hoping that this all goes away.
-#	While I could change the stack size with "ulimit -s",
-#	I'd rather understand what it taking up the space.
-#	Tests are supposed to clean up after themselves, but
-#	something is clearly not.
-#
-#	Contacts Controller should NOT get contacts without login: E
-#		is usually the first, but this isn't a mysql2 thing.
-#		It is still happening without it.  Think it is rails 3.2.3
-#	Downgraded many gems and it went away.
-#
-#	Perhaps find some little utility to put in there to show
-#	what is in the stack and then try to find out who put it there?
-#
-#	As I have upgraded a number of other gems, it is possible that
-#	this has to do with them and not mysql2. This could be quite a 
-#	challenge ... for next week.
-#
-#
-#	This is kinda flaky now.  Put everything back by mocha and ZenTest
-#	and it still failed.  As I'm typing, I think that it is mocha,
-#	but we shall see in about 5 minutes.
-#
-
-
-#gem 'rails', '3.2.2' 
 gem 'rails', '~> 3.2.2' 
 
 # Bundle edge Rails instead:
@@ -116,7 +83,11 @@ gem "hpricot"
 #An error occured while installing paperclip (3.0.3), and Bundler cannot continue.
 #Make sure that `gem install paperclip -v '3.0.3'` succeeds before bundling.
 #
-gem "paperclip", '3.0.0'
+#	20120530 - paperclip 3.0.0 has been yanked
+#		and all the new stuff requires ruby 1.9.2
+#		must downgrade to 2.7.0
+#
+gem "paperclip", '~> 2.7'
 
 gem 'rubycas-client'
 
