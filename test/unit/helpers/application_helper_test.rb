@@ -162,6 +162,24 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
+	test "birth_certificates_sub_menu for bogus controller" do
+		self.params = { :controller => 'bogus' }
+#
+#	birth_certificates_sub_menu still uses content_for(:side_menu)
+#	perhaps stop doing this?
+#
+		assert birth_certificates_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, 'div#sidemenu' do
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', 6
+#			assert_select 'a.current[href=?]', bc_requests_path(:status => 'pending')
+			assert_select 'a.current', 0
+		end
+	end
+
 
 #subject_side_menu
 
