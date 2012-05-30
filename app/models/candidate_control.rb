@@ -5,8 +5,7 @@ class CandidateControl < ActiveRecord::Base
 	belongs_to :birth_datum
 	attr_protected :birth_datum_id, :birth_datum
 
-	has_many :odms_exception_exceptables, :as => :exceptable
-	has_many :odms_exceptions, :through => :odms_exception_exceptables
+	has_many :odms_exceptions, :as => :exceptable
 
 	validates_inclusion_of :reject_candidate, :in => [true, false]
 	validates_presence_of  :rejection_reason, :if => :reject_candidate

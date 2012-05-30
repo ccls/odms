@@ -6,8 +6,7 @@ class BirthDatum < ActiveRecord::Base
 	attr_protected :study_subject_id, :study_subject
 	has_one :candidate_control
 
-	has_many :odms_exception_exceptables, :as => :exceptable
-	has_many :odms_exceptions, :through => :odms_exception_exceptables
+	has_many :odms_exceptions, :as => :exceptable
 
 	after_create :post_processing
 

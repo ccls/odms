@@ -6,7 +6,7 @@
 <th>name</th>
 <th>description</th>
 <th>resolved?</th>
-<th>exceptable(s)</th>
+<th>exceptable</th>
 <th></th>
 </tr></thead><tbody>
 <% @odms_exceptions.each do |odms_exception| %>
@@ -14,7 +14,11 @@
 <td><%= odms_exception.name %></td>
 <td><%= odms_exception.description %></td>
 <td><%= odms_exception.is_resolved %></td>
-<td><%= odms_exception.exceptables.collect{|e| "#{e.class}(#{e.id})" }.join(',') %></td>
+<td>
+<% if odms_exception.exceptable %>
+<%= odms_exception.exceptable.class %>(<%= odms_exception.exceptable.attributes['id'] %>)
+<% end %>
+</td>
 <td class='manage'>
 <%= link_to 'View', odms_exception, :class => :button %>
 <%= link_to 'Edit', edit_odms_exception_path(odms_exception), :class => :button %>

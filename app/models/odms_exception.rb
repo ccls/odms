@@ -1,13 +1,9 @@
 class OdmsException < ActiveRecord::Base
 
-	has_many :odms_exception_exceptables
+	belongs_to :exceptable, :polymorphic => true
 
 	def to_s
 		"#{name}:#{description}"
-	end
-
-	def exceptables
-		odms_exception_exceptables.collect(&:exceptable)
 	end
 
 end

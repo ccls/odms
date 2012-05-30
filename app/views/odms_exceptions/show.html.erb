@@ -5,10 +5,14 @@
 <%= wrapped_spans(:odms_exception,:is_resolved) %>
 <%= wrapped_spans(:odms_exception,:notes) %>
 
-<div class='exceptables field_wrapper'>
+<div class='exceptable field_wrapper'>
 <span class='label'>Exceptable(s)</span>
-<span class='value'><%= @odms_exception.exceptables.collect{|e| "#{e.class}(#{e.id})" }.join(',') %></span>
-</div><!-- class='exceptables field_wrapper' -->
+<span class='value'>
+<% if @odms_exception.exceptable %>
+<%= @odms_exception.exceptable.class %>(<%= @odms_exception.exceptable.attributes['id'] %>)
+<% end %>
+</span>
+</div><!-- class='exceptable field_wrapper' -->
 
 <p>
 <%= link_to 'Edit', edit_odms_exception_path(@odms_exception), 

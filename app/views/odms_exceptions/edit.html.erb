@@ -8,10 +8,14 @@
 <%= f.wrapped_check_box  :is_resolved %>
 <%= f.wrapped_text_area  :notes %>
 
-<div class='exceptables field_wrapper'>
-<span class='label'>Exceptable(s)</span>
-<span class='value'><%= @odms_exception.exceptables.collect{|e| "#{e.class}(#{e.id})" }.join(',') %></span>
-</div><!-- class='exceptables field_wrapper' -->
+<div class='exceptable field_wrapper'>
+<span class='label'>Exceptable</span>
+<span class='value'>
+<% if @odms_exception.exceptable %>
+<%= @odms_exception.exceptable.class %>(<%= @odms_exception.exceptable.attributes['id'] %>)
+<% end %>
+</span>
+</div><!-- class='exceptable field_wrapper' -->
 
 <p>
 <%= f.submit( (@odms_exception.new_record?)? "Create" : "Update" )%>&nbsp;

@@ -22,18 +22,10 @@ class OdmsExceptionTest < ActiveSupport::TestCase
 			"#{odms_exception.name}:#{odms_exception.description}"
 	end
 
-	test "should have many odms_exception_exceptable" do
+	test "should belong to exceptable" do
 		odms_exception = Factory(:odms_exception)
-		assert odms_exception.odms_exception_exceptables.empty?
-	end
-
-	test "should have many exceptables through odms_exception_exceptable (sort of)" do
-		#	apparently can't have many through a polymorphic relationship
-		#	so this is really just a method that mimics it.
-		odms_exception = Factory(:odms_exception)
-		assert odms_exception.exceptables.empty?
-		Factory(:odms_exception_exceptable, :odms_exception => odms_exception )
-		assert !odms_exception.reload.exceptables.empty?
+		assert_not_nil odms_exception.exceptable
+		assert odms_exception.exceptable.is_a?(BirthDatumUpdate)
 	end
 
 protected
