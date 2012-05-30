@@ -1,5 +1,13 @@
 <h4>Birth Datum</h4>
 
+<p><%= link_to "Birth Datum Update", @birth_datum.birth_datum_update %></p>
+
+<p><% if @birth_datum.study_subject %>
+<%= link_to @birth_datum.study_subject, @birth_datum.study_subject %>
+<% else %>
+No Study Subject Set
+<% end %></p>
+
 <%= @birth_datum.inspect %>
 
 <% attrs = @birth_datum.attributes %>
