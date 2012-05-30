@@ -134,21 +134,20 @@ class User < ActiveRecord::Base
 	# Controllers solely accessible by administrators.
 	#	( multi-line arrays, like this one, usually don't test as 
 	#	100% coverage.  Not sure exactly why, but it doesn't.
-	%w(	abstracts address_types birth_data 
-			birth_datum_updates birth_records
-			contexts data_sources diagnoses document_types
-			document_versions follow_up_types 
+	#	Other multi-line arrays seem to cover fine.
+	admin_only_resources = %w( abstracts address_types birth_data
+			birth_datum_updates birth_records contexts data_sources
+			diagnoses document_types document_versions follow_up_types
 			hospitals icf_master_ids icf_master_trackers
-			icf_master_tracker_updates ineligible_reasons 
-			instruments instrument_types instrument_versions 
-			interview_methods interview_outcomes languages 
-			odms_exceptions
-			operational_event_types organizations
-			people phone_types project_outcomes
-			races refusal_reasons 
+			icf_master_tracker_updates ineligible_reasons
+			instruments instrument_types instrument_versions
+			interview_methods interview_outcomes languages
+			odms_exceptions operational_event_types organizations
+			people phone_types project_outcomes races refusal_reasons
 			sample_formats sample_outcomes sample_temperatures
-			sample_types sections subject_relationships subject_types 
-			tracing_statuses units vital_statuses ).each do |resource|
+			sample_types sections subject_relationships subject_types
+			tracing_statuses units vital_statuses )
+	admin_only_resources.each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_administrate?
@@ -157,7 +156,7 @@ class User < ActiveRecord::Base
 	end
 
 	# Controllers accessible by editors and administrators.
-	%w(	candidate_controls contacts guides interviews patients ).each do |resource|
+	%w( candidate_controls contacts guides interviews patients ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_edit?
 		alias_method "may_read_#{resource}?".to_sym,    :may_edit?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_edit?
@@ -167,7 +166,7 @@ class User < ActiveRecord::Base
 
 	# Controllers accessible dependent on action and role.
 	#	As is. Readers and editors can read, but only admins can modify.
-	%w(	events ).each do |resource|
+	%w( events ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_read?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_administrate?
@@ -177,7 +176,7 @@ class User < ActiveRecord::Base
 
 	# Controllers accessible dependent on action and role.
 	#	As is. Readers can read, and editors and admins can modify.
-	%w(	addressings addresses consents documents enrollments 
+	%w( addressings addresses consents documents enrollments 
 			home_exposures notes phone_numbers projects samples 
 			study_subjects ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_create?
