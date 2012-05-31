@@ -57,9 +57,13 @@ pages_004:
     * "Active Scaffold Addresses":/active_scaffold/addresses
     * "Active Scaffold Phone Numbers":/active_scaffold/phone_numbers
     * "Active Scaffold Patients":/active_scaffold/patients
-    * "Manage Birth Data Updates":/birth_datum_updates
+    * "Manage Birth Datum Updates":/birth_datum_updates
+    * "Manage Birth Data":/birth_data
     * "Manage ICF Master Tracker Updates":/icf_master_tracker_updates
     * "Manage ICF Master Trackers":/icf_master_trackers
+    * "Manage ICF Master IDs":/icf_master_ids
+    * "Manage ODMS Exceptions":/odms_exceptions
+    * "Manage Candidate Controls":/candidate_controls
     * "Manage Users":/users
     * "Manage Guides":/guides
     * "Manage Pages":/pages
