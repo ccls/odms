@@ -491,20 +491,21 @@ Table: birth_data
 | daily_cigarette_cnt_3rd_tri       | int(11)       | YES  |     | NULL    |                |
 | daily_cigarette_cnt_3mo_preconc   | int(11)       | YES  |     | NULL    |                |
 | dob                               | date          | YES  |     | NULL    |                |
-| father_job_industry               | varchar(255)  | YES  |     | NULL    |                |
+| first_name                        | varchar(255)  | YES  |     | NULL    |                |
+| middle_name                       | varchar(255)  | YES  |     | NULL    |                |
+| last_name                         | varchar(255)  | YES  |     | NULL    |                |
+| father_industry                   | varchar(255)  | YES  |     | NULL    |                |
 | father_dob                        | date          | YES  |     | NULL    |                |
 | father_hispanic_origin_code       | varchar(255)  | YES  |     | NULL    |                |
 | father_first_name                 | varchar(255)  | YES  |     | NULL    |                |
-| father_last_name                  | varchar(255)  | YES  |     | NULL    |                |
 | father_middle_name                | varchar(255)  | YES  |     | NULL    |                |
+| father_last_name                  | varchar(255)  | YES  |     | NULL    |                |
 | father_occupation                 | varchar(255)  | YES  |     | NULL    |                |
 | father_yrs_educ                   | int(11)       | YES  |     | NULL    |                |
 | fetal_presentation_at_birth       | varchar(255)  | YES  |     | NULL    |                |
-| first_name                        | varchar(255)  | YES  |     | NULL    |                |
 | forceps_attempt_unsuccessful      | tinyint(1)    | YES  |     | NULL    |                |
 | last_live_birth_on                | date          | YES  |     | NULL    |                |
 | last_menses_on                    | date          | YES  |     | NULL    |                |
-| last_name                         | varchar(255)  | YES  |     | NULL    |                |
 | last_termination_on               | date          | YES  |     | NULL    |                |
 | length_of_gestation_days          | int(11)       | YES  |     | NULL    |                |
 | live_births_now_deceased          | int(11)       | YES  |     | NULL    |                |
@@ -512,27 +513,25 @@ Table: birth_data
 | local_registrar_district          | varchar(255)  | YES  |     | NULL    |                |
 | local_registrar_no                | varchar(255)  | YES  |     | NULL    |                |
 | method_of_delivery                | varchar(255)  | YES  |     | NULL    |                |
-| middle_name                       | varchar(255)  | YES  |     | NULL    |                |
 | month_prenatal_care_began         | varchar(255)  | YES  |     | NULL    |                |
-| mother_residence_county_ef        | varchar(255)  | YES  |     | NULL    |                |
 | mother_residence_line_1           | varchar(255)  | YES  |     | NULL    |                |
-| mother_residence_zip              | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_city             | varchar(255)  | YES  |     | NULL    |                |
 | mother_residence_county           | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_county_ef        | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_state            | varchar(255)  | YES  |     | NULL    |                |
+| mother_residence_zip              | varchar(255)  | YES  |     | NULL    |                |
 | mother_weight_at_delivery         | int(11)       | YES  |     | NULL    |                |
 | mother_birthplace                 | varchar(255)  | YES  |     | NULL    |                |
 | mother_birthplace_state           | varchar(255)  | YES  |     | NULL    |                |
-| mother_residence_city             | varchar(255)  | YES  |     | NULL    |                |
 | mother_dob                        | date          | YES  |     | NULL    |                |
 | mother_first_name                 | varchar(255)  | YES  |     | NULL    |                |
+| mother_middle_name                | varchar(255)  | YES  |     | NULL    |                |
+| mother_maiden_name                | varchar(255)  | YES  |     | NULL    |                |
 | mother_height                     | int(11)       | YES  |     | NULL    |                |
 | mother_hispanic_origin_code       | varchar(255)  | YES  |     | NULL    |                |
 | mother_industry                   | varchar(255)  | YES  |     | NULL    |                |
-| mother_job_industry               | varchar(255)  | YES  |     | NULL    |                |
-| mother_maiden_name                | varchar(255)  | YES  |     | NULL    |                |
-| mother_middle_name                | varchar(255)  | YES  |     | NULL    |                |
 | mother_occupation                 | varchar(255)  | YES  |     | NULL    |                |
 | mother_received_wic               | tinyint(1)    | YES  |     | NULL    |                |
-| mother_residence_state            | varchar(255)  | YES  |     | NULL    |                |
 | mother_weight_pre_pregnancy       | int(11)       | YES  |     | NULL    |                |
 | mother_yrs_educ                   | int(11)       | YES  |     | NULL    |                |
 | ob_gestation_estimate_at_delivery | int(11)       | YES  |     | NULL    |                |
@@ -1123,15 +1122,14 @@ Table: odms_exceptions
 | Field           | Type         | Null | Key | Default | Extra          |
 +-----------------+--------------+------+-----+---------+----------------+
 | id              | int(11)      | NO   | PRI | NULL    | auto_increment |
+| exceptable_id   | int(11)      | YES  |     | NULL    |                |
+| exceptable_type | varchar(255) | YES  |     | NULL    |                |
 | name            | varchar(255) | YES  |     | NULL    |                |
 | description     | varchar(255) | YES  |     | NULL    |                |
-| occurred_at     | datetime     | YES  |     | NULL    |                |
 | is_resolved     | tinyint(1)   | YES  |     | 0       |                |
 | notes           | text         | YES  |     | NULL    |                |
 | created_at      | datetime     | NO   |     | NULL    |                |
 | updated_at      | datetime     | NO   |     | NULL    |                |
-| exceptable_id   | int(11)      | YES  |     | NULL    |                |
-| exceptable_type | varchar(255) | YES  |     | NULL    |                |
 +-----------------+--------------+------+-----+---------+----------------+
 Table: operational_event_types
 +----------------+--------------+------+-----+---------+----------------+

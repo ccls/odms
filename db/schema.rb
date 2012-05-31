@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120530171540) do
+ActiveRecord::Schema.define(:version => 20120514212129) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -493,20 +493,21 @@ ActiveRecord::Schema.define(:version => 20120530171540) do
     t.integer  "daily_cigarette_cnt_3rd_tri"
     t.integer  "daily_cigarette_cnt_3mo_preconc"
     t.date     "dob"
-    t.string   "father_job_industry"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
+    t.string   "father_industry"
     t.date     "father_dob"
     t.string   "father_hispanic_origin_code"
     t.string   "father_first_name"
-    t.string   "father_last_name"
     t.string   "father_middle_name"
+    t.string   "father_last_name"
     t.string   "father_occupation"
     t.integer  "father_yrs_educ"
     t.string   "fetal_presentation_at_birth"
-    t.string   "first_name"
     t.boolean  "forceps_attempt_unsuccessful"
     t.date     "last_live_birth_on"
     t.date     "last_menses_on"
-    t.string   "last_name"
     t.date     "last_termination_on"
     t.integer  "length_of_gestation_days"
     t.integer  "live_births_now_deceased"
@@ -514,27 +515,25 @@ ActiveRecord::Schema.define(:version => 20120530171540) do
     t.string   "local_registrar_district"
     t.string   "local_registrar_no"
     t.string   "method_of_delivery"
-    t.string   "middle_name"
     t.string   "month_prenatal_care_began"
-    t.string   "mother_residence_county_ef"
     t.string   "mother_residence_line_1"
-    t.string   "mother_residence_zip"
+    t.string   "mother_residence_city"
     t.string   "mother_residence_county"
+    t.string   "mother_residence_county_ef"
+    t.string   "mother_residence_state"
+    t.string   "mother_residence_zip"
     t.integer  "mother_weight_at_delivery"
     t.string   "mother_birthplace"
     t.string   "mother_birthplace_state"
-    t.string   "mother_residence_city"
     t.date     "mother_dob"
     t.string   "mother_first_name"
+    t.string   "mother_middle_name"
+    t.string   "mother_maiden_name"
     t.integer  "mother_height"
     t.string   "mother_hispanic_origin_code"
     t.string   "mother_industry"
-    t.string   "mother_job_industry"
-    t.string   "mother_maiden_name"
-    t.string   "mother_middle_name"
     t.string   "mother_occupation"
     t.boolean  "mother_received_wic"
-    t.string   "mother_residence_state"
     t.integer  "mother_weight_pre_pregnancy"
     t.integer  "mother_yrs_educ"
     t.integer  "ob_gestation_estimate_at_delivery"
@@ -1089,15 +1088,14 @@ ActiveRecord::Schema.define(:version => 20120530171540) do
   add_index "languages", ["key"], :name => "index_languages_on_key", :unique => true
 
   create_table "odms_exceptions", :force => true do |t|
+    t.integer  "exceptable_id"
+    t.string   "exceptable_type"
     t.string   "name"
     t.string   "description"
-    t.datetime "occurred_at"
     t.boolean  "is_resolved",     :default => false
     t.text     "notes"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
-    t.integer  "exceptable_id"
-    t.string   "exceptable_type"
   end
 
   create_table "operational_event_types", :force => true do |t|

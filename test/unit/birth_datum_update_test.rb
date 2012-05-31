@@ -292,7 +292,6 @@ pending	#	TODO try this with a real file
 			birth_datum_update = Factory(:one_record_birth_datum_update)
 			assert_match /Record failed to save/,
 				birth_datum_update.odms_exceptions.first.to_s
-puts birth_datum_update.odms_exceptions.first.to_s
 			assert_match /birth_data append/,
 				birth_datum_update.odms_exceptions.last.name
 		} } } }
