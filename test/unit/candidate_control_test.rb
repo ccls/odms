@@ -100,7 +100,9 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal 1, candidate_control.odms_exceptions.length
 		#	 as I just stubbed it, the error messages are blank
 		#	"#{name}:#{description}" ( so actually it will be ":" )
-		assert_equal ":", candidate_control.odms_exceptions.first.to_s
+		assert_equal 'new subject error',
+			candidate_control.odms_exceptions.first.name
+		assert_equal "new subject error:", candidate_control.odms_exceptions.first.to_s
 	end
 
 	test "should NOT create study_subjects from attributes missing sex" do
@@ -117,8 +119,10 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_nil candidate_control.assigned_on
 		assert_nil candidate_control.study_subject_id
 		assert_equal 1, candidate_control.odms_exceptions.length
+		assert_equal 'new subject error',
+			candidate_control.odms_exceptions.first.name
 		assert_match /Sex has not been chosen/,
-			candidate_control.odms_exceptions.first.to_s
+			candidate_control.odms_exceptions.first.description
 	end
 
 	test "should NOT create study_subjects from attributes missing dob" do
@@ -135,8 +139,10 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_nil candidate_control.assigned_on
 		assert_nil candidate_control.study_subject_id
 		assert_equal 1, candidate_control.odms_exceptions.length
+		assert_equal 'new subject error',
+			candidate_control.odms_exceptions.first.name
 		assert_match /Date of birth can't be blank/,
-			candidate_control.odms_exceptions.first.to_s
+			candidate_control.odms_exceptions.first.description
 	end
 
 	test "should create study_subjects from attributes missing first_name" do

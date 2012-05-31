@@ -99,36 +99,18 @@ class CandidateControl < ActiveRecord::Base
 #				OR
 			child.save
 			if child.new_record?
-#				#	child didn't save
-#				#	make candidate_control 'exceptable'???
-#				#	set some variable so can do ... after transaction
-#				#odms_exceptions.create( ..... 
-#	this shouldn't happen as the record should've been flagged
-#	so I'm not putting a lot of effort in here.
-#	However, if it does happen in the controller should add some errors
-#		that will end up in the view
-#
 				errors.add(:base, 
 					"You should probably reject this candidate. Study Subject invalid. " <<
 						child.errors.full_messages.to_sentence )
 
 				options_for_odms_exceptions.push({
+					:name => "new subject error",
 					:description => child.errors.full_messages.to_sentence })
-#	raising Rollback will end transaction but won't be passed on 
 				raise ActiveRecord::Rollback
-#	raising ActiveRecord::RecordNotSaved gets passed to controller
-#	unless I rescue from it below!
-#	if I raise this, then the odms exceptions won't get created
-#	so rescue, create exceptions, then re-raise
-#puts "about to raise record not saved"
-#				raise ActiveRecord::RecordNotSaved
 			end
 
 			child.assign_icf_master_id
 
-
-#	TODO May have to set is_matched for both the Case and Control here [#217]
-#	We will default it to null and add logic to set it to true for both the new control and their related case when a new control is added to study_subjects from candidate_controls.
 			case_subject.update_attributes!(:is_matched => true)
 
 
@@ -161,14 +143,9 @@ class CandidateControl < ActiveRecord::Base
 
 
 		end
-#	rescue Exception => e
-#	rescue => e
-#puts "just rescued from #{e}"
 		options_for_odms_exceptions.each do |options_for_odms_exception|
 			oe = odms_exceptions.create(options_for_odms_exception)
 		end
-#		ensure
-#		raise e if e
 		raise ActiveRecord::RecordNotSaved unless options_for_odms_exceptions.empty?
 		self
 	end

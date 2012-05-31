@@ -146,6 +146,8 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			birth_datum_update = create_test_file_and_birth_datum_update
 			assert_equal 2, birth_datum_update.birth_data.length
 			birth_datum_update.birth_data.each do |birth_datum|
+				assert_equal 'birth data append',
+					birth_datum.odms_exceptions.first.name
 				assert_match /No subject found with masterid :\w+:/,
 					birth_datum.odms_exceptions.first.to_s
 			end
@@ -271,6 +273,8 @@ pending	#	TODO try this with a real file
 			birth_datum_update = create_birth_datum_update_with_file
 			assert_equal 1, birth_datum_update.birth_data.length
 			birth_datum_update.birth_data.each do |birth_datum|
+				assert_equal 'birth data append',
+					birth_datum.odms_exceptions.first.name
 				assert_match /Unknown case_control_flag/,
 					birth_datum.odms_exceptions.first.to_s
 			end
@@ -288,6 +292,7 @@ pending	#	TODO try this with a real file
 			birth_datum_update = Factory(:one_record_birth_datum_update)
 			assert_match /Record failed to save/,
 				birth_datum_update.odms_exceptions.first.to_s
+puts birth_datum_update.odms_exceptions.first.to_s
 			assert_match /birth_data append/,
 				birth_datum_update.odms_exceptions.last.name
 		} } } }
@@ -300,8 +305,6 @@ pending	#	TODO try this with a real file
 #
 	test "should create odms exception if birth datum count incorrect" do
 		study_subject = create_case_for_birth_datum_update
-#		assert_difference('OdmsException.count',2) {
-#	I haven't stopped the creation, just stubbed the count
 		assert_difference('OdmsException.count',1) {
 		assert_difference('CandidateControl.count',1) {	#	after_create should add this
 		assert_difference('BirthDatum.count',1) {	#	after_create should add this

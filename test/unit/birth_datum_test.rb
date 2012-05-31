@@ -19,6 +19,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_not_nil birth_datum.sex
 			assert_nil     birth_datum.case_control_flag
 			assert_nil     birth_datum.match_confidence
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.first.to_s
 		} } }
@@ -32,6 +34,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'case', birth_datum.case_control_flag
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.first.to_s
 			assert_equal   'definite', birth_datum.match_confidence
@@ -46,6 +50,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'control', birth_datum.case_control_flag
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.first.to_s
 			assert_nil     birth_datum.match_confidence
@@ -60,6 +66,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'bogus', birth_datum.case_control_flag
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.first.to_s
 			assert_nil     birth_datum.match_confidence
@@ -113,6 +121,8 @@ pending	#	TODO should update case attributes, but which ones?
 			assert_not_nil birth_datum.dob
 			assert_not_nil birth_datum.sex
 			assert_equal  'bogus', birth_datum.case_control_flag
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /Unknown case_control_flag/,
 				birth_datum.odms_exceptions.first.to_s
 		} } }
@@ -124,6 +134,8 @@ pending	#	TODO should update case attributes, but which ones?
 		assert_difference('OdmsException.count',1) {
 			birth_datum = Factory(:case_birth_datum)
 			assert_nil birth_datum.masterid
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.last.to_s
 		} }
@@ -135,14 +147,12 @@ pending	#	TODO should update case attributes, but which ones?
 		assert_difference('OdmsException.count',1) {
 			birth_datum = Factory(:case_birth_datum,:masterid => 'IAMUNUSED')
 			assert_equal birth_datum.masterid, 'IAMUNUSED'
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /No subject found with masterid :\w+:/,
 				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
-
-
-
-#	TODO and don't forget about match_confidence (only refers to cases if I read it right)
 
 	test "should update case subject if masterid is not blank and used by a case" <<
 			" for case birth datum and match_confidence is definite" do
@@ -164,23 +174,20 @@ pending	#	TODO
 
 	test "should NOT update case subject if masterid is not blank and used by a case" <<
 			" for case birth datum and match_confidence is NOT definite" do
-pending	#	TODO	add something that would update if was definite, add odms exception ????
 		assert_difference('BirthDatum.count',1) {
-		assert_difference('OdmsException.count',0) {
+		assert_difference('OdmsException.count',1) {
 			study_subject = create_case_study_subject_with_icf_master_id
 			birth_datum = Factory(:case_birth_datum,
 				:match_confidence => 'somethingelse',
 				:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_equal birth_datum.match_confidence, 'somethingelse'
-#
-#	TODO			assert study subject attributes did not change
-#
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
+			assert_match /Match confidence not 'definite':somethingelse:/,
+				birth_datum.odms_exceptions.last.to_s
 		} }
 	end
-
-
-
 
 	test "should create odms exception if masterid is not blank and used by a control" <<
 			" for case birth datum" do
@@ -189,6 +196,8 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			study_subject = create_control_study_subject_with_icf_master_id
 			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /Subject found with masterid :\w+: is not a case subject/,
 				birth_datum.odms_exceptions.last.to_s
 		} }
@@ -201,6 +210,8 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			study_subject = create_mother_study_subject_with_icf_master_id
 			birth_datum = Factory(:case_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /Subject found with masterid :\w+: is not a case subject/,
 				birth_datum.odms_exceptions.last.to_s
 		} }
@@ -212,6 +223,8 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 		assert_difference('OdmsException.count',1) {
 			birth_datum = Factory(:control_birth_datum)
 			assert_nil birth_datum.masterid
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /masterid blank/,
 				birth_datum.odms_exceptions.last.to_s
 		} }
@@ -223,6 +236,8 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 		assert_difference('OdmsException.count',1) {
 			birth_datum = Factory(:control_birth_datum,:masterid => 'IAMUNUSED')
 			assert_equal birth_datum.masterid, 'IAMUNUSED'
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /No subject found with masterid :\w+:/,
 				birth_datum.odms_exceptions.last.to_s
 		} }
@@ -243,6 +258,25 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 		} } }
 	end
 
+	test "should create odms exception if create candidate control fails" do
+		CandidateControl.any_instance.stubs(:create_or_update).returns(false)
+		assert_difference('BirthDatum.count',1) {
+		assert_difference('OdmsException.count',1) {
+		assert_difference('CandidateControl.count',0) {
+			study_subject = create_case_study_subject_with_icf_master_id
+			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
+			assert_equal birth_datum.masterid, study_subject.icf_master_id
+#			assert_not_nil birth_datum.candidate_control
+#			assert !birth_datum.candidate_control.reject_candidate
+#			assert_equal birth_datum.candidate_control.related_patid, 
+#				study_subject.patid
+			assert_equal 'candidate control creation',
+				birth_datum.odms_exceptions.first.name
+			assert_match /Error creating candidate_control for subject/,
+				birth_datum.odms_exceptions.last.to_s
+		} } }
+	end
+
 	test "should create odms exception if masterid is not blank and used by a control" <<
 			" for control birth datum" do
 		assert_difference('BirthDatum.count',1) {
@@ -250,6 +284,8 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			study_subject = create_control_study_subject_with_icf_master_id
 			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /Subject found with masterid :\w+: is not a case subject/,
 				birth_datum.odms_exceptions.last.to_s
 		} }
@@ -262,6 +298,8 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			study_subject = create_mother_study_subject_with_icf_master_id
 			birth_datum = Factory(:control_birth_datum,:masterid => study_subject.icf_master_id )
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /Subject found with masterid :\w+: is not a case subject/,
 				birth_datum.odms_exceptions.last.to_s
 		} }
@@ -278,6 +316,8 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_not_nil birth_datum.candidate_control
 			assert birth_datum.candidate_control.reject_candidate
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /Candidate control was pre-rejected because Birth datum sex is blank/,
 				birth_datum.odms_exceptions.last.to_s
 		} } }
@@ -294,6 +334,8 @@ pending	#	TODO	add something that would update if was definite, add odms excepti
 			assert_equal birth_datum.masterid, study_subject.icf_master_id
 			assert_not_nil birth_datum.candidate_control
 			assert birth_datum.candidate_control.reject_candidate
+			assert_equal 'birth data append',
+				birth_datum.odms_exceptions.first.name
 			assert_match /Candidate control was pre-rejected because Birth datum dob is blank/,
 				birth_datum.odms_exceptions.last.to_s
 		} } }
