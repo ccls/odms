@@ -135,7 +135,7 @@ class User < ActiveRecord::Base
 	#	( multi-line arrays, like this one, usually don't test as 
 	#	100% coverage.  Not sure exactly why, but it doesn't.
 	#	Other multi-line arrays seem to cover fine.
-	admin_only_resources = %w( abstracts address_types birth_data
+	%w( abstracts address_types birth_data
 			birth_datum_updates birth_records contexts data_sources
 			diagnoses document_types document_versions follow_up_types
 			hospitals icf_master_ids icf_master_trackers
@@ -146,8 +146,7 @@ class User < ActiveRecord::Base
 			people phone_types project_outcomes races refusal_reasons
 			sample_formats sample_outcomes sample_temperatures
 			sample_types sections subject_relationships subject_types
-			tracing_statuses units vital_statuses )
-	admin_only_resources.each do |resource|
+			tracing_statuses units vital_statuses ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?
 		alias_method "may_edit_#{resource}?".to_sym,    :may_administrate?
