@@ -7,7 +7,7 @@
 <tr>
 <th></th>
 <th>masterid</th>
-<th>case/control</th>
+<th>case / control</th>
 <th>match confidence</th>
 <th>study subject</th>
 <th>candidate control</th>
@@ -27,7 +27,7 @@
 No Study Subject Set
 <% end %></td>
 <td><% if birth_datum.candidate_control %>
-related patid:<%= birth_datum.candidate_control.related_patid %>
+<%= link_to "Candidate Control", birth_datum.candidate_control %>
 <% else %>
 No Candidate Control Set
 <% end %></td>
