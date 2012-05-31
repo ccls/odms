@@ -135,15 +135,14 @@ end
 
 Factory.define :user do |f|
 	f.sequence(:uid) { |n| "UID#{n}" }
-#	f.sequence(:username) { |n| "username#{n}" }
-#	f.sequence(:email) { |n| "username#{n}@example.com" }
-#	f.password 'V@1!dP@55w0rd'
-#	f.password_confirmation 'V@1!dP@55w0rd'
-#	f.role_name 'user'
 end
-Factory.define :admin_user, :parent => :user do |f|
-	f.administrator true
-end	#	parent must be defined first
+#Factory.define :admin_user, :parent => :user do |f|
+#	f.administrator true
+#end	#	parent must be defined first
+
+Factory.define :role do |f|
+	f.sequence(:name) { |n| "name#{n}" }
+end
 
 Factory.define :address do |f|
 	f.association :address_type
@@ -164,7 +163,7 @@ Factory.define :addressing do |f|
 	f.association :study_subject
 	f.association :data_source
 	f.is_valid    1
-	f.is_verified false		#		2		#	20111110 just noticed that this is boolean and not int for YNDK
+	f.is_verified false
 	f.updated_at Time.now	#	to make it dirty
 end
 Factory.define :mailing_addressing, :parent => :addressing do |f|
@@ -208,26 +207,19 @@ Factory.define :birth_datum do |f|
 #
 #	These are not required, but without them, conversion to subject will fail
 #
-#	f.first_name "First"
-#	f.last_name  "Last"
 	f.dob { random_date }
 	f.sex { random_sex }
 end
-Factory.define :case_birth_datum,
-	:parent => :birth_datum do |f|
+Factory.define :case_birth_datum, :parent => :birth_datum do |f|
 	f.case_control_flag 'case'
 	f.match_confidence 'definite'
 end
-Factory.define :control_birth_datum,
-	:parent => :birth_datum do |f|
+Factory.define :control_birth_datum, :parent => :birth_datum do |f|
 	f.case_control_flag 'control'
 end
-Factory.define :bogus_birth_datum,
-	:parent => :birth_datum do |f|
+Factory.define :bogus_birth_datum, :parent => :birth_datum do |f|
 	f.case_control_flag 'bogus'
 end
-#Factory.define :birth_datum_change do |f|
-#end
 Factory.define :birth_datum_update do |f|
 	f.csv_file Rack::Test::UploadedFile.new( 
 		'test/assets/empty_birth_datum_update_test_file.csv', 'text/csv')
@@ -242,11 +234,7 @@ Factory.define :one_record_birth_datum_update,
 end
 
 Factory.define :candidate_control do |f|
-#	f.first_name "First"
-#	f.last_name  "Last"
-#	f.dob { random_date }	#Date.jd(2440000+rand(15000))
 	f.reject_candidate false
-#	f.sex { random_sex }
 end
 Factory.define :rejected_candidate_control, :parent => :candidate_control do |f|
 	f.reject_candidate true
@@ -280,7 +268,6 @@ end
 
 Factory.define :diagnosis do |f|
 	f.sequence(:key)         { |n| "Key#{n}"}
-#	f.sequence(:code)        { |n| n+4 }	#	1, 2 and 3 are in the fixtures
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
@@ -299,15 +286,7 @@ Factory.define :subjectless_enrollment, :class => 'Enrollment' do |f|
 	f.association :project
 end
 Factory.define :enrollment, :parent => :subjectless_enrollment do |f|
-#Factory.define :enrollment do |f|
 	f.association :study_subject
-#	f.association :project
-#	f.is_eligible 1	#true
-#	f.is_chosen   1	#true
-#	f.consented   1	#true
-#	f.consented_on Date.yesterday
-#	f.terminated_participation 2	#false
-#	f.is_complete 2	#false
 end
 Factory.define :consented_enrollment, :parent => :enrollment do |f|
 	f.consented   { YNDK[:yes] }	#1	#true
@@ -334,7 +313,6 @@ Factory.define :gift_card do |f|
 	f.sequence(:number){ |n| "#{n}" }
 end
 
-#	This is no longer used in this gem, but is used in the apps
 Factory.define :guide do |f|
 	f.sequence(:controller){ |n| "controller#{n}" }
 	f.sequence(:action)    { |n| "action#{n}" }
@@ -368,7 +346,6 @@ Factory.define :icf_master_id do |f|
 end
 
 Factory.define :icf_master_tracker do |f|
-#	f.sequence(:Masterid){|n| "#{n}"}	#	in order to test uniqueness, MUST BE HERE
 	f.sequence(:master_id){|n| "#{n}"}	#	in order to test uniqueness, MUST BE HERE
 	f.master_tracker_date Date.today	#	virtual attribute needed for Change
 end
@@ -430,7 +407,6 @@ end
 
 Factory.define :language do |f|
 	f.sequence(:key)         { |n| "Key#{n}" }
-#	f.sequence(:code)        { |n| "Code#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
@@ -447,17 +423,7 @@ end
 
 
 Factory.define :operational_event do |f|
-#	f.association :study_subject
-#	f.association :project
-#	f.association :operational_event_type
 end
-
-#	DO NOT DO THIS model_name_with_something
-#	then call create_model_name_with_something
-#	my method_missing handlers will freak out
-#Factory.define :operational_event_with_subject, :parent => :operational_event do |f|
-#	f.association :study_subject
-#end
 
 Factory.define :operational_event_type do |f|
 	f.sequence(:key)            { |n| "Key#{n}" }
@@ -529,7 +495,6 @@ end
 
 Factory.define :project_outcome do |f|
 	f.sequence(:key)         { |n| "Key#{n}" }
-#	f.sequence(:code)        { |n| "Code#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
@@ -540,7 +505,6 @@ end
 
 Factory.define :race do |f|
 	f.sequence(:key)        {|n| "Key#{n}"}
-#	f.sequence(:code)       {|n| "Race#{n}"}
 	f.sequence(:description){|n| "Desc#{n}"}
 end
 
@@ -610,9 +574,6 @@ end
 
 Factory.define :study_subject do |f|
 	f.association :subject_type
-
-#	This now defaults to living
-#	f.association :vital_status
 
 	f.sex { random_sex }
 	f.sequence(:email){|n| "email#{n}@example.com"}	#	required here only to test uniqueness
@@ -704,40 +665,21 @@ end
 
 Factory.define :vital_status do |f|
 	f.sequence(:key)         { |n| "key#{n}" }
-#	f.sequence(:code)        { |n| n+3 }							#	3 in fixtures
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
 Factory.define :zip_code do |f|
 	f.sequence(:zip_code){ |n| sprintf("X%04d",n) }
-#	f.latitude { random_float() }
-#	f.longitude { random_float() }
 	f.sequence(:city){ |n| sprintf("%05d",n) }
 	f.sequence(:state){ |n| sprintf("%05d",n) }
-#	f.sequence(:county){ |n| sprintf("%05d",n) }
 	f.zip_class "TESTING"
 end
-
-
-#
-#		Intended for communication with SRC,
-#		but that doesn't look like it'll be happening now.
-#
-Factory.define :import do |f|
-end
-Factory.define :export do |f|
-	f.sequence(:childid) { |n| "childid#{n}" }
-	f.sequence(:patid)   { |n| "patid#{n}" }
-end
-
-
 
 Factory.define :abstract do |f|
 	f.association :study_subject, :factory => :case_study_subject
 	f.updated_at Time.now	#	to make it dirty
 end
 Factory.define :complete_abstract, :class => 'Abstract' do |f|
-#	f.sequence(:subject_id){|n| n }
 	f.response_day14or28_flag { random_yndk() }
 	f.received_bone_marrow_biopsy { random_yndk() }
 	f.received_h_and_p { random_yndk() }
@@ -838,7 +780,6 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.received_chest_ct { random_yndk() }
 	f.chest_ct_taken_on { random_date() }
 	f.chest_ct_medmass_present { random_yndk() }
-#	f.sequence(:user_id){|n| n }
 	f.cytogen_trisomy10 { random_yndk() }
 	f.cytogen_trisomy17 { random_yndk() }
 	f.cytogen_trisomy21 { random_yndk() }
@@ -1007,7 +948,6 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:reviewer_id){|n| n }
 	f.reviewed_on { random_date() }
 	f.data_entry_done_on { random_date() }
-#	f.sequence(:abstract_version_number){|n| n }
 	f.flow_cyto_num_results_available { random_yndk() }
 	f.sequence(:response_other1_value_day_14){|n| "#{n}"}
 	f.sequence(:response_other1_value_day_7){|n| "#{n}"}
@@ -1038,9 +978,7 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:dna_index){|n| "#{n}"}
 	f.sequence(:other_dna_measure){|n| "#{n}"}
 	f.sequence(:ploidy_comment){|n| "#{n}"}
-#	f.sequence(:hepatomegaly_present){|n| n }
 	f.hepatomegaly_present{ random_yndk() }
-#	f.sequence(:splenomegaly_present){|n| n }
 	f.splenomegaly_present{ random_yndk() }
 	f.sequence(:response_comment){|n| "#{n}"}
 	f.sequence(:response_other1_name_day_14){|n| "#{n}"}
@@ -1074,29 +1012,7 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:response_fab_subtype){|n| "#{n}"}
 	f.sequence(:response_tdt_day_14){|n| "#{n}"}
 	f.sequence(:response_tdt_day_7){|n| "#{n}"}
-#	f.sequence(:abstract_version_description){|n| "#{n}"}
 	f.sequence(:abstract_version_id){|n| n }
 	f.height_at_diagnosis { random_float() }
 	f.weight_at_diagnosis { random_float() }
 end
-
-
-
-
-
-Factory.define :role do |f|
-	f.sequence(:name) { |n| "name#{n}" }
-end
-
-#Factory.define :user do |f|
-#	f.sequence(:uid) { |n| "UID#{n}" }
-##	f.sequence(:username) { |n| "username#{n}" }
-##	f.sequence(:email) { |n| "username#{n}@example.com" }
-##	f.password 'V@1!dP@55w0rd'
-##	f.password_confirmation 'V@1!dP@55w0rd'
-##	f.role_name 'user'
-#end
-#Factory.define :admin_user, :parent => :user do |f|
-#	f.administrator true
-#end	#	parent must be defined first
-

@@ -37,14 +37,6 @@ module ActionControllerExtension::AccessibleViaUser
 
 			m_key = options[:model].try(:underscore).try(:to_sym)
 
-#			o = {
-#				:actions => {
-#					:new => {
-#						:request => [ :get, :new ]
-#					}
-#				}
-#			}
-
 			logins = Array(options[:logins]||options[:login])
 			logins.each do |login|
 				#	options[:login] is set for the title,
@@ -149,7 +141,6 @@ module ActionControllerExtension::AccessibleViaUser
 						args[m_key] = send(options[:attributes_for_create])
 					end
 					before = obj.updated_at if obj
-#					sleep 1 if obj	#	if updated too quickly, updated_at won't change
 					send(:put,:update, args)
 					after = obj.reload.updated_at if obj
 					assert_not_equal( before.to_i,after.to_i, "updated_at did not change." ) if obj
@@ -167,7 +158,6 @@ module ActionControllerExtension::AccessibleViaUser
 						args[m_key] = send(options[:attributes_for_create])
 					end
 					before = obj.updated_at if obj
-#					sleep 1 if obj	#	if updated too quickly, updated_at won't change
 					options[:model].constantize.any_instance.stubs(:create_or_update).returns(false)
 					send(:put,:update, args)
 					after = obj.reload.updated_at if obj
@@ -189,7 +179,6 @@ module ActionControllerExtension::AccessibleViaUser
 						args[m_key] = send(options[:attributes_for_create])
 					end
 					before = obj.updated_at if obj
-#					sleep 1 if obj	#	if updated too quickly, updated_at won't change
 					options[:model].constantize.any_instance.stubs(:valid?).returns(false)
 					send(:put,:update, args)
 					after = obj.reload.updated_at if obj

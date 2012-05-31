@@ -30,7 +30,6 @@ class StudySubjectAbstractsControllerTest < ActionController::TestCase
 			assert_template 'index'
 			assert_nil flash[:error]
 			assert assigns(:abstracts)	#	EMPTY THOUGH
-#			assert_equal assigns(:abstract).study_subject_id, @study_subject.id
 		end
 
 		test "should NOT get index with control study subject and #{cu} login" do
@@ -238,7 +237,6 @@ class StudySubjectAbstractsControllerTest < ActionController::TestCase
 				post :create, :study_subject_id => study_subject.id
 			end
 			assert_not_nil flash[:error]
-#			assert_redirected_to abstracts_path
 			assert_redirected_to study_subject_abstracts_path(study_subject)
 		end
 
@@ -250,7 +248,6 @@ class StudySubjectAbstractsControllerTest < ActionController::TestCase
 				post :create, :study_subject_id => study_subject.id
 			end
 			assert_not_nil flash[:error]
-#			assert_redirected_to abstracts_path
 			assert_redirected_to study_subject_abstracts_path(study_subject)
 		end
 

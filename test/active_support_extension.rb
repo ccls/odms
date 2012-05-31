@@ -1,6 +1,5 @@
 require 'active_support'
 require 'active_support/test_case'
-#$LOAD_PATH.unshift(File.dirname(__FILE__))
 module ActiveSupportExtension; end
 require 'active_support_extension/test_case'
 require 'active_support_extension/test_with_verbosity'

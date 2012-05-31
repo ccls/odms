@@ -4,9 +4,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'StudySubject',
-#		:actions => [:new,:create,:edit,:update,:show,:destroy,:index],
 		:actions => [:show,:index],
-#		:before => :create_home_exposure_study_subjects,
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_study_subject
 	}
@@ -15,8 +13,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			:updated_at => ( Time.now + 1.day ),
 			:subject_type_id => Factory(:subject_type).id,
 			:race_ids => [Race['white'].id]}.merge(options))
-#	Can't do random as may include 'other' which will require 'subject_race.other' 
-#			:race_ids => [Race.random.id]}.merge(options))
 	end
 
 	assert_access_with_login({ 
@@ -46,16 +42,16 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		:show => { :id => 0 }
 	)
 
-	setup :destroy_all_study_subjects
-	def destroy_all_study_subjects
-#
-#	For some reason, some tests don't actually cleanup after themselves
-#	and rollback correctly.  Destroy all subjects so counts are correct.
-#	Or don't use absolute counts.
-#	Or figure out why it does that.
-#
-		StudySubject.destroy_all
-	end
+#	setup :destroy_all_study_subjects
+#	def destroy_all_study_subjects
+##
+##	For some reason, some tests don't actually cleanup after themselves
+##	and rollback correctly.  Destroy all subjects so counts are correct.
+##	Or don't use absolute counts.
+##	Or figure out why it does that.
+##
+#		StudySubject.destroy_all
+#	end
 
 	site_readers.each do |cu|
 
@@ -78,16 +74,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_select ".arrow", :count => 1
 			assert_select ".arrow", 1
 		end
-	
-#		test "should get show with pii with #{cu} login" do
-#			study_subject = Factory(:study_subject)
-##			study_subject = Factory(:study_subject,
-##				:pii_attributes => Factory.attributes_for(:pii))
-#			login_as send(cu)
-#			get :show, :id => study_subject.id
-#			assert_response :success
-#			assert_template 'show'
-#		end
 	
 		test "should have do_not_contact if it is true "<<
 				"with #{cu} login" do

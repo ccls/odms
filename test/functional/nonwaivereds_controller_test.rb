@@ -109,13 +109,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
 			assert_equal addressing.current_address, YNDK[:yes]
 			assert_equal addressing.is_valid, YNDK[:yes]
-
-#			#	verified_on is a Time so can really only compare the date
-#			#	also seems that active record uses UTC times, so
-#			assert_equal addressing.verified_on.localtime.to_date, Date.today
-#	Actually just a date now
 			assert_equal addressing.verified_on, Date.today
-
 			assert_equal addressing.verified_by_uid, user.uid
 		end
 
@@ -129,13 +123,7 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal phone_number.data_source, DataSource['RAF']
 			assert_equal phone_number.current_phone, YNDK[:yes]
 			assert_equal phone_number.is_valid, YNDK[:yes]
-
-#			#	verified_on is a Time so can really only compare the date
-#			#	also seems that active record uses UTC times, so
-#			assert_equal phone_number.verified_on.localtime.to_date, Date.today
-#	Actually just a date now
 			assert_equal phone_number.verified_on, Date.today
-
 			assert_equal phone_number.verified_by_uid, user.uid
 		end
 
@@ -154,11 +142,6 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 			assert_equal 'C', assigns(:study_subject).case_control_type
 			assert_equal '0', assigns(:study_subject).orderno.to_s
 		end
-
-
-
-
-
 
 		test "should create nonwaivered case study_subject" <<
 				" and set is_eligible yes with #{cu} login" do

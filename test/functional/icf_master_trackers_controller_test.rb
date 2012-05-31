@@ -23,8 +23,6 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			icf_master_tracker = Factory(:icf_master_tracker)
 			put :update, :id => icf_master_tracker.id
 			assert_not_nil flash[:notice]
-
-
 			assert_redirected_to icf_master_trackers_path
 		end
 	

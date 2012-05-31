@@ -4,21 +4,21 @@ module ActiveSupportExtension::Assertions
 		base.extend(ClassMethods)
 	end
 
-	def assert_subject_is_eligible(study_subject)
-		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-		assert_not_nil hxe
-		assert_nil     hxe.ineligible_reason_id
-		assert_equal   hxe.is_eligible, YNDK[:yes]
-	end
-	alias_method :assert_study_subject_is_eligible, :assert_subject_is_eligible
-
-	def assert_subject_is_not_eligible(study_subject)
-		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-		assert_not_nil hxe
-		assert_not_nil hxe.ineligible_reason_id
-		assert_equal   hxe.is_eligible, YNDK[:no]
-	end
-	alias_method :assert_study_subject_is_not_eligible, :assert_subject_is_not_eligible
+#	def assert_subject_is_eligible(study_subject)
+#		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+#		assert_not_nil hxe
+#		assert_nil     hxe.ineligible_reason_id
+#		assert_equal   hxe.is_eligible, YNDK[:yes]
+#	end
+#	alias_method :assert_study_subject_is_eligible, :assert_subject_is_eligible
+#
+#	def assert_subject_is_not_eligible(study_subject)
+#		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+#		assert_not_nil hxe
+#		assert_not_nil hxe.ineligible_reason_id
+#		assert_equal   hxe.is_eligible, YNDK[:no]
+#	end
+#	alias_method :assert_study_subject_is_not_eligible, :assert_subject_is_not_eligible
 
 	module ClassMethods
 

@@ -25,8 +25,6 @@ class AddressingsControllerTest < ActionController::TestCase
 
 	def factory_attributes(options={})
 		Factory.attributes_for(:addressing,{
-#			:data_source_id => Factory(:data_source).id
-#			:data_source_id => DataSource['raf'].id
 			:data_source_id => DataSource['unknown'].id
 		}.merge(options))
 	end
@@ -71,26 +69,6 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
-
-#	HomeExposures-specific test
-#		test "should make study_subject ineligible after create " <<
-#				"with #{cu} login" do
-#			study_subject = create_eligible_hx_study_subject
-#			login_as send(cu)
-#			assert_difference("StudySubject.find(#{study_subject.id}).addressings.count",1) {
-#			assert_difference("StudySubject.find(#{study_subject.id}).addresses.count",1) {
-#			assert_difference('Addressing.count',1) {
-#			assert_difference('Address.count',1) {
-#				post :create, :study_subject_id => study_subject.id,
-#					:addressing => az_addressing()
-#			} } } }
-#			assert assigns(:study_subject)
-#			assert_study_subject_is_not_eligible(study_subject)
-#			hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-#			assert_equal   hxe.ineligible_reason,
-#				IneligibleReason['newnonCA']
-#			assert_redirected_to study_subject_contacts_path(study_subject)
-#		end
 
 		test "should create new addressing with #{cu} login" do
 			study_subject = Factory(:study_subject)
@@ -180,7 +158,6 @@ class AddressingsControllerTest < ActionController::TestCase
 
 		test "should NOT create new addressing with #{cu} login " <<
 				"and invalid address" do
-	#		Address.any_instance.stubs(:valid?).returns(false)
 			Address.any_instance.stubs(:create_or_update).returns(false)
 			study_subject = Factory(:study_subject)
 			login_as send(cu)

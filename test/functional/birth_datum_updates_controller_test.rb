@@ -22,7 +22,6 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'BirthDatumUpdate',
-#		:actions => [:new,:create,:edit,:update,:show,:destroy,:index],
 		:actions => [:new,:create,:show,:destroy,:index],
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_birth_datum_update
@@ -100,6 +99,8 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 		end
 
 #	PARSING IS GOING TO BE AUTOMATIC
+#
+#	perhaps move these tests into the create action
 
 
 #		test "should parse with #{cu} login" do

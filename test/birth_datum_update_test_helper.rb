@@ -53,19 +53,16 @@ module BirthDatumUpdateTestHelper
 	end
 
 	def csv_file_unknown(options={})
-#		"1234FAKE,unknown,1,,1/18/2012,Jane Smith,Jones,John Smith,Jimmy Smith,1,6,2009,M,United States,CA,Bakersfield,2,2,1,,2,2,1,"
 		c = unknown_subject_hash.merge(options)
 		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
 	end
 
 	def csv_file_case_study_subject(options={})
-#		"1234FAKE,case,1,,1/18/2012,Jane Smith,Jones,John Smith,Jimmy Smith,1,6,2009,M,United States,CA,Bakersfield,2,2,1,,2,2,1,"
 		c = case_subject_hash.merge(options)
 		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
 	end
 
 	def csv_file_control(options={})
-#		c = control.merge(options)
 		c = control_subject_hash.merge(options)
 		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
 	end
@@ -78,27 +75,17 @@ module BirthDatumUpdateTestHelper
 	end
 
 	#	just enough for no exceptions
-	#	this could be Factory(:at
 	def unknown_subject_hash
-#		{	:masterid => '12345FAKE',
-#			:sex => 'M',
-#			:dob => 'Dec 5, 1971' }
 		Factory.attributes_for(:birth_datum,
 			:masterid => '12345FAKE' )
 	end
 
 	def case_subject_hash
-#		unknown_subject_hash.merge({
-#			:case_control_flag => 'case'
-#		})
 		Factory.attributes_for(:case_birth_datum,
 			:masterid => '12345FAKE' )
 	end
 
 	def control_subject_hash
-#		unknown_subject_hash.merge({
-#			:case_control_flag => 'control'
-#		})
 		Factory.attributes_for(:control_birth_datum,
 			:masterid => '12345FAKE' )
 	end

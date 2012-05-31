@@ -19,7 +19,7 @@ class ContextsControllerTest < ActionController::TestCase
 
 	site_administrators.each do |cu|
 
-#	special tests to test the html validity with content
+		#	special tests to test the html validity with content
 
 		test "should edit context with contextables and #{cu} login" do
 			login_as send(cu)

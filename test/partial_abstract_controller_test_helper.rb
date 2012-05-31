@@ -34,11 +34,8 @@ module PartialAbstractControllerTestHelper
 					assert_template 'show'
 				end
 
-#				test "should show abstract with pii, patient and identifier and #{cu} login" do
 				test "should show abstract with patient and #{cu} login" do
 					patient = Factory(:patient)
-#					pii = Factory(:pii,:study_subject => patient.study_subject)
-#					identifier = Factory(:identifier,:study_subject => patient.study_subject)
 					abstract = create_abstract(:study_subject => patient.study_subject)
 					login_as send(cu)
 					get :show, :abstract_id => abstract.id
@@ -55,11 +52,8 @@ module PartialAbstractControllerTestHelper
 					assert_redirected_to abstracts_path
 				end
 			
-#				test "should edit abstract with pii, patient and identifier and #{cu} login" do
 				test "should edit abstract with patient and #{cu} login" do
 					patient = Factory(:patient)
-#					pii = Factory(:pii,:study_subject => patient.study_subject)
-#					identifier = Factory(:identifier,:study_subject => patient.study_subject)
 					abstract = create_abstract(:study_subject => patient.study_subject)
 					login_as send(cu)
 					get :edit, :abstract_id => abstract.id
@@ -131,18 +125,14 @@ module PartialAbstractControllerTestHelper
 					assert_not_nil flash[:error]
 				end
 
-#				test "should update and redirect to edit next section " <<
-#						"with #{cu} login and commit = 'edit_next'" do
 				test "should update and redirect to edit next section " <<
 						"with #{cu} login and edit_next is set" do
 					abstract = create_abstract
 					login_as send(cu)
 					put :update, :abstract_id => abstract.id, :abstract => {},
 						:edit_next => 'something'
-#						:commit => 'edit_next'
 					assert assigns(:abstract)
 					sections = Abstract.sections
-#					ci = sections.find_index{|i| i[:controller] == @controller.class.name }
 					ci = sections.find_index{|i| 
 						i[:controller] == @controller.class.name.demodulize }
 					if( !ci.nil? && ci < ( sections.length - 1 ) )
@@ -150,18 +140,14 @@ module PartialAbstractControllerTestHelper
 					end
 				end
 
-#				test "should update and redirect to edit previous section " <<
-#						"with #{cu} login and commit = 'edit_previous'" do
 				test "should update and redirect to edit previous section " <<
 						"with #{cu} login and edit_previous is set" do
 					abstract = create_abstract
 					login_as send(cu)
 					put :update, :abstract_id => abstract.id, :abstract => {},
 						:edit_previous => 'something'
-#						:commit => 'edit_previous'
 					assert assigns(:abstract)
 					sections = Abstract.sections
-#					ci = sections.find_index{|i| i[:controller] == @controller.class.name }
 					ci = sections.find_index{|i| 
 						i[:controller] == @controller.class.name.demodulize }
 					if( !ci.nil? && ci > 0 )

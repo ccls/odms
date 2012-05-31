@@ -4,7 +4,6 @@ class OdmsExceptionsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'OdmsException',
-#		:actions => [:new,:create,:edit,:update,:show,:index,:destroy],
 		:actions => [:edit,:update,:show,:index,:destroy],
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_odms_exception

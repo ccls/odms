@@ -5,7 +5,6 @@ class BcRequestsControllerTest < ActionController::TestCase
 	ASSERT_ACCESS_OPTIONS = { 
 		:model => 'BcRequest',
 		:actions => [:new,:edit,:update,:destroy],		
-		#,:index], index is a bit tricky so done manually
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_bc_request
 	}
@@ -15,8 +14,6 @@ class BcRequestsControllerTest < ActionController::TestCase
 	end
 
 	assert_access_with_login({    :logins => site_editors })
-#	assert_access_with_login({    :logins => site_editors,
-#		:skip_update_failure => true })		#	TODO for now, this doesn't work
 	assert_no_access_with_login({ :logins => non_site_editors })
 	assert_no_access_without_login
 
@@ -64,10 +61,6 @@ class BcRequestsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Factory(:complete_case_study_subject)
 			Factory(:complete_case_study_subject)
-
-#	I think that this was for the view, but is no longer used.
-#			StudySubject.stubs(:search).returns(StudySubject.all)
-
 			assert_difference('BcRequest.count',0) {
 				post :create, :patid => 'irrelevant_for_this_test'
 			}
@@ -80,7 +73,6 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with non-case" <<
 				" study_subject and #{cu} login" do
 			login_as send(cu)
-#			non_case_study_subject = create_study_subject_with_patid('1234')
 			non_case_study_subject = Factory(:study_subject, :patid => '1234')
 			assert !non_case_study_subject.new_record?
 			assert_not_nil non_case_study_subject.patid
@@ -223,13 +215,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 			require 'fastercsv'
 			f = FasterCSV.parse(@response.body)
-
-#	NOTE apparantly now adds an extra blank line to csv
-
 			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
-#			assert_equal 3, f.length	#	3 rows, 1 header and 1 data and 1 blank
 			assert_equal f[0], ["masterid", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "other_mother_race", "father_hispanicity", "father_hispanicity_mex", "father_race", "other_father_race"]
-
 			assert_equal 23, f[0].length
 #["46", nil, nil, nil, "[name not available]", nil, "[name not available]", "[name not available]", "3", "23", "2006", "F", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
 			assert_equal f[1][0],  case_study_subject.icf_master_id
@@ -257,7 +244,6 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should confirm actives exported with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-#			assert case_study_subject.enrollments.empty?
 			assert_equal 1, case_study_subject.enrollments.length
 			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			get :confirm
@@ -274,45 +260,10 @@ class BcRequestsControllerTest < ActionController::TestCase
 				case_study_subject.operational_events.last.operational_event_type
 		end
 
-#	Enrollment in ccls is not longer created here so this test is invalid
-#		test "should NOT confirm actives exported with #{cu} login if " <<
-#				"enrollment creation fails" do
-#			login_as send(cu)
-#			case_study_subject = create_case_study_subject
-##			assert case_study_subject.enrollments.empty?
-#			assert_equal 1, case_study_subject.enrollments.length
-#			bcr = case_study_subject.bc_requests.create(:status => 'active')
-#			Enrollment.any_instance.stubs(:create_or_update).returns(false)
-#			assert_difference('Enrollment.count',0) {
-#			assert_difference('OperationalEvent.count',0) {
-#				get :confirm
-#			} }
-#			assert_not_nil flash[:error]
-#			assert_redirected_to new_bc_request_path
-#		end
-
-#	Enrollment in ccls is not longer created here so this test is invalid
-#		test "should NOT confirm actives exported with #{cu} login if " <<
-#				"enrollment invalid" do
-#			login_as send(cu)
-#			case_study_subject = create_case_study_subject
-##			assert case_study_subject.enrollments.empty?
-#			assert_equal 1, case_study_subject.enrollments.length
-#			bcr = case_study_subject.bc_requests.create(:status => 'active')
-#			Enrollment.any_instance.stubs(:valid?).returns(false)
-#			assert_difference('Enrollment.count',0) {
-#			assert_difference('OperationalEvent.count',0) {
-#				get :confirm
-#			} }
-#			assert_not_nil flash[:error]
-#			assert_redirected_to new_bc_request_path
-#		end
-
 		test "should NOT confirm actives exported with #{cu} login if " <<
 				"operational event creation fails" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-#			assert case_study_subject.enrollments.empty?
 			assert_equal 1, case_study_subject.enrollments.length
 			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
@@ -328,7 +279,6 @@ class BcRequestsControllerTest < ActionController::TestCase
 				"operational event invalid" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-#			assert case_study_subject.enrollments.empty?
 			assert_equal 1, case_study_subject.enrollments.length
 			bcr = case_study_subject.bc_requests.create(:status => 'active')
 			OperationalEvent.any_instance.stubs(:valid?).returns(false)

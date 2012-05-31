@@ -2,8 +2,6 @@ require 'test_helper'
 
 class ChartsControllerTest < ActionController::TestCase
 
-#	ChartsController.action_methods.each do |action|
-
 	%w( enrollments vital_statuses vital_statuses_pie
 		subject_types subject_types_pie case_control_types
 		case_control_types_pie childidwho is_eligible
@@ -24,7 +22,6 @@ class ChartsControllerTest < ActionController::TestCase
 			#	json requests do not redirect, apparently
 			assert @response.body.blank?
 			assert_response :unauthorized
-#			assert_redirected_to_login
 		end
 
 	end

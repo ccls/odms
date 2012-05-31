@@ -4,17 +4,12 @@ class AbstractsControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'Abstract',
-#		:actions => [:new,:create,:edit,:update,:show,:destroy,:index],
-#		:actions => [:edit,:update,:show,:destroy,:index],
 		:actions => [:edit,:update,:show,:destroy,:index],
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_abstract
 	}
 	def factory_attributes(options={})
-		#	:abstract worked yesterday, but not today???
-		#	updates were not updating
 		Factory.attributes_for(:complete_abstract,{
-#			:study_subject_id => Factory(:case_study_subject).id
 		}.merge(options))
 	end
 

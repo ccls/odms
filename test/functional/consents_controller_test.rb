@@ -120,7 +120,6 @@ class ConsentsControllerTest < ActionController::TestCase
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 0 ){
-#				@study_subject = Factory(:study_subject)
 				@study_subject = Factory(:complete_case_study_subject)
 			}
 			login_as send(cu)
@@ -141,7 +140,6 @@ class ConsentsControllerTest < ActionController::TestCase
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
-#				@study_subject = Factory(:study_subject, 
 				@study_subject = Factory(:complete_case_study_subject, 
 					:subject_languages_attributes => {
 						'0' => { :language_id => language.id }
@@ -164,7 +162,6 @@ class ConsentsControllerTest < ActionController::TestCase
 
 		test "should NOT update consent if study_subject update fails with #{cu} login" do
 			language = Language['english']
-#			study_subject = Factory(:study_subject)
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
@@ -178,7 +175,7 @@ class ConsentsControllerTest < ActionController::TestCase
 
 		test "should NOT update consent if patient update fails with #{cu} login" do
 #	TODO as soon as 3 field data types are settled.
-#			study_subject = Factory(:patient).study_subject
+#		don't remember which 3 I was talking about!
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			Patient.any_instance.stubs(:create_or_update).returns(false)
@@ -290,7 +287,6 @@ class ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should update consent with #{cu} login" do
-#			study_subject = Factory(:patient).study_subject
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
@@ -308,7 +304,6 @@ class ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update consent with #{cu} login and invalid enrollment" do
-#			study_subject = Factory(:study_subject)
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:valid?).returns(false)
@@ -321,7 +316,6 @@ class ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update consent with #{cu} login and save fails" do
-#			study_subject = Factory(:study_subject)
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:create_or_update).returns(false)

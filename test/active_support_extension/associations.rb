@@ -2,7 +2,6 @@ module ActiveSupportExtension::Associations
 
 	def self.included(base)
 		base.extend ClassMethods
-#		base.send(:include,InstanceMethods)
 		base.class_eval do 
 			class << self
 				alias_methods = {
@@ -51,10 +50,6 @@ module ActiveSupportExtension::Associations
 			associations.each do |assoc|
 				class_name = ( assoc = assoc.to_s ).camelize
 				title = "#{brand}should belong to #{assoc}" 
-#				if !options[:as].blank?
-#					title << " as #{options[:as]}"
-#					as = options[:as]
-#				end
 				if !options[:class_name].blank?
 					title << " ( #{options[:class_name]} )"
 					class_name = options[:class_name].to_s
@@ -73,17 +68,11 @@ module ActiveSupportExtension::Associations
 		def assert_should_have_one(*associations)
 			options = associations.extract_options!
 			model = options[:model] || model_name_without_test
-#			foreign_key = if !options[:foreign_key].blank?
-#				options[:foreign_key].to_sym
-#			else
-#				"#{model.underscore}_id".to_sym
-#			end
 			associations.each do |assoc|
 				assoc = assoc.to_s
 				test "#{brand}should have one #{assoc}" do
 					object = create_object
 					assert_nil object.reload.send(assoc)
-#					send("create_#{assoc}", foreign_key => object.id)
 					send("create_#{assoc}", model.underscore => object )
 					assert_not_nil object.reload.send(assoc)
 					object.send(assoc).destroy
@@ -95,11 +84,6 @@ module ActiveSupportExtension::Associations
 		def assert_should_have_many_(*associations)
 			options = associations.extract_options!
 			model = options[:model] || model_name_without_test
-#			foreign_key = if !options[:foreign_key].blank?
-#				options[:foreign_key].to_sym
-#			else
-#				"#{model.underscore}_id".to_sym
-#			end
 			associations.each do |assoc|
 				class_name = ( assoc = assoc.to_s ).camelize
 				title = "#{brand}should have many #{assoc}"
@@ -121,15 +105,11 @@ module ActiveSupportExtension::Associations
 					else
 						command.push( model.underscore => object )
 					end
-#					send("create_#{class_name.singularize.underscore}", foreign_key => object.id)
-#					send("create_#{class_name.singularize.underscore}", model.underscore => object )
 					send *command
 					assert_equal 1, object.reload.send(assoc).length
 					if object.respond_to?("#{assoc}_count")
 						assert_equal 1, object.reload.send("#{assoc}_count")
 					end
-#					send("create_#{class_name.singularize.underscore}", foreign_key => object.id)
-#					send("create_#{class_name.singularize.underscore}", model.underscore => object )
 					send *command
 					assert_equal 2, object.reload.send(assoc).length
 					if object.respond_to?("#{assoc}_count")

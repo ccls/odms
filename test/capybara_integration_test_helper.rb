@@ -123,139 +123,41 @@ class ActiveRecord::Base
 		saved_connection || retrieve_connection
 	end
 end
-#	when using multiple databases, I did this below for each model.
-#	Then I commented it all out!!! Err! Capybara is threaded and
-#	testing is transactional so we must force them to use the
-#	same connection or they will not see each others mods.
-#	Original way or my way.  No matter.  But we must set the connection first.
-#ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
-
-#
-#	back to the original ... ?
-#
-#	initially based on http://pastie.org/1745020, but has changed
-#class ActiveRecord::Base
-#	mattr_accessor :shared_connection
-#	@@shared_connection = nil
-#	def self.connection
-#		@@shared_connection || retrieve_connection
-#	end
-#end
-## Forces all threads to share the same connection. This works on
-## Capybara because it starts the web server in a thread.
-#ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
-
-
-#	I think that this oversteps its bounds and sets it in 
-#	ALL tests, even functionals.  Doubt it
-#class ApplicationController
-#	def ssl_required?
-#		false
-#	end
-#	def ssl_allowed?
-#		true
-#	end
-#end
 
 #	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
 
-#	setup :do_not_force_ssl
-#	def do_not_force_ssl
-#		#	Forcing ssl is problematic in capybara unlike webrat, so I'm just skipping it.
-#		#	ApplicationController.subclasses does not initially include FakeSessionsController
-#		#	I explicitly 'ssl_allowed' new and create, so irrelevant.
-#		#	After the first request, it will be included though.
-#
-##		ApplicationController.any_instance.stubs(:ssl_required?).returns(false)
-##		ApplicationController.any_instance.stubs(:ssl_allowed?).returns(true)
-#
-##
-##	NOTE not sure which is better anymore
-##
-#
-##		ApplicationController.subclasses.each do |controller|
-###			controller.constantize.any_instance.stubs(:ssl_allowed?).returns(true) 
-###	actually passes the class in Rails3 
-##			controller.any_instance.stubs(:ssl_allowed?).returns(true) 
-##		end
-#
-#ApplicationController.class_eval do
-#	def ssl_required?
-#		false
-#	end
-#	def ssl_allowed?
-#		true
-#	end
-#end
-#
-
-
-#		ssl
-#	Capybara::Driver::Webkit::WebkitInvalidResponseError: Unable to load URL: https://127.0.0.1:57186/fake_session/new
-
-#	end
-
 	setup :synchronize_selenium_connections	#	this includes :webkit
 	def synchronize_selenium_connections
-#		#	if driver is selenium based, need to synchronize the transactional connections
-#		#
-#		###	initially based on http://pastie.org/1745020, but has changed
-#		#
-#		#		class ActiveRecord::Base
-#		#			mattr_accessor :shared_connection
-#		#			@@shared_connection = nil
-#		#			def self.connection
-#		#				@@shared_connection || retrieve_connection
-#		#			end
-#		#		end
-#		#		# Forces all threads to share the same connection. This works on
-#		#		# Capybara because it starts the web server in a thread.
-#		#		ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
-#		#
-#		###
-#		#
-#		#	connection hack for selenium
-#		#	with selenium, the database connection from the test and from the controllers 
-#		#		are different and as the connections are transactional, I think, the test 
-#		#		will be unaware of changes that the controller makes and the controller 
-#		#		will be unaware of changes that the test makes.  This seems to be why 
-#		#		creating a user in the test does not result in a user being found in the 
-#		#		controller.  The same goes for the user's roles.  It also means that the 
-#		#		tests will not notice a difference after creating a page or other resource 
-#		#		in the controller.  So.  Apparently, we need a hack in all the models that 
-#		#		will do this. Normally, we could just hack AR::Base, but since we already 
-#		#		have 2 connection (one for shared, one for the app), we can't (unless I 
-#		#		find a new way)
-#		#		So.  We need to individually hack any model that we may test.
-#		#
-#		#	I'd rather just loop through all the models, but there are a couple oddballs
-#		#	from use_db that may cause issues.  Still polishing this one.
-#		#	wonder what's gonna happen for modelless tables (roles_users)
-#
-#		#
-#		#	Perhaps Shared.subclasses?
-#		#
-#		[Abstract,Address,Addressing,AddressType,
-#			Aliquot,AliquotSampleFormat,Analysis,BcRequest,
-#			CandidateControl,Context,
-#			ContextDataSource,County,
-#			DataSource,Diagnosis,DocumentType,DocumentVersion,Enrollment,
-#			FollowUp,FollowUpType,GiftCard,Guide,
-#			HomeExposureResponse,HomexOutcome,Hospital,
-#			IcfMasterId,
-#			IneligibleReason,Instrument,InstrumentType,InstrumentVersion,
-#			Interview,InterviewMethod,InterviewOutcome,
-#			Language,
-#			OperationalEvent,OperationalEventType,Organization,Page,Patient,
-#			PhoneNumber,PhoneType,Project,Person,ProjectOutcome,
-#			Race,RefusalReason,Role,
-#			Sample,SampleKit,SampleOutcome,SampleType,Section,StudySubject,
-#			SubjectLanguage,Language,SubjectRace,SubjectRelationship,SubjectType,
-#			Transfer,Unit,User,VitalStatus,ZipCode].each do |model|
-#			model.saved_connection = model.connection
-#		end
-
+		#	if driver is selenium based, need to synchronize the transactional connections
+		#
+		###	initially based on http://pastie.org/1745020, but has changed
+		#
+		#		class ActiveRecord::Base
+		#			mattr_accessor :shared_connection
+		#			@@shared_connection = nil
+		#			def self.connection
+		#				@@shared_connection || retrieve_connection
+		#			end
+		#		end
+		#		# Forces all threads to share the same connection. This works on
+		#		# Capybara because it starts the web server in a thread.
+		#		ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+		#
+		###
+		#
+		#	connection hack for selenium
+		#	with selenium, the database connection from the test and from the controllers 
+		#		are different and as the connections are transactional, I think, the test 
+		#		will be unaware of changes that the controller makes and the controller 
+		#		will be unaware of changes that the test makes.  This seems to be why 
+		#		creating a user in the test does not result in a user being found in the 
+		#		controller.  The same goes for the user's roles.  It also means that the 
+		#		tests will not notice a difference after creating a page or other resource 
+		#		in the controller.  So.  Apparently, we need a hack in all the models that 
+		#		will do this. Normally, we could just hack AR::Base, but since we already 
+		#		have 2 connection (one for shared, one for the app), we can't (unless I 
+		#		find a new way)
 		ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 	end
 

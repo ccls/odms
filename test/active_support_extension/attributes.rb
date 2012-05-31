@@ -2,7 +2,6 @@ module ActiveSupportExtension::Attributes
 
 	def self.included(base)
 		base.extend ClassMethods
-#		base.send(:include,InstanceMethods)
 		base.class_eval do 
 			class << self
 				alias_methods = {
@@ -36,7 +35,6 @@ module ActiveSupportExtension::Attributes
 
 		def assert_should_not_require_unique_attribute(*attributes)
 			options = attributes.extract_options!
-#			model = options[:model] || model_name_without_test
 			
 			attributes.flatten.each do |attr|
 				attr = attr.to_s
@@ -48,20 +46,16 @@ module ActiveSupportExtension::Attributes
 				end
 				test title do
 					o = create_object
-#					assert_no_difference "#{model}.count" do
-						attrs = { attr.to_sym => o.send(attr) }
-						if( scope.is_a?(String) || scope.is_a?(Symbol) )
-							attrs[scope.to_sym] = o.send(scope.to_sym)
-						elsif scope.is_a?(Array)
-							scope.each do |s|
-								attrs[s.to_sym] = o.send(s.to_sym)
-							end
-						end 
-#	this isn't perfect, cause if they are both blank and allowed blank
-#	it doesn't really test anything
-						object = create_object(attrs)
-						assert !object.errors.matching?(attr,'has already been taken')
-#					end
+					attrs = { attr.to_sym => o.send(attr) }
+					if( scope.is_a?(String) || scope.is_a?(Symbol) )
+						attrs[scope.to_sym] = o.send(scope.to_sym)
+					elsif scope.is_a?(Array)
+						scope.each do |s|
+							attrs[s.to_sym] = o.send(s.to_sym)
+						end
+					end 
+					object = create_object(attrs)
+					assert !object.errors.matching?(attr,'has already been taken')
 				end
 			end
 		end

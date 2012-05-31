@@ -215,13 +215,6 @@ class PagesControllerTest < ActionController::TestCase
 		assert_select 'title', page.title
 	end
 
-#	test "should get translate via js without login" do
-#		@request.accept = "text/javascript"
-#		get :translate
-#		assert_response :success
-#		assert_match /jQuery/, @response.body
-#	end
-
 	test "should get each page in fixtures in each locale" do
 		puts
 		Page.all.each do |page|
