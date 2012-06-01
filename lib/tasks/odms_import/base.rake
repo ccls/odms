@@ -27,7 +27,8 @@ namespace :odms_import do
 		EVENTS_CSV = "#{BASEDIR}/ODMS_Operational_Events_xxxxxx.csv"
 		ICFMASTERIDS_CSV = "#{BASEDIR}/export_ODMS_ICF_Master_IDs.csv"
 		ENROLLMENTS_CSV = "#{BASEDIR}/ODMS_Enrollments_xxxxxx.csv"
-		SAMPLES_CSV = "#{BASEDIR}/ODMS_Samples_xxxxxx.csv"
+		SAMPLES_CSV = "#{BASEDIR}/ODMS_samples_xxxxxx.csv"
+		ABSTRACTS_CSV = "#{BASEDIR}/ODMS_Abstracts_xxxxxx.csv"
 
 		def format_date(date)
 			( date.blank? ) ? nil : date.try(:strftime,"%m/%d/%Y")

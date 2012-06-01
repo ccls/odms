@@ -13,23 +13,23 @@ namespace :odms_import do
 			puts "Processing line #{f.lineno}"
 			puts line
 
-#"id","childid","subjectID","parent_sample_id","ODMS_sample_type_id","project_id","location_id","storage_temp","aliquot_or_sample_on_receipt","received_by_ccls_at","originally_received_at","external_id","external_id_source"
+#"id","childid","subjectID","parent_sample_id","sample_type_id","project_id","location_id","storage_temp","aliquot_or_sample_on_receipt","received_by_ccls_at","originally_received_at","external_id","external_id_source"
 
-			if line['subjectID'].blank?	#	NOTE misnamed field
-				error_file.puts 
-				error_file.puts "Line #:#{f.lineno}: subjectid blank."
-				error_file.puts line
-				error_file.puts
-				next
-			end
+#			if line['subjectID'].blank?	#	NOTE misnamed field
+#				error_file.puts 
+#				error_file.puts "Line #:#{f.lineno}: subjectid blank."
+#				error_file.puts line
+#				error_file.puts
+#				next
+#			end
 			study_subject = StudySubject.where(:subjectid => line['subjectID']).first
-			unless study_subject
-				error_file.puts 
-				error_file.puts "Line #:#{f.lineno}: subjectid #{line['subjectID']} not found."
-				error_file.puts line
-				error_file.puts
-				next
-			end
+#			unless study_subject
+#				error_file.puts 
+#				error_file.puts "Line #:#{f.lineno}: subjectid #{line['subjectID']} not found."
+#				error_file.puts line
+#				error_file.puts
+#				next
+#			end
 
 			project_id = if line['project_id'].blank? or line['project_id'].to_s == '0'
 				Project['ccls'].id
@@ -46,8 +46,11 @@ namespace :odms_import do
 				0	#	should crash
 			end
 
-			sample = study_subject.samples.create do |s|
+#			sample = study_subject.samples.create do |s|
+			sample = Sample.create do |s|
 
+
+				s.study_subject_id = study_subject.try(:id)
 
 
 				s.id = line['id']	#	THIS IS ACTUALLY REALLY REALLY IMPORTANT!
@@ -57,7 +60,7 @@ namespace :odms_import do
 				s.project_id = project_id
 
 				s.parent_sample_id = line['parent_sample_id']
-				s.sample_type_id = line['ODMS_sample_type_id']
+				s.sample_type_id = line['sample_type_id']
 				unless line['location_id'].blank?
 					s.location_id = line['location_id']
 				end
@@ -88,13 +91,13 @@ namespace :odms_import do
 				sample.reload
 				assert_string_equal sample.id, line["id"], 
 					'id'
-				assert sample.study_subject_id == study_subject.id,
+				assert sample.study_subject_id == study_subject.try(:id),
 					'Study Subject mismatch'
 				assert_string_equal sample.project_id, project_id,
 					'project_id'
 				assert_string_equal sample.parent_sample_id, line["parent_sample_id"], 
 					'parent_sample_id'
-				assert_string_equal sample.sample_type_id, line["ODMS_sample_type_id"], 
+				assert_string_equal sample.sample_type_id, line["sample_type_id"], 
 					'sample_type_id'
 				assert_string_equal sample.external_id, line["external_id"], 
 					'external_id'
