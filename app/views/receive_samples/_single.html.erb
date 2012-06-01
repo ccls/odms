@@ -38,8 +38,11 @@
 <span>(non-biological samples should be associated with the 'child')</span>
 </div><!-- class='sample_source field_wrapper' -->
 
-<%= f.wrapped_grouped_collection_select(:sample_type_id, 
+<%#= f.wrapped_grouped_collection_select(:sample_type_id, 
 		SampleType.roots, :children, :to_s, :id, :to_s,
+	{ :include_blank => true }) %>
+<%= f.wrapped_grouped_collection_select(:sample_type_id, 
+		SampleType.roots.for_new_samples, :children_for_new_samples, :to_s, :id, :to_s,
 	{ :include_blank => true }) %>
 
 <%#

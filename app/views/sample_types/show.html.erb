@@ -13,5 +13,10 @@
   <%=h @sample_type.description %>
 </p>
 
+<p>
+  <b>For New Sample?:</b>
+  <%=h @sample_type.for_new_sample %>
+</p>
+
 <%= link_to( 'Edit', edit_sample_type_path(@sample_type), :class => 'button' ) 
 -%>&nbsp;<%= link_to( 'Back', sample_types_path, :class => 'button' ) %>

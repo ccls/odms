@@ -15,6 +15,18 @@ class SampleType < ActiveRecord::Base
 	
 	scope :roots,     where( :parent_id => nil )
 	scope :not_roots, where( 'sample_types.parent_id IS NOT NULL' )
+	scope :for_new_samples, where( :for_new_sample => true )
+
+#	def roots_for_new_samples
+#		roots.for_new_samples
+#	end
+
+	#	kinda needed for group_method when calling grouped_collection_select
+	#	as it takes a single symbol that is sent and I don't think that the
+	#	symbol can be a chain of methods, just a single method.
+	def children_for_new_samples
+		children.for_new_samples
+	end
 
 	#	Returns description
 	def to_s

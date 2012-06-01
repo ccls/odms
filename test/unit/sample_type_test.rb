@@ -42,21 +42,74 @@ class SampleTypeTest < ActiveSupport::TestCase
 		}
 	end
 
+	test "roots should include sample type parent" do
+		sample_type = Factory(:sample_type)
+		assert sample_type.is_child?
+		assert sample_type.parent.is_parent?
+		assert SampleType.roots.include?(sample_type.parent)
+	end
+
+	test "not_roots should include sample type child" do
+		sample_type = Factory(:sample_type)
+		assert sample_type.is_child?
+		assert sample_type.parent.is_parent?
+		assert SampleType.roots.include?(sample_type)
+	end
+
+	test "should default to being for_new_sample" do
+		sample_type = Factory(:sample_type)
+		assert sample_type.for_new_sample?
+	end
+
+	test "should be flaggable for not being for_new_sample" do
+		sample_type = Factory(:sample_type, :for_new_sample => false)
+		assert !sample_type.for_new_sample?
+	end
+
+#	test "should have children_for_new_sample if parent and child for_new_sample" do
+#		sample_type = Factory(:sample_type)
+#		assert !sample_type.parent.children_for_new_sample.empty?
+#	end
+#
+#	test "should have no children_for_new_sample if child not for_new_sample" do
+#		sample_type = Factory(:sample_type, :for_new_sample => false)
+#		assert sample_type.parent.children_for_new_sample.empty?
+#	end
+#
+#	test "should have no children_for_new_sample if parent not for_new_sample" do
+#		sample_type = Factory(:sample_type)
+#		assert  sample_type.parent.for_new_sample?
+#		sample_type.parent.update_attribute(:for_new_sample => false)
+#		assert !sample_type.parent.for_new_sample?
+#		assert  sample_type.for_new_sample?	
+#		#	child is, but parent is not, so empty
+#		assert sample_type.parent.children_for_new_sample.empty?
+#	end
+
+	test "roots.for_new_sample should only include for_new_sample true" do
+		assert !SampleType.roots.for_new_samples.empty?
+		#	update_all( updates_hash, conditions_hash )
+		SampleType.update_all(
+			{ :for_new_sample => false },
+			{ :parent_id      => nil })
+		assert SampleType.roots.for_new_samples.empty?
+	end
+
 protected
 
 #	The common assertions use create_object, so leave this alone.
 
-	def create_object(options = {})
-#		record = Factory.build(:sample_type,options)
-#	The normal sample_type factory creates a parent 
-#	which seems to cause some testing issues unless
-#	this was expected so ....
-		record = Factory.build(:sample_type_parent,options)
-		record.save
-		record
-	end
+#	def create_object(options = {})
+##		record = Factory.build(:sample_type,options)
+##	The normal sample_type factory creates a parent 
+##	which seems to cause some testing issues unless
+##	this was expected so ....
+#		record = Factory.build(:sample_type_parent,options)
+#		record.save
+#		record
+#	end
 
 #	MAYBE, but need to define create_sample_type_parent
-#	alias_method :create_object, :create_sample_type_parent
+	alias_method :create_object, :create_sample_type_parent
 
 end

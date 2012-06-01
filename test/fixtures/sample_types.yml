@@ -25,6 +25,7 @@ unspecifieddust:
   parent_id: 1
   key: 9
   description: unspecified dust sample type
+  for_new_sample: false
 vacuumbag:
   id: 12
   parent_id: 1
@@ -56,6 +57,7 @@ unspecifiedblood:
   parent_id: 2
   key: 13
   description: unspecified blood sample type
+  for_new_sample: false
 ANB:
   id: 16
   parent_id: 2
@@ -87,16 +89,19 @@ unspecifiedsaliva:
   parent_id: 3
   key: 17
   description: unspecified saliva sample type
+  for_new_sample: false
 kit:
   id: 19
   parent_id: 3
   key: 18
   description: saliva kit (no brushes)
+  for_new_sample: false
 kitwithBrushes:
   id: 20
   parent_id: 3
   key: 19
   description: saliva kit (with brushes)
+  for_new_sample: false
 othersaliva:
   id: 21
   parent_id: 3
@@ -217,12 +222,14 @@ dksubtype:
   parent_id: 8
   key: dksubtype
   description:  dksubtype
+  for_new_sample: false
 
 
 dk:
   id: 9
   key: unknown
   description: unknown sample type
+  for_new_sample: false
 #
 #	insert real child of unknown here
 #
@@ -231,6 +238,7 @@ dk:
   parent_id: 9
   key: unknownsubtype
   description: unknown sample sub type
+  for_new_sample: false
 
 
 
@@ -238,6 +246,7 @@ other:
   id: 10
   key: other
   description: other type of sample
+  for_new_sample: false
 #
 #	Insert real id 35 sample type here
 #
@@ -246,4 +255,5 @@ missing:
   parent_id: 10
   key: missing
   description:  This sample type is missing
+  for_new_sample: false
 

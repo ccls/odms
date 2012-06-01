@@ -6,6 +6,8 @@
 	:id, :to_s, :include_blank => true %>  
 <%= f.wrapped_text_field :key %>
 <%= f.wrapped_text_field :description %>
+<%= f.wrapped_check_box :for_new_sample,
+	:label_text => "Show as an option on receive samples form?" %>
 <p>
 <%= f.submit( (@sample_type.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', sample_types_path, :class => 'button' %>
