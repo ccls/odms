@@ -3,7 +3,11 @@
  #	Starting from scratch?
  #	You will need 'git' installed.  If using a Mac, probably best
  #	installed via MacPorts' 'port' command, which you may need
- #	to install as well.
+ #	to install as well.  You may also need to install qt4 or qt4-mac.
+ #	Installation of these binaries, ruby and rubygems is beyond
+ #	the scope of this README file.
+
+
  git clone git@github.com:ccls/odms.git
 
  #	Or just give it a pull to update.
@@ -452,9 +456,9 @@ test database clean.  Just an FYI.
 == Testing requirements
 
 * port qt4-mac
-* gem webkit (not used anymore)
+* gem webkit (not used anymore so should remove from Gemfile)
 * gem capybara
-* gem selenium-webdriver (not used anymore)
+* gem selenium-webdriver (not used anymore but seems required by others)
 * gem capybara-webkit
 
 
