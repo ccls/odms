@@ -1,0 +1,237 @@
+"current_field_name","new_field_name","field_name_length","form","table","notes"
+"ID6","diagnosed_on",12,"Identifying data","ABS_IdentID",
+"ID8","treatment_began_on",18,"Identifying data","ABS_IdentID",
+"Createdby","created_by",10,"Identifying data","ABS_IdentID",
+"CreateDate","created_at",10,"Identifying data","ABS_IdentID",
+"BMA1","marrow_biopsy_report_found",26,"Bone Marrow","ABS_BoneMarrow",
+"BMA2","marrow_biopsy_on",16,"Bone Marrow","ABS_BoneMarrow",
+"BMA3","marrow_biopsy_diagnosis",23,"Bone Marrow","ABS_BoneMarrow",
+"BMB1","marrow_aspirate_report_found",28,"Bone Marrow","ABS_BoneMarrow",
+"BMB2","marrow_aspirate_taken_on",24,"Bone Marrow","ABS_BoneMarrow",
+"BMB3","marrow_aspirate_diagnosis",25,"Bone Marrow","ABS_BoneMarrow",
+"NumResultsAvailable","flow_cyto_num_results_available",31,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1A","flow_cyto_report_found",22,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1B","flow_cyto_report_on",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C1","flow_cyto_cd10",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C1b","flow_cyto_cd10_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C2","flow_cyto_cd19",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C2b","flow_cyto_cd19_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C3","flow_cyto_cd20",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C3b","flow_cyto_cd20_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C4","flow_cyto_cd21",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C4b","flow_cyto_cd21_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C5","flow_cyto_cd22",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"Fc1C5b","flow_cyto_cd22_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C6","flow_cyto_cd23",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C6b","flow_cyto_cd23_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C7","flow_cyto_cd24",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C7b","flow_cyto_cd24_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C8","flow_cyto_cd40",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C8b","flow_cyto_cd40_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C9","flow_cyto_surface_ig",20,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C9b","flow_cyto_surface_ig_text",25,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C10","flow_cyto_igM",13,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C10b","flow_cyto_igM_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C11","flow_cyto_BM_kappa",18,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C11b","flow_cyto_BM_kappa_text",23,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C12","flow_cyto_BM_lambda",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C12b","flow_cyto_BM_lambda_text",24,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C13","flow_cyto_CD10+19",17,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1C13b","flow_cyto_CD10+19_text",22,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D1","flow_cyto_CD1a",14,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D1b","flow_cyto_CD1a_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D2","flow_cyto_CD2",13,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D2b","flow_cyto_CD2_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D3","flow_cyto_CD3",13,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D3b","flow_cyto_CD3_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D4","flow_cyto_CD4",13,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D4b","flow_cyto_CD4_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D5","flow_cyto_CD5",13,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"Fc1D5b","flow_cyto_CD5_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D6","flow_cyto_CD7",13,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D6b","flow_cyto_CD7_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D7","flow_cyto_CD8",13,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D7b","flow_cyto_CD8_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D8","flow_cyto_CD3+CD4",17,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D8b","flow_cyto_CD3+CD4_text",22,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D9","flow_cyto_CD3+CD8",17,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1D9b","flow_cyto_CD3+CD8_text",22,"Flow Cytometry","ABS_FlowCytometry","Page 1"
+"FC1E1","flow_cyto_cd11b",15,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E1b","flow_cyto_cd11b_text",20,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E2","flow_cyto_cd11c",15,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E2b","flow_cyto_cd11c_text",20,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E3","flow_cyto_cd13",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E3b","flow_cyto_cd13_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E4","flow_cyto_cd15",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E4b","flow_cyto_cd15_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E5","flow_cyto_cd33",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"Fc1E5b","flow_cyto_cd33_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E8","flow_cyto_cd41",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E8b","flow_cyto_cd41_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E9","flow_cyto_cdw65",15,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1E9b","flow_cyto_cdw65_text",20,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1F","flow_cyto_cd34",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1Fb","flow_cyto_cd34_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1G","flow_cyto_cd61",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1Gb","flow_cyto_cd61_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1H","flow_cyto_cd14",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1Hb","flow_cyto_cd14_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1I","flow_cyto_glycoA",16,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1Ib","flow_cyto_glycoA_text",21,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1J1","flow_cyto_cd16",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1J1b","flow_cyto_cd16_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1J2","flow_cyto_cd56",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1J2b","flow_cyto_cd56_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1J3","flow_cyto_cd57",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1J3b","flow_cyto_cd57_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K1","flow_cyto_cd9",13,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K1b","flow_cyto_cd9_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K2","flow_cyto_cd25",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K2b","flow_cyto_cd25_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K3","flow_cyto_cd38",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K3b","flow_cyto_cd38_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K4","flow_cyto_cd45",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K4b","flow_cyto_cd45_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K5","flow_cyto_cd71",14,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1K5b","flow_cyto_cd71_text",19,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L1","flow_cyto_tdt",13,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L1b","flow_cyto_tdt_text",18,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L2","flow_cyto_hladr",15,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L2b","flow_cyto_hladr_text",20,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L3a","flow_cyto_other_marker_1_name",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L3b","flow_cyto_other_marker_1",24,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L3c","flow_cyto_other_marker_1_text",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L4a","flow_cyto_other_marker_2_name",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L4b","flow_cyto_other_marker_2",24,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L4c","flow_cyto_other_marker_2_text",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L5a","flow_cyto_other_marker_3_name",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L5b","flow_cyto_other_marker_3",24,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L5c","flow_cyto_other_marker_3_text",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L6a","flow_cyto_other_marker_4_name",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L6b","flow_cyto_other_marker_4",24,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L6c","flow_cyto_other_marker_4_text",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L7a","flow_cyto_other_marker_5_name",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L7b","flow_cyto_other_marker_5",24,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1L7c","flow_cyto_other_marker_5_text",29,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC1M","flow_cyto_remarks",17,"Flow Cytometry","ABS_FlowCytometry","Page 2"
+"FC2B","tdt_report_found",16,"Tdt","ABS_Tdt",
+"FC2C","tdt_report_on",13,"Tdt","ABS_Tdt",
+"FC2D","tdt_positive_or_negative",24,"Tdt","ABS_Tdt",
+"FC2F","tdt_found_in_flow_cyto_chart",28,"Tdt","ABS_Tdt","Check box"
+"FC2G","tdt_found_in_separate_report",28,"Tdt","ABS_Tdt","Check box"
+"FC2E","tdt_numerical_result",20,"Tdt","ABS_Tdt",
+"HS1","histo_report_found",18,"Histocompatibility","ABS_HistoStudies",
+"HS2","histo_report_on",15,"Histocompatibility","ABS_HistoStudies",
+"HS3","histo_report_results",20,"Histocompatibility","ABS_HistoStudies",
+"CY1","cytogen_report_found",20,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"CY2","cytogen_report_on",17,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"FSH_ConvKaryoDone","cytogen_karyotype_done",22,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"FSH_HospFishDone","cytogen_hospital_fish_done",26,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"FSH_UCBFishDone","cytogen_UCB_fish_done",21,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"CY3","conventional_karyotype_results",30,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"FSH_HospResults","hospital_fish_results",21,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"FSH_UCBResults","UCB_fish_results",16,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"CY4","cytogen_comment",15,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"STY3f","cytogen_is_hyperdiploidy",24,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"STY3f1","cytogen_chromosome_number",25,"Cytogenetics","ABS_Cytogenetics","Page 1"
+"STY3a","cytogen_t1221",13,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3b","cytogen_inv16",13,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3c","cytogen_t119",12,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3d","cytogen_t821",12,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3k","cytogen_t922",12,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3e","cytogen_t1517",13,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3g","cytogen_other_trans_1",21,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3h","cytogen_other_trans_2",21,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3i","cytogen_other_trans_3",21,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3l","cytogen_other_trans_4",21,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"STY3m","cytogen_other_trans_5",21,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"CY_Tri4_gBand","cytogen_trisomy4",16,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"CY_Tri5_GBand","cytogen_trisomy5",16,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"CY_Tri10_gBand","cytogen_trisomy10",17,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"CY_Tri17_gBand","cytogen_trisomy17",17,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"CY_Tri21_gBand","cytogen_trisomy21",17,"Cytogenetics","ABS_Cytogenetics","Page 2"
+"CBC1","cbc_report_found",16,"CBC","ABS_CBC",
+"CBC2","cbc_report_on",13,"CBC","ABS_CBC",
+"CBC3","cbc_white_blood_count",21,"CBC","ABS_CBC",
+"CBC4","cbc_percent_blasts",18,"CBC","ABS_CBC",
+"CBC4A","cbc_number_blasts",17,"CBC","ABS_CBC",
+"CBC5","cbc_hemoglobin_level",20,"CBC","ABS_CBC",
+"CBC6","cbc_platelet_count",18,"CBC","ABS_CBC",
+"CBF1","cerebrospinal_fluid_report_found",32,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF2","csf_report_on",13,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF3","csf_white_blood_count",21,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF3b","csf_white_blood_count_text",26,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF4","csf_red_blood_count",19,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF4b","csf_red_blood_count_text",24,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF5a","blasts_are_present",18,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF5b","number_of_blasts",16,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF6a","peripheral_blood_in_csf",23,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CBF7","csf_comment",11,"CerebroSpinal Fluid","ABS_CerebroSpinalFluid",
+"CIM1","chest_imaging_report_found",26,"Chest Imaging","ABS_ChestImaging",
+"CIM2","chest_imaging_report_on",23,"Chest Imaging","ABS_ChestImaging",
+"CIM3","mediastial_mass_present",23,"Chest Imaging","ABS_ChestImaging",
+"CIM4","chest_imaging_comment",21,"Chest Imaging","ABS_ChestImaging",
+"PE14","is_h_and_p_report_found",23,"History of Present Illness","qryHistoryPresentIllness","Check box"
+,"is_discharge_summ_found",23,"History of Present Illness","qryHistoryPresentIllness","Check box"
+"PE1","h_and_p_reports_found",21,"History of Present Illness","qryHistoryPresentIllness",
+"PE2","h_and_p_reports_on",18,"History of Present Illness","qryHistoryPresentIllness",
+"PEHepa","hepatomegaly_present",20,"History of Present Illness","qryHistoryPresentIllness",
+"PESpleno","splenomegaly_present",20,"History of Present Illness","qryHistoryPresentIllness",
+"CY_Tri21_Pheno","is_down_syndrome_phenotype",26,"History of Present Illness","qryHistoryPresentIllness","Check box"
+"CC1","chemo_protocol_report_found",27,"Clinical Chemo. Protocol","ABS_ClinChemoProt",
+"CC4","patient_on_chemo_protocol",25,"Clinical Chemo. Protocol","ABS_ClinChemoProt",
+"CC5","chemo_protocol_name",19,"Clinical Chemo. Protocol","ABS_ClinChemoProt",
+"CC6","chemo_protocol_agent_description",32,"Clinical Chemo. Protocol","ABS_ClinChemoProt",
+"Subtype","response_fab_subtype",20,"Response to Therapy","ABS_RespToTherapy",
+"BM1A_7","response_day7_report_found",26,"Response to Therapy","ABS_RespToTherapy",
+"BM1B_7","response_day7_report_on",23,"Response to Therapy","ABS_RespToTherapy",
+"InconclResults_7","response_day7_is_inconclusive",29,"Response to Therapy","ABS_RespToTherapy",
+"BM1C_7","response_day7_classification",28,"Response to Therapy","ABS_RespToTherapy",
+"BM1D_7","response_day7_blasts",20,"Response to Therapy","ABS_RespToTherapy",
+"BM1Da_7","response_day7_blasts_units",26,"Response to Therapy","ABS_RespToTherapy",
+"BM1A_14","response_day14_report_found",27,"Response to Therapy","ABS_RespToTherapy",
+"BM1B_14","response_day14_report_on",24,"Response to Therapy","ABS_RespToTherapy",
+"InconclResults_14","response_day14_is_inconclusive",30,"Response to Therapy","ABS_RespToTherapy",
+"BM1C_14","response_day14_classification",29,"Response to Therapy","ABS_RespToTherapy",
+"BM1D_14","response_day14_blasts",21,"Response to Therapy","ABS_RespToTherapy",
+"BM1Da_14","response_day14_blasts_units",27,"Response to Therapy","ABS_RespToTherapy",
+"BM1A_28","response_day28_report_found",27,"Response to Therapy","ABS_RespToTherapy",
+"BM1B_28","response_day28_report_on",24,"Response to Therapy","ABS_RespToTherapy",
+"InconclResults_28","response_day28_is_inconclusive",30,"Response to Therapy","ABS_RespToTherapy",
+"BM1C_28","response_day28_classification",29,"Response to Therapy","ABS_RespToTherapy",
+"BM1D_28","response_day28_blasts",21,"Response to Therapy","ABS_RespToTherapy",
+"BM1Da_28","response_day28_blasts_units",27,"Response to Therapy","ABS_RespToTherapy",
+"ChildInRemission","response_day30_is_in_remission",30,"Response to Therapy","ABS_RespToTherapy",
+"FAB1","diagnosis_is_ALL",16,"Diagnosis","qryFABClass2",
+"FAB1A","diagnosis_ALL_type",18,"Diagnosis","qryFABClass2",
+"FAB2","diagnosis_is_CML",16,"Diagnosis","qryFABClass2",
+"FAB3","diagnosis_is_CLL",16,"Diagnosis","qryFABClass2",
+"FAB4","diagnosis_is_AML",16,"Diagnosis","qryFABClass2",
+"FAB4A","diagnosis_AML_type",18,"Diagnosis","qryFABClass2",
+"FAB5","diagnosis_is_other",18,"Diagnosis","qryFABClass2",
+"FAB_B_Lineage","diagnosis_is_B_ALL",18,"Diagnosis","qryFABClass2",
+"FAB_T_Lineage","diagnosis_is_T_ALL",18,"Diagnosis","qryFABClass2",
+"STY2a","diagnosis_ICDO_number",21,"Diagnosis","qryFABClass2",
+"STY2","diagnosis_ICDO_description",26,"Diagnosis","qryFABClass2",
+"Att1","received_bone_marrow_biopsy",27,"Checklist","qryChecklistData",
+"ATT2","received_bone_marrow_aspirate",29,"Checklist","qryChecklistData",
+"ATT3","received_flow_cytometry",23,"Checklist","qryChecklistData",
+"ATT5","received_hla_typing",19,"Checklist","qryChecklistData",
+"ATT6","received_cytogenetics",21,"Checklist","qryChecklistData",
+"ATT7","received_cbc",12,"Checklist","qryChecklistData",
+"ATT8","received_csf",12,"Checklist","qryChecklistData",
+"ATT9","received_chest_xray",19,"Checklist","qryChecklistData",
+"ATT10","received_h_and_p",16,"Checklist","qryChecklistData",
+"ATT14","received_chemo_protocol",23,"Checklist","qryChecklistData",
+"PE13","received_discharge_summary",26,"Checklist","qryChecklistData",
+"ATT15","received_resp_to_therapy",24,"Checklist","qryChecklistData",
+"ATT13","received_other_reports",22,"Checklist","qryChecklistData",
+"ATT16","received_specify_other_reports",30,"Checklist","qryChecklistData",
+"DischargeDiag","discharge_summary",17,"Discharge","ABS_Diagnosis",
+"ND4AID","abstracted_by",13,"Names","ABS_Name/Date",
+"ND4B","abstracted_on",13,"Names","ABS_Name/Date",
+"ND5AID","reviewed_by",11,"Names","ABS_Name/Date",
+"ND5B","reviewed_on",11,"Names","ABS_Name/Date",
+"ND6AID","data_entry_by",13,"Names","ABS_Name/Date",
+"ND6B","data_entry_done_on",18,"Names","ABS_Name/Date",
+"ND7","abstract_version_number",23,"Names","ABS_Name/Date",
