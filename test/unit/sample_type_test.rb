@@ -45,15 +45,15 @@ class SampleTypeTest < ActiveSupport::TestCase
 	test "roots should include sample type parent" do
 		sample_type = Factory(:sample_type)
 		assert sample_type.is_child?
-		assert sample_type.parent.is_parent?
+		assert sample_type.parent.is_root?
 		assert SampleType.roots.include?(sample_type.parent)
 	end
 
 	test "not_roots should include sample type child" do
 		sample_type = Factory(:sample_type)
 		assert sample_type.is_child?
-		assert sample_type.parent.is_parent?
-		assert SampleType.roots.include?(sample_type)
+		assert sample_type.parent.is_root?
+		assert SampleType.not_roots.include?(sample_type)
 	end
 
 	test "should default to being for_new_sample" do
