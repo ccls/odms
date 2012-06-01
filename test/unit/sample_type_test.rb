@@ -66,16 +66,16 @@ class SampleTypeTest < ActiveSupport::TestCase
 		assert !sample_type.for_new_sample?
 	end
 
-#	test "should have children_for_new_sample if parent and child for_new_sample" do
-#		sample_type = Factory(:sample_type)
-#		assert !sample_type.parent.children_for_new_sample.empty?
-#	end
-#
-#	test "should have no children_for_new_sample if child not for_new_sample" do
-#		sample_type = Factory(:sample_type, :for_new_sample => false)
-#		assert sample_type.parent.children_for_new_sample.empty?
-#	end
-#
+	test "should have children_for_new_sample if child for_new_sample" do
+		sample_type = Factory(:sample_type)
+		assert !sample_type.parent.children_for_new_sample.empty?
+	end
+
+	test "should have no children_for_new_sample if child not for_new_sample" do
+		sample_type = Factory(:sample_type, :for_new_sample => false)
+		assert sample_type.parent.children_for_new_sample.empty?
+	end
+
 #	test "should have no children_for_new_sample if parent not for_new_sample" do
 #		sample_type = Factory(:sample_type)
 #		assert  sample_type.parent.for_new_sample?
