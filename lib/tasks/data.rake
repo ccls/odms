@@ -97,6 +97,8 @@ namespace :data do
 			Sample.where( 'received_by_ccls_at IS NOT NULL' ).count
 		printf "%-45s %5d\n", "Samples without received_by_ccls_at:", 
 			Sample.where( 'received_by_ccls_at IS NULL' ).count
+		printf "%-45s %5d\n", "Samples without study_subject:", 
+			Sample.where( 'study_subject_id IS NULL' ).count
 
 	end
 
