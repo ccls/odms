@@ -16,9 +16,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	#
 	teardown :delete_all_possible_birth_datum_update_attachments
 
-	test "explicit Factory birth_datum_update test" do
-		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
-		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
+	test "birth datum update factory should create birth datum update" do
 		assert_difference('BirthDatumUpdate.count',1) {
 			birth_datum_update = Factory(:birth_datum_update)
 			assert_not_nil birth_datum_update.csv_file_file_name
@@ -29,12 +27,22 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 				'text/csv'
 			assert_not_nil birth_datum_update.csv_file_file_size
 			assert_not_nil birth_datum_update.csv_file_updated_at
-		} } }
+		}
 	end
 
-	test "explicit Factory empty_birth_datum_update test" do
-		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
+	test "birth datum update factory should not create birth datum" do
 		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
+			birth_datum_update = Factory(:birth_datum_update)
+		}
+	end
+
+	test "birth datum update factory should not create candidate control" do
+		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
+			birth_datum_update = Factory(:birth_datum_update)
+		}
+	end
+
+	test "empty birth datum update factory should create birth datum update" do
 		assert_difference('BirthDatumUpdate.count',1) {
 			birth_datum_update = Factory(:empty_birth_datum_update)
 			assert_not_nil birth_datum_update.csv_file_file_name
@@ -45,14 +53,24 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 				'text/csv'
 			assert_not_nil birth_datum_update.csv_file_file_size
 			assert_not_nil birth_datum_update.csv_file_updated_at
-			assert_nil birth_datum_update.birth_data.first
-		} } }
+		}
 	end
 
-	test "explicit Factory one_record_birth_datum_update test" do
+	test "empty birth datum update factory should not create birth datum" do
+		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
+			birth_datum_update = Factory(:empty_birth_datum_update)
+			assert_nil birth_datum_update.birth_data.first
+		}
+	end
+
+	test "empty birth datum update factory should not create candidate control" do
+		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
+			birth_datum_update = Factory(:empty_birth_datum_update)
+		}
+	end
+
+	test "one record birth datum update factory should create birth datum update" do
 		study_subject = create_case_for_birth_datum_update
-		assert_difference('CandidateControl.count',1) {	#	after_create should add this
-		assert_difference('BirthDatum.count',1) {	#	after_create should add this
 		assert_difference('BirthDatumUpdate.count',1) {
 			birth_datum_update = Factory(:one_record_birth_datum_update)
 			assert_not_nil birth_datum_update.csv_file_file_name
@@ -63,9 +81,25 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 				'text/csv'
 			assert_not_nil birth_datum_update.csv_file_file_size
 			assert_not_nil birth_datum_update.csv_file_updated_at
+		}
+	end
+
+	test "one record birth datum update factory should create birth datum" do
+		study_subject = create_case_for_birth_datum_update
+		assert_difference('BirthDatum.count',1) {	#	after_create should add this
+			birth_datum_update = Factory(:one_record_birth_datum_update)
 			assert_not_nil birth_datum_update.birth_data.first
 			assert_not_nil birth_datum_update.birth_data.first.candidate_control
-		} } }
+		}
+	end
+
+	test "one record birth datum update factory should create candidate control" do
+		study_subject = create_case_for_birth_datum_update
+		assert_difference('CandidateControl.count',1) {	#	after_create should add this
+			birth_datum_update = Factory(:one_record_birth_datum_update)
+			assert_not_nil birth_datum_update.birth_data.first
+			assert_not_nil birth_datum_update.birth_data.first.candidate_control
+		}
 	end
 
 	test "should require csv_file" do
@@ -116,12 +150,12 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			'Invalid column name .* in csv_file')
 	end
 
-	test "should convert empty attached csv_file to candidate controls" do
-		assert_difference('CandidateControl.count',0) {
-		assert_difference('BirthDatum.count',0) {
-			birth_datum_update = Factory(:empty_birth_datum_update)
-		} }
-	end
+#	test "should convert empty attached csv_file to candidate controls" do
+#		assert_difference('CandidateControl.count',0) {
+#		assert_difference('BirthDatum.count',0) {
+#			birth_datum_update = Factory(:empty_birth_datum_update)
+#		} }
+#	end
 
 	test "should convert attached csv_file to candidate controls with matching case" do
 		create_case_for_birth_datum_update
@@ -159,7 +193,8 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		study_subject = create_case_for_birth_datum_update
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',2) {
-		assert_difference('OdmsException.count',0) {
+#	NOTE this case info is different than the subject so an odms exception is created
+#		assert_difference('OdmsException.count',0) {
 			birth_datum_update = create_test_file_and_birth_datum_update
 
 			f=FasterCSV.open( birth_datum_update.csv_file.path, 'rb',{
@@ -181,67 +216,72 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			assert_equal birth_datum.dob, Date.parse(line['dob'])
 
 			f.close
-		} } }
+		} } #	}
 		cleanup_birth_datum_update_and_test_file
 	end
 
-	test "should test with real data file" do
-		#	real data and won't be in repository
-		unless File.exists?('test-livebirthdata_011912.csv')	#	no longer valid file
-			puts
-			puts "-- Real data test file does not exist. Skipping."
-			return 
-		end
-pending	#	TODO try this with a real file
+#	test "should test with real data file" do
+#		#	real data and won't be in repository
+#		unless File.exists?('test-livebirthdata_011912.csv')	#	no longer valid file
+#			puts
+#			puts "-- Real data test file does not exist. Skipping."
+#			return 
+#		end
+#pending	#	TODO try this with a real file
+#
+##		#	minimal semi-real case creation
+##		s0 = Factory(:case_study_subject,:sex => 'F',
+##			:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
+##			:dob => Date.parse('10/16/1977'))
+##		#	s0 has no icf_master_id, so should be ignored
+##
+##		s1 = Factory(:case_study_subject,:sex => 'F',
+##			:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
+##			:dob => Date.parse('9/21/1988'))
+##		Factory(:icf_master_id,:icf_master_id => '48882638A')
+##		s1.assign_icf_master_id
+##
+##		s2 = Factory(:case_study_subject,:sex => 'M',
+##			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+##			:dob => Date.parse('6/1/2009'))
+##		Factory(:icf_master_id,:icf_master_id => '16655682G')
+##		s2.assign_icf_master_id
+##
+##		birth_datum_update = Factory(:birth_datum_update,
+##			:csv_file => File.open('test-livebirthdata_011912.csv') )
+##		assert_not_nil birth_datum_update.csv_file_file_name
+##
+##		#	35 lines - 1 header - 3 cases = 31
+##		assert_difference('CandidateControl.count',31){
+##			results = birth_datum_update.to_candidate_controls
+##			assert results[0].is_a?(String)
+##			assert_equal results[0],
+##				"Could not find study_subject with masterid [no ID assigned]"
+##			assert results[1].is_a?(StudySubject)
+##			assert results[2].is_a?(StudySubject)
+##			assert_equal results[1], s1
+##			assert_equal results[2], s2
+##			results.each { |r|
+##				if r.is_a?(CandidateControl) and r.new_record?
+##					puts r.inspect
+##					puts r.errors.full_messages.to_sentence
+##				end
+##			}
+##		}
+##		birth_datum_update.destroy
+#	end
 
-#		#	minimal semi-real case creation
-#		s0 = Factory(:case_study_subject,:sex => 'F',
-#			:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
-#			:dob => Date.parse('10/16/1977'))
-#		#	s0 has no icf_master_id, so should be ignored
 #
-#		s1 = Factory(:case_study_subject,:sex => 'F',
-#			:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
-#			:dob => Date.parse('9/21/1988'))
-#		Factory(:icf_master_id,:icf_master_id => '48882638A')
-#		s1.assign_icf_master_id
+#	some of these test names are remnants
 #
-#		s2 = Factory(:case_study_subject,:sex => 'M',
-#			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
-#			:dob => Date.parse('6/1/2009'))
-#		Factory(:icf_master_id,:icf_master_id => '16655682G')
-#		s2.assign_icf_master_id
-#
-#		birth_datum_update = Factory(:birth_datum_update,
-#			:csv_file => File.open('test-livebirthdata_011912.csv') )
-#		assert_not_nil birth_datum_update.csv_file_file_name
-#
-#		#	35 lines - 1 header - 3 cases = 31
-#		assert_difference('CandidateControl.count',31){
-#			results = birth_datum_update.to_candidate_controls
-#			assert results[0].is_a?(String)
-#			assert_equal results[0],
-#				"Could not find study_subject with masterid [no ID assigned]"
-#			assert results[1].is_a?(StudySubject)
-#			assert results[2].is_a?(StudySubject)
-#			assert_equal results[1], s1
-#			assert_equal results[2], s2
-#			results.each { |r|
-#				if r.is_a?(CandidateControl) and r.new_record?
-#					puts r.inspect
-#					puts r.errors.full_messages.to_sentence
-#				end
-#			}
-#		}
-#		birth_datum_update.destroy
-	end
 
 	test "should return a StudySubject in results for case" do
 		study_subject = create_case_for_birth_datum_update
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_case_study_subject }
-		assert_difference('OdmsException.count',0){
+#	NOTE this is different from the subject so an exception is now created
+		assert_difference('OdmsException.count',1){
 		assert_difference('CandidateControl.count',0){
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file

@@ -15,15 +15,16 @@ class BirthDatum < ActiveRecord::Base
 			odms_exceptions.create(:name => 'birth data append',
 				:description => "masterid blank")
 		else
-#	DO NOT USE 'study_subject' here as it will conflict with
-#	the study_subject association.
+			#	DO NOT USE 'study_subject' here as it will conflict with
+			#	the study_subject association.
 			subject = StudySubject.where(:icf_master_id => masterid).first
 			if subject.nil?
 				odms_exceptions.create(:name => 'birth data append',
 					:description => "No subject found with masterid :#{masterid}:")
 			elsif !subject.is_case?
 				odms_exceptions.create(:name => 'birth data append',
-					:description => "Subject found with masterid :#{masterid}: is not a case subject.")
+					:description => "Subject found with masterid :#{masterid}:" <<
+						" is not a case subject.")
 			else
 				if case_control_flag == 'control'
 					control_options = { :related_patid => subject.patid }
@@ -40,7 +41,8 @@ class BirthDatum < ActiveRecord::Base
 
 					self.create_candidate_control( control_options )
 					odms_exceptions.create(:name => 'birth data append',
-						:description => "Candidate control was pre-rejected because #{reasons.join(',')}.") unless reasons.empty?
+						:description => "Candidate control was pre-rejected " <<
+							"because #{reasons.join(',')}.") unless reasons.empty?
 
 					if self.candidate_control.new_record?
 						odms_exceptions.create(:name => 'candidate control creation',
@@ -63,43 +65,78 @@ class BirthDatum < ActiveRecord::Base
 		end
 	end
 
+	#
+	#	Separated this out so that can do separately.
+	#
 	def update_study_subject_attributes
+		#		as this is separate, should ensure existance of subject
+		return unless study_subject
+
 		error_count = 0
 
-#	loop through fields and update each
-#
-#The fields to be evaluated and updated, as necessary for case records are:
-#
-#a.Columns in ODMS missing values are modified using the data from USC.
-#b.Values in ODMS that conflict with USC data are replaced by the USC data provided and an operational_event is created as described below.
-#c.Errors updating case records in ODMS are noted in the odms_exceptions table (see below).
-#
-#	TODO	TODO	TODO	TODO	TODO	TODO	TODO	TODO	TODO	TODO
-#
-#	Confirm, create exception if no match
-#		dob sex first_name last_name
-#	Add if missing.  Otherwise, confirm and create exception if no match.
-#		middle_name father_first_name father_first_name father_middle_name father_last_name 
-#		mother_first_name mother_middle_name mother_maiden_name
-#
+		#	Confirm, create exception if no match
+		%w( dob sex first_name last_name ).each do |field|
 
-#	if error or conflict, increment error_count
-#		error_count += 1
-#5.Add a new operational event for each occurrence described in aboven
-#a.id 28 (birthDataConflict) 
-#b.description: “Birth record data conflicted with existing ODMS data.  Field: [fieldname], ODMS Value: [original value],  Birth Record Value: [birth data value].  ODMS record modified with birth record data.”
-#	study_subject.operational_events.create(:project_id => Project['ccls'].id,
-#		:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
-#		:description => "Birth record data conflicted with existing ODMS data.  Field: [fieldname], ODMS Value: [original value],  Birth Record Value: [birth data value].  ODMS record modified with birth record data.")
+			if study_subject.send(field) != self.send(field)
+				error_count += 1
+				study_subject.operational_events.create(
+					:project_id => Project['ccls'].id,
+					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+					:description => "Birth record data conflicted with existing ODMS data.  " <<
+						"Field: #{field}, " <<
+						"ODMS Value: #{study_subject.send(field)}, " <<
+						"Birth Record Value: #{self.send(field)}.  " <<
+						"ODMS record modified with birth record data." )
+			end
 
+#	TODO DO I UPDATE OR NOT?
+#	Documentation says no, but error message says yes?
+
+		end
+
+		#	Add if missing.  Otherwise, confirm and create exception if no match.
+		%w( father_first_name father_middle_name father_last_name 
+			mother_first_name mother_middle_name mother_maiden_name
+			middle_name ).each do |field|
+
+			if study_subject.send(field).blank? and !self.send(field).blank?
+				study_subject.send("#{field}=",self.send(field) )
+			elsif study_subject.send(field) != self.send(field)
+				error_count += 1
+				study_subject.operational_events.create(
+					:project_id => Project['ccls'].id,
+					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+					:description => "Birth record data conflicted with existing ODMS data.  " <<
+						"Field: #{field}, " <<
+						"ODMS Value: #{study_subject.send(field)}, " <<
+						"Birth Record Value: #{self.send(field)}.  " <<
+						"ODMS record modified with birth record data." )
+			end
+
+		end
+
+		if study_subject.changed?
+			saved = study_subject.save
+			unless saved
+				error_count += 1
+				odms_exceptions.create(
+					:name        => 'birth data update',
+					:description => "Error updating case study subject. " <<
+													"Save failed!" ) 
+			end
+		end
 
 		if error_count > 0
-#	odms_exceptions.create(:name => 'birth data update',
-#		:description => "Error updating case study subject. #{error_count} errors or conflicts.")
+			odms_exceptions.create(
+				:name        => 'birth data update',
+				:description => "Error updating case study subject. " <<
+												"#{error_count} errors or conflicts." )
 		else
-#4.A new operational event (id 27: birthDataReceived) is added for each subject successfully updated. (  Only those successful??  )
-#	study_subject.operational_events.create(:project_id => Project['ccls'].id,
-#		:operational_event_type_id => OperationalEventType['birthDataReceived'].id )
+			#4.A new operational event (id 27: birthDataReceived) is added for 
+			#each subject successfully updated. (  Only those successful??  )
+			study_subject.operational_events.create(
+				:project_id                => Project['ccls'].id,
+				:operational_event_type_id => OperationalEventType['birthDataReceived'].id )
 		end	#	if error_count > 0
 	end
 
@@ -110,8 +147,7 @@ class BirthDatum < ActiveRecord::Base
 
 	#	Returns string containing candidates's mother's first, middle and maiden name
 	def mother_full_name
-		[mother_first_name, mother_middle_name, mother_maiden_name
-			].delete_if(&:blank?).join(' ')
+		[mother_first_name, mother_middle_name, mother_maiden_name].delete_if(&:blank?).join(' ')
 	end
 
 end
