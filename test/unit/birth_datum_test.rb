@@ -480,11 +480,33 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal 'Jane Smith', birth_datum.mother_full_name 
 	end
 
+	test "case birth datum update_study_subject_attributes should update" <<
+			" subject attributes middle name" do
+		birth_datum = Factory(:case_birth_datum,
+			:middle_name => 'mynewmiddlename',
+			:masterid    => '12345678A' )
+		study_subject = Factory(:case_study_subject,
+			:icf_master_id => '12345678A' )
+		assert_nil study_subject.middle_name
+		birth_datum.update_study_subject_attributes
+		study_subject.reload
+		assert_equal 'mynewmiddlename', study_subject.middle_name
+	end
 
+	test "case birth datum update_study_subject_attributes should do nothing" <<
+			" without matching subject" do
+		birth_datum = Factory(:case_birth_datum,
+			:middle_name => 'mynewmiddlename',
+			:masterid    => '12345678A' )
+		birth_datum.update_study_subject_attributes
+	end
 
-#	TODO also, add explicit tests to update_case_study_subject?
-
-
+	test "case birth datum update_study_subject_attributes should do nothing" <<
+			" without masterid" do
+		birth_datum = Factory(:case_birth_datum,
+			:middle_name => 'mynewmiddlename' )
+		birth_datum.update_study_subject_attributes
+	end
 
 	test "case birth datum should not create odms exception on success" do
 		assert_difference('OdmsException.count', 0){
@@ -497,7 +519,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		oes = study_subject.operational_events.where(
 			:project_id                => Project['ccls'].id).where(
 			:operational_event_type_id => OperationalEventType['birthDataReceived'].id 
-			).length
+			)
 		assert_equal 1, oes.length
 #		assert_match /Error updating case study subject. Save failed!/,
 #			oes.first.description

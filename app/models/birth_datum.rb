@@ -69,8 +69,15 @@ class BirthDatum < ActiveRecord::Base
 	#	Separated this out so that can do separately.
 	#
 	def update_study_subject_attributes
-		#		as this is separate, should ensure existance of subject
-		return unless study_subject
+		#	If subject is created after this record (this would be odd)
+		#	then study subject isn't set.  Regardless, check if its
+		#	set.  If not, try to set it.  If can't, go away.
+		unless study_subject
+			return if masterid.blank?
+			subject = StudySubject.where(:icf_master_id => masterid).first
+			return if subject.nil?
+			self.update_attribute(:study_subject_id, subject.id)
+		end
 
 		error_count = 0
 
