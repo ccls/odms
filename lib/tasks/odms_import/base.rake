@@ -18,7 +18,7 @@ namespace :odms_import do
 		#	can be referenced.  
 		#
 
-		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/20120604/"
+		BASEDIR = "/Volumes/BUF-Fileshare/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/20120605/"
 		SUBJECTS_CSV = "#{BASEDIR}/ODMS_SubjectData_Combined_xxxxxx.csv"
 		ADDRESSES_CSV = "#{BASEDIR}/ODMS_Addresses_xxxxxx.csv"
 		ADDRESSINGS_CSV = "#{BASEDIR}/ODMS_Addressings_xxxxxx.csv"
