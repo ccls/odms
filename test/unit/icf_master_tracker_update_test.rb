@@ -308,8 +308,10 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 protected
 
 	def delete_all_possible_icf_master_tracker_update_attachments
+		IcfMasterTrackerUpdate.destroy_all
+		#	either way will do the job.
 		#	/bin/rm -rf test/icf_master_tracker_update
-		FileUtils.rm_rf('test/icf_master_tracker_update')
+		#	FileUtils.rm_rf('test/icf_master_tracker_update')
 	end
 
 	#	create_object is called from within the common class tests

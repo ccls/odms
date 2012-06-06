@@ -61,6 +61,13 @@ module ActiveSupportExtension::Associations
 					assert_not_nil object.send(assoc)
 					assert object.send(assoc).is_a?(class_name.constantize
 						) unless options[:polymorphic]
+#	Paperclip attachments don't get deleted on rollback.
+#	So we much destroy the object, and therefore the attachment, by hand.
+#	Only seems to matter with ...
+#		BirthDatumTest#assert_should_belong_to( :birth_datum_update )
+#		but does't seem to cause a problem elsewhere.
+object.send(assoc).destroy
+object.destroy
 				end
 			end
 		end

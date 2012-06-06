@@ -360,8 +360,10 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 protected
 
 	def delete_all_possible_birth_datum_update_attachments
+		BirthDatumUpdate.destroy_all
+		#	either way will do the job.
 		#	/bin/rm -rf test/birth_datum_update
-		FileUtils.rm_rf('test/birth_datum_update')
+		#	FileUtils.rm_rf('test/birth_datum_update')
 	end
 
 	#	create_object is called from within the common class tests
