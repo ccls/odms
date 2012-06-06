@@ -3,7 +3,7 @@ class SamplesController < ApplicationController
 	before_filter :may_create_samples_required,
 		:only => [:new,:create]
 	before_filter :may_read_samples_required,
-		:only => [:show,:index,:dashboard,:find,:followup,:reports]
+		:only => [:show,:index,:dashboard,:find,:followup,:reports,:manifest]
 	before_filter :may_update_samples_required,
 		:only => [:edit,:update]
 	before_filter :may_destroy_samples_required,
@@ -69,6 +69,27 @@ class SamplesController < ApplicationController
 			redirect_to find_samples_path(params)
 		end
 	end
+
+
+	def manifest
+#
+#	just grab 5 for now
+#
+		@samples = Sample.limit(5)
+#
+
+		respond_to do |format|
+			format.html
+			format.csv { 
+				headers["Content-disposition"] = "attachment; " <<
+					"filename=sample_manifest_#{Time.now.to_s(:filename)}.csv"
+			}
+		end
+
+	end
+
+
+
 
 	def index
 		@samples = @study_subject.samples

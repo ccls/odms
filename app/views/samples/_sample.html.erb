@@ -3,7 +3,7 @@
 %>
 <%= content_tag_for( :tr, sample, :class => classes.join(' ') ) do %>
 <td><%= mdyhm sample.received_by_ccls_at -%></td>
-<td><%= link_to sprintf('%07d',sample.id), sample -%></td>
+<td><%= link_to sample.sampleid, sample -%></td>
 <td><%= sample.project.key %></td>
 <td><%= sample.sample_type_parent -%></td>
 <td><%= sample.sample_type -%></td>

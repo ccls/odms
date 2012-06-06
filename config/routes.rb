@@ -171,6 +171,7 @@ Odms::Application.routes.draw do
 			get :find
 			get :followup
 			get :reports
+			get :manifest
 		end
 	end
 

@@ -461,6 +461,34 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_template 'reports'
 		end
 	
+		test "should get manifest in csv with #{cu} login" do
+			login_as send(cu)
+			get :manifest, :format => 'csv'
+			assert_response :success
+			assert_template 'manifest'
+
+#			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+#			assert_template 'index'
+#			assert assigns(:bc_requests)
+#			assert !assigns(:bc_requests).empty?
+#			assert_equal 1, assigns(:bc_requests).length
+#
+#			require 'fastercsv'
+#			f = FasterCSV.parse(@response.body)
+#			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
+#			assert_equal f[0], ["masterid", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "other_mother_race", "father_hispanicity", "father_hispanicity_mex", "father_race", "other_father_race"]
+#			assert_equal 23, f[0].length
+##["46", nil, nil, nil, "[name not available]", nil, "[name not available]", "[name not available]", "3", "23", "2006", "F", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+#			assert_equal f[1][0],  case_study_subject.icf_master_id
+#			assert_equal f[1][8],  case_study_subject.dob.try(:month).to_s
+#			assert_equal f[1][9],  case_study_subject.dob.try(:day).to_s
+#			assert_equal f[1][10], case_study_subject.dob.try(:year).to_s
+#			assert_equal f[1][11], case_study_subject.sex
+#
+##assert f[2].blank?
+#
+		end
+	
 	end
 
 	non_site_readers.each do |cu|
@@ -497,6 +525,18 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 	
+		test "should NOT get manifest in html with #{cu} login" do
+			login_as send(cu)
+			get :manifest
+			assert_redirected_to root_path
+		end
+	
+		test "should NOT get manifest in csv with #{cu} login" do
+			login_as send(cu)
+			get :manifest, :format => 'csv'
+			assert_redirected_to root_path
+		end
+	
 	end
 
 	test "should NOT get index without login and valid study_subject_id" do
@@ -522,6 +562,16 @@ class SamplesControllerTest < ActionController::TestCase
 	
 	test "should NOT get reports without login" do
 		get :reports
+		assert_redirected_to_login
+	end
+	
+	test "should NOT get manifest in html without login" do
+		get :manifest
+		assert_redirected_to_login
+	end
+	
+	test "should NOT get manifest in csv without login" do
+		get :manifest, :format => 'csv'
 		assert_redirected_to_login
 	end
 	

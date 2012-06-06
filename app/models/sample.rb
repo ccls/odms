@@ -67,6 +67,10 @@ class Sample < ActiveRecord::Base
 		self.location_id ||= Organization['CCLS'].id
 	end
 
+	def sampleid
+		sprintf('%07d',self.attributes['id'])
+	end
+
 protected
 
 end
