@@ -33,7 +33,7 @@
 <%= f.subject_languages_select( ::Context['wraf1'].languages ) %>
 
 
-<% f.fields_for :patient do |patient_fields| %>
+<%= f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
  <p>
   <%= patient_fields.radio_button :was_previously_treated, YNDK[:no] %>
