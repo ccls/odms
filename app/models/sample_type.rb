@@ -17,6 +17,9 @@ class SampleType < ActiveRecord::Base
 	scope :not_roots, where( 'sample_types.parent_id IS NOT NULL' )
 	scope :for_new_samples, where( :for_new_sample => true )
 
+	validates_length_of :gegl_sample_type_id,
+		:maximum => 5, :allow_blank => true
+
 	#	kinda needed for group_method when calling grouped_collection_select
 	#	as it takes a single symbol that is sent and I don't think that the
 	#	symbol can be a chain of methods, just a single method.

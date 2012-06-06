@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120601162238) do
+ActiveRecord::Schema.define(:version => 20120606231826) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1334,11 +1334,13 @@ ActiveRecord::Schema.define(:version => 20120601162238) do
   create_table "sample_types", :force => true do |t|
     t.integer  "position"
     t.integer  "parent_id"
-    t.string   "key",                              :null => false
+    t.string   "key",                                   :null => false
     t.string   "description"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-    t.boolean  "for_new_sample", :default => true, :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.boolean  "for_new_sample",      :default => true, :null => false
+    t.integer  "t2k_sample_type_id"
+    t.string   "gegl_sample_type_id"
   end
 
   add_index "sample_types", ["description"], :name => "index_sample_types_on_description", :unique => true

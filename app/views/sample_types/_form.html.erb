@@ -8,6 +8,8 @@
 <%= f.wrapped_text_field :description %>
 <%= f.wrapped_check_box :for_new_sample,
 	:label_text => "Show as an option on receive samples form?" %>
+<%= f.wrapped_text_field :t2k_sample_type_id %>
+<%= f.wrapped_text_field :gegl_sample_type_id %>
 <p>
 <%= f.submit( (@sample_type.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', sample_types_path, :class => 'button' %>
