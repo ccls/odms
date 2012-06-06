@@ -42,9 +42,6 @@ class ZipCodesControllerTest < ActionController::TestCase
 #-[{\"zip_code\":{\"county_name\":\"Northumberland\",\"city\":\"NORTHUMBERLAND\",\"zip_code\":\"17857\",\"county_id\":2144,\"state\":\"PA\"}}]
 #+[{\"county_name\":\"Northumberland\",\"city\":\"NORTHUMBERLAND\",\"zip_code\":\"17857\",\"county_id\":2144,\"state\":\"PA\"}]
 
-	test "should get zip_codes.json with full q" do
-		#	:format MUST be a string and NOT a symbol
-		get :index, :q => '17857', :format => 'json'
 #		expected = %{[{"zip_code":{"county_name":"Northumberland","city":"NORTHUMBERLAND","zip_code":"17857","county_id":2144,"state":"PA"}}]}
 #	rails 3 removes initial key
 #		expected = %{[{"county_name":"Northumberland","city":"NORTHUMBERLAND","zip_code":"17857","county_id":2144,"state":"PA"}]}
@@ -52,6 +49,39 @@ class ZipCodesControllerTest < ActionController::TestCase
 # expected = %{[{"state":"PA","city":"NORTHUMBERLAND","county_id":2144,"county_name":"Northumberland","zip_code":"17857"}]"}
 #		assert_equal expected, @response.body
 
+	test "should get zip_codes.json with 5-digit zip code" do
+		#	:format MUST be a string and NOT a symbol
+		get :index, :q => '17857', :format => 'json'
+		assert_match /"state":"PA"/, @response.body
+		assert_match /"city":"NORTHUMBERLAND"/, @response.body
+		assert_match /"county_id":2144/, @response.body
+		assert_match /"county_name":"Northumberland"/, @response.body
+		assert_match /"zip_code":"17857"/, @response.body
+	end
+
+	test "should get zip_codes.json with 9-digit zip code" do
+		#	:format MUST be a string and NOT a symbol
+		get :index, :q => '17857-0123', :format => 'json'
+		assert_match /"state":"PA"/, @response.body
+		assert_match /"city":"NORTHUMBERLAND"/, @response.body
+		assert_match /"county_id":2144/, @response.body
+		assert_match /"county_name":"Northumberland"/, @response.body
+		assert_match /"zip_code":"17857"/, @response.body
+	end
+
+	test "should get zip_codes.json with 9-digit zip code and leading spaces" do
+		#	:format MUST be a string and NOT a symbol
+		get :index, :q => '   17857-0123', :format => 'json'
+		assert_match /"state":"PA"/, @response.body
+		assert_match /"city":"NORTHUMBERLAND"/, @response.body
+		assert_match /"county_id":2144/, @response.body
+		assert_match /"county_name":"Northumberland"/, @response.body
+		assert_match /"zip_code":"17857"/, @response.body
+	end
+
+	test "should get zip_codes.json with 9-digit zip code and non-numerics" do
+		#	:format MUST be a string and NOT a symbol
+		get :index, :q => ' EXTRA 1 STUFF 7 HERE 8 AND IS 5 IGNORED 7-0123', :format => 'json'
 		assert_match /"state":"PA"/, @response.body
 		assert_match /"city":"NORTHUMBERLAND"/, @response.body
 		assert_match /"county_id":2144/, @response.body
