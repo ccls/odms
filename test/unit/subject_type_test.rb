@@ -9,7 +9,7 @@ class SubjectTypeTest < ActiveSupport::TestCase
 	assert_should_have_many(:study_subjects)
 	assert_should_not_require_attributes( :position, :related_case_control_type )
 
-	test "explicit Factory subject_type test" do
+	test "subject_type factory should create subject type" do
 		assert_difference('SubjectType.count',1) {
 			subject_type = Factory(:subject_type)
 			assert_match /Key\d*/, subject_type.key

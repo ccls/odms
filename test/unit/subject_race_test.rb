@@ -6,14 +6,24 @@ class SubjectRaceTest < ActiveSupport::TestCase
 	assert_should_initially_belong_to( :study_subject, :race )
 	assert_should_protect( :study_subject_id, :study_subject )
 
-	test "explicit Factory subject_race test" do
-		assert_difference('Race.count',1) {
-		assert_difference('StudySubject.count',1) {
+	test "subject_race factory should create subject race" do
 		assert_difference('SubjectRace.count',1) {
 			subject_race = Factory(:subject_race)
-			assert_not_nil subject_race.study_subject
+		}
+	end
+
+	test "subject_race factory should create race" do
+		assert_difference('Race.count',1) {
+			subject_race = Factory(:subject_race)
 			assert_not_nil subject_race.race
-		} } }
+		}
+	end
+
+	test "subject_race factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			subject_race = Factory(:subject_race)
+			assert_not_nil subject_race.study_subject
+		}
 	end
 
 	test "should require other_race if race == other" do

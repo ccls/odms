@@ -9,31 +9,46 @@ class HospitalTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position )
 	assert_should_require_unique_attributes( :organization_id )
 
-	test "explicit Factory hospital test" do
-		assert_difference('Organization.count',1) {
+	test "hospital factory should create non-waivered hospital" do
 		assert_difference('Hospital.count',1) {
 			hospital = Factory(:hospital)
-			assert_not_nil hospital.organization
 			assert !hospital.has_irb_waiver	#	database default
-		} }
+		}
 	end
 
-	test "explicit Factory nonwaivered hospital test" do
+	test "hospital factory should create organization" do
 		assert_difference('Organization.count',1) {
+			hospital = Factory(:hospital)
+			assert_not_nil hospital.organization
+		}
+	end
+
+	test "nonwaivered hospital should create non-waivered hospital" do
 		assert_difference('Hospital.count',1) {
 			hospital = Factory(:nonwaivered_hospital)
-			assert_not_nil hospital.organization
 			assert !hospital.has_irb_waiver	#	database default
-		} }
+		}
 	end
 
-	test "explicit Factory waivered hospital test" do
+	test "nonwaivered hospital should create organization" do
 		assert_difference('Organization.count',1) {
+			hospital = Factory(:nonwaivered_hospital)
+			assert_not_nil hospital.organization
+		}
+	end
+
+	test "waivered hospital should create waivered hospital" do
 		assert_difference('Hospital.count',1) {
 			hospital = Factory(:waivered_hospital)
-			assert_not_nil hospital.organization
 			assert hospital.has_irb_waiver
-		} }
+		}
+	end
+
+	test "waivered hospital should create organization" do
+		assert_difference('Organization.count',1) {
+			hospital = Factory(:waivered_hospital)
+			assert_not_nil hospital.organization
+		}
 	end
 
 	test "should require organization" do

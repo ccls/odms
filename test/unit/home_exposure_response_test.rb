@@ -10,12 +10,17 @@ class HomeExposureResponseTest < ActiveSupport::TestCase
 #	not working
 #	assert_should_require_unique_attribute(:study_subject_id)
 
-	test "explicit Factory home_exposure_response test" do
-		assert_difference('StudySubject.count',1) {
+	test "home_exposure_response factory should create home exposure response" do
 		assert_difference('HomeExposureResponse.count',1) {
 			home_exposure_response = Factory(:home_exposure_response)
+		}
+	end
+
+	test "home_exposure_response factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			home_exposure_response = Factory(:home_exposure_response)
 			assert_not_nil home_exposure_response.study_subject
-		} }
+		}
 	end
 
 #	test "should require study_subject" do

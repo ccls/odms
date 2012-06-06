@@ -9,7 +9,7 @@ class PhoneTypeTest < ActiveSupport::TestCase
 	assert_should_have_many(:phone_numbers)
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory phone_type test" do
+	test "phone_type factory should create phone type" do
 		assert_difference('PhoneType.count',1) {
 			phone_type = Factory(:phone_type)
 			assert_match /Key\d*/, phone_type.key

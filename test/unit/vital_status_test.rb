@@ -9,7 +9,7 @@ class VitalStatusTest < ActiveSupport::TestCase
 	assert_should_have_many( :study_subjects )
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory vital_status test" do
+	test "vital_status factory should create vital status" do
 		assert_difference('VitalStatus.count',1) {
 			vital_status = Factory(:vital_status)
 			assert_match /key\d*/,  vital_status.key

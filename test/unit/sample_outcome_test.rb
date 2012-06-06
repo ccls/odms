@@ -9,7 +9,7 @@ class SampleOutcomeTest < ActiveSupport::TestCase
 	assert_should_have_many( :homex_outcomes )
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory sample_outcome test" do
+	test "sample_outcome factory should create sample outcome" do
 		assert_difference('SampleOutcome.count',1) {
 			sample_outcome = Factory(:sample_outcome)
 			assert_match /Key\d*/,  sample_outcome.key

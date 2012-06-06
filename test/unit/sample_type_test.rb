@@ -21,7 +21,7 @@ class SampleTypeTest < ActiveSupport::TestCase
 			"#{sample_type}"
 	end
 
-	test "explicit Factory sample_type test" do
+	test "sample_type factory should create 2 sample types" do
 		#	creates sample_type and a parent sample_type
 		assert_difference('SampleType.count',2) {	
 			sample_type = Factory(:sample_type)
@@ -32,7 +32,7 @@ class SampleTypeTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "explicit Factory sample_type parent test" do
+	test "sample_type parent factory should create sample type" do
 		assert_difference('SampleType.count',1) {
 			sample_type = Factory(:sample_type_parent)
 			assert_nil sample_type.parent

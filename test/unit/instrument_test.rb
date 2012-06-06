@@ -22,15 +22,20 @@ class InstrumentTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :name, :maximum => 250 )
 	assert_requires_complete_date( :began_use_on, :ended_use_on )
 
-	test "explicit Factory instrument test" do
-		assert_difference('Project.count',1) {
+	test "instrument factory should create instrument" do
 		assert_difference('Instrument.count',1) {
 			instrument = Factory(:instrument)
-			assert_not_nil instrument.project
 			assert_equal 'Instrument Name', instrument.name
 			assert_match /Key\d*/, instrument.key
 			assert_match /Desc\d*/, instrument.description
-		} }
+		}
+	end
+
+	test "instrument factory should create project" do
+		assert_difference('Project.count',1) {
+			instrument = Factory(:instrument)
+			assert_not_nil instrument.project
+		}
 	end
 
 	#	unfortunately name is NOT unique so should change this

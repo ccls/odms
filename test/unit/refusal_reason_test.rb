@@ -11,7 +11,7 @@ class RefusalReasonTest < ActiveSupport::TestCase
 	assert_should_act_as_list
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory refusal_reason test" do
+	test "refusal_reason factory should create refusal reason" do
 		assert_difference('RefusalReason.count',1) {
 			refusal_reason = Factory(:refusal_reason)
 			assert_match /Key\d*/, refusal_reason.key

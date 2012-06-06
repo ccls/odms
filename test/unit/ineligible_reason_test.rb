@@ -15,7 +15,7 @@ class IneligibleReasonTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
-	test "explicit Factory ineligible_reason test" do
+	test "ineligible_reason factory should create ineligible reason" do
 		assert_difference('IneligibleReason.count',1) {
 			ineligible_reason = Factory(:ineligible_reason)
 			assert_match /Key\d*/, ineligible_reason.key

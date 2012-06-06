@@ -32,16 +32,31 @@ class OperationalEventTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :description, :maximum => 250 )
 	assert_should_require_attribute_length( :event_notes, :maximum => 65000 )
 
-	test "explicit Factory operational_event test" do
-		assert_difference('OperationalEventType.count',0) {
-		assert_difference('Project.count',0) {
-		assert_difference('StudySubject.count',0) {
+	test "operational_event factory should create operational event" do
 		assert_difference('OperationalEvent.count',1) {
 			operational_event = Factory(:operational_event)
+		}
+	end
+
+	test "operational_event factory should not create study subject" do
+		assert_difference('StudySubject.count',0) {
+			operational_event = Factory(:operational_event)
 			assert_nil operational_event.study_subject
+		}
+	end
+
+	test "operational_event factory should not create project" do
+		assert_difference('Project.count',0) {
+			operational_event = Factory(:operational_event)
 			assert_nil operational_event.project
+		}
+	end
+
+	test "operational_event factory should not create operational event type" do
+		assert_difference('OperationalEventType.count',0) {
+			operational_event = Factory(:operational_event)
 			assert_nil operational_event.operational_event_type
-		} } } }
+		}
 	end
 
 #	test "should require project" do

@@ -15,7 +15,7 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 	#
 	teardown :delete_all_possible_icf_master_tracker_update_attachments
 
-	test "explicit Factory icf_master_tracker_update test" do
+	test "icf_master_tracker_update factory should create icf master tracker update" do
 		assert_difference('IcfMasterTrackerUpdate.count',1) {
 			icf_master_tracker_update = Factory(:icf_master_tracker_update)
 			assert_not_nil icf_master_tracker_update.csv_file_file_name
@@ -29,7 +29,7 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "explicit Factory empty_icf_master_tracker_update test" do
+	test "empty_icf_master_tracker_update factory should create icf master tracker update" do
 		assert_difference('IcfMasterTrackerUpdate.count',1) {
 			icf_master_tracker_update = Factory(:empty_icf_master_tracker_update)
 			assert_not_nil icf_master_tracker_update.csv_file_file_name
@@ -43,7 +43,7 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "explicit Factory one_record_icf_master_tracker_update test" do
+	test "one_record_icf_master_tracker_update factory should create icf master tracker update" do
 		assert_difference('IcfMasterTrackerUpdate.count',1) {
 			icf_master_tracker_update = Factory(:one_record_icf_master_tracker_update)
 			assert_not_nil icf_master_tracker_update.csv_file_file_name

@@ -10,7 +10,7 @@ class UnitTest < ActiveSupport::TestCase
 	assert_should_belong_to( :context )
 	assert_should_not_require_attributes( :position, :context_id )
 
-	test "explicit Factory unit test" do
+	test "unit factory should create unit" do
 		assert_difference('Unit.count',1) {
 			unit = Factory(:unit)
 			assert_match /Key\d*/, unit.key

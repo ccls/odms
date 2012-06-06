@@ -9,7 +9,7 @@ class InterviewOutcomeTest < ActiveSupport::TestCase
 	assert_should_have_many(:homex_outcomes)
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory interview_outcome test" do
+	test "interview_outcome factory should create interview outcome" do
 		assert_difference('InterviewOutcome.count',1) {
 			interview_outcome = Factory(:interview_outcome)
 			assert_match /Key\d*/,  interview_outcome.key

@@ -6,7 +6,7 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 	assert_should_belong_to(:study_subject)
 	assert_should_protect( :study_subject_id, :study_subject )
 
-	test "explicit Factory icf_master_id test" do
+	test "icf_master_id factory should create icf master id" do
 		assert_difference('IcfMasterId.count',1) {
 			icf_master_id = Factory(:icf_master_id)
 			assert_nil icf_master_id.icf_master_id

@@ -9,7 +9,7 @@ class ProjectOutcomeTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position, :project_id )
 	assert_should_have_many( :enrollments )
 
-	test "explicit Factory project_outcome test" do
+	test "project_outcome factory should create project outcome" do
 		assert_difference('ProjectOutcome.count',1) {
 			project_outcome = Factory(:project_outcome)
 			assert_match /Key\d*/, project_outcome.key

@@ -27,62 +27,110 @@ class AddressingTest < ActiveSupport::TestCase
 			:bad_values  => 12345 })
 
 
-	test "explicit Factory addressing test" do
-		assert_difference('StudySubject.count',1) {
-		assert_difference('Address.count',1) {
+	test "addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
 			addressing = Factory(:addressing)
-			assert_not_nil addressing.address
-			assert_not_nil addressing.study_subject
 			assert_equal 1, addressing.is_valid
-#			assert_equal 2, addressing.is_verified
-			#	noticed that this is NOT int for YNDK, but boolean
 			assert         !addressing.is_verified	
-		} } }
+		}
 	end
 
-	test "explicity Factory mailing_addressing test" do
-		assert_difference('StudySubject.count',1) {
+	test "addressing factory should create address" do
 		assert_difference('Address.count',1) {
+			addressing = Factory(:addressing)
+			assert_not_nil addressing.address
+		}
+	end
+
+	test "addressing factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			addressing = Factory(:addressing)
+			assert_not_nil addressing.study_subject
+		}
+	end
+
+	test "mailing_addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
+			addressing = Factory(:mailing_addressing)
+			assert_equal addressing.current_address, YNDK[:no]
+		}
+	end
+
+	test "mailing_addressing factory should create mailing address" do
+		assert_difference('Address.count',1) {
 			addressing = Factory(:mailing_addressing)
 			assert_equal addressing.address.address_type,
 				AddressType['mailing']
-			assert_equal addressing.current_address, YNDK[:no]
-		} } }
+		}
 	end
 
-	test "explicity Factory current_mailing_addressing test" do
+	test "mailing_addressing factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-		assert_difference('Address.count',1) {
+			addressing = Factory(:mailing_addressing)
+		}
+	end
+
+	test "current_mailing_addressing factory should create current addressing" do
 		assert_difference('Addressing.count',1) {
+			addressing = Factory(:current_mailing_addressing)
+			assert_equal addressing.current_address, YNDK[:yes]
+		}
+	end
+
+	test "current_mailing_addressing factory should create mailing address" do
+		assert_difference('Address.count',1) {
 			addressing = Factory(:current_mailing_addressing)
 			assert_equal addressing.address.address_type,
 				AddressType['mailing']
-			assert_equal addressing.current_address, YNDK[:yes]
-		} } }
+		}
 	end
 
-	test "explicity Factory residence_addressing test" do
+	test "current_mailing_addressing factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-		assert_difference('Address.count',1) {
+			addressing = Factory(:current_mailing_addressing)
+		}
+	end
+
+	test "residence_addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
+			addressing = Factory(:residence_addressing)
+			assert_equal addressing.current_address, YNDK[:no]
+		}
+	end
+
+	test "residence_addressing factory should create residence address" do
+		assert_difference('Address.count',1) {
 			addressing = Factory(:residence_addressing)
 			assert_equal addressing.address.address_type,
 				AddressType['residence']
-			assert_equal addressing.current_address, YNDK[:no]
-		} } }
+		}
 	end
 
-	test "explicity Factory current_residence_addressing test" do
+	test "residence_addressing factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-		assert_difference('Address.count',1) {
+			addressing = Factory(:residence_addressing)
+		}
+	end
+
+	test "current_residence_addressing factory should create current addressing" do
 		assert_difference('Addressing.count',1) {
+			addressing = Factory(:current_residence_addressing)
+			assert_equal addressing.current_address, YNDK[:yes]
+		}
+	end
+
+	test "current_residence_addressing factory should create residence address" do
+		assert_difference('Address.count',1) {
 			addressing = Factory(:current_residence_addressing)
 			assert_equal addressing.address.address_type,
 				AddressType['residence']
-			assert_equal addressing.current_address, YNDK[:yes]
-		} } }
+		}
+	end
+
+	test "current_residence_addressing factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			addressing = Factory(:current_residence_addressing)
+		}
 	end
 
 	test "current_address should default to 1" do

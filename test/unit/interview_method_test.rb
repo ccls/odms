@@ -9,7 +9,7 @@ class InterviewMethodTest < ActiveSupport::TestCase
 	assert_should_have_many( :interviews, :instruments )
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory interview_method test" do
+	test "interview_method factory should create interview method" do
 		assert_difference('InterviewMethod.count',1) {
 			interview_method = Factory(:interview_method)
 			assert_match /Key\d*/, interview_method.key

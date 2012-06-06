@@ -9,7 +9,7 @@ class TracingStatusTest < ActiveSupport::TestCase
 	assert_should_have_many(:enrollments)
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory tracing_status test" do
+	test "tracing_status factory should create tracing status" do
 		assert_difference('TracingStatus.count',1) {
 			tracing_status = Factory(:tracing_status)
 			assert_match /Key\d*/, tracing_status.key

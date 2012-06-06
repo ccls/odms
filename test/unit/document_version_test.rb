@@ -17,7 +17,7 @@ class DocumentVersionTest < ActiveSupport::TestCase
 		:maximum => 250 )
 	assert_requires_complete_date( :began_use_on, :ended_use_on )
 
-	test "explicit Factory document_version test" do
+	test "document_version should create document version" do
 		assert_difference('DocumentType.count',1) {
 		assert_difference('DocumentVersion.count',1) {
 			document_version = Factory(:document_version)

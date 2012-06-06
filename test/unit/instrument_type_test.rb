@@ -10,14 +10,19 @@ class InstrumentTypeTest < ActiveSupport::TestCase
 	assert_should_initially_belong_to(:project)
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory instrument_type test" do
-		assert_difference('Project.count',1) {
+	test "instrument_type factory should instrument type" do
 		assert_difference('InstrumentType.count',1) {
 			instrument_type = Factory(:instrument_type)
-			assert_not_nil instrument_type.project
 			assert_match /Key\d*/, instrument_type.key
 			assert_match /Desc\d*/, instrument_type.description
-		} }
+		}
+	end
+
+	test "instrument_type factory should project" do
+		assert_difference('Project.count',1) {
+			instrument_type = Factory(:instrument_type)
+			assert_not_nil instrument_type.project
+		}
 	end
 
 #	test "should require project" do

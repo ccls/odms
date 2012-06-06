@@ -21,7 +21,7 @@ class PersonTest < ActiveSupport::TestCase
 		:first_name, :last_name, :honorific, 
 			:maximum => 250 )
 
-	test "explicit Factory person test" do
+	test "person factory should create person" do
 		assert_difference('Person.count',1) {
 			person = Factory(:person)
 			assert_match /LastName\d*/, person.last_name

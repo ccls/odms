@@ -22,7 +22,7 @@ class GiftCardTest < ActiveSupport::TestCase
 		:vendor, :number, 
 			:maximum => 250 )
 
-	test "explicit Factory gift_card test" do
+	test "gift_card factory should create gift card" do
 		assert_difference('GiftCard.count',1) {
 			gift_card = Factory(:gift_card)
 			assert_match /\d*/, gift_card.number

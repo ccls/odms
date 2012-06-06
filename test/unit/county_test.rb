@@ -17,7 +17,7 @@ class CountyTest < ActiveSupport::TestCase
 	assert_should_require_length( :state_abbrev, :maximum => 2 )
 	assert_should_require_length( :usc_code, :maximum => 2 )
 
-	test "explicit Factory county test" do
+	test "county factory should create county" do
 		assert_difference('County.count',1) {
 			county = Factory(:county)
 			assert_match /Name \d*/, county.name

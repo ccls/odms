@@ -18,7 +18,7 @@ class StateTest < ActiveSupport::TestCase
 		:fips_state_code, :fips_country_code, 
 			:maximum => 250 )
 
-	test "explicit Factory state test" do
+	test "state factory should create state" do
 		assert_difference('State.count',1) {
 			state = Factory(:state)
 			assert_match /Code\d*/, state.code

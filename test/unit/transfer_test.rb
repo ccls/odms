@@ -16,15 +16,25 @@ class TransferTest < ActiveSupport::TestCase
 
 	assert_should_require_attribute_length( :reason, :maximum => 250 )
 
-	test "explicit Factory transfer test" do
-		assert_difference('Organization.count',3) {	#	aliquot also creates an Organization
-		assert_difference('Aliquot.count',1) {
+	test "transfer factory should create transfer" do
 		assert_difference('Transfer.count',1) {
 			transfer = Factory(:transfer)
+		}
+	end
+
+	test "transfer factory should create aliquot" do
+		assert_difference('Aliquot.count',1) {
+			transfer = Factory(:transfer)
 			assert_not_nil transfer.aliquot
+		}
+	end
+
+	test "transfer factory should create 3 organizations" do
+		assert_difference('Organization.count',3) {	#	aliquot also creates an Organization
+			transfer = Factory(:transfer)
 			assert_not_nil transfer.from_organization
 			assert_not_nil transfer.to_organization
-		} } }
+		}
 	end
 
 	test "should require aliquot" do

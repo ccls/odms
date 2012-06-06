@@ -10,7 +10,7 @@ class SectionTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position )
 #	assert_should_require_attribute_length( :event_category, :in => 4..250 )
 
-	test "explicit Factory section test" do
+	test "section factory should create section" do
 		assert_difference('Section.count',1) {
 			section = Factory(:section)
 			assert_match /Key\d*/, section.key

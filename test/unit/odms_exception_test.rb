@@ -4,7 +4,7 @@ class OdmsExceptionTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 
-	test "explicit Factory odms_exception test" do
+	test "odms_exception factory should create odms exception" do
 		assert_difference('OdmsException.count',1) {
 			odms_exception = Factory(:odms_exception)
 			assert_nil odms_exception.name

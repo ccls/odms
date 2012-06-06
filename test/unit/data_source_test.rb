@@ -19,7 +19,7 @@ class DataSourceTest < ActiveSupport::TestCase
 		:data_origin, 
 			:maximum => 250 )
 
-	test "explicit Factory data_source test" do
+	test "data_source should create data source" do
 		assert_difference('DataSource.count',1) {
 			data_source = Factory(:data_source)
 			assert_match /Key\d*/, data_source.key

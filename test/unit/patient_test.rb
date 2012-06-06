@@ -33,19 +33,30 @@ class PatientTest < ActiveSupport::TestCase
 	assert_requires_past_date :diagnosis_date
 	assert_requires_past_date :treatment_began_on
 
-	test "explicit Factory subjectless patient test" do
-		assert_difference('StudySubject.count',0) {
+	test "subjectless patient factory should create patient" do
 		assert_difference('Patient.count',1) {
 			patient = Factory(:subjectless_patient)
-			assert_nil patient.study_subject
 			assert_not_nil patient.admit_date
 			assert_not_nil patient.hospital_no
 			assert_not_nil patient.organization_id
 			assert_not_nil patient.diagnosis_id
-		} }
+		}
 	end
 
-	test "explicit Factory patient hospital sequence test" do
+	test "subjectless patient factory should not create study subject" do
+		assert_difference('StudySubject.count',0) {
+			patient = Factory(:subjectless_patient)
+			assert_nil patient.study_subject
+		}
+	end
+
+	test "subjectless patient factory should not create hospital" do
+		assert_difference('Hospital.count',0) {
+			patient = Factory(:subjectless_patient)
+		}
+	end
+
+	test "patient factory should sequence existing hospitals" do
 		patient = Factory(:patient)		#	'first' hospital
 		(Hospital.active.count - 1).times {	#	loop over the rest of the hospitals
 			new_patient = Factory(:patient)
@@ -55,16 +66,27 @@ class PatientTest < ActiveSupport::TestCase
 		assert patient.organization_id == new_patient.organization_id
 	end
 
-	test "explicit Factory patient test" do
-		assert_difference('StudySubject.count',1) {
+	test "patient factory should create patient" do
 		assert_difference('Patient.count',1) {
+			patient = Factory(:patient)
+		}
+	end
+
+	test "patient factory should create case study subject" do
+		assert_difference('StudySubject.count',1) {
 			patient = Factory(:patient)
 			assert_not_nil patient.study_subject
 			assert_equal patient.study_subject.subject_type, SubjectType['Case']
-		} }
+		}
 	end
 
-	test "explicit Factory waivered patient hospital sequence test" do
+	test "patient factory should create not create hospital" do
+		assert_difference('Hospital.count',0) {
+			patient = Factory(:patient)
+		}
+	end
+
+	test "waivered patient factory should sequence existing waivered hospitals" do
 		patient = Factory(:waivered_patient)		#	'first' hospital
 		(Hospital.active.waivered.count - 1).times {	#	loop over the rest of the hospitals
 			new_patient = Factory(:waivered_patient)
@@ -74,17 +96,28 @@ class PatientTest < ActiveSupport::TestCase
 		assert patient.organization_id == new_patient.organization_id
 	end
 
-	test "explicit Factory waivered_patient test" do
-		assert_difference('StudySubject.count',1) {
+	test "waivered_patient factory should create patient in waivered hospital" do
 		assert_difference('Patient.count',1) {
+			patient = Factory(:waivered_patient)
+			assert patient.organization.hospital.has_irb_waiver
+		}
+	end
+
+	test "waivered_patient factory should create case study subject" do
+		assert_difference('StudySubject.count',1) {
 			patient = Factory(:waivered_patient)
 			assert_not_nil patient.study_subject
 			assert_equal patient.study_subject.subject_type, SubjectType['Case']
-			assert patient.organization.hospital.has_irb_waiver
-		} }
+		}
 	end
 
-	test "explicit Factory nonwaivered patient hospital sequence test" do
+	test "waivered_patient factory should not create hospital" do
+		assert_difference('Hospital.count',0) {
+			patient = Factory(:waivered_patient)
+		}
+	end
+
+	test "nonwaivered patient factory should sequence existing nonwaivered hospitals" do
 		patient = Factory(:nonwaivered_patient)		#	'first' hospital
 		(Hospital.active.nonwaivered.count - 1).times {	#	loop over the rest of the hospitals
 			new_patient = Factory(:nonwaivered_patient)
@@ -94,14 +127,25 @@ class PatientTest < ActiveSupport::TestCase
 		assert patient.organization_id == new_patient.organization_id
 	end
 
-	test "explicit Factory nonwaivered_patient test" do
-		assert_difference('StudySubject.count',1) {
+	test "nonwaivered_patient factory should create patient in non-waivered hospital" do
 		assert_difference('Patient.count',1) {
+			patient = Factory(:nonwaivered_patient)
+			assert !patient.organization.hospital.has_irb_waiver
+		}
+	end
+
+	test "nonwaivered_patient factory should create case study subject" do
+		assert_difference('StudySubject.count',1) {
 			patient = Factory(:nonwaivered_patient)
 			assert_not_nil patient.study_subject
 			assert_equal patient.study_subject.subject_type, SubjectType['Case']
-			assert !patient.organization.hospital.has_irb_waiver
-		} }
+		}
+	end
+
+	test "nonwaivered_patient factory should not create hospital" do
+		assert_difference('Hospital.count',0) {
+			patient = Factory(:nonwaivered_patient)
+		}
 	end
 
 	test "should default was_ca_resident_at_diagnosis to null" do

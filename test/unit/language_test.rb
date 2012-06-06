@@ -18,7 +18,7 @@ class LanguageTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )	#- unique )
 	assert_should_not_protect( attributes )
 
-	test "explicit Factory language test" do
+	test "language factory should create language" do
 		assert_difference('Language.count',1) {
 			language = Factory(:language)
 			assert_match /Key\d*/,  language.key

@@ -41,18 +41,40 @@ class SampleTest < ActiveSupport::TestCase
 		:received_by_lab_at,   :aliquotted_at,
 		:receipt_confirmed_at, :collected_from_subject_at )
 
-	test "explicit Factory sample test" do
-		assert_difference('StudySubject.count',1) {
-		assert_difference('Enrollment.count',1) {
-		assert_difference('SampleType.count',2) {	#	creates sample_type and a parent sample_type
+	test "sample factory should create sample" do
 		assert_difference('Sample.count',1) {
-		assert_difference('Project.count',1) {
+			sample = Factory(:sample)
+		}
+	end
+
+	test "sample factory should create 2 sample types" do
+		#	creates sample_type and a parent sample_type
+		assert_difference('SampleType.count',2) {	
 			sample = Factory(:sample)
 			assert_not_nil sample.sample_type
 			assert_not_nil sample.sample_type.parent
-			assert_not_nil sample.study_subject
+		}
+	end
+
+	test "sample factory should create project" do
+		assert_difference('Project.count',1) {
+			sample = Factory(:sample)
 			assert_not_nil sample.project
-		} } } } }
+		}
+	end
+
+	test "sample factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			sample = Factory(:sample)
+			assert_not_nil sample.study_subject
+		}
+	end
+
+	test "sample factory should create enrollment" do
+		#	subject's ccls enrollment
+		assert_difference('Enrollment.count',1) {
+			sample = Factory(:sample)
+		}
 	end
 
 	test "should require sample_type" do

@@ -25,17 +25,27 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :how_verified, :why_invalid, 
 		:maximum => 250 )
 
-	test "explicit Factory phone_number test" do
-		assert_difference('StudySubject.count',1) {
-		assert_difference('PhoneType.count',1) {
+	test "phone_number factory should create phone number" do
 		assert_difference('PhoneNumber.count',1) {
 			phone_number = Factory(:phone_number)
-			assert_not_nil phone_number.study_subject
-			assert_not_nil phone_number.phone_type
 			assert_match /\(\d{3}\) \d{3}-\d{4}/, phone_number.phone_number
 			assert_equal 1, phone_number.is_valid
 			assert         !phone_number.is_verified
-		} } }
+		}
+	end
+
+	test "phone_number factory should create phone type" do
+		assert_difference('PhoneType.count',1) {
+			phone_number = Factory(:phone_number)
+			assert_not_nil phone_number.phone_type
+		}
+	end
+
+	test "phone_number factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			phone_number = Factory(:phone_number)
+			assert_not_nil phone_number.study_subject
+		}
 	end
 
 	test "should return phone number as to_s" do

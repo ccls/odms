@@ -6,14 +6,24 @@ class SubjectLanguageTest < ActiveSupport::TestCase
 	assert_should_initially_belong_to( :study_subject, :language )
 	assert_should_protect( :study_subject_id, :study_subject )
 
-	test "explicit Factory subject_language test" do
-		assert_difference('Language.count',1) {
-		assert_difference('StudySubject.count',1) {
+	test "subject_language factory should create subject language" do
 		assert_difference('SubjectLanguage.count',1) {
 			subject_language = Factory(:subject_language)
-			assert_not_nil subject_language.study_subject
+		}
+	end
+
+	test "subject_language factory should create language" do
+		assert_difference('Language.count',1) {
+			subject_language = Factory(:subject_language)
 			assert_not_nil subject_language.language
-		} } }
+		}
+	end
+
+	test "subject_language factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			subject_language = Factory(:subject_language)
+			assert_not_nil subject_language.study_subject
+		}
 	end
 
 	test "should require other_language if language == other" do

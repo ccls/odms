@@ -19,7 +19,7 @@ class ProjectTest < ActiveSupport::TestCase
 
 	assert_requires_complete_date( :began_on, :ended_on )
 
-	test "explicit Factory project test" do
+	test "project factory should create project" do
 		assert_difference('Project.count',1) {
 			project = Factory(:project)
 			assert_match /Key\d*/, project.key

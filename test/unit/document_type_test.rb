@@ -18,7 +18,7 @@ class DocumentTypeTest < ActiveSupport::TestCase
 
 	assert_should_require_attribute_length( :title, :maximum => 250 )
 
-	test "explicit Factory document_type test" do
+	test "document_type factory should create document type" do
 		assert_difference('DocumentType.count',1) {
 			document_type = Factory(:document_type)
 			assert_match /Key\d*/,   document_type.key

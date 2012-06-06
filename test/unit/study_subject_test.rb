@@ -80,31 +80,48 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :newid, :maximum => 6 )
 	assert_should_require_attribute_length( :birth_year, :maximum => 4 )
 
-	test "explicit Factory study_subject test" do
-		assert_difference('SubjectType.count',1) {
+	test "study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			study_subject = Factory(:study_subject)
-			assert_not_nil study_subject.subject_type
 			assert_not_nil study_subject.vital_status
 			assert_not_nil study_subject.sex
-		} }
+		}
 	end
 
-	test "explicit Factory case study_subject test" do
+	test "study_subject factory should create subject type" do
+		assert_difference('SubjectType.count',1) {
+			study_subject = Factory(:study_subject)
+			assert_not_nil study_subject.subject_type
+		}
+	end
+
+	test "case study_subject should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			study_subject = Factory(:case_study_subject)
 			assert_equal study_subject.subject_type, SubjectType['Case']
 		}
 	end
 
-	test "explicit Factory control study_subject test" do
+	test "case study_subject should not create subject type" do
+		assert_difference('SubjectType.count',0) {
+			study_subject = Factory(:case_study_subject)
+		}
+	end
+
+	test "control study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			study_subject = Factory(:control_study_subject)
 			assert_equal study_subject.subject_type, SubjectType['Control']
 		}
 	end
 
-	test "explicit Factory mother study_subject test" do
+	test "control study_subject factory should not create subject type" do
+		assert_difference('SubjectType.count',0) {
+			study_subject = Factory(:control_study_subject)
+		}
+	end
+
+	test "mother study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = Factory(:mother_study_subject)
 			assert_equal s.subject_type, SubjectType['Mother']
@@ -115,6 +132,12 @@ class StudySubjectTest < ActiveSupport::TestCase
 		}
 	end
 
+	test "mother study_subject factory should not create subject type" do
+		assert_difference('SubjectType.count',0) {
+			s = Factory(:mother_study_subject)
+		}
+	end
+
 	test "explicit Factory complete case study subject build test" do
 		assert_difference('Patient.count',0) {
 		assert_difference('StudySubject.count',0) {
@@ -122,8 +145,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 		} }
 	end
 
-	test "explicit Factory complete case study subject test" do
-		assert_difference('Patient.count',1) {
+	test "complete case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = Factory(:complete_case_study_subject)
 			assert_equal s.subject_type, SubjectType['Case']
@@ -137,11 +159,16 @@ class StudySubjectTest < ActiveSupport::TestCase
 			assert_match /\d{4}-C-0/, s.studyid
 #	New sequencing make the value of this relatively unpredictable
 #			assert_equal s.organization_id, Hospital.first.organization_id
-		} }
+		}
 	end
 
-	test "explicit Factory complete waivered case study subject test" do
+	test "complete case study subject factory should create patient" do
 		assert_difference('Patient.count',1) {
+			s = Factory(:complete_case_study_subject)
+		}
+	end
+
+	test "complete waivered case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = Factory(:complete_waivered_case_study_subject)
 			assert_equal s.subject_type, SubjectType['Case']
@@ -150,12 +177,18 @@ class StudySubjectTest < ActiveSupport::TestCase
 			assert_not_nil s.childid
 			assert_not_nil s.patid
 			assert_not_nil s.organization_id
-			assert s.organization.hospital.has_irb_waiver
-		} }
+		}
 	end
 
-	test "explicit Factory complete nonwaivered case study subject test" do
+	test "complete waivered case study subject factory should create waivered patient" do
 		assert_difference('Patient.count',1) {
+			s = Factory(:complete_waivered_case_study_subject)
+			assert_not_nil s.organization_id
+			assert s.organization.hospital.has_irb_waiver
+		}
+	end
+
+	test "complete nonwaivered case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = Factory(:complete_nonwaivered_case_study_subject)
 			assert_equal s.subject_type, SubjectType['Case']
@@ -164,8 +197,14 @@ class StudySubjectTest < ActiveSupport::TestCase
 			assert_not_nil s.childid
 			assert_not_nil s.patid
 			assert_not_nil s.organization_id
+		}
+	end
+
+	test "complete nonwaivered case study subject factory should create nonwaivered patient" do
+		assert_difference('Patient.count',1) {
+			s = Factory(:complete_nonwaivered_case_study_subject)
 			assert !s.organization.hospital.has_irb_waiver
-		} }
+		}
 	end
 
 	test "should require sex with custom message" do

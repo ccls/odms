@@ -9,7 +9,7 @@ class SampleFormatTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position )
 	assert_should_have_many(:samples)
 
-	test "explicit Factory sample format test" do
+	test "sample format factory should create sample format" do
 		assert_difference('SampleFormat.count',1) {
 			sample_format = Factory(:sample_format)
 			assert_match /Key\d*/,  sample_format.key

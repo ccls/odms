@@ -19,11 +19,10 @@ class DiagnosisTest < ActiveSupport::TestCase
 	assert_should_act_as_list
 	#	NOTE	code is an integer for diagnosis (so key is used)
 
-	test "explicit Factory diagnosis test" do
+	test "diagnosis factory should create diagnosis" do
 		assert_difference('Diagnosis.count',1) {
 			diagnosis = Factory(:diagnosis)
 			assert_match /Key\d*/,  diagnosis.key
-#			assert_match /\d*/,     diagnosis.code.to_s
 			assert_match /Desc\d*/, diagnosis.description
 		}
 	end

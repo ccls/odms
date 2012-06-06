@@ -27,12 +27,17 @@ class InterviewTest < ActiveSupport::TestCase
 
 	assert_requires_complete_date( :began_at, :ended_at, :intro_letter_sent_on )
 
-	test "explicit Factory interview test" do
-		assert_difference('StudySubject.count',1) {
+	test "interview factory should create interview" do
 		assert_difference('Interview.count',1) {
 			interview = Factory(:interview)
+		}
+	end
+
+	test "interview factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			interview = Factory(:interview)
 			assert_not_nil interview.study_subject
-		} }
+		}
 	end
 
 #	test "should create intro letter operational event " <<

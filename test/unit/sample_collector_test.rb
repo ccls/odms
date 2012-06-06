@@ -5,12 +5,17 @@ class SampleCollectorTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_initially_belong_to(:organization)
 
-	test "explicit Factory sample_collector test" do
-		assert_difference('Organization.count',1) {
+	test "sample_collector factory should create sample collector" do
 		assert_difference('SampleCollector.count',1) {
 			sample_collector = Factory(:sample_collector)
+		}
+	end
+
+	test "sample_collector factory should create organization" do
+		assert_difference('Organization.count',1) {
+			sample_collector = Factory(:sample_collector)
 			assert_not_nil sample_collector.organization
-		} }
+		}
 	end
 
 	test "should require organization" do

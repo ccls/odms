@@ -12,7 +12,7 @@ class RaceTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position )
 #	assert_should_require_attribute_length( :code, :maximum => 250 )
 
-	test "explicit Factory race test" do
+	test "race factory should create race" do
 		assert_difference('Race.count',1) {
 			race = Factory(:race)
 			assert_match /Key\d*/,  race.key

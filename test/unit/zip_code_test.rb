@@ -21,7 +21,7 @@ class ZipCodeTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :city, :state, :zip_class,
 		:maximum => 250 )
 
-	test "explicit Factory zip_code test" do
+	test "zip_code factory should create zip code" do
 		assert_difference('ZipCode.count',1) {
 			zip_code = Factory(:zip_code)
 			assert_match /X\d{4}/, zip_code.zip_code

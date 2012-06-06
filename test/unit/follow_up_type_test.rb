@@ -10,7 +10,7 @@ class FollowUpTypeTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position )
 #	assert_should_require_attribute_length( :event_category, :in => 4..250 )
 
-	test "explicit Factory follow_up_type test" do
+	test "follow_up_type factory should create follow up type" do
 		assert_difference('FollowUpType.count',1) {
 			follow_up_type = Factory(:follow_up_type)
 			assert_match /Key\d*/, follow_up_type.key

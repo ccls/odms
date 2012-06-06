@@ -15,7 +15,7 @@ class ContextTest < ActiveSupport::TestCase
 	assert_should_act_as_list
 	assert_should_have_many(:units)
 
-	test "explicit Factory context test" do
+	test "context factory should create context" do
 		assert_difference('Context.count',1) {
 			context = Factory(:context)
 			assert_match /Key\d*/, context.key

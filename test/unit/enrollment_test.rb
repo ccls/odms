@@ -54,53 +54,103 @@ class EnrollmentTest < ActiveSupport::TestCase
 	assert_requires_complete_date(:completed_on, :consented_on)
 	assert_requires_past_date(    :completed_on, :consented_on)
 
-	test "explicit Factory enrollment test" do
-		assert_difference('Project.count',1) {
-		assert_difference('StudySubject.count',1) {
+	test "enrollment factory should create 2 enrollments" do
 		#	NOTE this enrollment AND the subject's ccls enrollment
 		assert_difference('Enrollment.count',2) {	
 			enrollment = Factory(:enrollment)
-			assert !enrollment.consented
-			assert_not_nil enrollment.project
-			assert_not_nil enrollment.study_subject
-		} } }
+		}
 	end
 
-	test "explicit Factory subjectless_enrollment test" do
+	test "enrollment factory should create enrollment in new non-ccls project" do
+		enrollment = Factory(:enrollment)
+		assert !enrollment.new_record?
+		assert !enrollment.consented
+		assert ( enrollment.project_id != Project['ccls'].id )
+	end
+
+	test "enrollment factory should create enrollment in ccls project" do
+		enrollment = Factory(:enrollment)
+		other_enrollments = enrollment.study_subject.enrollments - [enrollment]
+		assert_equal other_enrollments.length, 1
+		ccls_enrollment = other_enrollments.first
+		assert ( ccls_enrollment.project_id == Project['ccls'].id )
+	end
+
+	test "enrollment factory should create project" do
 		assert_difference('Project.count',1) {
-		assert_difference('StudySubject.count',0) {
+			enrollment = Factory(:enrollment)
+			assert_not_nil enrollment.project
+		}
+	end
+
+	test "enrollment factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			enrollment = Factory(:enrollment)
+			assert_not_nil enrollment.study_subject
+		}
+	end
+
+	test "subjectless_enrollment factory should create enrollment" do
 		assert_difference('Enrollment.count',1) {
 			enrollment = Factory(:subjectless_enrollment)
 			assert !enrollment.consented
+		}
+	end
+
+	test "subjectless_enrollment factory should create project" do
+		assert_difference('Project.count',1) {
+			enrollment = Factory(:subjectless_enrollment)
 			assert_not_nil enrollment.project
+		}
+	end
+
+	test "subjectless_enrollment factory should create study subject" do
+		assert_difference('StudySubject.count',0) {
+			enrollment = Factory(:subjectless_enrollment)
 			assert_nil     enrollment.study_subject
-		} } }
+		}
 	end
 
-	test "explicit Factory consented_enrollment test" do
+	test "consented_enrollment should create consented enrollment" do
+		enrollment = Factory(:consented_enrollment)
+		assert !enrollment.new_record?
+		assert_not_nil enrollment.consented
+		assert_equal enrollment.consented, YNDK[:yes]
+	end
+
+	test "consented_enrollment should create project" do
 		assert_difference('Project.count',1) {
-		assert_difference('StudySubject.count',1) {
-		#	NOTE this enrollment AND the subject's ccls enrollment
-		assert_difference('Enrollment.count',2) {	
 			enrollment = Factory(:consented_enrollment)
-			assert enrollment.consented
-			assert_equal enrollment.consented, YNDK[:yes]
 			assert_not_nil enrollment.project
-			assert_not_nil enrollment.study_subject
-		} } }
+		}
 	end
 
-	test "explicit Factory declined_enrollment test" do
-		assert_difference('Project.count',1) {
+	test "consented_enrollment should create study subject" do
 		assert_difference('StudySubject.count',1) {
-		#	NOTE this enrollment AND the subject's ccls enrollment
-		assert_difference('Enrollment.count',2) {	
-			enrollment = Factory(:declined_enrollment)
-			assert enrollment.consented
-			assert_equal enrollment.consented, YNDK[:no]
-			assert_not_nil enrollment.project
+			enrollment = Factory(:consented_enrollment)
 			assert_not_nil enrollment.study_subject
-		} } }
+		}
+	end
+
+	test "declined_enrollment factory should create non-consented enrollment" do
+		enrollment = Factory(:declined_enrollment)
+		assert !enrollment.new_record?
+		assert_not_nil enrollment.consented
+		assert_equal enrollment.consented, YNDK[:no]
+	end
+
+	test "declined_enrollment factory should create project" do
+		assert_difference('Project.count',1) {
+			enrollment = Factory(:declined_enrollment)
+			assert_not_nil enrollment.project
+		}
+	end
+
+	test "declined_enrollment factory should create study subject" do
+		assert_difference('StudySubject.count',1) {
+			enrollment = Factory(:declined_enrollment)
+			assert_not_nil enrollment.study_subject
+		}
 	end
 
 	test "should require project" do

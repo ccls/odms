@@ -23,7 +23,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 			:maximum => 250 )
 	assert_should_require_attributes_not_nil( :reject_candidate )
 
-	test "explicit Factory candidate_control test" do
+	test "candidate_control factory should create candidate control" do
 		assert_difference('CandidateControl.count',1) {
 			candidate_control = Factory(:candidate_control)
 			assert_not_nil candidate_control.reject_candidate

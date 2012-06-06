@@ -39,32 +39,47 @@ class AddressTest < ActiveSupport::TestCase
 	assert_should_have_many(:interviews)
 	assert_should_initially_belong_to(:address_type)
 
-	test "explicit Factory address test" do
-		assert_difference('AddressType.count',1) {
+	test "address factory should create address" do
 		assert_difference('Address.count',1) {
 			address = Factory(:address)
-			assert_not_nil address.address_type
 			assert_match /Box \d*/, address.line_1
 			assert_equal "Berkeley", address.city
 			assert_equal "CA", address.state
 			assert_equal "12345", address.zip
-		} }
+		}
 	end
 
-	test "explicit Factory mailing_address test" do
-		assert_difference('AddressType.count',0) {
+	test "address factory should create address type" do
+		assert_difference('AddressType.count',1) {
+			address = Factory(:address)
+			assert_not_nil address.address_type
+		}
+	end
+
+	test "mailing_address should create address" do
 		assert_difference('Address.count',1) {
 			address = Factory(:mailing_address)
-			assert_equal address.address_type, AddressType['mailing']
-		} }
+		}
 	end
 
-	test "explicit Factory residence_address test" do
+	test "mailing_address should not create address type" do
 		assert_difference('AddressType.count',0) {
+			address = Factory(:mailing_address)
+			assert_equal address.address_type, AddressType['mailing']
+		}
+	end
+
+	test "residence_address should create address" do
 		assert_difference('Address.count',1) {
 			address = Factory(:residence_address)
+		}
+	end
+
+	test "residence_address should create address type" do
+		assert_difference('AddressType.count',0) {
+			address = Factory(:residence_address)
 			assert_equal address.address_type, AddressType['residence']
-		} }
+		}
 	end
 
 	test "should require address_type" do

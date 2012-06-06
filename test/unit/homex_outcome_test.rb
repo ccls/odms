@@ -21,7 +21,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		:interview_outcome_on )
 
 
-	test "explicit Factory homex_outcome test" do
+	test "homex_outcome factory should create homex outcome" do
 		assert_difference('HomexOutcome.count',1) {
 			homex_outcome = Factory(:homex_outcome)
 			assert_nil     homex_outcome.sample_outcome

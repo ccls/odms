@@ -22,7 +22,7 @@ class OrganizationTest < ActiveSupport::TestCase
 			:foreign_key => :from_organization_id)
 	end
 
-	test "explicit Factory organization test" do
+	test "organization factory should create organization" do
 		assert_difference('Organization.count',1) {
 			organization = Factory(:organization)
 			assert_match /Key \d*/,  organization.key

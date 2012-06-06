@@ -18,7 +18,7 @@ class AnalysisTest < ActiveSupport::TestCase
 	assert_should_belong_to( :project )
 	assert_should_habtm( :study_subjects )
 
-	test "explicit Factory analysis test" do
+	test "analysis factory should create analysis" do
 		assert_difference('Analysis.count',1) {
 			analysis = Factory(:analysis)
 			assert_match /Key\d*/, analysis.key

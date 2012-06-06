@@ -8,7 +8,7 @@ class SubjectRelationshipTest < ActiveSupport::TestCase
 	assert_should_act_as_list
 	assert_should_not_require_attributes( :position )
 
-	test "explicit Factory subject_relationship test" do
+	test "subject_relationship factory should create subject relationship" do
 		assert_difference('SubjectRelationship.count',1) {
 			subject_relationship = Factory(:subject_relationship)
 			assert_match /Key\d*/, subject_relationship.key

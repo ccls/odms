@@ -18,14 +18,19 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 
 	assert_requires_complete_date( :began_use_on, :ended_use_on )
 
-	test "explicit Factory instrument_version test" do
-		assert_difference('InstrumentType.count',1) {
+	test "instrument_version factory should create instrument version" do
 		assert_difference('InstrumentVersion.count',1) {
 			instrument_version = Factory(:instrument_version)
-			assert_not_nil instrument_version.instrument_type
 			assert_match /Key\d*/, instrument_version.key
 			assert_match /Desc\d*/, instrument_version.description
-		} }
+		}
+	end
+
+	test "instrument_version factory should create instrument type" do
+		assert_difference('InstrumentType.count',1) {
+			instrument_version = Factory(:instrument_version)
+			assert_not_nil instrument_version.instrument_type
+		}
 	end
 
 #	test "should require instrument_type" do
