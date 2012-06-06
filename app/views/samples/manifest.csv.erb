@@ -1,0 +1,34 @@
+<% require 'fastercsv' -%>
+<%# 
+        adding :headers => true is supposed to set a flag in the file 
+        somewhere marking it as having a header row, but I don't 
+        think that it actually does.
+-%>
+<%= %w( 
+icf_master_id
+subjectid
+sex
+sampleid
+gegl_sample_type_id
+date_collected
+time_collected
+date_received
+time_received
+storage_temperature
+sent_to_lab_at
+).to_csv( :headers => true) -%>
+<% @samples.each do |sample| -%>
+<%= [ 
+	sample.study_subject.icf_master_id_to_s,
+	sample.study_subject.subjectid,
+	sample.study_subject.sex,
+	sample.sampleid,
+	sample.sample_type.gegl_sample_type_id,
+nil,
+nil,
+nil,
+nil,
+	sample.sample_temperature,
+	mdyhm(sample.sent_to_lab_at)
+].to_csv -%>
+<% end -%>
