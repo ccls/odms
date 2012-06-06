@@ -14,6 +14,8 @@ namespace :odms_import do
 			puts line
 
 #"id","childid","subjectID","parent_sample_id","sample_type_id","project_id","location_id","storage_temp","aliquot_or_sample_on_receipt","received_by_ccls_at","originally_received_at","external_id","external_id_source"
+#"id","childid","subjectID","parent_sample_id","ODMS_sample_type_id","project_id","location_id","storage_temp","aliquot_or_sample_on_receipt","received_by_ccls_at","originally_received_at","external_id","external_id_source"
+
 
 #			if line['subjectID'].blank?	#	NOTE misnamed field
 #				error_file.puts 
@@ -60,7 +62,7 @@ namespace :odms_import do
 				s.project_id = project_id
 
 				s.parent_sample_id = line['parent_sample_id']
-				s.sample_type_id = line['sample_type_id']
+				s.sample_type_id = line['ODMS_sample_type_id']
 				unless line['location_id'].blank?
 					s.location_id = line['location_id']
 				end
@@ -97,7 +99,7 @@ namespace :odms_import do
 					'project_id'
 				assert_string_equal sample.parent_sample_id, line["parent_sample_id"], 
 					'parent_sample_id'
-				assert_string_equal sample.sample_type_id, line["sample_type_id"], 
+				assert_string_equal sample.sample_type_id, line["ODMS_sample_type_id"], 
 					'sample_type_id'
 				assert_string_equal sample.external_id, line["external_id"], 
 					'external_id'
