@@ -72,7 +72,7 @@ class SamplesController < ApplicationController
 
 	def manifest
 		@samples = Sample.order('received_by_ccls_at DESC'
-			).where("received_by_ccls_at >' #{DateTime.parse('6/1/2012')}'")
+			).where("received_by_ccls_at > '#{DateTime.parse('6/1/2012')}'")
 		#
 		#	The only reason to have this block is to change the name of the file.
 		#	By default, it would just be manifest.csv everytime.
