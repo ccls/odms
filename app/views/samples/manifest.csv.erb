@@ -10,10 +10,8 @@ subjectid
 sex
 sampleid
 gegl_sample_type_id
-date_collected
-time_collected
-date_received
-time_received
+collected_from_subject_at
+received_by_ccls_at
 storage_temperature
 sent_to_lab_at
 ).to_csv( :headers => true) -%>
@@ -24,10 +22,8 @@ sent_to_lab_at
 	sample.study_subject.sex,
 	sample.sampleid,
 	sample.sample_type.gegl_sample_type_id,
-nil,
-nil,
-nil,
-nil,
+	mdyhm(sample.collected_from_subject_at),
+	mdyhm(sample.received_by_ccls_at),
 	sample.sample_temperature,
 	mdyhm(sample.sent_to_lab_at)
 ].to_csv -%>

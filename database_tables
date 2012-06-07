@@ -1375,18 +1375,20 @@ Table: sample_temperatures
 | updated_at  | datetime     | NO   |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
 Table: sample_types
-+----------------+--------------+------+-----+---------+----------------+
-| Field          | Type         | Null | Key | Default | Extra          |
-+----------------+--------------+------+-----+---------+----------------+
-| id             | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position       | int(11)      | YES  |     | NULL    |                |
-| parent_id      | int(11)      | YES  | MUL | NULL    |                |
-| key            | varchar(255) | NO   | UNI | NULL    |                |
-| description    | varchar(255) | YES  | UNI | NULL    |                |
-| created_at     | datetime     | NO   |     | NULL    |                |
-| updated_at     | datetime     | NO   |     | NULL    |                |
-| for_new_sample | tinyint(1)   | NO   |     | 1       |                |
-+----------------+--------------+------+-----+---------+----------------+
++---------------------+--------------+------+-----+---------+----------------+
+| Field               | Type         | Null | Key | Default | Extra          |
++---------------------+--------------+------+-----+---------+----------------+
+| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position            | int(11)      | YES  |     | NULL    |                |
+| parent_id           | int(11)      | YES  | MUL | NULL    |                |
+| key                 | varchar(255) | NO   | UNI | NULL    |                |
+| description         | varchar(255) | YES  | UNI | NULL    |                |
+| created_at          | datetime     | NO   |     | NULL    |                |
+| updated_at          | datetime     | NO   |     | NULL    |                |
+| for_new_sample      | tinyint(1)   | NO   |     | 1       |                |
+| t2k_sample_type_id  | int(11)      | YES  |     | NULL    |                |
+| gegl_sample_type_id | varchar(255) | YES  |     | NULL    |                |
++---------------------+--------------+------+-----+---------+----------------+
 Table: samples
 +------------------------------+---------------+------+-----+---------+----------------+
 | Field                        | Type          | Null | Key | Default | Extra          |

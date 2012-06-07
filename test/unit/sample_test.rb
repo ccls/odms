@@ -169,6 +169,21 @@ pending	#	no longer required, but may be temporary
 		assert_equal   sample.location_id,  Organization['ccls'].id
 	end
 
+	test "sampleid should return 7 digit id with leading 0s" do
+		sample = Factory(:sample)
+		assert_not_nil sample.attributes['id']
+		assert_not_nil sample.sampleid
+		assert_equal sprintf('%07d',sample.attributes['id']),
+			sample.sampleid
+	end
+
+	test "sampleid should return nil for unsaved sample" do
+		sample = Sample.new
+		assert_nil sample.attributes['id']
+		assert_nil sample.sampleid
+	end
+
+
 
 #	I get this in the functional tests, but I can't seem
 #	to reproduce it here.

@@ -72,20 +72,14 @@ class SamplesController < ApplicationController
 
 
 	def manifest
-#
-#	just grab 5 for now
-#
-		@samples = Sample.limit(5)
-#
-
+		@samples = Sample.order('received_by_ccls_at DESC'
+			).where("received_by_ccls_at >' #{DateTime.parse('6/1/2012')}'")
 		respond_to do |format|
-			format.html
 			format.csv { 
 				headers["Content-disposition"] = "attachment; " <<
 					"filename=sample_manifest_#{Time.now.to_s(:filename)}.csv"
 			}
 		end
-
 	end
 
 

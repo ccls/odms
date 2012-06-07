@@ -68,7 +68,7 @@ class Sample < ActiveRecord::Base
 	end
 
 	def sampleid
-		sprintf('%07d',self.attributes['id'])
+		sprintf('%07d',self.attributes['id']) unless new_record?
 	end
 
 protected
