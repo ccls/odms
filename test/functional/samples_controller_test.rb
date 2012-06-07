@@ -515,14 +515,6 @@ class SamplesControllerTest < ActionController::TestCase
 				storage_temperature
 				sent_to_lab_at
 			)
-#			assert_equal 23, f[0].length
-##["46", nil, nil, nil, "[name not available]", nil, "[name not available]", "[name not available]", "3", "23", "2006", "F", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
-#			assert_equal f[1][0],  case_study_subject.icf_master_id
-#			assert_equal f[1][8],  case_study_subject.dob.try(:month).to_s
-#			assert_equal f[1][9],  case_study_subject.dob.try(:day).to_s
-#			assert_equal f[1][10], case_study_subject.dob.try(:year).to_s
-#			assert_equal f[1][11], case_study_subject.sex
-
 		end
 	
 	end
