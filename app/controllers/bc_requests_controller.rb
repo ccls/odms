@@ -81,7 +81,8 @@ class BcRequestsController < ApplicationController
 				study_subject.operational_events.create!(
 					:project => Project['ccls'],
 					:operational_event_type => OperationalEventType['bc_request_sent'],
-					:occurred_on => Date.today
+#					:occurred_at => Date.today
+					:occurred_at => DateTime.now
 				)
 #				).save!
 			end

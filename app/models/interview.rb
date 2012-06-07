@@ -62,14 +62,14 @@ __END__
 #			if oe
 #				oe.update_attributes!(
 #					:description => oet.description,
-#					:occurred_on => intro_letter_sent_on
+#					:occurred_at => intro_letter_sent_on
 #				)
 #			else
 #				study_subject.operational_events.create!(
 #					:project_id                => Project['HomeExposures'].id,
 #					:operational_event_type_id => oet.id,
 #					:description               => oet.description,
-#					:occurred_on               => intro_letter_sent_on
+#					:occurred_at               => intro_letter_sent_on
 #				)
 #			end
 #		end

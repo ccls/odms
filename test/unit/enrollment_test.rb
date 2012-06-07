@@ -461,7 +461,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 				:completed_on => nil)
 		end
 		#	default_scope is mucking this up.  Unscope it!
-		#	 ORDER BY occurred_on ASC, id DESC LIMIT 1
+		#	 ORDER BY occurred_at ASC, id DESC LIMIT 1
 		oe = study_subject.operational_events.where(
 			:project_id => enrollment.project_id).order('id ASC').last
 		assert_equal 'reopened', oe.operational_event_type.key

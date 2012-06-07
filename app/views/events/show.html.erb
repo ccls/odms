@@ -1,6 +1,4 @@
 <% stylesheets(:event) %>
-<%# sub_menu_for(@study_subject) %>
-<%# id_bar_for(@study_subject) %>
 
 <div id='subject_control_bar'>
 <h3>Subject Event</h3>
@@ -12,7 +10,7 @@
 <% end %>
 </div>
 
-<%= wrapped_date_spans :operational_event, :occurred_on,
+<%= wrapped_datetime_spans :operational_event, :occurred_at,
 	:label_text => 'event date:' %>
 
 <div class='project field_wrapper'>

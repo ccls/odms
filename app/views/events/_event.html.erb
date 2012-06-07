@@ -1,5 +1,5 @@
 <%= content_tag_for(:tr,event, :class => 'row') do %>
- <td><%=mdy event.occurred_on %></td>
+ <td><%=mdyhm event.occurred_at %></td>
  <td><%= event.project.try(:key) %></td>
  <td><%= event.operational_event_type.try(:event_category) %></td>
  <td><%= event.to_s %></td>

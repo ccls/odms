@@ -178,10 +178,11 @@ protected
 
 	def create_enrollment_update
 		if study_subject
-			operational_event_type, occurred_on = if( is_complete == YNDK[:yes] )
+			operational_event_type, occurred_at = if( is_complete == YNDK[:yes] )
 				[OperationalEventType['complete'], completed_on]
 			elsif( is_complete_was == YNDK[:yes] )
-				[OperationalEventType['reopened'], Date.today]
+#				[OperationalEventType['reopened'], Date.today]
+				[OperationalEventType['reopened'], DateTime.now]
 			else 
 				[nil, nil]
 			end
@@ -189,7 +190,7 @@ protected
 				self.study_subject.operational_events.create!(
 					:project_id                => self.project.id,
 					:operational_event_type_id => operational_event_type.id,
-					:occurred_on               => occurred_on
+					:occurred_at               => occurred_at
 				)
 			end
 		end
@@ -200,7 +201,7 @@ protected
 			self.study_subject.operational_events.create!(
 				:project_id                => self.project.id,
 				:operational_event_type_id => OperationalEventType['subjectConsents'].id,
-				:occurred_on               => consented_on
+				:occurred_at               => consented_on
 			)
 		end
 	end
@@ -210,7 +211,7 @@ protected
 			self.study_subject.operational_events.create!(
 				:project_id                => self.project.id,
 				:operational_event_type_id => OperationalEventType['subjectDeclines'].id,
-				:occurred_on               => consented_on
+				:occurred_at               => consented_on
 			)
 		end
 	end

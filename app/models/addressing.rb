@@ -90,7 +90,8 @@ protected
 			study_subject.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subject_moved'].id,
-				:occurred_on               => Date.today
+#				:occurred_at               => Date.today
+				:occurred_at               => DateTime.now
 			)
 		end
 	end
@@ -127,7 +128,7 @@ __END__
 #			study_subject.operational_events.create!(
 #				:project_id                => Project['HomeExposures'].id,
 #				:operational_event_type_id => oet.id,
-#				:occurred_on               => Date.today,
+#				:occurred_at               => Date.today,
 #				:description               => ineligible_reason.to_s
 #			)
 #		end

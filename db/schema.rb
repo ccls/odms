@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120606231826) do
+ActiveRecord::Schema.define(:version => 20120607185858) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1112,7 +1112,7 @@ ActiveRecord::Schema.define(:version => 20120606231826) do
 
   create_table "operational_events", :force => true do |t|
     t.integer  "operational_event_type_id"
-    t.date     "occurred_on"
+    t.datetime "occurred_at"
     t.integer  "study_subject_id"
     t.integer  "project_id"
     t.string   "description"

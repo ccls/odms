@@ -15,7 +15,7 @@ class OperationalEvent < ActiveRecord::Base
 #	validates_presence_of :project_id
 	validates_presence_of :project, :if => :project_id
 
-	validates_complete_date_for :occurred_on, :allow_nil => true
+	validates_complete_date_for :occurred_at, :allow_nil => true
 	validates_length_of :description, :maximum => 250, :allow_blank => true
 	validates_length_of :event_notes, :maximum => 65000, :allow_blank => true
 
@@ -37,6 +37,11 @@ class OperationalEvent < ActiveRecord::Base
 			order( [col,dir].join(' ') ) : scoped
 	end
 
+	#	just in case I missed a spot
+	def occurred_on
+		occurred_at.try(:to_date)
+	end
+
 protected
 
 	def copy_operational_event_type_description
@@ -50,7 +55,7 @@ protected
 	end
 
 	def self.valid_columns
-		%w( id occurred_on description )	#type )
+		%w( id occurred_at description )	#type )
 	end
 
 end

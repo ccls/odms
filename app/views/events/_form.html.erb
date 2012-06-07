@@ -1,7 +1,5 @@
 <% javascripts('edit_event') %>
 <% stylesheets(:event_edit) %>
-<%# sub_menu_for(@study_subject) %>
-<%# id_bar_for(@study_subject) %>
 
 <%= f.error_messages %>
 
@@ -21,7 +19,7 @@
 </div><!-- class='buttons' -->
 </div>
 
-<%= f.wrapped_date_text_field :occurred_on,
+<%= f.wrapped_datetime_text_field :occurred_at,
 	:label_text => 'Event date:' %>
 
 <%# can't be blank, so don't include blank %>
@@ -51,7 +49,7 @@ TODO
 
 	gonna need a capybara test for the javascript functions
 
-	OperationalEvent doesn't require an occurred_on??  Interesting.
+	OperationalEvent doesn't require an occurred_at??  Interesting.
 
 %>
 

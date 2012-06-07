@@ -1149,7 +1149,7 @@ Table: operational_events
 +---------------------------+--------------+------+-----+---------+----------------+
 | id                        | int(11)      | NO   | PRI | NULL    | auto_increment |
 | operational_event_type_id | int(11)      | YES  | MUL | NULL    |                |
-| occurred_on               | date         | YES  |     | NULL    |                |
+| occurred_at               | datetime     | YES  |     | NULL    |                |
 | study_subject_id          | int(11)      | YES  | MUL | NULL    |                |
 | project_id                | int(11)      | YES  | MUL | NULL    |                |
 | description               | varchar(255) | YES  |     | NULL    |                |

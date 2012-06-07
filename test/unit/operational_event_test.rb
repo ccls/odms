@@ -15,10 +15,10 @@ class OperationalEventTest < ActiveSupport::TestCase
 	assert_should_belong_to(:study_subject,:project,:operational_event_type)
 
 #	TODO counts incorrect in tests due to callbacks
-#	attributes = %w( enrollment_id occurred_on description event_notes )
+#	attributes = %w( enrollment_id occurred_at description event_notes )
 #	required   = %w( enrollment_id )
-#	attributes = %w( study_subject_id project_id occurred_on description event_notes )
-	attributes = %w( occurred_on description event_notes )
+#	attributes = %w( study_subject_id project_id occurred_at description event_notes )
+	attributes = %w( occurred_at description event_notes )
 #	required   = %w( study_subject_id project_id )	#	TODO try to figure this out
 #	assert_should_require( required )
 	assert_should_not_require( attributes )	#- required )
@@ -28,7 +28,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 
 	assert_should_protect(:study_subject_id, :study_subject)
 
-	assert_requires_complete_date(:occurred_on)
+	assert_requires_complete_date(:occurred_at)
 	assert_should_require_attribute_length( :description, :maximum => 250 )
 	assert_should_require_attribute_length( :event_notes, :maximum => 65000 )
 
@@ -121,7 +121,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 
 
 
-#  default_scope :order => 'occurred_on DESC'
+#  default_scope :order => 'occurred_at DESC'
 #
 #	default_scope now mucks this up
 #
@@ -175,38 +175,38 @@ class OperationalEventTest < ActiveSupport::TestCase
 		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
-	test "should order by occurred_on ASC" do
-		oes = create_occurred_on_operational_events
-		events = OperationalEvent.valid_order('occurred_on asc')
+	test "should order by occurred_at ASC" do
+		oes = create_occurred_at_operational_events
+		events = OperationalEvent.valid_order('occurred_at asc')
 		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
-	test "should order by occurred_on DESC" do
-		oes = create_occurred_on_operational_events
-		events = OperationalEvent.valid_order('occurred_on desc')
+	test "should order by occurred_at DESC" do
+		oes = create_occurred_at_operational_events
+		events = OperationalEvent.valid_order('occurred_at desc')
 		assert_equal events, [oes[2],oes[0],oes[1]]
 	end
 
-	test "should order by occurred_on and ASC as default dir" do
-		oes = create_occurred_on_operational_events
-		events = OperationalEvent.valid_order('occurred_on')
+	test "should order by occurred_at and ASC as default dir" do
+		oes = create_occurred_at_operational_events
+		events = OperationalEvent.valid_order('occurred_at')
 		assert_equal events, [oes[1],oes[0],oes[2]]
 	end
 
 	test "should ignore invalid order" do
-		oes = create_occurred_on_operational_events
+		oes = create_occurred_at_operational_events
 		events = OperationalEvent.valid_order('iambogus')
 		assert_equal events, [oes[0],oes[1],oes[2]]
 	end
 
 	test "should ignore invalid dir" do
-		oes = create_occurred_on_operational_events
-		events = OperationalEvent.valid_order('occurred_on iambogus')
+		oes = create_occurred_at_operational_events
+		events = OperationalEvent.valid_order('occurred_at iambogus')
 		assert_equal events, [oes[0],oes[1],oes[2]]
 	end
 
 	test "should ignore valid dir without order" do
-		oes = create_occurred_on_operational_events
+		oes = create_occurred_at_operational_events
 		events = OperationalEvent.valid_order('ASC')
 		assert_equal events, [oes[0],oes[1],oes[2]]
 	end
@@ -234,12 +234,13 @@ protected
 		args.collect{|options| create_operational_event(options) }
 	end
 
-	def create_occurred_on_operational_events
-		today = Date.today
+	def create_occurred_at_operational_events
+#		today = Date.today
+		today = DateTime.now
 		create_operational_events(
-			{ :occurred_on => ( today - 1.month ) },
-			{ :occurred_on => ( today - 1.year ) },
-			{ :occurred_on => ( today - 1.week ) }
+			{ :occurred_at => ( today - 1.month ) },
+			{ :occurred_at => ( today - 1.year ) },
+			{ :occurred_at => ( today - 1.week ) }
 		)
 	end
 

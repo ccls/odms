@@ -39,7 +39,7 @@ protected
 				study_subject.operational_events.create!(
 					:project_id                => Project['HomeExposures'].id,
 					:operational_event_type_id => operational_event_type.id,
-					:occurred_on               => interview_outcome_on
+					:occurred_at               => interview_outcome_on
 				)
 			else
 				raise NoHomeExposureEnrollment 
@@ -63,7 +63,7 @@ protected
 				study_subject.operational_events.create!(
 					:project_id                => Project['HomeExposures'].id,
 					:operational_event_type_id => operational_event_type.id,
-					:occurred_on               => sample_outcome_on
+					:occurred_at               => sample_outcome_on
 				)
 			else
 				raise NoHomeExposureEnrollment 
