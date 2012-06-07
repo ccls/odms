@@ -491,7 +491,8 @@ class SamplesControllerTest < ActionController::TestCase
 
 		test "should get manifest in csv with #{cu} login and sample received after 6/1" do
 			login_as send(cu)
-			sample = Factory(:sample, :received_by_ccls_at => Date.parse('6/15/2012'))
+			#	assuming that today is indeed after 6/1/2012
+			sample = Factory(:sample, :received_by_ccls_at => Date.today )
 			assert_not_nil sample.received_by_ccls_at
 			get :manifest, :format => 'csv'
 			assert_response :success
