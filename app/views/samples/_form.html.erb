@@ -1,7 +1,5 @@
 <% javascripts('edit_sample') %>
 <% stylesheets(:sample_edit) %>
-<%# sub_menu_for(@study_subject) %>
-<%# id_bar_for(@study_subject) %>
 
 <%= f.error_messages %>
 
@@ -12,6 +10,9 @@
 	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
 </div><!-- class='buttons' -->
 </div>
+
+<%= wrapped_spans :sample, :sampleid,
+	:label_text => 'sampleid:' %>
 
 <%= f.wrapped_collection_select(:project_id,
 	@study_subject.enrollments.collect(&:project), :id, :to_s,
