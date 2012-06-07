@@ -18,6 +18,7 @@ module ApplicationHelper
 			link_to('Subjects', dashboard_study_subjects_path ) <<
 			"<div class='sub_menu'>\n    " <<
 			[
+				link_to('Dashboard', dashboard_study_subjects_path ),
 				link_to('New Case', new_case_path),
 				link_to('New Control', cases_path),
 				link_to('Birth Data Requests', new_bc_request_path)
@@ -35,6 +36,7 @@ module ApplicationHelper
 			link_to('Samples', dashboard_samples_path) <<
 			"<div class='sub_menu'>\n    " <<
 			[
+				link_to('Dashboard', dashboard_samples_path),
 				link_to('New/Receive Sample', new_receive_sample_path),
 				'<span>Sample Manifests</span>'
 			].join("\n    ") <<
@@ -373,6 +375,10 @@ module ApplicationHelper
 
 	def mdyhm(datetime)
 		(( datetime.nil? ) ? '&nbsp;' : datetime.strftime("%m/%d/%Y %H:%M (%Z)")).html_safe
+	end
+
+	def mdyhm_or_nil(datetime)
+		datetime.strftime("%m/%d/%Y %H:%M (%Z)") unless datetime.blank?
 	end
 
 	def time_mdy(time)
