@@ -1,8 +1,10 @@
 <% require 'fastercsv' -%>
 <%# 
-        adding :headers => true is supposed to set a flag in the file 
-        somewhere marking it as having a header row, but I don't 
-        think that it actually does.
+	adding :headers => true is supposed to set a flag in the file 
+	somewhere marking it as having a header row, but I don't 
+	think that it actually does.
+
+	also, use a - with the ruby closing tag to avoid extra lines in csv file.
 -%>
 <%= %w( 
 icf_master_id
@@ -22,9 +24,9 @@ sent_to_lab_at
 	sample.study_subject.sex,
 	sample.sampleid,
 	sample.sample_type.gegl_sample_type_id,
-	mdyhm(sample.collected_from_subject_at),
-	mdyhm(sample.received_by_ccls_at),
+	mdyhm_or_nil(sample.collected_from_subject_at),
+	mdyhm_or_nil(sample.received_by_ccls_at),
 	sample.sample_temperature,
-	mdyhm(sample.sent_to_lab_at)
+	mdyhm_or_nil(sample.sent_to_lab_at)
 ].to_csv -%>
 <% end -%>
