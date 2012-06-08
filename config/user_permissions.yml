@@ -1,0 +1,61 @@
+administrator_resources:
+  - abstracts 
+  - address_types 
+  - birth_data
+  - birth_datum_updates 
+  - birth_records 
+  - contexts 
+  - data_sources
+  - diagnoses 
+  - document_types 
+  - document_versions 
+  - follow_up_types
+  - hospitals 
+  - icf_master_ids 
+  - icf_master_trackers
+  - icf_master_tracker_updates 
+  - ineligible_reasons
+  - instruments 
+  - instrument_types 
+  - instrument_versions
+  - interview_methods 
+  - interview_outcomes 
+  - languages
+  - odms_exceptions 
+  - operational_event_types 
+  - organizations
+  - people 
+  - phone_types 
+  - project_outcomes 
+  - races 
+  - refusal_reasons
+  - sample_formats 
+  - sample_outcomes 
+  - sample_temperatures
+  - sample_types 
+  - sections 
+  - subject_relationships 
+  - subject_types
+  - tracing_statuses 
+  - units 
+  - vital_statuses
+
+editor_resources:
+  - candidate_controls 
+  - contacts 
+  - guides 
+  - interviews 
+  - patients
+
+crud_resources:
+  - addressings 
+  - addresses 
+  - consents 
+  - documents 
+  - enrollments 
+  - home_exposures 
+  - notes 
+  - phone_numbers 
+  - projects 
+  - samples 
+  - study_subjects
