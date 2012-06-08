@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120607185858) do
+ActiveRecord::Schema.define(:version => 20120608174258) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1419,7 +1419,6 @@ ActiveRecord::Schema.define(:version => 20120607185858) do
     t.date     "reference_date"
     t.string   "sex"
     t.boolean  "do_not_contact",                            :default => false, :null => false
-    t.integer  "abstracts_count",                           :default => 0
     t.integer  "mother_yrs_educ"
     t.integer  "father_yrs_educ"
     t.string   "birth_type"

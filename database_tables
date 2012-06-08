@@ -1473,7 +1473,6 @@ Table: study_subjects
 | reference_date              | date         | YES  |     | NULL    |                |
 | sex                         | varchar(255) | YES  |     | NULL    |                |
 | do_not_contact              | tinyint(1)   | NO   |     | 0       |                |
-| abstracts_count             | int(11)      | YES  |     | 0       |                |
 | mother_yrs_educ             | int(11)      | YES  |     | NULL    |                |
 | father_yrs_educ             | int(11)      | YES  |     | NULL    |                |
 | birth_type                  | varchar(255) | YES  |     | NULL    |                |

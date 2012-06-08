@@ -90,7 +90,8 @@ protected
 	end
 
 	def two_abstracts_required
-		abstracts_count = @study_subject.abstracts_count
+#		abstracts_count = @study_subject.abstracts_count
+		abstracts_count = @study_subject.abstracts.count
 		unless( abstracts_count == 2 )
 			access_denied("Must complete 2 abstracts before merging. " <<
 				":#{abstracts_count}:")

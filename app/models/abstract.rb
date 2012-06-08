@@ -1,7 +1,7 @@
 #	Abstract model
 class Abstract < ActiveRecord::Base
 
-	belongs_to :study_subject, :counter_cache => true
+	belongs_to :study_subject	#, :counter_cache => true
 
 	with_options :class_name => 'User', :primary_key => 'uid' do |u|
 		u.belongs_to :entry_1_by, :foreign_key => 'entry_1_by_uid'
@@ -466,7 +466,7 @@ protected
 			#	and then delete the first, and create another, first and
 			#	second kinda lose their meaning until the merge, so set them
 			#	both as the same until the merge
-			case study_subject.abstracts_count
+			case study_subject.abstracts.count
 				when 0 
 					self.entry_1_by_uid = current_user.try(:uid)||0
 					self.entry_2_by_uid = current_user.try(:uid)||0
@@ -486,20 +486,19 @@ protected
 	def delete_unmerged
 		if study_subject and !merged_by_uid.blank?
 			#	use delete and not destroy to preserve the abstracts_count
-#			study_subject.unmerged_abstracts.each{|a|a.delete}
+#	gonna stop using abstracts_count so really won't matter
 			study_subject.abstracts.unmerged.each{|a|a.delete}
 		end
 	end
 
 	def subject_has_less_than_three_abstracts
 		#	because this abstract hasn't been created yet, we're comparing to 2, not 3
-		if study_subject and study_subject.abstracts_count >= 2
-			errors.add(:study_subject_id,"Study Subject can only have 2 abstracts." ) unless merging
+		if study_subject and study_subject.abstracts.count >= 2 and !merging
+			errors.add(:study_subject_id,"Study Subject can only have 2 unmerged abstracts.")
 		end
 	end
 
 	def subject_has_no_merged_abstract
-#		if study_subject and study_subject.merged_abstract
 		if study_subject and !study_subject.abstracts.merged.empty?
 			errors.add(:study_subject_id,"Study Subject already has a merged abstract." )
 		end
