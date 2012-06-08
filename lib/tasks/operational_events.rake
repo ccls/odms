@@ -8,7 +8,7 @@ namespace :operational_events do
 		if file_name.blank?
 			puts
 			puts "CSV file name is required."
-			puts "Usage: rake #{me} some_file_name.csv"
+			puts "Usage: rake #{this_task_name} some_file_name.csv"
 			puts
 			exit
 		end
