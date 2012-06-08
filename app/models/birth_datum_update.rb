@@ -2,8 +2,9 @@ class BirthDatumUpdate < ActiveRecord::Base
 
 	has_attached_file :csv_file,
 		YAML::load(ERB.new(IO.read(File.expand_path(
-			File.join(File.dirname(__FILE__),'../..','config/birth_datum_update.yml')
+			File.join(Rails.root,'config/birth_datum_update.yml')
 		))).result)[Rails.env]
+#			File.join(File.dirname(__FILE__),'../..','config/birth_datum_update.yml')
 
 	has_many :birth_data
 

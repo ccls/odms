@@ -360,8 +360,9 @@ class Abstract < ActiveRecord::Base
 	def self.fields
 		#	db: db field name
 		#	human: humanized field
+#			File.join(File.dirname(__FILE__),'../../config/abstract_fields.yml')
 		@@fields ||= YAML::load( ERB.new( IO.read(
-			File.join(File.dirname(__FILE__),'../../config/abstract_fields.yml')
+			File.join(Rails.root,'config/abstract_fields.yml')
 		)).result)
 	end
 
