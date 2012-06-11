@@ -1,3 +1,20 @@
 <%= control_bar() %>
 
-Sample Dashboard
+<p>Sample Dashboard with random test graphs.</p>
+
+
+<%# http://teethgrinder.co.uk/open-flash-chart-2/ %>
+
+<% javascripts('swfobject.js') %>
+<% content_for(:head) do %>
+<%= javascript_tag do %>
+swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_1", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/samples_sample_types.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_2", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/samples_sample_temperatures.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_3", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/samples_locations.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_4", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/samples_projects.json"}, {"wmode" : "transparent"} );
+<% end %>
+<% end %>
+<div id="my_chart_1"></div>
+<div id="my_chart_2"></div>
+<div id="my_chart_3"></div>
+<div id="my_chart_4"></div>

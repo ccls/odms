@@ -1,0 +1,37 @@
+{
+	"title":{
+		"text":  "Sample Location Counts",
+		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
+	},
+	"y_legend":{
+		"text": "Sample Location",
+		"style": "{font-size: 12px;}"
+	},
+	"x_legend":{
+		"text": "Count",
+		"style": "{font-size: 12px;}"
+	},
+	"elements":[
+		{
+			"type":      "hbar",
+			"alpha":     0.5,
+			"colour":    "#CC9933",
+			"values" :   [ 
+<%=@samples.collect{|s| "{\"right\":#{s.count},\"left\":null}" }.join(",\n").html_safe-%> 
+]
+		}
+	],
+	"y_axis":{
+		"offset": 1,
+		"stroke":1,
+		"tick_height":10,
+		"grid_colour":"#00ff00",
+		"labels": [<%=@samples.collect{|s| "\"#{s.organization.key}\""}.join(',').html_safe%>]
+	},
+	"x_axis":{
+		"offset": false,
+		"stroke": 0,
+		"max": <%=@samples.collect{|s|s.count.to_i}.max.chart_round%>
+	}
+<%# the hbar max doesn't quite round like the verticals??? -%>
+}

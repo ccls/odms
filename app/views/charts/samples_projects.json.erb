@@ -1,10 +1,10 @@
 {
 	"title":{
-		"text":  "Vital Status Counts",
+		"text":  "Sample Project Counts",
 		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
 	},
 	"x_legend":{
-		"text": "Vital Status",
+		"text": "Sample Project",
 		"style": "{font-size: 12px;}"
 	},
 	"y_legend":{
@@ -13,11 +13,13 @@
 	},
 	"elements":[
 		{
-			"type":      "bar",
+			"type":      "bar_glass",
 			"alpha":     0.5,
 			"colour":    "#CC9933",
 			"font-size": 10,
-			"values" :   [<%=@study_subjects.collect(&:count).join(',').html_safe%>]
+			"values" :   [ <%=@samples.collect(&:count).join(',')-%>]
+<%#=@study_subjects.collect{|i|
+"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"#{find_study_subjects_url(:subject_type_id => i.subject_type_id)}\"\}" }.join(",\n").html_safe-%> 
 		}
 	],
 	"x_axis":{
@@ -25,7 +27,7 @@
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=@study_subjects.collect{|s| "\"#{s.vital_status}\""}.join(',').html_safe%>]
+			"labels": [<%=@samples.collect{|s| "\"#{s.project}\""}.join(',').html_safe%>]
 		}
 	},
 	"y_axis":{
@@ -33,6 +35,6 @@
 		"tick_length": 3,
 		"grid_colour": "#00ff00",
 		"offset":      0,
-		"max":         <%=@study_subjects.collect{|s|s.count.to_i}.max.chart_round%>
+		"max":         <%=@samples.collect{|s|s.count.to_i}.max.chart_round%>
 	}
 }

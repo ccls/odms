@@ -40,6 +40,6 @@
 		"tick_length": 3,
 		"grid_colour": "#00ff00",
 		"offset":      0,
-		"max":         <%=@enrollments.collect{|i|i.count.to_i}.max%>
+		"max":         <%=@enrollments.collect{|i|i.count.to_i}.max.chart_round%>
 	}
 }

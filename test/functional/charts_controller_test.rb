@@ -2,7 +2,9 @@ require 'test_helper'
 
 class ChartsControllerTest < ActionController::TestCase
 
-	%w( enrollments vital_statuses vital_statuses_pie
+	%w( samples_locations samples_projects
+		samples_sample_types samples_sample_temperatures
+		enrollments vital_statuses vital_statuses_pie
 		subject_types subject_types_pie case_control_types
 		case_control_types_pie childidwho is_eligible
 		consented ).each do |action|

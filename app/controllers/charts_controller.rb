@@ -39,5 +39,23 @@ class ChartsController < ApplicationController
 		@enrollments = Enrollment.select('consented, count(*) as count'
 			).group('consented')
 	end
+
+	def samples_sample_types
+		@samples = Sample.joins(:sample_type).group('sample_type_id'
+			).select('sample_type_id, count(*) as count, sample_types.*')
+	end
+	def samples_sample_temperatures
+		@samples = Sample.joins(:sample_temperature).group('sample_temperature_id'
+			).select('sample_temperature_id, count(*) as count, sample_temperatures.*')
+	end
+	def samples_locations
+		@samples = Sample.joins(:organization).group('location_id'
+			).select('location_id, count(*) as count, organizations.*')
+	end
+	def samples_projects
+		@samples = Sample.joins(:project).group('project_id'
+			).select('project_id, count(*) as count, projects.*')
+	end
+
 end
 __END__
