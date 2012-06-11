@@ -5,7 +5,7 @@ pages_001:
   title_en: CCLS
   title_es: 
   parent_id: 
-  body_en:
+  body_en:    #adding comment to test commit from IDE - expect to see only one line flagged as changed.
     <%= image_tag("#{Rails.root}/app/assets/images/ThreeBears.png") %> <br /><br />Welcome to ODMS the new CCLS Operational and Data Management System.
   body_es:
     <%= image_tag("#{Rails.root}/app/assets/images/ThreeBears.png") %> <br /><br />Bienvenido a ODMS el nuevo systema para manajar los operaciones y los datos de CCLS.
