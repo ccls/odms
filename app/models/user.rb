@@ -133,8 +133,7 @@ class User < ActiveRecord::Base
 
 	#	by using the config file to define these, I should get coverage to 100%
 	@@permissions = YAML::load(ERB.new(IO.read(File.expand_path(
-			File.join(Rails.root,'config/user_permissions.yml')
-		))).result)
+			File.join(Rails.root,'config/user_permissions.yml')))).result)
 #	cattr_accessor :permissions
 
 	# Controllers solely accessible by administrators.
