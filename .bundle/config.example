@@ -1,0 +1,12 @@
+#
+#	This is the production bundle config file.
+#	I imagine that it can do other things, but
+#	for us, it is just ignoring any of the gems
+#	that are explicitly defined in either a
+#	development or test group.
+#
+#	In the production environment this file is 
+#		.bundle/config
+#
+--- 
+BUNDLE_WITHOUT: development:test
