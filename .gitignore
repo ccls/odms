@@ -7,6 +7,9 @@
 # Ignore bundler config (but not my example config)
 /.bundle/config
 
+# Ignore editor-added directory (on Magee's system)
+/.idea
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -14,8 +17,6 @@
 # Ignore all logfiles and tempfiles.
 /log
 /tmp
-
-
 
 
 #.gitignore
