@@ -5,18 +5,10 @@ pages_001:
   title_en: CCLS
   title_es: 
   parent_id: 
-  body_en: |
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
-    
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
-    
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
-    
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
-    
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis     nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat    . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolor    e eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, s    unt in culpa qui officia deserunt mollit anim id est laborum.
-
-  body_es: 
+  body_en:
+    <%= image_tag("#{Rails.root}/app/assets/images/ThreeBears.png") %> <br /><br />Welcome to ODMS the new CCLS Operational and Data Management System.
+  body_es:
+    <%= image_tag("#{Rails.root}/app/assets/images/ThreeBears.png") %> <br /><br />Bienvenido a ODMS el nuevo systema para manajar los operaciones y los datos de CCLS.
   hide_menu: false
   position: 1
   menu_en: CCLS
