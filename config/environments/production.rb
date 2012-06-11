@@ -85,7 +85,7 @@ Odms::Application.configure do
 
 	# Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
 	# config.assets.precompile += %w( search.js )
-#config.assets.precompile += %w( jquery.js jquery-ui.js active_scaffold.js active_scaffold.css )
+#config.assets.precompile += %w( jquery.js jquery-ui.js active_scaffold.js active_scaffold.css active_scaffold_layout.css )
 #config.assets.precompile += %w( active_scaffold.js active_scaffold.css )
 
 
