@@ -10,7 +10,13 @@
 <title><%= "CCLS ODMS Active Scaffold" -%></title>
 <%= javascript_include_tag 'jquery' %>
 <%= javascript_include_tag 'active_scaffold' %>
-<%= stylesheet_link_tag 'active_scaffold' %>
+<%#
+
+	NOTE that this is a LOCAL css which MAY REQUIRE updating
+	if the gem updates its core stylesheet.
+
+-%>
+<%= stylesheet_link_tag 'odms_active_scaffold' %>
 </head>
 <body>
 <%= yield %>
