@@ -364,6 +364,15 @@ class Abstract < ActiveRecord::Base
 		@@fields ||= YAML::load( ERB.new( IO.read(
 			File.join(Rails.root,'config/abstract_fields.yml')
 		)).result)
+#
+#	Assuming that eventually there will be a preferred order,
+#	we'll probably need to use this config file.
+#
+#	will need to add computed fields also, but this works too ...
+#	could then remove this config file
+#		@@fields ||= Abstract.comparable_attribute_names.collect{|f|
+#			{:db => f, :human => Abstract.human_attribute_name(f) }
+#		}
 	end
 
 	def fields
@@ -379,11 +388,32 @@ class Abstract < ActiveRecord::Base
 		Abstract.db_fields
 	end
 
+#	#	this multi-line array probably won't test 100% if used
+#	#	may have to create a config file for this too!
+#	def self.incomparable_attribute_names
+#		@@incomparable_attribute_names ||= [
+#			'id','study_subject_id','created_at','updated_at','entry_1_by_uid',
+#			'entry_2_by_uid','merged_by_uid',
+#			"response_day_14_days_since_diagnosis", 
+#			"response_day_14_days_since_treatment_began", 
+#			"response_day_28_days_since_diagnosis", 
+#			"response_day_28_days_since_treatment_began", 
+#			"response_day_7_days_since_diagnosis", 
+#			"response_day_7_days_since_treatment_began"]
+#	end
+#
+#	def self.comparable_attribute_names
+#		@@comparable_attribute_names ||= (
+#			Abstract.attribute_names - Abstract.incomparable_attribute_names )
+#	end
+
 	#	db_fields need defined first though
 #	attr_accessible *(Abstract.db_fields + [:current_user,:weight_units,:height_units,:merging])
 #	attr_accessible *Abstract.db_fields
 
 	def comparable_attributes
+#		HashWithIndifferentAccess[attributes.select {|k,v| 
+#			!Abstract.incomparable_attribute_names.include?(k)}]
 		HashWithIndifferentAccess[attributes.select {|k,v| db_fields.include?(k)}]
 	end
 

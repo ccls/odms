@@ -1,3 +1,24 @@
+#
+#	The humanization of the field names could have been done in config/locales/en.yml
+#
+#	However, this also serves the purpose of providing a list of the fields
+#	that are used to compare abstracts.  Also, as an array, it provides the
+#	order in which they are displayed.  This is probably the main reason
+#	why this will be kept.
+#	(now they are just alphabetical, but this could be changed)
+#
+#	I may also add the old database names to this file so that it can be
+#	used for translation and import of the old data.
+#
+#	If the order is irrelevant and the old names aren't included, perhaps
+#	the humanization stuff should be put in the en.yml file.  Much of it
+#	may not even be needed there.
+#
+#	The comparable attributes could be all except ...
+#		updated_at, created_at, id, study_subject_id
+#		entry_1_by_uid, entry_2_by_uid, merged_by_uid
+#		PLUS the computed "days_since" fields
+#
 -
   :db: abstract_version_id
   :human: Abstract Version

@@ -10,6 +10,9 @@ class AbstractTest < ActiveSupport::TestCase
 	assert_should_not_require( Abstract.db_fields )
 	assert_should_not_require_unique( Abstract.db_fields )
 	assert_should_not_protect( Abstract.db_fields )
+#	assert_should_not_require( Abstract.comparable_attribute_names )
+#	assert_should_not_require_unique( Abstract.comparable_attribute_names )
+#	assert_should_not_protect( Abstract.comparable_attribute_names )
 
 	assert_should_require_length( 
 		:response_classification_day_7, 
