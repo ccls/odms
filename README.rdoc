@@ -364,9 +364,45 @@ So, using the standard rails 'validates inclusion of' seems to work quite well.
    :in => ["text/csv","text/plain","application/vnd.ms-excel"],
    :allow_blank => true
 
+---
+=== Active Scaffold Notes
 
+For some reason, attempts
+to access any of the active scaffold controllers would end with ...
+
+ Completed 500 Internal Server Error in 996ms
+
+ ActionView::Template::Error (File to import not found or unreadable: active_scaffold_layout.
+ Load path: /
+  (in /my/ruby/gems/1.8/gems/active_scaffold-3.2.11/app/assets/stylesheets/active_scaffold.css.scss)):
+
+while in production.  This in-gem stylesheet contains @import which I
+gather do not work well with Rails 3, the asset pipeline and in-gem css.
+I have tried several different methods of pre-compiling these assets
+but it is all terribly inconvenient.  Everything is fine on my development
+machine, even when I run it in production mode.
+
+Pre-compiling seems to be the recommended way of doing things, but
+I don't understand why.  At this point, everything seems to be working.
+
+So, I have copied the offending stylesheet from the active_scaffold gem
+to a local odms_active_scaffold.css.scss and changed the @imports to
+requires and everything seems to work a treat when this is used in the
+template.
+
+Should this gem be updated and this core stylesheet change, our local
+copy will most likely need changed as well.
 
 ---
+
+
+
+
+
+
+== Testing Notes
+
+
 === Integration Testing
 
 Unit tests are just simple tests, but are generally used to test the model.
