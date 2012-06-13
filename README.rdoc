@@ -314,7 +314,7 @@ CANNOT have leading 0's in a string that is being printed as a decimal as ruby t
  >> sprintf("%06d","0001234")
  => "000668"
 
-CANNOT have leading 0's and include and 8 or 9 in a string that is being printed as a decimal as ruby thinks its octal and 8 and 9 are invalid octal characters so convert back to Integer first.
+CANNOT have leading 0's and include an 8 or 9 in a string that is being printed as a decimal as ruby thinks its octal and 8 and 9 are invalid octal characters so convert back to Integer first.
 
  >> sprintf("%06d","0001280")
  ArgumentError: invalid value for Integer: "0001280"
