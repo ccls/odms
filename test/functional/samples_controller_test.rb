@@ -185,17 +185,35 @@ class SamplesControllerTest < ActionController::TestCase
 
 		test "should find samples by parent sample_type and #{cu} login" do
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sample_type => SampleType.roots[i].children.first )}
+				Factory(:sample,:sample_type => SampleType.roots.all[i].children.first )}
+#	BUT NO LONGER
+#				Factory(:sample,:sample_type => SampleType.roots[i].children.first )}
+#	OR EVEN
+#				Factory(:sample,:sample_type => (SampleType.roots)[i].children.first )}
 			login_as send(cu)
 			get :find, :sample_type_id => samples[1].sample_type.parent.id
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
 		end
-
+#
+#	I don't know why this happens now and didn't before.
+#	irb(main):001:0> SampleType.roots[0]
+#  SampleType Load (0.4ms)  SELECT `sample_types`.* FROM `sample_types` WHERE `sample_types`.`parent_id` IS NULL AND `sample_types`.`key` = '0' LIMIT 1
+#
+#	The scope is now using my [] rather than the resultant array. 
+#	This wasn't the case an hour ago????
+#
+#	I will speculate that this may have something to do with the
+#	recent rails 3.2.6 upgrade.
+#
 		test "should find samples by child sample_type and #{cu} login" do
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sample_type => SampleType.not_roots[i] )}
+				Factory(:sample,:sample_type => SampleType.not_roots.all[i] )}
+#	BUT NO LONGER
+#				Factory(:sample,:sample_type => SampleType.not_roots[i] )}
+#	OR EVEN
+#				Factory(:sample,:sample_type => (SampleType.not_roots)[i] )}
 			login_as send(cu)
 			get :find, :sample_type_id => samples[1].sample_type_id
 			assert_response :success
