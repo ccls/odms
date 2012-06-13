@@ -2,7 +2,7 @@
 #	Actually, this may be used for things other than subjects
 class Address < ActiveRecord::Base
 
-	default_scope :order => 'created_at DESC'
+#	default_scope :order => 'created_at DESC'
 
 	has_many :interviews
 	has_one :addressing

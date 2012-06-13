@@ -13,7 +13,7 @@ class GuidesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@guides = Guide.all
+		@guides = Guide.order('controller ASC, action ASC').all
 	end
 
 	def new

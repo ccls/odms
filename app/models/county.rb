@@ -1,6 +1,6 @@
 class County < ActiveRecord::Base
 
-	default_scope :order => :name
+#	default_scope :order => :name
 	has_many :zip_codes
 
 	validates_presence_of :name, :state_abbrev

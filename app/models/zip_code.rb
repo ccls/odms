@@ -1,6 +1,6 @@
 class ZipCode < ActiveRecord::Base
 
-	default_scope :order => :zip_code	#, :limit => 10
+#	default_scope :order => :zip_code	#, :limit => 10
 	belongs_to :county
 
 	validates_presence_of   :zip_code, :city, :state, :zip_class
