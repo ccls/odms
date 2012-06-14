@@ -49,7 +49,9 @@ gem "RedCloth"
 
 #	Used for cvs parsing on data import
 #	Also used to csv output.
-gem "fastercsv"
+#gem "fastercsv"
+#	fastercsv has been included in ruby 1.9.3
+#	however it goes by CSV rather than FasterCSV.
 
 #
 #	TODO	am I still using this anywhere?
@@ -87,19 +89,39 @@ gem "hpricot"
 #		and all the new stuff requires ruby 1.9.2
 #		must downgrade to 2.7.0
 #
-gem "paperclip", '~> 2.7'
+#gem "paperclip", '~> 2.7'
+#
+#	20120614 - we are upgrading to ruby 1.9.3
+gem "paperclip"
 
 gem 'rubycas-client'
 
 gem 'ucb_ldap'
 
-gem "mongrel"
+
+
+
+
+#gem "mongrel"	#	not install in ruby19 world
+
+
+
 
 gem "active_scaffold"
 
 
 group :test do
-	gem "rcov"
+
+
+
+
+#	gem "rcov"	#	not supported ruby19 world. Suggests using simplecov.
+	gem "simplecov"
+
+
+
+
+
 
 	#	Started getting 500 errors midway through testing.  These always
 	#	occurred on testing "without login" tests.

@@ -51,7 +51,6 @@ GEM
       capybara (>= 1.0.0, < 1.2)
       json
     ccls-html_test (0.3.0)
-    cgi_multipart_eof_fix (2.5.0)
     childprocess (0.3.2)
       ffi (~> 1.0.6)
     chronic (0.6.7)
@@ -63,7 +62,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.3.3)
-    daemons (1.1.8)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -72,10 +70,7 @@ GEM
     factory_girl_rails (1.7.0)
       factory_girl (~> 2.6.0)
       railties (>= 3.0.0)
-    fastercsv (1.5.5)
-    fastthread (1.0.7)
     ffi (1.0.11)
-    gem_plugin (0.2.3)
     hike (1.2.1)
     hpricot (0.8.6)
     i18n (0.6.0)
@@ -94,18 +89,14 @@ GEM
     mime-types (1.18)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    mongrel (1.1.5)
-      cgi_multipart_eof_fix (>= 2.4)
-      daemons (>= 1.0.3)
-      fastthread (>= 1.0.1)
-      gem_plugin (>= 0.2.3)
     multi_json (1.3.6)
     mysql (2.8.1)
     mysql2 (0.3.11)
     nokogiri (1.5.4)
-    paperclip (2.7.0)
-      activerecord (>= 2.3.0)
-      activesupport (>= 2.3.2)
+    paperclip (3.0.4)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
       cocaine (>= 0.0.2)
       mime-types
     polyglot (0.3.3)
@@ -132,7 +123,6 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     rake (0.9.2.2)
-    rcov (1.0.0)
     rdoc (3.12)
       json (~> 1.4)
     ruby-net-ldap (0.0.4)
@@ -151,6 +141,10 @@ GEM
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
+    simplecov (0.6.4)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.5.3)
+    simplecov-html (0.5.3)
     sprockets (2.1.3)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -189,22 +183,20 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   factory_girl (~> 2.6.0)
   factory_girl_rails
-  fastercsv
   hpricot
   jquery-rails
   json
   mocha (= 0.10.5)
-  mongrel
   mysql
   mysql2
-  paperclip (~> 2.7)
+  paperclip
   rack-ssl
   rails (~> 3.2.2)
-  rcov
   rubycas-client
   ryanb-acts-as-list
   sass
   sass-rails (~> 3.2.3)
+  simplecov
   ucb_ldap
   uglifier (>= 1.0.3)
   webrat
