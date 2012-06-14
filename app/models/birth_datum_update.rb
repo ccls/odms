@@ -1,3 +1,4 @@
+require 'csv'
 class BirthDatumUpdate < ActiveRecord::Base
 
 	has_attached_file :csv_file,
@@ -31,8 +32,18 @@ class BirthDatumUpdate < ActiveRecord::Base
 	def valid_csv_file_column_names
 		#	'to_file' needed as the path method wouldn't be
 		#	defined until after save.
-		if self.csv_file && self.csv_file.to_file
-			f=FasterCSV.open(self.csv_file.to_file.path,'rb')
+#		if self.csv_file && self.csv_file.to_file
+#			f=FasterCSV.open(self.csv_file.to_file.path,'rb')
+#		if self.csv_file
+#
+#	This is stupid.
+#
+#puts self.csv_file	/csv_files/original/missing.png
+#			f=FasterCSV.open(self.csv_file.path,'rb')
+		if !self.csv_file_file_name.blank?  && self.csv_file.to_file
+			f=CSV.open(self.csv_file.to_file.path,'rb')
+#		if !self.csv_file_file_name.blank?
+#			f=CSV.open(self.csv_file.path,'rb')
 			column_names = f.readline
 			f.close
 			column_names.each do |column_name|
@@ -50,7 +61,7 @@ class BirthDatumUpdate < ActiveRecord::Base
 			csv_file_path = self.csv_file.to_file.path
 			unless csv_file_path.nil?
 				line_count = 0
-				(f=FasterCSV.open( csv_file_path, 'rb',{
+				(f=CSV.open( csv_file_path, 'rb',{
 						:headers => true })).each do |line|
 					line_count += 1
 
@@ -71,7 +82,7 @@ class BirthDatumUpdate < ActiveRecord::Base
 							:notes       => line
 						})	#	the line could be too long, so put in notes section
 					end	#	if birth_datum.new_record?
-				end	#	(f=FasterCSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
+				end	#	(f=CSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
 				if line_count != birth_data_count
 					odms_exceptions.create({
 						:name        => "birth_data append",

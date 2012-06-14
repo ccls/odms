@@ -156,8 +156,8 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert !assigns(:study_subjects).empty?
 			assert_equal 1, assigns(:study_subjects).length
 
-			require 'fastercsv'
-			f = FasterCSV.parse(@response.body)
+			require 'csv'
+			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
 			assert_equal f[0], ["childid", "studyid", "last_name", "first_name", "dob"]
 			assert_equal 5, f[0].length

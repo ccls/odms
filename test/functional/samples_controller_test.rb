@@ -487,8 +487,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
 			assert assigns(:samples)
 			assert assigns(:samples).empty?
-			require 'fastercsv'
-			f = FasterCSV.parse(@response.body)
+			require 'csv'
+			f = CSV.parse(@response.body)
 			assert_equal 1, f.length	#	1 row, 1 header and 0 data
 		end
 
@@ -502,8 +502,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
 			assert assigns(:samples)
 			assert assigns(:samples).empty?
-			require 'fastercsv'
-			f = FasterCSV.parse(@response.body)
+			require 'csv'
+			f = CSV.parse(@response.body)
 			assert_equal 1, f.length	#	1 rows, 1 header and 0 data
 		end
 
@@ -519,8 +519,8 @@ class SamplesControllerTest < ActionController::TestCase
 			assert assigns(:samples)
 			assert !assigns(:samples).empty?
 			assert_equal 1, assigns(:samples).length
-			require 'fastercsv'
-			f = FasterCSV.parse(@response.body)
+			require 'csv'
+			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
 			assert_equal f[0], %w( 
 				icf_master_id

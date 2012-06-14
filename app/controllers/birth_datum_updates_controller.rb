@@ -1,3 +1,4 @@
+#	require 'csv'
 class BirthDatumUpdatesController < ApplicationController
 
 	before_filter :may_create_birth_datum_updates_required,
@@ -57,7 +58,7 @@ class BirthDatumUpdatesController < ApplicationController
 #		if !@birth_datum_update.csv_file_file_name.blank? &&
 #				File.exists?(@birth_datum_update.csv_file.path)
 #			@results = @birth_datum_update.to_candidate_controls
-#			f=FasterCSV.open(@birth_datum_update.csv_file.path,'rb',{:headers => true })
+#			f=CSV.open(@birth_datum_update.csv_file.path,'rb',{:headers => true })
 #			@csv_lines = f.readlines
 #			f.close
 #		else

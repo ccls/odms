@@ -1,4 +1,4 @@
-
+require 'csv'
 #	The ICF Master Tracker Update simply takes an uploaded file
 #	for parsing to create and update ICF Master Tracker records.
 #
@@ -30,7 +30,7 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 		#	'to_file' needed as the path method wouldn't be
 		#	defined until after save.
 		if self.csv_file && self.csv_file.to_file
-			f=FasterCSV.open(self.csv_file.to_file.path,'rb')
+			f=CSV.open(self.csv_file.to_file.path,'rb')
 			column_names = f.readline
 			f.close
 			if column_names != expected_column_names 
@@ -44,7 +44,7 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 		results = []
 		if !self.csv_file_file_name.blank? &&
 				File.exists?(self.csv_file.path)
-			(f=FasterCSV.open( self.csv_file.path, 'rb',{
+			(f=CSV.open( self.csv_file.path, 'rb',{
 				:headers => true })).each do |line|
 
 				icf_master_tracker = IcfMasterTracker.find_or_create_by_master_id(
@@ -57,7 +57,7 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 						:master_tracker_date => self.master_tracker_date) )
 
 				results.push(icf_master_tracker)
-			end	#	(f=FasterCSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
+			end	#	(f=CSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
 		end	#	if !self.csv_file_file_name.blank? && File.exists?(self.csv_file.path)
 		results	#	TODO why am I returning anything?  will I use this later?
 	end	#	def parse

@@ -197,7 +197,8 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 #		assert_difference('OdmsException.count',0) {
 			birth_datum_update = create_test_file_and_birth_datum_update
 
-			f=FasterCSV.open( birth_datum_update.csv_file.path, 'rb',{
+			require 'csv'
+			f=CSV.open( birth_datum_update.csv_file.path, 'rb',{
 					:headers => true })
 			line = f.readline	#	case
 			birth_datum = birth_datum_update.birth_data[0]

@@ -1,3 +1,4 @@
+require 'csv'
 class IcfMasterTrackerUpdatesController < ApplicationController
 
 	before_filter :may_create_icf_master_tracker_updates_required,
@@ -117,7 +118,7 @@ class IcfMasterTrackerUpdatesController < ApplicationController
 		if !@icf_master_tracker_update.csv_file_file_name.blank? &&
 				File.exists?(@icf_master_tracker_update.csv_file.path)
 			@results = @icf_master_tracker_update.parse
-			f=FasterCSV.open(@icf_master_tracker_update.csv_file.path,'rb',{:headers => true })
+			f=CSV.open(@icf_master_tracker_update.csv_file.path,'rb',{:headers => true })
 			@csv_lines = f.readlines
 			f.close
 		else
