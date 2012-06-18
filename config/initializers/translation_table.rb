@@ -27,6 +27,8 @@ protected
 	end
 
 	def self.value(key)
+#	used in testing and breaks in ruby 1.9.3 so next line is NEEDED!
+return nil if key == :nil
 		index = table.find_index{|x| x[:value] == key.to_i }
 		( index.nil? ) ? nil : table[index][:long] 
 	end
@@ -53,6 +55,17 @@ end
 #	YNDK['yes'] => 1
 #	YNDK[:yes]  => 1
 #	YNDK[:asdf] => nil
+#
+#
+#	YNDK[:nil] => ????	# worked in ruby 1.8.7, errors in 1.9.3
+#		:nil.to_i => NoMethodError: undefined method `to_i' for :nil:Symbol
+#		what did it do?  was that correct?
+#
+#	in jruby 
+#	jruby-1.5.1 :003 > :nil.to_i
+#	 => 610 
+#	which, in hind site, makes some sort of sense, but is NOT what is wanted
+#	same in ruby 1.8.7 (basically object id)
 #
 class YNODK < TranslationTable
 	def self.table
