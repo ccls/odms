@@ -29,7 +29,9 @@ module ActionControllerExtension::AccessibleViaUser
 			user_options = actions.extract_options!
 
 			options = {}
-			if ( self.constants.include?('ASSERT_ACCESS_OPTIONS') )
+#			if ( self.constants.include?('ASSERT_ACCESS_OPTIONS') )
+#	ruby 193 uses symbols
+			if ( self.constants.include?(:ASSERT_ACCESS_OPTIONS) )
 				options.merge!(self::ASSERT_ACCESS_OPTIONS)
 			end
 			options.merge!(user_options)
@@ -272,7 +274,9 @@ module ActionControllerExtension::AccessibleViaUser
 			user_options = actions.extract_options!
 
 			options = {}
-			if ( self.constants.include?('ASSERT_ACCESS_OPTIONS') )
+#			if ( self.constants.include?('ASSERT_ACCESS_OPTIONS') )
+#	ruby 193 uses symbols
+			if ( self.constants.include?(:ASSERT_ACCESS_OPTIONS) )
 				options.merge!(self::ASSERT_ACCESS_OPTIONS)
 			end
 			options.merge!(user_options)
@@ -384,13 +388,16 @@ module ActionControllerExtension::AccessibleViaUser
 			user_options = actions.extract_options!
 
 			options = {}
-			if ( self.constants.include?('ASSERT_ACCESS_OPTIONS') )
+#			if ( self.constants.include?('ASSERT_ACCESS_OPTIONS') )
+#	ruby 193 uses symbols
+			if ( self.constants.include?(:ASSERT_ACCESS_OPTIONS) )
 				options.merge!(self::ASSERT_ACCESS_OPTIONS)
 			end
 			options.merge!(user_options)
 			actions += options[:actions]||[]
 
 			m_key = options[:model].try(:underscore).try(:to_sym)
+
 
 			logins = Array(options[:logins]||options[:login])
 				logins.each do |login|
@@ -477,7 +484,7 @@ module ActionControllerExtension::AccessibleViaUser
 						assert_redirected_to nawil_redirection(options)
 					end
 				end if actions.include?(:show) || options.keys.include?(:show)
-	
+
 				test "#{brand}should NOT delete destroy #{nawil_title(options)}" do
 					login_as send(login)
 					args=options[:destroy]||{}
@@ -512,7 +519,9 @@ module ActionControllerExtension::AccessibleViaUser
 			user_options = actions.extract_options!
 
 			options = {}
-			if ( self.constants.include?('ASSERT_ACCESS_OPTIONS') )
+#			if ( self.constants.include?('ASSERT_ACCESS_OPTIONS') )
+#	ruby 193 uses symbols
+			if ( self.constants.include?(:ASSERT_ACCESS_OPTIONS) )
 				options.merge!(self::ASSERT_ACCESS_OPTIONS)
 			end
 			options.merge!(user_options)
