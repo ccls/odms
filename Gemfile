@@ -100,7 +100,8 @@ gem "paperclip"
 
 gem 'rubycas-client'
 
-gem 'ucb_ldap'
+#gem 'ucb_ldap'
+gem 'net-ldap'
 
 
 

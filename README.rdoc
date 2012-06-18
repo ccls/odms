@@ -138,6 +138,28 @@
 
 
 
+
+
+
+== Ruby 1.9.3 oddities
+
+* imported ucb_ldap so could modify and remove incompatible ruby-net-ldap requirement
+* FasterCSV replaced with CSV
+* no longer use rubygems binary as is include with ruby
+* paperclip dropped 'to_file' method
+* yaml/encoding no longer exists and apparently included
+* Factories explicitly need "sequence" for my methods
+* assert_select requires more explicit hash use
+* doesn't parse american date so need american_date gem
+* still may have to deal with old mongrel version (there is a pre-release version)
+* rcov no longer compatible with suggestion of simplecov but haven't tried yet
+
+
+
+
+
+
+
 == Rails 3 Upgrade Modifications
 
 No more ActiveRecord::Error and therefore no error :type which destroys my test method
