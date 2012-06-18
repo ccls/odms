@@ -123,7 +123,7 @@ group :test do
 
 
 #	gem "rcov"	#	not supported ruby19 world. Suggests using simplecov.
-	gem "simplecov"
+	gem "simplecov", :require => false
 
 
 
