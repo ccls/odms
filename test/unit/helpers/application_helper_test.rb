@@ -1337,15 +1337,16 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert respond_to?(:edit_link)
 	end
 
-	test "edit_link should return link without controller and id" do
-		response = HTML::Document.new( edit_link ).root
-		#	without a set controller uses assets
-		#	<p class='center'><a href="/assets?action=edit" class="right button">Edit</a></p>
-		assert_select response, 'p.center' do
-			assert_select 'a.right.button', :text => 'Edit', :count => 1
-			assert_select 'a[href=?]', "/assets?action=edit"
-		end
-	end
+#	will now actually raise an error for the invalid route
+#	test "edit_link should return link without controller and id" do
+#		response = HTML::Document.new( edit_link ).root
+#		#	without a set controller uses assets
+#		#	<p class='center'><a href="/assets?action=edit" class="right button">Edit</a></p>
+#		assert_select response, 'p.center' do
+#			assert_select 'a.right.button', :text => 'Edit', :count => 1
+#			assert_select 'a[href=?]', "/assets?action=edit"
+#		end
+#	end
 
 	test "edit_link should return link with controller and id" do
 		self.params = { :controller => 'abstracts', :id => 0 }
