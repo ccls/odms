@@ -116,14 +116,18 @@ def random_yndk
 	[nil,1,2,999][rand(4)]
 end
 def random_date
-	Date.jd(2440000+rand(15000))
+	Date.jd( 2440000 + rand(15000).to_i )
 end
 def random_float
 	rand * 100
 end
 def random_sex
-	%w( M F )[rand(2)]
+	%w( M F )[rand(2).to_i]
 end
+
+#	ruby 1.9.3 really doesn't like rand() for some reason
+#	TypeError: no implicit conversion from nil to integer
+#	TypeError: nil can't be coerced into Fixnum
 
 #	This is no longer used in this gem, but is used in the apps
 Factory.define :page do |f|
@@ -207,8 +211,10 @@ Factory.define :birth_datum do |f|
 #
 #	These are not required, but without them, conversion to subject will fail
 #
-	f.dob { random_date }
-	f.sex { random_sex }
+#	f.dob { random_date }
+#	f.sex { random_sex }
+	f.sequence(:dob) { random_date }
+	f.sequence(:sex) { random_sex }
 end
 Factory.define :case_birth_datum, :parent => :birth_datum do |f|
 	f.case_control_flag 'case'
@@ -575,9 +581,11 @@ end
 Factory.define :study_subject do |f|
 	f.association :subject_type
 
-	f.sex { random_sex }
+#	f.sex { random_sex }
+	f.sequence(:sex) { random_sex }
 	f.sequence(:email){|n| "email#{n}@example.com"}	#	required here only to test uniqueness
-	f.dob { random_date }	#Date.jd(2440000+rand(15000))
+#	f.dob { random_date }	#Date.jd(2440000+rand(15000))
+	f.sequence(:dob) { random_date }	#Date.jd(2440000+rand(15000))
 	f.sequence(:case_control_type){|n| '123456789'.split('')[n%9] }
 	f.sequence(:state_id_no){|n| "#{n}"}
 	f.sequence(:state_registrar_no){|n| "#{n}"}
@@ -1016,3 +1024,16 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.height_at_diagnosis { random_float() }
 	f.weight_at_diagnosis { random_float() }
 end
+
+
+
+#	simply putting calls in {} no longer delays execution
+#	seems like must use "sequence" even if ignoring
+#	the operator in ruby 1.9.3.
+#
+#	there is probably a better way, but I suspect that this'll work for now.
+
+
+
+
+
