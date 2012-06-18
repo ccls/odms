@@ -3,6 +3,10 @@ source "http://gems.rubyforge.org"
 source "http://gemcutter.org"
 source "http://gems.github.com"
 
+
+gem 'american_date'
+
+
 gem 'rails', '~> 3.2.2' 
 
 # Bundle edge Rails instead:
@@ -103,6 +107,8 @@ gem 'ucb_ldap'
 
 
 #gem "mongrel"	#	not install in ruby19 world
+#	suggested to use --pre option for 1.2.0
+
 
 
 
