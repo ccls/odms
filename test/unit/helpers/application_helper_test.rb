@@ -50,36 +50,36 @@ class ApplicationHelperTest < ActionView::TestCase
 
 	test "odms_main_menu should return main menu without login" do
 		response = HTML::Document.new(odms_main_menu).root
-		assert_select response, 'div#mainmenu', 1 do
+		assert_select response, 'div#mainmenu', :count => 1 do
 			#	Home, Subjects, Samples
-			assert_select 'div.menu_item', 3
+			assert_select 'div.menu_item', :count => 3
 		end
 	end
 
 	test "odms_main_menu should return main menu with reader login" do
 		login_as send(:reader)
 		response = HTML::Document.new(odms_main_menu).root
-		assert_select response, 'div#mainmenu', 1 do
+		assert_select response, 'div#mainmenu', :count => 1 do
 			#	Home, Subjects, Samples
-			assert_select 'div.menu_item', 3
+			assert_select 'div.menu_item', :count => 3
 		end
 	end
 
 	test "odms_main_menu should return main menu with editor login" do
 		login_as send(:editor)
 		response = HTML::Document.new(odms_main_menu).root
-		assert_select response, 'div#mainmenu', 1 do
+		assert_select response, 'div#mainmenu', :count => 1 do
 			#	Home, Subjects, Samples
-			assert_select 'div.menu_item', 3
+			assert_select 'div.menu_item', :count => 3
 		end
 	end
 
 	test "odms_main_menu should return main menu with administrator login" do
 		login_as send(:administrator)
 		response = HTML::Document.new(odms_main_menu).root
-		assert_select response, 'div#mainmenu', 1 do
+		assert_select response, 'div#mainmenu', :count => 1 do
 			#	Home, Subjects, Interviews, Samples, Admin
-			assert_select 'div.menu_item', 5
+			assert_select 'div.menu_item', :count => 5
 		end
 	end
 
@@ -92,7 +92,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', 6
+			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', new_bc_request_path
 		end
 	end
@@ -105,7 +105,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', 6
+			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path
 		end
 	end
@@ -118,7 +118,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', 6
+			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path(:status => 'active')
 		end
 	end
@@ -131,7 +131,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', 6
+			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path(:status => 'complete')
 		end
 	end
@@ -144,7 +144,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', 6
+			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path(:status => 'waitlist')
 		end
 	end
@@ -157,7 +157,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', 6
+			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path(:status => 'pending')
 		end
 	end
@@ -174,9 +174,9 @@ class ApplicationHelperTest < ActionView::TestCase
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', 6
+			assert_select 'a', :count => 6
 #			assert_select 'a.current[href=?]', bc_requests_path(:status => 'pending')
-			assert_select 'a.current', 0
+			assert_select 'a.current', :count => 0
 		end
 	end
 
@@ -189,7 +189,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_path(study_subject)
 		end
 	end
@@ -200,7 +200,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
 		end
 	end
@@ -211,7 +211,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_birth_record_path(study_subject)
 		end
 	end
@@ -222,7 +222,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -233,7 +233,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -244,7 +244,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -255,7 +255,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -266,7 +266,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
 		end
 	end
@@ -277,7 +277,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
 		end
 	end
@@ -288,7 +288,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
 		end
 	end
@@ -299,7 +299,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
 		end
 	end
@@ -310,7 +310,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
 		end
 	end
@@ -321,7 +321,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
 		end
 	end
@@ -332,7 +332,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
 		end
 	end
@@ -343,7 +343,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
 		end
 	end
@@ -354,7 +354,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
 		end
 	end
@@ -365,7 +365,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
 		end
 	end
@@ -376,7 +376,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 13
+			assert_select 'a', :count => 13
 			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
 		end
 	end
@@ -389,7 +389,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_path(study_subject)
 			end
 		end
@@ -400,7 +400,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
 			end
 		end
@@ -411,7 +411,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 			end
 		end
@@ -422,7 +422,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 			end
 		end
@@ -433,7 +433,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 			end
 		end
@@ -444,7 +444,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 			end
 		end
@@ -455,7 +455,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
 			end
 		end
@@ -466,7 +466,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
 			end
 		end
@@ -477,8 +477,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
-				assert_select 'a.current', 0
+				assert_select 'a', :count => 8
+				assert_select 'a.current', :count => 0
 #				assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
 			end
 		end
@@ -489,8 +489,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
-				assert_select 'a.current', 0
+				assert_select 'a', :count => 8
+				assert_select 'a.current', :count => 0
 #				assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
 			end
 		end
@@ -501,7 +501,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
 			end
 		end
@@ -512,8 +512,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
-				assert_select 'a.current', 0
+				assert_select 'a', :count => 8
+				assert_select 'a.current', :count => 0
 #				assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
 			end
 		end
@@ -524,8 +524,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
-				assert_select 'a.current', 0
+				assert_select 'a', :count => 8
+				assert_select 'a.current', :count => 0
 #				assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
 			end
 		end
@@ -536,7 +536,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
 			end
 		end
@@ -548,7 +548,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
+				assert_select 'a', :count => 8
 				assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
 			end
 		end
@@ -559,8 +559,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', 8
-				assert_select 'a.current', 0
+				assert_select 'a', :count => 8
+				assert_select 'a.current', :count => 0
 			end
 		end
 
@@ -571,7 +571,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_path(study_subject)
 		end
 	end
@@ -581,7 +581,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
 		end
 	end
@@ -591,7 +591,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -601,7 +601,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -611,7 +611,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -621,7 +621,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
 		end
 	end
@@ -631,7 +631,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
 		end
 	end
@@ -641,7 +641,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
 		end
 	end
@@ -651,8 +651,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
-			assert_select 'a.current', 0
+			assert_select 'a', :count => 8
+			assert_select 'a.current', :count => 0
 #			assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
 		end
 	end
@@ -662,8 +662,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
-			assert_select 'a.current', 0
+			assert_select 'a', :count => 8
+			assert_select 'a.current', :count => 0
 #			assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
 		end
 	end
@@ -673,7 +673,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
 		end
 	end
@@ -683,8 +683,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
-			assert_select 'a.current', 0
+			assert_select 'a', :count => 8
+			assert_select 'a.current', :count => 0
 #			assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
 		end
 	end
@@ -694,8 +694,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
-			assert_select 'a.current', 0
+			assert_select 'a', :count => 8
+			assert_select 'a.current', :count => 0
 #			assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
 		end
 	end
@@ -705,7 +705,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
 		end
 	end
@@ -715,7 +715,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		study_subject = Factory(:study_subject)
 		response = HTML::Document.new( subject_side_menu(study_subject) ).root
 		assert_select response, 'div#sidemenu' do
-			assert_select 'a', 8
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
 		end
 	end
@@ -733,7 +733,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		login_as @user
 		@roles = Role.all
 		response = HTML::Document.new(user_roles).root
-		assert_select response, 'form.button_to', 4
+		assert_select response, 'form.button_to', :count => 4
 	end
 
 	test "should get user_roles with administrator login" do
@@ -741,7 +741,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		login_as @user
 		@roles = Role.all
 		response = HTML::Document.new(user_roles).root
-		assert_select response, 'form.button_to', 4
+		assert_select response, 'form.button_to', :count => 4
 	end
 
 	test "should not get user_roles with editor login" do
@@ -771,9 +771,9 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'users', :action => 'index' }
 		response = HTML::Document.new(sort_link('name')).root
 		#	<div class=""><a href="/users?dir=asc&amp;order=name">name</a></div>
-		assert_select response, 'div', 1 do
-			assert_select 'a', 1
-			assert_select 'span', 0
+		assert_select response, 'div', :count => 1 do
+			assert_select 'a', :count => 1
+			assert_select 'span', :count => 0
 		end
 	end
 
@@ -785,10 +785,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new(sort_link('name')).root
 		#	<div class="sorted"><a href="/users?dir=asc&amp;order=name">name</a>
 		#		<span class="up arrow">&uarr;</span></div>
-		assert_select response, 'div.sorted', 1 do
-			assert_select 'a', 1
-			assert_select '.up.arrow', 1
-			assert_select 'span.up.arrow', 1
+		assert_select response, 'div.sorted', :count => 1 do
+			assert_select 'a', :count => 1
+			assert_select '.up.arrow', :count => 1
+			assert_select 'span.up.arrow', :count => 1
 		end
 	end
 
@@ -798,10 +798,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new(sort_link('name')).root
 		#	<div class="sortable name sorted"><a href="/users?dir=asc&amp;order=name">name</a>
 		#	<img class="up arrow" src="/images/sort_up.png?1320424344" alt="Sort_up" /></div>
-		assert_select response, 'div.sorted', 1 do
-			assert_select 'a', 1
-			assert_select '.up.arrow', 1
-			assert_select 'img.up.arrow', 1
+		assert_select response, 'div.sorted', :count => 1 do
+			assert_select 'a', :count => 1
+			assert_select '.up.arrow', :count => 1
+			assert_select 'img.up.arrow', :count => 1
 		end
 	end
 
@@ -813,10 +813,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new(sort_link('name')).root
 		#	<div class="sorted"><a href="/users?dir=asc&amp;order=name">name</a>
 		#		<span class="down arrow">&uarr;</span></div>
-		assert_select response, 'div.sorted', 1 do
-			assert_select 'a', 1
-			assert_select '.down.arrow', 1
-			assert_select 'span.down.arrow', 1
+		assert_select response, 'div.sorted', :count => 1 do
+			assert_select 'a', :count => 1
+			assert_select '.down.arrow', :count => 1
+			assert_select 'span.down.arrow', :count => 1
 		end
 	end
 
@@ -827,10 +827,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new(sort_link('name')).root
 		#	<div class="sortable name sorted"><a href="/users?dir=asc&amp;order=name">name</a>
 		#	<img class="down arrow" src="/images/sort_down.png?1320424344" alt="Sort_up" /></div>
-		assert_select response, 'div.sorted', 1 do
-			assert_select 'a', 1
-			assert_select '.down.arrow', 1
-			assert_select 'img.down.arrow', 1
+		assert_select response, 'div.sorted', :count => 1 do
+			assert_select 'a', :count => 1
+			assert_select '.down.arrow', :count => 1
+			assert_select 'img.down.arrow', :count => 1
 		end
 	end
 
@@ -842,10 +842,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new(sort_link('name')).root
 		#	<div class="sorted"><a href="/users?dir=asc&amp;order=name">name</a>
 		#		<span class="up arrow">&uarr;</span></div>
-		assert_select response, 'div.sorted', 1 do
-			assert_select 'a', 1
-			assert_select '.up.arrow', 1
-			assert_select 'span.up.arrow', 1
+		assert_select response, 'div.sorted', :count => 1 do
+			assert_select 'a', :count => 1
+			assert_select '.up.arrow', :count => 1
+			assert_select 'span.up.arrow', :count => 1
 		end
 	end
 
@@ -856,10 +856,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new(sort_link('name')).root
 		#	<div class="sortable name sorted"><a href="/users?dir=asc&amp;order=name">name</a>
 		#	<img class="up arrow" src="/images/sort_up.png?1320424344" alt="Sort_up" /></div>
-		assert_select response, 'div.sorted', 1 do
-			assert_select 'a', 1
-			assert_select '.up.arrow', 1
-			assert_select 'img.up.arrow', 1
+		assert_select response, 'div.sorted', :count => 1 do
+			assert_select 'a', :count => 1
+			assert_select '.up.arrow', :count => 1
+			assert_select 'img.up.arrow', :count => 1
 		end
 	end
 
@@ -884,7 +884,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		response = HTML::Document.new( subject_id_bar(nil)	).root
 		#	#<HTML::Node:0x10539a778 @position=0, @line=0, @children=[], @parent=nil>
 		assert response.to_s.blank?
-		assert_select response, 'div#id_bar', 0
+		assert_select response, 'div#id_bar', :count => 0
 	end
 
 #	do_not_contact
@@ -898,7 +898,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert subject.is_a?(StudySubject)
 		assert subject.do_not_contact?
 		response = HTML::Document.new( do_not_contact(subject) ).root
-		assert_select response, 'div#do_not_contact', 1
+		assert_select response, 'div#do_not_contact', :count => 1
 	end
 
 	test "do_not_contact should NOT return do_not_contact if NOT do not contact" do
@@ -906,7 +906,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert  subject.is_a?(StudySubject)
 		assert !subject.do_not_contact?
 		response = HTML::Document.new( do_not_contact(subject) ).root
-		assert_select response, 'div#do_not_contact', 0
+		assert_select response, 'div#do_not_contact', :count => 0
 		assert response.to_s.blank?
 	end
 
@@ -916,13 +916,13 @@ class ApplicationHelperTest < ActionView::TestCase
 #		assert  subject.is_a?(StudySubject)
 #		assert_nil subject.do_not_contact
 #		response = HTML::Document.new( do_not_contact(subject) ).root
-#		assert_select response, 'div#do_not_contact', 0
+#		assert_select response, 'div#do_not_contact', :count => 0
 #		assert response.blank?
 #	end
 
 	test "do_not_contact should NOT return do_not_contact if nil subject" do
 		response = HTML::Document.new( do_not_contact(nil) ).root
-		assert_select response, 'div#do_not_contact', 0
+		assert_select response, 'div#do_not_contact', :count => 0
 		assert response.to_s.blank?
 	end
 
@@ -931,7 +931,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "required(text) should" do
 		response = HTML::Document.new(required('something')).root
 		#"<span class='required'>something</span>"
-		assert_select response, 'span.required', 'something', 1
+		assert_select response, 'span.required', :text => 'something', :count => 1
 	end
 
 #	req
@@ -939,7 +939,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "req(text) should" do
 		response = HTML::Document.new(req('something')).root
 		#"<span class='required'>something</span>"
-		assert_select response, 'span.required', 'something', 1
+		assert_select response, 'span.required', :text => 'something', :count => 1
 	end
 
 
@@ -1055,18 +1055,18 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_adna_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', 'int_field', 1
-		assert_select response, 'span.value', '&nbsp;', 1
+		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_adna_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			wrapped_adna_spans(:some_model, :int_field)).root
-		assert_select response, 'div.int_field.field_wrapper', 1 do
-			assert_select 'label', 0
-			assert_select 'span.label', 'int_field', 1
-			assert_select 'span.value', '&nbsp;', 1
+		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
 
@@ -1074,18 +1074,18 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_yndk_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', 'int_field', 1
-		assert_select response, 'span.value', '&nbsp;', 1
+		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_yndk_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			wrapped_yndk_spans(:some_model, :int_field)).root
-		assert_select response, 'div.int_field.field_wrapper', 1 do
-			assert_select 'label', 0
-			assert_select 'span.label', 'int_field', 1
-			assert_select 'span.value', '&nbsp;', 1
+		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
 
@@ -1093,18 +1093,18 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_ynrdk_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', 'int_field', 1
-		assert_select response, 'span.value', '&nbsp;', 1
+		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_ynrdk_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			wrapped_ynrdk_spans(:some_model, :int_field)).root
-		assert_select response, 'div.int_field.field_wrapper', 1 do
-			assert_select 'label', 0
-			assert_select 'span.label', 'int_field', 1
-			assert_select 'span.value', '&nbsp;', 1
+		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
 
@@ -1112,18 +1112,18 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_ynodk_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', 'int_field', 1
-		assert_select response, 'span.value', '&nbsp;', 1
+		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_ynodk_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			wrapped_ynodk_spans(:some_model, :int_field)).root
-		assert_select response, 'div.int_field.field_wrapper', 1 do
-			assert_select 'label', 0
-			assert_select 'span.label', 'int_field', 1
-			assert_select 'span.value', '&nbsp;', 1
+		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
 
@@ -1131,18 +1131,18 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_pos_neg_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', 'int_field', 1
-		assert_select response, 'span.value', '&nbsp;', 1
+		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_pos_neg_spans" do
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			wrapped_pos_neg_spans(:some_model, :int_field)).root
-		assert_select response, 'div.int_field.field_wrapper', 1 do
-			assert_select 'label', 0
-			assert_select 'span.label', 'int_field', 1
-			assert_select 'span.value', '&nbsp;', 1
+		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
 
@@ -1203,10 +1203,10 @@ class ApplicationHelperTest < ActionView::TestCase
 #<span class="label">name</span>
 #<span class="value">&nbsp;</span>
 #</div><!-- class='name' -->
-		assert_select response, 'div.name.field_wrapper', 1 do
-			assert_select 'label', 0
-			assert_select 'span.label', 1
-			assert_select 'span.value', 1
+		assert_select response, 'div.name.field_wrapper', :count => 1 do
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :count => 1
+			assert_select 'span.value', :count => 1
 		end
 	end
 
@@ -1219,9 +1219,9 @@ class ApplicationHelperTest < ActionView::TestCase
 #<span class="value">&nbsp;</span>
 #</div><!-- class='dob date_spans' -->
 		assert_select response, 'div.dob.date_spans.field_wrapper' do
-			assert_select 'label', 0
-			assert_select 'span.label','dob',1
-			assert_select 'span.value','&nbsp;',1
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'dob', :count => 1
+			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
 
@@ -1234,9 +1234,9 @@ class ApplicationHelperTest < ActionView::TestCase
 #<span class="value">12/05/1971</span>
 #</div><!-- class='dob date_spans' -->
 		assert_select response, 'div.dob.date_spans.field_wrapper' do
-			assert_select 'label', 0
-			assert_select 'span.label','dob',1
-			assert_select 'span.value','12/05/1971',1
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'dob', :count => 1
+			assert_select 'span.value', :text => '12/05/1971', :count => 1
 		end
 	end
 
@@ -1249,9 +1249,9 @@ class ApplicationHelperTest < ActionView::TestCase
 #<span class="value">no</span>
 #</div><!-- class='yes_or_no' -->
 		assert_select response, 'div.yes_or_no.field_wrapper' do
-			assert_select 'label', 0
-			assert_select 'span.label','yes_or_no',1
-			assert_select 'span.value','No',1
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'yes_or_no', :count => 1
+			assert_select 'span.value', :text => 'No', :count => 1
 		end
 	end
 
@@ -1264,9 +1264,9 @@ class ApplicationHelperTest < ActionView::TestCase
 #<span class="value">yes</span>
 #</div><!-- class='yes_or_no' -->
 		assert_select response, 'div.yes_or_no.field_wrapper' do
-			assert_select 'label', 0
-			assert_select 'span.label','yes_or_no',1
-			assert_select 'span.value','Yes',1
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'yes_or_no', :count => 1
+			assert_select 'span.value', :text => 'Yes', :count => 1
 		end
 	end
 
@@ -1279,9 +1279,9 @@ class ApplicationHelperTest < ActionView::TestCase
 #<span class="value">no</span>
 #</div><!-- class='yes_or_no' -->
 		assert_select response, 'div.yes_or_no.field_wrapper' do
-			assert_select 'label', 0
-			assert_select 'span.label','yes_or_no',1
-			assert_select 'span.value','No',1
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'yes_or_no', :count => 1
+			assert_select 'span.value', :text => 'No', :count => 1
 		end
 	end
 
@@ -1342,7 +1342,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		#	without a set controller uses assets
 		#	<p class='center'><a href="/assets?action=edit" class="right button">Edit</a></p>
 		assert_select response, 'p.center' do
-			assert_select 'a.right.button','Edit',1
+			assert_select 'a.right.button', :text => 'Edit', :count => 1
 			assert_select 'a[href=?]', "/assets?action=edit"
 		end
 	end
@@ -1353,11 +1353,15 @@ class ApplicationHelperTest < ActionView::TestCase
 		#	with a set controller and id
 		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
 		assert_select response, 'p.center' do
-			assert_select 'a.right.button','Edit',1
+			assert_select 'a.right.button', :text => 'Edit', :count => 1
 			assert_select 'a[href=?]', "/abstracts/0/edit"
 			assert_select 'a[href=?]', edit_abstract_path(0)
 		end
 	end
+
+#	assert_select apparently requires explicit hash of options
+#	in ruby 1.9.3 instead of just a list (adding :text and :count to all )
+#	ArgumentError: assertion message must be String or Proc, but .... was given.
 
 
 private 
