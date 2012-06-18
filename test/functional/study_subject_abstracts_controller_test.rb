@@ -7,10 +7,12 @@ class StudySubjectAbstractsControllerTest < ActionController::TestCase
 		test "should NOT get index without study_subject_id and with #{cu} login" do
 			u = send(cu)
 			login_as u
+assert_raises(ActionController::RoutingError){
 			get :index
-			assert_not_nil flash[:error]
-			assert !assigns(:abstracts)
-			assert_redirected_to study_subjects_path
+}
+#			assert_not_nil flash[:error]
+#			assert !assigns(:abstracts)
+#			assert_redirected_to study_subjects_path
 		end
 
 		test "should get index with invalid study_subject_id and #{cu} login" do
@@ -54,10 +56,12 @@ class StudySubjectAbstractsControllerTest < ActionController::TestCase
 
 		test "should NOT get new without study_subject_id and with #{cu} login" do
 			login_as send(cu)
+assert_raises(ActionController::RoutingError){
 			get :new
-			assert_not_nil flash[:error]
-			assert !assigns(:abstract)
-			assert_redirected_to study_subjects_path
+}
+#			assert_not_nil flash[:error]
+#			assert !assigns(:abstract)
+#			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT get new with invalid study_subject_id and #{cu} login" do
