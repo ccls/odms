@@ -38,11 +38,17 @@ module ActionControllerExtension::Routing
 #	irb(main):018:0> Odms::Application.routes.formatter.generate(:path_info,nil,{:action => 'index', :controller => 'pges'})
 #	=> ["/assets", {:controller=>"pges", :action=>"index"}]
 
+#
+#	it appears that ruby 1.9.3 now actually raises a routing error
+#	or perhaps the latest version of Journey
+#
+assert_raise(Journey::Router::RoutingError){
 						path, params = Odms::Application.routes.formatter.generate(
 							:path_info,nil,{ :method => verb, :action => action }.merge(args))
 
 						#	If there isn't a defined route, this should be true
 						assert_equal path, "/assets"
+}
 
 #						if path.blank? or path == "/assets"
 #							raise ActionController::RoutingError, "No route matches ..." 
