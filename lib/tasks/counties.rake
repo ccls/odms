@@ -1,16 +1,17 @@
-require 'fastercsv'
-
 namespace :app do
 namespace :counties do
 
 	task :destroy_all => :environment do
 		#	No limiting scope, but just in case
-		County.unscoped.destroy_all	
+#		County.unscoped.destroy_all		#	can take a while
+		County.unscoped.delete_all	
 	end
 
 	task :import_all => :destroy_all do
+		require 'csv'
+
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-		(f=FasterCSV.open("production/fixtures/counties.csv", 
+		(f=CSV.open("production/fixtures/counties.csv", 
 				'rb',{ :headers => true })).each do |line|
 			puts "Processing line #{f.lineno}:#{line}"
 

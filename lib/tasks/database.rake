@@ -124,7 +124,11 @@ end	#	namespace :app do
 
 #	needed for escape
 require 'yaml'
-require 'yaml/encoding'
+
+#	doesn't exist in ruby 1.9.3,
+#	but seems ok with it being commented out.
+#	probably included in yaml.rb
+#require 'yaml/encoding'	
 
 def recursive_hash_to_yml_string(hash, depth=0)
 	yml_string = ''

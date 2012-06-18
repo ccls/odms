@@ -19,7 +19,7 @@ namespace :operational_events do
 			exit
 		end
 		
-		f=FasterCSV.open(file_name, 'rb')
+		f=CSV.open(file_name, 'rb')
 		column_names = f.readline
 		f.close
 
@@ -35,7 +35,7 @@ namespace :operational_events do
 		
 		error_file = File.open('operational_events_errors.txt','w')	#	overwrite existing
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-		(f=FasterCSV.open(file_name, 'rb',{ :headers => true })).each do |line|
+		(f=CSV.open(file_name, 'rb',{ :headers => true })).each do |line|
 			puts "Processing line #{f.lineno}:#{line}"
 
 #	"subjectid","project_id","operational_event_id","occurred_at","description","event_notes"
@@ -86,7 +86,7 @@ namespace :operational_events do
 					"event_notes"
 			end
 
-		end	#	(f=FasterCSV.open(file_name,
+		end	#	(f=CSV.open(file_name,
 		error_file.close
 		exit;	#	MUST EXPLICITLY exit or rake will try to run arguments as tasks
 	end

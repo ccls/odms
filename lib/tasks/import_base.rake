@@ -6,7 +6,6 @@ namespace :app do
 	#	This task doesn't do anything.  Just kind of an abstract task.
 	#
 	task :import_base => :environment do
-		require 'fastercsv'
 		require 'chronic'
 
 		#

@@ -19,7 +19,7 @@ namespace :abstracts do
 			exit
 		end
 		
-		f=FasterCSV.open(file_name, 'rb')
+		f=CSV.open(file_name, 'rb')
 		column_names = f.readline
 		f.close
 
@@ -41,8 +41,8 @@ namespace :abstracts do
 
 
 		translation_table = {}
-#		(f=FasterCSV.open("Abst_DB_New_Var_Names_Aug2010.csv",'rb',{ 
-		(f=FasterCSV.open("fieldsandtypes.csv",'rb',{ 
+#		(f=CSV.open("Abst_DB_New_Var_Names_Aug2010.csv",'rb',{ 
+		(f=CSV.open("fieldsandtypes.csv",'rb',{ 
 			:headers => true })).each do |line|
 			next if line['current_field_name'].blank?
 			translation_table[line['current_field_name'].upcase] = line['new_field_name']
@@ -72,7 +72,7 @@ namespace :abstracts do
 		
 		error_file = File.open('abstracts_errors.txt','w')	#	overwrite existing
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-		(f=FasterCSV.open(file_name, 'rb',{ :headers => true })).each do |line|
+		(f=CSV.open(file_name, 'rb',{ :headers => true })).each do |line|
 			puts "Processing line #{f.lineno}:#{line}"
 
 #	"subjectid","project_id","operational_event_id","occurred_at","description","event_notes"
@@ -123,7 +123,7 @@ namespace :abstracts do
 #					"event_notes"
 #			end
 
-		end	#	(f=FasterCSV.open(file_name,
+		end	#	(f=CSV.open(file_name,
 		error_file.close
 		exit;	#	MUST EXPLICITLY exit or rake will try to run arguments as tasks
 	end

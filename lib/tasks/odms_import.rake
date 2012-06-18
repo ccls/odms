@@ -1,4 +1,3 @@
-#	require 'fastercsv'
 #	require 'chronic'
 #	
 #	#
@@ -123,11 +122,11 @@
 #		#
 #		task :prepare_input_for_comparison => :environment do
 #			#	Some columns are quoted and some aren't.  Quote all.
-#			FasterCSV.open('subject_in.csv','w', {:force_quotes=>true}) do |out|
+#			CSV.open('subject_in.csv','w', {:force_quotes=>true}) do |out|
 #				out.add_row ["subjectid","subject_type_id","vital_status_id","do_not_contact","sex","reference_date","childidwho","hispanicity_id","childid","icf_master_id","matchingid","familyid","patid","case_control_type","orderno","newid","studyid","related_case_childid","state_id_no","admit_date","diagnosis_id","created_at","first_name","middle_name","last_name","maiden_name","dob","died_on","mother_first_name","mother_maiden_name","mother_last_name","father_first_name","father_last_name","was_previously_treated","was_under_15_at_dx","raf_zip","raf_county","birth_year","hospital_no","organization_id","other_diagnosis"]
 #		
 #				#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#				(f=FasterCSV.open(SUBJECTS_CSV, 'rb',{ :headers => true })).each do |line|
+#				(f=CSV.open(SUBJECTS_CSV, 'rb',{ :headers => true })).each do |line|
 #	
 #					#	Not all input records have created_at so nillify all
 #					line['created_at'] = nil
@@ -181,7 +180,7 @@
 #		task :csv_dump => :environment do
 #			puts "Dumping to csv for comparison"
 #	
-#			FasterCSV.open('subject_out.csv','w', {:force_quotes=>true}) do |f|
+#			CSV.open('subject_out.csv','w', {:force_quotes=>true}) do |f|
 #				f.add_row ["subjectid","subject_type_id","vital_status_id","do_not_contact","sex","reference_date","childidwho","hispanicity_id","childid","icf_master_id","matchingid","familyid","patid","case_control_type","orderno","newid","studyid","related_case_childid","state_id_no","admit_date","diagnosis_id","created_at","first_name","middle_name","last_name","maiden_name","dob","died_on","mother_first_name","mother_maiden_name","mother_last_name","father_first_name","father_last_name","was_previously_treated","was_under_15_at_dx","raf_zip","raf_county","birth_year","hospital_no","organization_id","other_diagnosis"]
 #	
 #	#			StudySubject.find(:all,
@@ -260,7 +259,7 @@
 #			error_file = File.open('samples_errors.txt','w')	#	overwrite existing
 #	
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open(SAMPLES_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open(SAMPLES_CSV, 'rb',{ :headers => true })).each do |line|
 #				puts "Processing line #{f.lineno}"
 #				puts line
 #	
@@ -371,7 +370,7 @@
 #			error_file = File.open('addresses_errors.txt','w')	#	overwrite existing
 #	
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open(ADDRESSES_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open(ADDRESSES_CSV, 'rb',{ :headers => true })).each do |line|
 #				puts "Processing line #{f.lineno}"
 #				puts line
 #	
@@ -436,7 +435,7 @@
 #			error_file = File.open('addressings_errors.txt','w')	#	overwrite existing
 #	
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open( ADDRESSINGS_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open( ADDRESSINGS_CSV, 'rb',{ :headers => true })).each do |line|
 #				puts "Processing line #{f.lineno}"
 #				puts line
 #	
@@ -530,7 +529,7 @@
 #			error_file = File.open('phone_numbers_errors.txt','w')	#	overwrite existing
 #	
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open(PHONENUMBERS_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open(PHONENUMBERS_CSV, 'rb',{ :headers => true })).each do |line|
 #				puts "Processing line #{f.lineno}"
 #				puts line
 #	
@@ -605,7 +604,7 @@
 #			error_file = File.open('operational_events_errors.txt','w')	#	overwrite existing
 #	
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open(EVENTS_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open(EVENTS_CSV, 'rb',{ :headers => true })).each do |line|
 #				puts "Processing line #{f.lineno}"
 #				puts line
 #	
@@ -662,7 +661,7 @@
 #			puts "Importing icf_master_ids"
 #	
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open(ICFMASTERIDS_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open(ICFMASTERIDS_CSV, 'rb',{ :headers => true })).each do |line|
 #				puts "Processing line #{f.lineno}"
 #				puts line
 #	
@@ -764,7 +763,7 @@
 #			error_file = File.open('enrollments_errors.txt','w')	#	overwrite existing
 #	
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open(ENROLLMENTS_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open(ENROLLMENTS_CSV, 'rb',{ :headers => true })).each do |line|
 #	
 #	#	skip until ...
 #	#			next if f.lineno <= 10619
@@ -877,7 +876,7 @@
 #			error_file = File.open('subjects_errors.txt','w')	#	overwrite existing
 #	
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open(SUBJECTS_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open(SUBJECTS_CSV, 'rb',{ :headers => true })).each do |line|
 #	
 #	#	skip until ...
 #	#			next if f.lineno <= 10619
@@ -989,7 +988,7 @@
 #					s.reload
 #					compare_subject_and_line(s,line)
 #				end
-#			end	#	FasterCSV.open
+#			end	#	CSV.open
 #			error_file.close
 #		end		#	task :subjects => :environment do
 #	
@@ -1004,7 +1003,7 @@
 #			puts "Comparing subjects"
 #			warn_file = File.open('subjects_warnings.txt','w')	#	overwrite existing
 #			#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#			(f=FasterCSV.open(SUBJECTS_CSV, 'rb',{ :headers => true })).each do |line|
+#			(f=CSV.open(SUBJECTS_CSV, 'rb',{ :headers => true })).each do |line|
 #				puts "Processing line #{f.lineno}"
 #				puts line
 #	
@@ -1016,7 +1015,7 @@
 #					warn_file.puts
 #				end
 #	
-#			end	#	FasterCSV.open
+#			end	#	CSV.open
 #			warn_file.close
 #		end		#	task :subjects => :environment do
 #	end	#	namespace :odms_compare do

@@ -3,8 +3,6 @@
 #		Converted document_versions to yml so this is now unnecessary.
 #
 #
-#require 'fastercsv'
-#
 #namespace :app do
 #namespace :document_versions do
 #
@@ -14,7 +12,7 @@
 #
 #	task :import_all => :destroy_all do
 #		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-#		(f=FasterCSV.open("production/fixtures/document_versions.csv", 
+#		(f=CSV.open("production/fixtures/document_versions.csv", 
 #				'rb',{ :headers => true })).each do |line|
 #			puts "Processing line #{f.lineno}"
 #			puts line

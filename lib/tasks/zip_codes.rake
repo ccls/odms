@@ -1,17 +1,18 @@
-require 'fastercsv'
-
 namespace :app do
 namespace :zip_codes do
 
 	task :destroy_all => :environment do
 #	uses the default scope limit of 10 so doesn't destroy ALL. 
 #		ZipCode.destroy_all	
-		ZipCode.unscoped.destroy_all	
+#		ZipCode.unscoped.destroy_all		#	can take a while
+		ZipCode.unscoped.delete_all	
 	end
 
 	task :import_all => :destroy_all do
+		require 'csv'
+
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
-		(f=FasterCSV.open("production/fixtures/zip_codes.csv", 
+		(f=CSV.open("production/fixtures/zip_codes.csv", 
 				'rb',{ :headers => true })).each do |line|
 			puts "Processing line #{f.lineno}:#{line}"
 #"id","zip_code","city","state","zip_class","county_id"
