@@ -40,10 +40,16 @@ class BirthDatumUpdate < ActiveRecord::Base
 #
 #puts self.csv_file	/csv_files/original/missing.png
 #			f=FasterCSV.open(self.csv_file.path,'rb')
-		if !self.csv_file_file_name.blank?  && self.csv_file.to_file
-			f=CSV.open(self.csv_file.to_file.path,'rb')
-#		if !self.csv_file_file_name.blank?
-#			f=CSV.open(self.csv_file.path,'rb')
+#
+#	to_file method has gone away
+#
+#	possible replacement
+#	b.csv_file.queued_for_write[:original].path
+#
+#	all I'm trying to do is read the file but nobody likes this idea
+#
+		if !self.csv_file_file_name.blank?  && self.csv_file.queued_for_write[:original].path
+			f=CSV.open(self.csv_file.queued_for_write[:original].path,'rb')
 			column_names = f.readline
 			f.close
 			column_names.each do |column_name|
@@ -58,7 +64,8 @@ class BirthDatumUpdate < ActiveRecord::Base
 
 	def parse_csv_file
 		unless self.csv_file_file_name.blank?
-			csv_file_path = self.csv_file.to_file.path
+#			csv_file_path = self.csv_file.to_file.path
+			csv_file_path = self.csv_file.queued_for_write[:original].path
 			unless csv_file_path.nil?
 				line_count = 0
 				(f=CSV.open( csv_file_path, 'rb',{

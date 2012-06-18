@@ -29,8 +29,8 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 	def valid_csv_file_column_names
 		#	'to_file' needed as the path method wouldn't be
 		#	defined until after save.
-		if self.csv_file && self.csv_file.to_file
-			f=CSV.open(self.csv_file.to_file.path,'rb')
+		if !self.csv_file_file_name.blank? && self.csv_file.queued_for_write[:original].path
+			f=CSV.open(self.csv_file.queued_for_write[:original].path,'rb')
 			column_names = f.readline
 			f.close
 			if column_names != expected_column_names 
