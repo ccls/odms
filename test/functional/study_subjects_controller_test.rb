@@ -290,7 +290,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #		test "should NOT create without race_id with #{cu} login" do
 #			study_subject = create_study_subject
 #			login_as send(cu)
-#pending	#	TODO
+#skip	#	TODO
 ##			assert_difference('StudySubject.count',0){
 ##			assert_difference('SubjectType.count',0){
 ##			assert_difference('Race.count',0){
@@ -321,7 +321,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #		test "should NOT create without valid race_id with #{cu} login" do
 #			study_subject = create_study_subject
 #			login_as send(cu)
-#pending	#	TODO
+#skip	#	TODO
 ##			assert_difference('StudySubject.count',0){
 ##			assert_difference('SubjectType.count',0){
 ##			assert_difference('Race.count',0){
@@ -407,7 +407,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #		test "should NOT update without race_id with #{cu} login" do
 #			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 #			login_as send(cu)
-#pending	#	TODO
+#skip	#	TODO
 #			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){
@@ -423,7 +423,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #		test "should NOT update without valid race_id with #{cu} login" do
 #			study_subject = create_study_subject(:updated_at => ( Time.now - 1.day ) )
 #			login_as send(cu)
-#pending	#	TODO
+#skip	#	TODO
 #			assert_difference('StudySubject.count',0){
 #			assert_difference('SubjectType.count',0){
 #			assert_difference('Race.count',0){

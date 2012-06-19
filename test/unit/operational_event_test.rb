@@ -90,7 +90,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 	end
 
 #	test "should require operational_event_type" do
-#pending	#	does this test correctly?
+#skip	#	does this test correctly?
 ##		assert_difference( "OperationalEvent.count", 0 ) do
 ##			operational_event = create_operational_event( :operational_event_type => nil)
 #			operational_event = Factory.build(:operational_event, :operational_event_type => nil)

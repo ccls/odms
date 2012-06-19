@@ -228,7 +228,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 #			puts "-- Real data test file does not exist. Skipping."
 #			return 
 #		end
-#pending	#	TODO try this with a real file
+#skip	#	TODO try this with a real file
 #
 ##		#	minimal semi-real case creation
 ##		s0 = Factory(:case_study_subject,:sex => 'F',
