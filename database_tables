@@ -1540,6 +1540,7 @@ Table: study_subjects
 | is_matched                  | tinyint(1)   | YES  |     | NULL    |                |
 | created_at                  | datetime     | NO   |     | NULL    |                |
 | updated_at                  | datetime     | NO   |     | NULL    |                |
+| phase                       | int(11)      | YES  |     | NULL    |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+

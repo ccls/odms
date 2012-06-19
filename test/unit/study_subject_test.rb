@@ -33,7 +33,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels 
 		local_registrar_no matchingid mom_is_biomom 
 		mother_hispanicity_id mother_hispanicity_mex 
-		other_mother_race mother_yrs_educ 
+		other_mother_race mother_yrs_educ phase
 		reference_date related_case_childid related_childid ssn state_id_no 
 		state_registrar_no subjectid vital_status_id )
 
