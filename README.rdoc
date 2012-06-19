@@ -24,10 +24,10 @@
  cp config/initializers/mail.rb.example config/initializers/mail.rb
 
 
- #	Assuming that ruby 1.8.7 is installed.
- #	Of course, some version of rubygems will need to be installed
- #	as well, otherwise there is no 'gem' command.
- #	Should probably update to the latest rubygems (1.8.21 as of 20120404)
+ #	Assuming that ruby 1.9.3 is installed which now includes rubygems.
+ #	Should probably update to the latest rubygems (1.8.24 as of 20120619)
+ #	(Not really sure if this is actually necessary in 1.9.3,
+ #	 but I did it and everything still seems to work.)
  gem update --system
 
  #	Install bundler which will be managing all of the gems
@@ -145,14 +145,22 @@
 
 * imported ucb_ldap so could modify and remove incompatible ruby-net-ldap requirement
 * FasterCSV replaced with CSV
+  * must manually "require 'csv'" instead though
 * no longer use rubygems binary as is include with ruby
 * paperclip dropped 'to_file' method
-* yaml/encoding no longer exists and apparently included
+  * using queued_for_write[:original] instead
+* yaml/encoding no longer exists (was using in sorting exported fixtures)
+  * apparently functionality is included
 * Factories explicitly need "sequence" for my methods
 * assert_select requires more explicit hash use
 * doesn't parse american date so need american_date gem
+  * installed american_date gem which fixed a lot of unexpected problems
 * still may have to deal with old mongrel version (there is a pre-release version)
+  *
 * rcov no longer compatible with suggestion of simplecov but haven't tried yet
+  * simplecov isn't quite working
+* 'pending' doesn't work the same 
+  * 'caller' says that it is from a block now not method, so no name to use
 
 
 
