@@ -21,13 +21,6 @@ module ActiveSupportExtension::TestWithVerbosity
 				print "\n#{self.class.name.gsub(/Test$/,'').titleize} #{name}: "
 				send("_#{test_name}_without_verbosity")
 			end
-#/Users/jakewendt/github_repo/ccls/odms/test/active_support_extension/test_with_verbosity.rb:24:in `class_eval': /Users/jakewendt/github_repo/ccls/odms/test/active_support_extension/test_with_verbosity.rb:25: formal argument cannot be a class variable (SyntaxError)
-#class_eval <<EOE, __FILE__, __LINE__ + 1
-#			def _#{test_name}_with_verbosity
-#				print "\n#{self.class.name.gsub(/Test$/,'').titleize} #{name}: "
-#				send("_#{test_name}_without_verbosity")
-#			end
-#EOE
 			#
 			#	can't do this...
 			#		alias_method_chain test_name, :verbosity
