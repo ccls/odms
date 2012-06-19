@@ -13,12 +13,12 @@
 <% if @study_subject.addressings.historic.length > 0 %>
 &nbsp;|&nbsp;
 <%= link_to 'toggle history', study_subject_contacts_path(@study_subject), 
-	:class => 'toggle_historic_addressings' %>
+	:class => 'toggler toggles_historic_addressings' %>
 <% end %>
 </p>
 <% end %>
 
-<div class='historic' style='display:none'>
+<div id='historic_addressings' class='historic' style='display:none'>
 <%= render :partial => 'addressing', 
 	:collection => @study_subject.addressings.historic,
 	:locals => { :dates => true,

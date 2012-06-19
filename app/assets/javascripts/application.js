@@ -1,38 +1,25 @@
 jQuery(function(){
 
-//	var root = (location.host == 'ccls.berkeley.edu')?'/odms':''
-/*
-	var root = /(ccls|genepi.).berkeley.edu/.test(location.host)?'/odms':''
-	jQuery.getScript(root + '/users/menu.js');
-*/
-
-/*
-	a.submitter is used in basically all forms that use the "id_bar" which is not inside the form element.
-		addressings new/edit
-		consents edit
-		enrollments new/edit
-		patients new/edit
-		phone_numbers new/edit
-		study_subjects edit
-
-In the ODMS layout, this no longer exists.  Just HomeX.
-
-	jQuery('a.submitter').click(submit_form);
-*/
-
 /*
 	form.confirm is used on most edit forms
 		addressings, consents, enrollments, patients, phone_numbers, projects, study_subjects
 */
 	jQuery('form.confirm').submit(confirm_submission);
 
+	jQuery('a.toggler').toggler();
+
 });
+
+/*
+
+	I don't think that this is used anymore.
 
 var submit_form = function() {
 	form_id = this.id.replace(/^for_/,'');
 	jQuery('form#'+form_id).submit();
 	return false;
 };
+*/
 
 var confirm_submission = function(){
 	if( !confirm("Please confirm that you want to save all changes. Otherwise, press 'cancel' and navigate to another page without saving.") ){
@@ -40,17 +27,59 @@ var confirm_submission = function(){
 	}
 };
 
-/* 
-	Used in ...
-		consent.js
-		contacts.js
+/*
+	This toggler gets the toggleds from the togglers classes.
+
+	A tag with a class including 'toggles_something' will, when clicked,
+	toggle the tag with the id of 'something'.  The class can include
+	multiple toggle targets.  I've enabled this with simply ...
+
+		jQuery('a.toggler').toggler();
+
+	I'd like to replace my uses of togglerFor with this.
+	
+	Currently used in ...
+		birth_datum_update#show
+		icf_master_tracker_update#show
+		consent#show
+		consent#edit
+		contacts#index
 */
 (function ($){  
-	$.fn.togglerFor = function (toggled_selector) {  
+	$.fn.toggler = function () {  
+		/*
+			If toggled selector  is blank, or doesn't exist,
+				nothing happens.
+		*/
+		return this.each(function () {  
+			$(this).click(function(){
+				$($(this).attr('class').split(/\s+/)).each( function(){
+					if( /^toggles_/.test(this) ){
+						toggled = this.replace(/^toggles_/,'#');
+						$(toggled).toggle()
+					}
+				});
+				return false;
+			});
+		});  
+	};  
+})(jQuery);  
+
+
+/* 
+
+
+	This should no longer be being used.
+
+	Used in ...
+*/
 		/*
 			If 'toggled_selector' is blank, or doesn't exist,
 				nothing happens.
 		*/
+/*
+(function ($){  
+	$.fn.togglerFor = function (toggled_selector) {  
 		return this.each(function () {  
 			$(this).click(function(){
 				$(toggled_selector).toggle()
@@ -59,6 +88,7 @@ var confirm_submission = function(){
 		});  
 	};  
 })(jQuery);  
+*/
 
 
 /*

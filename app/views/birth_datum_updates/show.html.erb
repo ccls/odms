@@ -1,4 +1,3 @@
-<% javascripts(:birth_datum_update) %>
 <% stylesheets(:birth_datum_update) %>
 
 <p>Path: <%= @birth_datum_update.csv_file.path %></p>
@@ -8,8 +7,8 @@
 
 <% unless @birth_datum_update.csv_file_file_name.nil? %>
 <p><%= link_to "show/hide csv file content",
-	params, :class => 'toggle_csv_file_content' %></p>
-<pre class='csv_file_content'><%= IO.read(@birth_datum_update.csv_file.path) %></pre>
+	params, :class => 'toggler toggles_csv_file_content' %></p>
+<pre id='csv_file_content'><%= IO.read(@birth_datum_update.csv_file.path) %></pre>
 <% end %>
 
 <h4>Record count:<%=@birth_datum_update.birth_data.length%></h4>

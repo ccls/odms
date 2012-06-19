@@ -7,7 +7,9 @@
 <p>Updated: <%= @icf_master_tracker_update.csv_file_updated_at %></p>
 
 <% unless @icf_master_tracker_update.csv_file_file_name.nil? %>
-<pre><%= IO.read(@icf_master_tracker_update.csv_file.path) %></pre>
+<p><%= link_to "show/hide csv file content",
+	params, :class => 'toggler toggles_csv_file_content' %></p>
+<pre id='csv_file_content' style='display:none;'><%= IO.read(@icf_master_tracker_update.csv_file.path) %></pre>
 <% end %>
 
 <%= button_to( 'Parse', parse_icf_master_tracker_update_path(@icf_master_tracker_update) )%>

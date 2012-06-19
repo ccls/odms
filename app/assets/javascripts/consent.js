@@ -1,7 +1,5 @@
 jQuery(function(){
 
-	jQuery('a.toggle_eligibility_criteria').togglerFor('.eligibility_criteria');
-
 	jQuery('#enrollment_is_eligible').smartShow({
 //		what: '.ineligible_reason_id.field_wrapper',
 		what: '#subject_is_eligible',

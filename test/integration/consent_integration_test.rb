@@ -217,8 +217,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			visit study_subject_consent_path(study_subject)
-			assert !has_css?('div.eligibility_criteria')
-			assert  has_no_css?('div.eligibility_criteria')
+			assert !has_css?('div#eligibility_criteria')
+			assert  has_no_css?('div#eligibility_criteria')
 		end
 
 		test "should not have toggle eligibility criteria on edit for non-case" <<
@@ -226,8 +226,8 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert !has_css?('div.eligibility_criteria')
-			assert  has_no_css?('div.eligibility_criteria')
+			assert !has_css?('div#eligibility_criteria')
+			assert  has_no_css?('div#eligibility_criteria')
 		end
 
 		test "should toggle eligibility criteria on show screen with #{cu} login" do
@@ -237,11 +237,11 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_not_nil consent
 			login_as send(cu)
 			visit study_subject_consent_path(study_subject)
-			assert has_css?('div.eligibility_criteria', :visible => false)
-			find('a.toggle_eligibility_criteria').click
-			assert has_css?('div.eligibility_criteria', :visible => true)
-			find('a.toggle_eligibility_criteria').click
-			assert has_css?('div.eligibility_criteria', :visible => false)
+			assert has_css?('div#eligibility_criteria', :visible => false)
+			find('a.toggles_eligibility_criteria').click
+			assert has_css?('div#eligibility_criteria', :visible => true)
+			find('a.toggles_eligibility_criteria').click
+			assert has_css?('div#eligibility_criteria', :visible => false)
 		end
 
 		test "should toggle eligibility criteria on edit screen with #{cu} login" do
@@ -251,11 +251,11 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert has_css?('div.eligibility_criteria', :visible => false)
-			find('a.toggle_eligibility_criteria').click
-			assert has_css?('div.eligibility_criteria', :visible => true)
-			find('a.toggle_eligibility_criteria').click
-			assert has_css?('div.eligibility_criteria', :visible => false)
+			assert has_css?('div#eligibility_criteria', :visible => false)
+			find('a.toggles_eligibility_criteria').click
+			assert has_css?('div#eligibility_criteria', :visible => true)
+			find('a.toggles_eligibility_criteria').click
+			assert has_css?('div#eligibility_criteria', :visible => false)
 		end
 
 		test "should show ineligible_reason selector if 'No' for is_eligible" <<
@@ -453,8 +453,8 @@ protected
 		#	FRICK n FRAK n!  They weren't visible because this was hidden.  
 		#	Surprised that I was allowed to interact with the hidden checkboxes!!!!!
 		#	MUST, MUST, MUST show this div or the languages will always be hidden!
-		find('a.toggle_eligibility_criteria').click
-		assert self.has_css?('div.eligibility_criteria', :visible => true)
+		find('a.toggler.toggles_eligibility_criteria').click
+		assert self.has_css?('div#eligibility_criteria', :visible => true)
 	end
 	def assert_subject_consented_visible
 		assert has_css?('#subject_consented', :visible => true)

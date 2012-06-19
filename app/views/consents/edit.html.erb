@@ -1,7 +1,5 @@
 <% stylesheets(:consent_edit) %>
 <% javascripts('consent') %>
-<%# sub_menu_for(@enrollment.study_subject) %>
-<%# id_bar_for(@enrollment.study_subject) %>
 
 <%= form_for(@enrollment,
 	:url => study_subject_consent_path(@study_subject),
@@ -30,9 +28,9 @@
 <% if @study_subject.is_case? %>
 <p><%= link_to "show/hide RAF eligibility criteria", 
 	edit_study_subject_consent_path(@study_subject),
-	:class => 'toggle_eligibility_criteria' %></p>
+	:class => 'toggler toggles_eligibility_criteria' %></p>
 
-<div style='display:none' class='eligibility_criteria'>
+<div style='display:none' id='eligibility_criteria'>
 <%#
 
 	It is possible for me to include the nested patient attributes here.

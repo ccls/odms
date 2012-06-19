@@ -258,7 +258,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			get :edit, :study_subject_id => study_subject.id
 			assert_response :success
 			assert_template 'edit'
-			assert_select "div.eligibility_criteria", :count => 1
+			assert_select "div#eligibility_criteria", :count => 1
 		end
 
 		test "should NOT have eligibility criteria on control edit consent with #{cu} login" do
@@ -267,7 +267,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			get :edit, :study_subject_id => study_subject.id
 			assert_response :success
 			assert_template 'edit'
-			assert_select "div.eligibility_criteria", :count => 0
+			assert_select "div#eligibility_criteria", :count => 0
 		end
 
 		test "should NOT have eligibility criteria on mother edit consent with #{cu} login" do
@@ -276,7 +276,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			get :edit, :study_subject_id => study_subject.id
 			assert_response :success
 			assert_template 'edit'
-			assert_select "div.eligibility_criteria", :count => 0
+			assert_select "div#eligibility_criteria", :count => 0
 		end
 
 		test "should NOT edit consent with invalid study_subject_id #{cu} login" do
