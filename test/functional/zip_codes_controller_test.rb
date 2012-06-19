@@ -39,21 +39,21 @@ class ZipCodesControllerTest < ActionController::TestCase
 #--- expected
 #+++ actual
 #@@ -1 +1 @@
-#-[{\"zip_code\":{\"county_name\":\"Northumberland\",\"city\":\"NORTHUMBERLAND\",\"zip_code\":\"17857\",\"county_id\":2144,\"state\":\"PA\"}}]
-#+[{\"county_name\":\"Northumberland\",\"city\":\"NORTHUMBERLAND\",\"zip_code\":\"17857\",\"county_id\":2144,\"state\":\"PA\"}]
+#-[{\"zip_code\":{\"county_name\":\"Northumberland\",\"city\":\"Northumberland\",\"zip_code\":\"17857\",\"county_id\":2144,\"state\":\"PA\"}}]
+#+[{\"county_name\":\"Northumberland\",\"city\":\"Northumberland\",\"zip_code\":\"17857\",\"county_id\":2144,\"state\":\"PA\"}]
 
-#		expected = %{[{"zip_code":{"county_name":"Northumberland","city":"NORTHUMBERLAND","zip_code":"17857","county_id":2144,"state":"PA"}}]}
+#		expected = %{[{"zip_code":{"county_name":"Northumberland","city":"Northumberland","zip_code":"17857","county_id":2144,"state":"PA"}}]}
 #	rails 3 removes initial key
-#		expected = %{[{"county_name":"Northumberland","city":"NORTHUMBERLAND","zip_code":"17857","county_id":2144,"state":"PA"}]}
+#		expected = %{[{"county_name":"Northumberland","city":"Northumberland","zip_code":"17857","county_id":2144,"state":"PA"}]}
 #	the output is no longer always sorted this way
-# expected = %{[{"state":"PA","city":"NORTHUMBERLAND","county_id":2144,"county_name":"Northumberland","zip_code":"17857"}]"}
+# expected = %{[{"state":"PA","city":"Northumberland","county_id":2144,"county_name":"Northumberland","zip_code":"17857"}]"}
 #		assert_equal expected, @response.body
 
 	test "should get zip_codes.json with 5-digit zip code" do
 		#	:format MUST be a string and NOT a symbol
 		get :index, :q => '17857', :format => 'json'
 		assert_match /"state":"PA"/, @response.body
-		assert_match /"city":"NORTHUMBERLAND"/, @response.body
+		assert_match /"city":"Northumberland"/, @response.body
 		assert_match /"county_id":2144/, @response.body
 		assert_match /"county_name":"Northumberland"/, @response.body
 		assert_match /"zip_code":"17857"/, @response.body
@@ -63,7 +63,7 @@ class ZipCodesControllerTest < ActionController::TestCase
 		#	:format MUST be a string and NOT a symbol
 		get :index, :q => '17857-0123', :format => 'json'
 		assert_match /"state":"PA"/, @response.body
-		assert_match /"city":"NORTHUMBERLAND"/, @response.body
+		assert_match /"city":"Northumberland"/, @response.body
 		assert_match /"county_id":2144/, @response.body
 		assert_match /"county_name":"Northumberland"/, @response.body
 		assert_match /"zip_code":"17857"/, @response.body
@@ -73,7 +73,7 @@ class ZipCodesControllerTest < ActionController::TestCase
 		#	:format MUST be a string and NOT a symbol
 		get :index, :q => '   17857-0123', :format => 'json'
 		assert_match /"state":"PA"/, @response.body
-		assert_match /"city":"NORTHUMBERLAND"/, @response.body
+		assert_match /"city":"Northumberland"/, @response.body
 		assert_match /"county_id":2144/, @response.body
 		assert_match /"county_name":"Northumberland"/, @response.body
 		assert_match /"zip_code":"17857"/, @response.body
@@ -83,7 +83,7 @@ class ZipCodesControllerTest < ActionController::TestCase
 		#	:format MUST be a string and NOT a symbol
 		get :index, :q => ' EXTRA 1 STUFF 7 HERE 8 AND IS 5 IGNORED 7-0123', :format => 'json'
 		assert_match /"state":"PA"/, @response.body
-		assert_match /"city":"NORTHUMBERLAND"/, @response.body
+		assert_match /"city":"Northumberland"/, @response.body
 		assert_match /"county_id":2144/, @response.body
 		assert_match /"county_name":"Northumberland"/, @response.body
 		assert_match /"zip_code":"17857"/, @response.body

@@ -11,7 +11,7 @@ class ZipCodesController < ApplicationController
 			).select("city, state, zip_code, county_id, counties.name as county_name"
 			).order('zip_code ASC'
 			).where('zip_code LIKE ?', "#{(params[:q]||'').gsub(/\D/,'')[0..4]}%")
-		render :json => @zip_codes
+		render :json => @zip_codes.each{|z|z.city = z.city.titleize}
 	end
 
 end

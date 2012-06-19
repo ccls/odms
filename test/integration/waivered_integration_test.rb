@@ -190,7 +190,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			fill_in "#{address}[zip]", :with => "17857"
 
-			assert_equal 'NORTHUMBERLAND', find_field("#{address}[city]").value
+			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
 			assert_equal 'PA',             find_field("#{address}[state]").value
 			assert_equal '17857',          find_field("#{address}[zip]").value
@@ -213,7 +213,7 @@ class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			fill_in "#{patient}[raf_zip]",  :with => "17857"
 
-			assert_equal 'NORTHUMBERLAND', find_field("#{address}[city]").value
+			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
 			assert_equal 'PA',             find_field("#{address}[state]").value
 			assert_equal '17857',          find_field("#{address}[zip]").value
