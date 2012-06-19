@@ -460,6 +460,12 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert_equal 'n/a', mother.studyid_to_s
 	end
 
+	test "should set phase to 5" do
+		study_subject = StudySubject.new
+		assert_not_nil study_subject.phase
+		assert_equal   study_subject.phase, 5
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

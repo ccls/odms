@@ -95,6 +95,12 @@ class StudySubject < ActiveRecord::Base
 #
 ##################################################
 
+	after_initialize :set_default_phase, :if => :new_record?
+	def set_default_phase
+		# ||= doesn't work with ''
+		self.phase ||= 5
+	end
+
 	def to_s
 		[childid,'(',studyid,full_name,')'].compact.join(' ')
 	end
