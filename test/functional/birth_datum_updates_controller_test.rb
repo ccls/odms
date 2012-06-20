@@ -15,10 +15,8 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 	#	setup :turn_off_paperclip_logging
 
 	teardown :delete_all_possible_birth_datum_update_attachments
-	def delete_all_possible_birth_datum_update_attachments
-		#	/bin/rm -rf test/birth_datum_update
-		FileUtils.rm_rf('test/birth_datum_update')
-	end
+
+	teardown :cleanup_birth_datum_update_and_test_file	#	remove tmp/FILE.csv
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'BirthDatumUpdate',
@@ -113,7 +111,6 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #			assert assigns(:csv_lines)
 #			assert assigns(:results)
 #			assert_template 'parse'
-#			cleanup_birth_datum_update_and_test_file
 #		end
 #
 #		test "should parse with #{cu} login and empty csv_file" do
@@ -202,7 +199,6 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #			assert_difference('CandidateControl.count',0){
 #				post :parse, :id => birth_datum_update.id
 #			}
-#			cleanup_birth_datum_update_and_test_file
 #		end
 
 	end
@@ -213,7 +209,13 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #		assert_difference('CandidateControl.count',0){
 #			post :parse, :id => birth_datum_update.id
 #		}
-#		cleanup_birth_datum_update_and_test_file
 #	end
+
+protected
+
+	def delete_all_possible_birth_datum_update_attachments
+		#	/bin/rm -rf test/birth_datum_update
+		FileUtils.rm_rf('test/birth_datum_update')
+	end
 
 end

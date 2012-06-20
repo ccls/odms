@@ -16,6 +16,8 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	#
 	teardown :delete_all_possible_birth_datum_update_attachments
 
+	teardown :cleanup_birth_datum_update_and_test_file	#	remove tmp/FILE.csv
+
 	test "birth datum update factory should create birth datum update" do
 		assert_difference('BirthDatumUpdate.count',1) {
 			birth_datum_update = Factory(:birth_datum_update)
@@ -166,7 +168,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			#
 			create_test_file_and_birth_datum_update
 		} }
-		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should convert attached csv_file but no candidate controls with missing case" do
@@ -186,7 +187,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 					birth_datum.odms_exceptions.first.to_s
 			end
 		} } }
-		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should copy attributes when csv_file converted to candidate control" do
@@ -218,62 +218,37 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 
 			f.close
 		} } #	}
-		cleanup_birth_datum_update_and_test_file
 	end
 
-#	test "should test with real data file" do
-#		#	real data and won't be in repository
-#		unless File.exists?('test-livebirthdata_011912.csv')	#	no longer valid file
-#			puts
-#			puts "-- Real data test file does not exist. Skipping."
-#			return 
-#		end
-#skip	#	TODO try this with a real file
-#
-##		#	minimal semi-real case creation
-##		s0 = Factory(:case_study_subject,:sex => 'F',
-##			:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
-##			:dob => Date.parse('10/16/1977'))
-##		#	s0 has no icf_master_id, so should be ignored
-##
-##		s1 = Factory(:case_study_subject,:sex => 'F',
-##			:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
-##			:dob => Date.parse('9/21/1988'))
-##		Factory(:icf_master_id,:icf_master_id => '48882638A')
-##		s1.assign_icf_master_id
-##
-##		s2 = Factory(:case_study_subject,:sex => 'M',
-##			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
-##			:dob => Date.parse('6/1/2009'))
-##		Factory(:icf_master_id,:icf_master_id => '16655682G')
-##		s2.assign_icf_master_id
-##
-##		birth_datum_update = Factory(:birth_datum_update,
-##			:csv_file => File.open('test-livebirthdata_011912.csv') )
-##		assert_not_nil birth_datum_update.csv_file_file_name
-##
-##		#	35 lines - 1 header - 3 cases = 31
-##		assert_difference('CandidateControl.count',31){
-##			results = birth_datum_update.to_candidate_controls
-##			assert results[0].is_a?(String)
-##			assert_equal results[0],
-##				"Could not find study_subject with masterid [no ID assigned]"
-##			assert results[1].is_a?(StudySubject)
-##			assert results[2].is_a?(StudySubject)
-##			assert_equal results[1], s1
-##			assert_equal results[2], s2
-##			results.each { |r|
-##				if r.is_a?(CandidateControl) and r.new_record?
-##					puts r.inspect
-##					puts r.errors.full_messages.to_sentence
-##				end
-##			}
-##		}
-##		birth_datum_update.destroy
-#	end
+	test "should test with real data file" do
+		#	real data and won't be in repository
+		real_data_file = "birth_datum_update_20120424.csv"
+		unless File.exists?(real_data_file)
+			puts
+			puts "-- Real data test file does not exist. Skipping."
+			return 
+		end
+
+		#	case must exist for candidate controls to be created
+		s = Factory(:case_study_subject,:sex => 'M',
+			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+			:dob => Date.parse('6/1/2009'))
+		Factory(:icf_master_id,:icf_master_id => '15851196C')
+		s.assign_icf_master_id
+
+		birth_datum_update = nil
+
+		assert_difference('BirthDatum.count',33){
+		assert_difference('CandidateControl.count',5){
+			birth_datum_update = Factory(:birth_datum_update,
+				:csv_file => File.open(real_data_file) )
+			assert_not_nil birth_datum_update.csv_file_file_name
+		} }
+		birth_datum_update.destroy
+	end
 
 #
-#	some of these test names are remnants
+#	some of these test names are remnants and probably confusing
 #
 
 	test "should return a StudySubject in results for case" do
@@ -287,7 +262,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
 		} } }
-		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should return a CandidateControl in results for control" do
@@ -300,7 +274,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
 		} } }
-		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should return a String in results for unknown case_control_flag" do
@@ -320,7 +293,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 					birth_datum.odms_exceptions.first.to_s
 			end
 		} } }
-		cleanup_birth_datum_update_and_test_file
 	end
 
 	test "should create odms exception if birth datum creation fails" do
@@ -361,10 +333,10 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 protected
 
 	def delete_all_possible_birth_datum_update_attachments
-		BirthDatumUpdate.destroy_all
+		#	BirthDatumUpdate.destroy_all
 		#	either way will do the job.
 		#	/bin/rm -rf test/birth_datum_update
-		#	FileUtils.rm_rf('test/birth_datum_update')
+		FileUtils.rm_rf('test/birth_datum_update')
 	end
 
 	#	create_object is called from within the common class tests

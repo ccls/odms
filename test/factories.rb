@@ -358,7 +358,8 @@ Factory.define :icf_master_tracker_change do |f|
 	f.sequence(:icf_master_id){|n| "#{n}"}
 end
 Factory.define :icf_master_tracker_update do |f|
-	f.master_tracker_date Date.today
+#	f.master_tracker_date Date.today
+	f.sequence(:master_tracker_date){|n| Date.jd( 2440000 + n ) }
 	f.csv_file Rack::Test::UploadedFile.new( 
 		'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/csv')
 end

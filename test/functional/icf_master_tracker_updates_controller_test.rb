@@ -15,10 +15,8 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 	#	setup :turn_off_paperclip_logging
 
 	teardown :delete_all_possible_icf_master_tracker_update_attachments
-	def delete_all_possible_icf_master_tracker_update_attachments
-		#	/bin/rm -rf test/icf_master_tracker_update
-		FileUtils.rm_rf('test/icf_master_tracker_update')
-	end
+
+	teardown :cleanup_icf_master_tracker_update_and_test_file	#	remove tmp/FILE.csv
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'IcfMasterTrackerUpdate',
@@ -275,7 +273,6 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 				post :parse, :id => icf_master_tracker_update.id
 			}
 			assert_redirected_to root_path
-			cleanup_icf_master_tracker_update_and_test_file
 		end
 
 	end
@@ -333,7 +330,13 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			post :parse, :id => icf_master_tracker_update.id
 		}
 		assert_redirected_to_login
-		cleanup_icf_master_tracker_update_and_test_file
+	end
+
+protected
+
+	def delete_all_possible_icf_master_tracker_update_attachments
+		#	/bin/rm -rf test/icf_master_tracker_update
+		FileUtils.rm_rf('test/icf_master_tracker_update')
 	end
 
 end

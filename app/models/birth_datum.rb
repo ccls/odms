@@ -93,7 +93,7 @@ class BirthDatum < ActiveRecord::Base
 						"Field: #{field}, " <<
 						"ODMS Value: #{study_subject.send(field)}, " <<
 						"Birth Record Value: #{self.send(field)}.  " <<
-						"ODMS record modified with birth record data." )
+						"ODMS record   NOT   modified with birth record data." )
 			end
 
 #	TODO DO I UPDATE OR NOT?
@@ -117,7 +117,11 @@ class BirthDatum < ActiveRecord::Base
 						"Field: #{field}, " <<
 						"ODMS Value: #{study_subject.send(field)}, " <<
 						"Birth Record Value: #{self.send(field)}.  " <<
-						"ODMS record modified with birth record data." )
+						"ODMS record   NOT  modified with birth record data." )
+
+#	TODO DO I UPDATE OR NOT?
+#	Again, documentation says no, but error message says yes?
+
 			end
 
 		end
