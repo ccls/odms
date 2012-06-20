@@ -1,7 +1,11 @@
 require 'capybara/rails'
 
 #	Explicitly require the FakeSessionsController
-require 'test/app/controllers/fake_sessions_controller'
+#require 'test/app/controllers/fake_sessions_controller'
+#	Apparently ruby 1.9.3 does this differently so
+#	above doesn't work, but the 2 following do.
+#require 'app/controllers/fake_sessions_controller'
+require Rails.root.join('test/app/controllers/fake_sessions_controller').to_s
 
 
 #
