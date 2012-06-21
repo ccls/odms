@@ -155,12 +155,16 @@
 * assert_select requires more explicit hash use
 * doesn't parse american date so need american_date gem
   * installed american_date gem which fixed a lot of unexpected problems
-* still may have to deal with old mongrel version (there is a pre-release version)
-  *
 * rcov no longer compatible with suggestion of simplecov but haven't tried yet
   * simplecov isn't quite working
+  * simplecov mostly works when using rake test, but not autotest
+    * only get 95% coverage with rake test and the lines that aren't marked as tested really should have been
+    * only get about 55% coverage with autotest, which I really don't understand
 * 'pending' doesn't work the same 
   * 'caller' says that it is from a block now not method, so no name to use
+  * using 'skip' instaed
+* still may have to deal with old mongrel version (there is a pre-release version)
+  * or could just use webrick for the time being
 
 
 
