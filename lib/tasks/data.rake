@@ -112,26 +112,28 @@ namespace :data do
 #
 #	redefine the to_xs method. This should be unnecessary
 #	if we upgrade ruby from 1.8.7 to 1.9
+#	Using 1.9.3 now and this works without this modification.
 #
-  class String
-    # XML escaped version of to_s. When <tt>escape</tt> is set to false
-    # the CP1252 fix is still applied but utf-8 characters are not
-    # converted to character entities.
-    def to_xs(escape=true)
-      unpack('U*').map {|n| n.xchr(escape)}.join # ASCII, UTF-8
-    rescue
-      unpack('C*').map {|n| n.xchr}.join # ISO-8859-1, WIN-1252
-    end
-  end
+#  class String
+#    # XML escaped version of to_s. When <tt>escape</tt> is set to false
+#    # the CP1252 fix is still applied but utf-8 characters are not
+#    # converted to character entities.
+#    def to_xs(escape=true)
+#      unpack('U*').map {|n| n.xchr(escape)}.join # ASCII, UTF-8
+#    rescue
+#      unpack('C*').map {|n| n.xchr}.join # ISO-8859-1, WIN-1252
+#    end
+#  end
 		puts "Starting...(#{Time.now})"
 		%w( abstract address address_type addressing bc_request 
-				birth_datum
-				candidate_control enrollment icf_master_id
+				birth_datum candidate_control 
+				document_version enrollment icf_master_id
 				icf_master_tracker icf_master_tracker_change icf_master_tracker_update
-				interview odms_exception operational_event operational_event_type 
+				interview language 
+				odms_exception operational_event operational_event_type 
 				patient phone_number phone_type
-language race subject_language subject_race
-				project sample study_subject ).each do |model|
+				project race sample 
+				subject_language subject_race study_subject ).each do |model|
 			puts "Exporting #{model.pluralize} ..."
 			File.open("#{outdir}/#{model.pluralize}.xml",'w'){|f| 
 				f.puts model.camelize.constantize.all.to_xml }
