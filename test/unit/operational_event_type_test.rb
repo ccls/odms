@@ -40,6 +40,22 @@ class OperationalEventTypeTest < ActiveSupport::TestCase
 		end
 	end
 
+	#	NOTE event_category is required
+	test "should return operational_event_types with blank category" do
+		operational_event_type = Factory(:operational_event_type)
+		operational_event_types = OperationalEventType.with_category()
+		assert operational_event_types.include?(operational_event_type)
+	end
+
+	test "should return operational_event_types with 'example' category" do
+		operational_event_type1 = Factory(:operational_event_type)
+		operational_event_type2 = Factory(:operational_event_type,
+			:event_category => 'example')
+		operational_event_types = OperationalEventType.with_category('example')
+		assert !operational_event_types.include?(operational_event_type1)
+		assert  operational_event_types.include?(operational_event_type2)
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

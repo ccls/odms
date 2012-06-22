@@ -26,11 +26,19 @@
 <%= wrapped_spans :operational_event, :operational_event_type,
 	:label_text => 'type:' %>
 
+<%= wrapped_spans :operational_event, :description,
+	:label_text => 'description:' %>
+
+
+
+<%#= wrapped_spans :operational_event, :other_operational_event_type,
+	:label_text => 'other:' %>
 <%#
 
 	TODO specify
 
 %>
+
 
 <div class='event_notes field_wrapper'>
 <span class='label'>notes:</span>

@@ -30,4 +30,8 @@ class OperationalEventType < ActiveRecord::Base
 		oets.collect(&:event_category)
 	end
 
+	def self.with_category(category=nil)
+		( category.blank? ) ? scoped : where(:event_category => category)
+	end
+
 end
