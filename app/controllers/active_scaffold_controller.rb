@@ -20,6 +20,7 @@ protected
 	end
 
 #	Now that users are in the same db, this should work.
+#	HOWEVER, editing and saving may not as may be protected.
 #	def self.user_uid_select
 #		[['-select-',nil]] + User.all.collect{|u|[u.displayname ,u.uid]}
 #	end

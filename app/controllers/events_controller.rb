@@ -43,8 +43,6 @@ class EventsController < ApplicationController
 
 	def update
 		@operational_event.update_attributes!(params[:operational_event])
-#		@operational_event.attributes = params[:operational_event]
-#		@operational_event.save!
 		redirect_to event_path(@operational_event)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Operational Event update failed."

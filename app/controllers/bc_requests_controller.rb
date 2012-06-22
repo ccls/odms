@@ -5,7 +5,6 @@ class BcRequestsController < ApplicationController
 #	before_filter :case_study_subject_required, :only => :create
 	before_filter :no_existing_incomplete_bc_request_required, :only => :create
 	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
-#	before_filter :valid_status_required, :only => [:update_status]
 
 	def new
 		@bc_request           = BcRequest.new #	sole purpose is to make testing happy
@@ -26,6 +25,7 @@ class BcRequestsController < ApplicationController
 	def update
 		@bc_request.update_attributes!(params[:bc_request])
 		redirect_path = session[:bc_request_return_to] || new_bc_request_path
+#	NOTE why not delete key?
 		session[:bc_request_return_to] = nil
 		redirect_to redirect_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
@@ -35,17 +35,12 @@ class BcRequestsController < ApplicationController
 
 	#		for updating only status
 	def update_status
-#	update_attribute DOES NOT VALIDATE
-#		@bc_request.update_attribute(:status,params[:status])
 		@bc_request.update_attributes!(:status => params[:status])
 		redirect_to new_bc_request_path
-#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
-	rescue ActiveRecord::RecordInvalid 
-		flash.now[:error] = "BC Request Update failed"
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
+		flash.now[:error] = "BC Request Status Update failed"
 		render :action => 'edit'
 	end
-
-
 
 	def destroy
 		@bc_request.destroy
@@ -53,10 +48,7 @@ class BcRequestsController < ApplicationController
 	end
 
 	def index
-#		conditions = {}
-#		conditions[:status] = params[:status] if params[:status]
-		@bc_requests = BcRequest.scoped
-		@bc_requests = @bc_requests.where(:status => params[:status]) if params[:status]
+		@bc_requests = BcRequest.with_status(params[:status])
 		respond_to do |format|
 			format.html
 			format.csv { 
@@ -68,23 +60,14 @@ class BcRequestsController < ApplicationController
 
 	def confirm
 		BcRequest.transaction do
-#			active_bc_requests  = BcRequest.find(:all, :conditions => { :status => 'active' })
-#			active_bc_requests  = BcRequest.where( :status => 'active' )
 			active_bc_requests  = BcRequest.active
 			active_bc_requests.each do |bc_request|
 				study_subject = bc_request.study_subject
-#				enrollment = study_subject.enrollments.find_or_create_by_project_id(
-#					Project['ccls'].id )
-#				OperationalEvent.create!(
-#					:enrollment => enrollment,
-#				study_subject.operational_events.new(
 				study_subject.operational_events.create!(
 					:project => Project['ccls'],
 					:operational_event_type => OperationalEventType['bc_request_sent'],
-#					:occurred_at => Date.today
 					:occurred_at => DateTime.now
 				)
-#				).save!
 			end
 #	I don't think that this can raise an error, but if the above do it will be skipped
 			BcRequest.update_all(
@@ -98,13 +81,6 @@ class BcRequestsController < ApplicationController
 	end
 
 protected
-
-#	def valid_status_required
-#		if params[:status].blank? or !BcRequest.statuses.include?(params[:status])
-#			access_denied("Valid bc_request status required! Status '#{params[:status]}' is unknown.", 
-#				new_bc_request_path)
-#		end
-#	end
 
 	def valid_id_required
 		if !params[:id].blank? and BcRequest.exists?(params[:id])

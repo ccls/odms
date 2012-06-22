@@ -30,12 +30,6 @@ class PhoneNumbersController < ApplicationController
 		render :action => 'new'
 	end
 
-#Editors can modify the current address and designated it as being an invalid address. If they designated the address as invalid, the why_invalid text field is mandatory.
-#
-#By default, there is no value for whether an address is valid.
-#
-#As part of study_subject tracing, we will have the ability to designated whether an address we have has been verified by some means. When an address is verified, the user will set is_verified to true. They will then be required to provide a value for the how_verified field and the system will capture both their user_id in verified_by and the current date in verified_on fields.
-
 	def update
 		@phone_number.update_attributes!(
 			params[:phone_number].merge( :current_user => current_user ) )
@@ -45,14 +39,11 @@ class PhoneNumbersController < ApplicationController
 		render :action => 'edit'
 	end
 
-
-
 	#	TEMP ADD FOR DEV ONLY!
 	def destroy
 		@phone_number.destroy
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
 	end
-
 
 protected
 

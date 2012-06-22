@@ -4,7 +4,6 @@ class AbstractsController < ApplicationController
 	#	for 'edit' and 'show'
 	layout 'subject'
 
-
 	before_filter :may_create_abstracts_required,
 		:only => [:new,:create]
 	before_filter :may_read_abstracts_required,
@@ -26,9 +25,6 @@ class AbstractsController < ApplicationController
 	def update
 		@abstract.update_attributes!(params[:abstract])
 		flash[:notice] = 'Success!'
-#		redirect_to abstracts_path
-#	this'll probably muck up the common tests
-
 		redirect_to study_subject_abstracts_path(@study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "There was a problem updating the abstract"

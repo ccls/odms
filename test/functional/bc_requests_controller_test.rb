@@ -144,6 +144,32 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
+		test "should NOT update bc_request status with invalid bc_request #{cu} login" do
+			login_as send(cu)
+			case_study_subject = Factory(:complete_case_study_subject)
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
+			BcRequest.any_instance.stubs(:valid?).returns(false)
+			deny_changes("BcRequest.find(#{bcr.id}).status") {
+				put :update_status, :id => bcr.id, :status => 'pending'
+			}
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+
+		test "should NOT update bc_request status with failed save and #{cu} login" do
+			login_as send(cu)
+			case_study_subject = Factory(:complete_case_study_subject)
+			bcr = case_study_subject.bc_requests.create(:status => 'active')
+			BcRequest.any_instance.stubs(:create_or_update).returns(false)
+			deny_changes("BcRequest.find(#{bcr.id}).status") {
+				put :update_status, :id => bcr.id, :status => 'pending'
+			}
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+
 		test "should NOT update bc_request status with invalid status and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)

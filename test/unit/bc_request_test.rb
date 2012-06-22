@@ -47,6 +47,35 @@ class BcRequestTest < ActiveSupport::TestCase
 		} }
 	end
 
+	test "should return bc_requests with status blank" do
+		bc_request = Factory(:bc_request)
+		assert bc_request.status.blank?
+		assert BcRequest.with_status().include?(bc_request)
+	end
+
+	test "should return bc_requests with status bogus" do
+		blank_bc_request = Factory(:bc_request)
+		assert blank_bc_request.status.blank?
+		bc_request = Factory(:bc_request)
+		assert  bc_request.status.blank?
+		bc_requests = BcRequest.with_status('bogus')
+		assert !bc_requests.include?(bc_request)
+		assert !bc_requests.include?(blank_bc_request)
+	end
+
+	BcRequest.statuses.each do |status|
+		test "should return bc_requests with status #{status}" do
+			blank_bc_request = Factory(:bc_request)
+			assert blank_bc_request.status.blank?
+			bc_request = Factory(:bc_request, :status => status)
+			assert !bc_request.status.blank?
+			assert_equal status, bc_request.status
+			bc_requests = BcRequest.with_status(status)
+			assert  bc_requests.include?(bc_request)
+			assert !bc_requests.include?(blank_bc_request)
+		end
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

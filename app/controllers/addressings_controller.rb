@@ -25,6 +25,9 @@ class AddressingsController < ApplicationController
 		#	address id may be on the form due to after_create
 		#	modifications and it causes problems.
 		#	I believe that this is a rails issue.
+#
+#	NOTE This may have been corrected in rails 3, but I haven't tested.
+#
 		if params[:addressing] && params[:addressing][:address_attributes] 
 			params[:addressing][:address_attributes][:id] = nil
 		end
@@ -38,12 +41,6 @@ class AddressingsController < ApplicationController
 		render :action => 'new'
 	end
 
-#Editors can modify the current address and designated it as being an invalid address. If they designated the address as invalid, the why_invalid text field is mandatory.
-#
-#By default, there is no value for whether an address is valid.
-#
-#As part of study_subject tracing, we will have the ability to designated whether an address we have has been verified by some means. When an address is verified, the user will set is_verified to true. They will then be required to provide a value for the how_verified field and the system will capture both their user_id in verified_by and the current date in verified_on fields.
-
 	def update
 		@addressing.update_attributes!(
 			params[:addressing].merge( :current_user => current_user ) )
@@ -53,14 +50,10 @@ class AddressingsController < ApplicationController
 		render :action => 'edit'
 	end
 
-
-
-	#	TEMP ADD FOR DEV ONLY!
 	def destroy
 		@addressing.destroy
 		redirect_to study_subject_contacts_path(@addressing.study_subject)
 	end
-
 
 protected
 

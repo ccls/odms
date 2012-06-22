@@ -31,8 +31,6 @@ class SamplesController < ApplicationController
 			conditions[1][:last_name] = "%#{params[:last_name]}%"
 		end
 		if params[:sampleid] and !params[:sampleid].blank?
-#			conditions[0] << "( samples.id LIKE :sampleid )"		#	LIKE?  REALLY?
-#			conditions[1][:sampleid] = "%#{params[:sampleid]}%"
 			conditions[0] << "( samples.id = :sampleid )"	#	MUST include table name here
 			conditions[1][:sampleid] = params[:sampleid].gsub(/^0*/,'')
 		end

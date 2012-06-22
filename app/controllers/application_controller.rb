@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	#	controller.rendered_action_name
+	#	created for use with our guidance system
 	def rendered_action_name
 		@rendered_action || params[:action]
 	end

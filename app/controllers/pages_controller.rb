@@ -4,11 +4,8 @@ class PagesController < ApplicationController
 	before_filter :may_maintain_pages_required, :except => :show
 	before_filter :id_required, :only => [ :edit, :update, :destroy ]
 
-#	ssl_allowed :show
-
 	def show
 		if params[:path]
-# 			@page = Page.by_path("/#{params[:path].join('/')}")
  			@page = Page.by_path("/#{[params[:path]].flatten.join('/')}")
 			raise ActiveRecord::RecordNotFound if @page.nil?
 		else
@@ -34,14 +31,12 @@ class PagesController < ApplicationController
 
 	def all
 		@page_title = "All CCLS Pages"
-#		@pages = Page.all
 		@pages = Page.order('parent_id, position')
 	end
 
 	def index
 		@page_title = "CCLS Pages"
 		params[:parent_id] = nil if params[:parent_id].blank?
-#		@pages = Page.all(:conditions => { :parent_id => params[:parent_id] })
 		@pages = Page.where(:parent_id => params[:parent_id]).order('parent_id, position')
 	end
 

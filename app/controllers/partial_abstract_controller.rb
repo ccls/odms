@@ -18,12 +18,9 @@ class PartialAbstractController < ApplicationController
 		@abstract.update_attributes!(params[:abstract])
 		flash[:notice] = "Abstract updated"
 		sections = Abstract.sections
-#		ci = sections.find_index{|i| i[:controller] =~ /^#{self.class.name}$/i }
 		ci = sections.find_index{|i| i[:controller] =~ /^#{self.class.name.demodulize}$/i }
-#		if( params[:commit] == 'edit_next' && !ci.nil? && ci < ( sections.length - 1 ) )
 		if( params[:edit_next] && !ci.nil? && ci < ( sections.length - 1 ) )
 			redirect_to send(sections[ci+1][:edit],@abstract)
-#		elsif( params[:commit] == 'edit_previous' && !ci.nil? && ci > 0 )
 		elsif( params[:edit_previous] && !ci.nil? && ci > 0 )
 			redirect_to send(sections[ci-1][:edit],@abstract)
 		else 
@@ -40,7 +37,6 @@ protected
 
 	def set_page_title
 		@page_title = "#{self.action_name.capitalize}: Abstract /" <<
-#			" #{Abstract.sections.find{|a|a[:controller] == self.class.name}[:label]}"
 			" #{Abstract.sections.find{|a|a[:controller] == self.class.name.demodulize}[:label]}"
 	end
 

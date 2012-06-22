@@ -21,4 +21,8 @@ class BcRequest < ActiveRecord::Base
 		( study_subject ) ? study_subject.studyid : self
 	end
 
+	def self.with_status(status=nil)
+		( status.blank? ) ? scoped : where(:status => status)
+	end
+
 end
