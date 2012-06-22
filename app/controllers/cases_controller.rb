@@ -1,19 +1,25 @@
 class CasesController < ApplicationController
 
-	layout 'subject'
-
 	before_filter :may_create_study_subjects_required
 
+	############################################################
+	#
 	#	The beginning of new control selection
+	#
 	def index
 		unless params[:q].blank?
-			if params[:commit] == 'patid'
-				@study_subject = StudySubject.find_case_by_patid(sprintf("%04d",params[:q].to_i))
-			elsif params[:commit] == 'icf master id'
-				@study_subject = StudySubject.find_case_by_icf_master_id(params[:q])
+			if ['patid','icf master id'].include?( params[:commit] )
+				@study_subject = if params[:commit] == 'patid'
+					StudySubject.find_case_by_patid(sprintf("%04d",params[:q].to_i))
+				elsif params[:commit] == 'icf master id'
+					StudySubject.find_case_by_icf_master_id(params[:q])
+				end
+				flash.now[:error] = "No case study_subject found with given " <<
+					"#{params[:commit]||'query id'}:#{params[:q]}" unless @study_subject
+			else
+				flash.now[:error] = "Invalid and unexpected commit value:#{params[:commit]}:!"
 			end
 		end
-		render :layout => 'application'
 	end
 
 	############################################################
@@ -22,7 +28,6 @@ class CasesController < ApplicationController
 	#
 	def new
 		@hospitals = Hospital.active(:include => :organization)
-		render :layout => 'application'
 	end
 
 	def create

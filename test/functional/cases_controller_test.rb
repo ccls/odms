@@ -29,12 +29,26 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
+		test "should return nothing with invalid commit and #{cu} login" do
+			login_as send(cu)
+			get :index, :q => 'donotmatch', :commit => 'bogus'
+			assert_nil assigns(:study_subject)
+			assert_response :success
+			assert_template 'index'
+			assert_not_nil flash[:error]
+			assert_match /Invalid and unexpected commit value:bogus:/,
+				flash[:error]
+		end
+
 		test "should return nothing without matching patid and #{cu} login" do
 			login_as send(cu)
 			get :index, :q => 'donotmatch', :commit => 'patid'
 			assert_nil assigns(:study_subject)
 			assert_response :success
 			assert_template 'index'
+			assert_not_nil flash[:error]
+			assert_match /No case study_subject found with given patid:donotmatch/,
+				flash[:error]
 		end
 
 		test "should return nothing without matching icf master id and #{cu} login" do
@@ -43,6 +57,9 @@ class CasesControllerTest < ActionController::TestCase
 			assert_nil assigns(:study_subject)
 			assert_response :success
 			assert_template 'index'
+			assert_not_nil flash[:error]
+			assert_match /No case study_subject found with given icf master id:donotmatch/,
+				flash[:error]
 		end
 
 		test "should return case study_subject with matching patid and #{cu} login" do

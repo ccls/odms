@@ -1,8 +1,9 @@
 class BcRequestsController < ApplicationController
 
 	before_filter :may_create_study_subjects_required
+#	before_filter :valid_commit_value_required, :only => :create
+	before_filter :q_value_required, :only => :create
 	before_filter :valid_q_id_required, :only => :create
-#	before_filter :case_study_subject_required, :only => :create
 	before_filter :no_existing_incomplete_bc_request_required, :only => :create
 	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
 
@@ -13,6 +14,38 @@ class BcRequestsController < ApplicationController
 	end
 
 	def create
+#	remove ...
+#	before_filter :valid_q_id_required, :only => :create
+#	before_filter :no_existing_incomplete_bc_request_required, :only => :create
+#	add ..
+#	before_filter :valid_commit_value_required, :only => :create
+#	and then use ...
+#
+#		if params[:commit] == 'patid'
+#			@study_subject = StudySubject.find_case_by_patid(sprintf("%04d",params[:q].to_i))
+#		elsif params[:commit] == 'icf master id'
+#			@study_subject = StudySubject.find_case_by_icf_master_id(params[:q])
+#		end
+#		if @study_subject
+#			if @study_subject.bc_requests.where(
+#					"status != 'complete' OR status IS NULL").exists? )
+#				flash.now[:error] = "case study_subject has an incomplete bc_request already!"
+#			else
+#				@study_subject.bc_requests.create(:status => 'active')
+#	Add creation check
+#				flash.now[:notice] = "YAY"
+#			end
+#		else
+#			flash.now[:error] = "No case study_subject found with " <<
+#				"#{params[:commit]}:#{params[:q]}!"
+#		end
+#		render :action => 'new'
+#
+#	Actually no.  Just simplify the stuff at the bottom.
+#	Smaller clearer simpler filters
+#	Actually still thinking. Dry. Clear. Clean.
+#
+
 		@study_subject.bc_requests.create(:status => 'active')
 		redirect_to new_bc_request_path
 	end
@@ -90,30 +123,42 @@ protected
 		end
 	end
 
-	def valid_q_id_required
-		unless params[:q].blank? 
-			if params[:commit] == 'patid'
-				patid = sprintf("%04d",params[:q].to_i)	
-				@study_subject = StudySubject.find_case_by_patid(patid)
-				access_denied("No case study_subject found with patid:#{patid}!", 
-					new_bc_request_path(:q => params[:q])) if @study_subject.blank?
-			elsif params[:commit] == 'icf master id'
-				@study_subject = StudySubject.find_case_by_icf_master_id(params[:q])
-				access_denied("No case study_subject found with icf_master_id:#{params[:q]}!", 
-					new_bc_request_path(:q => params[:q])) if @study_subject.blank?
-			else
-				access_denied("Invalid and unexpected commit value:#{params[:commit]}:!",
-					new_bc_request_path(:q => params[:q]))
-			end
-		else
-			access_denied("Valid study_subject q id required!", new_bc_request_path)
+	def valid_commit_value_required
+		unless( ['patid','icf master id'].include?( params[:commit] ) )
+			access_denied("Invalid and unexpected commit value:#{params[:commit]}:!",
+				new_bc_request_path(:q => params[:q]))
 		end
 	end
 
+	def q_value_required
+		access_denied("query value required!", 
+			new_bc_request_path) if params[:q].blank?
+	end
+
+	def valid_q_id_required
+		case params[:commit] 
+			when 'patid'
+			patid = sprintf("%04d",params[:q].to_i)	
+			@study_subject = StudySubject.find_case_by_patid(patid)
+			access_denied("No case study_subject found with patid:#{patid}!", 
+				new_bc_request_path(:q => params[:q])) if @study_subject.blank?
+			when 'icf master id'
+			@study_subject = StudySubject.find_case_by_icf_master_id(params[:q])
+			access_denied("No case study_subject found with icf_master_id:#{params[:q]}!", 
+				new_bc_request_path(:q => params[:q])) if @study_subject.blank?
+			else
+			access_denied("Invalid and unexpected commit value:#{params[:commit]}:!",
+				new_bc_request_path(:q => params[:q]))
+		end
+	end
+
+#
+#	I have to use before filters and redirect above because
+#	of the following before filter.
+#
 	def no_existing_incomplete_bc_request_required
-		if( BcRequest.exists?(
-				["study_subject_id = ? AND ( status != 'complete' OR status IS NULL )", 
-				@study_subject.id]) )
+		if( @study_subject.bc_requests.where(
+				"status != 'complete' OR status IS NULL").exists? )
 			access_denied("case study_subject has an incomplete bc_request already!", 
 				new_bc_request_path)
 		end

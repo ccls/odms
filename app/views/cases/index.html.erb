@@ -1,7 +1,3 @@
-<% if !params[:q].blank? and !@study_subject %>
-<p class='flash error'>No case study_subject found with given <%=params[:commit]||'query id'%>:<%=params[:q]%></p>
-<% end %>
-
 <h4>New Control Selection</h4>
 
 <%= form_tag(cases_path,:method => :get) do %>
