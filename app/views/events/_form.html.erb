@@ -54,7 +54,7 @@
 		:event_category => @operational_event.operational_event_type.try(:event_category) 
 	), :id, :to_s ) -%>
 <%= f.collection_select( :operational_event_type_id,
-	OperationalEventType.category(
+	OperationalEventType.with_category(
 		@operational_event.operational_event_type.try(:event_category) 
 	), :id, :to_s ) -%>
 <% end %>
