@@ -2,7 +2,7 @@ require 'test_helper'
 
 class StudySubjectAbstractsControllerTest < ActionController::TestCase
 
-	site_administrators.each do |cu|
+	site_editors.each do |cu|
 
 		test "should NOT get index without study_subject_id and with #{cu} login" do
 			u = send(cu)
@@ -313,7 +313,7 @@ assert_raises(ActionController::RoutingError){
 	end
 
 
-	non_site_administrators.each do |cu|
+	non_site_editors.each do |cu|
 
 		test "should NOT create abstract with #{cu} login" do
 			study_subject = Factory(:case_study_subject)
