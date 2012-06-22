@@ -31,7 +31,15 @@ class CasesControllerTest < ActionController::TestCase
 
 		test "should return nothing without matching patid and #{cu} login" do
 			login_as send(cu)
-			get :index, :patid => 'donotmatchpatid'
+			get :index, :q => 'donotmatch', :commit => 'patid'
+			assert_nil assigns(:study_subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should return nothing without matching icf master id and #{cu} login" do
+			login_as send(cu)
+			get :index, :q => 'donotmatch', :commit => 'icf master id'
 			assert_nil assigns(:study_subject)
 			assert_response :success
 			assert_template 'index'
@@ -40,7 +48,34 @@ class CasesControllerTest < ActionController::TestCase
 		test "should return case study_subject with matching patid and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			get :index, :patid => case_study_subject.patid
+			get :index, :q => case_study_subject.patid, :commit => 'patid'
+			assert_not_nil assigns(:study_subject)
+			assert_equal case_study_subject, assigns(:study_subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should return case study_subject with matching patid missing" <<
+				" leading zeroes and #{cu} login" do
+			login_as send(cu)
+			case_study_subject = Factory(:complete_case_study_subject)
+			# case_study_subject.patid should be a small 4-digit string
+			#   with leading zeroes. (probably 0001). Remove them before submit.
+			patid = case_study_subject.patid.to_i
+			assert patid < 1000,
+				'Expected auto-generated patid to be less than 1000 for this test'
+			get :index, :q => patid, :commit => 'patid'
+			assert_not_nil assigns(:study_subject)
+			assert_equal case_study_subject, assigns(:study_subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should return case study_subject with matching icf master id and #{cu} login" do
+			login_as send(cu)
+			case_study_subject = Factory(:complete_case_study_subject,
+				:icf_master_id => '12345')
+			get :index, :q => case_study_subject.icf_master_id, :commit => 'icf master id'
 			assert_not_nil assigns(:study_subject)
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_response :success

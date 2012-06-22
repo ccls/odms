@@ -1,16 +1,22 @@
+<% if !params[:q].blank? and !@study_subject %>
+<p class='flash error'>No case study_subject found with given <%=params[:commit]||'query id'%>:<%=params[:q]%></p>
+<% end %>
+
 <h4>New Control Selection</h4>
 
 <%= form_tag(cases_path,:method => :get) do %>
-<p><span>PatID:</span>
-<%= text_field_tag :patid, params[:patid], :id => nil  %>
-<%= submit_tag 'find', :name => nil %>
+<p>
+<%= text_field_tag :q, params[:q], :id => nil  %>
+<span>Find case by </span>
+<%= submit_tag 'patid' %>
+<span> or </span>
+<%= submit_tag 'icf master id' %>
 </p>
-<p>Enter the case's PatID to go to their Related Subjects screen. Once there, add controls by pressing the "Add Control" button.</p>
+<p>Enter the case's PatID or ICF Master ID to go to their Related Subjects screen. Once there, add controls by pressing the "Add Control" button.</p>
 <% end %>
 
-<% unless params[:patid].blank? %>
-<div id='case_study_subject'>
 <% if @study_subject %>
+<div id='case_study_subject'>
 <h4><%= @study_subject.studyid_to_s %>&nbsp;:&nbsp;<%= @study_subject.full_name %></h4>
 <ul>
 <li>ICF Master ID:&nbsp;<%= @study_subject.icf_master_id_to_s %></li>
@@ -23,8 +29,5 @@
 <%#= link_to( 'Continue', case_path(@study_subject), :class => 'button' ) %>
 <%= link_to( 'Continue', study_subject_related_subjects_path(@study_subject), 
 	:class => 'button' ) %>
-<% else %>
-<p>No case study_subject found with patid:<%=params[:patid]%></p>
-<% end %>
 </div><!-- id='case_study_subject' -->
 <% end %>

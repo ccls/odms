@@ -1,7 +1,7 @@
 class BcRequestsController < ApplicationController
 
 	before_filter :may_create_study_subjects_required
-	before_filter :valid_patid_required, :only => :create
+	before_filter :valid_q_id_required, :only => :create
 #	before_filter :case_study_subject_required, :only => :create
 	before_filter :no_existing_incomplete_bc_request_required, :only => :create
 	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
@@ -90,54 +90,33 @@ protected
 		end
 	end
 
-	def valid_patid_required
-		if !params[:patid].blank? 
-			#	pad patid with leading 0's here
-			#	Do not use LIKE as would accept leading digits other than 0.
-			#	MUST use to_i to avoid octal conversion or error if leading zero given!
-			#	CANNOT have leading 0's in sprintf as it thinks its octal and converts
-			#>> sprintf("%06d","0001234")
-			#=> "000668"
-			#
-			# CANNOT have leading 0's and include and 8 or 9 as it thinks its octal
-			# so convert back to Integer first
-			#>> sprintf("%06d","0001280")
-			#ArgumentError: invalid value for Integer: "0001280"
-			# from (irb):24:in `sprintf'
-			# from (irb):24
-
-			patid = sprintf("%04d",params[:patid].to_i)	
-			@study_subject = StudySubject.find_case_by_patid(patid)
-
-			if @study_subject.blank?
+	def valid_q_id_required
+		unless params[:q].blank? 
+			if params[:commit] == 'patid'
+				patid = sprintf("%04d",params[:q].to_i)	
+				@study_subject = StudySubject.find_case_by_patid(patid)
 				access_denied("No case study_subject found with patid:#{patid}!", 
-					new_bc_request_path)
+					new_bc_request_path(:q => params[:q])) if @study_subject.blank?
+			elsif params[:commit] == 'icf master id'
+				@study_subject = StudySubject.find_case_by_icf_master_id(params[:q])
+				access_denied("No case study_subject found with icf_master_id:#{params[:q]}!", 
+					new_bc_request_path(:q => params[:q])) if @study_subject.blank?
+			else
+				access_denied("Invalid and unexpected commit value:#{params[:commit]}:!",
+					new_bc_request_path(:q => params[:q]))
 			end
 		else
-			access_denied("Valid study_subject patid required!", new_bc_request_path)
+			access_denied("Valid study_subject q id required!", new_bc_request_path)
 		end
 	end
 
-#	def case_study_subject_required
-#		unless @study_subject.is_case?
-#			access_denied("Valid case study_subject required!", new_bc_request_path)
-#		end
-#	end
-
 	def no_existing_incomplete_bc_request_required
 		if( BcRequest.exists?(
-				["study_subject_id = ? AND ( status != 'complete' OR status IS NULL )", @study_subject.id]) )
-#	TODO need the null.  should set default to '' 
-#				["study_subject_id = ? AND ( status != 'complete' )", @study_subject.id]) )
+				["study_subject_id = ? AND ( status != 'complete' OR status IS NULL )", 
+				@study_subject.id]) )
 			access_denied("case study_subject has an incomplete bc_request already!", 
 				new_bc_request_path)
 		end
 	end
-
-#	def no_existing_bc_request_required
-#		if @study_subject.bc_request
-#			access_denied("case study_subject has bc_request already!", new_bc_request_path)
-#		end
-#	end
 
 end

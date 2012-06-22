@@ -29,6 +29,10 @@ base.class_eval do
 		where(:patid => patid)
 	end
 
+	def self.with_icf_master_id(icf_master_id)
+		where(:icf_master_id => icf_master_id)
+	end
+
 	def self.with_familyid(familyid)
 		where(:familyid => familyid)
 	end
@@ -96,6 +100,10 @@ base.class_eval do
 
 	def self.find_case_by_patid(patid)
 		cases.with_patid(patid).first
+	end
+
+	def self.find_case_by_icf_master_id(icf_master_id)
+		cases.with_icf_master_id(icf_master_id).first
 	end
 
 end	#	class_eval

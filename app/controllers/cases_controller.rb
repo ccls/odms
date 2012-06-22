@@ -4,12 +4,14 @@ class CasesController < ApplicationController
 
 	before_filter :may_create_study_subjects_required
 
-	#
-	#	I think that this is the beginning of selecting a new control
-	#
+	#	The beginning of new control selection
 	def index
-		unless params[:patid].blank?
-			@study_subject = StudySubject.find_case_by_patid(params[:patid])
+		unless params[:q].blank?
+			if params[:commit] == 'patid'
+				@study_subject = StudySubject.find_case_by_patid(sprintf("%04d",params[:q].to_i))
+			elsif params[:commit] == 'icf master id'
+				@study_subject = StudySubject.find_case_by_icf_master_id(params[:q])
+			end
 		end
 		render :layout => 'application'
 	end
