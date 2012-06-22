@@ -1154,7 +1154,12 @@ class ApplicationHelperTest < ActionView::TestCase
 #<noscript>
 #<p id="noscript" class="flash">Javascript is required for this site to be fully functional.</p>
 #</noscript>
-		assert_select response, 'p#notice.flash'
+#<p class="flash notice">Hello There</p>
+#<noscript>
+#<p id="noscript" class="flash">Javascript is required for this site to be fully functional.</p>
+#</noscript>
+#		assert_select response, 'p#notice.flash'
+		assert_select response, 'p.notice.flash'
 		assert_select response, 'noscript' do
 			assert_select 'p#noscript.flash'
 		end

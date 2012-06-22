@@ -447,11 +447,16 @@ module ApplicationHelper
 		end
 	end
 
+#
+#	NOTE I'm surprised that I used the key for the id.
+#		I should just add it to the classes.
+#
 	def flasher
 		s = ''
 		flash.each do |key, msg|
 			unless msg.blank?
-				s << content_tag( :p, msg.html_safe, :id => key, :class => 'flash' )
+				s << content_tag( :p, msg.html_safe, :class => "flash #{key}" )
+#				s << content_tag( :p, msg.html_safe, :id => key, :class => 'flash' )
 				s << "\n"
 			end
 		end
