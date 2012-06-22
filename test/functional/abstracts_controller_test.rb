@@ -14,9 +14,9 @@ class AbstractsControllerTest < ActionController::TestCase
 	end
 
 	assert_access_with_login({ 
-		:logins => site_administrators })
+		:logins => site_editors })
 	assert_no_access_with_login({ 
-		:logins => ( all_test_roles - site_administrators ) })
+		:logins => ( all_test_roles - site_editors ) })
 	assert_no_access_without_login
 
 	assert_no_route(:get,:new)

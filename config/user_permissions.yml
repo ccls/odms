@@ -1,5 +1,4 @@
 administrator_resources:
-  - abstracts 
   - address_types 
   - birth_data
   - birth_datum_updates 
@@ -41,6 +40,7 @@ administrator_resources:
   - vital_statuses
 
 editor_resources:
+  - abstracts 
   - candidate_controls 
   - contacts 
   - guides 

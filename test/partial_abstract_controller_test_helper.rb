@@ -23,7 +23,7 @@ module PartialAbstractControllerTestHelper
 			assert_no_route(:put,:update)
 			assert_no_route(:delete,:destroy)
 
-			site_administrators.each do |cu|
+			site_editors.each do |cu|
 			
 				test "should show with #{cu} login" do
 					abstract = create_abstract
@@ -176,7 +176,7 @@ module PartialAbstractControllerTestHelper
 
 			end
 			
-			non_site_administrators.each do |cu|
+			non_site_editors.each do |cu|
 			
 				test "should NOT show with #{cu} login" do
 					abstract = create_abstract
