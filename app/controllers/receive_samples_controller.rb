@@ -8,29 +8,33 @@ class ReceiveSamplesController < ApplicationController
 
 	def new
 		if !params[:study_subject_id].blank?
-#			if StudySubject.exists?(params[:study_subject_id])
-#				@study_subject = StudySubject.find(params[:study_subject_id])
-#	what if subject exists, but there is no child?
-#	use where instead of find so doesn't raise error on bad id
 			unless @study_subject = StudySubject.where(
 					:id => params[:study_subject_id] ).first.try(:child)
 				flash.now[:warn] = "No Study Subjects Found."
 			end
-		elsif params[:studyid] or params[:icf_master_id]
-			conditions = [[],{}]
-			%w( studyid icf_master_id ).each do |attr|
-				if params[attr] and !params[attr].blank?
-					conditions[0] << "( #{attr} LIKE :#{attr} )"
-					conditions[1][attr.to_sym] = "%#{params[attr].split(/\s+/).join('%')}%"
-				end
-			end
+#		elsif params[:studyid] or params[:icf_master_id]
+#			conditions = [[],{}]
+#			%w( studyid icf_master_id ).each do |attr|
+#				if params[attr] and !params[attr].blank?
+#					conditions[0] << "( #{attr} LIKE :#{attr} )"
+#					conditions[1][attr.to_sym] = "%#{params[attr].split(/\s+/).join('%')}%"
+#				end
+#			end
+#			study_subjects = StudySubject.where(
+#				conditions[0].join(' OR '), conditions[1])
+#
+		elsif params[:q]
+			#	As studyid and icf_master_id are different formats
+			#	there should never actually be more than one match.
 			study_subjects = StudySubject.where(
-				conditions[0].join(' OR '), conditions[1])
+				'studyid = :q OR icf_master_id = :q', :q => params[:q])
+
 
 			#	get the children, in case given mother's icf_master_id
 			study_subjects = study_subjects.collect(&:child)
 #	 StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
-			#	uniqify in case child and mother both found
+			#	uniqify in case child and mother both found 
+			#		(should never happen now that don't use LIKE)
 			study_subjects = study_subjects.uniq
 
 			#	actually don't think compacting is needed
