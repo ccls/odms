@@ -8,10 +8,7 @@
 <%= form_tag(bc_requests_path,:method => :post) do %>
 <p>
 <%= text_field_tag :q, params[:q], :id => nil  %>
-<span>Find case by </span>
-<%= submit_tag 'patid' %>
-<span> or </span>
-<%= submit_tag 'icf master id' %>
+<%= submit_tag 'Find case by patid or icf master id' %>
 </p>
 <% end %>
 

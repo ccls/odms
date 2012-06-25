@@ -43,55 +43,27 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
-		test "should NOT add case study_subject to bc_requests without invalid commit" <<
-				" and #{cu} login" do
-			login_as send(cu)
-			assert_difference('BcRequest.count',0) {
-				post :create, :q => 'irrelevant', :commit => 'bogus'
-			}
-			assert_nil assigns(:study_subject)
-			assert_not_nil flash[:error]
-			assert_match /Invalid and unexpected commit value:bogus:/,
-				flash[:error]
-			assert_redirected_to new_bc_request_path( :q => 'irrelevant' )
-		end
-
 		test "should NOT add case study_subject to bc_requests without matching patid" <<
 				" and #{cu} login" do
 			login_as send(cu)
 			assert_difference('BcRequest.count',0) {
-				post :create, :q => 'donotmatch', :commit => 'patid'
+				post :create, :q => 'NOPE'
 			}
 			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
-			assert_redirected_to new_bc_request_path( :q => 'donotmatch' )
+			assert_redirected_to new_bc_request_path( :q => 'NOPE' )
 		end
 
 		test "should NOT add case study_subject to bc_requests without matching" <<
 				" icf master id and #{cu} login" do
 			login_as send(cu)
 			assert_difference('BcRequest.count',0) {
-				post :create, :q => 'donotmatch', :commit => 'icf master id'
+				post :create, :q => 'donotmatch'
 			}
 			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
 			assert_redirected_to new_bc_request_path(:q => 'donotmatch')
 		end
-
-#		#	create multiple study_subjects and stub search so all returned
-#		#	 mimicing multiple matches
-#		test "should NOT add case study_subject to bc_requests with multiple matching" <<
-#				" patid and #{cu} login" do
-#			login_as send(cu)
-#			Factory(:complete_case_study_subject)
-#			Factory(:complete_case_study_subject)
-#			assert_difference('BcRequest.count',0) {
-#				post :create, :q => 'irrelevant_for_this_test', :commit => 'patid'
-#			}
-#			assert_nil assigns(:study_subject)
-#			assert_not_nil flash[:error]
-#			assert_redirected_to new_bc_request_path
-#		end
 
 		#	non-case is effectively not a valid patid
 		test "should NOT add case study_subject to bc_requests with non-case" <<
@@ -102,7 +74,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_not_nil non_case_study_subject.patid
 			assert_equal non_case_study_subject.patid, '1234'
 			assert_difference('BcRequest.count',0) {
-				post :create, :q => non_case_study_subject.patid, :commit => 'patid'
+				post :create, :q => non_case_study_subject.patid
 			}
 			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -112,13 +84,12 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with non-case" <<
 				" study_subject icf master id and #{cu} login" do
 			login_as send(cu)
-			non_case_study_subject = Factory(:study_subject, :icf_master_id => '1234')
+			non_case_study_subject = Factory(:study_subject, :icf_master_id => '12345')
 			assert !non_case_study_subject.new_record?
 			assert_not_nil non_case_study_subject.icf_master_id
-			assert_equal non_case_study_subject.icf_master_id, '1234'
+			assert_equal non_case_study_subject.icf_master_id, '12345'
 			assert_difference('BcRequest.count',0) {
-				post :create, :q => non_case_study_subject.icf_master_id, 
-					:commit => 'icf master id'
+				post :create, :q => non_case_study_subject.icf_master_id
 			}
 			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -131,7 +102,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:complete_case_study_subject)
 			case_study_subject.bc_requests.create
 			assert_difference('BcRequest.count',0) {
-				post :create, :q => case_study_subject.patid, :commit => 'patid'
+				post :create, :q => case_study_subject.patid
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -147,7 +118,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_not_nil case_study_subject.icf_master_id
 			case_study_subject.bc_requests.create
 			assert_difference('BcRequest.count',0) {
-				post :create, :q => case_study_subject.icf_master_id, :commit => 'icf master id'
+				post :create, :q => case_study_subject.icf_master_id
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -161,7 +132,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:complete_case_study_subject)
 			case_study_subject.bc_requests.create(:status => 'complete')
 			assert_difference('BcRequest.count',1) {
-				post :create, :q => case_study_subject.patid, :commit => 'patid'
+				post :create, :q => case_study_subject.patid
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
@@ -176,7 +147,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 				:icf_master_id => '12345')
 			case_study_subject.bc_requests.create(:status => 'complete')
 			assert_difference('BcRequest.count',1) {
-				post :create, :q => case_study_subject.icf_master_id, :commit => 'icf master id'
+				post :create, :q => case_study_subject.icf_master_id
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
@@ -189,7 +160,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
 			assert_difference('BcRequest.count',1) {
-				post :create, :q => case_study_subject.patid, :commit => 'patid'
+				post :create, :q => case_study_subject.patid
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
@@ -203,7 +174,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			case_study_subject = Factory(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			assert_difference('BcRequest.count',1) {
-				post :create, :q => case_study_subject.icf_master_id, :commit => 'icf master id'
+				post :create, :q => case_study_subject.icf_master_id
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
@@ -221,31 +192,13 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert patid < 1000, 
 				'Expected auto-generated patid to be less than 1000 for this test'
 			assert_difference('BcRequest.count',1) {
-				post :create, :q => patid, :commit => 'patid'
+				post :create, :q => patid
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_redirected_to new_bc_request_path
 		end
-
-#		test "should add case study_subject to bc_requests with matching icf master id" <<
-#				" missing leading zeroes and #{cu} login" do
-#			login_as send(cu)
-#			case_study_subject = Factory(:complete_case_study_subject)
-#			# case_study_subject.patid should be a small 4-digit string
-#			#		with leading zeroes. (probably 0001). Remove them before submit.
-#			patid = case_study_subject.patid.to_i
-#			assert patid < 1000, 
-#				'Expected auto-generated patid to be less than 1000 for this test'
-#			assert_difference('BcRequest.count',1) {
-#				post :create, :q => patid, :commit => 'patid'
-#			}
-#			assert_not_nil assigns(:study_subject)
-#			assert_equal 'active', assigns(:study_subject).bc_requests.last.status
-#			assert_equal case_study_subject, assigns(:study_subject)
-#			assert_redirected_to new_bc_request_path
-#		end
 
 		test "should NOT update bc_request status with invalid bc_request #{cu} login" do
 			login_as send(cu)
@@ -428,7 +381,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
 			assert_difference('BcRequest.count',0) {
-				post :create, :q => case_study_subject.patid, :commit => 'patid'
+				post :create, :q => case_study_subject.patid
 			}
 			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -438,9 +391,10 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with matching icf master id" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
+			case_study_subject = Factory(:complete_case_study_subject,
+				:icf_master_id => '12345')
 			assert_difference('BcRequest.count',0) {
-				post :create, :q => case_study_subject.patid, :commit => 'icf master id'
+				post :create, :q => case_study_subject.icf_master_id
 			}
 			assert_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
@@ -484,7 +438,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			" and without login" do
 		case_study_subject = Factory(:complete_case_study_subject)
 		assert_difference('BcRequest.count',0) {
-			post :create, :q => case_study_subject.patid, :commit => 'patid'
+			post :create, :q => case_study_subject.patid
 		}
 		assert_nil assigns(:study_subject)
 		assert_redirected_to_login
@@ -495,7 +449,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		case_study_subject = Factory(:complete_case_study_subject,
 			:icf_master_id => '12345')
 		assert_difference('BcRequest.count',0) {
-			post :create, :q => case_study_subject.icf_master_id, :commit => 'icf master id'
+			post :create, :q => case_study_subject.icf_master_id
 		}
 		assert_nil assigns(:study_subject)
 		assert_redirected_to_login

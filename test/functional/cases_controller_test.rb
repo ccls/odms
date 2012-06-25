@@ -29,43 +29,32 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should return nothing with invalid commit and #{cu} login" do
-			login_as send(cu)
-			get :index, :q => 'donotmatch', :commit => 'bogus'
-			assert_nil assigns(:study_subject)
-			assert_response :success
-			assert_template 'index'
-			assert_not_nil flash[:error]
-			assert_match /Invalid and unexpected commit value:bogus:/,
-				flash[:error]
-		end
-
 		test "should return nothing without matching patid and #{cu} login" do
 			login_as send(cu)
-			get :index, :q => 'donotmatch', :commit => 'patid'
+			get :index, :q => 'NOPE'
 			assert_nil assigns(:study_subject)
 			assert_response :success
 			assert_template 'index'
 			assert_not_nil flash[:error]
-			assert_match /No case study_subject found with given patid:donotmatch/,
+			assert_match /No case study_subject found with given:NOPE/,
 				flash[:error]
 		end
 
 		test "should return nothing without matching icf master id and #{cu} login" do
 			login_as send(cu)
-			get :index, :q => 'donotmatch', :commit => 'icf master id'
+			get :index, :q => 'donotmatch'
 			assert_nil assigns(:study_subject)
 			assert_response :success
 			assert_template 'index'
 			assert_not_nil flash[:error]
-			assert_match /No case study_subject found with given icf master id:donotmatch/,
+			assert_match /No case study_subject found with given:donotmatch/,
 				flash[:error]
 		end
 
 		test "should return case study_subject with matching patid and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject)
-			get :index, :q => case_study_subject.patid, :commit => 'patid'
+			get :index, :q => case_study_subject.patid
 			assert_not_nil assigns(:study_subject)
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_response :success
@@ -81,7 +70,7 @@ class CasesControllerTest < ActionController::TestCase
 			patid = case_study_subject.patid.to_i
 			assert patid < 1000,
 				'Expected auto-generated patid to be less than 1000 for this test'
-			get :index, :q => patid, :commit => 'patid'
+			get :index, :q => patid
 			assert_not_nil assigns(:study_subject)
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_response :success
@@ -92,7 +81,7 @@ class CasesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = Factory(:complete_case_study_subject,
 				:icf_master_id => '12345')
-			get :index, :q => case_study_subject.icf_master_id, :commit => 'icf master id'
+			get :index, :q => case_study_subject.icf_master_id
 			assert_not_nil assigns(:study_subject)
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_response :success
