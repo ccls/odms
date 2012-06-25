@@ -48,7 +48,8 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				" and blank q" do
 			login_as send(cu)
 			get :new, :q => ''
-			assert_no_study_subjects_found
+#			assert_no_study_subjects_found
+			assert_new_success
 		end
 
 #		test "should get new receive sample with #{cu} login" <<
