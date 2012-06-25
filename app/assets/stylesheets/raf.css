@@ -118,3 +118,17 @@ p.subconsent {
 }
 
 span.refused_by { display:block; }
+
+
+.line_1 {
+	margin-right: 20px;
+	vertical-align:top;
+	display:inline-block;
+}
+.unit label { width:auto; }
+.unit input { width:100px; }
+.unit {
+	clear:none;
+	vertical-align:top;
+	display:inline-block;
+}
