@@ -38,7 +38,7 @@ module ApplicationHelper
 			[
 				link_to('Dashboard', dashboard_samples_path),
 				link_to('New/Receive Sample', new_receive_sample_path),
-				'<span>Sample Manifests</span>'
+				'<span>Sample Transfers</span>'
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
