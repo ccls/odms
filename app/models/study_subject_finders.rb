@@ -54,9 +54,24 @@ base.class_eval do
 #		if is_mother? && !familyid.blank?
 #			StudySubject.children.with_subjectid(familyid).not_id(id 
 #				).includes(:subject_type).first
-	#	Find the case or control subject with matching familyid except self.
+
+#
+#	this is kinda excessive.  Check if self is child first
+#	and then if not do this search
+#
+#	#	Find the case or control subject with matching familyid except self.
+#	def child
+#		if !familyid.blank?
+#			StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
+#		else
+#			nil
+#		end
+#	end
+
 	def child
-		if !familyid.blank?
+		if is_case? or is_control?
+			self
+		elsif !familyid.blank?
 			StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
 		else
 			nil
