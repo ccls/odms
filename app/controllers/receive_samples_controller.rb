@@ -78,14 +78,21 @@ class ReceiveSamplesController < ApplicationController
 		subject = ( sample_source.match(/mother/i) ) ? 
 			@study_subject.mother : @study_subject
 
-#		@sample = @study_subject.samples.new(params[:sample])
 		@sample = subject.samples.new(params[:sample])
 		@sample.received_by_ccls_at = DateTime.now
-		@sample.save!
-		flash.now[:notice] = "Sample creation for #{sample_source} succeeded."
+
+		#	All or nothin'
+		Sample.transaction do
+			@sample.save!
+			@sample.sample_transfers.create!(
+				:source_org_id => @sample.location_id,
+				:status        => 'waitlist')
+		end
+
+		flash.now[:notice] = "Sample and Transfer creation for #{sample_source} succeeded."
 		render :action => 'new'
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-		flash.now[:error] = "Sample creation failed."
+		flash.now[:error] = "Sample and Transfer creation failed."
 		render :action => 'new'
 	end
 
@@ -93,10 +100,12 @@ protected
 
 	#	redefined as needed to change redirect
 	def valid_study_subject_id_required
-		if !params[:study_subject_id].blank? and StudySubject.exists?(params[:study_subject_id])
+		if !params[:study_subject_id].blank? and 
+				StudySubject.exists?(params[:study_subject_id])
 			@study_subject = StudySubject.find(params[:study_subject_id])
 		else
-#	could be confusing as the id is in the link, not explicitly provided by the user.
+			#	could be confusing as the study_subject_id is in the link, 
+			#	not explicitly provided by the user.
 			access_denied("Invalid study_subject id!", new_receive_sample_path)
 		end
 	end

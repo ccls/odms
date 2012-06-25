@@ -4,7 +4,7 @@ class SampleTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_have_one( :sample_kit )
-	assert_should_have_many( :aliquots )
+	assert_should_have_many( :aliquots, :sample_transfers )
 	assert_should_belong_to( :unit, :sample_format, :sample_temperature )
 #	because organization is location_id which is now autoset, 
 #	this common class test won't work for it.

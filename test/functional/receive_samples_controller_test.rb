@@ -148,7 +148,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 #	SINGLE STUDY SUBJECT FOUND
 
 		test "should get new receive sample with #{cu} login" <<
-				" and studyid of subject" do
+				" and studyid of case subject" do
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			get :new, :q => study_subject.studyid
@@ -156,7 +156,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new receive sample with #{cu} login" <<
-				" and patid as studyid of subject" do
+				" and patid as studyid of case subject" do
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			get :new, :q => study_subject.patid
@@ -165,7 +165,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new receive sample with #{cu} login" <<
-				" and case_control_type as studyid of subject" do
+				" and case_control_type as studyid of case subject" do
 			study_subject = Factory(:complete_case_study_subject)
 			login_as send(cu)
 			get :new, :q => study_subject.case_control_type
@@ -174,7 +174,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should get new receive sample with #{cu} login" <<
-				" and icf_master_id of subject" do
+				" and icf_master_id of case subject" do
 			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
@@ -183,7 +183,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new receive sample with #{cu} login" <<
-				" and first 3 of icf_master_id of subject" do
+				" and first 3 of icf_master_id of case subject" do
 			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
@@ -193,7 +193,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new receive sample with #{cu} login" <<
-				" and middle 3 of icf_master_id of subject" do
+				" and middle 3 of icf_master_id of case subject" do
 			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
@@ -203,7 +203,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new receive sample with #{cu} login" <<
-				" and last 3 of icf_master_id of subject" do
+				" and last 3 of icf_master_id of case subject" do
 			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
@@ -213,7 +213,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new receive sample with #{cu} login" <<
-				" and first and last 3 of icf_master_id of subject" do
+				" and first and last 3 of icf_master_id of case subject" do
 			study_subject = Factory(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
@@ -350,7 +350,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 
 
-		test "should create new sample default for child with #{cu} login" do
+		test "should create new sample default for case with #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:case_study_subject)
 			assert_difference('Sample.count',1) do
@@ -365,7 +365,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_create_success
 		end
 
-		test "should create new sample for child with #{cu} login" do
+		test "should create new sample for case with #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:case_study_subject)
 			assert_difference('Sample.count',1) do
@@ -381,7 +381,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_create_success
 		end
 
-		test "should create new sample for mother with #{cu} login" do
+		test "should create new sample for case mother with #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:case_study_subject)
 			study_subject.create_mother
@@ -398,11 +398,13 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_create_success
 		end
 
-#	TODO what if is no mother?
-#	TODO what if study subject is mother?
+		test "should create new sample for mother if is no mother with #{cu} login" do
+			skip	#	TODO what if is no mother?
+		end
 
-
-
+		test "should create new sample for mother is subject is mother with #{cu} login" do
+			skip #	TODO what if study subject is mother?
+		end
 
 		test "should NOT create with #{cu} login " <<
 				"and invalid study_subject_id" do
@@ -419,28 +421,74 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				"and invalid sample" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:valid?).returns(false)
-			study_subject = Factory(:case_study_subject)
-			assert_difference('Sample.count',0) do
+#			study_subject = Factory(:case_study_subject)
+			study_subject = Factory(:study_subject)
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
-			end
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			} }
+			assert_create_failure
 		end
 
 		test "should NOT create with #{cu} login " <<
-				"and save failure" do
+				"and sample save failure" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:create_or_update).returns(false)
-			study_subject = Factory(:case_study_subject)
-			assert_difference('Sample.count',0) do
+#			study_subject = Factory(:case_study_subject)
+			study_subject = Factory(:study_subject)
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			} }
+			assert_create_failure
+		end
+
+
+
+
+		test "should NOT create with #{cu} login " <<
+				"and invalid sample transfer" do
+			login_as send(cu)
+			SampleTransfer.any_instance.stubs(:valid?).returns(false)
+#			study_subject = Factory(:case_study_subject)
+			study_subject = Factory(:study_subject)
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			} }
+			assert_create_failure
+		end
+
+		test "should NOT create with #{cu} login " <<
+				"and sample transfer save failure" do
+			login_as send(cu)
+			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
+#			study_subject = Factory(:case_study_subject)
+			study_subject = Factory(:study_subject)
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			} }
+			assert_create_failure
+		end
+
+		test "should create new sample transfer with sample and #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:study_subject)
+			assert_difference('SampleTransfer.count',1) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
 			end
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
+			assert_create_success
+			assert_equal 1, assigns(:sample).sample_transfers.length
+			transfer = assigns(:sample).sample_transfers.first
+			assert_equal   transfer.status, 'waitlist'
+			assert_not_nil transfer.source_org_id
+			assert_equal   transfer.source_org_id, assigns(:sample).location_id
 		end
 
 	end
@@ -456,7 +504,8 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT create new sample with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:case_study_subject)
+#			study_subject = Factory(:case_study_subject)
+			study_subject = Factory(:study_subject)
 			assert_difference('Sample.count',0){
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -473,7 +522,8 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT create new sample without login" do
-		study_subject = Factory(:case_study_subject)
+#		study_subject = Factory(:case_study_subject)
+		study_subject = Factory(:study_subject)
 		assert_difference('Sample.count',0){
 			post :create, :study_subject_id => study_subject.id,
 				:sample => factory_attributes
@@ -502,6 +552,12 @@ protected
 	def assert_create_success
 		assert_not_nil flash[:notice]
 		assert_new_success
+	end
+
+	def assert_create_failure
+		assert_not_nil flash[:error]
+		assert_response :success
+		assert_template 'new'
 	end
 
 	def assert_new_success

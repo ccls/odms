@@ -7,6 +7,7 @@ class Sample < ActiveRecord::Base
 	belongs_to :organization, :foreign_key => 'location_id'
 	belongs_to :unit     #	NOTE not yet really used
 	has_many :aliquots   #	NOTE not yet really used
+	has_many :sample_transfers
 	belongs_to :project
 	belongs_to :study_subject
 	belongs_to :sample_format

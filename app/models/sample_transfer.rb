@@ -15,4 +15,19 @@ class SampleTransfer < ActiveRecord::Base
 	validates_length_of   :status, :maximum => 250, :allow_blank => true
 	validates_length_of   :notes,  :maximum => 65000, :allow_blank => true
 
+#	def self.statuses
+#		%w( active waitlist pending complete )
+#	end
+#	#	statuses must be defined above before it can be used below.
+#	validates_inclusion_of :status, :in => statuses, :allow_blank => true
+#
+#	scope :active,   where( :status => 'active' )
+#	scope :waitlist, where( :status => 'waitlist' )
+#	scope :pending,  where( :status => 'pending' )
+#	scope :complete, where( :status => 'complete' )
+#
+#	def self.with_status(status=nil)
+#		( status.blank? ) ? scoped : where(:status => status)
+#	end
+
 end
