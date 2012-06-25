@@ -634,6 +634,12 @@ end
 Factory.define :complete_mother_study_subject, :parent => :mother_study_subject do |f|
 end
 
+Factory.define :father_study_subject, :parent => :study_subject do |f|
+	f.subject_type { SubjectType['Father'] }
+end
+Factory.define :twin_study_subject, :parent => :study_subject do |f|
+	f.subject_type { SubjectType['Twin'] }
+end
 
 Factory.define :subject_language do |f|
 	f.association :study_subject

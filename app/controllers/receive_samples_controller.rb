@@ -6,6 +6,9 @@ class ReceiveSamplesController < ApplicationController
 	before_filter :valid_study_subject_id_required,
 		:only => [:create]
 
+	before_filter :valid_sample_for_subject_required,
+		:only => [:create]
+
 	def new
 		if !params[:study_subject_id].blank?
 			unless @study_subject = StudySubject.where(
@@ -63,22 +66,8 @@ class ReceiveSamplesController < ApplicationController
 	end
 
 	def create
-#
-#	here, we need to consider the :sample_source parameter
-#
-#	what if is mother, but there is no mother????
-#
-		sample_source = params[:sample_source] || 'child'
 
-#	If used the form correctly, the @study_subject is a child (not a mother)
-#	However, just to be sure ....
-		@study_subject = @study_subject.child
-#	what if is no child? this shouldn't happen
-
-		subject = ( sample_source.match(/mother/i) ) ? 
-			@study_subject.mother : @study_subject
-
-		@sample = subject.samples.new(params[:sample])
+		@sample = @sample_for_subject.samples.new(params[:sample])
 		@sample.received_by_ccls_at = DateTime.now
 
 		#	All or nothin'
@@ -89,7 +78,7 @@ class ReceiveSamplesController < ApplicationController
 				:status        => 'waitlist')
 		end
 
-		flash.now[:notice] = "Sample and Transfer creation for #{sample_source} succeeded."
+		flash.now[:notice] = "Sample and Transfer creation for #{@sample_source} succeeded."
 		render :action => 'new'
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Sample and Transfer creation failed."
@@ -109,6 +98,45 @@ protected
 			access_denied("Invalid study_subject id!", new_receive_sample_path)
 		end
 	end
+
+	def valid_sample_for_subject_required
+		@sample_source = params[:sample_source] || 'child'
+		#	@study_subject should really always be a child
+		#	however, deal with possible
+		@sample_for_subject = if( @sample_source.match(/mother/i) )
+			( @study_subject.is_mother? ) ? @study_subject : @study_subject.mother
+		else
+			( @study_subject.is_child? ) ? @study_subject : @study_subject.child
+		end
+		if @sample_for_subject.blank?
+			@sample = Sample.new(params[:sample])	#	for valid form
+			flash.now[:error] = "Sample source / subject type mismatch."
+			#	this render trigger filter failure so nothing else happens.
+			render :action => 'new'
+		end
+	end
+
+#	def valid_sample_for_subject_required_original
+##
+##	here, we need to consider the :sample_source parameter
+##
+##	what if is mother, but there is no mother????
+##
+#		@sample_source = params[:sample_source] || 'child'
+#
+##	If used the form correctly, the @study_subject is a child (not a mother)
+##	However, just to be sure ....
+#		@study_subject = @study_subject.child
+#
+##	what if is no child? this shouldn't happen
+#
+#		subject = ( @sample_source.match(/mother/i) ) ? 
+#			@study_subject.mother : @study_subject
+#
+##	what if is no mother?
+#
+#		@sample_for_subject = subject
+#	end
 
 end
 __END__

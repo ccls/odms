@@ -68,13 +68,37 @@ base.class_eval do
 #		end
 #	end
 
+#	def child
+#		if is_case? or is_control?
+#			self
+#		elsif !familyid.blank?
+#			StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
+#		else
+#			nil
+#		end
+#	end
+
+#	def child
+#		if is_mother?
+#			if !familyid.blank?
+#				StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
+#			else
+#				nil
+#			end
+#		else
+#			self
+#		end
+#	end
+
 	def child
-		if is_case? or is_control?
+		if is_child?
 			self
-		elsif !familyid.blank?
-			StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
 		else
-			nil
+			if !familyid.blank?
+				StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
+			else
+				nil
+			end
 		end
 	end
 

@@ -16,6 +16,14 @@ base.class_eval do
 
 	attr_protected :subject_type_id
 
+	def is_child?
+		is_case_or_control?
+	end
+
+	def is_case_or_control?
+		is_case? or is_control?
+	end
+
 	#	Returns boolean of comparison
 	#	true only if type is Case
 	def is_case?
@@ -34,11 +42,31 @@ base.class_eval do
 		subject_type_id == StudySubject.subject_type_mother_id
 	end
 
+	#	Returns boolean of comparison
+	#	true only if type is Father
+	def is_father?
+		subject_type_id == StudySubject.subject_type_father_id
+	end
+
+	#	Returns boolean of comparison
+	#	true only if type is Twin
+	def is_twin?
+		subject_type_id == StudySubject.subject_type_twin_id
+	end
+
 protected
 
 	#	Use these to stop the constant checking.
 	def self.subject_type_mother_id
 		@@subject_type_mother_id ||= SubjectType['Mother'].id
+	end
+
+	def self.subject_type_father_id
+		@@subject_type_father_id ||= SubjectType['Father'].id
+	end
+
+	def self.subject_type_twin_id
+		@@subject_type_twin_id ||= SubjectType['Twin'].id
 	end
 
 	def self.subject_type_control_id
