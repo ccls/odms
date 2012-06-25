@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120619205731) do
+ActiveRecord::Schema.define(:version => 20120625190247) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1331,6 +1331,17 @@ ActiveRecord::Schema.define(:version => 20120619205731) do
   end
 
   add_index "sample_temperatures", ["key"], :name => "index_sample_temperatures_on_key", :unique => true
+
+  create_table "sample_transfers", :force => true do |t|
+    t.integer  "sample_id"
+    t.integer  "source_org_id"
+    t.integer  "destination_org_id"
+    t.date     "sent_on"
+    t.string   "status"
+    t.text     "notes"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
 
   create_table "sample_types", :force => true do |t|
     t.integer  "position"

@@ -1374,6 +1374,20 @@ Table: sample_temperatures
 | created_at  | datetime     | NO   |     | NULL    |                |
 | updated_at  | datetime     | NO   |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
+Table: sample_transfers
++--------------------+--------------+------+-----+---------+----------------+
+| Field              | Type         | Null | Key | Default | Extra          |
++--------------------+--------------+------+-----+---------+----------------+
+| id                 | int(11)      | NO   | PRI | NULL    | auto_increment |
+| sample_id          | int(11)      | YES  |     | NULL    |                |
+| source_org_id      | int(11)      | YES  |     | NULL    |                |
+| destination_org_id | int(11)      | YES  |     | NULL    |                |
+| sent_on            | date         | YES  |     | NULL    |                |
+| status             | varchar(255) | YES  |     | NULL    |                |
+| notes              | text         | YES  |     | NULL    |                |
+| created_at         | datetime     | NO   |     | NULL    |                |
+| updated_at         | datetime     | NO   |     | NULL    |                |
++--------------------+--------------+------+-----+---------+----------------+
 Table: sample_types
 +---------------------+--------------+------+-----+---------+----------------+
 | Field               | Type         | Null | Key | Default | Extra          |

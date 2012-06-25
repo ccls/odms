@@ -518,6 +518,12 @@ Factory.define :refusal_reason do |f|
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
+Factory.define :sample do |f|
+	f.association :study_subject
+	f.association :project
+	f.association :sample_type
+end
+
 Factory.define :sample_kit do |f|
 	f.association :sample
 end
@@ -527,12 +533,6 @@ Factory.define :sample_outcome do |f|
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
 
-Factory.define :sample do |f|
-	f.association :study_subject
-	f.association :project
-	f.association :sample_type
-end
-
 Factory.define :sample_collector do |f|
 	f.association :organization
 end
@@ -540,6 +540,9 @@ end
 Factory.define :sample_format do |f|
 	f.sequence(:key) { |n| "Key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
+end
+
+Factory.define :sample_transfer do |f|
 end
 
 Factory.define :sample_temperature do |f|
