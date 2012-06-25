@@ -38,13 +38,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 				#	out of icf master ids warning
-				wait_until { has_css?("p.flash#warn") }
+				wait_until { has_css?("p.flash.warn") }
 			} } } } } } }
 
 			#	out of icf master ids warning
-			assert has_css?("p.flash#warn")
+			assert has_css?("p.flash.warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
-			assert !has_css?("p.flash#error")
+			assert !has_css?("p.flash.error")
 			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
 		end
 
@@ -77,7 +77,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-				wait_until { has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash.error") }
 			} } } } } } }
 
 			#
@@ -85,7 +85,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			#	rather than actually being edit_candidate_control_path
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert_equal current_path, candidate_control_path(candidate)
 			assert has_css?('div.possible_duplicates')
 
@@ -98,11 +98,11 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
-				wait_until { has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash.error") }
 			} } } } } } }
 			assert has_css?('div.possible_duplicates')
-			assert has_css?("p.flash#error")
-			assert has_css?("p.flash#warn")
+			assert has_css?("p.flash.error")
+			assert has_css?("p.flash.warn")
 
 			#
 			#	this kicks back as a render, not a redirect so 
@@ -140,7 +140,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-				wait_until { has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash.error") }
 			} } } } } } }
 
 			#
@@ -148,7 +148,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			#	rather than actually being edit_candidate_control_path
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert_equal current_path, candidate_control_path(candidate)
 			assert has_css?('div.possible_duplicates')
 
@@ -175,7 +175,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			# the reason will be because it is a control
 			assert_match /ineligible control - control already exists in system/,
 				candidate.rejection_reason
-			assert !has_css?("p.flash#error")
+			assert !has_css?("p.flash.error")
 			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
 		end
 
@@ -207,7 +207,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
-				wait_until { has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash.error") }
 			} } } } } } }
 
 			#
@@ -216,7 +216,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			#	it is just candidate_control_path, but there is no
 			#	candidate_control show action but it still passes????
 
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert_equal current_path, candidate_control_path(candidate)
 			assert has_css?('div.possible_duplicates')
 
@@ -230,12 +230,12 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			assert_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'No Match'
 				#	no icf master ids warning
-				wait_until { has_css?("p.flash#warn") }
+				wait_until { has_css?("p.flash.warn") }
 			} } } } } } }
 
-			assert has_css?("p.flash#warn")
+			assert has_css?("p.flash.warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
-			assert !has_css?("p.flash#error")
+			assert !has_css?("p.flash.error")
 			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
 		end
 

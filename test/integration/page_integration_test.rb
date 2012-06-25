@@ -4,7 +4,7 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	test "should get home page if not logged in" do
 		visit root_path()
-		assert !has_css?("p.flash#error")
+		assert !has_css?("p.flash.error")
 		assert_equal root_path, current_path
 	end
 
@@ -20,10 +20,10 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			assert_difference('Page.count',1) {
 				click_button "Create"	
-				wait_until { has_css?("p.flash#notice") }
+				wait_until { has_css?("p.flash.notice") }
 			}
 
-			assert has_css?("p.flash#notice")	#	success
+			assert has_css?("p.flash.notice")	#	success
 			assert_match /\/pages\/\d+/, current_path
 		end
 
@@ -42,7 +42,7 @@ class PageIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit edit_page_path(p)
 			fill_in "page[menu_en]", :with => "MyNewMenu"
 			click_button "Update"	
-			assert has_css?("p.flash#notice")
+			assert has_css?("p.flash.notice")
 			assert_equal current_path, page_path(p)
 		end
 

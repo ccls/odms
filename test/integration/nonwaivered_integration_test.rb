@@ -12,13 +12,13 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert has_unchecked_field?("#{patient}was_previously_treated")
 			assert has_unchecked_field?("#{patient}was_ca_resident_at_diagnosis")
 			click_button "Submit"	
-			wait_until { has_css?("p.flash#error") }
+			wait_until { has_css?("p.flash.error") }
 			assert has_unchecked_field?("#{patient}was_under_15_at_dx")
 			assert has_unchecked_field?("#{patient}was_previously_treated")
 			assert has_unchecked_field?("#{patient}was_ca_resident_at_diagnosis")
 			check("#{patient}was_ca_resident_at_diagnosis")
 			click_button "Submit"	
-			wait_until { has_css?("p.flash#error") }
+			wait_until { has_css?("p.flash.error") }
 			assert has_unchecked_field?("#{patient}was_under_15_at_dx")
 			assert has_unchecked_field?("#{patient}was_previously_treated")
 			assert has_checked_field?("#{patient}was_ca_resident_at_diagnosis")
@@ -57,13 +57,13 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				wait_until { has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash.error") }
 			} } } } } }
 
 			assert_equal nonwaivered_path, current_path
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert_match /Possible Duplicate\(s\) Found/, 
-				find("p.flash#error").text
+				find("p.flash.error").text
 
 			choose "duplicate_id_#{duplicate.id}"
 			assert_difference('PhoneNumber.count',0) {
@@ -74,11 +74,11 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
-				wait_until { has_css?("p.flash#notice")	}
+				wait_until { has_css?("p.flash.notice")	}
 			} } } } } } }
-			assert has_css?("p.flash#notice")	#	success
+			assert has_css?("p.flash.notice")	#	success
 			assert_match /Operational Event created marking this attempted entry/,
-				find("p.flash#notice").text
+				find("p.flash.notice").text
 			assert_equal study_subject_path( duplicate ), current_path
 		end
 
@@ -115,12 +115,12 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "Submit"	
-				wait_until { has_css?("p.flash#error") }
+				wait_until { has_css?("p.flash.error") }
 			} } } } } }
 			assert_equal nonwaivered_path, current_path
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert_match /Possible Duplicate\(s\) Found/, 
-				find("p.flash#error").text
+				find("p.flash.error").text
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',1) {
@@ -131,11 +131,11 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 				#	click_button(value)
 				click_button "No Match"	
 				#	no icf master ids warning
-				wait_until { has_css?('p.flash#warn') }
+				wait_until { has_css?('p.flash.warn') }
 			} } } } } }
 
 			#	no icf master ids warning
-			assert has_css?('p.flash#warn')
+			assert has_css?('p.flash.warn')
 			assert_match /\/study_subjects\/\d+/, current_path
 		end
 
@@ -172,11 +172,11 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('StudySubject.count',2) {
 				click_button "Submit"	
 				#	no icf master ids warning
-				wait_until { has_css?('p.flash#warn') }
+				wait_until { has_css?('p.flash.warn') }
 			} } } } } }
 			#	no icf master ids warning
-			assert has_css?('p.flash#warn')
-			assert !has_css?("p.flash#error")
+			assert has_css?('p.flash.warn')
+			assert !has_css?("p.flash.error")
 			assert_match /\/study_subjects\/\d+/, current_path
 		end
 
@@ -188,12 +188,12 @@ class NonwaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
 			check(language_input_id('english'))
 			assert_page_has_checked_language_id('english')
 			click_button "Submit"	
-			wait_until { has_css?('p.flash#error') }
+			wait_until { has_css?('p.flash.error') }
 			assert_page_has_checked_language_id('english')
 			uncheck(language_input_id('english'))
 			assert_page_has_unchecked_language_id('english')
 			click_button "Submit"	
-			wait_until { has_css?('p.flash#error') }
+			wait_until { has_css?('p.flash.error') }
 			assert_page_has_unchecked_language_id('english')
 		end
 

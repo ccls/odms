@@ -40,7 +40,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 #		
 #puts body
 #    <p class="flash" id="error">Enrollment update failed</p>
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 
 #<div class="errorExplanation" id="errorExplanation"><h2>2 errors prohibited this enrollment from being saved</h2><p>There were problems with the following fields:</p><ul><li>Ineligible reason not allowed if not ineligible</li><li>Ineligible reason specify not allowed</li></ul></div>
 
@@ -106,7 +106,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	Could be StudySubject as well.  Doesn't matter.
 			Enrollment.any_instance.stubs(:valid?).returns(false)	
 			click_button 'Save'
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert_page_has_unchecked_language_id('english')
 		end
 
@@ -127,7 +127,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	Could be StudySubject as well.  Doesn't matter.
 			Enrollment.any_instance.stubs(:valid?).returns(false)	
 			click_button 'Save'
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert_page_has_checked_language_destroy('english')
 		end
 
@@ -154,7 +154,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			check(language_input_id('english'))
 			assert_page_has_checked_language_id('english')
 			click_button 'Save'
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
@@ -166,7 +166,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			uncheck(language_input_id('english'))
 			assert_page_has_unchecked_language_id('english')
 			click_button 'Save'
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
@@ -178,7 +178,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			check(language_input_id('spanish'))
 			assert_page_has_checked_language_id('spanish')
 			click_button 'Save'
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)
@@ -195,7 +195,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_other_language_visible
 
 			click_button 'Save'
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			show_eligibility_criteria_div
 			#	renders, doesn't redirect so path will change even though still on edit
 			assert_equal current_path, study_subject_consent_path(@study_subject.id)

@@ -16,7 +16,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	trigger a kickback from StudySubject update failure
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			click_button 'Save'
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert_equal current_path, study_subject_path(@study_subject.id) #	still a kickback
 			assert has_unchecked_field?(
 				"study_subject[subject_races_attributes][0][race_id]")	#	white
@@ -35,7 +35,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	trigger a kickback from StudySubject update failure
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			click_button 'Save'
-			assert has_css?("p.flash#error")
+			assert has_css?("p.flash.error")
 			assert has_checked_field?(
 				"study_subject[subject_races_attributes][0][_destroy]")	#	white
 		end
