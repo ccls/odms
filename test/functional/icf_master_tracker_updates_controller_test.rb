@@ -162,7 +162,7 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 
 		test "should parse with #{cu} login and real csv_file" do
 			#	real data and won't be in repository
-			real_data_file = 'ICF_Master_Tracker.csv'
+			real_data_file = 'ICF_Master_Tracker_20120329.csv'
 			unless File.exists?(real_data_file)
 				puts
 				puts "-- Real data test file does not exist. Skipping."
@@ -170,22 +170,22 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			end
 			login_as send(cu)
 
-			#	minimal semi-real case creation
-			s1 = Factory(:study_subject,:sex => 'F',
-				:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
-				:dob => Date.parse('10/16/1977'))
-
-			s2 = Factory(:study_subject,:sex => 'F',
-				:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
-				:dob => Date.parse('9/21/1988'))
-			Factory(:icf_master_id,:icf_master_id => '15270110G')
-			s2.assign_icf_master_id
-
-			s3 = Factory(:study_subject,:sex => 'M',
-				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
-				:dob => Date.parse('6/1/2009'))
-			Factory(:icf_master_id,:icf_master_id => '15397125B')
-			s3.assign_icf_master_id
+#			#	minimal semi-real case creation
+#			s1 = Factory(:study_subject,:sex => 'F',
+#				:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
+#				:dob => Date.parse('10/16/1977'))
+#
+#			s2 = Factory(:study_subject,:sex => 'F',
+#				:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
+#				:dob => Date.parse('9/21/1988'))
+#			Factory(:icf_master_id,:icf_master_id => '15270110G')
+#			s2.assign_icf_master_id
+#
+#			s3 = Factory(:study_subject,:sex => 'M',
+#				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+#				:dob => Date.parse('6/1/2009'))
+#			Factory(:icf_master_id,:icf_master_id => '15397125B')
+#			s3.assign_icf_master_id
 
 			icf_master_tracker_update = Factory(:icf_master_tracker_update,
 				:csv_file => File.open(real_data_file) )

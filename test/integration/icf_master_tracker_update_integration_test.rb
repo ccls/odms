@@ -13,6 +13,9 @@ class IcfMasterTrackerUpdateIntegrationTest < ActionController::CapybaraIntegrat
 			assert has_css?('#csv_file_content', :visible => true)
 			find('a.toggles_csv_file_content').click
 			assert has_css?('#csv_file_content', :visible => false)
+
+# i think that this is needed, but check
+#     icf_master_tracker_update.destroy  # explicitly cleanup attachment
 		end
 
 	end

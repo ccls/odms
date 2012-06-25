@@ -135,16 +135,17 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #			assert_not_nil flash[:error]
 #			assert_redirected_to assigns(:birth_datum_update)
 #		end
-#
-#		test "should parse with #{cu} login and real csv_file" do
-#			#	real data and won't be in repository
-#			unless File.exists?('test-livebirthdata_011912.csv')
-#				puts
-#				puts "-- Real data test file does not exist. Skipping."
-#				return 
-#			end
-#			login_as send(cu)
-#
+
+		test "should parse with #{cu} login and real csv_file" do
+			#	real data and won't be in repository
+			real_data_file = "birth_datum_update_20120424.csv"
+			unless File.exists?(real_data_file)
+				puts
+				puts "-- Real data test file does not exist. Skipping."
+				return 
+			end
+			login_as send(cu)
+
 #			#	minimal semi-real case creation
 #			s1 = Factory(:case_study_subject,:sex => 'F',
 #				:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
@@ -157,12 +158,20 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #			Factory(:icf_master_id,:icf_master_id => '48882638A')
 #			s2.assign_icf_master_id
 #	
-#			s3 = Factory(:case_study_subject,:sex => 'M',
-#				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
-#				:dob => Date.parse('6/1/2009'))
-#			Factory(:icf_master_id,:icf_master_id => '16655682G')
-#			s3.assign_icf_master_id
-#	
+			s = Factory(:case_study_subject,:sex => 'M',
+				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+				:dob => Date.parse('6/1/2009'))
+			Factory(:icf_master_id,:icf_master_id => '15851196C')	#	match file content
+			s.assign_icf_master_id
+	
+			assert_difference('BirthDatum.count',33){
+			assert_difference('CandidateControl.count',5){
+				post :create, :birth_datum_update => factory_attributes(
+					:csv_file => Rack::Test::UploadedFile.new( 
+						real_data_file, 'text/csv') )
+			} }
+
+
 #			birth_datum_update = Factory(:birth_datum_update,
 #				:csv_file => File.open('test-livebirthdata_011912.csv') )
 #			assert_not_nil birth_datum_update.csv_file_file_name
@@ -185,8 +194,9 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #					puts r.errors.full_messages.to_sentence
 #				end
 #			}
+
 #			birth_datum_update.destroy
-#		end
+		end
 
 	end
 
