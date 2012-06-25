@@ -23,7 +23,7 @@ class ReceiveSamplesController < ApplicationController
 #			study_subjects = StudySubject.where(
 #				conditions[0].join(' OR '), conditions[1])
 #
-		elsif params[:q]
+		elsif !params[:q].blank?
 			#	As studyid and icf_master_id are different formats
 			#	there should never actually be more than one match.
 			study_subjects = StudySubject.where(
