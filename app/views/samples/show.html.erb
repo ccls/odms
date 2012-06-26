@@ -1,12 +1,12 @@
 <% stylesheets(:sample) %>
-<%# sub_menu_for(@study_subject) %>
-<%# id_bar_for(@study_subject) %>
 
 <div id='subject_control_bar'>
 <h3>Subject Sample</h3>
 <div class='buttons'>
-<%= link_to( 'Edit', edit_sample_path(@sample),
-	:class => 'button' ) %>
+<%= link_to( 'edit', edit_sample_path(@sample),
+	:class => :button ) %>&nbsp;
+<%= link_to( 'print label', sample_path(@sample, :format => :pdf), 
+	:class => :button ) %>
 </div><!-- class='buttons' -->
 </div>
 
@@ -42,6 +42,9 @@
 
 <%= wrapped_datetime_spans :sample, :aliquotted_at,
 	:label_text => 'Aliquotted at:' %>
+
+<%= link_to 'print label', sample_path(@sample, :format => :pdf), 
+	:class => :button %>
 
 <%#= render 'shipping_info' %>
 <%= render 'transfers' %>

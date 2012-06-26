@@ -3,6 +3,8 @@ source "http://gems.rubyforge.org"
 source "http://gemcutter.org"
 source "http://gems.github.com"
 
+gem 'prawn'
+gem 'prawnto'
 gem 'american_date'
 
 gem 'rails', '~> 3.2.2' 

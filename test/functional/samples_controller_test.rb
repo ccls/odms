@@ -534,6 +534,18 @@ class SamplesControllerTest < ActionController::TestCase
 				sent_to_lab_at
 			)
 		end
+
+		test "should show pdf with #{cu} login" do
+			login_as send(cu)
+			sample = Factory(:sample)
+			get :show, :id => sample.id, :format => 'pdf'
+			assert_response :success
+			assert_template 'show'
+			assert_not_nil @response.headers['Content-Type']
+			assert_match /application\/pdf/, @response.headers['Content-Type']
+			assert_not_nil @response.headers['Content-Disposition']
+			assert_match /inline/, @response.headers['Content-Disposition']
+		end
 	
 	end
 

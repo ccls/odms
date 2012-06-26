@@ -90,7 +90,20 @@ class SamplesController < ApplicationController
 	end
 
 	def show
-		render :layout => 'subject'
+		respond_to do |format|
+			format.html {
+				render :layout => 'subject'
+			}
+			format.pdf { 
+				prawnto :prawn => {
+					:page_size => [175,90],
+					:page_layout => :portrait,
+					:margin => 5,
+					:top_margin => 12
+				},
+				:filename => "sample_#{@sample.sampleid}_#{Time.now.to_s(:filename)}.pdf"
+			}
+		end
 	end
 
 	def new
