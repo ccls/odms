@@ -136,7 +136,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #			get :index, :commit => 'download', :format => 'csv'
 			get :index, :commit => 'download'
 			assert_response :success
-			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
 		end
 
 		test "should download csv matching content with #{cu} login" do
@@ -150,7 +150,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			get :index, :format => 'csv'
 			assert_response :success
-			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
 			assert_template 'index'
 			assert assigns(:study_subjects)
 			assert !assigns(:study_subjects).empty?

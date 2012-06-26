@@ -1,7 +1,6 @@
 class BcRequestsController < ApplicationController
 
 	before_filter :may_create_study_subjects_required
-#	before_filter :valid_commit_value_required, :only => :create
 	before_filter :q_value_required, :only => :create
 	before_filter :valid_q_id_required, :only => :create
 	before_filter :no_existing_incomplete_bc_request_required, :only => :create
@@ -85,7 +84,7 @@ class BcRequestsController < ApplicationController
 		respond_to do |format|
 			format.html
 			format.csv { 
-				headers["Content-disposition"] = "attachment; " <<
+				headers["Content-Disposition"] = "attachment; " <<
 					"filename=bc_requests_#{params[:status]}_#{Time.now.to_s(:filename)}.csv"
 			}
 		end
@@ -123,43 +122,11 @@ protected
 		end
 	end
 
-	def valid_commit_value_required
-		unless( ['patid','icf master id'].include?( params[:commit] ) )
-			access_denied("Invalid and unexpected commit value:#{params[:commit]}:!",
-				new_bc_request_path(:q => params[:q]))
-		end
-	end
-
 	def q_value_required
 		access_denied("query value required!", 
 			new_bc_request_path) if params[:q].blank?
 	end
 
-	def valid_q_id_required_original
-		case params[:commit] 
-#
-#	as patids are 4 and icf master ids are 8, I could use the length 
-#	of the given string to control which I search for rather
-#	than the explicit button
-#
-			when 'patid'
-			q = params[:q]
-			patid = ( q.squish.length < 4 ) ? sprintf("%04d",q.to_i) : q.squish
-#			patid = sprintf("%04d",params[:q].to_i)	
-			@study_subject = StudySubject.find_case_by_patid(patid)
-			access_denied("No case study_subject found with patid:#{patid}!", 
-				new_bc_request_path(:q => params[:q])) if @study_subject.blank?
-			when 'icf master id'
-			@study_subject = StudySubject.find_case_by_icf_master_id(params[:q])
-			access_denied("No case study_subject found with icf_master_id:#{params[:q]}!", 
-				new_bc_request_path(:q => params[:q])) if @study_subject.blank?
-			else
-			access_denied("Invalid and unexpected commit value:#{params[:commit]}:!",
-				new_bc_request_path(:q => params[:q]))
-		end
-	end
-
-#
 	def valid_q_id_required
 #
 #	as patids are 4 and icf master ids are 8, I could use the length 

@@ -78,7 +78,7 @@ class SamplesController < ApplicationController
 		#
 		respond_to do |format|
 			format.csv { 
-				headers["Content-disposition"] = "attachment; " <<
+				headers["Content-Disposition"] = "attachment; " <<
 					"filename=sample_manifest_#{Time.now.to_s(:filename)}.csv"
 			}
 		end

@@ -289,7 +289,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			bcr = case_study_subject.bc_requests.create
 			get :index, :format => 'csv'
 			assert_response :success
-			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
 			assert_template 'index'
 			assert assigns(:bc_requests)
 			assert !assigns(:bc_requests).empty?

@@ -79,7 +79,7 @@ class StudySubjectsController < ApplicationController
 		respond_to do |format|
 			format.html
 			format.csv { 
-				headers["Content-disposition"] = "attachment; " <<
+				headers["Content-Disposition"] = "attachment; " <<
 					"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 
 			}
 		end

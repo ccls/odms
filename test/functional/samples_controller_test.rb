@@ -484,7 +484,7 @@ class SamplesControllerTest < ActionController::TestCase
 			get :manifest, :format => 'csv'
 			assert_response :success
 			assert_template 'manifest'
-			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
 			assert assigns(:samples)
 			assert assigns(:samples).empty?
 			require 'csv'
@@ -499,7 +499,7 @@ class SamplesControllerTest < ActionController::TestCase
 			get :manifest, :format => 'csv'
 			assert_response :success
 			assert_template 'manifest'
-			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
 			assert assigns(:samples)
 			assert assigns(:samples).empty?
 			require 'csv'
@@ -515,7 +515,7 @@ class SamplesControllerTest < ActionController::TestCase
 			get :manifest, :format => 'csv'
 			assert_response :success
 			assert_template 'manifest'
-			assert_not_nil @response.headers['Content-disposition'].match(/attachment;.*csv/)
+			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
 			assert assigns(:samples)
 			assert !assigns(:samples).empty?
 			assert_equal 1, assigns(:samples).length
