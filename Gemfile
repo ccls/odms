@@ -3,9 +3,7 @@ source "http://gems.rubyforge.org"
 source "http://gemcutter.org"
 source "http://gems.github.com"
 
-
 gem 'american_date'
-
 
 gem 'rails', '~> 3.2.2' 
 
@@ -123,10 +121,12 @@ group :test do
 
 
 #	gem "rcov"	#	not supported ruby19 world. Suggests using simplecov.
+#	This does not work as well as rcov used to, imo.
 	gem "simplecov", :require => false
 
 
-
+	#	for dealing with integration tests
+	gem 'database_cleaner'
 
 
 

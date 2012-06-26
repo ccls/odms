@@ -116,54 +116,127 @@ require Rails.root.join('test/app/controllers/fake_sessions_controller').to_s
 #  Capybara::Driver::Webkit.new(app, :ignore_ssl_errors => true)
 #end
 Capybara.default_driver = :webkit
-Capybara.default_wait_time = 6
+Capybara.default_wait_time = 1	#	set this small for testing leftovers
 
 #	Using class_attribute instead of mattr_accessor so that
 #	each subclass (read model) has its own value as we have
 #	two databases meaning not all models have the same connection.
-class ActiveRecord::Base
-	class_attribute :saved_connection
-	def self.connection
-		saved_connection || retrieve_connection
-	end
-end
+#
+#	If not using transactions, this is no longer necessary????
+#
+#class ActiveRecord::Base
+#	class_attribute :saved_connection
+#	def self.connection
+#		saved_connection || retrieve_connection
+#	end
+#end
 
-#	by creating separate subclasses, rather than just extending IntegrationTest, we can use both webrat and capybara
+
+
+
+# Transactional fixtures do not work with Selenium tests, because Capybara
+# uses a separate server thread, which the transactions would be hidden
+# from. We hence use DatabaseCleaner to truncate our test database.
+DatabaseCleaner.strategy = :truncation
+#	This REALLY SLOWS down the integration tests.
+#	Truncates after each test and reloads all fixtures before hand
+#	This adds about 2 or 3 seconds to each integration test
+#	The other option is :transaction, but is effectively
+#	the same as before using DatabaseCleaner.  And is not very good at it.
+#
+#	Just learned that if using :transaction, would need a
+#	DatabaseCleaner.start somewhere.  In the setup, perhaps?
+#
+#
+#	apparently, can list tables here for truncating
+#
+#  DatabaseCleaner.strategy = :truncation, {:only => %w[widgets dogs some_other_table]}
+#
+#  DatabaseCleaner.strategy = :truncation, {:except => %w[widgets]}
+#
+#	I think that all of the fixtures would still reload though
+#
+#	As is, seems to be working a treat
+
+
+
+
+#	by creating separate subclasses, rather than just extending IntegrationTest, 
+#	we can use both webrat and capybara.  We only use capybara now.
 class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
 
-	setup :synchronize_selenium_connections	#	this includes :webkit
-	def synchronize_selenium_connections
-		#	if driver is selenium based, need to synchronize the transactional connections
-		#
-		###	initially based on http://pastie.org/1745020, but has changed
-		#
-		#		class ActiveRecord::Base
-		#			mattr_accessor :shared_connection
-		#			@@shared_connection = nil
-		#			def self.connection
-		#				@@shared_connection || retrieve_connection
-		#			end
-		#		end
-		#		# Forces all threads to share the same connection. This works on
-		#		# Capybara because it starts the web server in a thread.
-		#		ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
-		#
-		###
-		#
-		#	connection hack for selenium
-		#	with selenium, the database connection from the test and from the controllers 
-		#		are different and as the connections are transactional, I think, the test 
-		#		will be unaware of changes that the controller makes and the controller 
-		#		will be unaware of changes that the test makes.  This seems to be why 
-		#		creating a user in the test does not result in a user being found in the 
-		#		controller.  The same goes for the user's roles.  It also means that the 
-		#		tests will not notice a difference after creating a page or other resource 
-		#		in the controller.  So.  Apparently, we need a hack in all the models that 
-		#		will do this. Normally, we could just hack AR::Base, but since we already 
-		#		have 2 connection (one for shared, one for the app), we can't (unless I 
-		#		find a new way)
-		ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
+
+#	NOTE
+#	old school is ActionController::IntegrationTest
+#	new hotness is ActionDispatch::IntegrationTest
+#	don't know of any issues, yet anyway
+
+
+	# Stop ActiveRecord from wrapping tests in transactions
+	self.use_transactional_fixtures = false
+#
+#	By turning off transactions, I could just manually cleanup everything.
+#	This would probably be faster as I would only clean the things that
+#	need cleaning.
+#
+	#	if were using :transaction strategy, would need to ...
+	#	setup :start_database_cleaner_transaction
+	#	def start_database_cleaner_transaction
+	#		DatabaseCleaner.start
+	#	end
+
+	teardown :call_database_cleaner
+	def call_database_cleaner
+		# Truncate the database
+		DatabaseCleaner.clean
+		# Forget the (simulated) browser state
+		Capybara.reset_sessions!
+		# Revert Capybara.current_driver to Capybara.default_driver (just in case)
+		Capybara.use_default_driver
 	end
+
+
+#	Capybara-webkit uses actual http server.  This server runs in a different thread.  This thread has a difference connection and therefore a different transaction.  In order for the test server and the http server to be aware of the other's doings, they must be "shared." 
+#
+#	OR, apparently, just don't use transactions. This will be slower as the database can not be rolled back.  It must be cleaned and repopulated.  This will take about 2 seconds per test. That's the theory anyway.  I'm about to test it.
+
+
+#
+#	If not using transactions, this is no longer necessary????
+#
+#	setup :synchronize_selenium_connections	#	this includes :webkit
+#	def synchronize_selenium_connections
+#		#	if driver is selenium based, need to synchronize the transactional connections
+#		#
+#		###	initially based on http://pastie.org/1745020, but has changed
+#		#
+#		#		class ActiveRecord::Base
+#		#			mattr_accessor :shared_connection
+#		#			@@shared_connection = nil
+#		#			def self.connection
+#		#				@@shared_connection || retrieve_connection
+#		#			end
+#		#		end
+#		#		# Forces all threads to share the same connection. This works on
+#		#		# Capybara because it starts the web server in a thread.
+#		#		ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+#		#
+#		###
+#		#
+#		#	connection hack for selenium
+#		#	with selenium, the database connection from the test and from the controllers 
+#		#		are different and as the connections are transactional, I think, the test 
+#		#		will be unaware of changes that the controller makes and the controller 
+#		#		will be unaware of changes that the test makes.  This seems to be why 
+#		#		creating a user in the test does not result in a user being found in the 
+#		#		controller.  The same goes for the user's roles.  It also means that the 
+#		#		tests will not notice a difference after creating a page or other resource 
+#		#		in the controller.  So.  Apparently, we need a hack in all the models that 
+#		#		will do this. Normally, we could just hack AR::Base, but since we already 
+#		#		have 2 connection (one for shared, one for the app), we can't (unless I 
+#		#		find a new way)
+#		ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
+#	end
 
 	include Capybara::DSL
 
