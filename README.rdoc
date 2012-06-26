@@ -460,20 +460,27 @@ object, but is not necessary as these methods appear to be directly
 available to the test.
 
 Be advised that some of the integration tests will intermittantly
-fail due to their threaded nature.  I've added several 'sleep 1'
-lines to deal with this, but it isn't always enough.  They will 
-pass if given enough wait time. This is mostly noticed when 
-clicking a link or button and then expecting a change in the
-database.  Sometimes there is none when there should be and
-then the assert_difference fails.  I have changed the 'sleep 1'
-to 'sleep 2' in the places where this commonly happens to 
-try to avoid it.  As this behaviour is intermittant, it is a
-bit difficult to debug.
-
-I have now replaced these sleep commands with more logical
-'wait_until' blocks which seems to work just fine.  In addition,
-I upped the default time out.  Now they rarely fail, but when
-they do, it is usually due to a timeout.
+fail due to their threaded nature.  I've added several 'wait_until' 
+blocks which seems to work just fine most of the time.  In addition, 
+I upped the default time out.  Now they rarely fail, but when they 
+do, it is usually due to a timeout.  This is mostly noticed when 
+clicking a link or button and then expecting a change in the 
+database.  Sometimes there is none when there should be and then 
+the assert_difference fails.  As this behaviour is intermittant, 
+it is a bit difficult to debug.  On top of this, when these failures
+occur they seem to leave some stuff in the database, or put it in
+after the ROLLBACK, or something.  Regardless, stuff gets left in the
+database and some completely unrelated tests may fail as this
+content is unexpected.  Other than stopping the tests and running
+"rake db:test:prepare" to clear out the entire database, I have
+found no viable solution.  I could re-write those tests that react
+poorly to this content, to be more relative than absolute, but this
+mayn't always be possible.  I could also possibly figure out how to 
+stop the actual tainting of the database. I just upped the timeout 
+to 6 seconds.  In addition to the counts failing, existing data
+could include data which is required to be unique and may trigger
+a RecordInvalid as well.  The key here is really to ensure that
+the database doesn't get tainted.
 
 
 Also note, that while has_css? can take an options hash with :visible, like ...
