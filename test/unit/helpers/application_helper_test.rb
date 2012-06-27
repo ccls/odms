@@ -1370,6 +1370,18 @@ class ApplicationHelperTest < ActionView::TestCase
 #	ArgumentError: assertion message must be String or Proc, but .... was given.
 
 
+	#	apparently not used anywhere anymore.
+	#	could remove the method or test it manually in order to get 100%
+	test "time_mdy(nil) should return nbsp" do
+		response = time_mdy(nil)
+		assert_equal '&nbsp;', response
+	end
+
+	test "time_mdy(some valid time) should return formated time" do
+		response = time_mdy(Time.parse('Dec 24, 1999 11:59 pm'))
+		assert_equal "11:59 PM 12/24/1999", response
+	end
+
 private 
 	def params
 		@params || {}
