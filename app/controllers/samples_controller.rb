@@ -113,7 +113,15 @@ class SamplesController < ApplicationController
 
 	def create
 		@sample = @study_subject.samples.new(params[:sample])
-		@sample.save!
+
+		#	All or nothin'
+		Sample.transaction do
+			@sample.save!
+			@sample.sample_transfers.create!(
+				:source_org_id => @sample.location_id,
+				:status        => 'waitlist')
+		end
+
 		redirect_to sample_path(@sample)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Sample creation failed."
