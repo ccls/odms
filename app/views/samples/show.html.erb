@@ -4,8 +4,6 @@
 <h3>Subject Sample</h3>
 <div class='buttons'>
 <%= link_to( 'edit', edit_sample_path(@sample),
-	:class => :button ) %>&nbsp;
-<%= link_to( 'print label', sample_path(@sample, :format => :pdf), 
 	:class => :button ) %>
 </div><!-- class='buttons' -->
 </div>
@@ -44,7 +42,7 @@
 	:label_text => 'Aliquotted at:' %>
 
 <%= link_to 'print label', sample_path(@sample, :format => :pdf), 
-	:class => :button %>
+	:class => :button, :target => :new %>
 
 <%#= render 'shipping_info' %>
 <%= render 'transfers' %>

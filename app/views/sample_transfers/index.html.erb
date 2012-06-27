@@ -1,0 +1,82 @@
+<h4>Sample Transfers</h4>
+
+<h5>Manifest</h5>
+
+<p>NOTE: If I understand this correctly, you must export the manifest before confirming the transfer as confirming the transfer will remove them from the active list</p>
+
+<%= form_tag(confirm_sample_transfers_path,:method => :put) do %>
+<label>transfer samples to ...</label>
+<%= select_tag 'organization_id',
+	options_from_collection_for_select( 
+		Organization.all, :id, :to_s, 
+		:selected => params[:organization_id]||Organization['GEGL'].id ) %>
+<%= submit_tag 'confirm transfer' %>
+<% end %>
+
+<%= link_to "export manifest", 
+	sample_transfers_path(:format => :csv), 
+	:class => :button %>
+
+<% if @active_sample_transfers.empty? %>
+<p>Sorry, but no active sample transfers found.</p>
+<% else %>
+<table><thead><tr>
+<th>&nbsp;</th>
+<th>ICF Master ID</th>
+<th>Study ID</th>
+<th>Sample ID</th>
+<th>CCLS Sample Type</th>
+<th>GEGL Sample Type</th>
+<th>Date Received</th>
+<th>&nbsp;</th>
+</tr></thead>
+<tbody>
+<% @active_sample_transfers.each do |sample_transfer| %>
+<tr><%# status is actually part of the action url, not an input field here %>
+<td><%= button_to( 'Wait list', update_status_sample_transfer_path(sample_transfer, :status => 'waitlist'), :method => 'put' ) -%></td>
+<td><%= sample_transfer.sample.study_subject.icf_master_id_to_s %></td>
+<td><%= sample_transfer.sample.study_subject.studyid_to_s %></td>
+<td><%= sample_transfer.sample.sampleid %></td>
+<td>Type</td>
+<td>Type</td>
+<td><%=mdy sample_transfer.sample.received_by_ccls_at %></td>
+<td><%= link_to "print&nbsp;label".html_safe, 
+	sample_path(sample_transfer.sample, :format => :pdf), 
+	:class => :button, :target => :new %>
+</td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<% end %>
+
+<hr/>
+
+<% if @waitlist_sample_transfers.empty? %>
+<p>Sorry, but no waitlist sample transfers found.</p>
+<% else %>
+<table><thead><tr>
+<th>&nbsp;</th>
+<th>ICF Master ID</th>
+<th>Study ID</th>
+<th>Sample ID</th>
+<th>CCLS Sample Type</th>
+<th>GEGL Sample Type</th>
+<th>Date Received</th>
+</tr></thead>
+<tbody>
+<% @waitlist_sample_transfers.each do |sample_transfer| %>
+<tr><%# status is actually part of the action url, not an input field here %>
+<td><%= button_to( 'Activate', update_status_sample_transfer_path(sample_transfer, :status => 'active'), :method => 'put' ) -%></td>
+<td><%= sample_transfer.sample.study_subject.icf_master_id_to_s %></td>
+<td><%= sample_transfer.sample.study_subject.studyid_to_s %></td>
+<td><%= sample_transfer.sample.sampleid %></td>
+<td>Type</td>
+<td>Type</td>
+<td><%=mdy sample_transfer.sample.received_by_ccls_at %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<% end %>
+
