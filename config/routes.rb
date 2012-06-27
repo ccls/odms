@@ -130,6 +130,10 @@ Odms::Application.routes.draw do
 	resources :sample_formats
 	resources :sample_outcomes
 	resources :sample_temperatures
+	resources :sample_transfers, :only => :index do
+		collection { put :confirm }
+		member     { put :update_status }
+	end
 	resources :sample_types
 	resources :sections
 	resources :subject_relationships

@@ -1,0 +1,14 @@
+<% require 'csv' -%>
+<%# 
+	adding :headers => true is supposed to set a flag in the file 
+	somewhere marking it as having a header row, but I don't 
+	think that it actually does.
+-%>
+<%= %w( 
+masterid
+).to_csv(:headers => true) -%>
+<% @active_sample_transfers.each do |sample_transfer| -%>
+<%= [ 
+sample_transfer.sample.study_subject.icf_master_id_to_s
+].to_csv -%>
+<% end -%>

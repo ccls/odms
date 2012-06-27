@@ -31,6 +31,7 @@ administrator_resources:
   - sample_formats 
   - sample_outcomes 
   - sample_temperatures
+  - sample_transfers
   - sample_types 
   - sections 
   - subject_relationships 

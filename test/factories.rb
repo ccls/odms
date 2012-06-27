@@ -543,6 +543,7 @@ Factory.define :sample_format do |f|
 end
 
 Factory.define :sample_transfer do |f|
+	f.association :sample
 end
 
 Factory.define :sample_temperature do |f|

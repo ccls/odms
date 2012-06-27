@@ -54,51 +54,85 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
-		test "should create new sample with #{cu} login" do
+		test "should create new sample and transfer with #{cu} login" do
 			login_as send(cu)
 			study_subject = Factory(:study_subject)
-			assert_difference('Sample.count',1) do
+			assert_difference('SampleTransfer.count',1) {
+			assert_difference('Sample.count',1) {
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
-			end
+			} }
 			assert_nil flash[:error]
 			assert_redirected_to sample_path(assigns(:sample))
 		end
 
-		test "should NOT create with #{cu} login " <<
+		test "should NOT create sample or transfer with #{cu} login " <<
 				"and invalid study_subject_id" do
 			login_as send(cu)
-			assert_difference('Sample.count',0) do
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
 				post :create, :study_subject_id => 0,
 					:sample => factory_attributes
-			end
+			} }
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
 
-		test "should NOT create with #{cu} login " <<
+		test "should NOT create sample or transfer with #{cu} login " <<
 				"and invalid sample" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:valid?).returns(false)
 			study_subject = Factory(:study_subject)
-			assert_difference('Sample.count',0) do
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
-			end
+			} }
 			assert_not_nil flash[:error]
 			assert_response :success
 			assert_template 'new'
 		end
 
-		test "should NOT create with #{cu} login " <<
-				"and save failure" do
+		test "should NOT create sample or transfer with #{cu} login " <<
+				"and sample save failure" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:create_or_update).returns(false)
 			study_subject = Factory(:study_subject)
-			assert_difference('Sample.count',0) do
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
-			end
+			} }
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should NOT create sample or transfer with #{cu} login " <<
+				"and invalid sample transfer" do
+			login_as send(cu)
+			SampleTransfer.any_instance.stubs(:valid?).returns(false)
+			study_subject = Factory(:study_subject)
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			} }
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+		end
+
+		test "should NOT create sample or transfer with #{cu} login " <<
+				"and sample transfer save failure" do
+			login_as send(cu)
+			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
+			study_subject = Factory(:study_subject)
+			assert_difference('SampleTransfer.count',0) {
+			assert_difference('Sample.count',0) {
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			} }
 			assert_not_nil flash[:error]
 			assert_response :success
 			assert_template 'new'

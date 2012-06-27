@@ -134,24 +134,7 @@ class User < ActiveRecord::Base
 	#	by using the config file to define these, I should get coverage to 100%
 	@@permissions = YAML::load(ERB.new(IO.read(File.expand_path(
 			File.join(Rails.root,'config/user_permissions.yml')))).result)
-#	cattr_accessor :permissions
 
-	# Controllers solely accessible by administrators.
-	#	( multi-line arrays, like this one, usually don't test as 
-	#	100% coverage.  Not sure exactly why, but it doesn't.
-	#	Other multi-line arrays seem to cover fine.
-#	%w( abstracts address_types birth_data
-#			birth_datum_updates birth_records contexts data_sources
-#			diagnoses document_types document_versions follow_up_types
-#			hospitals icf_master_ids icf_master_trackers
-#			icf_master_tracker_updates ineligible_reasons
-#			instruments instrument_types instrument_versions
-#			interview_methods interview_outcomes languages
-#			odms_exceptions operational_event_types organizations
-#			people phone_types project_outcomes races refusal_reasons
-#			sample_formats sample_outcomes sample_temperatures
-#			sample_types sections subject_relationships subject_types
-#			tracing_statuses units vital_statuses )
 	@@permissions['administrator_resources'].each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?
@@ -160,8 +143,6 @@ class User < ActiveRecord::Base
 		alias_method "may_destroy_#{resource}?".to_sym, :may_administrate?
 	end
 
-#	%w( candidate_controls contacts guides interviews patients ).each do |resource|
-	# Controllers accessible by editors and administrators.
 	@@permissions['editor_resources'].each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_edit?
 		alias_method "may_read_#{resource}?".to_sym,    :may_edit?
@@ -180,11 +161,6 @@ class User < ActiveRecord::Base
 		alias_method "may_destroy_#{resource}?".to_sym, :may_administrate?
 	end
 
-	# Controllers accessible dependent on action and role.
-	#	As is. Readers can read, and editors and admins can modify.
-#	%w( addressings addresses consents documents enrollments 
-#			home_exposures notes phone_numbers projects samples 
-#			study_subjects ).each do |resource|
 	@@permissions['crud_resources'].each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_create?
 		alias_method "may_read_#{resource}?".to_sym,    :may_read?
