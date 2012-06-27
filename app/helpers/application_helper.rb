@@ -38,7 +38,7 @@ module ApplicationHelper
 			[
 				link_to('Dashboard', dashboard_samples_path),
 				link_to('New/Receive Sample', new_receive_sample_path),
-				'<span>Sample Transfers</span>'
+				link_to('Sample Transfers', sample_transfers_path)
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
@@ -124,7 +124,8 @@ module ApplicationHelper
 		return '' unless study_subject
 		s = "<div id='sidemenu'>\n"
 			links = []
-			if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
+#			if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
+			if request.env["HTTP_REFERER"] =~ /study_subjects\/find/
 				links << link_to( "back to search", request.env["HTTP_REFERER"] )
 			end
 #				link_to( "back to subjects", dashboard_study_subjects_path ),

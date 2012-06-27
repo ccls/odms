@@ -385,13 +385,61 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects)
 			end
+	
+
+#
+#	Possibly add these recall_or_record tests to others
+#	but not really necessary.
+#
+			test "should recall from session find study_subjects and" <<
+					" order by #{attr} with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				login_as send(cu)
+				session[:order] = attr
+				get :find
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+
+			test "should recall from session find study_subjects and" <<
+					" order by #{attr} dir asc with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				login_as send(cu)
+				session[:order] = attr
+				session[:dir] = 'asc'
+				get :find
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
+
+			test "should recall from session find study_subjects and" <<
+					" order by #{attr} dir desc with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				login_as send(cu)
+				session[:order] = attr
+				session[:dir] = 'desc'
+				get :find
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects).reverse
+			end
+
+			test "should recall from session find study_subjects and" <<
+					" order by #{attr} invalid dir with #{cu} login" do
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				login_as send(cu)
+				session[:order] = attr
+				session[:dir] = 'invalid'
+				get :find
+				assert_response :success
+				assert_equal subjects, assigns(:study_subjects)
+			end
 
 		end
+
 #
 #	END order tests
 #
 ######################################################################
-
 
 	end
 

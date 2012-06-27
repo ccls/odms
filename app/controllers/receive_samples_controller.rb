@@ -27,33 +27,54 @@ class ReceiveSamplesController < ApplicationController
 #				conditions[0].join(' OR '), conditions[1])
 #
 		elsif !params[:q].blank?
+#			#	As studyid and icf_master_id are different formats
+#			#	there should never actually be more than one match.
+#			study_subjects = StudySubject.where(
+#				'studyid = :q OR icf_master_id = :q', :q => params[:q])
+#
+#
+#			#	get the children, in case given mother's icf_master_id
+#			study_subjects = study_subjects.collect(&:child)
+##	 StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
+#			#	uniqify in case child and mother both found 
+#			#		(should never happen now that don't use LIKE)
+#			study_subjects = study_subjects.uniq
+#
+#			#	actually don't think compacting is needed
+#			#
+#			#	UNLESS subject has blank familyid (shouldn't happen)
+#			#
+##			study_subjects = study_subjects.compact
+#
+#			case study_subjects.length 
+#				when 0 
+#					flash.now[:warn] = "No Study Subjects Found."
+#				when 1 
+#					@study_subject = study_subjects.first
+#				else
+##
+##	This should not actually ever happen anymore.
+##	( it is also not tested so not covered. )
+##
+#					flash.now[:warn] = "Multiple Study Subjects Found."
+#					@study_subjects = study_subjects
+#			end
+
+
+
 			#	As studyid and icf_master_id are different formats
 			#	there should never actually be more than one match.
-			study_subjects = StudySubject.where(
-				'studyid = :q OR icf_master_id = :q', :q => params[:q])
+			study_subject = StudySubject.where(
+				'studyid = :q OR icf_master_id = :q', :q => params[:q]).limit(1).first
 
+			#	get the child, in case given mother's icf_master_id
+			#	if no study subject found, study_subject is nil, so use try
+			study_subject = study_subject.try(:child)
 
-			#	get the children, in case given mother's icf_master_id
-			study_subjects = study_subjects.collect(&:child)
-#	 StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
-			#	uniqify in case child and mother both found 
-			#		(should never happen now that don't use LIKE)
-			study_subjects = study_subjects.uniq
-
-			#	actually don't think compacting is needed
-			#
-			#	UNLESS subject has blank familyid (shouldn't happen)
-			#
-#			study_subjects = study_subjects.compact
-
-			case study_subjects.length 
-				when 0 
-					flash.now[:warn] = "No Study Subjects Found."
-				when 1 
-					@study_subject = study_subjects.first
-				else
-					flash.now[:warn] = "Multiple Study Subjects Found."
-					@study_subjects = study_subjects
+			if study_subject
+				@study_subject = study_subject
+			else
+				flash.now[:warn] = "No Study Subjects Found."
 			end
 		end
 		if @study_subject

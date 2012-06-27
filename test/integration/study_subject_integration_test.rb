@@ -111,6 +111,17 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert has_css?("#specify_other_race",:visible => true)
 		end
 
+		test "should have 'back to search' link if show subject from find" <<
+				" with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			visit find_study_subjects_path
+			find('td.icf_master_id a').click	#	in reality many, in test should be only one
+			wait_until { has_css?("div#sidemenu") }
+			assert_select HTML::Document.new(body).root, 
+				'div#sidemenu > a', :text => "back to search"
+		end
+
 	end
 
 end
