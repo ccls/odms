@@ -53,7 +53,7 @@ GEM
       capybara (>= 1.0.0, < 1.2)
       json
     ccls-html_test (0.3.0)
-    childprocess (0.3.2)
+    childprocess (0.3.3)
       ffi (~> 1.0.6)
     chronic (0.6.7)
     cocaine (0.2.1)
