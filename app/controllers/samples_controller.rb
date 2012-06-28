@@ -46,6 +46,9 @@ class SamplesController < ApplicationController
 		end
 		validate_valid_date_range_for(:sent_to_subject_at,conditions)
 		validate_valid_date_range_for(:received_by_ccls_at,conditions)
+#			.joins('INNER JOIN `sample_types` AS subtypes ON `subtypes`.`id` = `samples`.`sample_type_id`')
+#			.joins('INNER JOIN `sample_types` AS types ON `types`.`id` = `subtypes`.`parent_id`')
+#			.select('samples.*, subtypes.description AS subtype, types.description AS type')
 		@samples = Sample.joins(:study_subject)
 			.order(search_order)
 			.where(conditions[0].join(valid_find_operator), conditions[1] )
@@ -53,6 +56,8 @@ class SamplesController < ApplicationController
 				:per_page => params[:per_page]||25,
 				:page     => valid_find_page
 			)
+
+#Sample.joins('INNER JOIN `sample_types` AS subtypes ON `subtypes`.`id` = `samples`.`sample_type_id`').joins('INNER JOIN `sample_types` AS types ON `types`.`id` = `subtypes`.`parent_id`').select('samples.*, subtypes.description AS subtype, types.description AS type').first.type
 
 		#
 		#	As it is possible to set a page and then add a filter,
@@ -161,7 +166,7 @@ protected
 
 	def search_order
 		if params[:order] and
-				%w( id received_by_ccls_at ).include?(
+				%w( id type subtype received_by_ccls_at ).include?(
 				params[:order].downcase)
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)

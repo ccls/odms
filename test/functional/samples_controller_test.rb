@@ -510,6 +510,14 @@ class SamplesControllerTest < ActionController::TestCase
 			skip
 		end
 
+
+
+#	by type
+#	by subtype
+#	by status
+#	by project
+
+
 	
 	#		End Find Order Tests
 	##################################################
