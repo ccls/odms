@@ -20,9 +20,9 @@ sent_to_lab_at
 <% @samples.each do |sample| -%>
 <%= [ 
 	sample.study_subject.icf_master_id_to_s,
-	sample.study_subject.subjectid,
+	" #{sample.study_subject.subjectid}",
 	sample.study_subject.sex,
-	sample.sampleid,
+	" #{sample.sampleid}",
 	sample.sample_type.gegl_sample_type_id,
 	mdyhm_or_nil(sample.collected_from_subject_at),
 	mdyhm_or_nil(sample.received_by_ccls_at),
@@ -30,3 +30,9 @@ sent_to_lab_at
 	mdyhm_or_nil(sample.sent_to_lab_at)
 ].to_csv -%>
 <% end -%>
+<%#
+
+I added leading spaces to the sampleid and subjectid so that excel preserves 
+the leading zeroes by treating the field as a string rather than integer.
+
+-%>
