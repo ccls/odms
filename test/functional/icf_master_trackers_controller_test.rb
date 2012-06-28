@@ -26,6 +26,15 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			assert_redirected_to icf_master_trackers_path
 		end
 	
+		test "should actually do something on update with #{cu} login" do
+			login_as send(cu)
+			icf_master_tracker = Factory(:icf_master_tracker)
+			put :update, :id => icf_master_tracker.id
+			assert_not_nil flash[:notice]
+			assert_redirected_to icf_master_trackers_path
+			skip
+		end
+	
 	end
 
 	non_site_administrators.each do |cu|
