@@ -146,11 +146,11 @@ module ApplicationHelper
 				link_to( "Eligibility & Consent", study_subject_consent_path(study_subject),
 					:class => ((current == :consents)?'current':nil) ),
 				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
-					:class => ((current == :eligibility)?'current':nil) ) ]
+					:class => ((current == :eligibility)?'current':nil) ),
+				link_to( "Samples", study_subject_samples_path(study_subject),
+					:class => ((current == :samples)?'current':nil) )]
 
 			links += [
-				link_to( "Samples", study_subject_samples_path(study_subject),
-					:class => ((current == :samples)?'current':nil) ),
 				link_to( "Interviews", study_subject_interviews_path(study_subject),
 					:class => ((current == :interviews)?'current':nil) ) 
 			] if( logged_in? and current_user.may_administrate? )
@@ -165,7 +165,6 @@ module ApplicationHelper
 					:class => ((current == :notes)?'current':nil) ),
 			] if( logged_in? and current_user.may_administrate? )
 
-#			links << link_to( "Related Subjects", related_subject_path(study_subject),
 			links << link_to( "Related Subjects", 
 					study_subject_related_subjects_path(study_subject),
 					:class => ((current == :related_subjects)?'current':nil) )
