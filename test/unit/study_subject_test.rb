@@ -303,16 +303,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 			[study_subject.childid,'(',study_subject.studyid,study_subject.full_name,')'].compact.join(' ')
 	end
 
-	test "should create_home_exposure_with_study_subject" do
-		study_subject = create_home_exposure_with_study_subject
-		assert study_subject.is_a?(StudySubject)
-	end
-
-	test "should create_home_exposure_with_study_subject with patient" do
-		study_subject = create_home_exposure_with_study_subject(:patient => true)
-		assert study_subject.is_a?(StudySubject)
-	end
-
 	test "should return nil for next_control_orderno for control" do
 		study_subject = create_complete_control_study_subject
 		assert study_subject.is_control?

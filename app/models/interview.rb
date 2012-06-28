@@ -20,6 +20,24 @@ class Interview < ActiveRecord::Base
 
 	delegate :is_other?, :to => :subject_relationship, :allow_nil => true, :prefix => true
 
+#	validates_presence_of :address_id
+	validates_presence_of :address, :if => :address_id
+
+#	validates_presence_of :instrument_version_id
+	validates_presence_of :instrument_version, :if => :instrument_version_id
+
+#	validates_presence_of :interview_method_id
+	validates_presence_of :interview_method, :if => :interview_method_id
+
+#	validates_presence_of :interviewer_id
+	validates_presence_of :interviewer, :if => :interviewer_id
+
+#	validates_presence_of :language_id
+	validates_presence_of :language, :if => :language_id
+
+#	validates_presence_of :study_subject_id
+	validates_presence_of :study_subject, :if => :study_subject_id
+
 	validates_complete_date_for :began_at, :ended_at, :intro_letter_sent_on, 
 		:allow_nil => true
 

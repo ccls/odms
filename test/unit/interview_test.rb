@@ -40,73 +40,83 @@ class InterviewTest < ActiveSupport::TestCase
 		}
 	end
 
-#	test "should create intro letter operational event " <<
-#			"when intro_letter_sent_on set" do
-#		study_subject = create_hx_study_subject
-#		assert_difference( "OperationalEvent.count", 1 ) {
-#		assert_difference( "Interview.count", 1 ) {
-#			@interview = create_interview( :study_subject => study_subject,
-#				:intro_letter_sent_on => Date.yesterday ).reload
-#		} }
-#		oe = study_subject.operational_events.where(
-#			:project_id => Project['HomeExposures'].id).first
-#		assert_equal OperationalEventType['intro'],   oe.operational_event_type
-#		assert_equal @interview.intro_letter_sent_on, oe.occurred_on
-#	end
-#
-#	test "should update intro letter operational event " <<
-#			"when intro_letter_sent_on updated" do
-#		study_subject = create_hx_study_subject
-#		interview = create_interview(
-#			:study_subject => study_subject,
-#			:intro_letter_sent_on => Date.yesterday )
-#		assert_difference( "OperationalEvent.count", 0 ) {
-#		assert_difference( "Interview.count", 0 ) {
-#			interview.update_attributes(:intro_letter_sent_on => Date.today )
-#		} }
-#		assert_equal interview.intro_letter_sent_on, Date.today
-#		oe = study_subject.operational_events.where(
-#			:project_id => Project['HomeExposures'].id).first
-#		assert_equal interview.intro_letter_sent_on, oe.occurred_on
-#	end
-
-#	TODO I think that these should require valid
-#		They shouldn't require the _id, but if given the association should be valid.
-
-	test "should NOT require valid address_id" do
-		interview = Interview.new(:address_id => 0)
+	test "should NOT require address" do
+		interview = Interview.new(:address => nil)
 		interview.valid?
 		assert !interview.errors.include?(:address)
+		assert !interview.errors.include?(:address_id)
 	end
 
-	test "should NOT require valid interviewer_id" do
-		interview = Interview.new(:interviewer_id => 0)
+	test "should require valid address if given" do
+		interview = Interview.new(:address_id => 0)
+		assert !interview.valid?
+		assert  interview.errors.include?(:address)
+	end
+
+	test "should NOT require interviewer" do
+		interview = Interview.new(:interviewer => nil)
 		interview.valid?
 		assert !interview.errors.include?(:interviewer)
+		assert !interview.errors.include?(:interviewer_id)
 	end
 
-	test "should NOT require valid instrument_version_id" do
-		interview = Interview.new(:instrument_version_id => 0)
+	test "should require valid interviewer if given" do
+		interview = Interview.new(:interviewer_id => 0)
+		assert !interview.valid?
+		assert  interview.errors.include?(:interviewer)
+	end
+
+	test "should NOT require instrument_version" do
+		interview = Interview.new(:instrument_version => nil)
 		interview.valid?
 		assert !interview.errors.include?(:instrument_version_id)
+		assert !interview.errors.include?(:instrument_version)
 	end
 
-	test "should NOT require valid interview_method_id" do
-		interview = Interview.new(:interview_method_id => 0)
+	test "should require valid instrument_version if given" do
+		interview = Interview.new(:instrument_version_id => 0)
+		assert !interview.valid?
+		assert  interview.errors.include?(:instrument_version)
+	end
+
+	test "should NOT require interview_method" do
+		interview = Interview.new(:interview_method => nil)
 		interview.valid?
 		assert !interview.errors.include?(:interview_method_id)
+		assert !interview.errors.include?(:interview_method)
 	end
 
-	test "should NOT require valid language_id" do
-		interview = Interview.new(:language_id => 0)
+	test "should require valid interview_method if given" do
+		interview = Interview.new(:interview_method_id => 0)
+		assert !interview.valid?
+		assert  interview.errors.include?(:interview_method)
+	end
+
+	test "should NOT require language" do
+		interview = Interview.new(:language => nil)
 		interview.valid?
 		assert !interview.errors.include?(:language_id)
+		assert !interview.errors.include?(:language)
 	end
 
-	test "should NOT require valid study_subject_id" do
-		interview = Interview.new(:study_subject_id => 0)
+	test "should require valid language if given" do
+		interview = Interview.new(:language_id => 0)
+		assert !interview.valid?
+		assert  interview.errors.include?(:language)
+	end
+
+	test "should NOT require study_subject" do
+		interview = Interview.new(:study_subject => nil)
 		interview.valid?
 		assert !interview.errors.include?(:study_subject_id)
+		assert !interview.errors.include?(:study_subject)
+	end
+
+	test "should require valid study_subject if given" do
+		#	study_subject_id is protected so must use block
+		interview = Interview.new{|i| i.study_subject_id = 0}
+		assert !interview.valid?
+		assert  interview.errors.include?(:study_subject)
 	end
 
 	test "should return join of respondent's name" do
