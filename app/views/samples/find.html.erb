@@ -59,8 +59,8 @@
 <hr/>
 <% if @samples.length > 0 %>
 <table id='samples'><thead><tr>
-<th>received on</th>
-<th>sample id</th>
+<th><%= sort_link('received_by_ccls_at', 'received on' ) %></th>
+<th><%= sort_link('id', 'sample id') %></th>
 <th>project</th>
 <th>type</th>
 <th>subtype</th>

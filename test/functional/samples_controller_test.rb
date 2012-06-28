@@ -486,13 +486,29 @@ class SamplesControllerTest < ActionController::TestCase
 	#		Begin Find Order Tests (only on fields in table)
 
 
+		test "should find samples and order by sampleid with #{cu} login" do
+			skip
+		end
 
+		test "should find samples and order by sampleid asc with #{cu} login" do
+			skip
+		end
 
+		test "should find samples and order by sampleid desc with #{cu} login" do
+			skip
+		end
 
+		test "should find samples and order by received by ccls at with #{cu} login" do
+			skip
+		end
 
+		test "should find samples and order by received by ccls at asc with #{cu} login" do
+			skip
+		end
 
-
-
+		test "should find samples and order by received by ccls at desc with #{cu} login" do
+			skip
+		end
 
 	
 	#		End Find Order Tests

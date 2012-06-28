@@ -46,9 +46,10 @@ class SamplesController < ApplicationController
 		end
 		validate_valid_date_range_for(:sent_to_subject_at,conditions)
 		validate_valid_date_range_for(:received_by_ccls_at,conditions)
-		@samples = Sample.joins(:study_subject
-			).where(conditions[0].join(valid_find_operator), conditions[1] 
-			).paginate(
+		@samples = Sample.joins(:study_subject)
+			.order(search_order)
+			.where(conditions[0].join(valid_find_operator), conditions[1] )
+			.paginate(
 				:per_page => params[:per_page]||25,
 				:page     => valid_find_page
 			)
@@ -155,6 +156,21 @@ protected
 #			@study_subject = StudySubject.find(@sample.study_subject_id)
 		else
 			access_denied("Valid sample id required!", study_subjects_path)
+		end
+	end
+
+	def search_order
+		if params[:order] and
+				%w( id received_by_ccls_at ).include?(
+				params[:order].downcase)
+			order_string = params[:order]
+			dir = case params[:dir].try(:downcase)
+				when 'desc' then 'desc'
+				else 'asc'
+			end
+			[order_string,dir].join(' ')
+		else
+			nil
 		end
 	end
 
