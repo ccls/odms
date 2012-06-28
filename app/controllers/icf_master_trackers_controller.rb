@@ -24,9 +24,10 @@ class IcfMasterTrackersController < ApplicationController
 	#	This is a trigger to update the associated models of the 
 	#	IcfMasterTracker.
 	def update
-		flash[:notice] = "Attempted update"
+		flash[:notice] = "Attempted update (DEV TODO Nothing actually done yet)"
 
-#	attempt individual update
+
+#	TODO attempt individual update
 
 
 		redirect_to icf_master_trackers_path

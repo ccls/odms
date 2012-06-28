@@ -15,11 +15,6 @@ class CandidateControlsController < ApplicationController
 	before_filter :unused_candidate_control_required,
 		:only => [:edit,:update]
 
-#	before_filter :may_create_study_subjects_required
-#	before_filter :valid_id_required
-#	before_filter :valid_case_study_subject_required
-#	before_filter :unused_candidate_control_required
-
 	def index
 		@candidate_controls = CandidateControl.all
 	end
@@ -33,63 +28,54 @@ class CandidateControlsController < ApplicationController
 		#	by presetting them, we keep them should we bounce back to edit
 		@candidate_control.reject_candidate = params[:candidate_control][:reject_candidate]
 		@candidate_control.rejection_reason = params[:candidate_control][:rejection_reason]
-#		CandidateControl.transaction do
-			unless @candidate_control.reject_candidate
-				#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
-				#	this form's submit button is 'continue' NOT 'Submit'
-				if params[:commit].blank? or params[:commit] == 'continue'
-					@duplicates = study_subject_duplicates
-					raise StudySubject::DuplicatesFound unless @duplicates.empty?
-				end	#	if params[:commit].blank? or params[:commit] == 'Submit'
 
-				if params[:commit] == 'Match Found'
-					@duplicates = study_subject_duplicates
-					if params[:duplicate_id] and
-							( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
-							@duplicates.include?(duplicate)
-						@candidate_control.reject_candidate = true
-						@candidate_control.rejection_reason = "ineligible control - "
-						if duplicate.is_case?
-							@candidate_control.rejection_reason << "child is already a case subject."
-						else	#	is a control
-							@candidate_control.rejection_reason << "control already exists in system."
-						end
-					else
-						#
-						#	Match Found, but no duplicate_id or subject with the id
-						#
-						warn << "No valid duplicate_id given"
-						raise StudySubject::DuplicatesFound unless @duplicates.empty?
+		unless @candidate_control.reject_candidate
+			#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
+			#	this form's submit button is 'continue' NOT 'Submit'
+			if params[:commit].blank? or params[:commit] == 'continue'
+				@duplicates = study_subject_duplicates
+				raise StudySubject::DuplicatesFound unless @duplicates.empty?
+			end	#	if params[:commit].blank? or params[:commit] == 'Submit'
+
+			if params[:commit] == 'Match Found'
+				@duplicates = study_subject_duplicates
+				if params[:duplicate_id] and
+						( duplicate = StudySubject.find_by_id(params[:duplicate_id]) ) and
+						@duplicates.include?(duplicate)
+					@candidate_control.reject_candidate = true
+					@candidate_control.rejection_reason = "ineligible control - "
+					if duplicate.is_case?
+						@candidate_control.rejection_reason << "child is already a case subject."
+					else	#	is a control
+						@candidate_control.rejection_reason << "control already exists in system."
 					end
-#@candidate_control.save!
-
-				#	params[:commit].blank? or params[:commit] == 'Submit' 
-				#		or params[:commit] == 'No Match'
 				else
-					#	No duplicates found or if there were, not matches.
-					#	Transactions are only for marking a rollback point.
-					#	The raised error will still kick all the way out.
-					@candidate_control.create_study_subjects(@study_subject,'6')	#	'6' is default anyway
-					if @candidate_control.study_subject.icf_master_id.blank?
-						warn << "Control was not assigned an icf_master_id."
-					end
-					if @candidate_control.study_subject.mother.icf_master_id.blank?
-						warn << "Mother was not assigned an icf_master_id."
-					end
-					flash[:warn] = warn.join('<br/>') unless warn.empty?
-				end	#	else of if params[:commit] == 'Match Found'
+					#
+					#	Match Found, but no duplicate_id or subject with the id
+					#
+					warn << "No valid duplicate_id given"
+					raise StudySubject::DuplicatesFound unless @duplicates.empty?
+				end
 
-#else	#	unless @candidate_control.reject_candidate
-#@candidate_control.save!
-			end	#	unless @candidate_control.reject_candidate
+			#	params[:commit].blank? or params[:commit] == 'Submit' 
+			#		or params[:commit] == 'No Match'
+			else
+				#	No duplicates found or if there were, not matches.
+				#	Transactions are only for marking a rollback point.
+				#	The raised error will still kick all the way out.
+				#	'6' is default group anyway
+				@candidate_control.create_study_subjects(@study_subject,'6')	
 
-#	a transaction just doesn't seem needed anymore
-#		CandidateControl.transaction do
-#	is this save REALLY needed.  Yes. If rejected.
-#	otherwise, not really, as create_study_subjects calls save!
-#	duplicate needs as well
-			@candidate_control.save!
-#		end	#	CandidateControl.transaction do
+				if @candidate_control.study_subject.icf_master_id.blank?
+					warn << "Control was not assigned an icf_master_id."
+				end
+				if @candidate_control.study_subject.mother.icf_master_id.blank?
+					warn << "Mother was not assigned an icf_master_id."
+				end
+				flash[:warn] = warn.join('<br/>') unless warn.empty?
+			end	#	else of if params[:commit] == 'Match Found'
+		end	#	unless @candidate_control.reject_candidate
+		@candidate_control.save!
 		redirect_to study_subject_related_subjects_path(@study_subject)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Candidate control update failed."
