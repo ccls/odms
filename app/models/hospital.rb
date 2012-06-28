@@ -14,9 +14,6 @@ class Hospital < ActiveRecord::Base
 	validates_uniqueness_of :organization_id, 
 		:allow_blank => true
 
-#	unnecessary now that I fixed the locales file.
-#		:message => "Organization has already been taken",
-
 	scope :active,      where( :is_active => true )
 	scope :waivered,    where( :has_irb_waiver => true )
 	scope :nonwaivered, where( :has_irb_waiver => false )

@@ -78,6 +78,7 @@ base.class_eval do
 				{ :id => my_patient.id })
 		end
 		#	make sure we return true as is a callback
+		#	( don't really know if this is actually needed )
 		true
 	end
 
@@ -108,6 +109,8 @@ base.class_eval do
 				end
 			end
 		end
+		#	make sure we return true as is a callback
+		#	( don't really know if this is actually needed )
 		true
 	end
 

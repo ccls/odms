@@ -22,19 +22,9 @@ class IcfMasterTracker < ActiveRecord::Base
 	before_save :attach_study_subject
 	before_save :flag_for_update
 
-#	before_create :save_all_changes	#	this will create a "new_record"
-#	after_save    :save_all_changes	#	this will document all the changes
+	after_create :create_new_tracker_record_change
 
-after_create :create_new_tracker_record_change
-#
-#	after_save will be fired after create as well as update.
-#	after_update will only be fired after update.
-#
-#	therefore, after_save will document the change of master_id from '' to 'whatever'
-#	this is kinda irrelevant
-#
-after_update :create_tracker_record_changes
-#after_save   :create_tracker_record_changes
+	after_update :create_tracker_record_changes
 
 	#	purely for passing the date from the IcfMasterTrackerUpdate
 	#	to the IcfMasterTrackerChange
@@ -81,34 +71,6 @@ after_update :create_tracker_record_changes
 				)
 			end
 	end
-
-#	def save_all_changes
-##
-##	this won't really work as the record is first created from the master_id
-##	and then it is updated. This means that it create the 'new tracker' and
-##	then immediately create changes for each non-nil value. This may be
-##	desired, but be aware.
-##
-#
-##	NOTE 20120406 add the !'s
-#		if new_record?
-#			IcfMasterTrackerChange.create!(
-#				:icf_master_id       => self.master_id,
-#				:master_tracker_date => self.master_tracker_date,
-#				:new_tracker_record  => true
-#			)
-#		else
-#			unignorable_changes.each do |field,values|
-#				IcfMasterTrackerChange.create!(
-#					:icf_master_id       => self.master_id,
-#					:master_tracker_date => self.master_tracker_date,
-#					:modified_column     => field,
-#					:previous_value      => values[0],
-#					:new_value           => values[1]
-#				)
-#			end
-#		end
-#	end
 
 end
 

@@ -48,29 +48,3 @@ protected
 
 end
 __END__
-
-#	before_save :update_intro_operational_event,
-#		:if => :intro_letter_sent_on_changed?
-
-#	def update_intro_operational_event
-#		oet = OperationalEventType['intro']
-#		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-#		if oet && hxe
-#			oe = study_subject.operational_events.where(
-#					:project_id => Project['HomeExposures'].id ).where(
-#					:operational_event_type_id => oet.id ).limit(1).first
-#			if oe
-#				oe.update_attributes!(
-#					:description => oet.description,
-#					:occurred_at => intro_letter_sent_on
-#				)
-#			else
-#				study_subject.operational_events.create!(
-#					:project_id                => Project['HomeExposures'].id,
-#					:operational_event_type_id => oet.id,
-#					:description               => oet.description,
-#					:occurred_at               => intro_letter_sent_on
-#				)
-#			end
-#		end
-#	end

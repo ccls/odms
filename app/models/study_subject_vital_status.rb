@@ -15,7 +15,6 @@ base.class_eval do
 	def set_default_vital_status
 		# ||= doesn't work with ''
 		self.vital_status_id ||= VitalStatus['living'].id
-#		self.vital_status ||= VitalStatus['living']
 	end
 
 end	#	class_eval

@@ -11,13 +11,6 @@ class Race < ActiveRecord::Base
 		description
 	end
 
-#	I don't think that this is used anymore. (20120411)
-#
-#	#	Returns description
-#	def name
-#		description
-#	end
-
 	#	Returns boolean of comparison
 	#	true only if key == 'other'
 	def is_other?

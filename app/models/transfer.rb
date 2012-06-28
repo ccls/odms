@@ -33,8 +33,3 @@ protected
 	end
 
 end
-
-
-#	It would not surprise me if sent_on and received_on are added
-
-#	This could also have a tracking_number and be tracked via active_shipping

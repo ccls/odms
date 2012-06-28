@@ -117,14 +117,12 @@ class Enrollment < ActiveRecord::Base
 	#	Return boolean of comparison
 	#	true only if is_eligible == 2
 	def is_not_eligible?
-#		is_eligible.to_i == YNDK[:no]	#2
 		is_eligible == YNDK[:no]	#2
 	end
 
 	#	Return boolean of comparison
 	#	true only if is_chosen == 2
 	def is_not_chosen?
-#		is_chosen.to_i == YNDK[:no]	#2
 		is_chosen == YNDK[:no]	#2
 	end
 
@@ -138,28 +136,24 @@ class Enrollment < ActiveRecord::Base
 	#	Return boolean of comparison
 	#	true only if consented == 2
 	def not_consented?
-#		consented.to_i == YNDK[:no]	#2
 		consented == YNDK[:no]	#2
 	end
 
 	#	Return boolean of comparison
 	#	true only if consented == nil or 999
 	def consent_unknown?
-#		[nil,999,'','999'].include?(consented)	#	not 1 or 2
 		[nil,999].include?(consented)	#	not 1 or 2
 	end
 
 	#	Return boolean of comparison
 	#	true only if terminated_participation == 1
 	def terminated_participation?
-#		terminated_participation.to_i == YNDK[:yes]	#	1
 		terminated_participation == YNDK[:yes]	#	1
 	end
 
 	#	Return boolean of comparison
 	#	true only if is_complete == 1
 	def is_complete?
-#		is_complete.to_i == YNDK[:yes]	#	1
 		is_complete == YNDK[:yes]	#	1
 	end
 
@@ -181,7 +175,6 @@ protected
 			operational_event_type, occurred_at = if( is_complete == YNDK[:yes] )
 				[OperationalEventType['complete'], completed_on]
 			elsif( is_complete_was == YNDK[:yes] )
-#				[OperationalEventType['reopened'], Date.today]
 				[OperationalEventType['reopened'], DateTime.now]
 			else 
 				[nil, nil]

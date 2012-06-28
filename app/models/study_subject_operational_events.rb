@@ -20,7 +20,6 @@ base.class_eval do
 		self.operational_events.create!(
 			:project_id                => Project['ccls'].id,
 			:operational_event_type_id => OperationalEventType['newSubject'].id,
-#			:occurred_at               => Date.today
 			:occurred_at               => DateTime.now
 		)
 	end
@@ -33,21 +32,18 @@ base.class_eval do
 			self.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subjectDied'].id,
-#				:occurred_at               => Date.today
 				:occurred_at               => DateTime.now
 			)
 		end
 	end
 
-#	operational_events.occurred_at where operational_event_type_id = 26 and enrollment_id is for any open project (where projects.ended_on is null) for study_subject_id
-
+	#	operational_events.occurred_at where operational_event_type_id = 26 and enrollment_id is for any open project (where projects.ended_on is null) for study_subject_id
 	def screener_complete_date_for_open_project
 		oe = self.operational_events.joins(:project).where(
 			'projects.ended_on IS NULL').where(
 			"operational_event_type_id = ?",
 				OperationalEventType['screener_complete'].id).limit(1).first
-#	separated to try to make 100% coverage (20120411)
-#		oe.try(:occurred_at).try(:to_date)
+		#	separated to try to make 100% coverage (20120411)
 		oe.try(:occurred_on)
 	end
 

@@ -14,7 +14,6 @@ class StudySubject < ActiveRecord::Base
 
 	has_and_belongs_to_many :analyses
 	has_one :home_exposure_response
-#	has_one :birth_datum
 	has_many :birth_data
 	has_many :bc_requests
 	has_many :interviews
@@ -57,8 +56,7 @@ class StudySubject < ActiveRecord::Base
 	validates_complete_date_for :reference_date, :allow_nil => true
 
 	validates_complete_date_for :died_on, :allow_blank => true
-	validates_uniqueness_of     :state_id_no, 
-:childid, 
+	validates_uniqueness_of     :state_id_no, :childid, 
 		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
 		:accession_no, :idno_wiemels, :studyid, :subjectid, :allow_nil => true
 #

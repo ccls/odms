@@ -7,10 +7,6 @@ class Addressing < ActiveRecord::Base
 	belongs_to :address
 	belongs_to :data_source
 
-	#	TODO test this.  Also may not need current_user now.
-#	This works in the console and such, but ActiveScaffold tries
-#	to use it in a join, but it is in a different database so fails.
-#	May be able to make it work in AS, but need to fiddle.
 #	belongs_to :verified_by, :foreign_key => 'verified_by_uid',
 #		:class_name => 'User', :primary_key => 'uid'
 
@@ -62,7 +58,6 @@ class Addressing < ActiveRecord::Base
 	#	Returns boolean of comparison of is_valid == 2 or 999
 	#	Rails SHOULD convert incoming string params to integer.
 	def is_not_valid?
-#		[2,999].include?(is_valid.to_i)
 		[2,999].include?(is_valid)
 	end
 
@@ -90,7 +85,6 @@ protected
 			study_subject.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subject_moved'].id,
-#				:occurred_at               => Date.today
 				:occurred_at               => DateTime.now
 			)
 		end
@@ -98,39 +92,3 @@ protected
 
 end
 __END__
-
-#	after_create :check_state_for_eligibilty
-
-#	def check_state_for_eligibilty
-#		if( state != 'CA' && study_subject && 
-#			( hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id) ) &&
-#			address_type_id == AddressType['residence'].id )
-#
-#			#	This is an after_save so using 1 NOT 0
-#			ineligible_reason = if( study_subject.residence_addresses_count == 1 )
-#				IneligibleReason['newnonCA']
-#			else
-#				IneligibleReason['moved']
-#			end
-#
-#			hxe.update_attributes(
-#				:is_eligible => YNDK[:no],
-#				:ineligible_reason_id => ineligible_reason.id
-#			)
-#
-#			oet = OperationalEventType['ineligible']
-#			if( oet.blank? )
-#				errors.add(:base,"OperationalEventType['ineligible'] not found")
-#				#	I'm surprised that I need this raise?
-#				raise ActiveRecord::RecordNotSaved
-#			end
-#
-#			study_subject.operational_events.create!(
-#				:project_id                => Project['HomeExposures'].id,
-#				:operational_event_type_id => oet.id,
-#				:occurred_at               => Date.today,
-#				:description               => ineligible_reason.to_s
-#			)
-#		end
-#	end
-

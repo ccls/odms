@@ -14,14 +14,13 @@
 #	to something like a nested set.
 class Page < ActiveRecord::Base
 #	default_scope :order => 'position ASC'
-
 #	This is odd.
 #	Create a page and it get position 1
 #	Create another page and it get position 2
 #	Create yet another page and it get position 2 also????
 #	Create yet another page and it get position 2 also????
 #	remove the default scope and it works.
-#	I'm quickly learning that default scopes suck.
+#	I'm quickly learning that default scopes suck (in rails 3).
 
 	acts_as_list :scope => :parent_id
 #	acts_as_list :scope => "parent_id \#{(parent_id.nil?)?'IS NULL':'= parent_id'} AND locale = '\#{locale}'"
@@ -48,11 +47,7 @@ class Page < ActiveRecord::Base
 	def adjust_path
 		unless self.path.nil?
 			#	remove any duplicate /'s
-#			self.path = path.gsub(/\/+/,'/')
 			self.path.gsub!(/\/+/,'/')
-
-			#	add leading / if none
-#			self.path = path.downcase
 			self.path.downcase!
 		end
 	end
@@ -63,13 +58,12 @@ class Page < ActiveRecord::Base
 	#	matches the given path.
 	def self.by_path(path)
 		#	interesting.  limit 1 still returns an array
-#		page = where(:path => path.downcase ).limit(1).first
 		where(:path => path.downcase ).limit(1).first
 	end
 
 	def root
 		page = self
-#	in theory, this could be an infinite loop.
+#	NOTE in theory, this could be an infinite loop.
 		until page.parent == nil
 			page = page.parent
 		end 

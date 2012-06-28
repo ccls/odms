@@ -91,7 +91,6 @@ base.class_eval do
 		self.operational_events.create!(
 			:project_id                => Project['ccls'].id,
 			:operational_event_type_id => OperationalEventType['DuplicateCase'].id,
-#			:occurred_at               => Date.today,
 			:occurred_at               => DateTime.now,
 			:description               => "a new RAF for this subject was submitted by " <<
 				"#{attempted_subject.admitting_oncologist} of " <<

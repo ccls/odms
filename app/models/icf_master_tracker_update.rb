@@ -8,7 +8,6 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 		YAML::load(ERB.new(IO.read(File.expand_path(
 			File.join(Rails.root,'config/icf_master_tracker_update.yml')
 		))).result)[Rails.env]
-#			File.join(File.dirname(__FILE__),'../..','config/icf_master_tracker_update.yml')
 
 	validates_presence_of   :master_tracker_date
 	validates_uniqueness_of :master_tracker_date

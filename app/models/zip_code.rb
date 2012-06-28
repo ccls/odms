@@ -1,6 +1,5 @@
 class ZipCode < ActiveRecord::Base
 
-#	default_scope :order => :zip_code	#, :limit => 10
 	belongs_to :county
 
 	validates_presence_of   :zip_code, :city, :state, :zip_class
@@ -16,7 +15,6 @@ class ZipCode < ActiveRecord::Base
 	#	Treats the class a bit like a Hash and
 	#	searches for a record with a matching code.
 	def self.[](zip_code)
-#		find_by_zip_code(zip_code.to_s) #|| raise(NotFound)
 		where(:zip_code => zip_code.to_s).first
 	end
 

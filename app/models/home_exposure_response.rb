@@ -15,7 +15,6 @@ class HomeExposureResponse < ActiveRecord::Base
 		@@fields ||= YAML::load( ERB.new( IO.read(
 			File.join(Rails.root,'config/home_exposure_response_fields.yml')
 			)).result)
-#			File.join(File.dirname(__FILE__),'../../config/home_exposure_response_fields.yml')
 	end
 
 	def self.db_field_names

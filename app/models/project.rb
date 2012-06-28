@@ -21,17 +21,7 @@ class Project < ActiveRecord::Base
 	#	Returns all projects for which the study_subject
 	#	does not have an enrollment
 	def self.unenrolled_projects(study_subject)
-#		Project.all(
-#			:joins => "LEFT JOIN enrollments ON " <<
-#				"projects.id = enrollments.project_id AND " <<
-#				"enrollments.study_subject_id = #{study_subject.id}",
-#			:conditions => [ "enrollments.study_subject_id IS NULL" ])
-#		Project.joins("LEFT JOIN enrollments ON " <<
-#				"projects.id = enrollments.project_id AND " <<
-#				"enrollments.study_subject_id = #{study_subject.id}"
-#			).where("enrollments.study_subject_id IS NULL")	#	everything is NULL actually
-
-#	breaking up to try to make 100% coverage (20120411)
+		#	broke up to try to make 100% coverage (20120411)
 		projects = Project.joins("LEFT JOIN enrollments ON " <<
 				"projects.id = enrollments.project_id AND " <<
 				"enrollments.study_subject_id = #{study_subject.id}" )
