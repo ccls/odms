@@ -26,26 +26,36 @@ unspecifieddust:
   key: 9
   description: unspecified dust sample type
   for_new_sample: false
+  t2k_sample_type_id:  4
+  gegl_sample_type_id:  ds
 vacuumbag:
   id: 12
   parent_id: 1
   key: 10
   description: vacuum bag
+  t2k_sample_type_id:  2
+  gegl_sample_type_id:  ds
 loose:
   id: 13
   parent_id: 1
   key: 11
   description: loose dust
+  t2k_sample_type_id:  3
+  gegl_sample_type_id:  ds
 otherdust:
   id: 14
   parent_id: 1
   key: 12
   description: other type of dust sample
+  t2k_sample_type_id:  5
+  gegl_sample_type_id:  ds
 hvs:
   id: 36
   parent_id: 1
   key: hvs3
   description:  HVS3
+  t2k_sample_type_id:  1
+  gegl_sample_type_id:  ds
 
 
 blood:
@@ -58,26 +68,52 @@ unspecifiedblood:
   key: 13
   description: unspecified blood sample type
   for_new_sample: false
+  t2k_sample_type_id:  10
+  gegl_sample_type_id:  b
 ANB:
   id: 16
   parent_id: 2
   key: 14
   description: archive newborn blood
+  t2k_sample_type_id:  6
+  gegl_sample_type_id:  b
 otherblood:
   id: 17
   parent_id: 2
   key: 16
   description: other type of blood sample
+  t2k_sample_type_id:  9
+  gegl_sample_type_id:  b
 periph:
   id: 31
   parent_id: 2
   key: periph
   description: peripheral blood - diagnostic
+  t2k_sample_type_id:  7
+  gegl_sample_type_id:  b
 momblood:
   id: 33
   parent_id: 2
   key: momblood
   description: maternal blood
+  t2k_sample_type_id:  27
+  gegl_sample_type_id:  b
+gegl-3x-bmmc:
+  id: 40
+  parent_id: 2
+  key: gegl-3xbmmc
+  description: "gegl aliquot type - 3x bmmc"
+  for_new_sample: false
+  t2k_sample_type_id:  44
+  gegl_sample_type_id:  b_bmmc
+gegl-bms:
+  id: 41
+  parent_id: 2
+  key: gegl-bms
+  description: "gegl aliquot type - bms"
+  for_new_sample: false
+  t2k_sample_type_id:  47
+  gegl_sample_type_id:  b_bms
 
 
 saliva:
@@ -90,41 +126,55 @@ unspecifiedsaliva:
   key: 17
   description: unspecified saliva sample type
   for_new_sample: false
+  t2k_sample_type_id:  13
+  gegl_sample_type_id:  s
 kit:
   id: 19
   parent_id: 3
   key: 18
   description: saliva kit (no brushes)
   for_new_sample: false
+  t2k_sample_type_id:  13
+  gegl_sample_type_id:  s
 kitwithBrushes:
   id: 20
   parent_id: 3
   key: 19
   description: saliva kit (with brushes)
   for_new_sample: false
+  t2k_sample_type_id:  15
+  gegl_sample_type_id:  s
 othersaliva:
   id: 21
   parent_id: 3
   key: 20
   description: other type of saliva sample
+  t2k_sample_type_id:  12
+  gegl_sample_type_id:  s
 og250:
   id: 37
   parent_id: 3
   key: og250
 #	gotta quote this
   description:  "OG250: < 12 mos (five sponges)"
+  t2k_sample_type_id:  16
+  gegl_sample_type_id:  s
 og575:
   id: 38
   parent_id: 3
   key: og575
 #	gotta quote this
   description:  "OG575: 12-36 mos (two sponges)"
+  t2k_sample_type_id:  17
+  gegl_sample_type_id:  s
 og500:
   id: 39
   parent_id: 3
   key: og500
 #	gotta quote this
   description:  "OG500:  > 36 mos (spit kit)"
+  t2k_sample_type_id:  18
+  gegl_sample_type_id:  s
 
 
 buccal:
@@ -136,16 +186,23 @@ unspecifiedbuccal:
   parent_id: 4
   key: 21
   description: unspecified buccal sample type
+  t2k_sample_type_id:  19
+  gegl_sample_type_id:  u
 cytobrush:
   id: 23
   parent_id: 4
   key: 22
   description: cytobrush
+  t2k_sample_type_id:  11
+  gegl_sample_type_id:  u
 otherbuccal:
   id: 24
   parent_id: 4
   key: otherbuccal
   description: other type of buccal sample
+  t2k_sample_type_id:  20
+  gegl_sample_type_id:  u
+
 
 
 urine:
@@ -157,16 +214,22 @@ unspecifiedurine:
   parent_id: 5
   key: unspecifiedurine
   description: unspecified urine sample type
+  t2k_sample_type_id:  21
+  gegl_sample_type_id:  ur
 otherurine:
   id: 26
   parent_id: 5
   key: otherurine
   description: other type of urine sample
+  t2k_sample_type_id:  22
+  gegl_sample_type_id:  ur
 momurine:
   id: 34
   parent_id: 5
   key: momurine
   description:  maternal urine
+  t2k_sample_type_id:  28
+  gegl_sample_type_id:  ur
 
 
 air:
@@ -178,11 +241,13 @@ unspecifiedair:
   parent_id: 6
   key: unspecifiedair
   description: unspecified air sample type
+  t2k_sample_type_id: 23
 otherair:
   id: 28
   parent_id: 6
   key: otherair
   description: other type of air sample
+  t2k_sample_type_id: 24
 
 
 marrow:
@@ -205,6 +270,32 @@ marrowdiag:
   parent_id: 7
   key: marrowdiag
   description:  bone marrow - diagnostic
+  t2k_sample_type_id:    8
+  gegl_sample_type_id:    bm
+gegl-bmmc:
+  id: 42
+  parent_id: 7
+  key: gegl-bmmc
+  description: "gegl aliquot type - bmmc"
+  for_new_sample: false
+  t2k_sample_type_id:  34
+  gegl_sample_type_id:  bm_bmmc
+gegl-rlt:
+  id: 43
+  parent_id: 7
+  key: gegl-rlt
+  description: "gegl aliquot type - rlt"
+  for_new_sample: false
+  t2k_sample_type_id:  35
+  gegl_sample_type_id:  bm_rlt
+gegl-smear:
+  id: 44
+  parent_id: 7
+  key: gegl-sm
+  description: "gegl aliquot type - bone marrow smear"
+  for_new_sample: false
+  t2k_sample_type_id:  36
+  gegl_sample_type_id:  bm_smear
 
 
 unspecified:
