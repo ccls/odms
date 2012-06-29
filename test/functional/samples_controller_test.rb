@@ -486,31 +486,71 @@ class SamplesControllerTest < ActionController::TestCase
 	#		Begin Find Order Tests (only on fields in table)
 
 
-		test "should find samples and order by sampleid with #{cu} login" do
-			skip
+		test "should find samples and order by id with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :id
+			assert_response :success
+			assert_equal samples, assigns(:samples)
 		end
 
-		test "should find samples and order by sampleid asc with #{cu} login" do
-			skip
+		test "should find samples and order by id asc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :id, :dir => :asc
+			assert_response :success
+			assert_equal samples, assigns(:samples)
 		end
 
-		test "should find samples and order by sampleid desc with #{cu} login" do
-			skip
+		test "should find samples and order by id desc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :id, :dir => :desc
+			assert_response :success
+			assert_equal samples, assigns(:samples).reverse
 		end
 
 		test "should find samples and order by received by ccls at with #{cu} login" do
-			skip
+			base_date = Date.today-100.days
+			# spread dates out by a few days so outside date range
+			samples = 3.times.collect{|i| Factory(:sample,
+					:sent_to_subject_at        => base_date + (5*i-2).days,
+					:collected_from_subject_at => base_date + (5*i-1).days,
+					:received_by_ccls_at       => base_date + (5*i).days )}
+			login_as send(cu)
+			#	same as strftime('%Y-%m-%d')
+			get :find, :order => :received_by_ccls_at
+			assert_response :success
+			assert_equal samples, assigns(:samples)
 		end
 
 		test "should find samples and order by received by ccls at asc with #{cu} login" do
-			skip
+			base_date = Date.today-100.days
+			# spread dates out by a few days so outside date range
+			samples = 3.times.collect{|i| Factory(:sample,
+					:sent_to_subject_at        => base_date + (5*i-2).days,
+					:collected_from_subject_at => base_date + (5*i-1).days,
+					:received_by_ccls_at       => base_date + (5*i).days )}
+			login_as send(cu)
+			#	same as strftime('%Y-%m-%d')
+			get :find, :order => :received_by_ccls_at, :dir => :asc
+			assert_response :success
+			assert_equal samples, assigns(:samples)
 		end
 
 		test "should find samples and order by received by ccls at desc with #{cu} login" do
-			skip
+			base_date = Date.today-100.days
+			# spread dates out by a few days so outside date range
+			samples = 3.times.collect{|i| Factory(:sample,
+					:sent_to_subject_at        => base_date + (5*i-2).days,
+					:collected_from_subject_at => base_date + (5*i-1).days,
+					:received_by_ccls_at       => base_date + (5*i).days )}
+			login_as send(cu)
+			#	same as strftime('%Y-%m-%d')
+			get :find, :order => :received_by_ccls_at, :dir => :desc
+			assert_response :success
+			assert_equal samples, assigns(:samples).reverse
 		end
-
-
 
 #	by type
 #	by subtype

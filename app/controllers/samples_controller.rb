@@ -166,7 +166,7 @@ protected
 
 	def search_order
 		if params[:order] and
-				%w( id type subtype received_by_ccls_at ).include?(
+				%w( id received_by_ccls_at ).include?(
 				params[:order].downcase)
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)
