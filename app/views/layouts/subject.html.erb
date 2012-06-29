@@ -11,6 +11,10 @@
  <div class='columns'>
 <div id='left_side_menu'>
 <%= subject_side_menu(@study_subject) %>
+<%= link_to 'next subject by id', 
+	next_study_subject_path(@study_subject, params) %>
+<%= link_to 'prev subject by id', 
+	prev_study_subject_path(@study_subject, params) %>
 </div><!-- id='left_side_menu' -->
   <div id='main'>
    <%#= yield :main %>

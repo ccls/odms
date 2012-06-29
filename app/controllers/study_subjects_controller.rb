@@ -10,7 +10,7 @@ class StudySubjectsController < ApplicationController
 		:only => :destroy
 
 	before_filter :valid_id_required, 
-		:only => [:show,:edit,:update,:destroy]
+		:only => [:show,:edit,:update,:destroy,:next,:prev]
 
 
 	def find
@@ -119,6 +119,30 @@ class StudySubjectsController < ApplicationController
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "There was a problem updating the study_subject"
 		render :action => "edit"
+	end
+
+
+
+
+	def next
+#		if params[:study_subject_id]
+#			params[:study_subject_id] = params[:study_subject_id].to_i + 1
+#		end
+#		params.delete(:action)
+#		redirect_to params
+		next_study_subject = StudySubject.where('id > ?',@study_subject.id)
+			.order('id asc').limit(1).first
+		redirect_to study_subject_path(next_study_subject)
+	end
+#
+#	For some reason, redirect_to study_subject_path(nil) 
+#	actually redirects to the current study_subject#show
+#	which is nice, but I don't understand why.
+#
+	def prev
+		prev_study_subject = StudySubject.where('id < ?',@study_subject.id)
+			.order('id desc').limit(1).first
+		redirect_to study_subject_path(prev_study_subject)
 	end
 
 protected

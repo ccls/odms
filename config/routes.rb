@@ -230,6 +230,10 @@ Odms::Application.routes.draw do
 
 	resources :study_subjects, :only => [:edit,:update,:show,:index],
 			:shallow => true do 
+		member do
+			get :next
+			get :prev
+		end
 		collection do
 			get :dashboard
 			get :find
