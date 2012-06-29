@@ -6,9 +6,25 @@
 -%>
 <%= %w( 
 masterid
+studyid
+sampleid
+ccls_sample_type
+gegl_sample_type
+received_at
 ).to_csv(:headers => true) -%>
 <% @active_sample_transfers.each do |sample_transfer| -%>
 <%= [ 
-sample_transfer.sample.study_subject.icf_master_id_to_s
+sample_transfer.sample.study_subject.icf_master_id_to_s,
+sample_transfer.sample.study_subject.studyid_to_s,
+" #{sample_transfer.sample.sampleid}",
+sample_transfer.sample.sample_type,
+sample_transfer.sample.sample_type.gegl_sample_type_id,
+mdy( sample_transfer.sample.received_by_ccls_at )
 ].to_csv -%>
 <% end -%>
+<%#
+
+I added a leading space to the sampleid so that excel preserves 
+the leading zeroes by treating the field as a string rather than integer.
+
+-%>

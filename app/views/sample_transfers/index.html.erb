@@ -37,8 +37,8 @@
 <td><%= sample_transfer.sample.study_subject.icf_master_id_to_s %></td>
 <td><%= sample_transfer.sample.study_subject.studyid_to_s %></td>
 <td><%= sample_transfer.sample.sampleid %></td>
-<td>Type</td>
-<td>Type</td>
+<td><%= sample_transfer.sample.sample_type %></td>
+<td><%= sample_transfer.sample.sample_type.gegl_sample_type_id %></td>
 <td><%=mdy sample_transfer.sample.received_by_ccls_at %></td>
 <td><%= link_to "print&nbsp;label".html_safe, 
 	sample_path(sample_transfer.sample, :format => :pdf), 
@@ -71,12 +71,11 @@
 <td><%= sample_transfer.sample.study_subject.icf_master_id_to_s %></td>
 <td><%= sample_transfer.sample.study_subject.studyid_to_s %></td>
 <td><%= sample_transfer.sample.sampleid %></td>
-<td>Type</td>
-<td>Type</td>
+<td><%= sample_transfer.sample.sample_type %></td>
+<td><%= sample_transfer.sample.sample_type.gegl_sample_type_id %></td>
 <td><%=mdy sample_transfer.sample.received_by_ccls_at %></td>
 </tr>
 <% end %>
 </tbody>
 </table>
 <% end %>
-
