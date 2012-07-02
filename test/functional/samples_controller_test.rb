@@ -552,11 +552,101 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_equal samples, assigns(:samples).reverse
 		end
 
-#	by type
-#	by subtype
-#	by status
-#	by project
+		test "should find samples and order by status with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample, :state => "state#{i}") }
+			login_as send(cu)
+			get :find, :order => :state
+			assert_response :success
+			assert_equal samples, assigns(:samples)
+		end
 
+		test "should find samples and order by status asc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample, :state => "state#{i}") }
+			login_as send(cu)
+			get :find, :order => :state, :dir => :asc
+			assert_response :success
+			assert_equal samples, assigns(:samples)
+		end
+
+		test "should find samples and order by status desc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample, :state => "state#{i}") }
+			login_as send(cu)
+			get :find, :order => :state, :dir => :desc
+			assert_response :success
+			assert_equal samples, assigns(:samples).reverse
+		end
+
+		test "should find samples and order by type with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :type
+			assert_response :success
+			assert_equal samples, assigns(:samples)
+		end
+
+		test "should find samples and order by type asc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :type, :dir => :asc
+			assert_response :success
+			assert_equal samples, assigns(:samples)
+		end
+
+		test "should find samples and order by type desc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :type, :dir => :desc
+			assert_response :success
+			assert_equal samples, assigns(:samples).reverse
+		end
+
+		test "should find samples and order by subtype with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :subtype
+			assert_response :success
+			assert_equal samples, assigns(:samples)
+		end
+
+		test "should find samples and order by subtype asc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :subtype, :dir => :asc
+			assert_response :success
+			assert_equal samples, assigns(:samples)
+		end
+
+		test "should find samples and order by subtype desc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :subtype, :dir => :desc
+			assert_response :success
+			assert_equal samples, assigns(:samples).reverse
+		end
+
+		test "should find samples and order by project with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :project
+			assert_response :success
+			assert_equal samples, assigns(:samples)
+		end
+
+		test "should find samples and order by project asc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :project, :dir => :asc
+			assert_response :success
+			assert_equal samples, assigns(:samples)
+		end
+
+		test "should find samples and order by project desc with #{cu} login" do
+			samples = 3.times.collect{|i| Factory(:sample) }
+			login_as send(cu)
+			get :find, :order => :project, :dir => :desc
+			assert_response :success
+			assert_equal samples, assigns(:samples).reverse
+		end
 
 	
 	#		End Find Order Tests

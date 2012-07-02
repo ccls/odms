@@ -53,6 +53,10 @@ class SamplesController < ApplicationController
 				:per_page => params[:per_page]||25,
 				:page     => valid_find_page
 			)
+		#
+		#	This is a rather custom set of double joins WITH AS'S as the joins
+		#	are on the same table so types and subtypes.
+		#
 		if params[:order] and %w( type subtype ).include?(params[:order].downcase)
 			@samples = @samples
 			.joins('INNER JOIN `sample_types` AS subtypes ON `subtypes`.`id` = `samples`.`sample_type_id`')
@@ -61,6 +65,12 @@ class SamplesController < ApplicationController
 		end
 
 #Sample.joins('INNER JOIN `sample_types` AS subtypes ON `subtypes`.`id` = `samples`.`sample_type_id`').joins('INNER JOIN `sample_types` AS types ON `types`.`id` = `subtypes`.`parent_id`').select('samples.*, subtypes.description AS subtype, types.description AS type').first.type
+
+		if params[:order] and %w( project ).include?(params[:order].downcase)
+			@samples = @samples
+			.joins(:project)
+			.select('samples.*, projects.key AS project')
+		end
 
 		#
 		#	As it is possible to set a page and then add a filter,
@@ -169,7 +179,7 @@ protected
 
 	def search_order
 		if params[:order] and
-				%w( id type subtype received_by_ccls_at ).include?(
+				%w( id type subtype project state received_by_ccls_at ).include?(
 				params[:order].downcase)
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)
