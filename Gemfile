@@ -3,8 +3,20 @@ source "http://gems.rubyforge.org"
 source "http://gemcutter.org"
 source "http://gems.github.com"
 
+
+#	apparently required on new production server for some reason??
+#	Otherwise ...
+#jwendt@n1 : odms 504> script/rails console
+#/my/ruby/gems/1.9/gems/activesupport-3.2.6/lib/active_support/dependencies.rb:251:in `require': cannot load such file -- minitest/unit (LoadError)
+#	from /my/ruby/gems/1.9/gems/activesupport-3.2.6/lib/active_support/dependencies.rb:251:in `block in require'
+gem 'minitest'
+
+#	PDF generation
 gem 'prawn'
 gem 'prawnto'
+
+#	ruby 1.9.3 requirement to parse american date
+#	format Month/Day/Year Date.parse('12/31/2000')
 gem 'american_date'
 
 gem 'rails', '~> 3.2.2' 
