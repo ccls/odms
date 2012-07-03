@@ -25,7 +25,14 @@ class OdmsExceptionTest < ActiveSupport::TestCase
 	test "should belong to exceptable" do
 		odms_exception = Factory(:odms_exception)
 		assert_not_nil odms_exception.exceptable
-		assert odms_exception.exceptable.is_a?(BirthDatumUpdate)
+#	Initially, I had the default exceptable be a BirthDatumUpdate but 
+#	it created a csv file which was another thing that needed cleaned up.
+#		assert odms_exception.exceptable.is_a?(BirthDatumUpdate)
+#	Then I tried BirthDatum, but it creates its own odms exception
+#	which is just complicating.
+#		assert odms_exception.exceptable.is_a?(BirthDatum)
+#	Now I'm trying CandidateControl which seems to behave.
+		assert odms_exception.exceptable.is_a?(CandidateControl)
 	end
 
 protected

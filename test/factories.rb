@@ -423,7 +423,9 @@ Factory.define :odms_exception do |f|
 	#	the creation of a birth_datum_update shouldn't
 	#		create another odms_exception_exceptable.
 	#		(a birth_datum will unless prepared)
-	f.association :exceptable, :factory => :birth_datum_update
+#	f.association :exceptable, :factory => :birth_datum_update
+#	f.association :exceptable, :factory => :birth_datum
+	f.association :exceptable, :factory => :candidate_control
 end
 
 
