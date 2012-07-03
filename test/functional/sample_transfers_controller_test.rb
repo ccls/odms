@@ -4,33 +4,172 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 	site_administrators.each do |cu|
 
-#sample.location_id is set to the source_org_id for each sample
-#
-#sample_transfers.destination_org_id is org selected in target location combo box
-#
-#the sample_transfer.sent_on date is set to the current date for each sample
-#
-#sample.ccls_external_id is set to "subjectid"+"-"+"sampleid" ensuring that all leading zeros are maintained (redundant but consistent with current practice -- to be revisited later)
-#.
-#The system creates a "Sample sent to lab" operational event (op event type id=6 "sample_to_lab") for each sample in the list. 
-#
-#operational_event.description = "Sample ID 0000000, peripheral blood, diagnostic, transferred to organization.key from organization.key"  
-#
-#Where the two organization keys are specified by target_org_id and source_org_id, respectively.
-#
-#sample_transfer.status = complete
-
-
-		test "should confirm with #{cu} login" do
-#skip
-#puts "DO I KEEP RUNNING AFTER A SKIP?"	#	NO.  I DO NOT.
+		test "should not confirm without organization_id with #{cu} login" do
 			login_as send(cu)
 			put :confirm
 			assert_redirected_to sample_transfers_path
-#puts "DO I RUN STUFF BEFORE A SKIP?"	#	YES.  I DO.
+			assert_not_nil flash[:error]
+			assert_match /Valid organization id required/, flash[:error]
+		end
+
+		test "should not confirm without valid organization_id with #{cu} login" do
+			login_as send(cu)
+			put :confirm, :organization_id => 0
+			assert_redirected_to sample_transfers_path
+			assert_not_nil flash[:error]
+			assert_match /Valid organization id required/, flash[:error]
+		end
+
+		test "confirm should do what with sample transfer update_all fail and #{cu} login" do
+skip
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "confirm should do what with operational event create fail and #{cu} login" do
+skip
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "confirm should do what with typeless sample and #{cu} login" do
+skip
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "confirm should do what with projectless sample and #{cu} login" do
+skip
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "confirm should do what with locationless sample and #{cu} login" do
+skip
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "confirm should do what with subjectless sample and #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
 skip
 		end
 
+		test "confirm should require active transfers with #{cu} login" do
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+			assert_not_nil flash[:error]
+			assert_match /Active sample transfers required to confirm/, flash[:error]
+		end
+
+#sample.location_id is set to the source_org_id for each sample
+		test "confirm should set each sample location_id with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+#	I think that this should set the sample.location_id
+#	to the given organization_id or "destination_org_id", not source_org_id
+skip
+		end
+
+		test "confirm should set each sample transfer destination_org_id with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			assert_equal 3.times.collect{nil},
+				active_transfers.collect(&:destination_org_id)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+			assert_equal 3.times.collect{Organization['GEGL'].id},
+				active_transfers.collect(&:reload).collect(&:destination_org_id)
+		end
+
+		test "confirm should set each sample transfer sent_on with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			assert_equal 3.times.collect{nil},
+				active_transfers.collect(&:sent_on)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+			assert_equal 3.times.collect{Date.today},
+				active_transfers.collect(&:reload).collect(&:sent_on)
+		end
+
+		test "confirm should set each sample transfer status with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			assert_equal 3.times.collect{'active'},
+				active_transfers.collect(&:status)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+			assert_equal 3.times.collect{'complete'},
+				active_transfers.collect(&:reload).collect(&:status)
+		end
+
+#sample.ccls_external_id is set to "subjectid"+"-"+"sampleid" ensuring that all leading zeros are maintained (redundant but consistent with current practice -- to be revisited later).
+		test "confirm should set each sample ccls_external_id with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+skip	"There is no ccls_external_id"
+		end
+
+		test "confirm should create operational event for each sample with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			assert_difference('OperationalEvent.count',3){
+				put :confirm, :organization_id => Organization['GEGL'].id
+			}
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "confirm should set each operational event type with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+#			assert_difference("OperationalEvent.where(:operational_event_type_id => OperationalEventType['sample_to_lab'].id ).count",3){
+			assert_difference("OperationalEventType['sample_to_lab'].operational_events.count",3){
+				put :confirm, :organization_id => Organization['GEGL'].id
+			}
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "confirm should set each operational event project with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+			active_transfers.collect(&:reload).collect(&:sample).each do |s|
+				assert s.study_subject.operational_events.collect(&:project).include?(s.project)
+			end
+		end
+
+		test "confirm should set each operational event description with #{cu} login" do
+			prep_confirm_test
+			login_as send(cu)
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+			OperationalEventType['sample_to_lab'].operational_events.each {|oe| 
+				assert_match /Sample ID \d{7}, \w+, transferred to GEGL from \w+/, 
+					oe.description }
+		end
 
 		test "should get sample transfers index with #{cu} login and no transfers" do
 			login_as send(cu)
@@ -183,6 +322,19 @@ skip
 			put :update_status, :id => st.id, :status => 'waitlist'
 		}
 		assert_redirected_to_login
+	end
+
+protected
+
+	def prep_confirm_test
+		assert_difference('SampleTransfer.waitlist.count',3) {
+		assert_difference('SampleTransfer.active.count',3) {
+		assert_difference('SampleTransfer.count',6) {
+		assert_difference('Sample.count',6) {
+		3.times { 
+			Factory(:active_sample_transfer)
+			Factory(:waitlist_sample_transfer)
+		} } } } }
 	end
 
 end

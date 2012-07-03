@@ -545,6 +545,12 @@ end
 Factory.define :sample_transfer do |f|
 	f.association :sample
 end
+Factory.define :active_sample_transfer, :parent => :sample_transfer do |f|
+	f.status 'active'
+end
+Factory.define :waitlist_sample_transfer, :parent => :sample_transfer do |f|
+	f.status 'waitlist'
+end
 
 Factory.define :sample_temperature do |f|
 	f.sequence(:key) { |n| "Key#{n}" }

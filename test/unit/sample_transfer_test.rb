@@ -38,6 +38,26 @@ class SampleTransferTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "active sample transfer factory should create active sample transfer" do
+		sample_transfer = Factory(:active_sample_transfer)
+		assert_equal 'active', sample_transfer.status
+	end
+
+	test "active sample transfer factory should create sample at CCLS" do
+		sample_transfer = Factory(:active_sample_transfer)
+		assert_equal sample_transfer.sample.location_id, Organization['CCLS'].id
+	end
+
+	test "waitlist sample transfer factory should create waitlist sample transfer" do
+		sample_transfer = Factory(:waitlist_sample_transfer)
+		assert_equal 'waitlist', sample_transfer.status
+	end
+
+	test "waitlist sample transfer factory should create sample at CCLS" do
+		sample_transfer = Factory(:waitlist_sample_transfer)
+		assert_equal sample_transfer.sample.location_id, Organization['CCLS'].id
+	end
+
 protected
 
 	#	create_object is called from within the common class tests
