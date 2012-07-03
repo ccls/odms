@@ -65,6 +65,22 @@ class OrganizationTest < ActiveSupport::TestCase
 		assert !organization.is_other?
 	end
 
+#	scope :without_hospital, joins('LEFT JOIN hospitals ON organizations.id = hospitals.organization_id').where('organization_id IS NULL')
+
+#	scope :without_sample_location, joins('LEFT JOIN sample_locations ON organizations.id = sample_locations.organization_id').where('organization_id IS NULL')
+
+	test "without_hospital should return only those with a hospital" do
+		Organization.without_hospital.each do |org|
+			assert_nil org.hospital
+		end
+	end
+
+	test "without_sample_location should return only those with a sample_location" do
+		Organization.without_sample_location.each do |org|
+			assert_nil org.sample_location
+		end
+	end
+
 protected
 
 	#	create_object is called from within the common class tests
