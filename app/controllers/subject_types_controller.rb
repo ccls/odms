@@ -13,7 +13,7 @@ class SubjectTypesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@subject_types = SubjectType.all
+		@subject_types = SubjectType.scoped
 	end
 
 	def new

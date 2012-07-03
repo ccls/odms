@@ -39,10 +39,10 @@ class StudySubjectsController < ApplicationController
 		#	LEFT JOIN because not all subjects will have a patient.
 		#	otherwise, we'd effectively only search cases
 #			).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
-		@study_subjects = StudySubject.order(search_order
-			).includes(:patient,:subject_type).join_patients(
-			).where(conditions[0].join(valid_find_operator), conditions[1]
-			).paginate(
+		@study_subjects = StudySubject.order(search_order)
+			.includes(:patient,:subject_type).join_patients()
+			.where(conditions[0].join(valid_find_operator), conditions[1])
+			.paginate(
 				:per_page => params[:per_page]||25,
 				:page     => valid_find_page
 			)
@@ -158,7 +158,6 @@ protected
 	def search_order
 		if params[:order] and
 				%w( icf_master_id studyid last_name reference_date ).include?(params[:order].downcase)
-#				%w( childid studyid last_name first_name ).include?(params[:order].downcase)
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)
 				when 'desc' then 'desc'

@@ -13,7 +13,7 @@ class ContextsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@contexts = Context.all
+		@contexts = Context.scoped
 	end
 
 	def new

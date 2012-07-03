@@ -13,7 +13,7 @@ class UnitsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@units = Unit.all
+		@units = Unit.scoped
 	end
 
 	def new

@@ -13,7 +13,7 @@ class InstrumentVersionsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@instrument_versions = InstrumentVersion.all
+		@instrument_versions = InstrumentVersion.scoped
 	end
 
 	def new

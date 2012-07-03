@@ -16,7 +16,7 @@ class CandidateControlsController < ApplicationController
 		:only => [:edit,:update]
 
 	def index
-		@candidate_controls = CandidateControl.all
+		@candidate_controls = CandidateControl.scoped
 	end
 
 	def edit

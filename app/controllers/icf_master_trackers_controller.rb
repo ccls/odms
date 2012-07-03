@@ -13,7 +13,7 @@ class IcfMasterTrackersController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@icf_master_trackers = IcfMasterTracker.all
+		@icf_master_trackers = IcfMasterTracker.scoped
 #		@icf_master_trackers = IcfMasterTracker.have_changed
 	end
 

@@ -13,7 +13,7 @@ class VitalStatusesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@vital_statuses = VitalStatus.all
+		@vital_statuses = VitalStatus.scoped
 	end
 
 	def new

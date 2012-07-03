@@ -13,7 +13,7 @@ class IcfMasterIdsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@icf_master_ids = IcfMasterId.all
+		@icf_master_ids = IcfMasterId.scoped
 	end
 
 #	def update

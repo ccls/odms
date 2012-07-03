@@ -13,7 +13,7 @@ class SectionsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@sections = Section.all
+		@sections = Section.scoped
 	end
 
 	def new

@@ -13,7 +13,7 @@ class PhoneTypesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@phone_types = PhoneType.all
+		@phone_types = PhoneType.scoped
 	end
 
 	def new

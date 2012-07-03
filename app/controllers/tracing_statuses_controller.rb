@@ -13,7 +13,7 @@ class TracingStatusesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@tracing_statuses = TracingStatus.all
+		@tracing_statuses = TracingStatus.scoped
 	end
 
 	def new

@@ -102,9 +102,11 @@ class BcRequestsController < ApplicationController
 				)
 			end
 #	I don't think that this can raise an error, but if the above do it will be skipped
-			BcRequest.update_all(
-				{ :status => 'pending', :sent_on => Date.today }, #	updates
-				{ :status => 'active' })  #	conditions
+#			BcRequest.update_all(
+#				{ :status => 'pending', :sent_on => Date.today }, #	updates
+#				{ :status => 'active' })  #	conditions
+			active_bc_requests.update_all(
+				{ :status => 'pending', :sent_on => Date.today })
 		end	#	BcRequest.transaction do
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid =>  e
 		flash[:error] = "Confirmation failed:#{e.inspect}:"

@@ -35,7 +35,9 @@ protected
 			else nil
 		end
 		unless operational_event_type.nil?
-			if hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+#			if hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+			if hxe = study_subject.enrollments.where(
+					:project_id => Project['HomeExposures'].id).first
 				study_subject.operational_events.create!(
 					:project_id                => Project['HomeExposures'].id,
 					:operational_event_type_id => operational_event_type.id,
@@ -59,7 +61,9 @@ protected
 			else nil
 		end
 		unless operational_event_type.nil?
-			if hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+#			if hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
+			if hxe = study_subject.enrollments.where(
+					:project_id => Project['HomeExposures'].id).first
 				study_subject.operational_events.create!(
 					:project_id                => Project['HomeExposures'].id,
 					:operational_event_type_id => operational_event_type.id,

@@ -13,7 +13,7 @@ class SampleTemperaturesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@sample_temperatures = SampleTemperature.all
+		@sample_temperatures = SampleTemperature.scoped
 	end
 
 	def new

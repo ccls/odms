@@ -13,7 +13,7 @@ class BirthDataController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@birth_data = BirthDatum.all
+		@birth_data = BirthDatum.scoped
 	end
 
 	def update

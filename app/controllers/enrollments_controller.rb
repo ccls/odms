@@ -17,9 +17,10 @@ class EnrollmentsController < ApplicationController
 		:only => [:show,:edit,:update]
 
 	def index
-		if @study_subject.subject_type == SubjectType['Mother']
-			render :action => 'index_mother'
-		end
+#		if @study_subject.subject_type == SubjectType['Mother']
+#			render :action => 'index_mother'
+#		end
+		render :action => 'index_mother' if @study_subject.is_mother?
 	end
 
 	def new

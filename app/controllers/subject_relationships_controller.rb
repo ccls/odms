@@ -13,7 +13,7 @@ class SubjectRelationshipsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@subject_relationships = SubjectRelationship.all
+		@subject_relationships = SubjectRelationship.scoped
 	end
 
 	def new

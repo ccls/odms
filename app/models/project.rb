@@ -25,7 +25,7 @@ class Project < ActiveRecord::Base
 		projects = Project.joins("LEFT JOIN enrollments ON " <<
 				"projects.id = enrollments.project_id AND " <<
 				"enrollments.study_subject_id = #{study_subject.id}" )
-		#	everything is NULL actually, 
+		#	everything is NULL actually, but check study_subject_id
 		projects = projects.where("enrollments.study_subject_id IS NULL")
 	end
 

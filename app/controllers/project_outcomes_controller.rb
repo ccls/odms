@@ -13,7 +13,7 @@ class ProjectOutcomesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@project_outcomes = ProjectOutcome.all
+		@project_outcomes = ProjectOutcome.scoped
 	end
 
 	def new

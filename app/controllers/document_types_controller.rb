@@ -13,7 +13,7 @@ class DocumentTypesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@document_types = DocumentType.all
+		@document_types = DocumentType.scoped
 	end
 
 	def new

@@ -55,7 +55,8 @@ base.class_eval do
 			self
 		else
 			if !familyid.blank?
-				StudySubject.children.with_subjectid(familyid).includes(:subject_type).first
+				StudySubject.children.with_subjectid(familyid)
+					.includes(:subject_type).first
 			else
 				nil
 			end
@@ -65,20 +66,22 @@ base.class_eval do
 	#	Find the subject with matching familyid and subject_type of Mother.
 	def mother
 		return nil if familyid.blank?
-		StudySubject.mothers.with_familyid(familyid
-			).includes(:subject_type).first
+		StudySubject.mothers.with_familyid(familyid)
+			.includes(:subject_type).first
 	end
 
 	#	Find all the subjects with matching familyid except self.
 	def family
 		return [] if familyid.blank?
-		StudySubject.with_familyid(familyid).not_id(id).includes(:subject_type)
+		StudySubject.with_familyid(familyid).not_id(id)
+			.includes(:subject_type)
 	end
 
 	#	Find all the subjects with matching matchingid except self.
 	def matching
 		return [] if matchingid.blank?
-		StudySubject.with_matchingid(matchingid).not_id(id).includes(:subject_type)
+		StudySubject.with_matchingid(matchingid).not_id(id)
+			.includes(:subject_type)
 	end
 
 	#	Find all the subjects with matching patid with subject_type Control except self.
@@ -86,7 +89,8 @@ base.class_eval do
 	#			TODO Could fix, but this situation is unlikely.
 	def controls
 		return [] unless is_case?
-		StudySubject.controls.with_patid(patid).not_id(id).includes(:subject_type)
+		StudySubject.controls.with_patid(patid).not_id(id)
+			.includes(:subject_type)
 	end
 
 	def rejected_controls

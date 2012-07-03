@@ -13,7 +13,7 @@ class InterviewMethodsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@interview_methods = InterviewMethod.all
+		@interview_methods = InterviewMethod.scoped
 	end
 
 	def new

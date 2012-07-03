@@ -10,7 +10,7 @@ module RafTestHelper
 #		the ccls_engine gem.  In order to ensure that the everything happened as
 #		desired, I wrap everything in a lot of assertions.
 #
-#		Must also be consious of whether the keys are STRINGs or SYMBOLs.
+#		Must also be conscious of whether the keys are STRINGs or SYMBOLs.
 #
 
 #ActiveModel::MassAssignmentSecurity::Error: Can't mass-assign protected attributes: case_control_type

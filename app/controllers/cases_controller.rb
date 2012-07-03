@@ -25,14 +25,16 @@ class CasesController < ApplicationController
 	#	This is the beginning of a new RAF entry
 	#
 	def new
-		@hospitals = Hospital.active(:include => :organization)
+#		@hospitals = Hospital.active(:include => :organization)
+		@hospitals = Hospital.active.includes(:organization)
 	end
 
 	def create
 		#	use find_by_id rather than just find so that 
 		#	it returns nil rather than raise an error if not found
 		if params[:hospital_id] and
-			( hospital = Hospital.find_by_id( params[:hospital_id] ) )
+			( hospital = Hospital.where( :id => params[:hospital_id] ).first )
+#			( hospital = Hospital.find_by_id( params[:hospital_id] ) )
 
 			new_params = { :study_subject => {
 				:patient_attributes => {

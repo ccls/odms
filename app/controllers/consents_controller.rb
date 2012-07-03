@@ -16,7 +16,8 @@ class ConsentsController < ApplicationController
 #		:only => [:new,:create,:index]
 
 	def show
-		if @study_subject.subject_type == SubjectType['Mother']
+#		if @study_subject.subject_type == SubjectType['Mother']
+		if @study_subject.is_mother?
 			render :action => 'show_mother'
 		else
 			@enrollment = @study_subject.enrollments.find_or_create_by_project_id(

@@ -15,7 +15,7 @@ class BirthDatumUpdatesController < ApplicationController
 
 
 	def index
-		@birth_datum_updates = BirthDatumUpdate.all
+		@birth_datum_updates = BirthDatumUpdate.scoped
 	end
 
 	def show

@@ -14,7 +14,7 @@ class IcfMasterTrackerUpdatesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy,:parse]
 
 	def index
-		@icf_master_tracker_updates = IcfMasterTrackerUpdate.all
+		@icf_master_tracker_updates = IcfMasterTrackerUpdate.scoped
 	end
 
 	def show

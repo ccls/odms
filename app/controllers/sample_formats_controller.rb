@@ -13,7 +13,7 @@ class SampleFormatsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@sample_formats = SampleFormat.all
+		@sample_formats = SampleFormat.scoped
 	end
 
 	def new

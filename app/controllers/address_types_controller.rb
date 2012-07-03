@@ -13,7 +13,7 @@ class AddressTypesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@address_types = AddressType.all
+		@address_types = AddressType.scoped
 	end
 
 	def new

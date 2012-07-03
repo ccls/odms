@@ -13,7 +13,7 @@ class DiagnosesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@diagnoses = Diagnosis.all
+		@diagnoses = Diagnosis.scoped
 	end
 
 	def new

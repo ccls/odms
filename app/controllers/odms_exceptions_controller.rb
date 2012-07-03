@@ -13,7 +13,7 @@ class OdmsExceptionsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@odms_exceptions = OdmsException.all
+		@odms_exceptions = OdmsException.scoped
 	end
 
 	def update

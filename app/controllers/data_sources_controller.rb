@@ -13,7 +13,7 @@ class DataSourcesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@data_sources = DataSource.all
+		@data_sources = DataSource.scoped
 	end
 
 	def new
