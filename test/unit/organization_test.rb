@@ -11,6 +11,7 @@ class OrganizationTest < ActiveSupport::TestCase
 	assert_should_have_many( :patients )
 #	assert_should_have_many( :hospitals )
 	assert_should_have_one(  :hospital )
+	assert_should_have_one(  :sample_location )
 
 	assert_should_have_many(:aliquots, 
 		:foreign_key => :owner_id)

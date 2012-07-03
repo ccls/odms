@@ -1,0 +1,17 @@
+<p>
+  <b>Is Active:</b>
+  <%=h @sample_location.is_active %>
+</p>
+
+<p>
+  <b>Organization:</b>
+  <%=h @sample_location.organization %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @sample_location.notes %>
+</p>
+
+<%= link_to( 'Edit', edit_sample_location_path(@sample_location), :class => 'button' ) 
+-%>&nbsp;<%= link_to( 'Back', sample_locations_path, :class => 'button' ) %>

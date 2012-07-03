@@ -13,7 +13,7 @@ class HospitalsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@hospitals = Hospital.scoped
+		@hospitals = Hospital.includes(:organization)
 	end
 
 	def new

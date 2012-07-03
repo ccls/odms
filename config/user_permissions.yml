@@ -29,6 +29,7 @@ administrator_resources:
   - races 
   - refusal_reasons
   - sample_formats 
+  - sample_locations
   - sample_outcomes 
   - sample_temperatures
   - sample_transfers

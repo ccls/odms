@@ -4,7 +4,13 @@
 <%= f.error_messages %>
 <%= f.wrapped_check_box :is_active %>
 <%= f.wrapped_check_box :has_irb_waiver %>
-<%= f.wrapped_collection_select :organization_id, Organization.all, 
+<%# 
+	NOTE It may be useful for this list to only include unused organizations 
+	Be careful not to exclude self on edit
+%>
+<% orgs = Organization.without_hospital %>
+<% orgs.unshift f.object.organization unless @hospital.new_record? %>
+<%= f.wrapped_collection_select :organization_id, orgs,
   :id, :to_s, :include_blank => true,
   :label_text => "Organization" %>
 <p>

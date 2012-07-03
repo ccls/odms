@@ -1,0 +1,12 @@
+<%= content_tag_for( :tr, sample_location, :class => 'row' ) do %>
+ <td class='is_active'><%= sample_location.is_active -%></td>
+ <td class='organization'><%= sample_location.organization -%></td>
+ <td class='manage'>
+<%= link_to( "View", sample_location_path(sample_location), :class => 'button' ) -%>&nbsp;
+<%= link_to( "Edit", edit_sample_location_path(sample_location), :class => 'button' ) -%>&nbsp;
+<%= form_tag sample_location, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy sample_location '#{sample_location}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+ </td>
+<% end %><!-- class='sample_location' -->

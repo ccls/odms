@@ -1,0 +1,20 @@
+<h4><%= ( (@sample_location.new_record?)?'Creating':'Editting' ) %> sample_location</h4>
+
+<%= form_for(@sample_location, :html => { :class => 'edit_sample_location'} ) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_check_box :is_active %>
+<%# 
+	NOTE It may be useful for this list to only include unused organizations 
+	Be careful not to exclude self on edit
+%>
+<% orgs = Organization.without_sample_location %>
+<% orgs.unshift f.object.organization unless @sample_location.new_record? %>
+<%= f.wrapped_collection_select :organization_id, orgs,
+  :id, :to_s, :include_blank => true,
+  :label_text => "Organization" %>
+<%= f.wrapped_text_area :notes %>
+<p>
+<%= f.submit( (@sample_location.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', sample_locations_path, :class => 'button' %>
+</p>
+<% end %>

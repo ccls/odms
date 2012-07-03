@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120625190247) do
+ActiveRecord::Schema.define(:version => 20120703180909) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1311,6 +1311,17 @@ ActiveRecord::Schema.define(:version => 20120625190247) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "sample_locations", :force => true do |t|
+    t.integer  "position"
+    t.integer  "organization_id"
+    t.text     "notes"
+    t.boolean  "is_active",       :default => true, :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
+  add_index "sample_locations", ["organization_id"], :name => "index_sample_locations_on_organization_id"
 
   create_table "sample_outcomes", :force => true do |t|
     t.integer  "position"

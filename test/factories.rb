@@ -530,6 +530,10 @@ Factory.define :sample_kit do |f|
 	f.association :sample
 end
 
+Factory.define :sample_location do |f|
+	f.association :organization
+end
+
 Factory.define :sample_outcome do |f|
 	f.sequence(:key) { |n| "Key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }

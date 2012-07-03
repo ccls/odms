@@ -128,6 +128,7 @@ Odms::Application.routes.draw do
 	resource  :receive_sample, :only => [:new,:create]
 	resources :refusal_reasons
 	resources :sample_formats
+	resources :sample_locations
 	resources :sample_outcomes
 	resources :sample_temperatures
 	resources :sample_transfers, :only => :index do

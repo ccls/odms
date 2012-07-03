@@ -1352,6 +1352,18 @@ Table: sample_kits
 | created_at | datetime | NO   |     | NULL    |                |
 | updated_at | datetime | NO   |     | NULL    |                |
 +------------+----------+------+-----+---------+----------------+
+Table: sample_locations
++-----------------+------------+------+-----+---------+----------------+
+| Field           | Type       | Null | Key | Default | Extra          |
++-----------------+------------+------+-----+---------+----------------+
+| id              | int(11)    | NO   | PRI | NULL    | auto_increment |
+| position        | int(11)    | YES  |     | NULL    |                |
+| organization_id | int(11)    | YES  | MUL | NULL    |                |
+| notes           | text       | YES  |     | NULL    |                |
+| is_active       | tinyint(1) | NO   |     | 1       |                |
+| created_at      | datetime   | NO   |     | NULL    |                |
+| updated_at      | datetime   | NO   |     | NULL    |                |
++-----------------+------------+------+-----+---------+----------------+
 Table: sample_outcomes
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |

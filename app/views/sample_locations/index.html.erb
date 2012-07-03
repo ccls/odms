@@ -1,0 +1,13 @@
+<h4>Sample Locations:</h4>
+<% unless @sample_locations.empty? %>
+ <table id='sample_locations'><thead><tr>
+  <th>Is Active</th>
+  <th>Organization</th>
+ </tr></thead><tbody>
+  <%= render :partial => 'sample_location', :collection => @sample_locations %>
+ </tbody></table><!-- id='sample_locations' -->
+<% else %>
+ <p>Sorry, no sample_locations yet.</p>
+<% end %>
+<p><%= link_to( "Create new sample_location", new_sample_location_path,
+	:class => 'button' ) %></p>
