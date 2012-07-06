@@ -1,17 +1,18 @@
 <h4>Sample Transfers</h4>
 
-<h5>Manifest</h5>
 
 <p>NOTE: If I understand this correctly, you must export the manifest before confirming the transfer as confirming the transfer will remove them from the active list</p>
 
 <h3>THIS FEATURE IS NOT YET FULLY IMPLEMENTED!</h3>
 <h3>Exporting manifest should work just fine, but confirming is incomplete!</h3>
 
-<%= form_tag(confirm_sample_transfers_path,:method => :put) do %>
+<%= form_tag(confirm_sample_transfers_path,:method => :put,
+	:id => 'confirm_sample_transfers') do %>
+<h4>Manifest</h4>
 <label>transfer samples to ...</label>
 <%= select_tag 'organization_id',
 	options_from_collection_for_select( 
-		Organization.all, :id, :to_s, 
+		SampleLocation.active.all(:include => :organization), :organization_id, :to_s, 
 		:selected => params[:organization_id]||Organization['GEGL'].id ) %>
 <%= submit_tag 'confirm transfer' %>
 <% end %>

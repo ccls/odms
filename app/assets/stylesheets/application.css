@@ -487,3 +487,11 @@ a.button {
 input[type=submit] {
 	padding: 0px 8px;
 }
+
+form#confirm_sample_transfers {
+	display:inline-block;
+}
+form#confirm_sample_transfers h4 {
+	display:inline-block;
+	margin-right: 10px;
+}

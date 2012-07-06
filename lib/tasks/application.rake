@@ -30,6 +30,7 @@ namespace :app do
 			refusal_reasons
 			roles
 			sample_formats
+			sample_locations
 			sample_outcomes
 			sample_temperatures
 			sample_types
