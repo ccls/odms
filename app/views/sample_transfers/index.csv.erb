@@ -20,7 +20,7 @@ sample_transfer.sample.study_subject.studyid_to_s,
 sample_transfer.sample.sample_type,
 sample_transfer.sample.sample_type.gegl_sample_type_id,
 mdy( sample_transfer.sample.received_by_ccls_at )
-].to_csv -%>
+].to_csv.html_safe  -%>
 <% end -%>
 <%#
 
