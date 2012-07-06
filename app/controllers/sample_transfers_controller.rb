@@ -42,40 +42,43 @@ class SampleTransfersController < ApplicationController
 	end
 
 	def confirm	#	PUT
-#		SampleTransfer.transaction do
+		SampleTransfer.transaction do
 
-		#	do this BEFORE CHANGING THE STATUS!
-		SampleTransfer.active.each do |t|
-#	TODO Sample does not require study subject, so may want to 
-#	check that before doing this
-			#	OperationalEvent#study_subject_id is protected so ...
-			t.sample.study_subject.operational_events.create!({
-				:project_id => t.sample.project_id,
-				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
-				:description => "Sample ID #{t.sample.sampleid}, " <<
-					"#{t.sample.sample_type}, " <<
-					"transferred to #{@organization.try(:key)} " <<
-
-#	TODO what if not exist or location_id is nil? will raise error on find
-					"from #{Organization.find(t.sample.location_id).try(:key)}",
-
-#					"from #{t.source_org_id}",	#	created in controller on create
-#					"from #{t.sample.location_id}",	#	should be same?????  should change?
-				:occurred_at => Time.now
+			#	do this BEFORE CHANGING THE STATUS!
+			SampleTransfer.active.each do |t|
+				#	OperationalEvent#study_subject_id is protected so ...
+				t.sample.study_subject.operational_events.create!({
+					:project_id => t.sample.project_id,
+					:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
+					:description => "Sample ID #{t.sample.sampleid}, " <<
+						"#{t.sample.sample_type}, " <<
+						"transferred to #{@organization.try(:key)} " <<
+						"from #{Organization.where(:id => t.sample.location_id).first.try(:key)}",
+	
+	#					"from #{t.source_org_id}",	#	created in controller on create
+	#					"from #{t.sample.location_id}",	#	should be same?????  should change?
+					:occurred_at => Time.now
+				}) unless t.sample.study_subject.nil?
+				#	Sample does not require study subject, so 
+				#	check that before doing this.  Realistically
+				#	shouldn't happen.
+			end
+	
+			#	NOTE update_all DOES NOT DO RAILS VALIDATIONS
+			#		and so will probably never raise an error.
+			SampleTransfer.active.update_all({
+				:destination_org_id => params[:organization_id],
+				:status => 'complete',
+				:sent_on => Date.today
 			})
-		end	#	NOTE this could raise an error, although minimal validations
-
-		#	NOTE update_all DOES NOT DO RAILS VALIDATIONS
-		SampleTransfer.active.update_all({
-			:destination_org_id => params[:organization_id],
-			:status => 'complete',
-			:sent_on => Date.today
-		})
-#		end	#	SampleTransfer.transaction do
+		end	#	SampleTransfer.transaction do
 		flash[:notice] = "Confirmed transfer to org id:#{params[:organization_id]}:"
-#		rescue
-#		flash[:error] = "Something really bad happened."
-#		ensure
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+#
+#	Probably operational event create failure
+#
+		flash[:error] = "Something really bad happened."
+	ensure
 		redirect_to sample_transfers_path
 	end
 

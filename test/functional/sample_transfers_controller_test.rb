@@ -22,48 +22,71 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "confirm should do what with sample transfer update_all fail and #{cu} login" do
 skip
+			prep_confirm_test
 			login_as send(cu)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
 		end
 
-		test "confirm should do what with operational event create fail and #{cu} login" do
-skip
+		test "confirm should fail with operational event invalid and #{cu} login" do
+			prep_confirm_test
 			login_as send(cu)
-			put :confirm, :organization_id => Organization['GEGL'].id
+			OperationalEvent.any_instance.stubs(:valid?).returns(false)
+			assert_difference('OperationalEvent.count',0){
+				put :confirm, :organization_id => Organization['GEGL'].id
+			}
 			assert_redirected_to sample_transfers_path
+			assert_not_nil flash[:error]
+#TODO not particularly descriptive "Something really bad happened"
+			assert_match /Something really bad happened/, flash[:error]
 		end
 
-		test "confirm should do what with typeless sample and #{cu} login" do
-skip
+		test "confirm should fail with operational event create fail and #{cu} login" do
+			prep_confirm_test
 			login_as send(cu)
-			put :confirm, :organization_id => Organization['GEGL'].id
+			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
+			assert_difference('OperationalEvent.count',0){
+				put :confirm, :organization_id => Organization['GEGL'].id
+			}
 			assert_redirected_to sample_transfers_path
+			assert_not_nil flash[:error]
+#TODO not particularly descriptive "Something really bad happened"
+			assert_match /Something really bad happened/, flash[:error]
 		end
 
-		test "confirm should do what with projectless sample and #{cu} login" do
-skip
-			login_as send(cu)
-			put :confirm, :organization_id => Organization['GEGL'].id
-			assert_redirected_to sample_transfers_path
-		end
+#	can't create a typeless sample so invalid test
+#		test "confirm should do what with typeless sample and #{cu} login" do
+#			prep_confirm_test
+#			login_as send(cu)
+#			put :confirm, :organization_id => Organization['GEGL'].id
+#			assert_redirected_to sample_transfers_path
+#		end
 
-		test "confirm should do what with locationless sample and #{cu} login" do
-skip
+#	can't create a projectless sample so invalid test
+#		test "confirm should do what with projectless sample and #{cu} login" do
+#			prep_confirm_test
+#			login_as send(cu)
+#			put :confirm, :organization_id => Organization['GEGL'].id
+#			assert_redirected_to sample_transfers_path
+#		end
+
+		test "confirm should work with locationless sample and #{cu} login" do
+			prep_confirm_test(:active_sample => { :location_id => nil })
+			SampleTransfer.active.each { |st| assert_nil st.sample.location_id }
 			login_as send(cu)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
 		end
 
 		test "confirm should do what with subjectless sample and #{cu} login" do
-			prep_confirm_test
+			prep_confirm_test(:active_sample => { :study_subject => nil })
 			login_as send(cu)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
-skip
 		end
 
 		test "confirm should require active transfers with #{cu} login" do
+			#	prep_confirm_test	#	<- don't do this
 			login_as send(cu)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
@@ -326,14 +349,21 @@ skip	"There is no ccls_external_id"
 
 protected
 
-	def prep_confirm_test
+	def prep_confirm_test(options={})
 		assert_difference('SampleTransfer.waitlist.count',3) {
 		assert_difference('SampleTransfer.active.count',3) {
 		assert_difference('SampleTransfer.count',6) {
 		assert_difference('Sample.count',6) {
 		3.times { 
-			Factory(:active_sample_transfer)
-			Factory(:waitlist_sample_transfer)
+			study_subject = Factory(:study_subject)
+			active_sample = Factory(:sample, { :study_subject => study_subject
+				}.merge(options[:active_sample]||{}))
+			waitlist_sample = Factory(:sample, { :study_subject => study_subject
+				}.merge(options[:waitlist_sample]||{}))
+			Factory(:active_sample_transfer,   { :sample => active_sample
+				}.merge(options[:active_sample_transfer]||{}))
+			Factory(:waitlist_sample_transfer, { :sample => waitlist_sample
+				}.merge(options[:waitlist_sample_transfer]||{}))
 		} } } } }
 	end
 
