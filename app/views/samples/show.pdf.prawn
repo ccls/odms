@@ -7,7 +7,7 @@ pdf.font_size(7.5) do
 	pdf.move_down 3
 
 	pdf.font_size(22) do
-		pdf.font(Rails.root.join("prawn/fonts/3OF9_NEW.TTF").to_s) do
+		pdf.font(Rails.root.join("prawn/fonts/3of9_new.TTF").to_s) do
 			pdf.text @sample.sampleid
 		end
 	end
