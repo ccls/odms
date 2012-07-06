@@ -27,4 +27,7 @@ mdy( sample_transfer.sample.received_by_ccls_at )
 I added a leading space to the sampleid so that excel preserves 
 the leading zeroes by treating the field as a string rather than integer.
 
+I added html_safe because some sample_type descriptions contain
+> and < that get html encoded in the csv file if I don't.
+
 -%>
