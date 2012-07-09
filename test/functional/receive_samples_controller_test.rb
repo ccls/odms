@@ -412,6 +412,21 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_equal   transfer.source_org_id, assigns(:sample).location_id
 		end
 
+		test "should create new operational event with sample and #{cu} login for case" do
+			login_as send(cu)
+			study_subject = Factory(:case_study_subject)
+			assert_difference('OperationalEvent.count',1) do
+				post :create, :study_subject_id => study_subject.id,
+					:sample => factory_attributes
+			end
+			assert_create_success
+			oe = study_subject.operational_events.last
+			assert_equal oe.project, Project['ccls']
+			assert_equal oe.operational_event_type, OperationalEventType['sample_received']
+			assert_equal oe.description,
+				"Sample received: #{assigns(:sample).sample_type}"
+		end
+
 	end
 
 	non_site_editors.each do |cu|

@@ -51,6 +51,12 @@ class ReceiveSamplesController < ApplicationController
 			@sample.sample_transfers.create!(
 				:source_org_id => @sample.location_id,
 				:status        => 'waitlist')
+			@sample_for_subject.operational_events.create!(
+				:description               => "Sample received: #{@sample.sample_type}",
+				:project_id                => @sample.project_id,
+				:operational_event_type_id => OperationalEventType['sample_received'].id,
+				:occurred_at               => DateTime.now
+			)
 		end
 
 		flash.now[:notice] = "Sample and Transfer creation for #{@sample_source} succeeded."
