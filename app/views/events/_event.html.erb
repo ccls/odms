@@ -3,6 +3,9 @@
  <td><%= event.project.try(:key) %></td>
  <td><%= event.operational_event_type.try(:event_category) %></td>
  <td><%= event.to_s %></td>
- <td><%= ( current_user.may_edit_events? ) ? 
-	link_to( 'edit', edit_event_path(event) ) : '&nbsp;'.html_safe %></td>
+ <td class='manage'>
+<%= link_to( 'show', event_path(event), :class => :button ) %>&nbsp;
+<%= ( current_user.may_edit_events? ) ? 
+	link_to( 'edit', edit_event_path(event), :class => :button ) : '&nbsp;'.html_safe %>
+</td>
 <% end %>

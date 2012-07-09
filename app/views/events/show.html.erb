@@ -44,3 +44,10 @@
 <span class='label'>notes:</span>
 <p class='value'><%= @operational_event.event_notes %></p>
 </div><!-- class='event_notes' -->
+
+
+<% if current_user.may_destroy_events? %>
+<div class='dev_only'><span>Development only:</span>
+<%= button_to( "Destroy", event_path(@operational_event), :method => 'delete', :form_class => 'destroy_link_to' ) %>
+</div>
+<% end %>
