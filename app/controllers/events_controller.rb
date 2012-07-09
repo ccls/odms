@@ -21,7 +21,20 @@ class EventsController < ApplicationController
 	end
 
 	def index
-		@events = @study_subject.operational_events
+		@events = @study_subject.operational_events.order(search_order)
+
+		if params[:order] and %w( type ).include?(params[:order].downcase)
+			@events = @events
+			.joins(:operational_event_type)
+			.select('operational_events.*, operational_event_types.event_category AS type')
+		end
+
+		if params[:order] and %w( project ).include?(params[:order].downcase)
+			@events = @events
+			.joins(:project)
+			.select('operational_events.*, projects.key AS project')
+		end
+
 	end
 
 	def new
@@ -70,6 +83,21 @@ protected
 			@study_subject = @operational_event.study_subject
 		else
 			access_denied("Valid operational_event id required!", study_subjects_path)
+		end
+	end
+
+	def search_order
+		if params[:order] and
+				%w( id type project description occurred_at ).include?(
+				params[:order].downcase)
+			order_string = params[:order]
+			dir = case params[:dir].try(:downcase)
+				when 'desc' then 'desc'
+				else 'asc'
+			end
+			[order_string,dir].join(' ')
+		else
+			nil
 		end
 	end
 

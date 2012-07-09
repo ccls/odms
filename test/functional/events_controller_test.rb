@@ -146,6 +146,113 @@ class EventsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
+		test "should order events by occurred_at with #{cu} login" do
+			oes = create_occurred_at_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, :order => :occurred_at
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
+		test "should order events by occurred_at asc with #{cu} login" do
+			oes = create_occurred_at_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, 
+				:order => :occurred_at, :dir => :asc
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
+		test "should order events by occurred_at desc with #{cu} login" do
+			oes = create_occurred_at_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, 
+				:order => :occurred_at, :dir => :desc
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]].reverse
+		end
+
+
+
+
+		test "should order events by project with #{cu} login" do
+			oes = create_project_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, :order => :project
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
+		test "should order events by project asc with #{cu} login" do
+			oes = create_project_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, 
+				:order => :project, :dir => :asc
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
+		test "should order events by project desc with #{cu} login" do
+			oes = create_project_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, 
+				:order => :project, :dir => :desc
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]].reverse
+		end
+
+		test "should order events by type with #{cu} login" do
+			oes = create_category_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, :order => :type
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
+		test "should order events by type asc with #{cu} login" do
+			oes = create_category_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, 
+				:order => :type, :dir => :asc
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
+		test "should order events by type desc with #{cu} login" do
+			oes = create_category_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, 
+				:order => :type, :dir => :desc
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]].reverse
+		end
+
+		test "should order events by description with #{cu} login" do
+			oes = create_description_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, :order => :description
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
+		test "should order events by description asc with #{cu} login" do
+			oes = create_description_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, 
+				:order => :description, :dir => :asc
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
+		test "should order events by description desc with #{cu} login" do
+			oes = create_description_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id, 
+				:order => :description, :dir => :desc
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]].reverse
+		end
+
 	end
 
 	non_site_readers.each do |cu|
@@ -179,6 +286,54 @@ class EventsControllerTest < ActionController::TestCase
 				:operational_event => factory_attributes
 		}
 		assert_redirected_to_login
+	end
+
+protected
+
+	def create_operational_events(*args)
+		study_subject = Factory(:study_subject)
+		study_subject.operational_events.destroy_all
+		args.collect{|options| create_operational_event(
+			options.merge(:study_subject => study_subject)) }
+	end
+
+	def create_occurred_at_operational_events
+		today = DateTime.now
+		create_operational_events(
+			{ :occurred_at => ( today - 1.month ) },
+			{ :occurred_at => ( today - 1.year ) },
+			{ :occurred_at => ( today - 1.week ) }
+		)
+	end
+
+	def create_description_operational_events
+		create_operational_events(
+			{ :description => 'M' },
+			{ :description => 'A' },
+			{ :description => 'Z' }
+		)
+	end
+
+	def create_category_operational_events
+		create_operational_events(
+			{ :operational_event_type => Factory(
+				:operational_event_type,:event_category => 'MMMM') },
+			{ :operational_event_type => Factory(
+				:operational_event_type,:event_category => 'AAAA') },
+			{ :operational_event_type => Factory(
+				:operational_event_type,:event_category => 'ZZZZ') }
+		)
+	end
+
+	def create_project_operational_events
+		create_operational_events(
+			{ :project => Factory(
+				:project,:key => 'MMMM') },
+			{ :project => Factory(
+				:project,:key => 'AAAA') },
+			{ :project => Factory(
+				:project,:key => 'ZZZZ') }
+		)
 	end
 
 end

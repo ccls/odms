@@ -1,10 +1,10 @@
 <h3>Events</h3>
 <% unless @events.empty? %>
  <table id='events'><thead><tr>
-  <th>Date<%#= sort_link(:occurred_at,'Date') %></th>
-  <th>Project<%#= sort_link(:project,'Project') %></th>
-  <th>Event Type<%#= sort_link(:type,'Event Type') %></th>
-  <th>Description<%#= sort_link(:description,'Description') %></th>
+  <th><%= sort_link(:occurred_at,'Date') %></th>
+  <th><%= sort_link(:project,'Project') %></th>
+  <th><%= sort_link(:type,'Event Type') %></th>
+  <th><%= sort_link(:description,'Description') %></th>
   <th>&nbsp;</th>
  </tr></thead><tbody>
   <%= render :partial => 'event', :collection => @events %>
