@@ -72,16 +72,22 @@ base.class_eval do
 
 	#	Find all the subjects with matching familyid except self.
 	def family
-		return [] if familyid.blank?
-		StudySubject.with_familyid(familyid).not_id(id)
-			.includes(:subject_type)
+		if familyid.blank?
+			StudySubject.where('1=0')	#	should NEVER be true
+		else
+			StudySubject.with_familyid(familyid).not_id(id)
+				.includes(:subject_type)
+		end
 	end
 
 	#	Find all the subjects with matching matchingid except self.
 	def matching
-		return [] if matchingid.blank?
-		StudySubject.with_matchingid(matchingid).not_id(id)
-			.includes(:subject_type)
+		if matchingid.blank?
+			StudySubject.where('1=0')	#	should NEVER be true
+		else
+			StudySubject.with_matchingid(matchingid).not_id(id)
+				.includes(:subject_type)
+		end
 	end
 
 	#	Find all the subjects with matching patid with subject_type Control except self.

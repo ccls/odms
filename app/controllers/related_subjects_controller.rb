@@ -10,7 +10,7 @@ class RelatedSubjectsController < ApplicationController
 		@unrejected_controls = CandidateControl.related_patid(
 			@study_subject.patid).unassigned.unrejected
 		#@control_subjects  = @study_subject.controls
-		@matching_subjects = @study_subject.matching
+		@matching_subjects = @study_subject.matching.order('last_name, first_name')
 		#@family_subjects   = @study_subject.family
 		@rejected_controls = @study_subject.rejected_controls
 	end
