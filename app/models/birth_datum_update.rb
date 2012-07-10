@@ -21,7 +21,13 @@ class BirthDatumUpdate < ActiveRecord::Base
 #		:with => %r{\.csv$}i,
 #		:allow_blank => true
 
-	validate :valid_csv_file_column_names
+
+
+#	Temporarily don't do this
+#	validate :valid_csv_file_column_names
+
+
+
 
 	#	if only doing this after create,
 	#	what happens on edit/update?
@@ -79,6 +85,11 @@ class BirthDatumUpdate < ActiveRecord::Base
 					birth_datum_attributes.delete('ignore1')
 					birth_datum_attributes.delete('ignore2')
 					birth_datum_attributes.delete('ignore3')
+
+#	remove any unexpected attribute
+					line.headers.each do |h|
+						birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
+					end
 
 					birth_datum = self.birth_data.create( birth_datum_attributes )
 					if birth_datum.new_record?
