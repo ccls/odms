@@ -733,7 +733,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		login_as @user
 		@roles = Role.all
 		response = HTML::Document.new(user_roles).root
-		assert_select response, 'form.button_to', :count => 4
+		assert_select response, 'form.button_to', :count => 5
 	end
 
 	test "should get user_roles with administrator login" do
@@ -741,7 +741,15 @@ class ApplicationHelperTest < ActionView::TestCase
 		login_as @user
 		@roles = Role.all
 		response = HTML::Document.new(user_roles).root
-		assert_select response, 'form.button_to', :count => 4
+		assert_select response, 'form.button_to', :count => 5
+	end
+
+	test "should not get user_roles with exporter login" do
+		@user = send(:exporter)
+		login_as @user
+		@roles = Role.all
+		response = HTML::Document.new(user_roles).root
+		assert response.to_s.blank?
 	end
 
 	test "should not get user_roles with editor login" do
