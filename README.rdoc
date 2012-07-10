@@ -539,10 +539,25 @@ test database clean.  Just an FYI.
 * gem capybara-webkit
 
 
+== Managing Multiple User Input
+
+ I have chosen to manage the input of other users by maintaining
+ different repositories and merging as necessary.  Using the same
+ repo and creating branches was and is an option and I reserve
+ the right to go that route if it looks better.
+
+ initially ...
+
+   git remote add magee git@github.com:magee/odms.git
+
+ then when needed
+
+   git fetch magee
+   git merge --no-commit --no-ff magee/master
+
+
+
 == Other Notes 
-
-
-
 
 
 Copyright (c) 2011 [Jake Wendt], released under the MIT license
