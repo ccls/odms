@@ -9,6 +9,9 @@ class UsersController < ApplicationController
 	end
 
 	def index
+#
+#	may want to add .order('position ASC') or something
+#
 		@users = User.with_role_name(params[:role_name])
 	end
 
