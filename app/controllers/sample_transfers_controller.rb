@@ -57,15 +57,26 @@ class SampleTransfersController < ApplicationController
 	
 	#					"from #{t.source_org_id}",	#	created in controller on create
 	#					"from #{t.sample.location_id}",	#	should be same?????  should change?
-					:occurred_at => Time.now
+#					:occurred_at => Time.now
+					:occurred_at => DateTime.now
 				}) unless t.sample.study_subject.nil?
 				#	Sample does not require study subject, so 
 				#	check that before doing this.  Realistically
 				#	shouldn't happen.
+
+
+				t.sample.update_attributes!({
+					:location_id    => params[:organization_id],
+					:sent_to_lab_at => DateTime.now
+				})
 			end
 	
 			#	NOTE update_all DOES NOT DO RAILS VALIDATIONS
 			#		and so will probably never raise an error.
+#	
+#	The source_org_id should be correct as it is set to the 
+#	sample's location_id on create.
+#
 			SampleTransfer.active.update_all({
 				:destination_org_id => params[:organization_id],
 				:status => 'complete',

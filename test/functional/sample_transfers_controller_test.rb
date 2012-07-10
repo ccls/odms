@@ -21,11 +21,14 @@ class SampleTransfersControllerTest < ActionController::TestCase
 		end
 
 		test "confirm should do what with sample transfer update_all fail and #{cu} login" do
-skip
 			prep_confirm_test
 			login_as send(cu)
+			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
+#	how to fake a fail update_all and does it raise an error?
+#flunk 'manually flunked'
+skip
 		end
 
 		test "confirm should fail with operational event invalid and #{cu} login" do
@@ -94,15 +97,28 @@ skip
 			assert_match /Active sample transfers required to confirm/, flash[:error]
 		end
 
-#sample.location_id is set to the source_org_id for each sample
 		test "confirm should set each sample location_id with #{cu} login" do
 			prep_confirm_test
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			assert_equal 3.times.collect{Organization['CCLS'].id},
+				active_transfers.collect(&:reload).collect(&:sample).collect(&:location_id)
 			login_as send(cu)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
-#	I think that this should set the sample.location_id
-#	to the given organization_id or "destination_org_id", not source_org_id
-skip
+			assert_equal 3.times.collect{Organization['GEGL'].id},
+				active_transfers.collect(&:reload).collect(&:sample).collect(&:location_id)
+		end
+
+		test "confirm should set each sample sent_to_lab_at with #{cu} login" do
+			prep_confirm_test
+			active_transfers = SampleTransfer.active.all	#	must do before as status changes
+			login_as send(cu)
+			put :confirm, :organization_id => Organization['GEGL'].id
+			assert_redirected_to sample_transfers_path
+			#	as this is a datetime, can't test EXACT, so just test date portion
+			assert_equal 3.times.collect{Date.today},
+				active_transfers.collect(&:reload).collect(&:sample)
+					.collect(&:sent_to_lab_at).collect(&:to_date)
 		end
 
 		test "confirm should set each sample transfer destination_org_id with #{cu} login" do
@@ -139,16 +155,6 @@ skip
 			assert_redirected_to sample_transfers_path
 			assert_equal 3.times.collect{'complete'},
 				active_transfers.collect(&:reload).collect(&:status)
-		end
-
-#sample.ccls_external_id is set to "subjectid"+"-"+"sampleid" ensuring that all leading zeros are maintained (redundant but consistent with current practice -- to be revisited later).
-		test "confirm should set each sample ccls_external_id with #{cu} login" do
-			prep_confirm_test
-			login_as send(cu)
-			active_transfers = SampleTransfer.active.all	#	must do before as status changes
-			put :confirm, :organization_id => Organization['GEGL'].id
-			assert_redirected_to sample_transfers_path
-skip	"There is no ccls_external_id"
 		end
 
 		test "confirm should create operational event for each sample with #{cu} login" do
