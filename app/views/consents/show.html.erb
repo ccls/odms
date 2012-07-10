@@ -6,7 +6,7 @@
 <h3>Study Consent Info</h3>
 <div class='buttons'>
 <%= link_to( 'Edit', edit_study_subject_consent_path(@study_subject),
-	:class => 'button' ) if current_user.may_edit_enrollments? %>
+	:class => 'button' ) if current_user.may_update_enrollments? %>
 </div><!-- class='buttons' -->
 </div>
 
@@ -73,7 +73,7 @@
 <% sub_menu_for(@study_subject) %>
 <%# content_for :id_bar do %>
 <%#= link_to "edit", edit_study_subject_path(@study_subject) %>
-<%# end if current_user.may_edit_study_subjects? %>
+<%# end if current_user.may_update_study_subjects? %>
 <%# id_bar_for(@study_subject) %>
 <p>Subject has no CCLS enrollment. This should NEVER happen.</p>
 <p>If one didn't exist, it should have been just created.</p>

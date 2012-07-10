@@ -20,7 +20,7 @@
 </tr></thead><tbody>
  <%= render :partial => 'enrollment', 
 	:collection => @study_subject.enrollments,
-	:locals => { :edit => current_user.may_edit_enrollments? } %>
+	:locals => { :edit => current_user.may_update_enrollments? } %>
 </tbody></table><!-- id='enrollments' -->
 <% else %>
  <p>This subject has no enrollments</p>

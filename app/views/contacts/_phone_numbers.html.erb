@@ -3,8 +3,8 @@
 <%= render :partial => 'phone_number', 
 	:collection => @study_subject.phone_numbers.current,
 	:locals => { :details => true,
-		:edit => current_user.may_edit_phone_numbers? } %>
-<% if current_user.may_edit_phone_numbers? %>
+		:edit => current_user.may_update_phone_numbers? } %>
+<% if current_user.may_update_phone_numbers? %>
 <p id='new_phone_number' class='new'>
 <%= link_to 'add new phone number', new_study_subject_phone_number_path(@study_subject) %>
 <% if @study_subject.phone_numbers.historic.length > 0 %>

@@ -12,7 +12,7 @@
 <% else %>
  <p>This subject has no operational events.</p>
 <% end %>
-<% if current_user.may_edit_events? %>
+<% if current_user.may_update_events? %>
 <p><%= link_to 'add event', new_study_subject_event_path(@study_subject),
 	:class => 'button' %></p>
 <% end %>

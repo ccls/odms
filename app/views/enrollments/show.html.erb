@@ -6,7 +6,7 @@
 <h3>Study name: <%= @enrollment.project.key.titleize -%></h3>
 <div class='buttons'>
 <%= link_to( 'Edit', edit_enrollment_path(@enrollment),
-	:class => 'button' ) if current_user.may_edit_enrollments? %>
+	:class => 'button' ) if current_user.may_update_enrollments? %>
 </div><!-- class='buttons' -->
 </div>
 

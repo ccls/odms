@@ -105,6 +105,12 @@ module ActiveSupportExtension::UserLogin
 		u
 	end
 
+	def exporter(options={})
+		u = active_user(options)
+		u.roles << Role.find_or_create_by_name('exporter')
+		u
+	end
+
 	module ClassMethods
 
 		def site_administrators
@@ -115,8 +121,16 @@ module ActiveSupportExtension::UserLogin
 			@non_site_administrators ||= ( all_test_roles - site_administrators )
 		end
 
+		def site_exporters
+			@site_exporters ||= %w( superuser administrator exporter )
+		end
+
+		def non_site_exporters
+			@non_site_exporters ||= ( all_test_roles - site_exporters )
+		end
+
 		def site_editors
-			@site_editors ||= %w( superuser administrator editor )
+			@site_editors ||= %w( superuser administrator exporter editor )
 		end
 
 		def non_site_editors
@@ -125,7 +139,7 @@ module ActiveSupportExtension::UserLogin
 
 		def site_readers
 #			@site_readers ||= %w( superuser administrator editor interviewer reader )
-			@site_readers ||= %w( superuser administrator editor reader )
+			@site_readers ||= %w( superuser administrator exporter editor reader )
 		end
 
 		def non_site_readers
@@ -134,7 +148,7 @@ module ActiveSupportExtension::UserLogin
 
 		def all_test_roles
 #			@all_test_roles = %w( superuser administrator editor interviewer reader active_user )
-			@all_test_roles = %w( superuser administrator editor reader active_user )
+			@all_test_roles = %w( superuser administrator exporter editor reader active_user )
 		end
 	end
 

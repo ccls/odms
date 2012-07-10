@@ -6,8 +6,8 @@
 <%= render :partial => 'addressing', 
 	:collection => @study_subject.addressings.current,
 	:locals => { :details => true,
-		:edit => current_user.may_edit_addressings? } %>
-<% if current_user.may_edit_addressings? %>
+		:edit => current_user.may_update_addressings? } %>
+<% if current_user.may_update_addressings? %>
 <p id='new_address' class='new'>
 <%= link_to 'add new address', new_study_subject_addressing_path(@study_subject) %>
 <% if @study_subject.addressings.historic.length > 0 %>

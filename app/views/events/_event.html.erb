@@ -5,7 +5,7 @@
  <td><%= event.to_s %></td>
  <td class='manage'>
 <%= link_to( 'show', event_path(event), :class => :button ) %>&nbsp;
-<%= ( current_user.may_edit_events? ) ? 
+<%= ( current_user.may_update_events? ) ? 
 	link_to( 'edit', edit_event_path(event), :class => :button ) : '&nbsp;'.html_safe %>
 </td>
 <% end %>

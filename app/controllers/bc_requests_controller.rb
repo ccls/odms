@@ -7,7 +7,10 @@ class BcRequestsController < ApplicationController
 	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
 
 	def new
-		@bc_request           = BcRequest.new #	sole purpose is to make testing happy
+		#	sole purpose is to make common test for new action happy
+		@bc_request           = BcRequest.new 
+
+
 		@active_bc_requests   = BcRequest.active
 		@waitlist_bc_requests = BcRequest.waitlist
 	end

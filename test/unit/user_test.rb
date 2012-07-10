@@ -54,7 +54,22 @@ class UserTest < ActiveSupport::TestCase
 			user.roles << Role.find_by_name('editor')
 			assert  user.is_editor?
 			assert  user.may_edit?
-			assert  user.may_interview?
+#			assert  user.may_interview?
+			assert !user.may_export?
+			assert  user.may_read?
+			assert !user.is_administrator?
+			assert !user.may_administrate?
+			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+		end
+	end
+
+	test "should create exporter" do
+		assert_difference 'User.count' do
+			user = create_object
+			user.roles << Role.find_by_name('exporter')
+			assert !user.is_editor?
+			assert  user.may_export?
+			assert  user.may_edit?
 			assert  user.may_read?
 			assert !user.is_administrator?
 			assert !user.may_administrate?
@@ -67,8 +82,9 @@ class UserTest < ActiveSupport::TestCase
 			user = create_object
 			user.roles << Role.find_by_name('administrator')
 			assert  user.is_administrator?
+			assert  user.may_export?
 			assert  user.may_edit?
-			assert  user.may_interview?
+#			assert  user.may_interview?
 			assert  user.may_read?
 			assert  user.may_administrate?
 
@@ -94,8 +110,9 @@ class UserTest < ActiveSupport::TestCase
 			assert  user.is_superuser?
 			assert  user.is_super_user?
 			assert  user.may_administrate?
+			assert  user.may_export?
 			assert  user.may_edit?
-			assert  user.may_interview?
+#			assert  user.may_interview?
 			assert  user.may_read?
 			assert  user.may_administrate?
 			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"

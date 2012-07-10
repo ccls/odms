@@ -17,7 +17,7 @@ admin:
 
 editor:
   id: 3
-  position: 3
+  position: 4
   name: editor
 
 reader:
@@ -34,3 +34,9 @@ reader:
 #  position: 4
 #  name: interviewer
 #
+
+exporter:
+  id: 6
+  position: 3
+  name: exporter
+

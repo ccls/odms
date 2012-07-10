@@ -25,7 +25,7 @@
 <% else %>
 <p>Study Subject currently has no samples</p>
 <% end %>
-<p><%= ( current_user.may_edit_samples? ) ?
+<p><%= ( current_user.may_update_samples? ) ?
 	link_to( "new sample", new_study_subject_sample_path(@study_subject),
 		:class => 'button' ) : '&nbsp;'.html_safe
 %></p>

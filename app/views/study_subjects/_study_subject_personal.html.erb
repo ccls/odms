@@ -10,7 +10,7 @@
 <h3>Basic Info</h3>
 <div class='buttons'>
 <%= link_to( "Edit", edit_study_subject_path(@study_subject),
-	:class => 'button' ) if current_user.may_edit_study_subjects? %>
+	:class => 'button' ) if current_user.may_update_study_subjects? %>
 </div><!-- class='buttons' -->
 </div>
 
