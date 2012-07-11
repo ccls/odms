@@ -216,7 +216,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 			:icf_master_id => 'CASE4BIRT')
 		assert_nil case_study_subject.patient
 		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+			:master_id => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_nil candidate_control.study_subject.reference_date
@@ -552,7 +552,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		candidate_control_1 = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control_1,case_study_subject)
 		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+			:master_id => case_study_subject.icf_master_id)
 		candidate_control_2 = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control_2,case_study_subject)
 		assert_not_nil candidate_control_2.study_subject.orderno
@@ -573,7 +573,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
 		imi = Factory(:icf_master_id,:icf_master_id => '123456789')
 		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+			:master_id => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_not_nil candidate_control.study_subject.icf_master_id
@@ -637,7 +637,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		child_imi = Factory(:icf_master_id,:icf_master_id => 'child')
 		mother_imi = Factory(:icf_master_id,:icf_master_id => 'mother')
 		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+			:master_id => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		assert_not_nil candidate_control.study_subject.icf_master_id
@@ -658,7 +658,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
 		Factory(:icf_master_id,:icf_master_id => '123456789')
 		birth_datum = Factory(:control_birth_datum, 
-			:masterid => case_study_subject.icf_master_id)
+			:master_id => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		assert_not_nil IcfMasterId.next_unused
 		IcfMasterId.any_instance.stubs(:save!
@@ -743,7 +743,7 @@ protected
 	def create_case_and_control_birth_datum(options={})
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
 		birth_datum = Factory(:control_birth_datum,{
-			:masterid => case_study_subject.icf_master_id
+			:master_id => case_study_subject.icf_master_id
 		}.merge(options) )
 		return case_study_subject, birth_datum
 	end

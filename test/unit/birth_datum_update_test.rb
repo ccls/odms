@@ -184,7 +184,7 @@ skip 'Temporarily disabled this validation.'
 			birth_datum_update.birth_data.each do |birth_datum|
 				assert_equal 'birth data append',
 					birth_datum.odms_exceptions.first.name
-				assert_match /No subject found with masterid :\w+:/,
+				assert_match /No subject found with master_id :\w+:/,
 					birth_datum.odms_exceptions.first.to_s
 			end
 		} } }
@@ -203,7 +203,7 @@ skip 'Temporarily disabled this validation.'
 					:headers => true })
 			line = f.readline	#	case
 			birth_datum = birth_datum_update.birth_data[0]
-			assert_equal birth_datum.masterid, '12345FAKE'
+			assert_equal birth_datum.master_id, '12345FAKE'
 			assert_equal birth_datum.case_control_flag, 'case'
 			assert_equal birth_datum.match_confidence, 'definite'
 			assert_equal birth_datum.sex, line['sex']
@@ -211,7 +211,7 @@ skip 'Temporarily disabled this validation.'
 
 			line = f.readline	#	control
 			birth_datum = birth_datum_update.birth_data[1]
-			assert_equal birth_datum.masterid, '12345FAKE'
+			assert_equal birth_datum.master_id, '12345FAKE'
 			assert_equal birth_datum.case_control_flag, 'control'
 			assert       birth_datum.match_confidence.blank?
 			assert_equal birth_datum.sex, line['sex']

@@ -11,22 +11,28 @@ class BirthDatum < ActiveRecord::Base
 	after_create :post_processing
 
 	def post_processing
-		if masterid.blank?
+		if master_id.blank?
 			odms_exceptions.create(:name => 'birth data append',
-				:description => "masterid blank")
+				:description => "master_id blank")
 		else
 			#	DO NOT USE 'study_subject' here as it will conflict with
 			#	the study_subject association.
-			subject = StudySubject.where(:icf_master_id => masterid).first
+			subject = StudySubject.where(:icf_master_id => master_id).first
 			if subject.nil?
 				odms_exceptions.create(:name => 'birth data append',
-					:description => "No subject found with masterid :#{masterid}:")
+					:description => "No subject found with master_id :#{master_id}:")
 			elsif !subject.is_case?
 				odms_exceptions.create(:name => 'birth data append',
-					:description => "Subject found with masterid :#{masterid}:" <<
+					:description => "Subject found with master_id :#{master_id}:" <<
 						" is not a case subject.")
 			else
-				if case_control_flag == 'control'
+
+
+#				if case_control_flag == 'control'
+#				if case_control_flag == '0'
+				if ['0','control'].include?(case_control_flag)
+
+
 					control_options = { :related_patid => subject.patid }
 					reasons = []
 					if dob.blank?
@@ -48,8 +54,19 @@ class BirthDatum < ActiveRecord::Base
 						odms_exceptions.create(:name => 'candidate control creation',
 							:description => "Error creating candidate_control for subject")
 					end
-				elsif case_control_flag == 'case'
-					if match_confidence.match(/definite/i)
+
+
+#				elsif case_control_flag == 'case'
+#				elsif case_control_flag == '1'
+				elsif ['1','case'].include?(case_control_flag)
+
+
+
+#					if match_confidence.match(/definite/i)
+					if !match_confidence.blank? && match_confidence.match(/definite/i)
+
+
+
 						#	assign study_subject_id to case's id
 						self.update_attribute(:study_subject_id, subject.id)
 						update_study_subject_attributes
@@ -73,8 +90,8 @@ class BirthDatum < ActiveRecord::Base
 		#	then study subject isn't set.  Regardless, check if its
 		#	set.  If not, try to set it.  If can't, go away.
 		unless study_subject
-			return if masterid.blank?
-			subject = StudySubject.where(:icf_master_id => masterid).first
+			return if master_id.blank?
+			subject = StudySubject.where(:icf_master_id => master_id).first
 			return if subject.nil?
 			self.update_attribute(:study_subject_id, subject.id)
 		end

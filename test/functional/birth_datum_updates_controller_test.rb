@@ -185,7 +185,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #
 #			assert assigns(:results)[0].is_a?(String)
 #			assert_equal assigns(:results)[0],
-#				"Could not find study_subject with masterid [no ID assigned]"
+#				"Could not find study_subject with master_id [no ID assigned]"
 #			assert assigns(:results)[1].is_a?(StudySubject)
 #			assert assigns(:results)[2].is_a?(StudySubject)
 #			assigns(:results).each { |r|

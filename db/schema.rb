@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120711215106) do
+ActiveRecord::Schema.define(:version => 20120711222420) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -467,7 +467,7 @@ ActiveRecord::Schema.define(:version => 20120711215106) do
   create_table "birth_data", :force => true do |t|
     t.integer  "birth_datum_update_id"
     t.integer  "study_subject_id"
-    t.string   "masterid"
+    t.string   "master_id"
     t.boolean  "found_in_state_db"
     t.string   "birth_state"
     t.string   "match_confidence"

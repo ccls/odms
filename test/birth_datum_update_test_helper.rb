@@ -77,17 +77,17 @@ module BirthDatumUpdateTestHelper
 	#	just enough for no exceptions
 	def unknown_subject_hash
 		Factory.attributes_for(:birth_datum,
-			:masterid => '12345FAKE' )
+			:master_id => '12345FAKE' )
 	end
 
 	def case_subject_hash
 		Factory.attributes_for(:case_birth_datum,
-			:masterid => '12345FAKE' )
+			:master_id => '12345FAKE' )
 	end
 
 	def control_subject_hash
 		Factory.attributes_for(:control_birth_datum,
-			:masterid => '12345FAKE' )
+			:master_id => '12345FAKE' )
 	end
 
 #	shouldn't be called test_... as makes it a test method!

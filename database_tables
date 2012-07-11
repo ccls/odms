@@ -464,7 +464,7 @@ Table: birth_data
 | id                                | int(11)       | NO   | PRI | NULL    | auto_increment |
 | birth_datum_update_id             | int(11)       | YES  |     | NULL    |                |
 | study_subject_id                  | int(11)       | YES  |     | NULL    |                |
-| masterid                          | varchar(255)  | YES  |     | NULL    |                |
+| master_id                         | varchar(255)  | YES  |     | NULL    |                |
 | found_in_state_db                 | tinyint(1)    | YES  |     | NULL    |                |
 | birth_state                       | varchar(255)  | YES  |     | NULL    |                |
 | match_confidence                  | varchar(255)  | YES  |     | NULL    |                |

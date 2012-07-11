@@ -8,7 +8,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			birth_datum = Factory(:control_birth_datum, 
-				:masterid => case_study_subject.icf_master_id )
+				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
 
@@ -53,7 +53,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			birth_datum = Factory(:control_birth_datum, 
-				:masterid => case_study_subject.icf_master_id )
+				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
@@ -117,7 +117,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			birth_datum = Factory(:control_birth_datum, 
-				:masterid => case_study_subject.icf_master_id )
+				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
@@ -184,7 +184,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			birth_datum = Factory(:control_birth_datum, 
-				:masterid => case_study_subject.icf_master_id )
+				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
 			duplicate = Factory(:study_subject,
