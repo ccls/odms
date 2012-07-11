@@ -14,10 +14,15 @@
 <h4>Record count:<%=@birth_datum_update.birth_data.length%></h4>
 
 <% if @birth_datum_update.birth_data.length > 0 -%>
-<table><thead>
+<table><thead><tr>
+<th>&nbsp;</th>
+<th>case/control</th>
+<th>study subject</th>
+<th>candidate control</th>
+</tr></thead><tbody>
 <% @birth_datum_update.birth_data.order('id ASC').each do |birth_datum| -%>
 <tr class='row'>
-<td><%= birth_datum.id %></td>
+<td><%= link_to birth_datum.id, birth_datum %></td>
 <td><%= birth_datum.case_control_flag %></td>
 <td><% if birth_datum.study_subject %>
 <%= link_to birth_datum.study_subject, birth_datum.study_subject %>
