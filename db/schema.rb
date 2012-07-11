@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120703180909) do
+ActiveRecord::Schema.define(:version => 20120711215106) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -546,6 +546,7 @@ ActiveRecord::Schema.define(:version => 20120703180909) do
     t.boolean  "vacuum_attempt_unsuccessful"
     t.datetime "created_at",                                                       :null => false
     t.datetime "updated_at",                                                       :null => false
+    t.integer  "control_number"
   end
 
   create_table "birth_datum_updates", :force => true do |t|

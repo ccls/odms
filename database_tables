@@ -543,6 +543,7 @@ Table: birth_data
 | vacuum_attempt_unsuccessful       | tinyint(1)    | YES  |     | NULL    |                |
 | created_at                        | datetime      | NO   |     | NULL    |                |
 | updated_at                        | datetime      | NO   |     | NULL    |                |
+| control_number                    | int(11)       | YES  |     | NULL    |                |
 +-----------------------------------+---------------+------+-----+---------+----------------+
 Table: birth_datum_updates
 +-----------------------+--------------+------+-----+---------+----------------+
