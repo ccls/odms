@@ -21,24 +21,43 @@
 
 #.gitignore
 .DS_Store
+
+#	old subversion directories, probably irrelevant here
 .svn/
+
+#	Jake's versions directories
 versions/
 /misc/
 
-/address_types.csv
+#	where I store all my database dumps
+/dumps/
+
+#	old copies of my Gemfile.lock file
+/Gemfile.lock.*
+
+#	Files potentitally with passwords and such
 /config/api.yml
 /config/database.yml
+#config/*database.yml
 /config/fed_ex.yml
 /config/initializers/mail.rb
 #/config/initializers/session_store.rb
 /config/initializers/secret_token.rb
 /config/s3.yml
+
+#	code coverate data
 /coverage.data
-/coverage/
+/coverage*/
+
+
 /db/*.yml
 /doc/
-/*.war
-/packages_updated.*
+
+#	jruby warble files (not used here)
+#/*.war
+
+#/packages_updated.*
+
 /public/bottom.html
 /public/columns.html
 /public/doc/
@@ -46,8 +65,8 @@ versions/
 /public/labels.html
 /public/layout1.html
 /public/system/
-/script/server_secure
-/script/webrick
+#/script/server_secure
+#/script/webrick
 /surveys/fixtures/
 
 #*/documents
@@ -58,8 +77,9 @@ versions/
 /public/javascripts/jquery-ui-1.8.4.custom.min.js
 
 
-config/*database.yml
 db/test_*_schema.rb
+
+#	vi/vim tmp files
 *.swp
 
 #	not in gem, so don't have to ignore
@@ -74,4 +94,4 @@ test/icf_master_tracker_update/
 development/icf_master_tracker_update/
 
 *_errors.txt
-odms_development.*.sql
+#odms_development.*.sql

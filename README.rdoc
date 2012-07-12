@@ -521,7 +521,7 @@ test database clean.  Just an FYI.
 
 
 
-
+---
 == Additional files that will be needed
 
  /config/api.yml ( probably removing )
@@ -529,7 +529,7 @@ test database clean.  Just an FYI.
  /config/initializers/mail.rb	(not doing mail anymore so irrelevant)
  /config/initializers/secret_token.rb
 
-
+---
 == Testing requirements
 
 * port qt4-mac
@@ -538,7 +538,7 @@ test database clean.  Just an FYI.
 * gem selenium-webdriver (not used anymore but seems required by others)
 * gem capybara-webkit
 
-
+---
 == Managing Multiple User Input
 
  I have chosen to manage the input of other users by maintaining
@@ -556,7 +556,30 @@ test database clean.  Just an FYI.
    git merge --no-commit --no-ff magee/master
 
 
+---
+== Database Adapter mysql vs mysql2
 
+I installed the mysql2 gem and ran ... to test the overall speed difference.
+
+ time rake odms_import:csv_data
+
+Using just mysql
+
+ => 4061.933u 70.565s 1:21:40.63 84.3%	0+0k 890+638io 0pf+0w
+
+Using mysql2
+
+ => 1878.205u 48.815s 44:48.35 71.6%	0+0k 851+497io 0pf+0w
+
+Not surprisingly, mysql2 seems to be somewhere near twice as fast.
+
+This seems to be working fine in development, testing and production.
+It is not necessary, but seems to be faster.  If desired, all that would
+need to be done to downgrade to mysql is changing the database.yml
+adapter values.
+
+
+---
 == Other Notes 
 
 
