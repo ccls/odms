@@ -37,22 +37,11 @@ class BirthDatumUpdate < ActiveRecord::Base
 	def valid_csv_file_column_names
 		#	'to_file' needed as the path method wouldn't be
 		#	defined until after save.
-#		if self.csv_file && self.csv_file.to_file
-#			f=FasterCSV.open(self.csv_file.to_file.path,'rb')
-#		if self.csv_file
-#
-#	This is stupid.
-#
-#puts self.csv_file	/csv_files/original/missing.png
-#			f=FasterCSV.open(self.csv_file.path,'rb')
-#
-#	to_file method has gone away
-#
-#	possible replacement
-#	b.csv_file.queued_for_write[:original].path
-#
-#	all I'm trying to do is read the file but nobody likes this idea
-#
+		#	to_file method has gone away
+		#	possible replacement
+		#	b.csv_file.queued_for_write[:original].path
+		#	all I'm trying to do is read the file but nobody likes this idea
+		#
 		if !self.csv_file_file_name.blank?  && self.csv_file.queued_for_write[:original].path
 			f=CSV.open(self.csv_file.queued_for_write[:original].path,'rb')
 			column_names = f.readline
@@ -69,7 +58,6 @@ class BirthDatumUpdate < ActiveRecord::Base
 
 	def parse_csv_file
 		unless self.csv_file_file_name.blank?
-#			csv_file_path = self.csv_file.to_file.path
 			csv_file_path = self.csv_file.queued_for_write[:original].path
 			unless csv_file_path.nil?
 				line_count = 0
@@ -86,18 +74,9 @@ class BirthDatumUpdate < ActiveRecord::Base
 					birth_datum_attributes.delete('ignore2')
 					birth_datum_attributes.delete('ignore3')
 
-#	remove any unexpected attribute
-#	rather than have this expected_column_names, could possibly just use
-#	BirthDatum.attribute_names since that is effectively what they are.  
-#	Just can't send any non-existant attributes
-#	as then the create will fail.
-#	may want to remove "id", "birth_datum_update_id", "study_subject_id",
-#		"created_at", "updated_at"
+					#	remove any unexpected attribute which would cause create failure
 					line.headers.each do |h|
-#	NO, NO, NO.  The point is that the csv file may have more in it. duh
-#					BirthDatum.attribute_names.each do |h|
 						birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
-#						birth_datum_attributes.delete(h) unless BirthDatum.attribute_names.include?(h)
 					end
 
 					birth_datum = self.birth_data.create( birth_datum_attributes )
@@ -126,8 +105,6 @@ class BirthDatumUpdate < ActiveRecord::Base
 	end
 
 	def self.expected_column_names
-#		%w( master_id found_in_state_db match_confidence case_control_flag birth_state sex dob ignore1 ignore2 ignore3 last_name first_name middle_name state_registrar_no county_of_delivery local_registrar_no local_registrar_district birth_type birth_order birth_weight_gms method_of_delivery abnormal_conditions apgar_1min apgar_5min apgar_10min complications_labor_delivery fetal_presentation_at_birth forceps_attempt_unsuccessful vacuum_attempt_unsuccessful mother_maiden_name mother_first_name mother_middle_name mother_residence_line_1 mother_residence_city mother_residence_county mother_residence_state mother_residence_zip mother_dob mother_birthplace mother_ssn mother_race_ethn_1 mother_race_ethn_2 mother_race_ethn_3 mother_hispanic_origin_code mother_yrs_educ mother_occupation mother_job_industry mother_received_wic mother_weight_pre_pregnancy mother_weight_at_delivery mother_height month_prenatal_care_began prenatal_care_visit_count complications_pregnancy length_of_gestation_days length_of_gestation_weeks last_menses_on live_births_now_living last_live_birth_on live_births_now_deceased term_count_pre_20_weeks term_count_20_plus_weeks last_termination_on daily_cigarette_cnt_3mo_preconc daily_cigarette_cnt_1st_tri daily_cigarette_cnt_2nd_tri daily_cigarette_cnt_3rd_tri father_last_name father_first_name father_middle_name father_dob father_ssn father_race_ethn_1 father_race_ethn_2 father_race_ethn_3 father_hispanic_origin_code father_yrs_educ father_occupation father_job_industry )
-#		%w( master_id found_in_state_db match_confidence case_control_flag birth_state sex dob ignore1 ignore2 ignore3 last_name first_name middle_name state_registrar_no county_of_delivery local_registrar_no local_registrar_district birth_type birth_order birth_weight_gms method_of_delivery abnormal_conditions apgar_1min apgar_5min apgar_10min complications_labor_delivery fetal_presentation_at_birth forceps_attempt_unsuccessful vacuum_attempt_unsuccessful mother_maiden_name mother_first_name mother_middle_name mother_residence_line_1 mother_residence_city mother_residence_county mother_residence_state mother_residence_zip mother_dob mother_birthplace mother_ssn mother_race_ethn_1 mother_race_ethn_2 mother_race_ethn_3 mother_hispanic_origin_code mother_yrs_educ mother_occupation mother_industry mother_received_wic mother_weight_pre_pregnancy mother_weight_at_delivery mother_height month_prenatal_care_began prenatal_care_visit_count complications_pregnancy length_of_gestation_days length_of_gestation_weeks last_menses_on live_births_now_living last_live_birth_on live_births_now_deceased term_count_pre_20_weeks term_count_20_plus_weeks last_termination_on daily_cigarette_cnt_3mo_preconc daily_cigarette_cnt_1st_tri daily_cigarette_cnt_2nd_tri daily_cigarette_cnt_3rd_tri father_last_name father_first_name father_middle_name father_dob father_ssn father_race_ethn_1 father_race_ethn_2 father_race_ethn_3 father_hispanic_origin_code father_yrs_educ father_occupation father_industry )
 		@expected_column_names ||= ( BirthDatum.attribute_names - %w( id birth_datum_update_id study_subject_id created_at updated_at ))
 	end
 
