@@ -104,6 +104,7 @@ class BirthDatum < ActiveRecord::Base
 			if study_subject.send(field) != self.send(field)
 				error_count += 1
 				study_subject.operational_events.create(
+					:occurred_at => DateTime.now,
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth record data conflicted with existing ODMS data.  " <<
@@ -125,9 +126,25 @@ class BirthDatum < ActiveRecord::Base
 
 			if study_subject.send(field).blank? and !self.send(field).blank?
 				study_subject.send("#{field}=",self.send(field) )
+
+
+				study_subject.operational_events.create(
+					:occurred_at => DateTime.now,
+					:project_id => Project['ccls'].id,
+					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+					:description => "Birth record data conflicted with existing ODMS data.  " <<
+						"Field: #{field}, " <<
+						"ODMS Value was blank, " <<
+						"Birth Record Value: #{self.send(field)}.  " <<
+						"ODMS record modified with birth record data." )
+
+#	Document this change?
+
+
 			elsif study_subject.send(field) != self.send(field)
 				error_count += 1
 				study_subject.operational_events.create(
+					:occurred_at => DateTime.now,
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth record data conflicted with existing ODMS data.  " <<
@@ -151,6 +168,9 @@ class BirthDatum < ActiveRecord::Base
 					:name        => 'birth data update',
 					:description => "Error updating case study subject. " <<
 													"Save failed!" ) 
+#
+#	NOTE that this doesn't stop everything else from happening
+#
 			end
 		end
 
@@ -163,6 +183,7 @@ class BirthDatum < ActiveRecord::Base
 			#4.A new operational event (id 27: birthDataReceived) is added for 
 			#each subject successfully updated. (  Only those successful??  )
 			study_subject.operational_events.create(
+				:occurred_at => DateTime.now,
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['birthDataReceived'].id )
 		end	#	if error_count > 0
