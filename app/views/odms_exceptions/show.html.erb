@@ -9,7 +9,8 @@
 <span class='label'>Exceptable(s)</span>
 <span class='value'>
 <% if @odms_exception.exceptable %>
-<%= @odms_exception.exceptable.class %>(<%= @odms_exception.exceptable.attributes['id'] %>)
+<%= link_to "#{@odms_exception.exceptable.class}(#{@odms_exception.exceptable.attributes['id']})", @odms_exception.exceptable %>
+<%# MUST HAVE STANDARD RESTFUL ROUTE TO ALL THINGS EXCEPTABLE %>
 <% end %>
 </span>
 </div><!-- class='exceptable field_wrapper' -->

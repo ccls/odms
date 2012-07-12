@@ -11,6 +11,7 @@
 <pre id='csv_file_content'><%= IO.read(@birth_datum_update.csv_file.path) %></pre>
 <% end %>
 
+<h4>Exception count:<%=@birth_datum_update.odms_exceptions.length%></h4>
 <h4>Record count:<%=@birth_datum_update.birth_data.length%></h4>
 
 <% if @birth_datum_update.birth_data.length > 0 -%>
@@ -19,6 +20,7 @@
 <th>case/control</th>
 <th>study subject</th>
 <th>candidate control</th>
+<th>exceptions</th>
 </tr></thead><tbody>
 <% @birth_datum_update.birth_data.order('id ASC').each do |birth_datum| -%>
 <tr class='row'>
@@ -34,6 +36,7 @@ No Study Subject Set
 <% else %>
 No Candidate Control Set
 <% end %></td>
+<td><%= birth_datum.odms_exceptions.count %></td>
 </tr>
 <% end -%>
 </tbody></table>

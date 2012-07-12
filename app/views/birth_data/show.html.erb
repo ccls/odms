@@ -14,3 +14,8 @@ No Study Subject Set
 <% attrs.sort.each do |k,v| %>
 <p><%= "#{k}:#{v}" %></p>
 <% end %>
+
+<h3>Exception(s)</h3>
+<% @birth_datum.odms_exceptions.each do |exception| %>
+<p><%= link_to exception, exception %></p>
+<% end %>
