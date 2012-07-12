@@ -5,21 +5,29 @@
 	think that it actually does.
 -%>
 <%= %w( 
-masterid
-studyid
+icf_master_id
+subjectid
+sex
 sampleid
 ccls_sample_type
 gegl_sample_type
-received_at
+collected_from_subject_at
+received_by_ccls_at
+storage_temperature
+sent_to_lab_at
 ).to_csv(:headers => true) -%>
 <% @active_sample_transfers.each do |sample_transfer| -%>
 <%= [ 
-sample_transfer.sample.study_subject.icf_master_id_to_s,
-sample_transfer.sample.study_subject.studyid_to_s,
-" #{sample_transfer.sample.sampleid}",
-sample_transfer.sample.sample_type,
-sample_transfer.sample.sample_type.gegl_sample_type_id,
-mdy( sample_transfer.sample.received_by_ccls_at )
+	sample_transfer.sample.study_subject.icf_master_id_to_s,
+	" #{sample_transfer.sample.study_subject.subjectid}",
+	sample_transfer.sample.study_subject.sex,
+	" #{sample_transfer.sample.sampleid}",
+	sample_transfer.sample.sample_type,
+	sample_transfer.sample.sample_type.gegl_sample_type_id,
+	mdyhm_or_nil(sample_transfer.sample.collected_from_subject_at),
+	mdyhm_or_nil(sample_transfer.sample.received_by_ccls_at),
+	sample_transfer.sample.sample_temperature,
+	mdyhm_or_nil(sample_transfer.sample.sent_to_lab_at)
 ].to_csv.html_safe  -%>
 <% end -%>
 <%#
