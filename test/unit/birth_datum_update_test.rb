@@ -331,6 +331,26 @@ skip 'Temporarily disabled this validation.'
 		} } } }
 	end
 
+
+
+#	what about other creation failures
+
+	test "should do what if creating candidate controls fails" do
+skip	#	bang or no bang?
+	end
+
+	test "should do what if creating odms exception fails" do
+skip	#	bang or no bang?
+	end
+
+	test "should do what if creating operational event fails" do
+skip	#	bang or no bang?
+	end
+
+	test "should do what if updating study subject fails" do
+skip	#	bang or no bang?
+	end
+
 protected
 
 	def delete_all_possible_birth_datum_update_attachments
