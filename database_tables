@@ -1062,6 +1062,20 @@ Table: instruments
 | created_at          | datetime     | NO   |     | NULL    |                |
 | updated_at          | datetime     | NO   |     | NULL    |                |
 +---------------------+--------------+------+-----+---------+----------------+
+Table: interview_assignments
++-----------------------+--------------+------+-----+---------+----------------+
+| Field                 | Type         | Null | Key | Default | Extra          |
++-----------------------+--------------+------+-----+---------+----------------+
+| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id      | int(11)      | YES  |     | NULL    |                |
+| sent_on               | date         | YES  |     | NULL    |                |
+| returned_on           | date         | YES  |     | NULL    |                |
+| needs_hosp_search     | tinyint(1)   | YES  |     | NULL    |                |
+| status                | varchar(255) | YES  |     | NULL    |                |
+| notes_for_interviewer | text         | YES  |     | NULL    |                |
+| created_at            | datetime     | NO   |     | NULL    |                |
+| updated_at            | datetime     | NO   |     | NULL    |                |
++-----------------------+--------------+------+-----+---------+----------------+
 Table: interview_methods
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |

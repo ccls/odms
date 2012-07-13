@@ -396,6 +396,9 @@ Factory.define :instrument_version do |f|
 	f.association :instrument_type
 end
 
+Factory.define :interview_assignment do |f|
+end
+
 Factory.define :interview_method do |f|
 	f.sequence(:key)         { |n| "Key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }

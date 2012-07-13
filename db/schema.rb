@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120713203858) do
+ActiveRecord::Schema.define(:version => 20120713213716) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1036,6 +1036,17 @@ ActiveRecord::Schema.define(:version => 20120713203858) do
   add_index "instruments", ["description"], :name => "index_instruments_on_description", :unique => true
   add_index "instruments", ["key"], :name => "index_instruments_on_key", :unique => true
   add_index "instruments", ["project_id"], :name => "index_instruments_on_project_id"
+
+  create_table "interview_assignments", :force => true do |t|
+    t.integer  "study_subject_id"
+    t.date     "sent_on"
+    t.date     "returned_on"
+    t.boolean  "needs_hosp_search"
+    t.string   "status"
+    t.text     "notes_for_interviewer"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
 
   create_table "interview_methods", :force => true do |t|
     t.integer  "position"
