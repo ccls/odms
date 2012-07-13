@@ -376,7 +376,14 @@ class WaiveredsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-	end
+		test "should send email on create with #{cu} login" do
+			login_as send(cu)
+			assert_difference('ActionMailer::Base.deliveries.length',1) {
+				minimum_waivered_successful_creation
+			}
+		end
+
+	end	#	site_editors.each do |cu|
 
 	non_site_editors.each do |cu|
 

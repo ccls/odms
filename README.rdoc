@@ -19,8 +19,7 @@
  #	define your databases
  cp config/database.yml.example config/database.yml
 
- #	we no longer use mail, but you may have to copy
- #	in some mail credentials ...
+ #	you may have to copy in some mail credentials ...
  cp config/initializers/mail.rb.example config/initializers/mail.rb
 
 
@@ -526,7 +525,7 @@ test database clean.  Just an FYI.
 
  /config/api.yml ( probably removing )
  /config/database.yml
- /config/initializers/mail.rb	(not doing mail anymore so irrelevant)
+ /config/initializers/mail.rb
  /config/initializers/secret_token.rb
 
 ---
