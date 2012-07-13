@@ -33,7 +33,7 @@ other:
 legacy:
   id:  777
   key:  tracking2k
-  description:  Migrated from CCLS Legacy Tracking2k database
+  description:  Migrated from Tracking2k database
 dk:
   id: 999
   key: unknown
@@ -41,7 +41,7 @@ dk:
 src:
   id:  7
   key:  src
-  description:  Provided to CCLS by Survey Research Center ("SRC")
+  description:  Provided by Survey Research Center ("SRC")
 icf:
   id: 8
   key: icf
@@ -49,4 +49,4 @@ icf:
 birth:
   id: 9
   key: birthdata
-  description:  Provided with Live Birth data from USC
+  description:  Live Birth data from USC
