@@ -911,6 +911,7 @@ Table: hospitals
 | is_active       | tinyint(1) | NO   |     | 1       |                |
 | created_at      | datetime   | NO   |     | NULL    |                |
 | updated_at      | datetime   | NO   |     | NULL    |                |
+| contact_id      | int(11)    | YES  |     | NULL    |                |
 +-----------------+------------+------+-----+---------+----------------+
 Table: icf_master_ids
 +------------------+------------+------+-----+---------+----------------+

@@ -3,6 +3,7 @@ class Hospital < ActiveRecord::Base
 	acts_as_list
 
 	belongs_to :organization
+	belongs_to :contact, :class_name => 'Person'
 
 	#	database will default to false
 	validates_inclusion_of :has_irb_waiver, :in => [ true, false ]

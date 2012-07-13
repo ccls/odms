@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120713202642) do
+ActiveRecord::Schema.define(:version => 20120713203858) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -887,6 +887,7 @@ ActiveRecord::Schema.define(:version => 20120713202642) do
     t.boolean  "is_active",       :default => true,  :null => false
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
+    t.integer  "contact_id"
   end
 
   add_index "hospitals", ["organization_id"], :name => "index_hospitals_on_organization_id"

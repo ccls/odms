@@ -9,6 +9,8 @@ class HospitalTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position )
 	assert_should_require_unique_attributes( :organization_id )
 
+	assert_should_belong_to( :contact, :class_name => 'Person' )
+
 	test "hospital factory should create non-waivered hospital" do
 		assert_difference('Hospital.count',1) {
 			hospital = Factory(:hospital)
