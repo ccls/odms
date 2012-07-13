@@ -32,26 +32,17 @@
 <th>&nbsp;</th>
 </tr></thead>
 <tbody>
-<% @active_sample_transfers.each do |sample_transfer| %>
-<tr><%# status is actually part of the action url, not an input field here %>
-<td><%= button_to( 'Wait list', update_status_sample_transfer_path(sample_transfer, :status => 'waitlist'), :method => 'put' ) -%></td>
-<td><%= sample_transfer.sample.study_subject.icf_master_id_to_s %></td>
-<td><%= sample_transfer.sample.study_subject.studyid_to_s %></td>
-<td><%= sample_transfer.sample.sampleid %></td>
-<td><%= sample_transfer.sample.sample_type %></td>
-<td><%= sample_transfer.sample.sample_type.gegl_sample_type_id %></td>
-<td><%=mdy sample_transfer.sample.received_by_ccls_at %></td>
-<td><%= link_to "print&nbsp;label".html_safe, 
-	sample_path(sample_transfer.sample, :format => :pdf), 
-	:class => :button, :target => :new %>
-</td>
-</tr>
-<% end %>
+<%= render :partial => 'sample_transfer', :collection => @active_sample_transfers %>
 </tbody>
 </table>
 <% end %>
 
 <hr/>
+<%#
+
+	It would be nicer if these were in the same table so the columns lined up.
+
+%>
 
 <% if @waitlist_sample_transfers.empty? %>
 <p>Sorry, but no waitlist sample transfers found.</p>
@@ -64,19 +55,10 @@
 <th>CCLS Sample Type</th>
 <th>GEGL Sample Type</th>
 <th>Date Received</th>
+<th>&nbsp;</th>
 </tr></thead>
 <tbody>
-<% @waitlist_sample_transfers.each do |sample_transfer| %>
-<tr><%# status is actually part of the action url, not an input field here %>
-<td><%= button_to( 'Activate', update_status_sample_transfer_path(sample_transfer, :status => 'active'), :method => 'put' ) -%></td>
-<td><%= sample_transfer.sample.study_subject.icf_master_id_to_s %></td>
-<td><%= sample_transfer.sample.study_subject.studyid_to_s %></td>
-<td><%= sample_transfer.sample.sampleid %></td>
-<td><%= sample_transfer.sample.sample_type %></td>
-<td><%= sample_transfer.sample.sample_type.gegl_sample_type_id %></td>
-<td><%=mdy sample_transfer.sample.received_by_ccls_at %></td>
-</tr>
-<% end %>
+<%= render :partial => 'sample_transfer', :collection => @waitlist_sample_transfers %>
 </tbody>
 </table>
 <% end %>

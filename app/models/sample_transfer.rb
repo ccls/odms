@@ -30,4 +30,12 @@ class SampleTransfer < ActiveRecord::Base
 		( status.blank? ) ? scoped : where(:status => status)
 	end
 
+	def active?
+		status == 'active'
+	end
+
+#	def waitlist?
+#		status == 'waitlist'
+#	end
+
 end
