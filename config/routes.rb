@@ -269,6 +269,8 @@ Odms::Application.routes.draw do
 		resources :related_subjects, :only => [:index]
 	end
 
+	#	format seems to be required in the url? UNLESS wrapped in ()!
+	match 'study_subject_reports/:action(.:format)' => 'study_subject_reports'
 	match 'charts/:action.:format' => 'charts'
 
 #	namespace :api do

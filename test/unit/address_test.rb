@@ -141,6 +141,18 @@ class AddressTest < ActiveSupport::TestCase
 		assert_equal "City, CA 12345", address.csz
 	end
 
+	test "should return street with just line_1 if line_2 blank" do
+		address = Address.new( :line_1   => 'I am line_1')
+		assert_equal "I am line_1", address.street
+	end
+
+	test "should return street with join of line_1 and line_2" do
+		address = Address.new( 
+			:line_1   => 'I am line_1',
+			:line_2   => 'I am line_2')
+		assert_equal "I am line_1, I am line_2", address.street
+	end
+
 	#	Note that there are probably legitimate address line 1's 
 	#	that will match the p.*o.*box regex.
 	test "should require non-residence address type with pobox in line" do

@@ -342,9 +342,9 @@ class AddressingTest < ActiveSupport::TestCase
 #	end
 
 
-
+	#	delegated to the address
 	%w( address_type address_type_id
-			line_1 line_2 unit city state zip csz county ).each do |method_name|
+			line_1 line_2 street unit city state zip csz county ).each do |method_name|
 		test "should respond to #{method_name}" do
 			addressing = Addressing.new
 			assert addressing.respond_to?(method_name)

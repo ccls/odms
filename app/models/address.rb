@@ -33,6 +33,10 @@ class Address < ActiveRecord::Base
 		"#{self.city}, #{self.state} #{self.zip}"
 	end
 
+	def street
+		[line_1,line_2].delete_if(&:blank?).join(', ')
+	end
+
 protected
 
 	#	Determine if the address is a PO Box and then

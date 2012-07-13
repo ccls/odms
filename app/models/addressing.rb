@@ -11,7 +11,7 @@ class Addressing < ActiveRecord::Base
 #		:class_name => 'User', :primary_key => 'uid'
 
 	delegate :is_other?, :to => :data_source, :allow_nil => true, :prefix => true
-	delegate :address_type, :address_type_id,
+	delegate :address_type, :address_type_id,:street,
 		:line_1,:line_2,:unit,:city,:state,:zip,:csz,:county,
 			:to => :address, :allow_nil => true
 
