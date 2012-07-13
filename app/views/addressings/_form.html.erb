@@ -1,10 +1,6 @@
 <% javascripts('edit_addressing') %>
 <% stylesheets(:addressing_edit) %>
 
-<%# @study_subject ||= @addressing.study_subject %>
-<%# sub_menu_for(@study_subject) %>
-<%# id_bar_for(@study_subject) %>
-
 <div id='subject_control_bar'>
 <h3><%= ( @addressing.new_record? ) ? 'New' : 'Edit' %> Address</h3>
 <div class='buttons'>
@@ -84,5 +80,7 @@
 
 <%= f.wrapped_yndk_select :address_at_diagnosis,
 	:label_text => 'Address at diagnosis?' %>
+
+<%= f.wrapped_text_area :notes, :class => 'autosize' %>
 
 <% end %><%# f.fields_for :address do |address_field| %>

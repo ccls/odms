@@ -403,6 +403,7 @@ Table: addressings
 | other_data_source    | varchar(255) | YES  |     | NULL    |                |
 | created_at           | datetime     | NO   |     | NULL    |                |
 | updated_at           | datetime     | NO   |     | NULL    |                |
+| notes                | text         | YES  |     | NULL    |                |
 +----------------------+--------------+------+-----+---------+----------------+
 Table: aliquots
 +----------------------------+--------------+------+-----+---------+----------------+

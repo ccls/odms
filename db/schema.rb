@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120711222420) do
+ActiveRecord::Schema.define(:version => 20120713202642) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -408,6 +408,7 @@ ActiveRecord::Schema.define(:version => 20120711222420) do
     t.string   "other_data_source"
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
+    t.text     "notes"
   end
 
   add_index "addressings", ["address_id"], :name => "index_addressings_on_address_id"

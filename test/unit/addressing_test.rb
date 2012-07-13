@@ -15,6 +15,8 @@ class AddressingTest < ActiveSupport::TestCase
 	assert_should_initially_belong_to( :study_subject, :address, :data_source )
 	assert_should_require_attribute_length( :why_invalid, :how_verified, 
 			:maximum => 250 )
+	assert_should_require_attribute_length( :notes,
+			:maximum => 65000 )
 	assert_requires_complete_date( :valid_from, :valid_to )
 
 	#	Someone always has to think that they are special!
