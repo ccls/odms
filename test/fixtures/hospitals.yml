@@ -45,7 +45,7 @@ KPSC:
   organization_id: 31
   has_irb_waiver: 1
   is_active: 1
-  contact_id: 52
+  contact_id: 51
 LOMA:
   id: 8
   organization_id: 32
