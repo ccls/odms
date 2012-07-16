@@ -9,36 +9,43 @@ CPMC:
   organization_id: 1
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 43
 CHCC:
   id: 2
   organization_id: 2
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 45
 CHLA:
   id: 3
   organization_id: 3
   has_irb_waiver: 0
   is_active: 1
+  contact_id: 46
 CHOC:
   id: 4
   organization_id: 4
   has_irb_waiver: 0
   is_active: 1
+  contact_id: 48
 CHOK:
   id: 5
   organization_id: 5
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 47
 CSMC:
   id: 6
   organization_id: 6
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 44
 KPSC:
   id: 7
   organization_id: 31
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 52
 LOMA:
   id: 8
   organization_id: 32
@@ -49,16 +56,19 @@ LPCH:
   organization_id: 9
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 55
 MCHO:
   id: 10
   organization_id: 10
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 54
 RCSD:
   id: 11
   organization_id: 11
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 56
 SUMH:
   id: 12
   organization_id: 12
@@ -69,16 +79,19 @@ UCDV:
   organization_id: 13
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 57
 UCLA:
   id: 14
   organization_id: 14
   has_irb_waiver: 0
   is_active: 1
+  contact_id: 53
 UCSF:
   id: 15
   organization_id: 15
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 58
 COTH:
   id: 16
   organization_id: 21
@@ -89,31 +102,37 @@ KPAN:
   organization_id: 22
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 52
 KPDO:
   id: 18
   organization_id: 23
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 52
 KPFO:
   id: 19
   organization_id: 24
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 
 KPLA:
   id: 20
   organization_id: 25
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 
 KPOA:
   id: 21
   organization_id: 26
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 49
 KPRO:
   id: 22
   organization_id: 27
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 50
 KPSA:
   id: 23
   organization_id: 28
@@ -124,6 +143,7 @@ KPSD:
   organization_id: 29
   has_irb_waiver: 1
   is_active: 1
+  contact_id: 52
 KPSF:
   id: 25
   organization_id: 30
