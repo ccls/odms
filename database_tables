@@ -457,6 +457,8 @@ Table: bc_requests
 | request_type     | varchar(255) | YES  |     | NULL    |                |
 | created_at       | datetime     | NO   |     | NULL    |                |
 | updated_at       | datetime     | NO   |     | NULL    |                |
+| is_found         | tinyint(1)   | YES  |     | NULL    |                |
+| returned_on      | date         | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
 Table: birth_data
 +-----------------------------------+---------------+------+-----+---------+----------------+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120716205208) do
+ActiveRecord::Schema.define(:version => 20120716213816) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -463,6 +463,8 @@ ActiveRecord::Schema.define(:version => 20120716205208) do
     t.string   "request_type"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.boolean  "is_found"
+    t.date     "returned_on"
   end
 
   create_table "birth_data", :force => true do |t|
