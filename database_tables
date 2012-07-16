@@ -1240,6 +1240,7 @@ Table: people
 | organization_id | int(11)      | YES  |     | NULL    |                |
 | created_at      | datetime     | NO   |     | NULL    |                |
 | updated_at      | datetime     | NO   |     | NULL    |                |
+| email           | varchar(255) | YES  |     | NULL    |                |
 +-----------------+--------------+------+-----+---------+----------------+
 Table: phone_numbers
 +-------------------+--------------+------+-----+---------+----------------+

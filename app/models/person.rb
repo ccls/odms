@@ -7,7 +7,7 @@ class Person < ActiveRecord::Base
 	has_many :organizations
 
 	validates_presence_of :last_name
-	validates_length_of   :first_name, :last_name,  :honorific,
+	validates_length_of   :first_name, :last_name, :honorific, :email,
 		:maximum => 250, :allow_blank => true
 
 	scope :interviewers, where( :person_type_id => 3 )

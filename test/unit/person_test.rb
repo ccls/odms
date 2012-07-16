@@ -5,7 +5,7 @@ class PersonTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 
 	attributes = %w( last_name position first_name
-		honorific organization_id person_type_id )
+		honorific organization_id person_type_id email )
 	required   = %w( last_name )
 	assert_should_require( required )
 	assert_should_not_require( attributes - required )
@@ -18,7 +18,7 @@ class PersonTest < ActiveSupport::TestCase
 #	TODO assert_should_have_many( :interviews, :foreign_key => :interviewer_id )
 
 	assert_should_require_attribute_length( 
-		:first_name, :last_name, :honorific, 
+		:first_name, :last_name, :honorific, :email,
 			:maximum => 250 )
 
 	test "person factory should create person" do
