@@ -351,6 +351,26 @@ skip	#	bang or no bang?
 skip	#	bang or no bang?
 	end
 
+
+
+	test "should mark associated case bc_requests as complete" do
+		study_subject = create_case_for_birth_datum_update
+		assert_difference('BcRequest.active.count',1){
+			study_subject.bc_requests.create(:status => 'active')
+		}
+		assert_difference('BcRequest.count',0){
+		assert_difference('BcRequest.active.count',-1){
+		assert_difference('BcRequest.complete.count',1){
+			create_test_file_and_birth_datum_update
+		} } }
+		bcr = study_subject.bc_requests.first
+		assert_not_nil bcr.is_found
+		assert_not_nil bcr.returned_on
+		assert_equal Date.today, bcr.returned_on
+		assert_not_nil bcr.notes
+		assert_equal "USC's match confidence = definite.", bcr.notes
+	end
+
 protected
 
 	def delete_all_possible_birth_datum_update_attachments

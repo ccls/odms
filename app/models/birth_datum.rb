@@ -26,13 +26,7 @@ class BirthDatum < ActiveRecord::Base
 					:description => "Subject found with master_id :#{master_id}:" <<
 						" is not a case subject.")
 			else
-
-
-#				if case_control_flag == 'control'
-#				if case_control_flag == '0'
 				if ['0','control'].include?(case_control_flag)
-
-
 					control_options = { :related_patid => subject.patid }
 					reasons = []
 					if dob.blank?
@@ -54,22 +48,12 @@ class BirthDatum < ActiveRecord::Base
 						odms_exceptions.create(:name => 'candidate control creation',
 							:description => "Error creating candidate_control for subject")
 					end
-
-
-#				elsif case_control_flag == 'case'
-#				elsif case_control_flag == '1'
 				elsif ['1','case'].include?(case_control_flag)
-
-
-
-#					if match_confidence.match(/definite/i)
 					if !match_confidence.blank? && match_confidence.match(/definite/i)
-
-
-
 						#	assign study_subject_id to case's id
 						self.update_attribute(:study_subject_id, subject.id)
 						update_study_subject_attributes
+						update_bc_request
 					else
 						odms_exceptions.create(:name => 'birth data append',
 							:description => "Match confidence not 'definite':#{match_confidence}:")
@@ -82,8 +66,29 @@ class BirthDatum < ActiveRecord::Base
 		end
 	end
 
+	def update_bc_request
+#Our next step with the birth_data file is to use it to close out bc requests. That's also where we'll indicate whether the search completed successfully or not.
+#
+#For each case returned in the birth_data file, find the bc_request record that corresponds to that case's icf_master_id and update the following in that record:
+#
+#status = "complete"
+#is_found = 1 if match_confidence = "DEFINITE" else, is_found = 0 (we may have to shift that to VERY LIKELY but let's leave it at DEFINITE for now).
+#returned_on = date of file upload.
+#notes = "USC's match confidence = [match_confidence value]."
+#
+		#	Should only be one, nevertheless, ...
+		study_subject.bc_requests.where("status != 'complete' OR status IS NULL").each do |bcr|
+			bcr.status = 'complete'
+			bcr.is_found = true
+			bcr.returned_on = Date.today
+			bcr.notes = '' if bcr.notes.blank?
+			bcr.notes << "USC's match confidence = #{match_confidence}."
+			bcr.save!
+		end
+	end
+
 	#
-	#	Separated this out so that can do separately.
+	#	Separated this out so that can do separately if needed.
 	#
 	def update_study_subject_attributes
 		#	If subject is created after this record (this would be odd)
@@ -126,8 +131,6 @@ class BirthDatum < ActiveRecord::Base
 
 			if study_subject.send(field).blank? and !self.send(field).blank?
 				study_subject.send("#{field}=",self.send(field) )
-
-
 				study_subject.operational_events.create(
 					:occurred_at => DateTime.now,
 					:project_id => Project['ccls'].id,
@@ -137,12 +140,6 @@ class BirthDatum < ActiveRecord::Base
 						"ODMS Value was blank, " <<
 						"Birth Record Value: #{self.send(field)}.  " <<
 						"ODMS record modified with birth record data." )
-#
-#	This will change the counts on some tests.
-#
-#	Document this change?
-
-
 			elsif study_subject.send(field) != self.send(field)
 				error_count += 1
 				study_subject.operational_events.create(
