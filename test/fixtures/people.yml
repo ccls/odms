@@ -1,4 +1,3 @@
-
 #
 #  Do not change id or key
 #		'id' could be referenced by existing data
@@ -114,8 +113,8 @@ Zomorodian:
 Enzminger:
   id:  18
   position:  1
-  last_name:  Anna
-  first_name:  Enzminger
+  last_name:  Enzminger
+  first_name:  Anna
   person_type_id:  3
 Rosensweig:
   id:  19
@@ -239,3 +238,87 @@ Ma:
   last_name: Ma
   first_name: Xiaomei
   person_type_id: 3
+Durley:
+  id: 43
+  last_name: Durley
+  first_name: Chanel
+  person_type_id: 1
+  email: durleyc@cpmcri.org
+Ross:
+  id: 44
+  last_name: Ross
+  first_name: Karen
+  person_type_id: 1
+  email: karen.ross@cshs.org
+Robinson:
+  id: 45
+  last_name: Robinson
+  first_name: Katy
+  person_type_id: 1
+  email: krobinson@childrenscentralcal.org
+SmithJ:
+  id: 46
+  last_name: Smith
+  first_name: Jeffrey
+  person_type_id: 1
+  email: jefsmith@chla.usc.edu
+EdwardsS:
+  id: 47
+  last_name: Edwards
+  first_name: Sndie
+  email: sedwards@mail.cho.org
+ChanD:
+  id: 48
+  last_name: Chan
+  first_name: Dorian
+  email: dchan@choc.org
+Schneiderman:
+  id: 49
+  last_name: Schneiderman
+  first_name: Angie
+  email: angela.l.schneiderman@kp.org
+Barrett:
+  id: 50
+  last_name: Barrett
+  first_name: Jennifer
+  email: jennifer.m.barrett@kp.org
+Tabay:
+  id: 51
+  last_name: Tabay
+  first_name: Irene
+  mail: irene.g.tabay@kp.org
+Osuna:
+  id: 52
+  last_name: Osuna
+  first_name: Olga
+  email: olga.e.osuna@kp.org
+SmithL:
+  id: 53
+  last_name: Smith
+  first_name: Lamarr
+  email: LaMarrTaylor@mednet.ucla.edu
+Murphy:
+  id: 54
+  last_name: Murphy
+  first_Name: Devin
+  email: dmurphy@memorialcare.org
+Mukhtar:
+  id: 55
+  last_name: Mukhtar
+  first_name: Nadeem
+  email: nmukhtar@stanford.edu
+Gariepy:
+  id: 56
+  last_name: Gariepy
+  first_name: Catherine
+  email: cgariepy@rchsd.org
+Lashaway:
+  id: 57
+  last_name: Lashaway
+  first_name: Wendy
+  email: wendyann.lashaway@ucdmc.ucdavis.edu
+Aguiling:
+  id: 58
+  last_name: Aguiling
+  first_name: Dennis
+  email: aguilingd@peds.ucsf.edu
