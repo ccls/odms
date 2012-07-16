@@ -128,15 +128,15 @@ class BirthDatum < ActiveRecord::Base
 				study_subject.send("#{field}=",self.send(field) )
 
 
-#				study_subject.operational_events.create(
-#					:occurred_at => DateTime.now,
-#					:project_id => Project['ccls'].id,
-#					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
-#					:description => "Birth record data conflicted with existing ODMS data.  " <<
-#						"Field: #{field}, " <<
-#						"ODMS Value was blank, " <<
-#						"Birth Record Value: #{self.send(field)}.  " <<
-#						"ODMS record modified with birth record data." )
+				study_subject.operational_events.create(
+					:occurred_at => DateTime.now,
+					:project_id => Project['ccls'].id,
+					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+					:description => "Birth record data conflicted with existing ODMS data.  " <<
+						"Field: #{field}, " <<
+						"ODMS Value was blank, " <<
+						"Birth Record Value: #{self.send(field)}.  " <<
+						"ODMS record modified with birth record data." )
 #
 #	This will change the counts on some tests.
 #

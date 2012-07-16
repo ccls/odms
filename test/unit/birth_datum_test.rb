@@ -748,13 +748,14 @@ class BirthDatumTest < ActiveSupport::TestCase
 				:operational_event_type_id => OperationalEventType['birthDataReceived'].id 
 				)
 			assert_equal 1, oes.length
-#			assert_match /Error updating case study subject. Save failed!/,
-#				oes.first.description
+			assert_match /Birth Data for subject received from USC/,
+				oes.first.description
 			oes = study_subject.operational_events.where(
 				:project_id                => Project['ccls'].id).where(
 				:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
 				)
-			assert_equal 0, oes.length
+			assert_equal 1, oes.length
+			assert_match /Birth record data conflicted with existing ODMS data.  Field: #{field}, ODMS Value was blank, Birth Record Value: iamnotblank.  ODMS record modified with birth record data./, oes.first.description
 		end
 
 		test "case birth datum should not create odms exception if #{field} blank" do
