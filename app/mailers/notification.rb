@@ -14,4 +14,10 @@ class Notification < ActionMailer::Base
 		mail cc: ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
 		mail subject: "TEST [CCLS Patient Notification Received] Identifier: #{@study_subject.icf_master_id_to_s}"
 	end
+
+	def demo
+		mail to: "jakewendt@berkeley.edu"
+		mail subject: "TEST EMAIL"
+	end
+
 end
