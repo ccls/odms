@@ -3,7 +3,7 @@ require 'test_helper'
 class NotificationTest < ActionMailer::TestCase
 
 	test "raf_submitted for subject" do
-		study_subject = Factory(:case_study_subject, 
+		study_subject = Factory(:complete_case_study_subject, 
 			:first_name    => 'Anthony',
 			:middle_name   => 'Michael',
 			:last_name     => 'Hall',
@@ -21,6 +21,20 @@ class NotificationTest < ActionMailer::TestCase
 end
 __END__
 Hello~ 
+
+
+As the factory uses a bit of randomness, this may occassionally be empty
+BEGIN TEMP FYI:
+Org ID:2:
+Org:Children's Hospital Central California:
+Hospital:Children's Hospital Central California:
+Contact ID:45:
+Contact:Katy Robinson:
+Email:krobinson@childrenscentralcal.org:
+END TEMP FYI:
+
+
+
 
 Thank you for enrolling your patient in the California Childhood Leukemia Study at UC Berkeley.  We have assigned your patient (initials: AMH) the following CCLS Patient Identifier:  
 
