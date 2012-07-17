@@ -77,7 +77,8 @@ class BirthDatum < ActiveRecord::Base
 #notes = "USC's match confidence = [match_confidence value]."
 #
 		#	Should only be one, nevertheless, ...
-		study_subject.bc_requests.where("status != 'complete' OR status IS NULL").each do |bcr|
+#		study_subject.bc_requests.where("status != 'complete' OR status IS NULL").each do |bcr|
+		study_subject.bc_requests.incomplete.each do |bcr|
 			bcr.status = 'complete'
 			bcr.is_found = true
 			bcr.returned_on = Date.today
@@ -103,8 +104,11 @@ class BirthDatum < ActiveRecord::Base
 
 		error_count = 0
 
+
+#	comparing dob might require special handling
+
 		#	Confirm, create exception if no match
-		%w( dob sex first_name last_name ).each do |field|
+		%w( dob ).each do |field|
 
 			if study_subject.send(field) != self.send(field)
 				error_count += 1
@@ -124,23 +128,12 @@ class BirthDatum < ActiveRecord::Base
 
 		end
 
-		#	Add if missing.  Otherwise, confirm and create exception if no match.
-		%w( father_first_name father_middle_name father_last_name 
-			mother_first_name mother_middle_name mother_maiden_name
-			middle_name ).each do |field|
+		#	Confirm, create exception if no match
+		%w( sex first_name last_name ).each do |field|
 
-			if study_subject.send(field).blank? and !self.send(field).blank?
-				study_subject.send("#{field}=",self.send(field) )
-				study_subject.operational_events.create(
-					:occurred_at => DateTime.now,
-					:project_id => Project['ccls'].id,
-					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
-					:description => "Birth record data conflicted with existing ODMS data.  " <<
-						"Field: #{field}, " <<
-						"ODMS Value was blank, " <<
-						"Birth Record Value: #{self.send(field)}.  " <<
-						"ODMS record modified with birth record data." )
-			elsif study_subject.send(field) != self.send(field)
+			current = study_subject.send(field).to_s
+			updated = self.send(field).try(:squish).try(:titleize).to_s
+			unless current.match(/#{updated}/i)
 				error_count += 1
 				study_subject.operational_events.create(
 					:occurred_at => DateTime.now,
@@ -148,8 +141,48 @@ class BirthDatum < ActiveRecord::Base
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth record data conflicted with existing ODMS data.  " <<
 						"Field: #{field}, " <<
-						"ODMS Value: #{study_subject.send(field)}, " <<
-						"Birth Record Value: #{self.send(field)}.  " <<
+						"ODMS Value: #{current}, " <<
+						"Birth Record Value: #{updated}.  " <<
+						"ODMS record   NOT   modified with birth record data." )
+			end
+
+#	TODO DO I UPDATE OR NOT?
+#	Documentation says no, but error message says yes?
+
+		end
+
+		#	Add if missing.  Otherwise, confirm and create exception if no match.
+		%w( father_first_name father_middle_name father_last_name 
+			mother_first_name mother_middle_name mother_maiden_name
+			middle_name ).each do |field|
+
+			current = study_subject.send(field).to_s
+			updated = self.send(field).try(:squish).try(:titleize).to_s
+			if current.blank? and updated.blank?
+				#
+				#	nice to pre-filter the last elsif
+				#
+			elsif current.blank? and !updated.blank?
+				study_subject.send("#{field}=", updated)
+				study_subject.operational_events.create(
+					:occurred_at => DateTime.now,
+					:project_id => Project['ccls'].id,
+					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+					:description => "Birth record data conflicted with existing ODMS data.  " <<
+						"Field: #{field}, " <<
+						"ODMS Value was blank, " <<
+						"Birth Record Value: #{updated}.  " <<
+						"ODMS record modified with birth record data." )
+			elsif !current.match(/#{updated}/i)
+				error_count += 1
+				study_subject.operational_events.create(
+					:occurred_at => DateTime.now,
+					:project_id => Project['ccls'].id,
+					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+					:description => "Birth record data conflicted with existing ODMS data.  " <<
+						"Field: #{field}, " <<
+						"ODMS Value: #{current}, " <<
+						"Birth Record Value: #{updated}.  " <<
 						"ODMS record   NOT  modified with birth record data." )
 
 #	TODO DO I UPDATE OR NOT?
