@@ -114,13 +114,13 @@ KPFO:
   organization_id: 24
   has_irb_waiver: 1
   is_active: 1
-  contact_id: 
+  contact_id: 52
 KPLA:
   id: 20
   organization_id: 25
   has_irb_waiver: 1
   is_active: 1
-  contact_id: 
+  contact_id: 52
 KPOA:
   id: 21
   organization_id: 26
