@@ -2,7 +2,7 @@ class StudySubjectReportsController < ApplicationController
 
 #	INSERT BEFORE FILTERS!
 
-	before_filter :may_administrate_required
+	before_filter :may_edit_required
 
 	def control_assignment
 		@study_subjects = StudySubject.controls

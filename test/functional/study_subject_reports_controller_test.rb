@@ -2,7 +2,7 @@ require 'test_helper'
 
 class StudySubjectReportsControllerTest < ActionController::TestCase
 
-	site_administrators.each do |cu|
+	site_editors.each do |cu|
 
 		test "should get control_assignment with #{cu} login" do
 			login_as send(cu)
@@ -40,7 +40,7 @@ class StudySubjectReportsControllerTest < ActionController::TestCase
 
 	end
 
-	non_site_administrators.each do |cu|
+	non_site_editors.each do |cu|
 
 		test "should NOT get control_assignment with #{cu} login" do
 			login_as send(cu)
