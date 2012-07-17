@@ -42,6 +42,8 @@ class Addressing < ActiveRecord::Base
 	scope :current,  where('current_address IS NOT NULL AND current_address != 2')
 	scope :historic, where('current_address IS NULL OR current_address = 2')
 
+	scope :mailing, joins(:address).where("addresses.address_type_id = #{AddressType['mailing'].id}")
+
 	#	Don't do the rejections here.
 	accepts_nested_attributes_for :address
 

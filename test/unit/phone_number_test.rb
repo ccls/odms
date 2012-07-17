@@ -99,7 +99,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		assert_equal 1, phone_number.current_phone
 	end
 
-	test "should only return current phone_numbers" do
+	test "current scope should only return current phone_numbers" do
 		create_phone_number(:current_phone => YNDK[:yes])
 		create_phone_number(:current_phone => YNDK[:no])
 		create_phone_number(:current_phone => YNDK[:dk])
@@ -110,7 +110,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "should only return historic phone_numbers" do
+	test "historic scope should only return historic phone_numbers" do
 		create_phone_number(:current_phone => YNDK[:yes])
 		create_phone_number(:current_phone => YNDK[:no])
 		create_phone_number(:current_phone => YNDK[:dk])
@@ -119,6 +119,14 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		phone_numbers.each do |phone_number|
 			assert ![1,999].include?(phone_number.current_phone)
 		end
+	end
+
+	test "primary scope should only return primary phone_numbers" do
+		skip 'pending'
+	end
+
+	test "alternate scope should only return alternate phone_numbers" do
+		skip 'pending'
 	end
 
 	test "should not have multiple errors for blank phone number" do

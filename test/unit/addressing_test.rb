@@ -251,7 +251,7 @@ class AddressingTest < ActiveSupport::TestCase
 		assert_nil addressing.verified_by_uid
 	end
 
-	test "should only return current addressings" do
+	test "current scope should only return current addressings" do
 		create_addressing(:current_address => YNDK[:yes])
 		create_addressing(:current_address => YNDK[:no])
 		create_addressing(:current_address => YNDK[:dk])
@@ -262,7 +262,7 @@ class AddressingTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "should only return historic addressings" do
+	test "historic scope should only return historic addressings" do
 		create_addressing(:current_address => YNDK[:yes])
 		create_addressing(:current_address => YNDK[:no])
 		create_addressing(:current_address => YNDK[:dk])
@@ -273,7 +273,9 @@ class AddressingTest < ActiveSupport::TestCase
 		end
 	end
 
-
+	test "mailing scope should only return mailing addressings" do
+skip 'pending'
+	end
 
 #	test "should make study_subject ineligible "<<
 #			"on create if state NOT 'CA' and address is ONLY residence" do

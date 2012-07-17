@@ -39,8 +39,10 @@
 <% @study_subjects.each do |study_subject| -%>
 <% mom = study_subject.mother -%>
 <% case_subject = study_subject.case_subject -%>
-<% address = study_subject.addresses.first -%>
-<%# Do I need to check if current_address==true? -%>
+<% address = study_subject.addressings.current.mailing.first.try(:address) -%>
+<% address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
+<% primary_phone = study_subject.phone_numbers.current.primary.first %>
+<% alternate_phone = study_subject.phone_numbers.current.alternate.first %>
 <% enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
 <%= [
 mdy_or_nil(study_subject.reference_date),
@@ -69,8 +71,8 @@ address.try(:city),
 address.try(:state),
 address.try(:zip),
 address.try(:county),
-nil,
-nil
+primary_phone,
+alternate_phone
 ].to_csv.html_safe -%>
 <% end -%>
 <%#

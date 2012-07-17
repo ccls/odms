@@ -35,8 +35,16 @@ class PhoneNumber < ActiveRecord::Base
 	validates_inclusion_of :current_phone, :is_valid,
 			:in => YNDK.valid_values, :allow_nil => true
 
-	scope :current,  where( 'current_phone IS NOT NULL AND current_phone != 2' )
-	scope :historic, where( 'current_phone IS NULL OR current_phone = 2' )
+#	The table names isn't absolutely necessary, but if used in a join
+#	the field name could be ambiguous and would fail.
+	scope :current,  
+		where( 'phone_numbers.current_phone IS NOT NULL AND phone_numbers.current_phone != 2' )
+	scope :historic, 
+		where( 'phone_numbers.current_phone IS NULL OR phone_numbers.current_phone = 2' )
+	scope :primary,   
+		where(:is_primary => true)
+	scope :alternate, 
+		where('phone_numbers.is_primary IS NULL OR phone_numbers.is_primary = false')
 
 	before_save :format_phone_number, :if => :phone_number_changed?
 
