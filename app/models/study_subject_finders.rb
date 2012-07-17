@@ -55,8 +55,9 @@ base.class_eval do
 			self
 		else
 			if !familyid.blank?
-				StudySubject.children.with_subjectid(familyid)
-					.includes(:subject_type).first
+				StudySubject.children.with_subjectid(familyid).first
+#				StudySubject.children.with_subjectid(familyid)
+#					.includes(:subject_type).first
 			else
 				nil
 			end
@@ -66,15 +67,17 @@ base.class_eval do
 	#	Find the subject with matching matchingid and subject_type of Case.
 	def case_subject
 		return nil if matchingid.blank?
-		StudySubject.cases.with_matchingid(matchingid)
-			.includes(:subject_type).first
+		StudySubject.cases.with_matchingid(matchingid).first
+#		StudySubject.cases.with_matchingid(matchingid)
+#			.includes(:subject_type).first
 	end
 
 	#	Find the subject with matching familyid and subject_type of Mother.
 	def mother
 		return nil if familyid.blank?
-		StudySubject.mothers.with_familyid(familyid)
-			.includes(:subject_type).first
+		StudySubject.mothers.with_familyid(familyid).first
+#		StudySubject.mothers.with_familyid(familyid)
+#			.includes(:subject_type).first
 	end
 
 	#	Find all the subjects with matching familyid except self.
@@ -83,7 +86,8 @@ base.class_eval do
 			StudySubject.where('1=0')	#	should NEVER be true
 		else
 			StudySubject.with_familyid(familyid).not_id(id)
-				.includes(:subject_type)
+#			StudySubject.with_familyid(familyid).not_id(id)
+#				.includes(:subject_type)
 		end
 	end
 
@@ -93,7 +97,8 @@ base.class_eval do
 			StudySubject.where('1=0')	#	should NEVER be true
 		else
 			StudySubject.with_matchingid(matchingid).not_id(id)
-				.includes(:subject_type)
+#			StudySubject.with_matchingid(matchingid).not_id(id)
+#				.includes(:subject_type)
 		end
 	end
 
@@ -103,7 +108,8 @@ base.class_eval do
 	def controls
 		return [] unless is_case?
 		StudySubject.controls.with_patid(patid).not_id(id)
-			.includes(:subject_type)
+#		StudySubject.controls.with_patid(patid).not_id(id)
+#			.includes(:subject_type)
 	end
 
 	def rejected_controls
