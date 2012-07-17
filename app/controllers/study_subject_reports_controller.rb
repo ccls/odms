@@ -21,7 +21,8 @@ class StudySubjectReportsController < ApplicationController
 		respond_to do |format|
 			format.csv { 
 				headers["Content-Disposition"] = "attachment; " <<
-					"filename=control_assignment_#{Time.now.to_s(:filename)}.csv"
+					"filename=newcontrols_#{Time.now.strftime('%m%d%Y')}.csv"
+#					"filename=control_assignment_#{Time.now.to_s(:filename)}.csv"
 			}
 		end
 	end

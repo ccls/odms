@@ -15,7 +15,8 @@ class StudySubjectReportsControllerTest < ActionController::TestCase
 				assert_template action
 #	will this be set automatically??? hmm, let's see ... NOPE
 #	must explicitly set this.  Is that necessary? Doesn't seem to be.
-				assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
+				assert_not_nil @response.headers['Content-Disposition']
+					.match(/attachment; filename=newcontrols_.*csv/)
 				assert  assigns(:controls)
 				assert !assigns(:controls).empty?
 				assert_equal 1, assigns(:controls).length
