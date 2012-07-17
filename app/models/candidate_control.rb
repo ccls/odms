@@ -23,6 +23,7 @@ class CandidateControl < ActiveRecord::Base
 
 	delegate :sex, :full_name, :first_name, :middle_name, :last_name,
 		:mother_full_name, :mother_first_name, :mother_middle_name, :mother_maiden_name, 
+		:father_first_name, :father_middle_name, :father_last_name, 
 #		:mother_hispanicity_id, :father_hispanicity_id,
 		:dob, :birth_type, 
 #		:birth_county,
@@ -47,7 +48,7 @@ class CandidateControl < ActiveRecord::Base
 			child = StudySubject.new do |s|
 				s.subject_type_id       = SubjectType['Control'].id
 				s.vital_status_id       = VitalStatus['living'].id
-				s.sex                   = sex
+				s.sex                   = sex.try(:upcase)
 				s.mom_is_biomom         = mom_is_biomom
 				s.dad_is_biodad         = dad_is_biodad
 #				s.mother_hispanicity_id = mother_hispanicity_id
@@ -58,14 +59,18 @@ class CandidateControl < ActiveRecord::Base
 #				s.birth_county          = birth_county
 #				s.hispanicity_id        = ( 
 #					( [mother_hispanicity_id,father_hispanicity_id].include?(1) ) ? 1 : nil )
-				s.first_name         = first_name
-				s.middle_name        = middle_name
-				s.last_name          = last_name
+				s.first_name         = first_name.try(:titleize)
+				s.middle_name        = middle_name.try(:titleize)
+				s.last_name          = last_name.try(:titleize)
 				s.dob                = dob
-				s.mother_first_name  = mother_first_name
-				s.mother_middle_name = mother_middle_name
+				s.father_first_name  = father_first_name.try(:titleize)
+				s.father_middle_name = father_middle_name.try(:titleize)
+				s.father_last_name   = father_last_name.try(:titleize)
+
+				s.mother_first_name  = mother_first_name.try(:titleize)
+				s.mother_middle_name = mother_middle_name.try(:titleize)
 #				s.mother_last_name   = mother_last_name
-				s.mother_maiden_name = mother_maiden_name
+				s.mother_maiden_name = mother_maiden_name.try(:titleize)
 #				s.mother_race_id     = mother_race_id
 #				s.father_race_id     = father_race_id
 

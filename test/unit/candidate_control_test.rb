@@ -356,37 +356,23 @@ class CandidateControlTest < ActiveSupport::TestCase
 #		assert_equal attribute, control_subject.birth_county
 #	end
 
-	test "should create control from attributes and copy first_name" do
-		attribute = 'SomeName'
-		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-			:first_name => attribute )
-		candidate_control = birth_datum.candidate_control
-		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.first_name
-		assert_equal attribute, control_subject.first_name
-	end
+	%w( father_first_name father_middle_name father_last_name
+			mother_first_name mother_middle_name mother_maiden_name
+			first_name middle_name last_name ).each do |field|
 
-	test "should create control from attributes and copy middle_name" do
-		attribute = 'SomeName'
-		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-			:middle_name => attribute )
-		candidate_control = birth_datum.candidate_control
-		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.middle_name
-		assert_equal attribute, control_subject.middle_name
-	end
+		#	only works because the field names are the same in both models
 
-	test "should create control from attributes and copy last_name" do
-		attribute = 'SomeName'
-		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-			:last_name => attribute )
-		candidate_control = birth_datum.candidate_control
-		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.last_name
-		assert_equal attribute, control_subject.last_name
+		test "should create control from attributes and copy and titleize #{field}" do
+			value = 'SOMENAME'
+			case_study_subject, birth_datum = create_case_and_control_birth_datum(
+				field => value )
+			candidate_control = birth_datum.candidate_control
+			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+			control_subject = candidate_control.study_subject
+			assert_equal value,          candidate_control.send(field)
+			assert_equal value.titleize, control_subject.send(field)
+		end
+
 	end
 
 	test "should create control from attributes and copy dob" do
@@ -400,48 +386,16 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal attribute, control_subject.dob
 	end
 
-	test "should create control from attributes and copy mother_first_name" do
-		attribute = 'SomeName'
-		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-			:mother_first_name => attribute )
-		candidate_control = birth_datum.candidate_control
-		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.mother_first_name
-		assert_equal attribute, control_subject.mother_first_name
-	end
-
-	test "should create control from attributes and copy mother_middle_name" do
-		attribute = 'SomeName'
-		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-			:mother_middle_name => attribute )
-		candidate_control = birth_datum.candidate_control
-		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.mother_middle_name
-		assert_equal attribute, control_subject.mother_middle_name
-	end
-
-#	test "should create control from attributes and copy mother_last_name" do
+#	test "should create control from attributes and copy mother_maiden_name" do
 #		attribute = 'SomeName'
-#		case_study_subject = Factory(:complete_case_study_subject)
-#		candidate_control = Factory(:candidate_control, :mother_last_name => attribute )
+#		case_study_subject, birth_datum = create_case_and_control_birth_datum(
+#			:mother_maiden_name => attribute )
+#		candidate_control = birth_datum.candidate_control
 #		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 #		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.mother_last_name
-#		assert_equal attribute, control_subject.mother_last_name
+#		assert_equal attribute, candidate_control.mother_maiden_name
+#		assert_equal attribute, control_subject.mother_maiden_name
 #	end
-
-	test "should create control from attributes and copy mother_maiden_name" do
-		attribute = 'SomeName'
-		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-			:mother_maiden_name => attribute )
-		candidate_control = birth_datum.candidate_control
-		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.mother_maiden_name
-		assert_equal attribute, control_subject.mother_maiden_name
-	end
 
 #	test "should create control from attributes and copy mother_race_id" do
 #		attribute = 123
