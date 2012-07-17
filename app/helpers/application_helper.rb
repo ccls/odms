@@ -377,8 +377,14 @@ module ApplicationHelper
 		(( datetime.nil? ) ? '&nbsp;' : datetime.strftime("%m/%d/%Y %H:%M (%Z)")).html_safe
 	end
 
+	#	For use in CSV output as don't want the &nbsp;
 	def mdyhm_or_nil(datetime)
 		datetime.strftime("%m/%d/%Y %H:%M (%Z)") unless datetime.blank?
+	end
+
+	#	For use in CSV output as don't want the &nbsp;
+	def mdy_or_nil(datetime)
+		datetime.strftime("%m/%d/%Y") unless datetime.blank?
 	end
 
 	def time_mdy(time)

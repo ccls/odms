@@ -41,7 +41,7 @@
 <%# Do I need to check if current_address==true? -%>
 <% enrollment = control.enrollments.find_by_project_id(Project['ccls'].id) -%>
 <%= [
-control.reference_date,
+mdy_or_nil(control.reference_date),
 control.icf_master_id_to_s,
 mom.try(:icf_master_id_to_s)||"[No Mother Subject]",
 control.mother_first_name,
@@ -52,7 +52,7 @@ control.father_last_name,
 control.first_name,
 control.middle_name,
 control.last_name,
-control.dob,
+mdy_or_nil(control.dob),
 control.sex,
 control.vital_status.key,
 control.do_not_contact,
