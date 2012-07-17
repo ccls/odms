@@ -16,6 +16,7 @@ class BcRequest < ActiveRecord::Base
 	scope :waitlist, where( :status => 'waitlist' )
 	scope :pending,  where( :status => 'pending' )
 	scope :complete, where( :status => 'complete' )
+	scope :incomplete, where("status != 'complete' OR status IS NULL")
 
 	def to_s
 		( study_subject ) ? study_subject.studyid : self

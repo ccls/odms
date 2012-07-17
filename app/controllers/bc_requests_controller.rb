@@ -156,8 +156,9 @@ protected
 #	of the following before filter.
 #
 	def no_existing_incomplete_bc_request_required
-		if( @study_subject.bc_requests.where(
-				"status != 'complete' OR status IS NULL").exists? )
+#		if( @study_subject.bc_requests.where(
+#				"status != 'complete' OR status IS NULL").exists? )
+		if( @study_subject.bc_requests.incomplete.exists? )
 			access_denied("case study_subject has an incomplete bc_request already!", 
 				new_bc_request_path)
 		end
