@@ -78,4 +78,26 @@ namespace :app do
 #		Rake::Task["db:fixtures:load"].reenable
 #	end
 
+	task :titleize_study_subject_names => :environment do
+		StudySubject.where(:case_control_type => 6).each do |ss|
+			%w( father_first_name father_middle_name father_last_name ).each do |field|
+				puts "#{field}:#{ss.send(field)}:"
+				if !ss.birth_data.empty? && !ss.birth_data.first.send(field).blank?
+					ss.send("#{field}=", ss.birth_data.first.send(field).titleize)
+				end
+				puts "#{field}:#{ss.send(field)}:"
+			end
+
+			%w( mother_first_name mother_middle_name mother_maiden_name
+				first_name middle_name last_name ).each do |field|
+				puts "#{field}:#{ss.send(field)}:"
+				unless ss.send(field).blank?
+					ss.send("#{field}=", ss.send(field).titleize)
+				end
+				puts "#{field}:#{ss.send(field)}:"
+			end
+#			ss.save
+		end
+	end
+
 end
