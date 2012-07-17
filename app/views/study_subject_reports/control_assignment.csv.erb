@@ -8,6 +8,7 @@
 -%>
 <%= %w( 
     reference_date
+    case_icfmasterid
     icf_master_id
     mom_icfmasterid
     mother_first_name
@@ -37,11 +38,13 @@
 ).to_csv( :headers => true) -%>
 <% @controls.each do |control| -%>
 <% mom = control.mother -%>
+<% case_subject = control.case_subject -%>
 <% address = control.addresses.first -%>
 <%# Do I need to check if current_address==true? -%>
 <% enrollment = control.enrollments.find_by_project_id(Project['ccls'].id) -%>
 <%= [
 mdy_or_nil(control.reference_date),
+case_subject.try(:icf_master_id_to_s)||"[No Case Subject]",
 control.icf_master_id_to_s,
 mom.try(:icf_master_id_to_s)||"[No Mother Subject]",
 control.mother_first_name,

@@ -63,6 +63,13 @@ base.class_eval do
 		end
 	end
 
+	#	Find the subject with matching matchingid and subject_type of Case.
+	def case_subject
+		return nil if matchingid.blank?
+		StudySubject.cases.with_matchingid(matchingid)
+			.includes(:subject_type).first
+	end
+
 	#	Find the subject with matching familyid and subject_type of Mother.
 	def mother
 		return nil if familyid.blank?

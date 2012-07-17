@@ -365,5 +365,35 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert_equal [], study_subject.rejected_controls
 	end
 
+
+	test "case_subject should return associated case for control" do
+		study_subject = Factory(:case_study_subject)
+		control = Factory(:control_study_subject,
+			:matchingid => study_subject.matchingid)
+		assert_equal study_subject.matchingid, control.matchingid
+		assert_equal study_subject, control.case_subject
+	end
+
+	test "case_subject should return associated case for mother of control" do
+		study_subject = Factory(:case_study_subject)
+		control = Factory(:control_study_subject,
+			:matchingid => study_subject.matchingid)
+		mother = control.create_mother
+		assert_equal study_subject.matchingid, mother.matchingid
+		assert_equal study_subject, mother.case_subject
+	end
+
+	test "case_subject should return self for case" do
+		study_subject = Factory(:case_study_subject)
+		assert_equal study_subject, study_subject.case_subject
+	end
+
+	test "case_subject should return child for mother of case" do
+		study_subject = Factory(:case_study_subject)
+		mother = study_subject.create_mother
+		assert_equal study_subject.matchingid, mother.matchingid
+		assert_equal study_subject, mother.case_subject
+	end
+
 end
 __END__
