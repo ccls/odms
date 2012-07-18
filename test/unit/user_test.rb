@@ -68,6 +68,7 @@ class UserTest < ActiveSupport::TestCase
 			user = create_object
 			user.roles << Role.find_by_name('exporter')
 			assert !user.is_editor?
+			assert  user.is_exporter?
 			assert  user.may_export?
 			assert  user.may_edit?
 			assert  user.may_read?

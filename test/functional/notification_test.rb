@@ -18,6 +18,14 @@ class NotificationTest < ActionMailer::TestCase
 		assert_match 'initials: AMH', mail.body.encoded
 	end
 
+	test "demo" do
+		mail = Notification.demo
+		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
+		assert_equal mail.subject, "TEST EMAIL"
+		assert_match "This is a demo email to test the production server.",
+			mail.body.encoded
+	end
+
 end
 __END__
 Hello~ 

@@ -190,6 +190,36 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_response :success
 		end
 	
+		test "should get next study_subject with no next #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:study_subject)
+			get :next, :id => study_subject.id
+			assert_redirected_to study_subject
+		end
+	
+		test "should get next study_subject with next #{cu} login" do
+			login_as send(cu)
+			this_study_subject = Factory(:study_subject)
+			next_study_subject = Factory(:study_subject)
+			get :next, :id => this_study_subject.id
+			assert_redirected_to next_study_subject
+		end
+	
+		test "should get prev study_subject with no prev #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:study_subject)
+			get :prev, :id => study_subject.id
+			assert_redirected_to study_subject
+		end
+	
+		test "should get prev study_subject with prev #{cu} login" do
+			login_as send(cu)
+			prev_study_subject = Factory(:study_subject)
+			this_study_subject = Factory(:study_subject)
+			get :prev, :id => this_study_subject.id
+			assert_redirected_to prev_study_subject
+		end
+	
 	end
 
 	non_site_readers.each do |cu|
