@@ -46,6 +46,7 @@
 <% primary_phone = study_subject.phone_numbers.current.primary.first %>
 <% alternate_phone = study_subject.phone_numbers.current.alternate.first %>
 <% enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
+<% birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
 <%= [
 mdy_or_nil(study_subject.reference_date),
 case_subject.try(:icf_master_id_to_s)||"[No Case Subject]",
@@ -54,10 +55,10 @@ mom.try(:icf_master_id_to_s)||"[No Mother Subject]",
 study_subject.mother_first_name,
 study_subject.mother_maiden_name,
 study_subject.mother_last_name,
-'study_subject.mother_ssn',
+birth_datum.try(:mother_ssn),
 study_subject.father_first_name,
 study_subject.father_last_name,
-'study_subject.father_ssn',
+birth_datum.try(:father_ssn),
 study_subject.first_name,
 study_subject.middle_name,
 study_subject.last_name,
