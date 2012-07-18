@@ -226,13 +226,51 @@ skip 'Temporarily disabled this validation.'
 		} } #	}
 	end
 
-	%w( mother_ssn father_ssn ).each do |field|
+	#	string (varchar(255)) columns
+	%w( mother_ssn father_ssn 
+birth_state
+match_confidence
+case_control_flag  
+abnormal_conditions birth_type
+complications_labor_delivery
+complications_pregnancy
+county_of_delivery
+first_name
+middle_name
+last_name
+father_industry
+father_hispanic_origin_code
+father_middle_name
+father_last_name
+father_occupation
+fetal_presentation_at_birth
+local_registrar_district
+local_registrar_no
+method_of_delivery
+month_prenatal_care_began
+mother_residence_line_1
+mother_residence_city
+mother_residence_county
+mother_residence_county_ef
+mother_residence_state
+mother_residence_zip
+mother_birthplace
+mother_birthplace_state
+mother_first_name
+mother_middle_name
+mother_maiden_name
+mother_hispanic_origin_code
+mother_industry
+mother_occupation
+sex
+state_registrar_no
+).each do |field|
 
 		test "should copy #{field} from csv_file to birth_datum" do
-			value = 'test'
+			value = 'SOME TEST STRING'
 			File.open(csv_test_file_name,'w'){|f|
 				f.puts csv_file_header
-				f.puts csv_file_unknown(field => value) }
+				f.puts csv_file_unknown(field.to_sym => value) }
 			assert_difference('BirthDatumUpdate.count',1){
 			assert_difference('BirthDatum.count',1){
 				birth_datum_update = create_birth_datum_update_with_file

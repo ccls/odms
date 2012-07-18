@@ -132,7 +132,7 @@ class BirthDatum < ActiveRecord::Base
 		%w( sex first_name last_name ).each do |field|
 
 			current = study_subject.send(field).to_s
-			updated = self.send(field).try(:squish).try(:titleize).to_s
+			updated = self.send(field).try(:squish).try(:namerize).to_s
 			unless current.match(/#{updated}/i)
 				error_count += 1
 				study_subject.operational_events.create(
@@ -157,7 +157,7 @@ class BirthDatum < ActiveRecord::Base
 			middle_name ).each do |field|
 
 			current = study_subject.send(field).to_s
-			updated = self.send(field).try(:squish).try(:titleize).to_s
+			updated = self.send(field).try(:squish).try(:namerize).to_s
 			if current.blank? and updated.blank?
 				#
 				#	nice to pre-filter the last elsif

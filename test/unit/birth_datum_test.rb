@@ -795,7 +795,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			assert_equal study_subject.send(field), 'Iamnotblank'
 		end
 
-		test "case birth datum should titleize import value if #{field} blank" do
+		test "case birth datum should namerize import value if #{field} blank" do
 			study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 				{field => ''}, {field => 'iamnot blank'})
 			study_subject.reload

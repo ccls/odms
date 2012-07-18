@@ -362,7 +362,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 
 		#	only works because the field names are the same in both models
 
-		test "should create control from attributes and copy and titleize #{field}" do
+		test "should create control from attributes and copy and namerize #{field}" do
 			value = 'SOMENAME'
 			case_study_subject, birth_datum = create_case_and_control_birth_datum(
 				field => value )
@@ -370,7 +370,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 			control_subject = candidate_control.study_subject
 			assert_equal value,          candidate_control.send(field)
-			assert_equal value.titleize, control_subject.send(field)
+			assert_equal value.namerize, control_subject.send(field)
 		end
 
 	end

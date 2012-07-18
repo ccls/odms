@@ -78,25 +78,44 @@ namespace :app do
 #		Rake::Task["db:fixtures:load"].reenable
 #	end
 
-	task :titleize_study_subject_names => :environment do
-		StudySubject.where(:case_control_type => 6).each do |ss|
-			%w( father_first_name father_middle_name father_last_name ).each do |field|
-				puts "#{field}:#{ss.send(field)}:"
-				if !ss.birth_data.empty? && !ss.birth_data.first.send(field).blank?
-					ss.send("#{field}=", ss.birth_data.first.send(field).titleize)
+#irb(main):009:0* "CHE-GUI".downcase.gsub(/\b('?[a-z])/) { $1.capitalize }
+#=> "Che-Gui"
+#irb(main):010:0> "CHE-GUI".titleize
+#=> "Che Gui"
+#irb(main):010:0> "CHE-GUI".namerize
+#=> "Che-Gui"
+#
+#	titleize DOES NOT PRESERVE DASHES
+
+	task :import_and_namerize_study_subject_names => :environment do
+		#	This will include controls and mothers (cases too, but no biggy)
+		StudySubject.where(:phase => 5).each do |ss|
+#		StudySubject.where(:case_control_type => 6).each do |ss|
+
+			puts "Processing #{ss.subject_type} ..."
+
+			unless ss.birth_data.empty?
+				bd = ss.birth_data.first
+				%w( father_first_name father_middle_name father_last_name ).each do |field|
+					puts " Current: #{field}:#{ss.send(field)}:"
+					if !bd.send(field).blank?
+						ss.send("#{field}=", bd.send(field).namerize)
+					end
+					puts " Updated: #{field}:#{ss.send(field)}:"
 				end
-				puts "#{field}:#{ss.send(field)}:"
 			end
 
-			%w( mother_first_name mother_middle_name mother_maiden_name
-				first_name middle_name last_name ).each do |field|
-				puts "#{field}:#{ss.send(field)}:"
+			%w( mother_first_name mother_middle_name mother_maiden_name mother_last_name
+				first_name middle_name maiden_name last_name ).each do |field|
+				puts " Current: #{field}:#{ss.send(field)}:"
 				unless ss.send(field).blank?
-					ss.send("#{field}=", ss.send(field).titleize)
+					ss.send("#{field}=", ss.send(field).namerize)
 				end
-				puts "#{field}:#{ss.send(field)}:"
+				puts " Updated: #{field}:#{ss.send(field)}:"
 			end
-#			ss.save
+			puts "Saving ..."
+			puts
+			ss.save!
 		end
 	end
 
