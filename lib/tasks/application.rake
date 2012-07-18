@@ -115,8 +115,57 @@ namespace :app do
 			end
 			puts "Saving ..."
 			puts
-			ss.save!
+#			ss.save!
 		end
+	end
+
+	task :import_parents_ssns_from_csv_file_to_birth_data_records => :environment do
+		bdus = BirthDatumUpdate.all
+		raise "OMG! Where did all these come from?" if bdus.length > 1
+		bdu = bdus.first
+		(f=CSV.open( bdu.csv_file.path, 'rb',{
+				:headers => true })).each do |line|
+			puts "Processing line :#{f.lineno}:"
+
+			raise "master_id is blank" if line['master_id'].blank?
+			raise "case_control_flag is blank" if line['case_control_flag'].blank?
+			#	state_registrar_no will be blank for cases
+
+			#	these 3 fields make the request unique enough to always return 1 record. (so far)
+			bds = bdu.birth_data
+				.where(:case_control_flag  => line['case_control_flag'])
+				.where(:state_registrar_no => line['state_registrar_no'])
+				.where(:master_id          => line['master_id'])
+
+			raise "no matches" if bds.count < 1
+			raise "multiple matches :#{bd.count}:" if bds.count > 1
+
+			bd = bds.first
+
+			puts " Father SSN:#{bd.father_ssn}: Mother SSN:#{bd.mother_ssn}:"
+			puts " Father SSN:#{line['father_ssn']}: Mother SSN:#{line['mother_ssn']}:"
+
+#	could have leading zeros so need to use sprintf
+
+			raise "Father SSN:#{bd.father_ssn}: already set!" unless bd.father_ssn.blank?
+			unless line['father_ssn'].blank?
+				raise "Father SSN invalid." if line['father_ssn'].match(/(0000|9999)/)
+#raise "Father SSN non-numeric." unless line['father_ssn'] == line['father_ssn'].to_i.to_s
+puts "-- skipping Father SSN non-numeric." unless line['father_ssn'] == sprintf("%09d",line['father_ssn'].to_i)
+				bd.father_ssn = line['father_ssn']
+			end
+
+			raise "Mother SSN:#{bd.mother_ssn}: already set!" unless bd.mother_ssn.blank?
+			unless line['mother_ssn'].blank?
+				raise "Mother SSN invalid." if line['mother_ssn'].match(/(0000|9999)/)
+#raise "Mother SSN non-numeric." unless line['mother_ssn'] == line['mother_ssn'].to_i.to_s
+puts "-- skipping Mother SSN non-numeric." unless line['mother_ssn'] == sprintf("%09d",line['mother_ssn'].to_i)
+				bd.mother_ssn = line['mother_ssn']
+			end
+
+#			bd.save!
+		end
+
 	end
 
 end
