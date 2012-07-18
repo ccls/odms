@@ -547,6 +547,8 @@ Table: birth_data
 | created_at                        | datetime      | NO   |     | NULL    |                |
 | updated_at                        | datetime      | NO   |     | NULL    |                |
 | control_number                    | int(11)       | YES  |     | NULL    |                |
+| father_ssn                        | varchar(255)  | YES  |     | NULL    |                |
+| mother_ssn                        | varchar(255)  | YES  |     | NULL    |                |
 +-----------------------------------+---------------+------+-----+---------+----------------+
 Table: birth_datum_updates
 +-----------------------+--------------+------+-----+---------+----------------+

@@ -192,6 +192,9 @@ skip 'Temporarily disabled this validation.'
 
 	test "should copy attributes when csv_file converted to candidate control" do
 		study_subject = create_case_for_birth_datum_update
+#		study_subject = create_case_for_birth_datum_update({
+#			:mother_ssn => '123456789',
+#			:father_ssn => '987654321'})
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',2) {
 #	NOTE this case info is different than the subject so an odms exception is created
@@ -216,10 +219,31 @@ skip 'Temporarily disabled this validation.'
 			assert       birth_datum.match_confidence.blank?
 			assert_equal birth_datum.sex, line['sex']
 			assert_equal birth_datum.dob, Date.parse(line['dob'])
+#			assert_equal birth_datum.mother_ssn, '123456789'
+#			assert_equal birth_datum.father_ssn, '987654321'
 
 			f.close
 		} } #	}
 	end
+
+	%w( mother_ssn father_ssn ).each do |field|
+
+		test "should copy #{field} from csv_file to birth_datum" do
+			value = 'test'
+			File.open(csv_test_file_name,'w'){|f|
+				f.puts csv_file_header
+				f.puts csv_file_unknown(field => value) }
+			assert_difference('BirthDatumUpdate.count',1){
+			assert_difference('BirthDatum.count',1){
+				birth_datum_update = create_birth_datum_update_with_file
+				assert_equal 1, birth_datum_update.birth_data.length
+				assert_equal value,
+					birth_datum_update.birth_data.first.send(field)
+			} }
+		end
+
+	end
+
 
 	test "should test with real data file" do
 		#	real data and won't be in repository

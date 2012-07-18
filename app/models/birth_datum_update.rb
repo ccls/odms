@@ -67,8 +67,8 @@ class BirthDatumUpdate < ActiveRecord::Base
 
 					birth_datum_attributes = line.dup.to_hash
 #	remove invalid attributes, if there are any
-					birth_datum_attributes.delete('father_ssn')
-					birth_datum_attributes.delete('mother_ssn')
+#					birth_datum_attributes.delete('father_ssn')
+#					birth_datum_attributes.delete('mother_ssn')
 					birth_datum_attributes.delete('ignore')
 					birth_datum_attributes.delete('ignore1')
 					birth_datum_attributes.delete('ignore2')
