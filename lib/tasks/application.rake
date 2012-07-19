@@ -133,12 +133,17 @@ namespace :app do
 		end
 	end
 
+	#	This is more of a synchronize_birth_data_records_with_csv_file_content
+	#	as I am no longer explicitly updating the ssn fields.  I'm throwing
+	#	the whole line at the record, very similar to creation.
 	task :import_parents_ssns_from_csv_file_to_birth_data_records => :environment do
 		bdus = BirthDatumUpdate.all
+		#	at the time or writing this script, there should be only one BDU
 		raise "OMG! Where did all these come from?" if bdus.length > 1
 		bdu = bdus.first
 		(f=CSV.open( bdu.csv_file.path, 'rb',{
 				:headers => true })).each do |line|
+			puts
 			puts "Processing line :#{f.lineno}:"
 
 			raise "master_id is blank" if line['master_id'].blank?
@@ -151,6 +156,7 @@ namespace :app do
 				.where(:state_registrar_no => line['state_registrar_no'])
 				.where(:master_id          => line['master_id'])
 
+			#	this shouldn't happen unless another file was uploaded
 			raise "no matches" if bds.count < 1
 			raise "multiple matches :#{bd.count}:" if bds.count > 1
 
