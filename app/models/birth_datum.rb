@@ -263,6 +263,7 @@ class BirthDatum < ActiveRecord::Base
 				:operational_event_type_id => OperationalEventType['bc_received'].id,
 				:description => "Insufficient maternal residence information in birth data to create address record. See subject's Birth Record page for details." )
 		end
+		addressing
 	end
 
 end
