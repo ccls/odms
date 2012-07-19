@@ -113,9 +113,23 @@ namespace :app do
 				end
 				puts " Updated: #{field}:#{ss.send(field)}:"
 			end
-			puts "Saving ..."
-			puts
-#			ss.save!
+			if ss.changed?
+				puts "#{ss}"
+				puts "Changes:#{ss.changes}"
+				puts "Update? Y / N / Q"
+				response = STDIN.gets
+				if response.match(/y/i)
+					puts "Saving ..."
+					ss.save!
+				elsif response.match(/q/i)
+					puts "Quiting ..."
+					exit
+				else
+					puts "Skipping ..."
+				end
+			else
+				puts "No changes."
+			end
 		end
 	end
 
@@ -145,25 +159,46 @@ namespace :app do
 			puts " Father SSN:#{bd.father_ssn}: Mother SSN:#{bd.mother_ssn}:"
 			puts " Father SSN:#{line['father_ssn']}: Mother SSN:#{line['mother_ssn']}:"
 
-#	could have leading zeros so need to use sprintf
+##	could have leading zeros so need to use sprintf
+#
+##			raise "Father SSN:#{bd.father_ssn}: already set!" unless bd.father_ssn.blank?
+#			unless line['father_ssn'].blank?
+##				raise "Father SSN invalid." if line['father_ssn'].match(/(0000|9999)/)
+##raise "Father SSN non-numeric." unless line['father_ssn'] == line['father_ssn'].to_i.to_s
+##puts "-- skipping Father SSN non-numeric." unless line['father_ssn'] == sprintf("%09d",line['father_ssn'].to_i)
+#				bd.father_ssn = line['father_ssn']
+#			end
+#
+##			raise "Mother SSN:#{bd.mother_ssn}: already set!" unless bd.mother_ssn.blank?
+#			unless line['mother_ssn'].blank?
+##				raise "Mother SSN invalid." if line['mother_ssn'].match(/(0000|9999)/)
+##raise "Mother SSN non-numeric." unless line['mother_ssn'] == line['mother_ssn'].to_i.to_s
+##puts "-- skipping Mother SSN non-numeric." unless line['mother_ssn'] == sprintf("%09d",line['mother_ssn'].to_i)
+#				bd.mother_ssn = line['mother_ssn']
+#			end
 
-			raise "Father SSN:#{bd.father_ssn}: already set!" unless bd.father_ssn.blank?
-			unless line['father_ssn'].blank?
-				raise "Father SSN invalid." if line['father_ssn'].match(/(0000|9999)/)
-#raise "Father SSN non-numeric." unless line['father_ssn'] == line['father_ssn'].to_i.to_s
-puts "-- skipping Father SSN non-numeric." unless line['father_ssn'] == sprintf("%09d",line['father_ssn'].to_i)
-				bd.father_ssn = line['father_ssn']
+birth_datum_attributes = line.dup.to_hash
+line.headers.each do |h|
+birth_datum_attributes.delete(h) unless BirthDatumUpdate.expected_column_names.include?(h)
+end
+bd.attributes = birth_datum_attributes
+
+			if bd.changed?
+				puts "Changes:#{bd.changes}"
+				puts "Update? Y / N / Q"
+				response = STDIN.gets
+				if response.match(/y/i)
+					puts "Saving ..."
+					bd.save!
+				elsif response.match(/q/i)
+					puts "Quiting ..."
+					exit
+				else
+					puts "Skipping ..."
+				end
+			else
+				puts "No changes."
 			end
-
-			raise "Mother SSN:#{bd.mother_ssn}: already set!" unless bd.mother_ssn.blank?
-			unless line['mother_ssn'].blank?
-				raise "Mother SSN invalid." if line['mother_ssn'].match(/(0000|9999)/)
-#raise "Mother SSN non-numeric." unless line['mother_ssn'] == line['mother_ssn'].to_i.to_s
-puts "-- skipping Mother SSN non-numeric." unless line['mother_ssn'] == sprintf("%09d",line['mother_ssn'].to_i)
-				bd.mother_ssn = line['mother_ssn']
-			end
-
-#			bd.save!
 		end
 
 	end
