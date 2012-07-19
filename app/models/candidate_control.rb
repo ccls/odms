@@ -120,6 +120,7 @@ class CandidateControl < ActiveRecord::Base
 
 			birth_datum.study_subject = child
 			birth_datum.save!
+			birth_datum.create_address_from_attributes
 
 			self.assigned_on = Date.today
 			self.save!

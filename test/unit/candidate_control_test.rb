@@ -386,17 +386,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal attribute, control_subject.dob
 	end
 
-#	test "should create control from attributes and copy mother_maiden_name" do
-#		attribute = 'SomeName'
-#		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-#			:mother_maiden_name => attribute )
-#		candidate_control = birth_datum.candidate_control
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.mother_maiden_name
-#		assert_equal attribute, control_subject.mother_maiden_name
-#	end
-
 #	test "should create control from attributes and copy mother_race_id" do
 #		attribute = 123
 #		case_study_subject = Factory(:complete_case_study_subject)
@@ -608,6 +597,45 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal   mother_imi.assigned_on, Date.today
 	end
 
+	test "create study subject should create addressing from birth datum record" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum_with_address
+		candidate_control = birth_datum.candidate_control
+		assert_difference('Addressing.count',1){
+			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+		}
+	end
+
+	test "create study subject should create address from birth datum record" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum_with_address
+		candidate_control = birth_datum.candidate_control
+		assert_difference('Address.count',1){
+			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+		}
+	end
+
+	test "create study subject should create event if addressing from birth datum record is invalid" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum_with_address
+		candidate_control = birth_datum.candidate_control
+		Addressing.any_instance.stubs(:valid?).returns(false)
+		assert_difference("OperationalEvent.where(" <<
+			":operational_event_type_id => #{OperationalEventType['bc_received'].id}).count",1) {
+		assert_difference('Addressing.count',0){
+			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+		} }
+	end
+
+	test "create study subject should create event if address from birth datum record fails save" do
+		case_study_subject, birth_datum = create_case_and_control_birth_datum_with_address
+		candidate_control = birth_datum.candidate_control
+		Address.any_instance.stubs(:create_or_update).returns(false)
+		assert_difference("OperationalEvent.where(" <<
+			":operational_event_type_id => #{OperationalEventType['bc_received'].id}).count",1) {
+		assert_difference('Address.count',0){
+			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
+		} }
+	end
+
+
 	test "should rollback study subject creation of icf_master_id save fails" do
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
 		Factory(:icf_master_id,:icf_master_id => '123456789')
@@ -692,6 +720,16 @@ protected
 		assert_not_nil study_subject.icf_master_id
 		assert_equal 'UCASE4BIR', study_subject.icf_master_id
 		study_subject
+	end
+
+	def create_case_and_control_birth_datum_with_address(options={})
+		create_case_and_control_birth_datum({
+			:mother_residence_line_1 => '1995 UNIVERSITY AVE #460',
+			:mother_residence_city   => 'BERKELEY',
+			:mother_residence_county => 'ALAMEDA',
+			:mother_residence_state  => 'CA',
+			:mother_residence_zip    => '94704'
+		}.merge(options))
 	end
 
 	def create_case_and_control_birth_datum(options={})

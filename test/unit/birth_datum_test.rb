@@ -186,13 +186,11 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case_birth_datum factory with matching case should create operational event" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		assert_difference('study_subject.operational_events.count',1) {
+		assert_difference("study_subject.operational_events.where(" <<
+			":operational_event_type_id => #{OperationalEventType['birthDataReceived'].id}" <<
+			" ).count",1) {
 			create_matching_case_birth_datum(study_subject)
 		}
-		oes = study_subject.operational_events.where(
-				:project_id                => Project['ccls'].id,
-				:operational_event_type_id => OperationalEventType['birthDataReceived'].id )
-		assert_equal 1, oes.length
 	end
 
 	test "control_birth_datum factory with matching case should create birth datum" do
@@ -265,13 +263,11 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" used by a case and match_confidence is definite" do
 		#	same as above
 		study_subject = create_case_study_subject_with_icf_master_id
-		assert_difference('study_subject.operational_events.count',1) {
+		assert_difference("study_subject.operational_events.where(" <<
+			":operational_event_type_id => #{OperationalEventType['birthDataReceived'].id}" <<
+			" ).count",1) {
 			birth_datum = create_matching_case_birth_datum(study_subject)
 		}
-		oes = study_subject.operational_events.where(
-				:project_id                => Project['ccls'].id,
-				:operational_event_type_id => OperationalEventType['birthDataReceived'].id )
-		assert_equal 1, oes.length
 	end
 
 	test "case birth datum should not create odms exception if master_id is not blank and" <<
@@ -840,6 +836,46 @@ class BirthDatumTest < ActiveSupport::TestCase
 			oes.first.description
 	end
 
+
+
+	test "case birth datum should create addressing" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert_difference('Addressing.count',1) {
+			create_matching_case_birth_datum_with_address(study_subject)
+		}
+	end
+
+	test "case birth datum should create address" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert_difference('Address.count',1) {
+			create_matching_case_birth_datum_with_address(study_subject)
+		}
+	end
+
+	test "case birth datum should create event if addressing invalid" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		Addressing.any_instance.stubs(:valid?).returns(false)
+		assert_difference("study_subject.operational_events.where(" <<
+			":operational_event_type_id => #{OperationalEventType['bc_received'].id}" <<
+			").count",1) {
+		assert_difference('Addressing.count',0) {
+			create_matching_case_birth_datum_with_address(study_subject)
+		} }
+	end
+
+	#	As address is created via nested attributes, its validity isn't checked
+	#	However, create_or_update returning false will trigger failure.
+	test "case birth datum should create event if address save fails" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		Address.any_instance.stubs(:create_or_update).returns(false)
+		assert_difference("study_subject.operational_events.where(" <<
+			":operational_event_type_id => #{OperationalEventType['bc_received'].id}" <<
+			").count",1) {
+		assert_difference('Address.count',0) {
+			create_matching_case_birth_datum_with_address(study_subject)
+		} }
+	end
+
 protected
 
 	def create_case_study_subject_and_birth_datum(
@@ -847,6 +883,16 @@ protected
 		study_subject = create_case_study_subject_with_icf_master_id(subject_options)
 		birth_datum = create_matching_case_birth_datum(study_subject,birth_datum_options)
 		return study_subject, birth_datum
+	end
+
+	def create_matching_case_birth_datum_with_address(study_subject,options={})
+		create_matching_case_birth_datum(study_subject,{
+			:mother_residence_line_1 => '1995 UNIVERSITY AVE #460',
+			:mother_residence_city   => 'BERKELEY',
+			:mother_residence_county => 'ALAMEDA',
+			:mother_residence_state  => 'CA',
+			:mother_residence_zip    => '94704'
+		}.merge(options))
 	end
 
 	def create_matching_case_birth_datum(study_subject,options={})

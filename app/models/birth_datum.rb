@@ -54,6 +54,7 @@ class BirthDatum < ActiveRecord::Base
 						self.update_attribute(:study_subject_id, subject.id)
 						update_study_subject_attributes
 						update_bc_request
+						create_address_from_attributes
 					else
 						odms_exceptions.create(:name => 'birth data append',
 							:description => "Match confidence not 'definite':#{match_confidence}:")
@@ -97,6 +98,12 @@ class BirthDatum < ActiveRecord::Base
 		#	set.  If not, try to set it.  If can't, go away.
 		unless study_subject
 			return if master_id.blank?
+
+#
+#	BE CAREFUL AS THIS IS ONLY TRUE FOR CASE SUBJECTS!
+#
+			return unless ['1','case'].include?(case_control_flag)
+
 			subject = StudySubject.where(:icf_master_id => master_id).first
 			return if subject.nil?
 			self.update_attribute(:study_subject_id, subject.id)
@@ -229,6 +236,33 @@ class BirthDatum < ActiveRecord::Base
 	#	Returns string containing candidates's mother's first, middle and maiden name
 	def mother_full_name
 		[mother_first_name, mother_middle_name, mother_maiden_name].delete_if(&:blank?).join(' ')
+	end
+
+	def create_address_from_attributes
+		addressing = study_subject.addressings.new(
+			:address_attributes => {
+				:line_1          => mother_residence_line_1.try(:namerize),
+				:city            => mother_residence_city.try(:namerize),
+				:county          => mother_residence_county.try(:namerize),
+				:country         => 'United States',
+				:state           => mother_residence_state,
+				:zip             => mother_residence_zip,
+				:address_type_id => AddressType["residence"].id,
+				:data_source_id  => DataSource["birthdata"].id
+			},
+			:is_valid    => YNDK[:yes],
+			:is_verified => true,
+			:how_verified => "CA State Birth Record.",
+			:data_source_id => DataSource["birthdata"].id,
+			:notes => "Address is mother's residential address found in the CA State Birth Record.")
+
+		unless addressing.save
+			study_subject.operational_events.create(
+				:occurred_at => DateTime.now,
+				:project_id                => Project['ccls'].id,
+				:operational_event_type_id => OperationalEventType['bc_received'].id,
+				:description => "Insufficient maternal residence information in birth data to create address record. See subject's Birth Record page for details." )
+		end
 	end
 
 end
