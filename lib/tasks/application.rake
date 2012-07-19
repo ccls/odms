@@ -211,16 +211,12 @@ bd.attributes = birth_datum_attributes
 
 	task :create_addresses_from_birth_data_records => :environment do
 		BirthDatum.where('study_subject_id IS NOT NULL').each do |bd|
-
-			puts "Creating address from birth data for :#{bd.id}:"
-
+			puts "Creating address from birth data for :#{bd.study_subject}:"
 			response = bd.create_address_from_attributes
-
 			if response.new_record?
-				puts "I Don't Think that worked."
 				puts response.errors.full_messages.to_sentence
 			else
-				puts "success"
+				puts " success"
 			end
 		end
 

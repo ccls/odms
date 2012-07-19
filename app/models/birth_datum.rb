@@ -79,6 +79,7 @@ class BirthDatum < ActiveRecord::Base
 #
 		#	Should only be one, nevertheless, ...
 #		study_subject.bc_requests.where("status != 'complete' OR status IS NULL").each do |bcr|
+		return unless study_subject
 		study_subject.bc_requests.incomplete.each do |bcr|
 			bcr.status = 'complete'
 			bcr.is_found = true
@@ -239,13 +240,14 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def create_address_from_attributes
+		return unless study_subject
 		addressing = study_subject.addressings.new(
 			:address_attributes => {
 				:line_1          => mother_residence_line_1.try(:namerize),
 				:city            => mother_residence_city.try(:namerize),
-				:county          => mother_residence_county.try(:namerize),
+				:county          => mother_residence_county.decode_county,
 				:country         => 'United States',
-				:state           => mother_residence_state,
+				:state           => mother_residence_state.decode_state_abbrev,
 				:zip             => mother_residence_zip,
 				:address_type_id => AddressType["residence"].id,
 				:data_source_id  => DataSource["birthdata"].id
@@ -257,11 +259,12 @@ class BirthDatum < ActiveRecord::Base
 			:notes => "Address is mother's residential address found in the CA State Birth Record.")
 
 		unless addressing.save
+			addressing.address.address_type = AddressType["mailing"]
 			study_subject.operational_events.create(
 				:occurred_at => DateTime.now,
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['bc_received'].id,
-				:description => "Insufficient maternal residence information in birth data to create address record. See subject's Birth Record page for details." )
+				:description => "Insufficient maternal residence information in birth data to create address record. See subject's Birth Record page for details.\n#{addressing.errors.full_messages.to_sentence}" ) unless addressing.save
 		end
 		addressing
 	end
