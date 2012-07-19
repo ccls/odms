@@ -36,6 +36,12 @@ module ObjectExtension	#	:nodoc:
 		self
 	end
 
+#
+#	These 2 decoders are used when importing birth data
+#	Sometimes the values are codes and other times they are
+#	the actual state or county names. Just trying to deal with it.
+#	I put them here in Object so works with integers, strings and nil.
+#
 	def decode_county
 	#	case county_code.to_s.slice(-2,2)
 	#	what if '01' or '1' or 1 or '12341234123401'
