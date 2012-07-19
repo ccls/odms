@@ -253,28 +253,35 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "current scope should only return current addressings" do
 		create_addressing(:current_address => YNDK[:yes])
-		create_addressing(:current_address => YNDK[:no])
+		a = create_addressing(:current_address => YNDK[:no])
 		create_addressing(:current_address => YNDK[:dk])
-		addressing = Addressing.current
-		assert_equal 2, addressing.length
-		addressing.each do |addressing|
+		addressings = Addressing.current
+		assert_equal 2, addressings.length
+		assert !addressings.include?( a )
+		addressings.each do |addressing|
 			assert [1,999].include?(addressing.current_address)
 		end
 	end
 
 	test "historic scope should only return historic addressings" do
 		create_addressing(:current_address => YNDK[:yes])
-		create_addressing(:current_address => YNDK[:no])
+		a = create_addressing(:current_address => YNDK[:no])
 		create_addressing(:current_address => YNDK[:dk])
-		addressing = Addressing.historic
-		assert_equal 1, addressing.length
-		addressing.each do |addressing|
+		addressings = Addressing.historic
+		assert_equal 1, addressings.length
+		assert_equal a, addressings.first
+		addressings.each do |addressing|
 			assert ![1,999].include?(addressing.current_address)
 		end
 	end
 
 	test "mailing scope should only return mailing addressings" do
-skip 'pending'
+		create_addressing
+		a = create_mailing_addressing
+		create_residence_addressing
+		addressings = Addressing.mailing
+		assert_equal 1, addressings.length
+		assert_equal a, addressings.first
 	end
 
 #	test "should make study_subject ineligible "<<

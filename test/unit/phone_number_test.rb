@@ -48,6 +48,21 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		}
 	end
 
+	test "phone_number factory should leave is_primary as nil" do
+		phone_number = Factory.build(:phone_number)
+		assert_nil phone_number.is_primary
+	end
+
+	test "primary_phone_number factory should set is_primary to true" do
+		phone_number = Factory.build(:primary_phone_number)
+		assert phone_number.is_primary
+	end
+
+	test "altername_phone_number factory should set is_primary to false" do
+		phone_number = Factory.build(:alternate_phone_number)
+		assert !phone_number.is_primary
+	end
+
 	test "should return phone number as to_s" do
 		phone_number = PhoneNumber.new(:phone_number => '123456789')
 		assert_equal phone_number.phone_number, '123456789'
@@ -101,10 +116,11 @@ class PhoneNumberTest < ActiveSupport::TestCase
 
 	test "current scope should only return current phone_numbers" do
 		create_phone_number(:current_phone => YNDK[:yes])
-		create_phone_number(:current_phone => YNDK[:no])
+		h = create_phone_number(:current_phone => YNDK[:no])
 		create_phone_number(:current_phone => YNDK[:dk])
 		phone_numbers = PhoneNumber.current
 		assert_equal 2, phone_numbers.length
+		assert !phone_numbers.include?(h)
 		phone_numbers.each do |phone_number|
 			assert [1,999].include?(phone_number.current_phone)
 		end
@@ -112,21 +128,33 @@ class PhoneNumberTest < ActiveSupport::TestCase
 
 	test "historic scope should only return historic phone_numbers" do
 		create_phone_number(:current_phone => YNDK[:yes])
-		create_phone_number(:current_phone => YNDK[:no])
+		h = create_phone_number(:current_phone => YNDK[:no])
 		create_phone_number(:current_phone => YNDK[:dk])
 		phone_numbers = PhoneNumber.historic
 		assert_equal 1, phone_numbers.length
+		assert_equal h, phone_numbers.first
 		phone_numbers.each do |phone_number|
 			assert ![1,999].include?(phone_number.current_phone)
 		end
 	end
 
 	test "primary scope should only return primary phone_numbers" do
-		skip 'pending'
+		create_phone_number
+		p = create_primary_phone_number
+		create_alternate_phone_number
+		phone_numbers = PhoneNumber.primary
+		assert_equal 1, phone_numbers.length
+		assert_equal p, phone_numbers.first
 	end
 
 	test "alternate scope should only return alternate phone_numbers" do
-		skip 'pending'
+		create_phone_number
+		p = create_primary_phone_number
+		create_alternate_phone_number
+		#	alternate is either NULL or false
+		phone_numbers = PhoneNumber.alternate
+		assert_equal 2, phone_numbers.length
+		assert !phone_numbers.include?(p)
 	end
 
 	test "should not have multiple errors for blank phone number" do

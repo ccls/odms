@@ -497,6 +497,12 @@ Factory.define :phone_number do |f|
 	f.is_valid    1
 	f.is_verified false		#		2		#	20111110 just noticed that this is boolean and not int for YNDK
 end
+Factory.define :primary_phone_number, :parent => :phone_number do |f|
+	f.is_primary true
+end
+Factory.define :alternate_phone_number, :parent => :phone_number do |f|
+	f.is_primary false
+end
 
 Factory.define :phone_type do |f|
 	f.sequence(:key)  { |n| "Key#{n}" }
