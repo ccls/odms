@@ -45,6 +45,11 @@
 			[[nil,nil]] + SubjectType.all.collect{|s|[s.to_s,s.id]},
 			params[:subject_type_id].to_i)  %> </div>
 </div><!-- tablerow -->
+
+<div class='tablerow'>
+<div><label for='phase'>phase:</label></div>
+<div><%= text_field_tag :phase, params[:phase] %></div>
+</div><!-- tablerow -->
 </div><!-- table -->
 
 

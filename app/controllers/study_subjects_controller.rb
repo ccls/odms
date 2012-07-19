@@ -36,6 +36,10 @@ class StudySubjectsController < ApplicationController
 			conditions[0] << "( subject_type_id = :subject_type_id )"
 			conditions[1][:subject_type_id] = params[:subject_type_id].to_i
 		end
+		if params[:phase] and !params[:phase].blank?
+			conditions[0] << "( phase = :phase )"
+			conditions[1][:phase] = params[:phase].to_i
+		end
 		#	LEFT JOIN because not all subjects will have a patient.
 		#	otherwise, we'd effectively only search cases
 #			).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id'
@@ -157,7 +161,7 @@ protected
 
 	def search_order
 		if params[:order] and
-				%w( icf_master_id studyid last_name reference_date ).include?(params[:order].downcase)
+				%w( phase icf_master_id studyid last_name reference_date ).include?(params[:order].downcase)
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)
 				when 'desc' then 'desc'

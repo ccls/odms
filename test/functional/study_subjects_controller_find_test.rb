@@ -3,17 +3,6 @@ require 'test_helper'
 class StudySubjectsControllerFindTest < ActionController::TestCase
 	tests StudySubjectsController
 
-#	setup :destroy_all_study_subjects
-#	def destroy_all_study_subjects
-##
-##	For some reason, some tests don't actually cleanup after themselves
-##	and rollback correctly.  Destroy all subjects so counts are correct.
-##	Or don't use absolute counts.
-##	Or figure out why it does that.
-##
-#		StudySubject.destroy_all
-#	end
-
 	site_readers.each do |cu|
 
 		test "should get study_subjects find with #{cu} login" do
@@ -67,25 +56,25 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			assert assigns(:study_subjects).include?(s3)
 		end
 	
-		test "should find study_subjects by first_name and #{cu} login" do
-			subjects = 3.times.collect{|i| 
-				Factory(:study_subject, :first_name => "First#{i}" ) }
-			login_as send(cu)
-			get :find, :first_name => 'st1'
-			assert_response :success
-			assert_equal 1, assigns(:study_subjects).length
-			assert assigns(:study_subjects).include?(subjects[1])
-		end
-	
-		test "should find study_subjects by last_name and #{cu} login" do
-			subjects = 3.times.collect{|i| 
-				Factory(:study_subject, :last_name => "Last#{i}" ) }
-			login_as send(cu)
-			get :find, :last_name => 'st1'
-			assert_response :success
-			assert_equal 1, assigns(:study_subjects).length
-			assert assigns(:study_subjects).include?(subjects[1])
-		end
+#		test "should find study_subjects by first_name and #{cu} login" do
+#			subjects = 3.times.collect{|i| 
+#				Factory(:study_subject, :first_name => "First#{i}" ) }
+#			login_as send(cu)
+#			get :find, :first_name => 'st1'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#			assert assigns(:study_subjects).include?(subjects[1])
+#		end
+#	
+#		test "should find study_subjects by last_name and #{cu} login" do
+#			subjects = 3.times.collect{|i| 
+#				Factory(:study_subject, :last_name => "Last#{i}" ) }
+#			login_as send(cu)
+#			get :find, :last_name => 'st1'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#			assert assigns(:study_subjects).include?(subjects[1])
+#		end
 	
 		test "should find study_subjects by maiden_name and #{cu} login" do
 			subjects = 3.times.collect{|i| 
@@ -144,34 +133,59 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			assert_equal 3, assigns(:study_subjects).length
 		end
 	
-		test "should find study_subjects with childid and #{cu} login" do
-			subjects = 3.times.collect{|i| 
-				Factory(:study_subject,:childid => "12345#{i}" ) }
-			login_as send(cu)
-			get :find, :childid => '451'
-			assert_response :success
-			assert_equal 1, assigns(:study_subjects).length
-			assert assigns(:study_subjects).include?(subjects[1])
-		end
+#		test "should find study_subjects with childid and #{cu} login" do
+#			subjects = 3.times.collect{|i| 
+#				Factory(:study_subject,:childid => "12345#{i}" ) }
+#			login_as send(cu)
+#			get :find, :childid => '451'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#			assert assigns(:study_subjects).include?(subjects[1])
+#		end
+#	
+#		test "should find study_subjects with patid and #{cu} login" do
+#			subjects = 3.times.collect{|i| 
+#				Factory(:study_subject,:patid => "345#{i}" ) }
+#			login_as send(cu)
+#			get :find, :patid => '451'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#			assert assigns(:study_subjects).include?(subjects[1])
+#		end
+#	
+#		test "should find study_subjects with icf_master_id and #{cu} login" do
+#			subjects = 3.times.collect{|i| 
+#				Factory(:study_subject,:icf_master_id => "345x#{i}" ) }
+#			login_as send(cu)
+#			get :find, :icf_master_id => '45x1'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#			assert assigns(:study_subjects).include?(subjects[1])
+#		end
+#	
+#		test "should find study_subjects with phase and #{cu} login" do
+#			subjects = 3.times.collect{|i| 
+#				Factory(:study_subject,:phase => "45#{i}" ) }
+#			login_as send(cu)
+#			get :find, :phase => '451'
+#			assert_response :success
+#			assert_equal 1, assigns(:study_subjects).length
+#			assert assigns(:study_subjects).include?(subjects[1])
+#		end
+
+		#	findable study_subject string-like fields
+		%w( patid icf_master_id phase childid first_name last_name ).each do |attr|
 	
-		test "should find study_subjects with patid and #{cu} login" do
-			subjects = 3.times.collect{|i| 
-				Factory(:study_subject,:patid => "345#{i}" ) }
-			login_as send(cu)
-			get :find, :patid => '451'
-			assert_response :success
-			assert_equal 1, assigns(:study_subjects).length
-			assert assigns(:study_subjects).include?(subjects[1])
-		end
-	
-		test "should find study_subjects with icf_master_id and #{cu} login" do
-			subjects = 3.times.collect{|i| 
-				Factory(:study_subject,:icf_master_id => "345x#{i}" ) }
-			login_as send(cu)
-			get :find, :icf_master_id => '45x1'
-			assert_response :success
-			assert_equal 1, assigns(:study_subjects).length
-			assert assigns(:study_subjects).include?(subjects[1])
+			test "should find study_subjects with #{attr} and #{cu} login" do
+				subjects = 3.times.collect{|i| 
+					Factory(:study_subject,attr => "45#{i}" ) }
+				login_as send(cu)
+				get :find, attr => '451'
+				assert_response :success
+				assert_equal 1, assigns(:study_subjects).length
+				assert assigns(:study_subjects).include?(subjects[1])
+			end
+
 		end
 	
 		test "should find study_subjects with hospital_no and #{cu} login" do
@@ -198,30 +212,6 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 
 		end
 	
-#		test "should find study_subjects by state_id_no and #{cu} login" do
-#			3.times{|i| Factory(:study_subject,:state_id_no => "345x#{i}" ) }
-#			login_as send(cu)
-#			get :find, :registrar_no => '45x1'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#		end
-#	
-#		test "should find study_subjects by state_registrar_no and #{cu} login" do
-#			3.times{|i| Factory(:study_subject,:state_registrar_no => "345x#{i}" ) }
-#			login_as send(cu)
-#			get :find, :registrar_no => '45x1'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#		end
-#	
-#		test "should find study_subjects by local_registrar_no and #{cu} login" do
-#			3.times{|i| Factory(:study_subject,:local_registrar_no => "345x#{i}" ) }
-#			login_as send(cu)
-#			get :find, :registrar_no => '45x1'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#		end
-
 
 	
 #	I could add tons of tests for searching on multiple attributes
@@ -316,10 +306,21 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 
 		end
 
-		%w( icf_master_id studyid ).each do |attr|
+		#	orderable string-like fields
+		%w( icf_master_id studyid last_name phase ).each do |attr|
 
+#			test "should find study_subjects by #{attr} with #{cu} login" do
+#				subjects = 3.times.collect{|i| 
+#					Factory(:study_subject,attr => "450#{i}" ) }
+#				login_as send(cu)
+#				get :find, attr => '4501'
+#				assert_response :success
+#				assert_equal 1, assigns(:study_subjects).length
+#				assert assigns(:study_subjects).include?(subjects[1])
+#			end
+	
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "12345#{i}" ) }
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				get :find, :order => attr
 				assert_response :success
@@ -327,7 +328,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			end
 	
 			test "should find study_subjects and order by #{attr} dir asc with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "12345#{i}" )}
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				get :find, :order => attr, :dir => 'asc'
 				assert_response :success
@@ -335,7 +336,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			end
 	
 			test "should find study_subjects and order by #{attr} dir desc with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "12345#{i}" )}
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				get :find, :order => attr, :dir => 'desc'
 				assert_response :success
@@ -343,57 +344,16 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			end
 	
 			test "should find study_subjects and order by #{attr} invalid dir with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "12345#{i}" )}
-				login_as send(cu)
-				get :find, :order => attr, :dir => 'invalid'
-				assert_response :success
-				assert_equal subjects, assigns(:study_subjects)
-			end
-
-		end
-
-		%w( last_name ).each do |attr|
-
-			test "should find study_subjects and order by #{attr} with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
-				login_as send(cu)
-				get :find, :order => attr
-				assert_response :success
-				assert_equal subjects, assigns(:study_subjects)
-			end
-	
-			test "should find study_subjects and order by #{attr} dir asc with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
-				login_as send(cu)
-				get :find, :order => attr, :dir => 'asc'
-				assert_response :success
-				assert_equal subjects, assigns(:study_subjects)
-			end
-	
-			test "should find study_subjects and order by #{attr} dir desc with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
-				login_as send(cu)
-				get :find, :order => attr, :dir => 'desc'
-				assert_response :success
-				assert_equal subjects, assigns(:study_subjects).reverse
-			end
-	
-			test "should find study_subjects and order by #{attr} invalid dir with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				get :find, :order => attr, :dir => 'invalid'
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects)
 			end
 	
-
-#
-#	Possibly add these recall_or_record tests to others
-#	but not really necessary.
-#
 			test "should recall from session find study_subjects and" <<
 					" order by #{attr} with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				session[:order] = attr
 				get :find
@@ -403,7 +363,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 
 			test "should recall from session find study_subjects and" <<
 					" order by #{attr} dir asc with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				session[:order] = attr
 				session[:dir] = 'asc'
@@ -414,7 +374,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 
 			test "should recall from session find study_subjects and" <<
 					" order by #{attr} dir desc with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				session[:order] = attr
 				session[:dir] = 'desc'
@@ -425,7 +385,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 
 			test "should recall from session find study_subjects and" <<
 					" order by #{attr} invalid dir with #{cu} login" do
-				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "John#{i}" )}
+				subjects = 3.times.collect{|i| Factory(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				session[:order] = attr
 				session[:dir] = 'invalid'
