@@ -9,5 +9,10 @@ module NumericExtension
 		l = l - 1
 		( max / 10**l ).to_i * 10**l
 	end
+
+	def to_ssn
+		sprintf('%09d',self.to_s).to_ssn
+	end
+
 end
 Numeric.send(:include,NumericExtension)

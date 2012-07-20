@@ -175,5 +175,9 @@ module ObjectExtension	#	:nodoc:
 		end
 	end
 
+	def to_ssn
+		nil
+	end
+
 end
 Object.send(:include, ObjectExtension)

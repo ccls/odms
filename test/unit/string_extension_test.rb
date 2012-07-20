@@ -32,4 +32,33 @@ class StringExtensionTest < ActiveSupport::TestCase
 		assert_equal "Apple And O'Range", name.namerize
 	end
 
+
+	test "to_ssn should return nil for ''" do
+		assert_nil ''.to_ssn
+	end
+
+	test "to_ssn should return nil for 'NONE'" do
+		assert_nil 'NONE'.to_ssn
+	end
+
+	test "to_ssn should return nil for 'WITHHELD'" do
+		assert_nil 'WITHHELD'.to_ssn
+	end
+
+	test "to_ssn should return nil for 'UNKNOWN'" do
+		assert_nil 'UNKNOWN'.to_ssn
+	end
+
+	test "to_ssn should return '012-34-5678' for '012345678'" do
+		assert_equal '012-34-5678', '012345678'.to_ssn
+	end
+
+	test "to_ssn should return '012-34-5678' for '  012345678  '" do
+		assert_equal '012-34-5678', '  012345678  '.to_ssn
+	end
+
+	test "to_ssn should return '012-34-5678' for '  012-34-5678  '" do
+		assert_equal '012-34-5678', '  012-34-5678  '.to_ssn
+	end
+
 end

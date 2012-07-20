@@ -2,8 +2,6 @@ require 'test_helper'
 
 class ObjectExtensionTest < ActiveSupport::TestCase
 
-
-
 	test "decode state code should return 'CA' for '  ca  '" do
 		assert_equal 'CA', '  ca  '.decode_state_abbrev
 	end
@@ -37,7 +35,6 @@ class ObjectExtensionTest < ActiveSupport::TestCase
 	end
 
 
-
 	test "decode county code should return 'Alameda' for '01'" do
 		assert_equal 'Alameda', '01'.decode_county
 	end
@@ -60,6 +57,11 @@ class ObjectExtensionTest < ActiveSupport::TestCase
 
 	test "decode county code should return 'Alameda' for '  ALAMEDA  '" do
 		assert_equal 'Alameda', '  ALAMEDA  '.decode_county
+	end
+
+
+	test "to_ssn should return nil for nil" do
+		assert_nil nil.to_ssn
 	end
 
 end
