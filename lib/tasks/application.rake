@@ -212,11 +212,17 @@ bd.attributes = birth_datum_attributes
 	task :create_addresses_from_birth_data_records => :environment do
 		BirthDatum.where('study_subject_id IS NOT NULL').each do |bd|
 			puts "Creating address from birth data for :#{bd.study_subject}:"
-			response = bd.create_address_from_attributes
-			if response.new_record?
-				puts response.errors.full_messages.to_sentence
+			birthdata_addressing = bd.study_subject.addressings
+				.where(:data_source_id => DataSource['birthdata'].id)
+			if birthdata_addressing.empty?
+				response = bd.create_address_from_attributes
+				if response.new_record?
+					puts response.errors.full_messages.to_sentence
+					else
+					puts " success"
+				end
 			else
-				puts " success"
+				puts "This subject already has an address from birthdata. Skipping."
 			end
 		end
 
