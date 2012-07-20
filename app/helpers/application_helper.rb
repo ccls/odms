@@ -15,7 +15,7 @@ module ApplicationHelper
 
 		s << "<div class='menu_item#{( 
 				params[:controller] == 'study_subjects' ) ? ' current' : nil}'>" <<
-			link_to('Subjects', dashboard_study_subjects_path ) <<
+			link_to('Subjects', find_study_subjects_path ) <<
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('Dashboard', dashboard_study_subjects_path ),
@@ -33,7 +33,7 @@ module ApplicationHelper
 
 		s << "<div class='menu_item#{( 
 				params[:controller] == 'samples' ) ? ' current' : nil}'>" <<
-			link_to('Samples', dashboard_samples_path) <<
+			link_to('Samples', find_samples_path) <<
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('Dashboard', dashboard_samples_path),
