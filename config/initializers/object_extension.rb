@@ -179,5 +179,9 @@ module ObjectExtension	#	:nodoc:
 		nil
 	end
 
+	def namerize
+		nil
+	end
+
 end
 Object.send(:include, ObjectExtension)

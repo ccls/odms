@@ -59,18 +59,18 @@ class CandidateControl < ActiveRecord::Base
 #				s.birth_county          = birth_county
 #				s.hispanicity_id        = ( 
 #					( [mother_hispanicity_id,father_hispanicity_id].include?(1) ) ? 1 : nil )
-				s.first_name         = first_name.try(:namerize)
-				s.middle_name        = middle_name.try(:namerize)
-				s.last_name          = last_name.try(:namerize)
+				s.first_name         = first_name.namerize
+				s.middle_name        = middle_name.namerize
+				s.last_name          = last_name.namerize
 				s.dob                = dob
-				s.father_first_name  = father_first_name.try(:namerize)
-				s.father_middle_name = father_middle_name.try(:namerize)
-				s.father_last_name   = father_last_name.try(:namerize)
+				s.father_first_name  = father_first_name.namerize
+				s.father_middle_name = father_middle_name.namerize
+				s.father_last_name   = father_last_name.namerize
 
-				s.mother_first_name  = mother_first_name.try(:namerize)
-				s.mother_middle_name = mother_middle_name.try(:namerize)
+				s.mother_first_name  = mother_first_name.namerize
+				s.mother_middle_name = mother_middle_name.namerize
 #				s.mother_last_name   = mother_last_name
-				s.mother_maiden_name = mother_maiden_name.try(:namerize)
+				s.mother_maiden_name = mother_maiden_name.namerize
 #				s.mother_race_id     = mother_race_id
 #				s.father_race_id     = father_race_id
 

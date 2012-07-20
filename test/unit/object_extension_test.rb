@@ -64,4 +64,8 @@ class ObjectExtensionTest < ActiveSupport::TestCase
 		assert_nil nil.to_ssn
 	end
 
+	test "namerize should return nil for nil" do
+		assert_nil nil.namerize
+	end
+
 end

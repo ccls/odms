@@ -140,7 +140,7 @@ class BirthDatum < ActiveRecord::Base
 		%w( sex first_name last_name ).each do |field|
 
 			current = study_subject.send(field).to_s
-			updated = self.send(field).try(:squish).try(:namerize).to_s
+			updated = self.send(field).try(:squish).namerize.to_s
 			unless current.match(/#{updated}/i)
 				error_count += 1
 				study_subject.operational_events.create(
@@ -165,7 +165,7 @@ class BirthDatum < ActiveRecord::Base
 			middle_name ).each do |field|
 
 			current = study_subject.send(field).to_s
-			updated = self.send(field).try(:squish).try(:namerize).to_s
+			updated = self.send(field).try(:squish).namerize.to_s
 			if current.blank? and updated.blank?
 				#
 				#	nice to pre-filter the last elsif
@@ -243,8 +243,8 @@ class BirthDatum < ActiveRecord::Base
 		return unless study_subject
 		addressing = study_subject.addressings.new(
 			:address_attributes => {
-				:line_1          => mother_residence_line_1.try(:namerize),
-				:city            => mother_residence_city.try(:namerize),
+				:line_1          => mother_residence_line_1.namerize,
+				:city            => mother_residence_city.namerize,
 				:county          => mother_residence_county.decode_county,
 				:country         => 'United States',
 				:state           => mother_residence_state.decode_state_abbrev,
