@@ -116,17 +116,17 @@ namespace :app do
 			if ss.changed?
 				puts "#{ss}"
 				puts "Changes:#{ss.changes}"
-				puts "Update? Y / N / Q"
-				response = STDIN.gets
-				if response.match(/y/i)
+#				puts "Update? Y / N / Q"
+#				response = STDIN.gets
+#				if response.match(/y/i)
 					puts "Saving ..."
 					ss.save!
-				elsif response.match(/q/i)
-					puts "Quiting ..."
-					exit
-				else
-					puts "Skipping ..."
-				end
+#				elsif response.match(/q/i)
+#					puts "Quiting ..."
+#					exit
+#				else
+#					puts "Skipping ..."
+#				end
 			else
 				puts "No changes."
 			end
@@ -191,17 +191,17 @@ bd.attributes = birth_datum_attributes
 
 			if bd.changed?
 				puts "Changes:#{bd.changes}"
-				puts "Update? Y / N / Q"
-				response = STDIN.gets
-				if response.match(/y/i)
+#				puts "Update? Y / N / Q"
+#				response = STDIN.gets
+#				if response.match(/y/i)
 					puts "Saving ..."
 					bd.save!
-				elsif response.match(/q/i)
-					puts "Quiting ..."
-					exit
-				else
-					puts "Skipping ..."
-				end
+#				elsif response.match(/q/i)
+#					puts "Quiting ..."
+#					exit
+#				else
+#					puts "Skipping ..."
+#				end
 			else
 				puts "No changes."
 			end
