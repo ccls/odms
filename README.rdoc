@@ -517,6 +517,14 @@ test database clean.  Just an FYI.
 
 
 
+Also, recently rather than getting a clear link to a page showing
+html validation errors if and when they occur, an error similar to
+
+  Encoding::UndefinedConversionError: "\xE2" from ASCII-8BIT to UTF-8
+
+is getting raised.  This usually means that something on the resulting
+pages is invalid html.  Good luck with that.
+
 
 
 

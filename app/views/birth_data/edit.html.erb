@@ -11,7 +11,7 @@
 <% attrs.delete('created_at') %>
 <% attrs.delete('updated_at') %>
 <% attrs.sort.each do |k,v| %>
-<p><%= f.wrapped_text_field k %></p>
+<%= f.wrapped_text_field k %>
 <% end %>
 
 <p>
