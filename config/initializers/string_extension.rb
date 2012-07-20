@@ -20,7 +20,8 @@ module StringExtension	#	:nodoc:
 
 		def to_ssn
 			nums = self.gsub(/\D/,'')
-			if( nums.length == 9 )
+			#	All 0s or 9s is apparently invalid
+			if( nums.length == 9 and nums !~ /(0|9){9}/ )
 				"#{nums[0..2]}-#{nums[3..4]}-#{nums[5..9]}"
 			else
 				nil

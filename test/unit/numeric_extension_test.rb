@@ -16,8 +16,12 @@ skip 'pending'
 		assert_equal 12345678.to_ssn, '012-34-5678'
 	end
 
-	test "to_ssn for 1234567890 should return nil as is too long" do
+	test "to_ssn should return nil for 1234567890 as is too long" do
 		assert_nil 1234567890.to_ssn
+	end
+
+	test "to_ssn should return nil for 999999999 as is invalid" do
+		assert_nil 999999999.to_ssn
 	end
 
 end

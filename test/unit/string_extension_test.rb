@@ -49,6 +49,18 @@ class StringExtensionTest < ActiveSupport::TestCase
 		assert_nil 'UNKNOWN'.to_ssn
 	end
 
+	test "to_ssn should return nil for '000000000'" do
+		assert_nil '000000000'.to_ssn
+	end
+
+	test "to_ssn should return nil for '999999999'" do
+		assert_nil '999999999'.to_ssn
+	end
+
+	test "to_ssn should return nil for '0123456789'" do
+		assert_nil '0123456789'.to_ssn
+	end
+
 	test "to_ssn should return '012-34-5678' for '012345678'" do
 		assert_equal '012-34-5678', '012345678'.to_ssn
 	end
