@@ -176,11 +176,11 @@ module ObjectExtension	#	:nodoc:
 	end
 
 	def to_ssn
-		nil
+		nil		#	or would self.to_s.to_ssn be better?
 	end
 
 	def namerize
-		nil
+		nil		#	or would self.to_s.namerize be better?
 	end
 
 end
