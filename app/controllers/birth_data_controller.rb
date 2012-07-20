@@ -19,7 +19,9 @@ class BirthDataController < ApplicationController
 	def update
 		@birth_datum.update_attributes!(params[:birth_datum])
 		flash[:notice] = 'Success!'
-		redirect_to birth_data_path
+#		redirect_to birth_data_path
+#		redirect_to @birth_datum.birth_datum_update
+		redirect_to @birth_datum
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "There was a problem updating the birth_datum"
 		render :action => "edit"

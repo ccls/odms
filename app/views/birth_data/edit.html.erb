@@ -1,2 +1,21 @@
+<h4>Birth Datum</h4>
 
+<p><%= link_to "Birth Datum Update", @birth_datum.birth_datum_update, :class => :button %></p>
 
+<%= form_for @birth_datum do |f| %>
+<%= f.error_messages %>
+<% attrs = @birth_datum.attributes.dup %>
+<% attrs.delete('id') %>
+<% attrs.delete('study_subject_id') %>
+<% attrs.delete('birth_datum_update_id') %>
+<% attrs.delete('created_at') %>
+<% attrs.delete('updated_at') %>
+<% attrs.sort.each do |k,v| %>
+<p><%= f.wrapped_text_field k %></p>
+<% end %>
+
+<p>
+<%= f.submit( (@birth_datum.new_record?)? "Create" : "Update" )%>&nbsp;
+<%= link_to 'Back', @birth_datum.birth_datum_update, :class => 'button' %>
+</p>
+<% end %>
