@@ -33,6 +33,9 @@ class BirthDatumUpdatesController < ApplicationController
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "There was a problem creating the birth_datum_update"
 		render :action => "new"
+	rescue CSV::MalformedCSVError => e
+		flash.now[:error] = "CSV error.<br/>#{e}".html_safe
+		render :action => 'new'
 	end
 
 #	Edit/Update pointless as parsing is now automatic and AFTER CREATE

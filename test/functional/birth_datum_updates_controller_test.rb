@@ -198,6 +198,44 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #			birth_datum_update.destroy
 		end
 
+
+		test "should NOT create with #{cu} login and stray csv quote" do
+			login_as send(cu)
+			assert_difference('BirthDatum.count',0){
+			assert_difference('CandidateControl.count',0){
+				post :create, :birth_datum_update => factory_attributes(
+					:csv_file => Rack::Test::UploadedFile.new( 
+						'test/assets/stray_quote_test_file.csv', 'text/csv') )
+			} }
+			assert_not_nil flash[:error]
+			assert_match "CSV error.<br/>", flash[:error]
+skip 'Pending as still need to reproduce this actual error'
+		end
+
+		test "should NOT create with #{cu} login and unclosed csv quote" do
+			login_as send(cu)
+			assert_difference('BirthDatum.count',0){
+			assert_difference('CandidateControl.count',0){
+				post :create, :birth_datum_update => factory_attributes(
+					:csv_file => Rack::Test::UploadedFile.new( 
+						'test/assets/unclosed_quote_test_file.csv', 'text/csv') )
+			} }
+			assert_not_nil flash[:error]
+			assert_match "CSV error.<br/>Unclosed quoted field", flash[:error]
+		end
+
+		test "should NOT create with #{cu} login and illegal csv quote" do
+			login_as send(cu)
+			assert_difference('BirthDatum.count',0){
+			assert_difference('CandidateControl.count',0){
+				post :create, :birth_datum_update => factory_attributes(
+					:csv_file => Rack::Test::UploadedFile.new( 
+						'test/assets/illegal_quote_test_file.csv', 'text/csv') )
+			} }
+			assert_not_nil flash[:error]
+			assert_match "CSV error.<br/>Illegal quoting", flash[:error]
+		end
+
 	end
 
 	non_site_administrators.each do |cu|
