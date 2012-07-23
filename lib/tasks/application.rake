@@ -86,147 +86,147 @@ namespace :app do
 #=> "Che-Gui"
 #
 #	titleize DOES NOT PRESERVE DASHES
-
-	task :import_and_namerize_study_subject_names => :environment do
-		#	This will include controls and mothers (cases too, but no biggy)
-		StudySubject.where(:phase => 5).each do |ss|
-#		StudySubject.where(:case_control_type => 6).each do |ss|
-
-			puts "Processing #{ss.subject_type} ..."
-
-			unless ss.birth_data.empty?
-				bd = ss.birth_data.first
-				%w( father_first_name father_middle_name father_last_name ).each do |field|
-					puts " Current: #{field}:#{ss.send(field)}:"
-					if !bd.send(field).blank?
-						ss.send("#{field}=", bd.send(field).namerize)
-					end
-					puts " Updated: #{field}:#{ss.send(field)}:"
-				end
-			end
-
-			%w( mother_first_name mother_middle_name mother_maiden_name mother_last_name
-				first_name middle_name maiden_name last_name ).each do |field|
-				puts " Current: #{field}:#{ss.send(field)}:"
-				unless ss.send(field).blank?
-					ss.send("#{field}=", ss.send(field).namerize)
-				end
-				puts " Updated: #{field}:#{ss.send(field)}:"
-			end
-			if ss.changed?
-				puts "#{ss}"
-				puts "Changes:#{ss.changes}"
-#				puts "Update? Y / N / Q"
-#				response = STDIN.gets
-#				if response.match(/y/i)
-					puts "Saving ..."
-					ss.save!
-#				elsif response.match(/q/i)
-#					puts "Quiting ..."
-#					exit
-#				else
-#					puts "Skipping ..."
-#				end
-			else
-				puts "No changes."
-			end
-		end
-	end
-
-	#	This is more of a synchronize_birth_data_records_with_csv_file_content
-	#	as I am no longer explicitly updating the ssn fields.  I'm throwing
-	#	the whole line at the record, very similar to creation.
-	task :import_parents_ssns_from_csv_file_to_birth_data_records => :environment do
-		bdus = BirthDatumUpdate.all
-		#	at the time or writing this script, there should be only one BDU
-		raise "OMG! Where did all these come from?" if bdus.length > 1
-		bdu = bdus.first
-		(f=CSV.open( bdu.csv_file.path, 'rb',{
-				:headers => true })).each do |line|
-			puts
-			puts "Processing line :#{f.lineno}:"
-
-			raise "master_id is blank" if line['master_id'].blank?
-			raise "case_control_flag is blank" if line['case_control_flag'].blank?
-			#	state_registrar_no will be blank for cases
-
-			#	these 3 fields make the request unique enough to always return 1 record. (so far)
-			bds = bdu.birth_data
-				.where(:case_control_flag  => line['case_control_flag'])
-				.where(:state_registrar_no => line['state_registrar_no'])
-				.where(:master_id          => line['master_id'])
-
-			#	this shouldn't happen unless another file was uploaded
-			raise "no matches" if bds.count < 1
-			raise "multiple matches :#{bd.count}:" if bds.count > 1
-
-			bd = bds.first
-
-			puts " Father SSN:#{bd.father_ssn}: Mother SSN:#{bd.mother_ssn}:"
-			puts " Father SSN:#{line['father_ssn']}: Mother SSN:#{line['mother_ssn']}:"
-
-##	could have leading zeros so need to use sprintf
 #
-##			raise "Father SSN:#{bd.father_ssn}: already set!" unless bd.father_ssn.blank?
-#			unless line['father_ssn'].blank?
-##				raise "Father SSN invalid." if line['father_ssn'].match(/(0000|9999)/)
-##raise "Father SSN non-numeric." unless line['father_ssn'] == line['father_ssn'].to_i.to_s
-##puts "-- skipping Father SSN non-numeric." unless line['father_ssn'] == sprintf("%09d",line['father_ssn'].to_i)
-#				bd.father_ssn = line['father_ssn']
+#	task :import_and_namerize_study_subject_names => :environment do
+#		#	This will include controls and mothers (cases too, but no biggy)
+#		StudySubject.where(:phase => 5).each do |ss|
+##		StudySubject.where(:case_control_type => 6).each do |ss|
+#
+#			puts "Processing #{ss.subject_type} ..."
+#
+#			unless ss.birth_data.empty?
+#				bd = ss.birth_data.first
+#				%w( father_first_name father_middle_name father_last_name ).each do |field|
+#					puts " Current: #{field}:#{ss.send(field)}:"
+#					if !bd.send(field).blank?
+#						ss.send("#{field}=", bd.send(field).namerize)
+#					end
+#					puts " Updated: #{field}:#{ss.send(field)}:"
+#				end
 #			end
 #
-##			raise "Mother SSN:#{bd.mother_ssn}: already set!" unless bd.mother_ssn.blank?
-#			unless line['mother_ssn'].blank?
-##				raise "Mother SSN invalid." if line['mother_ssn'].match(/(0000|9999)/)
-##raise "Mother SSN non-numeric." unless line['mother_ssn'] == line['mother_ssn'].to_i.to_s
-##puts "-- skipping Mother SSN non-numeric." unless line['mother_ssn'] == sprintf("%09d",line['mother_ssn'].to_i)
-#				bd.mother_ssn = line['mother_ssn']
-#			end
-
-birth_datum_attributes = line.dup.to_hash
-line.headers.each do |h|
-birth_datum_attributes.delete(h) unless BirthDatumUpdate.expected_column_names.include?(h)
-end
-bd.attributes = birth_datum_attributes
-
-			if bd.changed?
-				puts "Changes:#{bd.changes}"
-#				puts "Update? Y / N / Q"
-#				response = STDIN.gets
-#				if response.match(/y/i)
-					puts "Saving ..."
-					bd.save!
-#				elsif response.match(/q/i)
-#					puts "Quiting ..."
-#					exit
-#				else
-#					puts "Skipping ..."
+#			%w( mother_first_name mother_middle_name mother_maiden_name mother_last_name
+#				first_name middle_name maiden_name last_name ).each do |field|
+#				puts " Current: #{field}:#{ss.send(field)}:"
+#				unless ss.send(field).blank?
+#					ss.send("#{field}=", ss.send(field).namerize)
 #				end
-			else
-				puts "No changes."
-			end
-		end
-
-	end
-
-	task :create_addresses_from_birth_data_records => :environment do
-		BirthDatum.where('study_subject_id IS NOT NULL').each do |bd|
-			puts "Creating address from birth data for :#{bd.study_subject}:"
-			birthdata_addressing = bd.study_subject.addressings
-				.where(:data_source_id => DataSource['birthdata'].id)
-			if birthdata_addressing.empty?
-				response = bd.create_address_from_attributes
-				if response.new_record?
-					puts response.errors.full_messages.to_sentence
-					else
-					puts " success"
-				end
-			else
-				puts "This subject already has an address from birthdata. Skipping."
-			end
-		end
-
-	end
+#				puts " Updated: #{field}:#{ss.send(field)}:"
+#			end
+#			if ss.changed?
+#				puts "#{ss}"
+#				puts "Changes:#{ss.changes}"
+##				puts "Update? Y / N / Q"
+##				response = STDIN.gets
+##				if response.match(/y/i)
+#					puts "Saving ..."
+#					ss.save!
+##				elsif response.match(/q/i)
+##					puts "Quiting ..."
+##					exit
+##				else
+##					puts "Skipping ..."
+##				end
+#			else
+#				puts "No changes."
+#			end
+#		end
+#	end
+#
+#	#	This is more of a synchronize_birth_data_records_with_csv_file_content
+#	#	as I am no longer explicitly updating the ssn fields.  I'm throwing
+#	#	the whole line at the record, very similar to creation.
+#	task :import_parents_ssns_from_csv_file_to_birth_data_records => :environment do
+#		bdus = BirthDatumUpdate.all
+#		#	at the time or writing this script, there should be only one BDU
+#		raise "OMG! Where did all these come from?" if bdus.length > 1
+#		bdu = bdus.first
+#		(f=CSV.open( bdu.csv_file.path, 'rb',{
+#				:headers => true })).each do |line|
+#			puts
+#			puts "Processing line :#{f.lineno}:"
+#
+#			raise "master_id is blank" if line['master_id'].blank?
+#			raise "case_control_flag is blank" if line['case_control_flag'].blank?
+#			#	state_registrar_no will be blank for cases
+#
+#			#	these 3 fields make the request unique enough to always return 1 record. (so far)
+#			bds = bdu.birth_data
+#				.where(:case_control_flag  => line['case_control_flag'])
+#				.where(:state_registrar_no => line['state_registrar_no'])
+#				.where(:master_id          => line['master_id'])
+#
+#			#	this shouldn't happen unless another file was uploaded
+#			raise "no matches" if bds.count < 1
+#			raise "multiple matches :#{bd.count}:" if bds.count > 1
+#
+#			bd = bds.first
+#
+#			puts " Father SSN:#{bd.father_ssn}: Mother SSN:#{bd.mother_ssn}:"
+#			puts " Father SSN:#{line['father_ssn']}: Mother SSN:#{line['mother_ssn']}:"
+#
+###	could have leading zeros so need to use sprintf
+##
+###			raise "Father SSN:#{bd.father_ssn}: already set!" unless bd.father_ssn.blank?
+##			unless line['father_ssn'].blank?
+###				raise "Father SSN invalid." if line['father_ssn'].match(/(0000|9999)/)
+###raise "Father SSN non-numeric." unless line['father_ssn'] == line['father_ssn'].to_i.to_s
+###puts "-- skipping Father SSN non-numeric." unless line['father_ssn'] == sprintf("%09d",line['father_ssn'].to_i)
+##				bd.father_ssn = line['father_ssn']
+##			end
+##
+###			raise "Mother SSN:#{bd.mother_ssn}: already set!" unless bd.mother_ssn.blank?
+##			unless line['mother_ssn'].blank?
+###				raise "Mother SSN invalid." if line['mother_ssn'].match(/(0000|9999)/)
+###raise "Mother SSN non-numeric." unless line['mother_ssn'] == line['mother_ssn'].to_i.to_s
+###puts "-- skipping Mother SSN non-numeric." unless line['mother_ssn'] == sprintf("%09d",line['mother_ssn'].to_i)
+##				bd.mother_ssn = line['mother_ssn']
+##			end
+#
+#birth_datum_attributes = line.dup.to_hash
+#line.headers.each do |h|
+#birth_datum_attributes.delete(h) unless BirthDatumUpdate.expected_column_names.include?(h)
+#end
+#bd.attributes = birth_datum_attributes
+#
+#			if bd.changed?
+#				puts "Changes:#{bd.changes}"
+##				puts "Update? Y / N / Q"
+##				response = STDIN.gets
+##				if response.match(/y/i)
+#					puts "Saving ..."
+#					bd.save!
+##				elsif response.match(/q/i)
+##					puts "Quiting ..."
+##					exit
+##				else
+##					puts "Skipping ..."
+##				end
+#			else
+#				puts "No changes."
+#			end
+#		end
+#
+#	end
+#
+#	task :create_addresses_from_birth_data_records => :environment do
+#		BirthDatum.where('study_subject_id IS NOT NULL').each do |bd|
+#			puts "Creating address from birth data for :#{bd.study_subject}:"
+#			birthdata_addressing = bd.study_subject.addressings
+#				.where(:data_source_id => DataSource['birthdata'].id)
+#			if birthdata_addressing.empty?
+#				response = bd.create_address_from_attributes
+#				if response.new_record?
+#					puts response.errors.full_messages.to_sentence
+#					else
+#					puts " success"
+#				end
+#			else
+#				puts "This subject already has an address from birthdata. Skipping."
+#			end
+#		end
+#
+#	end
 
 end
 
