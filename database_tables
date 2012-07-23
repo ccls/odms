@@ -709,6 +709,8 @@ Table: enrollments
 | refused_by_family           | tinyint(1)   | YES  |     | NULL    |                |
 | created_at                  | datetime     | NO   |     | NULL    |                |
 | updated_at                  | datetime     | NO   |     | NULL    |                |
+| assigned_for_interview_at   | datetime     | YES  |     | NULL    |                |
+| interview_completed_on      | date         | YES  |     | NULL    |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: follow_up_types
 +-------------+--------------+------+-----+---------+----------------+

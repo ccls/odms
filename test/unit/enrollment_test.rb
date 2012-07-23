@@ -24,7 +24,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 		provide_saliva_smp reason_closed reason_not_chosen receive_study_findings 
 		recruitment_priority refusal_reason_id refused_by_family refused_by_physician 
 		share_smp_with_others terminated_participation terminated_reason 
-		use_smp_future_cancer_rsrch use_smp_future_other_rsrch use_smp_future_rsrch )
+		use_smp_future_cancer_rsrch use_smp_future_other_rsrch use_smp_future_rsrch 
+		assigned_for_interview_at interview_completed_on )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120718161355) do
+ActiveRecord::Schema.define(:version => 20120723230612) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -694,6 +694,8 @@ ActiveRecord::Schema.define(:version => 20120718161355) do
     t.boolean  "refused_by_family"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
+    t.datetime "assigned_for_interview_at"
+    t.date     "interview_completed_on"
   end
 
   add_index "enrollments", ["project_id", "study_subject_id"], :name => "index_enrollments_on_project_id_and_study_subject_id", :unique => true
