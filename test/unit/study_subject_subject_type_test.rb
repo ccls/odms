@@ -27,154 +27,22 @@ class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 			"#{study_subject.subject_type}"
 	end
 
-	test "case subject should return true for is_case?" do
-		subject = Factory(:case_study_subject)
-		assert subject.is_case?
-	end
-
-	test "case subject should return false for is_control?" do
-		subject = Factory(:case_study_subject)
-		assert !subject.is_control?
-	end
-
-	test "case subject should return false for is_mother?" do
-		subject = Factory(:case_study_subject)
-		assert !subject.is_mother?
-	end
-
-	test "case subject should return false for is_father?" do
-		subject = Factory(:case_study_subject)
-		assert !subject.is_father?
-	end
-
-	test "case subject should return false for is_twin?" do
-		subject = Factory(:case_study_subject)
-		assert !subject.is_twin?
-	end
-
-	test "case subject should return true for is_child?" do
-		subject = Factory(:case_study_subject)
-		assert subject.is_child?
-	end
-
-	test "control subject should return false for is_case?" do
-		subject = Factory(:control_study_subject)
-		assert !subject.is_case?
-	end
-
-	test "control subject should return true for is_control?" do
-		subject = Factory(:control_study_subject)
-		assert subject.is_control?
-	end
-
-	test "control subject should return false for is_mother?" do
-		subject = Factory(:control_study_subject)
-		assert !subject.is_mother?
-	end
-
-	test "control subject should return false for is_father?" do
-		subject = Factory(:control_study_subject)
-		assert !subject.is_father?
-	end
-
-	test "control subject should return false for is_twin?" do
-		subject = Factory(:control_study_subject)
-		assert !subject.is_twin?
-	end
-
-	test "control subject should return true for is_child?" do
-		subject = Factory(:control_study_subject)
-		assert subject.is_child?
-	end
-
-	test "mother subject should return false for is_case?" do
-		subject = Factory(:mother_study_subject)
-		assert !subject.is_case?
-	end
-
-	test "mother subject should return false for is_control?" do
-		subject = Factory(:mother_study_subject)
-		assert !subject.is_control?
-	end
-
-	test "mother subject should return true for is_mother?" do
-		subject = Factory(:mother_study_subject)
-		assert subject.is_mother?
-	end
-
-	test "mother subject should return false for is_father?" do
-		subject = Factory(:mother_study_subject)
-		assert !subject.is_father?
-	end
-
-	test "mother subject should return false for is_twin?" do
-		subject = Factory(:mother_study_subject)
-		assert !subject.is_twin?
-	end
-
-	test "mother subject should return false for is_child?" do
-		subject = Factory(:mother_study_subject)
-		assert !subject.is_child?
-	end
-
-	test "father subject should return false for is_case?" do
-		subject = Factory(:father_study_subject)
-		assert !subject.is_case?
-	end
-
-	test "father subject should return false for is_control?" do
-		subject = Factory(:father_study_subject)
-		assert !subject.is_control?
-	end
-
-	test "father subject should return false for is_mother?" do
-		subject = Factory(:father_study_subject)
-		assert !subject.is_mother?
-	end
-
-	test "father subject should return true for is_father?" do
-		subject = Factory(:father_study_subject)
-		assert subject.is_father?
-	end
-
-	test "father subject should return false for is_twin?" do
-		subject = Factory(:father_study_subject)
-		assert !subject.is_twin?
-	end
-
-	test "father subject should return false for is_child?" do
-		subject = Factory(:father_study_subject)
-		assert !subject.is_child?
-	end
-
-	test "twin subject should return false for is_case?" do
-		subject = Factory(:twin_study_subject)
-		assert !subject.is_case?
-	end
-
-	test "twin subject should return false for is_control?" do
-		subject = Factory(:twin_study_subject)
-		assert !subject.is_control?
-	end
-
-	test "twin subject should return false for is_mother?" do
-		subject = Factory(:twin_study_subject)
-		assert !subject.is_mother?
-	end
-
-	test "twin subject should return false for is_father?" do
-		subject = Factory(:twin_study_subject)
-		assert !subject.is_father?
-	end
-
-	test "twin subject should return true for is_twin?" do
-		subject = Factory(:twin_study_subject)
-		assert subject.is_twin?
-	end
-
-	test "twin subject should return false for is_child?" do
-		subject = Factory(:twin_study_subject)
-		assert !subject.is_child?
+	csv = %q(factory,is_case?,is_control?,is_child?,is_twin?,is_mother?,is_father?
+case_study_subject,true,false,true,false,false,false
+control_study_subject,false,true,true,false,false,false
+mother_study_subject,false,false,false,false,true,false
+father_study_subject,false,false,false,false,false,true
+twin_study_subject,false,false,false,true,false,false
+)
+	require 'csv'
+	(c=CSV.parse(csv,{:headers => true})).each do |line|
+		line.headers.each do |header|
+			next if header == 'factory'
+			test "#{header} should return #{line[header]} for #{line['factory']}" do
+				subject = Factory(line['factory'])
+				assert_equal subject.send(header).to_s, line[header]
+			end
+		end
 	end
 
 protected

@@ -28,11 +28,20 @@ class ActiveRecord::Base
 
 		#	I guess we must explicitly remember the options
 		#	so that can reference the 'key' in []
-		@@acts_like_a_hash_options = options
-		@@acts_like_a_hash_memory  = {}
+#		@@acts_like_a_hash_options = options
+#		@@acts_like_a_hash_memory  = {}
+#
+#	Using @@ seems to share the variable in ActiveRecord::Base
+#	Using cattr_accessor seems to share it in the subclass
+#
+		cattr_accessor :acts_like_a_hash_options
+		cattr_accessor :acts_like_a_hash_memory
 
 		class_eval do
 
+			self.acts_like_a_hash_options = options
+			self.acts_like_a_hash_memory = {}
+	
 			validates_presence_of   options[:key], options[:value]
 			validates_uniqueness_of options[:key], options[:value]
 			validates_length_of     options[:key], options[:value],
@@ -46,8 +55,13 @@ class ActiveRecord::Base
 #				where(@@acts_like_a_hash_options[:key] => key.to_s).first
 
 				#	adding a type of memoization
-				@@acts_like_a_hash_memory[key] ||=
-					where(@@acts_like_a_hash_options[:key] => key.to_s).first
+#
+#	THIS IS MEMORIZING ACROSS SUBCLASSES!!!
+#	THIS MEANS THAT THE *_options IS PROBABLY DOING THE SAME THING!
+#
+#				@@acts_like_a_hash_memory[key] ||=
+				self.acts_like_a_hash_memory[key.downcase.to_s] ||=
+					where(self.acts_like_a_hash_options[:key] => key.to_s).first
 			end
 
 #NameError: undefined local variable or method `options' for #<Class:0x107229540>
