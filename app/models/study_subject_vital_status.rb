@@ -17,6 +17,14 @@ base.class_eval do
 		self.vital_status_id ||= VitalStatus['living'].id
 	end
 
+	def is_living?
+		vital_status_id == VitalStatus['living'].id
+	end
+
+	def is_deceased?
+		vital_status_id == VitalStatus['deceased'].id
+	end
+
 end	#	class_eval
 end	#	included
 end	#	StudySubjectVitalStatus

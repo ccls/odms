@@ -27,55 +27,60 @@ base.class_eval do
 	#	Returns boolean of comparison
 	#	true only if type is Case
 	def is_case?
-		subject_type_id == StudySubject.subject_type_case_id
+#		subject_type_id == StudySubject.subject_type_case_id
+		subject_type_id == SubjectType['case'].id
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Control
 	def is_control?
-		subject_type_id == StudySubject.subject_type_control_id
+#		subject_type_id == StudySubject.subject_type_control_id
+		subject_type_id == SubjectType['control'].id
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Mother
 	def is_mother?
-		subject_type_id == StudySubject.subject_type_mother_id
+#		subject_type_id == StudySubject.subject_type_mother_id
+		subject_type_id == SubjectType['mother'].id
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Father
 	def is_father?
-		subject_type_id == StudySubject.subject_type_father_id
+#		subject_type_id == StudySubject.subject_type_father_id
+		subject_type_id == SubjectType['father'].id
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Twin
 	def is_twin?
-		subject_type_id == StudySubject.subject_type_twin_id
+#		subject_type_id == StudySubject.subject_type_twin_id
+		subject_type_id == SubjectType['twin'].id
 	end
 
-protected
-
-	#	Use these to stop the constant checking.
-	def self.subject_type_mother_id
-		@@subject_type_mother_id ||= SubjectType['Mother'].id
-	end
-
-	def self.subject_type_father_id
-		@@subject_type_father_id ||= SubjectType['Father'].id
-	end
-
-	def self.subject_type_twin_id
-		@@subject_type_twin_id ||= SubjectType['Twin'].id
-	end
-
-	def self.subject_type_control_id
-		@@subject_type_control_id ||= SubjectType['Control'].id
-	end
-
-	def self.subject_type_case_id
-		@@subject_type_case_id ||= SubjectType['Case'].id
-	end
+#protected
+#
+#	#	Use these to stop the constant checking.
+#	def self.subject_type_mother_id
+#		@@subject_type_mother_id ||= SubjectType['Mother'].id
+#	end
+#
+#	def self.subject_type_father_id
+#		@@subject_type_father_id ||= SubjectType['Father'].id
+#	end
+#
+#	def self.subject_type_twin_id
+#		@@subject_type_twin_id ||= SubjectType['Twin'].id
+#	end
+#
+#	def self.subject_type_control_id
+#		@@subject_type_control_id ||= SubjectType['Control'].id
+#	end
+#
+#	def self.subject_type_case_id
+#		@@subject_type_case_id ||= SubjectType['Case'].id
+#	end
 
 end	#	class_eval
 end	#	included

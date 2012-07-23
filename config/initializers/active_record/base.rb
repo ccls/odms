@@ -29,6 +29,7 @@ class ActiveRecord::Base
 		#	I guess we must explicitly remember the options
 		#	so that can reference the 'key' in []
 		@@acts_like_a_hash_options = options
+		@@acts_like_a_hash_memory  = {}
 
 		class_eval do
 
@@ -42,7 +43,11 @@ class ActiveRecord::Base
 			def self.[](key)
 				# may need to deal with options[:key] here, but not needed yet
 #				find_by_key(key.to_s)
-				where(@@acts_like_a_hash_options[:key] => key.to_s).first
+#				where(@@acts_like_a_hash_options[:key] => key.to_s).first
+
+				#	adding a type of memoization
+				@@acts_like_a_hash_memory[key] ||=
+					where(@@acts_like_a_hash_options[:key] => key.to_s).first
 			end
 
 #NameError: undefined local variable or method `options' for #<Class:0x107229540>
