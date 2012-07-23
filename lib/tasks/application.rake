@@ -231,7 +231,7 @@ bd.attributes = birth_datum_attributes
 end
 
 def i_should?
-	puts "Should I save this? ( Y / N / Q )")
+	puts "Should I save this? ( Y / N / Q )"
 	response = STDIN.gets
 	if response.match(/y/i)
 		return true
