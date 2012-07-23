@@ -1,7 +1,4 @@
 <% stylesheets(:enrollment_edit) %>
-<%# @study_subject ||= @enrollment.study_subject %>
-<%# sub_menu_for(@study_subject) %>
-<%# id_bar_for(@study_subject) %>
 
 <%= form_for(@enrollment,
 	:url => enrollment_path(@enrollment),
@@ -56,6 +53,9 @@ This shouldn't be ALL document versions.
 	:label_text => 'reason refused:' %>
 <%= f.wrapped_text_field :other_refusal_reason,
 	:label_text => 'specify:' %>
+
+<%= f.wrapped_datetime_text_field :assigned_for_interview_at %>
+<%= f.wrapped_date_text_field :interview_completed_on %>
 
 <%= f.wrapped_yndk_select :terminated_participation,
 	:label_text => 'terminated participation?' %>

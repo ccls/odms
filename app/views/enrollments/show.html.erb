@@ -49,6 +49,10 @@
 					<%= wrapped_spans :enrollment, :other_refusal_reason,
 						:label_text => 'specify:' %>
 				<%# else %>
+
+<%= wrapped_datetime_spans :enrollment, :assigned_for_interview_at %>
+<%= wrapped_date_spans :enrollment, :interview_completed_on %>
+
 					<%= wrapped_yndk_spans :enrollment, 
 						:terminated_participation,
 						:label_text => 'terminated participation?' %>
