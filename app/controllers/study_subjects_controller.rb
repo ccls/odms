@@ -137,6 +137,24 @@ class StudySubjectsController < ApplicationController
 		next_study_subject = StudySubject.where('id > ?',@study_subject.id)
 			.order('id asc').limit(1).first
 		redirect_to study_subject_path(next_study_subject)
+
+#		next_study_subject = StudySubject.where('id > ?',@study_subject.id)
+#			.order('id asc').limit(1).first || StudySubject.order('id asc').limit(1).first
+#		n = params[:c].dup
+#		if n.has_key?('study_subject_id')
+#			#	this is a nice, nested, restful route
+#			n['study_subject_id'] = next_study_subject.id 
+#		else
+#			#	this is a pain.  probably in a show for address, phone, event, ...
+#			n.delete('id')
+#			n['action'] = 'index'
+#			n['study_subject_id'] = next_study_subject.id
+#			#	seems to work surprisingly
+#
+##	what about study_subject_path(@study_subject)
+#
+#		end
+#		redirect_to url_for(n)
 	end
 #
 #	For some reason, redirect_to study_subject_path(nil) 
