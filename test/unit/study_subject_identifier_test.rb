@@ -24,33 +24,23 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "should nullify blank state_id_no before validation" do
-		study_subject = Factory.build(:study_subject, :state_id_no => '')
-		assert  study_subject.state_id_no.blank?
-		assert !study_subject.state_id_no.nil?
-		study_subject.valid?
-		assert  study_subject.state_id_no.blank?
-		assert  study_subject.state_id_no.nil?
-	end 
+	[ :ssn, :state_id_no, :state_registrar_no, :local_registrar_no, 
+		:gbid, :lab_no_wiemels, :accession_no, :idno_wiemels, 
+		:studyid, :subjectid, :email ].each do |attr|
 
-	test "should nullify blank state_registrar_no before validation" do
-		study_subject = Factory.build(:study_subject, :state_registrar_no => '')
-		assert  study_subject.state_registrar_no.blank?
-		assert !study_subject.state_registrar_no.nil?
-		study_subject.valid?
-		assert  study_subject.state_registrar_no.blank?
-		assert  study_subject.state_registrar_no.nil?
-	end 
+		#	childid is numeric, so this won't be true
+		test "should nilify blank #{attr} before validation" do
+			#	NEED block for protected attributes
+			study_subject = StudySubject.new{|s| s.send("#{attr}=",'   ')}
+			assert  study_subject.send(attr).blank?
+			assert !study_subject.send(attr).nil?
+			study_subject.valid?
+			assert  study_subject.send(attr).blank?
+			assert  study_subject.send(attr).nil?
+		end 
 
-	test "should nullify blank local_registrar_no before validation" do
-		study_subject = Factory.build(:study_subject, :local_registrar_no => '')
-		assert  study_subject.local_registrar_no.blank?
-		assert !study_subject.local_registrar_no.nil?
-		study_subject.valid?
-		assert  study_subject.local_registrar_no.blank?
-		assert  study_subject.local_registrar_no.nil?
-	end 
-
+	end
+ 
 #	test "should pad subjectid with leading zeros before validation" do
 #		study_subject = Factory.build(:study_subject)
 #		assert study_subject.subjectid.length < 6 
@@ -86,13 +76,6 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 			assert study_subject.errors.matching?(:ssn,'has already been taken')
 		}
 	end
-
-	test "should nullify blank ssn" do
-		assert_difference('StudySubject.count',1){
-			study_subject = Factory(:study_subject, :ssn => '')
-			assert  study_subject.reload.ssn.nil?
-		}
-	end 
 
 	test "should create with string standard format ssn" do
 		assert_difference( "StudySubject.count", 1 ) do

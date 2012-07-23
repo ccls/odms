@@ -18,6 +18,7 @@ class Address < ActiveRecord::Base
 	validates_length_of   :zip, :maximum => 10, :allow_blank => true
 
 	#	this needs to be unique, but is only used during importing
+	#	(doesn't need nilification as is numeric
 	validates_uniqueness_of :external_address_id, :allow_blank => true
 
 	validates_format_of :zip,

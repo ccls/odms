@@ -39,12 +39,12 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		assert_nil @study_subject.reload.dob
 	end
 
-	test "should nullify blank email" do
-		assert_difference("StudySubject.count",1) do
-			study_subject = create_study_subject(:email => ' ')
-			assert_nil study_subject.reload.email
-		end
-	end
+#	test "should nullify blank email" do
+#		assert_difference("StudySubject.count",1) do
+#			study_subject = create_study_subject(:email => ' ')
+#			assert_nil study_subject.reload.email
+#		end
+#	end
 
 	test "should allow multiple blank email" do
 		create_study_subject(:email => '  ')

@@ -21,20 +21,6 @@ base.class_eval do
 protected
 
 	def prepare_fields_for_validation
-		#	NOTE ANY field that has a unique index in the database NEEDS
-		#	to NOT be blank.  Multiple nils are acceptable in index,
-		#	but multiple blanks are NOT.  Nilify ALL fields with
-		#	unique indexes in the database.
-#		self.email = nil if email.blank?
-		self.ssn = nil if ssn.blank?
-		self.state_id_no = nil if state_id_no.blank?
-		self.state_registrar_no = nil if state_registrar_no.blank?
-		self.local_registrar_no = nil if local_registrar_no.blank?
-		self.gbid = nil if gbid.blank?
-		self.lab_no_wiemels = nil if lab_no_wiemels.blank?
-		self.accession_no = nil if accession_no.blank?
-		self.idno_wiemels = nil if idno_wiemels.blank?
-
 		self.case_control_type = ( ( case_control_type.blank? 
 			) ? nil : case_control_type.to_s.upcase )
 

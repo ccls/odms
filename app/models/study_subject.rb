@@ -56,18 +56,20 @@ class StudySubject < ActiveRecord::Base
 	validates_complete_date_for :reference_date, :allow_nil => true
 
 	validates_complete_date_for :died_on, :allow_blank => true
-	validates_uniqueness_of     :state_id_no, :childid, 
+
+	#
+	#	patid IS NOT UNIQUE as will be shared by controls
+	#	childid and studyid should be
+	#
+	#	childid is numeric, so doesn't need to be nilified, but won't hurt
+	#
+	validates_uniqueness_of_with_nilification :ssn, :state_id_no,
 		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
-		:accession_no, :idno_wiemels, :studyid, :subjectid, :allow_nil => true
-#
-#	patid IS NOT UNIQUE as will be shared by controls
-#	childid and studyid should be
-#
+		:accession_no, :idno_wiemels, :childid, :studyid, :subjectid
 
 	validates_length_of :case_control_type, :is => 1, :allow_nil => true
 
 	validates_length_of     :ssn, :maximum => 250, :allow_nil => true
-	validates_uniqueness_of :ssn, :allow_nil => true
 	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
 		:message => "SSN should be formatted ###-##-####", :allow_nil => true
 

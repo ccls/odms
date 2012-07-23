@@ -1,5 +1,25 @@
 class ActiveRecord::Base
 
+	def self.validates_uniqueness_of_with_nilification(*args)
+		#	NOTE ANY field that has a unique index in the database NEEDS
+		#	to NOT be blank.  Multiple nils are acceptable in index, 
+		#	but multiple blanks are NOT.  Nilify ALL fields with
+		#	unique indexes in the database. At least those that
+		#	would appear on a form, as an empty text box is sent
+		#	as '' and not nil, hence the initial problem.
+		#	The first one will work, but will fail after.
+
+		#	ONLY IF THE FIELD IS A STRING!
+		class_eval do
+			validates_uniqueness_of args, :allow_blank => true
+			args.each do |arg|
+				before_validation {
+					self.send("#{arg}=", nil) if self.send(arg).blank?
+				}
+			end
+		end
+	end
+
 	def self.acts_like_a_hash(*args)
 		options = {
 			:key   => :key,
