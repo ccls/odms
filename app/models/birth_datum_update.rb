@@ -66,13 +66,6 @@ class BirthDatumUpdate < ActiveRecord::Base
 					line_count += 1
 
 					birth_datum_attributes = line.dup.to_hash
-#	remove invalid attributes, if there are any
-#					birth_datum_attributes.delete('father_ssn')
-#					birth_datum_attributes.delete('mother_ssn')
-					birth_datum_attributes.delete('ignore')
-					birth_datum_attributes.delete('ignore1')
-					birth_datum_attributes.delete('ignore2')
-					birth_datum_attributes.delete('ignore3')
 
 					#	remove any unexpected attribute which would cause create failure
 					line.headers.each do |h|
@@ -91,7 +84,8 @@ class BirthDatumUpdate < ActiveRecord::Base
 				if line_count != birth_data_count
 					odms_exceptions.create({
 						:name        => "birth_data append",
-						:description => "Birth data upload validation failed: incorrect number of birth data records appended to birth_data."
+						:description => "Birth data upload validation failed: " <<
+							"incorrect number of birth data records appended to birth_data."
 					})
 				end	#	if line_count != birth_data_count
 			end	#	unless csv_file_path.nil?
