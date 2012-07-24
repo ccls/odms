@@ -84,6 +84,7 @@ class BirthDatum < ActiveRecord::Base
 			bcr.status = 'complete'
 			bcr.is_found = true
 			bcr.returned_on = Date.today
+			#	possibly having existing notes means we can't use update_all (bummer)
 			bcr.notes = '' if bcr.notes.blank?
 			bcr.notes << "USC's match confidence = #{match_confidence}."
 			bcr.save!
