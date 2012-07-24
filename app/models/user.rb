@@ -44,10 +44,6 @@ class User < ActiveRecord::Base
 		self.role_names.include?('editor')
 	end
 
-#	def is_interviewer?(*args)
-#		self.role_names.include?('interviewer')
-#	end
-
 	def is_reader?(*args)
 		self.role_names.include?('reader')
 	end
@@ -87,21 +83,12 @@ class User < ActiveRecord::Base
 	alias_method :may_destroy?, :may_edit?
 
 
-##	Add tests for may_interview and may_read
-#	def may_interview?(*args)
-#		(self.role_names & 
-#			['superuser','administrator','editor']
-##			['superuser','administrator','editor','interviewer']
-#		).length > 0
-#	end
-
 #	This is pretty lame as all current roles can read
 #	Could simply check the role_names not empty?
 #	Of course this forces the role to be legitimate
 	def may_read?(*args)
 		(self.role_names & 
 			['superuser','administrator','exporter','editor','reader']
-#			['superuser','administrator','editor','interviewer','reader']
 		).length > 0
 	end
 	alias_method :may_view?, :may_read?
@@ -109,17 +96,6 @@ class User < ActiveRecord::Base
 	def may_view_user?(user=nil)
 		self.is_user?(user) || self.may_administrate?
 	end
-
-#	def may_share_document?(document=nil)
-#		document && ( 
-#			self.is_administrator? ||
-#			( document.owner && self == document.owner ) 
-#		)
-#	end
-#
-#	def may_view_document?(document=nil)
-#		document
-#	end
 
 	#	Find or Create a user from a given uid, and then 
 	#	proceed to update the user's information from the 
@@ -150,23 +126,13 @@ class User < ActiveRecord::Base
 	@@permissions['administrator_resources'].each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?
-#		alias_method "may_edit_#{resource}?".to_sym,    :may_administrate?
 		alias_method "may_update_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_destroy_#{resource}?".to_sym, :may_administrate?
 	end
 
-#	@@permissions['exporter_resources'].each do |resource|
-#		alias_method "may_create_#{resource}?".to_sym,  :may_export?
-#		alias_method "may_read_#{resource}?".to_sym,    :may_export?
-##		alias_method "may_edit_#{resource}?".to_sym,    :may_export?
-#		alias_method "may_update_#{resource}?".to_sym,  :may_export?
-#		alias_method "may_destroy_#{resource}?".to_sym, :may_export?
-#	end
-
 	@@permissions['editor_resources'].each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_edit?
 		alias_method "may_read_#{resource}?".to_sym,    :may_edit?
-#		alias_method "may_edit_#{resource}?".to_sym,    :may_edit?
 		alias_method "may_update_#{resource}?".to_sym,  :may_edit?
 		alias_method "may_destroy_#{resource}?".to_sym, :may_edit?
 	end
@@ -176,7 +142,6 @@ class User < ActiveRecord::Base
 	%w( events ).each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_read?
-#		alias_method "may_edit_#{resource}?".to_sym,    :may_administrate?
 		alias_method "may_update_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_destroy_#{resource}?".to_sym, :may_administrate?
 	end
@@ -184,7 +149,6 @@ class User < ActiveRecord::Base
 	@@permissions['crud_resources'].each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_create?
 		alias_method "may_read_#{resource}?".to_sym,    :may_read?
-#		alias_method "may_edit_#{resource}?".to_sym,    :may_edit?
 		alias_method "may_update_#{resource}?".to_sym,  :may_update?
 		alias_method "may_destroy_#{resource}?".to_sym, :may_destroy?
 	end
