@@ -84,7 +84,7 @@ en:
 #      absent: "is present and must be absent"
 #      incomplete_date: "is not a complete date"
 #      future_date: "is in the future and must be in the past"
-      taken: "%{attribute} asdfasjdf;alsjdf;alsjdf"
+#      taken: "%{attribute} TAKEN IS NOT ACTIVE MODEL, ONLY ACTIVE RECORD"
       absent: "%{attribute} is present and must be absent"
       incomplete_date: "%{attribute} is not a complete date"
       future_date: "%{attribute} is in the future and must be in the past"
