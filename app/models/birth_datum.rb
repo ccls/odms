@@ -10,6 +10,14 @@ class BirthDatum < ActiveRecord::Base
 
 	after_create :post_processing
 
+	def is_case?
+		['1','case'].include?(case_control_flag)
+	end
+
+	def is_control?
+		['0','control'].include?(case_control_flag)
+	end
+
 	def post_processing
 		if master_id.blank?
 			odms_exceptions.create(:name => 'birth data append',
@@ -26,7 +34,7 @@ class BirthDatum < ActiveRecord::Base
 					:description => "Subject found with master_id :#{master_id}:" <<
 						" is not a case subject.")
 			else
-				if ['0','control'].include?(case_control_flag)
+				if is_control?
 					control_options = { :related_patid => subject.patid }
 					reasons = []
 					if dob.blank?
@@ -48,18 +56,18 @@ class BirthDatum < ActiveRecord::Base
 						odms_exceptions.create(:name => 'candidate control creation',
 							:description => "Error creating candidate_control for subject")
 					end
-				elsif ['1','case'].include?(case_control_flag)
+				elsif is_case?
 					if !match_confidence.blank? && match_confidence.match(/definite/i)
 						#	assign study_subject_id to case's id
 						self.update_attribute(:study_subject_id, subject.id)
-						update_study_subject_attributes
-						update_bc_request
-						create_address_from_attributes
+						self.update_study_subject_attributes
+						self.update_bc_request
+						self.create_address_from_attributes
 					else
 						odms_exceptions.create(:name => 'birth data append',
 							:description => "Match confidence not 'definite':#{match_confidence}:")
 					end	#	if match_confidence.match(/definite/i)
-				else #	elsif case_control_flag == 'case'
+				else
 					odms_exceptions.create(:name => 'birth data append',
 						:description => "Unknown case_control_flag :#{case_control_flag}:")
 				end
@@ -68,17 +76,7 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def update_bc_request
-#Our next step with the birth_data file is to use it to close out bc requests. That's also where we'll indicate whether the search completed successfully or not.
-#
-#For each case returned in the birth_data file, find the bc_request record that corresponds to that case's icf_master_id and update the following in that record:
-#
-#status = "complete"
-#is_found = 1 if match_confidence = "DEFINITE" else, is_found = 0 (we may have to shift that to VERY LIKELY but let's leave it at DEFINITE for now).
-#returned_on = date of file upload.
-#notes = "USC's match confidence = [match_confidence value]."
-#
 		#	Should only be one, nevertheless, ...
-#		study_subject.bc_requests.where("status != 'complete' OR status IS NULL").each do |bcr|
 		return unless study_subject
 		study_subject.bc_requests.incomplete.each do |bcr|
 			bcr.status = 'complete'
@@ -95,17 +93,17 @@ class BirthDatum < ActiveRecord::Base
 	#	Separated this out so that can do separately if needed.
 	#
 	def update_study_subject_attributes
+		return if master_id.blank?
+
+		#
+		#	ONLY DO THIS FOR CASE SUBJECTS!
+		#
+		return unless is_case?
+
 		#	If subject is created after this record (this would be odd)
 		#	then study subject isn't set.  Regardless, check if its
 		#	set.  If not, try to set it.  If can't, go away.
 		unless study_subject
-			return if master_id.blank?
-
-#
-#	BE CAREFUL AS THIS IS ONLY TRUE FOR CASE SUBJECTS!
-#
-			return unless ['1','case'].include?(case_control_flag)
-
 			subject = StudySubject.where(:icf_master_id => master_id).first
 			return if subject.nil?
 			self.update_attribute(:study_subject_id, subject.id)
@@ -113,8 +111,7 @@ class BirthDatum < ActiveRecord::Base
 
 		error_count = 0
 
-
-#	comparing dob might require special handling
+		#	comparing dob might require special handling
 
 		#	Confirm, create exception if no match
 		%w( dob ).each do |field|
@@ -260,6 +257,8 @@ class BirthDatum < ActiveRecord::Base
 			:notes => "Address is mother's residential address found in the CA State Birth Record.")
 
 		unless addressing.save
+			#	Address possibly contained PO Box which is invalid as a residence.
+			#	Try to create as mailing address...
 			addressing.address.address_type = AddressType["mailing"]
 			study_subject.operational_events.create(
 				:occurred_at => DateTime.now,
