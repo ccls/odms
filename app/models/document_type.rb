@@ -5,8 +5,10 @@ class DocumentType < ActiveRecord::Base
 
 	has_many :document_versions
 
-	validates_presence_of :title
-	validates_length_of   :title, :maximum => 250, :allow_blank => true
+	validations_from_yaml_file
+
+#	validates_presence_of :title
+#	validates_length_of   :title, :maximum => 250, :allow_blank => true
 
 	def to_s
 		title

@@ -1,0 +1,19 @@
+-
+  :attribute: :project
+  :presence: true
+  :if: :project_id
+
+-
+  :attribute: :name
+  :presence: true
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attributes:
+  - :began_use_on
+  - :ended_use_on
+  :complete_date: true
+  :allow_nil: true
+

@@ -9,17 +9,19 @@ class Address < ActiveRecord::Base
 
 	validate :address_type_matches_line
 
-	validates_presence_of :address_type_id
-	validates_presence_of :address_type, :if => :address_type_id
+	validations_from_yaml_file
 
-	validates_presence_of :line_1, :city, :state, :zip
-	validates_length_of   :line_1, :line_2, :unit, :city, :state,
-		:maximum => 250, :allow_blank => true
-	validates_length_of   :zip, :maximum => 10, :allow_blank => true
-
-	#	this needs to be unique, but is only used during importing
-	#	(doesn't need nilification as is numeric
-	validates_uniqueness_of :external_address_id, :allow_blank => true
+#	validates_presence_of :address_type_id
+#	validates_presence_of :address_type, :if => :address_type_id
+#
+#	validates_presence_of :line_1, :city, :state, :zip
+#	validates_length_of   :line_1, :line_2, :unit, :city, :state,
+#		:maximum => 250, :allow_blank => true
+#	validates_length_of   :zip, :maximum => 10, :allow_blank => true
+#
+#	#	this needs to be unique, but is only used during importing
+#	#	(doesn't need nilification as is numeric
+#	validates_uniqueness_of :external_address_id, :allow_blank => true
 
 	validates_format_of :zip,
 		:with => /\A\s*\d{5}(-)?(\d{4})?\s*\z/,

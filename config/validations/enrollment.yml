@@ -1,0 +1,174 @@
+-
+  :attributes: :project_id
+  :presence: true
+  :uniqueness:
+    :scope: :study_subject_id
+-
+  :attributes: :project
+  :presence: true
+  :if: :project_id
+-
+  :attributes: :notes
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+
+-
+  :attributes: :ineligible_reason_id
+  :presence: 
+    :message: 'Ineligible reason is required if is_eligible is No'
+  :if: :is_not_eligible?
+-
+  :attributes: :ineligible_reason_id
+  :absence: 
+    :message: 'Ineligible reason is not allowed unless is_eligible is No'
+  :unless: :is_not_eligible?
+-
+  :attributes: :ineligible_reason
+  :presence: true
+  :if: :ineligible_reason_id
+
+-
+  :attributes: :other_ineligible_reason
+  :presence:
+    :message: 'Other ineligible reason is required if ineligible reason is Other'
+  :if: :ineligible_reason_is_other?
+-
+  :attributes: :other_ineligible_reason
+  :absence:
+    :message: 'Other ineligible reason is not allowed unless is_eligible is No'
+  :unless: :is_not_eligible?
+
+-
+  :attributes: :reason_not_chosen
+  :presence:
+    :message: 'Reason not chosen is required if is_chosen is No'
+  :if: :is_not_chosen?
+- 
+  :attributes: :reason_not_chosen
+  :absence:
+    :message: 'Reason not chosen is not allowed unless is_chosen is No'
+  :unless: :is_not_chosen?
+
+-
+  :attributes: :refusal_reason_id
+  :presence:
+    :message: "Refusal reason is required if consented is No"
+  :if: :not_consented?
+-
+  :attributes: :refusal_reason_id
+  :absence:
+    :message: "Refusal reason is not allowed unless consented is No"
+  :unless: :not_consented?
+-
+  :attributes: :refusal_reason
+  :presence: true
+  :if: :refusal_reason_id
+
+
+-
+  :attributes: :consented_on
+  :presence:
+    :message: 'Consented on date is required when adding consent information'
+  :unless: :consent_unknown?
+-
+  :attributes: :consented_on
+  :absence:
+    :message: "Consented on date is not allowed if consented is blank or Don't Know"
+  :if: :consent_unknown?
+-
+  :attributes: :consented_on
+  :past_date: true
+  :allow_blank: true
+
+-
+  :attributes: :other_refusal_reason
+  :presence:
+    :message: "Other refusal reason is required if refusal reason is Other"
+  :if: :refusal_reason_is_other?
+-
+  :attributes: :other_refusal_reason
+  :absence:
+    :message: "Other refusal reason not allowed unless consented is No"
+  :unless: :not_consented?
+
+-
+  :attribute: :terminated_reason
+  :presence:
+    :message: "Terminated reason is required if terminated participation is Yes"
+  :if: :terminated_participation?
+-
+  :attribute: :terminated_reason
+  :absence:
+    :message: "Terminated reason is not allowed unless terminated participation is Yes"
+  :unless: :terminated_participation?
+
+-
+  :attribute: :completed_on
+  :presence:
+    :message: "Completed on is required if is_complete is Yes"
+  :if: :is_complete?
+-
+  :attribute: :completed_on
+  :absence:
+    :message: "Completed on is not allowed unless is_complete is Yes"
+  :unless: :is_complete?
+-
+  :attribute: :completed_on
+  :past_date: true
+  :allow_blank: true
+
+-
+  :attribute: :document_version_id
+  :absence:
+    :message: "Document version is not allowed if consented is blank or Don't Know"
+  :if: :consent_unknown?
+-
+  :attribute: :document_version
+  :presence: true
+  :if: :document_version_id
+
+-
+  :attributes:
+  - :consented_on
+  - :completed_on
+  :complete_date: true
+  :allow_blank: true
+
+-
+  :attributes:
+  - :recruitment_priority
+  - :other_ineligible_reason
+  - :other_refusal_reason
+  - :reason_not_chosen
+  - :terminated_reason
+  - :reason_closed
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attributes:
+  - :consented
+  - :is_eligible
+  - :is_chosen
+  - :is_complete
+  - :terminated_participation
+  - :is_candidate
+  :inclusion:
+    :in: <%= YNDK.valid_values %>
+  :allow_nil: true
+
+-
+  :attributes:
+  - :use_smp_future_rsrch
+  - :use_smp_future_cancer_rsrch
+  - :use_smp_future_other_rsrch
+  - :share_smp_with_others
+  - :contact_for_related_study
+  - :provide_saliva_smp
+  - :receive_study_findings
+  :inclusion:
+    :in: <%= ADNA.valid_values %>
+  :allow_nil: true
+

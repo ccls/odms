@@ -1,0 +1,32 @@
+-
+  :attribute: :operational_event_type
+  :presence: true
+  :if: :operational_event_type_id
+
+-
+  :attribute: :study_subject
+  :presence: true
+  :if: :study_subject_id
+
+-
+  :attribute: :project
+  :presence: true
+  :if: :project_id
+
+-
+  :attribute: :occurred_at
+  :complete_date: true
+  :allow_nil: true
+
+-
+  :attribute: :description
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attribute: :event_notes
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+

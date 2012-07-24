@@ -9,9 +9,11 @@ class InstrumentType < ActiveRecord::Base
 	belongs_to :project
 	has_many :instrument_versions
 
-#	validates_presence_of   :project_id
-#		those in fixtures don't have projects
-	validates_presence_of   :project, :if => :project_id
+	validations_from_yaml_file
+
+##	validates_presence_of   :project_id
+##		those in fixtures don't have projects
+#	validates_presence_of   :project, :if => :project_id
 
 	#	Returns description
 	def to_s

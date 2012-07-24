@@ -1,0 +1,14 @@
+-
+  :attribute: :number
+  :presence: true
+  :uniqueness: true
+
+-
+  :attributes:
+  - :number
+  - :expiration
+  - :vendor
+  :length:
+    :maximum: 250
+  :allow_blank: true
+

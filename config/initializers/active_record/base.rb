@@ -1,5 +1,30 @@
 class ActiveRecord::Base
 
+	#
+	#	I have found that the validations are really cluttering up the models.
+	#	Moving them into a yml file and pulling them in like so seems to 
+	#	be working well.
+	#
+	#	Not all validations are going to work, but so far so good.
+	#
+	def self.validations_from_yaml_file
+		validation_file = File.join(Rails.root,"config/validations/#{self.to_s.underscore}.yml")
+		if File.exists?(validation_file)
+#			puts "Adding validations for #{self} from #{validation_file}"
+			h = YAML::load( ERB.new( IO.read( validation_file )).result)
+#			puts h.inspect
+
+			h.each do |validation|
+#				attributes = validation.delete(:attributes)
+				attributes=[validation.delete(:attributes), validation.delete(:attribute)
+					].compact.flatten
+				self.validates *attributes, validation
+			end
+#		else
+#			puts "YAML validations file not found so not using."
+		end
+	end
+
 	def self.validates_uniqueness_of_with_nilification(*args)
 		#	NOTE ANY field that has a unique index in the database NEEDS
 		#	to NOT be blank.  Multiple nils are acceptable in index, 

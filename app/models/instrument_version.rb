@@ -12,12 +12,14 @@ class InstrumentVersion < ActiveRecord::Base
 	belongs_to :instrument
 	has_many :interviews
 
-#	validates_presence_of :instrument_type_id
-#		those in fixtures do not have instrument types
-	validates_presence_of :instrument_type, :if => :instrument_type_id
+	validations_from_yaml_file
 
-	validates_complete_date_for :began_use_on, :ended_use_on, 
-		:allow_nil => true
+##	validates_presence_of :instrument_type_id
+##		those in fixtures do not have instrument types
+#	validates_presence_of :instrument_type, :if => :instrument_type_id
+#
+#	validates_complete_date_for :began_use_on, :ended_use_on, 
+#		:allow_nil => true
 
 	#	Returns description
 	def to_s

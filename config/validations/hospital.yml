@@ -1,0 +1,15 @@
+-
+  :attribute: :has_irb_waiver
+  :inclusion:
+    :in: [ true, false ]
+
+-
+  :attribute: :organization_id
+  :presence: true
+  :uniqueness: true
+  :allow_blank: true
+
+-
+  :attribute: :organization
+  :presence: true
+  :if: :organization_id

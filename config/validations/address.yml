@@ -1,0 +1,43 @@
+-
+  :attributes:
+  - :address_type_id
+  - :line_1
+  - :city
+  - :state
+  - :zip
+  :presence: true
+
+-
+  :attribute: :address_type
+  :presence: true
+  :if: :address_type_id
+
+-
+  :attributes:
+  - :line_1
+  - :line_2
+  - :unit
+  - :city
+  - :state
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attribute: :zip
+  :length:
+    :maximum: 10
+  :allow_blank: true
+
+#	#	this needs to be unique, but is only used during importing
+#	#	(doesn't need nilification as is numeric
+-
+  :attribute: :external_address_id
+  :uniqueness: true
+  :allow_blank: true
+
+#	validates_format_of :zip,
+#		:with => /\A\s*\d{5}(-)?(\d{4})?\s*\z/,
+#		:message => "Zip should be 12345, 123451234 or 12345-1234", 
+#		:allow_blank => true
+#

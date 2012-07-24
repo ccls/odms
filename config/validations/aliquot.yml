@@ -1,0 +1,14 @@
+-
+  :attributes:
+  - :sample
+  - :unit 
+  - :owner
+  :presence: true
+
+-
+  :attributes:
+  - :location
+  - :mass
+  :length:
+    :maximum: 250
+  :allow_blank: true

@@ -1,0 +1,28 @@
+#	
+##
+##	Eventually?
+##
+##	validates_presence_of :sample_id
+##	validates_presence_of :sample, :if => :sample_id
+##	validates_presence_of :source_org_id
+##	validates_presence_of :source_org, :if => :source_org_id
+##	validates_presence_of :destination_org_id
+##	validates_presence_of :destination_org, :if => :destination_org_id
+#
+-
+  :attribute: :status
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attribute: :notes
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+
+-
+  :attribute: :status
+  :inclusion:
+    :in: <%= SampleTransfer.statuses %>
+  :allow_blank: true

@@ -1,0 +1,22 @@
+-
+  :attribute: :name
+  :presence: true
+  :length:
+    :maximum: 250
+
+-
+  :attributes: :state_abbrev
+  :length:
+    :maximum: 2
+
+-
+  :attribute: :usc_code
+  :length:
+    :maximum: 2
+
+-
+  :attribute: :fips_code
+  :length:
+    :maximum: 5
+  :allow_nil: true
+

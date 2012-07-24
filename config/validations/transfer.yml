@@ -1,0 +1,28 @@
+-
+  :attributes:
+  - :aliquot_id
+  - :to_organization_id
+  - :from_organization_id
+  :presence: true
+
+-
+  :attribute: :aliquot
+  :presence: true
+  :if: :aliquot_id
+
+-
+  :attribute: :to_organization
+  :presence: true
+  :if: :to_organization_id
+
+-
+  :attribute: :from_organization
+  :presence: true
+  :if: :from_organization_id
+
+-
+  :attribute: :reason
+  :length:
+    :maximum: 250
+  :allow_blank: true
+

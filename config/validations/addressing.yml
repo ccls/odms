@@ -1,0 +1,54 @@
+-
+  :attribute: :notes
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+
+-
+  :attributes:
+  - :why_invalid
+  - :how_verified
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attribute: :why_invalid
+  :presence: true
+  :if: :is_not_valid?
+
+-
+  :attribute: :how_verified
+  :presence: true
+  :if: :is_verified?
+
+-
+  :attributes:
+  - :valid_from
+  - :valid_to
+  :complete_date: true
+  :allow_blank: true
+
+-
+  :attribute: :data_source_id
+  :presence: true
+
+-
+  :attribute: :data_source
+  :presence: true
+  :if: :data_source_id
+
+-
+  :attribute: :other_data_source
+  :presence: true
+  :if: :data_source_is_other?
+
+-
+  :attributes:
+  - :current_address
+  - :is_valid
+  - :address_at_diagnosis
+  :inclusion:
+    :in: <%= YNDK.valid_values %>
+  :allow_nil: true
+

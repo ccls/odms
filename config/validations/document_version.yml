@@ -1,0 +1,25 @@
+-
+  :attribute: :document_type_id
+  :presence: true
+
+- 
+  :attribute: :document_type
+  :presence: true
+  :if: :document_type_id
+
+-
+  :attributes:
+  - :title
+  - :description
+  - :indicator
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attributes:
+  - :began_use_on
+  - :ended_use_on
+  :complete_date: true
+  :allow_nil: true
+

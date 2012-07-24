@@ -3,21 +3,24 @@
 class OperationalEvent < ActiveRecord::Base
 
 	belongs_to :operational_event_type
-#	validates_presence_of :operational_event_type_id
-	validates_presence_of :operational_event_type, :if => :operational_event_type_id
+
+	validations_from_yaml_file
+
+##	validates_presence_of :operational_event_type_id
+#	validates_presence_of :operational_event_type, :if => :operational_event_type_id
 
 	belongs_to :study_subject
-#	validates_presence_of :study_subject_id
-	validates_presence_of :study_subject, :if => :study_subject_id
+##	validates_presence_of :study_subject_id
+#	validates_presence_of :study_subject, :if => :study_subject_id
 	attr_protected :study_subject_id, :study_subject
 
 	belongs_to :project
-#	validates_presence_of :project_id
-	validates_presence_of :project, :if => :project_id
+##	validates_presence_of :project_id
+#	validates_presence_of :project, :if => :project_id
 
-	validates_complete_date_for :occurred_at, :allow_nil => true
-	validates_length_of :description, :maximum => 250, :allow_blank => true
-	validates_length_of :event_notes, :maximum => 65000, :allow_blank => true
+#	validates_complete_date_for :occurred_at, :allow_nil => true
+#	validates_length_of :description, :maximum => 250, :allow_blank => true
+#	validates_length_of :event_notes, :maximum => 65000, :allow_blank => true
 
 	#	Returns description
 	def to_s

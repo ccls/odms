@@ -1,0 +1,18 @@
+-
+  :attribute: :notes_for_interviewer
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+
+-
+  :attribute: :status
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attributes:
+  - :sent_on
+  - :returned_on
+  :complete_date: true
+  :allow_blank: true
