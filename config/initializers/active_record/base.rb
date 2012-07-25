@@ -86,8 +86,11 @@ class ActiveRecord::Base
 #
 #				@@acts_like_a_hash_memory[key] ||=
 				self.acts_like_a_hash_memory[key.downcase.to_s] ||=
-					where("#{self.acts_like_a_hash_options[:key]} LIKE ?", key.to_s).first
+					where("`#{self.acts_like_a_hash_options[:key]}` LIKE ?", key.to_s).first
 #	sqlite is case sensitive, but LIKE desensitizes it
+#	mysql DOES NOT LIKE the LIKE.  Actually seems to not like
+#		the unquoted key???? so I quoted it with ``
+#				self.acts_like_a_hash_memory[key.downcase.to_s] ||=
 #					where(self.acts_like_a_hash_options[:key] => key.to_s).first
 			end
 
