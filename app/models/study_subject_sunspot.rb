@@ -26,7 +26,11 @@ searchable do
 	# sampleids
 	# Phone numbers
 #	string :biospecimens, :multiple => true
-end
+end if Sunspot::Rails::Server.new.running?
+#
+#	This condition is temporary, but does mean
+#	that the server must be started first.
+#
 
 end	#	class_eval
 end	#	included
