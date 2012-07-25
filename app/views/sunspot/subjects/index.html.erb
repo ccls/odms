@@ -1,4 +1,4 @@
-<div>
+<div id='refine'>
 <%= form_tag( sunspot_subjects_path, :method => :get ) do %>
 <%= submit_tag "Search", :name => nil %><br/>
 <%= text_field_tag :q, params[:q] %><br/>
@@ -18,13 +18,13 @@
    <% end -%><%# @search.facets.each do |facet| -%>
   </div><!-- class='facets' -->
 <% end %>
-<%= link_to 'Download this as CSV', params.merge(:format => :csv) %>
+<%= link_to 'Download ALL as CSV', params.merge(:format => :csv) %>
 </div>
 
 
 
 
-<div>
+<div id='results'>
 <% unless @search.results.empty? %>
 <table>
 <thead>

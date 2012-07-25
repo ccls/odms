@@ -54,7 +54,7 @@ searchable do
 end if Sunspot::Rails::Server.new.running?
 #
 #	This condition is temporary, but does mean
-#	that the server must be started first.
+#	that the server must be started FIRST.
 #
 
 

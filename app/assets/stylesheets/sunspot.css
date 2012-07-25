@@ -1,5 +1,6 @@
 body {
-	width: 100%;
+//	width: 100%;
+	min-width: 100%;
 	padding:0;
 	margin:0;
 }
@@ -35,7 +36,8 @@ div#logo h2 {
 	padding: 0;
 	margin: auto 0px;
 	display:table;
-	width: 100%;
+//	width: 100%;
+	min-width: 100%;
 }
 
 #footer {
@@ -87,6 +89,7 @@ table {
 	border-collapse:collapse; 
 */
 /* key to having table row border */
+/*
 #results_table {
 	vertical-align:top;
 	width:100%;
@@ -98,9 +101,11 @@ table {
 	border: 1px solid #EEE;
 	display:table-row;
 }
+*/
 #refine {
-	width: 30%;
-	display:table-cell;
+//	width: 30%;
+	width: 200px;
+//	display:table-cell;
 	border-right: 2px solid silver;
 	padding: 0 10px;
 }
@@ -150,7 +155,7 @@ table {
 }
 #results {
 	padding: 0 10px;
-	display:table-cell;
+//	display:table-cell;
 	background-color: #FFF;
 }
 #filters {

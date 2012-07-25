@@ -1,6 +1,27 @@
 class Sunspot::SubjectsController < SunspotController
 
 	before_filter :may_administrate_required
+	before_filter :search_method_defined_required
+#	before_filter :sunspot_running_required
+#
+#	def sunspot_running_required
+#		#	This seems excessive.  Better to let crash and deal with that.
+#		Sunspot::Rails::Server.new.running? ||
+#			access_denied("Sunspot server not running!", root_path)
+#	end
+
+	def search_method_defined_required
+#undefined method `search' for #<Class:0x0000010117da70>
+#		StudySubject.method_exists?('search') ||
+#undefined method `method_exists?' for #<Class:0x0000010117da70>
+#	interesting.  method_exists? works in the console.
+#
+#	This is effectively caused by me not calling searchable
+#	if the sunspot server isn't running as would fail then.
+#
+		StudySubject.methods.include?(:search) ||
+			access_denied("Sunspot server probably wasn't started first!", root_path)
+	end
 
 	def index
 		@search = StudySubject.search do
