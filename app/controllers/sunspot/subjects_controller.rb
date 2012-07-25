@@ -1,9 +1,10 @@
 class Sunspot::SubjectsController < SunspotController
-#	skip_before_filter :login_required
+
 	before_filter :may_administrate_required
+
 	def index
 		@search = StudySubject.search do
-			keywords params[:q]
+			keywords params[:q]	#	searches names and all the id numbers
 #	date :reference_date
 #	date :dob
 #	date :died_on
@@ -48,9 +49,9 @@ class Sunspot::SubjectsController < SunspotController
 			end
 			paginate :page => params[:page] 
 		end
-#	rescue Errno::ECONNREFUSED
-#		flash[:error] = "Solr seems to be down for the moment."
-#		redirect_to root_path
+	rescue Errno::ECONNREFUSED
+		flash[:error] = "Solr seems to be down for the moment."
+		redirect_to root_path
 	end
 
 protected
