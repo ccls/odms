@@ -15,16 +15,17 @@ searchable do
 	string :vital_status
 	string :case_control_type
 	date :reference_date
-	string :gender
+	string :sex
 	date :dob
 	date :died_on
 	string :phase
-	integer :birth_year
+	integer :birth_year       #	actual birth_year attribute or parse year from dob???
 	# fields for text searching
 	# ALL ids and names
 	# enrolled projects
 	# sampleids
 	# Phone numbers
+#	string :biospecimens, :multiple => true
 end
 
 end	#	class_eval

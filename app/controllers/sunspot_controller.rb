@@ -1,0 +1,2 @@
+class SunspotController < ApplicationController
+end

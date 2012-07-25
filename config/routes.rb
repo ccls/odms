@@ -273,6 +273,10 @@ Odms::Application.routes.draw do
 	match 'study_subject_reports/:action(.:format)' => 'study_subject_reports'
 	match 'charts/:action.:format' => 'charts'
 
+	namespace :sunspot do
+		resources :subjects, :only => :index
+	end
+
 #	namespace :api do
 #		resources :study_subjects, :only => :index
 #		resources :patients,       :only => :index
