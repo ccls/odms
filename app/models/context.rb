@@ -5,13 +5,9 @@ class Context < ActiveRecord::Base
 	acts_as_list
 	acts_like_a_hash
 
-
-
 #	This should probably go away as I do not think that it is ever used
 #	Not really sure if it ever was.
 	has_many :units
-
-
 
 #	has_many :people
 
@@ -25,7 +21,7 @@ class Context < ActiveRecord::Base
 	has_many :sample_temperatures, :through => :context_contextables, 
 		:source => :contextable, :source_type => 'SampleTemperature'
 
-	validates_length_of :notes, :maximum => 65000, :allow_blank => true
+	validations_from_yaml_file
 
 	#	Returns description
 	def to_s

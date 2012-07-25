@@ -7,15 +7,7 @@ class CandidateControl < ActiveRecord::Base
 
 	has_many :odms_exceptions, :as => :exceptable
 
-	validates_inclusion_of :reject_candidate, :in => [true, false]
-	validates_presence_of  :rejection_reason, :if => :reject_candidate
-	validates_length_of    :related_patid, :is => 4, :allow_blank => true
-
-	validates_length_of    :rejection_reason, 
-			:maximum => 250, :allow_blank => true
-
-	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
-			:in => YNDK.valid_values,  :allow_blank => true
+	validations_from_yaml_file
 
 	scope :rejected,   where('reject_candidate = true')
 	scope :unrejected, where('reject_candidate = false or reject_candidate IS NULL')

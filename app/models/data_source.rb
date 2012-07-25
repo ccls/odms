@@ -4,8 +4,7 @@ class DataSource < ActiveRecord::Base
 	acts_as_list
 	acts_like_a_hash
 
-	validates_length_of :data_origin, :other_organization, :other_person,
-		:maximum => 250, :allow_blank => true
+	validations_from_yaml_file
 
 	#	Returns description
 	def to_s

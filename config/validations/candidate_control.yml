@@ -1,0 +1,30 @@
+-
+  :attribute: :reject_candidate
+  :inclusion:
+    :in: <%= [true, false] %>
+
+-
+  :attribute: :rejection_reason
+  :presence: true
+  :if: :reject_candidate
+
+-
+  :attribute: :related_patid
+  :length:
+    :is: 4
+  :allow_blank: true
+
+-
+  :attribute: :rejection_reason
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attributes:
+  - :mom_is_biomom
+  - :dad_is_biodad
+  :inclusion:
+    :in: <%= YNDK.valid_values %>  
+  :allow_blank: true
+
