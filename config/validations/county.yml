@@ -6,6 +6,7 @@
 
 -
   :attributes: :state_abbrev
+  :presence: true
   :length:
     :maximum: 2
 
