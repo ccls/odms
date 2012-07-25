@@ -42,6 +42,7 @@ class StudySubject < ActiveRecord::Base
 	include StudySubjectIcfMasterId
 	include StudySubjectGiftCards
 	include StudySubjectSamples
+	include StudySubjectSunspot
 
 ##################################################
 #
