@@ -3,6 +3,7 @@ class Sunspot::SubjectsController < SunspotController
 	before_filter :may_administrate_required
 	def index
 		@search = StudySubject.search do
+			keywords params[:q]
 #	date :reference_date
 #	date :dob
 #	date :died_on

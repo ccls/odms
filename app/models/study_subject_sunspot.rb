@@ -27,6 +27,30 @@ searchable do
 	# sampleids
 	# Phone numbers
 #	string :biospecimens, :multiple => true
+
+
+	text :first_name
+	text :middle_name
+	text :maiden_name
+	text :last_name
+	text :mother_first_name
+	text :mother_middle_name
+	text :mother_maiden_name
+	text :mother_last_name
+	text :father_first_name
+	text :father_middle_name
+	text :father_last_name
+	text :guardian_first_name
+	text :guardian_middle_name
+	text :guardian_last_name
+	text :studyid
+	text :icf_master_id
+	text :childid
+	text :patid
+	text :hospital_no
+	text :state_id_no
+	text :state_registrar_no
+	text :local_registrar_no
 end if Sunspot::Rails::Server.new.running?
 #
 #	This condition is temporary, but does mean
@@ -45,6 +69,10 @@ end if Sunspot::Rails::Server.new.running?
 #  def reindex_parent!
 #    parent.index
 #  end
+
+
+#	bundle exec rake sunspot:solr:start # or sunspot:solr:run to start in foreground
+
 
 end	#	class_eval
 end	#	included
