@@ -86,7 +86,9 @@ class ActiveRecord::Base
 #
 #				@@acts_like_a_hash_memory[key] ||=
 				self.acts_like_a_hash_memory[key.downcase.to_s] ||=
-					where(self.acts_like_a_hash_options[:key] => key.to_s).first
+					where("#{self.acts_like_a_hash_options[:key]} LIKE ?", key.to_s).first
+#	sqlite is case sensitive, but LIKE desensitizes it
+#					where(self.acts_like_a_hash_options[:key] => key.to_s).first
 			end
 
 #NameError: undefined local variable or method `options' for #<Class:0x107229540>
