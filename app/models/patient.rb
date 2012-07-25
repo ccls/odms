@@ -9,31 +9,33 @@ class Patient < ActiveRecord::Base
 
 	attr_protected( :study_subject_id, :study_subject )
 
-	validates_presence_of :admit_date, :organization_id, :diagnosis_id, :hospital_no
-	validates_presence_of :other_diagnosis, :if => :diagnosis_is_other?
+	validations_from_yaml_file
 
-	validates_length_of   :hospital_no, :maximum => 25, :allow_blank => true
-	validates_uniqueness_of :hospital_no, :scope => :organization_id
-	validates_past_date_for :admit_date, :diagnosis_date, :treatment_began_on
+#	validates_presence_of :admit_date, :organization_id, :diagnosis_id, :hospital_no
+#	validates_presence_of :other_diagnosis, :if => :diagnosis_is_other?
+#
+#	validates_length_of   :hospital_no, :maximum => 25, :allow_blank => true
+#	validates_uniqueness_of :hospital_no, :scope => :organization_id
+#	validates_past_date_for :admit_date, :diagnosis_date, :treatment_began_on
 	validate :admit_date_is_on_or_after_dob
 	validate :diagnosis_date_is_on_or_after_dob
 	validate :treatment_began_on_is_on_or_after_diagnosis_date
 	validate :treatment_began_on_is_on_or_after_admit_date
 	validate :subject_is_case
-
-	validates_complete_date_for :admit_date, :diagnosis_date, :treatment_began_on, 
-		:allow_blank => true
-
-	validates_length_of :raf_zip, :maximum => 10, :allow_blank => true
+#
+#	validates_complete_date_for :admit_date, :diagnosis_date, :treatment_began_on, 
+#		:allow_blank => true
+#
+#	validates_length_of :raf_zip, :maximum => 10, :allow_blank => true
 
 	validates_format_of :raf_zip,
 		:with => /\A\s*\d{5}(-)?(\d{4})?\s*\z/,
 		:message => "RAF zip should be formatted 12345 or 12345-1234",
 		:allow_blank => true
 
-	validates_inclusion_of :was_under_15_at_dx, :was_previously_treated,
-		:was_ca_resident_at_diagnosis,
-			:in => YNDK.valid_values, :allow_nil => true
+#	validates_inclusion_of :was_under_15_at_dx, :was_previously_treated,
+#		:was_ca_resident_at_diagnosis,
+#			:in => YNDK.valid_values, :allow_nil => true
 
 	#	Would it be better to do this before_validation?
 	before_save :format_raf_zip, :if => :raf_zip_changed?

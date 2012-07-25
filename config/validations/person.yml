@@ -1,0 +1,14 @@
+-
+  :attribute: :last_name
+  :presence: true
+
+-
+  :attributes:
+  - :first_name
+  - :last_name
+  - :honorific
+  - :email
+  :length:
+    :maximum: 250
+  :allow_blank: true
+

@@ -1,0 +1,14 @@
+
+-
+  :attributes:
+  - :began_on
+  - :ended_on
+  :complete_date: true
+  :allow_nil: true
+
+-
+  :attributes: :eligibility_criteria
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+

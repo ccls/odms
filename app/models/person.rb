@@ -6,9 +6,11 @@ class Person < ActiveRecord::Base
 	has_many :interviews, :foreign_key => 'interviewer_id'
 	has_many :organizations
 
-	validates_presence_of :last_name
-	validates_length_of   :first_name, :last_name, :honorific, :email,
-		:maximum => 250, :allow_blank => true
+	validations_from_yaml_file
+
+#	validates_presence_of :last_name
+#	validates_length_of   :first_name, :last_name, :honorific, :email,
+#		:maximum => 250, :allow_blank => true
 
 	scope :interviewers, where( :person_type_id => 3 )
 

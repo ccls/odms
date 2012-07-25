@@ -11,8 +11,8 @@ base.class_eval do
 
 	belongs_to :subject_type
 
-	validates_presence_of :subject_type_id
-	validates_presence_of :subject_type, :if => :subject_type_id
+#	validates_presence_of :subject_type_id
+#	validates_presence_of :subject_type, :if => :subject_type_id
 
 	attr_protected :subject_type_id
 

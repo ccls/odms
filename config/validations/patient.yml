@@ -1,0 +1,62 @@
+-
+  :attributes:
+  - :admit_date
+  - :organization_id
+  - :diagnosis_id
+  - :hospital_no
+  :presence: true
+
+-
+  :attribute: :other_diagnosis
+  :presence: true
+  :if: :diagnosis_is_other?
+
+-
+  :attribute: :hospital_no
+  :length:
+    :maximum: 25
+  :allow_blank: true
+  :uniqueness:
+    :scope: :organization_id
+
+-
+  :attributes:
+  - :admit_date
+  - :diagnosis_date
+  - :treatment_began_on
+  :past_date: true
+
+#	validate :admit_date_is_on_or_after_dob
+#	validate :diagnosis_date_is_on_or_after_dob
+#	validate :treatment_began_on_is_on_or_after_diagnosis_date
+#	validate :treatment_began_on_is_on_or_after_admit_date
+#	validate :subject_is_case
+
+-
+  :attributes:
+  - :admit_date
+  - :diagnosis_date
+  - :treatment_began_on
+  :complete_date: true
+  :allow_blank: true
+
+-
+  :attribute: :raf_zip
+  :length:
+    :maximum: 10
+  :allow_blank: true
+
+#	validates_format_of :raf_zip,
+#		:with => /\A\s*\d{5}(-)?(\d{4})?\s*\z/,
+#		:message => "RAF zip should be formatted 12345 or 12345-1234",
+#		:allow_blank => true
+
+-
+  :attributes:
+  - :was_under_15_at_dx
+  - :was_previously_treated
+  - :was_ca_resident_at_diagnosis
+  :inclusion:
+    :in: <%= YNDK.valid_values %>
+  :allow_nil: true
+

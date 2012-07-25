@@ -14,8 +14,10 @@ class Project < ActiveRecord::Base
 	has_many :study_subjects, :through => :enrollments
 	has_many :instruments
 
-	validates_complete_date_for :began_on, :ended_on, :allow_nil => true
-	validates_length_of :eligibility_criteria, :maximum => 65000, :allow_blank => true
+	validations_from_yaml_file
+
+#	validates_complete_date_for :began_on, :ended_on, :allow_nil => true
+#	validates_length_of :eligibility_criteria, :maximum => 65000, :allow_blank => true
 
 #	TODO perhaps move this into study_subject where is clearly belongs, but will need a RIGHT JOIN or something?
 	#	Returns all projects for which the study_subject

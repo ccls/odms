@@ -1,0 +1,249 @@
+-
+  :attribute: :sex
+  :presence:
+    :message: "Sex has not been chosen"
+  :inclusion:
+    :in: <%= %w( M F DK ) %>
+  :allow_blank: true
+
+-
+  :attribute: :do_not_contact
+  :inclusion:
+    :in: <%= [ true, false ] %>
+
+#	validates_complete_date_for :reference_date, :allow_nil => true
+#	validates_complete_date_for :died_on, :allow_blank => true
+#	allow_nil or allow_blank.  Difference here?
+-
+  :attributes: 
+  - :reference_date
+  - :died_on
+  :complete_date: true
+  :allow_blank: true
+
+#	#
+#	#	patid IS NOT UNIQUE as will be shared by controls
+#	#	childid and studyid should be
+#	#
+#	#	childid is numeric, so doesn't need to be nilified, but won't hurt
+#	#
+#	validates_uniqueness_of_with_nilification :ssn, :state_id_no,
+#		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
+#		:accession_no, :idno_wiemels, :childid, :studyid, :subjectid
+
+-
+  :attribute: :case_control_type
+  :length:
+    :is: 1
+  :allow_nil: true
+
+-
+  :attribute: :ssn
+  :length:
+    :maximum: 250
+  :allow_nil: true
+
+#	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
+#		:message => "SSN should be formatted ###-##-####", :allow_nil => true
+
+-
+  :attribute: :birth_year
+  :length:
+    :maximum: 4
+  :allow_blank: true
+
+-
+  :attributes: :newid
+  :length:
+    :maximum: 6
+  :allow_blank: true
+
+-
+  :attributes:
+  - :childidwho
+  - :idno_wiemels
+  :length:
+    :maximum: 10
+  :allow_blank: true
+
+-
+  :attributes:
+  - :lab_no_wiemels
+  - :accession_no
+  :length:
+    :maximum: 25
+  :allow_blank: true
+
+-
+  :attribute: :gbid
+  :length:
+    :maximum: 26
+  :allow_blank: true
+
+-
+  :attributes:
+  - :other_mother_race
+  - :other_father_race
+  - :state_id_no
+  - :state_registrar_no
+  - :local_registrar_no
+  - :lab_no
+  - :related_childid
+  - :related_case_childid
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attributes:
+  - :mom_is_biomom
+  - :dad_is_biodad
+  :inclusion:
+    :in: <%= YNDK.valid_values %>
+  :allow_nil: true
+
+
+#module StudySubjectGuardianRelationship
+#
+#	validates_presence_of :other_guardian_relationship,
+#		:message => "You must specify a relationship with 'other relationship' is selected",
+#		:if => :guardian_relationship_is_other?
+#
+#	validates_length_of :other_guardian_relationship,
+#		:maximum => 250, :allow_blank => true
+#
+-
+  :attribute: :other_guardian_relationship
+  :presence:
+    :message: "You must specify a relationship with 'other relationship' is selected"
+  :if: :guardian_relationship_is_other?
+-
+  :attribute: :other_guardian_relationship
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+
+
+#module StudySubjectIcfMasterId
+#
+#	validates_uniqueness_of :icf_master_id, :allow_nil => true
+#
+#	validates_length_of :icf_master_id, 
+#			:maximum => 9, :allow_blank => true
+#
+#	icf_master_id isn't on a form, but probably should be "nilificated"
+#	nil and blank?  hmm
+-
+  :attribute: :icf_master_id
+  :uniqueness: true
+  :allow_nil: true
+  :length:
+    :maximum: 9
+  :allow_blank: true
+
+
+
+
+#module StudySubjectNames
+#
+#	validates_length_of :first_name, :last_name, :middle_name, :maiden_name, 
+#		:father_first_name, :father_middle_name, :father_last_name,
+#		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
+#		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
+#			:maximum => 250, :allow_blank => true
+#
+#	validates_length_of :generational_suffix, :father_generational_suffix,
+#			:maximum => 10, :allow_blank => true
+#
+-
+  :attributes:
+  - :first_name
+  - :last_name
+  - :middle_name
+  - :maiden_name
+  - :father_first_name
+  - :father_middle_name
+  - :father_last_name
+  - :mother_first_name
+  - :mother_middle_name
+  - :mother_maiden_name
+  - :mother_last_name
+  - :guardian_first_name
+  - :guardian_middle_name
+  - :guardian_last_name
+  :length:
+    :maximum: 250
+  :allow_blank: true
+-
+  :attributes:
+  - :generational_suffix
+  - :father_generational_suffix
+  :length:
+    :maximum: 10
+  :allow_blank: true
+
+
+
+
+
+#module StudySubjectPii
+#
+-
+  :attribute: :dob
+  :presence: true
+  :unless: :is_mother?
+-
+  :attribute: :dob
+  :complete_date: true
+  :past_date: true
+  :allow_blank: true
+
+#	validates_uniqueness_of_with_nilification :email
+#
+##	:with => /
+##		\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*
+##		[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+
+##		@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
+##	using Regexp.new instead so that I can split it on several lines
+##	The trailing 'true' makes it case insensitive
+#
+#	validates_format_of :email,
+#	  :with => Regexp.new(
+#			'\A([-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+\.)*' <<
+#			'[-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+' <<
+#			'@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z', true), 
+#		:allow_blank => true
+#
+-
+  :attribute: :birth_city
+  :presence: true
+  :if: :birth_country_is_united_states?
+-
+  :attribute: :birth_state
+  :presence: true
+  :if: :birth_country_is_united_states?
+-
+  :attributes:
+  - :birth_city
+  - :birth_county
+  - :birth_state
+  - :birth_country
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+
+
+
+
+#module StudySubjectSubjectType
+#
+-
+  :attribute: :subject_type_id
+  :presence: true
+-
+  :attribute: :subject_type
+  :presence: true
+  :if: :subject_type_id
+

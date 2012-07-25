@@ -44,19 +44,21 @@ class StudySubject < ActiveRecord::Base
 	include StudySubjectSamples
 	include StudySubjectSunspot
 
-##################################################
-#
-#	Begin validations
-#
-	validates_presence_of  :sex,
-		:message => "Sex has not been chosen"
-	validates_inclusion_of :sex, :in => %w( M F DK ), :allow_blank => true
-#	validates_inclusion_of :sex, :in => valid_sex_values, :allow_blank => true
-	validates_inclusion_of :do_not_contact, :in => [ true, false ]
+	validations_from_yaml_file
 
-	validates_complete_date_for :reference_date, :allow_nil => true
-
-	validates_complete_date_for :died_on, :allow_blank => true
+###################################################
+##
+##	Begin validations
+##
+#	validates_presence_of  :sex,
+#		:message => "Sex has not been chosen"
+#	validates_inclusion_of :sex, :in => %w( M F DK ), :allow_blank => true
+##	validates_inclusion_of :sex, :in => valid_sex_values, :allow_blank => true
+#	validates_inclusion_of :do_not_contact, :in => [ true, false ]
+#
+#	validates_complete_date_for :reference_date, :allow_nil => true
+#
+#	validates_complete_date_for :died_on, :allow_blank => true
 
 	#
 	#	patid IS NOT UNIQUE as will be shared by controls
@@ -68,33 +70,33 @@ class StudySubject < ActiveRecord::Base
 		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
 		:accession_no, :idno_wiemels, :childid, :studyid, :subjectid
 
-	validates_length_of :case_control_type, :is => 1, :allow_nil => true
-
-	validates_length_of     :ssn, :maximum => 250, :allow_nil => true
+#	validates_length_of :case_control_type, :is => 1, :allow_nil => true
+#
+#	validates_length_of     :ssn, :maximum => 250, :allow_nil => true
 	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
 		:message => "SSN should be formatted ###-##-####", :allow_nil => true
-
- 	validates_length_of :birth_year, 
-			:maximum => 4, :allow_blank => true
-	validates_length_of :newid, 
-			:maximum => 6, :allow_blank => true
-	validates_length_of :childidwho, :idno_wiemels, 
-			:maximum => 10, :allow_blank => true
-	validates_length_of :lab_no_wiemels, :accession_no, 
-			:maximum => 25, :allow_blank => true
-	validates_length_of :gbid, 
-			:maximum => 26, :allow_blank => true
-	validates_length_of :other_mother_race, :other_father_race,
-		:state_id_no, :state_registrar_no, :local_registrar_no,
-		:lab_no, :related_childid, :related_case_childid,
-			:maximum => 250, :allow_blank => true
-
-	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
-			:in => YNDK.valid_values, :allow_nil => true
 #
-#	End validations
+# 	validates_length_of :birth_year, 
+#			:maximum => 4, :allow_blank => true
+#	validates_length_of :newid, 
+#			:maximum => 6, :allow_blank => true
+#	validates_length_of :childidwho, :idno_wiemels, 
+#			:maximum => 10, :allow_blank => true
+#	validates_length_of :lab_no_wiemels, :accession_no, 
+#			:maximum => 25, :allow_blank => true
+#	validates_length_of :gbid, 
+#			:maximum => 26, :allow_blank => true
+#	validates_length_of :other_mother_race, :other_father_race,
+#		:state_id_no, :state_registrar_no, :local_registrar_no,
+#		:lab_no, :related_childid, :related_case_childid,
+#			:maximum => 250, :allow_blank => true
 #
-##################################################
+#	validates_inclusion_of :mom_is_biomom, :dad_is_biodad,
+#			:in => YNDK.valid_values, :allow_nil => true
+##
+##	End validations
+##
+###################################################
 
 	after_initialize :set_default_phase, :if => :new_record?
 	def set_default_phase

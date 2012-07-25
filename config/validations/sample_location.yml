@@ -1,0 +1,14 @@
+-
+  :attribute: :organization_id
+  :presence: true
+  :uniqueness: true
+  :allow_blank: true
+
+#	not sure if allow blank serves the purpose it did before
+#	to stop multiple error messages
+
+-
+  :attribute: :organization
+  :presence: true
+  :if: :organization_id
+

@@ -11,10 +11,10 @@ base.class_eval do
 
 	attr_protected :icf_master_id
 
-	validates_uniqueness_of :icf_master_id, :allow_nil => true
-
-	validates_length_of :icf_master_id, 
-			:maximum => 9, :allow_blank => true
+#	validates_uniqueness_of :icf_master_id, :allow_nil => true
+#
+#	validates_length_of :icf_master_id, 
+#			:maximum => 9, :allow_blank => true
 
 	#	We probably don't want to auto assign icf_master_ids 
 	#		as it would add icf_master_ids to the old data.
