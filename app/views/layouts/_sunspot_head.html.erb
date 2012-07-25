@@ -1,0 +1,29 @@
+<head>
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<%# explicity adding root_url to href making an absolute path
+	actually allows the cal favicon to load %>
+<link rel="shortcut icon" href="<%=root_url%><%=image_path('favicon.ico')%>" />
+<title><%= @page_title || "CCLS ODMS" -%></title>
+<%#= stylesheet_link_tag 'application','base/jquery.ui.all.css' %>
+<%= stylesheet_link_tag 'sunspot','base/jquery.ui.all.css' %>
+<%= javascript_include_tag 'jquery','jquery-ui','jquery-ui-timepicker-addon','application' %>
+<%= yield :head %>
+<% unless Rails.env.test? %>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', <%="'UA-17648061-#{(Rails.env=='production')?'12':'13'}'"-%>]);
+	_gaq.push(['_trackPageview']);
+
+	(function(){
+		var ga = document.createElement('script'); 
+		ga.type = 'text/javascript'; 
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 
+			'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; 
+		s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+<% end %>
+</head>

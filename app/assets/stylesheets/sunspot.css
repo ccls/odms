@@ -1,0 +1,68 @@
+body {
+	width: 100%;
+	padding:0;
+	margin:0;
+}
+div#header {
+	margin:0;
+	padding:0;
+	background-color: #6A7780;
+	height: auto;
+}
+div#header div#header_top {
+	height: 50px;
+	display:block;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	clear:both;
+}
+div#logo {
+	float:left;
+	padding-left: 10px;
+	font-family: Times New Roman,LeagueGothicRegular,helvetica,arial,sans-serif;
+}
+div#logo h2 {
+	font-size: 30px;
+	margin: 10px;
+	margin-top: 3px;
+	margin-bottom: 0px;
+	color:white;
+	text-shadow: #000 0 2px 3px;
+	display:inline-block;
+}
+#container {
+	padding: 0;
+	margin: auto 0px;
+	display:table;
+	width: 100%;
+}
+
+#footer {
+	clear:both;
+	padding-top: 1ex;
+	padding-bottom: 1ex;
+	text-align:center;
+	font-size:8pt;
+	line-height:8pt;
+	background-color: #EEE;
+	color: gray;
+}
+
+
+.table {
+	/* this holds the table-row open, otherwise shrinks to whatever */
+	display:table;
+	width:100%;
+}
+.table .row {
+	display:table-row;
+}
+.table .row > div {
+	display:table-cell;
+	vertical-align: top;
+	text-align: center;
+}
+table {
+	width: 100%;
+}
