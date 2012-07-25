@@ -9,15 +9,6 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-#	validates_length_of :first_name, :last_name, :middle_name, :maiden_name, 
-#		:father_first_name, :father_middle_name, :father_last_name,
-#		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
-#		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
-#			:maximum => 250, :allow_blank => true
-#
-#	validates_length_of :generational_suffix, :father_generational_suffix,
-#			:maximum => 10, :allow_blank => true
-
 	#	TODO include maiden_name just in case is mother???
 	def childs_names
 		[first_name, middle_name, last_name ]

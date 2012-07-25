@@ -23,24 +23,6 @@ class Addressing < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-#	validates_length_of   :notes,
-#		:maximum => 65000, :allow_blank => true
-#	validates_length_of   :why_invalid, :how_verified, 
-#		:maximum => 250, :allow_blank => true
-#	validates_presence_of :why_invalid,  :if => :is_not_valid?
-#	validates_presence_of :how_verified, :if => :is_verified?
-#
-#	validates_complete_date_for :valid_from, :valid_to,
-#		:allow_blank => true
-#
-#	validates_presence_of :data_source_id
-#	validates_presence_of :data_source, :if => :data_source_id
-#
-#	validates_presence_of :other_data_source, :if => :data_source_is_other?
-#
-#	validates_inclusion_of :current_address, :is_valid, :address_at_diagnosis,
-#			:in => YNDK.valid_values, :allow_nil => true
-
 	scope :current,  where('current_address IS NOT NULL AND current_address != 2')
 	scope :historic, where('current_address IS NULL OR current_address = 2')
 

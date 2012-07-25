@@ -22,39 +22,6 @@ class Interview < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-#	validates_presence_of :address_id
-#	validates_presence_of :address, :if => :address_id
-
-#	validates_presence_of :instrument_version_id
-#	validates_presence_of :instrument_version, :if => :instrument_version_id
-
-#	validates_presence_of :interview_method_id
-#	validates_presence_of :interview_method, :if => :interview_method_id
-
-#	validates_presence_of :interviewer_id
-#	validates_presence_of :interviewer, :if => :interviewer_id
-
-#	validates_presence_of :language_id
-#	validates_presence_of :language, :if => :language_id
-
-#	validates_presence_of :study_subject_id
-#	validates_presence_of :study_subject, :if => :study_subject_id
-
-#	validates_complete_date_for :began_at, :ended_at, :intro_letter_sent_on, 
-#		:allow_nil => true
-
-#	validates_length_of :other_subject_relationship, 
-#		:respondent_first_name, :respondent_last_name,
-#			:maximum => 250, :allow_blank => true
-
-#	validates_presence_of :other_subject_relationship,
-#		:message => "You must specify a relationship with 'other relationship' is selected",
-#			:if => :subject_relationship_is_other?
-#
-#	validates_absence_of :other_subject_relationship,
-#		:message => "Other Subject Relationship not allowed",
-#			:if => :subject_relationship_id_blank?
-
 	#	Returns string containing respondent's first and last name
 	def respondent_full_name
 		[respondent_first_name, respondent_last_name].compact.join(' ')

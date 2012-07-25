@@ -15,27 +15,10 @@ class PhoneNumber < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-#	validates_presence_of :phone_number
-#
-#	validates_presence_of :data_source_id
-#	validates_presence_of :data_source, :if => :data_source_id
-#
-#	validates_presence_of :phone_type_id
-#	validates_presence_of :phone_type, :if => :phone_type_id
-#
-#	validates_presence_of :why_invalid,       :if => :is_not_valid?
-#	validates_presence_of :how_verified,      :if => :is_verified?
-#	validates_presence_of :other_data_source, :if => :data_source_is_other?
-#	validates_length_of   :why_invalid,  :how_verified, 
-#		:maximum => 250, :allow_blank => true
-
 	#	Want to ensure contains 10 digits.
 	#	I'm kinda surprised that this regex works.
 	validates_format_of   :phone_number, :with => /\A(\D*\d\D*){10}\z/,
 		:allow_blank => true
-
-#	validates_inclusion_of :current_phone, :is_valid,
-#			:in => YNDK.valid_values, :allow_nil => true
 
 #	The table names isn't absolutely necessary, but if used in a join
 #	the field name could be ambiguous and would fail.

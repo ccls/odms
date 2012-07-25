@@ -10,12 +10,6 @@ class HomexOutcome < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-#	validates_uniqueness_of :study_subject_id, :allow_nil => true
-#	validates_presence_of   :sample_outcome_on,    :if => :sample_outcome_id?
-#	validates_presence_of   :interview_outcome_on, :if => :interview_outcome_id?
-#	validates_complete_date_for :interview_outcome_on, :allow_nil => true
-#	validates_complete_date_for :sample_outcome_on,    :allow_nil => true
-
 	before_save :create_interview_outcome_update,
 		:if => :interview_outcome_id_changed?
 
@@ -37,7 +31,6 @@ protected
 			else nil
 		end
 		unless operational_event_type.nil?
-#			if hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 			if hxe = study_subject.enrollments.where(
 					:project_id => Project['HomeExposures'].id).first
 				study_subject.operational_events.create!(
@@ -63,7 +56,6 @@ protected
 			else nil
 		end
 		unless operational_event_type.nil?
-#			if hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 			if hxe = study_subject.enrollments.where(
 					:project_id => Project['HomeExposures'].id).first
 				study_subject.operational_events.create!(

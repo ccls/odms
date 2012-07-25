@@ -15,13 +15,6 @@ base.class_eval do
 	delegate :is_other?, :to => :guardian_relationship, 
 		:allow_nil => true, :prefix => true 
 
-#	validates_presence_of :other_guardian_relationship,
-#		:message => "You must specify a relationship with 'other relationship' is selected",
-#		:if => :guardian_relationship_is_other?
-#
-#	validates_length_of :other_guardian_relationship,
-#		:maximum => 250, :allow_blank => true
-
 end	#	class_eval
 end	#	included
 end	#	StudySubjectGuardianRelationship
