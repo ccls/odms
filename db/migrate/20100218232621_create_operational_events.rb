@@ -10,9 +10,9 @@ class CreateOperationalEvents < ActiveRecord::Migration
 			t.text    :event_notes
 			t.timestamps
 		end
-		add_index :operational_events, :study_subject_id
-		add_index :operational_events, :project_id
-		add_index :operational_events, :operational_event_type_id
+		add_index :operational_events, :study_subject_id, :name => 'oe_ssi'
+		add_index :operational_events, :project_id, :name => 'oe_pi'
+		add_index :operational_events, :operational_event_type_id, :name => 'oe_oeti'
 	end
 
 	def self.down
