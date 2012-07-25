@@ -183,5 +183,12 @@ module ObjectExtension	#	:nodoc:
 		nil		#	or would self.to_s.namerize be better?
 	end
 
+
+	#	from CLIC code for sunspot facets
+	def html_friendly
+		self.to_s.downcase.gsub(/\W/,'_').gsub(/_+/,'_')
+	end
+
+
 end
 Object.send(:include, ObjectExtension)

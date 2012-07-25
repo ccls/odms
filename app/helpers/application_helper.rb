@@ -249,7 +249,13 @@ module ApplicationHelper
 	end
 
 	#	&uarr; and &darr;
-	def sort_link(column,text=nil)
+#	def sort_link(column,text=nil)
+	def sort_link(*args)
+		options = {
+			:image => true
+		}.merge(args.extract_options!)
+		column = args[0]
+		text = args[1]
 		#	make local copy so mods to muck up real params which
 		#	may still be references elsewhere.
 		local_params = params.dup
@@ -268,13 +274,13 @@ module ApplicationHelper
 		if local_params[:order] && local_params[:order] == order
 			classes.push('sorted')
 			arrow = if dir == 'desc'
-				if File.exists? sort_down_image
+				if File.exists?( sort_down_image ) && options[:image]
 					image_tag( File.basename(sort_down_image), :class => 'down arrow')
 				else
 					"<span class='down arrow'>&darr;</span>"
 				end
 			else
-				if File.exists? sort_up_image
+				if File.exists?( sort_up_image ) && options[:image]
 					image_tag( File.basename(sort_up_image), :class => 'up arrow')
 				else
 					"<span class='up arrow'>&uarr;</span>"

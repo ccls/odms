@@ -10,6 +10,7 @@ def self.included(base)
 base.class_eval do
 
 searchable do
+	integer :id	#	if find it odd that I must explicitly include id to order by it
 	# fields for faceting or explicit field searching
 	string :subject_type
 	string :vital_status
@@ -31,6 +32,19 @@ end if Sunspot::Rails::Server.new.running?
 #	This condition is temporary, but does mean
 #	that the server must be started first.
 #
+
+
+#
+#	Add something like ...
+#	to associations that contain indexed data?
+#
+#  belongs_to :parent
+#
+#  after_save :reindex_parent!
+#
+#  def reindex_parent!
+#    parent.index
+#  end
 
 end	#	class_eval
 end	#	included

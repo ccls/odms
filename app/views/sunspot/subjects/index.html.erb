@@ -1,21 +1,43 @@
 <div>
-Insert facet selector here
+<%= form_tag( sunspot_subjects_path, :method => :get ) do %>
+<%= submit_tag "Search", :name => nil %>
+
+  <div class='facets'>
+   <% @search.facets.each do |facet| -%>
+    <% next if facet.rows.empty? -%><%# don't show empty facets -%>
+
+    <%= facet_for(facet,
+       :multiselector => [:biospecimens,:genotypings].include?(facet.name),
+       :facet_counts  => true ).html_safe %>
+<%# 
+	multiselector is for when a single subject could have many
+	Either as an array in itself or perhaps some implementation
+		of a has_many for enrollments or something
+%>
+   <% end -%><%# @search.facets.each do |facet| -%>
+  </div><!-- class='facets' -->
+<% end %>
+<%= link_to 'Download this as CSV', params.merge(:format => :csv) %>
 </div>
+
+
+
+
 <div>
 <% unless @search.results.empty? %>
 <table>
 <thead>
 <tr>
-<th>id</th>
-<th>subject type</th>
-<th>vital status</th>
-<th>case control type</th>
-<th>reference_date</th>
-<th>sex</th>
-<th>dob</th>
-<th>died_on</th>
-<th>phase</th>
-<th>birth_year</th>
+<th><%= sort_link('id',:image => false) %></th>
+<th><%= sort_link('subject type',:image => false) %></th>
+<th><%= sort_link('vital status',:image => false) %></th>
+<th><%= sort_link('case control type',:image => false) %></th>
+<th><%= sort_link('reference date',:image => false) %></th>
+<th><%= sort_link('sex',:image => false) %></th>
+<th><%= sort_link('dob',:image => false) %></th>
+<th><%= sort_link('died on',:image => false) %></th>
+<th><%= sort_link('phase',:image => false) %></th>
+<th><%= sort_link('birth year',:image => false) %></th>
 </tr>
 </thead>
 <tbody>
@@ -25,16 +47,18 @@ Insert facet selector here
 <td><%= result.subject_type %></td>
 <td><%= result.vital_status %></td>
 <td><%= result.case_control_type %></td>
-<td><%= result.reference_date %></td>
+<td><%=mdy result.reference_date %></td>
 <td><%= result.sex %></td>
-<td><%= result.dob %></td>
-<td><%= result.died_on %></td>
+<td><%=mdy result.dob %></td>
+<td><%=mdy result.died_on %></td>
 <td><%= result.phase %></td>
 <td><%= result.birth_year %></td>
 </tr>
 <% end %>
 </tbody>
 </table>
+<p><%= will_paginate(@search.hits) %></p>
+<p class='page_info'>Displaying page <%=@search.hits.current_page%> of <%=@search.hits.total_pages%> out of <%=@search.total%> results</p>
 <% else %>
 <p>No results</p>
 <% end %>

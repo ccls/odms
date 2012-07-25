@@ -66,3 +66,154 @@ div#logo h2 {
 table {
 	width: 100%;
 }
+
+
+
+
+
+
+
+
+
+
+
+/* 
+	All below is from CLIC, originally.
+	I am trying to remove anything unused.
+*/
+
+
+/*
+	border-collapse:collapse; 
+*/
+/* key to having table row border */
+#results_table {
+	vertical-align:top;
+	width:100%;
+	display:table;
+	padding-top:5px;
+}
+#results_row {
+	padding-top:5px;
+	border: 1px solid #EEE;
+	display:table-row;
+}
+#refine {
+	width: 30%;
+	display:table-cell;
+	border-right: 2px solid silver;
+	padding: 0 10px;
+}
+#refine form input[type=submit] {
+	font-size:14pt;
+	font-weight:bold;
+	border: 1px solid black;
+	width: 100%;
+	margin: 10px 0;
+
+	/* http://css-radius.heroku.com */
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+
+	background-color: #DDDDDD;
+/* for webkit browsers */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BBBBBB)); 
+/* for firefox 3.6+  */
+	background-image: -moz-linear-gradient(top,  #FFFFFF,  #BBBBBB); 
+/* for ie , but doesn't seem to work as expected despite other examples working */
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#FFFFFF', EndColorStr='#BBBBBB');
+
+}
+.facets {
+	border: 1px solid silver;
+	border-top: 0;
+}
+.facets div.facet_toggle {
+	display:block;
+	padding: 5px;
+	border-top: 1px solid silver;
+	background-color:#EEE;
+}
+.facets div.facet_toggle span {
+	float:left;
+}
+.facets div.facet_toggle a {
+	display:block;
+}
+.facets ul.facet_field {
+	padding-left: 10px;
+	display:none;
+}
+.facets ul.facet_field li {
+	list-style: none;
+}
+#results {
+	padding: 0 10px;
+	display:table-cell;
+	background-color: #FFF;
+}
+#filters {
+	padding: 0 10px;
+	border: 1px solid gray;
+}
+#filters h3 {
+	margin-top:0;
+	padding-top:10px;
+}
+#tabs {
+	border-bottom: 1px solid gray;
+}
+#tabs ul {
+	margin-bottom: 5px;
+}
+#tabs ul li {
+	display:inline;
+}
+#tabs ul li a {
+	text-decoration:none;
+	padding: 5px 15px;
+	font-size:12pt;
+	font-weight:bold;
+	background-color:silver;
+	color:black;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+
+	/* http://css-radius.heroku.com */
+	-webkit-border-radius: 8px 8px 0px 0px;
+	-moz-border-radius: 8px 8px 0px 0px;
+	border-radius: 8px 8px 0px 0px;
+
+/* for webkit browsers */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BBBBBB)); 
+/* for firefox 3.6+  */
+	background-image: -moz-linear-gradient(top,  #FFFFFF,  #BBBBBB); 
+/* for ie , but doesn't seem to work as expected despite other examples working */
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#FFFFFF', EndColorStr='#BBBBBB');
+}
+#tabs ul li a.current {
+	background-color:gray;
+	color:white;
+/* for webkit browsers */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#888888), to(#BBBBBB)); 
+/* for firefox 3.6+  */
+	background-image: -moz-linear-gradient(top,  #888888,  #BBBBBB); 
+/* for ie , but doesn't seem to work as expected despite other examples working */
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#888888', EndColorStr='#BBBBBB');
+}
+ul.results {
+	list-style: none;
+/*
+	padding-left: 10px;
+*/
+}
+ul.results li {
+	border:1px solid silver;
+	border-top: 0px;
+	padding: 4px 5px;
+}
+ul.results li:nth-child(1)    { border-top:1px solid silver; }
+ul.results li:nth-child(2n)   { background-color: #EEE; }
+ul.results li:nth-child(2n+1) { background-color: #DDD; }
