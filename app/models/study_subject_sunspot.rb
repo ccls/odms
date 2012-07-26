@@ -12,9 +12,9 @@ base.class_eval do
 searchable do
 	integer :id	#	if find it odd that I must explicitly include id to order by it
 	# fields for faceting or explicit field searching
-#	string :subject_type
+	string :subject_type
 #		OR (difference?)
-	integer :subject_type_id, :references => SubjectType
+#	integer :subject_type_id, :references => SubjectType
 	string :vital_status
 	string :case_control_type
 	date :reference_date
