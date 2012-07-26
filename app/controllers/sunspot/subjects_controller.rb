@@ -25,7 +25,7 @@ class Sunspot::SubjectsController < SunspotController
 
 	def index
 		@search = StudySubject.search do
-			keywords params[:q]	#	searches names and all the id numbers
+#			keywords params[:q]	#	searches names and all the id numbers
 #	date :reference_date
 #	date :dob
 #	date :died_on
@@ -61,6 +61,20 @@ class Sunspot::SubjectsController < SunspotController
 
 #			order_by :created_at, :asc
 			order_by *search_order
+
+
+#dynamic(:enrollments){ 
+#	facet :project
+#	with( :project, params['enrollments:project'] ) if params['enrollments:project'].present?
+#	facet :is_eligible
+#	with( :is_eligible, params['enrollments:is_eligible'] ) if params['enrollments:is_eligible'].present?
+#	facet :consented
+#	with( :consented, params['enrollments:consented'] ) if params['enrollments:consented'].present?
+#}
+
+facet(:enrollment_projects)
+with(:enrollment_projects, params[:enrollment_projects]) if params[:enrollment_projects].present?
+
 			
 			if request.format.to_s.match(/csv/)
 				#	don't paginate csv file.  Only way seems to be to make BIG query

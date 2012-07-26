@@ -1,7 +1,7 @@
 <div id='refine'>
 <%= form_tag( sunspot_subjects_path, :method => :get ) do %>
 <%= submit_tag "Search", :name => nil %><br/>
-<%= text_field_tag :q, params[:q] %><br/>
+<%#= text_field_tag :q, params[:q] %>
 
   <div class='facets'>
    <% @search.facets.each do |facet| -%>
