@@ -12,7 +12,9 @@ base.class_eval do
 searchable do
 	integer :id	#	if find it odd that I must explicitly include id to order by it
 	# fields for faceting or explicit field searching
-	string :subject_type
+#	string :subject_type
+#		OR (difference?)
+	integer :subject_type_id, :references => SubjectType
 	string :vital_status
 	string :case_control_type
 	date :reference_date
@@ -27,6 +29,50 @@ searchable do
 	# sampleids
 	# Phone numbers
 #	string :biospecimens, :multiple => true
+
+	
+#    dynamic_integer :custom_category_ids, :multiple => true do 
+#      custom_categories.inject(Hash.new { |h, k| h[k] = [] }) do |map, custom_category| 
+#        map[custom_category.id] << custom_category_values_for(custom_category) 
+#      end 
+#    end 
+#	dynamic_integer :enrollment_ids, :multiple => true do 
+##	dynamic_string :my_enrollments, :multiple => true do 
+#		enrollments.inject(Hash.new { |h, k| h[k] = {} }) do |map, enrollment| 
+##		enrollments.inject(Hash.new { |h, k| h[k] = [] }) do |map, enrollment| 
+#			#map[enrollment.id] << enrollment_values_for(enrollment) 
+#			#map[enrollment.id] << { "enrollment_values_for(enrollment) KEY" =>  "enrollment_values_for(enrollment) value"}
+#			map[enrollment.id] = enrollment.attributes
+#			#map[enrollment.id] << enrollment.project.description
+#		end 
+#	end 
+#https://github.com/sunspot/sunspot/issues/207
+
+
+##		enrollments.inject(Hash.new { |h, k| h[k] = {} }) do |map, enrollment| 
+#	dynamic_integer :enrollment_ids, :multiple => true do 
+#		enrollments.inject({}) do |map, enrollment| 
+#			map[enrollment.id] = enrollment.attributes
+#		end 
+#	end 
+#> StudySubject.search{ dynamic(:enrollment_ids){ facet :project_id } }.facet(:enrollment_ids,:project_id).rows.first.count
+#=> 1
+#	StudySubject.search{ dynamic(:enrollment_ids){ with :project_id, 10 } }.results
+#
+#> StudySubject.search{ dynamic(:enrollment_ids){ with( :project_id, 10); facet :is_eligible } }.facets.first.rows.first.value
+#=> 1
+
+
+
+
+#	dynamic_string :custom_values do
+#      key_value_pairs.inject({}) do |hash, key_value_pair|
+#        hash[key_value_pair.key.to_sym] = key_value_pair.value
+#      end
+#   end
+#	integer :enrollment_id, :references => Enrollment, :multiple => true
+
+#	string :enrolled_projects, :multiple => true
 
 
 	text :first_name
@@ -73,6 +119,9 @@ end if Sunspot::Rails::Server.new.running?
 
 #	bundle exec rake sunspot:solr:start # or sunspot:solr:run to start in foreground
 
+#	def enrolled_projects
+#		enrollments.collect(&:project).collect(&:description)
+#	end
 
 end	#	class_eval
 end	#	included
