@@ -50,6 +50,10 @@ searchable do
 
 
 ##		enrollments.inject(Hash.new { |h, k| h[k] = {} }) do |map, enrollment| 
+#	don't understand what is 'integer' about this
+#	I also don't see how this is 'dynamic' either
+#		it is just adding a prefix to the name.
+#	I really need a better example
 #	dynamic_integer :enrollment_ids, :multiple => true do 
 #		enrollments.inject({}) do |map, enrollment| 
 #			map[enrollment.id] = enrollment.attributes
@@ -61,7 +65,8 @@ searchable do
 #
 #> StudySubject.search{ dynamic(:enrollment_ids){ with( :project_id, 10); facet :is_eligible } }.facets.first.rows.first.value
 #=> 1
-
+#> StudySubject.search{ dynamic(:enrollment_ids){ with( :project_id, 10); facet :is_eligible } }.facets.first.name
+#=> :"enrollment_ids:is_eligible"
 
 
 
