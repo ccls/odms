@@ -29,6 +29,9 @@ class StudySubjectReportsController < ApplicationController
 		@study_subjects = StudySubject.cases
 			.where( :phase => 5 )
 			.order('created_at DESC')
+			.joins(:enrollments)
+			.merge(Enrollment.eligible.consented.where(:project_id => Project['ccls'].id))
+#http://railscasts.com/episodes/215-advanced-queries-in-rails-3?view=asciicast
 
 		#
 		#	The only reason to have this block is to change the name of the file.

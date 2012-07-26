@@ -72,6 +72,7 @@ class Enrollment < ActiveRecord::Base
 		:if => :consented_changed?
 
 	scope :consented, :conditions => { :consented => YNDK[:yes] }
+	scope :eligible,  :conditions => { :is_eligible => YNDK[:yes] }
 
 protected
 

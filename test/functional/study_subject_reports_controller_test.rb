@@ -24,6 +24,11 @@ class StudySubjectReportsControllerTest < ActionController::TestCase
 		test "should get case_assignment with #{cu} login" do
 			login_as send(cu)
 			subject = Factory(:case_study_subject)
+subject.enrollments.where(:project_id => Project['ccls'].id).first.update_attributes({
+	:is_eligible => YNDK[:yes],
+	:consented => YNDK[:yes],
+	:consented_on => Date.today
+})
 			assert_equal 5, subject.phase
 			get :case_assignment, :format => :csv
 			assert_response :success
