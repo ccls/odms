@@ -63,17 +63,31 @@ class Sunspot::SubjectsController < SunspotController
 			order_by *search_order
 
 
-#dynamic(:enrollments){ 
-#	facet :project
-#	with( :project, params['enrollments:project'] ) if params['enrollments:project'].present?
-#	facet :is_eligible
-#	with( :is_eligible, params['enrollments:is_eligible'] ) if params['enrollments:is_eligible'].present?
-#	facet :consented
-#	with( :consented, params['enrollments:consented'] ) if params['enrollments:consented'].present?
-#}
-
-facet(:enrollment_projects)
-with(:enrollment_projects, params[:enrollment_projects]) if params[:enrollment_projects].present?
+##dynamic(:enrollments){ 
+##	facet :project
+##	with( :project, params['enrollments:project'] ) if params['enrollments:project'].present?
+##	facet :is_eligible
+##	with( :is_eligible, params['enrollments:is_eligible'] ) if params['enrollments:is_eligible'].present?
+##	facet :consented
+##	with( :consented, params['enrollments:consented'] ) if params['enrollments:consented'].present?
+##}
+#
+facet(:projects)
+if params[:projects].present?
+	with(:projects, params[:projects]) 
+	params[:projects].each do |proj|
+		namespace = "project_#{proj.downcase.gsub(/\W+/,'_')}"
+#
+#	This ain't quite right, yet.
+#
+		dynamic(namespace){
+			facet(:consented)
+			with(:consented,params["#{namespace}:consented"]) if params["#{namespace}:consented"].present?
+			facet(:is_eligible)
+			with(:is_eligible,params["#{namespace}:is_eligible"]) if params["#{namespace}:is_eligible"].present?
+		}
+	end
+end
 
 			
 			if request.format.to_s.match(/csv/)

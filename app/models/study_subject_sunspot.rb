@@ -142,30 +142,53 @@ searchable do
 #	The following at least indexes.  This may come down to creating
 #	fields on the fly
 #
-#	string :enrollment_projects, :multiple => true do	#	(change to just 'projects')
-#		enrollments.collect(&:project).collect(&:to_s)
-#	end
+
 ##
 ##	how to access enrollments as is study_subject association? 
 ##  NOT HERE AS IN CLASS! NOT INSTANCE!
 ##	NoMethodError: undefined method `enrollments' for #<Sunspot::DSL::Fields:0x00000102c6ecf8>
 ##	Only seems accessible inside the dsl blocks
 ##puts Project.all.collect(&:to_s)#	works
-#	Project.all.each do |project|
 ## what would happen if another project were created after start? Reindex all subjects?
 ##	dynamic facets in "enrollment_#{project.underscore}" namespace???
 #		integer "enrollment_#{project.underscore}_consented" do
-#			enrollments.where(:project_id => project.id).first.try(:consented)
+
+
+
+
+
+
+
+
+
+
+
+	string :projects, :multiple => true do
+		enrollments.collect(&:project).collect(&:to_s)
+	end
+	Project.all.each do |project|
+#
+#	Use the integer values or convert to YNDK text?
+#
+#		dynamic_string "project_#{project.to_s.downcase.gsub(/\W+/,'_')}" do
+#			(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
+#				.select{|k,v|['consented','is_eligible'].include?(k) }
+#
+#	> {:a=>1}.inject({}){|h,pair| h.merge(pair[0] => YNDK[pair[1]]) }
+#	=> {:a=>"Yes"}
+#
 #		end
-#	end
+		dynamic_integer "project_#{project.to_s.downcase.gsub(/\W+/,'_')}" do
+			(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
+				.select{|k,v|['consented','is_eligible'].include?(k) }
+		end
+	end
 
 
 
-#	enrollments.each do |enrollment|
-#		integer "enrollment_#{enrollment.project}_consented" do
-#			enrollment.consented
-#		end
-#	end
+
+
+
 
 
 #

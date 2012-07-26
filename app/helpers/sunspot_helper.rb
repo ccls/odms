@@ -52,8 +52,16 @@ module SunspotHelper
 						{ :id => "#{facet.name}_#{row.value.html_friendly}" } )
 			else
 #						params[facet.name].include?(row.value),
+#puts facet.name
+#puts params[facet.name]
+#puts row.value.class
+#puts [params[facet.name]].flatten.include?(row.value)
+#puts
+#
+#	Added to_s as value was an integer.
+#
 				s << check_box_tag( "#{facet.name}[]", row.value, 
-						[params[facet.name]].flatten.include?(row.value),
+						[params[facet.name]].flatten.include?(row.value.to_s),
 						{ :id => "#{facet.name}_#{row.value.html_friendly}" } )
 			end
 			s << "<label for='#{facet.name}_#{row.value.html_friendly}'>"
