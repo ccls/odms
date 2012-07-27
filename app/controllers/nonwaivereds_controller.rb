@@ -4,6 +4,7 @@ class NonwaiveredsController < RafController
 
 	def new
 		@hospitals = Hospital.active.nonwaivered.includes(:organization)
+			.order('organizations.name ASC')
 		@study_subject = StudySubject.new(params[:study_subject])
 	end
 
@@ -12,6 +13,7 @@ class NonwaiveredsController < RafController
 
 	def create
 		@hospitals = Hospital.active.nonwaivered.includes(:organization)
+			.order('organizations.name ASC')
 		study_subject_params = params[:study_subject].dup.to_hash
 
 		#	Paper form does not have consented checkbox, but our model
