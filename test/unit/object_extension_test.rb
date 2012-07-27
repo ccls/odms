@@ -68,4 +68,20 @@ class ObjectExtensionTest < ActiveSupport::TestCase
 		assert_nil nil.namerize
 	end
 
+	test "html_friendly should replace 0123456789 with just one underscore" do
+		assert_equal "_", "0123456789".html_friendly
+	end
+
+	test "html_friendly should replace spaces with just one underscore" do
+		assert_equal "_", "           ".html_friendly
+	end
+
+	test "html_friendly should replace underscores with just one underscore" do
+		assert_equal "_", "___________".html_friendly
+	end
+
+	test "html_friendly should replace ampersands with just one underscore" do
+		assert_equal "_", "&&".html_friendly
+	end
+
 end
