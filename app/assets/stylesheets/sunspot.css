@@ -104,7 +104,7 @@ table {
 */
 #refine {
 //	width: 30%;
-	width: 220px;
+	width: 250px;
 //	display:table-cell;
 	border-right: 2px solid silver;
 	padding: 0 10px;
@@ -152,7 +152,19 @@ table {
 }
 .facets ul.facet_field li {
 	list-style: none;
+	text-align: left;
 }
+/*
+.facets ul.facet_field li * {
+	display:inline-block;
+}
+.facets ul.facet_field li input {
+	display:inline-block;
+}
+.facets ul.facet_field li label {
+	display:inline-block;
+}
+*/
 #results {
 	padding: 0 10px;
 //	display:table-cell;

@@ -22,6 +22,12 @@ searchable do
 #	indexing, but then the facet values are the integers, not the string names
 #	For the moment, I'm going to use the strings.  Perhaps in the future,
 #	I'll find a better or more corect way.
+	string :races, :multiple => true do
+		races.collect(&:to_s)
+	end
+	string :languages, :multiple => true do
+		languages.collect(&:to_s)
+	end
 	string :case_control_type
 	date :reference_date
 	string :sex
@@ -37,6 +43,10 @@ searchable do
 #	string :biospecimens, :multiple => true
 
 
+	string :organization
+	string :diagnosis do
+		patient.try(:diagnosis).to_s
+	end
 
 
 #	develope a way to search for the NULLs and BLANKs
@@ -44,104 +54,17 @@ searchable do
 #	May have to explicitly assign it NULL or BLANK in index?
 
 	
-
-
-#    dynamic_integer :custom_category_ids, :multiple => true do 
-#      custom_categories.inject(Hash.new { |h, k| h[k] = [] }) do |map, custom_category| 
-#        map[custom_category.id] << custom_category_values_for(custom_category) 
-#      end 
-#    end 
-#	dynamic_integer :enrollment_ids, :multiple => true do 
-##	dynamic_string :my_enrollments, :multiple => true do 
-#		enrollments.inject(Hash.new { |h, k| h[k] = {} }) do |map, enrollment| 
-##		enrollments.inject(Hash.new { |h, k| h[k] = [] }) do |map, enrollment| 
-#			#map[enrollment.id] << enrollment_values_for(enrollment) 
-#			#map[enrollment.id] << { "enrollment_values_for(enrollment) KEY" =>  "enrollment_values_for(enrollment) value"}
-#			map[enrollment.id] = enrollment.attributes
-#			#map[enrollment.id] << enrollment.project.description
-#		end 
-#	end 
-#https://github.com/sunspot/sunspot/issues/207
-
-
-##		enrollments.inject(Hash.new { |h, k| h[k] = {} }) do |map, enrollment| 
-#	don't understand what is 'integer' about this
-#	I also don't see how this is 'dynamic' either
-#		it is just adding a prefix to the name.
-#	I really need a better example
-#	dynamic_integer :enrollment_ids, :multiple => true do 
-#
-#	This looks nice, but I'm not sure if it is actually doing what I want.
-#	Almost.  Each enrollment overwrites the previous one so 
-#	each subject ends up with just one enrollment.
-#
-#	dynamic_string :enrollments, :multiple => true do 
-#		enrollments.inject({}) do |map, enrollment| 
-##			map[enrollment.id] = enrollment.attributes
-#			map[enrollment.id] = {
-#				:project => enrollment.project.description,
-#				:is_eligible => YNDK[enrollment.is_eligible],
-#				:consented => YNDK[enrollment.consented]
-#			}
-#		end 
-#	end 
-#> StudySubject.search{ dynamic(:enrollment_ids){ facet :project_id } }.facet(:enrollment_ids,:project_id).rows.first.count
-#=> 1
-#	StudySubject.search{ dynamic(:enrollment_ids){ with :project_id, 10 } }.results
-#
-#> StudySubject.search{ dynamic(:enrollment_ids){ with( :project_id, 10); facet :is_eligible } }.facets.first.rows.first.value
-#=> 1
-#> StudySubject.search{ dynamic(:enrollment_ids){ with( :project_id, 10); facet :is_eligible } }.facets.first.name
-#=> :"enrollment_ids:is_eligible"
-
-
-
-#	dynamic_string :custom_values do
-#      key_value_pairs.inject({}) do |hash, key_value_pair|
-#        hash[key_value_pair.key.to_sym] = key_value_pair.value
-#      end
-#   end
-#	integer :enrollment_id, :references => Enrollment, :multiple => true
-
-#	string :enrolled_projects, :multiple => true do
-#		enrollments.collect(&:project).collect(&:description)
-#	end
-
 #	string "enrollments:project".to_sym, :multiple => true
-
-#
-#    dynamic_string :enrollments, :multiple => true do
-#      enrollments.collect do |enrollment|
-#			enrollment.inject({}) do |hash, pair|
-#        hash.merge(pair.key.to_sym => pair.value)
-#      end
-#      end
-#    end
-
+#ArgumentError: Invalid field name enrollments:project: only letters, numbers, and underscores are allowed.
 
 #
 #	The following at least indexes.  This may come down to creating
 #	fields on the fly
 #
 
-##
-##	how to access enrollments as is study_subject association? 
-##  NOT HERE AS IN CLASS! NOT INSTANCE!
-##	NoMethodError: undefined method `enrollments' for #<Sunspot::DSL::Fields:0x00000102c6ecf8>
-##	Only seems accessible inside the dsl blocks
-##puts Project.all.collect(&:to_s)#	works
 ## what would happen if another project were created after start? Reindex all subjects?
 ##	dynamic facets in "enrollment_#{project.underscore}" namespace???
 #		integer "enrollment_#{project.underscore}_consented" do
-
-
-
-
-
-
-
-
-
 
 
 	string :projects, :multiple => true do
@@ -163,7 +86,31 @@ searchable do
 #		dynamic_integer "project_#{project.html_friendly}" do
 #			(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
 #				.select{|k,v|['consented','is_eligible'].include?(k) }
-		dynamic_string "project_#{project.html_friendly}" do
+#
+#	As I know exactly what I want, "dynamic" is probably unnecessary.
+#	Also the "project_" prefix may be pointless.
+#	Perhaps find a nice encoder/decoder
+#		.unpack('H*').pack('H*')	this would be hexadecimal
+#	encoding and decoding with this will allow for all chars
+#	would be interesting to try to flag which requires encoding/decoding
+#
+#	add HEX_ prefix?
+#
+#	Is there a facet field name length limit?
+#
+#		#	This should be OUTSIDE the Project.all loop
+#		string "Any_Project_consented", :multiple => true do
+#			enrollments.collect{|e| YNDK[e.try(:consented)]||'NULL' }.uniq
+#		end
+#		string "#{project.html_friendly}_consented" do
+#			YNDK[enrollments.where(:project_id => project.id).first.try(:consented)]||'NULL'
+#		end
+#		string "#{project.html_friendly}_is_eligible" do
+#			YNDK[enrollments.where(:project_id => project.id).first.try(:is_eligible)]||'NULL'
+#		end
+#
+		dynamic_string "hex_#{project.to_s.unpack('H*').first}" do
+#		dynamic_string "project_#{project.html_friendly}" do
 			(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
 				.select{|k,v|['consented','is_eligible'].include?(k) }
 				.inject({}){|h,pair| h.merge(pair[0] => YNDK[pair[1]]||'NULL') }

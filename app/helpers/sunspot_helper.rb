@@ -27,7 +27,16 @@ module SunspotHelper
 			#	May need to figure out how to deal with blanks in the future
 			#	as occassionally they are what one would be searching for.
 			non_blank_row_count = facet.rows.reject{|r|r.value.blank?}.length
-			s << link_to("#{facet.name.to_s.titleize}&nbsp;(#{non_blank_row_count})".html_safe, 'javascript:void()')
+			facet_label = facet.name.to_s
+			facet_label = if( facet_label.match(/^hex_/) )
+#				[facet_label.gsub(/^hex_/,'').split(/:/).first].pack('H*')
+				l = facet_label.gsub(/^hex_/,'').split(/:/)
+				l[0] = [l[0]].pack('H*')
+				l.join(' : ')
+			else
+				facet_label.titleize
+			end
+			s << link_to("#{facet_label}&nbsp;(#{non_blank_row_count})".html_safe, 'javascript:void()')
 		end
 	end
 
