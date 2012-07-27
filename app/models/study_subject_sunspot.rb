@@ -37,32 +37,13 @@ searchable do
 #	string :biospecimens, :multiple => true
 
 
+
+
 #	develope a way to search for the NULLs and BLANKs
+#		I don't think that NULL actually gets "faceted"
+#	May have to explicitly assign it NULL or BLANK in index?
 
 	
-#	What am I trying to do?
-#	class StudySubject < ActiveRecord::Base
-#		has_many :enrollments
-#		has_many :samples
-#		#	relevant attributes :type
-#	end
-#	class Enrollment < ActiveRecord::Base
-#		belongs_to :study_subject
-#		belongs_to :project
-#		#	relevant attributes :eligible, :consented
-#	end
-#	class Sample < ActiveRecord::Base
-#		belongs_to :study_subject
-#		#	relevant attributes :type
-#	end
-#	class Project < ActiveRecord::Base
-#		has_many :enrollments
-#		#	relevant attributes :name
-#	end
-#
-#	Which 'case' type study_subjects have an 'eligible' AND 'consented' enrollment in some project 'X' AND have provided a 'blood' sample?
-#
-
 
 
 #    dynamic_integer :custom_category_ids, :multiple => true do 
@@ -178,9 +159,14 @@ searchable do
 #	=> {:a=>"Yes"}
 #
 #		end
-		dynamic_integer "project_#{project.to_s.downcase.gsub(/\W+/,'_')}" do
+#		dynamic_integer "project_#{project.to_s.downcase.gsub(/\W+/,'_')}" do
+#		dynamic_integer "project_#{project.html_friendly}" do
+#			(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
+#				.select{|k,v|['consented','is_eligible'].include?(k) }
+		dynamic_string "project_#{project.html_friendly}" do
 			(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
 				.select{|k,v|['consented','is_eligible'].include?(k) }
+				.inject({}){|h,pair| h.merge(pair[0] => YNDK[pair[1]]||'NULL') }
 		end
 	end
 
@@ -239,9 +225,6 @@ end if Sunspot::Rails::Server.new.running?
 
 #	bundle exec rake sunspot:solr:start # or sunspot:solr:run to start in foreground
 
-#	def enrolled_projects
-#		enrollments.collect(&:project).collect(&:description)
-#	end
 
 end	#	class_eval
 end	#	included

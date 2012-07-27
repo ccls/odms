@@ -76,7 +76,8 @@ facet(:projects)
 if params[:projects].present?
 	with(:projects, params[:projects]) 
 	params[:projects].each do |proj|
-		namespace = "project_#{proj.downcase.gsub(/\W+/,'_')}"
+#		namespace = "project_#{proj.downcase.gsub(/\W+/,'_')}"
+		namespace = "project_#{proj.html_friendly}"
 #
 #	This ain't quite right, yet.
 #
