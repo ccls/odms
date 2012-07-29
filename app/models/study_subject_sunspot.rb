@@ -282,3 +282,10 @@ Naturally, those field names (:cuisine, :atmosphere) wouldn’t be hard-coded in
 
 
 
+require 'factory_girl'
+require 'factories'
+
+bundle exec rake sunspot:solr:start
+bundle exec rake sunspot:solr:reindex
+
+
