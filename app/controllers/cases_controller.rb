@@ -27,6 +27,7 @@ class CasesController < ApplicationController
 	def new
 #		@hospitals = Hospital.active(:include => :organization)
 		@hospitals = Hospital.active.includes(:organization)
+			.order('organizations.name ASC')
 	end
 
 	def create

@@ -9,7 +9,7 @@
 
     <%= facet_for(facet,
        :multiselector => [:biospecimens,:genotypings].include?(facet.name),
-       :facet_counts  => true ).html_safe %>
+       :facet_counts  => true ) %>
 <%# 
 	multiselector is for when a single subject could have many
 	Either as an array in itself or perhaps some implementation

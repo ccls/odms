@@ -76,7 +76,9 @@ facet(:projects)
 if params[:projects].present?
 	with(:projects, params[:projects]) 
 	params[:projects].each do |proj|
-		namespace = "project_#{proj.downcase.gsub(/\W+/,'_')}"
+#		namespace = "project_#{proj.downcase.gsub(/\W+/,'_')}"
+#		namespace = "project_#{proj.html_friendly}"
+		namespace = "hex_#{proj.to_s.unpack('H*').first}"
 #
 #	This ain't quite right, yet.
 #
@@ -94,7 +96,7 @@ end
 				#	don't paginate csv file.  Only way seems to be to make BIG query
 				#	rather than the arbitrarily big number, I could possibly
 				#	use the @search.total from the previous search sent as param?
-				paginate :per_page => 10000
+				paginate :per_page => 100000
 			end
 			paginate :page => params[:page] 
 		end
@@ -107,7 +109,7 @@ protected
 
 	#	all facets in order
 	def all_facets
-		%w( subject_type vital_status case_control_type sex phase )
+		%w( subject_type vital_status case_control_type sex phase races languages organization diagnosis )
 	end
 
 	def search_order
