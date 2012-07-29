@@ -23,37 +23,24 @@
 
 
 
-
 <div id='results'>
 <% unless @search.results.empty? %>
 <table>
 <thead>
 <tr>
-<th><%= sort_link('id',:image => false) %></th>
-<th><%= sort_link('subject type',:image => false) %></th>
-<th><%= sort_link('vital status',:image => false) %></th>
-<th><%= sort_link('case control type',:image => false) %></th>
-<th><%= sort_link('reference date',:image => false) %></th>
-<th><%= sort_link('sex',:image => false) %></th>
-<th><%= sort_link('dob',:image => false) %></th>
-<th><%= sort_link('died on',:image => false) %></th>
-<th><%= sort_link('phase',:image => false) %></th>
-<th><%= sort_link('birth year',:image => false) %></th>
+<th>&nbsp;</th>
+<% columns.each do |column| %>
+<th><%= column_header(column) %></th>
+<% end %>
 </tr>
 </thead>
 <tbody>
 <% @search.results.each do |result| %>
 <tr>
-<td><%= link_to result.id, study_subject_path(result.id) %></td>
-<td><%= result.subject_type %></td>
-<td><%= result.vital_status %></td>
-<td><%= result.case_control_type %></td>
-<td><%=mdy result.reference_date %></td>
-<td><%= result.sex %></td>
-<td><%=mdy result.dob %></td>
-<td><%=mdy result.died_on %></td>
-<td><%= result.phase %></td>
-<td><%= result.birth_year %></td>
+<td><%= link_to 'show', study_subject_path(result.id) %></td>
+<% columns.each do |column| %>
+<td><%= column_content(result,column) || '&nbsp;'.html_safe %></td>
+<% end %>
 </tr>
 <% end %>
 </tbody>

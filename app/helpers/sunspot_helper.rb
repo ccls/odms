@@ -85,4 +85,23 @@ module SunspotHelper
 		s << "</ul>\n".html_safe
 	end
 
+	def columns
+		%w( id subject_type vital_status case_control_type reference_date
+		 sex dob died_on phase birth_year )
+	end
+
+	def column_header(column)
+		case column.to_s
+			when '' then ''
+			else sort_link(column,:image => false)
+		end
+	end
+
+	def column_content(subject,column)
+		case column.to_s
+			when 'dob','died_on','reference_date' then subject.send(column).try(:strftime,'%m/%d/%Y')
+			else ( subject.respond_to?(column) ? subject.try(column) : nil )
+		end
+	end
+
 end

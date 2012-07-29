@@ -6,31 +6,9 @@
 
 	also, use a - with the ruby closing tag to avoid extra lines in csv file.
 -%>
-<%= %w( 
-id
-subject_type
-vital_status
-case_control_type
-reference_date
-sex
-dob
-died_on
-phase
-birth_year
-).to_csv( :headers => true) -%>
+<%= columns.to_csv( :headers => true) -%>
 <% @search.results.each do |result| %>
-<%= [
-result.id,
-result.subject_type,
-result.vital_status,
-result.case_control_type,
-mdy_or_nil( result.reference_date ),
-result.sex,
-mdy_or_nil( result.dob ),
-mdy_or_nil( result.died_on ),
-result.phase,
-result.birth_year
-].to_csv.html_safe -%>
+<%= columns.collect{|c| column_content(result,c) }.to_csv.html_safe -%>
 <% end -%>
 <%#
 

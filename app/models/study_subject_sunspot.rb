@@ -117,7 +117,13 @@ searchable do
 		end
 	end
 
+	string :sample_types, :multiple => true do
+		samples.collect(&:sample_type).collect(&:to_s)
+	end
 
+	string :operational_event_types, :multiple => true do
+		operational_events.collect(&:operational_event_types).collect(&:to_s)
+	end
 
 
 
@@ -213,6 +219,7 @@ Naturally, those field names (:cuisine, :atmosphere) wouldn’t be hard-coded in
 
 
 require 'factory_girl'
+$LOAD_PATH << 'test'
 require 'factories'
 
 bundle exec rake sunspot:solr:start
