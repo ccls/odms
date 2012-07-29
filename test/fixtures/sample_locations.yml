@@ -7,24 +7,24 @@
 GEGL:
   id: 1
   organization_id: 17
-  is_active: 1
+  is_active: true
 CCLS:
   id: 2
   organization_id: 19
-  is_active: 1
+  is_active: true
 CalEPA:
   id: 3
   organization_id: 18
-  is_active: 1
+  is_active: true
 CDC:
   id: 4
   organization_id: 20
-  is_active: 1
+  is_active: true
 Smith:
   id: 5
   organization_id: 16
-  is_active: 1
+  is_active: true
 wiemels:
   id: 6
   organization_id: 37
-  is_active: 1
+  is_active: true

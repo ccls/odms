@@ -3,6 +3,7 @@ namespace :app do
 	desc "Load some fixtures to database for application"
 	task :update => :environment do
 #			context_data_sources
+#			units
 		fixtures = %w(
 			address_types
 			context_contextables
@@ -39,7 +40,6 @@ namespace :app do
 			subject_relationships
 			subject_types
 			tracing_statuses
-			units
 			vital_statuses 
 		)
 		ENV['FIXTURES'] = fixtures.join(',')
