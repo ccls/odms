@@ -420,7 +420,10 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			end
 			assert_create_success
-			oe = study_subject.operational_events.last
+#			oe = study_subject.operational_events.last
+#	getting NewSubject mixed with sample_received
+#			oe = study_subject.operational_events.where(:project_id => Project['ccls'].id).last
+			oe = study_subject.operational_events.order('id ASC').last
 			assert_equal oe.project, Project['ccls']
 			assert_equal oe.operational_event_type, OperationalEventType['sample_received']
 			assert_equal oe.description,

@@ -180,6 +180,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 				'0' => { :race_id => Race.first.id, :is_primary => 'true' }
 			})
 		} }
+		@study_subject.reload
 		assert !@study_subject.races.empty?
 		assert !@study_subject.subject_races.empty?
 		assert  @study_subject.subject_races.first.is_primary
