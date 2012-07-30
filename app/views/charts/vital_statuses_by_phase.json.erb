@@ -14,9 +14,8 @@
 	"elements":[
 <% vital_statuses = @study_subjects.collect(&:vital_status).uniq %>
 <% colors = [ '#448844', '#884444', '#444488' ] %>
-<%= @study_subjects.collect(&:phase).uniq.collect do |phase| %>
-<% s_with_p = @study_subjects.select{|s|s.phase == phase} %>
-<% counts = vital_statuses.collect{|vs| s_with_p.select{|s|s.vital_status == vs}.first.try(:count)||0 } %>
+<%= @study_subjects.group_by{|i|i.phase}.collect do |phase,v| %>
+<% counts = vital_statuses.collect{|vs| v.detect{|s|s.vital_status == vs}.try(:count)||0 } %>
 <%	
 	"{\"text\" :      \"#{phase||'blank'}\",
 		\"type\" :      \"bar_glass\",

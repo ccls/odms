@@ -14,9 +14,8 @@
 	"elements":[
 <% subject_types = @study_subjects.collect(&:subject_type).uniq %>
 <% colors = [ '#448844', '#884444', '#444488' ] %>
-<%= @study_subjects.collect(&:phase).uniq.collect do |phase| %>
-<% s_with_p = @study_subjects.select{|s|s.phase == phase} %>
-<% counts = subject_types.collect{|st| s_with_p.select{|s|s.subject_type == st}.first.try(:count)||0 } %>
+<%= @study_subjects.group_by{|i|i.phase}.collect do |phase,v| %>
+<% counts = subject_types.collect{|st| v.select{|s|s.subject_type == st}.first.try(:count)||0 } %>
 <%	
 	"{\"text\" :      \"#{phase||'blank'}\",
 		\"type\" :      \"bar_glass\",
