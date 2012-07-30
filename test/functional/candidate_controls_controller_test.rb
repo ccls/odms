@@ -43,7 +43,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.today-1000
-			case_study_subject.update_attribute(:dob, dob)
+			case_study_subject.update_column(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => case_study_subject.sex,
@@ -64,7 +64,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.today-1000
-			case_study_subject.update_attribute(:dob, dob)
+			case_study_subject.update_column(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => case_study_subject.sex,
@@ -85,7 +85,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.today-1000
-			case_study_subject.update_attribute(:dob, dob)
+			case_study_subject.update_column(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => (%w( M F ) - [case_study_subject.sex])[0],	#	the other sex
@@ -106,7 +106,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.today-1000
-			case_study_subject.update_attribute(:dob, dob)
+			case_study_subject.update_column(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => nil,

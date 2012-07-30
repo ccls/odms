@@ -139,7 +139,7 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 
 	test "should not find case child if familyid is blank" do
 		study_subject = Factory(:case_study_subject)
-		study_subject.update_attribute(:familyid, nil)
+		study_subject.update_column(:familyid, nil)
 		assert_nil study_subject.reload.familyid
 		mother = study_subject.create_mother
 		assert_nil mother.child
@@ -160,7 +160,7 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 
 	test "should not find control child if familyid is blank" do
 		study_subject = Factory(:control_study_subject)
-		study_subject.update_attribute(:familyid, nil)
+		study_subject.update_column(:familyid, nil)
 		assert_nil study_subject.reload.familyid
 		mother = study_subject.create_mother
 		assert_nil mother.child
@@ -197,7 +197,7 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 
 	test "should not find mother if familyid is blank" do
 		study_subject = Factory(:case_study_subject)
-		study_subject.update_attribute(:familyid, nil)
+		study_subject.update_column(:familyid, nil)
 		assert_nil study_subject.reload.familyid
 		mother = study_subject.create_mother
 		assert_nil study_subject.mother
@@ -250,7 +250,7 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 
 	test "should not find all family if familyid is blank" do
 		study_subject = Factory(:case_study_subject)
-		study_subject.update_attribute(:familyid, nil)
+		study_subject.update_column(:familyid, nil)
 		assert_nil study_subject.reload.familyid
 		mother = study_subject.create_mother
 		assert study_subject.family.empty?
@@ -305,7 +305,7 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 
 	test "should not find all matching if matchingid is blank" do
 		study_subject = Factory(:case_study_subject)
-		study_subject.update_attribute(:matchingid, nil)
+		study_subject.update_column(:matchingid, nil)
 		assert_nil study_subject.reload.matchingid
 		mother = study_subject.create_mother
 		assert study_subject.matching.empty?

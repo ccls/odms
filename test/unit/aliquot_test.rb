@@ -102,7 +102,7 @@ class AliquotTest < ActiveSupport::TestCase
 		initial_owner = aliquot.owner
 		assert_not_nil initial_owner
 		new_owner = Factory(:organization)
-		Aliquot.any_instance.stubs(:update_attribute).returns(false)
+		Aliquot.any_instance.stubs(:update_column).returns(false)
 		assert_no_difference('aliquot.reload.owner_id') {
 		assert_no_difference('aliquot.transfers.count') {
 		assert_no_difference('initial_owner.aliquots.count') {

@@ -59,7 +59,7 @@ class BirthDatum < ActiveRecord::Base
 				elsif is_case?
 					if !match_confidence.blank? && match_confidence.match(/definite/i)
 						#	assign study_subject_id to case's id
-						self.update_attribute(:study_subject_id, subject.id)
+						self.update_column(:study_subject_id, subject.id)
 						self.update_study_subject_attributes
 						self.update_bc_request
 						self.create_address_from_attributes
@@ -106,7 +106,7 @@ class BirthDatum < ActiveRecord::Base
 		unless study_subject
 			subject = StudySubject.where(:icf_master_id => master_id).first
 			return if subject.nil?
-			self.update_attribute(:study_subject_id, subject.id)
+			self.update_column(:study_subject_id, subject.id)
 		end
 
 		error_count = 0

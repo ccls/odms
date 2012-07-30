@@ -82,7 +82,7 @@ class SampleTypeTest < ActiveSupport::TestCase
 #	test "should have no children_for_new_sample if parent not for_new_sample" do
 #		sample_type = Factory(:sample_type)
 #		assert  sample_type.parent.for_new_sample?
-#		sample_type.parent.update_attribute(:for_new_sample => false)
+#		sample_type.parent.update_column(:for_new_sample, false)
 #		assert !sample_type.parent.for_new_sample?
 #		assert  sample_type.for_new_sample?	
 #		#	child is, but parent is not, so empty

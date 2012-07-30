@@ -22,7 +22,7 @@ protected
 
 	#	Set associated aliquot's owner to the receiving #Organization.
 	def update_aliquot_owner
-		self.aliquot.update_attribute(:owner, self.to_organization)
+		self.aliquot.update_column(:owner, self.to_organization)
 	end
 
 end
