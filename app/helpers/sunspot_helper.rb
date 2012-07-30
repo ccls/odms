@@ -85,9 +85,17 @@ module SunspotHelper
 		s << "</ul>\n".html_safe
 	end
 
-	def columns
+	def default_columns
 		%w( id subject_type vital_status case_control_type reference_date
 		 sex dob died_on phase birth_year )
+	end
+
+	def columns
+		columns ||= if( params[:columns].present? )
+			params[:columns]
+		else
+			default_columns
+		end
 	end
 
 	def column_header(column)

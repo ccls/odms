@@ -16,27 +16,29 @@
 		of a has_many for enrollments or something
 %>
    <% end -%><%# @search.facets.each do |facet| -%>
+
+<div class="facet_toggle"><span class="ui-icon ui-icon-triangle-1-e">&nbsp;</span><a href="javascript:void()">Column Selection</a></div>
+<div id='columns' class='facet_field'>
+<p>Used Columns</p>
+<ul id="sortable1" class="connectedSortable">
+<% columns.each do |column| %>
+<%# NEED to find a way to use the id, but already using id matching these column names in the facet selectors %>
+<%= content_tag(:li, column )%>
+<% end %>
+</ul>
+<p>Unused Columns</p>
+<ul id="sortable2" class="connectedSortable">
+<% (default_columns-columns).each do |column| %>
+<%# NEED to find a way to use the id, but already using id matching these column names in the facet selectors %>
+<%= content_tag(:li, column )%>
+<% end %>
+</ul>
+</div>
+
   </div><!-- class='facets' -->
 <% end %>
 <%= link_to 'Download ALL as CSV', params.merge(:format => :csv) %>
 
-<div id='columns'>
-<ul id="sortable1" class="connectedSortable">
-	<li class="ui-state-default">Item 1</li>
-	<li class="ui-state-default">Item 2</li>
-	<li class="ui-state-default">Item 3</li>
-	<li class="ui-state-default">Item 4</li>
-	<li class="ui-state-default">Item 5</li>
-</ul>
-
-<ul id="sortable2" class="connectedSortable">
-	<li class="ui-state-highlight">Item 1</li>
-	<li class="ui-state-highlight">Item 2</li>
-	<li class="ui-state-highlight">Item 3</li>
-	<li class="ui-state-highlight">Item 4</li>
-	<li class="ui-state-highlight">Item 5</li>
-</ul>
-</div>
 </div>
 
 

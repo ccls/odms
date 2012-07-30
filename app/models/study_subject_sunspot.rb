@@ -122,7 +122,7 @@ searchable do
 	end
 
 	string :operational_event_types, :multiple => true do
-		operational_events.collect(&:operational_event_types).collect(&:to_s)
+		operational_events.collect(&:operational_event_type).collect(&:to_s)
 	end
 
 
