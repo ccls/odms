@@ -1,6 +1,6 @@
 {
 	"title":{
-		"text":  "Vital Status Counts",
+		"text":  "Vital Status Counts by Phase",
 		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
 	},
 	"x_legend":{
@@ -12,20 +12,27 @@
 		"style": "{font-size: 12px;}"
 	},
 	"elements":[
-		{
-			"type":      "bar_glass",
-			"alpha":     0.5,
-			"colour":    "#CC9933",
-			"font-size": 10,
-			"values" :   [<%=@study_subjects.collect(&:count).join(',').html_safe%>]
-		}
+<% vital_statuses = @study_subjects.collect(&:vital_status).uniq %>
+<% colors = [ '#448844', '#884444', '#444488' ] %>
+<%= @study_subjects.collect(&:phase).uniq.collect do |phase| %>
+<% s_with_p = @study_subjects.select{|s|s.phase == phase} %>
+<% counts = vital_statuses.collect{|vs| s_with_p.select{|s|s.vital_status == vs}.first.try(:count)||0 } %>
+<%	
+	"{\"text\" :      \"#{phase||'blank'}\",
+		\"type\" :      \"bar_glass\",
+		\"alpha\" :     0.5,
+		\"colour\" :    \"#{colors.pop}\",
+		\"font-size\" : 10,
+		\"values\" :   [ #{counts.join(',')} ] 
+	}" %>
+<% end.join(',').html_safe %>
 	],
 	"x_axis":{
 		"stroke":1,
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=@study_subjects.collect{|s| "\"#{s.vital_status}\""}.join(',').html_safe%>]
+			"labels": [<%=vital_statuses.collect{|s| "\"#{s.to_s}\""}.join(',').html_safe%>]
 		}
 	},
 	"y_axis":{
