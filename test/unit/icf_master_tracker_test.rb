@@ -41,19 +41,24 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 		assert icf_master_tracker.flagged_for_update
 	end
 
+#
+#	update_attribute skipped attr_protection, but did trigger callbacks
+#	update_column DOES NOT TRIGGER CALLBACKS
+#
+
 	test "should flag for update on change" do
 		icf_master_tracker = Factory(:icf_master_tracker)
 		assert  icf_master_tracker.flagged_for_update
-		icf_master_tracker.update_column(:flagged_for_update,false)
+		icf_master_tracker.update_attributes(:flagged_for_update => false)
 		assert !icf_master_tracker.flagged_for_update
-		icf_master_tracker.update_column(:is_eligible, 'trigger change')
+		icf_master_tracker.update_attributes(:is_eligible => 'trigger change')
 		assert  icf_master_tracker.flagged_for_update
 	end
 
 	test "should NOT flag for update if no change" do
 		icf_master_tracker = Factory(:icf_master_tracker)
 		assert  icf_master_tracker.flagged_for_update
-		icf_master_tracker.update_column(:flagged_for_update,false)
+		icf_master_tracker.update_attributes(:flagged_for_update => false)
 		assert !icf_master_tracker.flagged_for_update
 		icf_master_tracker.save
 		assert !icf_master_tracker.flagged_for_update
@@ -64,7 +69,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 		icf_master_tracker = Factory(:icf_master_tracker)
 		assert IcfMasterTracker.have_changed.include?(
 			icf_master_tracker )
-		icf_master_tracker.update_column(:flagged_for_update,false)
+		icf_master_tracker.update_attributes(:flagged_for_update => false)
 		assert IcfMasterTracker.have_changed.empty?
 	end
 
@@ -125,7 +130,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 		icf_master_tracker = Factory(:icf_master_tracker, :curr_phone => "something")
 		assert_difference('IcfMasterTracker.count',0) {
 		assert_difference('IcfMasterTrackerChange.count',1) {
-			icf_master_tracker.update_column(:curr_phone, "something else")
+			icf_master_tracker.update_attributes(:curr_phone => "something else")
 		} }
 		last_tracker = IcfMasterTrackerChange.last
 		assert !last_tracker.new_tracker_record
