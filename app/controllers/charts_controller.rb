@@ -1,4 +1,21 @@
 class ChartsController < ApplicationController
+	def subject_types_by_phase
+		@study_subjects = StudySubject
+			.joins(:subject_type)
+			.group('phase,subject_type_id')
+			.select('phase, subject_type_id, count(*) as count, subject_types.*')
+	end
+	def vital_statuses_by_phase
+		@study_subjects = StudySubject
+			.joins(:vital_status)
+			.group('vital_status_id')
+			.select('vital_status_id, count(*) as count, vital_statuses.*')
+	end
+
+
+
+
+
 	def enrollments
 		@enrollments = Enrollment
 			.select('project_id, count(*) as count')
