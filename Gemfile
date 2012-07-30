@@ -138,7 +138,25 @@ gem "active_scaffold"
 
 group :test do
 
-
+#jakewendt@fxdgroup-169-229-196-225 : odms 504> rake sunspot:solr:start RAILS_ENV=test 
+#Validating all html with http://localhost/w3c-validator/check
+#java version "1.6.0_33"
+#Java(TM) SE Runtime Environment (build 1.6.0_33-b03-424-10M3720)
+#Java HotSpot(TM) 64-Bit Server VM (build 20.8-b03-424, mixed mode)
+#Successfully started Solr ...
+#/opt/local/lib/ruby1.9/1.9.1/test/unit.rb:167:in `block in non_options': file not found: sunspot:solr:start (ArgumentError)
+#	from /opt/local/lib/ruby1.9/1.9.1/test/unit.rb:146:in `map!'
+#	from /opt/local/lib/ruby1.9/1.9.1/test/unit.rb:146:in `non_options'
+#	from /opt/local/lib/ruby1.9/1.9.1/test/unit.rb:207:in `non_options'
+#	from /opt/local/lib/ruby1.9/1.9.1/test/unit.rb:52:in `process_args'
+#	from /opt/local/lib/ruby1.9/gems/1.9.1/gems/minitest-3.3.0/lib/minitest/unit.rb:949:in `_run'
+#
+#	For some reason, starting sunspot throws an error,
+#	but doesn't actually stop it from starting.
+#	Added test-unit get and seems to go away.  Why?  Dunno.
+#	Will this cause problems.  We shall see.
+#	
+	gem 'test-unit'
 
 
 #	gem "rcov"	#	not supported ruby19 world. Suggests using simplecov.
