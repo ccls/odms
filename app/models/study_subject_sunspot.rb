@@ -37,6 +37,12 @@ def self.sunspot_columns
 		[sunspot_boolean_columns].compact.flatten
 end
 
+
+#
+#	NOTE what about studyid?
+#
+
+
 def self.sunspot_string_columns
 	@@sunspot_string_columns ||= %w(
 		case_master_id mother_master_id master_id
