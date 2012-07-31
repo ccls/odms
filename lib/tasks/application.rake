@@ -228,6 +228,61 @@ namespace :app do
 #
 #	end
 
+	task :update_consents_from_pagan => :environment do
+		csv_file = 'consent_updates_from_pagan.csv'
+		require 'csv'
+		(f=CSV.open( csv_file, 'rb',{
+				:headers => true })).each do |line|
+			puts
+#			puts "Processing line :#{f.lineno}:"
+#			puts line
+
+#	one is missing icf_master_id so using cases and patid
+			raise "patid is blank" if line['patid'].blank?
+			subjects = StudySubject.cases.where(:patid => line['patid'])
+			raise "Multiple case subjects? with patid:#{line['patid']}:" if subjects.length > 1
+			raise "No subject with patid:#{line['patid']}:" unless subjects.length == 1
+			s = subjects.first
+
+			raise_unless_string_equal(s,line,'case_control_type')
+			raise_unless_string_equal(s,line,'icf_master_id')
+			raise_unless_string_equal(s,line,'patid')
+			raise_unless_string_equal(s,line,'first_name')
+			raise_unless_string_equal(s,line,'last_name')
+			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+			puts_unless_yndk_equal(e,line,'is_eligible')
+			puts_unless_yndk_equal(e,line,'consented')
+			puts_unless_date_equal(e,line,'consented_on')
+			p = s.patient
+			puts_unless_date_equal(p,line,'admit_date')
+#hospital
+
+#birth_datum_attributes = line.dup.to_hash
+#line.headers.each do |h|
+#birth_datum_attributes.delete(h) unless BirthDatumUpdate.expected_column_names.include?(h)
+#end
+#bd.attributes = birth_datum_attributes
+#
+#			if bd.changed?
+#				puts "Changes:#{bd.changes}"
+##				puts "Update? Y / N / Q"
+##				response = STDIN.gets
+##				if response.match(/y/i)
+#					puts "Saving ..."
+#					bd.save!
+##				elsif response.match(/q/i)
+##					puts "Quiting ..."
+##					exit
+##				else
+##					puts "Skipping ..."
+##				end
+#			else
+#				puts "No changes."
+#			end
+		end	#	(f=CSV.open( csv_file.path, 'rb',{
+
+	end
+
 end
 
 def i_should?
@@ -243,3 +298,27 @@ def i_should?
 	end
 end
 
+def raise_unless_string_equal(m,l,f)
+	unless m.send(f).to_s == l[f].to_s
+		puts m.inspect
+		puts l.inspect
+		raise "#{f} differs :#{m.send(f)}:#{l[f]}:" 
+	end
+end
+def puts_unless_yndk_equal(m,l,f)
+	unless YNDK[m.send(f).to_s] == l[f]
+		puts m.inspect
+		puts l.inspect
+		puts "#{f} differs :#{YNDK[m.send(f)]}:#{l[f]}:" 
+#		raise "#{f} differs :#{m.send(f)}:#{l[f]}:" 
+	end
+end
+def puts_unless_date_equal(m,l,f)
+	line_date = ( l[f].blank? ) ? nil : Date.parse(l[f])
+	unless m.send(f) == line_date
+		puts m.inspect
+		puts l.inspect
+		puts "#{f} differs :#{m.send(f)}:#{l[f]}:" 
+#		raise "#{f} differs :#{m.send(f)}:#{l[f]}:" 
+	end
+end
