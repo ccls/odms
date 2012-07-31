@@ -153,9 +153,11 @@ unspec:
   id: 26	# 9
   organization_id: 33
   has_irb_waiver: false
-  is_active: true
+  is_active: false
+#  is_active: true
 dk:
   id: 27	# 10
   organization_id: 999
   has_irb_waiver: false
-  is_active: true
+  is_active: false
+#  is_active: true

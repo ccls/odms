@@ -9,6 +9,11 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
+
+#
+#	Drop the whole "No ID", "No Case", "No Mother" stuff
+#	Just leave as nil.
+#
 def case_master_id
 	case_subject.try(:master_id)||'[No Case Subject]'
 end
@@ -16,7 +21,8 @@ def mother_master_id
 	mother.try(:master_id)||'[No Mother Subject]'
 end
 def master_id
-	icf_master_id_to_s
+#	icf_master_id_to_s
+	icf_master_id
 end
 def father_ssn
 	birth_data.order('created_at DESC').collect(&:father_ssn).collect(&:to_ssn).compact.first
@@ -24,6 +30,12 @@ end
 def mother_ssn
 	birth_data.order('created_at DESC').collect(&:mother_ssn).collect(&:to_ssn).compact.first
 end
+#def hospital
+#	patient.try(:organization).to_s
+#end
+#def diagnosis
+#	patient.try(:diagnosis).to_s
+#end
 
 #
 #	All these columns are indexed and 
@@ -40,6 +52,8 @@ end
 
 #
 #	NOTE what about studyid?
+#
+#	matchingid,familyid,case_subjectid?
 #
 
 

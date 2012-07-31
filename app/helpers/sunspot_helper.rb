@@ -96,7 +96,7 @@ module SunspotHelper
 #			father_ssn mother_ssn
 #			patid languages subjectid
 #			hospital hospital_no admit_date )
-		StudySubject.sunspot_columns
+		StudySubject.sunspot_columns + ['ccls_consented','ccls_is_eligible']
 	end
 
 #Eligible
@@ -149,6 +149,9 @@ module SunspotHelper
 		case column.to_s
 			when 'dob','died_on','reference_date','admit_date'
 				subject.send(column).try(:strftime,'%m/%d/%Y')
+			when 'ccls_consented','ccls_is_eligible'
+				YNDK[subject.enrollments.where(:project_id => Project['ccls'].id).first.try(
+					column.to_s.gsub(/^ccls_/,''))]
 #			when 'hospital' 
 #				subject.organization.to_s
 			when 'languages' 
