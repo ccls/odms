@@ -147,3 +147,6 @@ div#sidemenu > * {
 div#sidemenu > .current {
 	font-weight:bold;
 }
+div#sidemenu > div > span.prev {
+	text-align:right;
+}
