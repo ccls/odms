@@ -8,8 +8,8 @@
 <% javascripts('swfobject.js') %>
 <% content_for(:head) do %>
 <%= javascript_tag do %>
-swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_1", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/subject_types_by_phase.json"}, {"wmode" : "transparent"} );
-swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_2", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/vital_statuses_by_phase.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_1", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/subject_types.json"}, {"wmode" : "transparent"} );
+swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_2", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/vital_statuses.json"}, {"wmode" : "transparent"} );
 swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_3", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/consented.json"}, {"wmode" : "transparent"} );
 swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_4", "400", "300", "9.0.0", "expressInstall.swf", {"data-file":"/charts/is_eligible.json"}, {"wmode" : "transparent"} );
 <% end %>

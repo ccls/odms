@@ -25,6 +25,7 @@ class ChartsController < ApplicationController
 		@study_subjects = StudySubject
 			.joins(:vital_status)
 			.group('vital_status_id')
+			.where(:phase => 5)
 			.select('vital_status_id, count(*) as count, vital_statuses.*')
 	end
 	def vital_statuses_pie
@@ -37,6 +38,7 @@ class ChartsController < ApplicationController
 		@study_subjects = StudySubject
 			.joins(:subject_type)
 			.group('subject_type_id')
+			.where(:phase => 5)
 			.select('subject_type_id, count(*) as count, subject_types.*')
 	end
 	def subject_types_pie
