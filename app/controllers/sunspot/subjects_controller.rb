@@ -109,7 +109,7 @@ protected
 
 	#	all facets in order
 	def all_facets
-		%w( subject_type vital_status case_control_type sex phase races languages organization diagnosis sample_types operational_event_types )
+		%w( subject_type vital_status case_control_type sex phase races languages hospital diagnosis sample_types operational_event_types )
 	end
 
 	def search_order

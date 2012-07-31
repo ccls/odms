@@ -113,7 +113,7 @@ module SunspotHelper
 
 	def default_columns
 #		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
-		%w( id case_master_id mother_master_id master_id 
+		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
 			subject_type vital_status sex dob 
 			first_name last_name)
 	end

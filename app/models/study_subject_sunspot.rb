@@ -14,28 +14,38 @@ base.class_eval do
 #	Drop the whole "No ID", "No Case", "No Mother" stuff
 #	Just leave as nil.
 #
-def case_master_id
-	case_subject.try(:master_id)||'[No Case Subject]'
+#def case_master_id
+#	case_subject.try(:master_id)	#||'[No Case Subject]'
+#end
+#def mother_master_id
+#	mother.try(:master_id)	#||'[No Mother Subject]'
+#end
+#def master_id
+##	icf_master_id_to_s
+#	icf_master_id
+#end
+def case_icf_master_id
+	case_subject.try(:icf_master_id)	#||'[No Case Subject]'
 end
-def mother_master_id
-	mother.try(:master_id)||'[No Mother Subject]'
+def mother_icf_master_id
+	mother.try(:icf_master_id)	#||'[No Mother Subject]'
 end
-def master_id
-#	icf_master_id_to_s
-	icf_master_id
-end
+#def icf_master_id
+##	icf_master_id_to_s
+#	icf_master_id
+#end
 def father_ssn
 	birth_data.order('created_at DESC').collect(&:father_ssn).collect(&:to_ssn).compact.first
 end
 def mother_ssn
 	birth_data.order('created_at DESC').collect(&:mother_ssn).collect(&:to_ssn).compact.first
 end
-#def hospital
-#	patient.try(:organization).to_s
-#end
-#def diagnosis
-#	patient.try(:diagnosis).to_s
-#end
+def hospital
+	patient.try(:organization).to_s
+end
+def diagnosis
+	patient.try(:diagnosis).to_s
+end
 
 #
 #	All these columns are indexed and 
@@ -51,7 +61,7 @@ end
 
 
 #
-#	NOTE what about studyid?
+#	NOTE what about 
 #
 #	matchingid,familyid,case_subjectid?
 #
@@ -59,15 +69,15 @@ end
 
 def self.sunspot_string_columns
 	@@sunspot_string_columns ||= %w(
-		case_master_id mother_master_id master_id
+		case_icf_master_id mother_icf_master_id icf_master_id
 		subject_type vital_status case_control_type
-		sex
+		sex studyid
 		mother_first_name mother_maiden_name mother_last_name
 		father_first_name father_last_name
 		first_name middle_name maiden_name last_name
 		father_ssn mother_ssn
 		patid subjectid
-		organization hospital_no )
+		diagnosis hospital hospital_no )
 end
 
 def self.sunspot_time_columns
@@ -128,9 +138,9 @@ searchable do
 
 
 #	string :organization
-	string :diagnosis do
-		patient.try(:diagnosis).to_s
-	end
+#	string :diagnosis do
+#		patient.try(:diagnosis).to_s
+#	end
 
 
 #	develope a way to search for the NULLs and BLANKs
