@@ -113,9 +113,8 @@ protected
 	end
 
 	def search_order
-		if params[:order] and
-				%w( id subject_type vital_status case_control_type reference_date sex dob died_on phase birth_year ).include?(
-				params[:order].downcase)
+		if params[:order] and StudySubject.sunspot_columns.include?( params[:order].downcase )
+#				%w( id subject_type vital_status case_control_type reference_date sex dob died_on phase birth_year ).include?(
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)
 				when 'desc' then 'desc'

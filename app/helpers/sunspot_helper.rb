@@ -86,16 +86,17 @@ module SunspotHelper
 	end
 
 	def available_columns
-		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
-			subject_type vital_status case_control_type reference_date
-			sex dob died_on phase birth_year 
-			mother_first_name mother_maiden_name mother_last_name
-			father_first_name father_last_name 
-			first_name middle_name maiden_name last_name
-			do_not_contact
-			father_ssn mother_ssn
-			patid languages subjectid
-			hospital hospital_no admit_date )
+#		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
+#			subject_type vital_status case_control_type reference_date
+#			sex dob died_on phase birth_year 
+#			mother_first_name mother_maiden_name mother_last_name
+#			father_first_name father_last_name 
+#			first_name middle_name maiden_name last_name
+#			do_not_contact
+#			father_ssn mother_ssn
+#			patid languages subjectid
+#			hospital hospital_no admit_date )
+		StudySubject.sunspot_columns
 	end
 
 #Eligible
@@ -111,7 +112,8 @@ module SunspotHelper
 #Date samples received
 
 	def default_columns
-		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
+#		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
+		%w( id case_master_id mother_master_id master_id 
 			subject_type vital_status sex dob 
 			first_name last_name)
 	end
@@ -147,20 +149,20 @@ module SunspotHelper
 		case column.to_s
 			when 'dob','died_on','reference_date','admit_date'
 				subject.send(column).try(:strftime,'%m/%d/%Y')
-			when 'hospital' 
-				subject.organization.to_s
+#			when 'hospital' 
+#				subject.organization.to_s
 			when 'languages' 
 				subject.languages.collect(&:key).join(',')
-			when 'icf_master_id' 
-				subject.icf_master_id_to_s
-			when 'case_icf_master_id' 
-				subject.case_subject.try(:icf_master_id_to_s)||'[No Case Subject]'
-			when 'mother_icf_master_id' 
-				subject.mother.try(:icf_master_id_to_s)||'[No Mother Subject]'
-			when 'father_ssn' 
-				subject.birth_data.order('created_at DESC').collect(&:father_ssn).compact.first
-			when 'mother_ssn' 
-				subject.birth_data.order('created_at DESC').collect(&:mother_ssn).compact.first
+#			when 'icf_master_id' 
+#				subject.icf_master_id_to_s
+#			when 'case_icf_master_id' 
+#				subject.case_subject.try(:icf_master_id_to_s)||'[No Case Subject]'
+#			when 'mother_icf_master_id' 
+#				subject.mother.try(:icf_master_id_to_s)||'[No Mother Subject]'
+#			when 'father_ssn' 
+#				subject.birth_data.order('created_at DESC').collect(&:father_ssn).compact.first
+#			when 'mother_ssn' 
+#				subject.birth_data.order('created_at DESC').collect(&:mother_ssn).compact.first
 			else ( subject.respond_to?(column) ? subject.try(column) : nil )
 		end
 	end

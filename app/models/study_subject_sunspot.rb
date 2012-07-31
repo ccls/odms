@@ -9,13 +9,77 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
+def case_master_id
+	case_subject.try(:master_id)||'[No Case Subject]'
+end
+def mother_master_id
+	mother.try(:master_id)||'[No Mother Subject]'
+end
+def master_id
+	icf_master_id_to_s
+end
+def father_ssn
+	birth_data.order('created_at DESC').collect(&:father_ssn).collect(&:to_ssn).compact.first
+end
+def mother_ssn
+	birth_data.order('created_at DESC').collect(&:mother_ssn).collect(&:to_ssn).compact.first
+end
+
+#
+#	All these columns are indexed and 
+#
+def self.sunspot_columns
+	@@sunspot_columns ||= [sunspot_string_columns].compact.flatten +
+		[sunspot_time_columns].compact.flatten +
+		[sunspot_date_columns].compact.flatten +
+		[sunspot_integer_columns].compact.flatten +
+		[sunspot_double_columns].compact.flatten +
+		[sunspot_boolean_columns].compact.flatten
+end
+
+def self.sunspot_string_columns
+	@@sunspot_string_columns ||= %w(
+		case_master_id mother_master_id master_id
+		subject_type vital_status case_control_type
+		sex
+		mother_first_name mother_maiden_name mother_last_name
+		father_first_name father_last_name
+		first_name middle_name maiden_name last_name
+		father_ssn mother_ssn
+		patid subjectid
+		organization hospital_no )
+end
+
+def self.sunspot_time_columns
+	@@sunspot_time_columns ||= []
+end
+def self.sunspot_date_columns
+	@@sunspot_date_columns ||= %w( reference_date dob died_on admit_date )
+end
+def self.sunspot_integer_columns
+	@@sunspot_integer_columns ||= %w( id phase birth_year  )
+end
+def self.sunspot_boolean_columns
+	@@sunspot_boolean_columns ||= %w( do_not_contact )
+end
+def self.sunspot_double_columns
+	@@sunspot_double_columns ||= []
+end
+
 searchable do
-	integer :id	#	if find it odd that I must explicitly include id to order by it
+	StudySubject.sunspot_integer_columns.each {|c| integer c }
+	StudySubject.sunspot_date_columns.each    {|c| date    c }
+	StudySubject.sunspot_boolean_columns.each {|c| boolean c }
+	StudySubject.sunspot_string_columns.each  {|c| string  c }
+#	StudySubject.sunspot_double_columns.each  {|c| double  c }
+#	StudySubject.sunspot_time_columns.each    {|c| time    c }
+
+#	integer :id	#	if find it odd that I must explicitly include id to order by it
 	# fields for faceting or explicit field searching
-	string :subject_type
+#	string :subject_type
 #		OR (difference?)
 #	integer :subject_type_id, :references => SubjectType
-	string :vital_status
+#	string :vital_status
 #		OR (difference?)
 #	integer :vital_status_id, :references => VitalStatus
 #	Using the foreign key and 'references' seems to be faster
@@ -28,13 +92,13 @@ searchable do
 	string :languages, :multiple => true do
 		languages.collect(&:to_s)
 	end
-	string :case_control_type
-	date :reference_date
-	string :sex
-	date :dob
-	date :died_on
-	string :phase
-	integer :birth_year       #	actual birth_year attribute or parse year from dob???
+#	string :case_control_type
+#	date :reference_date
+#	string :sex
+#	date :dob
+#	date :died_on
+#	string :phase
+#	integer :birth_year       #	actual birth_year attribute or parse year from dob???
 	# fields for text searching
 	# ALL ids and names
 	# enrolled projects
@@ -43,7 +107,7 @@ searchable do
 #	string :biospecimens, :multiple => true
 
 
-	string :organization
+#	string :organization
 	string :diagnosis do
 		patient.try(:diagnosis).to_s
 	end
