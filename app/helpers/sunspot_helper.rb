@@ -95,7 +95,7 @@ module SunspotHelper
 			do_not_contact
 			father_ssn mother_ssn
 			patid languages subjectid
-			hospital_no admit_date )
+			hospital hospital_no admit_date )
 	end
 
 #Eligible
@@ -131,10 +131,24 @@ module SunspotHelper
 		end
 	end
 
+#
+#	In order to be sortable in a sunspot search,
+#	it must be given to sunspot in the searchable block
+#	If this is done, then, perhaps, these special column contents
+#	aren't needed?
+#
+#	Except for the date formating?
+#		languages as same name as association
+#		races as same name as association
+#		icf_master_id if want the "[no ID assigned]" when blank
+#
+
 	def column_content(subject,column)
 		case column.to_s
 			when 'dob','died_on','reference_date','admit_date'
 				subject.send(column).try(:strftime,'%m/%d/%Y')
+			when 'hospital' 
+				subject.organization.to_s
 			when 'languages' 
 				subject.languages.collect(&:key).join(',')
 			when 'icf_master_id' 
