@@ -459,12 +459,12 @@ protected
 	def assert_subject_consented_visible
 		assert has_css?('#subject_consented', :visible => true)
 		assert find_field('enrollment[consented_on]').visible?
-		assert find_field('enrollment[document_version_id]').visible?
+#		assert find_field('enrollment[document_version_id]').visible?
 	end
 	def assert_subject_consented_hidden
 		assert has_css?('#subject_consented', :visible => false)
 		assert !find_field('enrollment[consented_on]').visible?
-		assert !find_field('enrollment[document_version_id]').visible?
+#		assert !find_field('enrollment[document_version_id]').visible?
 	end
 	def assert_subject_refused_visible
 		assert has_css?('#subject_refused', :visible => true)

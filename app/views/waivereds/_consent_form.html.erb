@@ -26,9 +26,9 @@ NOT ALL DOCUMENT VERSIONS?
 %>
 <p class='subconsent'>consent date:
 <%= enrollment_fields.date_text_field :consented_on  %>
-&nbsp;consent version:
-<%= enrollment_fields.collection_select :document_version_id,
-	 DocumentVersion.all, :id, :to_s, :include_blank => true  %>
+<!--&nbsp;consent version:
+<%#= enrollment_fields.collection_select :document_version_id,
+	 DocumentVersion.all, :id, :to_s, :include_blank => true  %>-->
 </p>
 <p class='subconsent'>(from consent signature page, if available at RAF entry)</p>
 

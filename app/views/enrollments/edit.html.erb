@@ -38,7 +38,7 @@
 <%= f.wrapped_date_text_field :consented_on,
 	:size => 20,
 	:label_text => 'date:' %>
-<%= f.wrapped_collection_select :document_version_id,
+<%#= f.wrapped_collection_select :document_version_id,
 	DocumentVersion.type1, :id, :to_s, :include_blank => true,
 	:label_text => 'version:' %>
 <%#
