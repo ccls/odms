@@ -22,7 +22,7 @@ class ChartsController < ApplicationController
 			dynamic("hex_#{p.to_s.unpack('H*').first}"){
 				with(:consented,"Yes")
 				with(:is_eligible,"Yes") } }
-		@counts = [ phase5.total,consenting.total,
+		@counts = [ phase5.total, consenting.total,
 			0,0 ]
 		@max_y = phase5.total
 	end

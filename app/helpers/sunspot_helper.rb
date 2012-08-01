@@ -96,7 +96,8 @@ module SunspotHelper
 #			father_ssn mother_ssn
 #			patid languages subjectid
 #			hospital hospital_no admit_date )
-		StudySubject.sunspot_columns + ['ccls_consented','ccls_is_eligible']
+		StudySubject.sunspot_columns + #['ccls_consented','ccls_is_eligible'] +
+			StudySubject.sunspot_dynamic_columns
 	end
 
 #Eligible
@@ -152,28 +153,19 @@ module SunspotHelper
 		case column.to_s
 			when 'dob','died_on','reference_date','admit_date'
 				subject.send(column).try(:strftime,'%m/%d/%Y')
-			when 'ccls_consented','ccls_is_eligible'
-				YNDK[subject.enrollments.where(:project_id => Project['ccls'].id).first.try(
-					column.to_s.gsub(/^ccls_/,''))]
-#			when 'hospital' 
-#				subject.organization.to_s
+#			when 'ccls_consented','ccls_is_eligible'
+#				YNDK[subject.enrollments.where(:project_id => Project['ccls'].id).first.try(
+#					column.to_s.gsub(/^ccls_/,''))]
 			when 'languages' 
 				subject.languages.collect(&:key).join(',')
-#			when 'icf_master_id' 
-#				subject.icf_master_id_to_s
-#			when 'case_icf_master_id' 
-#				subject.case_subject.try(:icf_master_id_to_s)||'[No Case Subject]'
-#			when 'mother_icf_master_id' 
-#				subject.mother.try(:icf_master_id_to_s)||'[No Mother Subject]'
-#			when 'father_ssn' 
-#				subject.birth_data.order('created_at DESC').collect(&:father_ssn).compact.first
-#			when 'mother_ssn' 
-#				subject.birth_data.order('created_at DESC').collect(&:mother_ssn).compact.first
-#			else ( subject.respond_to?(column) ? subject.try(column) : nil )
+
 			when *StudySubject.sunspot_columns
 				( subject.respond_to?(column) ? subject.try(column) : nil )
+			when /^(.*):(is_eligible|consented)$/
+				YNDK[Enrollment.where(:study_subject_id => subject.id)
+					.joins(:project)
+					.where("projects.description = ?",$1).first.try($2)]
 		end
-#		end if StudySubject.sunspot_columns.include?(column.to_s)
 	end
 
 end
