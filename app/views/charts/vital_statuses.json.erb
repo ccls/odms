@@ -25,7 +25,7 @@
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=@study_subjects.collect{|s| "\"#{s.vital_status}\""}.join(',').html_safe%>]
+			"labels": [<%=@vital_statuses.collect{|s|"\"#{s}\""}.join(',').html_safe%>]
 		}
 	},
 	"y_axis":{

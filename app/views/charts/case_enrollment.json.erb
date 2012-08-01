@@ -35,7 +35,7 @@
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=@orgs.collect{|o|"\"#{o.key}\""}.join(',').html_safe%>]
+			"labels": [<%=@all_hospital_keys.collect{|o|"\"#{o}\""}.join(',').html_safe%>]
 		}
 	},
 	"y_axis":{

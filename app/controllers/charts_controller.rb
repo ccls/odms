@@ -1,42 +1,85 @@
 class ChartsController < ApplicationController
 	def phase_5_case_enrollment
-		study_subjects = StudySubject.cases
-			.joins( :enrollments )
-			.where( :phase => 5 )
-			.where( 'enrollments.project_id = ?',Project['ccls'].id)
-			.group( 'enrollments.is_eligible, enrollments.consented' )
-			.select('enrollments.is_eligible as is_eligible, enrollments.consented as consented, count(*) as count')
-		@counts = [ study_subjects.collect(&:count).sum,
-			study_subjects.select{|s|
-			(s.is_eligible == 1) && (s.consented == 1)}.collect(&:count).sum,
+#		study_subjects = StudySubject.cases
+#			.joins( :enrollments )
+#			.where( :phase => 5 )
+#			.where( 'enrollments.project_id = ?',Project['ccls'].id)
+#			.group( 'enrollments.is_eligible, enrollments.consented' )
+#			.select('enrollments.is_eligible as is_eligible, enrollments.consented as consented, count(*) as count')
+#		@counts = [ study_subjects.collect(&:count).sum,
+#			study_subjects.select{|s|
+#			(s.is_eligible == 1) && (s.consented == 1)}.collect(&:count).sum,
+#			0,0 ]
+#		@max_y = study_subjects.collect(&:count).sum
+
+		phase5 = StudySubject.search{
+			with(:subject_type, 'Case')
+			with(:phase, '5') }
+		p = Project['ccls']
+		consenting = StudySubject.search{
+			with(:subject_type, 'Case')
+			with(:phase, '5')
+			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+				with(:consented,"Yes")
+				with(:is_eligible,"Yes") } }
+		@counts = [ phase5.total,consenting.total,
 			0,0 ]
-		@max_y = study_subjects.collect(&:count).sum
+		@max_y = phase5.total
 	end
 
 	def case_enrollment
-		#	the study_subjects.id is NEEDED to get the organization_id afterwards?
-		study_subjects = StudySubject.cases
-			.joins( :patient => :organization )
-			.joins( :enrollments )
-			.where( 'enrollments.project_id = ?',Project['ccls'].id)
-			.group( 'patients.organization_id, enrollments.is_eligible, enrollments.consented' )
-			.select('study_subjects.id, patients.organization_id, enrollments.is_eligible as is_eligible, enrollments.consented as consented, count(*) as count')
-			.order( 'organizations.key ASC' )
+#		#	the study_subjects.id is NEEDED to get the organization_id afterwards?
+#		study_subjects = StudySubject.cases
+#			.joins( :patient => :organization )
+#			.joins( :enrollments )
+#			.where( 'enrollments.project_id = ?',Project['ccls'].id)
+#			.group( 'patients.organization_id, enrollments.is_eligible, enrollments.consented' )
+#			.select('study_subjects.id, patients.organization_id, enrollments.is_eligible as is_eligible, enrollments.consented as consented, count(*) as count')
+#			.order( 'organizations.key ASC' )
+#
+#		@orgs = study_subjects.collect(&:organization).uniq
+#		#	non-nil needed, at least for testing
+#		@max_y = @orgs.collect{|o| 
+#			study_subjects.select{|i|
+#				i.organization_id == o.id}.collect(&:count).sum}.max || 0 
+#		@total_counts = @orgs.collect{|o| 
+#			study_subjects.select{|i|
+#				i.organization_id == o.id}.collect(&:count).sum}
+#		@eligible_counts = @orgs.collect{|o| 
+#			study_subjects.select{|i|
+#				i.organization_id == o.id && i.is_eligible == 1}.collect(&:count).sum}
+#		@consenting_counts =  @orgs.collect{|o| 
+#			study_subjects.select{|i|
+#				i.organization_id == o.id && i.is_eligible == 1 && i.consented == 1}.collect(&:count).sum}
 
-		@orgs = study_subjects.collect(&:organization).uniq
+		all = StudySubject.search{
+			facet :hospital_key
+			order_by :hospital_key, :asc }	#	not needed as array is sorted?
+		p = Project['ccls']
+		eligible = StudySubject.search{
+			facet :hospital_key
+			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+				with(:is_eligible,"Yes") }
+			order_by :hospital_key, :asc }	#	not needed as array is sorted?
+		consenting = StudySubject.search{
+			facet :hospital_key
+			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+				with(:consented,"Yes")
+				with(:is_eligible,"Yes") }
+			order_by :hospital_key, :asc }	#	not needed as array is sorted?
+
+		@all_hospital_keys = all.facet(:hospital_key).rows.collect(&:value).sort.uniq
 		#	non-nil needed, at least for testing
-		@max_y = @orgs.collect{|o| 
-			study_subjects.select{|i|
-				i.organization_id == o.id}.collect(&:count).sum}.max || 0 
-		@total_counts = @orgs.collect{|o| 
-			study_subjects.select{|i|
-				i.organization_id == o.id}.collect(&:count).sum}
-		@eligible_counts = @orgs.collect{|o| 
-			study_subjects.select{|i|
-				i.organization_id == o.id && i.is_eligible == 1}.collect(&:count).sum}
-		@consenting_counts =  @orgs.collect{|o| 
-			study_subjects.select{|i|
-				i.organization_id == o.id && i.is_eligible == 1 && i.consented == 1}.collect(&:count).sum}
+		@total_counts = @all_hospital_keys.collect{|hospital|
+			all.facet(:hospital_key).rows.detect{|row|
+				row.value == hospital }.try(:count)||0}
+		@eligible_counts = @all_hospital_keys.collect{|hospital|
+			eligible.facet(:hospital_key).rows.detect{|row|
+				row.value == hospital }.try(:count)||0}
+		@consenting_counts = @all_hospital_keys.collect{|hospital|
+			consenting.facet(:hospital_key).rows.detect{|row|
+				row.value == hospital }.try(:count)||0}
+		@max_y = @total_counts.max || 0
 	end
 
 	def blood_bone_marrow
@@ -72,10 +115,10 @@ class ChartsController < ApplicationController
 			b.facet(:hospital_key) }.collect(&:rows).flatten.collect(&:count).max || 0
 		@marrow_counts = @all_hospital_keys.collect{|hospital| 
 			marrow.facet(:hospital_key).rows.detect{|row|
-				row.value == hospital }.try(:count)||0}	#.join(',')
+				row.value == hospital }.try(:count)||0}
 		@blood_counts  = @all_hospital_keys.collect{|hospital| 
 			blood.facet(:hospital_key).rows.detect{|row|
-				row.value == hospital }.try(:count)||0}	#.join(',')
+				row.value == hospital }.try(:count)||0}
 #	expecting only one so using detect, and in case none exist, try(:count)||0
 	end
 
@@ -109,6 +152,9 @@ class ChartsController < ApplicationController
 			.group('vital_status_id')
 			.where(:phase => 5)
 			.select('vital_status_id, count(*) as count, vital_statuses.*')
+
+		@vital_statuses = @study_subjects.collect{|s| s.vital_status }
+		@max_y = @study_subjects.collect{|s|s.count.to_i}.max
 	end
 	def vital_statuses_pie
 		@study_subjects = StudySubject
@@ -122,6 +168,8 @@ class ChartsController < ApplicationController
 			.group('subject_type_id')
 			.where(:phase => 5)
 			.select('subject_type_id, count(*) as count, subject_types.*')
+		@subject_types = @study_subjects.collect{|s| s.subject_type }
+		@max_y = @study_subjects.collect{|s|s.count.to_i}.max
 	end
 	def subject_types_pie
 		@study_subjects = StudySubject

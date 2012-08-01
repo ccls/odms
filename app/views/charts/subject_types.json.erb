@@ -26,7 +26,7 @@
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=@study_subjects.collect{|s| "\"#{s.subject_type}\""}.join(',').html_safe%>]
+			"labels": [<%=@subject_types.collect{|s|"\"#{s}\""}.join(',').html_safe%>]
 		}
 	},
 	"y_axis":{
@@ -34,6 +34,6 @@
 		"tick_length": 3,
 		"grid_colour": "#00ff00",
 		"offset":      0,
-		"max":         <%=@study_subjects.collect{|s|s.count.to_i}.max.chart_round%>
+		"max":         <%=@max_y.chart_round%>
 	}
 }
