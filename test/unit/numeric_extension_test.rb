@@ -2,9 +2,20 @@ require 'test_helper'
 
 class NumericExtensionTest < ActiveSupport::TestCase
 
-	test "chart round should " do
-skip 'pending'
-#		assert_equal ????, 1.chart_round
+	test "chart round for 0 should return 10" do
+		#	10 is default for now
+		assert_equal 10, 0.chart_round
+		assert_equal Rational(11,10), 1.chart_round	#	11/10
+		assert_equal Rational(11, 2), 5.chart_round	#	11/2
+		#
+		#	TODO Fix the above ( the purpose is to provide a larger ROUNDED number )
+		#			Need the rational cast as otherwise 11/10 becomes 1
+		#
+		assert_equal 11, 10.chart_round
+		assert_equal 55, 50.chart_round
+		assert_equal 110, 100.chart_round
+		assert_equal 550, 500.chart_round
+		assert_equal 1100, 1000.chart_round
 	end
 
 #	a leading 0 makes it octal!!!

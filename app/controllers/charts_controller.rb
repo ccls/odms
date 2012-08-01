@@ -9,7 +9,7 @@ class ChartsController < ApplicationController
 	end
 
 	def case_enrollment
-#	the study_subjects.id is NEEDED to get the organization_id afterwards?
+		#	the study_subjects.id is NEEDED to get the organization_id afterwards?
 		@study_subjects = StudySubject.cases
 			.joins( :patient => :organization )
 			.joins( :enrollments )
@@ -19,19 +19,31 @@ class ChartsController < ApplicationController
 			.order( 'organizations.key ASC' )
 	end
 
+	def blood_bone_marrow
+		#	the study_subjects.id is NEEDED to get the organization_id afterwards?
+		@study_subjects = StudySubject.cases.where( :phase => 5 )
+			.joins( :patient => :organization )
+			.joins( :samples => :sample_type )
+			.group( 'patients.organization_id, sample_types.id' )
+			.select('study_subjects.id, patients.organization_id, sample_types.key as type_key, sample_types.description as type_text, count(*) as count')
+			.order( 'organizations.key ASC' )
+			.having("type_key IN ('marrowdiag','periph')")
+	end
 
-#	def subject_types_by_phase
-#		@study_subjects = StudySubject
-#			.joins(:subject_type)
-#			.group('phase, subject_type_id')
-#			.select('phase, subject_type_id, count(*) as count, subject_types.*')
-#	end
-#	def vital_statuses_by_phase
-#		@study_subjects = StudySubject
-#			.joins(:vital_status)
-#			.group('phase, vital_status_id')
-#			.select('phase, vital_status_id, count(*) as count, vital_statuses.*')
-#	end
+
+
+	def subject_types_by_phase
+		@study_subjects = StudySubject
+			.joins(:subject_type)
+			.group('phase, subject_type_id')
+			.select('phase, subject_type_id, count(*) as count, subject_types.*')
+	end
+	def vital_statuses_by_phase
+		@study_subjects = StudySubject
+			.joins(:vital_status)
+			.group('phase, vital_status_id')
+			.select('phase, vital_status_id, count(*) as count, vital_statuses.*')
+	end
 
 
 

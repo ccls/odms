@@ -1,6 +1,6 @@
 {
 	"title":{
-		"text":  "Total Case Enrollment",
+		"text":  "Blood / Bone Marrow Phase 5 Subject Count",
 		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
 	},
 	"y_legend":{
@@ -10,26 +10,19 @@
 	"elements":[
 <% orgs = @study_subjects.collect(&:organization).uniq %>
 <% max = orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id}.collect(&:count).sum}.max || 0 %><%# non-nil needed for testing %>
-{			"text" :     "Total Cases",
+{			"text" :     "Blood",
 			"type":      "bar_glass",
 			"alpha":     0.5,
 			"colour":    "#0000FF",
 			"font-size": 10,
-			"values" :   [ <%= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id}.collect(&:count).sum}.join(',')%> ]
+			"values" :   [ <%= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id && i.type_key == 'periph' }.collect(&:count).sum}.join(',')%> ]
 },
-{			"text" :     "Eligible",
-			"type":      "bar_glass",
-			"alpha":     0.5,
-			"colour":    "#FF0000",
-			"font-size": 10,
-			"values" :   [ <%= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id && i.is_eligible == 1}.collect(&:count).sum}.join(',')%> ]
-},
-{			"text" :     "Consenting",
+{			"text" :     "Bone Marrow",
 			"type":      "bar_glass",
 			"alpha":     0.5,
 			"colour":    "#00FF00",
 			"font-size": 10,
-			"values" :   [ <%= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id && i.is_eligible == 1 && i.consented == 1}.collect(&:count).sum}.join(',')%> ]
+			"values" :   [ <%= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id && i.type_key == 'marrowdiag' }.collect(&:count).sum}.join(',')%> ]
 }
 	],
 	"x_axis":{

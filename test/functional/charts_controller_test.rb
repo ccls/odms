@@ -7,7 +7,10 @@ class ChartsControllerTest < ActionController::TestCase
 		enrollments vital_statuses vital_statuses_pie
 		subject_types subject_types_pie case_control_types
 		case_control_types_pie childidwho is_eligible
-		consented ).each do |action|
+		consented 
+		phase_5_case_enrollment case_enrollment blood_bone_marrow
+		subject_types_by_phase vital_statuses_by_phase
+		).each do |action|
 
 		all_test_roles.each do |cu|
 
