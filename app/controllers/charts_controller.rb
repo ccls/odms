@@ -71,11 +71,12 @@ class ChartsController < ApplicationController
 		@max_y = [blood,marrow].collect{|b| 
 			b.facet(:hospital_key) }.collect(&:rows).flatten.collect(&:count).max || 0
 		@marrow_counts = @all_hospital_keys.collect{|hospital| 
-			marrow.facet(:hospital_key).rows.select{|row|
-			row.value == hospital }.collect{|r|r.count||0}}	#.join(',')
+			marrow.facet(:hospital_key).rows.detect{|row|
+				row.value == hospital }.try(:count)||0}	#.join(',')
 		@blood_counts  = @all_hospital_keys.collect{|hospital| 
-			blood.facet(:hospital_key).rows.select{|row|
-			row.value == hospital }.collect{|r|r.count||0}}	#.join(',')
+			blood.facet(:hospital_key).rows.detect{|row|
+				row.value == hospital }.try(:count)||0}	#.join(',')
+#	expecting only one so using detect, and in case none exist, try(:count)||0
 	end
 
 
