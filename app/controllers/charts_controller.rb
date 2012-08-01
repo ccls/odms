@@ -1,16 +1,37 @@
 class ChartsController < ApplicationController
-	def subject_types_by_phase
-		@study_subjects = StudySubject
-			.joins(:subject_type)
-			.group('phase, subject_type_id')
-			.select('phase, subject_type_id, count(*) as count, subject_types.*')
+	def phase_5_case_enrollment
+		@study_subjects = StudySubject.cases
+			.joins( :enrollments )
+			.where( :phase => 5 )
+			.where( 'enrollments.project_id = ?',Project['ccls'].id)
+			.group( 'enrollments.is_eligible, enrollments.consented' )
+			.select('enrollments.is_eligible as is_eligible, enrollments.consented as consented, count(*) as count')
 	end
-	def vital_statuses_by_phase
-		@study_subjects = StudySubject
-			.joins(:vital_status)
-			.group('phase, vital_status_id')
-			.select('phase, vital_status_id, count(*) as count, vital_statuses.*')
+
+	def case_enrollment
+#	the study_subjects.id is NEEDED to get the organization_id afterwards?
+		@study_subjects = StudySubject.cases
+			.joins( :patient => :organization )
+			.joins( :enrollments )
+			.where( 'enrollments.project_id = ?',Project['ccls'].id)
+			.group( 'patients.organization_id, enrollments.is_eligible, enrollments.consented' )
+			.select('study_subjects.id, patients.organization_id, enrollments.is_eligible as is_eligible, enrollments.consented as consented, count(*) as count')
+			.order( 'organizations.key ASC' )
 	end
+
+
+#	def subject_types_by_phase
+#		@study_subjects = StudySubject
+#			.joins(:subject_type)
+#			.group('phase, subject_type_id')
+#			.select('phase, subject_type_id, count(*) as count, subject_types.*')
+#	end
+#	def vital_statuses_by_phase
+#		@study_subjects = StudySubject
+#			.joins(:vital_status)
+#			.group('phase, vital_status_id')
+#			.select('phase, vital_status_id, count(*) as count, vital_statuses.*')
+#	end
 
 
 
