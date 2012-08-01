@@ -43,6 +43,9 @@ end
 def hospital
 	patient.try(:organization).to_s
 end
+def hospital_key
+	patient.try(:organization).try(:key)
+end
 def diagnosis
 	patient.try(:diagnosis).to_s
 end
@@ -76,7 +79,7 @@ def self.sunspot_string_columns
 		father_first_name father_last_name
 		first_name middle_name maiden_name last_name
 		father_ssn mother_ssn
-		patid subjectid
+		patid subjectid hospital_key
 		diagnosis hospital hospital_no )
 end
 

@@ -8,7 +8,7 @@ module NumericExtension
 		return 10 unless max > 0;	#	only happens in testing so far
 		l = Math.log10(max).to_i	#	FYI could be 0 if max < 10
 		l = l - 1
-		( max / 10**l ).to_i * 10**l
+		(( max / 10**l ).to_i * 10**l).to_i
 	end
 
 	def to_ssn

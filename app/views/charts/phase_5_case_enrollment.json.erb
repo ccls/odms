@@ -13,7 +13,7 @@
 			"alpha":     0.5,
 			"colour":    "#CC9933",
 			"font-size": 10,
-			"values" :   [ <%= "#{@study_subjects.collect(&:count).sum},#{@study_subjects.select{|s|(s.is_eligible == 1) && (s.consented == 1)}.collect(&:count).sum}".html_safe %> ]
+			"values" :   [ <%= @counts.join(',') %> ]
 		}
 	],
 	"x_axis":{
@@ -29,7 +29,7 @@
 		"tick_length": 3,
 		"grid_colour": "#00ff00",
 		"offset":      0,
-		"steps":       <%=((@study_subjects.collect(&:count).sum)/4).chart_round%>,
-		"max":         <%=@study_subjects.collect(&:count).sum.chart_round%>
+		"steps":       <%=((@max_y)/4).chart_round%>,
+		"max":         <%=@max_y.chart_round%>
 	}
 }

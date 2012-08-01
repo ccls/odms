@@ -1,6 +1,6 @@
 {
 	"title":{
-		"text":  "Blood / Bone Marrow Phase 5 Subject Count",
+		"text":  "Blood / Bone Marrow Subject Count",
 		"style": "{font-size: 18px; font-family: Verdana; text-align: center;}"
 	},
 	"y_legend":{
@@ -8,21 +8,19 @@
 		"style": "{font-size: 12px;}"
 	},
 	"elements":[
-<% orgs = @study_subjects.collect(&:organization).uniq %>
-<% max = orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id}.collect(&:count).sum}.max || 0 %><%# non-nil needed for testing %>
 {			"text" :     "Blood",
 			"type":      "bar_glass",
 			"alpha":     0.5,
 			"colour":    "#0000FF",
 			"font-size": 10,
-			"values" :   [ <%= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id && i.type_key == 'periph' }.collect(&:count).sum}.join(',')%> ]
+			"values" :   [ <%= @blood_counts.join(',') -%> ]
 },
 {			"text" :     "Bone Marrow",
 			"type":      "bar_glass",
 			"alpha":     0.5,
-			"colour":    "#00FF00",
+			"colour":    "#FF0000",
 			"font-size": 10,
-			"values" :   [ <%= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id && i.type_key == 'marrowdiag' }.collect(&:count).sum}.join(',')%> ]
+			"values" :   [ <%= @marrow_counts.join(',') -%> ]
 }
 	],
 	"x_axis":{
@@ -30,15 +28,16 @@
 		"tick_height":10,
 		"grid_colour":"#00ff00",
 		"labels": {
-			"labels": [<%=orgs.collect{|o|"\"#{o.key}\""}.join(',').html_safe%>]
+			"labels": [<%=@all_hospital_keys.collect{|o|"\"#{o}\""}.join(',').html_safe%>]
 		}
+
 	},
 	"y_axis":{
 		"stroke":      1,
 		"tick_length": 3,
 		"grid_colour": "#00ff00",
 		"offset":      0,
-		"steps":       <%=(max/4).chart_round%>,
-		"max":         <%= max.chart_round%>
+		"steps":       <%=(@max_y/4).chart_round%>,
+		"max":         <%= @max_y.chart_round%>
 	}
 }
