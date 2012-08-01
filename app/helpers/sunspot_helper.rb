@@ -145,6 +145,9 @@ module SunspotHelper
 #		icf_master_id if want the "[no ID assigned]" when blank
 #
 
+#
+#	NEVER use send on a tainted string!
+#
 	def column_content(subject,column)
 		case column.to_s
 			when 'dob','died_on','reference_date','admit_date'
@@ -166,8 +169,11 @@ module SunspotHelper
 #				subject.birth_data.order('created_at DESC').collect(&:father_ssn).compact.first
 #			when 'mother_ssn' 
 #				subject.birth_data.order('created_at DESC').collect(&:mother_ssn).compact.first
-			else ( subject.respond_to?(column) ? subject.try(column) : nil )
+#			else ( subject.respond_to?(column) ? subject.try(column) : nil )
+			when StudySubject.sunspot_columns.include?(column.to_s)
+				( subject.respond_to?(column) ? subject.try(column) : nil )
 		end
+#		end if StudySubject.sunspot_columns.include?(column.to_s)
 	end
 
 end
