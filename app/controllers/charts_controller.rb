@@ -72,10 +72,10 @@ class ChartsController < ApplicationController
 			b.facet(:hospital_key) }.collect(&:rows).flatten.collect(&:count).max || 0
 		@marrow_counts = @all_hospital_keys.collect{|hospital| 
 			marrow.facet(:hospital_key).rows.select{|row|
-			row.value == hospital }.collect(&:count)}	#.join(',')
+			row.value == hospital }.collect(&:count)||0}	#.join(',')
 		@blood_counts  = @all_hospital_keys.collect{|hospital| 
 			blood.facet(:hospital_key).rows.select{|row|
-			row.value == hospital }.collect(&:count)}	#.join(',')
+			row.value == hospital }.collect(&:count)||0}	#.join(',')
 	end
 
 
