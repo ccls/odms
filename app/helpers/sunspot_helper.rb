@@ -96,8 +96,8 @@ module SunspotHelper
 #			father_ssn mother_ssn
 #			patid languages subjectid
 #			hospital hospital_no admit_date )
-		StudySubject.sunspot_columns + #['ccls_consented','ccls_is_eligible'] +
-			StudySubject.sunspot_dynamic_columns
+		StudySubject.sunspot_columns.sort + #['ccls_consented','ccls_is_eligible'] +
+			StudySubject.sunspot_dynamic_columns.sort
 	end
 
 #Eligible
