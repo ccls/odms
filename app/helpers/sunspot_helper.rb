@@ -170,7 +170,7 @@ module SunspotHelper
 #			when 'mother_ssn' 
 #				subject.birth_data.order('created_at DESC').collect(&:mother_ssn).compact.first
 #			else ( subject.respond_to?(column) ? subject.try(column) : nil )
-			when StudySubject.sunspot_columns.include?(column.to_s)
+			when *StudySubject.sunspot_columns
 				( subject.respond_to?(column) ? subject.try(column) : nil )
 		end
 #		end if StudySubject.sunspot_columns.include?(column.to_s)
