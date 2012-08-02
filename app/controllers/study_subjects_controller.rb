@@ -133,6 +133,10 @@ class StudySubjectsController < ApplicationController
 	def first
 		first_study_subject = StudySubject.order('id asc').limit(1).first
 		redirect_to study_subject_path(first_study_subject)
+#		redirect_to url_for( (params[:c]||{}).update(:study_subject_id => first_study_subject.id) )
+#			:controller => params[:c][:controller],
+#			:action => params[:c][:action],
+#			:study_subject_id => first_study_subject.id )
 	end
 
 	def next

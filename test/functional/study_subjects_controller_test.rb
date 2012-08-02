@@ -220,6 +220,24 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_redirected_to prev_study_subject
 		end
 	
+		test "should get first study_subject with last #{cu} login" do
+			login_as send(cu)
+			first_study_subject = Factory(:study_subject)
+			Factory(:study_subject)
+			this_study_subject = Factory(:study_subject)
+			get :first, :id => this_study_subject.id
+			assert_redirected_to first_study_subject
+		end
+	
+		test "should get last study_subject with first #{cu} login" do
+			login_as send(cu)
+			this_study_subject = Factory(:study_subject)
+			Factory(:study_subject)
+			last_study_subject = Factory(:study_subject)
+			get :last, :id => this_study_subject.id
+			assert_redirected_to last_study_subject
+		end
+	
 	end
 
 	non_site_readers.each do |cu|
