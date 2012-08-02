@@ -6,7 +6,10 @@
 <body>
 <div id='container'>
  <%= render 'layouts/header' %>
- <%= render 'layouts/subject_header' %>
+ <%#= render 'layouts/subject_header' %>
+<div id='subject_header'>
+<%= subject_id_bar(@study_subject) %>
+</div><!-- id='subject_header' -->
  <div class='table'>
  <div class='columns'>
 <div id='left_side_menu'>

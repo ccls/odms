@@ -45,7 +45,23 @@ div#minimenu a {
 div#mainmenu { 
 	position:relative;	/* don't know if this is needed */
 	height: 32px;
+	display:inline-block;
+	vertical-align:middle;
 }
+form#icf_master_id_form {
+	height: 32px;
+	float:right;
+	display:inline-block;
+	vertical-align:middle;
+}
+form#icf_master_id_form * {
+	display:inline-block;
+	vertical-align:middle;
+}
+form#icf_master_id_form label {
+	color:white;
+}
+
 div#mainmenu .menu_item {
 	position:relative;
 	padding:0;

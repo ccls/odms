@@ -237,6 +237,20 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			get :last, :id => this_study_subject.id
 			assert_redirected_to last_study_subject
 		end
+
+		test "should redirect to study_subject by icf_master_id with #{cu} login" do
+			login_as send(cu)
+			subject = Factory(:study_subject, :icf_master_id => "1234FIND")
+			get :by, :icf_master_id => '1234FIND'
+			assert_redirected_to subject
+		end
+
+		test "should flash warn if no study_subject with icf_master_id with #{cu} login" do
+			login_as send(cu)
+			get :by, :icf_master_id => '1234FIND'
+			assert_not_nil flash[:warn]
+			assert_redirected_to root_path
+		end
 	
 	end
 

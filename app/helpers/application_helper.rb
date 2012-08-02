@@ -51,6 +51,7 @@ module ApplicationHelper
 			logged_in? and current_user.may_administrate? )
 
 		s << "\n</div><!-- mainmenu -->\n"
+		s << "<form id='icf_master_id_form' action='#{by_study_subjects_path}' method='get'><label>ICF Master ID:</label><input name='icf_master_id' type='text'/><input type='submit' value='go'/></form>"
 		s.html_safe
 	end
 

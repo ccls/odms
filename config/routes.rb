@@ -238,6 +238,7 @@ Odms::Application.routes.draw do
 			get :last
 		end
 		collection do
+			get :by
 			get :dashboard
 			get :find
 			get :followup
