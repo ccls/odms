@@ -48,42 +48,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		_prepare_context	#	need this to set @view_flow so content_for works
 	end
 
-	test "odms_main_menu should return main menu without login" do
-		response = HTML::Document.new(odms_main_menu).root
-		assert_select response, 'div#mainmenu', :count => 1 do
-			#	Home, Subjects, Samples
-			assert_select 'div.menu_item', :count => 3
-		end
-	end
-
-	test "odms_main_menu should return main menu with reader login" do
-		login_as send(:reader)
-		response = HTML::Document.new(odms_main_menu).root
-		assert_select response, 'div#mainmenu', :count => 1 do
-			#	Home, Subjects, Samples
-			assert_select 'div.menu_item', :count => 3
-		end
-	end
-
-	test "odms_main_menu should return main menu with editor login" do
-		login_as send(:editor)
-		response = HTML::Document.new(odms_main_menu).root
-		assert_select response, 'div#mainmenu', :count => 1 do
-			#	Home, Subjects, Samples
-			assert_select 'div.menu_item', :count => 3
-		end
-	end
-
-	test "odms_main_menu should return main menu with administrator login" do
-		login_as send(:administrator)
-		response = HTML::Document.new(odms_main_menu).root
-		assert_select response, 'div#mainmenu', :count => 1 do
-			#	Home, Subjects, Interviews, Samples, Admin
-			assert_select 'div.menu_item', :count => 5
-		end
-	end
-
-
 	test "birth_certificates_sub_menu for bc_requests#new" do
 		self.params = { :controller => 'bc_requests', :action => 'new' }
 		assert birth_certificates_sub_menu.nil?
@@ -181,375 +145,101 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 
-#subject_side_menu
+	#
+	#	The subject_side_menu content is dependent on the user role.
+	#	The odms_main_menu content is also dependent on the user role.
+	#	user_roles too.
+	#
 
-	test "subject_side_menu for study_subjects with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'study_subjects' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_path(study_subject)
+	controllers_and_current_links = {
+		'patients'                => 'study_subject_patient_path',
+		'birth_records'           => 'study_subject_birth_record_path',
+		'addresses'               => 'study_subject_contacts_path',
+		'addressings'             => 'study_subject_contacts_path',
+		'contacts'                => 'study_subject_contacts_path',
+		'phone_numbers'           => 'study_subject_contacts_path',
+		'consents'                => 'study_subject_consent_path',
+		'enrollments'             => 'study_subject_enrollments_path',
+		'samples'                 => 'study_subject_samples_path',
+		'interviews'              => 'study_subject_interviews_path',
+		'events'                  => 'study_subject_events_path',
+		'documents'               => 'study_subject_documents_path',
+		'notes'                   => 'study_subject_notes_path',
+		'related_subjects'        => 'study_subject_related_subjects_path',
+		'abstracts'               => 'study_subject_abstracts_path',
+		'study_subject_abstracts' => 'study_subject_abstracts_path',
+		# 1 of many abstract sub-pages
+		'abstract/diagnoses'      => 'study_subject_abstracts_path',
+		'study_subjects'          => 'study_subject_path'
+	}
+
+	site_administrators.each do |cu|
+
+		controllers_and_current_links.each do |k,v|
+
+			test "subject_side_menu for #{k} with #{cu} login" do
+				login_as send(cu)
+				self.params = { :controller => k }
+				study_subject = Factory(:study_subject)
+				response = HTML::Document.new( subject_side_menu(study_subject) ).root
+				assert_select response, 'div#sidemenu' do
+					assert_select 'a', :count => 15
+					assert_select 'a.current', :count => 1
+					assert_select 'a.current[href=?]', send(v,study_subject)
+				end
+			end
+
 		end
-	end
-
-	test "subject_side_menu for patient with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'patients' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for birth_record with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'birth_records' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_birth_record_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for addresses with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'addresses' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for addressings with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'addressings' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for contacts with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'contacts' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for phone_numbers with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'phone_numbers' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for consents with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'consents' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for enrollments with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'enrollments' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for samples with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'samples' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for interviews with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'interviews' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for events with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'events' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for documents with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'documents' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for notes with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'notes' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for related_subjects with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'related_subjects' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for abstracts with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'abstracts' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for study_subject_abstracts with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'study_subject_abstracts' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for abstract/diagnoses with admin login" do
-		login_as send(:administrator)
-		self.params = { :controller => 'abstract/diagnoses' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 13
-			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
-		end
-	end
-
-	%w( editor reader ).each do |cu|
-
-		test "subject_side_menu for study_subjects with #{cu} login" do
+	
+		test "odms_main_menu should return main menu with #{cu} login" do
 			login_as send(cu)
-			self.params = { :controller => 'study_subjects' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_path(study_subject)
+			response = HTML::Document.new(odms_main_menu).root
+			assert_select response, 'div#mainmenu', :count => 1 do
+				#	Home, Subjects, Interviews, Samples, Admin
+				assert_select 'div.menu_item', :count => 5
 			end
 		end
 
-		test "subject_side_menu for patient with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'patients' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
-			end
+		test "should get user_roles with #{cu} login" do
+			@user = send(cu)
+			login_as @user
+			@roles = Role.all
+			response = HTML::Document.new(user_roles).root
+			assert_select response, 'form.button_to', :count => 5
 		end
 
-		test "subject_side_menu for addresses with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'addresses' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-			end
-		end
+	end
 
-		test "subject_side_menu for addressings with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'addressings' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-			end
-		end
+	non_site_administrators.each do |cu|
+#
+#	The same, except less links in the menu and therefore possibly no 'current'
+#
+		controllers_and_current_links.each do |k,v|
 
-		test "subject_side_menu for contacts with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'contacts' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
+			test "subject_side_menu for #{k} with #{cu} login" do
+				login_as send(cu)
+				self.params = { :controller => k }
+				study_subject = Factory(:study_subject)
+				response = HTML::Document.new( subject_side_menu(study_subject) ).root
+				assert_select response, 'div#sidemenu' do
+					assert_select 'a', :count => 11
+					if %w( birth_records interviews documents notes ).include?(k)
+						#	not shown to non-admins
+						assert_select 'a.current', :count => 0
+					else
+						assert_select 'a.current[href=?]', send(v,study_subject)
+					end
+				end
 			end
-		end
 
-		test "subject_side_menu for phone_numbers with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'phone_numbers' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-			end
 		end
-
-		test "subject_side_menu for consents with #{cu} login" do
+	
+		test "odms_main_menu should return main menu with #{cu} login" do
 			login_as send(cu)
-			self.params = { :controller => 'consents' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
-			end
-		end
-
-		test "subject_side_menu for enrollments with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'enrollments' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
-			end
-		end
-
-		test "subject_side_menu for samples with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'samples' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-#				assert_select 'a.current', :count => 0
-				assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
-			end
-		end
-
-		test "subject_side_menu for interviews with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'interviews' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current', :count => 0
-#				assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
-			end
-		end
-
-		test "subject_side_menu for events with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'events' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
-			end
-		end
-
-		test "subject_side_menu for documents with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'documents' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current', :count => 0
-#				assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
-			end
-		end
-
-		test "subject_side_menu for notes with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'notes' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current', :count => 0
-#				assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
-			end
-		end
-
-		test "subject_side_menu for related_subjects with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'related_subjects' }
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
-			end
-		end
-
-		test "subject_side_menu for abstracts with #{cu} login" do
-			login_as send(cu)
-			self.params = { :controller => 'abstracts' }
-#			controller = AbstractsController.new
-			study_subject = Factory(:study_subject)
-			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
-				assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
+			response = HTML::Document.new(odms_main_menu).root
+			assert_select response, 'div#mainmenu', :count => 1 do
+				#	Home, Subjects, Interviews, NOT ( Samples, Admin)
+				assert_select 'div.menu_item', :count => 3
 			end
 		end
 
@@ -559,213 +249,55 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 9
+				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
 			end
 		end
 
+		test "should not get user_roles with #{cu} login" do
+			@user = send(cu)
+			login_as @user
+			@roles = Role.all
+			response = HTML::Document.new(user_roles).root
+			assert response.to_s.blank?
+		end
+
 	end	#	reader and editor
 
-	test "subject_side_menu for study_subjects without login" do
-		self.params = { :controller => 'study_subjects' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_path(study_subject)
+#	WITHOUT LOGIN
+
+	controllers_and_current_links.each do |k,v|
+
+		test "subject_side_menu for #{k} without login" do
+			self.params = { :controller => k }
+			study_subject = Factory(:study_subject)
+			response = HTML::Document.new( subject_side_menu(study_subject) ).root
+			assert_select response, 'div#sidemenu' do
+				assert_select 'a', :count => 11
+				if %w( birth_records interviews documents notes ).include?(k)
+					#	not shown to non-admins
+					assert_select 'a.current', :count => 0
+				else
+					assert_select 'a.current[href=?]', send(v,study_subject)
+				end
+			end
+		end
+
+	end
+
+	test "odms_main_menu should return main menu without login" do
+		response = HTML::Document.new(odms_main_menu).root
+		assert_select response, 'div#mainmenu', :count => 1 do
+			#	Home, Subjects, Interviews, NOT ( Samples, Admin)
+			assert_select 'div.menu_item', :count => 3
 		end
 	end
 
-	test "subject_side_menu for patient without login" do
-		self.params = { :controller => 'patients' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_patient_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for addresses without login" do
-		self.params = { :controller => 'addresses' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for addressings without login" do
-		self.params = { :controller => 'addressings' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for contacts without login" do
-		self.params = { :controller => 'contacts' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for phone_numbers without login" do
-		self.params = { :controller => 'phone_numbers' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_contacts_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for consents without login" do
-		self.params = { :controller => 'consents' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_consent_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for enrollments without login" do
-		self.params = { :controller => 'enrollments' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_enrollments_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for samples without login" do
-		self.params = { :controller => 'samples' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-#			assert_select 'a.current', :count => 0
-			assert_select 'a.current[href=?]', study_subject_samples_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for interviews without login" do
-		self.params = { :controller => 'interviews' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current', :count => 0
-#			assert_select 'a.current[href=?]', study_subject_interviews_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for events without login" do
-		self.params = { :controller => 'events' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_events_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for documents without login" do
-		self.params = { :controller => 'documents' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current', :count => 0
-#			assert_select 'a.current[href=?]', study_subject_documents_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for notes without login" do
-		self.params = { :controller => 'notes' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current', :count => 0
-#			assert_select 'a.current[href=?]', study_subject_notes_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for related_subjects without login" do
-		self.params = { :controller => 'related_subjects' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_related_subjects_path(study_subject)
-		end
-	end
-
-	test "subject_side_menu for abstracts without login" do
-		self.params = { :controller => 'abstracts' }
-		study_subject = Factory(:study_subject)
-		response = HTML::Document.new( subject_side_menu(study_subject) ).root
-		assert_select response, 'div#sidemenu' do
-			assert_select 'a', :count => 9
-			assert_select 'a.current[href=?]', study_subject_abstracts_path(study_subject)
-		end
-	end
-
-
-
+	
 #	user_roles
 
 	test "should respond to user_roles" do
 		assert respond_to?(:user_roles)
-	end
-
-	test "should get user_roles with superuser login" do
-		@user = send(:superuser)
-		login_as @user
-		@roles = Role.all
-		response = HTML::Document.new(user_roles).root
-		assert_select response, 'form.button_to', :count => 5
-	end
-
-	test "should get user_roles with administrator login" do
-		@user = send(:administrator)
-		login_as @user
-		@roles = Role.all
-		response = HTML::Document.new(user_roles).root
-		assert_select response, 'form.button_to', :count => 5
-	end
-
-	test "should not get user_roles with exporter login" do
-		@user = send(:exporter)
-		login_as @user
-		@roles = Role.all
-		response = HTML::Document.new(user_roles).root
-		assert response.to_s.blank?
-	end
-
-	test "should not get user_roles with editor login" do
-		@user = send(:editor)
-		login_as @user
-		@roles = Role.all
-		response = HTML::Document.new(user_roles).root
-		assert response.to_s.blank?
-	end
-
-	test "should not get user_roles with reader login" do
-		@user = send(:reader)
-		login_as @user
-		@roles = Role.all
-		response = HTML::Document.new(user_roles).root
-		assert response.to_s.blank?
 	end
 
 #	sort_link

@@ -12,6 +12,12 @@ class ChartsControllerTest < ActionController::TestCase
 		subject_types_by_phase vital_statuses_by_phase
 		).each do |action|
 
+#
+#	case_enrollment and phase_5_case_enrollment may fail on a first
+#	run due to non-existant projects which cause non-existant
+#	hex_* search keys.
+#
+
 		all_test_roles.each do |cu|
 
 			test "should get #{action} with #{cu} login" do

@@ -171,7 +171,7 @@ module ApplicationHelper
 			links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) )
 			links << "<span>&nbsp;</span>"
-			links << "<div><span>#{link_to('&laquo;&nbsp;prev'.html_safe, prev_study_subject_path(@study_subject, :c => params))}</span><span class='right'>#{link_to('next&nbsp;&raquo;'.html_safe,next_study_subject_path(@study_subject, :c => params))}</span></div>"
+			links << "<div><span>#{link_to('&laquo;&nbsp;prev'.html_safe, prev_study_subject_path(study_subject, :c => params))}</span><span class='right'>#{link_to('next&nbsp;&raquo;'.html_safe,next_study_subject_path(study_subject, :c => params))}</span></div>"
 			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		s.html_safe
