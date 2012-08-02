@@ -234,6 +234,8 @@ Odms::Application.routes.draw do
 		member do
 			get :next
 			get :prev
+			get :first
+			get :last
 		end
 		collection do
 			get :dashboard

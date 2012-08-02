@@ -10,7 +10,7 @@ class StudySubjectsController < ApplicationController
 		:only => :destroy
 
 	before_filter :valid_id_required, 
-		:only => [:show,:edit,:update,:destroy,:next,:prev]
+		:only => [:show,:edit,:update,:destroy,:next,:prev,:first,:last]
 
 
 	def find
@@ -127,6 +127,13 @@ class StudySubjectsController < ApplicationController
 
 
 
+#
+#
+#
+	def first
+		first_study_subject = StudySubject.order('id asc').limit(1).first
+		redirect_to study_subject_path(first_study_subject)
+	end
 
 	def next
 #		if params[:study_subject_id]
@@ -165,6 +172,11 @@ class StudySubjectsController < ApplicationController
 		prev_study_subject = StudySubject.where('id < ?',@study_subject.id)
 			.order('id desc').limit(1).first
 		redirect_to study_subject_path(prev_study_subject)
+	end
+
+	def last
+		last_study_subject = StudySubject.order('id desc').limit(1).first
+		redirect_to study_subject_path(last_study_subject)
 	end
 
 protected
