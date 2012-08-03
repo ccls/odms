@@ -22,13 +22,13 @@ base.class_eval do
 		birth_data.order('created_at DESC').collect(&:mother_ssn).collect(&:to_ssn).compact.first
 	end
 	def hospital
-		patient.try(:organization).to_s
+		patient.try(:organization).try(:to_s)	#	use try so stays nil if nil
 	end
 	def hospital_key
 		patient.try(:organization).try(:key)
 	end
 	def diagnosis
-		patient.try(:diagnosis).to_s
+		patient.try(:diagnosis).try(:to_s)	#	use try so stays nil if nil
 	end
 
 	cattr_accessor :sunspot_dynamic_columns
