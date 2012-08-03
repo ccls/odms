@@ -42,19 +42,14 @@
 </div>
 
 
-
 <div id='results'>
 <% unless @search.results.empty? %>
-<table>
-<thead>
-<tr>
+<table><thead><tr>
 <th>&nbsp;</th>
 <% columns.each do |column| %>
 <th><%= column_header(column) %></th>
 <% end %>
-</tr>
-</thead>
-<tbody>
+</tr></thead><tbody>
 <% @search.results.each do |result| %>
 <tr>
 <td><%= link_to 'show', study_subject_path(result.id) %></td>
@@ -63,8 +58,7 @@
 <% end %>
 </tr>
 <% end %>
-</tbody>
-</table>
+</tbody></table>
 <p><%= will_paginate(@search.hits) %></p>
 <p class='page_info'>Displaying page <%=@search.hits.current_page%> of <%=@search.hits.total_pages%> out of <%=@search.total%> results</p>
 <% else %>
