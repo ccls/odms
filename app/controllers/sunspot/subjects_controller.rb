@@ -100,6 +100,20 @@ end
 			end
 			paginate :page => params[:page] 
 		end
+#		#
+#		#	The only reason to have this block is to change the name of the file.
+#		#	By default, it would just be manifest.csv everytime.
+#		#	If this is actually desired, remove the entire respond_to block.
+#		#
+#		respond_to do |format|
+#			format.html
+#			format.csv
+##			format.csv { 
+##				headers["Content-Disposition"] = "attachment;"
+###				headers["Content-Disposition"] = "attachment; " <<
+###					"filename=subjects_#{Time.now.to_s(:filename)}.csv"
+##			}
+#		end
 	rescue Errno::ECONNREFUSED
 		flash[:error] = "Solr seems to be down for the moment."
 		redirect_to root_path
