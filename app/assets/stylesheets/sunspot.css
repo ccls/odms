@@ -236,7 +236,7 @@ ul.results li:nth-child(2n)   { background-color: #EEE; }
 ul.results li:nth-child(2n+1) { background-color: #DDD; }
 
 
-ul.connectedSortable {
+ul.selectable_columns {
 	background-color: silver;
 	padding: 10px;
 	list-style: none;

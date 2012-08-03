@@ -120,8 +120,8 @@ module SunspotHelper
 	end
 
 	def columns
-		columns ||= if( params[:columns].present? )
-			params[:columns]
+		columns ||= if( params[:c].present? )
+			params[:c]
 		else
 			default_columns
 		end

@@ -7,17 +7,18 @@ jQuery(function(){
 		return false;
 	});
 
-	jQuery( "#sortable1, #sortable2" ).sortable({
-		connectWith: ".connectedSortable"
+	jQuery( "#selected_columns, #unselected_columns" ).sortable({
+		connectWith: ".selectable_columns"
 	}).disableSelection();
 
 	jQuery('form').submit(function(){
-		jQuery('#sortable1 li').each(function(){
+		jQuery('#selected_columns li').each(function(){
 			jQuery('<input>').attr({ 
-				name: 'columns[]', 
+				name: 'c[]', 
 				type: 'hidden', 
 				value: $(this).text() 
 			}).appendTo('form');
 		});
 	});
+
 });
