@@ -22,8 +22,19 @@ class ChartsController < ApplicationController
 			dynamic("hex_#{p.to_s.unpack('H*').first}"){
 				with(:consented,"Yes")
 				with(:is_eligible,"Yes") } }
+		refused = StudySubject.search{
+			with(:subject_type, 'Case')
+			with(:phase, '5')
+			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+				with(:consented,"No")
+				with(:is_eligible,"Yes") } }
+		ineligible = StudySubject.search{
+			with(:subject_type, 'Case')
+			with(:phase, '5')
+			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+				with(:is_eligible,"No") } }
 		@counts = [ phase5.total, consenting.total,
-			0,0 ]
+			refused.total,ineligible.total ]
 		@max_y = phase5.total
 	end
 
@@ -59,14 +70,14 @@ class ChartsController < ApplicationController
 		eligible = StudySubject.search{
 			facet :hospital_key
 			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:is_eligible,"Yes") }
-			order_by :hospital_key, :asc }	#	not needed as array is sorted?
+				with(:is_eligible,"Yes") } }
+#			order_by :hospital_key, :asc }	#	not needed as array is sorted?
 		consenting = StudySubject.search{
 			facet :hospital_key
 			dynamic("hex_#{p.to_s.unpack('H*').first}"){
 				with(:consented,"Yes")
-				with(:is_eligible,"Yes") }
-			order_by :hospital_key, :asc }	#	not needed as array is sorted?
+				with(:is_eligible,"Yes") } }
+#			order_by :hospital_key, :asc }	#	not needed as array is sorted?
 
 		@all_hospital_keys = all.facet(:hospital_key).rows.collect(&:value).sort.uniq
 		#	non-nil needed, at least for testing
