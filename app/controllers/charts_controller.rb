@@ -1,4 +1,69 @@
 class ChartsController < ApplicationController
+	def phase_5_case_enrollment_by_month
+		dates = 15.times.collect{|i| Date.today - i.months }.reverse
+#		this_month = Date.today.month
+#
+#	may want to index dates using "trie"
+#
+#	using month-year label in case want more than a year
+#
+		phase5 = StudySubject.search{
+			with(:subject_type, 'Case')
+			with(:phase, '5') 
+			facet(:reference_date) {
+				dates.each { |date|
+					row("#{date.month}-#{date.year}"){ with(:reference_date).between([
+						date.beginning_of_month, date.end_of_month]) } } } 
+		}	#	by month over the past 12 months
+		p = Project['ccls']
+		consenting = StudySubject.search{
+			facet(:reference_date) {
+				dates.each { |date|
+					row("#{date.month}-#{date.year}"){ with(:reference_date).between([
+						date.beginning_of_month, date.end_of_month]) } } } 
+			with(:subject_type, 'Case')
+			with(:phase, '5')
+			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+				with(:consented,"Yes")
+				with(:is_eligible,"Yes") } }
+		refused = StudySubject.search{
+			facet(:reference_date) {
+				dates.each { |date|
+					row("#{date.month}-#{date.year}"){ with(:reference_date).between([
+						date.beginning_of_month, date.end_of_month]) } } } 
+			with(:subject_type, 'Case')
+			with(:phase, '5')
+			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+				with(:consented,"No")
+				with(:is_eligible,"Yes") } }
+		ineligible = StudySubject.search{
+			facet(:reference_date) {
+				dates.each { |date|
+					row("#{date.month}-#{date.year}"){ with(:reference_date).between([
+						date.beginning_of_month, date.end_of_month]) } } } 
+			with(:subject_type, 'Case')
+			with(:phase, '5')
+			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+				with(:is_eligible,"No") } }
+
+		@total_counts = dates.collect{|date|
+			phase5.facet(:reference_date).rows.detect{|row|
+				row.value == "#{date.month}-#{date.year}" }.try(:count)||0}
+		@consenting_counts = dates.collect{|date|
+			consenting.facet(:reference_date).rows.detect{|row|
+				row.value == "#{date.month}-#{date.year}" }.try(:count)||0}
+		@refused_counts = dates.collect{|date|
+			refused.facet(:reference_date).rows.detect{|row|
+				row.value == "#{date.month}-#{date.year}" }.try(:count)||0}
+		@ineligible_counts = dates.collect{|date|
+			ineligible.facet(:reference_date).rows.detect{|row|
+				row.value == "#{date.month}-#{date.year}" }.try(:count)||0}
+
+
+
+		@labels = dates.collect{|d| d.strftime('%b%y') }
+		@max_y = @total_counts.max
+	end
 	def phase_5_case_enrollment
 #		study_subjects = StudySubject.cases
 #			.joins( :enrollments )
