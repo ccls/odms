@@ -41,6 +41,8 @@ module SunspotHelper
 	end
 
 	def facet_for(facet,options={})
+		return if facet.rows.empty?
+
 		#	options include :multiselector, :facetcount
 		style, icon = if( params[facet.name] )
 			[" style='display:block;'", "ui-icon-triangle-1-s"]
@@ -121,7 +123,7 @@ module SunspotHelper
 
 	def columns
 		columns ||= if( params[:c].present? )
-			params[:c]
+			[params[:c]].flatten
 		else
 			default_columns
 		end

@@ -8,9 +8,10 @@ class FakeFacet
 	end
 end
 class FakeFacetRow
-	attr_accessor :value
-	def initialize(value)
+	attr_accessor :value, :count
+	def initialize(value,count=0)
 		self.value = value
+		self.count = count
 	end
 end
 
@@ -55,6 +56,30 @@ class SunspotHelperTest < ActionView::TestCase
 		end
 	end
 
+	test "facet_toggle should show decode hex label row count in link text" do
+		facet = FakeFacet.new("hex_#{'CCLS'.unpack('H*').first}")
+		facet.rows << FakeFacetRow.new('somevalue')
+		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
+		assert_select response, "div.facet_toggle", :count => 1 do
+			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
+			assert_select 'a', :text => "CCLS&nbsp;(1)", :count => 1 do
+				assert_select "[href=?]", "javascript:void()"
+			end
+		end
+	end
+
+	test "facet_toggle should show decode first part of hex label row count in link text" do
+		facet = FakeFacet.new("hex_#{'CCLS'.unpack('H*').first}:Unencoded")
+		facet.rows << FakeFacetRow.new('somevalue')
+		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
+		assert_select response, "div.facet_toggle", :count => 1 do
+			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
+			assert_select 'a', :text => "CCLS : Unencoded&nbsp;(1)", :count => 1 do
+				assert_select "[href=?]", "javascript:void()"
+			end
+		end
+	end
+
 
 
 #	def facet_for(facet,options={})
@@ -64,6 +89,31 @@ class SunspotHelperTest < ActionView::TestCase
 
 	test "should respond_to facet_for" do
 		assert respond_to?(:facet_for)
+	end
+
+	test "facet_for should return nil if no rows" do
+		facet = FakeFacet.new('something')
+		assert facet.rows.empty?
+		assert_nil facet_for(facet)
+	end
+
+	test "facet_for should return fields for facet" do
+		facet = FakeFacet.new('something')
+		facet.rows << FakeFacetRow.new('somevalue')
+		facet.rows << FakeFacetRow.new('somevalue')
+		response = HTML::Document.new(facet_for(facet)).root
+		assert_select response, "div.facet_toggle", :count => 1 do
+			assert_select 'span.ui-icon', :text => '&nbsp;', :count => 1
+			assert_select 'a', :text => "Something&nbsp;(2)", :count => 1 do
+				assert_select "[href=?]", "javascript:void()"
+			end
+		end
+		assert_select( response, 'ul.facet_field', :count => 1 ){|uls| uls.each { |ul|
+			assert_select( ul, 'li', :count => 2 ){|lis| lis.each { |li|
+				assert_select li, 'input', :count => 1
+				assert_select li, 'label', :count => 1
+				assert_select li, 'span',  :count => 1
+		} } } }
 	end
 
 #	test "facet_for is gonna be tough to test outside of a controller" do
@@ -187,11 +237,175 @@ class SunspotHelperTest < ActionView::TestCase
 		end
 	end
 
+
+
+#	def available_columns
+
+	test "should respond_to available_columns" do
+		assert respond_to?(:available_columns)
+	end
+
+	test "available_columns should be an array" do
+		assert available_columns.is_a?(Array)
+	end
+
+
+#	def default_columns
+
+	test "should respond_to default_columns" do
+		assert respond_to?(:default_columns)
+	end
+
+	test "default_columns should be an array" do
+		assert default_columns.is_a?(Array)
+	end
+
+
+#	def columns
+
+	test "should respond_to columns" do
+		assert respond_to?(:columns)
+	end
+
+	test "columns should be an array of default columns without params[:c]" do
+		assert columns.is_a?(Array)
+		assert_equal columns, default_columns
+	end
+
+	test "columns should be an array of default columns with nil params['c']" do
+		self.params = HWIA.new({ 'c' => nil })
+		assert columns.is_a?(Array)
+		assert_equal columns, default_columns
+	end
+
+	test "columns should be an array of default columns with nil params[:c]" do
+		self.params = HWIA.new({ :c => nil })
+		assert columns.is_a?(Array)
+		assert_equal columns, default_columns
+	end
+
+	test "columns should be an array of default columns with blank params['c']" do
+		self.params = HWIA.new({ 'c' => '' })
+		assert columns.is_a?(Array)
+		assert_equal columns, default_columns
+	end
+
+	test "columns should be an array of default columns with blank params[:c]" do
+		self.params = HWIA.new({ :c => '' })
+		assert columns.is_a?(Array)
+		assert_equal columns, default_columns
+	end
+
+	test "columns should be an array of default columns with empty params['c']" do
+		self.params = HWIA.new({ 'c' => [] })
+		assert columns.is_a?(Array)
+		assert_equal columns, default_columns
+	end
+
+	test "columns should be an array of default columns with empty params[:c]" do
+		self.params = HWIA.new({ :c => [] })
+		assert columns.is_a?(Array)
+		assert_equal columns, default_columns
+	end
+
+	test "columns should be an array with string params['c']" do
+		self.params = HWIA.new({ 'c' => 'apple' })
+		assert columns.is_a?(Array)
+		assert_equal columns, ['apple']
+	end
+
+	test "columns should be an array with string params[:c]" do
+		self.params = HWIA.new({ :c => 'apple' })
+		assert columns.is_a?(Array)
+		assert_equal columns, ['apple']
+	end
+
+	test "columns should be an array with array params['c']" do
+		self.params = HWIA.new({ 'c' => ['apple'] })
+		assert columns.is_a?(Array)
+		assert_equal columns, ['apple']
+	end
+
+	test "columns should be an array with array params[:c]" do
+		self.params = HWIA.new({ :c => ['apple'] })
+		assert columns.is_a?(Array)
+		assert_equal columns, ['apple']
+	end
+
+
+#	def column_header(column)
+
+	test "should respond_to column_header" do
+		assert respond_to?(:column_header)
+	end
+
+
+
+#	def column_content(subject,column)
+
+	test "should respond_to column_content" do
+		assert respond_to?(:column_content)
+	end
+
+	test "column_content should NOT destroy subject with column destroy" do
+		subject = Factory(:study_subject)
+		assert_difference('StudySubject.count',0){
+			response = column_content(subject,'destroy')
+			assert_nil response
+		}
+	end
+
+	test "column_content should return formatted subject dob" do
+		subject = Factory(:study_subject, :dob => Date.parse('Dec 31, 1950') )
+		response = column_content(subject,'dob')
+		assert_equal response, '12/31/1950'
+	end
+
+	test "column_content should return formatted subject died_on" do
+		subject = Factory(:study_subject, :died_on => Date.parse('Dec 31, 1950') )
+		response = column_content(subject,'died_on')
+		assert_equal response, '12/31/1950'
+	end
+
+	test "column_content should return formatted subject reference_date" do
+		subject = Factory(:study_subject, :reference_date => Date.parse('Dec 31, 1950') )
+		response = column_content(subject,'reference_date')
+		assert_equal response, '12/31/1950'
+	end
+
+	test "column_content should return formatted subject admit_date" do
+		subject = Factory(:case_study_subject)
+		subject.build_patient(:admit_date => Date.parse('Dec 31, 1950'))
+		response = column_content(subject,'admit_date')
+		assert_equal response, '12/31/1950'
+	end
+
+	test "column_content should return subject languages" do
+		subject = Factory(:study_subject)
+		response = column_content(subject,'languages')
+		puts response
+	end
+
+#159       when 'languages'
+#160         subject.languages.collect(&:key).join(',')
+#162       when *StudySubject.sunspot_columns
+#163         ( subject.respond_to?(column) ? subject.try(column) : nil )
+#164       when /^(.*):(is_eligible|consented)$/
+
+
+
 protected
+	HWIA = HashWithIndifferentAccess
+
 #	"fake" controller methods
 	def params
 		@params || HashWithIndifferentAccess.new
 	end
+#
+#	Be very aware of your params hash.  Either use a hash with indifferent access
+#	or ensure that the app code and test code match keys types.
+#	For non-HWIA hashes, :keyname and 'keyname' are DIFFERENT!
+#
 	def params=(new_params)
 		@params = new_params
 	end
