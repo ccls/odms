@@ -74,7 +74,16 @@
  #	This is also destructive.  Once in production, you may never
  #	want to do this again as the pages and guides can be maintained
  #	through the application.
- rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
+ #rake db:fixtures:load FIXTURES_PATH=production/fixtures/ FIXTURES=pages,guides 
+
+
+ #	For the moment, we are trying sunspot and solr for subject indexing.
+ #	All seems to be working well, but sunspot needs to be started
+ #	before the app. This may require RAILS_ENV=yourenvironment
+ #	(test,development,production).
+ bundle exec rake sunspot:solr:start
+
+
  
  #	start the server (common development mode)
  script/rails server
@@ -96,6 +105,8 @@
  #
 
  #	OR start the server on our production server
+ #	(RAILS_ENV is set in .tcshrc so not NEEDED.)
+ bundle exec rake sunspot:solr:start RAILS_ENV=production
  script/rails server -p 3000 -e production -d mongrel
 
 
@@ -111,6 +122,9 @@
 
 
 == Testing this app
+
+ #	Sunspot should be started first
+ bundle exec rake sunspot:solr:start RAILS_ENV=test
 
  #	One pass, running all tests ...
  rake test
