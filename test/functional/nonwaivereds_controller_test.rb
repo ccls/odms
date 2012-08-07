@@ -355,11 +355,11 @@ class NonwaiveredsControllerTest < ActionController::TestCase
 		end
 
 #		test "should rollback when assign_icf_master_id raises error with #{cu} login" do
-#skip # TODO should test when assign_icf_master_id fails
+#pending # TODO should test when assign_icf_master_id fails
 #		end 
 #
 #		test "should rollback when create_mother raises error with #{cu} login" do
-#skip # TODO should test when create_mother fails
+#pending # TODO should test when create_mother fails
 #		end 
 
 #

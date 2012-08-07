@@ -28,7 +28,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 			assert_redirected_to sample_transfers_path
 #	how to fake a fail update_all and does it raise an error?
 #flunk 'manually flunked'
-skip
+pending
 		end
 
 		test "confirm should fail with operational event invalid and #{cu} login" do

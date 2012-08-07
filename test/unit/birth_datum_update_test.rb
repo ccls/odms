@@ -153,7 +153,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		assert  birth_datum_update.errors.include?(:csv_file)
 		assert  birth_datum_update.errors.matching?(:csv_file,
 			'Invalid column name .* in csv_file')
-skip 'Temporarily disabled this validation, but works manually.'
+pending 'Temporarily disabled this validation, but works manually.'
 	end
 
 #	test "should convert empty attached csv_file to candidate controls" do
@@ -401,19 +401,19 @@ state_registrar_no
 #	what about other creation failures
 
 	test "should do what if creating candidate controls fails" do
-skip	#	bang or no bang?
+pending	#	bang or no bang?
 	end
 
 	test "should do what if creating odms exception fails" do
-skip	#	bang or no bang?
+pending	#	bang or no bang?
 	end
 
 	test "should do what if creating operational event fails" do
-skip	#	bang or no bang?
+pending	#	bang or no bang?
 	end
 
 	test "should do what if updating study subject fails" do
-skip	#	bang or no bang?
+pending	#	bang or no bang?
 	end
 
 

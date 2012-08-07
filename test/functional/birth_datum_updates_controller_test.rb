@@ -209,7 +209,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 			} }
 			assert_not_nil flash[:error]
 			assert_match "CSV error.<br/>", flash[:error]
-skip 'Pending as still need to reproduce this actual error'
+pending 'Pending as still need to reproduce this actual error'
 		end
 
 		test "should NOT create with #{cu} login and unclosed csv quote" do

@@ -66,27 +66,27 @@ if StudySubject.respond_to?(:solr_search)
 
 
 		test "should search with project facet and #{cu} login" do
-skip
+pending
 		end
 
 		test "should search with invalid facet and #{cu} login" do
-skip
+pending
 		end
 
 		test "should search with columns and #{cu} login" do
-skip
+pending
 		end
 
 		test "should search with invalid columns and #{cu} login" do
-skip
+pending
 		end
 
 		test "should search with order and #{cu} login" do
-skip
+pending
 		end
 
 		test "should search with pagination and #{cu} login" do
-skip
+pending
 		end
 
 		test "should search with csv output and #{cu} login" do

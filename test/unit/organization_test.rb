@@ -46,7 +46,7 @@ class OrganizationTest < ActiveSupport::TestCase
 #	TODO haven't really implemented organization samples yet
 #	test "should have many samples" do
 #		#	this is unclear in my diagram
-#		skip
+#		pending
 #	end
 
 	test "should return name as to_s" do

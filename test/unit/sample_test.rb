@@ -92,7 +92,7 @@ class SampleTest < ActiveSupport::TestCase
 	end
 
 	test "should require study_subject" do
-skip	"no longer required, but may be temporary"
+pending	"no longer required, but may be temporary"
 #		sample = Sample.new{|s| s.study_subject = nil }
 #		assert !sample.valid?
 #		assert !sample.errors.include?(:study_subject)
