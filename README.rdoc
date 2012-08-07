@@ -175,7 +175,8 @@
     * only get about 55% coverage with autotest, which I really don't understand
 * 'pending' doesn't work the same 
   * 'caller' says that it is from a block now not method, so no name to use
-  * using 'skip' instaed
+  * using 'skip' instead
+  * for some reason 'skip' doesn't exist when running 'rake test', only 'autotest'
 * still may have to deal with old mongrel version (there is a pre-release version)
   * or could just use webrick for the time being
 
