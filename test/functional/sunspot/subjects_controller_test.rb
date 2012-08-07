@@ -63,10 +63,10 @@ if StudySubject.respond_to?(:solr_search)
 			assert_found_nothing
 		end
 
-
-
 		test "should search with project facet and #{cu} login" do
 pending
+			login_as send(cu)
+			get :index, :projects => [Project['ccls'].to_s]
 		end
 
 		test "should search with invalid facet and #{cu} login" do
@@ -75,14 +75,20 @@ pending
 
 		test "should search with columns and #{cu} login" do
 pending
+			login_as send(cu)
+			get :index, :c => ['icf_master_id','subject_type']
 		end
 
 		test "should search with invalid columns and #{cu} login" do
 pending
+			login_as send(cu)
+			get :index, :c => ['apple','orange']
 		end
 
 		test "should search with order and #{cu} login" do
 pending
+			login_as send(cu)
+			get :index, :order => 'studyid'
 		end
 
 		test "should search with pagination and #{cu} login" do

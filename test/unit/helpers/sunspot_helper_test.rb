@@ -97,7 +97,7 @@ class SunspotHelperTest < ActionView::TestCase
 		assert_nil facet_for(facet)
 	end
 
-	test "facet_for should return fields for facet" do
+	test "facet_for should return checkbox fields for facet" do
 		facet = FakeFacet.new('something')
 		facet.rows << FakeFacetRow.new('somevalue')
 		facet.rows << FakeFacetRow.new('somevalue')
@@ -110,7 +110,26 @@ class SunspotHelperTest < ActionView::TestCase
 		end
 		assert_select( response, 'ul.facet_field', :count => 1 ){|uls| uls.each { |ul|
 			assert_select( ul, 'li', :count => 2 ){|lis| lis.each { |li|
-				assert_select li, 'input', :count => 1
+				assert_select li, 'input[type=checkbox]', :count => 1
+				assert_select li, 'label', :count => 1
+				assert_select li, 'span',  :count => 1
+		} } } }
+	end
+
+	test "facet_for should return radio fields for facet" do
+		facet = FakeFacet.new('something')
+		facet.rows << FakeFacetRow.new('somevalue')
+		facet.rows << FakeFacetRow.new('somevalue')
+		response = HTML::Document.new(facet_for(facet)).root
+		assert_select response, "div.facet_toggle", :count => 1 do
+			assert_select 'span.ui-icon', :text => '&nbsp;', :count => 1
+			assert_select 'a', :text => "Something&nbsp;(2)", :count => 1 do
+				assert_select "[href=?]", "javascript:void()"
+			end
+		end
+		assert_select( response, 'ul.facet_field', :count => 1 ){|uls| uls.each { |ul|
+			assert_select( ul, 'li', :count => 2 ){|lis| lis.each { |li|
+				assert_select li, 'input[type=radio]', :count => 1
 				assert_select li, 'label', :count => 1
 				assert_select li, 'span',  :count => 1
 		} } } }
@@ -339,6 +358,9 @@ class SunspotHelperTest < ActionView::TestCase
 		assert respond_to?(:column_header)
 	end
 
+	test "column_header should return blank for blank column" do
+		assert column_header('').blank?
+	end
 
 
 #	def column_content(subject,column)
@@ -380,14 +402,26 @@ class SunspotHelperTest < ActionView::TestCase
 		assert_equal response, '12/31/1950'
 	end
 
-	test "column_content should return subject languages" do
+	test "column_content should return blank for subject without languages" do
 		subject = Factory(:study_subject)
 		response = column_content(subject,'languages')
-		puts response
+		assert response.blank?
 	end
 
-#159       when 'languages'
-#160         subject.languages.collect(&:key).join(',')
+	test "column_content should return language names for subject with languages" do
+		subject = Factory(:study_subject)
+		subject.languages << Language['english']
+		response = column_content(subject,'languages')
+		assert !response.blank?
+		assert_equal response, 'English'
+	end
+
+	test "column_content should return someting" do
+		enrollment = Factory(:consented_enrollment)
+		subject = enrollment.study_subject
+puts column_content(subject,"#{enrollment.project.description}:consented")
+	end
+
 #162       when *StudySubject.sunspot_columns
 #163         ( subject.respond_to?(column) ? subject.try(column) : nil )
 #164       when /^(.*):(is_eligible|consented)$/
