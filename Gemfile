@@ -119,6 +119,7 @@ gem "paperclip"
 
 gem 'rubycas-client'
 
+#	ucb_ldap required modification and is now included in the app
 #gem 'ucb_ldap'
 gem 'net-ldap'
 
