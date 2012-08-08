@@ -292,6 +292,9 @@ end
 Factory.define :enrollment, :parent => :subjectless_enrollment do |f|
 	f.association :study_subject
 end
+Factory.define :eligible_enrollment, :parent => :enrollment do |f|
+	f.is_eligible   { YNDK[:yes] }	#1	#true
+end
 Factory.define :consented_enrollment, :parent => :enrollment do |f|
 	f.consented   { YNDK[:yes] }	#1	#true
 	f.consented_on Date.yesterday

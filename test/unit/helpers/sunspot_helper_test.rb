@@ -116,11 +116,11 @@ class SunspotHelperTest < ActionView::TestCase
 		} } } }
 	end
 
-	test "facet_for should return radio fields for facet" do
+	test "facet_for should return radio fields for facet if radio true" do
 		facet = FakeFacet.new('something')
 		facet.rows << FakeFacetRow.new('somevalue')
 		facet.rows << FakeFacetRow.new('somevalue')
-		response = HTML::Document.new(facet_for(facet)).root
+		response = HTML::Document.new(facet_for(facet, :radio => true)).root
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon', :text => '&nbsp;', :count => 1
 			assert_select 'a', :text => "Something&nbsp;(2)", :count => 1 do
@@ -411,22 +411,32 @@ class SunspotHelperTest < ActionView::TestCase
 	test "column_content should return language names for subject with languages" do
 		subject = Factory(:study_subject)
 		subject.languages << Language['english']
+		subject.languages << Language['spanish']
 		response = column_content(subject,'languages')
-		assert !response.blank?
-		assert_equal response, 'English'
+		assert_equal response, 'English,Spanish'
 	end
 
-	test "column_content should return someting" do
+	test "column_content should return other languages for subject with other languages" do
+		subject = Factory(:study_subject)
+		subject.subject_languages.create(:language => Language['other'],
+			:other_language => "Redneck")
+		response = column_content(subject,'languages')
+		assert_equal response, 'Redneck'
+	end
+
+	test "column_content should return Yes for consented" do
 		enrollment = Factory(:consented_enrollment)
 		subject = enrollment.study_subject
-puts column_content(subject,"#{enrollment.project.description}:consented")
+		assert_equal 'Yes',
+			column_content(subject,"#{enrollment.project.description}:consented")
 	end
 
-#162       when *StudySubject.sunspot_columns
-#163         ( subject.respond_to?(column) ? subject.try(column) : nil )
-#164       when /^(.*):(is_eligible|consented)$/
-
-
+	test "column_content should return Yes for eligible" do
+		enrollment = Factory(:eligible_enrollment)
+		subject = enrollment.study_subject
+		assert_equal 'Yes',
+			column_content(subject,"#{enrollment.project.description}:is_eligible")
+	end
 
 protected
 	HWIA = HashWithIndifferentAccess

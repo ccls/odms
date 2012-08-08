@@ -8,4 +8,8 @@ class SubjectLanguage < ActiveRecord::Base
 
 	validates_presence_of :other_language, :if => :language_is_other?
 
+	def to_s
+		( language_is_other? ) ? other_language : language.to_s
+	end
+
 end

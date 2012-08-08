@@ -42,6 +42,28 @@ class SubjectRaceTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "race_is_other should return true if race is other" do
+		subject_race = Factory(:subject_race, 
+			:race => Race['other'],
+			:other_race => 'Funky' )
+		assert subject_race.race_is_other?
+	end
+
+	test "race_is_other should return false if race is not other" do
+		subject_race = Factory(:subject_race, :race => Race['white'])
+		assert !subject_race.race_is_other?
+	end
+
+	test "to_s should return race description if english" do
+		subject_race = Factory(:subject_race, :race => Race['white'])
+		assert_equal subject_race.to_s, 'White, Non-Hispanic'
+	end
+
+	test "to_s should return race description if spanish" do
+		subject_race = Factory(:subject_race, :race => Race['black'])
+		assert_equal subject_race.to_s, 'Black / African American'
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

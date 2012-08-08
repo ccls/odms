@@ -42,6 +42,28 @@ class SubjectLanguageTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "language_is_other should return true if language is other" do
+		subject_language = Factory(:subject_language, 
+			:language => Language['other'],
+			:other_language => 'redneck' )
+		assert subject_language.language_is_other?
+	end
+
+	test "language_is_other should return false if language is not other" do
+		subject_language = Factory(:subject_language, :language => Language['english'])
+		assert !subject_language.language_is_other?
+	end
+
+	test "to_s should return language description if english" do
+		subject_language = Factory(:subject_language, :language => Language['ENglish'])
+		assert_equal subject_language.to_s, 'English'
+	end
+
+	test "to_s should return language description if spanish" do
+		subject_language = Factory(:subject_language, :language => Language['spanish'])
+		assert_equal subject_language.to_s, 'Spanish'
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

@@ -112,6 +112,12 @@ class EnrollmentTest < ActiveSupport::TestCase
 		}
 	end
 
+	test "eligible_enrollment should create eligible enrollment" do
+		enrollment = Factory(:eligible_enrollment)
+		assert !enrollment.new_record?
+		assert_equal enrollment.is_eligible, YNDK[:yes]
+	end
+
 	test "consented_enrollment should create consented enrollment" do
 		enrollment = Factory(:consented_enrollment)
 		assert !enrollment.new_record?

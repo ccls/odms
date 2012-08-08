@@ -8,4 +8,8 @@ class SubjectRace < ActiveRecord::Base
 
 	validates_presence_of :other_race, :if => :race_is_other?
 
+	def to_s
+		( race_is_other? ) ? other_race : race.to_s
+	end
+
 end

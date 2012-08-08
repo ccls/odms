@@ -159,7 +159,8 @@ module SunspotHelper
 #				YNDK[subject.enrollments.where(:project_id => Project['ccls'].id).first.try(
 #					column.to_s.gsub(/^ccls_/,''))]
 			when 'languages' 
-				subject.languages.collect(&:key).join(',')
+#				subject.languages.collect(&:key).join(',')
+				subject.subject_languages.collect(&:to_s).join(',')
 
 			when *StudySubject.sunspot_columns
 				( subject.respond_to?(column) ? subject.try(column) : nil )

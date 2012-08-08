@@ -64,9 +64,23 @@ if StudySubject.respond_to?(:solr_search)
 		end
 
 		test "should search with project facet and #{cu} login" do
-pending
 			login_as send(cu)
 			get :index, :projects => [Project['ccls'].to_s]
+pending
+		end
+
+		test "should search with project and consented facet and #{cu} login" do
+			login_as send(cu)
+			get :index, :projects => [Project['ccls'].to_s],
+				:"hex_#{Project['ccls'].to_s.unpack('H*').first}:consented" => 'Yes'
+pending
+		end
+
+		test "should search with project and is_eligible facet and #{cu} login" do
+			login_as send(cu)
+			get :index, :projects => [Project['ccls'].to_s],
+				:"hex_#{Project['ccls'].to_s.unpack('H*').first}:is_eligible" => 'Yes'
+pending
 		end
 
 		test "should search with invalid facet and #{cu} login" do
@@ -74,21 +88,21 @@ pending
 		end
 
 		test "should search with columns and #{cu} login" do
-pending
 			login_as send(cu)
 			get :index, :c => ['icf_master_id','subject_type']
+pending
 		end
 
 		test "should search with invalid columns and #{cu} login" do
-pending
 			login_as send(cu)
 			get :index, :c => ['apple','orange']
+pending
 		end
 
 		test "should search with order and #{cu} login" do
-pending
 			login_as send(cu)
 			get :index, :order => 'studyid'
+pending
 		end
 
 		test "should search with pagination and #{cu} login" do
@@ -110,6 +124,16 @@ pending
 			assert_equal 2, f.length	#	1 rows, 1 header and 0 data
 #id,case_icf_master_id,mother_icf_master_id,icf_master_id,subject_type,vital_status,sex,dob,first_name,last_name
 #1085,,,,Desc10,living,M,05/26/1971,,
+		end
+
+
+		test "should not search if solr is down and #{cu} login" do
+			StudySubject.stubs(:search).raises(Errno::ECONNREFUSED)
+			login_as send(cu)
+			get :index
+			assert_not_nil flash[:error]
+			assert_equal flash[:error], "Solr seems to be down for the moment."
+			assert_redirected_to root_path
 		end
 
 	end
