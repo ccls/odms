@@ -2,31 +2,6 @@ require 'test_helper'
 
 class EventsControllerTest < ActionController::TestCase
 
-	ASSERT_ACCESS_OPTIONS = {
-		:model => 'OperationalEvent',
-		:actions => [:edit,:update,:destroy],
-		:attributes_for_create => :factory_attributes,	#	needed for update
-		:method_for_create => :create_operational_event_with_subject
-	}
-	def create_operational_event_with_subject(options={})
-		Factory(:operational_event,{
-			:study_subject => Factory(:study_subject)}.merge(options) )
-	end
-	def factory_attributes(options={})
-		Factory.attributes_for(:operational_event,{
-			:operational_event_type_id => Factory(:operational_event_type).id,
-			:project_id => Project['ccls'].id
-		}.merge(options))
-	end
-
-	assert_access_with_login({    :logins => site_administrators })
-	assert_no_access_with_login({ :logins => non_site_administrators })
-	assert_access_with_login({    :logins => site_readers, 
-		:actions => [:show] })
-	assert_no_access_with_login({ :logins => non_site_readers, 
-		:actions => [:show] })
-	assert_no_access_without_login
-
 	#	no study_subject_id
 	assert_no_route(:get,:index)
 	assert_no_route(:get,:new)
@@ -37,6 +12,36 @@ class EventsControllerTest < ActionController::TestCase
 	assert_no_route(:get, :edit)
 	assert_no_route(:put, :update)
 	assert_no_route(:delete, :destroy)
+
+#	ASSERT_ACCESS_OPTIONS = {
+#		:model => 'OperationalEvent',
+#		:actions => [:edit,:update,:destroy],
+#		:attributes_for_create => :factory_attributes,	#	needed for update
+#		:method_for_create => :create_operational_event_with_subject
+#	}
+#
+#	assert_access_with_login({    :logins => site_administrators })
+#	assert_no_access_with_login({ :logins => non_site_administrators })
+#	assert_access_with_login({    :logins => site_readers, 
+#		:actions => [:show] })
+#	assert_no_access_with_login({ :logins => non_site_readers, 
+#		:actions => [:show] })
+#	assert_no_access_without_login
+
+	test "STILL NEED TO RE-ADD TESTS" do
+		pending "STILL NEED TO RE-ADD TESTS"
+	end
+
+	def create_operational_event_with_subject(options={})
+		Factory(:operational_event,{
+			:study_subject => Factory(:study_subject)}.merge(options) )
+	end
+	def factory_attributes(options={})
+		Factory.attributes_for(:operational_event,{
+			:operational_event_type_id => Factory(:operational_event_type).id,
+			:project_id => Project['ccls'].id
+		}.merge(options))
+	end
 
 	site_administrators.each do |cu|
 
@@ -102,6 +107,62 @@ class EventsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
+		test "should edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid id #{cu} login" do
+pending
+		end
+
+		test "should update with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with save failure and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid id #{cu} login" do
+pending
+		end
+
+		test "should destroy with #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with invalid id #{cu} login" do
+pending
+		end
+
 	end
 
 	non_site_administrators.each do |cu|
@@ -123,6 +184,18 @@ class EventsControllerTest < ActionController::TestCase
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subject_events_path(study_subject)
+		end
+
+		test "should NOT edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with #{cu} login" do
+pending
 		end
 
 	end
@@ -253,6 +326,34 @@ class EventsControllerTest < ActionController::TestCase
 			assert_equal assigns(:events), [oes[1],oes[0],oes[2]].reverse
 		end
 
+		test "should show with #{cu} login" do
+pending
+		end
+
+		test "should NOT show with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT show with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT show with invalid id #{cu} login" do
+pending
+		end
+
+		test "should get index with #{cu} login" do
+pending
+		end
+
+		test "should NOT get index with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT get index with invalid study_subject_id #{cu} login" do
+pending
+		end
+
 	end
 
 	non_site_readers.each do |cu|
@@ -265,7 +366,17 @@ class EventsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+		test "should NOT show with #{cu} login" do
+pending
+		end
+
+		test "should NOT get index with #{cu} login" do
+pending
+		end
+
 	end
+
+	#	not logged in ..
 
 	test "should NOT get events without login" do
 		study_subject = Factory(:study_subject)
@@ -287,6 +398,23 @@ class EventsControllerTest < ActionController::TestCase
 		}
 		assert_redirected_to_login
 	end
+
+	test "should NOT show without login" do
+pending
+	end
+
+	test "should NOT edit without login" do
+pending
+	end
+
+	test "should NOT update without login" do
+pending
+	end
+
+	test "should NOT destroy without login" do
+pending
+	end
+
 
 protected
 

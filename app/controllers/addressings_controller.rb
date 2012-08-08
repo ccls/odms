@@ -11,8 +11,9 @@ class AddressingsController < ApplicationController
 	before_filter :may_destroy_addressings_required,
 		:only => :destroy
 
-	before_filter :valid_study_subject_id_required,
-		:only => [:new,:create,:index]
+	before_filter :valid_study_subject_id_required
+#	before_filter :valid_study_subject_id_required,
+#		:only => [:new,:create,:index]
 	before_filter :valid_id_required,
 		:only => [:edit,:update,:destroy]
 
@@ -58,11 +59,13 @@ class AddressingsController < ApplicationController
 protected
 
 	def valid_id_required
-		if !params[:id].blank? and Addressing.exists?(params[:id])
-			@addressing = Addressing.find(params[:id])
-			@study_subject = @addressing.study_subject
+		if !params[:id].blank? and @study_subject.addressings.exists?(params[:id])
+			@addressing = @study_subject.addressings.find(params[:id])
+#		if !params[:id].blank? and Addressing.exists?(params[:id])
+#			@addressing = Addressing.find(params[:id])
+#			@study_subject = @addressing.study_subject
 		else
-			access_denied("Valid address id required!", 
+			access_denied("Valid addressing id required!", 
 				study_subjects_path)
 		end
 	end

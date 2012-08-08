@@ -11,7 +11,8 @@ class DocumentsController < ApplicationController
 	before_filter :may_destroy_documents_required,
 		:only => :destroy
 
-	before_filter :valid_study_subject_id_required,
-		:only => [:index]
+	before_filter :valid_study_subject_id_required
+#	before_filter :valid_study_subject_id_required,
+#		:only => [:index]
 
 end

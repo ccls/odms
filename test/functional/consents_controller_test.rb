@@ -15,6 +15,9 @@ class ConsentsControllerTest < ActionController::TestCase
 	assert_no_route(:get,:new,:study_subject_id => 0)
 	assert_no_route(:post,:create,:study_subject_id => 0)
 
+
+#	ONLY SHOW, EDIT and UPDATE
+
 	site_editors.each do |cu|
 
 

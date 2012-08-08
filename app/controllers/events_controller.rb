@@ -11,8 +11,9 @@ class EventsController < ApplicationController
 	before_filter :may_destroy_events_required,
 		:only => :destroy
 
-	before_filter :valid_study_subject_id_required,
-		:only => [:new,:create,:index]
+	before_filter :valid_study_subject_id_required
+#	before_filter :valid_study_subject_id_required,
+#		:only => [:new,:create,:index]
 
 	before_filter :valid_id_required,
 		:only => [:show,:edit,:update,:destroy]
@@ -77,10 +78,12 @@ protected
 	end
 
 	def valid_id_required
-		if !params[:id].blank? and OperationalEvent.exists?(params[:id])
-			@operational_event = OperationalEvent.find(params[:id])
-			#	study_subject needed in edit form
-			@study_subject = @operational_event.study_subject
+		if !params[:id].blank? and @study_subject.operational_events.exists?(params[:id])
+			@operational_event = @study_subject.operational_events.find(params[:id])
+#		if !params[:id].blank? and OperationalEvent.exists?(params[:id])
+#			@operational_event = OperationalEvent.find(params[:id])
+#			#	study_subject needed in edit form
+#			@study_subject = @operational_event.study_subject
 		else
 			access_denied("Valid operational_event id required!", study_subjects_path)
 		end

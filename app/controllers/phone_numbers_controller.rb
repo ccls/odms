@@ -11,8 +11,9 @@ class PhoneNumbersController < ApplicationController
 	before_filter :may_destroy_phone_numbers_required,
 		:only => :destroy
 
-	before_filter :valid_study_subject_id_required,
-		:only => [:new,:create,:index]
+	before_filter :valid_study_subject_id_required
+#	before_filter :valid_study_subject_id_required,
+#		:only => [:new,:create,:index]
 	before_filter :valid_id_required,
 		:only => [:edit,:update,:destroy]
 
@@ -48,9 +49,11 @@ class PhoneNumbersController < ApplicationController
 protected
 
 	def valid_id_required
-		if !params[:id].blank? and PhoneNumber.exists?(params[:id])
-			@phone_number = PhoneNumber.find(params[:id])
-			@study_subject = @phone_number.study_subject
+		if !params[:id].blank? and @study_subject.phone_numbers.exists?(params[:id])
+			@phone_number = @study_subject.phone_numbers.find(params[:id])
+#		if !params[:id].blank? and PhoneNumber.exists?(params[:id])
+#			@phone_number = PhoneNumber.find(params[:id])
+#			@study_subject = @phone_number.study_subject
 		else
 			access_denied("Valid phone_number id required!", 
 				study_subjects_path)

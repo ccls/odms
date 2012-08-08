@@ -11,8 +11,9 @@ class ConsentsController < ApplicationController
 	before_filter :may_destroy_consents_required,
 		:only => :destroy
 
-	before_filter :valid_study_subject_id_required,
-		:only => [:show,:edit,:update]
+	before_filter :valid_study_subject_id_required
+#	before_filter :valid_study_subject_id_required,
+#		:only => [:show,:edit,:update]
 #		:only => [:new,:create,:index]
 
 	def show

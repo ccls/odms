@@ -13,6 +13,8 @@ class AbstractsController < ApplicationController
 	before_filter :may_destroy_abstracts_required,
 		:only => :destroy
 
+	before_filter :valid_study_subject_id_required
+
 	before_filter :valid_id_required, 
 		:only => [:show,:edit,:update,:destroy]
 
@@ -39,10 +41,12 @@ class AbstractsController < ApplicationController
 protected
 
 	def valid_id_required
-		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
-			@abstract = Abstract.find(params[:id])
-			#	for id bar
-			@study_subject = @abstract.study_subject
+		if( !params[:id].blank? && @study_subject.abstracts.exists?(params[:id]) )
+			@abstract = @study_subject.abstracts.find(params[:id])
+#		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
+#			@abstract = Abstract.find(params[:id])
+#			#	for id bar
+#			@study_subject = @abstract.study_subject
 		else
 			access_denied("Valid id required!", abstracts_path)
 		end

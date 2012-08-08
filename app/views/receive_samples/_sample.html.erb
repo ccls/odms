@@ -1,9 +1,11 @@
 <h4>Your new sample has been created successfully.</h4>
 
 <p>It has been assigned a sample id of: 
-<%= link_to @sample.sampleid, @sample %>
+<%= link_to @sample.sampleid, 
+	study_subject_sample_path(@study_subject.id,@sample.id) %>
 &nbsp;&nbsp;
-<%= link_to 'print label', sample_path(@sample, :format => :pdf), 
+<%= link_to 'print label', 
+	study_subject_sample_path(@study_subject.id, @sample.id, :format => :pdf), 
 	:class => :button, :target => :new %>
 &nbsp;&nbsp;
 <%= link_to "add another for this subject", 

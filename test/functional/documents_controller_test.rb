@@ -15,6 +15,10 @@ class DocumentsControllerTest < ActionController::TestCase
 	assert_no_route(:get,:new,:study_subject_id => 0)
 	assert_no_route(:post,:create,:study_subject_id => 0)
 
+
+#	ONLY INDEX
+
+
 	site_readers.each do |cu|
 
 		test "should get documents with #{cu} login" do

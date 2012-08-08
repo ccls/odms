@@ -4,7 +4,9 @@ class InterviewsController < ApplicationController
 		:only => [:dashboard,:find,:followup,:reports,:index]
 
 	before_filter :valid_study_subject_id_required,
-		:only => [:index]
+		:except => [:dashboard,:find,:followup,:reports]
+#	before_filter :valid_study_subject_id_required,
+#		:only => [:index]
 
 	def index
 		render :layout => 'subject'

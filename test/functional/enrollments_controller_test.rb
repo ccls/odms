@@ -13,32 +13,40 @@ class EnrollmentsControllerTest < ActionController::TestCase
 	assert_no_route(:put, :update)
 	assert_no_route(:delete, :destroy)
 
-	ASSERT_ACCESS_OPTIONS = {
-		:model => 'Enrollment',
-		:actions => [:show,:edit,:update],	#	only the shallow ones
-		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_enrollment
-	}
+#	NO DESTROY
+
+
+#	ASSERT_ACCESS_OPTIONS = {
+#		:model => 'Enrollment',
+#		:actions => [:show,:edit,:update],	#	only the shallow ones
+#		:attributes_for_create => :factory_attributes,
+#		:method_for_create => :create_enrollment
+#	}
+#
+#	assert_access_with_login({ 
+#		:actions => [:show],
+#		:logins  => site_readers })
+#	assert_no_access_with_login({ 
+#		:actions => [:show],
+#		:logins  => non_site_readers })
+#
+#	assert_access_with_login({ 
+#		:actions => [:edit,:update],
+#		:logins  => site_editors })
+#	assert_no_access_with_login({ 
+#		:actions => [:edit,:update],
+#		:logins  => non_site_editors })
+#
+#	assert_no_access_without_login
+
+	test "STILL NEED TO RE-ADD TESTS" do
+		pending "STILL NEED TO RE-ADD TESTS"
+	end
+
 	def factory_attributes(options={})
 		Factory.attributes_for(:enrollment,
 			{:project_id => Factory(:project).id}.merge(options))
 	end
-
-	assert_access_with_login({ 
-		:actions => [:show],
-		:logins  => site_readers })
-	assert_no_access_with_login({ 
-		:actions => [:show],
-		:logins  => non_site_readers })
-
-	assert_access_with_login({ 
-		:actions => [:edit,:update],
-		:logins  => site_editors })
-	assert_no_access_with_login({ 
-		:actions => [:edit,:update],
-		:logins  => non_site_editors })
-
-	assert_no_access_without_login
 
 	site_editors.each do |cu|
 
@@ -77,7 +85,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 					:enrollment => factory_attributes
 			} }
 			assert assigns(:study_subject)
-			assert_redirected_to edit_enrollment_path(assigns(:enrollment))
+			assert_redirected_to edit_study_subject_enrollment_path(study_subject, assigns(:enrollment))
 		end
 
 		test "should NOT create enrollment with invalid study_subject_id " <<
@@ -126,7 +134,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 			study_subject = enrollment.study_subject
 			login_as send(cu)
 			assert_difference("study_subject.operational_events.count",1) {
-				put :update, :id => enrollment.id,
+				put :update, :study_subject_id => study_subject.id, :id => enrollment.id,
 					:enrollment => { :consented => YNDK[:yes],
 						:consented_on => Date.today }
 			}
@@ -135,7 +143,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 				:project_id => enrollment.project_id).first
 			assert_equal OperationalEventType['subjectConsents'],
 				oe.operational_event_type
-			assert_redirected_to enrollment_path(enrollment)
+			assert_redirected_to study_subject_enrollment_path(study_subject,enrollment)
 		end
 
 		test "should create operational event if declines on update with #{cu} login" do
@@ -143,7 +151,7 @@ class EnrollmentsControllerTest < ActionController::TestCase
 			study_subject = enrollment.study_subject
 			login_as send(cu)
 			assert_difference("study_subject.operational_events.count",1) {
-				put :update, :id => enrollment.id,
+				put :update, :study_subject_id => study_subject.id, :id => enrollment.id,
 					:enrollment => { :consented => YNDK[:no],
 						:refusal_reason_id => Factory(:refusal_reason).id,
 						:consented_on => Date.today }
@@ -155,7 +163,48 @@ class EnrollmentsControllerTest < ActionController::TestCase
 				oe.operational_event_type
 #			assert_equal OperationalEventType['subjectDeclines'],
 #				assigns(:enrollment).operational_events.first.operational_event_type
-			assert_redirected_to enrollment_path(enrollment)
+			assert_redirected_to study_subject_enrollment_path(study_subject,enrollment)
+		end
+
+
+		test "should edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid id #{cu} login" do
+pending
+		end
+
+		test "should update with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with save failure and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid id #{cu} login" do
+pending
 		end
 
 	end
@@ -179,6 +228,13 @@ class EnrollmentsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+		test "should NOT edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with #{cu} login" do
+pending
+		end
 	end
 
 ######################################################################
@@ -205,6 +261,34 @@ class EnrollmentsControllerTest < ActionController::TestCase
 			assert_template 'index_mother'
 		end
 
+		test "should show with #{cu} login" do
+pending
+		end
+
+		test "should NOT show with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT show with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT show with invalid id #{cu} login" do
+pending
+		end
+
+		test "should get index with #{cu} login" do
+pending
+		end
+
+		test "should NOT get index with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT get index with invalid study_subject_id #{cu} login" do
+pending
+		end
+
 	end
 
 	non_site_readers.each do |cu|
@@ -217,7 +301,13 @@ class EnrollmentsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+		test "should NOT show with #{cu} login" do
+pending
+		end
+
 	end
+
+	#	not logged in ..
 
 	test "should NOT get enrollments without login" do
 		study_subject = Factory(:study_subject)
@@ -236,6 +326,18 @@ class EnrollmentsControllerTest < ActionController::TestCase
 		post :create, :study_subject_id => study_subject.id,
 			:enrollment => factory_attributes
 		assert_redirected_to_login
+	end
+
+	test "should NOT show without login" do
+pending
+	end
+
+	test "should NOT edit without login" do
+pending
+	end
+
+	test "should NOT update without login" do
+pending
 	end
 
 end

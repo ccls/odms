@@ -2,27 +2,20 @@ require 'test_helper'
 
 class SamplesControllerTest < ActionController::TestCase
 
-	ASSERT_ACCESS_OPTIONS = {
-		:model => 'Sample',
-		:actions => [:edit,:update,:destroy],
-		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_sample
-	}
-	def factory_attributes(options={})
-		#	Being more explicit to reflect what is actually on the form
-		{
-			:project_id     => Project['ccls'].id,
-			:sample_type_id => Factory(:sample_type).id
-		}.merge(options)
-	end
-
-	assert_access_with_login({    :logins => site_editors })
-	assert_no_access_with_login({ :logins => non_site_editors })
-	assert_access_with_login({    :logins => site_readers, 
-		:actions => [:show] })
-	assert_no_access_with_login({ :logins => non_site_readers, 
-		:actions => [:show] })
-	assert_no_access_without_login
+#	ASSERT_ACCESS_OPTIONS = {
+#		:model => 'Sample',
+#		:actions => [:edit,:update,:destroy],
+#		:attributes_for_create => :factory_attributes,
+#		:method_for_create => :create_sample
+#	}
+#
+#	assert_access_with_login({    :logins => site_editors })
+#	assert_no_access_with_login({ :logins => non_site_editors })
+#	assert_access_with_login({    :logins => site_readers, 
+#		:actions => [:show] })
+#	assert_no_access_with_login({ :logins => non_site_readers, 
+#		:actions => [:show] })
+#	assert_no_access_without_login
 
 	#	no study_subject_id
 	assert_no_route(:get,:index)
@@ -32,6 +25,14 @@ class SamplesControllerTest < ActionController::TestCase
 	assert_no_route(:get, :edit)
 	assert_no_route(:put, :update)
 	assert_no_route(:delete, :destroy)
+
+	def factory_attributes(options={})
+		#	Being more explicit to reflect what is actually on the form
+		{
+			:project_id     => Project['ccls'].id,
+			:sample_type_id => Factory(:sample_type).id
+		}.merge(options)
+	end
 
 	site_editors.each do |cu|
 
@@ -63,7 +64,7 @@ class SamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			} }
 			assert_nil flash[:error]
-			assert_redirected_to sample_path(assigns(:sample))
+			assert_redirected_to study_subject_sample_path(study_subject,assigns(:sample))
 		end
 
 		test "should NOT create sample or transfer with #{cu} login " <<
@@ -138,6 +139,64 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
+
+		test "should edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid id #{cu} login" do
+pending
+		end
+
+		test "should update with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with save failure and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid id #{cu} login" do
+pending
+		end
+
+		test "should destroy with #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with invalid id #{cu} login" do
+pending
+		end
+
+
 	end
 	
 	non_site_editors.each do |cu|
@@ -157,6 +216,19 @@ class SamplesControllerTest < ActionController::TestCase
 				:sample => factory_attributes
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
+		end
+
+
+		test "should NOT edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with #{cu} login" do
+pending
 		end
 
 	end
@@ -726,7 +798,8 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should show pdf with #{cu} login" do
 			login_as send(cu)
 			sample = Factory(:sample)
-			get :show, :id => sample.id, :format => 'pdf'
+			get :show, :study_subject_id => sample.study_subject.id,
+				:id => sample.id, :format => 'pdf'
 			assert_response :success
 			assert_template 'show'
 			assert_not_nil @response.headers['Content-Type']
@@ -735,6 +808,22 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_match /inline/, @response.headers['Content-Disposition']
 		end
 	
+		test "should show with #{cu} login" do
+pending
+		end
+
+		test "should NOT show with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT show with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT show with invalid id #{cu} login" do
+pending
+		end
+
 	end
 
 	non_site_readers.each do |cu|
@@ -783,6 +872,10 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 	
+		test "should NOT show with #{cu} login" do
+pending
+		end
+
 	end
 
 	test "should NOT get index without login and valid study_subject_id" do
@@ -834,6 +927,24 @@ class SamplesControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
+	test "should NOT show without login" do
+pending
+	end
+
+	#	not logged in ..
+
+	test "should NOT edit without login" do
+pending
+	end
+
+	test "should NOT update without login" do
+pending
+	end
+
+	test "should NOT destroy without login" do
+pending
+	end
+
 protected 
 
 	def create_sample_with_subject(options={})
@@ -842,4 +953,3 @@ protected
 	end
 
 end
-__END__

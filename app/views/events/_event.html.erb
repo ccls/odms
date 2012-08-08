@@ -4,8 +4,10 @@
  <td><%= event.operational_event_type.try(:event_category) %></td>
  <td><%= event.to_s %></td>
  <td class='manage'>
-<%= link_to( 'show', event_path(event), :class => :button ) %>&nbsp;
+<%= link_to( 'show', study_subject_event_path(event.study_subject_id,event.id), 
+	:class => :button ) %>&nbsp;
 <%= ( current_user.may_update_events? ) ? 
-	link_to( 'edit', edit_event_path(event), :class => :button ) : '&nbsp;'.html_safe %>
+	link_to( 'edit', edit_study_subject_event_path(event.study_subject_id,event.id), 
+	:class => :button ) : '&nbsp;'.html_safe %>
 </td>
 <% end %>

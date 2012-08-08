@@ -229,8 +229,9 @@ Odms::Application.routes.draw do
 			:controller => 'abstract/therapy_responses'
 	end
 
-	resources :study_subjects, :only => [:edit,:update,:show,:index],
-			:shallow => true do 
+#	resources :study_subjects, :only => [:edit,:update,:show,:index],
+#			:shallow => true do 
+	resources :study_subjects, :only => [:edit,:update,:show,:index] do
 		member do
 			get :next
 			get :prev

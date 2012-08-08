@@ -10,7 +10,9 @@ class SamplesController < ApplicationController
 		:only => :destroy
 
 	before_filter :valid_study_subject_id_required,
-		:only => [:new,:create,:index]
+		:except => [:dashboard,:find,:followup,:reports,:manifest]
+#	before_filter :valid_study_subject_id_required,
+#		:only => [:new,:create,:index]
 #		:except => [:dashboard,:find,:followup,:reports,:edit,:update,:show,:destroy]
 
 	before_filter :valid_id_required,
@@ -141,7 +143,7 @@ class SamplesController < ApplicationController
 				:status        => 'waitlist')
 		end
 
-		redirect_to sample_path(@sample)
+		redirect_to study_subject_sample_path(@study_subject,@sample)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Sample creation failed."
 		render :action => 'new', :layout => 'subject'
@@ -153,7 +155,7 @@ class SamplesController < ApplicationController
 
 	def update
 		@sample.update_attributes!(params[:sample])
-		redirect_to sample_path(@sample)
+		redirect_to study_subject_sample_path(@study_subject,@sample)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Sample update failed."
 		render :action => 'edit', :layout => 'subject'
@@ -167,9 +169,11 @@ class SamplesController < ApplicationController
 protected
 
 	def valid_id_required
-		if !params[:id].blank? and Sample.exists?(params[:id])
-			@sample = Sample.find(params[:id])
-			@study_subject = @sample.study_subject
+		if !params[:id].blank? and @study_subject.samples.exists?(params[:id])
+			@sample = @study_subject.samples.find(params[:id])
+#		if !params[:id].blank? and Sample.exists?(params[:id])
+#			@sample = Sample.find(params[:id])
+#			@study_subject = @sample.study_subject
 ##	in dev on brg, above fails so being more explicit, the below works
 #			@study_subject = StudySubject.find(@sample.study_subject_id)
 		else

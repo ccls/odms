@@ -16,12 +16,17 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 	assert_no_route(:get,:show)
 	assert_no_route(:get,:show,:id => 0)
 
-	ASSERT_ACCESS_OPTIONS = {
-		:model => 'PhoneNumber',
-		:actions => [:edit,:update],	#	only shallow routes
-		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_phone_number
-	}
+#	ASSERT_ACCESS_OPTIONS = {
+#		:model => 'PhoneNumber',
+#		:actions => [:edit,:update],	#	only shallow routes
+#		:attributes_for_create => :factory_attributes,
+#		:method_for_create => :create_phone_number
+#	}
+#
+#	assert_access_with_login({    :logins => site_editors })
+#	assert_no_access_with_login({ :logins => non_site_editors })
+#	assert_no_access_without_login
+
 	def factory_attributes(options={})
 		Factory.attributes_for(:phone_number,{
 			:data_source_id => DataSource['unknown'].id,
@@ -29,15 +34,33 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 		}.merge(options))
 	end
 
-	assert_access_with_login({    :logins => site_editors })
-	assert_no_access_with_login({ :logins => non_site_editors })
-	assert_no_access_without_login
+	site_administrators.each do |cu|
 
-	#	destroy is TEMPORARY
-	assert_access_with_login(
-		:actions => [:destroy],
-		:login => :superuser
-	)
+		test "should destroy with #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with invalid id #{cu} login" do
+pending
+		end
+
+	end
+
+	non_site_administrators.each do |cu|
+
+		test "should NOT destroy with #{cu} login" do
+pending
+		end
+
+	end
 
 	site_editors.each do |cu|
 
@@ -143,7 +166,8 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 				"with #{cu} login" do
 			phone_number = Factory(:phone_number)
 			login_as send(cu)
-			put :update, :id => phone_number.id,
+			put :update, :study_subject_id => phone_number.study_subject_id,
+				:id => phone_number.id,
 				:phone_number => factory_attributes(
 					:is_verified  => true,
 					:how_verified => 'not a clue'
@@ -156,7 +180,8 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 				"with #{cu} login" do
 			phone_number = Factory(:phone_number)
 			login_as u = send(cu)
-			put :update, :id => phone_number.id,
+			put :update, :study_subject_id => phone_number.study_subject_id,
+				:id => phone_number.id,
 				:phone_number => factory_attributes(
 					:is_verified => true,
 					:how_verified => 'not a clue'
@@ -164,6 +189,46 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert assigns(:phone_number)
 			assert_not_nil assigns(:phone_number).verified_by_uid
 			assert_equal assigns(:phone_number).verified_by_uid, u.uid
+		end
+
+		test "should edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid id #{cu} login" do
+pending
+		end
+
+		test "should update with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with save failure and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid id #{cu} login" do
+pending
 		end
 
 	end
@@ -187,6 +252,14 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+		test "should NOT edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with #{cu} login" do
+pending
+		end
+
 	end
 
 	test "should NOT get new phone_number without login" do
@@ -200,6 +273,18 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 		post :create, :study_subject_id => study_subject.id,
 			:phone_number => factory_attributes
 		assert_redirected_to_login
+	end
+
+	test "should NOT edit without login" do
+pending
+	end
+
+	test "should NOT update without login" do
+pending
+	end
+
+	test "should NOT destroy without login" do
+pending
 	end
 
 end

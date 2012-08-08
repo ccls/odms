@@ -3,25 +3,29 @@ require 'test_helper'
 class AddressingsControllerTest < ActionController::TestCase
 
 	#	no route
+	#	no study_subject_id
+	#	no id
 	assert_no_route(:get,:index)
 	assert_no_route(:get,:show)
 	assert_no_route(:get,:show,:id => 0)
-
-	#	no study_subject_id
 	assert_no_route(:get,:new)
 	assert_no_route(:post,:create)
-
-	#	no id
 	assert_no_route(:get,:edit)
 	assert_no_route(:put,:update)
 	assert_no_route(:delete,:destroy)
 
-	ASSERT_ACCESS_OPTIONS = {
-		:model => 'Addressing',
-		:actions => [:edit,:update],
-		:attributes_for_create => :factory_attributes,
-		:method_for_create => :create_addressing
-	}
+#	NO SHOW OR INDEX ACTION
+
+#	ASSERT_ACCESS_OPTIONS = {
+#		:model => 'Addressing',
+#		:actions => [:edit,:update],
+#		:attributes_for_create => :factory_attributes,
+#		:method_for_create => :create_addressing
+#	}
+#
+#	assert_access_with_login({    :logins => site_editors })
+#	assert_no_access_with_login({ :logins => non_site_editors })
+#	assert_no_access_without_login
 
 	def factory_attributes(options={})
 		Factory.attributes_for(:addressing,{
@@ -39,16 +43,33 @@ class AddressingsControllerTest < ActionController::TestCase
 		}
 	end
 
-	assert_access_with_login({    :logins => site_editors })
-	assert_no_access_with_login({ :logins => non_site_editors })
-	assert_no_access_without_login
+	site_administrators.each do |cu|
 
-	#	destroy is TEMPORARY
-	assert_access_with_login(
-		:actions => [:destroy],
-		:login => :superuser
-	)
+		test "should destroy with #{cu} login" do
+pending
+		end
 
+		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with invalid id #{cu} login" do
+pending
+		end
+
+	end
+
+	non_site_administrators.each do |cu|
+
+		test "should NOT destroy with #{cu} login" do
+pending
+		end
+
+	end
 
 	site_editors.each do |cu|
 
@@ -178,7 +199,8 @@ class AddressingsControllerTest < ActionController::TestCase
 				"with #{cu} login" do
 			addressing = Factory(:addressing)
 			login_as send(cu)
-			put :update, :id => addressing.id,
+			put :update, :study_subject_id => addressing.study_subject_id, 
+				:id => addressing.id,
 				:addressing => factory_attributes(
 					:is_verified  => true,
 					:how_verified => 'not a clue'
@@ -191,7 +213,8 @@ class AddressingsControllerTest < ActionController::TestCase
 				"with #{cu} login" do
 			addressing = Factory(:addressing)
 			login_as u = send(cu)
-			put :update, :id => addressing.id,
+			put :update, :study_subject_id => addressing.study_subject_id,
+				:id => addressing.id,
 				:addressing => factory_attributes(
 					:is_verified => true,
 					:how_verified => 'not a clue'
@@ -207,7 +230,8 @@ class AddressingsControllerTest < ActionController::TestCase
 			Address.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-				put :update, :id => addressing.id,
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id,
 					:addressing => factory_attributes(address_attributes)
 			}
 			assert assigns(:addressing)
@@ -222,7 +246,8 @@ class AddressingsControllerTest < ActionController::TestCase
 			Address.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-				put :update, :id => addressing.id,
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id,
 					:addressing => factory_attributes(address_attributes(
 						:line_1 => nil
 					))
@@ -238,7 +263,8 @@ class AddressingsControllerTest < ActionController::TestCase
 			addressing = Factory(:current_mailing_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
-				put :update, :id => addressing.id, :addressing => {
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id, :addressing => {
 					:current_address => '2',
 					:subject_moved   => '1' }
 			}
@@ -249,7 +275,8 @@ class AddressingsControllerTest < ActionController::TestCase
 			addressing = Factory(:residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
-				put :update, :id => addressing.id, :addressing => {
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id, :addressing => {
 					:current_address => '2',
 					:subject_moved   => '1' }
 			}
@@ -260,7 +287,8 @@ class AddressingsControllerTest < ActionController::TestCase
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
-				put :update, :id => addressing.id, :addressing => {
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id, :addressing => {
 					:current_address => '2',
 					:subject_moved   => '1' }
 			}
@@ -271,7 +299,8 @@ class AddressingsControllerTest < ActionController::TestCase
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
-				put :update, :id => addressing.id, :addressing => {
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id, :addressing => {
 					:current_address => '2',
 					:subject_moved   => '0' }
 			}
@@ -282,7 +311,8 @@ class AddressingsControllerTest < ActionController::TestCase
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
-				put :update, :id => addressing.id, :addressing => {
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id, :addressing => {
 					:current_address => '2',
 					:subject_moved   => 'true' }
 			}
@@ -293,7 +323,8 @@ class AddressingsControllerTest < ActionController::TestCase
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
-				put :update, :id => addressing.id, :addressing => {
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id, :addressing => {
 					:current_address => '2',
 					:subject_moved   => 'false' }
 			}
@@ -304,11 +335,80 @@ class AddressingsControllerTest < ActionController::TestCase
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
-				put :update, :id => addressing.id, :addressing => {
+				put :update, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id, :addressing => {
 					:current_address => '2',
 					:subject_moved   => nil }
 			}
 		end
+
+#		test "should show with #{cu} login" do
+#pending
+#		end
+#
+#		test "should NOT show with mismatched study_subject_id #{cu} login" do
+#pending
+#		end
+#
+#		test "should NOT show with invalid study_subject_id #{cu} login" do
+#pending
+#		end
+#
+#		test "should NOT show with invalid id #{cu} login" do
+#pending
+#		end
+
+		test "should edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT edit with invalid id #{cu} login" do
+pending
+		end
+
+		test "should update with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with save failure and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid and #{cu} login" do
+pending
+		end
+
+		test "should NOT update with mismatched study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid study_subject_id #{cu} login" do
+pending
+		end
+
+		test "should NOT update with invalid id #{cu} login" do
+pending
+		end
+
+#		test "should get index with #{cu} login" do
+#pending
+#		end
+#
+#		test "should NOT get index with mismatched study_subject_id #{cu} login" do
+#pending
+#		end
+#
+#		test "should NOT get index with invalid study_subject_id #{cu} login" do
+#pending
+#		end
 
 	end
 
@@ -331,7 +431,30 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+
+#		test "should NOT show with #{cu} login" do
+#pending
+#		end
+
+		test "should NOT edit with #{cu} login" do
+pending
+		end
+
+		test "should NOT update with #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy with #{cu} login" do
+pending
+		end
+
+#		test "should NOT get index with #{cu} login" do
+#pending
+#		end
+
 	end
+
+	#	not logged in ..
 
 	test "should NOT get new addressing without login" do
 		study_subject = Factory(:study_subject)
@@ -345,6 +468,26 @@ class AddressingsControllerTest < ActionController::TestCase
 			:addressing => factory_attributes
 		assert_redirected_to_login
 	end
+
+#	test "should NOT show without login" do
+#pending
+#	end
+
+	test "should NOT edit without login" do
+pending
+	end
+
+	test "should NOT update without login" do
+pending
+	end
+
+	test "should NOT destroy without login" do
+pending
+	end
+
+#	test "should NOT get index without login" do
+#pending
+#	end
 
 protected
 

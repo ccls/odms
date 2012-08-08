@@ -1,11 +1,11 @@
 <%= form_for(@phone_number,
-	:url => phone_number_path(@phone_number),
+	:url => study_subject_phone_number_path(@phone_number.study_subject_id,@phone_number.id),
 	:html => { :class => 'confirm edit_phone_number' }) do |f| %>
 <%= render 'form', :f => f %>
 <% end %>
 
 <% if current_user.may_destroy_phone_numbers? %>
 <div class='dev_only'><span>Development only:</span>
-<%= (@phone_number.new_record?)? "&nbsp".html_safe : button_to( "Destroy", phone_number_path(@phone_number), :method => 'delete', :form_class => 'destroy_link_to' ) %>
+<%= (@phone_number.new_record?)? "&nbsp".html_safe : button_to( "Destroy", study_subject_phone_number_path(@phone_number.study_subject_id,@phone_number.id), :method => 'delete', :form_class => 'destroy_link_to' ) %>
 </div>
 <% end %>
