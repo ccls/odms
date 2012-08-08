@@ -130,9 +130,11 @@ gem 'net-ldap'
 #	suggested to use --pre option for 1.2.0
 
 
-
-
-
+#
+#	Be advised that the main css file from active_scaffold was copied into 
+#	the app for a couple reasons.  If this gem is upgraded, check to see
+#	if this file has changed and update the app's copy accordingly.
+#
 gem "active_scaffold"
 
 
