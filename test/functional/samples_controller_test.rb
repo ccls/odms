@@ -139,63 +139,167 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-
 		test "should edit with #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			get :edit, :study_subject_id => sample.study_subject_id, :id => sample.id
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			get :edit, :study_subject_id => study_subject.id, :id => sample.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT edit with invalid study_subject_id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			get :edit, :study_subject_id => 0, :id => sample.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT edit with invalid id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			get :edit, :study_subject_id => study_subject.id, :id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should update with #{cu} login" do
-pending
+			sample = Factory(:sample, :updated_at => ( Time.now - 1.day ) )
+			login_as send(cu)
+			assert_changes("Sample.find(#{sample.id}).updated_at") {
+				put :update, :study_subject_id => sample.study_subject_id, 
+					:id => sample.id, :sample => {
+						:external_id_source => 'trigger update'
+					}
+			}
+			assert_nil flash[:error]
+			assert_redirected_to study_subject_sample_path(sample.study_subject_id,sample.id)
 		end
 
 		test "should NOT update with save failure and #{cu} login" do
-pending
+			sample = Factory(:sample, :updated_at => ( Time.now - 1.day ) )
+			login_as send(cu)
+			Sample.any_instance.stubs(:create_or_update).returns(false)
+			deny_changes("Sample.find(#{sample.id}).updated_at") {
+				put :update, :study_subject_id => sample.study_subject_id, 
+					:id => sample.id, :sample => {
+						:external_id_source => 'trigger update'
+					}
+			}
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should NOT update with invalid and #{cu} login" do
-pending
+			sample = Factory(:sample, :updated_at => ( Time.now - 1.day ) )
+			login_as send(cu)
+			Sample.any_instance.stubs(:valid?).returns(false)
+			deny_changes("Sample.find(#{sample.id}).updated_at") {
+				put :update, :study_subject_id => sample.study_subject_id, 
+					:id => sample.id, :sample => {
+						:external_id_source => 'trigger update'
+					}
+			}
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should NOT update with mismatched study_subject_id #{cu} login" do
-pending
+			sample = Factory(:sample, :updated_at => ( Time.now - 1.day ) )
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			deny_changes("Sample.find(#{sample.id}).updated_at") {
+				put :update, :study_subject_id => study_subject.id, 
+					:id => sample.id, :sample => {
+						:external_id_source => 'trigger update'
+					}
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT update with invalid study_subject_id #{cu} login" do
-pending
+			sample = Factory(:sample, :updated_at => ( Time.now - 1.day ) )
+			login_as send(cu)
+			deny_changes("Sample.find(#{sample.id}).updated_at") {
+				put :update, :study_subject_id => 0,
+					:id => sample.id, :sample => {
+						:external_id_source => 'trigger update'
+					}
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT update with invalid id #{cu} login" do
-pending
+			sample = Factory(:sample, :updated_at => ( Time.now - 1.day ) )
+			login_as send(cu)
+			deny_changes("Sample.find(#{sample.id}).updated_at") {
+				put :update, :study_subject_id => sample.study_subject_id, 
+					:id => 0, :sample => {
+						:external_id_source => 'trigger update'
+					}
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should destroy with #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			assert_difference('Sample.count',-1){
+				delete :destroy, :study_subject_id => sample.study_subject_id, 
+					:id => sample.id
+			}
+			assert_nil flash[:error]
+			assert_redirected_to study_subject_path(sample.study_subject_id)
 		end
 
 		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			assert_difference('Sample.count',0){
+				delete :destroy, :study_subject_id => study_subject.id, 
+					:id => sample.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			assert_difference('Sample.count',0){
+				delete :destroy, :study_subject_id => 0,
+					:id => sample.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT destroy with invalid id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			assert_difference('Sample.count',0){
+				delete :destroy, :study_subject_id => sample.study_subject_id, 
+					:id => 0
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
-
 
 	end
 	
@@ -218,17 +322,36 @@ pending
 			assert_redirected_to root_path
 		end
 
-
 		test "should NOT edit with #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			get :edit, :study_subject_id => sample.study_subject_id, :id => sample.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 		test "should NOT update with #{cu} login" do
-pending
+			sample = Factory(:sample, :updated_at => ( Time.now - 1.day ) )
+			login_as send(cu)
+			deny_changes("Sample.find(#{sample.id}).updated_at") {
+				put :update, :study_subject_id => sample.study_subject_id, 
+					:id => sample.id, :sample => {
+						:external_id_source => 'trigger update'
+					}
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 		test "should NOT destroy with #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			assert_difference('Sample.count',0){
+				delete :destroy, :study_subject_id => sample.study_subject_id, 
+					:id => sample.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 	end
@@ -809,19 +932,37 @@ pending
 		end
 	
 		test "should show with #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			get :show, :study_subject_id => sample.study_subject_id, :id => sample.id
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'show'
 		end
 
 		test "should NOT show with mismatched study_subject_id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id, :id => sample.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT show with invalid study_subject_id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			get :show, :study_subject_id => 0, :id => sample.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT show with invalid id #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id, :id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 	end
@@ -873,10 +1014,15 @@ pending
 		end
 	
 		test "should NOT show with #{cu} login" do
-pending
+			sample = Factory(:sample)
+			login_as send(cu)
+			get :show, :study_subject_id => sample.study_subject_id, :id => sample.id
+			assert_redirected_to root_path
 		end
 
 	end
+
+	#	not logged in ..
 
 	test "should NOT get index without login and valid study_subject_id" do
 		study_subject = Factory(:study_subject)
@@ -922,27 +1068,43 @@ pending
 
 	test "should NOT create new sample without login" do
 		study_subject = Factory(:study_subject)
-		post :create, :study_subject_id => study_subject.id,
-			:sample => factory_attributes
+		assert_difference('Sample.count',0){
+			post :create, :study_subject_id => study_subject.id,
+				:sample => factory_attributes
+		}
 		assert_redirected_to_login
 	end
 
 	test "should NOT show without login" do
-pending
+		sample = Factory(:sample)
+		get :show, :study_subject_id => sample.study_subject_id, :id => sample.id
+		assert_redirected_to_login
 	end
 
-	#	not logged in ..
-
 	test "should NOT edit without login" do
-pending
+		sample = Factory(:sample)
+		get :edit, :study_subject_id => sample.study_subject_id, :id => sample.id
+		assert_redirected_to_login
 	end
 
 	test "should NOT update without login" do
-pending
+		sample = Factory(:sample, :updated_at => ( Time.now - 1.day ) )
+		deny_changes("Sample.find(#{sample.id}).updated_at") {
+			put :update, :study_subject_id => sample.study_subject_id, 
+				:id => sample.id, :sample => {
+					:external_id_source => 'trigger update'
+				}
+		}
+		assert_redirected_to_login
 	end
 
 	test "should NOT destroy without login" do
-pending
+		sample = Factory(:sample)
+		assert_difference('Sample.count',0){
+			delete :destroy, :study_subject_id => sample.study_subject_id, 
+				:id => sample.id
+		}
+		assert_redirected_to_login
 	end
 
 protected 

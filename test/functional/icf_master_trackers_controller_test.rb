@@ -32,7 +32,7 @@ class IcfMasterTrackersControllerTest < ActionController::TestCase
 			put :update, :id => icf_master_tracker.id
 			assert_not_nil flash[:notice]
 			assert_redirected_to icf_master_trackers_path
-			pending
+pending
 		end
 	
 	end

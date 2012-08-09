@@ -3,7 +3,7 @@
 <div id='subject_control_bar'>
 <h3>Subject Sample</h3>
 <div class='buttons'>
-<%= link_to( 'edit', edit_sample_path(@sample),
+<%= link_to( 'edit', edit_study_subject_sample_path(@sample.study_subject_id, @sample.id),
 	:class => :button ) %>
 </div><!-- class='buttons' -->
 </div>
@@ -41,7 +41,8 @@
 <%= wrapped_datetime_spans :sample, :aliquotted_at,
 	:label_text => 'Aliquotted at:' %>
 
-<%= link_to 'print label', sample_path(@sample, :format => :pdf), 
+<%= link_to 'print label', 
+	study_subject_sample_path(@sample.study_subject_id,@sample.id, :format => :pdf), 
 	:class => :button, :target => :new %>
 
 <%#= render 'shipping_info' %>

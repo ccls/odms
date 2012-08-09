@@ -1,7 +1,7 @@
 <% stylesheets(:enrollment_edit) %>
 
 <%= form_for(@enrollment,
-	:url => enrollment_path(@enrollment),
+	:url => study_subject_enrollment_path(@enrollment.study_subject_id,@enrollment),
 	:html => { :class => 'confirm' }) do |f| %>
 
 <div id='subject_control_bar'>

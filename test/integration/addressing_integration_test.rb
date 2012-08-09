@@ -8,7 +8,7 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			addressing = Factory(:addressing)
 			login_as send(cu)
-			visit edit_addressing_path(addressing)
+			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			fill_in "addressing[address_attributes][city]",  :with => ""
 			fill_in "addressing[address_attributes][county]",  :with => ""
 			select "", :from => 'addressing[address_attributes][state]'
@@ -36,7 +36,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 				" with #{cu} login" do
 			addressing = Factory(:addressing)
 			login_as send(cu)
-			visit edit_addressing_path(addressing)
+			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[why_invalid]').visible?
 			select "No", :from => 'addressing[is_valid]'
 			assert find_field('addressing[why_invalid]').visible?
@@ -50,7 +50,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 				" 'Don't Know' with #{cu} login" do
 			addressing = Factory(:addressing)
 			login_as send(cu)
-			visit edit_addressing_path(addressing)
+			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[why_invalid]').visible?
 			select "Don't Know", :from => 'addressing[is_valid]'
 			assert find_field('addressing[why_invalid]').visible?
@@ -64,7 +64,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 				" with #{cu} login" do
 			addressing = Factory(:addressing)
 			login_as send(cu)
-			visit edit_addressing_path(addressing)
+			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[how_verified]').visible?
 			check 'addressing[is_verified]'
 			assert find_field('addressing[how_verified]').visible?
@@ -78,7 +78,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 				" data_source is selected with #{cu} login" do
 			addressing = Factory(:addressing)
 			login_as send(cu)
-			visit edit_addressing_path(addressing)
+			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[other_data_source]').visible?
 			select "Other Source", :from => 'addressing[data_source_id]'
 			assert find_field('addressing[other_data_source]').visible?
@@ -92,7 +92,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 				" current_address is changed to 'No' with #{cu} login" do
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
-			visit edit_addressing_path(addressing)
+			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[subject_moved]').visible?
 			select "No", :from => 'addressing[current_address]'
 			assert find_field('addressing[subject_moved]').visible?
@@ -106,7 +106,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 				" current_address is changed to 'Don't Know' with #{cu} login" do
 			addressing = Factory(:current_residence_addressing)
 			login_as send(cu)
-			visit edit_addressing_path(addressing)
+			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[subject_moved]').visible?
 			select "Don't Know", :from => 'addressing[current_address]'
 			assert !find_field('addressing[subject_moved]').visible?

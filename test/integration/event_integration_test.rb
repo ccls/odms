@@ -78,7 +78,7 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal 1, events.length
 			event = events.first	#	new subject
 			login_as send(cu)
-			visit edit_event_path(event)
+			visit edit_study_subject_event_path(study_subject,event)
 			assert has_css?('select#category')
 
 			assert_equal 12, all('select#category option').length

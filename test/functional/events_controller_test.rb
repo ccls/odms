@@ -28,9 +28,6 @@ class EventsControllerTest < ActionController::TestCase
 #		:actions => [:show] })
 #	assert_no_access_without_login
 
-	test "STILL NEED TO RE-ADD TESTS" do
-		pending "STILL NEED TO RE-ADD TESTS"
-	end
 
 	def create_operational_event_with_subject(options={})
 		Factory(:operational_event,{
@@ -108,59 +105,185 @@ class EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should edit with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			get :edit, :study_subject_id => study_subject.id,
+				:id => operational_event.id
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event)
+			login_as send(cu)
+			get :edit, :study_subject_id => study_subject.id,
+				:id => operational_event.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT edit with invalid study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			get :edit, :study_subject_id => 0,
+				:id => operational_event.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT edit with invalid id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			get :edit, :study_subject_id => study_subject.id,
+				:id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should update with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, 
+				:updated_at => ( Time.now - 1.day ),
+				:study_subject => study_subject )
+			login_as send(cu)
+			assert_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
+				put :update, :study_subject_id => study_subject.id,
+					:id => operational_event.id, :operational_event => {
+						:event_notes => 'trigger update' }
+			}
+			assert_nil flash[:error]
+			assert_redirected_to study_subject_event_path(study_subject, operational_event)
 		end
 
 		test "should NOT update with save failure and #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, 
+				:updated_at => ( Time.now - 1.day ),
+				:study_subject => study_subject )
+			login_as send(cu)
+			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
+			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
+				put :update, :study_subject_id => study_subject.id,
+					:id => operational_event.id, :operational_event => {
+						:event_notes => 'trigger update' }
+			}
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should NOT update with invalid and #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, 
+				:updated_at => ( Time.now - 1.day ),
+				:study_subject => study_subject )
+			OperationalEvent.any_instance.stubs(:valid?).returns(false)
+			login_as send(cu)
+			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
+				put :update, :study_subject_id => study_subject.id,
+					:id => operational_event.id, :operational_event => {
+						:event_notes => 'trigger update' }
+			}
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
 		end
 
 		test "should NOT update with mismatched study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, 
+				:updated_at => ( Time.now - 1.day ) )
+			login_as send(cu)
+			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
+				put :update, :study_subject_id => study_subject.id,
+					:id => operational_event.id, :operational_event => {
+						:event_notes => 'trigger update' }
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT update with invalid study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, 
+				:updated_at => ( Time.now - 1.day ),
+				:study_subject => study_subject )
+			login_as send(cu)
+			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
+				put :update, :study_subject_id => 0,
+					:id => operational_event.id, :operational_event => {
+						:event_notes => 'trigger update' }
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT update with invalid id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, 
+				:updated_at => ( Time.now - 1.day ),
+				:study_subject => study_subject )
+			login_as send(cu)
+			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
+				put :update, :study_subject_id => study_subject.id,
+					:id => 0, :operational_event => {
+						:event_notes => 'trigger update' }
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should destroy with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',-1){
+				delete :destroy, :study_subject_id => study_subject.id,
+					:id => operational_event.id
+			}
+			assert_nil flash[:error]
+			assert_redirected_to study_subject_events_path(study_subject)
 		end
 
 		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event)
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0){
+				delete :destroy, :study_subject_id => study_subject.id,
+					:id => operational_event.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0){
+				delete :destroy, :study_subject_id => 0,
+					:id => operational_event.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT destroy with invalid id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0){
+				delete :destroy, :study_subject_id => study_subject.id,
+					:id => 0
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 	end
@@ -187,15 +310,40 @@ pending
 		end
 
 		test "should NOT edit with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			get :edit, :study_subject_id => study_subject.id,
+				:id => operational_event.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 		test "should NOT update with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, 
+				:updated_at => ( Time.now - 1.day ),
+				:study_subject => study_subject )
+			login_as send(cu)
+			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
+				put :update, :study_subject_id => study_subject.id,
+					:id => operational_event.id, :operational_event => {
+						:event_notes => 'trigger update' }
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 		test "should NOT destroy with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			assert_difference('OperationalEvent.count',0){
+				delete :destroy, :study_subject_id => study_subject.id,
+					:id => operational_event.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 	end
@@ -327,31 +475,44 @@ pending
 		end
 
 		test "should show with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id,
+				:id => operational_event.id
+			assert_response :success
+			assert_template 'show'
+			assert_nil flash[:error]
 		end
 
 		test "should NOT show with mismatched study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event)
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id,
+				:id => operational_event.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT show with invalid study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			get :show, :study_subject_id => 0,
+				:id => operational_event.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 		test "should NOT show with invalid id #{cu} login" do
-pending
-		end
-
-		test "should get index with #{cu} login" do
-pending
-		end
-
-		test "should NOT get index with mismatched study_subject_id #{cu} login" do
-pending
-		end
-
-		test "should NOT get index with invalid study_subject_id #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id,
+				:id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
 		end
 
 	end
@@ -367,11 +528,13 @@ pending
 		end
 
 		test "should NOT show with #{cu} login" do
-pending
-		end
-
-		test "should NOT get index with #{cu} login" do
-pending
+			study_subject = Factory(:study_subject)
+			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id,
+				:id => operational_event.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 	end
@@ -400,21 +563,43 @@ pending
 	end
 
 	test "should NOT show without login" do
-pending
+		study_subject = Factory(:study_subject)
+		operational_event = Factory(:operational_event, :study_subject => study_subject )
+		get :show, :study_subject_id => study_subject.id,
+			:id => operational_event.id
+		assert_redirected_to_login
 	end
 
 	test "should NOT edit without login" do
-pending
+		study_subject = Factory(:study_subject)
+		operational_event = Factory(:operational_event, :study_subject => study_subject )
+		get :edit, :study_subject_id => study_subject.id,
+			:id => operational_event.id
+		assert_redirected_to_login
 	end
 
 	test "should NOT update without login" do
-pending
+		study_subject = Factory(:study_subject)
+		operational_event = Factory(:operational_event, 
+			:updated_at => ( Time.now - 1.day ),
+			:study_subject => study_subject )
+		deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
+			put :update, :study_subject_id => study_subject.id,
+				:id => operational_event.id, :operational_event => {
+					:event_notes => 'trigger update' }
+		}
+		assert_redirected_to_login
 	end
 
 	test "should NOT destroy without login" do
-pending
+		study_subject = Factory(:study_subject)
+		operational_event = Factory(:operational_event, :study_subject => study_subject )
+		assert_difference('OperationalEvent.count',0){
+			delete :destroy, :study_subject_id => study_subject.id,
+				:id => operational_event.id
+		}
+		assert_redirected_to_login
 	end
-
 
 protected
 

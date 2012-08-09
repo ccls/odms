@@ -57,7 +57,7 @@ class EventsController < ApplicationController
 
 	def update
 		@operational_event.update_attributes!(params[:operational_event])
-		redirect_to event_path(@operational_event)
+		redirect_to study_subject_event_path(@study_subject,@operational_event)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Operational Event update failed."
 		render :action => 'edit'

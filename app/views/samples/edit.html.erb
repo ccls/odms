@@ -1,4 +1,5 @@
 <%= form_for @sample, 
+	:url => study_subject_sample_path(@study_subject,@sample),
 	:html => {:class => 'confirm edit_sample'} do |f| %>
 <%= render 'form', :f => f %>
 <% end %>

@@ -68,7 +68,7 @@ class PhoneNumberIntegrationTest < ActionController::CapybaraIntegrationTest
 				" 'No' with #{cu} login" do
 			phone_number = Factory(:phone_number)
 			login_as send(cu)
-			visit edit_phone_number_path(phone_number)
+			visit edit_study_subject_phone_number_path(phone_number.study_subject,phone_number)
 			assert !find_field('phone_number[why_invalid]').visible?
 			select "No", :from => 'phone_number[is_valid]'
 			assert find_field('phone_number[why_invalid]').visible?
@@ -82,7 +82,7 @@ class PhoneNumberIntegrationTest < ActionController::CapybaraIntegrationTest
 				" 'Don't Know' with #{cu} login" do
 			phone_number = Factory(:phone_number)
 			login_as send(cu)
-			visit edit_phone_number_path(phone_number)
+			visit edit_study_subject_phone_number_path(phone_number.study_subject,phone_number)
 			assert !find_field('phone_number[why_invalid]').visible?
 			select "Don't Know", :from => 'phone_number[is_valid]'
 			assert find_field('phone_number[why_invalid]').visible?
@@ -96,7 +96,7 @@ class PhoneNumberIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			phone_number = Factory(:phone_number)
 			login_as send(cu)
-			visit edit_phone_number_path(phone_number)
+			visit edit_study_subject_phone_number_path(phone_number.study_subject,phone_number)
 			assert !find_field('phone_number[how_verified]').visible?
 			check 'phone_number[is_verified]'
 			assert find_field('phone_number[how_verified]').visible?
@@ -110,7 +110,7 @@ class PhoneNumberIntegrationTest < ActionController::CapybaraIntegrationTest
 				" data_source is selected with #{cu} login" do
 			phone_number = Factory(:phone_number)
 			login_as send(cu)
-			visit edit_phone_number_path(phone_number)
+			visit edit_study_subject_phone_number_path(phone_number.study_subject,phone_number)
 			assert !find_field('phone_number[other_data_source]').visible?
 			select "Other Source", :from => 'phone_number[data_source_id]'
 			assert find_field('phone_number[other_data_source]').visible?

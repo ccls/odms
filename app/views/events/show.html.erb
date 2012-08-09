@@ -4,7 +4,7 @@
 <h3>Subject Event</h3>
 <% if current_user.may_update_events? %>
 <div class='buttons'>
-<%= link_to( 'Edit', edit_event_path(@operational_event),
+<%= link_to( 'Edit', edit_study_subject_event_path(@operational_event.study_subject_id,@operational_event),
 	:class => 'button' ) %>
 </div><!-- class='buttons' -->
 <% end %>
@@ -48,6 +48,6 @@
 
 <% if current_user.may_destroy_events? %>
 <div class='dev_only'><span>Development only:</span>
-<%= button_to( "Destroy", event_path(@operational_event), :method => 'delete', :form_class => 'destroy_link_to' ) %>
+<%= button_to( "Destroy", study_subject_event_path(@operational_event.study_subject_id,@operational_event), :method => 'delete', :form_class => 'destroy_link_to' ) %>
 </div>
 <% end %>

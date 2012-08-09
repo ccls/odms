@@ -10,7 +10,8 @@
 <%= link_to( 'Cancel', study_subject_events_path(@study_subject),
 	:class => 'button' ) %>
 <% else %>
-<%= link_to( 'Cancel', event_path(@operational_event),
+<%= link_to( 'Cancel', 
+	study_subject_event_path(@operational_event.study_subject_id, @operational_event),
 	:class => 'button' ) %>
 <% end %>
 &nbsp;<%= f.submit 'Save' %>
