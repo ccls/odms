@@ -36,70 +36,6 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		test "should destroy with #{cu} login" do
-			phone_number = Factory(:phone_number)
-			login_as send(cu)
-			assert_difference('PhoneNumber.count',-1){
-				delete :destroy, :study_subject_id => phone_number.study_subject_id,
-					:id => phone_number.id
-			}
-			assert_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-			phone_number = Factory(:phone_number)
-			study_subject = Factory(:study_subject)
-			login_as send(cu)
-			assert_difference('PhoneNumber.count',0){
-				delete :destroy, :study_subject_id => study_subject.id,
-					:id => phone_number.id
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-			phone_number = Factory(:phone_number)
-			login_as send(cu)
-			assert_difference('PhoneNumber.count',0){
-				delete :destroy, :study_subject_id => 0,
-					:id => phone_number.id
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-		test "should NOT destroy with invalid id #{cu} login" do
-			phone_number = Factory(:phone_number)
-			login_as send(cu)
-			assert_difference('PhoneNumber.count',0){
-				delete :destroy, :study_subject_id => phone_number.study_subject_id,
-					:id => 0
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-	end
-
-	non_site_editors.each do |cu|
-
-		test "should NOT destroy with #{cu} login" do
-			phone_number = Factory(:phone_number)
-			login_as send(cu)
-			assert_difference('PhoneNumber.count',0){
-				delete :destroy, :study_subject_id => phone_number.study_subject_id,
-					:id => phone_number.id
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-	end
-
-	site_editors.each do |cu|
-
 		test "should get new phone_number with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
@@ -259,7 +195,7 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 		test "should NOT edit with invalid id #{cu} login" do
 			phone_number = Factory(:phone_number)
 			login_as send(cu)
-			get :edit, :study_subject_id => study_subject.id,
+			get :edit, :study_subject_id => phone_number.study_subject_id,
 				:id => 0
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
@@ -348,6 +284,51 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
+		test "should destroy with #{cu} login" do
+			phone_number = Factory(:phone_number)
+			login_as send(cu)
+			assert_difference('PhoneNumber.count',-1){
+				delete :destroy, :study_subject_id => phone_number.study_subject_id,
+					:id => phone_number.id
+			}
+			assert_nil flash[:error]
+			assert_redirected_to study_subject_contacts_path(phone_number.study_subject_id)
+		end
+
+		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
+			phone_number = Factory(:phone_number)
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			assert_difference('PhoneNumber.count',0){
+				delete :destroy, :study_subject_id => study_subject.id,
+					:id => phone_number.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT destroy with invalid study_subject_id #{cu} login" do
+			phone_number = Factory(:phone_number)
+			login_as send(cu)
+			assert_difference('PhoneNumber.count',0){
+				delete :destroy, :study_subject_id => 0,
+					:id => phone_number.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT destroy with invalid id #{cu} login" do
+			phone_number = Factory(:phone_number)
+			login_as send(cu)
+			assert_difference('PhoneNumber.count',0){
+				delete :destroy, :study_subject_id => phone_number.study_subject_id,
+					:id => 0
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
 	end
 
 	non_site_editors.each do |cu|
@@ -388,6 +369,17 @@ class PhoneNumbersControllerTest < ActionController::TestCase
 					:id => phone_number.id, :phone_number => {
 						:phone_number => '1234567890'
 					}
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT destroy with #{cu} login" do
+			phone_number = Factory(:phone_number)
+			login_as send(cu)
+			assert_difference('PhoneNumber.count',0){
+				delete :destroy, :study_subject_id => phone_number.study_subject_id,
+					:id => phone_number.id
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path

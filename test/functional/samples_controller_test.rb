@@ -168,7 +168,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should NOT edit with invalid id #{cu} login" do
 			sample = Factory(:sample)
 			login_as send(cu)
-			get :edit, :study_subject_id => study_subject.id, :id => 0
+			get :edit, :study_subject_id => sample.study_subject_id, :id => 0
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
@@ -960,7 +960,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should NOT show with invalid id #{cu} login" do
 			sample = Factory(:sample)
 			login_as send(cu)
-			get :show, :study_subject_id => study_subject.id, :id => 0
+			get :show, :study_subject_id => sample.study_subject_id, :id => 0
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
