@@ -29,3 +29,7 @@ studies:
   position: 5
   key: Studies
   description: Studies
+dataxfer:
+  position: 6
+  key: dataxfer
+  description: Data Transfers
