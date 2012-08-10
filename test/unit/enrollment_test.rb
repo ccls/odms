@@ -540,7 +540,17 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_not_nil declined_event
 	end
 
-	test "should have consented named_scope" do
+	test "should have eligible scope" do
+		assert_equal [], Enrollment.eligible
+		Factory(:enrollment)
+		assert_equal [], Enrollment.eligible
+		enrollment = Factory(:eligible_enrollment)
+		assert_equal [enrollment], Enrollment.eligible
+		Factory(:enrollment)
+		assert_equal [enrollment], Enrollment.eligible
+	end
+
+	test "should have consented scope" do
 		assert_equal [], Enrollment.consented
 		Factory(:enrollment)
 		assert_equal [], Enrollment.consented
@@ -548,6 +558,28 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_equal [enrollment], Enrollment.consented
 		Factory(:enrollment)
 		assert_equal [enrollment], Enrollment.consented
+	end
+
+	test "should have assigned_for_interview scope" do
+		assert_equal [], Enrollment.assigned_for_interview
+		Factory(:enrollment)
+		assert_equal [], Enrollment.assigned_for_interview
+		enrollment = Factory(:enrollment, :assigned_for_interview_at => Time.now)
+		assert_equal [enrollment], Enrollment.assigned_for_interview
+		Factory(:enrollment)
+		assert_equal [enrollment], Enrollment.assigned_for_interview
+	end
+
+	test "should have not_assigned_for_interview scope" do
+		#	Use subjectless_enrollment as will create a subject and another 
+		#	enrollment which will muck up the test results.
+		assert_equal [], Enrollment.not_assigned_for_interview
+		Factory(:subjectless_enrollment, :assigned_for_interview_at => Time.now)
+		assert_equal [], Enrollment.not_assigned_for_interview
+		enrollment = Factory(:subjectless_enrollment)
+		assert_equal [enrollment], Enrollment.not_assigned_for_interview
+		Factory(:subjectless_enrollment, :assigned_for_interview_at => Time.now)
+		assert_equal [enrollment], Enrollment.not_assigned_for_interview
 	end
 
 protected

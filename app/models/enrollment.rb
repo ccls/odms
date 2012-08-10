@@ -71,8 +71,14 @@ class Enrollment < ActiveRecord::Base
 	after_save :create_subject_declines_operational_event,
 		:if => :consented_changed?
 
-	scope :consented, :conditions => { :consented => YNDK[:yes] }
-	scope :eligible,  :conditions => { :is_eligible => YNDK[:yes] }
+	scope :consented, where( :consented   => YNDK[:yes] )
+	scope :eligible,  where( :is_eligible => YNDK[:yes] )
+#	scope :assigned_for_interview,  where("assigned_for_interview_at IS NOT NULL")
+#	Avoid using strings as they are not database agnostic
+	scope :assigned_for_interview,  
+		where(self.arel_table[:assigned_for_interview_at].not_eq(nil))
+#	scope :not_assigned_for_interview,  where("assigned_for_interview_at IS NULL")
+	scope :not_assigned_for_interview,  where(:assigned_for_interview_at => nil)
 
 protected
 

@@ -8,6 +8,10 @@ class StudySubjectReportsController < ApplicationController
 		@study_subjects = StudySubject.controls
 			.where( :phase => 5 )
 			.order('created_at DESC')
+			.joins(:enrollments)
+			.merge(Enrollment.not_assigned_for_interview.where(:project_id => Project['ccls'].id))
+
+#	SELECT `study_subjects`.* FROM `study_subjects` INNER JOIN `subject_types` ON `subject_types`.`id` = `study_subjects`.`subject_type_id` INNER JOIN `enrollments` ON `enrollments`.`study_subject_id` = `study_subjects`.`id` WHERE `subject_types`.`key` = 'Control' AND `study_subjects`.`phase` = 5 AND `enrollments`.`assigned_for_interview_at` IS NULL AND `enrollments`.`project_id` = 10 ORDER BY created_at DESC
 
 		#
 		#	The only reason to have this block is to change the name of the file.
@@ -30,8 +34,10 @@ class StudySubjectReportsController < ApplicationController
 			.where( :phase => 5 )
 			.order('created_at DESC')
 			.joins(:enrollments)
-			.merge(Enrollment.eligible.consented.where(:project_id => Project['ccls'].id))
+			.merge(Enrollment.eligible.consented.not_assigned_for_interview.where(:project_id => Project['ccls'].id))
 #http://railscasts.com/episodes/215-advanced-queries-in-rails-3?view=asciicast
+
+#	SELECT `study_subjects`.* FROM `study_subjects` INNER JOIN `subject_types` ON `subject_types`.`id` = `study_subjects`.`subject_type_id` INNER JOIN `enrollments` ON `enrollments`.`study_subject_id` = `study_subjects`.`id` WHERE `subject_types`.`key` = 'Case' AND `study_subjects`.`phase` = 5 AND `enrollments`.`is_eligible` = 1 AND `enrollments`.`consented` = 1 AND `enrollments`.`assigned_for_interview_at` IS NULL AND `enrollments`.`project_id` = 10 ORDER BY created_at DESC
 
 		#
 		#	The only reason to have this block is to change the name of the file.
