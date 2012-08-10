@@ -148,4 +148,8 @@ birthdataconflict:
   key: birthDataConflict
   event_category: errors
   description: A data conflict was found between ODMS subject data and USC Birth data.
-
+datachanged
+  id: 29
+  key: datachanged
+  event_category: operations
+  description:  Critical data in ODMS has been changed.
