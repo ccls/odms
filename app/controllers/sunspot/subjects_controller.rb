@@ -40,20 +40,20 @@ class Sunspot::SubjectsController < SunspotController
 #					range_facet_and_filter_for(p,params.dup,{:start => 1980, :stop => 2010, :step => 5})
 #				else
 					if params[p]
-						params[p] = params[p].dup.reject{|x|x.blank?}
-						if params[p+'_op'] && params[p+'_op']=='AND'
-							unless params[p].empty?
-								with(p).all_of params[p]
-							else
-								params.delete(p)	#	remove the key so doesn't show in view
-							end
-						else
-							unless params[p].empty?
+						params[p] = [params[p].dup].flatten.reject{|x|x.blank?}
+#						if params[p+'_op'] && params[p+'_op']=='AND'
+#							unless params[p].empty?
+#								with(p).all_of params[p]
+#							else
+#								params.delete(p)	#	remove the key so doesn't show in view
+#							end
+#						else
+							unless params[p].blank?	#empty?	# blank? works for arrays too
 								with(p).any_of params[p]
 							else
 								params.delete(p)	#	remove the key so doesn't show in view
 							end
-						end
+#						end
 					end
 #				end
 				facet p.to_sym, :sort => :index

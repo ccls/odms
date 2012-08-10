@@ -2,6 +2,25 @@ require 'test_helper'
 
 class ChartsControllerTest < ActionController::TestCase
 
+	setup :create_some_data
+
+#
+#	creating data, to push for 100% code coverage.
+#
+	def create_some_data
+		Sunspot.remove_all!					#	isn't always necessary
+		StudySubject.solr_reindex
+		assert StudySubject.search.hits.empty?
+		subject1 = Factory(:complete_case_study_subject)
+		Factory(:sample, :study_subject => subject1,
+			:sample_type => SampleType['marrowdiag'])
+		subject2 = Factory(:complete_case_study_subject)
+		Factory(:sample, :study_subject => subject2,
+			:sample_type => SampleType['periph'])
+		StudySubject.solr_reindex
+		assert !StudySubject.search.hits.empty?
+	end
+
 	%w( samples_locations samples_projects
 		samples_sample_types samples_sample_temperatures
 		enrollments vital_statuses vital_statuses_pie

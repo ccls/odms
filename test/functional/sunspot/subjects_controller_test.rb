@@ -45,6 +45,24 @@ if StudySubject.respond_to?(:solr_search)
 			assert_found_nothing
 		end
 
+		test "should search by empty subject_type and #{cu} login" do
+			study_subject = Factory(:study_subject)
+			StudySubject.solr_reindex
+			assert !StudySubject.search.hits.empty?
+			login_as send(cu)
+			get :index, :subject_type => []
+			assert_found_one( study_subject )
+		end
+
+		test "should search by blank subject_type and #{cu} login" do
+			study_subject = Factory(:study_subject)
+			StudySubject.solr_reindex
+			assert !StudySubject.search.hits.empty?
+			login_as send(cu)
+			get :index, :subject_type => ''
+			assert_found_one( study_subject )
+		end
+
 		test "should search by vital_status and #{cu} login" do
 			study_subject = Factory(:study_subject)
 			StudySubject.solr_reindex
@@ -61,6 +79,24 @@ if StudySubject.respond_to?(:solr_search)
 			login_as send(cu)
 			get :index, :vital_status => ['WRONG']
 			assert_found_nothing
+		end
+
+		test "should search by empty vital_status and #{cu} login" do
+			study_subject = Factory(:study_subject)
+			StudySubject.solr_reindex
+			assert !StudySubject.search.hits.empty?
+			login_as send(cu)
+			get :index, :vital_status => []
+			assert_found_one( study_subject )
+		end
+
+		test "should search by blank vital_status and #{cu} login" do
+			study_subject = Factory(:study_subject)
+			StudySubject.solr_reindex
+			assert !StudySubject.search.hits.empty?
+			login_as send(cu)
+			get :index, :vital_status => ''
+			assert_found_one( study_subject )
 		end
 
 		test "should search with project facet and #{cu} login" do
@@ -99,9 +135,21 @@ pending
 pending
 		end
 
-		test "should search with order and #{cu} login" do
+		test "should search with studyid order and #{cu} login" do
 			login_as send(cu)
 			get :index, :order => 'studyid'
+pending
+		end
+
+		test "should search with studyid order and asc dir and #{cu} login" do
+			login_as send(cu)
+			get :index, :order => 'studyid', :dir => 'asc'
+pending
+		end
+
+		test "should search with studyid order and desc dir and #{cu} login" do
+			login_as send(cu)
+			get :index, :order => 'studyid', :dir => 'desc'
 pending
 		end
 
