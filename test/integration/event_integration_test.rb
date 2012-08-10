@@ -39,7 +39,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
 #	20120514 - added 'operations:birthDataReceived'
-			assert_equal 7, 
+#	20120810 - added 'errors:dataconflict'
+			assert_equal 8, 
 				find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
@@ -119,7 +120,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	by doing it this way, capybara 'reloads' the contents before comparison
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
 #	20120514 - added 'operations:birthDataReceived'
-			assert_equal 7, 
+#	20120810 - added 'errors:dataconflict'
+			assert_equal 8, 
 				find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
