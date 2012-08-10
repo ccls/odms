@@ -34,7 +34,6 @@
     city
     state
     zip
-    county
     phone
     alternate_phone
 ).to_csv( :headers => true) -%>
@@ -73,7 +72,6 @@ address.try(:unit),
 address.try(:city),
 address.try(:state),
 address.try(:zip),
-address.try(:county),
 nil,
 nil
 ].to_csv.html_safe -%>
