@@ -23,12 +23,17 @@ class Addressing < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-	scope :current,  where('current_address IS NOT NULL AND current_address != 2')
-	scope :historic, where('current_address IS NULL OR current_address = 2')
+#	scope :current,  where('current_address IS NOT NULL AND current_address != 2')
+	scope :current,  
+		where(self.arel_table[:current_address].not_eq_all([nil,2]))
+
+#	scope :historic, where('current_address IS NULL OR current_address = 2')
+	scope :historic, 
+		where(self.arel_table[:current_address].eq_any([nil,2]))
 
 #	can't do this as getting the address type fails in testing as db is cleared
 #	scope :mailing, joins(:address).where("addresses.address_type_id = #{AddressType['mailing'].id}")
-	scope :mailing, joins(:address => :address_type).where("address_types.key = 'mailing'")
+	scope :mailing, joins(:address => :address_type).where("address_types.key" => 'mailing')
 
 	#	Don't do the rejections here.
 	accepts_nested_attributes_for :address

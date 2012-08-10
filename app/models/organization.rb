@@ -17,9 +17,9 @@ class Organization < ActiveRecord::Base
 	has_many :patients
 #	has_many :sample_collectors
 
-	scope :without_hospital, joins('LEFT JOIN hospitals ON organizations.id = hospitals.organization_id').where('organization_id IS NULL')
+	scope :without_hospital, joins('LEFT JOIN hospitals ON organizations.id = hospitals.organization_id').where('hospitals.organization_id' => nil)
 
-	scope :without_sample_location, joins('LEFT JOIN sample_locations ON organizations.id = sample_locations.organization_id').where('organization_id IS NULL')
+	scope :without_sample_location, joins('LEFT JOIN sample_locations ON organizations.id = sample_locations.organization_id').where('sample_locations.organization_id' => nil)
 
 	#	Returns name
 	def to_s

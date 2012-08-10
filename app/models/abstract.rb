@@ -118,8 +118,11 @@ class Abstract < ActiveRecord::Base
 		!merged_by_uid.blank?
 	end
 
-	scope :merged,   where('merged_by_uid IS NOT NULL')
-	scope :unmerged, where('merged_by_uid IS NULL')
+#	scope :merged,   where('merged_by_uid IS NOT NULL')
+	scope :merged,   
+		where(self.arel_table[:merged_by_uid].not_eq(nil) )
+#	scope :unmerged, where('merged_by_uid IS NULL')
+	scope :unmerged, where('merged_by_uid' => nil)
 
 protected
 

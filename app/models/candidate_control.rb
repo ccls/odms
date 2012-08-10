@@ -9,9 +9,22 @@ class CandidateControl < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-	scope :rejected,   where('reject_candidate = true')
-	scope :unrejected, where('reject_candidate = false or reject_candidate IS NULL')
-	scope :unassigned, where('assigned_on IS NULL AND study_subject_id IS NULL')
+#	scope :rejected,   where('reject_candidate = true')
+	scope :rejected,   where(:reject_candidate => true)
+
+
+#	scope :unrejected, where('reject_candidate = false or reject_candidate IS NULL')
+#	should never actually be nil as that would be invalid.  Nevertheless .. in([]) works
+	scope :unrejected, 
+		where(self.arel_table[:reject_candidate].eq_any([false,nil]))
+#	eq_any seems more appropriate
+#	=> "SELECT `candidate_controls`.* FROM `candidate_controls`  WHERE ((`candidate_controls`.`reject_candidate` = 0 OR `candidate_controls`.`reject_candidate` IS NULL))"
+#		where(self.arel_table[:reject_candidate].in([false,nil]))
+
+
+
+#	scope :unassigned, where('assigned_on IS NULL AND study_subject_id IS NULL')
+	scope :unassigned, where(:assigned_on => nil, :study_subject_id => nil)
 
 	delegate :sex, :full_name, :first_name, :middle_name, :last_name,
 		:mother_full_name, :mother_first_name, :mother_middle_name, :mother_maiden_name, 

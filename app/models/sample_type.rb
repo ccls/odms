@@ -14,7 +14,8 @@ class SampleType < ActiveRecord::Base
 		:dependent => :nullify
 	
 	scope :roots,     where( :parent_id => nil )
-	scope :not_roots, where( 'sample_types.parent_id IS NOT NULL' )
+#	scope :not_roots, where( 'sample_types.parent_id IS NOT NULL' )
+	scope :not_roots, where(self.arel_table[:parent_id].not_eq(nil))
 	scope :for_new_samples, where( :for_new_sample => true )
 
 	validates_length_of :gegl_sample_type_id,
