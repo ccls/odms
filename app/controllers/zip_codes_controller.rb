@@ -7,10 +7,12 @@ class ZipCodesController < ApplicationController
 	skip_before_filter :login_required
 
 	def index
-		@zip_codes = ZipCode.joins( "LEFT JOIN counties ON zip_codes.county_id = counties.id"
-			).select("city, state, zip_code, county_id, counties.name as county_name"
-			).order('zip_code ASC'
-			).where('zip_code LIKE ?', "#{(params[:q]||'').gsub(/\D/,'')[0..4]}%")
+		@zip_codes = ZipCode.joins("LEFT JOIN counties ON zip_codes.county_id = counties.id")
+			.select("city, state, zip_code, county_id, counties.name as county_name")
+			.order('zip_code ASC')
+			.where(ZipCode.arel_table[:zip_code].matches(
+				"#{(params[:q]||'').gsub(/\D/,'')[0..4]}%"))
+#			.where('zip_code LIKE ?', "#{(params[:q]||'').gsub(/\D/,'')[0..4]}%")
 		render :json => @zip_codes.each{|z|z.city = z.city.titleize}
 	end
 

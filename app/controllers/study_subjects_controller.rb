@@ -158,7 +158,9 @@ class StudySubjectsController < ApplicationController
 #		end
 #		params.delete(:action)
 #		redirect_to params
-		next_study_subject = StudySubject.where('id > ?',@study_subject.id)
+#		next_study_subject = StudySubject.where('id > ?',@study_subject.id)
+		next_study_subject = StudySubject
+			.where(StudySubject.arel_table[:id].gt(@study_subject.id))
 			.order('id asc').limit(1).first
 		redirect_to study_subject_path(next_study_subject)
 
@@ -186,7 +188,9 @@ class StudySubjectsController < ApplicationController
 #	which is nice, but I don't understand why.
 #
 	def prev
-		prev_study_subject = StudySubject.where('id < ?',@study_subject.id)
+#		prev_study_subject = StudySubject.where('id < ?',@study_subject.id)
+		prev_study_subject = StudySubject
+			.where(StudySubject.arel_table[:id].lt(@study_subject.id))
 			.order('id desc').limit(1).first
 		redirect_to study_subject_path(prev_study_subject)
 	end

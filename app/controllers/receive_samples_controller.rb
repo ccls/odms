@@ -19,7 +19,9 @@ class ReceiveSamplesController < ApplicationController
 			#	As studyid and icf_master_id are different formats
 			#	there should never actually be more than one match.
 			study_subject = StudySubject.where(
-				'studyid = :q OR icf_master_id = :q', :q => params[:q]).limit(1).first
+				StudySubject.arel_table[:studyid].eq(params[:q]).or(
+					StudySubject.arel_table[:icf_master_id].eq(params[:q])).limit(1).first
+#				'studyid = :q OR icf_master_id = :q', :q => params[:q]).limit(1).first
 
 			#	get the child, in case given mother's icf_master_id
 			#	if no study subject found, study_subject is nil, so use try
