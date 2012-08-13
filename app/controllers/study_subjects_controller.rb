@@ -10,7 +10,7 @@ class StudySubjectsController < ApplicationController
 		:only => :destroy
 
 	before_filter :valid_id_required, 
-		:only => [:show,:edit,:update,:destroy,:next,:prev,:first,:last]
+		:only => [:show,:edit,:update,:destroy,:next,:prev]	#,:first,:last]
 
 
 	def find
@@ -131,56 +131,26 @@ class StudySubjectsController < ApplicationController
 
 	def by
 		if params[:icf_master_id].present? && StudySubject.where(
-			:icf_master_id => params[:icf_master_id]).exists?
-			redirect_to study_subject_path( StudySubject.where(
-			:icf_master_id => params[:icf_master_id]).first )
+				:icf_master_id => params[:icf_master_id]).exists?
+			study_subject = StudySubject.where(
+				:icf_master_id => params[:icf_master_id]).first
+			redirect_to url_for_subject(study_subject)
 		else
 			flash[:warn] = "Valid icf_master_id required."
 			redirect_to_referer_or_default( root_path )
 		end
 	end
 
-#
-#
-#
 	def first
 		first_study_subject = StudySubject.order('id asc').limit(1).first
-		redirect_to study_subject_path(first_study_subject)
-#		redirect_to url_for( (params[:c]||{}).update(:study_subject_id => first_study_subject.id) )
-#			:controller => params[:c][:controller],
-#			:action => params[:c][:action],
-#			:study_subject_id => first_study_subject.id )
+		redirect_to url_for_subject(first_study_subject)
 	end
 
 	def next
-#		if params[:study_subject_id]
-#			params[:study_subject_id] = params[:study_subject_id].to_i + 1
-#		end
-#		params.delete(:action)
-#		redirect_to params
-#		next_study_subject = StudySubject.where('id > ?',@study_subject.id)
 		next_study_subject = StudySubject
 			.where(StudySubject.arel_table[:id].gt(@study_subject.id))
 			.order('id asc').limit(1).first
-		redirect_to study_subject_path(next_study_subject)
-
-#		next_study_subject = StudySubject.where('id > ?',@study_subject.id)
-#			.order('id asc').limit(1).first || StudySubject.order('id asc').limit(1).first
-#		n = params[:c].dup
-#		if n.has_key?('study_subject_id')
-#			#	this is a nice, nested, restful route
-#			n['study_subject_id'] = next_study_subject.id 
-#		else
-#			#	this is a pain.  probably in a show for address, phone, event, ...
-#			n.delete('id')
-#			n['action'] = 'index'
-#			n['study_subject_id'] = next_study_subject.id
-#			#	seems to work surprisingly
-#
-##	what about study_subject_path(@study_subject)
-#
-#		end
-#		redirect_to url_for(n)
+		redirect_to url_for_subject(next_study_subject)
 	end
 #
 #	For some reason, redirect_to study_subject_path(nil) 
@@ -188,19 +158,39 @@ class StudySubjectsController < ApplicationController
 #	which is nice, but I don't understand why.
 #
 	def prev
-#		prev_study_subject = StudySubject.where('id < ?',@study_subject.id)
 		prev_study_subject = StudySubject
 			.where(StudySubject.arel_table[:id].lt(@study_subject.id))
 			.order('id desc').limit(1).first
-		redirect_to study_subject_path(prev_study_subject)
+		redirect_to url_for_subject(prev_study_subject)
 	end
 
 	def last
 		last_study_subject = StudySubject.order('id desc').limit(1).first
-		redirect_to study_subject_path(last_study_subject)
+		redirect_to url_for_subject(last_study_subject)
 	end
 
 protected
+
+	def url_for_subject(subject)
+		referrer_params = Odms::Application.routes.recognize_path(request.referrer) || {}
+		#referrer_params returns symbolized keys
+		case
+			when referrer_params.keys.include?(:study_subject_id)
+
+#	if controller is not study_subjects
+#		then change action to show?
+#		and delete id
+#		and set study_subject_id to new study_subject_id
+
+				referrer_params.delete(:id)
+				referrer_params[:action] = 'index'
+				referrer_params[:study_subject_id] = subject.id
+				url_for(referrer_params)
+			
+#	else set id to new study_subject's id
+			else study_subject_path(subject)
+		end
+	end
 
 	def valid_id_required
 		if !params[:id].blank? and StudySubject.exists?(params[:id])

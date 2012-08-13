@@ -173,15 +173,15 @@ module ApplicationHelper
 					:class => ((current == :abstracts)?'current':nil) )
 			links << "<span>&nbsp;</span>"
 			links << "<div style='text-align:center;'>" <<
-link_to('first'.html_safe, first_study_subject_path(study_subject, :c => params)) <<
-"&middot;".html_safe <<
-link_to('prev'.html_safe,  prev_study_subject_path(study_subject, :c => params)) <<
-"&middot;".html_safe <<
-link_to('next'.html_safe,  next_study_subject_path(study_subject, :c => params)) <<
-"&middot;".html_safe <<
-link_to('last'.html_safe,  last_study_subject_path(study_subject, :c => params)) <<
-"</div>"
-#	for first and last, passing currnent subject seems pointless
+				link_to('first'.html_safe, first_study_subjects_path()) <<
+					"&middot;".html_safe <<
+				link_to('prev'.html_safe,  prev_study_subject_path(study_subject)) <<
+					"&middot;".html_safe <<
+				link_to('next'.html_safe,  next_study_subject_path(study_subject)) <<
+					"&middot;".html_safe <<
+				link_to('last'.html_safe,  last_study_subjects_path()) <<
+				"</div>"
+				#	for first and last, passing currnent subject seems pointless
 			s << links.join("\n")
 			s << "\n</div><!-- submenu -->\n"
 		s.html_safe

@@ -235,10 +235,10 @@ Odms::Application.routes.draw do
 		member do
 			get :next
 			get :prev
-			get :first
-			get :last
 		end
 		collection do
+			get :first
+			get :last
 			get :by
 			get :dashboard
 			get :find
