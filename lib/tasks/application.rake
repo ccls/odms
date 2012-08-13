@@ -228,57 +228,110 @@ namespace :app do
 #
 #	end
 
-	task :update_consents_from_pagan => :environment do
-		csv_file = 'consent_updates_from_pagan.csv'
+#	task :update_consents_from_pagan => :environment do
+#		csv_file = 'consent_updates_from_pagan.csv'
+#		require 'csv'
+#		(f=CSV.open( csv_file, 'rb',{
+#				:headers => true })).each do |line|
+#			puts
+##			puts "Processing line :#{f.lineno}:"
+##			puts line
+#
+##	one is missing icf_master_id so using cases and patid
+#			raise "patid is blank" if line['patid'].blank?
+#			subjects = StudySubject.cases.where(:patid => line['patid'])
+#			raise "Multiple case subjects? with patid:#{line['patid']}:" if subjects.length > 1
+#			raise "No subject with patid:#{line['patid']}:" unless subjects.length == 1
+#			s = subjects.first
+#
+#			raise_unless_string_equal(s,line,'case_control_type')
+#			raise_unless_string_equal(s,line,'icf_master_id')
+#			raise_unless_string_equal(s,line,'patid')
+#			raise_unless_string_equal(s,line,'first_name')
+#			raise_unless_string_equal(s,line,'last_name')
+#			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+#			puts_unless_yndk_equal(e,line,'is_eligible')
+#			puts_unless_yndk_equal(e,line,'consented')
+#			puts_unless_date_equal(e,line,'consented_on')
+#			p = s.patient
+#			puts_unless_date_equal(p,line,'admit_date')
+##hospital
+#
+##birth_datum_attributes = line.dup.to_hash
+##line.headers.each do |h|
+##birth_datum_attributes.delete(h) unless BirthDatumUpdate.expected_column_names.include?(h)
+##end
+##bd.attributes = birth_datum_attributes
+##
+##			if bd.changed?
+##				puts "Changes:#{bd.changes}"
+###				puts "Update? Y / N / Q"
+###				response = STDIN.gets
+###				if response.match(/y/i)
+##					puts "Saving ..."
+##					bd.save!
+###				elsif response.match(/q/i)
+###					puts "Quiting ..."
+###					exit
+###				else
+###					puts "Skipping ..."
+###				end
+##			else
+##				puts "No changes."
+##			end
+#		end	#	(f=CSV.open( csv_file.path, 'rb',{
+
+	task :update_assigned_from_pagan => :environment do
+		csv_file = 'assigned.csv'
 		require 'csv'
 		(f=CSV.open( csv_file, 'rb',{
 				:headers => true })).each do |line|
 			puts
-#			puts "Processing line :#{f.lineno}:"
-#			puts line
+			puts "Processing line :#{f.lineno}:"
+			puts line
 
-#	one is missing icf_master_id so using cases and patid
-			raise "patid is blank" if line['patid'].blank?
-			subjects = StudySubject.cases.where(:patid => line['patid'])
-			raise "Multiple case subjects? with patid:#{line['patid']}:" if subjects.length > 1
-			raise "No subject with patid:#{line['patid']}:" unless subjects.length == 1
+			raise "icf_master_id is blank" if line['icf_master_id'].blank?
+			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
+			raise "Multiple case subjects? with icf_master_id:#{line['icf_master_id']}:" if subjects.length > 1
+			raise "No subject with icf_master_id:#{line['icf_master_id']}:" unless subjects.length == 1
 			s = subjects.first
 
-			raise_unless_string_equal(s,line,'case_control_type')
-			raise_unless_string_equal(s,line,'icf_master_id')
-			raise_unless_string_equal(s,line,'patid')
-			raise_unless_string_equal(s,line,'first_name')
-			raise_unless_string_equal(s,line,'last_name')
 			e = s.enrollments.where(:project_id => Project['ccls'].id).first
-			puts_unless_yndk_equal(e,line,'is_eligible')
-			puts_unless_yndk_equal(e,line,'consented')
-			puts_unless_date_equal(e,line,'consented_on')
-			p = s.patient
-			puts_unless_date_equal(p,line,'admit_date')
-#hospital
 
-#birth_datum_attributes = line.dup.to_hash
-#line.headers.each do |h|
-#birth_datum_attributes.delete(h) unless BirthDatumUpdate.expected_column_names.include?(h)
-#end
-#bd.attributes = birth_datum_attributes
-#
-#			if bd.changed?
-#				puts "Changes:#{bd.changes}"
-##				puts "Update? Y / N / Q"
-##				response = STDIN.gets
-##				if response.match(/y/i)
-#					puts "Saving ..."
-#					bd.save!
-##				elsif response.match(/q/i)
-##					puts "Quiting ..."
-##					exit
-##				else
-##					puts "Skipping ..."
-##				end
-#			else
-#				puts "No changes."
-#			end
+			puts Time.parse(line['assigned_for_interview_at'])
+			puts e.assigned_for_interview_at
+			e.assigned_for_interview_at = Time.parse(line['assigned_for_interview_at'])
+			e.save!
+
+		end	#	(f=CSV.open( csv_file.path, 'rb',{
+
+	end
+
+	task :update_completes_from_pagan => :environment do
+		csv_file = 'completes.csv'
+		require 'csv'
+		(f=CSV.open( csv_file, 'rb',{
+				:headers => true })).each do |line|
+			puts
+			puts "Processing line :#{f.lineno}:"
+			puts line
+
+			raise "icf_master_id is blank" if line['icf_master_id'].blank?
+			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
+			raise "Multiple case subjects? with icf_master_id:#{line['icf_master_id']}:" if subjects.length > 1
+			raise "No subject with icf_master_id:#{line['icf_master_id']}:" unless subjects.length == 1
+			s = subjects.first
+
+			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+
+#			puts Time.parse(line['assigned_for_interview_at'])
+#			puts Time.parse(line['interview_completed_on'])
+#			puts e.assigned_for_interview_at
+#			puts e.interview_completed_on
+			e.assigned_for_interview_at = Time.parse(line['assigned_for_interview_at'])
+			e.interview_completed_on = Time.parse(line['interview_completed_on'])
+			e.save!
+
 		end	#	(f=CSV.open( csv_file.path, 'rb',{
 
 	end
