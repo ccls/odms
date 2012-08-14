@@ -10,12 +10,9 @@ class ActiveRecord::Base
 	def self.validations_from_yaml_file
 		validation_file = File.join(Rails.root,"config/validations/#{self.to_s.underscore}.yml")
 		if File.exists?(validation_file)
-#			puts "Adding validations for #{self} from #{validation_file}"
 			h = YAML::load( ERB.new( IO.read( validation_file )).result)
-#			puts h.inspect
 
 			h.each do |validation|
-#				attributes = validation.delete(:attributes)
 				attributes=[validation.delete(:attributes), validation.delete(:attribute)
 					].compact.flatten
 				self.validates *attributes, validation
@@ -75,27 +72,8 @@ class ActiveRecord::Base
 			# Treats the class a bit like a Hash and
 			# searches for a record with a matching key.
 			def self.[](key)
-				# may need to deal with options[:key] here, but not needed yet
-#				find_by_key(key.to_s)
-#				where(@@acts_like_a_hash_options[:key] => key.to_s).first
-
-				#	adding a type of memoization
-#
-#	THIS IS MEMORIZING ACROSS SUBCLASSES!!!
-#	THIS MEANS THAT THE *_options IS PROBABLY DOING THE SAME THING!
-#
-#				@@acts_like_a_hash_memory[key] ||=
 				self.acts_like_a_hash_memory[key.downcase.to_s] ||=
-#		Is having the table name excessive? This isn't used in joins
-#		so shouldn't be ambiguous column name.
-#					where("#{connection.quote_table_name(table_name)}.#{connection.quote_column_name(self.acts_like_a_hash_options[:key])} LIKE ?", key.to_s).first
-					where("#{connection.quote_column_name(self.acts_like_a_hash_options[:key])} LIKE ?", key.to_s).first
-#					where("`#{self.acts_like_a_hash_options[:key]}` LIKE ?", key.to_s).first
-#	sqlite is case sensitive, but LIKE desensitizes it
-#	mysql DOES NOT LIKE the LIKE.  Actually seems to not like
-#		the unquoted key???? so I quoted it with ``
-#				self.acts_like_a_hash_memory[key.downcase.to_s] ||=
-#					where(self.acts_like_a_hash_options[:key] => key.to_s).first
+					where(self.arel_table[self.acts_like_a_hash_options[:key]].matches(key)).first
 			end
 
 #NameError: undefined local variable or method `options' for #<Class:0x107229540>
@@ -111,7 +89,6 @@ class ActiveRecord::Base
 	def self.random
 		count = count()
 		if count > 0
-#			first(:offset => rand(count))
 			offset(rand(count)).limit(1).first
 		else
 			nil
