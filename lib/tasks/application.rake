@@ -280,61 +280,62 @@ namespace :app do
 ##				puts "No changes."
 ##			end
 #		end	#	(f=CSV.open( csv_file.path, 'rb',{
+#	end #	task :update_consents_from_pagan => :environment do
 
-	task :update_assigned_from_pagan => :environment do
-		csv_file = 'assigned.csv'
-		require 'csv'
-		(f=CSV.open( csv_file, 'rb',{
-				:headers => true })).each do |line|
-			puts
-			puts "Processing line :#{f.lineno}:"
-			puts line
-
-			raise "icf_master_id is blank" if line['icf_master_id'].blank?
-			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
-			raise "Multiple case subjects? with icf_master_id:#{line['icf_master_id']}:" if subjects.length > 1
-			raise "No subject with icf_master_id:#{line['icf_master_id']}:" unless subjects.length == 1
-			s = subjects.first
-
-			e = s.enrollments.where(:project_id => Project['ccls'].id).first
-
-			puts Time.parse(line['assigned_for_interview_at'])
-			puts e.assigned_for_interview_at
-			e.assigned_for_interview_at = Time.parse(line['assigned_for_interview_at'])
-			e.save!
-
-		end	#	(f=CSV.open( csv_file.path, 'rb',{
-
-	end
-
-	task :update_completes_from_pagan => :environment do
-		csv_file = 'completes.csv'
-		require 'csv'
-		(f=CSV.open( csv_file, 'rb',{
-				:headers => true })).each do |line|
-			puts
-			puts "Processing line :#{f.lineno}:"
-			puts line
-
-			raise "icf_master_id is blank" if line['icf_master_id'].blank?
-			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
-			raise "Multiple case subjects? with icf_master_id:#{line['icf_master_id']}:" if subjects.length > 1
-			raise "No subject with icf_master_id:#{line['icf_master_id']}:" unless subjects.length == 1
-			s = subjects.first
-
-			e = s.enrollments.where(:project_id => Project['ccls'].id).first
-
+#	task :update_assigned_from_pagan => :environment do
+#		csv_file = 'assigned.csv'
+#		require 'csv'
+#		(f=CSV.open( csv_file, 'rb',{
+#				:headers => true })).each do |line|
+#			puts
+#			puts "Processing line :#{f.lineno}:"
+#			puts line
+#
+#			raise "icf_master_id is blank" if line['icf_master_id'].blank?
+#			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
+#			raise "Multiple case subjects? with icf_master_id:#{line['icf_master_id']}:" if subjects.length > 1
+#			raise "No subject with icf_master_id:#{line['icf_master_id']}:" unless subjects.length == 1
+#			s = subjects.first
+#
+#			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+#
 #			puts Time.parse(line['assigned_for_interview_at'])
-#			puts Time.parse(line['interview_completed_on'])
 #			puts e.assigned_for_interview_at
-#			puts e.interview_completed_on
-			e.assigned_for_interview_at = Time.parse(line['assigned_for_interview_at'])
-			e.interview_completed_on = Time.parse(line['interview_completed_on'])
-			e.save!
-
-		end	#	(f=CSV.open( csv_file.path, 'rb',{
-
-	end
+#			e.assigned_for_interview_at = Time.parse(line['assigned_for_interview_at'])
+#			e.save!
+#
+#		end	#	(f=CSV.open( csv_file.path, 'rb',{
+#
+#	end #	task :update_assigned_from_pagan => :environment do
+#
+#	task :update_completes_from_pagan => :environment do
+#		csv_file = 'completes.csv'
+#		require 'csv'
+#		(f=CSV.open( csv_file, 'rb',{
+#				:headers => true })).each do |line|
+#			puts
+#			puts "Processing line :#{f.lineno}:"
+#			puts line
+#
+#			raise "icf_master_id is blank" if line['icf_master_id'].blank?
+#			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
+#			raise "Multiple case subjects? with icf_master_id:#{line['icf_master_id']}:" if subjects.length > 1
+#			raise "No subject with icf_master_id:#{line['icf_master_id']}:" unless subjects.length == 1
+#			s = subjects.first
+#
+#			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+#
+##			puts Time.parse(line['assigned_for_interview_at'])
+##			puts Time.parse(line['interview_completed_on'])
+##			puts e.assigned_for_interview_at
+##			puts e.interview_completed_on
+#			e.assigned_for_interview_at = Time.parse(line['assigned_for_interview_at'])
+#			e.interview_completed_on = Time.parse(line['interview_completed_on'])
+#			e.save!
+#
+#		end	#	(f=CSV.open( csv_file.path, 'rb',{
+#
+#	end #	task :update_completes_from_pagan => :environment do
 
 end
 
