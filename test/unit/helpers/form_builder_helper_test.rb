@@ -29,9 +29,11 @@ class FormBuilderHelperTest < ActionView::TestCase
 		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
-<option value="999">Don't Know</option></select></form>}
+<option value="999">Don&#x27;t Know</option></select></form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "wrapped_yndk_select" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_yndk_select(:int_field) }
@@ -39,10 +41,12 @@ class FormBuilderHelperTest < ActionView::TestCase
 <label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
-<option value="999">Don't Know</option></select>
+<option value="999">Don&#x27;t Know</option></select>
 </div><!-- class='int_field yndk_select' --></form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 
 	test "ynrdk_select" do
@@ -50,10 +54,12 @@ class FormBuilderHelperTest < ActionView::TestCase
 		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
-<option value="999">Don't Know</option>
+<option value="999">Don&#x27;t Know</option>
 <option value="888">Refused</option></select></form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "wrapped_ynrdk_select" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_ynrdk_select(:int_field) }
@@ -61,11 +67,13 @@ class FormBuilderHelperTest < ActionView::TestCase
 <label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
-<option value="999">Don't Know</option>
+<option value="999">Don&#x27;t Know</option>
 <option value="888">Refused</option></select>
 </div><!-- class='int_field ynrdk_select' --></form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "ynodk_select" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.ynodk_select(:int_field) }
@@ -73,9 +81,11 @@ class FormBuilderHelperTest < ActionView::TestCase
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="3">Other</option>
-<option value="999">Don't Know</option></select></form>}
+<option value="999">Don&#x27;t Know</option></select></form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "wrapped_ynodk_select" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_ynodk_select(:int_field) }
@@ -84,10 +94,12 @@ class FormBuilderHelperTest < ActionView::TestCase
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="3">Other</option>
-<option value="999">Don't Know</option></select>
+<option value="999">Don&#x27;t Know</option></select>
 </div><!-- class='int_field ynodk_select' --></form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "adna_select" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.adna_select(:int_field) }
@@ -95,9 +107,11 @@ class FormBuilderHelperTest < ActionView::TestCase
 <option value="1">Agree</option>
 <option value="2">Do Not Agree</option>
 <option value="555">N/A</option>
-<option value="999">Don't Know</option></select></form>}
+<option value="999">Don&#x27;t Know</option></select></form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "wrapped_adna_select" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_adna_select(:int_field) }
@@ -106,17 +120,19 @@ class FormBuilderHelperTest < ActionView::TestCase
 <option value="1">Agree</option>
 <option value="2">Do Not Agree</option>
 <option value="555">N/A</option>
-<option value="999">Don't Know</option></select>
+<option value="999">Don&#x27;t Know</option></select>
 </div><!-- class='int_field adna_select' --></form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "sex_select" do
 		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.sex_select(:some_attribute) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">-select-</option>
 <option value="M">male</option>
 <option value="F">female</option>
-<option value="DK">don't know</option></select></form>}
+<option value="DK">don&#x27;t know</option></select></form>}
 		assert_equal expected, output_buffer
 	end
 
@@ -126,7 +142,7 @@ class FormBuilderHelperTest < ActionView::TestCase
 <label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">-select-</option>
 <option value="M">male</option>
 <option value="F">female</option>
-<option value="DK">don't know</option></select>
+<option value="DK">don&#x27;t know</option></select>
 </div><!-- class='some_attribute sex_select' --></form>}
 		assert_equal expected, output_buffer
 	end

@@ -15,8 +15,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 			f.subject_races_select(Race['white']) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
-<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'White, Non-Hispanic' as the subject's PRIMARY race" type="checkbox" value="1" />
-<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set 'White, Non-Hispanic' as one of the subject's race(s)" type="checkbox" value="1" />
+<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;White, Non-Hispanic&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="1" />
 <label for="white_race_id">White, Non-Hispanic</label>
 </div>
 </div>
@@ -24,6 +24,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 </form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "subject_races_select White with White" do
 		@study_subject = Factory(:study_subject,:subject_races_attributes => {
@@ -34,8 +36,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 			f.subject_races_select(Race['white']) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
-<div class='subject_race destroyer'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'White, Non-Hispanic' as the subject's PRIMARY race" type="checkbox" value="1" />
-<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="1" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove 'White, Non-Hispanic' as one of the subject's race(s)" type="checkbox" value="0" />
+<div class='subject_race destroyer'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;White, Non-Hispanic&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="1" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
 <label for="white__destroy">White, Non-Hispanic</label>
 <input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
 </div>
@@ -50,8 +52,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 			f.subject_races_select(Race['other']) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
-<div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'Other race' as the subject's PRIMARY race" type="checkbox" value="1" />
-<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set 'Other race' as one of the subject's race(s)" type="checkbox" value="7" />
+<div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Other race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="7" />
 <label for="other_race_id">Other race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" />
@@ -62,6 +64,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		assert_equal expected, output_buffer
 	end
 
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
+
 	test "subject_races_select Other with Other" do
 		@study_subject = Factory(:study_subject,:subject_races_attributes => {
 			'0' => { :race_id => Race['other'].id, :other_race => "otherrace" } } )
@@ -71,8 +75,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 			f.subject_races_select(Race['other']) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
-<div class='subject_race destroyer'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set 'Other race' as the subject's PRIMARY race" type="checkbox" value="1" />
-<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="7" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove 'Other race' as one of the subject's race(s)" type="checkbox" value="0" />
+<div class='subject_race destroyer'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Other race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="7" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
 <label for="other__destroy">Other race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" value="otherrace" />
@@ -82,6 +86,8 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 </form>}
 		assert_equal expected, output_buffer
 	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 end
 
