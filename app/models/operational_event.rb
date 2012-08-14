@@ -34,7 +34,13 @@ class OperationalEvent < ActiveRecord::Base
 		occurred_at.try(:to_date)
 	end
 
+	after_save :reindex_study_subject!
+
 protected
+
+	def reindex_study_subject!
+		study_subject.index if study_subject
+	end
 
 	def copy_operational_event_type_description
 		if self.description.blank? and !operational_event_type.nil?

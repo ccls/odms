@@ -92,7 +92,13 @@ class Enrollment < ActiveRecord::Base
 
 #	scope :p, lambda{|key| joins(:project).where(Project.arel_table[:key].matches(key))}
 
+	after_save :reindex_study_subject!
+
 protected
+
+	def reindex_study_subject!
+		study_subject.index if study_subject
+	end
 
 	def create_enrollment_update
 		if study_subject

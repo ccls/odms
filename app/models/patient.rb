@@ -31,7 +31,13 @@ class Patient < ActiveRecord::Base
 	after_save :trigger_setting_was_under_15_at_dx,
 		:if => :admit_date_changed?
 
+	after_save :reindex_study_subject!
+
 protected
+
+	def reindex_study_subject!
+		study_subject.index if study_subject
+	end
 
 	##
 	#	This validation does not work when using nested attributes as 

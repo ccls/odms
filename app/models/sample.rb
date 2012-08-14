@@ -38,4 +38,12 @@ class Sample < ActiveRecord::Base
 		sprintf('%07d',self.attributes['id']) unless new_record?
 	end
 
+	after_save :reindex_study_subject!
+
+protected
+
+	def reindex_study_subject!
+		study_subject.index if study_subject
+	end
+
 end

@@ -12,4 +12,12 @@ class SubjectLanguage < ActiveRecord::Base
 		( language_is_other? ) ? other_language : language.to_s
 	end
 
+	after_save :reindex_study_subject!
+
+protected
+
+	def reindex_study_subject!
+		study_subject.index if study_subject
+	end
+
 end
