@@ -132,8 +132,9 @@ class StudySubjectsController < ApplicationController
 	def by
 		if params[:icf_master_id].present? && StudySubject.where(
 				:icf_master_id => params[:icf_master_id]).exists?
-			study_subject = StudySubject.where(
-				:icf_master_id => params[:icf_master_id]).first
+#			study_subject = StudySubject.where(
+#				:icf_master_id => params[:icf_master_id]).first
+			study_subject = StudySubject.with_icf_master_id(params[:icf_master_id]).first
 			redirect_to url_for_subject(study_subject)
 		else
 			flash[:warn] = "Valid icf_master_id required."

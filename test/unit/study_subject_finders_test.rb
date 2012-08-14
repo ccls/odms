@@ -75,7 +75,8 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		study_subject = Factory(:case_study_subject)
 		assert_not_nil study_subject.patid
 		assert_equal study_subject.patid.length, 4
-		with_patid = StudySubject.with_patid(study_subject.patid)
+		with_patid = StudySubject.with_patid(
+			"   #{study_subject.patid}  ")
 		assert  with_patid.include?(study_subject)
 		assert !with_patid.include?(noise)
 	end
@@ -85,7 +86,8 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		study_subject = Factory(:case_study_subject)
 		assert_not_nil study_subject.familyid
 		assert_equal study_subject.familyid.length, 6
-		with_familyid = StudySubject.with_familyid(study_subject.familyid)
+		with_familyid = StudySubject.with_familyid(
+			"  #{study_subject.familyid}  ")
 		assert  with_familyid.include?(study_subject)
 		assert !with_familyid.include?(noise)
 	end
@@ -95,7 +97,8 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		study_subject = Factory(:case_study_subject)
 		assert_not_nil study_subject.matchingid
 		assert_equal study_subject.matchingid.length, 6
-		with_matchingid = StudySubject.with_matchingid(study_subject.matchingid)
+		with_matchingid = StudySubject.with_matchingid(
+			"  #{study_subject.matchingid}  ")
 		assert  with_matchingid.include?(study_subject)
 		assert !with_matchingid.include?(noise)
 	end
@@ -105,9 +108,21 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		study_subject = Factory(:case_study_subject)
 		assert_not_nil study_subject.subjectid
 		assert_equal study_subject.subjectid.length, 6
-		with_subjectid = StudySubject.with_subjectid(study_subject.subjectid)
+		with_subjectid = StudySubject.with_subjectid(
+			"  #{study_subject.subjectid}  ")
 		assert  with_subjectid.include?(study_subject)
 		assert !with_subjectid.include?(noise)
+	end
+
+	test "should find with icf_master_id" do
+		noise = Factory(:case_study_subject)
+		study_subject = Factory(:case_study_subject, :icf_master_id => 'FINDME')
+		assert_not_nil study_subject.icf_master_id
+		assert_equal 'FINDME', study_subject.icf_master_id
+		with_icf_master_id = StudySubject.with_icf_master_id(
+			"  #{study_subject.icf_master_id}  ")
+		assert  with_icf_master_id.include?(study_subject)
+		assert !with_icf_master_id.include?(noise)
 	end
 
 	test "should return child if subject is mother of case" do
