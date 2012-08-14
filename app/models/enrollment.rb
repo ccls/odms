@@ -80,6 +80,18 @@ class Enrollment < ActiveRecord::Base
 #	scope :not_assigned_for_interview,  where("assigned_for_interview_at IS NULL")
 	scope :not_assigned_for_interview,  where(:assigned_for_interview_at => nil)
 
+#	scope :ccls, joins(:project).where(Project.arel_table[:key].matches('ccls'))
+
+	#	find enrollments by project key
+	#	(rather than hard coding scopes for each)
+	#	(square brackets don't seem to work in the scoping world)
+#	def self.[](project_key)
+	def self.by_project_key(project_key)
+		joins(:project).where(Project.arel_table[:key].matches(project_key))
+	end
+
+#	scope :p, lambda{|key| joins(:project).where(Project.arel_table[:key].matches(key))}
+
 protected
 
 	def create_enrollment_update

@@ -115,11 +115,69 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			visit find_study_subjects_path
+			visit find_study_subjects_path	#	sets request.env['HTTP_REFERER']
 			find('td.icf_master_id a').click	#	in reality many, in test should be only one
 			wait_until { has_css?("div#sidemenu") }
 			assert_select HTML::Document.new(body).root, 
 				'div#sidemenu > a', :text => "back to search"
+		end
+
+		#	first, prev, next, last and by should reference 
+		#		request.env['HTTP_REFERER'] (request.referrer) if exists
+		test "first should stay on same controller as referrer with #{cu} login" do
+			first_study_subject = Factory(:study_subject)
+			middle_study_subject = Factory(:study_subject)
+			last_study_subject  = Factory(:study_subject)
+			login_as send(cu)
+			visit study_subject_enrollment_path(last_study_subject,
+				last_study_subject.enrollments.by_project_key('ccls').first)
+			click_link 'first'
+			assert_equal current_path, study_subject_enrollments_path(first_study_subject)
+		end
+
+		test "prev should stay on same controller as referrer with #{cu} login" do
+			first_study_subject = Factory(:study_subject)
+			middle_study_subject = Factory(:study_subject)
+			last_study_subject  = Factory(:study_subject)
+			login_as send(cu)
+			visit study_subject_enrollment_path(last_study_subject,
+				last_study_subject.enrollments.by_project_key('ccls').first)
+			click_link 'prev'
+			assert_equal current_path, study_subject_enrollments_path(middle_study_subject)
+		end
+
+		test "next should stay on same controller as referrer with #{cu} login" do
+			first_study_subject = Factory(:study_subject)
+			middle_study_subject = Factory(:study_subject)
+			last_study_subject  = Factory(:study_subject)
+			login_as send(cu)
+			visit study_subject_enrollment_path(first_study_subject,
+				first_study_subject.enrollments.by_project_key('ccls').first)
+			click_link 'next'
+			assert_equal current_path, study_subject_enrollments_path(middle_study_subject)
+		end
+
+		test "last should stay on same controller as referrer with #{cu} login" do
+			first_study_subject = Factory(:study_subject)
+			middle_study_subject = Factory(:study_subject)
+			last_study_subject  = Factory(:study_subject)
+			login_as send(cu)
+			visit study_subject_enrollment_path(first_study_subject,
+				first_study_subject.enrollments.by_project_key('ccls').first)
+			click_link 'last'
+			assert_equal current_path, study_subject_enrollments_path(last_study_subject)
+		end
+
+		test "by should stay on same controller as referrer with #{cu} login" do
+			first_study_subject = Factory(:study_subject)
+			middle_study_subject = Factory(:study_subject)
+			last_study_subject  = Factory(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_enrollment_path(first_study_subject,
+				first_study_subject.enrollments.by_project_key('ccls').first)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_enrollments_path(last_study_subject)
 		end
 
 	end

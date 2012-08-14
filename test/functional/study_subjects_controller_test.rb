@@ -225,7 +225,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			first_study_subject = Factory(:study_subject)
 			Factory(:study_subject)
 			this_study_subject = Factory(:study_subject)
-			get :first, :id => this_study_subject.id
+			get :first	#	now irrelevant ... , :id => this_study_subject.id
 			assert_redirected_to first_study_subject
 		end
 	
@@ -234,7 +234,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			this_study_subject = Factory(:study_subject)
 			Factory(:study_subject)
 			last_study_subject = Factory(:study_subject)
-			get :last, :id => this_study_subject.id
+			get :last	#	now irrelevant ... , :id => this_study_subject.id
 			assert_redirected_to last_study_subject
 		end
 
