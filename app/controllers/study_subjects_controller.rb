@@ -137,7 +137,7 @@ class StudySubjectsController < ApplicationController
 			redirect_to url_for_subject(study_subject)
 		else
 			flash[:warn] = "Valid icf_master_id required."
-			redirect_to_referer_or_default( root_path )
+			redirect_to_referrer_or_default( root_path )
 		end
 	end
 

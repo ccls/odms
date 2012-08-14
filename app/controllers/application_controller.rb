@@ -42,6 +42,8 @@ protected	#	private #	(does it matter which or if neither?)
 			request.env["HTTP_REFERER"] || default )
 		session[:refer_to] = nil
 	end
+	#	There are 4 r's in 'referrer'
+	alias_method :redirect_to_referrer_or_default, :redirect_to_referer_or_default
 
 	#	Flash error message and redirect
 	def access_denied( 
