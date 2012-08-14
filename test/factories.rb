@@ -584,6 +584,13 @@ Factory.define :sample_type_parent, :parent => :sample_type do |f|
 	f.parent nil
 end
 
+Factory.define :screening_datum do |f|
+#
+#	These are not required, but without them, conversion to subject will fail
+#
+	f.sequence(:dob) { random_date }
+	f.sequence(:sex) { random_sex }
+end
 Factory.define :screening_datum_update do |f|
 	f.csv_file Rack::Test::UploadedFile.new( 
 		'test/assets/empty_screening_datum_update_test_file.csv', 'text/csv')

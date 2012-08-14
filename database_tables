@@ -1478,6 +1478,57 @@ Table: schema_migrations
 +---------+--------------+------+-----+---------+-------+
 | version | varchar(255) | NO   | PRI | NULL    |       |
 +---------+--------------+------+-----+---------+-------+
+Table: screening_data
++---------------------------+--------------+------+-----+---------+----------------+
+| Field                     | Type         | Null | Key | Default | Extra          |
++---------------------------+--------------+------+-----+---------+----------------+
+| id                        | int(11)      | NO   | PRI | NULL    | auto_increment |
+| screening_datum_update_id | int(11)      | YES  |     | NULL    |                |
+| study_subject_id          | int(11)      | YES  |     | NULL    |                |
+| icf_master_id             | varchar(255) | YES  |     | NULL    |                |
+| mom_is_biomom             | int(11)      | YES  |     | NULL    |                |
+| dad_is_biodad             | int(11)      | YES  |     | NULL    |                |
+| mother_first_name         | varchar(255) | YES  |     | NULL    |                |
+| mother_last_name          | varchar(255) | YES  |     | NULL    |                |
+| mother_maiden_name        | varchar(255) | YES  |     | NULL    |                |
+| father_first_name         | varchar(255) | YES  |     | NULL    |                |
+| father_last_name          | varchar(255) | YES  |     | NULL    |                |
+| first_name                | varchar(255) | YES  |     | NULL    |                |
+| middle_name               | varchar(255) | YES  |     | NULL    |                |
+| last_name                 | varchar(255) | YES  |     | NULL    |                |
+| dob                       | date         | YES  |     | NULL    |                |
+| sex                       | varchar(255) | YES  |     | NULL    |                |
+| birth_country             | varchar(255) | YES  |     | NULL    |                |
+| birth_state               | varchar(255) | YES  |     | NULL    |                |
+| birth_city                | varchar(255) | YES  |     | NULL    |                |
+| mother_hispanicity_mex    | int(11)      | YES  |     | NULL    |                |
+| other_mother_race         | varchar(255) | YES  |     | NULL    |                |
+| father_hispanicity_mex    | int(11)      | YES  |     | NULL    |                |
+| other_father_race         | varchar(255) | YES  |     | NULL    |                |
+| new_mother_first_name     | varchar(255) | YES  |     | NULL    |                |
+| new_mother_last_name      | varchar(255) | YES  |     | NULL    |                |
+| new_mother_maiden_name    | varchar(255) | YES  |     | NULL    |                |
+| new_father_first_name     | varchar(255) | YES  |     | NULL    |                |
+| new_father_last_name      | varchar(255) | YES  |     | NULL    |                |
+| new_first_name            | varchar(255) | YES  |     | NULL    |                |
+| new_middle_name           | varchar(255) | YES  |     | NULL    |                |
+| new_last_name             | varchar(255) | YES  |     | NULL    |                |
+| new_dob                   | date         | YES  |     | NULL    |                |
+| new_sex                   | varchar(255) | YES  |     | NULL    |                |
+| date                      | datetime     | YES  |     | NULL    |                |
+| dob_month                 | int(11)      | YES  |     | NULL    |                |
+| new_dob_month             | int(11)      | YES  |     | NULL    |                |
+| dob_day                   | int(11)      | YES  |     | NULL    |                |
+| new_dob_day               | int(11)      | YES  |     | NULL    |                |
+| dob_year                  | int(11)      | YES  |     | NULL    |                |
+| new_dob_year              | int(11)      | YES  |     | NULL    |                |
+| mother_hispanicity        | varchar(255) | YES  |     | NULL    |                |
+| mother_race               | varchar(255) | YES  |     | NULL    |                |
+| father_hispanicity        | varchar(255) | YES  |     | NULL    |                |
+| father_race               | varchar(255) | YES  |     | NULL    |                |
+| created_at                | datetime     | NO   |     | NULL    |                |
+| updated_at                | datetime     | NO   |     | NULL    |                |
++---------------------------+--------------+------+-----+---------+----------------+
 Table: screening_datum_updates
 +-----------------------+--------------+------+-----+---------+----------------+
 | Field                 | Type         | Null | Key | Default | Extra          |

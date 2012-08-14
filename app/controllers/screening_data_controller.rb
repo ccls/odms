@@ -1,0 +1,2 @@
+class ScreeningDataController < ApplicationController
+end

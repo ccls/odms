@@ -1,5 +1,7 @@
 Odms::Application.routes.draw do
 
+  resources :screening_data
+
 	#	rather than try to get multiple route files working,
 	#	just conditionally add this testing route.
 	if Rails.env == 'test'
