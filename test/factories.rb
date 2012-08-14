@@ -584,6 +584,19 @@ Factory.define :sample_type_parent, :parent => :sample_type do |f|
 	f.parent nil
 end
 
+Factory.define :screening_datum_update do |f|
+	f.csv_file Rack::Test::UploadedFile.new( 
+		'test/assets/empty_screening_datum_update_test_file.csv', 'text/csv')
+end
+Factory.define :empty_screening_datum_update, 
+	:parent => :screening_datum_update do |f|
+end
+Factory.define :one_record_screening_datum_update, 
+	:parent => :screening_datum_update do |f|
+	f.csv_file Rack::Test::UploadedFile.new( 
+		'test/assets/one_record_screening_datum_update_test_file.csv', 'text/csv')
+end
+
 Factory.define :section do |f|
 	f.sequence(:key)         { |n| "Key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }

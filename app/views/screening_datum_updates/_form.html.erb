@@ -1,0 +1,17 @@
+<%= form_for(@screening_datum_update) do |f| %>
+  <% if @screening_datum_update.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@screening_datum_update.errors.count, "error") %> prohibited this screening_datum_update from being saved:</h2>
+
+      <ul>
+      <% @screening_datum_update.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

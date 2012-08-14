@@ -136,6 +136,7 @@ Odms::Application.routes.draw do
 		member     { put :update_status }
 	end
 	resources :sample_types
+	resources :screening_datum_updates
 	resources :sections
 	resources :subject_relationships
 	resources :subject_types
