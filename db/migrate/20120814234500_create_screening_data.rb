@@ -20,7 +20,7 @@ class CreateScreeningData < ActiveRecord::Migration
 			t.string :birth_state
 			t.string :birth_city
 			t.integer :mother_hispanicity_mex
-			t.string :other_mother_race
+			t.string :mother_race_other
 			t.integer :father_hispanicity_mex
 			t.string :other_father_race
 			t.string :new_mother_first_name

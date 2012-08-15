@@ -56,7 +56,7 @@ class CreateStudySubjects < ActiveRecord::Migration
 			t.string  :birth_country
 #			t.string  :mother_race_other
 #			t.string  :father_race_other
-			t.string  :other_mother_race
+			t.string  :mother_race_other
 			t.string  :other_father_race
 
 
