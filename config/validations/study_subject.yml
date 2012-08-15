@@ -82,8 +82,8 @@
 
 -
   :attributes:
-  - :other_mother_race
-  - :other_father_race
+  - :mother_race_other
+  - :father_race_other
   - :state_id_no
   - :state_registrar_no
   - :local_registrar_no
