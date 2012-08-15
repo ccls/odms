@@ -337,47 +337,47 @@ namespace :app do
 #
 #	end #	task :update_completes_from_pagan => :environment do
 
-	task :create_missing_phase5_mom_subjects => :environment do
-		csv_file = 'ODMS_missing_phase5_mom_subjects.csv'
-		require 'csv'
-		(f=CSV.open( csv_file, 'rb',{
-				:headers => true })).each do |line|
-			puts
-			puts "Processing line :#{f.lineno}:"
-			puts line
-
-#	"subject_type_id","do_not_contact","sex","reference_date","hispanicity_id","matchingid","familyid","first_name","maiden_name","last_name","childid","childidwho","patid","newid","related_childid","related_case_childid"
-
-			unless StudySubject.mothers.with_patid(line["patid"]).empty?
-				raise "Mother exists for #{line["patid"]}" 
-			end
-
-			subject = StudySubject.new do |s|
-				s.subject_type_id = line["subject_type_id"]
-				s.do_not_contact = line["do_not_contact"]
-				s.sex = line["sex"]
-				s.reference_date = line["reference_date"]
-				s.hispanicity_id = line["hispanicity_id"]
-				s.matchingid = line["matchingid"]
-				s.familyid = line["familyid"]
-				s.first_name = line["first_name"]
-				s.maiden_name = line["maiden_name"]
-				s.last_name = line["last_name"]
-				#	s.childid = line["childid"]
-				s.childidwho = line["childidwho"]
-				s.patid = line["patid"]
-				s.newid = line["newid"]
-				s.related_childid = line["related_childid"]
-				s.related_case_childid = line["related_case_childid"]
-			end
-
-#			puts subject.errors.inspect unless subject.valid?
-			subject.save!
-			subject.assign_icf_master_id
-			
-		end	#	(f=CSV.open( csv_file.path, 'rb',{
-
-	end #	task :create_missing_phase5_mom_subjects => :environment do
+#	task :create_missing_phase5_mom_subjects => :environment do
+#		csv_file = 'ODMS_missing_phase5_mom_subjects.csv'
+#		require 'csv'
+#		(f=CSV.open( csv_file, 'rb',{
+#				:headers => true })).each do |line|
+#			puts
+#			puts "Processing line :#{f.lineno}:"
+#			puts line
+#
+##	"subject_type_id","do_not_contact","sex","reference_date","hispanicity_id","matchingid","familyid","first_name","maiden_name","last_name","childid","childidwho","patid","newid","related_childid","related_case_childid"
+#
+#			unless StudySubject.mothers.with_patid(line["patid"]).empty?
+#				raise "Mother exists for #{line["patid"]}" 
+#			end
+#
+#			subject = StudySubject.new do |s|
+#				s.subject_type_id = line["subject_type_id"]
+#				s.do_not_contact = line["do_not_contact"]
+#				s.sex = line["sex"]
+#				s.reference_date = line["reference_date"]
+#				s.hispanicity_id = line["hispanicity_id"]
+#				s.matchingid = line["matchingid"]
+#				s.familyid = line["familyid"]
+#				s.first_name = line["first_name"]
+#				s.maiden_name = line["maiden_name"]
+#				s.last_name = line["last_name"]
+#				#	s.childid = line["childid"]
+#				s.childidwho = line["childidwho"]
+#				s.patid = line["patid"]
+#				s.newid = line["newid"]
+#				s.related_childid = line["related_childid"]
+#				s.related_case_childid = line["related_case_childid"]
+#			end
+#
+##			puts subject.errors.inspect unless subject.valid?
+#			subject.save!
+#			subject.assign_icf_master_id
+#			
+#		end	#	(f=CSV.open( csv_file.path, 'rb',{
+#
+#	end #	task :create_missing_phase5_mom_subjects => :environment do
 
 end
 
