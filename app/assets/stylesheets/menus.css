@@ -94,7 +94,7 @@ div#mainmenu > .current {
 	background-color: #CCC3A9;
 }
 div#mainmenu .menu_item > a {
-	padding: 4px 24px;
+	padding: 4px 14px;
 	line-height: 28px;	
 }
 

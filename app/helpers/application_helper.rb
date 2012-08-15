@@ -43,6 +43,20 @@ module ApplicationHelper
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
 #		s << "<div class='menu_item#{( 
+#				params[:controller] == 'interviews' ) ? ' current' : nil}'>" <<
+#			link_to('Interviews', dashboard_interviews_path) <<
+		s << "<div class='menu_item'>" <<
+			"<a>Data Transfers</a>" <<
+			"<div class='sub_menu'>\n    " <<
+			[
+				link_to('Birth Data Requests', new_bc_request_path),
+				"<span>Subject Data</span>",
+				"<span>Tracking Data</span>"
+			].join("\n    ") <<
+			"</div><!-- sub_menu --></div><!-- menu_item -->" if (
+			logged_in? and current_user.may_edit? )
+
+#		s << "<div class='menu_item#{( 
 #				params[:controller] == 'studies' ) ? ' current' : nil}'>" <<
 #			link_to('Studies', dashboard_studies_path) <<
 #			"</div><!-- menu_item -->"

@@ -195,8 +195,8 @@ class ApplicationHelperTest < ActionView::TestCase
 			login_as send(cu)
 			response = HTML::Document.new(odms_main_menu).root
 			assert_select response, 'div#mainmenu', :count => 1 do
-				#	Home, Subjects, Interviews, Samples, Admin
-				assert_select 'div.menu_item', :count => 5
+				#	Home, Subjects, Interviews, Samples, Data Transfers, Admin
+				assert_select 'div.menu_item', :count => 6
 			end
 		end
 
@@ -209,6 +209,38 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 
 	end
+
+
+
+		test "odms_main_menu should return main menu with exporter login" do
+			login_as send(:exporter)
+			response = HTML::Document.new(odms_main_menu).root
+			assert_select response, 'div#mainmenu', :count => 1 do
+				#	Home, Subjects, Interviews, Data Transfers NOT ( Samples, Admin)
+				assert_select 'div.menu_item', :count => 4
+			end
+		end
+
+		test "odms_main_menu should return main menu with editor login" do
+			login_as send(:editor)
+			response = HTML::Document.new(odms_main_menu).root
+			assert_select response, 'div#mainmenu', :count => 1 do
+				#	Home, Subjects, Interviews, Data Transfers NOT ( Samples, Admin)
+				assert_select 'div.menu_item', :count => 4
+			end
+		end
+
+		test "odms_main_menu should return main menu with reader login" do
+			login_as send(:reader)
+			response = HTML::Document.new(odms_main_menu).root
+			assert_select response, 'div#mainmenu', :count => 1 do
+				#	Home, Subjects, Interviews, NOT ( Samples, Data Transfers, Admin)
+				assert_select 'div.menu_item', :count => 3
+			end
+		end
+
+
+
 
 	non_site_administrators.each do |cu|
 #
@@ -234,15 +266,6 @@ class ApplicationHelperTest < ActionView::TestCase
 
 		end
 	
-		test "odms_main_menu should return main menu with #{cu} login" do
-			login_as send(cu)
-			response = HTML::Document.new(odms_main_menu).root
-			assert_select response, 'div#mainmenu', :count => 1 do
-				#	Home, Subjects, Interviews, NOT ( Samples, Admin)
-				assert_select 'div.menu_item', :count => 3
-			end
-		end
-
 		test "subject_side_menu for bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
