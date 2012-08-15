@@ -130,9 +130,14 @@ module SunspotHelper
 	end
 
 	def column_header(column)
-		case column.to_s
-			when '' then ''
-			else sort_link(column,:image => false)
+#		case column.to_s
+#			when '' then ''
+#			else sort_link(column,:image => false)
+#		end
+		if StudySubject.sunspot_orderable_columns.include?(column.to_s)
+			sort_link(column,:image => false)
+		else
+			column
 		end
 	end
 

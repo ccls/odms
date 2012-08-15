@@ -46,6 +46,10 @@ base.class_eval do
 			[sunspot_boolean_columns].compact.flatten
 	end
 	
+	def self.sunspot_orderable_columns
+		@@sunspot_orderable_columns ||= sunspot_columns - %w(
+			languages races )
+	end
 	
 	#
 	#	NOTE what about 
@@ -64,7 +68,12 @@ base.class_eval do
 			first_name middle_name maiden_name last_name
 			father_ssn mother_ssn
 			patid subjectid hospital_key
-			diagnosis hospital hospital_no )
+			diagnosis hospital hospital_no
+			languages races
+			was_ca_resident_at_diagnosis
+			was_previously_treated
+			was_under_15_at_dx
+		)
 	end
 
 	def self.sunspot_time_columns
