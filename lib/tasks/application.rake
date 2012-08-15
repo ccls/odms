@@ -348,8 +348,8 @@ namespace :app do
 
 #	"subject_type_id","do_not_contact","sex","reference_date","hispanicity_id","matchingid","familyid","first_name","maiden_name","last_name","childid","childidwho","patid","newid","related_childid","related_case_childid"
 
-			unless StudySubject.cases.with_patid(line["patid"]).empty?
-				raise "Case mother exists for #{line["patid"]}" 
+			unless StudySubject.mothers.with_patid(line["patid"]).empty?
+				raise "Mother exists for #{line["patid"]}" 
 			end
 
 			subject = StudySubject.new do |s|
