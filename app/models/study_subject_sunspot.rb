@@ -48,6 +48,9 @@ base.class_eval do
 	
 	def self.sunspot_orderable_columns
 		@@sunspot_orderable_columns ||= sunspot_columns - %w(
+			was_ca_resident_at_diagnosis
+			was_previously_treated
+			was_under_15_at_dx
 			languages races )
 	end
 	
