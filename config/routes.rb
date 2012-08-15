@@ -1,7 +1,5 @@
 Odms::Application.routes.draw do
 
-  resources :screening_data
-
 	#	rather than try to get multiple route files working,
 	#	just conditionally add this testing route.
 	if Rails.env == 'test'
@@ -138,7 +136,9 @@ Odms::Application.routes.draw do
 		member     { put :update_status }
 	end
 	resources :sample_types
-	resources :screening_datum_updates
+
+	resources :screening_data, :except => [:new,:create]
+	resources :screening_datum_updates, :except => [:edit,:update]
 	resources :sections
 	resources :subject_relationships
 	resources :subject_types

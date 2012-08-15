@@ -1,5 +1,34 @@
-<p id="notice"><%= notice %></p>
+<% stylesheets(:screening_datum_update) %>
 
+<p>Path: <%= @screening_datum_update.csv_file.path %></p>
+<p>File: <%= @screening_datum_update.csv_file_file_name %></p>
+<p>Size: <%= @screening_datum_update.csv_file_file_size %></p>
+<p>Updated: <%= @screening_datum_update.csv_file_updated_at %></p>
 
-<%= link_to 'Edit', edit_screening_datum_update_path(@screening_datum_update) %> |
-<%= link_to 'Back', screening_datum_updates_path %>
+<% unless @screening_datum_update.csv_file_file_name.nil? %>
+<p><%= link_to "show/hide csv file content",
+	params, :class => 'toggler toggles_csv_file_content' %></p>
+<pre id='csv_file_content'><%= IO.read(@screening_datum_update.csv_file.path) %></pre>
+<% end %>
+
+<% if @screening_datum_update.screening_data.length > 0 -%>
+<table><thead><tr>
+<th>&nbsp;</th>
+<th>study subject</th>
+</tr></thead><tbody>
+<% @screening_datum_update.screening_data.order('id ASC').each do |screening_datum| -%>
+<tr class='row'>
+<td><%= link_to screening_datum.id, screening_datum %></td>
+<td><% if screening_datum.study_subject %>
+<%= link_to screening_datum.study_subject, screening_datum.study_subject %>
+<% else %>
+No Study Subject Set
+<% end %></td>
+</tr>
+<% end -%>
+</tbody></table>
+<% end -%>
+
+<p>
+<%= link_to( 'Back', screening_datum_updates_path, :class => 'button' ) %>
+</p>

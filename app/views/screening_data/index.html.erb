@@ -1,107 +1,31 @@
-<h1>Listing screening_data</h1>
+<h4>Screening Data</h4>
 
-<table>
-  <tr>
-    <th>Screening datum update</th>
-    <th>Study subject</th>
-    <th>Icf master</th>
-    <th>Mom is biomom</th>
-    <th>Dad is biodad</th>
-    <th>Mother first name</th>
-    <th>Mother last name</th>
-    <th>Mother maiden name</th>
-    <th>Father first name</th>
-    <th>Father last name</th>
-    <th>First name</th>
-    <th>Middle name</th>
-    <th>Last name</th>
-    <th>Dob</th>
-    <th>Sex</th>
-    <th>Birth country</th>
-    <th>Birth state</th>
-    <th>Birth city</th>
-    <th>Mother hispanicity mex</th>
-    <th>Other mother race</th>
-    <th>Father hispanicity mex</th>
-    <th>Other father race</th>
-    <th>New mother first name</th>
-    <th>New mother last name</th>
-    <th>New mother maiden name</th>
-    <th>New father first name</th>
-    <th>New father last name</th>
-    <th>New first name</th>
-    <th>New middle name</th>
-    <th>New last name</th>
-    <th>New dob</th>
-    <th>New sex</th>
-    <th>Date</th>
-    <th>Dob month</th>
-    <th>New dob month</th>
-    <th>Dob day</th>
-    <th>New dob day</th>
-    <th>Dob year</th>
-    <th>New dob year</th>
-    <th>Mother hispanicity</th>
-    <th>Mother race</th>
-    <th>Father hispanicity</th>
-    <th>Father race</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<% unless @screening_data.empty? %>
+<p>This is all a bit much. Perhaps just some key info, link to case and subject, link to complete screening datum all in a nice clean table.</p>
 
+<table id='screening_data'><thead>
+<tr>
+<th></th>
+<th>icf master_id</th>
+<th>study subject</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
 <% @screening_data.each do |screening_datum| %>
-  <tr>
-    <td><%= screening_datum.screening_datum_update_id %></td>
-    <td><%= screening_datum.study_subject_id %></td>
-    <td><%= screening_datum.icf_master_id %></td>
-    <td><%= screening_datum.mom_is_biomom %></td>
-    <td><%= screening_datum.dad_is_biodad %></td>
-    <td><%= screening_datum.mother_first_name %></td>
-    <td><%= screening_datum.mother_last_name %></td>
-    <td><%= screening_datum.mother_maiden_name %></td>
-    <td><%= screening_datum.father_first_name %></td>
-    <td><%= screening_datum.father_last_name %></td>
-    <td><%= screening_datum.first_name %></td>
-    <td><%= screening_datum.middle_name %></td>
-    <td><%= screening_datum.last_name %></td>
-    <td><%= screening_datum.dob %></td>
-    <td><%= screening_datum.sex %></td>
-    <td><%= screening_datum.birth_country %></td>
-    <td><%= screening_datum.birth_state %></td>
-    <td><%= screening_datum.birth_city %></td>
-    <td><%= screening_datum.mother_hispanicity_mex %></td>
-    <td><%= screening_datum.other_mother_race %></td>
-    <td><%= screening_datum.father_hispanicity_mex %></td>
-    <td><%= screening_datum.other_father_race %></td>
-    <td><%= screening_datum.new_mother_first_name %></td>
-    <td><%= screening_datum.new_mother_last_name %></td>
-    <td><%= screening_datum.new_mother_maiden_name %></td>
-    <td><%= screening_datum.new_father_first_name %></td>
-    <td><%= screening_datum.new_father_last_name %></td>
-    <td><%= screening_datum.new_first_name %></td>
-    <td><%= screening_datum.new_middle_name %></td>
-    <td><%= screening_datum.new_last_name %></td>
-    <td><%= screening_datum.new_dob %></td>
-    <td><%= screening_datum.new_sex %></td>
-    <td><%= screening_datum.date %></td>
-    <td><%= screening_datum.dob_month %></td>
-    <td><%= screening_datum.new_dob_month %></td>
-    <td><%= screening_datum.dob_day %></td>
-    <td><%= screening_datum.new_dob_day %></td>
-    <td><%= screening_datum.dob_year %></td>
-    <td><%= screening_datum.new_dob_year %></td>
-    <td><%= screening_datum.mother_hispanicity %></td>
-    <td><%= screening_datum.mother_race %></td>
-    <td><%= screening_datum.father_hispanicity %></td>
-    <td><%= screening_datum.father_race %></td>
-    <td><%= link_to 'Show', screening_datum %></td>
-    <td><%= link_to 'Edit', edit_screening_datum_path(screening_datum) %></td>
-    <td><%= link_to 'Destroy', screening_datum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<tr class='row'>
+<td><%= link_to 'SDU', screening_datum.screening_datum_update %></td>
+<td><%= screening_datum.icf_master_id %></td>
+<td><% if screening_datum.study_subject %>
+<%= link_to screening_datum.study_subject, screening_datum.study_subject %>
+<% else %>
+No Study Subject Set
+<% end %></td>
+<td class='manage'><%= link_to 'View', screening_datum, :class => :button %></td>
+</tr>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Screening datum', new_screening_datum_path %>
+</tbody>
+</table><!-- id='screening_data' --> 
+<% else %>
+<p>Sorry, but no screening data exist.</p>
+<% end %>
