@@ -34,6 +34,8 @@ administrator_resources:
   - sample_temperatures
   - sample_transfers
   - sample_types 
+  - screening_data
+  - screening_datum_updates 
   - sections 
   - subject_relationships 
   - subject_types
