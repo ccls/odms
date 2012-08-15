@@ -25,23 +25,23 @@ base.class_eval do
 	scope :children, joins(:subject_type).where('subject_types.key' => ['Case','Control'])
 
 	def self.with_patid(patid)
-		where(:patid => patid.squish)
+		where(:patid => patid.to_s.squish)
 	end
 
 	def self.with_icf_master_id(icf_master_id)
-		where(:icf_master_id => icf_master_id.squish)
+		where(:icf_master_id => icf_master_id.to_s.squish)
 	end
 
 	def self.with_familyid(familyid)
-		where(:familyid => familyid.squish)
+		where(:familyid => familyid.to_s.squish)
 	end
 
 	def self.with_matchingid(matchingid)
-		where(:matchingid => matchingid.squish)
+		where(:matchingid => matchingid.to_s.squish)
 	end
 
 	def self.with_subjectid(subjectid)
-		where(:subjectid => subjectid.squish)
+		where(:subjectid => subjectid.to_s.squish)
 	end
 
 	def self.not_id(study_subject_id)
