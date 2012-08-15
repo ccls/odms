@@ -18,6 +18,10 @@
 /log
 /tmp
 
+#  Magee's sqlite databases
+odms_production
+odms_test
+odms_development
 
 #.gitignore
 .DS_Store
