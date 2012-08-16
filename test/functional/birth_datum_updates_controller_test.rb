@@ -201,11 +201,16 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 
 		test "should NOT create with #{cu} login and stray csv quote" do
 			login_as send(cu)
+#			File.open(csv_test_file_name,'w'){|f|
+#				f.puts csv_file_header
+#				f.puts stray_csv_quote_line }
+			create_stray_quote_csv_file
 			assert_difference('BirthDatum.count',0){
 			assert_difference('CandidateControl.count',0){
 				post :create, :birth_datum_update => factory_attributes(
 					:csv_file => Rack::Test::UploadedFile.new( 
-						'test/assets/stray_quote_test_file.csv', 'text/csv') )
+						csv_test_file_name, 'text/csv') )
+#						'test/assets/stray_quote_test_file.csv', 'text/csv') )
 			} }
 			assert_not_nil flash[:error]
 			assert_match "CSV error.<br/>", flash[:error]
@@ -214,11 +219,16 @@ pending 'Pending as still need to reproduce this actual error'
 
 		test "should NOT create with #{cu} login and unclosed csv quote" do
 			login_as send(cu)
+#			File.open(csv_test_file_name,'w'){|f|
+#				f.puts csv_file_header
+#				f.puts unclosed_csv_quote_line }
+			create_unclosed_quote_csv_file
 			assert_difference('BirthDatum.count',0){
 			assert_difference('CandidateControl.count',0){
 				post :create, :birth_datum_update => factory_attributes(
 					:csv_file => Rack::Test::UploadedFile.new( 
-						'test/assets/unclosed_quote_test_file.csv', 'text/csv') )
+						csv_test_file_name, 'text/csv') )
+#						'test/assets/unclosed_quote_test_file.csv', 'text/csv') )
 			} }
 			assert_not_nil flash[:error]
 			assert_match "CSV error.<br/>Unclosed quoted field", flash[:error]
@@ -226,11 +236,16 @@ pending 'Pending as still need to reproduce this actual error'
 
 		test "should NOT create with #{cu} login and illegal csv quote" do
 			login_as send(cu)
+#			File.open(csv_test_file_name,'w'){|f|
+#				f.puts csv_file_header
+#				f.puts illegal_csv_quote_line }
+			create_illegal_quote_csv_file
 			assert_difference('BirthDatum.count',0){
 			assert_difference('CandidateControl.count',0){
 				post :create, :birth_datum_update => factory_attributes(
 					:csv_file => Rack::Test::UploadedFile.new( 
-						'test/assets/illegal_quote_test_file.csv', 'text/csv') )
+						csv_test_file_name, 'text/csv') )
+#						'test/assets/illegal_quote_test_file.csv', 'text/csv') )
 			} }
 			assert_not_nil flash[:error]
 			assert_match "CSV error.<br/>Illegal quoting", flash[:error]

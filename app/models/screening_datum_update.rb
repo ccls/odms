@@ -1,4 +1,10 @@
 require 'csv'
+#
+#	The ScreeningDatumUpdate#csv_file comes from ICF
+#
+#	It contains updated case info which will be passed to USC
+#	to assist to correctly identifying controls?
+#
 class ScreeningDatumUpdate < ActiveRecord::Base
 
 	has_attached_file :csv_file,
@@ -24,7 +30,7 @@ class ScreeningDatumUpdate < ActiveRecord::Base
 
 
 #	Temporarily don't do this
-#	validate :valid_csv_file_column_names
+	validate :valid_csv_file_column_names
 
 
 

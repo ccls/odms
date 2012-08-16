@@ -146,14 +146,14 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		birth_datum_update = BirthDatumUpdate.new(
 			:csv_file => Rack::Test::UploadedFile.new(
 				'test/assets/bad_header_test_file.csv', 'text/csv') )
-#
-#		assert !birth_datum_update.valid?
-#
-		birth_datum_update.valid_csv_file_column_names
+
+		assert !birth_datum_update.valid?
+
+#		birth_datum_update.valid_csv_file_column_names
 		assert  birth_datum_update.errors.include?(:csv_file)
 		assert  birth_datum_update.errors.matching?(:csv_file,
 			'Invalid column name .* in csv_file')
-pending 'Temporarily disabled this validation, but works manually.'
+#pending 'Temporarily disabled this validation, but works manually.'
 	end
 
 #	test "should convert empty attached csv_file to candidate controls" do

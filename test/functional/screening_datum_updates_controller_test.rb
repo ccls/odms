@@ -54,7 +54,8 @@ class ScreeningDatumUpdatesControllerTest < ActionController::TestCase
 
 		test "should create with csv_file attachment control record and #{cu} login" do
 			login_as send(cu)
-			create_case_for_screening_datum_update
+#	irrelevant for now
+#			create_case_for_screening_datum_update
 #			assert_difference('CandidateControl.count',1) {	#	may depend on record content!
 			assert_difference('ScreeningDatum.count',1) {
 			assert_difference('ScreeningDatumUpdate.count',1) {
@@ -201,11 +202,18 @@ class ScreeningDatumUpdatesControllerTest < ActionController::TestCase
 
 		test "should NOT create with #{cu} login and stray csv quote" do
 			login_as send(cu)
+			create_stray_quote_csv_file
+#			File.open(csv_test_file_name,'w'){|f|
+#				f.puts csv_file_header
+#				f.puts stray_csv_quote_line }
+#
 			assert_difference('ScreeningDatum.count',0){
 #			assert_difference('CandidateControl.count',0){
 				post :create, :screening_datum_update => factory_attributes(
 					:csv_file => Rack::Test::UploadedFile.new( 
-						'test/assets/stray_quote_test_file.csv', 'text/csv') )
+						csv_test_file_name, 'text/csv') )
+#					:csv_file => Rack::Test::UploadedFile.new( 
+#						'test/assets/stray_quote_test_file.csv', 'text/csv') )
 			} #}
 			assert_not_nil flash[:error]
 			assert_match "CSV error.<br/>", flash[:error]
@@ -214,11 +222,17 @@ pending 'Pending as still need to reproduce this actual error'
 
 		test "should NOT create with #{cu} login and unclosed csv quote" do
 			login_as send(cu)
+			create_unclosed_quote_csv_file
+#			File.open(csv_test_file_name,'w'){|f|
+#				f.puts csv_file_header
+#				f.puts unclosed_csv_quote_line }
 			assert_difference('ScreeningDatum.count',0){
 #			assert_difference('CandidateControl.count',0){
 				post :create, :screening_datum_update => factory_attributes(
 					:csv_file => Rack::Test::UploadedFile.new( 
-						'test/assets/unclosed_quote_test_file.csv', 'text/csv') )
+						csv_test_file_name, 'text/csv') )
+#					:csv_file => Rack::Test::UploadedFile.new( 
+#						'test/assets/unclosed_quote_test_file.csv', 'text/csv') )
 			} #}
 			assert_not_nil flash[:error]
 			assert_match "CSV error.<br/>Unclosed quoted field", flash[:error]
@@ -227,10 +241,16 @@ pending 'Pending as still need to reproduce this actual error'
 		test "should NOT create with #{cu} login and illegal csv quote" do
 			login_as send(cu)
 			assert_difference('ScreeningDatum.count',0){
+			create_illegal_quote_csv_file
+#			File.open(csv_test_file_name,'w'){|f|
+#				f.puts csv_file_header
+#				f.puts illegal_csv_quote_line }
 #			assert_difference('CandidateControl.count',0){
 				post :create, :screening_datum_update => factory_attributes(
 					:csv_file => Rack::Test::UploadedFile.new( 
-						'test/assets/illegal_quote_test_file.csv', 'text/csv') )
+						csv_test_file_name, 'text/csv') )
+#					:csv_file => Rack::Test::UploadedFile.new( 
+#						'test/assets/illegal_quote_test_file.csv', 'text/csv') )
 			} #}
 			assert_not_nil flash[:error]
 			assert_match "CSV error.<br/>Illegal quoting", flash[:error]

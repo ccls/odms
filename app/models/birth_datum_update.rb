@@ -1,4 +1,9 @@
 require 'csv'
+#
+#	The BirthDatumUpdate#csv_file comes from USC
+#	It contains birth record info on existing case and new
+#	potential control subjects.
+#
 class BirthDatumUpdate < ActiveRecord::Base
 
 	has_attached_file :csv_file,
@@ -24,7 +29,7 @@ class BirthDatumUpdate < ActiveRecord::Base
 
 
 #	Temporarily don't do this
-#	validate :valid_csv_file_column_names
+	validate :valid_csv_file_column_names
 
 
 
@@ -48,7 +53,10 @@ class BirthDatumUpdate < ActiveRecord::Base
 			f.close
 			column_names.each do |column_name|
 				errors.add(:csv_file, "Invalid column name '#{column_name}' in csv_file."
-					) unless expected_column_names.include?(column_name)
+					) unless (expected_column_names + %w(
+						ignore1 ignore2 ignore3
+						)).include?(column_name)
+#					) unless expected_column_names.include?(column_name)
 			end
 #
 #	TODO what about missing columns???

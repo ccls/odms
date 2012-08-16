@@ -6,4 +6,29 @@ class ScreeningDatum < ActiveRecord::Base
 	belongs_to :study_subject
 	attr_protected :study_subject_id, :study_subject
 
+	has_many :odms_exceptions, :as => :exceptable
+
+	after_create :post_processing
+
+	def post_processing
+		if icf_master_id.blank?
+			odms_exceptions.create(:name => 'screening data append',
+				:description => "icf_master_id blank")
+		else
+#			#	DO NOT USE 'study_subject' here as it will conflict with
+#			#	the study_subject association.
+#			subject = StudySubject.where(:icf_master_id => icf_master_id).first
+#			if subject.nil?
+#				odms_exceptions.create(:name => 'screening data append',
+#					:description => "No subject found with icf_master_id :#{icf_master_id}:")
+#			else
+#
+#
+#
+#
+#
+#			end
+		end
+	end	#	def post_processing
+
 end

@@ -36,13 +36,13 @@ module ScreeningDatumUpdateTestHelper
 		assert !File.exists?(csv_test_file_name)
 	end
 
-	def create_case_for_screening_datum_update
-		icf_master_id = Factory(:icf_master_id,:icf_master_id => '12345FAKE')
-		study_subject = Factory(:complete_case_study_subject)
-		study_subject.assign_icf_master_id
-		assert_equal '12345FAKE', study_subject.icf_master_id
-		study_subject
-	end
+#	def create_case_for_screening_datum_update
+#		icf_master_id = Factory(:icf_master_id,:icf_master_id => '12345FAKE')
+#		study_subject = Factory(:complete_case_study_subject)
+#		study_subject.assign_icf_master_id
+#		assert_equal '12345FAKE', study_subject.icf_master_id
+#		study_subject
+#	end
 
 	def csv_file_header_array
 		ScreeningDatumUpdate.expected_column_names
@@ -52,47 +52,47 @@ module ScreeningDatumUpdateTestHelper
 		csv_file_header_array.collect{|s|"\"#{s}\""}.join(',')
 	end
 
-	def csv_file_unknown(options={})
-		c = unknown_subject_hash.merge(options)
-		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
-	end
-
-	def csv_file_case_study_subject(options={})
-		c = case_subject_hash.merge(options)
-		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
-	end
-
-	def csv_file_control(options={})
-		c = control_subject_hash.merge(options)
-		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
-	end
-
-	def create_screening_datum_update_test_file(options={})
-		File.open(csv_test_file_name,'w'){|f|
-			f.puts csv_file_header
-			f.puts csv_file_case_study_subject
-			f.puts csv_file_control(options) }
-	end
-
-	#	just enough for no exceptions
-	def unknown_subject_hash
-		Factory.attributes_for(:screening_datum,
-			:master_id => '12345FAKE' )
-	end
-
-	def case_subject_hash
-		Factory.attributes_for(:case_screening_datum,
-			:master_id => '12345FAKE' )
-	end
-
-	def control_subject_hash
-		Factory.attributes_for(:control_screening_datum,
-			:master_id => '12345FAKE' )
-	end
+#	def csv_file_unknown(options={})
+#		c = unknown_subject_hash.merge(options)
+#		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
+#	end
+#
+#	def csv_file_case_study_subject(options={})
+#		c = case_subject_hash.merge(options)
+#		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
+#	end
+#
+#	def csv_file_control(options={})
+#		c = control_subject_hash.merge(options)
+#		csv_file_header_array.collect{|s|"\"#{c[s.to_sym]}\""}.join(',')
+#	end
+#
+#	def create_screening_datum_update_test_file(options={})
+#		File.open(csv_test_file_name,'w'){|f|
+#			f.puts csv_file_header
+#			f.puts csv_file_case_study_subject
+#			f.puts csv_file_control(options) }
+#	end
+#
+#	#	just enough for no exceptions
+#	def unknown_subject_hash
+#		Factory.attributes_for(:screening_datum,
+#			:master_id => '12345FAKE' )
+#	end
+#
+#	def case_subject_hash
+#		Factory.attributes_for(:case_screening_datum,
+#			:master_id => '12345FAKE' )
+#	end
+#
+#	def control_subject_hash
+#		Factory.attributes_for(:control_screening_datum,
+#			:master_id => '12345FAKE' )
+#	end
 
 #	shouldn't be called test_... as makes it a test method!
-	def csv_test_file_name
-		"tmp/screening_datum_update_test_file.csv"
-	end
+#	def csv_test_file_name
+#		"tmp/screening_datum_update_test_file.csv"
+#	end
 
 end

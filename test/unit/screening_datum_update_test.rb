@@ -60,7 +60,8 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 	end
 
 	test "one record screening datum update factory should create screening datum update" do
-		study_subject = create_case_for_screening_datum_update
+#	irrelevant for now
+#		study_subject = create_case_for_screening_datum_update
 		assert_difference('ScreeningDatumUpdate.count',1) {
 			screening_datum_update = Factory(:one_record_screening_datum_update)
 			assert_not_nil screening_datum_update.csv_file_file_name
@@ -75,7 +76,8 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 	end
 
 	test "one record screening datum update factory should create screening datum" do
-		study_subject = create_case_for_screening_datum_update
+#	irrelevant for now
+#		study_subject = create_case_for_screening_datum_update
 		assert_difference('ScreeningDatum.count',1) {	#	after_create should add this
 			screening_datum_update = Factory(:one_record_screening_datum_update)
 			assert_not_nil screening_datum_update.screening_data.first
@@ -124,18 +126,19 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 		screening_datum_update = ScreeningDatumUpdate.new(
 			:csv_file => Rack::Test::UploadedFile.new(
 				'test/assets/bad_header_test_file.csv', 'text/csv') )
-#
-#		assert !screening_datum_update.valid?
-#
-		screening_datum_update.valid_csv_file_column_names
+
+		assert !screening_datum_update.valid?
+
+#		screening_datum_update.valid_csv_file_column_names
 		assert  screening_datum_update.errors.include?(:csv_file)
 		assert  screening_datum_update.errors.matching?(:csv_file,
 			'Invalid column name .* in csv_file')
-pending 'Temporarily disabled this validation, but works manually.'
+#pending 'Temporarily disabled this validation, but works manually.'
 	end
 
 	test "should create odms exception if screening datum creation fails" do
-		study_subject = create_case_for_screening_datum_update
+#	irrelevant for now
+#		study_subject = create_case_for_screening_datum_update
 		assert_difference('OdmsException.count',2) {
 		assert_difference('ScreeningDatum.count',0) {
 		assert_difference('ScreeningDatumUpdate.count',1) {
@@ -154,7 +157,8 @@ pending 'Temporarily disabled this validation, but works manually.'
 #	should be wrong as well.
 #
 	test "should create odms exception if screening datum count incorrect" do
-		study_subject = create_case_for_screening_datum_update
+#	irrelevant for now
+#		study_subject = create_case_for_screening_datum_update
 		assert_difference('OdmsException.count',1) {
 		assert_difference('ScreeningDatum.count',1) {	#	after_create should add this
 		assert_difference('ScreeningDatumUpdate.count',1) {
