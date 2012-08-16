@@ -28,12 +28,12 @@ class StudySubjectTest < ActiveSupport::TestCase
 		birth_type birth_year case_control_type dad_is_biodad died_on 
 		familyid father_hispanicity_id 
 		father_hispanicity_mex other_father_race 
-		father_yrs_educ gbid 
+		father_yrs_educ gbid father_race_other
 		other_guardian_relationship hispanicity_id 
 		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels 
 		local_registrar_no matchingid mom_is_biomom 
 		mother_hispanicity_id mother_hispanicity_mex 
-		other_mother_race mother_yrs_educ phase
+		mother_race_other other_mother_race mother_yrs_educ phase
 		reference_date related_case_childid related_childid ssn state_id_no 
 		state_registrar_no subjectid vital_status_id )
 
@@ -63,7 +63,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	assert_should_require_attribute_length( 
 		:other_guardian_relationship,
-		:other_mother_race, :other_father_race,
+		:mother_race_other, :other_father_race,
 		:state_id_no,
 		:state_registrar_no,
 		:local_registrar_no,

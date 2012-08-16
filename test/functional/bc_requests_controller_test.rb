@@ -298,7 +298,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			require 'csv'
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
-			assert_equal f[0], ["masterid", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "other_mother_race", "father_hispanicity", "father_hispanicity_mex", "father_race", "other_father_race"]
+			assert_equal f[0], ["masterid", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "mother_race_other", "father_hispanicity", "father_hispanicity_mex", "father_race", "other_father_race"]
 			assert_equal 23, f[0].length
 #["46", nil, nil, nil, "[name not available]", nil, "[name not available]", "[name not available]", "3", "23", "2006", "F", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
 			assert_equal f[1][0],  case_study_subject.icf_master_id
