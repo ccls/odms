@@ -45,6 +45,18 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 #			"#{study_subject.races.first}"
 #	end 
 
+	test "should NOT create study_subject with empty subject_languages_attributes" <<
+			" if language_required" do
+		assert_difference( 'SubjectLanguage.count', 0 ){
+		assert_difference( "StudySubject.count", 0 ) {
+			@study_subject = create_study_subject(
+				:language_required => true,
+				:subject_languages_attributes => { })
+			assert @study_subject.new_record?, 
+				"#{@study_subject.errors.full_messages.to_sentence}"
+		} }
+	end
+
 	test "should create study_subject with empty subject_languages_attributes" do
 		assert_difference( 'SubjectLanguage.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {

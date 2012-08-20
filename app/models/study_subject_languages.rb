@@ -16,6 +16,12 @@ base.class_eval do
 		:allow_destroy => true,
 		:reject_if => proc{|attributes| attributes['language_id'].blank? }
 
+	attr_accessor :language_required
+
+	#	can't really validate the has many through 
+	#	this won't highlight languages
+	validates :subject_languages, :presence => true, :if => :language_required
+
 end	#	class_eval
 end	#	included
 end	#	StudySubjectLanguages

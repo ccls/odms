@@ -1,7 +1,5 @@
 class WaiveredsController < RafController
 
-	before_filter :may_create_study_subjects_required
-
 	def new
 		@hospitals = Hospital.active.waivered.includes(:organization)
 			.order('organizations.name ASC')

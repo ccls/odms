@@ -1,5 +1,7 @@
 class RafController < ApplicationController
 
+	before_filter :may_create_study_subjects_required
+
 #
 #	Created this non-directly-used controller simply to share the 
 #	following with Waivered and Nonwaivered Controllers

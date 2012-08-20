@@ -4,47 +4,51 @@ module SubjectLanguageSelectHelper
 	#	doing it this way allows passing nothing, an array 
 	#	(as is currently in views), or just as list
 	def subject_languages_select( *args )
+		options = args.extract_options!
 		languages = args.flatten
 		languages = Language.order('position') if languages.empty?
 		#		self.object  #	<-- the subject
-		s =  "<div id='study_subject_languages'>"
-		#	TODO would be nice, but not currently needed, to have a label option.
-		s << "<div class='languages_label'>Language of parent or caretaker:</div>\n"
-		s << "<div id='languages'>\n"
-		languages.each do |l|
-			sl = self.object.subject_languages.detect{|sl|sl.language_id == l.id }
-			#	This effectively requires that the attributes have been updated in the controller.
-			#	@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
-			sl_built_or_exists = ( sl.nil? ) ? false : true												#	need to remember
-			sl = self.object.subject_languages.build(:language => l) if sl.nil?
-			classes = ['subject_language']
-			classes << ( ( sl.id.nil? ) ? 'creator' : 'destroyer' )
-			s << "<div class='#{classes.join(' ')}'>"
-
-
-
-# TODO fields_for is what would generate the id field (i think)
-# gotta figure out how to get it back in there
-
-
-			s << self.fields_for( :subject_languages, sl ) do |sl_fields|
-				srl = ''
-				srl << "<div id='other_language'>" if( l.is_other? )
-
-				if sl.id.nil?	#	not currently existing subject_language
-					srl << sl_fields.subject_language_creator(sl_built_or_exists)
-				else	#	language exists, this is for possible destruction
-					srl << sl_fields.subject_language_destroyer(!sl.marked_for_destruction?)
+		div = @template.content_tag(:div,
+			:id => 'study_subject_languages', :class => options[:class]) do
+			#	TODO would be nice, but not currently needed, to have a label option.
+			s =  "<div class='languages_label'>Language of parent or caretaker:</div>\n"
+			s << "<div id='languages'>\n"
+			languages.each do |l|
+				sl = self.object.subject_languages.detect{|sl|sl.language_id == l.id }
+				#	This effectively requires that the attributes have 
+				#		been updated in the controller.
+				#	@study_subject.subject_languages_attributes = params.dig(
+				#		'study_subject','subject_languages_attributes')||{}
+				sl_built_or_exists = ( sl.nil? ) ? false : true						#	need to remember
+				sl = self.object.subject_languages.build(:language => l) if sl.nil?
+				classes = ['subject_language']
+				classes << ( ( sl.id.nil? ) ? 'creator' : 'destroyer' )
+				s << "<div class='#{classes.join(' ')}'>"
+	
+	
+	
+	# TODO fields_for is what would generate the id field (i think)
+	# gotta figure out how to get it back in there
+	
+	
+				s << self.fields_for( :subject_languages, sl ) do |sl_fields|
+					srl = ''
+					srl << "<div id='other_language'>" if( l.is_other? )
+	
+					if sl.id.nil?	#	not currently existing subject_language
+						srl << sl_fields.subject_language_creator(sl_built_or_exists)
+					else	#	language exists, this is for possible destruction
+						srl << sl_fields.subject_language_destroyer(!sl.marked_for_destruction?)
+					end
+					srl << sl_fields.specify_other_language() if l.is_other?
+					srl << "</div>"	if( l.is_other? ) # id='other_language'>" 
+					srl.html_safe
 				end
-				srl << sl_fields.specify_other_language() if l.is_other?
-				srl << "</div>"	if( l.is_other? ) # id='other_language'>" 
-				srl.html_safe
+				s << "</div>\n"	# class='subject_language'>"
 			end
-			s << "</div>\n"	# class='subject_language'>"
-		end
-		s << "</div>\n"	#	languages
-		s << "</div><!-- study_subject_languages -->\n"	#	study_subject_languages
-		s.html_safe
+			s << "</div>\n"	#	languages
+			s.html_safe
+		end	#	content_tag(:div,:id => 'study_subject_languages', :class => options[:class])
 	end
 	alias_method :subject_languages_selector, :subject_languages_select
 	alias_method :select_subject_languages, :subject_languages_select

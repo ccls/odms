@@ -40,7 +40,8 @@
 	be advised that Context is also class in rails, so we must add :: prefix
 
 %>
-<%= f.subject_languages_select( ::Context['nwraf1'].languages ) %>
+<%= f.subject_languages_select( ::Context['nwraf1'].languages,
+	:class => (f.object.errors.include?(:subject_languages)?'field_error':nil) ) %>
 
 <%= f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>

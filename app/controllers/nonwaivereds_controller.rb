@@ -1,7 +1,5 @@
 class NonwaiveredsController < RafController
 
-	before_filter :may_create_study_subjects_required
-
 	def new
 		@hospitals = Hospital.active.nonwaivered.includes(:organization)
 			.order('organizations.name ASC')
@@ -22,7 +20,7 @@ class NonwaiveredsController < RafController
 			study_subject_params["enrollments_attributes"]["0"]["consented"] = YNDK[:yes]
 		end
 
-		#	The nonwaivered form does not containt raf_zip and raf_county
+		#	The nonwaivered form does not contain raf_zip and raf_county
 		#	which is why they are copied in.
 		#	Copy address' county and zip into patient raf_county and raf_zip [#8]
 		# patient_attributes should never actually be blank except in testing.
@@ -37,6 +35,11 @@ class NonwaiveredsController < RafController
 
 		study_subject_params["addressings_attributes"]["0"][
 			"address_required"] = true
+
+#	perhaps eventually? Custom validation is working.
+#	We can't really have this in the model for all as much of the old
+#	data does not have it.  What to do?
+#		study_subject_params["language_required"] = true
 
 		common_raf_create(study_subject_params)
 	end
