@@ -19,8 +19,8 @@ class ScreeningDatum < ActiveRecord::Base
 			#	the study_subject association.
 			subject = StudySubject.where(:icf_master_id => icf_master_id).first
 			if subject.nil?
-#				odms_exceptions.create(:name => 'screening data append',
-#					:description => "No subject found with icf_master_id :#{icf_master_id}:")
+				odms_exceptions.create(:name => 'screening data append',
+					:description => "No subject found with icf_master_id :#{icf_master_id}:")
 			else
 
 				#	assign study_subject_id to case's id

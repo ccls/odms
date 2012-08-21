@@ -144,8 +144,20 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 		assert_difference('ScreeningDatumUpdate.count',1) {
 			ScreeningDatum.any_instance.stubs(:create_or_update).returns(false)
 			screening_datum_update = Factory(:one_record_screening_datum_update)
+			ScreeningDatum.any_instance.unstub(:create_or_update)
+#puts screening_datum_update.odms_exceptions.class	#	crashes?
+#	NoMethodError: undefined method `row' for #<String:0x00000103576fa8>
+#puts screening_datum_update.odms_exceptions.length	#	same crash?
+#			assert_equal 2, screening_datum_update.odms_exceptions.length
+#puts screening_datum_update.odms_exceptions.count	#	works
+#puts screening_datum_update.odms_exceptions.first.inspect	#	works
+#puts screening_datum_update.odms_exceptions.last.inspect	#	works
 			assert_match /Record failed to save/,
 				screening_datum_update.odms_exceptions.first.to_s
+			assert_match /Screening data upload validation failed: incorrect number of screening data records appended to screening_data/,
+				screening_datum_update.odms_exceptions.last.to_s
+			assert_match /screening_data append/,
+				screening_datum_update.odms_exceptions.first.name
 			assert_match /screening_data append/,
 				screening_datum_update.odms_exceptions.last.name
 		} } }
@@ -159,11 +171,12 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 	test "should create odms exception if screening datum count incorrect" do
 #	irrelevant for now
 #		study_subject = create_case_for_screening_datum_update
-		assert_difference('OdmsException.count',1) {
+		assert_difference('OdmsException.count',2) {# this one, plus "No subject w/icfmasterid
 		assert_difference('ScreeningDatum.count',1) {	#	after_create should add this
 		assert_difference('ScreeningDatumUpdate.count',1) {
 			ScreeningDatumUpdate.any_instance.stubs(:screening_data_count).returns(0)
 			screening_datum_update = Factory(:one_record_screening_datum_update)
+			assert_equal 1, screening_datum_update.odms_exceptions.length
 			assert_match /Screening data upload validation failed: incorrect number of screening data records appended to screening_data/,
 				screening_datum_update.odms_exceptions.last.to_s
 			assert_match /screening_data append/,

@@ -11,6 +11,9 @@
 <pre id='csv_file_content'><%= IO.read(@screening_datum_update.csv_file.path) %></pre>
 <% end %>
 
+<h4>Exception count:<%=@screening_datum_update.odms_exceptions.length%></h4>
+<h4>Record count:<%=@screening_datum_update.screening_data.length%></h4>
+
 <% if @screening_datum_update.screening_data.length > 0 -%>
 <table><thead><tr>
 <th>&nbsp;</th>

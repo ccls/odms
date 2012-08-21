@@ -7,13 +7,23 @@ class ScreeningDatumTest < ActiveSupport::TestCase
 	assert_should_belong_to( :study_subject )
 	assert_should_belong_to( :screening_datum_update )
 
-	test "screening_datum factory should create odms exception" do
+	test "screening_datum factory should create odms exception for blank icf_master_id" do
 		screening_datum = Factory(:screening_datum)
 		assert_equal 1,
 			screening_datum.odms_exceptions.length
 		assert_equal 'screening data append',
 			screening_datum.odms_exceptions.first.name
 		assert_match /icf_master_id blank/,
+			screening_datum.odms_exceptions.first.to_s
+	end
+
+	test "screening_datum factory should create odms exception for unused icf_master_id" do
+		screening_datum = Factory(:screening_datum,:icf_master_id => 'IAMUNUSED')
+		assert_equal 1,
+			screening_datum.odms_exceptions.length
+		assert_equal 'screening data append',
+			screening_datum.odms_exceptions.first.name
+		assert_match /No subject found with icf_master_id :IAMUNUSED:/,
 			screening_datum.odms_exceptions.first.to_s
 	end
 
