@@ -138,6 +138,11 @@ class BirthDatum < ActiveRecord::Base
 		%w( sex first_name last_name ).each do |field|
 
 			current = study_subject.send(field).to_s
+#
+#	NOTE This probably won't happen, but if sex is 'DK' ...
+#		'DK'.namerize => 'Dk'
+#	Currently not updating sex, so not an issue
+#
 			updated = self.send(field).try(:squish).namerize.to_s
 			unless current.match(/#{updated}/i)
 				error_count += 1
