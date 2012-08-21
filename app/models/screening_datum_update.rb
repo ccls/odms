@@ -83,7 +83,7 @@ class ScreeningDatumUpdate < ActiveRecord::Base
 						odms_exceptions.create({
 							:name        => "screening_data append",
 							:description => "Record failed to save",
-							:notes       => line
+							:notes       => line.to_s
 						})	#	the line could be too long, so put in notes section
 					end	#	if screening_datum.new_record?
 				end	#	(f=CSV.open( self.csv_file.path, 'rb',{ :headers => true })).each

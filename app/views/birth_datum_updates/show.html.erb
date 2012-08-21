@@ -42,6 +42,14 @@ No Candidate Control Set
 </tbody></table>
 <% end -%>
 
+
+
+
+<h3>Exception(s)</h3>
+<% @birth_datum_update.odms_exceptions.each do |exception| %>
+<p><%= link_to exception, exception %></p>
+<% end %>
+
 <p>
 <%#= button_to( 'Parse', parse_birth_datum_update_path(@birth_datum_update) )%>
 <%#= link_to( 'Edit', edit_birth_datum_update_path(@birth_datum_update), :class => 'button' ) %>

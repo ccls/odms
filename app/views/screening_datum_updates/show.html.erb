@@ -18,6 +18,7 @@
 <table><thead><tr>
 <th>&nbsp;</th>
 <th>study subject</th>
+<th>exceptions</th>
 </tr></thead><tbody>
 <% @screening_datum_update.screening_data.order('id ASC').each do |screening_datum| -%>
 <tr class='row'>
@@ -27,10 +28,19 @@
 <% else %>
 No Study Subject Set
 <% end %></td>
+<td><%= screening_datum.odms_exceptions.count %></td>
 </tr>
 <% end -%>
 </tbody></table>
 <% end -%>
+
+
+
+
+<h3>Exception(s)</h3>
+<% @screening_datum_update.odms_exceptions.each do |exception| %>
+<p><%= link_to exception, exception %></p>
+<% end %>
 
 <p>
 <%= link_to( 'Back', screening_datum_updates_path, :class => 'button' ) %>

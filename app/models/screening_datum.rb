@@ -8,7 +8,15 @@ class ScreeningDatum < ActiveRecord::Base
 
 	has_many :odms_exceptions, :as => :exceptable
 
+	before_validation :prepare_new_sex
+#  validates_inclusion_of :new_sex, :in => %w( M F DK ), :allow_blank => true
+#	a validation will stop the creation
+
 	after_create :post_processing
+
+	def prepare_new_sex
+		self.new_sex.to_s.squish!.upcase!
+	end
 
 	def post_processing
 		if icf_master_id.blank?
@@ -22,14 +30,12 @@ class ScreeningDatum < ActiveRecord::Base
 				odms_exceptions.create(:name => 'screening data append',
 					:description => "No subject found with icf_master_id :#{icf_master_id}:")
 			else
-
 				#	assign study_subject_id to case's id
 				self.update_column(:study_subject_id, subject.id)
 				self.update_study_subject_attributes
-
 				subject.operational_events.create(
 					:occurred_at => date || DateTime.now,
-					:project_id => Project['ccls'].id,
+					:project_id  => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['screener_complete'].id,
 					:description => "ICF screening complete" )
 			end
@@ -51,16 +57,10 @@ class ScreeningDatum < ActiveRecord::Base
 			self.update_column(:study_subject_id, subject.id)
 		end
 
-#		error_count = 0
-
 		%w( dob sex father_first_name father_last_name 
 			mother_first_name mother_last_name mother_maiden_name
 			first_name middle_name last_name ).each do |field|
 
-#	namerize dob and sex??  'DK'.namerize => 'Dk' which would be wrong
-#		dob is probably no big deal, nevertheless
-#			current = study_subject.send(field).to_s
-#			updated = self.send("new_#{field}").try(:to_s).try(:squish).namerize.to_s
 			current, updated = if( field == 'dob' )
 				[study_subject.send(field), self.send("new_#{field}")]
 			elsif( field == 'sex' )
@@ -72,20 +72,39 @@ class ScreeningDatum < ActiveRecord::Base
 					self.send("new_#{field}").to_s.squish.namerize]
 			end
 
-#			if current.blank? and updated.blank?
-#				#
-#				#	nice to pre-filter the last elsif
-#				#
-#			elsif !updated.blank? and ( current != updated )
 			if !updated.blank? and ( current != updated )
-				study_subject.send("#{field}=", updated)
-				study_subject.operational_events.create(
-					:occurred_at => DateTime.now,
-					:project_id => Project['ccls'].id,
-					:operational_event_type_id => OperationalEventType['datachanged'].id,
-					:description => "ICF Screening data change:  " <<
-						"The value in #{field} has changed from " <<
-						"\"#{current}\" to \"#{updated}\"" )
+#
+#	It will be database heavy, but perhaps update the database for each attribute
+#	This way I can tell when the failure occurs and deal with it more appropriately?
+#
+#				study_subject.send("#{field}=", updated)
+				if study_subject.update_attributes(field => updated)
+					study_subject.operational_events.create(
+						:occurred_at => DateTime.now,
+						:project_id => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['datachanged'].id,
+						:description => "ICF Screening data change:  " <<
+							"The value in #{field} has changed from " <<
+							"\"#{current}\" to \"#{updated}\"" )
+				else
+
+
+
+#	do something to show failure
+
+
+#				odms_exceptions.create(
+#					:name        => 'screening data update',
+#					:description => "Error updating study subject. " <<
+#													"Save failed! " <<
+#													study_subject.errors.full_messages.to_sentence) 
+
+
+#	study_subject.reload		#	if don't, won't ever save as bad attribute still there
+
+
+
+				end
 			end
 
 		end
@@ -95,7 +114,26 @@ class ScreeningDatum < ActiveRecord::Base
 		%w( mother_race father_race ).each do |field|
 			unless self.send(field).blank?	#	IS BLANK OK?  UNKNOWN ALWAYS SEEMS POSSIBLE
 				if( race = Race.where(:id => self.send(field)).first )
-					study_subject.send("#{field}_id=", race.id)
+#					study_subject.send("#{field}_id=", race.id)
+					if study_subject.update_attributes("#{field}_id" => race.id)
+
+#						study_subject.operational_events.create(
+#							:occurred_at => DateTime.now,
+#							:project_id => Project['ccls'].id,
+#							:operational_event_type_id => OperationalEventType['datachanged'].id,
+#							:description => "ICF Screening data change:  " <<
+#								"The value in #{field} has changed from " <<
+#								"\"#{current}\" to \"#{updated}\"" )
+					else
+
+
+
+
+
+
+
+
+					end
 				else
 					study_subject.operational_events.create(
 						:occurred_at => DateTime.now,
@@ -113,7 +151,20 @@ class ScreeningDatum < ActiveRecord::Base
 #				if( race = Race.where(:id => self.send(field)).first )
 #					study_subject.send("#{field}_id=", race.id)
 				if( self.send(field) != 0 )
-					study_subject.send("#{field}_id=", self.send(field) )
+#					study_subject.send("#{field}_id=", self.send(field) )
+					if study_subject.update_attributes("#{field}_id" => self.send(field) )
+
+
+
+
+
+					else
+
+
+
+
+
+					end
 				else
 					study_subject.operational_events.create(
 						:occurred_at => DateTime.now,
@@ -125,36 +176,6 @@ class ScreeningDatum < ActiveRecord::Base
 				end
 			end
 		end
-
-
-		if study_subject.changed?
-			study_subject.save!
-#			saved = study_subject.save
-#			unless saved
-#				error_count += 1
-#				odms_exceptions.create(
-#					:name        => 'birth data update',
-#					:description => "Error updating case study subject. " <<
-#													"Save failed!" ) 
-##
-##	NOTE that this doesn't stop everything else from happening
-##
-#			end
-		end
-
-#		if error_count > 0
-#			odms_exceptions.create(
-#				:name        => 'birth data update',
-#				:description => "Error updating case study subject. " <<
-#												"#{error_count} errors or conflicts." )
-#		else
-#			#4.A new operational event (id 27: birthDataReceived) is added for 
-#			#each subject successfully updated. (  Only those successful??  )
-#			study_subject.operational_events.create(
-#				:occurred_at => DateTime.now,
-#				:project_id                => Project['ccls'].id,
-#				:operational_event_type_id => OperationalEventType['birthDataReceived'].id )
-#		end	#	if error_count > 0
 	end
 
 end
