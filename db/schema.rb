@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120814234500) do
+ActiveRecord::Schema.define(:version => 20120822170306) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1194,6 +1194,7 @@ ActiveRecord::Schema.define(:version => 20120814234500) do
     t.string   "other_diagnosis"
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
+    t.integer  "is_study_area_resident"
   end
 
   add_index "patients", ["hospital_no", "organization_id"], :name => "hosp_org", :unique => true

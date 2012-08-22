@@ -4,6 +4,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	assert_should_accept_only_good_values( :was_under_15_at_dx, 
 		:was_previously_treated, :was_ca_resident_at_diagnosis,
+		:is_study_area_resident,
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
