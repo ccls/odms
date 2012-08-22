@@ -56,6 +56,15 @@ class Sunspot::SubjectsController < SunspotController
 #						end
 					end
 #				end
+				#	facet.sort
+				#	This param determines the ordering of the facet field constraints.
+				#	    count - sort the constraints by count (highest count first)
+				#	    index - to return the constraints sorted in their index order 
+				#			(lexicographic by indexed term). For terms in the ascii range, 
+				#				this will be alphabetically sorted. 
+				#	The default is count if facet.limit is greater than 0, index otherwise.
+				#	Prior to Solr1.4, one needed to use true instead of count and false instead of index.
+				#	This parameter can be specified on a per field basis. 
 				facet p.to_sym, :sort => :index
 			end
 
@@ -134,6 +143,8 @@ protected
 			patient_was_under_15_at_dx
 		)
 	end
+#	booleans facet oddly
+#			do_not_contact
 
 	def search_order
 		if params[:order] and StudySubject.sunspot_orderable_columns.include?( 
