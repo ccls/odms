@@ -264,6 +264,18 @@ class ScreeningDatumTest < ActiveSupport::TestCase
 
 	end
 
+	test "update_study_subject_attributes should also run if" <<
+			" subject not yet assigned" do
+		screening_datum = Factory(:screening_datum,
+			:icf_master_id    => '12345678A' )
+		assert_nil screening_datum.reload.study_subject
+		study_subject = Factory(:study_subject,
+			:icf_master_id => '12345678A' )
+		screening_datum.update_study_subject_attributes
+		assert_not_nil screening_datum.reload.study_subject
+		assert_equal study_subject, screening_datum.study_subject
+	end
+
 protected
 
 	def create_study_subject_and_screening_datum(
