@@ -186,6 +186,53 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 
 
 
+
+	test "should test with real data file" do
+		#	real data and won't be in repository
+		real_data_file = "screening_datum_update_20120822.csv"
+		unless File.exists?(real_data_file)
+			puts
+			puts "-- Real data test file does not exist. Skipping."
+			return 
+		end
+
+#		#	case must exist for candidate controls to be created
+#		s = Factory(:case_study_subject,:sex => 'M',
+#			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+#			:dob => Date.parse('6/1/2009'))
+#		Factory(:icf_master_id,:icf_master_id => '15851196C')
+#		s.assign_icf_master_id
+
+		screening_datum_update = nil
+
+		assert_difference('ScreeningDatum.count',47){
+			screening_datum_update = Factory(:screening_datum_update,
+				:csv_file => File.open(real_data_file) )
+			assert_not_nil screening_datum_update.csv_file_file_name
+		}
+		screening_datum_update.destroy
+	end
+
+
+
+
+#	what about other creation failures
+
+	test "should do what if creating odms exception fails" do
+pending	#	bang or no bang?
+	end
+
+	test "should do what if creating operational event fails" do
+pending	#	bang or no bang?
+	end
+
+	test "should do what if updating study subject fails" do
+pending	#	bang or no bang?
+	end
+
+
+
+
 protected
 
 	def delete_all_possible_screening_datum_update_attachments
