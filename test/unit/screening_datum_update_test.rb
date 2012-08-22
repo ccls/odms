@@ -203,13 +203,22 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 #		Factory(:icf_master_id,:icf_master_id => '15851196C')
 #		s.assign_icf_master_id
 
+#	Create subjects to update based on the file
+#	Nothing should match so could actually test the other counts
+#		(f=CSV.open( real_data_file, 'rb',{
+#						:headers => true })).each do |line|
+#			Factory(:study_subject,:icf_master_id => line['icf_master_id'])
+#		end
+
 		screening_datum_update = nil
 
+#		assert_difference('OperationalEvent.count',47){
+#		assert_difference('OdmsException.count',47){
 		assert_difference('ScreeningDatum.count',47){
 			screening_datum_update = Factory(:screening_datum_update,
 				:csv_file => File.open(real_data_file) )
 			assert_not_nil screening_datum_update.csv_file_file_name
-		}
+		} # } }
 		screening_datum_update.destroy
 	end
 
