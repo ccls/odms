@@ -72,24 +72,27 @@ class Sunspot::SubjectsController < SunspotController
 ##	with( :consented, params['enrollments:consented'] ) if params['enrollments:consented'].present?
 ##}
 #
-facet(:projects)
-if params[:projects].present?
-	with(:projects, params[:projects]) 
-	params[:projects].each do |proj|
-#		namespace = "project_#{proj.downcase.gsub(/\W+/,'_')}"
-#		namespace = "project_#{proj.html_friendly}"
-		namespace = "hex_#{proj.to_s.unpack('H*').first}"
-#
-#	This ain't quite right, yet.
-#
-		dynamic(namespace){
-			facet(:consented)
-			with(:consented,params["#{namespace}:consented"]) if params["#{namespace}:consented"].present?
-			facet(:is_eligible)
-			with(:is_eligible,params["#{namespace}:is_eligible"]) if params["#{namespace}:is_eligible"].present?
-		}
-	end
-end
+
+
+
+#			facet(:projects)
+#			if params[:projects].present?
+#				with(:projects, params[:projects]) 
+#				params[:projects].each do |proj|
+#			#		namespace = "project_#{proj.downcase.gsub(/\W+/,'_')}"
+#			#		namespace = "project_#{proj.html_friendly}"
+#					namespace = "hex_#{proj.to_s.unpack('H*').first}"
+#			#
+#			#	This ain't quite right, yet.
+#			#
+#					dynamic(namespace){
+#						facet(:consented)
+#						with(:consented,params["#{namespace}:consented"]) if params["#{namespace}:consented"].present?
+#						facet(:is_eligible)
+#						with(:is_eligible,params["#{namespace}:is_eligible"]) if params["#{namespace}:is_eligible"].present?
+#					}
+#				end
+#			end
 
 			
 			if request.format.to_s.match(/csv/)
@@ -123,13 +126,18 @@ protected
 
 	#	all facets in order
 	def all_facets
-		%w( subject_type vital_status case_control_type sex phase races languages hospital diagnosis sample_types operational_event_types )
+		%w( subject_type vital_status case_control_type sex phase 
+			races languages hospital diagnosis sample_types operational_event_types 
+			ccls_consented ccls_is_eligible
+			patient_was_ca_resident_at_diagnosis
+			patient_was_previously_treated
+			patient_was_under_15_at_dx
+		)
 	end
 
 	def search_order
 		if params[:order] and StudySubject.sunspot_orderable_columns.include?( 
 			params[:order].downcase )
-#				%w( id subject_type vital_status case_control_type reference_date sex dob died_on phase birth_year ).include?(
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)
 				when 'desc' then 'desc'

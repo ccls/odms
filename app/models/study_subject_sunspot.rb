@@ -31,6 +31,26 @@ base.class_eval do
 		patient.try(:diagnosis).try(:to_s)	#	use try so stays nil if nil
 	end
 
+	def ccls_enrollment
+		enrollments.where(:project_id => Project['ccls'].id).first
+	end
+	def ccls_consented
+		YNDK[ccls_enrollment.try(:consented)]
+	end
+	def ccls_is_eligible
+		YNDK[ccls_enrollment.try(:is_eligible)]
+	end
+	def patient_was_ca_resident_at_diagnosis
+		YNDK[patient.try(:was_ca_resident_at_diagnosis)]
+	end
+	def patient_was_previously_treated
+		YNDK[patient.try(:was_previously_treated)]
+	end
+	def patient_was_under_15_at_dx
+		YNDK[patient.try(:was_under_15_at_dx)]
+	end
+
+
 	cattr_accessor :sunspot_dynamic_columns
 	self.sunspot_dynamic_columns = []
 
@@ -39,6 +59,7 @@ base.class_eval do
 	#
 	def self.sunspot_columns
 		@@sunspot_columns ||= [sunspot_string_columns].compact.flatten +
+			[sunspot_nulled_string_columns].compact.flatten +
 			[sunspot_time_columns].compact.flatten +
 			[sunspot_date_columns].compact.flatten +
 			[sunspot_integer_columns].compact.flatten +
@@ -48,9 +69,9 @@ base.class_eval do
 	
 	def self.sunspot_orderable_columns
 		@@sunspot_orderable_columns ||= sunspot_columns - %w(
-			was_ca_resident_at_diagnosis
-			was_previously_treated
-			was_under_15_at_dx
+			patient_was_ca_resident_at_diagnosis
+			patient_was_previously_treated
+			patient_was_under_15_at_dx
 			languages races )
 	end
 	
@@ -73,12 +94,17 @@ base.class_eval do
 			patid subjectid hospital_key
 			diagnosis hospital hospital_no
 			languages races
-			was_ca_resident_at_diagnosis
-			was_previously_treated
-			was_under_15_at_dx
 		)
 	end
 
+	def self.sunspot_nulled_string_columns
+		@@sunspot_nulled_string_columns ||= %w(
+			ccls_consented ccls_is_eligible
+			patient_was_ca_resident_at_diagnosis
+			patient_was_previously_treated
+			patient_was_under_15_at_dx
+		)
+	end
 	def self.sunspot_time_columns
 		@@sunspot_time_columns ||= []
 	end
@@ -100,6 +126,8 @@ base.class_eval do
 		StudySubject.sunspot_date_columns.each    {|c| date    c }
 		StudySubject.sunspot_boolean_columns.each {|c| boolean c }
 		StudySubject.sunspot_string_columns.each  {|c| string  c }
+		StudySubject.sunspot_nulled_string_columns.each  {|c| 
+			string(c){ send(c)||'NULL' } }
 	#	StudySubject.sunspot_double_columns.each  {|c| double  c }
 	#	StudySubject.sunspot_time_columns.each    {|c| time    c }
 
@@ -116,32 +144,32 @@ base.class_eval do
 
 	# only letters, numbers, and underscores are allowed in field names
 
-		string :projects, :multiple => true do
-			enrollments.collect(&:project).collect(&:to_s)
-		end
-		Project.all.each do |project|
-	#
-	#	Is there a facet field name length limit?
-	#
-	#		#	This should be OUTSIDE the Project.all loop
-	#		string "Any_Project_consented", :multiple => true do
-	#			enrollments.collect{|e| YNDK[e.try(:consented)]||'NULL' }.uniq
-	#		end
-	#		string "#{project.html_friendly}_consented" do
-	#			YNDK[enrollments.where(:project_id => project.id).first.try(:consented)]||'NULL'
-	#		end
-	#		string "#{project.html_friendly}_is_eligible" do
-	#			YNDK[enrollments.where(:project_id => project.id).first.try(:is_eligible)]||'NULL'
-	#		end
-	#
-			self.sunspot_dynamic_columns << "#{project.to_s}:consented"
-			self.sunspot_dynamic_columns << "#{project.to_s}:is_eligible"
-			dynamic_string "hex_#{project.to_s.unpack('H*').first}" do
-				(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
-					.select{|k,v|['consented','is_eligible'].include?(k) }
-					.inject({}){|h,pair| h.merge(pair[0] => YNDK[pair[1]]||'NULL') }
-			end
-		end
+#		string :projects, :multiple => true do
+#			enrollments.collect(&:project).collect(&:to_s)
+#		end
+#		Project.all.each do |project|
+#	#
+#	#	Is there a facet field name length limit?
+#	#
+#	#		#	This should be OUTSIDE the Project.all loop
+#	#		string "Any_Project_consented", :multiple => true do
+#	#			enrollments.collect{|e| YNDK[e.try(:consented)]||'NULL' }.uniq
+#	#		end
+#	#		string "#{project.html_friendly}_consented" do
+#	#			YNDK[enrollments.where(:project_id => project.id).first.try(:consented)]||'NULL'
+#	#		end
+#	#		string "#{project.html_friendly}_is_eligible" do
+#	#			YNDK[enrollments.where(:project_id => project.id).first.try(:is_eligible)]||'NULL'
+#	#		end
+#	#
+#			self.sunspot_dynamic_columns << "#{project.to_s}:consented"
+#			self.sunspot_dynamic_columns << "#{project.to_s}:is_eligible"
+#			dynamic_string "hex_#{project.to_s.unpack('H*').first}" do
+#				(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
+#					.select{|k,v|['consented','is_eligible'].include?(k) }
+#					.inject({}){|h,pair| h.merge(pair[0] => YNDK[pair[1]]||'NULL') }
+#			end
+#		end
 
 		string :sample_types, :multiple => true do
 			samples.collect(&:sample_type).collect(&:to_s)

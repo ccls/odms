@@ -26,16 +26,6 @@ base.class_eval do
 	after_save :trigger_update_matching_study_subjects_reference_date, 
 		:if => :matchingid_changed?
 
-	def was_ca_resident_at_diagnosis
-		YNDK[patient.try(:was_ca_resident_at_diagnosis)]
-	end
-	def was_previously_treated
-		YNDK[patient.try(:was_previously_treated)]
-	end
-	def was_under_15_at_dx
-		YNDK[patient.try(:was_under_15_at_dx)]
-	end
-
 	def admitting_oncologist
 		#	can be blank so need more than try unless I nilify admitting_oncologist if blank
 		#patient.try(:admitting_oncologist) || "[no oncologist specified]"

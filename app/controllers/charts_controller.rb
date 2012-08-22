@@ -23,9 +23,11 @@ class ChartsController < ApplicationController
 						date.beginning_of_month, date.end_of_month]) } } } 
 			with(:subject_type, 'Case')
 			with(:phase, '5')
-			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:consented,"Yes")
-				with(:is_eligible,"Yes") } }
+			with(:ccls_consented,"Yes")
+			with(:ccls_is_eligible,"Yes") }
+#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+#				with(:consented,"Yes")
+#				with(:is_eligible,"Yes") } }
 		refused = StudySubject.search{
 			facet(:reference_date) {
 				dates.each { |date|
@@ -33,9 +35,11 @@ class ChartsController < ApplicationController
 						date.beginning_of_month, date.end_of_month]) } } } 
 			with(:subject_type, 'Case')
 			with(:phase, '5')
-			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:consented,"No")
-				with(:is_eligible,"Yes") } }
+			with(:ccls_consented,"No")
+			with(:ccls_is_eligible,"Yes") }
+#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+#				with(:consented,"No")
+#				with(:is_eligible,"Yes") } }
 		ineligible = StudySubject.search{
 			facet(:reference_date) {
 				dates.each { |date|
@@ -43,8 +47,9 @@ class ChartsController < ApplicationController
 						date.beginning_of_month, date.end_of_month]) } } } 
 			with(:subject_type, 'Case')
 			with(:phase, '5')
-			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:is_eligible,"No") } }
+			with(:ccls_is_eligible,"No") }
+#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+#				with(:is_eligible,"No") } }
 
 		@total_counts = dates.collect{|date|
 			phase5.facet(:reference_date).rows.detect{|row|
@@ -84,20 +89,25 @@ class ChartsController < ApplicationController
 		consenting = StudySubject.search{
 			with(:subject_type, 'Case')
 			with(:phase, '5')
-			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:consented,"Yes")
-				with(:is_eligible,"Yes") } }
+			with(:ccls_consented,"Yes")
+			with(:ccls_is_eligible,"Yes") }
+#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+#				with(:consented,"Yes")
+#				with(:is_eligible,"Yes") } }
 		refused = StudySubject.search{
 			with(:subject_type, 'Case')
 			with(:phase, '5')
-			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:consented,"No")
-				with(:is_eligible,"Yes") } }
+			with(:ccls_consented,"No")
+			with(:ccls_is_eligible,"Yes") }
+#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+#				with(:consented,"No")
+#				with(:is_eligible,"Yes") } }
 		ineligible = StudySubject.search{
 			with(:subject_type, 'Case')
 			with(:phase, '5')
-			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:is_eligible,"No") } }
+			with(:ccls_is_eligible,"No") }
+#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+#				with(:is_eligible,"No") } }
 		@counts = [ phase5.total, consenting.total,
 			refused.total,ineligible.total ]
 		@max_y = phase5.total
@@ -134,14 +144,17 @@ class ChartsController < ApplicationController
 		p = Project['ccls']
 		eligible = StudySubject.search{
 			facet :hospital_key
-			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:is_eligible,"Yes") } }
+			with(:ccls_is_eligible,"Yes") }
+#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+#				with(:is_eligible,"Yes") } }
 #			order_by :hospital_key, :asc }	#	not needed as array is sorted?
 		consenting = StudySubject.search{
 			facet :hospital_key
-			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-				with(:consented,"Yes")
-				with(:is_eligible,"Yes") } }
+			with(:ccls_consented,"Yes")
+			with(:ccls_is_eligible,"Yes") }
+#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
+#				with(:consented,"Yes")
+#				with(:is_eligible,"Yes") } }
 #			order_by :hospital_key, :asc }	#	not needed as array is sorted?
 
 		@all_hospital_keys = all.facet(:hospital_key).rows.collect(&:value).sort.uniq

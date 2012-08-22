@@ -99,25 +99,25 @@ if StudySubject.respond_to?(:solr_search)
 			assert_found_one( study_subject )
 		end
 
-		test "should search with project facet and #{cu} login" do
-			login_as send(cu)
-			get :index, :projects => [Project['ccls'].to_s]
-pending
-		end
-
-		test "should search with project and consented facet and #{cu} login" do
-			login_as send(cu)
-			get :index, :projects => [Project['ccls'].to_s],
-				:"hex_#{Project['ccls'].to_s.unpack('H*').first}:consented" => 'Yes'
-pending
-		end
-
-		test "should search with project and is_eligible facet and #{cu} login" do
-			login_as send(cu)
-			get :index, :projects => [Project['ccls'].to_s],
-				:"hex_#{Project['ccls'].to_s.unpack('H*').first}:is_eligible" => 'Yes'
-pending
-		end
+#		test "should search with project facet and #{cu} login" do
+#			login_as send(cu)
+#			get :index, :projects => [Project['ccls'].to_s]
+#pending
+#		end
+#
+#		test "should search with project and consented facet and #{cu} login" do
+#			login_as send(cu)
+#			get :index, :projects => [Project['ccls'].to_s],
+#				:"hex_#{Project['ccls'].to_s.unpack('H*').first}:consented" => 'Yes'
+#pending
+#		end
+#
+#		test "should search with project and is_eligible facet and #{cu} login" do
+#			login_as send(cu)
+#			get :index, :projects => [Project['ccls'].to_s],
+#				:"hex_#{Project['ccls'].to_s.unpack('H*').first}:is_eligible" => 'Yes'
+#pending
+#		end
 
 		test "should search with invalid facet and #{cu} login" do
 pending
