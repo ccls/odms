@@ -67,6 +67,9 @@ class ScreeningDatumUpdate < ActiveRecord::Base
 			csv_file_path = self.csv_file.queued_for_write[:original].path
 			unless csv_file_path.nil?
 				line_count = 0
+
+#Sunspot::Session.disable_commit=true
+
 				(f=CSV.open( csv_file_path, 'rb',{
 						:headers => true })).each do |line|
 					line_count += 1
@@ -95,6 +98,10 @@ class ScreeningDatumUpdate < ActiveRecord::Base
 					})
 				end	#	if line_count != screening_data_count
 			end	#	unless csv_file_path.nil?
+
+#Sunspot::Session.disable_commit=nil
+#Sunspot.commit
+
 		end	#	unless self.csv_file_file_name.blank?
 	end	#	def parse_csv_file
 
