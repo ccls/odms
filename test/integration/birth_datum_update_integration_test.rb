@@ -4,7 +4,7 @@ class BirthDatumUpdateIntegrationTest < ActionController::CapybaraIntegrationTes
 
 	teardown :delete_all_possible_birth_datum_update_attachments
 
-	site_administrators.each do |cu|
+	site_superusers.each do |cu|
 
 		test "should toggle csv file content with #{cu} login" do
 			birth_datum_update = Factory(:empty_birth_datum_update)

@@ -4,7 +4,7 @@ class IcfMasterTrackerUpdateIntegrationTest < ActionController::CapybaraIntegrat
 
 	teardown :delete_all_possible_icf_master_tracker_update_attachments
 
-	site_administrators.each do |cu|
+	site_superusers.each do |cu|
 
 		test "should toggle csv file content with #{cu} login" do
 			icf_master_tracker_update = Factory(:empty_icf_master_tracker_update)

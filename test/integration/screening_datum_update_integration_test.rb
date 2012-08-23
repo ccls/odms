@@ -4,7 +4,7 @@ class ScreeningDatumUpdateIntegrationTest < ActionController::CapybaraIntegratio
 
 	teardown :delete_all_possible_screening_datum_update_attachments
 
-	site_administrators.each do |cu|
+	site_superusers.each do |cu|
 
 		test "should toggle csv file content with #{cu} login" do
 			screening_datum_update = Factory(:empty_screening_datum_update)
