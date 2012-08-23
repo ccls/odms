@@ -32,6 +32,9 @@ div#logo h2 {
 	text-shadow: #000 0 2px 3px;
 	display:inline-block;
 }
+div#logo a {
+	color:white;
+}
 #container {
 	padding: 0;
 	margin: auto 0px;
