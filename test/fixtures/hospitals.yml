@@ -83,7 +83,7 @@ UCDV:
 UCLA:
   id: 14
   organization_id: 14
-  has_irb_waiver: false
+  has_irb_waiver: true
   is_active: true
   contact_id: 53
 UCSF:
