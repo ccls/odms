@@ -23,6 +23,8 @@
 .row:nth-child(2n+1).exporter      { background-color: #DCD; } /* purpleish */
 .row:nth-child(2n).editor          { background-color: #CEE; } /* bluish */
 .row:nth-child(2n+1).editor        { background-color: #CDD; } /* bluish */
+.row:nth-child(2n).reader          { background-color: #CCC; } /* grayish */
+.row:nth-child(2n+1).reader        { background-color: #BBB; } /* grayish */
 
 /*
 .row:nth-child(2n).moderator       { background-color: #ECE; }
