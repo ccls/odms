@@ -12,12 +12,21 @@
 .role_name {
 	text-align:right;
 }
+/*
+	if a user has more than one role, yada yada yada
+*/
+.row:nth-child(2n).superuser       { background-color: #E88; } /* redish */
+.row:nth-child(2n+1).superuser     { background-color: #D88; } /* redish */
+.row:nth-child(2n).administrator   { background-color: #EE8; } /* yellowish */
+.row:nth-child(2n+1).administrator { background-color: #DD8; } /* yellowish */
+.row:nth-child(2n).exporter        { background-color: #ECE; } /* purpleish */
+.row:nth-child(2n+1).exporter      { background-color: #DCD; } /* purpleish */
+.row:nth-child(2n).editor          { background-color: #CEE; } /* bluish */
+.row:nth-child(2n+1).editor        { background-color: #CDD; } /* bluish */
 
-.row:nth-child(2n).administrator   { background-color: #EE8; }
-.row:nth-child(2n+1).administrator { background-color: #DD8; }
+/*
 .row:nth-child(2n).moderator       { background-color: #ECE; }
 .row:nth-child(2n+1).moderator     { background-color: #DCD; }
-.row:nth-child(2n).editor          { background-color: #CEE; }
-.row:nth-child(2n+1).editor        { background-color: #CDD; }
 .row:nth-child(2n).employee        { background-color: #FDD; }
 .row:nth-child(2n+1).employee      { background-color: #EDD; }
+*/
