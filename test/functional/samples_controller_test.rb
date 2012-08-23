@@ -368,6 +368,16 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
+		test "should get index with #{cu} login and samples" do
+			sample = Factory(:sample).reload
+			login_as send(cu)
+			get :index, :study_subject_id => sample.study_subject_id
+			assert_nil flash[:error]
+			assert assigns(:samples)
+			assert_response :success
+			assert_template 'index'
+		end
+
 		test "should NOT get index with #{cu} login and invalid study_subject_id" do
 			login_as send(cu)
 			get :index, :study_subject_id => 0
