@@ -10,7 +10,7 @@ if StudySubject.respond_to?(:solr_search)
 
 	setup :sanitize_index
 
-	site_administrators.each do |cu|
+	site_editors.each do |cu|
 
 		test "should search with #{cu} login" do
 			login_as send(cu)
@@ -186,7 +186,7 @@ pending
 
 	end
 
-	non_site_administrators.each do |cu|
+	non_site_editors.each do |cu|
 
 		test "should NOT search with #{cu} login" do
 			login_as send(cu)

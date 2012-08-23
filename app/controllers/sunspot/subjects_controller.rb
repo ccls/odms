@@ -1,6 +1,6 @@
 class Sunspot::SubjectsController < SunspotController
 
-	before_filter :may_administrate_required
+	before_filter :may_edit_required
 	before_filter :search_method_defined_required
 #	before_filter :sunspot_running_required
 #
