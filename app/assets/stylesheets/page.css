@@ -1,5 +1,5 @@
-input[type='text'],
-textarea {
+form.edit_page input[type='text'],
+form.edit_page textarea {
 	width: 99%;
 }
 
