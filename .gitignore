@@ -18,6 +18,8 @@
 /log
 /tmp
 
+/OLD_UNUSED_FILES
+
 
 #.gitignore
 .DS_Store
