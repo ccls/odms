@@ -34,6 +34,7 @@ div#logo h2 {
 }
 div#logo a {
 	color:white;
+	text-decoration:none;
 }
 #container {
 	padding: 0;
