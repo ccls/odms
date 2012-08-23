@@ -2,10 +2,10 @@
 
 <p>It has been assigned a sample id of: 
 <%= link_to @sample.sampleid, 
-	study_subject_sample_path(@study_subject.id,@sample.id) %>
+	study_subject_sample_path(@sample.study_subject_id,@sample.id) %>
 &nbsp;&nbsp;
 <%= link_to 'print label', 
-	study_subject_sample_path(@study_subject.id, @sample.id, :format => :pdf), 
+	study_subject_sample_path(@sample.study_subject_id, @sample.id, :format => :pdf), 
 	:class => :button, :target => :new %>
 &nbsp;&nbsp;
 <%= link_to "add another for this subject", 
