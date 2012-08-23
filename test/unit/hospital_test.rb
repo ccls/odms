@@ -84,7 +84,7 @@ class HospitalTest < ActiveSupport::TestCase
 	test "should return waivered hospitals" do
 		hospitals = Hospital.waivered
 		assert !hospitals.empty?
-		assert_equal 22, hospitals.length	#	this is true now, but will change
+		assert_equal 23, hospitals.length	#	this is true now, but will change
 		hospitals.each do |hospital|
 			assert hospital.has_irb_waiver
 		end
@@ -94,7 +94,7 @@ class HospitalTest < ActiveSupport::TestCase
 		hospitals = Hospital.nonwaivered
 		assert !hospitals.empty?
 		#	the addition of the "unspecified" and "don't know" make this 5 now
-		assert_equal 5, hospitals.length	#	this is true now, but will change
+		assert_equal 4, hospitals.length	#	this is true now, but will change
 		hospitals.each do |hospital|
 			assert !hospital.has_irb_waiver
 		end
