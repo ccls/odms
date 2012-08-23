@@ -1,7 +1,14 @@
+#	only superusers can read, create, edit or destroy
+#	this will be the update
+superuser_resources:
+  - birth_datum_updates 
+  - icf_master_tracker_updates 
+  - screening_datum_updates 
+
+#	only admins and above can read, create, edit or destroy
 administrator_resources:
   - address_types 
   - birth_data
-  - birth_datum_updates 
   - birth_records 
   - contexts 
   - data_sources
@@ -12,7 +19,6 @@ administrator_resources:
   - hospitals 
   - icf_master_ids 
   - icf_master_trackers
-  - icf_master_tracker_updates 
   - ineligible_reasons
   - instruments 
   - instrument_types 
@@ -32,10 +38,8 @@ administrator_resources:
   - sample_locations
   - sample_outcomes 
   - sample_temperatures
-  - sample_transfers
   - sample_types 
   - screening_data
-  - screening_datum_updates 
   - sections 
   - subject_relationships 
   - subject_types
@@ -43,6 +47,7 @@ administrator_resources:
   - units 
   - vital_statuses
 
+#	only editors and above can read, create, edit or destroy
 editor_resources:
   - abstracts 
   - candidate_controls 
@@ -50,7 +55,10 @@ editor_resources:
   - guides 
   - interviews 
   - patients
+  - sample_transfers
 
+#	readers can read
+#	editors and above can create, edit and destroy
 crud_resources:
   - addressings 
   - addresses 

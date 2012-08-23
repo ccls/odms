@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SampleTransfersControllerTest < ActionController::TestCase
 
-	site_administrators.each do |cu|
+	site_editors.each do |cu|
 
 		test "should not confirm without organization_id with #{cu} login" do
 			login_as send(cu)
@@ -318,7 +318,7 @@ pending
 
 	end
 
-	non_site_administrators.each do |cu|
+	non_site_editors.each do |cu|
 
 		test "should NOT get sample transfers index with #{cu} login" do
 			login_as send(cu)

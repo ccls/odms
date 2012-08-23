@@ -123,6 +123,13 @@ class User < ActiveRecord::Base
 	@@permissions = YAML::load(ERB.new(IO.read(File.expand_path(
 			File.join(Rails.root,'config/user_permissions.yml')))).result)
 
+	@@permissions['superuser_resources'].each do |resource|
+		alias_method "may_create_#{resource}?".to_sym,  :is_superuser?
+		alias_method "may_read_#{resource}?".to_sym,    :is_superuser?
+		alias_method "may_update_#{resource}?".to_sym,  :is_superuser?
+		alias_method "may_destroy_#{resource}?".to_sym, :is_superuser?
+	end
+
 	@@permissions['administrator_resources'].each do |resource|
 		alias_method "may_create_#{resource}?".to_sym,  :may_administrate?
 		alias_method "may_read_#{resource}?".to_sym,    :may_administrate?

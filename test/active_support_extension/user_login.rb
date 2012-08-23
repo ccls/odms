@@ -113,6 +113,14 @@ module ActiveSupportExtension::UserLogin
 
 	module ClassMethods
 
+		def site_superusers
+			@site_superusers ||= %w( superuser )
+		end
+
+		def non_site_superusers
+			@non_site_superusers ||= ( all_test_roles - site_superusers )
+		end
+
 		def site_administrators
 			@site_administrators ||= %w( superuser administrator )
 		end

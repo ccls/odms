@@ -32,11 +32,11 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 			:updated_at => Time.now }.merge(options))
 	end
 
-	assert_access_with_login(    :logins => site_administrators )
-	assert_no_access_with_login( :logins => non_site_administrators )
+	assert_access_with_login(    :logins => site_superusers )
+	assert_no_access_with_login( :logins => non_site_superusers )
 	assert_no_access_without_login
 
-	site_administrators.each do |cu|
+	site_superusers.each do |cu|
 
 #		test "should get index with #{cu} login" do
 #			login_as send(cu)
@@ -210,7 +210,7 @@ class IcfMasterTrackerUpdatesControllerTest < ActionController::TestCase
 
 	end
 
-	non_site_administrators.each do |cu|
+	non_site_superusers.each do |cu|
 
 #		test "should not get index with #{cu} login" do
 #			login_as send(cu)
