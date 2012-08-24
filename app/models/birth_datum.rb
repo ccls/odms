@@ -37,16 +37,10 @@ class BirthDatum < ActiveRecord::Base
 				if is_control?
 					control_options = { :related_patid => subject.patid }
 					reasons = []
-					if dob.blank?
-						control_options[:reject_candidate] = true
-						reasons << "Birth datum dob is blank."
-					end
-					if sex.blank?
-						control_options[:reject_candidate] = true
-						reasons << "Birth datum sex is blank."
-					end
+					control_options[:reject_candidate] = true if dob.blank? or sex.blank?
+					reasons << "Birth datum dob is blank." if dob.blank?
+					reasons << "Birth datum sex is blank." if sex.blank?
 					control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
-
 					self.create_candidate_control( control_options )
 					odms_exceptions.create(:name => 'birth data append',
 						:description => "Candidate control was pre-rejected " <<
@@ -76,8 +70,8 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def update_bc_request
-		#	Should only be one, nevertheless, ...
 		return unless study_subject
+		#	Should only be one bc_request, nevertheless, ...
 		study_subject.bc_requests.incomplete.each do |bcr|
 			bcr.status = 'complete'
 			bcr.is_found = true
@@ -94,7 +88,6 @@ class BirthDatum < ActiveRecord::Base
 	#
 	def update_study_subject_attributes
 		return if master_id.blank?
-
 		#
 		#	ONLY DO THIS FOR CASE SUBJECTS!
 		#
@@ -138,11 +131,6 @@ class BirthDatum < ActiveRecord::Base
 		%w( sex first_name last_name ).each do |field|
 
 			current = study_subject.send(field).to_s
-#
-#	NOTE This probably won't happen, but if sex is 'DK' ...
-#		'DK'.namerize => 'Dk'
-#	Currently not updating sex, so not an issue
-#
 			updated = self.send(field).try(:squish).namerize.to_s
 			unless current.match(/#{updated}/i)
 				error_count += 1
@@ -174,16 +162,36 @@ class BirthDatum < ActiveRecord::Base
 				#	nice to pre-filter the last elsif
 				#
 			elsif current.blank? and !updated.blank?
-				study_subject.send("#{field}=", updated)
-				study_subject.operational_events.create(
-					:occurred_at => DateTime.now,
-					:project_id => Project['ccls'].id,
-					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
-					:description => "Birth record data conflicted with existing ODMS data.  " <<
-						"Field: #{field}, " <<
-						"ODMS Value was blank, " <<
-						"Birth Record Value: #{updated}.  " <<
-						"ODMS record modified with birth record data." )
+#				study_subject.send("#{field}=", updated)
+				if study_subject.update_attributes(field => updated)
+					study_subject.operational_events.create(
+						:occurred_at => DateTime.now,
+						:project_id => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+						:description => "Birth record data conflicted with existing ODMS data.  " <<
+							"Field: #{field}, " <<
+							"ODMS Value was blank, " <<
+							"Birth Record Value: #{updated}.  " <<
+							"ODMS record modified with birth record data." )
+				else
+					#	these fields don't have much to validate so shouldn't fail
+					error_count += 1
+					odms_exceptions.create(
+						:name        => 'screening data update',
+						:description => "Error updating case study subject. " <<
+													"Save failed! " <<
+													study_subject.errors.full_messages.to_sentence) 
+					study_subject.reload		#	if don't, won't ever save as bad attribute still there
+	
+#
+#	TODO?
+#
+#				study_subject.operational_events.create(
+#					update failed
+	
+				end
+
+
 			elsif !current.match(/#{updated}/i)
 				error_count += 1
 				study_subject.operational_events.create(
@@ -203,19 +211,24 @@ class BirthDatum < ActiveRecord::Base
 
 		end
 
-		if study_subject.changed?
-			saved = study_subject.save
-			unless saved
-				error_count += 1
-				odms_exceptions.create(
-					:name        => 'birth data update',
-					:description => "Error updating case study subject. " <<
-													"Save failed!" ) 
+
+
 #
-#	NOTE that this doesn't stop everything else from happening
+#	do individual updates so know exactly what failed (will be a bit slower)
 #
-			end
-		end
+#		if study_subject.changed?
+#			saved = study_subject.save
+#			unless saved
+#				error_count += 1
+#				odms_exceptions.create(
+#					:name        => 'birth data update',
+#					:description => "Error updating case study subject. " <<
+#													"Save failed!" ) 
+##
+##	NOTE that this doesn't stop everything else from happening
+##
+#			end
+#		end
 
 		if error_count > 0
 			odms_exceptions.create(

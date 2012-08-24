@@ -27,13 +27,7 @@ class ScreeningDatumUpdate < ActiveRecord::Base
 #		:with => %r{\.csv$}i,
 #		:allow_blank => true
 
-
-
-#	Temporarily don't do this
 	validate :valid_csv_file_column_names
-
-
-
 
 	#	if only doing this after create,
 	#	what happens on edit/update?
@@ -63,13 +57,10 @@ class ScreeningDatumUpdate < ActiveRecord::Base
 	end
 
 	def parse_csv_file
-		unless self.csv_file_file_name.blank?
+		unless self.csv_file_file_name.blank?	#	unlikely as csv_file is required
 			csv_file_path = self.csv_file.queued_for_write[:original].path
 			unless csv_file_path.nil?
 				line_count = 0
-
-#Sunspot::Session.disable_commit=true
-
 				(f=CSV.open( csv_file_path, 'rb',{
 						:headers => true })).each do |line|
 					line_count += 1
@@ -81,8 +72,7 @@ class ScreeningDatumUpdate < ActiveRecord::Base
 						screening_datum_attributes.delete(h) unless expected_column_names.include?(h)
 					end
 
-					screening_datum = self.screening_data.create( screening_datum_attributes )
-					if screening_datum.new_record?
+					if self.screening_data.create( screening_datum_attributes ).new_record?
 						odms_exceptions.create({
 							:name        => "screening_data append",
 							:description => "Record failed to save",
@@ -98,21 +88,18 @@ class ScreeningDatumUpdate < ActiveRecord::Base
 					})
 				end	#	if line_count != screening_data_count
 			end	#	unless csv_file_path.nil?
-
-#Sunspot::Session.disable_commit=nil
-#Sunspot.commit
-
 		end	#	unless self.csv_file_file_name.blank?
 	end	#	def parse_csv_file
 
 	#	separated purely to allow stubbing in testing
-	#	I can't seem to find a way to stub 'birth_data.count'
+	#	I can't seem to find a way to stub 'screening_data.count'
 	def screening_data_count
 		screening_data.count
 	end
 
 	def self.expected_column_names
-		@expected_column_names ||= ( ScreeningDatum.attribute_names - %w( id screening_datum_update_id study_subject_id created_at updated_at ))
+		@expected_column_names ||= ( ScreeningDatum.attribute_names - 
+			%w( id screening_datum_update_id study_subject_id created_at updated_at ))
 	end
 
 	def expected_column_names

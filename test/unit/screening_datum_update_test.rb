@@ -203,22 +203,28 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 #		Factory(:icf_master_id,:icf_master_id => '15851196C')
 #		s.assign_icf_master_id
 
-#	Create subjects to update based on the file
-#	Nothing should match so could actually test the other counts
-#		(f=CSV.open( real_data_file, 'rb',{
-#						:headers => true })).each do |line|
-#			Factory(:study_subject,:icf_master_id => line['icf_master_id'])
-#		end
+		#	Create subjects to update based on the file
+		#	Nothing should match so could actually test the other counts
+		(f=CSV.open( real_data_file, 'rb',{
+						:headers => true })).each do |line|
+			Factory(:study_subject,:icf_master_id => line['icf_master_id'])
+		end
 
 		screening_datum_update = nil
 
-#		assert_difference('OperationalEvent.count',47){
-#		assert_difference('OdmsException.count',47){
+#		assert_difference('OperationalEvent.count',166){
+		assert_difference("OperationalEventType['dataconflict']"<<
+			".operational_events.count",25){
+		assert_difference("OperationalEventType['datachanged']"<<
+			".operational_events.count",94){
+		assert_difference("OperationalEventType['screener_complete']"<<
+			".operational_events.count",47){
+		assert_difference('OdmsException.count',0){
 		assert_difference('ScreeningDatum.count',47){
 			screening_datum_update = Factory(:screening_datum_update,
 				:csv_file => File.open(real_data_file) )
 			assert_not_nil screening_datum_update.csv_file_file_name
-		} # } }
+		} } } } }
 		screening_datum_update.destroy
 	end
 
@@ -228,11 +234,11 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 #	what about other creation failures
 
 	test "should do what if creating odms exception fails" do
-pending	#	bang or no bang?
+pending	#	bang or no bang?	#	if this happens, we've got problems
 	end
 
 	test "should do what if creating operational event fails" do
-pending	#	bang or no bang?
+pending	#	bang or no bang?	#	if this happens, we've got problems
 	end
 
 	test "should do what if updating study subject fails" do

@@ -210,7 +210,7 @@ base.class_eval do
 	#	text :state_id_no
 	#	text :state_registrar_no
 	#	text :local_registrar_no
-	end if Sunspot::Rails::Server.new.running?
+	end 	#	if Sunspot::Rails::Server.new.running?
 	#
 	#	This condition is temporary, but does mean
 	#	that the server must be started FIRST.

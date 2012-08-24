@@ -1,6 +1,11 @@
 require 'csv'
+#
 #	The ICF Master Tracker Update simply takes an uploaded file
 #	for parsing to create and update ICF Master Tracker records.
+#
+#	The csv_file contains icf responses, most of which are 
+#	going to be ignored.  "CATI complete" looks like it is
+#	the important piece of intel.
 #
 class IcfMasterTrackerUpdate < ActiveRecord::Base
 
@@ -62,8 +67,9 @@ class IcfMasterTrackerUpdate < ActiveRecord::Base
 	end	#	def parse
 
 	def self.expected_column_names
-#		["master_id", "master_id_mother", "language", "record_owner", "record_status", "record_status_date", "date_received", "last_attempt", "last_disposition", "curr_phone", "record_sent_for_matching", "record_received_from_matching", "sent_pre_incentive", "released_to_cati", "confirmed_cati_contact", "refused", "deceased_notification", "is_eligible", "ineligible_reason", "confirmation_packet_sent", "cati_protocol_exhausted", "new_phone_released_to_cati", "plea_notification_sent", "case_returned_for_new_info", "case_returned_from_berkeley", "cati_complete", "kit_mother_sent", "kit_infant_sent", "kit_child_sent", "kid_adolescent_sent", "kit_mother_refused_code", "kit_child_refused_code", "no_response_to_plea", "response_received_from_plea", "sent_to_in_person_followup", "kit_mother_received", "kit_child_received", "thank_you_sent", "physician_request_sent", "physician_response_received", "vaccine_auth_received", "recollect"]
-		@expected_column_names ||= ( IcfMasterTracker.attribute_names - %w( id study_subject_id flagged_for_update last_update_attempt_errors last_update_attempted_at created_at updated_at ) )
+		@expected_column_names ||= ( IcfMasterTracker.attribute_names - 
+			%w( id study_subject_id flagged_for_update last_update_attempt_errors 
+				last_update_attempted_at created_at updated_at ) )
 	end
 	
 	def expected_column_names

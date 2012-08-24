@@ -26,13 +26,7 @@ class BirthDatumUpdate < ActiveRecord::Base
 #		:with => %r{\.csv$}i,
 #		:allow_blank => true
 
-
-
-#	Temporarily don't do this
 	validate :valid_csv_file_column_names
-
-
-
 
 	#	if only doing this after create,
 	#	what happens on edit/update?
@@ -65,7 +59,7 @@ class BirthDatumUpdate < ActiveRecord::Base
 	end
 
 	def parse_csv_file
-		unless self.csv_file_file_name.blank?
+		unless self.csv_file_file_name.blank?	#	unlikely as csv_file is required
 			csv_file_path = self.csv_file.queued_for_write[:original].path
 			unless csv_file_path.nil?
 				line_count = 0
@@ -80,8 +74,7 @@ class BirthDatumUpdate < ActiveRecord::Base
 						birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
 					end
 
-					birth_datum = self.birth_data.create( birth_datum_attributes )
-					if birth_datum.new_record?
+					if self.birth_data.create( birth_datum_attributes ).new_record?
 						odms_exceptions.create({
 							:name        => "birth_data append",
 							:description => "Record failed to save",
@@ -107,7 +100,8 @@ class BirthDatumUpdate < ActiveRecord::Base
 	end
 
 	def self.expected_column_names
-		@expected_column_names ||= ( BirthDatum.attribute_names - %w( id birth_datum_update_id study_subject_id created_at updated_at ))
+		@expected_column_names ||= ( BirthDatum.attribute_names - 
+			%w( id birth_datum_update_id study_subject_id created_at updated_at ))
 	end
 
 	def expected_column_names
