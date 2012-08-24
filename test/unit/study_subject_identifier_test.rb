@@ -67,6 +67,13 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		assert_equal '0123', study_subject.patid
 	end 
 
+	test "should upcase sex before validation" do
+		study_subject = Factory.build(:study_subject,:sex => 'dk')
+		assert_equal 'dk', study_subject.sex
+		assert study_subject.valid?
+		assert_equal 'DK', study_subject.sex
+	end
+
 	#	remove ssn from factory and don't use class level test
 	test "should require unique ssn" do
 		Factory(:study_subject,:ssn => '123-45-6789')

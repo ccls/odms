@@ -21,6 +21,9 @@ base.class_eval do
 protected
 
 	def prepare_fields_for_validation
+
+		self.sex.to_s.upcase!
+
 		self.case_control_type = ( ( case_control_type.blank? 
 			) ? nil : case_control_type.to_s.upcase )
 
