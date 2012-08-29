@@ -5,6 +5,8 @@ require 'csv'
 #	It contains updated case info which will be passed to USC
 #	to assist to correctly identifying controls?
 #
+#	/Volumes/BUF-Fileshare/SharedFiles/Research\ \(xx\)/Competing\ Renewal\ 2009-2014/ICF/DataTransfers/USC_birth_cert_variable_files/
+#
 class ScreeningDatumUpdate < ActiveRecord::Base
 
 	has_attached_file :csv_file,
