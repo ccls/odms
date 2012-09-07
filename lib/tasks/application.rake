@@ -282,32 +282,38 @@ namespace :app do
 #		end	#	(f=CSV.open( csv_file.path, 'rb',{
 #	end #	task :update_consents_from_pagan => :environment do
 
-#	task :update_assigned_from_pagan => :environment do
+	task :update_assigned_from_pagan => :environment do
 #		csv_file = 'assigned.csv'
-#		require 'csv'
-#		(f=CSV.open( csv_file, 'rb',{
-#				:headers => true })).each do |line|
-#			puts
-#			puts "Processing line :#{f.lineno}:"
-#			puts line
-#
-#			raise "icf_master_id is blank" if line['icf_master_id'].blank?
-#			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
-#			raise "Multiple case subjects? with icf_master_id:#{line['icf_master_id']}:" if subjects.length > 1
-#			raise "No subject with icf_master_id:#{line['icf_master_id']}:" unless subjects.length == 1
-#			s = subjects.first
-#
-#			e = s.enrollments.where(:project_id => Project['ccls'].id).first
-#
+#	#392
+#	Please update the variable 'assigned_for_interview_at' with the date 09/06/2012 for the cases listed in the following file:
+#S:\Research (xx)\Competing Renewal 2009-2014\ICF\DataTransfers\ICF_case_lists\newcases_09062012.xlsx
+		csv_file = 'newcases_09062012.csv'
+		require 'csv'
+		(f=CSV.open( csv_file, 'rb',{
+				:headers => true })).each do |line|
+			puts
+			puts "Processing line :#{f.lineno}:"
+			puts line
+
+			raise "icf_master_id is blank" if line['icf_master_id'].blank?
+			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
+			raise "Multiple case subjects? with icf_master_id:#{line['icf_master_id']}:" if subjects.length > 1
+			raise "No subject with icf_master_id:#{line['icf_master_id']}:" unless subjects.length == 1
+			s = subjects.first
+
+			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+
 #			puts Time.parse(line['assigned_for_interview_at'])
 #			puts e.assigned_for_interview_at
 #			e.assigned_for_interview_at = Time.parse(line['assigned_for_interview_at'])
-#			e.save!
-#
-#		end	#	(f=CSV.open( csv_file.path, 'rb',{
-#
-#	end #	task :update_assigned_from_pagan => :environment do
-#
+			e.assigned_for_interview_at = Time.parse('Sep 6, 2012')
+			puts e.assigned_for_interview_at
+			e.save!
+
+		end	#	(f=CSV.open( csv_file.path, 'rb',{
+
+	end #	task :update_assigned_from_pagan => :environment do
+
 #	task :update_completes_from_pagan => :environment do
 #		csv_file = 'completes.csv'
 #		require 'csv'
@@ -378,6 +384,46 @@ namespace :app do
 #		end	#	(f=CSV.open( csv_file.path, 'rb',{
 #
 #	end #	task :create_missing_phase5_mom_subjects => :environment do
+
+#
+#	Eventually, this should be part of the ICFMasterTrackerUpdate
+#
+	task :update_interview_completed_on_from_icf_master_tracker => :environment do
+		#	from '/Volumes/BUF-Fileshare/SharedFiles/Research (xx)
+		#		/Competing Renewal 2009-2014/ICF/DataTransfers
+		#		/ICF_master_trackers/ICF_Master_Tracker.csv'
+		csv_file = 'ICF_Master_Tracker_20120906.csv'
+		require 'csv'
+		(f=CSV.open( csv_file, 'rb',{
+				:headers => true })).each do |line|
+			puts
+			puts "Processing line :#{f.lineno}:"
+			puts line
+
+##	master_id,master_id_mother,language,record_owner,record_status,record_status_date,date_received,last_attempt,last_disposition,curr_phone,record_sent_for_matching,record_received_from_matching,sent_pre_incentive,released_to_cati,confirmed_cati_contact,refused,deceased_notification,is_eligible,ineligible_reason,confirmation_packet_sent,cati_protocol_exhausted,new_phone_released_to_cati,plea_notification_sent,case_returned_for_new_info,case_returned_from_berkeley,cati_complete,kit_mother_sent,kit_infant_sent,kit_child_sent,kid_adolescent_sent,kit_mother_refused_code,kit_child_refused_code,no_response_to_plea,response_received_from_plea,sent_to_in_person_followup,kit_mother_received,kit_child_received,thank_you_sent,physician_request_sent,physician_response_received,vaccine_auth_received,recollect
+
+			raise "master_id is blank" if line['master_id'].blank?
+			subjects = StudySubject.where(:icf_master_id => line['master_id'])
+			raise "Multiple case subjects? with icf_master_id:#{line['master_id']}:" if subjects.length > 1
+			raise "No subject with icf_master_id:#{line['master_id']}:" unless subjects.length == 1
+			s = subjects.first
+			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+
+#	#393
+#		Please update the 'interview_completed_on' field in odms with the dates listed in the 'cati_complete' in the ICF_Master_Tracker.csv file located in S:\Research (xx)\Competing Renewal 2009-2014\ICF\DataTransfers\ICF_master_trackers.
+
+			if line['cati_complete'].blank?
+				puts "cati_complete is blank"
+			else
+				puts "cati_complete: #{Time.parse(line['cati_complete'])}"
+				puts "interview_completed_on : #{e.interview_completed_on}"
+#				e.interview_completed_on = Time.parse(line['cati_complete'])
+#				e.save!
+			end
+
+		end	#	(f=CSV.open( csv_file.path, 'rb',{
+
+	end #	task :update_interview_completed_on_from_icf_master_tracker => :environment do
 
 end
 
