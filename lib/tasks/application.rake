@@ -307,9 +307,18 @@ namespace :app do
 #			puts e.assigned_for_interview_at
 #			e.assigned_for_interview_at = Time.parse(line['assigned_for_interview_at'])
 			e.assigned_for_interview_at = Time.parse('Sep 6, 2012')
-			puts e.assigned_for_interview_at
-			e.save!
-
+			if e.changed?
+				puts "enrollment updated. Creating OE"
+				e.save!
+				s.operational_events.create!(
+					:project_id                => Project['ccls'].id,
+					:operational_event_type_id => OperationalEventType['other'].id,
+					:occurred_at               => DateTime.now,
+					:description               => "assigned_for_interview_at set to "<<
+						"#{line['assigned_for_interview_at']} from " <<
+						"newcases_09062012 file"
+				)
+			end
 		end	#	(f=CSV.open( csv_file.path, 'rb',{
 
 	end #	task :update_assigned_from_pagan => :environment do
@@ -415,10 +424,21 @@ namespace :app do
 			if line['cati_complete'].blank?
 				puts "cati_complete is blank"
 			else
-				puts "cati_complete: #{Time.parse(line['cati_complete'])}"
+				puts "cati_complete: #{Time.parse(line['cati_complete']).to_date}"
 				puts "interview_completed_on : #{e.interview_completed_on}"
-#				e.interview_completed_on = Time.parse(line['cati_complete'])
-#				e.save!
+				e.interview_completed_on = Time.parse(line['cati_complete']).to_date
+				if e.changed?
+					puts "enrollment updated. creating OE"
+					e.save!
+					s.operational_events.create!(
+						:project_id                => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['other'].id,
+						:occurred_at               => DateTime.now,
+						:description               => "interview_completed_on set to cati_complete "<<
+							"#{line['cati_complete']} from ICF Master Tracker file " <<
+							"ICF_Master_Tracker_20120906"
+					)
+				end
 			end
 
 		end	#	(f=CSV.open( csv_file.path, 'rb',{
