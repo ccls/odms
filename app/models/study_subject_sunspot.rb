@@ -40,6 +40,16 @@ base.class_eval do
 	def ccls_is_eligible
 		YNDK[ccls_enrollment.try(:is_eligible)]
 	end
+#	def ccls_assigned_for_interview_at
+#		datetime
+	def ccls_assigned_for_interview_on
+#	date
+		ccls_enrollment.try(:assigned_for_interview_at).try(:to_date)
+	end
+	def ccls_interview_completed_on
+#		date
+		ccls_enrollment.try(:interview_completed_on)
+	end
 	def patient_was_ca_resident_at_diagnosis
 		YNDK[patient.try(:was_ca_resident_at_diagnosis)]
 	end
@@ -109,7 +119,9 @@ base.class_eval do
 		@@sunspot_time_columns ||= []
 	end
 	def self.sunspot_date_columns
-		@@sunspot_date_columns ||= %w( reference_date dob died_on admit_date )
+		@@sunspot_date_columns ||= %w( reference_date dob died_on admit_date 
+			ccls_assigned_for_interview_on ccls_interview_completed_on
+		)
 	end
 	def self.sunspot_integer_columns
 		@@sunspot_integer_columns ||= %w( id phase birth_year  )
