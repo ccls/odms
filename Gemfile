@@ -219,3 +219,20 @@ gem 'rubyzip', '0.9.6.1'	#	0.9.8
 gem 'childprocess', '0.3.1'	#	0.3.2
 gem 'tzinfo', '0.3.32'	#	0.3.33
 
+
+builder-3.0.1 caused ... but 3.0.3 seems ok.
+
+Starting...(2012-09-14 10:30:00 -0700)
+Exporting abstracts ...
+Exporting addresses ...
+Exporting address_types ...
+rake aborted!
+(eval):1: syntax error, unexpected '-', expecting ';' or '\n'
+        def address-types(*args, &block)
+                    ^
+(eval):3: syntax error, unexpected keyword_end, expecting $end
+/opt/local/lib/ruby1.9/gems/1.9.1/gems/builder-3.0.1/lib/builder/xmlbase.rb:182:in `instance_eval'
+/opt/local/lib/ruby1.9/gems/1.9.1/gems/builder-3.0.1/lib/builder/xmlbase.rb:182:in `cache_method_call'
+/opt/local/lib/ruby1.9/gems/1.9.1/gems/builder-3.0.1/lib/builder/xmlbase.rb:85:in `method_missing'
+/opt/local/lib/ruby1.9/gems/1.9.1/gems/activesupport-3.2.8/lib/active_support/core_ext/array/conversions.rb:158:in `to_xml'
+
