@@ -37,8 +37,11 @@
 
   </div><!-- class='facets' -->
 <% end %>
+<% if @search.total < 1000 %>
 <%= link_to 'Download ALL as CSV', params.merge(:format => :csv) %>
-
+<% else %>
+<p>More than 1000 subjects.<br/>CSV download disabled.</p>
+<% end %>
 </div>
 
 
