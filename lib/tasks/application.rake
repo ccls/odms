@@ -507,6 +507,34 @@ namespace :app do
 
 	end #	task :update_interview_completed_on_from_icf_master_tracker => :environment do
 
+	task :show_csv_columns => :environment do
+		env_required('csv_file')
+		file_required(ENV['csv_file'])
+		env_required('columns','is required comma separated list')
+		columns = ENV['columns'].split(/\s*,\s*/)
+
+		require 'csv'
+		f=CSV.open( ENV['csv_file'], 'rb')
+		header_line = f.gets
+		f.close
+
+		columns.each do |c|
+			unless header_line.include?(c)
+				puts
+				puts "'#{c}' is not a valid column"
+				puts "Columns are #{header_line.join(', ')}"
+				puts
+				exit
+			end
+		end
+
+		(f=CSV.open( ENV['csv_file'], 'rb',{
+				:headers => true })).each do |line|
+			columns.each { |c| printf("%s\t",line[c]) }
+			puts
+		end
+	end
+
 end
 
 def i_should?
