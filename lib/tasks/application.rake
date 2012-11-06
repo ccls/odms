@@ -49,6 +49,7 @@ namespace :app do
 	end
 
 
+	desc "app:update, zip_codes:import_all, counties:import_all"
 	task :full_update => [:update,'zip_codes:import_all','counties:import_all']
 
 #	task :full_update => [:update,'zip_codes:import_all','counties:import_all'] do
@@ -323,6 +324,7 @@ namespace :app do
 #
 #	end #	task :update_assigned_from_pagan => :environment do
 
+	desc "Read CSV file and set Subject's CCLS enrollment#assigned_for_interview_at"
 	task :update_assigned_for_interview_at_from_new_cases_csv => :environment do
 		env_required('csv_file')
 		env_required('assigned_for_interview_at')
@@ -447,6 +449,7 @@ namespace :app do
 #
 #	Eventually, this should be part of the ICFMasterTrackerUpdate
 #
+	desc "Read CSV file and set Subject's CCLS enrollment#interview_completed_on"
 	task :update_interview_completed_on_from_icf_master_tracker => :environment do
 		#	from '/Volumes/BUF-Fileshare/SharedFiles/Research (xx)
 		#		/Competing Renewal 2009-2014/ICF/DataTransfers
@@ -507,6 +510,7 @@ namespace :app do
 
 	end #	task :update_interview_completed_on_from_icf_master_tracker => :environment do
 
+	desc "Read csv file and show given columns"
 	task :show_csv_columns => :environment do
 		env_required('csv_file')
 		file_required(ENV['csv_file'])
