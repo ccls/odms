@@ -362,7 +362,7 @@ namespace :app do
 						:operational_event_type_id => OperationalEventType['other'].id,
 						:occurred_at               => DateTime.now,
 						:description               => "assigned_for_interview_at set to "<<
-							"#{line['assigned_for_interview_at']} from " <<
+							"#{ENV['assigned_for_interview_at']} from " <<
 							ENV['csv_file']
 					)
 				else
