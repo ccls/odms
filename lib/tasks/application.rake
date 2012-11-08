@@ -372,7 +372,10 @@ namespace :app do
 				puts "No change so doing nothing."
 			end
 		end	#	(f=CSV.open( csv_file.path, 'rb',{
-
+		if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
+			puts "Commiting Sunspot index."
+			Sunspot.commit
+		end
 	end #	task :update_assigned_from_pagan => :environment do
 
 #	task :update_completes_from_pagan => :environment do
@@ -505,8 +508,11 @@ namespace :app do
 					puts "No change so doing nothing."
 				end
 			end
-
 		end	#	(f=CSV.open( csv_file.path, 'rb',{
+		if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
+			puts "Commiting Sunspot index."
+			Sunspot.commit
+		end
 
 	end #	task :update_interview_completed_on_from_icf_master_tracker => :environment do
 
