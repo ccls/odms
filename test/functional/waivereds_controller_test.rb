@@ -128,6 +128,45 @@ class WaiveredsControllerTest < ActionController::TestCase
 		end
 
 		test "should create waivered case study_subject" <<
+				" with primary phone_number and #{cu} login" do
+			login_as send(cu)
+			waivered_successful_creation
+			assert_equal 1, assigns(:study_subject).phone_numbers.length
+			assert assigns(:study_subject).phone_numbers.first.is_primary
+		end
+
+		test "should create waivered case study_subject" <<
+				" with primary first phone_number and #{cu} login" do
+			login_as send(cu)
+
+#	Don't use this as wraps in count assertions and expects
+#	that only 1 PhoneNumber is created
+#	waivered_successful_creation
+			post :create, waivered_form_attributes('study_subject' => {
+				'phone_numbers_attributes' => {
+					"0"=>{"phone_number"=>"1234567890" }, 
+					"1"=>{"phone_number"=>"1234567891"}
+			}})
+
+			assert_equal 2, assigns(:study_subject).phone_numbers.length
+			assert  assigns(:study_subject).phone_numbers[0].is_primary
+			assert !assigns(:study_subject).phone_numbers[1].is_primary
+		end
+
+		test "should create waivered case study_subject" <<
+				" with non-primary second-only phone_number and #{cu} login" do
+			login_as send(cu)
+			waivered_successful_creation('study_subject' => {
+				'phone_numbers_attributes' => {
+					"0"=>{"phone_number"=>"" },
+					"1"=>{"phone_number"=>"1234567891"}
+			}})
+			assert_equal 1, assigns(:study_subject).phone_numbers.length
+			assert !assigns(:study_subject).phone_numbers[0].is_primary
+#			assert !assigns(:study_subject).phone_numbers[1].is_primary
+		end
+
+		test "should create waivered case study_subject" <<
 				" with waivered attributes and #{cu} login" do
 			login_as send(cu)
 			waivered_successful_creation
