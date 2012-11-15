@@ -183,7 +183,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				study_subject = Factory(:study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 17
+					assert_select 'a', :count => 18
 					assert_select 'a.current', :count => 1
 					assert_select 'a.current[href=?]', send(v,study_subject)
 				end
@@ -254,7 +254,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				study_subject = Factory(:study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 13
+					assert_select 'a', :count => 14
 					if %w( birth_records interviews documents notes ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
@@ -272,7 +272,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 13
+				assert_select 'a', :count => 14
 				assert_select 'a.current', :count => 0
 			end
 		end
@@ -296,7 +296,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 13
+				assert_select 'a', :count => 14
 				if %w( birth_records interviews documents notes ).include?(k)
 					#	not shown to non-admins
 					assert_select 'a.current', :count => 0
