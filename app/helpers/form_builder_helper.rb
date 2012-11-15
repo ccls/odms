@@ -60,6 +60,11 @@ module FormBuilderHelper
 		rescue NoMethodError, ArgumentError
 			options[:value] = tmp_value
 		end
+
+#	for some reason, sometimes, the label shows the error, but the field doesn't????
+#	usually happens with admit_date, but not dob?
+options[:class] = [options[:class]].push('field_error').flatten if self.object.errors.include?(method)
+
 		options.update(:class => [options[:class],'datepicker'].compact.join(' '))
 		@template.text_field( object_name, method, options )
 	end
@@ -101,6 +106,11 @@ module FormBuilderHelper
 #	This isn't pretty, but does appear to work.
 #	Dynamically defined using a class_eval rather than
 #	define_method. And no method_missing.
+#
+#	Actually, now that we're using ruby 1.9, can't I use
+#	define_method with a block?
+#
+#	Add "field_error" class if errors.include?(method)
 #
 	%w( adna_select collection_select country_select 
 			datetime_select date_text_field datetime_text_field 

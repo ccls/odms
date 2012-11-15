@@ -133,6 +133,7 @@ module ApplicationHelper
 #	this will catch abstracts, study_subject_abstracts and 
 #		all of the abstract/whatevers
 			when /abstract/ then :abstracts
+			when 'cases' then :case
 			else nil
 		end
 
@@ -185,6 +186,8 @@ module ApplicationHelper
 					:class => ((current == :related_subjects)?'current':nil) )
 			links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) )
+			links << link_to( "Case Info", case_path(study_subject),
+					:class => ((current == :case)?'current':nil) )
 			links << "<span>&nbsp;</span>"
 			links << "<div style='text-align:center;'>" <<
 				link_to('first'.html_safe, first_study_subjects_path()) <<

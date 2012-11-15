@@ -82,7 +82,9 @@ Odms::Application.routes.draw do
 	resources :birth_data, :except => [:new,:create]
 	resources :birth_datum_updates, :except => [:edit,:update]
 	resources :candidate_controls, :only => [:edit,:update,:index,:show]
-	resources :cases, :only => [:new,:create,:index] do
+	#	Removing RAF forms and creating a single RAF-like form
+	#	for cases only and adding edit/update/show.
+	resources :cases, :only => [:new,:create,:edit,:update,:show,:index] do
 		#
 		#	WARNING be careful as "case" is a ruby keyword!
 		#

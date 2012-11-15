@@ -1,10 +1,20 @@
-<h4>New Patient Enrollment</h4>
+<h3>New Patient Enrollment</h3>
 
-<%= form_tag(cases_path,:method => :post) do %>
-<label>Treating Institution</label>
-<%= select_tag 'hospital_id',
-	options_from_collection_for_select( 
-		@hospitals, :id, :to_s ) %>
-<%#		Hospital.active.all(:include => :organization), :id, :to_s ) %>
-<%= submit_tag 'New Case' %>
+<%= form_for(@study_subject, :url => cases_path,
+	:html => { :class => 'raf edit_study_subject' }) do |f| %>
+
+<%= f.error_messages %>
+
+
+
+<%= render( :partial => 'raf/duplicates', 
+	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>
+
+
+
+<%= render 'form', :f => f  %>
+
+<p class='submit_bar'>
+<%= f.submit 'New Case', :id => nil, :name => nil %>
+</p>
 <% end %>

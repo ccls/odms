@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'raf_test_helper'
 
 class CasesControllerTest < ActionController::TestCase
 
@@ -18,6 +19,17 @@ class CasesControllerTest < ActionController::TestCase
 #	assert_access_with_login({    :logins => site_editors })
 #	assert_no_access_with_login({ :logins => non_site_editors })
 #	assert_no_access_without_login
+
+
+#
+#	"new" will now be a full form
+#	"create" will no longer redirect to a RAF
+#	"show" will be added
+#	"edit" will be added
+#	"update" will be added
+#
+#	possibly be able to use "generic" stuff
+#
 
 	site_editors.each do |cu|
 
@@ -88,42 +100,206 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
+
+
+
+
+
+
+
 		test "should get new with #{cu} login" do
 			login_as send(cu)
 			get :new
-			assert_nil assigns(:study_subject)
+			assert_not_nil assigns(:study_subject)
 			assert_response :success
 			assert_template 'new'
 		end
 
-		test "should post new case and redirect to waivered with #{cu} login" do
+
+
+
+
+#		test "should post new case and redirect to waivered with #{cu} login" do
+#			login_as send(cu)
+#			hospital = Hospital.active.waivered.first
+#			post :create, { "hospital_id"=> hospital.id }					#		TODO will need changed
+#			assert_redirected_to new_waivered_path("study_subject"=>{"patient_attributes"=>{
+#				"organization_id"=> hospital.organization_id }})
+#		end
+#
+#		test "should post new case and redirect to nonwaivered with #{cu} login" do
+#			login_as send(cu)
+#			hospital = Hospital.active.nonwaivered.first
+#			post :create, { "hospital_id"=> hospital.id }					#		TODO will need changed
+#			assert_redirected_to new_nonwaivered_path("study_subject"=>{"patient_attributes"=>{
+#				"organization_id"=> hospital.organization_id }})
+#		end
+#
+#		test "should not post new case without hospital_id and #{cu} login" do
+#			login_as send(cu)
+#			post :create
+#			assert_not_nil flash[:error]
+#			assert_redirected_to new_case_path
+#		end
+#
+#		test "should not post new case without valid hospital_id and #{cu} login" do
+#			login_as send(cu)
+#			post :create, { "hospital_id"=> '0' }					#		TODO will need changed
+#			assert_not_nil flash[:error]
+#			assert_redirected_to new_case_path
+#		end
+
+
+
+		test "should create new case with valid waivered subject #{cu} login" do
 			login_as send(cu)
-			hospital = Hospital.active.waivered.first
-			post :create, { "hospital_id"=> hospital.id }
-			assert_redirected_to new_waivered_path("study_subject"=>{"patient_attributes"=>{
-				"organization_id"=> hospital.organization_id }})
+			minimum_waivered_successful_creation
+#			post :create, minimum_nonwaivered_form_attributes
+#			assert_nil flash[:error]
+#			assert_redirected_to study_subject_path(assigns(:study_subject))
 		end
 
-		test "should post new case and redirect to nonwaivered with #{cu} login" do
+		test "should create new case with valid nonwaivered subject #{cu} login" do
 			login_as send(cu)
-			hospital = Hospital.active.nonwaivered.first
-			post :create, { "hospital_id"=> hospital.id }
-			assert_redirected_to new_nonwaivered_path("study_subject"=>{"patient_attributes"=>{
-				"organization_id"=> hospital.organization_id }})
+			minimum_nonwaivered_successful_creation
+#			post :create, minimum_nonwaivered_form_attributes
+#			assert_nil flash[:error]
+#			assert_redirected_to study_subject_path(assigns(:study_subject))
 		end
 
-		test "should not post new case without hospital_id and #{cu} login" do
+		test "should NOT create new case with invalid subject #{cu} login" do
 			login_as send(cu)
-			post :create
+			StudySubject.any_instance.stubs(:valid?).returns(false)
+
+			post :create, minimum_nonwaivered_form_attributes
+
 			assert_not_nil flash[:error]
-			assert_redirected_to new_case_path
+#			assert_redirected_to new_case_path
+			assert_response :success
+			assert_template 'new'
 		end
 
-		test "should not post new case without valid hospital_id and #{cu} login" do
+		test "should NOT create new case with failed subject save #{cu} login" do
 			login_as send(cu)
-			post :create, { "hospital_id"=> '0' }
+			StudySubject.any_instance.stubs(:create_or_update).returns(false)
+
+			post :create, minimum_nonwaivered_form_attributes
+
 			assert_not_nil flash[:error]
-			assert_redirected_to new_case_path
+#			assert_redirected_to new_case_path
+			assert_response :success
+			assert_template 'new'
+		end
+
+
+
+
+
+		test "should show case with valid case id #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			login_as send(cu)
+			get :show, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'show'
+		end
+
+		test "should NOT show control with #{cu} login" do
+			study_subject = Factory(:control_study_subject)
+			login_as send(cu)
+			get :show, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subject_path(study_subject)
+		end
+
+		test "should NOT show mother with #{cu} login" do
+			study_subject = Factory(:mother_study_subject)
+			login_as send(cu)
+			get :show, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subject_path(study_subject)
+		end
+
+		test "should NOT show with invalid id #{cu} login" do
+			login_as send(cu)
+			get :show, :id => 0
+			assert_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should edit case with #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			login_as send(cu)
+			get :edit, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+
+		test "should NOT edit mother with #{cu} login" do
+			study_subject = Factory(:control_study_subject)
+			login_as send(cu)
+			get :edit, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subject_path(study_subject)
+		end
+
+		test "should NOT edit control with #{cu} login" do
+			study_subject = Factory(:control_study_subject)
+			login_as send(cu)
+			get :edit, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subject_path(study_subject)
+		end
+
+		test "should NOT edit with invalid id #{cu} login" do
+			login_as send(cu)
+			get :edit, :id => 0
+			assert_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should update case with #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			login_as send(cu)
+			put :update, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
+		end
+
+		test "should NOT update mother with #{cu} login" do
+			study_subject = Factory(:control_study_subject)
+			login_as send(cu)
+			put :update, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subject_path(study_subject)
+		end
+
+		test "should NOT update control with #{cu} login" do
+			study_subject = Factory(:control_study_subject)
+			login_as send(cu)
+			put :update, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subject_path(study_subject)
+		end
+
+		test "should NOT update with invalid id #{cu} login" do
+			login_as send(cu)
+			put :update, :id => 0
+			assert_nil assigns(:study_subject)
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 	end
@@ -146,7 +322,28 @@ class CasesControllerTest < ActionController::TestCase
 
 		test "should NOT post new with #{cu} login" do
 			login_as send(cu)
-			post :create, {"hospital_id"=>"0"}
+			post :create	#, {"hospital_id"=>"0"}					#		TODO will need changed
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT show with #{cu} login" do
+			login_as send(cu)
+			get :show, :id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT edit with #{cu} login" do
+			login_as send(cu)
+			get :edit, :id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT update with #{cu} login" do
+			login_as send(cu)
+			put :update, :id => 0							#	TODO MAY need to add attributes (doubt it)
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -166,7 +363,22 @@ class CasesControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT post new without login" do
-		post :create, {"hospital_id"=>"0"}
+		post :create	#, {"hospital_id"=>"0"}					#		TODO will need changed
+		assert_redirected_to_login
+	end
+
+	test "should NOT show without login" do
+		get :show, :id => 0
+		assert_redirected_to_login
+	end
+
+	test "should NOT edit without login" do
+		get :edit, :id => 0
+		assert_redirected_to_login
+	end
+
+	test "should NOT update without login" do
+		put :update, :id => 0						#	TODO MAY need to add attributes (doubt it)
 		assert_redirected_to_login
 	end
 

@@ -1,0 +1,12 @@
+<h3>Patient Enrollment Info</h3>
+
+<%= form_for(@study_subject, :url => case_path(@study_subject),
+	:html => { :class => 'raf edit_study_subject' } ) do |f| %>
+<%= f.error_messages %>
+
+<%= render 'form', :f => f  %>
+
+<p class='submit_bar'>
+<%= f.submit 'Save', :id => nil, :name => nil %>
+</p>
+<% end %>

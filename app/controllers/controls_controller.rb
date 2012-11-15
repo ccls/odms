@@ -2,6 +2,9 @@ class ControlsController < ApplicationController
 
 	before_filter :may_create_study_subjects_required
 	before_filter :valid_case_id_required
+#
+#	Seriously? Above doesn't actually check if is case.
+#
 	before_filter :case_study_subject_required
 
 	def new
