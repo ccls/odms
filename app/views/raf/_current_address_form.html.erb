@@ -9,7 +9,7 @@
   <%= address_fields.wrapped_text_field :line_1 %>
 <%= address_fields.wrapped_text_field :unit, :label_text => 'Apt.' %>
 
-  <div class='field_wrapper'>
+  <div class='field_wrapper csz'>
    <%= address_fields.label :city, 'City, State Zip' -%><%= address_fields.text_field :city %>
    <%= address_fields.select :state, State.abbreviations, 
 		{:include_blank => true}, :class => 'state' %>

@@ -126,9 +126,14 @@ span.refused_by { display:block; }
 	display:inline-block;
 }
 .unit label { width:auto; }
+input.zip   { width:100px; }
 .unit input { width:100px; }
 .unit {
 	clear:none;
 	vertical-align:top;
 	display:inline-block;
+}
+
+div.csz * {
+	vertical-align:middle;
 }
