@@ -16,6 +16,9 @@ class SomeModel
 	def yes_or_no?
 		!!yes_or_no
 	end
+	def errors
+		[]
+	end
 end
 
 #class ActionViewExtension::FormBuilderTest < ActionView::TestCase
