@@ -7,8 +7,24 @@
 	text_area(object_name, method, options = {})
 %>
 
-<% @study_subject.enrollments.build if @study_subject.enrollments.empty? %>
-<%= f.fields_for :enrollments do |enrollment_fields| %>
+<%#
+
+
+	Now that this will be used for editting, the following enrollment is
+	JUST FOR THE CCLS ENROLLMENT.  No other project.
+
+	This should be interesting.
+
+%>
+<%# @study_subject.enrollments.build if @study_subject.enrollments.empty? %>
+<%#= f.fields_for :enrollments do |enrollment_fields| %>
+<% @study_subject.enrollments.build(
+	:project_id => Project['ccls'].id ) if @study_subject.enrollments.empty? %>
+<%# can't use where as that would require it be in the database
+	and a new subject's enrollment won't be.  This seems to work.  %>
+<%= f.fields_for :enrollments, @study_subject.enrollments.detect{|e|
+	e.project_id == Project['ccls'].id } do |enrollment_fields| %>
+
 
 <p>
 <%= enrollment_fields.radio_button :consented, 1 %>
