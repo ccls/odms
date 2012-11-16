@@ -20,15 +20,16 @@ protected
 		#		real requests do not send symbols
 		#
 		study_subject_params = incoming_params.deep_merge({
-			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
+#			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
 			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
 			'phone_numbers_attributes' => {
 				'0' => default_raf_phone_number_attributes.merge(
 					'is_primary' => true ),
-#				'0' => default_raf_phone_number_attributes,
 				'1' => default_raf_phone_number_attributes
 			}
 		})
+#		set_project_for_all_enrollments(study_subject_params['study_subject'])
+
 		allow_blank_address_line_1(study_subject_params)
 		mark_as_eligible(study_subject_params)
 		@study_subject = StudySubject.new(study_subject_params)
@@ -98,6 +99,12 @@ protected
 		flash.now[:error] = "Possible Duplicate(s) Found."
 		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
 		render :action => 'new'
+	end
+
+	def set_project_for_all_enrollments(h)
+		h['enrollments_attributes'].each_pair do |k,v|
+			h['enrollments_attributes'][k].project_id = Project['ccls'].id
+		end
 	end
 
 	def default_raf_phone_number_attributes

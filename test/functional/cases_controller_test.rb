@@ -154,27 +154,20 @@ class CasesControllerTest < ActionController::TestCase
 		test "should create new case with valid waivered subject #{cu} login" do
 			login_as send(cu)
 			minimum_waivered_successful_creation
-#			post :create, minimum_nonwaivered_form_attributes
-#			assert_nil flash[:error]
-#			assert_redirected_to study_subject_path(assigns(:study_subject))
 		end
 
 		test "should create new case with valid nonwaivered subject #{cu} login" do
 			login_as send(cu)
 			minimum_nonwaivered_successful_creation
-#			post :create, minimum_nonwaivered_form_attributes
-#			assert_nil flash[:error]
-#			assert_redirected_to study_subject_path(assigns(:study_subject))
 		end
 
 		test "should NOT create new case with invalid subject #{cu} login" do
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
-
-			post :create, minimum_nonwaivered_form_attributes
-
+			assert_all_differences(0) do
+				post :create, minimum_nonwaivered_form_attributes
+			end
 			assert_not_nil flash[:error]
-#			assert_redirected_to new_case_path
 			assert_response :success
 			assert_template 'new'
 		end
@@ -182,11 +175,10 @@ class CasesControllerTest < ActionController::TestCase
 		test "should NOT create new case with failed subject save #{cu} login" do
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
-
-			post :create, minimum_nonwaivered_form_attributes
-
+			assert_all_differences(0) do
+				post :create, minimum_nonwaivered_form_attributes
+			end
 			assert_not_nil flash[:error]
-#			assert_redirected_to new_case_path
 			assert_response :success
 			assert_template 'new'
 		end
@@ -301,6 +293,19 @@ class CasesControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
+
+		#
+		#	As they are not required on creation, editting could create.
+		#
+
+		test "should update and create address with #{cu} login" do
+pending
+		end
+
+		test "should update and create phone number with #{cu} login" do
+pending
+		end
+
 
 	end
 
