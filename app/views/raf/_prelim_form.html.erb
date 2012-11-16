@@ -7,7 +7,8 @@
 <%# f is still accessible in block so put all in one block %>
 <div class='tablerow'>
 <div class='organization_id'>
-	<p><%= "#{req('*')}&nbsp;treating institution:".html_safe %></p>
+	<p><%= patient_fields.label :organization_id,
+		"#{req('*')}&nbsp;treating institution:".html_safe %></p>
 
 <% if @study_subject.try(:patient).try(:organization) %>
   <span><%= @study_subject.try(:patient).try(:organization) -%></span>

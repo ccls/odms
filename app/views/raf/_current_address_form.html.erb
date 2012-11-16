@@ -5,7 +5,7 @@
 <% @study_subject.addressings.build if @study_subject.addressings.empty? %>
 <%= f.fields_for :addressings do |addressing_fields| %>
  <% addressing_fields.object.build_address if addressing_fields.object.address.nil? %>
- <% addressing_fields.fields_for :address do |address_fields| %>
+ <%= addressing_fields.fields_for :address do |address_fields| %>
   <%= address_fields.wrapped_text_field :line_1 %>
 <%= address_fields.wrapped_text_field :unit, :label_text => 'Apt.' %>
 
@@ -16,8 +16,9 @@
    <%= address_fields.text_field :zip, :class => :zip %>
   </div>
   <%= address_fields.wrapped_text_field :county, :class => 'county_field' %>
- <% end %>
-<% end %>
+ <% end %><%#= addressing_fields.fields_for :address do |address_fields| %>
+<hr/>
+<% end %><%#= f.fields_for :addressings do |addressing_fields| %>
 
 <% @study_subject.phone_numbers.build while( @study_subject.phone_numbers.length < 2 ) %>
 <%= f.fields_for :phone_numbers, 
