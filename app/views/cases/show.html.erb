@@ -1,3 +1,4 @@
+<%# stylesheets(:raf) %>
 <div id='subject_control_bar'>
 <h3>Case Enrollment Info</h3>
 <div class='buttons'>
@@ -5,3 +6,141 @@
 	:class => 'button' ) if current_user.may_update_study_subjects? %>
 </div><!-- class='buttons' -->
 </div>
+
+<div class='study_subject_fields'>
+<h3>Section 1: Preliminary Information
+<span><span class='required'>*</span>required fields</span>
+</h3>
+
+<% @patient = @study_subject.patient %>
+<% @patient = @study_subject.build_patient if @patient.nil? %>
+<%#
+
+	patient is nil in some tests!  BOOOO!  Fix it.
+
+%>
+
+<div class='prelim_info raf_section table'>
+<div class='tablerow'>
+<div class='organization_id'>
+<%= wrapped_spans :study_subject, :organization,
+	:label_text => 'treating institution:' %>
+</div><!-- class='organization_id' -->
+
+<div class='admitting_oncologist'>
+<%= wrapped_spans :patient, :admitting_oncologist,
+	:label_text => 'admitting oncologist:' %>
+</div><!-- class='admitting_oncologist' -->
+</div><!-- class='tablerow' -->
+
+<div class='tablerow'>
+ <div class='childs names'>
+<%= wrapped_spans :study_subject, :full_name,
+	:label_text => "child's name:" %>
+ </div><!-- class='names' -->
+<div class='hospital_no'>
+<%= wrapped_spans :study_subject, :hospital_no,
+	:label_text => "hospital record number:" %>
+</div>
+</div><!-- class='tablerow' -->
+
+<div class='tablerow'>
+<%= wrapped_date_spans :study_subject, :admit_date %>
+<%= wrapped_date_spans :study_subject, :dob,
+	:label_text => "child's date of birth:" %>
+</div><!-- class='tablerow' -->
+
+<div class='tablerow'>
+<%# unfortunately, I've allowed sex to be blank %>
+<%= wrapped_spans :study_subject, :sex,
+	:value => ( @study_subject.sex || '&nbsp;'.html_safe ),
+	:label_text => 'sex:' %>
+
+<div class='diagnosis'>
+<%= wrapped_spans :patient, :diagnosis %>
+<%= wrapped_spans :patient, :other_diagnosis %>
+</div>
+</div><!-- class='tablerow' -->
+
+</div><!-- class='prelim_info' -->
+<div class='prelim_addition raf_section table'>
+<div class='tablerow'>
+<%= wrapped_spans :patient, :raf_county %>
+<%= wrapped_spans :patient, :raf_zip %>
+</div><!-- class='tablerow' -->
+</div><!-- class='prelim_addition raf_section' -->
+
+
+
+<h3>Section 2: Eligibility Criteria</h3>
+<div class='eligibility raf_section'>
+	<p>Is this patient under age 15?</p>
+	<%= wrapped_yndk_spans :patient, :was_under_15_at_dx %>
+
+	<%= wrapped_spans :study_subject, :language_names,
+		:label_text => "languages:" %>
+
+	<p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
+	<%= wrapped_yndk_spans :patient, :was_previously_treated %>
+
+	<p>Does the patient currently reside in California?</p>
+	<%= wrapped_yndk_spans :patient, :was_ca_resident_at_diagnosis %>
+</div><!-- class='eligibility' -->
+
+
+
+
+
+
+<h3>Section 3: Informed Consent</h3>
+<div class='consent raf_section'>
+	<%# this enrollment MUST be here %>
+	<% @enrollment = @study_subject.enrollments.where( 
+		:project_id => Project['ccls'].id ).first %>
+	<%= wrapped_yndk_spans :enrollment, :consented,
+		:label_text => 'Informed consent and authorization obtained?' %>
+	<%= wrapped_date_spans :enrollment, :consented_on  %>
+	<p class='subconsent'>(from consent signature page, if available at RAF entry)</p>
+	<%= wrapped_spans :enrollment, :refused_by_family %>
+	<%= wrapped_spans :enrollment, :refused_by_physician %>
+	<%= wrapped_spans :enrollment, :refusal_reason %>
+	<%= wrapped_spans :enrollment, :other_refusal_reason %>
+</div><!-- class='consent' -->
+
+
+
+
+
+<h3>Section 4: Child and Parent Information</h3>
+<div class='child_parent raf_section'>
+<%= wrapped_spans :study_subject, :mothers_name %>
+<%= wrapped_spans :study_subject, :mother_maiden_name %>
+<%= wrapped_spans :study_subject, :fathers_name %>
+<%= wrapped_spans :study_subject, :guardians_name %>
+<%= wrapped_spans :study_subject, :guardian_relationship %>
+<%= wrapped_spans :study_subject, :other_guardian_relationship %>
+</div><!-- class='child_parent' -->
+
+<div class='current_address raf_section'>
+<p>child's current home address</p>
+<% @study_subject.addressings.where(
+		:data_source_id => DataSource['raf'].id).each do |a| %>
+	<% @address = a.address %>
+  <%= wrapped_spans :address, :line_1 %>
+  <%= wrapped_spans :address, :unit, :label_text => 'Apt.' %>
+  <%= wrapped_spans :address, :city %>
+  <%= wrapped_spans :address, :state %>
+  <%= wrapped_spans :address, :zip %>
+  <%= wrapped_spans :address, :county %>
+<hr/>
+<% end %>
+
+<% @study_subject.phone_numbers.where(
+		:data_source_id => DataSource['raf'].id).each do |p| %>
+	<% @phone_number = p %>
+	<%= wrapped_spans :phone_number, :phone_number,
+		:label_text => 'phone number:' %>
+<% end %>
+</div><!-- class='current_address' -->
+
+</div><!-- class='study_subject_fields' -->

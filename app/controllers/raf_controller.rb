@@ -9,6 +9,24 @@ class RafController < ApplicationController
 
 protected
 
+
+
+
+	def common_raf_update(incoming_params)
+#
+#	Now, on this new RAF update, some things may be created as they were
+#	not yet known at the time of creation.  Phone numbers and addresses are
+#	the most likely.  Should set the defaults for them ONLY IF THEY DON'T HAVE IDs ALREADY.
+#
+#	The CCLS enrollment should be created on or after subject create
+#	so setting project_id on update is unnecessary.
+#
+	end
+
+
+
+
+
 	def common_raf_create(incoming_params)
 		#
 		#	Add defaults that are not on the forms.
@@ -20,7 +38,7 @@ protected
 		#		real requests do not send symbols
 		#
 		study_subject_params = incoming_params.deep_merge({
-#			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
+			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
 			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
 			'phone_numbers_attributes' => {
 				'0' => default_raf_phone_number_attributes.merge(
@@ -101,11 +119,14 @@ protected
 		render :action => 'new'
 	end
 
-	def set_project_for_all_enrollments(h)
-		h['enrollments_attributes'].each_pair do |k,v|
-			h['enrollments_attributes'][k].project_id = Project['ccls'].id
-		end
-	end
+#
+#	why would I do this?  project_id is unique.  This would crash.
+#
+#	def set_project_for_all_enrollments(h)
+#		h['enrollments_attributes'].each_pair do |k,v|
+#			h['enrollments_attributes'][k].project_id = Project['ccls'].id
+#		end
+#	end
 
 	def default_raf_phone_number_attributes
 		{ 'current_user'   => current_user,

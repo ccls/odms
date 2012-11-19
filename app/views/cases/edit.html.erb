@@ -8,5 +8,6 @@
 
 <p class='submit_bar'>
 <%= f.submit 'Save', :id => nil, :name => nil %>
+<%= link_to 'Cancel', case_path(@study_subject),:class => 'button' %>
 </p>
 <% end %>

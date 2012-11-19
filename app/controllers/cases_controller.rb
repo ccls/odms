@@ -99,9 +99,20 @@ class CasesController < RafController
 			.order('organizations.name ASC')
 		render :layout => 'subject'
 	end
-
+#
+#	move the hospital logic into view one merge complete
+#
 	def update
+		@study_subject.update_attributes!(params[:study_subject])
+
+		flash[:notice] = "Yay, I think"
 		redirect_to case_path(@study_subject)
+	rescue
+		@hospitals  = [@study_subject.organization.try(:hospital)].compact
+		@hospitals += Hospital.active.includes(:organization)
+			.order('organizations.name ASC')
+		flash.now[:error] = "There was a problem updating the study_subject"
+		render :action => 'edit', :layout => 'subject'
 	end
 
 	def show

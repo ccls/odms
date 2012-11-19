@@ -22,6 +22,10 @@ base.class_eval do
 	#	this won't highlight languages
 	validates :subject_languages, :presence => true, :if => :language_required
 
+	def language_names
+		subject_languages.collect(&:to_s).join(', ')
+	end
+
 end	#	class_eval
 end	#	included
 end	#	StudySubjectLanguages
