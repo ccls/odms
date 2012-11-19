@@ -103,6 +103,7 @@ class CasesController < RafController
 #	move the hospital logic into view one merge complete
 #
 	def update
+		params[:study_subject] ||= HashWithIndifferentAccess.new
 		#	set defaults for addresses WITHOUT EXISTING IDs
 		params[:study_subject]['addressings_attributes'].each_pair do |k,v|
 			unless params[:study_subject]['addressings_attributes'][k].has_key?('id')
