@@ -114,7 +114,7 @@ class CasesController < RafController
 				allow_blank_address_line_1_for(
 					params[:study_subject]['addressings_attributes'][k]['address_attributes'])
 			end
-		end
+		end if params[:study_subject].has_key?('addressings_attributes')
 
 		#	set defaults for phone numbers WITHOUT EXISTING IDs
 		params[:study_subject]['phone_numbers_attributes'].each_pair do |k,v|
@@ -123,7 +123,7 @@ class CasesController < RafController
 					default_raf_phone_number_attributes.merge(
 						params[:study_subject]['phone_numbers_attributes'][k])
 			end
-		end
+		end if params[:study_subject].has_key?('phone_numbers_attributes')
 
 		@study_subject.update_attributes!(params[:study_subject])
 

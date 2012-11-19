@@ -8,10 +8,11 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 
+#	%w( waivered nonwaivered ).each do |w|
+
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
 			duplicate = Factory(:complete_waivered_case_study_subject)
 			login_as send(cu)
-#			visit new_waivered_path
 			visit new_case_path
 
 			subject = Factory.build(:complete_waivered_case_study_subject)	
@@ -35,12 +36,11 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
-				click_button "Submit"	
+				click_button "New Case"	
 				wait_until { has_css?("p.flash.error") }
 			} } } } } }
 
-#			assert_equal waivered_path, current_path
-			assert_equal case_path, current_path
+			assert_equal cases_path, current_path
 			assert has_css?("p.flash.error")
 			assert_match /Possible Duplicate\(s\) Found/,
 				find("p.flash.error").text
@@ -65,7 +65,6 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should create subject if duplicate subject no match found with #{cu} login" do
 			duplicate = Factory(:complete_waivered_case_study_subject)
 			login_as send(cu)
-#			visit new_waivered_path
 			visit new_case_path
 
 			subject = Factory.build(:complete_waivered_case_study_subject)	
@@ -89,12 +88,11 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
-				click_button "Submit"	
+				click_button "New Case"	
 				wait_until { has_css?("p.flash.error") }
 			} } } } } }
 
-#			assert_equal waivered_path, current_path
-			assert_equal case_path, current_path
+			assert_equal cases_path, current_path
 			assert has_css?("p.flash.error")
 			assert_match /Possible Duplicate\(s\) Found/,
 				find("p.flash.error").text
@@ -118,7 +116,6 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should get new waivered raf form and submit with #{cu} login" do
 			login_as send(cu)
 
-#			visit new_waivered_path
 			visit new_case_path
 
 			subject = Factory.build(:complete_waivered_case_study_subject)	
@@ -143,7 +140,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_difference('Patient.count',1) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
-				click_button "Submit"	
+				click_button "New Case"	
 				#	no icf master ids
 				wait_until { has_css?('p.flash.warn') }
 			} } } } } }
@@ -162,17 +159,16 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should maintain checked languages" <<
 				" with #{cu} login" do
 			login_as send(cu)
-#			visit new_waivered_path
 			visit new_case_path
 			assert_page_has_unchecked_language_id('english')
 			check(language_input_id('english'))
 			assert_page_has_checked_language_id('english')
-			click_button "Submit" 
+			click_button "New Case" 
 			wait_until { has_css?('p.flash.error') }
 			assert_page_has_checked_language_id('english')
 			uncheck(language_input_id('english'))
 			assert_page_has_unchecked_language_id('english')
-			click_button "Submit" 
+			click_button "New Case" 
 			wait_until { has_css?('p.flash.error') }
 			assert_page_has_unchecked_language_id('english')
 		end
@@ -180,7 +176,6 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should toggle specify other language when other language checked" <<
 				" with #{cu} login" do
 			login_as send(cu)
-#			visit new_waivered_path
 			visit new_case_path
 			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
@@ -195,7 +190,6 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should should update blank address info on zip code change" <<
 			" with #{cu} login" do
 			login_as send(cu)
-#			visit new_waivered_path
 			visit new_case_path
 			address = "study_subject[addressings_attributes][0][address_attributes]"
 			patient = 'study_subject[patient_attributes]'
@@ -219,7 +213,6 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should should update blank address info on raf_zip code change" <<
 			" with #{cu} login" do
 			login_as send(cu)
-#			visit new_waivered_path
 			visit new_case_path
 			address = "study_subject[addressings_attributes][0][address_attributes]"
 			patient = 'study_subject[patient_attributes]'
@@ -243,7 +236,6 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should show other_diagnosis when diagnosis is Other" <<
 				" with #{cu} login" do
 			login_as send(cu)
-#			visit new_waivered_path
 			visit new_case_path
 			patient = 'study_subject[patient_attributes]'
 			assert !find_field("#{patient}[other_diagnosis]").visible?
@@ -258,7 +250,6 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should show other_refusal_reason when refusal_reason is Other" <<
 				" with #{cu} login" do
 			login_as send(cu)
-#			visit new_waivered_path
 			visit new_case_path
 			patient = "study_subject[enrollments_attributes][0]"
 			assert !find_field("#{patient}[other_refusal_reason]").visible?

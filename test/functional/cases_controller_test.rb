@@ -5,12 +5,14 @@ class CasesControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = { 
 		:model   => 'StudySubject',
-		:actions => [:new,:index]
+		:actions => [:new]
 	}
 
 	assert_access_with_login({    :logins => site_editors })
 	assert_no_access_with_login({ :logins => non_site_editors })
 	assert_no_access_without_login
+
+#	index won't work here yet as is a search
 
 #
 #	This is too unconventional for any of this to work.
@@ -42,13 +44,13 @@ class CasesControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-#		test "should get index with #{cu} login" do
-#			login_as send(cu)
-#			get :index
-#			assert_nil assigns(:study_subject)
-#			assert_response :success
-#			assert_template 'index'
-#		end
+		test "should get index with #{cu} login" do
+			login_as send(cu)
+			get :index
+			assert_nil assigns(:study_subject)
+			assert_response :success
+			assert_template 'index'
+		end
 
 		test "should return nothing without matching patid and #{cu} login" do
 			login_as send(cu)
@@ -313,9 +315,9 @@ class CasesControllerTest < ActionController::TestCase
 			assert_difference('Addressing.count',1) {
 			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
-					:study_subject => { :addressings_attributes => { 
+					:study_subject => { 'addressings_attributes' => { 
 #					0 => Factory.attributes_for(:addressing) }
-					0 => { "address_attributes"=> Factory.attributes_for(:address) } } }
+					'0' => { "address_attributes"=> Factory.attributes_for(:address) } } }
 			} }
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
@@ -327,17 +329,17 @@ class CasesControllerTest < ActionController::TestCase
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',1) {
 				put :update, :id => study_subject.id, 
-					:study_subject => { :phone_numbers_attributes => { 
-					0 => Factory.attributes_for(:phone_number) } }
+					:study_subject => { 'phone_numbers_attributes' => { 
+					'0' => Factory.attributes_for(:phone_number) } }
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
 			assert_redirected_to case_path(study_subject)
 		end
 
-
-
-
+		test "should update and create address with blank line and #{cu} login" do
+pending
+		end
 
 ##################################################
 
@@ -770,12 +772,12 @@ class CasesControllerTest < ActionController::TestCase
 
 	non_site_editors.each do |cu|
 
-#		test "should NOT get index with #{cu} login" do
-#			login_as send(cu)
-#			get :index
-#			assert_not_nil flash[:error]
-#			assert_redirected_to root_path
-#		end
+		test "should NOT get index with #{cu} login" do
+			login_as send(cu)
+			get :index
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
 
 #		test "should NOT get new with #{cu} login" do
 #			login_as send(cu)
@@ -825,10 +827,10 @@ class CasesControllerTest < ActionController::TestCase
 
 #	no login ...
 
-#	test "should NOT get index without login" do
-#		get :index
-#		assert_redirected_to_login
-#	end
+	test "should NOT get index without login" do
+		get :index
+		assert_redirected_to_login
+	end
 
 #	test "should NOT get new without login" do
 #		get :new
