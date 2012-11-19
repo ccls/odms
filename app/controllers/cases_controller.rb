@@ -103,9 +103,30 @@ class CasesController < RafController
 #	move the hospital logic into view one merge complete
 #
 	def update
+		#	set defaults for addresses WITHOUT EXISTING IDs
+		params[:study_subject]['addressings_attributes'].each_pair do |k,v|
+			unless params[:study_subject]['addressings_attributes'][k].has_key?('id')
+				params[:study_subject]['addressings_attributes'][k] = 
+					#	must use deep_merge as contains address_attributes
+					default_raf_addressing_attributes.deep_merge(
+						params[:study_subject]['addressings_attributes'][k])
+				allow_blank_address_line_1_for(
+					params[:study_subject]['addressings_attributes'][k]['address_attributes'])
+			end
+		end
+
+		#	set defaults for phone numbers WITHOUT EXISTING IDs
+		params[:study_subject]['phone_numbers_attributes'].each_pair do |k,v|
+			unless params[:study_subject]['phone_numbers_attributes'][k].has_key?('id')
+				params[:study_subject]['phone_numbers_attributes'][k] = 
+					default_raf_phone_number_attributes.merge(
+						params[:study_subject]['phone_numbers_attributes'][k])
+			end
+		end
+
 		@study_subject.update_attributes!(params[:study_subject])
 
-		flash[:notice] = "Yay, I think"
+		flash[:notice] = "Subject successfully updated, I think. ;)"
 		redirect_to case_path(@study_subject)
 	rescue
 		@hospitals  = [@study_subject.organization.try(:hospital)].compact

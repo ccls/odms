@@ -195,6 +195,10 @@ protected
 	def allow_blank_address_line_1(default={})
 		#	as 'default' is a hash, 'address' is now just a pointer to part of it.
 		address = default['addressings_attributes']['0']['address_attributes']
+		allow_blank_address_line_1_for(address)
+	end
+
+	def allow_blank_address_line_1_for(address)
 		if address['line_1'].blank? and
 				!address['city'].blank? and
 				!address['state'].blank? and

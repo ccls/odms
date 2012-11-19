@@ -234,7 +234,7 @@ class CasesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit mother with #{cu} login" do
-			study_subject = Factory(:control_study_subject)
+			study_subject = Factory(:mother_study_subject)
 			login_as send(cu)
 			get :edit, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -269,7 +269,7 @@ class CasesControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update mother with #{cu} login" do
-			study_subject = Factory(:control_study_subject)
+			study_subject = Factory(:mother_study_subject)
 			login_as send(cu)
 			put :update, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -299,13 +299,30 @@ class CasesControllerTest < ActionController::TestCase
 		#
 
 		test "should update and create address with #{cu} login" do
-pending
+			study_subject = Factory(:case_study_subject)
+			login_as send(cu)
+			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
+				put :update, :id => study_subject.id, :addressings_attributes => { 
+#					0 => Factory.attributes_for(:addressing) }
+					0 => { "address_attributes"=> Factory.attributes_for(:address) } }
+			} }
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
 		end
 
 		test "should update and create phone number with #{cu} login" do
-pending
+			study_subject = Factory(:case_study_subject)
+			login_as send(cu)
+			assert_difference('PhoneNumber.count',1) {
+				put :update, :id => study_subject.id, :phone_numbers_attributes => { 
+					0 => Factory.attributes_for(:phone_number) }
+			}
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
 		end
-
 
 	end
 
