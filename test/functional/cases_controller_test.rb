@@ -162,42 +162,6 @@ class CasesControllerTest < ActionController::TestCase
 
 
 
-		test "should create new case with valid waivered subject #{cu} login" do
-			login_as send(cu)
-			minimum_waivered_successful_creation
-		end
-
-		test "should create new case with valid nonwaivered subject #{cu} login" do
-			login_as send(cu)
-			minimum_nonwaivered_successful_creation
-		end
-
-		test "should NOT create new case with invalid subject #{cu} login" do
-			login_as send(cu)
-			StudySubject.any_instance.stubs(:valid?).returns(false)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes
-			end
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
-		end
-
-		test "should NOT create new case with failed subject save #{cu} login" do
-			login_as send(cu)
-			StudySubject.any_instance.stubs(:create_or_update).returns(false)
-			assert_all_differences(0) do
-				post :create, minimum_nonwaivered_form_attributes
-			end
-			assert_not_nil flash[:error]
-			assert_response :success
-			assert_template 'new'
-		end
-
-
-
-
-
 		test "should show case with valid case id #{cu} login" do
 			study_subject = Factory(:case_study_subject)
 			login_as send(cu)
@@ -341,6 +305,50 @@ class CasesControllerTest < ActionController::TestCase
 pending
 		end
 
+		test "should NOT update case study_subject" <<
+				" with invalid study_subject and #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:case_study_subject)
+			StudySubject.any_instance.stubs(:valid?).returns(false)
+			put :update, :id => study_subject.id,
+				:study_subject => {}
+			assert assigns(:study_subject)
+			assert assigns(:hospitals)
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+
+		test "should NOT update case study_subject when save fails" <<
+				" with #{cu} login" do
+			login_as send(cu)
+			study_subject = Factory(:case_study_subject)
+			StudySubject.any_instance.stubs(:create_or_update).returns(false)
+			put :update, :id => study_subject.id,
+				:study_subject => {}
+			assert assigns(:study_subject)
+			assert assigns(:hospitals)
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ##################################################
 
 		test "should NOT have checked subject_languages with #{cu} login" do
@@ -373,7 +381,7 @@ pending
 		end
 
 
-#	WAIVERED ONLY
+#	WAIVERED ONLY (NONWAIVERED EXPECTED ADDRESS TO BE CREATED)
 
 		test "should create waivered case study_subject" <<
 				" without complete address and #{cu} login" do
