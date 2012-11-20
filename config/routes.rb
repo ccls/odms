@@ -149,8 +149,8 @@ Odms::Application.routes.draw do
 	resources :vital_statuses
 	resources :zip_codes, :only => [ :index ]
 
-	resource  :waivered,    :only => [:new,:create]
-	resource  :nonwaivered, :only => [:new,:create]
+#	resource  :waivered,    :only => [:new,:create]
+#	resource  :nonwaivered, :only => [:new,:create]
 
 	namespace :active_scaffold do
 		resources :study_subjects	do as_routes end
