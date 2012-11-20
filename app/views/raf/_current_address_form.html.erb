@@ -57,7 +57,7 @@
 <%#= f.fields_for :phone_numbers, 
 	@study_subject.phone_numbers[1] do |phone_number_fields| %>
 <%= f.fields_for :phone_numbers, 
-	@raf_phone_numbers[1] do |phone_number_fields| %>
+	@raf_phone_numbers[1..-1] do |phone_number_fields| %>
  <%= phone_number_fields.wrapped_text_field :phone_number,
    :label_text => 'alternate phone:' %>
 <% end -%>
