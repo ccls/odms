@@ -394,6 +394,41 @@ pending
 		end
 	
 
+
+
+
+
+		test "should raise inconsistency on create case study_subject" <<
+				" if admit_date - dob < 15 years and was under 15 is yes" <<
+				" with #{cu} login" do
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					:study_subject => { 
+						'dob' => '12/31/2010',
+						:patient_attributes => { 
+							'admit_date' => '12/31/2012',
+							'was_under_15_at_dx' => YNDK[:no] }  })
+			end
+			assert_not_nil flash[:error]#	Possible Inconsistency(s) Found.
+			assert_not_nil flash[:warn]	#	Under 15 selection does not match computed value.
+			assert_response :success
+			assert_template 'new'
+		end
+	
+
+
+
+
+
+
+#
+#	TODO
+#
+#	waivered/nonwaivered is now irrelevant.  undo all this and unify.
+#
+#	basically, just remove the nonwaivered.
+#
 	
 
 		%w( waivered nonwaivered ).each do |w|

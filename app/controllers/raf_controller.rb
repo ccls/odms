@@ -46,11 +46,33 @@ protected
 				'1' => default_raf_phone_number_attributes
 			}
 		})
-#		set_project_for_all_enrollments(study_subject_params['study_subject'])
 
 		allow_blank_address_line_1(study_subject_params)
 		mark_as_eligible(study_subject_params)
 		@study_subject = StudySubject.new(study_subject_params)
+
+		warn = []
+
+		if( !study_subject_params['dob'].blank? and
+			 study_subject_params['patient_attributes'].is_a?(Hash) and
+			!study_subject_params['patient_attributes']['was_under_15_at_dx'].blank? and
+			!study_subject_params['patient_attributes']['admit_date'].blank? )
+
+			was_under_15 = study_subject_params['patient_attributes']['was_under_15_at_dx'].to_i
+			admit_date = Date.parse(study_subject_params['patient_attributes']['admit_date'])
+			dob = Date.parse(study_subject_params['dob'])
+
+			fifteenth_birthday = dob.to_date + 15.years
+			calc_was_under_15 = ( admit_date.to_date < fifteenth_birthday ) ? 
+				YNDK[:yes] : YNDK[:no]
+
+			#	this will also be triggered if the dates are reverse (admit before dob)
+			if calc_was_under_15 != was_under_15
+				warn << "Under 15 selection does not match computed value."
+				raise StudySubject::InconsistencyFound
+			end
+		end
+
 		#	protected attributes
 		@study_subject.subject_type_id   = SubjectType['Case'].id	
 		@study_subject.case_control_type = 'C'
@@ -58,7 +80,6 @@ protected
 		#	explicitly validate before searching for duplicates
 		raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?
 
-		warn = []
 		#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
 		if params[:commit].blank? or params[:commit] == 'Submit'
 			@duplicates = @study_subject.duplicates
@@ -117,16 +138,11 @@ protected
 		flash.now[:error] = "Possible Duplicate(s) Found."
 		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
 		render :action => 'new'
+	rescue StudySubject::InconsistencyFound
+		flash.now[:error] = "Possible Inconsistency(s) Found."
+		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
+		render :action => 'new'
 	end
-
-#
-#	why would I do this?  project_id is unique.  This would crash.
-#
-#	def set_project_for_all_enrollments(h)
-#		h['enrollments_attributes'].each_pair do |k,v|
-#			h['enrollments_attributes'][k].project_id = Project['ccls'].id
-#		end
-#	end
 
 	def default_raf_phone_number_attributes
 		{ 'current_user'   => current_user,

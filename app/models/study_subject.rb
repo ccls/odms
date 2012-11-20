@@ -11,6 +11,7 @@ class StudySubject < ActiveRecord::Base
 
 	class NotTwoAbstracts < StandardError; end
 	class DuplicatesFound < StandardError; end
+	class InconsistencyFound < StandardError; end
 
 	has_and_belongs_to_many :analyses
 	has_one :home_exposure_response
