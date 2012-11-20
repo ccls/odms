@@ -40,7 +40,8 @@ NOT ALL DOCUMENT VERSIONS?
 
  collection_select(object, method, collection, value_method, text_method, options = {}, html_options = {}) 
 %>
-<p class='subconsent'>consent date:
+<p class='subconsent'>
+<%= enrollment_fields.label :consented_on, :label_text => "consent date:" %>
 <%= enrollment_fields.date_text_field :consented_on  %>
 <!--&nbsp;consent version:
 <%#= enrollment_fields.collection_select :document_version_id,

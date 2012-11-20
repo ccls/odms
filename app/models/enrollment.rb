@@ -34,9 +34,9 @@ class Enrollment < ActiveRecord::Base
 	#	Return boolean of comparison
 	#	true only if consented == 1
 #	no longer used, I believe
-#	def consented?
-#		consented == 1
-#	end
+	def consented?
+		consented == YNDK[:yes]	#1
+	end
 
 	#	Return boolean of comparison
 	#	true only if consented == 2

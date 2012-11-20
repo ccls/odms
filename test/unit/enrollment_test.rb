@@ -325,14 +325,16 @@ class EnrollmentTest < ActiveSupport::TestCase
 		end
 	end
 
-	[:yes,:no].each do |yndk|
+#	[:yes,:no].each do |yndk|
+	[:yes].each do |yndk|
 		test "should require consented_on if consented == #{yndk}" do
 			enrollment = Enrollment.new(:consented => YNDK[yndk],
 				:consented_on => nil)
 			assert !enrollment.valid?
 			#	NOTE Custom error message
 			assert  enrollment.errors.matching?(:consented_on,
-				"date is required when adding consent information")
+				"date is required when consented")
+#				"date is required when adding consent information")
 		end
 	end
 	[:dk,:nil].each do |yndk|
