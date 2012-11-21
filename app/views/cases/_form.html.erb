@@ -17,10 +17,10 @@
 <h3>Section 2: Eligibility Criteria</h3>
 <%= render 'eligibility_criteria', :f=>f, :patient_fields => patient_fields %>
 <h3>Section 3: Informed Consent</h3>
-<%= render 'informed_consent', :f=>f, :patient_fields => patient_fields %>
+<%= render 'informed_consent', :f=>f %>
 <h3>Section 4: Child and Parent Information</h3>
-<%= render 'child_parent_form', :f=>f, :patient_fields => patient_fields %>
-<%= render 'contact_info', :f=>f, :patient_fields => patient_fields %>
+<%= render 'child_parent_form', :f=>f %>
+<%= render 'contact_info', :f=>f %>
 </div><!-- class='study_subject_fields' -->
 
 <% end %><%# f.fields_for :patient do |patient_fields| %>
