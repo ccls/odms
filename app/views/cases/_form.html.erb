@@ -4,7 +4,7 @@
 <% stylesheets(:raf) %>
 
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
-<%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
+<%# BE ADVISED THAT FIELDS_FOR WILL CREATE A HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :patient do |patient_fields| %>
 
@@ -13,13 +13,14 @@
 <span><span class='required'>*</span>required fields</span>
 </h3>
 <%= render 'prelim_info', :f=>f, :patient_fields => patient_fields %>
+<%# I should merge these 2 partials now %>
 <%= render 'prelim_addition', :f=>f, :patient_fields => patient_fields %>
 <h3>Section 2: Eligibility Criteria</h3>
 <%= render 'eligibility_criteria', :f=>f, :patient_fields => patient_fields %>
 <h3>Section 3: Informed Consent</h3>
 <%= render 'informed_consent', :f=>f %>
 <h3>Section 4: Child and Parent Information</h3>
-<%= render :partial => 'study_subjects/child_parent_form', :locals{:f=>f} %>
+<%= render :partial => 'study_subjects/child_parent_form', :locals => {:f=>f} %>
 <%= render 'contact_info', :f=>f %>
 </div><!-- class='study_subject_fields' -->
 
