@@ -1,27 +1,10 @@
 <div class='eligibility raf_section'>
-
-<%#
-	radio_button(object_name, method, tag_value, options = {})
-	label(object_name, method, content_or_options = nil, options = nil, &block)
-		:value => 'whatever' is used in the 'for' attribute
-	check_box(object_name, method, options = {}, checked_value = "1", unchecked_value = "0")
-%>
-
-<% @study_subject.build_patient if @study_subject.patient.nil? %>
-<%= f.fields_for :patient do |patient_fields| %>
-<%#
-
-	This is an auto-updated field.
-	The label text also does not correspond directly to the variable name.
-
-%>
  <p>Is this patient under age 15?
   <%= patient_fields.radio_button :was_under_15_at_dx, YNDK[:yes] %>
   <%= patient_fields.label :was_under_15_at_dx, 'yes (eligible)', :value => YNDK[:yes] %>
   <%= patient_fields.radio_button :was_under_15_at_dx, YNDK[:no] %>
   <%= patient_fields.label :was_under_15_at_dx, 'no (not eligible)', :value => YNDK[:no] %>
  </p>
-<% end %>
 
 <%#
 
@@ -32,8 +15,6 @@
 %>
 <%= f.subject_languages_select( ::Context['wraf1'].languages ) %>
 
-
-<%= f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
  <p>
   <%= patient_fields.radio_button :was_previously_treated, YNDK[:no] %>
@@ -48,6 +29,4 @@
   <%= patient_fields.radio_button :was_ca_resident_at_diagnosis, YNDK[:no] %>
   <%= patient_fields.label :was_ca_resident_at_diagnosis, 'no (not eligible)', :value => YNDK[:no] %>
  </p>
-<% end %>
-
 </div><!-- class='eligibility' -->

@@ -7,6 +7,8 @@
 %>
 
 <% @study_subject.build_patient if @study_subject.patient.nil? %>
+<%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
+	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :patient do |patient_fields| %>
 <%#
 
@@ -43,6 +45,8 @@
 <%= f.subject_languages_select( ::Context['nwraf1'].languages,
 	:class => (f.object.errors.include?(:subject_languages)?'field_error':nil) ) %>
 
+<%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
+	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :patient do |patient_fields| %>
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
  <p>
@@ -56,6 +60,8 @@
  </p>
 <% end %>
 
+<%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
+	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :patient do |patient_fields| %>
  <p>Does the patient currently reside in California?
   <%#= patient_fields.check_box :was_ca_resident_at_diagnosis, {

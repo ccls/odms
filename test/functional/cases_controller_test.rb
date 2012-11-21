@@ -208,6 +208,19 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 
+#
+# This is very important for HTML validation!
+#
+		test "should edit complete case with #{cu} login" do
+			study_subject = Factory(:complete_case_study_subject)
+			login_as send(cu)
+			get :edit, :id => study_subject.id
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'edit'
+		end
+
 		test "should NOT edit mother with #{cu} login" do
 			study_subject = Factory(:mother_study_subject)
 			login_as send(cu)

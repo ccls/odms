@@ -2,9 +2,6 @@
 
 <div class='prelim_info raf_section table'>
 
-<% @study_subject.build_patient if @study_subject.patient.nil? %>
-<%= f.fields_for :patient do |patient_fields| %>
-<%# f is still accessible in block so put all in one block %>
 <div class='tablerow'>
 <div class='organization_id'>
 	<p><%= patient_fields.label :organization_id,
@@ -19,7 +16,6 @@
 		:organization_id, :to_s, :include_blank => true %>
 <% end %>
 
-<%#		Hospital.all(:include => :organization), %>
 </div><!-- class='organization_id' -->
 
 <div class='admitting_oncologist'>
@@ -80,6 +76,5 @@
 		:label_text => "#{req('*')}&nbsp;specify other:".html_safe %>
 </div>
 </div><!-- class='tablerow' -->
-<% end %><%# f.fields_for :patient do |patient_fields| %>
 
 </div><!-- class='prelim_info' -->

@@ -1,6 +1,8 @@
 <div class='consent raf_section'>
 
 <% @study_subject.enrollments.build if @study_subject.enrollments.empty? %>
+<%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
+	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :enrollments do |enrollment_fields| %>
 
 <p>consent date:

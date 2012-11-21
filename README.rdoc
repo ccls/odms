@@ -644,6 +644,30 @@ adapter values.
 
 
 ---
+== Nested Attributes and Fields For on Forms
+
+I just stumbled upon some issues when using fields_for.
+When using fields_for on an existing object, it will add a hidden
+id field.  If called on the same existing object multiple times,
+it will add multiple id fields which will have the same HTML id
+field which is invalid HTML.  It will still work, but my integration
+tests just failed as the generated HTML document is just empty.
+The empty document means that there was never a button or link to click.
+No fields to fill in or select.  Nothing.  I found this as I was
+using a more complete object with existing relationship objects
+in the integration tests, but NOT in the functional tests.
+The functional tests would have pointed out the validation error.
+
+So. Be very thorough in the functional tests.
+
+Only call fields_for on an object ONCE PER FORM.  
+Wrap everything in another block if you must and pass it
+to the partials.  But only call it ONCE!
+
+
+--
+
+
 == Other Notes 
 
 

@@ -2,13 +2,7 @@ require 'integration_test_helper'
 
 class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 
-#require 'integration_test_helper'
-
-#class WaiveredIntegrationTest < ActionController::CapybaraIntegrationTest
-
 	site_editors.each do |cu|
-
-#	%w( waivered nonwaivered ).each do |w|
 
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
 			duplicate = Factory(:complete_waivered_case_study_subject)
@@ -261,12 +255,23 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert find_field("#{patient}[other_refusal_reason]").visible?
 		end
 
+
+
+		test "test edit complete case with #{cu} login" do
+			subject = Factory(:complete_waivered_case_study_subject)
+			login_as send(cu)
+			visit edit_case_path(:id => subject.id)
+#	TODO should add some stuff here
+		end
+
+
+
 	end
 
 #end
-
-	site_editors.each do |cu|
-
+#
+#	site_editors.each do |cu|
+#
 #		test "should preselect waivered organization_id from new case with #{cu} login" do
 #			login_as send(cu)
 #			visit new_case_path
@@ -317,8 +322,8 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 #			assert_equal hospital.organization_id.to_s,
 #				find('#study_subject_patient_attributes_organization_id').value
 #		end
-
-	end
+#
+#	end
 
 end
 __END__
