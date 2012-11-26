@@ -8,7 +8,22 @@
 #
 Factory.define :minimum_raf_form_attributes, :class => 'StudySubject' do |f|
 	f.sex "M" 
-	f.dob Date.jd(2440000+rand(15000)).to_s
+#irb(main):019:0> Date.today
+#=> Mon, 26 Nov 2012
+#irb(main):020:0> Date.today.jd
+#=> 2456258
+#irb(main):026:0> Date.today.jd - (Date.today - 15.years).jd
+#=> 5479
+#irb(main):027:0> Date.today.jd - (Date.today - 14.years).jd
+#=> 5114
+#irb(main):028:0> Date.today - 14.years
+#=> Thu, 26 Nov 1998
+#irb(main):029:0> _.jd
+#=> 2451144
+#	Always want this date between yesterday and <15 years ago
+#	as default was_under_15 is Yes and admit_date is Today.
+#	f.dob Date.jd(2440000+rand(15000)).to_s	#	no, not like this anymore
+	f.dob Date.jd( ((Date.today - 14.years).jd)+ rand(5000)).to_s
 end
 Factory.define :minimum_nonwaivered_form_attributes, :parent => :minimum_raf_form_attributes do |f|
 	f.addressings_attributes {{ "0"=>{ "address_attributes"=> Factory.attributes_for(:address) } }}

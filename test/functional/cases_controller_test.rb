@@ -293,7 +293,6 @@ class CasesControllerTest < ActionController::TestCase
 			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'addressings_attributes' => { 
-#					0 => Factory.attributes_for(:addressing) }
 					'0' => { "address_attributes"=> Factory.attributes_for(:address) } } }
 			} }
 			assert_not_nil assigns(:study_subject)
@@ -315,7 +314,21 @@ class CasesControllerTest < ActionController::TestCase
 		end
 
 		test "should update and create address with blank line and #{cu} login" do
-pending
+			study_subject = Factory(:case_study_subject)
+			login_as send(cu)
+			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
+				put :update, :id => study_subject.id, 
+					:study_subject => { 'addressings_attributes' => { 
+					'0' => { "address_attributes"=> Factory.attributes_for(:address,
+						:line_1 => '') } } }
+			} }
+			assert_not_nil assigns(:study_subject)
+			assert_not_nil assigns(:study_subject).addressings.first.address.line_1
+			assert_equal '[no address provided]',
+				assigns(:study_subject).addressings.first.address.line_1
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
 		end
 
 		test "should NOT update case study_subject" <<
@@ -423,12 +436,35 @@ pending
 							'admit_date' => '12/31/2012',
 							'was_under_15_at_dx' => YNDK[:no] }  })
 			end
-			assert_not_nil flash[:error]#	Possible Inconsistency(s) Found.
-			assert_not_nil flash[:warn]	#	Under 15 selection does not match computed value.
+			assert_not_nil flash[:error]
+			assert_match /Possible Inconsistency\(s\) Found/, flash[:error]
+			assert_not_nil flash[:warn]
+			assert_match /Under 15 selection does not match computed value/, 
+				flash[:warn]
 			assert_response :success
 			assert_template 'new'
 		end
 	
+		test "should raise inconsistency on create case study_subject" <<
+				" if admit_date - dob > 15 years and was under 15 is no" <<
+				" with #{cu} login" do
+			login_as send(cu)
+			assert_all_differences(0) do
+				post :create, minimum_waivered_form_attributes(
+					:study_subject => { 
+						'dob' => '12/31/1990',
+						:patient_attributes => { 
+							'admit_date' => '12/31/2012',
+							'was_under_15_at_dx' => YNDK[:yes] }  })
+			end
+			assert_not_nil flash[:error]
+			assert_match /Possible Inconsistency\(s\) Found/, flash[:error]
+			assert_not_nil flash[:warn]
+			assert_match /Under 15 selection does not match computed value/, 
+				flash[:warn]
+			assert_response :success
+			assert_template 'new'
+		end
 
 
 
@@ -573,15 +609,19 @@ pending
 					" and set is_eligible yes with #{cu} login" do
 				login_as send(cu)
 				send("#{w}_successful_creation")
-				assert_equal YNDK[:yes], assigns(:study_subject).patient.was_under_15_at_dx
-				assert_equal YNDK[:no],  assigns(:study_subject).patient.was_previously_treated
-				assert_equal YNDK[:yes], assigns(:study_subject).patient.was_ca_resident_at_diagnosis
+				assert_equal YNDK[:yes], assigns(:study_subject).patient.was_under_15_at_dx,
+					"Should have been under 15 at dx"
+				assert_equal YNDK[:no],  assigns(:study_subject).patient.was_previously_treated,
+					"Should not have been previously treated"
+				assert_equal YNDK[:yes], assigns(:study_subject).patient.was_ca_resident_at_diagnosis,
+					"Should have been CA resident at dx"
 				#	assert languages include english or spanish
 				assert assigns(:study_subject).language_ids.include?(Language['english'].id) or
 					assigns(:study_subject).language_ids.include?(Language['spanish'].id)
 				assert_equal YNDK[:yes],
 					assigns(:study_subject).enrollments.find_by_project_id(
-						Project['ccls'].id).is_eligible
+						Project['ccls'].id).is_eligible,
+					"Should have been marked as eligible"
 				assert_nil assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).ineligible_reason_id
 				assert assigns(:study_subject).enrollments.find_by_project_id(
@@ -595,12 +635,16 @@ pending
 					" and set is_eligible no with #{cu} login and over 15" do
 				login_as send(cu)
 				send("#{w}_successful_creation",{ 'study_subject' => {
+					#	something greater than 15 years ago
+					'dob' => Date.jd( ((Date.today - 15.years).jd) - rand(5000)).to_s,
 					'patient_attributes' => { 
 						'was_under_15_at_dx' => YNDK[:no] } } } )
-				assert_equal YNDK[:no], assigns(:study_subject).patient.was_under_15_at_dx
+				assert_equal YNDK[:no], assigns(:study_subject).patient.was_under_15_at_dx,
+					"Should not have been under 15 at dx"
 				assert_equal YNDK[:no],
 					assigns(:study_subject).enrollments.find_by_project_id(
-						Project['ccls'].id).is_eligible
+						Project['ccls'].id).is_eligible,
+					"Should not be eligible"
 				assert_not_nil assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).ineligible_reason_id
 				assert !assigns(:study_subject).enrollments.find_by_project_id(

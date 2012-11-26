@@ -53,6 +53,23 @@ protected
 
 		warn = []
 
+#
+#	Should I be checking the params or the built objects after #new?
+#	This logic will probably be used with update as well so use the objects.
+#
+
+
+		if( !@study_subject.dob.blank? and
+			!@study_subject.patient.nil? and
+			!@study_subject.patient.was_under_15_at_dx.blank? and
+			!@study_subject.patient.admit_date.blank? )
+
+			was_under_15 = @study_subject.patient.was_under_15_at_dx
+			admit_date = @study_subject.patient.admit_date
+			dob = @study_subject.dob
+
+
+#
 #		if( !study_subject_params['dob'].blank? and
 #			 study_subject_params['patient_attributes'].is_a?(Hash) and
 #			!study_subject_params['patient_attributes']['was_under_15_at_dx'].blank? and
@@ -62,16 +79,16 @@ protected
 #			admit_date = Date.parse(study_subject_params['patient_attributes']['admit_date'])
 #			dob = Date.parse(study_subject_params['dob'])
 #
-#			fifteenth_birthday = dob.to_date + 15.years
-#			calc_was_under_15 = ( admit_date.to_date < fifteenth_birthday ) ? 
-#				YNDK[:yes] : YNDK[:no]
-#
-#			#	this will also be triggered if the dates are reverse (admit before dob)
-#			if calc_was_under_15 != was_under_15
-#				warn << "Under 15 selection does not match computed value."
-#				raise StudySubject::InconsistencyFound
-#			end
-#		end
+			fifteenth_birthday = dob.to_date + 15.years
+			calc_was_under_15 = ( admit_date.to_date < fifteenth_birthday ) ? 
+				YNDK[:yes] : YNDK[:no]
+
+			#	this will also be triggered if the dates are reverse (admit before dob)
+			if calc_was_under_15 != was_under_15
+				warn << "Under 15 selection does not match computed value."
+				raise StudySubject::InconsistencyFound
+			end
+		end
 
 		#	protected attributes
 		@study_subject.subject_type_id   = SubjectType['Case'].id	
