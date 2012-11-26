@@ -84,3 +84,25 @@
 	<%= f.label :mothers_maiden_name, 'maiden' %>
 	<%= f.text_field :mother_maiden_name %>
 	</div><!-- class='name field_wrapper' -->
+
+
+
+	<div class='name field_wrapper'>
+	<%= f.label :guardians_name, 'guardian' %>
+	<%= f.wrapped_text_field :guardian_first_name,
+		:label_text => 'first' %>
+	<%= f.wrapped_text_field :guardian_middle_name,
+		:label_text => 'middle' %>
+	<%= f.wrapped_text_field :guardian_last_name,
+		:label_text => 'last' %>
+	</div><!-- class='name field_wrapper' -->
+
+	<div class='guardian_relationship name field_wrapper'>
+	<%= f.wrapped_collection_select :guardian_relationship_id,
+		SubjectRelationship.all, :id, :to_s, :include_blank => true,
+		:label_text => 'relationship:' %>
+	<%= f.wrapped_text_field :other_guardian_relationship,
+		:label_text => 'other:' %>
+	</div><!-- class='name field_wrapper' -->
+
+

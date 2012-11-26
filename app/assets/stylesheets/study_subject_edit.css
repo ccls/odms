@@ -37,10 +37,23 @@ div.name > label {
 div.name div.field_wrapper {
 	margin-bottom: 0px;
 }
+div.name div.field_wrapper select,
 div.name div.field_wrapper input {
 	margin-left: 10px;
 	margin-right: 20px;
 }
 div.name.maiden {
 	margin-left: 420px;
+}
+div.guardian_relationship {
+	margin-left: 100px;
+}
+div.guardian_relationship_id label {
+	padding-right:10px;
+}
+div.other_guardian_relationship {
+	display: inline;
+}
+div.name * {
+	vertical-align: top;
 }

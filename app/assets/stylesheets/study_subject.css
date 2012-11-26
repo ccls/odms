@@ -4,3 +4,8 @@
 .study_subject .state_id_no.field_wrapper span.label {
 	width: auto;
 }
+.mother_maiden_name,
+.guardian_relationship,
+.other_guardian_relationship {
+	margin-left: 50px;
+}
