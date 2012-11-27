@@ -120,6 +120,7 @@ p.subconsent {
 span.refused_by { display:block; }
 
 
+.phone_number,
 .line_1 {
 	margin-right: 20px;
 	vertical-align:top;
@@ -128,6 +129,7 @@ span.refused_by { display:block; }
 .unit label { width:auto; }
 input.zip   { width:100px; }
 .unit input { width:100px; }
+.is_primary,
 .unit {
 	clear:none;
 	vertical-align:top;

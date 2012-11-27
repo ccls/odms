@@ -41,8 +41,9 @@ protected
 			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
 			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
 			'phone_numbers_attributes' => {
-				'0' => default_raf_phone_number_attributes.merge(
-					'is_primary' => true ),
+				'0' => default_raf_phone_number_attributes,
+#				'0' => default_raf_phone_number_attributes.merge(
+#					'is_primary' => true ),
 				'1' => default_raf_phone_number_attributes
 			}
 		})

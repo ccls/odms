@@ -57,6 +57,8 @@
 	@raf_phone_numbers[0] do |phone_number_fields| %>
  <%= phone_number_fields.wrapped_text_field :phone_number,
    :label_text => 'phone number:' %>
+<%= phone_number_fields.wrapped_check_box :is_primary,
+	:label_text => 'primary?' %>
 <% end -%>
 <%#= f.fields_for :phone_numbers, 
 	@study_subject.phone_numbers[1] do |phone_number_fields| %>
@@ -64,6 +66,8 @@
 	@raf_phone_numbers[1..-1] do |phone_number_fields| %>
  <%= phone_number_fields.wrapped_text_field :phone_number,
    :label_text => 'alternate phone:' %>
+<%= phone_number_fields.wrapped_check_box :is_primary,
+	:label_text => 'primary?' %>
 <% end -%>
 
 </div><!-- class='current_address' -->
