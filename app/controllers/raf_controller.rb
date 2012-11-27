@@ -64,7 +64,8 @@ protected
 		raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?
 
 		#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
-		if params[:commit].blank? or params[:commit] == 'Submit'
+#		if params[:commit].blank? or params[:commit] == 'Submit'
+		if params[:commit].blank? or params[:commit] == 'New Case'
 			@duplicates = @study_subject.duplicates
 			raise StudySubject::DuplicatesFound unless @duplicates.empty?
 		end
@@ -86,6 +87,7 @@ protected
 			end
 
 		#	params[:commit].blank? or params[:commit] == 'Submit' 
+		#	params[:commit].blank? or params[:commit] == 'New Case' 
 		#		or params[:commit] == 'No Match'
 		else 
 			#	No duplicates found or if there were, not matches.
