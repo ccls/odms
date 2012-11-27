@@ -1,32 +1,11 @@
 <div class='consent raf_section'>
 
-<%#
-	radio_button(object_name, method, tag_value, options = {})
-	label(object_name, method, content_or_options = nil, options = nil, &block)
-	check_box(object_name, method, options = {}, checked_value = "1", unchecked_value = "0")
-	text_area(object_name, method, options = {})
-%>
-
-<%#
-
-
-	Now that this will be used for editting, the following enrollment is
-	JUST FOR THE CCLS ENROLLMENT.  No other project.
-
-	This should be interesting.
-
-%>
-<%# @study_subject.enrollments.build if @study_subject.enrollments.empty? %>
-<%#= f.fields_for :enrollments do |enrollment_fields| %>
 <% @study_subject.enrollments.build(
 	:project_id => Project['ccls'].id ) if @study_subject.enrollments.empty? %>
-<%# can't use where as that would require it be in the database
-	and a new subject's enrollment won't be.  This seems to work.  %>
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :enrollments, @study_subject.enrollments.detect{|e|
 	e.project_id == Project['ccls'].id } do |enrollment_fields| %>
-
 
 <p>
 <%= enrollment_fields.radio_button :consented, 1 %>
@@ -35,21 +14,11 @@
 	:value => 1 %>
 </p>
 
-<%#
-Control Source: document_versions.title where document_type_id = document_types.id for document_types.title = "consent"
-
-NOT ALL DOCUMENT VERSIONS?
-
- collection_select(object, method, collection, value_method, text_method, options = {}, html_options = {}) 
-%>
 <p class='subconsent'>
 <%# having label_text here created all sorts of problems and quiet failures! %>
 <%# enrollment_fields.label :consented_on, :label_text => "consent date:" %>
 <%= enrollment_fields.label :consented_on, "consent date:" %>
 <%= enrollment_fields.date_text_field :consented_on  %>
-<!--&nbsp;consent version:
-<%#= enrollment_fields.collection_select :document_version_id,
-	 DocumentVersion.all, :id, :to_s, :include_blank => true  %>-->
 </p>
 <p class='subconsent'>(from consent signature page, if available at RAF entry)</p>
 

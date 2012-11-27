@@ -1,28 +1,11 @@
 <div class='current_address raf_section'>
 
 <p>child's current home address</p>
-<%#
-#
-#
-#	This will require modification for editting ONLY THE RAF ADDRESSES AND PHONE NUMBERS
-#
-#	can't use detect as want all not just the first
-#
-%>
-<%# @study_subject.enrollments.build(
-	:project_id => Project['ccls'].id ) if @study_subject.enrollments.empty? %>
-<%# can't use where as that would require it be in the database
-	and a new subject's enrollment won't be.  This seems to work.  %>
-<%#= f.fields_for :enrollments, @study_subject.enrollments.detect{|e|
-	e.project_id == Project['ccls'].id } do |enrollment_fields| %>
 
 <% @raf_addressings = @study_subject.addressings.select{|a|
 	a.data_source_id == DataSource['raf'].id} %>
 <% @raf_addressings << @study_subject.addressings.build(
 	:data_source_id => DataSource['raf'].id) if @raf_addressings.empty? %>
-
-<%# @study_subject.addressings.build if @study_subject.addressings.empty? %>
-<%#= f.fields_for :addressings do |addressing_fields| %>
 
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
@@ -48,9 +31,6 @@
 <% @raf_phone_numbers << @study_subject.phone_numbers.build(
 	:data_source_id => DataSource['raf'].id) while @raf_phone_numbers.length < 2 %>
 
-<%# @study_subject.phone_numbers.build while( @study_subject.phone_numbers.length < 2 ) %>
-<%#= f.fields_for :phone_numbers, 
-	@study_subject.phone_numbers[0] do |phone_number_fields| %>
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :phone_numbers, 
@@ -60,8 +40,6 @@
 <%= phone_number_fields.wrapped_check_box :is_primary,
 	:label_text => 'primary?' %>
 <% end -%>
-<%#= f.fields_for :phone_numbers, 
-	@study_subject.phone_numbers[1] do |phone_number_fields| %>
 <%= f.fields_for :phone_numbers, 
 	@raf_phone_numbers[1..-1] do |phone_number_fields| %>
  <%= phone_number_fields.wrapped_text_field :phone_number,
