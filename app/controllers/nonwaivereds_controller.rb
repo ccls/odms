@@ -1,4 +1,5 @@
-class NonwaiveredsController < RafController
+#class NonwaiveredsController < RafController
+class NonwaiveredsController < ApplicationController
 #
 #	def new
 #		@hospitals = Hospital.active.nonwaivered.includes(:organization)
