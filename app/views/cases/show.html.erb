@@ -144,6 +144,8 @@
 	<% @phone_number = p %>
 	<%= wrapped_spans :phone_number, :phone_number,
 		:label_text => 'phone number:' %>
+	<%= wrapped_spans :phone_number, :is_primary,
+		:label_text => 'primary?:' %>
 <% end %>
 </div><!-- class='current_address' -->
 
