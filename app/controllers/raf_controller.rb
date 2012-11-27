@@ -51,44 +51,9 @@ protected
 		mark_as_eligible(study_subject_params)
 		@study_subject = StudySubject.new(study_subject_params)
 
-		warn = []
+		@warn = []
 
-#
-#	Should I be checking the params or the built objects after #new?
-#	This logic will probably be used with update as well so use the objects.
-#
-
-
-		if( !@study_subject.dob.blank? and
-			!@study_subject.patient.nil? and
-			!@study_subject.patient.was_under_15_at_dx.blank? and
-			!@study_subject.patient.admit_date.blank? )
-
-			was_under_15 = @study_subject.patient.was_under_15_at_dx
-			admit_date = @study_subject.patient.admit_date
-			dob = @study_subject.dob
-
-
-#
-#		if( !study_subject_params['dob'].blank? and
-#			 study_subject_params['patient_attributes'].is_a?(Hash) and
-#			!study_subject_params['patient_attributes']['was_under_15_at_dx'].blank? and
-#			!study_subject_params['patient_attributes']['admit_date'].blank? )
-#
-#			was_under_15 = study_subject_params['patient_attributes']['was_under_15_at_dx'].to_i
-#			admit_date = Date.parse(study_subject_params['patient_attributes']['admit_date'])
-#			dob = Date.parse(study_subject_params['dob'])
-#
-			fifteenth_birthday = dob.to_date + 15.years
-			calc_was_under_15 = ( admit_date.to_date < fifteenth_birthday ) ? 
-				YNDK[:yes] : YNDK[:no]
-
-			#	this will also be triggered if the dates are reverse (admit before dob)
-			if calc_was_under_15 != was_under_15
-				warn << "Under 15 selection does not match computed value."
-				raise StudySubject::InconsistencyFound
-			end
-		end
+		check_was_under_15(@study_subject)
 
 		#	protected attributes
 		@study_subject.subject_type_id   = SubjectType['Case'].id	
@@ -115,7 +80,7 @@ protected
 				#
 				#	Match Found, but no duplicate_id or subject with the id
 				#
-				warn << "No valid duplicate_id given"
+				@warn << "No valid duplicate_id given"
 				raise StudySubject::DuplicatesFound unless @duplicates.empty?
 			end
 
@@ -132,16 +97,16 @@ protected
 			end
 
 			if @study_subject.icf_master_id.blank?
-				warn << "Case was not assigned an icf_master_id."
+				@warn << "Case was not assigned an icf_master_id."
 			end
 #			if @study_subject.mother.icf_master_id.blank?
 #
 #	If mother is nil, we've got other problems
 #
 			if @study_subject.mother.try(:icf_master_id).blank?
-				warn << "Mother was not assigned an icf_master_id."
+				@warn << "Mother was not assigned an icf_master_id."
 			end
-			flash[:warn] = warn.join('<br/>') unless warn.empty?
+			flash[:warn] = @warn.join('<br/>') unless @warn.empty?
 			redirect_to @study_subject
 			Notification.raf_submitted(@study_subject).deliver
 		end
@@ -153,11 +118,11 @@ protected
 		render :action => 'new'
 	rescue StudySubject::DuplicatesFound
 		flash.now[:error] = "Possible Duplicate(s) Found."
-		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
+		flash.now[:warn] = @warn.join('<br/>') unless @warn.empty?
 		render :action => 'new'
 	rescue StudySubject::InconsistencyFound
 		flash.now[:error] = "Possible Inconsistency(s) Found."
-		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
+		flash.now[:warn] = @warn.join('<br/>') unless @warn.empty?
 		render :action => 'new'
 	end
 
@@ -238,6 +203,23 @@ protected
 				!address['zip'].blank?
 			#	On validation failure, this will be visible on the re-rendered view.
 			address['line_1'] = '[no address provided]'
+		end
+	end
+
+	def check_was_under_15(study_subject)
+		if( !study_subject.dob.blank? and
+				!study_subject.patient.nil? and
+				!study_subject.patient.was_under_15_at_dx.blank? and
+				!study_subject.patient.admit_date.blank? )
+			fifteenth_birthday = study_subject.dob.to_date + 15.years
+			calc_was_under_15 = ( 
+				study_subject.patient.admit_date.to_date < fifteenth_birthday ) ? 
+					YNDK[:yes] : YNDK[:no]
+			#	this will also be triggered if the dates are reverse (admit before dob)
+			if calc_was_under_15 != study_subject.patient.was_under_15_at_dx
+				@warn << "Under 15 selection does not match computed value."
+				raise StudySubject::InconsistencyFound
+			end
 		end
 	end
 
