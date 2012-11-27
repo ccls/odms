@@ -339,7 +339,6 @@ class CasesControllerTest < ActionController::TestCase
 			put :update, :id => study_subject.id,
 				:study_subject => {}
 			assert assigns(:study_subject)
-			assert assigns(:hospitals)
 			assert_not_nil flash[:error]
 			assert_response :success
 			assert_template 'edit'
@@ -353,7 +352,6 @@ class CasesControllerTest < ActionController::TestCase
 			put :update, :id => study_subject.id,
 				:study_subject => {}
 			assert assigns(:study_subject)
-			assert assigns(:hospitals)
 			assert_not_nil flash[:error]
 			assert_response :success
 			assert_template 'edit'

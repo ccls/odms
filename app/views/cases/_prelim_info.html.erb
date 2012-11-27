@@ -7,14 +7,14 @@
 	<p><%= patient_fields.label :organization_id,
 		"#{req('*')}&nbsp;treating institution:".html_safe %></p>
 
-<% if @study_subject.try(:patient).try(:organization) %>
-  <span><%= @study_subject.try(:patient).try(:organization) -%></span>
-  <%= patient_fields.hidden_field :organization_id, 
-		:value => @study_subject.try(:patient).try(:organization_id) %>
-<% else %>
-  <%= patient_fields.collection_select :organization_id, @hospitals,
-		:organization_id, :to_s, :include_blank => true %>
-<% end %>
+<%#
+	While it is not conventional, why bother doing this in the controller
+	when it would be more clear when done right here where it is needed?
+%>
+<%= patient_fields.collection_select :organization_id, 
+	([@study_subject.organization.try(:hospital)]+Hospital.active.includes(:organization)
+		.order('organizations.name ASC')).compact.uniq,
+	:organization_id, :to_s, :include_blank => true %>
 
 </div><!-- class='organization_id' -->
 

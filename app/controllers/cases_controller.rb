@@ -1,5 +1,6 @@
 class CasesController < ApplicationController
-#class CasesController < RafController
+
+	class Under15InconsistencyFound < StandardError; end
 
 	before_filter :may_create_study_subjects_required,
 		:only => [:new,:create,:show,:index]
@@ -39,69 +40,18 @@ class CasesController < ApplicationController
 	#	This is the beginning of a new RAF entry
 	#
 	def new
-		@hospitals = Hospital.active.includes(:organization)
-			.order('organizations.name ASC')
-
-
 		@study_subject = StudySubject.new
-
-
-
 	end
 
-#	def create
-#		#	use find by id rather than just find so that 
-#		#	it returns nil rather than raise an error if not found
-#		if params[:hospital_id] and
-#			( hospital = Hospital.where( :id => params[:hospital_id] ).first )
-#
-#			new_params = { :study_subject => {
-#				:patient_attributes => {
-#					:organization_id => hospital.organization_id
-#			} } }
-#			if hospital.has_irb_waiver
-#				redirect_to new_waivered_path(new_params)
-#			else
-#				redirect_to new_nonwaivered_path(new_params)
-#			end
-#		else
-#			flash[:error] = 'Please select an organization'
-#			redirect_to new_case_path
-#		end
-#	end
-
-#
-#	If the RAF/Waivered/Nonwaivered thing goes away,
-#	move all of the RafController code into this controller.
-#
-
 	def create
-#		@study_subject = StudySubject.new(params[:study_subject])
-#		@study_subject.save!
-
-		@hospitals = Hospital.active.includes(:organization)
-			.order('organizations.name ASC')
 		study_subject_params = params[:study_subject].dup.to_hash
 		common_raf_create(study_subject_params)
-
-#		flash[:notice] = 'Success!'
-#		redirect_to case_path(@study_subject)
-#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-#		@hospitals = Hospital.active.includes(:organization)
-#			.order('organizations.name ASC')
-#		flash.now[:error] = "There was a problem creating the study_subject"
-#		render :action => "new"
 	end
 
 	def edit
-		@hospitals  = [@study_subject.organization.try(:hospital)].compact
-		@hospitals += Hospital.active.includes(:organization)
-			.order('organizations.name ASC')
 		render :layout => 'subject'
 	end
-#
-#	move the hospital logic into view one merge complete
-#
+
 	def update
 		params[:study_subject] ||= HashWithIndifferentAccess.new
 		#	set defaults for addresses WITHOUT EXISTING IDs
@@ -130,9 +80,6 @@ class CasesController < ApplicationController
 		flash[:notice] = "Subject successfully updated, I think. ;)"
 		redirect_to case_path(@study_subject)
 	rescue
-		@hospitals  = [@study_subject.organization.try(:hospital)].compact
-		@hospitals += Hospital.active.includes(:organization)
-			.order('organizations.name ASC')
 		flash.now[:error] = "There was a problem updating the study_subject"
 		render :action => 'edit', :layout => 'subject'
 	end
@@ -156,38 +103,6 @@ protected
 			access_denied("Valid case study_subject required!", @study_subject)
 		end
 	end
-
-#end
-#class RafController < ApplicationController
-#
-#	before_filter :may_create_study_subjects_required
-
-#
-#	Created this non-directly-used controller simply to share the 
-#	following with Waivered and Nonwaivered Controllers
-#
-
-	class Under15InconsistencyFound < StandardError; end
-
-#protected
-
-
-
-
-	def common_raf_update(incoming_params)
-#
-#	Now, on this new RAF update, some things may be created as they were
-#	not yet known at the time of creation.  Phone numbers and addresses are
-#	the most likely.  Should set the defaults for them ONLY IF THEY DON'T HAVE IDs ALREADY.
-#
-#	The CCLS enrollment should be created on or after subject create
-#	so setting project_id on update is unnecessary.
-#
-	end
-
-
-
-
 
 	def common_raf_create(incoming_params)
 		#
@@ -285,7 +200,6 @@ protected
 		flash.now[:error] = "Possible Duplicate(s) Found."
 		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
 		render :action => 'new'
-#	rescue StudySubject::InconsistencyFound
 	rescue Under15InconsistencyFound
 		flash.now[:error] = "Under 15 Inconsistency Found."
 		flash.now[:warn]  = "Under 15 selection does not match computed value."
@@ -383,8 +297,6 @@ protected
 					YNDK[:yes] : YNDK[:no]
 			#	this will also be triggered if the dates are reverse (admit before dob)
 			if calc_was_under_15 != study_subject.patient.was_under_15_at_dx
-#				@warn << "Under 15 selection does not match computed value."
-#				raise StudySubject::InconsistencyFound
 				raise Under15InconsistencyFound
 			end
 		end
