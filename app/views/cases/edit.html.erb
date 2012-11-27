@@ -7,10 +7,11 @@
 	:html => { :class => 'raf edit_study_subject' } ) do |f| %>
 <%= f.error_messages %>
 
+<div class='study_subject_fields'>
 <%= render 'form', :f => f  %>
-
 <p class='submit_bar'>
 <%= f.submit 'Save', :id => nil, :name => nil %>
 <%= link_to 'Cancel', case_path(@study_subject),:class => 'button' %>
 </p>
+</div><!-- class='study_subject_fields' -->
 <% end %>

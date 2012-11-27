@@ -8,16 +8,13 @@
 
 <%= f.error_messages %>
 
-
-
 <%= render( :partial => 'raf/duplicates', 
 	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>
-
-
-
+<%# if duplicates exist, the stylesheets will hide "div.study_subject_fields" %>
+<div class='study_subject_fields'>
 <%= render 'form', :f => f  %>
-
 <p class='submit_bar'>
 <%= f.submit 'New Case', :id => nil, :name => nil %>
 </p>
+</div><!-- class='study_subject_fields' -->
 <% end %>
