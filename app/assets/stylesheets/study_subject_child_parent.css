@@ -1,0 +1,23 @@
+.names input {
+	width: 100px;
+}
+.names .tablerow {
+	margin-left: 20px;
+}
+.names .tablerow > span {
+	width: 120px;
+	display:inline-block;
+	text-align:center;
+}
+.names .tablerow p.guardian {
+	display:inline-block;
+	margin-left: -20px;
+	width: 390px;
+}
+/* needs to be wider to fit the subject relationship selector */
+.names .tablerow span.big {
+	width: 210px;
+}
+.names p {
+	margin-bottom: 0;
+}
