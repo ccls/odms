@@ -437,7 +437,7 @@ class CasesControllerTest < ActionController::TestCase
 							'was_under_15_at_dx' => YNDK[:no] }  })
 			end
 			assert_not_nil flash[:error]
-			assert_match /Possible Inconsistency\(s\) Found/, flash[:error]
+			assert_match /Under 15 Inconsistency Found/, flash[:error]
 			assert_not_nil flash[:warn]
 			assert_match /Under 15 selection does not match computed value/, 
 				flash[:warn]
@@ -458,7 +458,7 @@ class CasesControllerTest < ActionController::TestCase
 							'was_under_15_at_dx' => YNDK[:yes] }  })
 			end
 			assert_not_nil flash[:error]
-			assert_match /Possible Inconsistency\(s\) Found/, flash[:error]
+			assert_match /Under 15 Inconsistency Found/, flash[:error]
 			assert_not_nil flash[:warn]
 			assert_match /Under 15 selection does not match computed value/, 
 				flash[:warn]
