@@ -148,12 +148,35 @@ class CasesController < ApplicationController
 		study_subject_params = ( params[:study_subject] || Hash.new ).to_hash
 		add_default_raf_addressing_attributes(study_subject_params)
 		add_default_raf_phone_number_attributes(study_subject_params)
-		@study_subject.update_attributes!(study_subject_params)
+
+
+		@study_subject.assign_attributes(study_subject_params)
+		check_was_under_15(@study_subject)
+		@study_subject.save!
+
+
+#		@study_subject.update_attributes!(study_subject_params)
 
 		flash[:notice] = "Subject successfully updated, I think. ;)"
 		redirect_to case_path(@study_subject)
-	rescue
-		flash.now[:error] = "There was a problem updating the study_subject"
+#	rescue	#	TOO GENERIC AND DANGEROUS
+#		flash.now[:error] = "There was a problem updating the study_subject"
+#		render :action => 'edit', :layout => 'subject'
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+		flash.now[:error] = "StudySubject creation failed"
+		render :action => 'edit', :layout => 'subject'
+#	rescue ActiveRecord::StatementInvalid => e
+#		UNLIKELY TO HAPPEN ON UPDATE
+#		flash.now[:error] = "Database error.  Check production logs and contact Jake."
+#		render :action => 'edit', :layout => 'subject'
+#	rescue StudySubject::DuplicatesFound
+#		NOT CHECKED ON UPDATE
+#		flash.now[:error] = "Possible Duplicate(s) Found."
+#		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
+#		render :action => 'edit', :layout => 'subject'
+	rescue Under15InconsistencyFound
+		flash.now[:error] = "Under 15 Inconsistency Found."
+		flash.now[:warn]  = "Under 15 selection does not match computed value."
 		render :action => 'edit', :layout => 'subject'
 	end
 
