@@ -6,7 +6,8 @@ class CasesControllerDuplicatesTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		%w( waivered nonwaivered ).each do |w|
+#		%w( waivered nonwaivered ).each do |w|
+		%w( waivered ).each do |w|
 
 	#	Case subjects: Have the same hospital_no (patient.hospital_no) as the new subject
 	#	Only cases have a patient record, so not explicit check for Case is done.

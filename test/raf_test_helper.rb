@@ -81,34 +81,34 @@ module RafTestHelper
 			post :create, complete_case_study_subject_attributes(options) }
 	end
 
-	def minimum_nonwaivered_form_attributes(options={})
-		{ 'study_subject' => Factory.attributes_for(:minimum_nonwaivered_form_attributes
-			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
-	end
-
-	def nonwaivered_form_attributes(options={})
-		{ 'study_subject' => Factory.attributes_for(:nonwaivered_form_attributes
-				) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
-	end
-
-	def nonwaivered_successful_creation(options={})
-		successful_raf_creation { 
-			post :create, nonwaivered_form_attributes(options) }
-	end
-
-	def minimum_nonwaivered_successful_creation(options={})
-		assert_difference('SubjectLanguage.count',0){
-		assert_difference('PhoneNumber.count',0){
-		assert_difference('Addressing.count',1){
-		assert_difference('Address.count',1){
-		assert_difference('Enrollment.count',2){	#	both child and mother
-		assert_difference('Patient.count',1){
-		assert_difference('StudySubject.count',2){
-			post :create, minimum_nonwaivered_form_attributes(options)
-		} } } } } } }
-		assert_nil flash[:error]
-		assert_redirected_to assigns(:study_subject)
-	end
+#	def minimum_nonwaivered_form_attributes(options={})
+#		{ 'study_subject' => Factory.attributes_for(:minimum_nonwaivered_form_attributes
+#			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+#	end
+#
+#	def nonwaivered_form_attributes(options={})
+#		{ 'study_subject' => Factory.attributes_for(:nonwaivered_form_attributes
+#				) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
+#	end
+#
+#	def nonwaivered_successful_creation(options={})
+#		successful_raf_creation { 
+#			post :create, nonwaivered_form_attributes(options) }
+#	end
+#
+#	def minimum_nonwaivered_successful_creation(options={})
+#		assert_difference('SubjectLanguage.count',0){
+#		assert_difference('PhoneNumber.count',0){
+#		assert_difference('Addressing.count',1){
+#		assert_difference('Address.count',1){
+#		assert_difference('Enrollment.count',2){	#	both child and mother
+#		assert_difference('Patient.count',1){
+#		assert_difference('StudySubject.count',2){
+#			post :create, minimum_nonwaivered_form_attributes(options)
+#		} } } } } } }
+#		assert_nil flash[:error]
+#		assert_redirected_to assigns(:study_subject)
+#	end
 
 	def minimum_waivered_form_attributes(options={})
 		{ 'study_subject' => Factory.attributes_for(:minimum_waivered_form_attributes

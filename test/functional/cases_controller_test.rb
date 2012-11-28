@@ -570,7 +570,8 @@ pending
 #
 	
 
-		%w( waivered nonwaivered ).each do |w|
+#		%w( waivered nonwaivered ).each do |w|
+		%w( waivered ).each do |w|
 	
 			test "should create #{w} case study_subject enrolled in ccls" <<
 					" with #{cu} login" do
