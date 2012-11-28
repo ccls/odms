@@ -74,6 +74,7 @@ base.class_eval do
 			was_under_15 = ( my_patient.admit_date.to_date < fifteenth_birthday ) ? 
 				YNDK[:yes] : YNDK[:no]
 
+			#	use update_all to avoid all callbacks (would be cyclic)
 			Patient.update_all(
 				{ :was_under_15_at_dx => was_under_15 }, 
 				{ :id => my_patient.id })

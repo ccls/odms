@@ -30,6 +30,8 @@ class Patient < ActiveRecord::Base
 
 	after_save :trigger_setting_was_under_15_at_dx,
 		:if => :admit_date_changed?
+	after_save :trigger_setting_was_under_15_at_dx,
+		:if => :was_under_15_at_dx_changed?
 
 	after_save :reindex_study_subject!
 
@@ -116,6 +118,7 @@ protected
 		logger.debug "DEBUG: calling update_patient_was_under_15_at_dx from " <<
 			"Patient:#{self.attributes['id']}"
 		logger.debug "DEBUG: Admit date changed from:#{admit_date_was}:to:#{admit_date}"
+		logger.debug "DEBUG: was_under_15_at_dx changed from:#{was_under_15_at_dx_was}:to:#{was_under_15_at_dx}"
 		if study_subject
 			logger.debug "DEBUG: study_subject:#{study_subject.id}"
 			study_subject.update_patient_was_under_15_at_dx

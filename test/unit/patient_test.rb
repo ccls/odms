@@ -518,6 +518,18 @@ class PatientTest < ActiveSupport::TestCase
 		assert_equal YNDK[:yes], study_subject.patient.reload.was_under_15_at_dx
 	end
 
+	test "should set was_under_15_at_dx on was_under_15_at_dx change" do
+		study_subject = create_case_study_subject(
+			:dob => 20.years.ago.to_date,
+			:patient_attributes => Factory.attributes_for(:patient,{
+				:admit_date => 1.year.ago.to_date
+			})
+		).reload
+		assert_equal YNDK[:no], study_subject.patient.was_under_15_at_dx
+		study_subject.patient.update_attributes(:was_under_15_at_dx => YNDK[:dk])
+		assert_equal YNDK[:yes], study_subject.patient.reload.was_under_15_at_dx
+	end
+
 	test "should require 5 or 9 digit raf_zip" do
 		%w( asdf 1234 123456 1234Q ).each do |bad_zip|
 			assert_difference( "Patient.count", 0 ) do
