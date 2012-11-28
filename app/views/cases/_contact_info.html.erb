@@ -16,12 +16,12 @@
 <%= address_fields.wrapped_text_field :unit, :label_text => 'Apt.' %>
 
   <div class='field_wrapper csz'>
-   <%= address_fields.label :city, 'City, State Zip' -%><%= address_fields.text_field :city %>
+   <%= address_fields.label :city, 'City, State Zip' -%><%= address_fields.text_field :city, :class => :city %>
    <%= address_fields.select :state, State.abbreviations, 
-		{:include_blank => true}, :class => 'state' %>
-   <%= address_fields.text_field :zip, :class => :zip %>
+		{:include_blank => true}, :class => :state %>
+   <%= address_fields.text_field :zip, :class => :zip_field %>
   </div>
-  <%= address_fields.wrapped_text_field :county, :class => 'county_field' %>
+  <%= address_fields.wrapped_text_field :county, :class => :county_field %>
  <% end %><%#= addressing_fields.fields_for :address do |address_fields| %>
 <hr/>
 <% end %><%#= f.fields_for :addressings do |addressing_fields| %>
