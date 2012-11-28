@@ -44,67 +44,6 @@ class CasesController < ApplicationController
 	end
 
 	def create
-		study_subject_params = params[:study_subject].dup.to_hash
-		common_raf_create(study_subject_params)
-	end
-
-	def edit
-		render :layout => 'subject'
-	end
-
-	def update
-		params[:study_subject] ||= HashWithIndifferentAccess.new
-		#	set defaults for addresses WITHOUT EXISTING IDs
-		params[:study_subject]['addressings_attributes'].each_pair do |k,v|
-			unless params[:study_subject]['addressings_attributes'][k].has_key?('id')
-				params[:study_subject]['addressings_attributes'][k] = 
-					#	must use deep_merge as contains address_attributes
-					default_raf_addressing_attributes.deep_merge(
-						params[:study_subject]['addressings_attributes'][k])
-				allow_blank_address_line_1_for(
-					params[:study_subject]['addressings_attributes'][k]['address_attributes'])
-			end
-		end if params[:study_subject].has_key?('addressings_attributes')
-
-		#	set defaults for phone numbers WITHOUT EXISTING IDs
-		params[:study_subject]['phone_numbers_attributes'].each_pair do |k,v|
-			unless params[:study_subject]['phone_numbers_attributes'][k].has_key?('id')
-				params[:study_subject]['phone_numbers_attributes'][k] = 
-					default_raf_phone_number_attributes.merge(
-						params[:study_subject]['phone_numbers_attributes'][k])
-			end
-		end if params[:study_subject].has_key?('phone_numbers_attributes')
-
-		@study_subject.update_attributes!(params[:study_subject])
-
-		flash[:notice] = "Subject successfully updated, I think. ;)"
-		redirect_to case_path(@study_subject)
-	rescue
-		flash.now[:error] = "There was a problem updating the study_subject"
-		render :action => 'edit', :layout => 'subject'
-	end
-
-	def show
-		render :layout => 'subject'
-	end
-
-protected
-
-	def valid_id_required
-		if !params[:id].blank? and StudySubject.exists?(params[:id])
-			@study_subject = StudySubject.find(params[:id])
-		else
-			access_denied("Valid study_subject id required!", root_path)
-		end
-	end
-
-	def case_study_subject_required
-		unless @study_subject.is_case?
-			access_denied("Valid case study_subject required!", @study_subject)
-		end
-	end
-
-	def common_raf_create(incoming_params)
 		#
 		#	Add defaults that are not on the forms.
 		#	This is ugly, but they are required, so either here or 
@@ -114,18 +53,15 @@ protected
 		#	convert to hash, but MUST use string keys, not symbols as
 		#		real requests do not send symbols
 		#
-		study_subject_params = incoming_params.deep_merge({
-			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } },
-			'addressings_attributes' => { '0' => default_raf_addressing_attributes },
-			'phone_numbers_attributes' => {
-				'0' => default_raf_phone_number_attributes,
-#				'0' => default_raf_phone_number_attributes.merge(
-#					'is_primary' => true ),
-				'1' => default_raf_phone_number_attributes
-			}
+#
+#	hashes are passed as references and so are modified and don't need explicitly updated
+#
+		study_subject_params = params[:study_subject].to_hash.deep_merge({
+			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } }
 		})
+		add_default_raf_addressing_attributes(study_subject_params)
+		add_default_raf_phone_number_attributes(study_subject_params)
 
-		allow_blank_address_line_1(study_subject_params)
 		mark_as_eligible(study_subject_params)
 		@study_subject = StudySubject.new(study_subject_params)
 
@@ -141,7 +77,6 @@ protected
 		raise ActiveRecord::RecordInvalid.new(@study_subject) unless @study_subject.valid?
 
 		#	regular create submit	#	tests DO NOT SEND params[:commit] = 'Submit'
-#		if params[:commit].blank? or params[:commit] == 'Submit'
 		if params[:commit].blank? or params[:commit] == 'New Case'
 			@duplicates = @study_subject.duplicates
 			raise StudySubject::DuplicatesFound unless @duplicates.empty?
@@ -163,7 +98,6 @@ protected
 				raise StudySubject::DuplicatesFound unless @duplicates.empty?
 			end
 
-		#	params[:commit].blank? or params[:commit] == 'Submit' 
 		#	params[:commit].blank? or params[:commit] == 'New Case' 
 		#		or params[:commit] == 'No Match'
 		else 
@@ -206,6 +140,43 @@ protected
 		render :action => 'new'
 	end
 
+	def edit
+		render :layout => 'subject'
+	end
+
+	def update
+		study_subject_params = ( params[:study_subject] || Hash.new ).to_hash
+		add_default_raf_addressing_attributes(study_subject_params)
+		add_default_raf_phone_number_attributes(study_subject_params)
+		@study_subject.update_attributes!(study_subject_params)
+
+		flash[:notice] = "Subject successfully updated, I think. ;)"
+		redirect_to case_path(@study_subject)
+	rescue
+		flash.now[:error] = "There was a problem updating the study_subject"
+		render :action => 'edit', :layout => 'subject'
+	end
+
+	def show
+		render :layout => 'subject'
+	end
+
+protected
+
+	def valid_id_required
+		if !params[:id].blank? and StudySubject.exists?(params[:id])
+			@study_subject = StudySubject.find(params[:id])
+		else
+			access_denied("Valid study_subject id required!", root_path)
+		end
+	end
+
+	def case_study_subject_required
+		unless @study_subject.is_case?
+			access_denied("Valid case study_subject required!", @study_subject)
+		end
+	end
+
 	def default_raf_phone_number_attributes
 		{ 'current_user'   => current_user,
 			'current_phone'  => YNDK[:yes],
@@ -214,6 +185,17 @@ protected
 			'how_verified'   => 'provided on RAF',
 			'data_source_id' => DataSource['raf'].id,
 			'phone_type_id'  => PhoneType['home'].id }
+	end
+
+	def add_default_raf_phone_number_attributes(study_subject_params)
+		#	set defaults for phone numbers WITHOUT EXISTING IDs
+		study_subject_params['phone_numbers_attributes'].each_pair do |k,v|
+			unless study_subject_params['phone_numbers_attributes'][k].has_key?('id')
+				study_subject_params['phone_numbers_attributes'][k] = 
+					default_raf_phone_number_attributes.merge(
+						study_subject_params['phone_numbers_attributes'][k])
+			end
+		end if study_subject_params.has_key?('phone_numbers_attributes')
 	end
 
 	def default_raf_addressing_attributes
@@ -227,6 +209,20 @@ protected
 			'address_attributes' => { 
 				'address_type_id'  => AddressType['residence'].id
 		} }
+	end
+
+	def add_default_raf_addressing_attributes(study_subject_params)
+		#	set defaults for addresses WITHOUT EXISTING IDs
+		study_subject_params['addressings_attributes'].each_pair do |k,v|
+			unless study_subject_params['addressings_attributes'][k].has_key?('id')
+				study_subject_params['addressings_attributes'][k] = 
+					#	must use deep_merge as contains address_attributes
+					default_raf_addressing_attributes.deep_merge(
+						study_subject_params['addressings_attributes'][k])
+				allow_blank_address_line_1_for(
+					study_subject_params['addressings_attributes'][k]['address_attributes'])
+			end
+		end if study_subject_params.has_key?('addressings_attributes')
 	end
 
 	#	CAUTION: params come from forms as strings
@@ -272,8 +268,13 @@ protected
 
 	def allow_blank_address_line_1(default={})
 		#	as 'default' is a hash, 'address' is now just a pointer to part of it.
-		address = default['addressings_attributes']['0']['address_attributes']
-		allow_blank_address_line_1_for(address)
+#		address = default['addressings_attributes']['0']['address_attributes']
+#		allow_blank_address_line_1_for(address)
+		#	each_pair's value is apparently not a reference?
+		default['addressings_attributes'].each_pair { |k,v|
+			allow_blank_address_line_1_for(v) }
+#			allow_blank_address_line_1_for(
+#				default['addressings_attributes'][k]['address_attributes']) }
 	end
 
 	def allow_blank_address_line_1_for(address)

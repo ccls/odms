@@ -300,6 +300,54 @@ class CasesControllerTest < ActionController::TestCase
 			assert_redirected_to case_path(study_subject)
 		end
 
+		test "should update and create address with defaults and #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			login_as user = send(cu)
+			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
+				put :update, :id => study_subject.id, 
+					:study_subject => { 'addressings_attributes' => { 
+					'0' => { "address_attributes"=> Factory.attributes_for(:address) } } }
+			} }
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
+
+			addressing = assigns(:study_subject).addressings.first
+			assert addressing.is_verified
+			assert_not_nil addressing.how_verified
+			assert_equal addressing.data_source, DataSource['RAF']
+			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
+			assert_equal addressing.current_address, YNDK[:yes]
+			assert_equal addressing.is_valid, YNDK[:yes]
+			assert_equal addressing.verified_on, Date.today
+			assert_equal addressing.verified_by_uid, user.uid
+		end
+
+		test "should update address with #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			addressing = Factory(:addressing,:study_subject => study_subject)
+			assert_not_equal "ihavebeenupdated", addressing.address.line_1
+			login_as send(cu)
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+				put :update, :id => study_subject.id, 
+					:study_subject => { 'addressings_attributes' => { 
+						'0' => { :id => addressing.id,
+							"address_attributes"=> Factory.attributes_for(:address,
+								:line_1 => "ihavebeenupdated",
+								:id => addressing.address.id) 
+			} } } } }
+			assert_equal "ihavebeenupdated", addressing.address.reload.line_1
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
+		end
+
+		test "should update address and not overwrite with defaults with #{cu} login" do
+pending
+		end
+
 		test "should update and create phone number with #{cu} login" do
 			study_subject = Factory(:case_study_subject)
 			login_as send(cu)
@@ -311,6 +359,50 @@ class CasesControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
 			assert_redirected_to case_path(study_subject)
+		end
+
+		test "should update and create phone number with defaults and #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			login_as user = send(cu)
+			assert_difference('PhoneNumber.count',1) {
+				put :update, :id => study_subject.id, 
+					:study_subject => { 'phone_numbers_attributes' => { 
+					'0' => Factory.attributes_for(:phone_number
+						).delete_keys!(:is_valid,:is_verified) } }
+			}
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
+
+			phone_number = assigns(:study_subject).phone_numbers.first
+			assert phone_number.is_verified
+			assert_not_nil phone_number.how_verified
+			assert_equal phone_number.data_source, DataSource['RAF']
+			assert_equal phone_number.current_phone, YNDK[:yes]
+			assert_equal phone_number.is_valid, YNDK[:yes]
+			assert_equal phone_number.verified_on, Date.today
+			assert_equal phone_number.verified_by_uid, user.uid
+		end
+
+		test "should update phone number with #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			phone_number = Factory(:phone_number,:study_subject => study_subject,
+				:data_source => DataSource[:raf] )
+			number = phone_number.phone_number.gsub(/\D/,'')
+			login_as send(cu)
+			assert_difference('PhoneNumber.count',0) {
+				put :update, :id => study_subject.id, 
+					:study_subject => { 'phone_numbers_attributes' => { 
+						'0' => { :id => phone_number.id, :phone_number => number.reverse
+			} } } }
+			assert_not_nil assigns(:study_subject)
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
+			assert_not_equal phone_number.reload.phone_number, number
+		end
+
+		test "should update phone number and not overwrite with defaults with #{cu} login" do
+pending
 		end
 
 		test "should update and create address with blank line and #{cu} login" do
