@@ -52,7 +52,7 @@
 <%# unfortunately, I've allowed sex to be blank %>
 <%= wrapped_spans :study_subject, :sex,
 	:value => ( @study_subject.sex || '&nbsp;'.html_safe ),
-	:label_text => 'sex:' %>
+	:label_text => 'sex' %>
 
 <div class='diagnosis'>
 <%= wrapped_spans :patient, :diagnosis %>
