@@ -2,22 +2,22 @@ div.raf,
 form.raf {
 	border: 2px solid black;
 	border-top-width: 1px;
+	h3 {
+		background-color: gray;
+		color:white;
+		padding: 7px;
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
+		margin-top: 0;
+	}
+	h3 > span {
+		float:right;
+		font-size:10pt;
+		font-weight:normal;
+	}
 }
-div.raf h3,
-form.raf h3 {
-	background-color: gray;
-	color:white;
-	padding: 7px;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	margin-top: 0;
-}
-div.raf h3 > span,
-form.raf h3 > span {
-	float:right;
-	font-size:10pt;
-	font-weight:normal;
-}
+
+
 .raf_section {
 	clear:left;
 	margin:5px;
@@ -32,9 +32,11 @@ div.table > div.tablerow > div {
 	display:table-cell;
 	vertical-align:top;
 }
-.field_wrapper span.label,
-.field_wrapper label {
-	width: 160px;
+
+.field_wrapper {
+	span.label, label {
+		width: 160px;
+	}
 }
 
 
