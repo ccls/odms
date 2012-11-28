@@ -449,6 +449,13 @@ pending
 			assert_template 'edit'
 		end
 
+		test "should update and mark is_eligible yes with #{cu} login" do
+			pending
+		end
+
+		test "should update and mark is_eligible no with #{cu} login" do
+			pending
+		end
 
 
 
