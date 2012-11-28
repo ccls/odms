@@ -15,146 +15,128 @@ form.raf {
 		font-size:10pt;
 		font-weight:normal;
 	}
-}
 
-
-.raf_section {
-	clear:left;
-	margin:5px;
-}
-#errorExplanation {
-	margin:5px;
-}
-div.table > div {
-	display:table-row;
-}
-div.table > div.tablerow > div {
-	display:table-cell;
-	vertical-align:top;
-}
-
-.field_wrapper {
-	span.label, label {
-		width: 160px;
+	.raf_section {
+		clear:left;
+		margin:5px;
 	}
-}
-
-
-.names input {
-	width: 100px;
-}
-.names .tablerow {
-	margin-left: 20px;
-}
-.names .tablerow > span {
-	width: 120px;
-	display:inline-block;
-	text-align:center;
-}
-.names .tablerow p.guardian {
-	display:inline-block;
-	margin-left: -20px;
-	width: 390px;
-}
-/* needs to be wider to fit the subject relationship selector */
-.names .tablerow span.big {
-	width: 210px;
-}
-/*
-div.table > div.tablerow > div:nth-child(1) {
-	width:470px;
-}
-*/
-.organization_id p,
-.names p {
-	margin-bottom: 0;
-	width: auto;
-}
-
-.hospital_no span.label,
-.hospital_no label,
-.admitting_oncologist span.label,
-.admitting_oncologist label {
-	display:block;
-	width: 200px;
-}
-.raf_zip ,
-.diagnosis_id ,
-.admitting_oncologist ,
-.dob ,
-.hospital_no {
-	margin-right:10px;
-	float:right;
-	clear:none;
-}
-/*
-div.diagnosis_id label,
-	padding-right: 10px;
-	width:auto;
-}
-*/
-
-.raf_county label,
-.raf_zip label {
-	width:auto;
-	margin-right:10px;
-}
-
-#study_subject_patient_attributes_raf_zip,
-#study_subject_patient_attributes_raf_county {
-	width: 170px;
-}
-
-div.other_diagnosis {
-	float:right;
-	margin-right:10px;
-}
-div.diagnosis_id label,
-div.other_diagnosis label {
-	padding-right: 10px;
-	width:auto;
-}
-
-/*
-	Hide the study subject field on kickback when possible duplicates are found
-*/
-div#possible_duplicates + div.study_subject_fields {
-	display:none;
-}
-
-div.languages_label,
-div#languages,
-div.subject_language {
-	vertical-align:top;
-	display:inline-block;
-}
-
-p.subconsent {
-	margin-left:50px;
-}
-
-span.refused_by { display:block; }
-
-
-.phone_number,
-.line_1 {
-	margin-right: 20px;
-	vertical-align:top;
-	display:inline-block;
-}
-.unit label { width:auto; }
-input.zip   { width:100px; }
-.unit input { width:100px; }
-.is_primary,
-.unit {
-	clear:none;
-	vertical-align:top;
-	display:inline-block;
-}
-.is_primary span.label {
-	width:auto;
-}
-
-div.csz * {
-	vertical-align:middle;
+	#errorExplanation {
+		margin:5px;
+	}
+	div.table > div {
+		display:table-row;
+	}
+	div.table > div.tablerow > div {
+		display:table-cell;
+		vertical-align:top;
+	}
+	
+	.field_wrapper {
+		span.label, label {
+			width: 160px;
+		}
+	}
+	
+	.names {
+		input {
+			width: 100px;
+		}
+		.tablerow {
+			margin-left: 20px;
+			> span {
+				width: 120px;
+				display:inline-block;
+				text-align:center;
+			}
+			p.guardian {
+				display:inline-block;
+				margin-left: -20px;
+				width: 390px;
+			}
+			/* needs to be wider to fit the subject relationship selector */
+			span.big {
+				width: 210px;
+	}	}	}
+	
+	.organization_id p,
+	.names p {
+		margin-bottom: 0;
+		width: auto;
+	}
+	
+	.hospital_no, .admitting_oncologist {
+		span.label, label {
+			display:block;
+			width: 200px;
+	}	}
+	
+	.raf_zip ,
+	.diagnosis_id ,
+	.admitting_oncologist ,
+	.dob ,
+	.hospital_no {
+		margin-right:10px;
+		float:right;
+		clear:none;
+	}
+	
+	.raf_county, .raf_zip {
+		label {
+			width:auto;
+			margin-right:10px;
+	}	}
+	
+	#study_subject_patient_attributes_raf_zip,
+	#study_subject_patient_attributes_raf_county {
+		width: 170px;
+	}
+	
+	div.other_diagnosis {
+		float:right;
+		margin-right:10px;
+	}
+	div.diagnosis_id, div.other_diagnosis {
+		label {
+			padding-right: 10px;
+			width:auto;
+	}	}
+	
+	/* Hide the study subject field on kickback when possible duplicates are found */
+	div#possible_duplicates + div.study_subject_fields {
+		display:none;
+	}
+	
+	div.languages_label,
+	div#languages,
+	div.subject_language {
+		vertical-align:top;
+		display:inline-block;
+	}
+	
+	p.subconsent { margin-left:50px; }
+	
+	span.refused_by { display:block; }
+	
+	.phone_number,
+	.line_1 {
+		margin-right: 20px;
+		vertical-align:top;
+		display:inline-block;
+	}
+	.unit label { width:auto; }
+	input.zip   { width:100px; }
+	.unit input { width:100px; }
+	.is_primary,
+	.unit {
+		clear:none;
+		vertical-align:top;
+		display:inline-block;
+	}
+	.is_primary span.label {
+		width:auto;
+	}
+	
+	div.csz * {
+		vertical-align:middle;
+	}
 }
