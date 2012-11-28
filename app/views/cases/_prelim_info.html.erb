@@ -18,11 +18,7 @@
 
 </div><!-- class='organization_id' -->
 
-<div class='admitting_oncologist'>
-	<p><%= patient_fields.label :admitting_oncologist,
-		"admitting oncologist:".html_safe %></p>
-	<%= patient_fields.text_field :admitting_oncologist %>
-</div><!-- class='admitting_oncologist' -->
+<%= patient_fields.wrapped_text_field :admitting_oncologist %>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>
@@ -40,11 +36,7 @@
   </div><!-- class='child tablerow' -->
  </div><!-- class='names' -->
 
-<div class='hospital_no'>
-	<p><%= patient_fields.label :hospital_no, 
-		"#{req('*')}&nbsp;hospital record number:".html_safe %></p>
-	<%= patient_fields.text_field :hospital_no %>
-</div>
+	<%= patient_fields.wrapped_text_field :hospital_no %>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>

@@ -1,7 +1,9 @@
+div.raf,
 form.raf {
 	border: 2px solid black;
 	border-top-width: 1px;
 }
+div.raf h3,
 form.raf h3 {
 	background-color: gray;
 	color:white;
@@ -10,6 +12,7 @@ form.raf h3 {
 	border-bottom: 1px solid black;
 	margin-top: 0;
 }
+div.raf h3 > span,
 form.raf h3 > span {
 	float:right;
 	font-size:10pt;
@@ -61,12 +64,18 @@ div.table > div.tablerow > div:nth-child(1) {
 }
 */
 .organization_id p,
-.admitting_oncologist p,
-.hospital_no p,
 .names p {
 	margin-bottom: 0;
+	width: auto;
 }
 
+.hospital_no span.label,
+.hospital_no label,
+.admitting_oncologist span.label,
+.admitting_oncologist label {
+	display:block;
+	width: 200px;
+}
 .raf_zip ,
 .diagnosis_id ,
 .admitting_oncologist ,
@@ -83,6 +92,11 @@ div.diagnosis_id label,
 }
 */
 
+.raf_county label,
+.raf_zip label {
+	width:auto;
+	margin-right:10px;
+}
 
 #study_subject_patient_attributes_raf_zip,
 #study_subject_patient_attributes_raf_county {
@@ -134,6 +148,9 @@ input.zip   { width:100px; }
 	clear:none;
 	vertical-align:top;
 	display:inline-block;
+}
+.is_primary span.label {
+	width:auto;
 }
 
 div.csz * {

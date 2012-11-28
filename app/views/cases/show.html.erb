@@ -1,7 +1,7 @@
 <%# stylesheets(:cases) %>
 <%# stylesheets(:cases_show) %>
 <%# javascripts(:cases_show) %>
-<%# stylesheets(:raf) %>
+<% stylesheets(:raf) %>
 
 <div id='subject_control_bar'>
 <h3>Case Enrollment Info</h3>
@@ -11,7 +11,7 @@
 </div><!-- class='buttons' -->
 </div>
 
-<div class='study_subject_fields'>
+<div class='study_subject_fields raf'>
 <h3>Section 1: Preliminary Information
 <span><span class='required'>*</span>required fields</span>
 </h3>
@@ -28,30 +28,24 @@
 <div class='tablerow'>
 <div class='organization_id'>
 <%= wrapped_spans :study_subject, :organization,
-	:label_text => 'treating institution:' %>
+	:label_text => 'treating institution' %>
 </div><!-- class='organization_id' -->
 
-<div class='admitting_oncologist'>
-<%= wrapped_spans :patient, :admitting_oncologist,
-	:label_text => 'admitting oncologist:' %>
-</div><!-- class='admitting_oncologist' -->
+<%= wrapped_spans :patient, :admitting_oncologist %>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>
  <div class='childs names'>
 <%= wrapped_spans :study_subject, :full_name,
-	:label_text => "child's name:" %>
+	:label_text => "child's name" %>
  </div><!-- class='names' -->
-<div class='hospital_no'>
-<%= wrapped_spans :study_subject, :hospital_no,
-	:label_text => "hospital record number:" %>
-</div>
+<%= wrapped_spans :patient, :hospital_no %>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>
 <%= wrapped_date_spans :study_subject, :admit_date %>
 <%= wrapped_date_spans :study_subject, :dob,
-	:label_text => "child's date of birth:" %>
+	:label_text => "child's date of birth" %>
 </div><!-- class='tablerow' -->
 
 <div class='tablerow'>
@@ -82,7 +76,7 @@
 	<%= wrapped_yndk_spans :patient, :was_under_15_at_dx %>
 
 	<%= wrapped_spans :study_subject, :language_names,
-		:label_text => "languages:" %>
+		:label_text => "languages" %>
 
 	<p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
 	<%= wrapped_yndk_spans :patient, :was_previously_treated %>
@@ -143,9 +137,9 @@
 		:data_source_id => DataSource['raf'].id).each do |p| %>
 	<% @phone_number = p %>
 	<%= wrapped_spans :phone_number, :phone_number,
-		:label_text => 'phone number:' %>
+		:label_text => 'phone number' %>
 	<%= wrapped_spans :phone_number, :is_primary,
-		:label_text => 'primary?:' %>
+		:label_text => 'primary?' %>
 <% end %>
 </div><!-- class='current_address' -->
 
