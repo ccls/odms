@@ -437,7 +437,7 @@ module ApplicationHelper
 	#	This is NOT a form field
 	def _wrapped_spans(object_name,method,options={})
 		object = instance_variable_get("@#{object_name}")
-		s =  "<span class='label'>#{options[:label_text]||object.class.human_attribute_name(method)||method}:</span>\n"
+		s =  "<span class='label'>#{options[:label_text]||object.class.human_attribute_name(method)||method}</span>\n"
 		value = if options[:value]
 			options[:value]
 		else
