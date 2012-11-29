@@ -28,10 +28,16 @@ class Patient < ActiveRecord::Base
 	after_save :trigger_update_matching_study_subjects_reference_date,
 		:if => :admit_date_changed?
 
-	after_save :trigger_setting_was_under_15_at_dx,
-		:if => :admit_date_changed?
-	after_save :trigger_setting_was_under_15_at_dx,
-		:if => :was_under_15_at_dx_changed?
+	after_save :trigger_setting_was_under_15_at_dx
+#
+#	Calling the same method in the same callback with 2 different
+#	conditions doesn't seem to work. Just call it once and put
+#	the conditions in the method.
+#
+#	after_save :trigger_setting_was_under_15_at_dx,
+#		:if => :admit_date_changed?
+#	after_save :trigger_setting_was_under_15_at_dx,
+#		:if => :was_under_15_at_dx_changed?
 
 	after_save :reindex_study_subject!
 
@@ -115,16 +121,21 @@ protected
 	end
 
 	def trigger_setting_was_under_15_at_dx
-		logger.debug "DEBUG: calling update_patient_was_under_15_at_dx from " <<
-			"Patient:#{self.attributes['id']}"
-		logger.debug "DEBUG: Admit date changed from:#{admit_date_was}:to:#{admit_date}"
-		logger.debug "DEBUG: was_under_15_at_dx changed from:#{was_under_15_at_dx_was}:to:#{was_under_15_at_dx}"
-		if study_subject
-			logger.debug "DEBUG: study_subject:#{study_subject.id}"
-			study_subject.update_patient_was_under_15_at_dx
-		else
-			#	This should never happen, except in testing.
-			logger.warn "WARNING: Patient(#{self.attributes['id']}) is missing study_subject"
+		if admit_date_changed? or was_under_15_at_dx_changed?
+			logger.debug "DEBUG: calling update_patient_was_under_15_at_dx from " <<
+				"Patient:#{self.attributes['id']}"
+			logger.debug "DEBUG: Admit date changed from:" <<
+				"#{admit_date_was}:to:#{admit_date}"
+			logger.debug "DEBUG: was_under_15_at_dx changed from:" <<
+				"#{was_under_15_at_dx_was}:to:#{was_under_15_at_dx}"
+			if study_subject
+				logger.debug "DEBUG: study_subject:#{study_subject.id}"
+				study_subject.update_patient_was_under_15_at_dx
+			else
+				#	This should never happen, except in testing. 
+				#	(subjectless_patient Factory)
+				logger.warn "WARNING: Patient(#{self.attributes['id']}) is missing study_subject"
+			end
 		end
 	end
 #

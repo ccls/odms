@@ -527,14 +527,8 @@ class PatientTest < ActiveSupport::TestCase
 		).reload
 		assert_equal YNDK[:no], study_subject.patient.was_under_15_at_dx
 		study_subject.patient.update_attributes(:was_under_15_at_dx => YNDK[:dk])
-		assert_equal YNDK[:yes], study_subject.patient.reload.was_under_15_at_dx
-	end
-
-	test "should test trigger_setting_was_under_15_at_dx without study_subject" do
-		pending	#	but how?
-#	apparently, this was covered before, but is no longer?
-#	This should be tested in the Factory(:subjectless_patient) test.
-#	maybe this was a coverage blip
+		#	It should change back
+		assert_equal YNDK[:no], study_subject.patient.reload.was_under_15_at_dx
 	end
 
 	test "should require 5 or 9 digit raf_zip" do

@@ -10,6 +10,9 @@ class SomeModel
 	def yes_or_no?
 		!!yes_or_no
 	end
+	def self.human_attribute_name(attribute,options={})
+		attribute	#	just return the attribute
+	end
 end
 
 
@@ -618,7 +621,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_adna_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.label', :text => 'int_field:', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
@@ -628,7 +631,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			wrapped_adna_spans(:some_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.label', :text => 'int_field:', :count => 1
 			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
@@ -637,7 +640,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_yndk_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.label', :text => 'int_field:', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
@@ -647,7 +650,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			wrapped_yndk_spans(:some_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.label', :text => 'int_field:', :count => 1
 			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
@@ -656,7 +659,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_ynrdk_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.label', :text => 'int_field:', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
@@ -666,7 +669,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			wrapped_ynrdk_spans(:some_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.label', :text => 'int_field:', :count => 1
 			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
@@ -675,7 +678,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_ynodk_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.label', :text => 'int_field:', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
@@ -685,7 +688,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			wrapped_ynodk_spans(:some_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.label', :text => 'int_field:', :count => 1
 			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
@@ -694,7 +697,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		@some_model = SomeModel.new
 		response = HTML::Document.new(
 			_wrapped_pos_neg_spans(:some_model, :int_field)).root
-		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.label', :text => 'int_field:', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
@@ -704,7 +707,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			wrapped_pos_neg_spans(:some_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.label', :text => 'int_field:', :count => 1
 			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
@@ -788,7 +791,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #</div><!-- class='dob date_spans' -->
 		assert_select response, 'div.dob.date_spans.field_wrapper' do
 			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'dob', :count => 1
+			assert_select 'span.label', :text => 'dob:', :count => 1
 			assert_select 'span.value', :text => '&nbsp;', :count => 1
 		end
 	end
@@ -803,7 +806,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #</div><!-- class='dob date_spans' -->
 		assert_select response, 'div.dob.date_spans.field_wrapper' do
 			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'dob', :count => 1
+			assert_select 'span.label', :text => 'dob:', :count => 1
 			assert_select 'span.value', :text => '12/05/1971', :count => 1
 		end
 	end
