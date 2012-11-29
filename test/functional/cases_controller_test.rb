@@ -457,7 +457,17 @@ pending
 			pending
 		end
 
-
+		test "should raise inconsistency on update case study_subject" <<
+				" if admit_date - dob < 15 years and was under 15 is yes" <<
+				" with #{cu} login" do
+			pending
+		end
+	
+		test "should raise inconsistency on update case study_subject" <<
+				" if admit_date - dob > 15 years and was under 15 is no" <<
+				" with #{cu} login" do
+			pending
+		end
 
 
 
