@@ -289,16 +289,16 @@ protected
 		end
 	end
 
-	def allow_blank_address_line_1(default={})
-		#	as 'default' is a hash, 'address' is now just a pointer to part of it.
-#		address = default['addressings_attributes']['0']['address_attributes']
-#		allow_blank_address_line_1_for(address)
-		#	each_pair's value is apparently not a reference?
-		default['addressings_attributes'].each_pair { |k,v|
-			allow_blank_address_line_1_for(v) }
-#			allow_blank_address_line_1_for(
-#				default['addressings_attributes'][k]['address_attributes']) }
-	end
+#	def allow_blank_address_line_1(default={})
+#		#	as 'default' is a hash, 'address' is now just a pointer to part of it.
+##		address = default['addressings_attributes']['0']['address_attributes']
+##		allow_blank_address_line_1_for(address)
+#		#	each_pair's value is apparently not a reference?
+#		default['addressings_attributes'].each_pair { |k,v|
+#			allow_blank_address_line_1_for(v) }
+##			allow_blank_address_line_1_for(
+##				default['addressings_attributes'][k]['address_attributes']) }
+#	end
 
 	def allow_blank_address_line_1_for(address)
 		if address['line_1'].blank? and

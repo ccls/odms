@@ -530,6 +530,13 @@ class PatientTest < ActiveSupport::TestCase
 		assert_equal YNDK[:yes], study_subject.patient.reload.was_under_15_at_dx
 	end
 
+	test "should test trigger_setting_was_under_15_at_dx without study_subject" do
+		pending	#	but how?
+#	apparently, this was covered before, but is no longer?
+#	This should be tested in the Factory(:subjectless_patient) test.
+#	maybe this was a coverage blip
+	end
+
 	test "should require 5 or 9 digit raf_zip" do
 		%w( asdf 1234 123456 1234Q ).each do |bad_zip|
 			assert_difference( "Patient.count", 0 ) do
