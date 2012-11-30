@@ -195,9 +195,9 @@ protected
 	def default_raf_phone_number_attributes
 		{ 'current_user'   => current_user,
 			'current_phone'  => YNDK[:yes],
-			'is_valid'       => YNDK[:yes],
-			'is_verified'    => true,
-			'how_verified'   => 'provided on RAF',
+#			'is_valid'       => YNDK[:yes],
+#			'is_verified'    => true,
+#			'how_verified'   => 'provided on RAF',
 			'data_source_id' => DataSource['raf'].id,
 			'phone_type_id'  => PhoneType['home'].id }
 	end
@@ -217,9 +217,9 @@ protected
 		{	'current_user'    => current_user,
 			'address_at_diagnosis' => YNDK[:yes],
 			'current_address' => YNDK[:yes],
-			'is_verified'     => true,
-			'how_verified'    => 'provided on RAF',
-			'is_valid'        => YNDK[:yes],
+#			'is_verified'     => true,
+#			'how_verified'    => 'provided on RAF',
+#			'is_valid'        => YNDK[:yes],
 			'data_source_id'  => DataSource['raf'].id,
 			'address_attributes' => { 
 				'address_type_id'  => AddressType['residence'].id
