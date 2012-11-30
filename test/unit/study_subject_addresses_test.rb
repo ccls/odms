@@ -47,6 +47,12 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		} } }
 	end
 
+	test "should update study_subject with addressing" do
+		addressing = Factory(:addressing)
+		addressing.study_subject.update_attributes(
+			:addressings_attributes => { '0' => { 'id' => addressing.id } } )
+	end
+
 	test "should respond to residence_addresses_count" do
 		study_subject = create_study_subject
 		assert study_subject.respond_to?(:residence_addresses_count)
