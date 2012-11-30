@@ -31,12 +31,12 @@
 <%= f.wrapped_text_field :other_data_source, 
 	:label_text => 'Specify if other:' %>
 </div><!-- class='source' -->
-
+<!--
 <div class='verified'>
-<%= f.wrapped_check_box :is_verified, :label_text => 'Verified?' %>
-<%= f.wrapped_text_field :how_verified, :label_text => 'Specify how:' %>
-</div><!-- class='verified' -->
-
+<%#= f.wrapped_check_box :is_verified, :label_text => 'Verified?' %>
+<%#= f.wrapped_text_field :how_verified, :label_text => 'Specify how:' %>
+</div>
+-->
 <hr/>
 
 <%= address_field.wrapped_text_field :line_1 %>
@@ -53,11 +53,12 @@
 <%= address_field.wrapped_country_select :country %>
 </div>
 
+<!--
 <div class='dates_valid'>
 <span>dates valid:</span>
-<%= f.wrapped_date_text_field :valid_from,
+<%#= f.wrapped_date_text_field :valid_from,
 	:label_text => 'from:' %>
-<%= f.wrapped_date_text_field :valid_to,
+<%#= f.wrapped_date_text_field :valid_to,
 	:label_text => 'to:' %>
 <p>(leave blank if unknown)</p>
 </div>
@@ -65,11 +66,13 @@
 <hr/>
 
 <div class='valid'>
-<%= f.wrapped_yndk_select :is_valid, 
+<%#= f.wrapped_yndk_select :is_valid, 
 	:label_text => 'Address is valid?' %>
-<%= f.wrapped_text_field :why_invalid, 
+<%#= f.wrapped_text_field :why_invalid, 
 	:label_text => 'Why not?' %>
-</div><!-- class='valid' -->
+</div>
+-->
+<hr/>
 
 <div class='moved'>
 <%= f.wrapped_yndk_select :current_address,

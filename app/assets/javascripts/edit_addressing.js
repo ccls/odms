@@ -5,19 +5,17 @@ jQuery(function(){
 	jQuery('#addressing_address_attributes_zip').change(function(){
 		jQuery.get(root + '/zip_codes.json?q=' + jQuery(this).val(), function(data){
 			if(data.length == 1) {
-/*
-				update_city_state_county(data[0].zip_code);
-	in rails 3, doesn't include first key so trying without
-*/
 				update_city_state_county(data[0]);
 			}
 		});
 	});
-
+/*
 	jQuery('#addressing_is_valid').smartShow({
 		what: '.why_invalid.field_wrapper',
 		when: function(){ 
+*/
 			/* as 'no' matches both "No" and "Don't Know", only need one condition! */
+/*
 			return /no/i.test($('#addressing_is_valid option:selected').text()); }
 	});
 
@@ -26,7 +24,7 @@ jQuery(function(){
 		when: function(){ 
 			return $('#addressing_is_verified').attr('checked'); }
 	});
-
+*/
 	jQuery('#addressing_data_source_id').smartShow({
 		what: '.other_data_source.field_wrapper',
 		when: function(){ 

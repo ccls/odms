@@ -29,6 +29,7 @@ div.unit {
 div.unit label {
 	width:30px;
 }
+/*
 div.dates_valid > div,
 div.dates_valid > span {
 	display:inline-block;
@@ -47,27 +48,36 @@ div.dates_valid label {
 div.dates_valid .field_wrapper {
 	margin-bottom: 0px;
 }
-div.moved > div,
-div.source > div,
+*/
+/*
 div.valid > div,
-div.verified > div {
+div.verified > div,
+*/
+div.moved > div,
+div.source > div {
 	display:inline-block;
 	vertical-align:top;
 }
-div.data_source_id,
+/*
 div.is_valid,
-div.is_verified {
+div.is_verified,
+*/
+div.data_source_id {
 	margin-right: 10px;
 }
-div.unit,
-div.other_data_source,
+/*
 div.why_invalid,
-div.how_verified {
+div.how_verified,
+*/
+div.unit,
+div.other_data_source {
 	clear:none;
 }
-.other_data_source label,
+/*
 .why_invalid label,
-.how_verified label{
+.how_verified label,
+*/
+.other_data_source label {
 	width: auto;
 	padding-right: 10px;
 }

@@ -78,32 +78,32 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subject_contacts_path(study_subject)
 		end
 
-		test "should set verified_on on create if is_verified " <<
-				"with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			login_as send(cu)
-			post :create, :study_subject_id => study_subject.id,
-				:addressing => factory_attributes(
-					:is_verified => true,
-					:how_verified => 'no idea'
-				)
-			assert assigns(:addressing)
-			assert_not_nil assigns(:addressing).verified_on
-		end
-
-		test "should set verified_by on create if is_verified " <<
-				"with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			login_as u = send(cu)
-			post :create, :study_subject_id => study_subject.id,
-				:addressing => factory_attributes(
-					:is_verified => true,
-					:how_verified => 'no idea'
-				)
-			assert assigns(:addressing)
-			assert_not_nil assigns(:addressing).verified_by_uid
-			assert_equal assigns(:addressing).verified_by_uid, u.uid
-		end
+#		test "should set verified_on on create if is_verified " <<
+#				"with #{cu} login" do
+#			study_subject = Factory(:study_subject)
+#			login_as send(cu)
+#			post :create, :study_subject_id => study_subject.id,
+#				:addressing => factory_attributes(
+#					:is_verified => true,
+#					:how_verified => 'no idea'
+#				)
+#			assert assigns(:addressing)
+#			assert_not_nil assigns(:addressing).verified_on
+#		end
+#
+#		test "should set verified_by on create if is_verified " <<
+#				"with #{cu} login" do
+#			study_subject = Factory(:study_subject)
+#			login_as u = send(cu)
+#			post :create, :study_subject_id => study_subject.id,
+#				:addressing => factory_attributes(
+#					:is_verified => true,
+#					:how_verified => 'no idea'
+#				)
+#			assert assigns(:addressing)
+#			assert_not_nil assigns(:addressing).verified_by_uid
+#			assert_equal assigns(:addressing).verified_by_uid, u.uid
+#		end
 
 		test "should NOT create new addressing with invalid study_subject_id " <<
 				"and #{cu} login" do
@@ -167,34 +167,34 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_not_nil flash[:error]
 		end
 
-		test "should set verified_on on update if is_verified " <<
-				"with #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as send(cu)
-			put :update, :study_subject_id => addressing.study_subject_id, 
-				:id => addressing.id,
-				:addressing => factory_attributes(
-					:is_verified  => true,
-					:how_verified => 'not a clue'
-				)
-			assert assigns(:addressing)
-			assert_not_nil assigns(:addressing).verified_on
-		end
-
-		test "should set verified_by on update if is_verified " <<
-				"with #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as u = send(cu)
-			put :update, :study_subject_id => addressing.study_subject_id,
-				:id => addressing.id,
-				:addressing => factory_attributes(
-					:is_verified => true,
-					:how_verified => 'not a clue'
-				)
-			assert assigns(:addressing)
-			assert_not_nil assigns(:addressing).verified_by_uid
-			assert_equal assigns(:addressing).verified_by_uid, u.uid
-		end
+#		test "should set verified_on on update if is_verified " <<
+#				"with #{cu} login" do
+#			addressing = Factory(:addressing)
+#			login_as send(cu)
+#			put :update, :study_subject_id => addressing.study_subject_id, 
+#				:id => addressing.id,
+#				:addressing => factory_attributes(
+#					:is_verified  => true,
+#					:how_verified => 'not a clue'
+#				)
+#			assert assigns(:addressing)
+#			assert_not_nil assigns(:addressing).verified_on
+#		end
+#
+#		test "should set verified_by on update if is_verified " <<
+#				"with #{cu} login" do
+#			addressing = Factory(:addressing)
+#			login_as u = send(cu)
+#			put :update, :study_subject_id => addressing.study_subject_id,
+#				:id => addressing.id,
+#				:addressing => factory_attributes(
+#					:is_verified => true,
+#					:how_verified => 'not a clue'
+#				)
+#			assert assigns(:addressing)
+#			assert_not_nil assigns(:addressing).verified_by_uid
+#			assert_equal assigns(:addressing).verified_by_uid, u.uid
+#		end
 
 		test "should NOT update addressing with #{cu} login " <<
 				"when address update fails" do

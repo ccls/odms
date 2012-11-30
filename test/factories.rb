@@ -181,8 +181,8 @@ Factory.define :addressing do |f|
 	f.association :address
 	f.association :study_subject
 	f.association :data_source
-	f.is_valid    1
-	f.is_verified false
+#	f.is_valid    1
+#	f.is_verified false
 	f.updated_at Time.now	#	to make it dirty
 end
 Factory.define :mailing_addressing, :parent => :addressing do |f|

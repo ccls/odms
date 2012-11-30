@@ -5,26 +5,28 @@ class AddressingTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_protect(:study_subject_id, :study_subject)
 
-	attributes = %w( address_id current_address address_at_diagnosis
-		is_valid why_invalid is_verified how_verified valid_from
-		valid_to verified_on verified_by_uid )
+#	attributes = %w( address_id current_address address_at_diagnosis
+#		is_valid why_invalid is_verified how_verified valid_from
+#		valid_to verified_on verified_by_uid )
+	attributes = %w( address_id current_address address_at_diagnosis )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
 	assert_should_initially_belong_to( :study_subject, :address, :data_source )
-	assert_should_require_attribute_length( :why_invalid, :how_verified, 
-			:maximum => 250 )
+#	assert_should_require_attribute_length( :why_invalid, :how_verified, 
+#			:maximum => 250 )
 	assert_should_require_attribute_length( :notes,
 			:maximum => 65000 )
-	assert_requires_complete_date( :valid_from, :valid_to )
+#	assert_requires_complete_date( :valid_from, :valid_to )
 
 	#	Someone always has to think that they are special!
 	assert_should_accept_only_good_values( :current_address,
 		{ :good_values => ( YNDK.valid_values ), 
 			:bad_values  => 12345 })
 
-	assert_should_accept_only_good_values( :is_valid, :address_at_diagnosis,
+#	assert_should_accept_only_good_values( :is_valid, :address_at_diagnosis,
+	assert_should_accept_only_good_values( :address_at_diagnosis,
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
@@ -32,8 +34,8 @@ class AddressingTest < ActiveSupport::TestCase
 	test "addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
 			addressing = Factory(:addressing)
-			assert_equal 1, addressing.is_valid
-			assert         !addressing.is_verified	
+#			assert_equal 1, addressing.is_valid
+#			assert         !addressing.is_verified	
 		}
 	end
 
@@ -176,80 +178,80 @@ class AddressingTest < ActiveSupport::TestCase
 		} }
 	end
 
-	[:yes,:nil].each do |yndk|
-		test "should NOT require why_invalid if is_valid is #{yndk}" do
-			addressing = Addressing.new(:is_valid => YNDK[yndk])
-			addressing.valid?
-			assert !addressing.errors.include?(:why_invalid)
-		end
-	end
-	[:no,:dk].each do |yndk|
-		test "should require why_invalid if is_valid is #{yndk}" do
-			addressing = Addressing.new(:is_valid => YNDK[yndk])
-			assert !addressing.valid?
-			assert addressing.errors.include?(:why_invalid)
-		end
-	end
-
-	test "should NOT require how_verified if is_verified is false" do
-		addressing = Addressing.new(:is_verified => false)
-		addressing.valid?
-		assert !addressing.errors.include?(:how_verified)
-	end
-	test "should require how_verified if is_verified is true" do
-		addressing = Addressing.new(:is_verified => true)
-		assert !addressing.valid?
-		assert addressing.errors.include?(:how_verified)
-	end
-
-	test "should NOT set verified_on if is_verified NOT changed to true" do
-		addressing = create_addressing(:is_verified => false)
-		assert_nil addressing.verified_on
-	end
-
-	test "should set verified_on if is_verified changed to true" do
-		addressing = create_addressing(:is_verified => true,
-			:how_verified => "not a clue")
-		assert_not_nil addressing.verified_on
-	end
-
-	test "should set verified_on to NIL if is_verified changed to false" do
-		addressing = create_addressing(:is_verified => true,
-			:how_verified => "not a clue")
-		assert_not_nil addressing.verified_on
-		addressing.update_attributes(:is_verified => false)
-		assert_nil addressing.verified_on
-	end
-
-	test "should NOT set verified_by_uid if is_verified NOT changed to true" do
-		addressing = create_addressing(:is_verified => false)
-		assert_nil addressing.verified_by_uid
-	end
-
-	test "should set verified_by_uid to 0 if is_verified changed to true" do
-		addressing = create_addressing(:is_verified => true,
-			:how_verified => "not a clue")
-		assert_not_nil addressing.verified_by_uid
-		assert_equal addressing.verified_by_uid, ''
-	end
-
-	test "should set verified_by_uid to current_user.id if is_verified " <<
-		"changed to true if current_user passed" do
-		cu = admin_user
-		addressing = create_addressing(:is_verified => true,
-			:current_user => cu,
-			:how_verified => "not a clue")
-		assert_not_nil addressing.verified_by_uid
-		assert_equal addressing.verified_by_uid, cu.uid
-	end
-
-	test "should set verified_by_uid to NIL if is_verified changed to false" do
-		addressing = create_addressing(:is_verified => true,
-			:how_verified => "not a clue")
-		assert_not_nil addressing.verified_by_uid
-		addressing.update_attributes(:is_verified => false)
-		assert_nil addressing.verified_by_uid
-	end
+#	[:yes,:nil].each do |yndk|
+#		test "should NOT require why_invalid if is_valid is #{yndk}" do
+#			addressing = Addressing.new(:is_valid => YNDK[yndk])
+#			addressing.valid?
+#			assert !addressing.errors.include?(:why_invalid)
+#		end
+#	end
+#	[:no,:dk].each do |yndk|
+#		test "should require why_invalid if is_valid is #{yndk}" do
+#			addressing = Addressing.new(:is_valid => YNDK[yndk])
+#			assert !addressing.valid?
+#			assert addressing.errors.include?(:why_invalid)
+#		end
+#	end
+#
+#	test "should NOT require how_verified if is_verified is false" do
+#		addressing = Addressing.new(:is_verified => false)
+#		addressing.valid?
+#		assert !addressing.errors.include?(:how_verified)
+#	end
+#	test "should require how_verified if is_verified is true" do
+#		addressing = Addressing.new(:is_verified => true)
+#		assert !addressing.valid?
+#		assert addressing.errors.include?(:how_verified)
+#	end
+#
+#	test "should NOT set verified_on if is_verified NOT changed to true" do
+#		addressing = create_addressing(:is_verified => false)
+#		assert_nil addressing.verified_on
+#	end
+#
+#	test "should set verified_on if is_verified changed to true" do
+#		addressing = create_addressing(:is_verified => true,
+#			:how_verified => "not a clue")
+#		assert_not_nil addressing.verified_on
+#	end
+#
+#	test "should set verified_on to NIL if is_verified changed to false" do
+#		addressing = create_addressing(:is_verified => true,
+#			:how_verified => "not a clue")
+#		assert_not_nil addressing.verified_on
+#		addressing.update_attributes(:is_verified => false)
+#		assert_nil addressing.verified_on
+#	end
+#
+#	test "should NOT set verified_by_uid if is_verified NOT changed to true" do
+#		addressing = create_addressing(:is_verified => false)
+#		assert_nil addressing.verified_by_uid
+#	end
+#
+#	test "should set verified_by_uid to 0 if is_verified changed to true" do
+#		addressing = create_addressing(:is_verified => true,
+#			:how_verified => "not a clue")
+#		assert_not_nil addressing.verified_by_uid
+#		assert_equal addressing.verified_by_uid, ''
+#	end
+#
+#	test "should set verified_by_uid to current_user.id if is_verified " <<
+#		"changed to true if current_user passed" do
+#		cu = admin_user
+#		addressing = create_addressing(:is_verified => true,
+#			:current_user => cu,
+#			:how_verified => "not a clue")
+#		assert_not_nil addressing.verified_by_uid
+#		assert_equal addressing.verified_by_uid, cu.uid
+#	end
+#
+#	test "should set verified_by_uid to NIL if is_verified changed to false" do
+#		addressing = create_addressing(:is_verified => true,
+#			:how_verified => "not a clue")
+#		assert_not_nil addressing.verified_by_uid
+#		addressing.update_attributes(:is_verified => false)
+#		assert_nil addressing.verified_by_uid
+#	end
 
 	test "current scope should only return current addressings" do
 		create_addressing(:current_address => YNDK[:yes])

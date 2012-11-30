@@ -42,33 +42,33 @@ class Addressing < ActiveRecord::Base
 
 	after_save :create_subject_moved_event, :if => :subject_moved
 
-	before_save :set_verifier, 
-		:if => :is_verified?, 
-		:unless => :is_verified_was
-
-	before_save :nullify_verifier, 
-		:unless => :is_verified?,
-		:if => :is_verified_was
-
-	#	Returns boolean of comparison of is_valid == 2 or 999
-	#	Rails SHOULD convert incoming string params to integer.
-	def is_not_valid?
-		[2,999].include?(is_valid)
-	end
+#	before_save :set_verifier, 
+#		:if => :is_verified?, 
+#		:unless => :is_verified_was
+#
+#	before_save :nullify_verifier, 
+#		:unless => :is_verified?,
+#		:if => :is_verified_was
+#
+#	#	Returns boolean of comparison of is_valid == 2 or 999
+#	#	Rails SHOULD convert incoming string params to integer.
+#	def is_not_valid?
+#		[2,999].include?(is_valid)
+#	end
 
 protected
 
-	#	Set verified date and user if given
-	def set_verifier
-		self.verified_on = Date.today	#	Time.now
-		self.verified_by_uid = current_user.try(:uid)||''
-	end
-
-	#	Unset verified date and user
-	def nullify_verifier
-		self.verified_on = nil
-		self.verified_by_uid = nil
-	end
+#	#	Set verified date and user if given
+#	def set_verifier
+#		self.verified_on = Date.today	#	Time.now
+#		self.verified_by_uid = current_user.try(:uid)||''
+#	end
+#
+#	#	Unset verified date and user
+#	def nullify_verifier
+#		self.verified_on = nil
+#		self.verified_by_uid = nil
+#	end
 
 	#	this will actually create an event on creation as well
 	#	if attributes match

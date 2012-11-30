@@ -32,47 +32,47 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 				find_field("addressing[address_attributes][zip]").value
 		end
 
-		test "addressing#edit should show why_invalid when is_valid is changed to 'No'" <<
-				" with #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as send(cu)
-			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
-			assert !find_field('addressing[why_invalid]').visible?
-			select "No", :from => 'addressing[is_valid]'
-			assert find_field('addressing[why_invalid]').visible?
-			select "", :from => 'addressing[is_valid]'
-			assert !find_field('addressing[why_invalid]').visible?
-			select "No", :from => 'addressing[is_valid]'
-			assert find_field('addressing[why_invalid]').visible?
-		end
-
-		test "addressing#edit should show why_invalid when is_valid is changed to" <<
-				" 'Don't Know' with #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as send(cu)
-			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
-			assert !find_field('addressing[why_invalid]').visible?
-			select "Don't Know", :from => 'addressing[is_valid]'
-			assert find_field('addressing[why_invalid]').visible?
-			select "", :from => 'addressing[is_valid]'
-			assert !find_field('addressing[why_invalid]').visible?
-			select "Don't Know", :from => 'addressing[is_valid]'
-			assert find_field('addressing[why_invalid]').visible?
-		end
-
-		test "addressing#edit should show how_verified when is_verified is checked" <<
-				" with #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as send(cu)
-			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
-			assert !find_field('addressing[how_verified]').visible?
-			check 'addressing[is_verified]'
-			assert find_field('addressing[how_verified]').visible?
-			uncheck 'addressing[is_verified]'
-			assert !find_field('addressing[how_verified]').visible?
-			check 'addressing[is_verified]'
-			assert find_field('addressing[how_verified]').visible?
-		end
+#		test "addressing#edit should show why_invalid when is_valid is changed to 'No'" <<
+#				" with #{cu} login" do
+#			addressing = Factory(:addressing)
+#			login_as send(cu)
+#			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
+#			assert !find_field('addressing[why_invalid]').visible?
+#			select "No", :from => 'addressing[is_valid]'
+#			assert find_field('addressing[why_invalid]').visible?
+#			select "", :from => 'addressing[is_valid]'
+#			assert !find_field('addressing[why_invalid]').visible?
+#			select "No", :from => 'addressing[is_valid]'
+#			assert find_field('addressing[why_invalid]').visible?
+#		end
+#
+#		test "addressing#edit should show why_invalid when is_valid is changed to" <<
+#				" 'Don't Know' with #{cu} login" do
+#			addressing = Factory(:addressing)
+#			login_as send(cu)
+#			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
+#			assert !find_field('addressing[why_invalid]').visible?
+#			select "Don't Know", :from => 'addressing[is_valid]'
+#			assert find_field('addressing[why_invalid]').visible?
+#			select "", :from => 'addressing[is_valid]'
+#			assert !find_field('addressing[why_invalid]').visible?
+#			select "Don't Know", :from => 'addressing[is_valid]'
+#			assert find_field('addressing[why_invalid]').visible?
+#		end
+#
+#		test "addressing#edit should show how_verified when is_verified is checked" <<
+#				" with #{cu} login" do
+#			addressing = Factory(:addressing)
+#			login_as send(cu)
+#			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
+#			assert !find_field('addressing[how_verified]').visible?
+#			check 'addressing[is_verified]'
+#			assert find_field('addressing[how_verified]').visible?
+#			uncheck 'addressing[is_verified]'
+#			assert !find_field('addressing[how_verified]').visible?
+#			check 'addressing[is_verified]'
+#			assert find_field('addressing[how_verified]').visible?
+#		end
 
 		test "addressing#edit should show other_data_source when 'Other Source'" <<
 				" data_source is selected with #{cu} login" do
