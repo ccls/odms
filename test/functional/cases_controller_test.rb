@@ -239,7 +239,7 @@ class CasesControllerTest < ActionController::TestCase
 					:study_subject => { 
 						'dob' => '12/31/2010',
 						:patient_attributes => { 
-							'admit_date' => '12/31/2012',
+							'admit_date' => '12/31/2011',
 							'was_under_15_at_dx' => YNDK[:no] }  })
 			end
 			assert_not_nil flash[:error]
@@ -260,7 +260,7 @@ class CasesControllerTest < ActionController::TestCase
 					:study_subject => { 
 						'dob' => '12/31/1990',
 						:patient_attributes => { 
-							'admit_date' => '12/31/2012',
+							'admit_date' => '12/31/2011',
 							'was_under_15_at_dx' => YNDK[:yes] }  })
 			end
 			assert_not_nil flash[:error]
@@ -913,12 +913,171 @@ pending
 		end
 
 		test "should update and mark is_eligible yes with #{cu} login" do
-			pending
+			login_as send(cu)
+			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
+			study_subject = Factory(:complete_case_study_subject)	#	eligible? not auto-set
+			enrollment = study_subject.enrollments.find_by_project_id(
+				Project['ccls'].id)
+			assert_nil enrollment.is_eligible
+			put :update, :id => study_subject.id,
+				:study_subject => {
+					'dob' => '12/31/2010',
+					'patient_attributes' => {
+						'id' => study_subject.patient.id,
+						'admit_date' => '12/31/2011',
+						'was_under_15_at_dx' => YNDK[:yes],
+						'was_previously_treated' => YNDK[:no],
+						'was_ca_resident_at_diagnosis' => YNDK[:yes]
+					},
+					'subject_languages_attributes' => {
+						'0' => { 'language_id' => 'notblank' }
+					},
+					'enrollments_attributes' => {
+						'0' => { 'id' => enrollment.id }
+					}
+				}
+			assert_blank assigns(:study_subject).errors.full_messages.to_sentence
+			assert_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_not_nil flash[:notice]
+			assert_redirected_to case_path(study_subject)
+			assert_equal YNDK[:yes], enrollment.reload.is_eligible
 		end
 
-		test "should update and mark is_eligible no with #{cu} login" do
-			pending
+		test "should update and mark is_eligible no with " <<
+				"over 15 and #{cu} login" do
+			login_as send(cu)
+			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
+			study_subject = Factory(:complete_case_study_subject)	#	eligible? not auto-set
+			enrollment = study_subject.enrollments.find_by_project_id(
+					Project['ccls'].id)
+			assert_nil enrollment.is_eligible
+			put :update, :id => study_subject.id,
+				:study_subject => {
+					'dob' => '12/31/1990',
+					'patient_attributes' => {
+						'id' => study_subject.patient.id,
+						'admit_date' => '12/31/2011',
+						'was_under_15_at_dx' => YNDK[:no],
+						'was_previously_treated' => YNDK[:no],
+						'was_ca_resident_at_diagnosis' => YNDK[:yes]
+					},
+					'subject_languages_attributes' => {
+						'0' => { 'language_id' => 'notblank' }
+					},
+					'enrollments_attributes' => {
+						'0' => { 'id' => enrollment.id }
+					}
+				}
+			assert_blank assigns(:study_subject).errors.full_messages.to_sentence
+			assert_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_not_nil flash[:notice]
+			assert_redirected_to case_path(study_subject)
+			assert_equal YNDK[:no], enrollment.reload.is_eligible
 		end
+
+		test "should update and mark is_eligible no with " <<
+				"previous treatment and #{cu} login" do
+			login_as send(cu)
+			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
+			study_subject = Factory(:complete_case_study_subject)	#	eligible? not auto-set
+			enrollment = study_subject.enrollments.find_by_project_id(
+					Project['ccls'].id)
+			assert_nil enrollment.is_eligible
+			put :update, :id => study_subject.id,
+				:study_subject => {
+					'dob' => '12/31/2010',
+					'patient_attributes' => {
+						'id' => study_subject.patient.id,
+						'admit_date' => '12/31/2011',
+						'was_under_15_at_dx' => YNDK[:yes],
+						'was_previously_treated' => YNDK[:yes],
+						'was_ca_resident_at_diagnosis' => YNDK[:yes]
+					},
+					'subject_languages_attributes' => {
+						'0' => { 'language_id' => 'notblank' }
+					},
+					'enrollments_attributes' => {
+						'0' => { 'id' => enrollment.id }
+					}
+				}
+			assert_blank assigns(:study_subject).errors.full_messages.to_sentence
+			assert_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_not_nil flash[:notice]
+			assert_redirected_to case_path(study_subject)
+			assert_equal YNDK[:no], enrollment.reload.is_eligible
+		end
+
+		test "should update and mark is_eligible no with " <<
+				"non-CA residence at dx and #{cu} login" do
+			login_as send(cu)
+			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
+			study_subject = Factory(:complete_case_study_subject)	#	eligible? not auto-set
+			enrollment = study_subject.enrollments.find_by_project_id(
+					Project['ccls'].id)
+			assert_nil enrollment.is_eligible
+			put :update, :id => study_subject.id,
+				:study_subject => {
+					'dob' => '12/31/2010',
+					'patient_attributes' => {
+						'id' => study_subject.patient.id,
+						'admit_date' => '12/31/2011',
+						'was_under_15_at_dx' => YNDK[:yes],
+						'was_previously_treated' => YNDK[:no],
+						'was_ca_resident_at_diagnosis' => YNDK[:no]
+					},
+					'subject_languages_attributes' => {
+						'0' => { 'language_id' => 'notblank' }
+					},
+					'enrollments_attributes' => {
+						'0' => { 'id' => enrollment.id }
+					}
+				}
+			assert_blank assigns(:study_subject).errors.full_messages.to_sentence
+			assert_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_not_nil flash[:notice]
+			assert_redirected_to case_path(study_subject)
+			assert_equal YNDK[:no], enrollment.reload.is_eligible
+		end
+
+		test "should update and mark is_eligible no with " <<
+				"no English or Spanish and #{cu} login" do
+			login_as send(cu)
+			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
+			study_subject = Factory(:complete_case_study_subject)	#	eligible? not auto-set
+			enrollment = study_subject.enrollments.find_by_project_id(
+					Project['ccls'].id)
+			assert_nil enrollment.is_eligible
+			put :update, :id => study_subject.id,
+				:study_subject => {
+					'dob' => '12/31/2010',
+					'patient_attributes' => {
+						'id' => study_subject.patient.id,
+						'admit_date' => '12/31/2011',
+						'was_under_15_at_dx' => YNDK[:yes],
+						'was_previously_treated' => YNDK[:no],
+						'was_ca_resident_at_diagnosis' => YNDK[:yes]
+					},
+					'subject_languages_attributes' => {
+						'0' => { 'language_id' => '' },
+						'1' => { 'language_id' => '' }
+					},
+					'enrollments_attributes' => {
+						'0' => { 'id' => enrollment.id }
+					}
+				}
+			assert_blank assigns(:study_subject).errors.full_messages.to_sentence
+			assert_nil flash[:warn]
+			assert_nil flash[:error]
+			assert_not_nil flash[:notice]
+			assert_redirected_to case_path(study_subject)
+			assert_equal YNDK[:no], enrollment.reload.is_eligible
+		end
+
+
 
 		test "should raise inconsistency on update case study_subject" <<
 				" if admit_date - dob < 15 years and was under 15 is yes" <<
@@ -930,7 +1089,7 @@ pending
 					:study_subject => { 
 						'dob' => '12/31/2010',
 						:patient_attributes => { 
-							'admit_date' => '12/31/2012',
+							'admit_date' => '12/31/2011',
 							'was_under_15_at_dx' => YNDK[:no] }  }
 			end
 			assert_not_nil flash[:error]
@@ -952,7 +1111,7 @@ pending
 					:study_subject => { 
 						'dob' => '12/31/1990',
 						:patient_attributes => { 
-							'admit_date' => '12/31/2012',
+							'admit_date' => '12/31/2011',
 							'was_under_15_at_dx' => YNDK[:yes] }  }
 			end
 			assert_not_nil flash[:error]
@@ -1049,6 +1208,22 @@ pending
 		put :update, :id => 0
 		assert_redirected_to_login
 	end
+
+
+
+
+
+# File lib/minitest/unit.rb, line 289
+#    def assert_nil obj, msg = nil
+#      msg = message(msg) { "Expected #{mu_pp(obj)} to be nil" }
+#      assert obj.nil?, msg
+#    end
+
+    def assert_blank obj, msg = nil
+      msg = message(msg) { "Expected #{mu_pp(obj)} to be blank" }
+      assert obj.blank?, msg
+    end
+
 
 end
 __END__

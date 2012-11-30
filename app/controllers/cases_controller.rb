@@ -148,22 +148,14 @@ class CasesController < ApplicationController
 		study_subject_params = ( params[:study_subject] || Hash.new ).to_hash
 		add_default_raf_addressing_attributes(study_subject_params)
 		add_default_raf_phone_number_attributes(study_subject_params)
-
-
+		mark_as_eligible(study_subject_params)
 		@study_subject.assign_attributes(study_subject_params)
 		check_was_under_15(@study_subject)
 		@study_subject.save!
-
-
-#		@study_subject.update_attributes!(study_subject_params)
-
 		flash[:notice] = "Subject successfully updated, I think. ;)"
 		redirect_to case_path(@study_subject)
-#	rescue	#	TOO GENERIC AND DANGEROUS
-#		flash.now[:error] = "There was a problem updating the study_subject"
-#		render :action => 'edit', :layout => 'subject'
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		flash.now[:error] = "StudySubject creation failed"
+		flash.now[:error] = "StudySubject updation failed"
 		render :action => 'edit', :layout => 'subject'
 #	rescue ActiveRecord::StatementInvalid => e
 #		UNLIKELY TO HAPPEN ON UPDATE
@@ -249,43 +241,59 @@ protected
 	end
 
 	#	CAUTION: params come from forms as strings
+	#	In testing, don't have to pass the patient and language stuff
+	#		so will kinda incorrectly be marked as eligible. (not in production though)
+	#	or the enrollments stuff
 	def mark_as_eligible(default={})
 		is_eligible = YNDK[:yes]
 		ineligible_reasons = []
 
-		if( default['patient_attributes'].is_a?(Hash) and
-			default['patient_attributes'][
-				'was_under_15_at_dx'].to_s == YNDK[:no].to_s )
-			is_eligible = YNDK[:no]
-			ineligible_reasons << "Was not under 15 at diagnosis."
-		end
-		if( default['patient_attributes'].is_a?(Hash) and
-			default['patient_attributes'][
-				'was_previously_treated'].to_s == YNDK[:yes].to_s )
-			is_eligible = YNDK[:no]
-			ineligible_reasons << "Was previously treated."
-		end
-		if( default['patient_attributes'].is_a?(Hash) and
-			default['patient_attributes'][
-				'was_ca_resident_at_diagnosis'].to_s == YNDK[:no].to_s )
-			is_eligible = YNDK[:no]
-			ineligible_reasons << "Was not CA resident at diagnosis."
-		end
-		if( default['subject_languages_attributes'].is_a?(Hash) and
-				default['subject_languages_attributes']['0'].is_a?(Hash) and
-				default['subject_languages_attributes']['0']['language_id'].to_s.blank? and
-				default['subject_languages_attributes']['1'].is_a?(Hash) and
-				default['subject_languages_attributes']['1']['language_id'].to_s.blank? )
-			is_eligible = YNDK[:no]
-			ineligible_reasons << "Language does not include English or Spanish."
-		end
+		#	in reality, it will as it will be on the form
+		#	in testing, it may not for the tests that don't care
+		if default.has_key?('enrollments_attributes') and
+			default['enrollments_attributes'].is_a?(Hash) and
+			default['enrollments_attributes'].has_key?('0') and
+			default['enrollments_attributes']['0'].is_a?(Hash)
 
-		default['enrollments_attributes']['0']['is_eligible'] = is_eligible
-		if( is_eligible == YNDK[:no] )
-			default['enrollments_attributes']['0'][
-				'ineligible_reason_id'] = IneligibleReason['other'].id
-			default['enrollments_attributes']['0'][
-				'other_ineligible_reason'] = ineligible_reasons.join("\n")
+			if( default['patient_attributes'].is_a?(Hash) and
+				default['patient_attributes'][
+					'was_under_15_at_dx'].to_s == YNDK[:no].to_s )
+				is_eligible = YNDK[:no]
+				ineligible_reasons << "Was not under 15 at diagnosis."
+			end
+			if( default['patient_attributes'].is_a?(Hash) and
+				default['patient_attributes'][
+					'was_previously_treated'].to_s == YNDK[:yes].to_s )
+				is_eligible = YNDK[:no]
+				ineligible_reasons << "Was previously treated."
+			end
+			if( default['patient_attributes'].is_a?(Hash) and
+				default['patient_attributes'][
+					'was_ca_resident_at_diagnosis'].to_s == YNDK[:no].to_s )
+				is_eligible = YNDK[:no]
+				ineligible_reasons << "Was not CA resident at diagnosis."
+			end
+			if( default['subject_languages_attributes'].is_a?(Hash) and
+					default['subject_languages_attributes']['0'].is_a?(Hash) and
+					default['subject_languages_attributes']['0']['language_id'].to_s.blank? and
+					default['subject_languages_attributes']['1'].is_a?(Hash) and
+					default['subject_languages_attributes']['1']['language_id'].to_s.blank? )
+				is_eligible = YNDK[:no]
+				ineligible_reasons << "Language does not include English or Spanish."
+			end
+	
+			default['enrollments_attributes']['0']['is_eligible'] = is_eligible
+			if( is_eligible == YNDK[:no] )
+				default['enrollments_attributes']['0'][
+					'ineligible_reason_id'] = IneligibleReason['other'].id
+				default['enrollments_attributes']['0'][
+					'other_ineligible_reason'] = ineligible_reasons.join("\n")
+			else	#	must blank these out if now eligible
+				default['enrollments_attributes']['0'][
+					'ineligible_reason_id'] = nil
+				default['enrollments_attributes']['0'][
+					'other_ineligible_reason'] = nil
+			end
 		end
 	end
 
