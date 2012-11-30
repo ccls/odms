@@ -785,6 +785,7 @@ class CasesControllerTest < ActionController::TestCase
 #			assert_equal addressing.is_valid, YNDK[:yes]
 #			assert_equal addressing.verified_on, Date.today
 #			assert_equal addressing.verified_by_uid, user.uid
+			assert_equal addressing.address.address_type, AddressType['residence']
 		end
 
 		test "should update address with #{cu} login" do
@@ -807,9 +808,29 @@ class CasesControllerTest < ActionController::TestCase
 			assert_redirected_to case_path(study_subject)
 		end
 
-		test "should update address and not overwrite with defaults with #{cu} login" do
-pending
+		test "should update address and not overwrite with defaults "<<
+			 	"with #{cu} login" do
+			study_subject = Factory(:case_study_subject)
+			addressing = Factory(:addressing,:study_subject => study_subject,
+				:current_address => YNDK[:no],
+				:address_at_diagnosis => YNDK[:no] )
+			login_as send(cu)
+			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
+				put :update, :id => study_subject.id, 
+					:study_subject => { 'addressings_attributes' => { 
+						'0' => { :id => addressing.id } }
+			} } }
+			assert_not_nil assigns(:study_subject)
+			addressing.reload
+			assert_equal YNDK[:no], addressing.current_address
+			assert_equal YNDK[:no], addressing.address_at_diagnosis
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
 		end
+
+#			'address_attributes' => { 
+#				'address_type_id'  => AddressType['residence'].id
 
 		test "should update and create phone number with #{cu} login" do
 			study_subject = Factory(:case_study_subject)
@@ -866,7 +887,22 @@ pending
 		end
 
 		test "should update phone number and not overwrite with defaults with #{cu} login" do
-pending
+			study_subject = Factory(:case_study_subject)
+			phone_number = Factory(:phone_number,:study_subject => study_subject,
+				:current_phone => YNDK[:no],
+				:phone_type_id => PhoneType['mobile'].id )
+			login_as send(cu)
+			assert_difference('PhoneNumber.count',0) {
+				put :update, :id => study_subject.id, 
+					:study_subject => { 'phone_numbers_attributes' => { 
+						'0' => { :id => phone_number.id,  } }
+			} }
+			assert_not_nil assigns(:study_subject)
+			phone_number.reload
+			assert_equal YNDK[:no], phone_number.current_phone
+			assert_equal PhoneType['mobile'].id, phone_number.phone_type_id
+			assert_nil flash[:error]
+			assert_redirected_to case_path(study_subject)
 		end
 
 		test "should update and create address with blank line and #{cu} login" do
