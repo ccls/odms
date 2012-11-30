@@ -14,26 +14,33 @@ form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
   float:left;
 }
 */
-
-form.edit_phone_number div.source > div,
+/*
 form.edit_phone_number div.valid > div,
-form.edit_phone_number div.verified > div {
+form.edit_phone_number div.verified > div,
+*/
+form.edit_phone_number div.source > div {
 	display:inline-block;
 	vertical-align:top;
 }
-form.edit_phone_number div.data_source_id,
+/*
 form.edit_phone_number div.is_valid,
-form.edit_phone_number div.is_verified {
+form.edit_phone_number div.is_verified,
+*/
+form.edit_phone_number div.data_source_id {
 	margin-right: 10px;
 }
-form.edit_phone_number div.other_data_source,
+/*
 form.edit_phone_number div.why_invalid,
-form.edit_phone_number div.how_verified {
+form.edit_phone_number div.how_verified,
+*/
+form.edit_phone_number div.other_data_source {
 	clear:none;
 }
-form.edit_phone_number .other_data_source label,
+/*
 form.edit_phone_number .why_invalid label,
-form.edit_phone_number .how_verified label{
+form.edit_phone_number .how_verified label,
+*/
+form.edit_phone_number .other_data_source label {
 	width: auto;
 	padding-right: 10px;
 }

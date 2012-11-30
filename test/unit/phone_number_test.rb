@@ -2,7 +2,8 @@ require 'test_helper'
 
 class PhoneNumberTest < ActiveSupport::TestCase
 
-	assert_should_accept_only_good_values( :current_phone, :is_valid,
+#	assert_should_accept_only_good_values( :current_phone, :is_valid,
+	assert_should_accept_only_good_values( :current_phone, 
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
@@ -10,10 +11,12 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	assert_should_act_as_list( :scope => :study_subject_id )
 	assert_should_initially_belong_to( :study_subject, :phone_type, :data_source )
 
+#	attributes = %w( phone_number position study_subject_id
+#		is_primary is_valid
+#		why_invalid is_verified how_verified
+#		verified_on verified_by_uid current_phone )
 	attributes = %w( phone_number position study_subject_id
-		is_primary is_valid
-		why_invalid is_verified how_verified
-		verified_on verified_by_uid current_phone )
+		is_primary current_phone )
 	required = %w( phone_number )
 	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_require( required )
@@ -22,15 +25,15 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	assert_should_protect( protected_attributes )
 	assert_should_not_protect( attributes - protected_attributes )
 
-	assert_should_require_attribute_length( :how_verified, :why_invalid, 
-		:maximum => 250 )
+#	assert_should_require_attribute_length( :how_verified, :why_invalid, 
+#		:maximum => 250 )
 
 	test "phone_number factory should create phone number" do
 		assert_difference('PhoneNumber.count',1) {
 			phone_number = Factory(:phone_number)
 			assert_match /\(\d{3}\) \d{3}-\d{4}/, phone_number.phone_number
-			assert_equal 1, phone_number.is_valid
-			assert         !phone_number.is_verified
+#			assert_equal 1, phone_number.is_valid
+#			assert         !phone_number.is_verified
 		}
 	end
 
@@ -194,81 +197,81 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	end
 
 
-	[:yes,:nil].each do |yndk|
-		test "should NOT require why_invalid if is_valid is #{yndk}" do
-			phone_number = PhoneNumber.new(:is_valid => YNDK[yndk])
-			phone_number.valid?
-			assert !phone_number.errors.include?(:why_invalid)
-		end
-	end
-	[:no,:dk].each do |yndk|
-		test "should require why_invalid if is_valid is #{yndk}" do
-			phone_number = PhoneNumber.new(:is_valid => YNDK[yndk])
-			assert !phone_number.valid?
-			assert  phone_number.errors.include?(:why_invalid)
-		end
-	end
-
-	test "should NOT require how_verified if is_verified is false" do
-		phone_number = PhoneNumber.new(:is_verified => false)
-		phone_number.valid?
-		assert !phone_number.errors.include?(:how_verified)
-	end
-
-	test "should require how_verified if is_verified is true" do
-		phone_number = PhoneNumber.new(:is_verified => true)
-		assert !phone_number.valid?
-		assert  phone_number.errors.include?(:how_verified)
-	end
-
-	test "should NOT set verified_on if is_verified NOT changed to true" do
-		phone_number = create_phone_number(:is_verified => false)
-		assert_nil phone_number.verified_on
-	end
-
-	test "should set verified_on if is_verified changed to true" do
-		phone_number = create_phone_number(:is_verified => true,
-			:how_verified => "not a clue")
-		assert_not_nil phone_number.verified_on
-	end
-
-	test "should set verified_on to NIL if is_verified changed to false" do
-		phone_number = create_phone_number(:is_verified => true,
-			:how_verified => "not a clue")
-		assert_not_nil phone_number.verified_on
-		phone_number.update_attributes(:is_verified => false)
-		assert_nil phone_number.verified_on
-	end
-
-	test "should NOT set verified_by_uid if is_verified NOT changed to true" do
-		phone_number = create_phone_number(:is_verified => false)
-		assert_nil phone_number.verified_by_uid
-	end
-
-	test "should set verified_by_uid to 0 if is_verified changed to true" do
-		phone_number = create_phone_number(:is_verified => true,
-			:how_verified => "not a clue")
-		assert_not_nil phone_number.verified_by_uid
-		assert_equal phone_number.verified_by_uid, ''
-	end
-
-	test "should set verified_by_uid to current_user.id if is_verified " <<
-		"changed to true if current_user passed" do
-		cu = admin_user
-		phone_number = create_phone_number(:is_verified => true,
-			:current_user => cu,
-			:how_verified => "not a clue")
-		assert_not_nil phone_number.verified_by_uid
-		assert_equal phone_number.verified_by_uid, cu.uid
-	end
-
-	test "should set verified_by_uid to NIL if is_verified changed to false" do
-		phone_number = create_phone_number(:is_verified => true,
-			:how_verified => "not a clue")
-		assert_not_nil phone_number.verified_by_uid
-		phone_number.update_attributes(:is_verified => false)
-		assert_nil phone_number.verified_by_uid
-	end
+#	[:yes,:nil].each do |yndk|
+#		test "should NOT require why_invalid if is_valid is #{yndk}" do
+#			phone_number = PhoneNumber.new(:is_valid => YNDK[yndk])
+#			phone_number.valid?
+#			assert !phone_number.errors.include?(:why_invalid)
+#		end
+#	end
+#	[:no,:dk].each do |yndk|
+#		test "should require why_invalid if is_valid is #{yndk}" do
+#			phone_number = PhoneNumber.new(:is_valid => YNDK[yndk])
+#			assert !phone_number.valid?
+#			assert  phone_number.errors.include?(:why_invalid)
+#		end
+#	end
+#
+#	test "should NOT require how_verified if is_verified is false" do
+#		phone_number = PhoneNumber.new(:is_verified => false)
+#		phone_number.valid?
+#		assert !phone_number.errors.include?(:how_verified)
+#	end
+#
+#	test "should require how_verified if is_verified is true" do
+#		phone_number = PhoneNumber.new(:is_verified => true)
+#		assert !phone_number.valid?
+#		assert  phone_number.errors.include?(:how_verified)
+#	end
+#
+#	test "should NOT set verified_on if is_verified NOT changed to true" do
+#		phone_number = create_phone_number(:is_verified => false)
+#		assert_nil phone_number.verified_on
+#	end
+#
+#	test "should set verified_on if is_verified changed to true" do
+#		phone_number = create_phone_number(:is_verified => true,
+#			:how_verified => "not a clue")
+#		assert_not_nil phone_number.verified_on
+#	end
+#
+#	test "should set verified_on to NIL if is_verified changed to false" do
+#		phone_number = create_phone_number(:is_verified => true,
+#			:how_verified => "not a clue")
+#		assert_not_nil phone_number.verified_on
+#		phone_number.update_attributes(:is_verified => false)
+#		assert_nil phone_number.verified_on
+#	end
+#
+#	test "should NOT set verified_by_uid if is_verified NOT changed to true" do
+#		phone_number = create_phone_number(:is_verified => false)
+#		assert_nil phone_number.verified_by_uid
+#	end
+#
+#	test "should set verified_by_uid to 0 if is_verified changed to true" do
+#		phone_number = create_phone_number(:is_verified => true,
+#			:how_verified => "not a clue")
+#		assert_not_nil phone_number.verified_by_uid
+#		assert_equal phone_number.verified_by_uid, ''
+#	end
+#
+#	test "should set verified_by_uid to current_user.id if is_verified " <<
+#		"changed to true if current_user passed" do
+#		cu = admin_user
+#		phone_number = create_phone_number(:is_verified => true,
+#			:current_user => cu,
+#			:how_verified => "not a clue")
+#		assert_not_nil phone_number.verified_by_uid
+#		assert_equal phone_number.verified_by_uid, cu.uid
+#	end
+#
+#	test "should set verified_by_uid to NIL if is_verified changed to false" do
+#		phone_number = create_phone_number(:is_verified => true,
+#			:how_verified => "not a clue")
+#		assert_not_nil phone_number.verified_by_uid
+#		phone_number.update_attributes(:is_verified => false)
+#		assert_nil phone_number.verified_by_uid
+#	end
 
 protected
 

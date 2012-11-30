@@ -15,28 +15,28 @@
   :presence: true
   :if: :phone_type_id
 
--
-  :attribute: :why_invalid
-  :presence: true
-  :if: :is_not_valid?
-
--
-  :attribute: :how_verified
-  :presence: true
-  :if: :is_verified?
-
+#-
+#  :attribute: :why_invalid
+#  :presence: true
+#  :if: :is_not_valid?
+#
+#-
+#  :attribute: :how_verified
+#  :presence: true
+#  :if: :is_verified?
+#
 -
   :attribute: :other_data_source
   :presence: true
   :if: :data_source_is_other?
 
--
-  :attributes:
-  - :why_invalid
-  - :how_verified
-  :length:
-    :maximum: 250
-  :allow_blank: true
+#-
+#  :attributes:
+#  - :why_invalid
+#  - :how_verified
+#  :length:
+#    :maximum: 250
+#  :allow_blank: true
 
 #	#	Want to ensure contains 10 digits.
 #	#	I'm kinda surprised that this regex works.
@@ -57,7 +57,7 @@
 -
   :attributes:
   - :current_phone
-  - :is_valid
+#  - :is_valid
   :inclusion:
     :in: <%= YNDK.valid_values %>
   :allow_nil: true

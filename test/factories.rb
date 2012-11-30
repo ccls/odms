@@ -512,8 +512,8 @@ Factory.define :phone_number do |f|
 	f.association :phone_type
 	f.association :data_source
 	f.sequence(:phone_number){|n| sprintf("%010d",n) }
-	f.is_valid    1
-	f.is_verified false		#		2		#	20111110 just noticed that this is boolean and not int for YNDK
+#	f.is_valid    1
+#	f.is_verified false		#		2		#	20111110 just noticed that this is boolean and not int for YNDK
 end
 Factory.define :primary_phone_number, :parent => :phone_number do |f|
 	f.is_primary true

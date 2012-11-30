@@ -33,13 +33,13 @@ class PhoneNumber < ActiveRecord::Base
 
 	before_save :format_phone_number, :if => :phone_number_changed?
 
-	before_save :set_verifier, 
-		:if => :is_verified?, 
-		:unless => :is_verified_was
-
-	before_save :nullify_verifier, 
-		:unless => :is_verified?,
-		:if => :is_verified_was
+#	before_save :set_verifier, 
+#		:if => :is_verified?, 
+#		:unless => :is_verified_was
+#
+#	before_save :nullify_verifier, 
+#		:unless => :is_verified?,
+#		:if => :is_verified_was
 
 	attr_accessor :current_user
 
@@ -48,27 +48,27 @@ class PhoneNumber < ActiveRecord::Base
 		phone_number
 	end
 
-	#	Returns boolean of comparison
-	#	true only if is_valid == 2 or 999
-	#	Beware of strings from forms
-	#	Rails SHOULD convert incoming string params to integer.
-	def is_not_valid?
-		[2,999].include?(is_valid)
-	end
+#	#	Returns boolean of comparison
+#	#	true only if is_valid == 2 or 999
+#	#	Beware of strings from forms
+#	#	Rails SHOULD convert incoming string params to integer.
+#	def is_not_valid?
+#		[2,999].include?(is_valid)
+#	end
 
 protected
 
-	#	Set verified date and user if given
-	def set_verifier
-		self.verified_on = Date.today	#	Time.now
-		self.verified_by_uid = current_user.try(:uid)||''
-	end
-
-	#	Unset verified date and user
-	def nullify_verifier
-		self.verified_on = nil
-		self.verified_by_uid = nil
-	end
+#	#	Set verified date and user if given
+#	def set_verifier
+#		self.verified_on = Date.today	#	Time.now
+#		self.verified_by_uid = current_user.try(:uid)||''
+#	end
+#
+#	#	Unset verified date and user
+#	def nullify_verifier
+#		self.verified_on = nil
+#		self.verified_by_uid = nil
+#	end
 
 	#	Formats phone numer with () and -
 	def format_phone_number
