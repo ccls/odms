@@ -1,6 +1,7 @@
 require 'test_helper'
 
-class SomeModel
+#	Use a class that is unique to this test!
+class AppModel
 	attr_accessor :dob_before_type_cast	#	for date_text_field validation
 	attr_accessor :yes_or_no, :yndk, :dob, :sex, :name
 	attr_accessor :int_field
@@ -618,17 +619,17 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "unwrapped _wrapped_adna_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			_wrapped_adna_spans(:some_model, :int_field)).root
+			_wrapped_adna_spans(:app_model, :int_field)).root
 		assert_select response, 'span.label', :text => 'int_field', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_adna_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			wrapped_adna_spans(:some_model, :int_field)).root
+			wrapped_adna_spans(:app_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
 			assert_select 'span.label', :text => 'int_field', :count => 1
@@ -637,17 +638,17 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "unwrapped _wrapped_yndk_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			_wrapped_yndk_spans(:some_model, :int_field)).root
+			_wrapped_yndk_spans(:app_model, :int_field)).root
 		assert_select response, 'span.label', :text => 'int_field', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_yndk_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			wrapped_yndk_spans(:some_model, :int_field)).root
+			wrapped_yndk_spans(:app_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
 			assert_select 'span.label', :text => 'int_field', :count => 1
@@ -656,17 +657,17 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "unwrapped _wrapped_ynrdk_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			_wrapped_ynrdk_spans(:some_model, :int_field)).root
+			_wrapped_ynrdk_spans(:app_model, :int_field)).root
 		assert_select response, 'span.label', :text => 'int_field', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_ynrdk_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			wrapped_ynrdk_spans(:some_model, :int_field)).root
+			wrapped_ynrdk_spans(:app_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
 			assert_select 'span.label', :text => 'int_field', :count => 1
@@ -675,17 +676,17 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "unwrapped _wrapped_ynodk_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			_wrapped_ynodk_spans(:some_model, :int_field)).root
+			_wrapped_ynodk_spans(:app_model, :int_field)).root
 		assert_select response, 'span.label', :text => 'int_field', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_ynodk_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			wrapped_ynodk_spans(:some_model, :int_field)).root
+			wrapped_ynodk_spans(:app_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
 			assert_select 'span.label', :text => 'int_field', :count => 1
@@ -694,17 +695,17 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "unwrapped _wrapped_pos_neg_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			_wrapped_pos_neg_spans(:some_model, :int_field)).root
+			_wrapped_pos_neg_spans(:app_model, :int_field)).root
 		assert_select response, 'span.label', :text => 'int_field', :count => 1
 		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
 	end
 
 	test "wrapped_pos_neg_spans" do
-		@some_model = SomeModel.new
+		@app_model = AppModel.new
 		response = HTML::Document.new(
-			wrapped_pos_neg_spans(:some_model, :int_field)).root
+			wrapped_pos_neg_spans(:app_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
 			assert_select 'span.label', :text => 'int_field', :count => 1
@@ -767,7 +768,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "wrapped_spans without options" do
-		@user = SomeModel.new
+		@user = AppModel.new
 		response = HTML::Document.new(
 			wrapped_spans(:user, :name)).root
 #<div class="name field_wrapper">
@@ -782,7 +783,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "wrapped_date_spans blank" do
-		@user = SomeModel.new
+		@user = AppModel.new
 		response = HTML::Document.new(
 			wrapped_date_spans(:user, :dob)).root
 #<div class="dob date_spans field_wrapper">
@@ -797,7 +798,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "wrapped_date_spans Dec 5, 1971" do
-		@user = SomeModel.new{|u| u.dob = Date.parse('Dec 5, 1971')}
+		@user = AppModel.new{|u| u.dob = Date.parse('Dec 5, 1971')}
 		response = HTML::Document.new(
 			wrapped_date_spans(:user, :dob)).root
 #<div class="dob date_spans field_wrapper">
@@ -812,7 +813,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "wrapped_yes_or_no_spans blank" do
-		@user = SomeModel.new
+		@user = AppModel.new
 		response = HTML::Document.new(
 			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
 #<div class="yes_or_no field_wrapper">
@@ -827,7 +828,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "wrapped_yes_or_no_spans true" do
-		@user = SomeModel.new{|u| u.yes_or_no = true }
+		@user = AppModel.new{|u| u.yes_or_no = true }
 		response = HTML::Document.new(
 			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
 #<div class="yes_or_no field_wrapper">
@@ -842,7 +843,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "wrapped_yes_or_no_spans false" do
-		@user = SomeModel.new(:yes_or_no => false)
+		@user = AppModel.new(:yes_or_no => false)
 		response = HTML::Document.new(
 			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
 #<div class="yes_or_no field_wrapper">

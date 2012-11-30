@@ -1,6 +1,7 @@
 require 'test_helper'
 
-class SomeModel
+#	Use a name that is unique to this test!
+class FBModel
 	extend ActiveModel::Naming
 	attr_accessor :some_attribute
 
@@ -28,8 +29,8 @@ class FormBuilderHelperTest < ActionView::TestCase
 	include ApplicationHelper
 
 	test "yndk_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.yndk_select(:int_field) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.yndk_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="999">Don&#x27;t Know</option></select></form>}
@@ -39,9 +40,9 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "wrapped_yndk_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_yndk_select(:int_field) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field yndk_select field_wrapper'>
-<label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_yndk_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field yndk_select field_wrapper'>
+<label for="fb_model_int_field">Int field</label><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="999">Don&#x27;t Know</option></select>
@@ -53,8 +54,8 @@ class FormBuilderHelperTest < ActionView::TestCase
 
 
 	test "ynrdk_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.ynrdk_select(:int_field) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.ynrdk_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="999">Don&#x27;t Know</option>
@@ -65,9 +66,9 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "wrapped_ynrdk_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_ynrdk_select(:int_field) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field ynrdk_select field_wrapper'>
-<label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_ynrdk_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field ynrdk_select field_wrapper'>
+<label for="fb_model_int_field">Int field</label><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="999">Don&#x27;t Know</option>
@@ -79,8 +80,8 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "ynodk_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.ynodk_select(:int_field) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.ynodk_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="3">Other</option>
@@ -91,9 +92,9 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "wrapped_ynodk_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_ynodk_select(:int_field) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field ynodk_select field_wrapper'>
-<label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_ynodk_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field ynodk_select field_wrapper'>
+<label for="fb_model_int_field">Int field</label><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
 <option value="1">Yes</option>
 <option value="2">No</option>
 <option value="3">Other</option>
@@ -105,8 +106,8 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "adna_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.adna_select(:int_field) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.adna_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
 <option value="1">Agree</option>
 <option value="2">Do Not Agree</option>
 <option value="555">N/A</option>
@@ -117,9 +118,9 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "wrapped_adna_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_adna_select(:int_field) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field adna_select field_wrapper'>
-<label for="some_model_int_field">Int field</label><select id="some_model_int_field" name="some_model[int_field]"><option value=""></option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_adna_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field adna_select field_wrapper'>
+<label for="fb_model_int_field">Int field</label><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
 <option value="1">Agree</option>
 <option value="2">Do Not Agree</option>
 <option value="555">N/A</option>
@@ -131,8 +132,8 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "sex_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.sex_select(:some_attribute) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">-select-</option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.sex_select(:some_attribute) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_some_attribute" name="fb_model[some_attribute]"><option value="">-select-</option>
 <option value="M">male</option>
 <option value="F">female</option>
 <option value="DK">don&#x27;t know</option></select></form>}
@@ -140,9 +141,9 @@ class FormBuilderHelperTest < ActionView::TestCase
 	end
 
 	test "wrapped_sex_select" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_sex_select(:some_attribute) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute sex_select field_wrapper'>
-<label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">-select-</option>
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_sex_select(:some_attribute) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute sex_select field_wrapper'>
+<label for="fb_model_some_attribute">Some attribute</label><select id="fb_model_some_attribute" name="fb_model[some_attribute]"><option value="">-select-</option>
 <option value="M">male</option>
 <option value="F">female</option>
 <option value="DK">don&#x27;t know</option></select>
@@ -151,66 +152,66 @@ class FormBuilderHelperTest < ActionView::TestCase
 	end
 
 	test "datetime_text_field" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.datetime_text_field(:some_attribute) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datetimepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" /></form>}
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.datetime_text_field(:some_attribute) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datetimepicker" id="fb_model_some_attribute" name="fb_model[some_attribute]" size="30" type="text" /></form>}
 		assert_equal expected, output_buffer
 	end
 
 	test "datetime_text_field with value" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.datetime_text_field(:some_attribute, :value => 'sometestvalue' ) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datetimepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" value="sometestvalue" /></form>}
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.datetime_text_field(:some_attribute, :value => 'sometestvalue' ) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datetimepicker" id="fb_model_some_attribute" name="fb_model[some_attribute]" size="30" type="text" value="sometestvalue" /></form>}
 		assert_equal expected, output_buffer
 	end
 
 	test "wrapped_datetime_text_field" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_datetime_text_field(:some_attribute) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute datetime_text_field field_wrapper'>
-<label for="some_model_some_attribute">Some attribute</label><input class="datetimepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" />
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_datetime_text_field(:some_attribute) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute datetime_text_field field_wrapper'>
+<label for="fb_model_some_attribute">Some attribute</label><input class="datetimepicker" id="fb_model_some_attribute" name="fb_model[some_attribute]" size="30" type="text" />
 </div><!-- class='some_attribute datetime_text_field' --></form>}
 		assert_equal expected, output_buffer
 	end
 
 	test "date_text_field" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.date_text_field(:some_attribute) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" /></form>}
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.date_text_field(:some_attribute) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datepicker" id="fb_model_some_attribute" name="fb_model[some_attribute]" size="30" type="text" /></form>}
 		assert_equal expected, output_buffer
 	end
 
 	test "date_text_field with value" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.date_text_field(:some_attribute, :value => 'sometestvalue') }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" value="sometestvalue" /></form>}
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.date_text_field(:some_attribute, :value => 'sometestvalue') }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input class="datepicker" id="fb_model_some_attribute" name="fb_model[some_attribute]" size="30" type="text" value="sometestvalue" /></form>}
 		assert_equal expected, output_buffer
 	end
 
 	test "wrapped_date_text_field" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_date_text_field(:some_attribute) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute date_text_field field_wrapper'>
-<label for="some_model_some_attribute">Some attribute</label><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" />
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_date_text_field(:some_attribute) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute date_text_field field_wrapper'>
+<label for="fb_model_some_attribute">Some attribute</label><input class="datepicker" id="fb_model_some_attribute" name="fb_model[some_attribute]" size="30" type="text" />
 </div><!-- class='some_attribute date_text_field' --></form>}
 		assert_equal expected, output_buffer
 	end
 
 	#	This isn't in an 'erb block' so it isn't really testing what I wanted.
 	test "wrapped_date_text_field with block" do
-		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_date_text_field(:some_attribute){ 'testing' } }
-		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute date_text_field field_wrapper'>
-<label for="some_model_some_attribute">Some attribute</label><input class="datepicker" id="some_model_some_attribute" name="some_model[some_attribute]" size="30" type="text" />testing
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_date_text_field(:some_attribute){ 'testing' } }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute date_text_field field_wrapper'>
+<label for="fb_model_some_attribute">Some attribute</label><input class="datepicker" id="fb_model_some_attribute" name="fb_model[some_attribute]" size="30" type="text" />testing
 </div><!-- class='some_attribute date_text_field' --></form>}
 		assert_equal expected, output_buffer
 	end
 
 #	test "meridiem_select" do
-#		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.meridiem_select(:some_attribute) }
-#		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Meridiem</option>
+#		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.meridiem_select(:some_attribute) }
+#		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_some_attribute" name="fb_model[some_attribute]"><option value="">Meridiem</option>
 #<option value="AM">AM</option>
 #<option value="PM">PM</option></select></form>}
 #		assert_equal expected, output_buffer
 #	end
 #
 #	test "wrapped_meridiem_select" do
-#		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_meridiem_select(:some_attribute) }
-#		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute meridiem_select field_wrapper'>
-#<label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Meridiem</option>
+#		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_meridiem_select(:some_attribute) }
+#		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute meridiem_select field_wrapper'>
+#<label for="fb_model_some_attribute">Some attribute</label><select id="fb_model_some_attribute" name="fb_model[some_attribute]"><option value="">Meridiem</option>
 #<option value="AM">AM</option>
 #<option value="PM">PM</option></select>
 #</div><!-- class='some_attribute meridiem_select' --></form>}
@@ -218,8 +219,8 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	end
 #
 #	test "minute_select" do
-#		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.minute_select(:some_attribute) }
-#		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Minute</option>
+#		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.minute_select(:some_attribute) }
+#		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_some_attribute" name="fb_model[some_attribute]"><option value="">Minute</option>
 #<option value="0">00</option>
 #<option value="1">01</option>
 #<option value="2">02</option>
@@ -284,9 +285,9 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	end
 #
 #	test "wrapped_minute_select" do
-#		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_minute_select(:some_attribute) }
-#		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute minute_select field_wrapper'>
-#<label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Minute</option>
+#		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_minute_select(:some_attribute) }
+#		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute minute_select field_wrapper'>
+#<label for="fb_model_some_attribute">Some attribute</label><select id="fb_model_some_attribute" name="fb_model[some_attribute]"><option value="">Minute</option>
 #<option value="0">00</option>
 #<option value="1">01</option>
 #<option value="2">02</option>
@@ -352,8 +353,8 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	end
 #
 #	test "hour_select" do
-#		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.hour_select(:some_attribute) }
-#		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Hour</option>
+#		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.hour_select(:some_attribute) }
+#		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_some_attribute" name="fb_model[some_attribute]"><option value="">Hour</option>
 #<option value="1">1</option>
 #<option value="2">2</option>
 #<option value="3">3</option>
@@ -370,9 +371,9 @@ class FormBuilderHelperTest < ActionView::TestCase
 #	end
 #
 #	test "wrapped_hour_select" do
-#		output_buffer = form_for(SomeModel.new,:url => '/'){|f| f.wrapped_hour_select(:some_attribute) }
-#		expected = %{<form accept-charset="UTF-8" action="/" class="new_some_model" id="new_some_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute hour_select field_wrapper'>
-#<label for="some_model_some_attribute">Some attribute</label><select id="some_model_some_attribute" name="some_model[some_attribute]"><option value="">Hour</option>
+#		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_hour_select(:some_attribute) }
+#		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='some_attribute hour_select field_wrapper'>
+#<label for="fb_model_some_attribute">Some attribute</label><select id="fb_model_some_attribute" name="fb_model[some_attribute]"><option value="">Hour</option>
 #<option value="1">1</option>
 #<option value="2">2</option>
 #<option value="3">3</option>
