@@ -1,3 +1,4 @@
+require 'csv'
 require 'test_helper'
 
 class Sunspot::SubjectsControllerTest < ActionController::TestCase
@@ -19,81 +20,63 @@ if StudySubject.respond_to?(:solr_search)
 		end
 
 		test "should search with subject and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index
 			assert_found_one( study_subject )
 		end
 
 		test "should search by subject_type and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :subject_type => [study_subject.subject_type.to_s]
 			assert_found_one( study_subject )
 		end
 
 		test "should search by wrong subject_type and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :subject_type => ['WRONG']
 			assert_found_nothing
 		end
 
 		test "should search by empty subject_type and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :subject_type => []
 			assert_found_one( study_subject )
 		end
 
 		test "should search by blank subject_type and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :subject_type => ''
 			assert_found_one( study_subject )
 		end
 
 		test "should search by vital_status and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :vital_status => [study_subject.vital_status.to_s]
 			assert_found_one( study_subject )
 		end
 
 		test "should search by wrong vital_status and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :vital_status => ['WRONG']
 			assert_found_nothing
 		end
 
 		test "should search by empty vital_status and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :vital_status => []
 			assert_found_one( study_subject )
 		end
 
 		test "should search by blank vital_status and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :vital_status => ''
 			assert_found_one( study_subject )
@@ -120,56 +103,79 @@ if StudySubject.respond_to?(:solr_search)
 #		end
 
 		test "should search with invalid facet and #{cu} login" do
-pending
+			study_subject = build_and_index_subject
+			login_as send(cu)
+			#	will ignore anything unexpected, I hope
+			get :index, :fake_facet => 'fake_value', :format => 'csv'
+			assert_found_one( study_subject )
 		end
 
 		test "should search with columns and #{cu} login" do
+			study_subject = build_and_index_subject.reload
 			login_as send(cu)
-			get :index, :c => ['icf_master_id','subject_type']
-pending
+			columns = ['icf_master_id','subject_type']
+			get :index, :c => columns, :format => 'csv'
+			assert_found_one( study_subject )
+			f = CSV.parse(@response.body)
+			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
+			assert_equal f[0], columns
+			assert_equal f[1], [nil,study_subject.subject_type.to_s]
 		end
 
 		test "should search with invalid columns and #{cu} login" do
+			study_subject = build_and_index_subject
 			login_as send(cu)
-			get :index, :c => ['apple','orange']
-pending
+			columns = ['apple','orange']
+			get :index, :c => columns, :format => 'csv'
+			assert_found_one( study_subject )
+			f = CSV.parse(@response.body)
+			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
+			assert_equal f[0], columns
+			assert_equal f[1], [nil,nil]
 		end
 
-		test "should search with studyid order and #{cu} login" do
-			login_as send(cu)
-			get :index, :order => 'studyid'
-pending
-		end
-
-		test "should search with studyid order and asc dir and #{cu} login" do
-			login_as send(cu)
-			get :index, :order => 'studyid', :dir => 'asc'
-pending
-		end
-
-		test "should search with studyid order and desc dir and #{cu} login" do
-			login_as send(cu)
-			get :index, :order => 'studyid', :dir => 'desc'
-pending
-		end
-
-		test "should search with pagination and #{cu} login" do
-pending
-		end
+##	order tests are kinda pointless with just one subject! duh!
+#
+#		test "should search with studyid order and #{cu} login" do
+#			study_subject = build_and_index_subject
+#			login_as send(cu)
+#			get :index, :order => 'studyid', :format => 'csv'
+#			assert_found_one( study_subject )
+#		end
+#
+#		test "should search with studyid order and asc dir and #{cu} login" do
+#			study_subject = build_and_index_subject
+#			login_as send(cu)
+#			get :index, :order => 'studyid', :dir => 'asc', :format => 'csv'
+#			assert_found_one( study_subject )
+#		end
+#
+#		test "should search with studyid order and desc dir and #{cu} login" do
+#			study_subject = build_and_index_subject
+#			login_as send(cu)
+#			get :index, :order => 'studyid', :dir => 'desc', :format => 'csv'
+#			assert_found_one( study_subject )
+#		end
+#
+##	pagination tests are kinda pointless with just on subject!
+#
+#		test "should search with pagination and #{cu} login" do
+#			study_subject = build_and_index_subject
+#		end
 
 		test "should search with csv output and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			StudySubject.solr_reindex
-			assert !StudySubject.search.hits.empty?
+			study_subject = build_and_index_subject
 			login_as send(cu)
 			get :index, :format => 'csv'
+			assert_found_one( study_subject )
 #			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
 #			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;/)
 #			assert assigns(:samples)
 #			assert assigns(:samples).empty?
-			require 'csv'
 			f = CSV.parse(@response.body)
-			assert_equal 2, f.length	#	1 rows, 1 header and 0 data
+			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
+			SunspotHelper.send(:module_function,:default_columns)
+			assert_equal f[0], SunspotHelper.default_columns
 #id,case_icf_master_id,mother_icf_master_id,icf_master_id,subject_type,vital_status,sex,dob,first_name,last_name
 #1085,,,,Desc10,living,M,05/26/1971,,
 		end
@@ -224,6 +230,13 @@ protected
 		Sunspot.remove_all!					#	isn't always necessary
 		StudySubject.solr_reindex
 		assert StudySubject.search.hits.empty?
+	end
+
+	def build_and_index_subject(options={})
+		study_subject = Factory(:study_subject,options)
+		StudySubject.solr_reindex
+		assert !StudySubject.search.hits.empty?
+		return study_subject
 	end
 
 	def assert_found_one(subject)

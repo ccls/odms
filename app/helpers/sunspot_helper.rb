@@ -115,7 +115,6 @@ module SunspotHelper
 #Date samples received
 
 	def default_columns
-#		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
 		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
 			subject_type vital_status sex dob 
 			first_name last_name)
@@ -169,10 +168,10 @@ module SunspotHelper
 
 			when *StudySubject.sunspot_columns
 				( subject.respond_to?(column) ? subject.try(column) : nil )
-			when /^(.*):(is_eligible|consented)$/
-				YNDK[Enrollment.where(:study_subject_id => subject.id)
-					.joins(:project)
-					.where("projects.description = ?",$1).first.try($2)]
+#			when /^(.*):(is_eligible|consented)$/
+#				YNDK[Enrollment.where(:study_subject_id => subject.id)
+#					.joins(:project)
+#					.where("projects.description = ?",$1).first.try($2)]
 		end
 	end
 
