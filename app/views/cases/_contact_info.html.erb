@@ -12,8 +12,10 @@
 <%= f.fields_for :addressings, @raf_addressings do |addressing_fields| %>
  <% addressing_fields.object.build_address if addressing_fields.object.address.nil? %>
  <%= addressing_fields.fields_for :address do |address_fields| %>
-  <%= address_fields.wrapped_text_field :line_1 %>
+<div class='field_grouper'>
+<%= address_fields.wrapped_text_field :line_1 %>
 <%= address_fields.wrapped_text_field :unit, :label_text => 'Apt.' %>
+</div><!-- class='field_grouper' -->
 
   <div class='field_wrapper csz'>
    <%= address_fields.label :city, 'City, State Zip' -%><%= address_fields.text_field :city, :class => :city %>
@@ -35,17 +37,21 @@
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :phone_numbers, 
 	@raf_phone_numbers[0] do |phone_number_fields| %>
+<div class='field_grouper'>
  <%= phone_number_fields.wrapped_text_field :phone_number,
    :label_text => 'phone number:' %>
 <%= phone_number_fields.wrapped_check_box :is_primary,
 	:label_text => 'primary?' %>
+</div><!-- class='field_grouper' -->
 <% end -%>
 <%= f.fields_for :phone_numbers, 
 	@raf_phone_numbers[1..-1] do |phone_number_fields| %>
+<div class='field_grouper'>
  <%= phone_number_fields.wrapped_text_field :phone_number,
    :label_text => 'alternate phone:' %>
 <%= phone_number_fields.wrapped_check_box :is_primary,
 	:label_text => 'primary?' %>
+</div><!-- class='field_grouper' -->
 <% end -%>
 
 </div><!-- class='current_address' -->

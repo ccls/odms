@@ -124,8 +124,10 @@
 <% @study_subject.addressings.where(
 		:data_source_id => DataSource['raf'].id).each do |a| %>
 	<% @address = a.address %>
+<div class='field_grouper'>
   <%= wrapped_spans :address, :line_1 %>
   <%= wrapped_spans :address, :unit, :label_text => 'Apt.' %>
+</div><!-- class='field_grouper' -->
   <%= wrapped_spans :address, :city %>
   <%= wrapped_spans :address, :state %>
   <%= wrapped_spans :address, :zip %>
@@ -136,10 +138,12 @@
 <% @study_subject.phone_numbers.where(
 		:data_source_id => DataSource['raf'].id).each do |p| %>
 	<% @phone_number = p %>
+<div class='field_grouper'>
 	<%= wrapped_spans :phone_number, :phone_number,
 		:label_text => 'phone number' %>
 	<%= wrapped_spans :phone_number, :is_primary,
 		:label_text => 'primary?' %>
+</div><!-- class='field_grouper' -->
 <% end %>
 </div><!-- class='current_address' -->
 

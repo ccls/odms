@@ -289,7 +289,12 @@ th {
 	text-align: left;
 }
 
-
+/* basically for multiple fields in a row */
+.field_grouper > *{
+	display:inline-block;
+	clear:none;
+	vertical-align:top;
+}
 .field_wrapper {
 	margin-bottom: 15px;
 	clear:both;

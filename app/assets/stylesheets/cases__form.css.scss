@@ -120,18 +120,10 @@ form.raf {
 	.phone_number,
 	.line_1 {
 		margin-right: 20px;
-		vertical-align:top;
-		display:inline-block;
 	}
 	.unit label { width:auto; }
 	input.zip_field   { width:100px; }
 	.unit input { width:100px; }
-	.is_primary,
-	.unit {
-		clear:none;
-		vertical-align:top;
-		display:inline-block;
-	}
 	.is_primary span.label {
 		width:auto;
 	}
