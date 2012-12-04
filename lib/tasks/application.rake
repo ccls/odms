@@ -330,6 +330,7 @@ namespace :app do
 		env_required('assigned_for_interview_at')
 		file_required(ENV['csv_file'])
 		assigned_for_interview_at = valid_date_required(ENV['assigned_for_interview_at'])
+		changes = 0
 
 		require 'csv'
 		(f=CSV.open( ENV['csv_file'], 'rb',{
@@ -366,7 +367,8 @@ namespace :app do
 							ENV['csv_file']
 					)
 				else
-						puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so doing nothing."
+					changes += 1
+					puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so doing nothing."
 				end
 			else
 				puts "No change so doing nothing."
@@ -375,6 +377,10 @@ namespace :app do
 		if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
 			puts "Commiting Sunspot index."
 			Sunspot.commit
+		elsif changes > 0
+			puts
+			puts "#{changes} change(s) found."
+			puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so did nothing."
 		end
 	end #	task :update_assigned_from_pagan => :environment do
 
@@ -460,6 +466,8 @@ namespace :app do
 		env_required('csv_file')
 		file_required(ENV['csv_file'])
 
+		changes = 0
+
 		require 'csv'
 		(f=CSV.open( ENV['csv_file'], 'rb',{
 				:headers => true })).each do |line|
@@ -503,6 +511,7 @@ namespace :app do
 						)
 					else
 						puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so doing nothing."
+						changes += 1
 					end
 				else
 					puts "No change so doing nothing."
@@ -512,6 +521,10 @@ namespace :app do
 		if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
 			puts "Commiting Sunspot index."
 			Sunspot.commit
+		elsif changes > 0
+			puts
+			puts "#{changes} change(s) found."
+			puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so did nothing."
 		end
 
 	end #	task :update_interview_completed_on_from_icf_master_tracker => :environment do
