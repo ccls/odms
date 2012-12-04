@@ -1,6 +1,5 @@
+<h3>Section 5: Contact Info</h3>
 <div class='current_address raf_section'>
-
-<p>child's current home address</p>
 
 <% @raf_addressings = @study_subject.addressings.select{|a|
 	a.data_source_id == DataSource['raf'].id} %>

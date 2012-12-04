@@ -24,65 +24,57 @@
 
 %>
 
-<div class='prelim_info raf_section table'>
-<div class='tablerow'>
+<div class='prelim_info raf_section'>
 <div class='organization_id'>
 <%= wrapped_spans :study_subject, :organization,
-	:label_text => 'treating institution' %>
+	:label_text => 'Treating Institution' %>
 </div><!-- class='organization_id' -->
 
 <%= wrapped_spans :patient, :admitting_oncologist %>
-</div><!-- class='tablerow' -->
 
-<div class='tablerow'>
  <div class='childs names'>
 <%= wrapped_spans :study_subject, :full_name,
-	:label_text => "child's name" %>
+	:label_text => "Child's Name" %>
  </div><!-- class='names' -->
 <%= wrapped_spans :patient, :hospital_no %>
-</div><!-- class='tablerow' -->
 
-<div class='tablerow'>
 <%= wrapped_date_spans :study_subject, :admit_date %>
 <%= wrapped_date_spans :study_subject, :dob,
-	:label_text => "child's date of birth" %>
-</div><!-- class='tablerow' -->
+	:label_text => "Child's Date of Birth" %>
 
-<div class='tablerow'>
 <%# unfortunately, I've allowed sex to be blank %>
 <%= wrapped_spans :study_subject, :sex,
 	:value => ( @study_subject.sex || '&nbsp;'.html_safe ),
-	:label_text => 'sex' %>
+	:label_text => 'Sex' %>
 
-<div class='diagnosis'>
+<div class='field_grouper'>
 <%= wrapped_spans :patient, :diagnosis %>
+<% if @patient.try(:diagnosis).try(:is_other?) %>
 <%= wrapped_spans :patient, :other_diagnosis %>
+<% end %>
 </div>
-</div><!-- class='tablerow' -->
 
+<%= wrapped_spans :patient, :raf_county,
+	:label_text => 'RAF County' %>
+<%= wrapped_spans :patient, :raf_zip,
+	:label_text => 'RAF Zip' %>
 </div><!-- class='prelim_info' -->
-<div class='prelim_addition raf_section table'>
-<div class='tablerow'>
-<%= wrapped_spans :patient, :raf_county %>
-<%= wrapped_spans :patient, :raf_zip %>
-</div><!-- class='tablerow' -->
-</div><!-- class='prelim_addition raf_section' -->
 
 
 
 <h3>Section 2: Eligibility Criteria</h3>
 <div class='eligibility raf_section'>
-	<p>Is this patient under age 15?</p>
-	<%= wrapped_yndk_spans :patient, :was_under_15_at_dx %>
+	<%= wrapped_yndk_spans :patient, :was_under_15_at_dx,
+		:label_text => "Is this patient under age 15?" %>
 
 	<%= wrapped_spans :study_subject, :language_names,
 		:label_text => "languages" %>
 
-	<p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
-	<%= wrapped_yndk_spans :patient, :was_previously_treated %>
+	<%= wrapped_yndk_spans :patient, :was_previously_treated,
+		:label_text => "Has this patient received previous treatment for leukemia or another cancer at any institution?" %>
 
-	<p>Does the patient currently reside in California?</p>
-	<%= wrapped_yndk_spans :patient, :was_ca_resident_at_diagnosis %>
+	<%= wrapped_yndk_spans :patient, :was_ca_resident_at_diagnosis,
+		:label_text => "Does the patient currently reside in California?" %>
 </div><!-- class='eligibility' -->
 
 
@@ -102,7 +94,9 @@
 	<%= wrapped_spans :enrollment, :refused_by_family %>
 	<%= wrapped_spans :enrollment, :refused_by_physician %>
 	<%= wrapped_spans :enrollment, :refusal_reason %>
+<% if @enrollment.try(:refusal_reason).try(:is_other?) %>
 	<%= wrapped_spans :enrollment, :other_refusal_reason %>
+<% end %>
 </div><!-- class='consent' -->
 
 
@@ -116,11 +110,14 @@
 <%= wrapped_spans :study_subject, :fathers_name %>
 <%= wrapped_spans :study_subject, :guardians_name %>
 <%= wrapped_spans :study_subject, :guardian_relationship %>
+<% if @study_subject.try(:guardian_relationship).try(:is_other?) ||
+	!@study_subject.other_guardian_relationship.blank? %>
 <%= wrapped_spans :study_subject, :other_guardian_relationship %>
+<% end %>
 </div><!-- class='child_parent' -->
 
+<h3>Section 5: Contact Info</h3>
 <div class='current_address raf_section'>
-<p>child's current home address</p>
 <% @study_subject.addressings.where(
 		:data_source_id => DataSource['raf'].id).each do |a| %>
 	<% @address = a.address %>
@@ -128,9 +125,11 @@
   <%= wrapped_spans :address, :line_1 %>
   <%= wrapped_spans :address, :unit, :label_text => 'Apt.' %>
 </div><!-- class='field_grouper' -->
-  <%= wrapped_spans :address, :city %>
-  <%= wrapped_spans :address, :state %>
-  <%= wrapped_spans :address, :zip %>
+<div class='field_grouper'>
+  <%= wrapped_spans :address, :city, :label_text => 'City, State Zip' -%><%= 
+		wrapped_spans :address, :state, :label_text => ',' %>
+  <%= wrapped_spans :address, :zip, :label_text => '' %>
+</div><!-- class='field_grouper' -->
   <%= wrapped_spans :address, :county %>
 <hr/>
 <% end %>

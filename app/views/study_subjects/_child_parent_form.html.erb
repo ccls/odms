@@ -33,19 +33,16 @@
    <span><%= f.text_field :guardian_first_name %></span>
    <span><%= f.text_field :guardian_middle_name %></span>
    <span><%= f.text_field :guardian_last_name %></span>
+   <span class='big'><%= f.collection_select :guardian_relationship_id,
+  		SubjectRelationship.all, :id, :to_s, :include_blank => true %>
+   </span>
+   <span><%= f.text_field :other_guardian_relationship %></span>
   </div><!-- class='guardian tablerow' -->
+
   <div class='guardian tablerow'>
    <span>first</span>
    <span>middle</span>
    <span>last</span>
-  </div><!-- class='guardian tablerow' -->
-  <div class='guardian tablerow'>
-  <span class='big'><%= f.collection_select :guardian_relationship_id,
-  		SubjectRelationship.all, :id, :to_s, :include_blank => true %>
-  </span>
-  <span><%= f.text_field :other_guardian_relationship %></span>
-  </div><!-- class='guardian tablerow' -->
-  <div class='guardian tablerow'>
    <span class='big'>relationship</span>
    <span>other</span>
   </div><!-- class='guardian tablerow' -->
