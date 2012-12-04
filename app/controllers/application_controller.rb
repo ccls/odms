@@ -19,11 +19,13 @@ class ApplicationController < ActionController::Base
 		super
 	end
 
-	#	controller.rendered_action_name
-	#	created for use with our guidance system
-	def rendered_action_name
-		@rendered_action || params[:action]
-	end
+#	#	controller.rendered_action_name
+#	#	created for use with our guidance system so that create and update
+#	#		kickbacks show guides for new and edit.
+#	#	Not used now that we stopped using guides
+#	def rendered_action_name
+#		@rendered_action || params[:action]
+#	end
 
 	base_server_url = "https://auth#{
 		( Rails.env == "production" ) ? nil : '-test' }.berkeley.edu"

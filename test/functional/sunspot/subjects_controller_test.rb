@@ -134,29 +134,37 @@ if StudySubject.respond_to?(:solr_search)
 			assert_equal f[1], [nil,nil]
 		end
 
-##	order tests are kinda pointless with just one subject! duh!
-#
-#		test "should search with studyid order and #{cu} login" do
-#			study_subject = build_and_index_subject
-#			login_as send(cu)
-#			get :index, :order => 'studyid', :format => 'csv'
-#			assert_found_one( study_subject )
-#		end
-#
-#		test "should search with studyid order and asc dir and #{cu} login" do
-#			study_subject = build_and_index_subject
-#			login_as send(cu)
-#			get :index, :order => 'studyid', :dir => 'asc', :format => 'csv'
-#			assert_found_one( study_subject )
-#		end
-#
-#		test "should search with studyid order and desc dir and #{cu} login" do
-#			study_subject = build_and_index_subject
-#			login_as send(cu)
-#			get :index, :order => 'studyid', :dir => 'desc', :format => 'csv'
-#			assert_found_one( study_subject )
-#		end
-#
+#	order tests are kinda pointless with just one subject! duh!
+#	Although, by passing the params, it does run some conditional
+#	code which is needed for 100% coverage.
+
+		test "should search with studyid order and #{cu} login" do
+			study_subjects = [build_and_index_subject]
+			study_subjects << build_and_index_subject
+			login_as send(cu)
+			get :index, :order => 'studyid', :format => 'csv'
+			assert_found_these( study_subjects )
+pending	#	TODO test order
+		end
+
+		test "should search with studyid order and asc dir and #{cu} login" do
+			study_subjects = [build_and_index_subject]
+			study_subjects << build_and_index_subject
+			login_as send(cu)
+			get :index, :order => 'studyid', :dir => 'asc', :format => 'csv'
+			assert_found_these( study_subjects )
+pending	#	TODO test order
+		end
+
+		test "should search with studyid order and desc dir and #{cu} login" do
+			study_subjects = [build_and_index_subject]
+			study_subjects << build_and_index_subject
+			login_as send(cu)
+			get :index, :order => 'studyid', :dir => 'desc', :format => 'csv'
+			assert_found_these( study_subjects )
+pending	#	TODO test order
+		end
+
 ##	pagination tests are kinda pointless with just on subject!
 #
 #		test "should search with pagination and #{cu} login" do
@@ -240,13 +248,17 @@ protected
 	end
 
 	def assert_found_one(subject)
+		assert_found_these([subject])
+		assert_equal( subject, assigns(:search).hits.first.instance )
+		assert_equal( subject, assigns(:search).results.first )
+	end
+
+	def assert_found_these(subjects)
 		assert_nil flash[:error]
 		assert_response :success
 		assert_template 'index'
 		assert assigns(:search)
-		assert_equal 1, assigns(:search).hits.length
-		assert_equal( subject, assigns(:search).hits.first.instance )
-		assert_equal( subject, assigns(:search).results.first )
+		assert_equal subjects.length, assigns(:search).hits.length
 	end
 
 	def assert_found_nothing
