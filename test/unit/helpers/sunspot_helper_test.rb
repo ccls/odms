@@ -233,7 +233,7 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "multi_select_operator_for(something) with something_op=OR should check OR" do
-		self.params = HashWithIndifferentAccess.new(
+		self.params = HWIA.new(
 			:something_op => 'OR'
 			)
 		response = HTML::Document.new(multi_select_operator_for('something')).root
@@ -245,7 +245,7 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "multi_select_operator_for(something) with something_op=AND should check AND" do
-		self.params = HashWithIndifferentAccess.new(
+		self.params = HWIA.new(
 			:something_op => 'AND'
 			)
 		response = HTML::Document.new(multi_select_operator_for('something')).root
@@ -424,26 +424,26 @@ class SunspotHelperTest < ActionView::TestCase
 		assert_equal response, 'Redneck'
 	end
 
-	test "column_content should return Yes for consented" do
-		enrollment = Factory(:consented_enrollment)
-		subject = enrollment.study_subject
-		assert_equal 'Yes',
-			column_content(subject,"#{enrollment.project.description}:consented")
-	end
-
-	test "column_content should return Yes for eligible" do
-		enrollment = Factory(:eligible_enrollment)
-		subject = enrollment.study_subject
-		assert_equal 'Yes',
-			column_content(subject,"#{enrollment.project.description}:is_eligible")
-	end
+#	test "column_content should return Yes for consented" do
+#		enrollment = Factory(:consented_enrollment)
+#		subject = enrollment.study_subject
+#		assert_equal 'Yes',
+#			column_content(subject,"#{enrollment.project.description}:consented")
+#	end
+#
+#	test "column_content should return Yes for eligible" do
+#		enrollment = Factory(:eligible_enrollment)
+#		subject = enrollment.study_subject
+#		assert_equal 'Yes',
+#			column_content(subject,"#{enrollment.project.description}:is_eligible")
+#	end
 
 protected
-	HWIA = HashWithIndifferentAccess
+#	HWIA = HashWithIndifferentAccess
 
 #	"fake" controller methods
 	def params
-		@params || HashWithIndifferentAccess.new
+		@params || HWIA.new
 	end
 #
 #	Be very aware of your params hash.  Either use a hash with indifferent access

@@ -89,9 +89,9 @@ class Abstract < ActiveRecord::Base
 #	attr_accessible *Abstract.db_fields
 
 	def comparable_attributes
-#		HashWithIndifferentAccess[attributes.select {|k,v| 
+#		HWIA[attributes.select {|k,v| 
 #			!Abstract.incomparable_attribute_names.include?(k)}]
-		HashWithIndifferentAccess[attributes.select {|k,v| db_fields.include?(k)}]
+		HWIA[attributes.select {|k,v| db_fields.include?(k)}]
 	end
 
 	def is_the_same_as?(another_abstract)
@@ -101,7 +101,7 @@ class Abstract < ActiveRecord::Base
 	def diff(another_abstract)
 		a1 = self.comparable_attributes
 		a2 = Abstract.find(another_abstract).comparable_attributes
-		HashWithIndifferentAccess[a1.select{|k,v| a2[k] != v unless( a2[k].blank? && v.blank? ) }]
+		HWIA[a1.select{|k,v| a2[k] != v unless( a2[k].blank? && v.blank? ) }]
 	end
 
 	def self.sections

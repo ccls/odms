@@ -92,3 +92,7 @@ ActionView::Base.field_error_proc = Proc.new { |html_tag, instance|
 	nodes.to_html.html_safe
 }
 
+#	because HashWithIndifferentAccess is just too many keystrokes
+HWIA = HashWithIndifferentAccess
+
+
