@@ -20,11 +20,13 @@ div.dob {
 	vertical-align: top;
 	width: 300px;
 }
+/*
 div.local_registrar_no,
 div.subject_type,
 div.sex {
 	display:inline;
 }
+*/
 div#races div.subject_race {
 	margin-left:30px;
 }
