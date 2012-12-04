@@ -373,6 +373,9 @@ div.sortable img {
 	height: 24px;
 }
 
+span.value,
+p.value { font-weight: bold; }
+
 /*
 
 END CCLS_ENGINE

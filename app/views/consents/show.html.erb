@@ -31,7 +31,10 @@
 
 <div class='languages field_wrapper'>
 <span class='label'>Languages:</span>
-<span class='value'><%= @enrollment.study_subject.languages.collect(&:to_s).collect(&:titleize) %></span>
+<span class='value'>
+<%#= @enrollment.study_subject.languages.collect(&:to_s).collect(&:titleize) %>
+<%= @enrollment.study_subject.language_names %>
+</span>
 </div>
 
 <%= wrapped_yndk_spans( :patient, :was_previously_treated,
