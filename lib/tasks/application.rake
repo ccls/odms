@@ -379,7 +379,7 @@ namespace :app do
 			Sunspot.commit
 		elsif changes > 0
 			puts
-			puts "#{changes} change(s) found."
+			puts "#{changes} #{(changes==1)?'change':'changes'} found."
 			puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so did nothing."
 		end
 	end #	task :update_assigned_from_pagan => :environment do
@@ -523,7 +523,7 @@ namespace :app do
 			Sunspot.commit
 		elsif changes > 0
 			puts
-			puts "#{changes} change(s) found."
+			puts "#{changes} #{(changes==1)?'change':'changes'} found."
 			puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so did nothing."
 		end
 
