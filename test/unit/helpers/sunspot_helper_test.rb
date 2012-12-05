@@ -269,14 +269,14 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 
-#	def default_columns
+#	def SunspotHelper.default_columns
 
 	test "should respond_to default_columns" do
-		assert respond_to?(:default_columns)
+		assert SunspotHelper.respond_to?(:default_columns)
 	end
 
 	test "default_columns should be an array" do
-		assert default_columns.is_a?(Array)
+		assert SunspotHelper.default_columns.is_a?(Array)
 	end
 
 
@@ -288,43 +288,43 @@ class SunspotHelperTest < ActionView::TestCase
 
 	test "columns should be an array of default columns without params[:c]" do
 		assert columns.is_a?(Array)
-		assert_equal columns, default_columns
+		assert_equal columns, SunspotHelper.default_columns
 	end
 
 	test "columns should be an array of default columns with nil params['c']" do
 		self.params = HWIA.new({ 'c' => nil })
 		assert columns.is_a?(Array)
-		assert_equal columns, default_columns
+		assert_equal columns, SunspotHelper.default_columns
 	end
 
 	test "columns should be an array of default columns with nil params[:c]" do
 		self.params = HWIA.new({ :c => nil })
 		assert columns.is_a?(Array)
-		assert_equal columns, default_columns
+		assert_equal columns, SunspotHelper.default_columns
 	end
 
 	test "columns should be an array of default columns with blank params['c']" do
 		self.params = HWIA.new({ 'c' => '' })
 		assert columns.is_a?(Array)
-		assert_equal columns, default_columns
+		assert_equal columns, SunspotHelper.default_columns
 	end
 
 	test "columns should be an array of default columns with blank params[:c]" do
 		self.params = HWIA.new({ :c => '' })
 		assert columns.is_a?(Array)
-		assert_equal columns, default_columns
+		assert_equal columns, SunspotHelper.default_columns
 	end
 
 	test "columns should be an array of default columns with empty params['c']" do
 		self.params = HWIA.new({ 'c' => [] })
 		assert columns.is_a?(Array)
-		assert_equal columns, default_columns
+		assert_equal columns, SunspotHelper.default_columns
 	end
 
 	test "columns should be an array of default columns with empty params[:c]" do
 		self.params = HWIA.new({ :c => [] })
 		assert columns.is_a?(Array)
-		assert_equal columns, default_columns
+		assert_equal columns, SunspotHelper.default_columns
 	end
 
 	test "columns should be an array with string params['c']" do

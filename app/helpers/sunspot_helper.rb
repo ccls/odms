@@ -114,7 +114,8 @@ module SunspotHelper
 #Sample type/sub-type
 #Date samples received
 
-	def default_columns
+	#	made class to more easily accessible by outside testing
+	def self.default_columns
 		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
 			subject_type vital_status sex dob 
 			first_name last_name)
@@ -124,7 +125,7 @@ module SunspotHelper
 		columns ||= if( params[:c].present? )
 			[params[:c]].flatten
 		else
-			default_columns
+			SunspotHelper.default_columns
 		end
 	end
 
