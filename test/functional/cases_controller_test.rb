@@ -1247,20 +1247,10 @@ class CasesControllerTest < ActionController::TestCase
 	end
 
 
-
-
-
-# File lib/minitest/unit.rb, line 289
-#    def assert_nil obj, msg = nil
-#      msg = message(msg) { "Expected #{mu_pp(obj)} to be nil" }
-#      assert obj.nil?, msg
-#    end
-
-    def assert_blank obj, msg = nil
-      msg = message(msg) { "Expected #{mu_pp(obj)} to be blank" }
-      assert obj.blank?, msg
-    end
-
+	def assert_blank obj, msg = nil
+		msg ||= "Expected '#{obj}' to be blank"
+		assert obj.blank?, msg
+	end
 
 end
 __END__
