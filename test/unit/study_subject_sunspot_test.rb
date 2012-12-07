@@ -19,48 +19,23 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 #
 	end
 
-
-#	test "should respond to case_icf_master_id" do
-#		subject = Factory(:study_subject)
-#		assert subject.respond_to?(:case_icf_master_id)
-#		subject.case_icf_master_id
-#	end
-#
-#	test "should respond to mother_icf_master_id" do
-#		subject = Factory(:study_subject)
-#		assert subject.respond_to?(:mother_icf_master_id)
-#		subject.mother_icf_master_id
-#	end
-#
-#	test "should respond to father_ssn" do
-#		subject = Factory(:study_subject)
-#		assert subject.respond_to?(:father_ssn)
-#		subject.father_ssn
-#	end
-#
-#	test "should respond to mother_ssn" do
-#		subject = Factory(:study_subject)
-#		assert subject.respond_to?(:mother_ssn)
-#		subject.mother_ssn
-#	end
-#
-#	test "should respond to hospital" do
-#		subject = Factory(:study_subject)
-#		assert subject.respond_to?(:hospital)
-#		subject.hospital
-#	end
-#
-#	test "should respond to hospital_key" do
-#		subject = Factory(:study_subject)
-#		assert subject.respond_to?(:hospital_key)
-#		subject.hospital_key
-#	end
-#
-#	test "should respond to diagnosis" do
-#		subject = Factory(:study_subject)
-#		assert subject.respond_to?(:diagnosis)
-#		subject.diagnosis
-#	end
+	%w( sunspot_columns
+		sunspot_orderable_columns
+		sunspot_string_columns
+		sunspot_nulled_string_columns
+		sunspot_time_columns
+		sunspot_date_columns
+		sunspot_integer_columns
+		sunspot_boolean_columns
+		sunspot_double_columns
+		sunspot_default_columns
+		sunspot_available_columns
+		sunspot_dynamic_columns
+		).each do |column|
+		test "should return array for sunspot class method #{column}" do
+			assert StudySubject.send(column).is_a?(Array)
+		end
+	end
 
 	%w( case_icf_master_id mother_icf_master_id
 			father_ssn mother_ssn hospital hospital_key diagnosis

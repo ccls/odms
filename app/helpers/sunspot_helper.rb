@@ -87,45 +87,46 @@ module SunspotHelper
 		s << "</ul>\n".html_safe
 	end
 
-	def available_columns
+#	def available_columns
+##		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
+##			subject_type vital_status case_control_type reference_date
+##			sex dob died_on phase birth_year 
+##			mother_first_name mother_maiden_name mother_last_name
+##			father_first_name father_last_name 
+##			first_name middle_name maiden_name last_name
+##			do_not_contact
+##			father_ssn mother_ssn
+##			patid languages subjectid
+##			hospital hospital_no admit_date )
+#		StudySubject.sunspot_columns.sort + #['ccls_consented','ccls_is_eligible'] +
+#			StudySubject.sunspot_dynamic_columns.sort
+#	end
+#
+##Eligible
+##Consented
+##Interview assigned
+##Interview date
+##Abstract date completed
+##Abstract date requested
+##Abstract date received
+##Abstractor
+##Abstract checker
+##Sample type/sub-type
+##Date samples received
+#
+#	#	made class to more easily accessible by outside testing
+#	def self.default_columns
 #		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
-#			subject_type vital_status case_control_type reference_date
-#			sex dob died_on phase birth_year 
-#			mother_first_name mother_maiden_name mother_last_name
-#			father_first_name father_last_name 
-#			first_name middle_name maiden_name last_name
-#			do_not_contact
-#			father_ssn mother_ssn
-#			patid languages subjectid
-#			hospital hospital_no admit_date )
-		StudySubject.sunspot_columns.sort + #['ccls_consented','ccls_is_eligible'] +
-			StudySubject.sunspot_dynamic_columns.sort
-	end
-
-#Eligible
-#Consented
-#Interview assigned
-#Interview date
-#Abstract date completed
-#Abstract date requested
-#Abstract date received
-#Abstractor
-#Abstract checker
-#Sample type/sub-type
-#Date samples received
-
-	#	made class to more easily accessible by outside testing
-	def self.default_columns
-		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
-			subject_type vital_status sex dob 
-			first_name last_name)
-	end
+#			subject_type vital_status sex dob 
+#			first_name last_name)
+#	end
 
 	def columns
 		columns ||= if( params[:c].present? )
 			[params[:c]].flatten
 		else
-			SunspotHelper.default_columns
+#			SunspotHelper.default_columns
+			StudySubject.sunspot_default_columns
 		end
 	end
 

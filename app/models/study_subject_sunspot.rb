@@ -133,6 +133,31 @@ base.class_eval do
 		@@sunspot_double_columns ||= []
 	end
 
+
+	def self.sunspot_default_columns
+		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
+			subject_type vital_status sex dob 
+			first_name last_name)
+	end
+
+	def self.sunspot_available_columns
+#		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
+#			subject_type vital_status case_control_type reference_date
+#			sex dob died_on phase birth_year 
+#			mother_first_name mother_maiden_name mother_last_name
+#			father_first_name father_last_name 
+#			first_name middle_name maiden_name last_name
+#			do_not_contact
+#			father_ssn mother_ssn
+#			patid languages subjectid
+#			hospital hospital_no admit_date )
+		StudySubject.sunspot_columns.sort + #['ccls_consented','ccls_is_eligible'] +
+			StudySubject.sunspot_dynamic_columns.sort
+	end
+
+
+
+
 	searchable do
 		StudySubject.sunspot_integer_columns.each {|c| integer c }
 		StudySubject.sunspot_date_columns.each    {|c| date    c }
