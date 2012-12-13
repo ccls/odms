@@ -184,7 +184,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = Factory(:study_subject)
+				study_subject = Factory(:case_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 18
@@ -252,7 +252,57 @@ class ApplicationHelperTest < ActionView::TestCase
 #
 		controllers_and_current_links.each do |k,v|
 
-			test "subject_side_menu for #{k} with #{cu} login" do
+			test "subject_side_menu for case subject and #{k} with #{cu} login" do
+				login_as send(cu)
+				self.params = { :controller => k }
+				study_subject = Factory(:case_study_subject)
+				response = HTML::Document.new( subject_side_menu(study_subject) ).root
+				assert_select response, 'div#sidemenu' do
+					assert_select 'a', :count => 14
+					if %w( birth_records interviews documents notes ).include?(k)
+						#	not shown to non-admins
+						assert_select 'a.current', :count => 0
+					else
+						assert_select 'a.current[href=?]', send(v,study_subject)
+					end
+				end
+			end
+
+			test "subject_side_menu for control subject and #{k} with #{cu} login" do
+				login_as send(cu)
+				self.params = { :controller => k }
+				study_subject = Factory(:control_study_subject)
+				response = HTML::Document.new( subject_side_menu(study_subject) ).root
+				assert_select response, 'div#sidemenu' do
+					assert_select 'a', :count => 14
+					if %w( birth_records interviews documents notes ).include?(k)
+						#	not shown to non-admins
+						assert_select 'a.current', :count => 0
+					else
+						assert_select 'a.current[href=?]', send(v,study_subject)
+					end
+				end
+pending
+			end
+
+			test "subject_side_menu for mother subject and #{k} with #{cu} login" do
+				login_as send(cu)
+				self.params = { :controller => k }
+				study_subject = Factory(:mother_study_subject)
+				response = HTML::Document.new( subject_side_menu(study_subject) ).root
+				assert_select response, 'div#sidemenu' do
+					assert_select 'a', :count => 14
+					if %w( birth_records interviews documents notes ).include?(k)
+						#	not shown to non-admins
+						assert_select 'a.current', :count => 0
+					else
+						assert_select 'a.current[href=?]', send(v,study_subject)
+					end
+				end
+pending
+			end
+
+			test "subject_side_menu for subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
 				study_subject = Factory(:study_subject)
@@ -266,11 +316,47 @@ class ApplicationHelperTest < ActionView::TestCase
 						assert_select 'a.current[href=?]', send(v,study_subject)
 					end
 				end
+pending
 			end
 
 		end
 	
-		test "subject_side_menu for bogus controller with #{cu} login" do
+		test "subject_side_menu for case subject and bogus controller with #{cu} login" do
+			login_as send(cu)
+			self.params = { :controller => 'bogus' }
+			study_subject = Factory(:case_study_subject)
+			response = HTML::Document.new( subject_side_menu(study_subject) ).root
+			assert_select response, 'div#sidemenu' do
+				assert_select 'a', :count => 14
+				assert_select 'a.current', :count => 0
+			end
+		end
+
+		test "subject_side_menu for control subject and bogus controller with #{cu} login" do
+			login_as send(cu)
+			self.params = { :controller => 'bogus' }
+			study_subject = Factory(:control_study_subject)
+			response = HTML::Document.new( subject_side_menu(study_subject) ).root
+			assert_select response, 'div#sidemenu' do
+				assert_select 'a', :count => 14
+				assert_select 'a.current', :count => 0
+			end
+pending
+		end
+
+		test "subject_side_menu for mother subject and bogus controller with #{cu} login" do
+			login_as send(cu)
+			self.params = { :controller => 'bogus' }
+			study_subject = Factory(:mother_study_subject)
+			response = HTML::Document.new( subject_side_menu(study_subject) ).root
+			assert_select response, 'div#sidemenu' do
+				assert_select 'a', :count => 14
+				assert_select 'a.current', :count => 0
+			end
+pending
+		end
+
+		test "subject_side_menu for subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
 			study_subject = Factory(:study_subject)
@@ -279,6 +365,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				assert_select 'a', :count => 14
 				assert_select 'a.current', :count => 0
 			end
+pending
 		end
 
 		test "should not get user_roles with #{cu} login" do
@@ -291,13 +378,13 @@ class ApplicationHelperTest < ActionView::TestCase
 
 	end	#	reader and editor
 
-#	WITHOUT LOGIN
+#	WITHOUT LOGIN (ONLY REAL IN TESTING AS CONTROLLERS STOP THIS)
 
 	controllers_and_current_links.each do |k,v|
 
-		test "subject_side_menu for #{k} without login" do
+		test "subject_side_menu for case subject and #{k} without login" do
 			self.params = { :controller => k }
-			study_subject = Factory(:study_subject)
+			study_subject = Factory(:case_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', :count => 14

@@ -145,13 +145,17 @@ module ApplicationHelper
 				links << link_to( "back to search", request.env["HTTP_REFERER"] )
 			end
 #				link_to( "back to subjects", dashboard_study_subjects_path ),
+
+# the logged_in? check is a bit much as you should never get here without it.
+#	( only used in the helper tests )
+
 			links += [
 				link_to( "Basic Info", study_subject_path(study_subject),
 					:class => ((current == :general)?'current':nil) ),
 				link_to( "Address & Phone", study_subject_contacts_path(study_subject),
-					:class => ((current == :contact)?'current':nil) ),
-				link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
-					:class => ((current == :hospital)?'current':nil) ) ]
+					:class => ((current == :contact)?'current':nil) ) ]
+			links << link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
+					:class => ((current == :hospital)?'current':nil) ) if study_subject.is_case?
 
 			links += [
 				link_to( "Birth Record", study_subject_birth_record_path(study_subject),
@@ -184,10 +188,12 @@ module ApplicationHelper
 			links << link_to( "Related Subjects", 
 					study_subject_related_subjects_path(study_subject),
 					:class => ((current == :related_subjects)?'current':nil) )
-			links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
+			if study_subject.is_case?
+				links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) )
-			links << link_to( "Case Info", case_path(study_subject),
-					:class => ((current == :case)?'current':nil) )
+				links << link_to( "Case Info", case_path(study_subject),
+					:class => ((current == :case)?'current':nil) ) 
+			end
 			links << "<span>&nbsp;</span>"
 			links << "<div style='text-align:center;'>" <<
 				link_to('first'.html_safe, first_study_subjects_path()) <<
