@@ -191,7 +191,7 @@ module ApplicationHelper
 			if study_subject.is_case?
 				links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) )
-				links << link_to( "Case Info", case_path(study_subject),
+				links << link_to( "RAF Info", case_path(study_subject),
 					:class => ((current == :case)?'current':nil) ) 
 			end
 			links << "<span>&nbsp;</span>"
