@@ -134,42 +134,56 @@ if StudySubject.respond_to?(:solr_search)
 			assert_equal f[1], [nil,nil]
 		end
 
-#	order tests are kinda pointless with just one subject! duh!
-#	Although, by passing the params, it does run some conditional
-#	code which is needed for 100% coverage.
 
 		test "should search with studyid order and #{cu} login" do
-			study_subjects = [build_and_index_subject]
-			study_subjects << build_and_index_subject
+			study_subjects = [build_and_index_subject(:studyid => 'apples')]
+			study_subjects << build_and_index_subject(:studyid => 'oranges')
 			login_as send(cu)
 			get :index, :order => 'studyid', :format => 'csv'
 			assert_found_these( study_subjects )
-pending	#	TODO test order
 		end
 
 		test "should search with studyid order and asc dir and #{cu} login" do
-			study_subjects = [build_and_index_subject]
-			study_subjects << build_and_index_subject
+			study_subjects = [build_and_index_subject(:studyid => 'apples')]
+			study_subjects << build_and_index_subject(:studyid => 'oranges')
 			login_as send(cu)
 			get :index, :order => 'studyid', :dir => 'asc', :format => 'csv'
 			assert_found_these( study_subjects )
-pending	#	TODO test order
 		end
 
 		test "should search with studyid order and desc dir and #{cu} login" do
+			study_subjects = [build_and_index_subject(:studyid => 'apples')]
+			study_subjects << build_and_index_subject(:studyid => 'oranges')
+			login_as send(cu)
+			get :index, :order => 'studyid', :dir => 'desc', :format => 'csv'
+			assert_found_these( study_subjects.reverse )
+		end
+
+
+		test "should search with pagination and #{cu} login" do
 			study_subjects = [build_and_index_subject]
 			study_subjects << build_and_index_subject
 			login_as send(cu)
-			get :index, :order => 'studyid', :dir => 'desc', :format => 'csv'
-			assert_found_these( study_subjects )
-pending	#	TODO test order
+			get :index, :per_page => 1
+			assert_found_one( study_subjects.first )
 		end
 
-##	pagination tests are kinda pointless with just on subject!
-#
-#		test "should search with pagination and #{cu} login" do
-#			study_subject = build_and_index_subject
-#		end
+		test "should search with pagination and page 1 and #{cu} login" do
+			study_subjects = [build_and_index_subject]
+			study_subjects << build_and_index_subject
+			login_as send(cu)
+			get :index, :per_page => 1, :page => 1
+			assert_found_one( study_subjects.first )
+		end
+
+		test "should search with pagination and page 2 and #{cu} login" do
+			study_subjects = [build_and_index_subject]
+			study_subjects << build_and_index_subject
+			login_as send(cu)
+			get :index, :per_page => 1, :page => 2
+			assert_found_one( study_subjects.last )
+		end
+
 
 		test "should search with csv output and #{cu} login" do
 			study_subject = build_and_index_subject
@@ -258,6 +272,10 @@ protected
 		assert_template 'index'
 		assert assigns(:search)
 		assert_equal subjects.length, assigns(:search).hits.length
+
+		assert_equal subjects, assigns(:search).results
+		assert_equal subjects, assigns(:search).hits.collect(&:instance)
+
 	end
 
 	def assert_found_nothing

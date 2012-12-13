@@ -62,7 +62,7 @@
 </tr>
 <% end %>
 </tbody></table>
-<p><%= will_paginate(@search.hits) %></p>
+<br/><%= will_paginate(@search.hits) %>
 <p class='page_info'>Displaying page <%=@search.hits.current_page%> of <%=@search.hits.total_pages%> out of <%=@search.total%> results</p>
 <% else %>
 <p>No results</p>

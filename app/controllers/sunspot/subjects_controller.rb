@@ -110,7 +110,7 @@ class Sunspot::SubjectsController < SunspotController
 				#	use the @search.total from the previous search sent as param?
 				paginate :per_page => 100000
 			end
-			paginate :page => params[:page] 
+			paginate :page => params[:page], :per_page => params[:per_page]
 		end
 #		#
 #		#	The only reason to have this block is to change the name of the file.
