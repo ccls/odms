@@ -38,6 +38,12 @@ namespace :automate do
 
 			changed = []
 
+
+#
+#	TODO Insert a check to ensure that the file has the expected columns
+#
+
+
 			(f=CSV.open( "ICF_Master_Tracker.csv", 'rb',{
 					:headers => true })).each do |line|
 				puts
