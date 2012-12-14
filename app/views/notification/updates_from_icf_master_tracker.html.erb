@@ -1,0 +1,19 @@
+<html>
+<body>
+<% if @changed.length > 0 %>
+<p>The following changed ...<p>
+<table><tbody>
+<thead><tr><th>ICF Master ID</th><th>Interview Completed On</th></thead>
+<% @changed.each do |change| %>
+<tr>
+<td><%= link_to change.icf_master_id, study_subject_url(change) %></td>
+<td><%= change.ccls_enrollment.interview_completed_on.try(:strftime,"%m/%d/%Y") %></td>
+</tr>
+<% end %>
+</tbody></table>
+
+<% else %>
+<p>No changes<p>
+<% end %>
+</body>
+</html>

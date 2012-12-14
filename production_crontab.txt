@@ -1,0 +1,41 @@
+#
+#	crontab some_crontab_text_file.txt
+#		will overwrite the entire existing crontab setup.
+#
+#	crontab -e 
+#		will open up an editor
+#
+#	crontab -l
+#		will display the crontab file
+#
+#	* * * * * Command to be executed
+#	- - - - -
+#	| | | | |
+#	| | | | +----- Day of week (0-6)
+#	| | | +------- Month (1 - 12)
+#	| | +--------- Day of month (1 - 31)
+#	| +----------- Hour (0 - 23)
+#	+------------- Min (0 - 59)
+#
+#
+#	Gonna use this to dump the database into xml files.
+#
+#	Probably also gonna use it for icf_master_tracker data updates.
+#
+#
+#
+#	Which shell?	Setting must include path apparently
+SHELL=/bin/tcsh
+#	What is RAILS_ENV?	seems unset (is set in .tcshrc so if tcsh is shell is set)
+#	Could also explicitly set it
+RAILS_ENV=production
+#	Can I have a series of commands in crontab, or should I put it all in one script.
+#
+#
+#@hourly cd /my/ruby/odms/ ; rake app:data:export_to_xml >> /my/ruby/export_to_xml.log
+@daily cd /my/ruby/odms/ ; rake app:data:export_to_xml >> /my/ruby/export_to_xml.log
+#* * * * * cd /my/ruby/odms/ ; rake app:export_to_xml
+#* * * * * echo $RAILS_ENV >> /my/ruby/rails_env_check
+
+#	0 12 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/automate_updates_from_icf_master_tracker.log
+
