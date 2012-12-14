@@ -156,6 +156,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	#
 
 	controllers_and_current_links = {
+		'cases'                   => 'case_path',
 		'patients'                => 'study_subject_patient_path',
 		'birth_records'           => 'study_subject_birth_record_path',
 		'addresses'               => 'study_subject_contacts_path',
@@ -274,15 +275,15 @@ class ApplicationHelperTest < ActionView::TestCase
 				study_subject = Factory(:control_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 14
-					if %w( birth_records interviews documents notes ).include?(k)
+					assert_select 'a', :count => 11
+					if %w( birth_records interviews documents notes cases
+						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
 					else
 						assert_select 'a.current[href=?]', send(v,study_subject)
 					end
 				end
-pending
 			end
 
 			test "subject_side_menu for mother subject and #{k} with #{cu} login" do
@@ -291,15 +292,15 @@ pending
 				study_subject = Factory(:mother_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 14
-					if %w( birth_records interviews documents notes ).include?(k)
+					assert_select 'a', :count => 11
+					if %w( birth_records interviews documents notes cases
+						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
 					else
 						assert_select 'a.current[href=?]', send(v,study_subject)
 					end
 				end
-pending
 			end
 
 			test "subject_side_menu for subject and #{k} with #{cu} login" do
@@ -308,15 +309,15 @@ pending
 				study_subject = Factory(:study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 14
-					if %w( birth_records interviews documents notes ).include?(k)
+					assert_select 'a', :count => 11
+					if %w( birth_records interviews documents notes cases
+						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
 					else
 						assert_select 'a.current[href=?]', send(v,study_subject)
 					end
 				end
-pending
 			end
 
 		end
@@ -338,10 +339,9 @@ pending
 			study_subject = Factory(:control_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 14
+				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
 			end
-pending
 		end
 
 		test "subject_side_menu for mother subject and bogus controller with #{cu} login" do
@@ -350,10 +350,9 @@ pending
 			study_subject = Factory(:mother_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 14
+				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
 			end
-pending
 		end
 
 		test "subject_side_menu for subject and bogus controller with #{cu} login" do
@@ -362,10 +361,9 @@ pending
 			study_subject = Factory(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 14
+				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
 			end
-pending
 		end
 
 		test "should not get user_roles with #{cu} login" do
