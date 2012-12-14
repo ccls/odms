@@ -151,6 +151,10 @@ class StudySubjectsController < ApplicationController
 		next_study_subject = StudySubject
 			.where(StudySubject.arel_table[:id].gt(@study_subject.id))
 			.order('id asc').limit(1).first
+		if next_study_subject.nil?
+			flash[:warn] = "Rolled over"
+			next_study_subject = StudySubject.order('id asc').first
+		end
 		redirect_to url_for_subject(next_study_subject)
 	end
 #
@@ -158,10 +162,16 @@ class StudySubjectsController < ApplicationController
 #	actually redirects to the current study_subject#show
 #	which is nice, but I don't understand why.
 #
+#	This hain't true no mo.
+#
 	def prev
 		prev_study_subject = StudySubject
 			.where(StudySubject.arel_table[:id].lt(@study_subject.id))
 			.order('id desc').limit(1).first
+		if prev_study_subject.nil?
+			flash[:warn] = "Rolled over"
+			prev_study_subject = StudySubject.order('id desc').first
+		end
 		redirect_to url_for_subject(prev_study_subject)
 	end
 
