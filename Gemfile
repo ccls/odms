@@ -136,7 +136,7 @@ gem 'net-ldap'
 #	the app for a couple reasons.  If this gem is upgraded, check to see
 #	if this file has changed and update the app's copy accordingly.
 #
-gem "active_scaffold"
+#gem "active_scaffold"
 
 
 group :test do

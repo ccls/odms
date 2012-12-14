@@ -149,21 +149,6 @@ Odms::Application.routes.draw do
 	resources :vital_statuses
 	resources :zip_codes, :only => [ :index ]
 
-#	resource  :waivered,    :only => [:new,:create]
-#	resource  :nonwaivered, :only => [:new,:create]
-
-	namespace :active_scaffold do
-		resources :study_subjects	do as_routes end
-		resources :addresses	do as_routes end
-		resources :addressings	do as_routes end
-		resources :phone_numbers	do as_routes end
-		resources :enrollments	do as_routes end
-		resources :patients	do as_routes end
-		resources :subject_languages	do as_routes end
-		resources :subject_races	do as_routes end
-		resources :data_sources	do as_routes end
-	end
-
 	match 'logout', :to => 'sessions#destroy'
 
 	resources :users, :only => [:destroy,:show,:index] do
