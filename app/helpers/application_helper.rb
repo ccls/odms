@@ -20,7 +20,7 @@ module ApplicationHelper
 			[
 				link_to('Dashboard', dashboard_study_subjects_path ),
 				link_to('New Case (RAF)', new_raf_path),
-				link_to('New Control', cases_path),
+				link_to('New Control', new_control_path),
 				link_to('Birth Data Requests', new_bc_request_path)
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"

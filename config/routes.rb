@@ -85,12 +85,13 @@ Odms::Application.routes.draw do
 	#	Removing RAF forms and creating a single RAF-like form
 	#	for cases only and adding edit/update/show.
 #	resources :cases, :only => [:new,:create,:edit,:update,:show,:index] do
-	resources :cases, :only => [:index] do
-		#
-		#	WARNING be careful as "case" is a ruby keyword!
-		#
-		resources :controls,   :only => [:new]	#,:create]
-	end
+#	resources :cases, :only => [:index] do
+#		#
+#		#	WARNING be careful as "case" is a ruby keyword!
+#		#
+#		resources :controls,   :only => [:new]	#,:create]
+#	end
+	resources :controls, :only => [:new,:create]
 	resources :contexts
 	resources :data_sources
 	resources :diagnoses

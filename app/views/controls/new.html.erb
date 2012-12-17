@@ -1,0 +1,27 @@
+<%# stylesheets(:cases) %>
+<h4>New Control Selection</h4>
+
+<%= form_tag(new_control_path,:method => :get) do %>
+<p>
+<%= text_field_tag :q, params[:q], :id => nil  %>
+<%= submit_tag 'Find case by patid or icf master id' %>
+</p>
+<p>Enter the case's PatID or ICF Master ID to go to their Related Subjects screen. Once there, add controls by pressing the "Add Control" button.</p>
+<% end %>
+
+<% if @study_subject %>
+<div id='case_study_subject'>
+<h4><%= @study_subject.studyid_to_s %>&nbsp;:&nbsp;<%= @study_subject.full_name %></h4>
+<ul>
+<li>ICF Master ID:&nbsp;<%= @study_subject.icf_master_id_to_s %></li>
+<li>sex:&nbsp;<%= @study_subject.sex %></li>
+<li>DOB:&nbsp;<%=mdy @study_subject.dob %></li>
+<li>race:&nbsp;<%= @study_subject.races %></li>
+<li>hispanicity:&nbsp;<%#= @study_subject.hispanicity %> </li>
+<li>reference date:&nbsp;<%=mdy @study_subject.reference_date %></li>
+</ul>
+<%#= link_to( 'Continue', case_path(@study_subject), :class => 'button' ) %>
+<%= link_to( 'Continue', study_subject_related_subjects_path(@study_subject), 
+	:class => 'button' ) %>
+</div><!-- id='case_study_subject' -->
+<% end %>
