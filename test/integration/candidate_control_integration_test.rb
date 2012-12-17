@@ -14,7 +14,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 			visit study_subject_related_subjects_path(case_study_subject.id)
 			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
-			click_link 'add control'
+			click_button 'add control'
 
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
@@ -62,7 +62,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:mother_maiden_name => candidate.mother_maiden_name)
 			visit study_subject_related_subjects_path(case_study_subject.id)
 			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
-			click_link 'add control'
+			click_button 'add control'
 
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
@@ -125,7 +125,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
 			visit study_subject_related_subjects_path(case_study_subject.id)
-			click_link 'add control'
+			click_button 'add control'
 
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)
@@ -192,7 +192,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
 			visit study_subject_related_subjects_path(case_study_subject.id)
-			click_link 'add control'
+			click_button 'add control'
 
 			#	Only one control so should go to it.
 			assert_equal current_path, edit_candidate_control_path(candidate)

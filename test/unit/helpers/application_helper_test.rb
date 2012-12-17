@@ -156,7 +156,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	#
 
 	controllers_and_current_links = {
-		'cases'                   => 'case_path',
+		'rafs'                    => 'raf_path',
 		'patients'                => 'study_subject_patient_path',
 		'birth_records'           => 'study_subject_birth_record_path',
 		'addresses'               => 'study_subject_contacts_path',
@@ -276,7 +276,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 11
-					if %w( birth_records interviews documents notes cases
+					if %w( birth_records interviews documents notes rafs
 						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
@@ -293,7 +293,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 11
-					if %w( birth_records interviews documents notes cases
+					if %w( birth_records interviews documents notes rafs
 						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
@@ -310,7 +310,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 11
-					if %w( birth_records interviews documents notes cases
+					if %w( birth_records interviews documents notes rafs
 						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
