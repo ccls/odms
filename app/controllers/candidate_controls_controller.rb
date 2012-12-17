@@ -95,7 +95,8 @@ protected
 		if !params[:id].blank? and CandidateControl.exists?(params[:id])
 			@candidate_control = CandidateControl.find(params[:id])
 		else
-			access_denied("Valid candidate_control id required!", cases_path)
+#			access_denied("Valid candidate_control id required!", cases_path)
+			access_denied("Valid candidate_control id required!", new_control_path)
 		end
 	end
 
@@ -114,7 +115,8 @@ protected
 		@study_subject = StudySubject.cases.with_patid(@candidate_control.related_patid).readonly(false).first
 
 		if @study_subject.blank?
-			access_denied("No valid case study subject found for that candidate!", cases_path)
+#			access_denied("No valid case study subject found for that candidate!", cases_path)
+			access_denied("No valid case study subject found for that candidate!", new_control_path)
 		end
 	end
 

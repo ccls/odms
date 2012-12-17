@@ -146,7 +146,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			get :edit, :id => 0
 			assert_not_nil flash[:error]
-			assert_redirected_to cases_path
+#			assert_redirected_to cases_path
+			assert_redirected_to new_control_path
 		end
 
 		test "should NOT get edit with #{cu} login and no case" do
@@ -154,7 +155,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate = Factory(:candidate_control)
 			get :edit, :id => candidate.id
 			assert_not_nil flash[:error]
-			assert_redirected_to cases_path
+#			assert_redirected_to cases_path
+			assert_redirected_to new_control_path
 		end
 
 		test "should NOT get edit with #{cu} login and used candidate control" do
@@ -629,14 +631,16 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				put :update, :id => 0, :candidate_control => {}
 			}
 			assert_not_nil flash[:error]
-			assert_redirected_to cases_path
+#			assert_redirected_to cases_path
+			assert_redirected_to new_control_path
 		end
 
 		test "should NOT put update with #{cu} login and no case" do
 			login_as send(cu)
 			candidate = Factory(:candidate_control)
 			assert_not_put_update_candidate(candidate)
-			assert_redirected_to cases_path
+#			assert_redirected_to cases_path
+			assert_redirected_to new_control_path
 		end
 
 		test "should NOT put update with #{cu} login and invalid candidate" do

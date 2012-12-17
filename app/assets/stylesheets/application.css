@@ -66,6 +66,7 @@ h2 span {
 	display:inline-block;
 	vertical-align:middle;
 }
+h3 > form,
 h3 > span {
 	float:right;
 	font-size:10pt;

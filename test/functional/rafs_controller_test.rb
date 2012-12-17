@@ -607,7 +607,7 @@ class RafsControllerTest < ActionController::TestCase
 			put :update, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 		end
 
 		test "should NOT update mother with #{cu} login" do
@@ -651,7 +651,7 @@ class RafsControllerTest < ActionController::TestCase
 			} }
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 		end
 
 		test "should update and create address with defaults and #{cu} login" do
@@ -665,7 +665,7 @@ class RafsControllerTest < ActionController::TestCase
 			} }
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 
 			addressing = assigns(:study_subject).addressings.first
 #			assert addressing.is_verified
@@ -696,7 +696,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal "ihavebeenupdated", addressing.address.reload.line_1
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 		end
 
 		test "should update address and not overwrite with defaults "<<
@@ -717,7 +717,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no], addressing.current_address
 			assert_equal YNDK[:no], addressing.address_at_diagnosis
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 		end
 
 #			'address_attributes' => { 
@@ -733,7 +733,7 @@ class RafsControllerTest < ActionController::TestCase
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 		end
 
 		test "should update and create phone number with defaults and #{cu} login" do
@@ -748,7 +748,7 @@ class RafsControllerTest < ActionController::TestCase
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 
 			phone_number = assigns(:study_subject).phone_numbers.first
 #			assert phone_number.is_verified
@@ -773,7 +773,7 @@ class RafsControllerTest < ActionController::TestCase
 			} } } }
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 			assert_not_equal phone_number.reload.phone_number, number
 		end
 
@@ -793,7 +793,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:no], phone_number.current_phone
 			assert_equal PhoneType['mobile'].id, phone_number.phone_type_id
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 		end
 
 		test "should update and create address with blank line and #{cu} login" do
@@ -811,7 +811,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal '[no address provided]',
 				assigns(:study_subject).addressings.first.address.line_1
 			assert_nil flash[:error]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 		end
 
 		test "should NOT update case study_subject" <<
@@ -868,7 +868,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_nil flash[:warn]
 			assert_nil flash[:error]
 			assert_not_nil flash[:notice]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 			assert_equal YNDK[:yes], enrollment.reload.is_eligible
 		end
 
@@ -901,7 +901,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_nil flash[:warn]
 			assert_nil flash[:error]
 			assert_not_nil flash[:notice]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 			assert_equal YNDK[:no], enrollment.reload.is_eligible
 		end
 
@@ -934,7 +934,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_nil flash[:warn]
 			assert_nil flash[:error]
 			assert_not_nil flash[:notice]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 			assert_equal YNDK[:no], enrollment.reload.is_eligible
 		end
 
@@ -967,7 +967,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_nil flash[:warn]
 			assert_nil flash[:error]
 			assert_not_nil flash[:notice]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 			assert_equal YNDK[:no], enrollment.reload.is_eligible
 		end
 
@@ -1001,7 +1001,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_nil flash[:warn]
 			assert_nil flash[:error]
 			assert_not_nil flash[:notice]
-			assert_redirected_to case_path(study_subject)
+			assert_redirected_to raf_path(study_subject)
 			assert_equal YNDK[:no], enrollment.reload.is_eligible
 		end
 
