@@ -19,7 +19,7 @@ module ApplicationHelper
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('Dashboard', dashboard_study_subjects_path ),
-				link_to('New Case', new_case_path),
+				link_to('New Case (RAF)', new_raf_path),
 				link_to('New Control', cases_path),
 				link_to('Birth Data Requests', new_bc_request_path)
 			].join("\n    ") <<
@@ -133,7 +133,7 @@ module ApplicationHelper
 #	this will catch abstracts, study_subject_abstracts and 
 #		all of the abstract/whatevers
 			when /abstract/ then :abstracts
-			when 'cases' then :case
+			when 'rafs' then :raf
 			else nil
 		end
 
@@ -191,8 +191,8 @@ module ApplicationHelper
 			if study_subject.is_case?
 				links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) )
-				links << link_to( "RAF Info", case_path(study_subject),
-					:class => ((current == :case)?'current':nil) ) 
+				links << link_to( "RAF Info", raf_path(study_subject),
+					:class => ((current == :raf)?'current':nil) ) 
 			end
 			links << "<span>&nbsp;</span>"
 			links << "<div style='text-align:center;'>" <<

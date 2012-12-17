@@ -84,7 +84,8 @@ Odms::Application.routes.draw do
 	resources :candidate_controls, :only => [:edit,:update,:index,:show]
 	#	Removing RAF forms and creating a single RAF-like form
 	#	for cases only and adding edit/update/show.
-	resources :cases, :only => [:new,:create,:edit,:update,:show,:index] do
+#	resources :cases, :only => [:new,:create,:edit,:update,:show,:index] do
+	resources :cases, :only => [:index] do
 		#
 		#	WARNING be careful as "case" is a ruby keyword!
 		#
@@ -126,6 +127,7 @@ Odms::Application.routes.draw do
 	resources :phone_types
 	resources :project_outcomes
 	resources :projects
+	resources :rafs, :only => [:new,:create,:edit,:update,:show]
 	resources :races
 	resource  :receive_sample, :only => [:new,:create]
 	resources :refusal_reasons

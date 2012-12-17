@@ -1,8 +1,8 @@
 require 'test_helper'
 require 'raf_test_helper'
 
-class CasesControllerDuplicatesTest < ActionController::TestCase
-	tests CasesController
+class RafsControllerDuplicatesTest < ActionController::TestCase
+	tests RafsController
 
 	site_editors.each do |cu|
 

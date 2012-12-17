@@ -20,6 +20,11 @@ module ActiveSupportExtension::Assertions
 #	end
 #	alias_method :assert_study_subject_is_not_eligible, :assert_subject_is_not_eligible
 
+	def assert_blank obj, msg = nil
+		msg ||= "Expected '#{obj}' to be blank"
+		assert obj.blank?, msg
+	end
+
 	module ClassMethods
 
 		def assert_should_create_default_object(*args)

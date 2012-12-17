@@ -1,13 +1,13 @@
 require 'integration_test_helper'
 
-class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
+class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
 			duplicate = Factory(:complete_waivered_case_study_subject)
 			login_as send(cu)
-			visit new_case_path
+			visit new_raf_path
 
 			subject = Factory.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
@@ -34,7 +34,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 				wait_until { has_css?("p.flash.error") }
 			} } } } } }
 
-			assert_equal cases_path, current_path
+			assert_equal rafs_path, current_path
 			assert has_css?("p.flash.error")
 			assert_match /Possible Duplicate\(s\) Found/,
 				find("p.flash.error").text
@@ -59,7 +59,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should create subject if duplicate subject no match found with #{cu} login" do
 			duplicate = Factory(:complete_waivered_case_study_subject)
 			login_as send(cu)
-			visit new_case_path
+			visit new_raf_path
 
 			subject = Factory.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
@@ -86,7 +86,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 				wait_until { has_css?("p.flash.error") }
 			} } } } } }
 
-			assert_equal cases_path, current_path
+			assert_equal rafs_path, current_path
 			assert has_css?("p.flash.error")
 			assert_match /Possible Duplicate\(s\) Found/,
 				find("p.flash.error").text
@@ -110,7 +110,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should get new waivered raf form and submit with #{cu} login" do
 			login_as send(cu)
 
-			visit new_case_path
+			visit new_raf_path
 
 			subject = Factory.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
@@ -153,7 +153,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should maintain checked languages" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			visit new_case_path
+			visit new_raf_path
 			assert_page_has_unchecked_language_id('english')
 			check(language_input_id('english'))
 			assert_page_has_checked_language_id('english')
@@ -170,7 +170,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should toggle specify other language when other language checked" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			visit new_case_path
+			visit new_raf_path
 			assert_page_has_unchecked_language_id('other')
 			assert_other_language_hidden
 			check(language_input_id('other'))
@@ -184,7 +184,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should should update blank address info on zip code change" <<
 			" with #{cu} login" do
 			login_as send(cu)
-			visit new_case_path
+			visit new_raf_path
 			address = "study_subject[addressings_attributes][0][address_attributes]"
 			patient = 'study_subject[patient_attributes]'
 			assert find_field("#{address}[city]").value.blank?
@@ -207,7 +207,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should should update blank address info on raf_zip code change" <<
 			" with #{cu} login" do
 			login_as send(cu)
-			visit new_case_path
+			visit new_raf_path
 			address = "study_subject[addressings_attributes][0][address_attributes]"
 			patient = 'study_subject[patient_attributes]'
 			assert find_field("#{address}[city]").value.blank?
@@ -230,7 +230,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should show other_diagnosis when diagnosis is Other" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			visit new_case_path
+			visit new_raf_path
 			patient = 'study_subject[patient_attributes]'
 			assert !find_field("#{patient}[other_diagnosis]").visible?
 			select "other", :from => "#{patient}[diagnosis_id]"
@@ -244,7 +244,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should show other_refusal_reason when refusal_reason is Other" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			visit new_case_path
+			visit new_raf_path
 			patient = "study_subject[enrollments_attributes][0]"
 			assert !find_field("#{patient}[other_refusal_reason]").visible?
 			select "other reason for refusal", :from => "#{patient}[refusal_reason_id]"
@@ -260,7 +260,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "test edit complete case with #{cu} login" do
 			subject = Factory(:complete_waivered_case_study_subject)
 			login_as send(cu)
-			visit edit_case_path(:id => subject.id)
+			visit edit_raf_path(:id => subject.id)
 #	TODO should add some stuff here
 		end
 
@@ -274,8 +274,8 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 #
 #		test "should preselect waivered organization_id from new case with #{cu} login" do
 #			login_as send(cu)
-#			visit new_case_path
-#			assert_equal new_case_path, current_path
+#			visit new_raf_path
+#			assert_equal new_raf_path, current_path
 #
 #			hospital = Hospital.active.waivered.first
 #
@@ -284,7 +284,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 #
 ##	current_url is not following redirect
 ##	This used to work in rails 2 and does work in the functional tests.
-##	TODO the page content appears correct, but the url is cases_path
+##	TODO the page content appears correct, but the url is rafs_path
 ##			assert_match /http(s)?:\/\/.*\/waivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
 #
 #			#	This isn't perfect, but it does test that the redirect is correct.
@@ -300,8 +300,8 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 #
 #		test "should preselect nonwaivered organization_id from new case with #{cu} login" do
 #			login_as send(cu)
-#			visit new_case_path
-#			assert_equal new_case_path, current_path
+#			visit new_raf_path
+#			assert_equal new_raf_path, current_path
 #
 #			hospital = Hospital.active.nonwaivered.first
 #			select hospital.organization.to_s, :from => "hospital_id"
@@ -309,7 +309,7 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 #
 ##	current_url is not following redirect
 ##	This used to work in rails 2 and does work in the functional tests.
-##	TODO the page content appears correct, but the url is cases_path
+##	TODO the page content appears correct, but the url is rafs_path
 ##			assert_match /http(s)?:\/\/.*\/nonwaivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
 #
 #			#	This isn't perfect, but it does test that the redirect is correct.

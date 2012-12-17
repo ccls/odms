@@ -3,7 +3,7 @@
 <%# javascripts(:cases_edit) %>
 <h3>Patient Enrollment Info</h3>
 
-<%= form_for(@study_subject, :url => case_path(@study_subject),
+<%= form_for(@study_subject, :url => raf_path(@study_subject),
 	:html => { :class => 'raf edit_study_subject' } ) do |f| %>
 <%= f.error_messages %>
 
@@ -11,7 +11,7 @@
 <%= render 'form', :f => f  %>
 <p class='submit_bar'>
 <%= f.submit 'Save', :id => nil, :name => nil %>
-<%= link_to 'Cancel', case_path(@study_subject),:class => 'button' %>
+<%= link_to 'Cancel', raf_path(@study_subject),:class => 'button' %>
 </p>
 </div><!-- class='study_subject_fields' -->
 <% end %>
