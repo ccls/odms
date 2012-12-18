@@ -21,11 +21,13 @@ class CasesController < ApplicationController
 		if !params[:ids].blank? and params[:ids].is_a?(Array) and !params[:ids].empty?
 #			@study_subjects = StudySubject.order('created_at DESC').find(params[:ids])
 #	shouldn't raise RecordNotFound with where instead of find.
-			@study_subjects = StudySubject.order('created_at DESC').where(:id => params[:ids])
+			@study_subjects = StudySubject.order('reference_date DESC')
+				.where(:id => params[:ids])
 		else
 			@study_subjects = StudySubject.cases
 				.where( :phase => 5 )
-				.order('created_at DESC')
+				.where('study_subjects.reference_date < ?', 30.days.ago.to_date)
+				.order('reference_date DESC')
 				.joins(:enrollments)
 				.merge(
 					Enrollment.eligible.consented.not_assigned_for_interview
