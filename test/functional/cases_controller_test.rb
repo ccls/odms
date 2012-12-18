@@ -98,7 +98,7 @@ class CasesControllerTest < ActionController::TestCase
 		test "should update assigned_for_interview_at with ids and #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
-			put :update_selected_assigned_for_interview, :ids => [subject.id]
+			put :assign_selected_for_interview, :ids => [subject.id]
 			assert_not_nil subject.enrollments.where(
 				:project_id => Project['ccls'].id).first.assigned_for_interview_at
 
@@ -112,7 +112,7 @@ class CasesControllerTest < ActionController::TestCase
 				" without ids" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
-			put :update_selected_assigned_for_interview
+			put :assign_selected_for_interview
 			assert_not_nil flash[:error]
 			assert_redirected_to cases_path
 		end
@@ -122,7 +122,7 @@ class CasesControllerTest < ActionController::TestCase
 #			login_as send(cu)
 #			subject = subject_for_assigned_for_interview_at
 #			Enrollment.any_instance.stubs(:valid?).returns(false)
-#			put :update_selected_assigned_for_interview, :ids => [subject.id]
+#			put :assign_selected_for_interview, :ids => [subject.id]
 #			assert_not_nil flash[:error]
 #			assert_response :success
 #			assert_template 'index'
@@ -135,7 +135,7 @@ class CasesControllerTest < ActionController::TestCase
 #			login_as send(cu)
 #			subject = subject_for_assigned_for_interview_at
 #			Enrollment.any_instance.stubs(:create_or_update).returns(false)
-#			put :update_selected_assigned_for_interview, :ids => [subject.id]
+#			put :assign_selected_for_interview, :ids => [subject.id]
 #			assert_not_nil flash[:error]
 #			assert_response :success
 #			assert_template 'index'
@@ -157,7 +157,7 @@ class CasesControllerTest < ActionController::TestCase
 
 		test "should NOT update selected with #{cu} login" do
 			login_as send(cu)
-			put :update_selected_assigned_for_interview,
+			put :assign_selected_for_interview,
 				:assigned_for_interview_at => Date.today, :ids => [1,2,3]
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -174,7 +174,7 @@ class CasesControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT update selected without login" do
-		put :update_selected_assigned_for_interview,
+		put :assign_selected_for_interview,
 			:assigned_for_interview_at => Date.today, :ids => [1,2,3]
 		assert_redirected_to_login
 	end
