@@ -26,10 +26,13 @@
 #
 #	Which shell?	Setting must include path apparently
 SHELL=/bin/tcsh
-#	What is RAILS_ENV?	seems unset (is set in .tcshrc so if tcsh is shell is set)
+#
+#	To what is RAILS_ENV set?	seems unset (is set in .tcshrc so if tcsh is shell is set)
 #	Could also explicitly set it
 RAILS_ENV=production
+#
 #	Can I have a series of commands in crontab, or should I put it all in one script.
+#	Yes.  Either way.  Seems that everything after the time designation is executed
 #
 #
 #@hourly cd /my/ruby/odms/ ; rake app:data:export_to_xml >> /my/ruby/export_to_xml.log
