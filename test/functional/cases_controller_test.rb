@@ -1,97 +1,200 @@
 require 'test_helper'
 
 class CasesControllerTest < ActionController::TestCase
-#
-#	site_editors.each do |cu|
-#
-#		test "should get index with #{cu} login" do
+
+	site_editors.each do |cu|
+
+		test "should get index with #{cu} login" do
+			login_as send(cu)
+			get :index
+			assert_not_nil assigns(:study_subjects)
+			assert assigns(:study_subjects).empty?
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get index with subjects #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			get :index
+			assert_not_nil assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert assigns(:study_subjects).include?(subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get index with blank assigned_for_interview_at and #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			get :index, :assigned_for_interview_at => ''
+			assert_not_nil assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert assigns(:study_subjects).include?(subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get index with assigned_for_interview_at and #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			get :index, :assigned_for_interview_at => Date.today
+			assert_not_nil assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert assigns(:study_subjects).include?(subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get index with invalid assigned_for_interview_at and #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			get :index, :assigned_for_interview_at => "FUNKAY MUNGKAY"
+			assert_not_nil assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert assigns(:study_subjects).include?(subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get index with assigned_for_interview_at, exclusive ids" <<
+				" and #{cu} login" do
+			login_as send(cu)
+			missed_subject = Factory(:study_subject)
+			subject = subject_for_assigned_for_interview_at
+			get :index, :assigned_for_interview_at => Date.today, :ids => [missed_subject.id]
+			assert_not_nil assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert !assigns(:study_subjects).include?(subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get index with assigned_for_interview_at, inclusive ids" <<
+				" and #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			get :index, :assigned_for_interview_at => Date.today, :ids => [subject.id]
+			assert_not_nil assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert  assigns(:study_subjects).include?(subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+		test "should get index with assigned_for_interview_at, invalid ids" <<
+				" and #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			get :index, :assigned_for_interview_at => Date.today, :ids => [99999]
+			assert_not_nil assigns(:study_subjects)
+			assert  assigns(:study_subjects).empty?
+			assert !assigns(:study_subjects).include?(subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
+
+		test "should update assigned_for_interview_at with ids and #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			put :update_selected_assigned_for_interview, :ids => [subject.id]
+			assert_not_nil subject.enrollments.where(
+				:project_id => Project['ccls'].id).first.assigned_for_interview_at
+
+
+			assert_redirected_to cases_path(:ids => [subject.id])
+
+
+		end
+
+		test "should NOT update assigned_for_interview_at with #{cu} login" <<
+				" without ids" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			put :update_selected_assigned_for_interview
+			assert_not_nil flash[:error]
+			assert_redirected_to cases_path
+		end
+
+#		test "should NOT update assigned_for_interview_at with ids and #{cu} login" <<
+#				" with invalid enrollment" do
 #			login_as send(cu)
-#			get :index
-#			assert_nil assigns(:study_subject)
-#			assert_response :success
-#			assert_template 'index'
-#		end
-#
-#		test "should return nothing without matching patid and #{cu} login" do
-#			login_as send(cu)
-#			get :index, :q => 'NOPE'
-#			assert_nil assigns(:study_subject)
-#			assert_response :success
-#			assert_template 'index'
+#			subject = subject_for_assigned_for_interview_at
+#			Enrollment.any_instance.stubs(:valid?).returns(false)
+#			put :update_selected_assigned_for_interview, :ids => [subject.id]
 #			assert_not_nil flash[:error]
-#			assert_match /No case study_subject found with given:NOPE/,
-#				flash[:error]
-#		end
-#
-#		test "should return nothing without matching icf master id and #{cu} login" do
-#			login_as send(cu)
-#			get :index, :q => 'donotmatch'
-#			assert_nil assigns(:study_subject)
 #			assert_response :success
 #			assert_template 'index'
+#			assert_nil subject.enrollments.where(
+#				:project_id => Project['ccls'].id).first.assigned_for_interview_at
+#		end
+#
+#		test "should NOT update assigned_for_interview_at with ids and #{cu} login" <<
+#				" with failed enrollment save" do
+#			login_as send(cu)
+#			subject = subject_for_assigned_for_interview_at
+#			Enrollment.any_instance.stubs(:create_or_update).returns(false)
+#			put :update_selected_assigned_for_interview, :ids => [subject.id]
 #			assert_not_nil flash[:error]
-#			assert_match /No case study_subject found with given:donotmatch/,
-#				flash[:error]
-#		end
-#
-#		test "should return case study_subject with matching patid and #{cu} login" do
-#			login_as send(cu)
-#			case_study_subject = Factory(:complete_case_study_subject)
-#			get :index, :q => case_study_subject.patid
-#			assert_not_nil assigns(:study_subject)
-#			assert_equal case_study_subject, assigns(:study_subject)
 #			assert_response :success
 #			assert_template 'index'
+#			assert_nil subject.enrollments.where(
+#				:project_id => Project['ccls'].id).first.assigned_for_interview_at
 #		end
-#
-#		test "should return case study_subject with matching patid missing" <<
-#				" leading zeroes and #{cu} login" do
-#			login_as send(cu)
-#			case_study_subject = Factory(:complete_case_study_subject)
-#			# case_study_subject.patid should be a small 4-digit string
-#			#   with leading zeroes. (probably 0001). Remove them before submit.
-#			patid = case_study_subject.patid.to_i
-#			assert patid < 1000,
-#				'Expected auto-generated patid to be less than 1000 for this test'
-#			get :index, :q => patid
-#			assert_not_nil assigns(:study_subject)
-#			assert_equal case_study_subject, assigns(:study_subject)
-#			assert_response :success
-#			assert_template 'index'
-#		end
-#
-#		test "should return case study_subject with matching icf master id and #{cu} login" do
-#			login_as send(cu)
-#			case_study_subject = Factory(:complete_case_study_subject,
-#				:icf_master_id => '12345')
-#			get :index, :q => case_study_subject.icf_master_id
-#			assert_not_nil assigns(:study_subject)
-#			assert_equal case_study_subject, assigns(:study_subject)
-#			assert_response :success
-#			assert_template 'index'
-#		end
-#
-#	end
-#
-#
-#	non_site_editors.each do |cu|
-#
-#		test "should NOT get index with #{cu} login" do
-#			login_as send(cu)
-#			get :index
-#			assert_not_nil flash[:error]
-#			assert_redirected_to root_path
-#		end
-#
-#	end
-#
-#
-##	no login ...
-#
-#	test "should NOT get index without login" do
-#		get :index
-#		assert_redirected_to_login
-#	end
-#
+
+	end
+
+
+	non_site_editors.each do |cu|
+
+		test "should NOT get index with #{cu} login" do
+			login_as send(cu)
+			get :index
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT update selected with #{cu} login" do
+			login_as send(cu)
+			put :update_selected_assigned_for_interview,
+				:assigned_for_interview_at => Date.today, :ids => [1,2,3]
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+	end
+
+
+#	no login ...
+
+	test "should NOT get index without login" do
+		get :index
+		assert_redirected_to_login
+	end
+
+	test "should NOT update selected without login" do
+		put :update_selected_assigned_for_interview,
+			:assigned_for_interview_at => Date.today, :ids => [1,2,3]
+		assert_redirected_to_login
+	end
+
+
+protected
+
+	def subject_for_assigned_for_interview_at
+		subject = Factory(:case_study_subject)
+		subject.enrollments.where(
+			:project_id   => Project['ccls'].id).first.update_attributes({
+			:is_eligible  => YNDK[:yes],
+			:consented    => YNDK[:yes],
+			:consented_on => Date.today
+		})
+		assert_equal 5, subject.phase
+		assert_nil subject.enrollments.where(
+			:project_id => Project['ccls'].id).first.assigned_for_interview_at
+		subject
+	end
+
 end
 __END__

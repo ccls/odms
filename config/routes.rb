@@ -91,6 +91,11 @@ Odms::Application.routes.draw do
 #		#
 #		resources :controls,   :only => [:new]	#,:create]
 #	end
+
+	resources :cases, :only => [:index] do
+		collection { put :update_selected_assigned_for_interview }
+	end
+
 	resources :controls, :only => [:new,:create]
 	resources :contexts
 	resources :data_sources

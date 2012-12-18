@@ -253,6 +253,7 @@ table {
 	border-collapse:collapse;
 	width: 100%;
 }
+table.nowrap td { white-space: nowrap; }
 thead tr th,
 tr.row td {
 	padding: 6px;

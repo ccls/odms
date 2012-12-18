@@ -1,27 +1,89 @@
-<%# stylesheets(:cases) %>
-<h4>New Control Selection</h4>
+<% if @study_subjects.empty? %>
+<p>Sorry, but no subjects found</p>
+<% else %>
+<%= form_tag( update_selected_assigned_for_interview_cases_path, :method => :put ) do %>
+<%# Yes, it is just the date and not a datetime %>
+<%= text_field_tag( :assigned_for_interview_at, params[:assigned_for_interview_at], :class => :datepicker ) %>
 
-<%= form_tag(cases_path,:method => :get) do %>
+<table class='nowrap'>
+<thead><tr>
+<th>&nbsp;</th>
+<th>reference_date</th>
+<th>case_icfmasterid</th>
+<th>icf_master_id</th>
+<th>mom_icfmasterid</th>
+<th>mother_first_name</th>
+<th>mother_maiden_name</th>
+<th>mother_last_name</th>
+<th>father_first_name</th>
+<th>father_last_name</th>
+<th>first_name</th>
+<th>middle_name</th>
+<th>last_name</th>
+<th>dob</th>
+<th>sex</th>
+<th>vital_status</th>
+<th>do_not_contact</th>
+<th>is_eligible</th>
+<th>consented</th>
+<th>comments</th>
+<th>language</th>
+<th>street</th>
+<th>unit</th>
+<th>city</th>
+<th>state</th>
+<th>zip</th>
+<th>phone</th>
+<th>alternate_phone</th>
+</tr></thead>
+<tbody>
+<% @study_subjects.each do |study_subject| -%>
+<tr class='row'>
+<td><%= check_box_tag('ids[]', study_subject.id, false, :id => nil ) %></td>
+<% mom = study_subject.mother -%>
+<% case_subject = study_subject.case_subject -%>
+<% address = study_subject.addressings.current.mailing.first.try(:address) -%>
+<% address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
+<% primary_phone = study_subject.phone_numbers.current.primary.first %>
+<% alternate_phone = study_subject.phone_numbers.current.alternate.first %>
+<% enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
+<%# birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
+<td><%= mdy_or_nil(study_subject.reference_date) %></td>
+<td><%= case_subject.try(:icf_master_id_to_s)||"[No Case Subject]" %></td>
+<td><%= study_subject.icf_master_id_to_s %></td>
+<td><%= mom.try(:icf_master_id_to_s)||"[No Mother Subject]" %></td>
+<td><%= study_subject.mother_first_name %></td>
+<td><%= study_subject.mother_maiden_name %></td>
+<td><%= study_subject.mother_last_name %></td>
+<td><%= study_subject.father_first_name %></td>
+<td><%= study_subject.father_last_name %></td>
+<td><%= study_subject.first_name %></td>
+<td><%= study_subject.middle_name %></td>
+<td><%= study_subject.last_name %></td>
+<td><%= mdy_or_nil(study_subject.dob) %></td>
+<td><%= study_subject.sex %></td>
+<td><%= study_subject.vital_status_id %></td>
+<td><%= study_subject.do_not_contact %></td>
+<td><%= enrollment.try(:is_eligible) %></td>
+<td><%= enrollment.try(:consented) %></td>
+<td><%= nil %></td>
+<td><%= study_subject.languages.first.try(:description) %></td>
+<td><%= address.try(:street) %></td>
+<td><%= address.try(:unit) %></td>
+<td><%= address.try(:city) %></td>
+<td><%= address.try(:state) %></td>
+<td><%= address.try(:zip) %></td>
+<td><%= primary_phone %></td>
+<td><%= alternate_phone %></td>
+</tr>
+<% end -%>
+</tbody></table>
+
 <p>
-<%= text_field_tag :q, params[:q], :id => nil  %>
-<%= submit_tag 'Find case by patid or icf master id' %>
+<%= link_to("Export all as CSV", cases_path(:format => :csv), :class => :button) %>
+<%= submit_tag("Export selected as CSV") %>
+<%= submit_tag("Update selected assigned_for_interview to #{mdy(Date.today)}") %>
 </p>
-<p>Enter the case's PatID or ICF Master ID to go to their Related Subjects screen. Once there, add controls by pressing the "Add Control" button.</p>
-<% end %>
 
-<% if @study_subject %>
-<div id='case_study_subject'>
-<h4><%= @study_subject.studyid_to_s %>&nbsp;:&nbsp;<%= @study_subject.full_name %></h4>
-<ul>
-<li>ICF Master ID:&nbsp;<%= @study_subject.icf_master_id_to_s %></li>
-<li>sex:&nbsp;<%= @study_subject.sex %></li>
-<li>DOB:&nbsp;<%=mdy @study_subject.dob %></li>
-<li>race:&nbsp;<%= @study_subject.races %></li>
-<li>hispanicity:&nbsp;<%#= @study_subject.hispanicity %> </li>
-<li>reference date:&nbsp;<%=mdy @study_subject.reference_date %></li>
-</ul>
-<%#= link_to( 'Continue', case_path(@study_subject), :class => 'button' ) %>
-<%= link_to( 'Continue', study_subject_related_subjects_path(@study_subject), 
-	:class => 'button' ) %>
-</div><!-- id='case_study_subject' -->
-<% end %>
+<% end %><%# form_tag %>
+<% end %><%# if @study_subjects %>
