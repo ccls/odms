@@ -76,12 +76,12 @@ class CasesController < ApplicationController
 
 			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
 
-		redirect_to cases_path(:ids => params[:ids],:format => :csv)
+			redirect_to cases_path(:ids => params[:ids],:format => :csv)
 		else
 
 			flash[:error] = "No ids given."
 			
-		redirect_to cases_path(:ids => params[:ids])
+			redirect_to cases_path(:ids => params[:ids])
 		end
 	end
 

@@ -35,14 +35,12 @@ protected
 		if !params[:case_id].blank? and StudySubject.exists?(params[:case_id])
 			@study_subject = StudySubject.find(params[:case_id])
 		else
-#			access_denied("Valid study_subject case_id required!", cases_path)
 			access_denied("Valid study_subject case_id required!", new_control_path)
 		end
 	end
 
 	def case_study_subject_required
 		unless @study_subject.is_case?
-#			access_denied("Valid case study_subject required!", cases_path)
 			access_denied("Valid case study_subject required!", new_control_path)
 		end
 	end
