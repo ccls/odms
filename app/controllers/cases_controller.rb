@@ -74,12 +74,15 @@ class CasesController < ApplicationController
 
 #			Create Operational Events??
 
+			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
+
+		redirect_to cases_path(:ids => params[:ids],:format => :csv)
 		else
 
 			flash[:error] = "No ids given."
 			
-		end
 		redirect_to cases_path(:ids => params[:ids])
+		end
 	end
 
 end

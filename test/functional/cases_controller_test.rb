@@ -24,45 +24,61 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get index with blank assigned_for_interview_at and #{cu} login" do
+		test "should get index in csv with subjects #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
-			get :index, :assigned_for_interview_at => ''
-			assert_not_nil assigns(:study_subjects)
-			assert !assigns(:study_subjects).empty?
-			assert assigns(:study_subjects).include?(subject)
+			get :index, :format => :csv
 			assert_response :success
-			assert_template 'index'
+			assert_template :index
+			#	will this be set automatically??? hmm, let's see ... NOPE
+			#	must explicitly set this.  Is that necessary? Doesn't seem to be.
+			assert_not_nil @response.headers['Content-Disposition']
+				.match(/attachment; filename=newcases_.*csv/)
+			assert  assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert_equal 1, assigns(:study_subjects).length
+			assert_equal subject, assigns(:study_subjects).first
 		end
 
-		test "should get index with assigned_for_interview_at and #{cu} login" do
-			login_as send(cu)
-			subject = subject_for_assigned_for_interview_at
-			get :index, :assigned_for_interview_at => Date.today
-			assert_not_nil assigns(:study_subjects)
-			assert !assigns(:study_subjects).empty?
-			assert assigns(:study_subjects).include?(subject)
-			assert_response :success
-			assert_template 'index'
-		end
+#		test "should get index with blank assigned_for_interview_at and #{cu} login" do
+#			login_as send(cu)
+#			subject = subject_for_assigned_for_interview_at
+#			get :index, :assigned_for_interview_at => ''
+#			assert_not_nil assigns(:study_subjects)
+#			assert !assigns(:study_subjects).empty?
+#			assert assigns(:study_subjects).include?(subject)
+#			assert_response :success
+#			assert_template 'index'
+#		end
+#
+#		test "should get index with assigned_for_interview_at and #{cu} login" do
+#			login_as send(cu)
+#			subject = subject_for_assigned_for_interview_at
+#			get :index, :assigned_for_interview_at => Date.today
+#			assert_not_nil assigns(:study_subjects)
+#			assert !assigns(:study_subjects).empty?
+#			assert assigns(:study_subjects).include?(subject)
+#			assert_response :success
+#			assert_template 'index'
+#		end
+#
+#		test "should get index with invalid assigned_for_interview_at and #{cu} login" do
+#			login_as send(cu)
+#			subject = subject_for_assigned_for_interview_at
+#			get :index, :assigned_for_interview_at => "FUNKAY MUNGKAY"
+#			assert_not_nil assigns(:study_subjects)
+#			assert !assigns(:study_subjects).empty?
+#			assert assigns(:study_subjects).include?(subject)
+#			assert_response :success
+#			assert_template 'index'
+#		end
 
-		test "should get index with invalid assigned_for_interview_at and #{cu} login" do
-			login_as send(cu)
-			subject = subject_for_assigned_for_interview_at
-			get :index, :assigned_for_interview_at => "FUNKAY MUNGKAY"
-			assert_not_nil assigns(:study_subjects)
-			assert !assigns(:study_subjects).empty?
-			assert assigns(:study_subjects).include?(subject)
-			assert_response :success
-			assert_template 'index'
-		end
-
-		test "should get index with assigned_for_interview_at, exclusive ids" <<
+		test "should get index with exclusive ids" <<
 				" and #{cu} login" do
 			login_as send(cu)
 			missed_subject = Factory(:study_subject)
 			subject = subject_for_assigned_for_interview_at
-			get :index, :assigned_for_interview_at => Date.today, :ids => [missed_subject.id]
+			get :index, :ids => [missed_subject.id]
 			assert_not_nil assigns(:study_subjects)
 			assert !assigns(:study_subjects).empty?
 			assert !assigns(:study_subjects).include?(subject)
@@ -70,11 +86,11 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get index with assigned_for_interview_at, inclusive ids" <<
+		test "should get index with inclusive ids" <<
 				" and #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
-			get :index, :assigned_for_interview_at => Date.today, :ids => [subject.id]
+			get :index, :ids => [subject.id]
 			assert_not_nil assigns(:study_subjects)
 			assert !assigns(:study_subjects).empty?
 			assert  assigns(:study_subjects).include?(subject)
@@ -82,17 +98,19 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get index with assigned_for_interview_at, invalid ids" <<
+		test "should get index with invalid ids" <<
 				" and #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
-			get :index, :assigned_for_interview_at => Date.today, :ids => [99999]
+			get :index, :ids => [99999]
 			assert_not_nil assigns(:study_subjects)
 			assert  assigns(:study_subjects).empty?
 			assert !assigns(:study_subjects).include?(subject)
 			assert_response :success
 			assert_template 'index'
 		end
+
+
 
 
 		test "should update assigned_for_interview_at with ids and #{cu} login" do
@@ -103,7 +121,8 @@ class CasesControllerTest < ActionController::TestCase
 				:project_id => Project['ccls'].id).first.assigned_for_interview_at
 
 
-			assert_redirected_to cases_path(:ids => [subject.id])
+			assert_not_nil flash[:notice]
+			assert_redirected_to cases_path(:ids => [subject.id],:format => :csv)
 
 
 		end
@@ -157,8 +176,7 @@ class CasesControllerTest < ActionController::TestCase
 
 		test "should NOT update selected with #{cu} login" do
 			login_as send(cu)
-			put :assign_selected_for_interview,
-				:assigned_for_interview_at => Date.today, :ids => [1,2,3]
+			put :assign_selected_for_interview, :ids => [1,2,3]
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -174,8 +192,7 @@ class CasesControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT update selected without login" do
-		put :assign_selected_for_interview,
-			:assigned_for_interview_at => Date.today, :ids => [1,2,3]
+		put :assign_selected_for_interview, :ids => [1,2,3]
 		assert_redirected_to_login
 	end
 

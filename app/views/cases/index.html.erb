@@ -1,9 +1,9 @@
 <% if @study_subjects.empty? %>
 <p>Sorry, but no subjects found</p>
 <% else %>
-<%= form_tag( update_selected_assigned_for_interview_cases_path, :method => :put ) do %>
+<%= form_tag( assign_selected_for_interview_cases_path, :method => :put ) do %>
 <%# Yes, it is just the date and not a datetime %>
-<%= text_field_tag( :assigned_for_interview_at, params[:assigned_for_interview_at], :class => :datepicker ) %>
+<%#= text_field_tag( :assigned_for_interview_at, params[:assigned_for_interview_at], :class => :datepicker ) %>
 
 <table class='nowrap'>
 <thead><tr>
@@ -39,7 +39,8 @@
 <tbody>
 <% @study_subjects.each do |study_subject| -%>
 <tr class='row'>
-<td><%= check_box_tag('ids[]', study_subject.id, false, :id => nil ) %></td>
+<td><%= check_box_tag('ids[]', study_subject.id, 
+	[params[:ids]].flatten.include?(study_subject.id.to_s), :id => nil ) %></td>
 <% mom = study_subject.mother -%>
 <% case_subject = study_subject.case_subject -%>
 <% address = study_subject.addressings.current.mailing.first.try(:address) -%>
@@ -50,7 +51,7 @@
 <%# birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
 <td><%= mdy_or_nil(study_subject.reference_date) %></td>
 <td><%= case_subject.try(:icf_master_id_to_s)||"[No Case Subject]" %></td>
-<td><%= study_subject.icf_master_id_to_s %></td>
+<td><%= link_to study_subject.icf_master_id_to_s, study_subject %></td>
 <td><%= mom.try(:icf_master_id_to_s)||"[No Mother Subject]" %></td>
 <td><%= study_subject.mother_first_name %></td>
 <td><%= study_subject.mother_maiden_name %></td>
@@ -80,9 +81,9 @@
 </tbody></table>
 
 <p>
-<%= link_to("Export all as CSV", cases_path(:format => :csv), :class => :button) %>
-<%= submit_tag("Export selected as CSV") %>
-<%= submit_tag("Update selected assigned_for_interview to #{mdy(Date.today)}") %>
+<%#= link_to("Export all as CSV", cases_path(:format => :csv), :class => :button) %>
+<%#= submit_tag("Export selected as CSV") %>
+<%= submit_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv") %>
 </p>
 
 <% end %><%# form_tag %>
