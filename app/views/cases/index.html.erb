@@ -1,5 +1,5 @@
 <% if @study_subjects.empty? %>
-<p>Sorry, but no subjects found</p>
+<p>Sorry, but no case subjects found that are ready for assignment.</p>
 <% else %>
 <%= form_tag( assign_selected_for_interview_cases_path, :method => :put ) do %>
 <%# Yes, it is just the date and not a datetime %>
