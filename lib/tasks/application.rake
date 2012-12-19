@@ -1,56 +1,61 @@
 namespace :app do
 
-	desc "Load some fixtures to database for application"
-	task :update => :environment do
-#			context_data_sources
-#			units
-		fixtures = %w(
-			address_types
-			context_contextables
-			contexts
-			data_sources
-			diagnoses
-			document_types
-			document_versions
-			follow_up_types
-			hospitals
-			ineligible_reasons
-			instrument_types
-			instrument_versions
-			instruments
-			interview_methods
-			interview_outcomes
-			languages
-			operational_event_types
-			organizations
-			people
-			phone_types
-			project_outcomes
-			projects
-			races
-			refusal_reasons
-			roles
-			sample_formats
-			sample_locations
-			sample_outcomes
-			sample_temperatures
-			sample_types
-			sections
-			states
-			subject_relationships
-			subject_types
-			tracing_statuses
-			vital_statuses 
-		)
-		ENV['FIXTURES'] = fixtures.join(',')
-		puts "Loading fixtures for #{ENV['FIXTURES']}"
-		Rake::Task["db:fixtures:load"].invoke
-		Rake::Task["db:fixtures:load"].reenable
-	end
+#
+#	I don't think that we'll be importing from fixtures anymore.
+#	Any new stuff would probably be added directly. (20121219)
+#
+#	desc "Load some fixtures to database for application"
+#	task :update => :environment do
+##			context_data_sources
+##			units
+#		fixtures = %w(
+#			address_types
+#			context_contextables
+#			contexts
+#			data_sources
+#			diagnoses
+#			document_types
+#			document_versions
+#			follow_up_types
+#			hospitals
+#			ineligible_reasons
+#			instrument_types
+#			instrument_versions
+#			instruments
+#			interview_methods
+#			interview_outcomes
+#			languages
+#			operational_event_types
+#			organizations
+#			people
+#			phone_types
+#			project_outcomes
+#			projects
+#			races
+#			refusal_reasons
+#			roles
+#			sample_formats
+#			sample_locations
+#			sample_outcomes
+#			sample_temperatures
+#			sample_types
+#			sections
+#			states
+#			subject_relationships
+#			subject_types
+#			tracing_statuses
+#			vital_statuses 
+#		)
+#		ENV['FIXTURES'] = fixtures.join(',')
+#		puts "Loading fixtures for #{ENV['FIXTURES']}"
+#		Rake::Task["db:fixtures:load"].invoke
+#		Rake::Task["db:fixtures:load"].reenable
+#	end
+#	desc "app:update, zip_codes:import_all, counties:import_all"
+#	task :full_update => [:update,'zip_codes:import_all','counties:import_all']
 
 
-	desc "app:update, zip_codes:import_all, counties:import_all"
-	task :full_update => [:update,'zip_codes:import_all','counties:import_all']
+
 
 #	task :full_update => [:update,'zip_codes:import_all','counties:import_all'] do
 ##	task :full_update => :update do
@@ -324,65 +329,70 @@ namespace :app do
 #
 #	end #	task :update_assigned_from_pagan => :environment do
 
-	desc "Read CSV file and set Subject's CCLS enrollment#assigned_for_interview_at"
-	task :update_assigned_for_interview_at_from_new_cases_csv => :environment do
-		env_required('csv_file')
-		env_required('assigned_for_interview_at')
-		file_required(ENV['csv_file'])
-		assigned_for_interview_at = valid_date_required(ENV['assigned_for_interview_at'])
-		changes = 0
+#
+#	20121219 - This is now done from within the site before this csv
+#		file is exported and so doesn't need to be "imported"
+#
+#	desc "Read CSV file and set Subject's CCLS enrollment#assigned_for_interview_at"
+#	task :update_assigned_for_interview_at_from_new_cases_csv => :environment do
+#		env_required('csv_file')
+#		env_required('assigned_for_interview_at')
+#		file_required(ENV['csv_file'])
+#		assigned_for_interview_at = valid_date_required(ENV['assigned_for_interview_at'])
+#		changes = 0
+#
+#		require 'csv'
+#		(f=CSV.open( ENV['csv_file'], 'rb',{
+#				:headers => true })).each do |line|
+#			puts
+#			puts "Processing line :#{f.lineno}:"
+#			puts line
+#
+#			raise "icf_master_id is blank" if line['icf_master_id'].blank?
+#			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
+#			raise "Multiple case subjects? with icf_master_id:" <<
+#				"#{line['icf_master_id']}:" if subjects.length > 1
+#			raise "No subject with icf_master_id:" <<
+#				"#{line['icf_master_id']}:" unless subjects.length == 1
+#			s = subjects.first
+#			puts "Found subject #{s}"
+#
+#			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+#
+#			puts "Current assigned_for_interview_at: #{e.assigned_for_interview_at}"
+#			e.assigned_for_interview_at = assigned_for_interview_at
+#			if e.changed?
+#				puts "Updated assigned_for_interview_at: #{e.assigned_for_interview_at}"
+#				puts "enrollment updated. Creating OE"
+#				if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
+#					puts "'REALLY_SAVE_THIS_TIME=yes' set. Saving!"
+#					e.save!
+#					s.operational_events.create!(
+#						:project_id                => Project['ccls'].id,
+#						:operational_event_type_id => OperationalEventType['other'].id,
+#						:occurred_at               => DateTime.now,
+#						:description               => "assigned_for_interview_at set to "<<
+#							"#{ENV['assigned_for_interview_at']} from " <<
+#							ENV['csv_file']
+#					)
+#				else
+#					changes += 1
+#					puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so doing nothing."
+#				end
+#			else
+#				puts "No change so doing nothing."
+#			end
+#		end	#	(f=CSV.open( csv_file.path, 'rb',{
+#		if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
+#			puts "Commiting Sunspot index."
+#			Sunspot.commit
+#		elsif changes > 0
+#			puts
+#			puts "#{changes} #{(changes==1)?'change':'changes'} found."
+#			puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so did nothing."
+#		end
+#	end #	task :update_assigned_from_pagan => :environment do
 
-		require 'csv'
-		(f=CSV.open( ENV['csv_file'], 'rb',{
-				:headers => true })).each do |line|
-			puts
-			puts "Processing line :#{f.lineno}:"
-			puts line
-
-			raise "icf_master_id is blank" if line['icf_master_id'].blank?
-			subjects = StudySubject.cases.where(:icf_master_id => line['icf_master_id'])
-			raise "Multiple case subjects? with icf_master_id:" <<
-				"#{line['icf_master_id']}:" if subjects.length > 1
-			raise "No subject with icf_master_id:" <<
-				"#{line['icf_master_id']}:" unless subjects.length == 1
-			s = subjects.first
-			puts "Found subject #{s}"
-
-			e = s.enrollments.where(:project_id => Project['ccls'].id).first
-
-			puts "Current assigned_for_interview_at: #{e.assigned_for_interview_at}"
-			e.assigned_for_interview_at = assigned_for_interview_at
-			if e.changed?
-				puts "Updated assigned_for_interview_at: #{e.assigned_for_interview_at}"
-				puts "enrollment updated. Creating OE"
-				if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
-					puts "'REALLY_SAVE_THIS_TIME=yes' set. Saving!"
-					e.save!
-					s.operational_events.create!(
-						:project_id                => Project['ccls'].id,
-						:operational_event_type_id => OperationalEventType['other'].id,
-						:occurred_at               => DateTime.now,
-						:description               => "assigned_for_interview_at set to "<<
-							"#{ENV['assigned_for_interview_at']} from " <<
-							ENV['csv_file']
-					)
-				else
-					changes += 1
-					puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so doing nothing."
-				end
-			else
-				puts "No change so doing nothing."
-			end
-		end	#	(f=CSV.open( csv_file.path, 'rb',{
-		if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
-			puts "Commiting Sunspot index."
-			Sunspot.commit
-		elsif changes > 0
-			puts
-			puts "#{changes} #{(changes==1)?'change':'changes'} found."
-			puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so did nothing."
-		end
-	end #	task :update_assigned_from_pagan => :environment do
 
 #	task :update_completes_from_pagan => :environment do
 #		csv_file = 'completes.csv'
@@ -458,76 +468,79 @@ namespace :app do
 #
 #	Eventually, this should be part of the ICFMasterTrackerUpdate
 #
-	desc "Read CSV file and set Subject's CCLS enrollment#interview_completed_on"
-	task :update_interview_completed_on_from_icf_master_tracker => :environment do
-		#	from '/Volumes/BUF-Fileshare/SharedFiles/Research (xx)
-		#		/Competing Renewal 2009-2014/ICF/DataTransfers
-		#		/ICF_master_trackers/ICF_Master_Tracker.csv'
-		env_required('csv_file')
-		file_required(ENV['csv_file'])
-
-		changes = 0
-
-		require 'csv'
-		(f=CSV.open( ENV['csv_file'], 'rb',{
-				:headers => true })).each do |line|
-			puts
-			puts "Processing line :#{f.lineno}:"
-			puts line
-
-#	master_id,master_id_mother,language,record_owner,record_status,record_status_date,date_received,last_attempt,last_disposition,curr_phone,record_sent_for_matching,record_received_from_matching,sent_pre_incentive,released_to_cati,confirmed_cati_contact,refused,deceased_notification,is_eligible,ineligible_reason,confirmation_packet_sent,cati_protocol_exhausted,new_phone_released_to_cati,plea_notification_sent,case_returned_for_new_info,case_returned_from_berkeley,cati_complete,kit_mother_sent,kit_infant_sent,kit_child_sent,kid_adolescent_sent,kit_mother_refused_code,kit_child_refused_code,no_response_to_plea,response_received_from_plea,sent_to_in_person_followup,kit_mother_received,kit_child_received,thank_you_sent,physician_request_sent,physician_response_received,vaccine_auth_received,recollect
-
-			raise "master_id is blank" if line['master_id'].blank?
-			subjects = StudySubject.where(:icf_master_id => line['master_id'])
-			raise "Multiple case subjects? with icf_master_id:" <<
-				"#{line['master_id']}:" if subjects.length > 1
-			raise "No subject with icf_master_id:" <<
-				"#{line['master_id']}:" unless subjects.length == 1
-			s = subjects.first
-			e = s.enrollments.where(:project_id => Project['ccls'].id).first
-
-#	#393
-#		Please update the 'interview_completed_on' field in odms with the dates listed in the 'cati_complete' in the ICF_Master_Tracker.csv file located in S:\Research (xx)\Competing Renewal 2009-2014\ICF\DataTransfers\ICF_master_trackers.
-
-			if line['cati_complete'].blank?
-				puts "cati_complete is blank so doing nothing."
-			else
-				puts "cati_complete: #{Time.parse(line['cati_complete']).to_date}"
-				puts "Current interview_completed_on : #{e.interview_completed_on}"
-				e.interview_completed_on = Time.parse(line['cati_complete']).to_date
-				if e.changed?
-					puts "Updated interview_completed_on : #{e.interview_completed_on}"
-					puts "enrollment updated. creating OE"
-					if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
-						puts "'REALLY_SAVE_THIS_TIME=yes' set. Saving!"
-						e.save!
-						s.operational_events.create!(
-							:project_id                => Project['ccls'].id,
-							:operational_event_type_id => OperationalEventType['other'].id,
-							:occurred_at               => DateTime.now,
-							:description               => "interview_completed_on set to " <<
-								"cati_complete #{line['cati_complete']} from " <<
-								"ICF Master Tracker file #{ENV['csv_file']}"
-						)
-					else
-						puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so doing nothing."
-						changes += 1
-					end
-				else
-					puts "No change so doing nothing."
-				end
-			end
-		end	#	(f=CSV.open( csv_file.path, 'rb',{
-		if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
-			puts "Commiting Sunspot index."
-			Sunspot.commit
-		elsif changes > 0
-			puts
-			puts "#{changes} #{(changes==1)?'change':'changes'} found."
-			puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so did nothing."
-		end
-
-	end #	task :update_interview_completed_on_from_icf_master_tracker => :environment do
+#	20121219 - This is now done with automate:updates_from_icf_master_tracker
+#		via a cron job.
+#
+#	desc "Read CSV file and set Subject's CCLS enrollment#interview_completed_on"
+#	task :update_interview_completed_on_from_icf_master_tracker => :environment do
+#		#	from '/Volumes/BUF-Fileshare/SharedFiles/Research (xx)
+#		#		/Competing Renewal 2009-2014/ICF/DataTransfers
+#		#		/ICF_master_trackers/ICF_Master_Tracker.csv'
+#		env_required('csv_file')
+#		file_required(ENV['csv_file'])
+#
+#		changes = 0
+#
+#		require 'csv'
+#		(f=CSV.open( ENV['csv_file'], 'rb',{
+#				:headers => true })).each do |line|
+#			puts
+#			puts "Processing line :#{f.lineno}:"
+#			puts line
+#
+##	master_id,master_id_mother,language,record_owner,record_status,record_status_date,date_received,last_attempt,last_disposition,curr_phone,record_sent_for_matching,record_received_from_matching,sent_pre_incentive,released_to_cati,confirmed_cati_contact,refused,deceased_notification,is_eligible,ineligible_reason,confirmation_packet_sent,cati_protocol_exhausted,new_phone_released_to_cati,plea_notification_sent,case_returned_for_new_info,case_returned_from_berkeley,cati_complete,kit_mother_sent,kit_infant_sent,kit_child_sent,kid_adolescent_sent,kit_mother_refused_code,kit_child_refused_code,no_response_to_plea,response_received_from_plea,sent_to_in_person_followup,kit_mother_received,kit_child_received,thank_you_sent,physician_request_sent,physician_response_received,vaccine_auth_received,recollect
+#
+#			raise "master_id is blank" if line['master_id'].blank?
+#			subjects = StudySubject.where(:icf_master_id => line['master_id'])
+#			raise "Multiple case subjects? with icf_master_id:" <<
+#				"#{line['master_id']}:" if subjects.length > 1
+#			raise "No subject with icf_master_id:" <<
+#				"#{line['master_id']}:" unless subjects.length == 1
+#			s = subjects.first
+#			e = s.enrollments.where(:project_id => Project['ccls'].id).first
+#
+##	#393
+##		Please update the 'interview_completed_on' field in odms with the dates listed in the 'cati_complete' in the ICF_Master_Tracker.csv file located in S:\Research (xx)\Competing Renewal 2009-2014\ICF\DataTransfers\ICF_master_trackers.
+#
+#			if line['cati_complete'].blank?
+#				puts "cati_complete is blank so doing nothing."
+#			else
+#				puts "cati_complete: #{Time.parse(line['cati_complete']).to_date}"
+#				puts "Current interview_completed_on : #{e.interview_completed_on}"
+#				e.interview_completed_on = Time.parse(line['cati_complete']).to_date
+#				if e.changed?
+#					puts "Updated interview_completed_on : #{e.interview_completed_on}"
+#					puts "enrollment updated. creating OE"
+#					if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
+#						puts "'REALLY_SAVE_THIS_TIME=yes' set. Saving!"
+#						e.save!
+#						s.operational_events.create!(
+#							:project_id                => Project['ccls'].id,
+#							:operational_event_type_id => OperationalEventType['other'].id,
+#							:occurred_at               => DateTime.now,
+#							:description               => "interview_completed_on set to " <<
+#								"cati_complete #{line['cati_complete']} from " <<
+#								"ICF Master Tracker file #{ENV['csv_file']}"
+#						)
+#					else
+#						puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so doing nothing."
+#						changes += 1
+#					end
+#				else
+#					puts "No change so doing nothing."
+#				end
+#			end
+#		end	#	(f=CSV.open( csv_file.path, 'rb',{
+#		if ENV['REALLY_SAVE_THIS_TIME'] == 'yes'
+#			puts "Commiting Sunspot index."
+#			Sunspot.commit
+#		elsif changes > 0
+#			puts
+#			puts "#{changes} #{(changes==1)?'change':'changes'} found."
+#			puts "'REALLY_SAVE_THIS_TIME=yes' not set at command line so did nothing."
+#		end
+#
+#	end #	task :update_interview_completed_on_from_icf_master_tracker => :environment do
 
 	desc "Read csv file and show given columns"
 	task :show_csv_columns => :environment do
