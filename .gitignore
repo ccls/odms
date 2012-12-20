@@ -102,3 +102,11 @@ development/icf_master_tracker_update/
 /solr/pids
 /solr/data
 
+
+
+ICF_Master_Trackers/
+Merged-LegacyData.mdb
+Merged-LegacyData.schema.sql
+bc_infos/
+birth_data/
+screening_data/
