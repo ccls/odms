@@ -118,6 +118,42 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_redirected_to new_control_path
 		end
 
+		test "should get index with #{cu} login" do
+			login_as send(cu)
+			subject = Factory(:control_study_subject)
+			assert_equal 5, subject.phase
+			assert_nil subject.enrollments.where(:project_id => Project['ccls'].id).first.assigned_for_interview_at
+			get :index
+			assert_response :success
+			assert_template 'index'
+#	will this be set automatically??? hmm, let's see ... NOPE
+#	must explicitly set this.  Is that necessary? Doesn't seem to be.
+#			assert_not_nil @response.headers['Content-Disposition']
+#				.match(/attachment; filename=newcontrols_.*csv/)
+			assert  assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert_equal 1, assigns(:study_subjects).length
+			assert_equal subject, assigns(:study_subjects).first
+		end
+
+		test "should get index csv with #{cu} login" do
+			login_as send(cu)
+			subject = Factory(:control_study_subject)
+			assert_equal 5, subject.phase
+			assert_nil subject.enrollments.where(:project_id => Project['ccls'].id).first.assigned_for_interview_at
+			get :index, :format => :csv
+			assert_response :success
+			assert_template 'index'
+#	will this be set automatically??? hmm, let's see ... NOPE
+#	must explicitly set this.  Is that necessary? Doesn't seem to be.
+			assert_not_nil @response.headers['Content-Disposition']
+				.match(/attachment; filename=newcontrols_.*csv/)
+			assert  assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert_equal 1, assigns(:study_subjects).length
+			assert_equal subject, assigns(:study_subjects).first
+		end
+
 	end
 
 	non_site_editors.each do |cu|
@@ -137,6 +173,18 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+		test "should NOT get index with #{cu} login" do
+			login_as send(cu)
+			get :index
+			assert_redirected_to root_path
+		end
+
+		test "should NOT get index csv with #{cu} login" do
+			login_as send(cu)
+			get :index, :format => :csv
+			assert_redirected_to root_path
+		end
+
 	end
 
 #	no login ...
@@ -149,6 +197,16 @@ class ControlsControllerTest < ActionController::TestCase
 	test "should NOT get new control with case_id and without login" do
 		case_study_subject = Factory(:case_study_subject)
 		post :create, :case_id => case_study_subject.id
+		assert_redirected_to_login
+	end
+
+	test "should NOT get index without login" do
+		get :index
+		assert_redirected_to_login
+	end
+
+	test "should NOT get index csv without login" do
+		get :index, :format => :csv
 		assert_redirected_to_login
 	end
 

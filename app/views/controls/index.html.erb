@@ -1,0 +1,85 @@
+<% if @study_subjects.empty? %>
+<p>Sorry, but no control subjects found that are ready for export.</p>
+<% else %>
+<table class='nowrap'>
+<thead><tr>
+<th>reference_date</th>
+<th>case_icfmasterid</th>
+<th>icf_master_id</th>
+<th>mom_icfmasterid</th>
+<th>mother_first_name</th>
+<th>mother_maiden_name</th>
+<th>mother_last_name</th>
+<th>mother_ssn</th>
+<th>father_first_name</th>
+<th>father_last_name</th>
+<th>father_ssn</th>
+<th>first_name</th>
+<th>middle_name</th>
+<th>last_name</th>
+<th>dob</th>
+<th>sex</th>
+<th>vital_status</th>
+<th>do_not_contact</th>
+<th>is_eligible</th>
+<th>consented</th>
+<th>comments</th>
+<th>language</th>
+<th>street</th>
+<th>unit</th>
+<th>city</th>
+<th>state</th>
+<th>zip</th>
+<th>phone</th>
+<th>alternate_phone</th>
+<th>&nbsp;</th>
+</tr></thead>
+<tbody>
+<% @study_subjects.each do |study_subject| -%>
+<% mom = study_subject.mother -%>
+<% case_subject = study_subject.case_subject -%>
+<% address = study_subject.addresses.first -%>
+<%# Do I need to check if current_address==true? -%>
+<% enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
+<% birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
+
+<tr class='row'>
+<td><%= mdy_or_nil(study_subject.reference_date) %></td>
+<td><%= case_subject.try(:icf_master_id_to_s)||"[No Case Subject]" %></td>
+<td><%= study_subject.icf_master_id_to_s %></td>
+<td><%= mom.try(:icf_master_id_to_s)||"[No Mother Subject]" %></td>
+<td><%= study_subject.mother_first_name %></td>
+<td><%= study_subject.mother_maiden_name %></td>
+<td><%= study_subject.mother_last_name %></td>
+<td><%= birth_datum.try(:mother_ssn).to_ssn %></td>
+<td><%= study_subject.father_first_name %></td>
+<td><%= study_subject.father_last_name %></td>
+<td><%= birth_datum.try(:father_ssn).to_ssn %></td>
+<td><%= study_subject.first_name %></td>
+<td><%= study_subject.middle_name %></td>
+<td><%= study_subject.last_name %></td>
+<td><%= mdy_or_nil(study_subject.dob) %></td>
+<td><%= study_subject.sex %></td>
+<td><%= study_subject.vital_status_id %></td>
+<td><%= study_subject.do_not_contact %></td>
+<td><%= enrollment.try(:is_eligible) %></td>
+<td><%= enrollment.try(:consented) %></td>
+<td>&nbsp;</td>
+<td><%= study_subject.languages.first.try(:description) %></td>
+<td><%= address.try(:street) %></td>
+<td><%= address.try(:unit) %></td>
+<td><%= address.try(:city) %></td>
+<td><%= address.try(:state) %></td>
+<td><%= address.try(:zip) %></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><%= link_to 'view', study_subject,:class => :button %></td>
+</tr>
+<% end -%>
+</tbody></table>
+
+<p>
+<%= link_to("Export as CSV", controls_path(:format => :csv), :class => :button) %>
+</p>
+
+<% end %><%# if @study_subjects %>

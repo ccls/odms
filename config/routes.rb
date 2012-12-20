@@ -96,7 +96,7 @@ Odms::Application.routes.draw do
 		collection { put :assign_selected_for_interview }
 	end
 
-	resources :controls, :only => [:new,:create]
+	resources :controls, :only => [:new,:create,:index]
 	resources :contexts
 	resources :data_sources
 	resources :diagnoses
@@ -272,7 +272,7 @@ Odms::Application.routes.draw do
 	end
 
 	#	format seems to be required in the url? UNLESS wrapped in ()!
-	match 'study_subject_reports/:action(.:format)' => 'study_subject_reports'
+#	match 'study_subject_reports/:action(.:format)' => 'study_subject_reports'
 	match 'charts/:action.:format' => 'charts'
 
 	namespace :sunspot do
