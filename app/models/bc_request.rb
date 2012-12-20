@@ -14,7 +14,6 @@ class BcRequest < ActiveRecord::Base
 	scope :waitlist, where( :status => 'waitlist' )
 	scope :pending,  where( :status => 'pending' )
 	scope :complete, where( :status => 'complete' )
-#	scope :incomplete, where("status != 'complete' OR status IS NULL")
 	scope :incomplete, 
 		where(self.arel_table[:status].eq(nil).or(
 			self.arel_table[:status].not_eq('complete')))

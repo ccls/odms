@@ -73,14 +73,11 @@ class Enrollment < ActiveRecord::Base
 
 	scope :consented, where( :consented   => YNDK[:yes] )
 	scope :eligible,  where( :is_eligible => YNDK[:yes] )
-#	scope :assigned_for_interview,  where("assigned_for_interview_at IS NOT NULL")
-#	Avoid using strings as they are not database agnostic
+
 	scope :assigned_for_interview,  
 		where(self.arel_table[:assigned_for_interview_at].not_eq(nil))
-#	scope :not_assigned_for_interview,  where("assigned_for_interview_at IS NULL")
-	scope :not_assigned_for_interview,  where(:assigned_for_interview_at => nil)
 
-#	scope :ccls, joins(:project).where(Project.arel_table[:key].matches('ccls'))
+	scope :not_assigned_for_interview,  where(:assigned_for_interview_at => nil)
 
 	#	find enrollments by project key
 	#	(rather than hard coding scopes for each)
@@ -89,8 +86,6 @@ class Enrollment < ActiveRecord::Base
 	def self.by_project_key(project_key)
 		joins(:project).where(Project.arel_table[:key].matches(project_key))
 	end
-
-#	scope :p, lambda{|key| joins(:project).where(Project.arel_table[:key].matches(key))}
 
 	after_save :reindex_study_subject!
 

@@ -1,7 +1,7 @@
 #	Abstract model
 class Abstract < ActiveRecord::Base
 
-	belongs_to :study_subject	#, :counter_cache => true
+	belongs_to :study_subject
 
 	with_options :class_name => 'User', :primary_key => 'uid' do |u|
 		u.belongs_to :entry_1_by, :foreign_key => 'entry_1_by_uid'
@@ -20,11 +20,6 @@ class Abstract < ActiveRecord::Base
 	attr_accessor :weight_units, :height_units
 	attr_accessor :merging	#	flag to be used to skip 2 abstract limitation
 
-	#	The :on => :create doesn't seem to work as described
-	#	validate_on_create is technically deprecated, but still works
-#	NOTE does this actually work???
-#	validate_on_create :subject_has_less_than_three_abstracts	#, :on => :create
-#	validate_on_create :subject_has_no_merged_abstract	#, :on => :create
 	validate :subject_has_less_than_three_abstracts, :on => :create
 	validate :subject_has_no_merged_abstract, :on => :create
 
@@ -37,7 +32,6 @@ class Abstract < ActiveRecord::Base
 	def self.fields
 		#	db: db field name
 		#	human: humanized field
-#			File.join(File.dirname(__FILE__),'../../config/abstract_fields.yml')
 		@@fields ||= YAML::load( ERB.new( IO.read(
 			File.join(Rails.root,'config/abstract_fields.yml')
 		)).result)
@@ -52,12 +46,15 @@ class Abstract < ActiveRecord::Base
 #		}
 	end
 
+#
+#	Why didn't I just use locales for this?
+#
+
 	def fields
 		Abstract.fields
 	end
 
 	def self.db_fields
-#		@db_fields ||= fields.collect{|f|f[:db]}
 		Abstract.fields.collect{|f|f[:db]}
 	end
 
@@ -65,32 +62,7 @@ class Abstract < ActiveRecord::Base
 		Abstract.db_fields
 	end
 
-#	#	this multi-line array probably won't test 100% if used
-#	#	may have to create a config file for this too!
-#	def self.incomparable_attribute_names
-#		@@incomparable_attribute_names ||= [
-#			'id','study_subject_id','created_at','updated_at','entry_1_by_uid',
-#			'entry_2_by_uid','merged_by_uid',
-#			"response_day_14_days_since_diagnosis", 
-#			"response_day_14_days_since_treatment_began", 
-#			"response_day_28_days_since_diagnosis", 
-#			"response_day_28_days_since_treatment_began", 
-#			"response_day_7_days_since_diagnosis", 
-#			"response_day_7_days_since_treatment_began"]
-#	end
-#
-#	def self.comparable_attribute_names
-#		@@comparable_attribute_names ||= (
-#			Abstract.attribute_names - Abstract.incomparable_attribute_names )
-#	end
-
-	#	db_fields need defined first though
-#	attr_accessible *(Abstract.db_fields + [:current_user,:weight_units,:height_units,:merging])
-#	attr_accessible *Abstract.db_fields
-
 	def comparable_attributes
-#		HWIA[attributes.select {|k,v| 
-#			!Abstract.incomparable_attribute_names.include?(k)}]
 		HWIA[attributes.select {|k,v| db_fields.include?(k)}]
 	end
 
@@ -118,10 +90,8 @@ class Abstract < ActiveRecord::Base
 		!merged_by_uid.blank?
 	end
 
-#	scope :merged,   where('merged_by_uid IS NOT NULL')
 	scope :merged,   
 		where(self.arel_table[:merged_by_uid].not_eq(nil) )
-#	scope :unmerged, where('merged_by_uid IS NULL')
 	scope :unmerged, where('merged_by_uid' => nil)
 
 protected
@@ -198,7 +168,8 @@ protected
 		if study_subject and !merged_by_uid.blank?
 			#	use delete and not destroy to preserve the abstracts_count
 #	gonna stop using abstracts_count so really won't matter
-			study_subject.abstracts.unmerged.each{|a|a.delete}
+#			study_subject.abstracts.unmerged.each{|a|a.delete}
+			study_subject.abstracts.unmerged.each{|a|a.destroy}
 		end
 	end
 
