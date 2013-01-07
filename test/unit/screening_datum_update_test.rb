@@ -189,7 +189,7 @@ class ScreeningDatumUpdateTest < ActiveSupport::TestCase
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = "screening_datum_update_20120822.csv"
+		real_data_file = "screening_data/screening_datum_update_20120822.csv"
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."

@@ -139,7 +139,7 @@ class ScreeningDatumUpdatesControllerTest < ActionController::TestCase
 
 #		test "should parse with #{cu} login and real csv_file" do
 #			#	real data and won't be in repository
-#			real_data_file = "screening_datum_update_20120424.csv"
+#			real_data_file = "screening_data/screening_datum_update_20120424.csv"
 #			unless File.exists?(real_data_file)
 #				puts
 #				puts "-- Real data test file does not exist. Skipping."
