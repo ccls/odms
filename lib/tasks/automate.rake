@@ -79,8 +79,8 @@ namespace :automate do
 					e.interview_completed_on = Time.parse(line['cati_complete']).to_date
 					if e.changed?
 						changed << s
-						puts "Updated interview_completed_on : #{e.interview_completed_on}"
-						puts "enrollment updated. creating OE"
+						puts "-- Updated interview_completed_on : #{e.interview_completed_on}"
+						puts "-- Enrollment updated. Creating OE"
 
 						e.save!
 						s.operational_events.create!(
@@ -103,12 +103,14 @@ namespace :automate do
 			puts "#{changes} #{(changes==1)?'change':'changes'} found."
 
 			if changes > 0
-				#	serves no purpose to commit if didn't change anythin
+				puts "ICF Master IDs ..."
+				puts changed.collect(&:icf_master_id).join(', ')
+				#	serves no purpose to commit if didn't change anything
 				puts "Commiting Sunspot index."
 				Sunspot.commit
 			end
 
-			puts "Archiving ..."
+			puts "Archiving ICF Master Tracker file ..."
 			File.rename("ICF_Master_Tracker.csv",
 				"#{archive_dir}/ICF_Master_Tracker_#{mod_time}.csv")
 
