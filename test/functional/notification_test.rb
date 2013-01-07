@@ -29,7 +29,7 @@ class NotificationTest < ActionMailer::TestCase
 
 	test "plain" do
 		mail = Notification.plain
-		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
+		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
 		assert_equal mail.subject, "No subject given"
 		assert_match "No body given", mail.body.encoded
 #	html or text.  Both exist for this one.
@@ -38,7 +38,7 @@ class NotificationTest < ActionMailer::TestCase
 
 	test "updates_from_icf_master_tracker" do
 		mail = Notification.updates_from_icf_master_tracker([])
-		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
+		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
 		assert_equal mail.subject, "TEST updates_from_icf_master_tracker"
 		assert_match "No changes", mail.body.encoded
 	end
