@@ -53,7 +53,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	selecting nothing will trigger the loading of nothing in the selector
 			select '', :from => 'category'
 			wait_until { 
-				!has_css?('select#operational_event_operational_event_type_id option')
+				find('select#operational_event_operational_event_type_id'
+					).all('option').length == 0
 			}
 			assert !has_css?('select#operational_event_operational_event_type_id option')
 
@@ -108,7 +109,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			#	selecting nothing will trigger the loading of nothing in the selector
 			select '', :from => 'category'
 			wait_until { 
-				!has_css?('select#operational_event_operational_event_type_id option')
+				find('select#operational_event_operational_event_type_id'
+					).all('option').length == 0
 			}
 			assert !has_css?('select#operational_event_operational_event_type_id option')
 

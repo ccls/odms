@@ -437,11 +437,11 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			assert !find_field('enrollment[other_refusal_reason]').visible?
 #	case sensitive? yep.
-			select "other", :from => 'enrollment[refusal_reason_id]'
+			select "other reason for refusal", :from => 'enrollment[refusal_reason_id]'
 			assert find_field('enrollment[other_refusal_reason]').visible?
 			select "", :from => 'enrollment[refusal_reason_id]'
 			assert !find_field('enrollment[other_refusal_reason]').visible?
-			select "other", :from => 'enrollment[refusal_reason_id]'
+			select "other reason for refusal", :from => 'enrollment[refusal_reason_id]'
 			assert find_field('enrollment[other_refusal_reason]').visible?
 		end
 

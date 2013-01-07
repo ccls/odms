@@ -181,7 +181,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_other_language_hidden
 		end
 
-		test "should should update blank address info on zip code change" <<
+		test "should update blank address info on zip code change" <<
 			" with #{cu} login" do
 			login_as send(cu)
 			visit new_raf_path
@@ -204,7 +204,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal '17857',          find_field("#{patient}[raf_zip]").value
 		end
 
-		test "should should update blank address info on raf_zip code change" <<
+		test "should update blank address info on raf_zip code change" <<
 			" with #{cu} login" do
 			login_as send(cu)
 			visit new_raf_path
@@ -218,6 +218,9 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert find_field("#{patient}[raf_zip]").value.blank?
 
 			fill_in "#{patient}[raf_zip]",  :with => "17857"
+
+			wait_until{ 
+				!find_field("#{address}[city]").value.blank? }
 
 			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
@@ -233,11 +236,11 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit new_raf_path
 			patient = 'study_subject[patient_attributes]'
 			assert !find_field("#{patient}[other_diagnosis]").visible?
-			select "other", :from => "#{patient}[diagnosis_id]"
+			select "other diagnosis", :from => "#{patient}[diagnosis_id]"
 			assert find_field("#{patient}[other_diagnosis]").visible?
 			select "",      :from => "#{patient}[diagnosis_id]"
 			assert !find_field("#{patient}[other_diagnosis]").visible?
-			select "other", :from => "#{patient}[diagnosis_id]"
+			select "other diagnosis", :from => "#{patient}[diagnosis_id]"
 			assert find_field("#{patient}[other_diagnosis]").visible?
 		end
 
