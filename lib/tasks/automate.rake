@@ -118,6 +118,7 @@ namespace :automate do
 			#	Email is NOT SECURE.  Be careful what is in it.
 			#
 			Notification.updates_from_icf_master_tracker(changed).deliver
+			puts "----------------------------------------------------------------------"
 		end
 
 	end #	task :update_from_icf_master_tracker => :environment do

@@ -139,6 +139,7 @@ namespace :data do
 				f.puts model.camelize.constantize.all.to_xml }
 		end
 		puts "Done.(#{Time.now})"
+		puts
 	end
 
 end	#	namespace :data do

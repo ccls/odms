@@ -36,9 +36,10 @@ RAILS_ENV=production
 #
 #
 #@hourly cd /my/ruby/odms/ ; rake app:data:export_to_xml >> /my/ruby/export_to_xml.log
-@daily cd /my/ruby/odms/ ; rake app:data:export_to_xml >> /my/ruby/export_to_xml.log
+@daily cd /my/ruby/odms/ ; rake app:data:export_to_xml >> /my/ruby/logs/export_to_xml.log
 #* * * * * cd /my/ruby/odms/ ; rake app:export_to_xml
 #* * * * * echo $RAILS_ENV >> /my/ruby/rails_env_check
 
-#	0 12 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/automate_updates_from_icf_master_tracker.log
+#	every day at 8PM
+0 20 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
 
