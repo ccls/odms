@@ -34,7 +34,7 @@ namespace :automate do
 					:subject => "ODMS: Duplicate ICF Master Tracker" }
 			).deliver
 		else
-			puts "Processing ..."
+			puts "Processing #{mod_time}..."
 
 			changed = []
 
