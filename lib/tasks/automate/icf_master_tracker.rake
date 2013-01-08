@@ -5,6 +5,7 @@ namespace :automate do
 #
 	task :updates_from_icf_master_tracker => :environment do
 		puts;puts;puts
+		puts "Begin.(#{Time.now})"
 		puts "In automate:update_from_icf_master_tracker"
 
 		puts "About to scp -p Icf master tracker"
@@ -118,8 +119,9 @@ namespace :automate do
 			#	Email is NOT SECURE.  Be careful what is in it.
 			#
 			Notification.updates_from_icf_master_tracker(changed).deliver
-			puts "----------------------------------------------------------------------"
 		end
+		puts "Done.(#{Time.now})"
+		puts "----------------------------------------------------------------------"
 
 	end #	task :update_from_icf_master_tracker => :environment do
 
