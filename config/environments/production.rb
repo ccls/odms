@@ -111,10 +111,12 @@ Odms::Application.configure do
 
 
 #	We don't do any mailing anymore, so this is kinda irrelavant.
-#
-#	config.action_mailer.delivery_method = :smtp
-#
-#	config.action_mailer.default_url_options = { 
-#		:host => "ccls.berkeley.edu" }
-#
+#	We do now.
+
+	config.action_mailer.delivery_method = :smtp
+
+	config.action_mailer.default_url_options = { 
+		:protocol => "https",
+		:host => "odms.brg.berkeley.edu" }
+
 end

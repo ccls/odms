@@ -59,6 +59,7 @@ Odms::Application.configure do
 
 
 #	Again, we don't mail anymore, so irrelevant
+#	We do now.
 
 	config.action_mailer.delivery_method = :smtp
 
