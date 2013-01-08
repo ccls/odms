@@ -32,8 +32,9 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 			select 'operations', :from => 'category'
 
 			wait_until { 
-				!find('select#operational_event_operational_event_type_id option'
-				).text.blank? }
+				all('select#operational_event_operational_event_type_id option').length > 1 }
+#				!find('select#operational_event_operational_event_type_id option'
+#				).text.blank? }
 
 			#	now should have some options.
 			#	by doing it this way, capybara 'reloads' the contents before comparison
