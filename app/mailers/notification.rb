@@ -34,7 +34,7 @@ class Notification < ActionMailer::Base
 	def plain(content="No body given",options={})
 		defaults = {
 			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
-			:subject => "No subject given"
+			:subject => "ODMS: No subject given"
 		}.merge(options)
 		@content = content	#	BEFORE last 'mail' method call
 		mail defaults
@@ -44,14 +44,14 @@ class Notification < ActionMailer::Base
 		@changed = changed
 		defaults = {
 			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
-			:subject => "TEST updates_from_icf_master_tracker"
+			:subject => "ODMS: updates_from_icf_master_tracker"
 		}.merge(options)
 		mail defaults
 	end
 
 	def demo
 		mail to: "jakewendt@berkeley.edu"
-		mail subject: "TEST EMAIL"
+		mail subject: "ODMS: DEMO EMAIL"
 	end
 
 end

@@ -17,7 +17,7 @@ namespace :automate do
 			Notification.plain(
 				"ICF Master Tracker not found after copy attempted." <<
 				" Skipping.",{
-					:subject => "Failed ICF Master Tracker copy" }
+					:subject => "ODMS: Failed ICF Master Tracker copy" }
 			).deliver
 
 			exit
@@ -31,7 +31,7 @@ namespace :automate do
 			Notification.plain(
 				"ICF Master Tracker has the same modification time as a previously" <<
 				" processed file.  Skipping.",{
-					:subject => "Duplicate ICF Master Tracker" }
+					:subject => "ODMS: Duplicate ICF Master Tracker" }
 			).deliver
 		else
 			puts "Processing ..."

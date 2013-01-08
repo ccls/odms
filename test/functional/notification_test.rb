@@ -22,7 +22,7 @@ class NotificationTest < ActionMailer::TestCase
 	test "demo" do
 		mail = Notification.demo
 		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
-		assert_equal mail.subject, "TEST EMAIL"
+		assert_equal mail.subject, "ODMS: DEMO EMAIL"
 		assert_match "This is a demo email to test the production server.",
 			mail.body.encoded
 	end
@@ -30,7 +30,7 @@ class NotificationTest < ActionMailer::TestCase
 	test "plain" do
 		mail = Notification.plain
 		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
-		assert_equal mail.subject, "No subject given"
+		assert_equal mail.subject, "ODMS: No subject given"
 		assert_match "No body given", mail.body.encoded
 #	html or text.  Both exist for this one.
 #  <"\r\n\r\n----==_mimepart_50cbaca246541_ba908044394828669\r\nDate: Fri, 14 Dec 2012 14:48:02 -0800\r\nMime-Version: 1.0\r\nContent-Type: text/plain;\r\n charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\nContent-ID: <50cbaca24b85b_ba90804439482876d@fxdgroup-169-229-196-225.sph.berkeley.edu.mail>\r\n\r\nNo body given\r\n\r\n\r\n----==_mimepart_50cbaca246541_ba908044394828669\r\nDate: Fri, 14 Dec 2012 14:48:02 -0800\r\nMime-Version: 1.0\r\nContent-Type: text/html;\r\n charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\nContent-ID: <50cbaca24e377_ba908044394828884@fxdgroup-169-229-196-225.sph.berkeley.edu.mail>\r\n\r\n<html>\r\n<head>\r\n</head>\r\n<body>\r\nNo body given\r\n</body>\r\n</html>\r\n\r\n\r\n----==_mimepart_50cbaca246541_ba908044394828669--\r\n">
@@ -39,7 +39,7 @@ class NotificationTest < ActionMailer::TestCase
 	test "updates_from_icf_master_tracker" do
 		mail = Notification.updates_from_icf_master_tracker([])
 		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
-		assert_equal mail.subject, "TEST updates_from_icf_master_tracker"
+		assert_equal mail.subject, "ODMS: updates_from_icf_master_tracker"
 		assert_match "No changes", mail.body.encoded
 	end
 
