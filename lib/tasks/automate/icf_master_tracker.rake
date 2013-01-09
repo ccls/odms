@@ -43,6 +43,10 @@ namespace :automate do
 #
 #	TODO Insert a check to ensure that the file has the expected columns
 #
+#	f=CSV.open("ICF_Master_Tracker.csv",'rb')
+#	column_names = f.readline
+#	f.close
+
 
 
 			(f=CSV.open( "ICF_Master_Tracker.csv", 'rb',{
