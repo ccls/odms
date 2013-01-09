@@ -367,28 +367,28 @@ end
 Factory.define :icf_master_id do |f|
 end
 
-Factory.define :icf_master_tracker do |f|
-	f.sequence(:master_id){|n| "#{n}"}	#	in order to test uniqueness, MUST BE HERE
-	f.master_tracker_date Date.today	#	virtual attribute needed for Change
-end
-Factory.define :icf_master_tracker_change do |f|
-	f.master_tracker_date Date.today
-	f.sequence(:icf_master_id){|n| "#{n}"}
-end
-Factory.define :icf_master_tracker_update do |f|
+#Factory.define :icf_master_tracker do |f|
+#	f.sequence(:master_id){|n| "#{n}"}	#	in order to test uniqueness, MUST BE HERE
+#	f.master_tracker_date Date.today	#	virtual attribute needed for Change
+#end
+#Factory.define :icf_master_tracker_change do |f|
 #	f.master_tracker_date Date.today
-	f.sequence(:master_tracker_date){|n| Date.jd( 2440000 + n ) }
-	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/csv')
-end
-Factory.define :empty_icf_master_tracker_update, 
-	:parent => :icf_master_tracker_update do |f|
-end
-Factory.define :one_record_icf_master_tracker_update, 
-	:parent => :icf_master_tracker_update do |f|
-	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/assets/one_record_icf_master_tracker_update_test_file.csv', 'text/csv')
-end
+#	f.sequence(:icf_master_id){|n| "#{n}"}
+#end
+#Factory.define :icf_master_tracker_update do |f|
+##	f.master_tracker_date Date.today
+#	f.sequence(:master_tracker_date){|n| Date.jd( 2440000 + n ) }
+#	f.csv_file Rack::Test::UploadedFile.new( 
+#		'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/csv')
+#end
+#Factory.define :empty_icf_master_tracker_update, 
+#	:parent => :icf_master_tracker_update do |f|
+#end
+#Factory.define :one_record_icf_master_tracker_update, 
+#	:parent => :icf_master_tracker_update do |f|
+#	f.csv_file Rack::Test::UploadedFile.new( 
+#		'test/assets/one_record_icf_master_tracker_update_test_file.csv', 'text/csv')
+#end
 
 Factory.define :ineligible_reason do |f|
 	f.sequence(:key)         { |n| "Key#{n}" }
