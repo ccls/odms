@@ -18,7 +18,7 @@ namespace :automate do
 			Notification.plain(
 				"ICF Master Tracker not found after copy attempted." <<
 				" Skipping.",{
-:to => 'jakewendt@berkeley.edu',
+#:to => 'jakewendt@berkeley.edu',
 					:subject => "ODMS: Failed ICF Master Tracker copy" }
 			).deliver
 			abort( "scp seems to have failed as csv file is not found." )
@@ -32,7 +32,7 @@ namespace :automate do
 			Notification.plain(
 				"ICF Master Tracker has the same modification time as a previously" <<
 				" processed file. (#{mod_time})  Skipping.",{
-:to => 'jakewendt@berkeley.edu',
+#:to => 'jakewendt@berkeley.edu',
 					:subject => "ODMS: Duplicate ICF Master Tracker" }
 			).deliver
 			abort( "File is not new.  Not doing anything." )
@@ -50,7 +50,7 @@ namespace :automate do
 				"Expected ...<br/>\n#{expected_columns.join(',')}<br/>\n" <<
 				"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" <<
 				"Diffs    ...<br/>\n#{(expected_columns - actual_columns).join(',')}<br/>\n", {
-:to => 'jakewendt@berkeley.edu',
+#:to => 'jakewendt@berkeley.edu',
 					:subject => "ODMS: Unexpected or missing columns in ICF Master Tracker" }
 			).deliver
 			abort( "Unexpected column names in ICF Master Tracker" )
@@ -131,9 +131,9 @@ namespace :automate do
 		#
 		#	Email is NOT SECURE.  Be careful what is in it.
 		#
-		Notification.updates_from_icf_master_tracker(changed,
-{:to => 'jakewendt@berkeley.edu'}
-).deliver
+		Notification.updates_from_icf_master_tracker(changed, {
+#:to => 'jakewendt@berkeley.edu'
+		}).deliver
 
 	end #	task :update_from_icf_master_tracker => :environment do
 
