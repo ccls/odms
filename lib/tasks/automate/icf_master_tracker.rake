@@ -17,7 +17,8 @@ namespace :automate do
 		}
 
 		puts "About to scp -p Icf master tracker"
-		system("scp -p jakewendt@dev.sph.berkeley.edu:/Volumes/BUF-Fileshare/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_master_trackers/ICF_Master_Tracker.csv ./")
+#		system("scp -p jakewendt@dev.sph.berkeley.edu:/Volumes/BUF-Fileshare/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_master_trackers/ICF_Master_Tracker.csv ./")
+		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_master_trackers/ICF_Master_Tracker.csv ./")
 		unless File.exists?("ICF_Master_Tracker.csv")
 			Notification.plain(
 				"ICF Master Tracker not found after copy attempted." <<
