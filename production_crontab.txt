@@ -40,6 +40,7 @@ RAILS_ENV=production
 #* * * * * cd /my/ruby/odms/ ; rake app:export_to_xml
 #* * * * * echo $RAILS_ENV >> /my/ruby/rails_env_check
 
-#	every day at 8PM
-0 20 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
+#	every day at 8PM (no drive loses mount)
+#	every day at 1PM 
+0 13 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
 
