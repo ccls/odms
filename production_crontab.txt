@@ -31,6 +31,12 @@ SHELL=/bin/tcsh
 #	Could also explicitly set it
 RAILS_ENV=production
 #
+#
+#	Without setting mail will be stored locally on this computer.
+#	I think setting MAILTO='' will stop it from being sent.
+#	Could also set the ~/.forward file to this as well.
+MAILTO='jakewendt@berkeley.edu'
+#
 #	Can I have a series of commands in crontab, or should I put it all in one script.
 #	Yes.  Either way.  Seems that everything after the time designation is executed
 #
@@ -42,5 +48,7 @@ RAILS_ENV=production
 
 #	every day at 8PM (no drive loses mount)
 #	every day at 1PM 
+#	Changed mounting using fstab (more unixy).  Should never lose mount now.
+#	Also, fyi "abort" calls from rake task will send email.
 0 13 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
 
