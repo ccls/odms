@@ -47,8 +47,8 @@ MAILTO='jakewendt@berkeley.edu'
 #* * * * * echo $RAILS_ENV >> /my/ruby/rails_env_check
 
 #	every day at 8PM (no drive loses mount)
-#	every day at 1PM 
+#	every day at NOON
 #	Changed mounting using fstab (more unixy).  Should never lose mount now.
 #	Also, fyi "abort" calls from rake task will send email.
-0 13 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
+0 12 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
 
