@@ -35,7 +35,13 @@ RAILS_ENV=production
 #	Without setting mail will be stored locally on this computer.
 #	I think setting MAILTO='' will stop it from being sent.
 #	Could also set the ~/.forward file to this as well.
-MAILTO='jakewendt@berkeley.edu'
+#MAILTO='jakewendt@berkeley.edu'
+#	apparently genepi1 isn't set to send external email
+#
+#   ----- The following addresses had permanent fatal errors -----
+#<jakewendt@berkeley.edu>
+#    (reason: 550-Verification failed for <jwendt@localhost.localdomain>)
+#
 #
 #	Can I have a series of commands in crontab, or should I put it all in one script.
 #	Yes.  Either way.  Seems that everything after the time designation is executed
