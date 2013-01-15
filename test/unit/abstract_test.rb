@@ -559,21 +559,21 @@ class AbstractTest < ActiveSupport::TestCase
 		assert sections.first.is_a?(Hash)
 	end
 
-	test "should return abstract fields for class" do
-		fields = Abstract.fields
-		assert  Abstract.class_variable_defined?("@@fields")
-		assert fields.is_a?(Array)
-		assert fields.length >= 15
-		assert fields.first.is_a?(Hash)
-	end
-
-	test "should return abstract fields for instance" do
-		fields = Abstract.new.fields
-		assert  Abstract.class_variable_defined?("@@fields")
-		assert fields.is_a?(Array)
-		assert fields.length >= 15
-		assert fields.first.is_a?(Hash)
-	end
+#	test "should return abstract fields for class" do
+#		fields = Abstract.fields
+#		assert  Abstract.class_variable_defined?("@@fields")
+#		assert fields.is_a?(Array)
+#		assert fields.length >= 15
+#		assert fields.first.is_a?(Hash)
+#	end
+#
+#	test "should return abstract fields for instance" do
+#		fields = Abstract.new.fields
+#		assert  Abstract.class_variable_defined?("@@fields")
+#		assert fields.is_a?(Array)
+#		assert fields.length >= 15
+#		assert fields.first.is_a?(Hash)
+#	end
 
 	test "should return abstract db_fields for class" do
 		db_fields = Abstract.db_fields

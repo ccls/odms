@@ -248,6 +248,8 @@ div.header {
 }
 .row:nth-child(2n)   { background-color: #FCF9EF; }
 .row:nth-child(2n+1) { background-color: #F5F1E8; }
+.row.diff:nth-child(2n)   { background-color: #EBB; }
+.row.diff:nth-child(2n+1) { background-color: #DBB; }
 
 table {
 	border-collapse:collapse;
