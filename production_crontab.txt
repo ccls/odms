@@ -52,9 +52,8 @@ RAILS_ENV=production
 #* * * * * cd /my/ruby/odms/ ; rake app:export_to_xml
 #* * * * * echo $RAILS_ENV >> /my/ruby/rails_env_check
 
-#	every day at 8PM (no drive loses mount)
-#	every day at NOON
+#	every WEEKday at 8PM (no drive loses mount)
 #	Changed mounting using fstab (more unixy).  Should never lose mount now.
 #	Also, fyi "abort" calls from rake task will send email.
-0 12 * * * cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
+0 20 * * 1,2,3,4,5 cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
 
