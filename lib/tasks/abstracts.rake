@@ -22,65 +22,31 @@ namespace :abstracts do
 			next if line['current_field_name'].blank?
 			existing = all_fields.detect{|f| f.data.to_s.downcase == line['current_field_name'].to_s.downcase }
 			if existing
-				existing.current_fieldsandtypes = line['current_field_name']
-				existing.new_fieldsandtypes = line['new_field_name']
+				existing.current_field_name = line['current_field_name']
+				existing.new_field_name = line['new_field_name']
 			else
 				all_fields.push(OpenStruct.new(
-					:current_fieldsandtypes => line['current_field_name'],
-					:new_fieldsandtypes => line['new_field_name']) )
+					:current_field_name => line['current_field_name'],
+					:new_field_name => line['new_field_name']) )
 			end
 		end
 
-#		#	find conversion in Abst_DB_New_Var_Names_Aug2010
-#		(f=CSV.open("abstract_notes/Abst_DB_New_Var_Names_Aug2010.csv",'rb',{ 
-#				:headers => true })).each do |line|
-##next if %w(Createdby Fc1C5b Fc1D5b Fc1E5b CY_Tri4_gBand CY_Tri10_gBand CY_Tri17_gBand CY_Tri21_gBand).include?(line['current_field_name'])
-#
-#			next if line['current_field_name'].blank?
-#			existing = all_fields.detect{|f| f.data.to_s.downcase == line['current_field_name'].to_s.downcase }
-#			if existing
-##puts "Hell no match - #{line['current_field_name']}:#{existing.current_fieldsandtypes}:#{line['new_field_name']}:#{existing.new_fieldsandtypes}" if existing.new_fieldsandtypes != line['new_field_name']
-#				existing.current_Abst_DB = line['current_field_name']
-#				existing.new_Abst_DB = line['new_field_name']
-#			else
-##puts "Hell no exists :#{line['current_field_name']}"
-#				all_fields.push(OpenStruct.new(
-#					:current_Abst_DB => line['current_field_name'],
-#					:new_Abst_DB => line['new_field_name']) )
-#			end
-#		end
-
-#		#	find field in Abstract
-#		(Abstract.column_names - %w(id entry_1_by_uid entry_2_by_uid 
-#			merged_by_uid study_subject_id created_at updated_at)).each do |column|
-#
-#		end
-
 		#	save csv
 		CSV.open('field_check.csv','wb') do |csv|
-#			csv << %w( DataFile fieldsandtypes Abst_DB )
-#			csv << %w( new_in_db1 new_fieldsandtypes current_fieldsandtypes DataFile current_Abst new_Abst_DB new_in_db2 )
-			csv << %w( new_in_db1 new_fieldsandtypes current_fieldsandtypes DataFile )
+			csv << %w( dbtype new_field_name current_field_name DataFile )
 			all_fields.sort{|a,b| (a.data||'') <=> (b.data||'') }.each do |field|
-#				csv << [field.data, field.fieldsandtypes, field.Abst_DB_New_Var_Names_Aug2010]
-#				csv << [ 
-#					(Abstract.column_names.include?(field.new_fieldsandtypes.to_s.downcase)? 'XXX' : nil),
-#					field.new_fieldsandtypes, field.current_fieldsandtypes, 
-#					field.data, field.current_Abst_DB, 
-#					field.new_Abst_DB,
-#					(Abstract.column_names.include?(field.new_Abst_DB.to_s.downcase)? 'XXX' : nil)
-#				 ]
+				db_name = field.new_field_name.to_s.downcase.gsub(/\+/,'_')
+				db_field = Abstract.columns.detect{|c| c.name == db_name }
 				csv << [ 
-					(Abstract.column_names.include?(
-						field.new_fieldsandtypes.to_s.downcase.gsub(/\+/,'_'))? 'XXX' : nil),
-					field.new_fieldsandtypes, field.current_fieldsandtypes, field.data ]
+					( db_field.nil? ? nil : db_field.sql_type ),
+					field.new_field_name, field.current_field_name, field.data ]
 			end	#	all_fields.sort{|a,b| (a.data||'') <=> (b.data||'') }.each do |field|
 			(Abstract.column_names - 
-				all_fields.collect(&:new_fieldsandtypes).compact.collect(&:downcase
+				all_fields.collect(&:new_field_name).compact.collect(&:downcase
 					).collect{|f|f.gsub(/\+/,'_')} - 
 				%w( id study_subject_id entry_1_by_uid entry_2_by_uid 
 					merged_by_uid updated_at )).sort.each do |field|
-				csv << [ 'XXX', field ]
+				csv << [ Abstract.columns.detect{|c| c.name == field }.sql_type, field ]
 			end
 
 		end	#	CSV.open('field_check.csv','wb') do |csv|
