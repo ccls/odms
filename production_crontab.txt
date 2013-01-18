@@ -18,6 +18,11 @@
 #	+------------- Min (0 - 59)
 #
 #
+# @monthly        Run once a month, "0 0 1 * *".
+# @weekly         Run once a week, "0 0 * * 0".
+# @daily          Run once a day, "0 0 * * *".
+#
+#
 #
 #
 #
@@ -60,5 +65,17 @@ RAILS_ENV=production
 #	Changed mounting using fstab (more unixy).  Should never lose mount now.
 #	Also, fyi "abort" calls from rake task will send email.
 0 20 * * 1,2,3,4,5 cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
+
+
+
+#	
+#	Add daily mysql_dump
+#	Add weekly mysql_dump
+#	Add monthly mysql_dump
+#
+# @monthly        Run once a month, "0 0 1 * *".
+# @weekly         Run once a week, "0 0 * * 0".
+# @daily          Run once a day, "0 0 * * *".
+
 
 
