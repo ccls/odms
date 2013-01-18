@@ -1,5 +1,6 @@
 namespace :app do
 namespace :abstracts do
+
 	task :unused_fields => :environment do
 		all_fields = []
 		f=CSV.open('abstract_notes/ODMS_Abstracts_xxxxxx.csv', 'rb')
@@ -172,6 +173,20 @@ namespace :abstracts do
 abstract_fields = line.to_hash
 abstract_fields.delete('id')
 abstract_fields.delete('childid')
+
+
+#
+#	Tried to add all of the leftover legacy fields.
+#	Discovered that there is a limit to a row in a mysql table.
+#	It is 65535.  Assuming that this is bytes.  Now you know.
+#Mysql2::Error: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. You have to change some columns to TEXT or BLOBs: ALTER TABLE `abstracts` ADD `cy_diag_fish` varchar(255)
+#
+#	So.  What to do?
+#	Create a LegacyFieldsAbstract model and table?
+#
+
+
+
 
 			#
 			#	Only study_subject_id protected so block creation not needed.
