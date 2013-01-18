@@ -1,5 +1,28 @@
 namespace :app do
 namespace :abstracts do
+	task :unused_fields => :environment do
+		all_fields = []
+		f=CSV.open('abstract_notes/ODMS_Abstracts_xxxxxx.csv', 'rb')
+		header_line = f.gets
+		f.close
+		header_line.each{ |l| all_fields.push( l ) }
+		used_fields = []
+		(f=CSV.open("abstract_notes/Abstract_fieldsandtypes.csv",'rb',{ 
+				:headers => true })).each do |line|
+			modified_field_name = line['current_field_name'].downcase
+			modified_field_name.gsub!(/\-/,'_')
+			modified_field_name.gsub!(/\+/,'_')
+			used_fields.push(modified_field_name)
+		end
+
+		puts (all_fields - used_fields).sort
+		puts (all_fields - used_fields).length
+
+		abstract = Abstract.new
+		(all_fields - used_fields).each do |field|
+			puts "#{field}:#{abstract.respond_to?(field)}"
+		end
+	end
 
 	task :field_check => :environment do
 # ~236 fields in Abst_DB_New_Var_Names_Aug2010.csv
@@ -54,13 +77,12 @@ namespace :abstracts do
 	end	#	task :field_check => :environment do
 
 	task :import => :import_base do
-		this_task_name = $*.shift	
 
-		file_name = $*.shift
+		file_name = ENV['csv_file']
 		if file_name.blank?
 			puts
 			puts "CSV file name is required."
-			puts "Usage: rake #{this_task_name} some_file_name.csv"
+			puts "Usage: rake app:abstracts:import csv_file=some_file_name.csv"
 			puts
 			exit
 		end
@@ -71,83 +93,90 @@ namespace :abstracts do
 			exit
 		end
 		
-		f=CSV.open(file_name, 'rb')
-		column_names = f.readline
-		f.close
-
-#		expected_column_names = ["subjectid","project_id","operational_event_id","occurred_at","description","event_notes"]
-#		if column_names != expected_column_names
-#			puts
-#			puts "CSV file does not contain expected column names."
-#			puts "Expected: #{expected_column_names.inspect}"
-#			puts "Given: #{column_names.inspect}"
-#			puts
-#			exit
+#		f=CSV.open(file_name, 'rb')
+#		column_names = f.readline
+#		f.close
+#
+##		expected_column_names = ["subjectid","project_id","operational_event_id","occurred_at","description","event_notes"]
+##		if column_names != expected_column_names
+##			puts
+##			puts "CSV file does not contain expected column names."
+##			puts "Expected: #{expected_column_names.inspect}"
+##			puts "Given: #{column_names.inspect}"
+##			puts
+##			exit
+##		end
+#
+#
+## ~236 fields in Abst_DB_New_Var_Names_Aug2010.csv
+## ~330 fields in fieldsandtypes.csv
+##	 489 columns in ODMS_Abstracts_xxxxxx.csv
+##	~342 columns in abstracts table
+#
+#
+#		translation_table = {}
+##		(f=CSV.open("Abst_DB_New_Var_Names_Aug2010.csv",'rb',{ 
+#		(f=CSV.open("fieldsandtypes.csv",'rb',{ 
+#			:headers => true })).each do |line|
+#			next if line['current_field_name'].blank?
+#			translation_table[line['current_field_name'].upcase] = line['new_field_name']
 #		end
+#
+#		initial_translation_keys_count = translation_table.keys.length
+#
+###		puts column_names
+#		column_names.each do |name|
+#			if translation_table[name.upcase]
+####				puts "#{name} translates to #{translation_table[name]}"
+#				translation_table.delete(name.upcase)
+#			else
+#				puts "--- CSV Column Name :#{name}: NOT FOUND in translation table"
+#			end
+#		end
+#
+#		puts "--- Translation table not used in csv file."
+#		puts translation_table.inspect
+#
+#		puts "Translatable keys: #{initial_translation_keys_count}"
+#		puts "CSV Columns: #{column_names.length}"
+#
+##exit
 
-
-# ~236 fields in Abst_DB_New_Var_Names_Aug2010.csv
-# ~330 fields in fieldsandtypes.csv
-#	 489 columns in ODMS_Abstracts_xxxxxx.csv
-#	~342 columns in abstracts table
-
-
-		translation_table = {}
-#		(f=CSV.open("Abst_DB_New_Var_Names_Aug2010.csv",'rb',{ 
-		(f=CSV.open("fieldsandtypes.csv",'rb',{ 
-			:headers => true })).each do |line|
-			next if line['current_field_name'].blank?
-			translation_table[line['current_field_name'].upcase] = line['new_field_name']
-		end
-
-		initial_translation_keys_count = translation_table.keys.length
-
-##		puts column_names
-		column_names.each do |name|
-			if translation_table[name.upcase]
-###				puts "#{name} translates to #{translation_table[name]}"
-				translation_table.delete(name.upcase)
-			else
-				puts "--- CSV Column Name :#{name}: NOT FOUND in translation table"
-			end
-		end
-
-		puts "--- Translation table not used in csv file."
-		puts translation_table.inspect
-
-		puts "Translatable keys: #{initial_translation_keys_count}"
-		puts "CSV Columns: #{column_names.length}"
-
-#exit
-
-
+#long_fields = []
 		
 		error_file = File.open('abstracts_errors.txt','w')	#	overwrite existing
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
 		(f=CSV.open(file_name, 'rb',{ :headers => true })).each do |line|
-			puts "Processing line #{f.lineno}:#{line}"
+#			puts "Processing line #{f.lineno}:#{line}"
 
 #	"subjectid","project_id","operational_event_id","occurred_at","description","event_notes"
 
-			study_subject = StudySubject.where(:childid => line['ChildID']).first
+#line.to_hash.keys.each do |key|
+#	if line[key].to_s.length > 200
+#long_fields.push(key) unless long_fields.include?(key)
+#		puts "long field #{key} in line #{f.lineno}:#{line[key].to_s.length}"
+##		puts line
+#	end
+#end
+
+			study_subject = StudySubject.where(:childid => line['childid']).first
 			unless study_subject
 				error_file.puts 
-				error_file.puts "Line #:#{f.lineno}: childid #{line['ChildID']} not found."
+				error_file.puts "Line #:#{f.lineno}: childid #{line['childid']} not found."
 				error_file.puts line
 				error_file.puts
 				next
 			end
 
+
+abstract_fields = line.to_hash
+abstract_fields.delete('id')
+abstract_fields.delete('childid')
+
 			#
 			#	Only study_subject_id protected so block creation not needed.
 			#
-#			abstract = study_subject.abstracts.new({
-#				:project_id  => line['project_id'],
-#				:operational_event_type_id => line['operational_event_id'],	#	NOTE misnamed field
-#				:occurred_at => line['occurred_at'].to_nil_or_time,
-#				:description => line['description'],
-#				:event_notes => line['event_notes']
-#			})
+			abstract = study_subject.abstracts.new(abstract_fields)
 
 #			if operational_event.new_record?
 #				error_file.puts 
@@ -176,9 +205,12 @@ namespace :abstracts do
 #			end
 
 		end	#	(f=CSV.open(file_name,
-		error_file.close
-		exit;	#	MUST EXPLICITLY exit or rake will try to run arguments as tasks
-	end
 
-end
-end
+#puts long_fields.sort
+
+		error_file.close
+#		exit;	#	MUST EXPLICITLY exit or rake will try to run arguments as tasks
+	end	#	task :import => :import_base do
+
+end	#	namespace :abstracts do
+end	#	namespace :app do

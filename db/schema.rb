@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120822170306) do
+ActiveRecord::Schema.define(:version => 20130118170447) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(:version => 20120822170306) do
     t.integer  "cytogen_trisomy5"
     t.integer  "cytogen_report_found"
     t.date     "cytogen_report_on"
-    t.string   "conventional_karyotype_results"
+    t.text     "conventional_karyotype_results"
     t.string   "normal_cytogen",                             :limit => 5
     t.string   "is_cytogen_hosp_fish_t1221_done",            :limit => 5
     t.string   "is_karyotype_normal",                        :limit => 5
@@ -259,7 +259,7 @@ ActiveRecord::Schema.define(:version => 20120822170306) do
     t.text     "response_comment_day_14"
     t.integer  "cytogen_karyotype_done"
     t.integer  "cytogen_hospital_fish_done"
-    t.string   "hospital_fish_results"
+    t.text     "hospital_fish_results"
     t.integer  "cytogen_ucb_fish_done"
     t.string   "ucb_fish_results",                           :limit => 50
     t.string   "response_hladr_day_14",                      :limit => 10

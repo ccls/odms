@@ -114,7 +114,7 @@ Table: abstracts
 | cytogen_trisomy5                           | int(11)       | YES  |     | NULL    |                |
 | cytogen_report_found                       | int(11)       | YES  |     | NULL    |                |
 | cytogen_report_on                          | date          | YES  |     | NULL    |                |
-| conventional_karyotype_results             | varchar(255)  | YES  |     | NULL    |                |
+| conventional_karyotype_results             | text          | YES  |     | NULL    |                |
 | normal_cytogen                             | varchar(5)    | YES  |     | NULL    |                |
 | is_cytogen_hosp_fish_t1221_done            | varchar(5)    | YES  |     | NULL    |                |
 | is_karyotype_normal                        | varchar(5)    | YES  |     | NULL    |                |
@@ -251,7 +251,7 @@ Table: abstracts
 | response_comment_day_14                    | text          | YES  |     | NULL    |                |
 | cytogen_karyotype_done                     | int(11)       | YES  |     | NULL    |                |
 | cytogen_hospital_fish_done                 | int(11)       | YES  |     | NULL    |                |
-| hospital_fish_results                      | varchar(255)  | YES  |     | NULL    |                |
+| hospital_fish_results                      | text          | YES  |     | NULL    |                |
 | cytogen_ucb_fish_done                      | int(11)       | YES  |     | NULL    |                |
 | ucb_fish_results                           | varchar(50)   | YES  |     | NULL    |                |
 | response_hladr_day_14                      | varchar(10)   | YES  |     | NULL    |                |
