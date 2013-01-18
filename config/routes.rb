@@ -106,10 +106,10 @@ Odms::Application.routes.draw do
 	resources :guides
 	resources :hospitals
 	resources :icf_master_ids, :only => [:index,:show]
-	resources :icf_master_trackers, :only => [:index,:show,:update]
-	resources :icf_master_tracker_updates do 
-		member { post :parse }
-	end
+#	resources :icf_master_trackers, :only => [:index,:show,:update]
+#	resources :icf_master_tracker_updates do 
+#		member { post :parse }
+#	end
 	resources :instrument_types
 	resources :instrument_versions
 	resources :ineligible_reasons
@@ -147,8 +147,8 @@ Odms::Application.routes.draw do
 	end
 	resources :sample_types
 
-	resources :screening_data, :except => [:new,:create]
-	resources :screening_datum_updates, :except => [:edit,:update]
+#	resources :screening_data, :except => [:new,:create]
+#	resources :screening_datum_updates, :except => [:edit,:update]
 	resources :sections
 	resources :subject_relationships
 	resources :subject_types
