@@ -228,8 +228,8 @@ class ScreeningDatumTest < ActiveSupport::TestCase
 #
 #	end
 #
-##mother_hispanicity	identify the correct mother_hispanicity_id from the value provided.  If no value matches, add operational event:  oe_type_id=30 (dataconflict), occurred_at=now, description:  "ICF screening data conflict:  mother's hispanicity does not match CCLS designations.    Value = "[value from file]"
-##father_hispanicity	identify the correct father_hispanicity_id from the value provided.  If no value matches, add operational event:  oe_type_id=30 (dataconflict), occurred_at=now, description:  "ICF screening data conflict:  father's hispanicity does not match CCLS designations.    Value = [value from file]
+##mother_hispanicity	identify the correct mother_hispanicity from the value provided.  If no value matches, add operational event:  oe_type_id=30 (dataconflict), occurred_at=now, description:  "ICF screening data conflict:  mother's hispanicity does not match CCLS designations.    Value = "[value from file]"
+##father_hispanicity	identify the correct father_hispanicity from the value provided.  If no value matches, add operational event:  oe_type_id=30 (dataconflict), occurred_at=now, description:  "ICF screening data conflict:  father's hispanicity does not match CCLS designations.    Value = [value from file]
 #	%w( mother_hispanicity father_hispanicity ).each do |field|
 #
 #		test "should set subject #{field} if valid" do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130118170447) do
+ActiveRecord::Schema.define(:version => 20130118183949) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -359,6 +359,86 @@ ActiveRecord::Schema.define(:version => 20130118170447) do
     t.date     "discharge_summary_found_on"
     t.datetime "created_at",                                                                                                  :null => false
     t.datetime "updated_at",                                                                                                  :null => false
+    t.integer  "att13"
+    t.integer  "bm1d_14_int"
+    t.integer  "bm1d_28_int"
+    t.integer  "cbf6b"
+    t.string   "cbf7_old"
+    t.integer  "cd5_7"
+    t.string   "cy3_legacy"
+    t.integer  "cy_chrom01"
+    t.integer  "cy_chrom02"
+    t.integer  "cy_compkary"
+    t.integer  "cy_compkaryb"
+    t.integer  "cy_deletion"
+    t.integer  "cy_diag_conv"
+    t.integer  "cy_diag_fish"
+    t.integer  "cy_metaphase01"
+    t.integer  "cy_metaphase02"
+    t.integer  "cy_tri10_fish"
+    t.integer  "cy_tri17_fish"
+    t.integer  "cy_tri21_fish"
+    t.integer  "cy_tri21_pheno_old"
+    t.integer  "cy_tri4_fish"
+    t.integer  "cy_tri5_fish"
+    t.string   "diagnosis"
+    t.datetime "dischargesummarydate"
+    t.integer  "dischargesummaryfound"
+    t.integer  "fabclass"
+    t.string   "fc1c1_backup",                               :limit => 5
+    t.string   "fc1c2_backup",                               :limit => 5
+    t.string   "fc1l10a"
+    t.string   "fc1l10b",                                    :limit => 5
+    t.string   "fc1l10c"
+    t.string   "fc1l11a",                                    :limit => 20
+    t.string   "fc1l11b",                                    :limit => 5
+    t.string   "fc1l11c",                                    :limit => 5
+    t.string   "fc1l12a",                                    :limit => 20
+    t.string   "fc1l12b",                                    :limit => 5
+    t.string   "fc1l12c",                                    :limit => 20
+    t.string   "fc1l13a",                                    :limit => 20
+    t.string   "fc1l13b",                                    :limit => 5
+    t.string   "fc1l13c",                                    :limit => 5
+    t.string   "fc1l14a",                                    :limit => 20
+    t.string   "fc1l14b",                                    :limit => 5
+    t.string   "fc1l14c",                                    :limit => 20
+    t.string   "fc1l8a",                                     :limit => 20
+    t.string   "fc1l8b",                                     :limit => 5
+    t.string   "fc1l8c",                                     :limit => 20
+    t.string   "fc1l9a",                                     :limit => 20
+    t.string   "fc1l9b",                                     :limit => 5
+    t.string   "fc1l9c",                                     :limit => 20
+    t.string   "icdo",                                       :limit => 10
+    t.string   "icdo1",                                      :limit => 50
+    t.integer  "icdocodeid_1990"
+    t.integer  "icdocodeid_2000"
+    t.string   "id1",                                        :limit => 20
+    t.string   "id2",                                        :limit => 20
+    t.string   "id3",                                        :limit => 20
+    t.string   "id4",                                        :limit => 40
+    t.string   "id5",                                        :limit => 10
+    t.datetime "id7"
+    t.string   "nd4a",                                       :limit => 40
+    t.string   "nd5a",                                       :limit => 20
+    t.string   "nd6a",                                       :limit => 20
+    t.integer  "pe13"
+    t.integer  "pe7"
+    t.integer  "sty3g1"
+    t.integer  "sty3h1"
+    t.integer  "sty3i1"
+    t.integer  "sty3l1"
+    t.integer  "sty3m1"
+    t.string   "sty3n",                                      :limit => 10
+    t.integer  "sty3n1"
+    t.string   "sty3o",                                      :limit => 10
+    t.integer  "sty3o1"
+    t.string   "sty3p",                                      :limit => 10
+    t.integer  "sty3p1"
+    t.string   "sty3q",                                      :limit => 10
+    t.integer  "sty3q1"
+    t.string   "sty3r",                                      :limit => 10
+    t.integer  "sty3r1"
+    t.integer  "verified"
   end
 
   add_index "abstracts", ["study_subject_id"], :name => "index_abstracts_on_study_subject_id"
@@ -1517,15 +1597,15 @@ ActiveRecord::Schema.define(:version => 20130118170447) do
   create_table "study_subjects", :force => true do |t|
     t.integer  "subject_type_id"
     t.integer  "vital_status_id"
-    t.integer  "hispanicity_id"
+    t.integer  "hispanicity"
     t.date     "reference_date"
     t.string   "sex"
     t.boolean  "do_not_contact",                            :default => false, :null => false
     t.integer  "mother_yrs_educ"
     t.integer  "father_yrs_educ"
     t.string   "birth_type"
-    t.integer  "mother_hispanicity_id"
-    t.integer  "father_hispanicity_id"
+    t.integer  "mother_hispanicity"
+    t.integer  "father_hispanicity"
     t.string   "birth_county"
     t.string   "is_duplicate_of",             :limit => 6
     t.integer  "mother_hispanicity_mex"

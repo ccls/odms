@@ -10,6 +10,12 @@ class StudySubjectTest < ActiveSupport::TestCase
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
+	assert_should_accept_only_good_values( :hispanicity, 
+		:father_hispanicity, :father_hispanicity_mex,
+ 		:mother_hispanicity, :mother_hispanicity_mex,
+		{ :good_values => ( YNRDK.valid_values + [nil] ), 
+			:bad_values  => 12345 })
+
 	assert_should_create_default_object
 
 #	Cannot include enrollments here due to the creation of one
@@ -26,13 +32,13 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	attributes = %w( accession_no 
 		birth_type birth_year case_control_type dad_is_biodad died_on 
-		familyid father_hispanicity_id 
+		familyid father_hispanicity
 		father_hispanicity_mex other_father_race 
 		father_yrs_educ gbid 
-		other_guardian_relationship hispanicity_id 
+		other_guardian_relationship hispanicity
 		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels 
 		local_registrar_no matchingid mom_is_biomom 
-		mother_hispanicity_id mother_hispanicity_mex 
+		mother_hispanicity mother_hispanicity_mex 
 		other_mother_race mother_yrs_educ phase
 		reference_date related_case_childid related_childid ssn state_id_no 
 		state_registrar_no subjectid vital_status_id )
@@ -381,26 +387,26 @@ class StudySubjectTest < ActiveSupport::TestCase
 		assert_equal @mother, study_subject.mother
 	end
 
-	test "should copy mother_hispanicity_id when create mother for case" do
+	test "should copy mother_hispanicity when create mother for case" do
 		study_subject = create_complete_case_study_subject(
-			:mother_hispanicity_id => 123)
-		assert_equal study_subject.mother_hispanicity_id, 123
+			:mother_hispanicity => YNRDK[:yes])
+		assert_equal study_subject.mother_hispanicity, YNRDK[:yes]
 		assert_nil study_subject.reload.mother
 		assert_difference('StudySubject.count',1) {
 			@mother = study_subject.create_mother
-			assert_equal @mother.hispanicity_id, 123
+			assert_equal @mother.hispanicity, YNRDK[:yes]
 		}
 		assert_equal @mother, study_subject.mother
 	end
 
-	test "should copy mother_hispanicity_id when create mother for control" do
+	test "should copy mother_hispanicity when create mother for control" do
 		study_subject = create_complete_control_study_subject(
-			:mother_hispanicity_id => 123)
-		assert_equal study_subject.mother_hispanicity_id, 123
+			:mother_hispanicity => YNRDK[:yes])
+		assert_equal study_subject.mother_hispanicity, YNRDK[:yes]
 		assert_nil study_subject.reload.mother
 		assert_difference('StudySubject.count',1) {
 			@mother = study_subject.create_mother
-			assert_equal @mother.hispanicity_id, 123
+			assert_equal @mother.hispanicity, YNRDK[:yes]
 		}
 		assert_equal @mother, study_subject.mother
 	end

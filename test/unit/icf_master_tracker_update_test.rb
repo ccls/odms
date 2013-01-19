@@ -204,11 +204,11 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 ###control[:birthplace_country]},#{
 ###control[:birthplace_state]},#{
 ###control[:birthplace_city]},#{
-##			assert_equal candidate_control.mother_hispanicity_id, control[:mother_hispanicity]
+##			assert_equal candidate_control.mother_hispanicity, control[:mother_hispanicity]
 ###control[:mother_hispanicity_mex]},#{
 ##			assert_equal candidate_control.mother_race_id, control[:mother_race]
 ###control[:other_mother_race]},#{
-##			assert_equal candidate_control.father_hispanicity_id, control[:father_hispanicity]
+##			assert_equal candidate_control.father_hispanicity, control[:father_hispanicity]
 ###control[:father_hispanicity_mex]},#{
 ##			assert_equal candidate_control.father_race_id, control[:father_race]
 ###control[:other_father_race]}} }

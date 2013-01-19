@@ -99,7 +99,7 @@ class Abstract < ActiveRecord::Base
 	scope :unmerged, where('merged_by_uid' => nil)
 
 
-	alias_attribute :_14or28Flag, :response_day14or28_flag
+	alias_attribute :_14or28flag, :response_day14or28_flag
 	alias_attribute :att1, :received_bone_marrow_biopsy
 	alias_attribute :att10, :received_h_and_p
 	alias_attribute :att11, :received_other_reports
@@ -194,7 +194,7 @@ class Abstract < ActiveRecord::Base
 	alias_attribute :childinremission, :response_day30_is_in_remission
 	alias_attribute :cim1, :chest_imaging_report_found
 	alias_attribute :cim2, :chest_imaging_report_on
-	alias_attribute :cim3, :mediastial_mass_present
+	alias_attribute :cim3, :mediastinal_mass_present
 	alias_attribute :cim4, :chest_imaging_comment
 	alias_attribute :cim5, :received_chest_ct
 	alias_attribute :cim6, :chest_ct_taken_on
@@ -297,8 +297,8 @@ class Abstract < ActiveRecord::Base
 	alias_attribute :fc1gb, :flow_cyto_cd61_text
 	alias_attribute :fc1h, :flow_cyto_cd14
 	alias_attribute :fc1hb, :flow_cyto_cd14_text
-	alias_attribute :fc1i, :flow_cyto_glycoA
-	alias_attribute :fc1ib, :flow_cyto_glycoA_text
+	alias_attribute :fc1i, :flow_cyto_glycoa
+	alias_attribute :fc1ib, :flow_cyto_glycoa_text
 	alias_attribute :fc1j1, :flow_cyto_cd16
 	alias_attribute :fc1j1b, :flow_cyto_cd16_text
 	alias_attribute :fc1j2, :flow_cyto_cd56
@@ -335,7 +335,7 @@ class Abstract < ActiveRecord::Base
 	alias_attribute :fc1l7b, :flow_cyto_other_marker_5
 	alias_attribute :fc1l7c, :flow_cyto_other_marker_5_text
 	alias_attribute :fc1m, :flow_cyto_remarks
-	alias_attribute :fc2a, :Tdt_often_found_flow_cytometry
+	alias_attribute :fc2a, :tdt_often_found_flow_cytometry
 	alias_attribute :fc2b, :tdt_report_found
 	alias_attribute :fc2c, :tdt_report_on
 	alias_attribute :fc2d, :tdt_positive_or_negative
@@ -409,8 +409,8 @@ class Abstract < ActiveRecord::Base
 	alias_attribute :specify4_14, :response_other4_name_day_14
 	alias_attribute :specify5_14, :response_other5_name_day_14
 	alias_attribute :sty1, :fab_classification
-	alias_attribute :sty2, :diagnosis_icdO_description
-	alias_attribute :sty2a, :diagnosis_icdO_number
+	alias_attribute :sty2, :diagnosis_icdo_description
+	alias_attribute :sty2a, :diagnosis_icdo_number
 	alias_attribute :sty3a, :cytogen_t1221
 	alias_attribute :sty3b, :cytogen_inv16
 	alias_attribute :sty3c, :cytogen_t119

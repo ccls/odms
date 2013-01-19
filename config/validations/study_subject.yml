@@ -96,6 +96,17 @@
 
 -
   :attributes:
+  - :hispanicity
+  - :mother_hispanicity
+  - :father_hispanicity
+  - :mother_hispanicity_mex
+  - :father_hispanicity_mex
+  :inclusion:
+    :in: <%= YNRDK.valid_values %>
+  :allow_nil: true
+
+-
+  :attributes:
   - :mom_is_biomom
   - :dad_is_biodad
   :inclusion:

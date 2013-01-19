@@ -173,6 +173,26 @@ namespace :abstracts do
 abstract_fields = line.to_hash
 abstract_fields.delete('id')
 abstract_fields.delete('childid')
+abstract_fields.keys.each do |key|
+	abstract_fields.delete(key) if abstract_fields[key].blank?
+end
+
+
+
+
+
+#	need to deal with
+
+abstract_fields.delete('fab1a')	#	'diagnosis_all_type')
+abstract_fields.delete('fab4a')	#	'diagnosis_aml_type')
+abstract_fields.delete('pe12')	#	'vital_status')
+abstract_fields.delete('nd4aid')	#	'abstracted_by')
+abstract_fields.delete('nd5aid')	#	'reviewed_by')
+abstract_fields.delete('nd6aid')	#	'data_entry_by')
+abstract_fields.delete('createdby')	#	'created_by')
+abstract_fields.delete('nd7')	#	'abstract_version_number')
+
+
 
 
 #

@@ -22,8 +22,8 @@ TODO	gonna need to either add the candidate control id here or put it in the ses
 <td><%= @study_subject.sex %></td>
 <td><%= (( @study_subject.pii.try(:mother_race_id) 
 	) ? Race.find(@study_subject.pii.mother_race_id) : '&nbsp;' ) %></td>
-<td><%= YNODK[@study_subject.mother_hispanicity_id]||'&nbsp;' %></td>
-<td><%= YNODK[@study_subject.father_hispanicity_id]||'&nbsp;' %></td>
+<td><%= YNODK[@study_subject.mother_hispanicity]||'&nbsp;' %></td>
+<td><%= YNODK[@study_subject.father_hispanicity]||'&nbsp;' %></td>
 </tr>
 <tr>
 <td class='label'>candidate control</td>

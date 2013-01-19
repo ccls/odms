@@ -231,33 +231,33 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal   control_subject.patid, case_study_subject.patid
 	end
 
-#	test "should create control from attributes and set hispanicity_id nil" do
+#	test "should create control from attributes and set hispanicity nil" do
 #		case_study_subject = Factory(:complete_case_study_subject)
 #		birth_datum = Factory(:birth_datum)
 #		candidate_control = Factory(:candidate_control,:birth_datum => birth_datum)
 #		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 #		control_subject = candidate_control.study_subject
-#		assert_nil control_subject.hispanicity_id
+#		assert_nil control_subject.hispanicity
 #	end
 #
-#	test "should create control from attributes and set hispanicity_id if father_hispanicity" do
+#	test "should create control from attributes and set hispanicity if father_hispanicity" do
 #		case_study_subject = Factory(:complete_case_study_subject)
-#		birth_datum = Factory(:birth_datum, :father_hispanicity_id => 1 )
+#		birth_datum = Factory(:birth_datum, :father_hispanicity => 1 )
 #		candidate_control = Factory(:candidate_control,:birth_datum => birth_datum)
 #		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 #		control_subject = candidate_control.study_subject
-#		assert_not_nil control_subject.hispanicity_id
-#		assert_equal   control_subject.hispanicity_id, 1
+#		assert_not_nil control_subject.hispanicity
+#		assert_equal   control_subject.hispanicity, 1
 #	end
 #
-#	test "should create control from attributes and set hispanicity_id if mother_hispanicity" do
+#	test "should create control from attributes and set hispanicity if mother_hispanicity" do
 #		case_study_subject = Factory(:complete_case_study_subject)
-#		birth_datum = Factory(:birth_datum, :mother_hispanicity_id => 1 )
+#		birth_datum = Factory(:birth_datum, :mother_hispanicity => 1 )
 #		candidate_control = Factory(:candidate_control,:birth_datum => birth_datum)
 #		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 #		control_subject = candidate_control.study_subject
-#		assert_not_nil control_subject.hispanicity_id
-#		assert_equal   control_subject.hispanicity_id, 1
+#		assert_not_nil control_subject.hispanicity
+#		assert_equal   control_subject.hispanicity, 1
 #	end
 
 	test "should create control from attributes and copy state_registrar_no" do
@@ -293,24 +293,24 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal attribute, control_subject.sex
 	end
 
-#	test "should create control from attributes and copy mother_hispanicity_id" do
+#	test "should create control from attributes and copy mother_hispanicity" do
 #		attribute = 999
 #		case_study_subject = Factory(:complete_case_study_subject)
-#		candidate_control = Factory(:candidate_control, :mother_hispanicity_id => attribute )
+#		candidate_control = Factory(:candidate_control, :mother_hispanicity => attribute )
 #		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 #		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.mother_hispanicity_id
-#		assert_equal attribute, control_subject.mother_hispanicity_id
+#		assert_equal attribute, candidate_control.mother_hispanicity
+#		assert_equal attribute, control_subject.mother_hispanicity
 #	end
 #
-#	test "should create control from attributes and copy father_hispanicity_id" do
+#	test "should create control from attributes and copy father_hispanicity" do
 #		attribute = 999
 #		case_study_subject = Factory(:complete_case_study_subject)
-#		candidate_control = Factory(:candidate_control, :father_hispanicity_id => attribute )
+#		candidate_control = Factory(:candidate_control, :father_hispanicity => attribute )
 #		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 #		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.father_hispanicity_id
-#		assert_equal attribute, control_subject.father_hispanicity_id
+#		assert_equal attribute, candidate_control.father_hispanicity
+#		assert_equal attribute, control_subject.father_hispanicity
 #	end
 
 	test "should create control from attributes and copy birth_type" do

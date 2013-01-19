@@ -17,10 +17,9 @@
 <li>sex:&nbsp;<%= @study_subject.sex %></li>
 <li>DOB:&nbsp;<%=mdy @study_subject.dob %></li>
 <li>race:&nbsp;<%= @study_subject.races %></li>
-<li>hispanicity:&nbsp;<%#= @study_subject.hispanicity %> </li>
+<li>hispanicity:&nbsp;<%=ynrdk @study_subject.hispanicity %> </li>
 <li>reference date:&nbsp;<%=mdy @study_subject.reference_date %></li>
 </ul>
-<%#= link_to( 'Continue', case_path(@study_subject), :class => 'button' ) %>
 <%= link_to( 'Continue', study_subject_related_subjects_path(@study_subject), 
 	:class => 'button' ) %>
 </div><!-- id='case_study_subject' -->

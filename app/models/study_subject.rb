@@ -82,7 +82,7 @@ class StudySubject < ActiveRecord::Base
 				s.subject_type_id = SubjectType['mother'].id
 				s.vital_status_id = VitalStatus['living'].id	 #	default
 				s.sex = 'F'
-				s.hispanicity_id = mother_hispanicity_id
+				s.hispanicity = mother_hispanicity
 				s.first_name  = mother_first_name
 				s.middle_name = mother_middle_name
 				s.last_name   = mother_last_name

@@ -19,7 +19,7 @@ class CandidateControl < ActiveRecord::Base
 	delegate :sex, :full_name, :first_name, :middle_name, :last_name,
 		:mother_full_name, :mother_first_name, :mother_middle_name, :mother_maiden_name, 
 		:father_first_name, :father_middle_name, :father_last_name, 
-#		:mother_hispanicity_id, :father_hispanicity_id,
+#		:mother_hispanicity, :father_hispanicity,
 		:dob, :birth_type, 
 #		:birth_county,
 		:mother_yrs_educ, :father_yrs_educ,
@@ -46,14 +46,14 @@ class CandidateControl < ActiveRecord::Base
 				s.sex                   = sex.try(:upcase)
 				s.mom_is_biomom         = mom_is_biomom
 				s.dad_is_biodad         = dad_is_biodad
-#				s.mother_hispanicity_id = mother_hispanicity_id
-#				s.father_hispanicity_id = father_hispanicity_id
+#				s.mother_hispanicity    = mother_hispanicity
+#				s.father_hispanicity    = father_hispanicity
 				s.birth_type            = birth_type
 				s.mother_yrs_educ       = mother_yrs_educ
 				s.father_yrs_educ       = father_yrs_educ
 #				s.birth_county          = birth_county
-#				s.hispanicity_id        = ( 
-#					( [mother_hispanicity_id,father_hispanicity_id].include?(1) ) ? 1 : nil )
+#				s.hispanicity           = ( 
+#					( [mother_hispanicity,father_hispanicity].include?(1) ) ? 1 : nil )
 				s.first_name         = first_name.namerize
 				s.middle_name        = middle_name.namerize
 				s.last_name          = last_name.namerize
@@ -106,7 +106,7 @@ class CandidateControl < ActiveRecord::Base
 
 			#	NOTE this may require passing info
 			#	that is in this record, but not in the child subject
-			#		mother_hispanicity_id	(actually this is now)
+			#		mother_hispanicity(actually this is now)
 			#	worst case scenario is just create the full mother here
 			#	rather than through the child.
 			child.create_mother	#	({ .... })
