@@ -144,6 +144,9 @@ namespace :abstracts do
 ##exit
 
 #long_fields = []
+
+
+Abstract.destroy_all
 		
 		error_file = File.open('abstracts_errors.txt','w')	#	overwrite existing
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
@@ -195,6 +198,8 @@ abstract_fields.delete('nd7')	#	'abstract_version_number')
 
 
 
+
+
 #
 #	Tried to add all of the leftover legacy fields.
 #	Discovered that there is a limit to a row in a mysql table.
@@ -203,47 +208,49 @@ abstract_fields.delete('nd7')	#	'abstract_version_number')
 #
 #	So.  What to do?
 #	Create a LegacyFieldsAbstract model and table?
+#	
+#	Only added those that had data in them.
+#	Used smaller strings and other data types
 #
 
 
 
 
-			#
-			#	Only study_subject_id protected so block creation not needed.
-			#
-			abstract = study_subject.abstracts.new(abstract_fields)
+			abstract = study_subject.abstracts.create(abstract_fields) do |a|
+				a.entry_1_by_uid = 859908	#	protected
+				a.entry_2_by_uid = 859908	#	protected
+				a.merged_by_uid  = 859908	#	protected
+			end
 
-#			if operational_event.new_record?
-#				error_file.puts 
-#				error_file.puts "Line #:#{f.lineno}: " <<
-#					"#{operational_event.errors.full_messages.to_sentence}"
+			if abstract.new_record?
+				error_file.puts 
+				error_file.puts "Line #:#{f.lineno}: " <<
+					"#{abstract.errors.full_messages.to_sentence}"
+
+#
+#	This data contains special MS characters like the single char "..."
+#	
+#
 #				error_file.puts line
-#				error_file.puts
-#			else
-#				operational_event.reload
-#				assert_string_equal operational_event.study_subject_id, study_subject.id,
-#					"Study Subject"
-#				assert_string_equal operational_event.project_id, line['project_id'],
-#					"Project"
-#				assert_string_equal operational_event.operational_event_type_id, 
-#					line['operational_event_id'],
-#					"operational_event_type"
-#				assert operational_event.occurred_at == line['occurred_at'].to_nil_or_time,
-#					"occurred_at mismatch:#{operational_event.occurred_at}:" <<
-#						"#{line["occurred_at"]}:"
-#				assert_string_equal operational_event.description,
-#					line['description'],
-#					"description"
-#				assert_string_equal operational_event.event_notes, 
-#					line['event_notes'],
-#					"event_notes"
-#			end
+				error_file.puts abstract.inspect
+				error_file.puts
+			else
+				abstract.reload
+				assert_string_equal abstract.study_subject_id, study_subject.id,
+					"Study Subject"
+abstract_fields.keys.each do |key|
+				assert_string_equal abstract.send(key), abstract_fields[key]
+end
+			end
 
 		end	#	(f=CSV.open(file_name,
 
 #puts long_fields.sort
 
 		error_file.close
+
+puts "Abstract count:#{Abstract.count}"
+
 #		exit;	#	MUST EXPLICITLY exit or rake will try to run arguments as tasks
 	end	#	task :import => :import_base do
 
