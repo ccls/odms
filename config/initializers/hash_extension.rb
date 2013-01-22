@@ -7,6 +7,20 @@ module HashExtension	#	:nodoc:
 
 	module InstanceMethods
 
+#	http://stackoverflow.com/questions/1766741/comparing-ruby-hashes
+  def differences(other)
+    (self.keys + other.keys).uniq.inject({}) do |memo, key|
+      unless self[key] == other[key]
+        if self[key].kind_of?(Hash) &&  other[key].kind_of?(Hash)
+          memo[key] = self[key].diff(other[key])
+        else
+          memo[key] = [self[key], other[key]] 
+        end
+      end
+      memo
+    end
+  end
+
 		#	delete all keys matching the given regex
 		#	and return the new hash
 		def delete_keys_matching!(regex)

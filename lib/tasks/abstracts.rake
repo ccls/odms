@@ -1,6 +1,27 @@
 namespace :app do
 namespace :abstracts do
 
+	task :compare_negative_childids => :environment do
+		csv_contents = []
+		(f=CSV.open(ENV['csv_file'], 'rb',{ :headers => true })).each do |line|
+			csv_contents.push line.to_hash
+		end
+
+		csv_contents.each do |row|
+			next unless row['childid'].match(/^-/)
+			puts row['childid']
+			positive = csv_contents.detect{|c| c['childid'] == row['childid'].gsub(/^-/,'') }
+			if positive
+				puts positive['childid'] 
+				puts positive.differences(row)
+			else
+				puts "NO POSITIVE FOUND"
+			end
+		end
+
+	end
+
+
 	task :unused_fields => :environment do
 		all_fields = []
 		f=CSV.open('abstract_notes/ODMS_Abstracts_xxxxxx.csv', 'rb')
@@ -237,9 +258,9 @@ end
 
 #
 #	This data contains special MS characters like the single char "..."
-#	
+#	Raises error "\xE2" from ASCII-8BIT to UTF-8
 #
-#				error_file.puts line
+				error_file.puts line
 				error_file.puts abstract.inspect
 				error_file.puts
 			else
