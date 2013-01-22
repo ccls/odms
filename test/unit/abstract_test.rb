@@ -251,8 +251,6 @@ class AbstractTest < ActiveSupport::TestCase
 		:blasts_are_present,
 		:peripheral_blood_in_csf,
 		:chemo_protocol_name,
-		:conventional_karyotype_results,
-		:hospital_fish_results,
 		:hyperdiploidy_by,
 			:maximum => 250 )
 
@@ -270,6 +268,8 @@ class AbstractTest < ActiveSupport::TestCase
 		:response_comment_day_14,
 		:histo_report_results,
 		:response_comment,
+		:conventional_karyotype_results,
+		:hospital_fish_results,
 			:maximum => 65000 )
 
 	test "explicit Factory abstract test" do

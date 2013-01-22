@@ -294,8 +294,6 @@
   - :peripheral_blood_in_csf
   - :chemo_protocol_report_found
   - :chemo_protocol_name
-  - :conventional_karyotype_results
-  - :hospital_fish_results
   - :hyperdiploidy_by
   :length:
     :maximum: 250 
@@ -316,6 +314,8 @@
   - :response_comment_day_14
   - :histo_report_results
   - :response_comment
+  - :conventional_karyotype_results
+  - :hospital_fish_results
   :length:
     :maximum: 65000 
   :allow_blank: true
