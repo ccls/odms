@@ -147,6 +147,8 @@ namespace :abstracts do
 
 
 Abstract.destroy_all
+
+error_counting = {}
 		
 		error_file = File.open('abstracts_errors.txt','w')	#	overwrite existing
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
@@ -227,6 +229,12 @@ abstract_fields.delete('nd7')	#	'abstract_version_number')
 				error_file.puts "Line #:#{f.lineno}: " <<
 					"#{abstract.errors.full_messages.to_sentence}"
 
+abstract.errors.each do |e|
+	error_counting[e] ||= Hash.new(0)
+	error_counting[e][abstract.send(e)] += 1
+#	puts "#{e}:#{abstract.send(e)}"
+end
+
 #
 #	This data contains special MS characters like the single char "..."
 #	
@@ -250,6 +258,15 @@ end
 		error_file.close
 
 puts "Abstract count:#{Abstract.count}"
+
+puts "Abstract Error Counts"
+puts error_counting.inspect
+error_counting.keys.each do |field|
+	puts field
+	error_counting[field].each do |k,v|
+		puts "  #{k} : #{v}"
+	end
+end
 
 #		exit;	#	MUST EXPLICITLY exit or rake will try to run arguments as tasks
 	end	#	task :import => :import_base do
