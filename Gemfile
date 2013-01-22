@@ -47,7 +47,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+#	jquery-rails 2.2.0 causes some integration tests to fail.
+gem 'jquery-rails', '~> 2.1.0'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
