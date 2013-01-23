@@ -6,11 +6,12 @@ namespace :automate do
 		puts "Begin.(#{Time.now})"
 		puts "In automate:import_screening_data"
 
-		puts "About to scp -p bc_info files"
-		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_bc_info/bc_info_*.csv ./bc_infos/")
-	
 		local_bc_info_dir = 'bc_infos'
+		FileUtils.mkdir_p(local_bc_info_dir) unless File.exists?(local_bc_info_dir)
 
+		puts "About to scp -p bc_info files"
+		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_bc_info/bc_info_*.csv ./#{local_bc_info_dir}/")
+	
 		expected_columns = [
 			%w( masterid biomom biodad date 
 				mother_full_name mother_maiden_name father_full_name 
@@ -30,7 +31,7 @@ namespace :automate do
 				birthplace_country birthplace_state birthplace_city 
 				mother_hispanicity mother_hispanicity_mex mother_race mother_race_other 
 				father_hispanicity father_hispanicity_mex father_race father_race_other ).sort,
-			%w(icf_master_id mom_is_biomom dad_is_biodad
+			%w( icf_master_id mom_is_biomom dad_is_biodad
 				date mother_first_name mother_last_name new_mother_first_name
 				new_mother_last_name mother_maiden_name new_mother_maiden_name
 				father_first_name father_last_name new_father_first_name
@@ -40,7 +41,7 @@ namespace :automate do
 				new_dob_day dob_year new_dob_year sex
 				new_sex birth_country birth_state birth_city
 				mother_hispanicity mother_hispanicity_mex mother_race other_mother_race
-				father_hispanicity father_hispanicity_mex father_race other_father_race).sort,
+				father_hispanicity father_hispanicity_mex father_race other_father_race ).sort,
 			%w( icf_master_id mom_is_biomom dad_is_biodad 
 				date mother_first_name mother_last_name new_mother_first_name 
 				new_mother_last_name mother_maiden_name new_mother_maiden_name 
@@ -76,7 +77,7 @@ namespace :automate do
 	
 				study_subjects = []
 				puts "Processing #{bc_info_file}..."
-				changed = []
+
 				(f=CSV.open( bc_info_file, 'rb',{ :headers => true })).each do |line|
 					puts
 					puts "Processing line :#{f.lineno}:"
@@ -113,14 +114,22 @@ namespace :automate do
 	
 					#	using "a" as a synonym for "new_attributes" since is a Hash (pointer)
 					a = new_attributes = {
-						:mother_first_name  => line['new_mother_first_name'].to_s.squish.namerize,
-						:mother_last_name   => line['new_mother_last_name'].to_s.squish.namerize,
-						:mother_maiden_name => line['new_mother_maiden_name'].to_s.squish.namerize,
-						:father_first_name  => line['new_father_first_name'].to_s.squish.namerize,
-						:father_last_name   => line['new_father_last_name'].to_s.squish.namerize,
-						:first_name  => line['new_first_name'].to_s.squish.namerize,
-						:middle_name => line['new_middle_name'].to_s.squish.namerize,
-						:last_name   => line['new_last_name'].to_s.squish.namerize,
+						:mother_first_name  => ( line['new_mother_first_name'] || 
+							line['new_mother_first'] ).to_s.squish.namerize,
+						:mother_last_name   => ( line['new_mother_last_name'] ||
+							line['new_mother_last'] ).to_s.squish.namerize,
+						:mother_maiden_name => ( line['new_mother_maiden_name'] ||
+							line['new_mother_maiden'] ).to_s.squish.namerize,
+						:father_first_name  => ( line['new_father_first_name'] ||
+							line['new_father_first'] ).to_s.squish.namerize,
+						:father_last_name   => ( line['new_father_last_name'] ||
+							line['new_father_last'] ).to_s.squish.namerize,
+						:first_name  => ( line['new_first_name'] ||
+							line['new_child_first'] ).to_s.squish.namerize,
+						:middle_name => ( line['new_middle_name'] ||
+							line['new_child_middle'] ).to_s.squish.namerize,
+						:last_name   => ( line['new_last_name'] ||
+							line['new_child_last'] ).to_s.squish.namerize,
 						:birth_city    => line['birth_city'].to_s.squish.namerize,
 						:birth_state   => line['birth_state'],
 						:birth_country => line['birth_country'],
@@ -132,8 +141,10 @@ namespace :automate do
 						:father_hispanicity_mex => line['father_hispanicity_mex'],
 						:mom_is_biomom => line['mom_is_biomom'] || line['biomom'],
 						:dad_is_biodad => line['dad_is_biodad'] || line['biodad'],
-						:other_mother_race => line['other_mother_race'] || line['mother_race_other'],
-						:other_father_race => line['other_father_race'] || line['father_race_other'],
+						:other_mother_race => ( line['other_mother_race'] || 
+							line['mother_race_other'] ).to_s.squish.namerize,
+						:other_father_race => ( line['other_father_race'] || 
+							line['father_race_other'] ).to_s.squish.namerize,
 						:sex => line['new_sex'] || line['new_child_gender'],
 						:dob => line['new_dob'] || line['new_child_dobfull']
 					}.with_indifferent_access
@@ -150,6 +161,9 @@ namespace :automate do
 					a['father_hispanicity'] = 999 if a['father_hispanicity'].to_i == 9
 					a['mother_hispanicity_mex'] = 999 if a['mother_hispanicity_mex'].to_i == 9
 					a['father_hispanicity_mex'] = 999 if a['father_hispanicity_mex'].to_i == 9
+
+
+#	TODO set subject's hispanicity and hispanicity_mex?
 	
 	
 	#	TODO	these are just to pass validations and should be better fixed
@@ -192,16 +206,19 @@ namespace :automate do
 
 						if study_subject.save
 		
-							new_attributes.each do |k,v|
-								next if %w(dob).include?(k)
-								unless v.blank?
-									#	puts "comparing #{k}"
-									#	puts "#{study_subject.send(k)}:#{v}"
-									assert_string_equal( study_subject.send(k), v, k) 
+							if( Rails.env == 'development' )
+								new_attributes.each do |k,v|
+									next if %w(dob).include?(k)
+									unless v.blank?
+										#	puts "comparing #{k}"
+										#	puts "#{study_subject.send(k)}:#{v}"
+										assert_string_equal( study_subject.send(k), v, k) 
+									end
 								end
+								assert_string_equal( study_subject.dob, 
+									new_attributes['dob'].to_date, 'dob'
+									) unless new_attributes['dob'].blank?
 							end
-							assert_string_equal( study_subject.dob, new_attributes['dob'].to_date, 'dob'
-								) unless new_attributes['dob'].blank?
 		
 							study_subject.operational_events.create(
 								:occurred_at => DateTime.now,
@@ -217,11 +234,11 @@ namespace :automate do
 
 						else
 
-							puts "Subject #{subject.icf_master_id} didn't save?!?!?!"
+							puts "Subject #{study_subject.icf_master_id} didn't save?!?!?!"
 							Notification.plain(
 								"#{bc_info_file} subject save failed?  " <<
 								"I'm confused?  Help me.  " <<
-								"Subject #{subject.icf_master_id}. " <<
+								"Subject #{study_subject.icf_master_id}. " <<
 								"Error messages ...:#{study_subject.errors.full_messages.to_sentence}:",
 								email_options.merge({ 
 									:subject => "ODMS: ERROR!  Subject save failed?" })
@@ -268,8 +285,9 @@ namespace :automate do
 
 	#	Only send to me in development (add this to ICF also)
 	def email_options 
-		( Rails.env == 'development' ) ?
-				{ :to => 'jakewendt@berkeley.edu' } : {}
+#		( Rails.env == 'development' ) ?
+#				{ :to => 'jakewendt@berkeley.edu' } : {}
+		{}
 	end
 
 	#	gonna start asserting that everything is as expected.
