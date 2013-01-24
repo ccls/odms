@@ -8,9 +8,9 @@ namespace :automate do
 		puts "Begin.(#{Time.now})"
 		puts "In automate:update_from_icf_master_tracker"
 		at_exit{		
-			if File.exists?("/ICF_Master_Tracker.csv")
+			if File.exists?("ICF_Master_Tracker.csv")
 				puts "Removing ICF Master Tracker"
-				File.delete("/ICF_Master_Tracker.csv")
+				File.delete("ICF_Master_Tracker.csv")
 			end
 			puts "Done.(#{Time.now})"
 			puts "----------------------------------------------------------------------"
