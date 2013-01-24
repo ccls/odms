@@ -21,10 +21,9 @@ namespace :automate do
 		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_master_trackers/ICF_Master_Tracker.csv ./")
 		unless File.exists?("ICF_Master_Tracker.csv")
 			Notification.plain(
-				"ICF Master Tracker not found after copy attempted." <<
-				" Skipping.",{
-#:to => 'jakewendt@berkeley.edu',
-					:subject => "ODMS: Failed ICF Master Tracker copy" }
+				"ICF Master Tracker not found after copy attempted. Skipping.",
+				email_options.merge({
+					:subject => "ODMS: Failed ICF Master Tracker copy" })
 			).deliver
 			abort( "scp seems to have failed as csv file is not found." )
 		end
@@ -36,9 +35,9 @@ namespace :automate do
 		if File.exists?("#{archive_dir}/ICF_Master_Tracker_#{mod_time}.csv")
 			Notification.plain(
 				"ICF Master Tracker has the same modification time as a previously" <<
-				" processed file. (#{mod_time})  Skipping.",{
-#:to => 'jakewendt@berkeley.edu',
-					:subject => "ODMS: Duplicate ICF Master Tracker" }
+					" processed file. (#{mod_time})  Skipping.",
+				email_options.merge({
+					:subject => "ODMS: Duplicate ICF Master Tracker" })
 			).deliver
 			abort( "File is not new. Mod Time is #{mod_time}. Not doing anything." )
 		end
@@ -51,12 +50,17 @@ namespace :automate do
 
 		if actual_columns.sort != expected_columns.sort
 			Notification.plain(
-				"ICF Master Tracker has unexpected column names<br/>\n" <<
-				"Expected ...<br/>\n#{expected_columns.join(',')}<br/>\n" <<
-				"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" <<
-				"Diffs    ...<br/>\n#{(expected_columns - actual_columns).join(',')}<br/>\n", {
-#:to => 'jakewendt@berkeley.edu',
-					:subject => "ODMS: Unexpected or missing columns in ICF Master Tracker" }
+				"ICF Master Tracker has unexpected column names. Skipping.<br/>\n" <<
+					"Expected ...<br/>\n#{expected_columns.join(',')}<br/>\n" <<
+					"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" <<
+					"Diffs(E-A)...<br/>\n#{(expected_columns - actual_columns).join(',')}<br/>\n"<<
+					"Diffs(A-E)...<br/>\n#{(actual_columns - expected_columns).join(',')}<br/>\n", 
+#
+#	Note that the comparison above is a "one-way diff"
+#		a-b != b-a
+#
+				email_options.merge({
+					:subject => "ODMS: Unexpected or missing columns in ICF Master Tracker" })
 			).deliver
 			abort( "Unexpected column names in ICF Master Tracker" )
 		end
@@ -136,10 +140,18 @@ namespace :automate do
 		#
 		#	Email is NOT SECURE.  Be careful what is in it.
 		#
-		Notification.updates_from_icf_master_tracker(changed, {
-#:to => 'jakewendt@berkeley.edu'
-		}).deliver
+		Notification.updates_from_icf_master_tracker(changed, 
+			email_options.merge({ })).deliver
 
 	end #	task :update_from_icf_master_tracker => :environment do
+
+
+
+
+	# Only send to me in development (add this to ICF also)
+	def email_options
+		( Rails.env == 'development' ) ?
+			{ :to => 'jakewendt@berkeley.edu' } : {}
+	end
 
 end
