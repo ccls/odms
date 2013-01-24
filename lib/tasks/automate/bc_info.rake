@@ -54,7 +54,10 @@ namespace :automate do
 				mother_hispanicity mother_hispanicity_mex mother_race mother_race_other 
 				father_hispanicity father_hispanicity_mex father_race father_race_other ).sort]
 
-		bc_info_files = Dir["#{local_bc_info_dir}/bc_info*csv"]
+#		bc_info_files = Dir["#{local_bc_info_dir}/bc_info*csv"]
+
+		Dir.chdir( local_bc_info_dir )
+		bc_info_files = Dir["bc_info*csv"]
 
 		unless bc_info_files.empty?
 
@@ -71,7 +74,7 @@ namespace :automate do
 						"BC Info (#{bc_info_file}) has unexpected column names<br/>\n" <<
 						"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
 						email_options.merge({ 
-							:subject => "ODMS: Unexpected or missing columns in BC Info" })
+							:subject => "ODMS: Unexpected or missing columns in #{bc_info_file}" })
 					).deliver
 				end	#	unless expected_columns.include?(actual_columns.sort)
 	
@@ -89,7 +92,7 @@ namespace :automate do
 						Notification.plain(
 							"#{bc_info_file} contained line with blank icf_master_id",
 							email_options.merge({ 
-								:subject => "ODMS: Blank ICF Master ID" })
+								:subject => "ODMS: Blank ICF Master ID in #{bc_info_file}" })
 						).deliver
 						puts "icf_master_id is blank" 
 						next
@@ -104,7 +107,7 @@ namespace :automate do
 							"#{bc_info_file} contained line with icf_master_id" <<
 							"but no subject with icf_master_id:#{icf_master_id}:",
 							email_options.merge({ 
-								:subject => "ODMS: No Subject with ICF Master ID" })
+								:subject => "ODMS: No Subject with ICF Master ID in #{bc_info_file}" })
 						).deliver
 						puts "No subject with icf_master_id:#{icf_master_id}:" 
 						next
@@ -241,7 +244,7 @@ namespace :automate do
 								"Subject #{study_subject.icf_master_id}. " <<
 								"Error messages ...:#{study_subject.errors.full_messages.to_sentence}:",
 								email_options.merge({ 
-									:subject => "ODMS: ERROR!  Subject save failed?" })
+									:subject => "ODMS: ERROR!  Subject save failed?  in #{bc_info_file}" })
 							).deliver
 							puts study_subject.errors.full_messages.to_sentence
 							puts study_subject.inspect
@@ -285,9 +288,9 @@ namespace :automate do
 
 	#	Only send to me in development (add this to ICF also)
 	def email_options 
-#		( Rails.env == 'development' ) ?
-#				{ :to => 'jakewendt@berkeley.edu' } : {}
-		{}
+		( Rails.env == 'development' ) ?
+				{ :to => 'jakewendt@berkeley.edu' } : {}
+#		{}
 	end
 
 	#	gonna start asserting that everything is as expected.
