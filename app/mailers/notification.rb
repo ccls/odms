@@ -54,7 +54,7 @@ class Notification < ActionMailer::Base
 		@study_subjects = study_subjects
 		defaults = {
 			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
-			:subject => "ODMS: updates_from_bc_info"
+			:subject => "ODMS: updates_from_bc_info #{File.basename(bc_info_file)}"
 		}.merge(options)
 		mail defaults
 	end

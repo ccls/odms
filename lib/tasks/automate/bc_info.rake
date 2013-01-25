@@ -166,12 +166,17 @@ namespace :automate do
 					a['father_hispanicity_mex'] = 999 if a['father_hispanicity_mex'].to_i == 9
 
 
-#	TODO set subject's hispanicity and hispanicity_mex?
+#	TODO compute set subject's hispanicity ???  Is this correct (from old candidate control)
+a['hispanicity'] = (
+	[a['mother_hispanicity'],a['father_hispanicity']].include?(1) ) ? 1 : nil
+
+
+
+#	TODO set the mother's race, hispanicity and names from this as well.
 	
 	
-	#	TODO	these are just to pass validations and should be better fixed
-					a['father_hispanicity'] = nil if a['father_hispanicity'].to_i == 0
-					a['mother_hispanicity'] = nil if a['mother_hispanicity'].to_i == 0
+					a['father_hispanicity'] = 888 if a['father_hispanicity'].to_i == 0
+					a['mother_hispanicity'] = 888 if a['mother_hispanicity'].to_i == 0
 	
 	
 					new_attributes.each do |k,v|
@@ -179,9 +184,6 @@ namespace :automate do
 						study_subject.send("#{k}=",v) unless v.blank?
 					end
 	
-	
-	#	TODO
-	#			date - what is this? interview date?  which field?
 	
 	#	TODO	will probably need to convert here
 	#			mother_race 
@@ -229,11 +231,13 @@ namespace :automate do
 								:operational_event_type_id => OperationalEventType['datachanged'].id,
 								:description => "ICF Screening data changes from #{bc_info_file}",
 								:event_notes => "Changes:  #{changes}")
+
+#	NOTE create a second one?
 							study_subject.operational_events.create(
-								:occurred_at => DateTime.now,
+								:occurred_at => line['date'] || DateTime.now,
 								:project_id  => Project['ccls'].id,
 								:operational_event_type_id => OperationalEventType['screener_complete'].id,
-								:description => "ICF screening complete" )
+								:description => "ICF screening complete from #{bc_info_file}" )
 
 						else
 
@@ -253,6 +257,39 @@ namespace :automate do
 						end	#	if study_subject.save
 	
 					end	#	if study_subject.changed?
+
+
+
+
+
+					#	ReadOnlyRecord due to joins so need to re-find.
+					mother = StudySubject.find(study_subject.mother.id)
+					mother.hispanicity = study_subject.mother_hispanicity unless study_subject.mother_hispanicity.blank?
+					mother.first_name  = study_subject.mother_first_name unless study_subject.mother_first_name.blank?
+					mother.last_name   = study_subject.mother_last_name unless study_subject.mother_last_name.blank?
+					mother.maiden_name = study_subject.mother_maiden_name unless study_subject.mother_maiden_name.blank?
+
+
+
+#					mother.races << Race.find( study_subject.mother_race_id ) ????
+#					mother.races << Race.other  with other race ....?
+
+
+
+					puts "Mother changes"
+					changes = mother.changes
+					puts changes
+					mother.save
+
+					mother.operational_events.create(
+						:occurred_at => DateTime.now,
+						:project_id => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['datachanged'].id,
+						:description => "ICF Screening data changes from #{bc_info_file}",
+						:event_notes => "Changes:  #{changes}")
+
+
+
 	
 				end	#	(f=CSV.open( bc_info_file, 'rb',{
 	

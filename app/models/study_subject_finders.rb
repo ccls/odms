@@ -10,7 +10,7 @@ def self.included(base)
 base.class_eval do
 
 #	Be advised that using a join in a scope will, by default, render those
-#	found as "ReadOnly" so attempting to write to one will fail.  This can
+#	found as a "ReadOnlyRecord" so attempting to write to one will fail.  This can
 #	be countered by adding a "readonly(false)" to the scope chain.  Or you
 #	can simply re-find the given subject by id.
 
