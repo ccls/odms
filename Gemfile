@@ -189,7 +189,8 @@ group :test do
 
 	gem "autotest-rails", :require => 'autotest/rails'
 
-	gem 'ZenTest'
+	gem 'ZenTest', '=4.8.3'
+#	Invalid gemspec in [/opt/local/lib/ruby1.9/gems/1.9.1/specifications/ZenTest-4.8.4.gemspec]: Illformed requirement ["< 2.1, >= 1.8"]
 	#		#Fetching: ZenTest-4.6.2.gem (100%)
 	#		#ERROR:  Error installing ZenTest:
 	#		#	ZenTest requires RubyGems version ~> 1.8. (which is evil I tell you)
