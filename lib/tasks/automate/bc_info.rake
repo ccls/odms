@@ -54,8 +54,6 @@ namespace :automate do
 				mother_hispanicity mother_hispanicity_mex mother_race mother_race_other 
 				father_hispanicity father_hispanicity_mex father_race father_race_other ).sort]
 
-#		bc_info_files = Dir["#{local_bc_info_dir}/bc_info*csv"]
-
 		Dir.chdir( local_bc_info_dir )
 		bc_info_files = Dir["bc_info*csv"]
 
@@ -138,11 +136,13 @@ namespace :automate do
 						:birth_country => line['birth_country'],
 						:birth_year => line['new_dob_year'] || line['dob_year'] ||
 													line['new_child_doby'] || line['child_doby'],
-						:mother_hispanicity     => line['mother_hispanicity'],
-						:mother_hispanicity_mex => line['mother_hispanicity_mex'],
-						:father_hispanicity     => line['father_hispanicity'],
-						:father_hispanicity_mex => line['father_hispanicity_mex'],
+						:mother_hispanicity     => line['mother_hispanicity'].to_s.squish,
+						:mother_hispanicity_mex => line['mother_hispanicity_mex'].to_s.squish,
+						:father_hispanicity     => line['father_hispanicity'].to_s.squish,
+						:father_hispanicity_mex => line['father_hispanicity_mex'].to_s.squish,
 						:mom_is_biomom => line['mom_is_biomom'] || line['biomom'],
+						:father_race_id => line['father_race'].to_s.squish,
+						:mother_race_id => line['mother_race'].to_s.squish,
 						:dad_is_biodad => line['dad_is_biodad'] || line['biodad'],
 						:other_mother_race => ( line['other_mother_race'] || 
 							line['mother_race_other'] ).to_s.squish.namerize,
@@ -160,23 +160,49 @@ namespace :automate do
 							line['new_child_doby'],line['new_child_dobm'],line['new_child_dobd'] ) 
 					end
 	
-					a['mother_hispanicity'] = 999 if a['mother_hispanicity'].to_i == 9
-					a['father_hispanicity'] = 999 if a['father_hispanicity'].to_i == 9
-					a['mother_hispanicity_mex'] = 999 if a['mother_hispanicity_mex'].to_i == 9
-					a['father_hispanicity_mex'] = 999 if a['father_hispanicity_mex'].to_i == 9
+					a[:father_hispanicity] = 888 if a[:father_hispanicity] == '0'
+					a[:mother_hispanicity] = 888 if a[:mother_hispanicity] == '0'
+					a[:mother_hispanicity] = 999 if a[:mother_hispanicity] == '9'
+					a[:father_hispanicity] = 999 if a[:father_hispanicity] == '9'
+					a[:mother_hispanicity_mex] = 888 if a[:mother_hispanicity_mex] == '0'
+					a[:father_hispanicity_mex] = 888 if a[:father_hispanicity_mex] == '0'
+					a[:mother_hispanicity_mex] = 999 if a[:mother_hispanicity_mex] == '9'
+					a[:father_hispanicity_mex] = 999 if a[:father_hispanicity_mex] == '9'
+
+					a[:hispanicity] = 999
+					if a[:mother_hispanicity] == a[:father_hispanicity]
+						a[:hispanicity] = a[:father_hispanicity]
+					end
+					a[:hispanicity] = 1 if ( 
+						[a[:mother_hispanicity],a[:father_hispanicity]].include?('1') )
+
+					a[:hispanicity_mex] = 999
+					if a[:mother_hispanicity_mex] == a[:father_hispanicity_mex]
+						a[:hispanicity_mex] = a[:father_hispanicity_mex]
+					end
+					a[:hispanicity_mex] = 1 if ( 
+						[a[:mother_hispanicity_mex],a[:father_hispanicity_mex]].include?('1') )
+
+	
 
 
-#	TODO compute set subject's hispanicity ???  Is this correct (from old candidate control)
-a['hispanicity'] = (
-	[a['mother_hispanicity'],a['father_hispanicity']].include?(1) ) ? 1 : nil
 
+	#	TODO	will probably need to convert here
+#
+#
+#	old version, new version and new modified version
+#
+#
+	#		setting races may also trigger a save so may NEED to do this after manual save
+#	not true. currently, subject has parent races directly attached
+#	no rich join like self
+	#			mother_race 
+	#			father_race 
+#					a[:father_race_id] = 888 if a[:father_race_id] == '0'
+#					a[:mother_race_id] = 888 if a[:mother_race_id] == '0'
 
-
-#	TODO set the mother's race, hispanicity and names from this as well.
 	
 	
-					a['father_hispanicity'] = 888 if a['father_hispanicity'].to_i == 0
-					a['mother_hispanicity'] = 888 if a['mother_hispanicity'].to_i == 0
 	
 	
 					new_attributes.each do |k,v|
@@ -184,23 +210,9 @@ a['hispanicity'] = (
 						study_subject.send("#{k}=",v) unless v.blank?
 					end
 	
-	
-	#	TODO	will probably need to convert here
-	#			mother_race 
-	#			father_race 
-	
-	
-	
-	
 					#	gotta save the changes before the subject, otherwise ... poof
 					changes = study_subject.changes
-	
-	#puts s.changes.inspect
-	puts "Changes: #{changes}"
-	#=> "Changes: {\"mother_maiden_name\"=>[nil, \"Gonzalez\"], \"father_first_name\"=>[nil, \"Edgar\"], \"father_last_name\"=>[nil, \"Ramirez\"], \"birth_city\"=>[nil, \"Glendale\"], \"birth_country\"=>[nil, \"USA\"], \"birth_state\"=>[nil, \"CA\"], \"mom_is_biomom\"=>[nil, 1], \"other_mother_race\"=>[nil, \"LATINO\"], \"other_father_race\"=>[nil, \"LATINO\"], \"mother_hispanicity\"=>[nil, 1], \"mother_hispanicity_mex\"=>[nil, 2], \"father_hispanicity\"=>[nil, 1], \"father_hispanicity_mex\"=>[nil, 2], \"birth_year\"=>[nil, \"2004\"]}\n"
-	#irb(main):004:0> s.length
-	#=> 486	#	TOO BIG TO BE A STRING
-	
+puts changes.inspect
 	
 					study_subjects.push(study_subject)
 	
@@ -265,12 +277,13 @@ a['hispanicity'] = (
 					#	ReadOnlyRecord due to joins so need to re-find.
 					mother = StudySubject.find(study_subject.mother.id)
 					mother.hispanicity = study_subject.mother_hispanicity unless study_subject.mother_hispanicity.blank?
+					mother.hispanicity_mex = study_subject.mother_hispanicity_mex unless study_subject.mother_hispanicity_mex.blank?
 					mother.first_name  = study_subject.mother_first_name unless study_subject.mother_first_name.blank?
 					mother.last_name   = study_subject.mother_last_name unless study_subject.mother_last_name.blank?
 					mother.maiden_name = study_subject.mother_maiden_name unless study_subject.mother_maiden_name.blank?
 
 
-
+#	TODO
 #					mother.races << Race.find( study_subject.mother_race_id ) ????
 #					mother.races << Race.other  with other race ....?
 
