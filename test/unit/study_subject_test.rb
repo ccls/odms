@@ -10,7 +10,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
-	assert_should_accept_only_good_values( :hispanicity, 
+	assert_should_accept_only_good_values( :hispanicity, :hispanicity_mex,
 		:father_hispanicity, :father_hispanicity_mex,
  		:mother_hispanicity, :mother_hispanicity_mex,
 		{ :good_values => ( YNRDK.valid_values + [nil] ), 
@@ -35,7 +35,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 		familyid father_hispanicity
 		father_hispanicity_mex other_father_race 
 		father_yrs_educ gbid 
-		other_guardian_relationship hispanicity
+		other_guardian_relationship hispanicity hispanicity_mex
 		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels 
 		local_registrar_no matchingid mom_is_biomom 
 		mother_hispanicity mother_hispanicity_mex 

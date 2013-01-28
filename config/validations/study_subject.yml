@@ -97,6 +97,7 @@
 -
   :attributes:
   - :hispanicity
+  - :hispanicity_mex
   - :mother_hispanicity
   - :father_hispanicity
   - :mother_hispanicity_mex
