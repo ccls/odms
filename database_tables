@@ -1735,6 +1735,9 @@ Table: study_subjects
 | created_at                  | datetime     | NO   |     | NULL    |                |
 | updated_at                  | datetime     | NO   |     | NULL    |                |
 | phase                       | int(11)      | YES  |     | NULL    |                |
+| hispanicity_mex             | int(11)      | YES  |     | NULL    |                |
+| legacy_race_code            | int(11)      | YES  |     | NULL    |                |
+| legacy_race_code_imported   | tinyint(1)   | YES  |     | 0       |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+
