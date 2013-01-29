@@ -23,23 +23,43 @@ nativeamerican:
   position: 3
   key: nativeamerican
   description: Native American
+#asian:
+#  id: 4
+#  position: 4
+#  key: asian
+#  description: Asian / Pacific Islander
 asian:
   id: 4
   position: 4
   key: asian
-  description: Asian / Pacific Islander
-other:
-  id: 7
+  description: Asian
+pacificislander:
+  id: 5
   position: 5
+  key: pacificislander
+  description: Pacific Islander
+other:
+  id: 6
+  position: 6
   key: other
-  description: Other race
+  description: Other Race
+mixed:
+  id: 7
+  position: 7
+  key: mixed
+  description: Mixed Race
+hispanic:
+  id: 8
+  position: 8
+  key: hispanic
+  description: Self Identified as Hispanic / Latino
 dk:
   id: 999
-  position: 6
+  position: 9
   key: unknown
-  description: Don't Know
+  description: "Don't Know"
 refused:
   id: 888
-  position: 7
+  position: 10
   key: refused
   description: Refused to state
