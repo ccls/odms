@@ -29,6 +29,7 @@ module SubjectRaceSelectHelper
 			s << self.fields_for( :subject_races, sr ) do |sr_fields|
 				srf = ''
 				srf << "<div id='other_race'>" if( race.is_other? )
+				srf << "<div id='mixed_race'>" if( race.is_mixed? )
 
 #				s << sr_fields.check_box(:is_primary, {}, true, false)
 #	default id="study_subject_subject_races_attributes_0_is_primary"
@@ -46,7 +47,9 @@ module SubjectRaceSelectHelper
 					srf << sr_fields.subject_race_destroyer(!sr.marked_for_destruction?)
 				end
 				srf << sr_fields.specify_other_race() if race.is_other?
+				srf << sr_fields.specify_mixed_race() if race.is_mixed?
 				srf << "</div>"	if( race.is_other? ) # id='other_race'>" 
+				srf << "</div>"	if( race.is_mixed? ) # id='mixed_race'>" 	COULD UNIFY WITH ABOVE
 				srf.html_safe
 			end
 
@@ -116,6 +119,15 @@ protected
 		s << self.label( :other_race, 'specify:', :for => 'race_other_other_race' ) << "\n"
 		s << self.text_field( :other_race, :size => 12, :id => 'race_other_other_race' ) << "\n"
 		s << "</div>"	# id='other_race'>"
+	end
+#
+#	could probably join these 2 methods
+#
+	def specify_mixed_race
+		s =  "<div id='specify_mixed_race'>"
+		s << self.label( :mixed_race, 'specify:', :for => 'race_mixed_mixed_race' ) << "\n"
+		s << self.text_field( :mixed_race, :size => 12, :id => 'race_mixed_mixed_race' ) << "\n"
+		s << "</div>"	# id='mixed_race'>"
 	end
 
 end

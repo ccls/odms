@@ -54,7 +54,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <div id='races'>
 <div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Other race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
 <input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="7" />
-<label for="other_race_id">Other race</label>
+<label for="other_race_id">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" />
 </div></div></div>
@@ -77,7 +77,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <div id='races'>
 <div class='subject_race destroyer'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Other race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
 <input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="7" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
-<label for="other__destroy">Other race</label>
+<label for="other__destroy">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" value="otherrace" />
 </div></div><input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>

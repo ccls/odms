@@ -164,6 +164,18 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		} }
 	end
 
+	test "should NOT create study_subject with subject_races_attributes " <<
+			"if race is mixed_race and no other given" do
+		assert Race.count > 0
+		assert_difference( 'SubjectRace.count', 0 ){
+		assert_difference( "StudySubject.count", 0 ) {
+			@study_subject = create_study_subject(:subject_races_attributes => {
+				'0' => { :race_id => Race['mixed'].id }
+			})
+			assert @study_subject.errors.matching?("subject_races.mixed_race","can't be blank")
+		} }
+	end
+
 	test "should update study_subject with subject_races_attributes" do
 		assert Race.count > 0
 		assert_difference( 'SubjectRace.count', 0 ){

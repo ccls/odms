@@ -43,4 +43,16 @@ jQuery(function(){
 			return $('#other__destroy').attr('checked'); }
 	});
 
+	jQuery('input[type=checkbox]#mixed_race_id').smartShow({
+		what: '#specify_mixed_race',
+		when: function(){
+			return $('#mixed_race_id').attr('checked'); }
+	});
+
+	jQuery('input[type=checkbox]#mixed__destroy').smartShow({
+		what: '#specify_mixed_race',
+		when: function(){
+			return $('#mixed__destroy').attr('checked'); }
+	});
+
 });

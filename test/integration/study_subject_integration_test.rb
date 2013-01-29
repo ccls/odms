@@ -111,6 +111,34 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert has_css?("#specify_other_race",:visible => true)
 		end
 
+		test "should toggle specify mixed race when mixed race_id is checked" <<
+				" with #{cu} login" do
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			visit edit_study_subject_path(study_subject)
+			assert has_css?("#specify_mixed_race",:visible => false)
+
+			check "mixed_race_id"
+			assert has_checked_field?("mixed_race_id")
+			assert has_unchecked_field?("mixed_is_primary")
+			assert has_css?("#specify_mixed_race",:visible => true)
+
+			uncheck "mixed_race_id"
+			assert has_unchecked_field?("mixed_race_id")
+			assert has_unchecked_field?("mixed_is_primary")
+			assert has_css?("#specify_mixed_race",:visible => false)
+
+			check "mixed_is_primary"
+			assert has_checked_field?("mixed_race_id")
+			assert has_checked_field?("mixed_is_primary")
+			assert has_css?("#specify_mixed_race",:visible => true)
+
+			uncheck "mixed_is_primary"
+			assert has_checked_field?("mixed_race_id")
+			assert has_unchecked_field?("mixed_is_primary")
+			assert has_css?("#specify_mixed_race",:visible => true)
+		end
+
 		test "should have 'back to search' link if show subject from find" <<
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)

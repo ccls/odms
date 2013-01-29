@@ -17,4 +17,10 @@ class Race < ActiveRecord::Base
 		key == 'other'
 	end
 
+	#	Returns boolean of comparison
+	#	true only if key == 'mixed'
+	def is_mixed?
+		key == 'mixed'
+	end
+
 end

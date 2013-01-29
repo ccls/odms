@@ -17,7 +17,8 @@ base.class_eval do
 		:reject_if => proc{|attributes| attributes['race_id'].blank? }
 
 	def race_names
-		races.collect(&:to_s).join(', ')
+#		races.collect(&:to_s).join(', ')
+		subject_races.collect(&:to_s).join(', ')
 	end
 
 end	#	class_eval
