@@ -120,16 +120,17 @@ protected
 	def specify_other_race
 		s =  "<div id='specify_other_race'>"
 		s << self.label( :other_race, 'specify:', :for => 'race_other_other_race' ) << "\n"
-		s << self.text_field( :other_race, :size => 12, :id => 'race_other_other_race' ) << "\n"
+		s << self.text_field( :other_race, :id => 'race_other_other_race' ) << "\n"
 		s << "</div>"	# id='other_race'>"
 	end
 #
 #	could probably join these 2 methods
+#	should I really be specifying size? default will be 30
 #
 	def specify_mixed_race
 		s =  "<div id='specify_mixed_race'>"
 		s << self.label( :mixed_race, 'specify:', :for => 'race_mixed_mixed_race' ) << "\n"
-		s << self.text_field( :mixed_race, :size => 12, :id => 'race_mixed_mixed_race' ) << "\n"
+		s << self.text_field( :mixed_race, :id => 'race_mixed_mixed_race' ) << "\n"
 		s << "</div>"	# id='mixed_race'>"
 	end
 

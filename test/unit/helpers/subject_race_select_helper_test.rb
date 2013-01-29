@@ -74,7 +74,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="6" />
 <label for="other_race_id">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
-<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" />
+<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" />
 </div></div></div>
 </div>
 </div><!-- study_subject_races -->
@@ -84,7 +84,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="6" />
 <label for="other_race_id">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
-<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" />
+<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" />
 </div></div></div>
 </div>
 </div><!-- study_subject_races -->
@@ -107,7 +107,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="6" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
 <label for="other__destroy">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
-<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" value="otherrace" />
+<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" value="otherrace" />
 </div></div><input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
 </div>
 </div><!-- study_subject_races -->
@@ -117,7 +117,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 <div class='subject_race destroyer'><div id='other_race'><input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="6" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
 <label for="other__destroy">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
-<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" value="otherrace" />
+<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" value="otherrace" />
 </div></div><input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
 </div>
 </div><!-- study_subject_races -->
