@@ -202,28 +202,11 @@ namespace :automate do
 					a[:hispanicity_mex] = 1 if ( 
 						[a[:mother_hispanicity_mex],a[:father_hispanicity_mex]].include?('1') )
 
-	
+					a[:father_race_id] = 888 if a[:father_race_id] == '0'
+					a[:mother_race_id] = 888 if a[:mother_race_id] == '0'
+					a[:father_race_id] = 999 if a[:father_race_id] == '9'
+					a[:mother_race_id] = 999 if a[:mother_race_id] == '9'
 
-
-
-	#	TODO	will probably need to convert here
-#
-#
-#	old version, new version and new modified version
-#
-#
-	#		setting races may also trigger a save so may NEED to do this after manual save
-#	not true. currently, subject has parent races directly attached
-#	no rich join like self
-	#			mother_race 
-	#			father_race 
-#					a[:father_race_id] = 888 if a[:father_race_id] == '0'
-#					a[:mother_race_id] = 888 if a[:mother_race_id] == '0'
-
-	
-	
-	
-	
 					new_attributes.each do |k,v|
 						#	NOTE always check if attribute is blank as don't want to delete data
 						study_subject.send("#{k}=",v) unless v.blank?
@@ -268,7 +251,9 @@ puts changes.inspect
 								:occurred_at => line['date'] || DateTime.now,
 								:project_id  => Project['ccls'].id,
 								:operational_event_type_id => OperationalEventType['screener_complete'].id,
-								:description => "ICF screening complete from #{bc_info_file}" )
+								:description => "ICF screening complete from #{bc_info_file}" ) if (
+									study_subject.operational_events.where(:operational_event_type_id => OperationalEventType['screener_complete'].id).where(:project_id => Project[:ccls].id).empty? )
+
 
 						else
 
@@ -289,10 +274,6 @@ puts changes.inspect
 	
 					end	#	if study_subject.changed?
 
-
-
-
-
 					#	ReadOnlyRecord due to joins so need to re-find.
 					mother = StudySubject.find(study_subject.mother.id)
 					mother.hispanicity = study_subject.mother_hispanicity unless study_subject.mother_hispanicity.blank?
@@ -300,12 +281,6 @@ puts changes.inspect
 					mother.first_name  = study_subject.mother_first_name unless study_subject.mother_first_name.blank?
 					mother.last_name   = study_subject.mother_last_name unless study_subject.mother_last_name.blank?
 					mother.maiden_name = study_subject.mother_maiden_name unless study_subject.mother_maiden_name.blank?
-
-
-#	TODO
-#					mother.races << Race.find( study_subject.mother_race_id ) ????
-#					mother.races << Race.other  with other race ....?
-
 
 
 					puts "Mother changes"
@@ -322,6 +297,44 @@ puts changes.inspect
 
 
 
+
+
+
+
+
+					if study_subject.mother_race_id
+						mr = Race.where(:id => study_subject.mother_race_id).first
+						if mr.nil?
+							Notification.plain("No race found with id :#{study_subject.mother_race_id}:",
+								email_options.merge({ 
+									:subject => "ODMS: Invalid mother_race_id" })
+							).deliver
+						elsif mr.is_other? or mr.is_mixed?
+							msr = if mother.races.include?( mr )
+								mother.subject_races.where(:race_id => mr.id).first
+							else
+								mother.subject_races.new(:race_id => mr.id)
+							end
+
+							new_other_race = study_subject.other_mother_race || "UNSPECIFIED IN BC_INFO"
+							msr.other_race = if msr.other_race.blank?
+								new_other_race
+							elsif msr.other_race.include?(new_other_race)
+								msr.other_race
+							else
+								"#{msr.other_race}, #{new_other_race}"
+							end
+							msr.save
+						else
+							mother.races << mr unless mother.races.include?( mr )
+						end	#	if mr.nil? (mr is not nil or other or mixed)
+					end	#	if study_subject.mother_race_id
+
+
+
+
+
+					
 	
 				end	#	(f=CSV.open( bc_info_file, 'rb',{
 	
