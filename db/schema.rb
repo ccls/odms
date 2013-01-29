@@ -1672,7 +1672,7 @@ ActiveRecord::Schema.define(:version => 20130129165701) do
     t.integer  "hispanicity_mex"
     t.integer  "legacy_race_code"
     t.boolean  "legacy_race_code_imported",                 :default => false
-    t.string   "legacy_race_other"
+    t.string   "legacy_other_race"
   end
 
   add_index "study_subjects", ["accession_no"], :name => "index_study_subjects_on_accession_no", :unique => true
