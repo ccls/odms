@@ -26,8 +26,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 </form>}
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race creator'>
-<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="1" />
+<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="1" />
 <label for="white_race_id">White, Non-Hispanic</label>
 </div>
 </div>
@@ -56,8 +55,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 </form>}
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race destroyer'>
-<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="1" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
+<div class='subject_race destroyer'><input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="1" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
 <label for="white__destroy">White, Non-Hispanic</label>
 <input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
 </div>
@@ -83,8 +81,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 </form>}
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race creator'>
-<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="6" />
+<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="6" />
 <label for="other_race_id">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" />
@@ -117,8 +114,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 </form>}
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race destroyer'><div id='other_race'>
-<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="6" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
+<div class='subject_race destroyer'><div id='other_race'><input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="6" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
 <label for="other__destroy">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="12" type="text" value="otherrace" />
