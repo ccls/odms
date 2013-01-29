@@ -311,7 +311,9 @@ puts changes.inspect
 					).deliver
 
 				puts; puts "Archiving #{bc_info_file}"
-				archive_dir = "#{local_bc_info_dir}/#{Date.today.strftime('%Y%m%d')}"
+#				archive_dir = "#{local_bc_info_dir}/#{Date.today.strftime('%Y%m%d')}"
+#	cd'd into local_bc_info_dir so don't need it here any more
+				archive_dir = Date.today.strftime('%Y%m%d')
 				FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
 				FileUtils.move(bc_info_file,archive_dir)
 
