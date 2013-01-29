@@ -10,7 +10,9 @@ module SubjectRaceSelectHelper
 		s =  "<div id='study_subject_races'>"
 		#	TODO would be nice, but not currently needed, to have a label option.
 		s << "<div class='races_label'>Select Race(s): "
-		s <<   ".... ( [primary] [partial] Text )</div>\n"
+#	20130129 - no longer using 'is_primary'
+#		s <<   ".... ( [primary] [partial] Text )</div>\n"
+		s <<   "</div>\n"
 		s << "<div id='races'>\n"
 		races.each do |race|
 			sr = self.object.subject_races.detect{|sr|sr.race_id == race.id }
@@ -36,10 +38,11 @@ module SubjectRaceSelectHelper
 #	default class=nil
 #					:id => "#{@template.dom_id(race)}_is_primary", 
 
-				srf << sr_fields.check_box(:is_primary, { 
-					:id => "#{race.key}_is_primary",	#	other_is_primary
-					:class => 'is_primary_selector',
-					:title => "Set '#{race}' as the subject's PRIMARY race" } ) << "\n"
+#	20130129 - no longer using 'is_primary'
+#				srf << sr_fields.check_box(:is_primary, { 
+#					:id => "#{race.key}_is_primary",	#	other_is_primary
+#					:class => 'is_primary_selector',
+#					:title => "Set '#{race}' as the subject's PRIMARY race" } ) << "\n"
 
 				if sr.id.nil?	#	not currently existing subject_race
 					srf << sr_fields.subject_race_creator(sr_built_or_exists)
