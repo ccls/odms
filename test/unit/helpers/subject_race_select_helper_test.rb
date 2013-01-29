@@ -15,18 +15,18 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		@study_subject = Factory(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['white']) }
-		is_primary_expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
-<div id='races'>
-<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;White, Non-Hispanic&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
-<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="1" />
-<label for="white_race_id">White, Non-Hispanic</label>
-</div>
-</div>
-</div><!-- study_subject_races -->
-</form>}
+#		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#<div id='races'>
+#<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;White, Non-Hispanic&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+#<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="1" />
+#<label for="white_race_id">White, Non-Hispanic</label>
+#</div>
+#</div>
+#</div><!-- study_subject_races -->
+#</form>}
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="1" />
+<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="white_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="#{Race[:white].id}" />
 <label for="white_race_id">White, Non-Hispanic</label>
 </div>
 </div>
@@ -44,18 +44,18 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		subject_race_id = @study_subject.subject_race_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['white']) }
-		is_primary_expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
-<div id='races'>
-<div class='subject_race destroyer'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;White, Non-Hispanic&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
-<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="1" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
-<label for="white__destroy">White, Non-Hispanic</label>
-<input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
-</div>
-</div><!-- study_subject_races -->
-</form>}
+#		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#<div id='races'>
+#<div class='subject_race destroyer'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="white_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;White, Non-Hispanic&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+#<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="1" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
+#<label for="white__destroy">White, Non-Hispanic</label>
+#<input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
+#</div>
+#</div><!-- study_subject_races -->
+#</form>}
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race destroyer'><input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="1" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
+<div class='subject_race destroyer'><input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="#{Race[:white].id}" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;White, Non-Hispanic&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
 <label for="white__destroy">White, Non-Hispanic</label>
 <input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
 </div>
@@ -68,20 +68,20 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		@study_subject = Factory(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['other']) }
-		is_primary_expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
-<div id='races'>
-<div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Other Race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
-<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="6" />
-<label for="other_race_id">Other Race</label>
-<div id='specify_other_race'><label for="race_other_other_race">specify:</label>
-<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" />
-</div></div></div>
-</div>
-</div><!-- study_subject_races -->
-</form>}
+#		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#<div id='races'>
+#<div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Other Race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+#<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="6" />
+#<label for="other_race_id">Other Race</label>
+#<div id='specify_other_race'><label for="race_other_other_race">specify:</label>
+#<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" />
+#</div></div></div>
+#</div>
+#</div><!-- study_subject_races -->
+#</form>}
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="6" />
+<div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="other_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="#{Race[:other].id}" />
 <label for="other_race_id">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" />
@@ -101,10 +101,20 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		subject_race_id = @study_subject.subject_race_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['other']) }
-		is_primary_expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#<div id='races'>
+#<div class='subject_race destroyer'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Other Race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+#<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="6" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
+#<label for="other__destroy">Other Race</label>
+#<div id='specify_other_race'><label for="race_other_other_race">specify:</label>
+#<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" value="otherrace" />
+#</div></div><input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
+#</div>
+#</div><!-- study_subject_races -->
+#</form>}
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race destroyer'><div id='other_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="other_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Other Race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
-<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="6" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
+<div class='subject_race destroyer'><div id='other_race'><input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="#{Race[:other].id}" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
 <label for="other__destroy">Other Race</label>
 <div id='specify_other_race'><label for="race_other_other_race">specify:</label>
 <input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" value="otherrace" />
@@ -112,12 +122,63 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 </div>
 </div><!-- study_subject_races -->
 </form>}
+		assert_equal expected, output_buffer
+	end
+
+	test "subject_races_select Mixed" do
+		@study_subject = Factory(:study_subject)
+		output_buffer = form_for(@study_subject,:url => '/'){|f| 
+			f.subject_races_select(Race['mixed']) }
+#		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#<div id='races'>
+#<div class='subject_race creator'><div id='mixed_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="mixed_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Mixed Race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+#<input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="mixed_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Mixed Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="6" />
+#<label for="mixed_race_id">Mixed Race</label>
+#<div id='specify_mixed_race'><label for="race_mixed_mixed_race">specify:</label>
+#<input id="race_mixed_mixed_race" name="study_subject[subject_races_attributes][0][mixed_race]" size="30" type="text" />
+#</div></div></div>
+#</div>
+#</div><!-- study_subject_races -->
+#</form>}
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
-<div class='subject_race destroyer'><div id='other_race'><input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="6" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Other Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
-<label for="other__destroy">Other Race</label>
-<div id='specify_other_race'><label for="race_other_other_race">specify:</label>
-<input id="race_other_other_race" name="study_subject[subject_races_attributes][0][other_race]" size="30" type="text" value="otherrace" />
+<div class='subject_race creator'><div id='mixed_race'><input name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="" /><input class="race_selector" id="mixed_race_id" name="study_subject[subject_races_attributes][0][race_id]" title="Set &#x27;Mixed Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="#{Race[:mixed].id}" />
+<label for="mixed_race_id">Mixed Race</label>
+<div id='specify_mixed_race'><label for="race_mixed_mixed_race">specify:</label>
+<input id="race_mixed_mixed_race" name="study_subject[subject_races_attributes][0][mixed_race]" size="30" type="text" />
+</div></div></div>
+</div>
+</div><!-- study_subject_races -->
+</form>}
+		assert_equal expected, output_buffer
+	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
+
+	test "subject_races_select Mixed with Mixed" do
+		@study_subject = Factory(:study_subject,:subject_races_attributes => {
+			'0' => { :race_id => Race['mixed'].id, :mixed_race => "mixedrace" } } )
+		#	this can vary so cannot assume that it will be 1
+		subject_race_id = @study_subject.subject_race_ids.first	
+		output_buffer = form_for(@study_subject,:url => '/'){|f| 
+			f.subject_races_select(Race['mixed']) }
+#		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
+#<div id='races'>
+#<div class='subject_race destroyer'><div id='mixed_race'><input name="study_subject[subject_races_attributes][0][is_primary]" type="hidden" value="0" /><input class="is_primary_selector" id="mixed_is_primary" name="study_subject[subject_races_attributes][0][is_primary]" title="Set &#x27;Mixed Race&#x27; as the subject&#x27;s PRIMARY race" type="checkbox" value="1" />
+#<input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="6" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="mixed__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Mixed Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
+#<label for="mixed__destroy">Mixed Race</label>
+#<div id='specify_mixed_race'><label for="race_mixed_mixed_race">specify:</label>
+#<input id="race_mixed_mixed_race" name="study_subject[subject_races_attributes][0][mixed_race]" size="30" type="text" value="mixedrace" />
+#</div></div><input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
+#</div>
+#</div><!-- study_subject_races -->
+#</form>}
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
+<div id='races'>
+<div class='subject_race destroyer'><div id='mixed_race'><input id="study_subject_subject_races_attributes_0_race_id" name="study_subject[subject_races_attributes][0][race_id]" type="hidden" value="#{Race[:mixed].id}" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="mixed__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#x27;Mixed Race&#x27; as one of the subject&#x27;s race(s)" type="checkbox" value="0" />
+<label for="mixed__destroy">Mixed Race</label>
+<div id='specify_mixed_race'><label for="race_mixed_mixed_race">specify:</label>
+<input id="race_mixed_mixed_race" name="study_subject[subject_races_attributes][0][mixed_race]" size="30" type="text" value="mixedrace" />
 </div></div><input id="study_subject_subject_races_attributes_0_id" name="study_subject[subject_races_attributes][0][id]" type="hidden" value="#{subject_race_id}" /></div>
 </div>
 </div><!-- study_subject_races -->
