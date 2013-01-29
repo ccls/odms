@@ -4,6 +4,14 @@ namespace :automate do
 #	desc "Read CSV file and set Subject's CCLS enrollment#interview_completed_on"
 #
 	task :updates_from_icf_master_tracker => :environment do
+
+		# Only send to me in development (add this to ICF also)
+		def email_options
+			( Rails.env == 'development' ) ?
+				{ :to => 'jakewendt@berkeley.edu' } : {}
+		end
+
+
 		puts;puts;puts
 		puts "Begin.(#{Time.now})"
 		puts "In automate:update_from_icf_master_tracker"
@@ -144,14 +152,5 @@ namespace :automate do
 			email_options.merge({ })).deliver
 
 	end #	task :update_from_icf_master_tracker => :environment do
-
-
-
-
-	# Only send to me in development (add this to ICF also)
-	def email_options
-		( Rails.env == 'development' ) ?
-			{ :to => 'jakewendt@berkeley.edu' } : {}
-	end
 
 end
