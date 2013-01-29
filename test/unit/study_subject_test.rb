@@ -34,7 +34,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 		birth_type birth_year case_control_type dad_is_biodad died_on 
 		familyid father_hispanicity
 		father_hispanicity_mex other_father_race 
-		father_yrs_educ gbid 
+		father_yrs_educ gbid legacy_race_other
 		other_guardian_relationship hispanicity hispanicity_mex
 		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels 
 		local_registrar_no matchingid mom_is_biomom 

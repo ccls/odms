@@ -82,6 +82,7 @@
 
 -
   :attributes:
+  - :legacy_other_race
   - :other_mother_race
   - :other_father_race
   - :state_id_no

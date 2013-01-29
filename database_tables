@@ -1738,6 +1738,7 @@ Table: study_subjects
 | hispanicity_mex             | int(11)      | YES  |     | NULL    |                |
 | legacy_race_code            | int(11)      | YES  |     | NULL    |                |
 | legacy_race_code_imported   | tinyint(1)   | YES  |     | 0       |                |
+| legacy_race_other           | varchar(255) | YES  |     | NULL    |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+
