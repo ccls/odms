@@ -28,7 +28,7 @@ sent_to_lab_at
 	mdyhm_or_nil(sample.received_by_ccls_at),
 	sample.sample_temperature,
 	mdyhm_or_nil(sample.sent_to_lab_at)
-].to_csv -%>
+].to_csv.html_save -%>
 <% end -%>
 <%#
 

@@ -6,5 +6,5 @@
 -%>
 <%=	%w( childid studyid last_name first_name dob ).to_csv(:headers => true) -%>
 <% @study_subjects.each do |s| -%>
-<%=	[ s.childid, s.studyid, s.last_name, s.first_name, s.dob ].to_csv -%>
+<%=	[ s.childid, s.studyid, s.last_name, s.first_name, s.dob ].to_csv.html_safe -%>
 <% end -%>
