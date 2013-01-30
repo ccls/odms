@@ -11,6 +11,13 @@ class OperationalEvent < ActiveRecord::Base
 
 	belongs_to :project
 
+	scope :screener_complete, where( 
+		:operational_event_type_id => OperationalEventType['screener_complete'].id)
+
+	#	This join will make it readonly, so undo this
+	scope :open_project, joins(:project).where(
+		:'projects.ended_on' => nil ).readonly(false)
+
 	#	Returns description
 	def to_s
 		description

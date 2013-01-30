@@ -7,7 +7,6 @@ namespace :automate do
 		def email_options 
 			( Rails.env == 'development' ) ?
 					{ :to => 'jakewendt@berkeley.edu' } : {}
-	#		{}
 		end
 	
 		#	gonna start asserting that everything is as expected.
@@ -19,7 +18,6 @@ namespace :automate do
 		def assert_string_equal(a,b,field)
 			assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
 		end
-
 
 		puts;puts;puts
 		puts "Begin.(#{Time.now})"
@@ -246,14 +244,12 @@ puts changes.inspect
 								:description => "ICF Screening data changes from #{bc_info_file}",
 								:event_notes => "Changes:  #{changes}")
 
-#	NOTE create a second one?
 							study_subject.operational_events.create(
 								:occurred_at => line['date'] || DateTime.now,
 								:project_id  => Project['ccls'].id,
 								:operational_event_type_id => OperationalEventType['screener_complete'].id,
 								:description => "ICF screening complete from #{bc_info_file}" ) if (
 									study_subject.operational_events.where(:operational_event_type_id => OperationalEventType['screener_complete'].id).where(:project_id => Project[:ccls].id).empty? )
-
 
 						else
 
@@ -282,7 +278,6 @@ puts changes.inspect
 					mother.last_name   = study_subject.mother_last_name unless study_subject.mother_last_name.blank?
 					mother.maiden_name = study_subject.mother_maiden_name unless study_subject.mother_maiden_name.blank?
 
-
 					puts "Mother changes"
 					changes = mother.changes
 					puts changes
@@ -294,13 +289,6 @@ puts changes.inspect
 						:operational_event_type_id => OperationalEventType['datachanged'].id,
 						:description => "ICF Screening data changes from #{bc_info_file}",
 						:event_notes => "Changes:  #{changes}")
-
-
-
-
-
-
-
 
 					if study_subject.mother_race_id
 						mr = Race.where(:id => study_subject.mother_race_id).first
@@ -329,22 +317,13 @@ puts changes.inspect
 							mother.races << mr unless mother.races.include?( mr )
 						end	#	if mr.nil? (mr is not nil or other or mixed)
 					end	#	if study_subject.mother_race_id
-
-
-
-
-
-					
 	
 				end	#	(f=CSV.open( bc_info_file, 'rb',{
 	
 				Notification.updates_from_bc_info( bc_info_file, study_subjects,
 						email_options.merge({ })
 					).deliver
-
 				puts; puts "Archiving #{bc_info_file}"
-#				archive_dir = "#{local_bc_info_dir}/#{Date.today.strftime('%Y%m%d')}"
-#	cd'd into local_bc_info_dir so don't need it here any more
 				archive_dir = Date.today.strftime('%Y%m%d')
 				FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
 				FileUtils.move(bc_info_file,archive_dir)
@@ -354,7 +333,7 @@ puts changes.inspect
 			puts; puts "Commiting changes to Sunspot"
 			Sunspot.commit
 
-		else
+		else	#	unless bc_info_files.empty?
 			puts "No bc_info files found"
 			Notification.plain("No BC Info Files Found",
 				email_options.merge({ 
@@ -364,10 +343,6 @@ puts changes.inspect
 		puts; puts "Done.(#{Time.now})"
 		puts "----------------------------------------------------------------------"
 	end	#	task :import_screening_data => :environment do
-
-
-
-
 
 end	#	namespace :automate do
 

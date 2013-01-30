@@ -28,7 +28,7 @@ base.class_eval do
 	#	I suspect that this'll be attached to the CCLS project enrollment.
 	def add_subject_died_operational_event
 		if( ( vital_status_id_changed? ) &&
-				( vital_status_id == VitalStatus['deceased'].id ) && 
+				( vital_status_id     == VitalStatus['deceased'].id ) && 
 				( vital_status_id_was != VitalStatus['deceased'].id ) )
 			self.operational_events.create!(
 				:project_id                => Project['ccls'].id,
@@ -40,10 +40,11 @@ base.class_eval do
 
 	#	operational_events.occurred_at where operational_event_type_id = 26 and enrollment_id is for any open project (where projects.ended_on is null) for study_subject_id
 	def screener_complete_date_for_open_project
-		oe = self.operational_events.joins(:project).where(
-			'projects.ended_on IS NULL').where(
-			"operational_event_type_id = ?",
-				OperationalEventType['screener_complete'].id).limit(1).first
+#		oe = self.operational_events.joins(:project).where(
+#			:'projects.ended_on'       => nil).where(
+#			:operational_event_type_id => OperationalEventType['screener_complete'].id
+#			).limit(1).first
+		oe = self.operational_events.screener_complete.open_project.limit(1).first
 		#	separated to try to make 100% coverage (20120411)
 		oe.try(:occurred_on)
 	end
