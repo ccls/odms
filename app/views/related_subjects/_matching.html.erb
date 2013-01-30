@@ -5,12 +5,13 @@
  <p>No matching study_subjects found.</p>
 <% else %>
  <table><thead><tr>
-  <th>StudyID</th><th>Name</th><th>Subject Type</th><th>DOB</th>
+  <th>StudyID</th><th>Name</th><th>&nbsp;</th><th>Subject Type</th><th>DOB</th>
  </tr></thead><tbody>
   <% @matching_subjects.each do |subject| %>
    <tr>
     <td><%= link_to(subject.studyid_to_s,study_subject_path(subject)) %></td>
     <td><%= subject.full_name %></td>
+    <td><%= ((subject.is_mother? and (subject.familyid == @study_subject.familyid))?'My' : '&nbsp;').html_safe %></td>
     <td><%= subject.subject_type %></td>
     <td><%=mdy subject.dob %></td>
    </tr>
