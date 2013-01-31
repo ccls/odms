@@ -58,7 +58,7 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 			:middle_name => "",
 			:last_name   => "Smith" )
 		assert_not_nil study_subject.first_name
-		assert_not_nil study_subject.middle_name
+		assert_not_nil study_subject.middle_name	#	NOT SAVED SO NOT NIL
 		assert_not_nil study_subject.last_name
 		assert_equal 'JS', study_subject.initials 
 	end
@@ -79,18 +79,18 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 			:first_name => "John",
 			:last_name  => "Smith" )
 		assert_not_nil study_subject.first_name
-		assert_nil     study_subject.middle_name
+		assert_nil     study_subject.middle_name	#	NOT SET SO NIL
 		assert_not_nil study_subject.last_name
 		assert_equal 'John Smith', study_subject.full_name 
 	end
 
 	test "should return join of study_subject's name with blank middle name" do
 		study_subject = StudySubject.new(
-			:first_name => "John",
+			:first_name  => "John",
 			:middle_name => "",
-			:last_name  => "Smith" )
+			:last_name   => "Smith" )
 		assert_not_nil study_subject.first_name
-		assert_not_nil study_subject.middle_name
+		assert_not_nil study_subject.middle_name	#	NOT SAVED SO NOT NIL
 		assert_not_nil study_subject.last_name
 		assert_equal 'John Smith', study_subject.full_name 
 	end
@@ -152,7 +152,7 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 			:father_middle_name => "",
 			:father_last_name   => "Claus" )
 		assert_not_nil study_subject.father_first_name
-		assert_not_nil study_subject.father_middle_name
+		assert_nil     study_subject.father_middle_name	#	SAVED SO YES NIL
 		assert_not_nil study_subject.father_last_name
 		assert_equal 'Santa Claus', study_subject.fathers_name 
 	end
@@ -184,7 +184,7 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 			:mother_middle_name => "",
 			:mother_last_name   => "Claus" )
 		assert_not_nil study_subject.mother_first_name
-		assert_not_nil study_subject.mother_middle_name
+		assert_nil     study_subject.mother_middle_name	#	SAVED SO YES NIL
 		assert_not_nil study_subject.mother_last_name
 		assert_equal 'Ms Claus', study_subject.mothers_name 
 	end
@@ -216,7 +216,7 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 			:guardian_middle_name => "",
 			:guardian_last_name   => "Frost" )
 		assert_not_nil study_subject.guardian_first_name
-		assert_not_nil study_subject.guardian_middle_name
+		assert_nil     study_subject.guardian_middle_name	#	SAVED SO YES NIL
 		assert_not_nil study_subject.guardian_last_name
 		assert_equal 'Jack Frost', study_subject.guardians_name 
 	end

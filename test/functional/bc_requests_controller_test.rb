@@ -285,7 +285,10 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should export bc_requests to csv with #{cu} login and requests" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
+			case_study_subject = Factory(:complete_case_study_subject,
+				:mother_maiden_name => '',
+				:mother_last_name   => 'momlastname'
+			)
 			bcr = case_study_subject.bc_requests.create
 			get :index, :format => 'csv'
 			assert_response :success
@@ -294,6 +297,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert assigns(:bc_requests)
 			assert !assigns(:bc_requests).empty?
 			assert_equal 1, assigns(:bc_requests).length
+			assert_nil     case_study_subject.mother_maiden_name
+			assert_not_nil case_study_subject.mother_last_name
 
 			require 'csv'
 			f = CSV.parse(@response.body)
@@ -302,6 +307,8 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_equal 23, f[0].length
 #["46", nil, nil, nil, "[name not available]", nil, "[name not available]", "[name not available]", "3", "23", "2006", "F", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
 			assert_equal f[1][0],  case_study_subject.icf_master_id
+			#	mother_maiden_name column, but mother_maiden_name is blank
+			assert_equal f[1][5],  case_study_subject.mother_last_name
 			assert_equal f[1][8],  case_study_subject.dob.try(:month).to_s
 			assert_equal f[1][9],  case_study_subject.dob.try(:day).to_s
 			assert_equal f[1][10], case_study_subject.dob.try(:year).to_s

@@ -1,4 +1,7 @@
 module ObjectExtension	#	:nodoc:
+#
+#	No class methods, so just keeping them shallow
+#
 #	def self.included(base)
 #		base.instance_eval do
 #
@@ -189,6 +192,13 @@ module ObjectExtension	#	:nodoc:
 		self.to_s.downcase.gsub(/\W/,'_').gsub(/_+/,'_')
 	end
 
+	def blank_or(other_string)
+		if self.blank?
+			other_string
+		else
+			self
+		end
+	end
 
 end
 Object.send(:include, ObjectExtension)

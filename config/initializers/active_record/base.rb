@@ -42,6 +42,17 @@ class ActiveRecord::Base
 		end
 	end
 
+	def self.nilify_if_blank(*args)
+		#	ONLY IF THE FIELD IS A STRING!
+		class_eval do
+			args.each do |arg|
+				before_save {
+					self.send("#{arg}=", nil) if self.send(arg).blank?
+				}
+			end
+		end
+	end
+
 	def self.acts_like_a_hash(*args)
 		options = {
 			:key   => :key,

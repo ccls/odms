@@ -30,13 +30,18 @@ other_father_race ).to_csv(
   :headers => true) -%>
 <% @bc_requests.each do |bc_request| -%>
 <% study_subject = bc_request.study_subject -%>
+<%#
+	unfortunately, I initially allowed some names to be blank, not just nil
+	so can't do "maiden_name || last_name" as an empty string is true.
+	I now nilify blank names, but I also wrote the blank_or() method.
+-%>
 <%= [ 
 	study_subject.icf_master_id,
 	study_subject.mom_is_biomom,
 	study_subject.dad_is_biodad,
 	study_subject.screener_complete_date_for_open_project,
 	study_subject.mothers_names.delete_if(&:blank?).join(' '),
-	study_subject.mother_maiden_name,
+	study_subject.mother_maiden_name.blank_or(study_subject.mother_last_name),
 	study_subject.fathers_names.delete_if(&:blank?).join(' '),
 	study_subject.childs_names.delete_if(&:blank?).join(' '),
 	study_subject.dob.try(:month),

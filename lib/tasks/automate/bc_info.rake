@@ -1,6 +1,35 @@
 require 'csv'
 namespace :automate do
 
+	task :export_mother_maiden_names => :environment do
+		local_bc_info_dir = 'bc_infos'
+		FileUtils.mkdir_p(local_bc_info_dir) unless File.exists?(local_bc_info_dir)
+		Dir.chdir( local_bc_info_dir )
+		bc_info_files = Dir["bc_info*csv"]
+
+		unless bc_info_files.empty?
+			puts ['','masterid','icf_master_id','mother_maiden_name',
+				'new_mother_maiden_name','mother_maiden','new_mother_maiden'].to_csv
+			bc_info_files.each do |bc_info_file|
+				puts [bc_info_file].to_csv
+				(f=CSV.open( bc_info_file, 'rb',{ :headers => true })).each do |line|
+					row = []
+					row << ''
+					row << line['masterid']
+					row << line['icf_master_id']
+					row << line['mother_maiden_name']
+					row << line['new_mother_maiden_name']
+					row << line['mother_maiden']
+					row << line['new_mother_maiden']
+					puts row.to_csv
+				end
+
+			end
+
+		end
+
+	end
+
 	task :import_screening_data => :environment do
 
 		#	Only send to me in development (add this to ICF also)

@@ -84,4 +84,20 @@ class ObjectExtensionTest < ActiveSupport::TestCase
 		assert_equal "_", "&&".html_friendly
 	end
 
+	test "blank_or('other') should return self if not blank" do
+		assert_equal "one", "one".blank_or("other")
+	end
+
+	test "blank_or('other') should return other if blank" do
+		assert_equal "other", "".blank_or("other")
+	end
+
+	test "blank_or('other') should return other if nil" do
+		assert_equal "other", nil.blank_or("other")
+	end
+
+	test "blank_or(nil) should return nil if nil" do
+		assert_equal nil, nil.blank_or(nil)
+	end
+
 end

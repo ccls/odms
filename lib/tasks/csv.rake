@@ -18,7 +18,7 @@ namespace :csv do
 				puts "'#{c}' is not a valid column"
 				puts "Columns are #{header_line.join(', ')}"
 				puts
-				exit
+				exit(1)
 			end
 		end
 
@@ -62,7 +62,7 @@ namespace :csv do
 				puts "'#{c}' is not a valid column"
 				puts "Columns are #{header_line.join(', ')}"
 				puts
-				exit
+				exit(1)
 			end
 		end
 
@@ -96,7 +96,7 @@ def env_required(var,msg='is required')
 		puts "'#{var}' is not set and #{msg}"
 		puts "Rerun with #{var}=something"
 		puts
-		exit
+		exit(1)
 	end
 end
 def file_required(filename,msg='is required')
@@ -104,6 +104,6 @@ def file_required(filename,msg='is required')
 		puts
 		puts "File '#{filename}' was not found and #{msg}"
 		puts
-		exit
+		exit(1)
 	end
 end

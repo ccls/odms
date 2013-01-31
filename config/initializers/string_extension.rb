@@ -27,7 +27,8 @@ module StringExtension	#	:nodoc:
 				nil
 			end
 		end
-	end
+
+	end	#	module InstanceMethods
 
 end	#	module StringExtension	#	:nodoc:
 String.send( :include, StringExtension )
