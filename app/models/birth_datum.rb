@@ -239,6 +239,14 @@ class BirthDatum < ActiveRecord::Base
 				:name        => 'birth data update',
 				:description => "Error updating case study subject. " <<
 												"#{error_count} errors or conflicts." )
+
+
+#	TODO if we are sticking with this model, it would be nice to know
+#				what those error or conflicts are.
+#			:notes => errors_or_conflicts.join('\n')
+#	Or create an exception for each?
+
+
 		else
 			#4.A new operational event (id 27: birthDataReceived) is added for 
 			#each subject successfully updated. (  Only those successful??  )
