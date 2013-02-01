@@ -1,6 +1,6 @@
 <h4>Birth Datum</h4>
 
-<p><%= link_to "Birth Datum Update", @birth_datum.birth_datum_update, :class => :button %></p>
+<p><%#= link_to "Birth Datum Update", @birth_datum.birth_datum_update, :class => :button %></p>
 
 <%= form_for @birth_datum do |f| %>
 <%= f.error_messages %>
@@ -16,6 +16,6 @@
 
 <p>
 <%= f.submit( (@birth_datum.new_record?)? "Create" : "Update" )%>&nbsp;
-<%= link_to 'Back', @birth_datum.birth_datum_update, :class => 'button' %>
+<%#= link_to 'Back', @birth_datum.birth_datum_update, :class => 'button' %>
 </p>
 <% end %>

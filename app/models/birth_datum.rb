@@ -1,7 +1,7 @@
 class BirthDatum < ActiveRecord::Base
 
-	belongs_to :birth_datum_update
-	attr_protected :birth_datum_update_id, :birth_datum_update
+#	belongs_to :birth_datum_update
+#	attr_protected :birth_datum_update_id, :birth_datum_update
 	belongs_to :study_subject
 	attr_protected :study_subject_id, :study_subject
 	has_one :candidate_control
@@ -181,7 +181,8 @@ class BirthDatum < ActiveRecord::Base
 					#	these fields don't have much to validate so shouldn't fail
 					error_count += 1
 					odms_exceptions.create(
-						:name        => 'screening data update',
+#						:name        => 'screening data update',
+						:name        => 'birth data update',
 						:description => "Error updating case study subject. " <<
 													"Save failed! " <<
 													study_subject.errors.full_messages.to_sentence) 

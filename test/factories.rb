@@ -239,18 +239,18 @@ end
 Factory.define :bogus_birth_datum, :parent => :birth_datum do |f|
 	f.case_control_flag 'bogus'
 end
-Factory.define :birth_datum_update do |f|
-	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/assets/empty_birth_datum_update_test_file.csv', 'text/csv')
-end
-Factory.define :empty_birth_datum_update, 
-	:parent => :birth_datum_update do |f|
-end
-Factory.define :one_record_birth_datum_update, 
-	:parent => :birth_datum_update do |f|
-	f.csv_file Rack::Test::UploadedFile.new( 
-		'test/assets/one_record_birth_datum_update_test_file.csv', 'text/csv')
-end
+#Factory.define :birth_datum_update do |f|
+#	f.csv_file Rack::Test::UploadedFile.new( 
+#		'test/assets/empty_birth_datum_update_test_file.csv', 'text/csv')
+#end
+#Factory.define :empty_birth_datum_update, 
+#	:parent => :birth_datum_update do |f|
+#end
+#Factory.define :one_record_birth_datum_update, 
+#	:parent => :birth_datum_update do |f|
+#	f.csv_file Rack::Test::UploadedFile.new( 
+#		'test/assets/one_record_birth_datum_update_test_file.csv', 'text/csv')
+#end
 
 Factory.define :candidate_control do |f|
 	f.reject_candidate false

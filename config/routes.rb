@@ -80,7 +80,7 @@ Odms::Application.routes.draw do
 		member     { put :update_status }
 	end
 	resources :birth_data, :except => [:new,:create]
-	resources :birth_datum_updates, :except => [:edit,:update]
+#	resources :birth_datum_updates, :except => [:edit,:update]
 	resources :candidate_controls, :only => [:edit,:update,:index,:show]
 	#	Removing RAF forms and creating a single RAF-like form
 	#	for cases only and adding edit/update/show.
