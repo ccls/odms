@@ -75,11 +75,17 @@ namespace :csv do
 
 	desc "Count columns in each row of csv file"
 	task :count_columns => :environment do
-		env_required('csv_file')
-		file_required(ENV['csv_file'])
+		env_required('csv_files')
+#		file_required(ENV['csv_files'])
+		Dir[ENV['csv_files']].each do |csv_file|
+			count_columns_in_csv_file(csv_file)
+		end
+	end
 
+	def count_columns_in_csv_file(csv_file)
+		puts "Counting columns in #{csv_file}"
 		counts = Hash.new(0)
-		(f=CSV.open( ENV['csv_file'], 'rb' )).each do |line|
+		(f=CSV.open( csv_file, 'rb' )).each do |line|
 			counts[line.length] += 1
 		end
 
@@ -88,22 +94,23 @@ namespace :csv do
 		end
 	end
 
-end
+	def env_required(var,msg='is required')
+		if ENV[var].blank?
+			puts
+			puts "'#{var}' is not set and #{msg}"
+			puts "Rerun with #{var}=something"
+			puts
+			exit(1)
+		end
+	end
 
-def env_required(var,msg='is required')
-	if ENV[var].blank?
-		puts
-		puts "'#{var}' is not set and #{msg}"
-		puts "Rerun with #{var}=something"
-		puts
-		exit(1)
+	def file_required(filename,msg='is required')
+		unless File.exists?(filename)
+			puts
+			puts "File '#{filename}' was not found and #{msg}"
+			puts
+			exit(1)
+		end
 	end
-end
-def file_required(filename,msg='is required')
-	unless File.exists?(filename)
-		puts
-		puts "File '#{filename}' was not found and #{msg}"
-		puts
-		exit(1)
-	end
+
 end
