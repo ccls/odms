@@ -10,6 +10,10 @@ class BirthDatum < ActiveRecord::Base
 
 	after_create :post_processing
 
+
+	alias_attribute :case_dob, :dob
+
+
 	def is_case?
 		['1','case'].include?(case_control_flag)
 	end
