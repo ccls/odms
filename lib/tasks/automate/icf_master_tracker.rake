@@ -1,16 +1,8 @@
-require 'csv'
 namespace :automate do
 
 #	desc "Read CSV file and set Subject's CCLS enrollment#interview_completed_on"
 #
-	task :updates_from_icf_master_tracker => :environment do
-
-		# Only send to me in development (add this to ICF also)
-		def email_options
-			( Rails.env == 'development' ) ?
-				{ :to => 'jakewendt@berkeley.edu' } : {}
-		end
-
+	task :updates_from_icf_master_tracker => :automate do
 
 		puts;puts;puts
 		puts "Begin.(#{Time.now})"
@@ -25,7 +17,6 @@ namespace :automate do
 		}
 
 		puts "About to scp -p Icf master tracker"
-#		system("scp -p jakewendt@dev.sph.berkeley.edu:/Volumes/BUF-Fileshare/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_master_trackers/ICF_Master_Tracker.csv ./")
 		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_master_trackers/ICF_Master_Tracker.csv ./")
 		unless File.exists?("ICF_Master_Tracker.csv")
 			Notification.plain(
@@ -50,11 +41,24 @@ namespace :automate do
 			abort( "File is not new. Mod Time is #{mod_time}. Not doing anything." )
 		end
 
-
 		f=CSV.open("ICF_Master_Tracker.csv",'rb')
 		actual_columns = f.readline
 		f.close
-		expected_columns = %w(master_id case_master_id control_number date_control_released master_id_mother language record_owner record_status record_status_date date_received last_attempt last_disposition curr_phone record_sent_for_matching record_received_from_matching sent_pre_incentive released_to_cati confirmed_cati_contact refused deceased_notification screened ineligible_reason confirmation_packet_sent cati_protocol_exhausted new_phone_released_to_cati plea_notification_sent case_returned_for_new_info case_returned_from_berkeley cati_complete kit_mother_sent kit_infant_sent kit_child_sent kid_adolescent_sent kit_mother_refused_code kit_child_refused_code no_response_to_plea response_received_from_plea sent_to_in_person_followup kit_mother_received kit_child_received thank_you_sent physician_request_sent physician_response_received vaccine_auth_received recollect)
+		expected_columns = %w(master_id case_master_id control_number 
+			date_control_released master_id_mother language record_owner 
+			record_status record_status_date date_received last_attempt 
+			last_disposition curr_phone record_sent_for_matching 
+			record_received_from_matching sent_pre_incentive released_to_cati 
+			confirmed_cati_contact refused deceased_notification 
+			screened ineligible_reason confirmation_packet_sent 
+			cati_protocol_exhausted new_phone_released_to_cati 
+			plea_notification_sent case_returned_for_new_info 
+			case_returned_from_berkeley cati_complete kit_mother_sent 
+			kit_infant_sent kit_child_sent kid_adolescent_sent kit_mother_refused_code 
+			kit_child_refused_code no_response_to_plea response_received_from_plea 
+			sent_to_in_person_followup kit_mother_received kit_child_received 
+			thank_you_sent physician_request_sent physician_response_received 
+			vaccine_auth_received recollect)
 
 		if actual_columns.sort != expected_columns.sort
 			Notification.plain(
@@ -73,7 +77,6 @@ namespace :automate do
 			abort( "Unexpected column names in ICF Master Tracker" )
 		end
 
-
 		puts "Processing #{mod_time}..."
 		changed = []
 		(f=CSV.open( "ICF_Master_Tracker.csv", 'rb',{
@@ -81,7 +84,6 @@ namespace :automate do
 			puts
 			puts "Processing line :#{f.lineno}:"
 			puts line
-
 
 			if line['master_id'].blank?
 				#	raise "master_id is blank" 
