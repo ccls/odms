@@ -166,15 +166,26 @@ namespace :abstracts do
 
 #long_fields = []
 
+new_yndk_attributes = Abstract.validators.detect{|v| v.options[:in] == YNDK.valid_values }.attributes.collect(&:to_s)	#	will be the new names
+
+new_to_old = Abstract.aliased_attributes.invert.with_indifferent_access
+yndk_attributes = new_yndk_attributes.collect{|n| new_to_old[n] }
 
 Abstract.destroy_all
 
 error_counting = {}
+
+		f = CSV.open(file_name,'rb')
+		total_lines = f.readlines.size	#	includes header, but so does f.lineno
+		f.close
+		puts "#{total_lines} to process"
 		
+negative_childids_file = File.open('abstracts_negative_childids.txt','w')
 		error_file = File.open('abstracts_errors.txt','w')	#	overwrite existing
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
 		(f=CSV.open(file_name, 'rb',{ :headers => true })).each do |line|
 #			puts "Processing line #{f.lineno}:#{line}"
+			puts "Processing line #{f.lineno}/#{total_lines}"
 
 #	"subjectid","project_id","operational_event_id","occurred_at","description","event_notes"
 
@@ -185,6 +196,12 @@ error_counting = {}
 ##		puts line
 #	end
 #end
+
+
+if line['childid'].include?('-')
+negative_childids_file.puts line['childid']
+next
+end
 
 			study_subject = StudySubject.where(:childid => line['childid']).first
 			unless study_subject
@@ -204,19 +221,37 @@ abstract_fields.keys.each do |key|
 end
 
 
+#
+#	bugger.  the csv and therefore the line and therefore abstract_fields has
+#		the old cryptic fields while the validations have the new names so
+#		there will never be a match.  the alias_attribute method doesn't link
+#		the two in any fashion that is readable after the fact.
+#
+#	
+#
+abstract_fields.keys.each do |key|
+	#	convert YNDK fields 9 to 999
+	abstract_fields[key] = 999 if abstract_fields[key].to_s == '9' &&
+		yndk_attributes.include?(key.to_s)
+	#	convert YNDK fields 0 to 2 (used to be true(1) or false(0), now yes(1) or no(2))
+	abstract_fields[key] = 2 if abstract_fields[key].to_s == '0' &&
+		yndk_attributes.include?(key.to_s)
+end
+
+
 
 
 
 #	need to deal with
 
-abstract_fields.delete('fab1a')	#	'diagnosis_all_type')
-abstract_fields.delete('fab4a')	#	'diagnosis_aml_type')
-abstract_fields.delete('pe12')	#	'vital_status')
-abstract_fields.delete('nd4aid')	#	'abstracted_by')
-abstract_fields.delete('nd5aid')	#	'reviewed_by')
-abstract_fields.delete('nd6aid')	#	'data_entry_by')
-abstract_fields.delete('createdby')	#	'created_by')
-abstract_fields.delete('nd7')	#	'abstract_version_number')
+abstract_fields.delete('fab1a')	#	'diagnosis_all_type')			#	TODO
+abstract_fields.delete('fab4a')	#	'diagnosis_aml_type')			#	TODO
+abstract_fields.delete('pe12')	#	'vital_status')						#	TODO
+abstract_fields.delete('nd4aid')	#	'abstracted_by')				#	TODO
+abstract_fields.delete('nd5aid')	#	'reviewed_by')					#	TODO
+abstract_fields.delete('nd6aid')	#	'data_entry_by')				#	TODO
+abstract_fields.delete('createdby')	#	'created_by')					#	TODO
+abstract_fields.delete('nd7')	#	'abstract_version_number')	#	TODO
 
 
 
@@ -282,12 +317,17 @@ puts "Abstract count:#{Abstract.count}"
 
 puts "Abstract Error Counts"
 puts error_counting.inspect
+error_counts_file = File.open('abstracts_error_counts.txt','w')
 error_counting.keys.each do |field|
-	puts field
+	error_counts_file.puts field
 	error_counting[field].each do |k,v|
-		puts "  #{k} : #{v}"
+		error_counts_file.puts "  #{k} : #{v}"
 	end
 end
+
+
+negative_childids_file.close
+
 
 #		exit;	#	MUST EXPLICITLY exit or rake will try to run arguments as tasks
 	end	#	task :import => :import_base do

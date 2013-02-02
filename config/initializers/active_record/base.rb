@@ -106,4 +106,15 @@ class ActiveRecord::Base
 		end
 	end
 
+
+	cattr_accessor :aliased_attributes
+	def self.alias_attribute_with_memory(new_name, old_name)
+		self.aliased_attributes ||= {}.with_indifferent_access
+		self.aliased_attributes[new_name] = old_name
+		alias_attribute_without_memory(new_name, old_name)
+	end
+	class << self
+		alias_method_chain :alias_attribute, :memory
+	end
+
 end	#	class ActiveRecord::Base
