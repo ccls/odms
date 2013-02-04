@@ -283,7 +283,7 @@ Table: abstracts
 | h_and_p_reports_on                         | date          | YES  |     | NULL    |                |
 | physical_neuro                             | varchar(5)    | YES  |     | NULL    |                |
 | physical_other_soft_2                      | varchar(5)    | YES  |     | NULL    |                |
-| vital_status_id                            | int(11)       | YES  |     | NULL    |                |
+| vital_status_code                          | int(11)       | YES  |     | NULL    |                |
 | dod                                        | date          | YES  |     | NULL    |                |
 | discharge_summary_found                    | int(11)       | YES  |     | NULL    |                |
 | physical_gingival                          | varchar(5)    | YES  |     | NULL    |                |
@@ -1663,7 +1663,7 @@ Table: study_subjects
 +-----------------------------+--------------+------+-----+---------+----------------+
 | id                          | int(11)      | NO   | PRI | NULL    | auto_increment |
 | subject_type_id             | int(11)      | YES  |     | NULL    |                |
-| vital_status_id             | int(11)      | YES  |     | NULL    |                |
+| vital_status_code           | int(11)      | YES  |     | NULL    |                |
 | hispanicity                 | int(11)      | YES  |     | NULL    |                |
 | reference_date              | date         | YES  |     | NULL    |                |
 | sex                         | varchar(255) | YES  |     | NULL    |                |
@@ -1845,7 +1845,7 @@ Table: vital_statuses
 | id          | int(11)      | NO   | PRI | NULL    | auto_increment |
 | position    | int(11)      | YES  |     | NULL    |                |
 | key         | varchar(255) | NO   | UNI | NULL    |                |
-| code        | int(11)      | YES  | UNI | NULL    |                |
+| code        | int(11)      | NO   | UNI | NULL    |                |
 | description | varchar(255) | NO   |     | NULL    |                |
 | created_at  | datetime     | NO   |     | NULL    |                |
 | updated_at  | datetime     | NO   |     | NULL    |                |
