@@ -246,7 +246,7 @@ end
 
 abstract_fields.delete('fab1a')	#	'diagnosis_all_type')			#	TODO
 abstract_fields.delete('fab4a')	#	'diagnosis_aml_type')			#	TODO
-abstract_fields.delete('pe12')	#	'vital_status')						#	TODO
+#abstract_fields.delete('pe12')	#	'vital_status')						#	TODO
 abstract_fields.delete('nd4aid')	#	'abstracted_by')				#	TODO
 abstract_fields.delete('nd5aid')	#	'reviewed_by')					#	TODO
 abstract_fields.delete('nd6aid')	#	'data_entry_by')				#	TODO
