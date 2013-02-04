@@ -1697,8 +1697,8 @@ Table: study_subjects
 | guardian_last_name          | varchar(255) | YES  |     | NULL    |                |
 | guardian_relationship_id    | int(11)      | YES  |     | NULL    |                |
 | other_guardian_relationship | varchar(255) | YES  |     | NULL    |                |
-| mother_race_id              | int(11)      | YES  |     | NULL    |                |
-| father_race_id              | int(11)      | YES  |     | NULL    |                |
+| mother_race_code            | int(11)      | YES  |     | NULL    |                |
+| father_race_code            | int(11)      | YES  |     | NULL    |                |
 | maiden_name                 | varchar(255) | YES  |     | NULL    |                |
 | generational_suffix         | varchar(10)  | YES  |     | NULL    |                |
 | father_generational_suffix  | varchar(10)  | YES  |     | NULL    |                |
