@@ -58,7 +58,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 			# NOTE CASE subject only (for now?)
 			study_subject = Factory(:case_study_subject, 
 				:subject_languages_attributes => { 
-					'0' => { :language_id => Language['other'].id, :other_language => 'redneck' }})
+					'0' => { :language_code => Language['other'].code, :other_language => 'redneck' }})
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject.id)
 			show_eligibility_criteria_div
@@ -116,7 +116,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 				# NOTE CASE subject only (for now?) WITH patient as needed on update
 				@study_subject = Factory(:complete_case_study_subject, 
 					:subject_languages_attributes => { 
-						'0' => { :language_id => Language['english'].id }})
+						'0' => { :language_code => Language['english'].code }})
 			}
 			login_as send(cu)
 			visit edit_study_subject_consent_path(@study_subject.id)

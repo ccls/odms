@@ -22,7 +22,7 @@ module RafTestHelper
 	def complete_case_study_subject_attributes(options={})
 		{ 'study_subject' => Factory.attributes_for(:study_subject,
 			'subject_languages_attributes' => {
-				"0"=>{"language_id"=>"1"} },
+				"0"=>{"language_code"=>"1"} },
 			'patient_attributes' => Factory.attributes_for(:patient),
 			'phone_numbers_attributes' => {
 				'0' => Factory.attributes_for(:phone_number) },

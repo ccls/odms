@@ -2,7 +2,7 @@ class SubjectLanguage < ActiveRecord::Base
 
 	belongs_to :study_subject
 	attr_protected :study_subject_id, :study_subject
-	belongs_to :language
+	belongs_to :language, :primary_key => "code", :foreign_key => "language_code"
 
 	delegate :is_other?, :to => :language, :allow_nil => true, :prefix => true
 

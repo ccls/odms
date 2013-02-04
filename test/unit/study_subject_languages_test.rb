@@ -68,11 +68,11 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		assert @study_subject.subject_languages.empty?
 	end
 
-	test "should create study_subject with blank language_id" do
+	test "should create study_subject with blank language_code" do
 		assert_difference( 'SubjectLanguage.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => { 
-				'0' => { :language_id => '' }
+				'0' => { :language_code => '' }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -81,12 +81,12 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		assert @study_subject.subject_languages.empty?
 	end
 
-	test "should create study_subject with subject_languages_attributes language_id" do
+	test "should create study_subject with subject_languages_attributes language_code" do
 		assert Language.count > 0
 		assert_difference( 'SubjectLanguage.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => {
-				'0' => { :language_id => Language.first.id }
+				'0' => { :language_code => Language.first.code }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -103,8 +103,8 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectLanguage.count', 2 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => {
-				'0' => { :language_id => languages[0].id },
-				'1' => { :language_id => languages[1].id }
+				'0' => { :language_code => languages[0].code },
+				'1' => { :language_code => languages[1].code }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -121,7 +121,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectLanguage.count', 0 ){
 		assert_difference( "StudySubject.count", 0 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => {
-				'0' => { :language_id => Language['other'].id }
+				'0' => { :language_code => Language['other'].code }
 			})
 			assert @study_subject.errors.matching?("subject_languages.other_language","can't be blank")
 		} }
@@ -131,7 +131,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		study_subject = create_study_subject
 		assert_difference( 'SubjectLanguage.count', 1 ){
 			study_subject.update_attributes(:subject_languages_attributes => {
-				'0' => { :language_id => Language.first.id }
+				'0' => { :language_code => Language.first.code }
 			})
 		}
 	end
@@ -140,7 +140,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		study_subject = create_study_subject
 		assert_difference( 'SubjectLanguage.count', 1 ){
 			study_subject.update_attributes(:subject_languages_attributes => {
-				'0' => { :language_id => Language.first.id }
+				'0' => { :language_code => Language.first.code }
 			})
 		}
 		subject_language = study_subject.subject_languages.first

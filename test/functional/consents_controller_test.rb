@@ -41,7 +41,7 @@ class ConsentsControllerTest < ActionController::TestCase
 					assert_select( "div.subject_language.creator", 3 ).each do |sl|
 						#	checkbox and hidden share the same name
 						assert_select( sl, "input[name=?]", 
-							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
+							/study_subject\[subject_languages_attributes\]\[\d\]\[language_code\]/, 2 )
 						assert_select( sl, "input[type=hidden][value='']", 1 )
 						assert_select( sl, 
 							"input[type=checkbox][value=?]", /\d/, 1 )	
@@ -64,7 +64,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
 					:subject_languages_attributes => {			
-						'0' => { :language_id => language.id }
+						'0' => { :language_code => language.code }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
@@ -74,18 +74,18 @@ class ConsentsControllerTest < ActionController::TestCase
 					assert_select( "div.subject_language.creator", 2 ).each do |sl|
 						#	checkbox and hidden share the same name
 						assert_select( sl, "input[name=?]", 
-							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
+							/study_subject\[subject_languages_attributes\]\[\d\]\[language_code\]/, 2 )
 						assert_select( sl, "input[type=hidden][value='']", 1 )
 						assert_select( sl, 
 							"input[type=checkbox][value=?]", /\d/, 1 )	
-							#	value is the language_id (could test it, but would be complicated)
+							#	value is the language_code (could test it, but would be complicated)
 						#	should not be checked
 						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
 					end
 					assert_select( "div.subject_language.destroyer", 1 ).each do |sl|
-						assert_select( sl, "input[type=hidden][name=?][value='#{language.id}']", 
-							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 1 )
+						assert_select( sl, "input[type=hidden][name=?][value='#{language.code}']", 
+							/study_subject\[subject_languages_attributes\]\[\d\]\[language_code\]/, 1 )
 						#	destroy checkbox and hidden share the same name
 						assert_select( sl, "input[name=?]", 
 							/study_subject\[subject_languages_attributes\]\[\d\]\[_destroy\]/, 2 ){
@@ -108,7 +108,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				@study_subject = Factory(:case_study_subject, #	NOTE CASE subject only (for now?)
 					:subject_languages_attributes => {			
-						'0' => { :other_language => 'redneck', :language_id => language.id }
+						'0' => { :other_language => 'redneck', :language_code => language.code }
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
@@ -131,7 +131,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference('SubjectLanguage.count',1){
 				put :update, :study_subject_id => @study_subject.id, 
 					:study_subject => { :subject_languages_attributes => {
-					'0' => { :language_id => language.id }
+					'0' => { :language_code => language.code }
 			} } }
 			assert !@study_subject.reload.subject_languages.empty?
 			assert_nil     flash[:error]
@@ -145,7 +145,7 @@ class ConsentsControllerTest < ActionController::TestCase
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				@study_subject = Factory(:complete_case_study_subject, 
 					:subject_languages_attributes => {
-						'0' => { :language_id => language.id }
+						'0' => { :language_code => language.code }
 			} ) }
 			subject_language = @study_subject.subject_languages.first
 			assert_equal language, subject_language.language

@@ -272,9 +272,14 @@ protected
 			end
 			if( default['subject_languages_attributes'].is_a?(Hash) and
 					default['subject_languages_attributes']['0'].is_a?(Hash) and
-					default['subject_languages_attributes']['0']['language_id'].to_s.blank? and
+					default['subject_languages_attributes']['0']['language_code'].to_s.blank? and
 					default['subject_languages_attributes']['1'].is_a?(Hash) and
-					default['subject_languages_attributes']['1']['language_id'].to_s.blank? )
+					default['subject_languages_attributes']['1']['language_code'].to_s.blank? )
+#
+#	NOTE I don't like this.  Should collect all the language codes
+#		and see if it actually includes English or Spanish rather than
+#		assuming, even though it is programmed this way
+#
 				is_eligible = YNDK[:no]
 				ineligible_reasons << "Language does not include English or Spanish."
 			end

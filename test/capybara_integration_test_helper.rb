@@ -274,11 +274,11 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 
 #	common methods ( consent and nonwaivered both use languages )
 
-	def language_input_id(language,field='language_id')
+	def language_input_id(language,field='language_code')
 		"#{language}_#{field}"
 	end
 
-	def language_input_css_id(language,field='language_id')
+	def language_input_css_id(language,field='language_code')
 		"##{language_input_id(language,field)}"
 	end
 

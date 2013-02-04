@@ -80,10 +80,10 @@ class RafsControllerTest < ActionController::TestCase
 					assert_select( "div.subject_language.creator", 3 ).each do |sl|
 						#	checkbox and hidden share the same name
 						assert_select( sl, "input[name=?]", 
-							/study_subject\[subject_languages_attributes\]\[\d\]\[language_id\]/, 2 )
+							/study_subject\[subject_languages_attributes\]\[\d\]\[language_code\]/, 2 )
 						assert_select( sl, "input[type=hidden][value='']", 1 )
 						assert_select( sl, "input[type=checkbox][value=?]", 
-							/\d/, 1 )	#	value is the language_id (could test each but iffy)
+							/\d/, 1 )	#	value is the language_code (could test each but iffy)
 						#	should not be checked
 						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
@@ -298,8 +298,8 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:yes], assigns(:study_subject).patient.was_ca_resident_at_diagnosis,
 				"Should have been CA resident at dx"
 			#	assert languages include english or spanish
-			assert assigns(:study_subject).language_ids.include?(Language['english'].id) or
-				assigns(:study_subject).language_ids.include?(Language['spanish'].id)
+			assert assigns(:study_subject).language_codes.include?(Language['english'].code) or
+				assigns(:study_subject).language_codes.include?(Language['spanish'].code)
 			assert_equal YNDK[:yes],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible,
@@ -371,13 +371,13 @@ class RafsControllerTest < ActionController::TestCase
 			#	remove english and add another so subject_language is created
 			waivered_successful_creation({ 'study_subject' => {
 				'subject_languages_attributes' => {
-					'0' => {'language_id' => '' },
-					'2' => {'language_id' => Language['other'].id, 
+					'0' => {'language_code' => '' },
+					'2' => {'language_code' => Language['other'].code, 
 									'other_language' => 'something else' }
 					} } } )
 			#	assert languages DO NOT include english or spanish
-			assert !assigns(:study_subject).language_ids.include?(Language['english'].id) and
-				!assigns(:study_subject).language_ids.include?(Language['spanish'].id)
+			assert !assigns(:study_subject).language_codes.include?(Language['english'].code) and
+				!assigns(:study_subject).language_codes.include?(Language['spanish'].code)
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible
@@ -858,7 +858,7 @@ class RafsControllerTest < ActionController::TestCase
 						'was_ca_resident_at_diagnosis' => YNDK[:yes]
 					},
 					'subject_languages_attributes' => {
-						'0' => { 'language_id' => 'notblank' }
+						'0' => { 'language_code' => 'notblank' }
 					},
 					'enrollments_attributes' => {
 						'0' => { 'id' => enrollment.id }
@@ -891,7 +891,7 @@ class RafsControllerTest < ActionController::TestCase
 						'was_ca_resident_at_diagnosis' => YNDK[:yes]
 					},
 					'subject_languages_attributes' => {
-						'0' => { 'language_id' => 'notblank' }
+						'0' => { 'language_code' => 'notblank' }
 					},
 					'enrollments_attributes' => {
 						'0' => { 'id' => enrollment.id }
@@ -924,7 +924,7 @@ class RafsControllerTest < ActionController::TestCase
 						'was_ca_resident_at_diagnosis' => YNDK[:yes]
 					},
 					'subject_languages_attributes' => {
-						'0' => { 'language_id' => 'notblank' }
+						'0' => { 'language_code' => 'notblank' }
 					},
 					'enrollments_attributes' => {
 						'0' => { 'id' => enrollment.id }
@@ -957,7 +957,7 @@ class RafsControllerTest < ActionController::TestCase
 						'was_ca_resident_at_diagnosis' => YNDK[:no]
 					},
 					'subject_languages_attributes' => {
-						'0' => { 'language_id' => 'notblank' }
+						'0' => { 'language_code' => 'notblank' }
 					},
 					'enrollments_attributes' => {
 						'0' => { 'id' => enrollment.id }
@@ -990,8 +990,8 @@ class RafsControllerTest < ActionController::TestCase
 						'was_ca_resident_at_diagnosis' => YNDK[:yes]
 					},
 					'subject_languages_attributes' => {
-						'0' => { 'language_id' => '' },
-						'1' => { 'language_id' => '' }
+						'0' => { 'language_code' => '' },
+						'1' => { 'language_code' => '' }
 					},
 					'enrollments_attributes' => {
 						'0' => { 'id' => enrollment.id }

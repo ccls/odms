@@ -14,7 +14,7 @@ base.class_eval do
 
 	accepts_nested_attributes_for :subject_languages, 
 		:allow_destroy => true,
-		:reject_if => proc{|attributes| attributes['language_id'].blank? }
+		:reject_if => proc{|attributes| attributes['language_code'].blank? }
 
 	attr_accessor :language_required
 

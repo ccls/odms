@@ -14,7 +14,7 @@ module SubjectLanguageSelectHelper
 			s =  "<div class='languages_label'>Language of parent or caretaker:</div>\n"
 			s << "<div id='languages'>\n"
 			languages.each do |l|
-				sl = self.object.subject_languages.detect{|sl|sl.language_id == l.id }
+				sl = self.object.subject_languages.detect{|sl|sl.language_code == l.code }
 				#	This effectively requires that the attributes have 
 				#		been updated in the controller.
 				#	@study_subject.subject_languages_attributes = params.dig(
@@ -68,17 +68,17 @@ protected
 		#	self.object is a subject_language
 		#	If exists, the hidden id tag is actually immediately put in the html stream!
 		#	Don't think that it will be a problem, but erks me.
-		s = self.check_box( :language_id, { 
-			:id => "#{self.object.language.key}_language_id",	#	english_language_id
-			:checked => checked }, self.object.language_id, '' ) << "\n"
-		s << self.label( :language_id, self.language_label,
-			:for => "#{self.object.language.key}_language_id" ) << "\n"
+		s = self.check_box( :language_code, { 
+			:id => "#{self.object.language.key}_language_code",	#	english_language_code
+			:checked => checked }, self.object.language_code, '' ) << "\n"
+		s << self.label( :language_code, self.language_label,
+			:for => "#{self.object.language.key}_language_code" ) << "\n"
 	end
 
 	def subject_language_destroyer(checked=true)
 		#	self.object is a subject_language
 		#	KEEP ME for finding _destroy to determine if checked
-		s =  self.hidden_field( :language_id, :value => self.object.language_id )
+		s =  self.hidden_field( :language_code, :value => self.object.language_code )
 		#	check_box(object_name, method, options = {}, 
 		#		checked_value = "1", unchecked_value = "0")
 		#	when checked, I want it to do nothing (0), when unchecked I want destroy (1)

@@ -88,9 +88,9 @@ Factory.define :waivered_form_attributes, :parent => :minimum_waivered_form_attr
 	f.guardian_middle_name ''
 	f.guardian_last_name ''
 	f.subject_languages_attributes {{
-		"0"=>{"language_id"=>"1"}, 
-		"1"=>{"language_id"=>""}, 
-		"2"=>{"language_id"=>"", "other_language"=>""} }}
+		"0"=>{"language_code"=>"1"}, 
+		"1"=>{"language_code"=>""}, 
+		"2"=>{"language_code"=>"", "other_language"=>""} }}
 	f.addressings_attributes {{
 		"0"=>{ "address_attributes"=> Factory.attributes_for(:address) } }}
 	f.phone_numbers_attributes {{
@@ -432,6 +432,7 @@ Factory.define :interview do |f|
 end
 
 Factory.define :language do |f|
+	f.sequence(:code)        { |n| n }
 	f.sequence(:key)         { |n| "Key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
