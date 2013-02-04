@@ -27,9 +27,9 @@ base.class_eval do
 	#	Add this if the vital status changes to deceased.
 	#	I suspect that this'll be attached to the CCLS project enrollment.
 	def add_subject_died_operational_event
-		if( ( vital_status_id_changed? ) &&
-				( vital_status_id     == VitalStatus['deceased'].id ) && 
-				( vital_status_id_was != VitalStatus['deceased'].id ) )
+		if( ( vital_status_code_changed? ) &&
+				( vital_status_code     == VitalStatus['deceased'].code ) && 
+				( vital_status_code_was != VitalStatus['deceased'].code ) )
 			self.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subjectDied'].id,

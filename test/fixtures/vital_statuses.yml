@@ -1,6 +1,7 @@
 #
-#	Do not change id or key
+#	Do not change id, code or key
 #		'id' could be referenced by existing data
+#		'code' could be referenced by existing data
 #		'key' is used in the rails code for searching 
 #
 #	Be Advised.  Yaml fixture labels MUST BE UNIQUE.
@@ -9,22 +10,22 @@
 #	Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 #
 living:
-  id: 1
+  code: 1
   position: 1
   key: living
   description: Living
 deceased:
-  id: 2
+  code: 2
   position: 2 
   key: deceased
   description: Deceased
 refused:
-  id: 888
+  code: 888
   position: 4
   key: refused
   description: Refused to State
 dk:
-  id: 999
+  code: 999
   position: 3
   key: unknown
-  description: Don't Know
+  description: "Don't Know"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204175433) do
+ActiveRecord::Schema.define(:version => 20130204185355) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -291,7 +291,7 @@ ActiveRecord::Schema.define(:version => 20130204175433) do
     t.date     "h_and_p_reports_on"
     t.string   "physical_neuro",                             :limit => 5
     t.string   "physical_other_soft_2",                      :limit => 5
-    t.integer  "vital_status_id"
+    t.integer  "vital_status_code"
     t.date     "dod"
     t.integer  "discharge_summary_found"
     t.string   "physical_gingival",                          :limit => 5
@@ -1598,7 +1598,7 @@ ActiveRecord::Schema.define(:version => 20130204175433) do
 
   create_table "study_subjects", :force => true do |t|
     t.integer  "subject_type_id"
-    t.integer  "vital_status_id"
+    t.integer  "vital_status_code"
     t.integer  "hispanicity"
     t.date     "reference_date"
     t.string   "sex"
@@ -1789,7 +1789,7 @@ ActiveRecord::Schema.define(:version => 20130204175433) do
   create_table "vital_statuses", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
-    t.integer  "code"
+    t.integer  "code",        :null => false
     t.string   "description", :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false

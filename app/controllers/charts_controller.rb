@@ -222,8 +222,8 @@ class ChartsController < ApplicationController
 	def vital_statuses_by_phase
 		@study_subjects = StudySubject
 			.joins(:vital_status)
-			.group('phase, vital_status_id')
-			.select('phase, vital_status_id, count(*) as count, vital_statuses.*')
+			.group('phase, vital_status_code')
+			.select('phase, vital_status_code, count(*) as count, vital_statuses.*')
 	end
 
 
@@ -238,9 +238,9 @@ class ChartsController < ApplicationController
 	def vital_statuses
 		@study_subjects = StudySubject
 			.joins(:vital_status)
-			.group('vital_status_id')
+			.group('vital_status_code')
 			.where(:phase => 5)
-			.select('vital_status_id, count(*) as count, vital_statuses.*')
+			.select('vital_status_code, count(*) as count, vital_statuses.*')
 
 		@vital_statuses = @study_subjects.collect{|s| s.vital_status }
 		@max_y = @study_subjects.collect{|s|s.count.to_i}.max
@@ -248,8 +248,8 @@ class ChartsController < ApplicationController
 	def vital_statuses_pie
 		@study_subjects = StudySubject
 			.joins(:vital_status)
-			.group('vital_status_id')
-			.select('vital_status_id, count(*) as count, vital_statuses.*')
+			.group('vital_status_code')
+			.select('vital_status_code, count(*) as count, vital_statuses.*')
 	end
 	def subject_types
 		@study_subjects = StudySubject

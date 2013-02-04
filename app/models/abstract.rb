@@ -381,7 +381,7 @@ class Abstract < ActiveRecord::Base
 	alias_attribute :pe2, :h_and_p_reports_on
 	alias_attribute :pe10, :physical_neuro
 	alias_attribute :pe11, :physical_other_soft_2
-	alias_attribute :pe12, :vital_status
+	alias_attribute :pe12, :vital_status_code
 	alias_attribute :pe12a, :dod
 	alias_attribute :pe13b, :discharge_summary_found
 	alias_attribute :pe3, :physical_gingival

@@ -41,7 +41,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 		mother_hispanicity mother_hispanicity_mex 
 		other_mother_race mother_yrs_educ phase
 		reference_date related_case_childid related_childid ssn state_id_no 
-		state_registrar_no subjectid vital_status_id )
+		state_registrar_no subjectid vital_status_code )
 
 #	no familyid, childid, patid, studyid, matchingid, icf_master_id ???
 

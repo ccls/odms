@@ -55,8 +55,8 @@
 <%= wrapped_date_spans :study_subject, :reference_date,
 :label_text => 'admit (reference) date:' %>
 
-<%= f.wrapped_collection_select :vital_status_id,
-VitalStatus.all, :id, :to_s, :include_blank => true,
+<%= f.wrapped_collection_select :vital_status_code,
+VitalStatus.all, :code, :to_s, :include_blank => true,
 :label_text => 'vital status:' %>
 
 <h3>Parent Info</h3>

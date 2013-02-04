@@ -9,20 +9,20 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	belongs_to :vital_status
+	belongs_to :vital_status, :primary_key => "code", :foreign_key => "vital_status_code"
 
 	after_initialize :set_default_vital_status, :if => :new_record?
 	def set_default_vital_status
 		# ||= doesn't work with ''
-		self.vital_status_id ||= VitalStatus['living'].id
+		self.vital_status_code ||= VitalStatus['living'].code
 	end
 
 	def is_living?
-		vital_status_id == VitalStatus['living'].id
+		vital_status_code == VitalStatus['living'].code
 	end
 
 	def is_deceased?
-		vital_status_id == VitalStatus['deceased'].id
+		vital_status_code == VitalStatus['deceased'].code
 	end
 
 end	#	class_eval

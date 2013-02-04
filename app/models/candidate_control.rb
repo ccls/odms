@@ -42,7 +42,7 @@ class CandidateControl < ActiveRecord::Base
 			#	Use a block so can assign all attributes without concern for attr_protected
 			child = StudySubject.new do |s|
 				s.subject_type_id       = SubjectType['Control'].id
-				s.vital_status_id       = VitalStatus['living'].id
+				s.vital_status_code     = VitalStatus['living'].code
 				s.sex                   = sex.try(:upcase)
 				s.mom_is_biomom         = mom_is_biomom
 				s.dad_is_biodad         = dad_is_biodad

@@ -739,6 +739,7 @@ Factory.define :unit do |f|
 end
 
 Factory.define :vital_status do |f|
+	f.sequence(:code)        { |n| n }
 	f.sequence(:key)         { |n| "key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
@@ -1036,7 +1037,7 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:h_and_p_reports_on) { random_date() }
 	f.sequence(:physical_neuro){|n| "#{n}"}
 	f.sequence(:physical_other_soft_2){|n| "#{n}"}
-	f.sequence(:vital_status_id){|n| n }
+	f.sequence(:vital_status_code){|n| n }
 	f.sequence(:dod)  { random_date() }
 	f.sequence(:discharge_summary_found) { random_yndk() }
 	f.sequence(:physical_gingival){|n| "#{n}"}
