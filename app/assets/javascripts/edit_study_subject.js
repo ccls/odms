@@ -28,10 +28,10 @@ jQuery(function(){
 //		}
 //	});
 
-	jQuery('input[type=checkbox]#other_race_id').smartShow({
+	jQuery('input[type=checkbox]#other_race_code').smartShow({
 		what: '#specify_other_race',
 		when: function(){
-			return $('#other_race_id').attr('checked'); }
+			return $('#other_race_code').attr('checked'); }
 	});
 
 	jQuery('input[type=checkbox]#other__destroy').smartShow({
@@ -40,10 +40,10 @@ jQuery(function(){
 			return $('#other__destroy').attr('checked'); }
 	});
 
-	jQuery('input[type=checkbox]#mixed_race_id').smartShow({
+	jQuery('input[type=checkbox]#mixed_race_code').smartShow({
 		what: '#specify_mixed_race',
 		when: function(){
-			return $('#mixed_race_id').attr('checked'); }
+			return $('#mixed_race_code').attr('checked'); }
 	});
 
 	jQuery('input[type=checkbox]#mixed__destroy').smartShow({

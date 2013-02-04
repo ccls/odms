@@ -15,7 +15,7 @@ module SubjectRaceSelectHelper
 		s <<   "</div>\n"
 		s << "<div id='races'>\n"
 		races.each do |race|
-			sr = self.object.subject_races.detect{|sr|sr.race_id == race.id }
+			sr = self.object.subject_races.detect{|sr|sr.race_code == race.code }
 			#	This effectively requires that the attributes have been updated in the controller.
 			#	@study_subject.subject_races_attributes = params.dig('study_subject','subject_races_attributes')||{}
 			sr_built_or_exists = ( sr.nil? ) ? false : true												#	need to remember
@@ -82,22 +82,22 @@ protected
 		#	Don't think that it will be a problem, but erks me.
 #	default id="study_subject_subject_races_attributes_0_race_id"
 #	default class=nil
-		s = self.check_box( :race_id, { 
+		s = self.check_box( :race_code, { 
 			:checked => checked,
 #			:id      => @template.dom_id(self.object.race), 
-			:id      => "#{self.object.race.key}_race_id",	#	other_race_id
+			:id      => "#{self.object.race.key}_race_code",	#	other_race_id
 			:class   => 'race_selector',
 			:title   => "Set '#{self.object.race}' as one of the subject's race(s)"
-		}, self.object.race_id, '' ) << "\n"
-		s << self.label( :race_id, self.race_label,
-			:for => "#{self.object.race.key}_race_id" ) << "\n"
+		}, self.object.race_code, '' ) << "\n"
+		s << self.label( :race_code, self.race_label,
+			:for => "#{self.object.race.key}_race_code" ) << "\n"
 #			:for => @template.dom_id(self.object.race) ) << "\n"
 	end
 
 	def subject_race_destroyer(checked=true)
 		#	self.object is a subject_race
 		#	KEEP ME for finding _destroy to determine if checked
-		s =  self.hidden_field( :race_id, :value => self.object.race_id )
+		s =  self.hidden_field( :race_code, :value => self.object.race_code )
 		#	check_box(object_name, method, options = {}, 
 		#		checked_value = "1", unchecked_value = "0")
 		#	when checked, I want it to do nothing (0), when unchecked I want destroy (1)

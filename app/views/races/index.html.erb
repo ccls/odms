@@ -1,6 +1,8 @@
 <h4>Races:</h4>
 <% unless @races.empty? %>
- <table id='races'><tbody>
+ <table id='races'>
+<tr><th>Code</th><th>Key</th><th>Description</th><th>&nbsp;</th></tr>
+<tbody>
   <%= render :partial => 'race', :collection => @races %>
  </tbody></table>
 <% else %>

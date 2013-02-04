@@ -55,11 +55,11 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert @study_subject.subject_races.empty?
 	end
 
-	test "should create study_subject with blank race_id" do
+	test "should create study_subject with blank race_code" do
 		assert_difference( 'SubjectRace.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => { 
-				'0' => { :race_id => '' }
+				'0' => { :race_code => '' }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -68,12 +68,12 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert @study_subject.subject_races.empty?
 	end
 
-	test "should create study_subject with subject_races_attributes race_id" do
+	test "should create study_subject with subject_races_attributes race_code" do
 		assert Race.count > 0
 		assert_difference( 'SubjectRace.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {
-				'0' => { :race_id => Race.first.id }
+				'0' => { :race_code => Race.first.code }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -83,12 +83,15 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert !@study_subject.subject_races.first.is_primary
 	end
 
-	test "should create study_subject with subject_races_attributes race_id and is_primary" do
+#
+#	is_primary is completely irrelevant
+#
+	test "should create study_subject with subject_races_attributes race_code and is_primary" do
 		assert Race.count > 0
 		assert_difference( 'SubjectRace.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {
-				'0' => { :race_id => Race.first.id, :is_primary => 'true' }
+				'0' => { :race_code => Race.first.code, :is_primary => 'true' }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -104,9 +107,9 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectRace.count', 3 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {
-				'0' => { :race_id => races[1].id },
-				'1' => { :race_id => races[2].id },
-				'2' => { :race_id => races[3].id }
+				'0' => { :race_code => races[1].code },
+				'1' => { :race_code => races[2].code },
+				'2' => { :race_code => races[3].code }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -124,9 +127,9 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectRace.count', 3 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {
-				'0' => { :race_id => races[1].id, :is_primary => 'true' },
-				'1' => { :race_id => races[2].id, :is_primary => 'true' },
-				'2' => { :race_id => races[3].id, :is_primary => 'true' }
+				'0' => { :race_code => races[1].code, :is_primary => 'true' },
+				'1' => { :race_code => races[2].code, :is_primary => 'true' },
+				'2' => { :race_code => races[3].code, :is_primary => 'true' }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -138,7 +141,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert  @study_subject.subject_races.collect(&:is_primary).all?
 	end
 
-	test "should create study_subject with subject_races_attributes with is_primary and no race_id" do
+	test "should create study_subject with subject_races_attributes with is_primary and no race_code" do
 		assert Race.count > 0
 		assert_difference( 'SubjectRace.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
@@ -158,7 +161,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectRace.count', 0 ){
 		assert_difference( "StudySubject.count", 0 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {
-				'0' => { :race_id => Race['other'].id }
+				'0' => { :race_code => Race['other'].code }
 			})
 			assert @study_subject.errors.matching?("subject_races.other_race","can't be blank")
 		} }
@@ -170,7 +173,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectRace.count', 0 ){
 		assert_difference( "StudySubject.count", 0 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {
-				'0' => { :race_id => Race['mixed'].id }
+				'0' => { :race_code => Race['mixed'].code }
 			})
 			assert @study_subject.errors.matching?("subject_races.mixed_race","can't be blank")
 		} }
@@ -189,7 +192,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectRace.count', 1 ){
 		assert_difference( "StudySubject.count", 0 ) {
 			@study_subject.update_attributes(:subject_races_attributes => {
-				'0' => { :race_id => Race.first.id, :is_primary => 'true' }
+				'0' => { :race_code => Race.first.code, :is_primary => 'true' }
 			})
 		} }
 		@study_subject.reload
@@ -202,7 +205,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		study_subject = create_study_subject
 		assert_difference( 'SubjectRace.count', 1 ){
 			study_subject.update_attributes(:subject_races_attributes => {
-				'0' => { :race_id => Race.first.id, :is_primary => 'true' }
+				'0' => { :race_code => Race.first.code, :is_primary => 'true' }
 			})
 		}
 		subject_race = study_subject.subject_races.first

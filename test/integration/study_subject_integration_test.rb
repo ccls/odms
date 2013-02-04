@@ -12,20 +12,20 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit edit_study_subject_path(@study_subject.id)
 			assert_equal current_path, edit_study_subject_path(@study_subject.id)
 			assert has_unchecked_field?(
-				"study_subject[subject_races_attributes][0][race_id]")	#	white
+				"study_subject[subject_races_attributes][0][race_code]")	#	white
 			#	trigger a kickback from StudySubject update failure
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			click_button 'Save'
 			assert has_css?("p.flash.error")
 			assert_equal current_path, study_subject_path(@study_subject.id) #	still a kickback
 			assert has_unchecked_field?(
-				"study_subject[subject_races_attributes][0][race_id]")	#	white
+				"study_subject[subject_races_attributes][0][race_code]")	#	white
 		end
 
 		test "should preserve destruction of subject_race on edit kickback with #{cu} login" do
 			assert_difference( 'SubjectRace.count', 1 ){
 				@study_subject = Factory(:study_subject, :subject_races_attributes => { 
-					'0' => { :race_id => Race['white'].id }})
+					'0' => { :race_code => Race['white'].code }})
 			}
 			login_as send(cu)
 			visit edit_study_subject_path(@study_subject.id)
@@ -84,20 +84,20 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 #				"study_subject[subject_races_attributes][1][is_primary]")
 #		end
 
-		test "should toggle specify other race when other race_id is checked" <<
+		test "should toggle specify other race when other race_code is checked" <<
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			visit edit_study_subject_path(study_subject)
 			assert has_css?("#specify_other_race",:visible => false)
 
-			check "other_race_id"
-			assert has_checked_field?("other_race_id")
+			check "other_race_code"
+			assert has_checked_field?("other_race_code")
 #			assert has_unchecked_field?("other_is_primary")
 			assert has_css?("#specify_other_race",:visible => true)
 
-			uncheck "other_race_id"
-			assert has_unchecked_field?("other_race_id")
+			uncheck "other_race_code"
+			assert has_unchecked_field?("other_race_code")
 #			assert has_unchecked_field?("other_is_primary")
 			assert has_css?("#specify_other_race",:visible => false)
 
@@ -112,20 +112,20 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 #			assert has_css?("#specify_other_race",:visible => true)
 		end
 
-		test "should toggle specify mixed race when mixed race_id is checked" <<
+		test "should toggle specify mixed race when mixed race_code is checked" <<
 				" with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
 			visit edit_study_subject_path(study_subject)
 			assert has_css?("#specify_mixed_race",:visible => false)
 
-			check "mixed_race_id"
-			assert has_checked_field?("mixed_race_id")
+			check "mixed_race_code"
+			assert has_checked_field?("mixed_race_code")
 #			assert has_unchecked_field?("mixed_is_primary")
 			assert has_css?("#specify_mixed_race",:visible => true)
 
-			uncheck "mixed_race_id"
-			assert has_unchecked_field?("mixed_race_id")
+			uncheck "mixed_race_code"
+			assert has_unchecked_field?("mixed_race_code")
 #			assert has_unchecked_field?("mixed_is_primary")
 			assert has_css?("#specify_mixed_race",:visible => false)
 

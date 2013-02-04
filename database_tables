@@ -1398,6 +1398,7 @@ Table: races
 | description | varchar(255) | YES  | UNI | NULL    |                |
 | created_at  | datetime     | NO   |     | NULL    |                |
 | updated_at  | datetime     | NO   |     | NULL    |                |
+| code        | int(11)      | NO   | UNI | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
 Table: refusal_reasons
 +-------------+--------------+------+-----+---------+----------------+
@@ -1757,7 +1758,7 @@ Table: subject_races
 +------------------+--------------+------+-----+---------+----------------+
 | id               | int(11)      | NO   | PRI | NULL    | auto_increment |
 | study_subject_id | int(11)      | YES  |     | NULL    |                |
-| race_id          | int(11)      | YES  |     | NULL    |                |
+| race_code        | int(11)      | YES  |     | NULL    |                |
 | is_primary       | tinyint(1)   | NO   |     | 0       |                |
 | other_race       | varchar(255) | YES  |     | NULL    |                |
 | created_at       | datetime     | NO   |     | NULL    |                |

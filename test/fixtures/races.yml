@@ -1,6 +1,7 @@
 #
-#	Do not change id or key
-#		'id' could be referenced by existing data
+#	Do not change id, code or key
+#		'id' could be referenced by existing data (if code is working, this is irrelevant)
+#		'code' could be referenced by existing data
 #		'key' is used in the rails code for searching 
 #
 #	Be Advised.  Yaml fixture labels MUST BE UNIQUE.
@@ -8,58 +9,61 @@
 #
 #	Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 #
+#	Using code instead of id for foreign key so
+#	shouldn't have to specify id anymore
+#
 white:
-  id: 1
+  code: 1
   position: 1
   key: white
   description: White, Non-Hispanic
 black:
-  id: 2
+  code: 2
   position: 2
   key: black
   description: Black / African American
 nativeamerican:
-  id: 3
+  code: 3
   position: 3
   key: nativeamerican
   description: Native American
 #asian:
-#  id: 4
+#  code: 4
 #  position: 4
 #  key: asian
 #  description: Asian / Pacific Islander
 asian:
-  id: 4
+  code: 4
   position: 4
   key: asian
   description: Asian
 pacificislander:
-  id: 5
+  code: 5
   position: 5
   key: pacificislander
   description: Pacific Islander
 other:
-  id: 6
+  code: 6
   position: 6
   key: other
   description: Other Race
 mixed:
-  id: 7
+  code: 7
   position: 7
   key: mixed
   description: Mixed Race
 hispanic:
-  id: 8
+  code: 8
   position: 8
   key: hispanic
   description: Self Identified as Hispanic / Latino
 dk:
-  id: 999
+  code: 999
   position: 9
   key: unknown
   description: "Don't Know"
 refused:
-  id: 888
+  code: 888
   position: 10
   key: refused
   description: Refused to state

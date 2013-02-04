@@ -14,7 +14,8 @@ base.class_eval do
 
 	accepts_nested_attributes_for :subject_races, 
 		:allow_destroy => true,
-		:reject_if => proc{|attributes| attributes['race_id'].blank? }
+		:reject_if => proc{|attributes| attributes['race_code'].blank? }
+#		:reject_if => proc{|attributes| attributes['race_id'].blank? }
 
 	def race_names
 #		races.collect(&:to_s).join(', ')

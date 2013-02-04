@@ -29,7 +29,7 @@ class SubjectRaceTest < ActiveSupport::TestCase
 	test "should require other_race if race == other" do
 		assert_difference( "SubjectRace.count", 0 ) do
 			subject_race = create_subject_race(
-				:race_id => Race['other'].id )
+				:race_code => Race['other'].code )
 			assert subject_race.errors.matching?(:other_race,"can't be blank")
 		end
 	end
@@ -39,7 +39,7 @@ class SubjectRaceTest < ActiveSupport::TestCase
 	test "should require mixed_race if race == mixed" do
 		assert_difference( "SubjectRace.count", 0 ) do
 			subject_race = create_subject_race(
-				:race_id => Race['mixed'].id )
+				:race_code => Race['mixed'].code )
 			assert subject_race.errors.matching?(:mixed_race,"can't be blank")
 		end
 	end
@@ -47,7 +47,7 @@ class SubjectRaceTest < ActiveSupport::TestCase
 	test "should not require other_race if race != other" do
 		assert_difference( "SubjectRace.count", 1 ) do
 			subject_race = create_subject_race(
-				:race_id => Race['white'].id )
+				:race_code => Race['white'].code )
 			assert !subject_race.errors.matching?(:other_race,"can't be blank")
 		end
 	end

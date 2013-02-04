@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130129165701) do
+ActiveRecord::Schema.define(:version => 20130204175433) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1355,8 +1355,10 @@ ActiveRecord::Schema.define(:version => 20130129165701) do
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "code",        :null => false
   end
 
+  add_index "races", ["code"], :name => "index_races_on_code", :unique => true
   add_index "races", ["description"], :name => "index_races_on_description", :unique => true
   add_index "races", ["key"], :name => "index_races_on_key", :unique => true
 
@@ -1630,8 +1632,8 @@ ActiveRecord::Schema.define(:version => 20130129165701) do
     t.string   "guardian_last_name"
     t.integer  "guardian_relationship_id"
     t.string   "other_guardian_relationship"
-    t.integer  "mother_race_id"
-    t.integer  "father_race_id"
+    t.integer  "mother_race_code"
+    t.integer  "father_race_code"
     t.string   "maiden_name"
     t.string   "generational_suffix",         :limit => 10
     t.string   "father_generational_suffix",  :limit => 10
@@ -1702,7 +1704,7 @@ ActiveRecord::Schema.define(:version => 20130129165701) do
 
   create_table "subject_races", :force => true do |t|
     t.integer  "study_subject_id"
-    t.integer  "race_id"
+    t.integer  "race_code"
     t.boolean  "is_primary",       :default => false, :null => false
     t.string   "other_race"
     t.datetime "created_at",                          :null => false

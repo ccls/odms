@@ -151,8 +151,8 @@ namespace :automate do
 #						:father_hispanicity     => line['father_hispanicity'].to_s.squish,
 #						:father_hispanicity_mex => line['father_hispanicity_mex'].to_s.squish,
 #						:mom_is_biomom => line['mom_is_biomom'] || line['biomom'],
-#						:father_race_id => line['father_race'].to_s.squish,
-#						:mother_race_id => line['mother_race'].to_s.squish,
+#						:father_race_code => line['father_race'].to_s.squish,
+#						:mother_race_code => line['mother_race'].to_s.squish,
 #						:dad_is_biodad => line['dad_is_biodad'] || line['biodad'],
 #						:other_mother_race => ( line['other_mother_race'] || 
 #							line['mother_race_other'] ).to_s.squish.namerize,
@@ -193,10 +193,10 @@ namespace :automate do
 #					a[:hispanicity_mex] = 1 if ( 
 #						[a[:mother_hispanicity_mex],a[:father_hispanicity_mex]].include?('1') )
 #
-#					a[:father_race_id] = 888 if a[:father_race_id] == '0'
-#					a[:mother_race_id] = 888 if a[:mother_race_id] == '0'
-#					a[:father_race_id] = 999 if a[:father_race_id] == '9'
-#					a[:mother_race_id] = 999 if a[:mother_race_id] == '9'
+#					a[:father_race_code] = 888 if a[:father_race_code] == '0'
+#					a[:mother_race_code] = 888 if a[:mother_race_code] == '0'
+#					a[:father_race_code] = 999 if a[:father_race_code] == '9'
+#					a[:mother_race_code] = 999 if a[:mother_race_code] == '9'
 #
 #					new_attributes.each do |k,v|
 #						#	NOTE always check if attribute is blank as don't want to delete data
@@ -283,18 +283,18 @@ namespace :automate do
 #						:description => "ICF Screening data changes from #{birth_data_file}",
 #						:event_notes => "Changes:  #{changes}")
 #
-#					if study_subject.mother_race_id
-#						mr = Race.where(:id => study_subject.mother_race_id).first
+#					if study_subject.mother_race_code
+#						mr = Race.where(:code => study_subject.mother_race_code).first
 #						if mr.nil?
-#							Notification.plain("No race found with id :#{study_subject.mother_race_id}:",
+#							Notification.plain("No race found with code :#{study_subject.mother_race_code}:",
 #								email_options.merge({ 
-#									:subject => "ODMS: Invalid mother_race_id" })
+#									:subject => "ODMS: Invalid mother_race_code" })
 #							).deliver
 #						elsif mr.is_other? or mr.is_mixed?
 #							msr = if mother.races.include?( mr )
-#								mother.subject_races.where(:race_id => mr.id).first
+#								mother.subject_races.where(:race_code => mr.code).first
 #							else
-#								mother.subject_races.new(:race_id => mr.id)
+#								mother.subject_races.new(:race_code => mr.code)
 #							end
 #
 #							new_other_race = study_subject.other_mother_race || "UNSPECIFIED IN BC_INFO"
@@ -309,7 +309,7 @@ namespace :automate do
 #						else
 #							mother.races << mr unless mother.races.include?( mr )
 #						end	#	if mr.nil? (mr is not nil or other or mixed)
-#					end	#	if study_subject.mother_race_id
+#					end	#	if study_subject.mother_race_code
 	
 				end	#	(f=CSV.open( birth_data_file, 'rb',{
 	
