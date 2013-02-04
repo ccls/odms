@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204185355) do
+ActiveRecord::Schema.define(:version => 20130204193237) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1184,8 +1184,10 @@ ActiveRecord::Schema.define(:version => 20130204185355) do
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "code",        :null => false
   end
 
+  add_index "languages", ["code"], :name => "index_languages_on_code", :unique => true
   add_index "languages", ["key"], :name => "index_languages_on_key", :unique => true
 
   create_table "odms_exceptions", :force => true do |t|
@@ -1696,7 +1698,7 @@ ActiveRecord::Schema.define(:version => 20130204185355) do
 
   create_table "subject_languages", :force => true do |t|
     t.integer  "study_subject_id"
-    t.integer  "language_id"
+    t.integer  "language_code"
     t.string   "other_language"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
