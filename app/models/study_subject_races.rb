@@ -11,14 +11,19 @@ base.class_eval do
 
 	has_many :subject_races
 	has_many :races, :through => :subject_races
+#		doesn't seem to do anything
+#	has_many :races, :through => :subject_races,
+#		:primary_key => "code", :foreign_key => "race_code"
+
+#	be advised. the custom association keys cause the following
+#	race_ids will return an array of the foreign key, CODES in this case
+#	race_ids= will accept an array of the IDS, NOT CODES
 
 	accepts_nested_attributes_for :subject_races, 
 		:allow_destroy => true,
 		:reject_if => proc{|attributes| attributes['race_code'].blank? }
-#		:reject_if => proc{|attributes| attributes['race_id'].blank? }
 
 	def race_names
-#		races.collect(&:to_s).join(', ')
 		subject_races.collect(&:to_s).join(', ')
 	end
 

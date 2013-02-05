@@ -665,6 +665,26 @@ Wrap everything in another block if you must and pass it
 to the partials.  But only call it ONCE!
 
 
+
+---
+== New found has many through custom association keys oddity
+
+StudySubject has many SubjectRaces
+StudySubject has many Races through SubjectRaces
+SubjectRace belongs_to :race, :primary_key => "code", :foreign_key => "race_code"
+
+Now race_ids returns race CODES, but assignes with race IDS?
+
+irb(main):028:0> s.race_ids
+   (0.4ms)  SELECT `races`.code FROM `races` INNER JOIN `subject_races` ON `races`.`code` = `subject_races`.`race_code` WHERE `subject_races`.`study_subject_id` = 14485
+=> [999]
+irb(main):029:0> s.race_ids = [998]
+  Race Load (0.4ms)  SELECT `races`.* FROM `races` WHERE `races`.`id` = 998 LIMIT 1
+ActiveRecord::RecordNotFound: Couldn't find Race with id=998
+
+I'm guessing that the key cause of this is the "through"
+
+
 --
 
 

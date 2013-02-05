@@ -75,30 +75,35 @@
 11:
   id: 11
   context_id: 3
-  contextable_type:  Language
-  contextable_id:  1
+  contextable:  english (Language)
+#  contextable_type:  Language
+#  contextable_id:  1
 12:
   id: 12
   context_id: 3
-  contextable_type:  Language
-  contextable_id:  2
+  contextable:  spanish (Language)
+#  contextable_type:  Language
+#  contextable_id:  2
 13:
   id: 13
   context_id: 3
-  contextable_type:  Language
-  contextable_id:  3
+  contextable:  other (Language)
+#  contextable_type:  Language
+#  contextable_id:  3
 
 
 14:
   id: 14
   context_id: 4
-  contextable_type:  Language
-  contextable_id:  1
+  contextable:  english (Language)
+#  contextable_type:  Language
+#  contextable_id:  1
 15:
   id: 15
   context_id: 4
-  contextable_type:  Language
-  contextable_id:  2
+  contextable:  spanish (Language)
+#  contextable_type:  Language
+#  contextable_id:  2
 
 
 16:

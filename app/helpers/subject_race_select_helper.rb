@@ -101,7 +101,7 @@ protected
 		#	check_box(object_name, method, options = {}, 
 		#		checked_value = "1", unchecked_value = "0")
 		#	when checked, I want it to do nothing (0), when unchecked I want destroy (1)
-		#	Here, I only want existing race_ids
+		#	Here, I only want existing race ids
 		#	Yes, this is very backwards.
 #	default id="study_subject_subject_races_attributes_1__destroy"
 #	default class=nil

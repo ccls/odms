@@ -10,22 +10,29 @@
 #	Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 #
 english:
+#  id: 1
   code: 1
   position: 1
   key: english
   description: English
 spanish:
+#  id: 2
   code: 2
   position: 2
   key: spanish
   description: Spanish
 other:
+#  id: 3
   code: 3
   position: 3
   key: other
   description: Language Other Than English or Spanish
 dk:
+#  id: 999
   code: 999
   position: 4
   key: unknown
   description: Language Unknown
+#
+#	id's are still hard referenced in the whole context contextable fiasco
+#

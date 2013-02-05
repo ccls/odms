@@ -86,7 +86,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectLanguage.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => {
-				'0' => { :language_code => Language.first.code }
+				'0' => { :language_code => Language.order(:position).first.code }
 			})
 			assert !@study_subject.new_record?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
@@ -99,7 +99,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 
 	test "should create study_subject with subject_languages_attributes multiple languages" do
 		assert Language.count > 1
-		languages = Language.all
+		languages = Language.order(:position).all
 		assert_difference( 'SubjectLanguage.count', 2 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => {
@@ -131,7 +131,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		study_subject = create_study_subject
 		assert_difference( 'SubjectLanguage.count', 1 ){
 			study_subject.update_attributes(:subject_languages_attributes => {
-				'0' => { :language_code => Language.first.code }
+				'0' => { :language_code => Language.order(:position).first.code }
 			})
 		}
 	end
@@ -140,7 +140,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		study_subject = create_study_subject
 		assert_difference( 'SubjectLanguage.count', 1 ){
 			study_subject.update_attributes(:subject_languages_attributes => {
-				'0' => { :language_code => Language.first.code }
+				'0' => { :language_code => Language.order(:position).first.code }
 			})
 		}
 		subject_language = study_subject.subject_languages.first

@@ -82,7 +82,7 @@ protected
 		#	check_box(object_name, method, options = {}, 
 		#		checked_value = "1", unchecked_value = "0")
 		#	when checked, I want it to do nothing (0), when unchecked I want destroy (1)
-		#	Here, I only want existing language_ids
+		#	Here, I only want existing language ids
 		#	Yes, this is very backwards.
 		s << self.check_box( :_destroy, { 
 			:id => "#{self.object.language.key}__destroy",	# english__destroy
