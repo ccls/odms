@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204193237) do
+ActiveRecord::Schema.define(:version => 20130205001106) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -59,10 +59,10 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.integer  "response_marrow_lambda_day_7"
     t.integer  "cbc_report_found"
     t.date     "cbc_report_on"
-    t.decimal  "cbc_white_blood_count",                                     :precision => 10, :scale => 0
+    t.decimal  "cbc_white_blood_count",                                     :precision => 8, :scale => 2
     t.integer  "cbc_percent_blasts"
     t.integer  "cbc_number_blasts"
-    t.decimal  "cbc_hemoglobin_level",                                      :precision => 10, :scale => 0
+    t.decimal  "cbc_hemoglobin_level",                                      :precision => 8, :scale => 2
     t.integer  "cbc_platelet_count"
     t.integer  "cerebrospinal_fluid_report_found"
     t.date     "csf_report_on"
@@ -346,7 +346,7 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.float    "height_at_diagnosis"
     t.float    "weight_at_diagnosis"
     t.string   "hyperdiploidy_by"
-    t.boolean  "cbc_percent_blasts_unknown",                                                               :default => false
+    t.boolean  "cbc_percent_blasts_unknown",                                                              :default => false
     t.integer  "response_day_7_days_since_treatment_began"
     t.integer  "response_day_7_days_since_diagnosis"
     t.integer  "response_day_14_days_since_treatment_began"
@@ -357,8 +357,8 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.string   "entry_2_by_uid"
     t.string   "merged_by_uid"
     t.date     "discharge_summary_found_on"
-    t.datetime "created_at",                                                                                                  :null => false
-    t.datetime "updated_at",                                                                                                  :null => false
+    t.datetime "created_at",                                                                                                 :null => false
+    t.datetime "updated_at",                                                                                                 :null => false
     t.integer  "att13"
     t.integer  "bm1d_14_int"
     t.integer  "bm1d_28_int"
@@ -568,7 +568,7 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.integer  "apgar_10min"
     t.integer  "birth_order"
     t.string   "birth_type"
-    t.decimal  "birth_weight_gms",                  :precision => 10, :scale => 0
+    t.decimal  "birth_weight_gms",                  :precision => 8, :scale => 2
     t.string   "complications_labor_delivery"
     t.string   "complications_pregnancy"
     t.string   "county_of_delivery"
@@ -627,8 +627,8 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.integer  "term_count_20_plus_weeks"
     t.integer  "term_count_pre_20_weeks"
     t.boolean  "vacuum_attempt_unsuccessful"
-    t.datetime "created_at",                                                       :null => false
-    t.datetime "updated_at",                                                       :null => false
+    t.datetime "created_at",                                                      :null => false
+    t.datetime "updated_at",                                                      :null => false
     t.integer  "control_number"
     t.string   "father_ssn"
     t.string   "mother_ssn"
@@ -1184,7 +1184,7 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.integer  "code",        :null => false
+    t.integer  "code"
   end
 
   add_index "languages", ["code"], :name => "index_languages_on_code", :unique => true
@@ -1357,7 +1357,7 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.integer  "code",        :null => false
+    t.integer  "code"
   end
 
   add_index "races", ["code"], :name => "index_races_on_code", :unique => true
@@ -1487,7 +1487,7 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.integer  "sample_temperature_id"
     t.integer  "sample_collector_id"
     t.integer  "order_no"
-    t.decimal  "quantity_in_sample",           :precision => 10, :scale => 0
+    t.decimal  "quantity_in_sample",           :precision => 8, :scale => 2
     t.string   "aliquot_or_sample_on_receipt"
     t.datetime "sent_to_subject_at"
     t.datetime "collected_from_subject_at"
@@ -1500,10 +1500,10 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
     t.string   "external_id_source"
     t.datetime "receipt_confirmed_at"
     t.string   "receipt_confirmed_by"
-    t.boolean  "future_use_prohibited",                                       :default => false, :null => false
+    t.boolean  "future_use_prohibited",                                      :default => false, :null => false
     t.string   "state"
-    t.datetime "created_at",                                                                     :null => false
-    t.datetime "updated_at",                                                                     :null => false
+    t.datetime "created_at",                                                                    :null => false
+    t.datetime "updated_at",                                                                    :null => false
   end
 
   create_table "screening_data", :force => true do |t|
@@ -1750,13 +1750,13 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
   create_table "transfers", :force => true do |t|
     t.integer  "position"
     t.integer  "aliquot_id"
-    t.integer  "from_organization_id",                                :null => false
-    t.integer  "to_organization_id",                                  :null => false
-    t.decimal  "amount",               :precision => 10, :scale => 0
+    t.integer  "from_organization_id",                               :null => false
+    t.integer  "to_organization_id",                                 :null => false
+    t.decimal  "amount",               :precision => 8, :scale => 2
     t.string   "reason"
     t.boolean  "is_permanent"
-    t.datetime "created_at",                                          :null => false
-    t.datetime "updated_at",                                          :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
   end
 
   add_index "transfers", ["aliquot_id"], :name => "index_transfers_on_aliquot_id"
@@ -1791,7 +1791,7 @@ ActiveRecord::Schema.define(:version => 20130204193237) do
   create_table "vital_statuses", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
-    t.integer  "code",        :null => false
+    t.integer  "code"
     t.string   "description", :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false

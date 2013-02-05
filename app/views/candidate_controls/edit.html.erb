@@ -20,8 +20,8 @@
 <td><%= @study_subject.childid_to_s %></td>
 <td><%=mdy @study_subject.dob %></td>
 <td><%= @study_subject.sex %></td>
-<td><%= (( !@study_subject.mother_race_id.blank?
-	) ? Race.find(@study_subject.mother_race_id) : '&nbsp;'.html_safe ) %></td>
+<td><%= (( !@study_subject.mother_race_code.blank?
+	) ? Race.where(:code => @study_subject.mother_race_code).first : '&nbsp;'.html_safe ) %></td>
 <td><%=ynrdk @study_subject.mother_hispanicity %></td>
 <td><%=ynrdk @study_subject.father_hispanicity %></td>
 </tr>
@@ -32,8 +32,8 @@
 <td>-</td>
 <td><%=mdy @candidate_control.dob %></td>
 <td><%= @candidate_control.sex %></td>
-<td><%#= (( @candidate_control.mother_race_id
-	) ? Race.find(@candidate_control.mother_race_id) : '&nbsp;'.html_safe ) %></td>
+<td><%#= (( @candidate_control.mother_race_code
+	) ? Race.where(:code => @candidate_control.mother_race_code).first : '&nbsp;'.html_safe ) %></td>
 <td><%#=ynrdk @candidate_control.mother_hispanicity %></td>
 <td><%#=ynrdk @candidate_control.father_hispanicity %></td>
 </tr>

@@ -432,7 +432,7 @@ Factory.define :interview do |f|
 end
 
 Factory.define :language do |f|
-	f.sequence(:code)        { |n| n }
+	f.sequence(:code)        { |n| 1000 + n }	#	fixtures go up to 999
 	f.sequence(:key)         { |n| "Key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
 end
@@ -539,7 +539,7 @@ Factory.define :project do |f|
 end
 
 Factory.define :race do |f|
-	f.sequence(:code)       {|n| n }
+	f.sequence(:code)       {|n| 1000 + n }	#	fixtures go up to 999
 	f.sequence(:key)        {|n| "Key#{n}"}
 	f.sequence(:description){|n| "Desc#{n}"}
 end
@@ -740,7 +740,7 @@ Factory.define :unit do |f|
 end
 
 Factory.define :vital_status do |f|
-	f.sequence(:code)        { |n| n }
+	f.sequence(:code)        { |n| 1000 + n }	#	fixtures only go up to 4, nevertheless
 	f.sequence(:key)         { |n| "key#{n}" }
 	f.sequence(:description) { |n| "Desc#{n}" }
 end

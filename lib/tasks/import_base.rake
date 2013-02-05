@@ -42,6 +42,27 @@ namespace :app do
 			raise "#{message} :\n #{caller[0]}" unless expression
 		end
 
+
+		def assert_equal(a,b,field)
+			classes = [a,b].collect(&:class)
+puts classes
+			if( [a,b].any?{|x| x.is_a?(Date) ||
+						x.is_a?(DateTime) ||
+						x.is_a?(ActiveSupport::TimeWithZone) 
+				} )
+				assert_date_equal(a,b,field)
+			elsif( [a,b].any?{|x| x.is_a?(FalseClass) or x.is_a?(TrueClass) } ) 
+
+
+			else
+				assert_string_equal(a,b,field)
+			end
+		end
+
+		def assert_date_equal(a,b,field)
+			assert_string_equal a.to_s.to_date.try(:strftime,"%m/%d/%y"), b.to_s.to_date.try(:strftime,"%m/%d/%y"), field
+		end
+
 		def assert_string_equal(a,b,field)
 			assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
 		end

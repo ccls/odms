@@ -298,8 +298,8 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal YNDK[:yes], assigns(:study_subject).patient.was_ca_resident_at_diagnosis,
 				"Should have been CA resident at dx"
 			#	assert languages include english or spanish
-			assert assigns(:study_subject).language_codes.include?(Language['english'].code) or
-				assigns(:study_subject).language_codes.include?(Language['spanish'].code)
+			assert assigns(:study_subject).language_ids.include?(Language['english'].id) or
+				assigns(:study_subject).language_ids.include?(Language['spanish'].id)
 			assert_equal YNDK[:yes],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible,
@@ -376,8 +376,8 @@ class RafsControllerTest < ActionController::TestCase
 									'other_language' => 'something else' }
 					} } } )
 			#	assert languages DO NOT include english or spanish
-			assert !assigns(:study_subject).language_codes.include?(Language['english'].code) and
-				!assigns(:study_subject).language_codes.include?(Language['spanish'].code)
+			assert !assigns(:study_subject).language_ids.include?(Language['english'].id) and
+				!assigns(:study_subject).language_ids.include?(Language['spanish'].id)
 			assert_equal YNDK[:no],
 				assigns(:study_subject).enrollments.find_by_project_id(
 					Project['ccls'].id).is_eligible

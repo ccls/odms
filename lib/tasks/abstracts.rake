@@ -198,7 +198,7 @@ negative_childids_file = File.open('abstracts_negative_childids.txt','w')
 #end
 
 
-if line['childid'].include?('-')
+if line['childid'].include?('-') or line['childid'] == '0'
 negative_childids_file.puts line['childid']
 next
 end
@@ -244,6 +244,7 @@ end
 
 #	need to deal with
 
+abstract_fields.delete('_14or28flag')	#	'response_day14or28_flag')			#	TODO
 abstract_fields.delete('fab1a')	#	'diagnosis_all_type')			#	TODO
 abstract_fields.delete('fab4a')	#	'diagnosis_aml_type')			#	TODO
 #abstract_fields.delete('pe12')	#	'vital_status')						#	TODO
@@ -299,12 +300,14 @@ end
 				error_file.puts abstract.inspect
 				error_file.puts
 			else
+#puts abstract_fields.inspect
 				abstract.reload
-				assert_string_equal abstract.study_subject_id, study_subject.id,
-					"Study Subject"
-abstract_fields.keys.each do |key|
-				assert_string_equal abstract.send(key), abstract_fields[key]
-end
+#				assert_string_equal abstract.study_subject_id, study_subject.id,
+#					"Study Subject"
+#abstract_fields.keys.each do |key|
+##				assert_string_equal abstract.send(key), abstract_fields[key], key
+#				assert_equal abstract.send(key), abstract_fields[key], key
+#end
 			end
 
 		end	#	(f=CSV.open(file_name,

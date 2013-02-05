@@ -14,7 +14,7 @@ class VitalStatusTest < ActiveSupport::TestCase
 	test "vital_status factory should create vital status" do
 		assert_difference('VitalStatus.count',1) {
 			vital_status = Factory(:vital_status)
-			assert_match     /\d*/, vital_status.code
+			assert_match     /\d*/, vital_status.code.to_s
 			assert_match  /key\d*/, vital_status.key
 			assert_match /Desc\d*/, vital_status.description
 		}

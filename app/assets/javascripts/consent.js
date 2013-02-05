@@ -48,10 +48,10 @@ jQuery(function(){
 	});
 
 
-	jQuery('input[type=checkbox]#other_language_id').smartShow({
+	jQuery('input[type=checkbox]#other_language_code').smartShow({
 		what: '#specify_other_language',
 		when: function(){
-			return $('#other_language_id').attr('checked'); }
+			return $('#other_language_code').attr('checked'); }
 	});
 
 	jQuery('input[type=checkbox]#other__destroy').smartShow({

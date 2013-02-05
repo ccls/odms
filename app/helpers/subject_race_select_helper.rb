@@ -80,12 +80,12 @@ protected
 		#	self.object is a subject_race
 		#	If exists, the hidden id tag is actually immediately put in the html stream!
 		#	Don't think that it will be a problem, but erks me.
-#	default id="study_subject_subject_races_attributes_0_race_id"
+#	default id="study_subject_subject_races_attributes_0_race_code"
 #	default class=nil
 		s = self.check_box( :race_code, { 
 			:checked => checked,
 #			:id      => @template.dom_id(self.object.race), 
-			:id      => "#{self.object.race.key}_race_code",	#	other_race_id
+			:id      => "#{self.object.race.key}_race_code",	#	other_race_code
 			:class   => 'race_selector',
 			:title   => "Set '#{self.object.race}' as one of the subject's race(s)"
 		}, self.object.race_code, '' ) << "\n"

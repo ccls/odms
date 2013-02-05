@@ -21,7 +21,7 @@ class LanguageTest < ActiveSupport::TestCase
 	test "language factory should create language" do
 		assert_difference('Language.count',1) {
 			language = Factory(:language)
-			assert_match     /\d*/, language.code
+			assert_match     /\d*/, language.code.to_s
 			assert_match  /Key\d*/, language.key
 			assert_match /Desc\d*/, language.description
 		}
