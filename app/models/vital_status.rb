@@ -7,7 +7,7 @@ class VitalStatus < ActiveRecord::Base
 	validates_presence_of   :code, :allow_blank => false
 	validates_uniqueness_of :code
 
-	has_many :study_subjects
+	has_many :study_subjects, :primary_key => "code", :foreign_key => "vital_status_code"
 
 	#	Returns description
 	def to_s
