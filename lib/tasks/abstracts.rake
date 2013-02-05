@@ -166,42 +166,42 @@ namespace :abstracts do
 
 #long_fields = []
 
-new_yndk_attributes = Abstract.validators.detect{|v| v.options[:in] == YNDK.valid_values }.attributes.collect(&:to_s)	#	will be the new names
+		#	will be the new names
+		new_yndk_attributes = Abstract.validators.detect{|v| 
+			v.options[:in] == YNDK.valid_values }.attributes.collect(&:to_s)	
 
-new_to_old = Abstract.aliased_attributes.invert.with_indifferent_access
-yndk_attributes = new_yndk_attributes.collect{|n| new_to_old[n] }
+		new_to_old = Abstract.aliased_attributes.invert.with_indifferent_access
+		yndk_attributes = new_yndk_attributes.collect{|n| new_to_old[n] }
 
-Abstract.destroy_all
+		Abstract.destroy_all
 
-error_counting = {}
+		error_counting = {}
 
 		f = CSV.open(file_name,'rb')
 		total_lines = f.readlines.size	#	includes header, but so does f.lineno
 		f.close
 		puts "#{total_lines} to process"
 		
-negative_childids_file = File.open('abstracts_negative_childids.txt','w')
+		negative_childids_file = File.open('abstracts_negative_childids.txt','w')
 		error_file = File.open('abstracts_errors.txt','w')	#	overwrite existing
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
 		(f=CSV.open(file_name, 'rb',{ :headers => true })).each do |line|
-#			puts "Processing line #{f.lineno}:#{line}"
 			puts "Processing line #{f.lineno}/#{total_lines}"
 
-#	"subjectid","project_id","operational_event_id","occurred_at","description","event_notes"
+			#	"subjectid","project_id","operational_event_id","occurred_at","description","event_notes"
 
-#line.to_hash.keys.each do |key|
-#	if line[key].to_s.length > 200
-#long_fields.push(key) unless long_fields.include?(key)
-#		puts "long field #{key} in line #{f.lineno}:#{line[key].to_s.length}"
-##		puts line
-#	end
-#end
+			#line.to_hash.keys.each do |key|
+			#	if line[key].to_s.length > 200
+			#long_fields.push(key) unless long_fields.include?(key)
+			#		puts "long field #{key} in line #{f.lineno}:#{line[key].to_s.length}"
+			##		puts line
+			#	end
+			#end
 
-
-if line['childid'].include?('-') or line['childid'] == '0'
-negative_childids_file.puts line['childid']
-next
-end
+			if line['childid'].include?('-') or line['childid'] == '0'
+				negative_childids_file.puts line['childid']
+				next
+			end
 
 			study_subject = StudySubject.where(:childid => line['childid']).first
 			unless study_subject
@@ -212,31 +212,60 @@ end
 				next
 			end
 
+			abstract_fields = line.to_hash
+			abstract_fields.delete('id')
+			abstract_fields.delete('childid')
+			abstract_fields.keys.each do |key|
+				abstract_fields.delete(key) if abstract_fields[key].blank?
+			end
 
-abstract_fields = line.to_hash
-abstract_fields.delete('id')
-abstract_fields.delete('childid')
-abstract_fields.keys.each do |key|
-	abstract_fields.delete(key) if abstract_fields[key].blank?
-end
+			#
+			#	bugger.  the csv and therefore the line and therefore abstract_fields has
+			#		the old cryptic fields while the validations have the new names so
+			#		there will never be a match.  the alias_attribute method doesn't link
+			#		the two in any fashion that is readable after the fact.
+			#
+			abstract_fields.keys.each do |key|
+				#	convert YNDK fields 9 to 999
+				abstract_fields[key] = 999 if abstract_fields[key].to_s == '9' &&
+					yndk_attributes.include?(key.to_s)
+				#	convert YNDK fields 0 to 2 (used to be true(1) or false(0), now yes(1) or no(2))
+				abstract_fields[key] = 2 if abstract_fields[key].to_s == '0' &&
+					yndk_attributes.include?(key.to_s)
+			end
 
+			#	fc1b / flow_cyto_report_on 
+			#	hs2 / histo_report_on
+			#	pe12a / dod
+			#	bm1b_7 / response_report_on_day_7
+			#	bm1b_28 / response_report_on_day_28
+			#	bm1b_14 / response_report_on_day_14
+			#	fc1b_14 / response_flow_cyto_day_14_on
+			#	is either '' or '00:00.0'
+			#	kinda expecting a date so DESTROY ALL HUMANS
+			%w( fc1b hs2 pe12a bm1b_7 bm1b_28 bm1b_14 fc1b_14 ).each do |f|
+				abstract_fields.delete(f)
+			end
 
-#
-#	bugger.  the csv and therefore the line and therefore abstract_fields has
-#		the old cryptic fields while the validations have the new names so
-#		there will never be a match.  the alias_attribute method doesn't link
-#		the two in any fashion that is readable after the fact.
-#
-#	
-#
-abstract_fields.keys.each do |key|
-	#	convert YNDK fields 9 to 999
-	abstract_fields[key] = 999 if abstract_fields[key].to_s == '9' &&
-		yndk_attributes.include?(key.to_s)
-	#	convert YNDK fields 0 to 2 (used to be true(1) or false(0), now yes(1) or no(2))
-	abstract_fields[key] = 2 if abstract_fields[key].to_s == '0' &&
-		yndk_attributes.include?(key.to_s)
-end
+			#	nd4b / abstracted_on
+			#	cbc2 / cbc_report_on
+			#	pe2 / h_and_p_reports_on
+			#	cbf2 / csf_report_on
+			#	bma2 / marrow_biopsy_on
+			#	bmb2 / marrow_aspirate_taken_on
+			#	cy2 / cytogen_report_on
+			#	id6 / diagnosed_on
+			#	id8 / treatment_began_on
+			#	cim2 / chest_imaging_report_on
+			#	pl2 / ploidy_report_on
+			#	fc2c / tdt_report_on
+			#	is either '' or a date with ' 12:00 AM	'
+			#	as this is a date field it is not saving
+			%w( nd4b cbc2 pe2 cbf2 bma2 bmb2 cy2 id6 id8 cim2 pl2 fc2c ).each do |f|
+				unless abstract_fields[f].blank?
+					abstract_fields[f] = Time.parse(abstract_fields[f]).to_date 
+				end
+			end
 
 
 
@@ -244,7 +273,28 @@ end
 
 #	need to deal with
 
+#	expecting a YNDK code, but all are 14.  What to do?
 abstract_fields.delete('_14or28flag')	#	'response_day14or28_flag')			#	TODO
+
+#	alias_attribute :bm1d_7, :response_blasts_day_7
+#	response_blasts_day_7 is an int in the database
+#	mostly floats in datafile, but also things like ...
+# <0.5	<1	<2	<5	<5.0	>50	~10	~60 6-May	
+abstract_fields.delete('bm1d_7')
+#	28 is same as 7
+#	2 myeloid	2-Jan	2.5	2.50%	2.6	2.8	24	25	
+#	8-May	<3	<5	no evidence of disease
+#	alias_attribute :bm1d_28, :response_blasts_day_28
+abstract_fields.delete('bm1d_28')
+#	14 is same as 7 and 28
+#		alias_attribute :bm1d_14, :response_blasts_day_14
+abstract_fields.delete('bm1d_14')
+# integers, floats, dates, fractions, equations, string. all of the above
+
+
+
+
+
 abstract_fields.delete('fab1a')	#	'diagnosis_all_type')			#	TODO
 abstract_fields.delete('fab4a')	#	'diagnosis_aml_type')			#	TODO
 #abstract_fields.delete('pe12')	#	'vital_status')						#	TODO
@@ -304,10 +354,10 @@ end
 				abstract.reload
 #				assert_string_equal abstract.study_subject_id, study_subject.id,
 #					"Study Subject"
-#abstract_fields.keys.each do |key|
+abstract_fields.keys.each do |key|
 ##				assert_string_equal abstract.send(key), abstract_fields[key], key
-#				assert_equal abstract.send(key), abstract_fields[key], key
-#end
+				assert_equal abstract.send(key), abstract_fields[key], key
+end
 			end
 
 		end	#	(f=CSV.open(file_name,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205001106) do
+ActiveRecord::Schema.define(:version => 20130205220427) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -60,13 +60,13 @@ ActiveRecord::Schema.define(:version => 20130205001106) do
     t.integer  "cbc_report_found"
     t.date     "cbc_report_on"
     t.decimal  "cbc_white_blood_count",                                     :precision => 8, :scale => 2
-    t.integer  "cbc_percent_blasts"
-    t.integer  "cbc_number_blasts"
+    t.decimal  "cbc_percent_blasts",                                        :precision => 6, :scale => 2
+    t.decimal  "cbc_number_blasts",                                         :precision => 8, :scale => 2
     t.decimal  "cbc_hemoglobin_level",                                      :precision => 8, :scale => 2
-    t.integer  "cbc_platelet_count"
+    t.decimal  "cbc_platelet_count",                                        :precision => 8, :scale => 2
     t.integer  "cerebrospinal_fluid_report_found"
     t.date     "csf_report_on"
-    t.integer  "csf_white_blood_count"
+    t.decimal  "csf_white_blood_count",                                     :precision => 8, :scale => 2
     t.text     "csf_white_blood_count_text"
     t.integer  "csf_red_blood_count"
     t.string   "csf_red_blood_count_text"
@@ -409,7 +409,7 @@ ActiveRecord::Schema.define(:version => 20130205001106) do
     t.string   "fc1l9b",                                     :limit => 5
     t.string   "fc1l9c",                                     :limit => 20
     t.string   "icdo",                                       :limit => 10
-    t.string   "icdo1",                                      :limit => 50
+    t.string   "icdo1",                                      :limit => 60
     t.integer  "icdocodeid_1990"
     t.integer  "icdocodeid_2000"
     t.string   "id1",                                        :limit => 20
@@ -428,11 +428,11 @@ ActiveRecord::Schema.define(:version => 20130205001106) do
     t.integer  "sty3i1"
     t.integer  "sty3l1"
     t.integer  "sty3m1"
-    t.string   "sty3n",                                      :limit => 10
+    t.string   "sty3n",                                      :limit => 15
     t.integer  "sty3n1"
-    t.string   "sty3o",                                      :limit => 10
+    t.string   "sty3o",                                      :limit => 15
     t.integer  "sty3o1"
-    t.string   "sty3p",                                      :limit => 10
+    t.string   "sty3p",                                      :limit => 15
     t.integer  "sty3p1"
     t.string   "sty3q",                                      :limit => 10
     t.integer  "sty3q1"

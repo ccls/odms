@@ -4,6 +4,9 @@ namespace :app do
 #	I don't think that we'll be importing from fixtures anymore.
 #	Any new stuff would probably be added directly. (20121219)
 #
+#	Some things have changed that would make loading these
+#	fixtures in production a very bad idea.  Don't do it.
+#
 #	desc "Load some fixtures to database for application"
 #	task :update => :environment do
 ##			context_data_sources

@@ -46,21 +46,46 @@ namespace :app do
 		def assert_equal(a,b,field)
 			classes = [a,b].collect(&:class)
 puts classes
-			if( [a,b].any?{|x| x.is_a?(Date) ||
-						x.is_a?(DateTime) ||
+			if( [a,b].any?{|x| x.is_a?(Date) })
+				assert_date_equal(a,b,field)
+			elsif( [a,b].any?{|x| x.is_a?(DateTime) ||
 						x.is_a?(ActiveSupport::TimeWithZone) 
 				} )
-				assert_date_equal(a,b,field)
+				assert_datetime_equal(a,b,field)
 			elsif( [a,b].any?{|x| x.is_a?(FalseClass) or x.is_a?(TrueClass) } ) 
+#	TODO
+#puts "-#{a}-#{b}-"
+#				assert_string_equal( (a) ? true : false , (b) ? true : false, field)
 
+				puts "Converting #{a} and #{b}"
+				new_a = if( [NilClass,FalseClass,TrueClass].include?( a.class ) )
+					a
+				else
+					( a.to_i == 1 )
+				end
+				new_b = if( [NilClass,FalseClass,TrueClass].include?( b.class ) )
+					b
+				else
+					( b.to_i == 1 )
+				end
+				puts "Comparing #{new_a} to #{new_b}"
+				assert_string_equal(new_a,new_b,field)
 
+			elsif( [a,b].any?{|x| x.is_a?(BigDecimal) or x.is_a?(Fixnum) })
+				#	to_f will add a '.0' to an 'integer'
+				assert_string_equal(a.to_f, b.to_f, field)
 			else
 				assert_string_equal(a,b,field)
 			end
 		end
 
+		def assert_datetime_equal(a,b,field)
+#			assert_string_equal a.to_s.to_datetime.try(:strftime,"%m/%d/%Y %H:%M:%S"), b.to_s.to_datetime.try(:strftime,"%m/%d/%Y %H:%M:%S"), field
+			assert_string_equal Time.parse(a.to_s).try(:strftime,"%m/%d/%Y %H:%M:%S"), Time.parse(b.to_s).try(:strftime,"%m/%d/%Y %H:%M:%S"), field
+		end
+
 		def assert_date_equal(a,b,field)
-			assert_string_equal a.to_s.to_date.try(:strftime,"%m/%d/%y"), b.to_s.to_date.try(:strftime,"%m/%d/%y"), field
+			assert_string_equal a.to_s.to_date.try(:strftime,"%m/%d/%Y"), b.to_s.to_date.try(:strftime,"%m/%d/%Y"), field
 		end
 
 		def assert_string_equal(a,b,field)
