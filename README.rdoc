@@ -336,8 +336,9 @@ This is looking good.
 Repeated joins seem to be ignored.  Yay!
 
  > User.joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).joins(:roles).to_sql
- => "SELECT `users`.* FROM `users` INNER JOIN `roles_users` ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` ON `roles`.`id` = `roles_users`.`role_id`"
-
+ => "SELECT `users`.* FROM `users` INNER JOIN `roles_users` 
+     ON `roles_users`.`user_id` = `users`.`id` INNER JOIN `roles` 
+     ON `roles`.`id` = `roles_users`.`role_id`"
 
 
  def self.with_role_name(role_name=nil)
@@ -380,8 +381,13 @@ When using validates_presence_of, use allow_blank => true on other validations t
 
 When validating the presence of associations, validate on foreign key rather than association so that the error shows up correctly in view.  Unfortunately, this will not guarantee that an association actually exists with that id as it would if the validation was on the association.
 
- validates_presence_of :project ( will not raise error on project_id so in the view, the project_id selector won't have an error and so won't be highlighted like other errors will be.)
- validates_presence_of :project_id ( will not ensure that an actual project for the given id exists, but will show the error correctly in the view. )
+The following will not raise error on project_id so in the view, the project_id selector won't have an error and so won't be highlighted like other errors will be.
+
+ validates_presence_of :project 
+
+The following will not ensure that an actual project for the given id exists, but will show the error correctly in the view.
+
+ validates_presence_of :project_id 
 
 I would like to have a validation that ensures that the _id is legitimate.  I do not think that validates_associated is what I want.  Having the both does what I want, but then the view will show "Project is blank" twice.
 
@@ -691,18 +697,19 @@ SubjectRace belongs_to :race, :primary_key => "code", :foreign_key => "race_code
 Now race_ids returns race CODES, but assignes with race IDS?
 
  irb(main):028:0> s.race_ids
-   (0.4ms)  SELECT `races`.code FROM `races` INNER JOIN `subject_races` ON `races`.`code` = `subject_races`.`race_code` WHERE `subject_races`.`study_subject_id` = 14485
+   (0.4ms)  SELECT `races`.code FROM `races` INNER JOIN `subject_races` 
+    ON `races`.`code` = `subject_races`.`race_code` 
+    WHERE `subject_races`.`study_subject_id` = 14485
  => [999]
  irb(main):029:0> s.race_ids = [998]
-  Race Load (0.4ms)  SELECT `races`.* FROM `races` WHERE `races`.`id` = 998 LIMIT 1
+  Race Load (0.4ms)  SELECT `races`.* FROM `races` 
+   WHERE `races`.`id` = 998 LIMIT 1
  ActiveRecord::RecordNotFound: Couldn't find Race with id=998
 
 I'm guessing that the key cause of this is the "through"
 
 
---
-
-
+---
 == Other Notes 
 
 
