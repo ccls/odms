@@ -70,9 +70,9 @@ ActiveRecord::Schema.define(:version => 20130206011425) do
     t.text     "csf_white_blood_count_text"
     t.integer  "csf_red_blood_count"
     t.text     "csf_red_blood_count_text"
-    t.integer  "blasts_are_present"
+    t.integer  "blasts_are_present",                         :limit => 2
     t.integer  "number_of_blasts"
-    t.integer  "peripheral_blood_in_csf"
+    t.integer  "peripheral_blood_in_csf",                    :limit => 2
     t.text     "csf_comment"
     t.integer  "chemo_protocol_report_found"
     t.integer  "patient_on_chemo_protocol"
@@ -123,8 +123,8 @@ ActiveRecord::Schema.define(:version => 20130206011425) do
     t.integer  "cytogen_report_found"
     t.date     "cytogen_report_on"
     t.text     "conventional_karyotype_results"
-    t.integer  "normal_cytogen"
-    t.integer  "is_cytogen_hosp_fish_t1221_done"
+    t.integer  "normal_cytogen",                             :limit => 2
+    t.integer  "is_cytogen_hosp_fish_t1221_done",            :limit => 2
     t.string   "is_karyotype_normal",                        :limit => 5
     t.integer  "number_normal_metaphase_karyotype"
     t.integer  "number_metaphase_tested_karyotype"
@@ -321,12 +321,12 @@ ActiveRecord::Schema.define(:version => 20130206011425) do
     t.string   "fab_classification",                         :limit => 50
     t.string   "diagnosis_icdo_description",                 :limit => 55
     t.string   "diagnosis_icdo_number",                      :limit => 50
-    t.integer  "cytogen_t1221"
-    t.integer  "cytogen_inv16"
-    t.integer  "cytogen_t119"
-    t.integer  "cytogen_t821"
-    t.integer  "cytogen_t1517"
-    t.integer  "cytogen_is_hyperdiploidy"
+    t.integer  "cytogen_t1221",                              :limit => 2
+    t.integer  "cytogen_inv16",                              :limit => 2
+    t.integer  "cytogen_t119",                               :limit => 2
+    t.integer  "cytogen_t821",                               :limit => 2
+    t.integer  "cytogen_t1517",                              :limit => 2
+    t.integer  "cytogen_is_hyperdiploidy",                   :limit => 2
     t.string   "cytogen_chromosome_number",                  :limit => 3
     t.string   "cytogen_other_trans_1",                      :limit => 35
     t.string   "cytogen_other_trans_2",                      :limit => 35
@@ -338,7 +338,7 @@ ActiveRecord::Schema.define(:version => 20130206011425) do
     t.string   "cytogen_other_trans_8",                      :limit => 35
     t.string   "cytogen_other_trans_9",                      :limit => 35
     t.string   "cytogen_other_trans_10",                     :limit => 35
-    t.integer  "cytogen_t922"
+    t.integer  "cytogen_t922",                               :limit => 2
     t.string   "response_fab_subtype",                       :limit => 15
     t.string   "response_tdt_day_14",                        :limit => 10
     t.string   "response_tdt_day_7",                         :limit => 10

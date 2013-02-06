@@ -1,6 +1,6 @@
 class ChangeAbstractsCytogenT119FromStringToInt < ActiveRecord::Migration
 	def up
-		change_column :abstracts, :cytogen_t119, :integer
+		change_column :abstracts, :cytogen_t119, :integer, :limit => 2
 	end
 
 	def down
