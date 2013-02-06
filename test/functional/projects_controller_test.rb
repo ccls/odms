@@ -27,11 +27,18 @@ class ProjectsControllerTest < ActionController::TestCase
 		:logins => non_site_readers })
 
 	assert_access_with_login({ 
-		:actions => [:new,:create,:edit,:update,:destroy],
+		:actions => [:new,:create,:edit,:update],
 		:logins => site_editors })
 	assert_no_access_with_login({ 
-		:actions => [:new,:create,:edit,:update,:destroy],
+		:actions => [:new,:create,:edit,:update],
 		:logins => non_site_editors })
+
+	assert_access_with_login({ 
+		:actions => [:destroy],
+		:logins => site_administrators })
+	assert_no_access_with_login({ 
+		:actions => [:destroy],
+		:logins => non_site_administrators })
 
 	assert_no_access_without_login
 

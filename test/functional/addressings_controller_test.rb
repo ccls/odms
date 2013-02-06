@@ -43,6 +43,73 @@ class AddressingsControllerTest < ActionController::TestCase
 		}
 	end
 
+	site_administrators.each do |cu|
+
+		test "should destroy with #{cu} login" do
+			addressing = Factory(:addressing)
+			login_as send(cu)
+#			assert_difference('Address.count',-1){
+			assert_difference('Addressing.count',-1){
+				delete :destroy, :study_subject_id => addressing.study_subject_id,
+					:id => addressing.id
+			} #}
+			assert_nil flash[:error]
+			assert_redirected_to study_subject_contacts_path( addressing.study_subject_id )
+pending "Doesn't destroy Address yet"
+		end
+
+		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
+			addressing = Factory(:addressing)
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			assert_difference('Address.count',0){
+			assert_difference('Addressing.count',0){
+				delete :destroy, :study_subject_id => study_subject.id,
+					:id => addressing.id
+			} }
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT destroy with invalid study_subject_id #{cu} login" do
+			addressing = Factory(:addressing)
+			login_as send(cu)
+			assert_difference('Address.count',0){
+			assert_difference('Addressing.count',0){
+				delete :destroy, :study_subject_id => 0,
+					:id => addressing.id
+			} }
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT destroy with invalid id #{cu} login" do
+			addressing = Factory(:addressing)
+			login_as send(cu)
+			assert_difference('Address.count',0){
+			assert_difference('Addressing.count',0){
+				delete :destroy, :study_subject_id => addressing.study_subject_id,
+					:id => 0
+			} }
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+	end
+
+	non_site_administrators.each do |cu|
+	
+		test "should NOT destroy with #{cu} login" do
+			addressing = Factory(:addressing)
+			login_as send(cu)
+			delete :destroy, :study_subject_id => addressing.study_subject_id,
+				:id => addressing.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+	end
+
 	site_editors.each do |cu|
 
 		test "should get new addressing with #{cu} login" do
@@ -430,56 +497,6 @@ class AddressingsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
-		test "should destroy with #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as send(cu)
-#			assert_difference('Address.count',-1){
-			assert_difference('Addressing.count',-1){
-				delete :destroy, :study_subject_id => addressing.study_subject_id,
-					:id => addressing.id
-			} #}
-			assert_nil flash[:error]
-			assert_redirected_to study_subject_contacts_path( addressing.study_subject_id )
-pending "Doesn't destroy Address yet"
-		end
-
-		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-			addressing = Factory(:addressing)
-			study_subject = Factory(:study_subject)
-			login_as send(cu)
-			assert_difference('Address.count',0){
-			assert_difference('Addressing.count',0){
-				delete :destroy, :study_subject_id => study_subject.id,
-					:id => addressing.id
-			} }
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as send(cu)
-			assert_difference('Address.count',0){
-			assert_difference('Addressing.count',0){
-				delete :destroy, :study_subject_id => 0,
-					:id => addressing.id
-			} }
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-		test "should NOT destroy with invalid id #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as send(cu)
-			assert_difference('Address.count',0){
-			assert_difference('Addressing.count',0){
-				delete :destroy, :study_subject_id => addressing.study_subject_id,
-					:id => 0
-			} }
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
 	end
 
 	non_site_editors.each do |cu|
@@ -521,15 +538,6 @@ pending "Doesn't destroy Address yet"
 					:id => addressing.id,
 					:addressing => factory_attributes
 			}
-			assert_not_nil flash[:error]
-			assert_redirected_to root_path
-		end
-
-		test "should NOT destroy with #{cu} login" do
-			addressing = Factory(:addressing)
-			login_as send(cu)
-			delete :destroy, :study_subject_id => addressing.study_subject_id,
-				:id => addressing.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end

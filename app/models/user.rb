@@ -80,7 +80,8 @@ class User < ActiveRecord::Base
 	alias_method :may_maintain_pages?, :may_edit?
 	alias_method :may_create?,  :may_edit?
 	alias_method :may_update?,  :may_edit?
-	alias_method :may_destroy?, :may_edit?
+#	alias_method :may_destroy?, :may_edit?
+	alias_method :may_destroy?, :may_administrate?
 
 
 #	This is pretty lame as all current roles can read

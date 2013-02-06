@@ -58,7 +58,8 @@ editor_resources:
   - sample_transfers
 
 #	readers can read
-#	editors and above can create, edit and destroy
+#	editors and above can create, edit 
+#	administrators and above can destroy
 crud_resources:
   - addressings 
   - addresses 

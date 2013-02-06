@@ -2,6 +2,27 @@ require 'test_helper'
 
 class SampleTransfersControllerTest < ActionController::TestCase
 
+
+	site_administrators.each do |cu|
+
+		test "should destroy sample transfer with #{cu} login" do
+pending
+		end
+
+		test "should NOT destroy sample transfer with #{cu} login and invalid id" do
+pending
+		end
+
+	end
+
+	non_site_administrators.each do |cu|
+
+		test "should NOT destroy sample transfer with #{cu} login" do
+pending
+		end
+
+	end
+
 	site_editors.each do |cu|
 
 		test "should not confirm without organization_id with #{cu} login" do

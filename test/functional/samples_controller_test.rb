@@ -34,6 +34,70 @@ class SamplesControllerTest < ActionController::TestCase
 		}.merge(options)
 	end
 
+	site_administrators.each do |cu|
+
+		test "should destroy with #{cu} login" do
+			sample = Factory(:sample)
+			login_as send(cu)
+			assert_difference('Sample.count',-1){
+				delete :destroy, :study_subject_id => sample.study_subject_id, 
+					:id => sample.id
+			}
+			assert_nil flash[:error]
+			assert_redirected_to study_subject_path(sample.study_subject_id)
+		end
+
+		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
+			sample = Factory(:sample)
+			study_subject = Factory(:study_subject)
+			login_as send(cu)
+			assert_difference('Sample.count',0){
+				delete :destroy, :study_subject_id => study_subject.id, 
+					:id => sample.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT destroy with invalid study_subject_id #{cu} login" do
+			sample = Factory(:sample)
+			login_as send(cu)
+			assert_difference('Sample.count',0){
+				delete :destroy, :study_subject_id => 0,
+					:id => sample.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT destroy with invalid id #{cu} login" do
+			sample = Factory(:sample)
+			login_as send(cu)
+			assert_difference('Sample.count',0){
+				delete :destroy, :study_subject_id => sample.study_subject_id, 
+					:id => 0
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+	end
+
+	non_site_administrators.each do |cu|
+
+		test "should NOT destroy with #{cu} login" do
+			sample = Factory(:sample)
+			login_as send(cu)
+			assert_difference('Sample.count',0){
+				delete :destroy, :study_subject_id => sample.study_subject_id, 
+					:id => sample.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+	end
+
 	site_editors.each do |cu|
 
 		test "should get new sample with #{cu} login" <<
@@ -256,51 +320,6 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
-		test "should destroy with #{cu} login" do
-			sample = Factory(:sample)
-			login_as send(cu)
-			assert_difference('Sample.count',-1){
-				delete :destroy, :study_subject_id => sample.study_subject_id, 
-					:id => sample.id
-			}
-			assert_nil flash[:error]
-			assert_redirected_to study_subject_path(sample.study_subject_id)
-		end
-
-		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-			sample = Factory(:sample)
-			study_subject = Factory(:study_subject)
-			login_as send(cu)
-			assert_difference('Sample.count',0){
-				delete :destroy, :study_subject_id => study_subject.id, 
-					:id => sample.id
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-			sample = Factory(:sample)
-			login_as send(cu)
-			assert_difference('Sample.count',0){
-				delete :destroy, :study_subject_id => 0,
-					:id => sample.id
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
-		test "should NOT destroy with invalid id #{cu} login" do
-			sample = Factory(:sample)
-			login_as send(cu)
-			assert_difference('Sample.count',0){
-				delete :destroy, :study_subject_id => sample.study_subject_id, 
-					:id => 0
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
-		end
-
 	end
 	
 	non_site_editors.each do |cu|
@@ -338,17 +357,6 @@ class SamplesControllerTest < ActionController::TestCase
 					:id => sample.id, :sample => {
 						:external_id_source => 'trigger update'
 					}
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to root_path
-		end
-
-		test "should NOT destroy with #{cu} login" do
-			sample = Factory(:sample)
-			login_as send(cu)
-			assert_difference('Sample.count',0){
-				delete :destroy, :study_subject_id => sample.study_subject_id, 
-					:id => sample.id
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
