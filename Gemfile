@@ -204,7 +204,7 @@ group :test do
 	gem "factory_girl_rails"	#, :require    => "factory_girl"
 
 	gem 'ccls-html_test'
-	gem 'webrat'
+#	gem 'webrat'
 	gem 'capybara'
 	gem 'capybara-webkit'	#, '0.11.0'
 end
