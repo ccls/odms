@@ -665,6 +665,21 @@ Wrap everything in another block if you must and pass it
 to the partials.  But only call it ONCE!
 
 
+---
+== Maximum mysql row size reached
+
+I tried to all string columns for all of the abstract columns
+in the import file and eventually received this error message.
+
+Mysql2::Error: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. You have to change some columns to TEXT or BLOBs: ALTER TABLE `abstracts` ADD `cy_diag_fish` varchar(255)
+
+I have since only added those legacy fields that have data
+and more selectively chosen lengths and datatypes.
+
+It would be nice if there was a way from within mysql to 
+get the current row size so I could know how close I am.
+
+
 
 ---
 == New found has many through custom association keys oddity

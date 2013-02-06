@@ -55,7 +55,6 @@ editor_resources:
   - guides 
   - interviews 
   - patients
-  - sample_transfers
 
 #	readers can read
 #	editors and above can create, edit 
@@ -71,4 +70,5 @@ crud_resources:
   - phone_numbers 
   - projects 
   - samples 
+  - sample_transfers
   - study_subjects
