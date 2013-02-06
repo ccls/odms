@@ -1,5 +1,8 @@
 = CCLS Operations and Data Management System
 
+This is a README, so READ ME!
+
+
  #	Starting from scratch?
  #	You will need 'git' installed.  If using a Mac, probably best
  #	installed via MacPorts' 'port' command, which you may need
@@ -57,18 +60,18 @@
  #	Install most test fixtures in database.
  #	This is destructive and will remove all existing
  #	before adding those in the fixtures.
- rake app:update
+ #rake app:update
  
  #	OR Install zip_code and county csv fixtures in database (takes a while)
  #	( this will do app:update as well )
  #	As the zip_code and county info doesn't really ever change,
  #	I separated it out.  As Rails 3 doesn't do csv fixtures,
  #	I had to custom write the task as well.
- rake app:full_update
+ #rake app:full_update
  
  #	Add expected users and roles (must be after roles are loaded)
  #	This isn't destructive, so you can call this as many times as you like.
- rake app:users:add_default
+ #rake app:users:add_default
  
  #	Install "production" pages and guides if necessary (as of Mar 25, 2012)
  #	This is also destructive.  Once in production, you may never
@@ -127,16 +130,17 @@
  bundle exec rake sunspot:solr:start RAILS_ENV=test
 
  #	One pass, running all tests ...
- rake test
+ bundle exec rake test
 
  #	Or, since this is the default task, just ...
- rake
+ bundle exec rake
 
 
  #	One pass, running all tests and checking code coverage ...
- rake test:coverage
+ #rake test:coverage
  #	DO NOT edit the app while this is running, or the resulting
  #	coverage information will be corrupt.
+ #	Actuallly, don't do this at all as using simplecov now
 
 
  #	Continual testing triggered by file changes ...
@@ -157,22 +161,21 @@
 == Ruby 1.9.3 oddities
 
 * imported ucb_ldap so could modify and remove incompatible ruby-net-ldap requirement
+  * 1.4.2 - 2010-08-03
 * FasterCSV replaced with CSV
   * must manually "require 'csv'" instead though
-* no longer use rubygems binary as is include with ruby
+* no longer use rubygems binary as is included with ruby
 * paperclip dropped 'to_file' method
-  * using queued_for_write[:original] instead
+  * using queued_for_write\[:original] instead
 * yaml/encoding no longer exists (was using in sorting exported fixtures)
   * apparently functionality is included
 * Factories explicitly need "sequence" for my methods
 * assert_select requires more explicit hash use
 * doesn't parse american date so need american_date gem
   * installed american_date gem which fixed a lot of unexpected problems
-* rcov no longer compatible with suggestion of simplecov but haven't tried yet
-  * simplecov isn't quite working
+* rcov no longer compatible with suggestion of simplecov
+  * simplecov is always working and adding to it's info
   * simplecov mostly works when using rake test, but not autotest
-    * only get 95% coverage with rake test and the lines that aren't marked as tested really should have been
-    * only get about 55% coverage with autotest, which I really don't understand
 * 'pending' doesn't work the same 
   * 'caller' says that it is from a block now not method, so no name to use
   * using 'skip' instead
@@ -231,9 +234,6 @@ config.active_record.include_root_in_json = false
   * really trying to simplify all the testing as there are so many things that trigger other things.  It is becoming difficult to test.  Add one callback that creates something and all of the sudden 100 tests fail because some count is now off by 1.
 
 * fix user not logged in integration test.  current_url doesn't seem to match followed redirect. Also in CaseIntegrationTest
-
-* remove all method_missings from app and write explicit ones
-  * may_*_required
 
 * reenable raising mass assignment error in environments/test.rb
 * controllers now raises MassAssignmentSecurity::Error
@@ -296,6 +296,7 @@ Our Context \[ ... \] model method causes this ...
 
 Added \:\: prefix where I use it to see if makes a difference
 
+Should really drop Context and ContextContextable models
 
 
 ---
@@ -351,7 +352,7 @@ Repeated joins seem to be ignored.  Yay!
 ---
 === DO NOT USE DEFAULT_SCOPE
 
-I do not like this as it takes precedence over your search unless you add 'unscoped' to your chain.  It has caused me much grief.  It caused grief with acts_as_list not properly scoping.  It caused gried with my ZipCode limit not destroying all when I told it to destroy_all because it had "limit(10)" as part of its default_scope.  Conclusion.  DO NOT USE DEFAULT_SCOPE.
+I do not like this as it takes precedence over your search unless you add 'unscoped' to your chain.  It has caused me much grief.  It caused grief with acts_as_list not properly scoping.  It caused grief with my ZipCode limit not destroying all when I told it to destroy_all because it had "limit(10)" as part of its default_scope.  Conclusion.  DO NOT USE DEFAULT_SCOPE.
 
 
 
@@ -410,7 +411,7 @@ Validating the content type of a paperclip attachment seems to be a bit tricky. 
  validates_attachment_content_type :csv_file,
    :content_type => ["text/csv","text/plain","application/vnd.ms-excel"]
 
-It seems like it almost expects the attachment to be ALL of the content types.
+It seems like it almost expects the attachment to be ALL of the content types?
 
 So, using the standard rails 'validates inclusion of' seems to work quite well.
 
@@ -448,9 +449,12 @@ Should this gem be updated and this core stylesheet change, our local
 copy will most likely need changed as well.
 
 
+Ain't usin' ActiveScaffold no mo'
+
+
 
 ---
-=== Date, Time and DateTime Comparison thoughts
+=== Date, Time, DateTime and ActiveSupport::TimeWithZone Comparison thoughts
 
 It appears that the "newer" classes know how to compare with the "older" ones, but not vice versa, which makes sense.
 
@@ -590,9 +594,12 @@ pages is invalid html.  Good luck with that.
 
 
 
+This hasn't happened in a while.
+
+
 
 ---
-== Additional files that will be needed
+== Additional files that will be needed as contain 'private' info
 
  /config/api.yml ( probably removing )
  /config/database.yml
@@ -603,7 +610,7 @@ pages is invalid html.  Good luck with that.
 == Testing requirements
 
 * port qt4-mac
-* gem webkit (not used anymore so should remove from Gemfile)
+* gem webkit (not used anymore so should remove from Gemfile) REMOVED!
 * gem capybara
 * gem selenium-webdriver (not used anymore but seems required by others)
 * gem capybara-webkit
@@ -611,19 +618,23 @@ pages is invalid html.  Good luck with that.
 ---
 == Managing Multiple User Input
 
- I have chosen to manage the input of other users by maintaining
- different repositories and merging as necessary.  Using the same
- repo and creating branches was and is an option and I reserve
- the right to go that route if it looks better.
+I have chosen to manage the input of other users by maintaining
+different repositories and merging as necessary.  Using the same
+repo and creating branches was and is an option and I reserve
+the right to go that route if it looks better.
 
- initially ...
+initially ...
 
-   git remote add magee git@github.com:magee/odms.git
+ git remote add magee git@github.com:magee/odms.git
 
- then when needed
+then when needed
 
-   git fetch magee
-   git merge --no-commit --no-ff magee/master
+ git fetch magee
+ git merge --no-commit --no-ff magee/master
+
+As I am the only developer now, this is not used, but could be.
+
+
 
 
 ---
@@ -688,13 +699,13 @@ get the current row size so I could know how close I am.
 
 
 ---
-== New found has many through custom association keys oddity
+== has many through custom association keys oddity
 
 StudySubject has many SubjectRaces
 StudySubject has many Races through SubjectRaces
 SubjectRace belongs_to :race, :primary_key => "code", :foreign_key => "race_code"
 
-Now race_ids returns race CODES, but assignes with race IDS?
+Now race_ids returns race CODES, but assigns with race IDS?
 
  irb(main):028:0> s.race_ids
    (0.4ms)  SELECT `races`.code FROM `races` INNER JOIN `subject_races` 
@@ -707,6 +718,9 @@ Now race_ids returns race CODES, but assignes with race IDS?
  ActiveRecord::RecordNotFound: Couldn't find Race with id=998
 
 I'm guessing that the key cause of this is the "through"
+
+
+(For some reason the above leading "`" translate into "%x" ???)
 
 
 ---
