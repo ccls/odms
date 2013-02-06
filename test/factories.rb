@@ -813,9 +813,9 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:csf_white_blood_count_text){|n| "#{n}"}
 	f.sequence(:csf_red_blood_count){|n| n }
 	f.sequence(:csf_red_blood_count_text){|n| "#{n}"}
-	f.sequence(:blasts_are_present){|n| "#{n}"}
+	f.sequence(:blasts_are_present){ random_yndk() }
 	f.sequence(:number_of_blasts){|n| n }
-	f.sequence(:peripheral_blood_in_csf){|n| "#{n}"}
+	f.sequence(:peripheral_blood_in_csf){ random_yndk() }
 	f.sequence(:csf_comment){|n| "#{n}"}
 	f.sequence(:chemo_protocol_report_found) { random_yndk() }
 	f.sequence(:patient_on_chemo_protocol) { random_yndk() }
@@ -866,8 +866,8 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:cytogen_report_found) { random_yndk() }
 	f.sequence(:cytogen_report_on) { random_date() }
 	f.sequence(:conventional_karyotype_results){|n| "#{n}"}
-	f.sequence(:normal_cytogen){|n| "#{n}"}
-	f.sequence(:is_cytogen_hosp_fish_t1221_done){|n| "#{n}"}
+	f.sequence(:normal_cytogen){ random_yndk() }
+	f.sequence(:is_cytogen_hosp_fish_t1221_done){ random_yndk() }
 	f.sequence(:is_karyotype_normal){|n| "#{n}"}
 	f.sequence(:number_normal_metaphase_karyotype){|n| n }
 	f.sequence(:number_metaphase_tested_karyotype){|n| n }
@@ -1007,11 +1007,7 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:ucb_fish_results){|n| "#{n}"}
 	f.sequence(:response_hladr_day_14){|n| "#{n}"}
 	f.sequence(:response_hladr_day_7){|n| "#{n}"}
-
-#	NOTE this is actually a string (should probably be changed to an int like the others)
-#	changed to integer
 	f.sequence(:histo_report_found) { random_yndk() }		
-
 	f.sequence(:histo_report_on) { random_date() }
 	f.sequence(:histo_report_results){|n| "#{n}"}
 	f.sequence(:diagnosed_on) { random_date() }
@@ -1068,14 +1064,14 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:fab_classification){|n| "#{n}"}
 	f.sequence(:diagnosis_icdo_description){|n| "#{n}"}
 	f.sequence(:diagnosis_icdo_number){|n| "#{n}"}
-	f.sequence(:cytogen_t1221){|n| "#{n}"}
-	f.sequence(:cytogen_inv16){|n| "#{n}"}
-	f.sequence(:cytogen_t119){|n| "#{n}"}
-	f.sequence(:cytogen_t821){|n| "#{n}"}
-	f.sequence(:cytogen_t1517){|n| "#{n}"}
-	f.sequence(:cytogen_is_hyperdiploidy){|n| "#{n}"}
+	f.sequence(:cytogen_t1221){ random_yndk() }
+	f.sequence(:cytogen_inv16){ random_yndk() }
+	f.sequence(:cytogen_t119){ random_yndk() }
+	f.sequence(:cytogen_t821){ random_yndk() }
+	f.sequence(:cytogen_t1517){ random_yndk() }
+	f.sequence(:cytogen_is_hyperdiploidy){ random_yndk() }
 	f.sequence(:cytogen_chromosome_number){|n| "#{n}"}
-	f.sequence(:cytogen_t922){|n| "#{n}"}
+	f.sequence(:cytogen_t922){ random_yndk() }
 	f.sequence(:cytogen_other_trans_1){|n| "#{n}"}
 	f.sequence(:cytogen_other_trans_2){|n| "#{n}"}
 	f.sequence(:cytogen_other_trans_3){|n| "#{n}"}

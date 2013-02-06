@@ -35,25 +35,6 @@
 
 -
   :attributes:
-  - :flow_cyto_other_marker_1
-  - :flow_cyto_other_marker_2
-  - :flow_cyto_other_marker_3
-  - :flow_cyto_other_marker_4
-  - :flow_cyto_other_marker_5
-  - :response_other1_value_day_7
-  - :response_other1_value_day_14
-  - :response_other2_value_day_7
-  - :response_other2_value_day_14
-  - :response_other3_value_day_14
-  - :response_other5_value_day_14
-  :length:
-    :maximum: 4 
-  :allow_blank: true
-
--
-  :attributes:
-  - :normal_cytogen
-  - :is_cytogen_hosp_fish_t1221_done
   - :is_karyotype_normal
   - :physical_neuro
   - :physical_other_soft_2
@@ -67,20 +48,8 @@
   - :is_hyperdiploid
   - :is_diploid
   - :dna_index
-  - :cytogen_is_hyperdiploidy
   :length:
     :maximum: 5 
-  :allow_blank: true
-
--
-  :attributes:
-  - :cytogen_t1221
-  - :cytogen_inv16
-  - :cytogen_t119
-  - :cytogen_t821
-  - :cytogen_t1517
-  :length:
-    :maximum: 9 
   :allow_blank: true
 
 -
@@ -268,7 +237,6 @@
   - :ucb_fish_results
   - :fab_classification
   - :diagnosis_icdo_number
-  - :cytogen_t922
   :length:
     :maximum: 50 
   :allow_blank: true
@@ -290,9 +258,6 @@
 -
   :attributes:
   - :csf_red_blood_count_text
-  - :blasts_are_present
-  - :peripheral_blood_in_csf
-  - :chemo_protocol_report_found
   - :chemo_protocol_name
   - :hyperdiploidy_by
   :length:
@@ -329,8 +294,15 @@
   - :chest_ct_medmass_present
   - :chest_imaging_report_found
   - :cytogen_hospital_fish_done
+  - :cytogen_inv16
+  - :cytogen_is_hyperdiploidy
   - :cytogen_karyotype_done
   - :cytogen_report_found
+  - :cytogen_t119
+  - :cytogen_t1221
+  - :cytogen_t821
+  - :cytogen_t1517
+  - :cytogen_t922
   - :cytogen_trisomy4
   - :cytogen_trisomy5
   - :cytogen_trisomy10
@@ -350,9 +322,11 @@
   - :h_and_p_reports_found
   - :hepatomegaly_present
   - :is_down_syndrome_phenotype
+  - :is_cytogen_hosp_fish_t1221_done
   - :marrow_aspirate_report_found
   - :marrow_biopsy_report_found
   - :mediastinal_mass_present
+  - :normal_cytogen
   - :patient_on_chemo_protocol
   - :ploidy_report_found
   - :received_bone_marrow_aspirate
@@ -382,7 +356,16 @@
   - :splenomegaly_present
   - :tdt_often_found_flow_cytometry
   - :tdt_report_found
+  - :blasts_are_present
+  - :peripheral_blood_in_csf
   :inclusion:
     :in: <%= YNDK.valid_values %>
+  :allow_nil: true
+
+-
+  :attributes:
+  - :tdt_positive_or_negative
+  :inclusion:
+    :in: <%= POSNEG.valid_values %>
   :allow_nil: true
 

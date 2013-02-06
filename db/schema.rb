@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205220427) do
+ActiveRecord::Schema.define(:version => 20130206011425) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -69,14 +69,14 @@ ActiveRecord::Schema.define(:version => 20130205220427) do
     t.decimal  "csf_white_blood_count",                                     :precision => 8, :scale => 2
     t.text     "csf_white_blood_count_text"
     t.integer  "csf_red_blood_count"
-    t.string   "csf_red_blood_count_text"
-    t.string   "blasts_are_present"
+    t.text     "csf_red_blood_count_text"
+    t.integer  "blasts_are_present"
     t.integer  "number_of_blasts"
-    t.string   "peripheral_blood_in_csf"
+    t.integer  "peripheral_blood_in_csf"
     t.text     "csf_comment"
     t.integer  "chemo_protocol_report_found"
     t.integer  "patient_on_chemo_protocol"
-    t.string   "chemo_protocol_name"
+    t.string   "chemo_protocol_name",                        :limit => 60
     t.text     "chemo_protocol_agent_description"
     t.string   "response_cd10_day_14",                       :limit => 10
     t.string   "response_cd10_day_7",                        :limit => 10
@@ -123,8 +123,8 @@ ActiveRecord::Schema.define(:version => 20130205220427) do
     t.integer  "cytogen_report_found"
     t.date     "cytogen_report_on"
     t.text     "conventional_karyotype_results"
-    t.string   "normal_cytogen",                             :limit => 5
-    t.string   "is_cytogen_hosp_fish_t1221_done",            :limit => 5
+    t.integer  "normal_cytogen"
+    t.integer  "is_cytogen_hosp_fish_t1221_done"
     t.string   "is_karyotype_normal",                        :limit => 5
     t.integer  "number_normal_metaphase_karyotype"
     t.integer  "number_metaphase_tested_karyotype"
@@ -321,12 +321,12 @@ ActiveRecord::Schema.define(:version => 20130205220427) do
     t.string   "fab_classification",                         :limit => 50
     t.string   "diagnosis_icdo_description",                 :limit => 55
     t.string   "diagnosis_icdo_number",                      :limit => 50
-    t.string   "cytogen_t1221",                              :limit => 9
-    t.string   "cytogen_inv16",                              :limit => 9
-    t.string   "cytogen_t119",                               :limit => 9
-    t.string   "cytogen_t821",                               :limit => 9
-    t.string   "cytogen_t1517",                              :limit => 9
-    t.string   "cytogen_is_hyperdiploidy",                   :limit => 5
+    t.integer  "cytogen_t1221"
+    t.integer  "cytogen_inv16"
+    t.integer  "cytogen_t119"
+    t.integer  "cytogen_t821"
+    t.integer  "cytogen_t1517"
+    t.integer  "cytogen_is_hyperdiploidy"
     t.string   "cytogen_chromosome_number",                  :limit => 3
     t.string   "cytogen_other_trans_1",                      :limit => 35
     t.string   "cytogen_other_trans_2",                      :limit => 35
@@ -338,7 +338,7 @@ ActiveRecord::Schema.define(:version => 20130205220427) do
     t.string   "cytogen_other_trans_8",                      :limit => 35
     t.string   "cytogen_other_trans_9",                      :limit => 35
     t.string   "cytogen_other_trans_10",                     :limit => 35
-    t.string   "cytogen_t922",                               :limit => 50
+    t.integer  "cytogen_t922"
     t.string   "response_fab_subtype",                       :limit => 15
     t.string   "response_tdt_day_14",                        :limit => 10
     t.string   "response_tdt_day_7",                         :limit => 10
@@ -363,9 +363,9 @@ ActiveRecord::Schema.define(:version => 20130205220427) do
     t.integer  "bm1d_14_int"
     t.integer  "bm1d_28_int"
     t.integer  "cbf6b"
-    t.string   "cbf7_old"
+    t.string   "cbf7_old",                                   :limit => 155
     t.integer  "cd5_7"
-    t.string   "cy3_legacy"
+    t.string   "cy3_legacy",                                 :limit => 60
     t.integer  "cy_chrom01"
     t.integer  "cy_chrom02"
     t.integer  "cy_compkary"

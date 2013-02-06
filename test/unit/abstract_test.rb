@@ -40,8 +40,6 @@ class AbstractTest < ActiveSupport::TestCase
 			:maximum => 4 )
 
 	assert_should_require_length( 
-		:normal_cytogen,
-		:is_cytogen_hosp_fish_t1221_done,
 		:is_karyotype_normal,
 		:physical_neuro,
 		:physical_other_soft_2,
@@ -55,16 +53,7 @@ class AbstractTest < ActiveSupport::TestCase
 		:is_hyperdiploid,
 		:is_diploid,
 		:dna_index,
-		:cytogen_is_hyperdiploidy,
 			:maximum => 5 )
-
-	assert_should_require_length( 
-		:cytogen_t1221,
-		:cytogen_inv16,
-		:cytogen_t119,
-		:cytogen_t821,
-		:cytogen_t1517,
-			:maximum => 9 )
 
 	assert_should_require_length( 
 		:response_tdt_day_7,
@@ -235,7 +224,6 @@ class AbstractTest < ActiveSupport::TestCase
 		:ucb_fish_results,
 		:fab_classification,
 		:diagnosis_icdo_number,
-		:cytogen_t922,
 			:maximum => 50 )
 
 	assert_should_require_length( 
@@ -248,8 +236,6 @@ class AbstractTest < ActiveSupport::TestCase
 
 	assert_should_require_length( 
 		:csf_red_blood_count_text,
-		:blasts_are_present,
-		:peripheral_blood_in_csf,
 		:chemo_protocol_name,
 		:hyperdiploidy_by,
 			:maximum => 250 )
@@ -591,20 +577,23 @@ class AbstractTest < ActiveSupport::TestCase
 		assert db_fields.first.is_a?(String)
 	end
 
-#	This is currently just a string which fails here
-#	as the validates inclusion is integers
-#		:histo_report_found,
-#	changed to integer
-
-	assert_should_accept_only_good_values( :cbc_report_found,
-		:histo_report_found,
+	assert_should_accept_only_good_values( 
+		:blasts_are_present,
+		:cbc_report_found,
 		:cerebrospinal_fluid_report_found,
 		:chemo_protocol_report_found,
 		:chest_ct_medmass_present,
 		:chest_imaging_report_found,
 		:cytogen_hospital_fish_done,
+		:cytogen_inv16,
+		:cytogen_is_hyperdiploidy,
 		:cytogen_karyotype_done,
 		:cytogen_report_found,
+		:cytogen_t119,
+		:cytogen_t1221,
+		:cytogen_t1517,
+		:cytogen_t821,
+		:cytogen_t922,
 		:cytogen_trisomy4,
 		:cytogen_trisomy5,
 		:cytogen_trisomy10,
@@ -623,11 +612,15 @@ class AbstractTest < ActiveSupport::TestCase
 		:flow_cyto_report_found,
 		:h_and_p_reports_found,
 		:hepatomegaly_present,
+		:histo_report_found,
 		:is_down_syndrome_phenotype,
+		:is_cytogen_hosp_fish_t1221_done,
 		:marrow_aspirate_report_found,
 		:marrow_biopsy_report_found,
 		:mediastinal_mass_present,
+		:normal_cytogen,
 		:patient_on_chemo_protocol,
+		:peripheral_blood_in_csf,
 		:ploidy_report_found,
 		:received_bone_marrow_aspirate,
 		:received_bone_marrow_biopsy,
@@ -657,6 +650,11 @@ class AbstractTest < ActiveSupport::TestCase
 		:tdt_often_found_flow_cytometry,
 		:tdt_report_found,
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
+			:bad_values  => 12345 })
+
+	assert_should_accept_only_good_values( 
+		:tdt_positive_or_negative,
+		{ :good_values => ( POSNEG.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
 protected

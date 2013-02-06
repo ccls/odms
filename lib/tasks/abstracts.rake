@@ -293,6 +293,12 @@ abstract_fields.delete('bm1d_14')
 
 
 
+#	cbf5a / blasts_are_present data is all '', 1, 2 or 9
+#	but the current datatype is a string and a text_field?
+#	this seems more YNDK
+
+
+
 
 
 abstract_fields.delete('fab1a')	#	'diagnosis_all_type')			#	TODO
