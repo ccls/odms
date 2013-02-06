@@ -9,6 +9,7 @@
 <th>type</th>
 <th>subtype</th>
 <th>status</th>
+<th>&nbsp;</th>
 </tr>
 </thead><tbody>
 <% @study_subject.samples.each do |sample| %>
@@ -19,6 +20,16 @@
 <td><%= sample.sample_type_parent -%></td>
 <td><%= sample.sample_type -%></td>
 <td><%= sample.state -%></td>
+<td><% if current_user.may_destroy_samples? %>
+	<%= form_tag study_subject_sample_path(sample.study_subject,sample), 
+		:method => :delete, :class => 'destroy_link_to' do %>
+	<%= hidden_field_tag 'confirm', "Destroy sample '#{sample}'?", :id => nil %>
+	<%= submit_tag 'Destroy', :name => nil %>
+	<% end %>
+<% else %>
+&nbsp;
+<% end %>
+</td>
 </tr>
 <% end %>
 </tbody></table>

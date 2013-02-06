@@ -25,6 +25,11 @@ class SampleTransfer < ActiveRecord::Base
 		status == 'active'
 	end
 
+	#	primarily for the destroy confirmation pop-up
+	def to_s
+		"for SampleID #{sample.sampleid}"
+	end
+
 #	def waitlist?
 #		status == 'waitlist'
 #	end

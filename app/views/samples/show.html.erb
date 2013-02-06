@@ -3,8 +3,14 @@
 <div id='subject_control_bar'>
 <h3>Subject Sample</h3>
 <div class='buttons'>
-<%= link_to( 'edit', edit_study_subject_sample_path(@sample.study_subject_id, @sample.id),
+<%= link_to( 'Edit', edit_study_subject_sample_path(@sample.study_subject_id, @sample.id),
 	:class => :button ) %>
+<% if current_user.may_destroy_samples? %>
+<%= form_tag study_subject_sample_path(@sample.study_subject_id, @sample.id), :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy sample '#{@sample}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end %>
+<% end %>
 </div><!-- class='buttons' -->
 </div>
 

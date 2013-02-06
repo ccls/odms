@@ -2,23 +2,40 @@ require 'test_helper'
 
 class SampleTransfersControllerTest < ActionController::TestCase
 
-
 	site_administrators.each do |cu|
 
-		test "should destroy sample transfer with #{cu} login" do
-pending
+		test "should destroy with #{cu} login" do
+			sample_transfer = Factory(:sample_transfer)
+			login_as send(cu)
+			assert_difference('SampleTransfer.count',-1){
+				delete :destroy, :id => sample_transfer.id
+			}
+			assert_nil flash[:error]
+			assert_redirected_to sample_transfers_path
 		end
 
-		test "should NOT destroy sample transfer with #{cu} login and invalid id" do
-pending
+		test "should NOT destroy with invalid id #{cu} login" do
+			sample_transfer = Factory(:sample_transfer)
+			login_as send(cu)
+			assert_difference('SampleTransfer.count',0){
+				delete :destroy, :id => 0
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to sample_transfers_path
 		end
 
 	end
 
 	non_site_administrators.each do |cu|
 
-		test "should NOT destroy sample transfer with #{cu} login" do
-pending
+		test "should NOT destroy with #{cu} login" do
+			sample_transfer = Factory(:sample_transfer)
+			login_as send(cu)
+			assert_difference('SampleTransfer.count',0){
+				delete :destroy, :id => sample_transfer.id
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
 		end
 
 	end

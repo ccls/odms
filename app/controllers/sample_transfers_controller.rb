@@ -6,8 +6,8 @@ class SampleTransfersController < ApplicationController
 		:only => [:show,:index]
 	before_filter :may_update_sample_transfers_required,
 		:only => [:edit,:update,:update_status,:confirm]
-#	before_filter :may_destroy_sample_transfers_required,
-#		:only => :destroy
+	before_filter :may_destroy_sample_transfers_required,
+		:only => :destroy
 
 	before_filter :valid_id_required, 
 		:only => [:edit,:update,:destroy,:update_status]
@@ -90,6 +90,11 @@ class SampleTransfersController < ApplicationController
 #
 		flash[:error] = "Something really bad happened."
 	ensure
+		redirect_to sample_transfers_path
+	end
+
+	def destroy
+		@sample_transfer.destroy
 		redirect_to sample_transfers_path
 	end
 

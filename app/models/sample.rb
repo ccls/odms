@@ -38,6 +38,11 @@ class Sample < ActiveRecord::Base
 		sprintf('%07d',self.attributes['id']) unless new_record?
 	end
 
+	#	for destroy confirmation pop-up
+	def to_s
+		"SampleID #{sampleid}"
+	end
+
 	after_save :reindex_study_subject!
 
 protected
