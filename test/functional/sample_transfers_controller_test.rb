@@ -238,6 +238,78 @@ pending
 					oe.description }
 		end
 
+		test "should NOT update sample_transfer status with invalid sample_transfer #{cu} login" do
+			login_as send(cu)
+			st = Factory(:sample_transfer, :status => 'active')
+			SampleTransfer.any_instance.stubs(:valid?).returns(false)
+			deny_changes("SampleTransfer.find(#{st.id}).status") {
+				put :update_status, :id => st.id, :status => 'waitlist'
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "should NOT update sample_transfer status with failed save and #{cu} login" do
+			login_as send(cu)
+			st = Factory(:sample_transfer, :status => 'active')
+			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
+			deny_changes("SampleTransfer.find(#{st.id}).status") {
+				put :update_status, :id => st.id, :status => 'waitlist'
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "should NOT update sample_transfer status with invalid status and #{cu} login" do
+			login_as send(cu)
+			st = Factory(:sample_transfer, :status => 'active')
+			deny_changes("SampleTransfer.find(#{st.id}).status") {
+				put :update_status, :id => st.id, :status => 'bogus'
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "should NOT update sample_transfer status with invalid id and #{cu} login" do
+			login_as send(cu)
+			st = Factory(:sample_transfer, :status => 'active')
+			deny_changes("SampleTransfer.find(#{st.id}).status") {
+				put :update_status, :id => 0, :status => 'waitlist'
+			}
+			assert_not_nil flash[:error]
+			assert_redirected_to sample_transfers_path
+		end
+
+		test "should update sample_transfer status with #{cu} login" do
+			login_as send(cu)
+			st = Factory(:sample_transfer, :status => 'active')
+			assert_changes("SampleTransfer.find(#{st.id}).status") {
+				put :update_status, :id => st.id, :status => 'waitlist'
+			}
+			assert_not_nil assigns(:sample_transfer)
+			assert_nil flash[:error]
+			assert_redirected_to sample_transfers_path
+		end
+
+	end
+
+	non_site_editors.each do |cu|
+
+		test "should NOT update sample_transfer status with #{cu} login" do
+			login_as send(cu)
+			st = Factory(:sample_transfer, :status => 'active')
+			deny_changes("SampleTransfer.find(#{st.id}).status") {
+				put :update_status, :id => st.id, :status => 'waitlist'
+			}
+			assert_nil assigns(:sample_transfer)
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+	end
+
+	site_readers.each do |cu|
+
 		test "should get sample transfers index with #{cu} login and no transfers" do
 			login_as send(cu)
 			get :index
@@ -301,77 +373,13 @@ pending
 #			assert_equal f[1][11], case_study_subject.sex
 		end
 
-		test "should NOT update sample_transfer status with invalid sample_transfer #{cu} login" do
-			login_as send(cu)
-			st = Factory(:sample_transfer, :status => 'active')
-			SampleTransfer.any_instance.stubs(:valid?).returns(false)
-			deny_changes("SampleTransfer.find(#{st.id}).status") {
-				put :update_status, :id => st.id, :status => 'waitlist'
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to sample_transfers_path
-		end
-
-		test "should NOT update sample_transfer status with failed save and #{cu} login" do
-			login_as send(cu)
-			st = Factory(:sample_transfer, :status => 'active')
-			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
-			deny_changes("SampleTransfer.find(#{st.id}).status") {
-				put :update_status, :id => st.id, :status => 'waitlist'
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to sample_transfers_path
-		end
-
-		test "should NOT update sample_transfer status with invalid status and #{cu} login" do
-			login_as send(cu)
-			st = Factory(:sample_transfer, :status => 'active')
-			deny_changes("SampleTransfer.find(#{st.id}).status") {
-				put :update_status, :id => st.id, :status => 'bogus'
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to sample_transfers_path
-		end
-
-		test "should NOT update sample_transfer status with invalid id and #{cu} login" do
-			login_as send(cu)
-			st = Factory(:sample_transfer, :status => 'active')
-			deny_changes("SampleTransfer.find(#{st.id}).status") {
-				put :update_status, :id => 0, :status => 'waitlist'
-			}
-			assert_not_nil flash[:error]
-			assert_redirected_to sample_transfers_path
-		end
-
-		test "should update sample_transfer status with #{cu} login" do
-			login_as send(cu)
-			st = Factory(:sample_transfer, :status => 'active')
-			assert_changes("SampleTransfer.find(#{st.id}).status") {
-				put :update_status, :id => st.id, :status => 'waitlist'
-			}
-			assert_not_nil assigns(:sample_transfer)
-			assert_nil flash[:error]
-			assert_redirected_to sample_transfers_path
-		end
-
 	end
 
-	non_site_editors.each do |cu|
+	non_site_readers.each do |cu|
 
 		test "should NOT get sample transfers index with #{cu} login" do
 			login_as send(cu)
 			get :index
-			assert_not_nil flash[:error]
-			assert_redirected_to root_path
-		end
-
-		test "should NOT update sample_transfer status with #{cu} login" do
-			login_as send(cu)
-			st = Factory(:sample_transfer, :status => 'active')
-			deny_changes("SampleTransfer.find(#{st.id}).status") {
-				put :update_status, :id => st.id, :status => 'waitlist'
-			}
-			assert_nil assigns(:sample_transfer)
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
