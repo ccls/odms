@@ -371,6 +371,10 @@ module ApplicationHelper
 		(YNRDK[value]||'&nbsp;').html_safe
 	end
 
+	def ynordk(value=nil)
+		(YNORDK[value]||'&nbsp;').html_safe
+	end
+
 	def adna(value=nil)
 		(ADNA[value]||'&nbsp;').html_safe
 	end
@@ -396,6 +400,12 @@ module ApplicationHelper
 		object = instance_variable_get("@#{object_name}")
 		_wrapped_spans(object_name,method,options.update(
 			:value => (YNRDK[object.send(method)]||'&nbsp;') ) )
+	end
+
+	def _wrapped_ynordk_spans(object_name,method,options={})
+		object = instance_variable_get("@#{object_name}")
+		_wrapped_spans(object_name,method,options.update(
+			:value => (YNORDK[object.send(method)]||'&nbsp;') ) )
 	end
 
 	def _wrapped_adna_spans(object_name,method,options={})
@@ -474,7 +484,7 @@ module ApplicationHelper
 	end
 
 	%w( adna_spans date_spans datetime_spans pos_neg_spans spans yes_or_no_spans 
-			yndk_spans ynrdk_spans ynodk_spans ).each do |unwrapped_method_name|
+			yndk_spans ynrdk_spans ynodk_spans ynordk_spans ).each do |unwrapped_method_name|
 #
 #	Can't define a method that accepts a block with define_method.
 #	I don't think that I need it, so no big deal. For now.

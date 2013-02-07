@@ -103,6 +103,32 @@ class FormBuilderHelperTest < ActionView::TestCase
 		assert_equal expected, output_buffer
 	end
 
+	test "ynordk_select" do
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.ynordk_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
+<option value="1">Yes</option>
+<option value="2">No</option>
+<option value="3">Other</option>
+<option value="999">Don&#x27;t Know</option>
+<option value="888">Refused</option></select></form>}
+		assert_equal expected, output_buffer
+	end
+
+#	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
+
+	test "wrapped_ynordk_select" do
+		output_buffer = form_for(FBModel.new,:url => '/'){|f| f.wrapped_ynordk_select(:int_field) }
+		expected = %{<form accept-charset="UTF-8" action="/" class="new_fb_model" id="new_fb_model" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class='int_field ynordk_select field_wrapper'>
+<label for="fb_model_int_field">Int field</label><select id="fb_model_int_field" name="fb_model[int_field]"><option value=""></option>
+<option value="1">Yes</option>
+<option value="2">No</option>
+<option value="3">Other</option>
+<option value="999">Don&#x27;t Know</option>
+<option value="888">Refused</option></select>
+</div><!-- class='int_field ynordk_select' --></form>}
+		assert_equal expected, output_buffer
+	end
+
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "adna_select" do

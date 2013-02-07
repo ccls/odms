@@ -29,6 +29,11 @@ module FormBuilderHelper
 			{:include_blank => true}.merge(objectify_options(options)), html_options)
 	end
 
+	def ynordk_select(method,options={},html_options={})
+		@template.select(object_name, method, YNORDK.selector_options,
+			{:include_blank => true}.merge(objectify_options(options)), html_options)
+	end
+
 	def adna_select(method,options={},html_options={})
 		@template.select(object_name, method, ADNA.selector_options,
 			{:include_blank => true}.merge(objectify_options(options)), html_options)
@@ -117,7 +122,7 @@ options[:class] = [options[:class]].push('field_error').flatten if self.object.e
 			file_field
 			hour_select minute_select meridiem_select
 			grouped_collection_select pos_neg_select select sex_select text_area
-			text_field yndk_select ynodk_select ynrdk_select 
+			text_field yndk_select ynodk_select ynrdk_select ynordk_select
 		).each do |unwrapped_method_name|
 class_eval %Q"
 	def wrapped_#{unwrapped_method_name}(*args,&block)

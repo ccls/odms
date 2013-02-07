@@ -87,6 +87,17 @@ class YNRDK < TranslationTable
 		]
 	end
 end
+class YNORDK < TranslationTable
+	def self.table
+		@@table ||= [
+			{ :value => 1,   :short => 'yes',     :long => "Yes" },
+			{ :value => 2,   :short => 'no',      :long => "No" },
+			{ :value => 3,   :short => 'other',   :long => "Other" },
+			{ :value => 999, :short => 'dk',      :long => "Don't Know" },
+			{ :value => 888, :short => 'refused', :long => "Refused" }
+		]
+	end
+end
 class ADNA < TranslationTable
 	def self.table
 		@@table ||= [

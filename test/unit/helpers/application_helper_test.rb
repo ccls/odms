@@ -691,6 +691,30 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_equal "&nbsp;", ynrdk()
 	end
 
+	test "ynordk(1) should return 'Yes'" do
+		assert_equal 'Yes', ynordk(1)
+	end
+
+	test "ynordk(2) should return 'No'" do
+		assert_equal 'No', ynordk(2)
+	end
+
+	test "ynordk(3) should return 'Other'" do
+		assert_equal 'Other', ynordk(3)
+	end
+
+	test "ynordk(888) should return 'Refused'" do
+		assert_equal "Refused", ynordk(888)
+	end
+
+	test "ynordk(999) should return 'Don't Know'" do
+		assert_equal "Don't Know", ynordk(999)
+	end
+
+	test "ynordk() should return '&nbsp;'" do
+		assert_equal "&nbsp;", ynordk()
+	end
+
 	test "posneg(1) should return 'Positive'" do
 		assert_equal 'Positive', posneg(1)
 	end
@@ -772,6 +796,25 @@ class ApplicationHelperTest < ActionView::TestCase
 		@app_model = AppModel.new
 		response = HTML::Document.new(
 			wrapped_ynodk_spans(:app_model, :int_field)).root
+		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.value', :text => '&nbsp;', :count => 1
+		end
+	end
+
+	test "unwrapped _wrapped_ynordk_spans" do
+		@app_model = AppModel.new
+		response = HTML::Document.new(
+			_wrapped_ynordk_spans(:app_model, :int_field)).root
+		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
+	end
+
+	test "wrapped_ynordk_spans" do
+		@app_model = AppModel.new
+		response = HTML::Document.new(
+			wrapped_ynordk_spans(:app_model, :int_field)).root
 		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
 			assert_select 'label', :count => 0
 			assert_select 'span.label', :text => 'int_field', :count => 1

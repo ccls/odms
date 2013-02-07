@@ -28,6 +28,15 @@ class TranslationTableTest < ActiveSupport::TestCase
 			[['Yes',1],['No',2],["Don't Know",999],['Refused',888]]
 	end
 
+	test "YNORDK valid values" do
+		assert_equal YNORDK.valid_values, [1,2,3,999,888]
+	end
+
+	test "YNORDK selector options" do
+		assert_equal YNORDK.selector_options, 
+			[['Yes',1],['No',2],['Other',3],["Don't Know",999],['Refused',888]]
+	end
+
 	test "ADNA valid values" do
 		assert_equal ADNA.valid_values, [1,2,555,999]
 	end
