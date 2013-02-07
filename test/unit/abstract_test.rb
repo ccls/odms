@@ -28,7 +28,6 @@ class AbstractTest < ActiveSupport::TestCase
 		:flow_cyto_other_marker_1,
 		:flow_cyto_other_marker_2,
 		:flow_cyto_other_marker_3,
-		:flow_cyto_other_marker_4,
 		:flow_cyto_other_marker_5,
 		:response_other1_value_day_7,
 		:response_other1_value_day_14,
@@ -40,6 +39,7 @@ class AbstractTest < ActiveSupport::TestCase
 			:maximum => 4 )
 
 	assert_should_require_length( 
+		:flow_cyto_other_marker_4,
 		:is_karyotype_normal,
 		:physical_neuro,
 		:physical_other_soft_2,

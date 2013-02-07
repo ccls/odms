@@ -293,12 +293,6 @@ abstract_fields.delete('bm1d_14')
 
 
 
-#	cbf5a / blasts_are_present data is all '', 1, 2 or 9
-#	but the current datatype is a string and a text_field?
-#	this seems more YNDK
-
-
-
 
 
 abstract_fields.delete('fab1a')	#	'diagnosis_all_type')			#	TODO
@@ -309,26 +303,6 @@ abstract_fields.delete('nd5aid')	#	'reviewed_by')					#	TODO
 abstract_fields.delete('nd6aid')	#	'data_entry_by')				#	TODO
 abstract_fields.delete('createdby')	#	'created_by')					#	TODO
 abstract_fields.delete('nd7')	#	'abstract_version_number')	#	TODO
-
-
-
-
-
-
-#
-#	Tried to add all of the leftover legacy fields.
-#	Discovered that there is a limit to a row in a mysql table.
-#	It is 65535.  Assuming that this is bytes.  Now you know.
-#Mysql2::Error: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. You have to change some columns to TEXT or BLOBs: ALTER TABLE `abstracts` ADD `cy_diag_fish` varchar(255)
-#
-#	So.  What to do?
-#	Create a LegacyFieldsAbstract model and table?
-#	
-#	Only added those that had data in them.
-#	Used smaller strings and other data types
-#
-
-
 
 
 			abstract = study_subject.abstracts.create(abstract_fields) do |a|

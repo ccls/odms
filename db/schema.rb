@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130206011425) do
+ActiveRecord::Schema.define(:version => 20130207001752) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -242,7 +242,7 @@ ActiveRecord::Schema.define(:version => 20130206011425) do
     t.string   "flow_cyto_other_marker_3",                   :limit => 4
     t.string   "flow_cyto_other_marker_3_text",              :limit => 50
     t.string   "flow_cyto_other_marker_4_name",              :limit => 20
-    t.string   "flow_cyto_other_marker_4",                   :limit => 4
+    t.string   "flow_cyto_other_marker_4",                   :limit => 5
     t.string   "flow_cyto_other_marker_4_text",              :limit => 50
     t.string   "flow_cyto_other_marker_5_name",              :limit => 20
     t.string   "flow_cyto_other_marker_5",                   :limit => 4

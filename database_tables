@@ -234,7 +234,7 @@ Table: abstracts
 | flow_cyto_other_marker_3                   | varchar(4)   | YES  |     | NULL    |                |
 | flow_cyto_other_marker_3_text              | varchar(50)  | YES  |     | NULL    |                |
 | flow_cyto_other_marker_4_name              | varchar(20)  | YES  |     | NULL    |                |
-| flow_cyto_other_marker_4                   | varchar(4)   | YES  |     | NULL    |                |
+| flow_cyto_other_marker_4                   | varchar(5)   | YES  |     | NULL    |                |
 | flow_cyto_other_marker_4_text              | varchar(50)  | YES  |     | NULL    |                |
 | flow_cyto_other_marker_5_name              | varchar(20)  | YES  |     | NULL    |                |
 | flow_cyto_other_marker_5                   | varchar(4)   | YES  |     | NULL    |                |
