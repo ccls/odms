@@ -882,7 +882,7 @@ Factory.define :complete_abstract, :class => 'Abstract' do |f|
 	f.sequence(:diagnosis_is_cll) { random_yndk() }
 	f.sequence(:diagnosis_is_aml) { random_yndk() }
 	f.sequence(:diagnosis_aml_type_id){|n| n}
-	f.sequence(:diagnosis_is_other) { random_yndk() }
+	f.sequence(:diagnosis_is_other) { |n| "#{n}"}
 	f.sequence(:flow_cyto_report_found) { random_yndk() }
 	f.sequence(:received_flow_cyto_day_14){|n| n }
 	f.sequence(:received_flow_cyto_day_7){|n| n }

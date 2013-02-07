@@ -98,6 +98,7 @@ namespace :abstracts do
 
 	end	#	task :field_check => :environment do
 
+
 	task :import => :import_base do
 
 		file_name = ENV['csv_file']
@@ -115,67 +116,20 @@ namespace :abstracts do
 			exit
 		end
 		
-#		f=CSV.open(file_name, 'rb')
-#		column_names = f.readline
-#		f.close
-#
-##		expected_column_names = ["subjectid","project_id","operational_event_id","occurred_at","description","event_notes"]
-##		if column_names != expected_column_names
-##			puts
-##			puts "CSV file does not contain expected column names."
-##			puts "Expected: #{expected_column_names.inspect}"
-##			puts "Given: #{column_names.inspect}"
-##			puts
-##			exit
-##		end
-#
-#
-## ~236 fields in Abst_DB_New_Var_Names_Aug2010.csv
-## ~330 fields in fieldsandtypes.csv
-##	 489 columns in ODMS_Abstracts_xxxxxx.csv
-##	~342 columns in abstracts table
-#
-#
-#		translation_table = {}
-##		(f=CSV.open("Abst_DB_New_Var_Names_Aug2010.csv",'rb',{ 
-#		(f=CSV.open("fieldsandtypes.csv",'rb',{ 
-#			:headers => true })).each do |line|
-#			next if line['current_field_name'].blank?
-#			translation_table[line['current_field_name'].upcase] = line['new_field_name']
-#		end
-#
-#		initial_translation_keys_count = translation_table.keys.length
-#
-###		puts column_names
-#		column_names.each do |name|
-#			if translation_table[name.upcase]
-####				puts "#{name} translates to #{translation_table[name]}"
-#				translation_table.delete(name.upcase)
-#			else
-#				puts "--- CSV Column Name :#{name}: NOT FOUND in translation table"
-#			end
-#		end
-#
-#		puts "--- Translation table not used in csv file."
-#		puts translation_table.inspect
-#
-#		puts "Translatable keys: #{initial_translation_keys_count}"
-#		puts "CSV Columns: #{column_names.length}"
-#
-##exit
-
-#long_fields = []
-
 		#	will be the new names
 		new_yndk_attributes = Abstract.validators.detect{|v| 
 			v.options[:in] == YNDK.valid_values }.attributes.collect(&:to_s)	
+#		new_ynordk_attributes = Abstract.validators.detect{|v| 
+#			v.options[:in] == YNORDK.valid_values }.attributes.collect(&:to_s)	
 
 		new_to_old = Abstract.aliased_attributes.invert.with_indifferent_access
 		yndk_attributes = new_yndk_attributes.collect{|n| new_to_old[n] }
+#		ynordk_attributes = new_ynordk_attributes.collect{|n| new_to_old[n] }
 
 		Abstract.destroy_all
 
 		error_counting = {}
+columns_hash = {}.with_indifferent_access
 
 		f = CSV.open(file_name,'rb')
 		total_lines = f.readlines.size	#	includes header, but so does f.lineno
@@ -187,6 +141,11 @@ namespace :abstracts do
 		#	DO NOT COMMENT OUT THE HEADER LINE OR IT RAISES CRYPTIC ERROR
 		(f=CSV.open(file_name, 'rb',{ :headers => true })).each do |line|
 			puts "Processing line #{f.lineno}/#{total_lines}"
+
+line.each { |column,value|
+	columns_hash[column] ||= Hash.new(0).with_indifferent_access
+	columns_hash[column][value.to_s] += 1 # don't want a nil key as won't sort
+}
 
 			#	"subjectid","project_id","operational_event_id","occurred_at","description","event_notes"
 
@@ -229,9 +188,30 @@ namespace :abstracts do
 				#	convert YNDK fields 9 to 999
 				abstract_fields[key] = 999 if abstract_fields[key].to_s == '9' &&
 					yndk_attributes.include?(key.to_s)
-				#	convert YNDK fields 0 to 2 (used to be true(1) or false(0), now yes(1) or no(2))
-				abstract_fields[key] = 2 if abstract_fields[key].to_s == '0' &&
-					yndk_attributes.include?(key.to_s)
+
+#				#	convert YNDK fields 0 to 2 (used to be true(1) or false(0), now yes(1) or no(2))
+#				#	NO.  Boolean, yes, but not YNDK
+#				abstract_fields[key] = 2 if abstract_fields[key].to_s == '0' &&
+#					yndk_attributes.include?(key.to_s)
+#				abstract_fields[key] = 888 if abstract_fields[key].to_s == '0' &&
+#					yndk_attributes.include?(key.to_s)
+#				abstract_fields[key] = nil if abstract_fields[key].to_s == '0' &&
+#					yndk_attributes.include?(key.to_s)
+
+#	888/Refused not ok in YNDK
+
+#				abstract_fields[key] = nil if abstract_fields[key].to_s == '-1' &&
+#					yndk_attributes.include?(key.to_s)
+#				abstract_fields[key] = '' if abstract_fields[key].to_s == '3' &&
+#					yndk_attributes.include?(key.to_s)
+#				abstract_fields[key] = 999 if abstract_fields[key].to_s == '?' &&
+#					yndk_attributes.include?(key.to_s)
+#				abstract_fields[key] = 999 if abstract_fields[key].to_s == 'maybe' &&
+#					yndk_attributes.include?(key.to_s)
+
+#	cbf6a,peripheral_blood_in_csf,maybe,1
+#	cim3,mediastinal_mass_present,?,1
+
 			end
 
 			#	fc1b / flow_cyto_report_on 
@@ -241,9 +221,10 @@ namespace :abstracts do
 			#	bm1b_28 / response_report_on_day_28
 			#	bm1b_14 / response_report_on_day_14
 			#	fc1b_14 / response_flow_cyto_day_14_on
+			#	fc1b_7 / response_flow_cyto_day_7_on
 			#	is either '' or '00:00.0'
 			#	kinda expecting a date so DESTROY ALL HUMANS
-			%w( fc1b hs2 pe12a bm1b_7 bm1b_28 bm1b_14 fc1b_14 ).each do |f|
+			%w( fc1b hs2 pe12a bm1b_7 bm1b_28 bm1b_14 fc1b_7 fc1b_14 ).each do |f|
 				abstract_fields.delete(f)
 			end
 
@@ -268,9 +249,6 @@ namespace :abstracts do
 			end
 
 
-
-
-
 #	need to deal with
 
 #	expecting a YNDK code, but all are 14.  What to do?
@@ -292,19 +270,6 @@ abstract_fields.delete('bm1d_14')
 # integers, floats, dates, fractions, equations, string. all of the above
 
 
-
-
-
-abstract_fields.delete('fab1a')	#	'diagnosis_all_type')			#	TODO
-abstract_fields.delete('fab4a')	#	'diagnosis_aml_type')			#	TODO
-#abstract_fields.delete('pe12')	#	'vital_status')						#	TODO
-abstract_fields.delete('nd4aid')	#	'abstracted_by')				#	TODO
-abstract_fields.delete('nd5aid')	#	'reviewed_by')					#	TODO
-abstract_fields.delete('nd6aid')	#	'data_entry_by')				#	TODO
-abstract_fields.delete('createdby')	#	'created_by')					#	TODO
-abstract_fields.delete('nd7')	#	'abstract_version_number')	#	TODO
-
-
 			abstract = study_subject.abstracts.create(abstract_fields) do |a|
 				a.entry_1_by_uid = 859908	#	protected
 				a.entry_2_by_uid = 859908	#	protected
@@ -316,11 +281,10 @@ abstract_fields.delete('nd7')	#	'abstract_version_number')	#	TODO
 				error_file.puts "Line #:#{f.lineno}: " <<
 					"#{abstract.errors.full_messages.to_sentence}"
 
-abstract.errors.each do |e|
-	error_counting[e] ||= Hash.new(0)
-	error_counting[e][abstract.send(e)] += 1
-#	puts "#{e}:#{abstract.send(e)}"
-end
+				abstract.errors.each do |e|
+					error_counting[e] ||= Hash.new(0)
+					error_counting[e][abstract.send(e)] += 1
+				end
 
 #
 #	This data contains special MS characters like the single char "..."
@@ -330,39 +294,43 @@ end
 				error_file.puts abstract.inspect
 				error_file.puts
 			else
-#puts abstract_fields.inspect
 				abstract.reload
-#				assert_string_equal abstract.study_subject_id, study_subject.id,
-#					"Study Subject"
-abstract_fields.keys.each do |key|
-##				assert_string_equal abstract.send(key), abstract_fields[key], key
-				assert_equal abstract.send(key), abstract_fields[key], key
-end
+				abstract_fields.keys.each do |key|
+					assert_equal abstract.send(key), abstract_fields[key], key
+				end
 			end
 
 		end	#	(f=CSV.open(file_name,
 
-#puts long_fields.sort
-
 		error_file.close
+		negative_childids_file.close
 
-puts "Abstract count:#{Abstract.count}"
+		puts "Abstract count:#{Abstract.count}"
 
-puts "Abstract Error Counts"
-puts error_counting.inspect
-error_counts_file = File.open('abstracts_error_counts.txt','w')
-error_counting.keys.each do |field|
-	error_counts_file.puts field
-	error_counting[field].each do |k,v|
-		error_counts_file.puts "  #{k} : #{v}"
-	end
-end
+		puts "Abstract Error Counts"
+		puts error_counting.inspect
+		error_counts_file = File.open('abstracts_error_counts.txt','w')
+		error_counting.keys.each do |field|
+			error_counts_file.puts field
+			error_counting[field].each do |k,v|
+				error_counts_file.puts "  #{k} : #{v}"
+			end
+		end
+		error_counts_file.close
 
-
-negative_childids_file.close
-
-
-#		exit;	#	MUST EXPLICITLY exit or rake will try to run arguments as tasks
+		aliases = Abstract.aliased_attributes
+		error_counts_file = File.open('abstracts_error_counts.csv','w')
+		error_counts_file.puts %w( old_field new_field value count ).to_csv
+		error_counting.keys.each do |new_column|
+			column = new_to_old[new_column]
+			columns_hash[column].keys.sort.each do |value|
+				error_counts_file.puts [column,
+					((aliases.has_key?(column))?aliases[column]:''),
+					value,columns_hash[column][value]
+				].to_csv
+			end
+		end
+		error_counts_file.close
 	end	#	task :import => :import_base do
 
 end	#	namespace :abstracts do

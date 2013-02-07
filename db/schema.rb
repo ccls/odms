@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130207001752) do
+ActiveRecord::Schema.define(:version => 20130207213344) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(:version => 20130207001752) do
     t.integer  "diagnosis_is_cll"
     t.integer  "diagnosis_is_aml"
     t.integer  "diagnosis_aml_type_id"
-    t.integer  "diagnosis_is_other"
+    t.string   "diagnosis_is_other",                         :limit => 50
     t.integer  "flow_cyto_report_found"
     t.integer  "received_flow_cyto_day_14"
     t.integer  "received_flow_cyto_day_7"
@@ -439,6 +439,11 @@ ActiveRecord::Schema.define(:version => 20130207001752) do
     t.string   "sty3r",                                      :limit => 10
     t.integer  "sty3r1"
     t.integer  "verified"
+    t.integer  "abstracted_by",                              :limit => 2
+    t.integer  "reviewed_by",                                :limit => 2
+    t.integer  "data_entry_by",                              :limit => 2
+    t.integer  "abstract_version_number",                    :limit => 2
+    t.string   "created_by",                                 :limit => 20
   end
 
   add_index "abstracts", ["study_subject_id"], :name => "index_abstracts_on_study_subject_id"

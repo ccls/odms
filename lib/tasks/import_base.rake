@@ -45,7 +45,7 @@ namespace :app do
 
 		def assert_equal(a,b,field)
 			classes = [a,b].collect(&:class)
-puts classes
+#puts classes
 			if( [a,b].any?{|x| x.is_a?(Date) })
 				assert_date_equal(a,b,field)
 			elsif( [a,b].any?{|x| x.is_a?(DateTime) ||
@@ -57,7 +57,7 @@ puts classes
 #puts "-#{a}-#{b}-"
 #				assert_string_equal( (a) ? true : false , (b) ? true : false, field)
 
-				puts "Converting #{a} and #{b}"
+#				puts "Converting #{a} and #{b}"
 				new_a = if( [NilClass,FalseClass,TrueClass].include?( a.class ) )
 					a
 				else
@@ -68,7 +68,7 @@ puts classes
 				else
 					( b.to_i == 1 )
 				end
-				puts "Comparing #{new_a} to #{new_b}"
+#				puts "Comparing #{new_a} to #{new_b}"
 				assert_string_equal(new_a,new_b,field)
 
 			elsif( [a,b].any?{|x| x.is_a?(BigDecimal) or x.is_a?(Fixnum) })

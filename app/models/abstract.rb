@@ -221,11 +221,11 @@ class Abstract < ActiveRecord::Base
 	alias_attribute :fab_b_lineage, :diagnosis_is_b_all
 	alias_attribute :fab_t_lineage, :diagnosis_is_t_all
 	alias_attribute :fab1, :diagnosis_is_all
-	alias_attribute :fab1a, :diagnosis_all_type
+	alias_attribute :fab1a, :diagnosis_all_type_id
 	alias_attribute :fab2, :diagnosis_is_cml
 	alias_attribute :fab3, :diagnosis_is_cll
 	alias_attribute :fab4, :diagnosis_is_aml
-	alias_attribute :fab4a, :diagnosis_aml_type
+	alias_attribute :fab4a, :diagnosis_aml_type_id
 	alias_attribute :fab5, :diagnosis_is_other
 	alias_attribute :fc1a, :flow_cyto_report_found
 	alias_attribute :fc1a_14, :received_flow_cyto_day_14

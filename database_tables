@@ -131,7 +131,7 @@ Table: abstracts
 | diagnosis_is_cll                           | int(11)      | YES  |     | NULL    |                |
 | diagnosis_is_aml                           | int(11)      | YES  |     | NULL    |                |
 | diagnosis_aml_type_id                      | int(11)      | YES  |     | NULL    |                |
-| diagnosis_is_other                         | int(11)      | YES  |     | NULL    |                |
+| diagnosis_is_other                         | varchar(50)  | YES  |     | NULL    |                |
 | flow_cyto_report_found                     | int(11)      | YES  |     | NULL    |                |
 | received_flow_cyto_day_14                  | int(11)      | YES  |     | NULL    |                |
 | received_flow_cyto_day_7                   | int(11)      | YES  |     | NULL    |                |
@@ -431,6 +431,11 @@ Table: abstracts
 | sty3r                                      | varchar(10)  | YES  |     | NULL    |                |
 | sty3r1                                     | int(11)      | YES  |     | NULL    |                |
 | verified                                   | int(11)      | YES  |     | NULL    |                |
+| abstracted_by                              | smallint(6)  | YES  |     | NULL    |                |
+| reviewed_by                                | smallint(6)  | YES  |     | NULL    |                |
+| data_entry_by                              | smallint(6)  | YES  |     | NULL    |                |
+| abstract_version_number                    | smallint(6)  | YES  |     | NULL    |                |
+| created_by                                 | varchar(20)  | YES  |     | NULL    |                |
 +--------------------------------------------+--------------+------+-----+---------+----------------+
 Table: address_types
 +-------------+--------------+------+-----+---------+----------------+

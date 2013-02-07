@@ -237,6 +237,7 @@
   - :ucb_fish_results
   - :fab_classification
   - :diagnosis_icdo_number
+  - :diagnosis_is_other
   :length:
     :maximum: 50 
   :allow_blank: true
@@ -314,7 +315,7 @@
   - :diagnosis_is_b_all
   - :diagnosis_is_cll
   - :diagnosis_is_cml
-  - :diagnosis_is_other
+#  - :diagnosis_is_other
   - :diagnosis_is_t_all
   - :discharge_summary_found
   - :flow_cyto_num_results_available
@@ -368,4 +369,158 @@
   :inclusion:
     :in: <%= POSNEG.valid_values %>
   :allow_nil: true
+
+
+#
+#	Add this for all integers that AREN'T YNDK, YNODK, ...
+#
+-
+  :attributes:
+#  - :abstract_version_id
+  - :abstractor_id
+  - :att13
+#  - :blasts_are_present		#	YNDK
+  - :bm1d_14_int
+  - :bm1d_28_int
+#  - :cbc_percent_blasts_unknown	#	boolean
+#  - :cbc_report_found		#	YNDK
+  - :cbf6b
+  - :cd5_7
+#  - :cerebrospinal_fluid_report_found		#	YNDK
+#  - :chemo_protocol_report_found		#	YNDK
+#  - :chest_ct_medmass_present		#	YNDK
+#  - :chest_imaging_report_found		#	YNDK
+  - :csf_red_blood_count
+  - :cy_chrom01
+  - :cy_chrom02
+  - :cy_compkary
+  - :cy_compkaryb
+  - :cy_deletion
+  - :cy_diag_conv
+  - :cy_diag_fish
+  - :cy_metaphase01
+  - :cy_metaphase02
+  - :cy_tri10_fish
+  - :cy_tri17_fish
+  - :cy_tri21_fish
+  - :cy_tri21_pheno_old
+  - :cy_tri4_fish
+  - :cy_tri5_fish
+#  - :cytogen_hospital_fish_done		#	YNDK
+#  - :cytogen_inv16		#	YNDK
+#  - :cytogen_is_hyperdiploidy		#	YNDK
+#  - :cytogen_karyotype_done		#	YNDK
+#  - :cytogen_report_found		#	YNDK
+#  - :cytogen_t119		#	YNDK
+#  - :cytogen_t1221		#	YNDK
+#  - :cytogen_t1517		#	YNDK
+#  - :cytogen_t821		#	YNDK
+#  - :cytogen_t922		#	YNDK
+#  - :cytogen_trisomy10		#	YNDK
+#  - :cytogen_trisomy17		#	YNDK
+#  - :cytogen_trisomy21		#	YNDK
+#  - :cytogen_trisomy4		#	YNDK
+#  - :cytogen_trisomy5		#	YNDK
+#  - :cytogen_ucb_fish_done		#	YNDK
+  - :diagnosis_all_type_id
+  - :diagnosis_aml_type_id
+#  - :diagnosis_is_all		#	YNDK
+#  - :diagnosis_is_aml		#	YNDK
+#  - :diagnosis_is_b_all		#	YNDK
+#  - :diagnosis_is_cll		#	YNDK
+#  - :diagnosis_is_cml		#	YNDK
+#  - :diagnosis_is_other		#	YNDK
+#  - :diagnosis_is_t_all		#	YNDK
+#  - :discharge_summary_found		#	YNDK
+  - :dischargesummaryfound
+  - :fabclass
+#  - :flow_cyto_num_results_available		#	YNDK
+#  - :flow_cyto_report_found		#	YNDK
+#  - :h_and_p_reports_found		#	YNDK
+#  - :hepatomegaly_present		#	YNDK
+#  - :histo_report_found		#	YNDK
+  - :icdocodeid_1990
+  - :icdocodeid_2000
+#  - :id
+#  - :is_cytogen_hosp_fish_t1221_done		#	YNDK
+#  - :is_down_syndrome_phenotype		#	YNDK
+#  - :is_h_and_p_report_found	#	boolean
+#  - :is_verification_complete	#	boolean
+#  - :marrow_aspirate_report_found		#	YNDK
+#  - :marrow_biopsy_report_found		#	YNDK
+#  - :mediastinal_mass_present		#	YNDK
+#  - :normal_cytogen		#	YNDK
+  - :number_metaphase_tested_karyotype
+  - :number_normal_metaphase_karyotype
+  - :number_of_blasts
+#  - :patient_on_chemo_protocol		#	YNDK
+  - :pe13
+  - :pe7
+#  - :peripheral_blood_in_csf		#	YNDK
+#  - :ploidy_report_found		#	YNDK
+#  - :received_bone_marrow_aspirate		#	YNDK
+#  - :received_bone_marrow_biopsy		#	YNDK
+#  - :received_cbc		#	YNDK
+#  - :received_chemo_protocol		#	YNDK
+#  - :received_chest_ct		#	YNDK
+#  - :received_chest_xray		#	YNDK
+#  - :received_csf		#	YNDK
+#  - :received_cytogenetics		#	YNDK
+#  - :received_discharge_summary		#	YNDK
+  - :received_flow_cyto_day_14
+  - :received_flow_cyto_day_7
+#  - :received_flow_cytometry		#	YNDK
+#  - :received_h_and_p		#	YNDK
+#  - :received_hla_typing		#	YNDK
+#  - :received_other_reports		#	YNDK
+#  - :received_ploidy		#	YNDK
+#  - :received_resp_to_therapy		#	YNDK
+  - :response_blasts_day_14
+  - :response_blasts_day_28
+  - :response_blasts_day_7
+#  - :response_day14or28_flag		#	YNDK
+#  - :response_day30_is_in_remission		#	YNDK
+  - :response_day_14_days_since_diagnosis
+  - :response_day_14_days_since_treatment_began
+  - :response_day_28_days_since_diagnosis
+  - :response_day_28_days_since_treatment_began
+  - :response_day_7_days_since_diagnosis
+  - :response_day_7_days_since_treatment_began
+  - :response_in_remission_day_14
+#  - :response_is_inconclusive_day_14		#	YNDK
+#  - :response_is_inconclusive_day_21		#	YNDK
+#  - :response_is_inconclusive_day_28		#	YNDK
+#  - :response_is_inconclusive_day_7		#	YNDK
+  - :response_marrow_kappa_day_14
+  - :response_marrow_kappa_day_7
+  - :response_marrow_lambda_day_14
+  - :response_marrow_lambda_day_7
+#  - :response_report_found_day_14		#	YNDK
+#  - :response_report_found_day_28		#	YNDK
+#  - :response_report_found_day_7		#	YNDK
+  - :reviewer_id
+#  - :splenomegaly_present		#	YNDK
+#  - :study_subject_id
+  - :sty3g1
+  - :sty3h1
+  - :sty3i1
+  - :sty3l1
+  - :sty3m1
+  - :sty3n1
+  - :sty3o1
+  - :sty3p1
+  - :sty3q1
+  - :sty3r1
+#  - :tdt_found_in_flow_cyto_chart	#	boolean
+#  - :tdt_found_in_separate_report	#	boolean
+  - :tdt_numerical_result
+#  - :tdt_often_found_flow_cytometry		#	YNDK
+#  - :tdt_positive_or_negative	#	POSNEG
+#  - :tdt_report_found		#	YNDK
+  - :verified
+#  - :vital_status_code
+  :numericality: 
+    :only_integer: true
+  :allow_blank: true
+
 

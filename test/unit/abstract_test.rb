@@ -224,6 +224,7 @@ class AbstractTest < ActiveSupport::TestCase
 		:ucb_fish_results,
 		:fab_classification,
 		:diagnosis_icdo_number,
+		:diagnosis_is_other,
 			:maximum => 50 )
 
 	assert_should_require_length( 
@@ -605,7 +606,6 @@ class AbstractTest < ActiveSupport::TestCase
 		:diagnosis_is_b_all,
 		:diagnosis_is_cll,
 		:diagnosis_is_cml,
-		:diagnosis_is_other,
 		:diagnosis_is_t_all,
 		:discharge_summary_found,
 		:flow_cyto_num_results_available,
