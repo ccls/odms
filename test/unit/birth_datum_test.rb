@@ -184,6 +184,34 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_nil birth_datum.match_confidence
 	end
 
+
+
+
+
+
+
+
+
+	test "bogus_birth_datum factory should create odms exception if has matching case" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = Factory(:bogus_birth_datum,:master_id => study_subject.icf_master_id )
+		assert_equal 1,
+			birth_datum.odms_exceptions.length
+		assert_equal 'birth data append',
+			birth_datum.odms_exceptions.first.name
+		assert_match /Unknown case_control_flag :bogus:/,
+			birth_datum.odms_exceptions.first.to_s
+	end
+
+
+
+
+
+
+
+
+
+
 	test "case_birth_datum factory with matching case should create operational event" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		assert_difference("study_subject.operational_events.where(" <<
@@ -894,6 +922,24 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('Address.count',0) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		} }
+	end
+
+	test "should mark associated case bc_requests as complete" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert_difference('BcRequest.active.count',1){
+			study_subject.bc_requests.create(:status => 'active')
+		}
+		assert_difference('BcRequest.count',0){
+		assert_difference('BcRequest.active.count',-1){
+		assert_difference('BcRequest.complete.count',1){
+			Factory(:case_birth_datum,:master_id => study_subject.icf_master_id )
+		} } }
+		bcr = study_subject.bc_requests.first
+		assert_not_nil bcr.is_found
+		assert_not_nil bcr.returned_on
+		assert_equal Date.today, bcr.returned_on
+		assert_not_nil bcr.notes
+		assert_equal "USC's match confidence = definite.", bcr.notes
 	end
 
 protected
