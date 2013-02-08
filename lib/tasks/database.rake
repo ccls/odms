@@ -66,7 +66,7 @@ namespace :db do
 
 			end
 		end
-		exit
+		exit	#	REQUIRED OR WILL ATTEMPT TO PROCESS ARGUMENTS AS RAKE TASK
 	end
 
 	desc "Dump MYSQL table descriptions."
@@ -100,6 +100,71 @@ namespace :db do
 			#		puts column.keys Extra Default Null Type Field Key
 			#	end
 		end
+	end
+
+
+
+	desc "Calculate row size"
+	task :row_sizes => :environment do
+		puts
+		puts "FYI: This task ONLY works on MYSQL databases."
+		puts
+		config = ActiveRecord::Base.connection.instance_variable_get(:@config)
+		#=> {:adapter=>"mysql", :host=>"localhost", :password=>nil, 
+		#		:username=>"root", :database=>"my_development", :encoding=>"utf8"}
+
+		tables = ActiveRecord::Base.connection.execute('show tables;').to_a.flatten.sort
+		require 'nokogiri'
+
+		while( table = tables.shift ) do
+#		begin
+#			table = tables.first
+			puts "Table: #{table}"
+
+			#	may have to include host and port
+			command = "mysql -X " <<
+				"--user=#{config[:username]} " <<
+				"--password='#{config[:password]}' " <<
+				"--execute='describe #{table}' " <<
+				config[:database]
+
+#			puts command
+			xml_doc = Nokogiri::XML(`#{command}`)
+
+			#  <row>
+			#	<field name="Field">id</field>
+			#	<field name="Type">int(11)</field>
+			#	<field name="Null">NO</field>
+			#	<field name="Key">PRI</field>
+			#	<field name="Default" xsi:nil="true" />
+			#	<field name="Extra">auto_increment</field>
+			#  </row>
+			table_size = 0
+			#	http://www.w3schools.com/xpath/xpath_syntax.asp
+			xml_doc.xpath("//row/field[@name='Type']").each do |field|
+				field_size = case field.text
+					when /tinyint/ then 1
+					when /smallint/ then 2
+					when /mediumint/ then 3
+					when /bigint/ then 8
+					when /int/ then 4			#	or integer (match last as would match above)
+					when /double/ then 4
+					when /float/ then 4
+					when /datetime/ then 8
+					when /timestamp/ then 4
+					when /year/ then 1
+					when /date/ then 3
+					when /time/ then 3
+					when /varchar\(\d+\)/ then field.text.scan(/varchar\((\d+)\)/).first.first.to_i
+					else 100	#	just a guess
+#						puts field
+				end
+#				puts "#{field.name} - #{field.text} - #{field_size}"
+				table_size += field_size
+			end
+			puts table_size
+		end
+
 	end
 
 end	#	namespace :db do
