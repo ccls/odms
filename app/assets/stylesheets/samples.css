@@ -22,9 +22,11 @@ div.pagination.wrapper {
 div.pagination.wrapper div.pagination {
 	display:inline;
 }
+label.jump_to_page,
 div.pagination.wrapper label {
 	margin-left: 30px;
 }
+input.jump_to_page,
 div.pagination.wrapper input {
 	width: 30px;
 }

@@ -8,6 +8,13 @@
 	[['ANY','OR'],['ALL','AND']], params[:operator] ) %>
  of the following: 
 <%= submit_tag "Find", :id => nil, :name => nil  %>
+<%#
+
+	moved jump to page to top so can add destroy buttons
+
+-%>
+<label class='jump_to_page'>jump to page:</label>
+<%= text_field_tag :page, params[:page], :class => 'jump_to_page' %>
 </p>
 <%#
 
@@ -21,10 +28,7 @@
 <div><%= text_field_tag :sampleid, params[:sampleid] %></div>
 <div><label for='sample_type'>sample type:</label></div>
 <div>
-<%#= select_tag :sample_type_id, "<option value=''></option>" + SampleType.roots.collect{|s|[["<option#{" selected='selected'" if s.id == params[:sample_type_id].to_i} value='#{s.id}' class='root'>#{s.to_s}</option>"]] + s.children.collect{|c| ["<option#{" selected='selected'" if c.id == params[:sample_type_id].to_i} value='#{c.id}' class='child'>#{c.to_s}</option>"] }}.flatten.join("\n") %>
-
 <%= select_tag :sample_type_id, ("<option value=''></option>" + SampleType.roots.collect{|s|[["<option#{" selected='selected'" if s.id == params[:sample_type_id].to_i} value='#{s.id}'>#{h(s.to_s)}</option>"]] + s.children.collect{|c| ["<option#{" selected='selected'" if c.id == params[:sample_type_id].to_i} value='#{c.id}'> - #{h(c.to_s)}</option>"] }}.flatten.join("\n")).html_safe %>
-
 </div>
 </div><!-- tablerow -->
 
@@ -56,6 +60,11 @@
 </div><!-- tablerow -->
 </div><!-- table -->
 
+
+<% end %><%# form_tag(find_samples_path ... %>
+
+
+
 <hr/>
 <% if @samples.length > 0 %>
 <table id='samples'><thead><tr>
@@ -65,6 +74,7 @@
 <th><%= sort_link('type') %></th>
 <th><%= sort_link('subtype') %></th>
 <th><%= sort_link('state','status') %></th>
+<th>&nbsp;</th>
 </tr></thead><tbody>
 <%= render @samples %>
 </tbody></table>
@@ -75,7 +85,5 @@
 
 <div class='pagination wrapper'>
 <%= will_paginate @samples %>
-<label>jump to page:</label>
-<%= text_field_tag :page, params[:page] %>
 </div>
-<% end %><%# form_tag(find_samples_path ... %>
+<%# end %><%# form_tag(find_samples_path ... %>
