@@ -8,6 +8,7 @@ namespace :automate do
 		puts "Begin.(#{Time.now})"
 		puts "In automate:update_from_icf_master_tracker"
 		at_exit{		
+			#	if task doesn't complete, destroy the csv file so will run again
 			if File.exists?("ICF_Master_Tracker.csv")
 				puts "Removing ICF Master Tracker"
 				File.delete("ICF_Master_Tracker.csv")
@@ -44,37 +45,58 @@ namespace :automate do
 		f=CSV.open("ICF_Master_Tracker.csv",'rb')
 		actual_columns = f.readline
 		f.close
-		expected_columns = %w(master_id case_master_id control_number 
-			date_control_released master_id_mother language record_owner 
-			record_status record_status_date date_received last_attempt 
-			last_disposition curr_phone record_sent_for_matching 
-			record_received_from_matching sent_pre_incentive released_to_cati 
-			confirmed_cati_contact refused deceased_notification 
-			screened ineligible_reason confirmation_packet_sent 
-			cati_protocol_exhausted new_phone_released_to_cati 
-			plea_notification_sent case_returned_for_new_info 
-			case_returned_from_berkeley cati_complete kit_mother_sent 
-			kit_infant_sent kit_child_sent kid_adolescent_sent kit_mother_refused_code 
-			kit_child_refused_code no_response_to_plea response_received_from_plea 
-			sent_to_in_person_followup kit_mother_received kit_child_received 
-			thank_you_sent physician_request_sent physician_response_received 
-			vaccine_auth_received recollect)
 
-		if actual_columns.sort != expected_columns.sort
+#		expected_columns = %w(master_id case_master_id control_number 
+#			date_control_released master_id_mother language record_owner 
+#			record_status record_status_date date_received last_attempt 
+#			last_disposition curr_phone record_sent_for_matching 
+#			record_received_from_matching sent_pre_incentive released_to_cati 
+#			confirmed_cati_contact refused deceased_notification 
+#			screened ineligible_reason confirmation_packet_sent 
+#			cati_protocol_exhausted new_phone_released_to_cati 
+#			plea_notification_sent case_returned_for_new_info 
+#			case_returned_from_berkeley cati_complete kit_mother_sent 
+#			kit_infant_sent kit_child_sent kid_adolescent_sent kit_mother_refused_code 
+#			kit_child_refused_code no_response_to_plea response_received_from_plea 
+#			sent_to_in_person_followup kit_mother_received kit_child_received 
+#			thank_you_sent physician_request_sent physician_response_received 
+#			vaccine_auth_received recollect)
+#
+#		if actual_columns.sort != expected_columns.sort
+#			Notification.plain(
+#				"ICF Master Tracker has unexpected column names. Skipping.<br/>\n" <<
+#					"Expected ...<br/>\n#{expected_columns.join(',')}<br/>\n" <<
+#					"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" <<
+#					"Diffs(E-A)...<br/>\n#{(expected_columns - actual_columns).join(',')}<br/>\n"<<
+#					"Diffs(A-E)...<br/>\n#{(actual_columns - expected_columns).join(',')}<br/>\n", 
+##
+##	Note that the comparison above is a "one-way diff"
+##		a-b != b-a
+##
+#				email_options.merge({
+#					:subject => "ODMS: Unexpected or missing columns in ICF Master Tracker" })
+#			).deliver
+#			abort( "Unexpected column names in ICF Master Tracker" )
+#		end
+
+
+
+		unless actual_columns.include?('master_id')
 			Notification.plain(
-				"ICF Master Tracker has unexpected column names. Skipping.<br/>\n" <<
-					"Expected ...<br/>\n#{expected_columns.join(',')}<br/>\n" <<
-					"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" <<
-					"Diffs(E-A)...<br/>\n#{(expected_columns - actual_columns).join(',')}<br/>\n"<<
-					"Diffs(A-E)...<br/>\n#{(actual_columns - expected_columns).join(',')}<br/>\n", 
-#
-#	Note that the comparison above is a "one-way diff"
-#		a-b != b-a
-#
+				"ICF Master Tracker missing master_id column. Skipping.\n",
 				email_options.merge({
-					:subject => "ODMS: Unexpected or missing columns in ICF Master Tracker" })
+					:subject => "ODMS: ICF Master Tracker missing master_id column" })
 			).deliver
-			abort( "Unexpected column names in ICF Master Tracker" )
+			abort( "ICF Master Tracker missing master_id column." )
+		end
+
+		unless actual_columns.include?('cati_complete')
+			Notification.plain(
+				"ICF Master Tracker missing cati_complete column. Skipping.\n",
+				email_options.merge({
+					:subject => "ODMS: ICF Master Tracker missing cati_complete column" })
+			).deliver
+			abort( "ICF Master Tracker missing cati_complete column." )
 		end
 
 		puts "Processing #{mod_time}..."
