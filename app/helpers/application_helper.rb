@@ -158,7 +158,7 @@ module ApplicationHelper
 					:class => ((current == :hospital)?'current':nil) ) if study_subject.is_case?
 
 			links += [
-				link_to( "Birth Record", study_subject_birth_record_path(study_subject),
+				link_to( "Birth Records", study_subject_birth_records_path(study_subject),
 					:class => ((current == :birth_record)?'current':nil) )
 			] if( logged_in? and current_user.may_administrate? )
 

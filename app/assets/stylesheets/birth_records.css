@@ -1,0 +1,5 @@
+table.birth_records th,
+table.birth_records td {
+	border: 1px solid gray;
+	text-align: center;
+}

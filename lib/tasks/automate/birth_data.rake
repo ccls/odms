@@ -9,6 +9,12 @@ namespace :automate do
 		local_birth_data_dir = 'birth_data'
 		FileUtils.mkdir_p(local_birth_data_dir) unless File.exists?(local_birth_data_dir)
 
+
+#
+#	Where are the birth data files?
+#	Naming convention?
+#
+
 #		puts "About to scp -p birth_data files"
 #	S:\CCLS\FieldOperations\ICF\DataTransfers\USC_control_matches\Birth_Certificate_Match_Files
 #		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_birth_data/birth_data_*.csv ./#{local_birth_data_dir}/")
@@ -64,9 +70,9 @@ namespace :automate do
 	
 				puts birth_data_file
 	
-#				f=CSV.open(birth_data_file,'rb')
-#				actual_columns = f.readline
-#				f.close
+				f=CSV.open(birth_data_file,'rb')
+				actual_columns = f.readline
+				f.close
 				f = CSV.open(birth_data_file,'rb')
 				total_lines = f.readlines.size	#	includes header, but so does f.lineno
 				f.close
@@ -89,10 +95,25 @@ namespace :automate do
 					puts line
 
 					birth_datum_line = line.to_hash.with_indifferent_access
+raise "column count mismatch :#{birth_datum_line.keys.length}:#{actual_columns.length}:" if ( birth_datum_line.keys.length != actual_columns.length )
 					birth_datum_line.delete(:ignore1)
 					birth_datum_line.delete(:ignore2)
 					birth_datum_line.delete(:ignore3)
 					birth_datum = BirthDatum.new(birth_datum_line)
+					birth_datum.save!
+
+
+					#	as we appear to be keeping the BirthDatum model
+					#	we shouldn't have to do anything else as the BirthDatum
+					#	model has callbacks for doing post processing
+
+
+					#	TODO should birth_data be edittable?
+					#	TODO should the callbacks be moved to rake task?
+
+
+
+
 	
 #					icf_master_id = line['icf_master_id'] || line['masterid']
 #		

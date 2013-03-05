@@ -22,7 +22,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 			birth_datum = Factory(:birth_datum,
 				:study_subject => study_subject )
 			login_as send(cu)
-			get :show, :study_subject_id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'show'
@@ -31,7 +31,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 		test "should show birth_record with no birth record and #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			get :show, :study_subject_id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'show'
@@ -40,7 +40,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 		test "should NOT show birth_record with invalid study_subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
-			get :show, :study_subject_id => 0
+			get :index, :study_subject_id => 0
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
@@ -52,7 +52,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 		test "should NOT show birth_record with #{cu} login" do
 			study_subject = Factory(:study_subject)
 			login_as send(cu)
-			get :show, :study_subject_id => study_subject.id
+			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -61,7 +61,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 
 	test "should NOT show birth_record without login" do
 		study_subject = Factory(:study_subject)
-		get :show, :study_subject_id => study_subject.id
+		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 

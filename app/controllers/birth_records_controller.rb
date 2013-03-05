@@ -15,7 +15,7 @@ class BirthRecordsController < ApplicationController
 
 	before_filter :valid_study_subject_id_required
 
-	def show
+	def index
 	end
 
 end
