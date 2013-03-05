@@ -1,5 +1,8 @@
 <%= div_for @project do %>
-<div class='description'>
-<%= @project.description %>
-</div>
+<p class='key'>
+Key: <%= @project.key %>
+</p>
+<p class='description'>
+Description: <%= @project.description %>
+</p>
 <% end %>

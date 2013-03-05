@@ -1,6 +1,7 @@
 <h4>Projects:</h4>
 <% unless @projects.empty? %>
  <table id='projects'><thead><tr>
+  <th>Key</th>
   <th>Description</th>
  </tr></thead><tbody>
   <%= render :partial => 'project', :collection => @projects %>

@@ -2,7 +2,7 @@
 
 <%= form_for(@project) do |f| %>
 <%= f.error_messages %>
-Project <%= f.label :description %><br/>
-<%= f.text_field :description %><br/>
+<%= f.wrapped_text_field :key %>
+<%= f.wrapped_text_field :description %>
 <p><%= f.submit( (@project.new_record?)?'Create':'Update' ) %></p>
 <% end %>
