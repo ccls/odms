@@ -19,6 +19,17 @@ base.class_eval do
 		self.enrollments.find_or_create_by_project_id(Project['ccls'].id)
 	end
 
+	#	Returns all projects for which the study_subject
+	#	does not have an enrollment
+	def unenrolled_projects
+		#	broke up to try to make 100% coverage (20120411)
+		projects = Project.joins("LEFT JOIN enrollments ON " <<
+				"projects.id = enrollments.project_id AND " <<
+				"enrollments.study_subject_id = #{self.id}" )
+		#	everything is NULL actually, but check study_subject_id
+		projects = projects.where("enrollments.study_subject_id IS NULL")
+	end
+
 end	#	class_eval
 end	#	included
 end	#	StudySubjectEnrollments

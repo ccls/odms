@@ -2,6 +2,10 @@
 
 <%= form_for(@enrollment,
 	:url => study_subject_enrollments_path(@study_subject) ) do |f| %>
+
+<h3>Study name: 
 <%= f.select :project_id, options_for_select(
 	@projects.collect{ |u| [u.description, u.id] }) %>
+</h3>
+<%= f.submit 'Create' %>
 <% end %>

@@ -25,7 +25,8 @@ class EnrollmentsController < ApplicationController
 	end
 
 	def new
-		@projects = Project.unenrolled_projects(@study_subject)
+#		@projects = Project.unenrolled_projects(@study_subject)
+		@projects = @study_subject.unenrolled_projects
 		@enrollment = @study_subject.enrollments.build
 	end
 
@@ -35,7 +36,8 @@ class EnrollmentsController < ApplicationController
 #	TODO what?  no flash of success?
 		redirect_to edit_study_subject_enrollment_path(@study_subject,@enrollment)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		@projects = Project.unenrolled_projects(@study_subject)
+#		@projects = Project.unenrolled_projects(@study_subject)
+		@projects = @study_subject.unenrolled_projects
 		flash.now[:error] = "Enrollment creation failed"
 		render :action => 'new'
 	end

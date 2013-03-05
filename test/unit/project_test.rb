@@ -42,17 +42,17 @@ class ProjectTest < ActiveSupport::TestCase
 		assert_equal 2, project.reload.study_subjects.length
 	end
 
-	#	this method seems like it would be better suited to 
-	#	be in the StudySubject model rather than Project
-	test "should return projects not enrolled by given study_subject" do
-		study_subject = create_study_subject
-		unenrolled = Project.unenrolled_projects(study_subject)
-		assert_not_nil unenrolled
-		assert unenrolled.all.is_a?(Array)
-		assert_equal 10, Project.count
-		#	due to the auto-enrollment in ccls, there are only 9 now
-		assert_equal 9, unenrolled.length
-	end
+#	#	this method seems like it would be better suited to 
+#	#	be in the StudySubject model rather than Project
+#	test "should return projects not enrolled by given study_subject" do
+#		study_subject = create_study_subject
+#		unenrolled = Project.unenrolled_projects(study_subject)
+#		assert_not_nil unenrolled
+#		assert unenrolled.all.is_a?(Array)
+#		assert_equal 10, Project.count
+#		#	due to the auto-enrollment in ccls, there are only 9 now
+#		assert_equal 9, unenrolled.length
+#	end
 
 protected
 

@@ -23,3 +23,8 @@
 <% else %>
  <p>This subject has no enrollments</p>
 <% end %>
+
+<p>
+<%= link_to "New Enrollment", new_study_subject_enrollment_path(@study_subject),
+	:class => 'button' %>
+</p>
