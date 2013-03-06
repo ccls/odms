@@ -50,6 +50,13 @@ class NotificationTest < ActionMailer::TestCase
 		assert_match "No changes", mail.body.encoded
 	end
 
+	test "updates_from_birth_data" do
+		mail = Notification.updates_from_birth_data('birth_data_20010203.csv',[])
+		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+		assert_equal mail.subject, "ODMS: updates_from_birth_data birth_data_20010203.csv"
+		assert_match "No changes", mail.body.encoded
+	end
+
 end
 __END__
 Hello~ 
