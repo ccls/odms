@@ -68,6 +68,8 @@ namespace :automate do
 
 			birth_data_files.each do |birth_data_file|
 	
+				puts "Processing #{birth_data_file}..."
+
 				f=CSV.open(birth_data_file,'rb')
 				actual_columns = f.readline
 				f.close
@@ -85,7 +87,6 @@ namespace :automate do
 #				end	#	unless expected_columns.include?(actual_columns.sort)
 
 				study_subjects = []
-				puts "Processing #{birth_data_file}..."
 
 				(f=CSV.open( birth_data_file, 'rb',{ :headers => true })).each do |line|
 					puts
