@@ -25,7 +25,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
 			assert_response :success
-			assert_template 'show'
+			assert_template 'index'
 		end
 
 		test "should show birth_record with no birth record and #{cu} login" do
@@ -34,7 +34,7 @@ class BirthRecordsControllerTest < ActionController::TestCase
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
 			assert_response :success
-			assert_template 'show'
+			assert_template 'index'
 		end
 
 		test "should NOT show birth_record with invalid study_subject_id " <<

@@ -139,7 +139,6 @@ namespace :automate do
 						puts "No subject with icf_master_id:#{icf_master_id}:" 
 						next
 					end
-		
 					study_subject = subjects.first
 	
 					#	using "a" as a synonym for "new_attributes" since is a Hash (pointer)

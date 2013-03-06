@@ -634,6 +634,7 @@ Table: birth_data
 | control_number                    | int(11)      | YES  |     | NULL    |                |
 | father_ssn                        | varchar(255) | YES  |     | NULL    |                |
 | mother_ssn                        | varchar(255) | YES  |     | NULL    |                |
+| birth_data_file_name              | varchar(255) | YES  |     | NULL    |                |
 +-----------------------------------+--------------+------+-----+---------+----------------+
 Table: birth_datum_updates
 +-----------------------+--------------+------+-----+---------+----------------+

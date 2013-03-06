@@ -323,7 +323,7 @@ module ApplicationHelper
 			end
 		end
 		s = "<div class='#{classes.join(' ')}'>"
-		s << link_to(link_text,local_params.merge(:order => order,:dir => dir))
+		s << link_to(link_text.html_safe,local_params.merge(:order => order,:dir => dir))
 		s << arrow unless arrow.blank?
 		s << "</div>"
 		s.html_safe

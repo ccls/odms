@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130207213344) do
+ActiveRecord::Schema.define(:version => 20130306175322) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -637,6 +637,7 @@ ActiveRecord::Schema.define(:version => 20130207213344) do
     t.integer  "control_number"
     t.string   "father_ssn"
     t.string   "mother_ssn"
+    t.string   "birth_data_file_name"
   end
 
   create_table "birth_datum_updates", :force => true do |t|

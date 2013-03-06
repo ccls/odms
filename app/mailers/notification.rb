@@ -59,6 +59,16 @@ class Notification < ActionMailer::Base
 		mail defaults
 	end
 
+	def updates_from_birth_data(birth_data_file,study_subjects,options={})
+		@birth_data_file = birth_data_file
+		@study_subjects  = study_subjects
+		defaults = {
+			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
+			:subject => "ODMS: updates_from_birth_data #{File.basename(birth_data_file)}"
+		}.merge(options)
+		mail defaults
+	end
+
 	def demo
 		mail to: "jakewendt@berkeley.edu"
 		mail subject: "ODMS: DEMO EMAIL"
