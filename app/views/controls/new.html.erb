@@ -26,8 +26,8 @@
 <% end %>
 
 
-<% if @study_subjects %>
-<p>Cases without Controls and interview_completed_on not blank or null ...</p>
+<% unless @study_subjects.empty? %>
+<p>Phase 5 cases without controls and ccls:interview_completed_on not null ...</p>
 <table><thead><tr>
 <th>ICF Master ID</th><th>Interview Completed On</th>
 </tr></thead><tbody>
@@ -36,8 +36,6 @@
 <td><%= link_to study_subject, study_subject %></td>
 <td><%=mdy study_subject.ccls_enrollment.interview_completed_on %></td>
 </tr>
-
-
 <% end %><%# @study_subjects.each do |study_subject| %>
 </tbody></table>
 <% else %>
