@@ -6,10 +6,14 @@
 </h3>
 <% end %>
 <% else %><%# if @unrejected_controls.count > 0 %>
-<span>No controls available.</span>
+<h3>Related Subjects
+<span>(No controls available.)</span>
+</h3>
 <% end %>
 <% else %><%# if @study_subject.is_case? %>
-<h3>Related Subjects</h3>
+<h3>Related Subjects
+<span>(subject is control.)</span>
+</h3>
 <% end %>
 
 <%#= render :partial => 'family' %>

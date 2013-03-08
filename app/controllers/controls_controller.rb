@@ -44,19 +44,16 @@ class ControlsController < ApplicationController
 				":#{params[:q]}" unless @study_subject
 		end
 
-#	irb(main):061:0> StudySubject.cases.joins(:addresses).group('study_subjects.id').count('addresses.id').to_sql
-#   (41.7ms)  SELECT COUNT(addresses.id) AS count_addresses_id, study_subjects.id AS study_subjects_id FROM `study_subjects` INNER JOIN `subject_types` ON `subject_types`.`id` = `study_subjects`.`subject_type_id` INNER JOIN `addressings` ON `addressings`.`study_subject_id` = `study_subjects`.`id` INNER JOIN `addresses` ON `addresses`.`id` = `addressings`.`address_id` WHERE `subject_types`.`key` = 'Case' GROUP BY study_subjects.id
-
 		@study_subjects = StudySubject.cases
 			.where( :phase => 5 )
 			.joins(:enrollments)
-			.joins("LEFT JOIN study_subjects AS controls ON study_subjects.patid = controls.patid AND controls.subject_type_id = #{SubjectType[:control].id}")
-			.select('study_subjects.*, count(controls.id) as controls_count')
+			.joins("LEFT JOIN `study_subjects` AS `controls` ON `study_subjects`.`patid` = `controls`.`patid` AND `controls`.`subject_type_id` = #{SubjectType[:control].id}")
+			.joins("LEFT JOIN `candidate_controls` ON `study_subjects`.`patid` = `candidate_controls`.`related_patid` AND `candidate_controls`.`assigned_on` IS NULL AND `candidate_controls`.`study_subject_id` IS NULL AND (`candidate_controls`.`reject_candidate` = 0 OR `candidate_controls`.`reject_candidate` IS NULL)")
+			.select('study_subjects.*, count(controls.id) as controls_count, count(candidate_controls.id) as unassigned_controls_count')
 			.group('study_subjects.id')
 			.merge(Enrollment.interview_completed.where(:project_id => Project['ccls'].id))
+			.order('`enrollments`.`interview_completed_on` ASC')
 			.having('controls_count = 0')
-
-#	=> "SELECT study_subjects.*, count(controls.id) as controls_count FROM `study_subjects` INNER JOIN `subject_types` ON `subject_types`.`id` = `study_subjects`.`subject_type_id` INNER JOIN `enrollments` ON `enrollments`.`study_subject_id` = `study_subjects`.`id` LEFT JOIN study_subjects AS controls ON study_subjects.patid = controls.patid AND controls.subject_type_id = 2 WHERE `subject_types`.`key` = 'Case' AND `study_subjects`.`phase` = 5 AND `enrollments`.`project_id` = 10 AND (`enrollments`.`interview_completed_on` IS NOT NULL) GROUP BY study_subjects.id HAVING controls_count = 0"
 
 	end
 
