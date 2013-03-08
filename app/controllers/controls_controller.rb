@@ -43,6 +43,18 @@ class ControlsController < ApplicationController
 			flash.now[:error] = "No case study_subject found with given" <<
 				":#{params[:q]}" unless @study_subject
 		end
+
+#	irb(main):061:0> StudySubject.cases.joins(:addresses).group('study_subjects.id').count('addresses.id').to_sql
+#   (41.7ms)  SELECT COUNT(addresses.id) AS count_addresses_id, study_subjects.id AS study_subjects_id FROM `study_subjects` INNER JOIN `subject_types` ON `subject_types`.`id` = `study_subjects`.`subject_type_id` INNER JOIN `addressings` ON `addressings`.`study_subject_id` = `study_subjects`.`id` INNER JOIN `addresses` ON `addresses`.`id` = `addressings`.`address_id` WHERE `subject_types`.`key` = 'Case' GROUP BY study_subjects.id
+
+		@study_subjects = StudySubject.cases
+			.where( :phase => 5 )
+			.joins(:enrollments)
+			.joins("LEFT JOIN study_subjects AS controls ON study_subjects.patid = controls.patid AND controls.subject_type_id = #{SubjectType[:control].id}")
+			.select('study_subjects.*, count(controls.id) as controls_count')
+			.group('study_subjects.id')
+			.merge(Enrollment.interview_completed.where(:project_id => Project['ccls'].id))
+			.having('controls_count = 0')
 	end
 
 	def create

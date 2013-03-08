@@ -79,6 +79,8 @@ class Enrollment < ActiveRecord::Base
 
 	scope :not_assigned_for_interview,  where(:assigned_for_interview_at => nil)
 
+	scope :interview_completed,  where(self.arel_table[:interview_completed_on].not_eq(nil))
+
 	#	find enrollments by project key
 	#	(rather than hard coding scopes for each)
 	#	(square brackets don't seem to work in the scoping world)
