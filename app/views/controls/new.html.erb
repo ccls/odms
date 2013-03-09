@@ -31,6 +31,7 @@
 <table><thead><tr>
 <th>&nbsp;</th>
 <th>ICF Master ID</th><th>Interview Completed On</th><th>Controls Available</th>
+<th>DOB</th>
 </tr></thead><tbody>
 <% @study_subjects.each do |study_subject| %>
 <tr class='row'>
@@ -38,6 +39,7 @@
 <td><%= study_subject.icf_master_id %></td>
 <td><%=mdy study_subject.ccls_enrollment.interview_completed_on %></td>
 <td><%= study_subject.unassigned_controls_count %></td>
+<td><%=mdy study_subject.dob %></td>
 </tr>
 <% end %><%# @study_subjects.each do |study_subject| %>
 </tbody></table>
