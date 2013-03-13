@@ -724,6 +724,23 @@ I'm guessing that the key cause of this is the "through"
 
 
 ---
+== ruby 1.9
+
+As of ruby19 @1.9.3-p392_1+doc, the +nosuffix option is no longer available via MacPort.
+
+Attempting ...
+
+ sudo port install ruby19 +nosuffix
+
+will work, but won't remove the "1.9" suffix. Now another port, "ruby_select" will
+be installed to do this.  To make ruby 1.9 the default ruby, the following
+command will need to be executed...
+
+ sudo port select --set ruby ruby19
+
+
+
+---
 == Other Notes 
 
 
