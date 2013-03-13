@@ -150,7 +150,7 @@ GEM
       activesupport
     rubyzip (0.9.9)
     ryanb-acts-as-list (0.1.2)
-    sass (3.2.6)
+    sass (3.2.7)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -184,7 +184,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     ttfunk (1.0.3)
-    tzinfo (0.3.36)
+    tzinfo (0.3.37)
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
@@ -221,7 +221,7 @@ DEPENDENCIES
   prawn
   prawnto
   rack-ssl
-  rails (~> 3.2.2)
+  rails (~> 3.2)
   rubycas-client
   ryanb-acts-as-list
   sass
