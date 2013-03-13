@@ -5,6 +5,10 @@ class SubjectRace < ActiveRecord::Base
 #	belongs_to :race
 	belongs_to :race, :primary_key => "code", :foreign_key => "race_code"
 
+#	be advised. the custom association keys cause the following
+#	race_ids will return an array of the foreign key, CODES in this case
+#	race_ids= will accept an array of the IDS, NOT CODES
+
 	delegate :is_other?, :to => :race, :allow_nil => true, :prefix => true
 	delegate :is_mixed?, :to => :race, :allow_nil => true, :prefix => true
 
