@@ -1,10 +1,12 @@
 <h4>SampleTypes:</h4>
 <% unless @sample_types.empty? %>
  <table id='sample_types'><thead><tr>
+  <th>ID</th>
   <th>Parent ID</th>
   <th>Key</th>
   <th>Description</th>
   <th>For New Sample?</th>
+  <th>GEGL Type</th>
  </tr></thead><tbody>
   <%= render :partial => 'sample_type', :collection => @sample_types %>
  </tbody></table><!-- id='sample_types' -->
