@@ -24,6 +24,8 @@ base.class_eval do
 	scope :mothers,  joins(:subject_type).where('subject_types.key' => 'Mother')
 	scope :children, joins(:subject_type).where('subject_types.key' => ['Case','Control'])
 
+	scope :living,    joins(:vital_status).where('vital_statuses.key' => 'living')
+
 	def self.with_patid(patid)
 		where(:patid => patid.to_s.squish)
 	end

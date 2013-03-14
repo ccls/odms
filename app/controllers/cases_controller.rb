@@ -24,7 +24,7 @@ class CasesController < ApplicationController
 			@study_subjects = StudySubject.order('reference_date DESC')
 				.where(:id => params[:ids])
 		else
-			@study_subjects = StudySubject.cases
+			@study_subjects = StudySubject.cases.living
 				.where( :phase => 5 )
 				.where('study_subjects.reference_date < ?', 30.days.ago.to_date)
 				.order('reference_date DESC')
