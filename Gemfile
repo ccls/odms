@@ -157,9 +157,10 @@ group :test do
 #
 #	For some reason, starting sunspot throws an error,
 #	but doesn't actually stop it from starting.
-#	Added test-unit get and seems to go away.  Why?  Dunno.
+#	Added test-unit gem and seems to go away.  Why?  Dunno.
 #	Will this cause problems.  We shall see.
 #	
+	#	i think this adds color to rake test too
 	gem 'test-unit'
 
 
