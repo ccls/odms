@@ -1,16 +1,14 @@
 #
 #	UCB LDAP does not appear to be being maintained
 #	and is not ruby 1.9.3 compatible.
-#	So ...
+#	So imported and updated it ...
 #
 
-#$LOAD_PATH << Rails.root.join('lib/ucb_ldap-1.4.2/lib').to_s
+$LOAD_PATH << Rails.root.join('lib/ucb_ldap-1.4.2-modified/lib').to_s
 
 #	config/initializers/ is NOT in LOAD_PATH so this
 #	file can be the same name as the desired "gem" file
-#require 'ucb_ldap'
-require 'lib/ucb_ldap-1.4.2-modified'
-
+require 'ucb_ldap'
 
 #	don't use ruby-net-ldap as is too old
 
