@@ -1,11 +1,12 @@
-module HashExtension	#	:nodoc:
-	def self.included(base)
-		base.instance_eval do
-			include InstanceMethods
-		end
-	end
-
-	module InstanceMethods
+class Hash
+#module HashExtension	#	:nodoc:
+#	def self.included(base)
+#		base.instance_eval do
+#			include InstanceMethods
+#		end
+#	end
+#
+#	module InstanceMethods
 
 #	http://stackoverflow.com/questions/1766741/comparing-ruby-hashes
   def differences(other)
@@ -68,7 +69,7 @@ module HashExtension	#	:nodoc:
 			new_hash	#	originally didn't return new_hash, which didn't work for me.  returned self apparently.
 		end
 
-	end
+#	end
 
 end
-Hash.send( :include, HashExtension )
+#Hash.send( :include, HashExtension )

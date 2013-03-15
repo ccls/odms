@@ -1,4 +1,5 @@
-module ObjectExtension	#	:nodoc:
+class Object
+#module ObjectExtension	#	:nodoc:
 #
 #	No class methods, so just keeping them shallow
 #
@@ -201,4 +202,4 @@ module ObjectExtension	#	:nodoc:
 	end
 
 end
-Object.send(:include, ObjectExtension)
+#Object.send(:include, ObjectExtension)

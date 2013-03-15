@@ -1,11 +1,12 @@
-module StringExtension	#	:nodoc:
-	def self.included(base)
-		base.instance_eval do
-			include InstanceMethods
-		end
-	end
-
-	module InstanceMethods
+class String
+#module StringExtension	#	:nodoc:
+#	def self.included(base)
+#		base.instance_eval do
+#			include InstanceMethods
+#		end
+#	end
+#
+#	module InstanceMethods
 
 		#	titleize DOES NOT PRESERVE DASHES
 		#	humanize(underscore(word)).gsub(/\b('?[a-z])/) { $1.capitalize }
@@ -28,7 +29,7 @@ module StringExtension	#	:nodoc:
 			end
 		end
 
-	end	#	module InstanceMethods
+#	end	#	module InstanceMethods
 
 end	#	module StringExtension	#	:nodoc:
-String.send( :include, StringExtension )
+#String.send( :include, StringExtension )

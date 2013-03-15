@@ -1,14 +1,15 @@
-module ArrayExtension	#	:nodoc:
-	def self.included(base)
-#	instance_eval????
-#	why not just include
-		base.instance_eval do
-			include InstanceMethods
-		end
-#		base.send(:include, InstanceMethods)
-	end
-
-	module InstanceMethods
+class Array
+#module ArrayExtension	#	:nodoc:
+#	def self.included(base)
+##	instance_eval????
+##	why not just include
+#		base.instance_eval do
+#			include InstanceMethods
+#		end
+##		base.send(:include, InstanceMethods)
+#	end
+#
+#	module InstanceMethods
 
 #		def to_boolean
 #			!empty? && all?{|v| v.to_boolean }
@@ -49,6 +50,6 @@ module ArrayExtension	#	:nodoc:
 #		end
 
 
-	end
+#	end
 end
-Array.send(:include, ArrayExtension)
+#Array.send(:include, ArrayExtension)
