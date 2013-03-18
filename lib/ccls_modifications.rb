@@ -1,8 +1,5 @@
-
 #	because HashWithIndifferentAccess is just too long a name
 HWIA = HashWithIndifferentAccess
-
-#$LOAD_PATH << Rails.root.join( File.dirname(__FILE__), 'ccls_modifications' )
 
 require 'ccls_modifications/ruby'
 require 'ccls_modifications/active_model'
