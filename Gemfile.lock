@@ -35,7 +35,7 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     afm (0.2.0)
-    american_date (1.0.0)
+    american_date (1.0.1)
     arel (3.0.2)
     autotest-rails (4.1.2)
       ZenTest (~> 4.5)
@@ -50,7 +50,7 @@ GEM
     capybara-webkit (0.14.2)
       capybara (~> 2.0, >= 2.0.2)
       json
-    ccls-common_lib (1.0.3)
+    ccls-common_lib (1.0.4)
       american_date
       hpricot
       jeweler
