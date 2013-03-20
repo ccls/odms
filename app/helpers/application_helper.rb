@@ -1,10 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
-#	def nbsp
-#		"&nbsp;".html_safe
-#	end
-
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
 
@@ -264,15 +260,6 @@ module ApplicationHelper
 		s.html_safe
 	end
 
-#	#	Just a simple method to wrap the passed text in a span
-#	#	with class='required'
-#	def required(text)
-#		s = "<span class='required'>#{text}</span>"
-#		s.html_safe
-#	end
-#	alias_method :req, :required
-#
-
 	def sort_up_image
 #		"#{Rails.root}/public/images/sort_up.png"
 		"#{Rails.root}/app/assets/images/sort_up.png"
@@ -419,131 +406,6 @@ module ApplicationHelper
 		_wrapped_spans(object_name,method,options.update(
 			:value => (POSNEG[object.send(method)]||'&nbsp;') ) )
 	end
-
-#		def mdy(date)
-#			(( date.nil? ) ? '&nbsp;' : date.strftime("%m/%d/%Y")).html_safe
-#		end
-#	
-		def mdyhm(datetime)
-			(( datetime.nil? ) ? '&nbsp;' : datetime.strftime("%m/%d/%Y %H:%M (%Z)")).html_safe
-		end
-	
-		#	For use in CSV output as don't want the &nbsp;
-		def mdyhm_or_nil(datetime)
-			datetime.strftime("%m/%d/%Y %H:%M (%Z)") unless datetime.blank?
-		end
-	
-		#	For use in CSV output as don't want the &nbsp;
-		def mdy_or_nil(datetime)
-			datetime.strftime("%m/%d/%Y") unless datetime.blank?
-		end
-#	
-#		def time_mdy(time)
-#			(( time.nil? ) ? '&nbsp;' : time.strftime("%I:%M %p %m/%d/%Y")).html_safe
-#		end
-#	
-#		def field_wrapper(method,options={},&block)
-#			classes = [method,options[:class]].compact.join(' ')
-#			s =  "<div class='#{classes} field_wrapper'>\n"
-#			s << yield 
-#			s << "\n</div><!-- class='#{classes}' -->"
-#			s.html_safe
-#		end
-#	
-#		#	This is NOT a form field
-#		def _wrapped_spans(object_name,method,options={})
-#			object = instance_variable_get("@#{object_name}")
-#			s =  "<span class='label'>#{options[:label_text]||object.class.human_attribute_name(method)||method}</span>\n"
-#			value = if options[:value]
-#				options[:value]
-#			else
-#				value = object.send(method)
-#				value = (value.to_s.blank?)?'&nbsp;':value
-#			end
-#			s << "<span class='value'>#{value}</span>"
-#		end
-#	
-#		def _wrapped_date_spans(object_name,method,options={})
-#			object = instance_variable_get("@#{object_name}")
-#			_wrapped_spans(object_name,method,options.update(
-#				:value => mdy(object.send(method)) ) )
-#		end
-	
-		def _wrapped_datetime_spans(object_name,method,options={})
-			object = instance_variable_get("@#{object_name}")
-			_wrapped_spans(object_name,method,options.update(
-				:value => mdyhm(object.send(method)) ) )
-		end
-	
-#		#	This is NOT a form field
-#		def _wrapped_yes_or_no_spans(object_name,method,options={})
-#			object = instance_variable_get("@#{object_name}")
-#			s =  "<span class='label'>#{options[:label_text]||method}</span>\n"
-#			value = (object.send("#{method}?"))?'Yes':'No'
-#			s << "<span class='value'>#{value}</span>"
-#		end
-#	
-#		%w( adna_spans date_spans datetime_spans pos_neg_spans spans yes_or_no_spans 
-#				yndk_spans ynrdk_spans ynodk_spans ynordk_spans ).each do |unwrapped_method_name|
-#	#
-#	#	Can't define a method that accepts a block with define_method.
-#	#	I don't think that I need it, so no big deal. For now.
-#	#	HOWEVER, in the form builder, I do send blocks, so I'll need to fix this or
-#	#	just explicitly write a method for those that need it.
-#	#
-#	
-#			define_method "wrapped_#{unwrapped_method_name}" do |*args|
-#				object_name = args[0]
-#				method      = args[1]
-#				content = field_wrapper(method,:class => unwrapped_method_name) do
-#					#	all of my methods have _wrapped_* versions so far, 
-#					#	but this could probably be simplified
-#					send("_wrapped_#{unwrapped_method_name}",*args)
-#				end
-#				content
-#			end
-#		end
-#	
-#	#
-#	#	NOTE I'm surprised that I used the key for the id.
-#	#		I should just add it to the classes.
-#	#
-#		def flasher
-#			s = ''
-#			flash.each do |key, msg|
-#				unless msg.blank?
-#					s << content_tag( :p, msg.html_safe, :class => "flash #{key}" )
-#	#				s << content_tag( :p, msg.html_safe, :id => key, :class => 'flash' )
-#					s << "\n"
-#				end
-#			end
-#			s << "<noscript><p id='noscript' class='flash'>\n"
-#			s << "Javascript is required for this site to be fully functional.\n"
-#			s << "</p></noscript>\n"
-#			s.html_safe
-#		end
-#	
-#		#	Created to stop multiple entries of same stylesheet
-#		def stylesheets(*args)
-#			@stylesheets ||= []
-#			args.each do |stylesheet|
-#				unless @stylesheets.include?(stylesheet.to_s)
-#					@stylesheets.push(stylesheet.to_s)
-#					content_for(:head,stylesheet_link_tag(stylesheet.to_s))
-#				end
-#			end
-#		end
-#	
-#		def javascripts(*args)
-#			@javascripts ||= []
-#			args.each do |javascript|
-#				unless @javascripts.include?(javascript.to_s)
-#					@javascripts.push(javascript.to_s)	#	remember
-#					content_for(:head,javascript_include_tag(javascript).to_s)
-#				end
-#			end
-#		end
-
 
 	def abstract_pages(abstract)
 		sections = Abstract.sections
