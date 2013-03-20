@@ -50,6 +50,14 @@ GEM
     capybara-webkit (0.14.2)
       capybara (~> 2.0, >= 2.0.2)
       json
+    ccls-common_lib (1.0.3)
+      american_date
+      hpricot
+      jeweler
+      jquery-rails
+      rails (= 3.2.12)
+      ryanb-acts-as-list
+      sqlite3
     ccls-html_test (0.3.5)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
@@ -64,7 +72,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.1)
+    coffee-script-source (1.6.2)
     database_cleaner (0.9.1)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -75,10 +83,16 @@ GEM
       factory_girl (~> 2.6.0)
       railties (>= 3.0.0)
     ffi (1.4.0)
+    git (1.2.5)
     hashery (2.1.0)
     hike (1.2.1)
     hpricot (0.8.6)
     i18n (0.6.4)
+    jeweler (1.8.4)
+      bundler (~> 1.0)
+      git (>= 1.2.5)
+      rake
+      rdoc
     journey (1.0.4)
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
@@ -90,14 +104,14 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     mime-types (1.21)
-    minitest (4.6.2)
+    minitest (4.7.0)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.7.0)
+    multi_json (1.7.1)
     mysql (2.9.1)
     mysql2 (0.3.11)
     net-ldap (0.3.1)
-    nokogiri (1.5.6)
+    nokogiri (1.5.8)
     paperclip (3.4.1)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
@@ -203,6 +217,7 @@ DEPENDENCIES
   autotest-rails
   capybara
   capybara-webkit
+  ccls-common_lib (> 0.9)
   ccls-html_test
   chronic
   coffee-rails (~> 3.2.1)

@@ -1,5 +1,4 @@
 class Numeric
-#module NumericExtension
 
 	#	The purpose of this is to provide a number to be used as the maximum
 	#	on a chart.  Basically rounding up to different scales depending
@@ -17,4 +16,3 @@ class Numeric
 	end
 
 end
-#Numeric.send(:include,NumericExtension)

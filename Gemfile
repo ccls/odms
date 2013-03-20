@@ -210,6 +210,17 @@ group :test do
 	gem 'capybara-webkit'	#, '0.11.0'
 end
 
+
+
+
+
+gem 'ccls-common_lib', ">0.9"
+
+
+
+
+
+
 __END__
 
 # new in file	(version that worked) (version that MAY not)
