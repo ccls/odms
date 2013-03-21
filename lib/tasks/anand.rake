@@ -15,14 +15,23 @@ namespace :anand do
 			)
 			(i=CSV.open( 'Guthrie cards inventory 02_05_13-APC CHECKED- for import.csv', 
 					'rb',{ :headers => true })).each do |line|
+				#
+				# "SubjectID","GuthrieID","Book","Page","Pocket"
+				#
 				out = []
 				subject = StudySubject.where(:subjectid => line['SubjectID']).first
 				raise "No subject found with #{line['SubjectID']}" if subject.nil?
-#"SubjectID","GuthrieID","Book","Page","Pocket"
+
+				#
+				#	Create Sample and get sampleid
+				#		sample_type = Blood Spot
+				#		external_id_source = 'Guthrie' ( perhaps with book, page and pocket? )
+				#		external_id = line['GuthrieID']
+				#	
 
 				out << line['GuthrieID']
 				out << line['SubjectID']
-				out << '1234567'
+				out << '1234567'					#	new sample's sampleid
 				out << 'CCLS'
 				out << subject.sex
 				out << 'g'
@@ -30,9 +39,8 @@ namespace :anand do
 				out << line['Page']
 				out << line['Pocket']
 		
-		puts out
+				puts out.join(', ')
 				csv_out << out
-		
 			end
 		end
 	end
@@ -59,7 +67,7 @@ namespace :anand do
 		
 				out << external_ids
 		
-		puts out
+				puts out
 				csv_out << out
 		
 			end
