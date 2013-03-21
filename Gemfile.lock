@@ -50,7 +50,7 @@ GEM
     capybara-webkit (0.14.2)
       capybara (~> 2.0, >= 2.0.2)
       json
-    ccls-common_lib (1.0.4)
+    ccls-common_lib (1.0.5)
       american_date
       hpricot
       jeweler
@@ -82,7 +82,7 @@ GEM
     factory_girl_rails (1.7.0)
       factory_girl (~> 2.6.0)
       railties (>= 3.0.0)
-    ffi (1.4.0)
+    ffi (1.5.0)
     git (1.2.5)
     hashery (2.1.0)
     hike (1.2.1)
@@ -111,7 +111,7 @@ GEM
     mysql (2.9.1)
     mysql2 (0.3.11)
     net-ldap (0.3.1)
-    nokogiri (1.5.8)
+    nokogiri (1.5.9)
     paperclip (3.4.1)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
