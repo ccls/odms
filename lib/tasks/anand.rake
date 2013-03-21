@@ -5,6 +5,38 @@ require 'csv'
 #
 namespace :anand do
 
+	#
+	#	20130321
+	#
+	task :check_maternal_biospecimens_inventory => :environment do
+		(i=CSV.open( 'CDC Maternal Inventory 11_10_08.csv', 
+				'rb',{ :headers => true })).each do |line|
+			#
+			# "Item#","Assigned Location","Child ID","CDC ID","2-Digit CDC ID","Spec Type",
+			#	"Freezer","Rack","Box","Position","Vol (ml)","Date Collected","Date Received",
+			#	"Date Shipped to CDC","Studycode","Comments","UsedUp?","Hematocrit",
+			#	"First Morning Void?"
+			#
+			subject = StudySubject.where(:childid => line['Child ID']).first
+			raise "No subject found with childid #{line['Child ID']}" if subject.nil?
+#
+#			sample = Sample.where(:external_id => line['GuthrieID']).first
+#
+#			unless sample.nil?
+#				puts "Found sample with guthrieid #{line['GuthrieID']}"
+#				if sample.study_subject_id == subject.id
+#					puts "Sample and Subject match"
+#				else
+#					puts "WARNING ..... Sample and Subject DO NOT match"
+#				end
+#			end
+
+		end	#	CSV.open
+	end	#	task :check_maternal_biospecimens_inventory
+
+	#
+	#	20130321 - STILL IN DEVELOPMENT
+	#
 	task :import_guthrie_card_inventory => :environment do
 		CSV.open('Guthrie_card_inventory_out.csv','w') do |csv_out|
 			csv_out << %w(
