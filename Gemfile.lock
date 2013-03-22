@@ -50,7 +50,7 @@ GEM
     capybara-webkit (0.14.2)
       capybara (~> 2.0, >= 2.0.2)
       json
-    ccls-common_lib (1.0.6)
+    ccls-common_lib (1.0.8)
       american_date
       hpricot
       jeweler
