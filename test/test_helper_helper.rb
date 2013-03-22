@@ -4,7 +4,7 @@
 #
 
 
-require 'screening_datum_update_test_helper'
+#require 'screening_datum_update_test_helper'
 
 class ActiveSupport::TestCase
 
