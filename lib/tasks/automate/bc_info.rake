@@ -328,6 +328,10 @@ puts changes.inspect
 							mother.races << mr unless mother.races.include?( mr )
 						end	#	if mr.nil? (mr is not nil or other or mixed)
 					end	#	if study_subject.mother_race_code
+
+
+					study_subject.bc_requests.create(:status => 'waitlist')
+
 	
 				end	#	(f=CSV.open( bc_info_file, 'rb',{
 	
