@@ -14,7 +14,6 @@ require 'partial_abstract_controller_test_helper'
 #	They must be explicitly included in the test classes
 #		that use them.
 #	I'd like to uniqify these so that they aren't special
-#require 'icf_master_tracker_update_test_helper'
 require 'birth_datum_update_test_helper'
 
 class ActiveSupport::TestCase
