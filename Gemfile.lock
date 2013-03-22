@@ -50,7 +50,7 @@ GEM
     capybara-webkit (0.14.2)
       capybara (~> 2.0, >= 2.0.2)
       json
-    ccls-common_lib (1.0.5)
+    ccls-common_lib (1.0.6)
       american_date
       hpricot
       jeweler
@@ -107,7 +107,7 @@ GEM
     minitest (4.7.0)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.7.1)
+    multi_json (1.7.2)
     mysql (2.9.1)
     mysql2 (0.3.11)
     net-ldap (0.3.1)
