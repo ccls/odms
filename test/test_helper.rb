@@ -6,10 +6,6 @@ require 'rails/test_help'
 
 require 'test_helper_helper'
 
-#require 'active_model_extension'
-#require 'action_controller_extension'
-#require 'active_support_extension'
-
 require 'factory_test_helper'
 require 'partial_abstract_controller_test_helper'
 
@@ -18,7 +14,7 @@ require 'partial_abstract_controller_test_helper'
 #	They must be explicitly included in the test classes
 #		that use them.
 #	I'd like to uniqify these so that they aren't special
-require 'icf_master_tracker_update_test_helper'
+#require 'icf_master_tracker_update_test_helper'
 require 'birth_datum_update_test_helper'
 
 class ActiveSupport::TestCase
@@ -39,8 +35,8 @@ class ActiveSupport::TestCase
 			# :filter).returns(true)
 		end
 	end
-	alias :login :login_as
-	alias :log_in :login_as
+#	alias :login :login_as
+#	alias :log_in :login_as
 
 
 	def stub_ucb_ldap_person(options={})
@@ -183,7 +179,3 @@ class ActiveSupport::TestCase
 	end	#	class << self
 
 end
-
-#def brand	#	for auto-generated tests
-#	"@@ "
-#end
