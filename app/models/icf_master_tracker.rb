@@ -1,7 +1,7 @@
 #
 #	Non-ActiveRecord class created primarily for adding testability to rake task.
 #
-class IcfMasterTracker
+class IcfMasterTracker < OpenStruct
 #namespace :automate do
 #
 ##	desc "Read CSV file and set Subject's CCLS enrollment#interview_completed_on"

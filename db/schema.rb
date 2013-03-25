@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306175322) do
+ActiveRecord::Schema.define(:version => 20130325184356) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -995,82 +995,6 @@ ActiveRecord::Schema.define(:version => 20130306175322) do
   add_index "icf_master_ids", ["icf_master_id"], :name => "index_icf_master_ids_on_icf_master_id", :unique => true
   add_index "icf_master_ids", ["study_subject_id"], :name => "index_icf_master_ids_on_study_subject_id", :unique => true
 
-  create_table "icf_master_tracker_changes", :force => true do |t|
-    t.string   "icf_master_id",                          :null => false
-    t.date     "master_tracker_date"
-    t.boolean  "new_tracker_record",  :default => false, :null => false
-    t.string   "modified_column"
-    t.string   "previous_value"
-    t.string   "new_value"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
-  end
-
-  add_index "icf_master_tracker_changes", ["icf_master_id"], :name => "index_icf_master_tracker_changes_on_icf_master_id"
-
-  create_table "icf_master_tracker_updates", :force => true do |t|
-    t.date     "master_tracker_date"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-    t.string   "csv_file_file_name"
-    t.string   "csv_file_content_type"
-    t.integer  "csv_file_file_size"
-    t.datetime "csv_file_updated_at"
-  end
-
-  create_table "icf_master_trackers", :force => true do |t|
-    t.integer  "study_subject_id"
-    t.boolean  "flagged_for_update",            :default => false
-    t.text     "last_update_attempt_errors"
-    t.datetime "last_update_attempted_at"
-    t.string   "master_id"
-    t.string   "master_id_mother"
-    t.string   "language"
-    t.string   "record_owner"
-    t.string   "record_status"
-    t.string   "record_status_date"
-    t.string   "date_received"
-    t.string   "last_attempt"
-    t.string   "last_disposition"
-    t.string   "curr_phone"
-    t.string   "record_sent_for_matching"
-    t.string   "record_received_from_matching"
-    t.string   "sent_pre_incentive"
-    t.string   "released_to_cati"
-    t.string   "confirmed_cati_contact"
-    t.string   "refused"
-    t.string   "deceased_notification"
-    t.string   "is_eligible"
-    t.string   "ineligible_reason"
-    t.string   "confirmation_packet_sent"
-    t.string   "cati_protocol_exhausted"
-    t.string   "new_phone_released_to_cati"
-    t.string   "plea_notification_sent"
-    t.string   "case_returned_for_new_info"
-    t.string   "case_returned_from_berkeley"
-    t.string   "cati_complete"
-    t.string   "kit_mother_sent"
-    t.string   "kit_infant_sent"
-    t.string   "kit_child_sent"
-    t.string   "kid_adolescent_sent"
-    t.string   "kit_mother_refused_code"
-    t.string   "kit_child_refused_code"
-    t.string   "no_response_to_plea"
-    t.string   "response_received_from_plea"
-    t.string   "sent_to_in_person_followup"
-    t.string   "kit_mother_received"
-    t.string   "kit_child_received"
-    t.string   "thank_you_sent"
-    t.string   "physician_request_sent"
-    t.string   "physician_response_received"
-    t.string   "vaccine_auth_received"
-    t.string   "recollect"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
-  end
-
-  add_index "icf_master_trackers", ["master_id"], :name => "index_icf_master_trackers_on_master_id", :unique => true
-
   create_table "ineligible_reasons", :force => true do |t|
     t.integer  "position"
     t.string   "key",                :null => false
@@ -1510,63 +1434,6 @@ ActiveRecord::Schema.define(:version => 20130306175322) do
     t.string   "state"
     t.datetime "created_at",                                                                    :null => false
     t.datetime "updated_at",                                                                    :null => false
-  end
-
-  create_table "screening_data", :force => true do |t|
-    t.integer  "screening_datum_update_id"
-    t.integer  "study_subject_id"
-    t.string   "icf_master_id"
-    t.integer  "mom_is_biomom"
-    t.integer  "dad_is_biodad"
-    t.string   "mother_first_name"
-    t.string   "mother_last_name"
-    t.string   "mother_maiden_name"
-    t.string   "father_first_name"
-    t.string   "father_last_name"
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "last_name"
-    t.date     "dob"
-    t.string   "sex"
-    t.string   "birth_country"
-    t.string   "birth_state"
-    t.string   "birth_city"
-    t.integer  "mother_hispanicity_mex"
-    t.string   "other_mother_race"
-    t.integer  "father_hispanicity_mex"
-    t.string   "other_father_race"
-    t.string   "new_mother_first_name"
-    t.string   "new_mother_last_name"
-    t.string   "new_mother_maiden_name"
-    t.string   "new_father_first_name"
-    t.string   "new_father_last_name"
-    t.string   "new_first_name"
-    t.string   "new_middle_name"
-    t.string   "new_last_name"
-    t.date     "new_dob"
-    t.string   "new_sex"
-    t.datetime "date"
-    t.integer  "dob_month"
-    t.integer  "new_dob_month"
-    t.integer  "dob_day"
-    t.integer  "new_dob_day"
-    t.integer  "dob_year"
-    t.integer  "new_dob_year"
-    t.string   "mother_hispanicity"
-    t.string   "mother_race"
-    t.string   "father_hispanicity"
-    t.string   "father_race"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-  end
-
-  create_table "screening_datum_updates", :force => true do |t|
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-    t.string   "csv_file_file_name"
-    t.string   "csv_file_content_type"
-    t.integer  "csv_file_file_size"
-    t.datetime "csv_file_updated_at"
   end
 
   create_table "sections", :force => true do |t|
