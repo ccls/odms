@@ -13,7 +13,8 @@
 	be advised that Context is also class in rails, so we must add :: prefix
 
 %>
-<%= f.subject_languages_select( ::Context['wraf1'].languages ) %>
+<%#= f.subject_languages_select( ::Context['wraf1'].languages ) %>
+<%= f.subject_languages_select( Language.where(:key => %w(english spanish other)) ) %>
 
  <p>Has this patient received previous treatment for leukemia or another cancer at any institution?</p>
  <p>

@@ -53,9 +53,12 @@
 	Change to ::Context for clarification.
 
 %>
-<%= f.wrapped_collection_select(:sample_temperature_id,
+<%#= f.wrapped_collection_select(:sample_temperature_id,
 	::Context['receive_sample'].sample_temperatures, :id, :to_s,
 	{ :include_blank => true }) %>
+<%= f.wrapped_collection_select(:sample_temperature_id,
+	SampleTemperature.where(:key => %w(roomtemp refrigerated)),
+	:id, :to_s, { :include_blank => true }) %>
 
 <%= f.wrapped_datetime_text_field :sent_to_subject_at,
 	:label_text => 'Sent to Subject at:' %>
