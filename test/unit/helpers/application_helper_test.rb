@@ -16,16 +16,10 @@ class AppModel
 	end
 end
 
-
-#
-#	Paths are no longer known in helper tests as of rails 3?
-#	That makes most of these tests fail.
-#	Actually, now for some reason they work??? (20120411)
-#
-
-
-
 class ApplicationHelperTest < ActionView::TestCase
+
+	# needed to include field_wrapper and _wrapped_spans
+	include CommonLib::ActionViewExtension::Base
 
 	setup :enable_content_for_usage
 	def enable_content_for_usage
@@ -578,21 +572,21 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert response.to_s.blank?
 	end
 
-#	required
-
-	test "required(text) should" do
-		response = HTML::Document.new(required('something')).root
-		#"<span class='required'>something</span>"
-		assert_select response, 'span.required', :text => 'something', :count => 1
-	end
-
-#	req
-
-	test "req(text) should" do
-		response = HTML::Document.new(req('something')).root
-		#"<span class='required'>something</span>"
-		assert_select response, 'span.required', :text => 'something', :count => 1
-	end
+##	required
+#
+#	test "required(text) should" do
+#		response = HTML::Document.new(required('something')).root
+#		#"<span class='required'>something</span>"
+#		assert_select response, 'span.required', :text => 'something', :count => 1
+#	end
+#
+##	req
+#
+#	test "req(text) should" do
+#		response = HTML::Document.new(req('something')).root
+#		#"<span class='required'>something</span>"
+#		assert_select response, 'span.required', :text => 'something', :count => 1
+#	end
 
 
 	test "adna(1) should return 'Agree'" do
@@ -841,149 +835,149 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
-	test "flasher" do
-		response = HTML::Document.new(
-			flasher
-		).root
-#<p class="flash" id="notice">Hello There</p>
-#<noscript>
-#<p id="noscript" class="flash">Javascript is required for this site to be fully functional.</p>
-#</noscript>
-#<p class="flash notice">Hello There</p>
-#<noscript>
-#<p id="noscript" class="flash">Javascript is required for this site to be fully functional.</p>
-#</noscript>
-#		assert_select response, 'p#notice.flash'
-		assert_select response, 'p.notice.flash'
-		assert_select response, 'noscript' do
-			assert_select 'p#noscript.flash'
-		end
-	end
-
-	test "javascripts" do
-		assert_nil @javascripts
-		javascripts('myjavascript')
-		assert @javascripts.include?('myjavascript')
-		assert_equal 1, @javascripts.length
-		javascripts('myjavascript')
-		assert_equal 1, @javascripts.length
-		#<script src="/javascripts/myjavascript.js" type="text/javascript"></script>
-		response = HTML::Document.new( content_for(:head) ).root
-		assert_select response, 'script[src=/javascripts/myjavascript.js]'
-	end
-
-	test "stylesheets" do
-		assert_nil @stylesheets
-		stylesheets('mystylesheet')
-		assert @stylesheets.include?('mystylesheet')
-		assert_equal 1, @stylesheets.length
-		stylesheets('mystylesheet')
-		assert_equal 1, @stylesheets.length
-		#<link href="/stylesheets/mystylesheet.css" media="screen" rel="stylesheet" type="text/css" />
-		response = HTML::Document.new( content_for(:head) ).root
-		assert_select response, 'link[href=/stylesheets/mystylesheet.css]'
-	end
-
-	test "field_wrapper" do
-		response = HTML::Document.new(
-			field_wrapper('mymethod') do
-				'Yield'
-			end).root
-#<div class="mymethod field_wrapper">
-#Yield
-#</div><!-- class='mymethod' -->
-		assert_select response, 'div.mymethod.field_wrapper'
-	end
-
-	test "wrapped_spans without options" do
-		@user = AppModel.new
-		response = HTML::Document.new(
-			wrapped_spans(:user, :name)).root
-#<div class="name field_wrapper">
-#<span class="label">name</span>
-#<span class="value">&nbsp;</span>
-#</div><!-- class='name' -->
-		assert_select response, 'div.name.field_wrapper', :count => 1 do
-			assert_select 'label', :count => 0
-			assert_select 'span.label', :count => 1
-			assert_select 'span.value', :count => 1
-		end
-	end
-
-	test "wrapped_date_spans blank" do
-		@user = AppModel.new
-		response = HTML::Document.new(
-			wrapped_date_spans(:user, :dob)).root
-#<div class="dob date_spans field_wrapper">
-#<span class="label">dob</span>
-#<span class="value">&nbsp;</span>
-#</div><!-- class='dob date_spans' -->
-		assert_select response, 'div.dob.date_spans.field_wrapper' do
-			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'dob', :count => 1
-			assert_select 'span.value', :text => '&nbsp;', :count => 1
-		end
-	end
-
-	test "wrapped_date_spans Dec 5, 1971" do
-		@user = AppModel.new{|u| u.dob = Date.parse('Dec 5, 1971')}
-		response = HTML::Document.new(
-			wrapped_date_spans(:user, :dob)).root
-#<div class="dob date_spans field_wrapper">
-#<span class="label">dob</span>
-#<span class="value">12/05/1971</span>
-#</div><!-- class='dob date_spans' -->
-		assert_select response, 'div.dob.date_spans.field_wrapper' do
-			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'dob', :count => 1
-			assert_select 'span.value', :text => '12/05/1971', :count => 1
-		end
-	end
-
-	test "wrapped_yes_or_no_spans blank" do
-		@user = AppModel.new
-		response = HTML::Document.new(
-			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
-#<div class="yes_or_no field_wrapper">
-#<span class="label">yes_or_no</span>
-#<span class="value">no</span>
-#</div><!-- class='yes_or_no' -->
-		assert_select response, 'div.yes_or_no.field_wrapper' do
-			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'yes_or_no', :count => 1
-			assert_select 'span.value', :text => 'No', :count => 1
-		end
-	end
-
-	test "wrapped_yes_or_no_spans true" do
-		@user = AppModel.new{|u| u.yes_or_no = true }
-		response = HTML::Document.new(
-			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
-#<div class="yes_or_no field_wrapper">
-#<span class="label">yes_or_no</span>
-#<span class="value">yes</span>
-#</div><!-- class='yes_or_no' -->
-		assert_select response, 'div.yes_or_no.field_wrapper' do
-			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'yes_or_no', :count => 1
-			assert_select 'span.value', :text => 'Yes', :count => 1
-		end
-	end
-
-	test "wrapped_yes_or_no_spans false" do
-		@user = AppModel.new(:yes_or_no => false)
-		response = HTML::Document.new(
-			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
-#<div class="yes_or_no field_wrapper">
-#<span class="label">yes_or_no</span>
-#<span class="value">no</span>
-#</div><!-- class='yes_or_no' -->
-		assert_select response, 'div.yes_or_no.field_wrapper' do
-			assert_select 'label', :count => 0
-			assert_select 'span.label', :text => 'yes_or_no', :count => 1
-			assert_select 'span.value', :text => 'No', :count => 1
-		end
-	end
+#	test "flasher" do
+#		response = HTML::Document.new(
+#			flasher
+#		).root
+##<p class="flash" id="notice">Hello There</p>
+##<noscript>
+##<p id="noscript" class="flash">Javascript is required for this site to be fully functional.</p>
+##</noscript>
+##<p class="flash notice">Hello There</p>
+##<noscript>
+##<p id="noscript" class="flash">Javascript is required for this site to be fully functional.</p>
+##</noscript>
+##		assert_select response, 'p#notice.flash'
+#		assert_select response, 'p.notice.flash'
+#		assert_select response, 'noscript' do
+#			assert_select 'p#noscript.flash'
+#		end
+#	end
+#
+#	test "javascripts" do
+#		assert_nil @javascripts
+#		javascripts('myjavascript')
+#		assert @javascripts.include?('myjavascript')
+#		assert_equal 1, @javascripts.length
+#		javascripts('myjavascript')
+#		assert_equal 1, @javascripts.length
+#		#<script src="/javascripts/myjavascript.js" type="text/javascript"></script>
+#		response = HTML::Document.new( content_for(:head) ).root
+#		assert_select response, 'script[src=/javascripts/myjavascript.js]'
+#	end
+#
+#	test "stylesheets" do
+#		assert_nil @stylesheets
+#		stylesheets('mystylesheet')
+#		assert @stylesheets.include?('mystylesheet')
+#		assert_equal 1, @stylesheets.length
+#		stylesheets('mystylesheet')
+#		assert_equal 1, @stylesheets.length
+#		#<link href="/stylesheets/mystylesheet.css" media="screen" rel="stylesheet" type="text/css" />
+#		response = HTML::Document.new( content_for(:head) ).root
+#		assert_select response, 'link[href=/stylesheets/mystylesheet.css]'
+#	end
+#
+#	test "field_wrapper" do
+#		response = HTML::Document.new(
+#			field_wrapper('mymethod') do
+#				'Yield'
+#			end).root
+##<div class="mymethod field_wrapper">
+##Yield
+##</div><!-- class='mymethod' -->
+#		assert_select response, 'div.mymethod.field_wrapper'
+#	end
+#
+#	test "wrapped_spans without options" do
+#		@user = AppModel.new
+#		response = HTML::Document.new(
+#			wrapped_spans(:user, :name)).root
+##<div class="name field_wrapper">
+##<span class="label">name</span>
+##<span class="value">&nbsp;</span>
+##</div><!-- class='name' -->
+#		assert_select response, 'div.name.field_wrapper', :count => 1 do
+#			assert_select 'label', :count => 0
+#			assert_select 'span.label', :count => 1
+#			assert_select 'span.value', :count => 1
+#		end
+#	end
+#
+#	test "wrapped_date_spans blank" do
+#		@user = AppModel.new
+#		response = HTML::Document.new(
+#			wrapped_date_spans(:user, :dob)).root
+##<div class="dob date_spans field_wrapper">
+##<span class="label">dob</span>
+##<span class="value">&nbsp;</span>
+##</div><!-- class='dob date_spans' -->
+#		assert_select response, 'div.dob.date_spans.field_wrapper' do
+#			assert_select 'label', :count => 0
+#			assert_select 'span.label', :text => 'dob', :count => 1
+#			assert_select 'span.value', :text => '&nbsp;', :count => 1
+#		end
+#	end
+#
+#	test "wrapped_date_spans Dec 5, 1971" do
+#		@user = AppModel.new{|u| u.dob = Date.parse('Dec 5, 1971')}
+#		response = HTML::Document.new(
+#			wrapped_date_spans(:user, :dob)).root
+##<div class="dob date_spans field_wrapper">
+##<span class="label">dob</span>
+##<span class="value">12/05/1971</span>
+##</div><!-- class='dob date_spans' -->
+#		assert_select response, 'div.dob.date_spans.field_wrapper' do
+#			assert_select 'label', :count => 0
+#			assert_select 'span.label', :text => 'dob', :count => 1
+#			assert_select 'span.value', :text => '12/05/1971', :count => 1
+#		end
+#	end
+#
+#	test "wrapped_yes_or_no_spans blank" do
+#		@user = AppModel.new
+#		response = HTML::Document.new(
+#			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
+##<div class="yes_or_no field_wrapper">
+##<span class="label">yes_or_no</span>
+##<span class="value">no</span>
+##</div><!-- class='yes_or_no' -->
+#		assert_select response, 'div.yes_or_no.field_wrapper' do
+#			assert_select 'label', :count => 0
+#			assert_select 'span.label', :text => 'yes_or_no', :count => 1
+#			assert_select 'span.value', :text => 'No', :count => 1
+#		end
+#	end
+#
+#	test "wrapped_yes_or_no_spans true" do
+#		@user = AppModel.new{|u| u.yes_or_no = true }
+#		response = HTML::Document.new(
+#			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
+##<div class="yes_or_no field_wrapper">
+##<span class="label">yes_or_no</span>
+##<span class="value">yes</span>
+##</div><!-- class='yes_or_no' -->
+#		assert_select response, 'div.yes_or_no.field_wrapper' do
+#			assert_select 'label', :count => 0
+#			assert_select 'span.label', :text => 'yes_or_no', :count => 1
+#			assert_select 'span.value', :text => 'Yes', :count => 1
+#		end
+#	end
+#
+#	test "wrapped_yes_or_no_spans false" do
+#		@user = AppModel.new(:yes_or_no => false)
+#		response = HTML::Document.new(
+#			wrapped_yes_or_no_spans(:user, :yes_or_no)).root
+##<div class="yes_or_no field_wrapper">
+##<span class="label">yes_or_no</span>
+##<span class="value">no</span>
+##</div><!-- class='yes_or_no' -->
+#		assert_select response, 'div.yes_or_no.field_wrapper' do
+#			assert_select 'label', :count => 0
+#			assert_select 'span.label', :text => 'yes_or_no', :count => 1
+#			assert_select 'span.value', :text => 'No', :count => 1
+#		end
+#	end
 
 #	abstract_pages
 
@@ -1065,17 +1059,17 @@ class ApplicationHelperTest < ActionView::TestCase
 #	ArgumentError: assertion message must be String or Proc, but .... was given.
 
 
-	#	apparently not used anywhere anymore.
-	#	could remove the method or test it manually in order to get 100%
-	test "time_mdy(nil) should return nbsp" do
-		response = time_mdy(nil)
-		assert_equal '&nbsp;', response
-	end
-
-	test "time_mdy(some valid time) should return formated time" do
-		response = time_mdy(Time.parse('Dec 24, 1999 11:59 pm'))
-		assert_equal "11:59 PM 12/24/1999", response
-	end
+#	#	apparently not used anywhere anymore.
+#	#	could remove the method or test it manually in order to get 100%
+#	test "time_mdy(nil) should return nbsp" do
+#		response = time_mdy(nil)
+#		assert_equal '&nbsp;', response
+#	end
+#
+#	test "time_mdy(some valid time) should return formated time" do
+#		response = time_mdy(Time.parse('Dec 24, 1999 11:59 pm'))
+#		assert_equal "11:59 PM 12/24/1999", response
+#	end
 
 private 
 	def params
