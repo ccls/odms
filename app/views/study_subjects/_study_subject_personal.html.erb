@@ -35,6 +35,11 @@
 <%= wrapped_spans :study_subject, :race_names,
 	:label_text => 'race(s):' %>
 
+<%= wrapped_ynrdk_spans :study_subject, :hispanicity,
+	:label_text => 'Hispanic?' %>
+<%= wrapped_ynrdk_spans :study_subject, :hispanicity_mex,
+	:label_text => 'Mexican?' %>
+
 <%= wrapped_spans :study_subject, :state_registrar_no,
 	:label_text => 'state registrar no:' %>
 <%= wrapped_spans :study_subject, :local_registrar_no,
