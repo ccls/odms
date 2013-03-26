@@ -19,21 +19,21 @@ class BcInfoTest < ActiveSupport::TestCase
 		assert_nil mail
 	end
 
-	test "should NOT send blank icf master id notification if childid is NOT blank" do
-		bc_info = BcInfo.new(:childid => "I'm not blank!")	#	but doesn't exist
-		bc_info.process
-		mail = ActionMailer::Base.deliveries.detect{|m|
-			m.subject.match(/Blank ICF Master ID/) }
-		assert_nil mail
-	end
-
-	test "should NOT send blank icf master id notification if subjectid is NOT blank" do
-		bc_info = BcInfo.new(:subjectid => "I'm not blank!")	#	but doesn't exist
-		bc_info.process
-		mail = ActionMailer::Base.deliveries.detect{|m|
-			m.subject.match(/Blank ICF Master ID/) }
-		assert_nil mail
-	end
+#	test "should NOT send blank icf master id notification if childid is NOT blank" do
+#		bc_info = BcInfo.new(:childid => "I'm not blank!")	#	but doesn't exist
+#		bc_info.process
+#		mail = ActionMailer::Base.deliveries.detect{|m|
+#			m.subject.match(/Blank ICF Master ID/) }
+#		assert_nil mail
+#	end
+#
+#	test "should NOT send blank icf master id notification if subjectid is NOT blank" do
+#		bc_info = BcInfo.new(:subjectid => "I'm not blank!")	#	but doesn't exist
+#		bc_info.process
+#		mail = ActionMailer::Base.deliveries.detect{|m|
+#			m.subject.match(/Blank ICF Master ID/) }
+#		assert_nil mail
+#	end
 
 	test "should set icf_master_id to given masterid if icf_master_id blank" do
 		bc_info = BcInfo.new(:masterid => "0123")
@@ -55,25 +55,25 @@ class BcInfoTest < ActiveSupport::TestCase
 			mail.body.encoded
 	end
 
-	test "should send no matching subject notification if childid isn't used" do
-		bc_info = BcInfo.new(:childid => "IDONOTEXIST")
-		bc_info.process
-		mail = ActionMailer::Base.deliveries.detect{|m|
-			m.subject.match(/No Subject with ChildID/i) }
-		assert mail.to.include?('jakewendt@berkeley.edu')
-		assert_match 'contained line with childid but no subject with childid',
-			mail.body.encoded
-	end
-
-	test "should send no matching subject notification if subjectid isn't used" do
-		bc_info = BcInfo.new(:subjectid => "IDONOTEXIST")
-		bc_info.process
-		mail = ActionMailer::Base.deliveries.detect{|m|
-			m.subject.match(/No Subject with SubjectID/i) }
-		assert mail.to.include?('jakewendt@berkeley.edu')
-		assert_match 'contained line with subjectid but no subject with subjectid',
-			mail.body.encoded
-	end
+#	test "should send no matching subject notification if childid isn't used" do
+#		bc_info = BcInfo.new(:childid => "IDONOTEXIST")
+#		bc_info.process
+#		mail = ActionMailer::Base.deliveries.detect{|m|
+#			m.subject.match(/No Subject with ChildID/i) }
+#		assert mail.to.include?('jakewendt@berkeley.edu')
+#		assert_match 'contained line with childid but no subject with childid',
+#			mail.body.encoded
+#	end
+#
+#	test "should send no matching subject notification if subjectid isn't used" do
+#		bc_info = BcInfo.new(:subjectid => "IDONOTEXIST")
+#		bc_info.process
+#		mail = ActionMailer::Base.deliveries.detect{|m|
+#			m.subject.match(/No Subject with SubjectID/i) }
+#		assert mail.to.include?('jakewendt@berkeley.edu')
+#		assert_match 'contained line with subjectid but no subject with subjectid',
+#			mail.body.encoded
+#	end
 
 	test "should set study_subject if given icf_master_id is used" do
 		study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST")
@@ -83,21 +83,21 @@ class BcInfoTest < ActiveSupport::TestCase
 		assert_equal   bc_info.study_subject, study_subject
 	end
 
-	test "should set study_subject if given childid is used" do
-		study_subject = Factory(:study_subject)
-		bc_info = BcInfo.new(:childid => study_subject.childid)
-		bc_info.process
-		assert_not_nil bc_info.study_subject
-		assert_equal   bc_info.study_subject, study_subject
-	end
-
-	test "should set study_subject if given subjectid is used" do
-		study_subject = Factory(:study_subject)
-		bc_info = BcInfo.new(:subjectid => study_subject.subjectid)
-		bc_info.process
-		assert_not_nil bc_info.study_subject
-		assert_equal   bc_info.study_subject, study_subject
-	end
+#	test "should set study_subject if given childid is used" do
+#		study_subject = Factory(:study_subject)
+#		bc_info = BcInfo.new(:childid => study_subject.childid)
+#		bc_info.process
+#		assert_not_nil bc_info.study_subject
+#		assert_equal   bc_info.study_subject, study_subject
+#	end
+#
+#	test "should set study_subject if given subjectid is used" do
+#		study_subject = Factory(:study_subject)
+#		bc_info = BcInfo.new(:subjectid => study_subject.subjectid)
+#		bc_info.process
+#		assert_not_nil bc_info.study_subject
+#		assert_equal   bc_info.study_subject, study_subject
+#	end
 
 	#	string fields are squished and namerized
 	{ 

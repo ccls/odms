@@ -17,12 +17,13 @@ class BcInfo < OpenStruct
 	def process
 #	would work with childid or subjectid, but rake task won't be expecting
 #	these column names so will need to make adjustments there for this.
+#	this modification was meant for the birth_data files!
 		identifier = if !icf_master_id.blank? 
 			:icf_master_id
-		elsif !childid.blank?
-			:childid
-		elsif !subjectid.blank?
-			:subjectid
+#		elsif !childid.blank?
+#			:childid
+#		elsif !subjectid.blank?
+#			:subjectid
 		else
 			nil
 		end
