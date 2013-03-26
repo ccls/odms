@@ -50,7 +50,7 @@ GEM
     capybara-webkit (0.14.2)
       capybara (~> 2.0, >= 2.0.2)
       json
-    ccls-common_lib (1.0.10)
+    ccls-common_lib (1.0.11)
       american_date
       hpricot
       jeweler
@@ -220,7 +220,7 @@ DEPENDENCIES
   ccls-common_lib (> 0.9)
   ccls-html_test
   chronic
-  coffee-rails (~> 3.2.1)
+  coffee-rails
   database_cleaner
   factory_girl (~> 2.6.0)
   factory_girl_rails
@@ -236,11 +236,11 @@ DEPENDENCIES
   prawn
   prawnto
   rack-ssl
-  rails (~> 3.2)
+  rails
   rubycas-client
   ryanb-acts-as-list
   sass
-  sass-rails (~> 3.2.3)
+  sass-rails
   simplecov
   sqlite3
   sunspot_rails
