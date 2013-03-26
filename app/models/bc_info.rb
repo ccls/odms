@@ -15,31 +15,46 @@ class BcInfo < OpenStruct
 	end
 
 	def process
-		if icf_master_id.blank?
+#	would work with childid or subjectid, but rake task won't be expecting
+#	these column names so will need to make adjustments there for this.
+		identifier = if !icf_master_id.blank? 
+			:icf_master_id
+		elsif !childid.blank?
+			:childid
+		elsif !subjectid.blank?
+			:subjectid
+		else
+			nil
+		end
+
+		if identifier.blank?
 			Notification.plain(
 				"#{bc_info_file} contained line with blank icf_master_id",
 				email_options.merge({ 
 					:subject => "ODMS: Blank ICF Master ID in #{bc_info_file}" })
 			).deliver
-#			puts "icf_master_id is blank" 
 			return	#	next
 		end
 
-		subjects = StudySubject.where(:icf_master_id => icf_master_id)
+#		subjects = StudySubject.where(:icf_master_id => icf_master_id)
+		subjects = StudySubject.where(identifier => send(identifier))
 
 		#	Shouldn't be possible as icf_master_id is unique in the db
 		#raise "Multiple case subjects? with icf_master_id:" <<
 		#	"#{line['icf_master_id']}:" if subjects.length > 1
 		unless subjects.length == 1
 			Notification.plain(
-				"#{bc_info_file} contained line with icf_master_id " <<
-				"but no subject with icf_master_id:#{icf_master_id}:",
+				"#{bc_info_file} contained line with #{identifier} " <<
+				"but no subject with #{identifier}:#{send(identifier)}:",
 				email_options.merge({ 
-					:subject => "ODMS: No Subject with ICF Master ID in #{bc_info_file}" })
+					:subject => "ODMS: No Subject with #{identifier} in #{bc_info_file}" })
 			).deliver
-#			puts "No subject with icf_master_id:#{icf_master_id}:" 
 			return	#	next
 		end
+
+
+
+
 		self.study_subject = subjects.first
 
 		#	using "a" as a synonym for "new_attributes" since is a Hash (pointer)
@@ -139,7 +154,7 @@ class BcInfo < OpenStruct
 		if study_subject.changed?
 
 			#	kinda crued, but just want to remember that this was changed in email
-#			study_subject.instance_variable_set("@bc_info_changed",true) 
+			study_subject.instance_variable_set("@bc_info_changed",true) 
 
 			if study_subject.save
 
@@ -164,18 +179,11 @@ class BcInfo < OpenStruct
 					:description => "ICF Screening data changes from #{bc_info_file}",
 					:event_notes => "Changes:  #{changes}")
 
-				study_subject.operational_events.create(
-					:occurred_at => date || DateTime.now,
-					:project_id  => Project['ccls'].id,
-					:operational_event_type_id => OperationalEventType['screener_complete'].id,
-					:description => "ICF screening complete from #{bc_info_file}" ) if (
-						study_subject.operational_events.where(
-						:operational_event_type_id => OperationalEventType['screener_complete'].id)
-						.where(:project_id => Project[:ccls].id).empty? )
-
 			else
 
 #				puts "Subject #{study_subject.icf_master_id} didn't save?!?!?!"
+#				raise "Subject #{study_subject.icf_master_id} didn't save?!?!?!"
+
 #				Notification.plain(
 #					"#{bc_info_file} subject save failed?  " <<
 #					"I'm confused?  Help me.  " <<
@@ -191,6 +199,17 @@ class BcInfo < OpenStruct
 			end	#	if study_subject.save
 
 		end	#	if study_subject.changed?
+
+		#	I think that this OE should be created regardless of whether the 
+		#	subject's info has changed.  It simply flags the existance in a bc_info.
+		study_subject.operational_events.create(
+			:occurred_at => date || DateTime.now,
+			:project_id  => Project['ccls'].id,
+			:operational_event_type_id => OperationalEventType['screener_complete'].id,
+			:description => "ICF screening complete from #{bc_info_file}" ) if (
+				study_subject.operational_events.where(
+					:operational_event_type_id => OperationalEventType['screener_complete'].id)
+					.where(:project_id => Project[:ccls].id).empty? )
 
 		unless study_subject.mother.try(:id).nil?
 			#	ReadOnlyRecord due to joins so need to re-find.
@@ -238,7 +257,7 @@ class BcInfo < OpenStruct
 					new_other_race = study_subject.other_mother_race || "UNSPECIFIED IN BC_INFO"
 					msr.other_race = if msr.other_race.blank?
 						new_other_race
-					elsif msr.other_race.include?(new_other_race)
+					elsif msr.other_race.downcase.include?(new_other_race.downcase)
 						msr.other_race
 					else
 						"#{msr.other_race}, #{new_other_race}"
@@ -251,7 +270,8 @@ class BcInfo < OpenStruct
 
 		end	#	unless study_subject.mother.id.nil?
 
-		study_subject.bc_requests.create(:status => 'waitlist')
+		study_subject.bc_requests.create(:status => 'waitlist') unless( 
+			study_subject.bc_requests.incomplete.exists? )
 
 	end
 

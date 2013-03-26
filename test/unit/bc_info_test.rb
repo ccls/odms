@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BcInfoTest < ActiveSupport::TestCase
 
-	test "should send blank icf master id notification if icf master id is blank" do
+	test "should send blank icf master id notification if all identifiers are blank" do
 		bc_info = BcInfo.new(:bc_info_file => "somefile.csv")
 		bc_info.process
 		mail = ActionMailer::Base.deliveries.detect{|m|
@@ -13,6 +13,22 @@ class BcInfoTest < ActiveSupport::TestCase
 
 	test "should NOT send blank icf master id notification if icf master id is NOT blank" do
 		bc_info = BcInfo.new(:icf_master_id => "I'm not blank!")	#	but doesn't exist
+		bc_info.process
+		mail = ActionMailer::Base.deliveries.detect{|m|
+			m.subject.match(/Blank ICF Master ID/) }
+		assert_nil mail
+	end
+
+	test "should NOT send blank icf master id notification if childid is NOT blank" do
+		bc_info = BcInfo.new(:childid => "I'm not blank!")	#	but doesn't exist
+		bc_info.process
+		mail = ActionMailer::Base.deliveries.detect{|m|
+			m.subject.match(/Blank ICF Master ID/) }
+		assert_nil mail
+	end
+
+	test "should NOT send blank icf master id notification if subjectid is NOT blank" do
+		bc_info = BcInfo.new(:subjectid => "I'm not blank!")	#	but doesn't exist
 		bc_info.process
 		mail = ActionMailer::Base.deliveries.detect{|m|
 			m.subject.match(/Blank ICF Master ID/) }
@@ -33,9 +49,29 @@ class BcInfoTest < ActiveSupport::TestCase
 		bc_info = BcInfo.new(:icf_master_id => "IDONOTEXIST")
 		bc_info.process
 		mail = ActionMailer::Base.deliveries.detect{|m|
-			m.subject.match(/No Subject with ICF Master ID/) }
+			m.subject.match(/No Subject with ICF_Master_ID/i) }
 		assert mail.to.include?('jakewendt@berkeley.edu')
 		assert_match 'contained line with icf_master_id but no subject with icf_master_id',
+			mail.body.encoded
+	end
+
+	test "should send no matching subject notification if childid isn't used" do
+		bc_info = BcInfo.new(:childid => "IDONOTEXIST")
+		bc_info.process
+		mail = ActionMailer::Base.deliveries.detect{|m|
+			m.subject.match(/No Subject with ChildID/i) }
+		assert mail.to.include?('jakewendt@berkeley.edu')
+		assert_match 'contained line with childid but no subject with childid',
+			mail.body.encoded
+	end
+
+	test "should send no matching subject notification if subjectid isn't used" do
+		bc_info = BcInfo.new(:subjectid => "IDONOTEXIST")
+		bc_info.process
+		mail = ActionMailer::Base.deliveries.detect{|m|
+			m.subject.match(/No Subject with SubjectID/i) }
+		assert mail.to.include?('jakewendt@berkeley.edu')
+		assert_match 'contained line with subjectid but no subject with subjectid',
 			mail.body.encoded
 	end
 
@@ -47,17 +83,21 @@ class BcInfoTest < ActiveSupport::TestCase
 		assert_equal   bc_info.study_subject, study_subject
 	end
 
-#
-#	hispanicity computation will pretty much guarantee that the
-#		changes hash will never be empty
-#
+	test "should set study_subject if given childid is used" do
+		study_subject = Factory(:study_subject)
+		bc_info = BcInfo.new(:childid => study_subject.childid)
+		bc_info.process
+		assert_not_nil bc_info.study_subject
+		assert_equal   bc_info.study_subject, study_subject
+	end
 
-#	test "should set changes to empty hash if no changes" do
-#		Factory(:study_subject, :icf_master_id => "IDOEXIST")
-#		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")
-#		bc_info.process
-#		assert bc_info.changes.empty?
-#	end
+	test "should set study_subject if given subjectid is used" do
+		study_subject = Factory(:study_subject)
+		bc_info = BcInfo.new(:subjectid => study_subject.subjectid)
+		bc_info.process
+		assert_not_nil bc_info.study_subject
+		assert_equal   bc_info.study_subject, study_subject
+	end
 
 	#	string fields are squished and namerized
 	{ 
@@ -90,8 +130,10 @@ class BcInfoTest < ActiveSupport::TestCase
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 				k => "  NEWVALUE  ")
 			bc_info.process
-#			assert !bc_info.changes.empty?
+			assert bc_info.changes.keys.include?(v.to_s), 
+				"#{bc_info.changes.inspect} does not include '#{v}'"
 			assert_equal "Newvalue", study_subject.reload.send(v)
+assert bc_info.study_subject.instance_variable_get("@bc_info_changed")
 		end
 
 	end
@@ -107,7 +149,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 				k => "  NEWVALUE  ")
 			bc_info.process
-#			assert !bc_info.changes.empty?
+			assert bc_info.changes.keys.include?(v.to_s),
+				"#{bc_info.changes.inspect} does not include '#{v}'"
 			assert_equal "NEWVALUE", study_subject.reload.send(v)
 		end
 
@@ -130,7 +173,8 @@ class BcInfoTest < ActiveSupport::TestCase
 				assert_nil study_subject.send(v)
 				bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", k => ynrdk)
 				bc_info.process
-#				assert !bc_info.changes.empty?
+				assert bc_info.changes.keys.include?(v.to_s),
+					"#{bc_info.changes.inspect} does not include '#{v}'"
 				assert_equal ynrdk, study_subject.reload.send(v)
 			end
 
@@ -144,7 +188,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			assert_nil study_subject.birth_year
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", attr => 2000)
 			bc_info.process
-#			assert !bc_info.changes.empty?
+			assert bc_info.changes.keys.include?('birth_year'),
+				"#{bc_info.changes.inspect} does not include 'birth_year'"
 			assert_equal '2000', study_subject.reload.birth_year
 		end
 
@@ -161,7 +206,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST")
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", k => 1)
 			bc_info.process
-#			assert !bc_info.changes.empty?
+			assert bc_info.changes.keys.include?(v.to_s),
+				"#{bc_info.changes.inspect} does not include '#{v}'"
 			assert_equal '1', study_subject.reload.send(v).to_s
 		end
 
@@ -174,7 +220,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			assert_nil study_subject.birth_year
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", attr => 'M')
 			bc_info.process
-#			assert !bc_info.changes.empty?
+			assert bc_info.changes.keys.include?('sex'), 
+				"#{bc_info.changes.inspect} does not include 'sex'"
 			assert_equal 'M', study_subject.reload.sex
 		end
 
@@ -189,7 +236,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 				attr => 'Dec 31, 1998')
 			bc_info.process
-#			assert !bc_info.changes.empty?
+			assert bc_info.changes.keys.include?('dob'),
+				"#{bc_info.changes.inspect} does not include 'dob'"
 			assert_equal Date.parse('Dec 31, 1998'), study_subject.reload.dob
 		end
 
@@ -216,7 +264,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 				attr => '0')
 			bc_info.process
-#			assert !bc_info.changes.empty?
+			assert bc_info.changes.keys.include?(attr),
+				"#{bc_info.changes.inspect} does not include '#{attr}'"
 			assert_equal '888', study_subject.reload.send(attr).to_s
 		end
 
@@ -226,7 +275,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 				attr => '9')
 			bc_info.process
-#			assert !bc_info.changes.empty?
+			assert bc_info.changes.keys.include?(attr),
+				"#{bc_info.changes.inspect} does not include '#{attr}'"
 			assert_equal '999', study_subject.reload.send(attr).to_s
 		end
 
@@ -332,6 +382,7 @@ class BcInfoTest < ActiveSupport::TestCase
 #					end
 
 	test "should not update attribute if new data is blank" do
+pending
 	end
 
 	test "should create datachanged operational event if data changed" do
@@ -341,17 +392,13 @@ class BcInfoTest < ActiveSupport::TestCase
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:new_middle_name => "TRIGGERCHANGE")
 		bc_info.process
-#		assert !bc_info.changes.empty?
+		assert bc_info.changes.keys.include?('middle_name'),
+			"#{bc_info.changes.inspect} does not include 'middle_name'"
 		dcoes = study_subject.operational_events.where(
 			:operational_event_type_id => OperationalEventType['datachanged'].id)
 		assert !dcoes.empty?
 	end
-#
-#	hispanicity computation will ensure that almost all records
-#	will have changed so this will happen for almost all
-#
-#	TODO unless set hispanicity initially!
-#
+
 	test "should NOT create datachanged operational event if data NOT changed" do
 		study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST",
 			:hispanicity => '999', :hispanicity_mex => '999')
@@ -372,30 +419,22 @@ class BcInfoTest < ActiveSupport::TestCase
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:new_middle_name => "TRIGGERCHANGE")
 		bc_info.process
-#		assert !bc_info.changes.empty?
+		assert bc_info.changes.keys.include?('middle_name'),
+			"#{bc_info.changes.inspect} does not include 'middle_name'"
 		assert !study_subject.operational_events.where(
 			:operational_event_type_id => OperationalEventType['screener_complete'].id).empty?
 	end
-#
-#	hispanicity computation will ensure that almost all records
-#	will have changed so this will happen for almost all
-#
-#	TODO unless set hispanicity initially!
-#
-	test "should NOT create screener_complete operational event if data NOT changed" do
+
+	test "should create screener_complete operational event if data NOT changed" do
 		study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST",
 			:hispanicity => '999', :hispanicity_mex => '999')
 		assert study_subject.operational_events.where(
 			:operational_event_type_id => OperationalEventType['screener_complete'].id).empty?
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")
 		bc_info.process
-		assert bc_info.changes.empty?	#	no changes
-		dcoes = study_subject.reload.operational_events.where(
-			:operational_event_type_id => OperationalEventType['screener_complete'].id)
-
-#	TODO really? why? seems like it SHOULD
-		assert dcoes.empty?
-
+		assert bc_info.changes.empty?	#	NO changes
+		assert !study_subject.reload.operational_events.where(
+			:operational_event_type_id => OperationalEventType['screener_complete'].id).empty?
 	end
 
 
@@ -410,6 +449,7 @@ class BcInfoTest < ActiveSupport::TestCase
 #							).deliver
 	test "should send save failed notification if subject changed and save failed" do
 #	TODO stub create or update returns false
+pending
 	end
 
 
@@ -448,7 +488,8 @@ class BcInfoTest < ActiveSupport::TestCase
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			"new_mother_first_name" => "MOMSNAME")
 		bc_info.process
-		assert !bc_info.mother_changes.empty?
+		assert bc_info.mother_changes.keys.include?('first_name'),
+			"#{bc_info.changes.inspect} does not include 'first_name'"
 		assert !mother.operational_events.where(
 			:operational_event_type_id => OperationalEventType['datachanged'].id).empty?
 #	TODO regardless of whether changed??  really?
@@ -466,23 +507,6 @@ class BcInfoTest < ActiveSupport::TestCase
 		assert_match 'No race found with code', mail.body.encoded
 	end
 
-
-#						elsif mr.is_other? or mr.is_mixed?
-#							msr = if mother.races.include?( mr )
-#								mother.subject_races.where(:race_code => mr.code).first
-#							else
-#								mother.subject_races.new(:race_code => mr.code)
-#							end
-#							new_other_race = study_subject.other_mother_race || "UNSPECIFIED IN BC_INFO"
-#							msr.other_race = if msr.other_race.blank?
-#								new_other_race
-#							elsif msr.other_race.include?(new_other_race)
-#								msr.other_race
-#							else
-#								"#{msr.other_race}, #{new_other_race}"
-#							end
-#							msr.save
-
 	test "should create mother other race if is other and doesn't exist" do
 		study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
@@ -492,8 +516,7 @@ class BcInfoTest < ActiveSupport::TestCase
 			'other_mother_race' => 'martian' )
 		bc_info.process
 		assert_equal [Race[:other]],mother.reload.races
-
-
+		assert_equal 'Martian', mother.subject_races.first.other_race
 	end
 
 	test "should create mother other race if is mixed and doesn't exist" do
@@ -504,30 +527,27 @@ class BcInfoTest < ActiveSupport::TestCase
 			'other_mother_race' => 'martian' )
 		bc_info.process
 		assert_equal [Race[:mixed]],mother.reload.races
-
-
+		assert_equal 'Martian', mother.subject_races.first.other_race
 	end
 
-	test "should create mother other race if is other and doesn't exist and is unspecfied" do
+	test "should create mother other race if is other, doesn't exist and is unspecified" do
 		study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			"mother_race_code" => Race[:other].code )
 		bc_info.process
 		assert_equal [Race[:other]],mother.reload.races
-
-
+		assert_equal 'UNSPECIFIED IN BC_INFO', mother.subject_races.first.other_race
 	end
 
-	test "should create mother other race if is mixed and doesn't exist and is unspecfied" do
+	test "should create mother other race if is mixed, doesn't exist and is unspecified" do
 		study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			"mother_race_code" => Race[:mixed].code )
 		bc_info.process
 		assert_equal [Race[:mixed]],mother.reload.races
-
-
+		assert_equal 'UNSPECIFIED IN BC_INFO', mother.subject_races.first.other_race
 	end
 
 	test "should append mother other race if is other and exists" do
@@ -539,8 +559,7 @@ class BcInfoTest < ActiveSupport::TestCase
 			"mother_race_code" => Race[:other].code,
 			'other_mother_race' => 'venusian' )
 		bc_info.process
-
-
+		assert_equal 'martian, Venusian', mother.subject_races.first.other_race
 	end
 
 	test "should append mother other race if is mixed and exists" do
@@ -552,8 +571,7 @@ class BcInfoTest < ActiveSupport::TestCase
 			"mother_race_code" => Race[:mixed].code,
 			'other_mother_race' => 'venusian' )
 		bc_info.process
-
-
+		assert_equal 'martian, Venusian', mother.subject_races.first.other_race
 	end
 
 	test "should NOT append mother other race if is other and exists and includes" do
@@ -565,8 +583,7 @@ class BcInfoTest < ActiveSupport::TestCase
 			"mother_race_code" => Race[:other].code,
 			'other_mother_race' => 'martian' )
 		bc_info.process
-
-
+		assert_equal 'martian', mother.subject_races.first.other_race
 	end
 
 	test "should NOT append mother other race if is mixed and exists and includes" do
@@ -578,13 +595,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			"mother_race_code" => Race[:mixed].code,
 			'other_mother_race' => 'martian' )
 		bc_info.process
-
-
+		assert_equal 'martian', mother.subject_races.first.other_race
 	end
-
-
-
-
 
 	test "should create mother race if don't have it" do
 		study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST")
@@ -612,6 +624,16 @@ class BcInfoTest < ActiveSupport::TestCase
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")
 		bc_info.process
 		assert !study_subject.bc_requests.where(:status => 'waitlist').empty?
+	end
+
+	test "should NOT create waitlist bc_request if incomplete bc_request exists" do
+		study_subject = Factory(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject.bc_requests.create(:status => 'pending')
+		assert_equal 1, study_subject.bc_requests.length
+		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")
+		bc_info.process
+		assert_equal 1, study_subject.bc_requests.length
+		assert study_subject.bc_requests.where(:status => 'waitlist').empty?
 	end
 
 end
