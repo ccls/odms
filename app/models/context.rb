@@ -1,6 +1,7 @@
 #	==	requires
 #	*	description (unique and >3 chars)
-class Context < ActiveRecord::Base
+#class Context < ActiveRecord::Base
+class Context
 #
 #	acts_as_list
 #	acts_like_a_hash

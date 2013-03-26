@@ -97,7 +97,7 @@ Odms::Application.routes.draw do
 	end
 
 	resources :controls, :only => [:new,:create,:index]
-	resources :contexts
+#	resources :contexts
 	resources :data_sources
 	resources :diagnoses
 	resources :document_types

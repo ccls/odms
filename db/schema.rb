@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130325184356) do
+ActiveRecord::Schema.define(:version => 20130326225702) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -661,26 +661,6 @@ ActiveRecord::Schema.define(:version => 20130325184356) do
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
   end
-
-  create_table "context_contextables", :force => true do |t|
-    t.integer  "context_id"
-    t.integer  "contextable_id"
-    t.string   "contextable_type"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
-
-  create_table "contexts", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description"
-    t.text     "notes"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "contexts", ["description"], :name => "index_contexts_on_description", :unique => true
-  add_index "contexts", ["key"], :name => "index_contexts_on_key", :unique => true
 
   create_table "counties", :force => true do |t|
     t.string   "name"
