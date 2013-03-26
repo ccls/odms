@@ -260,20 +260,20 @@ Factory.define :rejected_candidate_control, :parent => :candidate_control do |f|
 	f.rejection_reason "Some test reason"
 end
 
-Factory.define :context do |f|
-	f.sequence(:key)         { |n| "Key#{n}" }
-	f.sequence(:description) { |n| "Desc#{n}" }
-end
-
-Factory.define :context_contextable do |f|
-	f.association :context
+#Factory.define :context do |f|
+#	f.sequence(:key)         { |n| "Key#{n}" }
+#	f.sequence(:description) { |n| "Desc#{n}" }
+#end
 #
-#	This is polymorphic, and data source is just one example
-#	of a contextable that it referenced from Context.
-#	Could be any model though.
-#
-	f.association :contextable, :factory => :data_source
-end
+#Factory.define :context_contextable do |f|
+#	f.association :context
+##
+##	This is polymorphic, and data source is just one example
+##	of a contextable that it referenced from Context.
+##	Could be any model though.
+##
+#	f.association :contextable, :factory => :data_source
+#end
 
 Factory.define :county do |f|
 	f.sequence(:name){ |n| "Name #{n}" }
