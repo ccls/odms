@@ -80,24 +80,14 @@ Odms::Application.routes.draw do
 		member     { put :update_status }
 	end
 	resources :birth_data, :except => [:new,:create]
-#	resources :birth_datum_updates, :except => [:edit,:update]
 	resources :candidate_controls, :only => [:edit,:update,:index,:show]
 	#	Removing RAF forms and creating a single RAF-like form
-	#	for cases only and adding edit/update/show.
-#	resources :cases, :only => [:new,:create,:edit,:update,:show,:index] do
-#	resources :cases, :only => [:index] do
-#		#
-#		#	WARNING be careful as "case" is a ruby keyword!
-#		#
-#		resources :controls,   :only => [:new]	#,:create]
-#	end
 
 	resources :cases, :only => [:index] do
 		collection { put :assign_selected_for_interview }
 	end
 
 	resources :controls, :only => [:new,:create,:index]
-#	resources :contexts
 	resources :data_sources
 	resources :diagnoses
 	resources :document_types
@@ -189,36 +179,60 @@ Odms::Application.routes.draw do
 	resources :abstracts, :except => [:new,:create] do
 		#	specify custom location controllers to avoid conflict
 		#	with app controllers ( just diagnoses now )
-		resource :identifying_datum, :only => [:edit,:update,:show],
-			:controller => 'abstract/identifying_data'
-		resource :bone_marrow, :only => [:edit,:update,:show],
-			:controller => 'abstract/bone_marrows'
-		resource :cbc, :only => [:edit,:update,:show],
-			:controller => 'abstract/cbcs'
-		resource :cerebrospinal_fluid, :only => [:edit,:update,:show],
-			:controller => 'abstract/cerebrospinal_fluids'
-		resource :checklist, :only => [:edit,:update,:show],
-			:controller => 'abstract/checklists'
-		resource :chest_imaging, :only => [:edit,:update,:show],
-			:controller => 'abstract/chest_imagings'
-		resource :clinical_chemo_protocol, :only => [:edit,:update,:show],
-			:controller => 'abstract/clinical_chemo_protocols'
-		resource :cytogenetic, :only => [:edit,:update,:show],
-			:controller => 'abstract/cytogenetics'
-		resource :diagnosis, :only => [:edit,:update,:show],
-			:controller => 'abstract/diagnoses'
-		resource :discharge, :only => [:edit,:update,:show],
-			:controller => 'abstract/discharges'
-		resource :flow_cytometry, :only => [:edit,:update,:show],
-			:controller => 'abstract/flow_cytometries'
-		resource :histocompatibility, :only => [:edit,:update,:show],
-			:controller => 'abstract/histocompatibilities'
-		resource :name, :only => [:edit,:update,:show],
-			:controller => 'abstract/names'
-		resource :tdt, :only => [:edit,:update,:show],
-			:controller => 'abstract/tdts'
-		resource :therapy_response, :only => [:edit,:update,:show],
-			:controller => 'abstract/therapy_responses'
+		#	also looks cleaner
+#		resource :identifying_datum, :only => [:edit,:update,:show],
+#			:controller => 'abstract/identifying_data'
+#		resource :bone_marrow, :only => [:edit,:update,:show],
+#			:controller => 'abstract/bone_marrows'
+#		resource :cbc, :only => [:edit,:update,:show],
+#			:controller => 'abstract/cbcs'
+#		resource :cerebrospinal_fluid, :only => [:edit,:update,:show],
+#			:controller => 'abstract/cerebrospinal_fluids'
+#		resource :checklist, :only => [:edit,:update,:show],
+#			:controller => 'abstract/checklists'
+#		resource :chest_imaging, :only => [:edit,:update,:show],
+#			:controller => 'abstract/chest_imagings'
+#		resource :clinical_chemo_protocol, :only => [:edit,:update,:show],
+#			:controller => 'abstract/clinical_chemo_protocols'
+#		resource :cytogenetic, :only => [:edit,:update,:show],
+#			:controller => 'abstract/cytogenetics'
+#		resource :diagnosis, :only => [:edit,:update,:show],
+#			:controller => 'abstract/diagnoses'
+#		resource :discharge, :only => [:edit,:update,:show],
+#			:controller => 'abstract/discharges'
+#		resource :flow_cytometry, :only => [:edit,:update,:show],
+#			:controller => 'abstract/flow_cytometries'
+#		resource :histocompatibility, :only => [:edit,:update,:show],
+#			:controller => 'abstract/histocompatibilities'
+#		resource :name, :only => [:edit,:update,:show],
+#			:controller => 'abstract/names'
+#		resource :tdt, :only => [:edit,:update,:show],
+#			:controller => 'abstract/tdts'
+#		resource :therapy_response, :only => [:edit,:update,:show],
+#			:controller => 'abstract/therapy_responses'
+
+		#	using scope as it seems to clean this up
+		#	module adds controller namespace of 'Abstract::' 
+		#		and path prefix '/abstracts/:abstract_id'
+		#	fortunately, scope also takes :only
+		#	this seems to work like "with_options" without needing to pass hash
+		scope :module => :abstract, :only => [:edit,:update,:show] do
+			resource :identifying_datum
+			resource :bone_marrow
+			resource :cbc
+			resource :cerebrospinal_fluid
+			resource :checklist
+			resource :chest_imaging
+			resource :clinical_chemo_protocol
+			resource :cytogenetic
+			resource :diagnosis
+			resource :discharge
+			resource :flow_cytometry
+			resource :histocompatibility
+			resource :name
+			resource :tdt
+			resource :therapy_response
+		end	#	scope :module => :abstract do
 	end
 
 #	resources :study_subjects, :only => [:edit,:update,:show,:index],
@@ -237,32 +251,36 @@ Odms::Application.routes.draw do
 			get :followup
 			get :reports
 		end
-		resource  :patient
-		resources :birth_records, :only => :index
-		#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
-		resources :phone_numbers, :except => [:index,:show]
-		resources :addressings,   :except => [:index,:show]
-		resources :enrollments,   :except => :destroy
-		resource  :consent,
-			:only => [:show,:edit,:update]
-		resources :samples
-		resources :events
-		resources :contacts,   :only => :index
-		resources :interviews, :only => :index
-		resources :documents,  :only => :index
-		resources :notes,      :only => :index
+		#	using scope as it seems to clean this up
+		#	module adds controller namespace
+#		scope :module => :study_subject do
+			resource  :patient
+			resources :birth_records, :only => :index
+			#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
+			resources :phone_numbers, :except => [:index,:show]
+			resources :addressings,   :except => [:index,:show]
+			resources :enrollments,   :except => :destroy
+			resource  :consent,
+				:only => [:show,:edit,:update]
+			resources :samples
+			resources :events
+			resources :contacts,   :only => :index
+			resources :interviews, :only => :index
+			resources :documents,  :only => :index
+			resources :notes,      :only => :index
 
-		#
-		#	Add index action and set custom controller name
-		#
-		resources :abstracts, :only => [:new,:create,:index],
-			:controller => 'study_subject_abstracts' do
-			collection do
-				get  :compare
-				post :merge
+			#
+			#	Add index action and set custom controller name
+			#
+			resources :abstracts, :only => [:new,:create,:index],
+				:controller => 'study_subject_abstracts' do
+				collection do
+					get  :compare
+					post :merge
+				end
 			end
-		end
-		resources :related_subjects, :only => [:index]
+			resources :related_subjects, :only => [:index]
+#		end	#	scope :module => :study_subject do
 	end
 
 	#	format seems to be required in the url? UNLESS wrapped in ()!
