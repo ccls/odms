@@ -1,3 +1,3 @@
 #	Name section controller
-class Abstract::NamesController < PartialAbstractController
+class Abstract::NamesController < AbstractBaseController
 end

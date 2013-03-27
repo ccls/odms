@@ -1,3 +1,3 @@
 #	H&P / Discharge section controller
-class Abstract::DischargesController < PartialAbstractController
+class Abstract::DischargesController < AbstractBaseController
 end

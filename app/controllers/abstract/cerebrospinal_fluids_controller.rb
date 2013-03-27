@@ -1,3 +1,3 @@
 #	Cerebrospinal Fluid section controller
-class Abstract::CerebrospinalFluidsController < PartialAbstractController
+class Abstract::CerebrospinalFluidsController < AbstractBaseController
 end

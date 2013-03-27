@@ -176,40 +176,11 @@ Odms::Application.routes.draw do
 	end
 
 	#	I think that these MUST come before the study subject sub routes
-	resources :abstracts, :except => [:new,:create] do
+#	resources :abstracts, :except => [:new,:create] do
+	resources :abstracts, :only => [] do
 		#	specify custom location controllers to avoid conflict
 		#	with app controllers ( just diagnoses now )
 		#	also looks cleaner
-#		resource :identifying_datum, :only => [:edit,:update,:show],
-#			:controller => 'abstract/identifying_data'
-#		resource :bone_marrow, :only => [:edit,:update,:show],
-#			:controller => 'abstract/bone_marrows'
-#		resource :cbc, :only => [:edit,:update,:show],
-#			:controller => 'abstract/cbcs'
-#		resource :cerebrospinal_fluid, :only => [:edit,:update,:show],
-#			:controller => 'abstract/cerebrospinal_fluids'
-#		resource :checklist, :only => [:edit,:update,:show],
-#			:controller => 'abstract/checklists'
-#		resource :chest_imaging, :only => [:edit,:update,:show],
-#			:controller => 'abstract/chest_imagings'
-#		resource :clinical_chemo_protocol, :only => [:edit,:update,:show],
-#			:controller => 'abstract/clinical_chemo_protocols'
-#		resource :cytogenetic, :only => [:edit,:update,:show],
-#			:controller => 'abstract/cytogenetics'
-#		resource :diagnosis, :only => [:edit,:update,:show],
-#			:controller => 'abstract/diagnoses'
-#		resource :discharge, :only => [:edit,:update,:show],
-#			:controller => 'abstract/discharges'
-#		resource :flow_cytometry, :only => [:edit,:update,:show],
-#			:controller => 'abstract/flow_cytometries'
-#		resource :histocompatibility, :only => [:edit,:update,:show],
-#			:controller => 'abstract/histocompatibilities'
-#		resource :name, :only => [:edit,:update,:show],
-#			:controller => 'abstract/names'
-#		resource :tdt, :only => [:edit,:update,:show],
-#			:controller => 'abstract/tdts'
-#		resource :therapy_response, :only => [:edit,:update,:show],
-#			:controller => 'abstract/therapy_responses'
 
 		#	using scope as it seems to clean this up
 		#	module adds controller namespace of 'Abstract::' 
@@ -235,8 +206,6 @@ Odms::Application.routes.draw do
 		end	#	scope :module => :abstract do
 	end
 
-#	resources :study_subjects, :only => [:edit,:update,:show,:index],
-#			:shallow => true do 
 	resources :study_subjects, :only => [:edit,:update,:show,:index] do
 		member do
 			get :next
@@ -253,7 +222,7 @@ Odms::Application.routes.draw do
 		end
 		#	using scope as it seems to clean this up
 		#	module adds controller namespace
-#		scope :module => :study_subject do
+		scope :module => :study_subject do
 			resource  :patient
 			resources :birth_records, :only => :index
 			#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
@@ -268,19 +237,21 @@ Odms::Application.routes.draw do
 			resources :interviews, :only => :index
 			resources :documents,  :only => :index
 			resources :notes,      :only => :index
+			resources :related_subjects, :only => [:index]
 
 			#
 			#	Add index action and set custom controller name
 			#
-			resources :abstracts, :only => [:new,:create,:index],
-				:controller => 'study_subject_abstracts' do
+#			resources :abstracts, :only => [:new,:create,:index],
+#				:controller => 'study_subject_abstracts' do
+#			resources :abstracts, :only => [:new,:create,:edit,:update,:index] do
+			resources :abstracts do
 				collection do
 					get  :compare
 					post :merge
 				end
 			end
-			resources :related_subjects, :only => [:index]
-#		end	#	scope :module => :study_subject do
+		end	#	scope :module => :study_subject do
 	end
 
 	#	format seems to be required in the url? UNLESS wrapped in ()!

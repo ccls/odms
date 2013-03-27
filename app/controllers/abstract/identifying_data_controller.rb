@@ -1,3 +1,3 @@
 #	Identifying Data section controller
-class Abstract::IdentifyingDataController < PartialAbstractController
+class Abstract::IdentifyingDataController < AbstractBaseController
 end

@@ -1,3 +1,3 @@
 #	Diagnosis section controller
-class Abstract::DiagnosesController < PartialAbstractController
+class Abstract::DiagnosesController < AbstractBaseController
 end

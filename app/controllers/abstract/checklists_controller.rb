@@ -1,3 +1,3 @@
 #	Checklist section controller
-class Abstract::ChecklistsController < PartialAbstractController
+class Abstract::ChecklistsController < AbstractBaseController
 end

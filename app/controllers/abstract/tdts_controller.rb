@@ -1,3 +1,3 @@
 #	TDT section controller
-class Abstract::TdtsController < PartialAbstractController
+class Abstract::TdtsController < AbstractBaseController
 end

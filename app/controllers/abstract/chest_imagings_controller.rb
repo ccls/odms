@@ -1,3 +1,3 @@
 #	Chest Imaging section controller
-class Abstract::ChestImagingsController < PartialAbstractController
+class Abstract::ChestImagingsController < AbstractBaseController
 end

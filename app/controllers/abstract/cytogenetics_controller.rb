@@ -1,3 +1,3 @@
 #	Cytogenetic section controller
-class Abstract::CytogeneticsController < PartialAbstractController
+class Abstract::CytogeneticsController < AbstractBaseController
 end

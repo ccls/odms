@@ -1,3 +1,3 @@
 #	CBC section controller
-class Abstract::CbcsController < PartialAbstractController
+class Abstract::CbcsController < AbstractBaseController
 end
