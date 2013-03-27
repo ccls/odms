@@ -177,7 +177,7 @@ Odms::Application.routes.draw do
 
 	#	I think that these MUST come before the study subject sub routes
 #	resources :abstracts, :except => [:new,:create] do
-	resources :abstracts, :only => [] do
+	resources :abstracts, :only => [:index] do
 		#	specify custom location controllers to avoid conflict
 		#	with app controllers ( just diagnoses now )
 		#	also looks cleaner
