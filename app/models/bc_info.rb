@@ -5,8 +5,7 @@ class BcInfo < OpenStruct
 
 	# Only send to me in development (add this to ICF also)
 	def email_options 
-		( Rails.env != 'production' ) ?
-			{ :to => 'jakewendt@berkeley.edu' } : {}
+		( Rails.env != 'production' ) ? { :to => 'jakewendt@berkeley.edu' } : {}
 	end   
 
 	def initialize(*args)
