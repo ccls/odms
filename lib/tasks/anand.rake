@@ -5,6 +5,35 @@ require 'csv'
 #
 namespace :anand do
 
+
+	task :verify_cdc_biospecimens_inventory => :environment do
+		(i=CSV.open( '20111114_CDC_UrinePlasmaRBC_SampleInventory.csv',
+				'rb',{ :headers => true })).each do |line|
+			#"external_id","astroid","SubjectID","SampleID","sex","type","collected_on","Box","Position",,1
+			if line['SubjectID'].blank?
+				puts "Blank subjectid.  Skipping"
+				puts line
+			else
+				subjectid = sprintf("%06d",line['SubjectID'].to_i)
+				subject = StudySubject.where(:subjectid => subjectid).first
+				raise "No subject found with subjectid #{subjectid}" if subject.nil?
+				puts "Found subject with #{subjectid}"
+
+
+				sample = subject.samples.find(line['SampleID'])
+				raise "No sample found with sampleid #{line['SampleID']}" if sample.nil?
+
+				puts "Found subject's sample with #{line['SampleID']}"
+				puts "Types: DB: #{sample.sample_type.gegl_sample_type_id} CSV: #{line['type']}"
+				puts "ExtID: DB: #{sample.external_id} CSV: #{line['external_id']}"
+				raise "Type mismatch" if sample.sample_type.gegl_sample_type_id != line['type']
+				raise "ExtID Mismatch" if sample.external_id != line['external_id']
+				
+			end
+
+		end	#	CSV.open
+	end	#	task :check_maternal_biospecimens_inventory
+
 	#
 	#	20130321
 	#
