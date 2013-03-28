@@ -2,6 +2,10 @@ require 'test_helper'
 
 class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
+#
+#	TODO add edit, update and destroy tests
+#
+
 	site_editors.each do |cu|
 
 		test "should NOT get index without study_subject_id and with #{cu} login" do
