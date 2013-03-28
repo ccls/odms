@@ -230,7 +230,8 @@ assert_raises(ActionController::RoutingError){
 			assert_equal u1, assigns(:abstract).entry_1_by
 			assert_equal u2, assigns(:abstract).entry_2_by
 			assert_equal u3, assigns(:abstract).merged_by
-			assert_redirected_to abstract_path(assigns(:abstract))
+#			assert_redirected_to abstract_path(assigns(:abstract))
+			assert_redirected_to study_subject_abstract_path(study_subject,assigns(:abstract))
 		end
 
 		test "should NOT create invalid abstract with #{cu} login" do

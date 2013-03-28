@@ -415,16 +415,18 @@ module ApplicationHelper
 		s = "<p class='center'>"
 		s << (( !ci.nil? && ci > 0 ) ? "<span class='left'>" << 
 				link_to( "&laquo; #{sections[ci-1][:label]}".html_safe,
-					send("abstract_#{sections[ci-1][:show]}",abstract) ) << 
+					send(sections[ci-1][:show],abstract) ) << 
 				"</span>" : '')
+#					send("abstract_#{sections[ci-1][:show]}",abstract) ) << 
 #		s << link_to( "Back to Abstract", abstract_path(abstract) )
 		s << link_to( "Back to Abstract", study_subject_abstract_path(
 			abstract.study_subject,abstract) )
 		s << (( !ci.nil? && ci < ( sections.length - 1 ) ) ? "" <<
 				"<span class='right'>" << 
 				link_to( "#{sections[ci+1][:label]} &raquo;".html_safe,
-					send("abstract_#{sections[ci+1][:show]}",abstract) ) << 
+					send(sections[ci+1][:show],abstract) ) << 
 				"</span>" : '' )
+#					send("abstract_#{sections[ci+1][:show]}",abstract) ) << 
 		s << "</p>"
 		s.html_safe
 	end

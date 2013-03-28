@@ -744,4 +744,15 @@ command will need to be executed...
 == Other Notes 
 
 
+
+
+
+---
+== Quick Production Notes
+
+c ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 autotest
+
+
+
+
 Copyright (c) 2011 [Jake Wendt], released under the MIT license
