@@ -87,7 +87,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects with dob as month day year and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			#	spread dates out by a few days so outside date range
 			subjects = 3.times.collect{|i| 
 				Factory(:study_subject,:dob => base_date + (5*i).days ) }
@@ -99,7 +99,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects with dob as MM/DD/YYYY and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			#	spread dates out by a few days so outside date range
 			subjects = 3.times.collect{|i| 
 				Factory(:study_subject,:dob => base_date + (5*i).days ) }
@@ -111,7 +111,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects with dob as YYYY-MM-DD and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			#	spread dates out by a few days so outside date range
 			subjects = 3.times.collect{|i| 
 				Factory(:study_subject,:dob => base_date + (5*i).days ) }
@@ -123,7 +123,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		end
 	
 		test "should find study_subjects ignoring poorly formatted dob and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			#	spread dates out by a few days so outside date range
 			subjects = 3.times.collect{|i| 
 				Factory(:study_subject,:dob => base_date + (5*i).days ) }
@@ -270,37 +270,45 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
 				subjects = 3.times.collect{|i| Factory(:study_subject, 
-					attr => (Date.today - 100 + i) ) }
+					attr => (Date.current - (100 - i).days) ) }
 				login_as send(cu)
 				get :find, :order => attr
 				assert_response :success
+				assert_equal subjects.collect(&:reference_date), 
+					assigns(:study_subjects).collect(&:reference_date)
 				assert_equal subjects, assigns(:study_subjects)
 			end
 	
 			test "should find study_subjects and order by #{attr} dir asc with #{cu} login" do
 				subjects = 3.times.collect{|i| Factory(:study_subject, 
-					attr => (Date.today - 100 + i) ) }
+					attr => (Date.current - (100 - i).days) ) }
 				login_as send(cu)
 				get :find, :order => attr, :dir => 'asc'
 				assert_response :success
+				assert_equal subjects.collect(&:reference_date), 
+					assigns(:study_subjects).collect(&:reference_date)
 				assert_equal subjects, assigns(:study_subjects)
 			end
 	
 			test "should find study_subjects and order by #{attr} dir desc with #{cu} login" do
 				subjects = 3.times.collect{|i| Factory(:study_subject, 
-					attr => (Date.today - 100 + i) ) }
+					attr => (Date.current - (100 - i).days) ) }
 				login_as send(cu)
 				get :find, :order => attr, :dir => 'desc'
 				assert_response :success
+				assert_equal subjects.collect(&:reference_date), 
+					assigns(:study_subjects).reverse.collect(&:reference_date)
 				assert_equal subjects, assigns(:study_subjects).reverse
 			end
 	
 			test "should find study_subjects and order by #{attr} invalid dir with #{cu} login" do
 				subjects = 3.times.collect{|i| Factory(:study_subject, 
-					attr => (Date.today - 100 + i) ) }
+					attr => (Date.current - (100 - i).days) ) }
 				login_as send(cu)
 				get :find, :order => attr, :dir => 'invalid'
 				assert_response :success
+				assert_equal subjects.collect(&:reference_date), 
+					assigns(:study_subjects).collect(&:reference_date)
 				assert_equal subjects, assigns(:study_subjects)
 			end
 
@@ -401,6 +409,6 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 #
 ######################################################################
 
-	end
+	end	#	site_readers.each do |cu|
 
 end

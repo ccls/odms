@@ -315,8 +315,8 @@ class StudySubjectDuplicatesTest < ActiveSupport::TestCase
 			:mother_maiden_name => 'somethingdifferent',
 			:hospital_no => 'somethingdifferent',
 			:sex => 'F',
-			:dob => Date.today,
-			:admit_date => Date.today,
+			:dob => Date.current,
+			:admit_date => Date.current,
 			:organization_id => 0 )
 		assert_no_duplicates_found
 	end
@@ -328,8 +328,8 @@ class StudySubjectDuplicatesTest < ActiveSupport::TestCase
 			:mother_maiden_name => 'somethingdifferent',
 			:hospital_no => 'somethingdifferent',
 			:sex => 'M',
-			:dob => Date.today,
-			:admit_date => Date.today,
+			:dob => Date.current,
+			:admit_date => Date.current,
 			:organization_id => 0 )
 		assert_no_duplicates_found
 	end
@@ -342,7 +342,7 @@ class StudySubjectDuplicatesTest < ActiveSupport::TestCase
 			:hospital_no => 'somethingdifferent',
 			:sex => 'F',
 			:dob => study_subject.dob,
-			:admit_date => Date.today,
+			:admit_date => Date.current,
 			:organization_id => 0 )
 		assert_no_duplicates_found
 	end
@@ -354,7 +354,7 @@ class StudySubjectDuplicatesTest < ActiveSupport::TestCase
 			:mother_maiden_name => 'somethingdifferent',
 			:hospital_no => 'somethingdifferent',
 			:sex => 'F',
-			:dob => Date.today,
+			:dob => Date.current,
 			:admit_date => study_subject.admit_date,
 			:organization_id => 0 )
 		assert_no_duplicates_found
@@ -367,8 +367,8 @@ class StudySubjectDuplicatesTest < ActiveSupport::TestCase
 			:mother_maiden_name => 'somethingdifferent',
 			:hospital_no => 'somethingdifferent',
 			:sex => 'F',
-			:dob => Date.today,
-			:admit_date => Date.today,
+			:dob => Date.current,
+			:admit_date => Date.current,
 			:organization_id => study_subject.organization_id )
 		assert_no_duplicates_found
 	end
@@ -404,11 +404,11 @@ protected
 
 	def new_case_study_subject_for_duplicate_search(options={})
 		Factory.build(:case_study_subject, { :sex => 'F',
-			:dob => Date.today,
+			:dob => Date.current,
 			:patient_attributes => Factory.attributes_for(:patient,
 				:hospital_no => 'somethingdifferent',
 #				:organization_id => 0,	#	Why 0? was for just matching admit_date
-				:admit_date => Date.today ) }.deep_merge(options) )
+				:admit_date => Date.current ) }.deep_merge(options) )
 	end
 
 end

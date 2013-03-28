@@ -322,7 +322,7 @@ namespace :app do
 #				s.operational_events.create!(
 #					:project_id                => Project['ccls'].id,
 #					:operational_event_type_id => OperationalEventType['other'].id,
-#					:occurred_at               => DateTime.now,
+#					:occurred_at               => DateTime.current,
 #					:description               => "assigned_for_interview_at set to "<<
 #						"#{line['assigned_for_interview_at']} from " <<
 #						"newcases_09062012 file"
@@ -373,7 +373,7 @@ namespace :app do
 #					s.operational_events.create!(
 #						:project_id                => Project['ccls'].id,
 #						:operational_event_type_id => OperationalEventType['other'].id,
-#						:occurred_at               => DateTime.now,
+#						:occurred_at               => DateTime.current,
 #						:description               => "assigned_for_interview_at set to "<<
 #							"#{ENV['assigned_for_interview_at']} from " <<
 #							ENV['csv_file']
@@ -520,7 +520,7 @@ namespace :app do
 #						s.operational_events.create!(
 #							:project_id                => Project['ccls'].id,
 #							:operational_event_type_id => OperationalEventType['other'].id,
-#							:occurred_at               => DateTime.now,
+#							:occurred_at               => DateTime.current,
 #							:description               => "interview_completed_on set to " <<
 #								"cati_complete #{line['cati_complete']} from " <<
 #								"ICF Master Tracker file #{ENV['csv_file']}"

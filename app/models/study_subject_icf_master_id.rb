@@ -21,7 +21,7 @@ base.class_eval do
 			if next_icf_master_id
 				self.update_column(:icf_master_id, next_icf_master_id.to_s)
 				next_icf_master_id.study_subject = self
-				next_icf_master_id.assigned_on   = Date.today
+				next_icf_master_id.assigned_on   = Date.current
 				next_icf_master_id.save!
 			end
 		end

@@ -58,7 +58,7 @@ class SampleTransfersController < ApplicationController
 	#					"from #{t.source_org_id}",	#	created in controller on create
 	#					"from #{t.sample.location_id}",	#	should be same?????  should change?
 #					:occurred_at => Time.now
-					:occurred_at => DateTime.now
+					:occurred_at => DateTime.current
 				}) unless t.sample.study_subject.nil?
 				#	Sample does not require study subject, so 
 				#	check that before doing this.  Realistically
@@ -67,7 +67,7 @@ class SampleTransfersController < ApplicationController
 
 				t.sample.update_attributes!({
 					:location_id    => params[:organization_id],
-					:sent_to_lab_at => DateTime.now
+					:sent_to_lab_at => DateTime.current
 				})
 			end
 	
@@ -80,7 +80,7 @@ class SampleTransfersController < ApplicationController
 			SampleTransfer.active.update_all({
 				:destination_org_id => params[:organization_id],
 				:status => 'complete',
-				:sent_on => Date.today
+				:sent_on => Date.current
 			})
 		end	#	SampleTransfer.transaction do
 		flash[:notice] = "Confirmed transfer to org id:#{params[:organization_id]}:"

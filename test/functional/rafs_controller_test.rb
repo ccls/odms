@@ -219,7 +219,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
 			assert_equal addressing.current_address, YNDK[:yes]
 #			assert_equal addressing.is_valid, YNDK[:yes]
-#			assert_equal addressing.verified_on, Date.today
+#			assert_equal addressing.verified_on, Date.current
 #			assert_equal addressing.verified_by_uid, user.uid
 		end
 
@@ -233,7 +233,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal phone_number.data_source, DataSource['RAF']
 			assert_equal phone_number.current_phone, YNDK[:yes]
 #			assert_equal phone_number.is_valid, YNDK[:yes]
-#			assert_equal phone_number.verified_on, Date.today
+#			assert_equal phone_number.verified_on, Date.current
 #			assert_equal phone_number.verified_by_uid, user.uid
 		end
 
@@ -323,7 +323,7 @@ class RafsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			waivered_successful_creation({ 'study_subject' => {
 				#	something greater than 15 years ago
-				'dob' => Date.jd( ((Date.today - 15.years).jd) - rand(5000)).to_s,
+				'dob' => Date.jd( ((Date.current - 15.years).jd) - rand(5000)).to_s,
 				'patient_attributes' => { 
 					'was_under_15_at_dx' => YNDK[:no] } } } )
 			assert_equal YNDK[:no], assigns(:study_subject).patient.was_under_15_at_dx,
@@ -684,7 +684,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
 			assert_equal addressing.current_address, YNDK[:yes]
 #			assert_equal addressing.is_valid, YNDK[:yes]
-#			assert_equal addressing.verified_on, Date.today
+#			assert_equal addressing.verified_on, Date.current
 #			assert_equal addressing.verified_by_uid, user.uid
 			assert_equal addressing.address.address_type, AddressType['residence']
 		end
@@ -766,7 +766,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal phone_number.data_source, DataSource['RAF']
 			assert_equal phone_number.current_phone, YNDK[:yes]
 #			assert_equal phone_number.is_valid, YNDK[:yes]
-#			assert_equal phone_number.verified_on, Date.today
+#			assert_equal phone_number.verified_on, Date.current
 #			assert_equal phone_number.verified_by_uid, user.uid
 		end
 

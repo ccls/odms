@@ -154,7 +154,7 @@ pending
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
 			#	as this is a datetime, can't test EXACT, so just test date portion
-			assert_equal 3.times.collect{Date.today},
+			assert_equal 3.times.collect{Date.current},
 				active_transfers.collect(&:reload).collect(&:sample)
 					.collect(&:sent_to_lab_at).collect(&:to_date)
 		end
@@ -179,7 +179,7 @@ pending
 				active_transfers.collect(&:sent_on)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
-			assert_equal 3.times.collect{Date.today},
+			assert_equal 3.times.collect{Date.current},
 				active_transfers.collect(&:reload).collect(&:sent_on)
 		end
 

@@ -682,7 +682,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	#	NOTE dob and sex aren't just strings so require special handling
 	test "case birth datum should create operational event if dob differs" do
 		study_subject, birth_datum = create_case_study_subject_and_birth_datum(
-			{:dob => ( Date.today - 10 ) }, {:dob => ( Date.today - 5 ) })
+			{:dob => ( Date.current - 10.days ) }, {:dob => ( Date.current - 5.days ) })
 		oes = study_subject.operational_events.where(
 			:project_id                => Project['ccls'].id).where(
 			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
@@ -728,7 +728,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case birth datum should create odms exception if dob differs" do
 		study_subject, birth_datum = create_case_study_subject_and_birth_datum(
-			{:dob => ( Date.today - 10 ) }, {:dob => ( Date.today - 5 ) })
+			{:dob => ( Date.current - 10.days ) }, {:dob => ( Date.current - 5.days ) })
 		oes = birth_datum.odms_exceptions
 		assert_equal 1, oes.length
 		assert_match /Error updating case study subject/,
@@ -937,7 +937,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		bcr = study_subject.bc_requests.first
 		assert_not_nil bcr.is_found
 		assert_not_nil bcr.returned_on
-		assert_equal Date.today, bcr.returned_on
+		assert_equal Date.current, bcr.returned_on
 		assert_not_nil bcr.notes
 		assert_equal "USC's match confidence = definite.", bcr.notes
 	end

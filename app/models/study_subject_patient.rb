@@ -66,9 +66,9 @@ base.class_eval do
 			#	like doing this.  The existence of incorrect data already
 			#	is reason enough.  Nevertheless, if you're gonna do it,
 			#	do it right.
-#irb(main):038:0> Date.today
+#irb(main):038:0> Date.current
 #=> Wed, 04 Apr 2012
-#irb(main):039:0> Date.today + 15.years
+#irb(main):039:0> Date.current + 15.years
 #=> Sun, 04 Apr 2027
 			fifteenth_birthday = dob.to_date + 15.years
 			was_under_15 = ( my_patient.admit_date.to_date < fifteenth_birthday ) ? 

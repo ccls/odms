@@ -69,7 +69,7 @@ class CasesController < ApplicationController
 		if !params[:ids].blank? and params[:ids].is_a?(Array) and !params[:ids].empty?
 			enrollments = Enrollment.where(
 				:study_subject_id => params[:ids],:project_id => Project['ccls'].id)
-				.update_all(:assigned_for_interview_at => DateTime.now)
+				.update_all(:assigned_for_interview_at => DateTime.current)
 #
 # using update_all does not validate so stub tests are irrelevant
 #

@@ -611,7 +611,7 @@ protected
 	end
 
 	def create_occurred_at_operational_events
-		today = DateTime.now
+		today = DateTime.current
 		create_operational_events(
 			{ :occurred_at => ( today - 1.month ) },
 			{ :occurred_at => ( today - 1.year ) },

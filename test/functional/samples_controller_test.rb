@@ -176,7 +176,7 @@ class SamplesControllerTest < ActionController::TestCase
 
 
 		test "should find samples with sent_to_subject_at as month day year and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| 
 				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
@@ -189,7 +189,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 	
 		test "should find samples with sent_to_subject_at as MM/DD/YYYY and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| 
 				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
@@ -202,7 +202,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 	
 		test "should find samples with sent_to_subject_at as YYYY-MM-DD and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| 
 				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
@@ -215,7 +215,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 	
 		test "should find samples ignoring poorly formatted sent_to_subject_at and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| 
 				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
@@ -227,7 +227,7 @@ class SamplesControllerTest < ActionController::TestCase
 	
 
 		test "should find samples with received_by_ccls_at as month day year and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| Factory(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
@@ -242,7 +242,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 	
 		test "should find samples with received_by_ccls_at as MM/DD/YYYY and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| Factory(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
@@ -257,7 +257,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 	
 		test "should find samples with received_by_ccls_at as YYYY-MM-DD and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| Factory(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
@@ -272,7 +272,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 	
 		test "should find samples ignoring poorly formatted received_by_ccls_at and #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| Factory(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
@@ -364,7 +364,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by received by ccls at with #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| Factory(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
@@ -378,7 +378,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by received by ccls at asc with #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| Factory(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
@@ -392,7 +392,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by received by ccls at desc with #{cu} login" do
-			base_date = Date.today-100.days
+			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| Factory(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
@@ -551,7 +551,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should get manifest in csv with #{cu} login and sample received after 6/1" do
 			login_as send(cu)
 			#	assuming that today is indeed after 6/1/2012
-			sample = Factory(:sample, :received_by_ccls_at => Date.today )
+			sample = Factory(:sample, :received_by_ccls_at => Date.current )
 			assert_not_nil sample.received_by_ccls_at
 			get :manifest, :format => 'csv'
 			assert_response :success

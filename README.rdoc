@@ -741,6 +741,26 @@ command will need to be executed...
 
 
 ---
+== Date.today
+
+DO NOT USE Date.today, unless the following is what you want.
+
+It will compute a Date and disregard the time zone.
+
+In rails, this means that occassionally Date.today == Date.tomorrow
+or Date.today == Date.yesterday, depending on what time it is.
+
+The Rails methods of Date.tomorrow and Date.yesterday reference
+Date.current, which uses the Time.zone,  making them more accurate.
+
+
+
+I think that DateTime.now and Time.now also ignore the timezone.
+
+Use DateTime.current or Time.zone.now
+
+
+---
 == Other Notes 
 
 
@@ -748,9 +768,28 @@ command will need to be executed...
 
 
 ---
+== Quick Development Notes
+
+ c ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 autotest
+
+
+---
 == Quick Production Notes
 
-c ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 autotest
+Unfortunately, killing the server could result in lost data that
+may be cached in memory.  At least in theory.  I don't think that
+rails really caches like that.
+
+ dump_database
+ cd /my/ruby/odms
+ bundle exec rake sunspot:solr:stop
+ kill -9 `cat tmp/pids/server.pid`
+ git pull
+ bundle install
+ rake db:migrate
+ bundle exec rake sunspot:solr:start
+ script/rails server -d -p 3000 -e production
+
 
 
 

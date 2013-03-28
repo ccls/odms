@@ -251,7 +251,7 @@ pending	"no longer required, but may be temporary"
 #		assert_difference( 'Sample.count', 0 ) do
 #			sample = create_sample(
 #				:received_by_ccls_at => Date.tomorrow,
-#				:received_by_ccls_at => ( DateTime.now + 1.day ),
+#				:received_by_ccls_at => ( DateTime.current + 1.day ),
 #				:sent_to_lab_on      => Date.yesterday
 #			)
 #			assert sample.errors.matching?(:sent_to_lab_on,"after received_by_ccls_at")

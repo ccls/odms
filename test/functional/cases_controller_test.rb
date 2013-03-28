@@ -54,7 +54,7 @@ class CasesControllerTest < ActionController::TestCase
 #		test "should get index with assigned_for_interview_at and #{cu} login" do
 #			login_as send(cu)
 #			subject = subject_for_assigned_for_interview_at
-#			get :index, :assigned_for_interview_at => Date.today
+#			get :index, :assigned_for_interview_at => Date.current
 #			assert_not_nil assigns(:study_subjects)
 #			assert !assigns(:study_subjects).empty?
 #			assert assigns(:study_subjects).include?(subject)
@@ -209,7 +209,7 @@ protected
 			:project_id   => Project['ccls'].id).first.update_attributes({
 			:is_eligible  => YNDK[:yes],
 			:consented    => YNDK[:yes],
-			:consented_on => Date.today
+			:consented_on => Date.current
 		})
 		assert_equal 5, subject.phase
 		assert_nil subject.enrollments.where(

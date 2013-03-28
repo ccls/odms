@@ -124,7 +124,7 @@ namespace :automate do
 						email_options.merge({ })
 					).deliver
 				puts; puts "Archiving #{bc_info_file}"
-				archive_dir = Date.today.strftime('%Y%m%d')
+				archive_dir = Date.current.strftime('%Y%m%d')
 				FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
 				FileUtils.move(bc_info_file,archive_dir)
 

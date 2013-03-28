@@ -173,7 +173,7 @@ class BcInfo < OpenStruct
 #				end
 
 				study_subject.operational_events.create(
-					:occurred_at => DateTime.now,
+					:occurred_at => DateTime.current,
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['datachanged'].id,
 					:description => "ICF Screening data changes from #{bc_info_file}",
@@ -203,7 +203,7 @@ class BcInfo < OpenStruct
 		#	I think that this OE should be created regardless of whether the 
 		#	subject's info has changed.  It simply flags the existance in a bc_info.
 		study_subject.operational_events.create(
-			:occurred_at => date || DateTime.now,
+			:occurred_at => date || DateTime.current,
 			:project_id  => Project['ccls'].id,
 			:operational_event_type_id => OperationalEventType['screener_complete'].id,
 			:description => "ICF screening complete from #{bc_info_file}" ) if (
@@ -234,7 +234,7 @@ class BcInfo < OpenStruct
 			mother.save
 
 			mother.operational_events.create(
-				:occurred_at => DateTime.now,
+				:occurred_at => DateTime.current,
 				:project_id => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['datachanged'].id,
 				:description => "ICF Screening data changes from #{bc_info_file}",

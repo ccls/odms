@@ -431,7 +431,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 #		bcr = study_subject.bc_requests.first
 #		assert_not_nil bcr.is_found
 #		assert_not_nil bcr.returned_on
-#		assert_equal Date.today, bcr.returned_on
+#		assert_equal Date.current, bcr.returned_on
 #		assert_not_nil bcr.notes
 #		assert_equal "USC's match confidence = definite.", bcr.notes
 #	end

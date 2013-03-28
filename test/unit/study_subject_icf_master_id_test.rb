@@ -34,7 +34,7 @@ class StudySubjectIcfMasterIdTest < ActiveSupport::TestCase
 		assert_equal '12345678A', study_subject.icf_master_id
 		imi.reload
 		assert_not_nil imi.assigned_on
-		assert_equal Date.today, imi.assigned_on
+		assert_equal Date.current, imi.assigned_on
 		assert_not_nil imi.study_subject_id
 		assert_equal imi.study_subject_id, study_subject.id
 	end

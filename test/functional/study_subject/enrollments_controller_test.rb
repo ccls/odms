@@ -124,7 +124,7 @@ class StudySubject::EnrollmentsControllerTest < ActionController::TestCase
 			assert_difference("study_subject.operational_events.count",1) {
 				put :update, :study_subject_id => study_subject.id, :id => enrollment.id,
 					:enrollment => { :consented => YNDK[:yes],
-						:consented_on => Date.today }
+						:consented_on => Date.current }
 			}
 			assert assigns(:enrollment)
 			oe = study_subject.operational_events.where(
@@ -142,7 +142,7 @@ class StudySubject::EnrollmentsControllerTest < ActionController::TestCase
 				put :update, :study_subject_id => study_subject.id, :id => enrollment.id,
 					:enrollment => { :consented => YNDK[:no],
 						:refusal_reason_id => Factory(:refusal_reason).id,
-						:consented_on => Date.today }
+						:consented_on => Date.current }
 			}
 			assert assigns(:enrollment)
 			oe = study_subject.operational_events.where(

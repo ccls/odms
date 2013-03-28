@@ -1,7 +1,7 @@
 class ChartsController < ApplicationController
 	def phase_5_case_enrollment_by_month
-		dates = 15.times.collect{|i| Date.today - i.months }.reverse
-#		this_month = Date.today.month
+		dates = 15.times.collect{|i| Date.current - i.months }.reverse
+#		this_month = Date.current.month
 #
 #	may want to index dates using "trie"
 #

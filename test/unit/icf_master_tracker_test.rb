@@ -42,7 +42,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 #					s.operational_events.create!(
 #						:project_id                => Project['ccls'].id,
 #						:operational_event_type_id => OperationalEventType['other'].id,
-#						:occurred_at               => DateTime.now,
+#						:occurred_at               => DateTime.current,
 #						:description               => "interview_completed_on set to " <<
 #							"cati_complete #{line['cati_complete']} from " <<
 #							"ICF Master Tracker file #{mod_time}"

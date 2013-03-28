@@ -68,7 +68,7 @@
 #						when study_subjects.length == 1
 #							puts "Found study_subject matching icf_master_id:#{line['icf_master_id']}:"
 #							imi.study_subject_id = study_subjects.first.id
-#							imi.assigned_on = Date.today
+#							imi.assigned_on = Date.current
 #					end
 #				end
 #			end	#	IcfMasterId.new do |imi|

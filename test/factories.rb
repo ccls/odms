@@ -8,22 +8,22 @@
 #
 Factory.define :minimum_raf_form_attributes, :class => 'StudySubject' do |f|
 	f.sex "M" 
-#irb(main):019:0> Date.today
+#irb(main):019:0> Date.current
 #=> Mon, 26 Nov 2012
-#irb(main):020:0> Date.today.jd
+#irb(main):020:0> Date.current.jd
 #=> 2456258
-#irb(main):026:0> Date.today.jd - (Date.today - 15.years).jd
+#irb(main):026:0> Date.current.jd - (Date.current - 15.years).jd
 #=> 5479
-#irb(main):027:0> Date.today.jd - (Date.today - 14.years).jd
+#irb(main):027:0> Date.current.jd - (Date.current - 14.years).jd
 #=> 5114
-#irb(main):028:0> Date.today - 14.years
+#irb(main):028:0> Date.current - 14.years
 #=> Thu, 26 Nov 1998
 #irb(main):029:0> _.jd
 #=> 2451144
 #	Always want this date between yesterday and <15 years ago
 #	as default was_under_15 is Yes and admit_date is Today.
 #	f.dob Date.jd(2440000+rand(15000)).to_s	#	no, not like this anymore
-	f.dob Date.jd( ((Date.today - 14.years).jd)+ rand(5000)).to_s
+	f.dob Date.jd( ((Date.current - 14.years).jd)+ rand(5000)).to_s
 end
 #Factory.define :minimum_nonwaivered_form_attributes, :parent => :minimum_raf_form_attributes do |f|
 #	f.addressings_attributes {{ "0"=>{ "address_attributes"=> Factory.attributes_for(:address) } }}
@@ -350,8 +350,8 @@ Factory.define :homex_outcome do |f|
 	#	They are explicitly set solely for testing OTHER models.
 	#	interview_outcome_on is required for the InterviewOutcome test
 	#	sample_outcome_on is required for the SampleOutcome test
-	f.sample_outcome_on Date.today		
-	f.interview_outcome_on Date.today
+	f.sample_outcome_on Date.current		
+	f.interview_outcome_on Date.current
 end
 
 Factory.define :hospital do |f|
@@ -369,14 +369,14 @@ end
 
 #Factory.define :icf_master_tracker do |f|
 #	f.sequence(:master_id){|n| "#{n}"}	#	in order to test uniqueness, MUST BE HERE
-#	f.master_tracker_date Date.today	#	virtual attribute needed for Change
+#	f.master_tracker_date Date.current	#	virtual attribute needed for Change
 #end
 #Factory.define :icf_master_tracker_change do |f|
-#	f.master_tracker_date Date.today
+#	f.master_tracker_date Date.current
 #	f.sequence(:icf_master_id){|n| "#{n}"}
 #end
 #Factory.define :icf_master_tracker_update do |f|
-##	f.master_tracker_date Date.today
+##	f.master_tracker_date Date.current
 #	f.sequence(:master_tracker_date){|n| Date.jd( 2440000 + n ) }
 #	f.csv_file Rack::Test::UploadedFile.new( 
 #		'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/csv')
@@ -468,7 +468,7 @@ end
 Factory.define :subjectless_patient, :class => 'Patient' do |f|
 	#	Today should always be after the dob.
 	#	However, with all of the date chronology tests, still may cause problems.
-	f.admit_date Date.today	
+	f.admit_date Date.current	
 
 	#	in order to test presence or uniqueness, MUST BE HERE
 	f.sequence(:hospital_no){|n| "#{n}"}	

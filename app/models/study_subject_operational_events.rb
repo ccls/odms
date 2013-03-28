@@ -20,7 +20,7 @@ base.class_eval do
 		self.operational_events.create!(
 			:project_id                => Project['ccls'].id,
 			:operational_event_type_id => OperationalEventType['newSubject'].id,
-			:occurred_at               => DateTime.now
+			:occurred_at               => DateTime.current
 		)
 	end
 
@@ -33,7 +33,7 @@ base.class_eval do
 			self.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subjectDied'].id,
-				:occurred_at               => DateTime.now
+				:occurred_at               => DateTime.current
 			)
 		end
 	end

@@ -45,10 +45,10 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 		study_subject.operational_events.create(
 			:project => Project['ccls'],
 			:operational_event_type_id => OperationalEventType['screener_complete'].id,
-			:occurred_at => DateTime.now )
-#			:occurred_at => Date.today)
+			:occurred_at => DateTime.current )
+#			:occurred_at => Date.current)
 		date = study_subject.screener_complete_date_for_open_project
-		assert_equal date, Date.today
+		assert_equal date, Date.current
 	end
 
 end

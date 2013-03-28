@@ -102,7 +102,7 @@ protected
 			operational_event_type, occurred_at = if( is_complete == YNDK[:yes] )
 				[OperationalEventType['complete'], completed_on]
 			elsif( is_complete_was == YNDK[:yes] )
-				[OperationalEventType['reopened'], DateTime.now]
+				[OperationalEventType['reopened'], DateTime.current]
 			else 
 				[nil, nil]
 			end

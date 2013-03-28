@@ -45,7 +45,7 @@ class ReceiveSamplesController < ApplicationController
 	def create
 
 		@sample = @sample_for_subject.samples.new(params[:sample])
-		@sample.received_by_ccls_at = DateTime.now
+		@sample.received_by_ccls_at = DateTime.current
 
 		#	All or nothin'
 		Sample.transaction do
@@ -57,7 +57,7 @@ class ReceiveSamplesController < ApplicationController
 				:description               => "Sample received: #{@sample.sample_type}",
 				:project_id                => @sample.project_id,
 				:operational_event_type_id => OperationalEventType['sample_received'].id,
-				:occurred_at               => DateTime.now
+				:occurred_at               => DateTime.current
 			)
 		end
 

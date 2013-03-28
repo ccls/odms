@@ -42,7 +42,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should get edit with #{cu} login and preselect accept if matches sex and dob" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			dob = Date.today-1000
+			dob = Date.current-1000.days
 			case_study_subject.update_column(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
@@ -63,7 +63,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should get edit with #{cu} login and preselect reject if mismatched dob" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			dob = Date.today-1000
+			dob = Date.current-1000.days
 			case_study_subject.update_column(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
@@ -84,7 +84,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should get edit with #{cu} login and preselect reject if mismatched sex" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			dob = Date.today-1000
+			dob = Date.current-1000.days
 			case_study_subject.update_column(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
@@ -105,7 +105,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should get edit with #{cu} login and preselect reject if missing sex" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			dob = Date.today-1000
+			dob = Date.current-1000.days
 			case_study_subject.update_column(:dob, dob)
 			birth_datum = Factory(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,

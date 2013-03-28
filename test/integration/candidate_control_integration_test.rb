@@ -10,7 +10,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			birth_datum = Factory(:control_birth_datum, 
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
+			candidate.update_attributes( :updated_at => ( Date.current - 2.days ) )
 
 			visit study_subject_related_subjects_path(case_study_subject.id)
 			assert_equal current_path, study_subject_related_subjects_path(case_study_subject.id)
@@ -55,7 +55,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			birth_datum = Factory(:control_birth_datum, 
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
+			candidate.update_attributes( :updated_at => ( Date.current - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -119,7 +119,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			birth_datum = Factory(:control_birth_datum, 
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
+			candidate.update_attributes( :updated_at => ( Date.current - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
@@ -186,7 +186,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			birth_datum = Factory(:control_birth_datum, 
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
-			candidate.update_attributes( :updated_at => ( Date.today - 2.days ) )
+			candidate.update_attributes( :updated_at => ( Date.current - 2.days ) )
 			duplicate = Factory(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,

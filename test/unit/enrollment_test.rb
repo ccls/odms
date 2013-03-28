@@ -305,7 +305,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "should ALLOW other_refusal_reason if " <<
 			"refusal_reason != other" do
 		enrollment = Enrollment.new(:consented => YNDK[:no],
-			:consented_on => Date.today,
+			:consented_on => Date.current,
 			:refusal_reason => Factory(:refusal_reason),
 			:other_refusal_reason => 'asdfasdf' )
 		enrollment.valid?
@@ -340,7 +340,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	[:dk,:nil].each do |yndk|
 		test "should NOT ALLOW consented_on if consented == #{yndk}" do
 			enrollment = Enrollment.new(:consented => YNDK[yndk],
-				:consented_on => Date.today)
+				:consented_on => Date.current)
 			assert !enrollment.valid?
 			assert  enrollment.errors.include?(:consented_on)
 			#	NOTE Custom error message
@@ -383,7 +383,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	[:no,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW completed_on if is_complete == #{yndk}" do
 			enrollment = Enrollment.new(:is_complete => YNDK[yndk],
-				:completed_on => Date.today)
+				:completed_on => Date.current)
 			assert !enrollment.valid?
 			assert  enrollment.errors.include?(:completed_on)
 			#	NOTE custom error message
@@ -406,7 +406,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	end
 	test "should allow document_version_id if consented == :yes" do
 		enrollment = Enrollment.new(:consented => YNDK[:yes],
-			:consented_on     => Date.today,
+			:consented_on     => Date.current,
 			:document_version => Factory(:document_version) )
 		enrollment.valid?
 		assert !enrollment.errors.include?(:document_version)
@@ -414,7 +414,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	end
 	test "should allow document_version_id if consented == :no" do
 		enrollment = Enrollment.new(:consented => YNDK[:no],
-			:consented_on     => Date.today,
+			:consented_on     => Date.current,
 			:refusal_reason   => Factory(:refusal_reason),
 			:document_version => Factory(:document_version) )
 		enrollment.valid?
@@ -423,7 +423,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	end
 	test "should require valid document_version if given" do
 		enrollment = Enrollment.new(:consented => YNDK[:yes],
-			:consented_on     => Date.today,
+			:consented_on     => Date.current,
 			:document_version_id => 0 )
 		assert !enrollment.valid?
 		assert !enrollment.errors.include?(:document_version_id)
@@ -474,7 +474,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 		oe = study_subject.operational_events.where(
 			:project_id => enrollment.project_id).order('id ASC').last
 		assert_equal 'reopened', oe.operational_event_type.key
-		assert_equal Date.today, oe.occurred_on
+		assert_equal Date.current, oe.occurred_on
 	end
 
 	test "should create subjectConsents operational event if consent changes to yes" do
@@ -482,11 +482,11 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_nil enrollment.consented
 		assert_difference("enrollment.study_subject.operational_events.count",1){
 			enrollment.update_attributes(:consented => YNDK[:yes],
-				:consented_on => Date.today )
+				:consented_on => Date.current )
 		}
 		enrollment.reload
 		assert_equal enrollment.consented, YNDK[:yes]
-		assert_equal enrollment.consented_on, Date.today
+		assert_equal enrollment.consented_on, Date.current
 		consented_event = enrollment.study_subject.operational_events.where(
 			:project_id => enrollment.project_id).where(
 			:operational_event_type_id => OperationalEventType['subjectConsents'].id ).first
@@ -498,11 +498,11 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_not_nil enrollment.consented
 		assert_difference("enrollment.study_subject.operational_events.count",0){
 			enrollment.update_attributes(:consented => YNDK[:yes],
-				:consented_on => Date.today )
+				:consented_on => Date.current )
 		}
 		enrollment.reload
 		assert_equal enrollment.consented, YNDK[:yes]
-		assert_equal enrollment.consented_on, Date.today
+		assert_equal enrollment.consented_on, Date.current
 		consented_event = enrollment.study_subject.operational_events.where(
 			:project_id => enrollment.project_id).where(
 			:operational_event_type_id => OperationalEventType['subjectConsents'].id ).first
@@ -515,11 +515,11 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_difference("enrollment.study_subject.operational_events.count",1){
 			enrollment.update_attributes(:consented => YNDK[:no],
 				:refusal_reason => Factory(:refusal_reason),
-				:consented_on   => Date.today )
+				:consented_on   => Date.current )
 		}
 		enrollment.reload
 		assert_equal enrollment.consented, YNDK[:no]
-		assert_equal enrollment.consented_on, Date.today
+		assert_equal enrollment.consented_on, Date.current
 		declined_event = enrollment.study_subject.operational_events.where(
 			:project_id => enrollment.project_id).where(
 			:operational_event_type_id => OperationalEventType['subjectDeclines'].id ).first
@@ -531,11 +531,11 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_not_nil enrollment.consented
 		assert_difference("enrollment.study_subject.operational_events.count",0){
 			enrollment.update_attributes(:consented => YNDK[:no],
-				:consented_on => Date.today )
+				:consented_on => Date.current )
 		}
 		enrollment.reload
 		assert_equal enrollment.consented, YNDK[:no]
-		assert_equal enrollment.consented_on, Date.today
+		assert_equal enrollment.consented_on, Date.current
 		declined_event = enrollment.study_subject.operational_events.where(
 			:project_id => enrollment.project_id).where(
 			:operational_event_type_id => OperationalEventType['subjectDeclines'].id ).first

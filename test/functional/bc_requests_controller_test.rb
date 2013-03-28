@@ -338,7 +338,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			get :confirm
 			assert_redirected_to new_bc_request_path
 			assert_equal 'pending', bcr.reload.status
-			assert_equal Date.today, bcr.sent_on
+			assert_equal Date.current, bcr.sent_on
 			assert !case_study_subject.reload.enrollments.empty?
 			enrollment = case_study_subject.enrollments.first
 			assert_equal Project['ccls'], enrollment.project

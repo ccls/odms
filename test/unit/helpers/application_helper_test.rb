@@ -1042,18 +1042,26 @@ class ApplicationHelperTest < ActionView::TestCase
 #		end
 #	end
 
+	#	edit_link is only called from abstract section show pages
 	test "edit_link should return link with controller and id" do
 #		self.params = { :controller => 'abstracts', :id => 0 }
-		self.params = { :controller => 'abstracts', :id => 0, :study_subject_id => 0 }
+#abstract = Factory(:abstract)
+#		self.params = { :controller => 'abstracts', :id => 0, :study_subject_id => 0 }
+#		self.params = { :controller => 'abstracts', :id => abstract.id, :study_subject_id => abstract.study_subject_id }
+#		self.params = { :controller => 'cbcs', :abstract_id => abstract.id, :study_subject_id => abstract.study_subject_id }
+		self.params = { :controller => 'cbcs', :abstract_id => 0 }
 		response = HTML::Document.new( edit_link ).root
 		#	with a set controller and id
 		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
+		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
+#https://dev.sph.berkeley.edu/abstracts/15/bone_marrow/edit
 		assert_select response, 'p.center' do
 			assert_select 'a.right.button', :text => 'Edit', :count => 1
 #			assert_select 'a[href=?]', "/abstracts/0/edit"
-			assert_select 'a[href=?]', "/study_subjects/0/abstracts/0/edit"
+			assert_select 'a[href=?]', "/abstracts/0/cbc/edit"
 #			assert_select 'a[href=?]', edit_abstract_path(0)
-			assert_select 'a[href=?]', edit_study_subject_abstract_path(0,0)
+#			assert_select 'a[href=?]', edit_study_subject_abstract_path(0,0)
+			assert_select 'a[href=?]', edit_abstract_cbc_path(0)
 		end
 	end
 

@@ -103,7 +103,7 @@ class BirthDatum < ActiveRecord::Base
 		study_subject.bc_requests.incomplete.each do |bcr|
 			bcr.status = 'complete'
 			bcr.is_found = true
-			bcr.returned_on = Date.today
+			bcr.returned_on = Date.current
 			#	possibly having existing notes means we can't use update_all (bummer)
 			bcr.notes = '' if bcr.notes.blank?
 			bcr.notes << "USC's match confidence = #{match_confidence}."
@@ -140,7 +140,7 @@ class BirthDatum < ActiveRecord::Base
 			if study_subject.send(field) != self.send(field)
 				error_count += 1
 				study_subject.operational_events.create(
-					:occurred_at => DateTime.now,
+					:occurred_at => DateTime.current,
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth record data conflicted with existing ODMS data.  " <<
@@ -163,7 +163,7 @@ class BirthDatum < ActiveRecord::Base
 			unless current.match(/#{updated}/i)
 				error_count += 1
 				study_subject.operational_events.create(
-					:occurred_at => DateTime.now,
+					:occurred_at => DateTime.current,
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth record data conflicted with existing ODMS data.  " <<
@@ -193,7 +193,7 @@ class BirthDatum < ActiveRecord::Base
 #				study_subject.send("#{field}=", updated)
 				if study_subject.update_attributes(field => updated)
 					study_subject.operational_events.create(
-						:occurred_at => DateTime.now,
+						:occurred_at => DateTime.current,
 						:project_id => Project['ccls'].id,
 						:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 						:description => "Birth record data conflicted with existing ODMS data.  " <<
@@ -224,7 +224,7 @@ class BirthDatum < ActiveRecord::Base
 			elsif !current.match(/#{updated}/i)
 				error_count += 1
 				study_subject.operational_events.create(
-					:occurred_at => DateTime.now,
+					:occurred_at => DateTime.current,
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth record data conflicted with existing ODMS data.  " <<
@@ -276,7 +276,7 @@ class BirthDatum < ActiveRecord::Base
 			#4.A new operational event (id 27: birthDataReceived) is added for 
 			#each subject successfully updated. (  Only those successful??  )
 			study_subject.operational_events.create(
-				:occurred_at => DateTime.now,
+				:occurred_at => DateTime.current,
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['birthDataReceived'].id )
 		end	#	if error_count > 0
@@ -316,7 +316,7 @@ class BirthDatum < ActiveRecord::Base
 			#	Try to create as mailing address...
 			addressing.address.address_type = AddressType["mailing"]
 			study_subject.operational_events.create(
-				:occurred_at => DateTime.now,
+				:occurred_at => DateTime.current,
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['bc_received'].id,
 				:description => "Insufficient maternal residence information in birth data to create address record. See subject's Birth Record page for details.\n#{addressing.errors.full_messages.to_sentence}" ) unless addressing.save

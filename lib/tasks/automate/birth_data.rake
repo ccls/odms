@@ -151,7 +151,7 @@ raise "column count mismatch :#{birth_datum_line.keys.length}:#{actual_columns.l
 						email_options.merge({ })
 					).deliver
 				puts; puts "Archiving #{birth_data_file}"
-				archive_dir = Date.today.strftime('%Y%m%d')
+				archive_dir = Date.current.strftime('%Y%m%d')
 				FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
 #				FileUtils.move(birth_data_file,archive_dir)
 

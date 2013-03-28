@@ -236,7 +236,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:sample).received_by_ccls_at
 			#	It is very difficult to compare equality of datetime
 			#	but this test could easily be off by a day due to time zones.
-			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
+			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.current
 			assert_equal   assigns(:sample).study_subject, study_subject
 			assert_create_success
 		end
@@ -252,7 +252,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:sample).received_by_ccls_at
 			#	It is very difficult to compare equality of datetime
 			#	but this test could easily be off by a day due to time zones.
-			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
+			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.current
 			assert_equal   assigns(:sample).study_subject, study_subject
 			assert_create_success
 		end
@@ -269,7 +269,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:sample).received_by_ccls_at
 			#	It is very difficult to compare equality of datetime
 			#	but this test could easily be off by a day due to time zones.
-			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.today
+			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.current
 			assert_equal   assigns(:sample).study_subject, study_subject.mother
 			assert_create_success
 		end

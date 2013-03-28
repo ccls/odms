@@ -117,7 +117,7 @@ class CandidateControl < ActiveRecord::Base
 			birth_datum.save!
 			birth_datum.create_address_from_attributes
 
-			self.assigned_on = Date.today
+			self.assigned_on = Date.current
 			self.save!
 
 

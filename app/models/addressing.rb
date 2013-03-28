@@ -47,7 +47,7 @@ protected
 			study_subject.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subject_moved'].id,
-				:occurred_at               => DateTime.now
+				:occurred_at               => DateTime.current
 			)
 		end
 	end

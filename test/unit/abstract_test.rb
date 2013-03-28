@@ -363,7 +363,7 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should NOT set days since diagnosis fields on create without response_report_on" do
 		abstract = Factory(:abstract,
-			:diagnosed_on              => ( Date.today - 10 ),
+			:diagnosed_on              => ( Date.current - 10.days ),
 			:response_report_on_day_7  => nil,
 			:response_report_on_day_14 => nil,
 			:response_report_on_day_28 => nil
@@ -375,12 +375,12 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 	test "should set days since diagnosis fields on create with diagnosed_on" do
-		today = Date.today
+		today = Date.current
 		abstract = Factory(:abstract,
-			:diagnosed_on              => ( today - 40 ),
-			:response_report_on_day_7  => ( today - 30 ),
-			:response_report_on_day_14 => ( today - 20 ),
-			:response_report_on_day_28 => ( today - 10 )
+			:diagnosed_on              => ( today - 40.days ),
+			:response_report_on_day_7  => ( today - 30.days ),
+			:response_report_on_day_14 => ( today - 20.days ),
+			:response_report_on_day_28 => ( today - 10.days )
 		)
 		assert_not_nil abstract.diagnosed_on
 		assert_not_nil abstract.response_day_7_days_since_diagnosis
@@ -403,7 +403,7 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should NOT set days since treatment_began fields on create" <<
 			" without response_report_on" do
 		abstract = Factory(:abstract,
-			:treatment_began_on        => ( Date.today - 10 ),
+			:treatment_began_on        => ( Date.current - 10.days ),
 			:response_report_on_day_7  => nil,
 			:response_report_on_day_14 => nil,
 			:response_report_on_day_28 => nil
@@ -416,12 +416,12 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should set days since treatment_began fields on create" <<
 			" with treatment_began_on" do
-		today = Date.today	
+		today = Date.current
 		abstract = Factory(:abstract,
-			:treatment_began_on        => ( today - 40 ),
-			:response_report_on_day_7  => ( today - 30 ),
-			:response_report_on_day_14 => ( today - 20 ),
-			:response_report_on_day_28 => ( today - 10 )
+			:treatment_began_on        => ( today - 40.days ),
+			:response_report_on_day_7  => ( today - 30.days ),
+			:response_report_on_day_14 => ( today - 20.days ),
+			:response_report_on_day_28 => ( today - 10.days )
 		)
 		assert_not_nil abstract.treatment_began_on
 		assert_not_nil abstract.response_day_7_days_since_treatment_began

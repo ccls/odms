@@ -224,7 +224,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 
 	test "should NOT nullify study_subject.reference_date on create if no patient" do
 		other   = create_study_subject( 
-			:reference_date => Date.today,
+			:reference_date => Date.current,
 			:matchingid     => '012345' )
 		other.reload
 		assert_not_nil other.reference_date

@@ -524,7 +524,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_not_nil imi.reload.study_subject
 		assert_equal   imi.study_subject, candidate_control.study_subject
 		assert_not_nil imi.assigned_on
-		assert_equal   imi.assigned_on, Date.today
+		assert_equal   imi.assigned_on, Date.current
 	end
 
 	test "should create mother from attributes" do
@@ -590,11 +590,11 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_not_nil child_imi.reload.study_subject
 		assert_equal   child_imi.study_subject, candidate_control.study_subject
 		assert_not_nil child_imi.assigned_on
-		assert_equal   child_imi.assigned_on, Date.today
+		assert_equal   child_imi.assigned_on, Date.current
 		assert_not_nil mother_imi.reload.study_subject
 		assert_equal   mother_imi.study_subject, candidate_control.study_subject.mother
 		assert_not_nil mother_imi.assigned_on
-		assert_equal   mother_imi.assigned_on, Date.today
+		assert_equal   mother_imi.assigned_on, Date.current
 	end
 
 	test "create study subject should create addressing from birth datum record" do
