@@ -15,7 +15,7 @@ class SampleTypeTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( :position, :parent_id, 
 		:t2k_sample_type_id, :gegl_sample_type_id )
 	assert_should_require_attribute_length(:gegl_sample_type_id,
-		:maximum => 5)
+		:maximum => 10)
 
 	test "should return description as to_s" do
 		sample_type = SampleType.new(:description => "testing")
