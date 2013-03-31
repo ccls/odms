@@ -49,9 +49,17 @@ class UserIntegrationTest < ActionController::CapybaraIntegrationTest
 					:text => "CalNet Central Authentication Service - Single Sign-on"
 
 				#https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A50510%2Fusers%2F1
-			rescue Capybara::Driver::Webkit::WebkitInvalidResponseError => e
+
+#	20130329 - Seems this exception has changed its name and error message format (at least on my macbook)
+#Capybara::Webkit::InvalidResponseError: Unable to load URL: http://127.0.0.1:58094/users/1 because of error loading https://auth-test.berkeley.edu/cas/login?service=http://127.0.0.1:58094/users/1: Host  not found
+
+			rescue Capybara::Webkit::InvalidResponseError => e
 				#	probably not connected to the internet
-				assert_match /Unable to load URL: https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/users\/\d+/, e.to_s
+				assert_match /Unable to load URL: .* https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/users\/\d+/, e.to_s
+
+#			rescue Capybara::Driver::Webkit::WebkitInvalidResponseError => e
+#				#	probably not connected to the internet
+#				assert_match /Unable to load URL: https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/users\/\d+/, e.to_s
 			end
 		end
 

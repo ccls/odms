@@ -1049,7 +1049,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #		self.params = { :controller => 'abstracts', :id => 0, :study_subject_id => 0 }
 #		self.params = { :controller => 'abstracts', :id => abstract.id, :study_subject_id => abstract.study_subject_id }
 #		self.params = { :controller => 'cbcs', :abstract_id => abstract.id, :study_subject_id => abstract.study_subject_id }
-		self.params = { :controller => 'cbcs', :abstract_id => 0 }
+		self.params = { :controller => 'abstract/cbcs', :abstract_id => 0 }
 		response = HTML::Document.new( edit_link ).root
 		#	with a set controller and id
 		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
