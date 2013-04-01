@@ -81,6 +81,19 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert !with_patid.include?(noise)
 	end
 
+	test "should find with patid without leading zeros" do
+		noise = Factory(:case_study_subject)	        #	patid should be 0001
+		study_subject = Factory(:case_study_subject)	#	patid should be 0002
+		assert_not_nil study_subject.patid
+		assert_equal study_subject.patid.length, 4
+		assert study_subject.patid.to_i < 1000
+		assert study_subject.patid.to_i.to_s.length < 4
+		with_patid = StudySubject.with_patid(
+			"   #{study_subject.patid.to_i}  ")
+		assert  with_patid.include?(study_subject)
+		assert !with_patid.include?(noise)
+	end
+
 	test "should find with familyid" do
 		noise = Factory(:case_study_subject)
 		study_subject = Factory(:case_study_subject)
@@ -88,6 +101,20 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert_equal study_subject.familyid.length, 6
 		with_familyid = StudySubject.with_familyid(
 			"  #{study_subject.familyid}  ")
+		assert  with_familyid.include?(study_subject)
+		assert !with_familyid.include?(noise)
+	end
+
+	test "should find with familyid without leading zeros " do
+		noise = Factory(:case_study_subject)
+		StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
+		study_subject = Factory(:case_study_subject)
+		assert_not_nil study_subject.familyid
+		assert_equal study_subject.familyid.length, 6
+		assert study_subject.familyid.to_i < 100000
+		assert study_subject.familyid.to_i.to_s.length < 6
+		with_familyid = StudySubject.with_familyid(
+			"  #{study_subject.familyid.to_i}  ")
 		assert  with_familyid.include?(study_subject)
 		assert !with_familyid.include?(noise)
 	end
@@ -103,6 +130,20 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert !with_matchingid.include?(noise)
 	end
 
+	test "should find with matchingid without leading zeros" do
+		noise = Factory(:case_study_subject)
+		StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
+		study_subject = Factory(:case_study_subject)
+		assert_not_nil study_subject.matchingid
+		assert_equal study_subject.matchingid.length, 6
+		assert study_subject.matchingid.to_i < 100000
+		assert study_subject.matchingid.to_i.to_s.length < 6
+		with_matchingid = StudySubject.with_matchingid(
+			"  #{study_subject.matchingid.to_i}  ")
+		assert  with_matchingid.include?(study_subject)
+		assert !with_matchingid.include?(noise)
+	end
+
 	test "should find with subjectid" do
 		noise = Factory(:case_study_subject)
 		study_subject = Factory(:case_study_subject)
@@ -110,6 +151,20 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert_equal study_subject.subjectid.length, 6
 		with_subjectid = StudySubject.with_subjectid(
 			"  #{study_subject.subjectid}  ")
+		assert  with_subjectid.include?(study_subject)
+		assert !with_subjectid.include?(noise)
+	end
+
+	test "should find with subjectid without leading zeros" do
+		noise = Factory(:case_study_subject)
+		StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
+		study_subject = Factory(:case_study_subject)
+		assert_not_nil study_subject.subjectid
+		assert_equal study_subject.subjectid.length, 6
+		assert study_subject.subjectid.to_i < 100000
+		assert study_subject.subjectid.to_i.to_s.length < 6
+		with_subjectid = StudySubject.with_subjectid(
+			"  #{study_subject.subjectid.to_i}  ")
 		assert  with_subjectid.include?(study_subject)
 		assert !with_subjectid.include?(noise)
 	end

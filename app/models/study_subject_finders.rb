@@ -27,7 +27,8 @@ base.class_eval do
 	scope :living,    joins(:vital_status).where('vital_statuses.key' => 'living')
 
 	def self.with_patid(patid)
-		where(:patid => patid.to_s.squish)
+#		where(:patid => patid.to_s.squish)
+		where(:patid => sprintf("%04d",patid.to_i) )
 	end
 
 	def self.with_icf_master_id(icf_master_id)
@@ -35,15 +36,18 @@ base.class_eval do
 	end
 
 	def self.with_familyid(familyid)
-		where(:familyid => familyid.to_s.squish)
+#		where(:familyid => familyid.to_s.squish)
+		where(:familyid => sprintf("%06d",familyid.to_i) )
 	end
 
 	def self.with_matchingid(matchingid)
-		where(:matchingid => matchingid.to_s.squish)
+#		where(:matchingid => matchingid.to_s.squish)
+		where(:matchingid => sprintf("%06d",matchingid.to_i) )
 	end
 
 	def self.with_subjectid(subjectid)
-		where(:subjectid => subjectid.to_s.squish)
+#		where(:subjectid => subjectid.to_s.squish)
+		where(:subjectid => sprintf("%06d",subjectid.to_i) )
 	end
 
 	def self.not_id(study_subject_id)
