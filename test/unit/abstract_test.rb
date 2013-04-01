@@ -436,7 +436,7 @@ class AbstractTest < ActiveSupport::TestCase
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
 			abstract = Factory(:abstract,:entry_1_by => Factory(:user))
-			assert abstract.entry_1_by.is_a?(User)
+			assert abstract.entry_1_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
 
@@ -444,7 +444,7 @@ class AbstractTest < ActiveSupport::TestCase
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
 			abstract = Factory(:abstract,:entry_2_by => Factory(:user))
-			assert abstract.entry_2_by.is_a?(User)
+			assert abstract.entry_2_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
 

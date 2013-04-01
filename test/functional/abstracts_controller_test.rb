@@ -22,142 +22,155 @@ class AbstractsControllerTest < ActionController::TestCase
 		Factory.attributes_for(:complete_abstract,{
 		}.merge(options))
 	end
-
-#	Still shallow, except new, create, and index (in StudySubjectAbstractsController)
-#	Probably never need the stuff below.
-
+##
+##	Still shallow, except new, create, and index (in StudySubjectAbstractsController)
+##	Probably never need the stuff below.
+#
 #	site_editors.each do |cu|
 #
-#		test "should show with #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT show with mismatched study_subject_id #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT show with invalid study_subject_id #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT show with invalid id #{cu} login" do
-#pending
-#		end
-#
-#		test "should edit with #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT edit with mismatched study_subject_id #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT edit with invalid study_subject_id #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT edit with invalid id #{cu} login" do
-#pending
-#		end
-#
-#		test "should update with #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT update with save failure and #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT update with invalid and #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT update with mismatched study_subject_id #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT update with invalid study_subject_id #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT update with invalid id #{cu} login" do
-#pending
-#		end
-#
-#		test "should destroy with #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT destroy with invalid id #{cu} login" do
-#pending
-#		end
+##		test "should show with #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT show with mismatched study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT show with invalid study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT show with invalid id #{cu} login" do
+##pending
+##		end
+##
+##		test "should edit with #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT edit with mismatched study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT edit with invalid study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT edit with invalid id #{cu} login" do
+##pending
+##		end
+##
+##		test "should update with #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT update with save failure and #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT update with invalid and #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT update with mismatched study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT update with invalid study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT update with invalid id #{cu} login" do
+##pending
+##		end
+##
+##		test "should destroy with #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT destroy with invalid study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT destroy with invalid id #{cu} login" do
+##pending
+##		end
 #
 #		test "should get index with #{cu} login" do
-#pending
+#			login_as send(cu)
+#			get :index
+#			assert_response :success
+#			assert_template 'index'
 #		end
 #
-#		test "should NOT get index with mismatched study_subject_id #{cu} login" do
-#pending
+#		test "should get index with abstracts and #{cu} login" do
+#			Factory(:abstract)
+#			Factory(:abstract)
+#			login_as send(cu)
+#			get :index
+#			assert_response :success
+#			assert_template 'index'
 #		end
 #
-#		test "should NOT get index with invalid study_subject_id #{cu} login" do
-#pending
-#		end
+##		test "should NOT get index with mismatched study_subject_id #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT get index with invalid study_subject_id #{cu} login" do
+##pending
+##		end
 #
 #	end
 #
 #	non_site_editors.each do |cu|
 #
-#		test "should NOT show with #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT edit with #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT update with #{cu} login" do
-#pending
-#		end
-#
-#		test "should NOT destroy with #{cu} login" do
-#pending
-#		end
+##		test "should NOT show with #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT edit with #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT update with #{cu} login" do
+##pending
+##		end
+##
+##		test "should NOT destroy with #{cu} login" do
+##pending
+##		end
 #
 #		test "should NOT get index with #{cu} login" do
-#pending
+#			login_as send(cu)
+#			get :index
 #		end
 #
 #	end
 #
 #	#	not logged in ..
 #
-#	test "should NOT show without login" do
-#pending
-#	end
-#
-#	test "should NOT edit without login" do
-#pending
-#	end
-#
-#	test "should NOT update without login" do
-#pending
-#	end
-#
-#	test "should NOT destroy without login" do
-#pending
-#	end
+##	test "should NOT show without login" do
+##pending
+##	end
+##
+##	test "should NOT edit without login" do
+##pending
+##	end
+##
+##	test "should NOT update without login" do
+##pending
+##	end
+##
+##	test "should NOT destroy without login" do
+##pending
+##	end
 #
 #	test "should NOT get index without login" do
-#pending
+#			get :index
 #	end
-
+#
 end
