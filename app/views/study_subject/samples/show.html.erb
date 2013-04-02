@@ -47,6 +47,9 @@
 <%= wrapped_datetime_spans :sample, :aliquotted_at,
 	:label_text => 'Aliquotted at:' %>
 
+<%= wrapped_spans :sample, :notes,
+	:label_text => 'Notes:' %>
+
 <%= link_to 'print label', 
 	study_subject_sample_path(@sample.study_subject_id,@sample.id, :format => :pdf), 
 	:class => :button, :target => :new %>

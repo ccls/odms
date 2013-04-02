@@ -36,6 +36,12 @@
   :allow_blank: true
 
 -
+  :attribute: :notes
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+
+-
   :attributes:
   - :sent_to_subject_at
   - :collected_from_subject_at

@@ -18,7 +18,7 @@ class SampleTest < ActiveSupport::TestCase
 		received_by_ccls_at received_by_lab_at sample_collector_id 
 		sample_format sample_format_id sample_temperature 
 		sample_temperature_id sent_to_lab_at sent_to_subject_at
-		shipped_to_ccls_at state unit unit_id )
+		shipped_to_ccls_at state unit unit_id notes )
 	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
@@ -26,6 +26,7 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_not_protect( attributes - protected_attributes )
 
 	assert_should_require_attribute_length( :state, :maximum => 250 )
+	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
 	assert_requires_complete_date( :sent_to_subject_at, 
 		:shipped_to_ccls_at, 
