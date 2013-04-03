@@ -245,7 +245,7 @@ Odms::Application.routes.draw do
 #			resources :abstracts, :only => [:new,:create,:index],
 #				:controller => 'study_subject_abstracts' do
 #			resources :abstracts, :only => [:new,:create,:edit,:update,:index] do
-			resources :abstracts do
+			resources :abstracts, :except => [:edit, :update] do
 				collection do
 					get  :compare
 					post :merge

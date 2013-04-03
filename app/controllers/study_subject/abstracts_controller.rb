@@ -6,15 +6,16 @@ class StudySubject::AbstractsController < StudySubjectController
 	before_filter :may_create_abstracts_required,
 		:only => [:new,:create,:compare,:merge]
 	before_filter :may_read_abstracts_required,
-		:only => [:index]
-#		:only => [:show,:index]
+		:only => [:show,:index]
+#		:only => [:index]
 #	before_filter :may_update_abstracts_required,
 #		:only => [:edit,:update]
-#	before_filter :may_destroy_abstracts_required,
-#		:only => :destroy
+	before_filter :may_destroy_abstracts_required,
+		:only => :destroy
 
 	before_filter :valid_id_required, 
-		:only => [:show,:edit,:update,:destroy]
+		:only => [:show,:destroy]
+#		:only => [:show,:edit,:update,:destroy]
 
 	before_filter :case_study_subject_required,
 		:only => [:new,:create,:compare,:merge]
@@ -51,17 +52,17 @@ class StudySubject::AbstractsController < StudySubjectController
 		redirect_to study_subject_abstracts_path(@study_subject)
 	end
 
-	def edit
-	end
-
-	def update
-		@abstract.update_attributes!(params[:abstract])
-		flash[:notice] = 'Success!'
-		redirect_to study_subject_abstracts_path(@study_subject)
-	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		flash.now[:error] = "There was a problem updating the abstract"
-		render :action => "edit"
-	end
+#	def edit
+#	end
+#
+#	def update
+#		@abstract.update_attributes!(params[:abstract])
+#		flash[:notice] = 'Success!'
+#		redirect_to study_subject_abstracts_path(@study_subject)
+#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+#		flash.now[:error] = "There was a problem updating the abstract"
+#		render :action => "edit"
+#	end
 
 	def destroy
 		@abstract.destroy
@@ -107,7 +108,8 @@ protected
 #			@abstract = Abstract.find(params[:id])
 #			#	for id bar
 #			@study_subject = @abstract.study_subject
-		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
+#		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
+		if( !params[:id].blank? && @study_subject.abstracts.exists?(params[:id]) )
 			@abstract = @study_subject.abstracts.find(params[:id])
 		else
 			access_denied("Valid id required!", abstracts_path)
