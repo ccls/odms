@@ -10,8 +10,8 @@ class HospitalsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:hospital,{
-			:organization_id => Factory(:organization).id
+		FactoryGirl.attributes_for(:hospital,{
+			:organization_id => FactoryGirl.create(:organization).id
 		}.merge(options))
 	end
 

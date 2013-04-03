@@ -5,11 +5,11 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 	site_editors.each do |cu|
 
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
-			duplicate = Factory(:complete_waivered_case_study_subject)
+			duplicate = FactoryGirl.create(:complete_waivered_case_study_subject)
 			login_as send(cu)
 			visit new_raf_path
 
-			subject = Factory.build(:complete_waivered_case_study_subject)	
+			subject = FactoryGirl.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
@@ -57,11 +57,11 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "should create subject if duplicate subject no match found with #{cu} login" do
-			duplicate = Factory(:complete_waivered_case_study_subject)
+			duplicate = FactoryGirl.create(:complete_waivered_case_study_subject)
 			login_as send(cu)
 			visit new_raf_path
 
-			subject = Factory.build(:complete_waivered_case_study_subject)	
+			subject = FactoryGirl.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
@@ -112,7 +112,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			visit new_raf_path
 
-			subject = Factory.build(:complete_waivered_case_study_subject)	
+			subject = FactoryGirl.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
@@ -261,7 +261,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 
 		test "test edit complete case with #{cu} login" do
-			subject = Factory(:complete_waivered_case_study_subject)
+			subject = FactoryGirl.create(:complete_waivered_case_study_subject)
 			login_as send(cu)
 			visit edit_raf_path(:id => subject.id)
 #	TODO should add some stuff here

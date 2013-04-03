@@ -17,7 +17,7 @@ class ContextTest < ActiveSupport::TestCase
 #
 #	test "context factory should create context" do
 #		assert_difference('Context.count',1) {
-#			context = Factory(:context)
+#			context = FactoryGirl.create(:context)
 #			assert_match /Key\d*/, context.key
 #			assert_match /Desc\d*/, context.description
 #		}
@@ -30,36 +30,36 @@ class ContextTest < ActiveSupport::TestCase
 #	end
 #
 #	test "should have many context_contextables" do
-#		context = Factory(:context)
+#		context = FactoryGirl.create(:context)
 #		assert context.context_contextables.empty?
 #	end
 #
 #	test "should have many contextables through context_contextables (sort of)" do
 #		#	apparently can't have many through a polymorphic relationship
 #		#	so this is really just a method that mimics it.
-#		context = Factory(:context)
+#		context = FactoryGirl.create(:context)
 #		assert context.contextables.empty?
-#		Factory(:context_contextable, :context => context )
+#		FactoryGirl.create(:context_contextable, :context => context )
 #		assert !context.reload.contextables.empty?
 #	end
 #
 #	test "should have many data_sources" do
-#		context = Factory(:context)
+#		context = FactoryGirl.create(:context)
 #		assert context.data_sources.empty?
 #	end
 #
 #	test "should have many languages" do
-#		context = Factory(:context)
+#		context = FactoryGirl.create(:context)
 #		assert context.languages.empty?
 #	end
 #
 #	test "should have many diagnoses" do
-#		context = Factory(:context)
+#		context = FactoryGirl.create(:context)
 #		assert context.diagnoses.empty?
 #	end
 #
 #	test "should have many sample_temperatures" do
-#		context = Factory(:context)
+#		context = FactoryGirl.create(:context)
 #		assert context.sample_temperatures.empty?
 #	end
 #

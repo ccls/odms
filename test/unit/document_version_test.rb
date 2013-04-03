@@ -20,7 +20,7 @@ class DocumentVersionTest < ActiveSupport::TestCase
 	test "document_version should create document version" do
 		assert_difference('DocumentType.count',1) {
 		assert_difference('DocumentVersion.count',1) {
-			document_version = Factory(:document_version)
+			document_version = FactoryGirl.create(:document_version)
 			assert_match /Title\d*/,  document_version.title
 			assert_not_nil document_version.document_type
 		} }
@@ -57,7 +57,7 @@ class DocumentVersionTest < ActiveSupport::TestCase
 	test "should have many consented enrollments" do
 		document_version = create_document_version
 		assert_equal 0, document_version.enrollments.length
-		document_version.enrollments << Factory(:consented_enrollment)
+		document_version.enrollments << FactoryGirl.create(:consented_enrollment)
 		assert_equal 1, document_version.reload.enrollments.length
 	end
 

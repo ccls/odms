@@ -24,7 +24,7 @@ class GiftCardTest < ActiveSupport::TestCase
 
 	test "gift_card factory should create gift card" do
 		assert_difference('GiftCard.count',1) {
-			gift_card = Factory(:gift_card)
+			gift_card = FactoryGirl.create(:gift_card)
 			assert_match /\d*/, gift_card.number
 		}
 	end
@@ -38,7 +38,7 @@ class GiftCardTest < ActiveSupport::TestCase
 protected
 
 #	def create_gift_card(options={})
-#		gift_card = Factory.build(:gift_card,options)
+#		gift_card = FactoryGirl.build(:gift_card,options)
 #		gift_card.save
 #		gift_card
 #	end

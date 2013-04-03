@@ -156,7 +156,7 @@ group :test do
 #	upgrading factory girl will require big changes to the factory definitions and calls
 #	Factory seems to have been replaced with FactoryGirl
 #
-	gem "factory_girl", "~> 2.6.0"
+#	gem "factory_girl", "~> 2.6.0"
 
 	#	rails 3 version
 	gem "factory_girl_rails"	#	loads version matching factory_girl

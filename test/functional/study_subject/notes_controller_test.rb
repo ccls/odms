@@ -18,7 +18,7 @@ class StudySubject::NotesControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get notes with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -39,7 +39,7 @@ class StudySubject::NotesControllerTest < ActionController::TestCase
 	non_site_readers.each do |cu|
 
 		test "should NOT get notes with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -49,7 +49,7 @@ class StudySubject::NotesControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get notes without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end

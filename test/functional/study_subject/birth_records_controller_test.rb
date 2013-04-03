@@ -18,8 +18,8 @@ class StudySubject::BirthRecordsControllerTest < ActionController::TestCase
 	site_administrators.each do |cu|
 
 		test "should show birth_record with birth record and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			birth_datum = Factory(:birth_datum,
+			study_subject = FactoryGirl.create(:study_subject)
+			birth_datum = FactoryGirl.create(:birth_datum,
 				:study_subject => study_subject )
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
@@ -29,7 +29,7 @@ class StudySubject::BirthRecordsControllerTest < ActionController::TestCase
 		end
 
 		test "should show birth_record with no birth record and #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -50,7 +50,7 @@ class StudySubject::BirthRecordsControllerTest < ActionController::TestCase
 	non_site_administrators.each do |cu|
 
 		test "should NOT show birth_record with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -60,7 +60,7 @@ class StudySubject::BirthRecordsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT show birth_record without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end

@@ -6,7 +6,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert_difference( 'Enrollment.count', 2) {	#	ccls enrollment is auto-created, so 2
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:enrollments_attributes => [Factory.attributes_for(:enrollment,
+				:enrollments_attributes => [FactoryGirl.attributes_for(:enrollment,
 					:project_id => Project['non-specific'].id)])
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
@@ -16,7 +16,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 	test "should NOT destroy enrollments with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('Enrollment.count',2) {	#	due to the callback creation of ccls enrollment
-			@study_subject = Factory(:enrollment).study_subject
+			@study_subject = FactoryGirl.create(:enrollment).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('Enrollment.count',0) {
@@ -32,7 +32,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 
 	test "should return valid hx_enrollment if enrolled" do
 		study_subject = create_study_subject
-		hxe = Factory(:enrollment,
+		hxe = FactoryGirl.create(:enrollment,
 			:study_subject => study_subject,
 			:project => Project['HomeExposures']
 		)

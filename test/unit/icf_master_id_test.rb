@@ -8,7 +8,7 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 
 	test "icf_master_id factory should create icf master id" do
 		assert_difference('IcfMasterId.count',1) {
-			icf_master_id = Factory(:icf_master_id)
+			icf_master_id = FactoryGirl.create(:icf_master_id)
 			assert_nil icf_master_id.icf_master_id
 		}
 	end

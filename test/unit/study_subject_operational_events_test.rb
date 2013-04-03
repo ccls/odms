@@ -10,7 +10,7 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 		assert_difference('OperationalEventType.count',0) {	#	make sure it didn't create it
 		assert_difference('OperationalEvent.count',1) {
 		assert_difference('StudySubject.count',1) {
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 		} } }
 		events = study_subject.operational_events.where(
 			:project_id => Project['ccls'].id).where(
@@ -19,7 +19,7 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 	end
 
 	test "should create subjectDied operational event when vital status changed to deceased" do
-		study_subject = Factory(:study_subject).reload
+		study_subject = FactoryGirl.create(:study_subject).reload
 		assert_not_nil study_subject.vital_status
 		assert_difference('OperationalEventType.count',0) {	#	make sure it didn't create it
 		assert_difference('OperationalEvent.count',1) {
@@ -34,13 +34,13 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 
 	test "should return nil for subject's screener_complete_date_for_open_project" <<
 			" when subject has no associated operational event type" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		assert_nil study_subject.screener_complete_date_for_open_project
 	end
 
 	test "should return date for subject's screener_complete_date_for_open_project" <<
 			" when subject has associated operational event type" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		assert_nil study_subject.screener_complete_date_for_open_project
 		study_subject.operational_events.create(
 			:project => Project['ccls'],

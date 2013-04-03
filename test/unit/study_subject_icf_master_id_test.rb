@@ -10,25 +10,25 @@ class StudySubjectIcfMasterIdTest < ActiveSupport::TestCase
 			:maximum => 9 )
 
 	test "should not assign icf_master_id when there are none" do
-		study_subject = Factory(:study_subject, :icf_master_id => nil)
+		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => nil)
 		study_subject.assign_icf_master_id
 		assert_nil study_subject.icf_master_id
 	end
 
 	test "should not assign icf_master_id if already have one and one exists" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		assert_nil study_subject.reload.icf_master_id
-		imi1 = Factory(:icf_master_id,:icf_master_id => '12345678A')
+		imi1 = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345678A')
 		study_subject.assign_icf_master_id
 		assert_equal imi1.icf_master_id, study_subject.reload.icf_master_id
-		imi2 = Factory(:icf_master_id,:icf_master_id => '12345678B')
+		imi2 = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345678B')
 		study_subject.assign_icf_master_id
 		assert_equal imi1.icf_master_id, study_subject.reload.icf_master_id
 	end
 
 	test "should assign icf_master_id when there is one" do
 		study_subject = create_study_subject
-		imi = Factory(:icf_master_id,:icf_master_id => '12345678A')
+		imi = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345678A')
 		study_subject.assign_icf_master_id
 		assert_not_nil study_subject.icf_master_id
 		assert_equal '12345678A', study_subject.icf_master_id
@@ -41,7 +41,7 @@ class StudySubjectIcfMasterIdTest < ActiveSupport::TestCase
 
 	test "should assign icf_master_id to mother on creation if one exists" do
 		study_subject = create_study_subject
-		imi = Factory(:icf_master_id,:icf_master_id => '12345678A')
+		imi = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345678A')
 		assert_equal '12345678A', imi.icf_master_id
 		mother = study_subject.create_mother
 		assert_not_nil mother.reload.icf_master_id
@@ -64,7 +64,7 @@ class StudySubjectIcfMasterIdTest < ActiveSupport::TestCase
 		study_subject = create_study_subject
 		assert_nil   study_subject.icf_master_id
 		assert_equal study_subject.icf_master_id_to_s, '[no ID assigned]'
-		imi = Factory(:icf_master_id,:icf_master_id => '12345678A')
+		imi = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345678A')
 		study_subject.assign_icf_master_id
 		assert_not_nil study_subject.icf_master_id
 		assert_equal   study_subject.icf_master_id, imi.icf_master_id
@@ -73,10 +73,10 @@ class StudySubjectIcfMasterIdTest < ActiveSupport::TestCase
 
 	test "should require unique icf_master_id" do
 		assert_difference('StudySubject.count',1){
-			Factory(:study_subject, :icf_master_id => 'Fake1234')
+			FactoryGirl.create(:study_subject, :icf_master_id => 'Fake1234')
 		}
 		assert_difference('StudySubject.count',0){
-			study_subject = Factory.build(:study_subject, :icf_master_id => 'Fake1234')
+			study_subject = FactoryGirl.build(:study_subject, :icf_master_id => 'Fake1234')
 			study_subject.save
 			assert study_subject.errors.matching?(:icf_master_id,'has already been taken')
 		}

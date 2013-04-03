@@ -16,7 +16,7 @@ class StudySubject::ContactsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should get contacts with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -37,7 +37,7 @@ class StudySubject::ContactsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT get contacts with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -47,7 +47,7 @@ class StudySubject::ContactsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get contacts without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end

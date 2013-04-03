@@ -30,12 +30,12 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 
 
 	def create_operational_event_with_subject(options={})
-		Factory(:operational_event,{
-			:study_subject => Factory(:study_subject)}.merge(options) )
+		FactoryGirl.create(:operational_event,{
+			:study_subject => FactoryGirl.create(:study_subject)}.merge(options) )
 	end
 	def factory_attributes(options={})
-		Factory.attributes_for(:operational_event,{
-			:operational_event_type_id => Factory(:operational_event_type).id,
+		FactoryGirl.attributes_for(:operational_event,{
+			:operational_event_type_id => FactoryGirl.create(:operational_event_type).id,
 			:project_id => Project['ccls'].id
 		}.merge(options))
 	end
@@ -44,7 +44,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 
 		test "should get new event for study_subject with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			get :new, :study_subject_id => study_subject.id
 			assert_nil flash[:error]
 			assert_response :success
@@ -53,7 +53,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 
 		test "should create new event for study_subject with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			assert_difference('study_subject.operational_events.count',1){
 			assert_difference('OperationalEvent.count',1){
 				post :create, :study_subject_id => study_subject.id,
@@ -67,7 +67,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		test "should NOT create new event for study_subject with #{cu} login" <<
 				" and invalid study_subject_id" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => 0,
 					:operational_event => factory_attributes
@@ -79,7 +79,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		test "should NOT create new event for study_subject with #{cu} login" <<
 				" and invalid operational event" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			OperationalEvent.any_instance.stubs(:valid?).returns(false)
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => study_subject.id,
@@ -93,7 +93,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		test "should NOT create new event for study_subject with #{cu} login" <<
 				" and operational event save fails" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => study_subject.id,
@@ -105,8 +105,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should edit with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id,
 				:id => operational_event.id
@@ -116,8 +116,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event)
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id,
 				:id => operational_event.id
@@ -126,8 +126,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with invalid study_subject_id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			get :edit, :study_subject_id => 0,
 				:id => operational_event.id
@@ -136,8 +136,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with invalid id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id,
 				:id => 0
@@ -146,8 +146,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should update with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, 
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, 
 				:updated_at => ( Time.now - 1.day ),
 				:study_subject => study_subject )
 			login_as send(cu)
@@ -161,8 +161,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with save failure and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, 
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, 
 				:updated_at => ( Time.now - 1.day ),
 				:study_subject => study_subject )
 			login_as send(cu)
@@ -178,8 +178,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid and #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, 
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, 
 				:updated_at => ( Time.now - 1.day ),
 				:study_subject => study_subject )
 			OperationalEvent.any_instance.stubs(:valid?).returns(false)
@@ -195,8 +195,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with mismatched study_subject_id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, 
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, 
 				:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
@@ -209,8 +209,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid study_subject_id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, 
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, 
 				:updated_at => ( Time.now - 1.day ),
 				:study_subject => study_subject )
 			login_as send(cu)
@@ -224,8 +224,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, 
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, 
 				:updated_at => ( Time.now - 1.day ),
 				:study_subject => study_subject )
 			login_as send(cu)
@@ -239,8 +239,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should destroy with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',-1){
 				delete :destroy, :study_subject_id => study_subject.id,
@@ -251,8 +251,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event)
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0){
 				delete :destroy, :study_subject_id => study_subject.id,
@@ -263,8 +263,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0){
 				delete :destroy, :study_subject_id => 0,
@@ -275,8 +275,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with invalid id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0){
 				delete :destroy, :study_subject_id => study_subject.id,
@@ -292,7 +292,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 
 		test "should NOT get new event for study_subject with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subject_events_path(study_subject)
@@ -300,7 +300,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 
 		test "should NOT create new event for study_subject with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			assert_difference('OperationalEvent.count',0){
 				post :create, :study_subject_id => study_subject.id,
 					:operational_event => factory_attributes
@@ -310,8 +310,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id,
 				:id => operational_event.id
@@ -320,8 +320,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, 
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, 
 				:updated_at => ( Time.now - 1.day ),
 				:study_subject => study_subject )
 			login_as send(cu)
@@ -335,8 +335,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0){
 				delete :destroy, :study_subject_id => study_subject.id,
@@ -351,7 +351,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get events with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -475,8 +475,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should show with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id,
 				:id => operational_event.id
@@ -486,8 +486,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show with mismatched study_subject_id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event)
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event)
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id,
 				:id => operational_event.id
@@ -496,8 +496,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show with invalid study_subject_id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			get :show, :study_subject_id => 0,
 				:id => operational_event.id
@@ -506,8 +506,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show with invalid id #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id,
 				:id => 0
@@ -520,7 +520,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 	non_site_readers.each do |cu|
 
 		test "should NOT get events with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -528,8 +528,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show with #{cu} login" do
-			study_subject = Factory(:study_subject)
-			operational_event = Factory(:operational_event, :study_subject => study_subject )
+			study_subject = FactoryGirl.create(:study_subject)
+			operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id,
 				:id => operational_event.id
@@ -542,19 +542,19 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 	#	not logged in ..
 
 	test "should NOT get events without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT get new event for study_subject without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		get :new, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT create new event for study_subject without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		assert_difference('OperationalEvent.count',0){
 			post :create, :study_subject_id => study_subject.id,
 				:operational_event => factory_attributes
@@ -563,24 +563,24 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT show without login" do
-		study_subject = Factory(:study_subject)
-		operational_event = Factory(:operational_event, :study_subject => study_subject )
+		study_subject = FactoryGirl.create(:study_subject)
+		operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 		get :show, :study_subject_id => study_subject.id,
 			:id => operational_event.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT edit without login" do
-		study_subject = Factory(:study_subject)
-		operational_event = Factory(:operational_event, :study_subject => study_subject )
+		study_subject = FactoryGirl.create(:study_subject)
+		operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 		get :edit, :study_subject_id => study_subject.id,
 			:id => operational_event.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT update without login" do
-		study_subject = Factory(:study_subject)
-		operational_event = Factory(:operational_event, 
+		study_subject = FactoryGirl.create(:study_subject)
+		operational_event = FactoryGirl.create(:operational_event, 
 			:updated_at => ( Time.now - 1.day ),
 			:study_subject => study_subject )
 		deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
@@ -592,8 +592,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT destroy without login" do
-		study_subject = Factory(:study_subject)
-		operational_event = Factory(:operational_event, :study_subject => study_subject )
+		study_subject = FactoryGirl.create(:study_subject)
+		operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject )
 		assert_difference('OperationalEvent.count',0){
 			delete :destroy, :study_subject_id => study_subject.id,
 				:id => operational_event.id
@@ -604,7 +604,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 protected
 
 	def create_operational_events(*args)
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		study_subject.operational_events.destroy_all
 		args.collect{|options| create_operational_event(
 			options.merge(:study_subject => study_subject)) }
@@ -629,22 +629,22 @@ protected
 
 	def create_category_operational_events
 		create_operational_events(
-			{ :operational_event_type => Factory(
+			{ :operational_event_type => FactoryGirl.create(
 				:operational_event_type,:event_category => 'MMMM') },
-			{ :operational_event_type => Factory(
+			{ :operational_event_type => FactoryGirl.create(
 				:operational_event_type,:event_category => 'AAAA') },
-			{ :operational_event_type => Factory(
+			{ :operational_event_type => FactoryGirl.create(
 				:operational_event_type,:event_category => 'ZZZZ') }
 		)
 	end
 
 	def create_project_operational_events
 		create_operational_events(
-			{ :project => Factory(
+			{ :project => FactoryGirl.create(
 				:project,:key => 'MMMM') },
-			{ :project => Factory(
+			{ :project => FactoryGirl.create(
 				:project,:key => 'AAAA') },
-			{ :project => Factory(
+			{ :project => FactoryGirl.create(
 				:project,:key => 'ZZZZ') }
 		)
 	end

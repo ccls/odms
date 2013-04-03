@@ -10,7 +10,7 @@ class GuidesControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:guide,options)
+		FactoryGirl.attributes_for(:guide,options)
 	end
 
 	assert_access_with_login({    :logins => site_editors })

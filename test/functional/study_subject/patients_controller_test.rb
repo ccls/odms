@@ -14,7 +14,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 	assert_no_route(:delete,:destroy)
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:patient,options)
+		FactoryGirl.attributes_for(:patient,options)
 	end
 
 	#	All nested routes, so common class-level assertions won't work
@@ -22,7 +22,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should show patient with #{cu} login" do
-			patient = Factory(:patient)
+			patient = FactoryGirl.create(:patient)
 			login_as send(cu)
 			get :show, :study_subject_id => patient.study_subject.id
 			assert assigns(:study_subject)
@@ -40,7 +40,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT show patient for patientless case study_subject " <<
 				"and #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			assert_nil study_subject.patient
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
@@ -51,7 +51,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show patient for control subject with #{cu} login" do
-			study_subject = Factory(:control_study_subject)
+			study_subject = FactoryGirl.create(:control_study_subject)
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
 			assert_nil flash[:error]
@@ -61,7 +61,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show patient for mother subject with #{cu} login" do
-			study_subject = Factory(:mother_study_subject)
+			study_subject = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
 			assert_nil flash[:error]
@@ -72,7 +72,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT get new patient with #{cu} login " <<
 				"for study_subject with patient" do
-			patient = Factory(:patient)
+			patient = FactoryGirl.create(:patient)
 			login_as send(cu)
 			get :new, :study_subject_id => patient.study_subject.id
 			assert assigns(:study_subject)
@@ -81,7 +81,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should get new patient with #{cu} login " <<
 				"for study_subject without patient" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -99,7 +99,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 		end
 
 		test "should create new patient with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('Patient.count',1) do
 				post :create, :study_subject_id => study_subject.id,
@@ -111,7 +111,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT create new patient with #{cu} login " <<
 				"for non-case study_subject" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference('Patient.count',0) do
 				post :create, :study_subject_id => study_subject.id,
@@ -135,7 +135,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT create new patient with #{cu} " <<
 				"login when create fails" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			Patient.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('Patient.count',0) do
@@ -150,7 +150,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT create new patient with #{cu} " <<
 				"login and invalid patient" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			Patient.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('Patient.count',0) do
@@ -164,7 +164,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 		end
 
 		test "should edit patient with #{cu} login" do
-			patient = Factory(:patient)
+			patient = FactoryGirl.create(:patient)
 			login_as send(cu)
 			get :edit, :study_subject_id => patient.study_subject.id
 			assert assigns(:patient)
@@ -174,7 +174,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT edit patient for case subject without patient and #{cu} login" do
 			#	doesn't actually test case/control unless new/create
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
 			assert_nil assigns(:patient)
@@ -184,7 +184,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT edit patient for control subject without patient and #{cu} login" do
 			#	doesn't actually test case/control unless new/create
-			study_subject = Factory(:control_study_subject)
+			study_subject = FactoryGirl.create(:control_study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
 			assert_nil assigns(:patient)
@@ -194,14 +194,14 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT edit patient with invalid " <<
 				"study_subject_id and #{cu} login" do
-			patient = Factory(:patient)
+			patient = FactoryGirl.create(:patient)
 			login_as send(cu)
 			get :edit, :study_subject_id => 0
 			assert_redirected_to study_subjects_path
 		end
 
 		test "should update patient with #{cu} login" do
-			patient = Factory(:patient)
+			patient = FactoryGirl.create(:patient)
 			login_as send(cu)
 			put :update, :study_subject_id => patient.study_subject.id,
 				:patient => factory_attributes
@@ -210,7 +210,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update patient for case subject without patient and #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
 				:patient => factory_attributes
@@ -221,7 +221,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT update patient for control subject without patient and #{cu} login" do
 			#	doesn't actually test case/control unless new/create
-			study_subject = Factory(:control_study_subject)
+			study_subject = FactoryGirl.create(:control_study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
 				:patient => factory_attributes
@@ -232,7 +232,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT update patient with invalid " <<
 				"study_subject_id and #{cu} login" do
-			patient = Factory(:patient,:updated_at => ( Time.now - 1.day ) )
+			patient = FactoryGirl.create(:patient,:updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("Patient.find(#{patient.id}).updated_at") {
 				put :update, :study_subject_id => 0,
@@ -243,7 +243,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT update patient with #{cu} " <<
 				"login when update fails" do
-			patient = Factory(:patient,:updated_at => ( Time.now - 1.day ) )
+			patient = FactoryGirl.create(:patient,:updated_at => ( Time.now - 1.day ) )
 			Patient.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			deny_changes("Patient.find(#{patient.id}).updated_at") {
@@ -258,7 +258,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT update patient with #{cu} " <<
 				"login and invalid patient" do
-			patient = Factory(:patient,:updated_at => ( Time.now - 1.day ) )
+			patient = FactoryGirl.create(:patient,:updated_at => ( Time.now - 1.day ) )
 			Patient.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			deny_changes("Patient.find(#{patient.id}).updated_at") {
@@ -273,7 +273,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should destroy patient with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:patient).study_subject.reload
+			study_subject = FactoryGirl.create(:patient).study_subject.reload
 			assert_not_nil study_subject.patient
 			assert_difference('Patient.count', -1) do
 				delete :destroy, :study_subject_id => study_subject.id
@@ -284,7 +284,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should destroy patient for control subject without patient and #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:control_study_subject)
+			study_subject = FactoryGirl.create(:control_study_subject)
 			assert_nil study_subject.patient
 			assert_difference('Patient.count', 0) do
 				delete :destroy, :study_subject_id => study_subject.id
@@ -297,7 +297,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should destroy patient for case subject without patient and #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			assert_nil study_subject.patient
 			assert_difference('Patient.count', 0) do
 				delete :destroy, :study_subject_id => study_subject.id
@@ -314,7 +314,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT show patient with #{cu} login" do
-			study_subject = Factory(:patient).study_subject
+			study_subject = FactoryGirl.create(:patient).study_subject
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -322,7 +322,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new patient with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -330,7 +330,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create new patient with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			post :create, :study_subject_id => study_subject.id,
 				:patient => factory_attributes
@@ -340,7 +340,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 		test "should NOT destroy patient with #{cu} login" do
 			login_as send(cu)
-			study_subject = Factory(:patient).study_subject.reload
+			study_subject = FactoryGirl.create(:patient).study_subject.reload
 			assert_not_nil study_subject.patient
 			assert_difference('Patient.count', 0) do
 				delete :destroy, :study_subject_id => study_subject.id
@@ -352,26 +352,26 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT show patient without login" do
-		study_subject = Factory(:patient).study_subject
+		study_subject = FactoryGirl.create(:patient).study_subject
 		get :show, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT get new patient without login" do
-		study_subject = Factory(:case_study_subject)
+		study_subject = FactoryGirl.create(:case_study_subject)
 		get :new, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT create new patient without login" do
-		study_subject = Factory(:case_study_subject)
+		study_subject = FactoryGirl.create(:case_study_subject)
 		post :create, :study_subject_id => study_subject.id,
 			:patient => factory_attributes
 		assert_redirected_to_login
 	end
 
 	test "should NOT destroy patient without login" do
-		study_subject = Factory(:patient).study_subject.reload
+		study_subject = FactoryGirl.create(:patient).study_subject.reload
 		assert_not_nil study_subject.patient
 		assert_difference('Patient.count', 0) do
 			delete :destroy, :study_subject_id => study_subject.id

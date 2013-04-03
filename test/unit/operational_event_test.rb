@@ -34,27 +34,27 @@ class OperationalEventTest < ActiveSupport::TestCase
 
 	test "operational_event factory should create operational event" do
 		assert_difference('OperationalEvent.count',1) {
-			operational_event = Factory(:operational_event)
+			operational_event = FactoryGirl.create(:operational_event)
 		}
 	end
 
 	test "operational_event factory should not create study subject" do
 		assert_difference('StudySubject.count',0) {
-			operational_event = Factory(:operational_event)
+			operational_event = FactoryGirl.create(:operational_event)
 			assert_nil operational_event.study_subject
 		}
 	end
 
 	test "operational_event factory should not create project" do
 		assert_difference('Project.count',0) {
-			operational_event = Factory(:operational_event)
+			operational_event = FactoryGirl.create(:operational_event)
 			assert_nil operational_event.project
 		}
 	end
 
 	test "operational_event factory should not create operational event type" do
 		assert_difference('OperationalEventType.count',0) {
-			operational_event = Factory(:operational_event)
+			operational_event = FactoryGirl.create(:operational_event)
 			assert_nil operational_event.operational_event_type
 		}
 	end
@@ -68,7 +68,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 #	end
 
 	test "should require valid project if given" do
-		operational_event = Factory.build(:operational_event, :project_id => 0)
+		operational_event = FactoryGirl.build(:operational_event, :project_id => 0)
 		assert !operational_event.valid?
 		assert !operational_event.errors.include?(:project_id)
 		assert  operational_event.errors.matching?(:project,"can't be blank")
@@ -83,7 +83,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 #	end
 
 	test "should require valid study_subject if given" do
-		operational_event = Factory.build(:operational_event,:study_subject_id => 0)
+		operational_event = FactoryGirl.build(:operational_event,:study_subject_id => 0)
 		assert !operational_event.valid?
 		assert !operational_event.errors.include?(:study_subject_id)
 		assert  operational_event.errors.matching?(:study_subject,"can't be blank")
@@ -93,7 +93,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 #pending	#	does this test correctly?
 ##		assert_difference( "OperationalEvent.count", 0 ) do
 ##			operational_event = create_operational_event( :operational_event_type => nil)
-#			operational_event = Factory.build(:operational_event, :operational_event_type => nil)
+#			operational_event = FactoryGirl.build(:operational_event, :operational_event_type => nil)
 #			operational_event.valid?
 #			assert !operational_event.errors.include?(:operational_event_type)
 #			assert  operational_event.errors.matching?(:operational_event_type_id,"can't be blank")
@@ -101,7 +101,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 #	end
 
 	test "should require valid operational_event_type if given" do
-		operational_event = Factory.build(:operational_event, :operational_event_type_id => 0)
+		operational_event = FactoryGirl.build(:operational_event, :operational_event_type_id => 0)
 		assert !operational_event.valid?
 		assert !operational_event.errors.include?(:operational_event_type_id)
 		assert  operational_event.errors.matching?(:operational_event_type,"can't be blank")
@@ -218,7 +218,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 #	end
 #
 #	test "should only include operational events for study_subject" do
-#		enrollment = Factory(:enrollment)
+#		enrollment = FactoryGirl.create(:enrollment)
 #		operational_event_1 = create_operational_event
 #		operational_event_2 = create_operational_event(
 #			:enrollment => enrollment )
@@ -254,11 +254,11 @@ protected
 
 	def create_oet_operational_events
 		create_operational_events(
-			{ :operational_event_type => Factory(
+			{ :operational_event_type => FactoryGirl.create(
 				:operational_event_type,:description => 'MMMM') },
-			{ :operational_event_type => Factory(
+			{ :operational_event_type => FactoryGirl.create(
 				:operational_event_type,:description => 'AAAA') },
-			{ :operational_event_type => Factory(
+			{ :operational_event_type => FactoryGirl.create(
 				:operational_event_type,:description => 'ZZZZ') }
 		)
 	end

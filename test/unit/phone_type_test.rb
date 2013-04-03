@@ -11,7 +11,7 @@ class PhoneTypeTest < ActiveSupport::TestCase
 
 	test "phone_type factory should create phone type" do
 		assert_difference('PhoneType.count',1) {
-			phone_type = Factory(:phone_type)
+			phone_type = FactoryGirl.create(:phone_type)
 			assert_match /Key\d*/, phone_type.key
 		}
 	end

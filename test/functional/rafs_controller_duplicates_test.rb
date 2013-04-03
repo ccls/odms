@@ -11,7 +11,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate hospital_no and #{cu} login" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -29,7 +29,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate hospital_no" <<
 					" and #{cu} login if 'Match Found' without duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -49,7 +49,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate hospital_no" <<
 					" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -69,7 +69,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate hospital_no" <<
 					" and #{cu} login if 'Match Found' with valid duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_difference('OperationalEvent.count',1) {
 				assert_all_differences(0) {
@@ -90,7 +90,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should create waivered case study_subject" <<
 					" with existing duplicate hospital_no" <<
 					" and #{cu} login if 'No Match'" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				minimum_waivered_successful_creation(
 						'study_subject' => { 'patient_attributes' => {
@@ -108,7 +108,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate admit_date and organization_id and #{cu} login" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -123,7 +123,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate admit_date and organization_id" <<
 					" and #{cu} login if 'Match Found' without duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -140,7 +140,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate admit_date and organization_id" <<
 					" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -157,7 +157,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate admit_date and organization_id" <<
 					" and #{cu} login if 'Match Found' with valid duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_difference('OperationalEvent.count',1) {
 				assert_all_differences(0) {
@@ -176,7 +176,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should create waivered case study_subject" <<
 					" with existing duplicate admit_date and organization_id" <<
 					" and #{cu} login if 'No Match'" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				minimum_waivered_successful_creation(
 						'study_subject' => { 'patient_attributes' => {
@@ -199,7 +199,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing control duplicate sex and dob and blank mother_maiden_names" <<
 					" and #{cu} login" do
-				subject = Factory(:complete_control_study_subject)
+				subject = FactoryGirl.create(:complete_control_study_subject)
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -214,7 +214,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank mother_maiden_names" <<
 					" and #{cu} login" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -228,7 +228,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank mother_maiden_names" <<
 					" and #{cu} login if 'Match Found' without duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -244,7 +244,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank mother_maiden_names" <<
 					" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -260,7 +260,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank mother_maiden_names" <<
 					" and #{cu} login if 'Match Found' with valid duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_difference('OperationalEvent.count',1) {
 				assert_all_differences(0) {
@@ -278,7 +278,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank mother_maiden_names" <<
 					" and #{cu} login if 'No Match'" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				minimum_waivered_successful_creation(
 						'study_subject' => { 'sex' => subject.sex,
@@ -291,7 +291,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and mother_maiden_names and #{cu} login" do
-				subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+				subject = FactoryGirl.create(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -305,7 +305,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and mother_maiden_names" <<
 					" and #{cu} login if 'Match Found' without duplicate_id" do
-				subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+				subject = FactoryGirl.create(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -321,7 +321,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and mother_maiden_names" <<
 					" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-				subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+				subject = FactoryGirl.create(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -337,7 +337,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and mother_maiden_names" <<
 					" and #{cu} login if 'Match Found' with valid duplicate_id" do
-				subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+				subject = FactoryGirl.create(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 				login_as send(cu)
 				assert_difference('OperationalEvent.count',1) {
 				assert_all_differences(0) {
@@ -355,7 +355,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should create waivered case study_subject" <<
 					" with existing duplicate sex and dob and mother_maiden_names" <<
 					" and #{cu} login if 'No Match'" do
-				subject = Factory(:complete_case_study_subject,:mother_maiden_name => 'Smith')
+				subject = FactoryGirl.create(:complete_case_study_subject,:mother_maiden_name => 'Smith')
 				login_as send(cu)
 				minimum_waivered_successful_creation(
 						'study_subject' => { 'sex' => subject.sex,
@@ -368,7 +368,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank existing mother_maiden_name and #{cu} login" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -382,7 +382,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 					" and #{cu} login if 'Match Found' without duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -398,7 +398,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 					" and #{cu} login if 'Match Found' with invalid duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_all_differences(0) do
 					post :create, minimum_waivered_form_attributes(
@@ -414,7 +414,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should NOT create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 					" and #{cu} login if 'Match Found' with valid duplicate_id" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				assert_difference('OperationalEvent.count',1) {
 				assert_all_differences(0) {
@@ -432,7 +432,7 @@ class RafsControllerDuplicatesTest < ActionController::TestCase
 			test "should create waivered case study_subject" <<
 					" with existing duplicate sex and dob and blank existing mother_maiden_name" <<
 					" and #{cu} login if 'No Match'" do
-				subject = Factory("complete_waivered_case_study_subject")
+				subject = FactoryGirl.create("complete_waivered_case_study_subject")
 				login_as send(cu)
 				minimum_waivered_successful_creation(
 						'study_subject' => { 'sex' => subject.sex,

@@ -27,7 +27,7 @@ class BcRequestTest < ActiveSupport::TestCase
 
 	test "bc_request factory should create bc request" do
 		assert_difference('BcRequest.count',1) {
-			bc_request = Factory(:bc_request)
+			bc_request = FactoryGirl.create(:bc_request)
 			assert_match /Notes\d*/, bc_request.notes
 		}
 	end
@@ -40,23 +40,23 @@ class BcRequestTest < ActiveSupport::TestCase
 	test "should return study subject's studyid for to_s if study subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('BcRequest.count',1) {
-			study_subject = Factory(:complete_case_study_subject)
-			bc_request = Factory(:bc_request)
+			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc_request = FactoryGirl.create(:bc_request)
 			study_subject.bc_requests << bc_request
 			assert_equal study_subject.studyid, "#{bc_request}"
 		} }
 	end
 
 	test "should return bc_requests with status blank" do
-		bc_request = Factory(:bc_request)
+		bc_request = FactoryGirl.create(:bc_request)
 		assert bc_request.status.blank?
 		assert BcRequest.with_status().include?(bc_request)
 	end
 
 	test "should return bc_requests with status bogus" do
-		blank_bc_request = Factory(:bc_request)
+		blank_bc_request = FactoryGirl.create(:bc_request)
 		assert blank_bc_request.status.blank?
-		bc_request = Factory(:bc_request)
+		bc_request = FactoryGirl.create(:bc_request)
 		assert  bc_request.status.blank?
 		bc_requests = BcRequest.with_status('bogus')
 		assert !bc_requests.include?(bc_request)
@@ -65,9 +65,9 @@ class BcRequestTest < ActiveSupport::TestCase
 
 	BcRequest.statuses.each do |status|
 		test "should return bc_requests with status #{status}" do
-			blank_bc_request = Factory(:bc_request)
+			blank_bc_request = FactoryGirl.create(:bc_request)
 			assert blank_bc_request.status.blank?
-			bc_request = Factory(:bc_request, :status => status)
+			bc_request = FactoryGirl.create(:bc_request, :status => status)
 			assert !bc_request.status.blank?
 			assert_equal status, bc_request.status
 			bc_requests = BcRequest.with_status(status)

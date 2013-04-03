@@ -21,7 +21,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 
 #	test "set organization for complete case study subject factory test" do
 #		#	Factory only does a merge, NOT a deep_merge, so this won' work
-#		s = Factory(:complete_case_study_subject,
+#		s = FactoryGirl.create(:complete_case_study_subject,
 #			:patient_attributes => { :organization_id => Hospital.last.organization_id } )
 #		assert Hospital.first != Hospital.last
 #		assert_equal s.organization_id, Hospital.last.organization_id
@@ -30,8 +30,8 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 	test "should create case study_subject and accept_nested_attributes_for patient" do
 		assert_difference( 'Patient.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = Factory(:case_study_subject,
-				:patient_attributes => Factory.attributes_for(:patient))
+			study_subject = FactoryGirl.create(:case_study_subject,
+				:patient_attributes => FactoryGirl.attributes_for(:patient))
 			assert  study_subject.is_case?
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
@@ -42,7 +42,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		assert_difference( 'Patient.count', 0) {
 		assert_difference( "StudySubject.count", 0 ) {
 			study_subject = create_study_subject(
-				:patient_attributes => Factory.attributes_for(:patient))
+				:patient_attributes => FactoryGirl.attributes_for(:patient))
 			assert !study_subject.is_case?
 			assert study_subject.errors.include?(:patient)	#	no type
 			assert  study_subject.new_record?, 
@@ -53,11 +53,11 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 	test "should create patient for case study_subject" do
 		assert_difference( 'Patient.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			assert study_subject.is_case?
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-			patient = Factory(:patient, :study_subject => study_subject)
+			patient = FactoryGirl.create(:patient, :study_subject => study_subject)
 			assert !patient.new_record?, 
 				"#{patient.errors.full_messages.to_sentence}"
 		} }
@@ -70,7 +70,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 			assert !study_subject.is_case?
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-			patient = Factory.build(:patient, :study_subject => study_subject)
+			patient = FactoryGirl.build(:patient, :study_subject => study_subject)
 			patient.save	#	avoid an exception being raised
 			assert patient.errors.include?(:study_subject)
 		} }
@@ -94,7 +94,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 	test "should NOT destroy patient with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('Patient.count',1) {
-			@study_subject = Factory(:patient).study_subject
+			@study_subject = FactoryGirl.create(:patient).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('Patient.count',0) {
@@ -114,7 +114,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 
 		test "should return #{method_name} with patient" do
 			study_subject = StudySubject.new(
-				:patient_attributes => Factory.attributes_for(:patient))
+				:patient_attributes => FactoryGirl.attributes_for(:patient))
 			assert_not_nil study_subject.send(method_name)
 		end
 
@@ -162,7 +162,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		study_subject = create_case_study_subject(
 #			:matchingid => '012345',	#	seriously? set the subjecid
 			:subjectid => '012345',
-			:patient_attributes    => Factory.attributes_for(:patient)).reload
+			:patient_attributes    => FactoryGirl.attributes_for(:patient)).reload
 		other   = create_study_subject( :matchingid => '012345' )
 		nobody  = create_study_subject( :matchingid => '054321' )
 #	admit_date is now required, so will exist initially
@@ -249,7 +249,7 @@ protected
 
 #	def create_study_subject_with_matchingid(matchingid='12345')
 ##		study_subject = create_study_subject( 
-##			:identifier_attributes => Factory.attributes_for(:identifier,
+##			:identifier_attributes => FactoryGirl.attributes_for(:identifier,
 ##				{ :matchingid => matchingid })).reload
 #		study_subject = create_study_subject( :matchingid => matchingid ).reload
 #	end
@@ -259,7 +259,7 @@ protected
 	def create_case_study_subject_with_patient
 		study_subject = create_case_study_subject( 
 			:subjectid => '012345',		#	NOTE set subjectid instead
-			:patient_attributes    => Factory.attributes_for(:patient,
+			:patient_attributes    => FactoryGirl.attributes_for(:patient,
 				{ :admit_date => Date.yesterday })).reload
 		assert_not_nil study_subject.patient.admit_date
 		assert_not_nil study_subject.reference_date

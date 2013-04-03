@@ -11,7 +11,7 @@ class AddressTypeTest < ActiveSupport::TestCase
 
 	test "address_type factory should create address type" do
 		assert_difference('AddressType.count',1) {
-			address_type = Factory(:address_type)
+			address_type = FactoryGirl.create(:address_type)
 			assert_match /Key\d*/,  address_type.key
 			assert_match /Desc\d*/,  address_type.description
 		}

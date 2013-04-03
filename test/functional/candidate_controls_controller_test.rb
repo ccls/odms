@@ -3,14 +3,14 @@ require 'test_helper'
 class CandidateControlsControllerTest < ActionController::TestCase
 
 	test "case_study_subject creation test without patid" do
-		case_study_subject = Factory(:case_study_subject)	#	no identifier, no patid
+		case_study_subject = FactoryGirl.create(:case_study_subject)	#	no identifier, no patid
 #	NOTE actually, this will now have a patid
 #		assert_nil case_study_subject.patid
 		assert_not_nil case_study_subject.patid
 	end
 
 	test "case_study_subject creation test with patid" do
-		case_study_subject = Factory(:complete_case_study_subject)
+		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
 		assert_not_nil case_study_subject.patid
 	end
 
@@ -25,16 +25,16 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should get show with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.reload.patid)
 			assert_successful_show(candidate)
 		end
 
 		test "should get edit with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.reload.patid)
 			assert_successful_edit(candidate)
 		end
@@ -44,7 +44,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.current-1000.days
 			case_study_subject.update_column(:dob, dob)
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => case_study_subject.sex,
 				:dob => dob )
@@ -65,7 +65,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.current-1000.days
 			case_study_subject.update_column(:dob, dob)
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => case_study_subject.sex,
 				:dob => dob-1 )
@@ -86,7 +86,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.current-1000.days
 			case_study_subject.update_column(:dob, dob)
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => (%w( M F ) - [case_study_subject.sex])[0],	#	the other sex
 				:dob => dob )
@@ -107,7 +107,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			dob = Date.current-1000.days
 			case_study_subject.update_column(:dob, dob)
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => nil,
 				:dob => dob )
@@ -126,7 +126,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should get edit with #{cu} login and preselect reject if missing dob" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id,
 				:sex => case_study_subject.sex,
 				:dob => nil )
@@ -152,7 +152,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get edit with #{cu} login and no case" do
 			login_as send(cu)
-			candidate = Factory(:candidate_control)
+			candidate = FactoryGirl.create(:candidate_control)
 			get :edit, :id => candidate.id
 			assert_not_nil flash[:error]
 #			assert_redirected_to cases_path
@@ -161,8 +161,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get edit with #{cu} login and used candidate control" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.reload.patid,
 				:study_subject_id => case_study_subject.id )	#	this is just to set it
 			get :edit, :id => candidate.id
@@ -173,7 +173,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should put update with #{cu} login and mark candidate as rejected" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
@@ -195,7 +195,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" when missing dob" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:dob => nil,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
@@ -218,7 +218,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" when missing sex" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:sex => nil,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
@@ -240,7 +240,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should put update with #{cu} login and accept candidate" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
@@ -262,7 +262,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" when missing dob" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:dob => nil,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
@@ -296,7 +296,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" when missing sex" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:sex => nil,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
@@ -337,11 +337,11 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
-			duplicate = Factory(:study_subject,
+			duplicate = FactoryGirl.create(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name )
@@ -360,11 +360,11 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'No Match' and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
-			duplicate = Factory(:study_subject,
+			duplicate = FactoryGirl.create(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
@@ -382,11 +382,11 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'Match Found' and valid control duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
-			duplicate = Factory(:study_subject,
+			duplicate = FactoryGirl.create(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
@@ -411,11 +411,11 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'Match Found' and valid case duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
-			duplicate = Factory(:study_subject,
+			duplicate = FactoryGirl.create(:study_subject,
 				:sex => candidate.sex,
 				:subject_type => SubjectType['Case'],
 				:dob => candidate.dob,
@@ -439,11 +439,11 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'Match Found' and no duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
-			duplicate = Factory(:study_subject,
+			duplicate = FactoryGirl.create(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
@@ -464,11 +464,11 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				" 'Match Found' and invalid duplicate_id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
-			duplicate = Factory(:study_subject,
+			duplicate = FactoryGirl.create(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
@@ -492,9 +492,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should assign icf_master_id on acceptance if available with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			Factory(:icf_master_id, :icf_master_id => '12345')
-			Factory(:icf_master_id, :icf_master_id => '67890')
-			birth_datum = Factory(:control_birth_datum,
+			FactoryGirl.create(:icf_master_id, :icf_master_id => '12345')
+			FactoryGirl.create(:icf_master_id, :icf_master_id => '67890')
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
@@ -517,8 +517,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				"with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			Factory(:icf_master_id, :icf_master_id => '12345')
-			birth_datum = Factory(:control_birth_datum,
+			FactoryGirl.create(:icf_master_id, :icf_master_id => '12345')
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
@@ -539,7 +539,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				"with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
@@ -557,8 +557,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should NOT put update with #{cu} login and accept candidate" <<
 				" when StudySubject save fails" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.patid)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
@@ -569,8 +569,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		test "should NOT put update with #{cu} login and accept candidate" <<
 				" when StudySubject invalid" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.patid)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
@@ -580,8 +580,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT put update with #{cu} login and used candidate control" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.reload.patid,
 				:study_subject_id => case_study_subject.id )
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
@@ -617,8 +617,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT put update with #{cu} login and empty attributes" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.patid)
 			assert_not_put_update_candidate(candidate)
 			assert_response :success
@@ -637,7 +637,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT put update with #{cu} login and no case" do
 			login_as send(cu)
-			candidate = Factory(:candidate_control)
+			candidate = FactoryGirl.create(:candidate_control)
 			assert_not_put_update_candidate(candidate)
 #			assert_redirected_to cases_path
 			assert_redirected_to new_control_path
@@ -645,8 +645,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT put update with #{cu} login and invalid candidate" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.patid)
 			CandidateControl.any_instance.stubs(:valid?).returns(false)
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
@@ -656,8 +656,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT put update with #{cu} login and candidate save fails" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.patid)
 			CandidateControl.any_instance.stubs(:create_or_update).returns(false)
 			assert_not_put_update_candidate(candidate, :reject_candidate => 'false' )
@@ -668,8 +668,8 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		#	same as invalid candidate, but more explicit and obvious
 		test "should NOT put update with #{cu} login and rejected without reason" do
 			login_as send(cu)
-			case_study_subject = Factory(:complete_case_study_subject)
-			candidate = Factory(:candidate_control,
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			candidate = FactoryGirl.create(:candidate_control,
 				:related_patid => case_study_subject.patid)
 			assert_not_put_update_candidate(candidate, {
 				:reject_candidate => 'true',
@@ -685,11 +685,11 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		#	THIS IS BAD IF THIS HAPPENS, WHICH IT SHOULDN'T
 		test "should raise a database error if childid exists with #{cu} login" do
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
-			study_subject = Factory(:study_subject)	#	use this childid
+			study_subject = FactoryGirl.create(:study_subject)	#	use this childid
 			assert_not_nil study_subject.childid
 			assert_equal   study_subject.childid, 12345
 			login_as send(cu)
@@ -705,11 +705,11 @@ class CandidateControlsControllerTest < ActionController::TestCase
 		#	THIS IS BAD IF THIS HAPPENS, WHICH IT SHOULDN'T
 		test "should raise a database error if subjectid exists with #{cu} login" do
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = Factory(:control_birth_datum,
+			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
-			study_subject = Factory(:study_subject)	#	use this subjectid
+			study_subject = FactoryGirl.create(:study_subject)	#	use this subjectid
 			assert_not_nil study_subject.subjectid
 			assert_equal   study_subject.subjectid, '012345'
 			login_as send(cu)
@@ -735,7 +735,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get show with #{cu} login" do
 			login_as send(cu)
-			candidate = Factory(:candidate_control)
+			candidate = FactoryGirl.create(:candidate_control)
 			get :show, :id => candidate.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -743,7 +743,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get edit with #{cu} login" do
 			login_as send(cu)
-			candidate = Factory(:candidate_control)
+			candidate = FactoryGirl.create(:candidate_control)
 			get :edit, :id => candidate.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -751,7 +751,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 
 		test "should NOT put update with #{cu} login" do
 			login_as send(cu)
-			candidate = Factory(:candidate_control)
+			candidate = FactoryGirl.create(:candidate_control)
 			put :update, :id => candidate.id, :candidate_control => {}
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -766,19 +766,19 @@ class CandidateControlsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get show without login" do
-		candidate = Factory(:candidate_control)
+		candidate = FactoryGirl.create(:candidate_control)
 		get :show, :id => candidate.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT get edit without login" do
-		candidate = Factory(:candidate_control)
+		candidate = FactoryGirl.create(:candidate_control)
 		get :edit, :id => candidate.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT put update without login" do
-		candidate = Factory(:candidate_control)
+		candidate = FactoryGirl.create(:candidate_control)
 		put :update, :id => candidate.id, :candidate_control => {}
 		assert_redirected_to_login
 	end
@@ -808,11 +808,11 @@ protected
 	end
 
 	def create_complete_case_study_subject_with_icf_master_id
-#		study_subject = Factory(:complete_case_study_subject)
-		study_subject = Factory(:complete_case_study_subject,
+#		study_subject = FactoryGirl.create(:complete_case_study_subject)
+		study_subject = FactoryGirl.create(:complete_case_study_subject,
 			:icf_master_id => 'FCASE4BIR')
 #		assert_nil study_subject.icf_master_id
-#		imi = Factory(:icf_master_id,:icf_master_id => 'FCASE4BIR')
+#		imi = FactoryGirl.create(:icf_master_id,:icf_master_id => 'FCASE4BIR')
 #		study_subject.assign_icf_master_id
 		assert_not_nil study_subject.icf_master_id
 		assert_equal 'FCASE4BIR', study_subject.icf_master_id

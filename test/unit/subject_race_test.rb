@@ -8,20 +8,20 @@ class SubjectRaceTest < ActiveSupport::TestCase
 
 	test "subject_race factory should create subject race" do
 		assert_difference('SubjectRace.count',1) {
-			subject_race = Factory(:subject_race)
+			subject_race = FactoryGirl.create(:subject_race)
 		}
 	end
 
 	test "subject_race factory should create race" do
 		assert_difference('Race.count',1) {
-			subject_race = Factory(:subject_race)
+			subject_race = FactoryGirl.create(:subject_race)
 			assert_not_nil subject_race.race
 		}
 	end
 
 	test "subject_race factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			subject_race = Factory(:subject_race)
+			subject_race = FactoryGirl.create(:subject_race)
 			assert_not_nil subject_race.study_subject
 		}
 	end
@@ -53,36 +53,36 @@ class SubjectRaceTest < ActiveSupport::TestCase
 	end
 
 	test "race_is_other should return true if race is other" do
-		subject_race = Factory(:subject_race, 
+		subject_race = FactoryGirl.create(:subject_race, 
 			:race => Race['other'],
 			:other_race => 'Funky' )
 		assert subject_race.race_is_other?
 	end
 
 	test "race_is_mixed should return true if race is mixed" do
-		subject_race = Factory(:subject_race, 
+		subject_race = FactoryGirl.create(:subject_race, 
 			:race => Race['mixed'],
 			:other_race => 'Funky' )
 		assert subject_race.race_is_mixed?
 	end
 
 	test "race_is_other should return false if race is not other" do
-		subject_race = Factory(:subject_race, :race => Race['white'])
+		subject_race = FactoryGirl.create(:subject_race, :race => Race['white'])
 		assert !subject_race.race_is_other?
 	end
 
 	test "race_is_mixed should return false if race is not mixed" do
-		subject_race = Factory(:subject_race, :race => Race['white'])
+		subject_race = FactoryGirl.create(:subject_race, :race => Race['white'])
 		assert !subject_race.race_is_mixed?
 	end
 
 	test "to_s should return race description if english" do
-		subject_race = Factory(:subject_race, :race => Race['white'])
+		subject_race = FactoryGirl.create(:subject_race, :race => Race['white'])
 		assert_equal subject_race.to_s, 'White, Non-Hispanic'
 	end
 
 	test "to_s should return race description if spanish" do
-		subject_race = Factory(:subject_race, :race => Race['black'])
+		subject_race = FactoryGirl.create(:subject_race, :race => Race['black'])
 		assert_equal subject_race.to_s, 'Black / African American'
 	end
 

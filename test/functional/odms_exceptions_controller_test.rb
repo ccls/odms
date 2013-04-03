@@ -12,7 +12,7 @@ class OdmsExceptionsControllerTest < ActionController::TestCase
 	#	no fields in factory, so no changes on update, so force the
 	#	issue by make the updated_at date different
 	def factory_attributes(options={})
-		Factory.attributes_for(:odms_exception,{
+		FactoryGirl.attributes_for(:odms_exception,{
 			:updated_at => Date.yesterday }.merge(options))
 	end
 

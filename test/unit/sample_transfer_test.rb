@@ -10,15 +10,15 @@ class SampleTransferTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
 	test "should return sample_transfers with status blank" do
-		sample_transfer = Factory(:sample_transfer)
+		sample_transfer = FactoryGirl.create(:sample_transfer)
 		assert sample_transfer.status.blank?
 		assert SampleTransfer.with_status().include?(sample_transfer)
 	end
 
 	test "should return sample_transfers with status bogus" do
-		blank_sample_transfer = Factory(:sample_transfer)
+		blank_sample_transfer = FactoryGirl.create(:sample_transfer)
 		assert blank_sample_transfer.status.blank?
-		sample_transfer = Factory(:sample_transfer)
+		sample_transfer = FactoryGirl.create(:sample_transfer)
 		assert  sample_transfer.status.blank?
 		sample_transfers = SampleTransfer.with_status('bogus')
 		assert !sample_transfers.include?(sample_transfer)
@@ -27,9 +27,9 @@ class SampleTransferTest < ActiveSupport::TestCase
 
 	SampleTransfer.statuses.each do |status|
 		test "should return sample_transfers with status #{status}" do
-			blank_sample_transfer = Factory(:sample_transfer)
+			blank_sample_transfer = FactoryGirl.create(:sample_transfer)
 			assert blank_sample_transfer.status.blank?
-			sample_transfer = Factory(:sample_transfer, :status => status)
+			sample_transfer = FactoryGirl.create(:sample_transfer, :status => status)
 			assert !sample_transfer.status.blank?
 			assert_equal status, sample_transfer.status
 			sample_transfers = SampleTransfer.with_status(status)
@@ -39,22 +39,22 @@ class SampleTransferTest < ActiveSupport::TestCase
 	end
 
 	test "active sample transfer factory should create active sample transfer" do
-		sample_transfer = Factory(:active_sample_transfer)
+		sample_transfer = FactoryGirl.create(:active_sample_transfer)
 		assert_equal 'active', sample_transfer.status
 	end
 
 	test "active sample transfer factory should create sample at CCLS" do
-		sample_transfer = Factory(:active_sample_transfer)
+		sample_transfer = FactoryGirl.create(:active_sample_transfer)
 		assert_equal sample_transfer.sample.location_id, Organization['CCLS'].id
 	end
 
 	test "waitlist sample transfer factory should create waitlist sample transfer" do
-		sample_transfer = Factory(:waitlist_sample_transfer)
+		sample_transfer = FactoryGirl.create(:waitlist_sample_transfer)
 		assert_equal 'waitlist', sample_transfer.status
 	end
 
 	test "waitlist sample transfer factory should create sample at CCLS" do
-		sample_transfer = Factory(:waitlist_sample_transfer)
+		sample_transfer = FactoryGirl.create(:waitlist_sample_transfer)
 		assert_equal sample_transfer.sample.location_id, Organization['CCLS'].id
 	end
 

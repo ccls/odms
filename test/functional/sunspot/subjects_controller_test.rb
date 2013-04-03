@@ -254,7 +254,7 @@ protected
 	end
 
 	def build_and_index_subject(options={})
-		study_subject = Factory(:study_subject,options)
+		study_subject = FactoryGirl.create(:study_subject,options)
 		StudySubject.solr_reindex
 		assert !StudySubject.search.hits.empty?
 		return study_subject

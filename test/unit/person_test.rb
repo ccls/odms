@@ -23,7 +23,7 @@ class PersonTest < ActiveSupport::TestCase
 
 	test "person factory should create person" do
 		assert_difference('Person.count',1) {
-			person = Factory(:person)
+			person = FactoryGirl.create(:person)
 			assert_match /LastName\d*/, person.last_name
 		}
 	end

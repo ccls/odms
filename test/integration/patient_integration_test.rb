@@ -8,7 +8,7 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show other_diagnosis when diagnosis is Other" <<
 				" with #{cu} login" do
-			study_subject = Factory(:patient).study_subject.reload
+			study_subject = FactoryGirl.create(:patient).study_subject.reload
 			login_as send(cu)
 			visit edit_study_subject_patient_path(study_subject)
 
@@ -24,7 +24,7 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show admit_date changed when admit_date changes" <<
 				" with #{cu} login" do
-			study_subject = Factory(:patient).study_subject.reload
+			study_subject = FactoryGirl.create(:patient).study_subject.reload
 			login_as send(cu)
 			visit edit_study_subject_patient_path(study_subject)
 

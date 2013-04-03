@@ -10,7 +10,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectRace.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
-			study_subject.races << Factory(:race)
+			study_subject.races << FactoryGirl.create(:race)
 			assert !study_subject.new_record?,
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
@@ -19,7 +19,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 	test "should NOT destroy races with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('Race.count',1) {
-			@study_subject = Factory(:subject_race).study_subject
+			@study_subject = FactoryGirl.create(:subject_race).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('Race.count',0) {
@@ -30,7 +30,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 	test "should NOT destroy subject_races with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('SubjectRace.count',1) {
-			@study_subject = Factory(:subject_race).study_subject
+			@study_subject = FactoryGirl.create(:subject_race).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('SubjectRace.count',0) {

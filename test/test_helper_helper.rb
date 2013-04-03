@@ -44,5 +44,15 @@ class ActiveSupport::TestCase
 			f.puts illegal_csv_quote_line }
 	end
 
-end
 
+#
+#	would this work for backward compatibility
+#
+#	Factory = FactoryGirl
+#	def Factory(*args)
+#		FactoryGirl.create(args)
+#	end
+
+
+
+end

@@ -7,8 +7,8 @@ class StudySubjectGiftCardsTest < ActiveSupport::TestCase
 	test "should NOT destroy gift_cards with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('GiftCard.count',1) {
-			@study_subject = Factory(:study_subject)
-			Factory(:gift_card, :study_subject => @study_subject)
+			@study_subject = FactoryGirl.create(:study_subject)
+			FactoryGirl.create(:gift_card, :study_subject => @study_subject)
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('GiftCard.count',0) {

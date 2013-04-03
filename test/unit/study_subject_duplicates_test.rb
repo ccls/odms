@@ -29,7 +29,7 @@ class StudySubjectDuplicatesTest < ActiveSupport::TestCase
 
 	test "should return no subjects as duplicates with minimal params" do
 		create_case_study_subject_for_duplicate_search
-		@duplicates = Factory.build(:study_subject).duplicates
+		@duplicates = FactoryGirl.build(:study_subject).duplicates
 		assert_no_duplicates_found
 	end
 
@@ -395,17 +395,17 @@ protected
 	end
 
 	def create_case_study_subject_for_duplicate_search(options={})
-		Factory(:case_study_subject, { :sex => 'M',
+		FactoryGirl.create(:case_study_subject, { :sex => 'M',
 			:dob => Date.yesterday,
-			:patient_attributes => Factory.attributes_for(:patient,
+			:patient_attributes => FactoryGirl.attributes_for(:patient,
 				:hospital_no => 'matchthis',
 				:admit_date => Date.yesterday ) }.deep_merge(options) )
 	end
 
 	def new_case_study_subject_for_duplicate_search(options={})
-		Factory.build(:case_study_subject, { :sex => 'F',
+		FactoryGirl.build(:case_study_subject, { :sex => 'F',
 			:dob => Date.current,
-			:patient_attributes => Factory.attributes_for(:patient,
+			:patient_attributes => FactoryGirl.attributes_for(:patient,
 				:hospital_no => 'somethingdifferent',
 #				:organization_id => 0,	#	Why 0? was for just matching admit_date
 				:admit_date => Date.current ) }.deep_merge(options) )

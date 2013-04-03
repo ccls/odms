@@ -10,7 +10,7 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 	site_administrators.each do |cu|
 
 		test "should change event types on category change on new event with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit new_study_subject_event_path(study_subject)
 			assert has_css?('select#category')
@@ -75,7 +75,7 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "should change event types on category change on edit event with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			events = study_subject.operational_events.where(
 				:project_id => Project['ccls'].id)
 			assert_equal 1, events.length

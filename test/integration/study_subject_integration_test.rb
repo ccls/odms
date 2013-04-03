@@ -6,7 +6,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should preserve creation of subject_race on edit kickback with #{cu} login" do
 			assert_difference( 'SubjectRace.count', 0 ){
-				@study_subject = Factory(:study_subject)
+				@study_subject = FactoryGirl.create(:study_subject)
 			}
 			login_as send(cu)
 			visit edit_study_subject_path(@study_subject.id)
@@ -24,7 +24,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should preserve destruction of subject_race on edit kickback with #{cu} login" do
 			assert_difference( 'SubjectRace.count', 1 ){
-				@study_subject = Factory(:study_subject, :subject_races_attributes => { 
+				@study_subject = FactoryGirl.create(:study_subject, :subject_races_attributes => { 
 					'0' => { :race_code => Race['white'].code }})
 			}
 			login_as send(cu)
@@ -42,7 +42,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
 #	20130129 - no longer using 'is_primary'
 #		test "should check race_id when is_primary is checked with #{cu} login" do
-#			study_subject = Factory(:study_subject)
+#			study_subject = FactoryGirl.create(:study_subject)
 #			login_as send(cu)
 #			visit edit_study_subject_path(study_subject)
 #			assert has_unchecked_field?(
@@ -54,7 +54,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 #
 #		test "should uncheck other is_primary's when is_primary is checked" <<
 #				" with #{cu} login" do
-#			study_subject = Factory(:study_subject)
+#			study_subject = FactoryGirl.create(:study_subject)
 #			login_as send(cu)
 #			visit edit_study_subject_path(study_subject)
 #			check "study_subject[subject_races_attributes][1][is_primary]"
@@ -69,7 +69,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 #
 #		test "should uncheck is_primary when race_id is unchecked" <<
 #				" with #{cu} login" do
-#			study_subject = Factory(:study_subject)
+#			study_subject = FactoryGirl.create(:study_subject)
 #			login_as send(cu)
 #			visit edit_study_subject_path(study_subject)
 #			check "study_subject[subject_races_attributes][1][is_primary]"
@@ -86,7 +86,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should toggle specify other race when other race_code is checked" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit edit_study_subject_path(study_subject)
 			assert has_css?("#specify_other_race",:visible => false)
@@ -114,7 +114,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should toggle specify mixed race when mixed race_code is checked" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit edit_study_subject_path(study_subject)
 			assert has_css?("#specify_mixed_race",:visible => false)
@@ -142,7 +142,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should have 'back to search' link if show subject from find" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit find_study_subjects_path	#	sets request.env['HTTP_REFERER']
 			find('td.icf_master_id a').click	#	in reality many, in test should be only one
@@ -154,9 +154,9 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 		#	first, prev, next, last and by should reference 
 		#		request.env['HTTP_REFERER'] (request.referrer) if exists
 		test "first should stay on same controller as referrer with #{cu} login" do
-			first_study_subject = Factory(:study_subject)
-			middle_study_subject = Factory(:study_subject)
-			last_study_subject  = Factory(:study_subject)
+			first_study_subject = FactoryGirl.create(:study_subject)
+			middle_study_subject = FactoryGirl.create(:study_subject)
+			last_study_subject  = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit study_subject_enrollment_path(last_study_subject,
 				last_study_subject.enrollments.by_project_key('ccls').first)
@@ -165,9 +165,9 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "prev should stay on same controller as referrer with #{cu} login" do
-			first_study_subject = Factory(:study_subject)
-			middle_study_subject = Factory(:study_subject)
-			last_study_subject  = Factory(:study_subject)
+			first_study_subject = FactoryGirl.create(:study_subject)
+			middle_study_subject = FactoryGirl.create(:study_subject)
+			last_study_subject  = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit study_subject_enrollment_path(last_study_subject,
 				last_study_subject.enrollments.by_project_key('ccls').first)
@@ -176,9 +176,9 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "next should stay on same controller as referrer with #{cu} login" do
-			first_study_subject = Factory(:study_subject)
-			middle_study_subject = Factory(:study_subject)
-			last_study_subject  = Factory(:study_subject)
+			first_study_subject = FactoryGirl.create(:study_subject)
+			middle_study_subject = FactoryGirl.create(:study_subject)
+			last_study_subject  = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit study_subject_enrollment_path(first_study_subject,
 				first_study_subject.enrollments.by_project_key('ccls').first)
@@ -187,9 +187,9 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "last should stay on same controller as referrer with #{cu} login" do
-			first_study_subject = Factory(:study_subject)
-			middle_study_subject = Factory(:study_subject)
-			last_study_subject  = Factory(:study_subject)
+			first_study_subject = FactoryGirl.create(:study_subject)
+			middle_study_subject = FactoryGirl.create(:study_subject)
+			last_study_subject  = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit study_subject_enrollment_path(first_study_subject,
 				first_study_subject.enrollments.by_project_key('ccls').first)
@@ -198,9 +198,9 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "by should stay on same controller as referrer with #{cu} login" do
-			first_study_subject = Factory(:study_subject)
-			middle_study_subject = Factory(:study_subject)
-			last_study_subject  = Factory(:study_subject,:icf_master_id => 'FINDME')
+			first_study_subject = FactoryGirl.create(:study_subject)
+			middle_study_subject = FactoryGirl.create(:study_subject)
+			last_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
 			visit study_subject_enrollment_path(first_study_subject,
 				first_study_subject.enrollments.by_project_key('ccls').first)

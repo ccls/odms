@@ -39,7 +39,7 @@ twin_study_subject,false,false,false,true,false,false
 		line.headers.each do |header|
 			next if header == 'factory'
 			test "#{header} should return #{line[header]} for #{line['factory']}" do
-				subject = Factory(line['factory'])
+				subject = FactoryGirl.create(line['factory'])
 				assert_equal subject.send(header).to_s, line[header]
 			end
 		end

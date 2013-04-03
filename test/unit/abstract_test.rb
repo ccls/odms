@@ -261,7 +261,7 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "explicit Factory abstract test" do
 		assert_difference('Abstract.count',1) {
-			@abstract = Factory(:abstract)
+			@abstract = FactoryGirl.create(:abstract)
 		}
 #		( not_nil = %w( id created_at updated_at cbc_percent_blasts_unknown ) ).each do |c|
 		( not_nil = %w( id created_at updated_at cbc_percent_blasts_unknown study_subject_id entry_1_by_uid entry_2_by_uid ) ).each do |c|
@@ -275,22 +275,22 @@ class AbstractTest < ActiveSupport::TestCase
 	test "explicit Factory complete_abstract test" do
 		assert_difference('Abstract.count',1) {
 			#	this factory randomly sets values, some of which can be nil
-			Factory(:complete_abstract)
+			FactoryGirl.create(:complete_abstract)
 		}
 	end
 
 	test "should not convert weight if weight_units is null" do
-		abstract = Factory(:abstract,:weight_at_diagnosis => 100)
+		abstract = FactoryGirl.create(:abstract,:weight_at_diagnosis => 100)
 		assert_equal 100, abstract.reload.weight_at_diagnosis
 	end
 
 	test "should not convert weight if weight_units is kg" do
-		abstract = Factory(:abstract,:weight_at_diagnosis => 100, :weight_units => 'kg')
+		abstract = FactoryGirl.create(:abstract,:weight_at_diagnosis => 100, :weight_units => 'kg')
 		assert_equal 100, abstract.reload.weight_at_diagnosis
 	end
 
 	test "should convert weight to kg if weight_units is lb" do
-		abstract = Factory(:abstract,:weight_at_diagnosis => 100, :weight_units => 'lb')
+		abstract = FactoryGirl.create(:abstract,:weight_at_diagnosis => 100, :weight_units => 'lb')
 		abstract.reload
 		assert_nil       abstract.weight_units
 		assert_not_equal 100,   abstract.weight_at_diagnosis
@@ -298,17 +298,17 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 	test "should not convert height if height_units is null" do
-		abstract = Factory(:abstract,:height_at_diagnosis => 100)
+		abstract = FactoryGirl.create(:abstract,:height_at_diagnosis => 100)
 		assert_equal 100, abstract.reload.height_at_diagnosis
 	end
 
 	test "should not convert height if height_units is cm" do
-		abstract = Factory(:abstract,:height_at_diagnosis => 100, :height_units => 'cm')
+		abstract = FactoryGirl.create(:abstract,:height_at_diagnosis => 100, :height_units => 'cm')
 		assert_equal 100, abstract.reload.height_at_diagnosis
 	end
 
 	test "should convert height to cm if height_units is in" do
-		abstract = Factory(:abstract,:height_at_diagnosis => 100, :height_units => 'in')
+		abstract = FactoryGirl.create(:abstract,:height_at_diagnosis => 100, :height_units => 'in')
 		abstract.reload
 		assert_nil       abstract.height_units
 		assert_not_equal 100, abstract.height_at_diagnosis
@@ -316,45 +316,45 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 #	test "should return an array of ignorable columns" do
-#		abstract = Factory(:abstract)
+#		abstract = FactoryGirl.create(:abstract)
 #		assert_equal abstract.ignorable_columns,
 #			["id", "entry_1_by_uid", "entry_2_by_uid", "merged_by_uid", 
 #				"created_at", "updated_at", "study_subject_id"]
 #	end
 #
 #	test "should return hash of comparable attributes" do
-#		abstract = Factory(:abstract)
+#		abstract = FactoryGirl.create(:abstract)
 #		assert abstract.comparable_attributes.is_a?(Hash)
 #	end
 
 	test "should return true if abstracts are the same" do
-		abstract1 = Factory(:abstract)
-		abstract2 = Factory(:abstract)
+		abstract1 = FactoryGirl.create(:abstract)
+		abstract2 = FactoryGirl.create(:abstract)
 		assert abstract1.is_the_same_as?(abstract2)
 	end
 
 	test "should return false if abstracts are not the same" do
-		abstract1 = Factory(:abstract)
-		abstract2 = Factory(:abstract, :height_at_diagnosis => 100 )
+		abstract1 = FactoryGirl.create(:abstract)
+		abstract2 = FactoryGirl.create(:abstract, :height_at_diagnosis => 100 )
 		assert !abstract1.is_the_same_as?(abstract2)
 	end
 
 	test "should return empty hash if abstracts are the same" do
-		abstract1 = Factory(:abstract)
-		abstract2 = Factory(:abstract)
+		abstract1 = FactoryGirl.create(:abstract)
+		abstract2 = FactoryGirl.create(:abstract)
 		assert_equal Hash.new, abstract1.diff(abstract2)
 		assert       abstract1.diff(abstract2).empty?
 	end
 
 	test "should return hash if abstracts are not the same" do
-		abstract1 = Factory(:abstract)
-		abstract2 = Factory(:abstract, :height_at_diagnosis => 100 )
+		abstract1 = FactoryGirl.create(:abstract)
+		abstract2 = FactoryGirl.create(:abstract, :height_at_diagnosis => 100 )
 		assert !abstract1.diff(abstract2).empty?
 		assert  abstract1.diff(abstract2).has_key?('height_at_diagnosis')
 	end
 
 	test "should NOT set days since diagnosis fields on create without diagnosed_on" do
-		abstract = Factory(:abstract)
+		abstract = FactoryGirl.create(:abstract)
 		assert_nil abstract.diagnosed_on
 		assert_nil abstract.response_day_7_days_since_diagnosis
 		assert_nil abstract.response_day_14_days_since_diagnosis
@@ -362,7 +362,7 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT set days since diagnosis fields on create without response_report_on" do
-		abstract = Factory(:abstract,
+		abstract = FactoryGirl.create(:abstract,
 			:diagnosed_on              => ( Date.current - 10.days ),
 			:response_report_on_day_7  => nil,
 			:response_report_on_day_14 => nil,
@@ -376,7 +376,7 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should set days since diagnosis fields on create with diagnosed_on" do
 		today = Date.current
-		abstract = Factory(:abstract,
+		abstract = FactoryGirl.create(:abstract,
 			:diagnosed_on              => ( today - 40.days ),
 			:response_report_on_day_7  => ( today - 30.days ),
 			:response_report_on_day_14 => ( today - 20.days ),
@@ -393,7 +393,7 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should NOT set days since treatment_began fields on create" <<
 			" without treatment_began_on" do
-		abstract = Factory(:abstract)
+		abstract = FactoryGirl.create(:abstract)
 		assert_nil abstract.treatment_began_on
 		assert_nil abstract.response_day_7_days_since_treatment_began
 		assert_nil abstract.response_day_14_days_since_treatment_began
@@ -402,7 +402,7 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should NOT set days since treatment_began fields on create" <<
 			" without response_report_on" do
-		abstract = Factory(:abstract,
+		abstract = FactoryGirl.create(:abstract,
 			:treatment_began_on        => ( Date.current - 10.days ),
 			:response_report_on_day_7  => nil,
 			:response_report_on_day_14 => nil,
@@ -417,7 +417,7 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should set days since treatment_began fields on create" <<
 			" with treatment_began_on" do
 		today = Date.current
-		abstract = Factory(:abstract,
+		abstract = FactoryGirl.create(:abstract,
 			:treatment_began_on        => ( today - 40.days ),
 			:response_report_on_day_7  => ( today - 30.days ),
 			:response_report_on_day_14 => ( today - 20.days ),
@@ -435,7 +435,7 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should save a User as entry_1_by" do
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
-			abstract = Factory(:abstract,:entry_1_by => Factory(:user))
+			abstract = FactoryGirl.create(:abstract,:entry_1_by => FactoryGirl.create(:user))
 			assert abstract.entry_1_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
@@ -443,7 +443,7 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should save a User as entry_2_by" do
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
-			abstract = Factory(:abstract,:entry_2_by => Factory(:user))
+			abstract = FactoryGirl.create(:abstract,:entry_2_by => FactoryGirl.create(:user))
 			assert abstract.entry_2_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
@@ -451,7 +451,7 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should save a User as merged_by" do
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
-			abstract = Factory(:abstract,:merged_by => Factory(:user))
+			abstract = FactoryGirl.create(:abstract,:merged_by => FactoryGirl.create(:user))
 			assert_not_nil abstract.merged_by_uid
 			assert abstract.merged_by.is_a?(User)
 			assert abstract.merged?
@@ -459,10 +459,10 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 	test "should create first abstract for study_subject with current_user" do
-		study_subject = Factory(:case_study_subject)
-		current_user = Factory(:user)
+		study_subject = FactoryGirl.create(:case_study_subject)
+		current_user = FactoryGirl.create(:user)
 		assert_difference('Abstract.count',1) {
-			abstract = Factory(:abstract,:current_user => current_user,
+			abstract = FactoryGirl.create(:abstract,:current_user => current_user,
 				:study_subject => study_subject)
 			assert_equal abstract.entry_1_by, current_user
 			assert_equal abstract.entry_2_by, current_user
@@ -471,12 +471,12 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 	test "should create second abstract for study_subject with current_user" do
-		study_subject = Factory(:case_study_subject)
-		current_user = Factory(:user)
-		Factory(:abstract,:current_user => current_user,
+		study_subject = FactoryGirl.create(:case_study_subject)
+		current_user = FactoryGirl.create(:user)
+		FactoryGirl.create(:abstract,:current_user => current_user,
 			:study_subject => study_subject)
 		assert_difference('Abstract.count',1) {
-			abstract = Factory(:abstract,:current_user => current_user,
+			abstract = FactoryGirl.create(:abstract,:current_user => current_user,
 				:study_subject => study_subject)
 			assert_equal abstract.entry_1_by, current_user
 			assert_equal abstract.entry_2_by, current_user
@@ -486,11 +486,11 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should NOT create third abstract for study_subject with current_user " <<
 			"without merging flag" do
-		study_subject = Factory(:case_study_subject)
-		current_user = Factory(:user)
-		Factory(:abstract,:current_user => current_user,
+		study_subject = FactoryGirl.create(:case_study_subject)
+		current_user = FactoryGirl.create(:user)
+		FactoryGirl.create(:abstract,:current_user => current_user,
 			:study_subject => study_subject)
-		Factory(:abstract,:current_user => current_user,
+		FactoryGirl.create(:abstract,:current_user => current_user,
 			:study_subject => study_subject)
 		assert_difference('Abstract.count',0) {
 			#	study_subject.reload is needed here
@@ -502,16 +502,16 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should create third abstract for study_subject with current_user " <<
 			"with merging flag" do
-		study_subject = Factory(:case_study_subject)
-		current_user = Factory(:user)
-		Factory(:abstract,:current_user => current_user,
+		study_subject = FactoryGirl.create(:case_study_subject)
+		current_user = FactoryGirl.create(:user)
+		FactoryGirl.create(:abstract,:current_user => current_user,
 			:study_subject => study_subject)
-		Factory(:abstract,:current_user => current_user,
+		FactoryGirl.create(:abstract,:current_user => current_user,
 			:study_subject => study_subject)	#.reload)
 		#	yes, -1 , because when creating the merged, the other 2 go away
 		assert_difference('Abstract.count',-1) {
 			#	study_subject.reload is needed here
-			abstract = Factory(:abstract,:current_user => current_user,
+			abstract = FactoryGirl.create(:abstract,:current_user => current_user,
 				:study_subject => study_subject.reload, :merging => true)
 			assert_equal abstract.merged_by, current_user
 			assert_equal abstract.study_subject, study_subject
@@ -524,9 +524,9 @@ class AbstractTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT create merged abstract if study_subject already has one" do
-		study_subject = Factory(:case_study_subject)
-		a1 = Factory(:abstract,:study_subject => study_subject)
-		a1.merged_by = Factory(:user)
+		study_subject = FactoryGirl.create(:case_study_subject)
+		a1 = FactoryGirl.create(:abstract,:study_subject => study_subject)
+		a1.merged_by = FactoryGirl.create(:user)
 		a1.save
 		assert_not_nil study_subject.abstracts.merged
 		assert !study_subject.abstracts.merged.empty?

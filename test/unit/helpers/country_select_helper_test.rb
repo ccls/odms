@@ -3,7 +3,7 @@ require 'test_helper'
 class CountrySelectHelperTest < ActionView::TestCase
 
 	test "basic addressing form" do
-		@addressing = Factory(:addressing)
+		@addressing = FactoryGirl.create(:addressing)
 #		form_for(:addressing,@addressing,:url => '/'){|f| 
 #			f.fields_for(:address){ |address|
 #				concat address.country_select(:country) } }

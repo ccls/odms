@@ -12,7 +12,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 
 	#	added extract_options to allow for passing of :class for marking field_errors
 	test "subject_languages_select English with class option" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english']], :class => 'field_error') }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div class="field_error" id="study_subject_languages"><div class='languages_label'>Language of parent or caretaker:</div>
@@ -26,7 +26,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_languages_select English" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id="study_subject_languages"><div class='languages_label'>Language of parent or caretaker:</div>
@@ -40,7 +40,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_languages_select English with English" do
-		@study_subject = Factory(:study_subject, :subject_languages_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject, :subject_languages_attributes => {
 			'0' => { :language_code => Language['english'].code } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_language_id = @study_subject.subject_language_ids.first	
@@ -57,7 +57,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_languages_select Other" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['other']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id="study_subject_languages"><div class='languages_label'>Language of parent or caretaker:</div>
@@ -73,7 +73,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_languages_select Other with Other" do
-		@study_subject = Factory(:study_subject, :subject_languages_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject, :subject_languages_attributes => {
 			'0' => { :language_code => Language['other'].code, :other_language => 'redneck' } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_language_id = @study_subject.subject_language_ids.first	
@@ -96,7 +96,7 @@ end
 __END__
 
 	test "subject_languages_select English, Spanish, Other, Unknown" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish'],Language['other'],Language['unknown']]) }
 			expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
@@ -122,7 +122,7 @@ __END__
 	end
 
 	test "subject_languages_select English, Spanish" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
@@ -140,7 +140,7 @@ __END__
 	end
 
 	test "subject_languages_select English, Spanish, Other" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english'],Language['spanish'],Language['other']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_languages'><div class='languages_label'>Language of parent or caretaker:</div>
@@ -163,7 +163,7 @@ __END__
 	end
 
 	test "subject_languages_select English, Spanish, Other with English" do
-		@study_subject = Factory(:study_subject, :subject_languages_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject, :subject_languages_attributes => {
 			'0' => { :language_id => Language['english'].id } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_language_id = @study_subject.subject_language_ids.first	
@@ -189,7 +189,7 @@ __END__
 	end
 
 	test "subject_languages_select English, Spanish, Other with Other" do
-		@study_subject = Factory(:study_subject, :subject_languages_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject, :subject_languages_attributes => {
 			'0' => { :language_id => Language['other'].id, :other_language => 'redneck' } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_language_id = @study_subject.subject_language_ids.first	

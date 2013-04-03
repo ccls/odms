@@ -6,7 +6,7 @@ module BirthDatumUpdateTestHelper
 	end
 
 	def create_birth_datum_update_with_file
-		birth_datum_update = Factory(:birth_datum_update,
+		birth_datum_update = FactoryGirl.create(:birth_datum_update,
 			:csv_file => File.open(csv_test_file_name) )
 		assert_not_nil birth_datum_update.csv_file_file_name
 		birth_datum_update
@@ -37,8 +37,8 @@ module BirthDatumUpdateTestHelper
 	end
 
 	def create_case_for_birth_datum_update
-		icf_master_id = Factory(:icf_master_id,:icf_master_id => '12345FAKE')
-		study_subject = Factory(:complete_case_study_subject)
+		icf_master_id = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345FAKE')
+		study_subject = FactoryGirl.create(:complete_case_study_subject)
 		study_subject.assign_icf_master_id
 		assert_equal '12345FAKE', study_subject.icf_master_id
 		study_subject
@@ -76,17 +76,17 @@ module BirthDatumUpdateTestHelper
 
 	#	just enough for no exceptions
 	def unknown_subject_hash
-		Factory.attributes_for(:birth_datum,
+		FactoryGirl.attributes_for(:birth_datum,
 			:master_id => '12345FAKE' )
 	end
 
 	def case_subject_hash
-		Factory.attributes_for(:case_birth_datum,
+		FactoryGirl.attributes_for(:case_birth_datum,
 			:master_id => '12345FAKE' )
 	end
 
 	def control_subject_hash
-		Factory.attributes_for(:control_birth_datum,
+		FactoryGirl.attributes_for(:control_birth_datum,
 			:master_id => '12345FAKE' )
 	end
 

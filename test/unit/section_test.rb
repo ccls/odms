@@ -12,7 +12,7 @@ class SectionTest < ActiveSupport::TestCase
 
 	test "section factory should create section" do
 		assert_difference('Section.count',1) {
-			section = Factory(:section)
+			section = FactoryGirl.create(:section)
 			assert_match /Key\d*/, section.key
 			assert_match /Desc\d*/, section.description
 		}

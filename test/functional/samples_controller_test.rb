@@ -15,7 +15,7 @@ class SamplesControllerTest < ActionController::TestCase
 		#	Being more explicit to reflect what is actually on the form
 		{
 			:project_id     => Project['ccls'].id,
-			:sample_type_id => Factory(:sample_type).id
+			:sample_type_id => FactoryGirl.create(:sample_type).id
 		}.merge(options)
 	end
 
@@ -51,7 +51,7 @@ class SamplesControllerTest < ActionController::TestCase
 	#		Begin Find Tests
 	
 		test "should get samples find with #{cu} login and page too high" do
-			3.times{Factory(:sample)}
+			3.times{FactoryGirl.create(:sample)}
 			login_as send(cu)
 			get :find, :page => 999
 			assert_not_nil flash[:warn]
@@ -61,7 +61,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples by sample_id and #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 #	There is no actual sampleid field. It is just id with leading zeros.
 			get :find, :sampleid => samples[1].id
@@ -72,11 +72,11 @@ class SamplesControllerTest < ActionController::TestCase
 
 		test "should find samples by parent sample_type and #{cu} login" do
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sample_type => SampleType.roots.all[i].children.first )}
+				FactoryGirl.create(:sample,:sample_type => SampleType.roots.all[i].children.first )}
 #	BUT NO LONGER
-#				Factory(:sample,:sample_type => SampleType.roots[i].children.first )}
+#				FactoryGirl.create(:sample,:sample_type => SampleType.roots[i].children.first )}
 #	OR EVEN
-#				Factory(:sample,:sample_type => (SampleType.roots)[i].children.first )}
+#				FactoryGirl.create(:sample,:sample_type => (SampleType.roots)[i].children.first )}
 			login_as send(cu)
 			get :find, :sample_type_id => samples[1].sample_type.parent.id
 			assert_response :success
@@ -96,11 +96,11 @@ class SamplesControllerTest < ActionController::TestCase
 #
 		test "should find samples by child sample_type and #{cu} login" do
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sample_type => SampleType.not_roots.all[i] )}
+				FactoryGirl.create(:sample,:sample_type => SampleType.not_roots.all[i] )}
 #	BUT NO LONGER
-#				Factory(:sample,:sample_type => SampleType.not_roots[i] )}
+#				FactoryGirl.create(:sample,:sample_type => SampleType.not_roots[i] )}
 #	OR EVEN
-#				Factory(:sample,:sample_type => (SampleType.not_roots)[i] )}
+#				FactoryGirl.create(:sample,:sample_type => (SampleType.not_roots)[i] )}
 			login_as send(cu)
 			get :find, :sample_type_id => samples[1].sample_type_id
 			assert_response :success
@@ -179,7 +179,7 @@ class SamplesControllerTest < ActionController::TestCase
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
+				FactoryGirl.create(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	Dec 1 2000
 			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.strftime("%b %d %Y")
@@ -192,7 +192,7 @@ class SamplesControllerTest < ActionController::TestCase
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
+				FactoryGirl.create(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	javascript selector format
 			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.strftime("%m/%d/%Y")
@@ -205,7 +205,7 @@ class SamplesControllerTest < ActionController::TestCase
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
+				FactoryGirl.create(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	same as strftime('%Y-%m-%d')
 			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.to_s	
@@ -218,7 +218,7 @@ class SamplesControllerTest < ActionController::TestCase
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
 			samples = 3.times.collect{|i| 
-				Factory(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
+				FactoryGirl.create(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			get :find, :sent_to_subject_at => 'bad monkey'
 			assert_response :success
@@ -229,7 +229,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples with received_by_ccls_at as month day year and #{cu} login" do
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
-			samples = 3.times.collect{|i| Factory(:sample,
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
 					:collected_from_subject_at => base_date + (5*i-1).days,
 					:received_by_ccls_at       => base_date + (5*i).days )}
@@ -244,7 +244,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples with received_by_ccls_at as MM/DD/YYYY and #{cu} login" do
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
-			samples = 3.times.collect{|i| Factory(:sample,
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
 					:collected_from_subject_at => base_date + (5*i-1).days,
 					:received_by_ccls_at       => base_date + (5*i).days )}
@@ -259,7 +259,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples with received_by_ccls_at as YYYY-MM-DD and #{cu} login" do
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
-			samples = 3.times.collect{|i| Factory(:sample,
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
 					:collected_from_subject_at => base_date + (5*i-1).days,
 					:received_by_ccls_at       => base_date + (5*i).days )}
@@ -274,7 +274,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples ignoring poorly formatted received_by_ccls_at and #{cu} login" do
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
-			samples = 3.times.collect{|i| Factory(:sample,
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
 					:collected_from_subject_at => base_date + (5*i-1).days,
 					:received_by_ccls_at       => base_date + (5*i).days )}
@@ -340,7 +340,7 @@ class SamplesControllerTest < ActionController::TestCase
 
 
 		test "should find samples and order by id with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :id
 			assert_response :success
@@ -348,7 +348,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by id asc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :id, :dir => :asc
 			assert_response :success
@@ -356,7 +356,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by id desc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :id, :dir => :desc
 			assert_response :success
@@ -366,7 +366,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by received by ccls at with #{cu} login" do
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
-			samples = 3.times.collect{|i| Factory(:sample,
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
 					:collected_from_subject_at => base_date + (5*i-1).days,
 					:received_by_ccls_at       => base_date + (5*i).days )}
@@ -380,7 +380,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by received by ccls at asc with #{cu} login" do
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
-			samples = 3.times.collect{|i| Factory(:sample,
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
 					:collected_from_subject_at => base_date + (5*i-1).days,
 					:received_by_ccls_at       => base_date + (5*i).days )}
@@ -394,7 +394,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by received by ccls at desc with #{cu} login" do
 			base_date = Date.current-100.days
 			# spread dates out by a few days so outside date range
-			samples = 3.times.collect{|i| Factory(:sample,
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample,
 					:sent_to_subject_at        => base_date + (5*i-2).days,
 					:collected_from_subject_at => base_date + (5*i-1).days,
 					:received_by_ccls_at       => base_date + (5*i).days )}
@@ -406,7 +406,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by status with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample, :state => "state#{i}") }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
 			login_as send(cu)
 			get :find, :order => :state
 			assert_response :success
@@ -414,7 +414,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by status asc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample, :state => "state#{i}") }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
 			login_as send(cu)
 			get :find, :order => :state, :dir => :asc
 			assert_response :success
@@ -422,7 +422,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by status desc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample, :state => "state#{i}") }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
 			login_as send(cu)
 			get :find, :order => :state, :dir => :desc
 			assert_response :success
@@ -430,7 +430,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by type with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :type
 			assert_response :success
@@ -438,7 +438,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by type asc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :type, :dir => :asc
 			assert_response :success
@@ -446,7 +446,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by type desc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :type, :dir => :desc
 			assert_response :success
@@ -454,7 +454,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by subtype with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :subtype
 			assert_response :success
@@ -462,7 +462,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by subtype asc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :subtype, :dir => :asc
 			assert_response :success
@@ -470,7 +470,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by subtype desc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :subtype, :dir => :desc
 			assert_response :success
@@ -478,7 +478,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by project with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :project
 			assert_response :success
@@ -486,7 +486,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by project asc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :project, :dir => :asc
 			assert_response :success
@@ -494,7 +494,7 @@ class SamplesControllerTest < ActionController::TestCase
 		end
 
 		test "should find samples and order by project desc with #{cu} login" do
-			samples = 3.times.collect{|i| Factory(:sample) }
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :find, :order => :project, :dir => :desc
 			assert_response :success
@@ -535,7 +535,7 @@ class SamplesControllerTest < ActionController::TestCase
 
 		test "should get manifest in csv with #{cu} login and sample received before 6/1" do
 			login_as send(cu)
-			sample = Factory(:sample, :received_by_ccls_at => Date.parse('5/30/2012'))
+			sample = FactoryGirl.create(:sample, :received_by_ccls_at => Date.parse('5/30/2012'))
 			assert_not_nil sample.received_by_ccls_at
 			get :manifest, :format => 'csv'
 			assert_response :success
@@ -551,7 +551,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should get manifest in csv with #{cu} login and sample received after 6/1" do
 			login_as send(cu)
 			#	assuming that today is indeed after 6/1/2012
-			sample = Factory(:sample, :received_by_ccls_at => Date.current )
+			sample = FactoryGirl.create(:sample, :received_by_ccls_at => Date.current )
 			assert_not_nil sample.received_by_ccls_at
 			get :manifest, :format => 'csv'
 			assert_response :success
@@ -653,8 +653,8 @@ class SamplesControllerTest < ActionController::TestCase
 protected 
 
 	def create_sample_with_subject(options={})
-		s = Factory(:study_subject, options)
-		Factory(:sample, :study_subject => s, :project => Project['ccls'])
+		s = FactoryGirl.create(:study_subject, options)
+		FactoryGirl.create(:sample, :study_subject => s, :project => Project['ccls'])
 	end
 
 end

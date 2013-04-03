@@ -6,7 +6,7 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "addressing#edit should update blank address info on zip code change" <<
 				" with #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			fill_in "addressing[address_attributes][city]",  :with => ""
@@ -34,7 +34,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 
 #		test "addressing#edit should show why_invalid when is_valid is changed to 'No'" <<
 #				" with #{cu} login" do
-#			addressing = Factory(:addressing)
+#			addressing = FactoryGirl.create(:addressing)
 #			login_as send(cu)
 #			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 #			assert !find_field('addressing[why_invalid]').visible?
@@ -48,7 +48,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 #
 #		test "addressing#edit should show why_invalid when is_valid is changed to" <<
 #				" 'Don't Know' with #{cu} login" do
-#			addressing = Factory(:addressing)
+#			addressing = FactoryGirl.create(:addressing)
 #			login_as send(cu)
 #			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 #			assert !find_field('addressing[why_invalid]').visible?
@@ -62,7 +62,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 #
 #		test "addressing#edit should show how_verified when is_verified is checked" <<
 #				" with #{cu} login" do
-#			addressing = Factory(:addressing)
+#			addressing = FactoryGirl.create(:addressing)
 #			login_as send(cu)
 #			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 #			assert !find_field('addressing[how_verified]').visible?
@@ -76,7 +76,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 
 		test "addressing#edit should show other_data_source when 'Other Source'" <<
 				" data_source is selected with #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[other_data_source]').visible?
@@ -90,7 +90,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 
 		test "addressing#edit should show subject_moved when residence address" <<
 				" current_address is changed to 'No' with #{cu} login" do
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			login_as send(cu)
 			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[subject_moved]').visible?
@@ -104,7 +104,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 
 		test "addressing#edit should NOT show subject_moved when residence address" <<
 				" current_address is changed to 'Don't Know' with #{cu} login" do
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			login_as send(cu)
 			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[subject_moved]').visible?
@@ -120,7 +120,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 
 		test "addressing#new should show confirm when new residence addressing is" <<
 				" submitted with state not 'CA' and #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit new_study_subject_addressing_path(study_subject)
 			#	residence address and NOT in 'CA'
@@ -142,7 +142,7 @@ wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
 
 		test "addressing#new should update blank city, state and county on zip code" <<
 				" change with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit new_study_subject_addressing_path(study_subject)
 			assert find_field("addressing[address_attributes][city]").value.blank?

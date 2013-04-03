@@ -25,20 +25,20 @@ class OrganizationTest < ActiveSupport::TestCase
 
 	test "organization factory should create organization" do
 		assert_difference('Organization.count',1) {
-			organization = Factory(:organization)
+			organization = FactoryGirl.create(:organization)
 			assert_match /Key \d*/,  organization.key
 			assert_match /Name \d*/, organization.name
 		}
 	end
 
 	test "new incoming_transfer should have matching organization id" do
-		organization = Factory(:organization)
+		organization = FactoryGirl.create(:organization)
 		transfer = organization.incoming_transfers.build
 		assert_equal organization.id, transfer.to_organization_id
 	end
 
 	test "new outgoing_transfer should have matching organization id" do
-		organization = Factory(:organization)
+		organization = FactoryGirl.create(:organization)
 		transfer = organization.outgoing_transfers.build
 		assert_equal organization.id, transfer.from_organization_id
 	end
@@ -61,7 +61,7 @@ class OrganizationTest < ActiveSupport::TestCase
 	end
 
 	test "should not be other if is not other" do
-		organization = Factory(:organization)
+		organization = FactoryGirl.create(:organization)
 		assert !organization.is_other?
 	end
 

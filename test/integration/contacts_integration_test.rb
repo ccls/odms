@@ -8,7 +8,7 @@ class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "contacts#show should not have toggle_historic_addressings link" <<
 				" without historic addressings and with #{cu} login" do
-			addressing = Factory(:addressing,:current_address => YNDK[:yes])
+			addressing = FactoryGirl.create(:addressing,:current_address => YNDK[:yes])
 			login_as send(cu)
 			visit study_subject_contacts_path(addressing.study_subject)
 			assert has_no_css?('a.toggler.toggles_historic_addressings')
@@ -17,7 +17,7 @@ class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "contacts#show should not have toggle_historic_phone_numbers link" <<
 				" without historic phone_numbers and with #{cu} login" do
-			phone_number = Factory(:phone_number,:current_phone => YNDK[:yes])
+			phone_number = FactoryGirl.create(:phone_number,:current_phone => YNDK[:yes])
 			login_as send(cu)
 			visit study_subject_contacts_path(phone_number.study_subject)
 			assert has_no_css?('a.toggler.toggles_historic_phone_numbers')
@@ -25,7 +25,7 @@ class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "contacts#show should toggle historic addresses with #{cu} login" do
-			addressing = Factory(:addressing,:current_address => YNDK[:no])
+			addressing = FactoryGirl.create(:addressing,:current_address => YNDK[:no])
 			login_as send(cu)
 			visit study_subject_contacts_path(addressing.study_subject)
 			assert has_css?('a.toggler.toggles_historic_addressings')
@@ -37,7 +37,7 @@ class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "contacts#show should toggle historic phone_numbers with #{cu} login" do
-			phone_number = Factory(:phone_number,:current_phone => YNDK[:no])
+			phone_number = FactoryGirl.create(:phone_number,:current_phone => YNDK[:no])
 			login_as send(cu)
 			visit study_subject_contacts_path(phone_number.study_subject)
 			assert has_css?('a.toggler.toggles_historic_phone_numbers')

@@ -20,7 +20,7 @@ class DocumentTypeTest < ActiveSupport::TestCase
 
 	test "document_type factory should create document type" do
 		assert_difference('DocumentType.count',1) {
-			document_type = Factory(:document_type)
+			document_type = FactoryGirl.create(:document_type)
 			assert_match /Key\d*/,   document_type.key
 			assert_match /Title\d*/, document_type.title
 			assert_match /Desc\d*/,  document_type.description

@@ -10,7 +10,7 @@ class SampleTemperaturesControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:sample_temperature,options)
+		FactoryGirl.attributes_for(:sample_temperature,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

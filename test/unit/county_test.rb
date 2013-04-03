@@ -19,7 +19,7 @@ class CountyTest < ActiveSupport::TestCase
 
 	test "county factory should create county" do
 		assert_difference('County.count',1) {
-			county = Factory(:county)
+			county = FactoryGirl.create(:county)
 			assert_match /Name \d*/, county.name
 			assert_equal 'XX', county.state_abbrev
 		}

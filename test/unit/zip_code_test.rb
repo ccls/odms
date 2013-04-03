@@ -23,7 +23,7 @@ class ZipCodeTest < ActiveSupport::TestCase
 
 	test "zip_code factory should create zip code" do
 		assert_difference('ZipCode.count',1) {
-			zip_code = Factory(:zip_code)
+			zip_code = FactoryGirl.create(:zip_code)
 			assert_match /X\d{4}/, zip_code.zip_code
 			assert_match /\d{5}/,  zip_code.city
 			assert_match /\d{5}/,  zip_code.state
@@ -41,13 +41,13 @@ class ZipCodeTest < ActiveSupport::TestCase
 	end
 
 	test "should find by zip code with ['string']" do
-		Factory(:zip_code,:zip_code => '94700')
+		FactoryGirl.create(:zip_code,:zip_code => '94700')
 		zip_code = ZipCode['94700']
 		assert zip_code.is_a?(ZipCode)
 	end
 
 	test "should find by zip code with [:symbol]" do
-		Factory(:zip_code,:zip_code => '94700')
+		FactoryGirl.create(:zip_code,:zip_code => '94700')
 		zip_code = ZipCode['94700'.to_sym]	#	:1 is no good, but '1'.to_sym is OK
 		assert zip_code.is_a?(ZipCode)
 	end

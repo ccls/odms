@@ -11,7 +11,7 @@ class SubjectTypeTest < ActiveSupport::TestCase
 
 	test "subject_type factory should create subject type" do
 		assert_difference('SubjectType.count',1) {
-			subject_type = Factory(:subject_type)
+			subject_type = FactoryGirl.create(:subject_type)
 			assert_match /Key\d*/, subject_type.key
 			assert_match /Desc\d*/, subject_type.description
 		}

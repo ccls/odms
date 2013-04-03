@@ -11,7 +11,7 @@ class SampleTemperatureTest < ActiveSupport::TestCase
 
 	test "sample temperature factory should create sample temperature" do
 		assert_difference('SampleTemperature.count',1) {
-			sample_temperature = Factory(:sample_temperature)
+			sample_temperature = FactoryGirl.create(:sample_temperature)
 			assert_match /Key\d*/,  sample_temperature.key
 			assert_match /Desc\d*/, sample_temperature.description
 		}

@@ -19,7 +19,7 @@ class AbstractsControllerTest < ActionController::TestCase
 	assert_no_route(:post,:create)
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:complete_abstract,{
+		FactoryGirl.attributes_for(:complete_abstract,{
 		}.merge(options))
 	end
 ##
@@ -108,8 +108,8 @@ class AbstractsControllerTest < ActionController::TestCase
 #		end
 #
 #		test "should get index with abstracts and #{cu} login" do
-#			Factory(:abstract)
-#			Factory(:abstract)
+#			FactoryGirl.create(:abstract)
+#			FactoryGirl.create(:abstract)
 #			login_as send(cu)
 #			get :index
 #			assert_response :success

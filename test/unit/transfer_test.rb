@@ -18,20 +18,20 @@ class TransferTest < ActiveSupport::TestCase
 
 	test "transfer factory should create transfer" do
 		assert_difference('Transfer.count',1) {
-			transfer = Factory(:transfer)
+			transfer = FactoryGirl.create(:transfer)
 		}
 	end
 
 	test "transfer factory should create aliquot" do
 		assert_difference('Aliquot.count',1) {
-			transfer = Factory(:transfer)
+			transfer = FactoryGirl.create(:transfer)
 			assert_not_nil transfer.aliquot
 		}
 	end
 
 	test "transfer factory should create 3 organizations" do
 		assert_difference('Organization.count',3) {	#	aliquot also creates an Organization
-			transfer = Factory(:transfer)
+			transfer = FactoryGirl.create(:transfer)
 			assert_not_nil transfer.from_organization
 			assert_not_nil transfer.to_organization
 		}

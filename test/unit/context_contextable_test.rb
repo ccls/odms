@@ -7,20 +7,20 @@ class ContextContextableTest < ActiveSupport::TestCase
 #
 #	test "context_contextable factory should create context contextable" do
 #		assert_difference('ContextContextable.count',1) {
-#			context_contextable = Factory(:context_contextable)
+#			context_contextable = FactoryGirl.create(:context_contextable)
 #		}
 #	end
 #
 #	test "context_contextable factory should create context" do
 #		assert_difference('Context.count',1) {
-#			context_contextable = Factory(:context_contextable)
+#			context_contextable = FactoryGirl.create(:context_contextable)
 #			assert_not_nil context_contextable.context
 #		}
 #	end
 #
 #	test "context_contextable factory should create default contextable" do
 #		assert_difference('DataSource.count',1) {		#	test default contextable
-#			context_contextable = Factory(:context_contextable)
+#			context_contextable = FactoryGirl.create(:context_contextable)
 #			assert_not_nil context_contextable.contextable	#	polymorphic
 #			assert context_contextable.contextable.is_a?(DataSource)
 #		}
@@ -28,8 +28,8 @@ class ContextContextableTest < ActiveSupport::TestCase
 #
 #	test "context_contextable factory should create Unit contextable" do
 #		assert_difference('Unit.count',1) {		#	test default contextable
-#			context_contextable = Factory(:context_contextable,
-#				:contextable => Factory(:unit))
+#			context_contextable = FactoryGirl.create(:context_contextable,
+#				:contextable => FactoryGirl.create(:unit))
 #			assert_not_nil context_contextable.contextable	#	polymorphic
 #			assert context_contextable.contextable.is_a?(Unit)
 #		}

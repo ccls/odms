@@ -21,7 +21,7 @@ class DiagnosisTest < ActiveSupport::TestCase
 
 	test "diagnosis factory should create diagnosis" do
 		assert_difference('Diagnosis.count',1) {
-			diagnosis = Factory(:diagnosis)
+			diagnosis = FactoryGirl.create(:diagnosis)
 			assert_match /Key\d*/,  diagnosis.key
 			assert_match /Desc\d*/, diagnosis.description
 		}

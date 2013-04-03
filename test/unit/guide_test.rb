@@ -20,7 +20,7 @@ class GuideTest < ActiveSupport::TestCase
 		:maximum => 250 )
 
 	test "should return controller and action name as to_s" do
-		guide = Factory(:guide)
+		guide = FactoryGirl.create(:guide)
 		assert_equal "#{guide.controller}##{guide.action}", "#{guide}"
 	end
 

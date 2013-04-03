@@ -7,13 +7,13 @@ class SampleCollectorTest < ActiveSupport::TestCase
 
 	test "sample_collector factory should create sample collector" do
 		assert_difference('SampleCollector.count',1) {
-			sample_collector = Factory(:sample_collector)
+			sample_collector = FactoryGirl.create(:sample_collector)
 		}
 	end
 
 	test "sample_collector factory should create organization" do
 		assert_difference('Organization.count',1) {
-			sample_collector = Factory(:sample_collector)
+			sample_collector = FactoryGirl.create(:sample_collector)
 			assert_not_nil sample_collector.organization
 		}
 	end

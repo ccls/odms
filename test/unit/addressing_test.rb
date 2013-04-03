@@ -33,7 +33,7 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 #			assert_equal 1, addressing.is_valid
 #			assert         !addressing.is_verified	
 		}
@@ -41,28 +41,28 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "addressing factory should create address" do
 		assert_difference('Address.count',1) {
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			assert_not_nil addressing.address
 		}
 	end
 
 	test "addressing factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			assert_not_nil addressing.study_subject
 		}
 	end
 
 	test "mailing_addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
-			addressing = Factory(:mailing_addressing)
+			addressing = FactoryGirl.create(:mailing_addressing)
 			assert_equal addressing.current_address, YNDK[:no]
 		}
 	end
 
 	test "mailing_addressing factory should create mailing address" do
 		assert_difference('Address.count',1) {
-			addressing = Factory(:mailing_addressing)
+			addressing = FactoryGirl.create(:mailing_addressing)
 			assert_equal addressing.address.address_type,
 				AddressType['mailing']
 		}
@@ -70,20 +70,20 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "mailing_addressing factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			addressing = Factory(:mailing_addressing)
+			addressing = FactoryGirl.create(:mailing_addressing)
 		}
 	end
 
 	test "current_mailing_addressing factory should create current addressing" do
 		assert_difference('Addressing.count',1) {
-			addressing = Factory(:current_mailing_addressing)
+			addressing = FactoryGirl.create(:current_mailing_addressing)
 			assert_equal addressing.current_address, YNDK[:yes]
 		}
 	end
 
 	test "current_mailing_addressing factory should create mailing address" do
 		assert_difference('Address.count',1) {
-			addressing = Factory(:current_mailing_addressing)
+			addressing = FactoryGirl.create(:current_mailing_addressing)
 			assert_equal addressing.address.address_type,
 				AddressType['mailing']
 		}
@@ -91,20 +91,20 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "current_mailing_addressing factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			addressing = Factory(:current_mailing_addressing)
+			addressing = FactoryGirl.create(:current_mailing_addressing)
 		}
 	end
 
 	test "residence_addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
-			addressing = Factory(:residence_addressing)
+			addressing = FactoryGirl.create(:residence_addressing)
 			assert_equal addressing.current_address, YNDK[:no]
 		}
 	end
 
 	test "residence_addressing factory should create residence address" do
 		assert_difference('Address.count',1) {
-			addressing = Factory(:residence_addressing)
+			addressing = FactoryGirl.create(:residence_addressing)
 			assert_equal addressing.address.address_type,
 				AddressType['residence']
 		}
@@ -112,20 +112,20 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "residence_addressing factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			addressing = Factory(:residence_addressing)
+			addressing = FactoryGirl.create(:residence_addressing)
 		}
 	end
 
 	test "current_residence_addressing factory should create current addressing" do
 		assert_difference('Addressing.count',1) {
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			assert_equal addressing.current_address, YNDK[:yes]
 		}
 	end
 
 	test "current_residence_addressing factory should create residence address" do
 		assert_difference('Address.count',1) {
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			assert_equal addressing.address.address_type,
 				AddressType['residence']
 		}
@@ -133,7 +133,7 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "current_residence_addressing factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 		}
 	end
 
@@ -366,11 +366,11 @@ class AddressingTest < ActiveSupport::TestCase
 #	'1' and '0' are the default values for a checkbox.
 #	I probably should add a condition to this event that
 #	the address_type be 'Residence', but I've left that to the view.
-#			addressing = Factory(:current_residence_addressing)
+#			addressing = FactoryGirl.create(:current_residence_addressing)
 
 	test "should NOT add 'subject_moved' event to subject if subject_moved is '1'" <<
 			" if not residence address" do
-		addressing = Factory(:current_mailing_addressing)
+		addressing = FactoryGirl.create(:current_mailing_addressing)
 		assert_difference('OperationalEvent.count',0) {
 			addressing.update_attributes(
 				:current_address => '2',
@@ -380,7 +380,7 @@ class AddressingTest < ActiveSupport::TestCase
 
 	test "should NOT add 'subject_moved' event to subject if subject_moved is '1'" <<
 			" if was not current address" do
-		addressing = Factory(:residence_addressing)
+		addressing = FactoryGirl.create(:residence_addressing)
 		assert_difference('OperationalEvent.count',0) {
 			addressing.update_attributes(
 				:current_address => '2',
@@ -389,7 +389,7 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "should add 'subject_moved' event to subject if subject_moved is '1'" do
-		addressing = Factory(:current_residence_addressing)
+		addressing = FactoryGirl.create(:current_residence_addressing)
 		assert_difference('OperationalEvent.count',1) {
 			addressing.update_attributes(
 				:current_address => '2',
@@ -398,7 +398,7 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "should not add 'subject_moved' event to subject if subject_moved is '0'" do
-		addressing = Factory(:current_residence_addressing)
+		addressing = FactoryGirl.create(:current_residence_addressing)
 		assert_difference('OperationalEvent.count',0) {
 			addressing.update_attributes(
 				:current_address => '2',
@@ -407,7 +407,7 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "should add 'subject_moved' event to subject if subject_moved is 'true'" do
-		addressing = Factory(:current_residence_addressing)
+		addressing = FactoryGirl.create(:current_residence_addressing)
 		assert_difference('OperationalEvent.count',1) {
 			addressing.update_attributes(
 				:current_address => '2',
@@ -416,7 +416,7 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "should not add 'subject_moved' event to subject if subject_moved is 'false'" do
-		addressing = Factory(:current_residence_addressing)
+		addressing = FactoryGirl.create(:current_residence_addressing)
 		assert_difference('OperationalEvent.count',0) {
 			addressing.update_attributes(
 				:current_address => '2',
@@ -425,7 +425,7 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "should not add 'subject_moved' event to subject if subject_moved is nil" do
-		addressing = Factory(:current_residence_addressing)
+		addressing = FactoryGirl.create(:current_residence_addressing)
 		assert_difference('OperationalEvent.count',0) {
 			addressing.update_attributes(
 				:current_address => '2',
@@ -441,7 +441,7 @@ protected
 #	doesn't work in rcov for some reason
 #			:address => nil,	#	block address_attributes
 			:address_id => nil,	#	block address_attributes
-			:address_attributes => Factory.attributes_for(:address,{
+			:address_attributes => FactoryGirl.attributes_for(:address,{
 				:address_type_id => AddressType['residence'].id
 			}.merge(options[:address]||{}))
 		}.merge(options[:addressing]||{}))

@@ -10,7 +10,7 @@ class FollowUpTypesControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:follow_up_type,options)
+		FactoryGirl.attributes_for(:follow_up_type,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

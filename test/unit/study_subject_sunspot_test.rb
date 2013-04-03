@@ -8,7 +8,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 			Sunspot.remove_all!					#	isn't always necessary
 			StudySubject.solr_reindex
 			assert StudySubject.search.hits.empty?
-			Factory(:study_subject)
+			FactoryGirl.create(:study_subject)
 			StudySubject.solr_reindex
 			assert !StudySubject.search.hits.empty?
 		end
@@ -47,7 +47,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 			).each do |meth|
 
 		test "should respond to custom method #{meth}" do
-			subject = Factory(:study_subject)
+			subject = FactoryGirl.create(:study_subject)
 			assert subject.respond_to?(meth)	#hmm.  subject responds to meth?
 			#	subject.diagnosis
 		end

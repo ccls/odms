@@ -10,7 +10,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:organization,options)
+		FactoryGirl.attributes_for(:organization,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

@@ -18,27 +18,27 @@ class AliquotTest < ActiveSupport::TestCase
 
 	test "aliquot factory should create aliquot" do
 		assert_difference('Aliquot.count',1) {
-			aliquot = Factory(:aliquot)
+			aliquot = FactoryGirl.create(:aliquot)
 		}
 	end
 
 	test "aliquot factory should create organization" do
 		assert_difference('Organization.count',1) {
-			aliquot = Factory(:aliquot)
+			aliquot = FactoryGirl.create(:aliquot)
 			assert_not_nil aliquot.owner
 		}
 	end
 
 	test "aliquot factory should create unit" do
 		assert_difference('Unit.count',1) {
-			aliquot = Factory(:aliquot)
+			aliquot = FactoryGirl.create(:aliquot)
 			assert_not_nil aliquot.unit
 		}
 	end
 
 	test "aliquot factory should create sample" do
 		assert_difference('Sample.count',1) {
-			aliquot = Factory(:aliquot)
+			aliquot = FactoryGirl.create(:aliquot)
 			assert_not_nil aliquot.sample
 		}
 	end
@@ -84,7 +84,7 @@ class AliquotTest < ActiveSupport::TestCase
 		aliquot = create_aliquot
 		initial_owner = aliquot.owner
 		assert_not_nil initial_owner
-		new_owner = Factory(:organization)
+		new_owner = FactoryGirl.create(:organization)
 		assert_difference('aliquot.reload.owner_id') {
 		assert_difference('aliquot.transfers.count', 1) {
 #		assert_difference('initial_owner.reload.aliquots_count', -1) {
@@ -101,7 +101,7 @@ class AliquotTest < ActiveSupport::TestCase
 		aliquot = create_aliquot
 		initial_owner = aliquot.owner
 		assert_not_nil initial_owner
-		new_owner = Factory(:organization)
+		new_owner = FactoryGirl.create(:organization)
 		Aliquot.any_instance.stubs(:update_column).returns(false)
 		assert_no_difference('aliquot.reload.owner_id') {
 		assert_no_difference('aliquot.transfers.count') {
@@ -120,7 +120,7 @@ class AliquotTest < ActiveSupport::TestCase
 		aliquot = create_aliquot
 		initial_owner = aliquot.owner
 		assert_not_nil initial_owner
-		new_owner = Factory(:organization)
+		new_owner = FactoryGirl.create(:organization)
 		Transfer.any_instance.stubs(:save!).raises(
 			ActiveRecord::RecordInvalid.new(Transfer.new))
 		assert_no_difference('aliquot.reload.owner_id') {

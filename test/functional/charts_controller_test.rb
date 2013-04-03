@@ -11,11 +11,11 @@ class ChartsControllerTest < ActionController::TestCase
 		Sunspot.remove_all!					#	isn't always necessary
 		StudySubject.solr_reindex
 		assert StudySubject.search.hits.empty?
-		subject1 = Factory(:complete_case_study_subject)
-		Factory(:sample, :study_subject => subject1,
+		subject1 = FactoryGirl.create(:complete_case_study_subject)
+		FactoryGirl.create(:sample, :study_subject => subject1,
 			:sample_type => SampleType['marrowdiag'])
-		subject2 = Factory(:complete_case_study_subject)
-		Factory(:sample, :study_subject => subject2,
+		subject2 = FactoryGirl.create(:complete_case_study_subject)
+		FactoryGirl.create(:sample, :study_subject => subject2,
 			:sample_type => SampleType['periph'])
 		StudySubject.solr_reindex
 		assert !StudySubject.search.hits.empty?

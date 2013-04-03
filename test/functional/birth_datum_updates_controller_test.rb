@@ -28,7 +28,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #	#	so need to add the updated_at to force a difference
 #	#	on update.
 #	def factory_attributes(options={})
-#		Factory.attributes_for(:birth_datum_update,{
+#		FactoryGirl.attributes_for(:birth_datum_update,{
 #			:updated_at => Time.now }.merge(options))
 #	end
 #
@@ -58,7 +58,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #			assert_difference('CandidateControl.count',1) {	#	may depend on record content!
 #			assert_difference('BirthDatum.count',1) {
 #			assert_difference('BirthDatumUpdate.count',1) {
-#				post :create, :birth_datum_update => Factory.attributes_for(
+#				post :create, :birth_datum_update => FactoryGirl.attributes_for(
 #					:one_record_birth_datum_update )
 #			} } }
 #			assert_not_nil flash[:notice]
@@ -72,7 +72,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 ##
 ##		test "should update with csv_file attachment and #{cu} login" do
 ##			login_as send(cu)
-##			birth_datum_update = Factory(:birth_datum_update)
+##			birth_datum_update = FactoryGirl.create(:birth_datum_update)
 ##			assert_difference('BirthDatumUpdate.count',0) {
 ##				put :update, :id => birth_datum_update.id, 
 ##					:birth_datum_update => factory_attributes
@@ -90,7 +90,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #
 #		test "should destroy with csv_file attachment and #{cu} login" do
 #			login_as send(cu)
-#			birth_datum_update = Factory(:birth_datum_update)
+#			birth_datum_update = FactoryGirl.create(:birth_datum_update)
 #			assert_difference('BirthDatumUpdate.count',-1) {
 #				delete :destroy, :id => birth_datum_update.id
 #			}
@@ -115,7 +115,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 ##
 ##		test "should parse with #{cu} login and empty csv_file" do
 ##			login_as send(cu)
-##			birth_datum_update = Factory(:empty_birth_datum_update)
+##			birth_datum_update = FactoryGirl.create(:empty_birth_datum_update)
 ##			assert_difference('CandidateControl.count',0){
 ##				post :parse, :id => birth_datum_update.id
 ##			}
@@ -127,7 +127,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 ##
 ##		test "should parse with #{cu} login and missing csv_file" do
 ##			login_as send(cu)
-##			birth_datum_update = Factory(:birth_datum_update)
+##			birth_datum_update = FactoryGirl.create(:birth_datum_update)
 ##			File.delete(birth_datum_update.csv_file.path)
 ##			assert_difference('CandidateControl.count',0){
 ##				post :parse, :id => birth_datum_update.id
@@ -147,21 +147,21 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #			login_as send(cu)
 #
 ##			#	minimal semi-real case creation
-##			s1 = Factory(:case_study_subject,:sex => 'F',
+##			s1 = FactoryGirl.create(:case_study_subject,:sex => 'F',
 ##				:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
 ##				:dob => Date.parse('10/16/1977'))
 ##			#	s1 has no icf_master_id, so should be ignored
 ##	
-##			s2 = Factory(:case_study_subject,:sex => 'F',
+##			s2 = FactoryGirl.create(:case_study_subject,:sex => 'F',
 ##				:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
 ##				:dob => Date.parse('9/21/1988'))
-##			Factory(:icf_master_id,:icf_master_id => '48882638A')
+##			FactoryGirl.create(:icf_master_id,:icf_master_id => '48882638A')
 ##			s2.assign_icf_master_id
 ##	
-#			s = Factory(:case_study_subject,:sex => 'M',
+#			s = FactoryGirl.create(:case_study_subject,:sex => 'M',
 #				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
 #				:dob => Date.parse('6/1/2009'))
-#			Factory(:icf_master_id,:icf_master_id => '15851196C')	#	match file content
+#			FactoryGirl.create(:icf_master_id,:icf_master_id => '15851196C')	#	match file content
 #			s.assign_icf_master_id
 #	
 #			assert_difference('BirthDatum.count',33){
@@ -172,7 +172,7 @@ class BirthDatumUpdatesControllerTest < ActionController::TestCase
 #			} }
 #
 #
-##			birth_datum_update = Factory(:birth_datum_update,
+##			birth_datum_update = FactoryGirl.create(:birth_datum_update,
 ##				:csv_file => File.open('test-livebirthdata_011912.csv') )
 ##			assert_not_nil birth_datum_update.csv_file_file_name
 ##	

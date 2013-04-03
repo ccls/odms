@@ -70,10 +70,10 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    factory_girl (2.6.4)
-      activesupport (>= 2.3.9)
-    factory_girl_rails (1.7.0)
-      factory_girl (~> 2.6.0)
+    factory_girl (4.2.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
     ffi (1.6.0)
     hashery (2.1.0)
@@ -209,7 +209,6 @@ DEPENDENCIES
   chronic
   coffee-rails
   database_cleaner
-  factory_girl (~> 2.6.0)
   factory_girl_rails
   hpricot
   jquery-rails (~> 2.1.0)

@@ -29,13 +29,13 @@ class InterviewTest < ActiveSupport::TestCase
 
 	test "interview factory should create interview" do
 		assert_difference('Interview.count',1) {
-			interview = Factory(:interview)
+			interview = FactoryGirl.create(:interview)
 		}
 	end
 
 	test "interview factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			interview = Factory(:interview)
+			interview = FactoryGirl.create(:interview)
 			assert_not_nil interview.study_subject
 		}
 	end
@@ -146,7 +146,7 @@ class InterviewTest < ActiveSupport::TestCase
 	test "should ALLOW other_subject_relationship if " <<
 			"subject_relationship != other" do
 		interview = Interview.new(
-			:subject_relationship => Factory(:subject_relationship),
+			:subject_relationship => FactoryGirl.create(:subject_relationship),
 			:other_subject_relationship => 'asdfasdf' )
 		interview.valid?
 		assert !interview.errors.include?(:other_subject_relationship)

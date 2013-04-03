@@ -10,7 +10,7 @@ class InstrumentTypesControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:instrument_type,options)
+		FactoryGirl.attributes_for(:instrument_type,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

@@ -23,7 +23,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 
 	test "homex_outcome factory should create homex outcome" do
 		assert_difference('HomexOutcome.count',1) {
-			homex_outcome = Factory(:homex_outcome)
+			homex_outcome = FactoryGirl.create(:homex_outcome)
 			assert_nil     homex_outcome.sample_outcome
 			assert_not_nil homex_outcome.sample_outcome_on	#	because of SampleOutcome test
 			assert_nil     homex_outcome.interview_outcome
@@ -32,7 +32,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 	end
 
 	test "should require unique study_subject_id" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		create_homex_outcome(:study_subject => study_subject)
 		assert_difference( "HomexOutcome.count", 0 ) do
 			homex_outcome = create_homex_outcome(:study_subject => study_subject)
@@ -88,8 +88,8 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 
 	test "should raise NoHomeExposureEnrollment on create_interview_outcome_update" <<
 			" if no enrollment in HomeExposures" do
-		study_subject = Factory(:study_subject)
-		homex_outcome = Factory(:homex_outcome,:study_subject => study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
+		homex_outcome = FactoryGirl.create(:homex_outcome,:study_subject => study_subject)
 		assert_nil study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 		assert_raises(HomexOutcome::NoHomeExposureEnrollment){
 			homex_outcome.update_attributes(
@@ -145,8 +145,8 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 
 	test "should raise NoHomeExposureEnrollment on create_sample_outcome_update" <<
 			" if no enrollment in HomeExposures" do
-		study_subject = Factory(:study_subject)
-		homex_outcome = Factory(:homex_outcome,:study_subject => study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
+		homex_outcome = FactoryGirl.create(:homex_outcome,:study_subject => study_subject)
 		assert_nil study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 		assert_raises(HomexOutcome::NoHomeExposureEnrollment){
 			homex_outcome.update_attributes(
@@ -158,9 +158,9 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 protected
 
 	def create_complete_homex_outcome(options={})
-		s = Factory(:study_subject,options[:study_subject]||{})
+		s = FactoryGirl.create(:study_subject,options[:study_subject]||{})
 		p = Project.find_or_create_by_key('HomeExposures')
-		Factory(:enrollment, :study_subject => s, :project => p )
+		FactoryGirl.create(:enrollment, :study_subject => s, :project => p )
 		h = create_homex_outcome(
 			(options[:homex_outcome]||{}).merge(:study_subject => s,
 			:interview_outcome_on => nil,

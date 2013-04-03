@@ -6,7 +6,7 @@ class OdmsExceptionTest < ActiveSupport::TestCase
 
 	test "odms_exception factory should create odms exception" do
 		assert_difference('OdmsException.count',1) {
-			odms_exception = Factory(:odms_exception)
+			odms_exception = FactoryGirl.create(:odms_exception)
 			assert_nil odms_exception.name
 			assert_nil odms_exception.description
 		}
@@ -23,7 +23,7 @@ class OdmsExceptionTest < ActiveSupport::TestCase
 	end
 
 	test "should belong to exceptable" do
-		odms_exception = Factory(:odms_exception)
+		odms_exception = FactoryGirl.create(:odms_exception)
 		assert_not_nil odms_exception.exceptable
 #	Initially, I had the default exceptable be a BirthDatumUpdate but 
 #	it created a csv file which was another thing that needed cleaned up.

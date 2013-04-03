@@ -21,7 +21,7 @@ class DataSourceTest < ActiveSupport::TestCase
 
 	test "data_source should create data source" do
 		assert_difference('DataSource.count',1) {
-			data_source = Factory(:data_source)
+			data_source = FactoryGirl.create(:data_source)
 			assert_match /Key\d*/, data_source.key
 			assert_match /Desc\d*/, data_source.description
 		}

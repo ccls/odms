@@ -12,7 +12,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 
 #	20130129 - no longer using 'is_primary'
 	test "subject_races_select White" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['white']) }
 #		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
@@ -38,7 +38,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "subject_races_select White with White" do
-		@study_subject = Factory(:study_subject,:subject_races_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject,:subject_races_attributes => {
 			'0' => { :race_code => Race['white'].code } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_race_id = @study_subject.subject_race_ids.first	
@@ -65,7 +65,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_races_select Other" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['other']) }
 #		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
@@ -95,7 +95,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "subject_races_select Other with Other" do
-		@study_subject = Factory(:study_subject,:subject_races_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject,:subject_races_attributes => {
 			'0' => { :race_code => Race['other'].code, :other_race => "otherrace" } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_race_id = @study_subject.subject_race_ids.first	
@@ -126,7 +126,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_races_select Mixed" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['mixed']) }
 #		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
@@ -156,7 +156,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 #	rails 3.2.8 now html_escapes ' to &#x27; in these input selectors
 
 	test "subject_races_select Mixed with Mixed" do
-		@study_subject = Factory(:study_subject,:subject_races_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject,:subject_races_attributes => {
 			'0' => { :race_code => Race['mixed'].code, :mixed_race => "mixedrace" } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_race_id = @study_subject.subject_race_ids.first	
@@ -194,7 +194,7 @@ __END__
 
 
 	test "subject_races_select" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| f.subject_races_select() }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
 <div id='races'>
@@ -235,7 +235,7 @@ __END__
 	end
 
 	test "subject_races_select Black,White" do
-		@study_subject = Factory(:study_subject)
+		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select([Race['black'],Race['white']]) }
 		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): .... ( [primary] [partial] Text )</div>
@@ -255,7 +255,7 @@ __END__
 	end
 
 	test "subject_races_select Black,White with White" do
-		@study_subject = Factory(:study_subject,:subject_races_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject,:subject_races_attributes => {
 			'0' => { :race_id => Race['white'].id } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_race_id = @study_subject.subject_race_ids.first	
@@ -278,7 +278,7 @@ __END__
 	end
 
 	test "subject_races_select Black,White,Other with Other" do
-		@study_subject = Factory(:study_subject,:subject_races_attributes => {
+		@study_subject = FactoryGirl.create(:study_subject,:subject_races_attributes => {
 			'0' => { :race_id => Race['other'].id, :other_race => "otherrace" } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_race_id = @study_subject.subject_race_ids.first	

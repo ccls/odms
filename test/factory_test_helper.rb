@@ -14,7 +14,7 @@ module FactoryTestHelper
 		#
 		define_method "create_#{object}" do |*args|
 			options = args.extract_options!
-			new_object = Factory.build(object,options)
+			new_object = FactoryGirl.build(object,options)
 			new_object.save
 			new_object
 		end

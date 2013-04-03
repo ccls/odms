@@ -12,7 +12,7 @@ class UnitTest < ActiveSupport::TestCase
 
 	test "unit factory should create unit" do
 		assert_difference('Unit.count',1) {
-			unit = Factory(:unit)
+			unit = FactoryGirl.create(:unit)
 			assert_match /Key\d*/, unit.key
 			assert_match /Desc\d*/, unit.description
 		}

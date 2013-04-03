@@ -11,7 +11,7 @@ class SampleFormatTest < ActiveSupport::TestCase
 
 	test "sample format factory should create sample format" do
 		assert_difference('SampleFormat.count',1) {
-			sample_format = Factory(:sample_format)
+			sample_format = FactoryGirl.create(:sample_format)
 			assert_match /Key\d*/,  sample_format.key
 			assert_match /Desc\d*/, sample_format.description
 		}

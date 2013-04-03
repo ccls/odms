@@ -10,7 +10,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 
 		test "should show abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			assert_not_nil abstract.study_subject_id
 			login_as send(cu)
 			get :show, :study_subject_id => abstract.study_subject_id, :id => abstract.id
@@ -19,7 +19,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show abstract with valid study_subject_id and invalid abstract id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			login_as send(cu)
 			get :show, :study_subject_id => abstract.study_subject_id, :id => 0
 			assert_not_nil flash[:error]
@@ -27,7 +27,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show abstract with invalid study_subject_id and valid abstract id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			login_as send(cu)
 			get :show, :study_subject_id => 0, :id => abstract.id
 			assert_not_nil flash[:error]
@@ -35,7 +35,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should destroy abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			login_as send(cu)
 			assert_difference('Abstract.count', -1) {
 				delete :destroy, :study_subject_id => abstract.study_subject_id, :id => abstract.id
@@ -46,7 +46,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy abstract with valid study_subject_id and invalid abstract id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			login_as send(cu)
 			assert_difference('Abstract.count', 0) {
 				delete :destroy, :study_subject_id => abstract.study_subject_id, :id => 0
@@ -56,7 +56,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy abstract with invalid study_subject_id and valid abstract id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			login_as send(cu)
 			assert_difference('Abstract.count', 0) {
 				delete :destroy, :study_subject_id => 0, :id => abstract.id
@@ -85,7 +85,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should get index with valid study_subject_id and #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_response :success
@@ -95,7 +95,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT get index with control study subject and #{cu} login" do
-			study_subject = Factory(:control_study_subject)
+			study_subject = FactoryGirl.create(:control_study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_response :success
@@ -105,7 +105,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT get index with mother study subject and #{cu} login" do
-			study_subject = Factory(:mother_study_subject)
+			study_subject = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_response :success
@@ -133,7 +133,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should get new with valid study_subject_id and #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_response :success
@@ -144,7 +144,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT get new with control study subject and #{cu} login" do
-			study_subject = Factory(:control_study_subject)
+			study_subject = FactoryGirl.create(:control_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -153,7 +153,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT get new with mother study subject and #{cu} login" do
-			study_subject = Factory(:mother_study_subject)
+			study_subject = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -163,7 +163,7 @@ assert_raises(ActionController::RoutingError){
 
 		test "should set entry_1_by_uid on creation with #{cu} login" <<
 				" without abstract hash" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as u = send(cu)
 			post :create, :study_subject_id => study_subject.id
 			assert assigns(:abstract)
@@ -171,7 +171,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should set entry_1_by_uid on creation with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as u = send(cu)
 			post :create, :study_subject_id => study_subject.id,
 				:abstract => factory_attributes
@@ -181,7 +181,7 @@ assert_raises(ActionController::RoutingError){
 
 		test "should set entry_1_by on creation if study_subject's first abstract " <<
 				"with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as u = send(cu)
 			assert_difference('Abstract.count',1) {
 				post :create, :study_subject_id => study_subject.id,
@@ -193,9 +193,9 @@ assert_raises(ActionController::RoutingError){
 
 		test "should set entry_2_by on creation if study_subject's second abstract " <<
 				"with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as u = send(cu)
-			Factory(:abstract, :study_subject => study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject)
 			assert_difference('Abstract.count',1) {
 				post :create, :study_subject_id => study_subject.id,
 					:abstract => factory_attributes
@@ -205,7 +205,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT create with control study subject and #{cu} login" do
-			study_subject = Factory(:control_study_subject)
+			study_subject = FactoryGirl.create(:control_study_subject)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) {
 				post :create, :study_subject_id => study_subject.id,
@@ -217,7 +217,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT create with mother study subject and #{cu} login" do
-			study_subject = Factory(:mother_study_subject)
+			study_subject = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) {
 				post :create, :study_subject_id => study_subject.id,
@@ -229,51 +229,51 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT get compare if study_subject only has 0 abstract with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			get :compare, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT get compare if study_subject only has 1 abstract with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
-			Factory(:abstract, :study_subject => study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject)
 			get :compare, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should get compare if study_subject has 2 abstracts with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
-			Factory(:abstract, :study_subject => study_subject)
-			Factory(:abstract, :study_subject => study_subject.reload)
+			FactoryGirl.create(:abstract, :study_subject => study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
 			get :compare, :study_subject_id => study_subject.id
 			assert assigns(:abstracts)
 		end
 
 		test "should NOT merge if study_subject only has 0 abstract with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			post :merge, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT merge if study_subject only has 1 abstract with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
-			Factory(:abstract, :study_subject => study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject)
 			post :merge, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should set merged_by on merge of study_subject's abstracts with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			u1 = send(cu)
 			u2 = send(cu)
 			login_as u3 = send(cu)
-			Factory(:abstract, :study_subject => study_subject,:current_user => u1)
-			Factory(:abstract, :study_subject => study_subject.reload,:current_user => u2)
+			FactoryGirl.create(:abstract, :study_subject => study_subject,:current_user => u1)
+			FactoryGirl.create(:abstract, :study_subject => study_subject.reload,:current_user => u2)
 			assert_difference('Abstract.count', -1) {
 				post :merge, :study_subject_id => study_subject.id
 			}
@@ -295,7 +295,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT create invalid abstract with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			Abstract.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
@@ -306,7 +306,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT create abstract when save fails with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			Abstract.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
@@ -317,9 +317,9 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT create merged invalid abstract with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
-			Factory(:abstract, :study_subject => study_subject)
-			Factory(:abstract, :study_subject => study_subject.reload)
+			study_subject = FactoryGirl.create(:case_study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
 			Abstract.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
@@ -331,9 +331,9 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT create merged abstract when save fails with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
-			Factory(:abstract, :study_subject => study_subject)
-			Factory(:abstract, :study_subject => study_subject.reload)
+			study_subject = FactoryGirl.create(:case_study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
 			Abstract.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
@@ -375,21 +375,21 @@ assert_raises(ActionController::RoutingError){
 	non_site_editors.each do |cu|
 
 		test "should NOT get abstract index with valid study_subject_id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			login_as send(cu)
 			get :index, :study_subject_id => abstract.study_subject_id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT show abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			login_as send(cu)
 			get :show, :study_subject_id => abstract.study_subject_id, :id => abstract.id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT destroy abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = Factory(:abstract).reload
+			abstract = FactoryGirl.create(:abstract).reload
 			login_as send(cu)
 			assert_difference('Abstract.count',0){
 				delete :destroy, :study_subject_id => abstract.study_subject_id, :id => abstract.id
@@ -398,7 +398,7 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT create abstract with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
 				post :create, :study_subject_id => study_subject.id
@@ -408,20 +408,20 @@ assert_raises(ActionController::RoutingError){
 		end
 
 		test "should NOT compare abstracts with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
-			Factory(:abstract, :study_subject => study_subject)
-			Factory(:abstract, :study_subject => study_subject.reload)
+			FactoryGirl.create(:abstract, :study_subject => study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
 			get :compare, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
 
 		test "should NOT merge abstracts with #{cu} login" do
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
-			Factory(:abstract, :study_subject => study_subject)
-			Factory(:abstract, :study_subject => study_subject.reload)
+			FactoryGirl.create(:abstract, :study_subject => study_subject)
+			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
 			post :merge, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -430,19 +430,19 @@ assert_raises(ActionController::RoutingError){
 	end
 
 	test "should NOT get abstract index with valid study_subject_id without login" do
-		abstract = Factory(:abstract).reload
+		abstract = FactoryGirl.create(:abstract).reload
 		get :index, :study_subject_id => abstract.study_subject_id
 		assert_redirected_to_login
 	end
 
 	test "should NOT show abstract with valid study_subject_id and abstract id without login" do
-		abstract = Factory(:abstract).reload
+		abstract = FactoryGirl.create(:abstract).reload
 		get :show, :study_subject_id => abstract.study_subject_id, :id => abstract.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT destroy abstract with valid study_subject_id and abstract id without login" do
-		abstract = Factory(:abstract).reload
+		abstract = FactoryGirl.create(:abstract).reload
 		assert_difference('Abstract.count',0){
 			delete :destroy, :study_subject_id => abstract.study_subject_id, :id => abstract.id
 		}
@@ -450,7 +450,7 @@ assert_raises(ActionController::RoutingError){
 	end
 
 	test "should NOT create abstract without login" do
-		study_subject = Factory(:case_study_subject)
+		study_subject = FactoryGirl.create(:case_study_subject)
 		assert_difference('Abstract.count',0) do
 			post :create, :study_subject_id => study_subject.id
 		end
@@ -458,17 +458,17 @@ assert_raises(ActionController::RoutingError){
 	end
 
 	test "should NOT compare abstracts without login" do
-		study_subject = Factory(:case_study_subject)
-		Factory(:abstract, :study_subject => study_subject)
-		Factory(:abstract, :study_subject => study_subject.reload)
+		study_subject = FactoryGirl.create(:case_study_subject)
+		FactoryGirl.create(:abstract, :study_subject => study_subject)
+		FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
 		get :compare, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT merge abstracts without login" do
-		study_subject = Factory(:case_study_subject)
-		Factory(:abstract, :study_subject => study_subject)
-		Factory(:abstract, :study_subject => study_subject.reload)
+		study_subject = FactoryGirl.create(:case_study_subject)
+		FactoryGirl.create(:abstract, :study_subject => study_subject)
+		FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
 		post :merge, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end

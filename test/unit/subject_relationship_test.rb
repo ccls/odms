@@ -10,7 +10,7 @@ class SubjectRelationshipTest < ActiveSupport::TestCase
 
 	test "subject_relationship factory should create subject relationship" do
 		assert_difference('SubjectRelationship.count',1) {
-			subject_relationship = Factory(:subject_relationship)
+			subject_relationship = FactoryGirl.create(:subject_relationship)
 			assert_match /Key\d*/, subject_relationship.key
 			assert_match /Desc\d*/, subject_relationship.description
 		}

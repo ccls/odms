@@ -18,7 +18,7 @@ class StudySubjectVitalStatusTest < ActiveSupport::TestCase
 		study_subject.reload
 		assert_nil study_subject.vital_status
 		assert_nil study_subject.vital_status_code
-		study_subject.vital_status = Factory(:vital_status)
+		study_subject.vital_status = FactoryGirl.create(:vital_status)
 		assert_not_nil study_subject.vital_status
 	end
 

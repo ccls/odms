@@ -20,7 +20,7 @@ class StateTest < ActiveSupport::TestCase
 
 	test "state factory should create state" do
 		assert_difference('State.count',1) {
-			state = Factory(:state)
+			state = FactoryGirl.create(:state)
 			assert_match /Code\d*/, state.code
 			assert_match /Name\d*/, state.name
 			assert_not_nil state.fips_state_code

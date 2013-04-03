@@ -10,7 +10,7 @@ class TracingStatusesControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:tracing_status,options)
+		FactoryGirl.attributes_for(:tracing_status,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

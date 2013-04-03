@@ -3,7 +3,7 @@ require 'test_helper'
 class NotificationTest < ActionMailer::TestCase
 
 	test "raf_submitted for subject" do
-		study_subject = Factory(:complete_case_study_subject, 
+		study_subject = FactoryGirl.create(:complete_case_study_subject, 
 			:first_name    => 'Anthony',
 			:middle_name   => 'Michael',
 			:last_name     => 'Hall',

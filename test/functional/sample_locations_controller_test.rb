@@ -10,8 +10,8 @@ class SampleLocationsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:sample_location,{
-			:organization_id => Factory(:organization).id
+		FactoryGirl.attributes_for(:sample_location,{
+			:organization_id => FactoryGirl.create(:organization).id
 		}.merge(options))
 	end
 

@@ -11,7 +11,7 @@ class InterviewMethodTest < ActiveSupport::TestCase
 
 	test "interview_method factory should create interview method" do
 		assert_difference('InterviewMethod.count',1) {
-			interview_method = Factory(:interview_method)
+			interview_method = FactoryGirl.create(:interview_method)
 			assert_match /Key\d*/, interview_method.key
 			assert_match /Desc\d*/, interview_method.description
 		}

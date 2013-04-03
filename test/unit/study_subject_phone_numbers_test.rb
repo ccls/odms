@@ -8,7 +8,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 		assert_difference( 'PhoneNumber.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:phone_numbers_attributes => [Factory.attributes_for(:phone_number,
+				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
 					:data_source_id => DataSource['unknown'].id,
 					:phone_type_id  => PhoneType['home'].id )])
 			assert !study_subject.new_record?, 
@@ -20,7 +20,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 		assert_difference( 'PhoneNumber.count', 0) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:phone_numbers_attributes => [Factory.attributes_for(:phone_number,
+				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
 					:data_source_id => DataSource['unknown'].id,
 					:phone_number   => '' )])
 			assert !study_subject.new_record?, 
@@ -31,7 +31,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 	test "should NOT destroy phone_numbers with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('PhoneNumber.count',1) {
-			@study_subject = Factory(:phone_number).study_subject
+			@study_subject = FactoryGirl.create(:phone_number).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('PhoneNumber.count',0) {

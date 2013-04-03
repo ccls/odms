@@ -10,7 +10,7 @@ class SubjectRelationshipsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:subject_relationship,options)
+		FactoryGirl.attributes_for(:subject_relationship,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

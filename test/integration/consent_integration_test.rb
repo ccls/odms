@@ -11,7 +11,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 #		not really the desired effect.
 		test "should NOT update consent if ineligible reason given and eligible"<<
 				" with #{cu} login" do
-			study_subject = Factory(:complete_case_study_subject)	# NOTE CASE subject only (for now?) WITH patient as needed on update
+			study_subject = FactoryGirl.create(:complete_case_study_subject)	# NOTE CASE subject only (for now?) WITH patient as needed on update
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject.id)
 #	choose ineligible
@@ -56,7 +56,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should initially show specify other language when other language checked" <<
 				" with #{cu} login" do
 			# NOTE CASE subject only (for now?)
-			study_subject = Factory(:case_study_subject, 
+			study_subject = FactoryGirl.create(:case_study_subject, 
 				:subject_languages_attributes => { 
 					'0' => { :language_code => Language['other'].code, :other_language => 'redneck' }})
 			login_as send(cu)
@@ -77,7 +77,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 		test "should toggle specify other language when other language checked" <<
 				" with #{cu} login" do
 			# NOTE CASE subject only (for now?)
-			study_subject = Factory(:case_study_subject) 
+			study_subject = FactoryGirl.create(:case_study_subject) 
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject.id)
 			show_eligibility_criteria_div
@@ -95,7 +95,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
 				# NOTE CASE subject only (for now?) WITH patient as needed on update
-				@study_subject = Factory(:complete_case_study_subject) 
+				@study_subject = FactoryGirl.create(:complete_case_study_subject) 
 			}
 			login_as send(cu)
 			visit edit_study_subject_consent_path(@study_subject.id)
@@ -114,7 +114,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				# NOTE CASE subject only (for now?) WITH patient as needed on update
-				@study_subject = Factory(:complete_case_study_subject, 
+				@study_subject = FactoryGirl.create(:complete_case_study_subject, 
 					:subject_languages_attributes => { 
 						'0' => { :language_code => Language['english'].code }})
 			}
@@ -136,7 +136,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
 				# NOTE CASE subject only (for now?) WITH patient as needed on update
-				@study_subject = Factory(:complete_case_study_subject) 
+				@study_subject = FactoryGirl.create(:complete_case_study_subject) 
 			}
 			login_as send(cu)
 			visit edit_study_subject_consent_path(@study_subject.id)
@@ -214,7 +214,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should not have toggle eligibility criteria on show for non-case" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit study_subject_consent_path(study_subject)
 			assert !has_css?('div#eligibility_criteria')
@@ -223,7 +223,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should not have toggle eligibility criteria on edit for non-case" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
 			assert !has_css?('div#eligibility_criteria')
@@ -232,7 +232,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should toggle eligibility criteria on show screen with #{cu} login" do
 			#	NOTE only exists for case subjects WITH PATIENT
-			study_subject = Factory(:complete_case_study_subject)
+			study_subject = FactoryGirl.create(:complete_case_study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -246,7 +246,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should toggle eligibility criteria on edit screen with #{cu} login" do
 			#	NOTE only exists for case subjects
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -260,7 +260,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show ineligible_reason selector if 'No' for is_eligible" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -276,7 +276,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show ineligible_reason selector if 'Don't Know' for is_eligible" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -292,7 +292,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should NOT show ineligible_reason selector if 'Yes' for is_eligible" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -308,7 +308,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show other_ineligible_reason if 'Other' reason selected" <<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -329,7 +329,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show subject_consented if consent is 'Yes'"<<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -345,7 +345,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show subject_consented if consent is 'No'"<<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -361,7 +361,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should NOT show subject_consented if consent is 'Don't Know'"<<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -377,7 +377,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show subject_refused if consent is 'No'"<<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -393,7 +393,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should NOT show subject_refused if consent is 'Yes'"<<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -409,7 +409,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should NOT show subject_refused if consent is 'Don't Know'"<<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
@@ -426,7 +426,7 @@ class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
 
 		test "should show other_refusal_reason if 'Other' reason selected"<<
 				" with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)

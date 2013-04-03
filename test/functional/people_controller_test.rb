@@ -9,7 +9,7 @@ class PeopleControllerTest < ActionController::TestCase
 		:method_for_create => :create_person
 	}
 	def factory_attributes(options={})
-		Factory.attributes_for(:person,options)
+		FactoryGirl.attributes_for(:person,options)
 	end
 
 	assert_access_with_login(    :logins => site_administrators )

@@ -8,13 +8,13 @@ class SampleKitTest < ActiveSupport::TestCase
 
 	test "sample_kit factory should create sample kit" do
 		assert_difference('SampleKit.count',1) {
-			sample_kit = Factory(:sample_kit)
+			sample_kit = FactoryGirl.create(:sample_kit)
 		}
 	end
 
 	test "sample_kit factory should create sample" do
 		assert_difference('Sample.count',1) {
-			sample_kit = Factory(:sample_kit)
+			sample_kit = FactoryGirl.create(:sample_kit)
 			assert_not_nil sample_kit.sample
 		}
 	end

@@ -9,7 +9,7 @@ class LanguagesControllerTest < ActionController::TestCase
 		:method_for_create => :create_language
 	}
 	def factory_attributes(options={})
-		Factory.attributes_for(:language,options)
+		FactoryGirl.attributes_for(:language,options)
 	end
 
 	assert_access_with_login(    :logins => site_administrators )

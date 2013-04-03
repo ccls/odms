@@ -20,7 +20,7 @@ class AnalysisTest < ActiveSupport::TestCase
 
 	test "analysis factory should create analysis" do
 		assert_difference('Analysis.count',1) {
-			analysis = Factory(:analysis)
+			analysis = FactoryGirl.create(:analysis)
 			assert_match /Key\d*/, analysis.key
 			assert_match /Desc\d*/, analysis.description
 		}

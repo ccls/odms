@@ -12,7 +12,7 @@ class FollowUpTypeTest < ActiveSupport::TestCase
 
 	test "follow_up_type factory should create follow up type" do
 		assert_difference('FollowUpType.count',1) {
-			follow_up_type = Factory(:follow_up_type)
+			follow_up_type = FactoryGirl.create(:follow_up_type)
 			assert_match /Key\d*/, follow_up_type.key
 			assert_match /Desc\d*/, follow_up_type.description
 		}
@@ -27,7 +27,7 @@ class FollowUpTypeTest < ActiveSupport::TestCase
 protected
 
 #	def create_follow_up_type(options={})
-#		follow_up_type = Factory.build(:follow_up_type,options)
+#		follow_up_type = FactoryGirl.build(:follow_up_type,options)
 #		follow_up_type.save
 #		follow_up_type
 #	end

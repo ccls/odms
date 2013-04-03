@@ -10,7 +10,7 @@ class SampleFormatsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:sample_format,options)
+		FactoryGirl.attributes_for(:sample_format,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

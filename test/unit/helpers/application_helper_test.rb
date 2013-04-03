@@ -179,7 +179,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = Factory(:case_study_subject)
+				study_subject = FactoryGirl.create(:case_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 18
@@ -250,7 +250,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for case subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = Factory(:case_study_subject)
+				study_subject = FactoryGirl.create(:case_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 14
@@ -266,7 +266,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for control subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = Factory(:control_study_subject)
+				study_subject = FactoryGirl.create(:control_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 11
@@ -283,7 +283,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for mother subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = Factory(:mother_study_subject)
+				study_subject = FactoryGirl.create(:mother_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 11
@@ -300,7 +300,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = Factory(:study_subject)
+				study_subject = FactoryGirl.create(:study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, 'div#sidemenu' do
 					assert_select 'a', :count => 11
@@ -319,7 +319,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for case subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', :count => 14
@@ -330,7 +330,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for control subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
-			study_subject = Factory(:control_study_subject)
+			study_subject = FactoryGirl.create(:control_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', :count => 11
@@ -341,7 +341,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for mother subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
-			study_subject = Factory(:mother_study_subject)
+			study_subject = FactoryGirl.create(:mother_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', :count => 11
@@ -352,7 +352,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', :count => 11
@@ -376,7 +376,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
 		test "subject_side_menu for case subject and #{k} without login" do
 			self.params = { :controller => k }
-			study_subject = Factory(:case_study_subject)
+			study_subject = FactoryGirl.create(:case_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
 			assert_select response, 'div#sidemenu' do
 				assert_select 'a', :count => 14
@@ -516,7 +516,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "subject_id_bar should return subject_id_bar with study_subject" do
-		subject = Factory(:study_subject)
+		subject = FactoryGirl.create(:study_subject)
 		assert subject.is_a?(StudySubject)
 		response = HTML::Document.new( subject_id_bar(subject)	).root
 		assert_select response, 'div#id_bar' do
@@ -540,7 +540,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "do_not_contact should return do_not_contact if do not contact" do
-		subject = Factory(:study_subject,:do_not_contact => true)
+		subject = FactoryGirl.create(:study_subject,:do_not_contact => true)
 		assert subject.is_a?(StudySubject)
 		assert subject.do_not_contact?
 		response = HTML::Document.new( do_not_contact(subject) ).root
@@ -548,7 +548,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "do_not_contact should NOT return do_not_contact if NOT do not contact" do
-		subject = Factory(:study_subject,:do_not_contact => false)
+		subject = FactoryGirl.create(:study_subject,:do_not_contact => false)
 		assert  subject.is_a?(StudySubject)
 		assert !subject.do_not_contact?
 		response = HTML::Document.new( do_not_contact(subject) ).root
@@ -558,7 +558,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
 #	do_not_contact MUST be true or false (no nil)
 #	test "do_not_contact should NOT return do_not_contact if nil do not contact" do
-#		subject = Factory(:study_subject,:do_not_contact => nil)
+#		subject = FactoryGirl.create(:study_subject,:do_not_contact => nil)
 #		assert  subject.is_a?(StudySubject)
 #		assert_nil subject.do_not_contact
 #		response = HTML::Document.new( do_not_contact(subject) ).root
@@ -993,7 +993,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #	and this is proving a bit tricky to deal with here.
 #
 #	test "abstract_pages should return without being at subsection" do
-#		abstract = Factory(:abstract)
+#		abstract = FactoryGirl.create(:abstract)
 #		response = HTML::Document.new( abstract_pages(abstract) ).root 
 #		assert_select response, 'p.center' do
 #			assert_select 'a','Back to Abstract',1
@@ -1004,7 +1004,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #	test "abstract_pages should return being at the first subsection" do
 #		controller_name = Abstract.sections.first[:controller]
 #		@controller = "Abstract::#{controller_name}".constantize.new
-#		abstract = Factory(:abstract)
+#		abstract = FactoryGirl.create(:abstract)
 #		response = abstract_pages(abstract)
 #		puts response
 #	end
@@ -1012,7 +1012,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #	test "abstract_pages should return being at a middle subsection" do
 #		controller_name = Abstract.sections[6][:controller]
 #		@controller = "Abstract::#{controller_name}".constantize.new
-#		abstract = Factory(:abstract)
+#		abstract = FactoryGirl.create(:abstract)
 #		response = abstract_pages(abstract)
 #		puts response
 #	end
@@ -1020,7 +1020,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #	test "abstract_pages should return being at the last subsection" do
 #		controller_name = Abstract.sections.last[:controller]
 #		@controller = "Abstract::#{controller_name}".constantize.new
-#		abstract = Factory(:abstract)
+#		abstract = FactoryGirl.create(:abstract)
 #		response = abstract_pages(abstract)
 #		puts response
 #	end
@@ -1045,7 +1045,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	#	edit_link is only called from abstract section show pages
 	test "edit_link should return link with controller and id" do
 #		self.params = { :controller => 'abstracts', :id => 0 }
-#abstract = Factory(:abstract)
+#abstract = FactoryGirl.create(:abstract)
 #		self.params = { :controller => 'abstracts', :id => 0, :study_subject_id => 0 }
 #		self.params = { :controller => 'abstracts', :id => abstract.id, :study_subject_id => abstract.study_subject_id }
 #		self.params = { :controller => 'cbcs', :abstract_id => abstract.id, :study_subject_id => abstract.study_subject_id }

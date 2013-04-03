@@ -10,7 +10,7 @@ class IcfMasterIdsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:icf_master_id,options)
+		FactoryGirl.attributes_for(:icf_master_id,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

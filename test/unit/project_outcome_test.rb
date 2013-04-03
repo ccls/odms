@@ -11,7 +11,7 @@ class ProjectOutcomeTest < ActiveSupport::TestCase
 
 	test "project_outcome factory should create project outcome" do
 		assert_difference('ProjectOutcome.count',1) {
-			project_outcome = Factory(:project_outcome)
+			project_outcome = FactoryGirl.create(:project_outcome)
 			assert_match /Key\d*/, project_outcome.key
 			assert_match /Desc\d*/, project_outcome.description
 		}

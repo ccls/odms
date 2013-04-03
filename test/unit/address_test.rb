@@ -6,7 +6,7 @@ class AddressTest < ActiveSupport::TestCase
 	#	would have to modify class level test to try to put something
 	#	in the field, but would have to determine datatype and ......
 	test "should require unique external_address_id" do
-		Factory(:address,:external_address_id => 123456789)
+		FactoryGirl.create(:address,:external_address_id => 123456789)
 		address = Address.new(:external_address_id => 123456789)
 		assert !address.valid?
 		assert address.errors.matching?(:external_address_id,
@@ -41,7 +41,7 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "address factory should create address" do
 		assert_difference('Address.count',1) {
-			address = Factory(:address)
+			address = FactoryGirl.create(:address)
 			assert_match /Box \d*/, address.line_1
 			assert_equal "Berkeley", address.city
 			assert_equal "CA", address.state
@@ -51,33 +51,33 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "address factory should create address type" do
 		assert_difference('AddressType.count',1) {
-			address = Factory(:address)
+			address = FactoryGirl.create(:address)
 			assert_not_nil address.address_type
 		}
 	end
 
 	test "mailing_address should create address" do
 		assert_difference('Address.count',1) {
-			address = Factory(:mailing_address)
+			address = FactoryGirl.create(:mailing_address)
 		}
 	end
 
 	test "mailing_address should not create address type" do
 		assert_difference('AddressType.count',0) {
-			address = Factory(:mailing_address)
+			address = FactoryGirl.create(:mailing_address)
 			assert_equal address.address_type, AddressType['mailing']
 		}
 	end
 
 	test "residence_address should create address" do
 		assert_difference('Address.count',1) {
-			address = Factory(:residence_address)
+			address = FactoryGirl.create(:residence_address)
 		}
 	end
 
 	test "residence_address should create address type" do
 		assert_difference('AddressType.count',0) {
-			address = Factory(:residence_address)
+			address = FactoryGirl.create(:residence_address)
 			assert_equal address.address_type, AddressType['residence']
 		}
 	end
@@ -124,9 +124,9 @@ class AddressTest < ActiveSupport::TestCase
 
 #	doesn't really matter
 #	test "should order address chronologically reversed" do
-#		a1 = Factory(:address, :created_at => Date.jd(2440000) ).id
-#		a2 = Factory(:address, :created_at => Date.jd(2450000) ).id
-#		a3 = Factory(:address, :created_at => Date.jd(2445000) ).id
+#		a1 = FactoryGirl.create(:address, :created_at => Date.jd(2440000) ).id
+#		a2 = FactoryGirl.create(:address, :created_at => Date.jd(2450000) ).id
+#		a3 = FactoryGirl.create(:address, :created_at => Date.jd(2445000) ).id
 ##	dropped default scope
 ##		address_ids = Address.all.collect(&:id)
 #		address_ids = Address.order('created_at DESC').all.collect(&:id)

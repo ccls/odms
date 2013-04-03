@@ -11,7 +11,7 @@ class InterviewOutcomeTest < ActiveSupport::TestCase
 
 	test "interview_outcome factory should create interview outcome" do
 		assert_difference('InterviewOutcome.count',1) {
-			interview_outcome = Factory(:interview_outcome)
+			interview_outcome = FactoryGirl.create(:interview_outcome)
 			assert_match /Key\d*/,  interview_outcome.key
 			assert_match /Desc\d*/, interview_outcome.description
 		}

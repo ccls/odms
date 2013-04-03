@@ -7,7 +7,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 
 	test "studyid should be patid, case_control_type and orderno" do
 		StudySubject.any_instance.stubs(:get_next_patid).returns('123')
-		study_subject = Factory(:case_study_subject)
+		study_subject = FactoryGirl.create(:case_study_subject)
 		assert study_subject.is_case?
 		assert_not_nil study_subject.studyid
 		assert_nil study_subject.studyid_nohyphen
@@ -42,14 +42,14 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	end
  
 #	test "should pad subjectid with leading zeros before validation" do
-#		study_subject = Factory.build(:study_subject)
+#		study_subject = FactoryGirl.build(:study_subject)
 #		assert study_subject.subjectid.length < 6 
 #		study_subject.valid?	#save
 #		assert study_subject.subjectid.length == 6
 #	end 
 
 	test "should pad matchingid with leading zeros before validation" do
-		study_subject = Factory.build(:study_subject,{ :matchingid => '123' })
+		study_subject = FactoryGirl.build(:study_subject,{ :matchingid => '123' })
 		assert study_subject.matchingid.length < 6 
 		assert_equal '123', study_subject.matchingid
 		study_subject.valid?	#save
@@ -58,7 +58,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	end 
 
 	test "should pad patid with leading zeros before validation" do
-		study_subject = Factory.build(:study_subject)
+		study_subject = FactoryGirl.build(:study_subject)
 		study_subject.patid = '123'
 		assert study_subject.patid.length < 4
 		assert_equal '123', study_subject.patid
@@ -68,7 +68,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	end 
 
 	test "should upcase sex before validation" do
-		study_subject = Factory.build(:study_subject,:sex => 'dk')
+		study_subject = FactoryGirl.build(:study_subject,:sex => 'dk')
 		assert_equal 'dk', study_subject.sex
 		assert study_subject.valid?
 		assert_equal 'DK', study_subject.sex
@@ -76,9 +76,9 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 
 	#	remove ssn from factory and don't use class level test
 	test "should require unique ssn" do
-		Factory(:study_subject,:ssn => '123-45-6789')
+		FactoryGirl.create(:study_subject,:ssn => '123-45-6789')
 		assert_difference('StudySubject.count',0){
-			study_subject = Factory.build(:study_subject,:ssn => '123-45-6789')
+			study_subject = FactoryGirl.build(:study_subject,:ssn => '123-45-6789')
 			study_subject.save
 			assert study_subject.errors.matching?(:ssn,'has already been taken')
 		}
@@ -107,19 +107,19 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 
 	test "should generate orderno = 0 for case_control_type == 'c'" do
 		#	case_control_type is NOT the trigger.  SubjectType is.
-		study_subject = Factory(:case_study_subject).reload
+		study_subject = FactoryGirl.create(:case_study_subject).reload
 		assert_equal 0, study_subject.orderno
 	end
 
 	test "should not overwrite given studyid" do
-		study_subject = Factory(:study_subject,:studyid => 'MyStudyId').reload
+		study_subject = FactoryGirl.create(:study_subject,:studyid => 'MyStudyId').reload
 		assert_equal 'MyStudyId', study_subject.studyid
 	end
 
 	test "should set studyid with patid, case_control_type and orderno for" <<
 			" case_control_type c" do
 		StudySubject.any_instance.stubs(:get_next_patid).returns('123')
-		study_subject = Factory(:case_study_subject).reload
+		study_subject = FactoryGirl.create(:case_study_subject).reload
 		assert_equal "0123", study_subject.patid
 		assert_equal "C", study_subject.case_control_type
 		assert_equal "0", study_subject.orderno.to_s
@@ -130,14 +130,14 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	end
 
 	test "should generate subjectid on creation for any study_subject" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		assert_not_nil study_subject.subjectid
 		assert study_subject.subjectid.length == 6
 	end
 
 	test "should generate patid on creation of case_control_type == 'c'" do
 		assert_difference('StudySubject.maximum(:patid).to_i', 1) {
-			study_subject = Factory(:case_study_subject).reload
+			study_subject = FactoryGirl.create(:case_study_subject).reload
 			assert_not_nil study_subject.patid
 		}
 	end
@@ -146,13 +146,13 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 
 		test "should generate childid on creation of case_control_type #{cct}" do
 			assert_difference('StudySubject.maximum(:childid).to_i', 1) {
-				study_subject = Factory(:study_subject, :case_control_type => cct )
+				study_subject = FactoryGirl.create(:study_subject, :case_control_type => cct )
 				assert_not_nil study_subject.childid
 			}
 		end
 
 		test "should generate familyid == subjectid on creation of case_control_type #{cct}" do
-			study_subject = Factory(:study_subject, :case_control_type => cct )
+			study_subject = FactoryGirl.create(:study_subject, :case_control_type => cct )
 			assert_not_nil study_subject.subjectid
 			assert_not_nil study_subject.familyid
 			assert_equal   study_subject.subjectid, study_subject.familyid
@@ -175,7 +175,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	end
 
 	test "should generate matchingid == subjectid on creation of case" do
-		study_subject = Factory(:case_study_subject).reload
+		study_subject = FactoryGirl.create(:case_study_subject).reload
 		assert_not_nil study_subject.subjectid
 		assert_not_nil study_subject.matchingid
 		assert_equal   study_subject.subjectid, study_subject.matchingid
@@ -185,7 +185,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		#	existing data import
 		assert_difference( "StudySubject.maximum(:patid).to_i", 123 ) {	#	was 0, now 123
 		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = Factory(:case_study_subject, :patid => '123').reload
+			study_subject = FactoryGirl.create(:case_study_subject, :patid => '123').reload
 			assert_not_nil study_subject.studyid
 			assert_nil study_subject.studyid_nohyphen
 			assert_nil study_subject.studyid_intonly_nohyphen
@@ -198,7 +198,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		#	existing data import
 		assert_difference( "StudySubject.maximum(:childid).to_i", 123 ) {	#	was 0, now 123
 		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = Factory(:case_study_subject, :childid => '123').reload
+			study_subject = FactoryGirl.create(:case_study_subject, :childid => '123').reload
 			assert_equal 123, study_subject.childid
 		} } #}
 	end
@@ -206,7 +206,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	test "should not generate new orderno if given" do
 		#	existing data import
 		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = Factory(:case_study_subject, :orderno => 9).reload
+			study_subject = FactoryGirl.create(:case_study_subject, :orderno => 9).reload
 			assert_equal 9, study_subject.orderno
 		}
 	end
@@ -214,7 +214,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	test "should not generate new subjectid if given" do
 		#	existing data import
 		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = Factory(:case_study_subject, :subjectid => 'ABCDEF').reload
+			study_subject = FactoryGirl.create(:case_study_subject, :subjectid => 'ABCDEF').reload
 			assert_equal "ABCDEF", study_subject.subjectid
 		}
 	end
@@ -222,7 +222,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	test "should not generate new familyid if given" do
 		#	existing data import
 		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = Factory(:case_study_subject, :familyid => 'ABCDEF').reload
+			study_subject = FactoryGirl.create(:case_study_subject, :familyid => 'ABCDEF').reload
 			assert_equal "ABCDEF", study_subject.familyid
 		}
 	end
@@ -230,7 +230,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	test "should not generate new matchingid if given" do
 		#	existing data import
 		assert_difference( "StudySubject.count", 1 ) {
-			study_subject = Factory(:case_study_subject, :matchingid => '123456').reload
+			study_subject = FactoryGirl.create(:case_study_subject, :matchingid => '123456').reload
 			assert_equal "123456", study_subject.matchingid
 		}
 	end
@@ -254,26 +254,26 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 #	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '12345' for key 'index_identifiers_on_childid': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `local_registrar_no`, `patid`, `related_case_childid`) VALUES('407928', '2011-10-28 12:36:07', '3', NULL, '000000002', '2011-10-28 12:36:07', '2', NULL, '2', '2', NULL, '2', 2, NULL, 12345, NULL, '2', NULL, NULL, '2', '2', '407928', NULL, NULL, '2', NULL, NULL)
 	test "duplicating childid should raise database error" do
 		StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
-		study_subject1 = Factory(:study_subject)
+		study_subject1 = FactoryGirl.create(:study_subject)
 		assert_not_nil study_subject1.childid
 #	rails 2
 #		assert_raises(ActiveRecord::StatementInvalid){
 #	rails 3
 		assert_raises(ActiveRecord::RecordNotUnique){
-			study_subject2 = Factory(:study_subject)
+			study_subject2 = FactoryGirl.create(:study_subject)
 		}
 	end
 
 #	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '0123-C-0' for key 'piccton': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `local_registrar_no`, `patid`, `related_case_childid`) VALUES('975152', '2011-10-28 12:36:08', 'C', NULL, '000000004', '2011-10-28 12:36:08', '4', '975152', '4', '4', NULL, '4', 4, NULL, 2, NULL, '4', 0, NULL, '4', '4', '975152', NULL, NULL, '4', '0123', NULL)
 	test "duplicating patid should raise database error" do
 		StudySubject.any_instance.stubs(:get_next_patid).returns('0123')
-		study_subject1 = Factory(:case_study_subject)
+		study_subject1 = FactoryGirl.create(:case_study_subject)
 		assert_not_nil study_subject1.patid
 #	rails 2
 #		assert_raises(ActiveRecord::StatementInvalid){
 #	rails 3
 		assert_raises(ActiveRecord::RecordNotUnique){
-			study_subject2 = Factory(:case_study_subject)
+			study_subject2 = FactoryGirl.create(:case_study_subject)
 		}
 	end
 
@@ -283,13 +283,13 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 #	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '012345' for key 'index_identifiers_on_subjectid': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `local_registrar_no`, `patid`, `related_case_childid`) VALUES('012345', '2011-10-28 12:36:08', '5', NULL, '000000006', '2011-10-28 12:36:08', '6', NULL, '6', '6', NULL, '6', 6, NULL, 4, NULL, '6', NULL, NULL, '6', '6', '012345', NULL, NULL, '6', NULL, NULL)
 	test "duplicating subjectid should raise database error" do
 		StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
-		study_subject1 = Factory(:study_subject)
+		study_subject1 = FactoryGirl.create(:study_subject)
 		assert_not_nil study_subject1.subjectid
 #	rails 2
 #		assert_raises(ActiveRecord::StatementInvalid){
 #	rails 3
 		assert_raises(ActiveRecord::RecordNotUnique){
-			study_subject2 = Factory(:study_subject)
+			study_subject2 = FactoryGirl.create(:study_subject)
 		}
 	end
 

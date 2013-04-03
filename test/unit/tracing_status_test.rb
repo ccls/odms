@@ -11,7 +11,7 @@ class TracingStatusTest < ActiveSupport::TestCase
 
 	test "tracing_status factory should create tracing status" do
 		assert_difference('TracingStatus.count',1) {
-			tracing_status = Factory(:tracing_status)
+			tracing_status = FactoryGirl.create(:tracing_status)
 			assert_match /Key\d*/, tracing_status.key
 			assert_match /Desc\d*/, tracing_status.description
 		}

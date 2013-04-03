@@ -24,7 +24,7 @@ class InstrumentTest < ActiveSupport::TestCase
 
 	test "instrument factory should create instrument" do
 		assert_difference('Instrument.count',1) {
-			instrument = Factory(:instrument)
+			instrument = FactoryGirl.create(:instrument)
 			assert_equal 'Instrument Name', instrument.name
 			assert_match /Key\d*/, instrument.key
 			assert_match /Desc\d*/, instrument.description
@@ -33,7 +33,7 @@ class InstrumentTest < ActiveSupport::TestCase
 
 	test "instrument factory should create project" do
 		assert_difference('Project.count',1) {
-			instrument = Factory(:instrument)
+			instrument = FactoryGirl.create(:instrument)
 			assert_not_nil instrument.project
 		}
 	end

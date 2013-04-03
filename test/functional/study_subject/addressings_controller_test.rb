@@ -28,16 +28,16 @@ class StudySubject::AddressingsControllerTest < ActionController::TestCase
 #	assert_no_access_without_login
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:addressing,{
+		FactoryGirl.attributes_for(:addressing,{
 			:data_source_id => DataSource['unknown'].id
 		}.merge(options))
 	end
 
 	def address_attributes(options={})
 		{ 
-			:address_attributes => Factory.attributes_for(
+			:address_attributes => FactoryGirl.attributes_for(
 				:address, {
-					:address_type_id => Factory(:address_type).id
+					:address_type_id => FactoryGirl.create(:address_type).id
 				}.merge(options) 
 			) 
 		}
@@ -46,7 +46,7 @@ class StudySubject::AddressingsControllerTest < ActionController::TestCase
 	site_administrators.each do |cu|
 
 		test "should destroy with #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 #			assert_difference('Address.count',-1){
 			assert_difference('Addressing.count',-1){
@@ -59,8 +59,8 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-			addressing = Factory(:addressing)
-			study_subject = Factory(:study_subject)
+			addressing = FactoryGirl.create(:addressing)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference('Address.count',0){
 			assert_difference('Addressing.count',0){
@@ -72,7 +72,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			assert_difference('Address.count',0){
 			assert_difference('Addressing.count',0){
@@ -84,7 +84,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT destroy with invalid id #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			assert_difference('Address.count',0){
 			assert_difference('Addressing.count',0){
@@ -100,7 +100,7 @@ pending "Doesn't destroy Address yet"
 	non_site_administrators.each do |cu|
 	
 		test "should NOT destroy with #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			delete :destroy, :study_subject_id => addressing.study_subject_id,
 				:id => addressing.id
@@ -113,7 +113,7 @@ pending "Doesn't destroy Address yet"
 	site_editors.each do |cu|
 
 		test "should get new addressing with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -131,7 +131,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should create new addressing with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference("StudySubject.find(#{study_subject.id}).addressings.count",1) {
 			assert_difference("StudySubject.find(#{study_subject.id}).addresses.count",1) {
@@ -147,7 +147,7 @@ pending "Doesn't destroy Address yet"
 
 #		test "should set verified_on on create if is_verified " <<
 #				"with #{cu} login" do
-#			study_subject = Factory(:study_subject)
+#			study_subject = FactoryGirl.create(:study_subject)
 #			login_as send(cu)
 #			post :create, :study_subject_id => study_subject.id,
 #				:addressing => factory_attributes(
@@ -160,7 +160,7 @@ pending "Doesn't destroy Address yet"
 #
 #		test "should set verified_by on create if is_verified " <<
 #				"with #{cu} login" do
-#			study_subject = Factory(:study_subject)
+#			study_subject = FactoryGirl.create(:study_subject)
 #			login_as u = send(cu)
 #			post :create, :study_subject_id => study_subject.id,
 #				:addressing => factory_attributes(
@@ -186,7 +186,7 @@ pending "Doesn't destroy Address yet"
 
 		test "should NOT create new addressing with #{cu} login " <<
 				"when create fails" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			Addressing.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
@@ -203,7 +203,7 @@ pending "Doesn't destroy Address yet"
 		test "should NOT create new addressing with #{cu} login " <<
 				"and invalid addressing" do
 			Addressing.any_instance.stubs(:valid?).returns(false)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
@@ -219,7 +219,7 @@ pending "Doesn't destroy Address yet"
 		test "should NOT create new addressing with #{cu} login " <<
 				"and invalid address" do
 			Address.any_instance.stubs(:create_or_update).returns(false)
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
@@ -236,7 +236,7 @@ pending "Doesn't destroy Address yet"
 
 #		test "should set verified_on on update if is_verified " <<
 #				"with #{cu} login" do
-#			addressing = Factory(:addressing)
+#			addressing = FactoryGirl.create(:addressing)
 #			login_as send(cu)
 #			put :update, :study_subject_id => addressing.study_subject_id, 
 #				:id => addressing.id,
@@ -250,7 +250,7 @@ pending "Doesn't destroy Address yet"
 #
 #		test "should set verified_by on update if is_verified " <<
 #				"with #{cu} login" do
-#			addressing = Factory(:addressing)
+#			addressing = FactoryGirl.create(:addressing)
 #			login_as u = send(cu)
 #			put :update, :study_subject_id => addressing.study_subject_id,
 #				:id => addressing.id,
@@ -265,7 +265,7 @@ pending "Doesn't destroy Address yet"
 
 		test "should NOT update addressing with #{cu} login " <<
 				"when address update fails" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 			Address.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
@@ -281,7 +281,7 @@ pending "Doesn't destroy Address yet"
 
 		test "should NOT update addressing with #{cu} login " <<
 				"and invalid address" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 			Address.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
@@ -299,7 +299,7 @@ pending "Doesn't destroy Address yet"
 
 		test "should NOT add 'subject_moved' event to subject if subject_moved is '1'" <<
 				" if not residence address on update with #{cu} login" do
-			addressing = Factory(:current_mailing_addressing)
+			addressing = FactoryGirl.create(:current_mailing_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -311,7 +311,7 @@ pending "Doesn't destroy Address yet"
 	
 		test "should NOT add 'subject_moved' event to subject if subject_moved is '1'" <<
 				" if was not current address on update with #{cu} login" do
-			addressing = Factory(:residence_addressing)
+			addressing = FactoryGirl.create(:residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -323,7 +323,7 @@ pending "Doesn't destroy Address yet"
 	
 		test "should add 'subject_moved' event to subject if subject_moved is '1'" <<
 				" on update with #{cu} login" do
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -335,7 +335,7 @@ pending "Doesn't destroy Address yet"
 	
 		test "should not add 'subject_moved' event to subject if subject_moved is '0'" <<
 				" on update with #{cu} login" do
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -347,7 +347,7 @@ pending "Doesn't destroy Address yet"
 	
 		test "should add 'subject_moved' event to subject if subject_moved is 'true'" <<
 				" on update with #{cu} login" do
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',1) {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -359,7 +359,7 @@ pending "Doesn't destroy Address yet"
 	
 		test "should not add 'subject_moved' event to subject if subject_moved is 'false'" <<
 				" on update with #{cu} login" do
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -371,7 +371,7 @@ pending "Doesn't destroy Address yet"
 	
 		test "should not add 'subject_moved' event to subject if subject_moved is nil" <<
 				" on update with #{cu} login" do
-			addressing = Factory(:current_residence_addressing)
+			addressing = FactoryGirl.create(:current_residence_addressing)
 			login_as send(cu)
 			assert_difference('OperationalEvent.count',0) {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -382,7 +382,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should edit with #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			get :edit, :study_subject_id => addressing.study_subject_id,
 				:id => addressing.id
@@ -393,8 +393,8 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
-			addressing = Factory(:addressing)
-			study_subject = Factory(:study_subject)
+			addressing = FactoryGirl.create(:addressing)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id,
 				:id => addressing.id
@@ -403,7 +403,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT edit with invalid study_subject_id #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			get :edit, :study_subject_id => 0,
 				:id => addressing.id
@@ -412,7 +412,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT edit with invalid id #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			get :edit, :study_subject_id => addressing.study_subject_id,
 				:id => 0
@@ -421,7 +421,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should update with #{cu} login" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_changes("Addressing.find(#{addressing.id}).updated_at") {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -433,7 +433,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT update with save failure and #{cu} login" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 			Addressing.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
@@ -447,7 +447,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT update with invalid and #{cu} login" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 			Addressing.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
@@ -461,8 +461,8 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT update with mismatched study_subject_id #{cu} login" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
-			study_subject = Factory(:study_subject)
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
@@ -474,7 +474,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT update with invalid study_subject_id #{cu} login" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
 				put :update, :study_subject_id => 0,
@@ -486,7 +486,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT update with invalid id #{cu} login" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
 				put :update, :study_subject_id => addressing.study_subject_id,
@@ -502,7 +502,7 @@ pending "Doesn't destroy Address yet"
 	non_site_editors.each do |cu|
 
 		test "should NOT get new addressing with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -510,7 +510,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT create new addressing with #{cu} login" do
-			study_subject = Factory(:study_subject)
+			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
 			assert_difference('Address.count',0) {
@@ -522,7 +522,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT edit with #{cu} login" do
-			addressing = Factory(:addressing)
+			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			get :edit, :study_subject_id => addressing.study_subject_id,
 				:id => addressing.id
@@ -531,7 +531,7 @@ pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT update with #{cu} login" do
-			addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
 				put :update, :study_subject_id => addressing.study_subject.id,
@@ -547,13 +547,13 @@ pending "Doesn't destroy Address yet"
 	#	not logged in ..
 
 	test "should NOT get new addressing without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		get :new, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT create new addressing without login" do
-		study_subject = Factory(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject)
 		assert_difference('Addressing.count',0) {
 		assert_difference('Address.count',0) {
 			post :create, :study_subject_id => study_subject.id,
@@ -563,14 +563,14 @@ pending "Doesn't destroy Address yet"
 	end
 
 	test "should NOT edit without login" do
-		addressing = Factory(:addressing)
+		addressing = FactoryGirl.create(:addressing)
 		get :edit, :study_subject_id => addressing.study_subject_id,
 			:id => addressing.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT update without login" do
-		addressing = Factory(:addressing, :updated_at => ( Time.now - 1.day ) )
+		addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
 		deny_changes("Addressing.find(#{addressing.id}).updated_at") {
 			put :update, :study_subject_id => addressing.study_subject_id,
 				:id => addressing.id, :addressing => factory_attributes
@@ -579,7 +579,7 @@ pending "Doesn't destroy Address yet"
 	end
 
 	test "should NOT destroy without login" do
-		addressing = Factory(:addressing)
+		addressing = FactoryGirl.create(:addressing)
 		assert_difference('Addressing.count',0) {
 		assert_difference('Address.count',0) {
 			delete :destroy, :study_subject_id => addressing.study_subject_id,
@@ -591,8 +591,8 @@ pending "Doesn't destroy Address yet"
 protected
 
 	def addressing_with_address(options={})
-		Factory.attributes_for(:addressing, {
-			:address_attributes => Factory.attributes_for(:address,{
+		FactoryGirl.attributes_for(:addressing, {
+			:address_attributes => FactoryGirl.attributes_for(:address,{
 				:address_type => AddressType['residence']
 			}.merge(options[:address]||{}))
 		}.merge(options[:addressing]||{}))

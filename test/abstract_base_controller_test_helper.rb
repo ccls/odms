@@ -11,7 +11,7 @@ module AbstractBaseControllerTestHelper
 	end
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:abstract,options)
+		FactoryGirl.attributes_for(:abstract,options)
 	end
 
 	module Tests
@@ -44,7 +44,7 @@ module AbstractBaseControllerTestHelper
 				end
 
 				test "should show abstract with patient and #{cu} login" do
-					patient = Factory(:patient)
+					patient = FactoryGirl.create(:patient)
 					abstract = create_abstract(:study_subject => patient.study_subject)
 					login_as send(cu)
 #					get :show, :abstract_id => abstract.id
@@ -67,7 +67,7 @@ module AbstractBaseControllerTestHelper
 				end
 			
 				test "should edit abstract with patient and #{cu} login" do
-					patient = Factory(:patient)
+					patient = FactoryGirl.create(:patient)
 					abstract = create_abstract(:study_subject => patient.study_subject)
 					login_as send(cu)
 #					get :edit, :abstract_id => abstract.id

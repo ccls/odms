@@ -11,7 +11,7 @@ class SampleOutcomeTest < ActiveSupport::TestCase
 
 	test "sample_outcome factory should create sample outcome" do
 		assert_difference('SampleOutcome.count',1) {
-			sample_outcome = Factory(:sample_outcome)
+			sample_outcome = FactoryGirl.create(:sample_outcome)
 			assert_match /Key\d*/,  sample_outcome.key
 			assert_match /Desc\d*/, sample_outcome.description
 		}

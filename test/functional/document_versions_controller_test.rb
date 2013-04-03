@@ -10,7 +10,7 @@ class DocumentVersionsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		Factory.attributes_for(:document_version, {
+		FactoryGirl.attributes_for(:document_version, {
 			:document_type_id => DocumentType.random.id }.merge(options) )
 #	random is ok here, but if a validation is associated with
 #	any particular DocumentType, this will need changed

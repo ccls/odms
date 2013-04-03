@@ -20,7 +20,7 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 
 	test "instrument_version factory should create instrument version" do
 		assert_difference('InstrumentVersion.count',1) {
-			instrument_version = Factory(:instrument_version)
+			instrument_version = FactoryGirl.create(:instrument_version)
 			assert_match /Key\d*/, instrument_version.key
 			assert_match /Desc\d*/, instrument_version.description
 		}
@@ -28,7 +28,7 @@ class InstrumentVersionTest < ActiveSupport::TestCase
 
 	test "instrument_version factory should create instrument type" do
 		assert_difference('InstrumentType.count',1) {
-			instrument_version = Factory(:instrument_version)
+			instrument_version = FactoryGirl.create(:instrument_version)
 			assert_not_nil instrument_version.instrument_type
 		}
 	end

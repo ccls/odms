@@ -10,7 +10,7 @@ class SampleLocationTest < ActiveSupport::TestCase
 
 	test "sample_location factory should create organization" do
 		assert_difference('Organization.count',1) {
-			sample_location = Factory(:sample_location)
+			sample_location = FactoryGirl.create(:sample_location)
 			assert_not_nil sample_location.organization
 		}
 	end

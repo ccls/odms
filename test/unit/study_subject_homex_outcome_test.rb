@@ -8,7 +8,7 @@ class StudySubjectHomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference( 'HomexOutcome.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:homex_outcome_attributes => Factory.attributes_for(:homex_outcome))
+				:homex_outcome_attributes => FactoryGirl.attributes_for(:homex_outcome))
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }
@@ -26,8 +26,8 @@ class StudySubjectHomexOutcomeTest < ActiveSupport::TestCase
 	test "should NOT destroy homex_outcome with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('HomexOutcome.count',1) {
-			@study_subject = Factory(:study_subject)
-			Factory(:homex_outcome, :study_subject => @study_subject)
+			@study_subject = FactoryGirl.create(:study_subject)
+			FactoryGirl.create(:homex_outcome, :study_subject => @study_subject)
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('HomexOutcome.count',0) {
@@ -57,7 +57,7 @@ class StudySubjectHomexOutcomeTest < ActiveSupport::TestCase
 
 		test "should return #{method_name} with homex_outcome" do
 			study_subject = create_study_subject(
-				:homex_outcome_attributes => Factory.attributes_for(:homex_outcome))
+				:homex_outcome_attributes => FactoryGirl.attributes_for(:homex_outcome))
 			assert_not_nil study_subject.send(method_name)
 		end
 

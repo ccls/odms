@@ -12,13 +12,13 @@ class HomeExposureResponseTest < ActiveSupport::TestCase
 
 	test "home_exposure_response factory should create home exposure response" do
 		assert_difference('HomeExposureResponse.count',1) {
-			home_exposure_response = Factory(:home_exposure_response)
+			home_exposure_response = FactoryGirl.create(:home_exposure_response)
 		}
 	end
 
 	test "home_exposure_response factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			home_exposure_response = Factory(:home_exposure_response)
+			home_exposure_response = FactoryGirl.create(:home_exposure_response)
 			assert_not_nil home_exposure_response.study_subject
 		}
 	end
