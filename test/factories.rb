@@ -1,21 +1,21 @@
-	def random_pos_neg
-		[nil,1,2][rand(3)]
-	end
-	def random_true_or_false
-		[true,false][rand(2)]
-	end
-	def random_yndk
-		[nil,1,2,999][rand(4)]
-	end
-	def random_date
-		Date.jd( 2440000 + rand(15000) )
-	end
-	def random_float
-		rand * 100
-	end
-	def random_sex
-		%w( M F )[rand(2)]
-	end
+def random_pos_neg
+	[nil,1,2][rand(3)]
+end
+def random_true_or_false
+	[true,false][rand(2)]
+end
+def random_yndk
+	[nil,1,2,999][rand(4)]
+end
+def random_date
+	Date.jd( 2440000 + rand(15000) )
+end
+def random_float
+	rand * 100
+end
+def random_sex
+	%w( M F )[rand(2)]
+end
 	
 FactoryGirl.define do
 	#
@@ -43,7 +43,8 @@ FactoryGirl.define do
 	#	Always want this date between yesterday and <15 years ago
 	#	as default was_under_15 is Yes and admit_date is Today.
 	#	f.dob Date.jd(2440000+rand(15000)).to_s	#	no, not like this anymore
-		f.dob { Date.jd( ((Date.current - 14.years).jd)+ rand(5000)).to_s }
+	#	f.dob Date.jd( ((Date.current - 14.years).jd)+ rand(5000)).to_s # and not like this
+		f.dob { Date.jd( ((Date.current - 14.years).jd)+ rand(5000)).to_s }	# like this
 	end
 	#factory :minimum_nonwaivered_form_attributes, :parent => :minimum_raf_form_attributes do |f|
 	#	f.addressings_attributes {{ "0"=>{ "address_attributes"=> FactoryGirl.attributes_for(:address) } }}

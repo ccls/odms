@@ -128,8 +128,11 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "minimum_raf_form_attributes should create differing random dobs" do
-pending
-		#	TODO build a couple and check that they are not the same
+		#	build a couple and check that they are not the same
+		#	it is possible that this will occassionally fail
+		dob1 = FactoryGirl.attributes_for(:minimum_raf_form_attributes)[:dob]
+		dob2 = FactoryGirl.attributes_for(:minimum_raf_form_attributes)[:dob]
+		assert dob1 != dob2, "Expected #{dob1} and #{dob2} to differ"
 	end
 
 	test "mother study_subject factory should create study subject" do
