@@ -117,6 +117,7 @@ namespace :anand do
 	#	20130402
 	#	
 	task :import_cdc_biospecimens_inventory_not_on_gegl_manifest => :environment do
+#		raise "This task has been disabled."
 		csv_out = CSV.open('anand/20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest-OUTPUT.csv','w')
 		csv_out << ['LabelID','SubjectID','SampleID','ProjectID','Gender','smp_type','Amount (mL)',
 			'Box','Group','Pos','Container']
@@ -165,6 +166,8 @@ namespace :anand do
 			csv_out << out
 		end	#	CSV.open( '20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv',
 		csv_out.close
+		puts "Commiting to Sunspot index."
+		Sunspot.commit
 	end	#	task :import_cdc_biospecimens_inventory_not_on_gegl_manifest => :environment do
 
 	#	20130401
@@ -256,6 +259,7 @@ namespace :anand do
 
 	#	20130401
 	task :import_maternal_biospecimens_inventory => :environment do
+#		raise "This task has been disabled."
 		error_file = File.open('anand/CDC Maternal Inventory 11_10_08.txt','w')
 		csv_out = CSV.open('anand/UCSF Maternal Samples.csv','w') 
 		csv_out << ['LabelID','SubjectID','SampleID','ProjectID','Gender','smp_type',
@@ -385,7 +389,9 @@ namespace :anand do
 		childid_cdcid_out.each { |childid,cdcid| childid_cdcid_csv_out << [childid,cdcid] }
 		childid_cdcid_csv_out.close
 
-	end	#	task :check_maternal_biospecimens_inventory
+		puts "Commiting to Sunspot index."
+		Sunspot.commit
+	end	#	task :import_maternal_biospecimens_inventory
 
 	#	20130321
 	#	Just confirm that the childids in this csv file exist.
@@ -457,6 +463,8 @@ namespace :anand do
 			csv_out << out
 		end	#	CSV.open( 'Guthrie cards in
 		csv_out.close
+		puts "Commiting to Sunspot index."
+		Sunspot.commit
 	end	#	task :import_guthrie_card_inventory 
 
 	#	20130321
@@ -496,7 +504,7 @@ namespace :anand do
 			(i=CSV.open( 'anand/subjects_with_blood_spot.csv', 
 					'rb',{ :headers => true })).each do |line|
 				out = in_columns.collect{|c| line[c] }
-				subject = StudySubject.where(:subjectid => line['subjectid']).first
+				subject = StudySubject.with_subjectid(line['subjectid']).first
 				external_ids = subject.samples.where(:sample_type_id => 16).where("external_id LIKE '%G'").collect(&:external_id).compact.join(', ')
 				external_ids = nil if external_ids.blank?
 				out << external_ids
