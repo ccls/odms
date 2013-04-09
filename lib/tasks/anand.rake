@@ -117,7 +117,7 @@ namespace :anand do
 	#	20130402
 	#	
 	task :import_cdc_biospecimens_inventory_not_on_gegl_manifest => :environment do
-#		raise "This task has been disabled."
+		raise "This task has been disabled."
 		csv_out = CSV.open('anand/20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest-OUTPUT.csv','w')
 		csv_out << ['LabelID','SubjectID','SampleID','ProjectID','Gender','smp_type','Amount (mL)',
 			'Box','Group','Pos','Container']
@@ -259,7 +259,7 @@ namespace :anand do
 
 	#	20130401
 	task :import_maternal_biospecimens_inventory => :environment do
-#		raise "This task has been disabled."
+		raise "This task has been disabled."
 		error_file = File.open('anand/CDC Maternal Inventory 11_10_08.txt','w')
 		csv_out = CSV.open('anand/UCSF Maternal Samples.csv','w') 
 		csv_out << ['LabelID','SubjectID','SampleID','ProjectID','Gender','smp_type',
@@ -414,7 +414,7 @@ namespace :anand do
 	#	Loop over the guthrie card inventory and create new samples
 	#	and then output a combination of the input and the new sample data.
 	task :import_guthrie_card_inventory => :environment do
-#		raise "This task has been disabled."
+		raise "This task has been disabled."
 		csv_out = CSV.open('anand/Guthrie cards inventory 02_05_13- OUTPUT.csv','w') 
 		csv_out << %w(
 			guthrieid subjectid sampleid projectid gender smp_type book page pocket
