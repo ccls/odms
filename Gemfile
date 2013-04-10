@@ -162,7 +162,7 @@ group :test do
 	gem "factory_girl_rails"	#	loads version matching factory_girl
 
 	gem 'ccls-html_test'
-	gem 'capybara'
+	gem 'capybara', '~> 2.0.0'
 	gem 'capybara-webkit'
 end
 
