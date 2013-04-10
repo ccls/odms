@@ -69,7 +69,7 @@ namespace :data do
 	end
 
 
-	task :diseminate_icf_master_ids => :environment do
+	task :disseminate_icf_master_ids => :environment do
 
 		StudySubject.cases.each do |subject|
 			puts "Processing case subject matchingid #{subject.matchingid}"
