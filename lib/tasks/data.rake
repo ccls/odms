@@ -1,6 +1,97 @@
 namespace :app do
 namespace :data do
 
+	task :checkup => :environment do
+
+
+		StudySubject.select('subjectid').collect(&:subjectid).each do |subjectid| 
+
+#			StudySubject.with_familyid(subjectid).update_all(:mother_icf_master_id => StudySubject.mothers.with_familyid(subjectid).first.try(:icf_master_id))}
+
+			puts "Checking subjectid #{subjectid}"
+
+			if %w( 3t82t8 ).include? subjectid
+				puts "skipping known badness"
+				next
+			end
+
+			puts "There should be only one subject with this subjectid.  (Would've failed already)"
+			subjects = StudySubject.with_subjectid(subjectid)
+			subject = subjects.first
+			raise "More than one subject with subjectid?" if subjects.length != 1
+
+#			puts "Unless is mother, probably more than one family member"
+#			puts "Is this subject a mother? :#{subject.is_mother?}:"
+#			family  = StudySubject.with_familyid(subjectid)
+#			puts "Family members: #{family.length}:"
+#
+#			mothers = StudySubject.mothers.with_familyid(subjectid)
+#			puts "Mothers count: #{mothers.length}:"
+#			
+##			puts "There should be no more than one mother with a familyid with this subjectid"
+#
+#			puts "If is case, probably more than one matching subject"
+#			puts "Is this subject a case? :#{subject.is_case?}:"
+#			matching = StudySubject.with_matchingid(subjectid)
+#			puts "Matching members: #{matching.length}:"
+
+
+			if subject.is_case?
+
+				puts "There should be ONLY THIS CASE subject with this as a matchingid"
+				matching = StudySubject.cases.with_matchingid(subjectid)
+				raise "There should be ONLY THIS CASE subject with this as a matchingid" unless matching.length == 1
+
+			elsif subject.is_control?
+
+				puts "There should be no subject with this as a matchingid"
+				matching = StudySubject.with_matchingid(subjectid)
+				raise "There should be no subject with this as a matchingid" unless matching.empty?
+
+			else	#	is mother, father or twin
+
+				puts "There should be no subject with this as a matchingid"
+				matching = StudySubject.with_matchingid(subjectid)
+				raise "There should be no subject with this as a matchingid" unless matching.empty?
+
+				puts "There should be no subject with this as a familyid"
+				family = StudySubject.with_familyid(subjectid)
+				raise "There should be no subject with this as a familyid" unless family.empty?
+
+
+
+			end
+
+			puts; puts
+
+		end
+
+	end
+
+
+	task :diseminate_icf_master_ids => :environment do
+
+		StudySubject.cases.each do |subject|
+			puts "Processing case subject matchingid #{subject.matchingid}"
+			#	its a case so subjectid, familyid and matchingid are the same
+			StudySubject.with_matchingid(subject.subjectid).update_all(
+				:case_icf_master_id => subject.icf_master_id)
+		end
+
+		StudySubject.mothers.each do |subject|
+			puts "Processing mother subject familyid #{subject.familyid}"
+			#	its a mother, so subjectid, familyid and matchingid are all DIFFERENT
+			#	subjectid is itself
+			#	familyid is the subjectid of the child (case or control)
+			#	matchingid is the subjectid of the case child
+			StudySubject.with_familyid(subject.familyid).update_all(
+				:mother_icf_master_id => subject.icf_master_id)
+		end
+
+#irb(main):017:0> StudySubject.select('subjectid').collect(&:subjectid).each{|subjectid| StudySubject.with_familyid(subjectid).update_all(:mother_icf_master_id => StudySubject.mothers.with_familyid(subjectid).first.try(:icf_master_id))}
+	end
+
+
 	desc "Show basic data report and counts"
 	task :report => :environment do
 		puts

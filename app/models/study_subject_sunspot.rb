@@ -9,12 +9,12 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	def case_icf_master_id
-		case_subject.try(:icf_master_id)	#||'[No Case Subject]'
-	end
-	def mother_icf_master_id
-		mother.try(:icf_master_id)	#||'[No Mother Subject]'
-	end
+#	def case_icf_master_id
+#		case_subject.try(:icf_master_id)	#||'[No Case Subject]'
+#	end
+#	def mother_icf_master_id
+#		mother.try(:icf_master_id)	#||'[No Mother Subject]'
+#	end
 	def father_ssn
 		birth_data.order('created_at DESC').collect(&:father_ssn).collect(&:to_ssn).compact.first
 	end

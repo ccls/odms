@@ -1,5 +1,6 @@
 #	only superusers can read, create, edit or destroy
 #	this will be the update
+#	THESE CANNOT BE EMPTY
 superuser_resources:
   - birth_datum_updates 
   - icf_master_tracker_updates 
