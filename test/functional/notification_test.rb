@@ -11,7 +11,6 @@ class NotificationTest < ActionMailer::TestCase
 		mail = Notification.raf_submitted(study_subject)
 		assert_equal mail.subject,
 			"TEST [CCLS Patient Notification Received] Identifier: 1234MAIL"
-#		assert_equal ["magee@berkeley.edu"], mail.to
 		assert_equal ["notifyccls@berkeley.edu"], mail.to
 		assert_equal ["notifyccls@berkeley.edu"], mail.from
 		assert_equal ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"], mail.cc

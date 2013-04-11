@@ -6,7 +6,7 @@ namespace :users do
 		puts "Adding users"
 		admin_uids = []
 		admin_uids.push(859908)	#	Jake
-		admin_uids.push(228181)	#	Magee
+#		admin_uids.push(228181)	#	Magee
 		editor_uids = []
 		editor_uids.push(930799)	#	Pagan
 		editor_uids.push(721353)	#	Nadia
