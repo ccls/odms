@@ -70,9 +70,11 @@ RAILS_ENV=production
 
 #
 #	import bc_info screening data (from ICF)
-#	Every Wednesday at 7PM ( NOT YET THOUGH )
+#	Every OTHER Wednesday at 7PM ( NOT YET THOUGH )
 #
-#0 19 * * 3 cd /my/ruby/odms/ ; rake automate:import_screening_data >> /my/ruby/logs/automate_import_screening_data.log
+#	can't really do the "OTHER" with just cron
+#
+0 19 * * 3 cd /my/ruby/odms/ ; rake automate:import_screening_data >> /my/ruby/logs/automate_import_screening_data.log
 
 
 
