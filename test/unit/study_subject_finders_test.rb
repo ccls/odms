@@ -180,6 +180,16 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert !with_icf_master_id.include?(noise)
 	end
 
+
+	test "should find with childid" do
+pending
+	end
+
+	test "should find with studyid" do
+pending
+	end
+
+
 	test "should return child if subject is mother of case" do
 		study_subject = FactoryGirl.create(:complete_case_study_subject)
 		mother = study_subject.create_mother

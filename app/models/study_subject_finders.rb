@@ -31,8 +31,16 @@ base.class_eval do
 		where(:patid => sprintf("%04d",patid.to_i) )
 	end
 
+	def self.with_childid(childid)
+		where(:childid => childid.to_i)
+	end
+
 	def self.with_icf_master_id(icf_master_id)
 		where(:icf_master_id => icf_master_id.to_s.squish)
+	end
+
+	def self.with_studyid(studyid)
+		where(:studyid => studyid.to_s.squish)
 	end
 
 	def self.with_familyid(familyid)
