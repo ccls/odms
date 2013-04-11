@@ -104,6 +104,7 @@ base.class_eval do
 			patid subjectid hospital_key
 			diagnosis hospital hospital_no
 			languages races
+			state_id_no state_registrar_no local_registrar_no
 		)
 	end
 
