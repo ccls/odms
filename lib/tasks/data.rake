@@ -20,80 +20,101 @@ namespace :data do
 
 		StudySubject.all.each do |study_subject| 
 
-			subjectid = study_subject.subjectid
-
-			puts "Checking subjectid #{subjectid}"
-
-			subjects = StudySubject.with_subjectid(subjectid)
+			puts "Checking subjectid #{study_subject.subjectid}"
+			subjects = StudySubject.with_subjectid(study_subject.subjectid)
 			subject = subjects.first
 			assert subjects.length == 1, 
 				"There should be only one subject with this subjectid.  (Would've failed already)"
 
-			assert subject.subjectid.length == 6, 
-				"subjectid #{subject.subjectid} should be 6 chars long"
-			assert subject.familyid.length == 6, 
-				"familyid #{subject.familyid} should be 6 chars long"
-			assert subject.matchingid.length == 6, 
-				"matchingid #{subject.matchingid} should be 6 chars long"
+			puts "Checking icf_master_id #{study_subject.icf_master_id} unless blank"
+			unless study_subject.icf_master_id.blank?
+				subjects = StudySubject.with_icf_master_id(study_subject.icf_master_id)
+				subject = subjects.first
+				assert subjects.length == 1, 
+					"There should be only one subject with this icf_master_id.  (Would've failed already)"
+			end
 
-			if subject.is_case?
+			puts "Checking childid #{study_subject.childid} unless blank"
+			unless study_subject.childid.blank?
+				subjects = StudySubject.with_childid(study_subject.childid)
+				subject = subjects.first
+				assert subjects.length == 1, 
+					"There should be only one subject with this childid.  (Would've failed already)"
+			end
 
-				matching = StudySubject.cases.with_matchingid(subjectid)
+			puts "Checking studyid #{study_subject.studyid} unless blank"
+			unless study_subject.studyid.blank?
+				subjects = StudySubject.with_studyid(study_subject.studyid)
+				subject = subjects.first
+				assert subjects.length == 1, 
+					"There should be only one subject with this studyid.  (Would've failed already)"
+			end
+
+			assert study_subject.subjectid.length == 6, 
+				"subjectid #{study_subject.subjectid} should be 6 chars long"
+			assert study_subject.familyid.length == 6, 
+				"familyid #{study_subject.familyid} should be 6 chars long"
+			assert study_subject.matchingid.length == 6, 
+				"matchingid #{study_subject.matchingid} should be 6 chars long"
+
+			if study_subject.is_case?
+
+				matching = StudySubject.cases.with_matchingid(study_subject.subjectid)
 				assert matching.length == 1, 
 					"There should be ONLY THIS CASE subject with this as a matchingid"
 
-				assert subject.icf_master_id == subject.case_icf_master_id,
+				assert study_subject.icf_master_id == study_subject.case_icf_master_id,
 					"ICF Master ID should match Case ICF Master ID: " <<
-					"#{subject.icf_master_id} == #{subject.case_icf_master_id}"
+					"#{study_subject.icf_master_id} == #{study_subject.case_icf_master_id}"
 
-			elsif subject.is_control?
+			elsif study_subject.is_control?
 
-				matching = StudySubject.with_matchingid(subjectid)
+				matching = StudySubject.with_matchingid(study_subject.subjectid)
 				assert matching.empty?, "There should be no subject with this as a matchingid" 
 
 			else	#	is mother, father or twin
 
-				matching = StudySubject.with_matchingid(subjectid)
+				matching = StudySubject.with_matchingid(study_subject.subjectid)
 				assert matching.empty?, "There should be no subject with this as a matchingid" 
 
-				family = StudySubject.with_familyid(subjectid)
+				family = StudySubject.with_familyid(study_subject.subjectid)
 				assert family.empty?, "There should be no subject with this as a familyid" 
 
-				if subject.is_mother?
-					assert subject.icf_master_id == subject.mother_icf_master_id,
+				if study_subject.is_mother?
+					assert study_subject.icf_master_id == study_subject.mother_icf_master_id,
 						"ICF Master ID should match Mother ICF Master ID: " <<
-						"#{subject.icf_master_id} == #{subject.mother_icf_master_id}"
+						"#{study_subject.icf_master_id} == #{study_subject.mother_icf_master_id}"
 				end
 
 			end
 
-			assert subject.case_subject.try(:icf_master_id) == subject.case_icf_master_id,
+			assert study_subject.case_subject.try(:icf_master_id) == study_subject.case_icf_master_id,
 				"Case Subject's ICF Master ID should match Case ICF Master ID: " <<
-				"#{subject.case_subject.try(:icf_master_id)} == #{subject.case_icf_master_id}"
+				"#{study_subject.case_subject.try(:icf_master_id)} == #{study_subject.case_icf_master_id}"
 
-			assert subject.mother.try(:icf_master_id) == subject.mother_icf_master_id,
+			assert study_subject.mother.try(:icf_master_id) == study_subject.mother_icf_master_id,
 				"Mother Subject's ICF Master ID should match Mother ICF Master ID: " <<
-				"#{subject.mother.try(:icf_master_id)} == #{subject.mother_icf_master_id}"
+				"#{study_subject.mother.try(:icf_master_id)} == #{study_subject.mother_icf_master_id}"
 
 
-			if subject.is_case?
-				assert subject.subjectid == subject.matchingid,
+			if study_subject.is_case?
+				assert study_subject.subjectid == study_subject.matchingid,
 					"case subjectid should match matchingid: "<<
-					"#{subject.subjectid} == #{subject.matchingid}"
+					"#{study_subject.subjectid} == #{study_subject.matchingid}"
 			else
-				assert subject.subjectid != subject.matchingid,
+				assert study_subject.subjectid != study_subject.matchingid,
 					"non-case subjectid should NOT match matchingid: "<<
-					"#{subject.subjectid} != #{subject.matchingid}"
+					"#{study_subject.subjectid} != #{study_subject.matchingid}"
 			end
 
-			if subject.is_child?
-				assert subject.subjectid == subject.familyid,
+			if study_subject.is_child?
+				assert study_subject.subjectid == study_subject.familyid,
 					"child subjectid should match familyid: "<<
-					"#{subject.subjectid} == #{subject.familyid}"
-			else	#	if subject.is_mother?	( or possibly a twin )
-				assert subject.subjectid != subject.familyid,
+					"#{study_subject.subjectid} == #{study_subject.familyid}"
+			else	#	if study_subject.is_mother?	( or possibly a twin )
+				assert study_subject.subjectid != study_subject.familyid,
 					"mother (or twin) subjectid should NOT match familyid: "<<
-					"#{subject.subjectid} != #{subject.familyid}"
+					"#{study_subject.subjectid} != #{study_subject.familyid}"
 			end
 
 
