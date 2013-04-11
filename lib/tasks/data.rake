@@ -1,6 +1,10 @@
 namespace :app do
 namespace :data do
 
+	def assert(expression,message = 'Assertion failed.')
+		raise "#{message} :\n #{caller[0]}" unless expression
+	end
+
 	task :checkup => :environment do
 
 
@@ -18,7 +22,7 @@ namespace :data do
 			puts "There should be only one subject with this subjectid.  (Would've failed already)"
 			subjects = StudySubject.with_subjectid(subjectid)
 			subject = subjects.first
-			raise "More than one subject with subjectid?" if subjects.length != 1
+			assert subjects.length == 1, "More than one subject with subjectid?" 
 
 #			puts "Unless is mother, probably more than one family member"
 #			puts "Is this subject a mother? :#{subject.is_mother?}:"
@@ -40,23 +44,33 @@ namespace :data do
 
 				puts "There should be ONLY THIS CASE subject with this as a matchingid"
 				matching = StudySubject.cases.with_matchingid(subjectid)
-				raise "There should be ONLY THIS CASE subject with this as a matchingid" unless matching.length == 1
+				assert matching.length == 1, "There should be ONLY THIS CASE subject with this as a matchingid" 
+
+				assert subject.icf_master_id == subject.case_icf_master_id,
+					"ICF Master ID doesn't match Case ICF Master ID: " <<
+					"#{subject.icf_master_id} == #{subject.case_icf_master_id}"
 
 			elsif subject.is_control?
 
 				puts "There should be no subject with this as a matchingid"
 				matching = StudySubject.with_matchingid(subjectid)
-				raise "There should be no subject with this as a matchingid" unless matching.empty?
+				assert matching.empty?, "There should be no subject with this as a matchingid" 
 
 			else	#	is mother, father or twin
 
 				puts "There should be no subject with this as a matchingid"
 				matching = StudySubject.with_matchingid(subjectid)
-				raise "There should be no subject with this as a matchingid" unless matching.empty?
+				assert matching.empty?, "There should be no subject with this as a matchingid" 
 
 				puts "There should be no subject with this as a familyid"
 				family = StudySubject.with_familyid(subjectid)
-				raise "There should be no subject with this as a familyid" unless family.empty?
+				assert family.empty?, "There should be no subject with this as a familyid" 
+
+				if subject.is_mother?
+					assert subject.icf_master_id == subject.mother_icf_master_id,
+						"ICF Master ID doesn't match Mother ICF Master ID: " <<
+						"#{subject.icf_master_id} == #{subject.mother_icf_master_id}"
+				end
 
 			end
 
