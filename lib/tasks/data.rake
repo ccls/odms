@@ -29,6 +29,13 @@ namespace :data do
 			assert subjects.length == 1, 
 				"There should be only one subject with this subjectid.  (Would've failed already)"
 
+			assert subject.subjectid.length == 6, 
+				"subjectid #{subject.subjectid} should be 6 chars long"
+			assert subject.familyid.length == 6, 
+				"familyid #{subject.familyid} should be 6 chars long"
+			assert subject.matchingid.length == 6, 
+				"matchingid #{subject.matchingid} should be 6 chars long"
+
 			if subject.is_case?
 
 				matching = StudySubject.cases.with_matchingid(subjectid)
@@ -67,6 +74,27 @@ namespace :data do
 			assert subject.mother.try(:icf_master_id) == subject.mother_icf_master_id,
 				"Mother Subject's ICF Master ID should match Mother ICF Master ID: " <<
 				"#{subject.mother.try(:icf_master_id)} == #{subject.mother_icf_master_id}"
+
+
+			if subject.is_case?
+				assert subject.subjectid == subject.matchingid,
+					"case subjectid should match matchingid: "<<
+					"#{subject.subjectid} == #{subject.matchingid}"
+			else
+				assert subject.subjectid != subject.matchingid,
+					"non-case subjectid should NOT match matchingid: "<<
+					"#{subject.subjectid} != #{subject.matchingid}"
+			end
+
+			if subject.is_child?
+				assert subject.subjectid == subject.familyid,
+					"child subjectid should match familyid: "<<
+					"#{subject.subjectid} == #{subject.familyid}"
+			else	#	if subject.is_mother?	( or possibly a twin )
+				assert subject.subjectid != subject.familyid,
+					"mother (or twin) subjectid should NOT match familyid: "<<
+					"#{subject.subjectid} != #{subject.familyid}"
+			end
 
 
 			puts; puts
