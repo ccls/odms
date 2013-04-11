@@ -10,10 +10,10 @@ namespace :data do
 
 			puts "Checking subjectid #{subjectid}"
 
-			if %w( 3t82t8 ).include? subjectid
-				puts "skipping known badness"
-				next
-			end
+#			if %w( 3t82t8 ).include? subjectid
+#				puts "skipping known badness"
+#				next
+#			end
 
 			puts "There should be only one subject with this subjectid.  (Would've failed already)"
 			subjects = StudySubject.with_subjectid(subjectid)
@@ -57,8 +57,6 @@ namespace :data do
 				puts "There should be no subject with this as a familyid"
 				family = StudySubject.with_familyid(subjectid)
 				raise "There should be no subject with this as a familyid" unless family.empty?
-
-
 
 			end
 
