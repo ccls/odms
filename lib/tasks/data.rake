@@ -1,78 +1,73 @@
 namespace :app do
 namespace :data do
 
-	def assert(expression,message = 'Assertion failed.')
-		raise "#{message} :\n #{caller[0]}" unless expression
+	def assert(expression,options={})
+		defaults = {
+			:pre_message  => 'Checking something.',
+			:fail_message => 'Assertion failed.'
+		}
+		if options.is_a?(String)
+			message = options
+			options = {}
+			options[:pre_message] = message
+		end
+		defaults.merge(options)
+		puts options[:pre_message]
+		raise "#{options[:fail_message]} :\n #{caller[0]}" unless expression
 	end
 
 	task :checkup => :environment do
 
+		StudySubject.all.each do |study_subject| 
 
-		StudySubject.select('subjectid').collect(&:subjectid).each do |subjectid| 
-
-#			StudySubject.with_familyid(subjectid).update_all(:mother_icf_master_id => StudySubject.mothers.with_familyid(subjectid).first.try(:icf_master_id))}
+			subjectid = study_subject.subjectid
 
 			puts "Checking subjectid #{subjectid}"
 
-#			if %w( 3t82t8 ).include? subjectid
-#				puts "skipping known badness"
-#				next
-#			end
-
-			puts "There should be only one subject with this subjectid.  (Would've failed already)"
 			subjects = StudySubject.with_subjectid(subjectid)
 			subject = subjects.first
-			assert subjects.length == 1, "More than one subject with subjectid?" 
-
-#			puts "Unless is mother, probably more than one family member"
-#			puts "Is this subject a mother? :#{subject.is_mother?}:"
-#			family  = StudySubject.with_familyid(subjectid)
-#			puts "Family members: #{family.length}:"
-#
-#			mothers = StudySubject.mothers.with_familyid(subjectid)
-#			puts "Mothers count: #{mothers.length}:"
-#			
-##			puts "There should be no more than one mother with a familyid with this subjectid"
-#
-#			puts "If is case, probably more than one matching subject"
-#			puts "Is this subject a case? :#{subject.is_case?}:"
-#			matching = StudySubject.with_matchingid(subjectid)
-#			puts "Matching members: #{matching.length}:"
-
+			assert subjects.length == 1, 
+				"There should be only one subject with this subjectid.  (Would've failed already)"
 
 			if subject.is_case?
 
-				puts "There should be ONLY THIS CASE subject with this as a matchingid"
 				matching = StudySubject.cases.with_matchingid(subjectid)
-				assert matching.length == 1, "There should be ONLY THIS CASE subject with this as a matchingid" 
+				assert matching.length == 1, 
+					"There should be ONLY THIS CASE subject with this as a matchingid"
 
 				assert subject.icf_master_id == subject.case_icf_master_id,
-					"ICF Master ID doesn't match Case ICF Master ID: " <<
+					"ICF Master ID should match Case ICF Master ID: " <<
 					"#{subject.icf_master_id} == #{subject.case_icf_master_id}"
 
 			elsif subject.is_control?
 
-				puts "There should be no subject with this as a matchingid"
 				matching = StudySubject.with_matchingid(subjectid)
 				assert matching.empty?, "There should be no subject with this as a matchingid" 
 
 			else	#	is mother, father or twin
 
-				puts "There should be no subject with this as a matchingid"
 				matching = StudySubject.with_matchingid(subjectid)
 				assert matching.empty?, "There should be no subject with this as a matchingid" 
 
-				puts "There should be no subject with this as a familyid"
 				family = StudySubject.with_familyid(subjectid)
 				assert family.empty?, "There should be no subject with this as a familyid" 
 
 				if subject.is_mother?
 					assert subject.icf_master_id == subject.mother_icf_master_id,
-						"ICF Master ID doesn't match Mother ICF Master ID: " <<
+						"ICF Master ID should match Mother ICF Master ID: " <<
 						"#{subject.icf_master_id} == #{subject.mother_icf_master_id}"
 				end
 
 			end
+
+			assert subject.case_subject.try(:icf_master_id) == subject.case_icf_master_id,
+				"Case Subject's ICF Master ID should match Case ICF Master ID: " <<
+				"#{subject.case_subject.try(:icf_master_id)} == #{subject.case_icf_master_id}"
+
+			assert subject.mother.try(:icf_master_id) == subject.mother_icf_master_id,
+				"Mother Subject's ICF Master ID should match Mother ICF Master ID: " <<
+				"#{subject.mother.try(:icf_master_id)} == #{subject.mother_icf_master_id}"
+
 
 			puts; puts
 
