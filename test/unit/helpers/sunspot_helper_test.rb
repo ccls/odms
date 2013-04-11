@@ -424,6 +424,29 @@ class SunspotHelperTest < ActionView::TestCase
 		assert_equal response, 'Redneck'
 	end
 
+
+	test "column_content should return blank for subject without races" do
+		subject = FactoryGirl.create(:study_subject)
+		response = column_content(subject,'races')
+		assert response.blank?
+	end
+
+	test "column_content should return race names for subject with races" do
+		subject = FactoryGirl.create(:study_subject)
+		subject.races << Race['asian']
+		subject.races << Race['nativeamerican']
+		response = column_content(subject,'races')
+		assert_equal response, 'Asian,Native American'
+	end
+
+	test "column_content should return other races for subject with other races" do
+		subject = FactoryGirl.create(:study_subject)
+		subject.subject_races.create(:race => Race['other'],
+			:other_race => "Redneck")
+		response = column_content(subject,'races')
+		assert_equal response, 'Redneck'
+	end
+
 #	test "column_content should return Yes for consented" do
 #		enrollment = FactoryGirl.create(:consented_enrollment)
 #		subject = enrollment.study_subject
