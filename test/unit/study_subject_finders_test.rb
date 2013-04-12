@@ -182,11 +182,25 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 
 
 	test "should find with childid" do
-pending
+		noise = FactoryGirl.create(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject, :childid => '99999')
+		assert_not_nil study_subject.childid
+		assert_equal 99999, study_subject.childid
+		with_childid = StudySubject.with_childid(
+			"  #{study_subject.childid}  ")
+		assert  with_childid.include?(study_subject)
+		assert !with_childid.include?(noise)
 	end
 
 	test "should find with studyid" do
-pending
+		noise = FactoryGirl.create(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject, :studyid => 'FINDME')
+		assert_not_nil study_subject.studyid
+		assert_equal 'FINDME', study_subject.studyid
+		with_studyid = StudySubject.with_studyid(
+			"  #{study_subject.studyid}  ")
+		assert  with_studyid.include?(study_subject)
+		assert !with_studyid.include?(noise)
 	end
 
 
