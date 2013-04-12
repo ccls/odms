@@ -70,7 +70,7 @@ RAILS_ENV=production
 
 #
 #	import bc_info screening data (from ICF)
-#	Every OTHER Wednesday at 7PM ( NOT YET THOUGH )
+#	Every OTHER Wednesday at 7PM
 #
 #	can't really do the "OTHER" with just cron
 #
