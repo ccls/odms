@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410195732) do
+ActiveRecord::Schema.define(:version => 20130415161800) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -638,15 +638,6 @@ ActiveRecord::Schema.define(:version => 20130410195732) do
     t.string   "father_ssn"
     t.string   "mother_ssn"
     t.string   "birth_data_file_name"
-  end
-
-  create_table "birth_datum_updates", :force => true do |t|
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-    t.string   "csv_file_file_name"
-    t.string   "csv_file_content_type"
-    t.integer  "csv_file_file_size"
-    t.datetime "csv_file_updated_at"
   end
 
   create_table "candidate_controls", :force => true do |t|

@@ -636,18 +636,6 @@ Table: birth_data
 | mother_ssn                        | varchar(255) | YES  |     | NULL    |                |
 | birth_data_file_name              | varchar(255) | YES  |     | NULL    |                |
 +-----------------------------------+--------------+------+-----+---------+----------------+
-Table: birth_datum_updates
-+-----------------------+--------------+------+-----+---------+----------------+
-| Field                 | Type         | Null | Key | Default | Extra          |
-+-----------------------+--------------+------+-----+---------+----------------+
-| id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
-| created_at            | datetime     | NO   |     | NULL    |                |
-| updated_at            | datetime     | NO   |     | NULL    |                |
-| csv_file_file_name    | varchar(255) | YES  |     | NULL    |                |
-| csv_file_content_type | varchar(255) | YES  |     | NULL    |                |
-| csv_file_file_size    | int(11)      | YES  |     | NULL    |                |
-| csv_file_updated_at   | datetime     | YES  |     | NULL    |                |
-+-----------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
 +------------------+--------------+------+-----+---------+----------------+
 | Field            | Type         | Null | Key | Default | Extra          |
@@ -1707,4 +1695,4 @@ Table: zip_codes
 | updated_at | datetime     | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 /Users/jakewendt/github_repo/ccls/odms
-2013-04-10 13:17:57 -0700
+2013-04-15 09:50:25 -0700

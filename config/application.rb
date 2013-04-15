@@ -77,5 +77,13 @@ module Odms
 
 		# Version of your assets, change this if you want to expire all your assets
 		config.assets.version = '1.0'
+
 	end
 end
+
+# Only send to me in development
+def email_options 
+	( Rails.env != 'production' ) ? { :to => 'jakewendt@berkeley.edu' } : {}
+end   
+
+

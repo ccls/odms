@@ -2,20 +2,6 @@ require 'test_helper'
 
 class BcInfoTest < ActiveSupport::TestCase
 
-	test "email options should have only to jakewendt in test" do
-		assert !BcInfo.new.email_options.empty?
-	end
-#	{:to=>"jakewendt@berkeley.edu"}
-	test "email options should have only to jakewendt in development" do
-		Rails.stubs(:env).returns('development')
-		assert !BcInfo.new.email_options.empty?
-	end
-
-	test "email options should be empty in production" do
-		Rails.stubs(:env).returns('production')
-		assert BcInfo.new.email_options.empty?
-	end
-
 	test "should send blank icf master id notification if all identifiers are blank" do
 		bc_info = BcInfo.new(:bc_info_file => "somefile.csv")
 		bc_info.process

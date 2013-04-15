@@ -4,7 +4,8 @@ require 'csv'
 #	It contains birth record info on existing case and new
 #	potential control subjects.
 #
-class BirthDatumUpdate < ActiveRecord::Base
+#class BirthDatumUpdate < ActiveRecord::Base
+class BirthDatumUpdate
 #
 #	has_attached_file :csv_file,
 #		YAML::load(ERB.new(IO.read(File.expand_path(
@@ -57,31 +58,44 @@ class BirthDatumUpdate < ActiveRecord::Base
 ##
 #		end
 #	end
-#
-#	def parse_csv_file
+
+	attr_accessor :csv_file
+	attr_accessor :birth_data
+
+	def initialize(csv_file)
+		self.csv_file = csv_file
+		self.birth_data = []
+		self.parse_csv_file
+	end
+
+	def parse_csv_file
 #		unless self.csv_file_file_name.blank?	#	unlikely as csv_file is required
+		unless csv_file.blank?	#	unlikely as csv_file is required
 #			csv_file_path = self.csv_file.queued_for_write[:original].path
 #			unless csv_file_path.nil?
-#				line_count = 0
+				line_count = 0
 #				(f=CSV.open( csv_file_path, 'rb',{
-#						:headers => true })).each do |line|
-#					line_count += 1
-#
-#					birth_datum_attributes = line.dup.to_hash
-#
-#					#	remove any unexpected attribute which would cause create failure
-#					line.headers.each do |h|
-#						birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
-#					end
-#
+				(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
+					line_count += 1
+
+					birth_datum_attributes = line.dup.to_hash
+
+					#	remove any unexpected attribute which would cause create failure
+					line.headers.each do |h|
+						birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
+					end
+
 #					if self.birth_data.create( birth_datum_attributes ).new_record?
-#						odms_exceptions.create({
-#							:name        => "birth_data append",
-#							:description => "Record failed to save",
-#							:notes       => line
-#						})	#	the line could be too long, so put in notes section
-#					end	#	if birth_datum.new_record?
-#				end	#	(f=CSV.open( self.csv_file.path, 'rb',{ :headers => true })).each
+#					if( self.birth_data << BirthDatum.create( birth_datum_attributes ).new_record?
+					self.birth_data << BirthDatum.create( birth_datum_attributes )
+					if self.birth_data.last.new_record?
+						odms_exceptions.create({
+							:name        => "birth_data append",
+							:description => "Record failed to save",
+							:notes       => line
+						})	#	the line could be too long, so put in notes section
+					end	#	if birth_datum.new_record?
+				end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
 #				if line_count != birth_data_count
 #					odms_exceptions.create({
 #						:name        => "birth_data append",
@@ -90,22 +104,28 @@ class BirthDatumUpdate < ActiveRecord::Base
 #					})
 #				end	#	if line_count != birth_data_count
 #			end	#	unless csv_file_path.nil?
-#		end	#	unless self.csv_file_file_name.blank?
-#	end	#	def parse_csv_file
-#
+		end	#	unless self.csv_file.blank?
+
+
+		Notification.plain( "Done processing birth data file #{csv_file}.",
+			email_options.merge({
+				:subject => "ODMS: Finished Birth Data Update" })
+		).deliver
+	end	#	def parse_csv_file
+
 #	#	separated purely to allow stubbing in testing
 #	#	I can't seem to find a way to stub 'birth_data.count'
 #	def birth_data_count
 #		birth_data.count
 #	end
-#
-#	def self.expected_column_names
-#		@expected_column_names ||= ( BirthDatum.attribute_names - 
-#			%w( id birth_datum_update_id study_subject_id created_at updated_at ))
-#	end
-#
-#	def expected_column_names
-#		BirthDatumUpdate.expected_column_names
-#	end
-#
+
+	def self.expected_column_names
+		@expected_column_names ||= ( BirthDatum.attribute_names - 
+			%w( id birth_datum_update_id study_subject_id created_at updated_at ))
+	end
+
+	def expected_column_names
+		BirthDatumUpdate.expected_column_names
+	end
+
 end

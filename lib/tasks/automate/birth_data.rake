@@ -69,91 +69,110 @@ namespace :automate do
 
 			birth_data_files.each do |birth_data_file|
 	
-				puts "Processing #{birth_data_file}..."
 
-				f=CSV.open(birth_data_file,'rb')
-				actual_columns = f.readline
-				f.close
-				f = CSV.open(birth_data_file,'rb')
-				total_lines = f.readlines.size	#	includes header, but so does f.lineno
-				f.close
-	
-#				unless expected_columns.include?(actual_columns.sort)
-#					Notification.plain(
-#						"Birth Data (#{birth_data_file}) has unexpected column names<br/>\n" <<
-#						"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
-#						email_options.merge({ 
-#							:subject => "ODMS: Unexpected or missing columns in #{birth_data_file}" })
+
+
+
+
+				BirthDatumUpdate.new(birth_data_file)
+
+
+
+#				puts "Processing #{birth_data_file}..."
+#
+#				f=CSV.open(birth_data_file,'rb')
+#				actual_columns = f.readline
+#				f.close
+#				f = CSV.open(birth_data_file,'rb')
+#				total_lines = f.readlines.size	#	includes header, but so does f.lineno
+#				f.close
+#	
+##				unless expected_columns.include?(actual_columns.sort)
+##					Notification.plain(
+##						"Birth Data (#{birth_data_file}) has unexpected column names<br/>\n" <<
+##						"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
+##						email_options.merge({ 
+##							:subject => "ODMS: Unexpected or missing columns in #{birth_data_file}" })
+##					).deliver
+##				end	#	unless expected_columns.include?(actual_columns.sort)
+#
+#				study_subjects = []
+#
+#				(f=CSV.open( birth_data_file, 'rb',{ :headers => true })).each do |line|
+#					puts
+#					puts "Processing line :#{f.lineno}/#{total_lines}:"
+#					puts line
+#
+#					birth_datum_line = line.to_hash.with_indifferent_access
+#raise "column count mismatch :#{birth_datum_line.keys.length}:#{actual_columns.length}:" if ( birth_datum_line.keys.length != actual_columns.length )
+#					birth_datum_line.delete(:ignore1)
+#					birth_datum_line.delete(:ignore2)
+#					birth_datum_line.delete(:ignore3)
+#					birth_datum_line[:birth_data_file_name] = birth_data_file
+#					birth_datum = BirthDatum.new(birth_datum_line)
+#					birth_datum.save!
+#
+#					icf_master_id = line['icf_master_id'] || line['masterid'] || line['master_id']
+#					if icf_master_id.blank?
+#						Notification.plain(
+#							"#{birth_data_file} contained line with blank icf_master_id",
+#							email_options.merge({ 
+#								:subject => "ODMS: Blank ICF Master ID in #{birth_data_file}" })
+#						).deliver
+#						puts "icf_master_id is blank" 
+#						next
+#					end
+#					subjects = StudySubject.where(:icf_master_id => icf_master_id)
+#		
+#					#	Shouldn't be possible as icf_master_id is unique in the db
+#					#raise "Multiple case subjects? with icf_master_id:" <<
+#					#	"#{line['icf_master_id']}:" if subjects.length > 1
+#					unless subjects.length == 1
+#						Notification.plain(
+#							"#{birth_data_file} contained line with icf_master_id" <<
+#							"but no subject with icf_master_id:#{icf_master_id}:",
+#							email_options.merge({ 
+#								:subject => "ODMS: No Subject with ICF Master ID in #{birth_data_file}" })
+#						).deliver
+#						puts "No subject with icf_master_id:#{icf_master_id}:" 
+#						next
+#					end
+#					study_subject = subjects.first
+#
+#					study_subjects.push(study_subject)
+#
+#
+#					#	as we appear to be keeping the BirthDatum model
+#					#	we shouldn't have to do anything else as the BirthDatum
+#					#	model has callbacks for doing post processing
+#
+#
+#					#	TODO should birth_data be edittable?
+#					#	TODO should the callbacks be moved to rake task?
+#					#		don't think so. being there allows for testing
+#
+#					#	TODO then what about sending emails?
+#
+#
+#				end	#	(f=CSV.open( birth_data_file, 'rb',{
+#	
+#				Notification.updates_from_birth_data( birth_data_file, study_subjects,
+#						email_options.merge({ })
 #					).deliver
-#				end	#	unless expected_columns.include?(actual_columns.sort)
-
-				study_subjects = []
-
-				(f=CSV.open( birth_data_file, 'rb',{ :headers => true })).each do |line|
-					puts
-					puts "Processing line :#{f.lineno}/#{total_lines}:"
-					puts line
-
-					birth_datum_line = line.to_hash.with_indifferent_access
-raise "column count mismatch :#{birth_datum_line.keys.length}:#{actual_columns.length}:" if ( birth_datum_line.keys.length != actual_columns.length )
-					birth_datum_line.delete(:ignore1)
-					birth_datum_line.delete(:ignore2)
-					birth_datum_line.delete(:ignore3)
-					birth_datum_line[:birth_data_file_name] = birth_data_file
-					birth_datum = BirthDatum.new(birth_datum_line)
-					birth_datum.save!
-
-					icf_master_id = line['icf_master_id'] || line['masterid'] || line['master_id']
-					if icf_master_id.blank?
-						Notification.plain(
-							"#{birth_data_file} contained line with blank icf_master_id",
-							email_options.merge({ 
-								:subject => "ODMS: Blank ICF Master ID in #{birth_data_file}" })
-						).deliver
-						puts "icf_master_id is blank" 
-						next
-					end
-					subjects = StudySubject.where(:icf_master_id => icf_master_id)
-		
-					#	Shouldn't be possible as icf_master_id is unique in the db
-					#raise "Multiple case subjects? with icf_master_id:" <<
-					#	"#{line['icf_master_id']}:" if subjects.length > 1
-					unless subjects.length == 1
-						Notification.plain(
-							"#{birth_data_file} contained line with icf_master_id" <<
-							"but no subject with icf_master_id:#{icf_master_id}:",
-							email_options.merge({ 
-								:subject => "ODMS: No Subject with ICF Master ID in #{birth_data_file}" })
-						).deliver
-						puts "No subject with icf_master_id:#{icf_master_id}:" 
-						next
-					end
-					study_subject = subjects.first
-
-					study_subjects.push(study_subject)
+#				puts; puts "Archiving #{birth_data_file}"
+#				archive_dir = Date.current.strftime('%Y%m%d')
+#				FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
+##				FileUtils.move(birth_data_file,archive_dir)
 
 
-					#	as we appear to be keeping the BirthDatum model
-					#	we shouldn't have to do anything else as the BirthDatum
-					#	model has callbacks for doing post processing
+#
+#
+#
 
 
-					#	TODO should birth_data be edittable?
-					#	TODO should the callbacks be moved to rake task?
-					#		don't think so. being there allows for testing
-
-					#	TODO then what about sending emails?
 
 
-				end	#	(f=CSV.open( birth_data_file, 'rb',{
-	
-				Notification.updates_from_birth_data( birth_data_file, study_subjects,
-						email_options.merge({ })
-					).deliver
-				puts; puts "Archiving #{birth_data_file}"
-				archive_dir = Date.current.strftime('%Y%m%d')
-				FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
-#				FileUtils.move(birth_data_file,archive_dir)
+
 
 			end	#	birth_data_files.each do |birth_data_file|
 	
@@ -171,6 +190,11 @@ raise "column count mismatch :#{birth_datum_line.keys.length}:#{actual_columns.l
 		puts "----------------------------------------------------------------------"
 
 	end	#	task :import_birth_data => :automate do
+
+	task :import_birth_data_files => :import_birth_data
+	task :import_birth_data_update_files => :import_birth_data
+	task :import_birth_datum_files => :import_birth_data
+	task :import_birth_datum_update_files => :import_birth_data
 
 end	#	namespace :automate do
 

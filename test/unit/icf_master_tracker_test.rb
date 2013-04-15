@@ -2,6 +2,35 @@ require 'test_helper'
 
 class IcfMasterTrackerTest < ActiveSupport::TestCase
 
+	test "should update blank interview_completed_on with cati_complete if not blank" do
+pending
+	end
+
+	test "should update different interview_completed_on with cati_complete if not blank" do
+pending
+	end
+
+	test "should create operational event with cati_complete if not blank and changes interview_completed_on" do
+pending
+	end
+
+	test "should not create operational event with cati_complete if not blank and same interview_completed_on" do
+pending
+	end
+
+	test "should do what if cati_complete blank" do
+pending
+	end
+
+	test "should do what if master_id not valid" do
+pending
+	end
+
+	test "should do what if master_id blank" do
+pending
+	end
+
+
 #		(f=CSV.open( "ICF_Master_Tracker.csv", 'rb',{
 #				:headers => true })).each do |line|
 #			puts
