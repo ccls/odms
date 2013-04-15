@@ -63,6 +63,19 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 		assert_equal 'JS', study_subject.initials 
 	end
 
+	test "should return join of study_subject's initials with maiden name" do
+		study_subject = StudySubject.new(
+			:first_name  => "John",
+			:middle_name => "Xavier",
+			:maiden_name => "Hoopa",
+			:last_name   => "Smith" )
+		assert_not_nil study_subject.first_name
+		assert_not_nil study_subject.middle_name
+		assert_not_nil study_subject.maiden_name
+		assert_not_nil study_subject.last_name
+		assert_equal 'JXHS', study_subject.initials 
+	end
+
 	test "should return join of study_subject's name" do
 		study_subject = StudySubject.new(
 			:first_name  => "John",
@@ -72,6 +85,19 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 		assert_not_nil study_subject.middle_name
 		assert_not_nil study_subject.last_name
 		assert_equal 'John Xavier Smith', study_subject.full_name 
+	end
+
+	test "should return join of study_subject's name with maiden_name" do
+		study_subject = StudySubject.new(
+			:first_name  => "John",
+			:middle_name => "Xavier",
+			:maiden_name => "Hoopa",
+			:last_name   => "Smith" )
+		assert_not_nil study_subject.first_name
+		assert_not_nil study_subject.middle_name
+		assert_not_nil study_subject.maiden_name
+		assert_not_nil study_subject.last_name
+		assert_equal 'John Xavier Hoopa Smith', study_subject.full_name 
 	end
 
 	test "should return join of study_subject's name without middle name" do
@@ -166,6 +192,19 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 		assert_not_nil study_subject.mother_middle_name
 		assert_not_nil study_subject.mother_last_name
 		assert_equal 'Ms X. Claus', study_subject.mothers_name 
+	end
+
+	test "should return join of mother's name with maiden_name" do
+		study_subject = create_study_subject(
+			:mother_first_name  => "Ms",
+			:mother_middle_name => "X.",				#	Do anything about a given period?
+			:mother_maiden_name => "Hoopa",
+			:mother_last_name   => "Claus" )
+		assert_not_nil study_subject.mother_first_name
+		assert_not_nil study_subject.mother_middle_name
+		assert_not_nil study_subject.mother_maiden_name
+		assert_not_nil study_subject.mother_last_name
+		assert_equal 'Ms X. Hoopa Claus', study_subject.mothers_name 
 	end
 
 	test "should return join of mother's name without middle name" do

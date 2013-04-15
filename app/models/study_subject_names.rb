@@ -16,7 +16,7 @@ base.class_eval do
 
 	#	TODO include maiden_name just in case is mother???
 	def childs_names
-		[first_name, middle_name, last_name ]
+		[first_name, middle_name, maiden_name, last_name ]
 	end
 
 	#	Returns string containing study_subject's first, middle and last initials
@@ -42,7 +42,7 @@ base.class_eval do
 	end
 
 	def mothers_names
-		[mother_first_name, mother_middle_name, mother_last_name ]
+		[mother_first_name, mother_middle_name, mother_maiden_name, mother_last_name ]
 	end
 
 	#	Returns string containing study_subject's mother's first, middle and last name
