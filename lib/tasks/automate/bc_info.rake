@@ -48,7 +48,8 @@ namespace :automate do
 
 			bc_info_files.each do |bc_info_file|
 	
-				BcInfoUpdate.new(bc_info_file)
+				bc_info_update = BcInfoUpdate.new(bc_info_file)
+				puts bc_info_update.log
 
 			end	#	bc_info_files.each do |bc_info_file|
 	

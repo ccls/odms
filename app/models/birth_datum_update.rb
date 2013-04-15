@@ -4,120 +4,64 @@ require 'csv'
 #	It contains birth record info on existing case and new
 #	potential control subjects.
 #
-#class BirthDatumUpdate < ActiveRecord::Base
 class BirthDatumUpdate
-#
-#	has_attached_file :csv_file,
-#		YAML::load(ERB.new(IO.read(File.expand_path(
-#			File.join(Rails.root,'config/birth_datum_update.yml')
-#		))).result)[Rails.env]
-#
-#	has_many :birth_data
-#
-#	has_many :odms_exceptions, :as => :exceptable
-#
-#	validates_attachment_presence     :csv_file
-#
-#	validates_inclusion_of :csv_file_content_type,
-#		:in => ["text/csv","text/plain","application/vnd.ms-excel"],
-#		:allow_blank => true
-#
-##	perhaps by file extension rather than mime type?
-##	validates_format_of :csv_file_file_name,
-##		:with => %r{\.csv$}i,
-##		:allow_blank => true
-#
-#	validate :valid_csv_file_column_names
-#
-#	#	if only doing this after create,
-#	#	what happens on edit/update?
-#	#	probably don't want to allow that.
-#	after_create :parse_csv_file
-#
-#	def valid_csv_file_column_names
-#		#	'to_file' needed as the path method wouldn't be
-#		#	defined until after save.
-#		#	to_file method has gone away
-#		#	possible replacement
-#		#	b.csv_file.queued_for_write[:original].path
-#		#	all I'm trying to do is read the file but nobody likes this idea
-#		#
-#		if !self.csv_file_file_name.blank?  && self.csv_file.queued_for_write[:original].path
-#			f=CSV.open(self.csv_file.queued_for_write[:original].path,'rb')
-#			column_names = f.readline
-#			f.close
-#			column_names.each do |column_name|
-#				errors.add(:csv_file, "Invalid column name '#{column_name}' in csv_file."
-#					) unless (expected_column_names + %w(
-#						ignore1 ignore2 ignore3
-#						)).include?(column_name)
-##					) unless expected_column_names.include?(column_name)
-#			end
-##
-##	TODO what about missing columns???
-##
-#		end
-#	end
 
 	attr_accessor :csv_file
 	attr_accessor :birth_data
+	attr_accessor :log
 
 	def initialize(csv_file)
 		self.csv_file = csv_file
 		self.birth_data = []
+		self.log = []
 		self.parse_csv_file
 	end
 
 	def parse_csv_file
-#		unless self.csv_file_file_name.blank?	#	unlikely as csv_file is required
-		unless csv_file.blank?	#	unlikely as csv_file is required
-#			csv_file_path = self.csv_file.queued_for_write[:original].path
-#			unless csv_file_path.nil?
-				line_count = 0
-#				(f=CSV.open( csv_file_path, 'rb',{
-				(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
-					line_count += 1
+		line_count = 0
+		study_subjects = []
+		log << "Processing #{csv_file}..."
+		(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
+			line_count += 1
 
-					birth_datum_attributes = line.dup.to_hash
+			birth_datum_attributes = line.dup.to_hash
 
-					#	remove any unexpected attribute which would cause create failure
-					line.headers.each do |h|
-						birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
-					end
+			#	remove any unexpected attribute which would cause create failure
+			line.headers.each do |h|
+				birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
+			end
 
-#					if self.birth_data.create( birth_datum_attributes ).new_record?
-#					if( self.birth_data << BirthDatum.create( birth_datum_attributes ).new_record?
-					self.birth_data << BirthDatum.create( birth_datum_attributes )
-					if self.birth_data.last.new_record?
-						odms_exceptions.create({
-							:name        => "birth_data append",
-							:description => "Record failed to save",
-							:notes       => line
-						})	#	the line could be too long, so put in notes section
-					end	#	if birth_datum.new_record?
-				end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
-#				if line_count != birth_data_count
-#					odms_exceptions.create({
-#						:name        => "birth_data append",
-#						:description => "Birth data upload validation failed: " <<
-#							"incorrect number of birth data records appended to birth_data."
-#					})
-#				end	#	if line_count != birth_data_count
-#			end	#	unless csv_file_path.nil?
-		end	#	unless self.csv_file.blank?
+			self.birth_data << BirthDatum.create( birth_datum_attributes )
+			if self.birth_data.last.new_record?	#	save failed?
+#	FAIL
+#				odms_exceptions.create({
+#					:name        => "birth_data append",
+#					:description => "Record failed to save",
+#					:notes       => line
+#				})	#	the line could be too long, so put in notes section
+			end	#	if birth_datum.new_record?
 
+#
+#	birth data associated with controls won't have a study subject
+#
+#			puts( self.birth_data.last.study_subject )
+#			study_subjects.push( self.birth_data.last.study_subject )
+
+		end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
+
+
+		Notification.updates_from_birth_data( csv_file, study_subjects,
+				email_options.merge({ })
+			).deliver
 
 		Notification.plain( "Done processing birth data file #{csv_file}.",
 			email_options.merge({
 				:subject => "ODMS: Finished Birth Data Update" })
 		).deliver
-	end	#	def parse_csv_file
 
-#	#	separated purely to allow stubbing in testing
-#	#	I can't seem to find a way to stub 'birth_data.count'
-#	def birth_data_count
-#		birth_data.count
-#	end
+		#	TODO archive it?
+
+	end	#	def parse_csv_file
 
 	def self.expected_column_names
 		@expected_column_names ||= ( BirthDatum.attribute_names - 

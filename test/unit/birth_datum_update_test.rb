@@ -31,19 +31,21 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 #			assert_not_nil birth_datum_update.csv_file_updated_at
 #		}
 #	end
-#
-#	test "birth datum update factory should not create birth datum" do
-#		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
+
+	test "birth datum update factory should not create birth datum" do
+		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
 #			birth_datum_update = FactoryGirl.create(:birth_datum_update)
-#		}
-#	end
-#
-#	test "birth datum update factory should not create candidate control" do
-#		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
+			BirthDatumUpdate.new('test/assets/empty_birth_datum_update_test_file.csv')
+		}
+	end
+
+	test "birth datum update factory should not create candidate control" do
+		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
 #			birth_datum_update = FactoryGirl.create(:birth_datum_update)
-#		}
-#	end
-#
+			BirthDatumUpdate.new('test/assets/empty_birth_datum_update_test_file.csv')
+		}
+	end
+
 #	test "empty birth datum update factory should create birth datum update" do
 #		assert_difference('BirthDatumUpdate.count',1) {
 #			birth_datum_update = FactoryGirl.create(:empty_birth_datum_update)
@@ -85,25 +87,27 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 #			assert_not_nil birth_datum_update.csv_file_updated_at
 #		}
 #	end
-#
-#	test "one record birth datum update factory should create birth datum" do
-#		study_subject = create_case_for_birth_datum_update
-#		assert_difference('BirthDatum.count',1) {	#	after_create should add this
+
+	test "one record birth datum update factory should create birth datum" do
+		study_subject = create_case_for_birth_datum_update
+		assert_difference('BirthDatum.count',1) {	#	after_create should add this
 #			birth_datum_update = FactoryGirl.create(:one_record_birth_datum_update)
-#			assert_not_nil birth_datum_update.birth_data.first
-#			assert_not_nil birth_datum_update.birth_data.first.candidate_control
-#		}
-#	end
-#
-#	test "one record birth datum update factory should create candidate control" do
-#		study_subject = create_case_for_birth_datum_update
-#		assert_difference('CandidateControl.count',1) {	#	after_create should add this
+			birth_datum_update = BirthDatumUpdate.new('test/assets/one_record_birth_datum_update_test_file.csv')
+			assert_not_nil birth_datum_update.birth_data.first
+			assert_not_nil birth_datum_update.birth_data.first.candidate_control
+		}
+	end
+
+	test "one record birth datum update factory should create candidate control" do
+		study_subject = create_case_for_birth_datum_update
+		assert_difference('CandidateControl.count',1) {	#	after_create should add this
 #			birth_datum_update = FactoryGirl.create(:one_record_birth_datum_update)
-#			assert_not_nil birth_datum_update.birth_data.first
-#			assert_not_nil birth_datum_update.birth_data.first.candidate_control
-#		}
-#	end
-#
+			birth_datum_update = BirthDatumUpdate.new('test/assets/one_record_birth_datum_update_test_file.csv')
+			assert_not_nil birth_datum_update.birth_data.first
+			assert_not_nil birth_datum_update.birth_data.first.candidate_control
+		}
+	end
+
 #	test "should require csv_file" do
 #		birth_datum_update = BirthDatumUpdate.new
 #		assert !birth_datum_update.valid?
@@ -313,7 +317,8 @@ state_registrar_no
 #				:csv_file => File.open(real_data_file) )
 			birth_datum_update = BirthDatumUpdate.new(real_data_file) 
 #			birth_datum_update.parse_csv_file
-			assert_not_nil birth_datum_update.csv_file_file_name
+#			assert_not_nil birth_datum_update.csv_file_file_name
+			assert_not_nil birth_datum_update.csv_file
 		} }
 #		birth_datum_update.destroy
 	end

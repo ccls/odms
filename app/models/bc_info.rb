@@ -8,6 +8,11 @@ class BcInfo < OpenStruct
 		self.icf_master_id ||= icf_master_id || masterid
 	end
 
+	def code_correct(hash,key)
+		hash[key] = 888 if hash[key] == '0'
+		hash[key] = 999 if hash[key] == '9'
+	end
+
 	def process
 #	would work with childid or subjectid, but rake task won't be expecting
 #	these column names so will need to make adjustments there for this.
@@ -46,9 +51,6 @@ class BcInfo < OpenStruct
 			).deliver
 			return	#	next
 		end
-
-
-
 
 		self.study_subject = subjects.first
 
@@ -99,14 +101,21 @@ class BcInfo < OpenStruct
 				new_child_doby,new_child_dobm,new_child_dobd ) 
 		end
 
-		a[:father_hispanicity] = 888 if a[:father_hispanicity] == '0'
-		a[:mother_hispanicity] = 888 if a[:mother_hispanicity] == '0'
-		a[:mother_hispanicity] = 999 if a[:mother_hispanicity] == '9'
-		a[:father_hispanicity] = 999 if a[:father_hispanicity] == '9'
-		a[:mother_hispanicity_mex] = 888 if a[:mother_hispanicity_mex] == '0'
-		a[:father_hispanicity_mex] = 888 if a[:father_hispanicity_mex] == '0'
-		a[:mother_hispanicity_mex] = 999 if a[:mother_hispanicity_mex] == '9'
-		a[:father_hispanicity_mex] = 999 if a[:father_hispanicity_mex] == '9'
+		code_correct(a,:father_hispanicity)
+		code_correct(a,:mother_hispanicity)
+		code_correct(a,:father_hispanicity_mex)
+		code_correct(a,:mother_hispanicity_mex)
+		code_correct(a,:father_race_code)
+		code_correct(a,:mother_race_code)
+
+#		a[:father_hispanicity] = 888 if a[:father_hispanicity] == '0'
+#		a[:mother_hispanicity] = 888 if a[:mother_hispanicity] == '0'
+#		a[:mother_hispanicity] = 999 if a[:mother_hispanicity] == '9'
+#		a[:father_hispanicity] = 999 if a[:father_hispanicity] == '9'
+#		a[:mother_hispanicity_mex] = 888 if a[:mother_hispanicity_mex] == '0'
+#		a[:father_hispanicity_mex] = 888 if a[:father_hispanicity_mex] == '0'
+#		a[:mother_hispanicity_mex] = 999 if a[:mother_hispanicity_mex] == '9'
+#		a[:father_hispanicity_mex] = 999 if a[:father_hispanicity_mex] == '9'
 
 		a[:hispanicity] = 999
 		if( a[:mother_hispanicity] == a[:father_hispanicity] ) && 
@@ -125,10 +134,10 @@ class BcInfo < OpenStruct
 		a[:hispanicity_mex] = 1 if ( 
 			[a[:mother_hispanicity_mex],a[:father_hispanicity_mex]].include?('1') )
 
-		a[:father_race_code] = 888 if a[:father_race_code] == '0'
-		a[:mother_race_code] = 888 if a[:mother_race_code] == '0'
-		a[:father_race_code] = 999 if a[:father_race_code] == '9'
-		a[:mother_race_code] = 999 if a[:mother_race_code] == '9'
+#		a[:father_race_code] = 888 if a[:father_race_code] == '0'
+#		a[:mother_race_code] = 888 if a[:mother_race_code] == '0'
+#		a[:father_race_code] = 999 if a[:father_race_code] == '9'
+#		a[:mother_race_code] = 999 if a[:mother_race_code] == '9'
 
 		new_attributes.each do |k,v|
 			#	NOTE always check if attribute is blank as don't want to delete data
@@ -209,7 +218,6 @@ class BcInfo < OpenStruct
 		unless study_subject.mother.try(:id).nil?
 			#	ReadOnlyRecord due to joins so need to re-find.
 			mother = StudySubject.find(study_subject.mother.id)
-
 
 			mother.hispanicity = study_subject.mother_hispanicity unless(
 				study_subject.mother_hispanicity.blank? )

@@ -52,11 +52,9 @@ Odms::Application.configure do
 
 
 
-#	Don't mail so irrelevant.
-#
-#	config.action_mailer.default_url_options = { 
-#		:host => "dev.sph.berkeley.edu:3000" }
-#
+	config.action_mailer.default_url_options = { 
+		:host => "dev.sph.berkeley.edu:3000" }
+
 
 
 #	Had to use active_record_store to accomodate ActiveScaffold,

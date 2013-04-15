@@ -19,7 +19,7 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 #
 #	test "bc info update factory should create bc info update" do
 #		assert_difference('BcInfoUpdate.count',1) {
-#			bc_info_update = Factory(:bc_info_update)
+#			bc_info_update = FactoryGirl.create(:bc_info_update)
 #			assert_not_nil bc_info_update.csv_file_file_name
 #			assert_equal   bc_info_update.csv_file_file_name, 
 #				'empty_bc_info_update_test_file.csv'
@@ -33,13 +33,13 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 #
 #	test "bc info update factory should not create bc info" do
 #		assert_difference('BcInfo.count',0) {	#	after_create should do nothing
-#			bc_info_update = Factory(:bc_info_update)
+#			bc_info_update = FactoryGirl.create(:bc_info_update)
 #		}
 #	end
 #
 #	test "empty bc info update factory should create bc info update" do
 #		assert_difference('BcInfoUpdate.count',1) {
-#			bc_info_update = Factory(:empty_bc_info_update)
+#			bc_info_update = FactoryGirl.create(:empty_bc_info_update)
 #			assert_not_nil bc_info_update.csv_file_file_name
 #			assert_equal   bc_info_update.csv_file_file_name, 
 #				'empty_bc_info_update_test_file.csv'
@@ -53,7 +53,7 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 #
 #	test "empty bc info update factory should not create bc info" do
 #		assert_difference('BcInfo.count',0) {	#	after_create should do nothing
-#			bc_info_update = Factory(:empty_bc_info_update)
+#			bc_info_update = FactoryGirl.create(:empty_bc_info_update)
 #			assert_nil bc_info_update.screening_data.first
 #		}
 #	end
@@ -62,7 +62,7 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 ##	irrelevant for now
 ##		study_subject = create_case_for_bc_info_update
 #		assert_difference('BcInfoUpdate.count',1) {
-#			bc_info_update = Factory(:one_record_bc_info_update)
+#			bc_info_update = FactoryGirl.create(:one_record_bc_info_update)
 #			assert_not_nil bc_info_update.csv_file_file_name
 #			assert_equal   bc_info_update.csv_file_file_name, 
 #				'one_record_bc_info_update_test_file.csv'
@@ -75,10 +75,10 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 #	end
 #
 #	test "one record bc info update factory should create bc info" do
-##	irrelevant for now
-##		study_subject = create_case_for_bc_info_update
+#	irrelevant for now
+#		study_subject = create_case_for_bc_info_update
 #		assert_difference('BcInfo.count',1) {	#	after_create should add this
-#			bc_info_update = Factory(:one_record_bc_info_update)
+#			bc_info_update = FactoryGirl.create(:one_record_bc_info_update)
 #			assert_not_nil bc_info_update.screening_data.first
 #		}
 #	end
@@ -142,7 +142,7 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 #		assert_difference('BcInfo.count',0) {
 #		assert_difference('BcInfoUpdate.count',1) {
 #			BcInfo.any_instance.stubs(:create_or_update).returns(false)
-#			bc_info_update = Factory(:one_record_bc_info_update)
+#			bc_info_update = FactoryGirl.create(:one_record_bc_info_update)
 #			BcInfo.any_instance.unstub(:create_or_update)
 ##puts bc_info_update.odms_exceptions.class	#	crashes?
 ##	NoMethodError: undefined method `row' for #<String:0x00000103576fa8>
@@ -174,7 +174,7 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 #		assert_difference('BcInfo.count',1) {	#	after_create should add this
 #		assert_difference('BcInfoUpdate.count',1) {
 #			BcInfoUpdate.any_instance.stubs(:screening_data_count).returns(0)
-#			bc_info_update = Factory(:one_record_bc_info_update)
+#			bc_info_update = FactoryGirl.create(:one_record_bc_info_update)
 #			assert_equal 1, bc_info_update.odms_exceptions.length
 #			assert_match /Screening data upload validation failed: incorrect number of screening data records appended to screening_data/,
 #				bc_info_update.odms_exceptions.last.to_s
@@ -182,13 +182,13 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 #				bc_info_update.odms_exceptions.last.name
 #		} } }
 #	end
-#
-#
-#
-#
+
+
+
+
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = "screening_data/bc_info_update_20120822.csv"
+		real_data_file = "screening_data/screening_datum_update_20120822.csv"
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."
@@ -196,17 +196,17 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 		end
 
 #		#	case must exist for candidate controls to be created
-#		s = Factory(:case_study_subject,:sex => 'M',
+#		s = FactoryGirl.create(:case_study_subject,:sex => 'M',
 #			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
 #			:dob => Date.parse('6/1/2009'))
-#		Factory(:icf_master_id,:icf_master_id => '15851196C')
+#		FactoryGirl.create(:icf_master_id,:icf_master_id => '15851196C')
 #		s.assign_icf_master_id
 
 		#	Create subjects to update based on the file
 		#	Nothing should match so could actually test the other counts
 		(f=CSV.open( real_data_file, 'rb',{
 						:headers => true })).each do |line|
-			Factory(:study_subject,:icf_master_id => line['icf_master_id'])
+			FactoryGirl.create(:study_subject,:icf_master_id => line['icf_master_id'])
 		end
 
 		bc_info_update = nil
@@ -220,16 +220,20 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 			".operational_events.count",47){
 		assert_difference('OdmsException.count',0){
 #		assert_difference('BcInfo.count',47){
-#			bc_info_update = Factory(:bc_info_update,
+#			bc_info_update = FactoryGirl.create(:bc_info_update,
 #				:csv_file => File.open(real_data_file) )
 #			assert_not_nil bc_info_update.csv_file_file_name
 			bc_info_update = BcInfoUpdate.new( real_data_file )
 			assert_not_nil bc_info_update.csv_file
+			assert_not_nil bc_info_update.log
 		} } } } #}
 		bc_info_update.destroy
 	end
 
 
+	test "should require csv_file to exist" do
+pending
+	end
 
 
 #	what about other creation failures
@@ -264,7 +268,7 @@ protected
 	end
 
 	def create_bc_info_update_with_file
-#		bc_info_update = Factory(:bc_info_update,
+#		bc_info_update = FactoryGirl.create(:bc_info_update,
 #			:csv_file => File.open(csv_test_file_name) )
 #		assert_not_nil bc_info_update.csv_file_file_name
 		bc_info_update = BcIfoUpdate.new(csv_test_file_name)
@@ -297,8 +301,8 @@ protected
 	end
 
 #	def create_case_for_bc_info_update
-#		icf_master_id = Factory(:icf_master_id,:icf_master_id => '12345FAKE')
-#		study_subject = Factory(:complete_case_study_subject)
+#		icf_master_id = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345FAKE')
+#		study_subject = FactoryGirl.create(:complete_case_study_subject)
 #		study_subject.assign_icf_master_id
 #		assert_equal '12345FAKE', study_subject.icf_master_id
 #		study_subject
@@ -340,17 +344,17 @@ protected
 #
 #	#	just enough for no exceptions
 #	def unknown_subject_hash
-#		Factory.attributes_for(:screening_datum,
+#		FactoryGirl.attributes_for(:screening_datum,
 #			:master_id => '12345FAKE' )
 #	end
 #
 #	def case_subject_hash
-#		Factory.attributes_for(:case_screening_datum,
+#		FactoryGirl.attributes_for(:case_screening_datum,
 #			:master_id => '12345FAKE' )
 #	end
 #
 #	def control_subject_hash
-#		Factory.attributes_for(:control_screening_datum,
+#		FactoryGirl.attributes_for(:control_screening_datum,
 #			:master_id => '12345FAKE' )
 #	end
 

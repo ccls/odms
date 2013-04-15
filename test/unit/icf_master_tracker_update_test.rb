@@ -226,57 +226,58 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 #			assert_equal results[0].study_subject, study_subject
 #		}
 #	end
+
+	test "should test with real data file" do
+		#	real data and won't be in repository
+		real_data_file = 'ICF_Master_Trackers/ICF_Master_Tracker_20120329.csv'
+		unless File.exists?(real_data_file)
+			puts
+			puts "-- Real data test file does not exist. Skipping."
+			return 
+		end
+
+#		#	minimal semi-real case creation
+#		s0 = Factory(:study_subject,:sex => 'F',
+#			:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
+#			:dob => Date.parse('10/16/1977'))
 #
-#	test "should test with real data file" do
-#		#	real data and won't be in repository
-#		real_data_file = 'ICF_Master_Trackers/ICF_Master_Tracker_20120329.csv'
-#		unless File.exists?(real_data_file)
-#			puts
-#			puts "-- Real data test file does not exist. Skipping."
-#			return 
-#		end
+#		s1 = Factory(:study_subject,:sex => 'F',
+#			:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
+#			:dob => Date.parse('9/21/1988'))
+#		Factory(:icf_master_id,:icf_master_id => '15270110G')
+#		s1.assign_icf_master_id
 #
-##		#	minimal semi-real case creation
-##		s0 = Factory(:study_subject,:sex => 'F',
-##			:first_name => 'FakeFirst1',:last_name => 'FakeLast1', 
-##			:dob => Date.parse('10/16/1977'))
-##
-##		s1 = Factory(:study_subject,:sex => 'F',
-##			:first_name => 'FakeFirst2',:last_name => 'FakeLast2', 
-##			:dob => Date.parse('9/21/1988'))
-##		Factory(:icf_master_id,:icf_master_id => '15270110G')
-##		s1.assign_icf_master_id
-##
-##		s2 = Factory(:study_subject,:sex => 'M',
-##			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
-##			:dob => Date.parse('6/1/2009'))
-##		Factory(:icf_master_id,:icf_master_id => '15397125B')
-##		s2.assign_icf_master_id
-#
-#		icf_master_tracker_update = Factory(:icf_master_tracker_update,
-#			:csv_file => File.open(real_data_file) )
-#		assert_not_nil icf_master_tracker_update.csv_file_file_name
-#
+#		s2 = Factory(:study_subject,:sex => 'M',
+#			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+#			:dob => Date.parse('6/1/2009'))
+#		Factory(:icf_master_id,:icf_master_id => '15397125B')
+#		s2.assign_icf_master_id
+
+		icf_master_tracker_update = IcfMasterTrackerUpdate.new(real_data_file)
+		assert_not_nil icf_master_tracker_update.csv_file
+
+#	kinda difficult to test this as nothing is ActiveRecord
+
 #		assert_difference('IcfMasterTrackerChange.count',1861){
-##		and also the master_id changed (irrelevant so changed callback)
-##		assert_difference('IcfMasterTrackerChange.count',1958){
+#		and also the master_id changed (irrelevant so changed callback)
+#		assert_difference('IcfMasterTrackerChange.count',1958){
 #		assert_difference('IcfMasterTracker.count',95){
 #			results = icf_master_tracker_update.parse
 #			assert_equal results.length, 95
 #			assert_nil   results[0].study_subject
-##			assert_equal results[1].study_subject, s1
-##			assert_equal results[2].study_subject, s2
+#			assert_equal results[1].study_subject, s1
+#			assert_equal results[2].study_subject, s2
 #			results.each { |r|
 #				assert  r.is_a?(IcfMasterTracker)
 #				assert !r.new_record?
 #				assert  r.flagged_for_update
 #			}
 #		} }
-##
-##	TODO add some tests to see if anything was updated
-##
-#	end
 #
+#	TODO add some tests to see if anything was updated
+#
+	end
+
 #	test "should update existing icf master tracker if exists" do
 #		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update(
 #			'date_received' => ( Date.today - 10.days ) )

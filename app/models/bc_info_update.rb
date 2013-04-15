@@ -6,10 +6,12 @@ require 'csv'
 class BcInfoUpdate
 
 	attr_accessor :csv_file
+	attr_accessor :log
 
 	def initialize(csv_file)
 		self.csv_file = csv_file
-		parse_csv_file
+		self.log = []
+		self.parse_csv_file
 	end
 
 	def expected_columns
@@ -72,24 +74,24 @@ class BcInfoUpdate
 		end	#	unless expected_columns.include?(actual_columns.sort)
 	
 		study_subjects = []
-		puts "Processing #{csv_file}..."
+		log << "Processing #{csv_file}..."
 
 		(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
-			puts
-			puts "Processing line :#{f.lineno}:"
-			puts line
+			log << ''
+			log << "Processing line :#{f.lineno}:"
+			log << line
 
 			bc_info = BcInfo.new(line.to_hash.merge(
-				:bc_info_file => csv_file ) )
+				:bc_info_file => csv_file, :log => log ) )
 			bc_info.process
-			study_subjects.push( bc_info.study_subject )
+			study_subjects.push( self.bc_info.study_subject )
 	
 		end	#	(f=CSV.open( csv_file, 'rb',{
 
 		Notification.updates_from_bc_info( csv_file, study_subjects,
 				email_options.merge({ })
 			).deliver
-		puts; puts "Archiving #{csv_file}"
+		log << ''; log << "Archiving #{csv_file}"
 		archive_dir = Date.current.strftime('%Y%m%d')
 		FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
 		FileUtils.move(csv_file,archive_dir)
