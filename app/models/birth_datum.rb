@@ -47,13 +47,19 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def post_processing
-		if master_id.blank?
+		if master_id.blank? and childid.blank? and subjectid.blank?
 			odms_exceptions.create(:name => 'birth data append',
-				:description => "master_id blank")
+				:description => "master_id, childid and subjectid blank")
 		else
 			#	DO NOT USE 'study_subject' here as it will conflict with
 			#	the study_subject association.
-			subject = StudySubject.where(:icf_master_id => master_id).first
+
+
+#			subject = StudySubject.where(:icf_master_id => master_id).first
+			subject = find_subject
+
+
+
 			if subject.nil?
 				odms_exceptions.create(:name => 'birth data append',
 					:description => "No subject found with master_id :#{master_id}:")
@@ -81,7 +87,7 @@ class BirthDatum < ActiveRecord::Base
 				elsif is_case?
 					if !match_confidence.blank? && match_confidence.match(/definite/i)
 						#	assign study_subject_id to case's id
-						self.update_column(:study_subject_id, subject.id)
+#						self.update_column(:study_subject_id, subject.id)
 						self.update_study_subject_attributes
 						self.update_bc_request
 						self.create_address_from_attributes
@@ -94,6 +100,27 @@ class BirthDatum < ActiveRecord::Base
 						:description => "Unknown case_control_flag :#{case_control_flag}:")
 				end
 			end
+		end
+	end
+
+	def find_subject
+		if !master_id.blank?
+			StudySubject.with_icf_master_id( master_id ).first
+		elsif !childid.blank?
+			StudySubject.with_childid( childid ).first
+		elsif !subjectid.blank?
+			StudySubject.with_subjectid( subjectid ).first
+		end
+	end
+
+	def assign_subject
+		if study_subject
+			study_subject
+		else
+			subject = find_subject
+			return if subject.nil?
+			self.update_column(:study_subject_id, subject.id)
+			subject
 		end
 	end
 
@@ -115,7 +142,7 @@ class BirthDatum < ActiveRecord::Base
 	#	Separated this out so that can do separately if needed.
 	#
 	def update_study_subject_attributes
-		return if master_id.blank?
+		return if master_id.blank? and childid.blank? and subjectid.blank?
 		#
 		#	ONLY DO THIS FOR CASE SUBJECTS!
 		#
@@ -124,11 +151,15 @@ class BirthDatum < ActiveRecord::Base
 		#	If subject is created after this record (this would be odd)
 		#	then study subject isn't set.  Regardless, check if its
 		#	set.  If not, try to set it.  If can't, go away.
-		unless study_subject
-			subject = StudySubject.where(:icf_master_id => master_id).first
-			return if subject.nil?
-			self.update_column(:study_subject_id, subject.id)
-		end
+#		unless study_subject
+#			subject = StudySubject.where(:icf_master_id => master_id).first
+#			return if subject.nil?
+#			self.update_column(:study_subject_id, subject.id)
+#		end
+
+		assign_subject unless study_subject
+		return if study_subject.nil?
+
 
 		error_count = 0
 
@@ -205,7 +236,6 @@ class BirthDatum < ActiveRecord::Base
 					#	these fields don't have much to validate so shouldn't fail
 					error_count += 1
 					odms_exceptions.create(
-#						:name        => 'screening data update',
 						:name        => 'birth data update',
 						:description => "Error updating case study subject. " <<
 													"Save failed! " <<
@@ -319,7 +349,9 @@ class BirthDatum < ActiveRecord::Base
 				:occurred_at => DateTime.current,
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['bc_received'].id,
-				:description => "Insufficient maternal residence information in birth data to create address record. See subject's Birth Record page for details.\n#{addressing.errors.full_messages.to_sentence}" ) unless addressing.save
+				:description => "Insufficient maternal residence information in birth data to "<<
+					"create address record. See subject's Birth Record page for details.\n"<<
+					"#{addressing.errors.full_messages.to_sentence}" ) unless addressing.save
 		end
 		addressing
 	end

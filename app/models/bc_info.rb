@@ -1,3 +1,4 @@
+require 'ostruct'
 #
 #	Non-ActiveRecord class created primarily for adding testability to rake task.
 #
@@ -5,6 +6,7 @@ class BcInfo < OpenStruct
 
 	def initialize(*args)
 		super
+		self.verbose ||= false
 		self.icf_master_id ||= icf_master_id || masterid
 	end
 
@@ -36,7 +38,6 @@ class BcInfo < OpenStruct
 			return	#	next
 		end
 
-#		subjects = StudySubject.where(:icf_master_id => icf_master_id)
 		subjects = StudySubject.where(identifier => send(identifier))
 
 		#	Shouldn't be possible as icf_master_id is unique in the db

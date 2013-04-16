@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130415161800) do
+ActiveRecord::Schema.define(:version => 20130416211141) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -573,7 +573,7 @@ ActiveRecord::Schema.define(:version => 20130415161800) do
     t.integer  "apgar_10min"
     t.integer  "birth_order"
     t.string   "birth_type"
-    t.decimal  "birth_weight_gms",                  :precision => 8, :scale => 2
+    t.decimal  "birth_weight_gms",                               :precision => 8, :scale => 2
     t.string   "complications_labor_delivery"
     t.string   "complications_pregnancy"
     t.string   "county_of_delivery"
@@ -632,12 +632,14 @@ ActiveRecord::Schema.define(:version => 20130415161800) do
     t.integer  "term_count_20_plus_weeks"
     t.integer  "term_count_pre_20_weeks"
     t.boolean  "vacuum_attempt_unsuccessful"
-    t.datetime "created_at",                                                      :null => false
-    t.datetime "updated_at",                                                      :null => false
+    t.datetime "created_at",                                                                   :null => false
+    t.datetime "updated_at",                                                                   :null => false
     t.integer  "control_number"
     t.string   "father_ssn"
     t.string   "mother_ssn"
     t.string   "birth_data_file_name"
+    t.integer  "childid"
+    t.string   "subjectid",                         :limit => 6
   end
 
   create_table "candidate_controls", :force => true do |t|

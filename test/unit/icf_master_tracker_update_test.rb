@@ -1,187 +1,9 @@
 require 'test_helper'
 
 class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
-#
-#	setup :turn_off_paperclip_logging
-#
-#	#
-#	#	NOTE that paperclip attachments apparently don't get removed
-#	#		so we must do it on our own.  In addition, if the test
-#	#		fails before you do so, these files end up lying around.
-#	#		A bit of a pain in the butt.  So I added this explicit
-#	#		cleanup of the icf_master_tracker_update csv_files.
-#	#		Works very nicely.
-#	#
-#	teardown :delete_all_possible_icf_master_tracker_update_attachments
-#
-#	teardown :cleanup_icf_master_tracker_update_and_test_file	#	remove tmp/FILE.csv
-#
-#	test "icf_master_tracker_update factory should create icf master tracker update" do
-#		assert_difference('IcfMasterTrackerUpdate.count',1) {
-#			icf_master_tracker_update = Factory(:icf_master_tracker_update)
-#			assert_not_nil icf_master_tracker_update.csv_file_file_name
-#			assert_equal   icf_master_tracker_update.csv_file_file_name, 
-#				'empty_icf_master_tracker_update_test_file.csv'
-#			assert_not_nil icf_master_tracker_update.csv_file_content_type
-#			assert_equal icf_master_tracker_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil icf_master_tracker_update.csv_file_file_size
-#			assert_not_nil icf_master_tracker_update.csv_file_updated_at
-#		}
-#	end
-#
-#	test "empty_icf_master_tracker_update factory should create icf master tracker update" do
-#		assert_difference('IcfMasterTrackerUpdate.count',1) {
-#			icf_master_tracker_update = Factory(:empty_icf_master_tracker_update)
-#			assert_not_nil icf_master_tracker_update.csv_file_file_name
-#			assert_equal   icf_master_tracker_update.csv_file_file_name, 
-#				'empty_icf_master_tracker_update_test_file.csv'
-#			assert_not_nil icf_master_tracker_update.csv_file_content_type
-#			assert_equal icf_master_tracker_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil icf_master_tracker_update.csv_file_file_size
-#			assert_not_nil icf_master_tracker_update.csv_file_updated_at
-#		}
-#	end
-#
-#	test "one_record_icf_master_tracker_update factory should create icf master tracker update" do
-#		assert_difference('IcfMasterTrackerUpdate.count',1) {
-#			icf_master_tracker_update = Factory(:one_record_icf_master_tracker_update)
-#			assert_not_nil icf_master_tracker_update.csv_file_file_name
-#			assert_equal   icf_master_tracker_update.csv_file_file_name, 
-#				'one_record_icf_master_tracker_update_test_file.csv'
-#			assert_not_nil icf_master_tracker_update.csv_file_content_type
-#			assert_equal icf_master_tracker_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil icf_master_tracker_update.csv_file_file_size
-#			assert_not_nil icf_master_tracker_update.csv_file_updated_at
-#		}
-#	end
-#
-#	test "should require master_tracker_date" do
-#		icf_master_tracker_update = IcfMasterTrackerUpdate.new
-#		assert !icf_master_tracker_update.valid?
-#		assert  icf_master_tracker_update.errors.include?(:master_tracker_date)
-#	end
-#
-#	test "should require unique master_tracker_date" do
-#		existing_icf_master_tracker_update = Factory(:icf_master_tracker_update)
-#		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
-#			:master_tracker_date => existing_icf_master_tracker_update.master_tracker_date )
-#		assert !icf_master_tracker_update.valid?
-#		assert  icf_master_tracker_update.errors.include?(:master_tracker_date)
-#	end
-#
-#	test "should require csv_file" do
-#		icf_master_tracker_update = IcfMasterTrackerUpdate.new
-#		assert !icf_master_tracker_update.valid?
-#		assert  icf_master_tracker_update.errors.include?(:csv_file)
-#	end
-#
-#	test "should allow that attached csv_file content_type be text/plain" do
-#		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/plain') )
-#		icf_master_tracker_update.valid?
-#		assert !icf_master_tracker_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should allow that attached csv_file content_type be text/csv" do
-#		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/csv') )
-#		icf_master_tracker_update.valid?
-#		assert !icf_master_tracker_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should allow that attached csv_file content_type be application/vnd.ms-excel" do
-#		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_icf_master_tracker_update_test_file.csv', 'application/vnd.ms-excel') )
-#		icf_master_tracker_update.valid?
-#		assert !icf_master_tracker_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should require that attached csv_file be csv" do
-#		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/funky') )
-#		assert !icf_master_tracker_update.valid?
-#		assert  icf_master_tracker_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should require expected column names in csv file" do
-#		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/bad_header_test_file.csv', 'text/csv') )
-#		assert !icf_master_tracker_update.valid?
-#		assert  icf_master_tracker_update.errors.include?(:csv_file)
-#		assert  icf_master_tracker_update.errors.matching?(:csv_file,
-#			'Invalid column names in csv_file')
-#	end
-#
-#	test "should parse empty existant attached csv_file" do
-#		icf_master_tracker_update = Factory(:icf_master_tracker_update)
-#		assert_difference('IcfMasterTrackerChange.count',0) {
-#		assert_difference('IcfMasterTracker.count',0) {
-#			results = icf_master_tracker_update.parse
-#			assert_equal [], results
-#		} }
-#	end
-#
-#	test "should parse one record existant attached csv_file" do
-#		icf_master_tracker_update = Factory(:one_record_icf_master_tracker_update)
-#		assert_difference('IcfMasterTrackerChange.count',17) {
-#		assert_difference('IcfMasterTracker.count',1) {
-#			results = icf_master_tracker_update.parse
-#			assert_equal results.length, 1
-#			assert       results[0].is_a?(IcfMasterTracker)
-#			assert       results[0].flagged_for_update
-#			assert_equal results[0].master_id,        "12345FAKE"
-#			assert_equal results[0].master_id_mother, "67890FAKE"
-#		} }
-#	end
-#
-#	test "should parse non-existant attached csv_file" do
-#		icf_master_tracker_update = Factory(:icf_master_tracker_update)
-#		assert  File.exists?(icf_master_tracker_update.csv_file.path)
-#		File.delete(icf_master_tracker_update.csv_file.path)
-#		assert !File.exists?(icf_master_tracker_update.csv_file.path)
-#		assert_difference('IcfMasterTracker.count',0) {
-#			results = icf_master_tracker_update.parse
-#			assert_equal [], results
-#		}
-#		#	destroying one without actual file won't remove dir
-#		FileUtils.rm_rf('test/icf_master_tracker_update')
-#	end
-#
-#	test "should parse attached csv_file" do
-#		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
-#		assert_difference('IcfMasterTracker.count',1) {
-#			results = icf_master_tracker_update.parse
-#			assert_equal results.length, 1
-#			assert       results[0].is_a?(IcfMasterTracker)
-#			assert       results[0].flagged_for_update
-#		}	
-#	end
-#
-#	test "should parse attached csv_file with existing icf_master_tracker" do
-#		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
-#		results = nil
-#		assert_difference('IcfMasterTracker.count',1) {
-#			results = icf_master_tracker_update.parse
-#			assert_equal results.length, 1
-#			assert       results[0].is_a?(IcfMasterTracker)
-#			assert       results[0].flagged_for_update
-#		}
-#		assert_difference('IcfMasterTracker.count',0) {
-#			new_results = icf_master_tracker_update.parse
-#			assert_equal new_results.length, 1
-#			assert       new_results[0].is_a?(IcfMasterTracker)
-#			assert_equal results, new_results
-#		}
-#	end
-#
+
+	teardown :cleanup_icf_master_tracker_update_and_test_file	#	remove tmp/FILE.csv
+
 #	test "should copy attributes when csv_file converted to icf_master_tracker" do
 #		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
 #		assert_difference('IcfMasterTracker.count',1) {
@@ -227,9 +49,18 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 #		}
 #	end
 
+
+
+	test "should actually update the interviewed on" do
+pending	#	TODO, or just test in icf master tracker
+	end
+
+
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = 'ICF_Master_Trackers/ICF_Master_Tracker_20120329.csv'
+#		real_data_file = 'ICF_Master_Trackers/ICF_Master_Tracker_20120329.csv'
+#		real_data_file = 'ICF_Master_Trackers/ICF_Master_Tracker_20130411.csv'
+		real_data_file = 'ICF_Master_Tracker_20130416.csv'
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."

@@ -1,19 +1,20 @@
+require 'ostruct'
 #
 #	Non-ActiveRecord class created primarily for adding testability to rake task.
 #
 class IcfMasterTracker < OpenStruct
 
-	attr_accessor :changed
-
 	def initialize(*args)
 		super
+		self.changed = []
+		self.verbose ||= false
 		process
 	end
 
 	def process
 		if master_id.blank?
 			#	raise "master_id is blank" 
-			log << "master_id is blank" 
+			puts "master_id is blank" if verbose
 			return #			next
 		end
 		subjects = StudySubject.where(:icf_master_id => master_id)
@@ -23,7 +24,7 @@ class IcfMasterTracker < OpenStruct
 		#	"#{master_id}:" if subjects.length > 1
 		unless subjects.length == 1
 			#raise "No subject with icf_master_id: #{master_id}:" 
-			log << "No subject with icf_master_id:#{master_id}:" 
+			puts "No subject with icf_master_id:#{master_id}:" if verbose
 			return 	#	next
 		end
 
@@ -31,15 +32,15 @@ class IcfMasterTracker < OpenStruct
 		e = s.enrollments.where(:project_id => Project['ccls'].id).first
 
 		if cati_complete.blank?
-			log << "cati_complete is blank so doing nothing."
+			puts "cati_complete is blank so doing nothing." if verbose
 		else
-			log << "cati_complete: #{Time.parse(cati_complete).to_date}"
-			log << "Current interview_completed_on : #{e.interview_completed_on}"
+			puts "cati_complete: #{Time.parse(cati_complete).to_date}" if verbose
+			puts "Current interview_completed_on : #{e.interview_completed_on}" if verbose
 			e.interview_completed_on = Time.parse(cati_complete).to_date
 			if e.changed?
-				self.changed << s
-				log << "-- Updated interview_completed_on : #{e.interview_completed_on}"
-				log << "-- Enrollment updated. Creating OE"
+				changed << s
+				puts "-- Updated interview_completed_on : #{e.interview_completed_on}" if verbose
+				puts "-- Enrollment updated. Creating OE" if verbose
 
 				e.save!
 				s.operational_events.create!(
@@ -51,7 +52,7 @@ class IcfMasterTracker < OpenStruct
 						"ICF Master Tracker file #{mod_time}"
 				)
 			else
-				log << "No change so doing nothing."
+				puts "No change so doing nothing." if verbose
 			end
 		end	#	if cati_complete.blank?
 	end

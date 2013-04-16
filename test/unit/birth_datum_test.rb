@@ -21,7 +21,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -72,7 +72,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -113,7 +113,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -154,7 +154,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -208,6 +208,36 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 
 
+	test "should link case birth datum to study subject via icf_master_id" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = create_matching_case_birth_datum(study_subject)
+		assert_not_nil birth_datum.master_id
+		assert_nil birth_datum.childid
+		assert_nil birth_datum.subjectid
+		assert_equal birth_datum.study_subject, study_subject
+	end
+
+	test "should link case birth datum to study subject via childid if icf_master_id is blank" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = create_matching_case_birth_datum(study_subject,
+			:master_id => nil, :childid => study_subject.childid)
+		assert_nil birth_datum.master_id
+		assert_not_nil birth_datum.childid
+		assert_nil birth_datum.subjectid
+		assert_equal birth_datum.study_subject, study_subject
+	end
+
+	test "should link case birth datum to study subject via subjectid if childid and icf_master_id are blank" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = create_matching_case_birth_datum(study_subject,
+			:master_id => nil, :subjectid => study_subject.subjectid)
+		assert_nil birth_datum.master_id
+		assert_nil birth_datum.childid
+		assert_not_nil birth_datum.subjectid
+		assert_equal birth_datum.study_subject, study_subject
+	end
+
+
 
 
 
@@ -256,7 +286,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.last.to_s
 	end
 
@@ -393,7 +423,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.last.to_s
 	end
 

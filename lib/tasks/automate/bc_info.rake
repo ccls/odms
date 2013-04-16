@@ -48,8 +48,8 @@ namespace :automate do
 
 			bc_info_files.each do |bc_info_file|
 	
-				bc_info_update = BcInfoUpdate.new(bc_info_file)
-				puts bc_info_update.log
+				bc_info_update = BcInfoUpdate.new(bc_info_file,:verbose => true)
+				bc_info_update.archive
 
 			end	#	bc_info_files.each do |bc_info_file|
 	

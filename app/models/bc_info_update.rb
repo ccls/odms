@@ -1,22 +1,15 @@
-require 'csv'
-
 #
 #	BcInfo files come from ICF
 #
-class BcInfoUpdate
+class BcInfoUpdate < CSVFile
 
-	attr_accessor :csv_file
-	attr_accessor :log
-
-	def initialize(csv_file)
-		self.csv_file = csv_file
-		self.log = []
-		self.parse_csv_file
+	def initialize(csv_file,options={})
+		super
+		self.parse_csv_file unless options[:no_parse]
 	end
 
 	def expected_columns
-#		expected_columns = [
-		[
+		@expected_columns ||= [
 			%w( masterid biomom biodad date 
 				mother_full_name mother_maiden_name father_full_name 
 				child_full_name child_dobm child_dobd child_doby child_gender 
@@ -60,10 +53,6 @@ class BcInfoUpdate
 	end
 
 	def parse_csv_file
-		f=CSV.open(csv_file,'rb')
-		actual_columns = f.readline
-		f.close
-	
 		unless expected_columns.include?(actual_columns.sort)
 			Notification.plain(
 				"BC Info (#{csv_file}) has unexpected column names<br/>\n" <<
@@ -74,24 +63,31 @@ class BcInfoUpdate
 		end	#	unless expected_columns.include?(actual_columns.sort)
 	
 		study_subjects = []
-		log << "Processing #{csv_file}..."
+		puts "Processing #{csv_file}..." if verbose
 
 		(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
-			log << ''
-			log << "Processing line :#{f.lineno}:"
-			log << line
+			puts '' if verbose
+			puts "Processing line #{f.lineno} of #{total_lines}" if verbose
+			#	some of these lines have Control Ms in them?
+			#	There's nothing wrong with that, but it doesn't print correctly
+			#	as it is a carriage return without a line feed.
+			puts line.to_s.gsub(//,'') if verbose	
 
 			bc_info = BcInfo.new(line.to_hash.merge(
-				:bc_info_file => csv_file, :log => log ) )
+				:bc_info_file => csv_file, :verbose => verbose ) )
 			bc_info.process
-			study_subjects.push( self.bc_info.study_subject )
+			study_subjects.push( bc_info.study_subject )
 	
 		end	#	(f=CSV.open( csv_file, 'rb',{
 
 		Notification.updates_from_bc_info( csv_file, study_subjects,
 				email_options.merge({ })
 			).deliver
-		log << ''; log << "Archiving #{csv_file}"
+	end
+
+	def archive
+		puts '' if verbose
+		puts "Archiving #{csv_file}" if verbose
 		archive_dir = Date.current.strftime('%Y%m%d')
 		FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
 		FileUtils.move(csv_file,archive_dir)

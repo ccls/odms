@@ -1,126 +1,22 @@
 require 'test_helper'
 
 class BcInfoUpdateTest < ActiveSupport::TestCase
-#
-#	assert_should_have_many(:screening_data)
-#
-#	setup :turn_off_paperclip_logging
-#	#
-#	#	NOTE that paperclip attachments apparently don't get removed
-#	#		so we must do it on our own.  In addition, if the test
-#	#		fails before you do so, these files end up lying around.
-#	#		A bit of a pain in the butt.  So I added this explicit
-#	#		cleanup of the bc_info_update csv_files.
-#	#		Works very nicely.
-#	#
-#	teardown :delete_all_possible_bc_info_update_attachments
-#
-#	teardown :cleanup_bc_info_update_and_test_file	#	remove tmp/FILE.csv
-#
-#	test "bc info update factory should create bc info update" do
-#		assert_difference('BcInfoUpdate.count',1) {
-#			bc_info_update = FactoryGirl.create(:bc_info_update)
-#			assert_not_nil bc_info_update.csv_file_file_name
-#			assert_equal   bc_info_update.csv_file_file_name, 
-#				'empty_bc_info_update_test_file.csv'
-#			assert_not_nil bc_info_update.csv_file_content_type
-#			assert_equal bc_info_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil bc_info_update.csv_file_file_size
-#			assert_not_nil bc_info_update.csv_file_updated_at
-#		}
-#	end
-#
-#	test "bc info update factory should not create bc info" do
-#		assert_difference('BcInfo.count',0) {	#	after_create should do nothing
-#			bc_info_update = FactoryGirl.create(:bc_info_update)
-#		}
-#	end
-#
-#	test "empty bc info update factory should create bc info update" do
-#		assert_difference('BcInfoUpdate.count',1) {
-#			bc_info_update = FactoryGirl.create(:empty_bc_info_update)
-#			assert_not_nil bc_info_update.csv_file_file_name
-#			assert_equal   bc_info_update.csv_file_file_name, 
-#				'empty_bc_info_update_test_file.csv'
-#			assert_not_nil bc_info_update.csv_file_content_type
-#			assert_equal bc_info_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil bc_info_update.csv_file_file_size
-#			assert_not_nil bc_info_update.csv_file_updated_at
-#		}
-#	end
-#
-#	test "empty bc info update factory should not create bc info" do
-#		assert_difference('BcInfo.count',0) {	#	after_create should do nothing
-#			bc_info_update = FactoryGirl.create(:empty_bc_info_update)
-#			assert_nil bc_info_update.screening_data.first
-#		}
-#	end
-#
-#	test "one record bc info update factory should create bc info update" do
-##	irrelevant for now
-##		study_subject = create_case_for_bc_info_update
-#		assert_difference('BcInfoUpdate.count',1) {
-#			bc_info_update = FactoryGirl.create(:one_record_bc_info_update)
-#			assert_not_nil bc_info_update.csv_file_file_name
-#			assert_equal   bc_info_update.csv_file_file_name, 
-#				'one_record_bc_info_update_test_file.csv'
-#			assert_not_nil bc_info_update.csv_file_content_type
-#			assert_equal bc_info_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil bc_info_update.csv_file_file_size
-#			assert_not_nil bc_info_update.csv_file_updated_at
-#		}
-#	end
-#
-#	test "one record bc info update factory should create bc info" do
-#	irrelevant for now
-#		study_subject = create_case_for_bc_info_update
-#		assert_difference('BcInfo.count',1) {	#	after_create should add this
-#			bc_info_update = FactoryGirl.create(:one_record_bc_info_update)
-#			assert_not_nil bc_info_update.screening_data.first
-#		}
-#	end
-#
-#	test "should require csv_file" do
-#		bc_info_update = BcInfoUpdate.new
-#		assert !bc_info_update.valid?
-#		assert  bc_info_update.errors.include?(:csv_file)
-#	end
-#
-#	test "should allow that attached csv_file content_type be text/plain" do
-#		bc_info_update = BcInfoUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_bc_info_update_test_file.csv', 'text/plain') )
-#		bc_info_update.valid?
-#		assert !bc_info_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should allow that attached csv_file content_type be text/csv" do
-#		bc_info_update = BcInfoUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_bc_info_update_test_file.csv', 'text/csv') )
-#		bc_info_update.valid?
-#		assert !bc_info_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should allow that attached csv_file content_type be application/vnd.ms-excel" do
-#		bc_info_update = BcInfoUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_bc_info_update_test_file.csv', 'application/vnd.ms-excel') )
-#		bc_info_update.valid?
-#		assert !bc_info_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should require that attached csv_file be csv" do
-#		bc_info_update = BcInfoUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_bc_info_update_test_file.csv', 'text/funky') )
-#		assert !bc_info_update.valid?
-#		assert  bc_info_update.errors.include?(:csv_file_content_type)
-#	end
-#
+
+	teardown :cleanup_bc_info_update_and_test_file	#	remove tmp/FILE.csv
+
+	test "bc info update factory should create bc info update" do
+		bc_info_update = BcInfoUpdate.new('test/assets/empty_bc_info_update_test_file.csv')
+		assert_not_nil bc_info_update.csv_file
+		assert_equal   bc_info_update.csv_file, 'test/assets/empty_bc_info_update_test_file.csv'
+	end
+
+
+	test "bc info update should actually update something" do
+pending	#	TODO add some real tests
+	end
+
+
+
 #	test "should require expected column names in csv file" do
 #		bc_info_update = BcInfoUpdate.new(
 #			:csv_file => Rack::Test::UploadedFile.new(
@@ -188,46 +84,40 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = "screening_data/screening_datum_update_20120822.csv"
+#		real_data_file = "screening_data/screening_datum_update_20120822.csv"
+		real_data_file = "bc_info_20120822.csv"
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."
 			return 
 		end
 
-#		#	case must exist for candidate controls to be created
-#		s = FactoryGirl.create(:case_study_subject,:sex => 'M',
-#			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
-#			:dob => Date.parse('6/1/2009'))
-#		FactoryGirl.create(:icf_master_id,:icf_master_id => '15851196C')
-#		s.assign_icf_master_id
-
 		#	Create subjects to update based on the file
 		#	Nothing should match so could actually test the other counts
-		(f=CSV.open( real_data_file, 'rb',{
-						:headers => true })).each do |line|
-			FactoryGirl.create(:study_subject,:icf_master_id => line['icf_master_id'])
-		end
+		assert_difference('StudySubject.count',94) {
+			(f=CSV.open( real_data_file, 'rb',{
+					:headers => true })).each { |line|
+				subject = FactoryGirl.create(:study_subject,:icf_master_id => line['icf_master_id'])
+
+				#	need the mother to exist to create an operational event
+				subject.create_mother
+
+		} }
 
 		bc_info_update = nil
 
-#		assert_difference('OperationalEvent.count',166){
-		assert_difference("OperationalEventType['dataconflict']"<<
-			".operational_events.count",25){
+##		assert_difference('OperationalEvent.count',166){
+#		assert_difference("OperationalEventType['dataconflict']"<<
+#			".operational_events.count",25){	#	returns 0 now as this is not birthdata!
 		assert_difference("OperationalEventType['datachanged']"<<
 			".operational_events.count",94){
 		assert_difference("OperationalEventType['screener_complete']"<<
 			".operational_events.count",47){
 		assert_difference('OdmsException.count',0){
-#		assert_difference('BcInfo.count',47){
-#			bc_info_update = FactoryGirl.create(:bc_info_update,
-#				:csv_file => File.open(real_data_file) )
-#			assert_not_nil bc_info_update.csv_file_file_name
 			bc_info_update = BcInfoUpdate.new( real_data_file )
+#			bc_info_update.parse_csv_file
 			assert_not_nil bc_info_update.csv_file
-			assert_not_nil bc_info_update.log
-		} } } } #}
-		bc_info_update.destroy
+		} } }# } #}
 	end
 
 

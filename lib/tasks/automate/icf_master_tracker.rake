@@ -28,8 +28,8 @@ namespace :automate do
 			abort( "scp seems to have failed as csv file is not found." )
 		end
 
-		icf_master_tracker_update = IcfMasterTrackerUpdate.new("ICF_Master_Tracker.csv")	#	fixed name
-		puts icf_master_tracker_update.log
+		icf_master_tracker_update = IcfMasterTrackerUpdate.new("ICF_Master_Tracker.csv",:verbose => true)
+		icf_master_tracker_update.archive
 
 	end #	task :updates_from_icf_master_tracker => :environment do
 

@@ -27,8 +27,8 @@ namespace :automate do
 
 			birth_data_files.each do |birth_data_file|
 
-				puts "Processing #{birth_data_file}..."
-				BirthDatumUpdate.new(birth_data_file)
+				bdu = BirthDatumUpdate.new(birth_data_file,:verbose => true)
+				bdu.archive
 
 			end	#	birth_data_files.each do |birth_data_file|
 	

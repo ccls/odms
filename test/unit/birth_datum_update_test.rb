@@ -1,97 +1,24 @@
 require 'test_helper'
 
 class BirthDatumUpdateTest < ActiveSupport::TestCase
-#	include BirthDatumUpdateTestHelper
 
-#	assert_should_have_many(:birth_data)
-#
-#	setup :turn_off_paperclip_logging
-#	#
-#	#	NOTE that paperclip attachments apparently don't get removed
-#	#		so we must do it on our own.  In addition, if the test
-#	#		fails before you do so, these files end up lying around.
-#	#		A bit of a pain in the butt.  So I added this explicit
-#	#		cleanup of the birth_datum_update csv_files.
-#	#		Works very nicely.
-#	#
-#	teardown :delete_all_possible_birth_datum_update_attachments
-#
-#	teardown :cleanup_birth_datum_update_and_test_file	#	remove tmp/FILE.csv
-#
-#	test "birth datum update factory should create birth datum update" do
-#		assert_difference('BirthDatumUpdate.count',1) {
-#			birth_datum_update = FactoryGirl.create(:birth_datum_update)
-#			assert_not_nil birth_datum_update.csv_file_file_name
-#			assert_equal   birth_datum_update.csv_file_file_name, 
-#				'empty_birth_datum_update_test_file.csv'
-#			assert_not_nil birth_datum_update.csv_file_content_type
-#			assert_equal birth_datum_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil birth_datum_update.csv_file_file_size
-#			assert_not_nil birth_datum_update.csv_file_updated_at
-#		}
-#	end
+	teardown :cleanup_birth_datum_update_and_test_file	#	remove tmp/FILE.csv
 
 	test "birth datum update factory should not create birth datum" do
 		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
-#			birth_datum_update = FactoryGirl.create(:birth_datum_update)
 			BirthDatumUpdate.new('test/assets/empty_birth_datum_update_test_file.csv')
 		}
 	end
 
 	test "birth datum update factory should not create candidate control" do
 		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
-#			birth_datum_update = FactoryGirl.create(:birth_datum_update)
 			BirthDatumUpdate.new('test/assets/empty_birth_datum_update_test_file.csv')
 		}
 	end
 
-#	test "empty birth datum update factory should create birth datum update" do
-#		assert_difference('BirthDatumUpdate.count',1) {
-#			birth_datum_update = FactoryGirl.create(:empty_birth_datum_update)
-#			assert_not_nil birth_datum_update.csv_file_file_name
-#			assert_equal   birth_datum_update.csv_file_file_name, 
-#				'empty_birth_datum_update_test_file.csv'
-#			assert_not_nil birth_datum_update.csv_file_content_type
-#			assert_equal birth_datum_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil birth_datum_update.csv_file_file_size
-#			assert_not_nil birth_datum_update.csv_file_updated_at
-#		}
-#	end
-#
-#	test "empty birth datum update factory should not create birth datum" do
-#		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
-#			birth_datum_update = FactoryGirl.create(:empty_birth_datum_update)
-#			assert_nil birth_datum_update.birth_data.first
-#		}
-#	end
-#
-#	test "empty birth datum update factory should not create candidate control" do
-#		assert_difference('CandidateControl.count',0) {	#	after_create should do nothing
-#			birth_datum_update = FactoryGirl.create(:empty_birth_datum_update)
-#		}
-#	end
-#
-#	test "one record birth datum update factory should create birth datum update" do
-#		study_subject = create_case_for_birth_datum_update
-#		assert_difference('BirthDatumUpdate.count',1) {
-#			birth_datum_update = FactoryGirl.create(:one_record_birth_datum_update)
-#			assert_not_nil birth_datum_update.csv_file_file_name
-#			assert_equal   birth_datum_update.csv_file_file_name, 
-#				'one_record_birth_datum_update_test_file.csv'
-#			assert_not_nil birth_datum_update.csv_file_content_type
-#			assert_equal birth_datum_update.csv_file_content_type,
-#				'text/csv'
-#			assert_not_nil birth_datum_update.csv_file_file_size
-#			assert_not_nil birth_datum_update.csv_file_updated_at
-#		}
-#	end
-
 	test "one record birth datum update factory should create birth datum" do
 		study_subject = create_case_for_birth_datum_update
 		assert_difference('BirthDatum.count',1) {	#	after_create should add this
-#			birth_datum_update = FactoryGirl.create(:one_record_birth_datum_update)
 			birth_datum_update = BirthDatumUpdate.new('test/assets/one_record_birth_datum_update_test_file.csv')
 			assert_not_nil birth_datum_update.birth_data.first
 			assert_not_nil birth_datum_update.birth_data.first.candidate_control
@@ -101,71 +28,11 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	test "one record birth datum update factory should create candidate control" do
 		study_subject = create_case_for_birth_datum_update
 		assert_difference('CandidateControl.count',1) {	#	after_create should add this
-#			birth_datum_update = FactoryGirl.create(:one_record_birth_datum_update)
 			birth_datum_update = BirthDatumUpdate.new('test/assets/one_record_birth_datum_update_test_file.csv')
 			assert_not_nil birth_datum_update.birth_data.first
 			assert_not_nil birth_datum_update.birth_data.first.candidate_control
 		}
 	end
-
-#	test "should require csv_file" do
-#		birth_datum_update = BirthDatumUpdate.new
-#		assert !birth_datum_update.valid?
-#		assert  birth_datum_update.errors.include?(:csv_file)
-#	end
-#
-#	test "should allow that attached csv_file content_type be text/plain" do
-#		birth_datum_update = BirthDatumUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_birth_datum_update_test_file.csv', 'text/plain') )
-#		birth_datum_update.valid?
-#		assert !birth_datum_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should allow that attached csv_file content_type be text/csv" do
-#		birth_datum_update = BirthDatumUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_birth_datum_update_test_file.csv', 'text/csv') )
-#		birth_datum_update.valid?
-#		assert !birth_datum_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should allow that attached csv_file content_type be application/vnd.ms-excel" do
-#		birth_datum_update = BirthDatumUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_birth_datum_update_test_file.csv', 'application/vnd.ms-excel') )
-#		birth_datum_update.valid?
-#		assert !birth_datum_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should require that attached csv_file be csv" do
-#		birth_datum_update = BirthDatumUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/empty_birth_datum_update_test_file.csv', 'text/funky') )
-#		assert !birth_datum_update.valid?
-#		assert  birth_datum_update.errors.include?(:csv_file_content_type)
-#	end
-#
-#	test "should require expected column names in csv file" do
-#		birth_datum_update = BirthDatumUpdate.new(
-#			:csv_file => Rack::Test::UploadedFile.new(
-#				'test/assets/bad_header_test_file.csv', 'text/csv') )
-#
-#		assert !birth_datum_update.valid?
-#
-##		birth_datum_update.valid_csv_file_column_names
-#		assert  birth_datum_update.errors.include?(:csv_file)
-#		assert  birth_datum_update.errors.matching?(:csv_file,
-#			'Invalid column name .* in csv_file')
-##pending 'Temporarily disabled this validation, but works manually.'
-#	end
-#
-##	test "should convert empty attached csv_file to candidate controls" do
-##		assert_difference('CandidateControl.count',0) {
-##		assert_difference('BirthDatum.count',0) {
-##			birth_datum_update = FactoryGirl.create(:empty_birth_datum_update)
-##		} }
-##	end
 
 	test "should convert attached csv_file to candidate controls with matching case" do
 		create_case_for_birth_datum_update
@@ -313,14 +180,10 @@ state_registrar_no
 
 		assert_difference('BirthDatum.count',33){
 		assert_difference('CandidateControl.count',5){
-#			birth_datum_update = FactoryGirl.create(:birth_datum_update,
-#				:csv_file => File.open(real_data_file) )
 			birth_datum_update = BirthDatumUpdate.new(real_data_file) 
 #			birth_datum_update.parse_csv_file
-#			assert_not_nil birth_datum_update.csv_file_file_name
 			assert_not_nil birth_datum_update.csv_file
 		} }
-#		birth_datum_update.destroy
 	end
 
 #
