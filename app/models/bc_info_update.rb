@@ -12,8 +12,6 @@ class BcInfoUpdate < CSVFile
 	end
 
 	def self.expected_columns
-#		@expected_columns ||= [
-#		@@expected_columns ||= [
 		[
 			%w( masterid biomom biodad date 
 				mother_full_name mother_maiden_name father_full_name 
