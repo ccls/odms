@@ -127,17 +127,6 @@ pending	#	TODO, or just test in icf master tracker
 
 protected
 
-#	def delete_all_possible_icf_master_tracker_update_attachments
-#		#IcfMasterTrackerUpdate.destroy_all
-#		#	either way will do the job.
-#		#	/bin/rm -rf test/icf_master_tracker_update
-#		FileUtils.rm_rf('test/icf_master_tracker_update')
-#	end
-
-	#	create_object is called from within the common class tests
-#	aren't any here
-#	alias_method :create_object, :create_icf_master_tracker_update
-
 	def create_test_file_and_icf_master_tracker_update(options={})
 		create_icf_master_tracker_update_test_file(options)
 		icf_master_tracker_update = create_icf_master_tracker_update_with_file
@@ -150,23 +139,7 @@ protected
 		icf_master_tracker_update
 	end
 
-#
-#	Don't think I need this anymore.  Just removing the whole directory after each test.
-#	Actually, should probably remove the source file.
-#
 	def cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update=nil)
-#		if icf_master_tracker_update
-#			icf_master_tracker_update_file = icf_master_tracker_update.csv_file.path
-#			#	explicit destroy to remove attachment
-#			icf_master_tracker_update.destroy	
-#			unless icf_master_tracker_update_file.blank?
-#				assert !File.exists?(icf_master_tracker_update_file)
-#			end
-#			if File.exists?("test/icf_master_tracker_update/#{icf_master_tracker_update.id}") &&
-#				File.directory?("test/icf_master_tracker_update/#{icf_master_tracker_update.id}")
-#				Dir.delete("test/icf_master_tracker_update/#{icf_master_tracker_update.id}")
-#			end
-#		end
 		if File.exists?(csv_test_file_name)
 			#	explicit delete to remove test file
 			File.delete(csv_test_file_name)	

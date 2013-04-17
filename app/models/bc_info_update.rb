@@ -3,13 +3,18 @@
 #
 class BcInfoUpdate < CSVFile
 
+	attr_accessor :bc_infos
+
 	def initialize(csv_file,options={})
 		super
-		self.parse_csv_file unless options[:no_parse]
+		self.bc_infos = []
+		self.parse_csv_file unless self.options[:no_parse]
 	end
 
-	def expected_columns
-		@expected_columns ||= [
+	def self.expected_columns
+#		@expected_columns ||= [
+#		@@expected_columns ||= [
+		[
 			%w( masterid biomom biodad date 
 				mother_full_name mother_maiden_name father_full_name 
 				child_full_name child_dobm child_dobd child_doby child_gender 
@@ -53,14 +58,18 @@ class BcInfoUpdate < CSVFile
 	end
 
 	def parse_csv_file
-		unless expected_columns.include?(actual_columns.sort)
+		unless self.class.expected_columns.include?(actual_columns.sort)
 			Notification.plain(
 				"BC Info (#{csv_file}) has unexpected column names<br/>\n" <<
 				"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
 				email_options.merge({ 
 					:subject => "ODMS: Unexpected or missing columns in #{csv_file}" })
 			).deliver
-		end	#	unless expected_columns.include?(actual_columns.sort)
+
+			self.status = "#{csv_file} has unexpected column names"
+
+			return
+		end	#	unless self.class.expected_columns.include?(actual_columns.sort)
 	
 		study_subjects = []
 		puts "Processing #{csv_file}..." if verbose
@@ -75,6 +84,7 @@ class BcInfoUpdate < CSVFile
 
 			bc_info = BcInfo.new(line.to_hash.merge(
 				:bc_info_file => csv_file, :verbose => verbose ) )
+			self.bc_infos << bc_info
 			bc_info.process
 			study_subjects.push( bc_info.study_subject )
 	

@@ -13,7 +13,7 @@ class IcfMasterTracker < OpenStruct
 
 	def process
 		if master_id.blank?
-			#	raise "master_id is blank" 
+			self.status = "master_id is blank" 
 			puts "master_id is blank" if verbose
 			return #			next
 		end
@@ -23,7 +23,7 @@ class IcfMasterTracker < OpenStruct
 		#raise "Multiple case subjects? with icf_master_id:" <<
 		#	"#{master_id}:" if subjects.length > 1
 		unless subjects.length == 1
-			#raise "No subject with icf_master_id: #{master_id}:" 
+			self.status = "No subject with icf_master_id: #{master_id}:" 
 			puts "No subject with icf_master_id:#{master_id}:" if verbose
 			return 	#	next
 		end
@@ -32,6 +32,7 @@ class IcfMasterTracker < OpenStruct
 		e = s.enrollments.where(:project_id => Project['ccls'].id).first
 
 		if cati_complete.blank?
+			self.status = "cati_complete is blank so doing nothing."
 			puts "cati_complete is blank so doing nothing." if verbose
 		else
 			puts "cati_complete: #{Time.parse(cati_complete).to_date}" if verbose
@@ -51,8 +52,10 @@ class IcfMasterTracker < OpenStruct
 						"cati_complete #{cati_complete} from " <<
 						"ICF Master Tracker file #{mod_time}"
 				)
+				self.status = "interview_completed_on set to: #{e.interview_completed_on}"
 			else
 				puts "No change so doing nothing." if verbose
+				self.status = "No change so doing nothing."
 			end
 		end	#	if cati_complete.blank?
 	end

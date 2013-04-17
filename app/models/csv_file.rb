@@ -5,9 +5,11 @@ class CSVFile
 	attr_accessor :csv_file
 	attr_accessor :options
 	attr_accessor :verbose
+	attr_accessor :status
 
 	def initialize(csv_file,options={})
 		self.options = options.with_indifferent_access
+		self.status = ''
 		self.csv_file = csv_file
 		self.verbose = self.options[:verbose] || false
 	end

@@ -3,8 +3,11 @@
 #
 class IcfMasterTrackerUpdate < CSVFile
 
+	attr_accessor :icf_master_trackers
+
 	def initialize(csv_file,options={})
 		super
+		self.icf_master_trackers = []
 		self.parse_csv_file unless self.options[:no_parse]
 	end
 
@@ -41,6 +44,8 @@ class IcfMasterTrackerUpdate < CSVFile
 #	"abort" causes problems in testing. Try to avoid.
 			abort( "File is not new. Mod Time is #{mod_time}. Not doing anything." )
 
+#	perhaps add to status and just return?
+
 
 		end
 
@@ -53,7 +58,8 @@ class IcfMasterTrackerUpdate < CSVFile
 			puts "Processing line #{f.lineno} of #{total_lines}" if verbose
 			puts line.to_s if verbose
 			icf_master_tracker = IcfMasterTracker.new( line.to_hash.merge( :verbose => verbose ))
-#			icf_master_tracker.process
+			self.icf_master_trackers << icf_master_tracker
+#			icf_master_tracker.process	#	done in initialize
 			changed << icf_master_tracker.changed unless icf_master_tracker.changed.blank?
 		end	#	(f=CSV.open( csv_file.path, 'rb',{
 

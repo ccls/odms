@@ -309,19 +309,6 @@ state_registrar_no
 	end
 
 protected
-#
-#	def delete_all_possible_birth_datum_update_attachments
-#		#	BirthDatumUpdate.destroy_all
-#		#	either way will do the job.
-#		#	/bin/rm -rf test/birth_datum_update
-#		FileUtils.rm_rf('test/birth_datum_update')
-#	end
-#
-#	#	create_object is called from within the common class tests
-#	alias_method :create_object, :create_birth_datum_update
-#
-#end
-#module BirthDatumUpdateTestHelper
 
 	def create_test_file_and_birth_datum_update(options={})
 		create_birth_datum_update_test_file(options)
@@ -329,30 +316,11 @@ protected
 	end
 
 	def create_birth_datum_update_with_file
-#		birth_datum_update = FactoryGirl.create(:birth_datum_update,
-#			:csv_file => File.open(csv_test_file_name) )
-#		assert_not_nil birth_datum_update.csv_file_file_name
 		birth_datum_update = BirthDatumUpdate.new(csv_test_file_name)
 		birth_datum_update
 	end
 
-#
-#	No longer necessary
-#	Actually, should probably remove the source file.
-#
 	def cleanup_birth_datum_update_and_test_file(birth_datum_update=nil)
-#		if birth_datum_update
-#			birth_datum_update_file = birth_datum_update.csv_file.path
-#			#	explicit destroy to remove attachment
-#			birth_datum_update.destroy	
-#			unless birth_datum_update_file.blank?
-#				assert !File.exists?(birth_datum_update_file)
-#			end
-#			if File.exists?("test/birth_datum_update/#{birth_datum_update.id}") &&
-#				File.directory?("test/birth_datum_update/#{birth_datum_update.id}")
-#				Dir.delete("test/birth_datum_update/#{birth_datum_update.id}")
-#			end
-#		end
 		if File.exists?(csv_test_file_name)
 			#	explicit delete to remove test file
 			File.delete(csv_test_file_name)	

@@ -2,17 +2,33 @@ require 'test_helper'
 
 class BcInfoUpdateTest < ActiveSupport::TestCase
 
-	teardown :cleanup_bc_info_update_and_test_file	#	remove tmp/FILE.csv
+	teardown :cleanup_bc_info_update_and_test_file	#	remove tmp/FILE.csv (csv_test_file_name)
 
-	test "bc info update factory should create bc info update" do
+	test "should create bc info update" do
 		bc_info_update = BcInfoUpdate.new('test/assets/empty_bc_info_update_test_file.csv')
 		assert_not_nil bc_info_update.csv_file
 		assert_equal   bc_info_update.csv_file, 'test/assets/empty_bc_info_update_test_file.csv'
 	end
 
+	test "should have 4 different possible expected columns" do
+		assert_equal 4, BcInfoUpdate.expected_columns.length
+	end
 
-	test "bc info update should actually update something" do
-pending	#	TODO add some real tests
+	BcInfoUpdate.expected_columns.each_with_index do |a,i|
+
+		test "should allow columns set #{i}" do
+			CSV.open(csv_test_file_name,'w'){|c| c << BcInfoUpdate.expected_columns[i] }
+			bc_info_update = BcInfoUpdate.new(csv_test_file_name)
+			assert bc_info_update.status.blank?
+		end
+
+	end
+
+	test "should not allow unexpected column names" do
+		CSV.open(csv_test_file_name,'w'){|c| c << %w( col1 col2 col3 ) }
+		bc_info_update = BcInfoUpdate.new(csv_test_file_name)
+		assert_match /unexpected column names/, bc_info_update.status
+#	returns without parsing
 	end
 
 
@@ -145,44 +161,18 @@ pending	#	bang or no bang?
 
 protected
 
-#	def delete_all_possible_bc_info_update_attachments
-#		#	BcInfoUpdate.destroy_all
-#		#	either way will do the job.
-#		#	/bin/rm -rf test/bc_info_update
-#		FileUtils.rm_rf('test/bc_info_update')
-#	end
-
 	def create_test_file_and_bc_info_update(options={})
 		create_bc_info_update_test_file(options)
 		bc_info_update = create_bc_info_update_with_file
 	end
 
 	def create_bc_info_update_with_file
-#		bc_info_update = FactoryGirl.create(:bc_info_update,
-#			:csv_file => File.open(csv_test_file_name) )
-#		assert_not_nil bc_info_update.csv_file_file_name
 		bc_info_update = BcIfoUpdate.new(csv_test_file_name)
 		assert_not_nil bc_info_update.csv_file
 		bc_info_update
 	end
 
-#
-#	No longer necessary
-#	Actually, should probably remove the source file.
-#
 	def cleanup_bc_info_update_and_test_file(bc_info_update=nil)
-#		if bc_info_update
-#			bc_info_update_file = bc_info_update.csv_file.path
-#			#	explicit destroy to remove attachment
-#			bc_info_update.destroy	
-#			unless bc_info_update_file.blank?
-#				assert !File.exists?(bc_info_update_file)
-#			end
-#			if File.exists?("test/bc_info_update/#{bc_info_update.id}") &&
-#				File.directory?("test/bc_info_update/#{bc_info_update.id}")
-#				Dir.delete("test/bc_info_update/#{bc_info_update.id}")
-#			end
-#		end
 		if File.exists?(csv_test_file_name)
 			#	explicit delete to remove test file
 			File.delete(csv_test_file_name)	

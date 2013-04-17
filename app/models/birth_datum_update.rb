@@ -14,6 +14,11 @@ class BirthDatumUpdate < CSVFile
 	end
 
 	def parse_csv_file
+
+
+#	no column check?
+
+
 #		line_count = 0	#	think this WAS used to ensure the proper number of lines.
 		study_subjects = []
 		puts "Processing #{csv_file}..." if verbose

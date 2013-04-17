@@ -5,10 +5,6 @@ class BirthDatumTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 
 	assert_should_belong_to( :study_subject )
-#	assert_should_belong_to( :birth_datum_update )
-
-#	needs special test as is created in an after_create
-#	assert_should_have_one( :candidate_control )
 
 	test "birth_datum factory should create birth datum" do
 		birth_datum = FactoryGirl.create(:birth_datum)
