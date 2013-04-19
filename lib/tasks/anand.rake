@@ -1,5 +1,11 @@
 require 'csv'
 
+# gonna start asserting that everything is as expected.
+# will slow down import, but I want to make sure I get it right.
+def assert(expression,message = 'Assertion failed.')
+	raise "#{message} :\n #{caller[0]}" unless expression
+end
+
 def total_lines(csv_file_name)
 	f = CSV.open(csv_file_name,'rb')
 	total_lines = f.readlines.size  # includes header, but so does f.lineno
@@ -29,6 +35,130 @@ end
 #	One-off tasks written for Anand
 #
 namespace :anand do
+
+
+
+#	   1 "LabelID","AstroID","subjectid","sampleid","sex","sample_type","collected_date","Box","Position"
+#	"20130405_CDC_GEGL_lastbatch.csv" 1635L, 105981C
+
+
+	task :verify_maternal_last_batch => :environment do
+		total_lines = total_lines('anand/20130405_CDC_GEGL_lastbatch.csv')
+		error_file = File.open('anand/20130405_CDC_GEGL_lastbatch.txt','w')
+		( csv_in = CSV.open( 'anand/20130405_CDC_GEGL_lastbatch.csv',
+				'rb',{ :headers => true })).each do |line|
+
+			puts "Processing #{csv_in.lineno}/#{total_lines}"
+
+			#	verify subjectid exists
+			#	verify sampleid exists
+			#	verify subject with subjectid is same subject with cdcid/childid
+			#	verify subject sex
+			#	verify subject is mother
+			#	verify sample sample type
+
+			cdcid = line['LabelID'].gsub(/^05-57-/,'').gsub(/-\w+$/,'').to_i
+			childid = childid_cdcid.invert[cdcid]
+			cdc_mother = StudySubject.with_childid(childid).first.mother
+
+			subject = nil
+			if line['subjectid'].present?
+				subject = StudySubject.with_subjectid(line['subjectid']).first
+				if subject.nil?
+					error_file.puts "No subject found with #{line['subjectid']}"
+					error_file.puts line
+					error_file.puts 
+				end
+			else
+				puts "SubjectID is blank"
+				puts line
+				puts "CDC mother subjectid would be #{cdc_mother.subjectid}"
+				puts
+			end
+
+			#
+			#	Do we want these samples attached to the child or the mother?  
+			#	Assuming mother since all but one are attached to mothers,
+			#		even though the LabelID contains the child's childid.
+			#
+
+			if subject and !subject.is_mother?
+				error_file.puts "subject is not a mother"
+				error_file.puts line
+				if subject.mother.nil?		#	DOESN'T HAPPEN
+					error_file.puts "And subject has no mother in database. could create."
+				else
+					puts "Mother: #{subject.mother.childid}, #{subject.mother.subjectid}"
+				end
+				error_file.puts
+#
+#	only happens for one subjectid
+#
+#	create mother?
+#				subject.create_mother
+#	reassign it to subject?
+#				subject = subject.mother
+#
+			end
+
+			if subject and subject.childid != cdc_mother.childid
+				error_file.puts "childid mismatch #{subject.childid} : #{cdc_mother.childid}"
+				error_file.puts line
+				error_file.puts
+			end
+
+
+			sample = nil
+			if line['sampleid'].present?
+				sample = Sample.where(:id => line['sampleid'].to_i).first
+
+				if sample.nil?		#	DOESN'T HAPPEN
+					error_file.puts "No sample found with #{line['sampleid']}"
+					error_file.puts line
+					error_file.puts 
+				end
+			else
+				error_file.puts "SampleID is blank." 
+				error_file.puts line
+
+				samples = Sample.where(
+					Sample.arel_table[:external_id].matches("%#{line['LabelID']}%") )
+
+				if samples.empty?
+					error_file.puts "And no samples match external_id #{line['LabelID']}"
+				else
+					error_file.puts "BUT #{samples.length} samples DO match external_id #{line['LabelID']}"
+					error_file.puts samples.collect(&:sampleid)
+				end
+				
+
+				error_file.puts
+			end
+
+			if subject and sample
+				if !subject.samples.include?( sample )		#	DOESN'T HAPPEN
+#					puts "Sample belongs to subject"
+#				else
+					error_file.puts "Sample does not belong to subject"
+					error_file.puts line
+					error_file.puts
+				end
+			elsif cdc_mother and sample
+				if !cdc_mother.samples.include?( sample )		#	DOESN'T HAPPEN
+#					puts "Sample belongs to subject"
+#				else
+					error_file.puts "Sample does not belong to cdc_mother"
+					error_file.puts line
+					error_file.puts
+				end
+			end
+
+		end
+		error_file.close
+	end	#	task :verify_maternal_last_batch => :environment do
+
+
+
 
 	#	20130402
 	task :output_mothers_with_their_own_childids => :environment do
