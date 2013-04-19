@@ -1652,7 +1652,6 @@ Table: units
 +-------------+--------------+------+-----+---------+----------------+
 | id          | int(11)      | NO   | PRI | NULL    | auto_increment |
 | position    | int(11)      | YES  |     | NULL    |                |
-| context_id  | int(11)      | YES  |     | NULL    |                |
 | key         | varchar(255) | NO   | UNI | NULL    |                |
 | description | varchar(255) | YES  | UNI | NULL    |                |
 | created_at  | datetime     | NO   |     | NULL    |                |
@@ -1697,4 +1696,4 @@ Table: zip_codes
 | updated_at | datetime     | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 /Users/jakewendt/github_repo/ccls/odms
-2013-04-16 16:19:38 -0700
+2013-04-19 10:53:05 -0700

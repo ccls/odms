@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130416211141) do
+ActiveRecord::Schema.define(:version => 20130419175149) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1614,7 +1614,6 @@ ActiveRecord::Schema.define(:version => 20130416211141) do
 
   create_table "units", :force => true do |t|
     t.integer  "position"
-    t.integer  "context_id"
     t.string   "key",         :null => false
     t.string   "description"
     t.datetime "created_at",  :null => false
