@@ -40,6 +40,10 @@ class Sunspot::SubjectsController < SunspotController
 #					range_facet_and_filter_for(p,params.dup,{:start => 1980, :stop => 2010, :step => 5})
 #				else
 					if params[p]
+#
+#	20130423 - be advised that false.blank? is true so the boolean attributes
+#						will not work correctly here.  Need to find another way.
+#
 						params[p] = [params[p].dup].flatten.reject{|x|x.blank?}
 #						if params[p+'_op'] && params[p+'_op']=='AND'
 #							unless params[p].empty?
@@ -137,7 +141,7 @@ protected
 	def all_facets
 		%w( subject_type vital_status case_control_type sex phase 
 			races languages hospital diagnosis sample_types operational_event_types 
-			ccls_consented ccls_is_eligible
+			ccls_consented ccls_is_eligible interviewed 
 			patient_was_ca_resident_at_diagnosis
 			patient_was_previously_treated
 			patient_was_under_15_at_dx

@@ -26,6 +26,9 @@ module SunspotHelper
 			#	Don't include the blank fields, so don't count them.
 			#	May need to figure out how to deal with blanks in the future
 			#	as occassionally they are what one would be searching for.
+#
+#	20130423 - false.blank? is true so boolean fields won't work here
+#
 			non_blank_row_count = facet.rows.reject{|r|r.value.blank?}.length
 			facet_label = facet.name.to_s
 			facet_label = if( facet_label.match(/^hex_/) )
@@ -61,6 +64,10 @@ module SunspotHelper
 #
 #		Of course, this mucks up the count.  Errr!!!
 #		So I had to handle it yet again.
+#
+
+#
+#	20130423 - false.blank? is true so boolean fields won't work here
 #
 			next if row.value.blank?
 

@@ -9,12 +9,6 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-#	def case_icf_master_id
-#		case_subject.try(:icf_master_id)	#||'[No Case Subject]'
-#	end
-#	def mother_icf_master_id
-#		mother.try(:icf_master_id)	#||'[No Mother Subject]'
-#	end
 	def father_ssn
 		birth_data.order('created_at DESC').collect(&:father_ssn).collect(&:to_ssn).compact.first
 	end
@@ -40,15 +34,14 @@ base.class_eval do
 	def ccls_is_eligible
 		YNDK[ccls_enrollment.try(:is_eligible)]
 	end
-#	def ccls_assigned_for_interview_at
-#		datetime
 	def ccls_assigned_for_interview_on
-#	date
 		ccls_enrollment.try(:assigned_for_interview_at).try(:to_date)
 	end
 	def ccls_interview_completed_on
-#		date
 		ccls_enrollment.try(:interview_completed_on)
+	end
+	def interviewed
+		ccls_enrollment.try(:interview_completed_on).present?
 	end
 	def patient_was_ca_resident_at_diagnosis
 		YNDK[patient.try(:was_ca_resident_at_diagnosis)]
@@ -128,7 +121,7 @@ base.class_eval do
 		@@sunspot_integer_columns ||= %w( id phase birth_year  )
 	end
 	def self.sunspot_boolean_columns
-		@@sunspot_boolean_columns ||= %w( do_not_contact )
+		@@sunspot_boolean_columns ||= %w( do_not_contact interviewed )
 	end
 	def self.sunspot_double_columns
 		@@sunspot_double_columns ||= []
@@ -142,27 +135,38 @@ base.class_eval do
 	end
 
 	def self.sunspot_available_columns
-#		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
-#			subject_type vital_status case_control_type reference_date
-#			sex dob died_on phase birth_year 
-#			mother_first_name mother_maiden_name mother_last_name
-#			father_first_name father_last_name 
-#			first_name middle_name maiden_name last_name
-#			do_not_contact
-#			father_ssn mother_ssn
-#			patid languages subjectid
-#			hospital hospital_no admit_date )
-		StudySubject.sunspot_columns.sort + #['ccls_consented','ccls_is_eligible'] +
+		StudySubject.sunspot_columns.sort + 
 			StudySubject.sunspot_dynamic_columns.sort
 	end
 
 
 
-
+	#
+	#	DO NOT ALLOW BLANK VALUES INTO INDEX.  Only really a problem when faceting on blank values.
+	#	However, if it is truely blank, my facet_for helper will deal with it, but can't select it.
+	#	So, if blank is a desirable selection, will need to replace it with something as do
+	#	with NULL in the nulled strings.  Don't know if can do that with non-string fields.
+	#	Can I conditionally change the field?  If blank, string(c){ 'NULL' } else integer(c) ???? doubt it
+	#
+#
+#	for example, what if I wanted all of the subjects that don't have a phase set?
+#
 	searchable do
 		StudySubject.sunspot_integer_columns.each {|c| integer c }
 		StudySubject.sunspot_date_columns.each    {|c| date    c }
-		StudySubject.sunspot_boolean_columns.each {|c| boolean c }
+
+#	20130423
+#	noticed that the boolean columns only show the "true" facet.
+#	this is probably because false.blank? is true and is rejected in one of my checks.
+#	simpler to just convert to strings.  let's see.
+#		StudySubject.sunspot_boolean_columns.each {|c| boolean c }
+#		StudySubject.sunspot_boolean_columns.each {|c| string c.to_s }	#	NOPE
+#		StudySubject.sunspot_boolean_columns.each {|c| string(c){ send(c).to_s } }	#	YEP ... what if NULL in db?
+#	both the current boolean fields should never actually be nil, nevertheless, ....
+		StudySubject.sunspot_boolean_columns.each {|c| 
+			string(c){ ( send(c).nil? ) ? 'NULL' : send(c).to_s } }	#	YEP ... what if NULL in db?
+
+
 		StudySubject.sunspot_string_columns.each  {|c| string  c }
 		StudySubject.sunspot_nulled_string_columns.each  {|c| 
 			string(c){ send(c)||'NULL' } }

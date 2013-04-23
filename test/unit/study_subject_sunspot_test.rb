@@ -44,6 +44,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 			patient_was_ca_resident_at_diagnosis
 			patient_was_previously_treated
 			patient_was_under_15_at_dx
+			interviewed
 			).each do |meth|
 
 		test "should respond to custom method #{meth}" do
@@ -52,6 +53,16 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 			#	subject.diagnosis
 		end
 
+	end
+
+	test "interviewed should be true when ccls enrollment interview_completed_on set" do
+		subject = FactoryGirl.create(:study_subject)
+		e = subject.ccls_enrollment
+		assert !subject.interviewed
+		assert_nil e.interview_completed_on
+		e.update_attribute(:interview_completed_on, Date.current)
+		assert  subject.reload.interviewed
+		assert_not_nil e.interview_completed_on
 	end
 
 end
