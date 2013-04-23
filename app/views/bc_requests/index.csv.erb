@@ -11,7 +11,9 @@ date
 mother_full_name
 mother_maiden_name
 father_full_name
-child_full_name
+child_first_name
+child_middle_name
+child_last_name
 child_dobm
 child_dobd
 child_doby
@@ -43,7 +45,9 @@ other_father_race ).to_csv(
 	study_subject.mothers_names.delete_if(&:blank?).join(' '),
 	study_subject.mother_maiden_name.blank_or(study_subject.mother_last_name),
 	study_subject.fathers_names.delete_if(&:blank?).join(' '),
-	study_subject.childs_names.delete_if(&:blank?).join(' '),
+	study_subject.first_name,
+	study_subject.middle_name,
+	study_subject.last_name,
 	study_subject.dob.try(:month),
 	study_subject.dob.try(:day),
 	study_subject.dob.try(:year),
