@@ -476,14 +476,6 @@ Table: addressings
 | address_id           | int(11)      | YES  | MUL | NULL    |                |
 | current_address      | int(11)      | YES  |     | 1       |                |
 | address_at_diagnosis | int(11)      | YES  |     | NULL    |                |
-| valid_from           | date         | YES  |     | NULL    |                |
-| valid_to             | date         | YES  |     | NULL    |                |
-| is_valid             | int(11)      | YES  |     | NULL    |                |
-| why_invalid          | varchar(255) | YES  |     | NULL    |                |
-| is_verified          | tinyint(1)   | YES  |     | NULL    |                |
-| how_verified         | varchar(255) | YES  |     | NULL    |                |
-| verified_on          | date         | YES  |     | NULL    |                |
-| verified_by_uid      | varchar(255) | YES  |     | NULL    |                |
 | data_source_id       | int(11)      | YES  |     | NULL    |                |
 | other_data_source    | varchar(255) | YES  |     | NULL    |                |
 | created_at           | datetime     | NO   |     | NULL    |                |
@@ -1233,12 +1225,6 @@ Table: phone_numbers
 | data_source_id    | int(11)      | YES  |     | NULL    |                |
 | phone_number      | varchar(255) | YES  |     | NULL    |                |
 | is_primary        | tinyint(1)   | YES  |     | NULL    |                |
-| is_valid          | int(11)      | YES  |     | NULL    |                |
-| why_invalid       | varchar(255) | YES  |     | NULL    |                |
-| is_verified       | tinyint(1)   | YES  |     | NULL    |                |
-| how_verified      | varchar(255) | YES  |     | NULL    |                |
-| verified_on       | date         | YES  |     | NULL    |                |
-| verified_by_uid   | varchar(255) | YES  |     | NULL    |                |
 | current_phone     | int(11)      | YES  |     | 1       |                |
 | other_data_source | varchar(255) | YES  |     | NULL    |                |
 | created_at        | datetime     | NO   |     | NULL    |                |
@@ -1696,4 +1682,4 @@ Table: zip_codes
 | updated_at | datetime     | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 /Users/jakewendt/github_repo/ccls/odms
-2013-04-19 10:53:05 -0700
+2013-04-23 16:26:45 -0700

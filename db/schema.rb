@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130419175149) do
+ActiveRecord::Schema.define(:version => 20130423232427) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -481,14 +481,6 @@ ActiveRecord::Schema.define(:version => 20130419175149) do
     t.integer  "address_id"
     t.integer  "current_address",      :default => 1
     t.integer  "address_at_diagnosis"
-    t.date     "valid_from"
-    t.date     "valid_to"
-    t.integer  "is_valid"
-    t.string   "why_invalid"
-    t.boolean  "is_verified"
-    t.string   "how_verified"
-    t.date     "verified_on"
-    t.string   "verified_by_uid"
     t.integer  "data_source_id"
     t.string   "other_data_source"
     t.datetime "created_at",                          :null => false
@@ -1205,12 +1197,6 @@ ActiveRecord::Schema.define(:version => 20130419175149) do
     t.integer  "data_source_id"
     t.string   "phone_number"
     t.boolean  "is_primary"
-    t.integer  "is_valid"
-    t.string   "why_invalid"
-    t.boolean  "is_verified"
-    t.string   "how_verified"
-    t.date     "verified_on"
-    t.string   "verified_by_uid"
     t.integer  "current_phone",     :default => 1
     t.string   "other_data_source"
     t.datetime "created_at",                       :null => false
