@@ -17,6 +17,7 @@ source "http://gems.github.com"
 gem 'sunspot_rails'
 gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
 gem 'sqlite3'
+gem 'progress_bar'
 
 
 #	apparently required on new production server for some reason??
