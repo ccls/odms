@@ -163,8 +163,10 @@ base.class_eval do
 #		StudySubject.sunspot_boolean_columns.each {|c| string c.to_s }	#	NOPE
 #		StudySubject.sunspot_boolean_columns.each {|c| string(c){ send(c).to_s } }	#	YEP ... what if NULL in db?
 #	both the current boolean fields should never actually be nil, nevertheless, ....
+#		StudySubject.sunspot_boolean_columns.each {|c| 
+#			string(c){ ( send(c).nil? ) ? 'NULL' : send(c).to_s } }	#	yields 'true' and 'false'
 		StudySubject.sunspot_boolean_columns.each {|c| 
-			string(c){ ( send(c).nil? ) ? 'NULL' : send(c).to_s } }	#	YEP ... what if NULL in db?
+			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
 
 
 		StudySubject.sunspot_string_columns.each  {|c| string  c }
