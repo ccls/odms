@@ -36,7 +36,13 @@
 </div>
 
   </div><!-- class='facets' -->
-<% end %>
+
+<div class='field_wrapper'>
+<%= label_tag( :per_page, 'per page (html only) ' )%>
+<%= select_tag( :per_page, options_for_select([25,50,100], params[:per_page]||25) )%>
+</div><!-- class='field_wrapper' -->
+
+<% end %><%# form_tag -%>
 <% if @search.total < 5000 %>
 <%= link_to 'Download ALL as CSV', params.merge(:format => :csv) %>
 <% else %>
