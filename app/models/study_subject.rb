@@ -79,7 +79,8 @@ class StudySubject < ActiveRecord::Base
 		else
 			new_mother = StudySubject.new do |s|
 #				s.subject_type_id = StudySubject.subject_type_mother_id
-				s.subject_type_id = SubjectType['mother'].id
+#				s.subject_type_id = SubjectType['mother'].id
+				s.subject_type = 'Mother'
 				s.vital_status_code = VitalStatus['living'].code	 #	default
 				s.sex = 'F'
 				s.hispanicity = mother_hispanicity
@@ -103,7 +104,8 @@ class StudySubject < ActiveRecord::Base
 		last_control = StudySubject.select('orderno').order('orderno DESC'
 			).where(
 #				:subject_type_id   => StudySubject.subject_type_control_id,
-				:subject_type_id   => SubjectType['control'].id,
+#				:subject_type_id   => SubjectType['control'].id,
+				:subject_type      => 'Control',
 				:case_control_type => grouping,
 				:matchingid        => self.subjectid ).first
 		( last_control.try(:orderno) || 0 ) + 1

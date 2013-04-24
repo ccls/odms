@@ -9,9 +9,13 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	belongs_to :subject_type
+#	belongs_to :subject_type
+#	attr_protected :subject_type_id
+	attr_protected :subject_type
 
-	attr_protected :subject_type_id
+	def self.valid_subject_types
+		%w( Case Control Mother Father Twin )
+	end
 
 	def is_child?
 		is_case_or_control?
@@ -24,31 +28,36 @@ base.class_eval do
 	#	Returns boolean of comparison
 	#	true only if type is Case
 	def is_case?
-		subject_type_id == SubjectType['case'].id
+#		subject_type_id == SubjectType['case'].id
+		subject_type == 'Case'
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Control
 	def is_control?
-		subject_type_id == SubjectType['control'].id
+#		subject_type_id == SubjectType['control'].id
+		subject_type == 'Control'
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Mother
 	def is_mother?
-		subject_type_id == SubjectType['mother'].id
+#		subject_type_id == SubjectType['mother'].id
+		subject_type == 'Mother'
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Father
 	def is_father?
-		subject_type_id == SubjectType['father'].id
+#		subject_type_id == SubjectType['father'].id
+		subject_type == 'Father'
 	end
 
 	#	Returns boolean of comparison
 	#	true only if type is Twin
 	def is_twin?
-		subject_type_id == SubjectType['twin'].id
+#		subject_type_id == SubjectType['twin'].id
+		subject_type == 'Twin'
 	end
 
 end	#	class_eval

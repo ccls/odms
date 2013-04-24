@@ -13,7 +13,8 @@ class StudySubjectDuplicatesTest < ActiveSupport::TestCase
 	test "create_case_study_subject_for_duplicate_search test" do
 		subject = create_case_study_subject_for_duplicate_search
 		assert_equal subject.sex, 'M'
-		assert_equal subject.subject_type, SubjectType['Case']
+#		assert_equal subject.subject_type, SubjectType['Case']
+		assert_equal subject.subject_type, 'Case'
 		assert_not_nil subject.dob
 		assert_not_nil subject.patient
 		assert_not_nil subject.admit_date

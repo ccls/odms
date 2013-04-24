@@ -28,7 +28,8 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-			get :find, :subject_type_id => SubjectType['case'].id
+#			get :find, :subject_type_id => SubjectType['case'].id
+			get :find, :subject_type => 'Case'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(s1)
@@ -39,7 +40,8 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-			get :find, :subject_type_id => SubjectType['control'].id
+#			get :find, :subject_type_id => SubjectType['control'].id
+			get :find, :subject_type => 'Control'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(s2)
@@ -50,7 +52,8 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-			get :find, :subject_type_id => SubjectType['mother'].id
+#			get :find, :subject_type_id => SubjectType['mother'].id
+			get :find, :subject_type => 'Mother'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(s3)

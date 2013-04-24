@@ -654,8 +654,8 @@ FactoryGirl.define do
 	end
 	
 	factory :study_subject do |f|
-		f.association :subject_type
-	
+#		f.association :subject_type
+		f.subject_type 'Control'
 		f.sequence(:sex) { random_sex }
 		f.sequence(:email){|n| "email#{n}@example.com"}	#	required here only to test uniqueness
 		f.sequence(:dob) { random_date }
@@ -669,7 +669,8 @@ FactoryGirl.define do
 		f.sequence(:idno_wiemels){|n| "#{n}"}
 	end
 	factory :case_study_subject, :parent => :study_subject do |f|
-		f.subject_type { SubjectType['Case'] }
+#		f.subject_type { SubjectType['Case'] }
+		f.subject_type 'Case'
 		f.case_control_type 'c'
 	end
 	factory :complete_case_study_subject, :parent => :case_study_subject do |f|
@@ -695,12 +696,14 @@ FactoryGirl.define do
 		f.patient_attributes { FactoryGirl.attributes_for(:nonwaivered_patient) }
 	end
 	factory :control_study_subject, :parent => :study_subject do |f|
-		f.subject_type { SubjectType['Control'] }
+#		f.subject_type { SubjectType['Control'] }
+		f.subject_type 'Control'
 	end
 	factory :complete_control_study_subject, :parent => :control_study_subject do |f|
 	end
 	factory :mother_study_subject, :parent => :study_subject do |f|
-		f.subject_type { SubjectType['Mother'] }
+#		f.subject_type { SubjectType['Mother'] }
+		f.subject_type 'Mother'
 		f.sex 'F'
 		f.case_control_type 'm'
 	end
@@ -708,10 +711,12 @@ FactoryGirl.define do
 	end
 	
 	factory :father_study_subject, :parent => :study_subject do |f|
-		f.subject_type { SubjectType['Father'] }
+#		f.subject_type { SubjectType['Father'] }
+		f.subject_type 'Father'
 	end
 	factory :twin_study_subject, :parent => :study_subject do |f|
-		f.subject_type { SubjectType['Twin'] }
+#		f.subject_type { SubjectType['Twin'] }
+		f.subject_type 'Twin'
 	end
 	
 	factory :subject_language do |f|

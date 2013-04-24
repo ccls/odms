@@ -335,9 +335,9 @@ class BirthDatum < ActiveRecord::Base
 				:address_type_id => AddressType["residence"].id,
 				:data_source_id  => DataSource["birthdata"].id
 			},
-			:is_valid    => YNDK[:yes],
-			:is_verified => true,
-			:how_verified => "CA State Birth Record.",
+#			:is_valid    => YNDK[:yes],
+#			:is_verified => true,
+#			:how_verified => "CA State Birth Record.",
 			:data_source_id => DataSource["birthdata"].id,
 			:notes => "Address is mother's residential address found in the CA State Birth Record.")
 

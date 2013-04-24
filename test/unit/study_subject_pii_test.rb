@@ -23,7 +23,7 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 	test "should not require dob on creation for mother" do
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(
-				:subject_type => SubjectType['Mother'],
+				:subject_type => 'Mother',
 				:dob => nil )
 		}
 		assert_nil @study_subject.reload.dob
@@ -32,7 +32,7 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 	test "should not require dob on update for mother" do
 		#	flag not necessary as study_subject.subject_type exists
 		assert_difference( "StudySubject.count", 1 ) {
-			@study_subject = create_study_subject(:subject_type => SubjectType['Mother'] )
+			@study_subject = create_study_subject(:subject_type => 'Mother' )
 		}
 		assert_not_nil @study_subject.reload.dob
 		@study_subject.update_attributes(:dob => nil)

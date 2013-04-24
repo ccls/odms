@@ -2,6 +2,10 @@ require 'test_helper'
 
 class StudySubjectTest < ActiveSupport::TestCase
 
+	assert_should_accept_only_good_values( :subject_type,
+		{ :good_values => %w( Case Control Mother Father Twin ),
+			:bad_values  => 'X' })
+
 	assert_should_accept_only_good_values( :sex,
 		{ :good_values => %w( M F DK ),
 			:bad_values  => 'X' })
@@ -95,36 +99,38 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "study_subject factory should create subject type" do
-		assert_difference('SubjectType.count',1) {
+#		assert_difference('SubjectType.count',1) {
 			study_subject = FactoryGirl.create(:study_subject)
 			assert_not_nil study_subject.subject_type
-		}
+#		}
 	end
 
 	test "case study_subject should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			study_subject = FactoryGirl.create(:case_study_subject)
-			assert_equal study_subject.subject_type, SubjectType['Case']
+#			assert_equal study_subject.subject_type, SubjectType['Case']
+			assert_equal study_subject.subject_type, 'Case'
 		}
 	end
 
 	test "case study_subject should not create subject type" do
-		assert_difference('SubjectType.count',0) {
+#		assert_difference('SubjectType.count',0) {
 			study_subject = FactoryGirl.create(:case_study_subject)
-		}
+#		}
 	end
 
 	test "control study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			study_subject = FactoryGirl.create(:control_study_subject)
-			assert_equal study_subject.subject_type, SubjectType['Control']
+#			assert_equal study_subject.subject_type, SubjectType['Control']
+			assert_equal study_subject.subject_type, 'Control'
 		}
 	end
 
 	test "control study_subject factory should not create subject type" do
-		assert_difference('SubjectType.count',0) {
+#		assert_difference('SubjectType.count',0) {
 			study_subject = FactoryGirl.create(:control_study_subject)
-		}
+#		}
 	end
 
 	test "minimum_raf_form_attributes should create differing random dobs" do
@@ -138,7 +144,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 	test "mother study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = FactoryGirl.create(:mother_study_subject)
-			assert_equal s.subject_type, SubjectType['Mother']
+#			assert_equal s.subject_type, SubjectType['Mother']
+			assert_equal s.subject_type, 'Mother'
 			assert_equal s.sex, 'F'
 			assert_nil     s.studyid
 			assert_not_nil s.studyid_to_s
@@ -147,9 +154,9 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "mother study_subject factory should not create subject type" do
-		assert_difference('SubjectType.count',0) {
+#		assert_difference('SubjectType.count',0) {
 			s = FactoryGirl.create(:mother_study_subject)
-		}
+#		}
 	end
 
 	test "explicit Factory complete case study subject build test" do
@@ -162,7 +169,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 	test "complete case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = FactoryGirl.create(:complete_case_study_subject)
-			assert_equal s.subject_type, SubjectType['Case']
+#			assert_equal s.subject_type, SubjectType['Case']
+			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
 			assert_not_nil s.childid
@@ -185,7 +193,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 	test "complete waivered case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = FactoryGirl.create(:complete_waivered_case_study_subject)
-			assert_equal s.subject_type, SubjectType['Case']
+#			assert_equal s.subject_type, SubjectType['Case']
+			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
 			assert_not_nil s.childid
@@ -205,7 +214,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 	test "complete nonwaivered case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = FactoryGirl.create(:complete_nonwaivered_case_study_subject)
-			assert_equal s.subject_type, SubjectType['Case']
+#			assert_equal s.subject_type, SubjectType['Case']
+			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
 			assert_not_nil s.childid
@@ -234,32 +244,32 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "create_control_study_subject should not create a subject type" do
-		assert_difference( 'SubjectType.count', 0 ){
+#		assert_difference( 'SubjectType.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_control_study_subject
 			assert !study_subject.is_case?
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} }
+		} #}
 	end
 
 	test "create_case_study_subject should not create a subject type" do
-		assert_difference( 'SubjectType.count', 0 ){
+#		assert_difference( 'SubjectType.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_case_study_subject
 			assert study_subject.is_case?
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} }
+		} #}
 	end
 
 	test "should create study_subject" do
-		assert_difference( 'SubjectType.count', 1 ){
+#		assert_difference( 'SubjectType.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
 			assert !study_subject.new_record?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} }
+		} #}
 	end
 
 	#

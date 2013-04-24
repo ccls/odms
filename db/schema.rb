@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130423232427) do
+ActiveRecord::Schema.define(:version => 20130424223544) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1512,6 +1512,7 @@ ActiveRecord::Schema.define(:version => 20130423232427) do
     t.string   "legacy_other_race"
     t.string   "case_icf_master_id",          :limit => 9
     t.string   "mother_icf_master_id",        :limit => 9
+    t.string   "subject_type",                                                 :null => false
   end
 
   add_index "study_subjects", ["accession_no"], :name => "index_study_subjects_on_accession_no", :unique => true

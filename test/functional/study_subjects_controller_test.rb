@@ -11,8 +11,8 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	def factory_attributes(options={})
 		FactoryGirl.attributes_for(:study_subject,{
 			:updated_at => ( Time.now + 1.day ),
-			:subject_type_id => FactoryGirl.create(:subject_type).id,
 			:race_ids => [Race['white'].id]}.merge(options))
+#			:subject_type_id => FactoryGirl.create(:subject_type).id,
 	end
 
 	assert_access_with_login({ 
@@ -296,13 +296,13 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
-			assert_difference('SubjectType.count',0){
+#			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
 			assert_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 				put :update, :id => study_subject.id, 
 					:study_subject => FactoryGirl.attributes_for(:study_subject,
 						:sex => 'DK' )	#	sex is M or F in the Factory so DK will make it change
-			} } } }
+			} } } #}
 			assert_redirected_to study_subject_path(assigns(:study_subject))
 		end
 	
@@ -403,12 +403,12 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
-			assert_difference('SubjectType.count',0){
+#			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
 			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 				put :update, :id => study_subject.id,
 					:study_subject => {}
-			} } } }
+			} } } #}
 			assert_not_nil flash[:error]
 			assert_response :success
 			assert_template 'edit'
@@ -420,12 +420,12 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
-			assert_difference('SubjectType.count',0){
+#			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
 			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 				put :update, :id => study_subject.id,
 					:study_subject => {}
-			} } } }
+			} } } #}
 			assert_not_nil flash[:error]
 			assert_response :success
 			assert_template 'edit'
@@ -506,12 +506,12 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
-			assert_difference('SubjectType.count',0){
+#			assert_difference('SubjectType.count',0){
 			assert_difference('Race.count',0){
 			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 				put :update, :id => study_subject.id, 
 					:study_subject => FactoryGirl.attributes_for(:study_subject)
-			} } } }
+			} } } #}
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -554,12 +554,12 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	test "should NOT update without login" do
 		study_subject = FactoryGirl.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
 		assert_difference('StudySubject.count',0){
-		assert_difference('SubjectType.count',0){
+#		assert_difference('SubjectType.count',0){
 		assert_difference('Race.count',0){
 		deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 			put :update, :id => study_subject.id, 
 				:study_subject => FactoryGirl.attributes_for(:study_subject)
-		} } } }
+		} } } #}
 		assert_redirected_to_login
 	end
 

@@ -77,7 +77,8 @@ class PatientTest < ActiveSupport::TestCase
 		assert_difference('StudySubject.count',1) {
 			patient = FactoryGirl.create(:patient)
 			assert_not_nil patient.study_subject
-			assert_equal patient.study_subject.subject_type, SubjectType['Case']
+#			assert_equal patient.study_subject.subject_type, SubjectType['Case']
+			assert_equal patient.study_subject.subject_type, 'Case'
 		}
 	end
 
@@ -108,7 +109,8 @@ class PatientTest < ActiveSupport::TestCase
 		assert_difference('StudySubject.count',1) {
 			patient = FactoryGirl.create(:waivered_patient)
 			assert_not_nil patient.study_subject
-			assert_equal patient.study_subject.subject_type, SubjectType['Case']
+#			assert_equal patient.study_subject.subject_type, SubjectType['Case']
+			assert_equal patient.study_subject.subject_type, 'Case'
 		}
 	end
 
@@ -139,7 +141,8 @@ class PatientTest < ActiveSupport::TestCase
 		assert_difference('StudySubject.count',1) {
 			patient = FactoryGirl.create(:nonwaivered_patient)
 			assert_not_nil patient.study_subject
-			assert_equal patient.study_subject.subject_type, SubjectType['Case']
+#			assert_equal patient.study_subject.subject_type, SubjectType['Case']
+			assert_equal patient.study_subject.subject_type, 'Case'
 		}
 	end
 

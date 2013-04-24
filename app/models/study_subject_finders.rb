@@ -19,10 +19,14 @@ base.class_eval do
 	scope :join_patients,
 		joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
 
-	scope :cases,    joins(:subject_type).where('subject_types.key' => 'Case')
-	scope :controls, joins(:subject_type).where('subject_types.key' => 'Control')
-	scope :mothers,  joins(:subject_type).where('subject_types.key' => 'Mother')
-	scope :children, joins(:subject_type).where('subject_types.key' => ['Case','Control'])
+#	scope :cases,    joins(:subject_type).where('subject_types.key' => 'Case')
+#	scope :controls, joins(:subject_type).where('subject_types.key' => 'Control')
+#	scope :mothers,  joins(:subject_type).where('subject_types.key' => 'Mother')
+#	scope :children, joins(:subject_type).where('subject_types.key' => ['Case','Control'])
+	scope :cases,    where('subject_type' => 'Case')
+	scope :controls, where('subject_type' => 'Control')
+	scope :mothers,  where('subject_type' => 'Mother')
+	scope :children, where('subject_type' => ['Case','Control'])
 
 	scope :living,    joins(:vital_status).where('vital_statuses.key' => 'living')
 

@@ -2,22 +2,24 @@ require 'test_helper'
 
 class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 
-	assert_should_protect( :subject_type_id, :model => 'StudySubject' )
-	assert_should_initially_belong_to( :subject_type, :model => 'StudySubject' )
+#	assert_should_protect( :subject_type_id, :model => 'StudySubject' )
+#	assert_should_initially_belong_to( :subject_type, :model => 'StudySubject' )
 
 	test "should require subject_type" do
 #	protected so block assignment needed
 		study_subject = StudySubject.new{|s|s.subject_type = nil}
 		assert !study_subject.valid?
-		assert !study_subject.errors.include?(:subject_type)
-		assert  study_subject.errors.matching?(:subject_type_id,"can't be blank")
+		assert  study_subject.errors.include?(:subject_type)
+		assert  study_subject.errors.matching?(:subject_type,"can't be blank")
+#		assert !study_subject.errors.include?(:subject_type)
+#		assert  study_subject.errors.matching?(:subject_type_id,"can't be blank")
 	end
 
 	test "should require valid subject_type" do
 #	protected so block assignment needed
 		study_subject = StudySubject.new{|s|s.subject_type_id = 0}
 		assert !study_subject.valid?
-		assert !study_subject.errors.include?(:subject_type_id)
+#		assert !study_subject.errors.include?(:subject_type_id)
 		assert  study_subject.errors.matching?(:subject_type,"can't be blank")
 	end
 

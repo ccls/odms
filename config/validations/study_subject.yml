@@ -248,15 +248,19 @@
 
 
 
-
-
 #module StudySubjectSubjectType
 #
--
-  :attribute: :subject_type_id
-  :presence: true
+#-
+#  :attribute: :subject_type_id
+#  :presence: true
+#-
+#  :attribute: :subject_type
+#  :presence: true
+#  :if: :subject_type_id
 -
   :attribute: :subject_type
   :presence: true
-  :if: :subject_type_id
+  :inclusion:
+    :in: <%= StudySubject.valid_subject_types %>
+#    :in: <%= %w( Case Control Mother Father Twin ) %>
 

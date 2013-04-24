@@ -155,8 +155,11 @@ namespace :data do
 		puts
 		printf "%-45s %5d\n", "StudySubject.count:", StudySubject.count
 
-		StudySubject.select("subject_type_id, COUNT(*) AS count"
-				).group(:subject_type_id ).each do |e|
+#		StudySubject.select("subject_type_id, COUNT(*) AS count"
+#				).group(:subject_type_id ).each do |e|
+#			printf "%-45s %5d\n", "subject_type = #{e.subject_type}:", e.count
+		StudySubject.select("subject_type, COUNT(*) AS count"
+				).group(:subject_type).each do |e|
 			printf "%-45s %5d\n", "subject_type = #{e.subject_type}:", e.count
 		end
 
