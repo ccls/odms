@@ -30,12 +30,13 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 		sunspot_double_columns
 		sunspot_default_columns
 		sunspot_available_columns
-		sunspot_dynamic_columns
+		sunspot_unindexed_columns
 		).each do |column|
 		test "should return array for sunspot class method #{column}" do
 			assert StudySubject.send(column).is_a?(Array)
 		end
 	end
+#		sunspot_dynamic_columns
 
 	%w( case_icf_master_id mother_icf_master_id
 			father_ssn mother_ssn hospital hospital_key diagnosis

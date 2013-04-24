@@ -16,7 +16,12 @@ base.class_eval do
 	after_create :add_ccls_enrollment
 
 	def add_ccls_enrollment
-		self.enrollments.find_or_create_by_project_id(Project['ccls'].id)
+		enrollments.find_or_create_by_project_id(Project['ccls'].id)
+	end
+
+	def ccls_enrollment
+#		enrollments.where(:project_id => Project['ccls'].id).first
+		enrollments.find_or_create_by_project_id(Project['ccls'].id)
 	end
 
 	#	Returns all projects for which the study_subject

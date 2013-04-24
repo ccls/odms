@@ -41,8 +41,9 @@
 <% mom = study_subject.mother -%>
 <% case_subject = study_subject.case_subject -%>
 <% address = study_subject.addresses.first -%>
+<%# address = study_subject.current_mailing_address || study_subject.current_address -%>
 <%# Do I need to check if current_address==true? -%>
-<% enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
+<%# enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
 <% birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
 <%= [
 mdy_or_nil(study_subject.reference_date),
@@ -63,8 +64,8 @@ mdy_or_nil(study_subject.dob),
 study_subject.sex,
 study_subject.vital_status_code,
 study_subject.do_not_contact,
-enrollment.try(:is_eligible),
-enrollment.try(:consented),
+study_subject.ccls_enrollment.try(:is_eligible),
+study_subject.ccls_enrollment.try(:consented),
 nil,
 study_subject.languages.first.try(:description),
 address.try(:street),

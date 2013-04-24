@@ -25,9 +25,9 @@ base.class_eval do
 		patient.try(:diagnosis).try(:to_s)	#	use try so stays nil if nil
 	end
 
-	def ccls_enrollment
-		enrollments.where(:project_id => Project['ccls'].id).first
-	end
+#	def ccls_enrollment
+#		enrollments.where(:project_id => Project['ccls'].id).first
+#	end
 	def ccls_consented
 		YNDK[ccls_enrollment.try(:consented)]
 	end
@@ -43,6 +43,7 @@ base.class_eval do
 	def interviewed
 		ccls_enrollment.try(:interview_completed_on).present?
 	end
+
 	def patient_was_ca_resident_at_diagnosis
 		YNDK[patient.try(:was_ca_resident_at_diagnosis)]
 	end
@@ -53,27 +54,12 @@ base.class_eval do
 		YNDK[patient.try(:was_under_15_at_dx)]
 	end
 
+#<% address = study_subject.addressings.current.mailing.first.try(:address) -%>
+#<% address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
 
-	cattr_accessor :sunspot_dynamic_columns
-	self.sunspot_dynamic_columns = []
+#	cattr_accessor :sunspot_dynamic_columns
+#	self.sunspot_dynamic_columns = []
 
-	#
-	#	All these columns are indexed and 
-	#
-	def self.sunspot_columns
-		@@sunspot_columns ||= [sunspot_string_columns].compact.flatten +
-			[sunspot_nulled_string_columns].compact.flatten +
-			[sunspot_time_columns].compact.flatten +
-			[sunspot_date_columns].compact.flatten +
-			[sunspot_integer_columns].compact.flatten +
-			[sunspot_double_columns].compact.flatten +
-			[sunspot_boolean_columns].compact.flatten
-	end
-	
-	def self.sunspot_orderable_columns
-		@@sunspot_orderable_columns ||= sunspot_columns - %w(
-			languages races )
-	end
 #			patient_was_ca_resident_at_diagnosis
 #			patient_was_previously_treated
 #			patient_was_under_15_at_dx
@@ -127,6 +113,13 @@ base.class_eval do
 		@@sunspot_double_columns ||= []
 	end
 
+	def self.sunspot_unindexed_columns
+		@@sunspot_unindexed_columns ||= %w( 
+			primary_phone alternate_phone 
+			address_street address_city address_state address_zip
+		)
+	end
+
 
 	def self.sunspot_default_columns
 		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
@@ -134,9 +127,25 @@ base.class_eval do
 			first_name last_name)
 	end
 
+	def self.sunspot_columns
+		@@sunspot_columns ||= [sunspot_string_columns].compact.flatten +
+			[sunspot_nulled_string_columns].compact.flatten +
+			[sunspot_time_columns].compact.flatten +
+			[sunspot_date_columns].compact.flatten +
+			[sunspot_integer_columns].compact.flatten +
+			[sunspot_double_columns].compact.flatten +
+			[sunspot_boolean_columns].compact.flatten +
+			[sunspot_unindexed_columns].compact.flatten
+	end
+	
+	def self.sunspot_orderable_columns
+		@@sunspot_orderable_columns ||= sunspot_columns - %w(
+			languages races ) - sunspot_unindexed_columns
+	end
 	def self.sunspot_available_columns
-		StudySubject.sunspot_columns.sort + 
-			StudySubject.sunspot_dynamic_columns.sort
+		StudySubject.sunspot_columns.sort
+#		StudySubject.sunspot_columns.sort + 
+#			StudySubject.sunspot_dynamic_columns.sort
 	end
 
 

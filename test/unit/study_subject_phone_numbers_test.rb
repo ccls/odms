@@ -39,6 +39,16 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 		} }
 	end
 
+	test "should have a current primary phone" do
+		phone = FactoryGirl.create(:current_primary_phone_number)
+		assert_equal phone, phone.study_subject.current_primary_phone
+	end
+
+	test "should have a current alternate phone" do
+		phone = FactoryGirl.create(:current_alternate_phone_number)
+		assert_equal phone, phone.study_subject.current_alternate_phone
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

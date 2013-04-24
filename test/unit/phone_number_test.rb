@@ -66,6 +66,26 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		assert !phone_number.is_primary
 	end
 
+	test "current_primary_phone factory should set is_primary to true" do
+		phone_number = FactoryGirl.build(:current_primary_phone_number)
+		assert phone_number.is_primary
+	end
+
+	test "current_primary_phone factory should set current_phone to YNDK yes" do
+		phone_number = FactoryGirl.build(:current_primary_phone_number)
+		assert_equal YNDK[:yes], phone_number.current_phone
+	end
+
+	test "current_alternate_phone factory should set is_primary to false" do
+		phone_number = FactoryGirl.build(:current_alternate_phone_number)
+		assert !phone_number.is_primary
+	end
+
+	test "current_alternate_phone factory should set current_phone to YNDK yes" do
+		phone_number = FactoryGirl.build(:current_alternate_phone_number)
+		assert_equal YNDK[:yes], phone_number.current_phone
+	end
+
 	test "should return phone number as to_s" do
 		phone_number = PhoneNumber.new(:phone_number => '123456789')
 		assert_equal phone_number.phone_number, '123456789'

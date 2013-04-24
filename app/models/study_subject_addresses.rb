@@ -30,6 +30,32 @@ base.class_eval do
 		addresses.where( :address_type_id => AddressType['residence'].id ).count
 	end
 
+	def current_mailing_address
+		addressings.current.mailing.first.try(:address)	#	ordered by what?
+	end
+	alias_method :mailing_address, :current_mailing_address
+
+	def current_address
+		addressings.current.first.try(:address)	#	ordered by what?
+	end
+	alias_method :address, :current_address
+
+	def address_street
+		address.try(:street)
+	end
+
+	def address_city
+		address.try(:city)
+	end
+
+	def address_state
+		address.try(:state)
+	end
+
+	def address_zip
+		address.try(:zip)
+	end
+
 end	#	class_eval
 end	#	included
 end	#	StudySubjectAddresses

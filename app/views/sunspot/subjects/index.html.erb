@@ -60,7 +60,7 @@
 <% end %>
 </tr></thead><tbody>
 <% @search.results.each do |result| %>
-<tr>
+<tr class='row'>
 <td><%= link_to 'show', study_subject_path(result.id) %></td>
 <% columns.each do |column| %>
 <td><%= column_content(result,column).to_s.gsub(/\s+/,'&nbsp;').html_safe || '&nbsp;'.html_safe %></td>

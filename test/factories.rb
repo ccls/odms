@@ -524,6 +524,15 @@ FactoryGirl.define do
 	factory :alternate_phone_number, :parent => :phone_number do |f|
 		f.is_primary false
 	end
+	factory :current_phone_number, :parent => :phone_number do |f|
+		f.current_phone YNDK[:yes]
+	end
+	factory :current_primary_phone_number, :parent => :current_phone_number do |f|
+		f.is_primary true
+	end
+	factory :current_alternate_phone_number, :parent => :current_phone_number do |f|
+		f.is_primary false
+	end
 	
 	factory :phone_type do |f|
 		f.sequence(:key)  { |n| "Key#{n}" }

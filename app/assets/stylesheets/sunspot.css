@@ -73,6 +73,9 @@ table {
 	width: 100%;
 }
 
+tr:nth-child(2n)   { background-color: #FCF9EF; }
+tr:nth-child(2n+1) { background-color: #F5F1E8; }
+
 
 
 

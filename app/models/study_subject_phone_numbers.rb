@@ -14,6 +14,16 @@ base.class_eval do
 	accepts_nested_attributes_for :phone_numbers,
 		:reject_if => proc { |attrs| attrs[:phone_number].blank? }
 
+	def current_primary_phone
+		phone_numbers.current.primary.first			#	by what order?
+	end
+	alias_method :primary_phone, :current_primary_phone
+
+	def current_alternate_phone
+		phone_numbers.current.alternate.first			#	by what order?
+	end
+	alias_method :alternate_phone, :current_alternate_phone
+
 end	#	class_eval
 end	#	included
 end	#	StudySubjectPhoneNumbers

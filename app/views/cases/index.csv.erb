@@ -38,11 +38,12 @@
 <% @study_subjects.each do |study_subject| -%>
 <% mom = study_subject.mother -%>
 <% case_subject = study_subject.case_subject -%>
-<% address = study_subject.addressings.current.mailing.first.try(:address) -%>
-<% address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
-<% primary_phone = study_subject.phone_numbers.current.primary.first %>
-<% alternate_phone = study_subject.phone_numbers.current.alternate.first %>
-<% enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
+<%# address = study_subject.addressings.current.mailing.first.try(:address) -%>
+<%# address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
+<% address = study_subject.current_mailing_address || study_subject.current_address -%>
+<%# primary_phone = study_subject.phone_numbers.current.primary.first %>
+<%# alternate_phone = study_subject.phone_numbers.current.alternate.first %>
+<%# enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
 <% birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
 <%= [
 mdy_or_nil(study_subject.reference_date),
@@ -61,8 +62,8 @@ mdy_or_nil(study_subject.dob),
 study_subject.sex,
 study_subject.vital_status_code,
 study_subject.do_not_contact,
-enrollment.try(:is_eligible),
-enrollment.try(:consented),
+study_subject.ccls_enrollment.try(:is_eligible),
+study_subject.ccls_enrollment.try(:consented),
 nil,
 study_subject.languages.first.try(:description),
 address.try(:street),
@@ -70,8 +71,8 @@ address.try(:unit),
 address.try(:city),
 address.try(:state),
 address.try(:zip),
-primary_phone,
-alternate_phone
+study_subject.primary_phone,
+study_subject.alternate_phone
 ].to_csv.html_safe -%>
 <% end -%>
 <%#

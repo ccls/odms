@@ -44,11 +44,12 @@
 	[params[:ids]].flatten.include?(study_subject.id.to_s), :id => nil ) %></td>
 <% mom = study_subject.mother -%>
 <% case_subject = study_subject.case_subject -%>
-<% address = study_subject.addressings.current.mailing.first.try(:address) -%>
-<% address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
-<% primary_phone = study_subject.phone_numbers.current.primary.first %>
-<% alternate_phone = study_subject.phone_numbers.current.alternate.first %>
-<% enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
+<%# address = study_subject.addressings.current.mailing.first.try(:address) -%>
+<%# address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
+<% address = study_subject.current_mailing_address || study_subject.current_address -%>
+<%# primary_phone = study_subject.phone_numbers.current.primary.first %>
+<%# alternate_phone = study_subject.phone_numbers.current.alternate.first %>
+<%# enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>
 <%# birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
 <td><%= mdy_or_nil(study_subject.reference_date) %></td>
 <td><%= case_subject.try(:icf_master_id_to_s)||"[No Case Subject]" %></td>
@@ -66,8 +67,8 @@
 <td><%= study_subject.sex %></td>
 <td><%= study_subject.vital_status_code %></td>
 <td><%= study_subject.do_not_contact %></td>
-<td><%= enrollment.try(:is_eligible) %></td>
-<td><%= enrollment.try(:consented) %></td>
+<td><%= study_subject.ccls_enrollment.try(:is_eligible) %></td>
+<td><%= study_subject.ccls_enrollment.try(:consented) %></td>
 <td><%= nil %></td>
 <td><%= study_subject.languages.first.try(:description) %></td>
 <td><%= address.try(:street) %></td>
@@ -75,8 +76,8 @@
 <td><%= address.try(:city) %></td>
 <td><%= address.try(:state) %></td>
 <td><%= address.try(:zip) %></td>
-<td><%= primary_phone %></td>
-<td><%= alternate_phone %></td>
+<td><%= study_subject.primary_phone %></td>
+<td><%= study_subject.alternate_phone %></td>
 <td><%= link_to 'view', study_subject,:class => :button %></td>
 </tr>
 <% end -%>

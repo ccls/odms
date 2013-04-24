@@ -183,6 +183,11 @@ module SunspotHelper
 #				YNDK[Enrollment.where(:study_subject_id => subject.id)
 #					.joins(:project)
 #					.where("projects.description = ?",$1).first.try($2)]
+
+
+#			else returns nil I guess
+
+
 		end
 	end
 
