@@ -1,5 +1,8 @@
 class FollowUp < ActiveRecord::Base
 
+#	NOTE this is not yet used
+
+
 #	with these null = false lines,
 #	there should really be validations
 #	or remove these.

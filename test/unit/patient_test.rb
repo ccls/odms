@@ -539,6 +539,9 @@ class PatientTest < ActiveSupport::TestCase
 			assert_difference( "Patient.count", 0 ) do
 				patient = create_patient( :raf_zip => bad_zip )
 				assert patient.errors.include?(:raf_zip)
+				assert patient.errors.matching?(:raf_zip,
+					"RAF zip should be formatted 12345 or 12345-1234"),
+					patient.errors.full_messages.to_sentence
 			end
 		end
 		%w( 12345 12345-6789 123456789 ).each do |good_zip|

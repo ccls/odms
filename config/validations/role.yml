@@ -1,0 +1,4 @@
+-
+  :attribute: :name
+  :presence: true
+  :uniqueness: true

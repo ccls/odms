@@ -11,20 +11,6 @@ base.class_eval do
 
 	validates_uniqueness_of_with_nilification :email
 
-#	:with => /
-#		\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*
-#		[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+
-#		@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
-#	using Regexp.new instead so that I can split it on several lines
-#	The trailing 'true' makes it case insensitive
-
-	validates_format_of :email,
-	  :with => Regexp.new(
-			'\A([-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+\.)*' <<
-			'[-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+' <<
-			'@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z', true), 
-		:allow_blank => true
-
 protected
 
 	def birth_country_is_united_states?

@@ -101,6 +101,9 @@ class AddressTest < ActiveSupport::TestCase
 			address = Address.new( :zip => bad_zip )
 			assert !address.valid?
 			assert address.errors.include?(:zip)
+			assert address.errors.matching?(:zip,
+				'Zip should be 12345, 123451234 or 12345-1234'), 
+					address.errors.full_messages.to_sentence
 		end
 		%w( 12345 12345-6789 123456789 ).each do |good_zip|
 			address = Address.new( :zip => good_zip )

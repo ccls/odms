@@ -4,6 +4,8 @@
 #	*	owner_id
 class Aliquot < ActiveRecord::Base
 
+#	NOTE this is not yet used
+
 	belongs_to :sample
 	belongs_to :unit
 	belongs_to :owner, :class_name => "Organization"

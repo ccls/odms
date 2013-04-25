@@ -41,10 +41,23 @@
   :attribute: :ssn
   :length:
     :maximum: 250
+  :format:
+    :with: !ruby/regexp '/\A\d{3}-\d{2}-\d{4}\z/'
+    :message: "SSN should be formatted ###-##-####"
   :allow_nil: true
 
 #	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
 #		:message => "SSN should be formatted ###-##-####", :allow_nil => true
+
+# http://stackoverflow.com/questions/3337020/how-to-specify-ranges-in-yaml
+#    :in: !ruby/range 5..250
+
+#	http://codereview.stackexchange.com/questions/159/use-of-a-regex-stored-inside-yaml-file
+#	  email_regex: !ruby/regexp '/^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i'
+
+
+
+
 
 -
   :attribute: :birth_year
@@ -210,6 +223,20 @@
   :attribute: :dob
   :complete_date: true
   :past_date: true
+  :allow_blank: true
+
+
+#    :with: !ruby/regexp '/\A([-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i'
+
+#
+#	I've replaced the apostrophes in this regex with %27.  How to test? Doesn't work.
+#
+#	I'm just removing the apostrophes.  I've never seen any email with an apostrophe.
+#
+-
+  :attribute: :email
+  :format:
+    :with: !ruby/regexp '/\A([-a-z0-9!\#$%&*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i'
   :allow_blank: true
 
 #	validates_uniqueness_of_with_nilification :email

@@ -1,0 +1,5 @@
+-
+  :attribute: :gegl_sample_type_id
+  :length:
+    :maximum: 10
+  :allow_blank: true

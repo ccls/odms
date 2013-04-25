@@ -25,10 +25,7 @@ class Page < ActiveRecord::Base
 	acts_as_list :scope => :parent_id
 #	acts_as_list :scope => "parent_id \#{(parent_id.nil?)?'IS NULL':'= parent_id'} AND locale = '\#{locale}'"
 
-	validates_length_of :path,  :minimum => 1
-	validates_format_of :path,  :with => /^\//, :allow_blank => true
-	validates_length_of :menu_en, :title_en, :body_en, :minimum => 4
-	validates_uniqueness_of :menu_en, :path
+	validations_from_yaml_file
 
 	belongs_to :parent, :class_name => 'Page'
 	has_many :children, :class_name => 'Page', :foreign_key => 'parent_id',
@@ -38,7 +35,6 @@ class Page < ActiveRecord::Base
 	scope :hidden,   where(:hide_menu => true)
 #	scope :not_home, where("path != '/'")
 	scope :not_home, where(self.arel_table[:path].not_eq('/'))
-
 
 	before_validation :adjust_path
 

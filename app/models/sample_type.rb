@@ -17,8 +17,7 @@ class SampleType < ActiveRecord::Base
 	scope :not_roots, where(self.arel_table[:parent_id].not_eq(nil))
 	scope :for_new_samples, where( :for_new_sample => true )
 
-	validates_length_of :gegl_sample_type_id,
-		:maximum => 10, :allow_blank => true
+	validations_from_yaml_file
 
 	#	kinda needed for group_method when calling grouped_collection_select
 	#	as it takes a single symbol that is sent and I don't think that the

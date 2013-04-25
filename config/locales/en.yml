@@ -85,7 +85,7 @@ en:
         discharge_summary_found: "Discharge Summary Found"
         discharge_summary_found_on: "Discharge Summary Found On"
         dna_index: "DNA Index"
-        dod: "Dod"
+        dod: "Date of death"
         fab_classification: "Fab Classification"
         flow_cyto_bm_kappa: "Flow Cyto Bm Kappa"
         flow_cyto_bm_kappa_text: "Flow Cyto Bm Kappa Text"
@@ -342,7 +342,7 @@ en:
         tdt_report_on: "TDT Report On"
         treatment_began_on: "Treatment Began On"
         ucb_fish_results: "UCB Fish Results"
-        vital_status_id: "Vital Status"
+        vital_status_code: "Vital Status"
         weight_at_diagnosis: "Weight at Diagnosis (kg)"
 
 

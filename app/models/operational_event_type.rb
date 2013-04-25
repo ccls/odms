@@ -8,11 +8,7 @@ class OperationalEventType < ActiveRecord::Base
 
 	has_many :operational_events
 
-	validates_presence_of   :event_category
-#	don't know why this was here as unique would be bad
-#	validates_uniqueness_of :event_category
-	validates_length_of     :event_category, 
-		:in => 4..250, :allow_blank => true
+	validations_from_yaml_file
 
 	#	Returns event_category.
 	def to_s

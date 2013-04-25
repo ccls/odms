@@ -57,13 +57,15 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) do
 			%w( asdf me@some@where.com me@somewhere ).each do |bad_email|
 				study_subject = create_study_subject(:email => bad_email)
-				assert study_subject.errors.matching?(:email,'is invalid')
+				assert study_subject.errors.matching?(:email,'is invalid'),
+					study_subject.errors.full_messages.to_sentence
 			end
 		end
 		assert_difference( "StudySubject.count", 1 ) do
 			%w( me@some.where.com ).each do |good_email|
 				study_subject = create_study_subject(:email => good_email)
-				assert !study_subject.errors.matching?(:email,'is invalid')
+				assert !study_subject.errors.matching?(:email,'is invalid'),
+					study_subject.errors.full_messages.to_sentence
 			end
 		end
 	end

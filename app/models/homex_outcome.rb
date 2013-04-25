@@ -1,6 +1,8 @@
 # don't know exactly
 class HomexOutcome < ActiveRecord::Base
 
+#	NOTE this is not used
+
 	acts_as_list
 
 	belongs_to :study_subject

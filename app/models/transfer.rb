@@ -4,6 +4,9 @@
 #	*	to_organization_id
 class Transfer < ActiveRecord::Base
 
+#	NOTE this is not used
+
+
 	belongs_to :aliquot
 	belongs_to :from_organization, :class_name => "Organization"
 	belongs_to :to_organization,   :class_name => "Organization"

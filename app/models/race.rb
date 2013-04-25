@@ -7,8 +7,7 @@ class Race < ActiveRecord::Base
 	acts_as_list
 	acts_like_a_hash
 
-	validates_presence_of   :code, :allow_blank => false
-	validates_uniqueness_of :code
+	validations_from_yaml_file
 
 	#	Returns description
 	def to_s

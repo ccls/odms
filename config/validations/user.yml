@@ -1,0 +1,4 @@
+-
+  :attribute: :uid
+  :presence: true
+  :uniqueness: true

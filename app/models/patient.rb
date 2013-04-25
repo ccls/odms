@@ -17,11 +17,6 @@ class Patient < ActiveRecord::Base
 	validate :treatment_began_on_is_on_or_after_admit_date
 	validate :subject_is_case
 
-	validates_format_of :raf_zip,
-		:with => /\A\s*\d{5}(-)?(\d{4})?\s*\z/,
-		:message => "RAF zip should be formatted 12345 or 12345-1234",
-		:allow_blank => true
-
 	#	Would it be better to do this before_validation?
 	before_save :format_raf_zip, :if => :raf_zip_changed?
 
@@ -29,15 +24,6 @@ class Patient < ActiveRecord::Base
 		:if => :admit_date_changed?
 
 	after_save :trigger_setting_was_under_15_at_dx
-#
-#	Calling the same method in the same callback with 2 different
-#	conditions doesn't seem to work. Just call it once and put
-#	the conditions in the method.
-#
-#	after_save :trigger_setting_was_under_15_at_dx,
-#		:if => :admit_date_changed?
-#	after_save :trigger_setting_was_under_15_at_dx,
-#		:if => :was_under_15_at_dx_changed?
 
 	after_save :reindex_study_subject!
 

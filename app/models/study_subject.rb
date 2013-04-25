@@ -56,9 +56,6 @@ class StudySubject < ActiveRecord::Base
 		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
 		:accession_no, :idno_wiemels, :childid, :studyid, :subjectid
 
-	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
-		:message => "SSN should be formatted ###-##-####", :allow_nil => true
-
 	after_initialize :set_default_phase, :if => :new_record?
 	def set_default_phase
 		# ||= doesn't work with ''
@@ -78,10 +75,7 @@ class StudySubject < ActiveRecord::Base
 			existing_mother
 		else
 			new_mother = StudySubject.new do |s|
-#				s.subject_type_id = StudySubject.subject_type_mother_id
-#				s.subject_type_id = SubjectType['mother'].id
 				s.subject_type = 'Mother'
-#				s.vital_status_code = VitalStatus['living'].code	 #	default
 				s.vital_status = 'Living'	 #	default, nevertheless
 				s.sex = 'F'
 				s.hispanicity = mother_hispanicity
@@ -104,8 +98,6 @@ class StudySubject < ActiveRecord::Base
 		return nil unless is_case?
 		last_control = StudySubject.select('orderno').order('orderno DESC'
 			).where(
-#				:subject_type_id   => StudySubject.subject_type_control_id,
-#				:subject_type_id   => SubjectType['control'].id,
 				:subject_type      => 'Control',
 				:case_control_type => grouping,
 				:matchingid        => self.subjectid ).first

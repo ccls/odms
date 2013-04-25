@@ -88,7 +88,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) do
 			study_subject = create_study_subject(:ssn => '987-65-4321')
 			assert !study_subject.new_record?, 
-				"#{study_subject.errors.full_messages.to_sentence}"
+				study_subject.errors.full_messages.to_sentence
 			assert_equal '987-65-4321', study_subject.reload.ssn
 		end
 	end
@@ -98,7 +98,8 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 			assert_difference( "StudySubject.count", 0 ) do
 				study_subject = create_study_subject(:ssn => invalid_ssn)
 				#	NOTE custom error message
-				assert study_subject.errors.matching?(:ssn,"should be formatted ###-##-####")
+				assert study_subject.errors.matching?(:ssn,"should be formatted ###-##-####"),
+					study_subject.errors.full_messages.to_sentence
 			end
 		end
 	end

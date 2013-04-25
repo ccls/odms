@@ -19,20 +19,14 @@ base.class_eval do
 	scope :join_patients,
 		joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
 
-#	scope :cases,    joins(:subject_type).where('subject_types.key' => 'Case')
-#	scope :controls, joins(:subject_type).where('subject_types.key' => 'Control')
-#	scope :mothers,  joins(:subject_type).where('subject_types.key' => 'Mother')
-#	scope :children, joins(:subject_type).where('subject_types.key' => ['Case','Control'])
 	scope :cases,    where('subject_type' => 'Case')
 	scope :controls, where('subject_type' => 'Control')
 	scope :mothers,  where('subject_type' => 'Mother')
 	scope :children, where('subject_type' => ['Case','Control'])
 
-#	scope :living,    joins(:vital_status).where('vital_statuses.key' => 'living')
 	scope :living,    where('vital_status' => 'Living')
 
 	def self.with_patid(patid)
-#		where(:patid => patid.to_s.squish)
 		where(:patid => sprintf("%04d",patid.to_i) )
 	end
 
@@ -49,17 +43,14 @@ base.class_eval do
 	end
 
 	def self.with_familyid(familyid)
-#		where(:familyid => familyid.to_s.squish)
 		where(:familyid => sprintf("%06d",familyid.to_i) )
 	end
 
 	def self.with_matchingid(matchingid)
-#		where(:matchingid => matchingid.to_s.squish)
 		where(:matchingid => sprintf("%06d",matchingid.to_i) )
 	end
 
 	def self.with_subjectid(subjectid)
-#		where(:subjectid => subjectid.to_s.squish)
 		where(:subjectid => sprintf("%06d",subjectid.to_i) )
 	end
 

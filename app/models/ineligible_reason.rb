@@ -7,8 +7,7 @@ class IneligibleReason < ActiveRecord::Base
 
 	has_many :enrollments
 
-	validates_length_of     :ineligible_context, 
-		:maximum => 250, :allow_blank => true
+	validations_from_yaml_file
 
 	#	Returns description
 	def to_s

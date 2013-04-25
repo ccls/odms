@@ -1,5 +1,8 @@
 # don't know exactly
 class Analysis < ActiveRecord::Base
+
+#	NOTE this is not yet used
+
 #
 #	TODO remove the habtm and replace it with hmt SubjectAnalyses ?
 #

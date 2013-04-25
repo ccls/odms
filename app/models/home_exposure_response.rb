@@ -1,6 +1,8 @@
 # Extraction of answers from the survey
 class HomeExposureResponse < ActiveRecord::Base
 
+#	NOTE this is no longer used
+
 	belongs_to :study_subject
 	attr_protected :study_subject_id, :study_subject
 

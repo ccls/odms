@@ -43,33 +43,11 @@ base.class_eval do
 	end
 
 	def copy_case_icf_master_id
-
 		StudySubject.with_matchingid(self.matchingid).update_all(
 			:case_icf_master_id => self.try(:case_subject).try(:icf_master_id))
-
-#		self.case_icf_master_id = case_subject.try(:icf_master_id)
-#StudySubject.with_matchingid(matchingid)
-
-#		if case_icf_master_id.blank?
-#			self.case_icf_master_id = case_subject.try(:icf_master_id)
-#		end
 	end
 
 	def copy_mother_icf_master_id
-#StudySubject.with_familyid(familyid).update_all(:
-#		self.mother_icf_master_id = mother.try(:icf_master_id)
-#		if is_mother? 	#	tell family your icf_master_id if you have one
-#			if !icf_master_id.blank?
-#				#	StudySubject.with_familyid(familyid).update_all(:mother_icf_master_id => icf_master_id)
-#			else
-#
-#			end
-#		else	#	case or control child
-#			if mother_icf_master_id.blank?
-#				#	get mom's icf_master_id
-#
-#			end
-#		end
 		StudySubject.with_familyid(self.familyid).update_all(
 			:mother_icf_master_id => self.try(:mother).try(:icf_master_id))
 	end

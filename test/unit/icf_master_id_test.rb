@@ -19,6 +19,16 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 		assert_equal "123456789", "#{icf_master_id}"
 	end
 
+
+	test "unused should return those without a study subject" do
+		icf_master_id_1 = FactoryGirl.create(:icf_master_id)
+		icf_master_id_2 = FactoryGirl.create(:icf_master_id)
+		assert_equal IcfMasterId.unused, [icf_master_id_1,icf_master_id_2]
+		icf_master_id_2.study_subject_id = 0
+		icf_master_id_2.save
+		assert_equal IcfMasterId.unused, [icf_master_id_1]
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

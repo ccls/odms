@@ -8,6 +8,7 @@ class OperationalEventTypeTest < ActiveSupport::TestCase
 	assert_should_act_as_list
 	assert_should_have_many(:operational_events)
 	assert_should_not_require_attributes( :position )	#, :project_id )
+	assert_should_require_attribute( :event_category )
 	assert_should_require_attribute_length( :event_category, :in => 4..250 )
 
 	test "operational_event_type factory should create operational event type" do

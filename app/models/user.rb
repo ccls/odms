@@ -10,8 +10,7 @@ class User < ActiveRecord::Base
 
 	has_and_belongs_to_many :roles, :uniq => true
 
-	validates_presence_of   :uid
-	validates_uniqueness_of :uid
+	validations_from_yaml_file
 
 	def role_names
 		roles.collect(&:name).uniq

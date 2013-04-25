@@ -4,6 +4,8 @@
 #	*	study_subject_id
 class Interview < ActiveRecord::Base
 
+#	NOTE this is not used
+
 	belongs_to :study_subject
 	attr_protected( :study_subject_id, :study_subject )
 

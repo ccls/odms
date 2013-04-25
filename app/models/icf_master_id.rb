@@ -9,7 +9,7 @@ class IcfMasterId < ActiveRecord::Base
 		icf_master_id
 	end
 
-	scope :unused,      where('study_subject_id IS NULL')
-	scope :next_unused, unused.order('id asc').limit(1)	#	NOTE still returns an array
+	scope :unused,      where( self.arel_table[:study_subject_id].eq(nil) )
+	scope :next_unused, unused.order('id asc').limit(1)	#	NOTE still returns an array ( could add a .first )
 
 end

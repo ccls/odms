@@ -29,35 +29,9 @@ class Abstract < ActiveRecord::Base
 	before_save   :convert_weight_to_kg
 	before_save   :set_days_since_fields
 
-#	def self.fields
-#		#	db: db field name
-#		#	human: humanized field
-#		@@fields ||= YAML::load( ERB.new( IO.read(
-#			File.join(Rails.root,'config/abstract_fields.yml')
-#		)).result)
-##
-##	Assuming that eventually there will be a preferred order,
-##	we'll probably need to use this config file.
-##
-##	will need to add computed fields also, but this works too ...
-##	could then remove this config file
-##		@@fields ||= Abstract.comparable_attribute_names.collect{|f|
-##			{:db => f, :human => Abstract.human_attribute_name(f) }
-##		}
-#	end
-#
-##
-##	Why didn't I just use locales for this?
-##
-#
-#	def fields
-#		Abstract.fields
-#	end
-
 	#	db_fields may be a bit of a misnomer
 	#	perhaps data_fields? 
 	def self.db_fields
-#		Abstract.fields.collect{|f|f[:db]}
 		column_names - %w(id entry_1_by_uid entry_2_by_uid merged_by_uid study_subject_id
 			created_at updated_at)
 	end
