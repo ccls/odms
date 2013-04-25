@@ -6,7 +6,11 @@ class IcfMasterTracker < OpenStruct
 
 	def initialize(*args)
 		super
-		self.changed = []
+		self.changed = nil	#[]
+#
+#	perhaps add study_subject
+#		and use changes hash instead of changed?
+#
 		self.verbose ||= false
 		process
 	end
@@ -39,7 +43,8 @@ class IcfMasterTracker < OpenStruct
 			puts "Current interview_completed_on : #{e.interview_completed_on}" if verbose
 			e.interview_completed_on = Time.parse(cati_complete).to_date
 			if e.changed?
-				changed << s
+#				changed << s
+				changed = s
 				puts "-- Updated interview_completed_on : #{e.interview_completed_on}" if verbose
 				puts "-- Enrollment updated. Creating OE" if verbose
 

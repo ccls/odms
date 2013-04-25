@@ -20,10 +20,14 @@ namespace :automate do
 		puts "About to scp -p Icf master tracker"
 		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_master_trackers/ICF_Master_Tracker.csv ./")
 		unless File.exists?("ICF_Master_Tracker.csv")
+#			Notification.plain(
+#				"ICF Master Tracker not found after copy attempted. Skipping.",
+#				email_options.merge({
+#					:subject => "ODMS: Failed ICF Master Tracker copy" })
+#			).deliver
 			Notification.plain(
 				"ICF Master Tracker not found after copy attempted. Skipping.",
-				email_options.merge({
-					:subject => "ODMS: Failed ICF Master Tracker copy" })
+					:subject => "ODMS: Failed ICF Master Tracker copy"
 			).deliver
 			abort( "scp seems to have failed as csv file is not found." )
 		end

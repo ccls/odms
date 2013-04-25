@@ -57,11 +57,16 @@ class BcInfoUpdate < CSVFile
 
 	def parse_csv_file
 		unless self.class.expected_columns.include?(actual_columns.sort)
+#			Notification.plain(
+#				"BC Info (#{csv_file}) has unexpected column names<br/>\n" <<
+#				"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
+#				email_options.merge({ 
+#					:subject => "ODMS: Unexpected or missing columns in #{csv_file}" })
+#			).deliver
 			Notification.plain(
 				"BC Info (#{csv_file}) has unexpected column names<br/>\n" <<
 				"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
-				email_options.merge({ 
-					:subject => "ODMS: Unexpected or missing columns in #{csv_file}" })
+					:subject => "ODMS: Unexpected or missing columns in #{csv_file}"
 			).deliver
 
 			self.status = "#{csv_file} has unexpected column names"
@@ -88,9 +93,10 @@ class BcInfoUpdate < CSVFile
 	
 		end	#	(f=CSV.open( csv_file, 'rb',{
 
-		Notification.updates_from_bc_info( csv_file, study_subjects,
-				email_options.merge({ })
-			).deliver
+#		Notification.updates_from_bc_info( csv_file, study_subjects,
+#				email_options.merge({ })
+#			).deliver
+		Notification.updates_from_bc_info( csv_file, study_subjects ).deliver
 	end
 
 	def archive

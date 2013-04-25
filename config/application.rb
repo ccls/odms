@@ -82,8 +82,9 @@ module Odms
 end
 
 # Only send to me in development
-def email_options 
-	( Rails.env != 'production' ) ? { :to => 'jakewendt@berkeley.edu' } : {}
-end   
+#	moved this feature into the mailer
+#def email_options 
+#	( Rails.env != 'production' ) ? { :to => 'jakewendt@berkeley.edu' } : {}
+#end   
 
 

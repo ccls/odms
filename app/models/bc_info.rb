@@ -30,10 +30,14 @@ class BcInfo < OpenStruct
 		end
 
 		if identifier.blank?
+#			Notification.plain(
+#				"#{bc_info_file} contained line with blank icf_master_id",
+#				email_options.merge({ 
+#					:subject => "ODMS: Blank ICF Master ID in #{bc_info_file}" })
+#			).deliver
 			Notification.plain(
 				"#{bc_info_file} contained line with blank icf_master_id",
-				email_options.merge({ 
-					:subject => "ODMS: Blank ICF Master ID in #{bc_info_file}" })
+					:subject => "ODMS: Blank ICF Master ID in #{bc_info_file}"
 			).deliver
 			return	#	next
 		end
@@ -44,11 +48,16 @@ class BcInfo < OpenStruct
 		#raise "Multiple case subjects? with icf_master_id:" <<
 		#	"#{line['icf_master_id']}:" if subjects.length > 1
 		unless subjects.length == 1
+#			Notification.plain(
+#				"#{bc_info_file} contained line with #{identifier} " <<
+#				"but no subject with #{identifier}:#{send(identifier)}:",
+#				email_options.merge({ 
+#					:subject => "ODMS: No Subject with #{identifier} in #{bc_info_file}" })
+#			).deliver
 			Notification.plain(
 				"#{bc_info_file} contained line with #{identifier} " <<
 				"but no subject with #{identifier}:#{send(identifier)}:",
-				email_options.merge({ 
-					:subject => "ODMS: No Subject with #{identifier} in #{bc_info_file}" })
+					:subject => "ODMS: No Subject with #{identifier} in #{bc_info_file}"
 			).deliver
 			return	#	next
 		end
@@ -247,9 +256,12 @@ class BcInfo < OpenStruct
 			if study_subject.mother_race_code
 				mr = Race.where(:code => study_subject.mother_race_code).first
 				if mr.nil?
+#					Notification.plain("No race found with code :#{study_subject.mother_race_code}:",
+#						email_options.merge({ 
+#							:subject => "ODMS: Invalid mother_race_code" })
+#					).deliver
 					Notification.plain("No race found with code :#{study_subject.mother_race_code}:",
-						email_options.merge({ 
-							:subject => "ODMS: Invalid mother_race_code" })
+							:subject => "ODMS: Invalid mother_race_code"
 					).deliver
 				elsif mr.is_other? or mr.is_mixed?
 					msr = if mother.races.include?( mr )

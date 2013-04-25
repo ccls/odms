@@ -58,9 +58,10 @@ class BirthDatumUpdate < CSVFile
 		end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
 
 
-		Notification.updates_from_birth_data( csv_file, birth_data,
-				email_options.merge({ })
-			).deliver
+#		Notification.updates_from_birth_data( csv_file, birth_data,
+#				email_options.merge({ })
+#			).deliver
+		Notification.updates_from_birth_data( csv_file, birth_data ).deliver
 
 #		Notification.plain( "Done processing birth data file #{csv_file}.",
 #			email_options.merge({

@@ -37,9 +37,12 @@ namespace :automate do
 
 		else	#	unless birth_data_files.empty?
 			puts "No birth_data files found"
+#			Notification.plain("No Birth Data Files Found",
+#				email_options.merge({ 
+#					:subject => "ODMS: No Birth Data Files Found" })
+#			).deliver
 			Notification.plain("No Birth Data Files Found",
-				email_options.merge({ 
-					:subject => "ODMS: No Birth Data Files Found" })
+					:subject => "ODMS: No Birth Data Files Found"
 			).deliver
 		end	#	unless birth_data_files.empty?
 		puts; puts "Done.(#{Time.now})"

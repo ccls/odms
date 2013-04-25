@@ -1,5 +1,11 @@
 class Notification < ActionMailer::Base
-	default from: "notifyccls@berkeley.edu"
+#	default from: "notifyccls@berkeley.edu"
+	default :from => "notifyccls@berkeley.edu",
+		:to   => (( Rails.env != 'production' ) ? ['jakewendt@berkeley.edu'] : ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"])
+	
+
+#	( Rails.env != 'production' ) ? { :to => 'jakewendt@berkeley.edu' } : {}
+
 
 #
 #	Really important NOTE...
@@ -26,14 +32,14 @@ class Notification < ActionMailer::Base
 #		@greeting = "Hi"
 		@study_subject = study_subject
 
-		mail to: "notifyccls@berkeley.edu"
-		mail cc: ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+#		mail to: "notifyccls@berkeley.edu"
+#		mail cc: ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
 		mail subject: "TEST [CCLS Patient Notification Received] Identifier: #{@study_subject.icf_master_id_to_s}"
 	end
 
 	def plain(content="No body given",options={})
 		defaults = {
-			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
+#			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
 			:subject => "ODMS: No subject given"
 		}.merge(options)
 		@content = content	#	BEFORE last 'mail' method call
@@ -43,7 +49,7 @@ class Notification < ActionMailer::Base
 	def updates_from_icf_master_tracker(changed,options={})
 		@changed = changed
 		defaults = {
-			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
+#			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
 			:subject => "ODMS: updates_from_icf_master_tracker"
 		}.merge(options)
 		mail defaults
@@ -53,7 +59,7 @@ class Notification < ActionMailer::Base
 		@bc_info_file   = bc_info_file
 		@study_subjects = study_subjects
 		defaults = {
-			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
+#			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
 			:subject => "ODMS: updates_from_bc_info #{File.basename(bc_info_file)}"
 		}.merge(options)
 		mail defaults
@@ -63,7 +69,7 @@ class Notification < ActionMailer::Base
 		@birth_data_file = birth_data_file
 		@birth_data  = birth_data
 		defaults = {
-			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
+#			:to => ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"],
 			:subject => "ODMS: updates_from_birth_data #{File.basename(birth_data_file)}"
 		}.merge(options)
 		mail defaults

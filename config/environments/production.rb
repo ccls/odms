@@ -110,8 +110,8 @@ Odms::Application.configure do
 
 
 
-#	We don't do any mailing anymore, so this is kinda irrelavant.
-#	We do now.
+
+
 
 	config.action_mailer.delivery_method = :smtp
 
