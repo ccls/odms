@@ -22,6 +22,15 @@ base.class_eval do
 		["Living", "Deceased", "Refused to State", "Don't Know"]
 	end
 
+	#	This method is predominantly for a form selector.
+	#	It will show the existing value first followed by the other valid values.
+	#	This will allow an existing invalid value to show on the selector,
+	#		but should fail on save as it is invalid.  This way it won't
+	#		silently change the vital status.
+	def vital_statuses
+		[self.vital_status] + ( self.class.valid_vital_statuses - [self.vital_status])
+	end
+
 	def is_living?
 #		vital_status_code == VitalStatus['living'].code
 		vital_status == 'Living'
