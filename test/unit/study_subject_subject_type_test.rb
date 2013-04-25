@@ -27,11 +27,11 @@ class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 		assert  study_subject.errors.matching?(:subject_type,"can't be blank")
 	end
 
-	test "should return subject_type description for string" do
-		study_subject = create_study_subject
-		assert_equal study_subject.subject_type.description,
-			"#{study_subject.subject_type}"
-	end
+#	test "should return subject_type description for string" do
+#		study_subject = create_study_subject
+#		assert_equal study_subject.subject_type.description,
+#			"#{study_subject.subject_type}"
+#	end
 
 	csv = %q(factory,is_case?,is_control?,is_child?,is_twin?,is_mother?,is_father?
 case_study_subject,true,false,true,false,false,false
