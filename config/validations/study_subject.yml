@@ -233,10 +233,17 @@
 #
 #	I'm just removing the apostrophes.  I've never seen any email with an apostrophe.
 #
+
+
+#    :with: !ruby/regexp '/\A([-a-z0-9!\#$%&*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i'
+#
+#	It would seem that the single quotes around the regex are unnecessary.
+#	I removed them and everyone seems happy.
+
 -
   :attribute: :email
   :format:
-    :with: !ruby/regexp '/\A([-a-z0-9!\#$%&*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i'
+    :with: !ruby/regexp /\A([-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   :allow_blank: true
 
 #	validates_uniqueness_of_with_nilification :email
