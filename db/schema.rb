@@ -1512,7 +1512,7 @@ ActiveRecord::Schema.define(:version => 20130424223544) do
     t.string   "legacy_other_race"
     t.string   "case_icf_master_id",          :limit => 9
     t.string   "mother_icf_master_id",        :limit => 9
-    t.string   "subject_type",                :limit => 20,                    :null => false
+    t.string   "subject_type",                :limit => 20
   end
 
   add_index "study_subjects", ["accession_no"], :name => "index_study_subjects_on_accession_no", :unique => true

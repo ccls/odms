@@ -5,7 +5,7 @@ namespace :study_subjects do
 		SubjectType.all.each do |subject_type|
 
 			StudySubject.where(:subject_type_id => subject_type.id)
-				.update_all(:subject_type => subject_type.key)
+				.update_all(:subject_type => subject_type.to_s )
 
 		end	#	SubjectType.all
 	end

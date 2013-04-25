@@ -1559,7 +1559,7 @@ Table: study_subjects
 | legacy_other_race           | varchar(255) | YES  |     | NULL    |                |
 | case_icf_master_id          | varchar(9)   | YES  |     | NULL    |                |
 | mother_icf_master_id        | varchar(9)   | YES  |     | NULL    |                |
-| subject_type                | varchar(20)  | NO   | MUL | NULL    |                |
+| subject_type                | varchar(20)  | YES  | MUL | NULL    |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+
@@ -1683,4 +1683,4 @@ Table: zip_codes
 | updated_at | datetime     | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 /Users/jakewendt/github_repo/ccls/odms
-2013-04-24 16:44:14 -0700
+2013-04-25 08:58:19 -0700
