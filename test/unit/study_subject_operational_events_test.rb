@@ -23,9 +23,11 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 		assert_not_nil study_subject.vital_status
 		assert_difference('OperationalEventType.count',0) {	#	make sure it didn't create it
 		assert_difference('OperationalEvent.count',1) {
-			study_subject.update_attributes(:vital_status_code => VitalStatus['deceased'].code)
+#			study_subject.update_attributes(:vital_status_code => VitalStatus['deceased'].code)
+			study_subject.update_attributes(:vital_status => 'Deceased')
 		} }
-		assert_equal study_subject.reload.vital_status, VitalStatus['deceased']
+#		assert_equal study_subject.reload.vital_status, VitalStatus['deceased']
+		assert_equal study_subject.reload.vital_status, 'Deceased'
 		events = study_subject.operational_events.where(
 			:project_id => Project['ccls'].id).where(
 			:operational_event_type_id => OperationalEventType['subjectDied'].id)

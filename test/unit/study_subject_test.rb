@@ -2,10 +2,6 @@ require 'test_helper'
 
 class StudySubjectTest < ActiveSupport::TestCase
 
-	assert_should_accept_only_good_values( :subject_type,
-		{ :good_values => %w( Case Control Mother Father Twin ),
-			:bad_values  => 'X' })
-
 	assert_should_accept_only_good_values( :sex,
 		{ :good_values => %w( M F DK ),
 			:bad_values  => 'X' })
@@ -45,11 +41,12 @@ class StudySubjectTest < ActiveSupport::TestCase
 		mother_hispanicity mother_hispanicity_mex 
 		other_mother_race mother_yrs_educ phase
 		reference_date related_case_childid related_childid ssn state_id_no 
-		state_registrar_no subjectid vital_status_code )
+		state_registrar_no subjectid vital_status subject_type )
+#		state_registrar_no subjectid vital_status_code )
 
 #	no familyid, childid, patid, studyid, matchingid, icf_master_id ???
 
-	required = %w( )
+	required = %w(  subject_type vital_status )	#	this was blank, may need to be, its complicated
 	unique   = %w( state_id_no state_registrar_no local_registrar_no
 		gbid lab_no_wiemels accession_no idno_wiemels 
 		subjectid childid )
@@ -59,7 +56,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	protected_attributes = %w( studyid studyid_nohyphen
 		studyid_intonly_nohyphen subjectid familyid childid patid 
-		matchingid case_control_type )
+		matchingid case_control_type  
+subject_type )	#	can I have subject_type here?
 	assert_should_require( required )
 	assert_should_require_unique( unique )
 	assert_should_protect( protected_attributes )

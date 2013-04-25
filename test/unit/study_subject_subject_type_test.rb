@@ -2,6 +2,10 @@ require 'test_helper'
 
 class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 
+	assert_should_accept_only_good_values( :subject_type,
+		{ :good_values => %w( Case Control Mother Father Twin ),
+			:bad_values  => 'X', :model => 'StudySubject' })
+
 #	assert_should_protect( :subject_type_id, :model => 'StudySubject' )
 #	assert_should_initially_belong_to( :subject_type, :model => 'StudySubject' )
 

@@ -57,7 +57,8 @@ if StudySubject.respond_to?(:solr_search)
 		test "should search by vital_status and #{cu} login" do
 			study_subject = build_and_index_subject
 			login_as send(cu)
-			get :index, :vital_status => [study_subject.vital_status.to_s]
+#			get :index, :vital_status => [study_subject.vital_status.to_s]
+			get :index, :vital_status => [study_subject.vital_status]	#	the to_s isn't really needed now
 			assert_found_one( study_subject )
 		end
 

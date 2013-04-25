@@ -264,3 +264,9 @@
     :in: <%= StudySubject.valid_subject_types %>
 #    :in: <%= %w( Case Control Mother Father Twin ) %>
 
+-
+  :attribute: :vital_status
+  :presence: true
+  :inclusion:
+    :in: <%= StudySubject.valid_vital_statuses %>
+
