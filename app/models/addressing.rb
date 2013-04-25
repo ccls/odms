@@ -35,7 +35,13 @@ class Addressing < ActiveRecord::Base
 
 	after_save :create_subject_moved_event, :if => :subject_moved
 
+	after_save :reindex_study_subject!
+
 protected
+
+	def reindex_study_subject!
+		study_subject.index if study_subject
+	end
 
 	#	this will actually create an event on creation as well
 	#	if attributes match

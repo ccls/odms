@@ -35,7 +35,13 @@ class PhoneNumber < ActiveRecord::Base
 		phone_number
 	end
 
+	after_save :reindex_study_subject!
+
 protected
+
+	def reindex_study_subject!
+		study_subject.index if study_subject
+	end
 
 	#	Formats phone numer with () and -
 	def format_phone_number

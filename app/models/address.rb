@@ -28,7 +28,13 @@ class Address < ActiveRecord::Base
 		[line_1,line_2].delete_if(&:blank?).join(', ')
 	end
 
+	after_save :reindex_study_subject!
+
 protected
+
+	def reindex_study_subject!
+		study_subject.index if study_subject
+	end
 
 	#	Determine if the address is a PO Box and then
 	#	require that the address type NOT be a residence.
