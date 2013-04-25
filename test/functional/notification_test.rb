@@ -2,6 +2,9 @@ require 'test_helper'
 
 class NotificationTest < ActionMailer::TestCase
 
+#	in development and testing all email goes to just jakewendt
+#	in production that also go to notifyccls
+
 	test "raf_submitted for subject" do
 		study_subject = FactoryGirl.create(:complete_case_study_subject, 
 			:first_name    => 'Anthony',
@@ -11,9 +14,10 @@ class NotificationTest < ActionMailer::TestCase
 		mail = Notification.raf_submitted(study_subject)
 		assert_equal mail.subject,
 			"TEST [CCLS Patient Notification Received] Identifier: 1234MAIL"
-		assert_equal ["notifyccls@berkeley.edu"], mail.to
+#		assert_equal ["notifyccls@berkeley.edu"], mail.to
+		assert_equal ["jakewendt@berkeley.edu"], mail.to
 		assert_equal ["notifyccls@berkeley.edu"], mail.from
-		assert_equal ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"], mail.cc
+#		assert_equal ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"], mail.cc
 		assert_match '1234MAIL', mail.body.encoded
 		assert_match 'initials: AMH', mail.body.encoded
 	end
@@ -28,7 +32,8 @@ class NotificationTest < ActionMailer::TestCase
 
 	test "plain" do
 		mail = Notification.plain
-		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+#		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
 		assert_equal mail.subject, "ODMS: No subject given"
 		assert_match "No body given", mail.body.encoded
 #	html or text.  Both exist for this one.
@@ -37,21 +42,24 @@ class NotificationTest < ActionMailer::TestCase
 
 	test "updates_from_icf_master_tracker" do
 		mail = Notification.updates_from_icf_master_tracker([])
-		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+#		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
 		assert_equal mail.subject, "ODMS: updates_from_icf_master_tracker"
 		assert_match "No changes", mail.body.encoded
 	end
 
 	test "updates_from_bc_info" do
 		mail = Notification.updates_from_bc_info('bc_info_20010203.csv',[])
-		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+#		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
 		assert_equal mail.subject, "ODMS: updates_from_bc_info bc_info_20010203.csv"
 		assert_match "No changes", mail.body.encoded
 	end
 
 	test "updates_from_birth_data" do
 		mail = Notification.updates_from_birth_data('birth_data_20010203.csv',[])
-		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+#		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
+		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
 		assert_equal mail.subject, "ODMS: updates_from_birth_data birth_data_20010203.csv"
 		assert_match "No changes", mail.body.encoded
 	end
