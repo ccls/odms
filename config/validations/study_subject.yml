@@ -3,33 +3,20 @@
   :presence:
     :message: "Sex has not been chosen"
   :inclusion:
-    :in: <%= %w( M F DK ) %>
+    :in: ['M','F','DK']
   :allow_blank: true
 
 -
   :attribute: :do_not_contact
   :inclusion:
-    :in: <%= [ true, false ] %>
+    :in: [ true, false ]
 
-#	validates_complete_date_for :reference_date, :allow_nil => true
-#	validates_complete_date_for :died_on, :allow_blank => true
-#	allow_nil or allow_blank.  Difference here?
 -
   :attributes: 
   - :reference_date
   - :died_on
   :complete_date: true
   :allow_blank: true
-
-#	#
-#	#	patid IS NOT UNIQUE as will be shared by controls
-#	#	childid and studyid should be
-#	#
-#	#	childid is numeric, so doesn't need to be nilified, but won't hurt
-#	#
-#	validates_uniqueness_of_with_nilification :ssn, :state_id_no,
-#		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
-#		:accession_no, :idno_wiemels, :childid, :studyid, :subjectid
 
 -
   :attribute: :case_control_type
@@ -42,22 +29,9 @@
   :length:
     :maximum: 250
   :format:
-    :with: !ruby/regexp '/\A\d{3}-\d{2}-\d{4}\z/'
+    :with: !ruby/regexp /\A\d{3}-\d{2}-\d{4}\z/
     :message: "SSN should be formatted ###-##-####"
   :allow_nil: true
-
-#	validates_format_of     :ssn, :with => /\A\d{3}-\d{2}-\d{4}\z/,
-#		:message => "SSN should be formatted ###-##-####", :allow_nil => true
-
-# http://stackoverflow.com/questions/3337020/how-to-specify-ranges-in-yaml
-#    :in: !ruby/range 5..250
-
-#	http://codereview.stackexchange.com/questions/159/use-of-a-regex-stored-inside-yaml-file
-#	  email_regex: !ruby/regexp '/^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i'
-
-
-
-
 
 -
   :attribute: :birth_year
@@ -129,15 +103,6 @@
   :allow_nil: true
 
 
-#module StudySubjectGuardianRelationship
-#
-#	validates_presence_of :other_guardian_relationship,
-#		:message => "You must specify a relationship with 'other relationship' is selected",
-#		:if => :guardian_relationship_is_other?
-#
-#	validates_length_of :other_guardian_relationship,
-#		:maximum => 250, :allow_blank => true
-#
 -
   :attribute: :other_guardian_relationship
   :presence:
@@ -150,16 +115,6 @@
   :allow_blank: true
 
 
-
-#module StudySubjectIcfMasterId
-#
-#	validates_uniqueness_of :icf_master_id, :allow_nil => true
-#
-#	validates_length_of :icf_master_id, 
-#			:maximum => 9, :allow_blank => true
-#
-#	icf_master_id isn't on a form, but probably should be "nilificated"
-#	nil and blank?  hmm
 -
   :attribute: :icf_master_id
   :uniqueness: true
@@ -169,19 +124,6 @@
   :allow_blank: true
 
 
-
-
-#module StudySubjectNames
-#
-#	validates_length_of :first_name, :last_name, :middle_name, :maiden_name, 
-#		:father_first_name, :father_middle_name, :father_last_name,
-#		:mother_first_name, :mother_middle_name, :mother_maiden_name, :mother_last_name,
-#		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
-#			:maximum => 250, :allow_blank => true
-#
-#	validates_length_of :generational_suffix, :father_generational_suffix,
-#			:maximum => 10, :allow_blank => true
-#
 -
   :attributes:
   - :first_name
@@ -209,36 +151,16 @@
     :maximum: 10
   :allow_blank: true
 
-
-
-
-
-#module StudySubjectPii
-#
 -
   :attribute: :dob
   :presence: true
   :unless: :is_mother?
+
 -
   :attribute: :dob
   :complete_date: true
   :past_date: true
   :allow_blank: true
-
-
-#    :with: !ruby/regexp '/\A([-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i'
-
-#
-#	I've replaced the apostrophes in this regex with %27.  How to test? Doesn't work.
-#
-#	I'm just removing the apostrophes.  I've never seen any email with an apostrophe.
-#
-
-
-#    :with: !ruby/regexp '/\A([-a-z0-9!\#$%&*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i'
-#
-#	It would seem that the single quotes around the regex are unnecessary.
-#	I removed them and everyone seems happy.
 
 -
   :attribute: :email
@@ -246,22 +168,6 @@
     :with: !ruby/regexp /\A([-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   :allow_blank: true
 
-#	validates_uniqueness_of_with_nilification :email
-#
-##	:with => /
-##		\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*
-##		[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+
-##		@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
-##	using Regexp.new instead so that I can split it on several lines
-##	The trailing 'true' makes it case insensitive
-#
-#	validates_format_of :email,
-#	  :with => Regexp.new(
-#			'\A([-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+\.)*' <<
-#			'[-a-z0-9!\#$%&\'*+\/=?^_`{|}~]+' <<
-#			'@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z', true), 
-#		:allow_blank => true
-#
 -
   :attribute: :birth_city
   :presence: true
@@ -280,23 +186,11 @@
     :maximum: 250
   :allow_blank: true
 
-
-
-#module StudySubjectSubjectType
-#
-#-
-#  :attribute: :subject_type_id
-#  :presence: true
-#-
-#  :attribute: :subject_type
-#  :presence: true
-#  :if: :subject_type_id
 -
   :attribute: :subject_type
   :presence: true
   :inclusion:
     :in: <%= StudySubject.valid_subject_types %>
-#    :in: <%= %w( Case Control Mother Father Twin ) %>
 
 -
   :attribute: :vital_status

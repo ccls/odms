@@ -26,12 +26,6 @@
   - :treatment_began_on
   :past_date: true
 
-#	validate :admit_date_is_on_or_after_dob
-#	validate :diagnosis_date_is_on_or_after_dob
-#	validate :treatment_began_on_is_on_or_after_diagnosis_date
-#	validate :treatment_began_on_is_on_or_after_admit_date
-#	validate :subject_is_case
-
 -
   :attributes:
   - :admit_date
@@ -45,19 +39,9 @@
   :length:
     :maximum: 10
   :format:
-    :with: !ruby/regexp '/\A\s*\d{5}(-)?(\d{4})?\s*\z/'
+    :with: !ruby/regexp /\A\s*\d{5}(-)?(\d{4})?\s*\z/
     :message: "RAF zip should be formatted 12345 or 12345-1234"
   :allow_blank: true
-
-# http://stackoverflow.com/questions/3337020/how-to-specify-ranges-in-yaml
-
-# http://codereview.stackexchange.com/questions/159/use-of-a-regex-stored-inside-yaml-file
-#   email_regex: !ruby/regexp '/^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i'
-
-#	validates_format_of :raf_zip,
-#		:with => /\A\s*\d{5}(-)?(\d{4})?\s*\z/,
-#		:message => "RAF zip should be formatted 12345 or 12345-1234",
-#		:allow_blank => true
 
 -
   :attributes:

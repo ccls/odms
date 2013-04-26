@@ -12,11 +12,6 @@ class PhoneNumber < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-	#	Want to ensure contains 10 digits.
-	#	I'm kinda surprised that this regex works.
-	validates_format_of   :phone_number, :with => /\A(\D*\d\D*){10}\z/,
-		:allow_blank => true
-
 	scope :current,  
 		where(self.arel_table[:current_phone].not_eq_all([nil,2]))
 	scope :historic, 

@@ -15,49 +15,20 @@
   :presence: true
   :if: :phone_type_id
 
-#-
-#  :attribute: :why_invalid
-#  :presence: true
-#  :if: :is_not_valid?
-#
-#-
-#  :attribute: :how_verified
-#  :presence: true
-#  :if: :is_verified?
-#
 -
   :attribute: :other_data_source
   :presence: true
   :if: :data_source_is_other?
 
-#-
-#  :attributes:
-#  - :why_invalid
-#  - :how_verified
-#  :length:
-#    :maximum: 250
-#  :allow_blank: true
-
-#	#	Want to ensure contains 10 digits.
-#	#	I'm kinda surprised that this regex works.
-#	validates_format_of   
-
-#	not sure it this one'll work
-#-
-#  :attribute: :phone_number
-#  :format:
-#    :with: <%= Regexp.new(/\A(\D*\d\D*){10}\z/) %>
-#  :allow_blank: true
-
-#	Can't seem to get past ....
-#ArgumentError: A regular expression or a proc or lambda must be supplied as :with
-#	no matter what I put there.
-
+-
+  :attribute: :phone_number
+  :format:
+    :with: !ruby/regexp /\A(\D*\d\D*){10}\z/
+  :allow_blank: true
 
 -
   :attributes:
   - :current_phone
-#  - :is_valid
   :inclusion:
     :in: <%= YNDK.valid_values %>
   :allow_nil: true

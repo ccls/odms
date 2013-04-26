@@ -1,7 +1,7 @@
 -
   :attribute: :reject_candidate
   :inclusion:
-    :in: <%= [true, false] %>
+    :in: [true, false]
 
 -
   :attribute: :rejection_reason

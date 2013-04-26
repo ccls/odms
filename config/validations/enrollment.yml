@@ -71,8 +71,6 @@
   :presence:
     :message: 'Consented on date is required when consented'
   :if: :consented?
-#    :message: 'Consented on date is required when adding consent information'
-#  :unless: :consent_unknown?
 -
   :attributes: :consented_on
   :absence:

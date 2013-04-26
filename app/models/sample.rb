@@ -35,7 +35,9 @@ class Sample < ActiveRecord::Base
 	end
 
 	def sampleid
-		sprintf('%07d',self.attributes['id']) unless new_record?
+#	I think back in ruby 1.8.7 self.id returned the object id, NOT the database record id.  VERY DIFFERENT.
+#		sprintf('%07d',self.attributes['id']) unless new_record?
+		sprintf('%07d',self.id) unless new_record?
 	end
 
 	#	for destroy confirmation pop-up
