@@ -24,6 +24,7 @@ class Sunspot::SubjectsController < SunspotController
 	end
 
 	def index
+		@sunspot_searching = StudySubject
 		@search = StudySubject.search do
 #			keywords params[:q]	#	searches names and all the id numbers
 #	date :reference_date
@@ -31,7 +32,7 @@ class Sunspot::SubjectsController < SunspotController
 #	date :died_on
 #	integer :birth_year 
 
-			all_facets.each do |p|
+			StudySubject.sunspot_all_facets.each do |p|
 #				if child_age_facets.include?(p)
 #					range_facet_and_filter_for(p,params.dup,:start => 1, :step => 2)
 #				elsif parent_age_facets.include?(p)
@@ -136,34 +137,34 @@ class Sunspot::SubjectsController < SunspotController
 	end
 
 protected
-
-	#	all facets in order
-	def all_facets
-		%w( subject_type vital_status case_control_type sex phase 
-			races languages hospital diagnosis sample_types operational_event_types 
-			ccls_consented ccls_is_eligible interviewed 
-			patient_was_ca_resident_at_diagnosis
-			patient_was_previously_treated
-			patient_was_under_15_at_dx
-		)
-	end
+#
+#	#	all facets in order
+#	def all_facets
+#		%w( subject_type vital_status case_control_type sex phase 
+#			races languages hospital diagnosis sample_types operational_event_types 
+#			ccls_consented ccls_is_eligible interviewed 
+#			patient_was_ca_resident_at_diagnosis
+#			patient_was_previously_treated
+#			patient_was_under_15_at_dx
+#		)
+#	end
 #	booleans facet oddly
 #			do_not_contact
-
-	def search_order
-		if params[:order] and StudySubject.sunspot_orderable_columns.include?( 
-			params[:order].downcase )
-			order_string = params[:order]
-			dir = case params[:dir].try(:downcase)
-				when 'desc' then 'desc'
-				else 'asc'
-			end
-			return order_string.to_sym, dir.to_sym
-		else
-			return :id, :asc
-		end
-	end
-
+#
+#	def search_order
+#		if params[:order] and StudySubject.sunspot_orderable_columns.include?( 
+#			params[:order].downcase )
+#			order_string = params[:order]
+#			dir = case params[:dir].try(:downcase)
+#				when 'desc' then 'desc'
+#				else 'asc'
+#			end
+#			return order_string.to_sym, dir.to_sym
+#		else
+#			return :id, :asc
+#		end
+#	end
+#
 end
 __END__
 class InventoriesController < ApplicationController

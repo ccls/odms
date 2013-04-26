@@ -133,7 +133,8 @@ module SunspotHelper
 			[params[:c]].flatten
 		else
 #			SunspotHelper.default_columns
-			StudySubject.sunspot_default_columns
+#			StudySubject.sunspot_default_columns
+			@sunspot_searching.sunspot_default_columns
 		end
 	end
 
@@ -142,7 +143,8 @@ module SunspotHelper
 #			when '' then ''
 #			else sort_link(column,:image => false)
 #		end
-		if StudySubject.sunspot_orderable_columns.include?(column.to_s)
+#		if StudySubject.sunspot_orderable_columns.include?(column.to_s)
+		if @sunspot_searching.sunspot_orderable_columns.include?(column.to_s)
 			sort_link(column,:image => false)
 		else
 			column
@@ -177,7 +179,8 @@ module SunspotHelper
 			when 'races' 
 				subject.subject_races.collect(&:to_s).join(',')
 
-			when *StudySubject.sunspot_columns
+#			when *StudySubject.sunspot_columns
+			when *@sunspot_searching.sunspot_columns
 				( subject.respond_to?(column) ? subject.try(column) : nil )
 #			when /^(.*):(is_eligible|consented)$/
 #				YNDK[Enrollment.where(:study_subject_id => subject.id)

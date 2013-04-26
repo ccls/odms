@@ -149,6 +149,15 @@ base.class_eval do
 	end
 
 
+	def self.sunspot_all_facets
+		%w( subject_type vital_status case_control_type sex phase 
+			races languages hospital diagnosis sample_types operational_event_types 
+			ccls_consented ccls_is_eligible interviewed 
+			patient_was_ca_resident_at_diagnosis
+			patient_was_previously_treated
+			patient_was_under_15_at_dx
+		)
+	end
 
 	#
 	#	DO NOT ALLOW BLANK VALUES INTO INDEX.  Only really a problem when faceting on blank values.

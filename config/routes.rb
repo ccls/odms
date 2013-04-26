@@ -260,6 +260,7 @@ Odms::Application.routes.draw do
 
 	namespace :sunspot do
 		resources :subjects, :only => :index
+		resources :samples,  :only => :index
 	end
 
 #	namespace :api do
