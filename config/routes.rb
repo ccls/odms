@@ -79,7 +79,7 @@ Odms::Application.routes.draw do
 		collection { get :confirm }
 		member     { put :update_status }
 	end
-	resources :birth_data, :except => [:new,:create]
+	resources :birth_data, :except => [:new,:create,:edit,:update,:destroy]
 	resources :candidate_controls, :only => [:edit,:update,:index,:show]
 	#	Removing RAF forms and creating a single RAF-like form
 

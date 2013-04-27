@@ -27,11 +27,6 @@ class Sample < ActiveRecord::Base
 	#	prefix is require as sample has a parent too (well, it will eventually)
 	delegate :parent, :to => :sample_type, :allow_nil => true, :prefix => true
 
-#	#	Returns the parent of this sample type
-#	def sample_type_parent
-#		sample_type.parent
-#	end
-
 	after_initialize :set_defaults, :if => :new_record?
 	def set_defaults
 		# ||= doesn't work with ''
@@ -54,45 +49,36 @@ class Sample < ActiveRecord::Base
 	after_save :reindex_study_subject!
 
 
-
-
-	def self.sunspot_orderable_columns
-		%w( id sampleid sample_format sample_temperature project aliquot_or_sample_on_receipt order_no sample_type sample_type_parent subject_type subjectid childid )
-	end
-
-	def self.sunspot_available_columns
-		%w( id sampleid sample_format sample_temperature project aliquot_or_sample_on_receipt order_no sample_type sample_type_parent subject_type subjectid childid ).sort
-	end
-
-	def self.sunspot_default_columns
-		%w( id sampleid subjectid sample_type )
-	end
-
-	#	in the order that they will appear on the page
-	def self.sunspot_all_facets
-		%w( sample_format sample_temperature project aliquot_or_sample_on_receipt order_no sample_type sample_type_parent subject_type )
-	end
-
-	def self.sunspot_columns
-		%w( id sampleid sample_format sample_temperature project aliquot_or_sample_on_receipt order_no sample_type sample_type_parent subject_type subjectid childid )
-	end
+	include Sunspotability
+	
+	self.all_sunspot_columns << SunspotColumn.new(:id, :default => true, :type => :integer)
+	self.all_sunspot_columns << SunspotColumn.new(:sampleid, :default => true)
+	self.all_sunspot_columns << SunspotColumn.new(:subjectid, :default => true)
+	self.all_sunspot_columns << SunspotColumn.new(:sample_type, :default => true, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:sample_format, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:sample_temperature, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:project, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:aliquot_or_sample_on_receipt, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:order_no, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:sample_type_parent, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:subject_type, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:childid)
 
 	searchable do
-		integer :id
-#		string :parent_sampleid
-		string :sampleid
-		string :sample_format
-		string :sample_temperature
-#		string :sample_collector
-		string :project
-#		string :location #	will require some magic
-		string :subjectid	#	more magic, perhaps black
-		string :childid		#	more magic, perhaps black
-		string :aliquot_or_sample_on_receipt
-		string :order_no
-		string :sample_type
-		string :sample_type_parent	#	rename sample_type_class?
-		string :subject_type
+##		string :parent_sampleid
+##		string :sample_collector
+##		string :location #	will require some magic
+
+
+		sunspot_integer_columns.each {|c| integer c }
+		sunspot_string_columns.each {|c| string c }
+		sunspot_nulled_string_columns.each {|c| string(c){ send(c)||'NULL' } }
+		sunspot_date_columns.each {|c| date c }
+		sunspot_double_columns.each {|c| double c }
+		sunspot_time_columns.each {|c| time c }
+		sunspot_boolean_columns.each {|c|
+			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
+		
 
 #		cdcid?
 #		external_id?

@@ -6,7 +6,7 @@ namespace :automate do
 		puts "Begin.(#{Time.now})"
 		puts "In automate:import_birth_data"
 
-		local_birth_data_dir = 'birth_data'
+		local_birth_data_dir = 'new_birth_data'
 		FileUtils.mkdir_p(local_birth_data_dir) unless File.exists?(local_birth_data_dir)
 
 

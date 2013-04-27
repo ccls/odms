@@ -54,8 +54,6 @@ base.class_eval do
 		YNDK[patient.try(:was_under_15_at_dx)]
 	end
 
-#<% address = study_subject.addressings.current.mailing.first.try(:address) -%>
-#<% address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
 
 #	cattr_accessor :sunspot_dynamic_columns
 #	self.sunspot_dynamic_columns = []
@@ -71,92 +69,165 @@ base.class_eval do
 	#
 	
 	
-	def self.sunspot_string_columns
-		@@sunspot_string_columns ||= %w(
-			case_icf_master_id mother_icf_master_id icf_master_id
-			subject_type vital_status case_control_type
-			sex studyid
-			mother_first_name mother_maiden_name mother_last_name
-			father_first_name father_last_name
-			first_name middle_name maiden_name last_name
-			father_ssn mother_ssn
-			patid subjectid hospital_key
-			diagnosis hospital hospital_no
-			languages races
-			state_id_no state_registrar_no local_registrar_no
-		)
-	end
+#	def self.sunspot_string_columns
+#		@@sunspot_string_columns ||= %w(
+#			case_icf_master_id mother_icf_master_id icf_master_id
+#			subject_type vital_status case_control_type
+#			sex studyid
+#			mother_first_name mother_maiden_name mother_last_name
+#			father_first_name father_last_name
+#			first_name middle_name maiden_name last_name
+#			father_ssn mother_ssn
+#			patid subjectid hospital_key
+#			diagnosis hospital hospital_no
+#			languages races
+#			state_id_no state_registrar_no local_registrar_no
+#		)
+#	end
+#	def self.sunspot_nulled_string_columns
+#		@@sunspot_nulled_string_columns ||= %w(
+#			ccls_consented ccls_is_eligible
+#			patient_was_ca_resident_at_diagnosis
+#			patient_was_previously_treated
+#			patient_was_under_15_at_dx
+#		)
+#	end
+#	def self.sunspot_time_columns
+#		@@sunspot_time_columns ||= []
+#	end
+#	def self.sunspot_date_columns
+#		@@sunspot_date_columns ||= %w( reference_date dob died_on admit_date 
+#			ccls_assigned_for_interview_on ccls_interview_completed_on
+#		)
+#	end
+#	def self.sunspot_integer_columns
+#		@@sunspot_integer_columns ||= %w( id phase birth_year  )
+#	end
+#	def self.sunspot_boolean_columns
+#		@@sunspot_boolean_columns ||= %w( do_not_contact interviewed )
+#	end
+#	def self.sunspot_double_columns
+#		@@sunspot_double_columns ||= []
+#	end
+#	def self.sunspot_unindexed_columns
+#		@@sunspot_unindexed_columns ||= %w( 
+#			primary_phone alternate_phone 
+#			address_street address_city address_state address_zip
+#		)
+#	end
+#	def self.sunspot_default_columns
+#		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
+#			subject_type vital_status sex dob 
+#			first_name last_name)
+#	end
+#	def self.sunspot_columns
+#		@@sunspot_columns ||= [sunspot_string_columns].compact.flatten +
+#			[sunspot_nulled_string_columns].compact.flatten +
+#			[sunspot_time_columns].compact.flatten +
+#			[sunspot_date_columns].compact.flatten +
+#			[sunspot_integer_columns].compact.flatten +
+#			[sunspot_double_columns].compact.flatten +
+#			[sunspot_boolean_columns].compact.flatten +
+#			[sunspot_unindexed_columns].compact.flatten
+#	end
+#	def self.sunspot_orderable_columns
+#		@@sunspot_orderable_columns ||= sunspot_columns - %w(
+#			languages races ) - sunspot_unindexed_columns
+#	end
+#	def self.sunspot_available_columns
+#		StudySubject.sunspot_columns.sort
+##		StudySubject.sunspot_columns.sort + 
+##			StudySubject.sunspot_dynamic_columns.sort
+#	end
+#	def self.sunspot_all_facets
+#		%w( subject_type vital_status case_control_type sex phase 
+#			races languages hospital diagnosis sample_types operational_event_types 
+#			ccls_consented ccls_is_eligible interviewed 
+#			patient_was_ca_resident_at_diagnosis
+#			patient_was_previously_treated
+#			patient_was_under_15_at_dx
+#		)
+#	end
 
-	def self.sunspot_nulled_string_columns
-		@@sunspot_nulled_string_columns ||= %w(
-			ccls_consented ccls_is_eligible
-			patient_was_ca_resident_at_diagnosis
-			patient_was_previously_treated
-			patient_was_under_15_at_dx
-		)
-	end
-	def self.sunspot_time_columns
-		@@sunspot_time_columns ||= []
-	end
-	def self.sunspot_date_columns
-		@@sunspot_date_columns ||= %w( reference_date dob died_on admit_date 
-			ccls_assigned_for_interview_on ccls_interview_completed_on
-		)
-	end
-	def self.sunspot_integer_columns
-		@@sunspot_integer_columns ||= %w( id phase birth_year  )
-	end
-	def self.sunspot_boolean_columns
-		@@sunspot_boolean_columns ||= %w( do_not_contact interviewed )
-	end
-	def self.sunspot_double_columns
-		@@sunspot_double_columns ||= []
-	end
+	include Sunspotability
 
-	def self.sunspot_unindexed_columns
-		@@sunspot_unindexed_columns ||= %w( 
-			primary_phone alternate_phone 
-			address_street address_city address_state address_zip
-		)
-	end
+	self.all_sunspot_columns << SunspotColumn.new( :subject_type, :facetable => true, :default => true )
+	self.all_sunspot_columns << SunspotColumn.new( :vital_status, :facetable => true, :default => true )
+	self.all_sunspot_columns << SunspotColumn.new( :case_control_type, :facetable => true )
+	self.all_sunspot_columns << SunspotColumn.new( :sex, :facetable => true, :default => true )
+	self.all_sunspot_columns << SunspotColumn.new( :phase, 
+		:facetable => true, :orderable => false, :type => :integer )
+	self.all_sunspot_columns << SunspotColumn.new( :races, 
+		:facetable => true, :orderable => false, :type => :multi )
+	self.all_sunspot_columns << SunspotColumn.new( :languages, 
+		:facetable => true, :orderable => false, :type => :multi )
+	self.all_sunspot_columns << SunspotColumn.new( :hospital, :facetable => true )
+	self.all_sunspot_columns << SunspotColumn.new( :diagnosis, :facetable => true )
+	self.all_sunspot_columns << SunspotColumn.new( :sample_types, 
+		:facetable => true, :type => :multi )
+	self.all_sunspot_columns << SunspotColumn.new( :operational_event_types, 
+		:facetable => true, :type => :multi )
+	self.all_sunspot_columns << SunspotColumn.new( :ccls_consented, :facetable => true, :type => :nulled_string )
+	self.all_sunspot_columns << SunspotColumn.new( :ccls_is_eligible, :facetable => true, :type => :nulled_string )
+	self.all_sunspot_columns << SunspotColumn.new( :interviewed, :facetable => true, :type => :boolean )
+	self.all_sunspot_columns << SunspotColumn.new( :patient_was_ca_resident_at_diagnosis, 
+		:facetable => true, :type => :nulled_string )
+	self.all_sunspot_columns << SunspotColumn.new( :patient_was_previously_treated, 
+		:facetable => true, :type => :nulled_string )
+	self.all_sunspot_columns << SunspotColumn.new( :patient_was_under_15_at_dx, 
+		:facetable => true, :type => :nulled_string )
 
+	self.all_sunspot_columns << SunspotColumn.new( :id, :default => true, :type => :integer )
+	self.all_sunspot_columns << SunspotColumn.new( :case_icf_master_id, :default => true )
+	self.all_sunspot_columns << SunspotColumn.new( :mother_icf_master_id, :default => true )
+	self.all_sunspot_columns << SunspotColumn.new( :icf_master_id, :default => true )
+	self.all_sunspot_columns << SunspotColumn.new( :dob, :default => true, :type => :date )
+	self.all_sunspot_columns << SunspotColumn.new( :first_name, :default => true )
+	self.all_sunspot_columns << SunspotColumn.new( :last_name, :default => true )
 
-	def self.sunspot_default_columns
-		%w( id case_icf_master_id mother_icf_master_id icf_master_id 
-			subject_type vital_status sex dob 
-			first_name last_name)
-	end
+	self.all_sunspot_columns << SunspotColumn.new( :primary_phone, :orderable => false, :type => :unindexed )
+	self.all_sunspot_columns << SunspotColumn.new( :alternate_phone, :orderable => false, :type => :unindexed )
+	self.all_sunspot_columns << SunspotColumn.new( :address_street, :orderable => false, :type => :unindexed )
+	self.all_sunspot_columns << SunspotColumn.new( :address_city, :orderable => false, :type => :unindexed )
+	self.all_sunspot_columns << SunspotColumn.new( :address_state, :orderable => false, :type => :unindexed )
+	self.all_sunspot_columns << SunspotColumn.new( :address_zip, :orderable => false, :type => :unindexed )
+	self.all_sunspot_columns << SunspotColumn.new( :do_not_contact, :orderable => false, :type => :boolean )
 
-	def self.sunspot_columns
-		@@sunspot_columns ||= [sunspot_string_columns].compact.flatten +
-			[sunspot_nulled_string_columns].compact.flatten +
-			[sunspot_time_columns].compact.flatten +
-			[sunspot_date_columns].compact.flatten +
-			[sunspot_integer_columns].compact.flatten +
-			[sunspot_double_columns].compact.flatten +
-			[sunspot_boolean_columns].compact.flatten +
-			[sunspot_unindexed_columns].compact.flatten
-	end
-	
-	def self.sunspot_orderable_columns
-		@@sunspot_orderable_columns ||= sunspot_columns - %w(
-			languages races ) - sunspot_unindexed_columns
-	end
-	def self.sunspot_available_columns
-		StudySubject.sunspot_columns.sort
-#		StudySubject.sunspot_columns.sort + 
-#			StudySubject.sunspot_dynamic_columns.sort
-	end
+	self.all_sunspot_columns << SunspotColumn.new( :birth_year, :orderable => false, :type => :integer )
 
+	self.all_sunspot_columns << SunspotColumn.new( :reference_date, :orderable => false, :type => :date )
+	self.all_sunspot_columns << SunspotColumn.new( :died_on, :orderable => false, :type => :date )
+	self.all_sunspot_columns << SunspotColumn.new( :admit_date, :orderable => false, :type => :date )
+	self.all_sunspot_columns << SunspotColumn.new( :ccls_assigned_for_interview_on, :orderable => false, :type => :date )
+	self.all_sunspot_columns << SunspotColumn.new( :ccls_interview_completed_on, :orderable => false, :type => :date )
 
-	def self.sunspot_all_facets
-		%w( subject_type vital_status case_control_type sex phase 
-			races languages hospital diagnosis sample_types operational_event_types 
-			ccls_consented ccls_is_eligible interviewed 
-			patient_was_ca_resident_at_diagnosis
-			patient_was_previously_treated
-			patient_was_under_15_at_dx
-		)
+	self.all_sunspot_columns << SunspotColumn.new( :studyid )
+	self.all_sunspot_columns << SunspotColumn.new( :mother_first_name )
+	self.all_sunspot_columns << SunspotColumn.new( :mother_maiden_name )
+	self.all_sunspot_columns << SunspotColumn.new( :mother_last_name )
+	self.all_sunspot_columns << SunspotColumn.new( :father_first_name )
+	self.all_sunspot_columns << SunspotColumn.new( :father_last_name )
+	self.all_sunspot_columns << SunspotColumn.new( :middle_name )
+	self.all_sunspot_columns << SunspotColumn.new( :maiden_name )
+	self.all_sunspot_columns << SunspotColumn.new( :father_ssn )
+	self.all_sunspot_columns << SunspotColumn.new( :mother_ssn )
+	self.all_sunspot_columns << SunspotColumn.new( :patid )
+	self.all_sunspot_columns << SunspotColumn.new( :subjectid )
+	self.all_sunspot_columns << SunspotColumn.new( :hospital_key )
+	self.all_sunspot_columns << SunspotColumn.new( :hospital_no )
+	self.all_sunspot_columns << SunspotColumn.new( :state_id_no )
+	self.all_sunspot_columns << SunspotColumn.new( :state_registrar_no )
+	self.all_sunspot_columns << SunspotColumn.new( :local_registrar_no )
+
+	searchable do
+		sunspot_integer_columns.each {|c| integer c }
+		sunspot_string_columns.each {|c| string c }
+		sunspot_nulled_string_columns.each {|c| string(c){ send(c)||'NULL' } }
+		sunspot_date_columns.each {|c| date c }
+		sunspot_double_columns.each {|c| double c }
+		sunspot_time_columns.each {|c| time c }
+		sunspot_boolean_columns.each {|c|
+			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
 	end
 
 	#
@@ -170,28 +241,31 @@ base.class_eval do
 #	for example, what if I wanted all of the subjects that don't have a phase set?
 #
 	searchable do
-		StudySubject.sunspot_integer_columns.each {|c| integer c }
-		StudySubject.sunspot_date_columns.each    {|c| date    c }
 
-#	20130423
-#	noticed that the boolean columns only show the "true" facet.
-#	this is probably because false.blank? is true and is rejected in one of my checks.
-#	simpler to just convert to strings.  let's see.
-#		StudySubject.sunspot_boolean_columns.each {|c| boolean c }
-#		StudySubject.sunspot_boolean_columns.each {|c| string c.to_s }	#	NOPE
-#		StudySubject.sunspot_boolean_columns.each {|c| string(c){ send(c).to_s } }	#	YEP ... what if NULL in db?
-#	both the current boolean fields should never actually be nil, nevertheless, ....
+
+
+#		StudySubject.sunspot_integer_columns.each {|c| integer c }
+#		StudySubject.sunspot_date_columns.each    {|c| date    c }
+#
+##	20130423
+##	noticed that the boolean columns only show the "true" facet.
+##	this is probably because false.blank? is true and is rejected in one of my checks.
+##	simpler to just convert to strings.  let's see.
+##		StudySubject.sunspot_boolean_columns.each {|c| boolean c }
+##		StudySubject.sunspot_boolean_columns.each {|c| string c.to_s }	#	NOPE
+##		StudySubject.sunspot_boolean_columns.each {|c| string(c){ send(c).to_s } }	#	YEP ... what if NULL in db?
+##	both the current boolean fields should never actually be nil, nevertheless, ....
+##		StudySubject.sunspot_boolean_columns.each {|c| 
+##			string(c){ ( send(c).nil? ) ? 'NULL' : send(c).to_s } }	#	yields 'true' and 'false'
 #		StudySubject.sunspot_boolean_columns.each {|c| 
-#			string(c){ ( send(c).nil? ) ? 'NULL' : send(c).to_s } }	#	yields 'true' and 'false'
-		StudySubject.sunspot_boolean_columns.each {|c| 
-			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
-
-
-		StudySubject.sunspot_string_columns.each  {|c| string  c }
-		StudySubject.sunspot_nulled_string_columns.each  {|c| 
-			string(c){ send(c)||'NULL' } }
-	#	StudySubject.sunspot_double_columns.each  {|c| double  c }
-	#	StudySubject.sunspot_time_columns.each    {|c| time    c }
+#			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
+#
+#
+#		StudySubject.sunspot_string_columns.each  {|c| string  c }
+#		StudySubject.sunspot_nulled_string_columns.each  {|c| 
+#			string(c){ send(c)||'NULL' } }
+#	#	StudySubject.sunspot_double_columns.each  {|c| double  c }
+#	#	StudySubject.sunspot_time_columns.each    {|c| time    c }
 
 		string :races, :multiple => true do
 			races.collect(&:to_s)

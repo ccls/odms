@@ -18,25 +18,29 @@ class BirthDatum < ActiveRecord::Base
 #	CLS Cases 01JAN2013.csv
 #	master_id case_found_in_state_db state_of_delivery sex case_dob last_name first_name middle_name state_last_name state_first_name state_middle_name state_registrar_no county_of_delivery local_registrar_no local_registrar_district birth_type birth_order birth_weight_gms method_of_delivery abnormal_conditions apgar_1min apgar_5min apgar_10min complications_labor_delivery fetal_presentation_at_birth forceps_attempt_unsuccessful vacuum_attempt_unsuccessful mother_maiden_name mother_first_name mother_middle_name mother_residence_line_1 mother_residence_city mother_residence_county mother_residence_state mother_residence_zip mother_dob mother_birthplace mother_ssn mother_race_ethn_1 mother_race_ethn_2 mother_race_ethn_3 mother_race_for_control_matching mother_hispanic_origin_code child_hispanic_for_matching mother_years_educ mother_occupation mother_industry mother_received_wic mother_weight_pre_pregnancy mother_weight_at_delivery mother_height month_prenatal_care_began prenatal_care_visit_count complications_pregnancy length_of_gestation_days length_of_gestation_weeks last_menses_on live_births_now_living last_live_birth_on live_births_now_deceased term_count_pre_20_weeks term_count_20_plus_weeks last_termination_on daily_cigarette_cnt_3mo_preconc daily_cigarette_cnt_1st_tri daily_cigarette_cnt_2nd_tri daily_cigarette_cnt_3rd_tri father_last_name father_first_name father_middle_name father_dob father_ssn father_race_ethn_1 father_race_ethn_2 father_race_ethn_3 father_hispanic_origin_code father_years_educ father_occupation father_industry
 
-	#	alias_attribute for equivalent attributes
-	#	attr_accessor for a fake one
-	alias_attribute :case_dob, :dob
-	alias_attribute :case_found_in_state_db, :found_in_state_db
+#	#	alias_attribute for equivalent attributes
+#	#	attr_accessor for a fake one
+#	alias_attribute :case_dob, :dob
+#	alias_attribute :case_found_in_state_db, :found_in_state_db
 	alias_attribute :mother_years_educ, :mother_yrs_educ
 	alias_attribute :father_years_educ, :father_yrs_educ
-	attr_accessor :state_of_delivery, :mother_race_for_control_matching,
-		:state_last_name, :state_first_name, :state_middle_name,
-		:child_hispanic_for_matching
+#	attr_accessor :state_of_delivery, :mother_race_for_control_matching,
+#		:state_last_name, :state_first_name, :state_middle_name,
+#		:child_hispanic_for_matching
 
 #Control Matches_12JUL2012_edited_comma_nohisp.csv
 #master_id found_in_state_db case_control_flag state_registrar_no control_number county_of_delivery sex case_dob dob last_name first_name middle_name local_registrar_no local_registrar_district birth_type birth_order birth_weight_gms method_of_delivery abnormal_conditions apgar_1min apgar_5min apgar_10min complications_labor_delivery fetal_presentation_at_birth forceps_attempt_unsuccessful vacuum_attempt_unsuccessful mother_maiden_name mother_first_name mother_middle_name mother_residence_line_1 mother_residence_city mother_residence_county mother_residence_state mother_residence_zip mother_dob mother_birthplace mother_ssn mother_race_ethn_1 mother_race_ethn_2 mother_race_ethn_3 mother_race_for_control_matching mother_hispanic_origin_code mother_hispanic_for_control_matching mother_yrs_educ mother_occupation mother_industry mother_received_wic mother_weight_pre_pregnancy mother_weight_at_delivery mother_height month_prenatal_care_began prenatal_care_visit_count complications_pregnancy length_of_gestation_days length_of_gestation_weeks last_menses_on live_births_now_living last_live_birth_on live_births_now_deceased term_count_pre_20_weeks term_count_20_plus_weeks last_termination_on daily_cigarette_cnt_3mo_preconc daily_cigarette_cnt_1st_tri daily_cigarette_cnt_2nd_tri daily_cigarette_cnt_3rd_tri father_last_name father_first_name father_middle_name father_dob father_ssn father_race_ethn_1 father_race_ethn_2 father_race_ethn_3 father_hispanic_origin_code father_yrs_educ father_occupation father_industry match_confidence
 
-	attr_accessor :mother_hispanic_for_control_matching
+#	attr_accessor :mother_hispanic_for_control_matching
 
 #	Control\ Matches\ --\ 11FEB2013.csv
 #	master_id,case_found_in_state_db,case_control_flag,state_registrar_no,control_number,control_deceased,county_of_delivery,sex,case_dob,dob,last_name,first_name,middle_name,local_registrar_no,local_registrar_district,birth_type,birth_order,birth_weight_gms,method_of_delivery,abnormal_conditions,apgar_1min,apgar_5min,apgar_10min,complications_labor_delivery,fetal_presentation_at_birth,forceps_attempt_unsuccessful,vacuum_attempt_unsuccessful,mother_maiden_name,mother_first_name,mother_middle_name,mother_residence_line_1,mother_residence_city,mother_residence_county,mother_residence_state,mother_residence_zip,mother_dob,mother_birthplace,mother_ssn,mother_race_ethn_1,mother_race_ethn_2,mother_race_ethn_3,mother_race_for_control_matching,mother_hispanic_origin_code,child_hispanic_for_matching,mother_years_educ,mother_occupation,mother_industry,mother_received_wic,mother_weight_pre_pregnancy,mother_weight_at_delivery,mother_height,month_prenatal_care_began,prenatal_care_visit_count,complications_pregnancy,length_of_gestation_days,length_of_gestation_weeks,last_menses_on,live_births_now_living,last_live_birth_on,live_births_now_deceased,term_count_pre_20_weeks,term_count_20_plus_weeks,last_termination_on,daily_cigarette_cnt_3mo_preconc,daily_cigarette_cnt_1st_tri,daily_cigarette_cnt_2nd_tri,daily_cigarette_cnt_3rd_tri,father_last_name,father_first_name,father_middle_name,father_dob,father_ssn,father_race_ethn_1,father_race_ethn_2,father_race_ethn_3,father_hispanic_origin_code,father_years_educ,father_occupation,father_industry
 
-	attr_accessor :control_deceased
+#	attr_accessor :control_deceased
+
+
+
+	attr_accessor :deceased, :case_dob
 
 	def is_case?
 		['1','case'].include?(case_control_flag)
@@ -53,12 +57,7 @@ class BirthDatum < ActiveRecord::Base
 		else
 			#	DO NOT USE 'study_subject' here as it will conflict with
 			#	the study_subject association.
-
-
-#			subject = StudySubject.where(:icf_master_id => master_id).first
 			subject = find_subject
-
-
 
 			if subject.nil?
 				odms_exceptions.create(:name => 'birth data append',
@@ -87,7 +86,6 @@ class BirthDatum < ActiveRecord::Base
 				elsif is_case?
 					if !match_confidence.blank? && match_confidence.match(/definite/i)
 						#	assign study_subject_id to case's id
-#						self.update_column(:study_subject_id, subject.id)
 						self.update_study_subject_attributes
 						self.update_bc_request
 						self.create_address_from_attributes

@@ -4,7 +4,8 @@ class BirthDataControllerTest < ActionController::TestCase
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'BirthDatum',
-		:actions => [:edit,:update,:show,:index,:destroy],
+#		:actions => [:edit,:update,:show,:index,:destroy],
+		:actions => [:show,:index],
 		:attributes_for_create => :factory_attributes,
 		:method_for_create => :create_birth_datum
 	}

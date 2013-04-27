@@ -14,31 +14,32 @@ class BirthDatumUpdate < CSVFile
 	end
 
 	def parse_csv_file
+		unless actual_columns.include?('master_id')
+			Notification.plain(
+				"Birth Data missing #{column} column. Skipping.\n",
+				:subject => "ODMS: Birth Data missing #{column} column"
+			).deliver
+			abort( "Birth Data missing #{column} column." )
+		end
 
-
-#	no column check?
-
-
-#		line_count = 0	#	think this WAS used to ensure the proper number of lines.
 		study_subjects = []
 		puts "Processing #{csv_file}..." if verbose
 		(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
-#			line_count += 1
-
 			puts "Processing line #{f.lineno} of #{total_lines}" if verbose
 
 			birth_datum_attributes = line.dup.to_hash
+			birth_datum_attributes.delete('ignore1')
+			birth_datum_attributes.delete('ignore2')
+			birth_datum_attributes.delete('ignore3')
 
-			#	remove any unexpected attribute which would cause create failure
-			line.headers.each do |h|
-				birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
-			end
+#			#	remove any unexpected attribute which would cause create failure
+#			line.headers.each do |h|
+#				birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
+#			end
 
 			birth_datum_attributes[:birth_data_file_name] = csv_file
 
-			self.birth_data << BirthDatum.create( birth_datum_attributes )
-
-
+			self.birth_data << BirthDatum.create!( birth_datum_attributes )
 
 			if self.birth_data.last.new_record?	#	save failed?
 #	FAIL 
@@ -58,9 +59,6 @@ class BirthDatumUpdate < CSVFile
 		end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
 
 
-#		Notification.updates_from_birth_data( csv_file, birth_data,
-#				email_options.merge({ })
-#			).deliver
 		Notification.updates_from_birth_data( csv_file, birth_data ).deliver
 
 #		Notification.plain( "Done processing birth data file #{csv_file}.",
