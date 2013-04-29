@@ -36,19 +36,36 @@ end
 #
 namespace :anand do
 
-
-
-#	   1 "LabelID","AstroID","subjectid","sampleid","sex","sample_type","collected_date","Box","Position"
-#	"20130405_CDC_GEGL_lastbatch.csv" 1635L, 105981C
-
-
+	#
+	#	For this task, I wanted the output quoting to match the input quoting
+	#	so that I can compare.  By default, any attempt to quote the fields
+	#	will result in triplicate quoting as the quotes get quoted.  Irritating.
+	#	However, I read a response to a post online 
+	#		http://stackoverflow.com/questions/4854900
+	#	that sets the quote char to null and then manually quote the fields.
+	#	Doing it this way doesn't quote the quotes.  Clever.
+	#	
 	task :verify_maternal_last_batch => :environment do
 		total_lines = total_lines('anand/20130405_CDC_GEGL_lastbatch.csv')
 		error_file = File.open('anand/20130405_CDC_GEGL_lastbatch.txt','w')
+		csv_out = CSV.open( 'anand/20130405_CDC_GEGL_lastbatch_OUTPUT.csv', 'w',
+			{ :quote_char => "\0" } )
+		csv_out << %w(LabelID AstroID subjectid sampleid sex sample_type collected_date Box 
+			Position).collect{|c| "\"#{c}\""}
+		sampleids_in_csv = []
+		CSV.open( 'anand/20130405_CDC_GEGL_lastbatch.csv',
+			'rb',{ :headers => true }).each do |line|
+			sampleids_in_csv << line['sampleid'] if line['sampleid'].present?
+		end
 		( csv_in = CSV.open( 'anand/20130405_CDC_GEGL_lastbatch.csv',
 				'rb',{ :headers => true })).each do |line|
 
+			#	"LabelID","AstroID","subjectid","sampleid","sex","sample_type",
+			#	"collected_date","Box","Position"
 			puts "Processing #{csv_in.lineno}/#{total_lines}"
+
+			#	subjectid sampleid sex sample_type collected_date Box Position)
+			outline = ["\"#{line['LabelID']}\"", "\"#{line['AstroID']}\""]
 
 			#	verify subjectid exists
 			#	verify sampleid exists
@@ -62,18 +79,25 @@ namespace :anand do
 			cdc_mother = StudySubject.with_childid(childid).first.mother
 
 			subject = nil
-			if line['subjectid'].present?
+
+			outline << if line['subjectid'].present?
 				subject = StudySubject.with_subjectid(line['subjectid']).first
 				if subject.nil?
-					error_file.puts "No subject found with #{line['subjectid']}"
-					error_file.puts line
-					error_file.puts 
+					raise "No subject found with #{line['subjectid']}"
+					#	DOESN'T HAPPEN
+					#	error_file.puts "No subject found with #{line['subjectid']}"
+					#	error_file.puts line
+					#	error_file.puts 
 				end
+				line['subjectid'].presence
 			else
-				puts "SubjectID is blank"
-				puts line
-				puts "CDC mother subjectid would be #{cdc_mother.subjectid}"
-				puts
+				#	error_file.puts "SubjectID is blank"
+				#	error_file.puts line
+				#	error_file.puts "CDC mother subjectid would be #{cdc_mother.subjectid}"
+				#	error_file.puts
+				puts "SubjectID is blank."
+				puts "Assigning the subjectid of mother matching CDCID.#{cdc_mother.subjectid}"
+				cdc_mother.subjectid
 			end
 
 			#
@@ -83,78 +107,114 @@ namespace :anand do
 			#
 
 			if subject and !subject.is_mother?
-				error_file.puts "subject is not a mother"
-				error_file.puts line
-				if subject.mother.nil?		#	DOESN'T HAPPEN
-					error_file.puts "And subject has no mother in database. could create."
-				else
-					puts "Mother: #{subject.mother.childid}, #{subject.mother.subjectid}"
-				end
-				error_file.puts
-#
-#	only happens for one subjectid
-#
-#	create mother?
-#				subject.create_mother
-#	reassign it to subject?
-#				subject = subject.mother
-#
+				raise "subject is not a mother"
+				#	FIXED SO WON'T HAPPEN
+				#	error_file.puts "subject is not a mother"
+				#	error_file.puts line
+				#	if subject.mother.nil?		#	DOESN'T HAPPEN
+				#		error_file.puts "And subject has no mother in database. could create."
+				#	else
+				#		puts "Mother: #{subject.mother.childid}, #{subject.mother.subjectid}"
+				#	end
+				#	error_file.puts
+				#
+				#	only happens for one subjectid
+				#
+				#	create mother?
+				#				subject.create_mother
+				#	reassign it to subject?
+				#				subject = subject.mother
+				#
 			end
 
 			if subject and subject.childid != cdc_mother.childid
-				error_file.puts "childid mismatch #{subject.childid} : #{cdc_mother.childid}"
-				error_file.puts line
-				error_file.puts
+				raise "childid mismatch #{subject.childid} : #{cdc_mother.childid}"
+				#	FIXED SO WON'T HAPPEN
+				#	error_file.puts "childid mismatch #{subject.childid} : #{cdc_mother.childid}"
+				#	error_file.puts line
+				#	error_file.puts
 			end
 
+			#	2 samples required reassignment to a different subject 
+			#	to match CDCID/CHILDID relationship
 
 			sample = nil
-			if line['sampleid'].present?
+			outline << if line['sampleid'].present?
 				sample = Sample.where(:id => line['sampleid'].to_i).first
 
 				if sample.nil?		#	DOESN'T HAPPEN
-					error_file.puts "No sample found with #{line['sampleid']}"
-					error_file.puts line
-					error_file.puts 
+					raise "No sample found with #{line['sampleid']}"
+					#	error_file.puts "No sample found with #{line['sampleid']}"
+					#	error_file.puts line
+					#	error_file.puts 
 				end
+				line['sampleid'].presence
 			else
-				error_file.puts "SampleID is blank." 
-				error_file.puts line
+				puts "SampleID is blank." 
+
+				#	error_file.puts "SampleID is blank." 
+				#	error_file.puts line
 
 				samples = Sample.where(
 					Sample.arel_table[:external_id].matches("%#{line['LabelID']}%") )
 
-				if samples.empty?
-					error_file.puts "And no samples match external_id #{line['LabelID']}"
-				else
-					error_file.puts "BUT #{samples.length} samples DO match external_id #{line['LabelID']}"
-					error_file.puts samples.collect(&:sampleid)
-				end
-				
+				assumed_sampleid = nil
 
-				error_file.puts
+				if samples.empty?
+					raise "And no samples match external_id #{line['LabelID']}"
+					#	DOESN'T HAPPEN
+					#	error_file.puts "And no samples match external_id #{line['LabelID']}"
+				else
+					#	error_file.puts "BUT #{samples.length} samples DO match external_id #{line['LabelID']}"
+					#	error_file.puts samples.collect(&:sampleid)
+					#	csv doesn't have leading 0's so just use id, AND they are strings
+					sampleids = samples.collect(&:id).collect(&:to_s)	
+					puts "Matching sampleids #{sampleids.join(',')}"
+
+					unused_sampleids = sampleids - sampleids_in_csv
+
+					if unused_sampleids.length == 1
+						assumed_sampleid = unused_sampleids.first
+					else
+						raise "More that one left over matching sampleid? #{sampleids.join(',')}"
+					end
+				end
+				#	error_file.puts
+				assumed_sampleid
 			end
 
 			if subject and sample
 				if !subject.samples.include?( sample )		#	DOESN'T HAPPEN
-#					puts "Sample belongs to subject"
-#				else
-					error_file.puts "Sample does not belong to subject"
-					error_file.puts line
-					error_file.puts
+					raise "Sample does not belong to subject"
+					#	FIXED SO WON'T HAPPEN
+					#	error_file.puts "Sample does not belong to subject"
+					#	error_file.puts line
+					#	error_file.puts
 				end
 			elsif cdc_mother and sample
 				if !cdc_mother.samples.include?( sample )		#	DOESN'T HAPPEN
-#					puts "Sample belongs to subject"
-#				else
-					error_file.puts "Sample does not belong to cdc_mother"
-					error_file.puts line
-					error_file.puts
+					raise "Sample does not belong to cdc_mother"
+					#	FIXED SO WON'T HAPPEN
+					#	error_file.puts "Sample does not belong to cdc_mother"
+					#	error_file.puts line
+					#	error_file.puts
 				end
 			end
 
-		end
+
+			outline << "\"#{line['sex']}\""
+			outline << "\"#{line['sample_type']}\""
+			outline << line['collected_date']
+			outline << if line['Box'].to_s.match(/^NCL/)
+				"\"#{line['Box']}\""
+			else
+				line['Box']
+			end
+			outline << line['Position']
+			csv_out << outline
+		end	#	( csv_in = CSV.open( 'anand/20130405_CDC_GEGL_lastbatch.csv', 'rb'
 		error_file.close
+		csv_out.close
 	end	#	task :verify_maternal_last_batch => :environment do
 
 
