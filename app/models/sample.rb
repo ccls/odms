@@ -63,12 +63,13 @@ class Sample < ActiveRecord::Base
 	self.all_sunspot_columns << SunspotColumn.new(:sample_type_parent, :facetable => true)
 	self.all_sunspot_columns << SunspotColumn.new(:subject_type, :facetable => true)
 	self.all_sunspot_columns << SunspotColumn.new(:childid)
+	self.all_sunspot_columns << SunspotColumn.new(:external_id)
+	self.all_sunspot_columns << SunspotColumn.new(:external_id_source)
 
 	searchable do
 ##		string :parent_sampleid
 ##		string :sample_collector
 ##		string :location #	will require some magic
-
 
 		sunspot_integer_columns.each {|c| integer c }
 		sunspot_string_columns.each {|c| string c }
@@ -79,12 +80,9 @@ class Sample < ActiveRecord::Base
 		sunspot_boolean_columns.each {|c|
 			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
 		
-
 #		cdcid?
-#		external_id?
 #		external_id_source?
 
-#	1419 | aliquot_or_sample_on_receipt | varchar(255) | YES  |     | NULL    |                |
 #	1420 | sent_to_subject_at           | datetime     | YES  |     | NULL    |                |
 #	1421 | collected_from_subject_at    | datetime     | YES  |     | NULL    |                |
 #	1422 | shipped_to_ccls_at           | datetime     | YES  |     | NULL    |                |
