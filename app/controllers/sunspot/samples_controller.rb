@@ -1,18 +1,26 @@
 class Sunspot::SamplesController < SunspotController
 
-	before_filter :may_edit_required
-	before_filter :search_method_defined_required
-
-	def search_method_defined_required
-		Sample.methods.include?(:search) ||
-			access_denied("Sunspot server probably wasn't started first!", root_path)
+	def index
+		search_sunspot_for Sample
 	end
 
-	def index
-		@sunspot_searching = Sample
-		@search = Sample.search do
+end
+__END__
 
-			Sample.sunspot_all_facets.each do |p|
+
+#	before_filter :may_edit_required
+#	before_filter :search_method_defined_required
+
+#	def search_method_defined_required
+#		Sample.methods.include?(:search) ||
+#			access_denied("Sunspot server probably wasn't started first!", root_path)
+#	end
+
+	def oldindex
+#		@sunspot_searching = Sample
+		@search = sunspot_searching.search do
+
+			sunspot_searching.sunspot_all_facets.each do |p|
 #				if child_age_facets.include?(p)
 #					range_facet_and_filter_for(p,params.dup,:start => 1, :step => 2)
 #				elsif parent_age_facets.include?(p)

@@ -28,7 +28,7 @@
 </ul>
 <p>Unused Columns</p>
 <ul id="unselected_columns" class="selectable_columns">
-<% (Sample.sunspot_available_columns - columns).each do |column| %>
+<% (@sunspot_search_class.sunspot_available_columns - columns).each do |column| %>
 <%# NEED to find a way to use the id, but already using id matching these column names in the facet selectors %>
 <%= content_tag(:li, column )%>
 <% end %>

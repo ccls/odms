@@ -1,7 +1,14 @@
 class Sunspot::SubjectsController < SunspotController
 
-	before_filter :may_edit_required
-	before_filter :search_method_defined_required
+	def index
+		search_sunspot_for StudySubject
+	end
+
+end
+__END__
+
+#	before_filter :may_edit_required
+#	before_filter :search_method_defined_required
 #	before_filter :sunspot_running_required
 #
 #	def sunspot_running_required
@@ -10,29 +17,29 @@ class Sunspot::SubjectsController < SunspotController
 #			access_denied("Sunspot server not running!", root_path)
 #	end
 
-	def search_method_defined_required
-#undefined method `search' for #<Class:0x0000010117da70>
-#		StudySubject.method_exists?('search') ||
-#undefined method `method_exists?' for #<Class:0x0000010117da70>
-#	interesting.  method_exists? works in the console.
-#
-#	This is effectively caused by me not calling searchable
-#	if the sunspot server isn't running as would fail then.
-#
-		StudySubject.methods.include?(:search) ||
-			access_denied("Sunspot server probably wasn't started first!", root_path)
-	end
+#	def search_method_defined_required
+##undefined method `search' for #<Class:0x0000010117da70>
+##		StudySubject.method_exists?('search') ||
+##undefined method `method_exists?' for #<Class:0x0000010117da70>
+##	interesting.  method_exists? works in the console.
+##
+##	This is effectively caused by me not calling searchable
+##	if the sunspot server isn't running as would fail then.
+##
+#		StudySubject.methods.include?(:search) ||
+#			access_denied("Sunspot server probably wasn't started first!", root_path)
+#	end
 
-	def index
-		@sunspot_searching = StudySubject
-		@search = StudySubject.search do
+	def oldindex
+#		@sunspot_searching = StudySubject
+		@search = sunspot_searching.search do
 #			keywords params[:q]	#	searches names and all the id numbers
 #	date :reference_date
 #	date :dob
 #	date :died_on
 #	integer :birth_year 
 
-			StudySubject.sunspot_all_facets.each do |p|
+			sunspot_searching.sunspot_all_facets.each do |p|
 #				if child_age_facets.include?(p)
 #					range_facet_and_filter_for(p,params.dup,:start => 1, :step => 2)
 #				elsif parent_age_facets.include?(p)

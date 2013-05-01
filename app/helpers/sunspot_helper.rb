@@ -29,6 +29,8 @@ module SunspotHelper
 #
 #	20130423 - false.blank? is true so boolean fields won't work here
 #
+#				perhaps do r.value.to_s.blank? as 'false'.blank? is false
+#
 			non_blank_row_count = facet.rows.reject{|r|r.value.blank?}.length
 			facet_label = facet.name.to_s
 			facet_label = if( facet_label.match(/^hex_/) )
@@ -132,9 +134,7 @@ module SunspotHelper
 		columns ||= if( params[:c].present? )
 			[params[:c]].flatten
 		else
-#			SunspotHelper.default_columns
-#			StudySubject.sunspot_default_columns
-			@sunspot_searching.sunspot_default_columns
+			@sunspot_search_class.sunspot_default_columns
 		end
 	end
 
@@ -143,8 +143,7 @@ module SunspotHelper
 #			when '' then ''
 #			else sort_link(column,:image => false)
 #		end
-#		if StudySubject.sunspot_orderable_columns.include?(column.to_s)
-		if @sunspot_searching.sunspot_orderable_columns.include?(column.to_s)
+		if @sunspot_search_class.sunspot_orderable_columns.include?(column.to_s)
 			sort_link(column,:image => false)
 		else
 			column
@@ -179,8 +178,7 @@ module SunspotHelper
 			when 'races' 
 				subject.subject_races.collect(&:to_s).join(',')
 
-#			when *StudySubject.sunspot_columns
-			when *@sunspot_searching.sunspot_columns
+			when *@sunspot_search_class.sunspot_columns
 				( subject.respond_to?(column) ? subject.try(column) : nil )
 #			when /^(.*):(is_eligible|consented)$/
 #				YNDK[Enrollment.where(:study_subject_id => subject.id)
