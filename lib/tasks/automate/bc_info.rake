@@ -4,7 +4,7 @@ namespace :automate do
 		local_bc_info_dir = 'bc_infos'
 		FileUtils.mkdir_p(local_bc_info_dir) unless File.exists?(local_bc_info_dir)
 		Dir.chdir( local_bc_info_dir )
-		bc_info_files = Dir["bc_info*csv"]
+		bc_info_files = Dir["bc_info_*.csv"]
 
 		unless bc_info_files.empty?
 			puts ['','masterid','icf_master_id','mother_maiden_name',
@@ -42,7 +42,7 @@ namespace :automate do
 		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_bc_info/bc_info_*.csv ./#{local_bc_info_dir}/")
 	
 		Dir.chdir( local_bc_info_dir )
-		bc_info_files = Dir["bc_info*csv"]
+		bc_info_files = Dir["bc_info_*.csv"]
 
 		unless bc_info_files.empty?
 

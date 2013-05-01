@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425165625) do
+ActiveRecord::Schema.define(:version => 20130501161157) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -632,6 +632,8 @@ ActiveRecord::Schema.define(:version => 20130425165625) do
     t.string   "birth_data_file_name"
     t.integer  "childid"
     t.string   "subjectid",                         :limit => 6
+    t.string   "deceased"
+    t.date     "case_dob"
   end
 
   create_table "candidate_controls", :force => true do |t|

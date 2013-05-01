@@ -968,6 +968,15 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal "USC's match confidence = definite.", bcr.notes
 	end
 
+	test "should copy case_dob to dob if blank" do
+		birth_datum = FactoryGirl.build(:birth_datum, :dob => nil, :case_dob => Date.current)
+		assert_nil     birth_datum.dob
+		assert_not_nil birth_datum.case_dob
+		birth_datum.save
+		assert_equal birth_datum.case_dob, birth_datum.dob
+	end
+	
+
 protected
 
 	def create_case_study_subject_and_birth_datum(

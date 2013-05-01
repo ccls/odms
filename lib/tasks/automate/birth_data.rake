@@ -6,7 +6,7 @@ namespace :automate do
 		puts "Begin.(#{Time.now})"
 		puts "In automate:import_birth_data"
 
-		local_birth_data_dir = 'new_birth_data'
+		local_birth_data_dir = 'birth_data'
 		FileUtils.mkdir_p(local_birth_data_dir) unless File.exists?(local_birth_data_dir)
 
 
@@ -21,7 +21,7 @@ namespace :automate do
 #		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/USC_control_matches/birth_data_*.csv ./#{local_birth_data_dir}/")
 	
 		Dir.chdir( local_birth_data_dir )
-		birth_data_files = Dir["*csv"]
+		birth_data_files = Dir["*.csv"]
 
 		unless birth_data_files.empty?
 
@@ -37,10 +37,6 @@ namespace :automate do
 
 		else	#	unless birth_data_files.empty?
 			puts "No birth_data files found"
-#			Notification.plain("No Birth Data Files Found",
-#				email_options.merge({ 
-#					:subject => "ODMS: No Birth Data Files Found" })
-#			).deliver
 			Notification.plain("No Birth Data Files Found",
 					:subject => "ODMS: No Birth Data Files Found"
 			).deliver

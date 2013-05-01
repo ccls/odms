@@ -14,25 +14,40 @@ class BirthDatumUpdate < CSVFile
 	end
 
 	def parse_csv_file
-		unless actual_columns.include?('master_id')
-			Notification.plain(
-				"Birth Data missing #{column} column. Skipping.\n",
-				:subject => "ODMS: Birth Data missing #{column} column"
-			).deliver
-			abort( "Birth Data missing #{column} column." )
+		puts "Processing #{csv_file}..." if verbose
+		%w( master_id ).each do |column|
+			unless actual_columns.include?(column)
+				Notification.plain(
+					"Birth Data missing #{column} column. Skipping.\n",
+					:subject => "ODMS: Birth Data missing #{column} column"
+				).deliver
+				abort( "Birth Data missing #{column} column." )
+			end
 		end
 
 		study_subjects = []
-		puts "Processing #{csv_file}..." if verbose
-		(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
+		#
+		#	Created and using the :debom converter as Janice's files seem to come with one.
+		#	For some reason not always?
+		#
+		(f=CSV.open( csv_file, 'rb:bom|utf-8',{ :headers => true })).each do |line|
 			puts "Processing line #{f.lineno} of #{total_lines}" if verbose
 
 			birth_datum_attributes = line.dup.to_hash
 			birth_datum_attributes.delete('ignore1')
 			birth_datum_attributes.delete('ignore2')
 			birth_datum_attributes.delete('ignore3')
+			birth_datum_attributes.delete('first_name_again')
+
+
+#			birth_datum_attributes['dob'] ||= birth_datum_attributes['case_dob'] 
+#if birth_datum_attributes['dob'].blank?
+
 
 #			#	remove any unexpected attribute which would cause create failure
+#
+#	it would also cause the loss of new attribute data.
+#
 #			line.headers.each do |h|
 #				birth_datum_attributes.delete(h) unless expected_column_names.include?(h)
 #			end
@@ -58,13 +73,7 @@ class BirthDatumUpdate < CSVFile
 
 		end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
 
-
 		Notification.updates_from_birth_data( csv_file, birth_data ).deliver
-
-#		Notification.plain( "Done processing birth data file #{csv_file}.",
-#			email_options.merge({
-#				:subject => "ODMS: Finished Birth Data Update" })
-#		).deliver
 
 		#	TODO archive it?
 
