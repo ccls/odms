@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130501161157) do
+ActiveRecord::Schema.define(:version => 20130502161148) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1516,6 +1516,7 @@ ActiveRecord::Schema.define(:version => 20130501161157) do
     t.string   "mother_icf_master_id",        :limit => 9
     t.string   "subject_type",                :limit => 20
     t.string   "vital_status",                :limit => 20
+    t.string   "cdcid",                       :limit => 12
   end
 
   add_index "study_subjects", ["accession_no"], :name => "index_study_subjects_on_accession_no", :unique => true
