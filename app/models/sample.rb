@@ -22,7 +22,10 @@ class Sample < ActiveRecord::Base
 	validations_from_yaml_file
 
 	#	unfortunately, there are a few samples that do not have a subject????
-	delegate :subject_type, :subjectid, :childid, :to => :study_subject, :allow_nil => true
+	delegate :subject_type, :vital_status, :subjectid, :childid, :studyid,
+		:first_name, :last_name, :icf_master_id, :patid, :cdcid, :sex,
+		:dob, :died_on, :admit_date, :reference_date, :diagnosis_date,
+			:to => :study_subject, :allow_nil => true
 
 	#	prefix is require as sample has a parent too (well, it will eventually)
 	delegate :parent, :to => :sample_type, :allow_nil => true, :prefix => true
@@ -60,49 +63,57 @@ class Sample < ActiveRecord::Base
 	self.all_sunspot_columns << SunspotColumn.new(:project, :facetable => true)
 	self.all_sunspot_columns << SunspotColumn.new(:aliquot_or_sample_on_receipt, :facetable => true)
 	self.all_sunspot_columns << SunspotColumn.new(:order_no, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:sample_type_parent, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:sample_type_parent, :default => true, :facetable => true)
 	self.all_sunspot_columns << SunspotColumn.new(:subject_type, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:childid)
-	self.all_sunspot_columns << SunspotColumn.new(:external_id)
-	self.all_sunspot_columns << SunspotColumn.new(:external_id_source)
 
-	searchable do
-##		string :parent_sampleid
-##		string :sample_collector
-##		string :location #	will require some magic
+	self.all_sunspot_columns << SunspotColumn.new(:sex, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:vital_status, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:organization, :facetable => true)
+	self.all_sunspot_columns << SunspotColumn.new(:cdcid, :default => true, :type => :integer, :orderable => true)
+	%w( first_name last_name icf_master_id patid studyid childid 
+			external_id external_id_source ).each do |column|
+		self.all_sunspot_columns << SunspotColumn.new(column)
+	end
 
-		sunspot_integer_columns.each {|c| integer c }
-		sunspot_string_columns.each {|c| string c }
-		sunspot_nulled_string_columns.each {|c| string(c){ send(c)||'NULL' } }
-		sunspot_date_columns.each {|c| date c }
-		sunspot_double_columns.each {|c| double c }
-		sunspot_time_columns.each {|c| time c }
-		sunspot_boolean_columns.each {|c|
-			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
-		
-#		cdcid?
-#		external_id_source?
+	%w( sent_to_subject_at collected_from_subject_at shipped_to_ccls_at received_by_ccls_at sent_to_lab_at received_by_lab_at aliquotted_at receipt_confirmed_at ).each do |column|
+		self.all_sunspot_columns << SunspotColumn.new(column, :type => :time)
+	end
+	%w( dob died_on admit_date reference_date diagnosis_date ).each do |column|
+		self.all_sunspot_columns << SunspotColumn.new(column, :type => :date)
+	end
 
-#	1420 | sent_to_subject_at           | datetime     | YES  |     | NULL    |                |
-#	1421 | collected_from_subject_at    | datetime     | YES  |     | NULL    |                |
-#	1422 | shipped_to_ccls_at           | datetime     | YES  |     | NULL    |                |
-#	1423 | received_by_ccls_at          | datetime     | YES  |     | NULL    |                |
-#	1424 | sent_to_lab_at               | datetime     | YES  |     | NULL    |                |
-#	1425 | received_by_lab_at           | datetime     | YES  |     | NULL    |                |
-#	1426 | aliquotted_at                | datetime     | YES  |     | NULL    |                |
-#	1427 | external_id                  | varchar(255) | YES  |     | NULL    |                |
-#	1428 | external_id_source           | varchar(255) | YES  |     | NULL    |                |
-#	1429 | receipt_confirmed_at         | datetime     | YES  |     | NULL    |                |
-#	1430 | receipt_confirmed_by         | varchar(255) | YES  |     | NULL    |                |
-#	1431 | future_use_prohibited        | tinyint(1)   | NO   |     | 0       |                |
-#	1432 | state                        | varchar(255) | YES  |     | NULL    |                |
-#	1435 | notes 
+#	can't remember exactly what the unindexed type was for
 
+#	ADD ...
+#	mother ids?
 
-#		text?	#	may need to modify the free text token algorithm so searches partial words
-#		text :notes
-	
-	end	#	searchable do
+	searchable_plus
+
+#	searchable do
+###		string :parent_sampleid
+###		string :sample_collector
+###		string :location #	will require some magic
+#
+#		#	it would be nice if somehow these could automagically be included in the module
+#		sunspot_integer_columns.each {|c| integer c, :trie => true }
+#		sunspot_string_columns.each {|c| string c }
+#		sunspot_nulled_string_columns.each {|c| string(c){ send(c)||'NULL' } }
+#		sunspot_date_columns.each {|c| date c }
+#		sunspot_double_columns.each {|c| double c, :trie => true }
+#		sunspot_time_columns.each {|c| time c, :trie => true }
+#		sunspot_boolean_columns.each {|c|
+#			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
+#		
+##	1430 | receipt_confirmed_by         | varchar(255) | YES  |     | NULL  
+##	1431 | future_use_prohibited        | tinyint(1)   | NO   |     | 0      
+##	1432 | state                        | varchar(255) | YES  |     | NULL    
+##	1435 | notes 
+#
+#
+##		text?	#	may need to modify the free text token algorithm so searches partial words
+##		text :notes
+#	
+#	end	#	searchable do
 
 protected
 

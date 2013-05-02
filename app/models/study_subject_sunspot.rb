@@ -218,17 +218,19 @@ base.class_eval do
 	self.all_sunspot_columns << SunspotColumn.new( :state_id_no )
 	self.all_sunspot_columns << SunspotColumn.new( :state_registrar_no )
 	self.all_sunspot_columns << SunspotColumn.new( :local_registrar_no )
+	self.all_sunspot_columns << SunspotColumn.new( :cdcid, :type => :integer, :orderable => true)
 
-	searchable do
-		sunspot_integer_columns.each {|c| integer c }
-		sunspot_string_columns.each {|c| string c }
-		sunspot_nulled_string_columns.each {|c| string(c){ send(c)||'NULL' } }
-		sunspot_date_columns.each {|c| date c }
-		sunspot_double_columns.each {|c| double c }
-		sunspot_time_columns.each {|c| time c }
-		sunspot_boolean_columns.each {|c|
-			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
-	end
+#	common_searchable
+#	searchable do
+#		sunspot_integer_columns.each {|c| integer c, :trie => true }
+#		sunspot_string_columns.each {|c| string c }
+#		sunspot_nulled_string_columns.each {|c| string(c){ send(c)||'NULL' } }
+#		sunspot_date_columns.each {|c| date c }
+#		sunspot_double_columns.each {|c| double c, :trie => true }
+#		sunspot_time_columns.each {|c| time c, :trie => true }
+#		sunspot_boolean_columns.each {|c|
+#			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
+#	end
 
 	#
 	#	DO NOT ALLOW BLANK VALUES INTO INDEX.  Only really a problem when faceting on blank values.
@@ -240,7 +242,7 @@ base.class_eval do
 #
 #	for example, what if I wanted all of the subjects that don't have a phase set?
 #
-	searchable do
+	searchable_plus do
 
 
 

@@ -12,7 +12,7 @@ base.class_eval do
 	has_one :patient
 
 #		:was_ca_resident_at_diagnosis, :was_previously_treated, :was_under_15_at_dx,
-	delegate :admit_date, :hospital_no, :organization, :organization_id,
+	delegate :admit_date, :hospital_no, :organization, :organization_id, :diagnosis_date,
 			:to => :patient, :allow_nil => true
 
 	accepts_nested_attributes_for :patient
