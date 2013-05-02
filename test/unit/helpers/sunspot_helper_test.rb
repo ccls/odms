@@ -287,48 +287,48 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "columns should be an array of default columns without params[:c]" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		assert columns.is_a?(Array)
 		assert_equal columns, StudySubject.sunspot_default_columns
 	end
 
 	test "columns should be an array of default columns with nil params['c']" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ 'c' => nil })
 		assert columns.is_a?(Array)
 		assert_equal columns, StudySubject.sunspot_default_columns
 	end
 
 	test "columns should be an array of default columns with nil params[:c]" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ :c => nil })
 		assert columns.is_a?(Array)
 		assert_equal columns, StudySubject.sunspot_default_columns
 	end
 
 	test "columns should be an array of default columns with blank params['c']" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ 'c' => '' })
 		assert columns.is_a?(Array)
 		assert_equal columns, StudySubject.sunspot_default_columns
 	end
 
 	test "columns should be an array of default columns with blank params[:c]" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ :c => '' })
 		assert columns.is_a?(Array)
 		assert_equal columns, StudySubject.sunspot_default_columns
 	end
 
 	test "columns should be an array of default columns with empty params['c']" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ 'c' => [] })
 		assert columns.is_a?(Array)
 		assert_equal columns, StudySubject.sunspot_default_columns
 	end
 
 	test "columns should be an array of default columns with empty params[:c]" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ :c => [] })
 		assert columns.is_a?(Array)
 		assert_equal columns, StudySubject.sunspot_default_columns
@@ -366,7 +366,7 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "column_header should return blank for blank column" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		assert column_header('').blank?
 	end
 
@@ -378,7 +378,7 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "column_content should NOT destroy subject with column destroy" do
-		@sunspot_searching = StudySubject
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject)
 		assert_difference('StudySubject.count',0){
 			response = column_content(subject,'destroy')
