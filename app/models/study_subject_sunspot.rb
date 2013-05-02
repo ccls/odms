@@ -185,12 +185,12 @@ base.class_eval do
 	self.all_sunspot_columns << SunspotColumn.new( :first_name, :default => true )
 	self.all_sunspot_columns << SunspotColumn.new( :last_name, :default => true )
 
-	self.all_sunspot_columns << SunspotColumn.new( :primary_phone, :orderable => false, :type => :unindexed )
-	self.all_sunspot_columns << SunspotColumn.new( :alternate_phone, :orderable => false, :type => :unindexed )
-	self.all_sunspot_columns << SunspotColumn.new( :address_street, :orderable => false, :type => :unindexed )
-	self.all_sunspot_columns << SunspotColumn.new( :address_city, :orderable => false, :type => :unindexed )
-	self.all_sunspot_columns << SunspotColumn.new( :address_state, :orderable => false, :type => :unindexed )
-	self.all_sunspot_columns << SunspotColumn.new( :address_zip, :orderable => false, :type => :unindexed )
+	self.all_sunspot_columns << SunspotColumn.new( :primary_phone )
+	self.all_sunspot_columns << SunspotColumn.new( :alternate_phone )
+	self.all_sunspot_columns << SunspotColumn.new( :address_street )
+	self.all_sunspot_columns << SunspotColumn.new( :address_city )
+	self.all_sunspot_columns << SunspotColumn.new( :address_state )
+	self.all_sunspot_columns << SunspotColumn.new( :address_zip )
 	self.all_sunspot_columns << SunspotColumn.new( :do_not_contact, :orderable => false, :type => :boolean )
 
 	self.all_sunspot_columns << SunspotColumn.new( :birth_year, :orderable => false, :type => :integer )
