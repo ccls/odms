@@ -1563,7 +1563,7 @@ Table: study_subjects
 | mother_icf_master_id        | varchar(9)   | YES  |     | NULL    |                |
 | subject_type                | varchar(20)  | YES  | MUL | NULL    |                |
 | vital_status                | varchar(20)  | YES  | MUL | NULL    |                |
-| cdcid                       | varchar(12)  | YES  |     | NULL    |                |
+| cdcid                       | int(11)      | YES  |     | NULL    |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+
@@ -1687,4 +1687,4 @@ Table: zip_codes
 | updated_at | datetime     | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 /Users/jakewendt/github_repo/ccls/odms
-2013-05-02 09:13:32 -0700
+2013-05-02 10:28:03 -0700

@@ -1516,7 +1516,7 @@ ActiveRecord::Schema.define(:version => 20130502161148) do
     t.string   "mother_icf_master_id",        :limit => 9
     t.string   "subject_type",                :limit => 20
     t.string   "vital_status",                :limit => 20
-    t.string   "cdcid",                       :limit => 12
+    t.integer  "cdcid"
   end
 
   add_index "study_subjects", ["accession_no"], :name => "index_study_subjects_on_accession_no", :unique => true
