@@ -40,21 +40,10 @@
 <div><label for='registrar_no'>state/local registrar no:</label></div>
 <div><%= text_field_tag :registrar_no, params[:registrar_no] %></div>
 <div><label for='subject_type'>subject type:</label></div>
-<div><%#= select_tag :subject_type_id, 
-		options_for_select(
-			[[nil,nil]] + SubjectType.all.collect{|s|[s.to_s,s.id]},
-			params[:subject_type_id].to_i)  %> 
-<%= select_tag :subject_type, 
+<div><%= select_tag :subject_type, 
 		options_for_select(
 			[nil] + StudySubject.valid_subject_types,
-			params[:subject_type])  %>
-<%#
-
-It would be nice to have something like StudySubject.valid_subject_types
-
-Perhaps the same for all limited things like 'sex.'
-
--%></div>
+			params[:subject_type])  %></div>
 </div><!-- tablerow -->
 
 <div class='tablerow'>

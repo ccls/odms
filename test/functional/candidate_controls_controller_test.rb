@@ -415,7 +415,6 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				:master_id => case_study_subject.icf_master_id)
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => Date.yesterday)
-#				:subject_type => SubjectType['Case'],
 			duplicate = FactoryGirl.create(:study_subject,
 				:sex => candidate.sex,
 				:subject_type => 'Case',

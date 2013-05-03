@@ -55,17 +55,6 @@
 <%= wrapped_date_spans :study_subject, :reference_date,
 :label_text => 'admit (reference) date:' %>
 
-<%#= f.wrapped_collection_select :vital_status_code,
-VitalStatus.all, :code, :to_s, :include_blank => true,
-:label_text => 'vital status:' %>
-
-<%#
-	if an invalid vital status managed to get saved, this should show it and then fail to save
--%>
-<%#= f.wrapped_select :vital_status,
-	[@study_subject.vital_status]+(StudySubject.valid_vital_statuses-[@study_subject.vital_status]), 
-	:include_blank => true,
-	:label_text => 'vital status:' %>
 <%= f.wrapped_select :vital_status,
 	@study_subject.vital_statuses,
 	:include_blank => true,

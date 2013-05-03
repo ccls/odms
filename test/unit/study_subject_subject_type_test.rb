@@ -6,32 +6,13 @@ class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 		{ :good_values => %w( Case Control Mother Father Twin ),
 			:bad_values  => 'X', :model => 'StudySubject' })
 
-#	assert_should_protect( :subject_type_id, :model => 'StudySubject' )
-#	assert_should_initially_belong_to( :subject_type, :model => 'StudySubject' )
-
 	test "should require subject_type" do
-#	protected so block assignment needed
+		#	protected so block assignment needed
 		study_subject = StudySubject.new{|s|s.subject_type = nil}
 		assert !study_subject.valid?
 		assert  study_subject.errors.include?(:subject_type)
 		assert  study_subject.errors.matching?(:subject_type,"can't be blank")
-#		assert !study_subject.errors.include?(:subject_type)
-#		assert  study_subject.errors.matching?(:subject_type_id,"can't be blank")
 	end
-
-	test "should require valid subject_type" do
-#	protected so block assignment needed
-		study_subject = StudySubject.new{|s|s.subject_type_id = 0}
-		assert !study_subject.valid?
-#		assert !study_subject.errors.include?(:subject_type_id)
-		assert  study_subject.errors.matching?(:subject_type,"can't be blank")
-	end
-
-#	test "should return subject_type description for string" do
-#		study_subject = create_study_subject
-#		assert_equal study_subject.subject_type.description,
-#			"#{study_subject.subject_type}"
-#	end
 
 	csv = %q(factory,is_case?,is_control?,is_child?,is_twin?,is_mother?,is_father?
 case_study_subject,true,false,true,false,false,false

@@ -67,7 +67,6 @@ class RafsController < ApplicationController
 		check_was_under_15(@study_subject)
 
 		#	protected attributes
-#		@study_subject.subject_type_id   = SubjectType['Case'].id	
 		@study_subject.subject_type   = 'Case'
 		@study_subject.case_control_type = 'C'
 

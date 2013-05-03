@@ -28,7 +28,6 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-#			get :find, :subject_type_id => SubjectType['case'].id
 			get :find, :subject_type => 'Case'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
@@ -40,7 +39,6 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-#			get :find, :subject_type_id => SubjectType['control'].id
 			get :find, :subject_type => 'Control'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
@@ -52,32 +50,11 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-#			get :find, :subject_type_id => SubjectType['mother'].id
 			get :find, :subject_type => 'Mother'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(s3)
 		end
-	
-#		test "should find study_subjects by first_name and #{cu} login" do
-#			subjects = 3.times.collect{|i| 
-#				FactoryGirl.create(:study_subject, :first_name => "First#{i}" ) }
-#			login_as send(cu)
-#			get :find, :first_name => 'st1'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#			assert assigns(:study_subjects).include?(subjects[1])
-#		end
-#	
-#		test "should find study_subjects by last_name and #{cu} login" do
-#			subjects = 3.times.collect{|i| 
-#				FactoryGirl.create(:study_subject, :last_name => "Last#{i}" ) }
-#			login_as send(cu)
-#			get :find, :last_name => 'st1'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#			assert assigns(:study_subjects).include?(subjects[1])
-#		end
 	
 		test "should find study_subjects by maiden_name and #{cu} login" do
 			subjects = 3.times.collect{|i| 
@@ -136,46 +113,6 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			assert_equal 3, assigns(:study_subjects).length
 		end
 	
-#		test "should find study_subjects with childid and #{cu} login" do
-#			subjects = 3.times.collect{|i| 
-#				FactoryGirl.create(:study_subject,:childid => "12345#{i}" ) }
-#			login_as send(cu)
-#			get :find, :childid => '451'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#			assert assigns(:study_subjects).include?(subjects[1])
-#		end
-#	
-#		test "should find study_subjects with patid and #{cu} login" do
-#			subjects = 3.times.collect{|i| 
-#				FactoryGirl.create(:study_subject,:patid => "345#{i}" ) }
-#			login_as send(cu)
-#			get :find, :patid => '451'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#			assert assigns(:study_subjects).include?(subjects[1])
-#		end
-#	
-#		test "should find study_subjects with icf_master_id and #{cu} login" do
-#			subjects = 3.times.collect{|i| 
-#				FactoryGirl.create(:study_subject,:icf_master_id => "345x#{i}" ) }
-#			login_as send(cu)
-#			get :find, :icf_master_id => '45x1'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#			assert assigns(:study_subjects).include?(subjects[1])
-#		end
-#	
-#		test "should find study_subjects with phase and #{cu} login" do
-#			subjects = 3.times.collect{|i| 
-#				FactoryGirl.create(:study_subject,:phase => "45#{i}" ) }
-#			login_as send(cu)
-#			get :find, :phase => '451'
-#			assert_response :success
-#			assert_equal 1, assigns(:study_subjects).length
-#			assert assigns(:study_subjects).include?(subjects[1])
-#		end
-
 		#	findable study_subject string-like fields
 		%w( patid icf_master_id phase childid first_name last_name ).each do |attr|
 	
@@ -320,16 +257,6 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		#	orderable string-like fields
 		%w( icf_master_id studyid last_name phase ).each do |attr|
 
-#			test "should find study_subjects by #{attr} with #{cu} login" do
-#				subjects = 3.times.collect{|i| 
-#					FactoryGirl.create(:study_subject,attr => "450#{i}" ) }
-#				login_as send(cu)
-#				get :find, attr => '4501'
-#				assert_response :success
-#				assert_equal 1, assigns(:study_subjects).length
-#				assert assigns(:study_subjects).include?(subjects[1])
-#			end
-	
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)

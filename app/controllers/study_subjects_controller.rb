@@ -28,19 +28,15 @@ class StudySubjectsController < ApplicationController
 			conditions[0] << "( last_name LIKE :last_name OR maiden_name LIKE :last_name )"
 			conditions[1][:last_name] = "%#{params[:last_name]}%"
 		end
-		if params[:registrar_no] and !params[:registrar_no].blank?
+		if params[:registrar_no].present?
 			conditions[0] << "( state_id_no LIKE :registrar_no OR state_registrar_no LIKE :registrar_no OR local_registrar_no LIKE :registrar_no )"
 			conditions[1][:registrar_no] = "%#{params[:registrar_no]}%"
 		end
-#		if params[:subject_type_id] and !params[:subject_type_id].blank?
-#			conditions[0] << "( subject_type_id = :subject_type_id )"
-#			conditions[1][:subject_type_id] = params[:subject_type_id].to_i
-#		end
 		if params[:subject_type].present?
 			conditions[0] << "( subject_type = :subject_type )"
 			conditions[1][:subject_type] = params[:subject_type]
 		end
-		if params[:phase] and !params[:phase].blank?
+		if params[:phase].present?
 			conditions[0] << "( phase = :phase )"
 			conditions[1][:phase] = params[:phase].to_i
 		end

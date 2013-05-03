@@ -70,18 +70,6 @@ class ChartsController < ApplicationController
 		@max_y = @total_counts.max
 	end
 	def phase_5_case_enrollment
-#		study_subjects = StudySubject.cases
-#			.joins( :enrollments )
-#			.where( :phase => 5 )
-#			.where( 'enrollments.project_id = ?',Project['ccls'].id)
-#			.group( 'enrollments.is_eligible, enrollments.consented' )
-#			.select('enrollments.is_eligible as is_eligible, enrollments.consented as consented, count(*) as count')
-#		@counts = [ study_subjects.collect(&:count).sum,
-#			study_subjects.select{|s|
-#			(s.is_eligible == 1) && (s.consented == 1)}.collect(&:count).sum,
-#			0,0 ]
-#		@max_y = study_subjects.collect(&:count).sum
-
 		phase5 = StudySubject.search{
 			with(:subject_type, 'Case')
 			with(:phase, '5') }
@@ -114,30 +102,6 @@ class ChartsController < ApplicationController
 	end
 
 	def case_enrollment
-#		#	the study_subjects.id is NEEDED to get the organization_id afterwards?
-#		study_subjects = StudySubject.cases
-#			.joins( :patient => :organization )
-#			.joins( :enrollments )
-#			.where( 'enrollments.project_id = ?',Project['ccls'].id)
-#			.group( 'patients.organization_id, enrollments.is_eligible, enrollments.consented' )
-#			.select('study_subjects.id, patients.organization_id, enrollments.is_eligible as is_eligible, enrollments.consented as consented, count(*) as count')
-#			.order( 'organizations.key ASC' )
-#
-#		@orgs = study_subjects.collect(&:organization).uniq
-#		#	non-nil needed, at least for testing
-#		@max_y = @orgs.collect{|o| 
-#			study_subjects.select{|i|
-#				i.organization_id == o.id}.collect(&:count).sum}.max || 0 
-#		@total_counts = @orgs.collect{|o| 
-#			study_subjects.select{|i|
-#				i.organization_id == o.id}.collect(&:count).sum}
-#		@eligible_counts = @orgs.collect{|o| 
-#			study_subjects.select{|i|
-#				i.organization_id == o.id && i.is_eligible == 1}.collect(&:count).sum}
-#		@consenting_counts =  @orgs.collect{|o| 
-#			study_subjects.select{|i|
-#				i.organization_id == o.id && i.is_eligible == 1 && i.consented == 1}.collect(&:count).sum}
-
 		all = StudySubject.search{
 			facet :hospital_key
 			order_by :hospital_key, :asc }	#	not needed as array is sorted?
@@ -172,20 +136,6 @@ class ChartsController < ApplicationController
 	end
 
 	def blood_bone_marrow
-		#	the study_subjects.id is NEEDED to get the organization_id afterwards?
-#		@study_subjects = StudySubject.cases	#.where( :phase => 5 )
-#			.joins( :patient => :organization )
-#			.joins( :samples => :sample_type )
-#			.group( 'patients.organization_id, sample_types.key' )
-#			.select('study_subjects.id, patients.organization_id, sample_types.key as type_key, sample_types.description as type_text, count(*) as count')
-#			.order( 'organizations.key ASC' )
-##			.having("type_key IN ('marrowdiag','periph')")
-# orgs = @study_subjects.collect(&:organization).uniq
-# max = orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o.id}.collect(&:c    ount).sum}.max || 0 %><%# non-nil needed for testing %>
-#	<%#=orgs.collect{|o|"\"#{o.key}\""}.join(',').html_safe%
-#<%#= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o    .id && i.type_key == 'marrowdiag' }.collect(&:count).sum}.join(',')%>
-#	<%#= orgs.collect{|o| @study_subjects.select{|i|i.organization_id == o    .id && i.type_key == 'periph' }.collect(&:count).sum}.join(',')%>
-
 		#	Would be nice to do this in just 1 query
 		#	but don't think if I can.
 		marrow = StudySubject.search{
@@ -214,19 +164,11 @@ class ChartsController < ApplicationController
 
 
 	def subject_types_by_phase
-#		@study_subjects = StudySubject
-#			.joins(:subject_type)
-#			.group('phase, subject_type_id')
-#			.select('phase, subject_type_id, count(*) as count, subject_types.*')
 		@study_subjects = StudySubject
 			.group('phase, subject_type')
 			.select('phase, subject_type, count(*) as count')
 	end
 	def vital_statuses_by_phase
-#		@study_subjects = StudySubject
-#			.joins(:vital_status)
-#			.group('phase, vital_status_code')
-#			.select('phase, vital_status_code, count(*) as count, vital_statuses.*')
 		@study_subjects = StudySubject
 			.group('phase, vital_status')
 			.select('phase, vital_status, count(*) as count')
@@ -242,11 +184,6 @@ class ChartsController < ApplicationController
 			.group('project_id')
 	end
 	def vital_statuses
-#		@study_subjects = StudySubject
-#			.joins(:vital_status)
-#			.group('vital_status_code')
-#			.where(:phase => 5)
-#			.select('vital_status_code, count(*) as count, vital_statuses.*')
 		@study_subjects = StudySubject
 			.group('vital_status')
 			.where(:phase => 5)
@@ -256,20 +193,11 @@ class ChartsController < ApplicationController
 		@max_y = @study_subjects.collect{|s|s.count.to_i}.max
 	end
 	def vital_statuses_pie
-#		@study_subjects = StudySubject
-#			.joins(:vital_status)
-#			.group('vital_status_code')
-#			.select('vital_status_code, count(*) as count, vital_statuses.*')
 		@study_subjects = StudySubject
 			.group('vital_status')
 			.select('vital_status, count(*) as count')
 	end
 	def subject_types
-#		@study_subjects = StudySubject
-#			.joins(:subject_type)
-#			.group('subject_type_id')
-#			.where(:phase => 5)
-#			.select('subject_type_id, count(*) as count, subject_types.*')
 		@study_subjects = StudySubject
 			.group('subject_type')
 			.where(:phase => 5)
@@ -278,10 +206,6 @@ class ChartsController < ApplicationController
 		@max_y = @study_subjects.collect{|s|s.count.to_i}.max
 	end
 	def subject_types_pie
-#		@study_subjects = StudySubject
-#			.joins(:subject_type)
-#			.group('subject_type_id')
-#			.select('subject_type_id, count(*) as count, subject_types.*')
 		@study_subjects = StudySubject
 			.group('subject_type')
 			.select('subject_type, count(*) as count')
