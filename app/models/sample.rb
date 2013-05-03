@@ -54,66 +54,61 @@ class Sample < ActiveRecord::Base
 
 	include Sunspotability
 	
-	self.all_sunspot_columns << SunspotColumn.new(:id, :default => true, :type => :integer)
-	self.all_sunspot_columns << SunspotColumn.new(:sampleid, :default => true)
-	self.all_sunspot_columns << SunspotColumn.new(:subjectid, :default => true)
-	self.all_sunspot_columns << SunspotColumn.new(:sample_type, :default => true, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:sample_format, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:sample_temperature, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:project, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:aliquot_or_sample_on_receipt, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:order_no, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:sample_type_parent, :default => true, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:subject_type, :facetable => true)
+	self.all_sunspot_columns = [ 
+		SunspotColumn.new(:id, :default => true, :type => :integer),
+		SunspotColumn.new(:sampleid, :default => true),
+		SunspotColumn.new(:subjectid, :default => true),
+		SunspotColumn.new(:sample_type,
+			:default => true, :facetable => true),
+		SunspotColumn.new(:sample_format, :facetable => true),
+		SunspotColumn.new(:sample_temperature, :facetable => true),
+		SunspotColumn.new(:project, :facetable => true),
+		SunspotColumn.new(:aliquot_or_sample_on_receipt,
+			:facetable => true),
+		SunspotColumn.new(:order_no, :facetable => true),
+		SunspotColumn.new(:sample_type_parent,
+			:default => true, :facetable => true),
+		SunspotColumn.new(:subject_type, :facetable => true),
+		SunspotColumn.new(:sex, :facetable => true),
+		SunspotColumn.new(:vital_status, :facetable => true),
+		SunspotColumn.new(:organization, :facetable => true),
+		SunspotColumn.new(:cdcid,
+			:default => true, :type => :integer, :orderable => true),
+		SunspotColumn.new(:first_name),
+		SunspotColumn.new(:last_name),
+		SunspotColumn.new(:icf_master_id),
+		SunspotColumn.new(:patid),
+		SunspotColumn.new(:studyid),
+		SunspotColumn.new(:childid),
+		SunspotColumn.new(:external_id),
+		SunspotColumn.new(:external_id_source),
+		SunspotColumn.new(:sent_to_subject_at, :type => :time),
+		SunspotColumn.new(:collected_from_subject_at, :type => :time),
+		SunspotColumn.new(:shipped_to_ccls_at, :type => :time),
+		SunspotColumn.new(:received_by_ccls_at, :type => :time),
+		SunspotColumn.new(:sent_to_lab_at, :type => :time),
+		SunspotColumn.new(:received_by_lab_at, :type => :time),
+		SunspotColumn.new(:aliquotted_at, :type => :time),
+		SunspotColumn.new(:receipt_confirmed_at, :type => :time),
+		SunspotColumn.new(:dob, :type => :date),
+		SunspotColumn.new(:died_on, :type => :date),
+		SunspotColumn.new(:admit_date, :type => :date),
+		SunspotColumn.new(:reference_date, :type => :date),
+		SunspotColumn.new(:diagnosis_date, :type => :date)
+	]	#	self.all_sunspot_columns = [ 
 
-	self.all_sunspot_columns << SunspotColumn.new(:sex, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:vital_status, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:organization, :facetable => true)
-	self.all_sunspot_columns << SunspotColumn.new(:cdcid, :default => true, :type => :integer, :orderable => true)
-	%w( first_name last_name icf_master_id patid studyid childid 
-			external_id external_id_source ).each do |column|
-		self.all_sunspot_columns << SunspotColumn.new(column)
-	end
-
-	%w( sent_to_subject_at collected_from_subject_at shipped_to_ccls_at received_by_ccls_at sent_to_lab_at received_by_lab_at aliquotted_at receipt_confirmed_at ).each do |column|
-		self.all_sunspot_columns << SunspotColumn.new(column, :type => :time)
-	end
-	%w( dob died_on admit_date reference_date diagnosis_date ).each do |column|
-		self.all_sunspot_columns << SunspotColumn.new(column, :type => :date)
-	end
-
-#	can't remember exactly what the unindexed type was for
 
 #	ADD ...
 #	mother ids?
 
 	searchable_plus
 
-#	searchable do
 ###		string :parent_sampleid
 ###		string :sample_collector
-###		string :location #	will require some magic
-#
-#		#	it would be nice if somehow these could automagically be included in the module
-#		sunspot_integer_columns.each {|c| integer c, :trie => true }
-#		sunspot_string_columns.each {|c| string c }
-#		sunspot_nulled_string_columns.each {|c| string(c){ send(c)||'NULL' } }
-#		sunspot_date_columns.each {|c| date c }
-#		sunspot_double_columns.each {|c| double c, :trie => true }
-#		sunspot_time_columns.each {|c| time c, :trie => true }
-#		sunspot_boolean_columns.each {|c|
-#			string(c){ ( send(c).nil? ) ? 'NULL' : ( send(c) ) ? 'Yes' : 'No' } }
-#		
 ##	1430 | receipt_confirmed_by         | varchar(255) | YES  |     | NULL  
 ##	1431 | future_use_prohibited        | tinyint(1)   | NO   |     | 0      
 ##	1432 | state                        | varchar(255) | YES  |     | NULL    
 ##	1435 | notes 
-#
-#
-##		text?	#	may need to modify the free text token algorithm so searches partial words
-##		text :notes
-#	
-#	end	#	searchable do
 
 protected
 

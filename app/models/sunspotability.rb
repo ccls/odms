@@ -5,21 +5,6 @@ base.class_eval do
 	cattr_accessor :all_sunspot_columns
 	self.all_sunspot_columns = []		#	order is only relevant to the facets
 
-#	self.all_sunspot_columns = []		#	order is only relevant to the facets
-#	@@all_sunspot_columns = []		#	order is only relevant to the facets
-#	self.all_sunspot_columns << SunspotColumn.new(:id, :default => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:sampleid, :default => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:subjectid, :default => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:sample_type, :default => true, :facetable => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:sample_format, :facetable => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:sample_temperature, :facetable => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:project, :facetable => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:aliquot_or_sample_on_receipt, :facetable => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:order_no, :facetable => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:sample_type_parent, :facetable => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:subject_type, :facetable => true)
-#	self.all_sunspot_columns << SunspotColumn.new(:childid)
-
 	def self.sunspot_orderable_columns
 		all_sunspot_columns.select{|c|c.orderable}.collect(&:name)
 	end
@@ -80,9 +65,10 @@ base.class_eval do
 		all_sunspot_columns.select{|c|c.type == :nulled_string }.collect(&:name)
 	end
 
-	def self.sunspot_unindexed_columns
-		all_sunspot_columns.select{|c|c.type == :unindexed }.collect(&:name)
-	end
+#	What was an unindexed column for???
+#	def self.sunspot_unindexed_columns
+#		all_sunspot_columns.select{|c|c.type == :unindexed }.collect(&:name)
+#	end
 
 	def self.searchable_plus(&block)
 		searchable do

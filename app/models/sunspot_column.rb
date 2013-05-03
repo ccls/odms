@@ -2,6 +2,7 @@ require 'ostruct'
 class SunspotColumn < OpenStruct
 
 	def initialize(*args)
+		#	some sensible defaults
 		default_options = {
 			:type      => :string, 
 			:orderable => true, 
