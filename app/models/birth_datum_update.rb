@@ -37,7 +37,18 @@ class BirthDatumUpdate < CSVFile
 			birth_datum_attributes.delete('ignore1')
 			birth_datum_attributes.delete('ignore2')
 			birth_datum_attributes.delete('ignore3')
-			birth_datum_attributes.delete('first_name_again')
+#			birth_datum_attributes.delete('first_name_again')
+
+#			birth_datum_attributes.delete(nil)
+
+#Processing CLS Cases 29APR2013.csv...
+#Processing line 2 of 48
+#"father_industry"=>" ", nil=>nil, :birth_data_file_name=>"CLS Cases 29APR2013.csv"}
+#rake aborted!
+#unknown attribute: 
+#	somehow we end up with a nil key????
+#	i believe that this happens when there are more data columns than in the header
+
 
 
 #			birth_datum_attributes['dob'] ||= birth_datum_attributes['case_dob'] 
