@@ -316,6 +316,53 @@ pending	"no longer required, but may be temporary"
 		assert sample_type_parent.is_a?(SampleType)
 	end
 
+
+
+
+
+
+
+	if Sample.respond_to?(:solr_search)
+
+		test "should search" do
+			Sunspot.remove_all!					#	isn't always necessary
+			Sample.solr_reindex
+			assert Sample.search.hits.empty?
+			FactoryGirl.create(:sample)
+			Sample.solr_reindex
+			assert !Sample.search.hits.empty?
+		end
+
+	else
+#
+#	Sunspot wasn't running when test started
+#
+	end
+
+	%w( sunspot_columns
+		sunspot_orderable_columns
+		sunspot_string_columns
+		sunspot_nulled_string_columns
+		sunspot_time_columns
+		sunspot_date_columns
+		sunspot_integer_columns
+		sunspot_long_columns
+		sunspot_boolean_columns
+		sunspot_double_columns
+		sunspot_float_columns
+		sunspot_default_columns
+		sunspot_available_columns
+		).each do |column|
+		test "should return array for sunspot class method #{column}" do
+			assert Sample.send(column).is_a?(Array)
+		end
+#		sunspot_unindexed_columns
+	end
+#		sunspot_dynamic_columns
+
+
+
+
 protected
 
 	#	create_object is called from within the common class tests

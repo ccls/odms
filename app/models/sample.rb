@@ -27,8 +27,16 @@ class Sample < ActiveRecord::Base
 		:dob, :died_on, :admit_date, :reference_date, :diagnosis_date,
 			:to => :study_subject, :allow_nil => true
 
-	#	prefix is require as sample has a parent too (well, it will eventually)
+	#	prefix is required as sample has a parent too (well, it will eventually)
 	delegate :parent, :to => :sample_type, :allow_nil => true, :prefix => true
+	#
+	#	this is the parent of the sample_type, NOT the sample's parent's sample type.
+	#
+	#	change this to sample_supertype?
+	#
+	def sample_supertype
+		try(:sample_type).try(:parent)
+	end
 
 	after_initialize :set_defaults, :if => :new_record?
 	def set_defaults
@@ -58,6 +66,9 @@ class Sample < ActiveRecord::Base
 		SunspotColumn.new(:id, :default => true, :type => :integer),
 		SunspotColumn.new(:sampleid, :default => true),
 		SunspotColumn.new(:subjectid, :default => true),
+#		SunspotColumn.new(:sample_type_parent,
+		SunspotColumn.new(:sample_supertype,
+			:default => true, :facetable => true),
 		SunspotColumn.new(:sample_type,
 			:default => true, :facetable => true),
 		SunspotColumn.new(:sample_format, :facetable => true),
@@ -66,8 +77,6 @@ class Sample < ActiveRecord::Base
 		SunspotColumn.new(:aliquot_or_sample_on_receipt,
 			:facetable => true),
 		SunspotColumn.new(:order_no, :facetable => true),
-		SunspotColumn.new(:sample_type_parent,
-			:default => true, :facetable => true),
 		SunspotColumn.new(:subject_type, :facetable => true),
 		SunspotColumn.new(:sex, :facetable => true),
 		SunspotColumn.new(:vital_status, :facetable => true),

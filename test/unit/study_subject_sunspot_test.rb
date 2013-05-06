@@ -26,15 +26,17 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 		sunspot_time_columns
 		sunspot_date_columns
 		sunspot_integer_columns
+		sunspot_long_columns
 		sunspot_boolean_columns
 		sunspot_double_columns
+		sunspot_float_columns
 		sunspot_default_columns
 		sunspot_available_columns
-		sunspot_unindexed_columns
 		).each do |column|
 		test "should return array for sunspot class method #{column}" do
 			assert StudySubject.send(column).is_a?(Array)
 		end
+#		sunspot_unindexed_columns
 	end
 #		sunspot_dynamic_columns
 
