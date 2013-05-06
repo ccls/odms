@@ -35,3 +35,74 @@ namespace :study_subjects do
 end	#	namespace :study_subjects do
 end	#	namespace :app do
 __END__
+
+# subject types fixture
+case:
+  id: 1
+  key:  Case
+  description:  Case
+control:
+  id:  2
+  key:  Control
+  description:  Control
+father:
+  id:  3
+  key:  Father
+  description:  Father
+mother:
+  id:  4
+  key:  Mother
+  description:  Mother
+twin:
+  id:  5
+  key:  Twin
+  description:  Twin
+
+# vital statuses fixture
+living:
+  code: 1
+  position: 1
+  key: living
+  description: Living
+deceased:
+  code: 2
+  position: 2 
+  key: deceased
+  description: Deceased
+refused:
+  code: 888
+  position: 4
+  key: refused
+  description: Refused to State
+dk:
+  code: 999
+  position: 3
+  key: unknown
+  description: "Don't Know"
+
+#	diagnoses fixture
+all:
+  id: 1
+  position: 1
+  key: ALL
+  description: ALL
+aml:
+  id: 2
+  position: 2 
+  key: AML
+  description: AML
+other:
+  id: 3
+  position: 3
+  key: other
+  description: other diagnosis
+legacy:
+  id: 777
+  position: 4
+  key: legacy
+  description:  missing data (e.g. legacy nulls)
+dk:
+  id: 999
+  position: 5
+  key: unknown
+  description:  unknown diagnosis
