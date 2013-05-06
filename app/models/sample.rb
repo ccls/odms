@@ -32,9 +32,9 @@ class Sample < ActiveRecord::Base
 	#
 	#	this is the parent of the sample_type, NOT the sample's parent's sample type.
 	#
-	#	change this to sample_supertype?
+	#	change this to sample_super_type?
 	#
-	def sample_supertype
+	def sample_super_type
 		try(:sample_type).try(:parent)
 	end
 
@@ -67,7 +67,7 @@ class Sample < ActiveRecord::Base
 		SunspotColumn.new(:sampleid, :default => true),
 		SunspotColumn.new(:subjectid, :default => true),
 #		SunspotColumn.new(:sample_type_parent,
-		SunspotColumn.new(:sample_supertype,
+		SunspotColumn.new(:sample_super_type,
 			:default => true, :facetable => true),
 		SunspotColumn.new(:sample_type,
 			:default => true, :facetable => true),

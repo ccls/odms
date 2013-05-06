@@ -13,6 +13,7 @@ base.class_eval do
 
 #		:was_ca_resident_at_diagnosis, :was_previously_treated, :was_under_15_at_dx,
 	delegate :admit_date, :hospital_no, :organization, :organization_id, :diagnosis_date,
+		:diagnosis, :other_diagnosis,
 			:to => :patient, :allow_nil => true
 
 	accepts_nested_attributes_for :patient
