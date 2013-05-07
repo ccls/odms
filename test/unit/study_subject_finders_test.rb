@@ -180,6 +180,16 @@ class StudySubjectFindersTest < ActiveSupport::TestCase
 		assert !with_icf_master_id.include?(noise)
 	end
 
+	test "should find with state_registrar_no" do
+		noise = FactoryGirl.create(:study_subject)
+		study_subject = FactoryGirl.create(:study_subject, :state_registrar_no => '99999')
+		assert_not_nil study_subject.state_registrar_no
+		assert_equal '99999', study_subject.state_registrar_no
+		with_state_registrar_no = StudySubject.with_state_registrar_no(
+			"  #{study_subject.state_registrar_no}  ")
+		assert  with_state_registrar_no.include?(study_subject)
+		assert !with_state_registrar_no.include?(noise)
+	end
 
 	test "should find with childid" do
 		noise = FactoryGirl.create(:study_subject)

@@ -17,7 +17,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid and subjectid blank/,
+		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -68,7 +68,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid and subjectid blank/,
+		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -109,7 +109,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid and subjectid blank/,
+		assert_match /master_id, childid, subjectid and state_registar_no blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -150,7 +150,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid and subjectid blank/,
+		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -282,7 +282,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid and subjectid blank/,
+		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
 			birth_datum.odms_exceptions.last.to_s
 	end
 
@@ -398,7 +398,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should create odms exception if master_id is not blank" <<
 			" and used by a mother" do
 		study_subject = create_mother_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryGirl.create(:case_birth_datum,
+			:master_id => study_subject.icf_master_id )
 		assert_equal 1,
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
@@ -419,7 +420,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid and subjectid blank/,
+		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
 			birth_datum.odms_exceptions.last.to_s
 	end
 

@@ -34,6 +34,10 @@ base.class_eval do
 		where(:childid => childid.to_i)
 	end
 
+	def self.with_state_registrar_no(state_registrar_no)
+		where(:state_registrar_no => state_registrar_no.to_s.squish)
+	end
+
 	def self.with_icf_master_id(icf_master_id)
 		where(:icf_master_id => icf_master_id.to_s.squish)
 	end

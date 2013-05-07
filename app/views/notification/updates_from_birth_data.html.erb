@@ -10,6 +10,7 @@
 <th>icf master id</th>
 <th>candidate control</th>
 <th>exceptions</th>
+<th>match_confidence</th>
 </tr></thead>
 
 
@@ -28,6 +29,7 @@ No Study Subject Set
 No Candidate Control Set
 <% end %></td>
 <td><%= birth_datum.odms_exceptions.count %></td>
+<td><%= birth_datum.match_confidence %></td>
 </tr>
 <% end -%><%# @birth_data.each do |birth_datum| -%>
 
