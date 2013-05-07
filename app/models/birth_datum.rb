@@ -28,10 +28,14 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def post_processing
-		if master_id.blank? and childid.blank? and 
-				subjectid.blank? and state_registrar_no.blank?
+#		if master_id.blank? and childid.blank? and 
+#				subjectid.blank? and state_registrar_no.blank?
+#			odms_exceptions.create(:name => 'birth data append',
+#				:description => "master_id, childid, subjectid and state_registrar_no blank")
+#	state_registrar_no exists in birth data but not in our db?
+		if master_id.blank? and childid.blank? and subjectid.blank?
 			odms_exceptions.create(:name => 'birth data append',
-				:description => "master_id, childid, subjectid and state_registrar_no blank")
+				:description => "master_id, childid and subjectid blank")
 		else
 			#	DO NOT USE 'study_subject' here as it will conflict with
 			#	the study_subject association.
@@ -86,8 +90,8 @@ class BirthDatum < ActiveRecord::Base
 			StudySubject.with_childid( childid ).first
 		elsif !subjectid.blank?
 			StudySubject.with_subjectid( subjectid ).first
-		elsif !state_registrar_no.blank?
-			StudySubject.with_state_registrar_no( state_registrar_no ).first
+#		elsif !state_registrar_no.blank?
+#			StudySubject.with_state_registrar_no( state_registrar_no ).first
 		else
 			nil
 		end

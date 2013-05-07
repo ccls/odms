@@ -17,7 +17,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -68,7 +69,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -109,7 +111,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -150,7 +153,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.first.to_s
 	end
 
@@ -282,7 +286,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.last.to_s
 	end
 
@@ -420,7 +425,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum.odms_exceptions.length
 		assert_equal 'birth data append',
 			birth_datum.odms_exceptions.first.name
-		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.odms_exceptions.last.to_s
 	end
 
