@@ -69,9 +69,10 @@ protected	#	from what and why?
 					#	don't paginate csv file.  Only way seems to be to make BIG query
 					#	rather than the arbitrarily big number, I could possibly
 					#	use the @search.total from the previous search sent as param?
-					paginate :per_page => 100000
+					paginate :page => 1, :per_page => 1000000
+				else
+					paginate :page => params[:page], :per_page => params[:per_page]
 				end
-				paginate :page => params[:page], :per_page => params[:per_page]
 			end	#	@search = @sunspot_search_class.search do
 		rescue Errno::ECONNREFUSED
 			flash[:error] = "Solr seems to be down for the moment."
