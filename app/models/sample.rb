@@ -9,7 +9,7 @@ class Sample < ActiveRecord::Base
 	has_many :aliquots   #	NOTE not yet really used
 	has_many :sample_transfers
 	belongs_to :project
-	belongs_to :study_subject
+	belongs_to :study_subject, :counter_cache => true
 	belongs_to :sample_format
 	belongs_to :sample_temperature
 

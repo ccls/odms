@@ -3,7 +3,7 @@ class PhoneNumber < ActiveRecord::Base
 
 	acts_as_list :scope => :study_subject_id
 
-	belongs_to :study_subject
+	belongs_to :study_subject, :counter_cache => true
 	attr_protected :study_subject_id, :study_subject
 	belongs_to :phone_type
 	belongs_to :data_source

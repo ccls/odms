@@ -1,6 +1,15 @@
 namespace :app do
 namespace :study_subjects do
 
+	task :synchronize_counter_caches => :environment do
+		StudySubject.find_each do |study_subject|
+			puts "Updating #{study_subject}"
+			StudySubject.reset_counters( study_subject.id,
+				:samples, :operational_events, :addressings, :phone_numbers, 
+				:birth_data, :interviews )
+		end
+	end
+
 	task :add_cdcids_from_anand => :environment do
 		CSV.open( 'anand/2010-12-06_MaternalBiospecimenIDLink.csv',
 				'rb',{ :headers => true }).each do |line|

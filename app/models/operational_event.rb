@@ -6,7 +6,7 @@ class OperationalEvent < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-	belongs_to :study_subject
+	belongs_to :study_subject, :counter_cache => true
 	attr_protected :study_subject_id, :study_subject
 
 	belongs_to :project

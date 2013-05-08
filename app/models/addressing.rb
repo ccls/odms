@@ -1,7 +1,7 @@
 #	Rich join of Subject and Address
 class Addressing < ActiveRecord::Base
 
-	belongs_to :study_subject
+	belongs_to :study_subject, :counter_cache => true
 	attr_protected :study_subject_id, :study_subject
 
 	belongs_to :address

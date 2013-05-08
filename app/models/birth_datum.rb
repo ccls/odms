@@ -1,6 +1,6 @@
 class BirthDatum < ActiveRecord::Base
 
-	belongs_to :study_subject
+	belongs_to :study_subject, :counter_cache => true
 	attr_protected :study_subject_id, :study_subject
 	has_one :candidate_control
 	has_many :odms_exceptions, :as => :exceptable

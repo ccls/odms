@@ -110,22 +110,24 @@ module ApplicationHelper
 	end
 
 	def subject_side_menu(study_subject)
+		#	using params[:controller] rather than the controller object
+		#	as it is easier to test
 		current = case params[:controller]
 			when 'study_subjects' then :general
-			when 'patients' then :hospital
-			when 'addresses' then :contact
-			when 'addressings' then :contact
-			when 'contacts' then :contact
-			when 'phone_numbers' then :contact
-			when 'consents' then :consents
-			when 'enrollments' then :eligibility
-			when 'samples' then :samples
-			when 'interviews' then :interviews
-			when 'events' then :events
-			when 'documents' then :documents
-			when 'notes' then :notes
-			when 'related_subjects' then :related_subjects
-			when 'birth_records' then :birth_record
+			when /patients$/ then :hospital
+			when /addresses$/ then :contact
+			when /addressings$/ then :contact
+			when /contacts$/ then :contact
+			when /phone_numbers$/ then :contact
+			when /consents$/ then :consents
+			when /enrollments$/ then :eligibility
+			when /samples$/ then :samples
+			when /interviews$/ then :interviews
+			when /events$/ then :events
+			when /documents$/ then :documents
+			when /notes$/ then :notes
+			when /related_subjects$/ then :related_subjects
+			when /birth_records$/ then :birth_record
 #	this will catch abstracts, study_subject_abstracts and 
 #		all of the abstract/whatevers
 			when /abstract/ then :abstracts
@@ -134,75 +136,82 @@ module ApplicationHelper
 		end
 
 		return '' unless study_subject
-		s = "<div id='sidemenu'>\n"
-			links = []
+		s = "<ul id='sidemenu'>\n"
+			list_items = []
 #			if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
 			if request.env["HTTP_REFERER"] =~ /study_subjects\/find/
-				links << link_to( "back to search", request.env["HTTP_REFERER"] )
+				list_items << link_to( "back to search", request.env["HTTP_REFERER"] )
 			end
 #				link_to( "back to subjects", dashboard_study_subjects_path ),
 
 # the logged_in? check is a bit much as you should never get here without it.
 #	( only used in the helper tests )
 
-			links += [
+			list_items += [
 				link_to( "Basic Info", study_subject_path(study_subject),
 					:class => ((current == :general)?'current':nil) ),
-				link_to( "Address & Phone", study_subject_contacts_path(study_subject),
-					:class => ((current == :contact)?'current':nil) ) ]
-			links << link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
+				( link_to( "Address & Phone", study_subject_contacts_path(study_subject),
+					:class => ((current == :contact)?'current':nil) ) <<
+					"<span class='count'>#{study_subject.addressings_count}/#{study_subject.phone_numbers_count}</span>".html_safe )
+]
+			list_items << link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 					:class => ((current == :hospital)?'current':nil) ) if study_subject.is_case?
 
-			links += [
+			list_items += [
 				link_to( "Birth Records", study_subject_birth_records_path(study_subject),
-					:class => ((current == :birth_record)?'current':nil) )
+					:class => ((current == :birth_record)?'current':nil) ) <<
+					"<span class='count'>#{study_subject.birth_data_count}</span>".html_safe
 			] if( logged_in? and current_user.may_administrate? )
 
-			links += [
+			list_items += [
 				link_to( "Eligibility & Consent", study_subject_consent_path(study_subject),
 					:class => ((current == :consents)?'current':nil) ),
 				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
 					:class => ((current == :eligibility)?'current':nil) ),
-				link_to( "Samples", study_subject_samples_path(study_subject),
-					:class => ((current == :samples)?'current':nil) )]
+				(link_to( "Samples", study_subject_samples_path(study_subject),
+					:class => ((current == :samples)?'current':nil) ) <<
+					"<span class='count'>#{study_subject.samples_count}</span>".html_safe)
+			]
 
-			links += [
+			list_items += [
 				link_to( "Interviews", study_subject_interviews_path(study_subject),
-					:class => ((current == :interviews)?'current':nil) ) 
+					:class => ((current == :interviews)?'current':nil) ) <<
+					"<span class='count'>#{study_subject.interviews_count}</span>".html_safe
 			] if( logged_in? and current_user.may_administrate? )
 
-			links << link_to( "Events", study_subject_events_path(study_subject),
-					:class => ((current == :events)?'current':nil) )
+			list_items << (link_to( "Events", study_subject_events_path(study_subject),
+					:class => ((current == :events)?'current':nil) ) << 
+				"<span class='count'>#{study_subject.operational_events_count}</span>".html_safe)
 
-			links += [
+			list_items += [
 				link_to( "Documents", study_subject_documents_path(study_subject),
 					:class => ((current == :documents)?'current':nil) ),
 				link_to( "Notes", study_subject_notes_path(study_subject),
 					:class => ((current == :notes)?'current':nil) ),
 			] if( logged_in? and current_user.may_administrate? )
 
-			links << link_to( "Related Subjects", 
+			list_items << link_to( "Related Subjects", 
 					study_subject_related_subjects_path(study_subject),
 					:class => ((current == :related_subjects)?'current':nil) )
 			if study_subject.is_case?
-				links << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
+				list_items << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) )
-				links << link_to( "RAF Info", raf_path(study_subject),
+				list_items << link_to( "RAF Info", raf_path(study_subject),
 					:class => ((current == :raf)?'current':nil) ) 
 			end
-			links << "<span>&nbsp;</span>"
-			links << "<div style='text-align:center;'>" <<
+			list_items << "<span>&nbsp;</span>"
+			list_items << ("<div style='text-align:center;'>" <<
 				link_to('first'.html_safe, first_study_subjects_path()) <<
-					"&middot;".html_safe <<
+					"&nbsp;&middot;&nbsp;".html_safe <<
 				link_to('prev'.html_safe,  prev_study_subject_path(study_subject)) <<
-					"&middot;".html_safe <<
+					"&nbsp;&middot;&nbsp;".html_safe <<
 				link_to('next'.html_safe,  next_study_subject_path(study_subject)) <<
-					"&middot;".html_safe <<
+					"&nbsp;&middot;&nbsp;".html_safe <<
 				link_to('last'.html_safe,  last_study_subjects_path()) <<
-				"</div>"
+				"</div>")
 				#	for first and last, passing currnent subject seems pointless
-			s << links.join("\n")
-			s << "\n</div><!-- submenu -->\n"
+			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
+			s << "\n</ul><!-- submenu -->\n"
 		s.html_safe
 	end
 

@@ -148,21 +148,32 @@ div#mainmenu .menu_item:hover > .sub_menu {
 div#left_side_menu {
 	width: 180px;
 }
-div#sidemenu {
+#sidemenu {
 	font-size: 12px;
 	padding-top: 5px;
 	margin: 0;
 	background-color: #CCC3A9;
 	border: 1px solid black;
 	border-top: none;
+
+	/* for ul/li version */
+	width: 180px;	
+	padding-left: 0;
+
 }
-div#sidemenu > * {
+#sidemenu > * {
 	padding: 5px 10px;
 	display:block;
 }
-div#sidemenu > .current {
+#sidemenu > li > .current {
 	font-weight:bold;
 }
-div#sidemenu > div > span.prev {
+#sidemenu > li > span.count {
+	float:right;
+}
+/*
+	don't think used anymore
+#sidemenu > div > span.prev {
 	text-align:right;
 }
+*/

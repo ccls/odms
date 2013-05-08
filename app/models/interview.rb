@@ -6,7 +6,7 @@ class Interview < ActiveRecord::Base
 
 #	NOTE this is not used
 
-	belongs_to :study_subject
+	belongs_to :study_subject, :counter_cache => true
 	attr_protected( :study_subject_id, :study_subject )
 
 	##
