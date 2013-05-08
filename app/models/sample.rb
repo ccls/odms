@@ -29,6 +29,11 @@ class Sample < ActiveRecord::Base
 
 	#	prefix is required as sample has a parent too (well, it will eventually)
 	delegate :parent, :to => :sample_type, :allow_nil => true, :prefix => true
+
+#	delegate :super_type, :to => :sample_type, :allow_nil => true
+#		super_type	#	no
+#	delegate :super_type, :to => :sample_type, :allow_nil => true, :prefix => true
+#		sample_type_super_type	#	no
 	#
 	#	this is the parent of the sample_type, NOT the sample's parent's sample type.
 	#
