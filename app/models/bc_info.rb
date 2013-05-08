@@ -10,9 +10,12 @@ class BcInfo < OpenStruct
 		self.icf_master_id ||= icf_master_id || masterid
 	end
 
-	def code_correct(hash,key)
-		hash[key] = 888 if hash[key] == '0'
-		hash[key] = 999 if hash[key] == '9'
+	def code_correct(*args)
+		hash = args.shift
+		args.each do |key|
+			hash[key] = 888 if hash[key] == '0'
+			hash[key] = 999 if hash[key] == '9'
+		end	#	args.each do |key|
 	end
 
 	def process
@@ -30,11 +33,6 @@ class BcInfo < OpenStruct
 		end
 
 		if identifier.blank?
-#			Notification.plain(
-#				"#{bc_info_file} contained line with blank icf_master_id",
-#				email_options.merge({ 
-#					:subject => "ODMS: Blank ICF Master ID in #{bc_info_file}" })
-#			).deliver
 			Notification.plain(
 				"#{bc_info_file} contained line with blank icf_master_id",
 					:subject => "ODMS: Blank ICF Master ID in #{bc_info_file}"
@@ -48,12 +46,6 @@ class BcInfo < OpenStruct
 		#raise "Multiple case subjects? with icf_master_id:" <<
 		#	"#{line['icf_master_id']}:" if subjects.length > 1
 		unless subjects.length == 1
-#			Notification.plain(
-#				"#{bc_info_file} contained line with #{identifier} " <<
-#				"but no subject with #{identifier}:#{send(identifier)}:",
-#				email_options.merge({ 
-#					:subject => "ODMS: No Subject with #{identifier} in #{bc_info_file}" })
-#			).deliver
 			Notification.plain(
 				"#{bc_info_file} contained line with #{identifier} " <<
 				"but no subject with #{identifier}:#{send(identifier)}:",
@@ -111,21 +103,8 @@ class BcInfo < OpenStruct
 				new_child_doby,new_child_dobm,new_child_dobd ) 
 		end
 
-		code_correct(a,:father_hispanicity)
-		code_correct(a,:mother_hispanicity)
-		code_correct(a,:father_hispanicity_mex)
-		code_correct(a,:mother_hispanicity_mex)
-		code_correct(a,:father_race_code)
-		code_correct(a,:mother_race_code)
-
-#		a[:father_hispanicity] = 888 if a[:father_hispanicity] == '0'
-#		a[:mother_hispanicity] = 888 if a[:mother_hispanicity] == '0'
-#		a[:mother_hispanicity] = 999 if a[:mother_hispanicity] == '9'
-#		a[:father_hispanicity] = 999 if a[:father_hispanicity] == '9'
-#		a[:mother_hispanicity_mex] = 888 if a[:mother_hispanicity_mex] == '0'
-#		a[:father_hispanicity_mex] = 888 if a[:father_hispanicity_mex] == '0'
-#		a[:mother_hispanicity_mex] = 999 if a[:mother_hispanicity_mex] == '9'
-#		a[:father_hispanicity_mex] = 999 if a[:father_hispanicity_mex] == '9'
+		code_correct(a,:father_hispanicity,:mother_hispanicity,:father_hispanicity_mex,
+			:mother_hispanicity_mex,:father_race_code,:mother_race_code)
 
 		a[:hispanicity] = 999
 		if( a[:mother_hispanicity] == a[:father_hispanicity] ) && 
@@ -143,11 +122,6 @@ class BcInfo < OpenStruct
 		end
 		a[:hispanicity_mex] = 1 if ( 
 			[a[:mother_hispanicity_mex],a[:father_hispanicity_mex]].include?('1') )
-
-#		a[:father_race_code] = 888 if a[:father_race_code] == '0'
-#		a[:mother_race_code] = 888 if a[:mother_race_code] == '0'
-#		a[:father_race_code] = 999 if a[:father_race_code] == '9'
-#		a[:mother_race_code] = 999 if a[:mother_race_code] == '9'
 
 		new_attributes.each do |k,v|
 			#	NOTE always check if attribute is blank as don't want to delete data
@@ -256,10 +230,6 @@ class BcInfo < OpenStruct
 			if study_subject.mother_race_code
 				mr = Race.where(:code => study_subject.mother_race_code).first
 				if mr.nil?
-#					Notification.plain("No race found with code :#{study_subject.mother_race_code}:",
-#						email_options.merge({ 
-#							:subject => "ODMS: Invalid mother_race_code" })
-#					).deliver
 					Notification.plain("No race found with code :#{study_subject.mother_race_code}:",
 							:subject => "ODMS: Invalid mother_race_code"
 					).deliver
