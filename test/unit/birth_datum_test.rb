@@ -840,7 +840,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	end
 
-	%w( middle_name
+	%w( state_registrar_no middle_name
 			father_first_name father_middle_name father_last_name 
 			mother_first_name mother_middle_name mother_maiden_name
 			).each do |field|
