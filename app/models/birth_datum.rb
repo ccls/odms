@@ -182,7 +182,7 @@ class BirthDatum < ActiveRecord::Base
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth Record data changes from #{birth_data_file_name}",
-					:event_notes => "Changes:  #{changes}")
+					:notes => "Changes:  #{changes}")
 
 			else
 
@@ -191,7 +191,7 @@ class BirthDatum < ActiveRecord::Base
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth Record data changes from #{birth_data_file_name}",
-					:event_notes => "StudySubject save failed." << study_subject.errors.full_messages.to_sentence)
+					:notes => "StudySubject save failed." << study_subject.errors.full_messages.to_sentence)
 
 #					odms_exceptions.create(
 #						:name        => 'birth data update',

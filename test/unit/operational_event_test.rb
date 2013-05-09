@@ -15,10 +15,10 @@ class OperationalEventTest < ActiveSupport::TestCase
 	assert_should_belong_to(:study_subject,:project,:operational_event_type)
 
 #	TODO counts incorrect in tests due to callbacks
-#	attributes = %w( enrollment_id occurred_at description event_notes )
+#	attributes = %w( enrollment_id occurred_at description notes )
 #	required   = %w( enrollment_id )
-#	attributes = %w( study_subject_id project_id occurred_at description event_notes )
-	attributes = %w( occurred_at description event_notes )
+#	attributes = %w( study_subject_id project_id occurred_at description notes )
+	attributes = %w( occurred_at description notes )
 #	required   = %w( study_subject_id project_id )	#	TODO try to figure this out
 #	assert_should_require( required )
 	assert_should_not_require( attributes )	#- required )
@@ -30,7 +30,7 @@ class OperationalEventTest < ActiveSupport::TestCase
 
 	assert_requires_complete_date(:occurred_at)
 	assert_should_require_attribute_length( :description, :maximum => 250 )
-	assert_should_require_attribute_length( :event_notes, :maximum => 65000 )
+	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
 	test "operational_event factory should create operational event" do
 		assert_difference('OperationalEvent.count',1) {

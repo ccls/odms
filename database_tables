@@ -1143,7 +1143,7 @@ Table: operational_events
 | study_subject_id          | int(11)      | YES  | MUL | NULL    |                |
 | project_id                | int(11)      | YES  | MUL | NULL    |                |
 | description               | varchar(255) | YES  |     | NULL    |                |
-| event_notes               | text         | YES  |     | NULL    |                |
+| notes                     | text         | YES  |     | NULL    |                |
 | created_at                | datetime     | NO   |     | NULL    |                |
 | updated_at                | datetime     | NO   |     | NULL    |                |
 +---------------------------+--------------+------+-----+---------+----------------+
@@ -1693,4 +1693,4 @@ Table: zip_codes
 | updated_at | datetime     | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 /Users/jakewendt/github_repo/ccls/odms
-2013-05-08 11:14:10 -0700
+2013-05-09 13:53:46 -0700

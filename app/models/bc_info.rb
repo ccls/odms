@@ -165,7 +165,7 @@ class BcInfo < OpenStruct
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['datachanged'].id,
 					:description => "ICF Screening data changes from #{bc_info_file}",
-					:event_notes => "Changes:  #{changes}")
+					:notes => "Changes:  #{changes}")
 
 			else
 
@@ -225,7 +225,7 @@ class BcInfo < OpenStruct
 				:project_id => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['datachanged'].id,
 				:description => "ICF Screening data changes from #{bc_info_file}",
-				:event_notes => "Changes:  #{changes}")
+				:notes => "Changes:  #{changes}")
 
 			if study_subject.mother_race_code
 				mr = Race.where(:code => study_subject.mother_race_code).first

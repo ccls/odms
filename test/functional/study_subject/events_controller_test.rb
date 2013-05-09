@@ -154,7 +154,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 			assert_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
 					:id => operational_event.id, :operational_event => {
-						:event_notes => 'trigger update' }
+						:notes => 'trigger update' }
 			}
 			assert_nil flash[:error]
 			assert_redirected_to study_subject_event_path(study_subject, operational_event)
@@ -170,7 +170,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
 					:id => operational_event.id, :operational_event => {
-						:event_notes => 'trigger update' }
+						:notes => 'trigger update' }
 			}
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -187,7 +187,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
 					:id => operational_event.id, :operational_event => {
-						:event_notes => 'trigger update' }
+						:notes => 'trigger update' }
 			}
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -202,7 +202,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
 					:id => operational_event.id, :operational_event => {
-						:event_notes => 'trigger update' }
+						:notes => 'trigger update' }
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
@@ -217,7 +217,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
 				put :update, :study_subject_id => 0,
 					:id => operational_event.id, :operational_event => {
-						:event_notes => 'trigger update' }
+						:notes => 'trigger update' }
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
@@ -232,7 +232,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
 					:id => 0, :operational_event => {
-						:event_notes => 'trigger update' }
+						:notes => 'trigger update' }
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
@@ -328,7 +328,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 			deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
 					:id => operational_event.id, :operational_event => {
-						:event_notes => 'trigger update' }
+						:notes => 'trigger update' }
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -586,7 +586,7 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		deny_changes("OperationalEvent.find(#{operational_event.id}).updated_at") {
 			put :update, :study_subject_id => study_subject.id,
 				:id => operational_event.id, :operational_event => {
-					:event_notes => 'trigger update' }
+					:notes => 'trigger update' }
 		}
 		assert_redirected_to_login
 	end
