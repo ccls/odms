@@ -4,16 +4,19 @@ class ControlsController < ApplicationController
 	before_filter :valid_case_id_required, :only => :create
 	before_filter :case_study_subject_required, :only => :create
 
-
 	def index
-		@study_subjects = StudySubject.controls
-			.where( :phase => 5 )
-			.order('reference_date DESC')
-			.joins(:enrollments)
-			.merge(Enrollment.not_assigned_for_interview.where(:project_id => Project['ccls'].id))
+		if params[:ids].present? and params[:ids].is_a?(Array) and !params[:ids].empty?
+			@study_subjects = StudySubject.order('reference_date DESC')
+				.where(:id => params[:ids])
+		else
+			@study_subjects = StudySubject.controls
+				.where( :phase => 5 )
+				.order('reference_date DESC')
+				.joins(:enrollments)
+				.merge(Enrollment.not_assigned_for_interview.where(:project_id => Project['ccls'].id))
 
 #	SELECT `study_subjects`.* FROM `study_subjects` INNER JOIN `subject_types` ON `subject_types`.`id` = `study_subjects`.`subject_type_id` INNER JOIN `enrollments` ON `enrollments`.`study_subject_id` = `study_subjects`.`id` WHERE `subject_types`.`key` = 'Control' AND `study_subjects`.`phase` = 5 AND `enrollments`.`assigned_for_interview_at` IS NULL AND `enrollments`.`project_id` = 10 ORDER BY created_at DESC
-
+		end
 		#
 		#	The only reason to have this block is to change the name of the file.
 		#	By default, it would just be manifest.csv everytime.
@@ -28,6 +31,20 @@ class ControlsController < ApplicationController
 				headers["Content-Disposition"] = "attachment; " <<
 					"filename=newcontrols_#{Time.now.strftime('%m%d%Y')}.csv"
 			}
+		end
+	end
+
+	def assign_selected_for_interview
+		if params[:ids].present? and params[:ids].is_a?(Array) and !params[:ids].empty?
+			enrollments = Enrollment
+				.where(:project_id => Project['ccls'].id)
+				.where(:study_subject_id => params[:ids] )
+				.update_all(:assigned_for_interview_at => DateTime.current)
+			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
+			redirect_to controls_path(:ids => params[:ids], :and_then_download_csv => true)
+		else
+			flash[:error] = "No ids given."
+			redirect_to controls_path
 		end
 	end
 

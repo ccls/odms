@@ -87,7 +87,9 @@ Odms::Application.routes.draw do
 		collection { put :assign_selected_for_interview }
 	end
 
-	resources :controls, :only => [:new,:create,:index]
+	resources :controls, :only => [:new,:create,:index] do
+		collection { get :assign_selected_for_interview }
+	end
 	resources :data_sources
 	resources :diagnoses
 	resources :document_types
