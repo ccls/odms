@@ -122,7 +122,7 @@ class ControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			subject = FactoryGirl.create(:control_study_subject)
 			assert_equal 5, subject.phase
-			assert_nil subject.enrollments.where(:project_id => Project['ccls'].id).first.assigned_for_interview_at
+			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id).first.assigned_for_interview_at
 			get :index
 			assert_response :success
 			assert_template 'index'
@@ -140,7 +140,7 @@ class ControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			subject = FactoryGirl.create(:control_study_subject)
 			assert_equal 5, subject.phase
-			assert_nil subject.enrollments.where(:project_id => Project['ccls'].id).first.assigned_for_interview_at
+			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id).first.assigned_for_interview_at
 			get :index, :format => :csv
 			assert_response :success
 			assert_template 'index'
@@ -152,6 +152,27 @@ class ControlsControllerTest < ActionController::TestCase
 			assert !assigns(:study_subjects).empty?
 			assert_equal 1, assigns(:study_subjects).length
 			assert_equal subject, assigns(:study_subjects).first
+		end
+
+		test "should update assigned_for_interview_at with ids and #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			put :assign_selected_for_interview, :ids => [subject.id]
+			assert_not_nil subject.enrollments.where(
+				:project_id => Project[:ccls].id).first.assigned_for_interview_at
+			assert_not_nil flash[:notice]
+#			assert_redirected_to controls_path(:ids => [subject.id],:format => :csv)
+			assert_response :success
+			assert_template :index
+		end
+
+		test "should NOT update assigned_for_interview_at with #{cu} login" <<
+				" without ids" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			put :assign_selected_for_interview
+			assert_not_nil flash[:error]
+			assert_redirected_to controls_path
 		end
 
 	end
@@ -185,6 +206,13 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+		test "should NOT update selected with #{cu} login" do
+			login_as send(cu)
+			put :assign_selected_for_interview, :ids => [1,2,3]
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
 	end
 
 #	no login ...
@@ -210,5 +238,39 @@ class ControlsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
+	test "should NOT update selected without login" do
+		put :assign_selected_for_interview, :ids => [1,2,3]
+		assert_redirected_to_login
+	end
+
+
+
+protected
+
+	def subject_for_assigned_for_interview_at
+		subject = FactoryGirl.create(:control_study_subject)
+		assert_nil subject.enrollments.where(
+			:project_id => Project[:ccls].id).first.assigned_for_interview_at
+		subject
+	end
+
 end
 __END__
+#	for cases
+	def subject_for_assigned_for_interview_at
+		subject = FactoryGirl.create(:case_study_subject)
+		FactoryGirl.create(:patient, :study_subject => subject,
+			:admit_date => 60.days.ago)
+		#	Pagan only wants subjects with reference_date/admit_date > 30 days ago
+		#	updating admit_date should trigger reference_date update
+		subject.enrollments.where(
+			:project_id   => Project[:ccls].id).first.update_attributes({
+			:is_eligible  => YNDK[:yes],
+			:consented    => YNDK[:yes],
+			:consented_on => Date.current
+		})
+		assert_equal 5, subject.phase
+		assert_nil subject.enrollments.where(
+			:project_id => Project[:ccls].id).first.assigned_for_interview_at
+		subject
+	end

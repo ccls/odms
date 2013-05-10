@@ -4,7 +4,7 @@
 
 <p><%= @study_subjects.length %> control(s) found</p>
 
-<%= form_tag( assign_selected_for_interview_controls_path, :method => :get ) do %>
+<%= form_tag( assign_selected_for_interview_controls_path, :method => :put ) do %>
 <table class='nowrap'>
 <thead><tr>
 <th>&nbsp;</th>
@@ -89,6 +89,7 @@
 <p>
 <%#= link_to("Export as CSV", controls_path(:format => :csv), :class => :button) %>
 <%= submit_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv") %>
+<%= link_to("View all unassigned Controls", controls_path, :class => :button) %>
 </p>
 
 <% end %><%# form_tag %>
@@ -96,4 +97,4 @@
 
 <%= javascript_tag do %>
 <% "window.location = '#{controls_path(:ids => params[:ids], :format => :csv)}'".html_safe %>
-<% end if params[:and_then_download_csv].present? %>
+<% end if @and_then_download_csv %>

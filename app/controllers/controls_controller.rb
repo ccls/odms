@@ -41,7 +41,10 @@ class ControlsController < ApplicationController
 				.where(:study_subject_id => params[:ids] )
 				.update_all(:assigned_for_interview_at => DateTime.current)
 			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
-			redirect_to controls_path(:ids => params[:ids], :and_then_download_csv => true)
+			@study_subjects = StudySubject.find(params[:ids])
+			@and_then_download_csv = true
+			render :action => 'index'
+#			redirect_to controls_path(:ids => params[:ids], :and_then_download_csv => true)
 		else
 			flash[:error] = "No ids given."
 			redirect_to controls_path

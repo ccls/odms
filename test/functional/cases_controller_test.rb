@@ -118,7 +118,7 @@ class CasesControllerTest < ActionController::TestCase
 			subject = subject_for_assigned_for_interview_at
 			put :assign_selected_for_interview, :ids => [subject.id]
 			assert_not_nil subject.enrollments.where(
-				:project_id => Project['ccls'].id).first.assigned_for_interview_at
+				:project_id => Project[:ccls].id).first.assigned_for_interview_at
 
 
 			assert_not_nil flash[:notice]
@@ -146,7 +146,7 @@ class CasesControllerTest < ActionController::TestCase
 #			assert_response :success
 #			assert_template 'index'
 #			assert_nil subject.enrollments.where(
-#				:project_id => Project['ccls'].id).first.assigned_for_interview_at
+#				:project_id => Project[:ccls].id).first.assigned_for_interview_at
 #		end
 #
 #		test "should NOT update assigned_for_interview_at with ids and #{cu} login" <<
@@ -159,7 +159,7 @@ class CasesControllerTest < ActionController::TestCase
 #			assert_response :success
 #			assert_template 'index'
 #			assert_nil subject.enrollments.where(
-#				:project_id => Project['ccls'].id).first.assigned_for_interview_at
+#				:project_id => Project[:ccls].id).first.assigned_for_interview_at
 #		end
 
 	end
@@ -200,20 +200,21 @@ class CasesControllerTest < ActionController::TestCase
 protected
 
 	def subject_for_assigned_for_interview_at
-		subject = FactoryGirl.create(:case_study_subject)
-		FactoryGirl.create(:patient, :study_subject => subject,
-			:admit_date => 60.days.ago)
+#		subject = FactoryGirl.create(:case_study_subject)
+#		FactoryGirl.create(:patient, :study_subject => subject,
+#			:admit_date => 60.days.ago)
+		subject = FactoryGirl.create(:patient, :admit_date => 60.days.ago).study_subject
 		#	Pagan only wants subjects with reference_date/admit_date > 30 days ago
 		#	updating admit_date should trigger reference_date update
-		subject.enrollments.where(
-			:project_id   => Project['ccls'].id).first.update_attributes({
-			:is_eligible  => YNDK[:yes],
-			:consented    => YNDK[:yes],
-			:consented_on => Date.current
-		})
+		subject.enrollments.where(:project_id   => Project[:ccls].id).first
+			.update_attributes({
+				:is_eligible  => YNDK[:yes],
+				:consented    => YNDK[:yes],
+				:consented_on => Date.current
+			})
 		assert_equal 5, subject.phase
 		assert_nil subject.enrollments.where(
-			:project_id => Project['ccls'].id).first.assigned_for_interview_at
+			:project_id => Project[:ccls].id).first.assigned_for_interview_at
 		subject
 	end
 
