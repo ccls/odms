@@ -67,6 +67,13 @@ class BirthDatum < ActiveRecord::Base
 
 					else
 
+#irb(main):004:0> BirthDatum.group(:deceased).count
+#   (30.0ms)  SELECT COUNT(*) AS count_all, deceased AS deceased FROM `birth_data` GROUP BY deceased
+#=> {nil=>547, " "=>1763, "DEFINITE"=>3, "POSSIBLE"=>1}
+#irb(main):005:0> quit
+
+#	Don't if deceased
+
 						if match_confidence.present? && match_confidence.match(/definite/i)
 #	see candidate_controls_controller#update
 							case_study_subject = StudySubject.cases.with_patid(self.candidate_control.related_patid).first
@@ -97,13 +104,13 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def find_subject
-		if !master_id.blank?
+		if master_id.present?
 			StudySubject.with_icf_master_id( master_id ).first
-		elsif !childid.blank?
+		elsif childid.present?
 			StudySubject.with_childid( childid ).first
-		elsif !subjectid.blank?
+		elsif subjectid.present?
 			StudySubject.with_subjectid( subjectid ).first
-#		elsif !state_registrar_no.blank?
+#		elsif state_registrar_no.present?
 #			StudySubject.with_state_registrar_no( state_registrar_no ).first
 		else
 			nil
@@ -168,7 +175,7 @@ class BirthDatum < ActiveRecord::Base
 
 		new_attributes.each do |k,v|
 			#	NOTE always check if attribute is blank as don't want to delete data
-			study_subject.send("#{k}=",v) unless v.blank?
+			study_subject.send("#{k}=",v) if v.present?
 		end
 
 		#	gotta save the changes before the subject, otherwise ... poof
