@@ -124,8 +124,8 @@ module ApplicationHelper
 			when /samples$/ then :samples
 			when /interviews$/ then :interviews
 			when /events$/ then :events
-			when /documents$/ then :documents
-			when /notes$/ then :notes
+#			when /documents$/ then :documents
+#			when /notes$/ then :notes
 			when /related_subjects$/ then :related_subjects
 			when /birth_records$/ then :birth_record
 #	this will catch abstracts, study_subject_abstracts and 
@@ -183,12 +183,12 @@ module ApplicationHelper
 					:class => ((current == :events)?'current':nil) ) << 
 				"<span class='count'>#{study_subject.operational_events_count}</span>".html_safe)
 
-			list_items += [
-				link_to( "Documents", study_subject_documents_path(study_subject),
-					:class => ((current == :documents)?'current':nil) ),
-				link_to( "Notes", study_subject_notes_path(study_subject),
-					:class => ((current == :notes)?'current':nil) ),
-			] if( logged_in? and current_user.may_administrate? )
+#			list_items += [
+#				link_to( "Documents", study_subject_documents_path(study_subject),
+#					:class => ((current == :documents)?'current':nil) ),
+#				link_to( "Notes", study_subject_notes_path(study_subject),
+#					:class => ((current == :notes)?'current':nil) ),
+#			] if( logged_in? and current_user.may_administrate? )
 
 			list_items << link_to( "Related Subjects", 
 					study_subject_related_subjects_path(study_subject),

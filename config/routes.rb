@@ -237,8 +237,8 @@ Odms::Application.routes.draw do
 			resources :events
 			resources :contacts,   :only => :index
 			resources :interviews, :only => :index
-			resources :documents,  :only => :index
-			resources :notes,      :only => :index
+#			resources :documents,  :only => :index
+#			resources :notes,      :only => :index
 			resources :related_subjects, :only => [:index]
 
 			#
