@@ -6,11 +6,11 @@ class Organization < ActiveRecord::Base
 	acts_like_a_hash(:value => :name)
 
 	belongs_to :person
-	has_many :aliquots, :foreign_key => 'owner_id'
-	has_many :incoming_transfers, :class_name => 'Transfer', 
-		:foreign_key => 'to_organization_id'
-	has_many :outgoing_transfers, :class_name => 'Transfer', 
-		:foreign_key => 'from_organization_id'
+#	has_many :aliquots, :foreign_key => 'owner_id'
+#	has_many :incoming_transfers, :class_name => 'Transfer', 
+#		:foreign_key => 'to_organization_id'
+#	has_many :outgoing_transfers, :class_name => 'Transfer', 
+#		:foreign_key => 'from_organization_id'
 #	has_many :hospitals
 	has_one  :hospital
 	has_one  :sample_location
@@ -18,7 +18,9 @@ class Organization < ActiveRecord::Base
 #	has_many :sample_collectors
 
 	scope :without_hospital, joins('LEFT JOIN hospitals ON organizations.id = hospitals.organization_id').where('hospitals.organization_id' => nil)
-
+#
+#	may be more appropriate to merge scopes somehow
+#
 	scope :without_sample_location, joins('LEFT JOIN sample_locations ON organizations.id = sample_locations.organization_id').where('sample_locations.organization_id' => nil)
 
 	#	Returns name

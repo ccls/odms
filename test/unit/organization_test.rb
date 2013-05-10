@@ -16,12 +16,12 @@ class OrganizationTest < ActiveSupport::TestCase
 	assert_should_have_many(:aliquots, 
 		:foreign_key => :owner_id)
 
-	with_options :class_name => 'Transfer' do |o|
-		o.assert_should_have_many(:incoming_transfers, 
-			:foreign_key => :to_organization_id)
-		o.assert_should_have_many(:outgoing_transfers, 
-			:foreign_key => :from_organization_id)
-	end
+#	with_options :class_name => 'Transfer' do |o|
+#		o.assert_should_have_many(:incoming_transfers, 
+#			:foreign_key => :to_organization_id)
+#		o.assert_should_have_many(:outgoing_transfers, 
+#			:foreign_key => :from_organization_id)
+#	end
 
 	test "organization factory should create organization" do
 		assert_difference('Organization.count',1) {
@@ -31,17 +31,17 @@ class OrganizationTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "new incoming_transfer should have matching organization id" do
-		organization = FactoryGirl.create(:organization)
-		transfer = organization.incoming_transfers.build
-		assert_equal organization.id, transfer.to_organization_id
-	end
+#	test "new incoming_transfer should have matching organization id" do
+#		organization = FactoryGirl.create(:organization)
+#		transfer = organization.incoming_transfers.build
+#		assert_equal organization.id, transfer.to_organization_id
+#	end
 
-	test "new outgoing_transfer should have matching organization id" do
-		organization = FactoryGirl.create(:organization)
-		transfer = organization.outgoing_transfers.build
-		assert_equal organization.id, transfer.from_organization_id
-	end
+#	test "new outgoing_transfer should have matching organization id" do
+#		organization = FactoryGirl.create(:organization)
+#		transfer = organization.outgoing_transfers.build
+#		assert_equal organization.id, transfer.from_organization_id
+#	end
 
 #	TODO haven't really implemented organization samples yet
 #	test "should have many samples" do

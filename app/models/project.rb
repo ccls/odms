@@ -10,7 +10,7 @@ class Project < ActiveRecord::Base
 	has_many :instrument_types
 	has_many :enrollments
 	has_many :samples
-	has_many :gift_cards
+#	has_many :gift_cards
 	has_many :study_subjects, :through => :enrollments
 	has_many :instruments
 
