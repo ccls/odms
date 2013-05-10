@@ -1,7 +1,20 @@
 namespace :app do
 namespace :study_subjects do
 
+	task :merge_missing_other_diagnosis_with_missing_diagnosis => :environment do
+		Patient.where(:diagnosis_id => Diagnosis[:other])
+			.where(:other_diagnosis => '777: no legacy diagnosis data available in T2K').each do |p|
+			#	could have used an update_all, but that wouldn't
+			#	trigger the reindexing of the study subjects
+			p.other_diagnosis = nil
+			p.diagnosis = Diagnosis[:legacy]
+			p.save!
+		end
+		Sunspot.commit
+	end
+
 	task :synchronize_counter_caches => :environment do
+		#	find_each is a apparently a batch find method
 		StudySubject.find_each do |study_subject|
 			puts "Updating #{study_subject}"
 			StudySubject.reset_counters( study_subject.id,
@@ -11,6 +24,7 @@ namespace :study_subjects do
 	end
 
 	task :add_cdcids_from_anand => :environment do
+		raise "This task has been disabled."
 		CSV.open( 'anand/2010-12-06_MaternalBiospecimenIDLink.csv',
 				'rb',{ :headers => true }).each do |line|
 			puts line
