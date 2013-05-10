@@ -3,7 +3,7 @@ require 'test_helper'
 class SampleTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-	assert_should_have_one( :sample_kit )
+#	assert_should_have_one( :sample_kit )
 #	assert_should_have_many( :aliquots, :sample_transfers )
 #	assert_should_belong_to( :unit, :sample_format, :sample_temperature )
 	assert_should_have_many( :sample_transfers )
@@ -20,7 +20,8 @@ class SampleTest < ActiveSupport::TestCase
 		received_by_ccls_at received_by_lab_at sample_collector_id 
 		sample_format sample_format_id sample_temperature 
 		sample_temperature_id sent_to_lab_at sent_to_subject_at
-		shipped_to_ccls_at state unit unit_id notes )
+		shipped_to_ccls_at state notes )
+#		shipped_to_ccls_at state unit unit_id notes )
 	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )

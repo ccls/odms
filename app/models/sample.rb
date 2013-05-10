@@ -16,8 +16,8 @@ class Sample < ActiveRecord::Base
 	attr_protected :study_subject_id, :study_subject
 
 #	TODO I don't believe that a sample_kit has any meaning anymore. Remove?
-	has_one :sample_kit
-	accepts_nested_attributes_for :sample_kit
+#	has_one :sample_kit
+#	accepts_nested_attributes_for :sample_kit
 
 	validations_from_yaml_file
 
