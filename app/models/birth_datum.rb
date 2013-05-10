@@ -74,12 +74,14 @@ class BirthDatum < ActiveRecord::Base
 
 #	Don't if deceased
 
-						if match_confidence.present? && match_confidence.match(/definite/i)
-#	see candidate_controls_controller#update
-							case_study_subject = StudySubject.cases.with_patid(self.candidate_control.related_patid).first
-#	why do I need to pass this info? can't it find it?
+						if match_confidence.present? && match_confidence.match(/definite/i) && 
+								!deceased.match(/definite/i)
+							#	see candidate_controls_controller#update
+							case_study_subject = StudySubject.cases.with_patid(
+								self.candidate_control.related_patid).first
+							#	why do I need to pass this info? can't it find it?
 							self.candidate_control.create_study_subjects( case_study_subject )
-#	hoping to get the study subject that was assigned
+							#	hoping to get the study subject that was assigned
 							self.reload
 						end
 
@@ -101,6 +103,9 @@ class BirthDatum < ActiveRecord::Base
 				end
 			end
 		end
+	end
+
+	def create_control_study_subject_and_mother
 	end
 
 	def find_subject
