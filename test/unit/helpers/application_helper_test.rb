@@ -182,7 +182,8 @@ class ApplicationHelperTest < ActionView::TestCase
 				study_subject = FactoryGirl.create(:case_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, '#sidemenu' do
-					assert_select 'a', :count => 18
+#					assert_select 'a', :count => 18
+					assert_select 'a', :count => 16
 					assert_select 'a.current', :count => 1
 					assert_select 'a.current[href=?]', send(v,study_subject)
 				end
@@ -253,7 +254,6 @@ class ApplicationHelperTest < ActionView::TestCase
 				study_subject = FactoryGirl.create(:case_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, '#sidemenu' do
-#					assert_select 'a', :count => 14
 					assert_select 'a', :count => 12
 #					if %w( birth_records interviews documents notes ).include?(k)
 					if %w( birth_records interviews ).include?(k)
@@ -271,7 +271,6 @@ class ApplicationHelperTest < ActionView::TestCase
 				study_subject = FactoryGirl.create(:control_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, '#sidemenu' do
-#					assert_select 'a', :count => 11
 					assert_select 'a', :count => 9
 #					if %w( birth_records interviews documents notes rafs
 					if %w( birth_records interviews rafs
@@ -290,7 +289,6 @@ class ApplicationHelperTest < ActionView::TestCase
 				study_subject = FactoryGirl.create(:mother_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, '#sidemenu' do
-#					assert_select 'a', :count => 11
 					assert_select 'a', :count => 9
 #					if %w( birth_records interviews documents notes rafs
 					if %w( birth_records interviews rafs
@@ -309,7 +307,6 @@ class ApplicationHelperTest < ActionView::TestCase
 				study_subject = FactoryGirl.create(:study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
 				assert_select response, '#sidemenu' do
-#					assert_select 'a', :count => 11
 					assert_select 'a', :count => 9
 #					if %w( birth_records interviews documents notes rafs
 					if %w( birth_records interviews rafs

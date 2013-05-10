@@ -84,8 +84,9 @@ module ApplicationHelper
 			else nil
 		end
 		content_for :side_menu do
-			s = "<div id='sidemenu'>\n"
-			links = [
+#			s = "<div id='sidemenu'>\n"
+			s = "<ul id='sidemenu'>\n"
+			list_items = [
 				link_to( "New Requests", new_bc_request_path,
 					:class => ((current == :new_bc_request)?'current':nil) ),
 				"<hr/>",
@@ -102,8 +103,10 @@ module ApplicationHelper
 
 			]
 #			links << "<span>Request History</span>"
-			s << links.join("\n")
-			s << "\n</div><!-- submenu -->\n"
+#			s << links.join("\n")
+			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
+			s << "\n</ul><!-- sidemenu -->\n"
+#			s << "\n</div><!-- sidemenu -->\n"
 			s.html_safe
 #	NOTE test this as I suspect that it needs an "html_safe" added
 		end
