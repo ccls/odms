@@ -50,7 +50,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'bc_requests', :action => 'new' }
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, 'div#sidemenu' do
+		assert_select response, '#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
@@ -63,7 +63,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'bc_requests', :action => 'index' }
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, 'div#sidemenu' do
+		assert_select response, '#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
@@ -76,7 +76,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'active' }
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, 'div#sidemenu' do
+		assert_select response, '#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
@@ -89,7 +89,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'complete' }
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, 'div#sidemenu' do
+		assert_select response, '#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
@@ -102,7 +102,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'waitlist' }
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, 'div#sidemenu' do
+		assert_select response, '#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
@@ -115,7 +115,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'pending' }
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, 'div#sidemenu' do
+		assert_select response, '#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
@@ -132,7 +132,7 @@ class ApplicationHelperTest < ActionView::TestCase
 #
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, 'div#sidemenu' do
+		assert_select response, '#sidemenu' do
 			#	New, Pending, Validation, All, Active, Waitlist, Complete
 			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
@@ -162,8 +162,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		'samples'                 => 'study_subject_samples_path',
 		'interviews'              => 'study_subject_interviews_path',
 		'events'                  => 'study_subject_events_path',
-		'documents'               => 'study_subject_documents_path',
-		'notes'                   => 'study_subject_notes_path',
+#		'documents'               => 'study_subject_documents_path',
+#		'notes'                   => 'study_subject_notes_path',
 		'related_subjects'        => 'study_subject_related_subjects_path',
 		'abstracts'               => 'study_subject_abstracts_path',
 		'study_subject_abstracts' => 'study_subject_abstracts_path',
@@ -181,7 +181,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:case_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
-				assert_select response, 'div#sidemenu' do
+				assert_select response, '#sidemenu' do
 					assert_select 'a', :count => 18
 					assert_select 'a.current', :count => 1
 					assert_select 'a.current[href=?]', send(v,study_subject)
@@ -252,9 +252,11 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:case_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
-				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 14
-					if %w( birth_records interviews documents notes ).include?(k)
+				assert_select response, '#sidemenu' do
+#					assert_select 'a', :count => 14
+					assert_select 'a', :count => 12
+#					if %w( birth_records interviews documents notes ).include?(k)
+					if %w( birth_records interviews ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
 					else
@@ -268,9 +270,11 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:control_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
-				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 11
-					if %w( birth_records interviews documents notes rafs
+				assert_select response, '#sidemenu' do
+#					assert_select 'a', :count => 11
+					assert_select 'a', :count => 9
+#					if %w( birth_records interviews documents notes rafs
+					if %w( birth_records interviews rafs
 						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
@@ -285,9 +289,11 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:mother_study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
-				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 11
-					if %w( birth_records interviews documents notes rafs
+				assert_select response, '#sidemenu' do
+#					assert_select 'a', :count => 11
+					assert_select 'a', :count => 9
+#					if %w( birth_records interviews documents notes rafs
+					if %w( birth_records interviews rafs
 						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
@@ -302,9 +308,11 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:study_subject)
 				response = HTML::Document.new( subject_side_menu(study_subject) ).root
-				assert_select response, 'div#sidemenu' do
-					assert_select 'a', :count => 11
-					if %w( birth_records interviews documents notes rafs
+				assert_select response, '#sidemenu' do
+#					assert_select 'a', :count => 11
+					assert_select 'a', :count => 9
+#					if %w( birth_records interviews documents notes rafs
+					if %w( birth_records interviews rafs
 						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
@@ -321,7 +329,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'bogus' }
 			study_subject = FactoryGirl.create(:case_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
+			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 14
 				assert_select 'a.current', :count => 0
 			end
@@ -332,7 +340,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'bogus' }
 			study_subject = FactoryGirl.create(:control_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
+			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
 			end
@@ -343,7 +351,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'bogus' }
 			study_subject = FactoryGirl.create(:mother_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
+			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
 			end
@@ -354,7 +362,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'bogus' }
 			study_subject = FactoryGirl.create(:study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
+			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
 			end
@@ -378,9 +386,11 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => k }
 			study_subject = FactoryGirl.create(:case_study_subject)
 			response = HTML::Document.new( subject_side_menu(study_subject) ).root
-			assert_select response, 'div#sidemenu' do
-				assert_select 'a', :count => 14
-				if %w( birth_records interviews documents notes ).include?(k)
+			assert_select response, '#sidemenu' do
+#				assert_select 'a', :count => 14
+				assert_select 'a', :count => 12
+#				if %w( birth_records interviews documents notes ).include?(k)
+				if %w( birth_records interviews ).include?(k)
 					#	not shown to non-admins
 					assert_select 'a.current', :count => 0
 				else
