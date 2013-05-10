@@ -763,10 +763,7 @@ pending
 			:project_id                => Project['ccls'].id).where(
 			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
 			)
-#		assert_equal 0, oes.length
-		assert_equal 1, oes.length
-puts oes.first.notes
-pending
+		assert_equal 0, oes.length
 	end
 
 	test "case birth datum should create odms exception if dob differs" do
@@ -817,15 +814,15 @@ pending
 	test "case birth datum should NOT create odms exception if sex case differs" do
 		study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 			{:sex => 'M'}, { :sex => ' m ' })
-		oes = study_subject.operational_events.where(
-			:project_id                => Project['ccls'].id).where(
-			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
-			)
-#		oes = birth_datum.odms_exceptions
-#		assert_equal 0, oes.length
-		assert_equal 1, oes.length
-puts oes.first.notes
-pending
+#		oes = study_subject.operational_events.where(
+#			:project_id                => Project['ccls'].id).where(
+#			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
+#			)
+		oes = birth_datum.odms_exceptions
+		assert_equal 0, oes.length
+#		assert_equal 1, oes.length
+#puts oes.first.notes
+#pending
 	end
 
 	%w( first_name last_name middle_name

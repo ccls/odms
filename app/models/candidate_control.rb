@@ -19,11 +19,8 @@ class CandidateControl < ActiveRecord::Base
 	delegate :sex, :full_name, :first_name, :middle_name, :last_name,
 		:mother_full_name, :mother_first_name, :mother_middle_name, :mother_maiden_name, 
 		:father_first_name, :father_middle_name, :father_last_name, 
-#		:mother_hispanicity, :father_hispanicity,
 		:dob, :birth_type, 
-#		:birth_county,
 		:mother_yrs_educ, :father_yrs_educ,
-#		:mother_race_id, :father_race_id,
 		:state_registrar_no, :local_registrar_no,
 			:to => :birth_datum, :allow_nil => true
 
@@ -32,11 +29,15 @@ class CandidateControl < ActiveRecord::Base
 	end
 
 	def create_study_subjects(case_subject,grouping = '6')
+
+#	can't I find my own case_subject?
+#	 case_study_subject = StudySubject.cases.with_patid(related_patid).first
+
+
 		next_orderno = case_subject.next_control_orderno(grouping)
 
 		options_for_odms_exceptions = []
 
-#		begin
 		CandidateControl.transaction do
 
 			#	Use a block so can assign all attributes without concern for attr_protected
@@ -46,14 +47,9 @@ class CandidateControl < ActiveRecord::Base
 				s.sex                   = sex.try(:upcase)
 				s.mom_is_biomom         = mom_is_biomom
 				s.dad_is_biodad         = dad_is_biodad
-#				s.mother_hispanicity    = mother_hispanicity
-#				s.father_hispanicity    = father_hispanicity
 				s.birth_type            = birth_type
 				s.mother_yrs_educ       = mother_yrs_educ
 				s.father_yrs_educ       = father_yrs_educ
-#				s.birth_county          = birth_county
-#				s.hispanicity           = ( 
-#					( [mother_hispanicity,father_hispanicity].include?(1) ) ? 1 : nil )
 				s.first_name         = first_name.namerize
 				s.middle_name        = middle_name.namerize
 				s.last_name          = last_name.namerize
@@ -66,8 +62,6 @@ class CandidateControl < ActiveRecord::Base
 				s.mother_middle_name = mother_middle_name.namerize
 #				s.mother_last_name   = mother_last_name
 				s.mother_maiden_name = mother_maiden_name.namerize
-#				s.mother_race_id     = mother_race_id
-#				s.father_race_id     = father_race_id
 
 				s.case_control_type  = grouping
 				s.state_registrar_no = state_registrar_no
@@ -75,18 +69,9 @@ class CandidateControl < ActiveRecord::Base
 				s.orderno            = next_orderno
 				s.matchingid         = case_subject.subjectid
 				s.patid              = case_subject.patid
-#
-#	I suppose that I could also set the reference date, but
-#	the current callbacks DO take care of that. (tested)
-#				s.reference_date     = case_subject.reference_date
-#				s.reference_date     = case_subject.patient.admit_date
-#
 				s.is_matched         = true
 			end
 
-
-#			child.save!
-#				OR
 			child.save
 			if child.new_record?
 				errors.add(:base, 

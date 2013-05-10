@@ -64,6 +64,14 @@ class BirthDatum < ActiveRecord::Base
 					if self.candidate_control.new_record?
 						odms_exceptions.create(:name => 'candidate control creation',
 							:description => "Error creating candidate_control for subject")
+
+					else
+
+#	see candidate_controls_controller#update
+#			case_study_subject = StudySubject.cases.with_patid(self.candidate_control.related_patid).readonly(false).first
+#	why do I need to pass this info? can't it find it?
+#						self.candidate_control.create_study_subjects( case_study_subject )
+
 					end
 				elsif is_case?
 					if !match_confidence.blank? && match_confidence.match(/definite/i)
