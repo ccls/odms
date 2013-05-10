@@ -24,8 +24,9 @@ class CandidateControl < ActiveRecord::Base
 		:state_registrar_no, :local_registrar_no,
 			:to => :birth_datum, :allow_nil => true
 
-	def self.related_patid(patid)
-		where(:related_patid => patid)
+	#	class method (basically a scope with an argument)
+	def self.with_related_patid(patid)
+		where(:related_patid => sprintf("%04d",patid.to_i))
 	end
 
 	def create_study_subjects(case_subject,grouping = '6')
@@ -42,14 +43,14 @@ class CandidateControl < ActiveRecord::Base
 
 			#	Use a block so can assign all attributes without concern for attr_protected
 			child = StudySubject.new do |s|
-				s.subject_type          = 'Control'
-				s.vital_status          = 'Living'
-				s.sex                   = sex.try(:upcase)
-				s.mom_is_biomom         = mom_is_biomom
-				s.dad_is_biodad         = dad_is_biodad
-				s.birth_type            = birth_type
-				s.mother_yrs_educ       = mother_yrs_educ
-				s.father_yrs_educ       = father_yrs_educ
+				s.subject_type       = 'Control'
+				s.vital_status       = 'Living'
+				s.sex                = sex.try(:upcase)
+				s.mom_is_biomom      = mom_is_biomom
+				s.dad_is_biodad      = dad_is_biodad
+				s.birth_type         = birth_type
+				s.mother_yrs_educ    = mother_yrs_educ
+				s.father_yrs_educ    = father_yrs_educ
 				s.first_name         = first_name.namerize
 				s.middle_name        = middle_name.namerize
 				s.last_name          = last_name.namerize
@@ -122,6 +123,9 @@ class CandidateControl < ActiveRecord::Base
 		options_for_odms_exceptions.each do |options_for_odms_exception|
 			oe = odms_exceptions.create(options_for_odms_exception)
 		end
+#
+#	NOTE will just crash if something happened when run in rake task
+#
 		raise ActiveRecord::RecordNotSaved unless options_for_odms_exceptions.empty?
 		self
 	end

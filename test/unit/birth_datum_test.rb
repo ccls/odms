@@ -707,11 +707,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			:operational_event_type_id => OperationalEventType['birthDataReceived'].id 
 			)
 		assert_equal 1, oes.length
-#		assert_match /Error updating case study subject. Save failed!/,
-#			oes.first.description
-pending
 	end
-
 
 	#	NOTE dob and sex aren't just strings so require special handling
 	test "case birth datum should create operational event if dob differs" do
@@ -722,10 +718,8 @@ pending
 			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
 			)
 		assert_equal 1, oes.length
-#		assert_match /Field: dob,/, oes.first.description
 		assert_match /Birth Record data changes from/, oes.first.description
-puts oes.first.notes
-pending
+		assert_match /Changes:.*dob.*/, oes.first.notes
 	end
 
 	test "case birth datum should create operational event if sex differs" do
@@ -736,10 +730,8 @@ pending
 			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
 			)
 		assert_equal 1, oes.length
-#		assert_match /Field: sex,/, oes.first.description
 		assert_match /Birth Record data changes from/, oes.first.description
-puts oes.first.notes
-pending
+		assert_match /Changes:.*sex.*/, oes.first.notes
 	end
 
 	test "case birth datum should create operational event if sex and case differs" do
@@ -750,10 +742,8 @@ pending
 			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
 			)
 		assert_equal 1, oes.length
-#		assert_match /Field: sex,/, oes.first.description
 		assert_match /Birth Record data changes from/, oes.first.description
-puts oes.first.notes
-pending
+		assert_match /Changes:.*sex.*/, oes.first.notes
 	end
 
 	test "case birth datum should NOT create operational event if sex case differs" do
@@ -766,63 +756,10 @@ pending
 		assert_equal 0, oes.length
 	end
 
-	test "case birth datum should create odms exception if dob differs" do
-		study_subject, birth_datum = create_case_study_subject_and_birth_datum(
-			{:dob => ( Date.current - 10.days ) }, {:dob => ( Date.current - 5.days ) })
-		oes = study_subject.operational_events.where(
-			:project_id                => Project['ccls'].id).where(
-			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
-			)
-#		oes = birth_datum.odms_exceptions
-#		assert_equal 1, oes.length
-#		assert_match /Error updating case study subject/, oes.first.description
-		assert_equal 1, oes.length
-puts oes.first.notes
-pending
-	end
-
-	test "case birth datum should create odms exception if sex differs" do
-		study_subject, birth_datum = create_case_study_subject_and_birth_datum(
-			{:sex => 'M'}, { :sex => 'F' })
-		oes = study_subject.operational_events.where(
-			:project_id                => Project['ccls'].id).where(
-			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
-			)
-#		oes = birth_datum.odms_exceptions
-#		assert_equal 1, oes.length
-#		assert_match /Error updating case study subject/, oes.first.description
-		assert_equal 1, oes.length
-puts oes.first.notes
-pending
-	end
-
-	test "case birth datum should create odms exception if sex and case differs" do
-		study_subject, birth_datum = create_case_study_subject_and_birth_datum(
-			{:sex => 'M'}, { :sex => ' f ' })
-		oes = study_subject.operational_events.where(
-			:project_id                => Project['ccls'].id).where(
-			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
-			)
-#		oes = birth_datum.odms_exceptions
-#		assert_equal 1, oes.length
-#		assert_match /Error updating case study subject/, oes.first.description
-		assert_equal 1, oes.length
-puts oes.first.notes
-pending
-	end
-
 	test "case birth datum should NOT create odms exception if sex case differs" do
 		study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 			{:sex => 'M'}, { :sex => ' m ' })
-#		oes = study_subject.operational_events.where(
-#			:project_id                => Project['ccls'].id).where(
-#			:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
-#			)
-		oes = birth_datum.odms_exceptions
-		assert_equal 0, oes.length
-#		assert_equal 1, oes.length
-#puts oes.first.notes
-#pending
+		assert_equal 0, birth_datum.odms_exceptions.length
 	end
 
 	%w( first_name last_name middle_name
@@ -838,27 +775,9 @@ pending
 				:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
 				)
 			assert_equal 1, oes.length
-#			assert_match /Field: #{field}, ODMS Value: studysubjectvalue, Birth Record Value: Birthdatumvalue/,
-#				oes.first.description
-		assert_match /Birth Record data changes from/, oes.first.description
-puts oes.first.notes
-pending
-
-#puts oes.first.description
-#	Birth record data conflicted with existing ODMS data.  Field: mother_middle_name, ODMS Value: studysubjectvalue, Birth Record Value: birthdatumvalue.  ODMS record modified with birth record data.
+			assert_match /Birth Record data changes from/, oes.first.description
+			assert_match /Changes:.*#{field}.*/, oes.first.notes
 		end
-
-#
-#	20120508 - no longer creating odms exceptions
-#
-#		test "case birth datum should create odms exception if #{field} differs" do
-#			study_subject, birth_datum = create_case_study_subject_and_birth_datum(
-#				{field => 'studysubjectvalue'}, {field => 'birthdatumvalue'})
-#			oes = birth_datum.odms_exceptions
-#			assert_equal 1, oes.length
-#			assert_match /Error updating case study subject/,
-#				oes.first.description
-#		end
 
 		test "case birth datum should NOT create operational event if #{field} case differs" do
 			study_subject, birth_datum = create_case_study_subject_and_birth_datum(
@@ -873,8 +792,7 @@ pending
 		test "case birth datum should NOT create odms exception if #{field} case differs" do
 			study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 				{field => 'Study Subject Value'}, {field => ' STUDY SUBJECT VALUE '})
-			oes = birth_datum.odms_exceptions
-			assert_equal 0, oes.length
+			assert_equal 0, birth_datum.odms_exceptions.length
 		end
 
 	end
@@ -902,21 +820,20 @@ pending
 		test "case birth datum should create operational event if #{field} blank" do
 			study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 				{field => ''}, {field => 'iamnotblank'})
-			oes = study_subject.operational_events.where(
-				:project_id                => Project['ccls'].id).where(
-				:operational_event_type_id => OperationalEventType['birthDataReceived'].id 
-				)
-			assert_equal 1, oes.length
-			assert_match /Birth Data for subject received from USC/,
-				oes.first.description
+#			oes = study_subject.operational_events.where(
+#				:project_id                => Project['ccls'].id).where(
+#				:operational_event_type_id => OperationalEventType['birthDataReceived'].id 
+#				)
+#			assert_equal 1, oes.length
+#			assert_match /Birth Data for subject received from USC/,
+#				oes.first.description
 			oes = study_subject.operational_events.where(
 				:project_id                => Project['ccls'].id).where(
 				:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
 				)
 			assert_equal 1, oes.length
-#			assert_match /Birth record data conflicted with existing ODMS data.  Field: #{field}, ODMS Value was blank, Birth Record Value: Iamnotblank.  ODMS record modified with birth record data./, 
 			assert_match /Birth Record data changes from /, oes.first.description
-pending
+			assert_match /Changes:.*#{field}.*/, oes.first.notes
 		end
 
 		test "case birth datum should not create odms exception if #{field} blank" do

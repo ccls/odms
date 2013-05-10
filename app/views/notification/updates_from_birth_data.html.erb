@@ -27,7 +27,7 @@ No Study Subject Set
 <%= link_to "Candidate Control", candidate_control_url(birth_datum.candidate_control) %>
 <% else %>
 No Candidate Control Set
-<% end %></td>
+<% end if birth_datum.is_control? %></td>
 <td><%= birth_datum.odms_exceptions.count %></td>
 <td><%= birth_datum.match_confidence %></td>
 </tr>

@@ -79,7 +79,8 @@ class ControlsController < ApplicationController
 	end
 
 	def create
-		candidate = CandidateControl.unassigned.unrejected.related_patid(
+#		candidate = CandidateControl.unassigned.unrejected.related_patid(
+		candidate = CandidateControl.unassigned.unrejected.with_related_patid(
 			@study_subject.patid ).limit(1).first	#	scopes always return arrays
 		if candidate
 			redirect_to edit_candidate_control_path(candidate)

@@ -67,14 +67,19 @@ class BirthDatum < ActiveRecord::Base
 
 					else
 
+						if match_confidence.present? && match_confidence.match(/definite/i)
 #	see candidate_controls_controller#update
-#			case_study_subject = StudySubject.cases.with_patid(self.candidate_control.related_patid).readonly(false).first
+							case_study_subject = StudySubject.cases.with_patid(self.candidate_control.related_patid).first
 #	why do I need to pass this info? can't it find it?
-#						self.candidate_control.create_study_subjects( case_study_subject )
+							self.candidate_control.create_study_subjects( case_study_subject )
+#	hoping to get the study subject that was assigned
+							self.reload
+						end
+
 
 					end
 				elsif is_case?
-					if !match_confidence.blank? && match_confidence.match(/definite/i)
+					if match_confidence.present? && match_confidence.match(/definite/i)
 						#	assign study_subject_id to case's id
 						self.update_study_subject_attributes
 						self.update_bc_request
