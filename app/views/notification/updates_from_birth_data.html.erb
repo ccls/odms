@@ -9,7 +9,7 @@
 <th>case/control</th>
 <th>icf master id</th>
 <th>candidate control</th>
-<th>exceptions</th>
+<th>notes?</th>
 <th>match_confidence</th>
 </tr></thead>
 
@@ -28,7 +28,10 @@ No Study Subject Set
 <% else %>
 No Candidate Control Set
 <% end if birth_datum.is_control? %></td>
-<td><%= birth_datum.odms_exceptions.count %></td>
+<td>
+<%#= birth_datum.odms_exceptions.count %>
+<%= birth_datum.ccls_import_notes.to_s[0..9] %>
+</td>
 <td><%= birth_datum.match_confidence %></td>
 </tr>
 <% end -%><%# @birth_data.each do |birth_datum| -%>

@@ -13,13 +13,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "birth_datum factory should create odms exception" do
 		birth_datum = FactoryGirl.create(:birth_datum)
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
-		assert_match /master_id, childid and subjectid blank/,
-			birth_datum.odms_exceptions.first.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:master_id, childid and subjectid blank/, 
+			birth_datum.ccls_import_notes
 	end
 
 	test "birth_datum factory should NOT create candidate control" do
@@ -65,13 +61,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case_birth_datum factory should create odms exception" do
 		birth_datum = FactoryGirl.create(:case_birth_datum)
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
-		assert_match /master_id, childid and subjectid blank/,
-			birth_datum.odms_exceptions.first.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:master_id, childid and subjectid blank/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "case_birth_datum factory should not create candidate control" do
@@ -107,13 +99,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control_birth_datum factory should create odms exception" do
 		birth_datum = FactoryGirl.create(:control_birth_datum)
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
-		assert_match /master_id, childid and subjectid blank/,
-			birth_datum.odms_exceptions.first.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:master_id, childid and subjectid blank/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control_birth_datum factory should not create candidate control" do
@@ -149,13 +137,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "bogus_birth_datum factory should create odms exception" do
 		birth_datum = FactoryGirl.create(:bogus_birth_datum)
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
-		assert_match /master_id, childid and subjectid blank/,
-			birth_datum.odms_exceptions.first.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:master_id, childid and subjectid blank/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "bogus_birth_datum factory should not create candidate control" do
@@ -195,12 +179,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "bogus_birth_datum factory should create odms exception if has matching case" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:bogus_birth_datum,:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Unknown case_control_flag :bogus:/,
-			birth_datum.odms_exceptions.first.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:Unknown case_control_flag :bogus:/,
+			birth_datum.ccls_import_notes
 	end
 
 
@@ -282,13 +263,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case birth datum factory should create odms exception if master_id is blank" do
 		birth_datum = FactoryGirl.create(:case_birth_datum)
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
-		assert_match /master_id, childid and subjectid blank/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:master_id, childid and subjectid blank/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "case birth datum should create birth datum if master_id is not blank" <<
@@ -301,12 +278,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should create odms exception if master_id is not blank" <<
 			" but not used by a subject" do
 		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => 'IAMUNUSED')
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /No subject found with master_id :\w+:/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:No subject found with master_id :\w+:/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "case birth datum should create birth datum if master_id is not blank and" <<
@@ -354,12 +328,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:case_birth_datum,
 			:match_confidence => 'somethingelse',
 			:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Match confidence not 'definite':somethingelse:/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:Match confidence not 'definite':somethingelse:/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "case birth datum should not create operational event if master_id is not blank" <<
@@ -384,12 +355,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a control" do
 		study_subject = create_control_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Subject found with master_id :\w+: is not a case subject/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:Subject found with master_id :\w+: is not a case subject/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "case birth datum should create birth datum if master_id is not blank" <<
@@ -405,12 +373,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_mother_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:case_birth_datum,
 			:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Subject found with master_id :\w+: is not a case subject/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:Subject found with master_id :\w+: is not a case subject/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control birth datum should create birth datum if master_id is blank" do
@@ -421,13 +386,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should create odms exception if master_id is blank" do
 		birth_datum = FactoryGirl.create(:control_birth_datum)
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-#		assert_match /master_id, childid, subjectid and state_registrar_no blank/,
-		assert_match /master_id, childid and subjectid blank/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:master_id, childid and subjectid blank/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control birth datum should create birth datum if master_id is not blank" <<
@@ -440,12 +401,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should create odms exception if master_id is not blank" <<
 			" but not used by a subject" do
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => 'IAMUNUSED')
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /No subject found with master_id :\w+:/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:No subject found with master_id :\w+:/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control birth datum should create birth datum if master_id is not blank" <<
@@ -489,12 +447,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 		CandidateControl.any_instance.stubs(:create_or_update).returns(false)
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'candidate control creation',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Error creating candidate_control for subject/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /candidate control creation:Error creating candidate_control for subject/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control birth datum should not create candidate control if" <<
@@ -519,12 +474,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a control" do
 		study_subject = create_control_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Subject found with master_id :\w+: is not a case subject/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:Subject found with master_id :\w+: is not a case subject/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control birth datum should create birth datum if master_id is not blank" <<
@@ -539,12 +491,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a mother" do
 		study_subject = create_mother_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Subject found with master_id :\w+: is not a case subject/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:Subject found with master_id :\w+: is not a case subject/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control birth datum should create birth datum if sex is blank" do
@@ -561,12 +510,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:sex => nil,
 			:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Candidate control was pre-rejected because Birth datum sex is blank/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:Candidate control was pre-rejected because Birth datum sex is blank/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control birth datum should pre-reject candidate if sex is blank" do
@@ -593,12 +539,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:dob => nil,
 			:master_id => study_subject.icf_master_id )
-		assert_equal 1,
-			birth_datum.odms_exceptions.length
-		assert_equal 'birth data append',
-			birth_datum.odms_exceptions.first.name
-		assert_match /Candidate control was pre-rejected because Birth datum dob is blank/,
-			birth_datum.odms_exceptions.last.to_s
+		assert_present birth_datum.ccls_import_notes
+		assert_match /birth data append:Candidate control was pre-rejected because Birth datum dob is blank/,
+			birth_datum.ccls_import_notes
 	end
 
 	test "control birth datum should pre-reject candidate if dob is blank" do
@@ -759,7 +702,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should NOT create odms exception if sex case differs" do
 		study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 			{:sex => 'M'}, { :sex => ' m ' })
-		assert_equal 0, birth_datum.odms_exceptions.length
+		assert_blank birth_datum.ccls_import_notes
 	end
 
 	%w( first_name last_name middle_name
@@ -792,7 +735,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		test "case birth datum should NOT create odms exception if #{field} case differs" do
 			study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 				{field => 'Study Subject Value'}, {field => ' STUDY SUBJECT VALUE '})
-			assert_equal 0, birth_datum.odms_exceptions.length
+			assert_blank birth_datum.ccls_import_notes
 		end
 
 	end
@@ -839,8 +782,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		test "case birth datum should not create odms exception if #{field} blank" do
 			study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 				{field => ''}, {field => 'iamnotblank'})
-			oes = birth_datum.odms_exceptions
-			assert_equal 0, oes.length
+			assert_blank birth_datum.ccls_import_notes
 		end
 
 	end
@@ -850,13 +792,9 @@ class BirthDatumTest < ActiveSupport::TestCase
 		StudySubject.any_instance.stubs(:create_or_update).returns(false)
 		birth_datum = create_matching_case_birth_datum(study_subject,
 			:middle_name => 'mynewmiddlename')
-#		oes = birth_datum.odms_exceptions
-#		assert_match /Error updating case study subject. Save failed!/,
-#			oes.first.description
-#		assert_match /Birth Record data changes from/, oes.first.description
-pending
+		assert_match /Error updating case study subject. Save failed!/,
+			birth_datum.ccls_import_notes
 	end
-
 
 
 	test "case birth datum should create addressing" do

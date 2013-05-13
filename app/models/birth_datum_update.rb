@@ -25,10 +25,18 @@ class BirthDatumUpdate < CSVFile
 			end
 		end
 
+
+#
+#	TODO Loop through file and confirm all have correct number of columns
+#
+
+
+
 		study_subjects = []
 		#
 		#	Created and using the :debom converter as Janice's files seem to come with one.
-		#	For some reason not always?
+		#	For some reason not always?  
+		#	Using the :bom|utf-8 option when opening works too.
 		#
 		(f=CSV.open( csv_file, 'rb:bom|utf-8',{ :headers => true })).each do |line|
 			puts "Processing line #{f.lineno} of #{total_lines}" if verbose
@@ -85,8 +93,6 @@ class BirthDatumUpdate < CSVFile
 		end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
 
 		Notification.updates_from_birth_data( csv_file, birth_data ).deliver
-
-		#	TODO archive it?
 
 	end	#	def parse_csv_file
 

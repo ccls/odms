@@ -48,7 +48,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	test "should convert attached csv_file but no candidate controls with missing case" do
 		assert_difference('CandidateControl.count',0) {
 		assert_difference('BirthDatum.count',2) {
-		assert_difference('OdmsException.count',2) {
 			#
 			#	Shouldn't happen, but matching case DOES NOT EXIST and get a control
 			#	Should do something special here, like create an OdmsException
@@ -56,12 +55,10 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			birth_datum_update = create_test_file_and_birth_datum_update
 			assert_equal 2, birth_datum_update.birth_data.length
 			birth_datum_update.birth_data.each do |birth_datum|
-				assert_equal 'birth data append',
-					birth_datum.odms_exceptions.first.name
-				assert_match /No subject found with master_id :\w+:/,
-					birth_datum.odms_exceptions.first.to_s
+				assert_match /birth data append:No subject found with master_id :\w+:/,
+					birth_datum.ccls_import_notes
 			end
-		} } }
+		} }
 	end
 
 	test "should copy attributes when csv_file converted to candidate control" do
@@ -195,12 +192,11 @@ state_registrar_no
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_case_study_subject }
-#	NOTE this is different from the subject so an exception is now created
-		assert_difference('OdmsException.count',1){
+#	NOTE this is different from the subject so an exception is now created(don't know what this means)
 		assert_difference('CandidateControl.count',0){
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
-		} } }
+		} }
 	end
 
 	test "should return a CandidateControl in results for control" do
@@ -220,18 +216,15 @@ state_registrar_no
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_unknown }
-		assert_difference('OdmsException.count',1){
 		assert_difference('CandidateControl.count',0){
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
 			assert_equal 1, birth_datum_update.birth_data.length
 			birth_datum_update.birth_data.each do |birth_datum|
-				assert_equal 'birth data append',
-					birth_datum.odms_exceptions.first.name
-				assert_match /Unknown case_control_flag/,
-					birth_datum.odms_exceptions.first.to_s
+				assert_match /birth data append:Unknown case_control_flag/,
+					birth_datum.ccls_import_notes
 			end
-		} } }
+		} }
 	end
 
 #	test "should create odms exception if birth datum creation fails" do

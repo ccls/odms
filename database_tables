@@ -631,6 +631,7 @@ Table: birth_data
 | subjectid                         | varchar(6)   | YES  |     | NULL    |                |
 | deceased                          | varchar(255) | YES  |     | NULL    |                |
 | case_dob                          | date         | YES  |     | NULL    |                |
+| ccls_import_notes                 | text         | YES  |     | NULL    |                |
 +-----------------------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
 +------------------+--------------+------+-----+---------+----------------+
@@ -1693,4 +1694,4 @@ Table: zip_codes
 | updated_at | datetime     | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 /Users/jakewendt/github_repo/ccls/odms
-2013-05-09 13:53:46 -0700
+2013-05-13 11:25:16 -0700
