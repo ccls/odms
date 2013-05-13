@@ -75,7 +75,8 @@ class BirthDatum < ActiveRecord::Base
 #	Don't if deceased
 
 						if match_confidence.present? && match_confidence.match(/definite/i) && 
-								!deceased.match(/definite/i)
+								!deceased.to_s.match(/definite/i)
+#								( deceased.blank? || ( deceased.present? && !deceased.match(/definite/i) ) )
 							#	see candidate_controls_controller#update
 							case_study_subject = StudySubject.cases.with_patid(
 								self.candidate_control.related_patid).first

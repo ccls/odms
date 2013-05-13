@@ -43,13 +43,23 @@ base.class_eval do
 	end
 
 	def copy_case_icf_master_id
+		#	using update_all will not trigger sunspot reindexing.  DON'T USE!
 		StudySubject.with_matchingid(self.matchingid).update_all(
 			:case_icf_master_id => self.try(:case_subject).try(:icf_master_id))
+		#	or use and then for reindexing
+		StudySubject.with_matchingid(self.matchingid).each {|s| s.index }
+#		StudySubject.with_matchingid(self.matchingid).each {|s| s.update_attributes(
+#			:case_icf_master_id => self.try(:case_subject).try(:icf_master_id)) }
 	end
 
 	def copy_mother_icf_master_id
+		#	using update_all will not trigger sunspot reindexing.  DON'T USE!
 		StudySubject.with_familyid(self.familyid).update_all(
 			:mother_icf_master_id => self.try(:mother).try(:icf_master_id))
+		#	or use and then for reindexing
+		StudySubject.with_matchingid(self.matchingid).each {|s| s.index }
+#		StudySubject.with_familyid(self.familyid).each {|s| s.update_attributes(
+#			:mother_icf_master_id => self.try(:mother).try(:icf_master_id)) }
 	end
 
 end	#	class_eval

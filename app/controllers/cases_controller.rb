@@ -67,11 +67,15 @@ class CasesController < ApplicationController
 
 	def assign_selected_for_interview
 		if !params[:ids].blank? and params[:ids].is_a?(Array) and !params[:ids].empty?
-			enrollments = Enrollment.where(
-				:study_subject_id => params[:ids],:project_id => Project['ccls'].id)
+			enrollments = Enrollment
+				.where( :study_subject_id => params[:ids] )
+				.where( :project_id => Project['ccls'].id )
 				.update_all(:assigned_for_interview_at => DateTime.current)
+#			enrollments.each {|e| e.update_attributes(:assigned_for_interview_at => DateTime.current) }
+			StudySubject.find(params[:ids]).each{|s|s.index}
 #
 # using update_all does not validate so stub tests are irrelevant
+#	it also will not trigger sunspot reindexing so SHOULD NOT BE USED ON ANYTHING INDEXED
 #
 
 #			Create Operational Events??

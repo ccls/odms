@@ -40,6 +40,9 @@ class ControlsController < ApplicationController
 				.where(:project_id => Project['ccls'].id)
 				.where(:study_subject_id => params[:ids] )
 				.update_all(:assigned_for_interview_at => DateTime.current)
+#	using update_all will not trigger sunspot reindexing so SHOULD NOT BE USED ON ANYTHING INDEXED
+#			enrollments.each {|e| e.update_attributes(:assigned_for_interview_at => DateTime.current) }
+			StudySubject.find(params[:ids]).each{|s|s.index}
 			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
 			@study_subjects = StudySubject.find(params[:ids])
 			@and_then_download_csv = true
