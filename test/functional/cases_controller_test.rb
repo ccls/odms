@@ -119,12 +119,8 @@ class CasesControllerTest < ActionController::TestCase
 			put :assign_selected_for_interview, :ids => [subject.id]
 			assert_not_nil subject.enrollments.where(
 				:project_id => Project[:ccls].id).first.assigned_for_interview_at
-
-
 			assert_not_nil flash[:notice]
 			assert_redirected_to cases_path(:ids => [subject.id],:format => :csv)
-
-
 		end
 
 		test "should NOT update assigned_for_interview_at with #{cu} login" <<
