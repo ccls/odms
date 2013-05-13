@@ -148,7 +148,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			find('td.icf_master_id a').click	#	in reality many, in test should be only one
 			wait_until { has_css?("#sidemenu") }
 			assert_select HTML::Document.new(body).root, 
-				'#sidemenu > a', :text => "back to search"
+				'#sidemenu > li > a', :text => "back to search"
 		end
 
 		#	first, prev, next, last and by should reference 
