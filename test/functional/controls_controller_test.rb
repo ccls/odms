@@ -161,7 +161,6 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_not_nil subject.enrollments.where(
 				:project_id => Project[:ccls].id).first.assigned_for_interview_at
 			assert_not_nil flash[:notice]
-#			assert_redirected_to controls_path(:ids => [subject.id],:format => :csv)
 			assert_response :success
 			assert_template :index
 		end
