@@ -11,7 +11,6 @@ base.class_eval do
 
 	has_one :patient
 
-#		:was_ca_resident_at_diagnosis, :was_previously_treated, :was_under_15_at_dx,
 	delegate :admit_date, :hospital_no, :organization, :organization_id, :diagnosis_date,
 		:diagnosis, :other_diagnosis,
 			:to => :patient, :allow_nil => true
@@ -42,7 +41,6 @@ base.class_eval do
 	def update_patient_was_under_15_at_dx
 		#	due to the high probability that self and patient will not
 		#		yet be resolved, we have to get the associations manually.
-#		my_patient = Patient.find_by_study_subject_id(self.attributes['id'])
 		my_patient = Patient.find_by_study_subject_id(self.id)
 		if dob && my_patient && my_patient.admit_date &&
 				dob.to_date != Date.parse('1/1/1900') &&
@@ -76,14 +74,12 @@ base.class_eval do
 			was_under_15 = ( my_patient.admit_date.to_date < fifteenth_birthday ) ? 
 				YNDK[:yes] : YNDK[:no]
 
-			#	use update_all to avoid all callbacks (would be cyclic) ( COULD be cyclic )
+			#	use update_all to avoid all callbacks (would be cyclic)
 			Patient.update_all(
 				{ :was_under_15_at_dx => was_under_15 }, 
 				{ :id => my_patient.id })
-			index
-
 			#	20130513 - using update_all does not trigger sunspot reindexing
-#			my_patient.update_attributes({ :was_under_15_at_dx => was_under_15 })
+			index
 		end
 		#	make sure we return true as is a callback
 		#	( don't really know if this is actually needed )
@@ -116,6 +112,7 @@ base.class_eval do
 					StudySubject.update_all(
 						{:reference_date => admit_date },
 						{:matchingid     => mid })
+					#	20130513 - using update_all does not trigger sunspot reindexing
 					StudySubject.with_matchingid(mid).each {|s| s.index }
 				end
 			end
@@ -160,7 +157,6 @@ protected
 	def trigger_setting_was_under_15_at_dx
 		logger.debug "DEBUG: calling update_patient_was_under_15_at_dx from "<<
 			"StudySubject:#{self.id}"
-#			"StudySubject:#{self.attributes['id']}"
 		logger.debug "DEBUG: DOB changed from:#{dob_was}:to:#{dob}"
 		update_patient_was_under_15_at_dx
 	end
@@ -168,7 +164,6 @@ protected
 	def trigger_update_matching_study_subjects_reference_date
 		logger.debug "DEBUG: triggering_update_matching_study_subjects_reference_date "<<
 			"from StudySubject:#{self.id}"
-#			"from StudySubject:#{self.attributes['id']}"
 		logger.debug "DEBUG: matchingid changed from:#{matchingid_was}:to:#{matchingid}"
 		self.update_study_subjects_reference_date_matching(matchingid_was,matchingid)
 	end
