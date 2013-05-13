@@ -13,8 +13,8 @@ class OrganizationTest < ActiveSupport::TestCase
 	assert_should_have_one(  :hospital )
 	assert_should_have_one(  :sample_location )
 
-	assert_should_have_many(:aliquots, 
-		:foreign_key => :owner_id)
+#	assert_should_have_many(:aliquots, 
+#		:foreign_key => :owner_id)
 
 #	with_options :class_name => 'Transfer' do |o|
 #		o.assert_should_have_many(:incoming_transfers, 
