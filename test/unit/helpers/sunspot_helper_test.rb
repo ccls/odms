@@ -20,37 +20,40 @@ class SunspotHelperTest < ActionView::TestCase
 #	 def facet_toggle(facet,icon)
 
 	test "facet_toggle should create div with span and link" do
-		facet = FakeFacet.new('something')
+		facet = FakeFacet.new('subject_type')
+		@sunspot_search_class = StudySubject
 		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Something&nbsp;(0)", :count => 1 do
+			assert_select 'a', :text => "Subject Type&nbsp;(0)", :count => 1 do
 				assert_select "[href=?]", "javascript:void()"
 			end
 		end
 	end
 
 	test "facet_toggle should show row count in link text" do
-		facet = FakeFacet.new('something')
+		facet = FakeFacet.new('subject_type')
 		facet.rows << FakeFacetRow.new('somevalue')
 		facet.rows << FakeFacetRow.new('somevalue')
+		@sunspot_search_class = StudySubject
 		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Something&nbsp;(2)", :count => 1 do
+			assert_select 'a', :text => "Subject Type&nbsp;(2)", :count => 1 do
 				assert_select "[href=?]", "javascript:void()"
 			end
 		end
 	end
 
 	test "facet_toggle should show non-blank row count in link text" do
-		facet = FakeFacet.new('something')
+		facet = FakeFacet.new('subject_type')
 		facet.rows << FakeFacetRow.new('somevalue')
 		facet.rows << FakeFacetRow.new('')
+		@sunspot_search_class = StudySubject
 		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Something&nbsp;(1)", :count => 1 do
+			assert_select 'a', :text => "Subject Type&nbsp;(1)", :count => 1 do
 				assert_select "[href=?]", "javascript:void()"
 			end
 		end
@@ -98,13 +101,14 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "facet_for should return checkbox fields for facet" do
-		facet = FakeFacet.new('something')
+		facet = FakeFacet.new('subject_type')
 		facet.rows << FakeFacetRow.new('somevalue')
 		facet.rows << FakeFacetRow.new('somevalue')
+		@sunspot_search_class = StudySubject
 		response = HTML::Document.new(facet_for(facet)).root
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Something&nbsp;(2)", :count => 1 do
+			assert_select 'a', :text => "Subject Type&nbsp;(2)", :count => 1 do
 				assert_select "[href=?]", "javascript:void()"
 			end
 		end
@@ -117,13 +121,14 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "facet_for should return radio fields for facet if radio true" do
-		facet = FakeFacet.new('something')
+		facet = FakeFacet.new('subject_type')
 		facet.rows << FakeFacetRow.new('somevalue')
 		facet.rows << FakeFacetRow.new('somevalue')
+		@sunspot_search_class = StudySubject
 		response = HTML::Document.new(facet_for(facet, :radio => true)).root
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Something&nbsp;(2)", :count => 1 do
+			assert_select 'a', :text => "Subject Type&nbsp;(2)", :count => 1 do
 				assert_select "[href=?]", "javascript:void()"
 			end
 		end
