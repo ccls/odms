@@ -5,12 +5,11 @@ source "http://gems.github.com"
 
 
 
-#	try upgrading factory_girl ( will require some work )
-
 #	try upgrading jquery-rails
+#	try upgrading capybara
 #	try upgrading mocha?
 #	try removing minitest
-
+#	try removing ZenTest
 
 
 
@@ -131,7 +130,9 @@ group :test do
 	#	Without the :lib => false, 'rake test' actually fails?
 #	gem "mocha", '0.10.5', :require => false #	0.11.4
 #	gem "mocha", :require => 'mocha/setup'
-	gem "mocha", :require => false
+
+#	0.14.0 causes some failures in functional tests.  will need to investigate
+	gem "mocha", '0.13.3', :require => false
 
 	gem "autotest-rails", :require => 'autotest/rails'
 
@@ -142,23 +143,6 @@ group :test do
 	#		#ERROR:  Error installing ZenTest:
 	#		#	ZenTest requires RubyGems version ~> 1.8. (which is evil I tell you)
 
-	#gem "thoughtbot-factory_girl", :require    => "factory_girl"
-	#Gem::InstallError: factory_girl requires Ruby version >= 1.9.2.
-	#An error occured while installing factory_girl (3.0.0), and Bundler cannot continue.
-	#Make sure that `gem install factory_girl -v '3.0.0'` succeeds before bundling.
-
-#/Users/jakewendt/github_repo/ccls/odms/test/factories.rb:9:in `<top (required)>': uninitialized constant Factory (NameError)
-#	from /opt/local/lib/ruby1.9/gems/1.9.1/gems/factory_girl-4.2.0/lib/factory_girl/find_definitions.rb:16:in `block in find_definitions'
-#	from /opt/local/lib/ruby1.9/gems/1.9.1/gems/factory_girl-4.2.0/lib/factory_girl/find_definitions.rb:15:in `each'
-#	from /opt/local/lib/ruby1.9/gems/1.9.1/gems/factory_girl-4.2.0/lib/factory_girl/find_definitions.rb:15:in `find_definitions'
-#	from /opt/local/lib/ruby1.9/gems/1.9.1/gems/factory_girl_rails-4.2.1/lib/factory_girl_rails/railtie.rb:33:in `block in <class:Railtie>'
-#	gem "factory_girl"	#, "~> 2.6.0"
-#
-#	upgrading factory girl will require big changes to the factory definitions and calls
-#	Factory seems to have been replaced with FactoryGirl
-#
-#	gem "factory_girl", "~> 2.6.0"
-
 	#	rails 3 version
 	gem "factory_girl_rails"	#	loads version matching factory_girl
 
@@ -167,15 +151,6 @@ group :test do
 	gem 'capybara-webkit'
 end
 
-
-
-
-
 gem 'ccls-common_lib', ">0.9"
-
-
-
-
-
 
 __END__
