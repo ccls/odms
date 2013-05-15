@@ -34,7 +34,6 @@ module AbstractBaseControllerTestHelper
 				test "should show with #{cu} login" do
 					abstract = create_abstract
 					login_as send(cu)
-#					get :show, :abstract_id => abstract.id
 					get :show, :abstract_id => abstract.id, 
 						:study_subject_id => abstract.study_subject_id
 					assert assigns(:abstract)
@@ -47,7 +46,6 @@ module AbstractBaseControllerTestHelper
 					patient = FactoryGirl.create(:patient)
 					abstract = create_abstract(:study_subject => patient.study_subject)
 					login_as send(cu)
-#					get :show, :abstract_id => abstract.id
 					get :show, :abstract_id => abstract.id,
 						:study_subject_id => abstract.study_subject_id
 					assert assigns(:abstract)
@@ -59,7 +57,6 @@ module AbstractBaseControllerTestHelper
 				test "should NOT show with invalid abstract_id " <<
 						"and #{cu} login" do
 					login_as send(cu)
-#					get :show, :abstract_id => 0
 					get :show, :abstract_id => 0,
 						:study_subject_id => 0
 					assert_not_nil flash[:error]
@@ -70,7 +67,6 @@ module AbstractBaseControllerTestHelper
 					patient = FactoryGirl.create(:patient)
 					abstract = create_abstract(:study_subject => patient.study_subject)
 					login_as send(cu)
-#					get :edit, :abstract_id => abstract.id
 					get :edit, :abstract_id => abstract.id,
 						:study_subject_id => abstract.study_subject_id
 					assert assigns(:abstract)
@@ -82,7 +78,6 @@ module AbstractBaseControllerTestHelper
 				test "should edit with #{cu} login" do
 					abstract = create_abstract
 					login_as send(cu)
-#					get :edit, :abstract_id => abstract.id
 					get :edit, :abstract_id => abstract.id,
 						:study_subject_id => abstract.study_subject_id
 					assert assigns(:abstract)
@@ -94,7 +89,6 @@ module AbstractBaseControllerTestHelper
 				test "should NOT edit with invalid " <<
 						"abstract_id and #{cu} login" do
 					login_as send(cu)
-#					get :edit, :abstract_id => 0
 					get :edit, :abstract_id => 0,
 						:study_subject_id => 0
 					assert_redirected_to abstracts_path
@@ -103,8 +97,6 @@ module AbstractBaseControllerTestHelper
 				test "should update with #{cu} login" do
 					abstract = create_abstract
 					login_as send(cu)
-#					put :update, :abstract_id => abstract.id,
-#						:abstract => factory_attributes
 					put :update, :abstract_id => abstract.id,
 						:study_subject_id => abstract.study_subject_id,
 						:abstract => factory_attributes
@@ -116,8 +108,6 @@ module AbstractBaseControllerTestHelper
 				test "should NOT update with invalid " <<
 						"abstract_id and #{cu} login" do
 					login_as send(cu)
-#					put :update, :abstract_id => 0,
-#						:abstract => factory_attributes
 					put :update, :abstract_id => 0,
 						:study_subject_id => 0,
 						:abstract => factory_attributes
@@ -130,8 +120,6 @@ module AbstractBaseControllerTestHelper
 					Abstract.any_instance.stubs(:create_or_update).returns(false)
 					login_as send(cu)
 					deny_changes("Abstract.find(#{abstract.id}).updated_at") {
-#						put :update, :abstract_id => abstract.id,
-#							:abstract => factory_attributes
 						put :update, :abstract_id => abstract.id,
 							:study_subject_id => abstract.study_subject_id,
 							:abstract => factory_attributes
@@ -149,8 +137,6 @@ module AbstractBaseControllerTestHelper
 					Abstract.any_instance.stubs(:valid?).returns(false)
 					login_as send(cu)
 					deny_changes("Abstract.find(#{abstract.id}).updated_at") {
-#						put :update, :abstract_id => abstract.id,
-#							:abstract => factory_attributes
 						put :update, :abstract_id => abstract.id,
 							:study_subject_id => abstract.study_subject_id,
 							:abstract => factory_attributes
@@ -166,8 +152,6 @@ module AbstractBaseControllerTestHelper
 						"with #{cu} login and edit_next is set" do
 					abstract = create_abstract
 					login_as send(cu)
-#					put :update, :abstract_id => abstract.id, :abstract => {},
-#						:edit_next => 'something'
 					put :update, :abstract_id => abstract.id, :abstract => {},
 						:study_subject_id => abstract.study_subject_id,
 						:edit_next => 'something'
@@ -185,8 +169,6 @@ module AbstractBaseControllerTestHelper
 						"with #{cu} login and edit_previous is set" do
 					abstract = create_abstract
 					login_as send(cu)
-#					put :update, :abstract_id => abstract.id, :abstract => {},
-#						:edit_previous => 'something'
 					put :update, :abstract_id => abstract.id, :abstract => {},
 						:study_subject_id => abstract.study_subject_id,
 						:edit_previous => 'something'
@@ -204,8 +186,6 @@ module AbstractBaseControllerTestHelper
 						"with #{cu} login and commit = 'anythingelse'" do
 					abstract = create_abstract
 					login_as send(cu)
-#					put :update, :abstract_id => abstract.id, :abstract => {},
-#						:commit => 'anythingelse'
 					put :update, :abstract_id => abstract.id, :abstract => {},
 						:study_subject_id => abstract.study_subject_id,
 						:commit => 'anythingelse'
@@ -218,7 +198,6 @@ module AbstractBaseControllerTestHelper
 						"with #{cu} login and commit not set" do
 					abstract = create_abstract
 					login_as send(cu)
-#					put :update, :abstract_id => abstract.id, :abstract => {}
 					put :update, :abstract_id => abstract.id, :abstract => {},
 						:study_subject_id => abstract.study_subject_id
 					assert assigns(:abstract)
@@ -303,7 +282,6 @@ module AbstractBaseControllerTestHelper
 	
 			test "should NOT show without login" do
 				abstract = create_abstract
-#				get :show, :abstract_id => abstract.id
 				get :show, :abstract_id => abstract.id,
 					:study_subject_id => abstract.study_subject_id
 				assert !assigns(:abstract)
@@ -313,7 +291,6 @@ module AbstractBaseControllerTestHelper
 		
 			test "should NOT show with invalid abstract_id " <<
 					"and without login" do
-#				get :show, :abstract_id => 0
 				get :show, :abstract_id => 0,
 					:study_subject_id => 0
 				assert !assigns(:abstract)
@@ -323,7 +300,6 @@ module AbstractBaseControllerTestHelper
 		
 			test "should NOT edit without login" do
 				abstract = create_abstract
-#				get :edit, :abstract_id => abstract.id
 				get :edit, :abstract_id => abstract.id,
 					:study_subject_id => abstract.study_subject_id
 				assert !assigns(:abstract)
@@ -333,7 +309,6 @@ module AbstractBaseControllerTestHelper
 		
 			test "should NOT edit with invalid " <<
 					"abstract_id and without login" do
-#				get :edit, :abstract_id => 0
 				get :edit, :abstract_id => 0,
 					:study_subject_id => 0
 				assert !assigns(:abstract)
@@ -343,8 +318,6 @@ module AbstractBaseControllerTestHelper
 		
 			test "should NOT update without login" do
 				abstract = create_abstract
-#				put :update, :abstract_id => abstract.id,
-#					:abstract => factory_attributes
 				put :update, :abstract_id => abstract.id,
 					:abstract => factory_attributes,
 					:study_subject_id => abstract.study_subject_id
@@ -355,8 +328,6 @@ module AbstractBaseControllerTestHelper
 		
 			test "should NOT update with invalid " <<
 					"abstract_id and without login" do
-#				put :update, :abstract_id => 0,
-#					:abstract => factory_attributes
 				put :update, :abstract_id => 0,
 					:abstract => factory_attributes,
 					:study_subject_id => 0
