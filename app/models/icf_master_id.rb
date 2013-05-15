@@ -6,8 +6,8 @@ class IcfMasterId < ActiveRecord::Base
 #	probably shouldn't add validations as this won't be created by users. yet.
 
 #	these are in the database, but were not in the app?
-	validates_uniqueness_of :study_subject_id
-	validates_uniqueness_of :icf_master_id
+	validates_uniqueness_of :study_subject_id, :allow_nil => true
+	validates_uniqueness_of :icf_master_id,    :allow_nil => true
 
 	def to_s
 		icf_master_id
