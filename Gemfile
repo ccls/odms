@@ -7,7 +7,6 @@ source "http://gems.github.com"
 
 #	try upgrading capybara
 #	try upgrading mocha?
-#	try upgrading ZenTest
 
 #	try removing minitest
 
@@ -149,13 +148,13 @@ group :test do
 	gem "autotest-rails", :require => 'autotest/rails'
 
 #	to update ZenTest, need to update rubygems, bundler then ZenTest
-#	sudo gem update --system
+#	sudo gem update --system			#	from rubygems-update-1.8.24 to 2.0.3
 #	sudo gem update bundler
 #	sudo gem update ZenTest
 #	sudo bundle update
 
 	#	try upgrading ZenTest (4.9.0 still has "illformed" gemspec)
-	gem 'ZenTest', '=4.8.3'
+	gem 'ZenTest'	#, '=4.8.3'
 #	Invalid gemspec in [/opt/local/lib/ruby1.9/gems/1.9.1/specifications/ZenTest-4.8.4.gemspec]: Illformed requirement ["< 2.1, >= 1.8"]
 	#		#Fetching: ZenTest-4.6.2.gem (100%)
 	#		#ERROR:  Error installing ZenTest:
@@ -164,6 +163,8 @@ group :test do
 	gem "factory_girl_rails"
 
 	gem 'ccls-html_test'
+
+	#	newer capybara not compatible with current webkit
 	gem 'capybara', '~> 2.0.0'
 	gem 'capybara-webkit'
 end
