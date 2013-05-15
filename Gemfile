@@ -7,8 +7,9 @@ source "http://gems.github.com"
 
 #	try upgrading capybara
 #	try upgrading mocha?
+#	try upgrading ZenTest
+
 #	try removing minitest
-#	try removing ZenTest
 
 
 
@@ -63,7 +64,8 @@ gem "will_paginate"
 
 gem "hpricot"
 
-gem "paperclip"
+#	I don't think that I use this anymore
+#gem "paperclip"
 
 gem 'rubycas-client'
 
@@ -128,9 +130,29 @@ group :test do
 #	gem "mocha", :require => 'mocha/setup'
 
 #	0.14.0 causes some failures in functional tests.  will need to investigate
+#
+#	despite saying that it does, 0.14.0 DOES NOT UNSTUB my stubs
+#	so they require manual unstubbing.  this is just a pain
+#	so reverting to 0.13.3
+#
 	gem "mocha", '0.13.3', :require => false
 
+	#	seems that 0.14.0 doesn't unstub stubs between tests
+	#		which breaks nearly everthing
+	#	Also interesting that, despite being in the :test block here,
+	#		the mocha methods are available in development
+	#		=> rails c
+	#		=> String.any_instance.... works
+#	gem "mocha", :require => false
+#	either false or 'mocha/setup', but something
+
 	gem "autotest-rails", :require => 'autotest/rails'
+
+#	to update ZenTest, need to update rubygems, bundler then ZenTest
+#	sudo gem update --system
+#	sudo gem update bundler
+#	sudo gem update ZenTest
+#	sudo bundle update
 
 	#	try upgrading ZenTest (4.9.0 still has "illformed" gemspec)
 	gem 'ZenTest', '=4.8.3'
@@ -139,8 +161,7 @@ group :test do
 	#		#ERROR:  Error installing ZenTest:
 	#		#	ZenTest requires RubyGems version ~> 1.8. (which is evil I tell you)
 
-	#	rails 3 version
-	gem "factory_girl_rails"	#	loads version matching factory_girl
+	gem "factory_girl_rails"
 
 	gem 'ccls-html_test'
 	gem 'capybara', '~> 2.0.0'

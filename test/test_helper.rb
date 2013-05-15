@@ -179,3 +179,11 @@ class ActiveSupport::TestCase
 	end	#	class << self
 
 end
+
+
+
+
+#	as per 0.14.0 instructions, at the bottom of test_helper
+#require 'mocha/setup'
+#	still causes many failures due to unstubbing
+
