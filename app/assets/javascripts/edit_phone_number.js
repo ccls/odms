@@ -12,7 +12,7 @@ jQuery(function(){
 	jQuery('#phone_number_is_verified').smartShow({
 		what: '.how_verified.field_wrapper',
 		when: function(){ 
-			return $('#phone_number_is_verified').attr('checked'); }
+			return $('#phone_number_is_verified').prop('checked'); }
 	});
 */
 	jQuery('#phone_number_data_source_id').smartShow({

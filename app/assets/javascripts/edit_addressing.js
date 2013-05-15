@@ -22,7 +22,7 @@ jQuery(function(){
 	jQuery('#addressing_is_verified').smartShow({
 		what: '.how_verified.field_wrapper',
 		when: function(){ 
-			return $('#addressing_is_verified').attr('checked'); }
+			return $('#addressing_is_verified').prop('checked'); }
 	});
 */
 	jQuery('#addressing_data_source_id').smartShow({

@@ -51,13 +51,13 @@ jQuery(function(){
 	jQuery('input[type=checkbox]#other_language_code').smartShow({
 		what: '#specify_other_language',
 		when: function(){
-			return $('#other_language_code').attr('checked'); }
+			return $('#other_language_code').prop('checked'); }
 	});
 
 	jQuery('input[type=checkbox]#other__destroy').smartShow({
 		what: '#specify_other_language',
 		when: function(){
-			return $('#other__destroy').attr('checked'); }
+			return $('#other__destroy').prop('checked'); }
 	});
 
 });

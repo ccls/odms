@@ -5,7 +5,6 @@ source "http://gems.github.com"
 
 
 
-#	try upgrading jquery-rails
 #	try upgrading capybara
 #	try upgrading mocha?
 #	try removing minitest
@@ -48,10 +47,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-
-#	jquery-rails 2.2.0 causes some integration tests to fail.
-gem 'jquery-rails', '~> 2.1.0'
-
+gem 'jquery-rails'
 
 gem 'rack-ssl', :require => 'rack/ssl'
 

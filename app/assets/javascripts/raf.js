@@ -29,7 +29,7 @@ jQuery(function(){
 	jQuery('input[type=checkbox]#other_language_code').smartShow({
 		what: '#specify_other_language',
 		when: function(){
-			return $('#other_language_code').attr('checked'); }
+			return $('#other_language_code').prop('checked'); }
 	});
 
 
