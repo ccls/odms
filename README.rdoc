@@ -808,6 +808,12 @@ It goes away if I stop setting LD_LIBRARY_PATH, but I NEED THAT TO BE SET FOR OT
 
 
 
+---
+== Adding IcfMasterIds
+
+Given a file containing nothing but a list of quoted icf master ids ....
+
+	File.open('icf_master_ids_20130515.txt'){|f| while(line = f.gets); IcfMasterId.create!(:icf_master_id => line.chomp.gsub(/"/,'')); end }
 
 
 
