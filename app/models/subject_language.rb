@@ -16,11 +16,12 @@ class SubjectLanguage < ActiveRecord::Base
 		( language_is_other? ) ? other_language : language.to_s
 	end
 
-	after_save :reindex_study_subject!
+	after_save :reindex_study_subject!, :if => :changed?
 
 protected
 
 	def reindex_study_subject!
+		logger.debug "Subject Language changed so reindexing study subject"
 		study_subject.index if study_subject
 	end
 

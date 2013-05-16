@@ -23,11 +23,12 @@ class Address < ActiveRecord::Base
 		[line_1,line_2].delete_if(&:blank?).join(', ')
 	end
 
-	after_save :reindex_study_subject!
+	after_save :reindex_study_subject!, :if => :changed?
 
 protected
 
 	def reindex_study_subject!
+		logger.debug "Address changed so reindexing study subject"
 		study_subject.index if study_subject
 	end
 

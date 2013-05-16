@@ -35,11 +35,12 @@ class Addressing < ActiveRecord::Base
 
 	after_save :create_subject_moved_event, :if => :subject_moved
 
-	after_save :reindex_study_subject!
+	after_save :reindex_study_subject!, :if => :changed?
 
 protected
 
 	def reindex_study_subject!
+		logger.debug "Addressing changed so reindexing study subject"
 		study_subject.index if study_subject
 	end
 

@@ -21,11 +21,12 @@ class SubjectRace < ActiveRecord::Base
 		( race_is_other? ) ? other_race : ( race_is_mixed? ? mixed_race : race.to_s )
 	end
 
-	after_save :reindex_study_subject!
+	after_save :reindex_study_subject!, :if => :changed?
 
 protected
 
 	def reindex_study_subject!
+		logger.debug "Subject Race changed so reindexing study subject"
 		study_subject.index if study_subject
 	end
 

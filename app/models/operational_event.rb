@@ -41,11 +41,12 @@ class OperationalEvent < ActiveRecord::Base
 		occurred_at.try(:to_date)
 	end
 
-	after_save :reindex_study_subject!
+	after_save :reindex_study_subject!, :if => :changed?
 
 protected
 
 	def reindex_study_subject!
+		logger.debug "Operational Event changed so reindexing study subject"
 		study_subject.index if study_subject
 	end
 

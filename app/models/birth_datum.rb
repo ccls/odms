@@ -273,11 +273,12 @@ class BirthDatum < ActiveRecord::Base
 		addressing
 	end
 
-	after_save :reindex_study_subject!
+	after_save :reindex_study_subject!, :if => :changed?
 
 protected
 
 	def reindex_study_subject!
+		logger.debug "Birth Datum changed so reindexing study subject"
 		study_subject.index if study_subject
 	end
 

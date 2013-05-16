@@ -25,11 +25,12 @@ class Patient < ActiveRecord::Base
 
 	after_save :trigger_setting_was_under_15_at_dx
 
-	after_save :reindex_study_subject!
+	after_save :reindex_study_subject!, :if => :changed?
 
 protected
 
 	def reindex_study_subject!
+		logger.debug "Patient changed so reindexing study subject"
 		study_subject.index if study_subject
 	end
 

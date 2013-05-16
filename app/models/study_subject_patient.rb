@@ -79,6 +79,9 @@ base.class_eval do
 				{ :was_under_15_at_dx => was_under_15 }, 
 				{ :id => my_patient.id })
 			#	20130513 - using update_all does not trigger sunspot reindexing
+#
+#	why am I using update_all? probably because this is in a callback
+#
 			index
 		end
 		#	make sure we return true as is a callback
@@ -114,6 +117,9 @@ base.class_eval do
 						{:matchingid     => mid })
 					#	20130513 - using update_all does not trigger sunspot reindexing
 					StudySubject.with_matchingid(mid).each {|s| s.index }
+#
+#	why am I using update_all? probably because this is in a callback
+#
 				end
 			end
 		end

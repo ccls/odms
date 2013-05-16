@@ -62,7 +62,7 @@ class Sample < ActiveRecord::Base
 		"SampleID #{sampleid}"
 	end
 
-	after_save :reindex_study_subject!
+	after_save :reindex_study_subject!, :if => :changed?
 
 
 	include Sunspotability
@@ -127,6 +127,7 @@ class Sample < ActiveRecord::Base
 protected
 
 	def reindex_study_subject!
+		logger.debug "Sample changed so reindexing study subject"
 		study_subject.index if study_subject
 	end
 
