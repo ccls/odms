@@ -9,6 +9,11 @@ source "http://gems.github.com"
 #	try upgrading mocha?
 
 #	try removing minitest
+#
+#	I think that this is needed because of CommonLib
+#	it load ActiveSupport::TestCase which loads its dependencies.
+#	See if can only do this in test environment.
+#
 
 
 
