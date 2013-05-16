@@ -128,7 +128,13 @@ class BirthDatum < ActiveRecord::Base
 		else
 			subject = find_subject
 			return if subject.nil?
-			self.update_column(:study_subject_id, subject.id)
+
+#	this doesn't update counter cache
+#			self.update_column(:study_subject_id, subject.id)
+#	trying ...
+			self.study_subject = subject
+			self.save
+			
 			subject
 		end
 	end
