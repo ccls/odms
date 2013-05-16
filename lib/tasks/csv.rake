@@ -1,6 +1,35 @@
 require 'csv'
 namespace :csv do
 
+	task :split => :environment do
+#puts `pwd`
+#	interesting that even if run from other than rails root, it will chdir to rails root
+		env_required('csv_file')
+		file_required(ENV['csv_file'])
+		
+		root_extname  = File.extname(ENV['csv_file'])
+		root_filename = File.basename(ENV['csv_file'],root_extname)
+
+		f=CSV.open( ENV['csv_file'], 'rb:bom|utf-8')	#	bom just in case from Janice
+#
+#	each_slice doesn't seem to work right for CSV
+#	using File will mean that if there are broken lines, this will fail
+#
+#		f=File.open( ENV['csv_file'], 'rb:bom|utf-8')	#	bom just in case from Janice
+		header_line = f.gets
+		slice_counter = 0
+		f.each_slice(25) do |slice|
+			slice_counter += 1
+			outfilename = "#{root_filename}_#{sprintf("%02d",slice_counter)}#{root_extname}"
+			File.open(outfilename,'w') do |f| 
+				f.puts header_line.to_csv
+				slice.each { |row| f.puts row.to_csv }
+#				f.puts slice	#	slice is array of arrays, which when puts'd create a long list
+			end
+		end
+		f.close
+	end
+
 	desc "Show given columns values in each row of csv file"
 	task :show_column_values => :environment do
 		env_required('csv_file')
