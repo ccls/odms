@@ -11,8 +11,8 @@ base.class_eval do
 
 	has_one :patient
 
-	delegate :admit_date, :hospital_no, :organization, :organization_id, :diagnosis_date,
-		:diagnosis, :other_diagnosis,
+	delegate :admit_date, :hospital_no, :organization, :organization_id, 
+		:diagnosis_date, :diagnosis, :other_diagnosis,
 			:to => :patient, :allow_nil => true
 
 	accepts_nested_attributes_for :patient
@@ -21,7 +21,7 @@ base.class_eval do
 	validate :patient_admit_date_is_after_dob
 	validate :patient_diagnosis_date_is_after_dob
 
-	after_save   :trigger_setting_was_under_15_at_dx,
+	after_save :trigger_setting_was_under_15_at_dx,
 		:if => :dob_changed?
 	after_save :trigger_update_matching_study_subjects_reference_date, 
 		:if => :matchingid_changed?
@@ -45,20 +45,6 @@ base.class_eval do
 		if dob && my_patient && my_patient.admit_date &&
 				dob.to_date != Date.parse('1/1/1900') &&
 				my_patient.admit_date.to_date != Date.parse('1/1/1900')
-			#
-			#	update_all(updates, conditions = nil, options = {})
-			#
-			#		Updates all records with details given if they match a set of 
-			#		conditions supplied, limits and order can also be supplied. 
-			#		This method constructs a single SQL UPDATE statement and sends 
-			#		it straight to the database. It does not instantiate the involved 
-			#		models and it does not trigger Active Record callbacks. 
-			#
-			#	crude and probably off by a couple days
-			#	would be better to compare year, month then day
-#			was_under_15 = (((
-#				my_patient.admit_date.to_date - dob.to_date 
-#				) / 365 ) < 15 ) ? YNDK[:yes] : YNDK[:no]
 
 			#	Seems likely to be more accurate as accounts for differing year 
 			#	lengths rather than the number of days.
@@ -75,14 +61,19 @@ base.class_eval do
 				YNDK[:yes] : YNDK[:no]
 
 			#	use update_all to avoid all callbacks (would be cyclic)
-			Patient.update_all(
-				{ :was_under_15_at_dx => was_under_15 }, 
-				{ :id => my_patient.id })
+#			Patient.update_all(
+#				{ :was_under_15_at_dx => was_under_15 }, 
+#				{ :id => my_patient.id })
+#	why not just update_column? same outcome.  update db, no callback, no index
+#			my_patient.update_column(:was_under_15_at_dx, was_under_15)
 			#	20130513 - using update_all does not trigger sunspot reindexing
 #
 #	why am I using update_all? probably because this is in a callback
 #
-			index
+#			index
+
+			my_patient.was_under_15_at_dx = was_under_15
+			my_patient.save if my_patient.changed?
 		end
 		#	make sure we return true as is a callback
 		#	( don't really know if this is actually needed )
@@ -108,17 +99,28 @@ base.class_eval do
 		matchingids.compact.push(matchingid).uniq.each do |mid|
 			unless mid.blank?
 				#	subjectid is unique, so can be only 1 unless nil
-				matching_patient = StudySubject.where(:subjectid => mid).first.try(:patient)
+#				matching_patient = StudySubject.where(:subjectid => mid).first.try(:patient)
+				matching_patient = StudySubject.with_subjectid(mid).first.try(:patient)
 				unless matching_patient.nil?
 					admit_date = matching_patient.try(:admit_date)
 					#	20130513 - using update_all does not trigger sunspot reindexing
-					StudySubject.update_all(
-						{:reference_date => admit_date },
-						{:matchingid     => mid })
-					#	20130513 - using update_all does not trigger sunspot reindexing
-					StudySubject.with_matchingid(mid).each {|s| s.index }
+#					StudySubject.update_all(
+#						{:reference_date => admit_date },
+#						{:matchingid     => mid })
+#					#	20130513 - using update_all does not trigger sunspot reindexing
+#					StudySubject.with_matchingid(mid).each {|s| s.index }
+
+#	I made these mods in hopes that it would save and index less
+#	don't think that it made much diff though
+
+					StudySubject.with_matchingid(mid).each {|s| 
+						s.reference_date = admit_date
+						s.save if s.changed?
+					}
 #
 #	why am I using update_all? probably because this is in a callback
+#	unfortunately, this will trigger the reindexing of all matching
+#	regardless of whether anything changed
 #
 				end
 			end
