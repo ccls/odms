@@ -26,6 +26,8 @@ base.class_eval do
 #	why update_column? and not update_attribute?
 #	update_column is strictly database update
 #	update_attribute will skip validations, but trigger callback
+#		the callbacks will include reindexing.  Necessary?
+#		could also update needs_reindexed and be done with it
 
 #				self.update_column(:icf_master_id, next_icf_master_id.to_s)
 				self.update_attribute(:icf_master_id, next_icf_master_id.to_s)
