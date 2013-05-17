@@ -28,7 +28,7 @@ gem 'progress_bar'
 #jwendt@n1 : odms 504> script/rails console
 #/my/ruby/gems/1.9/gems/activesupport-3.2.6/lib/active_support/dependencies.rb:251:in `require': cannot load such file -- minitest/unit (LoadError)
 #	from /my/ruby/gems/1.9/gems/activesupport-3.2.6/lib/active_support/dependencies.rb:251:in `block in require'
-gem 'minitest'
+#gem 'minitest'
 
 #	PDF generation
 gem 'prawn'
