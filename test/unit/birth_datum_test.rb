@@ -247,6 +247,15 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert !birth_datum.candidate_control.new_record?
 	end
 
+	test "control_birth_datum factory with matching case and definite should create study subject" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = FactoryGirl.create(:control_birth_datum,
+			:match_confidence => 'definite',
+			:master_id => study_subject.icf_master_id ).reload
+		assert_not_nil birth_datum.study_subject
+		assert !birth_datum.study_subject.new_record?
+	end
+
 	test "control_birth_datum factory with matching case should not create odms exception" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		assert_difference('OdmsException.count',0) {
