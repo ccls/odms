@@ -175,6 +175,15 @@ jQuery(function(){
 		return false;
 	});
 
+
+	jQuery('#select_all').click(function(){
+		jQuery("input[type='checkbox']").prop('checked',true);
+	});
+
+	jQuery('#deselect_all').click(function(){
+		jQuery("input[type='checkbox']").prop('checked',false);
+	});
+
 });
 
 

@@ -2,7 +2,12 @@
 <p>Sorry, but no control subjects found that are ready for export.</p>
 <% else %>
 
-<p><%= @study_subjects.length %> control(s) found</p>
+<p>
+<%= link_to("Select All", "javascript:void()", 
+	:id => :select_all, :class => :button) %>&nbsp;
+<%= link_to("Deselect All", "javascript:void()", 
+	:id => :deselect_all, :class => :button) %>&nbsp;
+<%= @study_subjects.length %> control(s) found.</p>
 
 <%= form_tag( assign_selected_for_interview_controls_path, :method => :put ) do %>
 <table class='nowrap'>
@@ -87,14 +92,17 @@
 </tbody></table>
 
 <p>
-<%#= link_to("Export as CSV", controls_path(:format => :csv), :class => :button) %>
-<%= submit_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv") %>
+<%= link_to("Export these to CSV", params.merge(:format => :csv), :class => :button) %>&nbsp;
+<%= submit_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv") %>&nbsp;
 <%= link_to("View all unassigned Controls", controls_path, :class => :button) %>
 </p>
+<p>Be advised.  
+Updating selected will trigger reindexing which can take a couple seconds per subject.
+Too many will result in a timeout.</p>
 
 <% end %><%# form_tag %>
 <% end %><%# if @study_subjects %>
 
 <%= javascript_tag do %>
-<% "window.location = '#{controls_path(:ids => params[:ids], :format => :csv)}'".html_safe %>
+<%= "window.location = '#{controls_path(:ids => params[:ids], :format => :csv)}'".html_safe %>
 <% end if @and_then_download_csv %>

@@ -8,6 +8,15 @@ class ControlsController < ApplicationController
 		if params[:ids].present? and params[:ids].is_a?(Array) and !params[:ids].empty?
 			@study_subjects = StudySubject.order('reference_date DESC')
 				.where(:id => params[:ids])
+		elsif params[:date].present?
+			@study_subjects = StudySubject.controls
+				.where( :phase => 5 )
+				.order('reference_date DESC')
+				.joins(:enrollments)
+				.merge(
+					Enrollment.where(:project_id => Project['ccls'].id)
+						.where("date(assigned_for_interview_at) = ?", Date.parse(params[:date]))
+				)
 		else
 			@study_subjects = StudySubject.controls
 				.where( :phase => 5 )
@@ -42,6 +51,9 @@ class ControlsController < ApplicationController
 				.update_all(:assigned_for_interview_at => DateTime.current)
 #	using update_all will not trigger sunspot reindexing so SHOULD NOT BE USED ON ANYTHING INDEXED
 #			enrollments.each {|e| e.update_attributes(:assigned_for_interview_at => DateTime.current) }
+#
+#	if this list is long, this will timeout
+#
 			StudySubject.find(params[:ids]).each{|s|s.index}
 			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
 			@study_subjects = StudySubject.find(params[:ids])
