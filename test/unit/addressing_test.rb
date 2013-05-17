@@ -433,6 +433,22 @@ class AddressingTest < ActiveSupport::TestCase
 		}
 	end
 
+	test "should flag study subject for reindexed on create" do
+		addressing = FactoryGirl.create(:addressing).reload
+		assert_not_nil addressing.study_subject
+		assert addressing.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		addressing = FactoryGirl.create(:addressing).reload
+		assert_not_nil addressing.study_subject
+		assert  addressing.study_subject.needs_reindexed
+		addressing.study_subject.update_attribute(:needs_reindexed, false)
+		assert !addressing.study_subject.needs_reindexed
+		addressing.update_attributes(:other_data_source => "something to make it dirty")
+		assert  addressing.study_subject.needs_reindexed
+	end
+
 protected
 
 	def create_addressing_with_address(study_subject,options={})

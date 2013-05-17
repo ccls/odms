@@ -29,7 +29,8 @@ protected
 
 	def reindex_study_subject!
 		logger.debug "Address changed so reindexing study subject"
-		study_subject.index if study_subject
+		study_subject.update_column(:needs_reindexed, true) if study_subject
+#		study_subject.index if study_subject
 	end
 
 	#	Determine if the address is a PO Box and then

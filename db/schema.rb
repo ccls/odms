@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130513172713) do
+ActiveRecord::Schema.define(:version => 20130517212542) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1524,6 +1524,7 @@ ActiveRecord::Schema.define(:version => 20130513172713) do
     t.integer  "addressings_count",                         :default => 0
     t.integer  "phone_numbers_count",                       :default => 0
     t.integer  "interviews_count",                          :default => 0
+    t.boolean  "needs_reindexed",                           :default => false
   end
 
   add_index "study_subjects", ["accession_no"], :name => "index_study_subjects_on_accession_no", :unique => true

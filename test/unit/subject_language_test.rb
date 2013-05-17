@@ -64,6 +64,23 @@ class SubjectLanguageTest < ActiveSupport::TestCase
 		assert_equal subject_language.to_s, 'Spanish'
 	end
 
+
+	test "should flag study subject for reindexed on create" do
+		subject_language = FactoryGirl.create(:subject_language)
+		assert_not_nil subject_language.study_subject
+		assert  subject_language.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		subject_language = FactoryGirl.create(:subject_language)
+		assert_not_nil subject_language.study_subject
+		assert  subject_language.study_subject.needs_reindexed
+		subject_language.study_subject.update_attribute(:needs_reindexed, false)
+		assert !subject_language.study_subject.needs_reindexed
+		subject_language.update_attributes(:other_language => "something to make it dirty")
+		assert  subject_language.study_subject.needs_reindexed
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

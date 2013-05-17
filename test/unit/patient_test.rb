@@ -602,6 +602,23 @@ class PatientTest < ActiveSupport::TestCase
 		end
 	end
 
+
+	test "should flag study subject for reindexed on create" do
+		patient = FactoryGirl.create(:patient)
+		assert_not_nil patient.study_subject
+		assert  patient.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		patient = FactoryGirl.create(:patient)
+		assert_not_nil patient.study_subject
+		assert  patient.study_subject.needs_reindexed
+		patient.study_subject.update_attribute(:needs_reindexed, false)
+		assert !patient.study_subject.needs_reindexed
+		patient.update_attributes(:other_diagnosis => "something to make it dirty")
+		assert  patient.study_subject.needs_reindexed
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

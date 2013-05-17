@@ -584,6 +584,23 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert_equal [enrollment], Enrollment.not_assigned_for_interview
 	end
 
+
+	test "should flag study subject for reindexed on create" do
+		enrollment = FactoryGirl.create(:enrollment)
+		assert_not_nil enrollment.study_subject
+		assert  enrollment.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		enrollment = FactoryGirl.create(:enrollment)
+		assert_not_nil enrollment.study_subject
+		assert  enrollment.study_subject.needs_reindexed
+		enrollment.study_subject.update_attribute(:needs_reindexed, false)
+		assert !enrollment.study_subject.needs_reindexed
+		enrollment.update_attributes(:notes => "something to make it dirty")
+		assert  enrollment.study_subject.needs_reindexed
+	end
+
 protected
 
 	#	MUST define this method so can use the alias_method below.

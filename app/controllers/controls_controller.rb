@@ -53,8 +53,19 @@ class ControlsController < ApplicationController
 #			enrollments.each {|e| e.update_attributes(:assigned_for_interview_at => DateTime.current) }
 #
 #	if this list is long, this will timeout
+#	actually it can take a while regardless of reindexing (about 0.1 sec per subject)
 #
-			StudySubject.find(params[:ids]).each{|s|s.index}
+#			StudySubject.find(params[:ids]).each{|s|s.index}
+#	perhaps just set attribute that it needs reindexed?
+			StudySubject.where(:id => params[:ids]).update_all(:needs_reindexed => true)
+#	then run cron job every so ofter
+#			rake app:study_subjects:reindex_those_waiting
+#		StudySubject.where(:reindex => true).each do |subject|
+#			subject.index
+#			subject.update_column(:reindex, false)
+#		end
+
+
 			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
 			@study_subjects = StudySubject.find(params[:ids])
 			@and_then_download_csv = true

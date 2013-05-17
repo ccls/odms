@@ -1,6 +1,15 @@
 namespace :app do
 namespace :study_subjects do
 
+	task :reindex => :environment do
+		StudySubject.where(:needs_reindexed => true).each do |subject|
+			puts "Reindexing #{subject}"
+			subject.index
+			subject.update_column(:needs_reindexed, false)
+		end
+		Sunspot.commit
+	end
+
 	task :merge_missing_other_diagnosis_with_missing_diagnosis => :environment do
 		Patient.where(:diagnosis_id => Diagnosis[:other])
 			.where(:other_diagnosis => '777: no legacy diagnosis data available in T2K').each do |p|

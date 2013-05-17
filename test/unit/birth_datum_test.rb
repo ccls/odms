@@ -891,6 +891,24 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 	
 
+	test "should flag study subject for reindexed on create" do
+		study_subject = FactoryGirl.create(:study_subject)
+		birth_datum = FactoryGirl.create(:birth_datum, :study_subject => study_subject)
+		assert_not_nil birth_datum.study_subject
+		assert birth_datum.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		study_subject = FactoryGirl.create(:study_subject)
+		birth_datum = FactoryGirl.create(:birth_datum, :study_subject => study_subject)
+		assert_not_nil birth_datum.study_subject
+		assert  birth_datum.study_subject.needs_reindexed
+		birth_datum.study_subject.update_attribute(:needs_reindexed, false)
+		assert !birth_datum.study_subject.needs_reindexed
+		birth_datum.update_attributes(:birth_state => "something to make it dirty")
+		assert  birth_datum.study_subject.needs_reindexed
+	end
+
 protected
 
 	def create_case_study_subject_and_birth_datum(

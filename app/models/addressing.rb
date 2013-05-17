@@ -12,7 +12,8 @@ class Addressing < ActiveRecord::Base
 		:line_1,:line_2,:unit,:city,:state,:zip,:csz,:county,
 			:to => :address, :allow_nil => true
 
-	attr_accessor :current_user
+#	20130517 - do I still use this?
+#	attr_accessor :current_user
 
 	#	flag used in study_subject's nested attributes for addressing
 	#		to not reject if address fields are blank.
@@ -41,7 +42,8 @@ protected
 
 	def reindex_study_subject!
 		logger.debug "Addressing changed so reindexing study subject"
-		study_subject.index if study_subject
+		study_subject.update_column(:needs_reindexed, true) if study_subject
+#		study_subject.index if study_subject
 	end
 
 	#	this will actually create an event on creation as well

@@ -366,6 +366,23 @@ pending	"no longer required, but may be temporary"
 
 
 
+	test "should flag study subject for reindexed on create" do
+		sample = FactoryGirl.create(:sample)
+		assert_not_nil sample.study_subject
+		assert  sample.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		sample = FactoryGirl.create(:sample)
+		assert_not_nil sample.study_subject
+		assert  sample.study_subject.needs_reindexed
+		sample.study_subject.update_attribute(:needs_reindexed, false)
+		assert !sample.study_subject.needs_reindexed
+		sample.update_attributes(:notes => "something to make it dirty")
+		assert  sample.study_subject.needs_reindexed
+	end
+
+
 protected
 
 	#	create_object is called from within the common class tests

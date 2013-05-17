@@ -27,7 +27,8 @@ protected
 
 	def reindex_study_subject!
 		logger.debug "Subject Race changed so reindexing study subject"
-		study_subject.index if study_subject
+		study_subject.update_column(:needs_reindexed, true) if study_subject
+#		study_subject.index if study_subject
 	end
 
 end

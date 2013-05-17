@@ -228,6 +228,25 @@ class OperationalEventTest < ActiveSupport::TestCase
 #		assert events.include? operational_event_2
 #	end
 
+
+	test "should flag study subject for reindexed on create" do
+		study_subject = FactoryGirl.create(:study_subject)
+		operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject)
+		assert_not_nil operational_event.study_subject
+		assert  operational_event.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		study_subject = FactoryGirl.create(:study_subject)
+		operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject)
+		assert_not_nil operational_event.study_subject
+		assert  operational_event.study_subject.needs_reindexed
+		operational_event.study_subject.update_attribute(:needs_reindexed, false)
+		assert !operational_event.study_subject.needs_reindexed
+		operational_event.update_attributes(:notes => "something to make it dirty")
+		assert  operational_event.study_subject.needs_reindexed
+	end
+
 protected
 
 	def create_operational_events(*args)

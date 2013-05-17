@@ -102,3 +102,5 @@ RAILS_ENV=production
 
 
 
+0 * * * * cd /my/ruby/odms/ ; rake app:study_subjects:reindex >> /my/ruby/logs/study_subjects_reindex.log
+

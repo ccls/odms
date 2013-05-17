@@ -1571,6 +1571,7 @@ Table: study_subjects
 | addressings_count           | int(11)      | YES  |     | 0       |                |
 | phone_numbers_count         | int(11)      | YES  |     | 0       |                |
 | interviews_count            | int(11)      | YES  |     | 0       |                |
+| needs_reindexed             | tinyint(1)   | YES  |     | 0       |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+
@@ -1693,5 +1694,3 @@ Table: zip_codes
 | created_at | datetime     | NO   |     | NULL    |                |
 | updated_at | datetime     | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
-/Users/jakewendt/github_repo/ccls/odms
-2013-05-13 11:25:16 -0700

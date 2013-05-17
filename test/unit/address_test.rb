@@ -169,6 +169,22 @@ class AddressTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "should flag study subject for reindexed on create" do
+		address = FactoryGirl.create(:addressing).reload.address
+		assert_not_nil address.study_subject
+		assert address.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		address = FactoryGirl.create(:addressing).reload.address
+		assert_not_nil address.study_subject
+		assert  address.study_subject.needs_reindexed
+		address.study_subject.update_attribute(:needs_reindexed, false)
+		assert !address.study_subject.needs_reindexed
+		address.update_attributes(:line_1 => "Someplace else")
+		assert  address.study_subject.needs_reindexed
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

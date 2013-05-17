@@ -293,6 +293,23 @@ class PhoneNumberTest < ActiveSupport::TestCase
 #		assert_nil phone_number.verified_by_uid
 #	end
 
+
+	test "should flag study subject for reindexed on create" do
+		phone_number = FactoryGirl.create(:phone_number)
+		assert_not_nil phone_number.study_subject
+		assert  phone_number.study_subject.needs_reindexed
+	end
+
+	test "should flag study subject for reindexed on update" do
+		phone_number = FactoryGirl.create(:phone_number)
+		assert_not_nil phone_number.study_subject
+		assert  phone_number.study_subject.needs_reindexed
+		phone_number.study_subject.update_attribute(:needs_reindexed, false)
+		assert !phone_number.study_subject.needs_reindexed
+		phone_number.update_attributes(:other_data_source => "something to make it dirty")
+		assert  phone_number.study_subject.needs_reindexed
+	end
+
 protected
 
 	#	create_object is called from within the common class tests
