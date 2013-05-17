@@ -1,6 +1,12 @@
 <div id='refine'>
 <%= form_tag( sunspot_subjects_path, :method => :get ) do %>
 <%= submit_tag "Search Subjects", :name => nil %><br/>
+
+<%#	preserve the order and direction on next search %>
+<%# could also save in session as do elsewhere? %>
+<%= hidden_field_tag :order, params[:order] %>
+<%= hidden_field_tag :dir, params[:dir] %>
+
 <%#= text_field_tag :q, params[:q] %>
 
   <div class='facets'>
