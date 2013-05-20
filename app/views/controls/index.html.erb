@@ -46,8 +46,9 @@
 </tr></thead>
 <tbody>
 <% @study_subjects.each do |study_subject| -%>
-<% mom = study_subject.mother -%>
-<% case_subject = study_subject.case_subject -%>
+<%# mom = study_subject.mother -%>
+<%# HUGE DIFFERENCE TO USE LOCAL COPY OF CASE AND MOM's ICF MASTER IDs -%>
+<%# case_subject = study_subject.case_subject -%>
 <% address = study_subject.addresses.first -%>
 <%# address = study_subject.current_mailing_address || study_subject.current_address -%>
 <%# Do I need to check if current_address==true? -%>
@@ -58,9 +59,15 @@
 <td><%= check_box_tag('ids[]', study_subject.id, 
 	[params[:ids]].flatten.include?(study_subject.id.to_s), :id => nil ) %></td>
 <td><%= mdy_or_nil(study_subject.reference_date) %></td>
-<td><%= case_subject.try(:icf_master_id_to_s)||"[No Case Subject]" %></td>
+<td>
+<%= study_subject.case_icf_master_id||"[No Case Subject]" -%>
+<%#= case_subject.try(:icf_master_id_to_s)||"[No Case Subject]" -%>
+</td>
 <td><%= study_subject.icf_master_id_to_s %></td>
-<td><%= mom.try(:icf_master_id_to_s)||"[No Mother Subject]" %></td>
+<td>
+<%= study_subject.mother_icf_master_id||"[No Mother Subject]" -%>
+<%#= mom.try(:icf_master_id_to_s)||"[No Mother Subject]" -%>
+</td>
 <td><%= study_subject.mother_first_name %></td>
 <td><%= study_subject.mother_maiden_name %></td>
 <td><%= study_subject.mother_last_name %></td>
