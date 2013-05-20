@@ -36,8 +36,9 @@
     alternate_phone
 ).to_csv( :headers => true) -%>
 <% @study_subjects.each do |study_subject| -%>
-<% mom = study_subject.mother -%>
-<% case_subject = study_subject.case_subject -%>
+<%# mom = study_subject.mother -%>
+<%# for the sake of speed use subject's copy of case and mother's icf_master_id -%>
+<%# case_subject = study_subject.case_subject -%>
 <%# address = study_subject.addressings.current.mailing.first.try(:address) -%>
 <%# address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
 <% address = study_subject.current_mailing_address || study_subject.current_address -%>
@@ -47,9 +48,9 @@
 <% birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
 <%= [
 mdy_or_nil(study_subject.reference_date),
-case_subject.try(:icf_master_id_to_s)||"[No Case Subject]",
+study_subject.case_icf_master_id||"[No Case Subject ICF Master ID]",
 study_subject.icf_master_id_to_s,
-mom.try(:icf_master_id_to_s)||"[No Mother Subject]",
+study_subject.mother_icf_master_id||"[No Mother Subject ICF Master ID]",
 study_subject.mother_first_name,
 study_subject.mother_maiden_name,
 study_subject.mother_last_name,
