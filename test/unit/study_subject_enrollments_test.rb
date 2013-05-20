@@ -66,7 +66,8 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		study_subject = create_study_subject
 		unenrolled = study_subject.unenrolled_projects
 		assert_not_nil unenrolled
-		assert unenrolled.all.is_a?(Array)
+#		assert unenrolled.all.is_a?(Array)
+		assert unenrolled.is_a?(Array)
 		assert_equal 10, Project.count
 		#	due to the auto-enrollment in ccls, there are only 9 now
 		assert_equal 9, unenrolled.length

@@ -30,12 +30,26 @@ base.class_eval do
 	#	Returns all projects for which the study_subject
 	#	does not have an enrollment
 	def unenrolled_projects
-		#	broke up to try to make 100% coverage (20120411)
-		projects = Project.joins("LEFT JOIN enrollments ON " <<
-				"projects.id = enrollments.project_id AND " <<
-				"enrollments.study_subject_id = #{self.id}" )
-		#	everything is NULL actually, but check study_subject_id
-		projects = projects.where("enrollments.study_subject_id IS NULL")
+#		#	broke up to try to make 100% coverage (20120411)
+#		projects = Project.joins("LEFT JOIN enrollments ON " <<
+#				"projects.id = enrollments.project_id AND " <<
+#				"enrollments.study_subject_id = #{self.id}" )
+#		#	everything is NULL actually, but check study_subject_id
+#		projects = projects.where("enrollments.study_subject_id IS NULL")
+
+
+#		Project.joins(
+#			Arel::Nodes::OuterJoin.new(Enrollment.arel_table,
+#				Arel::Nodes::On.new(
+#					Project.arel_table[:id].eq(
+#						Enrollment.arel_table[:project_id])))).where(
+#			Enrollment.arel_table[:study_subject_id].eq(nil))
+#
+#=> "SELECT `projects`.* FROM `projects` LEFT OUTER JOIN `enrollments` ON `projects`.`id` = `enrollments`.`project_id` WHERE `enrollments`.`study_subject_id` IS NULL"
+
+#	all the ... above is excessively unnecessary
+
+		Project.all - self.enrollments.collect(&:project)
 	end
 
 end	#	class_eval

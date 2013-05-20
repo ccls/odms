@@ -71,8 +71,15 @@ base.class_eval do
 			#	which would effectively exclude controls. (maybe that's ok?. NOT OK.)
 #			where(conditions_array
 #				).joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
-			where(conditions_array)
-				.joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
+
+
+#	20130520
+#			where(conditions_array)
+#				.joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
+			where(conditions_array).join_patients()
+
+
+
 		else
 			[]
 		end

@@ -8,6 +8,9 @@ class OperationalEventType < ActiveRecord::Base
 
 	has_many :operational_events
 
+	# Created for simplification of OperationalEvent.screener_complete scope
+	scope :screener_complete, where(:key => 'screener_complete')
+
 	validations_from_yaml_file
 
 	#	Returns event_category.

@@ -16,15 +16,18 @@ base.class_eval do
 
 	#	making separate to avoid open ended string line in controller
 	#	which screws up code coverage counting. (20120411)
-	scope :join_patients,
-		joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
+#	scope :join_patients,
+#		joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
+	scope :join_patients, joins(
+		Arel::Nodes::OuterJoin.new(Patient.arel_table,Arel::Nodes::On.new(
+			self.arel_table[:id].eq(Patient.arel_table[:study_subject_id]))))
 
-	scope :cases,    where('subject_type' => 'Case')
-	scope :controls, where('subject_type' => 'Control')
-	scope :mothers,  where('subject_type' => 'Mother')
-	scope :children, where('subject_type' => ['Case','Control'])
+	scope :cases,    where(:subject_type => 'Case')
+	scope :controls, where(:subject_type => 'Control')
+	scope :mothers,  where(:subject_type => 'Mother')
+	scope :children, where(:subject_type => ['Case','Control'])
 
-	scope :living,    where('vital_status' => 'Living')
+	scope :living,   where(:vital_status => 'Living')
 
 	def self.with_patid(patid)
 		where(:patid => sprintf("%04d",patid.to_i) )
