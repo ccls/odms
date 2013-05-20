@@ -13,6 +13,7 @@ class Addressing < ActiveRecord::Base
 			:to => :address, :allow_nil => true
 
 #	20130517 - do I still use this?
+#	left over from verified_by_uid
 #	attr_accessor :current_user
 
 	#	flag used in study_subject's nested attributes for addressing

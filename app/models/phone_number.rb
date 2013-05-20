@@ -23,7 +23,8 @@ class PhoneNumber < ActiveRecord::Base
 
 	before_save :format_phone_number, :if => :phone_number_changed?
 
-	attr_accessor :current_user
+#	left over from verified_by_uid
+#	attr_accessor :current_user
 
 	#	Returns description
 	def to_s

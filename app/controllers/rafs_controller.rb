@@ -190,7 +190,7 @@ protected
 	end
 
 	def default_raf_phone_number_attributes
-		{ 'current_user'   => current_user,
+		{ #'current_user'   => current_user,
 			'current_phone'  => YNDK[:yes],
 #			'is_valid'       => YNDK[:yes],
 #			'is_verified'    => true,
@@ -211,7 +211,7 @@ protected
 	end
 
 	def default_raf_addressing_attributes
-		{	'current_user'    => current_user,
+		{	#'current_user'    => current_user,
 			'address_at_diagnosis' => YNDK[:yes],
 			'current_address' => YNDK[:yes],
 #			'is_verified'     => true,
