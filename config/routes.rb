@@ -137,10 +137,10 @@ Odms::Application.routes.draw do
 
 	resources :sections
 	resources :subject_relationships
-	resources :subject_types
+#	resources :subject_types
 	resources :tracing_statuses
 #	resources :units
-	resources :vital_statuses
+#	resources :vital_statuses
 	resources :zip_codes, :only => [ :index ]
 
 	match 'logout', :to => 'sessions#destroy'
