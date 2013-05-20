@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
 	def self.with_role_name(role_name=nil)
 		( role_name.blank? ) ? scoped :
-			joins(:roles).where(Role.arel_name[:name].eq(role_name))
+			joins(:roles).where(Role.arel_table[:name].eq(role_name))
 #			joins(:roles).where("roles.name".to_sym => role_name)
 	end
 
