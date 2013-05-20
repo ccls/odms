@@ -29,8 +29,10 @@ base.class_eval do
 #		the callbacks will include reindexing.  Necessary?
 #		could also update needs_reindexed and be done with it
 
-#				self.update_column(:icf_master_id, next_icf_master_id.to_s)
-				self.update_attribute(:icf_master_id, next_icf_master_id.to_s)
+				self.update_column(:icf_master_id, next_icf_master_id.to_s)
+				self.update_column(:needs_reindexed, true)
+#	for the sake of speed, update columns not attributes
+#				self.update_attribute(:icf_master_id, next_icf_master_id.to_s)
 
 				next_icf_master_id.study_subject = self
 				next_icf_master_id.assigned_on   = Date.current
