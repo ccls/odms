@@ -94,7 +94,7 @@ Odms::Application.routes.draw do
 	resources :diagnoses
 	resources :document_types
 	resources :document_versions
-	resources :follow_up_types
+#	resources :follow_up_types
 	resources :guides
 	resources :hospitals
 	resources :icf_master_ids, :only => [:index,:show]
@@ -105,7 +105,8 @@ Odms::Application.routes.draw do
 	resources :interview_methods
 	resources :interview_outcomes
 	resources :languages
-	resources :locales, :only => :show
+#		We don't use this here
+#	resources :locales, :only => :show
 	resources :odms_exceptions, :except => [:new,:create]
 	resources :operational_event_types do
 		collection { get 'options' }
@@ -119,7 +120,7 @@ Odms::Application.routes.draw do
 	end
 	resources :people
 	resources :phone_types
-	resources :project_outcomes
+#	resources :project_outcomes
 	resources :projects
 	resources :rafs, :only => [:new,:create,:edit,:update,:show]
 	resources :races
@@ -135,7 +136,7 @@ Odms::Application.routes.draw do
 	end
 	resources :sample_types
 
-	resources :sections
+#	resources :sections
 	resources :subject_relationships
 #	resources :subject_types
 	resources :tracing_statuses
