@@ -323,15 +323,15 @@ FactoryGirl.define do
 	end
 	
 	factory :follow_up do |f|
-		f.association :section
+#		f.association :section
 		f.association :enrollment
-		f.association :follow_up_type
+#		f.association :follow_up_type
 	end
 	
-	factory :follow_up_type do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :follow_up_type do |f|
+#		f.sequence(:key)         { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :gift_card do |f|
 		f.sequence(:number){ |n| "#{n}" }
@@ -539,10 +539,10 @@ FactoryGirl.define do
 		f.sequence(:description) { |n| "Desc#{n}" }
 	end
 	
-	factory :project_outcome do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :project_outcome do |f|
+#		f.sequence(:key)         { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :project do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
@@ -632,10 +632,10 @@ FactoryGirl.define do
 	#		'test/assets/one_record_screening_datum_update_test_file.csv', 'text/csv')
 	#end
 	
-	factory :section do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :section do |f|
+#		f.sequence(:key)         { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :state do |f|
 		f.sequence(:code) { |n| "Code#{n}" }

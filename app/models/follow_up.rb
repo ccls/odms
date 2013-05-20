@@ -12,7 +12,7 @@ class FollowUp < ActiveRecord::Base
 
 #	belongs_to :section
 	belongs_to :enrollment
-	belongs_to :follow_up_type
+#	belongs_to :follow_up_type
 
 #	probably in anticipation of completed_by_uid usage
 #	attr_accessor :current_user
