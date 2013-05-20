@@ -8,10 +8,10 @@ class ZipCodesController < ApplicationController
 
 	def index
 #		@zip_codes = ZipCode.joins("LEFT JOIN counties ON zip_codes.county_id = counties.id")
-#	agnosticized .... (except perhaps the select line
+#	agnosticized .... (except perhaps the select line)
 		@zip_codes = ZipCode.joins(
 			Arel::Nodes::OuterJoin.new(County.arel_table,Arel::Nodes::On.new(
-				self.arel_table[:county_id].eq(County.arel_table[:id]))))
+				ZipCode.arel_table[:county_id].eq(County.arel_table[:id]))))
 			.select("city, state, zip_code, county_id, counties.name as county_name")
 			.order('zip_code ASC')
 			.where(ZipCode.arel_table[:zip_code].matches(

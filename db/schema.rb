@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130517212542) do
+ActiveRecord::Schema.define(:version => 20130520225256) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -765,9 +765,9 @@ ActiveRecord::Schema.define(:version => 20130517212542) do
   add_index "follow_up_types", ["key"], :name => "index_follow_up_types_on_key", :unique => true
 
   create_table "follow_ups", :force => true do |t|
-    t.integer  "section_id",        :null => false
+    t.integer  "section_id"
     t.integer  "enrollment_id",     :null => false
-    t.integer  "follow_up_type_id", :null => false
+    t.integer  "follow_up_type_id"
     t.date     "completed_on"
     t.string   "completed_by_uid"
     t.datetime "created_at",        :null => false

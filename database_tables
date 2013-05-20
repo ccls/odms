@@ -776,9 +776,9 @@ Table: follow_ups
 | Field             | Type         | Null | Key | Default | Extra          |
 +-------------------+--------------+------+-----+---------+----------------+
 | id                | int(11)      | NO   | PRI | NULL    | auto_increment |
-| section_id        | int(11)      | NO   |     | NULL    |                |
+| section_id        | int(11)      | YES  |     | NULL    |                |
 | enrollment_id     | int(11)      | NO   |     | NULL    |                |
-| follow_up_type_id | int(11)      | NO   |     | NULL    |                |
+| follow_up_type_id | int(11)      | YES  |     | NULL    |                |
 | completed_on      | date         | YES  |     | NULL    |                |
 | completed_by_uid  | varchar(255) | YES  |     | NULL    |                |
 | created_at        | datetime     | NO   |     | NULL    |                |
