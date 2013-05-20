@@ -19,8 +19,9 @@ class StudySubject::PhoneNumbersController < StudySubjectController
 	end
 
 	def create
-		@phone_number = @study_subject.phone_numbers.build(
-			params[:phone_number].merge( :current_user => current_user ) )
+#		@phone_number = @study_subject.phone_numbers.build(
+#			params[:phone_number].merge( :current_user => current_user ) )
+		@phone_number = @study_subject.phone_numbers.build( params[:phone_number] )
 		@phone_number.save!
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -29,8 +30,9 @@ class StudySubject::PhoneNumbersController < StudySubjectController
 	end
 
 	def update
-		@phone_number.update_attributes!(
-			params[:phone_number].merge( :current_user => current_user ) )
+#		@phone_number.update_attributes!(
+#			params[:phone_number].merge( :current_user => current_user ) )
+		@phone_number.update_attributes!( params[:phone_number] )
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "PhoneNumber update failed"
