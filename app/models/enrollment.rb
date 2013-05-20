@@ -81,12 +81,14 @@ class Enrollment < ActiveRecord::Base
 
 	scope :interview_completed,  where(self.arel_table[:interview_completed_on].not_eq(nil))
 
-	#	find enrollments by project key
-	#	(rather than hard coding scopes for each)
-	#	(square brackets don't seem to work in the scoping world)
-#	def self.[](project_key)
+#	#	find enrollments by project key
+#	#	(rather than hard coding scopes for each)
+#	#	(square brackets don't seem to work in the scoping world)
+##	def self.[](project_key)
+	#	only used in testing
 	def self.by_project_key(project_key)
-		joins(:project).where(Project.arel_table[:key].matches(project_key))
+#		joins(:project).where(Project.arel_table[:key].matches(project_key))
+		joins(:project).merge(Project.by_key(project_key.to_s))
 	end
 
 	after_save :reindex_study_subject!, :if => :changed?

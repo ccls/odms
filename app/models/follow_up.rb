@@ -14,6 +14,7 @@ class FollowUp < ActiveRecord::Base
 	belongs_to :enrollment
 	belongs_to :follow_up_type
 
-	attr_accessor :current_user
+#	probably in anticipation of completed_by_uid usage
+#	attr_accessor :current_user
 
 end

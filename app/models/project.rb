@@ -31,6 +31,11 @@ class Project < ActiveRecord::Base
 #		projects = projects.where("enrollments.study_subject_id IS NULL")
 #	end
 
+	#	only for Enrollments.by_project_key which is only used in testing
+	def self.by_key(key)
+		where(arel_table[:key].matches(key.to_s))
+	end
+
 	#	Returns description
 	def to_s
 		description

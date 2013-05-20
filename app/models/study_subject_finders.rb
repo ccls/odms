@@ -18,6 +18,7 @@ base.class_eval do
 	#	which screws up code coverage counting. (20120411)
 #	scope :join_patients,
 #		joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
+#	agnosticized ...
 	scope :join_patients, joins(
 		Arel::Nodes::OuterJoin.new(Patient.arel_table,Arel::Nodes::On.new(
 			self.arel_table[:id].eq(Patient.arel_table[:study_subject_id]))))

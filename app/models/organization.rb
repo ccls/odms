@@ -21,8 +21,9 @@ class Organization < ActiveRecord::Base
 #	scope :without_hospital, includes(:hospital).merge(Hospital.without_org)
 
 	scope :without_hospital, joins(
-		Arel::Nodes::OuterJoin.new(Hospital.arel_table,Arel::Nodes::On.new(
-			self.arel_table[:id].eq(Hospital.arel_table[:organization_id]))))
+		Arel::Nodes::OuterJoin.new(
+			Hospital.arel_table,Arel::Nodes::On.new(
+				self.arel_table[:id].eq(Hospital.arel_table[:organization_id]))))
 		.merge(Hospital.without_org)
 #
 #	Oddly enough, using 'includes' will use a LEFT OUTER JOIN 
@@ -39,8 +40,9 @@ class Organization < ActiveRecord::Base
 
 #	this also works (trying to be agnostic) (cleaner db query)
 	scope :without_sample_location, joins(
-		Arel::Nodes::OuterJoin.new(SampleLocation.arel_table,Arel::Nodes::On.new(
-			self.arel_table[:id].eq(SampleLocation.arel_table[:organization_id]))))
+		Arel::Nodes::OuterJoin.new(
+			SampleLocation.arel_table,Arel::Nodes::On.new(
+				self.arel_table[:id].eq(SampleLocation.arel_table[:organization_id]))))
 		.merge(SampleLocation.without_org)
 
 #Organization.without_sample_location.to_sql
