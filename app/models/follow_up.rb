@@ -10,7 +10,7 @@ class FollowUp < ActiveRecord::Base
 #			t.integer :enrollment_id, :null => false
 #			t.integer :follow_up_type_id, :null => false
 
-	belongs_to :section
+#	belongs_to :section
 	belongs_to :enrollment
 	belongs_to :follow_up_type
 

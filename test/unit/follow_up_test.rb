@@ -3,8 +3,8 @@ require 'test_helper'
 class FollowUpTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-	assert_should_initially_belong_to(
-		:section, :enrollment, :follow_up_type)
+#	assert_should_initially_belong_to( :section, :enrollment, :follow_up_type)
+	assert_should_initially_belong_to( :enrollment, :follow_up_type)
 
 	test "follow_up factory should create follow up" do
 		assert_difference('FollowUp.count',1) {
@@ -19,12 +19,12 @@ class FollowUpTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "follow_up factory should create section" do
-		assert_difference('Section.count',1) {
-			follow_up = FactoryGirl.create(:follow_up)
-			assert_not_nil follow_up.section
-		}
-	end
+#	test "follow_up factory should create section" do
+#		assert_difference('Section.count',1) {
+#			follow_up = FactoryGirl.create(:follow_up)
+#			assert_not_nil follow_up.section
+#		}
+#	end
 
 	test "follow_up factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
