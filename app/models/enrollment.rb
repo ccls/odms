@@ -8,7 +8,7 @@ class Enrollment < ActiveRecord::Base
 	belongs_to :refusal_reason
 	belongs_to :document_version
 	belongs_to :project
-	belongs_to :project_outcome
+#	belongs_to :project_outcome
 	belongs_to :tracing_status
 	has_many   :follow_ups
 
