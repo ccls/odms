@@ -90,7 +90,6 @@ class ControlsController < ApplicationController
 				":#{params[:q]}" unless @study_subject
 		end
 
-#			.joins("LEFT JOIN `study_subjects` AS `controls` ON `study_subjects`.`patid` = `controls`.`patid` AND `controls`.`subject_type_id` = #{SubjectType[:control].id}")
 		@study_subjects = StudySubject.cases
 			.where( :phase => 5 )
 			.joins(:enrollments)
@@ -105,7 +104,6 @@ class ControlsController < ApplicationController
 	end
 
 	def create
-#		candidate = CandidateControl.unassigned.unrejected.related_patid(
 		candidate = CandidateControl.unassigned.unrejected.with_related_patid(
 			@study_subject.patid ).limit(1).first	#	scopes always return arrays
 		if candidate

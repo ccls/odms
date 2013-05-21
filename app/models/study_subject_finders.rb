@@ -9,19 +9,10 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-#	Be advised that using a join in a scope will, by default, render those
-#	found as a "ReadOnlyRecord" so attempting to write to one will fail.  This can
-#	be countered by adding a "readonly(false)" to the scope chain.  Or you
-#	can simply re-find the given subject by id.
-
-	#	making separate to avoid open ended string line in controller
-	#	which screws up code coverage counting. (20120411)
-#	scope :join_patients,
-#		joins('LEFT JOIN patients ON study_subjects.id = patients.study_subject_id')
-#	agnosticized ...
-	scope :join_patients, joins(
-		Arel::Nodes::OuterJoin.new(Patient.arel_table,Arel::Nodes::On.new(
-			self.arel_table[:id].eq(Patient.arel_table[:study_subject_id]))))
+	#	Be advised that using a join in a scope will, by default, render those
+	#	found as a "ReadOnlyRecord" so attempting to write to one will fail.  This can
+	#	be countered by adding a "readonly(false)" to the scope chain.  Or you
+	#	can simply re-find the given subject by id.
 
 	scope :cases,    where(:subject_type => 'Case')
 	scope :controls, where(:subject_type => 'Control')

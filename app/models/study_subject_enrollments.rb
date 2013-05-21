@@ -46,10 +46,21 @@ base.class_eval do
 #			Enrollment.arel_table[:study_subject_id].eq(nil))
 #
 #=> "SELECT `projects`.* FROM `projects` LEFT OUTER JOIN `enrollments` ON `projects`.`id` = `enrollments`.`project_id` WHERE `enrollments`.`study_subject_id` IS NULL"
+#	WRONG
 
-#	all the ... above is excessively unnecessary
 
+		#	Keeping it simple
 		Project.all - self.enrollments.collect(&:project)
+
+#		#	Making it complicated
+#		Project.joins(
+#			Arel::Nodes::OuterJoin.new(Enrollment.arel_table,
+#				Arel::Nodes::On.new(
+#					Project.arel_table[:id].eq(Enrollment.arel_table[:project_id]).and(
+#						Enrollment.arel_table[:study_subject_id].eq(self.id))
+#				)
+#			)
+#		).where( Enrollment.arel_table[:study_subject_id].eq(nil) )
 	end
 
 end	#	class_eval
