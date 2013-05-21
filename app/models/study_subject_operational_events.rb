@@ -41,9 +41,9 @@ base.class_eval do
 		end
 	end
 
-	#	operational_events.occurred_at where operational_event_type_id = 26 and enrollment_id is for any open project (where projects.ended_on is null) for study_subject_id
-	def screener_complete_date_for_open_project
-		oe = self.operational_events.screener_complete.open_project.limit(1).first
+	#	operational_events.occurred_at where operational_event_type_id = 26 and enrollment_id is for any unended project (where projects.ended_on is null) for study_subject_id
+	def screener_complete_date_for_unended_project
+		oe = self.operational_events.screener_complete.unended_project.limit(1).first
 		#	separated to try to make 100% coverage (20120411)
 		oe.try(:occurred_on)
 	end

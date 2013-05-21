@@ -6,8 +6,9 @@ class Project < ActiveRecord::Base
 	acts_as_list
 	acts_like_a_hash
 
-	# Created for simplification of OperationalEvent.open_project scope
-	scope :open, where( :ended_on => nil )
+	# Created for simplification of OperationalEvent.unended_project scope
+	#	The 'open' method is already defined, so DON'T USE IT
+	scope :unended, where( :ended_on => nil )
 
 	has_many :operational_events
 	has_many :instrument_types

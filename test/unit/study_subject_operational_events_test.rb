@@ -34,22 +34,22 @@ class StudySubjectOperationalEventsTest < ActiveSupport::TestCase
 		assert_equal 1, events.count
 	end
 
-	test "should return nil for subject's screener_complete_date_for_open_project" <<
+	test "should return nil for subject's screener_complete_date_for_unended_project" <<
 			" when subject has no associated operational event type" do
 		study_subject = FactoryGirl.create(:study_subject)
-		assert_nil study_subject.screener_complete_date_for_open_project
+		assert_nil study_subject.screener_complete_date_for_unended_project
 	end
 
-	test "should return date for subject's screener_complete_date_for_open_project" <<
+	test "should return date for subject's screener_complete_date_for_unended_project" <<
 			" when subject has associated operational event type" do
 		study_subject = FactoryGirl.create(:study_subject)
-		assert_nil study_subject.screener_complete_date_for_open_project
+		assert_nil study_subject.screener_complete_date_for_unended_project
 		study_subject.operational_events.create(
 			:project => Project['ccls'],
 			:operational_event_type_id => OperationalEventType['screener_complete'].id,
 			:occurred_at => DateTime.current )
 #			:occurred_at => Date.current)
-		date = study_subject.screener_complete_date_for_open_project
+		date = study_subject.screener_complete_date_for_unended_project
 		assert_equal date, Date.current
 	end
 

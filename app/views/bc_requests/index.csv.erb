@@ -41,7 +41,7 @@ other_father_race ).to_csv(
 	study_subject.icf_master_id,
 	study_subject.mom_is_biomom,
 	study_subject.dad_is_biodad,
-	study_subject.screener_complete_date_for_open_project,
+	study_subject.screener_complete_date_for_unended_project,
 	study_subject.mothers_names.delete_if(&:blank?).join(' '),
 	study_subject.mother_maiden_name.blank_or(study_subject.mother_last_name),
 	study_subject.fathers_names.delete_if(&:blank?).join(' '),

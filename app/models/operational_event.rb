@@ -11,27 +11,10 @@ class OperationalEvent < ActiveRecord::Base
 
 	belongs_to :project
 
-#	scope :screener_complete, joins(:operational_event_type).where( 
-#		:'operational_event_types.key' => 'screener_complete').readonly(false)
 	scope :screener_complete, joins(:operational_event_type)
 		.merge(OperationalEventType.screener_complete).readonly(false)
-#	or even ...
-#		.where(OperationalEventType.arel_table[:key].eq('screener_complete').readonly(false)
 
-	#	This join will make it readonly, so undo this
-#	scope :open_project, joins(:project).where(
-#		:'projects.ended_on' => nil ).readonly(false)
-	scope :open_project, joins(:project).merge(Project.open).readonly(false)
-#	or even ...
-#		.where(Project.arel_table[:ended_on].eq(nil).readonly(false)
-#
-#	irb(main):005:0> OperationalEvent.xopen_project.to_sql
-#=> "SELECT `operational_events`.* FROM `operational_events` INNER JOIN `projects` ON `projects`.`id` = `operational_events`.`project_id` WHERE `projects`.`ended_on` IS NULL"
-#irb(main):006:0> OperationalEvent.open_project.to_sql
-#=> "SELECT `operational_events`.* FROM `operational_events` INNER JOIN `projects` ON `projects`.`id` = `operational_events`.`project_id` WHERE `projects`.`ended_on` IS NULL"
-#
-#	scope :xopen_project, joins(:project)
-#		.where(Project.arel_table[:ended_on].eq(nil)).readonly(false)
+	scope :unended_project, joins(:project).merge(Project.unended).readonly(false)
 
 	#	Returns description
 	def to_s

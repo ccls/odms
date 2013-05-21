@@ -49,18 +49,18 @@ base.class_eval do
 #	WRONG
 
 
-		#	Keeping it simple
-		Project.all - self.enrollments.collect(&:project)
+		#	Keeping it simple (this will return an array)
+#		Project.all - self.enrollments.collect(&:project)
 
-#		#	Making it complicated
-#		Project.joins(
-#			Arel::Nodes::OuterJoin.new(Enrollment.arel_table,
-#				Arel::Nodes::On.new(
-#					Project.arel_table[:id].eq(Enrollment.arel_table[:project_id]).and(
-#						Enrollment.arel_table[:study_subject_id].eq(self.id))
-#				)
-#			)
-#		).where( Enrollment.arel_table[:study_subject_id].eq(nil) )
+		#	Making it complicated ( but this will return an ActiveRelation )
+		Project.joins(
+			Arel::Nodes::OuterJoin.new(Enrollment.arel_table,
+				Arel::Nodes::On.new(
+					Project.arel_table[:id].eq(Enrollment.arel_table[:project_id]).and(
+						Enrollment.arel_table[:study_subject_id].eq(self.id))
+				)
+			)
+		).where( Enrollment.arel_table[:study_subject_id].eq(nil) )
 	end
 
 end	#	class_eval
