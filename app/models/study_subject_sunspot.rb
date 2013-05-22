@@ -63,6 +63,8 @@ base.class_eval do
 	include Sunspotability
 
 	self.all_sunspot_columns = [
+		SunspotColumn.new( :id, 
+			:default => true, :type => :integer ),
 		SunspotColumn.new( :subject_type, 
 			:facetable => true, :default => true ),
 		SunspotColumn.new( :vital_status, 
@@ -101,13 +103,11 @@ base.class_eval do
 		SunspotColumn.new( :patient_was_under_15_at_dx,
 			:label => 'Was Under 15 at Diagnosis?',
 			:facetable => true, :type => :nulled_string ),
-		SunspotColumn.new( :id, 
-			:default => true, :type => :integer ),
+		SunspotColumn.new( :icf_master_id, 
+			:default => true ),
 		SunspotColumn.new( :case_icf_master_id, 
 			:default => true ),
 		SunspotColumn.new( :mother_icf_master_id, 
-			:default => true ),
-		SunspotColumn.new( :icf_master_id, 
 			:default => true ),
 		SunspotColumn.new( :dob, 
 			:default => true, :type => :date ),
