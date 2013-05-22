@@ -909,6 +909,17 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert  birth_datum.study_subject.needs_reindexed
 	end
 
+	test "append_notes should update instance and save to db" do
+		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum.update_attribute(:ccls_import_notes,nil)
+		assert_blank birth_datum.ccls_import_notes
+		assert_blank birth_datum.reload.ccls_import_notes
+		birth_datum.append_notes "This is a test"
+		#	also adds ";\n" to each line
+		assert_equal "This is a test;\n", birth_datum.ccls_import_notes
+		assert_equal "This is a test;\n", birth_datum.reload.ccls_import_notes
+	end
+
 protected
 
 	def create_case_study_subject_and_birth_datum(

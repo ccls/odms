@@ -34,66 +34,79 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def post_processing
-#		if master_id.blank? and childid.blank? and 
-#				subjectid.blank? and state_registrar_no.blank?
-#	state_registrar_no exists in birth data but not in our db?
 		if master_id.blank? and childid.blank? and subjectid.blank?
-			ccls_import_notes << 'birth data append:master_id, childid and subjectid blank;\n'
+			append_notes "birth data append:master_id, childid and subjectid blank"
 		else
 			#	DO NOT USE 'study_subject' here as it will conflict with
 			#	the study_subject association.
-			subject = find_subject
+			case_subject = find_case_subject
 
-			if subject.nil?
-				ccls_import_notes << "birth data append:No subject found with master_id :#{master_id}:;\n"
-			elsif !subject.is_case?
-				ccls_import_notes << "birth data append:Subject found with master_id :#{master_id}:" <<
-						" is not a case subject.;\n"
-			else
+			if case_subject.nil?
+				append_notes "birth data append:No subject found with master_id :#{master_id}:"
+			elsif !case_subject.is_case?
+				append_notes "birth data append:Subject found with master_id :#{master_id}:" <<
+						" is not a case subject."
+			else	#	case_subject is case
 				if is_control?
-					control_options = { :related_patid => subject.patid }
-					reasons = []
-					control_options[:reject_candidate] = true if dob.blank? or sex.blank?
-					reasons << "Birth datum dob is blank." if dob.blank?
-					reasons << "Birth datum sex is blank." if sex.blank?
-					control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
-					self.create_candidate_control( control_options )
-					ccls_import_notes << "birth data append:Candidate control was pre-rejected " <<
-							"because #{reasons.join(',')}.;\n" unless reasons.empty?
-					if self.candidate_control.new_record?
-						ccls_import_notes << "candidate control creation:" <<
-							"Error creating candidate_control for subject;\n"
-
-#
-#	TODO perhaps add errors.full_messages.to_sentence to ccls_import_notes?
-#
-#						ccls_import_notes << self.candidate_control.errors.full_messages.to_sentence
-#						ccls_import_notes << ";\n"
-#
-
-					else
-						create_control_study_subject_and_mother
-					end
+					create_candidate_control_for( case_subject )
 				elsif is_case?
-					if match_confidence.present? && match_confidence.match(/definite/i)
+
+
+					if match_confidence.to_s.match(/definite/i)	#	||
+#						( match_confidence.to_s.match(/^NO$/i) and case_subject.birth_state != 'CA' )
 #
-#	So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be
+# The 'NO' matches in the case files that were not born in California should still be imported with their controls into ODMS.  We can determine that they are valid b/c we have their birth state in the bc_info data that was imported from ICF.  So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be.
 #
 						#	assign study_subject_id to case's id
-						self.update_case_study_subject_attributes
-						self.mark_all_incomplete_bc_requests_as_complete
-						self.create_address_from_attributes
+						update_case_study_subject_attributes
+						mark_all_incomplete_bc_requests_as_complete
+						create_address_from_attributes
 					else
-						ccls_import_notes << "birth data append:"<<
-							"Match confidence not 'definite':#{match_confidence}:;\n"
+						append_notes "birth data append:"<<
+							"Match confidence not 'definite':#{match_confidence}:"
 					end	#	if match_confidence.match(/definite/i)
+
+
+
 				else
-					ccls_import_notes << "birth data append:"<<
-							"Unknown case_control_flag :#{case_control_flag}:;\n"
+					append_notes "birth data append:"<<
+							"Unknown case_control_flag :#{case_control_flag}:"
 				end
 			end
 		end
-		save if ccls_import_notes.present?
+	end
+
+	#	import notes are added along the way from different places
+	#	rather than saving at the end, just update the column each time
+	def append_notes(notes)
+		ccls_import_notes ||= ''
+		ccls_import_notes << notes << ";\n"
+		self.update_column(:ccls_import_notes, ccls_import_notes)
+	end
+
+	def create_candidate_control_for(case_subject)
+		control_options = { :related_patid => case_subject.patid }
+		reasons = []
+		control_options[:reject_candidate] = true if dob.blank? or sex.blank?
+		reasons << "Birth datum dob is blank." if dob.blank?
+		reasons << "Birth datum sex is blank." if sex.blank?
+		control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
+		self.create_candidate_control( control_options )
+		append_notes "birth data append:Candidate control was pre-rejected " <<
+				"because #{reasons.join(',')}." unless reasons.empty?
+		if self.candidate_control.new_record?
+			append_notes "candidate control creation:" <<
+				"Error creating candidate_control for subject"
+
+		#
+		#	TODO perhaps add errors.full_messages.to_sentence to ccls_import_notes?
+		#
+		#			append_notes self.candidate_control.errors.full_messages.to_sentence
+		#
+
+		else
+			create_control_study_subject_and_mother( case_subject )
+		end
 	end
 
 	#
@@ -101,62 +114,57 @@ class BirthDatum < ActiveRecord::Base
 	#	It no longer does any of the duplicate checking.
 	#	Of course, I still don't know how important that was.
 	#
-	def create_control_study_subject_and_mother
+	def create_control_study_subject_and_mother( case_subject )
 		#irb(main):004:0> BirthDatum.group(:deceased).count
 		#   (30.0ms)  SELECT COUNT(*) AS count_all, deceased AS deceased 
 		#		FROM `birth_data` GROUP BY deceased
 		#=> {nil=>547, " "=>1763, "DEFINITE"=>3, "POSSIBLE"=>1}
 		#irb(main):005:0> quit
 
-		#	Don't if deceased
-#			( deceased.blank? || ( deceased.present? && !deceased.match(/definite/i) ) )
-
-		if match_confidence.present? && match_confidence.match(/definite/i) && 
+		if match_confidence.to_s.match(/definite/i) && 
 				!deceased.to_s.match(/definite/i)
+
 #
-#	TODO So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be
+# The 'NO' matches in the case files that were not born in California should still be imported with their controls into ODMS.  We can determine that they are valid b/c we have their birth state in the bc_info data that was imported from ICF.  So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be.
+#
+#	case_subject.birth_state
 #
 
 			#	see candidate_controls_controller#update
-			case_study_subject = StudySubject.cases.with_patid(
-				self.candidate_control.related_patid).first
+#			case_study_subject = StudySubject.cases.with_patid(
+#				self.candidate_control.related_patid).first
 			#	why do I need to pass this info? can't it find it?
-			self.candidate_control.create_study_subjects( case_study_subject )
+			self.candidate_control.create_study_subjects( case_subject )
 
 
-#			self.save
-#	reloading without saving the import notes!!!
-			#	hoping to get the study subject that was assigned
-#			self.reload
+		else
+
+#	TODO	append_notes "Study Subject not created."
 
 		end
 	end
 
-	def find_subject
+	def find_case_subject
 		if master_id.present?
 			StudySubject.with_icf_master_id( master_id ).first
 		elsif childid.present?
 			StudySubject.with_childid( childid ).first
 		elsif subjectid.present?
 			StudySubject.with_subjectid( subjectid ).first
-#		elsif state_registrar_no.present?
-#			StudySubject.with_state_registrar_no( state_registrar_no ).first
 		else
 			nil
 		end
 	end
 
-	def assign_subject
+	def assign_case_subject
 		if study_subject
 			study_subject
 		else
-			subject = find_subject
-			return if subject.nil?
-
-			self.study_subject = subject
+			case_subject = find_case_subject
+			return if case_subject.nil?
+			self.study_subject = case_subject
 			self.save
-			
-			subject
+			case_subject
 		end
 	end
 
@@ -180,7 +188,7 @@ class BirthDatum < ActiveRecord::Base
 	#	Doing this very similar to the bc info updating
 	#	
 	def update_case_study_subject_attributes
-		assign_subject unless study_subject
+		assign_case_subject unless study_subject
 		return if study_subject.nil?
 		#
 		#	ONLY DO THIS FOR CASE SUBJECTS!
@@ -248,8 +256,8 @@ class BirthDatum < ActiveRecord::Base
 					:notes => "StudySubject save failed." << 
 						study_subject.errors.full_messages.to_sentence)
 
-				ccls_import_notes << "birth data update:Error updating case study subject. " <<
-					"Save failed! #{study_subject.errors.full_messages.to_sentence};\n"
+				append_notes "birth data update:Error updating case study subject. " <<
+					"Save failed! #{study_subject.errors.full_messages.to_sentence}"
 			end	#	if study_subject.save
 
 		end	#	if study_subject.changed?
