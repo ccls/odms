@@ -86,12 +86,19 @@
   :attributes:
   - :hispanicity
   - :hispanicity_mex
-  - :mother_hispanicity
   - :father_hispanicity
   - :mother_hispanicity_mex
   - :father_hispanicity_mex
   :inclusion:
     :in: <%= YNRDK.valid_values %>
+  :allow_nil: true
+
+#	there are 2 in the database that are "3"
+-
+  :attributes:
+  - :mother_hispanicity
+  :inclusion:
+    :in: <%= YNORDK.valid_values %>
   :allow_nil: true
 
 -

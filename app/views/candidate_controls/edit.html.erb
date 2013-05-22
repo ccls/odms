@@ -22,7 +22,8 @@
 <td><%= @study_subject.sex %></td>
 <td><%= (( !@study_subject.mother_race_code.blank?
 	) ? Race.where(:code => @study_subject.mother_race_code).first : '&nbsp;'.html_safe ) %></td>
-<td><%=ynrdk @study_subject.mother_hispanicity %></td>
+<%# NOTE There are 2 records in the database with mother_hispanicity of 3 -%>
+<td><%=ynordk @study_subject.mother_hispanicity %></td>
 <td><%=ynrdk @study_subject.father_hispanicity %></td>
 </tr>
 <tr>
