@@ -184,8 +184,12 @@ assert bc_info.study_subject.instance_variable_get("@bc_info_changed")
 	%w( new_dob_year dob_year new_child_doby child_doby ).each do |attr|
 
 		test "should update birth_year with #{attr}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
-			assert_nil study_subject.birth_year
+			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+				:dob => Date.parse('12/31/1999') )
+
+#			assert_nil study_subject.birth_year
+			assert_equal '1999', study_subject.birth_year
+
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", attr => 2000)
 			bc_info.process
 			assert bc_info.changes.keys.include?('birth_year'),
@@ -217,7 +221,10 @@ assert bc_info.study_subject.instance_variable_get("@bc_info_changed")
 
 		test "should update sex with #{attr}" do
 			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST", :sex => 'DK')
-			assert_nil study_subject.birth_year
+
+#	20130522 not true anymore and kinda irrelevant for this test
+#			assert_nil study_subject.birth_year
+
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", attr => 'M')
 			bc_info.process
 			assert bc_info.changes.keys.include?('sex'), 
@@ -232,7 +239,10 @@ assert bc_info.study_subject.instance_variable_get("@bc_info_changed")
 		test "should update dob with #{attr}" do
 			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
 				:dob => Date.parse('Dec 31, 1999'))
-			assert_nil study_subject.birth_year
+
+#			assert_nil study_subject.birth_year
+			assert_equal '1999', study_subject.birth_year
+
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 				attr => 'Dec 31, 1998')
 			bc_info.process
