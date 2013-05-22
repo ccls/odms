@@ -26,6 +26,8 @@
 	:label_text => 'subject type:' %>
 <%= wrapped_date_spans :study_subject, :dob,
 	:label_text => 'date of birth:' %>
+<%= wrapped_spans :study_subject, :birth_year,
+	:label_text => 'birth year:' %>
 
 <%# unfortunately, I've allowed sex to be blank %>
 <%= wrapped_spans :study_subject, :sex,

@@ -133,6 +133,24 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "should set birth_year to dob.year on create" do
+		study_subject = Factory(:study_subject)
+		assert_not_nil study_subject.dob
+		assert_not_nil study_subject.birth_year
+		assert_equal study_subject.birth_year, study_subject.dob.year.to_s
+		study_subject.reload
+		assert_equal study_subject.birth_year, study_subject.dob.year.to_s
+	end
+
+	test "should set birth_year to dob.year on update" do
+		study_subject = Factory(:study_subject, :dob => '12/31/2000').reload
+		assert_equal '2000', study_subject.birth_year
+		assert_equal '2000', study_subject.reload.birth_year
+		study_subject.update_attribute(:dob, '1/1/2013')
+		assert_equal '2013', study_subject.birth_year
+		assert_equal '2013', study_subject.reload.birth_year
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

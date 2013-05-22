@@ -1,6 +1,18 @@
 namespace :app do
 namespace :study_subjects do
 
+	task :update_birth_year_from_dob => :environment do
+#		raise "This task has been run and disabled."
+		#	find_each is a apparently a batch find method
+		StudySubject.find_each do |study_subject|
+			dob = study_subject.dob
+			puts "Updating #{study_subject} birth year to #{dob.try(:year)} from dob #{dob}"
+			study_subject.set_birth_year
+			study_subject.save!
+		end
+		Sunspot.commit
+	end
+
 	task :reindex => :environment do
 		StudySubject.where(:needs_reindexed => true).each do |subject|
 			puts "Reindexing #{subject}"
@@ -11,6 +23,7 @@ namespace :study_subjects do
 	end
 
 	task :merge_missing_other_diagnosis_with_missing_diagnosis => :environment do
+#		raise "This task has been run and disabled."
 		Patient.where(:diagnosis_id => Diagnosis[:other])
 			.where(:other_diagnosis => '777: no legacy diagnosis data available in T2K').each do |p|
 			#	could have used an update_all, but that wouldn't
@@ -33,7 +46,7 @@ namespace :study_subjects do
 	end
 
 	task :add_cdcids_from_anand => :environment do
-		raise "This task has been disabled."
+		raise "This task has been run and disabled."
 		CSV.open( 'anand/2010-12-06_MaternalBiospecimenIDLink.csv',
 				'rb',{ :headers => true }).each do |line|
 			puts line
@@ -58,7 +71,6 @@ namespace :study_subjects do
 	task :synchronize_vital_status_with_vital_status_id => :environment do
 		VitalStatus.all.each do |vital_status|
 			puts "Updating #{vital_status} subjects"
-#			StudySubject.where(:vital_status_id => vital_status.id)
 			StudySubject.where(:vital_status_code => vital_status.code)
 				.update_all(:vital_status => vital_status.to_s )
 		end	#	VitalStatus.all

@@ -101,6 +101,6 @@ RAILS_ENV=production
 # @daily          Run once a day, "0 0 * * *".
 
 
-
-0 * * * * cd /my/ruby/odms/ ; rake app:study_subjects:reindex >> /my/ruby/logs/study_subjects_reindex.log
+#	every 15 minutes
+0,15,30,45 * * * * cd /my/ruby/odms/ ; rake app:study_subjects:reindex >> /my/ruby/logs/study_subjects_reindex.log
 

@@ -49,9 +49,9 @@ class ActiveSupport::TestCase
 #	would this work for backward compatibility
 #
 #	Factory = FactoryGirl
-#	def Factory(*args)
-#		FactoryGirl.create(args)
-#	end
+	def Factory(*args)
+		FactoryGirl.create(*args)
+	end
 
 #	This would probably work, but would require I change everything!
 #	def with_login_as( user=nil, &block )
