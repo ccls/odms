@@ -618,7 +618,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal 'Jane Smith', birth_datum.mother_full_name 
 	end
 
-	test "case birth datum update_study_subject_attributes should update" <<
+	test "case birth datum update_case_study_subject_attributes should update" <<
 			" subject attributes middle name" do
 		birth_datum = FactoryGirl.create(:case_birth_datum,
 			:middle_name => 'mynewmiddlename',
@@ -626,24 +626,24 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:case_study_subject,
 			:icf_master_id => '12345678A' )
 		assert_nil study_subject.middle_name
-		birth_datum.update_study_subject_attributes
+		birth_datum.update_case_study_subject_attributes
 		study_subject.reload
 		assert_equal 'Mynewmiddlename', study_subject.middle_name
 	end
 
-	test "case birth datum update_study_subject_attributes should do nothing" <<
+	test "case birth datum update_case_study_subject_attributes should do nothing" <<
 			" without matching subject" do
 		birth_datum = FactoryGirl.create(:case_birth_datum,
 			:middle_name => 'mynewmiddlename',
 			:master_id    => '12345678A' )
-		birth_datum.update_study_subject_attributes
+		birth_datum.update_case_study_subject_attributes
 	end
 
-	test "case birth datum update_study_subject_attributes should do nothing" <<
+	test "case birth datum update_case_study_subject_attributes should do nothing" <<
 			" without master_id" do
 		birth_datum = FactoryGirl.create(:case_birth_datum,
 			:middle_name => 'mynewmiddlename' )
-		birth_datum.update_study_subject_attributes
+		birth_datum.update_case_study_subject_attributes
 	end
 
 	test "case birth datum should not create odms exception on success" do
@@ -766,7 +766,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 				{field => ''}, {field => 'iamnot blank'})
 			study_subject.reload
 			assert_equal study_subject.send(field), 'Iamnot Blank'
-		end
+		end unless field == 'state_registrar_no'	# NOTE just the one exception
 
 		#	this is kinda already tested as is just success
 		test "case birth datum should create operational event if #{field} blank" do

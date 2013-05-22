@@ -63,34 +63,25 @@ class BirthDatum < ActiveRecord::Base
 					if self.candidate_control.new_record?
 						ccls_import_notes << "candidate control creation:" <<
 							"Error creating candidate_control for subject;\n"
+
+#
+#	TODO perhaps add errors.full_messages.to_sentence to ccls_import_notes?
+#
+#						ccls_import_notes << self.candidate_control.errors.full_messages.to_sentence
+#						ccls_import_notes << ";\n"
+#
+
 					else
-
-#irb(main):004:0> BirthDatum.group(:deceased).count
-#   (30.0ms)  SELECT COUNT(*) AS count_all, deceased AS deceased FROM `birth_data` GROUP BY deceased
-#=> {nil=>547, " "=>1763, "DEFINITE"=>3, "POSSIBLE"=>1}
-#irb(main):005:0> quit
-
-#	Don't if deceased
-
-						if match_confidence.present? && match_confidence.match(/definite/i) && 
-								!deceased.to_s.match(/definite/i)
-#								( deceased.blank? || ( deceased.present? && !deceased.match(/definite/i) ) )
-							#	see candidate_controls_controller#update
-							case_study_subject = StudySubject.cases.with_patid(
-								self.candidate_control.related_patid).first
-							#	why do I need to pass this info? can't it find it?
-							self.candidate_control.create_study_subjects( case_study_subject )
-							#	hoping to get the study subject that was assigned
-							self.reload
-						end
-
-
+						create_control_study_subject_and_mother
 					end
 				elsif is_case?
 					if match_confidence.present? && match_confidence.match(/definite/i)
+#
+#	So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be
+#
 						#	assign study_subject_id to case's id
-						self.update_study_subject_attributes
-						self.update_bc_request
+						self.update_case_study_subject_attributes
+						self.mark_all_incomplete_bc_requests_as_complete
 						self.create_address_from_attributes
 					else
 						ccls_import_notes << "birth data append:"<<
@@ -105,7 +96,40 @@ class BirthDatum < ActiveRecord::Base
 		save if ccls_import_notes.present?
 	end
 
+	#
+	#	I'm still not a fan of the automatic creation.  
+	#	It no longer does any of the duplicate checking.
+	#	Of course, I still don't know how important that was.
+	#
 	def create_control_study_subject_and_mother
+		#irb(main):004:0> BirthDatum.group(:deceased).count
+		#   (30.0ms)  SELECT COUNT(*) AS count_all, deceased AS deceased 
+		#		FROM `birth_data` GROUP BY deceased
+		#=> {nil=>547, " "=>1763, "DEFINITE"=>3, "POSSIBLE"=>1}
+		#irb(main):005:0> quit
+
+		#	Don't if deceased
+#			( deceased.blank? || ( deceased.present? && !deceased.match(/definite/i) ) )
+
+		if match_confidence.present? && match_confidence.match(/definite/i) && 
+				!deceased.to_s.match(/definite/i)
+#
+#	TODO So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be
+#
+
+			#	see candidate_controls_controller#update
+			case_study_subject = StudySubject.cases.with_patid(
+				self.candidate_control.related_patid).first
+			#	why do I need to pass this info? can't it find it?
+			self.candidate_control.create_study_subjects( case_study_subject )
+
+
+#			self.save
+#	reloading without saving the import notes!!!
+			#	hoping to get the study subject that was assigned
+#			self.reload
+
+		end
 	end
 
 	def find_subject
@@ -129,9 +153,6 @@ class BirthDatum < ActiveRecord::Base
 			subject = find_subject
 			return if subject.nil?
 
-#	this doesn't update counter cache
-#			self.update_column(:study_subject_id, subject.id)
-#	trying ...
 			self.study_subject = subject
 			self.save
 			
@@ -139,7 +160,7 @@ class BirthDatum < ActiveRecord::Base
 		end
 	end
 
-	def update_bc_request
+	def mark_all_incomplete_bc_requests_as_complete
 		return unless study_subject
 		#	Should only be one bc_request, nevertheless, ...
 		study_subject.bc_requests.incomplete.each do |bcr|
@@ -158,7 +179,7 @@ class BirthDatum < ActiveRecord::Base
 	#
 	#	Doing this very similar to the bc info updating
 	#	
-	def update_study_subject_attributes
+	def update_case_study_subject_attributes
 		assign_subject unless study_subject
 		return if study_subject.nil?
 		#
@@ -182,7 +203,9 @@ class BirthDatum < ActiveRecord::Base
 
 		a[:sex] = self.sex.to_s.squish.upcase
 		a[:dob] = self.dob
-		a[:state_registrar_no] = self.state_registrar_no.to_s.squish.namerize	#	may not want to do this
+
+		#	may not want to do this	(why namerize a number?)
+		a[:state_registrar_no] = self.state_registrar_no.to_s.squish	#.namerize	
 
 		new_attributes.each do |k,v|
 			#	NOTE always check if attribute is blank as don't want to delete data
@@ -222,7 +245,8 @@ class BirthDatum < ActiveRecord::Base
 					:project_id => Project['ccls'].id,
 					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
 					:description => "Birth Record data changes from #{birth_data_file_name}",
-					:notes => "StudySubject save failed." << study_subject.errors.full_messages.to_sentence)
+					:notes => "StudySubject save failed." << 
+						study_subject.errors.full_messages.to_sentence)
 
 				ccls_import_notes << "birth data update:Error updating case study subject. " <<
 					"Save failed! #{study_subject.errors.full_messages.to_sentence};\n"
