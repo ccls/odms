@@ -2,7 +2,7 @@ namespace :app do
 namespace :study_subjects do
 
 	task :update_birth_year_from_dob => :environment do
-#		raise "This task has been run and disabled."
+		raise "This task has been run and disabled."
 		#	find_each is a apparently a batch find method
 		StudySubject.find_each do |study_subject|
 			dob = study_subject.dob
@@ -23,7 +23,7 @@ namespace :study_subjects do
 	end
 
 	task :merge_missing_other_diagnosis_with_missing_diagnosis => :environment do
-#		raise "This task has been run and disabled."
+		raise "This task has been run and disabled."
 		Patient.where(:diagnosis_id => Diagnosis[:other])
 			.where(:other_diagnosis => '777: no legacy diagnosis data available in T2K').each do |p|
 			#	could have used an update_all, but that wouldn't
