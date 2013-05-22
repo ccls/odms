@@ -88,6 +88,7 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     mime-types (1.23)
+    minitest (5.0.2)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     multi_json (1.7.3)
@@ -198,7 +199,7 @@ DEPENDENCIES
   american_date
   autotest-rails
   capybara (~> 2.0.0)
-  capybara-webkit
+  capybara-webkit (~> 0.14)
   ccls-common_lib (> 0.9)
   ccls-html_test
   chronic
@@ -208,6 +209,7 @@ DEPENDENCIES
   hpricot
   jquery-rails
   json
+  minitest
   mocha (= 0.13.3)
   mysql
   mysql2

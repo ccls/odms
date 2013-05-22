@@ -28,7 +28,15 @@ gem 'progress_bar'
 #jwendt@n1 : odms 504> script/rails console
 #/my/ruby/gems/1.9/gems/activesupport-3.2.6/lib/active_support/dependencies.rb:251:in `require': cannot load such file -- minitest/unit (LoadError)
 #	from /my/ruby/gems/1.9/gems/activesupport-3.2.6/lib/active_support/dependencies.rb:251:in `block in require'
-#gem 'minitest'
+gem 'minitest'
+#
+#	Thought that I fixed this, but someone is still trying to load it?
+#	Seems to only be required in the console?
+#	/my/ruby/gems/1.9/gems/railties-3.2.13/lib/rails/console/app.rb
+#
+#	Gonna have to leave it I guess
+#	https://github.com/rails/rails/issues/6907
+#
 
 #	PDF generation
 gem 'prawn'
@@ -170,8 +178,11 @@ group :test do
 	gem 'ccls-html_test'
 
 	#	newer capybara not compatible with current webkit
+	#	need to explicityly have capybara for the version or
+	#	it will by upgraded to 2.1.0 which fails
 	gem 'capybara', '~> 2.0.0'
-	gem 'capybara-webkit'
+	#	capybara-webkit 1.0.0 bombs big time compiling native code
+	gem 'capybara-webkit', '~> 0.14'
 end
 
 gem 'ccls-common_lib', ">0.9"
