@@ -7,7 +7,8 @@ namespace :study_subjects do
 		StudySubject.find_each do |study_subject|
 			dob = study_subject.dob
 			puts "Updating #{study_subject} birth year to #{dob.try(:year)} from dob #{dob}"
-			study_subject.set_birth_year
+			#	probably didn't need to actually call this as is called again in before_save (duh)
+			study_subject.set_birth_year	
 			study_subject.save!
 		end
 		Sunspot.commit
