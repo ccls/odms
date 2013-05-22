@@ -37,6 +37,14 @@ gem 'minitest'
 #	Gonna have to leave it I guess
 #	https://github.com/rails/rails/issues/6907
 #
+#	The presence of MiniTest trips a condition in the test method 'pending'
+#	When it exists, it tries the 'skip' method which for some reason does
+#	not exist and so fails, but only in 'rake test'.  'autotest' works???
+#
+
+
+
+
 
 #	PDF generation
 gem 'prawn'
