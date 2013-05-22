@@ -12,6 +12,12 @@ namespace :study_subjects do
 			study_subject.save!
 		end
 		Sunspot.commit
+		#
+		#	With all the callbacks and extra stuff, that took way too long
+		#	Quit it and ran this instead.
+		#	StudySubject.find_each{|s|s.update_column(:birth_year, s.dob.try(:year))}
+		#	and then reindexed
+		#
 	end
 
 	task :reindex => :environment do
