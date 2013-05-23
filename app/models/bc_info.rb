@@ -74,9 +74,9 @@ class BcInfo < OpenStruct
 				new_child_middle ).to_s.squish.namerize,
 			:last_name   => ( new_last_name ||
 				new_child_last ).to_s.squish.namerize,
-			:birth_city    => birth_city.to_s.squish.namerize,
-			:birth_state   => birth_state.to_s.squish,
-			:birth_country => birth_country.to_s.squish,
+			:birth_city    => ( birth_city || birthplace_city ).to_s.squish.namerize,
+			:birth_state   => ( birth_state || birthplace_state ).to_s.squish,
+			:birth_country => ( birth_country || birthplace_country ).to_s.squish,
 			:birth_year => new_dob_year || dob_year ||
 										new_child_doby || child_doby,
 			:mother_hispanicity     => mother_hispanicity.to_s.squish,
@@ -91,7 +91,7 @@ class BcInfo < OpenStruct
 				mother_race_other ).to_s.squish.namerize,
 			:other_father_race => ( other_father_race || 
 				father_race_other ).to_s.squish.namerize,
-			:sex => new_sex || new_child_gender,
+			:sex => new_sex || new_child_gender || child_gender,
 			:dob => new_dob || new_child_dobfull
 		}.with_indifferent_access
 
@@ -101,6 +101,14 @@ class BcInfo < OpenStruct
 				new_child_dobd.blank?) )
 			a[:dob] = sprintf( "%4d-%02d-%02d", 
 				new_child_doby,new_child_dobm,new_child_dobd ) 
+		end
+
+		if( a[:dob].blank? && 
+			!( child_doby.blank? || 
+				child_dobm.blank? || 
+				child_dobd.blank?) )
+			a[:dob] = sprintf( "%4d-%02d-%02d", 
+				child_doby,child_dobm,child_dobd ) 
 		end
 
 		code_correct(a,:father_hispanicity,:mother_hispanicity,:father_hispanicity_mex,
