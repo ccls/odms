@@ -180,6 +180,30 @@ This is a README, so READ ME!
   * 'caller' says that it is from a block now not method, so no name to use
   * using 'skip' instead
   * for some reason 'skip' doesn't exist when running 'rake test', only 'autotest'
+  * has something to do with the presence of MiniTest
+  * lib/active_support/testing/pending.rb
+  * don't know why it works in autotest
+  * autotest
+    * self class:RoleTest
+    * self class superclass:ActiveSupport::TestCase
+    * self class superclass:Test::Unit::TestCase
+    * self class superclass:MiniTest::Unit::TestCase
+  * rake test
+    * self class:RoleTest
+    * self class superclass:ActiveSupport::TestCase
+    * self class superclass:Test::Unit::TestCase
+    * self class superclass:Object
+  *
+  * Thinking that this is because autotest is loading core Test::Unit::TestCase not the gem
+  * /opt/local/lib/ruby1.9/1.9.1/test/unit/testcase.rb ( Test::Unit::TestCase < MiniTest::Unit::TestCase )
+  * gem TestCase is just a subclass of Object
+  *
+  * trying 'bundle exec autotest'
+    * Yay, sort of, as it fails like rake does
+  *
+  * Should probably continue using bundle exec autotest
+    * may need to reimplement my version of pending
+  *
 * still may have to deal with old mongrel version (there is a pre-release version)
   * or could just use webrick for the time being
 
@@ -820,7 +844,7 @@ Given a file containing nothing but a list of quoted icf master ids ....
 ---
 == Quick Development Notes
 
- c ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 autotest
+ c ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 bundle exec autotest
 
 
 ---
