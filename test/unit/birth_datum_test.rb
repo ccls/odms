@@ -189,6 +189,35 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 
 
+	test "should NOT link case birth datum to study subject via icf_master_id "<<
+			"if match confidence is not definite" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = create_matching_case_birth_datum(study_subject,
+			:match_confidence => "BLAH")
+		assert_not_nil birth_datum.master_id
+		assert_nil birth_datum.childid
+		assert_nil birth_datum.subjectid
+		assert_nil birth_datum.study_subject
+	end
+
+	test "should link case birth datum to study subject via icf_master_id" <<
+			"if match confidence is definite" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = create_matching_case_birth_datum(study_subject)
+		assert_match /definite/i, birth_datum.match_confidence
+		assert_equal birth_datum.study_subject, study_subject
+	end
+
+	test "should link case birth datum to study subject via icf_master_id" <<
+			"if match confidence is NO and case birth state is NON-CA" do
+		study_subject = create_case_study_subject_with_icf_master_id(
+			:birth_state => "Somewhere")
+		birth_datum = create_matching_case_birth_datum(study_subject,
+			:match_confidence => 'no')
+		assert_match /^no$/i, birth_datum.match_confidence
+		assert_equal birth_datum.study_subject, study_subject
+	end
+
 	test "should link case birth datum to study subject via icf_master_id" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = create_matching_case_birth_datum(study_subject)
@@ -208,7 +237,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal birth_datum.study_subject, study_subject
 	end
 
-	test "should link case birth datum to study subject via subjectid if childid and icf_master_id are blank" do
+	test "should link case birth datum to study subject via subjectid "<<
+			"if childid and icf_master_id are blank" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = create_matching_case_birth_datum(study_subject,
 			:master_id => nil, :subjectid => study_subject.subjectid)
@@ -255,6 +285,19 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_not_nil birth_datum.study_subject
 		assert !birth_datum.study_subject.new_record?
 	end
+
+
+	test "control_birth_datum factory with matching NON-CA case and "<<
+			"NO should create study subject" do
+		study_subject = create_case_study_subject_with_icf_master_id(
+			:birth_state => "Somewhere over the rainbow")
+		birth_datum = FactoryGirl.create(:control_birth_datum,
+			:match_confidence => 'NO',
+			:master_id => study_subject.icf_master_id ).reload
+		assert_not_nil birth_datum.study_subject
+		assert !birth_datum.study_subject.new_record?
+	end
+
 
 	test "control_birth_datum factory with matching case should not create odms exception" do
 		study_subject = create_case_study_subject_with_icf_master_id
@@ -426,7 +469,8 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should create candidate control if master_id is not blank" <<
 			" and used by a case" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryGirl.create(:control_birth_datum,
+			:master_id => study_subject.icf_master_id )
 		assert_not_nil birth_datum.candidate_control
 		assert !birth_datum.candidate_control.new_record?
 		assert !birth_datum.candidate_control.reject_candidate
@@ -909,7 +953,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert  birth_datum.study_subject.needs_reindexed
 	end
 
-	test "append_notes should update instance and save to db" do
+	test "append_notes should update instance AND save to db" do
 		birth_datum = FactoryGirl.create(:birth_datum)
 		birth_datum.update_attribute(:ccls_import_notes,nil)
 		assert_blank birth_datum.ccls_import_notes
@@ -919,6 +963,45 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal "This is a test;\n", birth_datum.ccls_import_notes
 		assert_equal "This is a test;\n", birth_datum.reload.ccls_import_notes
 	end
+
+
+
+	test "calling post_processing again on a case with study subject"<<
+			" should not do anything" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = create_matching_case_birth_datum(study_subject)
+		assert_not_nil birth_datum.study_subject
+		assert_difference('Address.count', 0){
+		assert_difference('Addressing.count', 0){
+		assert_difference('StudySubject.count', 0){
+		assert_difference('CandidateControl.count', 0){
+		assert_difference('OperationalEvent.count', 2){
+			birth_datum.post_processing
+		} } } } }
+		#	1 is birth data received
+		#	1 is insufficient data for address
+		#	both are true
+	end
+
+	test "calling post_processing again on a control with study subject"<<
+			" should not do anything" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = FactoryGirl.create(:control_birth_datum,
+			:match_confidence => 'definite',
+			:master_id => study_subject.icf_master_id ).reload
+		assert_not_nil birth_datum.candidate_control
+		assert !birth_datum.candidate_control.new_record?
+		assert_not_nil birth_datum.study_subject
+		assert !birth_datum.study_subject.new_record?
+		assert_difference('Address.count', 0){
+		assert_difference('Addressing.count', 0){
+		assert_difference('StudySubject.count', 0){
+		assert_difference('CandidateControl.count', 0){
+		assert_difference('OperationalEvent.count', 0){	
+			birth_datum.post_processing
+		} } } } }
+	end
+
 
 protected
 

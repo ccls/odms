@@ -9,12 +9,13 @@ class BirthDatum < ActiveRecord::Base
 	alias_attribute :mother_years_educ, :mother_yrs_educ
 	alias_attribute :father_years_educ, :father_yrs_educ
 
-	after_initialize :set_defaults, :if => :new_record?
-	def set_defaults
-		# ||= doesn't work with ''
-		#	just setting this to a string so that << works
-		self.ccls_import_notes ||= ''
-	end
+#	20130523 - no longer needed?
+#	after_initialize :set_defaults, :if => :new_record?
+#	def set_defaults
+#		# ||= doesn't work with ''
+#		#	just setting this to a string so that << works
+#		self.ccls_import_notes ||= ''
+#	end
 
 	def is_case?
 		['1','case'].include?(case_control_flag)
@@ -52,8 +53,8 @@ class BirthDatum < ActiveRecord::Base
 				elsif is_case?
 
 
-					if match_confidence.to_s.match(/definite/i)	#	||
-#						( match_confidence.to_s.match(/^NO$/i) and case_subject.birth_state != 'CA' )
+					if match_confidence.to_s.match(/definite/i)	||
+						( match_confidence.to_s.match(/^NO$/i) and case_subject.birth_state != 'CA' )
 #
 # The 'NO' matches in the case files that were not born in California should still be imported with their controls into ODMS.  We can determine that they are valid b/c we have their birth state in the bc_info data that was imported from ICF.  So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be.
 #
@@ -85,15 +86,20 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def create_candidate_control_for(case_subject)
-		control_options = { :related_patid => case_subject.patid }
-		reasons = []
-		control_options[:reject_candidate] = true if dob.blank? or sex.blank?
-		reasons << "Birth datum dob is blank." if dob.blank?
-		reasons << "Birth datum sex is blank." if sex.blank?
-		control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
-		self.create_candidate_control( control_options )
-		append_notes "birth data append:Candidate control was pre-rejected " <<
+		if self.candidate_control.nil?
+			control_options = { :related_patid => case_subject.patid }
+			reasons = []
+			control_options[:reject_candidate] = true if dob.blank? or sex.blank?
+			reasons << "Birth datum dob is blank." if dob.blank?
+			reasons << "Birth datum sex is blank." if sex.blank?
+			control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
+			self.create_candidate_control( control_options )
+			append_notes "birth data append:Candidate control was pre-rejected " <<
 				"because #{reasons.join(',')}." unless reasons.empty?
+		else	#	if self.candidate_control.nil?
+
+		end	#	if self.candidate_control.nil?
+
 		if self.candidate_control.new_record?
 			append_notes "candidate control creation:" <<
 				"Error creating candidate_control for subject"
@@ -121,27 +127,32 @@ class BirthDatum < ActiveRecord::Base
 		#=> {nil=>547, " "=>1763, "DEFINITE"=>3, "POSSIBLE"=>1}
 		#irb(main):005:0> quit
 
-		if match_confidence.to_s.match(/definite/i) && 
-				!deceased.to_s.match(/definite/i)
+		if study_subject.nil?
 
-#
-# The 'NO' matches in the case files that were not born in California should still be imported with their controls into ODMS.  We can determine that they are valid b/c we have their birth state in the bc_info data that was imported from ICF.  So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be.
-#
-#	case_subject.birth_state
-#
+			if( match_confidence.to_s.match(/definite/i) and !deceased.to_s.match(/definite/i) ) ||
+					( match_confidence.to_s.match(/^NO$/i) and case_subject.birth_state != 'CA' )
+	
+	#
+	# The 'NO' matches in the case files that were not born in California should still be imported with their controls into ODMS.  We can determine that they are valid b/c we have their birth state in the bc_info data that was imported from ICF.  So, basically if birth state is not equal to CA, they should be imported with controls and updated in the same way that a definite match would be.
+	#
+	#	case_subject.birth_state
+	#
+	
+				#	see candidate_controls_controller#update
+	#			case_study_subject = StudySubject.cases.with_patid(
+	#				self.candidate_control.related_patid).first
+				#	why do I need to pass this info? can't it find it?
+				self.candidate_control.create_study_subjects( case_subject )
+	
+			else
+	
+	#	TODO	append_notes "Study Subject not created."
+	
+			end
 
-			#	see candidate_controls_controller#update
-#			case_study_subject = StudySubject.cases.with_patid(
-#				self.candidate_control.related_patid).first
-			#	why do I need to pass this info? can't it find it?
-			self.candidate_control.create_study_subjects( case_subject )
+		else	#	if study_subject.nil?
 
-
-		else
-
-#	TODO	append_notes "Study Subject not created."
-
-		end
+		end	#	if study_subject.nil?
 	end
 
 	def find_case_subject
@@ -289,6 +300,7 @@ class BirthDatum < ActiveRecord::Base
 			},
 			:data_source_id => DataSource["birthdata"].id,
 			:notes => "Address is mother's residential address found in the CA State Birth Record.")
+#	NOTE REALLY? Address AND Addressing have a data source?
 
 		unless addressing.save
 			#	Address possibly contained PO Box which is invalid as a residence.
