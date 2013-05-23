@@ -7,8 +7,6 @@
 #require 'screening_datum_update_test_helper'
 
 
-require 'pending'
-
 class ActiveSupport::TestCase
 
 	def illegal_csv_quote_line
