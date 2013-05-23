@@ -1,6 +1,6 @@
 <% birth_certificates_sub_menu %>
 
-<h4><%= params[:status].try(:capitalize) %> BC Requests
+<h4><%= params[:status].try(:capitalize) %> BC Requests (<%= @bc_requests.length %>)
 <span><%= link_to "Download", 
 	bc_requests_path(:status => params[:status],:format => 'csv'),
 	:class => 'button right' %></span>
