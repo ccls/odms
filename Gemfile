@@ -68,7 +68,13 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+
+# as of jquery-rails 3.0.0, jquery-ui is not included
+# add the jquery-ui-rails gem instead, which will include jquery-rails
+# NEED jquery-rails so that jquery.js is available
+#gem 'jquery-rails'
+#gem 'jquery-ui-rails'
+
 
 gem 'rack-ssl', :require => 'rack/ssl'
 
