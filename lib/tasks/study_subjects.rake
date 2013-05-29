@@ -21,6 +21,7 @@ namespace :study_subjects do
 	end
 
 	task :reindex => :environment do
+		puts Time.zone.now
 		StudySubject.where(:needs_reindexed => true).each do |subject|
 			puts "Reindexing #{subject}"
 			subject.index
