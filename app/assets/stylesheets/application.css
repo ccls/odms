@@ -74,6 +74,7 @@ h3 > span {
 }
 
 /* primarily for the bc_request export buttons */
+h4 > form,
 h4 > span {
 	float:right;
 	font-size:10pt;

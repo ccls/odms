@@ -383,6 +383,20 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
+		test "should activate all waiting with #{cu} login" do
+			login_as send(cu)
+			FactoryGirl.create(:bc_request, :status => 'waitlist')
+			FactoryGirl.create(:bc_request, :status => 'waitlist')
+			FactoryGirl.create(:bc_request, :status => 'waitlist')
+			assert_equal 3, BcRequest.waitlist.length
+			assert_equal 0, BcRequest.active.length
+			put :activate_all_waiting
+			assert_equal 0, BcRequest.waitlist.length
+			assert_equal 3, BcRequest.active.length
+			assert_not_nil flash[:notice]
+			assert_redirected_to new_bc_request_path
+		end
+
 	end
 
 	non_site_editors.each do |cu|
@@ -440,6 +454,20 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to root_path
 		end
 
+		test "should NOT activate all waiting with #{cu} login" do
+			login_as send(cu)
+			FactoryGirl.create(:bc_request, :status => 'waitlist')
+			FactoryGirl.create(:bc_request, :status => 'waitlist')
+			FactoryGirl.create(:bc_request, :status => 'waitlist')
+			assert_equal 3, BcRequest.waitlist.length
+			assert_equal 0, BcRequest.active.length
+			put :activate_all_waiting
+			assert_equal 3, BcRequest.waitlist.length
+			assert_equal 0, BcRequest.active.length
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
 	end
 
 #	no login ...
@@ -482,6 +510,18 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 	test "should NOT confirm actives exported without login" do
 		get :confirm
+		assert_redirected_to_login
+	end
+
+	test "should NOT activate all waiting without login" do
+		FactoryGirl.create(:bc_request, :status => 'waitlist')
+		FactoryGirl.create(:bc_request, :status => 'waitlist')
+		FactoryGirl.create(:bc_request, :status => 'waitlist')
+		assert_equal 3, BcRequest.waitlist.length
+		assert_equal 0, BcRequest.active.length
+		put :activate_all_waiting
+		assert_equal 3, BcRequest.waitlist.length
+		assert_equal 0, BcRequest.active.length
 		assert_redirected_to_login
 	end
 

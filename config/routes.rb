@@ -77,6 +77,7 @@ Odms::Application.routes.draw do
 	resources :address_types
 	resources :bc_requests, :except => :show do
 		collection { get :confirm }
+		collection { put :activate_all_waitlist }
 		member     { put :update_status }
 	end
 	resources :birth_data, :except => [:new,:create,:edit,:update,:destroy]
