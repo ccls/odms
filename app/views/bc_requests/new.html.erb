@@ -16,6 +16,7 @@
 
 <h4>Birth Data Request List
 <span>
+<%= button_to( 'Waitlist all Active', waitlist_all_active_bc_requests_path, :method => 'put')  %>
 <%= link_to "Confirm Export", confirm_bc_requests_path, :class => 'button' %>
 <%= link_to "Download", 
 	bc_requests_path(:status => 'active',:format => 'csv'),
@@ -65,8 +66,8 @@
 <hr/>
 
 <h4>Waiting List 
-<%= button_to( 'Activate all Waiting', activate_all_waitlist_bc_requests_path, :method => 'put')  -%>
-</h4>
+<span><%= button_to( 'Activate all Waiting', activate_all_waitlist_bc_requests_path, :method => 'put')  -%>
+</span></h4>
 
 <% if @waitlist_bc_requests.empty? %>
 <p>Sorry, but there are no waitlist birth data requests at this time.</p>

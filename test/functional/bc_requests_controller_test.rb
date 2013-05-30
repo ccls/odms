@@ -383,6 +383,20 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_bc_request_path
 		end
 
+		test "should waitlist all active with #{cu} login" do
+			login_as send(cu)
+			FactoryGirl.create(:bc_request, :status => 'active')
+			FactoryGirl.create(:bc_request, :status => 'active')
+			FactoryGirl.create(:bc_request, :status => 'active')
+			assert_equal 0, BcRequest.waitlist.length
+			assert_equal 3, BcRequest.active.length
+			put :waitlist_all_active
+			assert_equal 3, BcRequest.waitlist.length
+			assert_equal 0, BcRequest.active.length
+			assert_not_nil flash[:notice]
+			assert_redirected_to new_bc_request_path
+		end
+
 		test "should activate all waiting with #{cu} login" do
 			login_as send(cu)
 			FactoryGirl.create(:bc_request, :status => 'waitlist')
@@ -390,7 +404,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 			FactoryGirl.create(:bc_request, :status => 'waitlist')
 			assert_equal 3, BcRequest.waitlist.length
 			assert_equal 0, BcRequest.active.length
-			put :activate_all_waiting
+			put :activate_all_waitlist
 			assert_equal 0, BcRequest.waitlist.length
 			assert_equal 3, BcRequest.active.length
 			assert_not_nil flash[:notice]
@@ -461,9 +475,23 @@ class BcRequestsControllerTest < ActionController::TestCase
 			FactoryGirl.create(:bc_request, :status => 'waitlist')
 			assert_equal 3, BcRequest.waitlist.length
 			assert_equal 0, BcRequest.active.length
-			put :activate_all_waiting
+			put :activate_all_waitlist
 			assert_equal 3, BcRequest.waitlist.length
 			assert_equal 0, BcRequest.active.length
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT waitlist all active with #{cu} login" do
+			login_as send(cu)
+			FactoryGirl.create(:bc_request, :status => 'active')
+			FactoryGirl.create(:bc_request, :status => 'active')
+			FactoryGirl.create(:bc_request, :status => 'active')
+			assert_equal 0, BcRequest.waitlist.length
+			assert_equal 3, BcRequest.active.length
+			put :waitlist_all_active
+			assert_equal 0, BcRequest.waitlist.length
+			assert_equal 3, BcRequest.active.length
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -519,9 +547,21 @@ class BcRequestsControllerTest < ActionController::TestCase
 		FactoryGirl.create(:bc_request, :status => 'waitlist')
 		assert_equal 3, BcRequest.waitlist.length
 		assert_equal 0, BcRequest.active.length
-		put :activate_all_waiting
+		put :activate_all_waitlist
 		assert_equal 3, BcRequest.waitlist.length
 		assert_equal 0, BcRequest.active.length
+		assert_redirected_to_login
+	end
+
+	test "should NOT waitlist all active without login" do
+		FactoryGirl.create(:bc_request, :status => 'active')
+		FactoryGirl.create(:bc_request, :status => 'active')
+		FactoryGirl.create(:bc_request, :status => 'active')
+		assert_equal 0, BcRequest.waitlist.length
+		assert_equal 3, BcRequest.active.length
+		put :waitlist_all_active
+		assert_equal 0, BcRequest.waitlist.length
+		assert_equal 3, BcRequest.active.length
 		assert_redirected_to_login
 	end
 

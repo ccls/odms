@@ -83,6 +83,12 @@ class BcRequestsController < ApplicationController
 		redirect_to new_bc_request_path
 	end
 
+	def waitlist_all_active
+		BcRequest.active.update_all(:status => 'waitlist')
+		flash[:notice] = "Waitlisted all active"
+		redirect_to new_bc_request_path
+	end
+
 	def destroy
 		@bc_request.destroy
 		redirect_to new_bc_request_path
