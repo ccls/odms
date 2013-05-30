@@ -6,7 +6,7 @@ GEM
   specs:
     Ascii85 (1.0.2)
     RedCloth (4.2.9)
-    ZenTest (4.9.1)
+    ZenTest (4.9.2)
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
       mail (~> 2.5.3)
@@ -85,7 +85,7 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     mime-types (1.23)
-    minitest (5.0.2)
+    minitest (5.0.3)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     multi_json (1.7.4)

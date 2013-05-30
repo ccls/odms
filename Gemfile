@@ -69,13 +69,6 @@ group :assets do
 end
 
 
-# as of jquery-rails 3.0.0, jquery-ui is not included
-# add the jquery-ui-rails gem instead, which will include jquery-rails
-# NEED jquery-rails so that jquery.js is available
-#gem 'jquery-rails'
-#gem 'jquery-ui-rails'
-
-
 gem 'rack-ssl', :require => 'rack/ssl'
 
 gem "mysql"
@@ -89,9 +82,6 @@ gem "ryanb-acts-as-list", :require => 'acts_as_list'
 gem "will_paginate"
 
 gem "hpricot"
-
-#	I don't think that I use this anymore
-#gem "paperclip"
 
 gem 'rubycas-client'
 

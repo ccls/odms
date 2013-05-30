@@ -5,29 +5,11 @@
 	actually allows the cal favicon to load %>
 <link rel="shortcut icon" href="<%=root_url%><%=image_path('favicon.ico')%>" />
 <title><%= @page_title || "CCLS ODMS" -%></title>
-<%#= stylesheet_link_tag 'application','base/jquery.ui.all.css' %>
-<%#= stylesheet_link_tag 'sunspot','base/jquery.ui.all.css' %>
-
-
 <%= stylesheet_link_tag 'sunspot' %>
-<!--
-<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.base.css" media="screen" rel="stylesheet" type="text/css" />
--->
 <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
-
-
-
-<%#= javascript_include_tag 'jquery','jquery-ui','jquery-ui-timepicker-addon','application','sunspot' %>
-<%#= javascript_include_tag 'jquery','jquery.ui.all.js','jquery-ui-timepicker-addon','application','sunspot' %>
-
-
-<%# 20130529 dropped gems and TRYING third party js %>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
 <%= javascript_include_tag 'jquery-ui-timepicker-addon','application','sunspot' %>
-
-
-
 <%= yield :head %>
 <% unless Rails.env.test? %>
 <script type="text/javascript">
