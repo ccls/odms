@@ -74,15 +74,16 @@ h3 > span {
 }
 
 /* primarily for the bc_request export buttons */
-h4 > span > form,
-h4 > span > form > div {
+form.button_to > div {
 	display: inline;
 }
-h4 > span {
+/* as of 20130531, I don't think that I use this anymore. At least I'm trying to stop using float 
+h4 > * {
 	float:right;
 	font-size:10pt;
 	font-weight:normal;
 }
+*/
 
 div#fullsearch {
 	clear:right;
@@ -152,6 +153,39 @@ div#guidance {
 	border-bottom-right-radius: 15px;
 }
 
+
+
+
+
+
+/* generic 'control bar' */
+.control { 
+	display:table; 
+	width: 100%;
+}
+.control > .control_row {
+	display:table-row;
+}
+.control > .control_row > * {
+	padding: 10px 0;
+	display:table-cell;
+}
+.control > .control_row > *:last-child {
+	text-align:right;
+}
+.control > .control_row > * > form.button_to {
+	display:inline;
+}
+/* end generic 'control bar' */
+
+
+
+
+
+
+
+
+
 /*
 	This is the button control bar on the dashboards
 */
@@ -176,6 +210,7 @@ div#guidance {
 /*
 	This is the form title, cancel, save stuff
 */
+/*	20130531 - no longer used (using generic control bar instead, yay!)
 #subject_control_bar > * {
 	display:inline-block;
 	margin: 15px 0;
@@ -183,6 +218,7 @@ div#guidance {
 #subject_control_bar > .buttons {
 	float:right;
 }
+*/
 
 .flash {
 	/* http://css-radius.heroku.com */
@@ -321,7 +357,7 @@ form .field_wrapper input[type=checkbox] + label {
 	width: auto;
 }
 
-
+/* 20130531 could probably add form.button_to and div to this */
 form.destroy_link_to div,
 form.destroy_link_to {
 	display:inline;
@@ -349,10 +385,10 @@ div.table {
 	display:table;
 	width:100%;
 }
-div.table .row {
+div.table > .row {
 	display:table-row;
 }
-div.table .row .cell {
+div.table > .row > .cell {
 	display:table-cell;
 }
 

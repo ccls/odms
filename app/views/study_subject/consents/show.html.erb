@@ -2,13 +2,11 @@
 <% stylesheets(:consent) %>
 <% javascripts('consent') %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3>Study Consent Info</h3>
-<div class='buttons'>
-<%= link_to( 'Edit', edit_study_subject_consent_path(@study_subject),
-	:class => 'button' ) if current_user.may_update_enrollments? %>
-</div><!-- class='buttons' -->
-</div>
+<div><%= link_to( 'Edit', edit_study_subject_consent_path(@study_subject),
+	:class => 'button' ) if current_user.may_update_enrollments? %></div>
+</div></div>
 
 <div class='enrollment'>
 <%= wrapped_yndk_spans :enrollment, :is_eligible,

@@ -218,7 +218,7 @@ module ApplicationHelper
 		s.html_safe
 	end
 
-	def control_bar
+	def dashboard_control_bar
 		s  = "<div id='dashboard_control_bar'>"
 		links = []
 		links << link_to( 'dashboard', 

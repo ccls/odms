@@ -12,13 +12,11 @@
 <%= wrapped_spans :study_subject, :childid,
 	:label_text => 'Child ID:' %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3>Basic Info</h3>
-<div class='buttons'>
-<%= link_to( 'Cancel', study_subject_path( @study_subject),
-	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
-</div><!-- class='buttons' -->
-</div>
+<div><%= link_to( 'Cancel', study_subject_path( @study_subject),
+	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %></div>
+</div></div>
 
 <div class='name field_wrapper'>
 <%= f.label :name, 'name:' %>

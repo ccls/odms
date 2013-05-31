@@ -1,15 +1,10 @@
-<%# stylesheets(:cases) %>
-<%# stylesheets(:cases_show) %>
-<%# javascripts(:cases_show) %>
 <% stylesheets(:cases__form) %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3>Case Enrollment Info</h3>
-<div class='buttons'>
-<%= link_to( "Edit", edit_raf_path(@study_subject),
-	:class => 'button' ) if current_user.may_update_study_subjects? %>
-</div><!-- class='buttons' -->
-</div>
+<div><%= link_to( "Edit", edit_raf_path(@study_subject),
+	:class => 'button' ) if current_user.may_update_study_subjects? %></div>
+</div></div>
 
 <div class='study_subject_fields raf'>
 <h3>Section 1: Preliminary Information

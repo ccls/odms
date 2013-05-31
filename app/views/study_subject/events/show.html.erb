@@ -1,14 +1,10 @@
 <% stylesheets(:event) %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3>Subject Event</h3>
-<% if current_user.may_update_events? %>
-<div class='buttons'>
-<%= link_to( 'Edit', edit_study_subject_event_path(@operational_event.study_subject_id,@operational_event),
-	:class => 'button' ) %>
-</div><!-- class='buttons' -->
-<% end %>
-</div>
+<div><%= link_to( 'Edit', edit_study_subject_event_path(@operational_event.study_subject_id,@operational_event),
+	:class => 'button' ) if current_user.may_update_events? %></div>
+</div></div>
 
 <%= wrapped_datetime_spans :operational_event, :occurred_at,
 	:label_text => 'event date:' %>

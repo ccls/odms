@@ -1,15 +1,11 @@
 <% stylesheets(:patient_edit) %>
 <% javascripts('edit_patient') %>
-<%# sub_menu_for(@study_subject) %>
-<%# id_bar_for(@study_subject) %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3>Patient</h3>
-<div class='buttons'>
-<%= link_to( 'Cancel', study_subject_patient_path(@study_subject),
-	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
-</div><!-- class='buttons' -->
-</div>
+<div><%= link_to( 'Cancel', study_subject_patient_path(@study_subject),
+	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %></div>
+</div></div>
 
 <%= f.error_messages %>
 

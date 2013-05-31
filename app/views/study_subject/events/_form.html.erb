@@ -3,9 +3,9 @@
 
 <%= f.error_messages %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3>New/Edit Subject Event</h3>
-<div class='buttons'>
+<div>
 <% if @operational_event.new_record? %>
 <%= link_to( 'Cancel', study_subject_events_path(@study_subject),
 	:class => 'button' ) %>
@@ -15,8 +15,8 @@
 	:class => 'button' ) %>
 <% end %>
 &nbsp;<%= f.submit 'Save' %>
-</div><!-- class='buttons' -->
 </div>
+</div></div>
 
 <%= f.wrapped_datetime_text_field :occurred_at,
 	:label_text => 'Event date:' %>

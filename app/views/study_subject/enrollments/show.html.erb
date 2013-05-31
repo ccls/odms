@@ -1,13 +1,11 @@
 <% stylesheets(:enrollment) %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3>Study name: <%= @enrollment.project.key.titleize -%></h3>
-<div class='buttons'>
-<%= link_to( 'Edit', 
+<div><%= link_to( 'Edit', 
 	edit_study_subject_enrollment_path(@enrollment.study_subject_id,@enrollment),
-	:class => 'button' ) if current_user.may_update_enrollments? %>
-</div><!-- class='buttons' -->
-</div>
+	:class => 'button' ) if current_user.may_update_enrollments? %></div>
+</div></div>
 
 <%= div_for @enrollment do %>
 

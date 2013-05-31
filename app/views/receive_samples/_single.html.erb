@@ -1,15 +1,11 @@
-<%# javascripts('edit_sample') %>
-<%# stylesheets(:sample_edit) %>
-<%# sub_menu_for(@study_subject) %>
-<%# id_bar_for(@study_subject) %>
-
 <%= form_for( @sample,
 	:url => receive_sample_path(:study_subject_id => @study_subject.id) ) do |f| %>
 <%= f.error_messages %>
 
 <%# this alignment will get mucked up with big names %>
 
-<div id='subject_control_bar'>
+<hr/>
+<div class='control'><div class='control_row'>
 <h4><%= @study_subject.full_name %></h4>
 <div>
 <p>studyid: <%= @study_subject.studyid_to_s %></p>
@@ -26,6 +22,8 @@
 	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
 </div><!-- class='buttons' -->
 </div>
+</div>
+<hr/>
 
 <h3>NOTE: THESE ARE ALL THE SUBJECT ENROLLMENTS (ignoring consent for now)</h3>
 <%= f.wrapped_collection_select(:project_id,
@@ -38,24 +36,10 @@
 <span>(non-biological samples should be associated with the 'child')</span>
 </div><!-- class='sample_source field_wrapper' -->
 
-<%#= f.wrapped_grouped_collection_select(:sample_type_id, 
-		SampleType.roots, :children, :to_s, :id, :to_s,
-	{ :include_blank => true }) %>
 <%= f.wrapped_grouped_collection_select(:sample_type_id, 
 		SampleType.roots.for_new_samples, :children_for_new_samples, :to_s, :id, :to_s,
 	{ :include_blank => true }) %>
 
-<%#
-
-	Be Advised.  Context alone will ge confused with ActionView::Context:Module
-	which will raise the error ...
-	    undefined method `[]' for ActionView::Context:Module
-	Change to ::Context for clarification.
-
-%>
-<%#= f.wrapped_collection_select(:sample_temperature_id,
-	::Context['receive_sample'].sample_temperatures, :id, :to_s,
-	{ :include_blank => true }) %>
 <%= f.wrapped_collection_select(:sample_temperature_id,
 	SampleTemperature.where(:key => %w(roomtemp refrigerated)),
 	:id, :to_s, { :include_blank => true }) %>
@@ -68,9 +52,5 @@
 
 <%= f.wrapped_datetime_text_field :shipped_to_ccls_at,
 	:label_text => 'Shipped:' %>
-
-<%# autoset in the controller %>
-<%#= f.wrapped_datetime_text_field :received_by_ccls_at,
-	:label_text => 'Received:' %>
 
 <% end %>

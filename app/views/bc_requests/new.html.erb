@@ -14,15 +14,18 @@
 
 <hr/>
 
-<h4>Birth Data Request List
-<span>
+<div class='control'><div class='control_row'>
+<h4>Birth Data Request List</h4>
+<div>
 <%= button_to( 'Waitlist all Active', waitlist_all_active_bc_requests_path, :method => 'put')  %>
 <%= link_to "Confirm Export", confirm_bc_requests_path, :class => 'button' %>
 <%= link_to "Download", 
 	bc_requests_path(:status => 'active',:format => 'csv'),
 	:class => 'button' %>
-</span>
-</h4>
+</div></div></div>
+
+
+
 <% if @active_bc_requests.empty? %>
 <p>Sorry, but there are no active birth data requests at this time.</p>
 <% else %>
@@ -65,9 +68,11 @@
 
 <hr/>
 
-<h4>Waiting List 
-<span><%= button_to( 'Activate all Waiting', activate_all_waitlist_bc_requests_path, :method => 'put')  -%>
-</span></h4>
+<div class='control'><div class='control_row'>
+<h4>Waiting List</h4>
+<%= button_to( 'Activate all Waiting', activate_all_waitlist_bc_requests_path, :method => 'put')  -%>
+</div></div>
+
 
 <% if @waitlist_bc_requests.empty? %>
 <p>Sorry, but there are no waitlist birth data requests at this time.</p>

@@ -5,13 +5,11 @@
 	:url => study_subject_consent_path(@study_subject),
 	:html => { :class => 'enrollment confirm' }) do |f| %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3>Study Consent Info</h3>
-<div class='buttons'>
-<%= link_to( 'Cancel', study_subject_consent_path(@study_subject),
-	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
-</div><!-- class='buttons' -->
-</div>
+<div><%= link_to( 'Cancel', study_subject_consent_path(@study_subject),
+	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %></div>
+</div></div>
 
 <%= f.error_messages %>
 

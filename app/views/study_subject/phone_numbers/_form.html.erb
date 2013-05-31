@@ -1,13 +1,11 @@
 <% stylesheets(:phone_number_edit) %>
 <% javascripts('edit_phone_number') %>
 
-<div id='subject_control_bar'>
+<div class='control'><div class='control_row'>
 <h3><%= ( @phone_number.new_record? ) ? 'New' : 'Edit' %> Phone Number</h3>
-<div class='buttons'>
-<%= link_to( 'Cancel', study_subject_contacts_path( @study_subject),
-	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %>
-</div><!-- class='buttons' -->
-</div>
+<div><%= link_to( 'Cancel', study_subject_contacts_path( @study_subject),
+	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %></div>
+</div></div>
 
 <%= f.error_messages %>
 
@@ -23,29 +21,12 @@
 			:id, :key, :include_blank => true, :label_text => 'Type:' %>
 
 <div class='source'>
-<%#= f.wrapped_collection_select :data_source_id, ::Context['phones'].data_sources, 
-			:id, :to_s, :include_blank => true, :label_text => 'Source:' %>
 <%= f.wrapped_collection_select :data_source_id, 
 	DataSource.where(:key => %w(raf consent interview other)),
 		:id, :to_s, :include_blank => true, :label_text => 'Source:' %>
 <%= f.wrapped_text_field :other_data_source, 
 	:label_text => 'Specify if other:' %>
 </div><!-- class='source' -->
-
-<!--
-<div class='verified'>
-<%#= f.wrapped_check_box :is_verified,
-	:label_text => 'Verified?' %>
-<%#= f.wrapped_text_field :how_verified, 
-	:label_text => 'Specify how?' %>
-</div>--><!-- class='verified' -->
-<!--
-<div class='valid'>
-<%#= f.wrapped_yndk_select :is_valid,
-	:label_text => 'Number is valid?' %>
-<%#= f.wrapped_text_field :why_invalid, 
-	:label_text => 'Why not?' %>
-</div>--><!-- class='valid' -->
 
 <%= f.wrapped_yndk_select :current_phone,
 	:label_text => 'Current Number?' %>
