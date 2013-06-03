@@ -43,7 +43,7 @@ class FollowUpTest < ActiveSupport::TestCase
 
 	test "follow up factory should create enrollment in new non-ccls project" do
 		follow_up = FactoryGirl.create(:follow_up)
-		assert !follow_up.new_record?
+		assert follow_up.persisted?
 		assert ( follow_up.enrollment.project_id != Project['ccls'].id )
 	end
 

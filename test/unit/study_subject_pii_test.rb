@@ -76,7 +76,7 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		assert_changes("StudySubject.find(#{study_subject.id}).dob") {
 			study_subject.update_attributes(:dob => (Time.now - 4.days) )
 		}
-		assert !study_subject.new_record?
+		assert study_subject.persisted?
 		assert_not_nil study_subject.dob
 #		#	Is this really required anymore?
 #		#	Why exactly did it matter in the beginning?
@@ -90,7 +90,7 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) do
 			study_subject = create_study_subject(
 				:dob => Date.parse("January 1 2001") )
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		end
 	end

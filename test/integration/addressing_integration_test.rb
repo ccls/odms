@@ -20,7 +20,8 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			fill_in "addressing[address_attributes][zip]",  :with => "17857"
 
-wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
+#wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
+wait_until{ find_field("addressing[address_attributes][city]").value.present? }
 
 			assert_equal 'Northumberland',
 				find_field("addressing[address_attributes][city]").value

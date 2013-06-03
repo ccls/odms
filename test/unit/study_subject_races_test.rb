@@ -11,7 +11,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
 			study_subject.races << FactoryGirl.create(:race)
-			assert !study_subject.new_record?,
+			assert study_subject.persisted?,
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
 	end
@@ -48,7 +48,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectRace.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => { })
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert @study_subject.races.empty?
@@ -61,7 +61,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 			@study_subject = create_study_subject(:subject_races_attributes => { 
 				'0' => { :race_code => '' }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert @study_subject.races.empty?
@@ -75,7 +75,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 			@study_subject = create_study_subject(:subject_races_attributes => {
 				'0' => { :race_code => Race.first.code }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert !@study_subject.races.empty?
@@ -93,7 +93,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 			@study_subject = create_study_subject(:subject_races_attributes => {
 				'0' => { :race_code => Race.first.code, :is_primary => 'true' }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert !@study_subject.races.empty?
@@ -111,7 +111,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 				'1' => { :race_code => races[2].code },
 				'2' => { :race_code => races[3].code }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert !@study_subject.races.empty?
@@ -131,7 +131,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 				'1' => { :race_code => races[2].code, :is_primary => 'true' },
 				'2' => { :race_code => races[3].code, :is_primary => 'true' }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert !@study_subject.races.empty?
@@ -148,7 +148,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 			@study_subject = create_study_subject(:subject_races_attributes => {
 				'0' => { :is_primary => 'true' }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert @study_subject.races.empty?
@@ -184,7 +184,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectRace.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert @study_subject.races.empty?

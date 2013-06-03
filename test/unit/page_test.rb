@@ -23,7 +23,7 @@ class PageTest < ActiveSupport::TestCase
 	test "should create page" do
 		assert_difference 'Page.count' do
 			page = FactoryGirl.create(:page)
-			assert !page.new_record?, 
+			assert page.persisted?, 
 				"#{page.errors.full_messages.to_sentence}"
 		end
 	end

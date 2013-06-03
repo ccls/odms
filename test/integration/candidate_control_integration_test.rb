@@ -253,7 +253,8 @@ protected
 
 	def assert_candidate_rejected(candidate)
 		assert     candidate.reject_candidate
-		assert    !candidate.rejection_reason.blank?
+#		assert    !candidate.rejection_reason.blank?
+		assert     candidate.rejection_reason.present?
 		assert_nil candidate.assigned_on
 		assert_nil candidate.study_subject
 	end

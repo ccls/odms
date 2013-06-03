@@ -250,7 +250,7 @@ subject_type )	#	can I have subject_type here?
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_control_study_subject
 			assert !study_subject.is_case?
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} #}
 	end
@@ -260,7 +260,7 @@ subject_type )	#	can I have subject_type here?
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_case_study_subject
 			assert study_subject.is_case?
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} #}
 	end
@@ -269,7 +269,7 @@ subject_type )	#	can I have subject_type here?
 #		assert_difference( 'SubjectType.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} #}
 	end

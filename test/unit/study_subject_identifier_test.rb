@@ -87,7 +87,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	test "should create with string standard format ssn" do
 		assert_difference( "StudySubject.count", 1 ) do
 			study_subject = create_study_subject(:ssn => '987-65-4321')
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				study_subject.errors.full_messages.to_sentence
 			assert_equal '987-65-4321', study_subject.reload.ssn
 		end

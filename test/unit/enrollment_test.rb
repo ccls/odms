@@ -64,7 +64,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	test "enrollment factory should create enrollment in new non-ccls project" do
 		enrollment = FactoryGirl.create(:enrollment)
-		assert !enrollment.new_record?
+		assert enrollment.persisted?
 		assert !enrollment.consented
 		assert ( enrollment.project_id != Project['ccls'].id )
 	end
@@ -114,13 +114,13 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	test "eligible_enrollment should create eligible enrollment" do
 		enrollment = FactoryGirl.create(:eligible_enrollment)
-		assert !enrollment.new_record?
+		assert enrollment.persisted?
 		assert_equal enrollment.is_eligible, YNDK[:yes]
 	end
 
 	test "consented_enrollment should create consented enrollment" do
 		enrollment = FactoryGirl.create(:consented_enrollment)
-		assert !enrollment.new_record?
+		assert enrollment.persisted?
 		assert_not_nil enrollment.consented
 		assert_equal enrollment.consented, YNDK[:yes]
 	end
@@ -141,7 +141,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	test "declined_enrollment factory should create non-consented enrollment" do
 		enrollment = FactoryGirl.create(:declined_enrollment)
-		assert !enrollment.new_record?
+		assert enrollment.persisted?
 		assert_not_nil enrollment.consented
 		assert_equal enrollment.consented, YNDK[:no]
 	end

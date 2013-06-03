@@ -70,7 +70,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 				" study_subject patid and #{cu} login" do
 			login_as send(cu)
 			non_case_study_subject = FactoryGirl.create(:study_subject, :patid => '1234')
-			assert !non_case_study_subject.new_record?
+			assert non_case_study_subject.persisted?
 			assert_not_nil non_case_study_subject.patid
 			assert_equal non_case_study_subject.patid, '1234'
 			assert_difference('BcRequest.count',0) {
@@ -85,7 +85,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 				" study_subject icf master id and #{cu} login" do
 			login_as send(cu)
 			non_case_study_subject = FactoryGirl.create(:study_subject, :icf_master_id => '12345')
-			assert !non_case_study_subject.new_record?
+			assert non_case_study_subject.persisted?
 			assert_not_nil non_case_study_subject.icf_master_id
 			assert_equal non_case_study_subject.icf_master_id, '12345'
 			assert_difference('BcRequest.count',0) {

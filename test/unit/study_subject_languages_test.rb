@@ -11,7 +11,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
 			study_subject.languages << FactoryGirl.create(:language)
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
 	end
@@ -61,7 +61,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectLanguage.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => { })
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert @study_subject.languages.empty?
@@ -74,7 +74,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 			@study_subject = create_study_subject(:subject_languages_attributes => { 
 				'0' => { :language_code => '' }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert @study_subject.languages.empty?
@@ -88,7 +88,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 			@study_subject = create_study_subject(:subject_languages_attributes => {
 				'0' => { :language_code => Language.order(:position).first.code }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert !@study_subject.languages.empty?
@@ -106,7 +106,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 				'0' => { :language_code => languages[0].code },
 				'1' => { :language_code => languages[1].code }
 			})
-			assert !@study_subject.new_record?, 
+			assert @study_subject.persisted?, 
 				"#{@study_subject.errors.full_messages.to_sentence}"
 		} }
 		assert !@study_subject.languages.empty?

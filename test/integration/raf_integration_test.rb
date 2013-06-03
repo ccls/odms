@@ -220,7 +220,8 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "#{patient}[raf_zip]",  :with => "17857"
 
 			wait_until{ 
-				!find_field("#{address}[city]").value.blank? }
+				find_field("#{address}[city]").value.present? }
+#				!find_field("#{address}[city]").value.blank? }
 
 			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value

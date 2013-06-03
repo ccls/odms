@@ -33,7 +33,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 			study_subject = FactoryGirl.create(:case_study_subject,
 				:patient_attributes => FactoryGirl.attributes_for(:patient))
 			assert  study_subject.is_case?
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }
 	end
@@ -55,10 +55,10 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = FactoryGirl.create(:case_study_subject)
 			assert study_subject.is_case?
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 			patient = FactoryGirl.create(:patient, :study_subject => study_subject)
-			assert !patient.new_record?, 
+			assert patient.persisted?, 
 				"#{patient.errors.full_messages.to_sentence}"
 		} }
 	end
@@ -68,7 +68,7 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
 			assert !study_subject.is_case?
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 			patient = FactoryGirl.build(:patient, :study_subject => study_subject)
 			patient.save	#	avoid an exception being raised

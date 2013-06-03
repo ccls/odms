@@ -11,7 +11,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
 					:data_source_id => DataSource['unknown'].id,
 					:phone_type_id  => PhoneType['home'].id )])
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }
 	end
@@ -23,7 +23,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
 					:data_source_id => DataSource['unknown'].id,
 					:phone_number   => '' )])
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }
 	end

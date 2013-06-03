@@ -68,7 +68,8 @@ class BcRequestTest < ActiveSupport::TestCase
 			blank_bc_request = FactoryGirl.create(:bc_request)
 			assert blank_bc_request.status.blank?
 			bc_request = FactoryGirl.create(:bc_request, :status => status)
-			assert !bc_request.status.blank?
+#			assert !bc_request.status.blank?
+			assert bc_request.status.present?
 			assert_equal status, bc_request.status
 			bc_requests = BcRequest.with_status(status)
 			assert  bc_requests.include?(bc_request)

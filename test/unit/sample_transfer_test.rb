@@ -30,7 +30,8 @@ class SampleTransferTest < ActiveSupport::TestCase
 			blank_sample_transfer = FactoryGirl.create(:sample_transfer)
 			assert blank_sample_transfer.status.blank?
 			sample_transfer = FactoryGirl.create(:sample_transfer, :status => status)
-			assert !sample_transfer.status.blank?
+#			assert !sample_transfer.status.blank?
+			assert sample_transfer.status.present?
 			assert_equal status, sample_transfer.status
 			sample_transfers = SampleTransfer.with_status(status)
 			assert  sample_transfers.include?(sample_transfer)

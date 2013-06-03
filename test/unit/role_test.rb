@@ -10,7 +10,7 @@ class RoleTest < ActiveSupport::TestCase
 	test "should create role" do
 		assert_difference('Role.count',1) do
 			role = create_role
-			assert !role.new_record?, 
+			assert role.persisted?, 
 				"#{role.errors.full_messages.to_sentence}"
 		end 
 	end

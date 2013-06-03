@@ -46,7 +46,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
 				).all('option').each { |option|
-					assert !option.text.blank?
+#					assert !option.text.blank?
+					assert option.text.present?
 					assert_match /^operations:/, option.text }
 
 			#	select nothing so can test if cleared
@@ -70,7 +71,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
 				).all('option').each { |option|
-					assert !option.text.blank?
+#					assert !option.text.blank?
+					assert option.text.present?
 					assert_match /^samples:/, option.text }
 		end
 
@@ -102,7 +104,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
 				).all('option').each { |option|
-					assert !option.text.blank?
+#					assert !option.text.blank?
+					assert option.text.present?
 					assert_match /^#{event_category}:/, option.text }
 
 			#	select nothing so can test if cleared
@@ -129,7 +132,8 @@ class EventIntegrationTest < ActionController::CapybaraIntegrationTest
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
 				).all('option').each { |option|
-					assert !option.text.blank?
+#					assert !option.text.blank?
+					assert option.text.present?
 					assert_match /^operations:/, option.text }
 		end
 

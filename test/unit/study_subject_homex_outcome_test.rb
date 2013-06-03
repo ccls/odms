@@ -9,7 +9,7 @@ class StudySubjectHomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:homex_outcome_attributes => FactoryGirl.attributes_for(:homex_outcome))
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }
 	end

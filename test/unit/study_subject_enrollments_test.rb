@@ -8,7 +8,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 			study_subject = create_study_subject(
 				:enrollments_attributes => [FactoryGirl.attributes_for(:enrollment,
 					:project_id => Project['non-specific'].id)])
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }
 	end

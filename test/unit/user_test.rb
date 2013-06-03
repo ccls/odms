@@ -18,7 +18,7 @@ class UserTest < ActiveSupport::TestCase
 	test "should create user" do
 		assert_difference 'User.count' do
 			user = create_object
-			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+			assert  user.persisted?, "#{user.errors.full_messages.to_sentence}"
 			assert !user.may_administrate?
 		end
 	end
@@ -31,7 +31,7 @@ class UserTest < ActiveSupport::TestCase
 			assert  user.may_read?
 			assert !user.is_administrator?
 			assert !user.may_administrate?
-			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+			assert  user.persisted?, "#{user.errors.full_messages.to_sentence}"
 		end
 	end
 
@@ -44,7 +44,7 @@ class UserTest < ActiveSupport::TestCase
 #			assert  user.may_read?
 #			assert !user.is_administrator?
 #			assert !user.may_administrate?
-#			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+#			assert  user.persisted?, "#{user.errors.full_messages.to_sentence}"
 #		end
 #	end
 
@@ -59,7 +59,7 @@ class UserTest < ActiveSupport::TestCase
 			assert  user.may_read?
 			assert !user.is_administrator?
 			assert !user.may_administrate?
-			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+			assert  user.persisted?, "#{user.errors.full_messages.to_sentence}"
 		end
 	end
 
@@ -74,7 +74,7 @@ class UserTest < ActiveSupport::TestCase
 			assert  user.may_read?
 			assert !user.is_administrator?
 			assert !user.may_administrate?
-			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+			assert  user.persisted?, "#{user.errors.full_messages.to_sentence}"
 		end
 	end
 
@@ -100,7 +100,7 @@ class UserTest < ActiveSupport::TestCase
 #			assert user.may_share_document?('document')
 #			assert user.may_view_document?('document')
 
-			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+			assert  user.persisted?, "#{user.errors.full_messages.to_sentence}"
 		end
 	end
 
@@ -116,7 +116,7 @@ class UserTest < ActiveSupport::TestCase
 #			assert  user.may_interview?
 			assert  user.may_read?
 			assert  user.may_administrate?
-			assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+			assert  user.persisted?, "#{user.errors.full_messages.to_sentence}"
 		end
 	end
 

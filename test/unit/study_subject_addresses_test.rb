@@ -13,7 +13,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 					:data_source_id => DataSource['unknown'].id,
 					:address_attributes => FactoryGirl.attributes_for(:address,
 					:address_type_id => AddressType['residence'].id ) )])
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
 	end
@@ -26,7 +26,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
 					:data_source_id => DataSource['unknown'].id,
 					:address_attributes => { :address_type_id => AddressType['residence'].id } )])
-			assert !study_subject.new_record?, 
+			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
 	end
