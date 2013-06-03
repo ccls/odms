@@ -8,7 +8,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "birth_datum factory should create birth datum" do
 		birth_datum = FactoryGirl.create(:birth_datum)
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 	end
 
 	test "birth_datum factory should create odms exception" do
@@ -56,7 +56,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case_birth_datum factory should create birth datum" do
 		birth_datum = FactoryGirl.create(:case_birth_datum)
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 	end
 
 	test "case_birth_datum factory should create odms exception" do
@@ -94,7 +94,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control_birth_datum factory should create birth datum" do
 		birth_datum = FactoryGirl.create(:control_birth_datum)
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 	end
 
 	test "control_birth_datum factory should create odms exception" do
@@ -132,7 +132,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "bogus_birth_datum factory should create birth datum" do
 		birth_datum = FactoryGirl.create(:bogus_birth_datum)
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 	end
 
 	test "bogus_birth_datum factory should create odms exception" do
@@ -266,7 +266,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 	end
 
 	test "control_birth_datum factory with matching case should create candidate control" do
@@ -274,7 +274,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:master_id => study_subject.icf_master_id )
 		assert_not_nil birth_datum.candidate_control
-		assert !birth_datum.candidate_control.new_record?
+		assert birth_datum.candidate_control.persisted?
 	end
 
 	test "control_birth_datum factory with matching case and definite should create study subject" do
@@ -283,7 +283,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			:match_confidence => 'definite',
 			:master_id => study_subject.icf_master_id ).reload
 		assert_not_nil birth_datum.study_subject
-		assert !birth_datum.study_subject.new_record?
+		assert birth_datum.study_subject.persisted?
 	end
 
 
@@ -295,7 +295,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			:match_confidence => 'NO',
 			:master_id => study_subject.icf_master_id ).reload
 		assert_not_nil birth_datum.study_subject
-		assert !birth_datum.study_subject.new_record?
+		assert birth_datum.study_subject.persisted?
 	end
 
 
@@ -310,7 +310,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum factory should create birth datum if master_id is blank" do
 		birth_datum = FactoryGirl.create(:case_birth_datum)
 		assert_nil birth_datum.master_id
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 	end
 
 	test "case birth datum factory should create odms exception if master_id is blank" do
@@ -323,7 +323,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should create birth datum if master_id is not blank" <<
 			" but not used by a subject" do
 		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => 'IAMUNUSED')
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, 'IAMUNUSED'
 	end
 
@@ -339,7 +339,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" used by a case and match_confidence is definite" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = create_matching_case_birth_datum(study_subject)
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 		assert_equal birth_datum.match_confidence, 'definite'
 	end
@@ -369,7 +369,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:case_birth_datum,
 			:match_confidence => 'somethingelse',
 			:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 		assert_equal birth_datum.match_confidence, 'somethingelse'
 	end
@@ -399,7 +399,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a control" do
 		study_subject = create_control_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
 
@@ -416,7 +416,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a mother" do
 		study_subject = create_mother_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
 
@@ -432,7 +432,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should create birth datum if master_id is blank" do
 		birth_datum = FactoryGirl.create(:control_birth_datum)
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_nil birth_datum.master_id
 	end
 
@@ -446,7 +446,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should create birth datum if master_id is not blank" <<
 			" but not used by a subject" do
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => 'IAMUNUSED')
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, 'IAMUNUSED'
 	end
 
@@ -462,7 +462,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a case" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
 
@@ -472,7 +472,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:master_id => study_subject.icf_master_id )
 		assert_not_nil birth_datum.candidate_control
-		assert !birth_datum.candidate_control.new_record?
+		assert  birth_datum.candidate_control.persisted?
 		assert !birth_datum.candidate_control.reject_candidate
 		assert_equal birth_datum.candidate_control.related_patid, 
 			study_subject.patid
@@ -491,7 +491,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		CandidateControl.any_instance.stubs(:create_or_update).returns(false)
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
 
@@ -519,7 +519,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a control" do
 		study_subject = create_control_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
 
@@ -536,7 +536,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a mother" do
 		study_subject = create_mother_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
 
@@ -554,7 +554,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:sex => nil,
 			:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
 
@@ -573,7 +573,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:sex => nil,
 			:master_id => study_subject.icf_master_id )
-		assert !birth_datum.candidate_control.new_record?
+		assert birth_datum.candidate_control.persisted?
 		assert_not_nil birth_datum.candidate_control
 		assert birth_datum.candidate_control.reject_candidate
 	end
@@ -583,7 +583,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:dob => nil,
 			:master_id => study_subject.icf_master_id )
-		assert !birth_datum.new_record?
+		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
 
@@ -602,7 +602,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:control_birth_datum,
 			:dob => nil,
 			:master_id => study_subject.icf_master_id )
-		assert !birth_datum.candidate_control.new_record?
+		assert birth_datum.candidate_control.persisted?
 		assert_not_nil birth_datum.candidate_control
 		assert birth_datum.candidate_control.reject_candidate
 	end
@@ -990,15 +990,46 @@ class BirthDatumTest < ActiveSupport::TestCase
 			:match_confidence => 'definite',
 			:master_id => study_subject.icf_master_id ).reload
 		assert_not_nil birth_datum.candidate_control
-		assert !birth_datum.candidate_control.new_record?
+		assert birth_datum.candidate_control.persisted?
 		assert_not_nil birth_datum.study_subject
-		assert !birth_datum.study_subject.new_record?
+		assert birth_datum.study_subject.persisted?
 		assert_difference('Address.count', 0){
 		assert_difference('Addressing.count', 0){
 		assert_difference('StudySubject.count', 0){
 		assert_difference('CandidateControl.count', 0){
 		assert_difference('OperationalEvent.count', 0){	
 			birth_datum.post_processing
+		} } } } }
+	end
+
+
+	test "calling post_processing again on an UPDATED control with study subject"<<
+			" should not do SOMETHING" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = nil	#	scope variable outside
+		assert_difference('Address.count', 0){
+		assert_difference('Addressing.count', 0){
+		assert_difference('StudySubject.count', 0){
+		assert_difference('CandidateControl.count', 1){
+		assert_difference('OperationalEvent.count', 0){	
+			birth_datum = FactoryGirl.create(:control_birth_datum,
+				:match_confidence => 'NOTACHANCE',
+				:master_id => study_subject.icf_master_id ).reload
+		} } } } }
+
+		assert_not_nil birth_datum.candidate_control
+		assert birth_datum.candidate_control.persisted?
+		assert_nil birth_datum.study_subject
+#		assert birth_datum.study_subject.new_record?
+
+		assert_difference('Address.count', 0){
+		assert_difference('Addressing.count', 0){
+		assert_difference('StudySubject.count', 2){	#	SHOULD NOW CREATE SUBJECT and mother
+		assert_difference('CandidateControl.count', 0){
+		assert_difference('OperationalEvent.count', 3){	
+#	2 new subject events and 1 not-enough-info-for-address event
+			birth_datum.update_column(:match_confidence, 'DEFINITE')
+			birth_datum.reload.post_processing
 		} } } } }
 	end
 

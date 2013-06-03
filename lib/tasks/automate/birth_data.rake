@@ -1,5 +1,22 @@
 namespace :automate do
 
+	task :reprocess_birth_data => :automate do
+		puts "Study Subject count: #{StudySubject.count}"
+		birth_data = BirthDatum.where(:match_confidence => 'NO').where(:study_subject_id => nil)
+		birth_data.each{|bd| bd.post_processing; bd.reload }
+		puts "Study Subject count: #{StudySubject.count}"
+
+		puts; puts "Commiting changes to Sunspot"
+		Sunspot.commit
+
+		Notification.updates_from_birth_data( 'fake file', birth_data ).deliver
+
+		puts; puts "Done.(#{Time.now})"
+		puts "----------------------------------------------------------------------"
+
+	end	#	task :reprocess_birth_data => :automate do
+
+
 	task :import_birth_data => :automate do
 
 		puts;puts;puts
