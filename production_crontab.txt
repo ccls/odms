@@ -102,5 +102,6 @@ RAILS_ENV=production
 
 
 #	every 15 minutes
-0,15,30,45 * * * * cd /my/ruby/odms/ ; rake app:study_subjects:reindex >> /my/ruby/logs/study_subjects_reindex.log
+15,45 * * * * cd /my/ruby/odms/ ; rake app:study_subjects:sync_related_icf_master_ids >> /my/ruby/logs/study_subjects_sync_related_icf_master_ids.log
+0,30 * * * * cd /my/ruby/odms/ ; rake app:study_subjects:reindex >> /my/ruby/logs/study_subjects_reindex.log
 

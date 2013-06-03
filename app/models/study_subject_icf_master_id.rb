@@ -11,8 +11,8 @@ base.class_eval do
 
 	attr_protected :icf_master_id
 
-	after_save :copy_case_icf_master_id
-	after_save :copy_mother_icf_master_id
+#	after_save :copy_case_icf_master_id
+#	after_save :copy_mother_icf_master_id
 
 	#	We probably don't want to auto assign icf_master_ids 
 	#		as it would add icf_master_ids to the old data.
@@ -46,48 +46,51 @@ base.class_eval do
 		( icf_master_id.blank? ) ?  "[no ID assigned]" : icf_master_id
 	end
 
-	def copy_case_icf_master_id
-#		#	using update_all will not trigger sunspot reindexing.  DON'T USE!
-#		StudySubject.with_matchingid(self.matchingid).update_all(
-#			:case_icf_master_id => self.try(:case_subject).try(:icf_master_id))
-#		#	or use and then for reindexing
-#		StudySubject.with_matchingid(self.matchingid).each {|s| s.index }
-
-
-#		#	want to update_all, save and index if changed, so not update_all
+#
+#	Timing is a bit of a problem.  Using a cron job to do this now.
+#
+#	def copy_case_icf_master_id
+##		#	using update_all will not trigger sunspot reindexing.  DON'T USE!
+##		StudySubject.with_matchingid(self.matchingid).update_all(
+##			:case_icf_master_id => self.try(:case_subject).try(:icf_master_id))
+##		#	or use and then for reindexing
+##		StudySubject.with_matchingid(self.matchingid).each {|s| s.index }
+#
+#
+##		#	want to update_all, save and index if changed, so not update_all
+##		case_imi = self.try(:case_subject).try(:icf_master_id)
+##		StudySubject.with_matchingid(self.matchingid).each {|s| 
+##			s.case_icf_master_id = case_imi	#	self.try(:case_subject).try(:icf_master_id)
+##			s.save if s.changed?
+##		}
+#
 #		case_imi = self.try(:case_subject).try(:icf_master_id)
-#		StudySubject.with_matchingid(self.matchingid).each {|s| 
-#			s.case_icf_master_id = case_imi	#	self.try(:case_subject).try(:icf_master_id)
-#			s.save if s.changed?
-#		}
-
-		case_imi = self.try(:case_subject).try(:icf_master_id)
-		StudySubject.with_matchingid(self.matchingid).update_all({
-			:case_icf_master_id => case_imi,
-			:needs_reindexed    => true
-		})
-	end
-
-	def copy_mother_icf_master_id
-#		#	using update_all will not trigger sunspot reindexing.  DON'T USE!
-#		StudySubject.with_familyid(self.familyid).update_all(
-#			:mother_icf_master_id => self.try(:mother).try(:icf_master_id))
-#		#	or use and then for reindexing
-#		StudySubject.with_matchingid(self.matchingid).each {|s| s.index }
-
-#		#	want to update_all, save and index if changed, so not update_all
+#		StudySubject.with_matchingid(self.matchingid).update_all({
+#			:case_icf_master_id => case_imi,
+#			:needs_reindexed    => true
+#		})
+#	end
+#
+#	def copy_mother_icf_master_id
+##		#	using update_all will not trigger sunspot reindexing.  DON'T USE!
+##		StudySubject.with_familyid(self.familyid).update_all(
+##			:mother_icf_master_id => self.try(:mother).try(:icf_master_id))
+##		#	or use and then for reindexing
+##		StudySubject.with_matchingid(self.matchingid).each {|s| s.index }
+#
+##		#	want to update_all, save and index if changed, so not update_all
+##		mom_imi = self.try(:mother).try(:icf_master_id)
+##		StudySubject.with_familyid(self.familyid).each {|s| 
+##			s.mother_icf_master_id = mom_imi	#	self.try(:mother).try(:icf_master_id)
+##			s.save if s.changed?
+##		}
+#
 #		mom_imi = self.try(:mother).try(:icf_master_id)
-#		StudySubject.with_familyid(self.familyid).each {|s| 
-#			s.mother_icf_master_id = mom_imi	#	self.try(:mother).try(:icf_master_id)
-#			s.save if s.changed?
-#		}
-
-		mom_imi = self.try(:mother).try(:icf_master_id)
-		StudySubject.with_familyid(self.familyid).update_all({
-			:mother_icf_master_id => mom_imi,
-			:needs_reindexed      => true
-		})
-	end
+#		StudySubject.with_familyid(self.familyid).update_all({
+#			:mother_icf_master_id => mom_imi,
+#			:needs_reindexed      => true
+#		})
+#	end
 
 end	#	class_eval
 end	#	included

@@ -20,6 +20,39 @@ namespace :study_subjects do
 		#
 	end
 
+	task :sync_related_icf_master_ids => :environment do
+#
+#	Not all subjects have icf_master_ids, not all have mothers.
+#	Using :phase => 5 to limit these, although eventually it will not be true
+#
+		StudySubject.where(:phase => 5).where(:case_icf_master_id => nil).each do |s|
+			puts "Syncing case subject for #{s}"
+			if s.case_subject.present?
+				if s.case_subject.icf_master_id.present?
+					s.update_column(:case_icf_master_id, s.case_subject.icf_master_id )
+					s.update_column(:needs_reindexed, true)
+				else
+					puts "Case doesn't have an icf master id"
+				end
+			else
+				puts "Case doesn't exist"
+			end
+		end
+		StudySubject.where(:phase => 5).where(:mother_icf_master_id => nil).each do |s|
+			puts "Syncing mother subject for #{s}"
+			if s.mother.present?
+				if s.mother.icf_master_id.present?
+					s.update_column(:mother_icf_master_id, s.mother.icf_master_id )
+					s.update_column(:needs_reindexed, true)
+				else
+					puts "Mother doesn't have an icf_master_id"
+				end
+			else
+				puts "Mother doesn't exist"
+			end
+		end
+	end
+
 	task :reindex => :environment do
 		puts Time.zone.now
 		StudySubject.where(:needs_reindexed => true).each do |subject|
