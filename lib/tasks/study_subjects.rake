@@ -21,6 +21,7 @@ namespace :study_subjects do
 	end
 
 	task :sync_related_icf_master_ids => :environment do
+		puts Time.zone.now
 #
 #	Not all subjects have icf_master_ids, not all have mothers.
 #	Using :phase => 5 to limit these, although eventually it will not be true
