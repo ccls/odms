@@ -165,6 +165,19 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_template :index
 		end
 
+		test "should render index csv of ids if commit is 'export' with #{cu} login" do
+			login_as send(cu)
+			subject = subject_for_assigned_for_interview_at
+			put :assign_selected_for_interview, :ids => [subject.id], :commit => :export
+#	SHOULD NOT UPDATE
+			assert_nil subject.enrollments.where(
+				:project_id => Project[:ccls].id).first.assigned_for_interview_at
+#			assert_not_nil flash[:notice]
+			assert_response :success
+			assert_template :index
+#	TODO add integration test to confirm javascript button click
+		end
+
 		test "should NOT update assigned_for_interview_at with #{cu} login" <<
 				" without ids" do
 			login_as send(cu)

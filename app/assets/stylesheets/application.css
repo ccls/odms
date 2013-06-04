@@ -503,6 +503,7 @@ form.edit_guide input[type=text] {
 	Make submit buttons and a.button tags look the same.
 	This works in Firefox and Chrome.  Don't know about IE.
 */
+button,
 input[type=submit],
 a.button {
 	cursor: pointer;

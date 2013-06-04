@@ -44,36 +44,26 @@ class ControlsController < ApplicationController
 	end
 
 	def assign_selected_for_interview
-		if params[:ids].present? and params[:ids].is_a?(Array) and !params[:ids].empty?
-			enrollments = Enrollment
-				.where(:project_id => Project['ccls'].id)
-				.where(:study_subject_id => params[:ids] )
-				.update_all(:assigned_for_interview_at => DateTime.current)
-#	using update_all will not trigger sunspot reindexing so SHOULD NOT BE USED ON ANYTHING INDEXED
-#			enrollments.each {|e| e.update_attributes(:assigned_for_interview_at => DateTime.current) }
-#
-#	if this list is long, this will timeout
-#	actually it can take a while regardless of reindexing (about 0.1 sec per subject)
-#
-#			StudySubject.find(params[:ids]).each{|s|s.index}
-#	perhaps just set attribute that it needs reindexed?
-			StudySubject.where(:id => params[:ids]).update_all(:needs_reindexed => true)
-#	then run cron job every so ofter
-#			rake app:study_subjects:reindex_those_waiting
-#		StudySubject.where(:reindex => true).each do |subject|
-#			subject.index
-#			subject.update_column(:reindex, false)
-#		end
-
-
-			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
-			@study_subjects = StudySubject.find(params[:ids])
-			@and_then_download_csv = true
+		if params[:commit].present? and params[:commit] == 'export'
+			request.format = :csv
+			index
 			render :action => 'index'
-#			redirect_to controls_path(:ids => params[:ids], :and_then_download_csv => true)
 		else
-			flash[:error] = "No ids given."
-			redirect_to controls_path
+			if params[:ids].present? and params[:ids].is_a?(Array) and !params[:ids].empty?
+				enrollments = Enrollment
+					.where(:project_id => Project['ccls'].id)
+					.where(:study_subject_id => params[:ids] )
+					.update_all(:assigned_for_interview_at => DateTime.current)
+				StudySubject.where(:id => params[:ids]).update_all(:needs_reindexed => true)
+				flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} " <<
+					"assigned for interview."
+				@study_subjects = StudySubject.find(params[:ids])
+				@and_then_download_csv = true
+				render :action => 'index'
+			else
+				flash[:error] = "No ids given."
+				redirect_to controls_path
+			end
 		end
 	end
 

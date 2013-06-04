@@ -5,6 +5,14 @@
 <%# Yes, it is just the date and not a datetime %>
 <%#= text_field_tag( :assigned_for_interview_at, params[:assigned_for_interview_at], :class => :datepicker ) %>
 
+
+<p>
+<%= link_to("Select All", "javascript:void()",
+:id => :select_all, :class => :button) %>&nbsp;
+<%= link_to("Deselect All", "javascript:void()",
+:id => :deselect_all, :class => :button) %>&nbsp;
+<%= @study_subjects.length %> case(s) found.</p>
+
 <table class='nowrap'>
 <thead><tr>
 <th>&nbsp;</th>
@@ -85,10 +93,24 @@
 </tbody></table>
 
 <p>
-<%#= link_to("Export all as CSV", cases_path(:format => :csv), :class => :button) %>
-<%#= submit_tag("Export selected as CSV") %>
-<%= submit_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv") %>
+<%# using button instead of submit so can have value differ from text -%>
+<%= button_tag("Export selected to CSV",
+	:name => :commit, :value => :export, :id => :export_to_csv) %>&nbsp;
+<%= button_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv",
+	:name => :commit, :value => :update) %>&nbsp;
+<%= link_to("View all unassigned cases", cases_path, :class => :button) %>
 </p>
 
 <% end %><%# form_tag %>
 <% end %><%# if @study_subjects %>
+
+
+<%#  This will fail and raise 
+	Request-URI Too Large WEBrick::HTTPStatus::RequestURITooLarge 
+	if too many ids exist.
+	(probably the same for cases)
+	changed to different submit rather than a get request
+-%>
+<%= javascript_tag do %>
+<%= "jQuery(function(){ jQuery('button#export_to_csv').click() })".html_safe %>
+<% end if @and_then_download_csv %>

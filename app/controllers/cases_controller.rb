@@ -66,28 +66,33 @@ class CasesController < ApplicationController
 	end
 
 	def assign_selected_for_interview
-		if !params[:ids].blank? and params[:ids].is_a?(Array) and !params[:ids].empty?
-			enrollments = Enrollment
-				.where( :study_subject_id => params[:ids] )
-				.where( :project_id => Project['ccls'].id )
-				.update_all(:assigned_for_interview_at => DateTime.current)
-#			enrollments.each {|e| e.update_attributes(:assigned_for_interview_at => DateTime.current) }
-			StudySubject.find(params[:ids]).each{|s|s.index}
-#
-# using update_all does not validate so stub tests are irrelevant
-#	it also will not trigger sunspot reindexing so SHOULD NOT BE USED ON ANYTHING INDEXED
-#
-
-#			Create Operational Events??
-
-			flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} assigned for interview."
-
-			redirect_to cases_path(:ids => params[:ids],:format => :csv)
+		if params[:commit].present? and params[:commit] == 'export'
+			request.format = :csv
+			index
+			render :action => 'index'
 		else
+			if !params[:ids].blank? and params[:ids].is_a?(Array) and !params[:ids].empty?
+				enrollments = Enrollment
+					.where( :study_subject_id => params[:ids] )
+					.where( :project_id => Project['ccls'].id )
+					.update_all(:assigned_for_interview_at => DateTime.current)
+				StudySubject.where(:id => params[:ids]).update_all(:needs_reindexed => true)
+				flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} " <<
+					"assigned for interview."
+				@study_subjects = StudySubject.find(params[:ids])
+				@and_then_download_csv = true
+				render :action => 'index'
 
-			flash[:error] = "No ids given."
-			
-			redirect_to cases_path(:ids => params[:ids])
+#				StudySubject.find(params[:ids]).each{|s|s.index}
+#				#	TODO Create Operational Events??
+#				flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} "<<
+#					"assigned for interview."
+#	#	this WON'T WORK for long list of ids
+#				redirect_to cases_path(:ids => params[:ids],:format => :csv)
+			else
+				flash[:error] = "No ids given."
+				redirect_to cases_path	#	(:ids => params[:ids])
+			end
 		end
 	end
 

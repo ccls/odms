@@ -99,8 +99,11 @@
 </tbody></table>
 
 <p>
-<%= link_to("Export these to CSV", params.merge(:format => :csv), :class => :button) %>&nbsp;
-<%= submit_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv") %>&nbsp;
+<%# using button instead of submit so can have value differ from text -%>
+<%= button_tag("Export these to CSV",
+	:name => :commit, :value => :export, :id => :export_to_csv) %>&nbsp;
+<%= button_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv",
+	:name => :commit, :value => :update) %>&nbsp;
 <%= link_to("View all unassigned Controls", controls_path, :class => :button) %>
 </p>
 <p>Be advised.  
@@ -110,6 +113,12 @@ Too many will result in a timeout.</p>
 <% end %><%# form_tag %>
 <% end %><%# if @study_subjects %>
 
+<%#  This will fail and raise 
+	Request-URI Too Large WEBrick::HTTPStatus::RequestURITooLarge 
+	if too many ids exist.
+ (probably the same for cases)
+	changed to different submit rather than a get request
+-%>
 <%= javascript_tag do %>
-<%= "window.location = '#{controls_path(:ids => params[:ids], :format => :csv)}'".html_safe %>
+<%= "jQuery(function(){ jQuery('button#export_to_csv').click() })".html_safe %>
 <% end if @and_then_download_csv %>
