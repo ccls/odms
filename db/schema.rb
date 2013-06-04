@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130520225256) do
+ActiveRecord::Schema.define(:version => 20130604184020) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1574,18 +1574,6 @@ ActiveRecord::Schema.define(:version => 20130520225256) do
   add_index "subject_relationships", ["description"], :name => "index_subject_relationships_on_description", :unique => true
   add_index "subject_relationships", ["key"], :name => "index_subject_relationships_on_key", :unique => true
 
-  create_table "subject_types", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",                       :null => false
-    t.string   "description"
-    t.string   "related_case_control_type"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-  end
-
-  add_index "subject_types", ["description"], :name => "index_subject_types_on_description", :unique => true
-  add_index "subject_types", ["key"], :name => "index_subject_types_on_key", :unique => true
-
   create_table "tracing_statuses", :force => true do |t|
     t.integer  "position"
     t.string   "key",         :null => false
@@ -1636,18 +1624,6 @@ ActiveRecord::Schema.define(:version => 20130520225256) do
 
   add_index "users", ["sn"], :name => "index_users_on_sn"
   add_index "users", ["uid"], :name => "index_users_on_uid", :unique => true
-
-  create_table "vital_statuses", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.integer  "code"
-    t.string   "description", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "vital_statuses", ["code"], :name => "index_vital_statuses_on_code", :unique => true
-  add_index "vital_statuses", ["key"], :name => "index_vital_statuses_on_key", :unique => true
 
   create_table "zip_codes", :force => true do |t|
     t.string   "zip_code",   :limit => 5, :null => false

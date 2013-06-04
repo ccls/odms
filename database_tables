@@ -1607,18 +1607,6 @@ Table: subject_relationships
 | created_at  | datetime     | NO   |     | NULL    |                |
 | updated_at  | datetime     | NO   |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
-Table: subject_types
-+---------------------------+--------------+------+-----+---------+----------------+
-| Field                     | Type         | Null | Key | Default | Extra          |
-+---------------------------+--------------+------+-----+---------+----------------+
-| id                        | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position                  | int(11)      | YES  |     | NULL    |                |
-| key                       | varchar(255) | NO   | UNI | NULL    |                |
-| description               | varchar(255) | YES  | UNI | NULL    |                |
-| related_case_control_type | varchar(255) | YES  |     | NULL    |                |
-| created_at                | datetime     | NO   |     | NULL    |                |
-| updated_at                | datetime     | NO   |     | NULL    |                |
-+---------------------------+--------------+------+-----+---------+----------------+
 Table: tracing_statuses
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |
@@ -1669,18 +1657,6 @@ Table: users
 | created_at      | datetime     | NO   |     | NULL    |                |
 | updated_at      | datetime     | NO   |     | NULL    |                |
 +-----------------+--------------+------+-----+---------+----------------+
-Table: vital_statuses
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| code        | int(11)      | YES  | UNI | NULL    |                |
-| description | varchar(255) | NO   |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: zip_codes
 +------------+--------------+------+-----+---------+----------------+
 | Field      | Type         | Null | Key | Default | Extra          |

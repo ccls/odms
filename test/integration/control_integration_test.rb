@@ -5,7 +5,7 @@ class ControlIntegrationTest < ActionController::CapybaraIntegrationTest
 	site_administrators.each do |cu|
 
 		test "should render html and trigger csv download "<<
-				"on assigned_for_interview_at with #{cu} login"
+				"on assigned_for_interview_at with #{cu} login" do
 pending
 		end
 
