@@ -31,9 +31,8 @@ class CandidateControl < ActiveRecord::Base
 
 	def create_study_subjects(case_subject,grouping = '6')
 
-#	can't I find my own case_subject?
+#	NOTE can't I find my own case_subject?
 #	 case_study_subject = StudySubject.cases.with_patid(related_patid).first
-
 
 		next_orderno = case_subject.next_control_orderno(grouping)
 
@@ -70,6 +69,10 @@ class CandidateControl < ActiveRecord::Base
 				s.orderno            = next_orderno
 				s.matchingid         = case_subject.subjectid
 				s.patid              = case_subject.patid
+
+#	TODO - probably a better place for this (before creating mother)
+				s.case_icf_master_id = case_subject.icf_master_id
+
 				s.is_matched         = true
 			end
 

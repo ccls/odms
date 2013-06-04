@@ -85,72 +85,47 @@ class StudySubjectIcfMasterIdTest < ActiveSupport::TestCase
 
 
 
-#	test "should copy case's icf_master_id to case_icf_master_id for case (self)" do
-#		case_subject = FactoryGirl.build(:case_study_subject, :icf_master_id => 'Fake1234')
-#		assert_nil case_subject.case_icf_master_id
-#		case_subject.save
-#		assert_not_nil case_subject.reload.case_icf_master_id
-#		assert_equal case_subject.case_icf_master_id, case_subject.icf_master_id
-#	end
+	test "should copy case's icf_master_id to case_icf_master_id for case (self)" do
+		create_case_with_icf_master_id
+	end
+
+	test "should copy icf_master_ids on control creation" do
+		case_subject = create_case_with_icf_master_id
+		FactoryGirl.create(:icf_master_id, :icf_master_id  => 'Control12')
+		FactoryGirl.create(:icf_master_id, :icf_master_id  => 'Mommy1234')
+		bd = FactoryGirl.create(:control_birth_datum, :master_id  => 'Case12345')
+		bd.candidate_control.create_study_subjects(case_subject)
+		control_subject = bd.candidate_control.reload.study_subject
+		assert_equal 'Control12', control_subject.icf_master_id
+		assert_equal 'Case12345', control_subject.case_icf_master_id
+		assert_equal 'Case12345', control_subject.mother.case_icf_master_id
+		assert_equal 'Mommy1234', control_subject.mother_icf_master_id
+	end
+
+	test "should copy icf_master_ids on mother creation" do
+		case_subject = create_case_with_icf_master_id
+		FactoryGirl.create(:icf_master_id, :icf_master_id => 'Mommy1234')
+		mother = case_subject.create_mother.reload
+		assert_equal 'Mommy1234', mother.icf_master_id
+		assert_equal 'Mommy1234', mother.mother_icf_master_id
+		assert_equal 'Mommy1234', case_subject.reload.mother_icf_master_id
+		assert_equal 'Case12345', mother.case_icf_master_id
+	end
+
 #
-#	test "should copy case's icf_master_id to case_icf_master_id for control" do
-#		case_subject = FactoryGirl.create(:case_study_subject, :icf_master_id => 'Fake1234')
-#		control_subject = FactoryGirl.build(:control_study_subject, 
-#			:matchingid => case_subject.subjectid)
-#		assert_nil control_subject.case_icf_master_id
-#		control_subject.save
-#		assert_not_nil control_subject.reload.case_icf_master_id
-#		assert_equal control_subject.case_icf_master_id, case_subject.icf_master_id
-#	end
+#	copy these icf_master_ids on creation.
 #
-#	test "should copy case's icf_master_id to case_icf_master_id for case mother" do
-#		case_subject = FactoryGirl.create(:case_study_subject, :icf_master_id => 'Fake1234')
-#		mother_subject = FactoryGirl.build(:mother_study_subject, 
-#			:familyid   => case_subject.subjectid,
-#			:matchingid => case_subject.subjectid)
-#		assert_nil mother_subject.case_icf_master_id
-#		mother_subject.save
-#		assert_not_nil mother_subject.reload.case_icf_master_id
-#		assert_equal mother_subject.case_icf_master_id, case_subject.icf_master_id
-#	end
+#	case's are first
 #
-#	test "should copy case's icf_master_id to case_icf_master_id for control mother" do
-#		case_subject = FactoryGirl.create(:case_study_subject, :icf_master_id => 'Fake1234')
-#		#	control subject doesn't need to exist
-#		mother_subject = FactoryGirl.build(:mother_study_subject, 
-#			:matchingid => case_subject.subjectid)
-#		assert_nil mother_subject.case_icf_master_id
-#		mother_subject.save
-#		assert_not_nil mother_subject.reload.case_icf_master_id
-#		assert_equal mother_subject.case_icf_master_id, case_subject.icf_master_id
-#	end
+#	case's mother is created from case_subject.create_mother
+#		so in create mother have case_icf_master_id and mother_icf_master_id
+#		copy back mother_icf_master_id and reindex
+#
+#	control is next and have case_subject.case_icf_master_id
+#		so in create mother have case_icf_master_id and mother_icf_master_id
+#		copy back mother_icf_master_id and reindex everyone
 #
 #
-#
-#	test "should copy mother's icf_master_id to mother_icf_master_id for case mother" do
-#		case_subject = FactoryGirl.create(:case_study_subject)
-#		assert_nil case_subject.mother_icf_master_id
-#		mother_subject = FactoryGirl.create(:mother_study_subject, 
-#			:icf_master_id => 'Fake1234',
-#			:familyid   => case_subject.subjectid,
-#			:matchingid => case_subject.subjectid)
-##		assert_nil case_subject.reload.mother_icf_master_id
-##		case_subject.save
-#		assert_not_nil case_subject.reload.mother_icf_master_id
-#		assert_equal mother_subject.icf_master_id, case_subject.mother_icf_master_id
-#	end
-#
-#	test "should copy mother's icf_master_id to mother_icf_master_id for control mother" do
-#		control_subject = FactoryGirl.create(:control_study_subject)
-#		assert_nil control_subject.mother_icf_master_id
-#		mother_subject = FactoryGirl.create(:mother_study_subject, 
-#			:icf_master_id => 'Fake1234',
-#			:familyid   => control_subject.subjectid)
-##		assert_nil control_subject.reload.mother_icf_master_id
-##		control_subject.save
-#		assert_not_nil control_subject.reload.mother_icf_master_id
-#		assert_equal mother_subject.icf_master_id, control_subject.mother_icf_master_id
-#	end
 
 
 
@@ -158,6 +133,20 @@ class StudySubjectIcfMasterIdTest < ActiveSupport::TestCase
 
 
 protected
+
+	def create_case_with_icf_master_id
+		FactoryGirl.create(:icf_master_id, :icf_master_id  => 'Case12345')
+		case_subject = FactoryGirl.create(:case_study_subject)
+		case_subject.assign_icf_master_id
+		case_subject.reload
+		assert_equal 'Case12345', case_subject.icf_master_id
+		assert_equal 'Case12345', case_subject.case_icf_master_id
+		case_subject
+	end
+
+	def create_mother_for(subject)
+		mother
+	end
 
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_study_subject

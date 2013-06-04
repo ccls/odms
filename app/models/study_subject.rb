@@ -72,7 +72,7 @@ class StudySubject < ActiveRecord::Base
 		#	The mother method will effectively find and itself.
 		existing_mother = mother
 		if existing_mother
-			existing_mother
+			existing_mother	#	return the mother
 		else
 			new_mother = StudySubject.new do |s|
 				s.subject_type = 'Mother'
@@ -87,10 +87,19 @@ class StudySubject < ActiveRecord::Base
 				#	protected attributes!
 				s.matchingid = matchingid
 				s.familyid   = familyid
+
+#	TODO
+				s.case_icf_master_id = self.case_icf_master_id
+
 			end
 			new_mother.save!
 			new_mother.assign_icf_master_id
-			new_mother
+
+#	TODO - rather than all the syncing, this is probably the best place for this.
+		self.update_column(:mother_icf_master_id, new_mother.icf_master_id)
+		self.update_column(:needs_reindexed, true)
+
+			new_mother	#	return the mother
 		end
 	end
 

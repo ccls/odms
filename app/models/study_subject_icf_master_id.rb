@@ -13,6 +13,8 @@ base.class_eval do
 
 #	after_save :copy_case_icf_master_id
 #	after_save :copy_mother_icf_master_id
+#	before_save :copy_case_icf_master_id
+#	before_save :copy_mother_icf_master_id
 
 	#	We probably don't want to auto assign icf_master_ids 
 	#		as it would add icf_master_ids to the old data.
@@ -30,6 +32,8 @@ base.class_eval do
 #		could also update needs_reindexed and be done with it
 
 				self.update_column(:icf_master_id, next_icf_master_id.to_s)
+				self.update_column(:case_icf_master_id, next_icf_master_id.to_s) if is_case?
+				self.update_column(:mother_icf_master_id, next_icf_master_id.to_s) if is_mother?
 				self.update_column(:needs_reindexed, true)
 #	for the sake of speed, update columns not attributes
 #				self.update_attribute(:icf_master_id, next_icf_master_id.to_s)
@@ -50,6 +54,13 @@ base.class_eval do
 #	Timing is a bit of a problem.  Using a cron job to do this now.
 #
 #	def copy_case_icf_master_id
+#		self.update_column(:case_icf_master_id, icf_master_id) if is_case?
+#		self.update_column(:needs_reindexed, true)
+#
+#		if is_case? and case_icf_master_id.blank? and icf_master_id.present?
+#			self.case_icf_master_id = icf_master_id
+#		end
+#
 ##		#	using update_all will not trigger sunspot reindexing.  DON'T USE!
 ##		StudySubject.with_matchingid(self.matchingid).update_all(
 ##			:case_icf_master_id => self.try(:case_subject).try(:icf_master_id))
@@ -72,6 +83,13 @@ base.class_eval do
 #	end
 #
 #	def copy_mother_icf_master_id
+#		self.update_column(:mother_icf_master_id, icf_master_id) if is_mother?
+#		self.update_column(:needs_reindexed, true)
+#
+#		if is_mother? and mother_icf_master_id.blank? and icf_master_id.present?
+#			self.mother_icf_master_id = icf_master_id
+#		end
+#
 ##		#	using update_all will not trigger sunspot reindexing.  DON'T USE!
 ##		StudySubject.with_familyid(self.familyid).update_all(
 ##			:mother_icf_master_id => self.try(:mother).try(:icf_master_id))
