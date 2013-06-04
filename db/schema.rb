@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130604184020) do
+ActiveRecord::Schema.define(:version => 20130604191109) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -774,19 +774,6 @@ ActiveRecord::Schema.define(:version => 20130604184020) do
     t.datetime "updated_at",        :null => false
   end
 
-  create_table "gift_cards", :force => true do |t|
-    t.integer  "study_subject_id"
-    t.integer  "project_id"
-    t.date     "issued_on"
-    t.string   "expiration",       :limit => 25
-    t.string   "vendor"
-    t.string   "number",                         :null => false
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-  end
-
-  add_index "gift_cards", ["number"], :name => "index_gift_cards_on_number", :unique => true
-
   create_table "guides", :force => true do |t|
     t.string   "controller"
     t.string   "action"
@@ -1399,16 +1386,6 @@ ActiveRecord::Schema.define(:version => 20130604184020) do
     t.text     "notes"
   end
 
-  create_table "sections", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "sections", ["key"], :name => "index_sections_on_key", :unique => true
-
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
@@ -1584,33 +1561,6 @@ ActiveRecord::Schema.define(:version => 20130604184020) do
 
   add_index "tracing_statuses", ["description"], :name => "index_tracing_statuses_on_description", :unique => true
   add_index "tracing_statuses", ["key"], :name => "index_tracing_statuses_on_key", :unique => true
-
-  create_table "transfers", :force => true do |t|
-    t.integer  "position"
-    t.integer  "aliquot_id"
-    t.integer  "from_organization_id",                               :null => false
-    t.integer  "to_organization_id",                                 :null => false
-    t.decimal  "amount",               :precision => 8, :scale => 2
-    t.string   "reason"
-    t.boolean  "is_permanent"
-    t.datetime "created_at",                                         :null => false
-    t.datetime "updated_at",                                         :null => false
-  end
-
-  add_index "transfers", ["aliquot_id"], :name => "index_transfers_on_aliquot_id"
-  add_index "transfers", ["from_organization_id"], :name => "index_transfers_on_from_organization_id"
-  add_index "transfers", ["to_organization_id"], :name => "index_transfers_on_to_organization_id"
-
-  create_table "units", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "units", ["description"], :name => "index_units_on_description", :unique => true
-  add_index "units", ["key"], :name => "index_units_on_key", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "uid"

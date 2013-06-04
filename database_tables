@@ -784,20 +784,6 @@ Table: follow_ups
 | created_at        | datetime     | NO   |     | NULL    |                |
 | updated_at        | datetime     | NO   |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
-Table: gift_cards
-+------------------+--------------+------+-----+---------+----------------+
-| Field            | Type         | Null | Key | Default | Extra          |
-+------------------+--------------+------+-----+---------+----------------+
-| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
-| study_subject_id | int(11)      | YES  |     | NULL    |                |
-| project_id       | int(11)      | YES  |     | NULL    |                |
-| issued_on        | date         | YES  |     | NULL    |                |
-| expiration       | varchar(25)  | YES  |     | NULL    |                |
-| vendor           | varchar(255) | YES  |     | NULL    |                |
-| number           | varchar(255) | NO   | UNI | NULL    |                |
-| created_at       | datetime     | NO   |     | NULL    |                |
-| updated_at       | datetime     | NO   |     | NULL    |                |
-+------------------+--------------+------+-----+---------+----------------+
 Table: guides
 +------------+--------------+------+-----+---------+----------------+
 | Field      | Type         | Null | Key | Default | Extra          |
@@ -1443,17 +1429,6 @@ Table: schema_migrations
 +---------+--------------+------+-----+---------+-------+
 | version | varchar(255) | NO   | PRI | NULL    |       |
 +---------+--------------+------+-----+---------+-------+
-Table: sections
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: sessions
 +------------+--------------+------+-----+---------+----------------+
 | Field      | Type         | Null | Key | Default | Extra          |
@@ -1615,32 +1590,6 @@ Table: tracing_statuses
 | position    | int(11)      | YES  |     | NULL    |                |
 | key         | varchar(255) | NO   | UNI | NULL    |                |
 | description | varchar(255) | NO   | UNI | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
-Table: transfers
-+----------------------+--------------+------+-----+---------+----------------+
-| Field                | Type         | Null | Key | Default | Extra          |
-+----------------------+--------------+------+-----+---------+----------------+
-| id                   | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position             | int(11)      | YES  |     | NULL    |                |
-| aliquot_id           | int(11)      | YES  | MUL | NULL    |                |
-| from_organization_id | int(11)      | NO   | MUL | NULL    |                |
-| to_organization_id   | int(11)      | NO   | MUL | NULL    |                |
-| amount               | decimal(8,2) | YES  |     | NULL    |                |
-| reason               | varchar(255) | YES  |     | NULL    |                |
-| is_permanent         | tinyint(1)   | YES  |     | NULL    |                |
-| created_at           | datetime     | NO   |     | NULL    |                |
-| updated_at           | datetime     | NO   |     | NULL    |                |
-+----------------------+--------------+------+-----+---------+----------------+
-Table: units
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  | UNI | NULL    |                |
 | created_at  | datetime     | NO   |     | NULL    |                |
 | updated_at  | datetime     | NO   |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
