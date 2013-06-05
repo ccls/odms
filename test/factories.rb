@@ -211,7 +211,7 @@ FactoryGirl.define do
 	
 	factory :aliquot do |f|
 		f.association :sample
-		f.association :unit
+#		f.association :unit
 		f.association :owner, :factory => :organization
 	end
 	
@@ -333,9 +333,9 @@ FactoryGirl.define do
 #		f.sequence(:description) { |n| "Desc#{n}" }
 #	end
 	
-	factory :gift_card do |f|
-		f.sequence(:number){ |n| "#{n}" }
-	end
+#	factory :gift_card do |f|
+#		f.sequence(:number){ |n| "#{n}" }
+#	end
 	
 	factory :guide do |f|
 		f.sequence(:controller){ |n| "controller#{n}" }
@@ -734,32 +734,32 @@ FactoryGirl.define do
 		f.sequence(:description) { |n| "Desc#{n}" }
 	end
 	
-	factory :subject_type do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :subject_type do |f|
+#		f.sequence(:key)         { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :tracing_status do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
 		f.sequence(:description) { |n| "Desc#{n}" }
 	end
 	
-	factory :transfer do |f|
-		f.association :from_organization, :factory => :organization
-		f.association :to_organization,   :factory => :organization
-		f.association :aliquot
-	end
+#	factory :transfer do |f|
+#		f.association :from_organization, :factory => :organization
+#		f.association :to_organization,   :factory => :organization
+#		f.association :aliquot
+#	end
 	
-	factory :unit do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :unit do |f|
+#		f.sequence(:key)         { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
-	factory :vital_status do |f|
-		f.sequence(:code)        { |n| 1000 + n }	#	fixtures only go up to 4, nevertheless
-		f.sequence(:key)         { |n| "key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :vital_status do |f|
+#		f.sequence(:code)        { |n| 1000 + n }	#	fixtures only go up to 4, nevertheless
+#		f.sequence(:key)         { |n| "key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :zip_code do |f|
 		f.sequence(:zip_code){ |n| sprintf("X%04d",n) }

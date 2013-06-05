@@ -1,0 +1,15 @@
+
+I noticed, and undid, these changes on th 13th.  I don't remember making them.
+Really confused.
+
+
+jakewendt@fxdgroup-169-229-196-225 : versions 508> diff application.rb.20130311.172445 application.rb.20130312.083821 
+42a43,45
+>     # Enable escaping HTML in JSON.
+>     config.active_support.escape_html_entities_in_json = true
+> 
+52c55
+< 		# config.active_record.whitelist_attributes = true
+---
+> 		config.active_record.whitelist_attributes = true
+

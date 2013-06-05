@@ -1,0 +1,5 @@
+alias rake 'eval "if( -f Gemfile ) then \\
+	bundle exec rake \!:* \\
+else \\
+	rake \!:* \\
+endif"'

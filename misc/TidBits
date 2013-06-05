@@ -1,0 +1,61 @@
+
+
+StudySubject.joins('LEFT JOIN samples on samples.study_subject_id = study_subjects.id'
+	).where('samples.id IS NOT NULL'
+	).select("study_subjects.id, concat(',',group_concat(samples.sample_type_id),',') as sample_type_ids").group('study_subjects.id').having('sample_type_ids LIKE "%,16,%"').having('sample_type_ids LIKE "%,39,%"')
+
+
+#	the concat group concat basically creates a field containing ",12,34,56,"
+#	that can searched with LIKE "%,23,%"
+
+#	NEED to group by something so that group concat can do its thing
+
+
+#
+#	Import production dump into dev database
+#
+
+mysql -u root odms_development < ~/Mounts/SharedFiles/StaffFolders/WENDTJake/production/brg_my_ruby/database_dumps/odms_production.20130301090401.sql 
+
+
+
+#
+#
+#
+
+rake app:update_interview_completed_on_from_icf_master_tracker csv_file=/Volumes/BUF-Fileshare/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_master_trackers/ICF_Master_Tracker.csv
+
+
+
+
+#
+#	run just one test file (actually, i think that there is a rake task for this)
+#
+
+ruby -I.:lib:test -rubygems -e "%w[test/unit test/unit/enrollment_test.rb ].each { |f| require f }"
+ruby -I.:lib:test -rubygems -e "%w[test/unit test/functional/cases_controller_test.rb ].each { |f| require f }"
+
+
+
+
+
+
+rake db:migrate
+rake db:fixtures:load FIXTURES=races
+
+rake automate:import_screening_data
+rake automate:import_birth_data
+rake automate:updates_from_icf_master_tracker
+
+
+
+
+c ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-20121108 ; open coverage-20121108/index.html ; nice +20 autotest
+
+c ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 autotest
+
+
+c ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 autotest
+
+
+

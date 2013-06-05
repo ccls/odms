@@ -29,7 +29,7 @@
 
 #	Jake's versions directories
 versions/
-/misc/
+#/misc/
 
 #	where I store all my database dumps
 /dumps/

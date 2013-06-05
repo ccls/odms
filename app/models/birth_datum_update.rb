@@ -73,7 +73,8 @@ class BirthDatumUpdate < CSVFile
 
 			birth_datum_attributes[:birth_data_file_name] = csv_file
 
-			self.birth_data << BirthDatum.create!( birth_datum_attributes )
+			#	Added reload to ensure that study subject is included
+			self.birth_data << BirthDatum.create!( birth_datum_attributes ).reload
 
 			if self.birth_data.last.new_record?	#	save failed?
 #	FAIL 
