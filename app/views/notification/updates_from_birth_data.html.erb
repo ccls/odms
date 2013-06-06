@@ -11,6 +11,7 @@
 <th>candidate control</th>
 <th>notes?</th>
 <th>match_confidence</th>
+<th>deceased</th>
 </tr></thead>
 
 
@@ -33,6 +34,7 @@ No Candidate Control Set
 <%= birth_datum.ccls_import_notes.to_s[0..9] %>
 </td>
 <td><%= birth_datum.match_confidence %></td>
+<td><%= birth_datum.deceased %></td>
 </tr>
 <% end -%><%# @birth_data.each do |birth_datum| -%>
 

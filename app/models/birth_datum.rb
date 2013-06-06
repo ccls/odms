@@ -145,8 +145,23 @@ class BirthDatum < ActiveRecord::Base
 				self.candidate_control.create_study_subjects( case_subject )
 	
 			else
+
+
+
 	
-	#	TODO	append_notes "Study Subject not created."
+
+
+	#	TODO	append_notes "Study Subject not created because ....."
+
+
+#	deceased?
+#	not definite?
+#	not definite and still CA?
+
+
+
+
+
 	
 			end
 

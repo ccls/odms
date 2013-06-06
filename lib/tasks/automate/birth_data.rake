@@ -4,7 +4,10 @@ namespace :automate do
 		puts "Study Subject count: #{StudySubject.count}"
 #		birth_data = BirthDatum.where(:match_confidence => 'NO').where(:study_subject_id => nil)
 		birth_data = BirthDatum.where(:study_subject_id => nil)
-		birth_data.each{|bd| bd.post_processing; bd.reload }
+			.where(BirthDatum.arel_table[:match_confidence].eq_any(['NO','DEFINITE']))
+		birth_data.each{|bd| 
+			puts "Processing #{bd}"
+			bd.post_processing; bd.reload }
 		puts "Study Subject count: #{StudySubject.count}"
 
 		puts; puts "Commiting changes to Sunspot"
