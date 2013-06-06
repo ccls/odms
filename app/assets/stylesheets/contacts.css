@@ -26,8 +26,13 @@ div.contact_wrapper > div {
 .addressing {
 	width: 200px;
 }
+/*
 .contact_meta {
 	width: 120px;
+}
+*/
+.contact_meta > span {
+	display:block;
 }
 /*
 .contact_valid .brief {
