@@ -57,7 +57,8 @@
 
 <tr class='row'>
 <td><%= check_box_tag('ids[]', study_subject.id, 
-	[params[:ids]].flatten.include?(study_subject.id.to_s), :id => nil ) %></td>
+	[params[:ids]].flatten.include?(study_subject.id.to_s), 
+	:id => "id#{study_subject.id}" ) %></td>
 <td><%= mdy_or_nil(study_subject.reference_date) %></td>
 <td>
 <%= study_subject.case_icf_master_id||"[No Case Subject]" -%>
