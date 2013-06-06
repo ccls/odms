@@ -2,7 +2,8 @@ namespace :automate do
 
 	task :reprocess_birth_data => :automate do
 		puts "Study Subject count: #{StudySubject.count}"
-		birth_data = BirthDatum.where(:match_confidence => 'NO').where(:study_subject_id => nil)
+#		birth_data = BirthDatum.where(:match_confidence => 'NO').where(:study_subject_id => nil)
+		birth_data = BirthDatum.where(:study_subject_id => nil)
 		birth_data.each{|bd| bd.post_processing; bd.reload }
 		puts "Study Subject count: #{StudySubject.count}"
 
