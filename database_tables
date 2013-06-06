@@ -1457,8 +1457,6 @@ Table: study_subjects
 | Field                       | Type         | Null | Key | Default | Extra          |
 +-----------------------------+--------------+------+-----+---------+----------------+
 | id                          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| subject_type_id             | int(11)      | YES  |     | NULL    |                |
-| vital_status_code           | int(11)      | YES  |     | NULL    |                |
 | hispanicity                 | int(11)      | YES  |     | NULL    |                |
 | reference_date              | date         | YES  |     | NULL    |                |
 | sex                         | varchar(255) | YES  |     | NULL    |                |

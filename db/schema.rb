@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130604191109) do
+ActiveRecord::Schema.define(:version => 20130606230845) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -1412,8 +1412,6 @@ ActiveRecord::Schema.define(:version => 20130604191109) do
   add_index "states", ["name"], :name => "index_states_on_name", :unique => true
 
   create_table "study_subjects", :force => true do |t|
-    t.integer  "subject_type_id"
-    t.integer  "vital_status_code"
     t.integer  "hispanicity"
     t.date     "reference_date"
     t.string   "sex"
