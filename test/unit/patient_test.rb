@@ -576,6 +576,13 @@ class PatientTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "should replace non-alphanumeric characters in hospital_no" do
+		assert_difference( "Patient.count", 1 ) do
+			patient = create_patient( :hospital_no => ' 1-2,3.4:5;6  A B C   ' )
+			assert_equal '123456ABC', patient.hospital_no
+		end
+	end
+
 	test "should require hospital_no with custom message" do
 		#	NOTE custom message
 		assert_difference( "Patient.count", 0 ) do

@@ -9,6 +9,8 @@ class Patient < ActiveRecord::Base
 
 	attr_protected( :study_subject_id, :study_subject )
 
+	before_save :format_hospital_no, :if => :hospital_no_changed?
+
 	validations_from_yaml_file
 
 	validate :admit_date_is_on_or_after_dob
@@ -95,6 +97,11 @@ protected
 		if study_subject and !study_subject.is_case?
 			errors.add(:study_subject,"Study subject must be case to have patient info")
 		end
+	end
+
+	def format_hospital_no
+		# just remove the non-alphanumerics
+		self.hospital_no = self.hospital_no.gsub(/\W/,'')
 	end
 
 	#	Simply squish the zip removing leading and trailing spaces.
