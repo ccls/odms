@@ -298,8 +298,11 @@ class BirthDatum < ActiveRecord::Base
 				:address_type_id => AddressType["residence"].id,
 				:data_source_id  => DataSource["birthdata"].id
 			},
+			:current_address => YNDK[:no],
+			:address_at_diagnosis => YNDK[:no],
 			:data_source_id => DataSource["birthdata"].id,
 			:notes => "Address is mother's residential address found in the CA State Birth Record.")
+
 #	NOTE REALLY? Address AND Addressing have a data source?
 
 		unless addressing.save

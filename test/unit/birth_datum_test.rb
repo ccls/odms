@@ -884,6 +884,22 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal AddressType['mailing'], study_subject.addresses.last.address_type
 	end
 
+	test "case birth datum should create addressing with address_at_diagnosis=no" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert_difference('Addressing.count',1) {
+			create_matching_case_birth_datum_with_address(study_subject)
+		}
+		assert_equal YNDK[:no], study_subject.addressings.last.address_at_diagnosis
+	end
+
+	test "case birth datum should create addressing with current_address=no" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert_difference('Addressing.count',1) {
+			create_matching_case_birth_datum_with_address(study_subject)
+		}
+		assert_equal YNDK[:no], study_subject.addressings.last.current_address
+	end
+
 	test "case birth datum should create event if addressing invalid" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		Addressing.any_instance.stubs(:valid?).returns(false)
