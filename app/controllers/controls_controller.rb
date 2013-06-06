@@ -80,6 +80,10 @@ class ControlsController < ApplicationController
 				":#{params[:q]}" unless @study_subject
 		end
 
+#
+#	This will count all candidate controls regardless of whether birth_datum.match_confidence is 'DEFINITE'
+#
+
 		@study_subjects = StudySubject.cases
 			.where( :phase => 5 )
 			.joins(:enrollments)
