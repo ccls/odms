@@ -6,7 +6,7 @@ GEM
   specs:
     Ascii85 (1.0.2)
     RedCloth (4.2.9)
-    ZenTest (4.9.2)
+    ZenTest (4.9.1)
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
       mail (~> 2.5.3)
@@ -192,7 +192,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
-  ZenTest
+  ZenTest (= 4.9.1)
   american_date
   autotest-rails
   capybara (~> 2.0.0)

@@ -170,12 +170,29 @@ group :test do
 #	sudo gem update ZenTest
 #	sudo bundle update
 
-	#	try upgrading ZenTest (4.9.0 still has "illformed" gemspec)
-	gem 'ZenTest'	#, '=4.8.3'
-#	Invalid gemspec in [/opt/local/lib/ruby1.9/gems/1.9.1/specifications/ZenTest-4.8.4.gemspec]: Illformed requirement ["< 2.1, >= 1.8"]
-	#		#Fetching: ZenTest-4.6.2.gem (100%)
-	#		#ERROR:  Error installing ZenTest:
-	#		#	ZenTest requires RubyGems version ~> 1.8. (which is evil I tell you)
+	#	try upgrading ZenTest (4.9.0 still has "illformed" gemspec (problem with old rubygems))
+	gem 'ZenTest', '=4.9.1'
+	#	ZenTest 4.9.2 always ends tests with ...
+	#Run options: --seed 6126
+	#
+	## Running:
+	#
+	#
+	#
+	#Finished in 0.001282s, 0.0000 runs/s, 0.0000 assertions/s.
+	#
+	#0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
+	#
+	#	and uses minitest/autorun rather that test/unit
+	#
+	#	/opt/local/bin/ruby1.9 -I.:lib:test -rubygems -e "%w[minitest/autorun 
+	#		test/integration/addressing_integration_test.rb].each { |f| require f }"
+	#	
+	#	/opt/local/bin/ruby1.9 -I.:lib:test -rubygems -e "%w[test/unit 
+	#		test/integration/addressing_integration_test.rb].each { |f| require f }"
+	#
+	#	... and also does not summarize errors and failures at the end??
+	#
 
 	gem "factory_girl_rails"
 
