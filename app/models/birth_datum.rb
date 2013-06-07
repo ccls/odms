@@ -310,8 +310,8 @@ class BirthDatum < ActiveRecord::Base
 				:country         => 'United States',
 				:state           => mother_residence_state.decode_state_abbrev,
 				:zip             => mother_residence_zip,
-				:address_type_id => AddressType["residence"].id,
-				:data_source_id  => DataSource["birthdata"].id
+				:address_type_id => AddressType["residence"].id
+#				:data_source_id  => DataSource["birthdata"].id
 			},
 			:current_address => YNDK[:no],
 			:address_at_diagnosis => YNDK[:no],
