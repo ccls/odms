@@ -96,9 +96,9 @@
 <p>
 <%# using button instead of submit so can have value differ from text -%>
 <%= button_tag("Export selected to CSV",
-	:name => :commit, :value => :export, :id => :export_to_csv) %>&nbsp;
+	:name => :commit, :value => :export, :id => :export_to_csv ) %>&nbsp;
 <%= button_tag("Update selected assigned_for_interview to #{mdy(Date.today)} and download csv",
-	:name => :commit, :value => :update) %>&nbsp;
+	:name => :commit, :value => :update, :id => :update_and_download ) %>&nbsp;
 <%= link_to("View all unassigned cases", cases_path, :class => :button) %>
 </p>
 

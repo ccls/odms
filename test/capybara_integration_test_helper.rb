@@ -315,7 +315,7 @@ end
 
 __END__
 
-#	From http://cheat.errtheblog.com/s/capybara/
+#	From http://cheat.errtheblog.com/s/capybara
 
 Capybara
 ========

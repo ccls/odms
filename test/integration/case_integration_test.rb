@@ -30,14 +30,25 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			id2 = find("input[name='ids[]'][type='checkbox'][value='#{subject2.id}']")
 			assert !id2.checked?
 
-#			click_button "#export_to_csv"
+#	just can't seem to click on a button tag without raising th QNetwork error above???!??!?!?!?!
+
+#puts page.body
+#click_button("Export selected to CSV")
+#  find(:button, 'export_to_csv' ).click
+#  find(:button, 'Export selected to CSV' ).click
+#  puts find(:button, 'export' ).inspect
+#  find(:button, 'export' ).click
+#  puts find(:button, 'export' ).inspect
+
+#			find("button#export_to_csv").click
+#			click_button 'export_to_csv'
+#			click_button 'update_and_download'
+#			click_button 'export'
 
 #			click_button "update"
-
-#			click update
 #			should update values
 #			render index
-#			click export
+#			should then click export
 #			render csv
 
 pending

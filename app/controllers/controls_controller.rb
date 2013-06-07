@@ -44,7 +44,7 @@ class ControlsController < ApplicationController
 	end
 
 	def assign_selected_for_interview
-		if params[:commit].present? and params[:commit] == 'export'
+		if params[:commit].present? and params[:commit] == 'export_to_csv'
 			request.format = :csv
 			index
 			render :action => 'index'
