@@ -454,7 +454,6 @@ Table: addresses
 +---------------------+--------------+------+-----+---------+----------------+
 | id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
 | address_type_id     | int(11)      | YES  |     | NULL    |                |
-| data_source_id      | int(11)      | YES  |     | NULL    |                |
 | line_1              | varchar(255) | YES  |     | NULL    |                |
 | line_2              | varchar(255) | YES  |     | NULL    |                |
 | city                | varchar(255) | YES  |     | NULL    |                |
