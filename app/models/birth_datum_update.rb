@@ -98,6 +98,11 @@ class BirthDatumUpdate < CSVFile
 	end	#	def parse_csv_file
 
 	def archive
+		puts '' if verbose
+		puts "Archiving #{csv_file}" if verbose
+		archive_dir = Date.current.strftime('%Y%m%d')
+		FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
+		FileUtils.move(csv_file,archive_dir)
 	end
 
 	def self.expected_column_names
