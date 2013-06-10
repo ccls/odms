@@ -633,7 +633,7 @@ This hasn't happened in a while.
 ---
 == Testing requirements
 
-* port qt4-mac
+* port qt4-mac (for capybara-webkit gem)
 * gem webkit (not used anymore so should remove from Gemfile) REMOVED!
 * gem capybara
 * gem selenium-webdriver (not used anymore but seems required by others)
