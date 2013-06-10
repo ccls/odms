@@ -5,10 +5,18 @@
 	think that it actually does.
 
 	also, use a - with the ruby closing tag to avoid extra lines in csv file.
+
+	Unfortunately, when Access imports a csv file it adds a type to columns, I think.
+
+	The hospital_no is treated like an integer.  If it gets too big or contains
+	a non-digit character, it just leaves the field blank.  This is an absolutely
+	awful idea.  Thanks again Microsoft.  Because of this, I force quotes.
+	I really only need to quote the hospital_no, but it is easier to just quote them all.
+
 -%>
 <%= columns.to_csv( :headers => true) -%>
 <% @search.results.each do |result| %>
-<%= columns.collect{|c| column_content(result,c) }.to_csv.html_safe -%>
+<%= columns.collect{|c| column_content(result,c) }.to_csv(:force_quotes => true).html_safe -%>
 <% end -%>
 <%#
 
