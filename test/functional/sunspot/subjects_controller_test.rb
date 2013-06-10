@@ -120,7 +120,7 @@ if StudySubject.respond_to?(:solr_search)
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
 			assert_equal f[0], columns
-			assert_equal f[1], [nil,study_subject.subject_type.to_s]
+			assert_equal f[1], ["",study_subject.subject_type.to_s]
 		end
 
 		test "should search with invalid columns and #{cu} login" do
@@ -132,7 +132,7 @@ if StudySubject.respond_to?(:solr_search)
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
 			assert_equal f[0], columns
-			assert_equal f[1], [nil,nil]
+			assert_equal f[1], ["",""]
 		end
 
 
