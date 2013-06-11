@@ -12,6 +12,9 @@ class StudySubject::AddressingsController < StudySubjectController
 	before_filter :valid_id_required,
 		:only => [:edit,:update,:destroy]
 
+	def index
+	end
+
 	def new
 		@addressing = Addressing.new
 	end

@@ -193,11 +193,30 @@ protected
 #		and delete id
 #		and set study_subject_id to new study_subject_id
 
-				referrer_params.delete(:id)
-				referrer_params[:action] = 'index'
+
+#	this is gonna require some magical logic 
+
+#	if id, then delete id and action = index
+
+			if referrer_params.delete(:id)
+				referrer_params[:action] = 'index'									#	This probably won't work all the time
+			end
+
+#	else
+
+#	end
+
 				referrer_params[:study_subject_id] = subject.id
+
+#puts referrer_params.inspect
+
 				url_for(referrer_params)
-			
+
+#	is trying to use index action.  when left alone, it works
+#	ActionController::RoutingError (No route matches {:controller=>"study_subject/patients", :study_subject_id=>14293}):
+#  app/controllers/study_subjects_controller.rb:199:in `url_for_subject'
+#  app/controllers/study_subjects_controller.rb:138:in `by'
+
 #	else set id to new study_subject's id
 			else study_subject_path(subject)
 		end

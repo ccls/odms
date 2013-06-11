@@ -11,7 +11,7 @@
 <span class='source'>source:&nbsp;<%= phone_number.data_source %></span>
 </div><!-- class='phone_number_meta' -->
 
-<%= render :partial => 'phone_number_details', :locals => {
+<%= render :partial => 'study_subject/contacts/phone_number_details', :locals => {
 	:details => ( ( defined?(details) ) ? details : false ),
 	:edit    => ( ( defined?(edit)    ) ? edit    : false ),
 	:phone_number => phone_number

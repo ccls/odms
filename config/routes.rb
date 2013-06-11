@@ -231,8 +231,8 @@ Odms::Application.routes.draw do
 			resource  :patient
 			resources :birth_records, :only => :index
 			#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
-			resources :phone_numbers, :except => [:index,:show]
-			resources :addressings,   :except => [:index,:show]
+			resources :phone_numbers, :except => [:show]
+			resources :addressings,   :except => [:show]
 			resources :enrollments,   :except => :destroy
 			resource  :consent,
 				:only => [:show,:edit,:update]

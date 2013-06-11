@@ -197,6 +197,10 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_enrollments_path(last_study_subject)
 		end
 
+
+
+
+
 		test "by should stay on same controller as referrer with #{cu} login" do
 			first_study_subject = FactoryGirl.create(:study_subject)
 			middle_study_subject = FactoryGirl.create(:study_subject)
@@ -207,6 +211,349 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(last_study_subject)
+		end
+
+
+
+		test "by should birth_records#index from birth_records#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_birth_records_path(study_subject)
+			assert_equal current_path, study_subject_birth_records_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_birth_records_path(other_study_subject)
+		end
+
+		test "by should contacts#index from contacts#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_contacts_path(study_subject)
+			assert_equal current_path, study_subject_contacts_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_contacts_path(other_study_subject)
+		end
+
+		test "by should interviews#index from interviews#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_interviews_path(study_subject)
+			assert_equal current_path, study_subject_interviews_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_interviews_path(other_study_subject)
+		end
+
+		test "by should related_subjects#index from related_subjects#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_related_subjects_path(study_subject)
+			assert_equal current_path, study_subject_related_subjects_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_related_subjects_path(other_study_subject)
+		end
+
+		test "by should phone_numbers#index from phone_numbers#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_related_subjects_path(study_subject)
+			assert_equal current_path, study_subject_related_subjects_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_related_subjects_path(other_study_subject)
+		end
+
+		test "by should phone_numbers#new from phone_numbers#new with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit new_study_subject_phone_number_path(study_subject)
+			assert_equal current_path, new_study_subject_phone_number_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, new_study_subject_phone_number_path(other_study_subject)
+		end
+
+		test "by should phone_numbers#index from phone_numbers#edit with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			phone_number         = FactoryGirl.create(:phone_number,:study_subject => study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit edit_study_subject_phone_number_path(study_subject,phone_number)
+			assert_equal current_path, edit_study_subject_phone_number_path(study_subject,phone_number)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_phone_numbers_path(other_study_subject)
+		end
+
+		test "by should addressings#index from addressings#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_addressings_path(study_subject)
+			assert_equal current_path, study_subject_addressings_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_addressings_path(other_study_subject)
+		end
+
+		test "by should addressings#new from addressings#new with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit new_study_subject_addressing_path(study_subject)
+			assert_equal current_path, new_study_subject_addressing_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, new_study_subject_addressing_path(other_study_subject)
+		end
+
+		test "by should addressings#index from addressings#edit with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			addressing           = FactoryGirl.create(:addressing, :study_subject => study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit edit_study_subject_addressings_path(study_subject,addressing)
+			assert_equal current_path, edit_study_subject_addressings_path(study_subject,addressing)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_addressings_path(other_study_subject)
+		end
+
+		test "by should consent#show from consent#show with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_consent_path(study_subject)
+			assert_equal current_path, study_subject_consent_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_consent_path(other_study_subject)
+		end
+
+		test "by should consent#edit from consent#edit with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit edit_study_subject_consent_path(study_subject)
+			assert_equal current_path, edit_study_subject_consent_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, edit_study_subject_consent_path(other_study_subject)
+		end
+
+		test "by should enrollments#index from enrollments#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_enrollments_path(study_subject)
+			assert_equal current_path, study_subject_enrollments_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
+		end
+
+		test "by should enrollments#new from enrollments#new with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit new_study_subject_enrollment_path(study_subject)
+			assert_equal current_path, new_study_subject_enrollment_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, new_study_subject_enrollment_path(other_study_subject)
+		end
+
+		test "by should enrollments#index from enrollments#show with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
+			assert_equal current_path, study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
+		end
+
+		test "by should enrollments#index from enrollments#edit with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit edit_study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
+			assert_equal current_path, edit_study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
+		end
+
+		test "by should events#index from events#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_events_path(study_subject)
+			assert_equal current_path, study_subject_events_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_events_path(other_study_subject)
+		end
+
+		test "by should events#new from events#new with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit new_study_subject_event_path(study_subject)
+			assert_equal current_path, new_study_subject_event_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, new_study_subject_event_path(other_study_subject)
+		end
+
+		test "by should events#index from events#show with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_event_path(study_subject, study_subject.operational_events.first)
+			assert_equal current_path, study_subject_event_path(study_subject, study_subject.operational_events.first)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_events_path(other_study_subject)
+		end
+
+		test "by should events#index from events#edit with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit edit_study_subject_event_path(study_subject, study_subject.operational_events.first)
+			assert_equal current_path, edit_study_subject_event_path(study_subject, study_subject.operational_events.first)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_events_path(other_study_subject)
+		end
+
+		test "by should samples#index from samples#index with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_samples_path(study_subject)
+			assert_equal current_path, study_subject_samples_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_samples_path(other_study_subject)
+		end
+
+		test "by should samples#new from samples#new with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit new_study_subject_sample_path(study_subject)
+			assert_equal current_path, new_study_subject_sample_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, new_study_subject_sample_path(other_study_subject)
+		end
+
+		test "by should samples#index from samples#show with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			sample               = FactoryGirl.create(:sample,:study_subject => study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_sample_path(study_subject, sample)
+			assert_equal current_path, study_subject_sample_path(study_subject, sample)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_samples_path(other_study_subject)
+		end
+
+		test "by should samples#index from samples#edit with #{cu} login" do
+			study_subject        = FactoryGirl.create(:study_subject)
+			sample               = FactoryGirl.create(:sample,:study_subject => study_subject)
+			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit edit_study_subject_sample_path(study_subject,sample)
+			assert_equal current_path, edit_study_subject_sample_path(study_subject,sample)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_samples_path(other_study_subject)
+		end
+
+
+
+
+		#	case specific controller(s)
+
+		test "by should patient#show from patient#show if case with #{cu} login" do
+			study_subject        = FactoryGirl.create(:patient).study_subject
+			other_study_subject  = FactoryGirl.create(:case_study_subject,:icf_master_id => 'FINDME')
+			FactoryGirl.create(:patient, :study_subject => other_study_subject)
+			login_as send(cu)
+			visit study_subject_patient_path(study_subject)
+			assert_equal current_path, study_subject_patient_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_patient_path(other_study_subject)
+		end
+
+		test "by should study_subject#show from patient#show if control with #{cu} login" do
+			study_subject        = FactoryGirl.create(:patient).study_subject
+			other_study_subject  = FactoryGirl.create(:control_study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_patient_path(study_subject)
+			assert_equal current_path, study_subject_patient_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_path(other_study_subject)
+		end
+
+		test "by should study_subject#show from patient#show if mother with #{cu} login" do
+			study_subject        = FactoryGirl.create(:patient).study_subject
+			other_study_subject  = FactoryGirl.create(:mother_study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit study_subject_patient_path(study_subject)
+			assert_equal current_path, study_subject_patient_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_path(other_study_subject)
+		end
+
+		test "by should patient#edit from patient#edit if case with #{cu} login" do
+			study_subject        = FactoryGirl.create(:patient).study_subject
+			other_study_subject  = FactoryGirl.create(:case_study_subject,:icf_master_id => 'FINDME')
+			FactoryGirl.create(:patient, :study_subject => other_study_subject)
+			login_as send(cu)
+			visit edit_study_subject_patient_path(study_subject)
+			assert_equal current_path, edit_study_subject_patient_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, edit_study_subject_patient_path(other_study_subject)
+		end
+
+		test "by should study_subject#show from patient#edit if control with #{cu} login" do
+			study_subject        = FactoryGirl.create(:patient).study_subject
+			other_study_subject  = FactoryGirl.create(:control_study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit edit_study_subject_patient_path(study_subject)
+			assert_equal current_path, edit_study_subject_patient_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_path(other_study_subject)
+		end
+
+		test "by should study_subject#show from patient#edit if mother with #{cu} login" do
+			study_subject        = FactoryGirl.create(:patient).study_subject
+			other_study_subject  = FactoryGirl.create(:mother_study_subject,:icf_master_id => 'FINDME')
+			login_as send(cu)
+			visit edit_study_subject_patient_path(study_subject)
+			assert_equal current_path, edit_study_subject_patient_path(study_subject)
+			fill_in 'icf_master_id', :with => 'FINDME'
+			click_button 'go'
+			assert_equal current_path, study_subject_path(other_study_subject)
 		end
 
 	end

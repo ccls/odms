@@ -3,7 +3,7 @@
 <%#
 	This probably should just be the current address ?
 %>
-<%= render :partial => 'addressing', 
+<%= render :partial => 'study_subject/contacts/addressing', 
 	:collection => @study_subject.addressings.current,
 	:locals => { :details => true,
 		:edit => current_user.may_update_addressings? } %>
@@ -19,7 +19,7 @@
 <% end %>
 
 <div id='historic_addressings' class='historic' style='display:none'>
-<%= render :partial => 'addressing', 
+<%= render :partial => 'study_subject/contacts/addressing', 
 	:collection => @study_subject.addressings.historic,
 	:locals => { :dates => true,
 		:edit => current_user.may_administrate? } %>

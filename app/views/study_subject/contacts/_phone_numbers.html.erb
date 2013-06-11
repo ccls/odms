@@ -1,6 +1,6 @@
 <h3>Phone Numbers</h3>
 <div class='phone_numbers'>
-<%= render :partial => 'phone_number', 
+<%= render :partial => 'study_subject/contacts/phone_number', 
 	:collection => @study_subject.phone_numbers.current,
 	:locals => { :details => true,
 		:edit => current_user.may_update_phone_numbers? } %>
@@ -15,7 +15,7 @@
 </p>
 <% end %>
 <div id='historic_phone_numbers' class='historic' style='display:none'>
-<%= render :partial => 'phone_number', 
+<%= render :partial => 'study_subject/contacts/phone_number', 
 	:collection => @study_subject.phone_numbers.historic,
 	:locals => { :details => true,
 		:edit => current_user.may_administrate? } %>

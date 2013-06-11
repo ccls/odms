@@ -33,7 +33,7 @@ What are 'details' and 'edit' ?
 	to this partial to flag whether or not to show things.
 
 %>
-<%= render :partial => 'addressing_details', :locals => {
+<%= render :partial => 'study_subject/contacts/addressing_details', :locals => {
 	:details => ( ( defined?(details) ) ? details : false ),
 	:edit    => ( ( defined?(edit)    ) ? edit    : false ),
 	:addressing => addressing
