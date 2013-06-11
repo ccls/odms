@@ -122,18 +122,42 @@ class CasesControllerTest < ActionController::TestCase
 		end
 
 
+
+
+
+
 		test "should render index csv of ids if commit is 'export' with #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
 			put :assign_selected_for_interview, :ids => [subject.id], :commit => :export
-#	SHOULD NOT UPDATE
+			#	SHOULD NOT UPDATE ANYTHING
 			assert_nil subject.enrollments.where(
 				:project_id => Project[:ccls].id).first.assigned_for_interview_at
-#			assert_not_nil flash[:notice]
 			assert_response :success
 			assert_template :index
-#	TODO add integration test to confirm javascript button click
+
+			assert_not_nil @response.headers['Content-Disposition']
+				.match(/attachment; filename=newcases_.*csv/)
+			assert  assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert_equal 1, assigns(:study_subjects).length
+			assert_equal subject, assigns(:study_subjects).first
+
+			require 'csv'
+			f = CSV.parse(@response.body)
+			assert_equal 2, f.length  # 2 rows, 1 header and 1 data
+			assert_equal f[0], "reference_date,case_icfmasterid,icf_master_id,mom_icfmasterid,mother_first_name,mother_maiden_name,mother_last_name,father_first_name,father_last_name,first_name,middle_name,last_name,dob,sex,vital_status,do_not_contact,is_eligible,consented,comments,language,street,unit,city,state,zip,phone,alternate_phone".split(',')
+#	04/11/2013,[No Case Subject ICF Master ID],[no ID assigned],[No Mother Subject ICF Master ID],,,,,,,,,02/21/1985,F,Living,false,1,1,,,,,,,,,
+#150       assert_equal f[0], ["childid", "studyid", "last_name", "first_name", "dob"]
+#151       assert_equal 5, f[0].length
+
+
+
+			pending
 		end
+
+
+
 
 
 		test "should NOT update assigned_for_interview_at with #{cu} login" <<
