@@ -100,15 +100,6 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
-		test "should get phone_numbers with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
-			login_as send(cu)
-			get :index, :study_subject_id => study_subject.id
-			assert assigns(:study_subject)
-			assert_response :success
-			assert_template 'index'
-		end
-
 		test "should get new phone_number with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -361,14 +352,6 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 
 	non_site_editors.each do |cu|
 
-		test "should NOT get phone_numbers with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
-			login_as send(cu)
-			get :index, :study_subject_id => study_subject.id
-			assert_not_nil flash[:error]
-			assert_redirected_to root_path
-		end
-
 		test "should NOT get new phone_number with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -413,9 +396,28 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	end
 
 	site_readers.each do |cu|
+
+		test "should get phone_numbers with #{cu} login" do
+			study_subject = FactoryGirl.create(:study_subject)
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id
+			assert assigns(:study_subject)
+			assert_response :success
+			assert_template 'index'
+		end
+
 	end
 
 	non_site_readers.each do |cu|
+
+		test "should NOT get phone_numbers with #{cu} login" do
+			study_subject = FactoryGirl.create(:study_subject)
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
 	end
 
 	test "should NOT get phone_numbers without login" do

@@ -2,7 +2,9 @@ require 'integration_test_helper'
 
 class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
-	site_editors.each do |cu|
+	#	not everything in here requires admin privileges, nevertheless, for simplicity ...
+
+	site_administrators.each do |cu|
 
 		test "should preserve creation of subject_race on edit kickback with #{cu} login" do
 			assert_difference( 'SubjectRace.count', 0 ){
@@ -215,17 +217,6 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 
 
 
-		test "by should birth_records#index from birth_records#index with #{cu} login" do
-			study_subject        = FactoryGirl.create(:study_subject)
-			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
-			login_as send(cu)
-			visit study_subject_birth_records_path(study_subject)
-			assert_equal current_path, study_subject_birth_records_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
-			click_button 'go'
-			assert_equal current_path, study_subject_birth_records_path(other_study_subject)
-		end
-
 		test "by should contacts#index from contacts#index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
@@ -320,8 +311,8 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			addressing           = FactoryGirl.create(:addressing, :study_subject => study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
-			visit edit_study_subject_addressings_path(study_subject,addressing)
-			assert_equal current_path, edit_study_subject_addressings_path(study_subject,addressing)
+			visit edit_study_subject_addressing_path(study_subject.reload,addressing)
+			assert_equal current_path, edit_study_subject_addressing_path(study_subject,addressing)
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_addressings_path(other_study_subject)
@@ -430,6 +421,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
+			assert_not_nil study_subject.operational_events.first
 			visit edit_study_subject_event_path(study_subject, study_subject.operational_events.first)
 			assert_equal current_path, edit_study_subject_event_path(study_subject, study_subject.operational_events.first)
 			fill_in 'icf_master_id', :with => 'FINDME'
@@ -508,7 +500,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_patient_path(study_subject)
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
-			assert_equal current_path, study_subject_path(other_study_subject)
+			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
 
 		test "by should study_subject#show from patient#show if mother with #{cu} login" do
@@ -519,7 +511,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_patient_path(study_subject)
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
-			assert_equal current_path, study_subject_path(other_study_subject)
+			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
 
 		test "by should patient#edit from patient#edit if case with #{cu} login" do
@@ -542,6 +534,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, edit_study_subject_patient_path(study_subject)
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
+#	flash error
 			assert_equal current_path, study_subject_path(other_study_subject)
 		end
 
@@ -553,6 +546,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, edit_study_subject_patient_path(study_subject)
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
+#	flash error
 			assert_equal current_path, study_subject_path(other_study_subject)
 		end
 
