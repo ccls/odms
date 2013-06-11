@@ -165,9 +165,6 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_template :index
 		end
 
-
-
-
 		test "should render index csv of ids if commit is 'export' with #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
@@ -188,20 +185,14 @@ class ControlsControllerTest < ActionController::TestCase
 			require 'csv'
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length  # 2 rows, 1 header and 1 data
+			assert_equal 29, f[0].length	#	2 longer than cases as includes parent's ssns
+			assert_equal 29, f[1].length	#	2 longer than cases as includes parent's ssns
 			assert_equal f[0], "reference_date,case_icfmasterid,icf_master_id,mom_icfmasterid,mother_first_name,mother_maiden_name,mother_last_name,mother_ssn,father_first_name,father_last_name,father_ssn,first_name,middle_name,last_name,dob,sex,vital_status,do_not_contact,is_eligible,consented,comments,language,street,unit,city,state,zip,phone,alternate_phone".split(',')
-#	04/11/2013,[No Case Subject ICF Master ID],[no ID assigned],[No Mother Subject ICF Master ID],,,,,,,,,02/21/1985,F,Living,false,1,1,,,,,,,,,
-#150       assert_equal f[0], ["childid", "studyid", "last_name", "first_name", "dob"]
-#151       assert_equal 5, f[0].length
-
-
-
-			pending
+			assert_equal subject.dob.strftime("%m/%d/%Y"), f[1][14],
+				"Expected csv to match subject's date of birth:#{subject.dob.strftime("%m/%d/%Y")}:#{f[1][14]}:"
+			assert_match subject.sex, f[1][15]
+				"Expected csv to match subject's sex:#{subject.sex}:#{f[1][15]}:"
 		end
-
-
-
-
-
 
 		test "should NOT update assigned_for_interview_at with #{cu} login" <<
 				" without ids" do

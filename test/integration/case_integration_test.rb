@@ -62,9 +62,6 @@ class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_match /,#{subject1.sex},/, csv_lines[1],
 				"Expected csv to match subject 1's sex:#{subject1.sex}:"
 				
-#04/11/2013,[No Case Subject ICF Master ID],[no ID assigned],[No Mother Subject ICF Master ID],,,,,,,,,09/03/1974,F,Living,false,1,1,,,,,,,,,
-
-			
 			#	it also seems that the csv \n's are tossed out along the way
 			#	csv with 2 lines, 1 header, 1 data
 		end
