@@ -11,7 +11,20 @@
 <div id='reject_control'>
 <div class='info'>
 <table><thead>
-<tr><th>&nbsp;</th><th>name</th><th>studyid</th><th>childid</th><th>dob</th><th>sex</th><th>mother's race</th><th>mother's hisp</th><th>father's hisp</th></tr>
+<tr>
+<th>&nbsp;</th>
+<th>name</th>
+<th>studyid</th>
+<th>childid</th>
+<th>dob</th>
+<th>sex</th>
+<th>mother's race</th>
+<th>mother's hisp</th>
+<th>father's hisp</th>
+<th>deceased</th>
+<th>match confidence</th>
+<th>case birth state</th>
+</tr>
 </thead><tbody>
 <tr>
 <td class='label'>subject</td>
@@ -25,6 +38,9 @@
 <%# NOTE There are 2 records in the database with mother_hispanicity of 3 -%>
 <td><%=ynordk @study_subject.mother_hispanicity %></td>
 <td><%=ynrdk @study_subject.father_hispanicity %></td>
+<td>-</td>
+<td>-</td>
+<td><%= @study_subject.birth_state %></td>
 </tr>
 <tr>
 <td class='label'>candidate control</td>
@@ -33,10 +49,13 @@
 <td>-</td>
 <td><%=mdy @candidate_control.dob %></td>
 <td><%= @candidate_control.sex %></td>
-<td><%#= (( @candidate_control.mother_race_code
+<td>-<%#= (( @candidate_control.mother_race_code
 	) ? Race.where(:code => @candidate_control.mother_race_code).first : '&nbsp;'.html_safe ) %></td>
-<td><%#=ynrdk @candidate_control.mother_hispanicity %></td>
-<td><%#=ynrdk @candidate_control.father_hispanicity %></td>
+<td>-<%#=ynrdk @candidate_control.mother_hispanicity %></td>
+<td>-<%#=ynrdk @candidate_control.father_hispanicity %></td>
+<td><%= @candidate_control.deceased %></td>
+<td><%= @candidate_control.match_confidence %></td>
+<td>-</td>
 </tr>
 </tbody></table>
 </div><!-- class='info' -->

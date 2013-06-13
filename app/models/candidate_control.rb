@@ -19,10 +19,18 @@ class CandidateControl < ActiveRecord::Base
 	delegate :sex, :full_name, :first_name, :middle_name, :last_name,
 		:mother_full_name, :mother_first_name, :mother_middle_name, :mother_maiden_name, 
 		:father_first_name, :father_middle_name, :father_last_name, 
-		:dob, :birth_type, 
+		:dob, :birth_type, :match_confidence, :deceased,
 		:mother_yrs_educ, :father_yrs_educ,
 		:state_registrar_no, :local_registrar_no,
 			:to => :birth_datum, :allow_nil => true
+
+	def case_study_subject
+		StudySubject.cases.with_patid(related_patid).first
+	end
+
+	def case_study_subject_birth_state_CA?
+		case_study_subject.birth_state == 'CA'
+	end
 
 	#	class method (basically a scope with an argument)
 	def self.with_related_patid(patid)

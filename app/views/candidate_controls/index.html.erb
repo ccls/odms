@@ -1,5 +1,11 @@
 <h4>Candidate Controls</h4>
 
+<p>
+<%= link_to 'All Candidate Controls', candidate_controls_path, :class => :button %>&nbsp;
+<%= link_to 'Unassigned Candidate Controls', candidate_controls_path(:unassigned => true), :class => :button %>&nbsp;
+<%= @candidate_controls.all.total_entries %> candidate control(s) found.
+</p>
+
 <% unless @candidate_controls.empty? %>
 <table id='candidate_controls'><thead><tr>
 <th></th>
@@ -7,6 +13,9 @@
 <th>study subject</th>
 <th>assigned on</th>
 <th>reject candidate</th>
+<th>deceased</th>
+<th>match confidence</th>
+<th>case birth state ca?</th>
 <th></th>
 </tr></thead><tbody>
 <% @candidate_controls.each do |candidate_control| %>
@@ -21,6 +30,9 @@ No Study Subject Set
 <% end %></td>
 <td><%=mdy candidate_control.assigned_on %></td>
 <td><%= candidate_control.reject_candidate %></td>
+<td><%= candidate_control.deceased %></td>
+<td><%= candidate_control.match_confidence %></td>
+<td><%= candidate_control.case_study_subject_birth_state_CA? %></td>
 <td class='manage'>
 <%= link_to 'View', candidate_control, :class => :button %>
 <%#= link_to 'Edit', edit_odms_exception_path(odms_exception), :class => :button %>
@@ -28,6 +40,7 @@ No Study Subject Set
 </tr>
 <% end %>
 </tbody></table><!-- id='candidate_controls' -->
+<%= will_paginate @candidate_controls %>
 <% else %>
 <p>Sorry, but no Candidate Controls exist.</p>
 <% end %>

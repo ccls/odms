@@ -17,6 +17,13 @@ class CandidateControlsController < ApplicationController
 
 	def index
 		@candidate_controls = CandidateControl.scoped
+		if params[:unassigned].present?
+			@candidate_controls = @candidate_controls.where(:study_subject_id => nil)
+		end
+		@candidate_controls = @candidate_controls.paginate(
+			:per_page => params[:per_page]||50,
+			:page     => valid_find_page
+		)
 	end
 
 	def edit
@@ -95,7 +102,6 @@ protected
 		if !params[:id].blank? and CandidateControl.exists?(params[:id])
 			@candidate_control = CandidateControl.find(params[:id])
 		else
-#			access_denied("Valid candidate_control id required!", cases_path)
 			access_denied("Valid candidate_control id required!", new_control_path)
 		end
 	end
