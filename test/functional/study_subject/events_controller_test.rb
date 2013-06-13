@@ -367,6 +367,14 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 			assert_redirected_to study_subjects_path
 		end
 
+		test "should order events by occurred_at asc default with #{cu} login" do
+			oes = create_occurred_at_operational_events
+			study_subject = oes[0].study_subject
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id
+			assert_equal assigns(:events), [oes[1],oes[0],oes[2]]
+		end
+
 		test "should order events by occurred_at with #{cu} login" do
 			oes = create_occurred_at_operational_events
 			study_subject = oes[0].study_subject

@@ -94,7 +94,7 @@ protected
 			end
 			[order_string,dir].join(' ')
 		else
-			nil
+			'occurred_at asc'	#nil
 		end
 	end
 
