@@ -14,7 +14,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "birth_datum factory should create odms exception" do
 		birth_datum = FactoryGirl.create(:birth_datum)
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:master_id, childid and subjectid blank/, 
+		assert_match /master_id, childid and subjectid blank/, 
 			birth_datum.ccls_import_notes
 	end
 
@@ -62,7 +62,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case_birth_datum factory should create odms exception" do
 		birth_datum = FactoryGirl.create(:case_birth_datum)
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:master_id, childid and subjectid blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -100,7 +100,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control_birth_datum factory should create odms exception" do
 		birth_datum = FactoryGirl.create(:control_birth_datum)
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:master_id, childid and subjectid blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -138,7 +138,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "bogus_birth_datum factory should create odms exception" do
 		birth_datum = FactoryGirl.create(:bogus_birth_datum)
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:master_id, childid and subjectid blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -180,7 +180,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:bogus_birth_datum,:master_id => study_subject.icf_master_id )
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:Unknown case_control_flag :bogus:/,
+		assert_match /Unknown case_control_flag :bogus:/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -316,7 +316,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum factory should create odms exception if master_id is blank" do
 		birth_datum = FactoryGirl.create(:case_birth_datum)
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:master_id, childid and subjectid blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -331,7 +331,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" but not used by a subject" do
 		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => 'IAMUNUSED')
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:No subject found with master_id :\w+:/,
+		assert_match /No subject found with master_id :\w+:/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -381,7 +381,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			:match_confidence => 'somethingelse',
 			:master_id => study_subject.icf_master_id )
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:Match confidence not 'definite':somethingelse:/,
+		assert_match /Match confidence not 'definite':somethingelse:/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -408,7 +408,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_control_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:Subject found with master_id :\w+: is not a case subject/,
+		assert_match /Subject found with master_id :\w+: is not a case subject/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -426,7 +426,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = FactoryGirl.create(:case_birth_datum,
 			:master_id => study_subject.icf_master_id )
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:Subject found with master_id :\w+: is not a case subject/,
+		assert_match /Subject found with master_id :\w+: is not a case subject/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -439,7 +439,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should create odms exception if master_id is blank" do
 		birth_datum = FactoryGirl.create(:control_birth_datum)
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:master_id, childid and subjectid blank/,
+		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -454,7 +454,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" but not used by a subject" do
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => 'IAMUNUSED')
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:No subject found with master_id :\w+:/,
+		assert_match /No subject found with master_id :\w+:/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -528,7 +528,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_control_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:Subject found with master_id :\w+: is not a case subject/,
+		assert_match /Subject found with master_id :\w+: is not a case subject/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -545,7 +545,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_mother_study_subject_with_icf_master_id
 		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:Subject found with master_id :\w+: is not a case subject/,
+		assert_match /Subject found with master_id :\w+: is not a case subject/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -564,7 +564,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			:sex => nil,
 			:master_id => study_subject.icf_master_id )
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:Candidate control was pre-rejected because Birth datum sex is blank/,
+		assert_match /Candidate control was pre-rejected because Birth datum sex is blank/,
 			birth_datum.ccls_import_notes
 	end
 
@@ -593,7 +593,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			:dob => nil,
 			:master_id => study_subject.icf_master_id )
 		assert_present birth_datum.ccls_import_notes
-		assert_match /birth data append:Candidate control was pre-rejected because Birth datum dob is blank/,
+		assert_match /Candidate control was pre-rejected because Birth datum dob is blank/,
 			birth_datum.ccls_import_notes
 	end
 

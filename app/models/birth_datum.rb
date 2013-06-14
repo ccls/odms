@@ -28,17 +28,16 @@ class BirthDatum < ActiveRecord::Base
 
 	def post_processing
 		if master_id.blank? and childid.blank? and subjectid.blank?
-			append_notes "birth data append:master_id, childid and subjectid blank"
+			append_notes "master_id, childid and subjectid blank"
 		else
 			#	DO NOT USE 'study_subject' here as it will conflict with
 			#	the study_subject association.
 			case_subject = find_case_subject
 
 			if case_subject.nil?
-				append_notes "birth data append:No subject found with master_id :#{master_id}:"
+				append_notes "No subject found with master_id :#{master_id}:"
 			elsif !case_subject.is_case?
-				append_notes "birth data append:Subject found with master_id :#{master_id}:" <<
-						" is not a case subject."
+				append_notes "Subject found with master_id :#{master_id}: is not a case subject."
 			else	#	case_subject is case
 				if is_control?
 					create_candidate_control_for( case_subject )
@@ -54,13 +53,11 @@ class BirthDatum < ActiveRecord::Base
 						mark_all_incomplete_bc_requests_as_complete
 						create_address_from_attributes
 					else
-						append_notes "birth data append:"<<
-							"Match confidence not 'definite':#{match_confidence}:"
+						append_notes "Match confidence not 'definite':#{match_confidence}:"
 					end	#	if match_confidence.match(/definite/i)
 
 				else
-					append_notes "birth data append:"<<
-							"Unknown case_control_flag :#{case_control_flag}:"
+					append_notes "Unknown case_control_flag :#{case_control_flag}:"
 				end
 			end
 		end
@@ -83,7 +80,7 @@ class BirthDatum < ActiveRecord::Base
 			reasons << "Birth datum sex is blank." if sex.blank?
 			control_options[:rejection_reason] = reasons.join("\n") unless reasons.empty?
 			self.create_candidate_control( control_options )
-			append_notes "birth data append:Candidate control was pre-rejected " <<
+			append_notes "Candidate control was pre-rejected " <<
 				"because #{reasons.join(',')}." unless reasons.empty?
 		else	#	if self.candidate_control.nil?
 

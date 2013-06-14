@@ -55,7 +55,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 			birth_datum_update = create_test_file_and_birth_datum_update
 			assert_equal 2, birth_datum_update.birth_data.length
 			birth_datum_update.birth_data.each do |birth_datum|
-				assert_match /birth data append:No subject found with master_id :\w+:/,
+				assert_match /No subject found with master_id :\w+:/,
 					birth_datum.ccls_import_notes
 			end
 		} }
@@ -221,7 +221,7 @@ state_registrar_no
 			birth_datum_update = create_birth_datum_update_with_file
 			assert_equal 1, birth_datum_update.birth_data.length
 			birth_datum_update.birth_data.each do |birth_datum|
-				assert_match /birth data append:Unknown case_control_flag/,
+				assert_match /Unknown case_control_flag/,
 					birth_datum.ccls_import_notes
 			end
 		} }
