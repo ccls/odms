@@ -58,10 +58,6 @@ namespace :automate do
 
 		else	#	unless bc_info_files.empty?
 			puts "No bc_info files found"
-#			Notification.plain("No BC Info Files Found",
-#				email_options.merge({ 
-#					:subject => "ODMS: No BC Info Files Found" })
-#			).deliver
 			Notification.plain("No BC Info Files Found",
 					:subject => "ODMS: No BC Info Files Found"
 			).deliver

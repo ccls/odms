@@ -8,6 +8,8 @@ class BcInfo < OpenStruct
 		super
 		self.verbose ||= false
 		self.icf_master_id ||= icf_master_id || masterid
+		self.changes = {}
+		self.mother_changes = {}
 	end
 
 	def code_correct(*args)
@@ -136,21 +138,10 @@ class BcInfo < OpenStruct
 			study_subject.send("#{k}=",v) unless v.blank?
 		end
 
-		#	gotta save the changes before the subject, otherwise ... poof
-		#	probably not necessary to save them to the bc_info though
-		self.changes = study_subject.changes
-#puts changes.inspect
-
-#
-#	TODO gonna have to remember this but will need to pull it out in rake task DONE
-#
-#		study_subjects.push(study_subject)
-#
-
 		if study_subject.changed?
 
-			#	kinda crued, but just want to remember that this was changed in email
-			study_subject.instance_variable_set("@bc_info_changed",true) 
+			#	gotta save the changes before the subject, otherwise ... poof
+			self.changes = study_subject.changes
 
 			if study_subject.save
 

@@ -57,24 +57,17 @@ class BcInfoUpdate < CSVFile
 
 	def parse_csv_file
 		unless self.class.expected_columns.include?(actual_columns.sort)
-#			Notification.plain(
-#				"BC Info (#{csv_file}) has unexpected column names<br/>\n" <<
-#				"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
-#				email_options.merge({ 
-#					:subject => "ODMS: Unexpected or missing columns in #{csv_file}" })
-#			).deliver
 			Notification.plain(
 				"BC Info (#{csv_file}) has unexpected column names<br/>\n" <<
 				"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
 					:subject => "ODMS: Unexpected or missing columns in #{csv_file}"
 			).deliver
 
-			self.status = "#{csv_file} has unexpected column names"
+			self.status = "#{csv_file} has unexpected column names"			#	NOTE What is this for? Don't think that it is used now.
 
 			return
 		end	#	unless self.class.expected_columns.include?(actual_columns.sort)
 	
-		study_subjects = []
 		puts "Processing #{csv_file}..." if verbose
 
 		(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
@@ -89,14 +82,10 @@ class BcInfoUpdate < CSVFile
 				:bc_info_file => csv_file, :verbose => verbose ) )
 			self.bc_infos << bc_info
 			bc_info.process
-			study_subjects.push( bc_info.study_subject )
 	
 		end	#	(f=CSV.open( csv_file, 'rb',{
 
-#		Notification.updates_from_bc_info( csv_file, study_subjects,
-#				email_options.merge({ })
-#			).deliver
-		Notification.updates_from_bc_info( csv_file, study_subjects ).deliver
+		Notification.updates_from_bc_info( csv_file, bc_infos ).deliver
 	end
 
 	def archive

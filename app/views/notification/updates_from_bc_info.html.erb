@@ -1,14 +1,14 @@
 <html>
 <body>
-<% if @study_subjects.length > 0 %>
+<% if @bc_infos.length > 0 %>
 <p>The following subjects may have changed during <%=@bc_info_file%> processing ...<p>
 <table><tbody>
 <thead><tr><th>ICF Master ID</th><th>Events</th><th>Changed?</th></thead>
-<% @study_subjects.each do |study_subject| %>
+<% @bc_infos.each do |bc_info| %>
 <tr>
-<td><%= link_to study_subject.icf_master_id, study_subject_url(study_subject) %></td>
-<td><%= link_to 'Events', study_subject_events_url(study_subject) %></td>
-<td><%= study_subject.instance_variable_get("@bc_info_changed") %></td>
+<td><%= link_to bc_info.study_subject.icf_master_id, study_subject_url(bc_info.study_subject) %></td>
+<td><%= link_to 'Events', study_subject_events_url(bc_info.study_subject) %></td>
+<td><%= bc_info.changes.present? %></td>
 </tr>
 <% end %>
 </tbody></table>

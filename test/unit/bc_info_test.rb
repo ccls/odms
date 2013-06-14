@@ -133,7 +133,8 @@ class BcInfoTest < ActiveSupport::TestCase
 			assert bc_info.changes.keys.include?(v.to_s), 
 				"#{bc_info.changes.inspect} does not include '#{v}'"
 			assert_equal "Newvalue", study_subject.reload.send(v)
-assert bc_info.study_subject.instance_variable_get("@bc_info_changed")
+assert bc_info.changes.present?
+#assert bc_info.study_subject.instance_variable_get("@bc_info_changed")
 		end
 
 	end
