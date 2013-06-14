@@ -172,9 +172,9 @@ ignore_columns += %w( att13 bm1d_14_int bm1d_28_int cbf6b dischargesummarydate d
 
 	desc "Count columns in each row of csv file"
 	task :count_columns => :environment do
-		env_required('csv_files')
+		env_required('csv_file')
 #		file_required(ENV['csv_files'])
-		Dir[ENV['csv_files']].each do |csv_file|
+		Dir[ENV['csv_file']].each do |csv_file|
 			count_columns_in_csv_file(csv_file)
 		end
 	end
