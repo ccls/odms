@@ -1050,6 +1050,12 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 
+
+	test "should add study_subject_changes if study subject changes" do
+pending
+	end
+
+
 protected
 
 	def create_case_study_subject_and_birth_datum(

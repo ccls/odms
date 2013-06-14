@@ -9,14 +9,6 @@ class BirthDatum < ActiveRecord::Base
 	alias_attribute :mother_years_educ, :mother_yrs_educ
 	alias_attribute :father_years_educ, :father_yrs_educ
 
-#	20130523 - no longer needed?
-#	after_initialize :set_defaults, :if => :new_record?
-#	def set_defaults
-#		# ||= doesn't work with ''
-#		#	just setting this to a string so that << works
-#		self.ccls_import_notes ||= ''
-#	end
-
 	def is_case?
 		['1','case'].include?(case_control_flag)
 	end
@@ -52,7 +44,6 @@ class BirthDatum < ActiveRecord::Base
 					create_candidate_control_for( case_subject )
 				elsif is_case?
 
-
 					if match_confidence.to_s.match(/definite/i)	||
 						( match_confidence.to_s.match(/^NO$/i) and case_subject.birth_state != 'CA' )
 #
@@ -66,8 +57,6 @@ class BirthDatum < ActiveRecord::Base
 						append_notes "birth data append:"<<
 							"Match confidence not 'definite':#{match_confidence}:"
 					end	#	if match_confidence.match(/definite/i)
-
-
 
 				else
 					append_notes "birth data append:"<<
@@ -246,22 +235,12 @@ class BirthDatum < ActiveRecord::Base
 			study_subject.send("#{k}=",v) if v.present?
 		end
 
-		#	gotta save the changes before the subject, otherwise ... poof
-		#	probably not necessary to save them to the bc_info though
-		changes = study_subject.changes
-
-#puts changes.inspect
-
-#
-#	TODO gonna have to remember this but will need to pull it out in rake task DONE
-#
-#		study_subjects.push(study_subject)
-#
-
 		if study_subject.changed?
 
-			#	kinda crued, but just want to remember that this was changed in email
-			#study_subject.instance_variable_set("@bc_info_changed",true) 
+			#	gotta save the changes before the subject, otherwise ... poof
+			changes = study_subject.changes
+
+			self.update_column(:study_subject_changes, changes.to_s)
 
 			if study_subject.save
 
@@ -285,6 +264,14 @@ class BirthDatum < ActiveRecord::Base
 				append_notes "birth data update:Error updating case study subject. " <<
 					"Save failed! #{study_subject.errors.full_messages.to_sentence}"
 			end	#	if study_subject.save
+
+		else
+
+#				study_subject.operational_events.create(
+#					:occurred_at => DateTime.current,
+#					:project_id => Project['ccls'].id,
+#					:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+#					:description => "Birth Record data NO changes from #{birth_data_file_name}" )
 
 		end	#	if study_subject.changed?
 
@@ -311,14 +298,11 @@ class BirthDatum < ActiveRecord::Base
 				:state           => mother_residence_state.decode_state_abbrev,
 				:zip             => mother_residence_zip,
 				:address_type_id => AddressType["residence"].id
-#				:data_source_id  => DataSource["birthdata"].id
 			},
 			:current_address => YNDK[:no],
 			:address_at_diagnosis => YNDK[:no],
 			:data_source_id => DataSource["birthdata"].id,
 			:notes => "Address is mother's residential address found in the CA State Birth Record.")
-
-#	NOTE REALLY? Address AND Addressing have a data source?
 
 		unless addressing.save
 			#	Address possibly contained PO Box which is invalid as a residence.
@@ -342,7 +326,6 @@ protected
 	def reindex_study_subject!
 		logger.debug "Birth Datum changed so reindexing study subject"
 		study_subject.update_column(:needs_reindexed, true) if study_subject
-#		study_subject.index if study_subject
 	end
 
 end

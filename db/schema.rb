@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130607171750) do
+ActiveRecord::Schema.define(:version => 20130614180719) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -634,6 +634,7 @@ ActiveRecord::Schema.define(:version => 20130607171750) do
     t.string   "deceased"
     t.date     "case_dob"
     t.text     "ccls_import_notes"
+    t.text     "study_subject_changes"
   end
 
   create_table "candidate_controls", :force => true do |t|

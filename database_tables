@@ -631,6 +631,7 @@ Table: birth_data
 | deceased                          | varchar(255) | YES  |     | NULL    |                |
 | case_dob                          | date         | YES  |     | NULL    |                |
 | ccls_import_notes                 | text         | YES  |     | NULL    |                |
+| study_subject_changes             | text         | YES  |     | NULL    |                |
 +-----------------------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
 +------------------+--------------+------+-----+---------+----------------+
