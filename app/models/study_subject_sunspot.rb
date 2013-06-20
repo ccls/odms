@@ -118,6 +118,7 @@ base.class_eval do
 		SunspotColumn.new( :primary_phone ),
 		SunspotColumn.new( :alternate_phone ),
 		SunspotColumn.new( :address_street ),
+		SunspotColumn.new( :address_unit ),
 		SunspotColumn.new( :address_city ),
 		SunspotColumn.new( :address_state ),
 		SunspotColumn.new( :address_zip ),

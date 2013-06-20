@@ -44,6 +44,10 @@ base.class_eval do
 		address.try(:street)
 	end
 
+	def address_unit
+		address.try(:unit)
+	end
+
 	def address_city
 		address.try(:city)
 	end
