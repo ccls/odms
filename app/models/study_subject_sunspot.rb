@@ -17,6 +17,12 @@ base.class_eval do
 		birth_data.order('created_at DESC').collect(&:mother_ssn).collect(
 			&:to_ssn).compact.first
 	end
+	def derived_state_file_no_last6
+		birth_data.order('created_at DESC').collect(&:derived_state_file_no_last6).compact.first
+	end
+	def derived_local_file_no_last6
+		birth_data.order('created_at DESC').collect(&:derived_local_file_no_last6).compact.first
+	end
 	def hospital
 		patient.try(:organization).try(:to_s)	#	use try so stays nil if nil
 	end
@@ -154,6 +160,10 @@ base.class_eval do
 		SunspotColumn.new( :state_registrar_no ),
 		SunspotColumn.new( :local_registrar_no ),
 		SunspotColumn.new( :cdcid, 
+			:type => :integer ),
+		SunspotColumn.new( :derived_local_file_no_last6,
+			:type => :integer ),
+		SunspotColumn.new( :derived_state_file_no_last6,
 			:type => :integer )
 	]	#	self.all_sunspot_columns = [
 

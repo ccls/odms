@@ -632,6 +632,8 @@ Table: birth_data
 | case_dob                          | date         | YES  |     | NULL    |                |
 | ccls_import_notes                 | text         | YES  |     | NULL    |                |
 | study_subject_changes             | text         | YES  |     | NULL    |                |
+| derived_state_file_no_last6       | varchar(6)   | YES  |     | NULL    |                |
+| derived_local_file_no_last6       | varchar(6)   | YES  |     | NULL    |                |
 +-----------------------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
 +------------------+--------------+------+-----+---------+----------------+

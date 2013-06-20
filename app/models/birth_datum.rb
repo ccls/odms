@@ -24,6 +24,8 @@ class BirthDatum < ActiveRecord::Base
 		#	copy case dob to dob if it is blank
 		#
 		self.dob = case_dob if self.dob.blank?
+		self.derived_state_file_no_last6 = sprintf("%06d",derived_state_file_no_last6.to_i) unless derived_state_file_no_last6.blank?
+		self.derived_local_file_no_last6 = sprintf("%06d",derived_local_file_no_last6.to_i) unless derived_local_file_no_last6.blank?
 	end
 
 	def post_processing

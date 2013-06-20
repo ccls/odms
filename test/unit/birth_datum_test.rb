@@ -1056,6 +1056,21 @@ pending
 	end
 
 
+
+	test "should add leading zeroes to derived_state_file_no_last6 if not blank" do
+		birth_datum = FactoryGirl.build(:birth_datum, :derived_state_file_no_last6 => 123)
+		assert_not_nil birth_datum.derived_state_file_no_last6
+		birth_datum.save
+		assert_equal '000123', birth_datum.reload.derived_state_file_no_last6
+	end
+
+	test "should add leading zeroes to derived_local_file_no_last6 if not blank" do
+		birth_datum = FactoryGirl.build(:birth_datum, :derived_local_file_no_last6 => 123)
+		assert_not_nil birth_datum.derived_local_file_no_last6
+		birth_datum.save
+		assert_equal '000123', birth_datum.reload.derived_local_file_no_last6
+	end
+
 protected
 
 	def create_case_study_subject_and_birth_datum(

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130614180719) do
+ActiveRecord::Schema.define(:version => 20130620215514) do
 
   create_table "abstracts", :force => true do |t|
     t.integer  "study_subject_id"
@@ -635,6 +635,8 @@ ActiveRecord::Schema.define(:version => 20130614180719) do
     t.date     "case_dob"
     t.text     "ccls_import_notes"
     t.text     "study_subject_changes"
+    t.string   "derived_state_file_no_last6",       :limit => 6
+    t.string   "derived_local_file_no_last6",       :limit => 6
   end
 
   create_table "candidate_controls", :force => true do |t|
