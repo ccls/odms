@@ -21,6 +21,7 @@ namespace :automate do
 	end	#	task :reprocess_birth_data => :automate do
 
 	task :update_file_nos => :automate do
+		raise "This task has been disabled."
 		csv_file = "Ca_Co_6_Digit_State_Local.csv"
 		raise "CSV File :#{csv_file}: not found" unless File.exists?(csv_file)
 		not_found = []
