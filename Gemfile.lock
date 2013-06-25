@@ -216,7 +216,7 @@ DEPENDENCIES
   prawnto
   progress_bar
   rack-ssl
-  rails
+  rails (~> 3.2)
   rubycas-client
   ryanb-acts-as-list
   sass
