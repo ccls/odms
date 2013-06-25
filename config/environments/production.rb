@@ -9,7 +9,9 @@ Odms::Application.configure do
 	config.action_controller.perform_caching = true
 
 	# Disable Rails's static asset server (Apache or nginx will already do this)
-	config.serve_static_assets = false
+#	config.serve_static_assets = false
+#	no they don't. never finds robots.txt, 500.html, etc.
+	config.serve_static_assets = true
 
 
 
