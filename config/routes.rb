@@ -146,7 +146,7 @@ Odms::Application.routes.draw do
 #	resources :vital_statuses
 	resources :zip_codes, :only => [ :index ]
 
-	match 'logout', :to => 'sessions#destroy'
+	delete 'logout', :to => 'sessions#destroy'
 
 	resources :users, :only => [:destroy,:show,:index] do
 		resources :roles, :only => [:update,:destroy]
@@ -261,7 +261,7 @@ Odms::Application.routes.draw do
 
 	#	format seems to be required in the url? UNLESS wrapped in ()!
 #	match 'study_subject_reports/:action(.:format)' => 'study_subject_reports'
-	match 'charts/:action.:format' => 'charts'
+	get 'charts/:action.:format' => 'charts'
 
 	namespace :sunspot do
 		resources :subjects, :only => :index
