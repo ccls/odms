@@ -6,7 +6,7 @@ class AddressType < ActiveRecord::Base
 	has_many :addresses
 
 	#	Created for simplification of Addressing.mailing scope
-	scope :mailing, where(:key => 'mailing')
+	scope :mailing, ->{ where(:key => 'mailing') }
 
 	#	Returns the key
 	def to_s

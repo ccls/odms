@@ -13,9 +13,9 @@ class SampleType < ActiveRecord::Base
 		:foreign_key => 'parent_id',
 		:dependent => :nullify
 	
-	scope :roots,     where( :parent_id => nil )
-	scope :not_roots, where(self.arel_table[:parent_id].not_eq(nil))
-	scope :for_new_samples, where( :for_new_sample => true )
+	scope :roots,     ->{ where( :parent_id => nil ) }
+	scope :not_roots, ->{ where(self.arel_table[:parent_id].not_eq(nil)) }
+	scope :for_new_samples, ->{ where( :for_new_sample => true ) }
 
 	validations_from_yaml_file
 

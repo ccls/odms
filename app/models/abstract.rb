@@ -69,8 +69,8 @@ class Abstract < ActiveRecord::Base
 	end
 
 	scope :merged,   
-		where(self.arel_table[:merged_by_uid].not_eq(nil) )
-	scope :unmerged, where(:merged_by_uid => nil)
+		->{ where(self.arel_table[:merged_by_uid].not_eq(nil) ) }
+	scope :unmerged, ->{ where(:merged_by_uid => nil) }
 
 
 	alias_attribute :_14or28flag, :response_day14or28_flag

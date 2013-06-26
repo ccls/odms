@@ -31,10 +31,9 @@ class Page < ActiveRecord::Base
 	has_many :children, :class_name => 'Page', :foreign_key => 'parent_id',
 		:dependent => :nullify
 	
-	scope :roots,    where(:parent_id => nil, :hide_menu => false)
-	scope :hidden,   where(:hide_menu => true)
-#	scope :not_home, where("path != '/'")
-	scope :not_home, where(self.arel_table[:path].not_eq('/'))
+	scope :roots,    ->{ where(:parent_id => nil, :hide_menu => false) }
+	scope :hidden,   ->{ where(:hide_menu => true) }
+	scope :not_home, ->{ where(self.arel_table[:path].not_eq('/')) }
 
 	before_validation :adjust_path
 

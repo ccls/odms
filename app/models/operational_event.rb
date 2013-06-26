@@ -11,10 +11,10 @@ class OperationalEvent < ActiveRecord::Base
 
 	belongs_to :project
 
-	scope :screener_complete, joins(:operational_event_type)
-		.merge(OperationalEventType.screener_complete).readonly(false)
+	scope :screener_complete, ->{ joins(:operational_event_type)
+		.merge(OperationalEventType.screener_complete).readonly(false) }
 
-	scope :unended_project, joins(:project).merge(Project.unended).readonly(false)
+	scope :unended_project, ->{ joins(:project).merge(Project.unended).readonly(false) }
 
 	#	Returns description
 	def to_s

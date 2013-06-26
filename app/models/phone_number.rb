@@ -13,13 +13,13 @@ class PhoneNumber < ActiveRecord::Base
 	validations_from_yaml_file
 
 	scope :current,  
-		where(self.arel_table[:current_phone].not_eq_all([nil,2]))
+		->{ where(self.arel_table[:current_phone].not_eq_all([nil,2])) }
 	scope :historic, 
-		where(self.arel_table[:current_phone].eq_any([nil,2]))
+		->{ where(self.arel_table[:current_phone].eq_any([nil,2])) }
 	scope :primary,   
-		where(:is_primary => true)
+		->{ where(:is_primary => true) }
 	scope :alternate,  
-		where(self.arel_table[:is_primary].eq_any([nil,false]))
+		->{ where(self.arel_table[:is_primary].eq_any([nil,false])) }
 
 	before_save :format_phone_number, :if => :phone_number_changed?
 

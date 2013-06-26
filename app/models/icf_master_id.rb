@@ -13,8 +13,9 @@ class IcfMasterId < ActiveRecord::Base
 		icf_master_id
 	end
 
-#	scope :unused,      where( self.arel_table[:study_subject_id].eq(nil) )
-	scope :unused,      where( :study_subject_id => nil )
-	scope :next_unused, unused.order('id asc').limit(1)	#	NOTE still returns an array ( could add a .first but would break scope chainability or do I not really care about that here )
+	scope :unused,      ->{ where( :study_subject_id => nil ) }
+
+	#	NOTE still returns an array ( could add a .first but would break scope chainability or do I not really care about that here )
+	scope :next_unused, ->{ unused.order('id asc').limit(1)	}
 
 end

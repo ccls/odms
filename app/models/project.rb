@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
 
 	# Created for simplification of OperationalEvent.unended_project scope
 	#	The 'open' method is already defined, so DON'T USE IT
-	scope :unended, where( :ended_on => nil )
+	scope :unended, ->{ where( :ended_on => nil ) }
 
 	has_many :operational_events
 	has_many :instrument_types

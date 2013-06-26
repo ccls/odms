@@ -71,15 +71,15 @@ class Enrollment < ActiveRecord::Base
 	after_save :create_subject_declines_operational_event,
 		:if => :consented_changed?
 
-	scope :consented, where( :consented   => YNDK[:yes] )
-	scope :eligible,  where( :is_eligible => YNDK[:yes] )
+	scope :consented, ->{ where( :consented   => YNDK[:yes] ) }
+	scope :eligible,  ->{ where( :is_eligible => YNDK[:yes] ) }
 
 	scope :assigned_for_interview,  
-		where(self.arel_table[:assigned_for_interview_at].not_eq(nil))
+		->{ where(self.arel_table[:assigned_for_interview_at].not_eq(nil)) }
 
-	scope :not_assigned_for_interview,  where(:assigned_for_interview_at => nil)
+	scope :not_assigned_for_interview,  ->{ where(:assigned_for_interview_at => nil) }
 
-	scope :interview_completed,  where(self.arel_table[:interview_completed_on].not_eq(nil))
+	scope :interview_completed,  ->{ where(self.arel_table[:interview_completed_on].not_eq(nil)) }
 
 #	#	find enrollments by project key
 #	#	(rather than hard coding scopes for each)

@@ -17,11 +17,11 @@ class Organization < ActiveRecord::Base
 	has_many :patients
 #	has_many :sample_collectors
 
-	scope :without_hospital, left_joins(:hospital)
-		.merge(Hospital.without_org)
+	scope :without_hospital, ->{ left_joins(:hospital)
+		.merge(Hospital.without_org) }
 
-	scope :without_sample_location, left_joins(:sample_location)
-		.merge(SampleLocation.without_org)
+	scope :without_sample_location, ->{ left_joins(:sample_location)
+		.merge(SampleLocation.without_org) }
 
 	#	Returns name
 	def to_s

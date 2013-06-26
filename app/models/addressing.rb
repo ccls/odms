@@ -23,13 +23,12 @@ class Addressing < ActiveRecord::Base
 	validations_from_yaml_file
 
 	scope :current,  
-		where(self.arel_table[:current_address].not_eq_all([nil,2]))
+		->{ where(self.arel_table[:current_address].not_eq_all([nil,2])) }
 
 	scope :historic, 
-		where(self.arel_table[:current_address].eq_any([nil,2]))
+		->{ where(self.arel_table[:current_address].eq_any([nil,2])) }
 
-#	scope :mailing, joins(:address => :address_type).where("address_types.key" => 'mailing')
-	scope :mailing, joins(:address => :address_type).merge(AddressType.mailing)
+	scope :mailing, ->{ joins(:address => :address_type).merge(AddressType.mailing) }
 
 	#	Don't do the rejections here.
 	accepts_nested_attributes_for :address

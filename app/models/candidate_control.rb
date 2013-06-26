@@ -9,12 +9,12 @@ class CandidateControl < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-	scope :rejected,   where(:reject_candidate => true)
+	scope :rejected,   ->{ where(:reject_candidate => true) }
 
 	scope :unrejected, 
-		where(self.arel_table[:reject_candidate].eq_any([false,nil]))
+		->{ where(self.arel_table[:reject_candidate].eq_any([false,nil])) }
 
-	scope :unassigned, where(:assigned_on => nil, :study_subject_id => nil)
+	scope :unassigned, ->{ where(:assigned_on => nil, :study_subject_id => nil) }
 
 	delegate :sex, :full_name, :first_name, :middle_name, :last_name,
 		:mother_full_name, :mother_first_name, :mother_middle_name, :mother_maiden_name, 

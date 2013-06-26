@@ -8,7 +8,7 @@ class Person < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-	scope :interviewers, where( :person_type_id => 3 )
+	scope :interviewers, ->{ where( :person_type_id => 3 ) }
 
 	#	Returns string containing first and last name
 	def full_name

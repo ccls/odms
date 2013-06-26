@@ -12,10 +12,10 @@ class SampleTransfer < ActiveRecord::Base
 	#	statuses must be defined above before it can be used below.
 	validations_from_yaml_file
 
-	scope :active,   where( :status => 'active' )
-	scope :waitlist, where( :status => 'waitlist' )
-#	scope :pending,  where( :status => 'pending' )
-	scope :complete, where( :status => 'complete' )
+	scope :active,   ->{ where( :status => 'active' ) }
+	scope :waitlist, ->{ where( :status => 'waitlist' ) }
+#	scope :pending,  ->{ where( :status => 'pending' ) }
+	scope :complete, ->{ where( :status => 'complete' ) }
 
 	def self.with_status(status=nil)
 		( status.blank? ) ? scoped : where(:status => status)

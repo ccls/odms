@@ -14,12 +14,12 @@ base.class_eval do
 	#	be countered by adding a "readonly(false)" to the scope chain.  Or you
 	#	can simply re-find the given subject by id.
 
-	scope :cases,    where(:subject_type => 'Case')
-	scope :controls, where(:subject_type => 'Control')
-	scope :mothers,  where(:subject_type => 'Mother')
-	scope :children, where(:subject_type => ['Case','Control'])
+	scope :cases,    ->{ where(:subject_type => 'Case') }
+	scope :controls, ->{ where(:subject_type => 'Control') }
+	scope :mothers,  ->{ where(:subject_type => 'Mother') }
+	scope :children, ->{ where(:subject_type => ['Case','Control']) }
 
-	scope :living,   where(:vital_status => 'Living')
+	scope :living,   ->{ where(:vital_status => 'Living') }
 
 	def self.with_patid(patid)
 		where(:patid => sprintf("%04d",patid.to_i) )
