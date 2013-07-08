@@ -13,7 +13,7 @@ class SampleTypesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@sample_types = SampleType.roots('id ASC')
+		@sample_types = SampleType.roots.order('id ASC')
 	end
 
 	def new
