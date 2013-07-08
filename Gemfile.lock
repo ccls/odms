@@ -61,7 +61,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.2)
+    coffee-script-source (1.6.3)
     database_cleaner (1.0.1)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -85,8 +85,8 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     mime-types (1.23)
-    mini_portile (0.5.0)
-    minitest (5.0.5)
+    mini_portile (0.5.1)
+    minitest (5.0.6)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     multi_json (1.7.7)
