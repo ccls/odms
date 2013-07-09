@@ -50,6 +50,9 @@
 <%= wrapped_spans :study_subject, :state_id_no,
 	:label_text => 'state id no (for legacy subjects):' %>
 
+<%= wrapped_spans :study_subject, :derived_state_file_no_last6 %>
+<%= wrapped_spans :study_subject, :derived_local_file_no_last6 %>
+
 <%= wrapped_date_spans :study_subject, :reference_date,
 	:label_text => 'admit (reference) date:' %>
 <%= wrapped_spans :study_subject, :vital_status,
