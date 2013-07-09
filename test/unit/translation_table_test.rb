@@ -2,6 +2,22 @@ require 'test_helper'
 
 class TranslationTableTest < ActiveSupport::TestCase
 
+	test "YNDK 'yes' should return 1" do
+		assert_equal 1, YNDK['yes']
+	end
+
+	test "YNDK 'YES' should return 1" do
+		assert_equal 1, YNDK['YES']
+	end
+
+	test "YNDK :yes should return 1" do
+		assert_equal 1, YNDK[:yes]
+	end
+
+	test "YNDK :YES should return 1" do
+		assert_equal 1, YNDK[:YES]
+	end
+
 	test "YNDK valid values" do
 		assert_equal YNDK.valid_values, [1,2,999]
 	end

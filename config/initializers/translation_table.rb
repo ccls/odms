@@ -1,7 +1,7 @@
 class TranslationTable
 
 	def self.[](key=nil)
-		short(key) || value(key) || nil
+		short(key) || short(key.to_s.downcase) || value(key) || nil
 	end
 
 #	DO NOT MEMORIZE HERE.  IT ENDS UP IN ALL SUBCLASSES
@@ -56,6 +56,8 @@ end
 #	YNDK[:yes]  => 1
 #	YNDK[:asdf] => nil
 #
+#	YNDK[:Yes] => 1
+#	YNDK[:YES] => 1
 #
 #	YNDK[:nil] => ????	# worked in ruby 1.8.7, errors in 1.9.3
 #		:nil.to_i => NoMethodError: undefined method `to_i' for :nil:Symbol

@@ -1,6 +1,71 @@
 namespace :app do
 namespace :study_subjects do
 
+	task :update_interview_date => :environment do
+		outcsv = CSV.open( 'missing_intvwdata.output.csv', 'w' )
+		outcsv << %w( case_patid languages_before 
+			languages_after 
+			languages_changed?
+			assigned_for_interview_at_before 
+			assigned_for_interview_at_after 
+			assigned_for_interview_at_changed?
+			interview_completed_on_before 
+			interview_completed_on_after
+			interview_completed_on_changed?
+		)
+		CSV.open( 'missing_intvwdata.csv',
+				'rb',{ :headers => true }).each do |line|
+			puts line
+			csv = []
+			#	PatID,ChildID,Type,Eligibl,Consen,Language,Intass,InterviewDate
+			subjects = StudySubject.cases.with_patid(line['PatID'])
+
+			if subjects.length == 1
+				subject = subjects.first
+				subject_language_names_before = subject.language_names
+				subject_assigned_for_interview_at_before = subject.ccls_enrollment.assigned_for_interview_at.try(:to_date)
+				subject_interview_completed_on_before = subject.ccls_enrollment.interview_completed_on.try(:to_date)
+				puts "ChildIDs #{line['ChildID']}:#{subject.childid}"
+				raise "ChildID mismatch #{line['ChildID']}:#{subject.childid}" if(
+					line['ChildID'].to_i != subject.childid.to_i )
+
+				subject.languages << Language[line['Language']] unless( 
+					line['Language'].blank? or 
+					line['Language'] == 'Other' or
+					line['Language'] == "Don't Know" or
+					Language[line['Language']].nil? or
+					subject.languages.include?(Language[line['Language']]))
+
+				subject.ccls_enrollment.update_attributes!({
+					:assigned_for_interview_at => line['Intass'],
+					:interview_completed_on => line['InterviewDate']
+				})
+
+			else
+				raise "Not 1 case subject found with patid #{line['PatID']}"
+			end
+
+			subject.reload
+			subject.ccls_enrollment.reload
+			csv << line['PatID']
+			csv << subject_language_names_before
+			csv << subject.language_names
+			csv << ( subject_language_names_before != subject.language_names )
+
+			csv << subject_assigned_for_interview_at_before
+			csv << subject.ccls_enrollment.assigned_for_interview_at.try(:to_date)
+			csv << ( subject_assigned_for_interview_at_before !=
+				subject.ccls_enrollment.assigned_for_interview_at.try(:to_date) )
+
+			csv << subject_interview_completed_on_before
+			csv << subject.ccls_enrollment.interview_completed_on.try(:to_date)
+			csv << ( subject_interview_completed_on_before !=
+				subject.ccls_enrollment.interview_completed_on.try(:to_date) )
+			outcsv << csv
+		end
+		outcsv.close
+	end
+
 	task :update_birth_year_from_dob => :environment do
 		raise "This task has been run and disabled."
 		#	find_each is a apparently a batch find method
