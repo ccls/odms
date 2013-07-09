@@ -1,0 +1,488 @@
+<html>
+<head>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+jQuery(function(){
+	if( typeof jQuery('.datepicker').datepicker == 'function' ){
+		jQuery('.datepicker').datepicker();
+	}
+});
+</script>
+</head>
+<body>
+
+<h3>CALIFORNIA CHILDHOOD LEUKEMIA STUDY MEDICAL ABSTRACT FORM</h3>
+
+<h4>I. PARTICIPANT INFORMATION  (this will be read only as is from other models)</h4>
+<ul>
+<li>Patient's Initials:</li>
+<li>Treating Institution:</li>
+<li>Date of Diagnosis:</li>
+<li>Date Treatment Began:</li>
+</ul>
+
+
+<form action="/combined_abstract_form.html" method="get">
+
+<h4>II. DIAGNOSTIC STUDIES</h4>
+<h5>A.  BONE MARROW BIOPSY</h5>
+<div>
+<label for='bmb_found_yes'>Found</label>
+<input id='bmb_found_yes' name="abstract[bmb_found]" type="radio" value="yes" />
+<label for='bmb_found_no'>Not Found</label>
+<input id='bmb_found_no'  name="abstract[bmb_found]" type="radio" value="no" />
+</div>
+<div><label for='bmb_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="bmb_date_of_test" name="abstract[bmb_date_of_test]" type="text" /></div>
+
+<div><label for='bmb_percentage_blasts'>Percentage (%) blasts:</label>
+<input id="bmb_percentage_blasts" name="abstract[bmb_percentage_blasts]" type="text" />
+
+<!-- hidden "Yes" tag first -->
+<input id='bmb_percentage_blasts_known_yes'  name="abstract[bmb_percentage_blasts_known]" type="hidden" value="yes" />
+<input id='bmb_percentage_blasts_known_no'  name="abstract[bmb_percentage_blasts_known]" type="checkbox" value="no" />
+<label for='bmb_percentage_blasts_known_no'>Don't Know</label>
+</div>
+<div>Diagnosis or Interpretation:
+<textarea name="abstract[bmb_comments]"> </textarea>
+</div>
+
+<h5>B.  BONE MARROW ASPIRATE</h5>
+<div>
+<input id='bma_found_yes' name="abstract[bma_found]" type="radio" value="yes" />
+<label for='bma_found_yes'>Found</label>
+<input id='bma_found_no'  name="abstract[bma_found]" type="radio" value="no" />
+<label for='bma_found_no'>Not Found</label>
+</div>
+<div><label for='bma_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="bma_date_of_test" name="abstract[bma_date_of_test]" type="text" /></div>
+
+<div><label for='bma_percentage_blasts'>Percentage (%) blasts:</label>
+<input id="bma_percentage_blasts" name="abstract[bma_percentage_blasts]" type="text" />
+
+<!-- hidden "Yes" tag first -->
+<input id='bma_percentage_blasts_known_yes'  name="abstract[bma_percentage_blasts_known]" type="hidden" value="yes" />
+<input id='bma_percentage_blasts_known_no'  name="abstract[bma_percentage_blasts_known]" type="checkbox" value="no" />
+<label for='bma_percentage_blasts_known_no'>Don't Know</label>
+</div>
+<div>Comments or Interpretation:
+<textarea name="abstract[bma_comments]"> </textarea>
+</div>
+
+
+
+
+<h5>C. DIAGNOSTIC FLOW CYTOMETRY (or IMMUNOPHENOTYPING)</h5>
+<div>
+<label for='dfc_found_yes'>Found</label>
+<input id='dfc_found_yes' name="abstract[dfc_found]" type="radio" value="yes" />
+<label for='dfc_found_no'>Not Found</label>
+<input id='dfc_found_no'  name="abstract[dfc_found]" type="radio" value="no" />
+</div>
+<div><label for='dfc_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="dfc_date_of_test" name="abstract[dfc_date_of_test]" type="text" /></div>
+
+
+Check the appropriate box below:
+[CHECKBOX HERE]Numerical data available on report
+
+
+
+
+B Cell Markers:
+CD10 (or CALLA) ______
+CD19 ______
+CD20 ______
+CD21 ______
+CD22 ______
+CD23 ______
+CD24 (BA-1) ______
+CD40 ______
+Surface Immunoglobulin (or sIg) ______
+Cytoplasmic IgM (or cytoplasmic mu) ______
+Bone Marrow Kappa ______
+Bone Marrow Lambda ______
+CD19 + CD10 ______
+
+T Cell Markers:
+CD1a ______
+CD2 ______
+CD3 ______
+CD4 ______
+CD5 ______
+CD7 ______
+CD8 ______
+CD3 + CD4 ______
+CD3 + CD8 ______
+
+Myeloid markers:
+CD11b ______
+CD11c ______
+CD13 (or MY-7) ______
+CD15 (or LEU M1) ______
+CD33 (or MY-9) ______
+CD41 ______
+CDw65 ______
+
+Stem Cell Marker:
+CD34 ______
+
+Megakaryocyte Marker:
+CD61 ______
+
+Mono Marker:
+CD14 ______
+
+Erythroid Marker:
+Glycophorin A ______
+
+Natural Killer associated markers:
+CD16 ______
+CD56 ______
+CD57 ______
+
+Non-Specific Markers:
+CD9 (or BA-2) ______
+CD25 ______
+CD38 ______
+CD45 ______
+CD71 ______
+%HLA-DR ______
+TERM DOXYTRAN (or Tdt) ______
+Other(s):
+________________ _______________
+________________ _______________
+________________ _______________
+________________ _______________
+________________ _______________
+
+Remarks or comments:
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+
+
+<h5>D.  CYTOGENETIC STUDIES</h5>
+<div>
+<label for='cs_found_yes'>Found</label>
+<input id='cs_found_yes' name="abstract[cs_found]" type="radio" value="yes" />
+<label for='cs_found_no'>Not Found</label>
+<input id='cs_found_no'  name="abstract[cs_found]" type="radio" value="no" />
+</div>
+<div><label for='cs_date_of_test'>Date of Report:</label>
+<input class="datepicker" id="cs_date_of_test" name="abstract[cs_date_of_test]" type="text" /></div>
+
+
+
+<div>Conventional karyotype done?
+<label for='conventional_karyotype_done_yes'>Yes</label>
+<input id='conventional_karyotype_done_yes' name="abstract[conventional_karyotype_done]" type="radio" value="yes" />
+<label for='conventional_karyotype_done_no'>No</label>
+<input id='conventional_karyotype_done_no'  name="abstract[conventional_karyotype_done]" type="radio" value="no" />
+</div>
+
+<div>Hospital FISH done?
+<label for='hospital_fish_done_yes'>Yes</label>
+<input id='hospital_fish_done_yes' name="abstract[hospital_fish_done]" type="radio" value="yes" />
+<label for='hospital_fish_done_no'>No</label>
+<input id='hospital_fish_done_no'  name="abstract[hospital_fish_done]" type="radio" value="no" />
+</div>
+
+<div>Hyperdiploidy detected?
+<label for='hyperdiploidy_detected_yes'>Yes</label>
+<input id='hyperdiploidy_detected_yes' name="abstract[hyperdiploidy_detected]" type="radio" value="yes" />
+<label for='hyperdiploidy_detected_no'>No</label>
+<input id='hyperdiploidy_detected_no'  name="abstract[hyperdiploidy_detected]" type="radio" value="no" />
+<label for='hyperdiploidy_detected_dk'>DK</label>
+<input id='hyperdiploidy_detected_dk'  name="abstract[hyperdiploidy_detected]" type="radio" value="dk" />
+</div>
+
+<div>If yes, hyperdiploidy by karyotype or FISH:
+<input id='hyperdiploidy_by_karyotype' name="abstract[hyperdiploidy_by]" type="radio" value="karyotype" />
+<label for='hyperdiploidy_by_karyotype'>Karyotype</label>
+<input id='hyperdiploidy_by_fish'  name="abstract[hyperdiploidy_by]" type="radio" value="fish" />
+<label for='hyperdiploidy_by_fish'>FISH</label>
+</div>
+
+Number of chromosomes (if karyotype)? ________
+Please indicate the presence or absence of the following translocations. Leave no blanks.
+Please indicate the presence of absence of the following trisomies
+
+Translocation
+Present Absent Don't Know
+t(12:21)
+inv(16)
+t(1;19)
+t(8;21)
+t(9;22)
+t(15;17)
+Other:
+Other:
+Other:
+
+Conventional Karyotyping Results [Numerical results &amp; Summary of findings]:
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+
+Hospital FISH Results [Numerical results &amp; Summary of findings]:
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+
+
+<h5>E.  COMPLETE BLOOD COUNT (CBC)</h5>
+<div>
+<label for='cbc_found_yes'>Found</label>
+<input id='cbc_found_yes' name="abstract[cbc_found]" type="radio" value="yes" />
+<label for='cbc_found_no'>Not Found</label>
+<input id='cbc_found_no'  name="abstract[cbc_found]" type="radio" value="no" />
+</div>
+<div><label for='cbc_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="cbc_date_of_test" name="abstract[cbc_date_of_test]" type="text" /></div>
+
+Leukocyte Count (WBC) _______________ K/mm3
+Percentage Blasts (aka atypical or abnormal cells) __________ %
+OR Number of Blasts _________
+Hemoglobin (or Hgb) _______________ GM/DL
+Platelet Count (or Plt ct) ________________ K/mm3
+
+<h5>F.  CEREBROSPINAL FLUID (or CSF)</h5>
+<div>
+<label for='csf_found_yes'>Found</label>
+<input id='csf_found_yes' name="abstract[csf_found]" type="radio" value="yes" />
+<label for='csf_found_no'>Not Found</label>
+<input id='csf_found_no'  name="abstract[csf_found]" type="radio" value="no" />
+</div>
+<div><label for='csf_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="csf_date_of_test" name="abstract[csf_date_of_test]" type="text" /></div>
+
+WBC [#] ____________
+RBC [#] ____________
+Blasts present (yes/no) ___________ Number of Blasts ___________
+PB contamination (yes/no) ____________
+Cytology (or CSF Pathology) ___________________________________________
+___________________________________________________________________
+___________________________________________________________________
+
+<h5>G.  CHEST IMAGING (Chest X-ray)</h5>
+Trisomy
+Present Absent Don't Know
+Trisomy 4
+Trisomy 5
+Trisomy 10
+Trisomy 17
+Trisomy 21
+Other:
+Other:
+Other:
+
+<div>
+<label for='cxr_found_yes'>Found</label>
+<input id='cxr_found_yes' name="abstract[cxr_found]" type="radio" value="yes" />
+<label for='cxr_found_no'>Not Found</label>
+<input id='cxr_found_no'  name="abstract[cxr_found]" type="radio" value="no" />
+</div>
+<div><label for='cxr_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="cxr_date_of_test" name="abstract[cxr_date_of_test]" type="text" /></div>
+
+
+Check as appropriate: Normal Chest
+Mediastinal Mass Present
+If mediastinal mass present, describe: ____________________________________
+_____________________________________________________________________
+
+
+<h5>H.  ADMITTING HISTORY AND PHYSICAL (H&amp;P) REPORT</h5>
+<div>
+<label for='hpr_found_yes'>Found</label>
+<input id='hpr_found_yes' name="abstract[hpr_found]" type="radio" value="yes" />
+<label for='hpr_found_no'>Not Found</label>
+<input id='hpr_found_no'  name="abstract[hpr_found]" type="radio" value="no" />
+</div>
+<div><label for='hpr_date_of_report'>Date of Report:</label>
+<input class="datepicker" id="hpr_date_of_report" name="abstract[hpr_date_of_report]" type="text" /></div>
+
+
+1) ORGANOMEGALY
+Hepatomegaly? Yes No DK
+Splenomegaly? Yes No DK
+
+
+
+2) DOWN SYNDROME PHENOTYPE (From Admitting H&amp;P Report)
+Yes No DK
+
+
+3) PHYSICAL EXAM (from physical exam at diagnosis)
+Height at Diagnosis - in centimeters: ______ in inches: _________
+Weight at diagnosis - in kilograms:________ in pounds:_________ b
+
+<h5>I.  DISCHARGE SUMMARY</h5>
+<div>
+<label for='ds_found_yes'>Found</label>
+<input id='ds_found_yes' name="abstract[ds_found]" type="radio" value="yes" />
+<label for='ds_found_no'>Not Found</label>
+<input id='ds_found_no'  name="abstract[ds_found]" type="radio" value="no" />
+</div>
+<div><label for='ds_date_of_report'>Date of Report:</label>
+<input class="datepicker" id="ds_date_of_report" name="abstract[ds_date_of_report]" type="text" /></div>
+
+
+CLINICAL DIAGNOSIS (from Discharge Summary Report)
+________________________________________________________________________
+
+
+<h5>J. CHEMOTHERAPY PROTOCOL</h5>
+<div>
+<label for='cp_found_yes'>Found</label>
+<input id='cp_found_yes' name="abstract[cp_found]" type="radio" value="yes" />
+<label for='cp_found_no'>Not Found</label>
+<input id='cp_found_no'  name="abstract[cp_found]" type="radio" value="no" />
+</div>
+
+Was patient enrolled on a standardized induction protocol, such as COG?
+Yes
+No
+DK
+Indicate protocol name and number ______________ (e.g. COG AALL0231)
+
+
+
+
+<h4>III. RESPONSE TO THERAPY [Please Indicate Leukemia Sub-type Below]</h4>
+ALL
+AML
+Other: _______________________
+
+
+<h5>K. DAY 7 (8) Bone Marrow Aspirate</h5>
+<div>
+<label for='bma07_found_yes'>Found</label>
+<input id='bma07_found_yes' name="abstract[bma07_found]" type="radio" value="yes" />
+<label for='bma07_found_no'>Not Found</label>
+<input id='bma07_found_no'  name="abstract[bma07_found]" type="radio" value="no" />
+</div>
+<div><label for='bma07_date_of_report'>Date of Report:</label>
+<input class="datepicker" id="bma07_date_of_report" name="abstract[bma07_date_of_report]" type="text" /></div>
+
+Classification _______ (M1 = &lt;5% Blasts, M2 = 5-25% Blasts, M3 = &gt;25% Blasts)
+Percentage of blasts (if reported) _________
+Inconclusive Results
+(check if inconclusive results are indicated on report)
+
+
+<h5>DAY 14 (15) Bone Marrow Aspirate</h5>
+<div>
+<label for='bma14_found_yes'>Found</label>
+<input id='bma14_found_yes' name="abstract[bma14_found]" type="radio" value="yes" />
+<label for='bma14_found_no'>Not Found</label>
+<input id='bma14_found_no'  name="abstract[bma14_found]" type="radio" value="no" />
+</div>
+<div><label for='bma14_date_of_report'>Date of Report:</label>
+<input class="datepicker" id="bma14_date_of_report" name="abstract[bma14_date_of_report]" type="text" /></div>
+
+
+Date of Test _______________
+Classification ______ (M1 = &lt;5% Blasts, M2 = 5-25% Blasts, M3 = &gt;25% Blasts)
+Percentage of blasts (if reported) _________
+Inconclusive Results
+(check if inconclusive results are indicated on report)
+
+<h5>DAY 28 (29) Bone Marrow Aspirate</h5>
+<div>
+<label for='bma28_found_yes'>Found</label>
+<input id='bma28_found_yes' name="abstract[bma28_found]" type="radio" value="yes" />
+<label for='bma28_found_no'>Not Found</label>
+<input id='bma28_found_no'  name="abstract[bma28_found]" type="radio" value="no" />
+</div>
+<div><label for='bma28_date_of_report'>Date of Report:</label>
+<input class="datepicker" id="bma28_date_of_report" name="abstract[bma28_date_of_report]" type="text" /></div>
+
+
+
+Classification ______ (M1 = &lt;5% Blasts, M2 = 5-25% Blasts, M3 = &gt;25% Blasts)
+Percentage of blasts (if reported) _________
+Inconclusive Results
+(check if inconclusive results are indicated on report)
+At the end of induction (30 days), was the child in clinical remission?
+Yes
+No
+DK
+
+
+
+
+<h4>IV. DIAGNOSIS &amp; CLASSIFICATION</h4>
+(COMPLETED BY STUDY ONCOLOGIST ONLY)
+1.
+FAB CLASSIFICATION (GENERAL CLASS OF LEUKEMIA)
+ALL _______________
+CML _______________
+CLL _______________
+AML (ANLL) _______________
+M0 _______________
+M1 _______________
+M2 _______________
+M3 _______________
+M4 _______________
+M4E ______________
+M5 _______________
+M5A ______________
+M5B ______________
+M6 ________________
+M7 ________________
+Not specified (Other): ________________
+2.
+ALL LINEAGE: (check the appropriate box if lineage is indicated)
+B-Cell Lineage
+T-Cell Lineage
+3.
+ICDO 2000 CLASSIFICATION NUMBER _____________________
+4.
+ICDO 2000 CLASSIFICATION DESCRIPTION
+________________________________________________________________________
+
+
+
+<h4>V. CHECKLIST OF ATTACHMENTS (Check off each report obtained)</h4>
+A. Copy of BONE MARROW BIOPSY REPORT _______
+B. Copy of BONE MARROW ASPIRATE REPORT _______
+C. Copy of DIAGNOSTIC FLOW CYTOMETRY (or IMMUNOPHENOTYPING) REPORT _______
+D. Copy of CYTOGENETICS REPORT _______
+E. Copy of CBC REPORT _______
+F. Copy of CSF REPORT _______
+G. Copy of CHEST X-RAY REPORT _______
+H. Copy of ADMITTING HISTORY AND PHYSICAL EXAM (H&amp;P) _______
+I. Copy of DISCHARGE SUMMARY _______
+J. Copy of CHEMOTHERAPY PROTOCOL (EXPERIMENTAL SCHEMA &amp; ROADMAP) _______
+K. Copies of BONE MARROW BIOPSY/ASPIRATE REPORTS _______
+L. OTHER REPORTS
+
+
+<h4>VI. NAME AND DATE OF ABSTRACTOR</h4>
+Name _________________________________
+Date __________________
+NAME AND DATE OF REVIEWER
+Name _________________________________
+Date __________________
+NAME AND DATE OF DATA ENTRY PERSONS
+Entry 1 Name _________________________________
+Date __________________
+Entry 2 Name _________________________________
+Date _________________
+
+<input name="commit" type="submit" value="Save" />
+</form>
+</body>
+</html>
