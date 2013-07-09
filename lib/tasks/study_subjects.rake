@@ -29,18 +29,35 @@ namespace :study_subjects do
 				raise "ChildID mismatch #{line['ChildID']}:#{subject.childid}" if(
 					line['ChildID'].to_i != subject.childid.to_i )
 
-				subject.languages << Language[line['Language']] unless( 
-					line['Language'].blank? or 
-					line['Language'] == 'Other' or
-					line['Language'] == "Don't Know" or
-					Language[line['Language']].nil? or
-					subject.languages.include?(Language[line['Language']]))
+				unless( line['Language'].blank? or 
+						line['Language'] == 'Other' or
+						line['Language'] == "Don't Know" or
+						Language[line['Language']].nil? or
+						subject.languages.include?(Language[line['Language']]))
+					subject.languages << Language[line['Language']] 
+					subject.operational_events.create(
+						:occurred_at => DateTime.current,
+						:project_id => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['datachanged'].id,
+						:description => "Data changes from missing_intvwdata.csv",
+						:notes => "#{line['Language']} added to languages")
+				end
 
-				subject.ccls_enrollment.update_attributes!({
-					:assigned_for_interview_at => line['Intass'],
-					:interview_completed_on => line['InterviewDate']
-				})
+				#	don't DELETE data so check if new value exists
 
+				attributes = {}
+				attributes[:assigned_for_interview_at] = line['Intass'] if line['Intass'].present?
+				attributes[:interview_completed_on] = line['InterviewDate'] if line['InterviewDate'].present?
+
+				if attributes.present?
+					subject.ccls_enrollment.update_attributes!(attributes) 
+					subject.operational_events.create(
+						:occurred_at => DateTime.current,
+						:project_id => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['datachanged'].id,
+						:description => "Data changes from missing_intvwdata.csv",
+						:notes => attributes.to_s )
+				end
 			else
 				raise "Not 1 case subject found with patid #{line['PatID']}"
 			end
