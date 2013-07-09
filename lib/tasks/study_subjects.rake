@@ -3,7 +3,7 @@ namespace :study_subjects do
 
 	task :update_interview_date => :environment do
 		outcsv = CSV.open( 'missing_intvwdata.output.csv', 'w' )
-		outcsv << %w( case_patid languages_before 
+		outcsv << %w( patid icf_master_id languages_before 
 			languages_after 
 			languages_changed?
 			assigned_for_interview_at_before 
@@ -39,45 +39,50 @@ namespace :study_subjects do
 						:occurred_at => DateTime.current,
 						:project_id => Project['ccls'].id,
 						:operational_event_type_id => OperationalEventType['datachanged'].id,
-						:description => "Data changes from missing_intvwdata.csv",
+						:description => "Language changes from missing_intvwdata.csv",
 						:notes => "#{line['Language']} added to languages")
 				end
 
 				#	don't DELETE data so check if new value exists
 
-				attributes = {}
-				attributes[:assigned_for_interview_at] = line['Intass'] if line['Intass'].present?
-				attributes[:interview_completed_on] = line['InterviewDate'] if line['InterviewDate'].present?
+				ccls_enrollment = subject.ccls_enrollment
+				ccls_enrollment.assigned_for_interview_at = line['Intass'] if line['Intass'].present?
+				ccls_enrollment.interview_completed_on = line['InterviewDate'] if line['InterviewDate'].present?
 
-				if attributes.present?
-					subject.ccls_enrollment.update_attributes!(attributes) 
+				ccls_enrollment_changes = ccls_enrollment.changes
+				if ccls_enrollment.changed?
+					ccls_enrollment.save!
 					subject.operational_events.create(
 						:occurred_at => DateTime.current,
 						:project_id => Project['ccls'].id,
 						:operational_event_type_id => OperationalEventType['datachanged'].id,
-						:description => "Data changes from missing_intvwdata.csv",
-						:notes => attributes.to_s )
+						:description => "CCLS enrollment changes from missing_intvwdata.csv",
+						:notes => ccls_enrollment_changes.to_s )
 				end
 			else
 				raise "Not 1 case subject found with patid #{line['PatID']}"
 			end
 
 			subject.reload
-			subject.ccls_enrollment.reload
+			ccls_enrollment.reload
 			csv << line['PatID']
+			csv << subject.icf_master_id
 			csv << subject_language_names_before
 			csv << subject.language_names
 			csv << ( subject_language_names_before != subject.language_names )
 
 			csv << subject_assigned_for_interview_at_before
-			csv << subject.ccls_enrollment.assigned_for_interview_at.try(:to_date)
+			csv << ccls_enrollment.assigned_for_interview_at.try(:to_date)
 			csv << ( subject_assigned_for_interview_at_before !=
-				subject.ccls_enrollment.assigned_for_interview_at.try(:to_date) )
+				ccls_enrollment.assigned_for_interview_at.try(:to_date) )
+#	db is datetime, csv is date.  will always be different even when the same
+#			csv << ccls_enrollment_changes.keys.include?('assigned_for_interview_at')
 
 			csv << subject_interview_completed_on_before
-			csv << subject.ccls_enrollment.interview_completed_on.try(:to_date)
-			csv << ( subject_interview_completed_on_before !=
-				subject.ccls_enrollment.interview_completed_on.try(:to_date) )
+			csv << ccls_enrollment.interview_completed_on.try(:to_date)
+#			csv << ( subject_interview_completed_on_before !=
+#				ccls_enrollment.interview_completed_on.try(:to_date) )
+			csv << ccls_enrollment_changes.keys.include?('interview_completed_on')
 			outcsv << csv
 		end
 		outcsv.close
