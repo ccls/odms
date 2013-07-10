@@ -19,14 +19,17 @@ jQuery(function(){
 
 <h4>I. PARTICIPANT INFORMATION  (this will be read only as is from other models)</h4>
 <ul>
+<li>Patient's Name:</li>
 <li>Patient's Initials:</li>
 <li>Treating Institution:</li>
+<li>Date of Birth:</li>
 <li>Date of Diagnosis:</li>
 <li>Date Treatment Began:</li>
+<li>Hospital Record Number:</li>
 </ul>
 
 
-<form action="/combined_abstract_form.html" method="get">
+<form action="/study_subjects/1/abstracts" method="post">
 
 <h4>II. DIAGNOSTIC STUDIES</h4>
 <h5>A.  BONE MARROW BIOPSY</h5>
@@ -50,6 +53,8 @@ jQuery(function(){
 <div>Diagnosis or Interpretation:
 <textarea name="abstract[bmb_comments]"> </textarea>
 </div>
+
+
 
 <h5>B.  BONE MARROW ASPIRATE</h5>
 <div>
@@ -86,85 +91,95 @@ jQuery(function(){
 <div><label for='dfc_date_of_test'>Date of Test:</label>
 <input class="datepicker" id="dfc_date_of_test" name="abstract[dfc_date_of_test]" type="text" /></div>
 
+<div>Check the appropriate box below:</div>
+<div>
+<input id="dfc_numerical_data_available_yes" name="abstract[dfc_numerical_data_available]" type="radio" value='yes' />
+<label for='dfc_numerical_data_available_yes'>Numerical data available on report?</label>
+</div><div>
+<input id="dfc_numerical_data_available_no" name="abstract[dfc_numerical_data_available]" type="radio" value='no' />
+<label for='dfc_numerical_data_available_no'>Numerical data NOT available on report?</label>
+</div>
 
-Check the appropriate box below:
-[CHECKBOX HERE]Numerical data available on report
+
+<div>B Cell Markers:<ul>
+<li>CD10 (or CALLA) <input name="abstract[marker_cd10]" type='text' /></li>
+<li>CD19 <input name="abstract[marker_cd19]" type='text' /></li>
+<li>CD20 <input name="abstract[marker_cd20]" type='text' /></li>
+<li>CD21 <input name="abstract[marker_cd21]" type='text' /></li>
+<li>CD22 <input name="abstract[marker_cd22]" type='text' /></li>
+<li>CD23 <input name="abstract[marker_cd23]" type='text' /></li>
+<li>CD24 (BA-1) <input name="abstract[marker_cd24]" type='text' /></li>
+<li>CD40 <input name="abstract[marker_cd40]" type='text' /></li>
+<li>Surface Immunoglobulin (or sIg) <input name="abstract[marker_surface_immunoglobulin]" type='text' /></li>
+<li>Cytoplasmic IgM (or cytoplasmic mu) <input name="abstract[marker_cytoplasmic_igm]" type='text' /></li>
+<li>Bone Marrow Kappa <input name="abstract[marker_bone_marrow_kappa]" type='text' /></li>
+<li>Bone Marrow Lambda <input name="abstract[marker_bone_marrow_lambda]" type='text' /></li>
+<li>CD19 + CD10 <input name="abstract[marker_cd19_cd10]" type='text' /></li>
+</ul></div>
+
+<div>T Cell Markers:<ul>
+<li>CD1a <input name="abstract[marker_cd1a]" type='text' /></li>
+<li>CD2 <input name="abstract[marker_cd2]" type='text' /></li>
+<li>CD3 <input name="abstract[marker_cd3]" type='text' /></li>
+<li>CD4 <input name="abstract[marker_cd4]" type='text' /></li>
+<li>CD5 <input name="abstract[marker_cd5]" type='text' /></li>
+<li>CD7 <input name="abstract[marker_cd7]" type='text' /></li>
+<li>CD8 <input name="abstract[marker_cd8]" type='text' /></li>
+<li>CD3 + CD4 <input name="abstract[marker_cd3_cd4]" type='text' /></li>
+<li>CD3 + CD8 <input name="abstract[marker_cd3_cd8]" type='text' /></li>
+</ul></div>
 
 
+<div>Myeloid markers:<ul>
+<li>CD11b <input name="abstract[marker_cd11b]" type='text' /></li>
+<li>CD11c <input name="abstract[marker_cd11c]" type='text' /></li>
+<li>CD13 (or MY-7) <input name="abstract[marker_cd13]" type='text' /></li>
+<li>CD15 (or LEU M1) <input name="abstract[marker_cd15]" type='text' /></li>
+<li>CD33 (or MY-9) <input name="abstract[marker_cd33]" type='text' /></li>
+<li>CD41 <input name="abstract[marker_cd41]" type='text' /></li>
+<li>CDw65 <input name="abstract[marker_cdw65]" type='text' /></li>
+</ul></div>
 
 
-B Cell Markers:
-CD10 (or CALLA) ______
-CD19 ______
-CD20 ______
-CD21 ______
-CD22 ______
-CD23 ______
-CD24 (BA-1) ______
-CD40 ______
-Surface Immunoglobulin (or sIg) ______
-Cytoplasmic IgM (or cytoplasmic mu) ______
-Bone Marrow Kappa ______
-Bone Marrow Lambda ______
-CD19 + CD10 ______
+<div>Stem Cell Marker:<ul>
+<li>CD34 <input name="abstract[marker_cd34]" type='text' /></li>
+</ul></div>
 
-T Cell Markers:
-CD1a ______
-CD2 ______
-CD3 ______
-CD4 ______
-CD5 ______
-CD7 ______
-CD8 ______
-CD3 + CD4 ______
-CD3 + CD8 ______
 
-Myeloid markers:
-CD11b ______
-CD11c ______
-CD13 (or MY-7) ______
-CD15 (or LEU M1) ______
-CD33 (or MY-9) ______
-CD41 ______
-CDw65 ______
+<div>Megakaryocyte Marker:<ul>
+<li>CD61 <input name="abstract[marker_cd61]" type='text' /></li>
+</ul></div>
 
-Stem Cell Marker:
-CD34 ______
 
-Megakaryocyte Marker:
-CD61 ______
+<div>Mono Marker:<ul>
+<li>CD14 <input name="abstract[marker_cd14]" type='text' /></li>
+</ul></div>
 
-Mono Marker:
-CD14 ______
 
-Erythroid Marker:
-Glycophorin A ______
+<div>Erythroid Marker:<ul>
+<li>Glycophorin A <input name="abstract[marker_glycophorin_a]" type='text' /></li>
+</ul></div>
 
-Natural Killer associated markers:
-CD16 ______
-CD56 ______
-CD57 ______
 
-Non-Specific Markers:
-CD9 (or BA-2) ______
-CD25 ______
-CD38 ______
-CD45 ______
-CD71 ______
-%HLA-DR ______
-TERM DOXYTRAN (or Tdt) ______
-Other(s):
-________________ _______________
-________________ _______________
-________________ _______________
-________________ _______________
-________________ _______________
+<div>Natural Killer associated markers:<ul>
+<li>CD16 <input name="abstract[marker_cd16]" type='text' /></li>
+<li>CD56 <input name="abstract[marker_cd56]" type='text' /></li>
+<li>CD57 <input name="abstract[marker_cd57]" type='text' /></li>
+</ul></div>
 
-Remarks or comments:
-____________________________________________________________
-____________________________________________________________
-____________________________________________________________
-____________________________________________________________
+
+<div>Non-Specific Markers:<ul>
+<li>CD9 (or BA-2) <input name="abstract[marker_cd9]" type='text' /></li>
+<li>CD25 <input name="abstract[marker_cd25]" type='text' /></li>
+<li>CD38 <input name="abstract[marker_cd38]" type='text' /></li>
+<li>CD45 <input name="abstract[marker_cd45]" type='text' /></li>
+<li>CD71 <input name="abstract[marker_cd71]" type='text' /></li>
+<li>%HLA-DR <input name="abstract[marker_hla_dr]" type='text' /></li>
+<li>TERM DOXYTRAN (or Tdt) <input name="abstract[marker_tdt]" type='text' /></li>
+</ul></div>
+
+<div>Other(s):<textarea name="abstract[other_markers]"> </textarea></div>
+<div>Remarks or comments:<textarea name="abstract[marker_comments]"> </textarea></div>
 
 
 <h5>D.  CYTOGENETIC STUDIES</h5>
@@ -209,36 +224,99 @@ ____________________________________________________________
 <label for='hyperdiploidy_by_fish'>FISH</label>
 </div>
 
-Number of chromosomes (if karyotype)? ________
-Please indicate the presence or absence of the following translocations. Leave no blanks.
-Please indicate the presence of absence of the following trisomies
 
-Translocation
-Present Absent Don't Know
-t(12:21)
-inv(16)
-t(1;19)
-t(8;21)
-t(9;22)
-t(15;17)
-Other:
-Other:
-Other:
 
-Conventional Karyotyping Results [Numerical results &amp; Summary of findings]:
-________________________________________________________________________
-________________________________________________________________________
-________________________________________________________________________
-________________________________________________________________________
-________________________________________________________________________
 
-Hospital FISH Results [Numerical results &amp; Summary of findings]:
-________________________________________________________________________
-________________________________________________________________________
-________________________________________________________________________
-________________________________________________________________________
-________________________________________________________________________
-________________________________________________________________________
+<div>Number of chromosomes (if karyotype)?
+<input id='hyperdiploidy_number_of_chromosomes' name="abstract[hyperdiploidy_number_of_chromosomes]" type="text" /></div>
+
+<p>Please indicate the presence or absence of the following translocations. Leave no blanks.</p>
+
+<table><thead><tr>
+<th>Translocation</th><th>Present</th><th>Absent</th><th>Don't Know</th>
+</tr></thead><tbody>
+<tr><td>t(12:21)</td>
+<td><input name='abstract[translocation_t12_21]' type='radio' value='present' /></td>
+<td><input name='abstract[translocation_t12_21]' type='radio' value='absent' /></td>
+<td><input name='abstract[translocation_t12_21]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>inv(16)</td>
+<td><input name='abstract[translocation_inv16]' type='radio' value='present' /></td>
+<td><input name='abstract[translocation_inv16]' type='radio' value='absent' /></td>
+<td><input name='abstract[translocation_inv16]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>t(1;19)</td>
+<td><input name='abstract[translocation_t1_19]' type='radio' value='present' /></td>
+<td><input name='abstract[translocation_t1_19]' type='radio' value='absent' /></td>
+<td><input name='abstract[translocation_t1_19]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>t(8;21)</td>
+<td><input name='abstract[translocation_t8_21]' type='radio' value='present' /></td>
+<td><input name='abstract[translocation_t8_21]' type='radio' value='absent' /></td>
+<td><input name='abstract[translocation_t8_21]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>t(9;22)</td>
+<td><input name='abstract[translocation_t9_22]' type='radio' value='present' /></td>
+<td><input name='abstract[translocation_t9_22]' type='radio' value='absent' /></td>
+<td><input name='abstract[translocation_t9_22]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>t(15;17)</td>
+<td><input name='abstract[translocation_t15_17]' type='radio' value='present' /></td>
+<td><input name='abstract[translocation_t15_17]' type='radio' value='absent' /></td>
+<td><input name='abstract[translocation_t15_17]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>Other:</td>
+</tr>
+<tr><td>Other:</td>
+</tr>
+<tr><td>Other:</td>
+</tr>
+</tbody></table>
+
+<p>Please indicate the presence of absence of the following trisomies</p>
+
+<table><thead><tr>
+<th>Trisomy</th><th>Present</th><th>Absent</th><th>Don't Know</th>
+</tr></thead><tbody>
+<tr><td>Trisomy 4</td>
+<td><input name='abstract[trisomy_4]' type='radio' value='present' /></td>
+<td><input name='abstract[trisomy_4]' type='radio' value='absent' /></td>
+<td><input name='abstract[trisomy_4]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>Trisomy 5</td>
+<td><input name='abstract[trisomy_5]' type='radio' value='present' /></td>
+<td><input name='abstract[trisomy_5]' type='radio' value='absent' /></td>
+<td><input name='abstract[trisomy_5]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>Trisomy 10</td>
+<td><input name='abstract[trisomy_10]' type='radio' value='present' /></td>
+<td><input name='abstract[trisomy_10]' type='radio' value='absent' /></td>
+<td><input name='abstract[trisomy_10]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>Trisomy 17</td>
+<td><input name='abstract[trisomy_17]' type='radio' value='present' /></td>
+<td><input name='abstract[trisomy_17]' type='radio' value='absent' /></td>
+<td><input name='abstract[trisomy_17]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>Trisomy 21</td>
+<td><input name='abstract[trisomy_21]' type='radio' value='present' /></td>
+<td><input name='abstract[trisomy_21]' type='radio' value='absent' /></td>
+<td><input name='abstract[trisomy_21]' type='radio' value='donotknow' /></td>
+</tr>
+<tr><td>Other:</td>
+</tr>
+<tr><td>Other:</td>
+</tr>
+<tr><td>Other:</td>
+</tr>
+</tbody></table>
+
+
+<div>Conventional Karyotyping Results [Numerical results &amp; Summary of findings]:<br/>
+<textarea name="abstract[conventional_karyotyping_results]"> </textarea></div>
+
+<div>Hospital FISH Results [Numerical results &amp; Summary of findings]:<br/>
+<textarea name="abstract[hospital_fish_results]"> </textarea></div>
 
 
 <h5>E.  COMPLETE BLOOD COUNT (CBC)</h5>
@@ -251,11 +329,13 @@ ________________________________________________________________________
 <div><label for='cbc_date_of_test'>Date of Test:</label>
 <input class="datepicker" id="cbc_date_of_test" name="abstract[cbc_date_of_test]" type="text" /></div>
 
-Leukocyte Count (WBC) _______________ K/mm3
-Percentage Blasts (aka atypical or abnormal cells) __________ %
-OR Number of Blasts _________
-Hemoglobin (or Hgb) _______________ GM/DL
-Platelet Count (or Plt ct) ________________ K/mm3
+<div>Leukocyte Count (WBC) <input name='abstract[cbc_leukocyte_count]' type='text'/> K/mm3</div>
+<div>Percentage Blasts (aka atypical or abnormal cells) <input name='abstract[cbc_percentage_blasts]' type='text'/> %</div>
+<div>OR Number of Blasts <input name='abstract[cbc_number_of_blasts]' type='text'/></div>
+<div>Hemoglobin (or Hgb) <input name='abstract[cbc_hemoglobin]' type='text'/> GM/DL</div>
+<div>Platelet Count (or Plt ct) <input name='abstract[cbc_platelet_count]' type='text'/> K/mm3</div>
+
+
 
 <h5>F.  CEREBROSPINAL FLUID (or CSF)</h5>
 <div>
@@ -267,25 +347,19 @@ Platelet Count (or Plt ct) ________________ K/mm3
 <div><label for='csf_date_of_test'>Date of Test:</label>
 <input class="datepicker" id="csf_date_of_test" name="abstract[csf_date_of_test]" type="text" /></div>
 
-WBC [#] ____________
-RBC [#] ____________
-Blasts present (yes/no) ___________ Number of Blasts ___________
-PB contamination (yes/no) ____________
-Cytology (or CSF Pathology) ___________________________________________
-___________________________________________________________________
-___________________________________________________________________
+<div>WBC [#] <input type='text' name='abstract[csf_wbc]' /></div>
+<div>RBC [#] <input type='text' name='abstract[csf_rbc]' /></div>
+<div>Blasts present (yes/no) <input type='text' name='abstract[csf_blasts_present]' /> </div>
+<div>Number of Blasts <input type='text' name='abstract[csf_number_of_blasts]' /></div>
+<div>PB contamination (yes/no) <input type='text' name='abstract[csf_pb_contamination]' /></div>
+
+<div>Cytology (or CSF Pathology) <br/>
+<textarea name='abstract[csf_cytology]'></textarea></div>
+
+
+
 
 <h5>G.  CHEST IMAGING (Chest X-ray)</h5>
-Trisomy
-Present Absent Don't Know
-Trisomy 4
-Trisomy 5
-Trisomy 10
-Trisomy 17
-Trisomy 21
-Other:
-Other:
-Other:
 
 <div>
 <label for='cxr_found_yes'>Found</label>
@@ -297,10 +371,18 @@ Other:
 <input class="datepicker" id="cxr_date_of_test" name="abstract[cxr_date_of_test]" type="text" /></div>
 
 
-Check as appropriate: Normal Chest
-Mediastinal Mass Present
-If mediastinal mass present, describe: ____________________________________
-_____________________________________________________________________
+<div>Check as appropriate: 
+<label for='cxr_result_normal'>Normal Chest</label>
+<input type='radio' name='abstract[cxr_result]' id='cxr_result_normal' />
+<label for='cxr_result_mass'>Mediastinal Mass Present</label>
+<input type='radio' name='abstract[cxr_result]' id='cxr_result_mass' />
+</div>
+
+<div>If mediastinal mass present, describe: <br/>
+<textarea name='abstract[cxr_mediastinal_mass_description]'></textarea></div>
+
+
+
 
 
 <h5>H.  ADMITTING HISTORY AND PHYSICAL (H&amp;P) REPORT</h5>
@@ -314,19 +396,42 @@ _____________________________________________________________________
 <input class="datepicker" id="hpr_date_of_report" name="abstract[hpr_date_of_report]" type="text" /></div>
 
 
-1) ORGANOMEGALY
-Hepatomegaly? Yes No DK
-Splenomegaly? Yes No DK
+<div>1) ORGANOMEGALY</div>
+<div>Hepatomegaly?
+<label for='hepatomegaly_yes'>Yes</label>
+<input id='hepatomegaly_yes' name="abstract[hepatomegaly]" type="radio" value="yes" />
+<label for='hepatomegaly_no'>No</label>
+<input id='hepatomegaly_no'  name="abstract[hepatomegaly]" type="radio" value="no" />
+<label for='hepatomegaly_dk'>DK</label>
+<input id='hepatomegaly_dk'  name="abstract[hepatomegaly]" type="radio" value="dk" />
+</div>
+<div>Splenomegaly?
+<label for='splenomegaly_yes'>Yes</label>
+<input id='splenomegaly_yes' name="abstract[splenomegaly]" type="radio" value="yes" />
+<label for='splenomegaly_no'>No</label>
+<input id='splenomegaly_no'  name="abstract[splenomegaly]" type="radio" value="no" />
+<label for='splenomegaly_dk'>DK</label>
+<input id='splenomegaly_dk'  name="abstract[splenomegaly]" type="radio" value="dk" />
+</div>
 
 
+<div>2) DOWN SYNDROME PHENOTYPE (From Admitting H&amp;P Report)<br/>
+<label for='down_syndrome_phenotype_yes'>Yes</label>
+<input id='down_syndrome_phenotype_yes' name="abstract[down_syndrome_phenotype]" type="radio" value="yes" />
+<label for='down_syndrome_phenotype_no'>No</label>
+<input id='down_syndrome_phenotype_no'  name="abstract[down_syndrome_phenotype]" type="radio" value="no" />
+<label for='down_syndrome_phenotype_dk'>DK</label>
+<input id='down_syndrome_phenotype_dk'  name="abstract[down_syndrome_phenotype]" type="radio" value="dk" />
+</div>
 
-2) DOWN SYNDROME PHENOTYPE (From Admitting H&amp;P Report)
-Yes No DK
 
-
-3) PHYSICAL EXAM (from physical exam at diagnosis)
+<div>3) PHYSICAL EXAM (from physical exam at diagnosis)</div>
 Height at Diagnosis - in centimeters: ______ in inches: _________
 Weight at diagnosis - in kilograms:________ in pounds:_________ b
+
+
+
+
 
 <h5>I.  DISCHARGE SUMMARY</h5>
 <div>
@@ -338,9 +443,8 @@ Weight at diagnosis - in kilograms:________ in pounds:_________ b
 <div><label for='ds_date_of_report'>Date of Report:</label>
 <input class="datepicker" id="ds_date_of_report" name="abstract[ds_date_of_report]" type="text" /></div>
 
-
-CLINICAL DIAGNOSIS (from Discharge Summary Report)
-________________________________________________________________________
+<div>CLINICAL DIAGNOSIS (from Discharge Summary Report)<br/>
+<textarea name='abstract[clinical_diagnosis]'></textarea></div>
 
 
 <h5>J. CHEMOTHERAPY PROTOCOL</h5>
@@ -351,19 +455,31 @@ ________________________________________________________________________
 <input id='cp_found_no'  name="abstract[cp_found]" type="radio" value="no" />
 </div>
 
-Was patient enrolled on a standardized induction protocol, such as COG?
-Yes
-No
-DK
-Indicate protocol name and number ______________ (e.g. COG AALL0231)
+<div>Was patient enrolled on a standardized induction protocol, such as COG?
+<label for='induction_protocol_yes'>Yes</label>
+<input id='induction_protocol_yes' name="abstract[induction_protocol]" type="radio" value="yes" />
+<label for='induction_protocol_no'>No</label>
+<input id='induction_protocol_no'  name="abstract[induction_protocol]" type="radio" value="no" />
+<label for='induction_protocol_dk'>DK</label>
+<input id='induction_protocol_dk'  name="abstract[induction_protocol]" type="radio" value="dk" />
+</div>
+
+<div>Indicate protocol name and number <input type='text' name='induction_protocol_name_and_number' /> (e.g. COG AALL0231)</div>
 
 
 
 
 <h4>III. RESPONSE TO THERAPY [Please Indicate Leukemia Sub-type Below]</h4>
-ALL
-AML
-Other: _______________________
+
+<div>Leukemia Sub-type:
+<input id='leukemia_subtype_all' name="abstract[leukemia_subtype]" type="radio" value="all" />
+<label for='leukemia_subtype_all'>ALL</label>
+<input id='leukemia_subtype_aml'  name="abstract[leukemia_subtype]" type="radio" value="aml" />
+<label for='leukemia_subtype_aml'>AML</label>
+<input id='leukemia_subtype_other'  name="abstract[leukemia_subtype]" type="radio" value="other" />
+<label for='leukemia_subtype_other'>Other</label>
+<input id='other_leukemia_subtype'  name="abstract[other_leukemia_subtype]" type="text" />
+</div>
 
 
 <h5>K. DAY 7 (8) Bone Marrow Aspirate</h5>
