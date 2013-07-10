@@ -32,7 +32,7 @@ jQuery(function(){
 <form action="/study_subjects/1/abstracts" method="post">
 
 <h4>II. DIAGNOSTIC STUDIES</h4>
-<h5>A.  BONE MARROW BIOPSY</h5>
+<h5>BONE MARROW BIOPSY</h5>
 <div>
 <label for='bmb_found_yes'>Found</label>
 <input id='bmb_found_yes' name="abstract[bmb_found]" type="radio" value="yes" />
@@ -45,7 +45,6 @@ jQuery(function(){
 <div><label for='bmb_percentage_blasts'>Percentage (%) blasts:</label>
 <input id="bmb_percentage_blasts" name="abstract[bmb_percentage_blasts]" type="text" />
 
-<!-- hidden "Yes" tag first -->
 <input id='bmb_percentage_blasts_known_yes'  name="abstract[bmb_percentage_blasts_known]" type="hidden" value="yes" />
 <input id='bmb_percentage_blasts_known_no'  name="abstract[bmb_percentage_blasts_known]" type="checkbox" value="no" />
 <label for='bmb_percentage_blasts_known_no'>Don't Know</label>
@@ -56,7 +55,7 @@ jQuery(function(){
 
 
 
-<h5>B.  BONE MARROW ASPIRATE</h5>
+<h5>BONE MARROW ASPIRATE</h5>
 <div>
 <input id='bma_found_yes' name="abstract[bma_found]" type="radio" value="yes" />
 <label for='bma_found_yes'>Found</label>
@@ -81,7 +80,7 @@ jQuery(function(){
 
 
 
-<h5>C. DIAGNOSTIC FLOW CYTOMETRY (or IMMUNOPHENOTYPING)</h5>
+<h5>DIAGNOSTIC FLOW CYTOMETRY (or IMMUNOPHENOTYPING)</h5>
 <div>
 <label for='dfc_found_yes'>Found</label>
 <input id='dfc_found_yes' name="abstract[dfc_found]" type="radio" value="yes" />
@@ -182,7 +181,92 @@ jQuery(function(){
 <div>Remarks or comments:<textarea name="abstract[marker_comments]"> </textarea></div>
 
 
-<h5>D.  CYTOGENETIC STUDIES</h5>
+
+
+
+
+
+<h5>Tdt (or Terminal Deoxynucleotydyl Transferase)</h5>
+<div>
+<label for='tdt_found_yes'>Found</label>
+<input id='tdt_found_yes' name="abstract[tdt_found]" type="radio" value="yes" />
+<label for='tdt_found_no'>Not Found</label>
+<input id='tdt_found_no'  name="abstract[tdt_found]" type="radio" value="no" />
+</div>
+<div><label for='tdt_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="tdt_date_of_test" name="abstract[tdt_date_of_test]" type="text" /></div>
+
+
+<div><label for='tdt_found_in_cytometry'>Check if found in Flow Cytometry (part C. I.):</label>
+<input name="abstract[tdt_found_in_cytometry]" type="hidden" value='no' />
+<input id="tdt_found_in_cytometry" name="abstract[tdt_found_in_cytometry]" type="checkbox" value='yes' />
+</div>
+
+
+<div><label for='tdt_found_separately'>Check if done separately from Flow Cytometry:</label>
+<input name="abstract[tdt_found_separately]" type="hidden" value='no' />
+<input id="tdt_found_separately" name="abstract[tdt_found_separately]" type="checkbox" value='yes' /> and report results below:
+</div>
+
+
+<h1>Are these counts? Checkboxes?</h1>
+
+<div>
+<label for='tdt_positive'>Positive:</label>
+<input id="tdt_positive" name="abstract[tdt_positive]" type="text" />
+<label for='tdt_negative'>Negative:</label>
+<input id="tdt_negative" name="abstract[tdt_negative]" type="text" />
+<label for='tdt_numerical_result'>Numerical Result:</label>
+<input id="tdt_numerical_result" name="abstract[tdt_numerical_result]" type="text" />
+</div>
+
+
+
+
+
+
+
+
+
+<h5>PLOIDY (or DNA CONTENT)</h5>
+<div>
+<label for='ploidy_found_yes'>Found</label>
+<input id='ploidy_found_yes' name="abstract[ploidy_found]" type="radio" value="yes" />
+<label for='ploidy_found_no'>Not Found</label>
+<input id='ploidy_found_no'  name="abstract[ploidy_found]" type="radio" value="no" />
+</div>
+<div><label for='ploidy_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="ploidy_date_of_test" name="abstract[ploidy_date_of_test]" type="text" /></div>
+
+
+
+
+
+
+
+
+
+<h5>HISTOCOMPATIBILITY STUDIES (or HLA-TYPING)</h5>
+<div>
+<label for='hla_found_yes'>Found</label>
+<input id='hla_found_yes' name="abstract[hla_found]" type="radio" value="yes" />
+<label for='hla_found_no'>Not Found</label>
+<input id='hla_found_no'  name="abstract[hla_found]" type="radio" value="no" />
+</div>
+<div><label for='hla_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="hla_date_of_test" name="abstract[hla_date_of_test]" type="text" /></div>
+<div>Results:<textarea name="abstract[hla_results]"> </textarea></div>
+
+
+
+
+
+
+
+
+
+
+<h5>CYTOGENETIC STUDIES</h5>
 <div>
 <label for='cs_found_yes'>Found</label>
 <input id='cs_found_yes' name="abstract[cs_found]" type="radio" value="yes" />
@@ -273,6 +357,18 @@ jQuery(function(){
 </tr>
 </tbody></table>
 
+
+
+
+
+
+<h1>NOTE:  How to do these "Other" fields?</h1>
+
+
+
+
+
+
 <p>Please indicate the presence of absence of the following trisomies</p>
 
 <table><thead><tr>
@@ -319,7 +415,7 @@ jQuery(function(){
 <textarea name="abstract[hospital_fish_results]"> </textarea></div>
 
 
-<h5>E.  COMPLETE BLOOD COUNT (CBC)</h5>
+<h5>COMPLETE BLOOD COUNT (CBC)</h5>
 <div>
 <label for='cbc_found_yes'>Found</label>
 <input id='cbc_found_yes' name="abstract[cbc_found]" type="radio" value="yes" />
@@ -337,7 +433,7 @@ jQuery(function(){
 
 
 
-<h5>F.  CEREBROSPINAL FLUID (or CSF)</h5>
+<h5>CEREBROSPINAL FLUID (or CSF)</h5>
 <div>
 <label for='csf_found_yes'>Found</label>
 <input id='csf_found_yes' name="abstract[csf_found]" type="radio" value="yes" />
@@ -359,7 +455,7 @@ jQuery(function(){
 
 
 
-<h5>G.  CHEST IMAGING (Chest X-ray)</h5>
+<h5>CHEST IMAGING (Chest X-ray)</h5>
 
 <div>
 <label for='cxr_found_yes'>Found</label>
@@ -385,7 +481,7 @@ jQuery(function(){
 
 
 
-<h5>H.  ADMITTING HISTORY AND PHYSICAL (H&amp;P) REPORT</h5>
+<h5>ADMITTING HISTORY AND PHYSICAL (H&amp;P) REPORT</h5>
 <div>
 <label for='hpr_found_yes'>Found</label>
 <input id='hpr_found_yes' name="abstract[hpr_found]" type="radio" value="yes" />
@@ -425,15 +521,15 @@ jQuery(function(){
 </div>
 
 
-<div>3) PHYSICAL EXAM (from physical exam at diagnosis)</div>
-Height at Diagnosis - in centimeters: ______ in inches: _________
-Weight at diagnosis - in kilograms:________ in pounds:_________ b
+<div>3) PHYSICAL EXAM (from physical exam at diagnosis) (HAVE BOTH? OR COMPUTE ONE FROM OTHER? WHAT'S THE 'b' FOR?)</div>
+<div>Height at Diagnosis - in centimeters: <input type='text' name='abstract[height_in_cm]' /> in inches: <input type='text' name='abstract[height_in_in]' /></div>
+<div>Weight at diagnosis - in kilograms:<input type='text' name='abstract[weight_in_kg]' /> in pounds:<input type='text' name='abstract[weight_in_lb]' /> b</div>
 
 
 
 
 
-<h5>I.  DISCHARGE SUMMARY</h5>
+<h5>DISCHARGE SUMMARY</h5>
 <div>
 <label for='ds_found_yes'>Found</label>
 <input id='ds_found_yes' name="abstract[ds_found]" type="radio" value="yes" />
@@ -447,7 +543,7 @@ Weight at diagnosis - in kilograms:________ in pounds:_________ b
 <textarea name='abstract[clinical_diagnosis]'></textarea></div>
 
 
-<h5>J. CHEMOTHERAPY PROTOCOL</h5>
+<h5>CHEMOTHERAPY PROTOCOL</h5>
 <div>
 <label for='cp_found_yes'>Found</label>
 <input id='cp_found_yes' name="abstract[cp_found]" type="radio" value="yes" />
@@ -464,7 +560,10 @@ Weight at diagnosis - in kilograms:________ in pounds:_________ b
 <input id='induction_protocol_dk'  name="abstract[induction_protocol]" type="radio" value="dk" />
 </div>
 
-<div>Indicate protocol name and number <input type='text' name='induction_protocol_name_and_number' /> (e.g. COG AALL0231)</div>
+<div>If yes, indicate protocol name and number used <input type='text' name='induction_protocol_name_and_number' /> (e.g. COG AALL0231)</div>
+
+<div>If no, specify any therapeutic agents (especially the first 3-4 induction agents) and if the patient was "treated per _____":<br/>
+<textarea name="abstract[therapeutic_agents]"></textarea></div>
 
 
 
@@ -482,20 +581,30 @@ Weight at diagnosis - in kilograms:________ in pounds:_________ b
 </div>
 
 
-<h5>K. DAY 7 (8) Bone Marrow Aspirate</h5>
+<h5>DAY 7 (8) Bone Marrow Aspirate</h5>
 <div>
 <label for='bma07_found_yes'>Found</label>
 <input id='bma07_found_yes' name="abstract[bma07_found]" type="radio" value="yes" />
 <label for='bma07_found_no'>Not Found</label>
 <input id='bma07_found_no'  name="abstract[bma07_found]" type="radio" value="no" />
 </div>
-<div><label for='bma07_date_of_report'>Date of Report:</label>
-<input class="datepicker" id="bma07_date_of_report" name="abstract[bma07_date_of_report]" type="text" /></div>
+<div><label for='bma07_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="bma07_date_of_test" name="abstract[bma07_date_of_test]" type="text" /></div>
 
-Classification _______ (M1 = &lt;5% Blasts, M2 = 5-25% Blasts, M3 = &gt;25% Blasts)
-Percentage of blasts (if reported) _________
-Inconclusive Results
-(check if inconclusive results are indicated on report)
+<div>Classification 
+<select name='abstract[bma07_classification]'>
+<option value=""></option>
+<option value="M1">&lt;5% Blasts</option>
+<option value="M2">5-25% Blasts</option>
+<option value="M3">&gt;25% Blasts</option></select>
+</div>
+
+<div>Percentage of blasts (if reported) <input type='text' name='abstract[bma07_percentage_of_blasts]' /></div>
+<div>Inconclusive Results
+<input type='hidden' name='abstract[bma07_inconclusive_results'] value='no' />
+<input type='checkbox' name='abstract[bma07_inconclusive_results'] id='bma07_inconclusive_results' value='yes' />
+<label for='bma07_inconclusive_results'>(check if inconclusive results are indicated on report)</label>
+</div>
 
 
 <h5>DAY 14 (15) Bone Marrow Aspirate</h5>
@@ -505,15 +614,23 @@ Inconclusive Results
 <label for='bma14_found_no'>Not Found</label>
 <input id='bma14_found_no'  name="abstract[bma14_found]" type="radio" value="no" />
 </div>
-<div><label for='bma14_date_of_report'>Date of Report:</label>
-<input class="datepicker" id="bma14_date_of_report" name="abstract[bma14_date_of_report]" type="text" /></div>
+<div><label for='bma14_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="bma14_date_of_test" name="abstract[bma14_date_of_test]" type="text" /></div>
+<div>Classification 
+<select name='abstract[bma14_classification]'>
+<option value=""></option>
+<option value="M1">&lt;5% Blasts</option>
+<option value="M2">5-25% Blasts</option>
+<option value="M3">&gt;25% Blasts</option></select>
+</div>
 
+<div>Percentage of blasts (if reported) <input type='text' name='abstract[bma14_percentage_of_blasts]' /></div>
 
-Date of Test _______________
-Classification ______ (M1 = &lt;5% Blasts, M2 = 5-25% Blasts, M3 = &gt;25% Blasts)
-Percentage of blasts (if reported) _________
-Inconclusive Results
-(check if inconclusive results are indicated on report)
+<div>Inconclusive Results
+<input type='hidden' name='abstract[bma14_inconclusive_results'] value='no' />
+<input type='checkbox' name='abstract[bma14_inconclusive_results'] id='bma14_inconclusive_results' value='yes' />
+<label for='bma14_inconclusive_results'>(check if inconclusive results are indicated on report)</label>
+</div>
 
 <h5>DAY 28 (29) Bone Marrow Aspirate</h5>
 <div>
@@ -522,19 +639,37 @@ Inconclusive Results
 <label for='bma28_found_no'>Not Found</label>
 <input id='bma28_found_no'  name="abstract[bma28_found]" type="radio" value="no" />
 </div>
-<div><label for='bma28_date_of_report'>Date of Report:</label>
-<input class="datepicker" id="bma28_date_of_report" name="abstract[bma28_date_of_report]" type="text" /></div>
+<div><label for='bma28_date_of_test'>Date of Test:</label>
+<input class="datepicker" id="bma28_date_of_test" name="abstract[bma28_date_of_test]" type="text" /></div>
+<div>Classification 
+<select name='abstract[bma28_classification]'>
+<option value=""></option>
+<option value="M1">&lt;5% Blasts</option>
+<option value="M2">5-25% Blasts</option>
+<option value="M3">&gt;25% Blasts</option></select>
+</div>
 
 
 
-Classification ______ (M1 = &lt;5% Blasts, M2 = 5-25% Blasts, M3 = &gt;25% Blasts)
-Percentage of blasts (if reported) _________
-Inconclusive Results
-(check if inconclusive results are indicated on report)
-At the end of induction (30 days), was the child in clinical remission?
-Yes
-No
-DK
+<div>Percentage of blasts (if reported) <input type='text' name='abstract[bma28_percentage_of_blasts]' /></div>
+
+<div>Inconclusive Results
+<input type='hidden' name='abstract[bma28_inconclusive_results'] value='no' />
+<input type='checkbox' name='abstract[bma28_inconclusive_results'] id='bma28_inconclusive_results' value='yes' />
+<label for='bma28_inconclusive_results'>(check if inconclusive results are indicated on report)</label>
+</div>
+
+
+
+
+<div>At the end of induction (30 days), was the child in clinical remission?<br/>
+<label for='clinical_remission_yes'>Yes</label>
+<input id='clinical_remission_yes' name="abstract[clinical_remission]" type="radio" value="yes" />
+<label for='clinical_remission_no'>No</label>
+<input id='clinical_remission_no'  name="abstract[clinical_remission]" type="radio" value="no" />
+<label for='clinical_remission_dk'>DK</label>
+<input id='clinical_remission_dk'  name="abstract[clinical_remission]" type="radio" value="dk" />
+</div>
 
 
 
