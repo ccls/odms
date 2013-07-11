@@ -1,5 +1,27 @@
 module FormBuilderHelper
 
+	#	almost "wrapped"
+	def radio_button_with_label(method,value)
+		s = ""
+#		s = "<div>"
+		s << @template.radio_button(object_name,method,value)
+		s << @template.label(object_name,method,value,:value => value)
+#		s << "</div>"
+		s.html_safe
+	end
+
+	def found_not_found(method)
+		s = "<div>"
+		s << @template.label( object_name, method, "Found", {:value => 'yes' })
+		s << @template.radio_button( object_name, method, 'yes')
+		s << '&nbsp;'
+		s << '&nbsp;'
+		s << @template.label( object_name, method, "Not Found", {:value => 'no' })
+		s << @template.radio_button( object_name, method, 'no')
+		s << "</div>"
+		s.html_safe
+	end
+
 	def yndk_select(method,options={},html_options={})
 		@template.select(object_name, method, YNDK.selector_options,
 			{:include_blank => true}.merge(objectify_options(options)), html_options)

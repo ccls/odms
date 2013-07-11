@@ -1,23 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<title>head tag NEEDS a title tag to be complete</title>
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-jQuery(function(){
-	if( typeof jQuery('.datepicker').datepicker == 'function' ){
-		jQuery('.datepicker').datepicker();
-	}
-});
-</script>
-
-
 <style type="text/css">
 ol li { 
 	font-size: large; 
@@ -30,13 +10,11 @@ input[type=text] {
 }
 h1 { color: red; background-color: yellow; }
 </style>
-</head>
-
-<body>
 
 <h2>CALIFORNIA CHILDHOOD LEUKEMIA STUDY MEDICAL ABSTRACT FORM</h2>
 
-<form action="/study_subjects/1/abstracts" method="post">
+<%= form_for(FakeAbstract.new, :url => fake_abstracts_path) do |f| %>
+
 <ol type='I'>
 <li><div><h3>PARTICIPANT INFORMATION</h3>
 	<h1>(this will be read only as is from other models)</h1>
@@ -60,22 +38,19 @@ h1 { color: red; background-color: yellow; }
 <li><div><h3>DIAGNOSTIC STUDIES</h3>
 	<ol type='A'>
 	<li><div><h4>BONE MARROW BIOPSY</h4>
+		<%= f.found_not_found :bmb_found %>
 		<div>
-		<label for='bmb_found_yes'>Found</label>
-		<input id='bmb_found_yes' name="abstract[bmb_found]" type="radio" value="yes" />
-		<label for='bmb_found_no'>Not Found</label>
-		<input id='bmb_found_no'  name="abstract[bmb_found]" type="radio" value="no" />
+		<%= f.label :bmb_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :bmb_date_of_test %>
 		</div>
-		<div><label for='bmb_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="bmb_date_of_test" name="abstract[bmb_date_of_test]" type="text" /></div>
 		
-		<div><label for='bmb_percentage_blasts'>Percentage (%) blasts:</label>
-		<input id="bmb_percentage_blasts" name="abstract[bmb_percentage_blasts]" type="text" />
-		
-		<input id='bmb_percentage_blasts_known_yes'  name="abstract[bmb_percentage_blasts_known]" type="hidden" value="yes" />
-		<input id='bmb_percentage_blasts_known_no'  name="abstract[bmb_percentage_blasts_known]" type="checkbox" value="no" />
-		<label for='bmb_percentage_blasts_known_no'>Don't Know</label>
+		<div>
+		<%= f.label :bmb_percentage_blasts, "Percentage (%) blasts:" %>
+		<%= f.text_field :bmb_percentage_blasts %>
+		<%= f.check_box :bmb_percentage_blasts_unknown, {}, 'yes', 'no' %>
+		<%= f.label :bmb_percentage_blasts_unknown, "Don't Know" %>
 		</div>
+		
 		<div>Diagnosis or Interpretation:<br/>
 		<textarea name="abstract[bmb_comments]" rows='3' cols='50'> </textarea>
 		</div>
@@ -84,14 +59,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 	
 	<li><div><h4>BONE MARROW ASPIRATE</h4>
+		<%= f.found_not_found :bma_found %>
 		<div>
-		<input id='bma_found_yes' name="abstract[bma_found]" type="radio" value="yes" />
-		<label for='bma_found_yes'>Found</label>
-		<input id='bma_found_no'  name="abstract[bma_found]" type="radio" value="no" />
-		<label for='bma_found_no'>Not Found</label>
+		<%= f.label :bma_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :bma_date_of_test %>
 		</div>
-		<div><label for='bma_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="bma_date_of_test" name="abstract[bma_date_of_test]" type="text" /></div>
 		
 		<div><label for='bma_percentage_blasts'>Percentage (%) blasts:</label>
 		<input id="bma_percentage_blasts" name="abstract[bma_percentage_blasts]" type="text" />
@@ -108,14 +80,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>DIAGNOSTIC FLOW CYTOMETRY (or IMMUNOPHENOTYPING)</h4>
+		<%= f.found_not_found :dfc_found %>
 		<div>
-		<label for='dfc_found_yes'>Found</label>
-		<input id='dfc_found_yes' name="abstract[dfc_found]" type="radio" value="yes" />
-		<label for='dfc_found_no'>Not Found</label>
-		<input id='dfc_found_no'  name="abstract[dfc_found]" type="radio" value="no" />
+		<%= f.label :dfc_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :dfc_date_of_test %>
 		</div>
-		<div><label for='dfc_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="dfc_date_of_test" name="abstract[dfc_date_of_test]" type="text" /></div>
 		
 		<div>Check the appropriate box below:</div>
 		<div>
@@ -214,15 +183,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>Tdt (or Terminal Deoxynucleotydyl Transferase)</h4>
+		<%= f.found_not_found :tdt_found %>
 		<div>
-		<label for='tdt_found_yes'>Found</label>
-		<input id='tdt_found_yes' name="abstract[tdt_found]" type="radio" value="yes" />
-		<label for='tdt_found_no'>Not Found</label>
-		<input id='tdt_found_no'  name="abstract[tdt_found]" type="radio" value="no" />
+		<%= f.label :tdt_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :tdt_date_of_test %>
 		</div>
-		<div><label for='tdt_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="tdt_date_of_test" name="abstract[tdt_date_of_test]" type="text" /></div>
-	
 	
 		<div><label for='tdt_found_in_cytometry'>Check if found in Flow Cytometry (part C. I.):</label>
 		<input name="abstract[tdt_found_in_cytometry]" type="hidden" value='no' />
@@ -252,27 +217,21 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>PLOIDY (or DNA CONTENT)</h4>
+		<%= f.found_not_found :ploidy_found %>
 		<div>
-		<label for='ploidy_found_yes'>Found</label>
-		<input id='ploidy_found_yes' name="abstract[ploidy_found]" type="radio" value="yes" />
-		<label for='ploidy_found_no'>Not Found</label>
-		<input id='ploidy_found_no'  name="abstract[ploidy_found]" type="radio" value="no" />
+		<%= f.label :ploidy_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :ploidy_date_of_test %>
 		</div>
-		<div><label for='ploidy_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="ploidy_date_of_test" name="abstract[ploidy_date_of_test]" type="text" /></div>
 	</div></li>
 
 	<!-- ################################################################# -->
 
 	<li><div><h4>HISTOCOMPATIBILITY STUDIES (or HLA-TYPING)</h4>
+		<%= f.found_not_found :hla_found %>
 		<div>
-		<label for='hla_found_yes'>Found</label>
-		<input id='hla_found_yes' name="abstract[hla_found]" type="radio" value="yes" />
-		<label for='hla_found_no'>Not Found</label>
-		<input id='hla_found_no'  name="abstract[hla_found]" type="radio" value="no" />
+		<%= f.label :hla_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :hla_date_of_test %>
 		</div>
-		<div><label for='hla_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="hla_date_of_test" name="abstract[hla_date_of_test]" type="text" /></div>
 		<div>Results:<br/>
 		<textarea name="abstract[hla_results]" rows='3' cols='50'> </textarea></div>
 	</div></li>
@@ -280,14 +239,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>CYTOGENETIC STUDIES</h4>
+		<%= f.found_not_found :cs_found %>
 		<div>
-		<label for='cs_found_yes'>Found</label>
-		<input id='cs_found_yes' name="abstract[cs_found]" type="radio" value="yes" />
-		<label for='cs_found_no'>Not Found</label>
-		<input id='cs_found_no'  name="abstract[cs_found]" type="radio" value="no" />
+		<%= f.label :cs_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :cs_date_of_test %>
 		</div>
-		<div><label for='cs_date_of_test'>Date of Report:</label>
-		<input class="datepicker" id="cs_date_of_test" name="abstract[cs_date_of_test]" type="text" /></div>
 	
 		<div>Conventional karyotype done?
 		<label for='conventional_karyotype_done_yes'>Yes</label>
@@ -429,14 +385,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>COMPLETE BLOOD COUNT (CBC)</h4>
+		<%= f.found_not_found :cbc_found %>
 		<div>
-		<label for='cbc_found_yes'>Found</label>
-		<input id='cbc_found_yes' name="abstract[cbc_found]" type="radio" value="yes" />
-		<label for='cbc_found_no'>Not Found</label>
-		<input id='cbc_found_no'  name="abstract[cbc_found]" type="radio" value="no" />
+		<%= f.label :cbc_date_of_test, 'Date of Test:' %>
+		<%= f.text_field :cbc_date_of_test %>
 		</div>
-		<div><label for='cbc_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="cbc_date_of_test" name="abstract[cbc_date_of_test]" type="text" /></div>
 	
 		<div>Leukocyte Count (WBC) <input name='abstract[cbc_leukocyte_count]' type='text'/> K/mm3</div>
 		<div>Percentage Blasts (aka atypical or abnormal cells) <input name='abstract[cbc_percentage_blasts]' type='text'/> %</div>
@@ -449,14 +402,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>CEREBROSPINAL FLUID (or CSF)</h4>
+		<%= f.found_not_found :csf_found %>
 		<div>
-		<label for='csf_found_yes'>Found</label>
-		<input id='csf_found_yes' name="abstract[csf_found]" type="radio" value="yes" />
-		<label for='csf_found_no'>Not Found</label>
-		<input id='csf_found_no'  name="abstract[csf_found]" type="radio" value="no" />
+		<%= f.label :csf_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :csf_date_of_test %>
 		</div>
-		<div><label for='csf_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="csf_date_of_test" name="abstract[csf_date_of_test]" type="text" /></div>
 	
 		<div>WBC [#] <input type='text' name='abstract[csf_wbc]' /></div>
 		<div>RBC [#] <input type='text' name='abstract[csf_rbc]' /></div>
@@ -471,15 +421,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>CHEST IMAGING (Chest X-ray)</h4>
+		<%= f.found_not_found :cxr_found %>
 		<div>
-		<label for='cxr_found_yes'>Found</label>
-		<input id='cxr_found_yes' name="abstract[cxr_found]" type="radio" value="yes" />
-		<label for='cxr_found_no'>Not Found</label>
-		<input id='cxr_found_no'  name="abstract[cxr_found]" type="radio" value="no" />
+		<%= f.label :cxr_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :cxr_date_of_test %>
 		</div>
-		<div><label for='cxr_date_of_test'>Date of Test:</label>
-		<input class="datepicker" id="cxr_date_of_test" name="abstract[cxr_date_of_test]" type="text" /></div>
-	
 	
 		<div>Check as appropriate: 
 		<label for='cxr_result_normal'>Normal Chest</label>
@@ -495,15 +441,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>ADMITTING HISTORY AND PHYSICAL (H&amp;P) REPORT</h4>
+		<%= f.found_not_found :hpr_found %>
 		<div>
-		<label for='hpr_found_yes'>Found</label>
-		<input id='hpr_found_yes' name="abstract[hpr_found]" type="radio" value="yes" />
-		<label for='hpr_found_no'>Not Found</label>
-		<input id='hpr_found_no'  name="abstract[hpr_found]" type="radio" value="no" />
+		<%= f.label :hpr_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :hpr_date_of_test %>
 		</div>
-		<div><label for='hpr_date_of_report'>Date of Report:</label>
-		<input class="datepicker" id="hpr_date_of_report" name="abstract[hpr_date_of_report]" type="text" /></div>
-	
 	
 		<div>1) ORGANOMEGALY</div>
 		<div>Hepatomegaly?
@@ -542,14 +484,11 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>DISCHARGE SUMMARY</h4>
+		<%= f.found_not_found :ds_found %>
 		<div>
-		<label for='ds_found_yes'>Found</label>
-		<input id='ds_found_yes' name="abstract[ds_found]" type="radio" value="yes" />
-		<label for='ds_found_no'>Not Found</label>
-		<input id='ds_found_no'  name="abstract[ds_found]" type="radio" value="no" />
+		<%= f.label :ds_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :ds_date_of_test %>
 		</div>
-		<div><label for='ds_date_of_report'>Date of Report:</label>
-		<input class="datepicker" id="ds_date_of_report" name="abstract[ds_date_of_report]" type="text" /></div>
 	
 		<div>CLINICAL DIAGNOSIS (from Discharge Summary Report)<br/>
 		<textarea name='abstract[clinical_diagnosis]' rows='3' cols='50'></textarea></div>
@@ -558,13 +497,7 @@ h1 { color: red; background-color: yellow; }
 	<!-- ################################################################# -->
 
 	<li><div><h4>CHEMOTHERAPY PROTOCOL</h4>
-		<div>
-		<label for='cp_found_yes'>Found</label>
-		<input id='cp_found_yes' name="abstract[cp_found]" type="radio" value="yes" />
-		<label for='cp_found_no'>Not Found</label>
-		<input id='cp_found_no'  name="abstract[cp_found]" type="radio" value="no" />
-		</div>
-	
+		<%= f.found_not_found :cp_found %>
 		<div>Was patient enrolled on a standardized induction protocol, such as COG?
 		<label for='induction_protocol_yes'>Yes</label>
 		<input id='induction_protocol_yes' name="abstract[induction_protocol]" type="radio" value="yes" />
@@ -583,28 +516,15 @@ h1 { color: red; background-color: yellow; }
 </div></li>
 
 
-<li><div><h3>RESPONSE TO THERAPY [Please Indicate Leukemia Sub-type Below]</h3>
-
-<div>Leukemia Sub-type:
-<input id='leukemia_subtype_all' name="abstract[leukemia_subtype]" type="radio" value="all" />
-<label for='leukemia_subtype_all'>ALL</label>
-<input id='leukemia_subtype_aml'  name="abstract[leukemia_subtype]" type="radio" value="aml" />
-<label for='leukemia_subtype_aml'>AML</label>
-<input id='leukemia_subtype_other'  name="abstract[leukemia_subtype]" type="radio" value="other" />
-<label for='leukemia_subtype_other'>Other</label>
-<input id='other_leukemia_subtype'  name="abstract[other_leukemia_subtype]" type="text" />
-</div>
+<li><div><h3>RESPONSE TO THERAPY</h3>
 
 
 <h4>DAY 7 (8) Bone Marrow Aspirate</h4>
+<%= f.found_not_found :bma07_found %>
 <div>
-<label for='bma07_found_yes'>Found</label>
-<input id='bma07_found_yes' name="abstract[bma07_found]" type="radio" value="yes" />
-<label for='bma07_found_no'>Not Found</label>
-<input id='bma07_found_no'  name="abstract[bma07_found]" type="radio" value="no" />
+<%= f.label :bma07_date_of_test, 'Date of Test:' %>
+<%= f.date_text_field :bma07_date_of_test %>
 </div>
-<div><label for='bma07_date_of_test'>Date of Test:</label>
-<input class="datepicker" id="bma07_date_of_test" name="abstract[bma07_date_of_test]" type="text" /></div>
 
 <div>Classification 
 <select name='abstract[bma07_classification]'>
@@ -623,14 +543,12 @@ h1 { color: red; background-color: yellow; }
 
 
 <h4>DAY 14 (15) Bone Marrow Aspirate</h4>
+<%= f.found_not_found :bma14_found %>
 <div>
-<label for='bma14_found_yes'>Found</label>
-<input id='bma14_found_yes' name="abstract[bma14_found]" type="radio" value="yes" />
-<label for='bma14_found_no'>Not Found</label>
-<input id='bma14_found_no'  name="abstract[bma14_found]" type="radio" value="no" />
+<%= f.label :bma14_date_of_test, 'Date of Test:' %>
+<%= f.date_text_field :bma14_date_of_test %>
 </div>
-<div><label for='bma14_date_of_test'>Date of Test:</label>
-<input class="datepicker" id="bma14_date_of_test" name="abstract[bma14_date_of_test]" type="text" /></div>
+
 <div>Classification 
 <select name='abstract[bma14_classification]'>
 <option value=""></option>
@@ -648,14 +566,12 @@ h1 { color: red; background-color: yellow; }
 </div>
 
 <h4>DAY 28 (29) Bone Marrow Aspirate</h4>
+<%= f.found_not_found :bma28_found %>
 <div>
-<label for='bma28_found_yes'>Found</label>
-<input id='bma28_found_yes' name="abstract[bma28_found]" type="radio" value="yes" />
-<label for='bma28_found_no'>Not Found</label>
-<input id='bma28_found_no'  name="abstract[bma28_found]" type="radio" value="no" />
+<%= f.label :bma28_date_of_test, 'Date of Test:' %>
+<%= f.date_text_field :bma28_date_of_test %>
 </div>
-<div><label for='bma28_date_of_test'>Date of Test:</label>
-<input class="datepicker" id="bma28_date_of_test" name="abstract[bma28_date_of_test]" type="text" /></div>
+
 <div>Classification 
 <select name='abstract[bma28_classification]'>
 <option value=""></option>
@@ -690,29 +606,38 @@ h1 { color: red; background-color: yellow; }
 
 </div></li>
 <li><div><h3>DIAGNOSIS &amp; CLASSIFICATION</h3>
-(COMPLETED BY STUDY ONCOLOGIST ONLY)
-1.
-FAB CLASSIFICATION (GENERAL CLASS OF LEUKEMIA)
-ALL _______________
-CML _______________
-CLL _______________
-AML (ANLL) _______________
-M0 _______________
-M1 _______________
-M2 _______________
-M3 _______________
-M4 _______________
-M4E ______________
-M5 _______________
-M5A ______________
-M5B ______________
-M6 ________________
-M7 ________________
-Not specified (Other): ________________
-2.
-ALL LINEAGE: (check the appropriate box if lineage is indicated)
-B-Cell Lineage
-T-Cell Lineage
+
+<div>Class of Leukemia:
+
+<ul>
+<li>ALL<ul style='list-style:none'>
+<li><%= f.radio_button_with_label :leukemia_class, 'ALL L1' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'ALL L2' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'ALL L3' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'ALL Other' %><%= f.text_field :other_all_leukemia_class %></li>
+</ul></li>
+
+<li>AML<ul style='list-style:none'>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M0' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M1' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M2' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M3' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M4' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M4E' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M5' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M5A' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M5B' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M6' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M7' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML Other' %><%= f.text_field :other_aml_leukemia_class %></li>
+</ul></li>
+
+<li><%= f.radio_button_with_label :leukemia_class, 'CML' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'CLL' %></li>
+</ul>
+</div>
+
+
 3.
 ICDO 2000 CLASSIFICATION NUMBER _____________________
 4.
@@ -720,21 +645,16 @@ ICDO 2000 CLASSIFICATION DESCRIPTION
 ________________________________________________________________________
 
 
+<div>LINEAGE: (check the appropriate box if lineage is indicated)</div>
+<div><ul>
+	<li><%= f.radio_button_with_label :leukemia_lineage, 'B-Cell Lineage' %></li>
+	<li><%= f.radio_button_with_label :leukemia_lineage, 'T-Cell Lineage' %></li>
+</ul></div>
 
-</div></li>
-<li><div><h3>CHECKLIST OF ATTACHMENTS (Check off each report obtained)</h3>
-A. Copy of BONE MARROW BIOPSY REPORT _______
-B. Copy of BONE MARROW ASPIRATE REPORT _______
-C. Copy of DIAGNOSTIC FLOW CYTOMETRY (or IMMUNOPHENOTYPING) REPORT _______
-D. Copy of CYTOGENETICS REPORT _______
-E. Copy of CBC REPORT _______
-F. Copy of CSF REPORT _______
-G. Copy of CHEST X-RAY REPORT _______
-H. Copy of ADMITTING HISTORY AND PHYSICAL EXAM (H&amp;P) _______
-I. Copy of DISCHARGE SUMMARY _______
-J. Copy of CHEMOTHERAPY PROTOCOL (EXPERIMENTAL SCHEMA &amp; ROADMAP) _______
-K. Copies of BONE MARROW BIOPSY/ASPIRATE REPORTS _______
-L. OTHER REPORTS
+
+
+
+
 
 
 </div></li>
@@ -754,7 +674,5 @@ Date _________________
 </div></li>
 
 </ol>
-<input name="commit" type="submit" value="Save" />
-</form>
-</body>
-</html>
+<p><%= f.submit( 'Save' ) %></p>
+<% end %>
