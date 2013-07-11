@@ -52,8 +52,7 @@ h1 { color: red; background-color: yellow; }
 		</div>
 		
 		<div>Diagnosis or Interpretation:<br/>
-		<textarea name="abstract[bmb_comments]" rows='3' cols='50'> </textarea>
-		</div>
+		<%= f.text_area :bmb_comments, :rows => 3, :cols => 50 %></div>
 	</div></li>
 	
 	<!-- ################################################################# -->
@@ -66,14 +65,14 @@ h1 { color: red; background-color: yellow; }
 		</div>
 		
 		<div><label for='bma_percentage_blasts'>Percentage (%) blasts:</label>
-		<input id="bma_percentage_blasts" name="abstract[bma_percentage_blasts]" type="text" />
+		<%= f.text_field :bma_percentage_blasts %>
 		
 		<input id='bma_percentage_blasts_known_yes'  name="abstract[bma_percentage_blasts_known]" type="hidden" value="yes" />
 		<input id='bma_percentage_blasts_known_no'  name="abstract[bma_percentage_blasts_known]" type="checkbox" value="no" />
 		<label for='bma_percentage_blasts_known_no'>Don't Know</label>
 		</div>
 		<div>Comments or Interpretation:<br/>
-		<textarea name="abstract[bma_comments]" rows='3' cols='50'> </textarea>
+		<%= f.text_area :bma_comments, :rows => 3, :cols => 50 %>
 		</div>
 	</div></li>
 
@@ -95,6 +94,8 @@ h1 { color: red; background-color: yellow; }
 		<label for='dfc_numerical_data_available_no'>Numerical data NOT available on report?</label>
 		</div>
 	
+<h1>These seem to be integer percentages</h1>
+<h1>BUT NOT ALL. Some are '&lt;1' or '19 dim'</h1>
 	
 		<div>B Cell Markers:<ul>
 		<li>CD10 (or CALLA) <input name="abstract[marker_cd10]" type='text' /></li>
@@ -174,9 +175,10 @@ h1 { color: red; background-color: yellow; }
 		</ul></div>
 	
 		<div>Other(s):<br/>
-		<textarea name="abstract[other_markers]" rows='3' cols='50'> </textarea></div>
+		<%= f.text_area :other_markers, :rows => 3, :cols => 50 %></div>
+
 		<div>Remarks or comments:<br/>
-		<textarea name="abstract[marker_comments]" rows='3' cols='50'> </textarea></div>
+		<%= f.text_area :marker_comments, :rows => 3, :cols => 50 %></div>
 	
 	</div></li>
 
@@ -201,7 +203,7 @@ h1 { color: red; background-color: yellow; }
 		</div>
 	
 	
-		<h1>Are these counts? Checkboxes?</h1>
+		<h1>Are these counts? Checkboxes? Checked on the forms that I saw</h1>
 	
 		<div>
 		<label for='tdt_positive'>Positive:</label>
@@ -233,7 +235,7 @@ h1 { color: red; background-color: yellow; }
 		<%= f.date_text_field :hla_date_of_test %>
 		</div>
 		<div>Results:<br/>
-		<textarea name="abstract[hla_results]" rows='3' cols='50'> </textarea></div>
+		<%= f.text_area :hla_results, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -279,7 +281,7 @@ h1 { color: red; background-color: yellow; }
 	
 	
 		<div>Number of chromosomes (if karyotype)?
-		<input id='hyperdiploidy_number_of_chromosomes' name="abstract[hyperdiploidy_number_of_chromosomes]" type="text" /></div>
+		<%= f.text_field :hyperdiploidy_number_of_chromosomes %></div>
 	
 		<p>Please indicate the presence or absence of the following translocations. Leave no blanks.</p>
 	
@@ -376,10 +378,10 @@ h1 { color: red; background-color: yellow; }
 	
 	
 		<div>Conventional Karyotyping Results [Numerical results &amp; Summary of findings]:<br/>
-		<textarea name="abstract[conventional_karyotyping_results]" rows='3' cols='50'> </textarea></div>
+		<%= f.text_area :conventional_karyotyping_results, :rows => 3, :cols => 50 %></div>
 	
 		<div>Hospital FISH Results [Numerical results &amp; Summary of findings]:<br/>
-		<textarea name="abstract[hospital_fish_results]" rows='3' cols='50'> </textarea></div>
+		<%= f.text_area :hospital_fish_results, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -391,11 +393,11 @@ h1 { color: red; background-color: yellow; }
 		<%= f.text_field :cbc_date_of_test %>
 		</div>
 	
-		<div>Leukocyte Count (WBC) <input name='abstract[cbc_leukocyte_count]' type='text'/> K/mm3</div>
-		<div>Percentage Blasts (aka atypical or abnormal cells) <input name='abstract[cbc_percentage_blasts]' type='text'/> %</div>
-		<div>OR Number of Blasts <input name='abstract[cbc_number_of_blasts]' type='text'/></div>
-		<div>Hemoglobin (or Hgb) <input name='abstract[cbc_hemoglobin]' type='text'/> GM/DL</div>
-		<div>Platelet Count (or Plt ct) <input name='abstract[cbc_platelet_count]' type='text'/> K/mm3</div>
+		<div>Leukocyte Count (WBC) <%= f.text_field :cbc_leukocyte_count %> K/mm3</div>
+		<div>Percentage Blasts (aka atypical or abnormal cells) <%= f.text_field :cbc_percentage_blasts %> %</div>
+		<div>OR Number of Blasts <%= f.text_field :cbc_number_of_blasts %></div>
+		<div>Hemoglobin (or Hgb) <%= f.text_field :cbc_hemoglobin %> GM/DL</div>
+		<div>Platelet Count (or Plt ct) <%= f.text_field :cbc_platelet_count %> K/mm3</div>
 	
 	</div></li>
 
@@ -408,14 +410,14 @@ h1 { color: red; background-color: yellow; }
 		<%= f.date_text_field :csf_date_of_test %>
 		</div>
 	
-		<div>WBC [#] <input type='text' name='abstract[csf_wbc]' /></div>
-		<div>RBC [#] <input type='text' name='abstract[csf_rbc]' /></div>
-		<div>Blasts present (yes/no) <input type='text' name='abstract[csf_blasts_present]' /> </div>
-		<div>Number of Blasts <input type='text' name='abstract[csf_number_of_blasts]' /></div>
-		<div>PB contamination (yes/no) <input type='text' name='abstract[csf_pb_contamination]' /></div>
+		<div>WBC [#] <%= f.text_field :csf_wbc %></div>
+		<div>RBC [#] <%= f.text_field :csf_rbc %></div>
+		<div>Blasts present (yes/no) <%= f.text_field :csf_blasts_present %> </div>
+		<div>Number of Blasts <%= f.text_field :csf_number_of_blasts %></div>
+		<div>PB contamination (yes/no) <%= f.text_field :csf_pb_contamination %></div>
 	
 		<div>Cytology (or CSF Pathology) <br/>
-		<textarea name='abstract[csf_cytology]' rows='3' cols='50'></textarea></div>
+		<%= f.text_area :csf_cytology, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -435,7 +437,7 @@ h1 { color: red; background-color: yellow; }
 		</div>
 	
 		<div>If mediastinal mass present, describe: <br/>
-		<textarea name='abstract[cxr_mediastinal_mass_description]' rows='3' cols='50'></textarea></div>
+		<%= f.text_area :cxr_mediastinal_mass_description, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -477,8 +479,8 @@ h1 { color: red; background-color: yellow; }
 	
 	
 		<div>3) PHYSICAL EXAM (from physical exam at diagnosis) (HAVE BOTH? OR COMPUTE ONE FROM OTHER? WHAT'S THE 'b' FOR?)</div>
-		<div>Height at Diagnosis - in centimeters: <input type='text' name='abstract[height_in_cm]' /> in inches: <input type='text' name='abstract[height_in_in]' /></div>
-		<div>Weight at diagnosis - in kilograms:<input type='text' name='abstract[weight_in_kg]' /> in pounds:<input type='text' name='abstract[weight_in_lb]' /> b</div>
+		<div>Height at Diagnosis - in centimeters: <%= f.text_field :height_in_cm %> in inches: <%= f.text_field :height_in_in %></div>
+		<div>Weight at diagnosis - in kilograms:<%= f.text_field :weight_in_kg %> in pounds:<%= f.text_field :weight_in_lb %> b</div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -491,7 +493,7 @@ h1 { color: red; background-color: yellow; }
 		</div>
 	
 		<div>CLINICAL DIAGNOSIS (from Discharge Summary Report)<br/>
-		<textarea name='abstract[clinical_diagnosis]' rows='3' cols='50'></textarea></div>
+		<%= f.text_area :clinical_diagnosis, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -507,10 +509,10 @@ h1 { color: red; background-color: yellow; }
 		<input id='induction_protocol_dk'  name="abstract[induction_protocol]" type="radio" value="dk" />
 		</div>
 	
-		<div>If yes, indicate protocol name and number used <input type='text' name='induction_protocol_name_and_number' /> (e.g. COG AALL0231)</div>
+		<div>If yes, indicate protocol name and number used <%= f.text_field :induction_protocol_name_and_number %> (e.g. COG AALL0231)</div>
 	
 		<div>If no, specify any therapeutic agents (especially the first 3-4 induction agents) and if the patient was "treated per _____":<br/>
-		<textarea name="abstract[therapeutic_agents]" rows='3' cols='50'></textarea></div>
+		<%= f.text_area :therapeutic_agents, :rows => 3, :cols => 50 %></div>
 	</div></li>
 	</ol>
 </div></li>
@@ -534,7 +536,7 @@ h1 { color: red; background-color: yellow; }
 <option value="M3">&gt;25% Blasts</option></select>
 </div>
 
-<div>Percentage of blasts (if reported) <input type='text' name='abstract[bma07_percentage_of_blasts]' /></div>
+<div>Percentage of blasts (if reported) <%= f.text_field :bma07_percentage_of_blasts %></div>
 <div>Inconclusive Results
 <input type='hidden' name='abstract[bma07_inconclusive_results]' value='no' />
 <input type='checkbox' name='abstract[bma07_inconclusive_results]' id='bma07_inconclusive_results' value='yes' />
@@ -557,7 +559,7 @@ h1 { color: red; background-color: yellow; }
 <option value="M3">&gt;25% Blasts</option></select>
 </div>
 
-<div>Percentage of blasts (if reported) <input type='text' name='abstract[bma14_percentage_of_blasts]' /></div>
+<div>Percentage of blasts (if reported) <%= f.text_field :bma14_percentage_of_blasts %></div>
 
 <div>Inconclusive Results
 <input type='hidden' name='abstract[bma14_inconclusive_results]' value='no' />
@@ -582,7 +584,7 @@ h1 { color: red; background-color: yellow; }
 
 
 
-<div>Percentage of blasts (if reported) <input type='text' name='abstract[bma28_percentage_of_blasts]' /></div>
+<div>Percentage of blasts (if reported) <%= f.text_field :bma28_percentage_of_blasts %></div>
 
 <div>Inconclusive Results
 <input type='hidden' name='abstract[bma28_inconclusive_results]' value='no' />
@@ -594,12 +596,12 @@ h1 { color: red; background-color: yellow; }
 
 
 <div>At the end of induction (30 days), was the child in clinical remission?<br/>
-<label for='clinical_remission_yes'>Yes</label>
-<input id='clinical_remission_yes' name="abstract[clinical_remission]" type="radio" value="yes" />
-<label for='clinical_remission_no'>No</label>
-<input id='clinical_remission_no'  name="abstract[clinical_remission]" type="radio" value="no" />
-<label for='clinical_remission_dk'>DK</label>
-<input id='clinical_remission_dk'  name="abstract[clinical_remission]" type="radio" value="dk" />
+<%= f.label :clinical_remission, 'Yes', :value => 'yes' %>
+<%= f.radio_button :clinical_remission, 'Yes' %>
+<%= f.label :clinical_remission, 'No', :value => 'no' %>
+<%= f.radio_button :clinical_remission, 'No' %>
+<%= f.label :clinical_remission, 'DK', :value => 'dk' %>
+<%= f.radio_button :clinical_remission, 'DK' %>
 </div>
 
 
