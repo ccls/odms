@@ -8,7 +8,7 @@ require 'test_helper_helper'
 
 require 'factory_test_helper'
 #require 'partial_abstract_controller_test_helper'
-require 'abstract_base_controller_test_helper'
+#require 'abstract_base_controller_test_helper'
 
 #	These are not automatically included as they
 #		contain duplicate methods names.

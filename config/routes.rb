@@ -74,8 +74,6 @@ Odms::Application.routes.draw do
 
 	root :to => 'odms#show'
 
-resources :fake_abstracts, :only => [:new,:create]
-
 	resources :address_types
 	resources :bc_requests, :except => :show do
 		collection { get :confirm }
@@ -85,7 +83,6 @@ resources :fake_abstracts, :only => [:new,:create]
 	end
 	resources :birth_data, :except => [:new,:create,:edit,:update,:destroy]
 	resources :candidate_controls, :only => [:edit,:update,:index,:show]
-	#	Removing RAF forms and creating a single RAF-like form
 
 	resources :cases, :only => [:index] do
 		collection { put :assign_selected_for_interview }
@@ -98,7 +95,6 @@ resources :fake_abstracts, :only => [:new,:create]
 	resources :diagnoses
 	resources :document_types
 	resources :document_versions
-#	resources :follow_up_types
 	resources :guides
 	resources :hospitals
 	resources :icf_master_ids, :only => [:index,:show]
@@ -109,8 +105,6 @@ resources :fake_abstracts, :only => [:new,:create]
 	resources :interview_methods
 	resources :interview_outcomes
 	resources :languages
-#		We don't use this here
-#	resources :locales, :only => :show
 	resources :odms_exceptions, :except => [:new,:create]
 	resources :operational_event_types do
 		collection { get 'options' }
@@ -124,7 +118,6 @@ resources :fake_abstracts, :only => [:new,:create]
 	end
 	resources :people
 	resources :phone_types
-#	resources :project_outcomes
 	resources :projects
 	resources :rafs, :only => [:new,:create,:edit,:update,:show]
 	resources :races
@@ -139,13 +132,8 @@ resources :fake_abstracts, :only => [:new,:create]
 		member     { put :update_status }
 	end
 	resources :sample_types
-
-#	resources :sections
 	resources :subject_relationships
-#	resources :subject_types
 	resources :tracing_statuses
-#	resources :units
-#	resources :vital_statuses
 	resources :zip_codes, :only => [ :index ]
 
 	delete 'logout', :to => 'sessions#destroy'
@@ -182,37 +170,6 @@ resources :fake_abstracts, :only => [:new,:create]
 		collection { get :dashboard }
 	end
 
-	#	I think that these MUST come before the study subject sub routes
-#	resources :abstracts, :except => [:new,:create] do
-	resources :abstracts, :only => [:index] do
-		#	specify custom location controllers to avoid conflict
-		#	with app controllers ( just diagnoses now )
-		#	also looks cleaner
-
-		#	using scope as it seems to clean this up
-		#	module adds controller namespace of 'Abstract::' 
-		#		and path prefix '/abstracts/:abstract_id'
-		#	fortunately, scope also takes :only
-		#	this seems to work like "with_options" without needing to pass hash
-		scope :module => :abstract, :only => [:edit,:update,:show] do
-			resource :identifying_datum
-			resource :bone_marrow
-			resource :cbc
-			resource :cerebrospinal_fluid
-			resource :checklist
-			resource :chest_imaging
-			resource :clinical_chemo_protocol
-			resource :cytogenetic
-			resource :diagnosis
-			resource :discharge
-			resource :flow_cytometry
-			resource :histocompatibility
-			resource :name
-			resource :tdt
-			resource :therapy_response
-		end	#	scope :module => :abstract do
-	end
-
 	resources :study_subjects, :only => [:edit,:update,:show,:index] do
 		member do
 			get :next
@@ -242,17 +199,9 @@ resources :fake_abstracts, :only => [:new,:create]
 			resources :events
 			resources :contacts,   :only => :index
 			resources :interviews, :only => :index
-#			resources :documents,  :only => :index
-#			resources :notes,      :only => :index
 			resources :related_subjects, :only => [:index]
 
-			#
-			#	Add index action and set custom controller name
-			#
-#			resources :abstracts, :only => [:new,:create,:index],
-#				:controller => 'study_subject_abstracts' do
-#			resources :abstracts, :only => [:new,:create,:edit,:update,:index] do
-			resources :abstracts, :except => [:edit, :update] do
+			resources :abstracts do
 				collection do
 					get  :compare
 					post :merge
@@ -269,16 +218,6 @@ resources :fake_abstracts, :only => [:new,:create]
 		resources :subjects, :only => :index
 		resources :samples,  :only => :index
 	end
-
-#	namespace :api do
-#		resources :study_subjects, :only => :index
-#		resources :patients,       :only => :index
-#		resources :projects,       :only => :index
-#		resources :enrollments,    :only => :index
-#		resources :addresses,      :only => :index
-#		resources :addressings,    :only => :index
-#		resources :phone_numbers,  :only => :index
-#	end
 
 	#	Create named routes for expected pages so can avoid
 	# needing to append the relative_url_root prefix manually.

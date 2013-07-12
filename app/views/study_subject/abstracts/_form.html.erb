@@ -1,0 +1,667 @@
+<style type="text/css">
+ol li { 
+	font-size: large; 
+}
+ol li * { 
+	font-size: medium; 
+}
+input[type=text] {
+	width:10ex;
+}
+h1 { color: red; background-color: yellow; }
+</style>
+
+<h2>CALIFORNIA CHILDHOOD LEUKEMIA STUDY MEDICAL ABSTRACT FORM</h2>
+
+<ol type='I'>
+<li><div><h3>PARTICIPANT INFORMATION</h3>
+	<h1>(this will be read only as is from other models)</h1>
+	<ul>
+	<li><%= wrapped_spans :study_subject, :full_name,
+        :label_text => "Patient's Name:" %></li>
+	<li><%= wrapped_spans :study_subject, :initials,
+        :label_text => "Patient's Initials:" %></li>
+	<li><%= wrapped_spans :study_subject, :organization,
+        :label_text => "Treating Institution:" %></li>
+	<li><%= wrapped_date_spans :study_subject, :dob,
+        :label_text => "Date of Birth:" %></li>
+	<li><%= wrapped_date_spans :study_subject, :diagnosis_date,
+        :label_text => "Date of Diagnosis:" %></li>
+	<li><%= wrapped_date_spans :study_subject, :treatment_began_on,
+        :label_text => "Date Treatment Began:" %></li>
+	<li><%= wrapped_spans :study_subject, :hospital_no,
+        :label_text => "Hospital Record Number:" %></li>
+	</ul>
+	</div></li>
+
+
+
+
+
+
+
+<li><div><h3>DIAGNOSTIC STUDIES</h3>
+	<ol type='A'>
+	<li><div><h4>BONE MARROW BIOPSY</h4>
+		<%= f.found_not_found :bmb_found %>
+		<div>
+		<%= f.label :bmb_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :bmb_date_of_test %>
+		</div>
+		
+		<div>
+		<%= f.label :bmb_percentage_blasts, "Percentage (%) blasts:" %>
+		<%= f.text_field :bmb_percentage_blasts %>
+		<%= f.check_box :bmb_percentage_blasts_unknown, {}, 'yes', 'no' %>
+		<%= f.label :bmb_percentage_blasts_unknown, "Don't Know" %>
+		</div>
+		
+		<div>Diagnosis or Interpretation:<br/>
+		<%= f.text_area :bmb_comments, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+	
+	<!-- ################################################################# -->
+	
+	<li><div><h4>BONE MARROW ASPIRATE</h4>
+		<%= f.found_not_found :bma_found %>
+		<div>
+		<%= f.label :bma_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :bma_date_of_test %>
+		</div>
+		
+		<div><label for='bma_percentage_blasts'>Percentage (%) blasts:</label>
+		<%= f.text_field :bma_percentage_blasts %>
+		<%= f.check_box :bma_percentage_blasts_unknown, {}, 'yes', 'no' %>
+		<%= f.label :bma_percentage_blasts_unknown, "Don't Know" %>
+		</div>
+		<div>Comments or Interpretation:<br/>
+		<%= f.text_area :bma_comments, :class => :autosize, :rows => 3, :cols => 50 %>
+		</div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>DIAGNOSTIC FLOW CYTOMETRY (or IMMUNOPHENOTYPING)</h4>
+		<%= f.found_not_found :dfc_found %>
+		<div>
+		<%= f.label :dfc_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :dfc_date_of_test %>
+		</div>
+		
+		<div>Check the appropriate box below:</div>
+		<div>
+		<%= f.radio_button :dfc_numerical_data_available, 'yes' %>
+		<%= f.label :dfc_numerical_data_available, 
+			'Numerical data available on report?', :value => 'yes' %>
+		<%= f.radio_button :dfc_numerical_data_available, 'no' %>
+		<%= f.label :dfc_numerical_data_available, 
+			'Numerical data NOT available on report?', :value => 'no' %>
+		</div>
+	
+<h1>These seem to be integer percentages</h1>
+<h1>BUT NOT ALL. Some are '&lt;1' or '19 dim'</h1>
+	
+		<div>B Cell Markers:<ul>
+		<li>CD10 (or CALLA) <%= f.text_field :marker_cd10 %></li>
+		<li>CD19 <%= f.text_field :marker_cd19 %></li>
+		<li>CD20 <%= f.text_field :marker_cd20 %></li>
+		<li>CD21 <%= f.text_field :marker_cd21 %></li>
+		<li>CD22 <%= f.text_field :marker_cd22 %></li>
+		<li>CD23 <%= f.text_field :marker_cd23 %></li>
+		<li>CD24 (BA-1) <%= f.text_field :marker_cd24 %></li>
+		<li>CD40 <%= f.text_field :marker_cd40 %></li>
+		<li>Surface Immunoglobulin (or sIg) <%= f.text_field :marker_sig %></li>
+		<li>Cytoplasmic IgM (or cytoplasmic mu) <%= f.text_field :marker_igm %></li>
+		<li>Bone Marrow Kappa <%= f.text_field :marker_bmk %></li>
+		<li>Bone Marrow Lambda <%= f.text_field :marker_bml %></li>
+		<li>CD19 + CD10 <%= f.text_field :marker_cd19_cd10 %></li>
+		</ul></div>
+		
+		<div>T Cell Markers:<ul>
+		<li>CD1a <%= f.text_field :marker_cd1a %></li>
+		<li>CD2 <%= f.text_field :marker_cd2 %></li>
+		<li>CD3 <%= f.text_field :marker_cd3 %></li>
+		<li>CD4 <%= f.text_field :marker_cd4 %></li>
+		<li>CD5 <%= f.text_field :marker_cd5 %></li>
+		<li>CD7 <%= f.text_field :marker_cd7 %></li>
+		<li>CD8 <%= f.text_field :marker_cd8 %></li>
+		<li>CD3 + CD4 <%= f.text_field :marker_cd3_cd4 %></li>
+		<li>CD3 + CD8 <%= f.text_field :marker_cd3_cd8 %></li>
+		</ul></div>
+	
+	
+		<div>Myeloid markers:<ul>
+		<li>CD11b <%= f.text_field :marker_cd11b %></li>
+		<li>CD11c <%= f.text_field :marker_cd11c %></li>
+		<li>CD13 (or MY-7) <%= f.text_field :marker_cd13 %></li>
+		<li>CD15 (or LEU M1) <%= f.text_field :marker_cd15 %></li>
+		<li>CD33 (or MY-9) <%= f.text_field :marker_cd33 %></li>
+		<li>CD41 <%= f.text_field :marker_cd41 %></li>
+		<li>CDw65 <%= f.text_field :marker_cdw65 %></li>
+		</ul></div>
+	
+	
+		<div>Stem Cell Marker:<ul>
+		<li>CD34 <%= f.text_field :marker_cd34 %></li>
+		</ul></div>
+	
+	
+		<div>Megakaryocyte Marker:<ul>
+		<li>CD61 <%= f.text_field :marker_cd61 %></li>
+		</ul></div>
+	
+	
+		<div>Mono Marker:<ul>
+		<li>CD14 <%= f.text_field :marker_cd14 %></li>
+		</ul></div>
+	
+	
+		<div>Erythroid Marker:<ul>
+		<li>Glycophorin A <%= f.text_field :marker_glycophorin_a %></li>
+		</ul></div>
+	
+	
+		<div>Natural Killer associated markers:<ul>
+		<li>CD16 <%= f.text_field :marker_cd16 %></li>
+		<li>CD56 <%= f.text_field :marker_cd56 %></li>
+		<li>CD57 <%= f.text_field :marker_cd57 %></li>
+		</ul></div>
+	
+	
+		<div>Non-Specific Markers:<ul>
+		<li>CD9 (or BA-2) <%= f.text_field :marker_cd9 %></li>
+		<li>CD25 <%= f.text_field :marker_cd25 %></li>
+		<li>CD38 <%= f.text_field :marker_cd38 %></li>
+		<li>CD45 <%= f.text_field :marker_cd45 %></li>
+		<li>CD71 <%= f.text_field :marker_cd71 %></li>
+		<li>%HLA-DR <%= f.text_field :marker_hla_dr %></li>
+		<li>TERM DOXYTRAN (or Tdt) <%= f.text_field :marker_tdt %></li>
+		</ul></div>
+	
+		<div>Other(s):<br/>
+		<%= f.text_area :other_markers, :class => :autosize, :rows => 3, :cols => 50 %></div>
+
+		<div>Remarks or comments:<br/>
+		<%= f.text_area :marker_comments, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>Tdt (or Terminal Deoxynucleotydyl Transferase)</h4>
+		<%= f.found_not_found :tdt_found %>
+		<div>
+		<%= f.label :tdt_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :tdt_date_of_test %>
+		</div>
+	
+		<div>
+		<%= f.label :tdt_found_in_cytometry, 'Check if found in Flow Cytometry (part C. I.):' %>
+		<%= f.check_box :tdt_found_in_cytometry, {}, 'yes', 'no' %>
+		</div>
+		<div>
+		<%= f.label :tdt_found_separately, 'Check if done separately from Flow Cytometry:' %>
+		<%= f.check_box :tdt_found_separately, {}, 'yes', 'no' %> and report results below:
+		</div>
+	
+	
+		<h1>Are these counts? Checkboxes? Checked on the forms that I saw</h1>
+	
+		<div>
+		<%= f.label :tdt_positive, 'Positive:' %>
+		<%= f.text_field :tdt_positive %>
+		<%= f.label :tdt_negative, 'Negative:' %>
+		<%= f.text_field :tdt_negative %>
+		<%= f.label :tdt_numerical_result, 'Numerical Result:' %>
+		<%= f.text_field :tdt_numerical_result %>
+		</div>
+	
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>PLOIDY (or DNA CONTENT)</h4>
+		<%= f.found_not_found :ploidy_found %>
+		<div>
+		<%= f.label :ploidy_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :ploidy_date_of_test %>
+		</div>
+		<div>
+		<%= f.label :ploidy_found_in_cytometry, 'Check if found in Flow Cytometry (part C. I.):' %>
+		<%= f.check_box :ploidy_found_in_cytometry, {}, 'yes', 'no' %>
+		</div>
+		<div>
+		<%= f.label :ploidy_found_separately, 'Check if done separately from Flow Cytometry:' %>
+		<%= f.check_box :ploidy_found_separately, {}, 'yes', 'no' %> and report results below:
+		</div>
+
+		<ul>
+			<li>Hypodiploid: <h1>CHECKBOX? TEXTFIELD?</h1></li>
+			<li>Pseudodiploid:</li>
+			<li>Hyperdiploid:</li>
+			<li>Diploid (or Normal):</li>
+			<li>DNA Index:</li>
+			<li>Other DNA measurement:</li>
+			<li>Notes: <h1>text area</h1></li>
+		</ul>
+
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>HISTOCOMPATIBILITY STUDIES (or HLA-TYPING)</h4>
+		<%= f.found_not_found :hla_found %>
+		<div>
+		<%= f.label :hla_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :hla_date_of_test %>
+		</div>
+		<div>Results:<br/>
+		<%= f.text_area :hla_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CYTOGENETIC STUDIES</h4>
+		<%= f.found_not_found :cs_found %>
+		<div>
+		<%= f.label :cs_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :cs_date_of_test %>
+		</div>
+	
+		<div>Conventional karyotype done?
+		<%= f.radio_button_with_label :conventional_karyotype_done, 'Yes' %>
+		<%= f.radio_button_with_label :conventional_karyotype_done, 'No' %>
+		</div>
+	
+		<div>Hospital FISH done?
+		<%= f.radio_button_with_label :hospital_fish_done, 'Yes' %>
+		<%= f.radio_button_with_label :hospital_fish_done, 'No' %>
+		</div>
+	
+		<div>Hyperdiploidy detected?
+		<%= f.radio_button_with_label :hyperdiploidy_detected, 'Yes' %>
+		<%= f.radio_button_with_label :hyperdiploidy_detected, 'No' %>
+		<%= f.radio_button_with_label :hyperdiploidy_detected, 'DK' %>
+		</div>
+	
+		<div>If yes, hyperdiploidy by karyotype or FISH:
+		<%= f.radio_button_with_label :hyperdiploidy_by, 'Karyotype' %>
+		<%= f.radio_button_with_label :hyperdiploidy_by, 'FISH' %>
+		</div>
+	
+		<div>Number of chromosomes (if karyotype)?
+		<%= f.text_field :hyperdiploidy_number_of_chromosomes %></div>
+	
+		<p>Please indicate the presence or absence of the following translocations. Leave no blanks.</p>
+	
+		<table><thead><tr>
+		<th>Translocation</th><th>Present</th><th>Absent</th><th>Don't Know</th>
+		</tr></thead><tbody>
+		<tr><td>t(12:21)</td>
+		<td><%= f.radio_button :translocation_t12_21, 'present' %></td>
+		<td><%= f.radio_button :translocation_t12_21, 'absent' %></td>
+		<td><%= f.radio_button :translocation_t12_21, 'donotknow' %></td>
+		</tr>
+		<tr><td>inv(16)</td>
+		<td><%= f.radio_button :translocation_inv16, 'present' %></td>
+		<td><%= f.radio_button :translocation_inv16, 'absent' %></td>
+		<td><%= f.radio_button :translocation_inv16, 'donotknow' %></td>
+		</tr>
+		<tr><td>t(1;19)</td>
+		<td><%= f.radio_button :translocation_t1_19, 'present' %></td>
+		<td><%= f.radio_button :translocation_t1_19, 'absent' %></td>
+		<td><%= f.radio_button :translocation_t1_19, 'donotknow' %></td>
+		</tr>
+		<tr><td>t(8;21)</td>
+		<td><%= f.radio_button :translocation_t8_21, 'present' %></td>
+		<td><%= f.radio_button :translocation_t8_21, 'absent' %></td>
+		<td><%= f.radio_button :translocation_t8_21, 'donotknow' %></td>
+		</tr>
+		<tr><td>t(9;22)</td>
+		<td><%= f.radio_button :translocation_t9_22, 'present' %></td>
+		<td><%= f.radio_button :translocation_t9_22, 'absent' %></td>
+		<td><%= f.radio_button :translocation_t9_22, 'donotknow' %></td>
+		</tr>
+		<tr><td>t(15;17)</td>
+		<td><%= f.radio_button :translocation_t15_17, 'present' %></td>
+		<td><%= f.radio_button :translocation_t15_17, 'absent' %></td>
+		<td><%= f.radio_button :translocation_t15_17, 'donotknow' %></td>
+		</tr>
+		<tr><td>Other:</td>
+		</tr>
+		<tr><td>Other:</td>
+		</tr>
+		<tr><td>Other:</td>
+		</tr>
+		</tbody></table>
+	
+	
+	
+	
+	
+	
+		<h1>NOTE:  How to do these "Other" fields?</h1>
+	
+	
+	
+	
+	
+	
+		<p>Please indicate the presence of absence of the following trisomies</p>
+	
+		<table><thead><tr>
+		<th>Trisomy</th><th>Present</th><th>Absent</th><th>Don't Know</th>
+		</tr></thead><tbody>
+		<tr><td>Trisomy 4</td>
+		<td><%= f.radio_button :trisomy_4, 'present' %></td>
+		<td><%= f.radio_button :trisomy_4, 'absent' %></td>
+		<td><%= f.radio_button :trisomy_4, 'donotknow' %></td>
+		</tr>
+		<tr><td>Trisomy 5</td>
+		<td><%= f.radio_button :trisomy_5, 'present' %></td>
+		<td><%= f.radio_button :trisomy_5, 'absent' %></td>
+		<td><%= f.radio_button :trisomy_5, 'donotknow' %></td>
+		</tr>
+		<tr><td>Trisomy 10</td>
+		<td><%= f.radio_button :trisomy_10, 'present' %></td>
+		<td><%= f.radio_button :trisomy_10, 'absent' %></td>
+		<td><%= f.radio_button :trisomy_10, 'donotknow' %></td>
+		</tr>
+		<tr><td>Trisomy 17</td>
+		<td><%= f.radio_button :trisomy_17, 'present' %></td>
+		<td><%= f.radio_button :trisomy_17, 'absent' %></td>
+		<td><%= f.radio_button :trisomy_17, 'donotknow' %></td>
+		</tr>
+		<tr><td>Trisomy 21</td>
+		<td><%= f.radio_button :trisomy_21, 'present' %></td>
+		<td><%= f.radio_button :trisomy_21, 'absent' %></td>
+		<td><%= f.radio_button :trisomy_21, 'donotknow' %></td>
+		</tr>
+		<tr><td>Other:</td>
+		</tr>
+		<tr><td>Other:</td>
+		</tr>
+		<tr><td>Other:</td>
+		</tr>
+		</tbody></table>
+	
+	
+		<div>Conventional Karyotyping Results [Numerical results &amp; Summary of findings]:<br/>
+		<%= f.text_area :conventional_karyotyping_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	
+		<div>Hospital FISH Results [Numerical results &amp; Summary of findings]:<br/>
+		<%= f.text_area :hospital_fish_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>COMPLETE BLOOD COUNT (CBC)</h4>
+		<%= f.found_not_found :cbc_found %>
+		<div>
+		<%= f.label :cbc_date_of_test, 'Date of Test:' %>
+		<%= f.text_field :cbc_date_of_test %>
+		</div>
+	
+		<div>Leukocyte Count (WBC) <%= f.text_field :cbc_leukocyte_count %> K/mm3</div>
+		<div>Percentage Blasts (aka atypical or abnormal cells) <%= f.text_field :cbc_percentage_blasts %> %</div>
+		<div>OR Number of Blasts <%= f.text_field :cbc_number_of_blasts %></div>
+		<div>Hemoglobin (or Hgb) <%= f.text_field :cbc_hemoglobin %> GM/DL</div>
+		<div>Platelet Count (or Plt ct) <%= f.text_field :cbc_platelet_count %> K/mm3</div>
+	
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CEREBROSPINAL FLUID (or CSF)</h4>
+		<%= f.found_not_found :csf_found %>
+		<div>
+		<%= f.label :csf_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :csf_date_of_test %>
+		</div>
+	
+		<div>WBC [#] <%= f.text_field :csf_wbc %></div>
+		<div>RBC [#] <%= f.text_field :csf_rbc %></div>
+		<div>Blasts present (yes/no) <%= f.text_field :csf_blasts_present %> </div>
+		<div>Number of Blasts <%= f.text_field :csf_number_of_blasts %></div>
+		<div>PB contamination (yes/no) <%= f.text_field :csf_pb_contamination %></div>
+	
+		<div>Cytology (or CSF Pathology) <br/>
+		<%= f.text_area :csf_cytology, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CHEST IMAGING (Chest X-ray)</h4>
+		<%= f.found_not_found :cxr_found %>
+		<div>
+		<%= f.label :cxr_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :cxr_date_of_test %>
+		</div>
+	
+		<div>Check as appropriate: 
+		<%= f.label :cxr_result, 'Normal Chest', :value => 'normal' %>
+		<%= f.radio_button :cxr_result, 'normal' %>
+		<%= f.label :cxr_result, 'Mediastinal Mass Present', :value => 'mass' %>
+		<%= f.radio_button :cxr_result, 'mass' %>
+		</div>
+	
+		<div>If mediastinal mass present, describe: <br/>
+		<%= f.text_area :cxr_mediastinal_mass_description, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>ADMITTING HISTORY AND PHYSICAL (H&amp;P) REPORT</h4>
+		<%= f.found_not_found :hpr_found %>
+		<div>
+		<%= f.label :hpr_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :hpr_date_of_test %>
+		</div>
+	
+		<div>1) ORGANOMEGALY</div>
+		<div>Hepatomegaly?
+		<%= f.label_with_radio_button :hepatomegaly, 'Yes' %>
+		<%= f.label_with_radio_button :hepatomegaly, 'No' %>
+		<%= f.label_with_radio_button :hepatomegaly, 'DK' %>
+		</div>
+		<div>Splenomegaly?
+		<%= f.label_with_radio_button :splenomegaly, 'Yes' %>
+		<%= f.label_with_radio_button :splenomegaly, 'No' %>
+		<%= f.label_with_radio_button :splenomegaly, 'DK' %>
+		</div>
+	
+	
+		<div>2) DOWN SYNDROME PHENOTYPE (From Admitting H&amp;P Report)<br/>
+		<%= f.label_with_radio_button :down_syndrome_phenotype, 'Yes' %>
+		<%= f.label_with_radio_button :down_syndrome_phenotype, 'No' %>
+		<%= f.label_with_radio_button :down_syndrome_phenotype, 'DK' %>
+		</div>
+	
+	
+		<div>3) PHYSICAL EXAM (from physical exam at diagnosis) (HAVE BOTH? OR COMPUTE ONE FROM OTHER? WHAT'S THE 'b' FOR?)</div>
+		<div>Height at Diagnosis - in centimeters: <%= f.text_field :height_in_cm %> in inches: <%= f.text_field :height_in_in %></div>
+		<div>Weight at diagnosis - in kilograms:<%= f.text_field :weight_in_kg %> in pounds:<%= f.text_field :weight_in_lb %> b</div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>DISCHARGE SUMMARY</h4>
+		<%= f.found_not_found :ds_found %>
+		<div>
+		<%= f.label :ds_date_of_test, 'Date of Test:' %>
+		<%= f.date_text_field :ds_date_of_test %>
+		</div>
+	
+		<div>CLINICAL DIAGNOSIS (from Discharge Summary Report)<br/>
+		<%= f.text_area :clinical_diagnosis, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CHEMOTHERAPY PROTOCOL</h4>
+		<%= f.found_not_found :cp_found %>
+		<div>Was patient enrolled on a standardized induction protocol, such as COG?
+		<%= f.label_with_radio_button :induction_protocol, 'Yes' %>
+		<%= f.label_with_radio_button :induction_protocol, 'No' %>
+		<%= f.label_with_radio_button :induction_protocol, 'DK' %>
+		</div>
+	
+		<div>If yes, indicate protocol name and number used <%= f.text_field :induction_protocol_name_and_number %> (e.g. COG AALL0231)</div>
+	
+		<div>If no, specify any therapeutic agents (especially the first 3-4 induction agents) and if the patient was "treated per _____":<br/>
+		<%= f.text_area :therapeutic_agents, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+	</ol>
+</div></li>
+
+
+<li><div><h3>RESPONSE TO THERAPY</h3>
+
+
+<h4>DAY 7 (8) Bone Marrow Aspirate</h4>
+<%= f.found_not_found :bma07_found %>
+<div>
+<%= f.label :bma07_date_of_test, 'Date of Test:' %>
+<%= f.date_text_field :bma07_date_of_test %>
+</div>
+
+<div>Classification 
+<%= f.select :bma07_classification, 
+	[["<5% Blasts", "M1"],
+	["5-25% Blasts", "M2"],
+	[">25% Blasts", "M3"]], :include_blank => true %>
+</div>
+
+<div>Percentage of blasts (if reported) <%= f.text_field :bma07_percentage_of_blasts %></div>
+<div>Inconclusive Results
+<%= f.check_box :bma07_inconclusive_results, {}, 'yes', 'no' %>
+<%= f.label :bma07_inconclusive_results, "(check if inconclusive results are indicated on report)" %>
+</div>
+
+
+<h4>DAY 14 (15) Bone Marrow Aspirate</h4>
+<%= f.found_not_found :bma14_found %>
+<div>
+<%= f.label :bma14_date_of_test, 'Date of Test:' %>
+<%= f.date_text_field :bma14_date_of_test %>
+</div>
+
+<div>Classification 
+<%= f.select :bma14_classification, 
+	[["<5% Blasts", "M1"],
+	["5-25% Blasts", "M2"],
+	[">25% Blasts", "M3"]], :include_blank => true %>
+</div>
+
+<div>Percentage of blasts (if reported) <%= f.text_field :bma14_percentage_of_blasts %></div>
+
+<div>Inconclusive Results
+<%= f.check_box :bma14_inconclusive_results, {}, 'yes', 'no' %>
+<%= f.label :bma14_inconclusive_results, "(check if inconclusive results are indicated on report)" %>
+</div>
+
+<h4>DAY 28 (29) Bone Marrow Aspirate</h4>
+<%= f.found_not_found :bma28_found %>
+<div>
+<%= f.label :bma28_date_of_test, 'Date of Test:' %>
+<%= f.date_text_field :bma28_date_of_test %>
+</div>
+
+<div>Classification 
+<%= f.select :bma28_classification, 
+	[["<5% Blasts", "M1"],
+	["5-25% Blasts", "M2"],
+	[">25% Blasts", "M3"]], :include_blank => true %>
+</div>
+
+
+
+<div>Percentage of blasts (if reported) <%= f.text_field :bma28_percentage_of_blasts %></div>
+
+<div>Inconclusive Results
+<%= f.check_box :bma28_inconclusive_results, {}, 'yes', 'no' %>
+<%= f.label :bma28_inconclusive_results, "(check if inconclusive results are indicated on report)" %>
+</div>
+
+<div>At the end of induction (30 days), was the child in clinical remission?<br/>
+<%= f.label :clinical_remission, 'Yes', :value => 'yes' %>
+<%= f.radio_button :clinical_remission, 'Yes' %>
+<%= f.label :clinical_remission, 'No', :value => 'no' %>
+<%= f.radio_button :clinical_remission, 'No' %>
+<%= f.label :clinical_remission, 'DK', :value => 'dk' %>
+<%= f.radio_button :clinical_remission, 'DK' %>
+</div>
+
+
+
+</div></li>
+<li><div><h3>DIAGNOSIS &amp; CLASSIFICATION</h3>
+
+<div>Class of Leukemia:
+
+<ul>
+<li>ALL<ul style='list-style:none'>
+<li><%= f.radio_button_with_label :leukemia_class, 'ALL L1' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'ALL L2' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'ALL L3' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'ALL Other' %><%= f.text_field :other_all_leukemia_class %></li>
+</ul></li>
+
+<li>AML<ul style='list-style:none'>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M0' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M1' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M2' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M3' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M4' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M4E' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M5' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M5A' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M5B' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M6' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML M7' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'AML Other' %><%= f.text_field :other_aml_leukemia_class %></li>
+</ul></li>
+
+<li><%= f.radio_button_with_label :leukemia_class, 'CML' %></li>
+<li><%= f.radio_button_with_label :leukemia_class, 'CLL' %></li>
+</ul>
+</div>
+
+
+3.
+ICDO 2000 CLASSIFICATION NUMBER _____________________
+4.
+ICDO 2000 CLASSIFICATION DESCRIPTION
+________________________________________________________________________
+
+
+<div>LINEAGE: (check the appropriate box if lineage is indicated)</div>
+<div><ul>
+	<li><%= f.radio_button_with_label :leukemia_lineage, 'B-Cell Lineage' %></li>
+	<li><%= f.radio_button_with_label :leukemia_lineage, 'T-Cell Lineage' %></li>
+</ul></div>
+
+
+
+
+
+
+
+</div></li>
+<li><div><h3>NAME AND DATE OF ABSTRACTOR</h3><h1> (these will be computed values)</h1>
+<pre>
+Name _________________________________
+Date __________________
+NAME AND DATE OF REVIEWER
+Name _________________________________
+Date __________________
+NAME AND DATE OF DATA ENTRY PERSONS
+Entry 1 Name _________________________________
+Date __________________
+Entry 2 Name _________________________________
+Date _________________
+</pre>
+</div></li>
+
+</ol>
+<p><%= f.submit( 'Save' ) %></p>

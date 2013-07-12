@@ -419,35 +419,35 @@ module ApplicationHelper
 			:value => (POSNEG[object.send(method)]||'&nbsp;') ) )
 	end
 
-	def abstract_pages(abstract)
-		sections = Abstract.sections
-		ci = sections.find_index{|i| 
-			i[:controller] =~ /^#{controller.class.name.demodulize}$/i }
-
-		s = "<p class='center'>"
-		s << (( !ci.nil? && ci > 0 ) ? "<span class='left'>" << 
-				link_to( "&laquo; #{sections[ci-1][:label]}".html_safe,
-					send(sections[ci-1][:show],abstract) ) << 
-				"</span>" : '')
-#					send("abstract_#{sections[ci-1][:show]}",abstract) ) << 
-#		s << link_to( "Back to Abstract", abstract_path(abstract) )
-		s << link_to( "Back to Abstract", study_subject_abstract_path(
-			abstract.study_subject,abstract) )
-		s << (( !ci.nil? && ci < ( sections.length - 1 ) ) ? "" <<
-				"<span class='right'>" << 
-				link_to( "#{sections[ci+1][:label]} &raquo;".html_safe,
-					send(sections[ci+1][:show],abstract) ) << 
-				"</span>" : '' )
-#					send("abstract_#{sections[ci+1][:show]}",abstract) ) << 
-		s << "</p>"
-		s.html_safe
-	end
-
-	def edit_link
-		s =  "<p class='center'>"
-		s << link_to( "Edit", params.update(:action => 'edit'), :class => 'right button' )
-		s << "</p>"
-		s.html_safe
-	end
+#	def abstract_pages(abstract)
+#		sections = Abstract.sections
+#		ci = sections.find_index{|i| 
+#			i[:controller] =~ /^#{controller.class.name.demodulize}$/i }
+#
+#		s = "<p class='center'>"
+#		s << (( !ci.nil? && ci > 0 ) ? "<span class='left'>" << 
+#				link_to( "&laquo; #{sections[ci-1][:label]}".html_safe,
+#					send(sections[ci-1][:show],abstract) ) << 
+#				"</span>" : '')
+##					send("abstract_#{sections[ci-1][:show]}",abstract) ) << 
+##		s << link_to( "Back to Abstract", abstract_path(abstract) )
+#		s << link_to( "Back to Abstract", study_subject_abstract_path(
+#			abstract.study_subject,abstract) )
+#		s << (( !ci.nil? && ci < ( sections.length - 1 ) ) ? "" <<
+#				"<span class='right'>" << 
+#				link_to( "#{sections[ci+1][:label]} &raquo;".html_safe,
+#					send(sections[ci+1][:show],abstract) ) << 
+#				"</span>" : '' )
+##					send("abstract_#{sections[ci+1][:show]}",abstract) ) << 
+#		s << "</p>"
+#		s.html_safe
+#	end
+#
+#	def edit_link
+#		s =  "<p class='center'>"
+#		s << link_to( "Edit", params.update(:action => 'edit'), :class => 'right button' )
+#		s << "</p>"
+#		s.html_safe
+#	end
 
 end

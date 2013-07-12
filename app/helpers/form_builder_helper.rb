@@ -3,10 +3,19 @@ module FormBuilderHelper
 	#	almost "wrapped"
 	def radio_button_with_label(method,value)
 		s = ""
-#		s = "<div>"
+		s << '&nbsp;'
 		s << @template.radio_button(object_name,method,value)
 		s << @template.label(object_name,method,value,:value => value)
-#		s << "</div>"
+		s << '&nbsp;'
+		s.html_safe
+	end
+
+	def label_with_radio_button(method,value)
+		s = ""
+		s << '&nbsp;'
+		s << @template.label(object_name,method,value,:value => value)
+		s << @template.radio_button(object_name,method,value)
+		s << '&nbsp;'
 		s.html_safe
 	end
 
@@ -52,30 +61,33 @@ module FormBuilderHelper
 			{:include_blank => true}.merge(objectify_options(options)), html_options)
 	end
 
-	def submit_bar()
-		controller_name = @template.controller.class.name
-		s = "<div class='submit_bar'>"
-		s << "<p class='submit_bar'>"
-		s << @template.link_to( "Cancel and Show Section", 
-			{ :action => 'show' }, { :class => 'button' } )
-		s << "&nbsp;\n"
-		s << submit( 'Save and Show Section',:name => nil )
-		s << "</p>\n"
-		sections = Abstract.sections
-		ci = sections.find_index{|i| 
-			i[:controller] =~ /^#{controller_name.demodulize}$/i }
-		s << "<p class='submit_bar'>"
-		s << (( !ci.nil? && ci > 0 ) ? 
-			submit( "Save and Edit '#{sections[ci-1][:label]}'".html_safe,
-				:name => 'edit_previous') : '' )
-		s << "&nbsp;\n"
-		s << (( !ci.nil? && ci < ( sections.length - 1 ) ) ?
-			submit( "Save and Edit '#{sections[ci+1][:label]}'".html_safe,
-				:name => 'edit_next') : '' )
-		s << "</p>\n"
-		s << "</div><!-- class='submit_bar' -->"
-		s.html_safe
-	end
+#
+#	Only used by Abstracts if memory serves
+#
+#	def submit_bar()
+#		controller_name = @template.controller.class.name
+#		s = "<div class='submit_bar'>"
+#		s << "<p class='submit_bar'>"
+#		s << @template.link_to( "Cancel and Show Section", 
+#			{ :action => 'show' }, { :class => 'button' } )
+#		s << "&nbsp;\n"
+#		s << submit( 'Save and Show Section',:name => nil )
+#		s << "</p>\n"
+#		sections = Abstract.sections
+#		ci = sections.find_index{|i| 
+#			i[:controller] =~ /^#{controller_name.demodulize}$/i }
+#		s << "<p class='submit_bar'>"
+#		s << (( !ci.nil? && ci > 0 ) ? 
+#			submit( "Save and Edit '#{sections[ci-1][:label]}'".html_safe,
+#				:name => 'edit_previous') : '' )
+#		s << "&nbsp;\n"
+#		s << (( !ci.nil? && ci < ( sections.length - 1 ) ) ?
+#			submit( "Save and Edit '#{sections[ci+1][:label]}'".html_safe,
+#				:name => 'edit_next') : '' )
+#		s << "</p>\n"
+#		s << "</div><!-- class='submit_bar' -->"
+#		s.html_safe
+#	end
 
 end
 ActionView::Helpers::FormBuilder.send(:include, FormBuilderHelper )

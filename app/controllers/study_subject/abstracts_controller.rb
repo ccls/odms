@@ -7,15 +7,13 @@ class StudySubject::AbstractsController < StudySubjectController
 		:only => [:new,:create,:compare,:merge]
 	before_filter :may_read_abstracts_required,
 		:only => [:show,:index]
-#		:only => [:index]
-#	before_filter :may_update_abstracts_required,
-#		:only => [:edit,:update]
+	before_filter :may_update_abstracts_required,
+		:only => [:edit,:update]
 	before_filter :may_destroy_abstracts_required,
 		:only => :destroy
 
 	before_filter :valid_id_required, 
-		:only => [:show,:destroy]
-#		:only => [:show,:edit,:update,:destroy]
+		:only => [:show,:edit,:update,:destroy]
 
 	before_filter :case_study_subject_required,
 		:only => [:new,:create,:compare,:merge]
@@ -30,58 +28,59 @@ class StudySubject::AbstractsController < StudySubjectController
 		if !@study_subject.is_case?
 			render :action => 'not_case' 
 		else
-			@abstracts = @study_subject.abstracts
+#			@abstracts = @study_subject.abstracts
+@abstracts = []
 		end
 	end
 
 	def new
-#		@abstract = Abstract.new(params[:abstract])
-		@abstract = @study_subject.abstracts.new(params[:abstract])
+		@abstract = Abstract.new(params[:abstract])
+#		@abstract = @study_subject.abstracts.new(params[:abstract])
 	end
 
 	def create
-		@abstract = @study_subject.abstracts.new(params[:abstract])
-		@abstract.save!
-		flash[:notice] = 'Success!'
-		redirect_to study_subject_abstract_path(@study_subject,@abstract)
-	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		#	flash.now[:error] = "There was a problem creating the abstract"
-		#	render :action => 'new'
-		#	flash, not flash.now since redirecting and not rendering
-		flash[:error] = "There was a problem creating the abstract"
+#		@abstract = @study_subject.abstracts.new(params[:abstract])
+#		@abstract.save!
+#		flash[:notice] = 'Success!'
+#		redirect_to study_subject_abstract_path(@study_subject,@abstract)
+#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+#		#	flash.now[:error] = "There was a problem creating the abstract"
+#		#	render :action => 'new'
+#		#	flash, not flash.now since redirecting and not rendering
+#		flash[:error] = "There was a problem creating the abstract"
 		redirect_to study_subject_abstracts_path(@study_subject)
 	end
 
-#	def edit
+##	def edit
+##	end
+##
+##	def update
+##		@abstract.update_attributes!(params[:abstract])
+##		flash[:notice] = 'Success!'
+##		redirect_to study_subject_abstracts_path(@study_subject)
+##	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+##		flash.now[:error] = "There was a problem updating the abstract"
+##		render :action => "edit"
+##	end
+#
+#	def destroy
+#		@abstract.destroy
+#		redirect_to study_subject_abstracts_path(@study_subject)
 #	end
 #
-#	def update
-#		@abstract.update_attributes!(params[:abstract])
-#		flash[:notice] = 'Success!'
-#		redirect_to study_subject_abstracts_path(@study_subject)
-#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-#		flash.now[:error] = "There was a problem updating the abstract"
-#		render :action => "edit"
+#	def compare
 #	end
-
-	def destroy
-		@abstract.destroy
-		redirect_to study_subject_abstracts_path(@study_subject)
-	end
-
-	def compare
-	end
-
-	def merge
-		@abstract = @study_subject.abstracts.new(params[:abstract].merge(:merging => true))
-		@abstract.save!
-		flash[:notice] = 'Success!'
-		redirect_to study_subject_abstract_path(@study_subject,@abstract)
-	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-		flash.now[:error] = "There was a problem merging the abstract"
-		render :action => "compare"
-	end
-
+#
+#	def merge
+#		@abstract = @study_subject.abstracts.new(params[:abstract].merge(:merging => true))
+#		@abstract.save!
+#		flash[:notice] = 'Success!'
+#		redirect_to study_subject_abstract_path(@study_subject,@abstract)
+#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+#		flash.now[:error] = "There was a problem merging the abstract"
+#		render :action => "compare"
+#	end
+#
 protected
 
 	def compare_abstracts

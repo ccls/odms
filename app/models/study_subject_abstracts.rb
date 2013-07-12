@@ -8,23 +8,23 @@ def self.included(base)
 #	Must delay the calls to these ActiveRecord methods
 #	or it will raise many "undefined method"s.
 base.class_eval do
-
-	has_many :abstracts
-
-	def abstracts_the_same?
-		raise StudySubject::NotTwoAbstracts unless abstracts.count == 2
-		#	abstracts.inject(:is_the_same_as?) was nice
-		#	but using inject is ruby >= 1.8.7
-		return abstracts[0].is_the_same_as?(abstracts[1])
-	end
-
-	def abstract_diffs
-		raise StudySubject::NotTwoAbstracts unless abstracts.count == 2
-		#	abstracts.inject(:diff) was nice
-		#	but using inject is ruby >= 1.8.7
-		return abstracts[0].diff(abstracts[1])
-	end
-
+#
+#	has_many :abstracts
+#
+#	def abstracts_the_same?
+#		raise StudySubject::NotTwoAbstracts unless abstracts.count == 2
+#		#	abstracts.inject(:is_the_same_as?) was nice
+#		#	but using inject is ruby >= 1.8.7
+#		return abstracts[0].is_the_same_as?(abstracts[1])
+#	end
+#
+#	def abstract_diffs
+#		raise StudySubject::NotTwoAbstracts unless abstracts.count == 2
+#		#	abstracts.inject(:diff) was nice
+#		#	but using inject is ruby >= 1.8.7
+#		return abstracts[0].diff(abstracts[1])
+#	end
+#
 end	#	class_eval
 end	#	included
 end	#	StudySubjectAbstracts

@@ -165,8 +165,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		'related_subjects'        => 'study_subject_related_subjects_path',
 		'abstracts'               => 'study_subject_abstracts_path',
 		'study_subject_abstracts' => 'study_subject_abstracts_path',
-		# 1 of many abstract sub-pages
-		'abstract/diagnoses'      => 'study_subject_abstracts_path',
+#		# 1 of many abstract sub-pages
+#		'abstract/diagnoses'      => 'study_subject_abstracts_path',
 		'study_subjects'          => 'study_subject_path'
 	}
 
@@ -274,7 +274,8 @@ class ApplicationHelperTest < ActionView::TestCase
 				assert_select response, '#sidemenu' do
 					assert_select 'a', :count => 11
 					if %w( birth_records interviews rafs
-						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
+						abstracts study_subject_abstracts patients ).include?(k)
+#						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
 					else
@@ -291,7 +292,8 @@ class ApplicationHelperTest < ActionView::TestCase
 				assert_select response, '#sidemenu' do
 					assert_select 'a', :count => 11
 					if %w( birth_records interviews rafs
-						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
+						abstracts study_subject_abstracts patients ).include?(k)
+#						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
 					else
@@ -308,7 +310,8 @@ class ApplicationHelperTest < ActionView::TestCase
 				assert_select response, '#sidemenu' do |s|
 					assert_select 'a', :count => 11
 					if %w( birth_records interviews rafs
-						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
+						abstracts study_subject_abstracts patients ).include?(k)
+#						abstracts study_subject_abstracts abstract/diagnoses patients ).include?(k)
 						#	not shown to non-admins
 						assert_select 'a.current', :count => 0
 					else
@@ -983,10 +986,10 @@ class ApplicationHelperTest < ActionView::TestCase
 #	end
 
 #	abstract_pages
-
-	test "should respond abstract_pages" do
-		assert respond_to?(:abstract_pages)
-	end
+#
+#	test "should respond abstract_pages" do
+#		assert respond_to?(:abstract_pages)
+#	end
 
 #
 #	Calling the named route methods raises
@@ -1028,11 +1031,11 @@ class ApplicationHelperTest < ActionView::TestCase
 #		puts response
 #	end
 
-#	edit_link
-
-	test "should respond edit_link" do
-		assert respond_to?(:edit_link)
-	end
+#	edit_link (abstracts only)
+#
+#	test "should respond edit_link" do
+#		assert respond_to?(:edit_link)
+#	end
 
 #	will now actually raise an error for the invalid route
 #	test "edit_link should return link without controller and id" do
@@ -1045,28 +1048,28 @@ class ApplicationHelperTest < ActionView::TestCase
 #		end
 #	end
 
-	#	edit_link is only called from abstract section show pages
-	test "edit_link should return link with controller and id" do
-#		self.params = { :controller => 'abstracts', :id => 0 }
-#abstract = FactoryGirl.create(:abstract)
-#		self.params = { :controller => 'abstracts', :id => 0, :study_subject_id => 0 }
-#		self.params = { :controller => 'abstracts', :id => abstract.id, :study_subject_id => abstract.study_subject_id }
-#		self.params = { :controller => 'cbcs', :abstract_id => abstract.id, :study_subject_id => abstract.study_subject_id }
-		self.params = { :controller => 'abstract/cbcs', :abstract_id => 0 }
-		response = HTML::Document.new( edit_link ).root
-		#	with a set controller and id
-		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
-		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
-#https://dev.sph.berkeley.edu/abstracts/15/bone_marrow/edit
-		assert_select response, 'p.center' do
-			assert_select 'a.right.button', :text => 'Edit', :count => 1
-#			assert_select 'a[href=?]', "/abstracts/0/edit"
-			assert_select 'a[href=?]', "/abstracts/0/cbc/edit"
-#			assert_select 'a[href=?]', edit_abstract_path(0)
-#			assert_select 'a[href=?]', edit_study_subject_abstract_path(0,0)
-			assert_select 'a[href=?]', edit_abstract_cbc_path(0)
-		end
-	end
+#	#	edit_link is only called from abstract section show pages
+#	test "edit_link should return link with controller and id" do
+##		self.params = { :controller => 'abstracts', :id => 0 }
+##abstract = FactoryGirl.create(:abstract)
+##		self.params = { :controller => 'abstracts', :id => 0, :study_subject_id => 0 }
+##		self.params = { :controller => 'abstracts', :id => abstract.id, :study_subject_id => abstract.study_subject_id }
+##		self.params = { :controller => 'cbcs', :abstract_id => abstract.id, :study_subject_id => abstract.study_subject_id }
+#		self.params = { :controller => 'abstract/cbcs', :abstract_id => 0 }
+#		response = HTML::Document.new( edit_link ).root
+#		#	with a set controller and id
+#		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
+#		#	<p class='center'><a href="/abstracts/0/edit" class="right button">Edit</a></p>
+##https://dev.sph.berkeley.edu/abstracts/15/bone_marrow/edit
+#		assert_select response, 'p.center' do
+#			assert_select 'a.right.button', :text => 'Edit', :count => 1
+##			assert_select 'a[href=?]', "/abstracts/0/edit"
+#			assert_select 'a[href=?]', "/abstracts/0/cbc/edit"
+##			assert_select 'a[href=?]', edit_abstract_path(0)
+##			assert_select 'a[href=?]', edit_study_subject_abstract_path(0,0)
+#			assert_select 'a[href=?]', edit_abstract_cbc_path(0)
+#		end
+#	end
 
 #	assert_select apparently requires explicit hash of options
 #	in ruby 1.9.3 instead of just a list (adding :text and :count to all )
