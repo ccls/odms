@@ -1,9 +1,11 @@
 require 'test_helper'
 
 class AbstractTest < ActiveSupport::TestCase
-#
+
 ##	assert_should_belong_to :study_subject
-#	assert_should_initially_belong_to :study_subject
+
+	assert_should_initially_belong_to :study_subject
+
 #	assert_should_protect( :study_subject_id, :study_subject, :entry_1_by_uid, 
 #		:entry_2_by_uid, :merged_by_uid )
 #
@@ -657,9 +659,9 @@ class AbstractTest < ActiveSupport::TestCase
 #		{ :good_values => ( POSNEG.valid_values + [nil] ), 
 #			:bad_values  => 12345 })
 #
-#protected
-#
-#	#	create_object is called from within the common class tests
-#	alias_method :create_object, :create_abstract
-#
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_abstract
+
 end

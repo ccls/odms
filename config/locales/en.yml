@@ -6,11 +6,16 @@ en:
   activerecord:
     attributes:
       patient:
-        organization_id: "Treating institution"
-        hospital_no: "Hospital record number"
+        organization_id: "Treating Institution"
+        hospital_no: "Hospital Record Number"
       study_subject:
-        dob: "Date of birth"
+        dob: "Date of Birth"
+        organization: "Treating Institution"
+        diagnosis_date: "Date of Diagnosis"
+        treatment_began_on: "Date Treatment Began"
+        hospital_no: "Hospital Record Number"
       abstract:
+        bmb_report_found: Bone Marrow Biopsy Report Found
 #        abstract_version_id: "Abstract Version"
 #        abstracted_on: "Abstracted On"
 #        abstractor_id: "Abstractor"

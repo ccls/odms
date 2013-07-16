@@ -768,10 +768,11 @@ FactoryGirl.define do
 		f.zip_class "TESTING"
 	end
 	
-#	factory :abstract do |f|
-#		f.association :study_subject, :factory => :case_study_subject
-#		f.updated_at Time.now	#	to make it dirty
-#	end
+	factory :abstract do |f|
+		f.association :study_subject, :factory => :case_study_subject
+		f.updated_at Time.now	#	to make it dirty
+	end
+
 #	factory :complete_abstract, :class => 'Abstract' do |f|
 #		f.sequence(:response_day14or28_flag) { random_yndk() }
 #		f.sequence(:received_bone_marrow_biopsy) { random_yndk() }

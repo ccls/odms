@@ -1,6 +1,29 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+
+#	remove with common_lib 1.2.6
+
+	#	t is RedCloth.textualize NOT I18n.translate
+
+# This is NOT a form field
+def _wrapped_spans(object_name,method,options={})
+object = instance_variable_get("@#{object_name}")
+s =  "<span class='label'>#{options[:label_text]||I18n.translate("#{object.class.to_s.underscore}.#{method}",
+	:scope => "activerecord.attributes",
+	:default => method.to_s)}</span>\n"		#	if method is a symbol, tries to translate it too.
+value = if options[:value]
+options[:value]
+else
+value = object.send(method)
+value = (value.to_s.blank?)?'&nbsp;':value
+end
+s << "<span class='value'>#{value}</span>"
+s.html_safe
+end
+
+
+
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
 

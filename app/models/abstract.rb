@@ -1,17 +1,18 @@
 #	Abstract model
-class Abstract  < OpenStruct #< ActiveRecord::Base
-	extend ActiveModel::Naming
-#
-#	belongs_to :study_subject
-#
+class Abstract  < ActiveRecord::Base
+#class Abstract  < OpenStruct #< ActiveRecord::Base
+#	extend ActiveModel::Naming
+
+	belongs_to :study_subject
+
 #	with_options :class_name => 'User', :primary_key => 'uid' do |u|
 #		u.belongs_to :entry_1_by, :foreign_key => 'entry_1_by_uid'
 #		u.belongs_to :entry_2_by, :foreign_key => 'entry_2_by_uid'
 #		u.belongs_to :merged_by,  :foreign_key => 'merged_by_uid'
 #	end
-#
-#	validations_from_yaml_file
-#
+
+	validations_from_yaml_file
+
 #	attr_protected :study_subject_id, :study_subject
 #	attr_protected :entry_1_by_uid
 #	attr_protected :entry_2_by_uid

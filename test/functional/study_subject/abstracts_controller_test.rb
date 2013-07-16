@@ -1,14 +1,14 @@
 require 'test_helper'
 
 class StudySubject::AbstractsControllerTest < ActionController::TestCase
+
 #
-##
-##	TODO add edit and update tests and actions eventually
-##
+#	TODO add edit and update tests and actions eventually
 #
-#	site_editors.each do |cu|
-#
-#
+
+	site_editors.each do |cu|
+
+
 #		test "should show abstract with valid study_subject_id and abstract id and #{cu} login" do
 #			abstract = FactoryGirl.create(:abstract).reload
 #			assert_not_nil abstract.study_subject_id
@@ -368,12 +368,12 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 #			assert_not_nil flash[:error]
 #			assert_redirected_to study_subjects_path
 #		end
-#
-#	end
-#
-#
-#	non_site_editors.each do |cu|
-#
+
+	end
+
+
+	non_site_editors.each do |cu|
+
 #		test "should NOT get abstract index with valid study_subject_id and #{cu} login" do
 #			abstract = FactoryGirl.create(:abstract).reload
 #			login_as send(cu)
@@ -426,9 +426,9 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 #			assert_not_nil flash[:error]
 #			assert_redirected_to root_path
 #		end
-#
-#	end
-#
+
+	end
+
 #	test "should NOT get abstract index with valid study_subject_id without login" do
 #		abstract = FactoryGirl.create(:abstract).reload
 #		get :index, :study_subject_id => abstract.study_subject_id
@@ -472,5 +472,5 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 #		post :merge, :study_subject_id => study_subject.id
 #		assert_redirected_to_login
 #	end
-#
+
 end
