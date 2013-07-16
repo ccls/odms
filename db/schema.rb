@@ -75,15 +75,19 @@ ActiveRecord::Schema.define(:version => 20130712213509) do
     t.text     "marker_comments"
     t.integer  "tdt_report_found",                       :limit => 2
     t.date     "tdt_test_date"
-    t.string   "tdt_found_in_cytometry"
-    t.string   "tdt_found_separately"
-    t.string   "tdt_negative"
-    t.string   "tdt_numerical_result"
-    t.string   "tdt_positive"
+    t.string   "tdt_found_where",                        :limit => 25
+    t.string   "tdt_result",                             :limit => 25
+    t.string   "tdt_numerical_result",                   :limit => 25
     t.integer  "ploidy_report_found",                    :limit => 2
     t.date     "ploidy_test_date"
-    t.string   "ploidy_found_in_cytometry"
-    t.string   "ploidy_found_separately"
+    t.string   "ploidy_found_where",                     :limit => 25
+    t.string   "ploidy_hypodiploid",                     :limit => 25
+    t.string   "ploidy_pseudodiploid",                   :limit => 25
+    t.string   "ploidy_hyperdiploid",                    :limit => 25
+    t.string   "ploidy_diploid",                         :limit => 25
+    t.string   "ploidy_dna_index",                       :limit => 25
+    t.text     "ploidy_other_dna_measurement"
+    t.text     "ploidy_notes"
     t.integer  "hla_report_found",                       :limit => 2
     t.date     "hla_test_date"
     t.text     "hla_results"
@@ -107,6 +111,7 @@ ActiveRecord::Schema.define(:version => 20130712213509) do
     t.integer  "trisomy_21",                             :limit => 2
     t.text     "cs_conventional_karyotyping_results"
     t.text     "cs_hospital_fish_results"
+    t.text     "cs_comments"
     t.integer  "cbc_report_found",                       :limit => 2
     t.date     "cbc_test_date"
     t.string   "cbc_hemoglobin",                         :limit => 25
@@ -116,10 +121,10 @@ ActiveRecord::Schema.define(:version => 20130712213509) do
     t.string   "cbc_platelet_count",                     :limit => 25
     t.integer  "csf_report_found",                       :limit => 2
     t.date     "csf_test_date"
-    t.string   "csf_blasts_present",                     :limit => 25
+    t.integer  "csf_blasts_present",                     :limit => 2
     t.text     "csf_cytology"
     t.string   "csf_number_of_blasts",                   :limit => 25
-    t.string   "csf_pb_contamination",                   :limit => 25
+    t.integer  "csf_pb_contamination",                   :limit => 2
     t.string   "csf_rbc",                                :limit => 25
     t.string   "csf_wbc",                                :limit => 25
     t.integer  "cxr_report_found",                       :limit => 2
@@ -139,23 +144,23 @@ ActiveRecord::Schema.define(:version => 20130712213509) do
     t.date     "ds_test_date"
     t.text     "ds_clinical_diagnosis"
     t.integer  "cp_report_found",                        :limit => 2
-    t.integer  "cp_induction_protocol",                  :limit => 2
+    t.integer  "cp_induction_protocol_used",             :limit => 2
     t.string   "cp_induction_protocol_name_and_number"
     t.text     "cp_therapeutic_agents"
     t.integer  "bma07_report_found",                     :limit => 2
     t.date     "bma07_test_date"
     t.string   "bma07_classification",                   :limit => 25
-    t.string   "bma07_inconclusive_results",             :limit => 25
+    t.boolean  "bma07_inconclusive_results"
     t.string   "bma07_percentage_of_blasts",             :limit => 25
     t.integer  "bma14_report_found",                     :limit => 2
     t.date     "bma14_test_date"
     t.string   "bma14_classification",                   :limit => 25
-    t.string   "bma14_inconclusive_results",             :limit => 25
+    t.boolean  "bma14_inconclusive_results"
     t.string   "bma14_percentage_of_blasts",             :limit => 25
     t.integer  "bma28_report_found",                     :limit => 2
     t.date     "bma28_test_date"
     t.string   "bma28_classification",                   :limit => 25
-    t.string   "bma28_inconclusive_results",             :limit => 25
+    t.boolean  "bma28_inconclusive_results"
     t.string   "bma28_percentage_of_blasts",             :limit => 25
     t.integer  "clinical_remission",                     :limit => 2
     t.string   "leukemia_class",                         :limit => 25

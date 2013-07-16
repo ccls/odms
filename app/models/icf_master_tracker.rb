@@ -44,7 +44,7 @@ class IcfMasterTracker < OpenStruct
 			e.interview_completed_on = Time.parse(cati_complete).to_date
 			if e.changed?
 #				changed << s
-				changed = s
+				self.changed = s
 				puts "-- Updated interview_completed_on : #{e.interview_completed_on}" if verbose
 				puts "-- Enrollment updated. Creating OE" if verbose
 

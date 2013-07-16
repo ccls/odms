@@ -1,3 +1,10 @@
+.field_wrapper {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	> * {
+		vertical-align: middle;
+	}
+}
 ol li {
 	font-size: large;
 	* {

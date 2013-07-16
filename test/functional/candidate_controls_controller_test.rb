@@ -281,7 +281,7 @@ class CandidateControlsControllerTest < ActionController::TestCase
 #You should probably reject this candidate. Study Subject invalid. Date of birth can't be blank
 
 			candidate.reload
-			assert_match /Date of birth can't be blank/,
+			assert_match /Date of Birth can't be blank/,
 				candidate.odms_exceptions.first.to_s
 			assert         candidate.reject_candidate	#	pre-rejected
 			assert_not_nil candidate.rejection_reason	#	pre-rejected

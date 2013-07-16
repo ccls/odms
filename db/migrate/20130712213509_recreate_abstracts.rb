@@ -1,15 +1,14 @@
 class RecreateAbstracts < ActiveRecord::Migration
   def change
-
-
-#	This is still VERY incomplete!!!
-
-#	make many of these YNDK integers	(smallint ... -32000 to 32000 )
-#	conventionalize the field names
-#	drop the double negatives
-
-
     create_table :abstracts do |t|
+
+
+#	user ids
+#	entry dates
+#	merged flag
+
+
+
 
 			t.integer :study_subject_id
 
@@ -78,17 +77,22 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.integer :tdt_report_found, :limit => 2
 			t.date   :tdt_test_date
 
-			t.string :tdt_found_in_cytometry							#	FIX ME
-			t.string :tdt_found_separately							#	FIX ME
-			t.string :tdt_negative							#	FIX ME
-			t.string :tdt_numerical_result							#	FIX ME
-			t.string :tdt_positive							#	FIX ME
+			t.string :tdt_found_where, :limit => 25
+			t.string :tdt_result, :limit => 25
+			t.string :tdt_numerical_result, :limit => 25
 
 
 			t.integer :ploidy_report_found, :limit => 2
 			t.date   :ploidy_test_date
-			t.string :ploidy_found_in_cytometry							#	FIX ME
-			t.string :ploidy_found_separately							#	FIX ME
+			t.string :ploidy_found_where, :limit => 25
+
+			t.string :ploidy_hypodiploid, :limit => 25
+			t.string :ploidy_pseudodiploid, :limit => 25
+			t.string :ploidy_hyperdiploid, :limit => 25
+			t.string :ploidy_diploid, :limit => 25
+			t.string :ploidy_dna_index, :limit => 25
+			t.text   :ploidy_other_dna_measurement
+			t.text   :ploidy_notes
 
 
 			t.integer :hla_report_found, :limit => 2
@@ -117,6 +121,7 @@ class RecreateAbstracts < ActiveRecord::Migration
 
 			t.text   :cs_conventional_karyotyping_results
 			t.text   :cs_hospital_fish_results
+			t.text   :cs_comments
 
 			t.integer :cbc_report_found, :limit => 2
 			t.date   :cbc_test_date
@@ -128,10 +133,10 @@ class RecreateAbstracts < ActiveRecord::Migration
 
 			t.integer :csf_report_found, :limit => 2
 			t.date   :csf_test_date
-			t.string :csf_blasts_present, :limit => 25
+			t.integer :csf_blasts_present, :limit => 2
 			t.text   :csf_cytology
 			t.string :csf_number_of_blasts, :limit => 25
-			t.string :csf_pb_contamination, :limit => 25
+			t.integer :csf_pb_contamination, :limit => 2
 			t.string :csf_rbc, :limit => 25
 			t.string :csf_wbc, :limit => 25
 
@@ -156,7 +161,7 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.text   :ds_clinical_diagnosis
 
 			t.integer :cp_report_found, :limit => 2
-			t.integer :cp_induction_protocol, :limit => 2
+			t.integer :cp_induction_protocol_used, :limit => 2
 
 			t.string :cp_induction_protocol_name_and_number
 			t.text   :cp_therapeutic_agents
@@ -164,19 +169,19 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.integer :bma07_report_found, :limit => 2
 			t.date   :bma07_test_date
 			t.string :bma07_classification, :limit => 25
-			t.string :bma07_inconclusive_results, :limit => 25								#	FIX THIS
+			t.boolean :bma07_inconclusive_results
 			t.string :bma07_percentage_of_blasts, :limit => 25
 
 			t.integer :bma14_report_found, :limit => 2
 			t.date   :bma14_test_date
 			t.string :bma14_classification, :limit => 25
-			t.string :bma14_inconclusive_results, :limit => 25							#	FIX ME
+			t.boolean :bma14_inconclusive_results
 			t.string :bma14_percentage_of_blasts, :limit => 25
 
 			t.integer :bma28_report_found, :limit => 2
 			t.date   :bma28_test_date
 			t.string :bma28_classification, :limit => 25
-			t.string :bma28_inconclusive_results, :limit => 25							#	FIX ME
+			t.boolean :bma28_inconclusive_results
 			t.string :bma28_percentage_of_blasts, :limit => 25
 
 			t.integer :clinical_remission, :limit => 2

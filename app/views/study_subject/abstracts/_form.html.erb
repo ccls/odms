@@ -17,16 +17,6 @@
 	</ul>
 	</div></li>
 
-
-
-
-<!--
-
-	translations won't work until abstract is an activerecord
-
--->
-
-
 <li><div><h3>DIAGNOSTIC STUDIES</h3>
 	<ol type='A'>
 	<li><div><h4>BONE MARROW BIOPSY</h4>
@@ -35,7 +25,7 @@
 		<%= f.wrapped_yndk_select :bmb_percentage_blasts_known %>
 		<%= f.wrapped_text_field :bmb_percentage_blasts %>
 		
-		<div>Diagnosis or Interpretation:<br/>
+		<div><%= f.label :bmb_comments %><br/>
 		<%= f.text_area :bmb_comments, :class => :autosize, :rows => 3, :cols => 50 %></div>
 	</div></li>
 	
@@ -47,7 +37,7 @@
 		<%= f.wrapped_yndk_select :bma_percentage_blasts_known %>
 		<%= f.wrapped_text_field :bma_percentage_blasts %>
 
-		<div>Comments or Interpretation:<br/>
+		<div><%= f.label :bma_comments %>:<br/>
 		<%= f.text_area :bma_comments, :class => :autosize, :rows => 3, :cols => 50 %>
 		</div>
 	</div></li>
@@ -58,92 +48,85 @@
 		<%= f.wrapped_yndk_select :dfc_report_found %>
 		<%= f.wrapped_date_text_field :dfc_test_date %>
 		<%= f.wrapped_yndk_select :dfc_numerical_data_available %>
-Numerical data available on report?
 	
-<h1>These seem to be integer percentages</h1>
-<h1>BUT NOT ALL. Some are '&lt;1' or '19 dim'</h1>
-	
-		<div>B Cell Markers:<ul>
-		<li>CD10 (or CALLA) <%= f.text_field :marker_cd10 %></li>
-		<li>CD19 <%= f.text_field :marker_cd19 %></li>
-		<li>CD20 <%= f.text_field :marker_cd20 %></li>
-		<li>CD21 <%= f.text_field :marker_cd21 %></li>
-		<li>CD22 <%= f.text_field :marker_cd22 %></li>
-		<li>CD23 <%= f.text_field :marker_cd23 %></li>
-		<li>CD24 (BA-1) <%= f.text_field :marker_cd24 %></li>
-		<li>CD40 <%= f.text_field :marker_cd40 %></li>
-		<li>Surface Immunoglobulin (or sIg) <%= f.text_field :marker_sig %></li>
-		<li>Cytoplasmic IgM (or cytoplasmic mu) <%= f.text_field :marker_igm %></li>
-		<li>Bone Marrow Kappa <%= f.text_field :marker_bmk %></li>
-		<li>Bone Marrow Lambda <%= f.text_field :marker_bml %></li>
-		<li>CD19 + CD10 <%= f.text_field :marker_cd19_cd10 %></li>
-		</ul></div>
-		
-		<div>T Cell Markers:<ul>
-		<li>CD1a <%= f.text_field :marker_cd1a %></li>
-		<li>CD2 <%= f.text_field :marker_cd2 %></li>
-		<li>CD3 <%= f.text_field :marker_cd3 %></li>
-		<li>CD4 <%= f.text_field :marker_cd4 %></li>
-		<li>CD5 <%= f.text_field :marker_cd5 %></li>
-		<li>CD7 <%= f.text_field :marker_cd7 %></li>
-		<li>CD8 <%= f.text_field :marker_cd8 %></li>
-		<li>CD3 + CD4 <%= f.text_field :marker_cd3_cd4 %></li>
-		<li>CD3 + CD8 <%= f.text_field :marker_cd3_cd8 %></li>
-		</ul></div>
+		<ul>
+			<li><div>B Cell Markers:
+				<%= f.wrapped_text_field :marker_cd10 %>
+				<%= f.wrapped_text_field :marker_cd19 %>
+				<%= f.wrapped_text_field :marker_cd20 %>
+				<%= f.wrapped_text_field :marker_cd21 %>
+				<%= f.wrapped_text_field :marker_cd22 %>
+				<%= f.wrapped_text_field :marker_cd23 %>
+				<%= f.wrapped_text_field :marker_cd24 %>
+				<%= f.wrapped_text_field :marker_cd40 %>
+				<%= f.wrapped_text_field :marker_sig %>
+				<%= f.wrapped_text_field :marker_igm %>
+				<%= f.wrapped_text_field :marker_bmk %>
+				<%= f.wrapped_text_field :marker_bml %>
+				<%= f.wrapped_text_field :marker_cd19_cd10 %>
+			</div></li>
+
+			<li><div>T Cell Markers:
+				<%= f.wrapped_text_field :marker_cd1a %>
+				<%= f.wrapped_text_field :marker_cd2 %>
+				<%= f.wrapped_text_field :marker_cd3 %>
+				<%= f.wrapped_text_field :marker_cd4 %>
+				<%= f.wrapped_text_field :marker_cd5 %>
+				<%= f.wrapped_text_field :marker_cd7 %>
+				<%= f.wrapped_text_field :marker_cd8 %>
+				<%= f.wrapped_text_field :marker_cd3_cd4 %>
+				<%= f.wrapped_text_field :marker_cd3_cd8 %>
+			</div></li>
 	
 	
-		<div>Myeloid markers:<ul>
-		<li>CD11b <%= f.text_field :marker_cd11b %></li>
-		<li>CD11c <%= f.text_field :marker_cd11c %></li>
-		<li>CD13 (or MY-7) <%= f.text_field :marker_cd13 %></li>
-		<li>CD15 (or LEU M1) <%= f.text_field :marker_cd15 %></li>
-		<li>CD33 (or MY-9) <%= f.text_field :marker_cd33 %></li>
-		<li>CD41 <%= f.text_field :marker_cd41 %></li>
-		<li>CDw65 <%= f.text_field :marker_cdw65 %></li>
-		</ul></div>
+			<li><div>Myeloid markers:
+				<%= f.wrapped_text_field :marker_cd11b %>
+				<%= f.wrapped_text_field :marker_cd11c %>
+				<%= f.wrapped_text_field :marker_cd13 %>
+				<%= f.wrapped_text_field :marker_cd15 %>
+				<%= f.wrapped_text_field :marker_cd33 %>
+				<%= f.wrapped_text_field :marker_cd41 %>
+				<%= f.wrapped_text_field :marker_cdw65 %>
+			</div></li>
 	
 	
-		<div>Stem Cell Marker:<ul>
-		<li>CD34 <%= f.text_field :marker_cd34 %></li>
-		</ul></div>
+			<li><div>Stem Cell Marker:
+				<%= f.wrapped_text_field :marker_cd34 %>
+			</div></li>
 	
+			<li><div>Megakaryocyte Marker:
+				<%= f.wrapped_text_field :marker_cd61 %>
+			</div></li>
 	
-		<div>Megakaryocyte Marker:<ul>
-		<li>CD61 <%= f.text_field :marker_cd61 %></li>
-		</ul></div>
+			<li><div>Mono Marker:
+				<%= f.wrapped_text_field :marker_cd14 %>
+			</div></li>
 	
+			<li><div>Erythroid Marker:
+				<%= f.wrapped_text_field :marker_glycophorin_a %>
+			</div></li>
 	
-		<div>Mono Marker:<ul>
-		<li>CD14 <%= f.text_field :marker_cd14 %></li>
-		</ul></div>
+			<li><div>Natural Killer associated markers:
+				<%= f.wrapped_text_field :marker_cd16 %>
+				<%= f.wrapped_text_field :marker_cd56 %>
+				<%= f.wrapped_text_field :marker_cd57 %>
+			</div></li>
 	
+			<li><div>Non-Specific Markers:
+				<%= f.wrapped_text_field :marker_cd9 %>
+				<%= f.wrapped_text_field :marker_cd25 %>
+				<%= f.wrapped_text_field :marker_cd38 %>
+				<%= f.wrapped_text_field :marker_cd45 %>
+				<%= f.wrapped_text_field :marker_cd71 %>
+				<%= f.wrapped_text_field :marker_hla_dr %>
+				<%= f.wrapped_text_field :marker_tdt %>
+			</div></li>
+		</ul>
 	
-		<div>Erythroid Marker:<ul>
-		<li>Glycophorin A <%= f.text_field :marker_glycophorin_a %></li>
-		</ul></div>
-	
-	
-		<div>Natural Killer associated markers:<ul>
-		<li>CD16 <%= f.text_field :marker_cd16 %></li>
-		<li>CD56 <%= f.text_field :marker_cd56 %></li>
-		<li>CD57 <%= f.text_field :marker_cd57 %></li>
-		</ul></div>
-	
-	
-		<div>Non-Specific Markers:<ul>
-		<li>CD9 (or BA-2) <%= f.text_field :marker_cd9 %></li>
-		<li>CD25 <%= f.text_field :marker_cd25 %></li>
-		<li>CD38 <%= f.text_field :marker_cd38 %></li>
-		<li>CD45 <%= f.text_field :marker_cd45 %></li>
-		<li>CD71 <%= f.text_field :marker_cd71 %></li>
-		<li>%HLA-DR <%= f.text_field :marker_hla_dr %></li>
-		<li>TERM DOXYTRAN (or Tdt) <%= f.text_field :marker_tdt %></li>
-		</ul></div>
-	
-		<div>Other(s):<br/>
+		<div><%= f.label :other_markers %><br/>
 		<%= f.text_area :other_markers, :class => :autosize, :rows => 3, :cols => 50 %></div>
 
-		<div>Remarks or comments:<br/>
+		<div><%= f.label :marker_comments %><br/>
 		<%= f.text_area :marker_comments, :class => :autosize, :rows => 3, :cols => 50 %></div>
 	
 	</div></li>
@@ -157,36 +140,16 @@ Numerical data available on report?
 
 	<!-- ################################################################# -->
 
-	<li><div><h4>Tdt (or Terminal Deoxynucleotydyl Transferase)</h4>
+	<li><div><h4>TDT (or TERMINAL DEOXYNUCLEOTYDYL TRANSFERASE)</h4>
 		<%= f.wrapped_yndk_select :tdt_report_found %>
 		<%= f.wrapped_date_text_field :tdt_test_date %>
 	
+		<%= f.wrapped_select :tdt_found_where, [
+			"in Flow Cytometry", "separately"], :include_blank => true %>
 
-		<div>
-		<%= f.label :tdt_found_in_cytometry, 'Check if found in Flow Cytometry (part C. I.):' %>
-		<%= f.check_box :tdt_found_in_cytometry, {}, 'yes', 'no' %>
-		</div>
-<h1>Make this a single variable and use radio buttons, prefer tdt_found_where select/options</h1>
-		<div>
-		<%= f.label :tdt_found_separately, 'Check if done separately from Flow Cytometry:' %>
-		<%= f.check_box :tdt_found_separately, {}, 'yes', 'no' %> and report results below:
-		</div>
-	
-
-<h1>Set defaults so all of these have default values?</h1>
-<h1>Or use checkboxes or blank radio button option to uncheck stuff?</h1>
-<h1>Or use select / options with blank option (think that this is my preferred)?</h1>
-	
-<h1>Are these counts? Checkboxes? Checked on the forms that I saw</h1>
-<h1>Positive / Negative radio buttons</h1>	
-		<div>
-		<%= f.label :tdt_positive, 'Positive:' %>
-		<%= f.text_field :tdt_positive %>
-		<%= f.label :tdt_negative, 'Negative:' %>
-		<%= f.text_field :tdt_negative %>
-		<%= f.label :tdt_numerical_result, 'Numerical Result:' %>
-		<%= f.text_field :tdt_numerical_result %>
-		</div>
+		<%= f.wrapped_select :tdt_result, [
+			"Positive", "Negative"], :include_blank => true %>
+		<%= f.wrapped_text_field :tdt_numerical_result %>
 	
 	</div></li>
 
@@ -196,36 +159,19 @@ Numerical data available on report?
 		<%= f.wrapped_yndk_select :ploidy_report_found %>
 		<%= f.wrapped_date_text_field :ploidy_test_date %>
 
+		<%= f.wrapped_select :ploidy_found_where, [
+			"in Flow Cytometry", "separately"], :include_blank => true %>
 
+		<%= f.wrapped_text_field :ploidy_hypodiploid %>
+		<%= f.wrapped_text_field :ploidy_pseudodiploid %>
+		<%= f.wrapped_text_field :ploidy_hyperdiploid %>
+		<%= f.wrapped_text_field :ploidy_diploid %>
+		<%= f.wrapped_text_field :ploidy_dna_index %>
 
-
-		<div>
-		<%= f.label :ploidy_found_in_cytometry, 'Check if found in Flow Cytometry (part C. I.):' %>
-		<%= f.check_box :ploidy_found_in_cytometry, {}, 'yes', 'no' %>
-		</div>
-<h1>Make this a single variable and use radio buttons</h1>
-		<div>
-		<%= f.label :ploidy_found_separately, 'Check if done separately from Flow Cytometry:' %>
-		<%= f.check_box :ploidy_found_separately, {}, 'yes', 'no' %> and report results below:
-		</div>
-
-
-
-
-		<ul>
-			<li>Hypodiploid: 
-<h1>CHECKBOX? TEXTFIELD?</h1></li>
-			<li>Pseudodiploid:</li>
-			<li>Hyperdiploid:</li>
-			<li>Diploid (or Normal):</li>
-			<li>DNA Index:</li>
-			<li>Other DNA measurement:</li>
-			<li>Notes: 
-<h1>text area</h1></li>
-		</ul>
-
-
-
+		<div><%= f.label :ploidy_other_dna_measurement %><br/>
+		<%= f.text_area :ploidy_other_dna_measurement, :class => :autosize, :rows => 3, :cols => 50 %></div>
+		<div><%= f.label :ploidy_notes %><br/>
+		<%= f.text_area :ploidy_notes, :class => :autosize, :rows => 3, :cols => 50 %></div>
 
 
 
@@ -237,7 +183,7 @@ Numerical data available on report?
 		<%= f.wrapped_yndk_select :hla_report_found %>
 		<%= f.wrapped_date_text_field :hla_test_date %>
 
-		<div>Results:<br/>
+		<div><%= f.label :hla_results %>:<br/>
 		<%= f.text_area :hla_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
@@ -256,8 +202,8 @@ Numerical data available on report?
 		<%= f.radio_button_with_label :cs_hyperdiploidy_by, 'FISH' %>
 		</div>
 	
-		<div>Number of chromosomes (if karyotype)?
-		<%= f.text_field :cs_hyperdiploidy_number_of_chromosomes %></div>
+		<%= f.wrapped_text_field :cs_hyperdiploidy_number_of_chromosomes,
+			:post_text => "(if karyotype)" %>
 	
 		<p>Please indicate the presence or absence of the following translocations. Leave no blanks.</p>
 	
@@ -284,6 +230,9 @@ Numerical data available on report?
 	
 		<div>Hospital FISH Results [Numerical results &amp; Summary of findings]:<br/>
 		<%= f.text_area :cs_hospital_fish_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
+
+		<div><%= f.label :cs_comments %><br/>
+		<%= f.text_area :cs_comments, :class => :autosize, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -291,12 +240,11 @@ Numerical data available on report?
 	<li><div><h4>COMPLETE BLOOD COUNT (CBC)</h4>
 		<%= f.wrapped_yndk_select :cbc_report_found %>
 		<%= f.wrapped_date_text_field :cbc_test_date %>
-	
-		<div>Leukocyte Count (WBC) <%= f.text_field :cbc_leukocyte_count %> K/mm3</div>
-		<div>Percentage Blasts (aka atypical or abnormal cells) <%= f.text_field :cbc_percentage_blasts %> %</div>
-		<div>OR Number of Blasts <%= f.text_field :cbc_number_of_blasts %></div>
-		<div>Hemoglobin (or Hgb) <%= f.text_field :cbc_hemoglobin %> GM/DL</div>
-		<div>Platelet Count (or Plt ct) <%= f.text_field :cbc_platelet_count %> K/mm3</div>
+		<%= f.wrapped_text_field :cbc_leukocyte_count, :post_text => "K/mm3" %>
+		<%= f.wrapped_text_field :cbc_percentage_blasts, :post_text => '%' %>
+		<%= f.wrapped_text_field :cbc_number_of_blasts %>
+		<%= f.wrapped_text_field :cbc_hemoglobin, :post_text => 'GM/DL' %>
+		<%= f.wrapped_text_field :cbc_platelet_count, :post_text => 'K/mm3' %>
 	
 	</div></li>
 
@@ -305,12 +253,11 @@ Numerical data available on report?
 	<li><div><h4>CEREBROSPINAL FLUID (or CSF)</h4>
 		<%= f.wrapped_yndk_select :csf_report_found %>
 		<%= f.wrapped_date_text_field :csf_test_date %>
-	
-		<div>WBC [#] <%= f.text_field :csf_wbc %></div>
-		<div>RBC [#] <%= f.text_field :csf_rbc %></div>
-		<div>Blasts present (yes/no) <%= f.text_field :csf_blasts_present %> </div>
-		<div>Number of Blasts <%= f.text_field :csf_number_of_blasts %></div>
-		<div>PB contamination (yes/no) <%= f.text_field :csf_pb_contamination %></div>
+		<%= f.wrapped_text_field :csf_wbc %>
+		<%= f.wrapped_text_field :csf_rbc %>
+		<%= f.wrapped_yndk_select :csf_blasts_present %>
+		<%= f.wrapped_text_field :csf_number_of_blasts %>
+		<%= f.wrapped_yndk_select :csf_pb_contamination %>
 	
 		<div>Cytology (or CSF Pathology) <br/>
 		<%= f.text_area :csf_cytology, :class => :autosize, :rows => 3, :cols => 50 %></div>
@@ -322,6 +269,7 @@ Numerical data available on report?
 		<%= f.wrapped_yndk_select :cxr_report_found %>
 		<%= f.wrapped_date_text_field :cxr_test_date %>
 	
+<h1>Are these radio button / exclusive option?</h1>
 		<div>Check as appropriate: 
 		<%= f.label :cxr_result, 'Normal Chest', :value => 'normal' %>
 		<%= f.radio_button :cxr_result, 'normal' %>
@@ -368,9 +316,9 @@ Numerical data available on report?
 		<%= f.wrapped_yndk_select :cp_report_found %>
 
 		<div>Was patient enrolled on a standardized induction protocol, such as COG?
-		<%= f.wrapped_yndk_select :cp_induction_protocol %>
+		<%= f.wrapped_yndk_select :cp_induction_protocol_used %>
 		</div>
-	
+<h1>fix this area</h1>	
 		<div>If yes, indicate protocol name and number used <%= f.text_field :cp_induction_protocol_name_and_number %> (e.g. COG AALL0231)</div>
 	
 		<div>If no, specify any therapeutic agents (especially the first 3-4 induction agents) and if the patient was "treated per _____":<br/>
@@ -383,82 +331,66 @@ Numerical data available on report?
 <li><div><h3>RESPONSE TO THERAPY</h3>
 
 
-<h4>DAY 7 (8) Bone Marrow Aspirate</h4>
-<%= f.wrapped_yndk_select :bma07_report_found %>
-<%= f.wrapped_date_text_field :bma07_test_date %>
+	<h4>DAY 7 (8) Bone Marrow Aspirate</h4>
+	<%= f.wrapped_yndk_select :bma07_report_found %>
+	<%= f.wrapped_date_text_field :bma07_test_date %>
+	<%= f.wrapped_select :bma07_classification, [["<5% Blasts", "M1"],
+		["5-25% Blasts", "M2"], [">25% Blasts", "M3"]], :include_blank => true %>
+	<%= f.wrapped_text_field :bma07_percentage_of_blasts, :post_text => "(if reported)" %>
+	<div><%= f.label :bma07_inconclusive_results %>
+	<%= f.check_box :bma07_inconclusive_results, {}, true, false %>
+	<span>(check if inconclusive results are indicated on report)</span>
+	</div>
 
-<div>Classification 
-<%= f.select :bma07_classification, [["<5% Blasts", "M1"],
-	["5-25% Blasts", "M2"], [">25% Blasts", "M3"]], :include_blank => true %>
-</div>
+	<h4>DAY 14 (15) Bone Marrow Aspirate</h4>
+	<%= f.wrapped_yndk_select :bma14_report_found %>
+	<%= f.wrapped_date_text_field :bma14_test_date %>
+	<%= f.wrapped_select :bma14_classification, [["<5% Blasts", "M1"],
+		["5-25% Blasts", "M2"], [">25% Blasts", "M3"]], :include_blank => true %>
+	<%= f.wrapped_text_field :bma14_percentage_of_blasts, :post_text => "(if reported)" %>
+	<div><%= f.label :bma14_inconclusive_results %>
+	<%= f.check_box :bma14_inconclusive_results, {}, true, false %>
+	<span>(check if inconclusive results are indicated on report)</span>
+	</div>
 
-<div>Percentage of blasts (if reported) <%= f.text_field :bma07_percentage_of_blasts %></div>
-<div>Inconclusive Results
-<%= f.check_box :bma07_inconclusive_results, {}, 'yes', 'no' %>
-<%= f.label :bma07_inconclusive_results, "(check if inconclusive results are indicated on report)" %>
-</div>
-
-
-<h4>DAY 14 (15) Bone Marrow Aspirate</h4>
-<%= f.wrapped_yndk_select :bma14_report_found %>
-<%= f.wrapped_date_text_field :bma14_test_date %>
-
-<div>Classification 
-<%= f.select :bma14_classification, [["<5% Blasts", "M1"],
-	["5-25% Blasts", "M2"], [">25% Blasts", "M3"]], :include_blank => true %>
-</div>
-
-<div>Percentage of blasts (if reported) <%= f.text_field :bma14_percentage_of_blasts %></div>
-
-<div>Inconclusive Results
-<%= f.check_box :bma14_inconclusive_results, {}, 'yes', 'no' %>
-<%= f.label :bma14_inconclusive_results, "(check if inconclusive results are indicated on report)" %>
-</div>
-
-<h4>DAY 28 (29) Bone Marrow Aspirate</h4>
-<%= f.wrapped_yndk_select :bma28_report_found %>
-<%= f.wrapped_date_text_field :bma28_test_date %>
-
-<div>Classification 
-<%= f.select :bma28_classification, [["<5% Blasts", "M1"],
-	["5-25% Blasts", "M2"], [">25% Blasts", "M3"]], :include_blank => true %>
-</div>
+	<h4>DAY 28 (29) Bone Marrow Aspirate</h4>
+	<%= f.wrapped_yndk_select :bma28_report_found %>
+	<%= f.wrapped_date_text_field :bma28_test_date %>
+	<%= f.wrapped_select :bma28_classification, [["<5% Blasts", "M1"],
+		["5-25% Blasts", "M2"], [">25% Blasts", "M3"]], :include_blank => true %>
+	<%= f.wrapped_text_field :bma28_percentage_of_blasts, :post_text => "(if reported)" %>
+	<div><%= f.label :bma28_inconclusive_results %>
+	<%= f.check_box :bma28_inconclusive_results, {}, true, false %>
+	<span>(check if inconclusive results are indicated on report)</span>
+	</div>
 
 
-
-<div>Percentage of blasts (if reported) <%= f.text_field :bma28_percentage_of_blasts %></div>
-
-<div>Inconclusive Results
-<%= f.check_box :bma28_inconclusive_results, {}, 'yes', 'no' %>
-<%= f.label :bma28_inconclusive_results, "(check if inconclusive results are indicated on report)" %>
-</div>
-
-<div>At the end of induction (30 days), was the child in clinical remission?<br/>
-<%= f.wrapped_yndk_select :clinical_remission %>
-</div>
+	<div>At the end of induction (30 days), was the child in clinical remission?<br/>
+	<%= f.wrapped_yndk_select :clinical_remission %>
+	</div>
 
 
 
 </div></li>
 <li><div><h3>DIAGNOSIS &amp; CLASSIFICATION</h3>
 
-<div>Class of Leukemia:
-
-<h1>Use grouped select / option?</h1>
-
-<%= f.select :leukemia_class, grouped_options_for_select({ 
+<%= f.wrapped_select :leukemia_class, grouped_options_for_select({ 
 	'ALL' => [ 'ALL L1', 'ALL L2', 'ALL L3', 'ALL Other'], 
 	'AML' => [ 'AML M0', 'AML M1', 'AML M2', 'AML M3', 'AML M4', 'AML M4e',
 		'AML M5', 'AML M5A', 'AML M5B', 'AML M6', 'AML M7', 'AML Other' ],
 	'CML' => ['CML'], 'CLL' => ['CLL']
 }),:include_blank => true %>
 
-<%= f.wrapped_text_field :other_all_leukemia_class %>
-<%= f.wrapped_text_field :other_aml_leukemia_class %>
+<%= f.wrapped_text_field :other_all_leukemia_class,
+	:post_text => "(if is Other ALL)" %>
+<%= f.wrapped_text_field :other_aml_leukemia_class,
+	:post_text => "(if is Other AML)" %>
 
 <%= f.wrapped_text_field :icdo_classification_number %>
-<div>ICDO CLASSIFICATION DESCRIPTION<br/>
+<div><%= f.label :icdo_classification_description %><br/>
 <%= f.text_area :icdo_classification_description, :class => :autosize, :rows => 3, :cols => 50 %></div>
+
+
 
 <div>LINEAGE: (check the appropriate box if lineage is indicated)</div>
 <div><ul>

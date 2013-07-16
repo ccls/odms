@@ -141,7 +141,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal 1, candidate_control.odms_exceptions.length
 		assert_equal 'new subject error',
 			candidate_control.odms_exceptions.first.name
-		assert_match /Date of birth can't be blank/,
+		assert_match /Date of Birth can't be blank/,
 			candidate_control.odms_exceptions.first.description
 	end
 

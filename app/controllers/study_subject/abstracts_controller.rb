@@ -28,14 +28,12 @@ class StudySubject::AbstractsController < StudySubjectController
 		if !@study_subject.is_case?
 			render :action => 'not_case' 
 		else
-#			@abstracts = @study_subject.abstracts
-@abstracts = []
+			@abstracts = @study_subject.abstracts
 		end
 	end
 
 	def new
-		@abstract = Abstract.new(params[:abstract])
-#		@abstract = @study_subject.abstracts.new(params[:abstract])
+		@abstract = @study_subject.abstracts.new(params[:abstract])
 	end
 
 	def create

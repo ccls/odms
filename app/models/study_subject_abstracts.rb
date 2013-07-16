@@ -8,9 +8,9 @@ def self.included(base)
 #	Must delay the calls to these ActiveRecord methods
 #	or it will raise many "undefined method"s.
 base.class_eval do
-#
-#	has_many :abstracts
-#
+
+	has_many :abstracts
+
 #	def abstracts_the_same?
 #		raise StudySubject::NotTwoAbstracts unless abstracts.count == 2
 #		#	abstracts.inject(:is_the_same_as?) was nice

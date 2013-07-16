@@ -4,9 +4,9 @@ require 'test_helper'
 #	for StudySubject separated only for clarity due
 #	to the size of the StudySubjectTest class.
 class StudySubjectAbstractsTest < ActiveSupport::TestCase
-#
-#	assert_should_have_many( :abstracts, :model => 'StudySubject')
-#
+
+	assert_should_have_many( :abstracts, :model => 'StudySubject')
+
 #	test "should NOT destroy abstracts with study_subject" do
 #		assert_difference('StudySubject.count',1) {
 #		assert_difference('Abstract.count',1) {
@@ -144,10 +144,10 @@ class StudySubjectAbstractsTest < ActiveSupport::TestCase
 ##			study_subject.abstract_diffs
 ##		}
 ##	end
-#
-#protected
-#
-#	#	create_object is called from within the common class tests
-#	alias_method :create_object, :create_study_subject
-#
+
+protected
+
+	#	create_object is called from within the common class tests
+	alias_method :create_object, :create_study_subject
+
 end

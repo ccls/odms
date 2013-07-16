@@ -100,7 +100,7 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) do
 			study_subject = create_study_subject( :dob => nil )
 			assert study_subject.errors.matching?(:dob,"can't be blank")
-			assert_match /Date of birth can't be blank/, 
+			assert_match /Date of Birth can't be blank/, 
 				study_subject.errors.full_messages.to_sentence
 			assert_no_match /DOB/i, 
 				study_subject.errors.full_messages.to_sentence

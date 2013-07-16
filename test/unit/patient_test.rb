@@ -589,7 +589,7 @@ class PatientTest < ActiveSupport::TestCase
 			patient = create_patient( :hospital_no => nil )
 			assert patient.errors.include?(:hospital_no)
 			assert patient.errors.matching?(:hospital_no,"can't be blank")
-			assert_match /Hospital record number can't be blank/, 
+			assert_match /Hospital Record Number can't be blank/, 
 				patient.errors.full_messages.to_sentence
 			assert_no_match /Hospital no/i, 
 				patient.errors.full_messages.to_sentence
@@ -602,7 +602,7 @@ class PatientTest < ActiveSupport::TestCase
 			patient = create_patient( :organization_id => nil )
 			assert patient.errors.include?(:organization_id)
 			assert patient.errors.matching?(:organization_id,"can't be blank")
-			assert_match /Treating institution can't be blank/, 
+			assert_match /Treating Institution can't be blank/, 
 				patient.errors.full_messages.to_sentence
 			assert_no_match /Organization/i, 
 				patient.errors.full_messages.to_sentence

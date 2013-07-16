@@ -8,6 +8,105 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 	site_editors.each do |cu|
 
+		test "should NOT get index without study_subject_id and with #{cu} login" do
+			login_as send(cu)
+assert_raises(ActionController::RoutingError){
+			get :index
+}
+#			assert_not_nil flash[:error]
+#			assert !assigns(:abstracts)
+#			assert_redirected_to study_subjects_path
+		end
+
+		test "should get index with invalid study_subject_id and #{cu} login" do
+			login_as send(cu)
+			get :index, :study_subject_id => 0
+			assert_not_nil flash[:error]
+			assert !assigns(:abstracts)
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should get index with valid study_subject_id and #{cu} login" do
+			study_subject = FactoryGirl.create(:case_study_subject)
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id
+			assert_response :success
+			assert_template 'index'
+			assert_nil flash[:error]
+			assert assigns(:abstracts)	#	EMPTY THOUGH
+		end
+
+		test "should NOT get index with control study subject and #{cu} login" do
+			study_subject = FactoryGirl.create(:control_study_subject)
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id
+			assert_response :success
+			assert_template 'not_case'
+			assert_nil flash[:error]
+			assert !assigns(:abstracts)
+		end
+
+		test "should NOT get index with mother study subject and #{cu} login" do
+			study_subject = FactoryGirl.create(:mother_study_subject)
+			login_as send(cu)
+			get :index, :study_subject_id => study_subject.id
+			assert_response :success
+			assert_template 'not_case'
+			assert_nil flash[:error]
+			assert !assigns(:abstracts)
+		end
+
+		test "should NOT get new without study_subject_id and with #{cu} login" do
+			login_as send(cu)
+assert_raises(ActionController::RoutingError){
+			get :new
+}
+#			assert_not_nil flash[:error]
+#			assert !assigns(:abstract)
+#			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT get new with invalid study_subject_id and #{cu} login" do
+			login_as send(cu)
+			get :new, :study_subject_id => 0
+			assert_not_nil flash[:error]
+			assert !assigns(:abstract)
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should get new with valid study_subject_id and #{cu} login" do
+			study_subject = FactoryGirl.create(:case_study_subject)
+			login_as send(cu)
+			get :new, :study_subject_id => study_subject.id
+			assert_response :success
+			assert_template 'new'
+			assert_nil flash[:error]
+			assert assigns(:abstract)
+			assert_equal assigns(:abstract).study_subject_id, study_subject.id
+		end
+
+		test "should NOT get new with control study subject and #{cu} login" do
+			study_subject = FactoryGirl.create(:control_study_subject)
+			login_as send(cu)
+			get :new, :study_subject_id => study_subject.id
+			assert_not_nil flash[:error]
+			assert !assigns(:abstract)
+			assert_redirected_to study_subject_path(study_subject)
+		end
+
+		test "should NOT get new with mother study subject and #{cu} login" do
+			study_subject = FactoryGirl.create(:mother_study_subject)
+			login_as send(cu)
+			get :new, :study_subject_id => study_subject.id
+			assert_not_nil flash[:error]
+			assert !assigns(:abstract)
+			assert_redirected_to study_subject_path(study_subject)
+		end
+
+
+
+
+
 
 #		test "should show abstract with valid study_subject_id and abstract id and #{cu} login" do
 #			abstract = FactoryGirl.create(:abstract).reload
@@ -66,101 +165,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 #		end
 #
 #
-#		test "should NOT get index without study_subject_id and with #{cu} login" do
-#			login_as send(cu)
-#assert_raises(ActionController::RoutingError){
-#			get :index
-#}
-##			assert_not_nil flash[:error]
-##			assert !assigns(:abstracts)
-##			assert_redirected_to study_subjects_path
-#		end
-#
-#		test "should get index with invalid study_subject_id and #{cu} login" do
-#			login_as send(cu)
-#			get :index, :study_subject_id => 0
-#			assert_not_nil flash[:error]
-#			assert !assigns(:abstracts)
-#			assert_redirected_to study_subjects_path
-#		end
-#
-#		test "should get index with valid study_subject_id and #{cu} login" do
-#			study_subject = FactoryGirl.create(:case_study_subject)
-#			login_as send(cu)
-#			get :index, :study_subject_id => study_subject.id
-#			assert_response :success
-#			assert_template 'index'
-#			assert_nil flash[:error]
-#			assert assigns(:abstracts)	#	EMPTY THOUGH
-#		end
-#
-#		test "should NOT get index with control study subject and #{cu} login" do
-#			study_subject = FactoryGirl.create(:control_study_subject)
-#			login_as send(cu)
-#			get :index, :study_subject_id => study_subject.id
-#			assert_response :success
-#			assert_template 'not_case'
-#			assert_nil flash[:error]
-#			assert !assigns(:abstracts)
-#		end
-#
-#		test "should NOT get index with mother study subject and #{cu} login" do
-#			study_subject = FactoryGirl.create(:mother_study_subject)
-#			login_as send(cu)
-#			get :index, :study_subject_id => study_subject.id
-#			assert_response :success
-#			assert_template 'not_case'
-#			assert_nil flash[:error]
-#			assert !assigns(:abstracts)
-#		end
-#
-#		test "should NOT get new without study_subject_id and with #{cu} login" do
-#			login_as send(cu)
-#assert_raises(ActionController::RoutingError){
-#			get :new
-#}
-##			assert_not_nil flash[:error]
-##			assert !assigns(:abstract)
-##			assert_redirected_to study_subjects_path
-#		end
-#
-#		test "should NOT get new with invalid study_subject_id and #{cu} login" do
-#			login_as send(cu)
-#			get :new, :study_subject_id => 0
-#			assert_not_nil flash[:error]
-#			assert !assigns(:abstract)
-#			assert_redirected_to study_subjects_path
-#		end
-#
-#		test "should get new with valid study_subject_id and #{cu} login" do
-#			study_subject = FactoryGirl.create(:case_study_subject)
-#			login_as send(cu)
-#			get :new, :study_subject_id => study_subject.id
-#			assert_response :success
-#			assert_template 'new'
-#			assert_nil flash[:error]
-#			assert assigns(:abstract)
-#			assert_equal assigns(:abstract).study_subject_id, study_subject.id
-#		end
-#
-#		test "should NOT get new with control study subject and #{cu} login" do
-#			study_subject = FactoryGirl.create(:control_study_subject)
-#			login_as send(cu)
-#			get :new, :study_subject_id => study_subject.id
-#			assert_not_nil flash[:error]
-#			assert !assigns(:abstract)
-#			assert_redirected_to study_subject_path(study_subject)
-#		end
-#
-#		test "should NOT get new with mother study subject and #{cu} login" do
-#			study_subject = FactoryGirl.create(:mother_study_subject)
-#			login_as send(cu)
-#			get :new, :study_subject_id => study_subject.id
-#			assert_not_nil flash[:error]
-#			assert !assigns(:abstract)
-#			assert_redirected_to study_subject_path(study_subject)
-#		end
-#
+
 #		test "should set entry_1_by_uid on creation with #{cu} login" <<
 #				" without abstract hash" do
 #			study_subject = FactoryGirl.create(:case_study_subject)
@@ -374,13 +379,20 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 	non_site_editors.each do |cu|
 
-#		test "should NOT get abstract index with valid study_subject_id and #{cu} login" do
-#			abstract = FactoryGirl.create(:abstract).reload
-#			login_as send(cu)
-#			get :index, :study_subject_id => abstract.study_subject_id
-#			assert_redirected_to root_path
-#		end
-#
+		test "should NOT get new with #{cu} login" do
+			study_subject = FactoryGirl.create(:case_study_subject)
+			login_as send(cu)
+			get :new, :study_subject_id => study_subject.id
+			assert_redirected_to root_path
+		end
+
+		test "should NOT get index with #{cu} login" do
+			abstract = FactoryGirl.create(:abstract).reload
+			login_as send(cu)
+			get :index, :study_subject_id => abstract.study_subject_id
+			assert_redirected_to root_path
+		end
+
 #		test "should NOT show abstract with valid study_subject_id and abstract id and #{cu} login" do
 #			abstract = FactoryGirl.create(:abstract).reload
 #			login_as send(cu)
@@ -429,12 +441,18 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 	end
 
-#	test "should NOT get abstract index with valid study_subject_id without login" do
-#		abstract = FactoryGirl.create(:abstract).reload
-#		get :index, :study_subject_id => abstract.study_subject_id
-#		assert_redirected_to_login
-#	end
-#
+	test "should NOT get new without login" do
+		study_subject = FactoryGirl.create(:case_study_subject)
+		get :new, :study_subject_id => study_subject.id
+		assert_redirected_to_login
+	end
+
+	test "should NOT get index without login" do
+		abstract = FactoryGirl.create(:abstract).reload
+		get :index, :study_subject_id => abstract.study_subject_id
+		assert_redirected_to_login
+	end
+
 #	test "should NOT show abstract with valid study_subject_id and abstract id without login" do
 #		abstract = FactoryGirl.create(:abstract).reload
 #		get :show, :study_subject_id => abstract.study_subject_id, :id => abstract.id
