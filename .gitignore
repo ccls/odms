@@ -38,14 +38,14 @@ versions/
 /Gemfile.lock.*
 
 #	Files potentitally with passwords and such
-/config/api.yml
+#/config/api.yml
 /config/database.yml
 #config/*database.yml
-/config/fed_ex.yml
+#/config/fed_ex.yml
 /config/initializers/mail.rb
 #/config/initializers/session_store.rb
 /config/initializers/secret_token.rb
-/config/s3.yml
+#/config/s3.yml
 
 #	code coverate data
 /coverage.data
@@ -73,10 +73,10 @@ versions/
 
 #*/documents
 
-/public/javascripts/jquery-1.3.2.js
-/public/javascripts/jquery-1.4.2.min.js
-/public/javascripts/jquery-ui-1.7.2.js
-/public/javascripts/jquery-ui-1.8.4.custom.min.js
+#/public/javascripts/jquery-1.3.2.js
+#/public/javascripts/jquery-1.4.2.min.js
+#/public/javascripts/jquery-ui-1.7.2.js
+#/public/javascripts/jquery-ui-1.8.4.custom.min.js
 
 
 db/test_*_schema.rb
