@@ -10,14 +10,14 @@ module FormBuilderHelper
 		s.html_safe
 	end
 
-	def label_with_radio_button(method,value)
-		s = ""
-		s << '&nbsp;'
-		s << @template.label(object_name,method,value,:value => value)
-		s << @template.radio_button(object_name,method,value)
-		s << '&nbsp;'
-		s.html_safe
-	end
+#	def label_with_radio_button(method,value)
+#		s = ""
+#		s << '&nbsp;'
+#		s << @template.label(object_name,method,value,:value => value)
+#		s << @template.radio_button(object_name,method,value)
+#		s << '&nbsp;'
+#		s.html_safe
+#	end
 
 #	def found_not_found(method)
 #		s = "<div>"
@@ -56,10 +56,10 @@ module FormBuilderHelper
 			{:include_blank => true}.merge(objectify_options(options)), html_options)
 	end
 
-	def pos_neg_select(method, options={}, html_options={})
-		@template.select(object_name, method, POSNEG.selector_options,
-			{:include_blank => true}.merge(objectify_options(options)), html_options)
-	end
+#	def pos_neg_select(method, options={}, html_options={})
+#		@template.select(object_name, method, POSNEG.selector_options,
+#			{:include_blank => true}.merge(objectify_options(options)), html_options)
+#	end
 
 #
 #	Only used by Abstracts if memory serves
