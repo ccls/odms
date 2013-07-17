@@ -182,19 +182,19 @@ en:
         bma07_report_found: BMA Day 7 Report Found
         bma07_test_date: BMA Day 7 Test Date
         bma07_classification: BMA Day 7 Classification
-        bma07_inconclusive_results: BMA 7 Inconclusive Results
+        bma07_inconclusive_results: BMA Day 7 Inconclusive Results
         bma07_percentage_of_blasts: BMA Day 7 Percentage Blasts
         
         bma14_report_found: BMA Day 14 Report Found
         bma14_test_date: BMA Day 14 Test Date
         bma14_classification: BMA Day 14 Classification
-        bma14_inconclusive_results: BMA 14 Inconclusive Results
+        bma14_inconclusive_results: BMA Day 14 Inconclusive Results
         bma14_percentage_of_blasts: BMA Day 14 Percentage Blasts
         
         bma28_report_found: BMA Day 28 Report Found
         bma28_test_date: BMA Day 28 Test Date
         bma28_classification: BMA Day 28 Classification
-        bma28_inconclusive_results: BMA 28 Inconclusive Results
+        bma28_inconclusive_results: BMA Day 28 Inconclusive Results
         bma28_percentage_of_blasts: BMA Day 28 Percentage Blasts
         
         clinical_remission: Clinical Remission
