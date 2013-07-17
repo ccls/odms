@@ -2,8 +2,14 @@ namespace :app do
 namespace :study_subjects do
 
 	task :update_interview_date => :environment do
-		outcsv = CSV.open( 'missing_intvwdata.output.csv', 'w' )
-		outcsv << %w( patid icf_master_id languages_before 
+
+#		filename = "missing_intvwdata.csv"
+		filename = "qry_intvw_status.csv"
+
+		output_filename = "#{File.basename(filename,File.extname(filename))}.output.csv"
+
+		outcsv = CSV.open( output_filename, 'w' )
+		outcsv << %w( subjectid childid patid icf_master_id languages_before 
 			languages_after 
 			languages_changed?
 			assigned_for_interview_at_before 
@@ -13,21 +19,47 @@ namespace :study_subjects do
 			interview_completed_on_after
 			interview_completed_on_changed?
 		)
-		CSV.open( 'missing_intvwdata.csv',
-				'rb',{ :headers => true }).each do |line|
+		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
 			puts line
 			csv = []
 			#	PatID,ChildID,Type,Eligibl,Consen,Language,Intass,InterviewDate
-			subjects = StudySubject.cases.with_patid(line['PatID'])
+			#subjects = StudySubject.cases.with_patid(line['PatID'])
+			#Inst,Language,ICFMasterID,PatID,ChildID,Eligibl,Consen,Intass,InterviewDate,Type,Admitdte,AbstractDate
+			#	PatID,subjectid,ChildId,Type,OrderNo,Eligibl,Consen,Consdate,Intass,InterviewDate,Language
+
+			csv_subjectid = line['subjectid'] || line['SubjectID'] || line['SubjectId']
+			csv_childid = line['childid'] || line['ChildID'] || line['ChildId']
+			csv_patid   = line['patid'] || line['PatID'] || line['PatId']
+			csv_cctype  = line['Type']
+			csv_orderno = line['OrderNo']
+
+			subjects = StudySubject.with_subjectid(csv_subjectid)
+			subjects = StudySubject.with_childid(csv_childid) if subjects.empty?
 
 			if subjects.length == 1
 				subject = subjects.first
 				subject_language_names_before = subject.language_names
 				subject_assigned_for_interview_at_before = subject.ccls_enrollment.assigned_for_interview_at.try(:to_date)
 				subject_interview_completed_on_before = subject.ccls_enrollment.interview_completed_on.try(:to_date)
-				puts "ChildIDs #{line['ChildID']}:#{subject.childid}"
-				raise "ChildID mismatch #{line['ChildID']}:#{subject.childid}" if(
-					line['ChildID'].to_i != subject.childid.to_i )
+
+				puts "ChildIDs #{csv_childid}:#{subject.childid}"
+				raise "ChildID mismatch #{csv_childid}:#{subject.childid}" if(
+					csv_childid.to_i != subject.childid.to_i )
+
+				puts "PatIDs #{csv_patid}:#{subject.patid}"
+				raise "PatID mismatch #{csv_patid}:#{subject.patid}" if(
+					csv_patid.to_i != subject.patid.to_i )
+
+				puts "CaseControlType #{csv_cctype}:#{subject.case_control_type}"
+				raise "CaseControlType mismatch #{csv_cctype}:#{subject.case_control_type}" if(
+					csv_cctype != subject.case_control_type )
+
+				#	OrderNo isn't in the first file
+				if csv_orderno.present?
+					puts "OrderNo #{csv_orderno}:#{subject.orderno}"
+					raise "OrderNo mismatch #{csv_orderno}:#{subject.orderno}" if(
+						csv_orderno.to_i != subject.orderno.to_i )
+				end
 
 				unless( line['Language'].blank? or 
 						line['Language'] == 'Other' or
@@ -39,15 +71,19 @@ namespace :study_subjects do
 						:occurred_at => DateTime.current,
 						:project_id => Project['ccls'].id,
 						:operational_event_type_id => OperationalEventType['datachanged'].id,
-						:description => "Language changes from missing_intvwdata.csv",
+						:description => "Language changes from #{filename}",
 						:notes => "#{line['Language']} added to languages")
 				end
 
-				#	don't DELETE data so check if new value exists
+				#	don't want to DELETE existing data, so check if new value exists before assigning it
+
+				#	if date is in format 01-Jan-00, the year will be 0000, not 2000
+				#	unless explicitly parsed with Date.parse and second arg of true given
+				#	to flag a "near now parsing"
 
 				ccls_enrollment = subject.ccls_enrollment
-				ccls_enrollment.assigned_for_interview_at = line['Intass'] if line['Intass'].present?
-				ccls_enrollment.interview_completed_on = line['InterviewDate'] if line['InterviewDate'].present?
+				ccls_enrollment.assigned_for_interview_at = Date.parse(line['Intass'],true) if line['Intass'].present?
+				ccls_enrollment.interview_completed_on = Date.parse(line['InterviewDate'],true) if line['InterviewDate'].present?
 
 				ccls_enrollment_changes = ccls_enrollment.changes
 				if ccls_enrollment.changed?
@@ -56,16 +92,18 @@ namespace :study_subjects do
 						:occurred_at => DateTime.current,
 						:project_id => Project['ccls'].id,
 						:operational_event_type_id => OperationalEventType['datachanged'].id,
-						:description => "CCLS enrollment changes from missing_intvwdata.csv",
+						:description => "CCLS enrollment changes from #{filename}",
 						:notes => ccls_enrollment_changes.to_s )
 				end
 			else
-				raise "Not 1 case subject found with patid #{line['PatID']}"
+				raise "Not 1 subject found with subjectid :#{csv_subjectid}: or childid :#{csv_childid}:"
 			end
 
 			subject.reload
 			ccls_enrollment.reload
-			csv << line['PatID']
+			csv << subject.subjectid
+			csv << subject.childid
+			csv << subject.patid
 			csv << subject.icf_master_id
 			csv << subject_language_names_before
 			csv << subject.language_names
