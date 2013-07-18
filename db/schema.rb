@@ -14,6 +14,9 @@
 ActiveRecord::Schema.define(:version => 20130712213509) do
 
   create_table "abstracts", :force => true do |t|
+    t.string   "entry_1_by_uid"
+    t.string   "entry_2_by_uid"
+    t.string   "merged_by_uid"
     t.integer  "study_subject_id"
     t.integer  "bmb_report_found",                       :limit => 2
     t.date     "bmb_test_date"

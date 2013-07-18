@@ -37,48 +37,49 @@ class StudySubject::AbstractsController < StudySubjectController
 	end
 
 	def create
-#		@abstract = @study_subject.abstracts.new(params[:abstract])
-#		@abstract.save!
-#		flash[:notice] = 'Success!'
-#		redirect_to study_subject_abstract_path(@study_subject,@abstract)
-#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-#		#	flash.now[:error] = "There was a problem creating the abstract"
-#		#	render :action => 'new'
-#		#	flash, not flash.now since redirecting and not rendering
-#		flash[:error] = "There was a problem creating the abstract"
+		@abstract = @study_subject.abstracts.new(params[:abstract])
+		@abstract.save!
+		flash[:notice] = 'Success!'
+		redirect_to study_subject_abstract_path(@study_subject,@abstract)
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+		flash.now[:error] = "There was a problem creating the abstract"
+		render :action => 'new'
+		#	flash, not flash.now since redirecting and not rendering
+	end
+
+#	def edit
+#	end
+
+	def update
+		@abstract.update_attributes!(params[:abstract])
+		flash[:notice] = 'Success!'
+		redirect_to study_subject_abstract_path(@study_subject,@abstract)
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+		flash.now[:error] = "There was a problem updating the abstract"
+		render :action => "edit"
+	end
+
+#	def show
+#	end
+
+	def destroy
+		@abstract.destroy
 		redirect_to study_subject_abstracts_path(@study_subject)
 	end
 
-##	def edit
-##	end
-##
-##	def update
-##		@abstract.update_attributes!(params[:abstract])
-##		flash[:notice] = 'Success!'
-##		redirect_to study_subject_abstracts_path(@study_subject)
-##	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-##		flash.now[:error] = "There was a problem updating the abstract"
-##		render :action => "edit"
-##	end
-#
-#	def destroy
-#		@abstract.destroy
-#		redirect_to study_subject_abstracts_path(@study_subject)
-#	end
-#
-#	def compare
-#	end
-#
-#	def merge
-#		@abstract = @study_subject.abstracts.new(params[:abstract].merge(:merging => true))
-#		@abstract.save!
-#		flash[:notice] = 'Success!'
-#		redirect_to study_subject_abstract_path(@study_subject,@abstract)
-#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-#		flash.now[:error] = "There was a problem merging the abstract"
-#		render :action => "compare"
-#	end
-#
+	def compare
+	end
+
+	def merge
+		@abstract = @study_subject.abstracts.new(params[:abstract].merge(:merging => true))
+		@abstract.save!
+		flash[:notice] = 'Success!'
+		redirect_to study_subject_abstract_path(@study_subject,@abstract)
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+		flash.now[:error] = "There was a problem merging the abstract"
+		render :action => "compare"
+	end
+
 protected
 
 	def compare_abstracts
@@ -88,6 +89,7 @@ protected
 
 	def two_abstracts_required
 #		abstracts_count = @study_subject.abstracts_count
+#	user counter_cache or actually count?
 		abstracts_count = @study_subject.abstracts.count
 		unless( abstracts_count == 2 )
 			access_denied("Must complete 2 abstracts before merging. " <<
@@ -101,15 +103,10 @@ protected
 	end
 
 	def valid_id_required
-#		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
-#			@abstract = Abstract.find(params[:id])
-#			#	for id bar
-#			@study_subject = @abstract.study_subject
-#		if( !params[:id].blank? && Abstract.exists?(params[:id]) )
 		if( !params[:id].blank? && @study_subject.abstracts.exists?(params[:id]) )
 			@abstract = @study_subject.abstracts.find(params[:id])
 		else
-			access_denied("Valid id required!", abstracts_path)
+			access_denied("Valid id required!", study_subject_abstracts_path(@study_subject))
 		end
 	end
 

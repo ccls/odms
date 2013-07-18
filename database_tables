@@ -6,6 +6,9 @@ Table: abstracts
 | Field                                  | Type         | Null | Key | Default | Extra          |
 +----------------------------------------+--------------+------+-----+---------+----------------+
 | id                                     | int(11)      | NO   | PRI | NULL    | auto_increment |
+| entry_1_by_uid                         | varchar(255) | YES  |     | NULL    |                |
+| entry_2_by_uid                         | varchar(255) | YES  |     | NULL    |                |
+| merged_by_uid                          | varchar(255) | YES  |     | NULL    |                |
 | study_subject_id                       | int(11)      | YES  |     | NULL    |                |
 | bmb_report_found                       | smallint(6)  | YES  |     | NULL    |                |
 | bmb_test_date                          | date         | YES  |     | NULL    |                |

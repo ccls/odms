@@ -1,5 +1,0 @@
-<ul style="clear:both;">
-<% Abstract.sections.each do |section| -%>
-<li><%= link_to section[:label].html_safe, send(section[:show],@abstract) %></li>
-<% end -%>
-</ul>
