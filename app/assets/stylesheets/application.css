@@ -417,6 +417,9 @@ div.sortable img {
 	height: 24px;
 }
 
+span.post_text {
+	margin-left:10px;
+}
 span.value,
 p.value { font-weight: bold; }
 

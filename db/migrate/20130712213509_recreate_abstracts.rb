@@ -25,6 +25,18 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.string  :bma_percentage_blasts, :limit => 25
 			t.text    :bma_comments
 
+			t.integer :ccs_report_found, :limit => 2
+			t.date    :ccs_test_date
+			t.string  :ccs_peroxidase, :limit => 25
+			t.string  :ccs_sudan_black, :limit => 25
+			t.string  :ccs_periodic_acid_schiff, :limit => 25
+			t.string  :ccs_chloroacetate_esterase, :limit => 25
+			t.string  :ccs_non_specific_esterase, :limit => 25
+			t.string  :ccs_alpha_naphthyl_butyrate_esterase, :limit => 25
+			t.string  :ccs_toluidine_blue, :limit => 25
+			t.string  :ccs_bcl_2, :limit => 25
+			t.string  :ccs_other, :limit => 25
+
 			t.integer :dfc_report_found, :limit => 2
 			t.date    :dfc_test_date
 			t.integer :dfc_numerical_data_available, :limit => 2
@@ -100,13 +112,14 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.date    :hla_test_date
 			t.text    :hla_results
 
-			t.integer :cs_report_found, :limit => 2
-			t.date    :cs_test_date
-			t.integer :cs_conventional_karyotype_done, :limit => 2
-			t.integer :cs_hospital_fish_done, :limit => 2
-			t.integer :cs_hyperdiploidy_detected, :limit => 2
-			t.string  :cs_hyperdiploidy_by, :limit => 25
-			t.string  :cs_hyperdiploidy_number_of_chromosomes, :limit => 25
+			t.integer :cgs_report_found, :limit => 2
+			t.date    :cgs_test_date
+			t.integer :cgs_normal, :limit => 2
+			t.integer :cgs_conventional_karyotype_done, :limit => 2
+			t.integer :cgs_hospital_fish_done, :limit => 2
+			t.integer :cgs_hyperdiploidy_detected, :limit => 2
+			t.string  :cgs_hyperdiploidy_by, :limit => 25
+			t.string  :cgs_hyperdiploidy_number_of_chromosomes, :limit => 25
 
 			t.integer :translocation_t12_21, :limit => 2
 			t.integer :translocation_inv16, :limit => 2
@@ -120,9 +133,26 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.integer :trisomy_17, :limit => 2
 			t.integer :trisomy_21, :limit => 2
 
-			t.text    :cs_conventional_karyotyping_results
-			t.text    :cs_hospital_fish_results
-			t.text    :cs_comments
+			t.text    :cgs_conventional_karyotyping_results
+			t.text    :cgs_hospital_fish_results
+			t.text    :cgs_comments
+
+			t.integer :omg_abnormalities_found, :limit => 2
+			t.date    :omg_test_date
+
+			t.string  :omg_p16, :limit => 25
+			t.string  :omg_p15, :limit => 25
+			t.string  :omg_p53, :limit => 25
+			t.string  :omg_ras, :limit => 25
+			t.string  :omg_all1, :limit => 25
+			t.string  :omg_wt1, :limit => 25
+			t.string  :omg_bcr, :limit => 25
+			t.string  :omg_etv6, :limit => 25
+			t.string  :omg_fish,  :limit => 25
+
+			t.integer :em_report_found, :limit => 2
+			t.date    :em_test_date
+			t.text    :em_comments
 
 			t.integer :cbc_report_found, :limit => 2
 			t.date    :cbc_test_date
@@ -141,10 +171,46 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.string  :csf_rbc, :limit => 25
 			t.string  :csf_wbc, :limit => 25
 
+			t.integer :ob_skin_report_found, :limit => 2
+			t.date    :ob_skin_date
+			t.integer :ob_skin_leukemic_cells_present, :limit => 2
+
+			t.integer :ob_lymph_node_report_found, :limit => 2
+			t.date    :ob_lymph_node_date
+			t.integer :ob_lymph_node_leukemic_cells_present, :limit => 2
+
+			t.integer :ob_liver_report_found, :limit => 2
+			t.date    :ob_liver_date
+			t.integer :ob_liver_leukemic_cells_present, :limit => 2
+
+			t.integer :ob_other_report_found, :limit => 2
+			t.date    :ob_other_date
+			t.string  :ob_other_site_organ
+			t.integer :ob_other_leukemic_cells_present, :limit => 2
+
 			t.integer :cxr_report_found, :limit => 2
 			t.date    :cxr_test_date
 			t.string  :cxr_result, :limit => 25
 			t.text    :cxr_mediastinal_mass_description
+
+			t.integer :cct_report_found, :limit => 2
+			t.date    :cct_test_date
+			t.string  :cct_result, :limit => 25
+			t.text    :cct_mediastinal_mass_description
+
+			t.integer :as_report_found, :limit => 2
+			t.date    :as_test_date
+			t.integer :as_normal, :limit => 2
+			t.integer :as_sphenomegaly, :limit => 2
+			t.integer :as_hepatomegaly, :limit => 2
+			t.integer :as_lymphadenopathy, :limit => 2
+			t.integer :as_other_abdominal_masses, :limit => 2
+			t.integer :as_ascities, :limit => 2
+			t.text    :as_other_abnormal_findings
+
+			t.integer :ts_report_found, :limit => 2
+			t.date    :ts_test_date
+			t.text    :ts_findings
 
 			t.integer :hpr_report_found, :limit => 2
 			t.date    :hpr_test_date
@@ -194,6 +260,28 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.string  :icdo_classification_number, :limit => 25
 			t.text    :icdo_classification_description
 			t.string  :leukemia_lineage, :limit => 25
+
+			t.integer :pe_report_found, :limit => 2
+			t.date    :pe_test_date
+			t.integer :pe_gingival_infiltrates, :limit => 2
+			t.integer :pe_leukemic_skin_infiltrates, :limit => 2
+			t.integer :pe_lymphadenopathy, :limit => 2
+			t.text    :pe_lymphadenopathy_description
+			t.integer :pe_splenomegaly, :limit => 2
+			t.string  :pe_splenomegaly_size
+			t.integer :pe_hepatomegaly, :limit => 2
+			t.string  :pe_hepatomegaly_size
+			t.integer :pe_testicular_mass, :limit => 2
+			t.integer :pe_other_soft_tissue, :limit => 2
+			t.string  :pe_other_soft_tissue_location
+			t.string  :pe_other_soft_tissue_size
+			t.text    :pe_neurological_abnormalities
+			t.text    :pe_other_abnormal_findings
+
+			t.string  :abstracted_by
+			t.date    :abstracted_on
+			t.string  :reviewed_by
+			t.date    :reviewed_on
 
       t.timestamps
     end

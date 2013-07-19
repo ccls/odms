@@ -29,7 +29,6 @@ class Abstract  < ActiveRecord::Base
 
 #	before_save   :convert_height_to_cm
 #	before_save   :convert_weight_to_kg
-#	before_save   :set_days_since_fields
 
 	#	db_fields may be a bit of a misnomer
 	#	perhaps data_fields? 
@@ -56,16 +55,6 @@ class Abstract  < ActiveRecord::Base
 		HWIA[a1.select{|k,v| a2[k] != v unless( a2[k].blank? && v.blank? ) }]
 	end
 
-#	def self.sections
-#		#	:label: Cytogenetics
-#		#	:controller: CytogeneticsController
-#		#	:edit:  :edit_abstract_cytogenetic_path
-#		#	:show:  :abstract_cytogenetic_path
-#		@@sections ||= YAML::load(ERB.new( IO.read(
-#			File.join(File.dirname(__FILE__),'../../config/abstract_sections.yml')
-#		)).result)
-#	end
-
 	def merged?
 		!merged_by_uid.blank?
 	end
@@ -76,36 +65,6 @@ class Abstract  < ActiveRecord::Base
 
 protected
 
-#	def set_days_since_fields
-#		#	must explicitly convert these DateTimes to Date so that the
-#		#	difference is in days and not seconds
-#		#	I really only need to do this if something changes,
-#		#	but for now, just do it and make sure that
-#		#	it is tested.  Optimize and refactor later.
-#		unless diagnosed_on.nil?
-#			self.response_day_7_days_since_diagnosis = (
-#				response_report_on_day_7.to_date - diagnosed_on.to_date 
-#				) unless response_report_on_day_7.nil?
-#			self.response_day_14_days_since_diagnosis = (
-#				response_report_on_day_14.to_date - diagnosed_on.to_date 
-#				) unless response_report_on_day_14.nil?
-#			self.response_day_28_days_since_diagnosis = (
-#				response_report_on_day_28.to_date - diagnosed_on.to_date 
-#				) unless response_report_on_day_28.nil?
-#		end
-#		unless treatment_began_on.nil?
-#			self.response_day_7_days_since_treatment_began = (
-#				response_report_on_day_7.to_date - treatment_began_on.to_date 
-#				) unless response_report_on_day_7.nil?
-#			self.response_day_14_days_since_treatment_began = (
-#				response_report_on_day_14.to_date - treatment_began_on.to_date 
-#				) unless response_report_on_day_14.nil?
-#			self.response_day_28_days_since_treatment_began = (
-#				response_report_on_day_28.to_date - treatment_began_on.to_date 
-#				) unless response_report_on_day_28.nil?
-#		end
-#	end
-#
 #	def convert_height_to_cm
 #		if( !height_units.nil? && height_units.match(/in/i) )
 #			self.height_units = nil

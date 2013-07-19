@@ -31,7 +31,7 @@
 	
 	<!-- ################################################################# -->
 	
-	<li><div><h4>BONE MARROW ASPIRATE</h4>
+	<li><div><h4>BONE MARROW ASPIRATE (or SMEARS)</h4>
 		<%= f.wrapped_yndk_select :bma_report_found %>
 		<%= f.wrapped_date_text_field :bma_test_date %>
 		<%= f.wrapped_yndk_select :bma_percentage_blasts_known %>
@@ -40,6 +40,32 @@
 		<div><%= f.label :bma_comments %>:<br/>
 		<%= f.text_area :bma_comments, :class => :autosize, :rows => 3, :cols => 50 %>
 		</div>
+	</div></li>
+
+	<!-- ################################################################# -->
+	
+	<li><div><h4>CYTOCHEMICAL STAINS (or HISTOCHEMISTRY)</h4>
+		<%= f.wrapped_yndk_select :ccs_report_found %>
+		<%= f.wrapped_date_text_field :ccs_test_date %>
+		<%= f.wrapped_select :ccs_peroxidase, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+		<%= f.wrapped_select :ccs_sudan_black, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+		<%= f.wrapped_select :ccs_periodic_acid_schiff, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+		<%= f.wrapped_select :ccs_chloroacetate_esterase, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+		<%= f.wrapped_select :ccs_non_specific_esterase, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+		<%= f.wrapped_select :ccs_alpha_naphthyl_butyrate_esterase, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+		<%= f.wrapped_select :ccs_toluidine_blue, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+		<%= f.wrapped_select :ccs_bcl_2, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+		<%= f.wrapped_select :ccs_other, [
+			"Positive", "Negative", "Not Done"], :include_blank => true %>
+
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -78,7 +104,6 @@
 				<%= f.wrapped_text_field :marker_cd3_cd8 %>
 			</div></li>
 	
-	
 			<li><div>Myeloid markers:
 				<%= f.wrapped_text_field :marker_cd11b %>
 				<%= f.wrapped_text_field :marker_cd11c %>
@@ -88,7 +113,6 @@
 				<%= f.wrapped_text_field :marker_cd41 %>
 				<%= f.wrapped_text_field :marker_cdw65 %>
 			</div></li>
-	
 	
 			<li><div>Stem Cell Marker:
 				<%= f.wrapped_text_field :marker_cd34 %>
@@ -122,6 +146,8 @@
 				<%= f.wrapped_text_field :marker_tdt %>
 			</div></li>
 		</ul>
+
+<h1>NOTE:  How to do these "Other" fields?</h1>
 	
 		<div><%= f.label :other_markers %><br/>
 		<%= f.text_area :other_markers, :class => :autosize, :rows => 3, :cols => 50 %></div>
@@ -131,13 +157,6 @@
 	
 	</div></li>
 	
-	
-	
-<li><h1>NOTE:  How to do these "Other" fields?</h1></li>
-	
-	
-	
-
 	<!-- ################################################################# -->
 
 	<li><div><h4>TDT (or TERMINAL DEOXYNUCLEOTYDYL TRANSFERASE)</h4>
@@ -173,8 +192,6 @@
 		<div><%= f.label :ploidy_notes %><br/>
 		<%= f.text_area :ploidy_notes, :class => :autosize, :rows => 3, :cols => 50 %></div>
 
-
-
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -190,22 +207,23 @@
 	<!-- ################################################################# -->
 
 	<li><div><h4>CYTOGENETIC STUDIES</h4>
-		<%= f.wrapped_yndk_select :cs_report_found %>
-		<%= f.wrapped_date_text_field :cs_test_date %>
+		<%= f.wrapped_yndk_select :cgs_report_found %>
+		<%= f.wrapped_date_text_field :cgs_test_date %>
+		<%= f.wrapped_yndk_select :cgs_normal %>
 
-		<%= f.wrapped_yndk_select :cs_conventional_karyotype_done %>
-		<%= f.wrapped_yndk_select :cs_hospital_fish_done %>
-		<%= f.wrapped_yndk_select :cs_hyperdiploidy_detected %>
+		<%= f.wrapped_yndk_select :cgs_conventional_karyotype_done %>
+		<%= f.wrapped_yndk_select :cgs_hospital_fish_done %>
+		<%= f.wrapped_yndk_select :cgs_hyperdiploidy_detected %>
 	
 		<div>If yes, hyperdiploidy by karyotype or FISH:
-		<%= f.radio_button_with_label :cs_hyperdiploidy_by, 'Karyotype' %>
-		<%= f.radio_button_with_label :cs_hyperdiploidy_by, 'FISH' %>
+		<%= f.radio_button_with_label :cgs_hyperdiploidy_by, 'Karyotype' %>
+		<%= f.radio_button_with_label :cgs_hyperdiploidy_by, 'FISH' %>
 		</div>
 	
-		<%= f.wrapped_text_field :cs_hyperdiploidy_number_of_chromosomes,
+		<%= f.wrapped_text_field :cgs_hyperdiploidy_number_of_chromosomes,
 			:post_text => "(if karyotype)" %>
 	
-		<p>Please indicate the presence or absence of the following translocations. Leave no blanks.</p>
+		<p>Please indicate the presence or absence of the following translocations.</p>
 	
 		<%= f.wrapped_yndk_select :translocation_t12_21 %>
 		<%= f.wrapped_yndk_select :translocation_inv16 %>
@@ -214,10 +232,13 @@
 		<%= f.wrapped_yndk_select :translocation_t9_22 %>
 		<%= f.wrapped_yndk_select :translocation_t15_17 %>
 
+
+
 <h1>NOTE:  How to do these "Other" fields?</h1>
+
 	
 	
-		<p>Please indicate the presence of absence of the following trisomies</p>
+		<p>Please indicate the presence of absence of the following trisomies.</p>
 		<%= f.wrapped_yndk_select :trisomy_4 %>
 		<%= f.wrapped_yndk_select :trisomy_5 %>
 		<%= f.wrapped_yndk_select :trisomy_10 %>
@@ -226,13 +247,47 @@
 	
 	
 		<div>Conventional Karyotyping Results [Numerical results &amp; Summary of findings]:<br/>
-		<%= f.text_area :cs_conventional_karyotyping_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
+		<%= f.text_area :cgs_conventional_karyotyping_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
 	
 		<div>Hospital FISH Results [Numerical results &amp; Summary of findings]:<br/>
-		<%= f.text_area :cs_hospital_fish_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
+		<%= f.text_area :cgs_hospital_fish_results, :class => :autosize, :rows => 3, :cols => 50 %></div>
 
-		<div><%= f.label :cs_comments %><br/>
-		<%= f.text_area :cs_comments, :class => :autosize, :rows => 3, :cols => 50 %></div>
+		<div><%= f.label :cgs_comments %><br/>
+		<%= f.text_area :cgs_comments, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>OTHER MOLECULAR / GENETIC ABNORMALITIES (or OMG)</h4>
+		<%= f.wrapped_yndk_select :omg_abnormalities_found %>
+		<%= f.wrapped_date_text_field :omg_test_date %>
+		<%= f.wrapped_select :omg_p16, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+		<%= f.wrapped_select :omg_p15, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+		<%= f.wrapped_select :omg_p53, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+		<%= f.wrapped_select :omg_ras, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+		<%= f.wrapped_select :omg_all1, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+		<%= f.wrapped_select :omg_wt1, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+		<%= f.wrapped_select :omg_bcr, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+		<%= f.wrapped_select :omg_etv6, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+		<%= f.wrapped_select :omg_fish, [
+			"Positive", "Negative", "Other"], :include_blank => true %>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>ELECTRON MICROSCOPY (or EM)</h4>
+		<%= f.wrapped_yndk_select :em_report_found %>
+		<%= f.wrapped_date_text_field :em_test_date %>
+		<div><%= f.label :em_comments %><br/>
+		<%= f.text_area :em_comments, :class => :autosize, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -265,20 +320,93 @@
 
 	<!-- ################################################################# -->
 
-	<li><div><h4>CHEST IMAGING (Chest X-ray)</h4>
-		<%= f.wrapped_yndk_select :cxr_report_found %>
-		<%= f.wrapped_date_text_field :cxr_test_date %>
+	<li><div><h4>OTHER BIOPSIES</h4>
+
+		<%= f.wrapped_yndk_select :ob_skin_report_found %>
+		<%= f.wrapped_date_text_field :ob_skin_date %>
+		<%= f.wrapped_yndk_select :ob_skin_leukemic_cells_present %>
+
+		<%= f.wrapped_yndk_select :ob_lymph_node_report_found %>
+		<%= f.wrapped_date_text_field :ob_lymph_node_date %>
+		<%= f.wrapped_yndk_select :ob_lymph_node_leukemic_cells_present %>
+
+		<%= f.wrapped_yndk_select :ob_liver_report_found %>
+		<%= f.wrapped_date_text_field :ob_liver_date %>
+		<%= f.wrapped_yndk_select :ob_liver_leukemic_cells_present %>
+
+		<%= f.wrapped_yndk_select :ob_other_report_found %>
+		<%= f.wrapped_date_text_field :ob_other_date %>
+		<%= f.wrapped_text_field :ob_other_site_organ, :class => :autosize %>
+		<%= f.wrapped_yndk_select :ob_other_leukemic_cells_present %>
+
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CHEST IMAGING AT PRESENTATION</h4>
+		<ul>
+			<li><div>Chest X-Ray
+				<%= f.wrapped_yndk_select :cxr_report_found %>
+				<%= f.wrapped_date_text_field :cxr_test_date %>
 	
 <h1>Are these radio button / exclusive option?</h1>
-		<div>Check as appropriate: 
-		<%= f.label :cxr_result, 'Normal Chest', :value => 'normal' %>
-		<%= f.radio_button :cxr_result, 'normal' %>
-		<%= f.label :cxr_result, 'Mediastinal Mass Present', :value => 'mass' %>
-		<%= f.radio_button :cxr_result, 'mass' %>
-		</div>
+
+				<div>Check as appropriate: 
+					<%= f.label :cxr_result, 'Normal Chest', :value => 'normal' %>
+					<%= f.radio_button :cxr_result, 'normal' %>
+					<%= f.label :cxr_result, 'Mediastinal Mass Present', :value => 'mass' %>
+					<%= f.radio_button :cxr_result, 'mass' %>
+				</div>
 	
-		<div>If mediastinal mass present, describe: <br/>
-		<%= f.text_area :cxr_mediastinal_mass_description, :class => :autosize, :rows => 3, :cols => 50 %></div>
+				<div>If mediastinal mass present, describe: <br/>
+					<%= f.text_area :cxr_mediastinal_mass_description, 
+						:class => :autosize, :rows => 3, :cols => 50 %></div>
+			</div></li>
+			<li><div>Chest CT Scan
+				<%= f.wrapped_yndk_select :cct_report_found %>
+				<%= f.wrapped_date_text_field :cct_test_date %>
+	
+<h1>Are these radio button / exclusive option?</h1>
+
+				<div>Check as appropriate: 
+					<%= f.label :cct_result, 'Normal Chest', :value => 'normal' %>
+					<%= f.radio_button :cct_result, 'normal' %>
+					<%= f.label :cct_result, 'Mediastinal Mass Present', :value => 'mass' %>
+					<%= f.radio_button :cct_result, 'mass' %>
+				</div>
+	
+				<div>If mediastinal mass present, describe: <br/>
+					<%= f.text_area :cct_mediastinal_mass_description, 
+						:class => :autosize, :rows => 3, :cols => 50 %></div>
+			</div></li>
+		</ul>
+
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>ABDOMINAL SONOGRAM, CT SCAN or MRI BEFORE TREATMENT</h4>
+		<%= f.wrapped_yndk_select :as_report_found %>
+		<%= f.wrapped_date_text_field :as_test_date %>
+		<%= f.wrapped_yndk_select :as_normal %>
+		<%= f.wrapped_yndk_select :as_sphenomegaly %>
+		<%= f.wrapped_yndk_select :as_hepatomegaly %>
+		<%= f.wrapped_yndk_select :as_lymphadenopathy %>
+		<%= f.wrapped_yndk_select :as_other_abdominal_masses %>
+		<%= f.wrapped_yndk_select :as_ascities %>
+		<div><%= f.label :as_other_abnormal_findings %><br/>
+			<%= f.text_area :as_other_abnormal_findings, 
+				:class => :autosize, :rows => 3, :cols => 50 %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>TESTICULAR SONOGRAM BEFORE TREATMENT</h4>
+		<%= f.wrapped_yndk_select :ts_report_found %>
+		<%= f.wrapped_date_text_field :ts_test_date %>
+		<div><%= f.label :ts_findings %><br/>
+			<%= f.text_area :ts_findings, 
+				:class => :autosize, :rows => 3, :cols => 50 %></div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -294,10 +422,16 @@
 		<%= f.wrapped_yndk_select :hpr_down_syndrome_phenotype %>
 		</div>
 	
-	
-		<div>3) PHYSICAL EXAM (from physical exam at diagnosis) (HAVE BOTH? OR COMPUTE ONE FROM OTHER? WHAT'S THE 'b' FOR?)</div>
-		<div>Height at Diagnosis - in centimeters: <%= f.text_field :height_in_cm %> in inches: <%= f.text_field :height_in_in %></div>
-		<div>Weight at diagnosis - in kilograms:<%= f.text_field :weight_in_kg %> in pounds:<%= f.text_field :weight_in_lb %> b</div>
+		<div>3) PHYSICAL EXAM (from physical exam at diagnosis)</div>
+
+
+<h1>(HAVE BOTH? OR COMPUTE ONE FROM OTHER? WHAT'S THE 'b' FOR?)</h1>
+
+
+		<div>Height at Diagnosis - in centimeters: 
+			<%= f.text_field :height_in_cm %> in inches: <%= f.text_field :height_in_in %></div>
+		<div>Weight at diagnosis - in kilograms:
+			<%= f.text_field :weight_in_kg %> in pounds:<%= f.text_field :weight_in_lb %> b</div>
 	</div></li>
 
 	<!-- ################################################################# -->
@@ -327,9 +461,9 @@
 	</ol>
 </div></li>
 
+<!-- ################################################################# -->
 
 <li><div><h3>RESPONSE TO THERAPY</h3>
-
 
 	<h4>DAY 7 (8) Bone Marrow Aspirate</h4>
 	<%= f.wrapped_yndk_select :bma07_report_found %>
@@ -364,61 +498,75 @@
 	<span>(check if inconclusive results are indicated on report)</span>
 	</div>
 
+	<br/><br/>
 
 	<div>At the end of induction (30 days), was the child in clinical remission?<br/>
 	<%= f.wrapped_yndk_select :clinical_remission %>
 	</div>
 
-
-
 </div></li>
+
+<!-- ################################################################# -->
+
 <li><div><h3>DIAGNOSIS &amp; CLASSIFICATION</h3>
 
-<%= f.wrapped_select :leukemia_class, grouped_options_for_select({ 
-	'ALL' => [ 'ALL L1', 'ALL L2', 'ALL L3', 'ALL Other'], 
-	'AML' => [ 'AML M0', 'AML M1', 'AML M2', 'AML M3', 'AML M4', 'AML M4e',
-		'AML M5', 'AML M5A', 'AML M5B', 'AML M6', 'AML M7', 'AML Other' ],
-	'CML' => ['CML'], 'CLL' => ['CLL']
-}),:include_blank => true %>
+	<%= f.wrapped_select :leukemia_class, grouped_options_for_select({ 
+		'ALL' => [ 'ALL L1', 'ALL L2', 'ALL L3', 'ALL Other'], 
+		'AML' => [ 'AML M0', 'AML M1', 'AML M2', 'AML M3', 'AML M4', 'AML M4e',
+			'AML M5', 'AML M5A', 'AML M5B', 'AML M6', 'AML M7', 'AML Other' ],
+		'CML' => ['CML'], 'CLL' => ['CLL']
+	}),:include_blank => true %>
 
-<%= f.wrapped_text_field :other_all_leukemia_class,
-	:post_text => "(if is Other ALL)" %>
-<%= f.wrapped_text_field :other_aml_leukemia_class,
-	:post_text => "(if is Other AML)" %>
+	<%= f.wrapped_text_field :other_all_leukemia_class,
+		:post_text => "(if is Other ALL)" %>
+	<%= f.wrapped_text_field :other_aml_leukemia_class,
+		:post_text => "(if is Other AML)" %>
 
-<%= f.wrapped_text_field :icdo_classification_number %>
-<div><%= f.label :icdo_classification_description %><br/>
-<%= f.text_area :icdo_classification_description, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	<%= f.wrapped_text_field :icdo_classification_number %>
+	<div><%= f.label :icdo_classification_description %><br/>
+	<%= f.text_area :icdo_classification_description, :class => :autosize, :rows => 3, :cols => 50 %></div>
 
-
-
-<div>LINEAGE: (check the appropriate box if lineage is indicated)</div>
-<div><ul>
-	<li><%= f.radio_button_with_label :leukemia_lineage, 'B-Cell Lineage' %></li>
-	<li><%= f.radio_button_with_label :leukemia_lineage, 'T-Cell Lineage' %></li>
-</ul></div>
-
-
-
-
-
-
+	<div>LINEAGE: (check the appropriate box if lineage is indicated)</div>
+	<div><ul>
+		<li><%= f.radio_button_with_label :leukemia_lineage, 'B-Cell Lineage' %></li>
+		<li><%= f.radio_button_with_label :leukemia_lineage, 'T-Cell Lineage' %></li>
+	</ul></div>
 
 </div></li>
+
+<!-- ################################################################# -->
+
+<li><div><h3>PHYSICAL EXAM BEFORE TREATMENT</h3>
+	<%= f.wrapped_yndk_select :pe_report_found %>
+	<%= f.wrapped_date_text_field :pe_test_date %>
+	<%= f.wrapped_yndk_select :pe_gingival_infiltrates %>
+	<%= f.wrapped_yndk_select :pe_leukemic_skin_infiltrates %>
+	<%= f.wrapped_yndk_select :pe_lymphadenopathy %>
+	<div><%= f.label :pe_lymphadenopathy_description %><br/>
+	<%= f.text_area :pe_lymphadenopathy_description, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	<%= f.wrapped_yndk_select :pe_splenomegaly %>
+	<%= f.wrapped_text_field  :pe_splenomegaly_size, :class => :autosize %>
+	<%= f.wrapped_yndk_select :pe_hepatomegaly %>
+	<%= f.wrapped_text_field  :pe_hepatomegaly_size, :class => :autosize %>
+	<%= f.wrapped_yndk_select :pe_testicular_mass %>
+	<%= f.wrapped_yndk_select :pe_other_soft_tissue %>
+	<%= f.wrapped_text_field  :pe_other_soft_tissue_location, :class => :autosize %>
+	<%= f.wrapped_text_field  :pe_other_soft_tissue_size, :class => :autosize %>
+	<div><%= f.label :pe_neurological_abnormalities %><br/>
+	<%= f.text_area :pe_neurological_abnormalities, :class => :autosize, :rows => 3, :cols => 50 %></div>
+	<div><%= f.label :pe_other_abnormal_findings %><br/>
+	<%= f.text_area :pe_other_abnormal_findings, :class => :autosize, :rows => 3, :cols => 50 %></div>
+</div></li>
+
+<!-- ################################################################# -->
+
 <li><div><h3>NAME AND DATE OF ABSTRACTOR</h3>
-<h1> (these will be computed values)</h1>
-<pre>
-Name _________________________________
-Date __________________
-NAME AND DATE OF REVIEWER
-Name _________________________________
-Date __________________
-NAME AND DATE OF DATA ENTRY PERSONS
-Entry 1 Name _________________________________
-Date __________________
-Entry 2 Name _________________________________
-Date _________________
-</pre>
+
+	<%= f.wrapped_text_field       :abstracted_by, :class => :autosize %>
+	<%= f.wrapped_date_text_field  :abstracted_on %>
+	<%= f.wrapped_text_field       :reviewed_by, :class => :autosize %>
+	<%= f.wrapped_date_text_field  :reviewed_on %>
+
 </div></li>
 
 </ol>

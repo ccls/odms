@@ -107,100 +107,21 @@ class AbstractTest < ActiveSupport::TestCase
 		assert  abstract1.diff(abstract2).has_key?('icdo_classification_description')
 	end
 
-#	test "should NOT set days since diagnosis fields on create without diagnosed_on" do
-#		abstract = FactoryGirl.create(:abstract)
-#		assert_nil abstract.diagnosed_on
-#		assert_nil abstract.response_day_7_days_since_diagnosis
-#		assert_nil abstract.response_day_14_days_since_diagnosis
-#		assert_nil abstract.response_day_28_days_since_diagnosis
-#	end
-#
-#	test "should NOT set days since diagnosis fields on create without response_report_on" do
-#		abstract = FactoryGirl.create(:abstract,
-#			:diagnosed_on              => ( Date.current - 10.days ),
-#			:response_report_on_day_7  => nil,
-#			:response_report_on_day_14 => nil,
-#			:response_report_on_day_28 => nil
-#		)
-#		assert_not_nil abstract.diagnosed_on
-#		assert_nil abstract.response_day_7_days_since_diagnosis
-#		assert_nil abstract.response_day_14_days_since_diagnosis
-#		assert_nil abstract.response_day_28_days_since_diagnosis
-#	end
-#
-#	test "should set days since diagnosis fields on create with diagnosed_on" do
-#		today = Date.current
-#		abstract = FactoryGirl.create(:abstract,
-#			:diagnosed_on              => ( today - 40.days ),
-#			:response_report_on_day_7  => ( today - 30.days ),
-#			:response_report_on_day_14 => ( today - 20.days ),
-#			:response_report_on_day_28 => ( today - 10.days )
-#		)
-#		assert_not_nil abstract.diagnosed_on
-#		assert_not_nil abstract.response_day_7_days_since_diagnosis
-#		assert_equal 10, abstract.response_day_7_days_since_diagnosis
-#		assert_not_nil abstract.response_day_14_days_since_diagnosis
-#		assert_equal 20, abstract.response_day_14_days_since_diagnosis
-#		assert_not_nil abstract.response_day_28_days_since_diagnosis
-#		assert_equal 30, abstract.response_day_28_days_since_diagnosis
-#	end
-#
-#	test "should NOT set days since treatment_began fields on create" <<
-#			" without treatment_began_on" do
-#		abstract = FactoryGirl.create(:abstract)
-#		assert_nil abstract.treatment_began_on
-#		assert_nil abstract.response_day_7_days_since_treatment_began
-#		assert_nil abstract.response_day_14_days_since_treatment_began
-#		assert_nil abstract.response_day_28_days_since_treatment_began
-#	end
-#
-#	test "should NOT set days since treatment_began fields on create" <<
-#			" without response_report_on" do
-#		abstract = FactoryGirl.create(:abstract,
-#			:treatment_began_on        => ( Date.current - 10.days ),
-#			:response_report_on_day_7  => nil,
-#			:response_report_on_day_14 => nil,
-#			:response_report_on_day_28 => nil
-#		)
-#		assert_not_nil abstract.treatment_began_on
-#		assert_nil abstract.response_day_7_days_since_treatment_began
-#		assert_nil abstract.response_day_14_days_since_treatment_began
-#		assert_nil abstract.response_day_28_days_since_treatment_began
-#	end
-#
-#	test "should set days since treatment_began fields on create" <<
-#			" with treatment_began_on" do
-#		today = Date.current
-#		abstract = FactoryGirl.create(:abstract,
-#			:treatment_began_on        => ( today - 40.days ),
-#			:response_report_on_day_7  => ( today - 30.days ),
-#			:response_report_on_day_14 => ( today - 20.days ),
-#			:response_report_on_day_28 => ( today - 10.days )
-#		)
-#		assert_not_nil abstract.treatment_began_on
-#		assert_not_nil abstract.response_day_7_days_since_treatment_began
-#		assert_equal 10, abstract.response_day_7_days_since_treatment_began
-#		assert_not_nil abstract.response_day_14_days_since_treatment_began
-#		assert_equal 20, abstract.response_day_14_days_since_treatment_began
-#		assert_not_nil abstract.response_day_28_days_since_treatment_began
-#		assert_equal 30, abstract.response_day_28_days_since_treatment_began
-#	end
-#
-#	test "should save a User as entry_1_by" do
-#		assert_difference('User.count',1) {
-#		assert_difference('Abstract.count',1) {
-#			abstract = FactoryGirl.create(:abstract,:entry_1_by => FactoryGirl.create(:user))
-#			assert abstract.entry_1_by.is_a?(User)	#	will fail if using sqlite database
-#		} }
-#	end
-#
-#	test "should save a User as entry_2_by" do
-#		assert_difference('User.count',1) {
-#		assert_difference('Abstract.count',1) {
-#			abstract = FactoryGirl.create(:abstract,:entry_2_by => FactoryGirl.create(:user))
-#			assert abstract.entry_2_by.is_a?(User)	#	will fail if using sqlite database
-#		} }
-#	end
+	test "should save a User as entry_1_by" do
+		assert_difference('User.count',1) {
+		assert_difference('Abstract.count',1) {
+			abstract = FactoryGirl.create(:abstract,:entry_1_by => FactoryGirl.create(:user))
+			assert abstract.entry_1_by.is_a?(User)	#	will fail if using sqlite database
+		} }
+	end
+
+	test "should save a User as entry_2_by" do
+		assert_difference('User.count',1) {
+		assert_difference('Abstract.count',1) {
+			abstract = FactoryGirl.create(:abstract,:entry_2_by => FactoryGirl.create(:user))
+			assert abstract.entry_2_by.is_a?(User)	#	will fail if using sqlite database
+		} }
+	end
 
 	test "should save a User as merged_by" do
 		assert_difference('User.count',1) {
@@ -296,14 +217,6 @@ class AbstractTest < ActiveSupport::TestCase
 		}
 	end
 
-#	test "should return abstract sections for class" do
-#		sections = Abstract.sections
-#		assert  Abstract.class_variable_defined?("@@sections")
-#		assert sections.is_a?(Array)
-#		assert sections.length >= 15
-#		assert sections.first.is_a?(Hash)
-#	end
-#
 ##	test "should return abstract fields for class" do
 ##		fields = Abstract.fields
 ##		assert  Abstract.class_variable_defined?("@@fields")
@@ -341,15 +254,17 @@ class AbstractTest < ActiveSupport::TestCase
 		:bmb_percentage_blasts_known,
 		:bma_report_found,
 		:bma_percentage_blasts_known,
+		:ccs_report_found,
 		:dfc_report_found,
 		:dfc_numerical_data_available,
 		:tdt_report_found,
 		:ploidy_report_found,
 		:hla_report_found,
-		:cs_report_found,
-		:cs_conventional_karyotype_done,
-		:cs_hospital_fish_done,
-		:cs_hyperdiploidy_detected,
+		:cgs_report_found,
+		:cgs_normal,
+		:cgs_conventional_karyotype_done,
+		:cgs_hospital_fish_done,
+		:cgs_hyperdiploidy_detected,
 		:translocation_t12_21,
 		:translocation_inv16,
 		:translocation_t1_19,
@@ -361,11 +276,30 @@ class AbstractTest < ActiveSupport::TestCase
 		:trisomy_10,
 		:trisomy_17,
 		:trisomy_21,
+		:omg_abnormalities_found,
+		:em_report_found,
 		:cbc_report_found,
 		:csf_report_found,
 		:csf_blasts_present,
 		:csf_pb_contamination,
+		:ob_skin_report_found,
+		:ob_skin_leukemic_cells_present,
+		:ob_lymph_node_report_found,
+		:ob_lymph_node_leukemic_cells_present,
+		:ob_liver_report_found,
+		:ob_liver_leukemic_cells_present,
+		:ob_other_report_found,
+		:ob_other_leukemic_cells_present,
 		:cxr_report_found,
+		:cct_report_found,
+		:as_report_found,
+		:as_normal,
+		:as_sphenomegaly,
+		:as_hepatomegaly,
+		:as_lymphadenopathy,
+		:as_other_abdominal_masses,
+		:as_ascities,
+		:ts_report_found,
 		:hpr_report_found,
 		:hpr_hepatomegaly,
 		:hpr_splenomegaly,
@@ -377,12 +311,29 @@ class AbstractTest < ActiveSupport::TestCase
 		:bma14_report_found,
 		:bma28_report_found,
 		:clinical_remission,
+		:pe_report_found,
+		:pe_gingival_infiltrates,
+		:pe_leukemic_skin_infiltrates,
+		:pe_lymphadenopathy,
+		:pe_splenomegaly,
+		:pe_hepatomegaly,
+		:pe_testicular_mass,
+		:pe_other_soft_tissue,
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
 	assert_should_require_length( 
 		:bmb_percentage_blasts,
 		:bma_percentage_blasts,
+		:ccs_peroxidase,
+		:ccs_sudan_black,
+		:ccs_periodic_acid_schiff,
+		:ccs_chloroacetate_esterase,
+		:ccs_non_specific_esterase,
+		:ccs_alpha_naphthyl_butyrate_esterase,
+		:ccs_toluidine_blue,
+		:ccs_bcl_2,
+		:ccs_other,
 		:marker_bmk,
 		:marker_bml,
 		:marker_cd10,
@@ -426,8 +377,17 @@ class AbstractTest < ActiveSupport::TestCase
 		:marker_igm,
 		:marker_sig,
 		:marker_tdt,
-		:cs_hyperdiploidy_by,
-		:cs_hyperdiploidy_number_of_chromosomes,
+		:omg_p16,
+		:omg_p15,
+		:omg_p53,
+		:omg_ras,
+		:omg_all1,
+		:omg_wt1,
+		:omg_bcr,
+		:omg_etv6,
+		:omg_fish,
+		:cgs_hyperdiploidy_by,
+		:cgs_hyperdiploidy_number_of_chromosomes,
 		:cbc_hemoglobin,
 		:cbc_leukocyte_count,
 		:cbc_number_of_blasts,
@@ -437,6 +397,7 @@ class AbstractTest < ActiveSupport::TestCase
 		:csf_rbc,
 		:csf_wbc,
 		:cxr_result,
+		:cct_result,
 		:height_in_cm,
 		:height_in_in,
 		:weight_in_kg,
@@ -464,6 +425,15 @@ class AbstractTest < ActiveSupport::TestCase
 		:tdt_numerical_result,
     	:maximum => 25 )
 
+	assert_should_require_length( 
+		:ob_other_site_organ,
+		:pe_splenomegaly_size,
+		:pe_hepatomegaly_size,
+		:pe_other_soft_tissue_location,
+		:pe_other_soft_tissue_size,
+		:abstracted_by,
+		:reviewed_by,
+    	:maximum => 250 )
 
 	assert_should_require_length( 
 		:bmb_comments,
@@ -471,16 +441,23 @@ class AbstractTest < ActiveSupport::TestCase
 		:other_markers,
 		:marker_comments,
 		:hla_results,
-		:cs_conventional_karyotyping_results,
-		:cs_hospital_fish_results,
+		:cgs_conventional_karyotyping_results,
+		:cgs_hospital_fish_results,
 		:csf_cytology,
+		:em_comments,
 		:cxr_mediastinal_mass_description,
+		:cct_mediastinal_mass_description,
+		:as_other_abnormal_findings,
+		:ts_findings,
 		:ds_clinical_diagnosis,
 		:cp_therapeutic_agents,
 		:icdo_classification_description,
 		:ploidy_other_dna_measurement,
 		:ploidy_notes,
-		:cs_comments,
+		:cgs_comments,
+		:pe_lymphadenopathy_description,
+		:pe_neurological_abnormalities,
+		:pe_other_abnormal_findings,
 			:maximum => 65000 )
 
 

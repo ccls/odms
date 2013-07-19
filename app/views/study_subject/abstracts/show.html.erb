@@ -1,0 +1,491 @@
+<% stylesheets(:abstract__form) %>
+
+<h2>CALIFORNIA CHILDHOOD LEUKEMIA STUDY MEDICAL ABSTRACT FORM</h2>
+
+<ol type='I'>
+<li><div><h3>PARTICIPANT INFORMATION</h3>
+	<ul>
+	<li><%= wrapped_spans :study_subject, :full_name,
+        :label_text => "Patient's Name:" %></li>
+	<li><%= wrapped_spans :study_subject, :initials,
+        :label_text => "Patient's Initials:" %></li>
+	<li><%= wrapped_spans :study_subject, :organization %></li>
+	<li><%= wrapped_date_spans :study_subject, :dob %></li>
+	<li><%= wrapped_date_spans :study_subject, :diagnosis_date %></li>
+	<li><%= wrapped_date_spans :study_subject, :treatment_began_on %></li>
+	<li><%= wrapped_spans :study_subject, :hospital_no %></li>
+	</ul>
+	</div></li>
+
+<li><div><h3>DIAGNOSTIC STUDIES</h3>
+	<ol type='A'>
+	<li><div><h4>BONE MARROW BIOPSY</h4>
+		<%= wrapped_yndk_spans :abstract, :bmb_report_found %>
+		<%= wrapped_date_spans :abstract, :bmb_test_date %>
+		<%= wrapped_yndk_spans :abstract, :bmb_percentage_blasts_known %>
+		<%= wrapped_spans :abstract, :bmb_percentage_blasts %>
+		
+		<div><%= Abstract.human_attribute_name :bmb_comments %><br/>
+		<%= @abstract.bmb_comments %></div>
+	</div></li>
+	
+	<!-- ################################################################# -->
+	
+	<li><div><h4>BONE MARROW ASPIRATE (or SMEARS)</h4>
+		<%= wrapped_yndk_spans :abstract, :bma_report_found %>
+		<%= wrapped_date_spans :abstract, :bma_test_date %>
+		<%= wrapped_yndk_spans :abstract, :bma_percentage_blasts_known %>
+		<%= wrapped_spans :abstract, :bma_percentage_blasts %>
+
+		<div><%= Abstract.human_attribute_name :bma_comments %><br/>
+		<%= @abstract.bma_comments %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+	
+	<li><div><h4>CYTOCHEMICAL STAINS (or HISTOCHEMISTRY)</h4>
+		<%= wrapped_yndk_spans :abstract, :ccs_report_found %>
+		<%= wrapped_date_spans :abstract, :ccs_test_date %>
+		<%= wrapped_spans :abstract, :ccs_peroxidase %>
+		<%= wrapped_spans :abstract, :ccs_sudan_black %>
+		<%= wrapped_spans :abstract, :ccs_periodic_acid_schiff %>
+		<%= wrapped_spans :abstract, :ccs_chloroacetate_esterase %>
+		<%= wrapped_spans :abstract, :ccs_non_specific_esterase %>
+		<%= wrapped_spans :abstract, :ccs_alpha_naphthyl_butyrate_esterase %>
+		<%= wrapped_spans :abstract, :ccs_toluidine_blue %>
+		<%= wrapped_spans :abstract, :ccs_bcl_2 %>
+		<%= wrapped_spans :abstract, :ccs_other %>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>DIAGNOSTIC FLOW CYTOMETRY (or IMMUNOPHENOTYPING)</h4>
+		<%= wrapped_yndk_spans :abstract, :dfc_report_found %>
+		<%= wrapped_date_spans :abstract, :dfc_test_date %>
+		<%= wrapped_yndk_spans :abstract, :dfc_numerical_data_available %>
+	
+		<ul>
+			<li><div>B Cell Markers:
+				<%= wrapped_spans :abstract, :marker_cd10 %>
+				<%= wrapped_spans :abstract, :marker_cd19 %>
+				<%= wrapped_spans :abstract, :marker_cd20 %>
+				<%= wrapped_spans :abstract, :marker_cd21 %>
+				<%= wrapped_spans :abstract, :marker_cd22 %>
+				<%= wrapped_spans :abstract, :marker_cd23 %>
+				<%= wrapped_spans :abstract, :marker_cd24 %>
+				<%= wrapped_spans :abstract, :marker_cd40 %>
+				<%= wrapped_spans :abstract, :marker_sig %>
+				<%= wrapped_spans :abstract, :marker_igm %>
+				<%= wrapped_spans :abstract, :marker_bmk %>
+				<%= wrapped_spans :abstract, :marker_bml %>
+				<%= wrapped_spans :abstract, :marker_cd19_cd10 %>
+			</div></li>
+
+			<li><div>T Cell Markers:
+				<%= wrapped_spans :abstract, :marker_cd1a %>
+				<%= wrapped_spans :abstract, :marker_cd2 %>
+				<%= wrapped_spans :abstract, :marker_cd3 %>
+				<%= wrapped_spans :abstract, :marker_cd4 %>
+				<%= wrapped_spans :abstract, :marker_cd5 %>
+				<%= wrapped_spans :abstract, :marker_cd7 %>
+				<%= wrapped_spans :abstract, :marker_cd8 %>
+				<%= wrapped_spans :abstract, :marker_cd3_cd4 %>
+				<%= wrapped_spans :abstract, :marker_cd3_cd8 %>
+			</div></li>
+	
+			<li><div>Myeloid markers:
+				<%= wrapped_spans :abstract, :marker_cd11b %>
+				<%= wrapped_spans :abstract, :marker_cd11c %>
+				<%= wrapped_spans :abstract, :marker_cd13 %>
+				<%= wrapped_spans :abstract, :marker_cd15 %>
+				<%= wrapped_spans :abstract, :marker_cd33 %>
+				<%= wrapped_spans :abstract, :marker_cd41 %>
+				<%= wrapped_spans :abstract, :marker_cdw65 %>
+			</div></li>
+	
+			<li><div>Stem Cell Marker:
+				<%= wrapped_spans :abstract, :marker_cd34 %>
+			</div></li>
+	
+			<li><div>Megakaryocyte Marker:
+				<%= wrapped_spans :abstract, :marker_cd61 %>
+			</div></li>
+	
+			<li><div>Mono Marker:
+				<%= wrapped_spans :abstract, :marker_cd14 %>
+			</div></li>
+	
+			<li><div>Erythroid Marker:
+				<%= wrapped_spans :abstract, :marker_glycophorin_a %>
+			</div></li>
+	
+			<li><div>Natural Killer associated markers:
+				<%= wrapped_spans :abstract, :marker_cd16 %>
+				<%= wrapped_spans :abstract, :marker_cd56 %>
+				<%= wrapped_spans :abstract, :marker_cd57 %>
+			</div></li>
+	
+			<li><div>Non-Specific Markers:
+				<%= wrapped_spans :abstract, :marker_cd9 %>
+				<%= wrapped_spans :abstract, :marker_cd25 %>
+				<%= wrapped_spans :abstract, :marker_cd38 %>
+				<%= wrapped_spans :abstract, :marker_cd45 %>
+				<%= wrapped_spans :abstract, :marker_cd71 %>
+				<%= wrapped_spans :abstract, :marker_hla_dr %>
+				<%= wrapped_spans :abstract, :marker_tdt %>
+			</div></li>
+		</ul>
+
+		<div><%= Abstract.human_attribute_name :other_markers %><br/>
+		<%= @abstract.other_markers %></div>
+
+		<div><%= Abstract.human_attribute_name :marker_comments %><br/>
+		<%= @abstract.marker_comments %></div>
+	
+	</div></li>
+	
+	<!-- ################################################################# -->
+
+	<li><div><h4>TDT (or TERMINAL DEOXYNUCLEOTYDYL TRANSFERASE)</h4>
+		<%= wrapped_yndk_spans :abstract, :tdt_report_found %>
+		<%= wrapped_date_spans :abstract, :tdt_test_date %>
+		<%= wrapped_spans :abstract, :tdt_found_where %>
+		<%= wrapped_spans :abstract, :tdt_result %>
+		<%= wrapped_spans :abstract, :tdt_numerical_result %>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>PLOIDY (or DNA CONTENT)</h4>
+		<%= wrapped_yndk_spans :abstract, :ploidy_report_found %>
+		<%= wrapped_date_spans :abstract, :ploidy_test_date %>
+		<%= wrapped_spans :abstract, :ploidy_found_where %>
+		<%= wrapped_spans :abstract, :ploidy_hypodiploid %>
+		<%= wrapped_spans :abstract, :ploidy_pseudodiploid %>
+		<%= wrapped_spans :abstract, :ploidy_hyperdiploid %>
+		<%= wrapped_spans :abstract, :ploidy_diploid %>
+		<%= wrapped_spans :abstract, :ploidy_dna_index %>
+
+		<div><%= Abstract.human_attribute_name :ploidy_other_dna_measurement %><br/>
+		<%= @abstract.ploidy_other_dna_measurement %></div>
+		<div><%= Abstract.human_attribute_name :ploidy_notes %><br/>
+		<%= @abstract.ploidy_notes %></div>
+
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>HISTOCOMPATIBILITY STUDIES (or HLA-TYPING)</h4>
+		<%= wrapped_yndk_spans :abstract, :hla_report_found %>
+		<%= wrapped_date_spans :abstract, :hla_test_date %>
+
+		<div><%= Abstract.human_attribute_name :hla_results %><br/>
+		<%= @abstract.hla_results %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CYTOGENETIC STUDIES</h4>
+		<%= wrapped_yndk_spans :abstract, :cgs_report_found %>
+		<%= wrapped_date_spans :abstract, :cgs_test_date %>
+		<%= wrapped_yndk_spans :abstract, :cgs_normal %>
+
+		<%= wrapped_yndk_spans :abstract, :cgs_conventional_karyotype_done %>
+		<%= wrapped_yndk_spans :abstract, :cgs_hospital_fish_done %>
+		<%= wrapped_yndk_spans :abstract, :cgs_hyperdiploidy_detected %>
+	
+		<div>If yes, hyperdiploidy by karyotype or FISH:
+		<%= wrapped_spans :abstract, :cgs_hyperdiploidy_by %>
+		</div>
+	
+		<%= wrapped_spans :abstract, :cgs_hyperdiploidy_number_of_chromosomes,
+			:post_text => "(if karyotype)" %>
+	
+		<p>Please indicate the presence or absence of the following translocations.</p>
+	
+		<%= wrapped_yndk_spans :abstract, :translocation_t12_21 %>
+		<%= wrapped_yndk_spans :abstract, :translocation_inv16 %>
+		<%= wrapped_yndk_spans :abstract, :translocation_t1_19 %>
+		<%= wrapped_yndk_spans :abstract, :translocation_t8_21 %>
+		<%= wrapped_yndk_spans :abstract, :translocation_t9_22 %>
+		<%= wrapped_yndk_spans :abstract, :translocation_t15_17 %>
+
+		<p>Please indicate the presence of absence of the following trisomies.</p>
+		<%= wrapped_yndk_spans :abstract, :trisomy_4 %>
+		<%= wrapped_yndk_spans :abstract, :trisomy_5 %>
+		<%= wrapped_yndk_spans :abstract, :trisomy_10 %>
+		<%= wrapped_yndk_spans :abstract, :trisomy_17 %>
+		<%= wrapped_yndk_spans :abstract, :trisomy_21 %>
+	
+	
+		<div>Conventional Karyotyping Results [Numerical results &amp; Summary of findings]:<br/>
+		<%= @abstract.cgs_conventional_karyotyping_results %></div>
+	
+		<div>Hospital FISH Results [Numerical results &amp; Summary of findings]:<br/>
+		<%= @abstract.cgs_hospital_fish_results %></div>
+
+		<div><%= Abstract.human_attribute_name :cgs_comments %><br/>
+		<%= @abstract.cgs_comments %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>OTHER MOLECULAR / GENETIC ABNORMALITIES (or OMG)</h4>
+		<%= wrapped_yndk_spans :abstract, :omg_abnormalities_found %>
+		<%= wrapped_date_spans :abstract, :omg_test_date %>
+		<%= wrapped_spans :abstract, :omg_p16 %>
+		<%= wrapped_spans :abstract, :omg_p15 %>
+		<%= wrapped_spans :abstract, :omg_p53 %>
+		<%= wrapped_spans :abstract, :omg_ras %>
+		<%= wrapped_spans :abstract, :omg_all1 %>
+		<%= wrapped_spans :abstract, :omg_wt1 %>
+		<%= wrapped_spans :abstract, :omg_bcr %>
+		<%= wrapped_spans :abstract, :omg_etv6 %>
+		<%= wrapped_spans :abstract, :omg_fish %>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>ELECTRON MICROSCOPY (or EM)</h4>
+		<%= wrapped_yndk_spans :abstract, :em_report_found %>
+		<%= wrapped_date_spans :abstract, :em_test_date %>
+		<div><%= Abstract.human_attribute_name :em_comments %><br/>
+		<%= @abstract.em_comments %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>COMPLETE BLOOD COUNT (CBC)</h4>
+		<%= wrapped_yndk_spans :abstract, :cbc_report_found %>
+		<%= wrapped_date_spans :abstract, :cbc_test_date %>
+		<%= wrapped_spans :abstract, :cbc_leukocyte_count, :post_text => "K/mm3" %>
+		<%= wrapped_spans :abstract, :cbc_percentage_blasts, :post_text => '%' %>
+		<%= wrapped_spans :abstract, :cbc_number_of_blasts %>
+		<%= wrapped_spans :abstract, :cbc_hemoglobin, :post_text => 'GM/DL' %>
+		<%= wrapped_spans :abstract, :cbc_platelet_count, :post_text => 'K/mm3' %>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CEREBROSPINAL FLUID (or CSF)</h4>
+		<%= wrapped_yndk_spans :abstract, :csf_report_found %>
+		<%= wrapped_date_spans :abstract, :csf_test_date %>
+		<%= wrapped_spans :abstract, :csf_wbc %>
+		<%= wrapped_spans :abstract, :csf_rbc %>
+		<%= wrapped_yndk_spans :abstract, :csf_blasts_present %>
+		<%= wrapped_spans :abstract, :csf_number_of_blasts %>
+		<%= wrapped_yndk_spans :abstract, :csf_pb_contamination %>
+	
+		<div>Cytology (or CSF Pathology) <br/>
+		<%= @abstract.csf_cytology %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>OTHER BIOPSIES</h4>
+
+		<%= wrapped_yndk_spans :abstract, :ob_skin_report_found %>
+		<%= wrapped_date_spans :abstract, :ob_skin_date %>
+		<%= wrapped_yndk_spans :abstract, :ob_skin_leukemic_cells_present %>
+
+		<%= wrapped_yndk_spans :abstract, :ob_lymph_node_report_found %>
+		<%= wrapped_date_spans :abstract, :ob_lymph_node_date %>
+		<%= wrapped_yndk_spans :abstract, :ob_lymph_node_leukemic_cells_present %>
+
+		<%= wrapped_yndk_spans :abstract, :ob_liver_report_found %>
+		<%= wrapped_date_spans :abstract, :ob_liver_date %>
+		<%= wrapped_yndk_spans :abstract, :ob_liver_leukemic_cells_present %>
+
+		<%= wrapped_yndk_spans :abstract, :ob_other_report_found %>
+		<%= wrapped_date_spans :abstract, :ob_other_date %>
+		<%= wrapped_spans :abstract, :ob_other_site_organ %>
+		<%= wrapped_yndk_spans :abstract, :ob_other_leukemic_cells_present %>
+
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CHEST IMAGING AT PRESENTATION</h4>
+		<ul>
+			<li><div>Chest X-Ray
+				<%= wrapped_yndk_spans :abstract, :cxr_report_found %>
+				<%= wrapped_date_spans :abstract, :cxr_test_date %>
+				<%= wrapped_spans :abstract, :cxr_result %>
+	
+				<div>If mediastinal mass present, describe: <br/>
+					<%= @abstract.cxr_mediastinal_mass_description %></div>
+			</div></li>
+			<li><div>Chest CT Scan
+				<%= wrapped_yndk_spans :abstract, :cct_report_found %>
+				<%= wrapped_date_spans :abstract, :cct_test_date %>
+				<%= wrapped_spans :abstract, :cct_result %>
+	
+				<div>If mediastinal mass present, describe: <br/>
+					<%= @abstract.cct_mediastinal_mass_description %></div>
+			</div></li>
+		</ul>
+
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>ABDOMINAL SONOGRAM, CT SCAN or MRI BEFORE TREATMENT</h4>
+		<%= wrapped_yndk_spans :abstract, :as_report_found %>
+		<%= wrapped_date_spans :abstract, :as_test_date %>
+		<%= wrapped_yndk_spans :abstract, :as_normal %>
+		<%= wrapped_yndk_spans :abstract, :as_sphenomegaly %>
+		<%= wrapped_yndk_spans :abstract, :as_hepatomegaly %>
+		<%= wrapped_yndk_spans :abstract, :as_lymphadenopathy %>
+		<%= wrapped_yndk_spans :abstract, :as_other_abdominal_masses %>
+		<%= wrapped_yndk_spans :abstract, :as_ascities %>
+		<div><%= Abstract.human_attribute_name :as_other_abnormal_findings %><br/>
+			<%= @abstract.as_other_abnormal_findings %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>TESTICULAR SONOGRAM BEFORE TREATMENT</h4>
+		<%= wrapped_yndk_spans :abstract, :ts_report_found %>
+		<%= wrapped_date_spans :abstract, :ts_test_date %>
+		<div><%= Abstract.human_attribute_name :ts_findings %><br/>
+			<%= @abstract.ts_findings %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>ADMITTING HISTORY AND PHYSICAL (H&amp;P) REPORT</h4>
+		<%= wrapped_yndk_spans :abstract, :hpr_report_found %>
+		<%= wrapped_date_spans :abstract, :hpr_test_date %>
+		<div>1) ORGANOMEGALY<br/>
+		<%= wrapped_yndk_spans :abstract, :hpr_hepatomegaly %>
+		<%= wrapped_yndk_spans :abstract, :hpr_splenomegaly %>
+		</div>
+		<div>2) DOWN SYNDROME PHENOTYPE (From Admitting H&amp;P Report)<br/>
+		<%= wrapped_yndk_spans :abstract, :hpr_down_syndrome_phenotype %>
+		</div>
+	
+		<div>3) PHYSICAL EXAM (from physical exam at diagnosis) </div>
+
+		<div>Height at Diagnosis - in centimeters: 
+			<%= wrapped_spans :abstract, :height_in_cm %> in inches: <%= wrapped_spans :abstract, :height_in_in %></div>
+		<div>Weight at diagnosis - in kilograms:
+			<%= wrapped_spans :abstract, :weight_in_kg %> in pounds:<%= wrapped_spans :abstract, :weight_in_lb %> b</div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>DISCHARGE SUMMARY</h4>
+		<%= wrapped_yndk_spans :abstract, :ds_report_found %>
+		<%= wrapped_date_spans :abstract, :ds_test_date %>
+	
+		<div>CLINICAL DIAGNOSIS (from Discharge Summary Report)<br/>
+		<%= @abstract.ds_clinical_diagnosis %></div>
+	</div></li>
+
+	<!-- ################################################################# -->
+
+	<li><div><h4>CHEMOTHERAPY PROTOCOL</h4>
+		<%= wrapped_yndk_spans :abstract, :cp_report_found %>
+
+		<div>Was patient enrolled on a standardized induction protocol, such as COG?
+		<%= wrapped_yndk_spans :abstract, :cp_induction_protocol_used %>
+		</div>
+<h1>fix this area</h1>
+		<div>If yes, indicate protocol name and number used <%= wrapped_spans :abstract, :cp_induction_protocol_name_and_number %> (e.g. COG AALL0231)</div>
+	
+		<div>If no, specify any therapeutic agents (especially the first 3-4 induction agents) and if the patient was "treated per _____":<br/>
+		<%= @abstract.cp_therapeutic_agents %></div>
+	</div></li>
+	</ol>
+</div></li>
+
+<!-- ################################################################# -->
+
+<li><div><h3>RESPONSE TO THERAPY</h3>
+
+	<h4>DAY 7 (8) Bone Marrow Aspirate</h4>
+	<%= wrapped_yndk_spans :abstract, :bma07_report_found %>
+	<%= wrapped_date_spans :abstract, :bma07_test_date %>
+	<%= wrapped_spans :abstract, :bma07_classification %>
+	<%= wrapped_spans :abstract, :bma07_percentage_of_blasts, :post_text => "(if reported)" %>
+	<div><%= wrapped_spans :abstract, :bma07_inconclusive_results %>
+	<span>(check if inconclusive results are indicated on report)</span>
+	</div>
+
+	<h4>DAY 14 (15) Bone Marrow Aspirate</h4>
+	<%= wrapped_yndk_spans :abstract, :bma14_report_found %>
+	<%= wrapped_date_spans :abstract, :bma14_test_date %>
+	<%= wrapped_spans :abstract, :bma14_classification %>
+	<%= wrapped_spans :abstract, :bma14_percentage_of_blasts, :post_text => "(if reported)" %>
+	<div><%= wrapped_spans :abstract, :bma14_inconclusive_results %>
+	<span>(check if inconclusive results are indicated on report)</span>
+	</div>
+
+	<h4>DAY 28 (29) Bone Marrow Aspirate</h4>
+	<%= wrapped_yndk_spans :abstract, :bma28_report_found %>
+	<%= wrapped_date_spans :abstract, :bma28_test_date %>
+	<%= wrapped_spans :abstract, :bma28_classification %>
+	<%= wrapped_spans :abstract, :bma28_percentage_of_blasts, :post_text => "(if reported)" %>
+	<div><%= wrapped_spans :abstract, :bma28_inconclusive_results %>
+	<span>(check if inconclusive results are indicated on report)</span>
+	</div>
+
+	<br/><br/>
+
+	<div>At the end of induction (30 days), was the child in clinical remission?<br/>
+	<%= wrapped_yndk_spans :abstract, :clinical_remission %>
+	</div>
+
+</div></li>
+
+<!-- ################################################################# -->
+
+<li><div><h3>DIAGNOSIS &amp; CLASSIFICATION</h3>
+	<%= wrapped_spans :abstract, :leukemia_class %>
+	<%= wrapped_spans :abstract, :other_all_leukemia_class,
+		:post_text => "(if is Other ALL)" %>
+	<%= wrapped_spans :abstract, :other_aml_leukemia_class,
+		:post_text => "(if is Other AML)" %>
+
+	<%= wrapped_spans :abstract, :icdo_classification_number %>
+	<div><%= Abstract.human_attribute_name :icdo_classification_description %><br/>
+	<%= @abstract.icdo_classification_description %></div>
+
+	<%= wrapped_spans :abstract, :leukemia_lineage %>
+
+</div></li>
+
+<!-- ################################################################# -->
+
+<li><div><h3>PHYSICAL EXAM BEFORE TREATMENT</h3>
+	<%= wrapped_yndk_spans :abstract, :pe_report_found %>
+	<%= wrapped_date_spans :abstract, :pe_test_date %>
+	<%= wrapped_yndk_spans :abstract, :pe_gingival_infiltrates %>
+	<%= wrapped_yndk_spans :abstract, :pe_leukemic_skin_infiltrates %>
+	<%= wrapped_yndk_spans :abstract, :pe_lymphadenopathy %>
+	<div><%= Abstract.human_attribute_name :pe_lymphadenopathy_description %><br/>
+	<%= @abstract.pe_lymphadenopathy_description %></div>
+	<%= wrapped_yndk_spans :abstract, :pe_splenomegaly %>
+	<%= wrapped_spans  :abstract, :pe_splenomegaly_size %>
+	<%= wrapped_yndk_spans :abstract, :pe_hepatomegaly %>
+	<%= wrapped_spans  :abstract, :pe_hepatomegaly_size %>
+	<%= wrapped_yndk_spans :abstract, :pe_testicular_mass %>
+	<%= wrapped_yndk_spans :abstract, :pe_other_soft_tissue %>
+	<%= wrapped_spans  :abstract, :pe_other_soft_tissue_location %>
+	<%= wrapped_spans  :abstract, :pe_other_soft_tissue_size %>
+	<div><%= Abstract.human_attribute_name :pe_neurological_abnormalities %><br/>
+	<%= @abstract.pe_neurological_abnormalities %></div>
+	<div><%= Abstract.human_attribute_name :pe_other_abnormal_findings %><br/>
+	<%= @abstract.pe_other_abnormal_findings %></div>
+</div></li>
+
+<!-- ################################################################# -->
+
+<li><div><h3>NAME AND DATE OF ABSTRACTOR</h3>
+	<%= wrapped_spans       :abstract, :abstracted_by %>
+	<%= wrapped_date_spans  :abstract, :abstracted_on %>
+	<%= wrapped_spans       :abstract, :reviewed_by %>
+	<%= wrapped_date_spans  :abstract, :reviewed_on %>
+</div></li>
+
+</ol>

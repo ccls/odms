@@ -30,6 +30,18 @@ en:
         bma_percentage_blasts_known: BMA Percentage Blasts Known
         bma_percentage_blasts: BMA Percentage Blasts
         bma_comments: BMA Comments
+
+        ccs_report_found: CCS Report Found
+        ccs_test_date: CCS Test Date
+        ccs_peroxidase: CCS Peroxidase (or myeloperoxidase )
+        ccs_sudan_black: CCS Sudan Black
+        ccs_periodic_acid_schiff: CCS Periodic Acid-Schiff (PAS)
+        ccs_chloroacetate_esterase: CCS Esterase or Chloroacetate esterase (CAE)
+        ccs_non_specific_esterase: CCS Non-specific Esterase (NSE)
+        ccs_alpha_naphthyl_butyrate_esterase: CCS Alpha Naphtyl Butyrate esterase
+        ccs_toluidine_blue: CCS Toluidine Blue
+        ccs_bcl_2: CCS bcl-2
+        ccs_other: CCS Other
         
         dfc_report_found: DFC Report Found
         dfc_test_date: DFC Test Date
@@ -40,9 +52,9 @@ en:
         marker_cd20: CD20
         marker_cd21: CD21
         marker_cd22: CD22
-        marker_cd23: CD22
-        marker_cd24: CD22
-        marker_cd40: CD22
+        marker_cd23: CD23
+        marker_cd24: CD24
+        marker_cd40: CD40
         marker_sig: Surface Immunoglobulin (or sIg)
         marker_igm: Cytoplasmic IgM (or cytoplasmic mu)
         marker_bmk: Bone Marrow Kappa
@@ -112,13 +124,14 @@ en:
         hla_test_date: HLA Test Date
         hla_results: HLA Results
 
-        cs_report_found: CS Report Found
-        cs_test_date: CS Test Date
-        cs_conventional_karyotype_done: CS Conventional Karyotype Done
-        cs_hospital_fish_done: CS Hospital FISH Done
-        cs_hyperdiploidy_detected: CS Hyperdiploidy Detected
-        cs_hyperdiploidy_by: CS Hyperdiploidy By
-        cs_hyperdiploidy_number_of_chromosomes: CS Hyperdiploidy Number of Chromosomes
+        cgs_report_found: CGS Report Found
+        cgs_test_date: CGS Test Date
+        cgs_normal: CGS Normal
+        cgs_conventional_karyotype_done: CGS Conventional Karyotype Done
+        cgs_hospital_fish_done: CGS Hospital FISH Done
+        cgs_hyperdiploidy_detected: CGS Hyperdiploidy Detected
+        cgs_hyperdiploidy_by: CGS Hyperdiploidy By
+        cgs_hyperdiploidy_number_of_chromosomes: CGS Hyperdiploidy Number of Chromosomes
         
         translocation_t12_21: t(12:21)
         translocation_inv16: inv(16)
@@ -132,9 +145,25 @@ en:
         trisomy_17: Trisomy 17
         trisomy_21: Trisomy 21
         
-        cs_conventional_karyotyping_results: CS Conventional Karyotyping Results
-        cs_hospital_fish_results: CS Hospital FISH Results
-        cs_comments: CS Comments
+        cgs_conventional_karyotyping_results: CGS Conventional Karyotyping Results
+        cgs_hospital_fish_results: CGS Hospital FISH Results
+        cgs_comments: CGS Comments
+        
+        omg_abnormalities_found: OMG Abnormalities Found
+        omg_test_date: OMG Test Date
+        omg_p16: OMG p16 (cdk4 inh) gene deletion(s)
+        omg_p15: OMG p15 gene deletion(s)
+        omg_p53: OMG p53 gene mutation(s)
+        omg_ras: OMG RAS gene mutation(s)
+        omg_all1: OMG ALL-1 gene rearrangements
+        omg_wt1: OMG Mutation WT1 gene
+        omg_bcr: OMG BCR-ABL type
+        omg_etv6: OMG ETV6/CBFA2 (TEL/AML1) fusion gene
+        omg_fish: OMG FISH (11q23) abnormalities
+        
+        em_report_found: EM Report Found
+        em_test_date: EM Test Date
+        em_comments: EM Comments
         
         cbc_report_found: CBC Report Found
         cbc_test_date: CBC Test Date
@@ -153,10 +182,43 @@ en:
         csf_rbc: CSF RBC [#]
         csf_wbc: CSF WBC [#]
         
+        ob_skin_report_found: OB Skin Report Found
+        ob_skin_date: OB Skin Date
+        ob_skin_leukemic_cells_present: OB Skin Leukemic Cells Present
+        ob_lymph_node_report_found: OB Lymph Node Report Found
+        ob_lymph_node_date: OB Lymph Node Date
+        ob_lymph_node_leukemic_cells_present: OB Lymph Node Leukemic Cells Present
+        ob_liver_report_found: OB Liver Report Found
+        ob_liver_date: OB Liver Date
+        ob_liver_leukemic_cells_present: OB Liver Leukemic Cells Present
+        ob_other_report_found: OB Other Report Found
+        ob_other_date: OB Other Date
+        ob_other_site_organ: OB Other Site / Organ
+        ob_other_leukemic_cells_present: OB Other Leukemic Cells Present
+
         cxr_report_found: CXR Report Found
         cxr_test_date: CXR Test Date
         cxr_result: CXR Results
         cxr_mediastinal_mass_description: CXR Mediastinal Mass Description
+        
+        cct_report_found: CCT Report Found
+        cct_test_date: CCT Test Date
+        cct_result: CCT Results
+        cct_mediastinal_mass_description: CCT Mediastinal Mass Description
+        
+        as_report_found: AS Report Found
+        as_test_date: AS Test Date
+        as_normal: AS Normal
+        as_sphenomegaly: AS Sphenomegaly
+        as_hepatomegaly: AS Hepatomegaly
+        as_lymphadenopathy: AS Lymphadenopathy
+        as_other_abdominal_masses: AS Other Abdominal Masses
+        as_ascities: AS Ascities
+        as_other_abnormal_findings: AS Other Abnormal Findings
+        
+        ts_report_found: TS Report Found
+        ts_test_date: TS Test Date
+        ts_findings: TS Findings
         
         hpr_report_found: HPR Report Found
         hpr_test_date: HPR Test Date
@@ -206,6 +268,28 @@ en:
         icdo_classification_number: ICDO Classification Number
         icdo_classification_description: ICDO Classification Description
         leukemia_lineage: Leukemia Lineage
+
+        pe_report_found: PE Report Found
+        pe_test_date: PE Date
+        pe_gingival_infiltrates: PE Gingival Infiltrates
+        pe_leukemic_skin_infiltrates: PE Leukemic Skin Infiltrates
+        pe_lymphadenopathy: PE Lymphadenopathy (enlarged lymph nodes)
+        pe_lymphadenopathy_description: PE Lymphadenopathy Description
+        pe_splenomegaly: PE Splenomegaly
+        pe_splenomegaly_size: PE Splenomegaly Size
+        pe_hepatomegaly: PE Hepatomegaly
+        pe_hepatomegaly_size: PE Hepatomegaly Size
+        pe_testicular_mass: PE Testicular Mass or Enlargement
+        pe_other_soft_tissue: PE Other Soft Tissue Mass (or Chloroma)
+        pe_other_soft_tissue_location: PE Other Location
+        pe_other_soft_tissue_size: PE Other Size
+        pe_neurological_abnormalities: PE Neorological Abnormalities
+        pe_other_abnormal_findings: PE Other Abnormal Physical Findings
+
+        abstracted_by: Abstracted By
+        abstracted_on: Abstracted On
+        reviewed_by: Reviewed By
+        reviewed_on: Reviewed On
 
 
   # Active Record models configuration
