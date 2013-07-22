@@ -119,13 +119,14 @@ module SunspotHelper
 	#
 	def column_content(subject,column)
 		case column.to_s
-			when 'dob','died_on','reference_date','admit_date'
-				subject.send(column).try(:strftime,'%m/%d/%Y')
+#			when 'dob','died_on','reference_date','admit_date'
+#				subject.send(column).try(:strftime,'%m/%d/%Y')
 			when 'languages' 
 				subject.subject_languages.collect(&:to_s).join(',')
 			when 'races' 
 				subject.subject_races.collect(&:to_s).join(',')
-
+			when *@sunspot_search_class.sunspot_date_columns
+				( subject.respond_to?(column) ? subject.try(column).try(:strftime,'%m/%d/%Y') : nil )
 			when *@sunspot_search_class.sunspot_columns
 				( subject.respond_to?(column) ? subject.try(column) : nil )
 
