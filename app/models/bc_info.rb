@@ -168,20 +168,20 @@ class BcInfo < OpenStruct
 
 			else
 
-#				puts "Subject #{study_subject.icf_master_id} didn't save?!?!?!"
-#				raise "Subject #{study_subject.icf_master_id} didn't save?!?!?!"
+				#puts "Subject #{study_subject.icf_master_id} didn't save?!?!?!"
+				#raise "Subject #{study_subject.icf_master_id} didn't save?!?!?!"
 
-#				Notification.plain(
-#					"#{bc_info_file} subject save failed?  " <<
-#					"I'm confused?  Help me.  " <<
-#					"Subject #{study_subject.icf_master_id}. " <<
-#					"Error messages ...:#{study_subject.errors.full_messages.to_sentence}:",
-#					email_options.merge({ 
-#						:subject => "ODMS: ERROR!  Subject save failed?  in #{bc_info_file}" })
-#				).deliver
-#				puts study_subject.errors.full_messages.to_sentence
-#				puts study_subject.inspect
-#				puts study_subject.errors.inspect
+				Notification.plain(
+					"#{bc_info_file} subject save failed?  " <<
+					"I'm confused?  Help me.  " <<
+					"Subject #{study_subject.icf_master_id}. " <<
+					"Error messages ...:#{study_subject.errors.full_messages.to_sentence}:",
+					:subject => "ODMS: ERROR!  Subject save failed?  in #{bc_info_file}"
+				).deliver
+
+				#puts study_subject.errors.full_messages.to_sentence
+				#puts study_subject.inspect
+				#puts study_subject.errors.inspect
 
 			end	#	if study_subject.save
 

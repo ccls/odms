@@ -1052,10 +1052,13 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 
 	test "should add study_subject_changes if study subject changes" do
-pending
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = create_matching_case_birth_datum(study_subject,
+			:middle_name => "TriggerChange")
+		assert_not_nil birth_datum.reload.study_subject_changes
+		#"{\"middle_name\"=>[nil, \"Triggerchange\"]}"
+		assert_match /Triggerchange/, birth_datum.reload.study_subject_changes
 	end
-
-
 
 	test "should add leading zeroes to derived_state_file_no_last6 if not blank" do
 		birth_datum = FactoryGirl.build(:birth_datum, :derived_state_file_no_last6 => 123)

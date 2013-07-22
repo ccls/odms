@@ -50,12 +50,6 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 #	end
 
 
-
-	test "should actually update the interviewed on" do
-pending	#	TODO, or just test in icf master tracker
-	end
-
-
 	test "should test with real data file" do
 		#	real data and won't be in repository
 #		real_data_file = 'ICF_Master_Trackers/ICF_Master_Tracker_20120329.csv'

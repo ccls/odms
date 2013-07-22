@@ -61,12 +61,19 @@ class SampleTransfersControllerTest < ActionController::TestCase
 		test "confirm should do what with sample transfer update_all fail and #{cu} login" do
 			prep_confirm_test
 			login_as send(cu)
-			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
+#			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
+
+			#
+			#	update_all will never raise this error, or any really.  Nevertheless
+			#
+			ActiveRecord::Relation.any_instance.stubs(:update_all).raises(ActiveRecord::RecordNotSaved)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
 #	how to fake a fail update_all and does it raise an error?
 #flunk 'manually flunked'
-pending
+			assert_not_nil flash[:error]
+#TODO not particularly descriptive "Something really bad happened"
+			assert_match /Something really bad happened/, flash[:error]
 		end
 
 		test "confirm should fail with operational event invalid and #{cu} login" do

@@ -386,14 +386,13 @@ assert bc_info.changes.present?
 		assert_equal '1', study_subject.reload.hispanicity_mex.to_s
 	end
 
-	
-#					new_attributes.each do |k,v|
-#						#	NOTE always check if attribute is blank as don't want to delete data
-#						study_subject.send("#{k}=",v) unless v.blank?
-#					end
-
 	test "should not update attribute if new data is blank" do
-pending
+		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+			:middle_name => "Allen")
+		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
+			:new_middle_name => '   ')
+		bc_info.process
+		assert_equal 'Allen', study_subject.reload.middle_name
 	end
 
 	test "should create datachanged operational event if data changed" do
@@ -448,19 +447,17 @@ pending
 			:operational_event_type_id => OperationalEventType['screener_complete'].id).empty?
 	end
 
-
-
-#							Notification.plain(
-#								"#{bc_info_file} subject save failed?  " <<
-#								"I'm confused?  Help me.  " <<
-#								"Subject #{study_subject.icf_master_id}. " <<
-#								"Error messages ...:#{study_subject.errors.full_messages.to_sentence}:",
-#								email_options.merge({ 
-#									:subject => "ODMS: ERROR!  Subject save failed?  in #{bc_info_file}" })
-#							).deliver
 	test "should send save failed notification if subject changed and save failed" do
-#	TODO stub create or update returns false
-pending
+		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
+			:new_middle_name => 'TRIGGERCHANGE')
+		StudySubject.any_instance.stubs(:create_or_update).returns(false)
+		bc_info.process
+
+		#	detect only returns the first
+		mail = ActionMailer::Base.deliveries.detect{|m|
+			m.subject.match(/Subject save failed\?/) }
+		assert mail.to.include?('jakewendt@berkeley.edu')
 	end
 
 
