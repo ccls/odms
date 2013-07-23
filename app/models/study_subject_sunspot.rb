@@ -82,9 +82,13 @@ base.class_eval do
 		SunspotColumn.new( :phase,
 			:facetable => true, :type => :integer ),
 		SunspotColumn.new( :races,
-			:facetable => true, :orderable => false, :type => :multi ),
+			:facetable => true, :type => :multi ),
+#	making all :multi's orderable => false
+#			:facetable => true, :orderable => false, :type => :multi ),
 		SunspotColumn.new( :languages,
-			:facetable => true, :orderable => false, :type => :multi ),
+			:facetable => true, :type => :multi ),
+#	making all :multi's orderable => false
+#			:facetable => true, :orderable => false, :type => :multi ),
 		SunspotColumn.new( :hospital, 
 			:facetable => true ),
 		SunspotColumn.new( :diagnosis, 
@@ -129,7 +133,9 @@ base.class_eval do
 		SunspotColumn.new( :address_state ),
 		SunspotColumn.new( :address_zip ),
 		SunspotColumn.new( :do_not_contact, 
-			:orderable => false, :type => :boolean ),
+			:type => :boolean ),
+#	why was this not orderable?
+#			:orderable => false, :type => :boolean ),
 		SunspotColumn.new( :birth_year, 
 			:type => :integer ),
 		SunspotColumn.new( :reference_date, 
