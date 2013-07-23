@@ -81,23 +81,26 @@ base.class_eval do
 			:facetable => true, :default => true ),
 		SunspotColumn.new( :phase,
 			:facetable => true, :type => :integer ),
-		SunspotColumn.new( :races,
-			:facetable => true, :type => :multi ),
-#	making all :multi's orderable => false
-#			:facetable => true, :orderable => false, :type => :multi ),
-		SunspotColumn.new( :languages,
-			:facetable => true, :type => :multi ),
-#	making all :multi's orderable => false
-#			:facetable => true, :orderable => false, :type => :multi ),
+
+		#
+		#	DON'T USE THE KEY :method IN AN OPENSTRUCT
+		#
+		#	Use subject_races and subject_languages so can get "Other"
+		#
+		SunspotColumn.new( :races, :meth => ->(s){ s.subject_races.collect(&:to_s) },
+			:facetable => true, :type => :multistring ),
+		SunspotColumn.new( :languages, :meth => ->(s){ s.subject_languages.collect(&:to_s) },
+			:facetable => true, :type => :multistring ),
 		SunspotColumn.new( :hospital, 
 			:facetable => true ),
 		SunspotColumn.new( :diagnosis, 
 			:facetable => true ),
 		SunspotColumn.new( :other_diagnosis ),
-		SunspotColumn.new( :sample_types,
-			:facetable => true, :type => :multi ),
+		SunspotColumn.new( :sample_types, :meth => ->(s){ s.samples.collect(&:sample_type).collect(&:to_s) },
+			:facetable => true, :type => :multistring ),
 		SunspotColumn.new( :operational_event_types,
-			:facetable => true, :type => :multi ),
+			:meth => ->(s){ s.operational_events.collect(&:operational_event_type).collect(&:to_s) },
+			:facetable => true, :type => :multistring ),
 		SunspotColumn.new( :ccls_consented, :label => 'Consented?',
 			:facetable => true, :type => :nulled_string ),
 		SunspotColumn.new( :ccls_is_eligible, :label => 'Is Eligible?',
@@ -134,8 +137,6 @@ base.class_eval do
 		SunspotColumn.new( :address_zip ),
 		SunspotColumn.new( :do_not_contact, 
 			:type => :boolean ),
-#	why was this not orderable?
-#			:orderable => false, :type => :boolean ),
 		SunspotColumn.new( :birth_year, 
 			:type => :integer ),
 		SunspotColumn.new( :reference_date, 
@@ -185,12 +186,12 @@ base.class_eval do
 #
 	searchable_plus do
 
-		string :races, :multiple => true do
-			races.collect(&:to_s)
-		end
-		string :languages, :multiple => true do
-			languages.collect(&:to_s)
-		end
+#		string :races, :multiple => true do
+#			races.collect(&:to_s)
+#		end
+#		string :languages, :multiple => true do
+#			languages.collect(&:to_s)
+#		end
 
 	#	develope a way to search for the NULLs and BLANKs
 	#		I don't think that NULL actually gets "faceted"
@@ -225,13 +226,13 @@ base.class_eval do
 #			end
 #		end
 
-		string :sample_types, :multiple => true do
-			samples.collect(&:sample_type).collect(&:to_s)
-		end
-
-		string :operational_event_types, :multiple => true do
-			operational_events.collect(&:operational_event_type).collect(&:to_s)
-		end
+#		string :sample_types, :multiple => true do
+#			samples.collect(&:sample_type).collect(&:to_s)
+#		end
+#
+#		string :operational_event_types, :multiple => true do
+#			operational_events.collect(&:operational_event_type).collect(&:to_s)
+#		end
 
 
 

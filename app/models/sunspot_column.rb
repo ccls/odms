@@ -14,7 +14,7 @@ class SunspotColumn < OpenStruct
 			options[:name] = args.first.to_s
 		end
 		default_options.update(options)
-		default_options[:orderable] = false if options[:type] == :multi
+		default_options[:orderable] = false if options[:type] == :multistring
 		super default_options
 	end
 

@@ -20,7 +20,7 @@ protected	#	from what and why?
 				#				self.instance_variable_get('@scope').instance_variable_get('@components').first.instance_variable_get('@value').sunspot_all_facets.each do |p|	#	works
 				#				self.instance_variable_get('@setup').instance_variable_get('@class_name').constantize.sunspot_all_facets.each do |p|	#	also works
 
-				self.instance_variable_get('@setup').clazz.sunspot_all_facets.each do |p|
+				self.instance_variable_get('@setup').clazz.sunspot_all_facet_names.each do |p|
 
 
 	#				if child_age_facets.include?(p)
@@ -81,7 +81,7 @@ protected	#	from what and why?
 	end
 
 	def search_order
-		if params[:order] and @sunspot_search_class.sunspot_orderable_columns.include?(
+		if params[:order] and @sunspot_search_class.sunspot_orderable_column_names.include?(
 				params[:order].downcase )
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)

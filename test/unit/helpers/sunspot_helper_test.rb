@@ -294,49 +294,49 @@ class SunspotHelperTest < ActionView::TestCase
 	test "columns should be an array of default columns without params[:c]" do
 		@sunspot_search_class = StudySubject
 		assert columns.is_a?(Array)
-		assert_equal columns, StudySubject.sunspot_default_columns
+		assert_equal columns, StudySubject.sunspot_default_column_names
 	end
 
 	test "columns should be an array of default columns with nil params['c']" do
 		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ 'c' => nil })
 		assert columns.is_a?(Array)
-		assert_equal columns, StudySubject.sunspot_default_columns
+		assert_equal columns, StudySubject.sunspot_default_column_names
 	end
 
 	test "columns should be an array of default columns with nil params[:c]" do
 		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ :c => nil })
 		assert columns.is_a?(Array)
-		assert_equal columns, StudySubject.sunspot_default_columns
+		assert_equal columns, StudySubject.sunspot_default_column_names
 	end
 
 	test "columns should be an array of default columns with blank params['c']" do
 		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ 'c' => '' })
 		assert columns.is_a?(Array)
-		assert_equal columns, StudySubject.sunspot_default_columns
+		assert_equal columns, StudySubject.sunspot_default_column_names
 	end
 
 	test "columns should be an array of default columns with blank params[:c]" do
 		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ :c => '' })
 		assert columns.is_a?(Array)
-		assert_equal columns, StudySubject.sunspot_default_columns
+		assert_equal columns, StudySubject.sunspot_default_column_names
 	end
 
 	test "columns should be an array of default columns with empty params['c']" do
 		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ 'c' => [] })
 		assert columns.is_a?(Array)
-		assert_equal columns, StudySubject.sunspot_default_columns
+		assert_equal columns, StudySubject.sunspot_default_column_names
 	end
 
 	test "columns should be an array of default columns with empty params[:c]" do
 		@sunspot_search_class = StudySubject
 		self.params = HWIA.new({ :c => [] })
 		assert columns.is_a?(Array)
-		assert_equal columns, StudySubject.sunspot_default_columns
+		assert_equal columns, StudySubject.sunspot_default_column_names
 	end
 
 	test "columns should be an array with string params['c']" do
@@ -387,29 +387,34 @@ class SunspotHelperTest < ActionView::TestCase
 		subject = FactoryGirl.create(:study_subject)
 		assert_difference('StudySubject.count',0){
 			response = column_content(subject,'destroy')
-			assert_nil response
+#			assert_nil response
+			assert_equal "UNKNOWN COLUMN", response
 		}
 	end
 
 	test "column_content should return formatted subject dob" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject, :dob => Date.parse('Dec 31, 1950') )
 		response = column_content(subject,'dob')
 		assert_equal response, '12/31/1950'
 	end
 
 	test "column_content should return formatted subject died_on" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject, :died_on => Date.parse('Dec 31, 1950') )
 		response = column_content(subject,'died_on')
 		assert_equal response, '12/31/1950'
 	end
 
 	test "column_content should return formatted subject reference_date" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject, :reference_date => Date.parse('Dec 31, 1950') )
 		response = column_content(subject,'reference_date')
 		assert_equal response, '12/31/1950'
 	end
 
 	test "column_content should return formatted subject admit_date" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:case_study_subject)
 		subject.build_patient(:admit_date => Date.parse('Dec 31, 1950'))
 		response = column_content(subject,'admit_date')
@@ -417,12 +422,14 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "column_content should return blank for subject without languages" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject)
 		response = column_content(subject,'languages')
 		assert response.blank?
 	end
 
 	test "column_content should return language names for subject with languages" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject)
 		subject.languages << Language['english']
 		subject.languages << Language['spanish']
@@ -431,6 +438,7 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "column_content should return other languages for subject with other languages" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject)
 		subject.subject_languages.create(:language => Language['other'],
 			:other_language => "Redneck")
@@ -440,12 +448,14 @@ class SunspotHelperTest < ActionView::TestCase
 
 
 	test "column_content should return blank for subject without races" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject)
 		response = column_content(subject,'races')
 		assert response.blank?
 	end
 
 	test "column_content should return race names for subject with races" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject)
 		subject.races << Race['asian']
 		subject.races << Race['nativeamerican']
@@ -454,6 +464,7 @@ class SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "column_content should return other races for subject with other races" do
+		@sunspot_search_class = StudySubject
 		subject = FactoryGirl.create(:study_subject)
 		subject.subject_races.create(:race => Race['other'],
 			:other_race => "Redneck")

@@ -132,7 +132,8 @@ if StudySubject.respond_to?(:solr_search)
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
 			assert_equal f[0], columns
-			assert_equal f[1], ["",""]
+#			assert_equal f[1], ["",""]
+			assert_equal f[1], ["UNKNOWN COLUMN", "UNKNOWN COLUMN"]
 		end
 
 
@@ -197,7 +198,7 @@ if StudySubject.respond_to?(:solr_search)
 #			assert assigns(:samples).empty?
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
-			assert_equal f[0], StudySubject.sunspot_default_columns
+			assert_equal f[0], StudySubject.sunspot_default_column_names
 #id,case_icf_master_id,mother_icf_master_id,icf_master_id,subject_type,vital_status,sex,dob,first_name,last_name
 #1085,,,,Desc10,living,M,05/26/1971,,
 		end

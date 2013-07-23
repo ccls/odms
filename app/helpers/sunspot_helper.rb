@@ -100,14 +100,14 @@ module SunspotHelper
 
 	def columns
 		columns ||= if( params[:c].present? )
-			[params[:c]].flatten
+			[params[:c]].flatten.uniq
 		else
-			@sunspot_search_class.sunspot_default_columns
+			@sunspot_search_class.sunspot_default_column_names
 		end
 	end
 
 	def column_header(column)
-		if @sunspot_search_class.sunspot_orderable_columns.include?(column.to_s)
+		if @sunspot_search_class.sunspot_orderable_column_names.include?(column.to_s)
 			sort_link(column,:image => false)
 		else
 			column
@@ -119,19 +119,28 @@ module SunspotHelper
 	#
 	def column_content(subject,column)
 		case column.to_s
-#			when 'dob','died_on','reference_date','admit_date'
-#				subject.send(column).try(:strftime,'%m/%d/%Y')
-			when 'languages' 
-				subject.subject_languages.collect(&:to_s).join(',')
-			when 'races' 
-				subject.subject_races.collect(&:to_s).join(',')
-			when *@sunspot_search_class.sunspot_date_columns
-				( subject.respond_to?(column) ? subject.try(column).try(:strftime,'%m/%d/%Y') : nil )
-			when *@sunspot_search_class.sunspot_columns
-				( subject.respond_to?(column) ? subject.try(column) : nil )
+#			when 'languages' 
+#				subject.subject_languages.collect(&:to_s).join(',')
+#			when 'races' 
+#				subject.subject_races.collect(&:to_s).join(',')
+			when *@sunspot_search_class.sunspot_date_columns.collect(&:name)
+				( subject.respond_to?(column) ? subject.try(column).try(:strftime,'%m/%d/%Y') : 'DATE COLUMN NOT FOUND?' )
 
-#			else returns nil I guess
 
+#	sample types, operational event types, races, languages
+#	put in one spot.
+#	Find column by name ? call meth?
+			when *@sunspot_search_class.sunspot_multistring_columns.collect(&:name)
+				@sunspot_search_class.sunspot_multistring_columns.detect{|c| 
+					c.name == column.to_s }.meth.call(subject).join(',')
+#	may want some "try" usages here
+
+
+			when *@sunspot_search_class.sunspot_column_names
+				( subject.respond_to?(column) ? subject.try(column) : 'COLUMN NOT FOUND?' )
+
+			else
+				'UNKNOWN COLUMN'
 		end
 	end
 
