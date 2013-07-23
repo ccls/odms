@@ -100,7 +100,7 @@ module SunspotHelper
 
 	def columns
 		columns ||= if( params[:c].present? )
-			[params[:c]].flatten.uniq
+			[params[:c]].flatten	#.uniq	#	sometimes this is needed and others it is not?
 		else
 			@sunspot_search_class.sunspot_default_column_names
 		end
