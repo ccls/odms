@@ -567,7 +567,8 @@ assert bc_info.changes.present?
 			"mother_race_code" => Race[:other].code,
 			'other_mother_race' => 'venusian' )
 		bc_info.process
-		assert_equal 'martian, Venusian', mother.subject_races.first.other_race
+		#	20130723 - for some reason, I must now reload
+		assert_equal 'martian, Venusian', mother.subject_races.first.reload.other_race
 	end
 
 	test "should append mother other race if is mixed and exists" do
@@ -579,7 +580,8 @@ assert bc_info.changes.present?
 			"mother_race_code" => Race[:mixed].code,
 			'other_mother_race' => 'venusian' )
 		bc_info.process
-		assert_equal 'martian, Venusian', mother.subject_races.first.other_race
+		#	20130723 - for some reason, I must now reload
+		assert_equal 'martian, Venusian', mother.subject_races.first.reload.other_race
 	end
 
 	test "should NOT append mother other race if is other and exists and includes" do
