@@ -18,6 +18,10 @@ class SunspotColumn < OpenStruct
 		super default_options
 	end
 
+	def hash_table
+		instance_variable_get("@table")
+	end
+
 	def to_s
 		name
 	end

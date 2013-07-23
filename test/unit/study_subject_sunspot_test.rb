@@ -44,11 +44,12 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 			father_ssn mother_ssn hospital hospital_key diagnosis
 			ccls_enrollment ccls_consented ccls_is_eligible
 			ccls_assigned_for_interview_on ccls_interview_completed_on
-			patient_was_ca_resident_at_diagnosis
-			patient_was_previously_treated
-			patient_was_under_15_at_dx
 			interviewed
 			).each do |meth|
+
+#			patient_was_ca_resident_at_diagnosis
+#			patient_was_previously_treated
+#			patient_was_under_15_at_dx
 
 		test "should respond to custom method #{meth}" do
 			subject = FactoryGirl.create(:study_subject)

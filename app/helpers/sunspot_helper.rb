@@ -119,25 +119,26 @@ module SunspotHelper
 	#
 	def column_content(subject,column)
 		case column.to_s
-#			when 'languages' 
-#				subject.subject_languages.collect(&:to_s).join(',')
-#			when 'races' 
-#				subject.subject_races.collect(&:to_s).join(',')
+
+			#
+			#	Just wanting to format any date columns
+			#
 			when *@sunspot_search_class.sunspot_date_columns.collect(&:name)
-				( subject.respond_to?(column) ? subject.try(column).try(:strftime,'%m/%d/%Y') : 'DATE COLUMN NOT FOUND?' )
+				subject.respond_to?(column) ? 
+					subject.try(column).try(:strftime,'%m/%d/%Y') : 
+					'DATE COLUMN NOT FOUND?'
 
-
-#	sample types, operational event types, races, languages
-#	put in one spot.
-#	Find column by name ? call meth?
-			when *@sunspot_search_class.sunspot_multistring_columns.collect(&:name)
-				@sunspot_search_class.sunspot_multistring_columns.detect{|c| 
-					c.name == column.to_s }.meth.call(subject).join(',')
-#	may want some "try" usages here
-
-
+			#
+			#	All valid columns can use meth, so I don't need to define them.
+			#
 			when *@sunspot_search_class.sunspot_column_names
-				( subject.respond_to?(column) ? subject.try(column) : 'COLUMN NOT FOUND?' )
+				col = @sunspot_search_class.sunspot_columns.detect{|c|
+					c.name == column.to_s }
+				( col.hash_table.has_key?(:meth) ) ?
+					[col.meth.call(subject)].flatten.join(',') :
+					( subject.respond_to?(column) ) ?
+						subject.try(column) : 
+						'COLUMN NOT FOUND?'
 
 			else
 				'UNKNOWN COLUMN'

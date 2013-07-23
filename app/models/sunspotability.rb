@@ -1,7 +1,9 @@
 module Sunspotability
 def self.included(base)
 base.class_eval do
-
+#
+#	MUST delay execution of code until included as cattr_accessor is ActiveRecord specific
+#
 	cattr_accessor :all_sunspot_columns
 	self.all_sunspot_columns = []		#	order is only relevant to the facets
 
@@ -110,16 +112,23 @@ base.class_eval do
 				time c.name, :trie => true }
 			sunspot_boolean_columns.each {|c|
 				string(c.name){ ( send(c.name).nil? ) ? 'NULL' : ( send(c.name) ) ? 'Yes' : 'No' } }
-#			yield if block_given?
-#			yield block if block_given?
 
+#			all_sunspot_columns.select{|c| !c.multiple }.each{|c|
+#				trie = [:integer,:long,:double,:float,:time].include?(c.type)
+#				send(c.type,c.name, :trie => trie)
+#
+#	booleans? nulled_strings?
+#
+#			}
 
 			sunspot_multistring_columns.each {|c|
-#				string(c.name, :multiple => true){ send( c.meth ) }
-#				string(c.name, :multiple => true){ c.meth.call }
-				string(c.name, :multiple => true){ c.meth.call(self) }
-#				string(c.name, :multiple => true){ c.meth[] }
+				string(c.name, :multiple => true) do 
+					c.hash_table.has_key?(:meth) ? c.meth.call(self) : send( c.meth )
+				end
 			}
+
+#			yield if block_given?
+#			yield block if block_given?
 		end	
 
 #	this works, but why can't I just yield inside the block
