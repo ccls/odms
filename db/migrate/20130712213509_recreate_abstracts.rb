@@ -121,17 +121,36 @@ class RecreateAbstracts < ActiveRecord::Migration
 			t.string  :cgs_hyperdiploidy_by, :limit => 25
 			t.string  :cgs_hyperdiploidy_number_of_chromosomes, :limit => 25
 
-			t.integer :translocation_t12_21, :limit => 2
-			t.integer :translocation_inv16, :limit => 2
-			t.integer :translocation_t1_19, :limit => 2
-			t.integer :translocation_t8_21, :limit => 2
-			t.integer :translocation_t9_22, :limit => 2
-			t.integer :translocation_t15_17, :limit => 2
-			t.integer :trisomy_4, :limit => 2
-			t.integer :trisomy_5, :limit => 2
-			t.integer :trisomy_10, :limit => 2
-			t.integer :trisomy_17, :limit => 2
-			t.integer :trisomy_21, :limit => 2
+			t.integer :cgs_t12_21, :limit => 2
+			t.integer :cgs_inv16, :limit => 2
+			t.integer :cgs_t1_19, :limit => 2
+			t.integer :cgs_t8_21, :limit => 2
+			t.integer :cgs_t9_22, :limit => 2
+			t.integer :cgs_t15_17, :limit => 2
+			t.integer :cgs_trisomy_4, :limit => 2
+			t.integer :cgs_trisomy_5, :limit => 2
+			t.integer :cgs_trisomy_10, :limit => 2
+			t.integer :cgs_trisomy_17, :limit => 2
+			t.integer :cgs_trisomy_21, :limit => 2
+
+
+#			t.integer :cgs_t8_14, :limit => 2
+#			t.integer :cgs_t2_8, :limit => 2
+#			t.integer :cgs_t8_22, :limit => 2
+#			t.integer :cgs_t5_14, :limit => 2
+#			t.integer :cgs_t17_19, :limit => 2
+#			t.integer :cgs_t4_11, :limit => 2
+#			t.integer :cgs_t11_19, :limit => 2
+#			t.integer :cgs_deletion_6q, :limit => 2
+#			t.integer :cgs_deletion_9p, :limit => 2
+#			
+#			t.integer :cgs_1_14, :limit => 2
+#			t.integer :cgs_1_7, :limit => 2
+#			t.integer :cgs_t7_, :limit => 2
+#			t.integer :cgs_, :limit => 2
+#			t.integer :cgs_, :limit => 2
+#			t.integer :cgs_, :limit => 2
+
 
 			t.text    :cgs_conventional_karyotyping_results
 			t.text    :cgs_hospital_fish_results

@@ -133,17 +133,17 @@ en:
         cgs_hyperdiploidy_by: CGS Hyperdiploidy By
         cgs_hyperdiploidy_number_of_chromosomes: CGS Hyperdiploidy Number of Chromosomes
         
-        translocation_t12_21: t(12:21)
-        translocation_inv16: inv(16)
-        translocation_t1_19: t(1;19)
-        translocation_t8_21: t(8;21)
-        translocation_t9_22: t(9;22)
-        translocation_t15_17: t(15;17)
-        trisomy_4: Trisomy 4
-        trisomy_5: Trisomy 5
-        trisomy_10: Trisomy 10
-        trisomy_17: Trisomy 17
-        trisomy_21: Trisomy 21
+        cgs_t12_21: t(12;21)
+        cgs_inv16: inv(16)
+        cgs_t1_19: t(1;19)
+        cgs_t8_21: t(8;21)
+        cgs_t9_22: t(9;22)
+        cgs_t15_17: t(15;17)
+        cgs_trisomy_4: Trisomy 4
+        cgs_trisomy_5: Trisomy 5
+        cgs_trisomy_10: Trisomy 10
+        cgs_trisomy_17: Trisomy 17
+        cgs_trisomy_21: Trisomy 21
         
         cgs_conventional_karyotyping_results: CGS Conventional Karyotyping Results
         cgs_hospital_fish_results: CGS Hospital FISH Results
