@@ -35,30 +35,30 @@ base.class_eval do
 #	def other_diagnosis
 #		patient.try(:other_diagnosis).try(:to_s)	#	use try so stays nil if nil
 #	end
-	def ccls_consented
-		YNDK[ccls_enrollment.try(:consented)]
-	end
-	def ccls_is_eligible
-		YNDK[ccls_enrollment.try(:is_eligible)]
-	end
-	def ccls_assigned_for_interview_on
-		ccls_enrollment.try(:assigned_for_interview_at).try(:to_date)
-	end
-	def ccls_interview_completed_on
-		ccls_enrollment.try(:interview_completed_on)
-	end
-	def interviewed
-		ccls_enrollment.try(:interview_completed_on).present?
-	end
-	def patient_was_ca_resident_at_diagnosis
-		YNDK[patient.try(:was_ca_resident_at_diagnosis)]
-	end
-	def patient_was_previously_treated
-		YNDK[patient.try(:was_previously_treated)]
-	end
-	def patient_was_under_15_at_dx
-		YNDK[patient.try(:was_under_15_at_dx)]
-	end
+#	def ccls_consented
+#		YNDK[ccls_enrollment.try(:consented)]
+#	end
+#	def ccls_is_eligible
+#		YNDK[ccls_enrollment.try(:is_eligible)]
+#	end
+#	def ccls_assigned_for_interview_on
+#		ccls_enrollment.try(:assigned_for_interview_at).try(:to_date)
+#	end
+#	def ccls_interview_completed_on
+#		ccls_enrollment.try(:interview_completed_on)
+#	end
+#	def interviewed
+#		ccls_enrollment.try(:interview_completed_on).present?
+#	end
+#	def patient_was_ca_resident_at_diagnosis
+#		YNDK[patient.try(:was_ca_resident_at_diagnosis)]
+#	end
+#	def patient_was_previously_treated
+#		YNDK[patient.try(:was_previously_treated)]
+#	end
+#	def patient_was_under_15_at_dx
+#		YNDK[patient.try(:was_under_15_at_dx)]
+#	end
 
 	#
 	#	NOTE what about 
@@ -88,37 +88,42 @@ base.class_eval do
 		#	Use subject_races and subject_languages so can get "Other"
 		#
 		SunspotColumn.new( :races, :meth => ->(s){ s.subject_races.collect(&:to_s) },
-			:facetable => true, :type => :multistring ),
+			:facetable => true, :type => :string, :multiple => true ),
 		SunspotColumn.new( :languages, :meth => ->(s){ s.subject_languages.collect(&:to_s) },
-			:facetable => true, :type => :multistring ),
+			:facetable => true, :type => :string, :multiple => true ),
 		SunspotColumn.new( :hospital, 
 			:facetable => true ),
 		SunspotColumn.new( :diagnosis, 
 			:facetable => true ),
 		SunspotColumn.new( :other_diagnosis ),
 		SunspotColumn.new( :sample_types, :meth => ->(s){ s.samples.collect(&:sample_type).collect(&:to_s) },
-			:facetable => true, :type => :multistring ),
+			:facetable => true, :type => :string, :multiple => true ),
 		SunspotColumn.new( :operational_event_types,
 			:meth => ->(s){ s.operational_events.collect(&:operational_event_type).collect(&:to_s) },
-			:facetable => true, :type => :multistring ),
+			:facetable => true, :type => :string, :multiple => true ),
 		SunspotColumn.new( :ccls_consented, :label => 'Consented?',
-			:facetable => true, :type => :nulled_string ),
+			:meth => ->(s){ YNDK[s.ccls_enrollment.try(:consented)]||'NULL' },
+			:facetable => true, :type => :string ),
 		SunspotColumn.new( :ccls_is_eligible, :label => 'Is Eligible?',
-			:facetable => true, :type => :nulled_string ),
+			:meth => ->(s){ YNDK[s.ccls_enrollment.try(:is_eligible)]||'NULL' },
+			:facetable => true, :type => :string ),
 		SunspotColumn.new( :interviewed, 
-			:facetable => true, :type => :boolean ),
+			:meth => ->(s){ s.ccls_enrollment.try(:interview_completed_on).present? ? 'Yes' : 'No' },
+			:facetable => true, :type => :string ),
+#		normal boolean method ... { ( (c.name).nil? ) ? 'NULL' : ( send(c.name) ) ? 'Yes' : 'No' }
+#			:facetable => true, :type => :boolean ),
 		SunspotColumn.new( :patient_was_ca_resident_at_diagnosis,
-#			:meth  => ->(s){ YNDK[s.patient.try(:was_ca_resident_at_diagnosis)] },
+			:meth  => ->(s){ YNDK[s.patient.try(:was_ca_resident_at_diagnosis)]||'NULL' },
 			:label => 'Was CA Resident at Diagnosis?',
-			:facetable => true, :type => :nulled_string ),
+			:facetable => true, :type => :string ),
 		SunspotColumn.new( :patient_was_previously_treated,
-#			:meth  => ->(s){ YNDK[s.patient.try(:was_previously_treated)] },
+			:meth  => ->(s){ YNDK[s.patient.try(:was_previously_treated)]||'NULL' },
 			:label => 'Was Previously Treated?',
-			:facetable => true, :type => :nulled_string ),
+			:facetable => true, :type => :string ),
 		SunspotColumn.new( :patient_was_under_15_at_dx,
 			:label => 'Was Under 15 at Diagnosis?',
-#			:meth => ->(s){ YNDK[s.patient.try(:was_under_15_at_dx)] },
-			:facetable => true, :type => :nulled_string ),
+			:meth => ->(s){ YNDK[s.patient.try(:was_under_15_at_dx)]||'NULL' },
+			:facetable => true, :type => :string ),
 		SunspotColumn.new( :icf_master_id, 
 			:default => true ),
 		SunspotColumn.new( :case_icf_master_id, 
@@ -138,8 +143,11 @@ base.class_eval do
 		SunspotColumn.new( :address_city ),
 		SunspotColumn.new( :address_state ),
 		SunspotColumn.new( :address_zip ),
+#	do_not_contact has default false set. will only be true or false
 		SunspotColumn.new( :do_not_contact, 
-			:type => :boolean ),
+			:meth => ->(s){ s.do_not_contact? ? 'Yes' : 'No' },
+			:type => :string ),
+#			:type => :boolean ),
 		SunspotColumn.new( :birth_year, 
 			:type => :integer ),
 		SunspotColumn.new( :reference_date, 
@@ -149,8 +157,10 @@ base.class_eval do
 		SunspotColumn.new( :admit_date, 
 			:type => :date ),
 		SunspotColumn.new( :ccls_assigned_for_interview_on, 
+			:meth => ->(s){ s.ccls_enrollment.try(:assigned_for_interview_at).try(:to_date) },
 			:type => :date ),
 		SunspotColumn.new( :ccls_interview_completed_on, 
+			:meth => ->(s){ s.ccls_enrollment.try(:interview_completed_on) },
 			:type => :date ),
 		SunspotColumn.new( :studyid ),
 		SunspotColumn.new( :mother_first_name ),
@@ -187,7 +197,8 @@ base.class_eval do
 #
 #	for example, what if I wanted all of the subjects that don't have a phase set?
 #
-	searchable_plus do
+	searchable_plus #do
+#	searchable_plus do
 
 #		string :races, :multiple => true do
 #			races.collect(&:to_s)
@@ -268,7 +279,7 @@ base.class_eval do
 	#	text :state_id_no
 	#	text :state_registrar_no
 	#	text :local_registrar_no
-	end 	#	if Sunspot::Rails::Server.new.running?
+#	end 	#	if Sunspot::Rails::Server.new.running?
 	#
 	#	This condition is temporary, but does mean
 	#	that the server must be started FIRST.
