@@ -7,10 +7,10 @@ class StudySubjectPatientTest < ActiveSupport::TestCase
 
 	%w( admit_date organization 
 			organization_id hospital_no
-			patient_was_ca_resident_at_diagnosis
-			patient_was_previously_treated
-			patient_was_under_15_at_dx
 		).each do |method_name|
+#			patient_was_ca_resident_at_diagnosis
+#			patient_was_previously_treated
+#			patient_was_under_15_at_dx
 
 		test "should respond to #{method_name}" do
 			study_subject = StudySubject.new
