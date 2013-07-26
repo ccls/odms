@@ -202,22 +202,34 @@
 			:post_text => "(if karyotype)" %>
 	
 		<p>Please indicate the presence or absence of the following translocations.</p>
-	
 		<%= wrapped_yndk_spans :abstract, :cgs_t12_21 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_inv16 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_t1_19 %>
+		<%= wrapped_yndk_spans :abstract, :cgs_t4_11_q21_q23 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_t8_21 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_t9_22 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_t15_17 %>
+		<%= wrapped_yndk_spans :abstract, :cgs_t16_16_p13_q22 %>
 
 		<p>Please indicate the presence of absence of the following trisomies.</p>
+		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_x %>
 		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_4 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_5 %>
+		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_6 %>
+		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_8 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_10 %>
+		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_14 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_17 %>
+		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_18 %>
 		<%= wrapped_yndk_spans :abstract, :cgs_trisomy_21 %>
+		<%= wrapped_yndk_spans :abstract, :cgs_monosomy_7 %>
+		<%= wrapped_yndk_spans :abstract, :cgs_deletion_6q %>
+		<%= wrapped_yndk_spans :abstract, :cgs_deletion_9p %>
+		<%= wrapped_yndk_spans :abstract, :cgs_deletion_16_q22 %>
 	
-	
+		<div><%= Abstract.human_attribute_name :cgs_others %><br/>
+		<%= @abstract.cgs_others %></div>
+
 		<div>Conventional Karyotyping Results [Numerical results &amp; Summary of findings]:<br/>
 		<%= @abstract.cgs_conventional_karyotyping_results %></div>
 	
@@ -366,10 +378,10 @@
 	
 		<div>3) PHYSICAL EXAM (from physical exam at diagnosis) </div>
 
-		<div>Height at Diagnosis - in centimeters: 
-			<%= wrapped_spans :abstract, :height_in_cm %> in inches: <%= wrapped_spans :abstract, :height_in_in %></div>
-		<div>Weight at diagnosis - in kilograms:
-			<%= wrapped_spans :abstract, :weight_in_kg %> in pounds:<%= wrapped_spans :abstract, :weight_in_lb %> b</div>
+		<div>Height at Diagnosis:
+			<%= wrapped_spans :abstract, :height %> in :<%= wrapped_spans :abstract, :height_units %></div>
+		<div>Weight at Diagnosis:
+			<%= wrapped_spans :abstract, :weight %> in :<%= wrapped_spans :abstract, :weight_units %></div>
 	</div></li>
 
 	<!-- ################################################################# -->

@@ -144,7 +144,20 @@ en:
         cgs_trisomy_10: Trisomy 10
         cgs_trisomy_17: Trisomy 17
         cgs_trisomy_21: Trisomy 21
+
+        cgs_t4_11_q21_q23: t(4;11)(q21;q23)
+        cgs_deletion_6q: deletion 6q
+        cgs_deletion_9p: deletion 9p
+        cgs_t16_16_p13_q22: t(16;16)(p13;q22)
+        cgs_trisomy_8: Trisomy 8
+        cgs_trisomy_x: Trisomy X
+        cgs_trisomy_6: Trisomy 6
+        cgs_trisomy_14: Trisomy 14
+        cgs_trisomy_18: Trisomy 18
+        cgs_monosomy_7: Monosomy 7
+        cgs_deletion_16_q22: deletion 16 (q22)
         
+        cgs_others: CGS Others
         cgs_conventional_karyotyping_results: CGS Conventional Karyotyping Results
         cgs_hospital_fish_results: CGS Hospital FISH Results
         cgs_comments: CGS Comments
@@ -226,10 +239,10 @@ en:
         hpr_splenomegaly: HPR Splenomegaly
         hpr_down_syndrome_phenotype: HPR Down Syndrome Phenotype
         
-#        height_in_cm, :limit => 25
-#        height_in_in, :limit => 25
-#        weight_in_kg, :limit => 25
-#        weight_in_lb	, :limit => 25
+        height: Height
+        height_units: Height Units
+        weight: Weight
+        weight_units: Weight Units
         
         ds_report_found: DS Report Found
         ds_test_date: DS Test Date

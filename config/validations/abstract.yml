@@ -26,6 +26,17 @@
   - :cgs_trisomy_10
   - :cgs_trisomy_17
   - :cgs_trisomy_21
+  - :cgs_t4_11_q21_q23
+  - :cgs_deletion_6q
+  - :cgs_deletion_9p
+  - :cgs_t16_16_p13_q22
+  - :cgs_trisomy_8
+  - :cgs_trisomy_x
+  - :cgs_trisomy_6
+  - :cgs_trisomy_14
+  - :cgs_trisomy_18
+  - :cgs_monosomy_7
+  - :cgs_deletion_16_q22
   - :omg_abnormalities_found
   - :em_report_found
   - :cbc_report_found
@@ -72,6 +83,22 @@
   :inclusion:
     :in: <%= YNDK.valid_values %>
   :allow_nil: true
+
+-
+  :attributes:
+  - :height
+  - :weight
+  :length:
+    :maximum: 10
+  :allow_blank: true
+
+-
+  :attributes:
+  - :height_units
+  - :weight_units
+  :length:
+    :maximum: 5
+  :allow_blank: true
 
 -
   :attributes:
@@ -150,10 +177,6 @@
   - :csf_wbc
   - :cxr_result
   - :cct_result
-  - :height_in_cm
-  - :height_in_in
-  - :weight_in_kg
-  - :weight_in_lb	
   - :cp_induction_protocol_name_and_number
   - :bma07_classification
   - :bma07_percentage_of_blasts
@@ -201,6 +224,7 @@
   - :hla_results
   - :cgs_conventional_karyotyping_results
   - :cgs_hospital_fish_results
+  - :cgs_others
   - :csf_cytology
   - :em_comments
   - :cxr_mediastinal_mass_description

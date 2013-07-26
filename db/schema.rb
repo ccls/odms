@@ -124,6 +124,18 @@ ActiveRecord::Schema.define(:version => 20130712213509) do
     t.integer  "cgs_trisomy_10",                          :limit => 2
     t.integer  "cgs_trisomy_17",                          :limit => 2
     t.integer  "cgs_trisomy_21",                          :limit => 2
+    t.integer  "cgs_t4_11_q21_q23",                       :limit => 2
+    t.integer  "cgs_deletion_6q",                         :limit => 2
+    t.integer  "cgs_deletion_9p",                         :limit => 2
+    t.integer  "cgs_t16_16_p13_q22",                      :limit => 2
+    t.integer  "cgs_trisomy_8",                           :limit => 2
+    t.integer  "cgs_trisomy_x",                           :limit => 2
+    t.integer  "cgs_trisomy_6",                           :limit => 2
+    t.integer  "cgs_trisomy_14",                          :limit => 2
+    t.integer  "cgs_trisomy_18",                          :limit => 2
+    t.integer  "cgs_monosomy_7",                          :limit => 2
+    t.integer  "cgs_deletion_16_q22",                     :limit => 2
+    t.text     "cgs_others"
     t.text     "cgs_conventional_karyotyping_results"
     t.text     "cgs_hospital_fish_results"
     t.text     "cgs_comments"
@@ -194,10 +206,10 @@ ActiveRecord::Schema.define(:version => 20130712213509) do
     t.integer  "hpr_hepatomegaly",                        :limit => 2
     t.integer  "hpr_splenomegaly",                        :limit => 2
     t.integer  "hpr_down_syndrome_phenotype",             :limit => 2
-    t.string   "height_in_cm",                            :limit => 25
-    t.string   "height_in_in",                            :limit => 25
-    t.string   "weight_in_kg",                            :limit => 25
-    t.string   "weight_in_lb",                            :limit => 25
+    t.string   "height",                                  :limit => 10
+    t.string   "height_units",                            :limit => 5
+    t.string   "weight",                                  :limit => 10
+    t.string   "weight_units",                            :limit => 5
     t.integer  "ds_report_found",                         :limit => 2
     t.date     "ds_test_date"
     t.text     "ds_clinical_diagnosis"

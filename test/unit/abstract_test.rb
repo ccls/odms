@@ -276,6 +276,17 @@ class AbstractTest < ActiveSupport::TestCase
 		:cgs_trisomy_10,
 		:cgs_trisomy_17,
 		:cgs_trisomy_21,
+		:cgs_t4_11_q21_q23,
+		:cgs_deletion_6q,
+		:cgs_deletion_9p,
+		:cgs_t16_16_p13_q22,
+		:cgs_trisomy_8,
+		:cgs_trisomy_x,
+		:cgs_trisomy_6,
+		:cgs_trisomy_14,
+		:cgs_trisomy_18,
+		:cgs_monosomy_7,
+		:cgs_deletion_16_q22,
 		:omg_abnormalities_found,
 		:em_report_found,
 		:cbc_report_found,
@@ -321,6 +332,16 @@ class AbstractTest < ActiveSupport::TestCase
 		:pe_other_soft_tissue,
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
+
+	assert_should_require_length( 
+		:height_units,
+		:weight_units,
+    	:maximum => 5 )
+
+	assert_should_require_length( 
+		:height,
+		:weight,
+    	:maximum => 10 )
 
 	assert_should_require_length( 
 		:bmb_percentage_blasts,
@@ -454,6 +475,7 @@ class AbstractTest < ActiveSupport::TestCase
 		:icdo_classification_description,
 		:ploidy_other_dna_measurement,
 		:ploidy_notes,
+		:cgs_others,
 		:cgs_comments,
 		:pe_lymphadenopathy_description,
 		:pe_neurological_abnormalities,
