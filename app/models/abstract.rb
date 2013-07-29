@@ -63,6 +63,18 @@ class Abstract  < ActiveRecord::Base
 		->{ where(self.arel_table[:merged_by_uid].not_eq(nil) ) }
 	scope :unmerged, ->{ where(:merged_by_uid => nil) }
 
+
+
+
+	include Sunspotability
+	
+	self.all_sunspot_columns = [ 
+		SunspotColumn.new(:id, :default => true, :type => :integer)
+	]
+
+	searchable_plus
+
+
 protected
 
 #	def convert_height_to_cm

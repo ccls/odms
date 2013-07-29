@@ -197,8 +197,8 @@ base.class_eval do
 #
 #	for example, what if I wanted all of the subjects that don't have a phase set?
 #
-	searchable_plus #do
-#	searchable_plus do
+#	searchable_plus #do
+	searchable_plus do	#	adding text search
 
 #		string :races, :multiple => true do
 #			races.collect(&:to_s)
@@ -257,10 +257,10 @@ base.class_eval do
 	#	Uncomment if want full text searching
 	#	I don't use it now so ...
 	#
-	#	text :first_name
-	#	text :middle_name
-	#	text :maiden_name
-	#	text :last_name
+		text :first_name
+		text :middle_name
+		text :maiden_name
+		text :last_name
 	#	text :mother_first_name
 	#	text :mother_middle_name
 	#	text :mother_maiden_name
@@ -271,15 +271,19 @@ base.class_eval do
 	#	text :guardian_first_name
 	#	text :guardian_middle_name
 	#	text :guardian_last_name
-	#	text :studyid
-	#	text :icf_master_id
-	#	text :childid
-	#	text :patid
-	#	text :hospital_no
-	#	text :state_id_no
-	#	text :state_registrar_no
-	#	text :local_registrar_no
-#	end 	#	if Sunspot::Rails::Server.new.running?
+		text :studyid
+		text :icf_master_id
+		text :childid
+		text :patid
+		text :hospital_no
+		text :state_id_no
+		text :state_registrar_no
+		text :local_registrar_no
+		text :subjectid
+		text :cdcid
+		text :derived_local_file_no_last6
+		text :derived_state_file_no_last6
+	end 	#	if Sunspot::Rails::Server.new.running?
 	#
 	#	This condition is temporary, but does mean
 	#	that the server must be started FIRST.

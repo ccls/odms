@@ -75,4 +75,33 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 		assert_not_nil e.interview_completed_on
 	end
 
+
+	test "should text search on entire first name" do
+		subject = FactoryGirl.create(:study_subject, :first_name => "xyz123zyx")
+		Sunspot.commit
+		search = StudySubject.search { fulltext 'xyz123zyx' }
+		assert search.results.include?(subject)
+	end
+
+	test "should text search on first chars of first name" do
+		subject = FactoryGirl.create(:study_subject, :first_name => "xyz123zyx")
+		Sunspot.commit
+		search = StudySubject.search { fulltext 'xyz' }
+		assert search.results.include?(subject)
+	end
+
+	test "should text search on middle chars of first name" do
+		subject = FactoryGirl.create(:study_subject, :first_name => "xyz123zyx")
+		Sunspot.commit
+		search = StudySubject.search { fulltext 'z123z' }
+		assert search.results.include?(subject)
+	end
+
+	test "should text search on last chars of first name" do
+		subject = FactoryGirl.create(:study_subject, :first_name => "xyz123zyx")
+		Sunspot.commit
+		search = StudySubject.search { fulltext 'zyx' }
+		assert search.results.include?(subject)
+	end
+
 end

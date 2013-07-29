@@ -20,6 +20,11 @@ protected	#	from what and why?
 				#				self.instance_variable_get('@scope').instance_variable_get('@components').first.instance_variable_get('@value').sunspot_all_facets.each do |p|	#	works
 				#				self.instance_variable_get('@setup').instance_variable_get('@class_name').constantize.sunspot_all_facets.each do |p|	#	also works
 
+
+				if params[:q].present?
+					fulltext params[:q]
+				end
+
 				self.instance_variable_get('@setup').clazz.sunspot_all_facet_names.each do |p|
 
 

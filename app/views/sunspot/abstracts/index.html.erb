@@ -1,13 +1,13 @@
 <div id='refine'>
-<%= form_tag( sunspot_subjects_path, :method => :get ) do %>
-<%= submit_tag "Search Subjects", :name => nil %><br/>
+<%= form_tag( sunspot_abstracts_path, :method => :get ) do %>
+<%= submit_tag "Search Abstracts", :name => nil %><br/>
 
 <%#	preserve the order and direction on next search %>
 <%# could also save in session as do elsewhere? %>
 <%= hidden_field_tag :order, params[:order] %>
 <%= hidden_field_tag :dir, params[:dir] %>
 
-<%= text_field_tag :q, params[:q] %>
+<%#= text_field_tag :q, params[:q] %>
 
   <div class='facets'>
    <% @search.facets.each do |facet| -%>
@@ -52,7 +52,7 @@
 <% if @search.total < 5000 %>
 <%= link_to 'Download ALL as CSV', params.merge(:format => :csv) %>
 <% else %>
-<p>More than 5000 subjects.<br/>CSV download disabled.</p>
+<p>More than 5000 abstracts.<br/>CSV download disabled.</p>
 <% end %>
 </div>
 
@@ -67,7 +67,7 @@
 </tr></thead><tbody>
 <% @search.results.each do |result| %>
 <tr class='row'>
-<td><%= link_to 'show', study_subject_path(result.id) %></td>
+<td><%= link_to 'show', study_subject_abstract_path(result.study_subject_id,result.id) %></td>
 <% columns.each do |column| %>
 <td><%= column_content(result,column).to_s.gsub(/\s+/,'&nbsp;').html_safe || '&nbsp;'.html_safe %></td>
 <% end %>

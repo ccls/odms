@@ -1,0 +1,17 @@
+<% require 'csv' -%>
+<%# 
+	adding :headers => true is supposed to set a flag in the file 
+	somewhere marking it as having a header row, but I don't 
+	think that it actually does.
+
+	also, use a - with the ruby closing tag to avoid extra lines in csv file.
+-%>
+<%= columns.to_csv( :headers => true) -%>
+<% @search.results.each do |result| %>
+<%= columns.collect{|c| column_content(result,c) }.to_csv.html_safe -%>
+<% end -%>
+<%#
+
+I added html_safe to stop any html encoding just in case
+
+-%>

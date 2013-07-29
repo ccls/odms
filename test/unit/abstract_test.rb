@@ -479,6 +479,23 @@ class AbstractTest < ActiveSupport::TestCase
 			:maximum => 65000 )
 
 
+	if Abstract.respond_to?(:solr_search)
+
+		test "should search" do
+			Sunspot.remove_all!					#	isn't always necessary
+			Abstract.solr_reindex
+			assert Abstract.search.hits.empty?
+			FactoryGirl.create(:abstract)
+			Abstract.solr_reindex
+			assert !Abstract.search.hits.empty?
+		end
+
+	else
+#
+#	Sunspot wasn't running when test started
+#
+	end
+
 protected
 
 	#	create_object is called from within the common class tests
