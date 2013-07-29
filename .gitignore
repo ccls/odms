@@ -38,7 +38,7 @@ versions/
 /Gemfile.lock.*
 
 #	Files potentitally with passwords and such
-/config/api.yml
+config/api.yml
 /config/database.yml
 #config/*database.yml
 #/config/fed_ex.yml
