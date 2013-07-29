@@ -1,0 +1,25 @@
+<div id='results'>
+	<% unless @search.results.empty? %>
+		<table><thead><tr>
+			<th>&nbsp;</th>
+			<% columns.each do |column| %>
+				<th><%= column_header(column) %></th>
+			<% end %>
+		</tr></thead><tbody>
+			<% @search.results.each do |result| %>
+				<tr class='row'>
+					<td><%= link_to 'show', study_subject_path(result.id) %></td>
+					<% columns.each do |column| %>
+						<td><%= column_content(result,column).to_s.gsub(/\s+/,'&nbsp;').html_safe || 
+							'&nbsp;'.html_safe %></td>
+					<% end %>
+				</tr>
+			<% end %>
+		</tbody></table>
+		<br/><%= will_paginate(@search.hits) %>
+		<p class='page_info'>Displaying page <%=@search.hits.current_page%> of 
+			<%=@search.hits.total_pages%> out of <%=@search.total%> results</p>
+	<% else %>
+		<p>No results</p>
+	<% end %>
+</div>

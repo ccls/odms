@@ -1,82 +1,18 @@
 <div id='refine'>
-<%= form_tag( sunspot_abstracts_path, :method => :get ) do %>
-<%= submit_tag "Search Abstracts", :name => nil %><br/>
+	<%= form_tag( sunspot_abstracts_path, :method => :get ) do %>
+		<%= submit_tag "Search Abstracts", :name => nil %><br/>
 
-<%#	preserve the order and direction on next search %>
-<%# could also save in session as do elsewhere? %>
-<%= hidden_field_tag :order, params[:order] %>
-<%= hidden_field_tag :dir, params[:dir] %>
+		<%#	preserve the order and direction on next search %>
+		<%# could also save in session as do elsewhere? %>
+		<%= hidden_field_tag :order, params[:order] %>
+		<%= hidden_field_tag :dir, params[:dir] %>
 
-<%#= text_field_tag :q, params[:q] %>
+		<%#= text_field_tag :q, params[:q] %>
 
-  <div class='facets'>
-   <% @search.facets.each do |facet| -%>
-    <% next if facet.rows.empty? -%><%# don't show empty facets -%>
+		<%= render 'facets' %>
+		<%= render 'per_page' %>
 
-    <%= facet_for(facet,
-       :multiselector => [:biospecimens,:genotypings].include?(facet.name),
-       :facet_counts  => true ) %>
-<%# 
-	multiselector is for when a single subject could have many
-	Either as an array in itself or perhaps some implementation
-		of a has_many for enrollments or something
-%>
-   <% end -%><%# @search.facets.each do |facet| -%>
-
-<div class="facet_toggle"><span class="ui-icon ui-icon-triangle-1-e">&nbsp;</span><a href="javascript:void()">Column Selection</a></div>
-<div id='columns' class='facet_field'>
-<p>Used Columns</p>
-<ul id="selected_columns" class="selectable_columns">
-<% columns.each do |column| %>
-<%# NEED to find a way to use the id, but already using id matching these column names in the facet selectors %>
-<%= content_tag(:li, column )%>
-<% end %>
-</ul>
-<p>Unused Columns</p>
-<ul id="unselected_columns" class="selectable_columns">
-<% (@sunspot_search_class.sunspot_available_column_names - columns).each do |column| %>
-<%# NEED to find a way to use the id, but already using id matching these column names in the facet selectors %>
-<%= content_tag(:li, column )%>
-<% end %>
-</ul>
+	<% end %><%# form_tag -%>
+	<%= render 'download_csv' %>
 </div>
-
-  </div><!-- class='facets' -->
-
-<div class='field_wrapper'>
-<%= label_tag( :per_page, 'per page (html only) ' )%>
-<%= select_tag( :per_page, options_for_select([25,50,100], params[:per_page]||25) )%>
-</div><!-- class='field_wrapper' -->
-
-<% end %><%# form_tag -%>
-<% if @search.total < 5000 %>
-<%= link_to 'Download ALL as CSV', params.merge(:format => :csv) %>
-<% else %>
-<p>More than 5000 abstracts.<br/>CSV download disabled.</p>
-<% end %>
-</div>
-
-
-<div id='results'>
-<% unless @search.results.empty? %>
-<table><thead><tr>
-<th>&nbsp;</th>
-<% columns.each do |column| %>
-<th><%= column_header(column) %></th>
-<% end %>
-</tr></thead><tbody>
-<% @search.results.each do |result| %>
-<tr class='row'>
-<td><%= link_to 'show', study_subject_abstract_path(result.study_subject_id,result.id) %></td>
-<% columns.each do |column| %>
-<td><%= column_content(result,column).to_s.gsub(/\s+/,'&nbsp;').html_safe || '&nbsp;'.html_safe %></td>
-<% end %>
-</tr>
-<% end %>
-</tbody></table>
-<br/><%= will_paginate(@search.hits) %>
-<p class='page_info'>Displaying page <%=@search.hits.current_page%> of <%=@search.hits.total_pages%> out of <%=@search.total%> results</p>
-<% else %>
-<p>No results</p>
-<% end %>
-</div>
+<%= render 'results' %>

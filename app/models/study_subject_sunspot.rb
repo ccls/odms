@@ -173,6 +173,7 @@ base.class_eval do
 		SunspotColumn.new( :father_ssn ),
 		SunspotColumn.new( :mother_ssn ),
 		SunspotColumn.new( :patid ),
+		SunspotColumn.new( :childid ),
 		SunspotColumn.new( :subjectid ),
 		SunspotColumn.new( :hospital_key ),
 		SunspotColumn.new( :hospital_no ),

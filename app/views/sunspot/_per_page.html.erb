@@ -1,0 +1,4 @@
+<div class='field_wrapper'>
+	<%= label_tag( :per_page, 'per page (html only) ' )%>
+	<%= select_tag( :per_page, options_for_select([25,50,100], params[:per_page]||25) )%>
+</div><!-- class='field_wrapper' -->
