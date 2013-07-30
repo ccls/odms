@@ -8,7 +8,7 @@
 		<%= hidden_field_tag :dir, params[:dir] %>
 	
 		<div class='field_wrapper'><span>query</span>
-			<%= text_field_tag :q, params[:q], :class => :autosize %>
+			<%= text_field_tag :q, params[:q], :class => :autosize, :title => 'This text is searched for in the following fields: first_name, middle_name, maiden_name, last_name, studyid, icf_master_id, childid, patid, hospital_no, state_id_no, state_registrar_no, local_registrar_no, subjectid, cdcid, derived_local_file_no_last6, derived_state_file_no_last6' %>
 		</div>
 		<%= render 'facets' %>
 		<%= render 'per_page' %>
