@@ -798,33 +798,33 @@ I upgraded from Lion to Mountain Lion and things went south.
 Mountain Lion no longer has the Web Sharing option in the System Preferences so starting and stopping
 apache by hand is required.  
 
-	sudo apachectl start|stop|restart
+ sudo apachectl start|stop|restart
 
 
 Noticed that even though starting apache didn't complain at the command line, the console was shouting ...
 
-	Apr 23 14:17:14 fxdgroup-169-229-196-225 com.apple.launchd[1] (org.apache.httpd[1417]): Exited with code: 1
-	Apr 23 14:17:14 fxdgroup-169-229-196-225 com.apple.launchd[1] (org.apache.httpd): Throttling respawn: Will start in 10 seconds
+ Apr 23 14:17:14 fxdgroup-169-229-196-225 com.apple.launchd[1] (org.apache.httpd[1417]): Exited with code: 1
+ Apr 23 14:17:14 fxdgroup-169-229-196-225 com.apple.launchd[1] (org.apache.httpd): Throttling respawn: Will start in 10 seconds
 
 Some of the conf file syntax has changed and if is invalid apache won't say anything so check the syntax with ...
 
-	sudo apachectl -t
+ sudo apachectl -t
 
 XCode command line utilities will need reinstalled.  Open XCode, THE NEW VERSION not the old yet still also installed /Developer/Applications version.  The Xcode that should by in /Applications.
 
-	Preferences > Downloads > Command Line Tools
+ Preferences > Downloads > Command Line Tools
 
 MacPorts will probably all need reinstalled.
 
-	sudo port selfupdate
-	sudo port upgrade outdated
+ sudo port selfupdate
+ sudo port upgrade outdated
 
 Gem may also require reinstallation if they were compiled with native stuff.
 
 
 I also get the following message every time that I sudo something.
 
-	dyld: DYLD_ environment variables being ignored because main executable (/usr/bin/sudo) is setuid or setgid
+ dyld: DYLD_ environment variables being ignored because main executable (/usr/bin/sudo) is setuid or setgid
 
 It goes away if I stop setting LD_LIBRARY_PATH, but I NEED THAT TO BE SET FOR OTHER THINGS.  I don't completely understand what it has to do with sudo and neither does anyone else apparently, but I WILL figure it out.
 
@@ -837,12 +837,21 @@ It goes away if I stop setting LD_LIBRARY_PATH, but I NEED THAT TO BE SET FOR OT
 
 Given a file containing nothing but a list of quoted icf master ids ....
 
-	File.open('icf_master_ids_20130515.txt'){|f| while(line = f.gets); IcfMasterId.create!(:icf_master_id => line.chomp.gsub(/"/,'')); end }
+ File.open('icf_master_ids_20130515.txt'){|f| while(line = f.gets); IcfMasterId.create!(:icf_master_id => line.chomp.gsub(/"/,'')); end }
 
 
 
 ---
 == Quick Development Notes
+
+#	Changed from MySQL to MariaDB which currently is a bit different. (for ODMS and CLIC)
+#	Need to manually start server as the Preference Pane for MySQL will not.
+#	The socket has also moved from /tmp/mysql.sock to /opt/local/var/run/mariadb/mysqld.sock
+#	The database files are in different places, so I had to move them.
+#	However, everything seems to be working.
+
+ sudo /opt/local/share/mariadb/support-files/mysql.server start
+
 
  c ; bundle exec rake sunspot:solr:stop ; bundle exec rake sunspot:solr:stop RAILS_ENV=test ; /bin/rm -rf coverage* ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 bundle exec autotest
 
