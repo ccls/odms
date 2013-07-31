@@ -124,9 +124,16 @@ module SunspotHelper
 			#	Just wanting to format any date columns
 			#
 			when *@sunspot_search_class.sunspot_date_columns.collect(&:name)
-				subject.respond_to?(column) ? 
-					subject.try(column).try(:strftime,'%m/%d/%Y') : 
-					'DATE COLUMN NOT FOUND?'
+#				subject.respond_to?(column) ? 
+#					subject.try(column).try(:strftime,'%m/%d/%Y') : 
+#					'DATE COLUMN NOT FOUND?'
+				col = @sunspot_search_class.sunspot_columns.detect{|c|
+					c.name == column.to_s }
+				( col.hash_table.has_key?(:meth) ) ?
+					[col.meth.call(subject)].flatten.join(',') :
+					( subject.respond_to?(column) ) ?
+						subject.try(column).try(:strftime,'%m/%d/%Y') : 
+						'DATE COLUMN NOT FOUND?'
 
 			#
 			#	All valid columns can use meth, so I don't need to define them.
