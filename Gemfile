@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
-source "http://gems.rubyforge.org"
+
+#	Fetching source index from http://gems.rubyforge.org/
+#	Could not fetch specs from http://gems.rubyforge.org/
+#source "http://gems.rubyforge.org"
+
 source "http://gemcutter.org"
 source "http://gems.github.com"
 
