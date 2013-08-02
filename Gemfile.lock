@@ -1,6 +1,5 @@
 GEM
   remote: https://rubygems.org/
-  remote: http://gems.rubyforge.org/
   remote: http://gemcutter.org/
   remote: http://gems.github.com/
   specs:
@@ -62,7 +61,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
-    database_cleaner (1.0.1)
+    database_cleaner (1.1.1)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
