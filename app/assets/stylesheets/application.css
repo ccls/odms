@@ -300,8 +300,9 @@ thead tr th,
 tr.row td {
 	padding: 6px;
 }
+th.manage,
 td.manage {
-	text-align:right;
+	text-align:center;
 	white-space: nowrap;
 }
 

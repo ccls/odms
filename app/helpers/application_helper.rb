@@ -220,8 +220,9 @@ module ApplicationHelper
 					study_subject_related_subjects_path(study_subject),
 					:class => ((current == :related_subjects)?'current':nil) )
 			if study_subject.is_case?
-				list_items << link_to( "Abstracts", study_subject_abstracts_path(study_subject),
-					:class => ((current == :abstracts)?'current':nil) )
+				list_items << (link_to( "Abstracts", study_subject_abstracts_path(study_subject),
+					:class => ((current == :abstracts)?'current':nil) ) <<
+					"<span class='count'>#{study_subject.abstracts.count}</span>".html_safe)
 				list_items << link_to( "RAF Info", raf_path(study_subject),
 					:class => ((current == :raf)?'current':nil) ) 
 			end
@@ -397,6 +398,10 @@ module ApplicationHelper
 		(YNORDK[value]||'&nbsp;').html_safe
 	end
 
+	def padk(value=nil)
+		(PADK[value]||'&nbsp;').html_safe
+	end
+
 	def adna(value=nil)
 		(ADNA[value]||'&nbsp;').html_safe
 	end
@@ -428,6 +433,12 @@ module ApplicationHelper
 		object = instance_variable_get("@#{object_name}")
 		_wrapped_spans(object_name,method,options.update(
 			:value => (YNORDK[object.send(method)]||'&nbsp;') ) )
+	end
+
+	def _wrapped_padk_spans(object_name,method,options={})
+		object = instance_variable_get("@#{object_name}")
+		_wrapped_spans(object_name,method,options.update(
+			:value => (PADK[object.send(method)]||'&nbsp;') ) )
 	end
 
 	def _wrapped_adna_spans(object_name,method,options={})

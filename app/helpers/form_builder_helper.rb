@@ -51,6 +51,11 @@ module FormBuilderHelper
 			{:include_blank => true}.merge(objectify_options(options)), html_options)
 	end
 
+	def padk_select(method,options={},html_options={})
+		@template.select(object_name, method, PADK.selector_options,
+			{:include_blank => true}.merge(objectify_options(options)), html_options)
+	end
+
 	def adna_select(method,options={},html_options={})
 		@template.select(object_name, method, ADNA.selector_options,
 			{:include_blank => true}.merge(objectify_options(options)), html_options)

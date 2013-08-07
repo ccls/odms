@@ -595,6 +595,27 @@ class ApplicationHelperTest < ActionView::TestCase
 #	end
 
 
+	test "padk(1) should return 'Present'" do
+		assert_equal 'Present', padk(1)
+	end
+
+	test "padk(2) should return 'Absent'" do
+		assert_equal 'Absent', padk(2)
+	end
+
+	test "padk(999) should return 'Don't Know'" do
+		assert_equal "Don't Know", padk(999)
+	end
+
+	test "padk(0) should return '&nbsp;'" do
+		assert_equal "&nbsp;", padk(0)
+	end
+
+	test "padk() should return '&nbsp;'" do
+		assert_equal "&nbsp;", padk()
+	end
+
+
 	test "adna(1) should return 'Agree'" do
 		assert_equal 'Agree', adna(1)
 	end
@@ -618,6 +639,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "adna() should return '&nbsp;'" do
 		assert_equal "&nbsp;", adna()
 	end
+
 
 	test "yndk(1) should return 'Yes'" do
 		assert_equal 'Yes', yndk(1)
@@ -725,6 +747,25 @@ class ApplicationHelperTest < ActionView::TestCase
 
 	test "posneg() should return '&nbsp;'" do
 		assert_equal "&nbsp;", posneg()
+	end
+
+	test "unwrapped _wrapped_padk_spans" do
+		@app_model = AppModel.new
+		response = HTML::Document.new(
+			_wrapped_padk_spans(:app_model, :int_field)).root
+		assert_select response, 'span.label', :text => 'int_field', :count => 1
+		assert_select response, 'span.value', :text => '&nbsp;', :count => 1
+	end
+
+	test "wrapped_padk_spans" do
+		@app_model = AppModel.new
+		response = HTML::Document.new(
+			wrapped_padk_spans(:app_model, :int_field)).root
+		assert_select response, 'div.int_field.field_wrapper', :count => 1 do
+			assert_select 'label', :count => 0
+			assert_select 'span.label', :text => 'int_field', :count => 1
+			assert_select 'span.value', :text => '&nbsp;', :count => 1
+		end
 	end
 
 	test "unwrapped _wrapped_adna_spans" do
