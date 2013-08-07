@@ -49,7 +49,7 @@ GEM
     capybara-webkit (0.14.2)
       capybara (~> 2.0, >= 2.0.2)
       json
-    ccls-common_lib (1.2.10)
+    ccls-common_lib (1.3.0)
     ccls-html_test (0.3.5)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
@@ -88,7 +88,7 @@ GEM
     minitest (5.0.6)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
-    multi_json (1.7.7)
+    multi_json (1.7.8)
     mysql (2.9.1)
     mysql2 (0.3.13)
     net-ldap (0.3.1)
@@ -150,7 +150,7 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.33.0)
+    selenium-webdriver (2.34.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
       rubyzip
