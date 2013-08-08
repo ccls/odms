@@ -1,6 +1,7 @@
 module FormBuilderHelper
 
 	#	almost "wrapped"
+	#	app/views/study_subject/abstracts/_form.html.erb
 	def radio_button_with_label(method,value)
 		s = ""
 		s << '&nbsp;'
@@ -31,36 +32,36 @@ module FormBuilderHelper
 #		s.html_safe
 #	end
 
-	def yndk_select(method,options={},html_options={})
-		@template.select(object_name, method, YNDK.selector_options,
-			{:include_blank => true}.merge(objectify_options(options)), html_options)
-	end
-
-	def ynrdk_select(method,options={},html_options={})
-		@template.select(object_name, method, YNRDK.selector_options,
-			{:include_blank => true}.merge(objectify_options(options)), html_options)
-	end
-
-	def ynodk_select(method,options={},html_options={})
-		@template.select(object_name, method, YNODK.selector_options,
-			{:include_blank => true}.merge(objectify_options(options)), html_options)
-	end
-
-	def ynordk_select(method,options={},html_options={})
-		@template.select(object_name, method, YNORDK.selector_options,
-			{:include_blank => true}.merge(objectify_options(options)), html_options)
-	end
-
-	def padk_select(method,options={},html_options={})
-		@template.select(object_name, method, PADK.selector_options,
-			{:include_blank => true}.merge(objectify_options(options)), html_options)
-	end
-
-	def adna_select(method,options={},html_options={})
-		@template.select(object_name, method, ADNA.selector_options,
-			{:include_blank => true}.merge(objectify_options(options)), html_options)
-	end
-
+#	def yndk_select(method,options={},html_options={})
+#		@template.select(object_name, method, YNDK.selector_options,
+#			{:include_blank => true}.merge(objectify_options(options)), html_options)
+#	end
+#
+#	def ynrdk_select(method,options={},html_options={})
+#		@template.select(object_name, method, YNRDK.selector_options,
+#			{:include_blank => true}.merge(objectify_options(options)), html_options)
+#	end
+#
+#	def ynodk_select(method,options={},html_options={})
+#		@template.select(object_name, method, YNODK.selector_options,
+#			{:include_blank => true}.merge(objectify_options(options)), html_options)
+#	end
+#
+#	def ynordk_select(method,options={},html_options={})
+#		@template.select(object_name, method, YNORDK.selector_options,
+#			{:include_blank => true}.merge(objectify_options(options)), html_options)
+#	end
+#
+#	def padk_select(method,options={},html_options={})
+#		@template.select(object_name, method, PADK.selector_options,
+#			{:include_blank => true}.merge(objectify_options(options)), html_options)
+#	end
+#
+#	def adna_select(method,options={},html_options={})
+#		@template.select(object_name, method, ADNA.selector_options,
+#			{:include_blank => true}.merge(objectify_options(options)), html_options)
+#	end
+#
 #	def pos_neg_select(method, options={}, html_options={})
 #		@template.select(object_name, method, POSNEG.selector_options,
 #			{:include_blank => true}.merge(objectify_options(options)), html_options)

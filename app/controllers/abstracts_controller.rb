@@ -20,8 +20,14 @@ class AbstractsController < ApplicationController
 #		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@abstracts = Abstract.scoped
-		@abstracts = @abstracts.merged if params[:merged] == 'true'
+#		@abstracts = Abstract.scoped
+		@abstracts = Abstract.order(:study_subject_id)
+
+		if params[:merged].to_s == 'true'
+			@abstracts = @abstracts.merged 
+		elsif params[:to_merge].to_s == 'true'
+			@abstracts = @abstracts.joins(:study_subject).where(:'study_subjects.abstracts_count' => 2)
+		end
 #		render :layout => 'application'
 	end
 

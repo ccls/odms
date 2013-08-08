@@ -1,7 +1,7 @@
 #	Abstract model
 class Abstract  < ActiveRecord::Base
 
-	belongs_to :study_subject
+	belongs_to :study_subject, :counter_cache => true
 
 	with_options :class_name => 'User', :primary_key => 'uid' do |u|
 		u.belongs_to :entry_1_by, :foreign_key => 'entry_1_by_uid'
@@ -522,6 +522,9 @@ protected
 			#	use delete and not destroy to preserve the abstracts_count
 #	gonna stop using abstracts_count so really won't matter
 #			study_subject.abstracts.unmerged.each{|a|a.delete}
+#	actually using it, but since will synch the counters every now and again, won't work
+#	was hoping to using the counter as a flag that the subject's abstracts were merged
+#	now no way to determine if merged or just the first abstract entered.
 			study_subject.abstracts.unmerged.each{|a|a.destroy}
 		end
 	end

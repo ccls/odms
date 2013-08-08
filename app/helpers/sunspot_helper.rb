@@ -40,7 +40,17 @@ module SunspotHelper
 				l.join(' : ')
 			else
 				column = @sunspot_search_class.all_sunspot_columns.detect{|c|c.name == facet_label}
-				column.label || facet_label.titleize
+
+
+#       could also "object.class.human_attribute_name method" ?
+#I18n.translate("#{object.class.to_s.underscore}.#{method}",
+
+
+#	http://stackoverflow.com/questions/12353416/rails-i18n-check-if-translation-exists
+
+#				column.label || @sunspot_search_class.human_attribute_name(facet_label) || facet_label.titleize
+				column.label || ( I18n.t("#{@sunspot_search_class.to_s.underscore}.#{facet.name}",
+					:scope => "activerecord.attributes",:raise => true ) rescue false ) || facet_label.titleize
 #				facet_label.titleize
 			end
 			s << link_to("#{facet_label}&nbsp;(#{non_blank_row_count})".html_safe, 'javascript:void()')

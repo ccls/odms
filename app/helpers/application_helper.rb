@@ -222,7 +222,7 @@ module ApplicationHelper
 			if study_subject.is_case?
 				list_items << (link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 					:class => ((current == :abstracts)?'current':nil) ) <<
-					"<span class='count'>#{study_subject.abstracts.count}</span>".html_safe)
+					"<span class='count'>#{study_subject.abstracts_count}</span>".html_safe)
 				list_items << link_to( "RAF Info", raf_path(study_subject),
 					:class => ((current == :raf)?'current':nil) ) 
 			end
@@ -382,76 +382,76 @@ module ApplicationHelper
 	end
 
 
-	def yndk(value=nil)
-		(YNDK[value]||'&nbsp;').html_safe
-	end
-
-	def ynodk(value=nil)
-		(YNODK[value]||'&nbsp;').html_safe
-	end
-
-	def ynrdk(value=nil)
-		(YNRDK[value]||'&nbsp;').html_safe
-	end
-
-	def ynordk(value=nil)
-		(YNORDK[value]||'&nbsp;').html_safe
-	end
-
-	def padk(value=nil)
-		(PADK[value]||'&nbsp;').html_safe
-	end
-
-	def adna(value=nil)
-		(ADNA[value]||'&nbsp;').html_safe
-	end
-
-	def pos_neg(value=nil)
-		(POSNEG[value]||'&nbsp;').html_safe
-	end
-	alias_method :posneg, :pos_neg
-
-	def _wrapped_yndk_spans(object_name,method,options={})
-		object = instance_variable_get("@#{object_name}")
-		_wrapped_spans(object_name,method,options.update(
-			:value => (YNDK[object.send(method)]||'&nbsp;') ) )
-	end
-
-	def _wrapped_ynodk_spans(object_name,method,options={})
-		object = instance_variable_get("@#{object_name}")
-		_wrapped_spans(object_name,method,options.update(
-			:value => (YNODK[object.send(method)]||'&nbsp;') ) )
-	end
-
-	def _wrapped_ynrdk_spans(object_name,method,options={})
-		object = instance_variable_get("@#{object_name}")
-		_wrapped_spans(object_name,method,options.update(
-			:value => (YNRDK[object.send(method)]||'&nbsp;') ) )
-	end
-
-	def _wrapped_ynordk_spans(object_name,method,options={})
-		object = instance_variable_get("@#{object_name}")
-		_wrapped_spans(object_name,method,options.update(
-			:value => (YNORDK[object.send(method)]||'&nbsp;') ) )
-	end
-
-	def _wrapped_padk_spans(object_name,method,options={})
-		object = instance_variable_get("@#{object_name}")
-		_wrapped_spans(object_name,method,options.update(
-			:value => (PADK[object.send(method)]||'&nbsp;') ) )
-	end
-
-	def _wrapped_adna_spans(object_name,method,options={})
-		object = instance_variable_get("@#{object_name}")
-		_wrapped_spans(object_name,method,options.update(
-			:value => (ADNA[object.send(method)]||'&nbsp;') ) )
-	end
-
-	def _wrapped_pos_neg_spans(object_name,method,options={})
-		object = instance_variable_get("@#{object_name}")
-		_wrapped_spans(object_name,method,options.update(
-			:value => (POSNEG[object.send(method)]||'&nbsp;') ) )
-	end
+#	def yndk(value=nil)
+#		(YNDK[value]||'&nbsp;').html_safe
+#	end
+#
+#	def ynodk(value=nil)
+#		(YNODK[value]||'&nbsp;').html_safe
+#	end
+#
+#	def ynrdk(value=nil)
+#		(YNRDK[value]||'&nbsp;').html_safe
+#	end
+#
+#	def ynordk(value=nil)
+#		(YNORDK[value]||'&nbsp;').html_safe
+#	end
+#
+#	def padk(value=nil)
+#		(PADK[value]||'&nbsp;').html_safe
+#	end
+#
+#	def adna(value=nil)
+#		(ADNA[value]||'&nbsp;').html_safe
+#	end
+#
+#	def pos_neg(value=nil)
+#		(POSNEG[value]||'&nbsp;').html_safe
+#	end
+#	alias_method :posneg, :pos_neg
+#
+#	def _wrapped_yndk_spans(object_name,method,options={})
+#		object = instance_variable_get("@#{object_name}")
+#		_wrapped_spans(object_name,method,options.update(
+#			:value => (YNDK[object.send(method)]||'&nbsp;') ) )
+#	end
+#
+#	def _wrapped_ynodk_spans(object_name,method,options={})
+#		object = instance_variable_get("@#{object_name}")
+#		_wrapped_spans(object_name,method,options.update(
+#			:value => (YNODK[object.send(method)]||'&nbsp;') ) )
+#	end
+#
+#	def _wrapped_ynrdk_spans(object_name,method,options={})
+#		object = instance_variable_get("@#{object_name}")
+#		_wrapped_spans(object_name,method,options.update(
+#			:value => (YNRDK[object.send(method)]||'&nbsp;') ) )
+#	end
+#
+#	def _wrapped_ynordk_spans(object_name,method,options={})
+#		object = instance_variable_get("@#{object_name}")
+#		_wrapped_spans(object_name,method,options.update(
+#			:value => (YNORDK[object.send(method)]||'&nbsp;') ) )
+#	end
+#
+#	def _wrapped_padk_spans(object_name,method,options={})
+#		object = instance_variable_get("@#{object_name}")
+#		_wrapped_spans(object_name,method,options.update(
+#			:value => (PADK[object.send(method)]||'&nbsp;') ) )
+#	end
+#
+#	def _wrapped_adna_spans(object_name,method,options={})
+#		object = instance_variable_get("@#{object_name}")
+#		_wrapped_spans(object_name,method,options.update(
+#			:value => (ADNA[object.send(method)]||'&nbsp;') ) )
+#	end
+#
+#	def _wrapped_pos_neg_spans(object_name,method,options={})
+#		object = instance_variable_get("@#{object_name}")
+#		_wrapped_spans(object_name,method,options.update(
+#			:value => (POSNEG[object.send(method)]||'&nbsp;') ) )
+#	end
 
 #	def abstract_pages(abstract)
 #		sections = Abstract.sections

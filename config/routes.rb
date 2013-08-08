@@ -74,6 +74,7 @@ Odms::Application.routes.draw do
 
 	root :to => 'odms#show'
 
+	resources :abstracts, :only => :index
 	resources :address_types
 	resources :bc_requests, :except => :show do
 		collection { get :confirm }

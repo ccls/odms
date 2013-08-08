@@ -1,19 +1,29 @@
 <h4>Abstracts:</h4>
 
+<p>
+<%= link_to "All Abstracts", 
+	abstracts_path(), class: :button %>&nbsp;
+<%= link_to "Abstracts awaiting merging", 
+	abstracts_path(:to_merge => true), class: :button %>&nbsp;
+<%= link_to "Merged Abstracts", 
+	abstracts_path(:merged => true), class: :button %>
+</p>
+
 <% unless @abstracts.empty? %>
-<table id='abstracts'><thead>
-<tr><th>ID</th><th>Pat ID</th>
-<th>Entry 1 By</th>
-<th>Entry 2 By</th>
-<th>Merged By</th>
-<th class='manage'>Manage</th></tr>
-</thead><tbody>
-<%= render @abstracts %>
-</tbody></table>
+	<table id='abstracts'><thead>
+		<tr><th>ID</th><th>Pat ID</th>
+		<th>Entry 1 By</th>
+		<th>Entry 2 By</th>
+		<th>Merged By</th>
+		<th class='manage'>Manage</th></tr>
+	</thead><tbody>
+		<%= render @abstracts %>
+	</tbody></table>
 <% else %>
-Sorry, no abstracts yet.
+	<p>Sorry, no abstracts yet.</p>
 <% end %>
 
+<!--
 <hr/>
 <p>The following links are not valid yet.</p>
 
@@ -29,3 +39,4 @@ Sorry, no abstracts yet.
 <li><%= link_to "Merged Abstracts", 
 	abstracts_path(:merged => true) %></li>
 </ul>
+-->
