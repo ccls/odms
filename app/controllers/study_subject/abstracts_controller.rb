@@ -28,7 +28,8 @@ class StudySubject::AbstractsController < StudySubjectController
 		if !@study_subject.is_case?
 			render :action => 'not_case' 
 		else
-			@abstracts = @study_subject.abstracts
+			#	in production, @study_subject.abstracts is active relation, which is_empty? true
+			@abstracts = @study_subject.abstracts.all
 		end
 	end
 

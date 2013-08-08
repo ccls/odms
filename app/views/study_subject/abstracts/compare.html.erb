@@ -24,15 +24,17 @@
 
 	Radio buttons append the value to the id joined by an _
 		If the value is nil, it does nothing, so make sure with a ||''
+
+	Added .presence (will nilify a blank value) as ''||'BLANK' => ''
 -%>
 	<%= f.radio_button( column, @abstracts[0][column] || '',
 		:checked => false )%>
-	<%= f.label( column, @abstracts[0][column] || 'BLANK',
+	<%= f.label( column, @abstracts[0][column].presence || 'BLANK',
 		:value => "#{@abstracts[0][column]}" ) %>
 <br/>
 	<%= f.radio_button( column, @abstracts[1][column] || '',
 		:checked => true ) %>
-	<%= f.label( column, @abstracts[1][column] || 'BLANK',
+	<%= f.label( column, @abstracts[1][column].presence || 'BLANK',
 		:value => "#{@abstracts[1][column]}" ) %>
 <% else -%>
 	<%= f.text_field column, :value => @abstracts[0][column],
