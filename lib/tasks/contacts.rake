@@ -72,7 +72,7 @@ namespace :contacts do
 			end
 
 		end
-#		Sunspot.commit
+		Sunspot.commit
 	end
 
 end	#	namespace :contacts do
