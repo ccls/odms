@@ -849,6 +849,13 @@ Given a file containing nothing but a list of quoted icf master ids ....
 #	The socket has also moved from /tmp/mysql.sock to /opt/local/var/run/mariadb/mysqld.sock
 #	The database files are in different places, so I had to move them.
 #	However, everything seems to be working.
+#
+#	The @FIND_PROC@ macro or marker didn't seem to make its way into mysqld_safe as it should have.
+#	Searched scripts/CMakeLists.txt and manually added it to the script at line 747
+#	Seems to work now.  Not sure how it ever worked before.
+#	Also, mariadb's "mysql.server status" uses "pidof" which doesn't exist here,
+#	or in MacPorts and as such, it fails.
+#
 
  sudo /opt/local/share/mariadb/support-files/mysql.server start
 
