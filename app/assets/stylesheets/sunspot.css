@@ -112,6 +112,9 @@ tr:nth-child(2n+1) { background-color: #F5F1E8; }
 #refine {
 //	width: 30%;
 	min-width: 300px;
+/* still don't understand why, but when min-width is used, the facet column flickers too wide for a second when toggling? */
+/* interestingly, having both width and min-width seems to do exactly what I want without flicker.  Yay */
+	width: 400px;
 //	display:table-cell;
 	border-right: 2px solid silver;
 	padding: 0 10px;
