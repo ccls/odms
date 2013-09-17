@@ -156,16 +156,22 @@ tr:nth-child(2n+1) { background-color: #F5F1E8; }
 .facets div.facet_toggle a {
 	display:block;
 }
-.facets div.facet_field ul {
-	padding-left: 10px;
-}
 .facets div.facet_field {
 	display:none;
 }
+.facets div.facet_field ul {
+	padding-left: 35px;
+}
+/* I want a 10px padding, but also want the wordwrap indented further. so large padding and negative indent */
 .facets div.facet_field ul li {
 	list-style: none;
 	text-align: left;
+	text-indent: -30px;
 }
+.facets div.facet_field ul li label {
+	padding-left: 5px;
+}
+
 /*
 .facets ul.facet_field li * {
 	display:inline-block;
