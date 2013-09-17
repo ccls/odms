@@ -41,17 +41,10 @@ module SunspotHelper
 			else
 				column = @sunspot_search_class.all_sunspot_columns.detect{|c|c.name == facet_label}
 
-
-#       could also "object.class.human_attribute_name method" ?
-#I18n.translate("#{object.class.to_s.underscore}.#{method}",
-
-
-#	http://stackoverflow.com/questions/12353416/rails-i18n-check-if-translation-exists
-
-#				column.label || @sunspot_search_class.human_attribute_name(facet_label) || facet_label.titleize
+				#	Check if a translation exists. Use it if it does, otherwise ...
+				#	http://stackoverflow.com/questions/12353416/rails-i18n-check-if-translation-exists
 				column.label || ( I18n.t("#{@sunspot_search_class.to_s.underscore}.#{facet.name}",
 					:scope => "activerecord.attributes",:raise => true ) rescue false ) || facet_label.titleize
-#				facet_label.titleize
 			end
 			s << link_to("#{facet_label}&nbsp;(#{non_blank_row_count})".html_safe, 'javascript:void()')
 		end
@@ -67,9 +60,12 @@ module SunspotHelper
 			[                      nil, "ui-icon-triangle-1-e"]
 		end
 		s =  facet_toggle(facet,icon)
+
+		#	Wrap all the rest in a div which will be toggled
+		s << "\n<div id='#{facet.name}' class='facet_field'#{style}>\n".html_safe
 		s << multi_select_operator_for(facet.name) if options[:multiselector]
-		#	show this facet if any have been selected
-		s << "<ul id='#{facet.name}' class='facet_field'#{style}>\n".html_safe
+
+		s << "<ul class='facet_field_values'>\n".html_safe
 		facet.rows.each do |row|
 
 #
@@ -105,7 +101,8 @@ module SunspotHelper
 			s << "&nbsp;(&nbsp;#{row.count}&nbsp;)".html_safe if options[:facet_counts]
 			s << "</label></li>\n".html_safe
 		end
-		s << "</ul>\n".html_safe
+		s << "</ul>\n".html_safe	#	"<ul class='facet_field_values'>"
+		s << "</div>\n".html_safe	#	"<div id='#{facet.name}' class='facet_field'#{style}>"
 	end
 
 	def columns
@@ -134,9 +131,6 @@ module SunspotHelper
 			#	Just wanting to format any date columns
 			#
 			when *@sunspot_search_class.sunspot_date_columns.collect(&:name)
-#				subject.respond_to?(column) ? 
-#					subject.try(column).try(:strftime,'%m/%d/%Y') : 
-#					'DATE COLUMN NOT FOUND?'
 				col = @sunspot_search_class.sunspot_columns.detect{|c|
 					c.name == column.to_s }
 				( col.hash_table.has_key?(:meth) ) ?

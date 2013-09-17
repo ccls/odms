@@ -15,12 +15,6 @@ protected	#	from what and why?
 		begin
 			@search = @sunspot_search_class.search do
 
-				#	@sunspot_search_class is nil here???? (it is well out of scope)
-				#				@sunspot_search_class.sunspot_all_facets.each do |p|
-				#				self.instance_variable_get('@scope').instance_variable_get('@components').first.instance_variable_get('@value').sunspot_all_facets.each do |p|	#	works
-				#				self.instance_variable_get('@setup').instance_variable_get('@class_name').constantize.sunspot_all_facets.each do |p|	#	also works
-
-
 				if params[:q].present?
 					fulltext params[:q]
 				end
@@ -36,26 +30,32 @@ protected	#	from what and why?
 	#					range_facet_and_filter_for(p,params.dup,{:start => 1980, :stop => 2010, :step => 5})
 	#				else
 						if params[p]
-	#
-	#	20130423 - be advised that false.blank? is true so the boolean attributes
-	#						will not work correctly here.  Need to find another way.
-	#
+							#
+							#	20130423 - be advised that false.blank? is true so the boolean attributes
+							#						will not work correctly here.  Need to find another way.
+							#			I don't use boolean columns anymore
+							#
 							params[p] = [params[p].dup].flatten.reject{|x|x.blank?}
-	#						if params[p+'_op'] && params[p+'_op']=='AND'
-	#								unless params[p].empty?
-	#								with(p).all_of params[p]
-	#							else
-	#								params.delete(p)	#	remove the key so doesn't show in view
-	#							end
-	#						else
+
+
+							if params[p+'_op'] && params[p+'_op']=='AND'
+								unless params[p].blank?	#	empty?	#	blank? works for arrays too
+									with(p).all_of params[p]
+								else
+									params.delete(p)	#	remove the key so doesn't show in view
+								end
+							else
 								unless params[p].blank?	#empty?	# blank? works for arrays too
 									with(p).any_of params[p]
 								else
 									params.delete(p)	#	remove the key so doesn't show in view
 								end
-	#						end
-						end
-	#				end
+							end	#	if params[p+'_op'] && params[p+'_op']=='AND'
+
+
+						end	#	if params[p]
+
+	#				end	#	if child_age_facets.include?(p)
 					#	facet.sort
 					#	This param determines the ordering of the facet field constraints.
 					#	    count - sort the constraints by count (highest count first)

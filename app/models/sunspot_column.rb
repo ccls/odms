@@ -7,6 +7,7 @@ class SunspotColumn < OpenStruct
 			:type      => :string, 
 			:orderable => true, 
 			:facetable => false, 
+			:multiple  => false, 
 			:default   => false
 		}
 		options = args.extract_options!.with_indifferent_access

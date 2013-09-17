@@ -156,11 +156,13 @@ tr:nth-child(2n+1) { background-color: #F5F1E8; }
 .facets div.facet_toggle a {
 	display:block;
 }
-.facets .facet_field {
+.facets div.facet_field ul {
 	padding-left: 10px;
+}
+.facets div.facet_field {
 	display:none;
 }
-.facets ul.facet_field li {
+.facets div.facet_field ul li {
 	list-style: none;
 	text-align: left;
 }
@@ -188,6 +190,13 @@ tr:nth-child(2n+1) { background-color: #F5F1E8; }
 	margin-top:0;
 	padding-top:10px;
 }
+
+
+
+/* what and where is a #tabs (20130917) */
+/* and I don't think that ul.results exists anymore (20130917) */
+/* commenting out to see if there are anhy repercussions.
+/*
 #tabs {
 	border-bottom: 1px solid gray;
 }
@@ -208,33 +217,24 @@ tr:nth-child(2n+1) { background-color: #F5F1E8; }
 	border-left: 1px solid black;
 	border-right: 1px solid black;
 
-	/* http://css-radius.heroku.com */
 	-webkit-border-radius: 8px 8px 0px 0px;
 	-moz-border-radius: 8px 8px 0px 0px;
 	border-radius: 8px 8px 0px 0px;
 
-/* for webkit browsers */
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BBBBBB)); 
-/* for firefox 3.6+  */
 	background-image: -moz-linear-gradient(top,  #FFFFFF,  #BBBBBB); 
-/* for ie , but doesn't seem to work as expected despite other examples working */
 	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#FFFFFF', EndColorStr='#BBBBBB');
 }
 #tabs ul li a.current {
 	background-color:gray;
 	color:white;
-/* for webkit browsers */
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#888888), to(#BBBBBB)); 
-/* for firefox 3.6+  */
 	background-image: -moz-linear-gradient(top,  #888888,  #BBBBBB); 
-/* for ie , but doesn't seem to work as expected despite other examples working */
 	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#888888', EndColorStr='#BBBBBB');
 }
+
 ul.results {
 	list-style: none;
-/*
-	padding-left: 10px;
-*/
 }
 ul.results li {
 	border:1px solid silver;
@@ -244,7 +244,7 @@ ul.results li {
 ul.results li:nth-child(1)    { border-top:1px solid silver; }
 ul.results li:nth-child(2n)   { background-color: #EEE; }
 ul.results li:nth-child(2n+1) { background-color: #DDD; }
-
+*/
 
 ul.selectable_columns {
 	background-color: silver;

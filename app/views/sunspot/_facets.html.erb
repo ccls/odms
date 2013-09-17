@@ -1,9 +1,19 @@
 <div class='facets'>
 	<% @search.facets.each do |facet| -%>
 		<% next if facet.rows.empty? -%><%# don't show empty facets -%>
-		<%= facet_for(facet,
+		<%#= facet_for(facet,
 			:multiselector => [:biospecimens,:genotypings].include?(facet.name),
 			:facet_counts  => true ) %>
+
+
+
+		<%= facet_for(facet,
+			:multiselector => @sunspot_search_class.sunspot_columns.detect{|c|
+					c.name == facet.name.to_s }.try(:multiple),
+			:facet_counts  => true ) %>
+
+
+
 		<%# 
 			multiselector is for when a single subject could have many
 			Either as an array in itself or perhaps some implementation
