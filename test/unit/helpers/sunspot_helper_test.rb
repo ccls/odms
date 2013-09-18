@@ -112,12 +112,13 @@ class SunspotHelperTest < ActionView::TestCase
 				assert_select "[href=?]", "javascript:void()"
 			end
 		end
-		assert_select( response, 'ul.facet_field_values', :count => 1 ){|uls| uls.each { |ul|
-			assert_select( ul, 'li', :count => 2 ){|lis| lis.each { |li|
-				assert_select li, 'input[type=checkbox]', :count => 1
-				assert_select li, 'label', :count => 1
-				assert_select li, 'span',  :count => 1
-		} } } }
+		assert_select( response, 'div.facet_field', :count => 1 ){|divs| divs.each { |div|
+			assert_select( div, 'ul.facet_field_values', :count => 1 ){|uls| uls.each { |ul|
+				assert_select( ul, 'li', :count => 2 ){|lis| lis.each { |li|
+					assert_select li, 'input[type=checkbox]', :count => 1
+					assert_select li, 'label', :count => 1
+					assert_select li, 'span',  :count => 1
+		} } } } } }
 	end
 
 	test "facet_for should return radio fields for facet if radio true" do
@@ -132,12 +133,13 @@ class SunspotHelperTest < ActionView::TestCase
 				assert_select "[href=?]", "javascript:void()"
 			end
 		end
-		assert_select( response, 'ul.facet_field_values', :count => 1 ){|uls| uls.each { |ul|
-			assert_select( ul, 'li', :count => 2 ){|lis| lis.each { |li|
-				assert_select li, 'input[type=radio]', :count => 1
-				assert_select li, 'label', :count => 1
-				assert_select li, 'span',  :count => 1
-		} } } }
+		assert_select( response, 'div.facet_field', :count => 1 ){|divs| divs.each { |div|
+			assert_select( div, 'ul.facet_field_values', :count => 1 ){|uls| uls.each { |ul|
+				assert_select( ul, 'li', :count => 2 ){|lis| lis.each { |li|
+					assert_select li, 'input[type=radio]', :count => 1
+					assert_select li, 'label', :count => 1
+					assert_select li, 'span',  :count => 1
+		} } } } } }
 	end
 
 #	test "facet_for is gonna be tough to test outside of a controller" do
