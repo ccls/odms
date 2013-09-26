@@ -13,11 +13,9 @@ class NotificationTest < ActionMailer::TestCase
 			:icf_master_id => '1234MAIL')
 		mail = Notification.raf_submitted(study_subject)
 		assert_equal mail.subject,
-			"TEST [CCLS Patient Notification Received] Identifier: 1234MAIL"
-#		assert_equal ["notifyccls@berkeley.edu"], mail.to
+			"[CCLS Patient Notification Received] Identifier: 1234MAIL"
 		assert_equal ["jakewendt@berkeley.edu"], mail.to
 		assert_equal ["notifyccls@berkeley.edu"], mail.from
-#		assert_equal ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"], mail.cc
 		assert_match '1234MAIL', mail.body.encoded
 		assert_match 'initials: AMH', mail.body.encoded
 	end
@@ -32,7 +30,6 @@ class NotificationTest < ActionMailer::TestCase
 
 	test "plain" do
 		mail = Notification.plain
-#		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
 		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
 		assert_equal mail.subject, "ODMS: No subject given"
 		assert_match "No body given", mail.body.encoded
@@ -42,7 +39,6 @@ class NotificationTest < ActionMailer::TestCase
 
 	test "updates_from_icf_master_tracker" do
 		mail = Notification.updates_from_icf_master_tracker([])
-#		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
 		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
 		assert_equal mail.subject, "ODMS: updates_from_icf_master_tracker"
 		assert_match "No changes", mail.body.encoded
@@ -50,7 +46,6 @@ class NotificationTest < ActionMailer::TestCase
 
 	test "updates_from_bc_info" do
 		mail = Notification.updates_from_bc_info('bc_info_20010203.csv',[])
-#		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
 		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
 		assert_equal mail.subject, "ODMS: updates_from_bc_info bc_info_20010203.csv"
 		assert_match "No changes", mail.body.encoded
@@ -58,7 +53,6 @@ class NotificationTest < ActionMailer::TestCase
 
 	test "updates_from_birth_data" do
 		mail = Notification.updates_from_birth_data('birth_data_20010203.csv',[])
-#		assert_equal mail.to,     ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"]
 		assert_equal mail.to,     ["jakewendt@berkeley.edu"]
 		assert_equal mail.subject, "ODMS: updates_from_birth_data birth_data_20010203.csv"
 		assert_match "No changes", mail.body.encoded

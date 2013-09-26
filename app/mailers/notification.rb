@@ -26,8 +26,10 @@ class Notification < ActionMailer::Base
 	#
 	def raf_submitted(study_subject)
 		@study_subject = study_subject
+		@hospital = Hospital.find_by_organization_id(@study_subject.organization_id)
 
-		mail subject: "TEST [CCLS Patient Notification Received] Identifier: #{@study_subject.icf_master_id_to_s}"
+#		mail subject: "TEST [CCLS Patient Notification Received] Identifier: #{@study_subject.icf_master_id_to_s}"
+		mail subject: "[CCLS Patient Notification Received] Identifier: #{@study_subject.icf_master_id_to_s}"
 	end
 
 	def plain(content="No body given",options={})

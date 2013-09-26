@@ -1,12 +1,6 @@
 Hello~ 
 
-BEGIN TEMP FYI:
-<% hospital = Hospital.find_by_organization_id(@study_subject.organization_id)%>
-Hospital:<%= hospital %>:
-Contact ID:<%= hospital.contact_id %>:
-Contact:<%= hospital.contact %>:
-Email:<%= hospital.contact.try(:email) %>:
-END TEMP FYI:
+Hospital: <%= @hospital %>
 
 Thank you for enrolling your patient in the California Childhood Leukemia Study at UC Berkeley.  We have assigned your patient (initials: <%= @study_subject.initials %>) the following CCLS Patient Identifier:  
 
