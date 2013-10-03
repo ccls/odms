@@ -3,7 +3,7 @@ require 'test_helper'
 class SamplesControllerTest < ActionController::TestCase
 
 	#	no study_subject_id
-	assert_no_route(:get,:index)
+#	assert_no_route(:get,:index)
 
 	#	no id
 	assert_no_route(:get, :show)
@@ -42,9 +42,9 @@ class SamplesControllerTest < ActionController::TestCase
 	
 		test "should get find with #{cu} login" do
 			login_as send(cu)
-			get :find
+			get :index
 			assert_response :success
-			assert_template 'find'
+			assert_template 'index'
 		end
 
 	##################################################
@@ -53,18 +53,18 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should get samples find with #{cu} login and page too high" do
 			3.times{FactoryGirl.create(:sample)}
 			login_as send(cu)
-			get :find, :page => 999
+			get :index, :page => 999
 			assert_not_nil flash[:warn]
 			assert_equal 3, assigns(:samples).count
 			assert_equal 0, assigns(:samples).length
-			assert_redirected_to find_samples_path(:page => 1)
+			assert_redirected_to samples_path(:page => 1)
 		end
 
 		test "should find samples by sample_id and #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 #	There is no actual sampleid field. It is just id with leading zeros.
-			get :find, :sampleid => samples[1].id
+			get :index, :sampleid => samples[1].id
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -78,7 +78,7 @@ class SamplesControllerTest < ActionController::TestCase
 #	OR EVEN
 #				FactoryGirl.create(:sample,:sample_type => (SampleType.roots)[i].children.first )}
 			login_as send(cu)
-			get :find, :sample_type_id => samples[1].sample_type.parent.id
+			get :index, :sample_type_id => samples[1].sample_type.parent.id
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -102,7 +102,7 @@ class SamplesControllerTest < ActionController::TestCase
 #	OR EVEN
 #				FactoryGirl.create(:sample,:sample_type => (SampleType.not_roots)[i] )}
 			login_as send(cu)
-			get :find, :sample_type_id => samples[1].sample_type_id
+			get :index, :sample_type_id => samples[1].sample_type_id
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -115,7 +115,7 @@ class SamplesControllerTest < ActionController::TestCase
 				create_sample_with_subject( :first_name => "First#{i}" ) 
 			}
 			login_as send(cu)
-			get :find, :first_name => 'st1'
+			get :index, :first_name => 'st1'
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert_equal assigns(:samples).first, samples[1]
@@ -126,7 +126,7 @@ class SamplesControllerTest < ActionController::TestCase
 				create_sample_with_subject( :last_name => "Last#{i}" )
 			}
 			login_as send(cu)
-			get :find, :last_name => 'st1'
+			get :index, :last_name => 'st1'
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert_equal assigns(:samples).first, samples[1]
@@ -137,7 +137,7 @@ class SamplesControllerTest < ActionController::TestCase
 				create_sample_with_subject( :maiden_name => "Maiden#{i}" )
 			}
 			login_as send(cu)
-			get :find, :last_name => 'en1'
+			get :index, :last_name => 'en1'
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert_equal assigns(:samples).first, samples[1]
@@ -147,7 +147,7 @@ class SamplesControllerTest < ActionController::TestCase
 			samples = 3.times.collect{|i| 
 				create_sample_with_subject( :childid => "12345#{i}" ) }
 			login_as send(cu)
-			get :find, :childid => '451'
+			get :index, :childid => '451'
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert_equal assigns(:samples).first, samples[1]
@@ -157,7 +157,7 @@ class SamplesControllerTest < ActionController::TestCase
 			samples = 3.times.collect{|i| 
 				create_sample_with_subject( :icf_master_id => "345x#{i}" ) }
 			login_as send(cu)
-			get :find, :icf_master_id => '45x1'
+			get :index, :icf_master_id => '45x1'
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert_equal assigns(:samples).first, samples[1]
@@ -167,7 +167,7 @@ class SamplesControllerTest < ActionController::TestCase
 			samples = 3.times.collect{|i| 
 				create_sample_with_subject( :patid => "345#{i}" ) }
 			login_as send(cu)
-			get :find, :patid => '451'
+			get :index, :patid => '451'
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert_equal assigns(:samples).first, samples[1]
@@ -182,7 +182,7 @@ class SamplesControllerTest < ActionController::TestCase
 				FactoryGirl.create(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	Dec 1 2000
-			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.strftime("%b %d %Y")
+			get :index, :sent_to_subject_at => samples[1].sent_to_subject_at.strftime("%b %d %Y")
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -195,7 +195,7 @@ class SamplesControllerTest < ActionController::TestCase
 				FactoryGirl.create(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	javascript selector format
-			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.strftime("%m/%d/%Y")
+			get :index, :sent_to_subject_at => samples[1].sent_to_subject_at.strftime("%m/%d/%Y")
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -208,7 +208,7 @@ class SamplesControllerTest < ActionController::TestCase
 				FactoryGirl.create(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
 			#	same as strftime('%Y-%m-%d')
-			get :find, :sent_to_subject_at => samples[1].sent_to_subject_at.to_s	
+			get :index, :sent_to_subject_at => samples[1].sent_to_subject_at.to_s	
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -220,7 +220,7 @@ class SamplesControllerTest < ActionController::TestCase
 			samples = 3.times.collect{|i| 
 				FactoryGirl.create(:sample,:sent_to_subject_at => base_date + (5*i).days ) }
 			login_as send(cu)
-			get :find, :sent_to_subject_at => 'bad monkey'
+			get :index, :sent_to_subject_at => 'bad monkey'
 			assert_response :success
 			assert_equal 3, assigns(:samples).length
 		end
@@ -235,7 +235,7 @@ class SamplesControllerTest < ActionController::TestCase
 					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	Dec 1 2000
-			get :find, :received_by_ccls_at => samples[1].received_by_ccls_at.strftime("%b %d %Y")
+			get :index, :received_by_ccls_at => samples[1].received_by_ccls_at.strftime("%b %d %Y")
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -250,7 +250,7 @@ class SamplesControllerTest < ActionController::TestCase
 					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	javascript selector format
-			get :find, :received_by_ccls_at => samples[1].received_by_ccls_at.strftime("%m/%d/%Y")
+			get :index, :received_by_ccls_at => samples[1].received_by_ccls_at.strftime("%m/%d/%Y")
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -265,7 +265,7 @@ class SamplesControllerTest < ActionController::TestCase
 					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	same as strftime('%Y-%m-%d')
-			get :find, :received_by_ccls_at => samples[1].received_by_ccls_at.to_s	
+			get :index, :received_by_ccls_at => samples[1].received_by_ccls_at.to_s	
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -279,7 +279,7 @@ class SamplesControllerTest < ActionController::TestCase
 					:collected_from_subject_at => base_date + (5*i-1).days,
 					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
-			get :find, :received_by_ccls_at => 'bad monkey'
+			get :index, :received_by_ccls_at => 'bad monkey'
 			assert_response :success
 			assert_equal 3, assigns(:samples).length
 		end
@@ -293,7 +293,7 @@ class SamplesControllerTest < ActionController::TestCase
 			samples = 3.times.collect{|i| 
 				create_sample_with_subject(:first_name => "First#{i}",:last_name => "Last#{i}")}
 			login_as send(cu)
-			get :find, :first_name => 'st1', :last_name => 'st2', :operator => 'OR'
+			get :index, :first_name => 'st1', :last_name => 'st2', :operator => 'OR'
 			assert_response :success
 			assert_equal 2, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -304,7 +304,7 @@ class SamplesControllerTest < ActionController::TestCase
 			samples = 3.times.collect{|i| 
 				create_sample_with_subject(:first_name => "First#{i}",:last_name => "Last#{i}")}
 			login_as send(cu)
-			get :find, :first_name => 'st1', :last_name => 'st1', :operator => 'AND'
+			get :index, :first_name => 'st1', :last_name => 'st1', :operator => 'AND'
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -314,7 +314,7 @@ class SamplesControllerTest < ActionController::TestCase
 			samples = 3.times.collect{|i| 
 				create_sample_with_subject(:patid => "345#{i}", :childid => "12345#{i}" ) }
 			login_as send(cu)
-			get :find, :patid => '451', :childid => '452', :operator => 'OR'
+			get :index, :patid => '451', :childid => '452', :operator => 'OR'
 			assert_response :success
 			assert_equal 2, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -325,7 +325,7 @@ class SamplesControllerTest < ActionController::TestCase
 			samples = 3.times.collect{|i| 
 				create_sample_with_subject(:patid => "345#{i}", :childid => "12345#{i}" ) }
 			login_as send(cu)
-			get :find, :patid => '451', :childid => '451', :operator => 'AND'
+			get :index, :patid => '451', :childid => '451', :operator => 'AND'
 			assert_response :success
 			assert_equal 1, assigns(:samples).length
 			assert assigns(:samples).include?(samples[1])
@@ -342,7 +342,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by id with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :id
+			get :index, :order => :id
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -350,7 +350,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by id asc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :id, :dir => :asc
+			get :index, :order => :id, :dir => :asc
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -358,7 +358,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by id desc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :id, :dir => :desc
+			get :index, :order => :id, :dir => :desc
 			assert_response :success
 			assert_equal samples, assigns(:samples).reverse
 		end
@@ -372,7 +372,7 @@ class SamplesControllerTest < ActionController::TestCase
 					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	same as strftime('%Y-%m-%d')
-			get :find, :order => :received_by_ccls_at
+			get :index, :order => :received_by_ccls_at
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -386,7 +386,7 @@ class SamplesControllerTest < ActionController::TestCase
 					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	same as strftime('%Y-%m-%d')
-			get :find, :order => :received_by_ccls_at, :dir => :asc
+			get :index, :order => :received_by_ccls_at, :dir => :asc
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -400,7 +400,7 @@ class SamplesControllerTest < ActionController::TestCase
 					:received_by_ccls_at       => base_date + (5*i).days )}
 			login_as send(cu)
 			#	same as strftime('%Y-%m-%d')
-			get :find, :order => :received_by_ccls_at, :dir => :desc
+			get :index, :order => :received_by_ccls_at, :dir => :desc
 			assert_response :success
 			assert_equal samples, assigns(:samples).reverse
 		end
@@ -408,7 +408,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by status with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
 			login_as send(cu)
-			get :find, :order => :state
+			get :index, :order => :state
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -416,7 +416,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by status asc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
 			login_as send(cu)
-			get :find, :order => :state, :dir => :asc
+			get :index, :order => :state, :dir => :asc
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -424,7 +424,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by status desc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
 			login_as send(cu)
-			get :find, :order => :state, :dir => :desc
+			get :index, :order => :state, :dir => :desc
 			assert_response :success
 			assert_equal samples, assigns(:samples).reverse
 		end
@@ -432,7 +432,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by type with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :type
+			get :index, :order => :type
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -440,7 +440,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by type asc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :type, :dir => :asc
+			get :index, :order => :type, :dir => :asc
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -448,7 +448,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by type desc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :type, :dir => :desc
+			get :index, :order => :type, :dir => :desc
 			assert_response :success
 			assert_equal samples, assigns(:samples).reverse
 		end
@@ -456,7 +456,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by subtype with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :subtype
+			get :index, :order => :subtype
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -464,7 +464,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by subtype asc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :subtype, :dir => :asc
+			get :index, :order => :subtype, :dir => :asc
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -472,7 +472,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by subtype desc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :subtype, :dir => :desc
+			get :index, :order => :subtype, :dir => :desc
 			assert_response :success
 			assert_equal samples, assigns(:samples).reverse
 		end
@@ -480,7 +480,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by project with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :project
+			get :index, :order => :project
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -488,7 +488,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by project asc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :project, :dir => :asc
+			get :index, :order => :project, :dir => :asc
 			assert_response :success
 			assert_equal samples, assigns(:samples)
 		end
@@ -496,7 +496,7 @@ class SamplesControllerTest < ActionController::TestCase
 		test "should find samples and order by project desc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
-			get :find, :order => :project, :dir => :desc
+			get :index, :order => :project, :dir => :desc
 			assert_response :success
 			assert_equal samples, assigns(:samples).reverse
 		end
@@ -588,7 +588,7 @@ class SamplesControllerTest < ActionController::TestCase
 	
 		test "should NOT get find with #{cu} login" do
 			login_as send(cu)
-			get :find
+			get :index
 			assert_redirected_to root_path
 		end
 	
@@ -626,7 +626,7 @@ class SamplesControllerTest < ActionController::TestCase
 	end
 	
 	test "should NOT get find without login" do
-		get :find
+		get :index
 		assert_redirected_to_login
 	end
 	

@@ -1,7 +1,7 @@
 <% stylesheets(:samples) %>
 <%= dashboard_control_bar() %>
 
-<%= form_tag(find_samples_path, :method => :get, :id => 'find_samples' ) do %>
+<%= form_tag(samples_path, :method => :get, :id => 'find_samples' ) do %>
 
 <p>Results must match 
 <%= select_tag 'operator', options_for_select(
@@ -61,7 +61,6 @@
 </div><!-- table -->
 
 
-<% end %><%# form_tag(find_samples_path ... %>
 
 
 
@@ -86,4 +85,4 @@
 <div class='pagination wrapper'>
 <%= will_paginate @samples %>
 </div>
-<%# end %><%# form_tag(find_samples_path ... %>
+<% end %><%# form_tag(samples_path ... %>

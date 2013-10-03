@@ -148,28 +148,30 @@ Odms::Application.routes.draw do
 	#	This MUST be BEFORE the declaration of
 	#	 study_subject.resources :samples
 	#	or 'dashboard' will be treated as a sample id.
-	resources :samples, :only => [] do
+	resources :samples, :only => [:index] do
+#	resources :samples, :only => [] do
 		collection do
 			get :dashboard
-			get :find
+#			get :find
 			get :followup
 			get :reports
 			get :manifest
 		end
 	end
 
-	resources :interviews, :only => [] do
+	resources :interviews, :only => [:index] do
+#	resources :interviews, :only => [] do
 		collection do
 			get :dashboard
-			get :find
+#			get :find
 			get :followup
 			get :reports
 		end
 	end
 
-	resources :studies, :only => [] do
-		collection { get :dashboard }
-	end
+#	resources :studies, :only => [] do
+#		collection { get :dashboard }
+#	end
 
 	resources :study_subjects, :only => [:edit,:update,:show,:index] do
 		member do
@@ -181,7 +183,7 @@ Odms::Application.routes.draw do
 			get :last
 			get :by
 			get :dashboard
-			get :find
+#			get :find
 			get :followup
 			get :reports
 		end

@@ -8,7 +8,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		test "should get study_subjects find with #{cu} login" do
 			3.times{FactoryGirl.create(:study_subject)}
 			login_as send(cu)
-			get :find
+			get :index
 			assert_response :success
 			assert_equal 3, assigns(:study_subjects).length
 		end
@@ -16,11 +16,11 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		test "should find study_subjects with #{cu} login and page too high" do
 			3.times{FactoryGirl.create(:study_subject)}
 			login_as send(cu)
-			get :find, :page => 999
+			get :index, :page => 999
 			assert_not_nil flash[:warn]
 			assert_equal 3, assigns(:study_subjects).count
 			assert_equal 0, assigns(:study_subjects).length
-			assert_redirected_to find_study_subjects_path(:page => 1)
+			assert_redirected_to study_subjects_path(:page => 1)
 		end
 
 		test "should find study_subjects by subject_type case and #{cu} login" do
@@ -28,7 +28,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-			get :find, :subject_type => 'Case'
+			get :index, :subject_type => 'Case'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(s1)
@@ -39,7 +39,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-			get :find, :subject_type => 'Control'
+			get :index, :subject_type => 'Control'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(s2)
@@ -50,7 +50,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			s2 = FactoryGirl.create(:control_study_subject)
 			s3 = FactoryGirl.create(:mother_study_subject)
 			login_as send(cu)
-			get :find, :subject_type => 'Mother'
+			get :index, :subject_type => 'Mother'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(s3)
@@ -60,7 +60,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject, :maiden_name => "Maiden#{i}" ) }
 			login_as send(cu)
-			get :find, :last_name => 'en1'
+			get :index, :last_name => 'en1'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -72,7 +72,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject,:dob => base_date + (5*i).days ) }
 			login_as send(cu)
-			get :find, :dob => subjects[1].dob.strftime("%b %d %Y")	#	Dec 1 2000
+			get :index, :dob => subjects[1].dob.strftime("%b %d %Y")	#	Dec 1 2000
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -84,7 +84,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject,:dob => base_date + (5*i).days ) }
 			login_as send(cu)
-			get :find, :dob => subjects[1].dob.strftime("%m/%d/%Y")	#	javascript selector format
+			get :index, :dob => subjects[1].dob.strftime("%m/%d/%Y")	#	javascript selector format
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -96,7 +96,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject,:dob => base_date + (5*i).days ) }
 			login_as send(cu)
-			get :find, :dob => subjects[1].dob.to_s	#	same as strftime('%Y-%m-%d')
+			get :index, :dob => subjects[1].dob.to_s	#	same as strftime('%Y-%m-%d')
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -108,7 +108,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject,:dob => base_date + (5*i).days ) }
 			login_as send(cu)
-			get :find, :dob => 'bad monkey'
+			get :index, :dob => 'bad monkey'
 			assert_response :success
 			assert_equal 3, assigns(:study_subjects).length
 		end
@@ -120,7 +120,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				subjects = 3.times.collect{|i| 
 					FactoryGirl.create(:study_subject,attr => "45#{i}" ) }
 				login_as send(cu)
-				get :find, attr => '451'
+				get :index, attr => '451'
 				assert_response :success
 				assert_equal 1, assigns(:study_subjects).length
 				assert assigns(:study_subjects).include?(subjects[1])
@@ -132,7 +132,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:patient,:hospital_no => "345#{i}" ).study_subject }
 			login_as send(cu)
-			get :find, :hospital_no => '451'
+			get :index, :hospital_no => '451'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -144,7 +144,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				subjects = 3.times.collect{|i| 
 					FactoryGirl.create(:study_subject, field => "345x#{i}" ) }
 				login_as send(cu)
-				get :find, :registrar_no => '45x1'
+				get :index, :registrar_no => '45x1'
 				assert_response :success
 				assert_equal 1, assigns(:study_subjects).length
 				assert assigns(:study_subjects).include?(subjects[1])
@@ -162,7 +162,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject,:first_name => "First#{i}", :last_name => "Last#{i}" ) }
 			login_as send(cu)
-			get :find, :first_name => 'st1', :last_name => 'st2', :operator => 'OR'
+			get :index, :first_name => 'st1', :last_name => 'st2', :operator => 'OR'
 			assert_response :success
 			assert_equal 2, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -173,7 +173,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject,:first_name => "First#{i}", :last_name => "Last#{i}" ) }
 			login_as send(cu)
-			get :find, :first_name => 'st1', :last_name => 'st1', :operator => 'AND'
+			get :index, :first_name => 'st1', :last_name => 'st1', :operator => 'AND'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -183,7 +183,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject,:patid => "345#{i}", :childid => "12345#{i}" ) }
 			login_as send(cu)
-			get :find, :patid => '451', :childid => '452', :operator => 'OR'
+			get :index, :patid => '451', :childid => '452', :operator => 'OR'
 			assert_response :success
 			assert_equal 2, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -194,7 +194,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			subjects = 3.times.collect{|i| 
 				FactoryGirl.create(:study_subject,:patid => "345#{i}", :childid => "12345#{i}" ) }
 			login_as send(cu)
-			get :find, :patid => '451', :childid => '451', :operator => 'AND'
+			get :index, :patid => '451', :childid => '451', :operator => 'AND'
 			assert_response :success
 			assert_equal 1, assigns(:study_subjects).length
 			assert assigns(:study_subjects).include?(subjects[1])
@@ -212,7 +212,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, 
 					attr => (Date.current - (100 - i).days) ) }
 				login_as send(cu)
-				get :find, :order => attr
+				get :index, :order => attr
 				assert_response :success
 				assert_equal subjects.collect(&:reference_date), 
 					assigns(:study_subjects).collect(&:reference_date)
@@ -223,7 +223,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, 
 					attr => (Date.current - (100 - i).days) ) }
 				login_as send(cu)
-				get :find, :order => attr, :dir => 'asc'
+				get :index, :order => attr, :dir => 'asc'
 				assert_response :success
 				assert_equal subjects.collect(&:reference_date), 
 					assigns(:study_subjects).collect(&:reference_date)
@@ -234,7 +234,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, 
 					attr => (Date.current - (100 - i).days) ) }
 				login_as send(cu)
-				get :find, :order => attr, :dir => 'desc'
+				get :index, :order => attr, :dir => 'desc'
 				assert_response :success
 				assert_equal subjects.collect(&:reference_date), 
 					assigns(:study_subjects).reverse.collect(&:reference_date)
@@ -245,7 +245,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, 
 					attr => (Date.current - (100 - i).days) ) }
 				login_as send(cu)
-				get :find, :order => attr, :dir => 'invalid'
+				get :index, :order => attr, :dir => 'invalid'
 				assert_response :success
 				assert_equal subjects.collect(&:reference_date), 
 					assigns(:study_subjects).collect(&:reference_date)
@@ -260,7 +260,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
-				get :find, :order => attr
+				get :index, :order => attr
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects)
 			end
@@ -268,7 +268,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			test "should find study_subjects and order by #{attr} dir asc with #{cu} login" do
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
-				get :find, :order => attr, :dir => 'asc'
+				get :index, :order => attr, :dir => 'asc'
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects)
 			end
@@ -276,7 +276,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			test "should find study_subjects and order by #{attr} dir desc with #{cu} login" do
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
-				get :find, :order => attr, :dir => 'desc'
+				get :index, :order => attr, :dir => 'desc'
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects).reverse
 			end
@@ -284,7 +284,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			test "should find study_subjects and order by #{attr} invalid dir with #{cu} login" do
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
-				get :find, :order => attr, :dir => 'invalid'
+				get :index, :order => attr, :dir => 'invalid'
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects)
 			end
@@ -294,7 +294,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, attr => "999#{i}" )}
 				login_as send(cu)
 				session[:order] = attr
-				get :find
+				get :index
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects)
 			end
@@ -305,7 +305,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				login_as send(cu)
 				session[:order] = attr
 				session[:dir] = 'asc'
-				get :find
+				get :index
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects)
 			end
@@ -316,7 +316,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				login_as send(cu)
 				session[:order] = attr
 				session[:dir] = 'desc'
-				get :find
+				get :index
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects).reverse
 			end
@@ -327,7 +327,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 				login_as send(cu)
 				session[:order] = attr
 				session[:dir] = 'invalid'
-				get :find
+				get :index
 				assert_response :success
 				assert_equal subjects, assigns(:study_subjects)
 			end

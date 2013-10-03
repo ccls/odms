@@ -1,9 +1,9 @@
 class SamplesController < ApplicationController
 
 	before_filter :may_read_samples_required,
-		:only => [:dashboard,:find,:followup,:reports,:manifest]
+		:only => [:dashboard,:index,:followup,:reports,:manifest]
 
-	def find
+	def index
 		record_or_recall_sort_order
 		conditions = [[],{}]
 		#	Table names are not necessary if field is unambiguous.
@@ -70,7 +70,7 @@ class SamplesController < ApplicationController
 			params[:page] = @samples.total_pages
 			#	It seems excessive to redirect and do it all again.
 			#	Nevertheless ...
-			redirect_to find_samples_path(params)
+			redirect_to samples_path(params)
 		end
 	end
 

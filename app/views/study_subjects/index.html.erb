@@ -1,2 +1,76 @@
-<%#= render 'hx/study_subjects/submenu' %>
-<%= render 'study_subjects/index' %>
+<% stylesheets(:study_subjects) %>
+<%= dashboard_control_bar() %>
+
+<%= form_tag(study_subjects_path, :method => :get, :id => 'find_study_subjects' ) do %>
+
+<p>Results must match 
+<%= select_tag 'operator', options_for_select(
+	[['ANY','OR'],['ALL','AND']], params[:operator] ) %>
+ of the following: 
+<%= submit_tag "Find", :id => nil, :name => nil  %>
+</p>
+<%#
+
+	The label "for"'s are nice for radio buttons and check boxes,
+	but are really unnecessary for text_fields.
+
+%>
+<div class='table'>
+<div class='tablerow'>
+<div><label for='first_name'>first name:</label></div>
+<div><%= text_field_tag :first_name, params[:first_name] %></div>
+<div><label for='last_name'>last name:</label></div>
+<div><%= text_field_tag :last_name, params[:last_name] %></div>
+<div><label for='dob'>date of birth:</label></div>
+<div><%= text_field_tag :dob, params[:dob],:class => 'datepicker' %></div>
+</div><!-- tablerow -->
+
+<div class='tablerow'>
+<div><label for='childid'>child id:</label></div>
+<div><%= text_field_tag :childid, params[:childid] %></div>
+<div><label for='icf_master_id'>ICF master id:</label></div>
+<div><%= text_field_tag :icf_master_id, params[:icf_master_id] %></div>
+<div><label for='patid'>pat id:</label></div>
+<div><%= text_field_tag :patid, params[:patid] %></div>
+</div><!-- tablerow -->
+
+<div class='tablerow'>
+<div><label for='hospital_no'>hospital no:</label></div>
+<div><%= text_field_tag :hospital_no, params[:hospital_no] %></div>
+<div><label for='registrar_no'>state/local registrar no:</label></div>
+<div><%= text_field_tag :registrar_no, params[:registrar_no] %></div>
+<div><label for='subject_type'>subject type:</label></div>
+<div><%= select_tag :subject_type, 
+		options_for_select(
+			[nil] + StudySubject.valid_subject_types,
+			params[:subject_type])  %></div>
+</div><!-- tablerow -->
+
+<div class='tablerow'>
+<div><label for='phase'>phase:</label></div>
+<div><%= text_field_tag :phase, params[:phase] %></div>
+</div><!-- tablerow -->
+</div><!-- table -->
+
+
+<hr/>
+<% if @study_subjects.length > 0 %>
+<table id='study_subjects'><thead><tr>
+<th><%= sort_link('ICF Master ID') %></th>
+<th><%= sort_link('StudyID', 'Study ID') %></th>
+<th><%= sort_link('last_name', 'Subject Name') %></th>
+<th><%= sort_link('Reference Date') %></th>
+</tr></thead><tbody>
+<%= render :partial => 'study_subject', :collection => @study_subjects %>
+</tbody></table>
+<% else %>
+<p>There are no subjects.</p>
+<% end %>
+<hr/>
+
+<div class='pagination wrapper'>
+<%= will_paginate @study_subjects %>
+<label>jump to page:</label>
+<%= text_field_tag :page, params[:page] %>
+</div>
+<% end %>

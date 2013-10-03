@@ -146,7 +146,7 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
-			visit find_study_subjects_path	#	sets request.env['HTTP_REFERER']
+			visit study_subjects_path	#	sets request.env['HTTP_REFERER']
 			find('td.icf_master_id a').click	#	in reality many, in test should be only one
 			wait_until { has_css?("#sidemenu") }
 			assert_select HTML::Document.new(body).root, 

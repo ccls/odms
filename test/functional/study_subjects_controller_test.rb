@@ -117,48 +117,48 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			#	</div><!-- sidemenu -->
 		end
 	
-		test "should download csv with #{cu} login" do
-			login_as send(cu)
-#	This works, but the link for this is a button on a form.
-#	So I really need to deal with this in the controller
-#			get :index, :commit => 'download', :format => 'csv'
-			get :index, :commit => 'download'
-			assert_response :success
-			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
-		end
-
-		test "should download csv matching content with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject,
-					:first_name => 'Sam', :last_name => 'Adams')
-			assert_not_nil study_subject.childid
-			assert_not_nil study_subject.last_name
-			assert_not_nil study_subject.first_name
-			assert_not_nil study_subject.dob
-
-			login_as send(cu)
-			get :index, :format => 'csv'
-			assert_response :success
-			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
-			assert_template 'index'
-			assert assigns(:study_subjects)
-			assert !assigns(:study_subjects).empty?
-			assert_equal 1, assigns(:study_subjects).length
-
-			require 'csv'
-			f = CSV.parse(@response.body)
-			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
-			assert_equal f[0], ["childid", "studyid", "last_name", "first_name", "dob"]
-			assert_equal 5, f[0].length
-
-			assert_equal f[1][0], study_subject.childid.to_s
-#			assert_equal f[1][1], study_subject.studyid 	#	blank
-			assert_equal f[1][2], study_subject.last_name
-			assert_equal f[1][3], study_subject.first_name
-			assert_equal f[1][4], study_subject.dob.to_s(:db)	#	YYYY-MM-DD
-
-#	don't know why bc_requests have a blank line and this doesn't
-#assert f[2].blank?
-		end
+#		test "should download csv with #{cu} login" do
+#			login_as send(cu)
+##	This works, but the link for this is a button on a form.
+##	So I really need to deal with this in the controller
+##			get :index, :commit => 'download', :format => 'csv'
+#			get :index, :commit => 'download'
+#			assert_response :success
+#			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
+#		end
+#
+#		test "should download csv matching content with #{cu} login" do
+#			study_subject = FactoryGirl.create(:study_subject,
+#					:first_name => 'Sam', :last_name => 'Adams')
+#			assert_not_nil study_subject.childid
+#			assert_not_nil study_subject.last_name
+#			assert_not_nil study_subject.first_name
+#			assert_not_nil study_subject.dob
+#
+#			login_as send(cu)
+#			get :index, :format => 'csv'
+#			assert_response :success
+#			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
+#			assert_template 'index'
+#			assert assigns(:study_subjects)
+#			assert !assigns(:study_subjects).empty?
+#			assert_equal 1, assigns(:study_subjects).length
+#
+#			require 'csv'
+#			f = CSV.parse(@response.body)
+#			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
+#			assert_equal f[0], ["childid", "studyid", "last_name", "first_name", "dob"]
+#			assert_equal 5, f[0].length
+#
+#			assert_equal f[1][0], study_subject.childid.to_s
+##			assert_equal f[1][1], study_subject.studyid 	#	blank
+#			assert_equal f[1][2], study_subject.last_name
+#			assert_equal f[1][3], study_subject.first_name
+#			assert_equal f[1][4], study_subject.dob.to_s(:db)	#	YYYY-MM-DD
+#
+##	don't know why bc_requests have a blank line and this doesn't
+##assert f[2].blank?
+#		end
 
 		test "should get study_subjects dashboard with #{cu} login" do
 			login_as send(cu)
@@ -244,11 +244,11 @@ class StudySubjectsControllerTest < ActionController::TestCase
 
 	non_site_readers.each do |cu|
 
-		test "should NOT download csv with #{cu} login" do
-			login_as send(cu)
-			get :index, :commit => 'download'
-			assert_redirected_to root_path
-		end
+#		test "should NOT download csv with #{cu} login" do
+#			login_as send(cu)
+#			get :index, :commit => 'download'
+#			assert_redirected_to root_path
+#		end
 
 		test "should NOT get study_subjects dashboard with #{cu} login" do
 			login_as send(cu)
@@ -258,7 +258,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT get study_subjects find with #{cu} login" do
 			login_as send(cu)
-			get :find
+			get :index
 			assert_redirected_to root_path
 		end
 	
@@ -359,7 +359,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	end
 	
 	test "should NOT get study_subjects find without login" do
-		get :find
+		get :index
 		assert_redirected_to_login
 	end
 	
@@ -373,10 +373,10 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 	
-	test "should NOT download csv without login" do
-		get :index, :commit => 'download'
-		assert_redirected_to_login
-	end
+#	test "should NOT download csv without login" do
+#		get :index, :commit => 'download'
+#		assert_redirected_to_login
+#	end
 
 	test "should NOT update without login" do
 		study_subject = FactoryGirl.create(:study_subject, :updated_at => ( Time.now - 1.day ) )

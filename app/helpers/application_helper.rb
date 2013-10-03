@@ -1,28 +1,7 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
-
-#	remove with common_lib 1.2.6
-
 	#	t is RedCloth.textualize NOT I18n.translate
-
-## This is NOT a form field
-#def _wrapped_spans(object_name,method,options={})
-#object = instance_variable_get("@#{object_name}")
-#s =  "<span class='label'>#{options[:label_text]||I18n.translate("#{object.class.to_s.underscore}.#{method}",
-#	:scope => "activerecord.attributes",
-#	:default => method.to_s)}</span>\n"		#	if method is a symbol, tries to translate it too.
-#value = if options[:value]
-#options[:value]
-#else
-#value = object.send(method)
-#value = (value.to_s.blank?)?'&nbsp;':value
-#end
-#s << "<span class='value'>#{value}</span>"
-#s.html_safe
-#end
-#
-
 
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
@@ -34,7 +13,7 @@ module ApplicationHelper
 
 		s << "<div class='menu_item#{( 
 				params[:controller] == 'study_subjects' ) ? ' current' : nil}'>" <<
-			link_to('Subjects', find_study_subjects_path ) <<
+			link_to('Subjects', study_subjects_path ) <<
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('Dashboard', dashboard_study_subjects_path ),
@@ -52,7 +31,7 @@ module ApplicationHelper
 
 		s << "<div class='menu_item#{( 
 				params[:controller] == 'samples' ) ? ' current' : nil}'>" <<
-			link_to('Samples', find_samples_path) <<
+			link_to('Samples', samples_path) <<
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('Dashboard', dashboard_samples_path),
@@ -107,7 +86,6 @@ module ApplicationHelper
 			else nil
 		end
 		content_for :side_menu do
-#			s = "<div id='sidemenu'>\n"
 			s = "<ul id='sidemenu'>\n"
 			list_items = [
 				link_to( "New Requests", new_bc_request_path,
@@ -125,13 +103,9 @@ module ApplicationHelper
 					:class => ((current == :complete_bc_requests)?'current':nil) )
 
 			]
-#			links << "<span>Request History</span>"
-#			s << links.join("\n")
 			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
 			s << "\n</ul><!-- sidemenu -->\n"
-#			s << "\n</div><!-- sidemenu -->\n"
 			s.html_safe
-#	NOTE test this as I suspect that it needs an "html_safe" added
 		end
 	end
 
@@ -162,13 +136,12 @@ module ApplicationHelper
 		end
 
 		return '' unless study_subject
+
 		s = "<ul id='sidemenu'>\n"
 			list_items = []
-#			if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
-			if request.env["HTTP_REFERER"] =~ /study_subjects\/find/
+			if request.env["HTTP_REFERER"] =~ /study_subjects\?/ || request.env["HTTP_REFERER"] =~ /study_subjects$/
 				list_items << link_to( "back to search", request.env["HTTP_REFERER"] )
 			end
-#				link_to( "back to subjects", dashboard_study_subjects_path ),
 
 # the logged_in? check is a bit much as you should never get here without it.
 #	( only used in the helper tests )
@@ -179,7 +152,7 @@ module ApplicationHelper
 				( link_to( "Address & Phone", study_subject_contacts_path(study_subject),
 					:class => ((current == :contact)?'current':nil) ) <<
 					"<span class='count'>#{study_subject.addressings_count}/#{study_subject.phone_numbers_count}</span>".html_safe )
-]
+			]
 			list_items << link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 					:class => ((current == :hospital)?'current':nil) ) if study_subject.is_case?
 
@@ -249,8 +222,8 @@ module ApplicationHelper
 			{ :controller => params[:controller], :action => :dashboard },
 			:class => (params[:action] == 'dashboard') ? 'current' : nil )
 		links << link_to( 'find', 
-			{ :controller => params[:controller], :action => :find },
-			:class => (params[:action] == 'find') ? 'current' : nil )
+			{ :controller => params[:controller], :action => :index },
+			:class => (params[:action] == 'index') ? 'current' : nil )
 		links << link_to( 'follow-up', 
 			{ :controller => params[:controller], :action => :followup },
 			:class => (params[:action] == 'followup') ? 'current' : nil )
@@ -297,17 +270,14 @@ module ApplicationHelper
 	end
 
 	def sort_up_image
-#		"#{Rails.root}/public/images/sort_up.png"
 		"#{Rails.root}/app/assets/images/sort_up.png"
 	end
 
 	def sort_down_image
-#		"#{Rails.root}/public/images/sort_down.png"
 		"#{Rails.root}/app/assets/images/sort_down.png"
 	end
 
 	#	&uarr; and &darr;
-#	def sort_link(column,text=nil)
 	def sort_link(*args)
 		options = {
 			:image => true
@@ -350,7 +320,6 @@ module ApplicationHelper
 		s << arrow unless arrow.blank?
 		s << "</div>"
 		s.html_safe
-#	NOTE test this as I suspect that it needs an "html_safe" added
 	end
 
 	def user_roles
@@ -380,108 +349,5 @@ module ApplicationHelper
 		end
 		s.html_safe
 	end
-
-
-#	def yndk(value=nil)
-#		(YNDK[value]||'&nbsp;').html_safe
-#	end
-#
-#	def ynodk(value=nil)
-#		(YNODK[value]||'&nbsp;').html_safe
-#	end
-#
-#	def ynrdk(value=nil)
-#		(YNRDK[value]||'&nbsp;').html_safe
-#	end
-#
-#	def ynordk(value=nil)
-#		(YNORDK[value]||'&nbsp;').html_safe
-#	end
-#
-#	def padk(value=nil)
-#		(PADK[value]||'&nbsp;').html_safe
-#	end
-#
-#	def adna(value=nil)
-#		(ADNA[value]||'&nbsp;').html_safe
-#	end
-#
-#	def pos_neg(value=nil)
-#		(POSNEG[value]||'&nbsp;').html_safe
-#	end
-#	alias_method :posneg, :pos_neg
-#
-#	def _wrapped_yndk_spans(object_name,method,options={})
-#		object = instance_variable_get("@#{object_name}")
-#		_wrapped_spans(object_name,method,options.update(
-#			:value => (YNDK[object.send(method)]||'&nbsp;') ) )
-#	end
-#
-#	def _wrapped_ynodk_spans(object_name,method,options={})
-#		object = instance_variable_get("@#{object_name}")
-#		_wrapped_spans(object_name,method,options.update(
-#			:value => (YNODK[object.send(method)]||'&nbsp;') ) )
-#	end
-#
-#	def _wrapped_ynrdk_spans(object_name,method,options={})
-#		object = instance_variable_get("@#{object_name}")
-#		_wrapped_spans(object_name,method,options.update(
-#			:value => (YNRDK[object.send(method)]||'&nbsp;') ) )
-#	end
-#
-#	def _wrapped_ynordk_spans(object_name,method,options={})
-#		object = instance_variable_get("@#{object_name}")
-#		_wrapped_spans(object_name,method,options.update(
-#			:value => (YNORDK[object.send(method)]||'&nbsp;') ) )
-#	end
-#
-#	def _wrapped_padk_spans(object_name,method,options={})
-#		object = instance_variable_get("@#{object_name}")
-#		_wrapped_spans(object_name,method,options.update(
-#			:value => (PADK[object.send(method)]||'&nbsp;') ) )
-#	end
-#
-#	def _wrapped_adna_spans(object_name,method,options={})
-#		object = instance_variable_get("@#{object_name}")
-#		_wrapped_spans(object_name,method,options.update(
-#			:value => (ADNA[object.send(method)]||'&nbsp;') ) )
-#	end
-#
-#	def _wrapped_pos_neg_spans(object_name,method,options={})
-#		object = instance_variable_get("@#{object_name}")
-#		_wrapped_spans(object_name,method,options.update(
-#			:value => (POSNEG[object.send(method)]||'&nbsp;') ) )
-#	end
-
-#	def abstract_pages(abstract)
-#		sections = Abstract.sections
-#		ci = sections.find_index{|i| 
-#			i[:controller] =~ /^#{controller.class.name.demodulize}$/i }
-#
-#		s = "<p class='center'>"
-#		s << (( !ci.nil? && ci > 0 ) ? "<span class='left'>" << 
-#				link_to( "&laquo; #{sections[ci-1][:label]}".html_safe,
-#					send(sections[ci-1][:show],abstract) ) << 
-#				"</span>" : '')
-##					send("abstract_#{sections[ci-1][:show]}",abstract) ) << 
-##		s << link_to( "Back to Abstract", abstract_path(abstract) )
-#		s << link_to( "Back to Abstract", study_subject_abstract_path(
-#			abstract.study_subject,abstract) )
-#		s << (( !ci.nil? && ci < ( sections.length - 1 ) ) ? "" <<
-#				"<span class='right'>" << 
-#				link_to( "#{sections[ci+1][:label]} &raquo;".html_safe,
-#					send(sections[ci+1][:show],abstract) ) << 
-#				"</span>" : '' )
-##					send("abstract_#{sections[ci+1][:show]}",abstract) ) << 
-#		s << "</p>"
-#		s.html_safe
-#	end
-#
-#	def edit_link
-#		s =  "<p class='center'>"
-#		s << link_to( "Edit", params.update(:action => 'edit'), :class => 'right button' )
-#		s << "</p>"
-#		s.html_safe
-#	end
 
 end

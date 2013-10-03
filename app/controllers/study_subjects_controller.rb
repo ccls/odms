@@ -3,7 +3,8 @@ class StudySubjectsController < ApplicationController
 	before_filter :may_create_study_subjects_required,
 		:only => [:new,:create]
 	before_filter :may_read_study_subjects_required, 
-		:only => [:show,:index,:dashboard,:find,:followup,:reports,:by]
+		:only => [:show,:index,:dashboard,:followup,:reports,:by]
+#		:only => [:show,:index,:dashboard,:find,:followup,:reports,:by]
 	before_filter :may_update_study_subjects_required,
 		:only => [:edit,:update]
 	before_filter :may_destroy_study_subjects_required,
@@ -13,7 +14,7 @@ class StudySubjectsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy,:next,:prev]	#,:first,:last]
 
 
-	def find
+	def index
 		record_or_recall_sort_order
 		conditions = [[],{}]
 		#	Table names are not necessary if field is unambiguous.
@@ -62,32 +63,33 @@ class StudySubjectsController < ApplicationController
 			params[:page] = @study_subjects.total_pages
 			#	It seems excessive to redirect and do it all again.
 			#	Nevertheless ...
-			redirect_to find_study_subjects_path(params)
+#			redirect_to find_study_subjects_path(params)
+			redirect_to study_subjects_path(params)
 		end
 	end
 
-	#	there is no longer a link to this action, nevertheless
-	def index
-		record_or_recall_sort_order
-		if params[:commit] && params[:commit] == 'download'
-			#	Manually set to the csv format for rendering
-			request.format = :csv
-			params[:paginate] = false
-		end
-		flash.now[:notice] = "This page isn't used at the moment."
-		@study_subjects = StudySubject.paginate(
-				:per_page => params[:per_page]||25,
-				:page     => valid_find_page
-			)
-		#	respond_to blocks are based on 'request.format', not params[:format]
-		respond_to do |format|
-			format.html
-			format.csv { 
-				headers["Content-Disposition"] = "attachment; " <<
-					"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 
-			}
-		end
-	end
+#	#	there is no longer a link to this action, nevertheless
+#	def index
+#		record_or_recall_sort_order
+#		if params[:commit] && params[:commit] == 'download'
+#			#	Manually set to the csv format for rendering
+#			request.format = :csv
+#			params[:paginate] = false
+#		end
+#		flash.now[:notice] = "This page isn't used at the moment."
+#		@study_subjects = StudySubject.paginate(
+#				:per_page => params[:per_page]||25,
+#				:page     => valid_find_page
+#			)
+#		#	respond_to blocks are based on 'request.format', not params[:format]
+#		respond_to do |format|
+#			format.html
+#			format.csv { 
+#				headers["Content-Disposition"] = "attachment; " <<
+#					"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 
+#			}
+#		end
+#	end
 
 	def edit
 		render :layout => 'subject'

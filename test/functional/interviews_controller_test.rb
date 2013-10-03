@@ -3,7 +3,7 @@ require 'test_helper'
 class InterviewsControllerTest < ActionController::TestCase
 
 	#	no study_subject_id
-	assert_no_route(:get,:index)
+#	assert_no_route(:get,:index)
 
 	#	no id
 	assert_no_route(:get, :show)
@@ -25,7 +25,7 @@ class InterviewsControllerTest < ActionController::TestCase
 	
 		test "should get find with #{cu} login" do
 			login_as send(cu)
-			get :find
+			get :index
 			assert_response :success
 		end
 	
@@ -53,7 +53,7 @@ class InterviewsControllerTest < ActionController::TestCase
 	
 		test "should NOT get find with #{cu} login" do
 			login_as send(cu)
-			get :find
+			get :index
 			assert_redirected_to root_path
 		end
 	
@@ -77,7 +77,7 @@ class InterviewsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get find without login" do
-		get :find
+		get :index
 		assert_redirected_to_login
 	end
 

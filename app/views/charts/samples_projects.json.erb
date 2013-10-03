@@ -19,7 +19,7 @@
 			"font-size": 10,
 			"values" :   [ <%=@samples.collect(&:count).join(',')-%>]
 <%#=@study_subjects.collect{|i|
-"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"#{find_study_subjects_url(:subject_type_id => i.subject_type_id)}\"\}" }.join(",\n").html_safe-%> 
+"{\"top\":#{i.count},\"bottom\":null,\"on-click\":\"#{study_subjects_url(:subject_type_id => i.subject_type_id)}\"\}" }.join(",\n").html_safe-%> 
 		}
 	],
 	"x_axis":{
