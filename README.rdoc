@@ -855,6 +855,7 @@ The @FIND_PROC@ macro or marker didn't seem to make its way into mysqld_safe as 
 Searched scripts/CMakeLists.txt and manually added it to the script at line 747
 
 Downloaded MariaDB source (not MacPort as doesn't seem to be there anymore)
+
 mariadb-5.5.33a/scripts/CMakeLists.txt
 
  105 IF(UNIX)
