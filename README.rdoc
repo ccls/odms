@@ -842,20 +842,71 @@ Given a file containing nothing but a list of quoted icf master ids ....
 
 
 ---
-== Quick Development Notes
+== MariaDB Patch
 
-#	Changed from MySQL to MariaDB which currently is a bit different. (for ODMS and CLIC)
-#	Need to manually start server as the Preference Pane for MySQL will not.
-#	The socket has also moved from /tmp/mysql.sock to /opt/local/var/run/mariadb/mysqld.sock
-#	The database files are in different places, so I had to move them.
-#	However, everything seems to be working.
-#
-#	The @FIND_PROC@ macro or marker didn't seem to make its way into mysqld_safe as it should have.
-#	Searched scripts/CMakeLists.txt and manually added it to the script at line 747
-#	Seems to work now.  Not sure how it ever worked before.
-#	Also, mariadb's "mysql.server status" uses "pidof" which doesn't exist here,
-#	or in MacPorts and as such, it fails.
-#
+Changed from MySQL to MariaDB which currently is a bit different. (for ODMS and CLIC)
+Need to manually start server as the Preference Pane for MySQL will not.
+The socket has also moved from /tmp/mysql.sock to /opt/local/var/run/mariadb/mysqld.sock
+The database files are in different places, so I had to move them.
+However, everything seems to be working.
+
+The @FIND_PROC@ macro or marker didn't seem to make its way into mysqld_safe as it should have.
+( /opt/local/lib/mariadb/bin/mysqld_safe )
+Searched scripts/CMakeLists.txt and manually added it to the script at line 747
+
+Downloaded MariaDB source (not MacPort as doesn't seem to be there anymore)
+mariadb-5.5.33a/scripts/CMakeLists.txt
+
+ 105 IF(UNIX)
+ 106   # FIND_PROC and CHECK_PID are used by mysqld_safe
+ 107 IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
+ 108   SET (FIND_PROC 
+ 109     "ps wwwp $PID | grep -v mysqld_safe | grep -- $MYSQLD > /dev/null")
+ 110 ENDIF()
+ 111 IF(NOT FIND_PROC AND CMAKE_SYSTEM_NAME MATCHES "SunOS")
+ 112   SET (FIND_PROC 
+ 113     "ps -p $PID | grep -v mysqld_safe | grep -- $MYSQLD > /dev/null")
+ 114 ENDIF()
+ 115 
+ 116 IF(NOT FIND_PROC)
+ 117   # BSD style
+ 118   EXECUTE_PROCESS(COMMAND ps -uaxww OUTPUT_QUIET ERROR_QUIET RESULT_VARIABLE result)
+ 119   IF(result MATCHES 0)
+ 120      SET( FIND_PROC
+ 121        "ps -uaxww | grep -v mysqld_safe | grep -- $MYSQLD | grep $PID > /dev/null")
+ 122   ENDIF()
+ 123 ENDIF()
+ 124 
+ 125 IF(NOT FIND_PROC)
+ 126   # SysV style
+ 127   EXECUTE_PROCESS(COMMAND ps -ef OUTPUT_QUIET ERROR_QUIET RESULT_VARIABLE result)
+ 128   IF(result MATCHES 0)
+ 129     SET( FIND_PROC "ps -ef | grep -v mysqld_safe | grep -- $MYSQLD | grep $PID > /dev/null")
+ 130   ENDIF()
+ 131 ENDIF()
+
+mariadb-5.5.33a/scripts/mysqld_safe.sh
+ 745   if @CHECK_PID@
+ 746   then
+ 747     if @FIND_PROC@
+ 748     then    # The pid contains a mysqld process
+ 749       log_error "A mysqld process already exists"
+ 750       exit 1
+ 751     fi
+ 752   fi
+
+
+editing /opt/local/lib/mariadb/bin/mysqld_safe, line 747, and adding the condition
+ ps wwwp $PID | grep -v mysqld_safe | grep -- $MYSQLD > /dev/null
+
+
+Seems to work now.  Not sure how it ever worked before.
+Also, mariadb's "mysql.server status" uses "pidof" which doesn't exist here,
+or in MacPorts and as such, it fails.  Actually seems to work now?
+
+
+---
+== Quick Development Notes
 
  sudo /opt/local/share/mariadb/support-files/mysql.server start
 
