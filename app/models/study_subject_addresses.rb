@@ -40,6 +40,13 @@ base.class_eval do
 	end
 	alias_method :address, :current_address
 
+	#
+	#	Can I delegate these?
+	#	Yes, but for some reason the SQL query for addressing executes twice?
+	#
+	#	delegate :street, :to => :address, :allow_nil => true, :prefix => true
+	#	delegate :unit, :to => :address, :allow_nil => true, :prefix => true
+
 	def address_street
 		address.try(:street)
 	end
@@ -58,6 +65,14 @@ base.class_eval do
 
 	def address_zip
 		address.try(:zip)
+	end
+
+	def address_latitude
+		address.try(:latitude)
+	end
+
+	def address_longitude
+		address.try(:longitude)
 	end
 
 end	#	class_eval

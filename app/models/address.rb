@@ -14,6 +14,10 @@ class Address < ActiveRecord::Base
 	# Would it be better to do this before_validation?
 	before_save :format_zip, :if => :zip_changed?
 
+	scope :needs_geocoded, ->{ where(:needs_geocoded => true) }
+	scope :geocoding_failed, ->{ where(:geocoding_failed => true) }
+	scope :not_geocoding_failed, ->{ where(:geocoding_failed => false) }
+
 	#	Returns a string with the city, state and zip
 	def csz
 		"#{self.city}, #{self.state} #{self.zip}"
@@ -21,6 +25,10 @@ class Address < ActiveRecord::Base
 
 	def street
 		[line_1,line_2].delete_if(&:blank?).join(', ')
+	end
+
+	def full
+		"#{street}, #{csz}"
 	end
 
 	after_save :reindex_study_subject!, :if => :changed?
@@ -31,6 +39,9 @@ protected
 		logger.debug "Address changed so reindexing study subject"
 		study_subject.update_column(:needs_reindexed, true) if study_subject
 #		study_subject.index if study_subject
+
+#		This too!
+		update_column(:needs_geocoded, true)
 	end
 
 	#	Determine if the address is a PO Box and then

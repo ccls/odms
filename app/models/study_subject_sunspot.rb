@@ -29,36 +29,6 @@ base.class_eval do
 	def hospital_key
 		patient.try(:organization).try(:key)
 	end
-#	def diagnosis
-#		patient.try(:diagnosis).try(:to_s)	#	use try so stays nil if nil
-#	end
-#	def other_diagnosis
-#		patient.try(:other_diagnosis).try(:to_s)	#	use try so stays nil if nil
-#	end
-#	def ccls_consented
-#		YNDK[ccls_enrollment.try(:consented)]
-#	end
-#	def ccls_is_eligible
-#		YNDK[ccls_enrollment.try(:is_eligible)]
-#	end
-#	def ccls_assigned_for_interview_on
-#		ccls_enrollment.try(:assigned_for_interview_at).try(:to_date)
-#	end
-#	def ccls_interview_completed_on
-#		ccls_enrollment.try(:interview_completed_on)
-#	end
-#	def interviewed
-#		ccls_enrollment.try(:interview_completed_on).present?
-#	end
-#	def patient_was_ca_resident_at_diagnosis
-#		YNDK[patient.try(:was_ca_resident_at_diagnosis)]
-#	end
-#	def patient_was_previously_treated
-#		YNDK[patient.try(:was_previously_treated)]
-#	end
-#	def patient_was_under_15_at_dx
-#		YNDK[patient.try(:was_under_15_at_dx)]
-#	end
 
 	#
 	#	NOTE what about 
@@ -110,8 +80,6 @@ base.class_eval do
 		SunspotColumn.new( :interviewed, 
 			:meth => ->(s){ s.ccls_enrollment.try(:interview_completed_on).present? ? 'Yes' : 'No' },
 			:facetable => true, :type => :string ),
-#		normal boolean method ... { ( (c.name).nil? ) ? 'NULL' : ( send(c.name) ) ? 'Yes' : 'No' }
-#			:facetable => true, :type => :boolean ),
 		SunspotColumn.new( :patient_was_ca_resident_at_diagnosis,
 			:meth  => ->(s){ YNDK[s.patient.try(:was_ca_resident_at_diagnosis)]||'NULL' },
 			:label => 'Was CA Resident at Diagnosis?',
@@ -143,11 +111,15 @@ base.class_eval do
 		SunspotColumn.new( :address_city ),
 		SunspotColumn.new( :address_state ),
 		SunspotColumn.new( :address_zip ),
-#	do_not_contact has default false set. will only be true or false
+
+		SunspotColumn.new( :location, 
+			:type => :latlon, :orderable => false,
+			:meth => ->(s){ Sunspot::Util::Coordinates.new(s.address_latitude, s.address_longitude) } ),
+
+		#	do_not_contact has default false set. will only be true or false
 		SunspotColumn.new( :do_not_contact, 
 			:meth => ->(s){ s.do_not_contact? ? 'Yes' : 'No' },
 			:type => :string ),
-#			:type => :boolean ),
 		SunspotColumn.new( :birth_year, 
 			:type => :integer ),
 		SunspotColumn.new( :reference_date, 
@@ -248,9 +220,6 @@ base.class_eval do
 #		string :operational_event_types, :multiple => true do
 #			operational_events.collect(&:operational_event_type).collect(&:to_s)
 #		end
-
-
-
 
 
 

@@ -212,4 +212,6 @@ end
 
 gem 'ccls-common_lib', ">0.9"
 
+gem 'geocoder'
+
 __END__

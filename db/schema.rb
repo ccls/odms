@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807203523) do
+ActiveRecord::Schema.define(:version => 20131007211559) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -284,8 +284,13 @@ ActiveRecord::Schema.define(:version => 20130807203523) do
     t.string   "county"
     t.string   "unit"
     t.string   "country"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
+    t.boolean  "needs_geocoded",                    :default => true
+    t.boolean  "geocoding_failed",                  :default => false
+    t.float    "longitude"
+    t.float    "latitude"
+    t.text     "geocoding_response"
   end
 
   add_index "addresses", ["external_address_id"], :name => "index_addresses_on_external_address_id", :unique => true
