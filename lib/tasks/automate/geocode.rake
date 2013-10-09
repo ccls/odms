@@ -1,6 +1,8 @@
 namespace :automate do
 	task :geocode => :environment do
 		puts Time.zone.now
+		puts "Address.needs_geocoded ... #{Address.needs_geocoded.count}"
+		puts "Address.geocoding_failed ... #{Address.geocoding_failed.count}"
 
 		Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError], 
 			:use_https => true)
