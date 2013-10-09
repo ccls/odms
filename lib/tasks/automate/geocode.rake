@@ -1,5 +1,6 @@
 namespace :automate do
 	task :geocode => :environment do
+		puts Time.zone.now
 
 		Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError], 
 			:use_https => true)
@@ -7,9 +8,8 @@ namespace :automate do
 		Address.needs_geocoded.not_geocoding_failed.limit(1000).each do |address|
 #		Address.needs_geocoded.limit(1000).each do |address|
 
-			puts address.full
+			puts "Geocoding ... #{address.full}"
 			zip = address.zip[0..4]
-			puts zip
 
 			results = Geocoder.search(address.full)
 
@@ -23,7 +23,6 @@ namespace :automate do
 			#	find first with matching (first 5 in) zip code?
 			result = results.detect{|result| result.postal_code == zip }
 
-#			address.update_column(:geocoding_response, results.inspect + result.inspect)
 			address.update_column(:geocoding_response, Marshal.dump(results) )
 
 			if result.blank?
@@ -31,7 +30,7 @@ namespace :automate do
 
 #				puts
 #				puts
-#				puts "Hmm.  No results?"
+				puts "Hmm.  No google results?"
 #				puts
 #				puts
 
@@ -41,7 +40,7 @@ namespace :automate do
 
 #				puts result.latitude
 #				puts result.longitude
-				puts result.address
+				puts "Closest google address ... #{result.address}"
 #				puts result.city
 #				puts result.state
 #				puts result.postal_code
