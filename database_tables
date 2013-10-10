@@ -282,6 +282,11 @@ Table: addresses
 | country             | varchar(255) | YES  |     | NULL    |                |
 | created_at          | datetime     | NO   |     | NULL    |                |
 | updated_at          | datetime     | NO   |     | NULL    |                |
+| needs_geocoded      | tinyint(1)   | YES  |     | 1       |                |
+| geocoding_failed    | tinyint(1)   | YES  |     | 0       |                |
+| longitude           | float        | YES  |     | NULL    |                |
+| latitude            | float        | YES  |     | NULL    |                |
+| geocoding_response  | text         | YES  |     | NULL    |                |
 +---------------------+--------------+------+-----+---------+----------------+
 Table: addressings
 +----------------------+--------------+------+-----+---------+----------------+
@@ -1364,6 +1369,7 @@ Table: study_subjects
 | phone_numbers_count         | int(11)      | YES  |     | 0       |                |
 | interviews_count            | int(11)      | YES  |     | 0       |                |
 | needs_reindexed             | tinyint(1)   | YES  |     | 0       |                |
+| abstracts_count             | int(11)      | YES  |     | 0       |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+
