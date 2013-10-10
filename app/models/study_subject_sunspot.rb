@@ -61,6 +61,10 @@ base.class_eval do
 			:facetable => true, :type => :string, :multiple => true ),
 		SunspotColumn.new( :languages, :meth => ->(s){ s.subject_languages.collect(&:to_s) },
 			:facetable => true, :type => :string, :multiple => true ),
+
+		SunspotColumn.new( :projects, :meth => ->(s){ s.enrollments.collect(&:project) },
+			:facetable => true, :type => :string, :multiple => true ),
+
 		SunspotColumn.new( :hospital, 
 			:facetable => true ),
 		SunspotColumn.new( :diagnosis, 
@@ -128,6 +132,14 @@ base.class_eval do
 			:type => :date ),
 		SunspotColumn.new( :admit_date, 
 			:type => :date ),
+
+
+		SunspotColumn.new( :age_at_admittance, :type => :integer, :facetable => true,
+			:meth => ->(s){( s.dob.blank? or s.admit_date.blank? ) ? nil : s.dob.diff(s.admit_date)[:years] }),
+		SunspotColumn.new( :age_at_diagnosis, :type => :integer, :facetable => true,
+			:meth => ->(s){( s.dob.blank? or s.diagnosis_date.blank? ) ? nil : s.dob.diff(s.diagnosis_date)[:years] }),
+
+
 		SunspotColumn.new( :ccls_assigned_for_interview_on, 
 			:meth => ->(s){ s.ccls_enrollment.try(:assigned_for_interview_at).try(:to_date).try(:strftime,'%m/%d/%Y') },
 			:type => :date ),
@@ -173,12 +185,6 @@ base.class_eval do
 #	searchable_plus #do
 	searchable_plus do	#	adding text search
 
-#		string :races, :multiple => true do
-#			races.collect(&:to_s)
-#		end
-#		string :languages, :multiple => true do
-#			languages.collect(&:to_s)
-#		end
 
 	#	develope a way to search for the NULLs and BLANKs
 	#		I don't think that NULL actually gets "faceted"
@@ -213,34 +219,12 @@ base.class_eval do
 #			end
 #		end
 
-#		string :sample_types, :multiple => true do
-#			samples.collect(&:sample_type).collect(&:to_s)
-#		end
-#
-#		string :operational_event_types, :multiple => true do
-#			operational_events.collect(&:operational_event_type).collect(&:to_s)
-#		end
 
 
-
-	#
-	#	Uncomment if want full text searching
-	#	I don't use it now so ...
-	#
 		text :first_name
 		text :middle_name
 		text :maiden_name
 		text :last_name
-	#	text :mother_first_name
-	#	text :mother_middle_name
-	#	text :mother_maiden_name
-	#	text :mother_last_name
-	#	text :father_first_name
-	#	text :father_middle_name
-	#	text :father_last_name
-	#	text :guardian_first_name
-	#	text :guardian_middle_name
-	#	text :guardian_last_name
 		text :studyid
 		text :icf_master_id
 		text :childid
@@ -253,28 +237,8 @@ base.class_eval do
 		text :cdcid
 		text :derived_local_file_no_last6
 		text :derived_state_file_no_last6
-	end 	#	if Sunspot::Rails::Server.new.running?
-	#
-	#	This condition is temporary, but does mean
-	#	that the server must be started FIRST.
-	#
 
-
-	#
-	#	Add something like ...
-	#	to associations that contain indexed data?
-	#
-	#  belongs_to :parent
-	#
-	#  after_save :reindex_parent!
-	#
-	#  def reindex_parent!
-	#    parent.index
-	#  end
-
-
-	#	bundle exec rake sunspot:solr:start # or sunspot:solr:run to start in foreground
-
+	end
 
 end	#	class_eval
 end	#	included
@@ -315,11 +279,7 @@ Naturally, those field names (:cuisine, :atmosphere) wouldn’t be hard-coded in
 
 
 
-require 'factory_girl'
-$LOAD_PATH << 'test'
-require 'factories'
 
 bundle exec rake sunspot:solr:start
-bundle exec rake sunspot:solr:reindex
-
+bundle exec rake sunspot:reindex
 
