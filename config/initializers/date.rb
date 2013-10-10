@@ -1,10 +1,10 @@
 class Date
 	def diff(other_date)
-#	what if other date isn't a date?
-		d = HWIA.new
-#		d[:relation] = (( self - other_date ) > 0 ) ? '-' : '+'
 
-#	today - yesterday is POSITIVE
+		#	What if other date isn't a date?
+
+		d = HWIA.new
+
 		if(( self - other_date ) > 0 )
 			d[:relation] = 'after'
 			a = self
