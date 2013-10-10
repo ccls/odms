@@ -53,10 +53,15 @@ div.dates_valid .field_wrapper {
 div.valid > div,
 div.verified > div,
 */
+/*
 div.moved > div,
 div.source > div {
 	display:inline-block;
 	vertical-align:top;
+}
+*/
+form.edit_addressing > div.moved > div.subject_moved > label {
+	display:inline;
 }
 /*
 div.is_valid,

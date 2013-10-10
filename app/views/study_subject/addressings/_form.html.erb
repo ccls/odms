@@ -50,7 +50,7 @@ even if it is NOT included in the normal/new list
 <%= f.wrapped_yndk_select :current_address,
 	:label_text => 'Current Address?' %>
 <%= f.wrapped_check_box(:subject_moved,
-	:label_text => 'check here if this change indicates the subject has moved') %>
+	:label_text => 'check here if this change indicates the subject has moved (may create operational event if type is residence and current changed to no)') %>
 </div><!-- class='moved' -->
 
 <%= f.wrapped_yndk_select :address_at_diagnosis,
