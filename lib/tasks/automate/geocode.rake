@@ -4,7 +4,8 @@ namespace :automate do
 		puts "Address.needs_geocoded ... #{Address.needs_geocoded.count}"
 		puts "Address.geocoding_failed ... #{Address.geocoding_failed.count}"
 
-		Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError], 
+		Geocoder.configure(
+			:always_raise => [Geocoder::OverQueryLimitError], 
 			:use_https => true)
 
 		Address.needs_geocoded.not_geocoding_failed.limit(1000).each do |address|
@@ -15,13 +16,6 @@ namespace :automate do
 
 			results = Geocoder.search(address.full)
 
-#	This will print ...
-#	Google Geocoding API error: over query limit.
-#	... if over limit, but doesn't set any flags anywhere.
-#	How to catch this and stop?
-
-#			puts results.inspect
-
 			#	find first with matching (first 5 in) zip code?
 			result = results.detect{|result| result.postal_code == zip }
 
@@ -29,24 +23,9 @@ namespace :automate do
 
 			if result.blank?
 				address.update_column(:geocoding_failed, true)
-
-#				puts
-#				puts
 				puts "Hmm.  No google results?"
-#				puts
-#				puts
-
 			else
-
-#				puts result.inspect
-
-#				puts result.latitude
-#				puts result.longitude
 				puts "Closest google address ... #{result.address}"
-#				puts result.city
-#				puts result.state
-#				puts result.postal_code
-
 				address.update_column(:geocoding_failed, false)
 				address.update_column(:needs_geocoded, false)
 				address.update_column(:latitude, result.latitude )
