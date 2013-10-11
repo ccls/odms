@@ -392,6 +392,19 @@ pending "Doesn't destroy Address yet"
 			assert_nil flash[:error]
 		end
 
+		test "should edit with latitude and longitude and #{cu} login" do
+			addressing = FactoryGirl.create(:addressing)
+			addressing.address.update_attributes(
+				:latitude => -34.397, :longitude => 150.644)
+			login_as send(cu)
+			get :edit, :study_subject_id => addressing.study_subject_id,
+				:id => addressing.id
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'edit'
+			assert_nil flash[:error]
+		end
+
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
 			addressing = FactoryGirl.create(:addressing)
 			study_subject = FactoryGirl.create(:study_subject)
