@@ -1,0 +1,23 @@
+<% unless @addressing.address.latitude.blank? or @addressing.address.longitude.blank? %>
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyDrp6CvtDFWiI5SNvmwy-iN39uP0ZRSTs4&v=3.exp&sensor=false"></script>
+<div id='map_canvas'  style='height:400px;width:100%;'></div>
+<%= javascript_tag do %>
+	var map;
+	var marker;
+	function initialize_map() {
+		var latlng = new google.maps.LatLng(<%="#{@addressing.address.latitude}, #{@addressing.address.longitude}"-%>);
+		var mapOptions = {
+			zoom: 10,
+			center: latlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
+		map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+		marker = new google.maps.Marker({
+			map: map,
+			position: latlng
+		});
+	}
+	google.maps.event.addDomListener(window, 'load', initialize_map);
+
+<% end %>
+<% end %>
