@@ -1,0 +1,24 @@
+<% stylesheets(:contacts) %>
+
+<div class='control'><div class='control_row'>
+<h3>Address</h3>
+<div><%= link_to( 'Contacts', study_subject_contacts_path( @study_subject ),
+	:class => 'button' ) %>&nbsp;<%= link_to 'Edit',
+	edit_study_subject_addressing_path(@addressing.study_subject_id,@addressing.id),
+	:class => 'button' %>
+</div>
+</div></div>
+
+
+<%= div_for @addressing do %>
+<span class='line_1'><%= @addressing.line_1 %></span>
+<%= "<span class='unit'>Apt. #{h(@addressing.unit)}</span>".html_safe unless @addressing.unit.blank? %>
+<%= "<span class='line_2'>#{h(@addressing.line_2)}</span>".html_safe  unless @addressing.line_2.blank? %>
+<span class='csz'><%= @addressing.csz %></span>
+<%= "<span class='county'>#{h(@addressing.county)} County</span>".html_safe unless @addressing.county.blank?  %>
+<% end %><!-- class='addressing' -->
+
+
+
+<%= render 'map' %>
+

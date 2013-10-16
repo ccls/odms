@@ -40,8 +40,10 @@ protected
 		study_subject.update_column(:needs_reindexed, true) if study_subject
 #		study_subject.index if study_subject
 
-#		This too!
+		#	This too to trigger geocoding!
 		update_column(:needs_geocoded, true)
+		#	And this to ensure that if it previously failed, try geocoding it again
+		update_column(:geocoding_failed, false)
 	end
 
 	#	Determine if the address is a PO Box and then

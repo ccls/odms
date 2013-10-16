@@ -568,6 +568,60 @@ pending "Doesn't destroy Address yet"
 			assert_template 'index'
 		end
 
+
+
+		test "should show with #{cu} login" do
+			addressing = FactoryGirl.create(:addressing)
+			login_as send(cu)
+			get :show, :study_subject_id => addressing.study_subject_id,
+				:id => addressing.id
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'show'
+			assert_nil flash[:error]
+		end
+
+		test "should show with latitude and longitude and #{cu} login" do
+			addressing = FactoryGirl.create(:addressing)
+			addressing.address.update_attributes(
+				:latitude => -34.397, :longitude => 150.644)
+			login_as send(cu)
+			get :show, :study_subject_id => addressing.study_subject_id,
+				:id => addressing.id
+			assert assigns(:addressing)
+			assert_response :success
+			assert_template 'show'
+			assert_nil flash[:error]
+		end
+
+		test "should NOT show with mismatched study_subject_id #{cu} login" do
+			addressing = FactoryGirl.create(:addressing)
+			study_subject = FactoryGirl.create(:study_subject)
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id,
+				:id => addressing.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT show with invalid study_subject_id #{cu} login" do
+			addressing = FactoryGirl.create(:addressing)
+			login_as send(cu)
+			get :show, :study_subject_id => 0,
+				:id => addressing.id
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+		test "should NOT show with invalid id #{cu} login" do
+			addressing = FactoryGirl.create(:addressing)
+			login_as send(cu)
+			get :show, :study_subject_id => addressing.study_subject_id,
+				:id => 0
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
 	end
 
 	non_site_readers.each do |cu|
@@ -576,6 +630,15 @@ pending "Doesn't destroy Address yet"
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT show addressing with #{cu} login" do
+			addressing = FactoryGirl.create(:addressing)
+			study_subject = addressing.study_subject
+			login_as send(cu)
+			get :show, :study_subject_id => study_subject.id, :id => addressing.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end

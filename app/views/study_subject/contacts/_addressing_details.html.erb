@@ -46,4 +46,7 @@ What is 'edit' ?
 <% else -%>
 &nbsp;
 <% end -%><%# if defined?(edit) and edit -%>
+<%= link_to 'Show', 
+	study_subject_addressing_path(addressing.study_subject_id,addressing.id), 
+	:class => 'button' %>
 </div><!-- class='edit' -->
