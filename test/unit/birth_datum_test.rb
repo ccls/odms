@@ -951,14 +951,14 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 	
 
-	test "should flag study subject for reindexed on create" do
+	test "should flag study subject for reindexing on create" do
 		study_subject = FactoryGirl.create(:study_subject)
 		birth_datum = FactoryGirl.create(:birth_datum, :study_subject => study_subject)
 		assert_not_nil birth_datum.study_subject
 		assert birth_datum.study_subject.needs_reindexed
 	end
 
-	test "should flag study subject for reindexed on update" do
+	test "should flag study subject for reindexing on update" do
 		study_subject = FactoryGirl.create(:study_subject)
 		birth_datum = FactoryGirl.create(:birth_datum, :study_subject => study_subject)
 		assert_not_nil birth_datum.study_subject
@@ -968,6 +968,19 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum.update_attributes(:birth_state => "something to make it dirty")
 		assert  birth_datum.study_subject.needs_reindexed
 	end
+
+	test "should flag study subject for reindexing on destroy" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		assert  study_subject.reload.needs_reindexed	#	default is false
+		birth_datum = create_matching_case_birth_datum(study_subject)
+		assert_equal birth_datum.study_subject, study_subject
+		assert  study_subject.reload.needs_reindexed
+		study_subject.update_attribute(:needs_reindexed , false)
+		assert !study_subject.reload.needs_reindexed
+		birth_datum.destroy
+		assert  study_subject.reload.needs_reindexed
+	end
+
 
 	test "append_notes should update instance AND save to db" do
 		birth_datum = FactoryGirl.create(:birth_datum)

@@ -7,6 +7,10 @@ base.class_eval do
 	cattr_accessor :all_sunspot_columns
 	self.all_sunspot_columns = []		#	order is only relevant to the facets
 
+	def self.add_sunspot_column(*args)
+		self.all_sunspot_columns.push( SunspotColumn.new( *args ) )
+	end
+
 	def self.sunspot_orderable_columns
 		all_sunspot_columns.select{|c|c.orderable}	#.collect(&:name)
 	end

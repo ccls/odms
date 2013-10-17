@@ -44,7 +44,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 #	end
 
 	%w( case_icf_master_id mother_icf_master_id
-			father_ssn mother_ssn hospital hospital_key diagnosis
+			hospital hospital_key diagnosis
 			ccls_enrollment 
 			).each do |meth|
 

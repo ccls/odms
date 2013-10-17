@@ -92,13 +92,13 @@ class Enrollment < ActiveRecord::Base
 	end
 
 	after_save :reindex_study_subject!, :if => :changed?
+	before_destroy :reindex_study_subject!
 
 protected
 
 	def reindex_study_subject!
 		logger.debug "Enrollment changed so reindexing study subject"
-		study_subject.update_column(:needs_reindexed, true) if study_subject
-#		study_subject.index if study_subject
+		study_subject.update_column(:needs_reindexed, true) if( study_subject && study_subject.persisted? )
 	end
 
 	def create_enrollment_update

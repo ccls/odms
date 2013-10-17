@@ -9,20 +9,30 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	def father_ssn
-		birth_data.order('created_at DESC').collect(&:father_ssn).collect(
-			&:to_ssn).compact.first
+	def newest_birth_data
+		@newest_birth_data ||= birth_data.order('created_at DESC')
 	end
-	def mother_ssn
-		birth_data.order('created_at DESC').collect(&:mother_ssn).collect(
-			&:to_ssn).compact.first
-	end
+#	def father_ssn
+#		newest_birth_data.collect(&:father_ssn).collect(&:to_ssn).compact.first
+#	end
+#	def mother_ssn
+#		newest_birth_data.collect(&:mother_ssn).collect(&:to_ssn).compact.first
+#	end
+
+	#	is text so NEED actual method (at least for now)
 	def derived_state_file_no_last6
-		birth_data.order('created_at DESC').collect(&:derived_state_file_no_last6).compact.first
+		newest_birth_data.collect(&:derived_state_file_no_last6).compact.first
 	end
+	#	is text so NEED actual method (at least for now)
 	def derived_local_file_no_last6
-		birth_data.order('created_at DESC').collect(&:derived_local_file_no_last6).compact.first
+		newest_birth_data.collect(&:derived_local_file_no_last6).compact.first
 	end
+
+
+	#
+	#	thought of adding birth_type, but is in StudySubject AND BirthDatum
+	#
+
 	def hospital
 		patient.try(:organization).try(:to_s)	#	use try so stays nil if nil
 	end
@@ -38,139 +48,158 @@ base.class_eval do
 
 	include Sunspotability
 
-	self.all_sunspot_columns = [
-		SunspotColumn.new( :id, 
-			:default => true, :type => :integer ),
-		SunspotColumn.new( :subject_type, 
-			:facetable => true, :default => true ),
-		SunspotColumn.new( :vital_status, 
-			:facetable => true, :default => true ),
-		SunspotColumn.new( :case_control_type, 
-			:facetable => true ),
-		SunspotColumn.new( :sex, 
-			:facetable => true, :default => true ),
-		SunspotColumn.new( :phase,
-			:facetable => true, :type => :integer ),
+	add_sunspot_column( :id, 
+		:default => true, :type => :integer )
+	add_sunspot_column( :subject_type, 
+		:facetable => true, :default => true )
+	add_sunspot_column( :vital_status, 
+		:facetable => true, :default => true )
+	add_sunspot_column( :case_control_type, 
+		:facetable => true )
+	add_sunspot_column( :sex, 
+		:facetable => true, :default => true )
+	add_sunspot_column( :phase,
+		:facetable => true, :type => :integer )
 
-		#
-		#	DON'T USE THE KEY :method IN AN OPENSTRUCT
-		#
-		#	Use subject_races and subject_languages so can get "Other"
-		#
-		SunspotColumn.new( :races, :meth => ->(s){ s.subject_races.collect(&:to_s) },
-			:facetable => true, :type => :string, :multiple => true ),
-		SunspotColumn.new( :languages, :meth => ->(s){ s.subject_languages.collect(&:to_s) },
-			:facetable => true, :type => :string, :multiple => true ),
+	#
+	#	DON'T USE THE KEY :method IN AN OPENSTRUCT
+	#
+	#	Use subject_races and subject_languages so can get "Other"
+	#
+	add_sunspot_column( :races, :meth => ->(s){ s.subject_races.collect(&:to_s) },
+		:facetable => true, :type => :string, :multiple => true )
+	add_sunspot_column( :languages, :meth => ->(s){ s.subject_languages.collect(&:to_s) },
+		:facetable => true, :type => :string, :multiple => true )
 
-		SunspotColumn.new( :projects, :meth => ->(s){ s.enrollments.collect(&:project) },
-			:facetable => true, :type => :string, :multiple => true ),
+	add_sunspot_column( :projects, :meth => ->(s){ s.enrollments.collect(&:project) },
+		:facetable => true, :type => :string, :multiple => true )
 
-		SunspotColumn.new( :hospital, 
-			:facetable => true ),
-		SunspotColumn.new( :diagnosis, 
-			:facetable => true ),
-		SunspotColumn.new( :other_diagnosis ),
-		SunspotColumn.new( :sample_types, :meth => ->(s){ s.samples.collect(&:sample_type).collect(&:to_s) },
-			:facetable => true, :type => :string, :multiple => true ),
-		SunspotColumn.new( :operational_event_types,
-			:meth => ->(s){ s.operational_events.collect(&:operational_event_type).collect(&:to_s) },
-			:facetable => true, :type => :string, :multiple => true ),
-		SunspotColumn.new( :ccls_consented, :label => 'Consented?',
-			:meth => ->(s){ YNDK[s.ccls_enrollment.try(:consented)]||'NULL' },
-			:facetable => true, :type => :string ),
-		SunspotColumn.new( :ccls_is_eligible, :label => 'Is Eligible?',
-			:meth => ->(s){ YNDK[s.ccls_enrollment.try(:is_eligible)]||'NULL' },
-			:facetable => true, :type => :string ),
-		SunspotColumn.new( :interviewed, 
-			:meth => ->(s){ s.ccls_enrollment.try(:interview_completed_on).present? ? 'Yes' : 'No' },
-			:facetable => true, :type => :string ),
-		SunspotColumn.new( :patient_was_ca_resident_at_diagnosis,
-			:meth  => ->(s){ YNDK[s.patient.try(:was_ca_resident_at_diagnosis)]||'NULL' },
-			:label => 'Was CA Resident at Diagnosis?',
-			:facetable => true, :type => :string ),
-		SunspotColumn.new( :patient_was_previously_treated,
-			:meth  => ->(s){ YNDK[s.patient.try(:was_previously_treated)]||'NULL' },
-			:label => 'Was Previously Treated?',
-			:facetable => true, :type => :string ),
-		SunspotColumn.new( :patient_was_under_15_at_dx,
-			:label => 'Was Under 15 at Diagnosis?',
-			:meth => ->(s){ YNDK[s.patient.try(:was_under_15_at_dx)]||'NULL' },
-			:facetable => true, :type => :string ),
-		SunspotColumn.new( :icf_master_id, 
-			:default => true ),
-		SunspotColumn.new( :case_icf_master_id, 
-			:default => true ),
-		SunspotColumn.new( :mother_icf_master_id, 
-			:default => true ),
-		SunspotColumn.new( :dob, 
-			:default => true, :type => :date ),
-		SunspotColumn.new( :first_name, 
-			:default => true ),
-		SunspotColumn.new( :last_name, 
-			:default => true ),
-		SunspotColumn.new( :primary_phone ),
-		SunspotColumn.new( :alternate_phone ),
-		SunspotColumn.new( :address_street ),
-		SunspotColumn.new( :address_unit ),
-		SunspotColumn.new( :address_city ),
-		SunspotColumn.new( :address_state ),
-		SunspotColumn.new( :address_zip ),
+	add_sunspot_column( :hospital, 
+		:facetable => true )
+	add_sunspot_column( :diagnosis, 
+		:facetable => true )
+	add_sunspot_column( :other_diagnosis )
+	add_sunspot_column( :sample_types, :meth => ->(s){ s.samples.collect(&:sample_type).collect(&:to_s) },
+		:facetable => true, :type => :string, :multiple => true )
+	add_sunspot_column( :operational_event_types,
+		:meth => ->(s){ s.operational_events.collect(&:operational_event_type).collect(&:to_s) },
+		:facetable => true, :type => :string, :multiple => true )
+	add_sunspot_column( :ccls_consented, :label => 'Consented?',
+		:meth => ->(s){ YNDK[s.ccls_enrollment.try(:consented)]||'NULL' },
+		:facetable => true, :type => :string )
+	add_sunspot_column( :ccls_is_eligible, :label => 'Is Eligible?',
+		:meth => ->(s){ YNDK[s.ccls_enrollment.try(:is_eligible)]||'NULL' },
+		:facetable => true, :type => :string )
+	add_sunspot_column( :interviewed, 
+		:meth => ->(s){ s.ccls_enrollment.try(:interview_completed_on).present? ? 'Yes' : 'No' },
+		:facetable => true, :type => :string )
+	add_sunspot_column( :patient_was_ca_resident_at_diagnosis,
+		:meth  => ->(s){ YNDK[s.patient.try(:was_ca_resident_at_diagnosis)]||'NULL' },
+		:label => 'Was CA Resident at Diagnosis?',
+		:facetable => true, :type => :string )
+	add_sunspot_column( :patient_was_previously_treated,
+		:meth  => ->(s){ YNDK[s.patient.try(:was_previously_treated)]||'NULL' },
+		:label => 'Was Previously Treated?',
+		:facetable => true, :type => :string )
+	add_sunspot_column( :patient_was_under_15_at_dx,
+		:label => 'Was Under 15 at Diagnosis?',
+		:meth => ->(s){ YNDK[s.patient.try(:was_under_15_at_dx)]||'NULL' },
+		:facetable => true, :type => :string )
+	add_sunspot_column( :icf_master_id, 
+		:default => true )
+	add_sunspot_column( :case_icf_master_id, 
+		:default => true )
+	add_sunspot_column( :mother_icf_master_id, 
+		:default => true )
+	add_sunspot_column( :dob, 
+		:default => true, :type => :date )
+	add_sunspot_column( :first_name, 
+		:default => true )
+	add_sunspot_column( :last_name, 
+		:default => true )
+	add_sunspot_column( :primary_phone )
+	add_sunspot_column( :alternate_phone )
+	add_sunspot_column( :address_street )
+	add_sunspot_column( :address_unit )
+	add_sunspot_column( :address_city )
+	add_sunspot_column( :address_state )
+	add_sunspot_column( :address_zip )
 
-		SunspotColumn.new( :location, 
-			:type => :latlon, :orderable => false,
-			:meth => ->(s){ Sunspot::Util::Coordinates.new(s.address_latitude, s.address_longitude) } ),
+	add_sunspot_column( :location, 
+		:type => :latlon, :orderable => false,
+		:meth => ->(s){ Sunspot::Util::Coordinates.new(s.address_latitude, s.address_longitude) } )
 
-		#	do_not_contact has default false set. will only be true or false
-		SunspotColumn.new( :do_not_contact, 
-			:meth => ->(s){ s.do_not_contact? ? 'Yes' : 'No' },
-			:type => :string ),
-		SunspotColumn.new( :birth_year, 
-			:type => :integer ),
-		SunspotColumn.new( :reference_date, 
-			:type => :date ),
-		SunspotColumn.new( :died_on, 
-			:type => :date ),
-		SunspotColumn.new( :admit_date, 
-			:type => :date ),
-
-
-		SunspotColumn.new( :age_at_admittance, :type => :integer, :facetable => true,
-			:meth => ->(s){( s.dob.blank? or s.admit_date.blank? ) ? nil : s.dob.diff(s.admit_date)[:years] }),
-		SunspotColumn.new( :age_at_diagnosis, :type => :integer, :facetable => true,
-			:meth => ->(s){( s.dob.blank? or s.diagnosis_date.blank? ) ? nil : s.dob.diff(s.diagnosis_date)[:years] }),
+	#	do_not_contact has default false set. will only be true or false
+	add_sunspot_column( :do_not_contact, 
+		:meth => ->(s){ s.do_not_contact? ? 'Yes' : 'No' },
+		:type => :string )
+	add_sunspot_column( :birth_year, 
+		:type => :integer )
+	add_sunspot_column( :reference_date, 
+		:type => :date )
+	add_sunspot_column( :died_on, 
+		:type => :date )
+	add_sunspot_column( :admit_date, 
+		:type => :date )
 
 
-		SunspotColumn.new( :ccls_assigned_for_interview_on, 
-			:meth => ->(s){ s.ccls_enrollment.try(:assigned_for_interview_at).try(:to_date).try(:strftime,'%m/%d/%Y') },
-			:type => :date ),
-		SunspotColumn.new( :ccls_interview_completed_on, 
-			:meth => ->(s){ s.ccls_enrollment.try(:interview_completed_on).try(:strftime,'%m/%d/%Y') },
-			:type => :date ),
-		SunspotColumn.new( :studyid ),
-		SunspotColumn.new( :mother_first_name ),
-		SunspotColumn.new( :mother_maiden_name ),
-		SunspotColumn.new( :mother_last_name ),
-		SunspotColumn.new( :father_first_name ),
-		SunspotColumn.new( :father_last_name ),
-		SunspotColumn.new( :middle_name ),
-		SunspotColumn.new( :maiden_name ),
-		SunspotColumn.new( :father_ssn ),
-		SunspotColumn.new( :mother_ssn ),
-		SunspotColumn.new( :patid ),
-		SunspotColumn.new( :childid ),
-		SunspotColumn.new( :subjectid ),
-		SunspotColumn.new( :hospital_key ),
-		SunspotColumn.new( :hospital_no ),
-		SunspotColumn.new( :state_id_no ),
-		SunspotColumn.new( :state_registrar_no ),
-		SunspotColumn.new( :local_registrar_no ),
-		SunspotColumn.new( :cdcid, 
-			:type => :integer ),
-		SunspotColumn.new( :derived_local_file_no_last6,
-			:type => :integer ),
-		SunspotColumn.new( :derived_state_file_no_last6,
-			:type => :integer )
-	]	#	self.all_sunspot_columns = [
+	add_sunspot_column( :age_at_admittance, :type => :integer, :facetable => true,
+		:meth => ->(s){( s.dob.blank? or s.admit_date.blank? ) ? nil : s.dob.diff(s.admit_date)[:years] })
+	add_sunspot_column( :age_at_diagnosis, :type => :integer, :facetable => true,
+		:meth => ->(s){( s.dob.blank? or s.diagnosis_date.blank? ) ? nil : s.dob.diff(s.diagnosis_date)[:years] })
+
+
+	add_sunspot_column( :ccls_assigned_for_interview_on, 
+		:meth => ->(s){ s.ccls_enrollment.try(:assigned_for_interview_at).try(:to_date).try(:strftime,'%m/%d/%Y') },
+		:type => :date )
+	add_sunspot_column( :ccls_interview_completed_on, 
+		:meth => ->(s){ s.ccls_enrollment.try(:interview_completed_on).try(:strftime,'%m/%d/%Y') },
+		:type => :date )
+	add_sunspot_column( :studyid )
+	add_sunspot_column( :mother_first_name )
+	add_sunspot_column( :mother_maiden_name )
+	add_sunspot_column( :mother_last_name )
+	add_sunspot_column( :father_first_name )
+	add_sunspot_column( :father_last_name )
+	add_sunspot_column( :middle_name )
+	add_sunspot_column( :maiden_name )
+	add_sunspot_column( :father_ssn,
+		:meth => ->(s){ s.newest_birth_data.collect(&:father_ssn).collect(&:to_ssn).compact.first } )
+	add_sunspot_column( :mother_ssn,
+		:meth => ->(s){ s.newest_birth_data.collect(&:mother_ssn).collect(&:to_ssn).compact.first } )
+	add_sunspot_column( :patid )
+	add_sunspot_column( :childid )
+	add_sunspot_column( :subjectid )
+	add_sunspot_column( :hospital_key )
+	add_sunspot_column( :hospital_no )
+	add_sunspot_column( :state_id_no )
+	add_sunspot_column( :state_registrar_no )
+	add_sunspot_column( :local_registrar_no )
+	add_sunspot_column( :cdcid, :type => :integer )
+	add_sunspot_column( :derived_local_file_no_last6, :type => :integer )
+#	add_sunspot_column( :derived_local_file_no_last6, :type => :integer,
+#		:meth => ->(s){ s.newest_birth_data.collect(&:derived_local_file_no_last6).compact.first })
+	add_sunspot_column( :derived_state_file_no_last6, :type => :integer )
+#	add_sunspot_column( :derived_state_file_no_last6, :type => :integer,
+#		:meth => ->(s){ s.newest_birth_data.collect(&:derived_state_file_no_last6).compact.first })
+
+	add_sunspot_column( :mother_hispanic_origin_code, :type => :string, :facetable => true,
+		:meth => ->(s){ s.newest_birth_data.collect(&:mother_hispanic_origin_code).compact.first })
+	add_sunspot_column( :mother_race_ethn_1, :type => :integer, :facetable => true,
+		:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_1).compact.first })
+	add_sunspot_column( :mother_race_ethn_2, :type => :integer, :facetable => true,
+		:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_2).compact.first })
+	add_sunspot_column( :mother_race_ethn_3, :type => :integer, :facetable => true,
+		:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_3).compact.first })
+
+	add_sunspot_column( :father_hispanic_origin_code, :type => :string, :facetable => true,
+		:meth => ->(s){ s.newest_birth_data.collect(&:father_hispanic_origin_code).compact.first })
+	add_sunspot_column( :father_race_ethn_1, :type => :integer, :facetable => true,
+		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_1).compact.first })
+	add_sunspot_column( :father_race_ethn_2, :type => :integer, :facetable => true,
+		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_2).compact.first })
+	add_sunspot_column( :father_race_ethn_3, :type => :integer, :facetable => true,
+		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_3).compact.first })
 
 	#
 	#	DO NOT ALLOW BLANK VALUES INTO INDEX.  Only really a problem when faceting on blank values.
@@ -183,6 +212,10 @@ base.class_eval do
 #	for example, what if I wanted all of the subjects that don't have a phase set?
 #
 #	searchable_plus #do
+
+	#
+	#	all_sunspot_columns must be set before calling this
+	#
 	searchable_plus do	#	adding text search
 
 

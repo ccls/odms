@@ -38,13 +38,14 @@ class Addressing < ActiveRecord::Base
 	after_save :create_subject_moved_event, :if => :subject_moved
 
 	after_save :reindex_study_subject!, :if => :changed?
+	before_destroy :reindex_study_subject!
 
 protected
 
 	def reindex_study_subject!
 		logger.debug "Addressing changed so reindexing study subject"
-		study_subject.update_column(:needs_reindexed, true) if study_subject
-#		study_subject.index if study_subject
+		#	don't know why birth_datum needs persisted? check but here doesn't
+		study_subject.update_column(:needs_reindexed, true) if( study_subject && study_subject.persisted? )
 	end
 
 	#	this will actually create an event on creation as well

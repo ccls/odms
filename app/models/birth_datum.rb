@@ -319,12 +319,17 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	after_save :reindex_study_subject!, :if => :changed?
+	before_destroy :reindex_study_subject!
 
 protected
 
 	def reindex_study_subject!
 		logger.debug "Birth Datum changed so reindexing study subject"
-		study_subject.update_column(:needs_reindexed, true) if study_subject
+		#	this used to work without the new_record check (new_record? doesn't work? using persisted? )
+		#	the persisted check only seems to matter when the before_destroy callback exists
+		#	my "assert_should_belong_to" test method does a destroy 
+		#	which is what makes this required. (was for testing attachments, but still viable)
+		study_subject.update_column(:needs_reindexed, true) if( study_subject && study_subject.persisted? )
 	end
 
 end

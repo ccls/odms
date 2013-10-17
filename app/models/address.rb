@@ -32,14 +32,18 @@ class Address < ActiveRecord::Base
 	end
 
 	after_save :reindex_study_subject!, :if => :changed?
+	after_save :regeocode!, :if => :changed?
+	before_destroy :reindex_study_subject!
 
 protected
 
 	def reindex_study_subject!
 		logger.debug "Address changed so reindexing study subject"
-		study_subject.update_column(:needs_reindexed, true) if study_subject
-#		study_subject.index if study_subject
+		#	don't know why birth_datum needs persisted? check but here doesn't
+		study_subject.update_column(:needs_reindexed, true) if( study_subject && study_subject.persisted? )
+	end
 
+	def regeocode!
 		#	This too to trigger geocoding!
 		update_column(:needs_geocoded, true)
 		#	And this to ensure that if it previously failed, try geocoding it again
