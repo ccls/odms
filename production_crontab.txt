@@ -54,7 +54,7 @@ RAILS_ENV=production
 #	Dump significant tables to xml.
 #
 #	According to Yang, this is not being and has never been used.
-#@daily cd /my/ruby/odms/ ; rake app:data:export_to_xml >> /my/ruby/logs/export_to_xml.log
+#@daily cd /my/ruby/odms/ ; bundle exec rake app:data:export_to_xml >> /my/ruby/logs/export_to_xml.log
 
 
 
@@ -64,7 +64,7 @@ RAILS_ENV=production
 #	every WEEKday at 8PM
 #	Changed mounting using fstab (more unixy).  Should never lose mount now.
 #	Also, fyi "abort" calls from rake task will send email.
-0 20 * * 1,2,3,4,5 cd /my/ruby/odms/ ; rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
+0 20 * * 1,2,3,4,5 cd /my/ruby/odms/ ; bundle exec rake automate:updates_from_icf_master_tracker >> /my/ruby/logs/automate_updates_from_icf_master_tracker.log
 
 
 
@@ -74,7 +74,7 @@ RAILS_ENV=production
 #
 #	can't really do the "OTHER" with just cron
 #
-0 19 * * 3 cd /my/ruby/odms/ ; rake automate:import_screening_data >> /my/ruby/logs/automate_import_screening_data.log
+0 19 * * 3 cd /my/ruby/odms/ ; bundle exec rake automate:import_screening_data >> /my/ruby/logs/automate_import_screening_data.log
 
 
 
@@ -84,7 +84,7 @@ RAILS_ENV=production
 #	import birth_data (from USC)
 #	Every Thursday at 7PM ( NOT YET THOUGH )
 #
-#0 19 * * 4 cd /my/ruby/odms/ ; rake automate:import_birth_data >> /my/ruby/logs/automate_import_birth_data.log
+#0 19 * * 4 cd /my/ruby/odms/ ; bundle exec rake automate:import_birth_data >> /my/ruby/logs/automate_import_birth_data.log
 
 
 
@@ -101,7 +101,8 @@ RAILS_ENV=production
 # @daily          Run once a day, "0 0 * * *".
 
 
-#	every 15 minutes
-15,45 * * * * cd /my/ruby/odms/ ; rake app:study_subjects:sync_related_icf_master_ids >> /my/ruby/logs/study_subjects_sync_related_icf_master_ids.log
-0,30 * * * * cd /my/ruby/odms/ ; rake app:study_subjects:reindex >> /my/ruby/logs/study_subjects_reindex.log
+#	every 30 minutes
+15,45 * * * * cd /my/ruby/odms/ ; bundle exec rake app:study_subjects:sync_related_icf_master_ids >> /my/ruby/logs/study_subjects_sync_related_icf_master_ids.log
+20,50 * * * * cd /my/ruby/odms/ ; bundle exec rake automate:geocode >> /my/ruby/logs/automate_geocode.log
+0,30 * * * * cd /my/ruby/odms/ ; bundle exec rake app:study_subjects:reindex >> /my/ruby/logs/study_subjects_reindex.log
 
