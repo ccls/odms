@@ -1370,6 +1370,7 @@ Table: study_subjects
 | interviews_count            | int(11)      | YES  |     | 0       |                |
 | needs_reindexed             | tinyint(1)   | YES  |     | 0       |                |
 | abstracts_count             | int(11)      | YES  |     | 0       |                |
+| enrollments_count           | int(11)      | YES  |     | 0       |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+

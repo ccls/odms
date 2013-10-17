@@ -3,7 +3,7 @@
 #	*	project
 class Enrollment < ActiveRecord::Base
 
-	belongs_to :study_subject
+	belongs_to :study_subject, :counter_cache => true
 	belongs_to :ineligible_reason
 	belongs_to :refusal_reason
 	belongs_to :document_version

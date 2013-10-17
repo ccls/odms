@@ -165,8 +165,9 @@ module ApplicationHelper
 			list_items += [
 				link_to( "Eligibility & Consent", study_subject_consent_path(study_subject),
 					:class => ((current == :consents)?'current':nil) ),
-				link_to( "Enrollments",study_subject_enrollments_path(study_subject),
-					:class => ((current == :eligibility)?'current':nil) ),
+				(link_to( "Enrollments",study_subject_enrollments_path(study_subject),
+					:class => ((current == :eligibility)?'current':nil) )<<
+					"<span class='count'>#{study_subject.enrollments_count}</span>".html_safe),
 				(link_to( "Samples", study_subject_samples_path(study_subject),
 					:class => ((current == :samples)?'current':nil) ) <<
 					"<span class='count'>#{study_subject.samples_count}</span>".html_safe)
