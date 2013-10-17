@@ -195,7 +195,7 @@ Odms::Application.routes.draw do
 			#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
 			resources :phone_numbers, :except => [:show]
 			resources :addressings	#,   :except => [:show]
-			resources :enrollments,   :except => :destroy
+			resources :enrollments	#,   :except => :destroy
 			resource  :consent,
 				:only => [:show,:edit,:update]
 			resources :samples

@@ -10,7 +10,7 @@ class StudySubject::EnrollmentsController < StudySubjectController
 		:only => :destroy
 
 	before_filter :valid_id_required,
-		:only => [:show,:edit,:update]
+		:only => [:show,:edit,:update,:destroy]
 
 	def index
 #		if @study_subject.subject_type == SubjectType['Mother']
@@ -45,6 +45,12 @@ class StudySubject::EnrollmentsController < StudySubjectController
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "Enrollment update failed"
 		render :action => 'edit'
+	end
+
+	def destroy
+		@enrollment.destroy
+		flash[:notice] = "Enrollment destroyed"
+		redirect_to study_subject_enrollments_path(@study_subject)
 	end
 
 protected

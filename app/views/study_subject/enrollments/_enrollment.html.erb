@@ -18,4 +18,12 @@
  <td class='completed'>
   <%=mdy enrollment.completed_on %>
  </td>
+ <td class='manage'>
+  <%= link_to 'Edit',
+		edit_study_subject_enrollment_path(enrollment.study_subject_id, enrollment.id), :class => :button %>
+<%= form_tag study_subject_enrollment_path(enrollment.study_subject_id, enrollment.id), :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy enrollment in '#{enrollment.project.key.titleize}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end if current_user.may_destroy_enrollments? %>
+ </td>
 <% end %>

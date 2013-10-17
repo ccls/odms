@@ -4,7 +4,12 @@
 <h3>Study name: <%= @enrollment.project.key.titleize -%></h3>
 <div><%= link_to( 'Edit', 
 	edit_study_subject_enrollment_path(@enrollment.study_subject_id,@enrollment),
-	:class => 'button' ) if current_user.may_update_enrollments? %></div>
+	:class => 'button' ) if current_user.may_update_enrollments? %>
+<%= form_tag study_subject_enrollment_path(@enrollment.study_subject_id, @enrollment.id), :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Destroy enrollment in '#{@enrollment.project.key.titleize}'?", :id => nil %>
+<%= submit_tag 'Destroy', :name => nil %>
+<% end if current_user.may_destroy_enrollments? %>
+</div>
 </div></div>
 
 <%= div_for @enrollment do %>

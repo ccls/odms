@@ -44,6 +44,38 @@ class StudySubject::EnrollmentsControllerTest < ActionController::TestCase
 			{:project_id => FactoryGirl.create(:project).id}.merge(options))
 	end
 
+
+	site_administrators.each do |cu|
+
+		test "should destroy enrollment with #{cu} login" do
+			login_as send(cu)
+			enrollment = FactoryGirl.create(:enrollment)
+			assert_difference('Enrollment.count',-1) do
+				delete :destroy, :study_subject_id => enrollment.study_subject_id,
+					:id => enrollment.id
+			end
+			assert_not_nil flash[:notice]
+			assert_nil flash[:error]
+			assert_redirected_to study_subject_enrollments_path(enrollment.study_subject)
+		end
+
+	end
+	non_site_administrators.each do |cu|
+
+		test "should not destroy enrollment with #{cu} login" do
+			login_as send(cu)
+			enrollment = FactoryGirl.create(:enrollment)
+			assert_difference('Enrollment.count',0) do
+				delete :destroy, :study_subject_id => enrollment.study_subject_id,
+					:id => enrollment.id
+			end
+			assert_nil flash[:notice]
+			assert_not_nil flash[:error]
+			assert_redirected_to study_subjects_path
+		end
+
+	end
+
 	site_editors.each do |cu|
 
 		test "should get new enrollment with #{cu} login" do
@@ -449,6 +481,13 @@ class StudySubject::EnrollmentsControllerTest < ActionController::TestCase
 				:id => enrollment.id, :enrollment => factory_attributes(
 					:notes => 'trigger update')
 		}
+		assert_redirected_to_login
+	end
+
+	test "should NOT destroy without login" do
+		enrollment = FactoryGirl.create(:enrollment)
+		delete :destroy, :study_subject_id => enrollment.study_subject_id,
+			:id => enrollment.id
 		assert_redirected_to_login
 	end
 
