@@ -8,7 +8,7 @@
 <th>master_id</th>
 <th>case / control</th>
 <th>match confidence</th>
-<th>study subject</th>
+<th><%= sort_link('study_subject_id','study subject') %></th>
 <th>candidate control</th>
 <th></th>
 </tr>
@@ -34,6 +34,11 @@ No Candidate Control Set
 <% end %>
 </tbody>
 </table><!-- id='birth_data' --> 
+
+<div class='pagination wrapper'>
+<%= will_paginate @birth_data %>
+</div>
+
 <% else %>
 <p>Sorry, but no birth data exist.</p>
 <% end %>
