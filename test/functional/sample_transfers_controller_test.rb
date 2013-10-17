@@ -328,6 +328,15 @@ class SampleTransfersControllerTest < ActionController::TestCase
 			assert assigns(:waitlist_sample_transfers).empty?
 		end
 
+		test "should get sample transfers index with #{cu} login and no sample" do
+			login_as send(cu)
+			st = FactoryGirl.create(:sample_transfer, :status => 'waitlist')
+			st.sample.destroy
+			get :index
+			assert_response :success
+			assert_template 'index'
+		end
+
 		test "should get sample transfers index with #{cu} login and waitlist transfers" do
 			login_as send(cu)
 			st = FactoryGirl.create(:sample_transfer, :status => 'waitlist')

@@ -4,6 +4,8 @@
 <% else %>
 <%= button_to( 'Activate', update_status_sample_transfer_path(sample_transfer, :status => 'active'), :method => 'put' ) -%>
 <% end %></td>
+
+<% if sample_transfer.sample %>
 <td><%= link_to sample_transfer.sample.study_subject.icf_master_id_to_s,
 	sample_transfer.sample.study_subject %></td>
 <td><%= sample_transfer.sample.study_subject.studyid_to_s %></td>
@@ -20,7 +22,18 @@
 	:class => :button, :target => :new %>
 <% else %>
 &nbsp;
-<% end %>
+<% end %><%# if sample_transfer.active? %></td>
+<% else %>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>&nbsp;</td>
+<% end %><%# if sample_transfer.sample %>
+
+<td>
 <% if current_user.may_destroy_sample_transfers? %>
 	<%= form_tag sample_transfer, :method => :delete, :class => 'destroy_link_to' do %>
 	<%= hidden_field_tag 'confirm', "Destroy sample_transfer '#{sample_transfer}'?", :id => nil %>

@@ -27,7 +27,7 @@ class SampleTransfer < ActiveRecord::Base
 
 	#	primarily for the destroy confirmation pop-up
 	def to_s
-		"for SampleID #{sample.sampleid}"
+		"for SampleID #{sample.try(:sampleid)||'------'}"
 	end
 
 #	def waitlist?
