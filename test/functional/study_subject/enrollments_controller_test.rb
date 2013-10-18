@@ -71,7 +71,7 @@ class StudySubject::EnrollmentsControllerTest < ActionController::TestCase
 			end
 			assert_nil flash[:notice]
 			assert_not_nil flash[:error]
-			assert_redirected_to study_subjects_path
+			assert_redirected_to root_path
 		end
 
 	end
