@@ -1,0 +1,36 @@
+#subject_header {
+	display:table;
+	width: 100%;
+	#id_bar {
+		display:table-row;
+		background-color: #E5DBC1;
+		> div {
+			border: 1px solid black;
+			padding: 10px;
+			display:table-cell;
+		}
+		div.full_name {
+			font-weight: bold;
+			border-right: 0px;
+		}
+		div.id_numbers {
+			text-align:right;
+			border-left: 0px;
+			> div {
+				display:inline-block;
+			}
+			> div.icf_master_id {
+				display:inline;
+				padding-right: 10px;
+			}
+		}
+}
+}
+#do_not_contact {
+	text-align:center;
+	color:red;
+	font-weight: bold;
+	padding: 10px;
+	background-color: #FEE;
+	border: 2px solid red;
+}
