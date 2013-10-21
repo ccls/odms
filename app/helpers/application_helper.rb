@@ -19,7 +19,7 @@ module ApplicationHelper
 				link_to('Dashboard', dashboard_study_subjects_path ),
 				link_to('New Case (RAF)', new_raf_path),
 
-#	not doing controls anymore, and /controls/new takes over a minut to load
+#	not doing controls anymore, and /controls/new takes over a minute to load
 #				link_to('New Control', new_control_path),
 
 				link_to('Birth Data Requests', new_bc_request_path)
