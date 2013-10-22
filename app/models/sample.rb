@@ -68,49 +68,46 @@ class Sample < ActiveRecord::Base
 
 	include Sunspotability
 	
-	self.all_sunspot_columns = [ 
-		SunspotColumn.new(:id, :default => true, :type => :integer),
-		SunspotColumn.new(:sampleid, :default => true),
-		SunspotColumn.new(:subjectid, :default => true),
-#		SunspotColumn.new(:sample_type_parent,
-		SunspotColumn.new(:sample_super_type,
-			:default => true, :facetable => true),
-		SunspotColumn.new(:sample_type,
-			:default => true, :facetable => true),
-		SunspotColumn.new(:sample_format, :facetable => true),
-		SunspotColumn.new(:sample_temperature, :facetable => true),
-		SunspotColumn.new(:project, :facetable => true),
-		SunspotColumn.new(:aliquot_or_sample_on_receipt,
-			:facetable => true),
-		SunspotColumn.new(:order_no, :facetable => true),
-		SunspotColumn.new(:subject_type, :facetable => true),
-		SunspotColumn.new(:sex, :facetable => true),
-		SunspotColumn.new(:vital_status, :facetable => true),
-		SunspotColumn.new(:organization, :facetable => true),
-		SunspotColumn.new(:cdcid,
-			:default => true, :type => :integer, :orderable => true),
-		SunspotColumn.new(:first_name),
-		SunspotColumn.new(:last_name),
-		SunspotColumn.new(:icf_master_id),
-		SunspotColumn.new(:patid),
-		SunspotColumn.new(:studyid),
-		SunspotColumn.new(:childid),
-		SunspotColumn.new(:external_id),
-		SunspotColumn.new(:external_id_source),
-		SunspotColumn.new(:sent_to_subject_at, :type => :time),
-		SunspotColumn.new(:collected_from_subject_at, :type => :time),
-		SunspotColumn.new(:shipped_to_ccls_at, :type => :time),
-		SunspotColumn.new(:received_by_ccls_at, :type => :time),
-		SunspotColumn.new(:sent_to_lab_at, :type => :time),
-		SunspotColumn.new(:received_by_lab_at, :type => :time),
-		SunspotColumn.new(:aliquotted_at, :type => :time),
-		SunspotColumn.new(:receipt_confirmed_at, :type => :time),
-		SunspotColumn.new(:dob, :type => :date),
-		SunspotColumn.new(:died_on, :type => :date),
-		SunspotColumn.new(:admit_date, :type => :date),
-		SunspotColumn.new(:reference_date, :type => :date),
-		SunspotColumn.new(:diagnosis_date, :type => :date)
-	]	#	self.all_sunspot_columns = [ 
+	add_sunspot_column(:id, :default => true, :type => :integer)
+	add_sunspot_column(:sampleid, :default => true)
+	add_sunspot_column(:subjectid, :default => true)
+	add_sunspot_column(:sample_super_type,
+		:default => true, :facetable => true)
+	add_sunspot_column(:sample_type,
+		:default => true, :facetable => true)
+	add_sunspot_column(:sample_format, :facetable => true)
+	add_sunspot_column(:sample_temperature, :facetable => true)
+	add_sunspot_column(:project, :facetable => true)
+	add_sunspot_column(:aliquot_or_sample_on_receipt,
+		:facetable => true)
+	add_sunspot_column(:order_no, :facetable => true)
+	add_sunspot_column(:subject_type, :facetable => true)
+	add_sunspot_column(:sex, :facetable => true)
+	add_sunspot_column(:vital_status, :facetable => true)
+	add_sunspot_column(:organization, :facetable => true)
+	add_sunspot_column(:cdcid,
+		:default => true, :type => :integer, :orderable => true)
+	add_sunspot_column(:first_name)
+	add_sunspot_column(:last_name)
+	add_sunspot_column(:icf_master_id)
+	add_sunspot_column(:patid)
+	add_sunspot_column(:studyid)
+	add_sunspot_column(:childid)
+	add_sunspot_column(:external_id)
+	add_sunspot_column(:external_id_source)
+	add_sunspot_column(:sent_to_subject_at, :type => :time)
+	add_sunspot_column(:collected_from_subject_at, :type => :time)
+	add_sunspot_column(:shipped_to_ccls_at, :type => :time)
+	add_sunspot_column(:received_by_ccls_at, :type => :time)
+	add_sunspot_column(:sent_to_lab_at, :type => :time)
+	add_sunspot_column(:received_by_lab_at, :type => :time)
+	add_sunspot_column(:aliquotted_at, :type => :time)
+	add_sunspot_column(:receipt_confirmed_at, :type => :time)
+	add_sunspot_column(:dob, :type => :date)
+	add_sunspot_column(:died_on, :type => :date)
+	add_sunspot_column(:admit_date, :type => :date)
+	add_sunspot_column(:reference_date, :type => :date)
+	add_sunspot_column(:diagnosis_date, :type => :date)
 
 
 #	ADD ...
