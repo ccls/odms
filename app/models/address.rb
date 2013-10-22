@@ -33,6 +33,7 @@ class Address < ActiveRecord::Base
 
 	after_save :reindex_study_subject!, :if => :changed?
 	after_save :regeocode!, :if => :changed?
+	#	can be before as is just flagging it and not reindexing yet.
 	before_destroy :reindex_study_subject!
 
 protected

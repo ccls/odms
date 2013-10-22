@@ -38,6 +38,7 @@ class Addressing < ActiveRecord::Base
 	after_save :create_subject_moved_event, :if => :subject_moved
 
 	after_save :reindex_study_subject!, :if => :changed?
+	#	can be before as is just flagging it and not reindexing yet.
 	before_destroy :reindex_study_subject!
 
 protected

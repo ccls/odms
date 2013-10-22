@@ -319,6 +319,7 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	after_save :reindex_study_subject!, :if => :changed?
+	#	can be before as is just flagging it and not reindexing yet.
 	before_destroy :reindex_study_subject!
 
 protected
