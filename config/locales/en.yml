@@ -12,12 +12,19 @@ en:
       patient:
         organization_id: "Treating Institution"
         hospital_no: "Hospital Record Number"
+        raf_county: "RAF County"
+        raf_zip: "RAF Zip"
       study_subject:
         dob: "Date of Birth"
         organization: "Treating Institution"
         diagnosis_date: "Date of Diagnosis"
         treatment_began_on: "Date Treatment Began"
         hospital_no: "Hospital Record Number"
+        mothers_name: "Mother's Name"
+        mother_maiden_name: "Mother's Maiden Name"
+        fathers_name: "Father's Name"
+        guardians_name: "Guardian's Name"
+        guardian_relationship: "Guardian's Relationship"
       abstract:
         bmb_report_found: BMB Report Found
         bmb_test_date: BMB Test Date

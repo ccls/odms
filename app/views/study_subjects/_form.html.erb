@@ -20,18 +20,15 @@
 
 <div class='name field_wrapper'>
 <%= f.label :name, 'name:' %>
-<%= f.wrapped_text_field :first_name,
-	:label_text => 'first' %>
-<%= f.wrapped_text_field :middle_name,
-	:label_text => 'middle' %>
-<%= f.wrapped_text_field :last_name,
-	:label_text => 'last' %>
+<%= f.wrapped_text_field :first_name, :label_text => 'first' %>
+<%= f.wrapped_text_field :middle_name, :label_text => 'middle' %>
+<%= f.wrapped_text_field :last_name, :label_text => 'last' %>
 </div><!-- class='name field_wrapper' -->
 
-  <%= wrapped_spans :study_subject, :case_control_type,
-		:label_text => 'case/control status:' %>
+<%= wrapped_spans :study_subject, :case_control_type,
+	:label_text => 'case/control status:' %>
 
-  <%= wrapped_spans :study_subject, :subject_type,
+ <%= wrapped_spans :study_subject, :subject_type,
 	:label_text => 'relation to case:' %>
 
 <%= f.wrapped_date_text_field :dob,

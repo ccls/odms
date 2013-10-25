@@ -20,14 +20,14 @@
 <span class='value'><%= @study_subject.case_control_type||'&nbsp;'.html_safe %></span>
 </div><!-- class='case_control_type spans' -->
 
-<%= wrapped_spans :study_subject, :subject_type,
-	:label_text => 'subject type:' %>
-<%= wrapped_date_spans :study_subject, :dob,
-	:label_text => 'date of birth:' %>
-<%= wrapped_spans :study_subject, :birth_year,
-	:label_text => 'birth year:' %>
-<%= wrapped_spans :study_subject, :birth_state,
-	:label_text => 'birth state:' %>
+<%#= wrapped_spans :study_subject, :subject_type, :label_text => 'subject type:' %>
+<%= wrapped_spans :study_subject, :subject_type %>
+<%#= wrapped_date_spans :study_subject, :dob, :label_text => 'date of birth:' %>
+<%= wrapped_date_spans :study_subject, :dob %>
+<%#= wrapped_spans :study_subject, :birth_year, :label_text => 'birth year:' %>
+<%= wrapped_spans :study_subject, :birth_year %>
+<%#= wrapped_spans :study_subject, :birth_state, :label_text => 'birth state:' %>
+<%= wrapped_spans :study_subject, :birth_state %>
 
 <%# unfortunately, I've allowed sex to be blank %>
 <%= wrapped_spans :study_subject, :sex,
@@ -44,10 +44,10 @@
 <%= wrapped_spans :study_subject, :language_names,
 	:label_text => 'languages(s):' %>
 
-<%= wrapped_spans :study_subject, :state_registrar_no,
-	:label_text => 'state registrar no:' %>
-<%= wrapped_spans :study_subject, :local_registrar_no,
-	:label_text => 'local registrar no:' %>
+<%#= wrapped_spans :study_subject, :state_registrar_no, :label_text => 'state registrar no:' %>
+<%= wrapped_spans :study_subject, :state_registrar_no %>
+<%#= wrapped_spans :study_subject, :local_registrar_no, :label_text => 'local registrar no:' %>
+<%= wrapped_spans :study_subject, :local_registrar_no %>
 
 <%= wrapped_spans :study_subject, :state_id_no,
 	:label_text => 'state id no (for legacy subjects):' %>
@@ -57,6 +57,6 @@
 
 <%= wrapped_date_spans :study_subject, :reference_date,
 	:label_text => 'admit (reference) date:' %>
-<%= wrapped_spans :study_subject, :vital_status,
-	:label_text => 'vital status:' %>
+<%#= wrapped_spans :study_subject, :vital_status, :label_text => 'vital status:' %>
+<%= wrapped_spans :study_subject, :vital_status %>
 </div><!-- class='personal' -->
