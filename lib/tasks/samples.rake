@@ -39,15 +39,76 @@ namespace :samples do
 				sample.save!
 			end
 
+			#	momblood
+			#	358
+			#	momurine
+			#	1276
+
 		end	#	%w( momblood momurine ).each do |sample_type_key|
-	end
+	end	#	task :dematernalize => :environment do
+
+	task :synchronize_sample_temperature_with_sample_temperature_id => :environment do
+		SampleFormat.all.each do |sample_temperature|
+			puts "Updating #{Sample.where(:sample_temperature_id => sample_temperature.id).count} " <<
+				"'#{sample_temperature}' samples with :#{sample_temperature.description.titleize}:"
+#			Sample.where(:sample_temperature_id => sample_temperature.id)
+#				.update_all(:sample_temperature => sample_temperature.description.titlize )
+		end # SampleFormat.all
+	end	#	task :synchronize_sample_temperature_with_sample_temperature_id => :environment do
+
+	task :synchronize_sample_format_with_sample_format_id => :environment do
+		SampleFormat.all.each do |sample_format|
+			puts "Updating #{Sample.where(:sample_format_id => sample_format.id).count} " <<
+				"'#{sample_format}' samples with :#{sample_format.description.titleize}:"
+#			Sample.where(:sample_format_id => sample_format.id)
+#				.update_all(:sample_format => sample_format.description.titlize )
+		end # SampleFormat.all
+	end	#	task :synchronize_sample_format_with_sample_format_id => :environment do
 
 end	#	namespace :samples do
 end	#	namespace :app do
 
 __END__
 
-momblood
-358
-momurine
-1276
+roomtemp:
+  id: 1
+  key: roomtemp
+  description: room temperature
+refrigerated:
+  id: 2
+  key: refrigerated
+  description: refrigerated
+legacy:
+  id: 777
+  key: legacy
+  description: legacy data import
+dk:
+  id: 999
+  key: unknown
+  description: storage temperature unknown
+
+
+guthrie:
+  id:  1
+  key:  guthrie
+  description:  guthrie card
+slide:
+  id:  2
+  key:  slide
+  description:  slide
+bag:
+  id: 3
+  key: bag
+  description: vacuum bag
+other:
+  id:  4
+  key:  other
+  description:  Other Source
+legacy:
+  id:  777
+  key:  tracking2k
+  description:  Migrated from CCLS Legacy Tracking2k database
+dk:
+  id: 999
+  key: unknown
+  description:  unknown data source
