@@ -20,9 +20,9 @@ source "http://gems.github.com"
 #
 
 
-
-gem 'sunspot_rails'
-gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
+#	2.1.0 doesn't seem to actually start
+gem 'sunspot_rails', '= 2.0.0'
+gem 'sunspot_solr', '= 2.0.0' # optional pre-packaged Solr distribution for use in development
 gem 'sqlite3'
 gem 'progress_bar'
 

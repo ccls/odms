@@ -180,9 +180,9 @@ GEM
       polyglot (>= 0.3.1)
     ttfunk (1.0.3)
     tzinfo (0.3.38)
-    uglifier (2.2.1)
+    uglifier (2.3.0)
       execjs (>= 0.3.0)
-      multi_json (~> 1.0, >= 1.0.2)
+      json (>= 1.8.0)
     websocket (1.0.7)
     will_paginate (3.0.5)
     xpath (1.0.0)
@@ -223,8 +223,8 @@ DEPENDENCIES
   sass-rails
   simplecov
   sqlite3
-  sunspot_rails
-  sunspot_solr
+  sunspot_rails (= 2.0.0)
+  sunspot_solr (= 2.0.0)
   test-unit
   uglifier (>= 1.0.3)
   will_paginate
