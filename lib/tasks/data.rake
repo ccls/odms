@@ -277,7 +277,7 @@ namespace :data do
 				document_version enrollment icf_master_id
 				icf_master_tracker icf_master_tracker_change icf_master_tracker_update
 				interview language 
-				odms_exception operational_event operational_event_type 
+				operational_event operational_event_type 
 				patient phone_number phone_type
 				project race sample 
 				subject_language subject_race study_subject ).each do |model|

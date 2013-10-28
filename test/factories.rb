@@ -439,18 +439,18 @@ FactoryGirl.define do
 		f.sequence(:description) { |n| "Desc#{n}" }
 	end
 	
-	factory :odms_exception do |f|
-		#
-		#	This is polymorphic, and birth datum is just one example
-		#	of a exceptable.  Could be any model though. (if coded)
-		#
-		#	the creation of a birth_datum_update shouldn't
-		#		create another odms_exception_exceptable.
-		#		(a birth_datum will unless prepared)
-	#	f.association :exceptable, :factory => :birth_datum_update
-	#	f.association :exceptable, :factory => :birth_datum
-		f.association :exceptable, :factory => :candidate_control
-	end
+#	factory :odms_exception do |f|
+#		#
+#		#	This is polymorphic, and birth datum is just one example
+#		#	of a exceptable.  Could be any model though. (if coded)
+#		#
+#		#	the creation of a birth_datum_update shouldn't
+#		#		create another odms_exception_exceptable.
+#		#		(a birth_datum will unless prepared)
+#	#	f.association :exceptable, :factory => :birth_datum_update
+#	#	f.association :exceptable, :factory => :birth_datum
+#		f.association :exceptable, :factory => :candidate_control
+#	end
 	
 	
 	factory :operational_event do |f|

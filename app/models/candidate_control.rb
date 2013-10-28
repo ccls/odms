@@ -5,7 +5,7 @@ class CandidateControl < ActiveRecord::Base
 	belongs_to :birth_datum
 	attr_protected :birth_datum_id, :birth_datum
 
-	has_many :odms_exceptions, :as => :exceptable
+#	has_many :odms_exceptions, :as => :exceptable
 
 	validations_from_yaml_file
 
@@ -132,7 +132,7 @@ class CandidateControl < ActiveRecord::Base
 
 		end
 		options_for_odms_exceptions.each do |options_for_odms_exception|
-			oe = odms_exceptions.create(options_for_odms_exception)
+#			oe = odms_exceptions.create(options_for_odms_exception)
 		end
 #
 #	NOTE will just crash if something happened when run in rake task

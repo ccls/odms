@@ -204,11 +204,11 @@ state_registrar_no
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_control }
-		assert_difference('OdmsException.count',0){
+#		assert_difference('OdmsException.count',0){
 		assert_difference('CandidateControl.count',1){
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
-		} } }
+		} } #}
 	end
 
 	test "should return a String in results for unknown case_control_flag" do

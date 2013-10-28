@@ -129,11 +129,11 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 			".operational_events.count",94){
 		assert_difference("OperationalEventType['screener_complete']"<<
 			".operational_events.count",47){
-		assert_difference('OdmsException.count',0){
+#		assert_difference('OdmsException.count',0){
 			bc_info_update = BcInfoUpdate.new( real_data_file )
 #			bc_info_update.parse_csv_file
 			assert_not_nil bc_info_update.csv_file
-		} } }# } #}
+		} } #}# } #}
 	end
 
 
