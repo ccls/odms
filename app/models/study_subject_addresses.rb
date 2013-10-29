@@ -31,12 +31,12 @@ base.class_eval do
 	end
 
 	def current_mailing_address
-		addressings.current.mailing.first.try(:address)	#	ordered by what?
+		addressings.current.mailing.order('created_at DESC').first.try(:address)
 	end
 	alias_method :mailing_address, :current_mailing_address
 
 	def current_address
-		addressings.current.first.try(:address)	#	ordered by what?
+		addressings.current.order('created_at DESC').first.try(:address)
 	end
 	alias_method :address, :current_address
 
