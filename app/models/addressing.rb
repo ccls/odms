@@ -24,7 +24,9 @@ class Addressing < ActiveRecord::Base
 
 	scope :current,  
 		->{ where(self.arel_table[:current_address].not_eq_all([nil,2])) }
-
+	#
+	#	WHY is current not just YNDK[:yes] ( 1 ), and everything else is historic?
+	#
 	scope :historic, 
 		->{ where(self.arel_table[:current_address].eq_any([nil,2])) }
 
