@@ -144,9 +144,9 @@ pending
 
 #	what about other creation failures
 
-	test "should do what if creating odms exception fails" do
-pending	#	bang or no bang?	#	if this happens, we've got problems
-	end
+#	test "should do what if creating odms exception fails" do
+#pending	#	bang or no bang?	#	if this happens, we've got problems
+#	end
 
 	test "should do what if creating operational event fails" do
 pending	#	bang or no bang?	#	if this happens, we've got problems
