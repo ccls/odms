@@ -19,7 +19,8 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	test "one record birth datum update factory should create birth datum" do
 		study_subject = create_case_for_birth_datum_update
 		assert_difference('BirthDatum.count',1) {	#	after_create should add this
-			birth_datum_update = BirthDatumUpdate.new('test/assets/one_record_birth_datum_update_test_file.csv')
+			birth_datum_update = BirthDatumUpdate.new(
+				'test/assets/one_record_birth_datum_update_test_file.csv')
 			assert_not_nil birth_datum_update.birth_data.first
 			assert_not_nil birth_datum_update.birth_data.first.candidate_control
 		}
@@ -28,7 +29,8 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 	test "one record birth datum update factory should create candidate control" do
 		study_subject = create_case_for_birth_datum_update
 		assert_difference('CandidateControl.count',1) {	#	after_create should add this
-			birth_datum_update = BirthDatumUpdate.new('test/assets/one_record_birth_datum_update_test_file.csv')
+			birth_datum_update = BirthDatumUpdate.new(
+				'test/assets/one_record_birth_datum_update_test_file.csv')
 			assert_not_nil birth_datum_update.birth_data.first
 			assert_not_nil birth_datum_update.birth_data.first.candidate_control
 		}
@@ -50,7 +52,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		assert_difference('BirthDatum.count',2) {
 			#
 			#	Shouldn't happen, but matching case DOES NOT EXIST and get a control
-			#	Should do something special here, like create an OdmsException
 			#
 			birth_datum_update = create_test_file_and_birth_datum_update
 			assert_equal 2, birth_datum_update.birth_data.length
@@ -68,8 +69,6 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 #			:father_ssn => '987654321'})
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',2) {
-#	NOTE this case info is different than the subject so an odms exception is created
-#		assert_difference('OdmsException.count',0) {
 			birth_datum_update = create_test_file_and_birth_datum_update
 
 			require 'csv'
@@ -97,7 +96,7 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 #			assert_equal birth_datum.father_ssn, '987654321'
 
 			f.close
-		} } #	}
+		} }
 	end
 
 	#	string (varchar(255)) columns
@@ -204,11 +203,10 @@ state_registrar_no
 		File.open(csv_test_file_name,'w'){|f|
 			f.puts csv_file_header
 			f.puts csv_file_control }
-#		assert_difference('OdmsException.count',0){
 		assert_difference('CandidateControl.count',1){
 		assert_difference('BirthDatum.count',1){
 			birth_datum_update = create_birth_datum_update_with_file
-		} } #}
+		} }
 	end
 
 	test "should return a String in results for unknown case_control_flag" do
@@ -227,50 +225,10 @@ state_registrar_no
 		} }
 	end
 
-#	test "should create odms exception if birth datum creation fails" do
-#		study_subject = create_case_for_birth_datum_update
-#		assert_difference('OdmsException.count',2) {
-#		assert_difference('CandidateControl.count',0) {
-#		assert_difference('BirthDatum.count',0) {
-#		assert_difference('BirthDatumUpdate.count',1) {
-#			BirthDatum.any_instance.stubs(:create_or_update).returns(false)
-#			birth_datum_update = FactoryGirl.create(:one_record_birth_datum_update)
-#			assert_match /Record failed to save/,
-#				birth_datum_update.odms_exceptions.first.to_s
-#			assert_match /birth_data append/,
-#				birth_datum_update.odms_exceptions.last.name
-#		} } } }
-#	end
-#
-#	These two will seemingly not really happen, but if they do,
-#	I would expect them both to always happen together, logically.
-#	Kinda redundant. If one record fails to save, then the count
-#	should be wrong as well.
-#
-#	test "should create odms exception if birth datum count incorrect" do
-#		study_subject = create_case_for_birth_datum_update
-#		assert_difference('OdmsException.count',1) {
-#		assert_difference('CandidateControl.count',1) {	#	after_create should add this
-#		assert_difference('BirthDatum.count',1) {	#	after_create should add this
-#		assert_difference('BirthDatumUpdate.count',1) {
-#			BirthDatumUpdate.any_instance.stubs(:birth_data_count).returns(0)
-#			birth_datum_update = FactoryGirl.create(:one_record_birth_datum_update)
-#			assert_match /Birth data upload validation failed: incorrect number of birth data records appended to birth_data/,
-#				birth_datum_update.odms_exceptions.last.to_s
-#			assert_match /birth_data append/,
-#				birth_datum_update.odms_exceptions.last.name
-#		} } } }
-#	end
-
-
 
 #	what about other creation failures
 #
 #	test "should do what if creating candidate controls fails" do
-#pending	#	bang or no bang?
-#	end
-#
-#	test "should do what if creating odms exception fails" do
 #pending	#	bang or no bang?
 #	end
 #

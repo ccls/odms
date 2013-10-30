@@ -271,18 +271,15 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate.update_attributes( :updated_at => Date.yesterday)
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',0) {
-#			assert_difference('OdmsException.count',1) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }
-			} } #}
+			} }
 
 			#	MUST use the assigns(:candidate_control) to check for errors
 			assert assigns(:candidate_control).errors.include?(:base)
 #You should probably reject this candidate. Study Subject invalid. Date of birth can't be blank
 
 			candidate.reload
-#			assert_match /Date of Birth can't be blank/,
-#				candidate.odms_exceptions.first.to_s
 			assert         candidate.reject_candidate	#	pre-rejected
 			assert_not_nil candidate.rejection_reason	#	pre-rejected
 			assert_nil     candidate.assigned_on
@@ -305,18 +302,15 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate.update_attributes( :updated_at => Date.yesterday)
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 			assert_difference('StudySubject.count',0) {
-#			assert_difference('OdmsException.count',1) {
 				put :update, :id => candidate.id, :candidate_control => {
 					:reject_candidate => 'false' }
-			} } #}
+			} }
 
 			#	MUST use the assigns(:candidate_control) to check for errors
 			assert assigns(:candidate_control).errors.include?(:base)
 #	You should probably reject this candidate. Study Subject invalid. Sex has not been chosen
 
 			candidate.reload
-#			assert_match /Sex has not been chosen/,
-#				candidate.odms_exceptions.first.to_s
 			assert         candidate.reject_candidate	#	pre-rejected
 			assert_not_nil candidate.rejection_reason	#	pre-rejected
 			assert_nil     candidate.assigned_on

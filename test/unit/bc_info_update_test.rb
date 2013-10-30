@@ -47,56 +47,6 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 ##pending 'Temporarily disabled this validation, but works manually.'
 #	end
 #
-#	test "should create odms exception if bc info creation fails" do
-##	irrelevant for now
-##		study_subject = create_case_for_bc_info_update
-#		assert_difference('OdmsException.count',2) {
-#		assert_difference('BcInfo.count',0) {
-#		assert_difference('BcInfoUpdate.count',1) {
-#			BcInfo.any_instance.stubs(:create_or_update).returns(false)
-#			bc_info_update = FactoryGirl.create(:one_record_bc_info_update)
-#			BcInfo.any_instance.unstub(:create_or_update)
-##puts bc_info_update.odms_exceptions.class	#	crashes?
-##	NoMethodError: undefined method `row' for #<String:0x00000103576fa8>
-##puts bc_info_update.odms_exceptions.length	#	same crash?
-##			assert_equal 2, bc_info_update.odms_exceptions.length
-##puts bc_info_update.odms_exceptions.count	#	works
-##puts bc_info_update.odms_exceptions.first.inspect	#	works
-##puts bc_info_update.odms_exceptions.last.inspect	#	works
-#			assert_match /Record failed to save/,
-#				bc_info_update.odms_exceptions.first.to_s
-#			assert_match /Screening data upload validation failed: incorrect number of screening data records appended to screening_data/,
-#				bc_info_update.odms_exceptions.last.to_s
-#			assert_match /screening_data append/,
-#				bc_info_update.odms_exceptions.first.name
-#			assert_match /screening_data append/,
-#				bc_info_update.odms_exceptions.last.name
-#		} } }
-#	end
-##
-##	These two will seemingly not really happen, but if they do,
-##	I would expect them both to always happen together, logically.
-##	Kinda redundant. If one record fails to save, then the count
-##	should be wrong as well.
-##
-#	test "should create odms exception if bc info count incorrect" do
-##	irrelevant for now
-##		study_subject = create_case_for_bc_info_update
-#		assert_difference('OdmsException.count',2) {# this one, plus "No subject w/icfmasterid
-#		assert_difference('BcInfo.count',1) {	#	after_create should add this
-#		assert_difference('BcInfoUpdate.count',1) {
-#			BcInfoUpdate.any_instance.stubs(:screening_data_count).returns(0)
-#			bc_info_update = FactoryGirl.create(:one_record_bc_info_update)
-#			assert_equal 1, bc_info_update.odms_exceptions.length
-#			assert_match /Screening data upload validation failed: incorrect number of screening data records appended to screening_data/,
-#				bc_info_update.odms_exceptions.last.to_s
-#			assert_match /screening_data append/,
-#				bc_info_update.odms_exceptions.last.name
-#		} } }
-#	end
-
-
-
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
@@ -122,20 +72,15 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 
 		bc_info_update = nil
 
-##		assert_difference('OperationalEvent.count',166){
-#		assert_difference("OperationalEventType['dataconflict']"<<
-#			".operational_events.count",25){	#	returns 0 now as this is not birthdata!
 		assert_difference("OperationalEventType['datachanged']"<<
 			".operational_events.count",94){
 		assert_difference("OperationalEventType['screener_complete']"<<
 			".operational_events.count",47){
-#		assert_difference('OdmsException.count',0){
 			bc_info_update = BcInfoUpdate.new( real_data_file )
 #			bc_info_update.parse_csv_file
 			assert_not_nil bc_info_update.csv_file
-		} } #}# } #}
+		} }
 	end
-
 
 	test "should require csv_file to exist" do
 pending
@@ -143,10 +88,6 @@ pending
 
 
 #	what about other creation failures
-
-#	test "should do what if creating odms exception fails" do
-#pending	#	bang or no bang?	#	if this happens, we've got problems
-#	end
 
 	test "should do what if creating operational event fails" do
 pending	#	bang or no bang?	#	if this happens, we've got problems
