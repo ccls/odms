@@ -11,7 +11,7 @@ if Abstract.respond_to?(:solr_search)
 
 	setup :sanitize_index
 
-	site_editors.each do |cu|
+	site_readers.each do |cu|
 
 		test "should search with #{cu} login" do
 			login_as send(cu)
@@ -141,7 +141,7 @@ if Abstract.respond_to?(:solr_search)
 
 	end
 
-	non_site_editors.each do |cu|
+	non_site_readers.each do |cu|
 
 		test "should NOT search with #{cu} login" do
 			login_as send(cu)

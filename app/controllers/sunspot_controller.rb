@@ -1,6 +1,6 @@
 class SunspotController < ApplicationController
 
-	before_filter :may_edit_required
+	before_filter :may_read_required
 
 protected	#	from what and why?
 
