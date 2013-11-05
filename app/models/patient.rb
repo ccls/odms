@@ -3,9 +3,6 @@ class Patient < ActiveRecord::Base
 
 	belongs_to :study_subject
 	belongs_to :organization
-#	belongs_to :diagnosis
-
-#	delegate :is_other?, :to => :diagnosis, :allow_nil => true, :prefix => true
 
 	attr_protected( :study_subject_id, :study_subject )
 
