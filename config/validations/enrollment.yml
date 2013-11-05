@@ -172,10 +172,9 @@
     :in: <%= ADNA.valid_values %>
   :allow_nil: true
 
+-
+  :attribute: :tracing_status
+  :allow_blank: true
+  :inclusion:
+    :in: <%= Enrollment.valid_tracing_statuses %>
 
-#-
-#  :attribute: :tracing_status
-#  :presence: true
-#  :inclusion:
-#    :in: <%= Enrollment.valid_tracing_statuses %>
-#

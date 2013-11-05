@@ -739,10 +739,10 @@ FactoryGirl.define do
 #		f.sequence(:description) { |n| "Desc#{n}" }
 #	end
 	
-	factory :tracing_status do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :tracing_status do |f|
+#		f.sequence(:key)         { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 #	factory :transfer do |f|
 #		f.association :from_organization, :factory => :organization

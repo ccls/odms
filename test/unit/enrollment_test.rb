@@ -15,6 +15,10 @@ class EnrollmentTest < ActiveSupport::TestCase
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
+	assert_should_accept_only_good_values( :tracing_status,
+		{ :good_values => ( Enrollment.valid_tracing_statuses + [nil] ), 
+			:bad_values  => "I'm not valid" })
+
 	assert_should_create_default_object
 	assert_should_protect(:study_subject_id, :study_subject)
 
@@ -41,10 +45,10 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	assert_should_have_many(:follow_ups)
 	assert_should_belong_to( 
-		:tracing_status,
 		:ineligible_reason,
 		:refusal_reason,
 		:document_version )
+#		:tracing_status,
 #		:project_outcome,
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 

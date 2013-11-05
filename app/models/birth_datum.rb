@@ -301,7 +301,7 @@ class BirthDatum < ActiveRecord::Base
 			:current_address => YNDK[:no],
 			:address_at_diagnosis => YNDK[:no],
 			:data_source_id => DataSource["birthdata"].id,
-			:notes => "Address is mother's residential address found in the CA State Birth Record.")
+			:notes => "Address was mother's residential address at child's birth per CA State Birth Record.")
 
 		unless addressing.save
 			#	Address possibly contained PO Box which is invalid as a residence.

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131017233806) do
+ActiveRecord::Schema.define(:version => 20131105173637) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -538,7 +538,6 @@ ActiveRecord::Schema.define(:version => 20131017233806) do
     t.integer  "study_subject_id"
     t.integer  "project_id"
     t.string   "recruitment_priority"
-    t.integer  "tracing_status_id"
     t.integer  "is_candidate"
     t.integer  "is_eligible"
     t.integer  "ineligible_reason_id"
@@ -572,6 +571,7 @@ ActiveRecord::Schema.define(:version => 20131017233806) do
     t.datetime "updated_at",                  :null => false
     t.datetime "assigned_for_interview_at"
     t.date     "interview_completed_on"
+    t.string   "tracing_status"
   end
 
   add_index "enrollments", ["project_id", "study_subject_id"], :name => "index_enrollments_on_project_id_and_study_subject_id", :unique => true
@@ -1372,17 +1372,6 @@ ActiveRecord::Schema.define(:version => 20131017233806) do
 
   add_index "subject_relationships", ["description"], :name => "index_subject_relationships_on_description", :unique => true
   add_index "subject_relationships", ["key"], :name => "index_subject_relationships_on_key", :unique => true
-
-  create_table "tracing_statuses", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "tracing_statuses", ["description"], :name => "index_tracing_statuses_on_description", :unique => true
-  add_index "tracing_statuses", ["key"], :name => "index_tracing_statuses_on_key", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "uid"

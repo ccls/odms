@@ -8,8 +8,6 @@ class Enrollment < ActiveRecord::Base
 	belongs_to :refusal_reason
 	belongs_to :document_version
 	belongs_to :project
-#	belongs_to :project_outcome
-	belongs_to :tracing_status
 	has_many   :follow_ups
 
 	attr_protected :study_subject_id, :study_subject
@@ -98,7 +96,7 @@ class Enrollment < ActiveRecord::Base
 	#	It will show the existing value first followed by the other valid values.
 	#	This will allow an existing invalid value to show on the selector,
 	#		but should fail on save as it is invalid.  This way it won't
-	#		silently change the phone type.
+	#		silently change the tracing status.
 	def tracing_statuses
 		[self.tracing_status] + ( self.class.valid_tracing_statuses - [self.tracing_status])
 	end

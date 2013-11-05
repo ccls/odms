@@ -134,7 +134,7 @@ Odms::Application.routes.draw do
 	end
 	resources :sample_types
 	resources :subject_relationships
-	resources :tracing_statuses
+#	resources :tracing_statuses
 	resources :zip_codes, :only => [ :index ]
 
 	delete 'logout', :to => 'sessions#destroy'
