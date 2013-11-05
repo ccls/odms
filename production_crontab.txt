@@ -103,6 +103,6 @@ RAILS_ENV=production
 
 #	every 30 minutes
 15,45 * * * * cd /my/ruby/odms/ ; bundle exec rake app:study_subjects:sync_related_icf_master_ids >> /my/ruby/logs/study_subjects_sync_related_icf_master_ids.log
-20,50 * * * * cd /my/ruby/odms/ ; bundle exec rake add:addresses:geocode >> /my/ruby/logs/addresses_geocode.log
+20,50 * * * * cd /my/ruby/odms/ ; bundle exec rake app:addresses:geocode >> /my/ruby/logs/addresses_geocode.log
 0,30 * * * * cd /my/ruby/odms/ ; bundle exec rake app:study_subjects:reindex >> /my/ruby/logs/study_subjects_reindex.log
 
