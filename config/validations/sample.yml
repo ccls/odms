@@ -20,16 +20,6 @@
   :if: :project_id
 
 -
-  :attribute: :sample_format
-  :presence: true
-  :if: :sample_format_id
-
--
-  :attribute: :sample_temperature
-  :presence: true
-  :if: :sample_temperature_id
-
--
   :attribute: :state
   :length:
     :maximum: 250
@@ -54,17 +44,16 @@
   :complete_date: true
   :past_date: true
 
+-
+  :attribute: :sample_temperature
+  :inclusion:
+    :in: <%= Sample.valid_sample_temperatures %>
+  :allow_blank: true
 
-#-
-#  :attribute: :sample_temperature
-#  :presence: true
-#  :inclusion:
-#    :in: <%= Sample.valid_sample_temperatures %>
-#
 
-#-
-#  :attribute: :sample_format
-#  :presence: true
-#  :inclusion:
-#    :in: <%= Sample.valid_sample_formats %>
-#
+-
+  :attribute: :sample_format
+  :inclusion:
+    :in: <%= Sample.valid_sample_formats %>
+  :allow_blank: true
+

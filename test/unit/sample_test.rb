@@ -7,7 +7,7 @@ class SampleTest < ActiveSupport::TestCase
 #	assert_should_have_many( :aliquots, :sample_transfers )
 #	assert_should_belong_to( :unit, :sample_format, :sample_temperature )
 	assert_should_have_many( :sample_transfers )
-	assert_should_belong_to( :sample_format, :sample_temperature )
+#	assert_should_belong_to( :sample_format, :sample_temperature )
 #	because organization is location_id which is now autoset, 
 #	this common class test won't work for it.
 #	assert_should_belong_to( :unit, :organization, :sample_format, :sample_temperature )
@@ -18,8 +18,8 @@ class SampleTest < ActiveSupport::TestCase
 		external_id_source location_id order_no parent_sample_id 
 		quantity_in_sample receipt_confirmed_by receipt_confirmed_at
 		received_by_ccls_at received_by_lab_at sample_collector_id 
-		sample_format sample_format_id sample_temperature 
-		sample_temperature_id sent_to_lab_at sent_to_subject_at
+		sample_format sample_temperature 
+		sent_to_lab_at sent_to_subject_at
 		shipped_to_ccls_at state notes )
 #		shipped_to_ccls_at state unit unit_id notes )
 	protected_attributes = %w( study_subject_id study_subject )
