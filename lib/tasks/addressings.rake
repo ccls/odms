@@ -1,15 +1,15 @@
 namespace :app do
 namespace :addressings do
 
-	task :synchronize_data_source_with_data_source_id => :environment do
-		DataSource.all.each do |data_source|
-			puts "Updating #{Addressing.where(:data_source_id => data_source.id).count} " <<
-				"'#{data_source}' phone numbers with :#{data_source.description}:"
-			#	Don't titleize this
-			Addressing.where(:data_source_id => data_source.id)
-				.update_all(:data_source => data_source.description )
-		end	#	DataSource.all
-	end
+#	task :synchronize_data_source_with_data_source_id => :environment do
+#		DataSource.all.each do |data_source|
+#			puts "Updating #{Addressing.where(:data_source_id => data_source.id).count} " <<
+#				"'#{data_source}' phone numbers with :#{data_source.description}:"
+#			#	Don't titleize this
+#			Addressing.where(:data_source_id => data_source.id)
+#				.update_all(:data_source => data_source.description )
+#		end	#	DataSource.all
+#	end
 
 end	#	namespace :addressings do
 end	#	namespace :app do
