@@ -11,13 +11,31 @@ class Patient < ActiveRecord::Base
 
 	before_save :format_hospital_no, :if => :hospital_no_changed?
 
-	validations_from_yaml_file
-
 	validate :admit_date_is_on_or_after_dob
 	validate :diagnosis_date_is_on_or_after_dob
 	validate :treatment_began_on_is_on_or_after_diagnosis_date
 	validate :treatment_began_on_is_on_or_after_admit_date
 	validate :subject_is_case
+
+	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
+	def self.valid_diagnoses
+		["ALL", "AML", "other diagnosis", "missing data (e.g. legacy nulls)", "unknown diagnosis"]
+	end
+
+	#	This method is predominantly for a form selector.
+	#	It will show the existing value first followed by the other valid values.
+	#	This will allow an existing invalid value to show on the selector,
+	#		but should fail on save as it is invalid.  This way it won't
+	#		silently change the phone type.
+	def diagnoses
+		[self.diagnosis] + ( self.class.valid_diagnoses - [self.diagnosis])
+	end
+
+#	def diagnosis_is_other?
+#		diagnosis == 'other diagnosis'
+#	end
+
+	validations_from_yaml_file
 
 	#	Would it be better to do this before_validation?
 	before_save :format_raf_zip, :if => :raf_zip_changed?

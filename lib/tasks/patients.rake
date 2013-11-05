@@ -4,9 +4,10 @@ namespace :patients do
 	task :synchronize_diagnosis_with_diagnosis_id => :environment do
 		Diagnosis.all.each do |diagnosis|
 			puts "Updating #{Patient.where(:diagnosis_id => diagnosis.id).count} " <<
-				"'#{diagnosis}' patients with :#{diagnosis.description.titleize}:"
+				"'#{diagnosis}' patients with :#{diagnosis.description}:"
+			#	don't titleize this
 #			Patient.where(:diagnosis_id => diagnosis.id)
-#				.update_all(:diagnosis => diagnosis.description.titleize )
+#				.update_all(:diagnosis => diagnosis.description )
 		end	#	Diagnosis.all
 	end
 

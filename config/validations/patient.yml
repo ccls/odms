@@ -53,3 +53,10 @@
     :in: <%= YNDK.valid_values %>
   :allow_nil: true
 
+
+#-
+#  :attribute: :diagnosis
+#  :presence: true
+#  :inclusion:
+#    :in: <%= Patient.valid_diagnoses %>
+#
