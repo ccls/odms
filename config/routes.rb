@@ -75,7 +75,7 @@ Odms::Application.routes.draw do
 	root :to => 'odms#show'
 
 	resources :abstracts, :only => :index
-	resources :address_types
+#	resources :address_types
 	resources :bc_requests, :except => :show do
 		collection { get :confirm }
 		collection { put :activate_all_waitlist }
@@ -93,7 +93,7 @@ Odms::Application.routes.draw do
 		collection { put :assign_selected_for_interview }
 	end
 	resources :data_sources
-	resources :diagnoses
+#	resources :diagnoses
 	resources :document_types
 	resources :document_versions
 	resources :guides
@@ -118,7 +118,7 @@ Odms::Application.routes.draw do
 		end
 	end
 	resources :people
-	resources :phone_types
+#	resources :phone_types
 	resources :projects
 	resources :rafs, :only => [:new,:create,:edit,:update,:show]
 	resources :races
