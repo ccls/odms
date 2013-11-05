@@ -808,7 +808,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('Addressing.count',1) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		}
-		assert_equal AddressType['residence'], study_subject.addresses.last.address_type
+		assert_equal 'Residence', study_subject.addresses.last.address_type
 	end
 
 	test "case birth datum should create addressing even with PO Box" do
@@ -817,7 +817,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			create_matching_case_birth_datum_with_address(study_subject,{
 				:mother_residence_line_1 => 'PO Box 1995' })
 		}
-		assert_equal AddressType['mailing'], study_subject.addresses.last.address_type
+		assert_equal 'Mailing', study_subject.addresses.last.address_type
 	end
 
 	test "case birth datum should create address" do
@@ -825,7 +825,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('Address.count',1) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		}
-		assert_equal AddressType['residence'], study_subject.addresses.last.address_type
+		assert_equal 'Residence', study_subject.addresses.last.address_type
 	end
 
 	test "case birth datum should create address even with PO Box" do
@@ -834,7 +834,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			create_matching_case_birth_datum_with_address(study_subject,{
 				:mother_residence_line_1 => 'PO Box 1995' })
 		}
-		assert_equal AddressType['mailing'], study_subject.addresses.last.address_type
+		assert_equal 'Mailing', study_subject.addresses.last.address_type
 	end
 
 	test "case birth datum should create addressing with address_at_diagnosis=no" do

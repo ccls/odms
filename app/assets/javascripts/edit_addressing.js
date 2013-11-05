@@ -45,7 +45,7 @@ jQuery(function(){
 			return ( /^no$/i.test( 
 				$('#addressing_current_address option:selected').text() ) &&
 				/residence/i.test( 
-					$('#addressing_address_attributes_address_type_id option:selected').text() ) ) }
+					$('#addressing_address_attributes_address_type option:selected').text() ) ) }
 	});
 
 	var county_field = jQuery('#addressing_address_attributes_county');

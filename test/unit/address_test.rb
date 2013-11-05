@@ -37,7 +37,10 @@ class AddressTest < ActiveSupport::TestCase
 
 	assert_should_have_one(:addressing)
 	assert_should_have_many(:interviews)
-	assert_should_initially_belong_to(:address_type)
+
+	assert_should_accept_only_good_values( :address_type,
+		{ :good_values => ( Address.valid_address_types + [nil] ), 
+			:bad_values  => "I'm not valid" })
 
 	test "address factory should create address" do
 		assert_difference('Address.count',1) {
@@ -49,23 +52,9 @@ class AddressTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "address factory should create address type" do
-		assert_difference('AddressType.count',1) {
-			address = FactoryGirl.create(:address)
-			assert_not_nil address.address_type
-		}
-	end
-
 	test "mailing_address should create address" do
 		assert_difference('Address.count',1) {
 			address = FactoryGirl.create(:mailing_address)
-		}
-	end
-
-	test "mailing_address should not create address type" do
-		assert_difference('AddressType.count',0) {
-			address = FactoryGirl.create(:mailing_address)
-			assert_equal address.address_type, AddressType['mailing']
 		}
 	end
 
@@ -75,24 +64,10 @@ class AddressTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "residence_address should create address type" do
-		assert_difference('AddressType.count',0) {
-			address = FactoryGirl.create(:residence_address)
-			assert_equal address.address_type, AddressType['residence']
-		}
-	end
-
 	test "should require address_type" do
 		address = Address.new( :address_type => nil)
 		assert !address.valid?
 		assert !address.errors.include?(:address_type)
-		assert  address.errors.matching?(:address_type_id, "can't be blank")
-	end
-
-	test "should require valid address_type" do
-		address = Address.new( :address_type_id => 0)
-		assert !address.valid?
-		assert !address.errors.include?(:address_type_id)
 		assert  address.errors.matching?(:address_type, "can't be blank")
 	end
 
@@ -162,10 +137,10 @@ class AddressTest < ActiveSupport::TestCase
 		["P.O. Box 123","PO Box 123","P O Box 123","Post Office Box 123"].each do |pobox|
 			address = Address.new( 
 				:line_1 => pobox,
-				:address_type => AddressType['residence']
+				:address_type => 'Residence'
 			)
 			assert !address.valid?
-			assert address.errors.include?(:address_type_id)
+			assert address.errors.include?(:address_type)
 		end
 	end
 

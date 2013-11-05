@@ -219,7 +219,7 @@ protected
 #			'is_valid'        => YNDK[:yes],
 			'data_source_id'  => DataSource['raf'].id,
 			'address_attributes' => { 
-				'address_type_id'  => AddressType['residence'].id
+				'address_type'  => 'Residence'
 		} }
 	end
 

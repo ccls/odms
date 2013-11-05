@@ -166,17 +166,17 @@ FactoryGirl.define do
 	end
 	
 	factory :address do |f|
-		f.association :address_type
+		f.address_type 'Residence'
 		f.sequence(:line_1) { |n| "Box #{n}" }
 		f.city "Berkeley"
 		f.state "CA"
 		f.zip "12345"
 	end
 	factory :mailing_address, :parent => :address do |f|
-		f.address_type { AddressType['mailing'] }
+		f.address_type 'Mailing'
 	end
 	factory :residence_address, :parent => :address do |f|
-		f.address_type { AddressType['residence'] }
+		f.address_type 'Residence'
 	end
 	
 	factory :addressing do |f|
@@ -204,10 +204,10 @@ FactoryGirl.define do
 		f.current_address { YNDK[:yes] }
 	end
 	
-	factory :address_type do |f|
-		f.sequence(:key) { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :address_type do |f|
+#		f.sequence(:key) { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :aliquot do |f|
 		f.association :sample

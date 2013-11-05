@@ -15,6 +15,7 @@ class Address < ActiveRecord::Base
 	scope :needs_geocoded, ->{ where(:needs_geocoded => true) }
 	scope :geocoding_failed, ->{ where(:geocoding_failed => true) }
 	scope :not_geocoding_failed, ->{ where(:geocoding_failed => false) }
+	scope :mailing, ->{ where(:address_type => 'Mailing') }
 
 	#	Returns a string with the city, state and zip
 	def csz
@@ -31,7 +32,7 @@ class Address < ActiveRecord::Base
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
 	def self.valid_address_types
-		["Home", "Mailing", "Business", "Other", "Unknown"]
+		["Residence", "Mailing", "Business", "Other", "Unknown"]
 	end
 
 	# This method is predominantly for a form selector.

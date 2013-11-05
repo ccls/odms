@@ -64,7 +64,7 @@ class AddressingTest < ActiveSupport::TestCase
 		assert_difference('Address.count',1) {
 			addressing = FactoryGirl.create(:mailing_addressing)
 			assert_equal addressing.address.address_type,
-				AddressType['mailing']
+				'Mailing'
 		}
 	end
 
@@ -85,7 +85,7 @@ class AddressingTest < ActiveSupport::TestCase
 		assert_difference('Address.count',1) {
 			addressing = FactoryGirl.create(:current_mailing_addressing)
 			assert_equal addressing.address.address_type,
-				AddressType['mailing']
+				'Mailing'
 		}
 	end
 
@@ -106,7 +106,7 @@ class AddressingTest < ActiveSupport::TestCase
 		assert_difference('Address.count',1) {
 			addressing = FactoryGirl.create(:residence_addressing)
 			assert_equal addressing.address.address_type,
-				AddressType['residence']
+				'Residence'
 		}
 	end
 
@@ -127,7 +127,7 @@ class AddressingTest < ActiveSupport::TestCase
 		assert_difference('Address.count',1) {
 			addressing = FactoryGirl.create(:current_residence_addressing)
 			assert_equal addressing.address.address_type,
-				AddressType['residence']
+				'Residence'
 		}
 	end
 
@@ -334,7 +334,7 @@ class AddressingTest < ActiveSupport::TestCase
 #		assert_difference('Address.count',1) {
 #		assert_difference("Addressing.count", 1 ) {
 #			addressing = create_az_addressing(study_subject,
-#				:address => { :address_type_id => AddressType['mailing'].id })
+#				:address => { :address_type => 'Mailing' })
 #		} } }
 #		assert_study_subject_is_eligible(study_subject)
 #	end
@@ -352,7 +352,7 @@ class AddressingTest < ActiveSupport::TestCase
 
 
 	#	delegated to the address
-	%w( address_type address_type_id
+	%w( address_type 
 			line_1 line_2 street unit city state zip csz county ).each do |method_name|
 		test "should respond to #{method_name}" do
 			addressing = Addressing.new
@@ -456,7 +456,7 @@ protected
 #			:address => nil,	#	block address_attributes
 			:address_id => nil,	#	block address_attributes
 			:address_attributes => FactoryGirl.attributes_for(:address,{
-				:address_type_id => AddressType['residence'].id
+				:address_type => 'Residence'
 			}.merge(options[:address]||{}))
 		}.merge(options[:addressing]||{}))
 	end

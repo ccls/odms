@@ -686,7 +686,7 @@ class RafsControllerTest < ActionController::TestCase
 #			assert_equal addressing.is_valid, YNDK[:yes]
 #			assert_equal addressing.verified_on, Date.current
 #			assert_equal addressing.verified_by_uid, user.uid
-			assert_equal addressing.address.address_type, AddressType['residence']
+			assert_equal addressing.address.address_type, 'Residence'
 		end
 
 		test "should update address with #{cu} login" do
@@ -729,9 +729,6 @@ class RafsControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
 		end
-
-#			'address_attributes' => { 
-#				'address_type_id'  => AddressType['residence'].id
 
 		test "should update and create phone number with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)

@@ -41,10 +41,9 @@
     :message: "Zip should be 12345, 123451234 or 12345-1234"
   :allow_blank: true
 
+-
+  :attribute: :address_type
+  :presence: true
+  :inclusion:
+    :in: <%= Address.valid_address_types %>
 
-#-
-#  :attribute: :address_type
-#  :presence: true
-#  :inclusion:
-#    :in: <%= Address.valid_address_types %>
-#

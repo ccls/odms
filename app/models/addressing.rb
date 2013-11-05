@@ -8,7 +8,7 @@ class Addressing < ActiveRecord::Base
 	belongs_to :data_source
 
 	delegate :is_other?, :to => :data_source, :allow_nil => true, :prefix => true
-	delegate :address_type, :address_type_id,:street,
+	delegate :address_type, :street,
 		:line_1,:line_2,:unit,:city,:state,:zip,:csz,:county,
 			:to => :address, :allow_nil => true
 
@@ -32,7 +32,8 @@ class Addressing < ActiveRecord::Base
 #	scope :historic, 
 #		->{ where(self.arel_table[:current_address].eq_any([nil,2])) }
 
-	scope :mailing, ->{ joins(:address => :address_type).merge(AddressType.mailing) }
+#	scope :mailing, ->{ joins(:address => :address_type).merge(AddressType.mailing) }
+	scope :mailing, ->{ joins(:address).merge(Address.mailing) }
 
 	#	Don't do the rejections here.
 	accepts_nested_attributes_for :address
@@ -82,7 +83,7 @@ protected
 		if ['1','true'].include?(subject_moved) &&
 				current_address == YNDK[:no] &&
 				current_address_was != YNDK[:no] &&
-				address.address_type_id == AddressType['residence'].id
+				address.address_type_id == 'Residence'
 			study_subject.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subject_moved'].id,

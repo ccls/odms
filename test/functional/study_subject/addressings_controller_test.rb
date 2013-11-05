@@ -37,7 +37,7 @@ class StudySubject::AddressingsControllerTest < ActionController::TestCase
 		{ 
 			:address_attributes => FactoryGirl.attributes_for(
 				:address, {
-					:address_type_id => FactoryGirl.create(:address_type).id
+					:address_type => 'Residence'
 				}.merge(options) 
 			) 
 		}
@@ -137,10 +137,9 @@ pending "Doesn't destroy Address yet"
 			assert_difference("StudySubject.find(#{study_subject.id}).addresses.count",1) {
 			assert_difference('Addressing.count',1) {
 			assert_difference('Address.count',1) {
-			assert_difference('AddressType.count',1) {
 				post :create, :study_subject_id => study_subject.id,
 					:addressing => factory_attributes(address_attributes)
-			} } } } }
+			} } } }
 			assert assigns(:study_subject)
 			assert_redirected_to study_subject_contacts_path(study_subject)
 		end
@@ -699,8 +698,8 @@ protected
 
 	def addressing_with_address(options={})
 		FactoryGirl.attributes_for(:addressing, {
-			:address_attributes => FactoryGirl.attributes_for(:address,{
-				:address_type => AddressType['residence']
+			:address_attributes => FactoryGirl.attributes_for(:residence_address,{
+#				:address_type => 'Residence'
 			}.merge(options[:address]||{}))
 		}.merge(options[:addressing]||{}))
 	end

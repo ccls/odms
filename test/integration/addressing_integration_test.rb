@@ -126,7 +126,7 @@ wait_until{ find_field("addressing[address_attributes][city]").value.present? }
 			visit new_study_subject_addressing_path(study_subject)
 			#	residence address and NOT in 'CA'
 			select 'PA', :from => "addressing[address_attributes][state]"
-			select 'residence', :from => "addressing[address_attributes][address_type_id]"
+			select 'Residence', :from => "addressing[address_attributes][address_type]"
 
 			#	we don't want to actually save, so cancel with ....
 			evaluate_script('window.confirm = function() { return false; }')
