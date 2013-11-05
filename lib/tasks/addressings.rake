@@ -6,8 +6,8 @@ namespace :addressings do
 			puts "Updating #{Addressing.where(:data_source_id => data_source.id).count} " <<
 				"'#{data_source}' phone numbers with :#{data_source.description}:"
 			#	Don't titleize this
-#			Addressing.where(:data_source_id => data_source.id)
-#				.update_all(:data_source => data_source.description )
+			Addressing.where(:data_source_id => data_source.id)
+				.update_all(:data_source => data_source.description )
 		end	#	DataSource.all
 	end
 

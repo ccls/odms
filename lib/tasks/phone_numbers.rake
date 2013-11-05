@@ -16,8 +16,8 @@ namespace :phone_numbers do
 			puts "Updating #{PhoneNumber.where(:data_source_id => data_source.id).count} " <<
 				"'#{data_source}' phone numbers with :#{data_source.description}:"
 			#	Don't titleize this
-#			PhoneNumber.where(:data_source_id => data_source.id)
-#				.update_all(:data_source => data_source.description )
+			PhoneNumber.where(:data_source_id => data_source.id)
+				.update_all(:data_source => data_source.description )
 		end	#	DataSource.all
 	end
 

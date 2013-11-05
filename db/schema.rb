@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131105185603) do
+ActiveRecord::Schema.define(:version => 20131105185812) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -306,6 +306,7 @@ ActiveRecord::Schema.define(:version => 20131105185603) do
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
     t.text     "notes"
+    t.string   "data_source"
   end
 
   add_index "addressings", ["address_id"], :name => "index_addressings_on_address_id"
@@ -1016,6 +1017,7 @@ ActiveRecord::Schema.define(:version => 20131105185603) do
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
     t.string   "phone_type"
+    t.string   "data_source"
   end
 
   add_index "phone_numbers", ["study_subject_id"], :name => "index_phone_numbers_on_study_subject_id"

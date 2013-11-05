@@ -303,6 +303,7 @@ Table: addressings
 | created_at           | datetime     | NO   |     | NULL    |                |
 | updated_at           | datetime     | NO   |     | NULL    |                |
 | notes                | text         | YES  |     | NULL    |                |
+| data_source          | varchar(255) | YES  |     | NULL    |                |
 +----------------------+--------------+------+-----+---------+----------------+
 Table: aliquots
 +----------------------------+--------------+------+-----+---------+----------------+
@@ -1045,6 +1046,7 @@ Table: phone_numbers
 | created_at        | datetime     | NO   |     | NULL    |                |
 | updated_at        | datetime     | NO   |     | NULL    |                |
 | phone_type        | varchar(255) | YES  |     | NULL    |                |
+| data_source       | varchar(255) | YES  |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
 Table: phone_types
 +-------------+--------------+------+-----+---------+----------------+
