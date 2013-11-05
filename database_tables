@@ -1012,6 +1012,7 @@ Table: patients
 | created_at                   | datetime     | NO   |     | NULL    |                |
 | updated_at                   | datetime     | NO   |     | NULL    |                |
 | is_study_area_resident       | int(11)      | YES  |     | NULL    |                |
+| diagnosis                    | varchar(255) | YES  |     | NULL    |                |
 +------------------------------+--------------+------+-----+---------+----------------+
 Table: people
 +-----------------+--------------+------+-----+---------+----------------+

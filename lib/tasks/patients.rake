@@ -6,8 +6,8 @@ namespace :patients do
 			puts "Updating #{Patient.where(:diagnosis_id => diagnosis.id).count} " <<
 				"'#{diagnosis}' patients with :#{diagnosis.description}:"
 			#	don't titleize this
-#			Patient.where(:diagnosis_id => diagnosis.id)
-#				.update_all(:diagnosis => diagnosis.description )
+			Patient.where(:diagnosis_id => diagnosis.id)
+				.update_all(:diagnosis => diagnosis.description )
 		end	#	Diagnosis.all
 	end
 
