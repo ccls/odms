@@ -10,11 +10,11 @@ jQuery(function(){
 		});
 	});
 
-	jQuery('#study_subject_patient_attributes_diagnosis_id').smartShow({
+	jQuery('#study_subject_patient_attributes_diagnosis').smartShow({
 		what: 'form.raf div.other_diagnosis',
 		when: function(){ 
 			return /Other/i.test( 
-				$('#study_subject_patient_attributes_diagnosis_id option:selected').text() )
+				$('#study_subject_patient_attributes_diagnosis option:selected').text() )
 		}
 	});
 

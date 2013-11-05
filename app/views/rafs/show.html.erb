@@ -46,7 +46,7 @@
 
 <div class='field_grouper'>
 <%= wrapped_spans :patient, :diagnosis %>
-<% if @patient.try(:diagnosis).try(:is_other?) %>
+<% if @patient.try(:diagnosis_is_other?) %>
 <%= wrapped_spans :patient, :other_diagnosis %>
 <% end %>
 </div>
