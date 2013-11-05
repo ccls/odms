@@ -182,7 +182,7 @@ FactoryGirl.define do
 	factory :addressing do |f|
 		f.association :address
 		f.association :study_subject
-		f.association :data_source
+		f.data_source 'RAF (CCLS Rapid Ascertainment Form)'
 	#	f.is_valid    1
 	#	f.is_verified false
 		f.updated_at Time.now	#	to make it dirty
@@ -282,10 +282,10 @@ FactoryGirl.define do
 		f.state_abbrev 'XX'
 	end
 	
-	factory :data_source do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :data_source do |f|
+#		f.sequence(:key)         { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 #	factory :diagnosis do |f|
 #		f.sequence(:key)         { |n| "Key#{n}"}
@@ -513,7 +513,7 @@ FactoryGirl.define do
 	factory :phone_number do |f|
 		f.association :study_subject
 		f.phone_type 'Home'
-		f.association :data_source
+		f.data_source 'RAF (CCLS Rapid Ascertainment Form)'
 		f.sequence(:phone_number){|n| sprintf("%010d",n) }
 	#	f.is_valid    1
 	#	f.is_verified false		#		2		#	20111110 just noticed that this is boolean and not int for YNDK
