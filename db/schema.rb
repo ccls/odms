@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131105173637) do
+ActiveRecord::Schema.define(:version => 20131105181211) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -291,6 +291,7 @@ ActiveRecord::Schema.define(:version => 20131105173637) do
     t.float    "longitude"
     t.float    "latitude"
     t.text     "geocoding_response"
+    t.string   "address_type"
   end
 
   add_index "addresses", ["external_address_id"], :name => "index_addresses_on_external_address_id", :unique => true
