@@ -33,3 +33,10 @@
     :in: <%= YNDK.valid_values %>
   :allow_nil: true
 
+
+#-
+#  :attribute: :data_source
+#  :presence: true
+#  :inclusion:
+#    :in: <%= PhoneNumber.valid_data_sources %>
+#

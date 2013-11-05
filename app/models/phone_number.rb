@@ -10,8 +10,6 @@ class PhoneNumber < ActiveRecord::Base
 
 	delegate :is_other?, :to => :data_source, :allow_nil => true, :prefix => true
 
-	validations_from_yaml_file
-
 	scope :current,  
 		->{ where(self.arel_table[:current_phone].not_eq_all([nil,2])) }
 	scope :historic, 
@@ -30,6 +28,43 @@ class PhoneNumber < ActiveRecord::Base
 	def to_s
 		phone_number
 	end
+
+	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
+	def self.valid_phone_types
+		["Home", "Mobile", "Work", "Unknown"]
+	end
+
+	#	This method is predominantly for a form selector.
+	#	It will show the existing value first followed by the other valid values.
+	#	This will allow an existing invalid value to show on the selector,
+	#		but should fail on save as it is invalid.  This way it won't
+	#		silently change the phone type.
+	def phone_types
+		[self.phone_type] + ( self.class.valid_phone_types - [self.phone_type])
+	end
+
+	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
+	def self.valid_data_sources
+		["RAF (CCLS Rapid Ascertainment Form)", "Study Consent Form", "Interview with Subject", 
+			"USPS Address Service", "Other Source", "Migrated from Tracking2k database", 
+			"Unknown Data Source", "Provided by Survey Research Center ('SRC')", 
+			"Provided to CCLS by ICF", "Live Birth data from USC" ]
+	end
+
+	# This method is predominantly for a form selector.
+	# It will show the existing value first followed by the other valid values.
+	# This will allow an existing invalid value to show on the selector,
+	#   but should fail on save as it is invalid.  This way it won't
+	#   silently change the phone type.
+	def data_sources
+		[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
+	end
+
+#	def data_source_is_other?
+#		data_source == 'Other Source'
+#	end
+
+	validations_from_yaml_file
 
 	after_save :reindex_study_subject!, :if => :changed?
 	#	can be before as is just flagging it and not reindexing yet.
