@@ -287,10 +287,10 @@ FactoryGirl.define do
 		f.sequence(:description) { |n| "Desc#{n}" }
 	end
 	
-	factory :diagnosis do |f|
-		f.sequence(:key)         { |n| "Key#{n}"}
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :diagnosis do |f|
+#		f.sequence(:key)         { |n| "Key#{n}"}
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :document_type do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
@@ -488,7 +488,7 @@ FactoryGirl.define do
 	#	f.sequence(:organization_id){|n| Hospital.all()[ n % Hospital.count ].organization_id }
 		f.sequence(:organization_id){|n| Hospital.active()[ n % Hospital.active.count ].organization_id }
 	
-		f.diagnosis_id { Diagnosis['ALL'].id }
+		f.diagnosis 'ALL'
 	end
 	factory :patient, :parent => :subjectless_patient do |f|
 		#	really don't see the point of a patient w/o a study_subject

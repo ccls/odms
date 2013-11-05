@@ -21,7 +21,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "#{patient}[hospital_no]", :with => duplicate.hospital_no
 			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
 			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			select "AML",                      :from => "#{patient}[diagnosis]"
 			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
@@ -73,7 +73,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "#{patient}[hospital_no]", :with => duplicate.hospital_no
 			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
 			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			select "AML",                      :from => "#{patient}[diagnosis]"
 			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
@@ -125,7 +125,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "#{patient}[hospital_no]", :with => subject.hospital_no
 			select subject.organization.to_s,  :from => "#{patient}[organization_id]"
 			fill_in "#{patient}[admit_date]",  :with => subject.admit_date.strftime("%m/%d/%Y")
-			select "AML",                      :from => "#{patient}[diagnosis_id]"
+			select "AML",                      :from => "#{patient}[diagnosis]"
 			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
@@ -237,11 +237,11 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			visit new_raf_path
 			patient = 'study_subject[patient_attributes]'
 			assert !find_field("#{patient}[other_diagnosis]").visible?
-			select "other diagnosis", :from => "#{patient}[diagnosis_id]"
+			select "other diagnosis", :from => "#{patient}[diagnosis]"
 			assert find_field("#{patient}[other_diagnosis]").visible?
-			select "",      :from => "#{patient}[diagnosis_id]"
+			select "",      :from => "#{patient}[diagnosis]"
 			assert !find_field("#{patient}[other_diagnosis]").visible?
-			select "other diagnosis", :from => "#{patient}[diagnosis_id]"
+			select "other diagnosis", :from => "#{patient}[diagnosis]"
 			assert find_field("#{patient}[other_diagnosis]").visible?
 		end
 

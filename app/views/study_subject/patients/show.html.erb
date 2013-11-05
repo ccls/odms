@@ -16,7 +16,7 @@
 <%= wrapped_spans(:patient,:diagnosis,
 	:label_text => 'diagnosis:' ) %>
 <%= wrapped_spans(:patient,:other_diagnosis,
-	:label_text => 'other diagnosis:' ) if( @patient.diagnosis == Diagnosis['other'] ) %>
+	:label_text => 'other diagnosis:' ) if( @patient.diagnosis_is_other? ) %>
 <%= wrapped_date_spans(:patient,:treatment_began_on,
 	:label_text => 'treatment began:' ) %>
 <%= wrapped_spans(:patient,:organization,

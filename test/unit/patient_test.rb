@@ -8,16 +8,19 @@ class PatientTest < ActiveSupport::TestCase
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
+	assert_should_accept_only_good_values( :diagnosis, 
+		{ :good_values => Patient.valid_diagnoses,
+			:bad_values  => "I'm not valid" })
+
 	assert_should_create_default_object
 	assert_should_initially_belong_to :study_subject
 	assert_should_initially_belong_to :organization
-	assert_should_initially_belong_to :diagnosis
 	assert_should_protect( :study_subject_id, :study_subject )
 
 
-	attributes = %w( diagnosis_id hospital_no organization_id admit_date
+	attributes = %w( hospital_no organization_id admit_date
 		other_diagnosis diagnosis_date raf_zip raf_county )
-	required = %w( diagnosis_id hospital_no organization_id admit_date )
+	required = %w( hospital_no organization_id admit_date )
 	assert_should_require( required )
 	assert_should_not_require( attributes - required )
 	assert_should_not_require_unique( attributes )
@@ -40,7 +43,7 @@ class PatientTest < ActiveSupport::TestCase
 			assert_not_nil patient.admit_date
 			assert_not_nil patient.hospital_no
 			assert_not_nil patient.organization_id
-			assert_not_nil patient.diagnosis_id
+			assert_not_nil patient.diagnosis
 		}
 	end
 
@@ -564,14 +567,14 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "should require other_diagnosis if diagnosis == other" do
 		assert_difference( "Patient.count", 0 ) do
-			patient = create_patient(:diagnosis => Diagnosis['other'])
+			patient = create_patient(:diagnosis => 'other diagnosis')
 			assert patient.errors.matching?(:other_diagnosis,"can't be blank")
 		end
 	end
 
 	test "should not require other_diagnosis if diagnosis != other" do
 		assert_difference( "Patient.count", 1 ) do
-			patient = create_patient(:diagnosis => Diagnosis['ALL'])
+			patient = create_patient(:diagnosis => 'ALL')
 			assert !patient.errors.matching?(:other_diagnosis,"can't be blank")
 		end
 	end

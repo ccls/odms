@@ -14,11 +14,11 @@ class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			assert !find_field('patient[other_diagnosis]').visible?
 			#	case sensitive? yep.
-			select "other diagnosis", :from => 'patient[diagnosis_id]'
+			select "other diagnosis", :from => 'patient[diagnosis]'
 			assert find_field('patient[other_diagnosis]').visible?
-			select "", :from => 'patient[diagnosis_id]'
+			select "", :from => 'patient[diagnosis]'
 			assert !find_field('patient[other_diagnosis]').visible?
-			select "other diagnosis", :from => 'patient[diagnosis_id]'
+			select "other diagnosis", :from => 'patient[diagnosis]'
 			assert find_field('patient[other_diagnosis]').visible?
 		end
 
