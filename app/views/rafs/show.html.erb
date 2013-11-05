@@ -116,7 +116,7 @@
 <h3>Section 5: Contact Info</h3>
 <div class='current_address raf_section'>
 <% @study_subject.addressings.where(
-		:data_source_id => DataSource['raf'].id).each do |a| %>
+		:data_source => 'RAF (CCLS Rapid Ascertainment Form)').each do |a| %>
 	<% @address = a.address %>
 <div class='field_grouper'>
   <%= wrapped_spans :address, :line_1 %>
@@ -132,7 +132,7 @@
 <% end %>
 
 <% @study_subject.phone_numbers.where(
-		:data_source_id => DataSource['raf'].id).each do |p| %>
+		:data_source => 'RAF (CCLS Rapid Ascertainment Form)').each do |p| %>
 	<% @phone_number = p %>
 <div class='field_grouper'>
 	<%= wrapped_spans :phone_number, :phone_number,

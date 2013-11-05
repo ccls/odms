@@ -2,9 +2,9 @@
 <div class='current_address raf_section'>
 
 <% @raf_addressings = @study_subject.addressings.select{|a|
-	a.data_source_id == DataSource['raf'].id} %>
+	a.data_source == 'RAF (CCLS Rapid Ascertainment Form)'} %>
 <% @raf_addressings << @study_subject.addressings.build(
-	:data_source_id => DataSource['raf'].id) if @raf_addressings.empty? %>
+	:data_source => 'RAF (CCLS Rapid Ascertainment Form)') if @raf_addressings.empty? %>
 
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
@@ -28,9 +28,9 @@
 <% end %><%#= f.fields_for :addressings do |addressing_fields| %>
 
 <% @raf_phone_numbers = @study_subject.phone_numbers.select{|a|
-	a.data_source_id == DataSource['raf'].id} %>
+	a.data_source == 'RAF (CCLS Rapid Ascertainment Form)'} %>
 <% @raf_phone_numbers << @study_subject.phone_numbers.build(
-	:data_source_id => DataSource['raf'].id) while @raf_phone_numbers.length < 2 %>
+	:data_source => 'RAF (CCLS Rapid Ascertainment Form)') while @raf_phone_numbers.length < 2 %>
 
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
