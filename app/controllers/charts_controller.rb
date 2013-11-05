@@ -243,10 +243,13 @@ class ChartsController < ApplicationController
 			.select('sample_type_id, count(*) as count, sample_types.*')
 	end
 	def samples_sample_temperatures
+#		@samples = Sample
+#			.joins(:sample_temperature)
+#			.group('sample_temperature_id')
+#			.select('sample_temperature_id, count(*) as count, sample_temperatures.*')
 		@samples = Sample
-			.joins(:sample_temperature)
-			.group('sample_temperature_id')
-			.select('sample_temperature_id, count(*) as count, sample_temperatures.*')
+			.group(:sample_temperature)
+			.select('sample_temperature, count(*) as count')
 	end
 	def samples_locations
 		@samples = Sample
