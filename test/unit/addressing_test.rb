@@ -13,7 +13,7 @@ class AddressingTest < ActiveSupport::TestCase
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
-	assert_should_initially_belong_to( :study_subject, :address, :data_source )
+	assert_should_initially_belong_to( :study_subject, :address )
 #	assert_should_require_attribute_length( :why_invalid, :how_verified, 
 #			:maximum => 250 )
 	assert_should_require_attribute_length( :notes,
@@ -30,6 +30,9 @@ class AddressingTest < ActiveSupport::TestCase
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
+	assert_should_accept_only_good_values( :data_source,
+		{ :good_values => ( Addressing.valid_data_sources ), 
+			:bad_values  => "I'm not valid" })
 
 	test "addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
@@ -145,27 +148,19 @@ class AddressingTest < ActiveSupport::TestCase
 	test "should require data_source" do
 		addressing = Addressing.new( :data_source => nil)
 		assert !addressing.valid?
-		assert !addressing.errors.include?(:data_source)
-		assert  addressing.errors.matching?(:data_source_id,"can't be blank")
-	end
-
-	test "should require valid data_source" do
-		addressing = Addressing.new( :data_source_id => 0)
-		assert !addressing.valid?
-		assert !addressing.errors.include?(:data_source_id)
 		assert  addressing.errors.matching?(:data_source,"can't be blank")
 	end
 
 	test "should require other_data_source if data_source is other" do
 		#	The factory will create the associations regardless
 		#	so an Address and StudySubject gets created regardless
-		addressing = Addressing.new( :data_source => DataSource['Other'] )
+		addressing = Addressing.new( :data_source => 'Other Source' )
 		assert !addressing.valid?
 		assert addressing.errors.matching?(:other_data_source, "can't be blank")
 	end
 
 	test "should NOT require other_data_source if data_source is not other" do
-		addressing = Addressing.new( :data_source => DataSource['raf'])
+		addressing = Addressing.new( :data_source => 'RAF (CCLS Rapid Ascertainment Form)')
 		addressing.valid?
 		assert !addressing.errors.matching?(:other_data_source, "can't be blank")
 	end

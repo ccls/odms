@@ -11,9 +11,13 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		{ :good_values => PhoneNumber.valid_phone_types,
 			:bad_values  => "I'm not valid" })
 
+	assert_should_accept_only_good_values( :data_source,
+		{ :good_values => ( PhoneNumber.valid_data_sources ), 
+			:bad_values  => "I'm not valid" })
+
 	assert_should_create_default_object
 	assert_should_act_as_list( :scope => :study_subject_id )
-	assert_should_initially_belong_to( :study_subject, :phone_type, :data_source )
+	assert_should_initially_belong_to( :study_subject, :phone_type )
 
 #	attributes = %w( phone_number position study_subject_id
 #		is_primary is_valid
@@ -90,13 +94,13 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	end
 
 	test "should require other_data_source if data_source is other" do
-		phone_number = PhoneNumber.new( :data_source => DataSource['Other'])
+		phone_number = PhoneNumber.new( :data_source => 'Other Source')
 		assert !phone_number.valid?
 		assert  phone_number.errors.matching?(:other_data_source,"can't be blank")
 	end
 
 	test "should NOT require other_data_source if data_source is not other" do
-		phone_number = PhoneNumber.new( :data_source => DataSource['raf'])
+		phone_number = PhoneNumber.new( :data_source => 'RAF (CCLS Rapid Ascertainment Form)')
 		phone_number.valid?
 		assert !phone_number.errors.matching?(:other_data_source,"can't be blank")
 	end
@@ -104,14 +108,6 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	test "should require data_source" do
 		phone_number = PhoneNumber.new( :data_source => nil)
 		assert !phone_number.valid?
-		assert !phone_number.errors.include?(:data_source)
-		assert  phone_number.errors.matching?(:data_source_id,"can't be blank")
-	end
-
-	test "should require valid data_source" do
-		phone_number = PhoneNumber.new( :data_source_id => 0)
-		assert !phone_number.valid?
-		assert !phone_number.errors.include?(:data_source_id)
 		assert  phone_number.errors.matching?(:data_source,"can't be blank")
 	end
 
