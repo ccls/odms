@@ -9,8 +9,6 @@ class Address < ActiveRecord::Base
 
 	validate :address_type_matches_line
 
-	validations_from_yaml_file
-
 	# Would it be better to do this before_validation?
 	before_save :format_zip, :if => :zip_changed?
 
@@ -30,6 +28,22 @@ class Address < ActiveRecord::Base
 	def full
 		"#{street}, #{csz}"
 	end
+
+	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
+	def self.valid_address_types
+		["Home", "Mailing", "Business", "Other", "Unknown"]
+	end
+
+	# This method is predominantly for a form selector.
+	# It will show the existing value first followed by the other valid values.
+	# This will allow an existing invalid value to show on the selector,
+	#   but should fail on save as it is invalid.  This way it won't
+	#   silently change the phone type.
+	def address_types
+		[self.address_type] + ( self.class.valid_address_types - [self.address_type])
+	end
+
+	validations_from_yaml_file
 
 	after_save :reindex_study_subject!, :if => :changed?
 	after_save :regeocode!, :if => :changed?
