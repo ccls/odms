@@ -4,9 +4,10 @@ namespace :addresses do
 	task :synchronize_address_type_with_address_type_id => :environment do
 		AddressType.all.each do |address_type|
 			puts "Updating #{Address.where(:address_type_id => address_type.id).count} " <<
-				"'#{address_type}' addresses with :#{address_type.description.titleize}:"
+				"'#{address_type}' addresses with :#{address_type.key.titleize}:"
+			#	use KEY instead of DESCRIPTION for address type
 #			Address.where(:address_type_id => address_type.id)
-#				.update_all(:address_type => address_type.description.titleize )
+#				.update_all(:address_type => address_type.key.titleize )
 		end	#	AddressType.all
 	end
 
