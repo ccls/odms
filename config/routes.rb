@@ -92,7 +92,7 @@ Odms::Application.routes.draw do
 	resources :controls, :only => [:new,:create,:index] do
 		collection { put :assign_selected_for_interview }
 	end
-	resources :data_sources
+#	resources :data_sources
 #	resources :diagnoses
 	resources :document_types
 	resources :document_versions
@@ -124,10 +124,10 @@ Odms::Application.routes.draw do
 	resources :races
 	resource  :receive_sample, :only => [:new,:create]
 	resources :refusal_reasons
-	resources :sample_formats
+#	resources :sample_formats
 	resources :sample_locations
 	resources :sample_outcomes
-	resources :sample_temperatures
+#	resources :sample_temperatures
 	resources :sample_transfers, :only => [:index,:destroy] do
 		collection { put :confirm }
 		member     { put :update_status }
