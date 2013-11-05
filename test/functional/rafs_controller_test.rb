@@ -215,7 +215,7 @@ class RafsControllerTest < ActionController::TestCase
 			addressing = assigns(:study_subject).addressings.first
 #			assert addressing.is_verified
 #			assert_not_nil addressing.how_verified
-			assert_equal addressing.data_source, DataSource['RAF']
+			assert_equal addressing.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
 			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
 			assert_equal addressing.current_address, YNDK[:yes]
 #			assert_equal addressing.is_valid, YNDK[:yes]
@@ -230,7 +230,7 @@ class RafsControllerTest < ActionController::TestCase
 			phone_number = assigns(:study_subject).phone_numbers.first
 #			assert phone_number.is_verified
 #			assert_not_nil phone_number.how_verified
-			assert_equal phone_number.data_source, DataSource['RAF']
+			assert_equal phone_number.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
 			assert_equal phone_number.current_phone, YNDK[:yes]
 #			assert_equal phone_number.is_valid, YNDK[:yes]
 #			assert_equal phone_number.verified_on, Date.current
@@ -680,7 +680,7 @@ class RafsControllerTest < ActionController::TestCase
 			addressing = assigns(:study_subject).addressings.first
 #			assert addressing.is_verified
 #			assert_not_nil addressing.how_verified
-			assert_equal addressing.data_source, DataSource['RAF']
+			assert_equal addressing.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
 			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
 			assert_equal addressing.current_address, YNDK[:yes]
 #			assert_equal addressing.is_valid, YNDK[:yes]
@@ -760,7 +760,7 @@ class RafsControllerTest < ActionController::TestCase
 			phone_number = assigns(:study_subject).phone_numbers.first
 #			assert phone_number.is_verified
 #			assert_not_nil phone_number.how_verified
-			assert_equal phone_number.data_source, DataSource['RAF']
+			assert_equal phone_number.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
 			assert_equal phone_number.current_phone, YNDK[:yes]
 #			assert_equal phone_number.is_valid, YNDK[:yes]
 #			assert_equal phone_number.verified_on, Date.current
@@ -770,7 +770,7 @@ class RafsControllerTest < ActionController::TestCase
 		test "should update phone number with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
 			phone_number = FactoryGirl.create(:phone_number,:study_subject => study_subject,
-				:data_source => DataSource[:raf] )
+				:data_source => "RAF (CCLS Rapid Ascertainment Form)" )
 			number = phone_number.phone_number.gsub(/\D/,'')
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0) {

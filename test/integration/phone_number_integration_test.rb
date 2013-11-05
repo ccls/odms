@@ -54,11 +54,11 @@ class PhoneNumberIntegrationTest < ActionController::CapybaraIntegrationTest
 			login_as send(cu)
 			visit new_study_subject_phone_number_path(study_subject)
 			assert !find_field('phone_number[other_data_source]').visible?
-			select "Other Source", :from => 'phone_number[data_source_id]'
+			select "Other Source", :from => 'phone_number[data_source]'
 			assert find_field('phone_number[other_data_source]').visible?
-			select "", :from => 'phone_number[data_source_id]'
+			select "", :from => 'phone_number[data_source]'
 			assert !find_field('phone_number[other_data_source]').visible?
-			select "Other Source", :from => 'phone_number[data_source_id]'
+			select "Other Source", :from => 'phone_number[data_source]'
 			assert find_field('phone_number[other_data_source]').visible?
 		end
 
@@ -112,11 +112,11 @@ class PhoneNumberIntegrationTest < ActionController::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_phone_number_path(phone_number.study_subject,phone_number)
 			assert !find_field('phone_number[other_data_source]').visible?
-			select "Other Source", :from => 'phone_number[data_source_id]'
+			select "Other Source", :from => 'phone_number[data_source]'
 			assert find_field('phone_number[other_data_source]').visible?
-			select "", :from => 'phone_number[data_source_id]'
+			select "", :from => 'phone_number[data_source]'
 			assert !find_field('phone_number[other_data_source]').visible?
-			select "Other Source", :from => 'phone_number[data_source_id]'
+			select "Other Source", :from => 'phone_number[data_source]'
 			assert find_field('phone_number[other_data_source]').visible?
 		end
 

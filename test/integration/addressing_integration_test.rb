@@ -81,11 +81,11 @@ wait_until{ find_field("addressing[address_attributes][city]").value.present? }
 			login_as send(cu)
 			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
 			assert !find_field('addressing[other_data_source]').visible?
-			select "Other Source", :from => 'addressing[data_source_id]'
+			select "Other Source", :from => 'addressing[data_source]'
 			assert find_field('addressing[other_data_source]').visible?
-			select "", :from => 'addressing[data_source_id]'
+			select "", :from => 'addressing[data_source]'
 			assert !find_field('addressing[other_data_source]').visible?
-			select "Other Source", :from => 'addressing[data_source_id]'
+			select "Other Source", :from => 'addressing[data_source]'
 			assert find_field('addressing[other_data_source]').visible?
 		end
 
