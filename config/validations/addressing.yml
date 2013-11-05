@@ -5,15 +5,6 @@
   :allow_blank: true
 
 -
-  :attribute: :data_source_id
-  :presence: true
-
--
-  :attribute: :data_source
-  :presence: true
-  :if: :data_source_id
-
--
   :attribute: :other_data_source
   :presence: true
   :if: :data_source_is_other?
@@ -26,10 +17,9 @@
     :in: <%= YNDK.valid_values %>
   :allow_nil: true
 
+-
+  :attribute: :data_source
+  :presence: true
+  :inclusion:
+    :in: <%= Addressing.valid_data_sources %>
 
-#-
-#  :attribute: :data_source
-#  :presence: true
-#  :inclusion:
-#    :in: <%= Addressing.valid_data_sources %>
-#
