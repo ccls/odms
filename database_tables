@@ -1043,6 +1043,7 @@ Table: phone_numbers
 | other_data_source | varchar(255) | YES  |     | NULL    |                |
 | created_at        | datetime     | NO   |     | NULL    |                |
 | updated_at        | datetime     | NO   |     | NULL    |                |
+| phone_type        | varchar(255) | YES  |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
 Table: phone_types
 +-------------+--------------+------+-----+---------+----------------+

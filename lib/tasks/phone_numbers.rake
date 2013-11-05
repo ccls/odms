@@ -6,8 +6,8 @@ namespace :phone_numbers do
 			puts "Updating #{PhoneNumber.where(:phone_type_id => phone_type.id).count} " <<
 				"'#{phone_type}' phone numbers with :#{phone_type.key.titleize}:"
 			# use KEY instead of DESCRIPTION for phone type (actually they are the same)
-#			PhoneNumber.where(:phone_type_id => phone_type.id)
-#				.update_all(:phone_type => phone_type.key.titleize )
+			PhoneNumber.where(:phone_type_id => phone_type.id)
+				.update_all(:phone_type => phone_type.key.titleize )
 		end	#	PhoneType.all
 	end
 
