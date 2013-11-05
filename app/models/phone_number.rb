@@ -11,9 +11,13 @@ class PhoneNumber < ActiveRecord::Base
 	delegate :is_other?, :to => :data_source, :allow_nil => true, :prefix => true
 
 	scope :current,  
-		->{ where(self.arel_table[:current_phone].not_eq_all([nil,2])) }
+		->{ where(:current_phone => YNDK[:yes]) }
 	scope :historic, 
-		->{ where(self.arel_table[:current_phone].eq_any([nil,2])) }
+		->{ where(self.arel_table[:current_phone].not_eq(YNDK[:yes])) }
+#	scope :current,  
+#		->{ where(self.arel_table[:current_phone].not_eq_all([nil,2])) }
+#	scope :historic, 
+#		->{ where(self.arel_table[:current_phone].eq_any([nil,2])) }
 	scope :primary,   
 		->{ where(:is_primary => true) }
 	scope :alternate,  
