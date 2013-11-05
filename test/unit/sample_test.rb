@@ -133,20 +133,6 @@ pending	"no longer required, but may be temporary"
 		assert  sample.errors.matching?(:project,"can't be blank")
 	end
 
-	test "should require valid sample_format if given" do
-		sample = Sample.new( :sample_format_id => 0)
-		assert !sample.valid?
-		assert !sample.errors.include?(:sample_format_id)
-		assert  sample.errors.matching?(:sample_format,"can't be blank")
-	end
-
-	test "should require valid sample_temperature if given" do
-		sample = Sample.new( :sample_temperature_id => 0)
-		assert !sample.valid?
-		assert !sample.errors.include?(:sample_temperature_id)
-		assert  sample.errors.matching?(:sample_temperature,"can't be blank")
-	end
-
 	test "should default location_id to 19" do
 		assert_equal 19, Organization['CCLS'].id
 		sample = Sample.new
