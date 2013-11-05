@@ -20,15 +20,17 @@ class Addressing < ActiveRecord::Base
 	#		to not reject if address fields are blank.
 	attr_accessor :address_required
 
-	validations_from_yaml_file
-
+#	scope :current,  
+#		->{ where(self.arel_table[:current_address].not_eq_all([nil,2])) }
 	scope :current,  
-		->{ where(self.arel_table[:current_address].not_eq_all([nil,2])) }
+		->{ where(:current_address => YNDK[:yes]) }
 	#
 	#	WHY is current not just YNDK[:yes] ( 1 ), and everything else is historic?
 	#
 	scope :historic, 
-		->{ where(self.arel_table[:current_address].eq_any([nil,2])) }
+		->{ where(self.arel_table[:current_address].not_eq(YNDK[:yes])) }
+#	scope :historic, 
+#		->{ where(self.arel_table[:current_address].eq_any([nil,2])) }
 
 	scope :mailing, ->{ joins(:address => :address_type).merge(AddressType.mailing) }
 
@@ -36,6 +38,29 @@ class Addressing < ActiveRecord::Base
 	accepts_nested_attributes_for :address
 
 	attr_accessor :subject_moved
+
+	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
+	def self.valid_data_sources
+		["RAF (CCLS Rapid Ascertainment Form)", "Study Consent Form", "Interview with Subject", 
+			"USPS Address Service", "Other Source", "Migrated from Tracking2k database", 
+			"Unknown Data Source", "Provided by Survey Research Center ('SRC')", 
+			"Provided to CCLS by ICF", "Live Birth data from USC" ]
+	end
+
+	# This method is predominantly for a form selector.
+	# It will show the existing value first followed by the other valid values.
+	# This will allow an existing invalid value to show on the selector,
+	#   but should fail on save as it is invalid.  This way it won't
+	#   silently change the phone type.
+	def data_sources
+		[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
+	end
+
+#	def data_source_is_other?
+#		data_source == 'Other Source'
+#	end
+
+	validations_from_yaml_file
 
 	after_save :create_subject_moved_event, :if => :subject_moved
 
