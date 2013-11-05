@@ -15,11 +15,11 @@ jQuery(function(){
 			return $('#phone_number_is_verified').prop('checked'); }
 	});
 */
-	jQuery('#phone_number_data_source_id').smartShow({
+	jQuery('#phone_number_data_source').smartShow({
 		what: '.other_data_source.field_wrapper',
 		when: function(){ 
 			return /Other Source/.test( 
-				$('#phone_number_data_source_id option:selected').text() ) }
+				$('#phone_number_data_source option:selected').text() ) }
 	});
 
 });
