@@ -45,11 +45,11 @@ jQuery(function(){
 		}
 	});
 
-	jQuery('#patient_diagnosis_id').smartShow({
+	jQuery('#patient_diagnosis').smartShow({
 		what: 'form.edit_patient div.other_diagnosis',
 		when: function(){ 
 			return /Other/i.test( 
-				$('#patient_diagnosis_id option:selected').text() )
+				$('#patient_diagnosis option:selected').text() )
 		}
 	});
 
