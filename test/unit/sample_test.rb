@@ -31,6 +31,15 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :state, :maximum => 250 )
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
+
+	assert_should_accept_only_good_values( :sample_temperature,
+		{ :good_values => ( Sample.valid_sample_temperatures + [nil] ), 
+			:bad_values  => "I'm not valid" })
+
+	assert_should_accept_only_good_values( :sample_format,
+		{ :good_values => ( Sample.valid_sample_formats + [nil] ), 
+			:bad_values  => "I'm not valid" })
+
 	assert_requires_complete_date( :sent_to_subject_at, 
 		:shipped_to_ccls_at, 
 		:received_by_ccls_at, 

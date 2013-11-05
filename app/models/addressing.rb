@@ -5,16 +5,10 @@ class Addressing < ActiveRecord::Base
 	attr_protected :study_subject_id, :study_subject
 
 	belongs_to :address
-	belongs_to :data_source
 
-	delegate :is_other?, :to => :data_source, :allow_nil => true, :prefix => true
 	delegate :address_type, :street,
 		:line_1,:line_2,:unit,:city,:state,:zip,:csz,:county,
 			:to => :address, :allow_nil => true
-
-#	20130517 - do I still use this?
-#	left over from verified_by_uid
-#	attr_accessor :current_user
 
 	#	flag used in study_subject's nested attributes for addressing
 	#		to not reject if address fields are blank.
@@ -22,13 +16,9 @@ class Addressing < ActiveRecord::Base
 
 	scope :current,  
 		->{ where(:current_address => YNDK[:yes]) }
-	#
-	#	WHY is current not just YNDK[:yes] ( 1 ), and everything else is historic?
-	#
 	scope :historic, 
 		->{ where(self.arel_table[:current_address].not_eq(YNDK[:yes])) }
 
-#	scope :mailing, ->{ joins(:address => :address_type).merge(AddressType.mailing) }
 	scope :mailing, ->{ joins(:address).merge(Address.mailing) }
 
 	#	Don't do the rejections here.
@@ -53,9 +43,9 @@ class Addressing < ActiveRecord::Base
 		[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
 	end
 
-#	def data_source_is_other?
-#		data_source == 'Other Source'
-#	end
+	def data_source_is_other?
+		data_source == 'Other Source'
+	end
 
 	validations_from_yaml_file
 

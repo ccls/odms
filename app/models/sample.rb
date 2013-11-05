@@ -10,8 +10,8 @@ class Sample < ActiveRecord::Base
 	has_many :sample_transfers
 	belongs_to :project
 	belongs_to :study_subject, :counter_cache => true
-	belongs_to :sample_format
-	belongs_to :sample_temperature
+#	belongs_to :sample_format
+#	belongs_to :sample_temperature
 
 	attr_protected :study_subject_id, :study_subject
 

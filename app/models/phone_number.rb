@@ -5,9 +5,6 @@ class PhoneNumber < ActiveRecord::Base
 
 	belongs_to :study_subject, :counter_cache => true
 	attr_protected :study_subject_id, :study_subject
-	belongs_to :data_source
-
-	delegate :is_other?, :to => :data_source, :allow_nil => true, :prefix => true
 
 	scope :current,  
 		->{ where(:current_phone => YNDK[:yes]) }
@@ -19,9 +16,6 @@ class PhoneNumber < ActiveRecord::Base
 		->{ where(self.arel_table[:is_primary].eq_any([nil,false])) }
 
 	before_save :format_phone_number, :if => :phone_number_changed?
-
-#	left over from verified_by_uid
-#	attr_accessor :current_user
 
 	#	Returns description
 	def to_s
@@ -59,9 +53,9 @@ class PhoneNumber < ActiveRecord::Base
 		[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
 	end
 
-#	def data_source_is_other?
-#		data_source == 'Other Source'
-#	end
+	def data_source_is_other?
+		data_source == 'Other Source'
+	end
 
 	validations_from_yaml_file
 
