@@ -1249,6 +1249,7 @@ Table: samples
 | created_at                   | datetime     | NO   |     | NULL    |                |
 | updated_at                   | datetime     | NO   |     | NULL    |                |
 | notes                        | text         | YES  |     | NULL    |                |
+| sample_format                | varchar(255) | YES  |     | NULL    |                |
 +------------------------------+--------------+------+-----+---------+----------------+
 Table: schema_migrations
 +---------+--------------+------+-----+---------+-------+

@@ -62,8 +62,8 @@ namespace :samples do
 			#	only have guthrie cards in db
 			puts "Updating #{Sample.where(:sample_format_id => sample_format.id).count} " <<
 				"'#{sample_format}' samples with :#{sample_format.description.titleize}:"
-#			Sample.where(:sample_format_id => sample_format.id)
-#				.update_all(:sample_format => sample_format.description.titleize )
+			Sample.where(:sample_format_id => sample_format.id)
+				.update_all(:sample_format => sample_format.description.titleize )
 		end # SampleFormat.all
 	end	#	task :synchronize_sample_format_with_sample_format_id => :environment do
 
