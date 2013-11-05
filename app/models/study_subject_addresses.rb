@@ -40,6 +40,11 @@ base.class_eval do
 	end
 	alias_method :address, :current_address
 
+
+	def current_address_at_dx
+		addressings.current.order('created_at DESC').first.try(:address_at_diagnosis)
+	end
+
 	#
 	#	Can I delegate these?
 	#	Yes, but for some reason the SQL query for addressing executes twice?

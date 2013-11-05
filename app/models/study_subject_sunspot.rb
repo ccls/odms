@@ -201,6 +201,13 @@ base.class_eval do
 	add_sunspot_column( :father_race_ethn_3, :type => :integer, :facetable => true,
 		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_3).compact.first })
 
+
+	add_sunspot_column( :current_address_count, :type => :integer, :facetable => true,
+		:meth => ->(s){ s.addressings.current.count })
+	add_sunspot_column( :current_address_at_dx, :type => :string, :facetable => true,
+		:meth => ->(s){ YNDK[s.addressings.current.order('created_at DESC').first.try(:address_at_diagnosis)]||'NULL' })
+
+
 	#
 	#	DO NOT ALLOW BLANK VALUES INTO INDEX.  Only really a problem when faceting on blank values.
 	#	However, if it is truely blank, my facet_for helper will deal with it, but can't select it.
