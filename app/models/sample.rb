@@ -19,8 +19,6 @@ class Sample < ActiveRecord::Base
 #	has_one :sample_kit
 #	accepts_nested_attributes_for :sample_kit
 
-	validations_from_yaml_file
-
 	#	unfortunately, there are a few samples that do not have a subject????
 	delegate :subject_type, :vital_status, :subjectid, :childid, :studyid,
 		:first_name, :last_name, :icf_master_id, :patid, :cdcid, :sex,
@@ -61,6 +59,44 @@ class Sample < ActiveRecord::Base
 	def to_s
 		"SampleID #{sampleid}"
 	end
+
+	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
+	def self.valid_sample_temperatures
+#
+#	Only have room temp and refrigerated in db
+#
+#		["room temperature", "refrigerated", "legacy data import", "storage temperature unknown"]
+		["Room Temperature", "Refrigerated"]
+	end
+
+	#	This method is predominantly for a form selector.
+	#	It will show the existing value first followed by the other valid values.
+	#	This will allow an existing invalid value to show on the selector,
+	#		but should fail on save as it is invalid.  This way it won't
+	#		silently change the phone type.
+	def sample_temperatures
+		[self.sample_temperature] + ( self.class.valid_sample_temperatures - [self.sample_temperature])
+	end
+
+	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
+	def self.valid_sample_formats
+#
+#	Only have Guthrie Cards in db
+#
+		["Guthrie Card", "Slide", "Vacuum Bag", "Other Source", 
+			"Migrated from CCLS Legacy Tracking2k database", "Unknown Data Source"]
+	end
+
+	#	This method is predominantly for a form selector.
+	#	It will show the existing value first followed by the other valid values.
+	#	This will allow an existing invalid value to show on the selector,
+	#		but should fail on save as it is invalid.  This way it won't
+	#		silently change the phone type.
+	def sample_formats
+		[self.sample_format] + ( self.class.valid_sample_formats - [self.sample_format])
+	end
+
+	validations_from_yaml_file
 
 	after_save :reindex_study_subject!, :if => :changed?
 	#	can be before as is just flagging it and not reindexing yet.

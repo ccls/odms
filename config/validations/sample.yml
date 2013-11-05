@@ -54,3 +54,17 @@
   :complete_date: true
   :past_date: true
 
+
+#-
+#  :attribute: :sample_temperature
+#  :presence: true
+#  :inclusion:
+#    :in: <%= Sample.valid_sample_temperatures %>
+#
+
+#-
+#  :attribute: :sample_format
+#  :presence: true
+#  :inclusion:
+#    :in: <%= Sample.valid_sample_formats %>
+#

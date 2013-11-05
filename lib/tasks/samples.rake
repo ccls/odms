@@ -48,20 +48,22 @@ namespace :samples do
 	end	#	task :dematernalize => :environment do
 
 	task :synchronize_sample_temperature_with_sample_temperature_id => :environment do
-		SampleFormat.all.each do |sample_temperature|
+		SampleTemperature.all.each do |sample_temperature|
+			#	only have room temp or refrigerated in db
 			puts "Updating #{Sample.where(:sample_temperature_id => sample_temperature.id).count} " <<
 				"'#{sample_temperature}' samples with :#{sample_temperature.description.titleize}:"
 #			Sample.where(:sample_temperature_id => sample_temperature.id)
-#				.update_all(:sample_temperature => sample_temperature.description.titlize )
-		end # SampleFormat.all
+#				.update_all(:sample_temperature => sample_temperature.description.titleize )
+		end # SampleTemperature.all
 	end	#	task :synchronize_sample_temperature_with_sample_temperature_id => :environment do
 
 	task :synchronize_sample_format_with_sample_format_id => :environment do
 		SampleFormat.all.each do |sample_format|
+			#	only have guthrie cards in db
 			puts "Updating #{Sample.where(:sample_format_id => sample_format.id).count} " <<
 				"'#{sample_format}' samples with :#{sample_format.description.titleize}:"
 #			Sample.where(:sample_format_id => sample_format.id)
-#				.update_all(:sample_format => sample_format.description.titlize )
+#				.update_all(:sample_format => sample_format.description.titleize )
 		end # SampleFormat.all
 	end	#	task :synchronize_sample_format_with_sample_format_id => :environment do
 
