@@ -1250,6 +1250,7 @@ Table: samples
 | updated_at                   | datetime     | NO   |     | NULL    |                |
 | notes                        | text         | YES  |     | NULL    |                |
 | sample_format                | varchar(255) | YES  |     | NULL    |                |
+| sample_temperature           | varchar(255) | YES  |     | NULL    |                |
 +------------------------------+--------------+------+-----+---------+----------------+
 Table: schema_migrations
 +---------+--------------+------+-----+---------+-------+

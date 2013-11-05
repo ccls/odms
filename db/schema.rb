@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131105185420) do
+ActiveRecord::Schema.define(:version => 20131105185603) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -1210,6 +1210,7 @@ ActiveRecord::Schema.define(:version => 20131105185420) do
     t.datetime "updated_at",                                                                    :null => false
     t.text     "notes"
     t.string   "sample_format"
+    t.string   "sample_temperature"
   end
 
   create_table "sessions", :force => true do |t|

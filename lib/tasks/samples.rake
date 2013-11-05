@@ -52,8 +52,8 @@ namespace :samples do
 			#	only have room temp or refrigerated in db
 			puts "Updating #{Sample.where(:sample_temperature_id => sample_temperature.id).count} " <<
 				"'#{sample_temperature}' samples with :#{sample_temperature.description.titleize}:"
-#			Sample.where(:sample_temperature_id => sample_temperature.id)
-#				.update_all(:sample_temperature => sample_temperature.description.titleize )
+			Sample.where(:sample_temperature_id => sample_temperature.id)
+				.update_all(:sample_temperature => sample_temperature.description.titleize )
 		end # SampleTemperature.all
 	end	#	task :synchronize_sample_temperature_with_sample_temperature_id => :environment do
 
