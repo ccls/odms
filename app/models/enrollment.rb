@@ -17,8 +17,6 @@ class Enrollment < ActiveRecord::Base
 	delegate :is_other?, :to => :ineligible_reason, :allow_nil => true, :prefix => true
 	delegate :is_other?, :to => :refusal_reason,    :allow_nil => true, :prefix => true
 
-	validations_from_yaml_file
-
 	#	Return boolean of comparison
 	#	true only if is_eligible == 2
 	def is_not_eligible?
@@ -90,6 +88,22 @@ class Enrollment < ActiveRecord::Base
 #		joins(:project).where(Project.arel_table[:key].matches(project_key))
 		joins(:project).merge(Project.by_key(project_key.to_s))
 	end
+
+	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
+	def self.valid_tracing_statuses
+		["Subject Tracing In Progress", "Subject Found", "Unable To Locate", "Unknown Tracing Status"]
+	end
+
+	#	This method is predominantly for a form selector.
+	#	It will show the existing value first followed by the other valid values.
+	#	This will allow an existing invalid value to show on the selector,
+	#		but should fail on save as it is invalid.  This way it won't
+	#		silently change the phone type.
+	def tracing_statuses
+		[self.tracing_status] + ( self.class.valid_tracing_statuses - [self.tracing_status])
+	end
+
+	validations_from_yaml_file
 
 	after_save :reindex_study_subject!, :if => :changed?
 	#	can be before as is just flagging it and not reindexing yet.

@@ -2,6 +2,7 @@ namespace :app do
 namespace :enrollments do
 
 	task :synchronize_tracing_status_with_tracing_status_id => :environment do
+		#	Pointless, as these aren't even used
 		TracingStatus.all.each do |tracing_status|
 			puts "Updating #{Enrollment.where(:tracing_status_id => tracing_status.id).count}" <<
 				" '#{tracing_status}' enrollments with :#{tracing_status.description.titleize}:"
