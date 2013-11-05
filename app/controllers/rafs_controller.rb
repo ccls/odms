@@ -195,7 +195,7 @@ protected
 #			'is_valid'       => YNDK[:yes],
 #			'is_verified'    => true,
 #			'how_verified'   => 'provided on RAF',
-			'data_source_id' => DataSource['raf'].id,
+			'data_source'    => 'RAF (CCLS Rapid Ascertainment Form)',
 			'phone_type'     => 'Home' }
 	end
 
@@ -217,7 +217,7 @@ protected
 #			'is_verified'     => true,
 #			'how_verified'    => 'provided on RAF',
 #			'is_valid'        => YNDK[:yes],
-			'data_source_id'  => DataSource['raf'].id,
+			'data_source'     => 'RAF (CCLS Rapid Ascertainment Form)',
 			'address_attributes' => { 
 				'address_type'  => 'Residence'
 		} }

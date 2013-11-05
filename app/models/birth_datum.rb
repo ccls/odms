@@ -300,7 +300,7 @@ class BirthDatum < ActiveRecord::Base
 			},
 			:current_address => YNDK[:no],
 			:address_at_diagnosis => YNDK[:no],
-			:data_source_id => DataSource["birthdata"].id,
+			:data_source => "Live Birth data from USC",
 			:notes => "Address was mother's residential address at child's birth per CA State Birth Record.")
 
 		unless addressing.save
