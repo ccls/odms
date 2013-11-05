@@ -39,7 +39,7 @@ class AddressTest < ActiveSupport::TestCase
 	assert_should_have_many(:interviews)
 
 	assert_should_accept_only_good_values( :address_type,
-		{ :good_values => ( Address.valid_address_types ), 
+		{ :good_values => Address.valid_address_types, 
 			:bad_values  => "I'm not valid" })
 
 	test "address factory should create address" do

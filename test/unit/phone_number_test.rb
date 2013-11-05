@@ -17,7 +17,7 @@ class PhoneNumberTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_act_as_list( :scope => :study_subject_id )
-	assert_should_initially_belong_to( :study_subject, :phone_type )
+	assert_should_initially_belong_to( :study_subject )
 
 #	attributes = %w( phone_number position study_subject_id
 #		is_primary is_valid
@@ -114,7 +114,6 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	test "should require phone_type" do
 		phone_number = PhoneNumber.new( :phone_type => nil)
 		assert !phone_number.valid?
-		assert !phone_number.errors.include?(:phone_type)
 		assert  phone_number.errors.matching?(:phone_type,"can't be blank")
 	end
 

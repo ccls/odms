@@ -31,7 +31,7 @@ class AddressingTest < ActiveSupport::TestCase
 			:bad_values  => 12345 })
 
 	assert_should_accept_only_good_values( :data_source,
-		{ :good_values => ( Addressing.valid_data_sources ), 
+		{ :good_values => Addressing.valid_data_sources, 
 			:bad_values  => "I'm not valid" })
 
 	test "addressing factory should create addressing" do
