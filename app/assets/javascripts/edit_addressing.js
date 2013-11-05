@@ -25,11 +25,11 @@ jQuery(function(){
 			return $('#addressing_is_verified').prop('checked'); }
 	});
 */
-	jQuery('#addressing_data_source_id').smartShow({
+	jQuery('#addressing_data_source').smartShow({
 		what: '.other_data_source.field_wrapper',
 		when: function(){ 
 			return /Other Source/.test( 
-				$('#addressing_data_source_id option:selected').text() ) }
+				$('#addressing_data_source option:selected').text() ) }
 	});
 
 /*
