@@ -7,6 +7,10 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
+	assert_should_accept_only_good_values( :phone_type, 
+		{ :good_values => PhoneNumber.valid_phone_types,
+			:bad_values  => "I'm not valid" })
+
 	assert_should_create_default_object
 	assert_should_act_as_list( :scope => :study_subject_id )
 	assert_should_initially_belong_to( :study_subject, :phone_type, :data_source )
@@ -34,13 +38,6 @@ class PhoneNumberTest < ActiveSupport::TestCase
 			assert_match /\(\d{3}\) \d{3}-\d{4}/, phone_number.phone_number
 #			assert_equal 1, phone_number.is_valid
 #			assert         !phone_number.is_verified
-		}
-	end
-
-	test "phone_number factory should create phone type" do
-		assert_difference('PhoneType.count',1) {
-			phone_number = FactoryGirl.create(:phone_number)
-			assert_not_nil phone_number.phone_type
 		}
 	end
 
@@ -122,13 +119,6 @@ class PhoneNumberTest < ActiveSupport::TestCase
 		phone_number = PhoneNumber.new( :phone_type => nil)
 		assert !phone_number.valid?
 		assert !phone_number.errors.include?(:phone_type)
-		assert  phone_number.errors.matching?(:phone_type_id,"can't be blank")
-	end
-
-	test "should require valid phone_type" do
-		phone_number = PhoneNumber.new( :phone_type_id => 0)
-		assert !phone_number.valid?
-		assert !phone_number.errors.include?(:phone_type_id)
 		assert  phone_number.errors.matching?(:phone_type,"can't be blank")
 	end
 

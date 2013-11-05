@@ -5,7 +5,6 @@ class PhoneNumber < ActiveRecord::Base
 
 	belongs_to :study_subject, :counter_cache => true
 	attr_protected :study_subject_id, :study_subject
-	belongs_to :phone_type
 	belongs_to :data_source
 
 	delegate :is_other?, :to => :data_source, :allow_nil => true, :prefix => true
@@ -14,10 +13,6 @@ class PhoneNumber < ActiveRecord::Base
 		->{ where(:current_phone => YNDK[:yes]) }
 	scope :historic, 
 		->{ where(self.arel_table[:current_phone].not_eq(YNDK[:yes])) }
-#	scope :current,  
-#		->{ where(self.arel_table[:current_phone].not_eq_all([nil,2])) }
-#	scope :historic, 
-#		->{ where(self.arel_table[:current_phone].eq_any([nil,2])) }
 	scope :primary,   
 		->{ where(:is_primary => true) }
 	scope :alternate,  

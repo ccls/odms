@@ -17,8 +17,10 @@
 
 <hr/>
 
-<%= f.wrapped_collection_select :phone_type_id, PhoneType.all, 
+<%#= f.wrapped_collection_select :phone_type_id, PhoneType.all, 
 			:id, :key, :include_blank => true, :label_text => 'Type:' %>
+<%= f.wrapped_select :phone_type, @phone_number.phone_types,
+			:include_blank => true, :label_text => 'Type:' %>
 <%#
 
 	This selector will uniquely include the existing data source

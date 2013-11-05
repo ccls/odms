@@ -39,7 +39,7 @@ class AddressTest < ActiveSupport::TestCase
 	assert_should_have_many(:interviews)
 
 	assert_should_accept_only_good_values( :address_type,
-		{ :good_values => ( Address.valid_address_types + [nil] ), 
+		{ :good_values => ( Address.valid_address_types ), 
 			:bad_values  => "I'm not valid" })
 
 	test "address factory should create address" do
@@ -67,7 +67,6 @@ class AddressTest < ActiveSupport::TestCase
 	test "should require address_type" do
 		address = Address.new( :address_type => nil)
 		assert !address.valid?
-		assert !address.errors.include?(:address_type)
 		assert  address.errors.matching?(:address_type, "can't be blank")
 	end
 

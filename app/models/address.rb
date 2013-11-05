@@ -5,7 +5,6 @@ class Address < ActiveRecord::Base
 	has_many :interviews
 	has_one :addressing
 	has_one :study_subject, :through => :addressing
-	belongs_to :address_type
 
 	validate :address_type_matches_line
 
@@ -72,8 +71,8 @@ protected
 		#	It is inevitable that this will match too much
 		#	Pobox Street?
 		if(( line_1 =~ /p.*o.*box/i ) &&
-			( address_type_id.to_s == '1' ))	#	1 is 'residence'
-			errors.add(:address_type_id,
+			( address_type == 'Residence' ))
+			errors.add(:address_type,
 				"Address type must not be residence with PO Box") 
 		end
 	end

@@ -1,16 +1,10 @@
 -
   :attributes:
-  - :address_type_id
   - :line_1
   - :city
   - :state
   - :zip
   :presence: true
-
--
-  :attribute: :address_type
-  :presence: true
-  :if: :address_type_id
 
 -
   :attributes:

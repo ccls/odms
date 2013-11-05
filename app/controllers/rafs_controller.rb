@@ -196,7 +196,7 @@ protected
 #			'is_verified'    => true,
 #			'how_verified'   => 'provided on RAF',
 			'data_source_id' => DataSource['raf'].id,
-			'phone_type_id'  => PhoneType['home'].id }
+			'phone_type'     => 'Home' }
 	end
 
 	def add_default_raf_phone_number_attributes(study_subject_params)

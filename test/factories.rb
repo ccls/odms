@@ -512,7 +512,7 @@ FactoryGirl.define do
 	
 	factory :phone_number do |f|
 		f.association :study_subject
-		f.association :phone_type
+		f.phone_type 'Home'
 		f.association :data_source
 		f.sequence(:phone_number){|n| sprintf("%010d",n) }
 	#	f.is_valid    1
@@ -534,10 +534,10 @@ FactoryGirl.define do
 		f.is_primary false
 	end
 	
-	factory :phone_type do |f|
-		f.sequence(:key)  { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :phone_type do |f|
+#		f.sequence(:key)  { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 #	factory :project_outcome do |f|
 #		f.sequence(:key)         { |n| "Key#{n}" }

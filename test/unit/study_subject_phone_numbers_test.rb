@@ -10,7 +10,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 			study_subject = create_study_subject(
 				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
 					:data_source_id => DataSource['unknown'].id,
-					:phone_type_id  => PhoneType['home'].id )])
+					:phone_type     => 'Home' )])
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} }

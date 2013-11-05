@@ -788,7 +788,7 @@ class RafsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:case_study_subject)
 			phone_number = FactoryGirl.create(:phone_number,:study_subject => study_subject,
 				:current_phone => YNDK[:no],
-				:phone_type_id => PhoneType['mobile'].id )
+				:phone_type    => 'Mobile' )
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0) {
 				put :update, :id => study_subject.id, 
@@ -798,7 +798,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject)
 			phone_number.reload
 			assert_equal YNDK[:no], phone_number.current_phone
-			assert_equal PhoneType['mobile'].id, phone_number.phone_type_id
+			assert_equal 'Mobile', phone_number.phone_type
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
 		end

@@ -20,8 +20,6 @@ class Addressing < ActiveRecord::Base
 	#		to not reject if address fields are blank.
 	attr_accessor :address_required
 
-#	scope :current,  
-#		->{ where(self.arel_table[:current_address].not_eq_all([nil,2])) }
 	scope :current,  
 		->{ where(:current_address => YNDK[:yes]) }
 	#
@@ -29,8 +27,6 @@ class Addressing < ActiveRecord::Base
 	#
 	scope :historic, 
 		->{ where(self.arel_table[:current_address].not_eq(YNDK[:yes])) }
-#	scope :historic, 
-#		->{ where(self.arel_table[:current_address].eq_any([nil,2])) }
 
 #	scope :mailing, ->{ joins(:address => :address_type).merge(AddressType.mailing) }
 	scope :mailing, ->{ joins(:address).merge(Address.mailing) }
@@ -83,7 +79,7 @@ protected
 		if ['1','true'].include?(subject_moved) &&
 				current_address == YNDK[:no] &&
 				current_address_was != YNDK[:no] &&
-				address.address_type_id == 'Residence'
+				address.address_type == 'Residence'
 			study_subject.operational_events.create!(
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['subject_moved'].id,

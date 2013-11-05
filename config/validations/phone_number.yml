@@ -2,18 +2,12 @@
   :attributes: 
   - :phone_number
   - :data_source_id
-  - :phone_type_id
   :presence: true
 
 -
   :attribute: :data_source
   :presence: true
   :if: :data_source_id
-
--
-  :attribute: :phone_type
-  :presence: true
-  :if: :phone_type_id
 
 -
   :attribute: :other_data_source
@@ -33,6 +27,11 @@
     :in: <%= YNDK.valid_values %>
   :allow_nil: true
 
+-
+  :attribute: :phone_type
+  :presence: true
+  :inclusion:
+    :in: <%= PhoneNumber.valid_phone_types %>
 
 #-
 #  :attribute: :data_source
