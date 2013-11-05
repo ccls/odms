@@ -254,27 +254,25 @@ class AddressingTest < ActiveSupport::TestCase
 #	end
 
 	test "current scope should only return current addressings" do
-		create_addressing(:current_address => YNDK[:yes])
-		a = create_addressing(:current_address => YNDK[:no])
-		create_addressing(:current_address => YNDK[:dk])
+		y = create_addressing(:current_address => YNDK[:yes])
+		n = create_addressing(:current_address => YNDK[:no])
+		d = create_addressing(:current_address => YNDK[:dk])
 		addressings = Addressing.current
-		assert_equal 2, addressings.length
-		assert !addressings.include?( a )
-		addressings.each do |addressing|
-			assert [1,999].include?(addressing.current_address)
-		end
+		assert_equal 1, addressings.length
+		assert  addressings.include?( y )
+		assert !addressings.include?( n )
+		assert !addressings.include?( d )
 	end
 
 	test "historic scope should only return historic addressings" do
-		create_addressing(:current_address => YNDK[:yes])
-		a = create_addressing(:current_address => YNDK[:no])
-		create_addressing(:current_address => YNDK[:dk])
+		y = create_addressing(:current_address => YNDK[:yes])
+		n = create_addressing(:current_address => YNDK[:no])
+		d = create_addressing(:current_address => YNDK[:dk])
 		addressings = Addressing.historic
-		assert_equal 1, addressings.length
-		assert_equal a, addressings.first
-		addressings.each do |addressing|
-			assert ![1,999].include?(addressing.current_address)
-		end
+		assert_equal 2, addressings.length
+		assert !addressings.include?( y )
+		assert  addressings.include?( n )
+		assert  addressings.include?( d )
 	end
 
 	test "mailing scope should only return mailing addressings" do

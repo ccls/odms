@@ -138,27 +138,25 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	end
 
 	test "current scope should only return current phone_numbers" do
-		create_phone_number(:current_phone => YNDK[:yes])
-		h = create_phone_number(:current_phone => YNDK[:no])
-		create_phone_number(:current_phone => YNDK[:dk])
+		y = create_phone_number(:current_phone => YNDK[:yes])
+		n = create_phone_number(:current_phone => YNDK[:no])
+		d = create_phone_number(:current_phone => YNDK[:dk])
 		phone_numbers = PhoneNumber.current
-		assert_equal 2, phone_numbers.length
-		assert !phone_numbers.include?(h)
-		phone_numbers.each do |phone_number|
-			assert [1,999].include?(phone_number.current_phone)
-		end
+		assert_equal 1, phone_numbers.length
+		assert  phone_numbers.include?(y)
+		assert !phone_numbers.include?(n)
+		assert !phone_numbers.include?(d)
 	end
 
 	test "historic scope should only return historic phone_numbers" do
-		create_phone_number(:current_phone => YNDK[:yes])
-		h = create_phone_number(:current_phone => YNDK[:no])
-		create_phone_number(:current_phone => YNDK[:dk])
+		y = create_phone_number(:current_phone => YNDK[:yes])
+		n = create_phone_number(:current_phone => YNDK[:no])
+		d = create_phone_number(:current_phone => YNDK[:dk])
 		phone_numbers = PhoneNumber.historic
-		assert_equal 1, phone_numbers.length
-		assert_equal h, phone_numbers.first
-		phone_numbers.each do |phone_number|
-			assert ![1,999].include?(phone_number.current_phone)
-		end
+		assert_equal 2, phone_numbers.length
+		assert !phone_numbers.include?(y)
+		assert  phone_numbers.include?(n)
+		assert  phone_numbers.include?(d)
 	end
 
 	test "primary scope should only return primary phone_numbers" do
