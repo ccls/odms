@@ -67,7 +67,7 @@ form.edit_addressing > div.moved > div.subject_moved > label {
 div.is_valid,
 div.is_verified,
 */
-div.data_source_id {
+div.data_source {
 	margin-right: 10px;
 }
 /*

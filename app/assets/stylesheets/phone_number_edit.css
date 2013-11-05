@@ -26,7 +26,7 @@ form.edit_phone_number div.source > div {
 form.edit_phone_number div.is_valid,
 form.edit_phone_number div.is_verified,
 */
-form.edit_phone_number div.data_source_id {
+form.edit_phone_number div.data_source {
 	margin-right: 10px;
 }
 /*
