@@ -120,7 +120,7 @@ form.raf {
 			width: 200px;
 	}	}
 	.raf_zip ,
-	.diagnosis_id ,
+	.diagnosis ,
 	.admitting_oncologist ,
 	.dob ,
 	.hospital_no {
@@ -143,7 +143,7 @@ form.raf {
 		float:right;
 		margin-right:10px;
 	}
-	div.diagnosis_id, div.other_diagnosis {
+	div.diagnosis, div.other_diagnosis {
 		label {
 			padding-right: 10px;
 			width:auto;

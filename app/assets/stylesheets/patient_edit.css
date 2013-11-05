@@ -16,12 +16,12 @@
 	background-color: #FDD;
 	border: 1px solid #F88;
 }
-.diagnosis_id,
+.diagnosis,
 .other_diagnosis {
 	display:inline-block;
 	vertical-align:top;
 }
-.diagnosis_id {
+.diagnosis {
 	margin-right: 10px;
 }
 .other_diagnosis label {
