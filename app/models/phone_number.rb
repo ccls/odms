@@ -48,7 +48,7 @@ class PhoneNumber < ActiveRecord::Base
 	# It will show the existing value first followed by the other valid values.
 	# This will allow an existing invalid value to show on the selector,
 	#   but should fail on save as it is invalid.  This way it won't
-	#   silently change the phone type.
+	#   silently change the data source.
 	def data_sources
 		[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
 	end

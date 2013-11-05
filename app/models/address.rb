@@ -38,7 +38,7 @@ class Address < ActiveRecord::Base
 	# It will show the existing value first followed by the other valid values.
 	# This will allow an existing invalid value to show on the selector,
 	#   but should fail on save as it is invalid.  This way it won't
-	#   silently change the phone type.
+	#   silently change the address type.
 	def address_types
 		[self.address_type] + ( self.class.valid_address_types - [self.address_type])
 	end

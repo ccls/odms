@@ -23,7 +23,7 @@ class Patient < ActiveRecord::Base
 	#	It will show the existing value first followed by the other valid values.
 	#	This will allow an existing invalid value to show on the selector,
 	#		but should fail on save as it is invalid.  This way it won't
-	#		silently change the phone type.
+	#		silently change the diagnosis.
 	def diagnoses
 		[self.diagnosis] + ( self.class.valid_diagnoses - [self.diagnosis])
 	end
