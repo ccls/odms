@@ -29,7 +29,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 
 	def factory_attributes(options={})
 		FactoryGirl.attributes_for(:phone_number,{
-			:data_source => 'unknown data source',
+			:data_source => 'Unknown Data Source',
 			:phone_type  => 'Unknown'
 		}.merge(options))
 	end

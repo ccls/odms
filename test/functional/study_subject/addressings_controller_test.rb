@@ -29,7 +29,7 @@ class StudySubject::AddressingsControllerTest < ActionController::TestCase
 
 	def factory_attributes(options={})
 		FactoryGirl.attributes_for(:addressing,{
-			:data_source => 'unknown data source'
+			:data_source => 'Unknown Data Source'
 		}.merge(options))
 	end
 
