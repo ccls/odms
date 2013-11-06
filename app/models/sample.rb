@@ -148,6 +148,8 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:admit_date, :type => :date)
 	add_sunspot_column(:reference_date, :type => :date)
 	add_sunspot_column(:diagnosis_date, :type => :date)
+	add_sunspot_column(:has_study_subject, :facetable => true,
+		:meth => ->(s){ ( s.study_subject_id.present? ) ? 'Yes' : 'No'   })
 
 
 #	ADD ...
