@@ -35,7 +35,8 @@ class PhoneNumber < ActiveRecord::Base
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def phone_types
 	#	[self.phone_type] + ( self.class.valid_phone_types - [self.phone_type])
-		[self.phone_type].compact + ( self.class.valid_phone_types - [self.phone_type])
+	#	[self.phone_type].compact + ( self.class.valid_phone_types - [self.phone_type])
+		([self.phone_type] + self.class.valid_phone_types ).compact.uniq
 	end
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling

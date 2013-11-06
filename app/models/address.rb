@@ -42,7 +42,8 @@ class Address < ActiveRecord::Base
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def address_types
 	#	[self.address_type] + ( self.class.valid_address_types - [self.address_type])
-		[self.address_type].compact + ( self.class.valid_address_types - [self.address_type])
+	#	[self.address_type].compact + ( self.class.valid_address_types - [self.address_type])
+		([self.address_type] + self.class.valid_address_types ).compact.uniq
 	end
 
 	validations_from_yaml_file

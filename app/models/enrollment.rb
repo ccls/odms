@@ -100,7 +100,8 @@ class Enrollment < ActiveRecord::Base
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def tracing_statuses
 	#	[self.tracing_status] + ( self.class.valid_tracing_statuses - [self.tracing_status])
-		[self.tracing_status].compact + ( self.class.valid_tracing_statuses - [self.tracing_status])
+	#	[self.tracing_status].compact + ( self.class.valid_tracing_statuses - [self.tracing_status])
+		([self.tracing_status] + self.class.valid_tracing_statuses ).compact.uniq
 	end
 
 	validations_from_yaml_file

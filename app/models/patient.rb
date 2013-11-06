@@ -27,7 +27,8 @@ class Patient < ActiveRecord::Base
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def diagnoses
 	#	[self.diagnosis] + ( self.class.valid_diagnoses - [self.diagnosis])
-		[self.diagnosis].compact + ( self.class.valid_diagnoses - [self.diagnosis])
+	#	[self.diagnosis].compact + ( self.class.valid_diagnoses - [self.diagnosis])
+		([self.diagnosis] + self.class.valid_diagnoses ).compact.uniq
 	end
 
 	def diagnosis_is_other?

@@ -27,7 +27,8 @@ base.class_eval do
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def vital_statuses
 	#	[self.vital_status] + ( self.class.valid_vital_statuses - [self.vital_status])
-		[self.vital_status].compact + ( self.class.valid_vital_statuses - [self.vital_status])
+	#	[self.vital_status].compact + ( self.class.valid_vital_statuses - [self.vital_status])
+		([self.vital_status] + self.class.valid_vital_statuses ).compact.uniq
 	end
 
 	def is_living?

@@ -25,7 +25,7 @@ base.class_eval do
 	#		but should fail on save as it is invalid.  This way it won't
 	#		silently change the subject types.
 	#	def subject_types
-	#		[self.subject_type] + ( self.class.valid_subject_types - [self.subject_type])
+	#		([self.subject_type] + self.class.valid_subject_types ).compact.uniq
 	#	end
 
 	def is_child?

@@ -42,7 +42,8 @@ class Addressing < ActiveRecord::Base
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def data_sources
 	#	[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
-		[self.data_source].compact + ( self.class.valid_data_sources - [self.data_source])
+	#	[self.data_source].compact + ( self.class.valid_data_sources - [self.data_source])
+		([self.data_source] + self.class.valid_data_sources ).compact.uniq
 	end
 
 	def data_source_is_other?
