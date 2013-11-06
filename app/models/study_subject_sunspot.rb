@@ -19,7 +19,7 @@ base.class_eval do
 #		newest_birth_data.collect(&:mother_ssn).collect(&:to_ssn).compact.first
 #	end
 
-	#	is text so NEED actual method (at least for now)
+	#	is indexed as text too, so NEED actual method (at least for now)
 	def derived_state_file_no_last6
 		newest_birth_data.collect(&:derived_state_file_no_last6).compact.first
 	end
