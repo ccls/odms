@@ -32,8 +32,10 @@ class PhoneNumber < ActiveRecord::Base
 	#	This will allow an existing invalid value to show on the selector,
 	#		but should fail on save as it is invalid.  This way it won't
 	#		silently change the phone type.
+	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def phone_types
-		[self.phone_type] + ( self.class.valid_phone_types - [self.phone_type])
+	#	[self.phone_type] + ( self.class.valid_phone_types - [self.phone_type])
+		[self.phone_type].compact + ( self.class.valid_phone_types - [self.phone_type])
 	end
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
@@ -49,8 +51,10 @@ class PhoneNumber < ActiveRecord::Base
 	# This will allow an existing invalid value to show on the selector,
 	#   but should fail on save as it is invalid.  This way it won't
 	#   silently change the data source.
+	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def data_sources
-		[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
+	#	[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
+		[self.data_source].compact + ( self.class.valid_data_sources - [self.data_source])
 	end
 
 	def data_source_is_other?

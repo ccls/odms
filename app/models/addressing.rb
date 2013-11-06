@@ -39,8 +39,10 @@ class Addressing < ActiveRecord::Base
 	# This will allow an existing invalid value to show on the selector,
 	#   but should fail on save as it is invalid.  This way it won't
 	#   silently change the data source.
+	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def data_sources
-		[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
+	#	[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
+		[self.data_source].compact + ( self.class.valid_data_sources - [self.data_source])
 	end
 
 	def data_source_is_other?

@@ -24,8 +24,10 @@ base.class_eval do
 	#	This will allow an existing invalid value to show on the selector,
 	#		but should fail on save as it is invalid.  This way it won't
 	#		silently change the vital status.
+	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def vital_statuses
-		[self.vital_status] + ( self.class.valid_vital_statuses - [self.vital_status])
+	#	[self.vital_status] + ( self.class.valid_vital_statuses - [self.vital_status])
+		[self.vital_status].compact + ( self.class.valid_vital_statuses - [self.vital_status])
 	end
 
 	def is_living?

@@ -15,6 +15,19 @@ base.class_eval do
 		%w( Case Control Mother Father Twin )
 	end
 
+	#
+	#	As this attribute shouldn't ever be changed, I haven't created
+	#	the "standard" subject_types method.
+	#
+	#	This method is predominantly for a form selector.
+	#	It will show the existing value first followed by the other valid values.
+	#	This will allow an existing invalid value to show on the selector,
+	#		but should fail on save as it is invalid.  This way it won't
+	#		silently change the subject types.
+	#	def subject_types
+	#		[self.subject_type] + ( self.class.valid_subject_types - [self.subject_type])
+	#	end
+
 	def is_child?
 		is_case_or_control?
 	end

@@ -72,8 +72,10 @@ class Sample < ActiveRecord::Base
 	#	This will allow an existing invalid value to show on the selector,
 	#		but should fail on save as it is invalid.  This way it won't
 	#		silently change the phone type.
+	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def sample_temperatures
-		[self.sample_temperature] + ( self.class.valid_sample_temperatures - [self.sample_temperature])
+	#	[self.sample_temperature] + ( self.class.valid_sample_temperatures - [self.sample_temperature])
+		[self.sample_temperature].compact + ( self.class.valid_sample_temperatures - [self.sample_temperature])
 	end
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
@@ -90,8 +92,10 @@ class Sample < ActiveRecord::Base
 	#	This will allow an existing invalid value to show on the selector,
 	#		but should fail on save as it is invalid.  This way it won't
 	#		silently change the phone type.
+	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def sample_formats
-		[self.sample_format] + ( self.class.valid_sample_formats - [self.sample_format])
+	#	[self.sample_format] + ( self.class.valid_sample_formats - [self.sample_format])
+		[self.sample_format].compact + ( self.class.valid_sample_formats - [self.sample_format])
 	end
 
 	validations_from_yaml_file

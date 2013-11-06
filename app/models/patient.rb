@@ -24,8 +24,10 @@ class Patient < ActiveRecord::Base
 	#	This will allow an existing invalid value to show on the selector,
 	#		but should fail on save as it is invalid.  This way it won't
 	#		silently change the diagnosis.
+	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def diagnoses
-		[self.diagnosis] + ( self.class.valid_diagnoses - [self.diagnosis])
+	#	[self.diagnosis] + ( self.class.valid_diagnoses - [self.diagnosis])
+		[self.diagnosis].compact + ( self.class.valid_diagnoses - [self.diagnosis])
 	end
 
 	def diagnosis_is_other?

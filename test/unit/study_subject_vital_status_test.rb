@@ -3,8 +3,8 @@ require 'test_helper'
 class StudySubjectVitalStatusTest < ActiveSupport::TestCase
 
 	assert_should_accept_only_good_values( :vital_status,
-		{ :good_values => ["Living", "Deceased", "Refused to State", "Don't Know"],
-			:bad_values  => 'X', :model => 'StudySubject' })
+		{ :good_values => StudySubject.valid_vital_statuses,
+			:bad_values  => "I'm not valid", :model => 'StudySubject' })
 
 	test "should set default vital status to living" do
 		study_subject = StudySubject.new

@@ -39,8 +39,10 @@ class Address < ActiveRecord::Base
 	# This will allow an existing invalid value to show on the selector,
 	#   but should fail on save as it is invalid.  This way it won't
 	#   silently change the address type.
+	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def address_types
-		[self.address_type] + ( self.class.valid_address_types - [self.address_type])
+	#	[self.address_type] + ( self.class.valid_address_types - [self.address_type])
+		[self.address_type].compact + ( self.class.valid_address_types - [self.address_type])
 	end
 
 	validations_from_yaml_file

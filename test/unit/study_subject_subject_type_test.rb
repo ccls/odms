@@ -3,8 +3,8 @@ require 'test_helper'
 class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 
 	assert_should_accept_only_good_values( :subject_type,
-		{ :good_values => %w( Case Control Mother Father Twin ),
-			:bad_values  => 'X', :model => 'StudySubject' })
+		{ :good_values => StudySubject.valid_subject_types,
+			:bad_values  => "I'm not valid", :model => 'StudySubject' })
 
 	test "should require subject_type" do
 		#	protected so block assignment needed
