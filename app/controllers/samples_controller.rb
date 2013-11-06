@@ -33,6 +33,9 @@ class SamplesController < ApplicationController
 		end
 		validate_valid_date_range_for(:sent_to_subject_at,conditions)
 		validate_valid_date_range_for(:received_by_ccls_at,conditions)
+		#
+		#	NOTE/FYI: the join to study_subject, filters out samples without a study_subject
+		#
 		@samples = Sample.joins(:study_subject)
 			.order(search_order)
 			.where(conditions[0].join(valid_find_operator), conditions[1] )

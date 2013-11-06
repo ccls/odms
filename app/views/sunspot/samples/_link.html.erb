@@ -1,1 +1,5 @@
+<% if result.study_subject_id.present? %>
 <%= link_to 'show', study_subject_sample_path(result.study_subject_id, result.id) %>
+<% else %>
+xxxx
+<% end %>
