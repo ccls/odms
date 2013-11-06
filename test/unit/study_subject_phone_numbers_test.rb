@@ -9,7 +9,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
-					:data_source => 'unknown data source',
+					:data_source => 'Unknown Data Source',
 					:phone_type  => 'Home' )])
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
@@ -21,7 +21,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
-					:data_source  => 'unknown data source',
+					:data_source  => 'Unknown Data Source',
 					:phone_number => '' )])
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"

@@ -10,7 +10,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
-					:data_source => 'unknown data source',
+					:data_source => 'Unknown Data Source',
 					:address_attributes => FactoryGirl.attributes_for(:address,
 					:address_type => 'Residence' ) )])
 			assert study_subject.persisted?, 
@@ -24,7 +24,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
 				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
-					:data_source => 'unknown data source',
+					:data_source => 'Unknown Data Source',
 					:address_attributes => { :address_type => 'Residence' } )])
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
@@ -37,7 +37,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) {
 			study_subject = create_study_subject(
 				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
-					:data_source => 'unknown data source',
+					:data_source => 'Unknown Data Source',
 					:address_required   => true,
 					:address_attributes => { :address_type => 'Residence' } )])
 			assert study_subject.errors.matching?('addressings.address.line_1',"can't be blank")
@@ -59,13 +59,13 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_equal 0, study_subject.residence_addresses_count
 		study_subject.update_attributes(
 				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
-					:data_source => 'unknown data source',
+					:data_source => 'Unknown Data Source',
 					:address_attributes => FactoryGirl.attributes_for(:address,
 					{ :address_type => 'Residence' } ))])
 		assert_equal 1, study_subject.reload.residence_addresses_count
 		study_subject.update_attributes(
 				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
-					:data_source => 'unknown data source',
+					:data_source => 'Unknown Data Source',
 					:address_attributes => FactoryGirl.attributes_for(:address,
 					{ :address_type => 'Residence' } ))])
 		assert_equal 2, study_subject.reload.residence_addresses_count
