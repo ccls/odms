@@ -117,7 +117,7 @@
 <div class='current_address raf_section'>
 <% @study_subject.addressings.where(
 		:data_source => 'RAF (CCLS Rapid Ascertainment Form)').each do |a| %>
-	<% @address = a.address %>
+	<% @address = a %>
 <div class='field_grouper'>
   <%= wrapped_spans :address, :line_1 %>
   <%= wrapped_spans :address, :unit, :label_text => 'Apt.' %>

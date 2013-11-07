@@ -116,9 +116,8 @@ class RafsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			minimum_waivered_successful_creation(
 				:study_subject => { :addressings_attributes => { '0' => {
-					:address_attributes => { 
-						:line_1 => '', :city => '',
-						:state  => '', :zip  => '' } } } } )
+					:line_1 => '', :city => '',
+					:state  => '', :zip  => '' } } } )
 		end
 
 		test "should raise inconsistency on create case study_subject" <<
@@ -183,21 +182,18 @@ class RafsControllerTest < ActionController::TestCase
 			assert_difference('SubjectLanguage.count',0){
 			assert_difference('PhoneNumber.count',0){
 			assert_difference('Addressing.count',1){	#	different
-			assert_difference('Address.count',1){	#	different
 			assert_difference('Enrollment.count',2){	#	both child and mother
 			assert_difference('Patient.count',1){
 			assert_difference('StudySubject.count',2){
 				post :create, minimum_waivered_form_attributes(
-					:study_subject => { :addressings_attributes => { '0' => {
-						"address_attributes"=> FactoryGirl.attributes_for(:address, 
-							:line_1 => '') } 
-				} } ) 
-			} } } } } } }
+					:study_subject => { :addressings_attributes => { 
+						'0' => FactoryGirl.attributes_for(:blank_line_1_addressing) } } ) 
+			} } } } } }
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
-			assert_not_nil assigns(:study_subject).addressings.first.address.line_1
+			assert_not_nil assigns(:study_subject).addressings.first.line_1
 			assert_equal '[no address provided]',
-				assigns(:study_subject).addressings.first.address.line_1
+				assigns(:study_subject).addressings.first.line_1
 		end
 
 		test "should create waivered case study_subject" <<
@@ -207,77 +203,6 @@ class RafsControllerTest < ActionController::TestCase
 			assert_not_nil assigns(:study_subject).studyid
 			assert_match /\d{4}-C-0/, assigns(:study_subject).studyid
 		end
-
-		test "should create waivered case study_subject" <<
-				" with valid and verified addressing and #{cu} login" do
-			login_as user = send(cu)
-			waivered_successful_creation
-			addressing = assigns(:study_subject).addressings.first
-#			assert addressing.is_verified
-#			assert_not_nil addressing.how_verified
-			assert_equal addressing.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
-			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
-			assert_equal addressing.current_address, YNDK[:yes]
-#			assert_equal addressing.is_valid, YNDK[:yes]
-#			assert_equal addressing.verified_on, Date.current
-#			assert_equal addressing.verified_by_uid, user.uid
-		end
-
-		test "should create waivered case study_subject" <<
-				" with valid and verified phone_number and #{cu} login" do
-			login_as user = send(cu)
-			waivered_successful_creation
-			phone_number = assigns(:study_subject).phone_numbers.first
-#			assert phone_number.is_verified
-#			assert_not_nil phone_number.how_verified
-			assert_equal phone_number.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
-			assert_equal phone_number.current_phone, YNDK[:yes]
-#			assert_equal phone_number.is_valid, YNDK[:yes]
-#			assert_equal phone_number.verified_on, Date.current
-#			assert_equal phone_number.verified_by_uid, user.uid
-		end
-
-
-#	Added is_primary checkbox, so this auto-setting is no longer done.
-#	
-#			test "should create waivered case study_subject" <<
-#					" with primary phone_number and #{cu} login" do
-#				login_as send(cu)
-#				send("waivered_successful_creation")
-#				assert_equal 1, assigns(:study_subject).phone_numbers.length
-#				assert assigns(:study_subject).phone_numbers.first.is_primary
-#			end
-#	
-#			test "should create waivered case study_subject" <<
-#					" with primary first phone_number and #{cu} login" do
-#				login_as send(cu)
-#	
-#	#	Don't use this as wraps in count assertions and expects
-#	#	that only 1 PhoneNumber is created
-#	#	waivered_successful_creation
-#				post :create, send("waivered_form_attributes",'study_subject' => {
-#					'phone_numbers_attributes' => {
-#						"0"=>{"phone_number"=>"1234567890" }, 
-#						"1"=>{"phone_number"=>"1234567891"}
-#				}})
-#	
-#				assert_equal 2, assigns(:study_subject).phone_numbers.length
-#				assert  assigns(:study_subject).phone_numbers[0].is_primary
-#				assert !assigns(:study_subject).phone_numbers[1].is_primary
-#			end
-#	
-#			test "should create waivered case study_subject" <<
-#					" with non-primary second-only phone_number and #{cu} login" do
-#				login_as send(cu)
-#				send("waivered_successful_creation",'study_subject' => {
-#					'phone_numbers_attributes' => {
-#						"0"=>{"phone_number"=>"" },
-#						"1"=>{"phone_number"=>"1234567891"}
-#				}})
-#				assert_equal 1, assigns(:study_subject).phone_numbers.length
-#				assert !assigns(:study_subject).phone_numbers[0].is_primary
-#	#			assert !assigns(:study_subject).phone_numbers[1].is_primary
-#			end
 
 		test "should create waivered case study_subject" <<
 				" with waivered attributes and #{cu} login" do
@@ -654,11 +579,10 @@ class RafsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',1) {
-			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'addressings_attributes' => { 
-					'0' => { "address_attributes"=> FactoryGirl.attributes_for(:address) } } }
-			} }
+					'0' => FactoryGirl.attributes_for(:addressing) } }
+			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
@@ -668,42 +592,33 @@ class RafsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as user = send(cu)
 			assert_difference('Addressing.count',1) {
-			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'addressings_attributes' => { 
-					'0' => { "address_attributes"=> FactoryGirl.attributes_for(:address) } } }
-			} }
+					'0' => FactoryGirl.attributes_for(:addressing) } }
+			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
 
 			addressing = assigns(:study_subject).addressings.first
-#			assert addressing.is_verified
-#			assert_not_nil addressing.how_verified
 			assert_equal addressing.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
 			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
 			assert_equal addressing.current_address, YNDK[:yes]
-#			assert_equal addressing.is_valid, YNDK[:yes]
-#			assert_equal addressing.verified_on, Date.current
-#			assert_equal addressing.verified_by_uid, user.uid
-			assert_equal addressing.address.address_type, 'Residence'
+			assert_equal addressing.address_type, 'Residence'
 		end
 
 		test "should update address with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
 			addressing = FactoryGirl.create(:addressing,:study_subject => study_subject)
-			assert_not_equal "ihavebeenupdated", addressing.address.line_1
+			assert_not_equal "ihavebeenupdated", addressing.line_1
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'addressings_attributes' => { 
 						'0' => { :id => addressing.id,
-							"address_attributes"=> FactoryGirl.attributes_for(:address,
-								:line_1 => "ihavebeenupdated",
-								:id => addressing.address.id) 
-			} } } } }
-			assert_equal "ihavebeenupdated", addressing.address.reload.line_1
+							:line_1 => "ihavebeenupdated"
+			} } } }
+			assert_equal "ihavebeenupdated", addressing.reload.line_1
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
@@ -717,11 +632,10 @@ class RafsControllerTest < ActionController::TestCase
 				:address_at_diagnosis => YNDK[:no] )
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'addressings_attributes' => { 
 						'0' => { :id => addressing.id } }
-			} } }
+			} }
 			assert_not_nil assigns(:study_subject)
 			addressing.reload
 			assert_equal YNDK[:no], addressing.current_address
@@ -758,13 +672,8 @@ class RafsControllerTest < ActionController::TestCase
 			assert_redirected_to raf_path(study_subject)
 
 			phone_number = assigns(:study_subject).phone_numbers.first
-#			assert phone_number.is_verified
-#			assert_not_nil phone_number.how_verified
 			assert_equal phone_number.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
 			assert_equal phone_number.current_phone, YNDK[:yes]
-#			assert_equal phone_number.is_valid, YNDK[:yes]
-#			assert_equal phone_number.verified_on, Date.current
-#			assert_equal phone_number.verified_by_uid, user.uid
 		end
 
 		test "should update phone number with #{cu} login" do
@@ -807,16 +716,14 @@ class RafsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',1) {
-			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'addressings_attributes' => { 
-					'0' => { "address_attributes"=> FactoryGirl.attributes_for(:address,
-						:line_1 => '') } } }
+					'0' => FactoryGirl.attributes_for(:blank_line_1_addressing) } 
 			} }
 			assert_not_nil assigns(:study_subject)
-			assert_not_nil assigns(:study_subject).addressings.first.address.line_1
+			assert_not_nil assigns(:study_subject).addressings.first.line_1
 			assert_equal '[no address provided]',
-				assigns(:study_subject).addressings.first.address.line_1
+				assigns(:study_subject).addressings.first.line_1
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
 		end

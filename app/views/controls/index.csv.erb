@@ -40,7 +40,7 @@
 <% @study_subjects.each do |study_subject| -%>
 <%# mom = study_subject.mother -%>
 <%# case_subject = study_subject.case_subject -%>
-<% address = study_subject.addresses.first -%>
+<% address = study_subject.addressings.first -%>
 <%# address = study_subject.current_mailing_address || study_subject.current_address -%>
 <%# Do I need to check if current_address==true? -%>
 <%# enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id) -%>

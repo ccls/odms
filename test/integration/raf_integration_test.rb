@@ -26,13 +26,12 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "New Case"	
 				wait_until { has_css?("p.flash.error") }
-			} } } } } }
+			} } } } }
 
 			assert_equal rafs_path, current_path
 			assert has_css?("p.flash.error")
@@ -42,14 +41,13 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			choose "duplicate_id_#{duplicate.id}"
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			assert_difference('OperationalEvent.count',1) {
 				click_button "Match Found"	
 				wait_until { has_css?("p.flash.notice") }
-			} } } } } } }
+			} } } } } }
 			assert has_css?("p.flash.notice")
 			assert_match /Operational Event created marking this attempted entry/,
 				find("p.flash.notice").text
@@ -78,13 +76,12 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 				click_button "New Case"	
 				wait_until { has_css?("p.flash.error") }
-			} } } } } }
+			} } } } }
 
 			assert_equal rafs_path, current_path
 			assert has_css?("p.flash.error")
@@ -93,14 +90,13 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',1) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
 				click_button "No Match"	
 				#	no icf master ids warning
 				wait_until { has_css?('p.flash.warn') }
-			} } } } } }
+			} } } } }
 
 			#	no icf master ids warning
 			assert has_css?('p.flash.warn')
@@ -129,7 +125,6 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Addressing.count',0) {
 			assert_difference('Patient.count',1) {
 			assert_difference('Enrollment.count',2) {
@@ -137,17 +132,11 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 				click_button "New Case"	
 				#	no icf master ids
 				wait_until { has_css?('p.flash.warn') }
-			} } } } } }
+			} } } } }
 			#	no icf master ids
 			assert has_css?('p.flash.warn')
 			assert !has_css?("p.flash.error")
-
-
-
 			assert_match /\/study_subjects\/\d+/, current_path
-
-
-
 		end
 
 		test "should maintain checked languages" <<
@@ -185,7 +174,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			" with #{cu} login" do
 			login_as send(cu)
 			visit new_raf_path
-			address = "study_subject[addressings_attributes][0][address_attributes]"
+			address = "study_subject[addressings_attributes][0]"
 			patient = 'study_subject[patient_attributes]'
 			assert find_field("#{address}[city]").value.blank?
 			assert find_field("#{address}[county]").value.blank?
@@ -208,7 +197,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			" with #{cu} login" do
 			login_as send(cu)
 			visit new_raf_path
-			address = "study_subject[addressings_attributes][0][address_attributes]"
+			address = "study_subject[addressings_attributes][0]"
 			patient = 'study_subject[patient_attributes]'
 			assert find_field("#{address}[city]").value.blank?
 			assert find_field("#{address}[county]").value.blank?
@@ -221,7 +210,6 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			wait_until{ 
 				find_field("#{address}[city]").value.present? }
-#				!find_field("#{address}[city]").value.blank? }
 
 			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
@@ -259,8 +247,6 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert find_field("#{patient}[other_refusal_reason]").visible?
 		end
 
-
-
 		test "test edit complete case with #{cu} login" do
 			subject = FactoryGirl.create(:complete_waivered_case_study_subject)
 			login_as send(cu)
@@ -271,63 +257,6 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 
 	end
-
-#end
-#
-#	site_editors.each do |cu|
-#
-#		test "should preselect waivered organization_id from new case with #{cu} login" do
-#			login_as send(cu)
-#			visit new_raf_path
-#			assert_equal new_raf_path, current_path
-#
-#			hospital = Hospital.active.waivered.first
-#
-#			select hospital.organization.to_s, :from => "hospital_id"
-#			click_button "New Case"	
-#
-##	current_url is not following redirect
-##	This used to work in rails 2 and does work in the functional tests.
-##	TODO the page content appears correct, but the url is rafs_path
-##			assert_match /http(s)?:\/\/.*\/waivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
-#
-#			#	This isn't perfect, but it does test that the redirect is correct.
-#			#	If I can't test that I've been redirected, test the page content.
-#			assert_select HTML::Document.new(body).root, 'div#main h3', 
-#				:text => "Rapid Ascertainment Form (RAF) - waiver version"
-#
-#			#	capybara apparently won't find a field by name that is
-#			#		type=hidden, however, finding it by css works.
-#			assert_equal hospital.organization_id.to_s,
-#				find('#study_subject_patient_attributes_organization_id').value
-#		end
-#
-#		test "should preselect nonwaivered organization_id from new case with #{cu} login" do
-#			login_as send(cu)
-#			visit new_raf_path
-#			assert_equal new_raf_path, current_path
-#
-#			hospital = Hospital.active.nonwaivered.first
-#			select hospital.organization.to_s, :from => "hospital_id"
-#			click_button "New Case"	
-#
-##	current_url is not following redirect
-##	This used to work in rails 2 and does work in the functional tests.
-##	TODO the page content appears correct, but the url is rafs_path
-##			assert_match /http(s)?:\/\/.*\/nonwaivered\/new\?study_subject.*patient_attributes.*organization_id.*=\d+/, current_url
-#
-#			#	This isn't perfect, but it does test that the redirect is correct.
-#			#	If I can't test that I've been redirected, test the page content.
-#			assert_select HTML::Document.new(body).root, 'div#main h3', 
-#				:text => "Rapid Ascertainment Form (RAF) - non-waiver version"
-#
-#			#	capybara apparently won't find a field by name that is
-#			#		type=hidden, however, finding it by css works.
-#			assert_equal hospital.organization_id.to_s,
-#				find('#study_subject_patient_attributes_organization_id').value
-#		end
-#
-#	end
 
 end
 __END__

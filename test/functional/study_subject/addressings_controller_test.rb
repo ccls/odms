@@ -33,40 +33,27 @@ class StudySubject::AddressingsControllerTest < ActionController::TestCase
 		}.merge(options))
 	end
 
-	def address_attributes(options={})
-		{ 
-			:address_attributes => FactoryGirl.attributes_for(
-				:address, {
-					:address_type => 'Residence'
-				}.merge(options) 
-			) 
-		}
-	end
-
 	site_administrators.each do |cu|
 
 		test "should destroy with #{cu} login" do
 			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
-#			assert_difference('Address.count',-1){
 			assert_difference('Addressing.count',-1){
 				delete :destroy, :study_subject_id => addressing.study_subject_id,
 					:id => addressing.id
-			} #}
+			}
 			assert_nil flash[:error]
 			assert_redirected_to study_subject_contacts_path( addressing.study_subject_id )
-pending "Doesn't destroy Address yet"
 		end
 
 		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
 			addressing = FactoryGirl.create(:addressing)
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
-			assert_difference('Address.count',0){
 			assert_difference('Addressing.count',0){
 				delete :destroy, :study_subject_id => study_subject.id,
 					:id => addressing.id
-			} }
+			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
@@ -74,11 +61,10 @@ pending "Doesn't destroy Address yet"
 		test "should NOT destroy with invalid study_subject_id #{cu} login" do
 			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
-			assert_difference('Address.count',0){
 			assert_difference('Addressing.count',0){
 				delete :destroy, :study_subject_id => 0,
 					:id => addressing.id
-			} }
+			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
@@ -86,11 +72,10 @@ pending "Doesn't destroy Address yet"
 		test "should NOT destroy with invalid id #{cu} login" do
 			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
-			assert_difference('Address.count',0){
 			assert_difference('Addressing.count',0){
 				delete :destroy, :study_subject_id => addressing.study_subject_id,
 					:id => 0
-			} }
+			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
@@ -134,51 +119,21 @@ pending "Doesn't destroy Address yet"
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference("StudySubject.find(#{study_subject.id}).addressings.count",1) {
-			assert_difference("StudySubject.find(#{study_subject.id}).addresses.count",1) {
 			assert_difference('Addressing.count',1) {
-			assert_difference('Address.count',1) {
 				post :create, :study_subject_id => study_subject.id,
-					:addressing => factory_attributes(address_attributes)
-			} } } }
+					:addressing => factory_attributes
+			} }
 			assert assigns(:study_subject)
 			assert_redirected_to study_subject_contacts_path(study_subject)
 		end
-
-#		test "should set verified_on on create if is_verified " <<
-#				"with #{cu} login" do
-#			study_subject = FactoryGirl.create(:study_subject)
-#			login_as send(cu)
-#			post :create, :study_subject_id => study_subject.id,
-#				:addressing => factory_attributes(
-#					:is_verified => true,
-#					:how_verified => 'no idea'
-#				)
-#			assert assigns(:addressing)
-#			assert_not_nil assigns(:addressing).verified_on
-#		end
-#
-#		test "should set verified_by on create if is_verified " <<
-#				"with #{cu} login" do
-#			study_subject = FactoryGirl.create(:study_subject)
-#			login_as u = send(cu)
-#			post :create, :study_subject_id => study_subject.id,
-#				:addressing => factory_attributes(
-#					:is_verified => true,
-#					:how_verified => 'no idea'
-#				)
-#			assert assigns(:addressing)
-#			assert_not_nil assigns(:addressing).verified_by_uid
-#			assert_equal assigns(:addressing).verified_by_uid, u.uid
-#		end
 
 		test "should NOT create new addressing with invalid study_subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 				post :create, :study_subject_id => 0, 
 					:addressing => factory_attributes
-			} }
+			}
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subjects_path
 		end
@@ -189,10 +144,9 @@ pending "Doesn't destroy Address yet"
 			Addressing.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 				post :create, :study_subject_id => study_subject.id,
 					:addressing => factory_attributes
-			} }
+			}
 			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'new'
@@ -205,94 +159,12 @@ pending "Doesn't destroy Address yet"
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 				post :create, :study_subject_id => study_subject.id,
 					:addressing => factory_attributes
-			} }
+			}
 			assert assigns(:study_subject)
 			assert_response :success
 			assert_template 'new'
-			assert_not_nil flash[:error]
-		end
-
-		test "should NOT create new addressing with #{cu} login " <<
-				"and invalid address" do
-			Address.any_instance.stubs(:create_or_update).returns(false)
-			study_subject = FactoryGirl.create(:study_subject)
-			login_as send(cu)
-			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
-				post :create, :study_subject_id => study_subject.id,
-					:addressing => factory_attributes(address_attributes(
-						:line_1 => nil
-					))
-			} }
-			assert assigns(:study_subject)
-			assert_response :success
-			assert_template 'new'
-			assert_not_nil flash[:error]
-		end
-
-#		test "should set verified_on on update if is_verified " <<
-#				"with #{cu} login" do
-#			addressing = FactoryGirl.create(:addressing)
-#			login_as send(cu)
-#			put :update, :study_subject_id => addressing.study_subject_id, 
-#				:id => addressing.id,
-#				:addressing => factory_attributes(
-#					:is_verified  => true,
-#					:how_verified => 'not a clue'
-#				)
-#			assert assigns(:addressing)
-#			assert_not_nil assigns(:addressing).verified_on
-#		end
-#
-#		test "should set verified_by on update if is_verified " <<
-#				"with #{cu} login" do
-#			addressing = FactoryGirl.create(:addressing)
-#			login_as u = send(cu)
-#			put :update, :study_subject_id => addressing.study_subject_id,
-#				:id => addressing.id,
-#				:addressing => factory_attributes(
-#					:is_verified => true,
-#					:how_verified => 'not a clue'
-#				)
-#			assert assigns(:addressing)
-#			assert_not_nil assigns(:addressing).verified_by_uid
-#			assert_equal assigns(:addressing).verified_by_uid, u.uid
-#		end
-
-		test "should NOT update addressing with #{cu} login " <<
-				"when address update fails" do
-			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
-			Address.any_instance.stubs(:create_or_update).returns(false)
-			login_as send(cu)
-			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-				put :update, :study_subject_id => addressing.study_subject_id,
-					:id => addressing.id,
-					:addressing => factory_attributes(address_attributes)
-			}
-			assert assigns(:addressing)
-			assert_response :success
-			assert_template 'edit'
-			assert_not_nil flash[:error]
-		end
-
-		test "should NOT update addressing with #{cu} login " <<
-				"and invalid address" do
-			addressing = FactoryGirl.create(:addressing, :updated_at => ( Time.now - 1.day ) )
-			Address.any_instance.stubs(:create_or_update).returns(false)
-			login_as send(cu)
-			deny_changes("Addressing.find(#{addressing.id}).updated_at") {
-				put :update, :study_subject_id => addressing.study_subject_id,
-					:id => addressing.id,
-					:addressing => factory_attributes(address_attributes(
-						:line_1 => nil
-					))
-			}
-			assert assigns(:addressing)
-			assert_response :success
-			assert_template 'edit'
 			assert_not_nil flash[:error]
 		end
 
@@ -393,7 +265,7 @@ pending "Doesn't destroy Address yet"
 
 		test "should edit with latitude and longitude and #{cu} login" do
 			addressing = FactoryGirl.create(:addressing)
-			addressing.address.update_attributes(
+			addressing.update_attributes(
 				:latitude => -34.397, :longitude => 150.644)
 			login_as send(cu)
 			get :edit, :study_subject_id => addressing.study_subject_id,
@@ -525,10 +397,9 @@ pending "Doesn't destroy Address yet"
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 				post :create, :study_subject_id => study_subject.id,
 					:addressing => factory_attributes
-			} }
+			}
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -567,8 +438,6 @@ pending "Doesn't destroy Address yet"
 			assert_template 'index'
 		end
 
-
-
 		test "should show with #{cu} login" do
 			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
@@ -582,7 +451,7 @@ pending "Doesn't destroy Address yet"
 
 		test "should show with latitude and longitude and #{cu} login" do
 			addressing = FactoryGirl.create(:addressing)
-			addressing.address.update_attributes(
+			addressing.update_attributes(
 				:latitude => -34.397, :longitude => 150.644)
 			login_as send(cu)
 			get :show, :study_subject_id => addressing.study_subject_id,
@@ -661,10 +530,9 @@ pending "Doesn't destroy Address yet"
 	test "should NOT create new addressing without login" do
 		study_subject = FactoryGirl.create(:study_subject)
 		assert_difference('Addressing.count',0) {
-		assert_difference('Address.count',0) {
 			post :create, :study_subject_id => study_subject.id,
 				:addressing => factory_attributes
-		} }
+		}
 		assert_redirected_to_login
 	end
 
@@ -687,31 +555,25 @@ pending "Doesn't destroy Address yet"
 	test "should NOT destroy without login" do
 		addressing = FactoryGirl.create(:addressing)
 		assert_difference('Addressing.count',0) {
-		assert_difference('Address.count',0) {
 			delete :destroy, :study_subject_id => addressing.study_subject_id,
 				:id => addressing.id
-		} }
+		}
 		assert_redirected_to_login
 	end
 
 protected
 
 	def addressing_with_address(options={})
-		FactoryGirl.attributes_for(:addressing, {
-			:address_attributes => FactoryGirl.attributes_for(:residence_address,{
-#				:address_type => 'Residence'
-			}.merge(options[:address]||{}))
+		FactoryGirl.attributes_for(:residence_addressing, {
 		}.merge(options[:addressing]||{}))
 	end
 
 	def ca_addressing(options={})
-		addressing_with_address({
-			:address => {:state => 'CA'}}.merge(options))
+		addressing_with_address({ :state => 'CA' }.merge(options))
 	end
 
 	def az_addressing(options={})
-		addressing_with_address({
-			:address => {:state => 'AZ'}}.merge(options))
+		addressing_with_address({ :state => 'AZ' }.merge(options))
 	end
 
 end

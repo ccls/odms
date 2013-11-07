@@ -190,13 +190,9 @@ protected
 	end
 
 	def default_raf_phone_number_attributes
-		{ #'current_user'   => current_user,
-			'current_phone'  => YNDK[:yes],
-#			'is_valid'       => YNDK[:yes],
-#			'is_verified'    => true,
-#			'how_verified'   => 'provided on RAF',
-			'data_source'    => 'RAF (CCLS Rapid Ascertainment Form)',
-			'phone_type'     => 'Home' }
+		{ 'current_phone' => YNDK[:yes],
+			'data_source'   => 'RAF (CCLS Rapid Ascertainment Form)',
+			'phone_type'    => 'Home' }
 	end
 
 	def add_default_raf_phone_number_attributes(study_subject_params)
@@ -211,16 +207,11 @@ protected
 	end
 
 	def default_raf_addressing_attributes
-		{	#'current_user'    => current_user,
-			'address_at_diagnosis' => YNDK[:yes],
+		{ 'address_at_diagnosis' => YNDK[:yes],
 			'current_address' => YNDK[:yes],
-#			'is_verified'     => true,
-#			'how_verified'    => 'provided on RAF',
-#			'is_valid'        => YNDK[:yes],
 			'data_source'     => 'RAF (CCLS Rapid Ascertainment Form)',
-			'address_attributes' => { 
-				'address_type'  => 'Residence'
-		} }
+			'address_type'    => 'Residence'
+		}
 	end
 
 	def add_default_raf_addressing_attributes(study_subject_params)
@@ -232,7 +223,7 @@ protected
 					default_raf_addressing_attributes.deep_merge(
 						study_subject_params['addressings_attributes'][k])
 				allow_blank_address_line_1_for(
-					study_subject_params['addressings_attributes'][k]['address_attributes'])
+					study_subject_params['addressings_attributes'][k])
 			end
 		end if study_subject_params.has_key?('addressings_attributes')
 	end
@@ -298,17 +289,6 @@ protected
 			end
 		end
 	end
-
-#	def allow_blank_address_line_1(default={})
-#		#	as 'default' is a hash, 'address' is now just a pointer to part of it.
-##		address = default['addressings_attributes']['0']['address_attributes']
-##		allow_blank_address_line_1_for(address)
-#		#	each_pair's value is apparently not a reference?
-#		default['addressings_attributes'].each_pair { |k,v|
-#			allow_blank_address_line_1_for(v) }
-##			allow_blank_address_line_1_for(
-##				default['addressings_attributes'][k]['address_attributes']) }
-#	end
 
 	def allow_blank_address_line_1_for(address)
 		if address['line_1'].blank? and

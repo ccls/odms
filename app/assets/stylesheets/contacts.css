@@ -12,11 +12,6 @@
 .contact_wrapper:nth-child(1) {
 	border-top: 0;
 }
-/*
-div.contact_valid > div,
-div.is_verified > span,
-div.is_valid > span,
-*/
 div.contact_wrapper > div {
 	display:inline-block;
 	vertical-align: top;
@@ -26,20 +21,9 @@ div.contact_wrapper > div {
 .addressing {
 	width: 200px;
 }
-/*
-.contact_meta {
-	width: 120px;
-}
-*/
 .contact_meta > span {
 	display:block;
 }
-/*
-.contact_valid .brief {
-	width: 100px;
-}
-.contact_valid span,
-*/
 .addressing .line_1,
 .addressing .line_2,
 .addressing .unit,
@@ -55,12 +39,3 @@ div.contact_wrapper > div {
 	clear:both;
 	margin-top:0;
 }
-/*
-.contact_valid .brief .field_wrapper .label {
-	width:auto;
-	margin-right: 10px;
-}
-.contact_valid .brief .field_wrapper {
-	margin-bottom:0;
-}
-*/

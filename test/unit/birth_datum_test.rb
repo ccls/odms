@@ -808,7 +808,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('Addressing.count',1) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		}
-		assert_equal 'Residence', study_subject.addresses.last.address_type
+		assert_equal 'Residence', study_subject.addressings.last.address_type
 	end
 
 	test "case birth datum should create addressing even with PO Box" do
@@ -817,24 +817,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			create_matching_case_birth_datum_with_address(study_subject,{
 				:mother_residence_line_1 => 'PO Box 1995' })
 		}
-		assert_equal 'Mailing', study_subject.addresses.last.address_type
-	end
-
-	test "case birth datum should create address" do
-		study_subject = create_case_study_subject_with_icf_master_id
-		assert_difference('Address.count',1) {
-			create_matching_case_birth_datum_with_address(study_subject)
-		}
-		assert_equal 'Residence', study_subject.addresses.last.address_type
-	end
-
-	test "case birth datum should create address even with PO Box" do
-		study_subject = create_case_study_subject_with_icf_master_id
-		assert_difference('Address.count',1) {
-			create_matching_case_birth_datum_with_address(study_subject,{
-				:mother_residence_line_1 => 'PO Box 1995' })
-		}
-		assert_equal 'Mailing', study_subject.addresses.last.address_type
+		assert_equal 'Mailing', study_subject.addressings.last.address_type
 	end
 
 	test "case birth datum should create addressing with address_at_diagnosis=no" do
@@ -866,13 +849,13 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	#	As address is created via nested attributes, its validity isn't checked
 	#	However, create_or_update returning false will trigger failure.
-	test "case birth datum should create event if address save fails" do
+	test "case birth datum should create event if addressing save fails" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		Address.any_instance.stubs(:create_or_update).returns(false)
+		Addressing.any_instance.stubs(:create_or_update).returns(false)
 		assert_difference("study_subject.operational_events.where(" <<
 			":operational_event_type_id => #{OperationalEventType['bc_received'].id}" <<
 			").count",1) {
-		assert_difference('Address.count',0) {
+		assert_difference('Addressing.count',0) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		} }
 	end
@@ -953,13 +936,12 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = create_matching_case_birth_datum(study_subject)
 		assert_not_nil birth_datum.study_subject
-		assert_difference('Address.count', 0){
 		assert_difference('Addressing.count', 0){
 		assert_difference('StudySubject.count', 0){
 		assert_difference('CandidateControl.count', 0){
 		assert_difference('OperationalEvent.count', 2){
 			birth_datum.post_processing
-		} } } } }
+		} } } }
 		#	1 is birth data received
 		#	1 is insufficient data for address
 		#	both are true
@@ -975,13 +957,12 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert birth_datum.candidate_control.persisted?
 		assert_not_nil birth_datum.study_subject
 		assert birth_datum.study_subject.persisted?
-		assert_difference('Address.count', 0){
 		assert_difference('Addressing.count', 0){
 		assert_difference('StudySubject.count', 0){
 		assert_difference('CandidateControl.count', 0){
 		assert_difference('OperationalEvent.count', 0){	
 			birth_datum.post_processing
-		} } } } }
+		} } } }
 	end
 
 
@@ -989,7 +970,6 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" should not do SOMETHING" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = nil	#	scope variable outside
-		assert_difference('Address.count', 0){
 		assert_difference('Addressing.count', 0){
 		assert_difference('StudySubject.count', 0){
 		assert_difference('CandidateControl.count', 1){
@@ -997,14 +977,13 @@ class BirthDatumTest < ActiveSupport::TestCase
 			birth_datum = FactoryGirl.create(:control_birth_datum,
 				:match_confidence => 'NOTACHANCE',
 				:master_id => study_subject.icf_master_id ).reload
-		} } } } }
+		} } } }
 
 		assert_not_nil birth_datum.candidate_control
 		assert birth_datum.candidate_control.persisted?
 		assert_nil birth_datum.study_subject
 #		assert birth_datum.study_subject.new_record?
 
-		assert_difference('Address.count', 0){
 		assert_difference('Addressing.count', 0){
 		assert_difference('StudySubject.count', 2){	#	SHOULD NOW CREATE SUBJECT and mother
 		assert_difference('CandidateControl.count', 0){
@@ -1012,7 +991,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 #	2 new subject events and 1 not-enough-info-for-address event
 			birth_datum.update_column(:match_confidence, 'DEFINITE')
 			birth_datum.reload.post_processing
-		} } } } }
+		} } } }
 	end
 
 

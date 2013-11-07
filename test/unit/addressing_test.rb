@@ -5,27 +5,25 @@ class AddressingTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_protect(:study_subject_id, :study_subject)
 
-#	attributes = %w( address_id current_address address_at_diagnosis
-#		is_valid why_invalid is_verified how_verified valid_from
-#		valid_to verified_on verified_by_uid )
-	attributes = %w( address_id current_address address_at_diagnosis )
-	assert_should_not_require( attributes )
-	assert_should_not_require_unique( attributes )
+	attributes = %w( current_address address_at_diagnosis 
+		line_1 line_2 unit city state zip county country external_address_id )
+	required   = %w( line_1 city state zip )
+	unique     = %w( external_address_id )
+	assert_should_require( required )
+	assert_should_not_require( attributes - required )
+#	assert_should_require_unique( unique )
+	assert_should_not_require_unique( attributes - unique )
 	assert_should_not_protect( attributes )
 
-	assert_should_initially_belong_to( :study_subject, :address )
-#	assert_should_require_attribute_length( :why_invalid, :how_verified, 
-#			:maximum => 250 )
+	assert_should_initially_belong_to( :study_subject )
 	assert_should_require_attribute_length( :notes,
 			:maximum => 65000 )
-#	assert_requires_complete_date( :valid_from, :valid_to )
 
 	#	Someone always has to think that they are special!
 	assert_should_accept_only_good_values( :current_address,
 		{ :good_values => ( YNDK.valid_values ), 
 			:bad_values  => 12345 })
 
-#	assert_should_accept_only_good_values( :is_valid, :address_at_diagnosis,
 	assert_should_accept_only_good_values( :address_at_diagnosis,
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
@@ -34,18 +32,21 @@ class AddressingTest < ActiveSupport::TestCase
 		{ :good_values => Addressing.valid_data_sources, 
 			:bad_values  => "I'm not valid" })
 
+	assert_should_require_attribute_length( 
+		:zip, :maximum => 10 )
+	assert_should_require_attribute_length( 
+		:line_1, :line_2, :unit, :city, :state, :maximum => 250 )
+
+#	assert_should_have_many(:interviews)	#	address did
+
+	assert_should_accept_only_good_values( :address_type,
+		{ :good_values => Addressing.valid_address_types, 
+			:bad_values  => "I'm not valid" })
+
+
 	test "addressing factory should create addressing" do
 		assert_difference('Addressing.count',1) {
 			addressing = FactoryGirl.create(:addressing)
-#			assert_equal 1, addressing.is_valid
-#			assert         !addressing.is_verified	
-		}
-	end
-
-	test "addressing factory should create address" do
-		assert_difference('Address.count',1) {
-			addressing = FactoryGirl.create(:addressing)
-			assert_not_nil addressing.address
 		}
 	end
 
@@ -64,9 +65,9 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "mailing_addressing factory should create mailing address" do
-		assert_difference('Address.count',1) {
+		assert_difference('Addressing.count',1) {
 			addressing = FactoryGirl.create(:mailing_addressing)
-			assert_equal addressing.address.address_type,
+			assert_equal addressing.address_type,
 				'Mailing'
 		}
 	end
@@ -85,9 +86,9 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "current_mailing_addressing factory should create mailing address" do
-		assert_difference('Address.count',1) {
+		assert_difference('Addressing.count',1) {
 			addressing = FactoryGirl.create(:current_mailing_addressing)
-			assert_equal addressing.address.address_type,
+			assert_equal addressing.address_type,
 				'Mailing'
 		}
 	end
@@ -106,9 +107,9 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "residence_addressing factory should create residence address" do
-		assert_difference('Address.count',1) {
+		assert_difference('Addressing.count',1) {
 			addressing = FactoryGirl.create(:residence_addressing)
-			assert_equal addressing.address.address_type,
+			assert_equal addressing.address_type,
 				'Residence'
 		}
 	end
@@ -127,9 +128,9 @@ class AddressingTest < ActiveSupport::TestCase
 	end
 
 	test "current_residence_addressing factory should create residence address" do
-		assert_difference('Address.count',1) {
+		assert_difference('Addressing.count',1) {
 			addressing = FactoryGirl.create(:current_residence_addressing)
-			assert_equal addressing.address.address_type,
+			assert_equal addressing.address_type,
 				'Residence'
 		}
 	end
@@ -164,89 +165,6 @@ class AddressingTest < ActiveSupport::TestCase
 		addressing.valid?
 		assert !addressing.errors.matching?(:other_data_source, "can't be blank")
 	end
-
-	test "should require a valid address with address_attributes" do
-		assert_difference("Address.count", 0 ) {
-		assert_difference("Addressing.count", 0 ) {
-			addressing = create_addressing(:address_id => nil,
-				:address_attributes => {} )
-		} }
-	end
-
-#	[:yes,:nil].each do |yndk|
-#		test "should NOT require why_invalid if is_valid is #{yndk}" do
-#			addressing = Addressing.new(:is_valid => YNDK[yndk])
-#			addressing.valid?
-#			assert !addressing.errors.include?(:why_invalid)
-#		end
-#	end
-#	[:no,:dk].each do |yndk|
-#		test "should require why_invalid if is_valid is #{yndk}" do
-#			addressing = Addressing.new(:is_valid => YNDK[yndk])
-#			assert !addressing.valid?
-#			assert addressing.errors.include?(:why_invalid)
-#		end
-#	end
-#
-#	test "should NOT require how_verified if is_verified is false" do
-#		addressing = Addressing.new(:is_verified => false)
-#		addressing.valid?
-#		assert !addressing.errors.include?(:how_verified)
-#	end
-#	test "should require how_verified if is_verified is true" do
-#		addressing = Addressing.new(:is_verified => true)
-#		assert !addressing.valid?
-#		assert addressing.errors.include?(:how_verified)
-#	end
-#
-#	test "should NOT set verified_on if is_verified NOT changed to true" do
-#		addressing = create_addressing(:is_verified => false)
-#		assert_nil addressing.verified_on
-#	end
-#
-#	test "should set verified_on if is_verified changed to true" do
-#		addressing = create_addressing(:is_verified => true,
-#			:how_verified => "not a clue")
-#		assert_not_nil addressing.verified_on
-#	end
-#
-#	test "should set verified_on to NIL if is_verified changed to false" do
-#		addressing = create_addressing(:is_verified => true,
-#			:how_verified => "not a clue")
-#		assert_not_nil addressing.verified_on
-#		addressing.update_attributes(:is_verified => false)
-#		assert_nil addressing.verified_on
-#	end
-#
-#	test "should NOT set verified_by_uid if is_verified NOT changed to true" do
-#		addressing = create_addressing(:is_verified => false)
-#		assert_nil addressing.verified_by_uid
-#	end
-#
-#	test "should set verified_by_uid to 0 if is_verified changed to true" do
-#		addressing = create_addressing(:is_verified => true,
-#			:how_verified => "not a clue")
-#		assert_not_nil addressing.verified_by_uid
-#		assert_equal addressing.verified_by_uid, ''
-#	end
-#
-#	test "should set verified_by_uid to current_user.id if is_verified " <<
-#		"changed to true if current_user passed" do
-#		cu = admin_user
-#		addressing = create_addressing(:is_verified => true,
-#			:current_user => cu,
-#			:how_verified => "not a clue")
-#		assert_not_nil addressing.verified_by_uid
-#		assert_equal addressing.verified_by_uid, cu.uid
-#	end
-#
-#	test "should set verified_by_uid to NIL if is_verified changed to false" do
-#		addressing = create_addressing(:is_verified => true,
-#			:how_verified => "not a clue")
-#		assert_not_nil addressing.verified_by_uid
-#		addressing.update_attributes(:is_verified => false)
-#		assert_nil addressing.verified_by_uid
-#	end
 
 	test "current scope should only return current addressings" do
 		y = create_addressing(:current_address => YNDK[:yes])
@@ -284,9 +202,8 @@ class AddressingTest < ActiveSupport::TestCase
 #		study_subject = create_eligible_hx_study_subject
 #		assert_difference('OperationalEvent.count',1) {
 #		assert_difference('Addressing.count',1) {
-#		assert_difference('Address.count',1) {
 #			create_az_addressing(study_subject)
-#		} } }
+#		} }
 #		assert_study_subject_is_not_eligible(study_subject)
 #		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 #		assert_equal   hxe.ineligible_reason,
@@ -297,11 +214,10 @@ class AddressingTest < ActiveSupport::TestCase
 #			"on create if state NOT 'CA' and address is ANOTHER residence" do
 #		study_subject = create_eligible_hx_study_subject
 #		assert_difference('OperationalEvent.count',1) {
-#		assert_difference('Address.count',2) {
 #		assert_difference("Addressing.count", 2 ) {
 #			ca_addressing = create_ca_addressing(study_subject)
 #			az_addressing = create_az_addressing(study_subject)
-#		} } }
+#		} }
 #		assert_study_subject_is_not_eligible(study_subject)
 #		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
 #		assert_equal   hxe.ineligible_reason,
@@ -313,12 +229,11 @@ class AddressingTest < ActiveSupport::TestCase
 #		OperationalEventType['ineligible'].destroy
 #		study_subject = create_eligible_hx_study_subject
 #		assert_difference('OperationalEvent.count',0) {
-#		assert_difference('Address.count',1) {
 #		assert_difference("Addressing.count", 1 ) {
 #			create_ca_addressing(study_subject)
 #			assert_raise(ActiveRecord::RecordNotSaved){
 #				addressing = create_az_addressing(study_subject)
-#		} } } }
+#		} } }
 #		assert_study_subject_is_eligible(study_subject)
 #	end
 #
@@ -326,11 +241,10 @@ class AddressingTest < ActiveSupport::TestCase
 #			"on create if state NOT 'CA' and address is NOT residence" do
 #		study_subject = create_eligible_hx_study_subject
 #		assert_difference('OperationalEvent.count',0) {
-#		assert_difference('Address.count',1) {
 #		assert_difference("Addressing.count", 1 ) {
 #			addressing = create_az_addressing(study_subject,
 #				:address => { :address_type => 'Mailing' })
-#		} } }
+#		} }
 #		assert_study_subject_is_eligible(study_subject)
 #	end
 #
@@ -338,22 +252,11 @@ class AddressingTest < ActiveSupport::TestCase
 #			"on create if state 'CA' and address is residence" do
 #		study_subject = create_eligible_hx_study_subject
 #		assert_difference('OperationalEvent.count',0) {
-#		assert_difference('Address.count',1) {
 #		assert_difference("Addressing.count", 1 ) {
 #			addressing = create_ca_addressing(study_subject)
-#		} } }
+#		} }
 #		assert_study_subject_is_eligible(study_subject)
 #	end
-
-
-	#	delegated to the address
-	%w( address_type 
-			line_1 line_2 street unit city state zip csz county ).each do |method_name|
-		test "should respond to #{method_name}" do
-			addressing = Addressing.new
-			assert addressing.respond_to?(method_name)
-		end
-	end
 
 
 #	'1' and '0' are the default values for a checkbox.
@@ -442,6 +345,116 @@ class AddressingTest < ActiveSupport::TestCase
 		assert  addressing.study_subject.needs_reindexed
 	end
 
+
+
+	#	external_address_id isn't required so don't use class level test
+	#	would have to modify class level test to try to put something
+	#	in the field, but would have to determine datatype and ......
+	test "should require unique external_address_id" do
+		FactoryGirl.create(:addressing,:external_address_id => 123456789)
+		addressing = Addressing.new(:external_address_id => 123456789)
+		assert !addressing.valid?
+		assert addressing.errors.matching?(:external_address_id,
+			'has already been taken')
+	end
+
+
+
+
+
+
+
+
+	test "address factory should create address" do
+		assert_difference('Addressing.count',1) {
+			addressing = FactoryGirl.create(:addressing)
+			assert_match /Box \d*/, addressing.line_1
+			assert_equal "Berkeley", addressing.city
+			assert_equal "CA", addressing.state
+			assert_equal "12345", addressing.zip
+		}
+	end
+
+	test "mailing_address should create address" do
+		assert_difference('Addressing.count',1) {
+			addressing = FactoryGirl.create(:mailing_addressing)
+		}
+	end
+
+	test "residence_addressing should create addressing" do
+		assert_difference('Addressing.count',1) {
+			addressing = FactoryGirl.create(:residence_addressing)
+		}
+	end
+
+	test "should require address_type" do
+		addressing = Addressing.new( :address_type => nil)
+		assert !addressing.valid?
+		assert  addressing.errors.matching?(:address_type, "can't be blank")
+	end
+
+	test "should require 5 or 9 digit zip" do
+		%w( asdf 1234 123456 1234Q ).each do |bad_zip|
+			addressing = Addressing.new( :zip => bad_zip )
+			assert !addressing.valid?
+			assert addressing.errors.include?(:zip)
+			assert addressing.errors.matching?(:zip,
+				'Zip should be 12345, 123451234 or 12345-1234'), 
+					addressing.errors.full_messages.to_sentence
+		end
+		%w( 12345 12345-6789 123456789 ).each do |good_zip|
+			addressing = Addressing.new( :zip => good_zip )
+			addressing.valid?
+			assert !addressing.errors.include?(:zip)
+			assert addressing.zip =~ /\A\d{5}(-)?(\d{4})?\z/
+		end
+	end
+
+	test "should format 9 digit zip" do
+		assert_difference( "Addressing.count", 1 ) do
+			addressing = create_addressing( :zip => '123456789' )
+#			addressing = Addressing.new( :zip => '123456789' )
+#			addressing.valid?
+#	the formating is currently in a before save, so have to save it.
+			assert !addressing.errors.include?(:zip)
+			assert addressing.zip =~ /\A\d{5}(-)?(\d{4})?\z/
+			assert_equal '12345-6789', addressing.zip
+		end
+	end
+
+	test "should return city state and zip with csz" do
+		addressing = Addressing.new(
+			:city  => 'City',
+			:state => 'CA',
+			:zip   => '12345')
+		assert_equal "City, CA 12345", addressing.csz
+	end
+
+	test "should return street with just line_1 if line_2 blank" do
+		addressing = Addressing.new( :line_1   => 'I am line_1')
+		assert_equal "I am line_1", addressing.street
+	end
+
+	test "should return street with join of line_1 and line_2" do
+		addressing = Addressing.new( 
+			:line_1   => 'I am line_1',
+			:line_2   => 'I am line_2')
+		assert_equal "I am line_1, I am line_2", addressing.street
+	end
+
+	#	Note that there are probably legitimate address line 1's 
+	#	that will match the p.*o.*box regex.
+	test "should require non-residence address type with pobox in line" do
+		["P.O. Box 123","PO Box 123","P O Box 123","Post Office Box 123"].each do |pobox|
+			addressing = Addressing.new( 
+				:line_1 => pobox,
+				:address_type => 'Residence'
+			)
+			assert !addressing.valid?
+			assert addressing.errors.include?(:address_type)
+		end
+	end
+
 protected
 
 	def create_addressing_with_address(study_subject,options={})
@@ -449,21 +462,19 @@ protected
 			:study_subject => study_subject,
 #	doesn't work in rcov for some reason
 #			:address => nil,	#	block address_attributes
-			:address_id => nil,	#	block address_attributes
-			:address_attributes => FactoryGirl.attributes_for(:address,{
-				:address_type => 'Residence'
-			}.merge(options[:address]||{}))
+#			:address_id => nil,	#	block address_attributes
+#			:address_attributes => FactoryGirl.attributes_for(:address,{
+#				:address_type => 'Residence'
+#			}.merge(options[:address]||{}))
 		}.merge(options[:addressing]||{}))
 	end
 
 	def create_ca_addressing(study_subject,options={})
-		create_addressing_with_address(study_subject,{
-			:address => {:state => 'CA'}}.merge(options))
+		create_addressing_with_address(study_subject,{:state => 'CA'}.merge(options))
 	end
 
 	def create_az_addressing(study_subject,options={})
-		create_addressing_with_address(study_subject,{
-			:address => {:state => 'AZ'}}.merge(options))
+		create_addressing_with_address(study_subject,{:state => 'AZ'}.merge(options))
 	end
 
 	#	create_object is called from within the common class tests

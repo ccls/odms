@@ -10,47 +10,37 @@ def self.included(base)
 base.class_eval do
 
 	has_many :addressings
-	has_many :addresses, :through => :addressings
 
 	accepts_nested_attributes_for :addressings,
 		:reject_if => proc { |attrs|
 			!attrs[:address_required] &&
-			( attrs[:address_attributes].blank? || (
-				attrs[:address_attributes][:line_1].blank? &&
-				attrs[:address_attributes][:line_2].blank? &&
-				attrs[:address_attributes][:unit].blank? &&
-				attrs[:address_attributes][:city].blank? &&
-				attrs[:address_attributes][:zip].blank? &&
-				attrs[:address_attributes][:county].blank? ) )
+			( attrs[:line_1].blank? &&
+				attrs[:line_2].blank? &&
+				attrs[:unit].blank? &&
+				attrs[:city].blank? &&
+				attrs[:zip].blank? &&
+				attrs[:county].blank? )
 		}
 
 	#	Returns number of addresses with 
 	#	address_type.key == 'residence'
 	def residence_addresses_count
-		addresses.where( :address_type => 'Residence' ).count
+		addressings.where( :address_type => 'Residence' ).count
 	end
 
 	def current_mailing_address
-		addressings.current.mailing.order('created_at DESC').first.try(:address)
+		addressings.current.mailing.order('created_at DESC').first	#.try(:address)
 	end
 	alias_method :mailing_address, :current_mailing_address
 
 	def current_address
-		addressings.current.order('created_at DESC').first.try(:address)
+		addressings.current.order('created_at DESC').first	#.try(:address)
 	end
 	alias_method :address, :current_address
-
 
 	def current_address_at_dx
 		addressings.current.order('created_at DESC').first.try(:address_at_diagnosis)
 	end
-
-	#
-	#	Can I delegate these?
-	#	Yes, but for some reason the SQL query for addressing executes twice?
-	#
-	#	delegate :street, :to => :address, :allow_nil => true, :prefix => true
-	#	delegate :unit, :to => :address, :allow_nil => true, :prefix => true
 
 	def address_street
 		address.try(:street)

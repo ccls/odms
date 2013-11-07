@@ -4,15 +4,12 @@ class CountrySelectHelperTest < ActionView::TestCase
 
 	test "basic addressing form" do
 		@addressing = FactoryGirl.create(:addressing)
-#		form_for(:addressing,@addressing,:url => '/'){|f| 
-#			f.fields_for(:address){ |address|
-#				concat address.country_select(:country) } }
 		output_buffer = form_for(@addressing,:url => '/'){|f| 
-			f.fields_for(:address){ |address| address.country_select(:country) } }
+			f.country_select(:country) }
 		response = HTML::Document.new(output_buffer).root
 		assert_select( response, 'form', 1 ){ |f|	
 			f = f.first		#	f is an array of the 1 matching element!
-			assert_select( f, 'select#addressing_address_attributes_country', 1 ){ |s|
+			assert_select( f, 'select#addressing_country', 1 ){ |s|
 				s = s.first		#	s is an array of the 1 matching element!
 				options = assert_select s, 'option', 246
 				#	first should be blank <option value=""></option>
@@ -20,7 +17,6 @@ class CountrySelectHelperTest < ActionView::TestCase
 				#	second should be US <option value="United States">United States</option>
 				assert_select options[1], 'option[value=United States]'
 			}
-			assert_select f, 'input#addressing_address_attributes_id[type=hidden]'
 		}
 	end
 

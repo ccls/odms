@@ -9,28 +9,28 @@ class AddressingIntegrationTest < ActionController::CapybaraIntegrationTest
 			addressing = FactoryGirl.create(:addressing)
 			login_as send(cu)
 			visit edit_study_subject_addressing_path(addressing.study_subject,addressing)
-			fill_in "addressing[address_attributes][city]",  :with => ""
-			fill_in "addressing[address_attributes][county]",  :with => ""
-			select "", :from => 'addressing[address_attributes][state]'
-			fill_in "addressing[address_attributes][zip]",  :with => ""
-			assert find_field("addressing[address_attributes][city]").value.blank?
-			assert find_field("addressing[address_attributes][county]").value.blank?
-			assert find_field("addressing[address_attributes][state]").value.blank?
-			assert find_field("addressing[address_attributes][zip]").value.blank?
+			fill_in "addressing[city]",  :with => ""
+			fill_in "addressing[county]",  :with => ""
+			select "", :from => 'addressing[state]'
+			fill_in "addressing[zip]",  :with => ""
+			assert find_field("addressing[city]").value.blank?
+			assert find_field("addressing[county]").value.blank?
+			assert find_field("addressing[state]").value.blank?
+			assert find_field("addressing[zip]").value.blank?
 
-			fill_in "addressing[address_attributes][zip]",  :with => "17857"
+			fill_in "addressing[zip]",  :with => "17857"
 
-#wait_until{ !find_field("addressing[address_attributes][city]").value.blank? }
-wait_until{ find_field("addressing[address_attributes][city]").value.present? }
+#wait_until{ !find_field("addressing[city]").value.blank? }
+wait_until{ find_field("addressing[city]").value.present? }
 
 			assert_equal 'Northumberland',
-				find_field("addressing[address_attributes][city]").value
+				find_field("addressing[city]").value
 			assert_equal 'Northumberland',
-				find_field("addressing[address_attributes][county]").value
+				find_field("addressing[county]").value
 			assert_equal 'PA',
-				find_field("addressing[address_attributes][state]").value
+				find_field("addressing[state]").value
 			assert_equal '17857',
-				find_field("addressing[address_attributes][zip]").value
+				find_field("addressing[zip]").value
 		end
 
 #		test "addressing#edit should show why_invalid when is_valid is changed to 'No'" <<
@@ -125,8 +125,8 @@ wait_until{ find_field("addressing[address_attributes][city]").value.present? }
 			login_as send(cu)
 			visit new_study_subject_addressing_path(study_subject)
 			#	residence address and NOT in 'CA'
-			select 'PA', :from => "addressing[address_attributes][state]"
-			select 'Residence', :from => "addressing[address_attributes][address_type]"
+			select 'PA', :from => "addressing[state]"
+			select 'Residence', :from => "addressing[address_type]"
 
 			#	we don't want to actually save, so cancel with ....
 			evaluate_script('window.confirm = function() { return false; }')
@@ -146,21 +146,21 @@ wait_until{ find_field("addressing[address_attributes][city]").value.present? }
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit new_study_subject_addressing_path(study_subject)
-			assert find_field("addressing[address_attributes][city]").value.blank?
-			assert find_field("addressing[address_attributes][county]").value.blank?
-			assert find_field("addressing[address_attributes][state]").value.blank?
-			assert find_field("addressing[address_attributes][zip]").value.blank?
+			assert find_field("addressing[city]").value.blank?
+			assert find_field("addressing[county]").value.blank?
+			assert find_field("addressing[state]").value.blank?
+			assert find_field("addressing[zip]").value.blank?
 
-			fill_in "addressing[address_attributes][zip]",  :with => "17857"
+			fill_in "addressing[zip]",  :with => "17857"
 
 			assert_equal 'Northumberland',
-				find_field("addressing[address_attributes][city]").value
+				find_field("addressing[city]").value
 			assert_equal 'Northumberland',
-				find_field("addressing[address_attributes][county]").value
+				find_field("addressing[county]").value
 			assert_equal 'PA',
-				find_field("addressing[address_attributes][state]").value
+				find_field("addressing[state]").value
 			assert_equal '17857',
-				find_field("addressing[address_attributes][zip]").value
+				find_field("addressing[zip]").value
 		end
 
 	end

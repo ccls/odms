@@ -5,46 +5,47 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 	assert_should_have_many(:addressings, :model => 'StudySubject')
 
 	test "should create study_subject and accept_nested_attributes_for addressings" do
-		assert_difference( 'Address.count', 1) {
 		assert_difference( 'Addressing.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
-					:data_source => 'Unknown Data Source',
-					:address_attributes => FactoryGirl.attributes_for(:address,
-					:address_type => 'Residence' ) )])
+				:addressings_attributes => { '0' => FactoryGirl.attributes_for(:addressing,
+					:data_source => 'Unknown Data Source')})
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} } }
+		} }
 	end
 
 	test "should create study_subject and ignore blank address" do
-		assert_difference( 'Address.count', 0) {
 		assert_difference( 'Addressing.count', 0) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
+				:addressings_attributes => { '0' => FactoryGirl.attributes_for(:addressing,
 					:data_source => 'Unknown Data Source',
-					:address_attributes => { :address_type => 'Residence' } )])
+					:line_1 => nil,
+					:city => nil,
+					:state => nil,
+					:zip => nil )})
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} } }
+		} }
 	end
 
 	test "should create study_subject and require address with flag" do
-		assert_difference( 'Address.count', 0) {
 		assert_difference( 'Addressing.count', 0) {
 		assert_difference( "StudySubject.count", 0 ) {
 			study_subject = create_study_subject(
-				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
+				:addressings_attributes => { '0' => FactoryGirl.attributes_for(:addressing,
 					:data_source => 'Unknown Data Source',
 					:address_required   => true,
-					:address_attributes => { :address_type => 'Residence' } )])
-			assert study_subject.errors.matching?('addressings.address.line_1',"can't be blank")
-			assert study_subject.errors.matching?('addressings.address.city',"can't be blank")
-			assert study_subject.errors.matching?('addressings.address.state',"can't be blank")
-			assert study_subject.errors.matching?('addressings.address.zip',"can't be blank")
-		} } }
+					:line_1 => nil,
+					:city => nil,
+					:state => nil,
+					:zip => nil )})
+			assert study_subject.errors.matching?('addressings.line_1',"can't be blank")
+			assert study_subject.errors.matching?('addressings.city',"can't be blank")
+			assert study_subject.errors.matching?('addressings.state',"can't be blank")
+			assert study_subject.errors.matching?('addressings.zip',"can't be blank")
+		} }
 	end
 
 	test "should update study_subject with addressing" do
@@ -58,16 +59,12 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert study_subject.respond_to?(:residence_addresses_count)
 		assert_equal 0, study_subject.residence_addresses_count
 		study_subject.update_attributes(
-				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
-					:data_source => 'Unknown Data Source',
-					:address_attributes => FactoryGirl.attributes_for(:address,
-					{ :address_type => 'Residence' } ))])
+				:addressings_attributes => { '0' => FactoryGirl.attributes_for(:residence_addressing,
+					:data_source => 'Unknown Data Source' )})
 		assert_equal 1, study_subject.reload.residence_addresses_count
 		study_subject.update_attributes(
-				:addressings_attributes => [FactoryGirl.attributes_for(:addressing,
-					:data_source => 'Unknown Data Source',
-					:address_attributes => FactoryGirl.attributes_for(:address,
-					{ :address_type => 'Residence' } ))])
+				:addressings_attributes => { '0' => FactoryGirl.attributes_for(:residence_addressing,
+					:data_source => 'Unknown Data Source' )})
 		assert_equal 2, study_subject.reload.residence_addresses_count
 	end
 
@@ -78,17 +75,6 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('Addressing.count',0) {
-			@study_subject.destroy
-		} }
-	end
-
-	test "should NOT destroy addresses with study_subject" do
-		assert_difference('StudySubject.count',1) {
-		assert_difference('Address.count',1) {
-			@study_subject = FactoryGirl.create(:addressing).study_subject
-		} }
-		assert_difference('StudySubject.count',-1) {
-		assert_difference('Address.count',0) {
 			@study_subject.destroy
 		} }
 	end

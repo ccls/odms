@@ -21,14 +21,17 @@ module RafTestHelper
 
 	def complete_case_study_subject_attributes(options={})
 		{ 'study_subject' => FactoryGirl.attributes_for(:study_subject,
+			'patient_attributes' => FactoryGirl.attributes_for(:patient),
+#			'subject_languages_attributes' => [ {"language_code"=>"1"} ],
+#			'phone_numbers_attributes' => [ FactoryGirl.attributes_for(:phone_number) ],
+#			'addressings_attributes' => [ FactoryGirl.attributes_for(:addressing) ],
+#			'enrollments_attributes' => [ FactoryGirl.attributes_for(:enrollment) ]
 			'subject_languages_attributes' => {
 				"0"=>{"language_code"=>"1"} },
-			'patient_attributes' => FactoryGirl.attributes_for(:patient),
 			'phone_numbers_attributes' => {
 				'0' => FactoryGirl.attributes_for(:phone_number) },
 			'addressings_attributes' => {
-				'0' => FactoryGirl.attributes_for(:addressing,
-				'address_attributes' => FactoryGirl.attributes_for(:address) ) },
+				'0' => FactoryGirl.attributes_for(:addressing) },
 			'enrollments_attributes' => {
 				'0' => FactoryGirl.attributes_for(:enrollment) }
 			)
@@ -42,9 +45,8 @@ module RafTestHelper
 		assert_difference('Enrollment.count',count){
 		assert_difference('PhoneNumber.count',count){
 		assert_difference('Addressing.count',count){
-		assert_difference('Address.count',count){
 			yield
-		} } } } } } }
+		} } } } } }
 	end
 
 	def successful_raf_creation(&block)
@@ -54,7 +56,6 @@ module RafTestHelper
 		assert_difference('Enrollment.count',2){	#	subject AND mother
 		assert_difference('PhoneNumber.count',1){
 		assert_difference('Addressing.count',1){
-		assert_difference('Address.count',1){
 			yield
 
 #if assigns(:study_subject).errors.count > 0
@@ -62,7 +63,7 @@ module RafTestHelper
 #puts assigns(:study_subject).errors.inspect
 #end
 
-		} } } } } } }
+		} } } } } }
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)
 	end
@@ -100,12 +101,11 @@ module RafTestHelper
 #		assert_difference('SubjectLanguage.count',0){
 #		assert_difference('PhoneNumber.count',0){
 #		assert_difference('Addressing.count',1){
-#		assert_difference('Address.count',1){
 #		assert_difference('Enrollment.count',2){	#	both child and mother
 #		assert_difference('Patient.count',1){
 #		assert_difference('StudySubject.count',2){
 #			post :create, minimum_nonwaivered_form_attributes(options)
-#		} } } } } } }
+#		} } } } } }
 #		assert_nil flash[:error]
 #		assert_redirected_to assigns(:study_subject)
 #	end
@@ -129,12 +129,11 @@ module RafTestHelper
 		assert_difference('SubjectLanguage.count',0){
 		assert_difference('PhoneNumber.count',0){
 		assert_difference('Addressing.count',0){
-		assert_difference('Address.count',0){
 		assert_difference('Enrollment.count',2){	#	both child and mother
 		assert_difference('Patient.count',1){
 		assert_difference('StudySubject.count',2){
 			post :create, minimum_waivered_form_attributes(options)
-		} } } } } } }
+		} } } } } }
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)
 	end

@@ -9,7 +9,6 @@
 </div>
 </div></div>
 
-
 <%= div_for @addressing do %>
 <span class='line_1'><%= @addressing.line_1 %></span>
 <%= "<span class='unit'>Apt. #{h(@addressing.unit)}</span>".html_safe unless @addressing.unit.blank? %>
@@ -17,8 +16,6 @@
 <span class='csz'><%= @addressing.csz %></span>
 <%= "<span class='county'>#{h(@addressing.county)} County</span>".html_safe unless @addressing.county.blank?  %>
 <% end %><!-- class='addressing' -->
-
-
 
 <%= render 'map' %>
 

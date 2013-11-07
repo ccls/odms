@@ -27,9 +27,12 @@ class StudySubject::AddressingsController < StudySubjectController
 #
 #	NOTE This may have been corrected in rails 3, but I haven't tested.
 #
-		if params[:addressing] && params[:addressing][:address_attributes] 
-			params[:addressing][:address_attributes][:id] = nil
-		end
+#
+#	Don't know if this'll be needed with merging
+#
+#		if params[:addressing] && params[:addressing][:address_attributes] 
+#			params[:addressing][:address_attributes][:id] = nil
+#		end
 
 #		@addressing = @study_subject.addressings.build(
 #			params[:addressing].merge( :current_user => current_user ) )

@@ -31,7 +31,6 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
@@ -39,7 +38,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				click_button 'continue'
 				#	out of icf master ids warning
 				wait_until { has_css?("p.flash.warn") }
-			} } } } } } }
+			} } } } } }
 
 			#	out of icf master ids warning
 			assert has_css?("p.flash.warn")
@@ -71,14 +70,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 				wait_until { has_css?("p.flash.error") }
-			} } } } } } }
+			} } } } } }
 
 			#
 			#	this kicks back as a render, not a redirect so 
@@ -92,14 +90,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			#	don't choose a duplicate
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'Match Found'
 				wait_until { has_css?("p.flash.error") }
-			} } } } } } }
+			} } } } } }
 			assert has_css?('div.possible_duplicates')
 			assert has_css?("p.flash.error")
 			assert has_css?("p.flash.warn")
@@ -134,14 +131,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 				wait_until { has_css?("p.flash.error") }
-			} } } } } } }
+			} } } } } }
 
 			#
 			#	this kicks back as a render, not a redirect so 
@@ -157,7 +153,6 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			#	no new records, just a modified candidate_control record
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -168,7 +163,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 				#	i still don't know why some redirects are followed by capybara and some aren't
 
-			} } } } } } }
+			} } } } } }
 
 			assert_candidate_rejected(candidate.reload)
 			# as the created duplicate is not explicitly a case
@@ -201,14 +196,13 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
 			deny_changes("CandidateControl.find(#{candidate.id}).updated_at") {
 				click_button 'continue'
 				wait_until { has_css?("p.flash.error") }
-			} } } } } } }
+			} } } } } }
 
 			#
 			#	this kicks back as a render, not a redirect so 
@@ -223,7 +217,6 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			#	don't choose a duplicate
 			assert_difference('PhoneNumber.count',0) {
 			assert_difference('Addressing.count',0) {
-			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
@@ -231,7 +224,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 				click_button 'No Match'
 				#	no icf master ids warning
 				wait_until { has_css?("p.flash.warn") }
-			} } } } } } }
+			} } } } } }
 
 			assert has_css?("p.flash.warn")
 			assert_candidate_assigned_and_accepted(candidate.reload)
