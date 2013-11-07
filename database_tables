@@ -304,6 +304,21 @@ Table: addressings
 | updated_at           | datetime     | NO   |     | NULL    |                |
 | notes                | text         | YES  |     | NULL    |                |
 | data_source          | varchar(255) | YES  |     | NULL    |                |
+| line_1               | varchar(255) | YES  |     | NULL    |                |
+| line_2               | varchar(255) | YES  |     | NULL    |                |
+| city                 | varchar(255) | YES  |     | NULL    |                |
+| state                | varchar(255) | YES  |     | NULL    |                |
+| zip                  | varchar(10)  | YES  |     | NULL    |                |
+| external_address_id  | int(11)      | YES  |     | NULL    |                |
+| county               | varchar(255) | YES  |     | NULL    |                |
+| unit                 | varchar(255) | YES  |     | NULL    |                |
+| country              | varchar(255) | YES  |     | NULL    |                |
+| needs_geocoded       | tinyint(1)   | YES  |     | 1       |                |
+| geocoding_failed     | tinyint(1)   | YES  |     | 0       |                |
+| longitude            | float        | YES  |     | NULL    |                |
+| latitude             | float        | YES  |     | NULL    |                |
+| geocoding_response   | text         | YES  |     | NULL    |                |
+| address_type         | varchar(255) | YES  |     | NULL    |                |
 +----------------------+--------------+------+-----+---------+----------------+
 Table: aliquots
 +----------------------------+--------------+------+-----+---------+----------------+

@@ -11,6 +11,30 @@ namespace :addressings do
 #		end	#	DataSource.all
 #	end
 
+	task :import_address_data => :environment do
+		puts Addressing.count
+		Addressing.all.each do |addressing|
+			puts "#{addressing.id}/#{Addressing.count}"
+			Addressing.where(:id => addressing.id).update_all({
+				:line_1 => addressing.address.line_1,
+				:line_2 => addressing.address.line_2,
+				:city => addressing.address.city,
+				:state => addressing.address.state,
+				:zip => addressing.address.zip,
+				:external_address_id => addressing.address.external_address_id,
+				:county => addressing.address.county,
+				:unit => addressing.address.unit,
+				:country => addressing.address.country,
+				:needs_geocoded => addressing.address.needs_geocoded,
+				:geocoding_failed => addressing.address.geocoding_failed,
+				:longitude => addressing.address.longitude,
+				:latitude => addressing.address.latitude,
+				:geocoding_response => addressing.address.geocoding_response,
+				:address_type => addressing.address.address_type,
+			})
+		end
+	end
+
 end	#	namespace :addressings do
 end	#	namespace :app do
 __END__

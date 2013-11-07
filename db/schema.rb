@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131105185812) do
+ActiveRecord::Schema.define(:version => 20131106213117) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -299,14 +299,29 @@ ActiveRecord::Schema.define(:version => 20131105185812) do
   create_table "addressings", :force => true do |t|
     t.integer  "study_subject_id"
     t.integer  "address_id"
-    t.integer  "current_address",      :default => 1
+    t.integer  "current_address",                    :default => 1
     t.integer  "address_at_diagnosis"
     t.integer  "data_source_id"
     t.string   "other_data_source"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
     t.text     "notes"
     t.string   "data_source"
+    t.string   "line_1"
+    t.string   "line_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip",                  :limit => 10
+    t.integer  "external_address_id"
+    t.string   "county"
+    t.string   "unit"
+    t.string   "country"
+    t.boolean  "needs_geocoded",                     :default => true
+    t.boolean  "geocoding_failed",                   :default => false
+    t.float    "longitude"
+    t.float    "latitude"
+    t.text     "geocoding_response"
+    t.string   "address_type"
   end
 
   add_index "addressings", ["address_id"], :name => "index_addressings_on_address_id"
