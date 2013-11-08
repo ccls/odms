@@ -19,6 +19,48 @@ if StudySubject.respond_to?(:solr_search)
 			assert_found_nothing
 		end
 
+
+
+		test "should search by fulltext subjectid with subject and #{cu} login" do
+			study_subject = build_and_index_subject
+			login_as send(cu)
+			get :index, :q => study_subject.subjectid
+			assert_found_one( study_subject )
+		end
+
+		test "should find sole subject ignoring blank param race and #{cu} login and ignore operator AND" do
+			login_as send(cu)
+			study_subject = build_and_index_subject
+			study_subject.races << Race[:white]
+			StudySubject.solr_reindex
+			get :index, :races => [''], "races_op" => 'AND'
+			assert_found_one( study_subject )
+		end
+
+		test "should find sole subject with matching param race and #{cu} login and ignore operator AND" do
+			login_as send(cu)
+			study_subject = build_and_index_subject
+			study_subject.races << Race[:white]
+			study_subject.races << Race[:black]
+			StudySubject.solr_reindex
+			get :index, :races => ['White, Non-Hispanic','Black / African American'], "races_op" => 'AND'
+			assert_found_one( study_subject )
+		end
+
+		test "should find sole subject with matching param race and #{cu} login and ignore operator OR" do
+			login_as send(cu)
+			study_subject = build_and_index_subject
+			study_subject.races << Race[:white]
+			study_subject.races << Race[:black]
+			StudySubject.solr_reindex
+			get :index, :races => ['White, Non-Hispanic','Black / African American'], "races_op" => 'OR'
+			assert_found_one( study_subject )
+		end
+
+
+
+
+
 		test "should search with subject and #{cu} login" do
 			study_subject = build_and_index_subject
 			login_as send(cu)

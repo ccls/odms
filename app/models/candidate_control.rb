@@ -29,7 +29,7 @@ class CandidateControl < ActiveRecord::Base
 	end
 
 	def case_study_subject_birth_state_CA?
-		case_study_subject.birth_state == 'CA'
+		case_study_subject.try(:birth_state) == 'CA'
 	end
 
 	#	class method (basically a scope with an argument)

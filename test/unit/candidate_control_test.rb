@@ -665,6 +665,39 @@ class CandidateControlTest < ActiveSupport::TestCase
 	#
 	################################################################################
 
+
+
+	test "case_study_subject_birth_state_CA? should return true if case subject birth_state CA" do
+		case_subject = FactoryGirl.create(:case_study_subject, :birth_state => 'CA')
+		assert_not_nil case_subject.birth_state
+		candidate_control = CandidateControl.new(:related_patid => case_subject.patid)
+		assert candidate_control.case_study_subject_birth_state_CA?
+	end
+
+	test "case_study_subject_birth_state_CA? should return false if case subject birth_state NOT CA" do
+		case_subject = FactoryGirl.create(:case_study_subject, :birth_state => 'AZ')
+		assert_not_nil case_subject.birth_state
+		candidate_control = CandidateControl.new(:related_patid => case_subject.patid)
+		assert !candidate_control.case_study_subject_birth_state_CA?
+	end
+
+	test "case_study_subject_birth_state_CA? should return false if case subject nil" do
+		candidate_control = CandidateControl.new(:related_patid => nil)
+		assert !candidate_control.case_study_subject_birth_state_CA?
+	end
+
+	test "case_study_subject should return the case with related patid" do
+		case_subject = FactoryGirl.create(:case_study_subject)
+		assert_not_nil case_subject.patid
+		candidate_control = CandidateControl.new(:related_patid => case_subject.patid)
+		assert_equal case_subject, candidate_control.case_study_subject
+	end
+
+	test "case_study_subject should return nil with blank related patid" do
+		candidate_control = CandidateControl.new(:related_patid => nil)
+		assert_nil candidate_control.case_study_subject
+	end
+
 protected
 
 	def create_study_subjects_for_candidate_control(candidate,case_subject)

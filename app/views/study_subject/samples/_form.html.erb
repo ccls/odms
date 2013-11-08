@@ -46,6 +46,12 @@
 <%= f.wrapped_date_text_field :aliquotted_at,
 	:label_text => 'Aliquotted at:' %>
 
+<%= f.wrapped_select :sample_format, 
+	@sample.sample_formats, :include_blank => true %>
+
+<%= f.wrapped_select :sample_temperature, 
+	@sample.sample_temperatures, :include_blank => true %>
+
 <%= f.wrapped_text_area :notes %>
 
 <%#= render :partial => 'sample_kit', :locals => { :f => f } %>

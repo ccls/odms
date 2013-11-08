@@ -23,6 +23,13 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
+		test "should get unassigned index with #{cu} login" do
+			login_as send(cu)
+			get :index, :unassigned => 'the value of this is irrelevant'
+			assert_response :success
+			assert_template 'index'
+		end
+
 		test "should get show with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)

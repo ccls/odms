@@ -38,9 +38,9 @@ base.class_eval do
 	end
 	alias_method :address, :current_address
 
-	def current_address_at_dx
-		addressings.current.order('created_at DESC').first.try(:address_at_diagnosis)
-	end
+#	def current_address_at_dx
+#		addressings.current.order('created_at DESC').first.try(:address_at_diagnosis)
+#	end
 
 	def address_street
 		address.try(:street)

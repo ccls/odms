@@ -40,9 +40,9 @@ base.class_eval do
 		all_sunspot_columns.collect(&:name)
 	end
 
-	def self.sunspot_available_columns
-		sunspot_columns
-	end
+#	def self.sunspot_available_columns
+#		sunspot_columns
+#	end
 
 	def self.sunspot_available_column_names
 		sunspot_column_names.sort
