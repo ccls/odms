@@ -4,6 +4,8 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile ~/.gitignore_global
 
+gitignored/
+
 # Ignore bundler config (but not my example config)
 /.bundle/config
 
@@ -110,3 +112,35 @@ Merged-LegacyData.schema.sql
 bc_infos/
 birth_data/
 screening_data/
+
+
+abstract_notes/ODMS_Abstracts_xxxxxx.csv
+abstract_notes/ODMS_Abstracts_xxxxxx.csv.orig
+abstract_notes/fieldsandtypes.csv
+abstract_notes/import_notes.txt
+abstract_notes/new_and_old_tables_08312010.xls
+abstract_notes/phase1_abstract_db_final_clean_oct2010.xls
+abstract_notes/screen_backends.pdf
+abstract_notes/tracking2k_db.mdb.corrupt?
+abstract_notes/tracking2k_db_backup.mdb
+anand/
+archive/config/api.yml
+bc_info_20120822.csv
+bc_info_maiden_name.csv
+bc_infos_tmp/
+birth_data_01/
+birth_data_02/
+birth_data_test/
+birth_data_tmp/
+birth_data_updates_that_may_have_truncated_names.csv
+birth_datum_update_20120712.csv
+development/
+field_check.orig.csv
+icf_master_ids_20130515.txt
+ln_for_addressupdate_08192013.csv
+mine.rb
+original_modified_schema.xml
+public/control_bar.html
+rdoc/
+sunspot_question_post
+updated_solr_schema.xml
