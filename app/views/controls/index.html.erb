@@ -3,9 +3,9 @@
 <% else %>
 
 <p>
-<%= link_to("Select All", "javascript:void()", 
+<%= link_to("Select All", "javascript:void(0)", 
 	:id => :select_all, :class => :button) %>&nbsp;
-<%= link_to("Deselect All", "javascript:void()", 
+<%= link_to("Deselect All", "javascript:void(0)", 
 	:id => :deselect_all, :class => :button) %>&nbsp;
 <%= @study_subjects.length %> control(s) found.</p>
 

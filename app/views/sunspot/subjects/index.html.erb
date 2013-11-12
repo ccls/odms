@@ -14,6 +14,11 @@
 		<%= render 'per_page' %>
 	<% end %><%# form_tag -%>
 	<%= render 'download_csv' %>
+<% if @search.total < 5000 %>
+	<p><a id='show_map' href="javascript:void(0)">Show Map</a></p>
+<% else %>
+	<p>More than 5000 samples.<br/>Map disabled.</p>
+<% end %>
 </div>
 <%= render 'results' %>
-<%#= render 'map' %>
+<%= render 'map' %>

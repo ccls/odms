@@ -12,6 +12,11 @@ protected	#	from what and why?
 		@sunspot_search_class.methods.include?(:search) ||
 			access_denied("Sunspot server probably wasn't started first!", root_path)
 
+		#	This includes a redirect so can't render in action.
+		#	Including better condition.  Nevermind.
+#		unless @sunspot_search_class.methods.include?(:search)
+#			access_denied("Sunspot server probably wasn't started first!", root_path)
+#		else
 		begin
 			@search = @sunspot_search_class.search do
 
@@ -70,7 +75,7 @@ protected	#	from what and why?
 	
 				order_by *search_order
 	
-				if request.format.to_s.match(/csv/)
+				if request.format.to_s.match(/csv|json/)
 					#	don't paginate csv file.  Only way seems to be to make BIG query
 					#	rather than the arbitrarily big number, I could possibly
 					#	use the @search.total from the previous search sent as param?
@@ -79,10 +84,12 @@ protected	#	from what and why?
 					paginate :page => params[:page], :per_page => params[:per_page]
 				end
 			end	#	@search = @sunspot_search_class.search do
+
 		rescue Errno::ECONNREFUSED
 			flash[:error] = "Solr seems to be down for the moment."
 			redirect_to root_path
 		end	#	begin
+#		end	#	unless @sunspot_search_class.methods.include?(:search)
 	end
 
 	def search_order

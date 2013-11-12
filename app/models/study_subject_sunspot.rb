@@ -128,6 +128,10 @@ base.class_eval do
 	add_sunspot_column( :location, 
 		:type => :latlon, :orderable => false,
 		:meth => ->(s){ Sunspot::Util::Coordinates.new(s.address_latitude, s.address_longitude) } )
+	add_sunspot_column( :address_latitude, 
+		:type => :float, :orderable => false )
+	add_sunspot_column( :address_longitude, 
+		:type => :float, :orderable => false )
 
 	#	do_not_contact has default false set. will only be true or false
 	add_sunspot_column( :do_not_contact, 

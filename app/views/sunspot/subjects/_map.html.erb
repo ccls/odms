@@ -1,23 +1,49 @@
-<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyDrp6CvtDFWiI5SNvmwy-iN39uP0ZRSTs4&v=3.exp&sensor=false"></script>
-<div id='map_wrapper' style='height:100%;margin:0;padding:0;'>
-<div id='map_canvas'  style='height:100%;margin:0;padding:0;'></div>
-</div>
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyDrp6CvtDFWiI5SNvmwy-iN39uP0ZRSTs4&amp;v=3.exp&amp;sensor=false" type="text/javascript"></script>
+
 <%= javascript_tag do %>
-	var map;
-	var marker;
-	function initialize_map() {
-		var latlng = new google.maps.LatLng(-34.397, 150.644);
+	showGoogleMap = function(){
+
+		background = document.createElement("div");
+		background.id = 'map_canvas_background';
+		document.body.appendChild(background);
+
+		wrapper = document.createElement("div");
+		wrapper.id = 'map_canvas_wrapper';
+		document.body.appendChild(wrapper);
+
+		canvas = document.createElement("div");
+		canvas.id = 'map_canvas';
+		wrapper.appendChild(canvas);
+
+		var map;
+		var marker;
+		var latlng = new google.maps.LatLng(37, -118);
 		var mapOptions = {
-			zoom: 8,
+			zoom: 7,
 			center: latlng,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
 		map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-		marker = new google.maps.Marker({
-			map: map,
-			draggable: true
-		});
-	}
-	google.maps.event.addDomListener(window, 'load', initialize_map);
 
+		jQuery(document).keyup(function(e) {
+			if (e.keyCode == 27) { 
+				document.getElementById('map_canvas_background').remove();
+				document.getElementById('map_canvas_wrapper').remove();
+			}   // esc
+		});
+
+		new_search = document.location.search.replace(/&?c%5B%5D=[^&]*&?/g,"&").replace(/&+/g,'&').replace(/&$/,'');
+		new_search = new_search + "&c%5B%5D=address_latitude&c%5B%5D=address_longitude"
+
+		jQuery.get( document.location.pathname.toString() + ".json" + new_search, function(data){
+			jQuery.each(data,function(index,value){
+				new google.maps.Marker({
+					map: map,
+					position: new google.maps.LatLng(value.address_latitude, value.address_longitude)
+				});
+			});
+		});
+
+	};
+	jQuery('a#show_map').click(showGoogleMap);
 <% end %>

@@ -1,5 +1,5 @@
 <% if @search.total < 5000 %>
-	<%= link_to 'Download ALL as CSV', params.merge(:format => :csv) %>
+	<p><%= link_to 'Download ALL as CSV', params.merge(:format => :csv) %></p>
 <% else %>
 	<p>More than 5000 samples.<br/>CSV download disabled.</p>
 <% end %>

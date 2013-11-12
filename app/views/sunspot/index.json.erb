@@ -1,0 +1,25 @@
+<%# require 'csv' -%>
+<%# 
+	adding :headers => true is supposed to set a flag in the file 
+	somewhere marking it as having a header row, but I don't 
+	think that it actually does.
+
+	also, use a - with the ruby closing tag to avoid extra lines in csv file.
+
+	Unfortunately, when Access imports a csv file it adds a type to columns, I think.
+
+	The hospital_no is treated like an integer.  If it gets too big or contains
+	a non-digit character, it just leaves the field blank.  This is an absolutely
+	awful idea.  Thanks again Microsoft.  Because of this, I force quotes.
+	I really only need to quote the hospital_no, but it is easier to just quote them all.
+
+-%>
+<%#= columns.to_csv( :headers => true) -%>
+<%= @search.results.collect do |result| -%>
+<% columns.inject({}){|h,c| h[c] = column_content(result,c); h} -%>
+<% end.to_json.html_safe -%>
+<%#
+
+I added html_safe to stop any html encoding just in case
+
+-%>
