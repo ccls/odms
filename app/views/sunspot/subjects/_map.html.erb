@@ -15,15 +15,13 @@
 		canvas.id = 'map_canvas';
 		wrapper.appendChild(canvas);
 
-		var map;
-		var marker;
 		var latlng = new google.maps.LatLng(37, -118);
 		var mapOptions = {
 			zoom: 7,
 			center: latlng,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
-		map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+		var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
 		jQuery(document).keyup(function(e) {
 			if (e.keyCode == 27) { 
@@ -33,13 +31,37 @@
 		});
 
 		new_search = document.location.search.replace(/&?c%5B%5D=[^&]*&?/g,"&").replace(/&+/g,'&').replace(/&$/,'');
-		new_search = new_search + "&c%5B%5D=address_latitude&c%5B%5D=address_longitude"
+		new_search += "&c%5B%5D=address_latitude&c%5B%5D=address_longitude"
+		new_search += "&c%5B%5D=id"
+		new_search += "&c%5B%5D=studyid"
+		new_search += "&c%5B%5D=first_name"
+		new_search += "&c%5B%5D=middle_name"
+		new_search += "&c%5B%5D=last_name"
 
+		/* global infoWindow so never have more than one */
+		var infowindow = new google.maps.InfoWindow();
 		jQuery.get( document.location.pathname.toString() + ".json" + new_search, function(data){
-			jQuery.each(data,function(index,value){
-				new google.maps.Marker({
+			jQuery.each(data,function(index,subject){
+				/* infocontent is a bogus property added by me that seems to work */
+				infocontent  = "<div>"
+				infocontent += "<h2>"
+				infocontent += (subject.first_name||'') + ' '
+				infocontent += (subject.middle_name||'') + ' '
+				infocontent += (subject.last_name||'') + ' '
+				infocontent += "</h2>"
+				infocontent += "<p>a large sandstone rock formation in the southern part of the Northern Territory, central Australia. It lies 335 km (208 mi) south west of the nearest large town, Alice Springs; 450 km (280 mi) by road. Kata Tjuta and Uluru are the two major features of the Uluru - Kata Tjuta National Park. Uluru is sacred to the Pitjantjatjara and Yankunytjatjara, the Aboriginal people of the area. It has many springs, waterholes, rock caves and ancient paintings. Uluru is listed as a World</p>"
+				infocontent += '<p><a target="new" href="/study_subjects/' + subject.id + '">' + subject.studyid + '</a></p>'
+				infocontent += "</div>"
+				var marker = new google.maps.Marker({
 					map: map,
-					position: new google.maps.LatLng(value.address_latitude, value.address_longitude)
+					infocontent: infocontent,
+					position: new google.maps.LatLng(subject.address_latitude, subject.address_longitude)
+				});
+				
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.close();
+					infowindow.setContent(marker.infocontent);
+					infowindow.open(map,marker);
 				});
 			});
 		});
