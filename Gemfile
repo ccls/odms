@@ -126,7 +126,8 @@ group :test do
 
 	#	gem "rcov"	#	not supported ruby19 world. Suggests using simplecov.
 	#	This does not work as well as rcov used to, imo.
-	gem "simplecov", :require => false
+	#	simplecov-0.8.1 or one of its dependencies causes autotest to not actually run tests?
+	gem "simplecov", '0.7.1', :require => false
 
 
 	#	for dealing with integration tests
