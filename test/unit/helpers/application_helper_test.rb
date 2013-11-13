@@ -153,7 +153,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		'rafs'                    => 'raf_path',
 		'patients'                => 'study_subject_patient_path',
 		'birth_records'           => 'study_subject_birth_records_path',
-		'addresses'               => 'study_subject_contacts_path',
+#		'addresses'               => 'study_subject_contacts_path',
 		'addressings'             => 'study_subject_contacts_path',
 		'contacts'                => 'study_subject_contacts_path',
 		'phone_numbers'           => 'study_subject_contacts_path',

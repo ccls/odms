@@ -4,12 +4,14 @@ class InterviewTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_initially_belong_to(:study_subject)
-	assert_should_belong_to( :address, :instrument_version,
+#	assert_should_belong_to( :address, :instrument_version,
+	assert_should_belong_to( :instrument_version,
 		:interview_method, :language, :subject_relationship )
 	assert_should_belong_to( :interviewer, :class_name => 'Person')
 
 
-	attributes = %w( address_id began_at consent_read_over_phone 
+#	attributes = %w( address_id began_at consent_read_over_phone 
+	attributes = %w( began_at consent_read_over_phone 
 		consent_reviewed_with_respondent ended_at instrument_version_id 
 		interview_method_id interviewer_id intro_letter_sent_on language_id 
 		respondent_requested_new_consent study_subject_id )
@@ -40,18 +42,18 @@ class InterviewTest < ActiveSupport::TestCase
 		}
 	end
 
-	test "should NOT require address" do
-		interview = Interview.new(:address => nil)
-		interview.valid?
-		assert !interview.errors.include?(:address)
-		assert !interview.errors.include?(:address_id)
-	end
-
-	test "should require valid address if given" do
-		interview = Interview.new(:address_id => 0)
-		assert !interview.valid?
-		assert  interview.errors.include?(:address)
-	end
+#	test "should NOT require address" do
+#		interview = Interview.new(:address => nil)
+#		interview.valid?
+#		assert !interview.errors.include?(:address)
+#		assert !interview.errors.include?(:address_id)
+#	end
+#
+#	test "should require valid address if given" do
+#		interview = Interview.new(:address_id => 0)
+#		assert !interview.valid?
+#		assert  interview.errors.include?(:address)
+#	end
 
 	test "should NOT require interviewer" do
 		interview = Interview.new(:interviewer => nil)

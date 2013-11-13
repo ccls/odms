@@ -129,19 +129,19 @@ FactoryGirl.define do
 		f.updated_at Time.now	#	to make it dirty
 	end
 
-	factory :address do |f|
-		f.address_type 'Residence'
-		f.sequence(:line_1) { |n| "Box #{n}" }
-		f.city "Berkeley"
-		f.state "CA"
-		f.zip "12345"
-	end
-	factory :mailing_address, :parent => :address do |f|
-		f.address_type 'Mailing'
-	end
-	factory :residence_address, :parent => :address do |f|
-		f.address_type 'Residence'
-	end
+#	factory :address do |f|
+#		f.address_type 'Residence'
+#		f.sequence(:line_1) { |n| "Box #{n}" }
+#		f.city "Berkeley"
+#		f.state "CA"
+#		f.zip "12345"
+#	end
+#	factory :mailing_address, :parent => :address do |f|
+#		f.address_type 'Mailing'
+#	end
+#	factory :residence_address, :parent => :address do |f|
+#		f.address_type 'Residence'
+#	end
 	
 	factory :addressing do |f|
 		f.association :study_subject

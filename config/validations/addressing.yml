@@ -64,5 +64,5 @@
   :attribute: :address_type
   :presence: true
   :inclusion:
-    :in: <%= Address.valid_address_types %>
+    :in: <%= Addressing.valid_address_types %>
 

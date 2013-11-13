@@ -118,7 +118,7 @@ module ApplicationHelper
 		current = case params[:controller]
 			when 'study_subjects' then :general
 			when /patients$/ then :hospital
-			when /addresses$/ then :contact
+#			when /addresses$/ then :contact
 			when /addressings$/ then :contact
 			when /contacts$/ then :contact
 			when /phone_numbers$/ then :contact

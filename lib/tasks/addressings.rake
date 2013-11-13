@@ -13,6 +13,8 @@ namespace :addressings do
 
 	task :import_address_data => :environment do
 		puts count = Addressing.count
+		#	need to add a temp definition for Address as it has been archived.
+		class Address < ActiveRecord::Base; end
 		Addressing.all.each do |addressing|
 			puts "#{addressing.id}/#{count}"
 			address = Address.find(addressing.address_id)
@@ -32,7 +34,7 @@ namespace :addressings do
 				:latitude => address.latitude,
 				:geocoding_response => address.geocoding_response,
 				:address_type => address.address_type,
-			})
+			}) if address.present?
 		end
 	end
 

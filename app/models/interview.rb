@@ -13,7 +13,7 @@ class Interview < ActiveRecord::Base
 	#	why is this here?	Homex for assigning interview outcome
 	accepts_nested_attributes_for :study_subject
 
-	belongs_to :address
+#	belongs_to :address
 	belongs_to :interviewer, :class_name => 'Person'
 	belongs_to :instrument_version
 	belongs_to :interview_method
