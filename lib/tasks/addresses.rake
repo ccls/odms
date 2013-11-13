@@ -13,14 +13,14 @@ namespace :addresses do
 
 	task :geocode => :environment do
 		puts Time.zone.now
-		puts "Address.needs_geocoded ... #{Address.needs_geocoded.count}"
-		puts "Address.geocoding_failed ... #{Address.geocoding_failed.count}"
+		puts "Address.needs_geocoded ... #{Addressing.needs_geocoded.count}"
+		puts "Address.geocoding_failed ... #{Addressing.geocoding_failed.count}"
 
 		Geocoder.configure(
 			:always_raise => [Geocoder::OverQueryLimitError], 
 			:use_https => true)
 
-		Address.needs_geocoded.not_geocoding_failed.limit(1000).each do |address|
+		Addressing.needs_geocoded.not_geocoding_failed.limit(1000).each do |address|
 #		Address.needs_geocoded.limit(1000).each do |address|
 
 			puts "Geocoding ... #{address.full}"
