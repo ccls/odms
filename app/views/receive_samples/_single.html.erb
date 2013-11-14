@@ -40,10 +40,6 @@
 		SampleType.roots.for_new_samples, :children_for_new_samples, :to_s, :id, :to_s,
 	{ :include_blank => true }) %>
 
-<%#= f.wrapped_collection_select(:sample_temperature_id,
-	SampleTemperature.where(:key => %w(roomtemp refrigerated)),
-	:id, :to_s, { :include_blank => true }) %>
-
 <%= f.wrapped_select(:sample_temperature,
 	Sample.valid_sample_temperatures, { :include_blank => true }) %>
 

@@ -1,5 +1,4 @@
 <%= form_for(@abstract,
 	:url => study_subject_abstract_path(@study_subject,@abstract)) do |f| %>
-<%= f.error_messages %>
 <%= render 'form', :f => f %>
 <% end %>

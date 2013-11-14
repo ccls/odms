@@ -46,14 +46,6 @@
 <% if @operational_event.operational_event_type.try(:event_category).blank? -%>
 <%= f.select( :operational_event_type_id, [nil] ) %>
 <% else -%>
-<%#= f.collection_select( :operational_event_type_id,
-	OperationalEventType.all(:conditions => {
-		:event_category => @operational_event.operational_event_type.try(:event_category) 
-	}), :id, :to_s ) -%>
-<%#= f.collection_select( :operational_event_type_id,
-	OperationalEventType.where(
-		:event_category => @operational_event.operational_event_type.try(:event_category) 
-	), :id, :to_s ) -%>
 <%= f.collection_select( :operational_event_type_id,
 	OperationalEventType.with_category(
 		@operational_event.operational_event_type.try(:event_category) 

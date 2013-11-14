@@ -28,9 +28,6 @@
 
 -%>
 <div class='source'>
-<%#= f.wrapped_collection_select :data_source_id, 
-	([ f.object.try(:data_source) ] + DataSource.where(:key => %w(raf consent interview other))).compact.uniq,
-		:id, :to_s, :include_blank => true, :label_text => 'Source:' %>
 <%= f.wrapped_select :data_source, 
 		@phone_number.data_sources, :include_blank => true, :label_text => 'Source:' %>
 <%= f.wrapped_text_field :other_data_source, 

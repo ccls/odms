@@ -52,22 +52,7 @@
 <%= f.wrapped_sex_select :sex,
 	:label_text => "#{req('*')}&nbsp;sex:".html_safe %>
 
-
-<%#
-
-	undefined method `[]' for ActionView::Context:Module
-
-	be advised that Context is also class in rails, so we must add :: prefix
-
-%>
 <div class='diagnosis'>
-	<%#= patient_fields.wrapped_collection_select :diagnosis_id,
-		::Context['raf1'].diagnoses, :id, :to_s, :include_blank => true, 
-		:label_text => "#{req('*')}&nbsp;diagnosis:".html_safe %>
-	<%#= patient_fields.wrapped_collection_select :diagnosis_id,
-		Diagnosis.where(:key => %w(ALL AML other)),
-		:id, :to_s, :include_blank => true, 
-		:label_text => "#{req('*')}&nbsp;diagnosis:".html_safe %>
 	<%= patient_fields.wrapped_select :diagnosis,
 		@study_subject.patient.diagnoses, :include_blank => true, 
 		:label_text => "#{req('*')}&nbsp;diagnosis:".html_safe %>

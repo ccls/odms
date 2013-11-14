@@ -22,8 +22,6 @@
 <div class='prelim_info raf_section'>
 <div class='organization_id'>
 <%= wrapped_spans :study_subject, :organization %>
-<%#= wrapped_spans :study_subject, :organization,
-	:label_text => 'Treating Institution' %>
 </div><!-- class='organization_id' -->
 
 <%= wrapped_spans :patient, :admitting_oncologist %>
@@ -36,8 +34,6 @@
 
 <%= wrapped_date_spans :study_subject, :admit_date %>
 <%= wrapped_date_spans :study_subject, :dob %>
-<%#= wrapped_date_spans :study_subject, :dob,
-	:label_text => "Child's Date of Birth" %>
 
 <%# unfortunately, I've allowed sex to be blank %>
 <%= wrapped_spans :study_subject, :sex,
@@ -52,9 +48,7 @@
 </div>
 
 <%= wrapped_spans :patient, :raf_county %>
-<%#= wrapped_spans :patient, :raf_county, :label_text => 'RAF County' %>
 <%= wrapped_spans :patient, :raf_zip %>
-<%#= wrapped_spans :patient, :raf_zip, :label_text => 'RAF Zip' %>
 </div><!-- class='prelim_info' -->
 
 

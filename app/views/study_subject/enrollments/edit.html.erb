@@ -14,8 +14,6 @@
 
 <%= f.wrapped_yndk_select :is_candidate,
 	:label_text => 'is candidate?' %>
-<%#= f.wrapped_collection_select :tracing_status_id,
-	TracingStatus.all, :id, :to_s, :include_blank => true %>
 <%= f.wrapped_select :tracing_status,
 	@enrollment.tracing_statuses, :include_blank => true %>
 <%= f.wrapped_yndk_select :is_eligible,

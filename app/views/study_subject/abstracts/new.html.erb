@@ -1,8 +1,4 @@
 <%= form_for(@abstract, 
 	:url => study_subject_abstracts_path(@study_subject) ) do |f| %>
-
-<%# won't work 'til abstract is an active record again %>
-<%#= f.error_messages %>
-
 <%= render 'form', :f => f %>
 <% end %>
