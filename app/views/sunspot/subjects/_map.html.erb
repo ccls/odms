@@ -15,6 +15,11 @@
 		canvas.id = 'map_canvas';
 		wrapper.appendChild(canvas);
 
+		p = document.createElement("p");
+		p.style = "text-align:center;font-weight:bold;"
+		p.textContent = "press ESC to close map"
+		wrapper.appendChild(p);
+
 		var latlng = new google.maps.LatLng(37, -118);
 		var mapOptions = {
 			zoom: 7,
@@ -30,7 +35,11 @@
 			}   // esc
 		});
 
-		new_search = document.location.search.replace(/&?c%5B%5D=[^&]*&?/g,"&").replace(/&+/g,'&').replace(/&$/,'');
+		/* strip out all selected columns (c[]), duplicated &, last & and ensure that begins with a ? */
+		new_search = document.location.search.replace(/&?c%5B%5D=[^&]*&?/g,"&"
+			).replace(/&+/g,'&'
+			).replace(/&$/,''
+			).replace(/^\??/,'?');
 		new_search += "&c%5B%5D=address_latitude&c%5B%5D=address_longitude"
 		new_search += "&c%5B%5D=id"
 		new_search += "&c%5B%5D=studyid"
