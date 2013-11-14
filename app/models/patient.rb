@@ -14,9 +14,18 @@ class Patient < ActiveRecord::Base
 	validate :treatment_began_on_is_on_or_after_admit_date
 	validate :subject_is_case
 
+	def self.valid_raf_diagnoses
+		["ALL", "AML", "other diagnosis"]
+	end
+	def raf_diagnoses
+		([self.diagnosis] + self.class.valid_raf_diagnoses ).compact.uniq
+	end
+
+
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
 	def self.valid_diagnoses
-		["ALL", "AML", "other diagnosis", "missing data (e.g. legacy nulls)", "unknown diagnosis"]
+#		["ALL", "AML", "other diagnosis", "missing data (e.g. legacy nulls)", "unknown diagnosis"]
+		valid_raf_diagnoses + ["missing data (e.g. legacy nulls)", "unknown diagnosis"]
 	end
 
 	#	This method is predominantly for a form selector.
