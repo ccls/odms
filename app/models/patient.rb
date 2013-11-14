@@ -17,10 +17,10 @@ class Patient < ActiveRecord::Base
 	def self.valid_raf_diagnoses
 		["ALL", "AML", "other diagnosis"]
 	end
+
 	def raf_diagnoses
 		([self.diagnosis] + self.class.valid_raf_diagnoses ).compact.uniq
 	end
-
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
 	def self.valid_diagnoses
@@ -35,8 +35,6 @@ class Patient < ActiveRecord::Base
 	#		silently change the diagnosis.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def diagnoses
-	#	[self.diagnosis] + ( self.class.valid_diagnoses - [self.diagnosis])
-	#	[self.diagnosis].compact + ( self.class.valid_diagnoses - [self.diagnosis])
 		([self.diagnosis] + self.class.valid_diagnoses ).compact.uniq
 	end
 

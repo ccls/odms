@@ -38,8 +38,6 @@ class Addressing < ActiveRecord::Base
 	#   silently change the data source.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def data_sources
-	#	[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
-	#	[self.data_source].compact + ( self.class.valid_data_sources - [self.data_source])
 		([self.data_source] + self.class.valid_data_sources ).compact.uniq
 	end
 
@@ -84,8 +82,6 @@ class Addressing < ActiveRecord::Base
 	#   silently change the address type.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def address_types
-	#	[self.address_type] + ( self.class.valid_address_types - [self.address_type])
-	#	[self.address_type].compact + ( self.class.valid_address_types - [self.address_type])
 		([self.address_type] + self.class.valid_address_types ).compact.uniq
 	end
 

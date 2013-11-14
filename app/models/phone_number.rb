@@ -34,8 +34,6 @@ class PhoneNumber < ActiveRecord::Base
 	#		silently change the phone type.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def phone_types
-	#	[self.phone_type] + ( self.class.valid_phone_types - [self.phone_type])
-	#	[self.phone_type].compact + ( self.class.valid_phone_types - [self.phone_type])
 		([self.phone_type] + self.class.valid_phone_types ).compact.uniq
 	end
 
@@ -54,8 +52,7 @@ class PhoneNumber < ActiveRecord::Base
 	#   silently change the data source.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def data_sources
-	#	[self.data_source] + ( self.class.valid_data_sources - [self.data_source])
-		[self.data_source].compact + ( self.class.valid_data_sources - [self.data_source])
+		([self.data_source] + self.class.valid_data_sources ).compact.uniq
 	end
 
 	def data_source_is_other?

@@ -74,8 +74,6 @@ class Sample < ActiveRecord::Base
 	#		silently change the phone type.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def sample_temperatures
-	#	[self.sample_temperature] + ( self.class.valid_sample_temperatures - [self.sample_temperature])
-	#	[self.sample_temperature].compact + ( self.class.valid_sample_temperatures - [self.sample_temperature])
 		([self.sample_temperature] + self.class.valid_sample_temperatures ).compact.uniq
 	end
 
@@ -95,8 +93,6 @@ class Sample < ActiveRecord::Base
 	#		silently change the phone type.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def sample_formats
-	#	[self.sample_format] + ( self.class.valid_sample_formats - [self.sample_format])
-	#	[self.sample_format].compact + ( self.class.valid_sample_formats - [self.sample_format])
 		([self.sample_format] + self.class.valid_sample_formats ).compact.uniq
 	end
 
