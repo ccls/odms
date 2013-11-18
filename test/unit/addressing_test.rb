@@ -422,6 +422,20 @@ class AddressingTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "should return streets,unit,city,state and zip with full" do
+		addressing = Addressing.new(
+			:line_1 => '123 Main',
+			:line_2 => 'Suite 456',
+			:unit  => '789',
+			:city  => 'City',
+			:state => 'CA',
+			:zip   => '12345')
+#
+#	NOTE does NOT include the unit?
+#
+		assert_equal "123 Main, Suite 456, City, CA 12345", addressing.full
+	end
+
 	test "should return city state and zip with csz" do
 		addressing = Addressing.new(
 			:city  => 'City',

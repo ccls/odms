@@ -118,6 +118,18 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_redirected_to new_control_path
 		end
 
+		test "should get index with date and #{cu} login" do
+			login_as send(cu)
+			subject = FactoryGirl.create(:control_study_subject)
+			assert_equal 5, subject.phase
+			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id).first.assigned_for_interview_at
+			subject.enrollments.where(:project_id => Project[:ccls].id).first.update_attribute(:assigned_for_interview_at, DateTime.current)
+			get :index, :date => Date.current.to_s
+			assert_response :success
+			assert_template 'index'
+			assert_equal subject, assigns(:study_subjects).first
+		end
+
 		test "should get index with #{cu} login" do
 			login_as send(cu)
 			subject = FactoryGirl.create(:control_study_subject)

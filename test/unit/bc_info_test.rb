@@ -254,12 +254,22 @@ assert bc_info.changes.present?
 
 	end
 
-	test "should set create dob from components if they're not blank" do
+	test "should set create dob from new_child_dob components if they're not blank" do
 		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 			:new_child_doby => '2000',
 			:new_child_dobm => '12',
 			:new_child_dobd => '31')
+		bc_info.process
+		assert_equal Date.parse('12/31/2000'), study_subject.reload.dob
+	end
+
+	test "should set create dob from child_dob components if they're not blank" do
+		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
+			:child_doby => '2000',
+			:child_dobm => '12',
+			:child_dobd => '31')
 		bc_info.process
 		assert_equal Date.parse('12/31/2000'), study_subject.reload.dob
 	end
