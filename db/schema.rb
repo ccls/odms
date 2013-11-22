@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131106213117) do
+ActiveRecord::Schema.define(:version => 20131122194452) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -325,6 +325,7 @@ ActiveRecord::Schema.define(:version => 20131106213117) do
   end
 
   add_index "addressings", ["address_id"], :name => "index_addressings_on_address_id"
+  add_index "addressings", ["needs_geocoded", "geocoding_failed"], :name => "index_addressings_on_needs_geocoded_and_geocoding_failed"
   add_index "addressings", ["study_subject_id"], :name => "index_addressings_on_study_subject_id"
 
   create_table "aliquots", :force => true do |t|
@@ -476,6 +477,8 @@ ActiveRecord::Schema.define(:version => 20131106213117) do
     t.string   "derived_local_file_no_last6",       :limit => 6
   end
 
+  add_index "birth_data", ["study_subject_id"], :name => "index_birth_data_on_study_subject_id"
+
   create_table "candidate_controls", :force => true do |t|
     t.integer  "birth_datum_id"
     t.string   "related_patid",    :limit => 5
@@ -592,6 +595,7 @@ ActiveRecord::Schema.define(:version => 20131106213117) do
   end
 
   add_index "enrollments", ["project_id", "study_subject_id"], :name => "index_enrollments_on_project_id_and_study_subject_id", :unique => true
+  add_index "enrollments", ["study_subject_id"], :name => "index_enrollments_on_study_subject_id"
 
   create_table "follow_up_types", :force => true do |t|
     t.integer  "position"
@@ -1230,6 +1234,8 @@ ActiveRecord::Schema.define(:version => 20131106213117) do
     t.string   "sample_temperature"
   end
 
+  add_index "samples", ["study_subject_id"], :name => "index_samples_on_study_subject_id"
+
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
@@ -1356,7 +1362,10 @@ ActiveRecord::Schema.define(:version => 20131106213117) do
   add_index "study_subjects", ["idno_wiemels"], :name => "index_study_subjects_on_idno_wiemels", :unique => true
   add_index "study_subjects", ["lab_no_wiemels"], :name => "index_study_subjects_on_lab_no_wiemels", :unique => true
   add_index "study_subjects", ["local_registrar_no"], :name => "index_study_subjects_on_local_registrar_no", :unique => true
+  add_index "study_subjects", ["needs_reindexed"], :name => "index_study_subjects_on_needs_reindexed"
   add_index "study_subjects", ["patid", "case_control_type", "orderno"], :name => "piccton", :unique => true
+  add_index "study_subjects", ["phase", "case_icf_master_id"], :name => "index_study_subjects_on_phase_and_case_icf_master_id"
+  add_index "study_subjects", ["phase", "mother_icf_master_id"], :name => "index_study_subjects_on_phase_and_mother_icf_master_id"
   add_index "study_subjects", ["ssn"], :name => "index_study_subjects_on_ssn", :unique => true
   add_index "study_subjects", ["state_id_no"], :name => "index_study_subjects_on_state_id_no", :unique => true
   add_index "study_subjects", ["state_registrar_no"], :name => "index_study_subjects_on_state_registrar_no", :unique => true
@@ -1375,6 +1384,8 @@ ActiveRecord::Schema.define(:version => 20131106213117) do
     t.datetime "updated_at",       :null => false
   end
 
+  add_index "subject_languages", ["study_subject_id"], :name => "index_subject_languages_on_study_subject_id"
+
   create_table "subject_races", :force => true do |t|
     t.integer  "study_subject_id"
     t.integer  "race_code"
@@ -1383,6 +1394,8 @@ ActiveRecord::Schema.define(:version => 20131106213117) do
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
+
+  add_index "subject_races", ["study_subject_id"], :name => "index_subject_races_on_study_subject_id"
 
   create_table "subject_relationships", :force => true do |t|
     t.integer  "position"

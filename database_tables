@@ -313,7 +313,7 @@ Table: addressings
 | county               | varchar(255) | YES  |     | NULL    |                |
 | unit                 | varchar(255) | YES  |     | NULL    |                |
 | country              | varchar(255) | YES  |     | NULL    |                |
-| needs_geocoded       | tinyint(1)   | YES  |     | 1       |                |
+| needs_geocoded       | tinyint(1)   | YES  | MUL | 1       |                |
 | geocoding_failed     | tinyint(1)   | YES  |     | 0       |                |
 | longitude            | float        | YES  |     | NULL    |                |
 | latitude             | float        | YES  |     | NULL    |                |
@@ -381,7 +381,7 @@ Table: birth_data
 +-----------------------------------+--------------+------+-----+---------+----------------+
 | id                                | int(11)      | NO   | PRI | NULL    | auto_increment |
 | birth_datum_update_id             | int(11)      | YES  |     | NULL    |                |
-| study_subject_id                  | int(11)      | YES  |     | NULL    |                |
+| study_subject_id                  | int(11)      | YES  | MUL | NULL    |                |
 | master_id                         | varchar(255) | YES  |     | NULL    |                |
 | found_in_state_db                 | tinyint(1)   | YES  |     | NULL    |                |
 | birth_state                       | varchar(255) | YES  |     | NULL    |                |
@@ -563,7 +563,7 @@ Table: enrollments
 +-----------------------------+--------------+------+-----+---------+----------------+
 | id                          | int(11)      | NO   | PRI | NULL    | auto_increment |
 | position                    | int(11)      | YES  |     | NULL    |                |
-| study_subject_id            | int(11)      | YES  |     | NULL    |                |
+| study_subject_id            | int(11)      | YES  | MUL | NULL    |                |
 | project_id                  | int(11)      | YES  | MUL | NULL    |                |
 | recruitment_priority        | varchar(255) | YES  |     | NULL    |                |
 | is_candidate                | int(11)      | YES  |     | NULL    |                |
@@ -1242,7 +1242,7 @@ Table: samples
 | sample_format_id             | int(11)      | YES  |     | NULL    |                |
 | sample_type_id               | int(11)      | YES  |     | NULL    |                |
 | project_id                   | int(11)      | YES  |     | NULL    |                |
-| study_subject_id             | int(11)      | YES  |     | NULL    |                |
+| study_subject_id             | int(11)      | YES  | MUL | NULL    |                |
 | unit_id                      | int(11)      | YES  |     | NULL    |                |
 | location_id                  | int(11)      | YES  |     | NULL    |                |
 | sample_temperature_id        | int(11)      | YES  |     | NULL    |                |
@@ -1374,7 +1374,7 @@ Table: study_subjects
 | is_matched                  | tinyint(1)   | YES  |     | NULL    |                |
 | created_at                  | datetime     | NO   |     | NULL    |                |
 | updated_at                  | datetime     | NO   |     | NULL    |                |
-| phase                       | int(11)      | YES  |     | NULL    |                |
+| phase                       | int(11)      | YES  | MUL | NULL    |                |
 | hispanicity_mex             | int(11)      | YES  |     | NULL    |                |
 | legacy_race_code            | int(11)      | YES  |     | NULL    |                |
 | legacy_race_code_imported   | tinyint(1)   | YES  |     | 0       |                |
@@ -1390,7 +1390,7 @@ Table: study_subjects
 | addressings_count           | int(11)      | YES  |     | 0       |                |
 | phone_numbers_count         | int(11)      | YES  |     | 0       |                |
 | interviews_count            | int(11)      | YES  |     | 0       |                |
-| needs_reindexed             | tinyint(1)   | YES  |     | 0       |                |
+| needs_reindexed             | tinyint(1)   | YES  | MUL | 0       |                |
 | abstracts_count             | int(11)      | YES  |     | 0       |                |
 | enrollments_count           | int(11)      | YES  |     | 0       |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
@@ -1399,7 +1399,7 @@ Table: subject_languages
 | Field            | Type         | Null | Key | Default | Extra          |
 +------------------+--------------+------+-----+---------+----------------+
 | id               | int(11)      | NO   | PRI | NULL    | auto_increment |
-| study_subject_id | int(11)      | YES  |     | NULL    |                |
+| study_subject_id | int(11)      | YES  | MUL | NULL    |                |
 | language_code    | int(11)      | YES  |     | NULL    |                |
 | other_language   | varchar(255) | YES  |     | NULL    |                |
 | created_at       | datetime     | NO   |     | NULL    |                |
@@ -1410,7 +1410,7 @@ Table: subject_races
 | Field            | Type         | Null | Key | Default | Extra          |
 +------------------+--------------+------+-----+---------+----------------+
 | id               | int(11)      | NO   | PRI | NULL    | auto_increment |
-| study_subject_id | int(11)      | YES  |     | NULL    |                |
+| study_subject_id | int(11)      | YES  | MUL | NULL    |                |
 | race_code        | int(11)      | YES  |     | NULL    |                |
 | is_primary       | tinyint(1)   | NO   |     | 0       |                |
 | other_race       | varchar(255) | YES  |     | NULL    |                |
