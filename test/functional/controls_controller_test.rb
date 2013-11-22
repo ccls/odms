@@ -122,11 +122,18 @@ class ControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			subject = FactoryGirl.create(:control_study_subject)
 			assert_equal 5, subject.phase
-			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id).first.assigned_for_interview_at
-			subject.enrollments.where(:project_id => Project[:ccls].id).first.update_attribute(:assigned_for_interview_at, DateTime.current)
-			get :index, :date => Date.current.to_s
+			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id
+				).first.assigned_for_interview_at
+			now = DateTime.current
+			subject.enrollments.where(:project_id => Project[:ccls].id
+				).first.update_attribute(:assigned_for_interview_at, now)
+			assert_not_nil subject.enrollments.where(:project_id => Project[:ccls].id
+				).first.assigned_for_interview_at
+			get :index, :date => now.to_date.to_s
 			assert_response :success
 			assert_template 'index'
+			#	This test may fail if run at just the wrong time causing 
+			#	the set date and requested date to somehow differ?
 			assert_equal subject, assigns(:study_subjects).first
 		end
 
