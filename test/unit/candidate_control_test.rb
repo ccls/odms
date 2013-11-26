@@ -578,32 +578,32 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal   mother_imi.assigned_on, Date.current
 	end
 
-	test "create study subject should create addressing from birth datum record" do
+	test "create study subject should create address from birth datum record" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum_with_address
 		candidate_control = birth_datum.candidate_control
-		assert_difference('Addressing.count',1){
+		assert_difference('Address.count',1){
 			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		}
 	end
 
-	test "create study subject should create event if addressing from birth datum record is invalid" do
+	test "create study subject should create event if address from birth datum record is invalid" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum_with_address
 		candidate_control = birth_datum.candidate_control
-		Addressing.any_instance.stubs(:valid?).returns(false)
+		Address.any_instance.stubs(:valid?).returns(false)
 		assert_difference("OperationalEvent.where(" <<
 			":operational_event_type_id => #{OperationalEventType['bc_received'].id}).count",1) {
-		assert_difference('Addressing.count',0){
+		assert_difference('Address.count',0){
 			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		} }
 	end
 
-	test "create study subject should create event if addressing from birth datum record fails save" do
+	test "create study subject should create event if address from birth datum record fails save" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum_with_address
 		candidate_control = birth_datum.candidate_control
-		Addressing.any_instance.stubs(:create_or_update).returns(false)
+		Address.any_instance.stubs(:create_or_update).returns(false)
 		assert_difference("OperationalEvent.where(" <<
 			":operational_event_type_id => #{OperationalEventType['bc_received'].id}).count",1) {
-		assert_difference('Addressing.count',0){
+		assert_difference('Address.count',0){
 			create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		} }
 	end

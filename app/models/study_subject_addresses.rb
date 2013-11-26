@@ -9,9 +9,9 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	has_many :addressings
+	has_many :addresses
 
-	accepts_nested_attributes_for :addressings,
+	accepts_nested_attributes_for :addresses,
 		:reject_if => proc { |attrs|
 			!attrs[:address_required] &&
 			( attrs[:line_1].blank? &&
@@ -25,21 +25,21 @@ base.class_eval do
 	#	Returns number of addresses with 
 	#	address_type.key == 'residence'
 	def residence_addresses_count
-		addressings.where( :address_type => 'Residence' ).count
+		addresses.where( :address_type => 'Residence' ).count
 	end
 
 	def current_mailing_address
-		addressings.current.mailing.order('created_at DESC').first	#.try(:address)
+		addresses.current.mailing.order('created_at DESC').first	#.try(:address)
 	end
 	alias_method :mailing_address, :current_mailing_address
 
 	def current_address
-		addressings.current.order('created_at DESC').first	#.try(:address)
+		addresses.current.order('created_at DESC').first	#.try(:address)
 	end
 	alias_method :address, :current_address
 
 #	def current_address_at_dx
-#		addressings.current.order('created_at DESC').first.try(:address_at_diagnosis)
+#		addresses.current.order('created_at DESC').first.try(:address_at_diagnosis)
 #	end
 
 	def address_street

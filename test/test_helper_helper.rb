@@ -92,8 +92,6 @@ class ActiveSupport::TestCase
 #		Abstract.any_instance.unstub(:create_or_update)
 #		Address.any_instance.unstub(:valid?)
 #		Address.any_instance.unstub(:create_or_update)
-#		Addressing.any_instance.unstub(:valid?)
-#		Addressing.any_instance.unstub(:create_or_update)
 #		BcRequest.any_instance.unstub(:valid?)
 #		BcRequest.any_instance.unstub(:create_or_update)
 #		CandidateControl.any_instance.unstub(:valid?)

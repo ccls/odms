@@ -1,5 +1,5 @@
 #	Rich join of Subject and Address
-class Addressing < ActiveRecord::Base
+class Address < ActiveRecord::Base
 
 	belongs_to :study_subject, :counter_cache => true
 	attr_protected :study_subject_id, :study_subject
@@ -7,7 +7,7 @@ class Addressing < ActiveRecord::Base
 #	has_many :interviews	#	interviews.address_id
 
 
-	#	flag used in study_subject's nested attributes for addressing
+	#	flag used in study_subject's nested attributes for address
 	#		to not reject if address fields are blank.
 	attr_accessor :address_required
 
@@ -92,7 +92,7 @@ class Addressing < ActiveRecord::Base
 protected
 
 	def reindex_study_subject!
-		logger.debug "Addressing changed so reindexing study subject"
+		logger.debug "Address changed so reindexing study subject"
 		#	don't know why birth_datum needs persisted? check but here doesn't
 		study_subject.update_column(:needs_reindexed, true) if( study_subject && study_subject.persisted? )
 	end

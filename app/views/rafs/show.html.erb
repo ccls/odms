@@ -109,7 +109,7 @@
 
 <h3>Section 5: Contact Info</h3>
 <div class='current_address raf_section'>
-<% @study_subject.addressings.where(
+<% @study_subject.addresses.where(
 		:data_source => 'RAF (CCLS Rapid Ascertainment Form)').each do |a| %>
 	<% @address = a %>
 <div class='field_grouper'>

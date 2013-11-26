@@ -38,7 +38,7 @@
     alternate_phone
 ).to_csv( :headers => true) -%>
 <% @study_subjects.each do |study_subject| -%>
-<% address = study_subject.addressings.first -%>
+<% address = study_subject.addresses.first -%>
 <% birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
 <%= [
 mdy_or_nil(study_subject.reference_date),

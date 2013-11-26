@@ -803,59 +803,59 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 
-	test "case birth datum should create addressing" do
+	test "case birth datum should create address" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		assert_difference('Addressing.count',1) {
+		assert_difference('Address.count',1) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		}
-		assert_equal 'Residence', study_subject.addressings.last.address_type
+		assert_equal 'Residence', study_subject.addresses.last.address_type
 	end
 
-	test "case birth datum should create addressing even with PO Box" do
+	test "case birth datum should create address even with PO Box" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		assert_difference('Addressing.count',1) {
+		assert_difference('Address.count',1) {
 			create_matching_case_birth_datum_with_address(study_subject,{
 				:mother_residence_line_1 => 'PO Box 1995' })
 		}
-		assert_equal 'Mailing', study_subject.addressings.last.address_type
+		assert_equal 'Mailing', study_subject.addresses.last.address_type
 	end
 
-	test "case birth datum should create addressing with address_at_diagnosis=no" do
+	test "case birth datum should create address with address_at_diagnosis=no" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		assert_difference('Addressing.count',1) {
+		assert_difference('Address.count',1) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		}
-		assert_equal YNDK[:no], study_subject.addressings.last.address_at_diagnosis
+		assert_equal YNDK[:no], study_subject.addresses.last.address_at_diagnosis
 	end
 
-	test "case birth datum should create addressing with current_address=no" do
+	test "case birth datum should create address with current_address=no" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		assert_difference('Addressing.count',1) {
+		assert_difference('Address.count',1) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		}
-		assert_equal YNDK[:no], study_subject.addressings.last.current_address
+		assert_equal YNDK[:no], study_subject.addresses.last.current_address
 	end
 
-	test "case birth datum should create event if addressing invalid" do
+	test "case birth datum should create event if address invalid" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		Addressing.any_instance.stubs(:valid?).returns(false)
+		Address.any_instance.stubs(:valid?).returns(false)
 		assert_difference("study_subject.operational_events.where(" <<
 			":operational_event_type_id => #{OperationalEventType['bc_received'].id}" <<
 			").count",1) {
-		assert_difference('Addressing.count',0) {
+		assert_difference('Address.count',0) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		} }
 	end
 
 	#	As address is created via nested attributes, its validity isn't checked
 	#	However, create_or_update returning false will trigger failure.
-	test "case birth datum should create event if addressing save fails" do
+	test "case birth datum should create event if address save fails" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		Addressing.any_instance.stubs(:create_or_update).returns(false)
+		Address.any_instance.stubs(:create_or_update).returns(false)
 		assert_difference("study_subject.operational_events.where(" <<
 			":operational_event_type_id => #{OperationalEventType['bc_received'].id}" <<
 			").count",1) {
-		assert_difference('Addressing.count',0) {
+		assert_difference('Address.count',0) {
 			create_matching_case_birth_datum_with_address(study_subject)
 		} }
 	end
@@ -936,7 +936,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = create_matching_case_birth_datum(study_subject)
 		assert_not_nil birth_datum.study_subject
-		assert_difference('Addressing.count', 0){
+		assert_difference('Address.count', 0){
 		assert_difference('StudySubject.count', 0){
 		assert_difference('CandidateControl.count', 0){
 		assert_difference('OperationalEvent.count', 2){
@@ -957,7 +957,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert birth_datum.candidate_control.persisted?
 		assert_not_nil birth_datum.study_subject
 		assert birth_datum.study_subject.persisted?
-		assert_difference('Addressing.count', 0){
+		assert_difference('Address.count', 0){
 		assert_difference('StudySubject.count', 0){
 		assert_difference('CandidateControl.count', 0){
 		assert_difference('OperationalEvent.count', 0){	
@@ -970,7 +970,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" should not do SOMETHING" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		birth_datum = nil	#	scope variable outside
-		assert_difference('Addressing.count', 0){
+		assert_difference('Address.count', 0){
 		assert_difference('StudySubject.count', 0){
 		assert_difference('CandidateControl.count', 1){
 		assert_difference('OperationalEvent.count', 0){	
@@ -984,7 +984,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_nil birth_datum.study_subject
 #		assert birth_datum.study_subject.new_record?
 
-		assert_difference('Addressing.count', 0){
+		assert_difference('Address.count', 0){
 		assert_difference('StudySubject.count', 2){	#	SHOULD NOW CREATE SUBJECT and mother
 		assert_difference('CandidateControl.count', 0){
 		assert_difference('OperationalEvent.count', 3){	

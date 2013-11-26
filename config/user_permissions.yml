@@ -8,12 +8,9 @@ superuser_resources:
 
 #	only admins and above can read, create, edit or destroy
 administrator_resources:
-  - address_types 
   - birth_data
   - birth_records 
   - contexts 
-  - data_sources
-  - diagnoses 
   - document_types 
   - document_versions 
   - follow_up_types
@@ -27,26 +24,18 @@ administrator_resources:
   - interview_methods 
   - interview_outcomes 
   - languages
-  - odms_exceptions 
   - operational_event_types 
   - organizations
   - people 
-  - phone_types 
   - project_outcomes 
   - races 
   - refusal_reasons
-  - sample_formats 
   - sample_locations
   - sample_outcomes 
-  - sample_temperatures
   - sample_types 
   - screening_data
-  - sections 
   - subject_relationships 
-  - subject_types
-  - tracing_statuses 
   - units 
-  - vital_statuses
 
 #	only editors and above can read, create, edit or destroy
 editor_resources:
@@ -61,7 +50,6 @@ editor_resources:
 #	editors and above can create, edit 
 #	administrators and above can destroy
 crud_resources:
-  - addressings 
   - addresses 
   - consents 
   - documents 

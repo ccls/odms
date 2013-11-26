@@ -149,7 +149,7 @@ module CountrySelectHelper
 #	def country_select(method, priority_countries = nil, options = {}, html_options = {})
 	def country_select(method, options = {}, html_options = {})
 		#	not really using priority_countries so could just remove.
-		#	object_name => addressing[address_attributes]
+		#	object_name => address[address_attributes]
 		#	method => country
 		@template.select(@object_name, method, COUNTRIES,
 			{:include_blank => true}.merge(objectify_options(options)), html_options)

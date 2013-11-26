@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131122194452) do
+ActiveRecord::Schema.define(:version => 20131123003342) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -263,45 +263,10 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
     t.datetime "updated_at",                                            :null => false
   end
 
-  create_table "address_types", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "address_types", ["key"], :name => "index_address_types_on_key", :unique => true
-
   create_table "addresses", :force => true do |t|
-    t.integer  "address_type_id"
-    t.string   "line_1"
-    t.string   "line_2"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip",                 :limit => 10
-    t.integer  "external_address_id"
-    t.string   "county"
-    t.string   "unit"
-    t.string   "country"
-    t.datetime "created_at",                                           :null => false
-    t.datetime "updated_at",                                           :null => false
-    t.boolean  "needs_geocoded",                    :default => true
-    t.boolean  "geocoding_failed",                  :default => false
-    t.float    "longitude"
-    t.float    "latitude"
-    t.text     "geocoding_response"
-    t.string   "address_type"
-  end
-
-  add_index "addresses", ["external_address_id"], :name => "index_addresses_on_external_address_id", :unique => true
-
-  create_table "addressings", :force => true do |t|
     t.integer  "study_subject_id"
-    t.integer  "address_id"
     t.integer  "current_address",                    :default => 1
     t.integer  "address_at_diagnosis"
-    t.integer  "data_source_id"
     t.string   "other_data_source"
     t.datetime "created_at",                                            :null => false
     t.datetime "updated_at",                                            :null => false
@@ -324,9 +289,8 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
     t.string   "address_type"
   end
 
-  add_index "addressings", ["address_id"], :name => "index_addressings_on_address_id"
-  add_index "addressings", ["needs_geocoded", "geocoding_failed"], :name => "index_addressings_on_needs_geocoded_and_geocoding_failed"
-  add_index "addressings", ["study_subject_id"], :name => "index_addressings_on_study_subject_id"
+  add_index "addresses", ["needs_geocoded", "geocoding_failed"], :name => "index_addressings_on_needs_geocoded_and_geocoding_failed"
+  add_index "addresses", ["study_subject_id"], :name => "index_addressings_on_study_subject_id"
 
   create_table "aliquots", :force => true do |t|
     t.integer  "position"
@@ -502,32 +466,6 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
   end
 
   add_index "counties", ["state_abbrev"], :name => "index_counties_on_state_abbrev"
-
-  create_table "data_sources", :force => true do |t|
-    t.integer  "position"
-    t.string   "data_origin"
-    t.string   "key",                :null => false
-    t.string   "description",        :null => false
-    t.integer  "organization_id"
-    t.string   "other_organization"
-    t.integer  "person_id"
-    t.string   "other_person"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-  end
-
-  add_index "data_sources", ["key"], :name => "index_data_sources_on_key", :unique => true
-
-  create_table "diagnoses", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "diagnoses", ["description"], :name => "index_diagnoses_on_description", :unique => true
-  add_index "diagnoses", ["key"], :name => "index_diagnoses_on_key", :unique => true
 
   create_table "document_types", :force => true do |t|
     t.integer  "position"
@@ -918,17 +856,6 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
   add_index "languages", ["code"], :name => "index_languages_on_code", :unique => true
   add_index "languages", ["key"], :name => "index_languages_on_key", :unique => true
 
-  create_table "odms_exceptions", :force => true do |t|
-    t.integer  "exceptable_id"
-    t.string   "exceptable_type"
-    t.string   "name"
-    t.string   "description"
-    t.boolean  "is_resolved",     :default => false
-    t.text     "notes"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-  end
-
   create_table "operational_event_types", :force => true do |t|
     t.integer  "position"
     t.string   "key",            :null => false
@@ -989,7 +916,6 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
   create_table "patients", :force => true do |t|
     t.integer  "study_subject_id"
     t.date     "diagnosis_date"
-    t.integer  "diagnosis_id"
     t.integer  "organization_id"
     t.date     "admit_date"
     t.date     "treatment_began_on"
@@ -1027,8 +953,6 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
   create_table "phone_numbers", :force => true do |t|
     t.integer  "position"
     t.integer  "study_subject_id"
-    t.integer  "phone_type_id"
-    t.integer  "data_source_id"
     t.string   "phone_number"
     t.boolean  "is_primary"
     t.integer  "current_phone",     :default => 1
@@ -1040,16 +964,6 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
   end
 
   add_index "phone_numbers", ["study_subject_id"], :name => "index_phone_numbers_on_study_subject_id"
-
-  create_table "phone_types", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "phone_types", ["key"], :name => "index_phone_types_on_key", :unique => true
 
   create_table "project_outcomes", :force => true do |t|
     t.integer  "position"
@@ -1126,17 +1040,6 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
 
   add_index "sample_collectors", ["organization_id"], :name => "index_sample_collectors_on_organization_id"
 
-  create_table "sample_formats", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "sample_formats", ["description"], :name => "index_sample_formats_on_description", :unique => true
-  add_index "sample_formats", ["key"], :name => "index_sample_formats_on_key", :unique => true
-
   create_table "sample_kits", :force => true do |t|
     t.integer  "sample_id"
     t.datetime "created_at", :null => false
@@ -1163,16 +1066,6 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
   end
 
   add_index "sample_outcomes", ["key"], :name => "index_sample_outcomes_on_key", :unique => true
-
-  create_table "sample_temperatures", :force => true do |t|
-    t.integer  "position"
-    t.string   "key",         :null => false
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "sample_temperatures", ["key"], :name => "index_sample_temperatures_on_key", :unique => true
 
   create_table "sample_transfers", :force => true do |t|
     t.integer  "sample_id"
@@ -1203,13 +1096,11 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
 
   create_table "samples", :force => true do |t|
     t.integer  "parent_sample_id"
-    t.integer  "sample_format_id"
     t.integer  "sample_type_id"
     t.integer  "project_id"
     t.integer  "study_subject_id"
     t.integer  "unit_id"
     t.integer  "location_id"
-    t.integer  "sample_temperature_id"
     t.integer  "sample_collector_id"
     t.integer  "order_no"
     t.decimal  "quantity_in_sample",           :precision => 8, :scale => 2
@@ -1346,7 +1237,7 @@ ActiveRecord::Schema.define(:version => 20131122194452) do
     t.integer  "samples_count",                             :default => 0
     t.integer  "operational_events_count",                  :default => 0
     t.integer  "birth_data_count",                          :default => 0
-    t.integer  "addressings_count",                         :default => 0
+    t.integer  "addresses_count",                           :default => 0
     t.integer  "phone_numbers_count",                       :default => 0
     t.integer  "interviews_count",                          :default => 0
     t.boolean  "needs_reindexed",                           :default => false

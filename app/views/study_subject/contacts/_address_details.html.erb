@@ -10,23 +10,23 @@ What is 'details' ?
 <%# if details -%>
 <%# DON"T DO THIS NO MORE %>
 <%      if false     -%>
-<div class='addressing_valid contact_valid'>
+<div class='address_valid contact_valid'>
 <div class='brief'>
-<% @this_addressing = addressing %>
-<%= wrapped_yndk_spans(:this_addressing, :is_valid, 
+<% @this_address = address %>
+<%= wrapped_yndk_spans(:this_address, :is_valid, 
 	:label_text => "valid:") %>
-<%= wrapped_yes_or_no_spans(:this_addressing, :is_verified, 
+<%= wrapped_yes_or_no_spans(:this_address, :is_verified, 
 	:label_text => "verified:") %>
 </div><!-- class='brief' -->
 <div class='details'>
-<span class='why'><%= ( (addressing.is_not_valid?) ? 
-	"why:&nbsp;#{h(addressing.why_invalid)}" : "&nbsp;" ).html_safe %>
+<span class='why'><%= ( (address.is_not_valid?) ? 
+	"why:&nbsp;#{h(address.why_invalid)}" : "&nbsp;" ).html_safe %>
 </span>
-<span class='how'><%= ( (addressing.is_verified?) ? 
-	"how:&nbsp;#{h(addressing.how_verified)}" : "&nbsp;" ).html_safe %>
+<span class='how'><%= ( (address.is_verified?) ? 
+	"how:&nbsp;#{h(address.how_verified)}" : "&nbsp;" ).html_safe %>
 </span>
 </div><!-- class='details' -->
-</div><!-- class='addressing_valid contact_valid' -->
+</div><!-- class='address_valid contact_valid' -->
 <% end -%><%# if defined?(details) and details -%>
 
 <div class='edit'>
@@ -41,12 +41,12 @@ What is 'edit' ?
 %>
 <% if edit -%>
 <%= link_to 'Edit', 
-	edit_study_subject_addressing_path(addressing.study_subject_id,addressing.id), 
+	edit_study_subject_address_path(address.study_subject_id,address.id), 
 	:class => 'button' %>
 <% else -%>
 &nbsp;
 <% end -%><%# if defined?(edit) and edit -%>
 <%= link_to 'Show', 
-	study_subject_addressing_path(addressing.study_subject_id,addressing.id), 
+	study_subject_address_path(address.study_subject_id,address.id), 
 	:class => 'button' %>
 </div><!-- class='edit' -->

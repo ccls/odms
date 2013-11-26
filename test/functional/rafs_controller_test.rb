@@ -115,7 +115,7 @@ class RafsControllerTest < ActionController::TestCase
 				" without complete address and #{cu} login" do
 			login_as send(cu)
 			minimum_waivered_successful_creation(
-				:study_subject => { :addressings_attributes => { '0' => {
+				:study_subject => { :addresses_attributes => { '0' => {
 					:line_1 => '', :city => '',
 					:state  => '', :zip  => '' } } } )
 		end
@@ -181,19 +181,19 @@ class RafsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			assert_difference('SubjectLanguage.count',0){
 			assert_difference('PhoneNumber.count',0){
-			assert_difference('Addressing.count',1){	#	different
+			assert_difference('Address.count',1){	#	different
 			assert_difference('Enrollment.count',2){	#	both child and mother
 			assert_difference('Patient.count',1){
 			assert_difference('StudySubject.count',2){
 				post :create, minimum_waivered_form_attributes(
-					:study_subject => { :addressings_attributes => { 
-						'0' => FactoryGirl.attributes_for(:blank_line_1_addressing) } } ) 
+					:study_subject => { :addresses_attributes => { 
+						'0' => FactoryGirl.attributes_for(:blank_line_1_address) } } ) 
 			} } } } } }
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
-			assert_not_nil assigns(:study_subject).addressings.first.line_1
+			assert_not_nil assigns(:study_subject).addresses.first.line_1
 			assert_equal '[no address provided]',
-				assigns(:study_subject).addressings.first.line_1
+				assigns(:study_subject).addresses.first.line_1
 		end
 
 		test "should create waivered case study_subject" <<
@@ -578,10 +578,10 @@ class RafsControllerTest < ActionController::TestCase
 		test "should update and create address with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
-			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
-					:study_subject => { 'addressings_attributes' => { 
-					'0' => FactoryGirl.attributes_for(:addressing) } }
+					:study_subject => { 'addresses_attributes' => { 
+					'0' => FactoryGirl.attributes_for(:address) } }
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
@@ -591,34 +591,34 @@ class RafsControllerTest < ActionController::TestCase
 		test "should update and create address with defaults and #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as user = send(cu)
-			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
-					:study_subject => { 'addressings_attributes' => { 
-					'0' => FactoryGirl.attributes_for(:addressing) } }
+					:study_subject => { 'addresses_attributes' => { 
+					'0' => FactoryGirl.attributes_for(:address) } }
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
 
-			addressing = assigns(:study_subject).addressings.first
-			assert_equal addressing.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
-			assert_equal addressing.address_at_diagnosis, YNDK[:yes]
-			assert_equal addressing.current_address, YNDK[:yes]
-			assert_equal addressing.address_type, 'Residence'
+			address = assigns(:study_subject).addresses.first
+			assert_equal address.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
+			assert_equal address.address_at_diagnosis, YNDK[:yes]
+			assert_equal address.current_address, YNDK[:yes]
+			assert_equal address.address_type, 'Residence'
 		end
 
 		test "should update address with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
-			addressing = FactoryGirl.create(:addressing,:study_subject => study_subject)
-			assert_not_equal "ihavebeenupdated", addressing.line_1
+			address = FactoryGirl.create(:address,:study_subject => study_subject)
+			assert_not_equal "ihavebeenupdated", address.line_1
 			login_as send(cu)
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 				put :update, :id => study_subject.id, 
-					:study_subject => { 'addressings_attributes' => { 
-						'0' => { :id => addressing.id,
+					:study_subject => { 'addresses_attributes' => { 
+						'0' => { :id => address.id,
 							:line_1 => "ihavebeenupdated"
 			} } } }
-			assert_equal "ihavebeenupdated", addressing.reload.line_1
+			assert_equal "ihavebeenupdated", address.reload.line_1
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
@@ -627,19 +627,19 @@ class RafsControllerTest < ActionController::TestCase
 		test "should update address and not overwrite with defaults "<<
 			 	"with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
-			addressing = FactoryGirl.create(:addressing,:study_subject => study_subject,
+			address = FactoryGirl.create(:address,:study_subject => study_subject,
 				:current_address => YNDK[:no],
 				:address_at_diagnosis => YNDK[:no] )
 			login_as send(cu)
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 				put :update, :id => study_subject.id, 
-					:study_subject => { 'addressings_attributes' => { 
-						'0' => { :id => addressing.id } }
+					:study_subject => { 'addresses_attributes' => { 
+						'0' => { :id => address.id } }
 			} }
 			assert_not_nil assigns(:study_subject)
-			addressing.reload
-			assert_equal YNDK[:no], addressing.current_address
-			assert_equal YNDK[:no], addressing.address_at_diagnosis
+			address.reload
+			assert_equal YNDK[:no], address.current_address
+			assert_equal YNDK[:no], address.address_at_diagnosis
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
 		end
@@ -715,15 +715,15 @@ class RafsControllerTest < ActionController::TestCase
 		test "should update and create address with blank line and #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
 			login_as send(cu)
-			assert_difference('Addressing.count',1) {
+			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
-					:study_subject => { 'addressings_attributes' => { 
-					'0' => FactoryGirl.attributes_for(:blank_line_1_addressing) } 
+					:study_subject => { 'addresses_attributes' => { 
+					'0' => FactoryGirl.attributes_for(:blank_line_1_address) } 
 			} }
 			assert_not_nil assigns(:study_subject)
-			assert_not_nil assigns(:study_subject).addressings.first.line_1
+			assert_not_nil assigns(:study_subject).addresses.first.line_1
 			assert_equal '[no address provided]',
-				assigns(:study_subject).addressings.first.line_1
+				assigns(:study_subject).addresses.first.line_1
 			assert_nil flash[:error]
 			assert_redirected_to raf_path(study_subject)
 		end

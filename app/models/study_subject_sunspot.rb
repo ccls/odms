@@ -207,9 +207,9 @@ base.class_eval do
 
 
 	add_sunspot_column( :current_address_count, :type => :integer, :facetable => true,
-		:meth => ->(s){ s.addressings.current.count })
+		:meth => ->(s){ s.addresses.current.count })
 	add_sunspot_column( :current_address_at_dx, :type => :string, :facetable => true,
-		:meth => ->(s){ YNDK[s.addressings.current.order('created_at DESC').first.try(:address_at_diagnosis)]||'NULL' })
+		:meth => ->(s){ YNDK[s.addresses.current.order('created_at DESC').first.try(:address_at_diagnosis)]||'NULL' })
 
 
 	#

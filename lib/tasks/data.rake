@@ -230,7 +230,6 @@ namespace :data do
 			StudySubject.where( 'subjectid IS NULL' ).count
 		puts
 		printf "%-45s %5d\n", "Address.count:", Address.count
-		printf "%-45s %5d\n", "Addressing.count:", Addressing.count
 		printf "%-45s %5d\n", "PhoneNumber.count:", PhoneNumber.count
 		puts
 		printf "%-45s %5d\n", "Sample.count:", Sample.count
@@ -272,7 +271,7 @@ namespace :data do
 #    end
 #  end
 		puts "Starting...(#{Time.now})"
-		%w( abstract address address_type addressing bc_request 
+		%w( abstract address address_type bc_request 
 				birth_datum candidate_control 
 				document_version enrollment icf_master_id
 				icf_master_tracker icf_master_tracker_change icf_master_tracker_update

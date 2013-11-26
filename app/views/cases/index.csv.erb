@@ -39,8 +39,8 @@
 <%# mom = study_subject.mother -%>
 <%# for the sake of speed use subject's copy of case and mother's icf_master_id -%>
 <%# case_subject = study_subject.case_subject -%>
-<%# address = study_subject.addressings.current.mailing.first.try(:address) -%>
-<%# address = study_subject.addressings.current.first.try(:address) if address.nil? -%>
+<%# address = study_subject.addresses.current.mailing.first.try(:address) -%>
+<%# address = study_subject.addresses.current.first.try(:address) if address.nil? -%>
 <% address = study_subject.current_mailing_address || study_subject.current_address -%>
 <%# primary_phone = study_subject.phone_numbers.current.primary.first %>
 <%# alternate_phone = study_subject.phone_numbers.current.alternate.first %>

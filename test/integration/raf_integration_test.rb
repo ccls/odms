@@ -25,7 +25,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -40,7 +40,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 
 			choose "duplicate_id_#{duplicate.id}"
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -75,7 +75,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -89,7 +89,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 				find("p.flash.error").text
 
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',1) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
@@ -125,7 +125,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			fill_in "study_subject[dob]",      :with => subject.dob.strftime("%m/%d/%Y")
 
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',1) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
@@ -174,7 +174,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			" with #{cu} login" do
 			login_as send(cu)
 			visit new_raf_path
-			address = "study_subject[addressings_attributes][0]"
+			address = "study_subject[addresses_attributes][0]"
 			patient = 'study_subject[patient_attributes]'
 			assert find_field("#{address}[city]").value.blank?
 			assert find_field("#{address}[county]").value.blank?
@@ -197,7 +197,7 @@ class RafIntegrationTest < ActionController::CapybaraIntegrationTest
 			" with #{cu} login" do
 			login_as send(cu)
 			visit new_raf_path
-			address = "study_subject[addressings_attributes][0]"
+			address = "study_subject[addresses_attributes][0]"
 			patient = 'study_subject[patient_attributes]'
 			assert find_field("#{address}[city]").value.blank?
 			assert find_field("#{address}[county]").value.blank?

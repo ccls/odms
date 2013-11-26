@@ -1,8 +1,8 @@
-<% javascripts('edit_addressing') %>
-<% stylesheets(:addressing_edit) %>
+<% javascripts('edit_address') %>
+<% stylesheets(:address_edit) %>
 
 <div class='control'><div class='control_row'>
-<h3><%= ( @addressing.new_record? ) ? 'New' : 'Edit' %> Address</h3>
+<h3><%= ( @address.new_record? ) ? 'New' : 'Edit' %> Address</h3>
 <div><%= link_to( 'Cancel', study_subject_contacts_path( @study_subject ),
 	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %></div>
 </div></div>
@@ -11,7 +11,7 @@
 
 <div class='fields_for_address'>
 <%= f.wrapped_select :address_type, 
-	@addressing.address_types, :include_blank => true, :label_text => 'Type' %>
+	@address.address_types, :include_blank => true, :label_text => 'Type' %>
 
 <%#
 
@@ -21,7 +21,7 @@ even if it is NOT included in the normal/new list
 -%>
 <div class='source'>
 <%= f.wrapped_select :data_source, 
-		@addressing.data_sources, :include_blank => true, :label_text => 'Source:' %>
+		@address.data_sources, :include_blank => true, :label_text => 'Source:' %>
 <%= f.wrapped_text_field :other_data_source, 
 	:label_text => 'Specify if other:' %>
 </div><!-- class='source' -->

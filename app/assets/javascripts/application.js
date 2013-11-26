@@ -2,7 +2,7 @@ jQuery(function(){
 
 /*
 	form.confirm is used on most edit forms
-		addressings, consents, enrollments, patients, phone_numbers, projects, study_subjects
+		addresses, consents, enrollments, patients, phone_numbers, projects, study_subjects
 */
 	jQuery('form.confirm').submit(confirm_submission);
 
@@ -94,7 +94,7 @@ var confirm_submission = function(){
 /*
 	Used in ...
 		consent.js
-		edit_addressing.js
+		edit_address.js
 		edit_patient.js
 		edit_phone_number.js
 		raf.js

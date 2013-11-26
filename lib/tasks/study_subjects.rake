@@ -207,7 +207,7 @@ namespace :study_subjects do
 		StudySubject.find_each do |study_subject|
 			puts "Updating #{study_subject}"
 			StudySubject.reset_counters( study_subject.id,
-				:samples, :operational_events, :addressings, :phone_numbers, 
+				:samples, :operational_events, :addresses, :phone_numbers, 
 				:birth_data, :interviews, :abstracts, :enrollments )
 		end
 	end

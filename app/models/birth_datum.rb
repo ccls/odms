@@ -288,7 +288,7 @@ class BirthDatum < ActiveRecord::Base
 
 	def create_address_from_attributes
 		return unless study_subject
-		addressing = study_subject.addressings.new(
+		address = study_subject.addresses.new(
 			:line_1       => mother_residence_line_1.namerize,
 			:city         => mother_residence_city.namerize,
 			:county       => mother_residence_county.decode_county,
@@ -301,19 +301,19 @@ class BirthDatum < ActiveRecord::Base
 			:data_source => "Live Birth data from USC",
 			:notes => "Address was mother's residential address at child's birth per CA State Birth Record.")
 
-		unless addressing.save
+		unless address.save
 			#	Address possibly contained PO Box which is invalid as a residence.
 			#	Try to create as mailing address...
-			addressing.address_type = "Mailing"
+			address.address_type = "Mailing"
 			study_subject.operational_events.create(
 				:occurred_at => DateTime.current,
 				:project_id                => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['bc_received'].id,
 				:description => "Insufficient maternal residence information in birth data to "<<
 					"create address record. See subject's Birth Record page for details.\n"<<
-					"#{addressing.errors.full_messages.to_sentence}" ) unless addressing.save
+					"#{address.errors.full_messages.to_sentence}" ) unless address.save
 		end
-		addressing
+		address
 	end
 
 	after_save :reindex_study_subject!, :if => :changed?

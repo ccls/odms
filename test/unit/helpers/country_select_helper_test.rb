@@ -2,14 +2,14 @@ require 'test_helper'
 
 class CountrySelectHelperTest < ActionView::TestCase
 
-	test "basic addressing form" do
-		@addressing = FactoryGirl.create(:addressing)
-		output_buffer = form_for(@addressing,:url => '/'){|f| 
+	test "basic address form" do
+		@address = FactoryGirl.create(:address)
+		output_buffer = form_for(@address,:url => '/'){|f| 
 			f.country_select(:country) }
 		response = HTML::Document.new(output_buffer).root
 		assert_select( response, 'form', 1 ){ |f|	
 			f = f.first		#	f is an array of the 1 matching element!
-			assert_select( f, 'select#addressing_country', 1 ){ |s|
+			assert_select( f, 'select#address_country', 1 ){ |s|
 				s = s.first		#	s is an array of the 1 matching element!
 				options = assert_select s, 'option', 246
 				#	first should be blank <option value=""></option>
@@ -28,7 +28,7 @@ I could do an exact comparison to this, but no.
 I don't really agree with the big exact comparisons.
 But I will leave it here.
 
-<form accept-charset="UTF-8" action="/" class="edit_addressing" id="edit_addressing_235" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><select id="addressing_address_attributes_country" name="addressing[address_attributes][country]"><option value=""></option>
+<form accept-charset="UTF-8" action="/" class="edit_address" id="edit_address_235" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /></div><select id="address_address_attributes_country" name="address[address_attributes][country]"><option value=""></option>
 
 <option value="United States">United States</option>
 <option value="Afghanistan">Afghanistan</option>
@@ -274,6 +274,6 @@ But I will leave it here.
 <option value="Western Sahara">Western Sahara</option>
 <option value="Yemen">Yemen</option>
 <option value="Zambia">Zambia</option>
-<option value="Zimbabwe">Zimbabwe</option></select><input id="addressing_address_attributes_id" name="addressing[address_attributes][id]" type="hidden" value="1" /></form>
+<option value="Zimbabwe">Zimbabwe</option></select><input id="address_address_attributes_id" name="address[address_attributes][id]" type="hidden" value="1" /></form>
 
 

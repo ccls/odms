@@ -254,51 +254,14 @@ Table: abstracts
 | created_at                              | datetime     | NO   |     | NULL    |                |
 | updated_at                              | datetime     | NO   |     | NULL    |                |
 +-----------------------------------------+--------------+------+-----+---------+----------------+
-Table: address_types
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: addresses
-+---------------------+--------------+------+-----+---------+----------------+
-| Field               | Type         | Null | Key | Default | Extra          |
-+---------------------+--------------+------+-----+---------+----------------+
-| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
-| address_type_id     | int(11)      | YES  |     | NULL    |                |
-| line_1              | varchar(255) | YES  |     | NULL    |                |
-| line_2              | varchar(255) | YES  |     | NULL    |                |
-| city                | varchar(255) | YES  |     | NULL    |                |
-| state               | varchar(255) | YES  |     | NULL    |                |
-| zip                 | varchar(10)  | YES  |     | NULL    |                |
-| external_address_id | int(11)      | YES  | UNI | NULL    |                |
-| county              | varchar(255) | YES  |     | NULL    |                |
-| unit                | varchar(255) | YES  |     | NULL    |                |
-| country             | varchar(255) | YES  |     | NULL    |                |
-| created_at          | datetime     | NO   |     | NULL    |                |
-| updated_at          | datetime     | NO   |     | NULL    |                |
-| needs_geocoded      | tinyint(1)   | YES  |     | 1       |                |
-| geocoding_failed    | tinyint(1)   | YES  |     | 0       |                |
-| longitude           | float        | YES  |     | NULL    |                |
-| latitude            | float        | YES  |     | NULL    |                |
-| geocoding_response  | text         | YES  |     | NULL    |                |
-| address_type        | varchar(255) | YES  |     | NULL    |                |
-+---------------------+--------------+------+-----+---------+----------------+
-Table: addressings
 +----------------------+--------------+------+-----+---------+----------------+
 | Field                | Type         | Null | Key | Default | Extra          |
 +----------------------+--------------+------+-----+---------+----------------+
 | id                   | int(11)      | NO   | PRI | NULL    | auto_increment |
 | study_subject_id     | int(11)      | YES  | MUL | NULL    |                |
-| address_id           | int(11)      | YES  | MUL | NULL    |                |
 | current_address      | int(11)      | YES  |     | 1       |                |
 | address_at_diagnosis | int(11)      | YES  |     | NULL    |                |
-| data_source_id       | int(11)      | YES  |     | NULL    |                |
 | other_data_source    | varchar(255) | YES  |     | NULL    |                |
 | created_at           | datetime     | NO   |     | NULL    |                |
 | updated_at           | datetime     | NO   |     | NULL    |                |
@@ -502,33 +465,6 @@ Table: counties
 | created_at   | datetime     | NO   |     | NULL    |                |
 | updated_at   | datetime     | NO   |     | NULL    |                |
 +--------------+--------------+------+-----+---------+----------------+
-Table: data_sources
-+--------------------+--------------+------+-----+---------+----------------+
-| Field              | Type         | Null | Key | Default | Extra          |
-+--------------------+--------------+------+-----+---------+----------------+
-| id                 | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position           | int(11)      | YES  |     | NULL    |                |
-| data_origin        | varchar(255) | YES  |     | NULL    |                |
-| key                | varchar(255) | NO   | UNI | NULL    |                |
-| description        | varchar(255) | NO   |     | NULL    |                |
-| organization_id    | int(11)      | YES  |     | NULL    |                |
-| other_organization | varchar(255) | YES  |     | NULL    |                |
-| person_id          | int(11)      | YES  |     | NULL    |                |
-| other_person       | varchar(255) | YES  |     | NULL    |                |
-| created_at         | datetime     | NO   |     | NULL    |                |
-| updated_at         | datetime     | NO   |     | NULL    |                |
-+--------------------+--------------+------+-----+---------+----------------+
-Table: diagnoses
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | NO   | UNI | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: document_types
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |
@@ -935,20 +871,6 @@ Table: languages
 | updated_at  | datetime     | NO   |     | NULL    |                |
 | code        | int(11)      | YES  | UNI | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
-Table: odms_exceptions
-+-----------------+--------------+------+-----+---------+----------------+
-| Field           | Type         | Null | Key | Default | Extra          |
-+-----------------+--------------+------+-----+---------+----------------+
-| id              | int(11)      | NO   | PRI | NULL    | auto_increment |
-| exceptable_id   | int(11)      | YES  |     | NULL    |                |
-| exceptable_type | varchar(255) | YES  |     | NULL    |                |
-| name            | varchar(255) | YES  |     | NULL    |                |
-| description     | varchar(255) | YES  |     | NULL    |                |
-| is_resolved     | tinyint(1)   | YES  |     | 0       |                |
-| notes           | text         | YES  |     | NULL    |                |
-| created_at      | datetime     | NO   |     | NULL    |                |
-| updated_at      | datetime     | NO   |     | NULL    |                |
-+-----------------+--------------+------+-----+---------+----------------+
 Table: operational_event_types
 +----------------+--------------+------+-----+---------+----------------+
 | Field          | Type         | Null | Key | Default | Extra          |
@@ -1012,7 +934,6 @@ Table: patients
 | id                           | int(11)      | NO   | PRI | NULL    | auto_increment |
 | study_subject_id             | int(11)      | YES  | UNI | NULL    |                |
 | diagnosis_date               | date         | YES  |     | NULL    |                |
-| diagnosis_id                 | int(11)      | YES  |     | NULL    |                |
 | organization_id              | int(11)      | YES  | MUL | NULL    |                |
 | admit_date                   | date         | YES  |     | NULL    |                |
 | treatment_began_on           | date         | YES  |     | NULL    |                |
@@ -1052,8 +973,6 @@ Table: phone_numbers
 | id                | int(11)      | NO   | PRI | NULL    | auto_increment |
 | position          | int(11)      | YES  |     | NULL    |                |
 | study_subject_id  | int(11)      | YES  | MUL | NULL    |                |
-| phone_type_id     | int(11)      | YES  |     | NULL    |                |
-| data_source_id    | int(11)      | YES  |     | NULL    |                |
 | phone_number      | varchar(255) | YES  |     | NULL    |                |
 | is_primary        | tinyint(1)   | YES  |     | NULL    |                |
 | current_phone     | int(11)      | YES  |     | 1       |                |
@@ -1063,17 +982,6 @@ Table: phone_numbers
 | phone_type        | varchar(255) | YES  |     | NULL    |                |
 | data_source       | varchar(255) | YES  |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
-Table: phone_types
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: project_outcomes
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |
@@ -1150,17 +1058,6 @@ Table: sample_collectors
 | created_at         | datetime     | NO   |     | NULL    |                |
 | updated_at         | datetime     | NO   |     | NULL    |                |
 +--------------------+--------------+------+-----+---------+----------------+
-Table: sample_formats
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  | UNI | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: sample_kits
 +------------+----------+------+-----+---------+----------------+
 | Field      | Type     | Null | Key | Default | Extra          |
@@ -1183,17 +1080,6 @@ Table: sample_locations
 | updated_at      | datetime   | NO   |     | NULL    |                |
 +-----------------+------------+------+-----+---------+----------------+
 Table: sample_outcomes
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
-Table: sample_temperatures
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |
 +-------------+--------------+------+-----+---------+----------------+
@@ -1239,13 +1125,11 @@ Table: samples
 +------------------------------+--------------+------+-----+---------+----------------+
 | id                           | int(11)      | NO   | PRI | NULL    | auto_increment |
 | parent_sample_id             | int(11)      | YES  |     | NULL    |                |
-| sample_format_id             | int(11)      | YES  |     | NULL    |                |
 | sample_type_id               | int(11)      | YES  |     | NULL    |                |
 | project_id                   | int(11)      | YES  |     | NULL    |                |
 | study_subject_id             | int(11)      | YES  | MUL | NULL    |                |
 | unit_id                      | int(11)      | YES  |     | NULL    |                |
 | location_id                  | int(11)      | YES  |     | NULL    |                |
-| sample_temperature_id        | int(11)      | YES  |     | NULL    |                |
 | sample_collector_id          | int(11)      | YES  |     | NULL    |                |
 | order_no                     | int(11)      | YES  |     | NULL    |                |
 | quantity_in_sample           | decimal(8,2) | YES  |     | NULL    |                |
@@ -1387,7 +1271,7 @@ Table: study_subjects
 | samples_count               | int(11)      | YES  |     | 0       |                |
 | operational_events_count    | int(11)      | YES  |     | 0       |                |
 | birth_data_count            | int(11)      | YES  |     | 0       |                |
-| addressings_count           | int(11)      | YES  |     | 0       |                |
+| addresses_count             | int(11)      | YES  |     | 0       |                |
 | phone_numbers_count         | int(11)      | YES  |     | 0       |                |
 | interviews_count            | int(11)      | YES  |     | 0       |                |
 | needs_reindexed             | tinyint(1)   | YES  | MUL | 0       |                |

@@ -56,7 +56,7 @@ class RafsController < ApplicationController
 		study_subject_params = params[:study_subject].to_hash.deep_merge({
 			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } }
 		})
-		add_default_raf_addressing_attributes(study_subject_params)
+		add_default_raf_address_attributes(study_subject_params)
 		add_default_raf_phone_number_attributes(study_subject_params)
 
 		mark_as_eligible(study_subject_params)
@@ -143,7 +143,7 @@ class RafsController < ApplicationController
 
 	def update
 		study_subject_params = ( params[:study_subject] || Hash.new ).to_hash
-		add_default_raf_addressing_attributes(study_subject_params)
+		add_default_raf_address_attributes(study_subject_params)
 		add_default_raf_phone_number_attributes(study_subject_params)
 		mark_as_eligible(study_subject_params)
 		@study_subject.assign_attributes(study_subject_params)
@@ -206,7 +206,7 @@ protected
 		end if study_subject_params.has_key?('phone_numbers_attributes')
 	end
 
-	def default_raf_addressing_attributes
+	def default_raf_address_attributes
 		{ 'address_at_diagnosis' => YNDK[:yes],
 			'current_address' => YNDK[:yes],
 			'data_source'     => 'RAF (CCLS Rapid Ascertainment Form)',
@@ -214,18 +214,18 @@ protected
 		}
 	end
 
-	def add_default_raf_addressing_attributes(study_subject_params)
+	def add_default_raf_address_attributes(study_subject_params)
 		#	set defaults for addresses WITHOUT EXISTING IDs
-		study_subject_params['addressings_attributes'].each_pair do |k,v|
-			unless study_subject_params['addressings_attributes'][k].has_key?('id')
-				study_subject_params['addressings_attributes'][k] = 
+		study_subject_params['addresses_attributes'].each_pair do |k,v|
+			unless study_subject_params['addresses_attributes'][k].has_key?('id')
+				study_subject_params['addresses_attributes'][k] = 
 					#	must use deep_merge as contains address_attributes
-					default_raf_addressing_attributes.deep_merge(
-						study_subject_params['addressings_attributes'][k])
+					default_raf_address_attributes.deep_merge(
+						study_subject_params['addresses_attributes'][k])
 				allow_blank_address_line_1_for(
-					study_subject_params['addressings_attributes'][k])
+					study_subject_params['addresses_attributes'][k])
 			end
-		end if study_subject_params.has_key?('addressings_attributes')
+		end if study_subject_params.has_key?('addresses_attributes')
 	end
 
 	#	CAUTION: params come from forms as strings

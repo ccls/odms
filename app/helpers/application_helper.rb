@@ -119,7 +119,7 @@ module ApplicationHelper
 			when 'study_subjects' then :general
 			when /patients$/ then :hospital
 #			when /addresses$/ then :contact
-			when /addressings$/ then :contact
+			when /addresses$/ then :contact
 			when /contacts$/ then :contact
 			when /phone_numbers$/ then :contact
 			when /consents$/ then :consents
@@ -154,7 +154,7 @@ module ApplicationHelper
 					:class => ((current == :general)?'current':nil) ),
 				( link_to( "Address & Phone", study_subject_contacts_path(study_subject),
 					:class => ((current == :contact)?'current':nil) ) <<
-					"<span class='count'>#{study_subject.addressings_count}/#{study_subject.phone_numbers_count}</span>".html_safe )
+					"<span class='count'>#{study_subject.addresses_count}/#{study_subject.phone_numbers_count}</span>".html_safe )
 			]
 			list_items << link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 					:class => ((current == :hospital)?'current':nil) ) if study_subject.is_case?

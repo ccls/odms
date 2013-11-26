@@ -1,13 +1,13 @@
-#addressing_line_1,
-#addressing_line_2 {
+#address_line_1,
+#address_line_2 {
 	width: 300px;
 }
-#addressing_city {
+#address_city {
 	width: 190px;
 }
-#addressing_other_data_source,
-#addressing_unit,
-#addressing_zip {
+#address_other_data_source,
+#address_unit,
+#address_zip {
 	width: 100px;
 }
 .dev_only {
@@ -29,7 +29,7 @@ div.unit {
 div.unit label {
 	width:30px;
 }
-form.edit_addressing > div.moved > div.subject_moved > label {
+form.edit_address > div.moved > div.subject_moved > label {
 	display:inline;
 }
 div.data_source {

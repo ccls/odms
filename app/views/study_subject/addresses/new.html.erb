@@ -1,0 +1,7 @@
+<% javascripts('new_address') %>
+
+<%= form_for(@address,
+	:url => study_subject_addresses_path(@study_subject),
+	:html => { :class => 'edit_address' }) do |f| %>
+<%= render 'form', :f => f %>
+<% end %>

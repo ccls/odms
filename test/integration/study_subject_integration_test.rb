@@ -284,38 +284,38 @@ class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_phone_numbers_path(other_study_subject)
 		end
 
-		test "by should addressings#index from addressings#index with #{cu} login" do
+		test "by should addresses#index from addresses#index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
-			visit study_subject_addressings_path(study_subject)
-			assert_equal current_path, study_subject_addressings_path(study_subject)
+			visit study_subject_addresses_path(study_subject)
+			assert_equal current_path, study_subject_addresses_path(study_subject)
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
-			assert_equal current_path, study_subject_addressings_path(other_study_subject)
+			assert_equal current_path, study_subject_addresses_path(other_study_subject)
 		end
 
-		test "by should addressings#new from addressings#new with #{cu} login" do
+		test "by should addresses#new from addresses#new with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
-			visit new_study_subject_addressing_path(study_subject)
-			assert_equal current_path, new_study_subject_addressing_path(study_subject)
+			visit new_study_subject_address_path(study_subject)
+			assert_equal current_path, new_study_subject_address_path(study_subject)
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
-			assert_equal current_path, new_study_subject_addressing_path(other_study_subject)
+			assert_equal current_path, new_study_subject_address_path(other_study_subject)
 		end
 
-		test "by should addressings#index from addressings#edit with #{cu} login" do
+		test "by should addresses#index from addresses#edit with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
-			addressing           = FactoryGirl.create(:addressing, :study_subject => study_subject)
+			address           = FactoryGirl.create(:address, :study_subject => study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
-			visit edit_study_subject_addressing_path(study_subject.reload,addressing)
-			assert_equal current_path, edit_study_subject_addressing_path(study_subject,addressing)
+			visit edit_study_subject_address_path(study_subject.reload,address)
+			assert_equal current_path, edit_study_subject_address_path(study_subject,address)
 			fill_in 'icf_master_id', :with => 'FINDME'
 			click_button 'go'
-			assert_equal current_path, study_subject_addressings_path(other_study_subject)
+			assert_equal current_path, study_subject_addresses_path(other_study_subject)
 		end
 
 		test "by should consent#show from consent#show with #{cu} login" do

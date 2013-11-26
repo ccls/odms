@@ -1,0 +1,27 @@
+<h3>Addresses</h3>
+<div class='addresses'>
+<%#
+	This probably should just be the current address ?
+%>
+<%= render :partial => 'study_subject/contacts/address', 
+	:collection => @study_subject.addresses.current,
+	:locals => { :details => true,
+		:edit => current_user.may_update_addresses? } %>
+<% if current_user.may_update_addresses? %>
+<p id='new_address' class='new'>
+<%= link_to 'add new address', new_study_subject_address_path(@study_subject) %>
+<% if @study_subject.addresses.historic.length > 0 %>
+&nbsp;|&nbsp;
+<%= link_to 'toggle history', study_subject_contacts_path(@study_subject), 
+	:class => 'toggler toggles_historic_addresses' %>
+<% end %>
+</p>
+<% end %>
+
+<div id='historic_addresses' class='historic' style='display:none'>
+<%= render :partial => 'study_subject/contacts/address', 
+	:collection => @study_subject.addresses.historic,
+	:locals => { :dates => true,
+		:edit => current_user.may_administrate? } %>
+</div><!-- class='historic' -->
+</div><!-- class='addresses' -->

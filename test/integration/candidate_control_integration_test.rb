@@ -30,7 +30,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			fill_in 'candidate_control[rejection_reason]', :with => ''
 
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {
@@ -69,7 +69,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -89,7 +89,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 			#	don't choose a duplicate
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -130,7 +130,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -152,7 +152,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			choose "duplicate_id_#{duplicate.id}"
 			#	no new records, just a modified candidate_control record
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -195,7 +195,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 			choose 'candidate_control_reject_candidate_false'
 			fill_in 'candidate_control_rejection_reason', :with => ''
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',0) {
 			assert_difference('StudySubject.count',0) {
@@ -216,7 +216,7 @@ class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTes
 
 			#	don't choose a duplicate
 			assert_difference('PhoneNumber.count',0) {
-			assert_difference('Addressing.count',0) {
+			assert_difference('Address.count',0) {
 			assert_difference('Patient.count',0) {
 			assert_difference('Enrollment.count',2) {
 			assert_difference('StudySubject.count',2) {

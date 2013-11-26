@@ -1,4 +1,4 @@
-#current .addressings {
+#current .addresses {
 	border-bottom: 1px solid black;
 }
 .historic {
@@ -18,17 +18,17 @@ div.contact_wrapper > div {
 }
 .when,
 .phone_number,
-.addressing {
+.address {
 	width: 200px;
 }
 .contact_meta > span {
 	display:block;
 }
-.addressing .line_1,
-.addressing .line_2,
-.addressing .unit,
-.addressing .county,
-.addressing .csz {
+.address .line_1,
+.address .line_2,
+.address .unit,
+.address .county,
+.address .csz {
 	display:block;
 }
 .edit {

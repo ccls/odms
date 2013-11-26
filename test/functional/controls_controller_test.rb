@@ -124,16 +124,49 @@ class ControlsControllerTest < ActionController::TestCase
 			assert_equal 5, subject.phase
 			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id
 				).first.assigned_for_interview_at
-			now = DateTime.current
+#			some_datetime = DateTime.current
+			some_datetime = Time.parse('1971-12-05 12:00')
 			subject.enrollments.where(:project_id => Project[:ccls].id
-				).first.update_attribute(:assigned_for_interview_at, now)
+				).first.update_attribute(:assigned_for_interview_at, some_datetime)
 			assert_not_nil subject.enrollments.where(:project_id => Project[:ccls].id
 				).first.assigned_for_interview_at
-			get :index, :date => now.to_date.to_s
+			assert_equal subject.enrollments.where(:project_id => Project[:ccls].id
+				).first.assigned_for_interview_at.to_date, some_datetime.to_date
+
+
+#puts StudySubject.controls
+#	.where( :phase => 5 )
+#	.order('reference_date DESC')
+#	.joins(:enrollments)
+#	.merge(
+#		Enrollment.where(:project_id => Project['ccls'].id)
+#		.where("date(assigned_for_interview_at) = ?", Date.parse(now.to_date.to_s))
+#	).to_sql
+#Controls Controller should get index with date and administrator login: SELECT `study_subjects`.* FROM `study_subjects` INNER JOIN `enrollments` ON `enrollments`.`study_subject_id` = `study_subjects`.`id` WHERE `study_subjects`.`subject_type` = 'Control' AND `study_subjects`.`phase` = 5 AND `enrollments`.`project_id` = 10 AND (date(assigned_for_interview_at) = '2013-11-25') ORDER BY reference_date DESC
+
+#	after 4pm, this fails due to time zones????
+
+#	TODO
+#	change assigned_for_interview_at to assigned_for_interview_on, just a Date field?
+
+#			get :index, :date => DateTime.tomorrow.to_date.to_s
+
+
+			#	The database stores datetimes as UTC so setting the time within 7 or 8 hours
+			#	of midnight will result in the date part of the datetime being tomorrow.
+			#	Searching for today will NOT find it.
+			#	fortunately, the use of "date" is an undocument, only-used-once feature
+
+			get :index, :date => some_datetime.to_date.to_s
 			assert_response :success
 			assert_template 'index'
+
 			#	This test may fail if run at just the wrong time causing 
 			#	the set date and requested date to somehow differ?
+
+			assert  assigns(:study_subjects)
+			assert !assigns(:study_subjects).empty?
+			assert_equal 1, assigns(:study_subjects).length
 			assert_equal subject, assigns(:study_subjects).first
 		end
 

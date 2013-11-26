@@ -2,7 +2,7 @@ namespace :app do
 namespace :contacts do
 
 	task :import_contacts_from_icf => :environment do
-#		raise "This task has been run and disabled."
+		raise "This task has been run and disabled."
 		icf_data_source_id = DataSource[:icf].id
 		unknown_phone_type_id = PhoneType[:unknown].id
 		unknown_address_type_id = AddressType[:unknown].id

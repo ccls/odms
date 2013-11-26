@@ -6,13 +6,13 @@ class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
 
 #	contacts#show
 
-		test "contacts#show should not have toggle_historic_addressings link" <<
-				" without historic addressings and with #{cu} login" do
-			addressing = FactoryGirl.create(:addressing,:current_address => YNDK[:yes])
+		test "contacts#show should not have toggle_historic_addresses link" <<
+				" without historic addresses and with #{cu} login" do
+			address = FactoryGirl.create(:address,:current_address => YNDK[:yes])
 			login_as send(cu)
-			visit study_subject_contacts_path(addressing.study_subject)
-			assert has_no_css?('a.toggler.toggles_historic_addressings')
-			assert has_css?('div.addressings div#historic_addressings', :visible => false)
+			visit study_subject_contacts_path(address.study_subject)
+			assert has_no_css?('a.toggler.toggles_historic_addresses')
+			assert has_css?('div.addresses div#historic_addresses', :visible => false)
 		end
 
 		test "contacts#show should not have toggle_historic_phone_numbers link" <<
@@ -25,15 +25,15 @@ class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
 		end
 
 		test "contacts#show should toggle historic addresses with #{cu} login" do
-			addressing = FactoryGirl.create(:addressing,:current_address => YNDK[:no])
+			address = FactoryGirl.create(:address,:current_address => YNDK[:no])
 			login_as send(cu)
-			visit study_subject_contacts_path(addressing.study_subject)
-			assert has_css?('a.toggler.toggles_historic_addressings')
-			assert has_css?('div.addressings div#historic_addressings', :visible => false)
-			find('a.toggles_historic_addressings').click
-			assert has_css?('div.addressings div#historic_addressings', :visible => true)
-			find('a.toggles_historic_addressings').click
-			assert has_css?('div.addressings div#historic_addressings', :visible => false)
+			visit study_subject_contacts_path(address.study_subject)
+			assert has_css?('a.toggler.toggles_historic_addresses')
+			assert has_css?('div.addresses div#historic_addresses', :visible => false)
+			find('a.toggles_historic_addresses').click
+			assert has_css?('div.addresses div#historic_addresses', :visible => true)
+			find('a.toggles_historic_addresses').click
+			assert has_css?('div.addresses div#historic_addresses', :visible => false)
 		end
 
 		test "contacts#show should toggle historic phone_numbers with #{cu} login" do

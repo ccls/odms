@@ -1,0 +1,41 @@
+<div class='address_wrapper contact_wrapper'>
+<%#
+
+What is 'dates' ?
+
+	'dates' is a boolean variable sometimes passed
+	to this partial to flag whether or not to show 
+	the dates.
+
+%>
+<%#= render( :partial => 'address_dates', :locals => {
+	:address => address
+}) if defined?(dates) and dates %>
+
+<%= div_for address do %>
+<span class='line_1'><%= address.line_1 %></span>
+<%= "<span class='unit'>Apt. #{h(address.unit)}</span>".html_safe unless address.unit.blank? %>
+<%= "<span class='line_2'>#{h(address.line_2)}</span>".html_safe  unless address.line_2.blank? %>
+<span class='csz'><%= address.csz %></span>
+<%= "<span class='county'>#{h(address.county)} County</span>".html_safe unless address.county.blank?  %>
+<% end %><!-- class='address' -->
+
+<div class='address_meta contact_meta'>
+<span class='type'>type:&nbsp;<%= address.address_type %></span>
+<span class='source'>source:&nbsp;<%= address.data_source %></span>
+</div><!-- class='address_meta' -->
+
+<%#
+
+What are 'details' and 'edit' ?
+
+	'details' and 'edit' are a boolean variables sometimes passed
+	to this partial to flag whether or not to show things.
+
+%>
+<%= render :partial => 'study_subject/contacts/address_details', :locals => {
+	:details => ( ( defined?(details) ) ? details : false ),
+	:edit    => ( ( defined?(edit)    ) ? edit    : false ),
+	:address => address
+} %>
+</div><!-- class='address_wrapper contact_wrapper' -->

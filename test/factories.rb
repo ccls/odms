@@ -71,10 +71,10 @@ FactoryGirl.define do
 			"0"=>{"language_code"=>"1"}, 
 			"1"=>{"language_code"=>""}, 
 			"2"=>{"language_code"=>"", "other_language"=>""} }}
-		f.addressings_attributes {{
-			"0"=> FactoryGirl.attributes_for(:addressing) }}
+		f.addresses_attributes {{
+			"0"=> FactoryGirl.attributes_for(:address) }}
 #	can't do it this way
-#		f.addressings_attributes {[ FactoryGirl.attributes_for(:addressing) ]}
+#		f.addresses_attributes {[ FactoryGirl.attributes_for(:address) ]}
 #		f.phone_numbers_attributes {[ {"phone_number"=>"1234567890"}, {"phone_number"=>""} ]}
 		f.phone_numbers_attributes {{
 			"0"=>{"phone_number"=>"1234567890"}, "1"=>{"phone_number"=>""} }}
@@ -143,7 +143,7 @@ FactoryGirl.define do
 #		f.address_type 'Residence'
 #	end
 	
-	factory :addressing do |f|
+	factory :address do |f|
 		f.association :study_subject
 		f.address_type 'Residence'
 		f.sequence(:line_1) { |n| "Box #{n}" }
@@ -153,22 +153,22 @@ FactoryGirl.define do
 		f.data_source 'RAF (CCLS Rapid Ascertainment Form)'
 		f.updated_at Time.now	#	to make it dirty
 	end
-	factory :blank_line_1_addressing, :parent => :addressing do |f|
+	factory :blank_line_1_address, :parent => :address do |f|
 		f.line_1 ""
 	end
-	factory :mailing_addressing, :parent => :addressing do |f|
+	factory :mailing_address, :parent => :address do |f|
 		f.address_type 'Mailing'
 		f.current_address { YNDK[:no] }
 	end
-	factory :current_mailing_addressing, :parent => :mailing_addressing do |f|
+	factory :current_mailing_address, :parent => :mailing_address do |f|
 		f.address_type 'Mailing'
 		f.current_address { YNDK[:yes] }
 	end
-	factory :residence_addressing, :parent => :addressing do |f|
+	factory :residence_address, :parent => :address do |f|
 		f.address_type 'Residence'
 		f.current_address { YNDK[:no] }
 	end
-	factory :current_residence_addressing, :parent => :residence_addressing do |f|
+	factory :current_residence_address, :parent => :residence_address do |f|
 		f.address_type 'Residence'
 		f.current_address { YNDK[:yes] }
 	end
