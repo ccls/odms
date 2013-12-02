@@ -84,6 +84,7 @@ This is a README, so READ ME!
  #	All seems to be working well, but sunspot needs to be started
  #	before the app. This may require RAILS_ENV=yourenvironment
  #	(test,development,production).
+ #	java -XX:+PrintFlagsFinal -version
  bundle exec rake sunspot:solr:start
 
 
