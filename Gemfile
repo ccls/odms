@@ -213,6 +213,8 @@ group :test do
 	gem 'jakewendt-test_with_verbosity'
 end
 
+gem 'jakewendt-active_record_left_joins'
+
 gem 'ccls-common_lib', ">0.9"
 
 gem 'geocoder'
