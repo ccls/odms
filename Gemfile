@@ -209,6 +209,8 @@ group :test do
 	gem 'capybara', '~> 2.0.0'
 	#	capybara-webkit 1.0.0 bombs big time compiling native code
 	gem 'capybara-webkit', '~> 0.14'
+
+	gem 'jakewendt-test_with_verbosity'
 end
 
 gem 'ccls-common_lib', ">0.9"
