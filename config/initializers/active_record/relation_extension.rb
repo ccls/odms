@@ -69,7 +69,8 @@ module ActiveRecord
 ( reflection.macro == :belongs_to ) ?
 						Arel::Nodes::On.new(
 							table[ reflection.foreign_key ].eq(
-								joining_model.arel_table[ :id ]
+#								joining_model.arel_table[ :id ]
+								joining_model.arel_table[ reflection.options[:primary_key] || :id ]
 							)
 						) :
 						Arel::Nodes::On.new(
