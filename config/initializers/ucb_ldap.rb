@@ -9,7 +9,7 @@
 #	config/initializers/ is NOT in LOAD_PATH so this
 #	file can be the same name as the desired "gem" file
 #require 'ucb_ldap'
-require 'ucb_ldap-1.4.2-modified'
+#require 'ucb_ldap-1.4.2-modified'
 
 
 #	don't use ruby-net-ldap as is too old

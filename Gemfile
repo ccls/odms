@@ -92,6 +92,9 @@ gem 'rubycas-client'
 
 #	ucb_ldap required modification and is now included in the app
 #gem 'ucb_ldap'
+#	ucb_ldap appears to have been upgraded, but needs --pre option.  How?
+gem 'ucb_ldap', "~> 2.0.0.pre"
+#	usage of the new ucb_ldap gem downgrades the net-ldap gem.
 gem 'net-ldap'
 
 

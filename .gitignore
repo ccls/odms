@@ -100,6 +100,9 @@ development/icf_master_tracker_update/
 *_errors.txt
 #odms_development.*.sql
 
+/data/
+
+
 
 /solr/pids
 /solr/data
