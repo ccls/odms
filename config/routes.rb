@@ -128,7 +128,7 @@ Odms::Application.routes.draw do
 	resources :sample_locations
 	resources :sample_outcomes
 #	resources :sample_temperatures
-	resources :sample_transfers, :only => [:index,:destroy] do
+	resources :sample_transfers, :only => [:edit,:update,:index,:destroy] do
 		collection { put :confirm }
 		member     { put :update_status }
 	end

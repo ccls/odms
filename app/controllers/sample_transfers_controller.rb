@@ -16,6 +16,25 @@ class SampleTransfersController < ApplicationController
 	before_filter :active_sample_transfers_required, 
 		:only => [:confirm]
 
+
+
+	def edit
+		@study_subject = @sample_transfer.sample.study_subject
+		render :layout => 'subject'
+	end
+
+	def update
+		@study_subject = @sample_transfer.sample.study_subject
+		@sample_transfer.update_attributes!(params[:sample_transfer])
+		flash[:notice] = 'Sample Transfer successfully updated!'
+		redirect_to study_subject_sample_path(@study_subject,@sample_transfer.sample_id)
+	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
+		flash.now[:error] = "Sample Transfer Update failed"
+		render :action => 'edit'
+	end
+
+	
+
 	#		for updating only status
 	def update_status	#	PUT
 		@sample_transfer.update_attributes!(:status => params[:status])

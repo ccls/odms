@@ -552,10 +552,10 @@ FactoryGirl.define do
 		f.association :organization
 	end
 	
-	factory :sample_format do |f|
-		f.sequence(:key) { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :sample_format do |f|
+#		f.sequence(:key) { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :sample_transfer do |f|
 		f.association :sample
@@ -567,10 +567,10 @@ FactoryGirl.define do
 		f.status 'waitlist'
 	end
 	
-	factory :sample_temperature do |f|
-		f.sequence(:key) { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
+#	factory :sample_temperature do |f|
+#		f.sequence(:key) { |n| "Key#{n}" }
+#		f.sequence(:description) { |n| "Desc#{n}" }
+#	end
 	
 	factory :sample_type do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }

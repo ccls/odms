@@ -2,13 +2,14 @@
 <% if @sample.sample_transfers.empty? %>
 <p>There are no transfers for this sample.</p>
 <% else %>
-<table><thead><tr><th>From</th><th>To</th><th>Status</th><th>Sent</th></tr></thead><tbody>
+<table><thead><tr><th>From</th><th>To</th><th>Status</th><th>Sent</th><th>&nbsp;</th></tr></thead><tbody>
 <% @sample.sample_transfers.each do |transfer| %>
 <tr class='row'>
 <td><%= transfer.source_org %></td>
 <td><%= transfer.destination_org %></td>
 <td><%= transfer.status %></td>
 <td><%= mdy transfer.sent_on %></td>
+<td><%= link_to 'Edit', edit_sample_transfer_path(transfer), :class => :button %></td>
 </tr>
 <% end %>
 </tbody></table>

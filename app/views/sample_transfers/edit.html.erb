@@ -1,0 +1,19 @@
+<% stylesheets(:sample_transfer) %>
+
+<h4>Editting Sample Transfer</h4>
+
+<%= form_for(@sample_transfer) do |f| %>
+<%= f.error_messages %>
+
+<%# source_org and destination_org ? %>
+
+<%= f.wrapped_date_text_field :sent_on %> <%# date selector %>
+<%= f.wrapped_select(:status,
+	SampleTransfer.statuses, { :include_blank => true }) %>
+<%= f.wrapped_text_area  :notes, :class => :autosize %>
+<p>
+<%= f.submit( "Update" )%>&nbsp;
+<%= link_to 'Back to samples', study_subject_sample_path(@study_subject, @sample_transfer.sample_id), 
+	:class => :button %>
+</p>
+<% end %>

@@ -5,17 +5,17 @@ class SampleTransfersControllerTest < ActionController::TestCase
 	site_administrators.each do |cu|
 
 		test "should destroy with #{cu} login" do
-			sample_transfer = FactoryGirl.create(:sample_transfer)
+			st = FactoryGirl.create(:sample_transfer)
 			login_as send(cu)
 			assert_difference('SampleTransfer.count',-1){
-				delete :destroy, :id => sample_transfer.id
+				delete :destroy, :id => st.id
 			}
 			assert_nil flash[:error]
 			assert_redirected_to sample_transfers_path
 		end
 
 		test "should NOT destroy with invalid id #{cu} login" do
-			sample_transfer = FactoryGirl.create(:sample_transfer)
+			st = FactoryGirl.create(:sample_transfer)
 			login_as send(cu)
 			assert_difference('SampleTransfer.count',0){
 				delete :destroy, :id => 0
@@ -29,10 +29,10 @@ class SampleTransfersControllerTest < ActionController::TestCase
 	non_site_administrators.each do |cu|
 
 		test "should NOT destroy with #{cu} login" do
-			sample_transfer = FactoryGirl.create(:sample_transfer)
+			st = FactoryGirl.create(:sample_transfer)
 			login_as send(cu)
 			assert_difference('SampleTransfer.count',0){
-				delete :destroy, :id => sample_transfer.id
+				delete :destroy, :id => st.id
 			}
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -41,6 +41,53 @@ class SampleTransfersControllerTest < ActionController::TestCase
 	end
 
 	site_editors.each do |cu|
+
+		test "should edit with #{cu} login" do
+			st = FactoryGirl.create(:sample_transfer)
+			login_as send(cu)
+			get :edit, :id => st.id
+			assert_response :success
+			assert_nil flash[:error]
+			assert_template :edit
+		end
+
+		test "should update with #{cu} login" do
+			st = FactoryGirl.create(:sample_transfer).reload
+			login_as send(cu)
+			assert_changes("SampleTransfer.find(#{st.id}).notes") {
+				put :update, :id => st.id, :sample_transfer => {:notes => 'new notes'}
+			}
+			assert_nil flash[:error]
+			assert_not_nil flash[:notice]
+			assert_equal 'new notes', assigns(:sample_transfer).notes
+			assert_redirected_to study_subject_sample_path(st.sample.study_subject,assigns(:sample_transfer).sample)
+		end
+
+		test "should NOT update sample_transfer with invalid sample_transfer #{cu} login" do
+			login_as send(cu)
+			st = FactoryGirl.create(:sample_transfer)
+			SampleTransfer.any_instance.stubs(:valid?).returns(false)
+			deny_changes("SampleTransfer.find(#{st.id}).notes") {
+				put :update, :id => st.id, :sample_transfer => {:notes => 'new notes'}
+			}
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template :edit
+		end
+
+		test "should NOT update sample_transfer with failed save and #{cu} login" do
+			login_as send(cu)
+			st = FactoryGirl.create(:sample_transfer)
+			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
+			deny_changes("SampleTransfer.find(#{st.id}).notes") {
+				put :update, :id => st.id, :sample_transfer => {:notes => 'new notes'}
+			}
+			assert_not_nil flash[:error]
+			assert_response :success
+			assert_template :edit
+		end
+
+
 
 		test "should not confirm without organization_id with #{cu} login" do
 			login_as send(cu)
@@ -301,6 +348,28 @@ class SampleTransfersControllerTest < ActionController::TestCase
 	end
 
 	non_site_editors.each do |cu|
+
+		test "should NOT edit sample_transfer with #{cu} login" do
+			login_as send(cu)
+			st = FactoryGirl.create(:sample_transfer)
+			get :edit, :id => st.id
+			assert_nil assigns(:sample_transfer)
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+		test "should NOT update sample_transfer with #{cu} login" do
+			login_as send(cu)
+			st = FactoryGirl.create(:sample_transfer)
+			put :update, :id => st.id, :sample_transfer => {}
+			assert_nil assigns(:sample_transfer)
+			assert_not_nil flash[:error]
+			assert_redirected_to root_path
+		end
+
+
+
+
 
 		test "should NOT update sample_transfer status with #{cu} login" do
 			login_as send(cu)
