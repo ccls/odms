@@ -1,5 +1,27 @@
 namespace :app do
 
+	task :parse_log_for_slow => :environment do
+		#	the long contains some binary chars which makes using \s*
+		#	nearly impossible?
+		File.open('log/test.log','r').each do |line|
+			#	skip as many as possible
+			next if line.blank?
+			next if line.match(/Connecting to database specified by database.yml/)
+			next if line.match(/Migrating to /)
+			next if line.match(/INSERT INTO `schema_migrations/)
+			next if line.match(/CREATE DATABASE/)
+			next if line.match(/CREATE TABLE/)
+			next if line.match(/CREATE INDEX/)
+			next if line.match(/CREATE UNIQUE INDEX/)
+			next if line.match(/CACHE\s*\(/)
+#			puts line unless line.match(/^\s*\S+\s+\S+\s+\((.*)ms\)/)
+			if line.match(/\(([\d\.]+)ms\)/)
+				ms=$1.to_f
+				puts line if ms > 500
+			end
+		end
+	end
+
 #
 #	I don't think that we'll be importing from fixtures anymore.
 #	Any new stuff would probably be added directly. (20121219)
