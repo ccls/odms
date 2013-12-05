@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131123003342) do
+ActiveRecord::Schema.define(:version => 20131205224209) do
 
   create_table "abstracts", :force => true do |t|
     t.string   "entry_1_by_uid"
@@ -1248,11 +1248,13 @@ ActiveRecord::Schema.define(:version => 20131123003342) do
   add_index "study_subjects", ["accession_no"], :name => "index_study_subjects_on_accession_no", :unique => true
   add_index "study_subjects", ["childid"], :name => "index_study_subjects_on_childid", :unique => true
   add_index "study_subjects", ["email"], :name => "index_study_subjects_on_email", :unique => true
+  add_index "study_subjects", ["familyid"], :name => "index_study_subjects_on_familyid"
   add_index "study_subjects", ["gbid"], :name => "index_study_subjects_on_gbid", :unique => true
   add_index "study_subjects", ["icf_master_id"], :name => "index_study_subjects_on_icf_master_id", :unique => true
   add_index "study_subjects", ["idno_wiemels"], :name => "index_study_subjects_on_idno_wiemels", :unique => true
   add_index "study_subjects", ["lab_no_wiemels"], :name => "index_study_subjects_on_lab_no_wiemels", :unique => true
   add_index "study_subjects", ["local_registrar_no"], :name => "index_study_subjects_on_local_registrar_no", :unique => true
+  add_index "study_subjects", ["matchingid"], :name => "index_study_subjects_on_matchingid"
   add_index "study_subjects", ["needs_reindexed"], :name => "index_study_subjects_on_needs_reindexed"
   add_index "study_subjects", ["patid", "case_control_type", "orderno"], :name => "piccton", :unique => true
   add_index "study_subjects", ["phase", "case_icf_master_id"], :name => "index_study_subjects_on_phase_and_case_icf_master_id"
