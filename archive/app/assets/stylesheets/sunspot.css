@@ -1,0 +1,284 @@
+body {
+//	width: 100%;
+	min-width: 100%;
+	padding:0;
+	margin:0;
+}
+div#header {
+	margin:0;
+	padding:0;
+	background-color: #6A7780;
+	height: auto;
+}
+div#header div#header_top {
+	height: 50px;
+	display:block;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	clear:both;
+}
+div#logo {
+	float:left;
+	padding-left: 10px;
+	font-family: Times New Roman,LeagueGothicRegular,helvetica,arial,sans-serif;
+}
+div#logo h2 {
+	font-size: 30px;
+	margin: 10px;
+	margin-top: 3px;
+	margin-bottom: 0px;
+	color:white;
+	text-shadow: #000 0 2px 3px;
+	display:inline-block;
+}
+div#logo a {
+	color:white;
+	text-decoration:none;
+}
+#container {
+	padding: 0;
+	margin: auto 0px;
+	display:table;
+//	width: 100%;
+	min-width: 100%;
+}
+
+#footer {
+	clear:both;
+	padding-top: 1ex;
+	padding-bottom: 1ex;
+	text-align:center;
+	font-size:8pt;
+	line-height:8pt;
+	background-color: #EEE;
+	color: gray;
+}
+
+
+.table {
+	/* this holds the table-row open, otherwise shrinks to whatever */
+	display:table;
+	width:100%;
+}
+.table .row {
+	display:table-row;
+}
+.table .row > div {
+	display:table-cell;
+	vertical-align: top;
+	text-align: center;
+}
+table {
+	width: 100%;
+}
+
+tr:nth-child(2n)   { background-color: #FCF9EF; }
+tr:nth-child(2n+1) { background-color: #F5F1E8; }
+
+
+
+
+
+
+
+
+
+
+
+/* 
+	All below is from CLIC, originally.
+	I am trying to remove anything unused.
+*/
+
+
+/*
+	border-collapse:collapse; 
+*/
+/* key to having table row border */
+/*
+#results_table {
+	vertical-align:top;
+	width:100%;
+	display:table;
+	padding-top:5px;
+}
+#results_row {
+	padding-top:5px;
+	border: 1px solid #EEE;
+	display:table-row;
+}
+*/
+#refine {
+//	width: 30%;
+	min-width: 300px;
+/* still don't understand why, but when min-width is used, the facet column flickers too wide for a second when toggling? */
+/* interestingly, having both width and min-width seems to do exactly what I want without flicker.  Yay */
+	width: 400px;
+//	display:table-cell;
+	border-right: 2px solid silver;
+	padding: 0 10px;
+}
+#refine form input[type=submit] {
+	font-size:14pt;
+	font-weight:bold;
+	border: 1px solid black;
+	width: 100%;
+	margin: 10px 0;
+
+	/* http://css-radius.heroku.com */
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+
+	background-color: #DDDDDD;
+/* for webkit browsers */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BBBBBB)); 
+/* for firefox 3.6+  */
+	background-image: -moz-linear-gradient(top,  #FFFFFF,  #BBBBBB); 
+/* for ie , but doesn't seem to work as expected despite other examples working */
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#FFFFFF', EndColorStr='#BBBBBB');
+
+}
+.facets {
+	border: 1px solid silver;
+	border-top: 0;
+}
+.facets div.facet_toggle {
+	display:block;
+	padding: 5px;
+	border-top: 1px solid silver;
+	background-color:#EEE;
+}
+.facets div.facet_toggle span {
+	float:left;
+}
+.facets div.facet_toggle a {
+	display:block;
+}
+.facets div.facet_field {
+	display:none;
+}
+.facets div.facet_field ul {
+	padding-left: 35px;
+}
+/* I want a 10px padding, but also want the wordwrap indented further. so large padding and negative indent */
+.facets div.facet_field ul li {
+	list-style: none;
+	text-align: left;
+	text-indent: -30px;
+}
+.facets div.facet_field ul li label {
+	padding-left: 5px;
+}
+
+/*
+.facets ul.facet_field li * {
+	display:inline-block;
+}
+.facets ul.facet_field li input {
+	display:inline-block;
+}
+.facets ul.facet_field li label {
+	display:inline-block;
+}
+*/
+#results {
+	padding: 0 10px;
+//	display:table-cell;
+	background-color: #FFF;
+}
+#filters {
+	padding: 0 10px;
+	border: 1px solid gray;
+}
+#filters h3 {
+	margin-top:0;
+	padding-top:10px;
+}
+
+
+
+/* what and where is a #tabs (20130917) */
+/* and I don't think that ul.results exists anymore (20130917) */
+/* commenting out to see if there are anhy repercussions.
+/*
+#tabs {
+	border-bottom: 1px solid gray;
+}
+#tabs ul {
+	margin-bottom: 5px;
+}
+#tabs ul li {
+	display:inline;
+}
+#tabs ul li a {
+	text-decoration:none;
+	padding: 5px 15px;
+	font-size:12pt;
+	font-weight:bold;
+	background-color:silver;
+	color:black;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+
+	-webkit-border-radius: 8px 8px 0px 0px;
+	-moz-border-radius: 8px 8px 0px 0px;
+	border-radius: 8px 8px 0px 0px;
+
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BBBBBB)); 
+	background-image: -moz-linear-gradient(top,  #FFFFFF,  #BBBBBB); 
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#FFFFFF', EndColorStr='#BBBBBB');
+}
+#tabs ul li a.current {
+	background-color:gray;
+	color:white;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#888888), to(#BBBBBB)); 
+	background-image: -moz-linear-gradient(top,  #888888,  #BBBBBB); 
+	filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr='#888888', EndColorStr='#BBBBBB');
+}
+
+ul.results {
+	list-style: none;
+}
+ul.results li {
+	border:1px solid silver;
+	border-top: 0px;
+	padding: 4px 5px;
+}
+ul.results li:nth-child(1)    { border-top:1px solid silver; }
+ul.results li:nth-child(2n)   { background-color: #EEE; }
+ul.results li:nth-child(2n+1) { background-color: #DDD; }
+*/
+
+ul.selectable_columns {
+	background-color: silver;
+	padding: 10px;
+	list-style: none;
+	text-align: left;
+	text-indent: 20px;
+}
+
+div#map_canvas_background {
+	position: absolute; 
+	width: 100%; 
+	height: 100%; 
+	background-color: gray; 
+	opacity: 0.6;
+	filter:alpha(opacity=60); 
+	top: 0px;
+}
+div#map_canvas_wrapper {
+	position: absolute; 
+	width: 100%; 
+	height: 100%; 
+	margin: auto; 
+	text-align: center; 
+	top: 0px;
+}
+div#map_canvas {
+	width: 90%; 
+	height: 90%; 
+	margin: 10px auto;
+}

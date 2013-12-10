@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%#= yield :doctype -%>
+<%# 
+	Could add "valid" tag attributes by ...
+[
+  <!ATTLIST tag myAttri CDATA #IMPLIED>
+] %>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<%= render 'layouts/sunspot_head' %>
+<body>
+<div id='container'>
+<%= render 'layouts/sunspot_header' %>
+<div class='table'>
+ <div class='row'>
+    <%= yield %>
+ </div><!-- row -->
+</div><!-- table -->
+<%= render 'layouts/footer' %>
+</div><!-- container -->
+</body>
+</html>
