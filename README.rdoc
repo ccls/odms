@@ -161,7 +161,7 @@ This is a README, so READ ME!
 
 == Ruby 1.9.3 oddities
 
-* imported ucb_ldap so could modify and remove incompatible ruby-net-ldap requirement
+* imported ucb_ldap so could modify and remove incompatible ruby-net-ldap requirement and rubygems require
   * 1.4.2 - 2010-08-03
 * FasterCSV replaced with CSV
   * must manually "require 'csv'" instead though
