@@ -46,7 +46,7 @@ base.class_eval do
 	#	matchingid,familyid,case_subjectid?
 	#
 
-	include Sunspotability
+	include ActiveRecordSunspotter::Sunspotability
 
 	add_sunspot_column( :id, 
 		:default => true, :type => :integer )

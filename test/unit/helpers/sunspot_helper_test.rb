@@ -15,7 +15,7 @@ class FakeFacetRow
 	end
 end
 
-class SunspotHelperTest < ActionView::TestCase
+class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 #	 def facet_toggle(facet,icon)
 

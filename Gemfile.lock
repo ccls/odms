@@ -78,6 +78,10 @@ GEM
     hpricot (0.8.6)
     i18n (0.6.9)
     jakewendt-active_record_left_joins (0.0.0)
+    jakewendt-active_record_sunspotter (0.0.0)
+      progress_bar
+      sunspot_rails (= 2.0.0)
+      sunspot_solr (= 2.0.0)
     jakewendt-test_with_verbosity (0.0.0)
     journey (1.0.4)
     json (1.8.1)
@@ -211,6 +215,7 @@ DEPENDENCIES
   geocoder
   hpricot
   jakewendt-active_record_left_joins
+  jakewendt-active_record_sunspotter
   jakewendt-test_with_verbosity
   json
   minitest
@@ -220,7 +225,6 @@ DEPENDENCIES
   net-ldap
   prawn
   prawnto
-  progress_bar
   rack-ssl
   rails (~> 3.2)
   rubycas-client
@@ -229,8 +233,6 @@ DEPENDENCIES
   sass-rails
   simplecov (= 0.7.1)
   sqlite3
-  sunspot_rails (= 2.0.0)
-  sunspot_solr (= 2.0.0)
   test-unit
   ucb_ldap (~> 2.0.0.pre)
   uglifier (>= 1.0.3)

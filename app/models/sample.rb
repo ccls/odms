@@ -102,7 +102,7 @@ class Sample < ActiveRecord::Base
 	#	can be before as is just flagging it and not reindexing yet.
 	before_destroy :reindex_study_subject!
 
-	include Sunspotability
+	include ActiveRecordSunspotter::Sunspotability
 	
 	add_sunspot_column(:id, :default => true, :type => :integer)
 	add_sunspot_column(:sampleid, :default => true)

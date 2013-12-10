@@ -58,7 +58,7 @@ class Abstract  < ActiveRecord::Base
 		->{ where(self.arel_table[:merged_by_uid].not_eq(nil) ) }
 	scope :unmerged, ->{ where(:merged_by_uid => nil) }
 
-	include Sunspotability
+	include ActiveRecordSunspotter::Sunspotability
 	
 	add_sunspot_column(:id, :default => true, :type => :integer)
 	add_sunspot_column( :bmb_report_found,

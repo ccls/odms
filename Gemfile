@@ -21,10 +21,11 @@ source "http://gems.github.com"
 
 
 #	2.1.0 doesn't seem to actually start
-gem 'sunspot_rails', '= 2.0.0'
-gem 'sunspot_solr', '= 2.0.0' # optional pre-packaged Solr distribution for use in development
-gem 'sqlite3'
-gem 'progress_bar'
+#gem 'sunspot_rails', '= 2.0.0'
+#gem 'sunspot_solr', '= 2.0.0' # optional pre-packaged Solr distribution for use in development
+gem 'sqlite3'	#	why exactly?
+#gem 'progress_bar'
+gem 'jakewendt-active_record_sunspotter'
 
 
 #	apparently required on new production server for some reason??
