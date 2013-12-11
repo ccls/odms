@@ -36,8 +36,8 @@ module Odms
 
 
 		#	In order to silence this internal rails warning ...
-		#		[deprecated] I18n.enforce_available_locales will default to true in the future. 
-		#			If you really want to skip validation of your locale you can set 
+		#		[deprecated] I18n.enforce_available_locales will default to true in the future.
+		#			If you really want to skip validation of your locale you can set
 		#			I18n.enforce_available_locales = false to avoid this message.
 		#	explicitly add this line
 		config.i18n.enforce_available_locales = true
