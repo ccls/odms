@@ -34,6 +34,17 @@ module Odms
 		# config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
 		# config.i18n.default_locale = :de
 
+
+		#	In order to silence this internal rails warning ...
+		#		[deprecated] I18n.enforce_available_locales will default to true in the future. 
+		#			If you really want to skip validation of your locale you can set 
+		#			I18n.enforce_available_locales = false to avoid this message.
+		#	explicitly add this line
+		config.i18n.enforce_available_locales = true
+		#	If setting default_locale, the previous line MUST come first.
+		config.i18n.default_locale = :en
+
+
 		# Configure the default encoding used in templates for Ruby 1.9.
 		config.encoding = "utf-8"
 
@@ -80,11 +91,3 @@ module Odms
 
 	end
 end
-
-# Only send to me in development
-#	moved this feature into the mailer
-#def email_options 
-#	( Rails.env != 'production' ) ? { :to => 'jakewendt@berkeley.edu' } : {}
-#end   
-
-
