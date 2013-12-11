@@ -60,10 +60,10 @@ class Sample < ActiveRecord::Base
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
 	def self.valid_sample_temperatures
-#
-#	Only have room temp and refrigerated in db
-#
-#		["room temperature", "refrigerated", "legacy data import", "storage temperature unknown"]
+		#
+		#	Only have room temp and refrigerated in db
+		#
+		#		["room temperature", "refrigerated", "legacy data import", "storage temperature unknown"]
 		["Room Temperature", "Refrigerated"]
 	end
 
@@ -79,9 +79,9 @@ class Sample < ActiveRecord::Base
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
 	def self.valid_sample_formats
-#
-#	Only have Guthrie Cards in db
-#
+		#
+		#	Only have Guthrie Cards in db
+		#
 		["Guthrie Card", "Slide", "Vacuum Bag", "Other Source", 
 			"Migrated from CCLS Legacy Tracking2k database", "Unknown Data Source"]
 	end

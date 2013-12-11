@@ -181,11 +181,7 @@ base.class_eval do
 	add_sunspot_column( :local_registrar_no )
 	add_sunspot_column( :cdcid, :type => :integer )
 	add_sunspot_column( :derived_local_file_no_last6, :type => :integer )
-#	add_sunspot_column( :derived_local_file_no_last6, :type => :integer,
-#		:meth => ->(s){ s.newest_birth_data.collect(&:derived_local_file_no_last6).compact.first })
 	add_sunspot_column( :derived_state_file_no_last6, :type => :integer )
-#	add_sunspot_column( :derived_state_file_no_last6, :type => :integer,
-#		:meth => ->(s){ s.newest_birth_data.collect(&:derived_state_file_no_last6).compact.first })
 
 	add_sunspot_column( :mother_hispanic_origin_code, :type => :string, :facetable => true,
 		:meth => ->(s){ s.newest_birth_data.collect(&:mother_hispanic_origin_code).compact.first })

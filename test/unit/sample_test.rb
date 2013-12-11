@@ -3,14 +3,7 @@ require 'test_helper'
 class SampleTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-#	assert_should_have_one( :sample_kit )
-#	assert_should_have_many( :aliquots, :sample_transfers )
-#	assert_should_belong_to( :unit, :sample_format, :sample_temperature )
 	assert_should_have_many( :sample_transfers )
-#	assert_should_belong_to( :sample_format, :sample_temperature )
-#	because organization is location_id which is now autoset, 
-#	this common class test won't work for it.
-#	assert_should_belong_to( :unit, :organization, :sample_format, :sample_temperature )
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 
 	attributes = %w( aliquot_or_sample_on_receipt 
@@ -21,7 +14,6 @@ class SampleTest < ActiveSupport::TestCase
 		sample_format sample_temperature 
 		sent_to_lab_at sent_to_subject_at
 		shipped_to_ccls_at state notes )
-#		shipped_to_ccls_at state unit unit_id notes )
 	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
@@ -155,8 +147,6 @@ pending	"no longer required, but may be temporary"
 	test "should default aliquot_or_sample_on_receipt to 'Sample'" do
 		sample = Sample.new
 		assert_equal 'Sample', sample.aliquot_or_sample_on_receipt
-#		sample = Sample.new(:aliquot_or_sample_on_receipt => '')
-#		assert_equal 'Sample', sample.aliquot_or_sample_on_receipt
 		sample = Sample.new(:aliquot_or_sample_on_receipt => 'something')
 		assert_equal 'something', sample.aliquot_or_sample_on_receipt
 	end
@@ -316,10 +306,6 @@ pending	"no longer required, but may be temporary"
 
 
 
-
-
-
-
 	if Sample.respond_to?(:solr_search)
 
 		test "should search" do
@@ -336,30 +322,6 @@ pending	"no longer required, but may be temporary"
 #	Sunspot wasn't running when test started
 #
 	end
-
-#	%w( sunspot_columns
-#		sunspot_orderable_columns
-#		sunspot_string_columns
-#		sunspot_nulled_string_columns
-#		sunspot_time_columns
-#		sunspot_date_columns
-#		sunspot_integer_columns
-#		sunspot_long_columns
-#		sunspot_boolean_columns
-#		sunspot_double_columns
-#		sunspot_float_columns
-#		sunspot_default_columns
-#		sunspot_available_columns
-#		).each do |column|
-#		test "should return array for sunspot class method #{column}" do
-#			assert Sample.send(column).is_a?(Array)
-#		end
-##		sunspot_unindexed_columns
-#	end
-##		sunspot_dynamic_columns
-
-
-
 
 	test "should flag study subject for reindexed on create" do
 		sample = FactoryGirl.create(:sample)
