@@ -78,7 +78,7 @@ GEM
     hpricot (0.8.6)
     i18n (0.6.9)
     jakewendt-active_record_left_joins (0.0.0)
-    jakewendt-active_record_sunspotter (0.0.2)
+    jakewendt-active_record_sunspotter (0.0.3)
       progress_bar
       sunspot_rails (= 2.0.0)
       sunspot_solr (= 2.0.0)
@@ -91,14 +91,14 @@ GEM
     metaclass (0.0.1)
     mime-types (1.25.1)
     mini_portile (0.5.2)
-    minitest (5.1.0)
+    minitest (5.2.0)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     multi_json (1.8.2)
     mysql (2.9.1)
     mysql2 (0.3.14)
     net-ldap (0.2.2)
-    nokogiri (1.6.0)
+    nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     options (2.3.0)
       fattr
@@ -110,9 +110,11 @@ GEM
       ttfunk
     polyglot (0.3.3)
     pr_geohash (1.0.0)
-    prawn (0.12.0)
-      pdf-reader (>= 0.9.0)
-      ttfunk (~> 1.0.2)
+    prawn (0.13.0)
+      afm
+      pdf-reader (~> 1.2)
+      ruby-rc4
+      ttfunk (~> 1.0.3)
     prawnto (0.1.1)
       prawn
       rails (>= 2.1)
@@ -188,7 +190,7 @@ GEM
     tzinfo (0.3.38)
     ucb_ldap (2.0.0.pre5)
       net-ldap (= 0.2.2)
-    uglifier (2.3.2)
+    uglifier (2.3.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     websocket (1.0.7)
