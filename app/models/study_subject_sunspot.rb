@@ -52,6 +52,14 @@ base.class_eval do
 		:default => true, :type => :integer )
 	add_sunspot_column( :subject_type, 
 		:facetable => true, :default => true )
+
+#	add_sunspot_column( :mother_child_subject_type, :facetable => true, 
+#		:label => "Mother's Child's Subject Type",
+#		:meth => ->(s){ ( s.is_mother? ) ? ( ( s.child.present? ) ? s.child.subject_type : 'Childless' ) : nil })
+	add_sunspot_column( :childs_subject_type, :facetable => true, 
+		:label => "Child's Subject Type",
+		:meth => ->(s){ s.child.try(:subject_type) })
+
 	add_sunspot_column( :vital_status, 
 		:facetable => true, :default => true )
 	add_sunspot_column( :case_control_type, 
