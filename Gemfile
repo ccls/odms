@@ -20,11 +20,6 @@ source "http://gems.github.com"
 #
 
 
-#	2.1.0 doesn't seem to actually start
-#gem 'sunspot_rails', '= 2.0.0'
-#gem 'sunspot_solr', '= 2.0.0' # optional pre-packaged Solr distribution for use in development
-gem 'sqlite3'	#	why exactly?
-#gem 'progress_bar'
 gem 'jakewendt-active_record_sunspotter'
 
 
@@ -207,6 +202,9 @@ group :test do
 
 	gem 'ccls-html_test'
 
+	#	the latest capybara seems to install just fine when the latest xcode and command line tools are.
+	#	NOTE however, the "find field" seems to always fail?
+	#
 	#	newer capybara not compatible with current webkit
 	#	need to explicityly have capybara for the version or
 	#	it will by upgraded to 2.1.0 which fails
