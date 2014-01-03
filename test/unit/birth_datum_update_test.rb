@@ -4,6 +4,41 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 
 	teardown :cleanup_birth_datum_update_and_test_file	#	remove tmp/FILE.csv
 
+#	BcInfoUpdate.expected_columns.each_with_index do |a,i|
+#
+#		test "should allow columns set #{i}" do
+#			CSV.open(csv_test_file_name,'w'){|c| c << BcInfoUpdate.expected_columns[i] }
+#			bc_info_update = BcInfoUpdate.new(csv_test_file_name)
+#			assert bc_info_update.status.blank?
+#		end
+#
+#	end
+
+	test "should send email on missing required column" do
+		stubs(:abort).returns(true)
+		birth_datum_update = create_test_file_and_birth_datum_update
+		assert_difference('ActionMailer::Base.deliveries.length',1) {
+			birth_datum_update.required_column('fake_column')
+		}
+		mail = ActionMailer::Base.deliveries.detect{|m|
+			m.subject.match(/Birth Data missing (.*) column/) }
+		assert mail.to.include?('jakewendt@berkeley.edu')
+		assert_match 'Birth Data missing', mail.body.encoded
+		cleanup_birth_datum_update_and_test_file(birth_datum_update)
+	end
+
+
+	test "should archive" do
+		FileUtils.stubs(:mkdir_p).returns(true) 
+		File.stubs(:exists?).returns(false)
+		FileUtils.stubs(:move).returns(true)
+		birth_datum_update = BirthDatumUpdate.new(
+				'test/assets/empty_birth_datum_update_test_file.csv',:verbose => true)
+		birth_datum_update.archive
+	end
+
+
+
 	test "birth datum update factory should not create birth datum" do
 		assert_difference('BirthDatum.count',0) {	#	after_create should do nothing
 			BirthDatumUpdate.new('test/assets/empty_birth_datum_update_test_file.csv')
@@ -64,20 +99,15 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 
 	test "should copy attributes when csv_file converted to candidate control" do
 		study_subject = create_case_for_birth_datum_update
-#		study_subject = create_case_for_birth_datum_update({
-#			:mother_ssn => '123456789',
-#			:father_ssn => '987654321'})
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',2) {
 			birth_datum_update = create_test_file_and_birth_datum_update
 
 			require 'csv'
-#			f=CSV.open( birth_datum_update.csv_file.path, 'rb',{
 			f=CSV.open( birth_datum_update.csv_file, 'rb',{
 					:headers => true })
 			line = f.readline	#	case
 			birth_datum = birth_datum_update.birth_data[0]
-#			birth_datum = BirthDatum.first
 			assert_equal birth_datum.master_id, '12345FAKE'
 			assert_equal birth_datum.case_control_flag, 'case'
 			assert_equal birth_datum.match_confidence, 'definite'
@@ -86,15 +116,11 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 
 			line = f.readline	#	control
 			birth_datum = birth_datum_update.birth_data[1]
-#			birth_datum = BirthDatum.last
 			assert_equal birth_datum.master_id, '12345FAKE'
 			assert_equal birth_datum.case_control_flag, 'control'
 			assert       birth_datum.match_confidence.blank?
 			assert_equal birth_datum.sex, line['sex']
 			assert_equal birth_datum.dob, Date.parse(line['dob'])
-#			assert_equal birth_datum.mother_ssn, '123456789'
-#			assert_equal birth_datum.father_ssn, '987654321'
-
 			f.close
 		} }
 	end
@@ -144,13 +170,12 @@ state_registrar_no
 			File.open(csv_test_file_name,'w'){|f|
 				f.puts csv_file_header
 				f.puts csv_file_unknown(field.to_sym => value) }
-#			assert_difference('BirthDatumUpdate.count',1){
 			assert_difference('BirthDatum.count',1){
 				birth_datum_update = create_birth_datum_update_with_file
 				assert_equal 1, birth_datum_update.birth_data.length
 				assert_equal value,
 					birth_datum_update.birth_data.first.send(field)
-			} #}
+			}
 		end
 
 	end
@@ -158,7 +183,7 @@ state_registrar_no
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = "birth_data/birth_datum_update_20120424.csv"
+		real_data_file = "birth_data/birth_datum_update_20120712.csv"
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."
@@ -177,7 +202,6 @@ state_registrar_no
 		assert_difference('BirthDatum.count',33){
 		assert_difference('CandidateControl.count',5){
 			birth_datum_update = BirthDatumUpdate.new(real_data_file) 
-#			birth_datum_update.parse_csv_file
 			assert_not_nil birth_datum_update.csv_file
 		} }
 	end

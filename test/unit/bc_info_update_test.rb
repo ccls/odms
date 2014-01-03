@@ -28,8 +28,17 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 		CSV.open(csv_test_file_name,'w'){|c| c << %w( col1 col2 col3 ) }
 		bc_info_update = BcInfoUpdate.new(csv_test_file_name)
 		assert_match /unexpected column names/, bc_info_update.status
-#	returns without parsing
+		#	returns without parsing
 	end
+
+	test "should archive" do
+		FileUtils.stubs(:mkdir_p).returns(true) 
+		File.stubs(:exists?).returns(false)
+		FileUtils.stubs(:move).returns(true)
+		bc_info_update = BcInfoUpdate.new('test/assets/empty_bc_info_update_test_file.csv',:verbose => true)
+		bc_info_update.archive
+	end
+
 
 
 
@@ -50,7 +59,6 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-#		real_data_file = "screening_data/screening_datum_update_20120822.csv"
 		real_data_file = "bc_info_20120822.csv"
 		unless File.exists?(real_data_file)
 			puts

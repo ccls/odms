@@ -13,15 +13,11 @@ class IcfMasterTrackerUpdate < CSVFile
 
 	def required_column(column)
 		unless actual_columns.include?(column)
-#			Notification.plain(
-#				"ICF Master Tracker missing #{column} column. Skipping.\n",
-#				email_options.merge({
-#					:subject => "ODMS: ICF Master Tracker missing #{column} column" })
-#			).deliver
-			Notification.plain(
+			notification = Notification.plain(
 				"ICF Master Tracker missing #{column} column. Skipping.\n",
 					:subject => "ODMS: ICF Master Tracker missing #{column} column"
-			).deliver
+			)
+			notification.deliver
 			abort( "ICF Master Tracker missing #{column} column." )
 		end
 	end
@@ -37,17 +33,12 @@ class IcfMasterTrackerUpdate < CSVFile
 	def parse_csv_file
 		FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
 		if File.exists?("#{archive_dir}/ICF_Master_Tracker_#{mod_time}.csv")
-#			Notification.plain(
-#				"ICF Master Tracker has the same modification time as a previously" <<
-#					" processed file. (#{mod_time})  Skipping.",
-#				email_options.merge({
-#					:subject => "ODMS: Duplicate ICF Master Tracker" })
-#			).deliver
-			Notification.plain(
+			notification = Notification.plain(
 				"ICF Master Tracker has the same modification time as a previously" <<
 					" processed file. (#{mod_time})  Skipping.",
 					:subject => "ODMS: Duplicate ICF Master Tracker"
-			).deliver
+			)
+			notification.deliver
 
 
 #	"abort" causes problems in testing. Try to avoid.
@@ -87,9 +78,8 @@ class IcfMasterTrackerUpdate < CSVFile
 		#
 		#	Email is NOT SECURE.  Be careful what is in it.
 		#
-#		Notification.updates_from_icf_master_tracker(changed, 
-#			email_options.merge({ })).deliver
-		Notification.updates_from_icf_master_tracker( changed ).deliver
+		notification = Notification.updates_from_icf_master_tracker( changed )
+		notification.deliver
 	end
 
 	def archive

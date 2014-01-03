@@ -13,18 +13,20 @@ class BirthDatumUpdate < CSVFile
 		self.parse_csv_file unless self.options[:no_parse]
 	end
 
+	def required_column(column)
+		unless actual_columns.include?(column)
+			notification = Notification.plain(
+				"Birth Data missing #{column} column. Skipping.\n",
+				:subject => "ODMS: Birth Data missing #{column} column"
+			)	#.deliver
+			notification.deliver
+			abort( "Birth Data missing #{column} column." )
+		end
+	end
+
 	def parse_csv_file
 		puts "Processing #{csv_file}..." if verbose
-		%w( master_id ).each do |column|
-			unless actual_columns.include?(column)
-				Notification.plain(
-					"Birth Data missing #{column} column. Skipping.\n",
-					:subject => "ODMS: Birth Data missing #{column} column"
-				).deliver
-				abort( "Birth Data missing #{column} column." )
-			end
-		end
-
+		required_column('master_id')
 
 #
 #	TODO Loop through file and confirm all have correct number of columns
@@ -93,7 +95,8 @@ class BirthDatumUpdate < CSVFile
 
 		end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
 
-		Notification.updates_from_birth_data( csv_file, birth_data ).deliver
+		notification = Notification.updates_from_birth_data( csv_file, birth_data )
+		notification.deliver
 
 	end	#	def parse_csv_file
 
@@ -110,8 +113,8 @@ class BirthDatumUpdate < CSVFile
 			%w( id birth_datum_update_id study_subject_id created_at updated_at ))
 	end
 
-	def expected_column_names
-		BirthDatumUpdate.expected_column_names
-	end
+#	def expected_column_names
+#		BirthDatumUpdate.expected_column_names
+#	end
 
 end

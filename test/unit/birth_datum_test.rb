@@ -573,6 +573,15 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal   birth_datum.study_subject_id, study_subject.id
 	end
 
+	test "case birth datum should NOT assign study_subject_id if already assigned" do
+		study_subject = create_case_study_subject_with_icf_master_id
+		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id)
+		assert_not_nil birth_datum.reload.study_subject_id
+		assert_equal birth_datum.study_subject, study_subject
+		birth_datum.assign_case_subject
+		assert_equal birth_datum.study_subject, study_subject
+	end
+
 	test "case birth datum should NOT assign study_subject_id if doesn't exist" do
 		birth_datum = FactoryGirl.create(:case_birth_datum)
 		assert_nil birth_datum.study_subject_id
@@ -769,13 +778,6 @@ class BirthDatumTest < ActiveSupport::TestCase
 		test "case birth datum should create operational event if #{field} blank" do
 			study_subject, birth_datum = create_case_study_subject_and_birth_datum(
 				{field => ''}, {field => 'iamnotblank'})
-#			oes = study_subject.operational_events.where(
-#				:project_id                => Project['ccls'].id).where(
-#				:operational_event_type_id => OperationalEventType['birthDataReceived'].id 
-#				)
-#			assert_equal 1, oes.length
-#			assert_match /Birth Data for subject received from USC/,
-#				oes.first.description
 			oes = study_subject.operational_events.where(
 				:project_id                => Project['ccls'].id).where(
 				:operational_event_type_id => OperationalEventType['birthDataConflict'].id 
@@ -1065,9 +1067,6 @@ protected
 	end
 
 	def check_icf_master_id(study_subject)
-#		assert_nil study_subject.icf_master_id
-#		imi = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345678A')
-#		study_subject.assign_icf_master_id
 		assert_not_nil study_subject.icf_master_id
 		assert_equal '12345678A', study_subject.icf_master_id
 		study_subject

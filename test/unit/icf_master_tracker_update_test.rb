@@ -4,6 +4,41 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 
 	teardown :cleanup_icf_master_tracker_update_and_test_file	#	remove tmp/FILE.csv
 
+	test "should send email on missing required column" do
+		stubs(:abort).returns(true)
+		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
+		assert_difference('ActionMailer::Base.deliveries.length',1) {
+			icf_master_tracker_update.required_column('fake_column')
+		}
+		mail = ActionMailer::Base.deliveries.detect{|m|
+			m.subject.match(/ICF Master Tracker missing (.*) column/) }
+		assert mail.to.include?('jakewendt@berkeley.edu')
+		assert_match 'ICF Master Tracker missing', mail.body.encoded
+		cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
+	end
+
+	test "should send email when csv file exists" do
+		stubs(:abort).returns(true)
+		create_test_file_and_icf_master_tracker_update
+		assert_difference('ActionMailer::Base.deliveries.length',1) {
+			icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
+		}
+		mail = ActionMailer::Base.deliveries.detect{|m|
+			m.subject.match(/Duplicate ICF Master Tracker/) }
+		assert mail.to.include?('jakewendt@berkeley.edu')
+		assert_match 'ICF Master Tracker has the same modification time as a previously', mail.body.encoded
+		cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
+	end
+
+
+	test "should archive" do
+		File.stubs(:rename).returns(true)
+		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
+				'test/assets/empty_icf_master_tracker_update_test_file.csv',:verbose => true)
+		icf_master_tracker_update.archive
+	end
+
+
 #	test "should copy attributes when csv_file converted to icf_master_tracker" do
 #		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
 #		assert_difference('IcfMasterTracker.count',1) {
@@ -52,8 +87,6 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-#		real_data_file = 'ICF_Master_Trackers/ICF_Master_Tracker_20120329.csv'
-#		real_data_file = 'ICF_Master_Trackers/ICF_Master_Tracker_20130411.csv'
 		real_data_file = 'ICF_Master_Tracker_20130416.csv'
 		unless File.exists?(real_data_file)
 			puts
@@ -127,10 +160,11 @@ protected
 	end
 
 	def create_icf_master_tracker_update_with_file
-		icf_master_tracker_update = Factory(:icf_master_tracker_update,
-			:csv_file => File.open(csv_test_file_name) )
-		assert_not_nil icf_master_tracker_update.csv_file_file_name
-		icf_master_tracker_update
+#		icf_master_tracker_update = Factory(:icf_master_tracker_update,
+#			:csv_file => File.open(csv_test_file_name) )
+#		assert_not_nil icf_master_tracker_update.csv_file_file_name
+#		icf_master_tracker_update
+		icf_master_tracker_update = IcfMasterTrackerUpdate.new(csv_test_file_name)
 	end
 
 	def cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update=nil)
