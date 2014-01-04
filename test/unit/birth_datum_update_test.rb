@@ -15,11 +15,11 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 #	end
 
 	test "should send email on missing required column" do
-		stubs(:abort).returns(true)
 		birth_datum_update = create_test_file_and_birth_datum_update
+		assert_raises(SystemExit){
 		assert_difference('ActionMailer::Base.deliveries.length',1) {
 			birth_datum_update.required_column('fake_column')
-		}
+		} }
 		mail = ActionMailer::Base.deliveries.detect{|m|
 			m.subject.match(/Birth Data missing (.*) column/) }
 		assert mail.to.include?('jakewendt@berkeley.edu')

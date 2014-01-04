@@ -5,11 +5,11 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 	teardown :cleanup_icf_master_tracker_update_and_test_file	#	remove tmp/FILE.csv
 
 	test "should send email on missing required column" do
-		stubs(:abort).returns(true)
 		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
+		assert_raises(SystemExit){
 		assert_difference('ActionMailer::Base.deliveries.length',1) {
 			icf_master_tracker_update.required_column('fake_column')
-		}
+		} }
 		mail = ActionMailer::Base.deliveries.detect{|m|
 			m.subject.match(/ICF Master Tracker missing (.*) column/) }
 		assert mail.to.include?('jakewendt@berkeley.edu')
@@ -18,15 +18,17 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 	end
 
 	test "should send email when csv file exists" do
-		stubs(:abort).returns(true)
-		create_test_file_and_icf_master_tracker_update
+		File.stubs(:exists?).returns(true)
+		icf_master_tracker_update = nil
+		assert_raises(SystemExit){
 		assert_difference('ActionMailer::Base.deliveries.length',1) {
 			icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
-		}
+		} }
 		mail = ActionMailer::Base.deliveries.detect{|m|
 			m.subject.match(/Duplicate ICF Master Tracker/) }
 		assert mail.to.include?('jakewendt@berkeley.edu')
 		assert_match 'ICF Master Tracker has the same modification time as a previously', mail.body.encoded
+		File.unstub(:exists?)
 		cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
 	end
 
