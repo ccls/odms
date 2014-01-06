@@ -96,13 +96,13 @@ class SampleTest < ActiveSupport::TestCase
 		assert  sample.errors.matching?(:sample_type,"can't be blank")
 	end
 
-	test "should require study_subject" do
-pending	"no longer required, but may be temporary"
+#	test "should require study_subject" do
+#pending	"no longer required, but may be temporary"
 #		sample = Sample.new{|s| s.study_subject = nil }
 #		assert !sample.valid?
 #		assert !sample.errors.include?(:study_subject)
 #		assert  sample.errors.matching?(:study_subject_id,"can't be blank")
-	end
+#	end
 #	study_subject and study_subject_id are protected
 	test "should require valid study_subject if given" do
 		sample = Sample.new{|s| s.study_subject_id = 0 }
