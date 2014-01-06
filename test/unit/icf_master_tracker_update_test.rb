@@ -154,6 +154,16 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 #		assert_equal icf_master_tracker.reload.date_received, Date.today.to_s
 #	end
 
+
+	test "should change subjects interview_completed_on with cati_complete value" do
+		study_subject = create_case_for_icf_master_tracker_update
+		assert_nil study_subject.ccls_enrollment.interview_completed_on
+		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update("cati_complete" => '12/31/2000')
+		assert_not_nil study_subject.ccls_enrollment.reload.interview_completed_on
+		assert_equal Date.parse('12/31/2000'),study_subject.ccls_enrollment.interview_completed_on
+	end
+
+
 protected
 
 	def create_test_file_and_icf_master_tracker_update(options={})
@@ -217,8 +227,7 @@ protected
 	#	no factory for this, although could create one (a bit excessive)
 	def study_subject_hash
 		{
-			"master_id" => "1234FAKE",
-			"master_id_mother" => "4567FAKE"
+			"master_id" => "1234FAKE"	#, "master_id_mother" => "4567FAKE"		#	why?
 		}
 	end
 
