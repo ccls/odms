@@ -15,11 +15,10 @@ class BirthDatumUpdate < CSVFile
 
 	def required_column(column)
 		unless actual_columns.include?(column)
-			notification = Notification.plain(
+			Notification.plain(
 				"Birth Data missing #{column} column. Skipping.\n",
 				:subject => "ODMS: Birth Data missing #{column} column"
-			)	#.deliver
-			notification.deliver
+			).deliver
 			abort( "Birth Data missing #{column} column." )
 		end
 	end
@@ -28,11 +27,9 @@ class BirthDatumUpdate < CSVFile
 		puts "Processing #{csv_file}..." if verbose
 		required_column('master_id')
 
-#
-#	TODO Loop through file and confirm all have correct number of columns
-#
-
-
+		#
+		#	TODO Loop through file and confirm all have correct number of columns
+		#
 
 		study_subjects = []
 		#
@@ -78,14 +75,14 @@ class BirthDatumUpdate < CSVFile
 			#	Added reload to ensure that study subject is included
 			self.birth_data << BirthDatum.create!( birth_datum_attributes ).reload
 
-			if self.birth_data.last.new_record?	#	save failed?
+#			if self.birth_data.last.new_record?	#	save failed?
 #	FAIL 
 #				odms_exceptions.create({
 #					:name        => "birth_data append",
 #					:description => "Record failed to save",
 #					:notes       => line
 #				})	#	the line could be too long, so put in notes section
-			end	#	if birth_datum.new_record?
+#			end	#	if birth_datum.new_record?
 
 #
 #	birth data associated with controls won't have a study subject
@@ -95,8 +92,7 @@ class BirthDatumUpdate < CSVFile
 
 		end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
 
-		notification = Notification.updates_from_birth_data( csv_file, birth_data )
-		notification.deliver
+		Notification.updates_from_birth_data( csv_file, birth_data ).deliver
 
 	end	#	def parse_csv_file
 

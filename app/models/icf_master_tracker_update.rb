@@ -13,11 +13,10 @@ class IcfMasterTrackerUpdate < CSVFile
 
 	def required_column(column)
 		unless actual_columns.include?(column)
-			notification = Notification.plain(
+			Notification.plain(
 				"ICF Master Tracker missing #{column} column. Skipping.\n",
 					:subject => "ODMS: ICF Master Tracker missing #{column} column"
-			)
-			notification.deliver
+			).deliver
 			abort( "ICF Master Tracker missing #{column} column." )
 		end
 	end
@@ -33,19 +32,16 @@ class IcfMasterTrackerUpdate < CSVFile
 	def parse_csv_file
 		FileUtils.mkdir_p(archive_dir) unless File.exists?(archive_dir)
 		if File.exists?("#{archive_dir}/ICF_Master_Tracker_#{mod_time}.csv")
-			notification = Notification.plain(
+			Notification.plain(
 				"ICF Master Tracker has the same modification time as a previously" <<
 					" processed file. (#{mod_time})  Skipping.",
 					:subject => "ODMS: Duplicate ICF Master Tracker"
-			)
-			notification.deliver
+			).deliver
 
-
-#	"abort" causes problems in testing. Try to avoid.
+			#	"abort" causes SILENT problems in testing. Try to avoid.
+			#	perhaps add to status and just return?
+			#	wrapped in assert_raises in testing
 			abort( "File is not new. Mod Time is #{mod_time}. Not doing anything." )
-
-#	perhaps add to status and just return?
-
 
 		end
 
@@ -59,7 +55,6 @@ class IcfMasterTrackerUpdate < CSVFile
 			puts line.to_s if verbose
 			icf_master_tracker = IcfMasterTracker.new( line.to_hash.merge( :verbose => verbose ))
 			self.icf_master_trackers << icf_master_tracker
-#			icf_master_tracker.process	#	done in initialize
 			changed << icf_master_tracker.changed unless icf_master_tracker.changed.blank?
 		end	#	(f=CSV.open( csv_file.path, 'rb',{
 
@@ -78,8 +73,7 @@ class IcfMasterTrackerUpdate < CSVFile
 		#
 		#	Email is NOT SECURE.  Be careful what is in it.
 		#
-		notification = Notification.updates_from_icf_master_tracker( changed )
-		notification.deliver
+		Notification.updates_from_icf_master_tracker( changed ).deliver
 	end
 
 	def archive
