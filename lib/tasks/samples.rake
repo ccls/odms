@@ -3,25 +3,100 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-def csv_columns(csv_file_name)
-	f=CSV.open(csv_file_name, 'rb', :headers => false)
-	csv_columns = f.gets
-	f.close
-	csv_columns
-end
+	def csv_columns(csv_file_name)
+		f=CSV.open(csv_file_name, 'rb', :headers => false)
+		csv_columns = f.gets
+		f.close
+		csv_columns
+	end
 
-def assert(expression,message = 'Assertion failed.')
-	raise "#{message} :\n #{caller[0]}" unless expression
-#puts "AAAAAAAAAAAAAAAA" unless expression
-end
+	def assert(expression,message = 'Assertion failed.')
+		raise "#{message} :\n #{caller[0]}" unless expression
+	#puts "AAAAAAAAAAAAAAAA" unless expression
+	end
 
-def assert_string_equal(a,b,field)
-	assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
-end
+	def assert_string_equal(a,b,field)
+		assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
+	end
 
-def assert_string_in(a,b,field)
-	assert b.include?(a.to_s), "#{field} value #{a} not included in:#{b}:"
-end
+	def assert_string_in(a,b,field)
+		assert b.include?(a.to_s), "#{field} value #{a} not included in:#{b}:"
+	end
+
+	task :recheck_original_sample_types => :environment do
+		#ID,Sample_Type_ID,Description,Position,ODMS_sample_type_id,Code,GEGL_type_code
+		sample_types_infile = 'tracking2k/sample_types.csv'
+		#	Sample_Type_ID ... ODMS_sample_type_id
+		sample_types={}
+		(CSV.open( sample_types_infile, 'rb',{ :headers => true })).each do |line|
+			#sample_types[line['Sample_Type_ID']] = line['ODMS_sample_type_id']
+			#	Sample_Type_ID is really the parent sample type
+			sample_types[line['ID']] = line['ODMS_sample_type_id']
+		end
+
+
+
+		#	id,sample_ID,subjectID,sample_subtype_id,sample_subtype_id_orig
+		infile = 'tracking2k/samples.csv'
+		total_lines = total_lines(infile)
+		columns = csv_columns(infile)
+#		csv_report = CSV.open('tracking2k/samples_report.csv', 'w')
+#		csv_report << columns
+#		csv_out = CSV.open('tracking2k/samples_out.csv', 'w')
+#		columns << 'actual_sample_type_id'
+#		csv_out << columns
+		(csv_in = CSV.open( infile, 'rb',{ :headers => true })).each do |line|
+			puts line
+			new_line = line
+			sample = Sample.find(line['id'].to_i)
+			new_line << sample.sample_type_id
+			puts new_line
+
+			##	raise 'differe' if( line['sample_subtype_id'].to_s
+			##		!= line['sample_subtype_id_orig'].to_s )
+			#if( line['sample_subtype_id'].to_s != line['sample_subtype_id_orig'].to_s )
+			#	#	csv_report << new_line
+			#	csv_report << [line['sample_subtype_id'],line['sample_subtype_id_orig'],
+			#		sample.sample_type_id]
+			#end
+
+			# sample_subtype_id seem to occassionally be missing (expect they are '20')
+			# sample_subtype_id_orig seem to be bogus
+
+			#	  ,6,16
+			#	12,6,16
+			#	13,6,16
+			#	19,6,16
+			#	20,6,16
+			#	sample.sample_type_id should == sample_types[ line['sample_subtype_id'] || 20 ]
+
+
+
+			puts ":#{line['sample_subtype_id']}: -> :#{sample_types[line['sample_subtype_id']]}:"
+			puts ":#{line['sample_subtype_id_orig']}: -> :#{sample_types[line['sample_subtype_id_orig']]}:"
+			puts ":#{sample.sample_type_id}:"
+			puts ":#{sample_types[ line['sample_subtype_id'] || '20' ]}:"
+
+
+#			assert_string_equal(sample.sample_type_id,
+#				sample_types[ line['sample_subtype_id'] ],'type_id')
+
+
+
+#			raise 'awe hell' if( sample.sample_type_id.to_i != sample_types[line['sample_subtype_id']].to_i )
+
+			#raise "found a 13" if ( ( line['sample_subtype_id'].to_i == 13 ) || (sample.sample_type_id.to_i == 13 ) || ( line['sample_subtype_id_orig'].to_i == 13 ) )
+			#	none are the same
+			#raise "i'm confused" if( ( sample.sample_type_id.to_s == line['sample_subtype_id'].to_s ) || (sample.sample_type_id.to_s == line['sample_subtype_id_orig'].to_s ) )
+#			csv_out << new_line
+		end
+#		csv_report.close
+#		csv_out.close
+	end
+
+
+
+
 
 #	original .... ~/Mounts/SharedFiles/SoftwareDevelopment\(TBD\)/GrantApp/DataMigration/ODMS_samples_xxxxxx.csv
 #Subject External Key,Sample External key,Original Index,smp_key,
