@@ -20,6 +20,7 @@ source "http://gems.github.com"
 #
 
 
+#	20140117 - Stick with java 1.6.  java 1.7 causes grief.
 gem 'jakewendt-active_record_sunspotter'
 
 
