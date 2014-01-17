@@ -910,6 +910,12 @@ or in MacPorts and as such, it fails.  Actually seems to work now?
 ---
 == Quick Development Notes
 
+The web server no longer starts automatically on my Mac so ....
+
+ sudo apachectl start
+
+And we've changed to use mariadb, so start that manually as well ...
+
  sudo /opt/local/share/mariadb/support-files/mysql.server start
 
 
