@@ -54,6 +54,10 @@ base.class_eval do
 		address.try(:city)
 	end
 
+	def address_county
+		address.try(:county)
+	end
+
 	def address_state
 		address.try(:state)
 	end

@@ -130,6 +130,7 @@ base.class_eval do
 	add_sunspot_column( :address_street )
 	add_sunspot_column( :address_unit )
 	add_sunspot_column( :address_city )
+	add_sunspot_column( :address_county )
 	add_sunspot_column( :address_state )
 	add_sunspot_column( :address_zip )
 
