@@ -147,7 +147,7 @@ kitwithBrushes:
 othersaliva:
   id: 21
   parent_id: 3
-  key: 20
+  key: othersaliva
   description: other type of saliva sample
   t2k_sample_type_id:  12
   gegl_sample_type_id:  s
