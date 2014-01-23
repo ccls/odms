@@ -45,6 +45,7 @@ namespace :samples do
 #		csv_out = CSV.open('tracking2k/samples_out.csv', 'w')
 #		columns << 'actual_sample_type_id'
 #		csv_out << columns
+#		last_sample_subtype_id = nil	#	for rememberin
 		(csv_in = CSV.open( infile, 'rb',{ :headers => true })).each do |line|
 			puts line
 			new_line = line
@@ -63,6 +64,11 @@ namespace :samples do
 			# sample_subtype_id seem to occassionally be missing (expect they are '20')
 			# sample_subtype_id_orig seem to be bogus
 
+			#	Not all of the samples that are missing the sample_type are Buccal/Salival
+			#		so can't confirm what these sample types are so can't change them to 
+			#		buccal or salival.  Leaving them as is.
+			#		MAYBE leave them as is but add a comment?
+
 			#	  ,6,16
 			#	12,6,16
 			#	13,6,16
@@ -70,24 +76,45 @@ namespace :samples do
 			#	20,6,16
 			#	sample.sample_type_id should == sample_types[ line['sample_subtype_id'] || 20 ]
 
+			#puts ":#{line['sample_subtype_id']}: -> :#{sample_types[line['sample_subtype_id']]}:"
+			#puts ":#{line['sample_subtype_id_orig']}: -> :#{sample_types[line['sample_subtype_id_orig']]}:"
+			#puts ":#{sample.sample_type_id}:"
+			#puts ":#{sample_types[ line['sample_subtype_id'] || '20' ]}:"
+
+			#	unfortunately, using the previous type when the type is blank doesn't work.
+			#last_sample_subtype_id = sample_subtype_id = ( line['sample_subtype_id'] || last_sample_subtype_id )
 
 
-			puts ":#{line['sample_subtype_id']}: -> :#{sample_types[line['sample_subtype_id']]}:"
-			puts ":#{line['sample_subtype_id_orig']}: -> :#{sample_types[line['sample_subtype_id_orig']]}:"
-			puts ":#{sample.sample_type_id}:"
-			puts ":#{sample_types[ line['sample_subtype_id'] || '20' ]}:"
+			notes = [sample.notes].compact
+			if line['sample_subtype_id'].present?
 
+				if( sample.sample_type_id.to_i != sample_types[line['sample_subtype_id']].to_i )
 
-#			assert_string_equal(sample.sample_type_id,
-#				sample_types[ line['sample_subtype_id'] ],'type_id')
+					new_note =  "Sample Type discrepancy found in tracking2k database check and may be incorrect. "
+					new_note << "It was #{line['sample_subtype_id']} in tracking2k, which should've been converted "
+					new_note << "to #{sample_types[line['sample_subtype_id']]} but ODMS had it as "
+					new_note << "#{sample.sample_type_id.to_i}. Changing to "
+					new_note << "#{sample_types[line['sample_subtype_id']]} (20140123)."
+					notes << new_note
+					#
+					#	Don't just do this.  Add some notes to sample. And check if different before update.
+					#	use update_attributes so triggers reindexing
+					sample.update_attributes!(:sample_type_id => sample_types[line['sample_subtype_id']],
+						:notes => notes.join("\n") )
 
+				end
 
+			else
 
-#			raise 'awe hell' if( sample.sample_type_id.to_i != sample_types[line['sample_subtype_id']].to_i )
+				#		TODO add comment that the sample probably has an incorrect sample type.
+				#	no need to reindex a "notes" change so just use update_column
+				notes << "Sample Type not found in tracking2k database check and may be incorrect (20140123)."
+				sample.update_column(:notes, notes.join("\n") )
 
-			#raise "found a 13" if ( ( line['sample_subtype_id'].to_i == 13 ) || (sample.sample_type_id.to_i == 13 ) || ( line['sample_subtype_id_orig'].to_i == 13 ) )
-			#	none are the same
-			#raise "i'm confused" if( ( sample.sample_type_id.to_s == line['sample_subtype_id'].to_s ) || (sample.sample_type_id.to_s == line['sample_subtype_id_orig'].to_s ) )
+			end
+
+			#raise 'awe hell' if( sample.sample_type_id.to_i != sample_types[line['sample_subtype_id']].to_i )
+
 #			csv_out << new_line
 		end
 #		csv_report.close
@@ -122,6 +149,39 @@ namespace :samples do
 #	____ = nothing?
 #	Count = 
 #	
+
+	task :buccal_saliva_list_check_and_update => :environment do
+		(csv_in = CSV.open( 'data/20131101_14KBuccalSalivaList_ResponseToEmail20131028.csv',
+				'rb',{ :headers => true })).each do |line|
+			puts line
+			sample = Sample.find(line['smp_extr_key'].to_i)
+			if sample.sample_type.gegl_sample_type_id != line['smp_type'][0]
+
+				puts
+				puts sample.sample_type.inspect
+				puts
+				
+				notes = [sample.notes].compact
+				sample_type_id = if line['smp_type'][0] == 'u'
+					SampleType[:otherbuccal].id	#	24
+				elsif line['smp_type'][0] == 's'
+					SampleType[:othersaliva].id	#	21
+				else
+					raise "Confused.  I wasn't expecting that GEGL sample type."
+				end
+				new_note  = "Sample Type discrepancy found in 20131101_14KBuccalSalivaList_ResponseToEmail20131028. "
+				new_note << "The lab says that this sample is GEGL Sample Type #{line['smp_type']} "
+				new_note << "but we have the sample type id as #{sample.sample_type_id} which "
+				new_note << "corresponds to GEGL Sample Type #{sample.sample_type.gegl_sample_type_id}. "
+				new_note << "Changing sample type id to #{sample_type_id} (20140123)."
+				notes << new_note
+					
+				sample.update_attributes!(:sample_type_id => sample_type_id,
+					:notes => notes.join("\n") )
+
+			end
+		end
+	end
 
 	task :buccal_saliva_list_compare => :environment do
 		total_lines = total_lines('data/20131101_14KBuccalSalivaList_ResponseToEmail20131028.csv')
