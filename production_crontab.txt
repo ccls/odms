@@ -38,6 +38,9 @@ RAILS_ENV=production
 #	I think setting MAILTO='' will stop it from being sent.
 #	Could also set the ~/.forward file to this as well.
 #MAILTO='jakewendt@berkeley.edu'
+#	As of 20140120-ish, the cron daemon would send error emails
+#	The setting of MAILTO='jwendt@genepi.berkeley.edu' has stopped them.
+MAILTO='jwendt@genepi.berkeley.edu'
 #	apparently genepi1 isn't set to send external email
 #
 #   ----- The following addresses had permanent fatal errors -----
