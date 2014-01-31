@@ -1,6 +1,138 @@
 namespace :app do
 namespace :study_subjects do
 
+	def assert(expression,message = 'Assertion failed.')
+		raise "#{message} :\n #{caller[0]}" unless expression
+	end
+
+	def assert_string_equal(a,b,field)
+		assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
+	end
+
+	task :child_info_check => :environment do
+#Columns are ChildId, PatID, ICFMasterID, Type, OrderNo, Eligibl, Consen, Consdate, ConsVersion, WhichConsent, vaccine_releases_received, StateID#, Dob, SSN, Sex, Fname, Mname, Lname, Language, Notes, Mofname, Molname, Mosname, Momname, Fafname, Falname, Saqsent, Saqback, RefDate, Phase, Bornca, Postdue, Postsent, Intassdu, Intass, CashGave, Intid, Intret, Bclistdu, Bclistrq, Requested Results, Job List To Reviewer, Job List Returned, Job Module Int Assign, Job Module Interviewer, Job Module Int Returned, FoodQLang, SelectNo, Chose, Nominator, EntDate, Birth County, BirthCountyNonCA, Age, InterviewDate, InterviewLanguage, BreastFed, Flistopt, Numfrs, Outcome, OutForReview, DateOut, InitialsOfReviewer, EditingComplete, SampleNo, LocationID, Requested, Received, BCOutcome, BCOutcomeDate, CHDSLetterOut, CHDSBack, ControlFount, SRCOut, SRCBack, DelayLtrSent, DelayLtrSnt-2nd, Change, InterimPending, InterimCase, InterviewEntered, InterviewEnteredHSQ, InterviewEnteredHPI, InterviewEnteredHIS, InterviewEnteredDS, InterviewEnteredWS, CreateDate, CreateTime, HomeAgeAtIntrv, Active, Retro, StateIDNo, FutureUseSpec, SearchStopped4, SearchStopped5, SearchStopped6, SearchStoppedB, VitalStatus, VitalStatusDate, DoNotContact, subjectid, addedToSubjects, OptOut_ShareResearchers, OptOut_ContactInFuture, OptOut_GeneralInfo, OptOut_ProvideSaliva, RevokeUseOfSamples, RevokeUseDate, generational_suffix, father_generational_suffix, Dod, childid_txt
+		filename = "tracking2k/tChildInfo.csv"
+		inconsistancies_filename = "#{File.basename(filename,File.extname(filename))}.inconsistancies"
+		inconsistancies = File.open(inconsistancies_filename,'w')
+
+		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+			puts line
+#			inconsistancies.puts line.to_s.gsub("\xC3",'')	#.force_encoding('UTF-8').encode
+#			inconsistancies.puts line.to_s.gsub('\xC3','')	#.force_encoding('UTF-8').encode
+#			inconsistancies.puts line.to_s.gsub('ñ','')
+
+			subjects = StudySubject.with_childid(line['ChildId'])
+			raise if subjects.empty?
+			subject = subjects.first
+
+			if !line['subjectid'].blank? && ( subject.subjectid.to_s != line['subjectid'] )
+				inconsistancies.puts "SubjectID"
+				inconsistancies.puts subject.subjectid
+				inconsistancies.puts line['subjectid']
+			end	#	NONE
+
+			if subject.patid != line['PatID']
+				inconsistancies.puts "PatID"
+				inconsistancies.puts subject.patid
+				inconsistancies.puts line['PatID']
+			end	#	NONE
+
+			if subject.case_control_type != line['Type']
+				inconsistancies.puts "case_control_type"
+				inconsistancies.puts subject.case_control_type
+				inconsistancies.puts line['Type']
+			end	#	NONE
+
+			if subject.orderno.to_s != line['OrderNo'].to_s
+				inconsistancies.puts "orderno"
+				inconsistancies.puts subject.orderno
+				inconsistancies.puts line['OrderNo']
+			end	#	NONE
+
+			if subject.do_not_contact != line['DoNotContact'].to_boolean
+				inconsistancies.puts "do_not_contact"
+				inconsistancies.puts subject.do_not_contact
+				inconsistancies.puts line['DoNotContact']
+			end	#	NONE
+
+			if !line['ICFMasterID'].blank? && ( subject.icf_master_id != line['ICFMasterID'] )	#	DO NOT IMPORT!
+				inconsistancies.puts "#{subject.subjectid},icf_master_id," <<
+					"#{subject.icf_master_id},#{line['ICFMasterID']}"
+			end	#	NONE
+
+			if !line['Sex'].blank? && ( subject.sex != line['Sex'] )	#	IMPORT!
+				inconsistancies.puts "#{subject.subjectid},sex," <<
+					"#{subject.sex},#{line['Sex']}"
+			end	#	NONE
+
+
+
+
+			if !line['Dob'].blank? && ( subject.dob != Date.parse(line['Dob']) )
+				inconsistancies.puts "#{subject.subjectid},dob," <<
+					"#{subject.dob},#{Date.parse(line['Dob']).to_s}"
+			end
+
+			if !line['RefDate'].blank? && ( subject.reference_date != Date.parse(line['RefDate']) )
+				inconsistancies.puts "#{subject.subjectid},reference_date," <<
+					"#{subject.reference_date},#{Date.parse(line['RefDate']).to_s}"
+			end
+
+			#	Use line['StateIDNo'] and not line['StateID#'] (mostly blank unless same)
+			#
+			#	PROBLEM!
+			#rake csv:show_column_values csv_file=tracking2k/tChildInfo.csv columns=StateID#
+			#	shows that some of StateID# are NOT UNIQUE (but we are ignoring them, yes?)
+			#
+			#	Sadly, same for StateIDNo.  Hmm
+			#
+			#
+			#			if !line['StateID#'].blank? && !line['StateIDNo'].blank? && ( line['StateID#'] != line['StateIDNo'] )
+			#			if ( line['StateID#'] != line['StateIDNo'] )
+			#				inconsistancies.puts "StateID# different than StateIDNo - #{line['StateID#']},#{line['StateIDNo']}"
+			#			end
+			#
+			#StateID# different than StateIDNo - 92-134187,92-134178	#!!!!! really different. last is in odms.
+			#StateID# different than StateIDNo - non-CA,Non-CA
+			#StateID# different than StateIDNo - 03000474,03-000474
+			#StateID# different than StateIDNo - 05015985,05-015985
+			#StateID# different than StateIDNo - 03027985,03-027985
+			#
+			#if !line['StateID#'].blank? && ( subject.state_id_no != line['StateID#'] )
+			#	inconsistancies.puts "#{subject.subjectid},state_id_no 1," <<
+			#		"#{subject.state_id_no},#{line['StateID#']}"
+			#end
+			#
+			#if !line['StateIDNo'].blank? && ( subject.state_id_no != line['StateIDNo'] )
+			#	inconsistancies.puts "#{subject.subjectid},state_id_no 2,"<<
+			#		"#{subject.state_id_no},#{line['StateIDNo']}"
+			#end
+
+			if !line['Phase'].blank? && ( subject.phase != line['Phase'].to_i )	#	IMPORT about 5500!
+				inconsistancies.puts "#{subject.subjectid},phase," <<
+					"#{subject.phase},#{line['Phase']}"
+				subject.update_attributes!(:phase => line['Phase'])
+			end
+
+			if !line['Eligibl'].blank? && ( YNDK[subject.ccls_enrollment.is_eligible] != line['Eligibl'] )
+				inconsistancies.puts "#{subject.subjectid},eligible," <<
+					"#{YNDK[subject.ccls_enrollment.is_eligible]},#{line['Eligibl']}"
+			end
+
+			if !line['Consen'].blank? && ( YNDK[subject.ccls_enrollment.consented] != line['Consen'] )
+				inconsistancies.puts "#{subject.subjectid},consented," <<
+					"#{YNDK[subject.ccls_enrollment.consented]},#{line['Consen']}"
+			end
+
+
+#	Eligibl
+#	Consen
+#	Consdate
+
+		end
+		inconsistancies.close
+	end
+
 	task :update_interview_date => :environment do
 
 #		filename = "missing_intvwdata.csv"
