@@ -220,6 +220,10 @@ gem 'jakewendt-active_record_left_joins'
 
 gem 'ccls-common_lib', ">0.9"
 
-gem 'geocoder'
+#	1.1.9 will raise error ...
+#	use_ssl value changed, but session already started
+#	geocoder-1.1.9/lib/geocoder/lookups/base.rb line 230ish
+gem 'geocoder', "=1.1.8"
+
 
 __END__
