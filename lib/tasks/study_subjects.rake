@@ -9,6 +9,140 @@ namespace :study_subjects do
 		assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
 	end
 
+	task :checkup => :environment do
+
+		begin
+			puts "Searching for duplicated subjects based on dob"
+			attrs = %w( childid patid subjectid state_id_no dob sex subject_type last_name first_name )
+			puts attrs.to_csv
+			StudySubject.children.group(:dob).count.each do |dob,count|
+				next if dob.nil?
+				next if dob < Date.parse('Feb 1,1900')	#	1/1/1900 is "Don't Know"
+				subjects = StudySubject.where(:dob => dob)
+
+				#	duplicate based on what other comparison?
+
+				#	same dob, sex, names could be different
+				subjects.each do |subject|
+					duplicates = StudySubject.where(:dob => dob)
+						.where(:sex => subject.sex)
+						.where(:last_name => subject.last_name)
+						.where(:first_name => subject.first_name)
+					if duplicates.count > 1
+						duplicates.each do |dup|
+							puts attrs.collect{|a|dup[a]}.to_csv
+						end
+					end
+				end
+			end
+		end if false
+
+		begin
+			puts "Checking consistancy based on matchingids"
+			StudySubject.group(:matchingid).count.each do |matchingid,count|
+				puts matchingid
+				subjects = StudySubject.where(:matchingid => matchingid)
+				children = StudySubject.children.where(:matchingid => matchingid)
+
+				phases = subjects.collect(&:phase)
+				if phases.uniq.length != 1
+					#	odd that when inconsistent, all controls are set and case is nil?
+					#	controls are newer (after my auto set phase to 5)
+					#	mothers in the phase check as well?
+					puts "phase is inconsistent"
+					puts phases.inspect
+				end
+
+				sexes = children.collect(&:sex)
+				if sexes.uniq.length != 1
+					puts "children's sex is inconsistent"
+					puts sexes.inspect
+				end
+
+				assert subjects.collect(&:reference_date).uniq.length == 1, subjects.collect(&:reference_date)
+				reference_dates = subjects.collect(&:reference_date)
+				if reference_dates.uniq.length != 1
+					puts "reference_date is inconsistent"
+					puts reference_dates.uniq.inspect
+				end
+
+				#	assert subjects.collect(&:patid).uniq.length == 1, subjects.collect(&:patid)
+				patids = children.collect(&:patid)
+				if patids.uniq.length != 1
+					puts "patid is inconsistent"
+					puts patids.uniq.inspect
+				end
+
+				#
+				#	dob's can be plus or minus a couple days for hard to match cases, but the same for most
+				#
+				dobs = children.collect(&:dob)
+				dobs -= [Date.parse('Jan 1, 1900')]
+				#if dobs.uniq.length != 1
+				#	puts "dob is inconsistent"
+				#	puts dobs.uniq.inspect
+				#end
+				if(( dobs.sort.last.mjd - dobs.sort.first.mjd ) > 7 )
+					puts "children's dobs are too inconsistent"
+					puts dobs.sort.inspect
+				end unless dobs.empty?
+			end	#	StudySubject.group(:matchingid).count.each do |matchingid,count|
+		end #if false
+
+	end	#	task :checkup => :environment do
+
+
+
+	task :duplicate_state_id_no_check_2 => :environment do
+		filename = "tracking2k/tChildInfo.csv"
+		attrs = %w( childid patid subjectid state_id_no dob sex subject_type last_name first_name )
+		wrong_count = 0
+		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+			next if line['StateIDNo'].blank?
+			next if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] )
+
+			subjects = StudySubject.with_childid(line['ChildId'])
+			raise if subjects.empty?
+			subject = subjects.first
+
+			next if subject.state_id_no == line['StateIDNo']
+
+			wrong_subjects = StudySubject.where(:state_id_no => line['StateIDNo'])
+			unless wrong_subjects.empty?
+				wrong_count +=1
+				puts
+				puts "Found other subject with this state id no:#{line['StateIDNo']}:"
+				puts line
+				puts attrs.to_csv
+				puts attrs.collect{|a|subject[a]}.to_csv
+				puts attrs.collect{|a|wrong_subjects[0][a]}.to_csv
+				puts
+			end
+
+		end	#	CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+		puts "Found #{wrong_count} inconsistant state id nos."
+	end	#	task :duplicate_state_id_no_check_2 => :environment do
+
+	task :duplicate_state_id_no_check => :environment do
+		filename = "tracking2k/tChildInfo.csv"
+		state_id_nos = Hash.new(0)
+		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+			state_id_nos[line['StateIDNo']] += 1
+		end	#	CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+#		f=CSV.open( filename, 'rb')
+#		puts f.gets.to_csv
+#		f.close
+		puts "subjectid,ChildId,PatID,StateIDNo,Dob,Phase,Sex,Fname,Lname"
+#		puts state_id_nos.select{|k,v| v>1}.inspect
+		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+			next if line['StateIDNo'].blank?
+			next if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] )
+			next if state_id_nos[line['StateIDNo']] <= 1
+			puts [line['subjectid'],line['ChildId'],line['PatID'],line['StateIDNo'],
+				line['Dob'],line['Phase'],line['Sex'],line['Fname'],line['Lname']].to_csv
+		end	#	CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+	end	#	task :duplicate_state_id_no_check => :environment do
+
 	task :child_info_check => :environment do
 #Columns are ChildId, PatID, ICFMasterID, Type, OrderNo, Eligibl, Consen, Consdate, ConsVersion, WhichConsent, vaccine_releases_received, StateID#, Dob, SSN, Sex, Fname, Mname, Lname, Language, Notes, Mofname, Molname, Mosname, Momname, Fafname, Falname, Saqsent, Saqback, RefDate, Phase, Bornca, Postdue, Postsent, Intassdu, Intass, CashGave, Intid, Intret, Bclistdu, Bclistrq, Requested Results, Job List To Reviewer, Job List Returned, Job Module Int Assign, Job Module Interviewer, Job Module Int Returned, FoodQLang, SelectNo, Chose, Nominator, EntDate, Birth County, BirthCountyNonCA, Age, InterviewDate, InterviewLanguage, BreastFed, Flistopt, Numfrs, Outcome, OutForReview, DateOut, InitialsOfReviewer, EditingComplete, SampleNo, LocationID, Requested, Received, BCOutcome, BCOutcomeDate, CHDSLetterOut, CHDSBack, ControlFount, SRCOut, SRCBack, DelayLtrSent, DelayLtrSnt-2nd, Change, InterimPending, InterimCase, InterviewEntered, InterviewEnteredHSQ, InterviewEnteredHPI, InterviewEnteredHIS, InterviewEnteredDS, InterviewEnteredWS, CreateDate, CreateTime, HomeAgeAtIntrv, Active, Retro, StateIDNo, FutureUseSpec, SearchStopped4, SearchStopped5, SearchStopped6, SearchStoppedB, VitalStatus, VitalStatusDate, DoNotContact, subjectid, addedToSubjects, OptOut_ShareResearchers, OptOut_ContactInFuture, OptOut_GeneralInfo, OptOut_ProvideSaliva, RevokeUseOfSamples, RevokeUseDate, generational_suffix, father_generational_suffix, Dod, childid_txt
 		filename = "tracking2k/tChildInfo.csv"
@@ -78,6 +212,9 @@ namespace :study_subjects do
 					"#{subject.reference_date},#{Date.parse(line['RefDate']).to_s}"
 			end
 
+			#
+			#	Use line['StateIDNo']
+			#
 			#	Use line['StateIDNo'] and not line['StateID#'] (mostly blank unless same)
 			#
 			#	PROBLEM!
@@ -134,6 +271,7 @@ namespace :study_subjects do
 	end
 
 	task :update_interview_date => :environment do
+		raise "This task has been run and disabled."
 
 #		filename = "missing_intvwdata.csv"
 		filename = "qry_intvw_status.csv"
