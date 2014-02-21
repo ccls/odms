@@ -143,6 +143,68 @@ namespace :study_subjects do
 		end	#	CSV.open( filename, 'rb',{ :headers => true }).each do |line|
 	end	#	task :duplicate_state_id_no_check => :environment do
 
+	task :check_cases_with_phase_nil => :environment do
+		StudySubject.controls.where(:phase => nil).each do |s|
+			phases = StudySubject.where(:matchingid => s.matchingid).collect(&:phase)
+			if phases.uniq.compact.length > 1
+			#	So many inconsistencies!
+				puts s.matchingid
+				puts phases.inspect
+			end
+		end
+	end	#	task :check_cases_with_phase_nil => :environment do
+
+	task :update_to_phase_5_based_on_reference_date => :environment do
+		cases = StudySubject.cases.where(StudySubject.arel_table[:reference_date].gteq(Date.parse('1/1/2011')))
+			.where(StudySubject.arel_table[:reference_date].lteq(Date.parse('7/31/2011')))
+		raise "Expected exactly 102" if cases.length != 102
+		cases.each do |c|
+			StudySubject.where(:matchingid => c.matchingid).each do |subject|
+				if subject.phase != 5
+					puts "Updated phase to 5"
+					subject.update_attributes!(:phase => 5)
+					puts "Create operational event"
+					subject.operational_events.create!(
+						:occurred_at => DateTime.current,
+						:project_id => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['datachanged'].id,
+						:description => "Phase set to 5 based on reference date inclusively between 1/1/2011 and 7/31/2011")
+				end
+			end
+		end
+		Sunspot.commit
+	end	#	task :update_phases_based_on_reference_date => :environment do
+
+	task :update_phases_from_tChildInfo => :environment do
+		filename = "tracking2k/tChildInfo.csv"
+		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+			subjects = StudySubject.with_childid(line['ChildId'])
+			raise if subjects.empty?
+			subject = subjects.first
+			if !line['Phase'].blank? && ( subject.phase != line['Phase'].to_i )	#	IMPORT about 5500!
+				puts "#{subject.subjectid},#{subject.phase},#{line['Phase']}"
+				if subject.phase.present? && subject.phase > line['Phase'].to_i
+					puts "DOWN PHASE CHANGE!!!!! SKIPPING"		#	WOULD CHANGE FROM 5 TO 4!?????
+					#puts subject.reference_date
+				else
+					puts "Updated phase to #{line['Phase']}"
+					subject.update_attributes!(:phase => line['Phase'])
+					puts "Create operational event"
+					subject.operational_events.create!(
+						:occurred_at => DateTime.current,
+						:project_id => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['datachanged'].id,
+						:description => "Phase set to #{line['Phase']} based on tracking2k/tChildInfo.csv")
+				end
+
+			end
+		end	#	CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+		Sunspot.commit
+	end	#	task :update_phases_from_tChildInfo => :environment do
+
+
+
+
 	task :child_info_check => :environment do
 #Columns are ChildId, PatID, ICFMasterID, Type, OrderNo, Eligibl, Consen, Consdate, ConsVersion, WhichConsent, vaccine_releases_received, StateID#, Dob, SSN, Sex, Fname, Mname, Lname, Language, Notes, Mofname, Molname, Mosname, Momname, Fafname, Falname, Saqsent, Saqback, RefDate, Phase, Bornca, Postdue, Postsent, Intassdu, Intass, CashGave, Intid, Intret, Bclistdu, Bclistrq, Requested Results, Job List To Reviewer, Job List Returned, Job Module Int Assign, Job Module Interviewer, Job Module Int Returned, FoodQLang, SelectNo, Chose, Nominator, EntDate, Birth County, BirthCountyNonCA, Age, InterviewDate, InterviewLanguage, BreastFed, Flistopt, Numfrs, Outcome, OutForReview, DateOut, InitialsOfReviewer, EditingComplete, SampleNo, LocationID, Requested, Received, BCOutcome, BCOutcomeDate, CHDSLetterOut, CHDSBack, ControlFount, SRCOut, SRCBack, DelayLtrSent, DelayLtrSnt-2nd, Change, InterimPending, InterimCase, InterviewEntered, InterviewEnteredHSQ, InterviewEnteredHPI, InterviewEnteredHIS, InterviewEnteredDS, InterviewEnteredWS, CreateDate, CreateTime, HomeAgeAtIntrv, Active, Retro, StateIDNo, FutureUseSpec, SearchStopped4, SearchStopped5, SearchStopped6, SearchStoppedB, VitalStatus, VitalStatusDate, DoNotContact, subjectid, addedToSubjects, OptOut_ShareResearchers, OptOut_ContactInFuture, OptOut_GeneralInfo, OptOut_ProvideSaliva, RevokeUseOfSamples, RevokeUseDate, generational_suffix, father_generational_suffix, Dod, childid_txt
 		filename = "tracking2k/tChildInfo.csv"
@@ -248,7 +310,7 @@ namespace :study_subjects do
 			if !line['Phase'].blank? && ( subject.phase != line['Phase'].to_i )	#	IMPORT about 5500!
 				inconsistancies.puts "#{subject.subjectid},phase," <<
 					"#{subject.phase},#{line['Phase']}"
-				subject.update_attributes!(:phase => line['Phase'])
+#				subject.update_attributes!(:phase => line['Phase'])
 			end
 
 			if !line['Eligibl'].blank? && ( YNDK[subject.ccls_enrollment.is_eligible] != line['Eligibl'] )
