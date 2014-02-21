@@ -155,6 +155,7 @@ namespace :study_subjects do
 	end	#	task :check_cases_with_phase_nil => :environment do
 
 	task :fill_in_the_nil_phases => :environment do
+		raise "This task has been run and disabled."
 		puts StudySubject.where(StudySubject.arel_table[:phase].not_eq(nil)).count
 		StudySubject.where(StudySubject.arel_table[:phase].not_eq(nil)).find_each do |s|
 			subjects = StudySubject.where(:matchingid => s.matchingid)
