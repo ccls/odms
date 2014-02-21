@@ -154,7 +154,47 @@ namespace :study_subjects do
 		end
 	end	#	task :check_cases_with_phase_nil => :environment do
 
+	task :fill_in_the_nil_phases => :environment do
+		puts StudySubject.where(StudySubject.arel_table[:phase].not_eq(nil)).count
+		StudySubject.where(StudySubject.arel_table[:phase].not_eq(nil)).find_each do |s|
+			subjects = StudySubject.where(:matchingid => s.matchingid)
+			phases = subjects.collect(&:phase)
+			if phases.uniq.compact.length == 1 && phases.uniq.length == 1
+				puts "already sunc #{s.matchingid} #{phases.uniq.inspect}"
+			elsif phases.uniq.compact.length == 1 && phases.uniq.length == 2
+				#	just one non-nil phase for group
+				puts "------ SYNCABLE! #{s.matchingid} #{phases.uniq.inspect}"
+				phase = phases.uniq.compact.first
+				subjects.each do |subject|
+					if subject.phase.nil?
+						puts "Updated phase to #{phase}"
+						subject.update_attributes!(:phase => phase)	
+						#	found a father_hispanicity validation failure?
+						#unless subject.update_attributes(:phase => phase)
+						#	puts subject.errors.full_messages.to_sentence
+						#	puts subject.inspect
+						#	raise 'hell'
+						#end
+						puts "Create operational event"
+						subject.operational_events.create!(
+							:occurred_at => DateTime.current,
+							:project_id => Project['ccls'].id,
+							:operational_event_type_id => OperationalEventType['datachanged'].id,
+							:description => "Phase set to #{phase} based on others with this matchingid")
+					else
+						puts "This subject's phase not nil. Skipping."
+					end
+				end
+			else
+				puts "unsyncable #{s.matchingid} #{phases.inspect}"
+			end
+		end
+		puts StudySubject.where(StudySubject.arel_table[:phase].not_eq(nil)).count
+		Sunspot.commit
+	end	#	task :fill_in_the_nil_phases => :environment do
+
 	task :update_to_phase_5_based_on_reference_date => :environment do
+		raise "This task has been run and disabled."
 		cases = StudySubject.cases.where(StudySubject.arel_table[:reference_date].gteq(Date.parse('1/1/2011')))
 			.where(StudySubject.arel_table[:reference_date].lteq(Date.parse('7/31/2011')))
 		raise "Expected exactly 102" if cases.length != 102
@@ -176,6 +216,7 @@ namespace :study_subjects do
 	end	#	task :update_phases_based_on_reference_date => :environment do
 
 	task :update_phases_from_tChildInfo => :environment do
+		raise "This task has been run and disabled."
 		filename = "tracking2k/tChildInfo.csv"
 		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
 			subjects = StudySubject.with_childid(line['ChildId'])
