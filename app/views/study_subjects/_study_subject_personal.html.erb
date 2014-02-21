@@ -20,6 +20,7 @@
 <span class='value'><%= @study_subject.case_control_type||'&nbsp;'.html_safe %></span>
 </div><!-- class='case_control_type spans' -->
 
+<%= wrapped_spans :study_subject, :phase %>
 <%= wrapped_spans :study_subject, :subject_type %>
 <%= wrapped_date_spans :study_subject, :dob %>
 <%= wrapped_spans :study_subject, :birth_year %>
