@@ -7,6 +7,8 @@ source 'https://rubygems.org'
 source "http://gemcutter.org"
 source "http://gems.github.com"
 
+gem 'bundler'
+
 
 
 #	try upgrading capybara
