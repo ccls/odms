@@ -86,17 +86,18 @@
   :attributes:
   - :hispanicity
   - :hispanicity_mex
-  - :father_hispanicity
   - :mother_hispanicity_mex
   - :father_hispanicity_mex
   :inclusion:
     :in: <%= YNRDK.valid_values %>
   :allow_nil: true
 
-#	there are 2 in the database that are "3"
+#	there are 2 in the database that are "3" so changing from YNRDK to YNORDK
+#	father_hispanicity and mother_hispanicity (not sure what 'Other' means in this context though.)
 -
   :attributes:
   - :mother_hispanicity
+  - :father_hispanicity
   :inclusion:
     :in: <%= YNORDK.valid_values %>
   :allow_nil: true

@@ -11,12 +11,11 @@ class StudySubjectTest < ActiveSupport::TestCase
 			:bad_values  => 12345 })
 
 	assert_should_accept_only_good_values( :hispanicity, :hispanicity_mex,
-		:father_hispanicity, :father_hispanicity_mex,
- 		:mother_hispanicity_mex,
+ 		:mother_hispanicity_mex, :father_hispanicity_mex,
 		{ :good_values => ( YNRDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
-	assert_should_accept_only_good_values( :mother_hispanicity, 
+	assert_should_accept_only_good_values( :mother_hispanicity, :father_hispanicity,
 		{ :good_values => ( YNORDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
