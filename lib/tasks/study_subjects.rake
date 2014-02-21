@@ -10,33 +10,6 @@ namespace :study_subjects do
 	end
 
 	task :checkup => :environment do
-
-		begin
-			puts "Searching for duplicated subjects based on dob"
-			attrs = %w( childid patid subjectid state_id_no dob sex subject_type last_name first_name )
-			puts attrs.to_csv
-			StudySubject.children.group(:dob).count.each do |dob,count|
-				next if dob.nil?
-				next if dob < Date.parse('Feb 1,1900')	#	1/1/1900 is "Don't Know"
-				subjects = StudySubject.where(:dob => dob)
-
-				#	duplicate based on what other comparison?
-
-				#	same dob, sex, names could be different
-				subjects.each do |subject|
-					duplicates = StudySubject.where(:dob => dob)
-						.where(:sex => subject.sex)
-						.where(:last_name => subject.last_name)
-						.where(:first_name => subject.first_name)
-					if duplicates.count > 1
-						duplicates.each do |dup|
-							puts attrs.collect{|a|dup[a]}.to_csv
-						end
-					end
-				end
-			end
-		end if false
-
 		begin
 			puts "Checking consistancy based on matchingids"
 			StudySubject.group(:matchingid).count.each do |matchingid,count|
@@ -92,6 +65,31 @@ namespace :study_subjects do
 	end	#	task :checkup => :environment do
 
 
+	task :duplicate_subject_check => :environment do
+		puts "Searching for duplicated subjects based on dob"
+		attrs = %w( childid patid subjectid state_id_no dob sex subject_type last_name first_name )
+		puts attrs.to_csv
+		StudySubject.children.group(:dob).count.each do |dob,count|
+			next if dob.nil?
+			next if dob < Date.parse('Feb 1,1900')	#	1/1/1900 is "Don't Know"
+			subjects = StudySubject.where(:dob => dob)
+
+			#	duplicate based on what other comparison?
+
+			#	same dob, sex, names could be different
+			subjects.each do |subject|
+				duplicates = StudySubject.where(:dob => dob)
+					.where(:sex => subject.sex)
+					.where(:last_name => subject.last_name)
+					.where(:first_name => subject.first_name)
+				if duplicates.count > 1
+					duplicates.each do |dup|
+						puts attrs.collect{|a|dup[a]}.to_csv
+					end
+				end
+			end
+		end
+	end	#	task :duplicate_subject_check => :environment do
 
 	task :duplicate_state_id_no_check_2 => :environment do
 		filename = "tracking2k/tChildInfo.csv"
@@ -153,6 +151,9 @@ namespace :study_subjects do
 			end
 		end
 	end	#	task :check_cases_with_phase_nil => :environment do
+
+
+
 
 	task :fill_in_the_nil_phases => :environment do
 		raise "This task has been run and disabled."
@@ -349,11 +350,12 @@ namespace :study_subjects do
 			#		"#{subject.state_id_no},#{line['StateIDNo']}"
 			#end
 
-			if !line['Phase'].blank? && ( subject.phase != line['Phase'].to_i )	#	IMPORT about 5500!
-				inconsistancies.puts "#{subject.subjectid},phase," <<
-					"#{subject.phase},#{line['Phase']}"
-#				subject.update_attributes!(:phase => line['Phase'])
-			end
+			#	Already imported separatly
+			#if !line['Phase'].blank? && ( subject.phase != line['Phase'].to_i )	#	IMPORT about 5500!
+			#	inconsistancies.puts "#{subject.subjectid},phase," <<
+			#		"#{subject.phase},#{line['Phase']}"
+			##	subject.update_attributes!(:phase => line['Phase'])
+			#end
 
 			if !line['Eligibl'].blank? && ( YNDK[subject.ccls_enrollment.is_eligible] != line['Eligibl'] )
 				inconsistancies.puts "#{subject.subjectid},eligible," <<
