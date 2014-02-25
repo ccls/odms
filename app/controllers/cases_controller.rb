@@ -27,6 +27,7 @@ class CasesController < ApplicationController
 			@study_subjects = StudySubject.cases.living
 				.where( :phase => 5 )
 				.where('study_subjects.reference_date < ?', 30.days.ago.to_date)
+				.where('study_subjects.reference_date > ?', Date.parse('1/1/2012'))
 				.order('reference_date DESC')
 				.joins(:enrollments)
 				.merge(
