@@ -22,7 +22,7 @@ gem 'bundler'
 #
 
 
-#	20140117 - Stick with java 1.6.  java 1.7 causes grief.
+#	20140117 - Stick with java 1.6.  java 1.7 causes grief, at least on my Mac
 gem 'jakewendt-active_record_sunspotter'
 
 
