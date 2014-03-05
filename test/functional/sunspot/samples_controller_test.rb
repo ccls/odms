@@ -132,7 +132,7 @@ if Sample.respond_to?(:solr_search)
 
 
 		test "should not search if solr is down and #{cu} login" do
-			Sample.stubs(:search).raises(Errno::ECONNREFUSED)
+			Sample.stubs(:solr_search).raises(Errno::ECONNREFUSED)
 			login_as send(cu)
 			get :index
 			assert_not_nil flash[:error]
