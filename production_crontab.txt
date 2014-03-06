@@ -86,6 +86,7 @@ MAILTO='jwendt@genepi.berkeley.edu'
 #
 #	import birth_data (from USC)
 #	Every Thursday at 7PM ( NOT YET THOUGH )
+#	Probably will never happen.  We don't receive them regularly.
 #
 #0 19 * * 4 cd /my/ruby/odms/ ; bundle exec rake automate:import_birth_data >> /my/ruby/logs/automate_import_birth_data.log
 
