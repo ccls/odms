@@ -39,7 +39,11 @@ namespace :samples do
 	task :import_overlaps => :environment do
 		ifile = "data/20140303_overlaps_with_icf_master_ids.csv"
 		ofile = "data/20140303_overlaps_with_icf_master_ids_subjectids_sampleids.csv"
+		mfile = "data/20140305_manifest.csv"
 		csv_out = CSV.open( ofile, 'w')
+		manifest = CSV.open( mfile, 'w')
+		manifest << %w( icf_master_id subjectid sex sampleid gegl_sample_type_id
+			collected_from_subject_at received_by_ccls_at storage_temperature sent_to_lab_at )
 		columns=csv_columns( 'data/20140303_overlaps_with_icf_master_ids.csv')
 		puts "#{columns.join(',')},subjectid,sampleid"
 		csv_out << columns + %w(subjectid sampleid)
@@ -74,7 +78,16 @@ namespace :samples do
 			new_line = line
 			new_line.push(subject.subjectid,sample.sampleid)
 			csv_out << new_line
+			manifest <<	[ sample.study_subject.icf_master_id_to_s,
+				" #{sample.study_subject.subjectid}",
+				sample.study_subject.sex,
+				" #{sample.sampleid}",
+				sample.sample_type.gegl_sample_type_id,nil,
+				"3/5/2014",
+				sample.sample_temperature,
+				"3/5/2014" ]
 		end	#	(csv_in = CSV.open( ifile, 'rb',{ :headers => true })).each do |line|
+		manifest.close
 		csv_out.close
 	end	#	task :overlaps => :environment do
 
