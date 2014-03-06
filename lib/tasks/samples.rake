@@ -37,10 +37,13 @@ namespace :samples do
 	end	#	task :merge_overlaps_with_icf_master_id => :environment do
 
 	task :import_overlaps => :environment do
-		infile = "data/20140303_overlaps_with_icf_master_ids.csv"
+		ifile = "data/20140303_overlaps_with_icf_master_ids.csv"
+		ofile = "data/20140303_overlaps_with_icf_master_ids_subjectids_sampleids.csv"
+		csv_out = CSV.open( ofile, 'w')
 		columns=csv_columns( 'data/20140303_overlaps_with_icf_master_ids.csv')
-		puts "subjectid,sampleid,#{columns.join(',')}"
-		(csv_in = CSV.open( infile, 'rb',{ :headers => true })).each do |line|
+		puts "#{columns.join(',')},subjectid,sampleid"
+		csv_out << columns + %w(subjectid sampleid)
+		(csv_in = CSV.open( ifile, 'rb',{ :headers => true })).each do |line|
 			subjects = StudySubject.where(:icf_master_id => line['icf_master_id'])
 			puts "Subject not found with #{sfn}" if subjects.empty?
 			if subjects.length > 1
@@ -58,6 +61,8 @@ namespace :samples do
 				:sample_type_id => SampleType[:guthrie].id,
 				:sample_format => "Guthrie Card",
 				:sample_temperature => "Refrigerated",
+				:received_by_ccls_at => "3/5/2014",
+				:sent_to_lab_at => "3/5/2014",
 				:external_id => line['barcode'],
 				:external_id_source => "20140303_overlaps_with_icf_master_ids.csv",
 				:notes => "Imported from 20140303_overlaps_with_icf_master_ids.csv\n" <<
@@ -65,8 +70,12 @@ namespace :samples do
 					"barcode #{line['barcode']},\n"<<
 					"blindid #{line['blindid']}"
 			)
-			puts "#{subject.subjectid},#{sample.sampleid},#{line}"
-		end	#	(csv_in = CSV.open( infile, 'rb',{ :headers => true })).each do |line|
+			puts "#{line.to_s.chomp},#{subject.subjectid},#{sample.sampleid}"
+			new_line = line
+			new_line.push(subject.subjectid,sample.sampleid)
+			csv_out << new_line
+		end	#	(csv_in = CSV.open( ifile, 'rb',{ :headers => true })).each do |line|
+		csv_out.close
 	end	#	task :overlaps => :environment do
 
 #	task :recheck_original_sample_types => :environment do
