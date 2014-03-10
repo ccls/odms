@@ -140,7 +140,8 @@ GEM
       activesupport
     rubyzip (1.1.0)
     ryanb-acts-as-list (0.1.2)
-    sass (3.2.14)
+    sass (3.3.0)
+      rake
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -173,7 +174,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     ttfunk (1.1.1)
-    tzinfo (0.3.38)
+    tzinfo (0.3.39)
     ucb_ldap (2.0.0.pre5)
       net-ldap (= 0.2.2)
     uglifier (2.4.0)
