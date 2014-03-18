@@ -62,15 +62,6 @@ gem 'json'
 
 gem 'sass'
 
-# Gems used only for assets and not required
-# in production environments by default.
-#group :assets do
-#  gem 'sass-rails'
-#  gem 'coffee-rails'
-#  gem 'uglifier', '>= 1.0.3'
-#end
-
-
 gem 'rack-ssl', :require => 'rack/ssl'
 
 gem "mysql"
@@ -128,7 +119,8 @@ group :test do
 	#	gem "rcov"	#	not supported ruby19 world. Suggests using simplecov.
 	#	This does not work as well as rcov used to, imo.
 	#	simplecov-0.8.1 or one of its dependencies causes autotest to not actually run tests?
-	gem "simplecov", '0.7.1', :require => false
+#	gem "simplecov", '0.7.1', :require => false
+	gem "simplecov", :require => false
 
 
 	#	for dealing with integration tests
@@ -157,7 +149,8 @@ group :test do
 #	so they require manual unstubbing.  this is just a pain
 #	so reverting to 0.13.3
 #
-	gem "mocha", '0.13.3', :require => false
+#	gem "mocha", '0.13.3', :require => false
+	gem "mocha", :require => false
 
 	#	seems that 0.14.0 doesn't unstub stubs between tests
 	#		which breaks nearly everthing
@@ -177,7 +170,7 @@ group :test do
 #	sudo bundle update
 
 	#	try upgrading ZenTest (4.9.0 still has "illformed" gemspec (problem with old rubygems))
-	gem 'ZenTest', '=4.9.1'
+	gem 'ZenTest'	#, '=4.9.1'
 	#	ZenTest 4.9.2 always ends tests with ...
 	#Run options: --seed 6126
 	#
@@ -213,6 +206,10 @@ group :test do
 	gem 'capybara', '~> 2.0.0'
 	#	capybara-webkit 1.0.0 bombs big time compiling native code
 	gem 'capybara-webkit', '~> 0.14'
+
+	#	After rails 4, upgraded capybara stuff, but still had issues finding fields
+	#	capybara (2.2.1)
+	#	capybara-webkit (1.1.0)
 
 	gem 'jakewendt-test_with_verbosity'
 end

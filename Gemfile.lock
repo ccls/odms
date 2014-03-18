@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     RedCloth (4.2.9)
-    ZenTest (4.9.1)
+    ZenTest (4.9.5)
     actionmailer (4.0.4)
       actionpack (= 4.0.4)
       mail (~> 2.5.4)
@@ -55,6 +55,7 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
     database_cleaner (1.2.0)
+    docile (1.1.3)
     erubis (2.7.0)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
@@ -81,7 +82,7 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.5.2)
     minitest (4.7.5)
-    mocha (0.13.3)
+    mocha (1.0.0)
       metaclass (~> 0.0.1)
     multi_json (1.9.0)
     mysql (2.9.1)
@@ -134,10 +135,11 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0.4)
-    simplecov (0.7.1)
-      multi_json (~> 1.0)
-      simplecov-html (~> 0.7.1)
-    simplecov-html (0.7.1)
+    simplecov (0.8.2)
+      docile (~> 1.1.0)
+      multi_json
+      simplecov-html (~> 0.8.0)
+    simplecov-html (0.8.0)
     sprockets (2.12.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -176,7 +178,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
-  ZenTest (= 4.9.1)
+  ZenTest
   activerecord-session_store
   acts_as_list
   american_date
@@ -196,7 +198,7 @@ DEPENDENCIES
   jakewendt-test_with_verbosity
   json
   minitest
-  mocha (= 0.13.3)
+  mocha
   mysql
   mysql2
   net-ldap
@@ -207,7 +209,7 @@ DEPENDENCIES
   rails (~> 4)
   rubycas-client
   sass
-  simplecov (= 0.7.1)
+  simplecov
   test-unit
   ucb_ldap (~> 2.0.0.pre)
   will_paginate
