@@ -92,9 +92,10 @@ class SampleTypeTest < ActiveSupport::TestCase
 	test "roots.for_new_sample should only include for_new_sample true" do
 		assert !SampleType.roots.for_new_samples.empty?
 		#	update_all( updates_hash, conditions_hash )
-		SampleType.update_all(
-			{ :for_new_sample => false },
-			{ :parent_id      => nil })
+		SampleType.roots.update_all( :for_new_sample => false )
+#		SampleType.update_all(
+#			{ :for_new_sample => false },
+#			{ :parent_id      => nil })
 		assert SampleType.roots.for_new_samples.empty?
 	end
 

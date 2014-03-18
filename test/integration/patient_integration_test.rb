@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class PatientIntegrationTest < ActionController::CapybaraIntegrationTest
+class PatientIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 

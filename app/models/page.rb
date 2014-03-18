@@ -25,6 +25,12 @@ class Page < ActiveRecord::Base
 	acts_as_list :scope => :parent_id
 #	acts_as_list :scope => "parent_id \#{(parent_id.nil?)?'IS NULL':'= parent_id'} AND locale = '\#{locale}'"
 
+
+
+	attr_protected	#	I really shouldn't do it this way
+
+
+
 	validations_from_yaml_file
 
 	belongs_to :parent, :class_name => 'Page'

@@ -392,7 +392,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #protected
 #
 #	def create_home_exposure_study_subjects
-#		p = Project.find_or_create_by_key('HomeExposures')
+#		p = Project.find_or_create_by(key: 'HomeExposures')
 #		assert_difference('StudySubject.count',3) {
 #		assert_difference('Enrollment.count',3) {
 #			3.times do

@@ -1,6 +1,13 @@
 class SampleLocation < ActiveRecord::Base
 #  attr_accessible :is_active, :notes, :organization_id, :position
 
+
+
+
+	attr_protected	#	I really shouldn't do it this way
+
+
+
 	acts_as_list
 
 	belongs_to :organization

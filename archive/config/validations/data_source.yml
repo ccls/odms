@@ -1,9 +1,0 @@
--
-  :attributes:
-  - :data_origin
-  - :other_organization
-  - :other_person
-  :length:
-    :maximum: 250
-  :allow_blank: true
-

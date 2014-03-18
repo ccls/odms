@@ -13,7 +13,7 @@ class InterviewOutcomesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@interview_outcomes = InterviewOutcome.scoped
+		@interview_outcomes = InterviewOutcome.all
 	end
 
 	def new

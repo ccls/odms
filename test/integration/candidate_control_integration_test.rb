@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class CandidateControlIntegrationTest < ActionController::CapybaraIntegrationTest
+class CandidateControlIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 

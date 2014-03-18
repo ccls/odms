@@ -3,6 +3,11 @@
 #	*	description ( unique and > 3 chars )
 class OperationalEventType < ActiveRecord::Base
 
+
+	attr_protected	#	still don't like this
+
+
+
 	acts_as_list
 	acts_like_a_hash
 
@@ -27,7 +32,7 @@ class OperationalEventType < ActiveRecord::Base
 	end
 
 	def self.with_category(category=nil)
-		( category.blank? ) ? scoped : where(:event_category => category)
+		( category.blank? ) ? all : where(:event_category => category)
 	end
 
 end

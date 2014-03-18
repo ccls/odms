@@ -32,7 +32,12 @@ if StudySubject.respond_to?(:solr_search)
 			login_as send(cu)
 			study_subject = build_and_index_subject
 			study_subject.races << Race[:white]
-			StudySubject.solr_reindex
+
+#			StudySubject.solr_reindex
+#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
+			StudySubject.find_each{|a|a.index}
+			Sunspot.commit
+
 			get :index, :races => [''], "races_op" => 'AND'
 			assert_found_one( study_subject )
 		end
@@ -42,7 +47,12 @@ if StudySubject.respond_to?(:solr_search)
 			study_subject = build_and_index_subject
 			study_subject.races << Race[:white]
 			study_subject.races << Race[:black]
-			StudySubject.solr_reindex
+
+#			StudySubject.solr_reindex
+#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
+			StudySubject.find_each{|a|a.index}
+			Sunspot.commit
+
 			get :index, :races => ['White, Non-Hispanic','Black / African American'], "races_op" => 'AND'
 			assert_found_one( study_subject )
 		end
@@ -52,7 +62,12 @@ if StudySubject.respond_to?(:solr_search)
 			study_subject = build_and_index_subject
 			study_subject.races << Race[:white]
 			study_subject.races << Race[:black]
-			StudySubject.solr_reindex
+
+#			StudySubject.solr_reindex
+#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
+			StudySubject.find_each{|a|a.index}
+			Sunspot.commit
+
 			get :index, :races => ['White, Non-Hispanic','Black / African American'], "races_op" => 'OR'
 			assert_found_one( study_subject )
 		end
@@ -293,13 +308,23 @@ protected
 
 	def sanitize_index
 		Sunspot.remove_all!					#	isn't always necessary
-		StudySubject.solr_reindex
+
+#		StudySubject.solr_reindex
+#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
+			StudySubject.find_each{|a|a.index}
+			Sunspot.commit
+
 		assert StudySubject.search.hits.empty?
 	end
 
 	def build_and_index_subject(options={})
 		study_subject = FactoryGirl.create(:study_subject,options)
-		StudySubject.solr_reindex
+
+#		StudySubject.solr_reindex
+#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
+			StudySubject.find_each{|a|a.index}
+			Sunspot.commit
+
 		assert !StudySubject.search.hits.empty?
 		return study_subject
 	end

@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class CapybaraIntegrationTest < ActionController::CapybaraIntegrationTest
+class CapybaraIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 #	This test file is simply used to develop tests as autotest
 #	does not load new files, only those that already exist.

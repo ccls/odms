@@ -14,7 +14,7 @@
 <% attrs.sort.each do |k,v| %>
 <%= f.wrapped_text_field k %>
 <% end %>
-<%= f.wrapped_text_area :ccls_import_notes %>
+<%= f.wrapped_text_area :ccls_import_notes, :rows => 3, :cols => 50 %>
 
 <p>
 <%= f.submit( (@birth_datum.new_record?)? "Create" : "Update" )%>&nbsp;

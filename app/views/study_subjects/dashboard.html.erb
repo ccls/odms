@@ -7,7 +7,7 @@
 
 <% javascripts('swfobject.js') %>
 <% content_for(:head) do %>
-<%= javascript_tag do %>
+<%= javascript_tag :type => "text/javascript" do %>
 swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_1", "800", "600", "9.0.0", "expressInstall.swf", {"data-file":"/charts/phase_5_case_enrollment_by_month.json"}, {"wmode" : "transparent"} );
 swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_2", "800", "600", "9.0.0", "expressInstall.swf", {"data-file":"/charts/blood_bone_marrow.json"}, {"wmode" : "transparent"} );
 swfobject.embedSWF("/assets/open-flash-chart.swf", "my_chart_3", "800", "600", "9.0.0", "expressInstall.swf", {"data-file":"/charts/phase_5_case_enrollment.json"}, {"wmode" : "transparent"} );

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 	before_filter :may_view_users_required, :only => :index
 
 	def show
-		@roles = Role.scoped
+		@roles = Role.all
 	end
 
 	def index

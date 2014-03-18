@@ -3,5 +3,7 @@
   :presence: true
   :length:
     :maximum: 250
-  :allow_blank: true
+#  :allow_blank: true
+#	why presence, but blank ok?
+#	this was to stop multiple error messages when blank
 

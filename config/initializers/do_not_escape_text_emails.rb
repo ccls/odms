@@ -17,7 +17,8 @@ module ActionView
     module Handlers
       class ERB
         def call(template)
-          if template.source.encoding_aware?
+#          if template.source.encoding_aware?	#	rails 3
+          if template.source.respond_to?(:encode)	#	rails 4
             # First, convert to BINARY, so in case the encoding is
             # wrong, we can still find an encoding tag
             # (<%# encoding %>) inside the String using a regular

@@ -25,7 +25,7 @@
 <% end %>
 
 
-<% unless @study_subjects.empty? %>
+<% unless @study_subjects.to_a.empty? %>
 <p>Phase 5 cases without controls and ccls:interview_completed_on not null ...</p>
 <p>These are not likely to be DEFINITE controls.</p>
 <table><thead><tr>

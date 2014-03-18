@@ -8,7 +8,12 @@
 #	*	telephonenumber
 class User < ActiveRecord::Base
 
-	has_and_belongs_to_many :roles, :uniq => true
+
+	attr_protected	#	rails 4 not liken this
+
+
+
+	has_and_belongs_to_many :roles, -> { uniq }
 
 	validations_from_yaml_file
 
@@ -17,13 +22,13 @@ class User < ActiveRecord::Base
 	end
 
 	def self.with_role_name(role_name=nil)
-		( role_name.blank? ) ? scoped :
+		( role_name.blank? ) ? all :
 			joins(:roles).where(Role.arel_table[:name].eq(role_name))
 #			joins(:roles).where("roles.name".to_sym => role_name)
 	end
 
 	def deputize
-		roles << Role.find_or_create_by_name('administrator')
+		roles << Role.find_or_create_by(name: 'administrator')
 	end
 
 	#	The 4 common CCLS roles are ....
@@ -104,7 +109,7 @@ class User < ActiveRecord::Base
 	#	
 	#	Returns: user
 	def self.find_create_and_update_by_uid(uid)
-		user = self.find_or_create_by_uid(uid)
+		user = self.find_or_create_by(uid: uid)
 		person = UCB::LDAP::Person.find_by_uid(uid) 
 		user.update_attributes!({
 			:displayname     => person.displayname,

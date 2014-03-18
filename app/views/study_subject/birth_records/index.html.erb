@@ -4,7 +4,7 @@
 <h3>Birth Records</h3>
 
 <%# unless @study_subject.birth_data.all.empty? ... seems I needed to add the ".all" here ???%>
-<% unless @study_subject.birth_data.all.empty? %>
+<% unless @study_subject.birth_data.to_a.empty? %>
 <h4>Study Subject has <%=pluralize(@study_subject.birth_data.length, 'birth record')%> on file.</h4>
 
 <% attrs = BirthDatum.attribute_names %>

@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class RafIntegrationTest < ActionController::CapybaraIntegrationTest
+class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 

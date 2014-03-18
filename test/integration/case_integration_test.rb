@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class CaseIntegrationTest < ActionController::CapybaraIntegrationTest
+class CaseIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 #	something here is causing ...
 #Control Integration should render html and trigger csv download on assigned_for_interview_at with administrator login: P.QNetworkReplyImplPrivate::error: Internal problem, this method must only be called once.

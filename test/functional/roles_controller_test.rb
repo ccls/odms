@@ -23,7 +23,7 @@ class RolesControllerTest < ActionController::TestCase
 		test "should destroy with #{cu} login" do
 			login_as send(cu)
 			u = active_user
-			u.roles << Role.find_or_create_by_name('reader')
+			u.roles << Role.find_or_create_by(name: 'reader')
 			assert  u.reload.role_names.include?('reader')
 			assert_difference("User.find(#{u.id}).roles.length",-1){
 				delete :destroy, :user_id => u.id, :id => 'reader'
@@ -108,7 +108,7 @@ class RolesControllerTest < ActionController::TestCase
 		test "should NOT destroy with #{cu} login" do
 			login_as send(cu)
 			u = active_user
-			u.roles << Role.find_or_create_by_name('administrator')
+			u.roles << Role.find_or_create_by(name: 'administrator')
 			assert u.reload.role_names.include?('administrator')
 			assert_difference("User.find(#{u.id}).roles.length",0){
 				delete :destroy, :user_id => u.id, :id => 'administrator'

@@ -10,7 +10,7 @@
 <%= f.wrapped_date_text_field :sent_on %> <%# date selector %>
 <%= f.wrapped_select(:status,
 	SampleTransfer.statuses, { :include_blank => true }) %>
-<%= f.wrapped_text_area  :notes, :class => :autosize %>
+<%= f.wrapped_text_area  :notes, :class => :autosize, :rows => 3, :cols => 50 %>
 <p>
 <%= f.submit( "Update" )%>&nbsp;
 <%= link_to 'Back to samples', study_subject_sample_path(@study_subject, @sample_transfer.sample_id), 

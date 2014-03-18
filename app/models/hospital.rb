@@ -1,5 +1,12 @@
 class Hospital < ActiveRecord::Base
 
+
+
+	attr_protected
+
+
+
+
 	acts_as_list
 
 	belongs_to :organization

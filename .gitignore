@@ -42,6 +42,7 @@ versions/
 #	Files potentitally with passwords and such
 config/api.yml
 /config/database.yml
+/config/secrets.yml
 #config/*database.yml
 #/config/fed_ex.yml
 /config/initializers/mail.rb

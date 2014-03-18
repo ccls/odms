@@ -1,12 +1,5 @@
 source 'https://rubygems.org'
 
-#	Fetching source index from http://gems.rubyforge.org/
-#	Could not fetch specs from http://gems.rubyforge.org/
-#source "http://gems.rubyforge.org"
-
-source "http://gemcutter.org"
-source "http://gems.github.com"
-
 gem 'bundler'
 
 
@@ -24,6 +17,8 @@ gem 'bundler'
 
 #	20140117 - Stick with java 1.6.  java 1.7 causes grief, at least on my Mac
 gem 'jakewendt-active_record_sunspotter'
+#	copied in sunspot_rails-2.1.0/lib/sunspot/rails/adapters.rb
+#	to stop ActiveRecord deprecation warnings
 
 
 #	apparently required on new production server for some reason??
@@ -57,7 +52,11 @@ gem 'prawnto'
 #	format Month/Day/Year Date.parse('12/31/2000')
 gem 'american_date'
 
-gem 'rails', '~> 3.2'
+
+gem 'rails', '~> 4'
+gem 'protected_attributes'	#	to keep rails 3 style
+gem 'activerecord-session_store'	#	to keep rails 3 style
+
 
 gem 'json'
 
@@ -65,11 +64,11 @@ gem 'sass'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'uglifier', '>= 1.0.3'
-end
+#group :assets do
+#  gem 'sass-rails'
+#  gem 'coffee-rails'
+#  gem 'uglifier', '>= 1.0.3'
+#end
 
 
 gem 'rack-ssl', :require => 'rack/ssl'
@@ -80,7 +79,7 @@ gem "RedCloth"
 
 gem "chronic"
 
-gem "ryanb-acts-as-list", :require => 'acts_as_list'
+gem "acts_as_list"
 
 gem "will_paginate"
 
@@ -209,7 +208,7 @@ group :test do
 	#	NOTE however, the "find field" seems to always fail?
 	#
 	#	newer capybara not compatible with current webkit
-	#	need to explicityly have capybara for the version or
+	#	need to explicitly have capybara for the version or
 	#	it will by upgraded to 2.1.0 which fails
 	gem 'capybara', '~> 2.0.0'
 	#	capybara-webkit 1.0.0 bombs big time compiling native code
@@ -226,6 +225,5 @@ gem 'ccls-common_lib', ">0.9"
 #	use_ssl value changed, but session already started
 #	geocoder-1.1.9/lib/geocoder/lookups/base.rb line 230ish
 gem 'geocoder', "=1.1.8"
-
 
 __END__

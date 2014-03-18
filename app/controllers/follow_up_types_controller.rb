@@ -13,7 +13,7 @@ class FollowUpTypesController < ApplicationController
 #		:only => [:show,:edit,:update,:destroy]
 #
 #	def index
-#		@follow_up_types = FollowUpType.scoped
+#		@follow_up_types = FollowUpType.all
 #	end
 #
 #	def new

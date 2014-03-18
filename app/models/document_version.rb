@@ -1,5 +1,12 @@
 class DocumentVersion < ActiveRecord::Base
 
+
+
+	attr_protected	#	I really shouldn't do it this way
+
+
+
+
 	acts_as_list
 	belongs_to :document_type
 	belongs_to :language

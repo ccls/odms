@@ -103,7 +103,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 
 	test "should create study_subject with subject_races_attributes multiple races" do
 		assert Race.count > 2
-		races = Race.all
+		races = Race.all.to_a
 		assert_difference( 'SubjectRace.count', 3 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {
@@ -123,7 +123,7 @@ class StudySubjectRacesTest < ActiveSupport::TestCase
 
 	test "should create study_subject with subject_races_attributes multiple races and is_primaries" do
 		assert Race.count > 2
-		races = Race.all
+		races = Race.all.to_a
 		assert_difference( 'SubjectRace.count', 3 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_races_attributes => {

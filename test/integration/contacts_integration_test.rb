@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class ContactsIntegrationTest < ActionController::CapybaraIntegrationTest
+class ContactsIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 

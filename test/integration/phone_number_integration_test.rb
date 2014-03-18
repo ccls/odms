@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class PhoneNumberIntegrationTest < ActionController::CapybaraIntegrationTest
+class PhoneNumberIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 

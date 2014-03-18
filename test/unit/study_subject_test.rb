@@ -232,15 +232,18 @@ subject_type )	#	can I have subject_type here?
 		}
 	end
 
-	test "should require sex with custom message" do
+	test "should require sex with custom message" do		#	No more custom message
 		#	NOTE custom message
 		study_subject = StudySubject.new( :sex => nil )
 		assert !study_subject.valid?
 		assert  study_subject.errors.include?(:sex)
-		assert  study_subject.errors.matching?(:sex,"has not been chosen")
-		assert_match /Sex has not been chosen/, 
-			study_subject.errors.full_messages.to_sentence
-		assert_no_match /Sex can't be blank/i, 
+		assert  study_subject.errors.matching?(:sex,"is not included in the list")
+#		assert  study_subject.errors.matching?(:sex,"has not been chosen")
+#		assert_match /Sex has not been chosen/, 
+#			study_subject.errors.full_messages.to_sentence
+#		assert_no_match /Sex can't be blank/i, 
+#			study_subject.errors.full_messages.to_sentence
+		assert_match /is not included in the list/i, 
 			study_subject.errors.full_messages.to_sentence
 	end
 

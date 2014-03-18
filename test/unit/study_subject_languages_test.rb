@@ -99,7 +99,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 
 	test "should create study_subject with subject_languages_attributes multiple languages" do
 		assert Language.count > 1
-		languages = Language.order(:position).all
+		languages = Language.order(:position).to_a
 		assert_difference( 'SubjectLanguage.count', 2 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			@study_subject = create_study_subject(:subject_languages_attributes => {

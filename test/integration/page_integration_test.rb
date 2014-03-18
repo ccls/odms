@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class PageIntegrationTest < ActionController::CapybaraIntegrationTest
+class PageIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	test "should get home page if not logged in" do
 		visit root_path()

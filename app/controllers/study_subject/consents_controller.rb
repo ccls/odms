@@ -10,18 +10,15 @@ class StudySubject::ConsentsController < StudySubjectController
 		:only => :destroy
 
 	def show
-#		if @study_subject.subject_type == SubjectType['Mother']
 		if @study_subject.is_mother?
 			render :action => 'show_mother'
 		else
-			@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
-				Project['ccls'].id )
+			@enrollment = @study_subject.enrollments.find_or_create_by(project_id: Project['ccls'].id )
 		end
 	end
 
 	def edit
-		@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
-			Project['ccls'].id )
+		@enrollment = @study_subject.enrollments.find_or_create_by(project_id: Project['ccls'].id )
 	end
 
 # {
@@ -33,8 +30,7 @@ class StudySubject::ConsentsController < StudySubjectController
 
 	def update
 		ActiveRecord::Base.transaction do
-			@enrollment = @study_subject.enrollments.find_or_create_by_project_id(
-				Project['ccls'].id )
+			@enrollment = @study_subject.enrollments.find_or_create_by(project_id: Project['ccls'].id )
 			@enrollment.attributes = params[:enrollment]
 			@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
 #	TODO what if case subject has no patient model??

@@ -52,6 +52,6 @@
 <%= f.wrapped_select :sample_temperature, 
 	@sample.sample_temperatures, :include_blank => true %>
 
-<%= f.wrapped_text_area :notes %>
+<%= f.wrapped_text_area :notes, :rows => 3, :cols => 50 %>
 
 <%#= render :partial => 'sample_kit', :locals => { :f => f } %>

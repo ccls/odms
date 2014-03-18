@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class BirthDatumUpdateIntegrationTest < ActionController::CapybaraIntegrationTest
+class BirthDatumUpdateIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 #
 #	teardown :delete_all_possible_birth_datum_update_attachments
 #

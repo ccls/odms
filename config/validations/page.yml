@@ -4,7 +4,7 @@
     :minimum: 1
   :uniqueness: true
   :format:
-    :with: !ruby/regexp /^\//
+    :with: !ruby/regexp /\A\//
 
 -
   :attribute: :menu_en

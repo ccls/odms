@@ -6,7 +6,7 @@
 
 <div class='parent'>
 <b>Parent?</b> (Is this a main or sub menu page?)<br/>
-<%= f.collection_select :parent_id, Page.all(:order => "menu_en"), 
+<%= f.collection_select :parent_id, Page.order("menu_en"), 
 	:id, :menu, :include_blank => true %>  
 </div>
 
@@ -28,7 +28,7 @@ English:<%= f.text_field :title_en %>
 English:<%= f.text_field :menu_en %>
 
 <p><b>Body</b> (uses sanitized <%= link_to 'textile', 'http://redcloth.org', :target => 'new' %>)</p>
-English:<%= f.text_area :body_en, :rows => 30 %>
+English:<%= f.text_area :body_en, :rows => 30, :cols => 30 %>
 </div><!-- fields -->
 
 <p class='note'>

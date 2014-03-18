@@ -1,8 +1,0 @@
-<%= form_for(@package) do |f| %>
-<%= f.error_messages %>
-<%= render 'form', :f => f %>
-<p>
-<%= f.submit "Create", :id => nil %>&nbsp;
-<%= link_to( "Cancel", packages_path, :class => 'button' ) %>
-</p>
-<% end %>

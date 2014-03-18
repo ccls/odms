@@ -163,7 +163,7 @@ DatabaseCleaner.strategy = :truncation
 
 #	by creating separate subclasses, rather than just extending IntegrationTest, 
 #	we can use both webrat and capybara.  We only use capybara now.
-class ActionController::CapybaraIntegrationTest < ActionController::IntegrationTest
+class ActionDispatch::CapybaraIntegrationTest < ActionDispatch::IntegrationTest
 
 
 #	NOTE
@@ -237,6 +237,7 @@ class ActionController::CapybaraIntegrationTest < ActionController::IntegrationT
 #		#		find a new way)
 #		ActiveRecord::Base.saved_connection = ActiveRecord::Base.connection
 #	end
+
 
 	include Capybara::DSL
 

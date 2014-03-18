@@ -1,10 +1,12 @@
 -
   :attribute: :sex
-  :presence:
-    :message: "Sex has not been chosen"
   :inclusion:
     :in: ['M','F','DK']
-  :allow_blank: true
+#  :allow_blank: true
+#  :presence:
+#    :message: "Sex has not been chosen"
+#	all have sex so why allow blank anyway
+#	this was to stop multiple error messages when blank
 
 -
   :attribute: :do_not_contact

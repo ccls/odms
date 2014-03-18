@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class AddressIntegrationTest < ActionController::CapybaraIntegrationTest
+class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 

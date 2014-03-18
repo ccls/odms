@@ -13,7 +13,7 @@ class InstrumentsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@instruments = Instrument.scoped
+		@instruments = Instrument.all
 	end
 
 	def new

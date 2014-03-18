@@ -1,6 +1,10 @@
 # don't know exactly
 class Person < ActiveRecord::Base
 
+
+	attr_protected 	#	rails 4 I really shouldn't do this
+
+
 	acts_as_list
 
 	has_many :interviews, :foreign_key => 'interviewer_id'

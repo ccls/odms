@@ -16,7 +16,7 @@ class CandidateControlsController < ApplicationController
 		:only => [:edit,:update]
 
 	def index
-		@candidate_controls = CandidateControl.scoped
+		@candidate_controls = CandidateControl.all
 		if params[:unassigned].present?
 			@candidate_controls = @candidate_controls.where(:study_subject_id => nil)
 		end

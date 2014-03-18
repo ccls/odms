@@ -108,6 +108,6 @@ Too many will result in a timeout.</p>
  (probably the same for cases)
 	changed to different submit rather than a get request
 -%>
-<%= javascript_tag do %>
+<%= javascript_tag :type => "text/javascript" do %>
 <%= "jQuery(function(){ jQuery('button#export_to_csv').click() })".html_safe %>
 <% end if @and_then_download_csv %>

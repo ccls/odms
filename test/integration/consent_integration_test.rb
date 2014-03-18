@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class ConsentIntegrationTest < ActionController::CapybaraIntegrationTest
+class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 

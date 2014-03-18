@@ -81,8 +81,15 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 #		#	Is this really required anymore?
 #		#	Why exactly did it matter in the beginning?
 #		#	Why exactly does it matter anymore?
-		assert study_subject.dob.is_a?(Time)
-		#	will actually keep as time if given time until reloaded
+#
+#		puts study_subject.dob
+#		puts study_subject.dob.class
+#
+#		assert study_subject.dob.is_a?(Time)
+#		#	will actually keep as time if given time until reloaded
+#		rails 4 works by default
+#
+		assert study_subject.dob.is_a?(Date)
 		assert study_subject.reload.dob.is_a?(Date)
 	end
 

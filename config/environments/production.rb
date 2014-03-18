@@ -121,4 +121,5 @@ Odms::Application.configure do
 		:protocol => "https",
 		:host => "odms.brg.berkeley.edu" }
 
+	config.eager_load = true
 end

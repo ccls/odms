@@ -1,6 +1,13 @@
 class SampleTransfer < ActiveRecord::Base
 #  attr_accessible :destination_org_id, :notes, :sample_id, :sent_on, :source_org_id, :status
 
+
+
+	attr_protected	#	rails 4 I shouldn't do this
+
+
+
+
 	belongs_to :sample
 	belongs_to :source_org,      :class_name => "Organization"
 	belongs_to :destination_org, :class_name => "Organization"
@@ -18,7 +25,7 @@ class SampleTransfer < ActiveRecord::Base
 	scope :complete, ->{ where( :status => 'complete' ) }
 
 	def self.with_status(status=nil)
-		( status.blank? ) ? scoped : where(:status => status)
+		( status.blank? ) ? all : where(:status => status)
 	end
 
 	def active?

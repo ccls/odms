@@ -3,7 +3,7 @@
 <p>
 <%= link_to 'All Candidate Controls', candidate_controls_path, :class => :button %>&nbsp;
 <%= link_to 'Unassigned Candidate Controls', candidate_controls_path(:unassigned => true), :class => :button %>&nbsp;
-<%= @candidate_controls.all.total_entries %> candidate control(s) found.
+<%= @candidate_controls.load.total_entries %> candidate control(s) found.
 </p>
 
 <% unless @candidate_controls.empty? %>

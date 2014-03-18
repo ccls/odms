@@ -310,10 +310,20 @@ class SampleTest < ActiveSupport::TestCase
 
 		test "should search" do
 			Sunspot.remove_all!					#	isn't always necessary
-			Sample.solr_reindex
+
+#			Sample.solr_reindex
+#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead. (called from irb_binding at (irb):1)
+			Sample.find_each{|a|a.index}
+			Sunspot.commit
+
 			assert Sample.search.hits.empty?
 			FactoryGirl.create(:sample)
-			Sample.solr_reindex
+
+#			Sample.solr_reindex
+#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead. (called from irb_binding at (irb):1)
+			Sample.find_each{|a|a.index}
+			Sunspot.commit
+
 			assert !Sample.search.hits.empty?
 		end
 

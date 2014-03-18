@@ -105,6 +105,15 @@ protected	#	private #	(does it matter which or if neither?)
 	def validate_valid_date_range_for(key,conditions)
 		if params[key] and !params[key].blank?
 			begin
+#	for some reason "bad monkey".to_date now returns today's date?????
+#	same for Date.parse(), to_time, to_datetime.  Time.parse seems to raise an error like Date used to.
+#irb(main):009:0> require 'date'
+#=> true
+#irb(main):010:0> Date.parse
+#=> #<Date: -4712-01-01 ((0j,0s,0n),+0s,2299161j)>
+#irb(main):011:0> Date.parse("bad monkey")
+#=> #<Date: 2014-03-10 ((2456727j,0s,0n),+0s,2299161j)>
+Time.parse(params[key])	#	called solely to raise an error
 				#	ensure correct format. Could raise error if parser fails so do first.
 				valid_date = params[key].to_date	
 				conditions[1]["#{key}_1".to_sym] = valid_date - 1.day

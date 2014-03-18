@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class UserIntegrationTest < ActionController::CapybaraIntegrationTest
+class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	all_test_roles.each do |cu|
 

@@ -27,6 +27,6 @@
 #	
 class Role < ActiveRecord::Base
 	acts_as_list
-	has_and_belongs_to_many :users, :uniq => true
+	has_and_belongs_to_many :users, ->{ uniq }
 	validations_from_yaml_file
 end

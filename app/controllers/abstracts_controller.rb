@@ -20,7 +20,7 @@ class AbstractsController < ApplicationController
 #		:only => [:show,:edit,:update,:destroy]
 
 	def index
-#		@abstracts = Abstract.scoped
+#		@abstracts = Abstract.all
 		@abstracts = Abstract.order(:study_subject_id)
 
 		if params[:merged].to_s == 'true'

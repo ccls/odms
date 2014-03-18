@@ -15,6 +15,10 @@ class RoleTest < ActiveSupport::TestCase
 		end 
 	end
 
+#	test "should be pending" do
+#		pending
+#	end
+
 protected
 
 	#	create_object is called from within the common class tests

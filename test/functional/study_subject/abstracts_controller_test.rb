@@ -10,7 +10,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 		test "should NOT get index without study_subject_id and with #{cu} login" do
 			login_as send(cu)
-			assert_raises(ActionController::RoutingError){
+			assert_raises(ActionController::UrlGenerationError){
 				get :index
 			}
 		end
@@ -55,7 +55,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 		test "should NOT get new without study_subject_id and with #{cu} login" do
 			login_as send(cu)
-			assert_raises(ActionController::RoutingError){
+			assert_raises(ActionController::UrlGenerationError){
 				get :new
 			}
 		end

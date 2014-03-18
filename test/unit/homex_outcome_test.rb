@@ -159,7 +159,7 @@ protected
 
 	def create_complete_homex_outcome(options={})
 		s = FactoryGirl.create(:study_subject,options[:study_subject]||{})
-		p = Project.find_or_create_by_key('HomeExposures')
+		p = Project.find_or_create_by(key: 'HomeExposures')
 		FactoryGirl.create(:enrollment, :study_subject => s, :project => p )
 		h = create_homex_outcome(
 			(options[:homex_outcome]||{}).merge(:study_subject => s,

@@ -25,7 +25,7 @@ class OperationalEventTypesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@operational_event_types = OperationalEventType.scoped
+		@operational_event_types = OperationalEventType.all
 	end
 
 	def new

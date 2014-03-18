@@ -72,7 +72,7 @@ class SamplesControllerTest < ActionController::TestCase
 
 		test "should find samples by parent sample_type and #{cu} login" do
 			samples = 3.times.collect{|i| 
-				FactoryGirl.create(:sample,:sample_type => SampleType.roots.all[i].children.first )}
+				FactoryGirl.create(:sample,:sample_type => SampleType.roots.to_a[i].children.first )}
 #	BUT NO LONGER
 #				FactoryGirl.create(:sample,:sample_type => SampleType.roots[i].children.first )}
 #	OR EVEN
@@ -96,7 +96,7 @@ class SamplesControllerTest < ActionController::TestCase
 #
 		test "should find samples by child sample_type and #{cu} login" do
 			samples = 3.times.collect{|i| 
-				FactoryGirl.create(:sample,:sample_type => SampleType.not_roots.all[i] )}
+				FactoryGirl.create(:sample,:sample_type => SampleType.not_roots.to_a[i] )}
 #	BUT NO LONGER
 #				FactoryGirl.create(:sample,:sample_type => SampleType.not_roots[i] )}
 #	OR EVEN

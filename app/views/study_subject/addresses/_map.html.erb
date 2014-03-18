@@ -1,7 +1,7 @@
 <% unless @address.latitude.blank? or @address.longitude.blank? %>
 <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyDrp6CvtDFWiI5SNvmwy-iN39uP0ZRSTs4&amp;v=3.exp&amp;sensor=false" type="text/javascript"></script>
 <div id='map_canvas'  style='height:400px;width:100%;'></div>
-<%= javascript_tag do %>
+<%= javascript_tag :type => "text/javascript" do %>
 	var map;
 	var marker;
 	function initialize_map() {

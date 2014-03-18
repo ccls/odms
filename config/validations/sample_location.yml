@@ -2,7 +2,8 @@
   :attribute: :organization_id
   :presence: true
   :uniqueness: true
-  :allow_blank: true
+#  :allow_blank: true
+#	presence and allow_blank don't work anymore
 
 #	not sure if allow blank serves the purpose it did before
 #	to stop multiple error messages

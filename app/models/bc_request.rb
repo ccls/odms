@@ -23,7 +23,7 @@ class BcRequest < ActiveRecord::Base
 	end
 
 	def self.with_status(status=nil)
-		( status.blank? ) ? scoped : where(:status => status)
+		( status.blank? ) ? all : where(:status => status)
 	end
 
 end

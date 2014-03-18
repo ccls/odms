@@ -9,7 +9,7 @@
 <label>transfer samples to ...</label>
 <%= select_tag 'organization_id',
 	options_from_collection_for_select( 
-		SampleLocation.active.all(:include => :organization), :organization_id, :to_s, 
+		SampleLocation.active.includes(:organization), :organization_id, :to_s, 
 		:selected => params[:organization_id]||Organization['GEGL'].id ) %>
 <%= submit_tag 'confirm transfer' %>
 <% end %>

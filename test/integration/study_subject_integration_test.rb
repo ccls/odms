@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class StudySubjectIntegrationTest < ActionController::CapybaraIntegrationTest
+class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	#	not everything in here requires admin privileges, nevertheless, for simplicity ...
 

@@ -41,9 +41,9 @@
   - :respondent_last_name
   :allow_blank: true
 -
-  :complete_date:
   :attributes:
   - :began_at
   - :ended_at
   - :intro_letter_sent_on
+  :complete_date: true
   :allow_nil: true

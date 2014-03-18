@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class EventIntegrationTest < ActionController::CapybaraIntegrationTest
+class EventIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	setup :skip_operational_event_type_page_validation
 	def skip_operational_event_type_page_validation

@@ -381,7 +381,7 @@ protected
 #	not always true (response to, no params)
 #		assert @duplicates.is_a?(ActiveRecord::Relation)
 		if @duplicates.is_a?(ActiveRecord::Relation)
-			assert @duplicates.all.is_a?(Array)
+			assert @duplicates.to_a.is_a?(Array)
 		else
 			assert @duplicates.is_a?(Array)
 		end
@@ -391,7 +391,7 @@ protected
 	def assert_duplicates_found
 		assert_not_nil @duplicates
 		assert @duplicates.is_a?(ActiveRecord::Relation)
-		assert @duplicates.all.is_a?(Array)
+		assert @duplicates.to_a.is_a?(Array)
 		assert !@duplicates.empty?
 	end
 

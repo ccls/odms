@@ -13,7 +13,7 @@ class OrganizationsController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@organizations = Organization.scoped
+		@organizations = Organization.all
 	end
 
 	def new

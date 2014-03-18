@@ -85,11 +85,11 @@ class ControlsController < ApplicationController
 #
 
 		@study_subjects = StudySubject.cases
+			.select('study_subjects.*, count(controls.id) as controls_count, count(candidate_controls.id) as unassigned_controls_count')
 			.where( :phase => 5 )
 			.joins(:enrollments)
 			.joins("LEFT JOIN `study_subjects` AS `controls` ON `study_subjects`.`patid` = `controls`.`patid` AND `controls`.`subject_type` = 'Control'")
 			.joins("LEFT JOIN `candidate_controls` ON `study_subjects`.`patid` = `candidate_controls`.`related_patid` AND `candidate_controls`.`assigned_on` IS NULL AND `candidate_controls`.`study_subject_id` IS NULL AND (`candidate_controls`.`reject_candidate` = 0 OR `candidate_controls`.`reject_candidate` IS NULL)")
-			.select('study_subjects.*, count(controls.id) as controls_count, count(candidate_controls.id) as unassigned_controls_count')
 			.group('study_subjects.id')
 			.merge(Enrollment.interview_completed.where(:project_id => Project['ccls'].id))
 			.order('`enrollments`.`interview_completed_on` ASC')

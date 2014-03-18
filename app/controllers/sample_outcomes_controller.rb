@@ -13,7 +13,7 @@ class SampleOutcomesController < ApplicationController
 		:only => [:show,:edit,:update,:destroy]
 
 	def index
-		@sample_outcomes = SampleOutcome.scoped
+		@sample_outcomes = SampleOutcome.all
 	end
 
 	def new

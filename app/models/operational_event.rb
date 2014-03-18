@@ -31,7 +31,7 @@ class OperationalEvent < ActiveRecord::Base
 		dir ||= 'ASC'
 #		( valid_orders.include?(col.downcase) and %w(ASC DESC).include?(dir.upcase) ) ?
 		( valid_column?(col) and %w(ASC DESC).include?(dir.upcase) ) ?
-			order( [col,dir].join(' ') ) : scoped
+			order( [col,dir].join(' ') ) : all
 	end
 
 	#	just in case I missed a spot
