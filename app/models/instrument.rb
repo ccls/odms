@@ -1,11 +1,7 @@
 class Instrument < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :project_id, :results_table_id, :key, :name, :description, :interview_method_id, 
+		:began_use_on, :ended_use_on #	position?
 
 	acts_as_list
 	acts_like_a_hash

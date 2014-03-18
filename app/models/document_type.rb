@@ -1,11 +1,6 @@
 class DocumentType < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :key, :title, :description	#	:position?
 
 	acts_as_list
 	acts_like_a_hash

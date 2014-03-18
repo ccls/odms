@@ -1,12 +1,6 @@
 class SampleLocation < ActiveRecord::Base
-#  attr_accessible :is_active, :notes, :organization_id, :position
 
-
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
+	attr_accessible :organization_id, :notes, :is_active #	position ?
 
 	acts_as_list
 

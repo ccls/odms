@@ -2,12 +2,7 @@
 #	*	description ( unique and > 3 chars )
 class SampleType < ActiveRecord::Base
 
-
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
+	attr_accessible :parent_id, :key, :description, :for_new_sample, :t2k_sample_type_id, :gegl_sample_type_id #	position ?
 
 	acts_as_list :scope => :parent_id
 	acts_like_a_hash

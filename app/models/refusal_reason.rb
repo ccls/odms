@@ -2,12 +2,7 @@
 #	*	description ( unique and > 3 chars )
 class RefusalReason < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :key, :description #	position ?
 
 	acts_as_list
 	acts_like_a_hash

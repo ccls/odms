@@ -3,12 +3,7 @@
 #	*	project
 class InstrumentType < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :project_id, :key, :description #	position?
 
 	acts_as_list
 	acts_like_a_hash

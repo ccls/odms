@@ -3,12 +3,7 @@
 #	*	description ( unique and > 3 chars )
 class Language < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :key, :description, :code	 #	position ?
 
 	acts_as_list
 	acts_like_a_hash

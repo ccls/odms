@@ -1,9 +1,7 @@
 # don't know exactly
 class Person < ActiveRecord::Base
 
-
-	attr_protected 	#	rails 4 I really shouldn't do this
-
+	attr_accessible :first_name, :last_name, :honorific, :person_type_id, :organization_id, :email #	position ?
 
 	acts_as_list
 

@@ -2,10 +2,7 @@ class Guide < ActiveRecord::Base
 
 #	NOTE this is no longer used
 
-
-	attr_protected
-
-
+	attr_accessible :controller, :action, :body
 
 	validates_uniqueness_of :action, :scope => :controller
 

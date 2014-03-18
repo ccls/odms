@@ -3,12 +3,7 @@
 #	*	description ( unique and > 3 chars )
 class Project < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :began_on, :ended_on, :key, :description, :eligibility_criteria #	position ?
 
 	acts_as_list
 	acts_like_a_hash

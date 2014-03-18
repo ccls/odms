@@ -4,12 +4,8 @@
 #	*	interview_type_id
 class InstrumentVersion < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :instrument_type_id, :language_id, :instrument_id, :began_use_on, :ended_use_on, 
+		:key, :description #	position?
 
 	acts_as_list
 	acts_like_a_hash

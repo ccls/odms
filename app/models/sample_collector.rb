@@ -1,11 +1,6 @@
 class SampleCollector < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :organization_id, :other_organization
 
 	belongs_to :organization
 

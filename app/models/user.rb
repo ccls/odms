@@ -8,10 +8,7 @@
 #	*	telephonenumber
 class User < ActiveRecord::Base
 
-
-	attr_protected	#	rails 4 not liken this
-
-
+	attr_accessible :uid, :sn, :displayname, :mail, :telephonenumber
 
 	has_and_belongs_to_many :roles, -> { uniq }
 

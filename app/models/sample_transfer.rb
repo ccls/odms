@@ -1,12 +1,6 @@
 class SampleTransfer < ActiveRecord::Base
-#  attr_accessible :destination_org_id, :notes, :sample_id, :sent_on, :source_org_id, :status
 
-
-
-	attr_protected	#	rails 4 I shouldn't do this
-
-
-
+	attr_accessible :sample_id, :source_org_id, :destination_org_id, :sent_on, :status, :notes
 
 	belongs_to :sample
 	belongs_to :source_org,      :class_name => "Organization"

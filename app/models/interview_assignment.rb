@@ -1,11 +1,6 @@
 class InterviewAssignment < ActiveRecord::Base
 
-
-
-	attr_protected	#	I really shouldn't do it this way
-
-
-
+	attr_accessible :study_subject_id, :sent_on, :returned_on, :needs_hosp_search, :status, :notes_for_interviewer
 
 #	NOTE this is not used
 
