@@ -88,7 +88,7 @@ MAILTO='jwendt@genepi.berkeley.edu'
 #	Every Thursday at 7PM ( NOT YET THOUGH )
 #	Probably will never happen.  We don't receive them regularly.
 #
-#0 19 * * 4 cd /my/ruby/odms/ ; bundle exec rake automate:import_birth_data >> /my/ruby/logs/automate_import_birth_data.log
+#0 19 * * 4 cd /my/ruby/odms/ ; bundle exec rake app:birth_data:import_birth_data >> /my/ruby/logs/automate_import_birth_data.log
 
 
 

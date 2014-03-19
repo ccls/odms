@@ -1,6 +1,78 @@
-namespace :automate do
+require 'csv'
 
-	task :reprocess_birth_data => :automate do
+#class Object
+#	def send_chain(chain)
+#		links = chain.split('.')
+#		x = self.send(links.shift)
+#		if links.empty? || x.nil?
+#			x
+#		else
+#			x.send_chain(links.join('.')) 
+#		end
+#	end
+#end
+
+namespace :app do
+namespace :birth_data do
+
+	task :id_number_report => :environment do
+		cols = %w(id study_subject_id birth_data_file_name state_registrar_no derived_state_file_no_last6 derived_local_file_no_last6)
+		puts (cols+%w(state_first_then_local state_last_after_unknown)).join(',')
+		BirthDatum.find_each do |bd|
+			values = cols.collect do |col|
+				bd.send(col)
+			end
+
+			statefirst = sprintf("%d", "#{bd.derived_state_file_no_last6}#{bd.derived_local_file_no_last6}".to_i)
+			values.push ( ( bd.state_registrar_no.to_s.length > 6 && bd.state_registrar_no == statefirst ) ? 'TRUE' : '-' )
+			values.push ( ( bd.state_registrar_no.to_s.length > 6 && bd.state_registrar_no.to_s[-6..-1] == bd.derived_state_file_no_last6 ) ? 'TRUE' : '-' )
+
+			puts values.join(',')
+		end
+	end	#	task :id_number_report => :environment do
+
+	task :check_state_registrar_no => :environment do
+		puts BirthDatum.count
+		puts "state_registrar_no,derived_state_file_no_last6,derived_local_file_no_last6"
+		counts = BirthDatum.all.to_a.inject(Hash.new(0)){|h,bd| 
+			statefirst = sprintf("%d", "#{bd.derived_state_file_no_last6}#{bd.derived_local_file_no_last6}".to_i)
+			localfirst = sprintf("%d", "#{bd.derived_local_file_no_last6}#{bd.derived_state_file_no_last6}".to_i)
+			if( bd.state_registrar_no.blank? )
+				h[:state_registrar_no_blank] += 1
+			elsif( bd.derived_state_file_no_last6.blank? )
+				h[:derived_state_file_no_last6_blank] += 1
+			elsif( bd.derived_local_file_no_last6.blank? )
+				h[:derived_local_file_no_last6_blank] += 1
+			elsif( bd.state_registrar_no == statefirst )
+				h[:state_first_then_local]+=1
+			elsif( bd.state_registrar_no == localfirst )
+				h[:local_first_then_state]+=1
+			elsif( bd.state_registrar_no[-6..-1] == bd.derived_state_file_no_last6 )
+				h[:state_last]+=1
+			else
+				h[:confused]+=1
+				puts "#{bd.state_registrar_no}, #{bd.derived_state_file_no_last6}, #{bd.derived_local_file_no_last6}"
+			end
+
+			if( bd.study_subject.blank? )
+				h[:study_subject_blank] +=1
+			elsif( bd.study_subject.state_id_no.blank? )
+				h[:study_subject_state_id_no_blank] +=1
+			elsif( bd.study_subject.birth_year.blank? )
+				h[:study_subject_birth_year_blank] +=1
+			elsif( bd.study_subject.state_id_no == "#{bc.study_subject.birth_year}-#{bd.state_registrar_no}" )
+				h["state_id_no_=_state_registrar_no"] +=1
+			else
+				h["state_id_no_!=_state_registrar_no"] +=1
+			end
+
+			h	#	must return the modified hash
+		}
+		puts counts
+	end	#	task :check_state_registrar_no => :environment do
+
+
+	task :reprocess_birth_data => :environment do
 		puts "Study Subject count: #{StudySubject.count}"
 #		birth_data = BirthDatum.where(:match_confidence => 'NO').where(:study_subject_id => nil)
 		birth_data = BirthDatum.where(:study_subject_id => nil)
@@ -18,9 +90,9 @@ namespace :automate do
 		puts; puts "Done.(#{Time.now})"
 		puts "----------------------------------------------------------------------"
 
-	end	#	task :reprocess_birth_data => :automate do
+	end	#	task :reprocess_birth_data => :environment do
 
-	task :update_file_nos => :automate do
+	task :update_file_nos => :environment do
 		raise "This task has been disabled."
 		csv_file = "Ca_Co_6_Digit_State_Local.csv"
 		raise "CSV File :#{csv_file}: not found" unless File.exists?(csv_file)
@@ -72,11 +144,11 @@ namespace :automate do
 		puts not_found
 	end
 
-	task :import_birth_data => :automate do
+	task :import_birth_data => :environment do
 
 		puts;puts;puts
 		puts "Begin.(#{Time.now})"
-		puts "In automate:import_birth_data"
+		puts "In app:birth_data:import_birth_data"
 
 		local_birth_data_dir = 'birth_data'
 		FileUtils.mkdir_p(local_birth_data_dir) unless File.exists?(local_birth_data_dir)
@@ -116,13 +188,14 @@ namespace :automate do
 		puts; puts "Done.(#{Time.now})"
 		puts "----------------------------------------------------------------------"
 
-	end	#	task :import_birth_data => :automate do
+	end	#	task :import_birth_data => :environment do
 
-	task :import_birth_data_files => :import_birth_data
-	task :import_birth_data_update_files => :import_birth_data
-	task :import_birth_datum_files => :import_birth_data
-	task :import_birth_datum_update_files => :import_birth_data
+#	task :import_birth_data_files => :import_birth_data
+#	task :import_birth_data_update_files => :import_birth_data
+#	task :import_birth_datum_files => :import_birth_data
+#	task :import_birth_datum_update_files => :import_birth_data
 
-end	#	namespace :automate do
+end	#	namespace :birth_data do
+end	#	namespace :app do
 
 __END__
