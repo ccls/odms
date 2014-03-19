@@ -55,7 +55,7 @@ gem 'american_date'
 
 gem 'rails', '~> 4'
 gem 'protected_attributes'	#	to keep rails 3 style
-gem 'activerecord-session_store'	#	to keep rails 3 style
+#gem 'activerecord-session_store'	#	to keep rails 3 style
 
 
 gem 'json'
