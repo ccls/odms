@@ -69,7 +69,8 @@ class HospitalTest < ActiveSupport::TestCase
 
 	test "should return organization name as to_s if organization" do
 		organization = create_organization
-		hospital = Hospital.new(:organization => organization)
+		hospital = Hospital.new
+		hospital.organization = organization
 		assert_not_nil hospital.organization
 		assert_equal organization.name, "#{hospital}"
 	end

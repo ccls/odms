@@ -195,7 +195,7 @@ group :test do
 
 	gem "factory_girl_rails"
 
-	gem 'ccls-html_test'
+	gem 'jakewendt-html_test'
 
 	#	the latest capybara seems to install just fine when the latest xcode and command line tools are.
 	#	NOTE however, the "find field" seems to always fail?

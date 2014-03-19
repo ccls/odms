@@ -31,7 +31,8 @@ class SampleLocationTest < ActiveSupport::TestCase
 
 	test "should return organization name as to_s if organization" do
 		organization = create_organization
-		sample_location = SampleLocation.new(:organization => organization)
+		sample_location = SampleLocation.new
+		sample_location.organization = organization
 		assert_not_nil sample_location.organization
 		assert_equal organization.name, "#{sample_location}"
 	end

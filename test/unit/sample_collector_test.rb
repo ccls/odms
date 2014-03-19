@@ -42,7 +42,8 @@ class SampleCollectorTest < ActiveSupport::TestCase
 
 	test "should return organization name as to_s if organization" do
 		organization = create_organization
-		sample_collector = SampleCollector.new(:organization => organization)
+		sample_collector = SampleCollector.new
+		sample_collector.organization = organization
 		assert_not_nil sample_collector.organization
 		assert_equal organization.name, "#{sample_collector}"
 	end
