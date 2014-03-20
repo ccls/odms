@@ -1,0 +1,20 @@
+-
+  :attributes:
+  - :request_type
+  - :status
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attributes: :notes
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+
+-
+  :attributes: :status
+  :inclusion:
+    :in: <%= BcRequest.statuses %>
+  :allow_blank: true
+

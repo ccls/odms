@@ -22,7 +22,8 @@ module ApplicationHelper
 #	not doing controls anymore, and /controls/new takes over a minute to load
 #				link_to('New Control', new_control_path),
 
-				link_to('Birth Data Requests', new_bc_request_path)
+				link_to('Birth Data Requests', new_bc_request_path),
+				link_to('Med Rec Requests', new_medical_record_request_path)
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
@@ -51,6 +52,7 @@ module ApplicationHelper
 			"<div class='sub_menu'>\n    " <<
 			[
 				link_to('Birth Data Requests', new_bc_request_path),
+				link_to('Med Rec Requests', new_medical_record_request_path),
 				"<span>Subject Data</span>",
 				"<span>Tracking Data</span>"
 			].join("\n    ") <<
@@ -68,6 +70,48 @@ module ApplicationHelper
 		s << "\n</div><!-- mainmenu -->\n"
 		s << "<form id='icf_master_id_form' action='#{by_study_subjects_path}' method='get'><label>ICF Master ID:</label><input name='icf_master_id' type='text'/><input type='submit' value='go'/></form>"
 		s.html_safe
+	end
+
+	def medical_records_sub_menu
+		#	added the to_s's to ensure not nil
+		current = case params[:controller].to_s
+			when 'medical_record_requests' 
+				case params[:action].to_s
+					when 'new' then :new_medical_record_request
+					when 'index' 
+						case params[:status].to_s
+							when 'pending'  then :pending_medical_record_requests
+							when 'active'   then :active_medical_record_requests
+							when 'waitlist' then :waitlist_medical_record_requests
+							when 'complete' then :complete_medical_record_requests
+							else :all_medical_record_requests
+						end
+					else nil
+				end
+			else nil
+		end
+		content_for :side_menu do
+			s = "<ul id='sidemenu'>\n"
+			list_items = [
+				link_to( "New Requests", new_medical_record_request_path,
+					:class => ((current == :new_medical_record_request)?'current':nil) ),
+				"<hr/>",
+				link_to( "All Requests", medical_record_requests_path,
+					:class => ((current == :all_medical_record_requests)?'current':nil) ),
+				link_to( "Active Requests", medical_record_requests_path(:status => 'active'),
+					:class => ((current == :active_medical_record_requests)?'current':nil) ),
+				link_to( "Waitlist Requests", medical_record_requests_path(:status => 'waitlist'),
+					:class => ((current == :waitlist_medical_record_requests)?'current':nil) ),
+				link_to( "Pending Requests", medical_record_requests_path(:status => 'pending'),
+					:class => ((current == :pending_medical_record_requests)?'current':nil) ),
+				link_to( "Complete Requests", medical_record_requests_path(:status => 'complete'),
+					:class => ((current == :complete_medical_record_requests)?'current':nil) )
+
+			]
+			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
+			s << "\n</ul><!-- sidemenu -->\n"
+			s.html_safe
+		end
 	end
 
 	def birth_certificates_sub_menu

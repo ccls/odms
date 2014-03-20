@@ -1,0 +1,112 @@
+<% stylesheets(:medical_record_requests) %>
+<% medical_records_sub_menu %>
+
+<h4>Medical Record Requests for Control Matching</h4>
+
+<p>Add case to Medical Record Request List</p>
+
+<%= form_tag(medical_record_requests_path,:method => :post) do %>
+<p>
+<%= text_field_tag :q, params[:q], :id => nil  %>
+<%= submit_tag 'Find case by patid or icf master id' %>
+</p>
+<% end %>
+
+<hr/>
+
+<div class='control'><div class='control_row'>
+<h4>Medical Record Request List</h4>
+<div>
+<%= button_to( 'Waitlist all Active', waitlist_all_active_medical_record_requests_path, :method => 'put')  %>
+<%= link_to "Confirm Export", confirm_medical_record_requests_path, :class => 'button' %>
+<%= link_to "Download", 
+	medical_record_requests_path(:status => 'active',:format => 'csv'),
+	:class => 'button' %>
+</div></div></div>
+
+
+
+<% if @active_medical_record_requests.to_a.empty? %>
+<p>Sorry, but there are no active medical record requests at this time.</p>
+<% else %>
+<table class='medical_record_requests'><thead>
+<tr>
+<!-- <th>Remove</th> --><th>&nbsp;</th>
+<!-- <th>Wait</th> --><th>&nbsp;</th>
+ <th>StudyID</th>
+ <th>ICF Master ID</th>
+ <th>Name</th>
+ <th>Sex</th>
+<!-- <th>Born in CA?</th> -->
+ <th>State ID No</th>
+ <th>DOB</th>
+</tr></thead>
+<tbody>
+<% @active_medical_record_requests.each do |medical_record_request| %>
+ <% study_subject = medical_record_request.study_subject %>
+ <tr class='row'>
+  <td>
+<%= form_tag medical_record_request, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Remove Medical Record Request '#{medical_record_request}'?", :id => nil %>
+<%= submit_tag 'Remove', :name => nil %>
+<% end %>
+  </td>
+   <%# status is part of the action url, not an input field here %>
+  <td><%= button_to( 'Wait', update_status_medical_record_request_path(medical_record_request, :status => 'waitlist' ), :method => 'put')  -%></td>
+  <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
+  <td class='nowrap'><%= study_subject.icf_master_id_to_s %></td>
+  <td class='nowrap'><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
+  <td><%= study_subject.sex %></td>
+ <!-- <td>TODO</td> -->
+  <td><%= study_subject.state_id_no %></td>
+  <td><%=mdy study_subject.dob %></td>
+ </tr>
+<% end %><%# @active_medical_record_requests.each do |medical_record_request| %>
+</tbody>
+</table>
+<% end %><%# unless @active_medical_record_requests.to_a.empty? %>
+
+<hr/>
+
+<div class='control'><div class='control_row'>
+<h4>Waiting List</h4>
+<%= button_to( 'Activate all Waiting', activate_all_waitlist_medical_record_requests_path, :method => 'put')  -%>
+</div></div>
+
+
+<% if @waitlist_medical_record_requests.to_a.empty? %>
+<p>Sorry, but there are no waitlist medical record requests at this time.</p>
+<% else %>
+<table class='medical_record_requests'><thead>
+<tr>
+<!-- <th>Move to Request</th> --><th>&nbsp;</th>
+ <th>StudyID</th>
+ <th>ICF Master ID</th>
+ <th>Name</th>
+ <th>Comments</th>
+ <th>&nbsp;</th>
+</tr></thead>
+<tbody>
+
+<% @waitlist_medical_record_requests.each do |medical_record_request| %>
+ <% study_subject = medical_record_request.study_subject %>
+ <tr class='row'>
+<%# 
+	TODO
+
+	probably much simpler (not restful) to just create 'activate' and 'waitlist' routes for medical_record_requests
+	as they will be editable (comments only) OR need to change :status to 'medical_record_request[status]'
+	and do a more general update
+%>
+   <%# status is part of the action url, not an input field here %>
+  <td><%= button_to( 'Activate', update_status_medical_record_request_path(medical_record_request, :status => 'active'), :method => 'put' ) -%></td>
+  <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
+  <td class='nowrap'><%= study_subject.icf_master_id_to_s %></td>
+  <td class='nowrap'><%= study_subject.full_name %></td>
+  <td><%= medical_record_request.notes %></td>
+  <td><%= link_to 'Edit', edit_medical_record_request_path(medical_record_request), :class => 'button' %></td>
+ </tr>
+<% end %><%# @waitlist_medical_record_requests.each do |medical_record_request| %>
+</tbody>
+</table>
+<% end %><%# unless @waitlist_medical_record_requests.to_a.empty? %>

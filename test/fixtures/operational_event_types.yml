@@ -158,3 +158,13 @@ dataconflict:
   key: dataconflict
   event_category: errors
   description:  A data conflict occured when updating ODMS with imported data.
+MRRequest:
+  id: 31
+  key: medical_record_request_sent
+  event_category:  operations
+  description: medical record request sent
+MRReceived:
+  id: 32
+  key: medical_record_received
+  event_category:  operations
+  description: medical record data received

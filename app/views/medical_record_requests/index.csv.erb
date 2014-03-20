@@ -1,0 +1,66 @@
+<% require 'csv' -%>
+<%# 
+        adding :headers => true is supposed to set a flag in the file 
+        somewhere marking it as having a header row, but I don't 
+        think that it actually does.
+-%>
+<%= %w( masterid
+biomom
+biodad
+date
+mother_full_name
+mother_maiden_name
+father_full_name
+child_first_name
+child_middle_name
+child_last_name
+child_dobm
+child_dobd
+child_doby
+child_gender
+birthplace_country
+birthplace_state
+birthplace_city
+mother_hispanicity
+mother_hispanicity_mex
+mother_race
+other_mother_race
+father_hispanicity
+father_hispanicity_mex
+father_race
+other_father_race ).to_csv(
+  :headers => true) -%>
+<% @medical_record_requests.each do |medical_record_request| -%>
+<% study_subject = medical_record_request.study_subject -%>
+<%#
+	unfortunately, I initially allowed some names to be blank, not just nil
+	so can't do "maiden_name || last_name" as an empty string is true.
+	I now nilify blank names, but I also wrote the blank_or() method.
+-%>
+<%= [ 
+	study_subject.icf_master_id,
+	study_subject.mom_is_biomom,
+	study_subject.dad_is_biodad,
+	study_subject.screener_complete_date_for_unended_project,
+	study_subject.mothers_names.delete_if(&:blank?).join(' '),
+	study_subject.mother_maiden_name.blank_or(study_subject.mother_last_name),
+	study_subject.fathers_names.delete_if(&:blank?).join(' '),
+	study_subject.first_name,
+	study_subject.middle_name,
+	study_subject.last_name,
+	study_subject.dob.try(:month),
+	study_subject.dob.try(:day),
+	study_subject.dob.try(:year),
+	study_subject.sex,
+	study_subject.birth_country,
+	study_subject.birth_state,
+	study_subject.birth_city,
+	study_subject.mother_hispanicity,
+	study_subject.mother_hispanicity_mex,
+	study_subject.mother_race_code,
+	study_subject.other_mother_race,
+	study_subject.father_hispanicity,
+	study_subject.father_hispanicity_mex,
+	study_subject.father_race_code,
+	study_subject.other_father_race ].to_csv.html_safe -%>
+<% end -%>

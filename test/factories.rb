@@ -402,6 +402,10 @@ FactoryGirl.define do
 		f.association :study_subject
 	end
 	
+	factory :medical_record_request do |f|
+		f.sequence(:notes) { |n| "Notes#{n}" }	#	forces an update
+	end
+	
 	factory :language do |f|
 		f.sequence(:code)        { |n| 1000 + n }	#	fixtures go up to 999
 		f.sequence(:key)         { |n| "Key#{n}" }

@@ -17,6 +17,7 @@ class StudySubject < ActiveRecord::Base
 	has_many :birth_data
 	has_many :bc_requests
 	has_many :interviews
+	has_many :medical_record_requests
 
 	include StudySubjectSubjectType
 	include StudySubjectVitalStatus

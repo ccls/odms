@@ -27,7 +27,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 #	in the creation of the enrollment so not really needed.
 #		:enrollments,
 
-	assert_should_have_many( :bc_requests )
+	assert_should_have_many( :bc_requests, :medical_record_requests )
 	assert_should_have_one( :home_exposure_response )
 #	assert_should_have_one( :birth_datum )
 	assert_should_have_many( :birth_data )

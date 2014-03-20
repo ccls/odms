@@ -106,6 +106,12 @@ Odms::Application.routes.draw do
 	resources :interview_methods
 	resources :interview_outcomes
 	resources :languages
+	resources :medical_record_requests, :except => :show do
+		collection { get :confirm }
+		collection { put :activate_all_waitlist }
+		collection { put :waitlist_all_active }
+		member     { put :update_status }
+	end
 #	resources :odms_exceptions, :except => [:new,:create]
 	resources :operational_event_types do
 		collection { get 'options' }

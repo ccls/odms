@@ -1,0 +1,33 @@
+<% medical_records_sub_menu %>
+
+<h4><%= params[:status].try(:capitalize) %> Medical Record Requests (<%= @medical_record_requests.length %>)
+<span><%= link_to "Download", 
+	medical_record_requests_path(:status => params[:status],:format => 'csv'),
+	:class => 'button right' %></span>
+</h4>
+<% if @medical_record_requests.to_a.empty? %>
+<p>Sorry, but there are no <%= params[:status] %> medical record requests.</p>
+<% else %>
+<table><thead>
+<tr>
+ <th>Study ID</th>
+ <th>ICF Master ID</th>
+ <th>Subject Name</th>
+ <th>USC Request Date</th>
+ <th>Status</th>
+ <th>&nbsp;</th>
+</tr></thead>
+<tbody>
+<% @medical_record_requests.each do |medical_record_request| %>
+ <% study_subject = StudySubject.find(medical_record_request.study_subject_id) %>
+ <tr class='row'>
+  <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
+  <td><%= study_subject.icf_master_id_to_s %></td>
+  <td><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
+  <td><%=mdy medical_record_request.sent_on %></td>
+  <td><%= medical_record_request.status %></td>
+  <td><%= link_to 'Edit', edit_medical_record_request_path(medical_record_request), :class => 'button' %></td>
+ </tr>
+<% end %>
+</tbody></table>
+<% end %>
