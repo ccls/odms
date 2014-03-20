@@ -41,7 +41,8 @@ class EventIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
 #	20120514 - added 'operations:birthDataReceived'
 #	20120810 - added 'errors:dataconflict'
-			assert_equal 8, 
+#	20130320 - added 2 'operations:*' medical record requested & received
+			assert_equal 10, 
 				find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'
@@ -127,7 +128,8 @@ class EventIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			#	apparently 'all' does not do the same thing, and so requires a bit of waiting.
 #	20120514 - added 'operations:birthDataReceived'
 #	20120810 - added 'errors:dataconflict'
-			assert_equal 8, 
+#	20130320 - added 2 'operations:*' medical record requested & received
+			assert_equal 10, 
 				find('select#operational_event_operational_event_type_id'
 					).all('option').length
 			find('select#operational_event_operational_event_type_id'

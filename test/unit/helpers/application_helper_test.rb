@@ -46,6 +46,103 @@ class ApplicationHelperTest < ActionView::TestCase
 		_prepare_context	#	need this to set @view_flow so content_for works
 	end
 
+	test "medical_records_sub_menu for medical_record_requests#new" do
+		self.params = { :controller => 'medical_record_requests', :action => 'new' }
+		assert medical_records_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, '#sidemenu' do
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', :count => 6
+			assert_select 'a.current[href=?]', new_medical_record_request_path
+		end
+	end
+
+	test "medical_records_sub_menu for medical_record_requests#index" do
+		self.params = { :controller => 'medical_record_requests', :action => 'index' }
+		assert medical_records_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, '#sidemenu' do
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', :count => 6
+			assert_select 'a.current[href=?]', medical_record_requests_path
+		end
+	end
+
+	test "medical_records_sub_menu for medical_record_requests#index?status=active" do
+		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'active' }
+		assert medical_records_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, '#sidemenu' do
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', :count => 6
+			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'active')
+		end
+	end
+
+	test "medical_records_sub_menu for medical_record_requests#index?status=complete" do
+		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'complete' }
+		assert medical_records_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, '#sidemenu' do
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', :count => 6
+			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'complete')
+		end
+	end
+
+	test "medical_records_sub_menu for medical_record_requests#index?status=waitlist" do
+		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'waitlist' }
+		assert medical_records_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, '#sidemenu' do
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', :count => 6
+			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'waitlist')
+		end
+	end
+
+	test "medical_records_sub_menu for medical_record_requests#index?status=pending" do
+		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'pending' }
+		assert medical_records_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, '#sidemenu' do
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', :count => 6
+			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'pending')
+		end
+	end
+
+	test "medical_records_sub_menu for bogus controller" do
+		self.params = { :controller => 'bogus' }
+#
+#	medical_records_sub_menu still uses content_for(:side_menu)
+#	perhaps stop doing this?
+#
+		assert medical_records_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, '#sidemenu' do
+			#	New, Pending, Validation, All, Active, Waitlist, Complete
+			#	assert_select 'a', 7
+			#	New, Pending, All, Active, Waitlist, Complete
+			assert_select 'a', :count => 6
+#			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'pending')
+			assert_select 'a.current', :count => 0
+		end
+	end
+
+
 	test "birth_certificates_sub_menu for bc_requests#new" do
 		self.params = { :controller => 'bc_requests', :action => 'new' }
 		assert birth_certificates_sub_menu.nil?
