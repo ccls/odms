@@ -61,6 +61,8 @@ gem 'protected_attributes'	#	to keep rails 3 style
 gem 'json'
 
 gem 'sass'
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 4.0'
 
 gem 'rack-ssl', :require => 'rack/ssl'
 
