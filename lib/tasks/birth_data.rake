@@ -15,8 +15,42 @@ require 'csv'
 namespace :app do
 namespace :birth_data do
 
+	task :dob_check => :environment do
+		BirthDatum.find_each do |bd|
+			if( bd.study_subject.present? and bd.case_dob.present? )
+				if( bd.study_subject.dob != bd.case_dob )
+					puts "#{bd.study_subject.try(:dob)},#{bd.case_dob}"
+				end
+			end
+		end	#	BirthDatum.find_each do |bd|
+	end	#	task :state_id_number_import => :environment do
+
+
+	task :state_id_number_import => :environment do
+		BirthDatum.find_each do |bd|
+			puts "derived_state_file_no_last6 blank" if bd.derived_state_file_no_last6.blank?
+			puts "case_dob blank"                    if bd.case_dob.blank?
+			puts "study_subject blank"               if bd.study_subject.blank?
+			puts "study_subject state_id_no blank"   if bd.study_subject.try(:state_id_no).blank?
+
+			if( bd.derived_state_file_no_last6.present? and bd.case_dob.present? and
+					bd.study_subject.present? and bd.study_subject.state_id_no.blank? )
+				state_id_no = "#{bd.case_dob.year.to_s[-2..-1]}-#{bd.derived_state_file_no_last6}"
+				puts state_id_no
+				begin
+					bd.study_subject.update_attributes!(:state_id_no => state_id_no)
+				rescue
+					puts bd.study_subject.inspect
+					puts StudySubject.where(:state_id_no => state_id_no).inspect
+				end
+			end
+		end	#	BirthDatum.find_each do |bd|
+	end	#	task :state_id_number_import => :environment do
+
+
 	task :id_number_report => :environment do
-		cols = %w(id study_subject_id birth_data_file_name state_registrar_no derived_state_file_no_last6 derived_local_file_no_last6)
+		cols = %w(id study_subject_id birth_data_file_name state_registrar_no 
+			derived_state_file_no_last6 derived_local_file_no_last6)
 		puts (cols+%w(state_first_then_local state_last_after_unknown)).join(',')
 		BirthDatum.find_each do |bd|
 			values = cols.collect do |col|
