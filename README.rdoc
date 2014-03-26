@@ -919,7 +919,7 @@ And we've changed to use mariadb, so start that manually as well ...
  sudo /opt/local/share/mariadb/support-files/mysql.server start
 
 
- c ; bundle exec rake sunspot:solr:stop ; bundle exec rake sunspot:solr:stop RAILS_ENV=test ; /bin/rm -rf coverage* ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 bundle exec autotest
+ c ; bundle exec rake sunspot:solr:stop ; bundle exec rake sunspot:solr:stop RAILS_ENV=test ; /bin/rm -rf coverage* ; bundle exec rake sunspot:solr:start ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 bundle exec autotest -v --no-full-after-failed
 
 
 ---
