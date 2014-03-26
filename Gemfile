@@ -26,7 +26,7 @@ gem 'jakewendt-active_record_sunspotter'
 #jwendt@n1 : odms 504> script/rails console
 #/my/ruby/gems/1.9/gems/activesupport-3.2.6/lib/active_support/dependencies.rb:251:in `require': cannot load such file -- minitest/unit (LoadError)
 #	from /my/ruby/gems/1.9/gems/activesupport-3.2.6/lib/active_support/dependencies.rb:251:in `block in require'
-gem 'minitest'
+#gem 'minitest'
 #
 #	Thought that I fixed this, but someone is still trying to load it?
 #	Seems to only be required in the console?
@@ -164,6 +164,7 @@ group :test do
 #	either false or 'mocha/setup', but something
 
 	gem "autotest-rails", :require => 'autotest/rails'
+#	gem "redgreen"
 
 #	to update ZenTest, need to update rubygems, bundler then ZenTest
 #	sudo gem update --system			#	from rubygems-update-1.8.24 to 2.0.3
