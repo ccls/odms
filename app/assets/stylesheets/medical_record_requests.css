@@ -1,0 +1,6 @@
+table.medical_record_requests {
+	font-size:8pt;
+}
+table.medical_record_requests td.nowrap {
+	white-space: nowrap;
+}
