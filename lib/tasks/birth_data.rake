@@ -27,6 +27,9 @@ namespace :birth_data do
 
 
 	task :state_id_number_import => :environment do
+		csv_out = CSV.open('state_id_number_import.csv','w')
+		csv_out << %w( state_id_no current_subject_type current_patid current_subjectid current_icf_master_id
+			new_subject_type new_patid new_subjectid new_icf_master_id )
 		BirthDatum.find_each do |bd|
 			puts "derived_state_file_no_last6 blank" if bd.derived_state_file_no_last6.blank?
 			puts "case_dob blank"                    if bd.case_dob.blank?
@@ -40,11 +43,23 @@ namespace :birth_data do
 				begin
 					bd.study_subject.update_attributes!(:state_id_no => state_id_no)
 				rescue
-					puts bd.study_subject.inspect
-					puts StudySubject.where(:state_id_no => state_id_no).inspect
+					csv_row = []
+					csv_row << state_id_no
+					puts (s = bd.study_subject).inspect
+					csv_row << s.subject_type
+					csv_row << s.patid
+					csv_row << s.subjectid
+					csv_row << s.icf_master_id
+					puts (s = StudySubject.where(:state_id_no => state_id_no).first).inspect
+					csv_row << s.subject_type
+					csv_row << s.patid
+					csv_row << s.subjectid
+					csv_row << s.icf_master_id
+					csv_out << csv_row
 				end
 			end
 		end	#	BirthDatum.find_each do |bd|
+		csv_out.close
 	end	#	task :state_id_number_import => :environment do
 
 
