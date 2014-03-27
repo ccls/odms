@@ -46,7 +46,7 @@ GEM
       capybara (~> 2.0, >= 2.0.2)
       json
     ccls-common_lib (4.0.0)
-    childprocess (0.5.1)
+    childprocess (0.5.2)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
     database_cleaner (1.2.0)
