@@ -58,3 +58,26 @@
 #		alias_method_chain :rerun_all_tests, :flag
 #	
 #	end
+
+
+Autotest.add_hook :initialize do |autotest|
+	%w{ abstract_notes/ ICF_Master_Trackers/ OLD_UNUSED_FILES/ anand/ bc_infos/ birth_data/ data/ development/ dumps/ gitignored/ production/ solr/ tracking2k/ }.each do |exception|
+		autotest.add_exception(exception)
+	end
+end
+
+
+
+class Autotest
+  def rerun_all_tests
+		puts
+		puts	"My Autotest.rerun_all_tests was called"
+		puts
+  end
+end
+
+Autotest.add_hook :post_initialize do |autotest|
+	#	by default it is 'minitest/autorun' which if fine, but I can't figure
+	#	out how to stop it from running all tests when one file changes.
+	autotest.testlib           = "test/unit"
+end
