@@ -61,7 +61,7 @@
 
 
 Autotest.add_hook :initialize do |autotest|
-	%w{ abstract_notes/ ICF_Master_Trackers/ OLD_UNUSED_FILES/ anand/ bc_infos/ birth_data/ data/ development/ dumps/ gitignored/ production/ solr/ tracking2k/ }.each do |exception|
+	%w{ abstract_notes/ ICF_Master_Trackers/ OLD_UNUSED_FILES/ anand/ bc_infos/ birth_data/ data/ development/ dumps/ gitignored/ production/ solr/ tracking2k/ solr/data/test/index/ }.each do |exception|
 		autotest.add_exception(exception)
 	end
 end
@@ -71,7 +71,7 @@ end
 class Autotest
   def rerun_all_tests
 		puts
-		puts	"My Autotest.rerun_all_tests was called"
+		puts	"My Autotest.rerun_all_tests was called"	#	I don't think that this ever happens
 		puts
   end
 end

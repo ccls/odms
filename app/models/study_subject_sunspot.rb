@@ -40,6 +40,19 @@ base.class_eval do
 		patient.try(:organization).try(:key)
 	end
 
+
+	#
+	#	Used other places too
+	#
+	def ccls_consented
+		YNDK[ccls_enrollment.try(:consented)]
+	end
+	alias_method :ccls_is_consented, :ccls_consented
+
+	def ccls_is_eligible
+		YNDK[ccls_enrollment.try(:is_eligible)]
+	end
+
 	#
 	#	NOTE what about 
 	#
@@ -93,11 +106,13 @@ base.class_eval do
 		:meth => ->(s){ s.operational_events.collect(&:operational_event_type).collect(&:to_s) },
 		:facetable => true, :type => :string, :multiple => true )
 	add_sunspot_column( :ccls_consented, :label => 'Consented?',
-		:meth => ->(s){ YNDK[s.ccls_enrollment.try(:consented)]||'NULL' },
+		:meth => ->(s){ s.ccls_consented||'NULL' },
 		:facetable => true, :type => :string )
+#		:meth => ->(s){ YNDK[s.ccls_enrollment.try(:consented)]||'NULL' },
 	add_sunspot_column( :ccls_is_eligible, :label => 'Is Eligible?',
-		:meth => ->(s){ YNDK[s.ccls_enrollment.try(:is_eligible)]||'NULL' },
+		:meth => ->(s){ s.ccls_is_eligible||'NULL' },
 		:facetable => true, :type => :string )
+#		:meth => ->(s){ YNDK[s.ccls_enrollment.try(:is_eligible)]||'NULL' },
 	add_sunspot_column( :interviewed, 
 		:meth => ->(s){ s.ccls_enrollment.try(:interview_completed_on).present? ? 'Yes' : 'No' },
 		:facetable => true, :type => :string )

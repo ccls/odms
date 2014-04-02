@@ -303,22 +303,20 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			require 'csv'
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	2 rows, 1 header and 1 data
-#			assert_equal f[0], ["masterid", "biomom", "biodad", "date", "mother_full_name", "mother_maiden_name", "father_full_name", "child_full_name", "child_dobm", "child_dobd", "child_doby", "child_gender", "birthplace_country", "birthplace_state", "birthplace_city", "mother_hispanicity", "mother_hispanicity_mex", "mother_race", "other_mother_race", "father_hispanicity", "father_hispanicity_mex", "father_race", "other_father_race"]
-			assert_equal f[0], %w( masterid biomom biodad date mother_full_name mother_maiden_name father_full_name 
-				child_first_name child_middle_name child_last_name child_dobm child_dobd child_doby child_gender 
-				birthplace_country birthplace_state birthplace_city mother_hispanicity mother_hispanicity_mex 
-				mother_race other_mother_race father_hispanicity father_hispanicity_mex father_race other_father_race )
-			assert_equal 25, f[0].length
-#["46", nil, nil, nil, "[name not available]", nil, "[name not available]", "[name not available]", "3", "23", "2006", "F", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
-			assert_equal f[1][0],  case_study_subject.icf_master_id
-			#	mother_maiden_name column, but mother_maiden_name is blank
-			assert_equal f[1][5],  case_study_subject.mother_last_name
-			assert_equal f[1][10],  case_study_subject.dob.try(:month).to_s
-			assert_equal f[1][11],  case_study_subject.dob.try(:day).to_s
-			assert_equal f[1][12], case_study_subject.dob.try(:year).to_s
-			assert_equal f[1][13], case_study_subject.sex
-
-#assert f[2].blank?
+			assert_equal f[0], %w(patid icf_master_id hospital_no first_name last_name dob ccls_is_eligible 
+				ccls_is_consented admit_date hospital )
+			assert_equal 10, f[0].length
+			#	"["0001", nil, "67", nil, nil, "02/16/1991", nil, nil, "04/02/2014", "Packard Children's Hospital - Stanford"]"
+			assert_equal f[1][0],  case_study_subject.patid
+			assert_equal f[1][1],  case_study_subject.icf_master_id
+			assert_equal f[1][2],  case_study_subject.hospital_no
+			assert_equal f[1][3],  case_study_subject.first_name
+			assert_equal f[1][4],  case_study_subject.last_name
+			assert_equal f[1][5],  case_study_subject.dob.try(:strftime,'%m/%d/%Y')
+			assert_equal f[1][6],  case_study_subject.ccls_is_eligible
+			assert_equal f[1][7],  case_study_subject.ccls_is_consented
+			assert_equal f[1][8],  case_study_subject.admit_date.try(:strftime,'%m/%d/%Y')
+			assert_equal f[1][9],  case_study_subject.hospital
 		end
 
 		test "should get pending medical_record_requests with #{cu} login" do
