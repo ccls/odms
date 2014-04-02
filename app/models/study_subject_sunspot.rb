@@ -66,9 +66,6 @@ base.class_eval do
 	add_sunspot_column( :subject_type, 
 		:facetable => true, :default => true )
 
-#	add_sunspot_column( :mother_child_subject_type, :facetable => true, 
-#		:label => "Mother's Child's Subject Type",
-#		:meth => ->(s){ ( s.is_mother? ) ? ( ( s.child.present? ) ? s.child.subject_type : 'Childless' ) : nil })
 	add_sunspot_column( :childs_subject_type, :facetable => true, 
 		:label => "Child's Subject Type",
 		:meth => ->(s){ s.child.try(:subject_type) })
@@ -230,6 +227,13 @@ base.class_eval do
 		:meth => ->(s){ s.addresses.current.count })
 	add_sunspot_column( :current_address_at_dx, :type => :string, :facetable => true,
 		:meth => ->(s){ YNDK[s.addresses.current.order('created_at DESC').first.try(:address_at_diagnosis)]||'NULL' })
+
+
+	add_sunspot_column( :medical_record_request_sent, :facetable => true,
+		:meth => ->(s){ ( s.medical_record_requests.collect(&:sent_on).any? ) ? 'Yes' : 'No' } )
+	add_sunspot_column( :medical_record_request_received, :facetable => true,
+		:meth => ->(s){ ( s.medical_record_requests.collect(&:returned_on).any? ) ? 'Yes' : 'No' } )
+
 
 
 	#
