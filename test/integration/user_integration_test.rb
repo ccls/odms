@@ -4,6 +4,15 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	all_test_roles.each do |cu|
 
+		test "should logout with #{cu} login" do
+			u = send(cu)
+			login_as u
+			visit root_path
+			assert_equal root_path, current_path
+			click_link "Logout"
+			assert_equal "/cas/logout", current_path
+		end
+
 		test "should get #{cu} info with #{cu} login" do
 			u = send(cu)
 			login_as u

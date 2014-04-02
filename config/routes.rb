@@ -143,7 +143,8 @@ Odms::Application.routes.draw do
 #	resources :tracing_statuses
 	resources :zip_codes, :only => [ :index ]
 
-	delete 'logout', :to => 'sessions#destroy'
+	get 'logout', :to => 'sessions#destroy'
+#	delete 'logout', :to => 'sessions#destroy'
 
 	resources :users, :only => [:destroy,:show,:index] do
 		resources :roles, :only => [:update,:destroy]
