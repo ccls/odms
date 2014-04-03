@@ -2,8 +2,9 @@
 <body>
 <% if @changed.length > 0 %>
 <p>The following changed during ICF Master Tracker processing ...<p>
-<table><tbody>
+<table>
 <thead><tr><th>ICF Master ID</th><th>Interview Completed On</th></thead>
+<tbody>
 <% @changed.each do |change| %>
 <tr>
 <td><%= link_to change.icf_master_id, study_subject_url(change) %></td>

@@ -2,8 +2,9 @@
 <body>
 <% if @bc_infos.length > 0 %>
 <p>The following subjects may have changed during <%=@bc_info_file%> processing ...<p>
-<table><tbody>
+<table>
 <thead><tr><th>ICF Master ID</th><th>Events</th><th>Changed?</th></thead>
+<tbody>
 <% @bc_infos.each do |bc_info| %>
 <tr>
 <td><%= link_to bc_info.study_subject.icf_master_id, study_subject_url(bc_info.study_subject) %></td>

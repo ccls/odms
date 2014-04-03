@@ -2,7 +2,7 @@
 <body>
 <% if @birth_data.length > 0 %>
 <p>The following subjects may have changed during <%=@birth_data_file%> processing ...<p>
-<table><tbody>
+<table>
 
 <thead><tr>
 <th>&nbsp;</th>
@@ -14,7 +14,7 @@
 <th>changes?</th>
 </tr></thead>
 
-
+<tbody>
 <% @birth_data.each do |birth_datum| %>
 <tr>
 <td><%= link_to birth_datum.id, birth_datum_url(birth_datum) %></td>
