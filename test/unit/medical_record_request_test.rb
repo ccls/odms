@@ -37,6 +37,69 @@ class MedicalRecordRequestTest < ActiveSupport::TestCase
 		assert_match /^#<MedicalRecordRequest:0x.+>$/, "#{medical_record_request}"
 	end
 
+	test "should include active medical record request in active scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'active' )
+		medical_record_requests = MedicalRecordRequest.active
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should include waitlist medical record request in waitlist scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'waitlist' )
+		medical_record_requests = MedicalRecordRequest.waitlist
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should include pending medical record request in pending scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'pending' )
+		medical_record_requests = MedicalRecordRequest.pending
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should include complete medical record request in complete scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'complete' )
+		medical_record_requests = MedicalRecordRequest.complete
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should include nil medical record request in incomplete scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => nil )
+		medical_record_requests = MedicalRecordRequest.incomplete
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should include active medical record request in incomplete scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'active' )
+		medical_record_requests = MedicalRecordRequest.incomplete
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should include waitlist medical record request in incomplete scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'waitlist' )
+		medical_record_requests = MedicalRecordRequest.incomplete
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should include pending medical record request in incomplete scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'pending' )
+		medical_record_requests = MedicalRecordRequest.incomplete
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should NOT include complete medical record request in incomplete scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'complete' )
+		medical_record_requests = MedicalRecordRequest.incomplete
+		assert !medical_record_requests.include?( medical_record_request )
+	end
+
 	test "should return study subject's studyid for to_s if study subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('MedicalRecordRequest.count',1) {

@@ -126,31 +126,31 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_medical_record_request_path
 		end
 
-		test "should add case study_subject to medical_record_requests with existing complete" <<
+		test "should NOT add case study_subject to medical_record_requests with existing complete" <<
 				" medical_record_request and #{cu} login patid" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
 			case_study_subject.medical_record_requests.create(:status => 'complete')
-			assert_difference('MedicalRecordRequest.count',1) {
+			assert_difference('MedicalRecordRequest.count',0) {
 				post :create, :q => case_study_subject.patid
 			}
 			assert_not_nil assigns(:study_subject)
-			assert_equal 'active', assigns(:study_subject).medical_record_requests.last.status
+			assert_not_nil flash[:error]
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_redirected_to new_medical_record_request_path
 		end
 
-		test "should add case study_subject to medical_record_requests with existing complete" <<
+		test "should NOT add case study_subject to medical_record_requests with existing complete" <<
 				" medical_record_request and #{cu} login icf master id" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			case_study_subject.medical_record_requests.create(:status => 'complete')
-			assert_difference('MedicalRecordRequest.count',1) {
+			assert_difference('MedicalRecordRequest.count',0) {
 				post :create, :q => case_study_subject.icf_master_id
 			}
 			assert_not_nil assigns(:study_subject)
-			assert_equal 'active', assigns(:study_subject).medical_record_requests.last.status
+			assert_not_nil flash[:error]
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_redirected_to new_medical_record_request_path
 		end

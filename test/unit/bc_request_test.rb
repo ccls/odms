@@ -37,6 +37,71 @@ class BcRequestTest < ActiveSupport::TestCase
 		assert_match /^#<BcRequest:0x.+>$/, "#{bc_request}"
 	end
 
+
+	test "should include active bc request in active scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => 'active' )
+		bc_requests = BcRequest.active
+		assert bc_requests.include?( bc_request )
+	end
+
+	test "should include waitlist bc request in waitlist scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => 'waitlist' )
+		bc_requests = BcRequest.waitlist
+		assert bc_requests.include?( bc_request )
+	end
+
+	test "should include pending bc request in pending scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => 'pending' )
+		bc_requests = BcRequest.pending
+		assert bc_requests.include?( bc_request )
+	end
+
+	test "should include complete bc request in complete scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => 'complete' )
+		bc_requests = BcRequest.complete
+		assert bc_requests.include?( bc_request )
+	end
+
+	test "should include nil bc request in incomplete scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => nil )
+		bc_requests = BcRequest.incomplete
+		assert bc_requests.include?( bc_request )
+	end
+
+	test "should include active bc request in incomplete scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => 'active' )
+		bc_requests = BcRequest.incomplete
+		assert bc_requests.include?( bc_request )
+	end
+
+	test "should include waitlist bc request in incomplete scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => 'waitlist' )
+		bc_requests = BcRequest.incomplete
+		assert bc_requests.include?( bc_request )
+	end
+
+	test "should include pending bc request in incomplete scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => 'pending' )
+		bc_requests = BcRequest.incomplete
+		assert bc_requests.include?( bc_request )
+	end
+
+	test "should NOT include complete bc request in incomplete scope" do
+		bc_request = FactoryGirl.create(:bc_request,
+			:status => 'complete' )
+		bc_requests = BcRequest.incomplete
+		assert !bc_requests.include?( bc_request )
+	end
+
+
 	test "should return study subject's studyid for to_s if study subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('BcRequest.count',1) {
