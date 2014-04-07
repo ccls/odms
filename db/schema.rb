@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319234117) do
+ActiveRecord::Schema.define(version: 20140407223752) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -525,11 +525,12 @@ ActiveRecord::Schema.define(version: 20140319234117) do
     t.integer  "receive_study_findings"
     t.boolean  "refused_by_physician"
     t.boolean  "refused_by_family"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "assigned_for_interview_at"
     t.date     "interview_completed_on"
     t.string   "tracing_status"
+    t.datetime "vaccine_authorization_received_at"
   end
 
   add_index "enrollments", ["project_id", "study_subject_id"], name: "index_enrollments_on_project_id_and_study_subject_id", unique: true, using: :btree
