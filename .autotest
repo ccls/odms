@@ -18,7 +18,7 @@ Autotest.add_hook :initialize do |autotest|
 	end
 
 	%w{ abstract_notes/ ICF_Master_Trackers/ OLD_UNUSED_FILES/ anand/ bc_infos/ birth_data/ data/ development/ 
-			misc/ test/assets/ dumps/ gitignored/ production/ tracking2k/ }.each do |exception|
+			misc/ test/assets/ dumps/ gitignored/ production/ tracking2k/ database_tables }.each do |exception|
 		puts "Adding exception #{exception} from .autotest"
 		autotest.add_exception(exception)
 	end
