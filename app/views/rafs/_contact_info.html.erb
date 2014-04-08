@@ -4,7 +4,7 @@
 <% @raf_addresses = @study_subject.addresses.select{|a|
 	a.data_source == 'RAF (CCLS Rapid Ascertainment Form)'} %>
 <% @raf_addresses << @study_subject.addresses.build(
-	:data_source => 'RAF (CCLS Rapid Ascertainment Form)') if @raf_addresses.empty? %>
+	:data_source => 'RAF (CCLS Rapid Ascertainment Form)') if @raf_addresses.to_a.empty? %>
 
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>

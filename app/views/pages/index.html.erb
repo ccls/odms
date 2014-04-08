@@ -2,13 +2,13 @@
 <% stylesheets(:pages) %>
 
 <h4>Pages:</h4>
-<% unless @pages.empty? %>
+<% unless @pages.to_a.empty? %>
  <table id='pages'><tbody>
   <%= render :partial => 'page', :collection => @pages %>
  </tbody></table><!-- id='pages' -->
 <% else %>
  <p>Sorry, no pages yet.</p>
-<% end %><%# unless @pages.empty? %>
+<% end %><%# unless @pages.to_a.empty? %>
 
 <%= form_tag(order_pages_path, :method => :post, :id => 'order_pages') do -%>
  <%= hidden_field_tag :parent_id, params[:parent_id] %>

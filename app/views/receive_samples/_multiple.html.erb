@@ -8,7 +8,7 @@
 
 %>
 <% unless params[:studyid].blank? and params[:icf_master_id].blank? %>
-<% if @study_subjects and !@study_subjects.empty? %>
+<% if @study_subjects and !@study_subjects.to_a.empty? %>
 <p>Found the following subject(s)</p>
 <table><thead>
 <tr><th>name</th><th>studyid</th><th>icf_master_id</th><th>admit date</th><th>reference date</th><th>hospital_no</th><th>&nbsp;</th></tr>

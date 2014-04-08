@@ -5,7 +5,7 @@
 	bc_requests_path(:status => params[:status],:format => 'csv'),
 	:class => 'button right' %></span>
 </h4>
-<% if @bc_requests.empty? %>
+<% if @bc_requests.to_a.empty? %>
 <p>Sorry, but there are no <%= params[:status] %> bc requests.</p>
 <% else %>
 <table><thead>

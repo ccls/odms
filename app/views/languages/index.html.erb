@@ -1,5 +1,5 @@
 <h4>Languages:</h4>
-<% unless @languages.empty? %>
+<% unless @languages.to_a.empty? %>
  <table id='languages'><tbody>
   <%= render :partial => 'language', :collection => @languages %>
  </tbody></table>

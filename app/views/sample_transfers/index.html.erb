@@ -18,7 +18,7 @@
 	sample_transfers_path(:format => :csv), 
 	:class => :button %>
 
-<% if @active_sample_transfers.empty? %>
+<% if @active_sample_transfers.to_a.empty? %>
 <p>Sorry, but no active sample transfers found.</p>
 <% else %>
 <table><thead><tr>

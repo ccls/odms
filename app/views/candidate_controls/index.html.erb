@@ -6,7 +6,7 @@
 <%= @candidate_controls.load.total_entries %> candidate control(s) found.
 </p>
 
-<% unless @candidate_controls.empty? %>
+<% unless @candidate_controls.to_a.empty? %>
 <table id='candidate_controls'><thead><tr>
 <th></th>
 <th>related patid</th>

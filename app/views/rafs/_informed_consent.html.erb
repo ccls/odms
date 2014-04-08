@@ -1,7 +1,7 @@
 <div class='consent raf_section'>
 
 <% @study_subject.enrollments.build(
-	:project_id => Project['ccls'].id ) if @study_subject.enrollments.empty? %>
+	:project_id => Project['ccls'].id ) if @study_subject.enrollments.to_a.empty? %>
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :enrollments, @study_subject.enrollments.detect{|e|

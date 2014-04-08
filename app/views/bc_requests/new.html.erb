@@ -26,7 +26,7 @@
 
 
 
-<% if @active_bc_requests.empty? %>
+<% if @active_bc_requests.to_a.empty? %>
 <p>Sorry, but there are no active birth data requests at this time.</p>
 <% else %>
 <table class='bc_requests'><thead>
@@ -64,7 +64,7 @@
 <% end %><%# @active_bc_requests.each do |bc_request| %>
 </tbody>
 </table>
-<% end %><%# unless @active_bc_requests.empty? %>
+<% end %><%# unless @active_bc_requests.to_a.empty? %>
 
 <hr/>
 
@@ -74,7 +74,7 @@
 </div></div>
 
 
-<% if @waitlist_bc_requests.empty? %>
+<% if @waitlist_bc_requests.to_a.empty? %>
 <p>Sorry, but there are no waitlist birth data requests at this time.</p>
 <% else %>
 <table class='bc_requests'><thead>
@@ -109,4 +109,4 @@
 <% end %><%# @waitlist_bc_requests.each do |bc_request| %>
 </tbody>
 </table>
-<% end %><%# unless @waitlist_bc_requests.empty? %>
+<% end %><%# unless @waitlist_bc_requests.to_a.empty? %>

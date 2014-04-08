@@ -6,7 +6,7 @@
 <%= f.error_messages %>
 
 <%= render( :partial => 'duplicates', 
-	:locals => {:f=>f} ) if @duplicates and !@duplicates.empty? %>
+	:locals => {:f=>f} ) if @duplicates and !@duplicates.to_a.empty? %>
 <%# if duplicates exist, the stylesheets will hide "div.study_subject_fields" %>
 <div class='study_subject_fields'>
 <%= render 'form', :f => f  %>

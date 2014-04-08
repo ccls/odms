@@ -1,5 +1,5 @@
 <h4>People:</h4>
-<% unless @people.empty? %>
+<% unless @people.to_a.empty? %>
  <table id='people'><tbody>
   <%= render :partial => 'person', :collection => @people %>
  </tbody></table>

@@ -1,5 +1,5 @@
 <h4>DocumentVersions:</h4>
-<% unless @document_versions.empty? %>
+<% unless @document_versions.to_a.empty? %>
  <table id='document_versions'><tbody>
   <%= render :partial => 'document_version', :collection => @document_versions %>
  </tbody></table>

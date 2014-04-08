@@ -1,5 +1,5 @@
 <h4>IneligibleReasons:</h4>
-<% unless @ineligible_reasons.empty? %>
+<% unless @ineligible_reasons.to_a.empty? %>
  <table id='ineligible_reasons'><tbody>
   <%= render :partial => 'ineligible_reason', :collection => @ineligible_reasons %>
  </tbody></table>
