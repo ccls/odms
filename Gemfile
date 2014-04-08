@@ -219,7 +219,9 @@ end
 
 gem 'jakewendt-active_record_left_joins'
 
+#gem 'ccls-common_lib', ">0.9", :git => 'git://github.com/ccls/common_lib.git'
 gem 'ccls-common_lib', ">0.9"
+
 
 #	1.1.9 will raise error ...
 #	use_ssl value changed, but session already started
