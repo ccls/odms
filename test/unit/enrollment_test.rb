@@ -29,7 +29,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 		recruitment_priority refusal_reason_id refused_by_family refused_by_physician 
 		share_smp_with_others terminated_participation terminated_reason 
 		use_smp_future_cancer_rsrch use_smp_future_other_rsrch use_smp_future_rsrch 
-		assigned_for_interview_at interview_completed_on )
+		assigned_for_interview_at interview_completed_on vaccine_authorization_received_at )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
@@ -329,7 +329,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 		end
 	end
 
-#	[:yes,:no].each do |yndk|
 	[:yes].each do |yndk|
 		test "should require consented_on if consented == #{yndk}" do
 			enrollment = Enrollment.new(:consented => YNDK[yndk],
@@ -338,7 +337,16 @@ class EnrollmentTest < ActiveSupport::TestCase
 			#	NOTE Custom error message
 			assert  enrollment.errors.matching?(:consented_on,
 				"date is required when consented")
-#				"date is required when adding consent information")
+		end
+	end
+	[:no].each do |yndk|
+		test "should allow consented_on if consented == #{yndk}" do
+			enrollment = Enrollment.new(:consented => YNDK[yndk],
+				:consented_on => nil)
+			enrollment.valid?	#	just checking (don't know if valid or invalid)
+			assert !enrollment.errors.include?(:consented_on)
+			assert !enrollment.errors.matching?(:consented_on,
+				"date is required when consented")
 		end
 	end
 	[:dk,:nil].each do |yndk|
