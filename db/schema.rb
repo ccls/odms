@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407223752) do
+ActiveRecord::Schema.define(version: 20140408173428) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -338,7 +338,6 @@ ActiveRecord::Schema.define(version: 20140407223752) do
     t.date     "sent_on"
     t.string   "status"
     t.text     "notes"
-    t.string   "request_type"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.boolean  "is_found"
@@ -864,7 +863,6 @@ ActiveRecord::Schema.define(version: 20140407223752) do
     t.boolean  "is_found"
     t.string   "status"
     t.text     "notes"
-    t.string   "request_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -332,7 +332,6 @@ Table: bc_requests
 | sent_on          | date         | YES  |     | NULL    |                |
 | status           | varchar(255) | YES  |     | NULL    |                |
 | notes            | text         | YES  |     | NULL    |                |
-| request_type     | varchar(255) | YES  |     | NULL    |                |
 | created_at       | datetime     | NO   |     | NULL    |                |
 | updated_at       | datetime     | NO   |     | NULL    |                |
 | is_found         | tinyint(1)   | YES  |     | NULL    |                |
@@ -883,7 +882,6 @@ Table: medical_record_requests
 | is_found         | tinyint(1)   | YES  |     | NULL    |                |
 | status           | varchar(255) | YES  |     | NULL    |                |
 | notes            | text         | YES  |     | NULL    |                |
-| request_type     | varchar(255) | YES  |     | NULL    |                |
 | created_at       | datetime     | YES  |     | NULL    |                |
 | updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+

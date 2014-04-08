@@ -6,12 +6,11 @@ class BcRequestTest < ActiveSupport::TestCase
 	assert_should_belong_to( :study_subject )
 	assert_should_protect( :study_subject_id, :study_subject )
 
-	attributes = %w( request_type status )
+	attributes = %w( is_found status )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
 
-	assert_should_require_attribute_length( :request_type, :status, :maximum => 250 )
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
 	assert_should_accept_only_good_values( :status,

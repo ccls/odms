@@ -1,6 +1,5 @@
 -
   :attributes:
-  - :request_type
   - :status
   :length:
     :maximum: 250
