@@ -105,8 +105,8 @@ class SampleTransfersControllerTest < ActionController::TestCase
 			assert_match /Valid organization id required/, flash[:error]
 		end
 
-		test "confirm should do what with sample transfer update_all fail and #{cu} login" do
-			pending
+#		test "confirm should do what with sample transfer update_all fail and #{cu} login" do
+#			pending
 #
 ##	NOTE If stub uncommented, this test make one hell of a mess
 #
@@ -125,7 +125,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 #			assert_not_nil flash[:error]
 ##TODO not particularly descriptive "Something really bad happened"
 #			assert_match /Something really bad happened/, flash[:error]
-		end
+#		end
 
 		test "confirm should fail with operational event invalid and #{cu} login" do
 			prep_confirm_test
