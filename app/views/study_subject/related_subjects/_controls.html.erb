@@ -5,7 +5,7 @@
 
 %>
 <h4>Controls</h4>
-<% if @control_subjects.empty? %>
+<% if @control_subjects.to_a.empty? %>
  <p>No matching control study_subjects found.</p>
 <% else %>
  <table><thead><tr>

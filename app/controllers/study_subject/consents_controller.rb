@@ -31,7 +31,7 @@ class StudySubject::ConsentsController < StudySubjectController
 	def update
 		ActiveRecord::Base.transaction do
 			@enrollment = @study_subject.enrollments.find_or_create_by(project_id: Project['ccls'].id )
-			@enrollment.attributes = params[:enrollment]
+			@enrollment.attributes = params[:enrollment]||{}
 			@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
 #	TODO what if case subject has no patient model??
 #	TODO what if isn't case subject?

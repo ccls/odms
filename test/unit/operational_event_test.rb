@@ -240,11 +240,11 @@ class OperationalEventTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:study_subject)
 		operational_event = FactoryGirl.create(:operational_event, :study_subject => study_subject)
 		assert_not_nil operational_event.study_subject
-		assert  operational_event.study_subject.needs_reindexed
-		operational_event.study_subject.update_attribute(:needs_reindexed, false)
-		assert !operational_event.study_subject.needs_reindexed
+		assert  study_subject.needs_reindexed
+		study_subject.update_column(:needs_reindexed, false)
+		assert !study_subject.reload.needs_reindexed
 		operational_event.update_attributes(:notes => "something to make it dirty")
-		assert  operational_event.study_subject.needs_reindexed
+		assert  study_subject.reload.needs_reindexed
 	end
 
 protected

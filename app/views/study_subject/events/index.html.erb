@@ -1,5 +1,5 @@
 <h3>Events</h3>
-<% unless @events.empty? %>
+<% unless @events.to_a.empty? %>
  <table id='events'><thead><tr>
   <th><%= sort_link(:occurred_at,'Date') %></th>
   <th><%= sort_link(:project,'Project') %></th>

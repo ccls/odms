@@ -338,11 +338,12 @@ class AddressTest < ActiveSupport::TestCase
 	test "should flag study subject for reindexed on update" do
 		address = FactoryGirl.create(:address).reload
 		assert_not_nil address.study_subject
-		assert  address.study_subject.needs_reindexed
-		address.study_subject.update_attribute(:needs_reindexed, false)
-		assert !address.study_subject.needs_reindexed
+		study_subject = address.study_subject
+		assert  study_subject.needs_reindexed
+		study_subject.update_column(:needs_reindexed, false)
+		assert !study_subject.needs_reindexed
 		address.update_attributes(:other_data_source => "something to make it dirty")
-		assert  address.study_subject.needs_reindexed
+		assert  study_subject.needs_reindexed
 	end
 
 

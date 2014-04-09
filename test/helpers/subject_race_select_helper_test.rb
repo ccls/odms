@@ -15,7 +15,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['white']) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
 <div class='subject_race creator'><input name="study_subject[subject_races_attributes][0][race_code]" type="hidden" value="" /><input class="race_selector" id="white_race_code" name="study_subject[subject_races_attributes][0][race_code]" title="Set &#39;White, Non-Hispanic&#39; as one of the subject&#39;s race(s)" type="checkbox" value="#{Race[:white].code}" />
 <label for="white_race_code">White, Non-Hispanic</label>
@@ -36,7 +36,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		subject_race_id = @study_subject.subject_race_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['white']) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
 <div class='subject_race destroyer'><input id="study_subject_subject_races_attributes_0_race_code" name="study_subject[subject_races_attributes][0][race_code]" type="hidden" value="#{Race[:white].code}" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="white__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#39;White, Non-Hispanic&#39; as one of the subject&#39;s race(s)" type="checkbox" value="0" />
 <label for="white__destroy">White, Non-Hispanic</label>
@@ -51,7 +51,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['other']) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
 <div class='subject_race creator'><div id='other_race'><input name="study_subject[subject_races_attributes][0][race_code]" type="hidden" value="" /><input class="race_selector" id="other_race_code" name="study_subject[subject_races_attributes][0][race_code]" title="Set &#39;Other Race&#39; as one of the subject&#39;s race(s)" type="checkbox" value="#{Race[:other].code}" />
 <label for="other_race_code">Other Race</label>
@@ -71,7 +71,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		subject_race_id = @study_subject.subject_race_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['other']) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
 <div class='subject_race destroyer'><div id='other_race'><input id="study_subject_subject_races_attributes_0_race_code" name="study_subject[subject_races_attributes][0][race_code]" type="hidden" value="#{Race[:other].code}" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="other__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#39;Other Race&#39; as one of the subject&#39;s race(s)" type="checkbox" value="0" />
 <label for="other__destroy">Other Race</label>
@@ -88,7 +88,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		@study_subject = FactoryGirl.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['mixed']) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
 <div class='subject_race creator'><div id='mixed_race'><input name="study_subject[subject_races_attributes][0][race_code]" type="hidden" value="" /><input class="race_selector" id="mixed_race_code" name="study_subject[subject_races_attributes][0][race_code]" title="Set &#39;Mixed Race&#39; as one of the subject&#39;s race(s)" type="checkbox" value="#{Race[:mixed].code}" />
 <label for="mixed_race_code">Mixed Race</label>
@@ -108,7 +108,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		subject_race_id = @study_subject.subject_race_ids.first	
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['mixed']) }
-		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
+		expected = %{<form accept-charset="UTF-8" action="/" class="edit_study_subject" id="edit_study_subject_#{@study_subject.id}" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><div id='study_subject_races'><div class='races_label'>Select Race(s): </div>
 <div id='races'>
 <div class='subject_race destroyer'><div id='mixed_race'><input id="study_subject_subject_races_attributes_0_race_code" name="study_subject[subject_races_attributes][0][race_code]" type="hidden" value="#{Race[:mixed].code}" /><input name="study_subject[subject_races_attributes][0][_destroy]" type="hidden" value="1" /><input checked="checked" class="race_selector" id="mixed__destroy" name="study_subject[subject_races_attributes][0][_destroy]" title="Remove &#39;Mixed Race&#39; as one of the subject&#39;s race(s)" type="checkbox" value="0" />
 <label for="mixed__destroy">Mixed Race</label>

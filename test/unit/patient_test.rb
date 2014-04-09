@@ -622,11 +622,12 @@ class PatientTest < ActiveSupport::TestCase
 	test "should flag study subject for reindexed on update" do
 		patient = FactoryGirl.create(:patient)
 		assert_not_nil patient.study_subject
-		assert  patient.study_subject.needs_reindexed
-		patient.study_subject.update_attribute(:needs_reindexed, false)
-		assert !patient.study_subject.needs_reindexed
+		study_subject = patient.study_subject
+		assert  study_subject.needs_reindexed
+		study_subject.update_column(:needs_reindexed, false)
+		assert !study_subject.reload.needs_reindexed
 		patient.update_attributes(:other_diagnosis => "something to make it dirty")
-		assert  patient.study_subject.needs_reindexed
+		assert  study_subject.reload.needs_reindexed
 	end
 
 protected

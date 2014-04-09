@@ -127,7 +127,7 @@ class ControlsControllerTest < ActionController::TestCase
 #			some_datetime = DateTime.current
 			some_datetime = Time.parse('1971-12-05 12:00')
 			subject.enrollments.where(:project_id => Project[:ccls].id
-				).first.update_attribute(:assigned_for_interview_at, some_datetime)
+				).first.update_column(:assigned_for_interview_at, some_datetime)
 			assert_not_nil subject.enrollments.where(:project_id => Project[:ccls].id
 				).first.assigned_for_interview_at
 			assert_equal subject.enrollments.where(:project_id => Project[:ccls].id

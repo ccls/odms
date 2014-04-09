@@ -5,7 +5,7 @@
 
 %>
 <h4>Family</h4>
-<% if @family_subjects.empty? %>
+<% if @family_subjects.to_a.empty? %>
  <p>No matching family study_subjects found.</p>
 <% else %>
  <table><thead><tr>

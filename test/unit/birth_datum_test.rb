@@ -900,11 +900,11 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:study_subject)
 		birth_datum = FactoryGirl.create(:birth_datum, :study_subject => study_subject)
 		assert_not_nil birth_datum.study_subject
-		assert  birth_datum.study_subject.needs_reindexed
-		birth_datum.study_subject.update_attribute(:needs_reindexed, false)
-		assert !birth_datum.study_subject.needs_reindexed
+		assert  study_subject.needs_reindexed
+		study_subject.update_column(:needs_reindexed, false)
+		assert !study_subject.reload.needs_reindexed
 		birth_datum.update_attributes(:birth_state => "something to make it dirty")
-		assert  birth_datum.study_subject.needs_reindexed
+		assert  study_subject.reload.needs_reindexed
 	end
 
 	test "should flag study subject for reindexing on destroy" do
@@ -913,7 +913,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		birth_datum = create_matching_case_birth_datum(study_subject)
 		assert_equal birth_datum.study_subject, study_subject
 		assert  study_subject.reload.needs_reindexed
-		study_subject.update_attribute(:needs_reindexed , false)
+		study_subject.update_column(:needs_reindexed , false)
 		assert !study_subject.reload.needs_reindexed
 		birth_datum.destroy
 		assert  study_subject.reload.needs_reindexed
@@ -922,7 +922,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "append_notes should update instance AND save to db" do
 		birth_datum = FactoryGirl.create(:birth_datum)
-		birth_datum.update_attribute(:ccls_import_notes,nil)
+		birth_datum.update_column(:ccls_import_notes,nil)
 		assert_blank birth_datum.ccls_import_notes
 		assert_blank birth_datum.reload.ccls_import_notes
 		birth_datum.append_notes "This is a test"

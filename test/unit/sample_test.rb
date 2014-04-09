@@ -342,11 +342,12 @@ class SampleTest < ActiveSupport::TestCase
 	test "should flag study subject for reindexed on update" do
 		sample = FactoryGirl.create(:sample)
 		assert_not_nil sample.study_subject
-		assert  sample.study_subject.needs_reindexed
-		sample.study_subject.update_attribute(:needs_reindexed, false)
-		assert !sample.study_subject.needs_reindexed
+		study_subject = sample.study_subject
+		assert  study_subject.needs_reindexed
+		study_subject.update_column(:needs_reindexed, false)
+		assert !study_subject.reload.needs_reindexed
 		sample.update_attributes(:notes => "something to make it dirty")
-		assert  sample.study_subject.needs_reindexed
+		assert  study_subject.reload.needs_reindexed
 	end
 
 

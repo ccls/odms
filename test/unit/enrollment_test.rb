@@ -606,11 +606,12 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "should flag study subject for reindexed on update" do
 		enrollment = FactoryGirl.create(:enrollment)
 		assert_not_nil enrollment.study_subject
-		assert  enrollment.study_subject.needs_reindexed
-		enrollment.study_subject.update_attribute(:needs_reindexed, false)
-		assert !enrollment.study_subject.needs_reindexed
+		study_subject = enrollment.study_subject
+		assert  study_subject.needs_reindexed
+		study_subject.update_column(:needs_reindexed, false)
+		assert !study_subject.reload.needs_reindexed
 		enrollment.update_attributes(:notes => "something to make it dirty")
-		assert  enrollment.study_subject.needs_reindexed
+		assert  study_subject.reload.needs_reindexed
 	end
 
 protected

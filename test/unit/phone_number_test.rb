@@ -286,11 +286,12 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	test "should flag study subject for reindexed on update" do
 		phone_number = FactoryGirl.create(:phone_number)
 		assert_not_nil phone_number.study_subject
-		assert  phone_number.study_subject.needs_reindexed
-		phone_number.study_subject.update_attribute(:needs_reindexed, false)
-		assert !phone_number.study_subject.needs_reindexed
+		study_subject = phone_number.study_subject
+		assert  study_subject.needs_reindexed
+		study_subject.update_column(:needs_reindexed, false)
+		assert !study_subject.reload.needs_reindexed
 		phone_number.update_attributes(:other_data_source => "something to make it dirty")
-		assert  phone_number.study_subject.needs_reindexed
+		assert  study_subject.reload.needs_reindexed
 	end
 
 protected

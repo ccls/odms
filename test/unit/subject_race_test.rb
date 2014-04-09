@@ -96,11 +96,12 @@ class SubjectRaceTest < ActiveSupport::TestCase
 	test "should flag study subject for reindexed on update" do
 		subject_race = FactoryGirl.create(:subject_race)
 		assert_not_nil subject_race.study_subject
-		assert  subject_race.study_subject.needs_reindexed
-		subject_race.study_subject.update_attribute(:needs_reindexed, false)
-		assert !subject_race.study_subject.needs_reindexed
+		study_subject = subject_race.study_subject
+		assert  study_subject.needs_reindexed
+		study_subject.update_column(:needs_reindexed, false)
+		assert !study_subject.reload.needs_reindexed
 		subject_race.update_attributes(:other_race => "something to make it dirty")
-		assert  subject_race.study_subject.needs_reindexed
+		assert  study_subject.reload.needs_reindexed
 	end
 
 protected
