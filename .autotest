@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 ##	the above is just so vim colorizes correctly
 
+require 'active_support'
+require 'active_support/core_ext/string/inflections'
+
 #
 #	~/.autotest is read before the local .autotest
 #
@@ -19,7 +22,8 @@ Autotest.add_hook :initialize do |autotest|
 
 	%w{ abstract_notes/ ICF_Master_Trackers/ OLD_UNUSED_FILES/ anand/ bc_infos/ birth_data/ data/ development/ 
 			misc/ test/assets/ dumps/ gitignored/ production/ tracking2k/ database_tables 
-			*.csv }.each do |exception|
+			.csv test/factories.rb test/factory_test_helper.rb test/raf_test_helper.rb 
+			test/simplecov_test_helper.rb test/test_helper_helper.rb }.each do |exception|
 		#	puts "Adding exception #{exception} from .autotest"
 		autotest.add_exception(exception)
 	end
@@ -27,6 +31,45 @@ Autotest.add_hook :initialize do |autotest|
 	#	by default it is 'minitest/autorun' which if fine, but I can't figure
 	#	out how to stop it from running all tests when one file changes.
 	autotest.testlib           = "test/unit"
+
+
+#
+#	Need to do something to fix the non-standard pluralized stuff (counties,people,...)
+#	from autotest-rails-4.2.1/lib/autotest/rails.rb
+#
+#	add_mapping %r%^test/fixtures/(.*)s.yml% do |_, m|
+#		files_matching %r%^test/(models|controllers|views|unit|functional)/#{m[1]}.*_test.rb$%
+#	end
+
+	#	this seems to work after including some active support code
+	#	I could have just made special mappings for the 2 offending fixtures.
+	autotest.add_mapping %r%^test/fixtures/(.*).yml% do |_, m|
+		#	these are actually plural
+		autotest.files_matching %r%^test/(controllers|views|functional)/#{m[1]}.*_test.rb$%
+		#	these are singular (not in rails so no singularize)
+		autotest.files_matching %r%^test/(models|unit)/#{m[1].singularize}.*_test.rb$%
+	end
+
+
+#	from autotest-rails-4.2.1/lib/autotest/rails.rb
+#	# view -> view + controller
+#	add_mapping %r%^app/views/(.*)/% do |_, m|
+#		files_matching %r%^test/(controllers|views|functional)/#{m[1]}.*_test.rb$%
+#	end
+
+	#	don't forget the mailers
+	autotest.add_mapping %r%^app/views/(.*)/% do |_, m|
+		autotest.files_matching %r%^test/(controllers|views|functional|mailers)/#{m[1]}.*_test.rb$%
+	end
+
+
+	autotest.add_mapping %r%^app/mailers/(.*)\.rb$% do |_, m|
+		autotest.files_matching %r%^test/mailers/#{m[1]}.*_test.rb$%
+	end
+
+	autotest.add_mapping %r%^test/(app/controllers/fake_sessions_controller|capybara_integration_test_helper|integration_test_helper)\.rb$% do |filename, matches|
+		autotest.files_matching %r%^test/integration/.*_test\.rb$%
+	end
 
 	false	#	MUST DO THIS SO OTHER :initialize hooks work
 end
@@ -36,7 +79,7 @@ end
 #	FYI, "complex" pluralized names in fixtures don't get mapped correctly.
 #		counties, people, etc.
 
-#	app/helpers/*rb don't get mapped to tests either.
-#	helpers may need to be moved from test/unit/helpers/ to test/helpers/
-#	make more sense anyway.
-#	same with app/mailers/ to.  Move test/functional/MAILER_TESTS to test/mailers/
+
+#	Another FYI.  Recently, autotest no longer runs the tests in alphabetical order.
+#	It seems that the tests are run in the order that the files are loaded?
+#	How is this controlled?
