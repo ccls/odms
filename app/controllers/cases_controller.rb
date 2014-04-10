@@ -1,26 +1,9 @@
 class CasesController < ApplicationController
 
 	before_filter :may_create_study_subjects_required
-#,
-#		:only => [:index,:update_selected_assigned_for_interview]
-#		:only => [:new,:create,:show,:index]
-#		:only => [:new,:create]
-#	before_filter :may_read_study_subjects_required,
-#		:only => [:show,:index]
-#	before_filter :may_update_study_subjects_required,
-#		:only => [:edit,:update]
-#	before_filter :may_destroy_study_subjects_required,
-#		:only => :destroy
-#
-#	before_filter :valid_id_required,
-#		:only => [:edit,:update,:show,:destroy]
-#	before_filter :case_study_subject_required,
-#		:only => [:edit,:update,:show,:destroy]
 
 	def index
 		if !params[:ids].blank? and params[:ids].is_a?(Array) and !params[:ids].empty?
-#			@study_subjects = StudySubject.order('created_at DESC').find(params[:ids])
-#	shouldn't raise RecordNotFound with where instead of find.
 			@study_subjects = StudySubject.order('reference_date DESC')
 				.where(:id => params[:ids])
 		else
@@ -83,13 +66,6 @@ class CasesController < ApplicationController
 				@study_subjects = StudySubject.find(params[:ids])
 				@and_then_download_csv = true
 				render :action => 'index'
-
-#				StudySubject.find(params[:ids]).each{|s|s.index}
-#				#	TODO Create Operational Events??
-#				flash[:notice] = "StudySubject id(s) #{params[:ids].join(',')} "<<
-#					"assigned for interview."
-#	#	this WON'T WORK for long list of ids
-#				redirect_to cases_path(:ids => params[:ids],:format => :csv)
 			else
 				flash[:error] = "No ids given."
 				redirect_to cases_path	#	(:ids => params[:ids])

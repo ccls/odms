@@ -1,7 +1,5 @@
 class SampleTransfersController < ApplicationController
 
-#	before_filter :may_create_sample_transfers_required,
-#		:only => [:new,:create]
 	before_filter :may_read_sample_transfers_required,
 		:only => [:show,:index]
 	before_filter :may_update_sample_transfers_required,
@@ -38,11 +36,7 @@ class SampleTransfersController < ApplicationController
 	#		for updating only status
 	def update_status	#	PUT
 		@sample_transfer.update_attributes!(:status => params[:status])
-#		redirect_to sample_transfers_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
-#	should eventually implement a sample_transfer edit/update
-#		flash.now[:error] = "Sample Transfer Status Update failed"
-#		render :action => 'edit'
 		flash[:error] = "Sample Transfer Status Update failed"
 	ensure
 		redirect_to sample_transfers_path
@@ -73,10 +67,6 @@ class SampleTransfersController < ApplicationController
 						"#{t.sample.sample_type}, " <<
 						"transferred to #{@organization.try(:key)} " <<
 						"from #{Organization.where(:id => t.sample.location_id).first.try(:key)}",
-	
-	#					"from #{t.source_org_id}",	#	created in controller on create
-	#					"from #{t.sample.location_id}",	#	should be same?????  should change?
-#					:occurred_at => Time.now
 					:occurred_at => DateTime.current
 				}) unless t.sample.study_subject.nil?
 				#	Sample does not require study subject, so 

@@ -1,12 +1,7 @@
 class ChartsController < ApplicationController
 	def phase_5_case_enrollment_by_month
 		dates = 15.times.collect{|i| Date.current - i.months }.reverse
-#		this_month = Date.current.month
-#
-#	may want to index dates using "trie"
-#
-#	using month-year label in case want more than a year
-#
+
 		phase5 = StudySubject.search{
 			with(:subject_type, 'Case')
 			with(:phase, '5') 
@@ -25,9 +20,7 @@ class ChartsController < ApplicationController
 			with(:phase, '5')
 			with(:ccls_consented,"Yes")
 			with(:ccls_is_eligible,"Yes") }
-#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-#				with(:consented,"Yes")
-#				with(:is_eligible,"Yes") } }
+
 		refused = StudySubject.search{
 			facet(:reference_date) {
 				dates.each { |date|
@@ -37,9 +30,7 @@ class ChartsController < ApplicationController
 			with(:phase, '5')
 			with(:ccls_consented,"No")
 			with(:ccls_is_eligible,"Yes") }
-#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-#				with(:consented,"No")
-#				with(:is_eligible,"Yes") } }
+
 		ineligible = StudySubject.search{
 			facet(:reference_date) {
 				dates.each { |date|
@@ -48,8 +39,6 @@ class ChartsController < ApplicationController
 			with(:subject_type, 'Case')
 			with(:phase, '5')
 			with(:ccls_is_eligible,"No") }
-#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-#				with(:is_eligible,"No") } }
 
 		@total_counts = dates.collect{|date|
 			phase5.facet(:reference_date).rows.detect{|row|
@@ -64,8 +53,6 @@ class ChartsController < ApplicationController
 			ineligible.facet(:reference_date).rows.detect{|row|
 				row.value == "#{date.month}-#{date.year}" }.try(:count)||0}
 
-
-
 		@labels = dates.collect{|d| d.strftime('%b%y') }
 		@max_y = @total_counts.max
 	end
@@ -79,23 +66,18 @@ class ChartsController < ApplicationController
 			with(:phase, '5')
 			with(:ccls_consented,"Yes")
 			with(:ccls_is_eligible,"Yes") }
-#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-#				with(:consented,"Yes")
-#				with(:is_eligible,"Yes") } }
+
 		refused = StudySubject.search{
 			with(:subject_type, 'Case')
 			with(:phase, '5')
 			with(:ccls_consented,"No")
 			with(:ccls_is_eligible,"Yes") }
-#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-#				with(:consented,"No")
-#				with(:is_eligible,"Yes") } }
+
 		ineligible = StudySubject.search{
 			with(:subject_type, 'Case')
 			with(:phase, '5')
 			with(:ccls_is_eligible,"No") }
-#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-#				with(:is_eligible,"No") } }
+
 		@counts = [ phase5.total, consenting.total,
 			refused.total,ineligible.total ]
 		@max_y = phase5.total
@@ -109,17 +91,11 @@ class ChartsController < ApplicationController
 		eligible = StudySubject.search{
 			facet :hospital_key
 			with(:ccls_is_eligible,"Yes") }
-#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-#				with(:is_eligible,"Yes") } }
-#			order_by :hospital_key, :asc }	#	not needed as array is sorted?
+
 		consenting = StudySubject.search{
 			facet :hospital_key
 			with(:ccls_consented,"Yes")
 			with(:ccls_is_eligible,"Yes") }
-#			dynamic("hex_#{p.to_s.unpack('H*').first}"){
-#				with(:consented,"Yes")
-#				with(:is_eligible,"Yes") } }
-#			order_by :hospital_key, :asc }	#	not needed as array is sorted?
 
 		@all_hospital_keys = all.facet(:hospital_key).rows.collect(&:value).sort.uniq
 		#	non-nil needed, at least for testing
@@ -158,10 +134,7 @@ class ChartsController < ApplicationController
 		@blood_counts  = @all_hospital_keys.collect{|hospital| 
 			blood.facet(:hospital_key).rows.detect{|row|
 				row.value == hospital }.try(:count)||0}
-#	expecting only one so using detect, and in case none exist, try(:count)||0
 	end
-
-
 
 	def subject_types_by_phase
 		@study_subjects = StudySubject
@@ -173,10 +146,6 @@ class ChartsController < ApplicationController
 			.group('phase, vital_status')
 			.select('phase, vital_status, count(*) as count')
 	end
-
-
-
-
 
 	def enrollments
 		@enrollments = Enrollment
@@ -243,10 +212,6 @@ class ChartsController < ApplicationController
 			.select('sample_type_id, count(*) as count, sample_types.*')
 	end
 	def samples_sample_temperatures
-#		@samples = Sample
-#			.joins(:sample_temperature)
-#			.group('sample_temperature_id')
-#			.select('sample_temperature_id, count(*) as count, sample_temperatures.*')
 		@samples = Sample
 			.group(:sample_temperature)
 			.select('sample_temperature, count(*) as count')

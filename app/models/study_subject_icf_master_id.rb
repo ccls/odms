@@ -47,7 +47,8 @@ base.class_eval do
 	end
 
 	def icf_master_id_to_s
-		( icf_master_id.blank? ) ?  "[no ID assigned]" : icf_master_id
+#		( icf_master_id.blank? ) ?  "[no ID assigned]" : icf_master_id
+		icf_master_id.presence || "[no ID assigned]"
 	end
 
 #

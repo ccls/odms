@@ -4,7 +4,6 @@ class StudySubjectsController < ApplicationController
 		:only => [:new,:create]
 	before_filter :may_read_study_subjects_required, 
 		:only => [:show,:index,:dashboard,:followup,:reports,:by]
-#		:only => [:show,:index,:dashboard,:find,:followup,:reports,:by]
 	before_filter :may_update_study_subjects_required,
 		:only => [:edit,:update]
 	before_filter :may_destroy_study_subjects_required,
@@ -63,33 +62,9 @@ class StudySubjectsController < ApplicationController
 			params[:page] = @study_subjects.total_pages
 			#	It seems excessive to redirect and do it all again.
 			#	Nevertheless ...
-#			redirect_to find_study_subjects_path(params)
 			redirect_to study_subjects_path(params)
 		end
 	end
-
-#	#	there is no longer a link to this action, nevertheless
-#	def index
-#		record_or_recall_sort_order
-#		if params[:commit] && params[:commit] == 'download'
-#			#	Manually set to the csv format for rendering
-#			request.format = :csv
-#			params[:paginate] = false
-#		end
-#		flash.now[:notice] = "This page isn't used at the moment."
-#		@study_subjects = StudySubject.paginate(
-#				:per_page => params[:per_page]||25,
-#				:page     => valid_find_page
-#			)
-#		#	respond_to blocks are based on 'request.format', not params[:format]
-#		respond_to do |format|
-#			format.html
-#			format.csv { 
-#				headers["Content-Disposition"] = "attachment; " <<
-#					"filename=study_subjects_#{Time.now.to_s(:filename)}.csv" 
-#			}
-#		end
-#	end
 
 	def edit
 		render :layout => 'subject'
@@ -98,25 +73,6 @@ class StudySubjectsController < ApplicationController
 	def show
 		render :layout => 'subject'
 	end
-
-#	def new
-#		@study_subject = StudySubject.new
-#	end
-#
-#	def destroy
-#		@study_subject.destroy
-#		redirect_to study_subject_path
-#	end
-#
-#	def create
-#		@study_subject = StudySubject.new(params[:study_subject])
-#		@study_subject.save!
-#		flash[:notice] = 'Success!'
-#		redirect_to @study_subject
-#	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
-#		flash.now[:error] = "There was a problem creating the study_subject"
-#		render :action => "new"
-#	end 
 
 	def update
 		@study_subject.update_attributes!(params[:study_subject])
@@ -134,8 +90,6 @@ class StudySubjectsController < ApplicationController
 	def by
 		if params[:icf_master_id].present? && StudySubject.where(
 				:icf_master_id => params[:icf_master_id]).exists?
-#			study_subject = StudySubject.where(
-#				:icf_master_id => params[:icf_master_id]).first
 			study_subject = StudySubject.with_icf_master_id(params[:icf_master_id]).first
 			redirect_to url_for_subject(study_subject)
 		else
