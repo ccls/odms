@@ -9,8 +9,6 @@ class StudySubject::PhoneNumbersController < StudySubjectController
 	before_filter :may_destroy_phone_numbers_required,
 		:only => :destroy
 
-#	before_filter :valid_study_subject_id_required,
-#		:only => [:new,:create,:index]
 	before_filter :valid_id_required,
 		:only => [:edit,:update,:destroy]
 
@@ -19,8 +17,6 @@ class StudySubject::PhoneNumbersController < StudySubjectController
 	end
 
 	def create
-#		@phone_number = @study_subject.phone_numbers.build(
-#			params[:phone_number].merge( :current_user => current_user ) )
 		@phone_number = @study_subject.phone_numbers.build( params[:phone_number] )
 		@phone_number.save!
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
@@ -30,8 +26,6 @@ class StudySubject::PhoneNumbersController < StudySubjectController
 	end
 
 	def update
-#		@phone_number.update_attributes!(
-#			params[:phone_number].merge( :current_user => current_user ) )
 		@phone_number.update_attributes!( params[:phone_number] )
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -50,12 +44,8 @@ protected
 	def valid_id_required
 		if !params[:id].blank? and @study_subject.phone_numbers.exists?(params[:id])
 			@phone_number = @study_subject.phone_numbers.find(params[:id])
-#		if !params[:id].blank? and PhoneNumber.exists?(params[:id])
-#			@phone_number = PhoneNumber.find(params[:id])
-#			@study_subject = @phone_number.study_subject
 		else
-			access_denied("Valid phone_number id required!", 
-				study_subjects_path)
+			access_denied("Valid phone_number id required!", study_subjects_path)
 		end
 	end
 

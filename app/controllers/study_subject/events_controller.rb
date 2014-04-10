@@ -74,10 +74,6 @@ protected
 	def valid_id_required
 		if !params[:id].blank? and @study_subject.operational_events.exists?(params[:id])
 			@operational_event = @study_subject.operational_events.find(params[:id])
-#		if !params[:id].blank? and OperationalEvent.exists?(params[:id])
-#			@operational_event = OperationalEvent.find(params[:id])
-#			#	study_subject needed in edit form
-#			@study_subject = @operational_event.study_subject
 		else
 			access_denied("Valid operational_event id required!", study_subjects_path)
 		end
