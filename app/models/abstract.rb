@@ -61,8 +61,12 @@ class Abstract  < ActiveRecord::Base
 	include ActiveRecordSunspotter::Sunspotability
 	
 	add_sunspot_column(:id, :default => true, :type => :integer)
+	add_sunspot_column(:icf_master_id, :default => true,
+		:meth => ->(s){ s.study_subject.icf_master_id })
 	add_sunspot_column(:subjectid, :default => true,
 		:meth => ->(s){ s.study_subject.subjectid })
+	add_sunspot_column(:patid, :default => true,
+		:meth => ->(s){ s.study_subject.patid })
 	add_sunspot_column( :bmb_report_found,
 		:meth => ->(s){ YNDK[s.bmb_report_found]||'NULL' },
 		:facetable => true, :type => :string )
