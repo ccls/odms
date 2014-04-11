@@ -12,9 +12,38 @@ require 'active_support/core_ext/string/inflections'
 #	HOOK MUST RETURN FALSE TO ALLOW OTHER HOOKS OF SAME NAME TO BE EXECUTED!
 #
 
+
+#
+#	Changed files will only be caught by the first mapping it matches.
+#	Every mapping created is put at the end of the list UNLESS
+#	the second arg passed is true, then it is put at the front.
+#	Only ONE file_matching will be returned so you need to squeeze
+#	everything into a single regexp.
+#
+#	Adds a file mapping, optionally prepending the mapping to the front 
+#	of the list if prepend is true. regexp should match a file path in the 
+#	codebase. proc is passed a matched filename and Regexp.last_match. 
+#	proc should return an array of tests to run.
+#
+#	# File lib/autotest.rb, line 733
+#	def add_mapping regexp, prepend = false, &proc
+#	  if prepend then
+#	    @test_mappings.unshift [regexp, proc]
+#	  else
+#	    @test_mappings.push [regexp, proc]
+#	  end
+#	  nil
+#	end
+#
+#
+#	The use of _ usually signifies that that value is irrelevant.
+#
+
+
 Autotest.add_hook :initialize do |autotest|
   %w{ .autotest .git .svn .hg .DS_Store ._* vendor/ tmp/ log/ doc/ versions/ 
 			.bundle/ Gemfile coverage/ coverage-one-run/ config.ru config/ solr/ 
+			MIT-LICENSE README.rdoc Rakefile
 			app/assets/ app/views/layouts/ lib/tasks/ }.each do |exception|
 		#	puts "Adding exception #{exception} from ~/.autotest"
 		autotest.add_exception(exception)
@@ -30,7 +59,10 @@ Autotest.add_hook :initialize do |autotest|
 
 	#	by default it is 'minitest/autorun' which if fine, but I can't figure
 	#	out how to stop it from running all tests when one file changes.
-	autotest.testlib           = "test/unit"
+	autotest.testlib = "test/unit"
+
+	#	for some reason, the default seems to have always been :random?
+	autotest.order   = :alpha
 
 
 #
@@ -43,12 +75,21 @@ Autotest.add_hook :initialize do |autotest|
 
 	#	this seems to work after including some active support code
 	#	I could have just made special mappings for the 2 offending fixtures.
-	autotest.add_mapping %r%^test/fixtures/(.*).yml% do |_, m|
-		#	these are actually plural
-		autotest.files_matching %r%^test/(controllers|views|functional)/#{m[1]}.*_test.rb$%
-		#	these are singular (not in rails so no singularize)
-		autotest.files_matching %r%^test/(models|unit)/#{m[1].singularize}.*_test.rb$%
+	#	(clic could use this for studies, but for the moment it is unused.
+	autotest.add_mapping( %r%^test/fixtures/(.*).yml%, true ) do |_, m|
+		#	this only triggers the functional test??
+		autotest.files_matching %r%^test/(controllers|views|functional|models|unit)/(#{m[1].singularize}|#{m[1]})_.*test.rb$%
 	end
+
+#	autotest.add_mapping %r%^test/fixtures/counties.yml$% do |_,m|
+#		autotest.files_matching %r%^test/(functional|unit)/(counties|county).*_test.rb$%
+#	end
+#	autotest.add_mapping %r%^test/fixtures/people.yml$% do |_,m|
+#		autotest.files_matching %r%^test/(functional|unit)/(people|person).*_test.rb$%
+#	end
+
+
+
 
 
 #	from autotest-rails-4.2.1/lib/autotest/rails.rb
