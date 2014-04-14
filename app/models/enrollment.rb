@@ -83,7 +83,6 @@ class Enrollment < ActiveRecord::Base
 ##	def self.[](project_key)
 	#	only used in testing
 	def self.by_project_key(project_key)
-#		joins(:project).where(Project.arel_table[:key].matches(project_key))
 		joins(:project).merge(Project.by_key(project_key.to_s))
 	end
 

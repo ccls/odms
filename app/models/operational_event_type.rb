@@ -12,6 +12,7 @@ class OperationalEventType < ActiveRecord::Base
 
 	# Created for simplification of OperationalEvent.screener_complete scope
 	scope :screener_complete, ->{ where(:key => 'screener_complete') }
+	scope :with_category, ->(c=nil){ ( c.blank? ) ? all : where(:event_category => c) }
 
 	validations_from_yaml_file
 
@@ -26,10 +27,6 @@ class OperationalEventType < ActiveRecord::Base
 		oets = oets.order('event_category ASC')
 		oets = oets.group(:event_category)
 		oets.collect(&:event_category)
-	end
-
-	def self.with_category(category=nil)
-		( category.blank? ) ? all : where(:event_category => category)
 	end
 
 end

@@ -17,13 +17,10 @@ class MedicalRecordRequest < ActiveRecord::Base
 	scope :incomplete, 
 		->{ where(self.arel_table[:status].eq(nil).or(
 			self.arel_table[:status].not_eq('complete'))) }
+	scope :with_status, ->(s=nil){ ( s.blank? ) ? all : where(:status => s) }
 
 	def to_s
 		( study_subject ) ? study_subject.studyid : self
-	end
-
-	def self.with_status(status=nil)
-		( status.blank? ) ? all : where(:status => status)
 	end
 
 end

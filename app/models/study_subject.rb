@@ -41,7 +41,6 @@ class StudySubject < ActiveRecord::Base
 	include StudySubjectNames
 	include StudySubjectPhoneNumbers
 	include StudySubjectIcfMasterId
-	include StudySubjectGiftCards
 	include StudySubjectSamples
 	include StudySubjectSunspot
 

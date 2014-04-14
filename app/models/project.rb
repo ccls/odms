@@ -23,9 +23,7 @@ class Project < ActiveRecord::Base
 	validations_from_yaml_file
 
 	#	only for Enrollments.by_project_key which is only used in testing
-	def self.by_key(key)
-		where(arel_table[:key].matches(key.to_s))
-	end
+	scope :by_key, ->(key){ where(arel_table[:key].matches(key.to_s)) }
 
 	#	Returns description
 	def to_s

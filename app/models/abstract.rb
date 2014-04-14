@@ -25,8 +25,6 @@ class Abstract  < ActiveRecord::Base
 	before_create :set_user
 	after_create  :delete_unmerged
 
-	#	db_fields may be a bit of a misnomer
-	#	perhaps data_fields? 
 	def self.db_fields
 		column_names - %w(id entry_1_by_uid entry_2_by_uid merged_by_uid study_subject_id
 			created_at updated_at)
@@ -478,12 +476,6 @@ protected
 
 	def delete_unmerged
 		if study_subject and !merged_by_uid.blank?
-			#	use delete and not destroy to preserve the abstracts_count
-#	gonna stop using abstracts_count so really won't matter
-#			study_subject.abstracts.unmerged.each{|a|a.delete}
-#	actually using it, but since will synch the counters every now and again, won't work
-#	was hoping to using the counter as a flag that the subject's abstracts were merged
-#	now no way to determine if merged or just the first abstract entered.
 			study_subject.abstracts.unmerged.each{|a|a.destroy}
 		end
 	end
@@ -503,22 +495,3 @@ protected
 
 end
 __END__
-
-
-	before_save   :convert_height_to_cm
-	before_save   :convert_weight_to_kg
-
-	def convert_height_to_cm
-		if( !height_units.nil? && height_units.match(/in/i) )
-			self.height_units = nil
-			self.height_at_diagnosis *= 2.54
-		end
-	end
-
-	def convert_weight_to_kg
-		if( !weight_units.nil? && weight_units.match(/lb/i) )
-			self.weight_units = nil
-			self.weight_at_diagnosis /= 2.2046
-		end
-	end
-

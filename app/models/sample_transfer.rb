@@ -17,10 +17,7 @@ class SampleTransfer < ActiveRecord::Base
 	scope :waitlist, ->{ where( :status => 'waitlist' ) }
 #	scope :pending,  ->{ where( :status => 'pending' ) }
 	scope :complete, ->{ where( :status => 'complete' ) }
-
-	def self.with_status(status=nil)
-		( status.blank? ) ? all : where(:status => status)
-	end
+	scope :with_status, ->(s=nil){ ( s.blank? ) ? all : where(:status => s) }
 
 	def active?
 		status == 'active'

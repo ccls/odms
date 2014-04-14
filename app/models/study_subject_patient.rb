@@ -27,13 +27,7 @@ base.class_eval do
 		:if => :matchingid_changed?
 
 	def admitting_oncologist
-		#	can be blank so need more than try unless I nilify admitting_oncologist if blank
-		#patient.try(:admitting_oncologist) || "[no oncologist specified]"
-		if patient and !patient.admitting_oncologist.blank?
-			patient.admitting_oncologist
-		else
-			"[no oncologist specified]"
-		end
+		self.patient.try(:admitting_oncologist).presence || "[no oncologist specified]"
 	end
 
 	##
@@ -46,39 +40,13 @@ base.class_eval do
 				dob.to_date != Date.parse('1/1/1900') &&
 				my_patient.admit_date.to_date != Date.parse('1/1/1900')
 
-			#	Seems likely to be more accurate as accounts for differing year 
-			#	lengths rather than the number of days.
-			#	As this is completely a computable field, I don't really
-			#	like doing this.  The existence of incorrect data already
-			#	is reason enough.  Nevertheless, if you're gonna do it,
-			#	do it right.
-#irb(main):038:0> Date.current
-#=> Wed, 04 Apr 2012
-#irb(main):039:0> Date.current + 15.years
-#=> Sun, 04 Apr 2027
 			fifteenth_birthday = dob.to_date + 15.years
 			was_under_15 = ( my_patient.admit_date.to_date < fifteenth_birthday ) ? 
 				YNDK[:yes] : YNDK[:no]
 
-			#	use update_all to avoid all callbacks (would be cyclic)
-#			Patient.update_all(
-#				{ :was_under_15_at_dx => was_under_15 }, 
-#				{ :id => my_patient.id })
-#	why not just update_column? same outcome.  update db, no callback, no index
-#			my_patient.update_column(:was_under_15_at_dx, was_under_15)
-			#	20130513 - using update_all does not trigger sunspot reindexing
-#
-#	why am I using update_all? probably because this is in a callback
-#
-#			index
-
 			my_patient.was_under_15_at_dx = was_under_15
 			my_patient.save if my_patient.changed?
 		end
-		#	make sure we return true as is a callback
-		#	( don't really know if this is actually needed )
-#	20130513 - commenting out true
-#		true
 	end
 
 	##
@@ -99,36 +67,17 @@ base.class_eval do
 		matchingids.compact.push(matchingid).uniq.each do |mid|
 			unless mid.blank?
 				#	subjectid is unique, so can be only 1 unless nil
-#				matching_patient = StudySubject.where(:subjectid => mid).first.try(:patient)
 				matching_patient = StudySubject.with_subjectid(mid).first.try(:patient)
 				unless matching_patient.nil?
 					admit_date = matching_patient.try(:admit_date)
-					#	20130513 - using update_all does not trigger sunspot reindexing
-#					StudySubject.update_all(
-#						{:reference_date => admit_date },
-#						{:matchingid     => mid })
-#					#	20130513 - using update_all does not trigger sunspot reindexing
-#					StudySubject.with_matchingid(mid).each {|s| s.index }
-
-#	I made these mods in hopes that it would save and index less
-#	don't think that it made much diff though
 
 					StudySubject.with_matchingid(mid).each {|s| 
 						s.reference_date = admit_date
 						s.save if s.changed?
 					}
-#
-#	why am I using update_all? probably because this is in a callback
-#	unfortunately, this will trigger the reindexing of all matching
-#	regardless of whether anything changed
-#
 				end
 			end
 		end
-		#	make sure we return true as is a callback
-		#	( don't really know if this is actually needed )
-#	20130513 - commenting out true
-#		true
 	end
 
 protected

@@ -21,7 +21,6 @@ class User < ActiveRecord::Base
 	def self.with_role_name(role_name=nil)
 		( role_name.blank? ) ? all :
 			joins(:roles).where(Role.arel_table[:name].eq(role_name))
-#			joins(:roles).where("roles.name".to_sym => role_name)
 	end
 
 	def deputize
@@ -82,13 +81,12 @@ class User < ActiveRecord::Base
 	alias_method :may_maintain_pages?, :may_edit?
 	alias_method :may_create?,  :may_edit?
 	alias_method :may_update?,  :may_edit?
-#	alias_method :may_destroy?, :may_edit?
 	alias_method :may_destroy?, :may_administrate?
 
 
-#	This is pretty lame as all current roles can read
-#	Could simply check the role_names not empty?
-#	Of course this forces the role to be legitimate
+	#	This is pretty lame as all current roles can read
+	#	Could simply check the role_names not empty?
+	#	Of course this forces the role to be legitimate
 	def may_read?(*args)
 		(self.role_names & 
 			['superuser','administrator','exporter','editor','reader']
@@ -111,7 +109,6 @@ class User < ActiveRecord::Base
 		user.update_attributes!({
 			:displayname     => person.displayname,
 			:sn              => person.sn.first,
-#			:mail            => person.mail.first || '',	#	why did I add the ||'' ?
 			:mail            => person.mail.first,
 			:telephonenumber => person.telephonenumber.first
 		}) unless person.nil?

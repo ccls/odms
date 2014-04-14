@@ -21,41 +21,15 @@ base.class_eval do
 
 	scope :living,   ->{ where(:vital_status => 'Living') }
 
-	def self.with_patid(patid)
-		where(:patid => sprintf("%04d",patid.to_i) )
-	end
-
-	def self.with_childid(childid)
-		where(:childid => childid.to_i)
-	end
-
-	def self.with_state_registrar_no(state_registrar_no)
-		where(:state_registrar_no => state_registrar_no.to_s.squish)
-	end
-
-	def self.with_icf_master_id(icf_master_id)
-		where(:icf_master_id => icf_master_id.to_s.squish)
-	end
-
-	def self.with_studyid(studyid)
-		where(:studyid => studyid.to_s.squish)
-	end
-
-	def self.with_familyid(familyid)
-		where(:familyid => sprintf("%06d",familyid.to_i) )
-	end
-
-	def self.with_matchingid(matchingid)
-		where(:matchingid => sprintf("%06d",matchingid.to_i) )
-	end
-
-	def self.with_subjectid(subjectid)
-		where(:subjectid => sprintf("%06d",subjectid.to_i) )
-	end
-
-	def self.not_id(study_subject_id)
-		where(self.arel_table[:id].not_eq(study_subject_id))
-	end
+	scope :with_patid, ->(id){ where(:patid => sprintf("%04d",id.to_i) ) }
+	scope :with_childid, ->(id){ where(:childid => id.to_i) }
+	scope :with_state_registrar_no, ->(id){ where(:state_registrar_no => id.to_s.squish) }
+	scope :with_icf_master_id, ->(id){ where(:icf_master_id => id.to_s.squish) }
+	scope :with_studyid, ->(id){ where(:studyid => id.to_s.squish) }
+	scope :with_familyid, ->(id){ where(:familyid => sprintf("%06d",id.to_i)) }
+	scope :with_matchingid, ->(id){ where(:matchingid => sprintf("%06d",id.to_i)) }
+	scope :with_subjectid, ->(id){ where(:subjectid => sprintf("%06d",id.to_i)) }
+	scope :not_id, ->(id){ where(self.arel_table[:id].not_eq(id)) }
 
 	#	Find the case or control subject with matching familyid except self.
 	def child

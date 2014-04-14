@@ -1,7 +1,9 @@
 class Notification < ActionMailer::Base
 
 	default :from => "notifyccls@berkeley.edu",
-		:to   => (( Rails.env != 'production' ) ? ['jakewendt@berkeley.edu'] : ["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"])
+		:to   => (( Rails.env.production? ) ? 
+			['jakewendt@berkeley.edu'] : 
+			["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"])
 	
 	#
 	#	Really important NOTE...
@@ -28,7 +30,6 @@ class Notification < ActionMailer::Base
 		@study_subject = study_subject
 		@hospital = Hospital.find_by_organization_id(@study_subject.organization_id)
 
-#		mail subject: "TEST [CCLS Patient Notification Received] Identifier: #{@study_subject.icf_master_id_to_s}"
 		mail subject: "[CCLS Patient Notification Received] Identifier: #{@study_subject.icf_master_id_to_s}"
 	end
 

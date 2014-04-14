@@ -48,8 +48,6 @@ class Sample < ActiveRecord::Base
 	end
 
 	def sampleid
-#	I think back in ruby 1.8.7 self.id returned the object id, NOT the database record id.  VERY DIFFERENT.
-#		sprintf('%07d',self.attributes['id']) unless new_record?
 		sprintf('%07d',self.id) unless new_record?
 	end
 
@@ -60,10 +58,6 @@ class Sample < ActiveRecord::Base
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
 	def self.valid_sample_temperatures
-		#
-		#	Only have room temp and refrigerated in db
-		#
-		#		["room temperature", "refrigerated", "legacy data import", "storage temperature unknown"]
 		["Room Temperature", "Refrigerated"]
 	end
 
@@ -147,18 +141,7 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:has_study_subject, :facetable => true,
 		:meth => ->(s){ ( s.study_subject_id.present? ) ? 'Yes' : 'No'   })
 
-
-#	ADD ...
-#	mother ids?
-
 	searchable_plus
-
-###		string :parent_sampleid
-###		string :sample_collector
-##	1430 | receipt_confirmed_by         | varchar(255) | YES  |     | NULL  
-##	1431 | future_use_prohibited        | tinyint(1)   | NO   |     | 0      
-##	1432 | state                        | varchar(255) | YES  |     | NULL    
-##	1435 | notes 
 
 protected
 

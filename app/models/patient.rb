@@ -24,7 +24,6 @@ class Patient < ActiveRecord::Base
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
 	def self.valid_diagnoses
-#		["ALL", "AML", "other diagnosis", "missing data (e.g. legacy nulls)", "unknown diagnosis"]
 		valid_raf_diagnoses + ["missing data (e.g. legacy nulls)", "unknown diagnosis"]
 	end
 

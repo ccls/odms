@@ -77,7 +77,6 @@ Autotest.add_hook :initialize do |autotest|
 	#	I could have just made special mappings for the 2 offending fixtures.
 	#	(clic could use this for studies, but for the moment it is unused.
 	autotest.add_mapping( %r%^test/fixtures/(.*).yml%, true ) do |_, m|
-		#	this only triggers the functional test??
 		autotest.files_matching %r%^test/(controllers|views|functional|models|unit)/(#{m[1].singularize}|#{m[1]})_.*test.rb$%
 	end
 
@@ -112,7 +111,7 @@ Autotest.add_hook :initialize do |autotest|
 		autotest.files_matching %r%^test/integration/.*_test\.rb$%
 	end
 
-	false	#	MUST DO THIS SO OTHER :initialize hooks work
+	false	#	MUST DO THIS SO OTHER :initialize HOOKS WORK
 end
 
 
