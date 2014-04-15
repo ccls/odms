@@ -49,22 +49,54 @@ class Abstract  < ActiveRecord::Base
 	end
 
 	def merged?
-		!merged_by_uid.blank?
+		merged_by_uid.present?
 	end
 
-	scope :merged,   
+	scope :merged,
 		->{ where(self.arel_table[:merged_by_uid].not_eq(nil) ) }
 	scope :unmerged, ->{ where(:merged_by_uid => nil) }
 
+	delegate :patid, :subjectid, :icf_master_id, :vital_status,
+		:dob, :hospital, :diagnosis,
+			:to => :study_subject, :allow_nil => true
+
 	include ActiveRecordSunspotter::Sunspotability
 	
+	#	column defaults ...
+	#		:default => false
+	#		:type => :string
+	#		:facetable => false
+	#		:orderable => true
+
 	add_sunspot_column(:id, :default => true, :type => :integer)
-	add_sunspot_column(:icf_master_id, :default => true,
-		:meth => ->(s){ s.study_subject.icf_master_id })
-	add_sunspot_column(:subjectid, :default => true,
-		:meth => ->(s){ s.study_subject.subjectid })
-	add_sunspot_column(:patid, :default => true,
-		:meth => ->(s){ s.study_subject.patid })
+	add_sunspot_column(:icf_master_id, :default => true )
+	add_sunspot_column(:subjectid, :default => true )
+	add_sunspot_column(:patid, :default => true )
+	add_sunspot_column( :merged, :default => true,
+		:meth => ->(s){ ( s.merged? )? 'Yes' : 'No' },
+		:facetable => true )
+	add_sunspot_column( :vital_status, :default => true,
+		:facetable => true )
+	add_sunspot_column( :dob,
+		:default => true, :type => :date )
+	add_sunspot_column( :hospital,
+		:default => true, :facetable => true )
+	add_sunspot_column( :diagnosis,
+		:default => true, :facetable => true )
+	add_sunspot_column( :leukemia_class,
+		:default => true, :facetable => true )
+	add_sunspot_column( :other_all_leukemia_class,
+		:facetable => true )
+	add_sunspot_column( :other_aml_leukemia_class,
+		:facetable => true )
+	add_sunspot_column( :leukemia_lineage,
+		:facetable => true )
+	add_sunspot_column( :icdo_classification_number,
+		:facetable => true )
+	add_sunspot_column( :icdo_classification_description,
+		:default => true )
+
+
 	add_sunspot_column( :bmb_report_found,
 		:meth => ->(s){ YNDK[s.bmb_report_found]||'NULL' },
 		:facetable => true, :type => :string )
@@ -411,11 +443,6 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :clinical_remission,
 		:meth => ->(s){ YNDK[s.clinical_remission]||'NULL' },
 		:facetable => true, :type => :string )
-	add_sunspot_column( :leukemia_class )
-	add_sunspot_column( :other_all_leukemia_class )
-	add_sunspot_column( :other_aml_leukemia_class )
-	add_sunspot_column( :icdo_classification_number )
-	add_sunspot_column( :leukemia_lineage )
 	add_sunspot_column( :pe_report_found,
 		:meth => ->(s){ YNDK[s.pe_report_found]||'NULL' },
 		:facetable => true, :type => :string )
@@ -475,7 +502,7 @@ protected
 	end
 
 	def delete_unmerged
-		if study_subject and !merged_by_uid.blank?
+		if study_subject and merged_by_uid.present?
 			study_subject.abstracts.unmerged.each{|a|a.destroy}
 		end
 	end
