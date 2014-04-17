@@ -65,10 +65,11 @@ GEM
     hpricot (0.8.6)
     i18n (0.6.9)
     jakewendt-active_record_left_joins (4.0.0)
-    jakewendt-active_record_sunspotter (4.0.0)
+    jakewendt-active_record_sunspotter (4.1.0)
       progress_bar
       sunspot_rails (= 2.0.0)
       sunspot_solr (= 2.0.0)
+      will_paginate
     jakewendt-html_test (4.0.0)
     jakewendt-test_with_verbosity (0.0.0)
     json (1.8.1)
@@ -122,7 +123,7 @@ GEM
       activesupport (= 4.1.0)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.2.2)
+    rake (10.3.0)
     rsolr (1.0.10)
       builder (>= 2.1.2)
     rubycas-client (2.3.9)
