@@ -3,7 +3,7 @@
 		<%= link_to abstract.id, study_subject_abstract_path(abstract.study_subject,abstract) %>
 	</td>
 	<td class='subject'>
-		<%= link_to abstract.study_subject.try(:patid), study_subject_abstracts_path(abstract.study_subject)  %>
+		<%= link_to abstract.patid, study_subject_abstracts_path(abstract.study_subject)  %>
 	</td>
 	<td class='entry_1'>
 		<%= abstract.try(:entry_1_by) || nbsp %>
