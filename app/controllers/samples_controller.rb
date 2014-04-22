@@ -67,7 +67,7 @@ class SamplesController < ApplicationController
 		#	one could have samples but be on to high of a page to see them.
 		#	length would return 0, but count is the total database count
 		#
-		if @samples.length == 0 and @samples.count > 0
+		if @samples.to_a.length == 0 and @samples.count > 0
 			flash[:warn] = "Page number was too high, so set to highest valid page number."
 			#	Doesn't change the url string, but does work.
 			params[:page] = @samples.total_pages

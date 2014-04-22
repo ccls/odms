@@ -74,6 +74,8 @@ gem "chronic"
 
 gem "acts_as_list"
 
+#	added a patch to deal with counting when select is provided based on ....
+#	https://github.com/mislav/will_paginate/pull/348
 gem "will_paginate"
 
 gem "hpricot"

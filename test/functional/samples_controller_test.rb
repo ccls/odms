@@ -445,6 +445,15 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_equal samples, assigns(:samples)
 		end
 
+		test "should find samples and order by type with #{cu} login and page too high" do
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
+			login_as send(cu)
+			get :index, :order => :type, :page => 999
+			assert_equal 3, assigns(:samples).count
+			assert_equal 0, assigns(:samples).length
+			assert_redirected_to samples_path(:page => 1, :order => :type)
+		end
+
 		test "should find samples and order by type desc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
@@ -477,6 +486,15 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_equal samples, assigns(:samples).reverse
 		end
 
+		test "should find samples and order by subtype with #{cu} login and page too high" do
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
+			login_as send(cu)
+			get :index, :order => :subtype, :page => 999
+			assert_equal 3, assigns(:samples).count
+			assert_equal 0, assigns(:samples).length
+			assert_redirected_to samples_path(:page => 1, :order => :subtype)
+		end
+
 		test "should find samples and order by project with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
@@ -499,6 +517,15 @@ class SamplesControllerTest < ActionController::TestCase
 			get :index, :order => :project, :dir => :desc
 			assert_response :success
 			assert_equal samples, assigns(:samples).reverse
+		end
+
+		test "should find samples and order by project with #{cu} login and page too high" do
+			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
+			login_as send(cu)
+			get :index, :order => :project, :page => 999
+			assert_equal 3, assigns(:samples).count
+			assert_equal 0, assigns(:samples).length
+			assert_redirected_to samples_path(:page => 1, :order => :project)
 		end
 
 	

@@ -65,7 +65,7 @@
 
 
 <hr/>
-<% if @samples.length > 0 %>
+<% if @samples.to_a.length > 0 %>
 <table id='samples'><thead><tr>
 <th><%= sort_link('received_by_ccls_at', 'received on' ) %></th>
 <th><%= sort_link('id', 'sampleid') %></th>
