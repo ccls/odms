@@ -1,20 +1,20 @@
 namespace :app do
 namespace :data do
 
-	def assert(expression,options={})
-		defaults = {
-			:pre_message  => 'Checking something.',
-			:fail_message => 'Assertion failed.'
-		}
-		if options.is_a?(String)
-			message = options
-			options = {}
-			options[:pre_message] = message
-		end
-		defaults.merge(options)
-		puts options[:pre_message]
-		raise "#{options[:fail_message]} :\n #{caller[0]}" unless expression
-	end
+#	def assert(expression,options={})
+#		defaults = {
+#			:pre_message  => 'Checking something.',
+#			:fail_message => 'Assertion failed.'
+#		}
+#		if options.is_a?(String)
+#			message = options
+#			options = {}
+#			options[:pre_message] = message
+#		end
+#		defaults.merge(options)
+#		puts options[:pre_message]
+#		raise "#{options[:fail_message]} :\n #{caller[0]}" unless expression
+#	end
 
 	task :checkup => :environment do
 

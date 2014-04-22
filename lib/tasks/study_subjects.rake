@@ -1,14 +1,6 @@
 namespace :app do
 namespace :study_subjects do
 
-	def assert(expression,message = 'Assertion failed.')
-		raise "#{message} :\n #{caller[0]}" unless expression
-	end
-
-	def assert_string_equal(a,b,field)
-		assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
-	end
-
 	task :checkup => :environment do
 		begin
 			puts "Checking consistancy based on matchingids"

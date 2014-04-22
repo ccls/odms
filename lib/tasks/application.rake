@@ -1,5 +1,20 @@
 namespace :app do
 
+	def assert(expression,message = 'Assertion failed.')
+		raise "#{message} :\n #{caller[0]}" unless expression
+	#puts "AAAAAAAAAAAAAAAA" unless expression
+	end
+
+	def assert_string_equal(a,b,field)
+		assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
+	end
+
+	def assert_string_in(a,b,field)
+		assert b.include?(a.to_s), "#{field} value #{a} not included in:#{b}:"
+	end
+
+
+
 	task :parse_log_for_slow => :environment do
 		#	the long contains some binary chars which makes using \s*
 		#	nearly impossible?

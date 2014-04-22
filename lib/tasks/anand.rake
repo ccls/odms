@@ -1,10 +1,10 @@
 require 'csv'
 
-# gonna start asserting that everything is as expected.
-# will slow down import, but I want to make sure I get it right.
-def assert(expression,message = 'Assertion failed.')
-	raise "#{message} :\n #{caller[0]}" unless expression
-end
+## gonna start asserting that everything is as expected.
+## will slow down import, but I want to make sure I get it right.
+#def assert(expression,message = 'Assertion failed.')
+#	raise "#{message} :\n #{caller[0]}" unless expression
+#end
 
 def total_lines(csv_file_name)
 	f = CSV.open(csv_file_name,'rb')
