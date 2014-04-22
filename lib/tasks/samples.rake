@@ -11,7 +11,7 @@ namespace :samples do
 	end
 
 	task :correct_subject_association => :environment do
-		CSV.open( 'data/corrected_subject_sample.csv','rb',{ :headers => true }).each do |line|
+		CSV.open( 'data/20140422_corrected_subject_sample.csv','rb',{ :headers => true }).each do |line|
 			#	subjectid,corrected_subjectid,sampleid,sample_super_type,sample_type
 			puts line
 			sample = Sample.find(line['sampleid'].to_i)
