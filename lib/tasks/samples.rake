@@ -10,18 +10,38 @@ namespace :samples do
 		csv_columns
 	end
 
-	def assert(expression,message = 'Assertion failed.')
-		raise "#{message} :\n #{caller[0]}" unless expression
-	#puts "AAAAAAAAAAAAAAAA" unless expression
-	end
+	task :correct_subject_association => :environment do
+		CSV.open( 'data/corrected_subject_sample.csv','rb',{ :headers => true }).each do |line|
+			#	subjectid,corrected_subjectid,sampleid,sample_super_type,sample_type
+			puts line
+			sample = Sample.find(line['sampleid'].to_i)
+			assert_string_equal( sample.sampleid, line['sampleid'], :sampleid)
+			assert_string_equal( sample.subjectid, line['subjectid'], :subjectid)
+			assert_string_equal( sample.sample_type, line['sample_type'], :sample_type)
+			assert_string_equal( sample.sample_type_parent, line['sample_super_type'], :sample_type_parent)
 
-	def assert_string_equal(a,b,field)
-		assert a.to_s == b.to_s, "#{field} mismatch:#{a}:#{b}:"
-	end
+			if line['subjectid'] != line['corrected_subjectid']
+				subject = StudySubject.with_subjectid(line['subjectid']).first
+				puts subject.samples_count
+				#	Sample will automatically reindex as it changes
+				#	BOTH Subjects MAY not as it doesn't change, (the counter does)
+				#	New subject will be triggered, but not the old.
+				#	CounterCaches are only updated in the database so won't trigger reindex.
+				#	Triggering both.
+				subject = StudySubject.with_subjectid(line['corrected_subjectid']).first
+				assert_string_equal( subject.subjectid, line['corrected_subjectid'], :corrected_subjectid)
+				puts subject.samples_count
+				subject.samples << sample
+				puts subject.reload.samples_count
+				subject.update_column(:needs_reindexed, true)
 
-	def assert_string_in(a,b,field)
-		assert b.include?(a.to_s), "#{field} value #{a} not included in:#{b}:"
-	end
+				subject = StudySubject.with_subjectid(line['subjectid']).first
+				assert_string_equal( subject.subjectid, line['subjectid'], :subjectid)
+				puts subject.samples_count
+				subject.update_column(:needs_reindexed, true)
+			end
+		end	#	CSV.open( 'data/corrected_subject_sample.csv'
+	end	#	task :correct_subject_association => :environment do
 
 	task :merge_overlaps_with_icf_master_id => :environment do
 		icf_master_ids = {}
