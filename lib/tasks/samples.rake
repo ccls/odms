@@ -16,29 +16,35 @@ namespace :samples do
 			puts line
 			sample = Sample.find(line['sampleid'].to_i)
 			assert_string_equal( sample.sampleid, line['sampleid'], :sampleid)
-			assert_string_equal( sample.subjectid, line['subjectid'], :subjectid)
+			#	assert_string_equal( sample.subjectid, line['subjectid'], :subjectid)
+			assert_string_equal( sample.subjectid, line['corrected_subjectid'], :subjectid)
 			assert_string_equal( sample.sample_type, line['sample_type'], :sample_type)
 			assert_string_equal( sample.sample_type_parent, line['sample_super_type'], :sample_type_parent)
 
 			if line['subjectid'] != line['corrected_subjectid']
 				subject = StudySubject.with_subjectid(line['subjectid']).first
-				puts subject.samples_count
-				#	Sample will automatically reindex as it changes
-				#	BOTH Subjects MAY not as it doesn't change, (the counter does)
-				#	New subject will be triggered, but not the old.
-				#	CounterCaches are only updated in the database so won't trigger reindex.
-				#	Triggering both.
-				subject = StudySubject.with_subjectid(line['corrected_subjectid']).first
-				assert_string_equal( subject.subjectid, line['corrected_subjectid'], :corrected_subjectid)
-				puts subject.samples_count
-				subject.samples << sample
-				puts subject.reload.samples_count
-				subject.update_column(:needs_reindexed, true)
+#				puts subject.samples_count
+#				#	Sample will automatically reindex as it changes
+#				#	BOTH Subjects MAY not as it doesn't change, (the counter does)
+#				#	New subject will be triggered, but not the old.
+#				#	CounterCaches are only updated in the database so won't trigger reindex.
+#				#	Triggering both.
+				correct_subject = StudySubject.with_subjectid(line['corrected_subjectid']).first
+#				assert_string_equal( correct_subject.subjectid, line['corrected_subjectid'], :corrected_subjectid)
+#				puts correct_subject.samples_count
+#				correct_subject.samples << sample
+#				puts correct_subject.reload.samples_count
+#				correct_subject.update_column(:needs_reindexed, true)
+#
+#				subject = StudySubject.with_subjectid(line['subjectid']).first
+#				assert_string_equal( subject.subjectid, line['subjectid'], :subjectid)
+#				puts subject.samples_count
+#				subject.update_column(:needs_reindexed, true)
 
-				subject = StudySubject.with_subjectid(line['subjectid']).first
-				assert_string_equal( subject.subjectid, line['subjectid'], :subjectid)
-				puts subject.samples_count
-				subject.update_column(:needs_reindexed, true)
+				notes = [sample.notes.presence].compact
+				notes << "Sample moved from child subjectid #{line['subjectid']} to mother #{line['corrected_subjectid']} (20140422)."
+				sample.update_attributes!(:notes => notes.join("\n"))
+				puts sample.notes
 			end
 		end	#	CSV.open( 'data/corrected_subject_sample.csv'
 	end	#	task :correct_subject_association => :environment do
