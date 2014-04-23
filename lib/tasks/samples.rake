@@ -11,6 +11,7 @@ namespace :samples do
 	end
 
 	task :correct_subject_association => :environment do
+		raise "This task has been run and disabled."
 		CSV.open( 'data/20140422_corrected_subject_sample.csv','rb',{ :headers => true }).each do |line|
 			#	subjectid,corrected_subjectid,sampleid,sample_super_type,sample_type
 			puts line
@@ -23,23 +24,23 @@ namespace :samples do
 
 			if line['subjectid'] != line['corrected_subjectid']
 				subject = StudySubject.with_subjectid(line['subjectid']).first
-#				puts subject.samples_count
-#				#	Sample will automatically reindex as it changes
-#				#	BOTH Subjects MAY not as it doesn't change, (the counter does)
-#				#	New subject will be triggered, but not the old.
-#				#	CounterCaches are only updated in the database so won't trigger reindex.
-#				#	Triggering both.
+				puts subject.samples_count
+				#	Sample will automatically reindex as it changes
+				#	BOTH Subjects MAY not as it doesn't change, (the counter does)
+				#	New subject will be triggered, but not the old.
+				#	CounterCaches are only updated in the database so won't trigger reindex.
+				#	Triggering both.
 				correct_subject = StudySubject.with_subjectid(line['corrected_subjectid']).first
-#				assert_string_equal( correct_subject.subjectid, line['corrected_subjectid'], :corrected_subjectid)
-#				puts correct_subject.samples_count
-#				correct_subject.samples << sample
-#				puts correct_subject.reload.samples_count
-#				correct_subject.update_column(:needs_reindexed, true)
-#
-#				subject = StudySubject.with_subjectid(line['subjectid']).first
-#				assert_string_equal( subject.subjectid, line['subjectid'], :subjectid)
-#				puts subject.samples_count
-#				subject.update_column(:needs_reindexed, true)
+				assert_string_equal( correct_subject.subjectid, line['corrected_subjectid'], :corrected_subjectid)
+				puts correct_subject.samples_count
+				correct_subject.samples << sample
+				puts correct_subject.reload.samples_count
+				correct_subject.update_column(:needs_reindexed, true)
+
+				subject = StudySubject.with_subjectid(line['subjectid']).first
+				assert_string_equal( subject.subjectid, line['subjectid'], :subjectid)
+				puts subject.samples_count
+				subject.update_column(:needs_reindexed, true)
 
 				notes = [sample.notes.presence].compact
 				notes << "Sample moved from child subjectid #{line['subjectid']} to mother #{line['corrected_subjectid']} (20140422)."
@@ -50,6 +51,7 @@ namespace :samples do
 	end	#	task :correct_subject_association => :environment do
 
 	task :merge_overlaps_with_icf_master_id => :environment do
+		raise "This task has been run and disabled."
 		icf_master_ids = {}
 		CSV.open( 'data/statefileno_ccrlp.csv','rb',{ :headers => true }).each do |line|
 			raise "ICF Master ID already used" if icf_master_ids.has_key? line['derived_state_file_no_last6']
@@ -63,6 +65,7 @@ namespace :samples do
 	end	#	task :merge_overlaps_with_icf_master_id => :environment do
 
 	task :import_overlaps => :environment do
+		raise "This task has been run and disabled."
 		ifile = "data/20140303_overlaps_with_icf_master_ids.csv"
 		ofile = "data/20140303_overlaps_with_icf_master_ids_subjectids_sampleids.csv"
 		mfile = "data/20140305_manifest.csv"
