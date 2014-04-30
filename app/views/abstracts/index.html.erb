@@ -4,9 +4,9 @@
 <%= link_to "All Abstracts", 
 	abstracts_path(), class: :button %>&nbsp;
 <%= link_to "Abstracts awaiting merging", 
-	abstracts_path(:to_merge => true), class: :button %>&nbsp;
+	to_merge_abstracts_path, class: :button %>&nbsp;
 <%= link_to "Merged Abstracts", 
-	abstracts_path(:merged => true), class: :button %>
+	merged_abstracts_path, class: :button %>
 </p>
 
 <% unless @abstracts.to_a.empty? %>

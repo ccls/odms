@@ -74,7 +74,10 @@ Odms::Application.routes.draw do
 
 	root :to => 'odms#show'
 
-	resources :abstracts, :only => :index
+	resources :abstracts, :only => :index do
+		collection { get :merged }
+		collection { get :to_merge }
+	end
 #	resources :address_types
 	resources :bc_requests, :except => :show do
 		collection { get :confirm }

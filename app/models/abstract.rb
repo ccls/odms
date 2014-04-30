@@ -55,6 +55,10 @@ class Abstract  < ActiveRecord::Base
 	scope :merged,
 		->{ where(self.arel_table[:merged_by_uid].not_eq(nil) ) }
 	scope :unmerged, ->{ where(:merged_by_uid => nil) }
+	scope :mergable, ->{ joins(:study_subject).where(:'study_subjects.abstracts_count' => 2) }
+
+#	almost mergable, but only returns 1 abstract per study_subject
+#Abstract.group(:study_subject_id).select('COUNT(`abstracts`.`study_subject_id`) AS count_study_subject_id, `abstracts`.*').having('count_study_subject_id = 2').order(:study_subject_id)
 
 	delegate :patid, :subjectid, :icf_master_id, :vital_status,
 		:dob, :hospital, :diagnosis,

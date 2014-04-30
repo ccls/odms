@@ -48,7 +48,7 @@ class AbstractsControllerTest < ActionController::TestCase
 			FactoryGirl.create(:abstract)
 			FactoryGirl.create(:abstract,:merged_by_uid => '1234')
 			login_as send(cu)
-			get :index, :merged => true
+			get :merged
 			assert_response :success
 			assert_template 'index'
 			assert assigns(:abstracts)
@@ -60,7 +60,7 @@ class AbstractsControllerTest < ActionController::TestCase
 			a1 = FactoryGirl.create(:abstract)
 			FactoryGirl.create(:abstract,:study_subject_id => a1.study_subject_id)
 			login_as send(cu)
-			get :index, :to_merge => true
+			get :to_merge
 			assert_response :success
 			assert_template 'index'
 			assert assigns(:abstracts)
