@@ -10,11 +10,10 @@ class CandidateControl < ActiveRecord::Base
 	validations_from_yaml_file
 
 	scope :rejected,   ->{ where(:reject_candidate => true) }
-
 	scope :unrejected, 
 		->{ where(self.arel_table[:reject_candidate].eq_any([false,nil])) }
-
 	scope :unassigned, ->{ where(:assigned_on => nil, :study_subject_id => nil) }
+	scope :with_related_patid, ->(patid){ where(:related_patid => sprintf("%04d",patid.to_i)) }
 
 	delegate :sex, :full_name, :first_name, :middle_name, :last_name,
 		:mother_full_name, :mother_first_name, :mother_middle_name, :mother_maiden_name, 
@@ -30,11 +29,6 @@ class CandidateControl < ActiveRecord::Base
 
 	def case_study_subject_birth_state_CA?
 		case_study_subject.try(:birth_state) == 'CA'
-	end
-
-	#	class method (basically a scope with an argument)
-	def self.with_related_patid(patid)
-		where(:related_patid => sprintf("%04d",patid.to_i))
 	end
 
 	def create_study_subjects(case_subject,grouping = '6')

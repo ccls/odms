@@ -18,10 +18,9 @@ class User < ActiveRecord::Base
 		roles.collect(&:name).uniq
 	end
 
-	def self.with_role_name(role_name=nil)
+	scope :with_role_name, ->(role_name=nil){
 		( role_name.blank? ) ? all :
-			joins(:roles).where(Role.arel_table[:name].eq(role_name))
-	end
+			joins(:roles).where(Role.arel_table[:name].eq(role_name)) }
 
 	def deputize
 		roles << Role.find_or_create_by(name: 'administrator')
