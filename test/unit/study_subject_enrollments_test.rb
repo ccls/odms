@@ -75,4 +75,53 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert_equal 9, unenrolled.length
 	end
 
+
+#	probably need consented_on, ineligible reason, refusal_reason
+
+	test "ineligible? should return true if ccls enrollment is_eligible is no" do
+		study_subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:no] }
+		])
+		assert study_subject.ineligible?
+	end
+
+	test "ineligible? should return false if ccls enrollment is_eligible is yes" do
+		study_subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:yes],
+				:ineligible_reason => FactoryGirl(:ineligible_reason) }
+		])
+		assert !study_subject.ineligible?
+	end
+
+	test "ineligible? should return false if ccls enrollment is_eligible is don't know" do
+		study_subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:dk] }
+		])
+		assert !study_subject.ineligible?
+	end
+
+	test "refused? should return true if ccls enrollment consented is no" do
+		study_subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :consented => YNDK[:no],
+			:consented_on => Date.current,
+			:refusal_reason => FactoryGirl.create(:refusal_reason) }
+		])
+		assert study_subject.refused?
+	end
+
+	test "refused? should return false if ccls enrollment consented is yes" do
+		study_subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :consented => YNDK[:yes],
+				:consented_on => Date.current }
+		])
+		assert !study_subject.refused?
+	end
+
+	test "refused? should return false if ccls enrollment consented is don't know" do
+		study_subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :consented => YNDK[:dk] }
+		])
+		assert !study_subject.refused?
+	end
+
 end

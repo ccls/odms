@@ -40,6 +40,14 @@ base.class_eval do
 		).where( Enrollment.arel_table[:study_subject_id].eq(nil) )
 	end
 
+	def ineligible?
+		ccls_enrollment.is_not_eligible?
+	end
+
+	def refused?
+		ccls_enrollment.not_consented?
+	end
+
 end	#	class_eval
 end	#	included
 end	#	StudySubjectEnrollments

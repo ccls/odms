@@ -672,16 +672,21 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert respond_to?(:ineligible)
 	end
 
-	test "ineligible should return ineligible if do not contact" do
-		subject = FactoryGirl.create(:study_subject,:do_not_contact => true)
+	test "ineligible should return ineligible if subject is not eligible" do
+		subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:no],
+				:ineligible_reason => FactoryGirl.create(:ineligible_reason) }
+		])
 		assert subject.is_a?(StudySubject)
 		assert subject.ineligible?
 		response = HTML::Document.new( ineligible(subject) ).root
 		assert_select response, 'div#ineligible', :count => 1
 	end
 
-	test "ineligible should NOT return ineligible if NOT do not contact" do
-		subject = FactoryGirl.create(:study_subject,:do_not_contact => false)
+	test "ineligible should NOT return ineligible if subject is eligible" do
+		subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:yes] }
+		])
 		assert  subject.is_a?(StudySubject)
 		assert !subject.ineligible?
 		response = HTML::Document.new( ineligible(subject) ).root
@@ -692,6 +697,43 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "ineligible should NOT return ineligible if nil subject" do
 		response = HTML::Document.new( ineligible(nil) ).root
 		assert_select response, 'div#ineligible', :count => 0
+		assert response.to_s.blank?
+	end
+
+
+#	refused
+
+	test "should respond to refused" do
+		assert respond_to?(:refused)
+	end
+
+	test "refused should return refused if subject did not consent" do
+		subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :consented => YNDK[:no],
+				:refusal_reason => FactoryGirl.create(:refusal_reason),
+				:consented_on => Date.current }
+		])
+		assert subject.is_a?(StudySubject)
+		assert subject.refused?
+		response = HTML::Document.new( refused(subject) ).root
+		assert_select response, 'div#refused', :count => 1
+	end
+
+	test "refused should NOT return refused if subject did consent" do
+		subject = create_study_subject(:enrollments_attributes => [
+			{ :project_id => Project['ccls'].id, :consented => YNDK[:yes],
+				:consented_on => Date.current }
+		])
+		assert  subject.is_a?(StudySubject)
+		assert !subject.refused?
+		response = HTML::Document.new( refused(subject) ).root
+		assert_select response, 'div#refused', :count => 0
+		assert response.to_s.blank?
+	end
+
+	test "refused should NOT return refused if nil subject" do
+		response = HTML::Document.new( refused(nil) ).root
+		assert_select response, 'div#refused', :count => 0
 		assert response.to_s.blank?
 	end
 
