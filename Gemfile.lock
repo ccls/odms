@@ -65,7 +65,7 @@ GEM
     hpricot (0.8.6)
     i18n (0.6.9)
     jakewendt-active_record_left_joins (4.0.0)
-    jakewendt-active_record_sunspotter (4.2.0)
+    jakewendt-active_record_sunspotter (4.2.2)
       progress_bar
       sunspot_rails
       sunspot_solr
