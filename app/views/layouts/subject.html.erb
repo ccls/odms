@@ -19,6 +19,8 @@
    <%#= yield :main %>
    <%#= do_not_contact(@study_subject) if @study_subject %>
    <%= do_not_contact(@study_subject) %>
+   <%= ineligible(@study_subject) %>
+   <%= refused(@study_subject) %>
    <div id='content'>
     <%= flasher() %>
     <%= yield %>

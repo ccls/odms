@@ -317,6 +317,28 @@ module ApplicationHelper
 		s.html_safe
 	end
 
+	def ineligible(study_subject)
+		s = if study_subject.try(:ineligible?)
+			"<div id='ineligible'>\n" <<
+				"Study Subject is not eligible.\n" <<
+				"</div>\n"
+		else
+			''
+		end 
+		s.html_safe
+	end
+
+	def refused(study_subject)
+		s = if study_subject.try(:refused?)
+			"<div id='refused'>\n" <<
+				"Study Subject refused consent.\n" <<
+				"</div>\n"
+		else
+			''
+		end 
+		s.html_safe
+	end
+
 	def sort_up_image
 		"#{Rails.root}/app/assets/images/sort_up.png"
 	end

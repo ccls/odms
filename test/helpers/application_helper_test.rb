@@ -659,21 +659,46 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert response.to_s.blank?
 	end
 
-#	do_not_contact MUST be true or false (no nil)
-#	test "do_not_contact should NOT return do_not_contact if nil do not contact" do
-#		subject = FactoryGirl.create(:study_subject,:do_not_contact => nil)
-#		assert  subject.is_a?(StudySubject)
-#		assert_nil subject.do_not_contact
-#		response = HTML::Document.new( do_not_contact(subject) ).root
-#		assert_select response, 'div#do_not_contact', :count => 0
-#		assert response.blank?
-#	end
-
 	test "do_not_contact should NOT return do_not_contact if nil subject" do
 		response = HTML::Document.new( do_not_contact(nil) ).root
 		assert_select response, 'div#do_not_contact', :count => 0
 		assert response.to_s.blank?
 	end
+
+
+#	ineligible
+
+	test "should respond to ineligible" do
+		assert respond_to?(:ineligible)
+	end
+
+	test "ineligible should return ineligible if do not contact" do
+		subject = FactoryGirl.create(:study_subject,:do_not_contact => true)
+		assert subject.is_a?(StudySubject)
+		assert subject.ineligible?
+		response = HTML::Document.new( ineligible(subject) ).root
+		assert_select response, 'div#ineligible', :count => 1
+	end
+
+	test "ineligible should NOT return ineligible if NOT do not contact" do
+		subject = FactoryGirl.create(:study_subject,:do_not_contact => false)
+		assert  subject.is_a?(StudySubject)
+		assert !subject.ineligible?
+		response = HTML::Document.new( ineligible(subject) ).root
+		assert_select response, 'div#ineligible', :count => 0
+		assert response.to_s.blank?
+	end
+
+	test "ineligible should NOT return ineligible if nil subject" do
+		response = HTML::Document.new( ineligible(nil) ).root
+		assert_select response, 'div#ineligible', :count => 0
+		assert response.to_s.blank?
+	end
+
+
+
+
+
 
 private 
 	def params
