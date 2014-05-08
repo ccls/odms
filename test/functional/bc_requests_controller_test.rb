@@ -22,7 +22,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should get new with existing bc_requests and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			case_study_subject.bc_requests.create
+			case_study_subject.bc_requests.create(:status => 'active')
 			get :new
 			assert_nil assigns(:study_subject)
 			assert_not_nil assigns(:active_bc_requests)
@@ -30,6 +30,60 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 			assert_response :success
 			assert_template 'new'
+		end
+
+		test "should get new and order existing by studyid with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc1 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc2 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc3 = case_study_subject.bc_requests.create(:status => 'active')
+			get :new, :order => :studyid
+			assert_nil assigns(:study_subject)
+			assert_not_nil assigns(:active_bc_requests)
+			assert_not_nil assigns(:waitlist_bc_requests)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+			assert_equal [bc1,bc2,bc3], assigns(:active_bc_requests)
+		end
+
+		test "should get new and order existing by studyid asc with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc1 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc2 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc3 = case_study_subject.bc_requests.create(:status => 'active')
+			get :new, :order => :studyid, :dir => :asc
+			assert_nil assigns(:study_subject)
+			assert_not_nil assigns(:active_bc_requests)
+			assert_not_nil assigns(:waitlist_bc_requests)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+			assert_equal [bc1,bc2,bc3], assigns(:active_bc_requests)
+		end
+
+		test "should get new and order existing by studyid desc with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc1 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc2 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc3 = case_study_subject.bc_requests.create(:status => 'active')
+			get :new, :order => :studyid, :dir => :desc
+			assert_nil assigns(:study_subject)
+			assert_not_nil assigns(:active_bc_requests)
+			assert_not_nil assigns(:waitlist_bc_requests)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+			assert_equal [bc1,bc2,bc3], assigns(:active_bc_requests).reverse
 		end
 
 		test "should NOT add case study_subject to bc_requests without q" <<
@@ -332,6 +386,57 @@ class BcRequestsControllerTest < ActionController::TestCase
 			assert !assigns(:bc_requests).empty?
 			assert_equal 1, assigns(:bc_requests).length
 			assert_equal 'pending', assigns(:bc_requests).first.status
+		end
+
+		test "should get bc_requests and order existing by studyid with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc1 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc2 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc3 = case_study_subject.bc_requests.create(:status => 'active')
+			get :index, :order => :studyid
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:bc_requests)
+			assert !assigns(:bc_requests).empty?
+			assert_equal 3, assigns(:bc_requests).length
+			assert_equal [bc1,bc2,bc3], assigns(:bc_requests)
+		end
+
+		test "should get bc_requests and order existing by studyid asc with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc1 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc2 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc3 = case_study_subject.bc_requests.create(:status => 'active')
+			get :index, :order => :studyid, :dir => :asc
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:bc_requests)
+			assert !assigns(:bc_requests).empty?
+			assert_equal 3, assigns(:bc_requests).length
+			assert_equal [bc1,bc2,bc3], assigns(:bc_requests)
+		end
+
+		test "should get bc_requests and order existing by studyid desc with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc1 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc2 = case_study_subject.bc_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			bc3 = case_study_subject.bc_requests.create(:status => 'active')
+			get :index, :order => :studyid, :dir => :desc
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:bc_requests)
+			assert !assigns(:bc_requests).empty?
+			assert_equal 3, assigns(:bc_requests).length
+			assert_equal [bc1,bc2,bc3], assigns(:bc_requests).reverse
 		end
 
 		test "should confirm actives exported with #{cu} login" do

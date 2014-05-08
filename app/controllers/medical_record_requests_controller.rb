@@ -10,8 +10,11 @@ class MedicalRecordRequestsController < ApplicationController
 		#	sole purpose is to make common test for new action happy
 		@medical_record_request           = MedicalRecordRequest.new 
 
+		record_or_recall_sort_order
 		@active_medical_record_requests   = MedicalRecordRequest.active
+			.joins(:study_subject).order(search_order)
 		@waitlist_medical_record_requests = MedicalRecordRequest.waitlist
+			.joins(:study_subject).order(search_order)
 	end
 
 	def create
@@ -62,7 +65,9 @@ class MedicalRecordRequestsController < ApplicationController
 	end
 
 	def index
+		record_or_recall_sort_order
 		@medical_record_requests = MedicalRecordRequest.with_status(params[:status])
+			.joins(:study_subject).order(search_order)
 		respond_to do |format|
 			format.html
 			format.csv { 
@@ -126,6 +131,21 @@ protected
 		if( @study_subject.medical_record_requests.exists? )
 			access_denied("case study_subject has a medical_record_request already!", 
 				new_medical_record_request_path)
+		end
+	end
+
+	def search_order
+		if params[:order] and
+				%w( studyid icf_master_id sent_on returned_on status ).include?(
+				params[:order].downcase)
+			order_string = params[:order]
+			dir = case params[:dir].try(:downcase)
+				when 'desc' then 'desc'
+				else 'asc'
+			end
+			[order_string,dir].join(' ')
+		else
+			nil
 		end
 	end
 

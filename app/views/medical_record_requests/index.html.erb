@@ -10,11 +10,12 @@
 <% else %>
 <table><thead>
 <tr>
- <th>Study ID</th>
- <th>ICF Master ID</th>
+ <th><%= sort_link('studyid', 'Study ID' ) %></th>
+ <th><%= sort_link('icf_master_id', 'ICF Master ID' ) %></th>
  <th>Subject Name</th>
- <th>Hospital Request Date</th>
- <th>Status</th>
+ <th><%= sort_link('sent_on', 'Request Date' ) %></th>
+ <th><%= sort_link('returned_on', 'Return Date' ) %></th>
+ <th><%= sort_link('status', 'Status' ) %></th>
  <th>&nbsp;</th>
 </tr></thead>
 <tbody>
@@ -25,6 +26,7 @@
   <td><%= study_subject.icf_master_id_to_s %></td>
   <td><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
   <td><%=mdy medical_record_request.sent_on %></td>
+  <td><%=mdy medical_record_request.returned_on %></td>
   <td><%= medical_record_request.status %></td>
   <td><%= link_to 'Edit', edit_medical_record_request_path(medical_record_request), :class => 'button' %></td>
  </tr>

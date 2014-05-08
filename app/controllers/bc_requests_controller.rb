@@ -10,8 +10,11 @@ class BcRequestsController < ApplicationController
 		#	sole purpose is to make common test for new action happy
 		@bc_request           = BcRequest.new 
 
+		record_or_recall_sort_order
 		@active_bc_requests   = BcRequest.active
+			.joins(:study_subject).order(search_order)
 		@waitlist_bc_requests = BcRequest.waitlist
+			.joins(:study_subject).order(search_order)
 	end
 
 	def create
@@ -62,7 +65,9 @@ class BcRequestsController < ApplicationController
 	end
 
 	def index
+		record_or_recall_sort_order
 		@bc_requests = BcRequest.with_status(params[:status])
+			.joins(:study_subject).order(search_order)
 		respond_to do |format|
 			format.html
 			format.csv { 
@@ -126,6 +131,21 @@ protected
 		if( @study_subject.bc_requests.incomplete.exists? )
 			access_denied("case study_subject has an incomplete bc_request already!", 
 				new_bc_request_path)
+		end
+	end
+
+	def search_order
+		if params[:order] and
+				%w( studyid icf_master_id sent_on status ).include?(
+				params[:order].downcase)
+			order_string = params[:order]
+			dir = case params[:dir].try(:downcase)
+				when 'desc' then 'desc'
+				else 'asc'
+			end
+			[order_string,dir].join(' ')
+		else
+			nil
 		end
 	end
 

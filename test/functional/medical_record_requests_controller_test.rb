@@ -32,6 +32,60 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
+		test "should get new and order existing by studyid with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr1 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr2 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr3 = case_study_subject.medical_record_requests.create(:status => 'active')
+			get :new, :order => :studyid
+			assert_nil assigns(:study_subject)
+			assert_not_nil assigns(:active_medical_record_requests)
+			assert_not_nil assigns(:waitlist_medical_record_requests)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+			assert_equal [mr1,mr2,mr3], assigns(:active_medical_record_requests)
+		end
+
+		test "should get new and order existing by studyid asc with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr1 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr2 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr3 = case_study_subject.medical_record_requests.create(:status => 'active')
+			get :new, :order => :studyid, :dir => :asc
+			assert_nil assigns(:study_subject)
+			assert_not_nil assigns(:active_medical_record_requests)
+			assert_not_nil assigns(:waitlist_medical_record_requests)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+			assert_equal [mr1,mr2,mr3], assigns(:active_medical_record_requests)
+		end
+
+		test "should get new and order existing by studyid desc with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr1 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr2 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr3 = case_study_subject.medical_record_requests.create(:status => 'active')
+			get :new, :order => :studyid, :dir => :desc
+			assert_nil assigns(:study_subject)
+			assert_not_nil assigns(:active_medical_record_requests)
+			assert_not_nil assigns(:waitlist_medical_record_requests)
+			assert_nil flash[:error]
+			assert_response :success
+			assert_template 'new'
+			assert_equal [mr1,mr2,mr3], assigns(:active_medical_record_requests).reverse
+		end
+
 		test "should NOT add case study_subject to medical_record_requests without q" <<
 				" and #{cu} login" do
 			login_as send(cu)
@@ -330,6 +384,57 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			assert !assigns(:medical_record_requests).empty?
 			assert_equal 1, assigns(:medical_record_requests).length
 			assert_equal 'pending', assigns(:medical_record_requests).first.status
+		end
+
+		test "should get medical_record_requests and order existing by studyid with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr1 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr2 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr3 = case_study_subject.medical_record_requests.create(:status => 'active')
+			get :index, :order => :studyid
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:medical_record_requests)
+			assert !assigns(:medical_record_requests).empty?
+			assert_equal 3, assigns(:medical_record_requests).length
+			assert_equal [mr1,mr2,mr3], assigns(:medical_record_requests)
+		end
+
+		test "should get medical_record_requests and order existing by studyid asc with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr1 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr2 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr3 = case_study_subject.medical_record_requests.create(:status => 'active')
+			get :index, :order => :studyid
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:medical_record_requests)
+			assert !assigns(:medical_record_requests).empty?
+			assert_equal 3, assigns(:medical_record_requests).length
+			assert_equal [mr1,mr2,mr3], assigns(:medical_record_requests)
+		end
+
+		test "should get medical_record_requests and order existing by studyid desc with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr1 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr2 = case_study_subject.medical_record_requests.create(:status => 'active')
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr3 = case_study_subject.medical_record_requests.create(:status => 'active')
+			get :index, :order => :studyid
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:medical_record_requests)
+			assert !assigns(:medical_record_requests).empty?
+			assert_equal 3, assigns(:medical_record_requests).length
+			assert_equal [mr1,mr2,mr3], assigns(:medical_record_requests)
 		end
 
 		test "should confirm actives exported with #{cu} login" do
