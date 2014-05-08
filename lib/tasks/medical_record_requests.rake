@@ -2,6 +2,52 @@ require 'csv'
 namespace :app do
 namespace :medical_record_requests do
 
+	task :create_waitlist_requests => :environment do
+#		puts "Cases"
+#		puts StudySubject.cases.count
+#		puts "Admitted more than 60 days ago"
+#		puts StudySubject.cases.where(StudySubject.arel_table[:reference_date].lt(Date.current-60.days)).count
+#		puts "Consented"
+#		puts StudySubject.cases.where(StudySubject.arel_table[:reference_date].lt(Date.current-60.days))
+#				.joins(:enrollments => :project).where(:'projects.key' => :ccls)
+#				.where(:'enrollments.consented' => YNDK[:yes]).count
+#		puts "Without a MRR"
+#		puts StudySubject.cases.where(StudySubject.arel_table[:reference_date].lt(Date.current-60.days))
+#				.joins(:enrollments => :project).where(:'projects.key' => :ccls)
+#				.where(:'enrollments.consented' => YNDK[:yes])
+#				.left_joins(:medical_record_requests).where(:'medical_record_requests.id' => nil).count
+#		puts "Phase 5"
+#		puts StudySubject.cases.where(StudySubject.arel_table[:reference_date].lt(Date.current-60.days))
+#				.joins(:enrollments => :project).where(:'projects.key' => :ccls)
+#				.where(:'enrollments.consented' => YNDK[:yes])
+#				.left_joins(:medical_record_requests).where(:'medical_record_requests.id' => nil)
+#				.where(:phase => 5).count
+#Cases
+#3112
+#Admitted more than 60 days ago
+#3086
+#Consented
+#2027
+#Without a MRR
+#1534
+#Phase 5
+#172
+		StudySubject.cases.where(StudySubject.arel_table[:reference_date].lt(Date.current-60.days))
+				.joins(:enrollments => :project).where(:'projects.key' => :ccls)
+				.where(:'enrollments.consented' => YNDK[:yes])
+				.left_joins(:medical_record_requests).where(:'medical_record_requests.id' => nil)
+				.where(:phase => 5).find_each do |s|
+			
+			puts s.full_name
+
+#			s.medical_record_requests.create!(
+#				:status => 'waitlist',
+#				:notes => "Auto-created from rake task on #{Date.current.strftime("%-m/%-d/%Y")}."
+#			)
+
+		end	#	.find_each do |s|
+	end	#	task :create_waitlist_requests => :environment do
+
 	task :import_requested_and_received => :environment do
 		env_required('csv_file')
 		file_required(ENV['csv_file'])
