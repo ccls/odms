@@ -80,16 +80,24 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 
 	test "ineligible? should return true if ccls enrollment is_eligible is no" do
 		study_subject = create_study_subject(:enrollments_attributes => [
-			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:no] }
+			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:no],
+				:ineligible_reason => FactoryGirl.create(:ineligible_reason) }
 		])
+		assert study_subject.persisted?, 
+			"#{study_subject.errors.full_messages.to_sentence}"
+		assert_not_nil study_subject
+		assert_not_nil study_subject.ccls_enrollment
 		assert study_subject.ineligible?
 	end
 
 	test "ineligible? should return false if ccls enrollment is_eligible is yes" do
 		study_subject = create_study_subject(:enrollments_attributes => [
-			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:yes],
-				:ineligible_reason => FactoryGirl(:ineligible_reason) }
+			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:yes] }
 		])
+		assert study_subject.persisted?, 
+			"#{study_subject.errors.full_messages.to_sentence}"
+		assert_not_nil study_subject
+		assert_not_nil study_subject.ccls_enrollment
 		assert !study_subject.ineligible?
 	end
 
@@ -97,6 +105,10 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		study_subject = create_study_subject(:enrollments_attributes => [
 			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:dk] }
 		])
+		assert study_subject.persisted?, 
+			"#{study_subject.errors.full_messages.to_sentence}"
+		assert_not_nil study_subject
+		assert_not_nil study_subject.ccls_enrollment
 		assert !study_subject.ineligible?
 	end
 
@@ -106,6 +118,10 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 			:consented_on => Date.current,
 			:refusal_reason => FactoryGirl.create(:refusal_reason) }
 		])
+		assert study_subject.persisted?, 
+			"#{study_subject.errors.full_messages.to_sentence}"
+		assert_not_nil study_subject
+		assert_not_nil study_subject.ccls_enrollment
 		assert study_subject.refused?
 	end
 
@@ -114,6 +130,10 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 			{ :project_id => Project['ccls'].id, :consented => YNDK[:yes],
 				:consented_on => Date.current }
 		])
+		assert study_subject.persisted?, 
+			"#{study_subject.errors.full_messages.to_sentence}"
+		assert_not_nil study_subject
+		assert_not_nil study_subject.ccls_enrollment
 		assert !study_subject.refused?
 	end
 
@@ -121,6 +141,10 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		study_subject = create_study_subject(:enrollments_attributes => [
 			{ :project_id => Project['ccls'].id, :consented => YNDK[:dk] }
 		])
+		assert study_subject.persisted?, 
+			"#{study_subject.errors.full_messages.to_sentence}"
+		assert_not_nil study_subject
+		assert_not_nil study_subject.ccls_enrollment
 		assert !study_subject.refused?
 	end
 
