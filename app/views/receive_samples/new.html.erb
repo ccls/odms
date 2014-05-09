@@ -1,12 +1,12 @@
 <% stylesheets(:receive_sample) %>
 <h4>Receive Sample</h4>
 
-<%= form_tag(new_receive_sample_path,:method => :get) do %>
+<%= form_tag(new_receive_sample_path,:id => :receive_sample, :method => :get) do %>
 <p>
 <%= text_field_tag :q, params[:q], :id => nil  %>
 <%= submit_tag 'find subject by exact studyid or icf master id', :name => nil %>
 </p>
-<p>* Mother subjects do not have studyids.  Enter her child's studyid here or her icf master id in the next field.</p>
+<p>* Mother subjects do not have studyids.  Enter her child's studyid or her own icf master id here.</p>
 <% end %>
 
 

@@ -1,0 +1,17 @@
+form#receive_sample {
+	#subject_control_bar {
+		border: 1px solid black;
+		border-width: 1px 0px; /* only the top and bottom */
+		padding: 0px 20px;
+		margin-bottom: 20px;
+		> * {
+			vertical-align: top;
+		}
+		> div > p {
+			margin-top: 0; /* remove the double top margin which messes up alignment */
+		}
+	}
+	.field_wrapper label {
+		width: 150px;
+	}
+}

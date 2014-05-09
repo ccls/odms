@@ -9,6 +9,10 @@
 </div></div>
 
 <div class='enrollment'>
+
+<%= wrapped_datetime_spans :enrollment, :vaccine_authorization_received_at,
+	:label_text => 'Vaccine Authorization Received At:' %>
+
 <%= wrapped_yndk_spans :enrollment, :is_eligible,
 	:label_text => 'is eligible?' %>
 <%= wrapped_spans :enrollment, :ineligible_reason,

@@ -13,6 +13,9 @@
 
 <%= f.error_messages %>
 
+<%= f.wrapped_datetime_text_field :vaccine_authorization_received_at,
+	:label_text => 'Vaccine Authorization Received At:' %>
+
 <%= f.wrapped_yndk_select :is_eligible,
 	:label_text => 'is eligible?' %>
 <div id='subject_is_eligible'>

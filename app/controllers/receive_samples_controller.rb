@@ -59,6 +59,8 @@ class ReceiveSamplesController < ApplicationController
 				:operational_event_type_id => OperationalEventType['sample_received'].id,
 				:occurred_at               => DateTime.current
 			)
+			@sample_for_subject.ccls_enrollment.update_column(:vaccine_authorization_received_at,
+				DateTime.current) if params[:vaccine_authorization_received].present?
 		end
 
 		flash.now[:notice] = "Sample and Transfer creation for #{@sample_source} succeeded."

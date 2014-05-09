@@ -52,4 +52,7 @@
 <%= f.wrapped_datetime_text_field :shipped_to_ccls_at,
 	:label_text => 'Shipped:' %>
 
+<%= wrapped_check_box_tag :vaccine_authorization_received, 1, params[:vaccine_authorization_received].present?,
+	:label_text => "Vaccine Authorization Received?" %>
+
 <% end %>
