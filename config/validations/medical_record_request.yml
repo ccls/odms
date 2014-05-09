@@ -14,6 +14,6 @@
 -
   :attributes: :status
   :inclusion:
-    :in: <%= BcRequest.statuses %>
+    :in: <%= MedicalRecordRequest.statuses %>
   :allow_blank: true
 

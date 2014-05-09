@@ -20,7 +20,7 @@ class MedicalRecordRequestTest < ActiveSupport::TestCase
 	test "statuses should return an array of strings" do
 		statuses = MedicalRecordRequest.statuses
 		assert statuses.is_a?(Array)
-		assert_equal 4, statuses.length
+		assert_equal 5, statuses.length
 		statuses.each { |s| assert s.is_a?(String) }
 	end
 
@@ -57,6 +57,13 @@ class MedicalRecordRequestTest < ActiveSupport::TestCase
 		assert medical_record_requests.include?( medical_record_request )
 	end
 
+	test "should include abstracted medical record request in abstracted scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'abstracted' )
+		medical_record_requests = MedicalRecordRequest.abstracted
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
 	test "should include complete medical record request in complete scope" do
 		medical_record_request = FactoryGirl.create(:medical_record_request,
 			:status => 'complete' )
@@ -81,6 +88,13 @@ class MedicalRecordRequestTest < ActiveSupport::TestCase
 	test "should include waitlist medical record request in incomplete scope" do
 		medical_record_request = FactoryGirl.create(:medical_record_request,
 			:status => 'waitlist' )
+		medical_record_requests = MedicalRecordRequest.incomplete
+		assert medical_record_requests.include?( medical_record_request )
+	end
+
+	test "should include abstracted medical record request in incomplete scope" do
+		medical_record_request = FactoryGirl.create(:medical_record_request,
+			:status => 'abstracted' )
 		medical_record_requests = MedicalRecordRequest.incomplete
 		assert medical_record_requests.include?( medical_record_request )
 	end

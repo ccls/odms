@@ -4,7 +4,7 @@ class MedicalRecordRequest < ActiveRecord::Base
 	attr_protected :study_subject_id, :study_subject
 
 	def self.statuses
-		%w( active waitlist pending complete )
+		%w( active waitlist pending complete abstracted )
 	end
 
 	#	statuses must be defined above before it can be used below.
@@ -14,6 +14,7 @@ class MedicalRecordRequest < ActiveRecord::Base
 	scope :waitlist, ->{ where( :status => 'waitlist' ) }
 	scope :pending,  ->{ where( :status => 'pending' ) }
 	scope :complete, ->{ where( :status => 'complete' ) }
+	scope :abstracted, ->{ where( :status => 'abstracted' ) }
 	scope :incomplete, 
 		->{ where(self.arel_table[:status].eq(nil).or(
 			self.arel_table[:status].not_eq('complete'))) }
