@@ -1,20 +1,22 @@
 .field_wrapper label {
 	width: 170px;
 }
-.admit_date_wrapper .warning {
-	display:none;
-	width:250px;
-	float:right;
-	padding: 5px;
-	padding-right:0;
-}
-.admit_date_wrapper.changed .admit_date {
-	display:inline;
-}
-.admit_date_wrapper.changed .warning {
-	display:inline;
-	background-color: #FDD;
-	border: 1px solid #F88;
+.admit_date_wrapper {
+	.warning {
+		display:none;
+		width:250px;
+		float:right;
+		padding: 5px;
+		padding-right:0;
+	}
+	&.changed .admit_date {
+		display:inline;
+	}
+	&.changed .warning {
+		display:inline;
+		background-color: #FDD;
+		border: 1px solid #F88;
+	}
 }
 .diagnosis,
 .other_diagnosis {

@@ -1,12 +1,14 @@
 table {
 	border-collapse:collapse;
+	tbody {
+		td {
+			padding: 5px;
+		}
+		&:nth-child(3n+1),
+		&:nth-child(3n+2) {
+			border-right:1px solid silver;
+		}
+		tr.diff:nth-child(2n)   { background-color: #EBB; }
+		tr.diff:nth-child(2n+1) { background-color: #DBB; }
+	}
 }
-td {
-	padding: 5px;
-}
-tbody td:nth-child(3n+1),
-tbody td:nth-child(3n+2) {
-	border-right:1px solid silver;
-}
-table tbody tr.diff:nth-child(2n)   { background-color: #EBB; }
-table tbody tr.diff:nth-child(2n+1) { background-color: #DBB; }

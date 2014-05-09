@@ -2,57 +2,59 @@ table#study_subjects th {
 	text-align: left;
 }
 form#study_subject_search {
-}
-form#study_subject_search .project,
-form#study_subject_search #races,
-form#study_subject_search #types {
-	float:left;
-	margin: auto 10px;
-}
-form#study_subject_search ul {
-	padding-left: 5px;
-}
-form#study_subject_search ul li {
-	list-style-type: none;
-}
-form#study_subject_search div#something {
-	clear:both;
+	.project,
+	#races,
+	#types {
+		float:left;
+		margin: auto 10px;
+	}
+	ul {
+		padding-left: 5px;
+		li {
+			list-style-type: none;
+		}
+	}
+	div#something {
+		clear:both;
+	}
+	input[type='submit']{
+		font-size:12pt;
+	}
 }
 
-form#study_subject_search input[type='submit']{
-	font-size:12pt;
-}
 span.arrow {
 	padding-left:0.5ex;
 }
 
-form#find_study_subjects div.table {
-	clear:both;
-	/* this holds the table-row open, otherwise shrinks to whatever */
-	display:table;
-	width:100%;
-}
-form#find_study_subjects div.table div.tablerow {
-	display:table-row;
-}
-form#find_study_subjects div.table div.tablerow > div {
-	display:table-cell;
-	padding: 5px;
-}
-form#find_study_subjects div.table div.tablerow > div input[type='text'] {
-	width: 100px;
+form#find_study_subjects {
+	div.table {
+		clear:both;
+		/* this holds the table-row open, otherwise shrinks to whatever */
+		display:table;
+		width:100%;
+		div.tablerow {
+			display:table-row;
+			> div {
+				display:table-cell;
+				padding: 5px;
+			}
+			> div input[type='text'] {
+				width: 100px;
+			}
+		}
+	}
 }
 
 
 div.pagination.wrapper {
 	margin-top:5px;
-}
-div.pagination.wrapper div.pagination {
-	display:inline;
-}
-div.pagination.wrapper label {
-	margin-left: 30px;
-}
-div.pagination.wrapper input {
-	width: 30px;
+	div.pagination {
+		display:inline;
+	}
+	label {
+		margin-left: 30px;
+	}
+	input {
+		width: 30px;
+	}
 }

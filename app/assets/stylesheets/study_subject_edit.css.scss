@@ -20,32 +20,30 @@ div.dob {
 	vertical-align: top;
 	width: 300px;
 }
-/*
-div.local_registrar_no,
-div.subject_type,
-div.sex {
-	display:inline;
-}
-*/
 div#races div.subject_race {
 	margin-left:30px;
 }
 div#study_subject_races {
 	margin-bottom: 10px;
 }
-div.name > label {
-	width: 60px;
-}
-div.name div.field_wrapper {
-	margin-bottom: 0px;
-}
-div.name div.field_wrapper select,
-div.name div.field_wrapper input {
-	margin-left: 10px;
-	margin-right: 20px;
-}
-div.name.maiden {
-	margin-left: 420px;
+div.name {
+	> label {
+		width: 60px;
+	}
+	div.field_wrapper {
+		margin-bottom: 0px;
+		select,
+		input {
+			margin-left: 10px;
+			margin-right: 20px;
+		}
+	}
+	&.maiden {
+		margin-left: 420px;
+	}
+	* {
+		vertical-align: top;
+	}
 }
 div.guardian_relationship {
 	margin-left: 100px;
@@ -55,7 +53,4 @@ div.guardian_relationship_id label {
 }
 div.other_guardian_relationship {
 	display: inline;
-}
-div.name * {
-	vertical-align: top;
 }

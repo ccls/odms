@@ -1,50 +1,30 @@
 .dev_only {
 	margin-top: 30px;
 	clear:left;
-}
-.dev_only span {
-	float:left;
-}
-
-form.edit_phone_number .field_wrapper label {
-  width:130px;
-}
-/*
-form.edit_phone_number .field_wrapper .fieldWithErrors:first-child {
-  float:left;
-}
-*/
-/*
-form.edit_phone_number div.valid > div,
-form.edit_phone_number div.verified > div,
-*/
-form.edit_phone_number div.source > div {
-	display:inline-block;
-	vertical-align:top;
-}
-/*
-form.edit_phone_number div.is_valid,
-form.edit_phone_number div.is_verified,
-*/
-form.edit_phone_number div.data_source {
-	margin-right: 10px;
-}
-/*
-form.edit_phone_number div.why_invalid,
-form.edit_phone_number div.how_verified,
-*/
-form.edit_phone_number div.other_data_source {
-	clear:none;
-}
-/*
-form.edit_phone_number .why_invalid label,
-form.edit_phone_number .how_verified label,
-*/
-form.edit_phone_number .other_data_source label {
-	width: auto;
-	padding-right: 10px;
+	span {
+		float:left;
+	}
 }
 
-form.edit_phone_number #phone_number_other_data_source {
-	width: 150px;
+form.edit_phone_number {
+	.field_wrapper label {
+  	width:130px;
+	}
+	div.source > div {
+		display:inline-block;
+		vertical-align:top;
+	}
+	div.data_source {
+		margin-right: 10px;
+	}
+	div.other_data_source {
+		clear:none;
+		label {
+			width: auto;
+			padding-right: 10px;
+		}
+	}
+	#phone_number_other_data_source {
+		width: 150px;
+	}
 }

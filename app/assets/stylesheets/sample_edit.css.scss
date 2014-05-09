@@ -1,12 +1,14 @@
-.field_wrapper .label,
-.field_wrapper label {
-	width: 150px;
+.field_wrapper {
+	.label,
+	label {
+		width: 150px;
+	}
 }
 .location_id.field_wrapper {
 	float:left;
 	clear:none;
 	padding-left: 10px;
-}
-.location_id.field_wrapper label {
-	width:70px;
+	label {
+		width:70px;
+	}
 }

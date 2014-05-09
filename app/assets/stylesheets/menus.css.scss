@@ -17,10 +17,24 @@ div#minimenu {
 	float:right;
 	padding: 5px 10px;
 	color: white;
+	a {
+		color: white;
+		text-decoration:none;
+	}
 }
-div#minimenu a {
-	color: white;
-	text-decoration:none;
+
+form#icf_master_id_form {
+	height: 32px;
+	float:right;
+	display:inline-block;
+	vertical-align:middle;
+	* {
+		display:inline-block;
+		vertical-align:middle;
+	}
+	label {
+		color:white;
+	}
 }
 
 /*
@@ -32,118 +46,84 @@ div#minimenu a {
 
 */
 
-#mainmenu .menu_item,
-#mainmenu .menu_item a,
-#sidemenu a {
-	text-decoration: none;
-	color:black;
-}
-#mainmenu .menu_item a {
-	width: 100%;
-	height:100%;
-}
 div#mainmenu { 
 	position:relative;	/* don't know if this is needed */
 	height: 32px;
 	display:inline-block;
 	vertical-align:middle;
-}
-form#icf_master_id_form {
-	height: 32px;
-	float:right;
-	display:inline-block;
-	vertical-align:middle;
-}
-form#icf_master_id_form * {
-	display:inline-block;
-	vertical-align:middle;
-}
-form#icf_master_id_form label {
-	color:white;
-}
-
-div#mainmenu .menu_item {
-	position:relative;
-	padding:0;
-	margin:0;
-	float:left;
-	font-size: 12pt;
-	font-weight: bold;
-	border: 2px solid black;
-	border-bottom: 1px solid black;
-	border-left: 0;
-	background-color: #A9BECC;
+	.menu_item,
+	.menu_item a {
+		text-decoration: none;
+		color:black;
+	}
+	.menu_item a {
+		width: 100%;
+		height:100%;
+	}
+	.menu_item {
+		position:relative;
+		padding:0;
+		margin:0;
+		float:left;
+		font-size: 12pt;
+		font-weight: bold;
+		border: 2px solid black;
+		border-bottom: 1px solid black;
+		border-left: 0;
+		background-color: #A9BECC;
 /* If I hard set the size of the menu item here and the 
-	top of the sub_menu below rather than let the browser
-	guess, things may line up better and more consistently 
-	4x2 + 20 would make the sub_menu top 28 
-	I wish I could figure this out in a simpler fashion so
-	that the submenu just stuck to the bottom of the menu item.
-	height: 20px;
+		top of the sub_menu below rather than let the browser
+		guess, things may line up better and more consistently 
+		4x2 + 20 would make the sub_menu top 28 
+		I wish I could figure this out in a simpler fashion so
+		that the submenu just stuck to the bottom of the menu item.
+		height: 20px;
 */
 /* 
-	height should be the same as mainmenu MINUS any vertical borders and padding 
-	32px - 2px - 1px - 0px - 0px = 29px
+		height should be the same as mainmenu MINUS any vertical borders and padding 
+		32px - 2px - 1px - 0px - 0px = 29px
 */
-	height: 29px;	
-}
-div#mainmenu .menu_item:nth-child(1) {
-	border-left: 2px solid black;
-}
-div#mainmenu > .current {
-	background-color: #CCC3A9;
-}
-div#mainmenu .menu_item > a {
-	padding: 4px 14px;
-	line-height: 28px;	
-}
-
-div#mainmenu .menu_item .sub_menu {
-/*
-	As a hover menu, this is absolute and a bit tricky to
-		keep lined up in both Firefox and IE.
-	I think that it is caused by differing font sizes.
-	This seems to work, but isn't perfect.
-	top: 28px;
-*/
-	position:absolute;
-	margin:0;
-	padding:0;
-	top: 29px;	/* same as #mainmenu height MINUS .menu_item vertical borders */
-	left:0px;
-	clear:left;
-	z-index: 100;	/* needed to keep it above other stuff */
-	background-color: white;
-	border: 1px solid gray;
-	border-top: 0;
-	display:none;
-	
-/*
-		Using display or visibility doesn't seem to make any difference.
-	display:none;
-	visibility:hidden;
-*/
-
-	/* box-shadow: <horizontal> <vertical> <blur> <color> */
-	/* 2px makes it a little to the right and 5px makes it mostly down */
-	box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
-}
-div#mainmenu .menu_item .sub_menu > * {
-	font-weight: normal;
-	padding: 5px;
-	display:block;
-	white-space:pre;
-}
-div#mainmenu .menu_item:hover > .sub_menu { 
-/*
-		Using display or visibility doesn't seem to make any difference.
-	display:block; 
-	visibility:visible;
-*/
-	display:block; 
-}
+		height: 29px;	
+		> a {
+			padding: 4px 14px;
+			line-height: 28px;	
+		}
+		.sub_menu {
+			position:absolute;
+			margin:0;
+			padding:0;
+			top: 29px;	/* same as #mainmenu height MINUS .menu_item vertical borders */
+			left:0px;
+			clear:left;
+			z-index: 100;	/* needed to keep it above other stuff */
+			background-color: white;
+			border: 1px solid gray;
+			border-top: 0;
+			display:none;
+		
+			/* box-shadow: <horizontal> <vertical> <blur> <color> */
+			/* 2px makes it a little to the right and 5px makes it mostly down */
+			box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
+			-moz-box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
+			-webkit-box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.5);
+			> * {
+				font-weight: normal;
+				padding: 5px;
+				display:block;
+				white-space:pre;
+			}
+		}
+		&:nth-child(1) {
+			border-left: 2px solid black;
+		}
+		&:hover > .sub_menu { 
+			display:block; 
+		}
+	}
+	> .current {
+		background-color: #CCC3A9;
+	}
+}	/*	div#mainmenu {  */
 
 div#left_side_menu {
 	width: 180px;
@@ -160,20 +140,18 @@ div#left_side_menu {
 	width: 180px;	
 	padding-left: 0;
 
+	a {
+		text-decoration: none;
+		color:black;
+	}
+	> * {
+		padding: 5px 10px;
+		display:block;
+	}
+	> li > .current {
+		font-weight:bold;
+	}
+	> li > span.count {
+		float:right;
+	}
 }
-#sidemenu > * {
-	padding: 5px 10px;
-	display:block;
-}
-#sidemenu > li > .current {
-	font-weight:bold;
-}
-#sidemenu > li > span.count {
-	float:right;
-}
-/*
-	don't think used anymore
-#sidemenu > div > span.prev {
-	text-align:right;
-}
-*/

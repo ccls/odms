@@ -1,11 +1,13 @@
-.enrollment .field_wrapper.completed_on .label,
-.enrollment .field_wrapper.terminated_reason .label,
-.enrollment .field_wrapper.other_refusal_reason .label,
-.enrollment .field_wrapper.refusal_reason .label,
-.enrollment .field_wrapper.document_version .label,
-.enrollment .field_wrapper.consented_on .label,
-.enrollment .field_wrapper.other_ineligible_reason .label,
-.enrollment .field_wrapper.ineligible_reason .label,
-.enrollment .field_wrapper.reason_not_chosen  .label{
-	text-indent:50px;
+.enrollment .field_wrapper {
+	&.completed_on .label,
+	&.terminated_reason .label,
+	&.other_refusal_reason .label,
+	&.refusal_reason .label,
+	&.document_version .label,
+	&.consented_on .label,
+	&.other_ineligible_reason .label,
+	&.ineligible_reason .label,
+	&.reason_not_chosen  .label {
+		text-indent:50px;
+	}
 }
