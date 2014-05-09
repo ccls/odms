@@ -36,29 +36,29 @@ div#header {
 	padding:0;
 	background-color: #6A7780;
 	height: auto;
-}
-div#header div#header_top {
-	height: 50px;
-	display:block;
-	padding: 0px;
-	margin: 0px;
-	border: 0px;
-	clear:both;
+	div#header_top {
+		height: 50px;
+		display:block;
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		clear:both;
+	}
 }
 div#logo {
 	width: 650px;
 	float:left;
 	padding-left: 10px;
 	font-family: Times New Roman,LeagueGothicRegular,helvetica,arial,sans-serif;
-}
-div#logo h2 {
-	font-size: 30px;
-	margin: 10px;
-	margin-top: 3px;
-	margin-bottom: 0px;
-	color:white;
-	text-shadow: #000 0 2px 3px;
-	display:inline-block;
+	h2 {
+		font-size: 30px;
+		margin: 10px;
+		margin-top: 3px;
+		margin-bottom: 0px;
+		color:white;
+		text-shadow: #000 0 2px 3px;
+		display:inline-block;
+	}
 }
 h2 span {
 	font-size: 15px;
@@ -77,13 +77,6 @@ h3 > span {
 form.button_to > div {
 	display: inline;
 }
-/* as of 20130531, I don't think that I use this anymore. At least I'm trying to stop using float 
-h4 > * {
-	float:right;
-	font-size:10pt;
-	font-weight:normal;
-}
-*/
 
 div#fullsearch {
 	clear:right;
@@ -107,6 +100,9 @@ div#preview {
 	margin-top: 20px;
 	border-top: 1px solid silver;
 }
+
+/* 20140509 - I think that .section is/was on on the ODMS home page and commented out *?
+/*
 div.section {
 	border-right: 1px solid silver;
 	float:left;
@@ -125,6 +121,8 @@ div.section table {
 	float:left;
 	width:100%;
 }
+*/
+
 
 div#guidance {
 	width: 200px;
@@ -162,19 +160,19 @@ div#guidance {
 .control { 
 	display:table; 
 	width: 100%;
-}
-.control > .control_row {
-	display:table-row;
-}
-.control > .control_row > * {
-	padding: 10px 0;
-	display:table-cell;
-}
-.control > .control_row > *:last-child {
-	text-align:right;
-}
-.control > .control_row > * > form.button_to {
-	display:inline;
+	> .control_row {
+		display:table-row;
+		> * {
+			padding: 10px 0;
+			display:table-cell;
+			> form.button_to {
+				display:inline;
+			}
+		}
+		> *:last-child {
+			text-align:right;
+		}
+	}
 }
 /* end generic 'control bar' */
 
@@ -191,34 +189,22 @@ div#guidance {
 */
 #dashboard_control_bar {
 	text-align:right;
-}
-#dashboard_control_bar a {
-	background-color: #EEE;
-	border: 1px solid gray;
-	border-radius: 5px 5px 5px 5px;
-	color: black;
-	font-size: 12pt;
-	padding: 2px 15px;
-	text-align: center;
-	text-decoration: none;
-}
-#dashboard_control_bar a.current {
-	background-color: #FFF;
+	a {
+		background-color: #EEE;
+		border: 1px solid gray;
+		border-radius: 5px 5px 5px 5px;
+		color: black;
+		font-size: 12pt;
+		padding: 2px 15px;
+		text-align: center;
+		text-decoration: none;
+	}
+	a.current {
+		background-color: #FFF;
+	}
 }
 
 
-/*
-	This is the form title, cancel, save stuff
-*/
-/*	20130531 - no longer used (using generic control bar instead, yay!)
-#subject_control_bar > * {
-	display:inline-block;
-	margin: 15px 0;
-}
-#subject_control_bar > .buttons {
-	float:right;
-}
-*/
 
 .flash {
 	/* http://css-radius.heroku.com */
@@ -320,12 +306,12 @@ div.pagination {
 	/* this holds the div open to the size of the contents */
 	display:table-row;
 	margin: 13.333px 0;
-}
-.columns > div {
-	/* and this seems to alleviate the need for floating */
-	display:table-cell;
-	/* stop one column from pushing another down */
-	vertical-align: top;
+	> div {
+		/* and this seems to alleviate the need for floating */
+		display:table-cell;
+		/* stop one column from pushing another down */
+		vertical-align: top;
+	}
 }
 
 
@@ -335,24 +321,18 @@ th {
 }
 
 /* basically for multiple fields in a row */
-.field_grouper > *{
-	display:inline-block;
-	clear:none;
-	vertical-align:top;
-}
 .field_wrapper {
 	margin-bottom: 15px;
 	clear:both;
-}
-.field_wrapper .label,
-.field_wrapper  label {
-	width: 250px;
-}
-.field_wrapper > * {
-	/* more explicitly replace with inline-block and an alignment. */
-	/* use > * instead of just * as select/options would go full screen width */
-	display:inline-block;
-	vertical-align:top;
+	> * {
+		display:inline-block;
+		clear:none;
+		vertical-align:top;
+	}
+	.label,
+	label {
+		width: 250px;
+	}
 }
 form .field_wrapper input[type=checkbox] + label {
 	width: auto;
@@ -385,12 +365,12 @@ div.table {
 	/* this holds the table-row open, otherwise shrinks to whatever */
 	display:table;
 	width:100%;
-}
-div.table > .row {
-	display:table-row;
-}
-div.table > .row > .cell {
-	display:table-cell;
+	> .row {
+		display:table-row;
+		> .cell {
+			display:table-cell;
+		}
+	}
 }
 
 .center {
@@ -409,13 +389,13 @@ div.table > .row > .cell {
 div.sortable {
 	height: 18px;
 	line-height: 16px;
-}
-div.sortable * {
-	display:inline;
-	vertical-align:top;
-}
-div.sortable img {
-	height: 24px;
+	* {
+		display:inline;
+		vertical-align:top;
+	}
+	img {
+		height: 24px;
+	}
 }
 
 span.post_text {
@@ -460,29 +440,36 @@ input.datepicker {
 	width: 100px;
 }
 
-form.edit_guide .field_wrapper label {
-	display:block;
-	margin-top:10px;
-}
-form.edit_guide textarea {
-	width: 100%;
-}
-form.edit_guide input[type=text] {
-	width: 99%;
+form.edit_guide {
+	.field_wrapper label {
+		display:block;
+		margin-top:10px;
+	}
+	textarea {
+		width: 100%;
+	}
+	input[type=text] {
+		width: 99%;
+	}
 }
 
-.homex_outcomes .columns .column:nth-child(1) {
-	width: 350px;
+.homex_outcomes {
+	.columns {
+		.column:nth-child(1) {
+			width: 350px;
+		}
+		.column:nth-child(2) {
+			width: auto;
+		}
+	}
+	.field_wrapper .label {
+		width: 120px;
+	}
+	.title {
+		width: 160px;
+	}
 }
-.homex_outcomes .columns .column:nth-child(2) {
-	width: auto;
-}
-.homex_outcomes .field_wrapper .label {
-	width: 120px;
-}
-.homex_outcomes .title {
-	width: 160px;
-}
+
 .study_subject .homex_outcomes .title {
 	float: left;
 }
