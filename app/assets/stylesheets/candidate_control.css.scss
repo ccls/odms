@@ -1,0 +1,56 @@
+form.edit_candidate_control {
+	div.possible_duplicates {
+		border:1px solid black; 
+		padding: 10px;
+		margin-bottom:30px;
+		table.candidate_control {
+			width: auto;
+			th, td {
+				padding: 10px;
+			}
+		}
+		+ div.reject_control_wrapper {
+			display:none;
+		}
+	}
+
+	div#reject_control {
+		border-bottom:1px solid black;
+		> div {
+			border:1px solid black; 
+			border-bottom:0; 
+			padding: 10px;
+		}
+		> div.info {
+			background-color:silver;
+		}
+		table {
+			th, td {
+				text-align:center;
+				font-size:8pt;
+			}
+			td {
+				border:1px solid black;
+				border-left: 0;
+				background-color: white;
+				&.label {
+					background-color: transparent;
+					border:0;
+					border-right:1px solid black;
+					padding-right: 5px;
+					text-align:right;
+				}
+			}
+		}
+		> div.disposition {
+			div {
+				vertical-align:top;
+				display:inline-block;
+				padding-right: 5px;
+			}
+			div.rejection * {
+				vertical-align:top;
+			}
+		}
+	}
+}

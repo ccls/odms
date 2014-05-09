@@ -198,9 +198,9 @@ div#guidance {
 		padding: 2px 15px;
 		text-align: center;
 		text-decoration: none;
-	}
-	a.current {
-		background-color: #FFF;
+		&.current {
+			background-color: #FFF;
+		}
 	}
 }
 
