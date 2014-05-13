@@ -83,6 +83,7 @@ module ApplicationHelper
 							when 'pending'  then :pending_medical_record_requests
 							when 'active'   then :active_medical_record_requests
 							when 'waitlist' then :waitlist_medical_record_requests
+							when 'abstracted' then :abstracted_medical_record_requests
 							when 'complete' then :complete_medical_record_requests
 							else :all_medical_record_requests
 						end
@@ -104,9 +105,10 @@ module ApplicationHelper
 					:class => ((current == :waitlist_medical_record_requests)?'current':nil) ),
 				link_to( "Pending Requests", medical_record_requests_path(:status => 'pending'),
 					:class => ((current == :pending_medical_record_requests)?'current':nil) ),
+				link_to( "Abstracted Requests", medical_record_requests_path(:status => 'abstracted'),
+					:class => ((current == :abstracted_medical_record_requests)?'current':nil) ),
 				link_to( "Complete Requests", medical_record_requests_path(:status => 'complete'),
 					:class => ((current == :complete_medical_record_requests)?'current':nil) )
-
 			]
 			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
 			s << "\n</ul><!-- sidemenu -->\n"

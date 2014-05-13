@@ -51,10 +51,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
+			assert_select 'a', :count => 7
 			assert_select 'a.current[href=?]', new_medical_record_request_path
 		end
 	end
@@ -64,10 +62,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
+			assert_select 'a', :count => 7
 			assert_select 'a.current[href=?]', medical_record_requests_path
 		end
 	end
@@ -77,10 +73,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
+			assert_select 'a', :count => 7
 			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'active')
 		end
 	end
@@ -90,10 +84,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
+			assert_select 'a', :count => 7
 			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'complete')
 		end
 	end
@@ -103,10 +95,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
+			assert_select 'a', :count => 7
 			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'waitlist')
 		end
 	end
@@ -116,10 +106,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
+			assert_select 'a', :count => 7
 			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'pending')
 		end
 	end
@@ -133,11 +121,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-#			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'pending')
+			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
+			assert_select 'a', :count => 7
 			assert_select 'a.current', :count => 0
 		end
 	end
@@ -148,8 +133,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
 			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', new_bc_request_path
@@ -161,8 +144,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
 			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path
@@ -174,8 +155,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
 			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path(:status => 'active')
@@ -187,8 +166,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
 			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path(:status => 'complete')
@@ -200,8 +177,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
 			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path(:status => 'waitlist')
@@ -213,8 +188,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
 			assert_select 'a', :count => 6
 			assert_select 'a.current[href=?]', bc_requests_path(:status => 'pending')
@@ -230,8 +203,6 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, Validation, All, Active, Waitlist, Complete
-			#	assert_select 'a', 7
 			#	New, Pending, All, Active, Waitlist, Complete
 			assert_select 'a', :count => 6
 #			assert_select 'a.current[href=?]', bc_requests_path(:status => 'pending')
