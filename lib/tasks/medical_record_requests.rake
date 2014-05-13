@@ -3,6 +3,7 @@ namespace :app do
 namespace :medical_record_requests do
 
 	task :create_waitlist_requests => :environment do
+		puts Time.zone.now
 		StudySubject.cases.where(StudySubject.arel_table[:reference_date].lt(Date.current-60.days))
 				.joins(:enrollments => :project).where(:'projects.key' => :ccls)
 				.where(:'enrollments.consented' => YNDK[:yes])
@@ -14,10 +15,10 @@ namespace :medical_record_requests do
 				:notes => "Auto-created from rake task on #{Date.current.strftime("%-m/%-d/%Y")}."
 			)
 		end	#	.find_each do |s|
+		puts Time.zone.now
 	end	#	task :create_waitlist_requests => :environment do
 
 	task :import_requested_and_received => :environment do
-		puts Time.zone.now
 		env_required('csv_file')
 		file_required(ENV['csv_file'])
 		#	NOTE Not all have icf_master_id
@@ -86,7 +87,6 @@ namespace :medical_record_requests do
 				:notes => "Imported from #{ENV['csv_file']}"
 			)
 		end	#	(csv_in = CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
-		puts Time.zone.now
 	end	#	task :import_requested_and_received => :environment do
 
 end	#	namespace :medical_record_requests do
