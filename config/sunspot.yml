@@ -3,7 +3,7 @@ production:
     hostname: localhost
     port: 8983
     log_level: WARNING
-    solr_home: /my/ruby/odms/solr
+    solr_home: <%= "#{Rails.root}/solr" %>
     path: /solr/production
 
 development:
@@ -11,7 +11,7 @@ development:
     hostname: localhost
     port: 8982
     log_level: INFO
-    solr_home: /Users/jakewendt/github_repo/ccls/odms/solr
+    solr_home: <%= "#{Rails.root}/solr" %>
     path: /solr/development
 
 test:
@@ -19,5 +19,5 @@ test:
     hostname: localhost
     port: 8981
     log_level: WARNING
-    solr_home: /Users/jakewendt/github_repo/ccls/odms/solr
+    solr_home: <%= "#{Rails.root}/solr" %>
     path: /solr/test
