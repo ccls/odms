@@ -24,4 +24,15 @@ class MedicalRecordRequest < ActiveRecord::Base
 		( study_subject ) ? study_subject.studyid : self
 	end
 
+	after_save :reindex_study_subject!, :if => :changed?
+	#	can be before as is just flagging it and not reindexing yet.
+	before_destroy :reindex_study_subject!
+
+protected
+
+	def reindex_study_subject!
+		logger.debug "Medical Record Request changed so reindexing study subject"
+		study_subject.update_column(:needs_reindexed, true) if study_subject
+	end
+
 end
