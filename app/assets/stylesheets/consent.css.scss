@@ -9,9 +9,10 @@ div#eligibility_criteria {
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 }
-.enrollment .field_wrapper .label,
-.enrollment .field_wrapper label {
-  width:180px;
+.enrollment .field_wrapper {
+	.label, label {
+  	width:180px;
+	}
 }
 
 /*

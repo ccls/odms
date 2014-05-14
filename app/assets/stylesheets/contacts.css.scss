@@ -8,13 +8,13 @@
 	padding-bottom:10px;
 	clear:left;	
 	border-top: 1px dotted silver;
-}
-.contact_wrapper:nth-child(1) {
-	border-top: 0;
-}
-div.contact_wrapper > div {
-	display:inline-block;
-	vertical-align: top;
+	&:nth-child(1) {
+		border-top: 0;
+	}
+	> div {
+		display:inline-block;
+		vertical-align: top;
+	}
 }
 .when,
 .phone_number,
@@ -24,12 +24,14 @@ div.contact_wrapper > div {
 .contact_meta > span {
 	display:block;
 }
-.address .line_1,
-.address .line_2,
-.address .unit,
-.address .county,
-.address .csz {
-	display:block;
+.address {
+	.line_1,
+	.line_2,
+	.unit,
+	.county,
+	.csz {
+		display:block;
+	}
 }
 .edit {
 	float:right;

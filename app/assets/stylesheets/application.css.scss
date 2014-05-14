@@ -66,16 +66,13 @@ h2 span {
 	display:inline-block;
 	vertical-align:middle;
 }
-h3 > input[type=submit],
-h3 > span {
-	float:right;
-	font-size:10pt;
-	font-weight:normal;
-}
-
-/* primarily for the bc_request export buttons */
-form.button_to > div {
-	display: inline;
+h3 {
+	> input[type=submit],
+	> span {
+		float:right;
+		font-size:10pt;
+		font-weight:normal;
+	}
 }
 
 div#fullsearch {
@@ -96,10 +93,6 @@ div#content {
 	font-size: 10pt;
 }
 
-div#preview {
-	margin-top: 20px;
-	border-top: 1px solid silver;
-}
 
 /* 20140509 - I think that .section is/was on on the ODMS home page and commented out *?
 /*
@@ -151,11 +144,6 @@ div#guidance {
 	border-bottom-right-radius: 15px;
 }
 
-
-
-
-
-
 /* generic 'control bar' */
 .control { 
 	display:table; 
@@ -175,13 +163,6 @@ div#guidance {
 	}
 }
 /* end generic 'control bar' */
-
-
-
-
-
-
-
 
 
 /*
@@ -205,7 +186,6 @@ div#guidance {
 }
 
 
-
 .flash {
 	/* http://css-radius.heroku.com */
 	-webkit-border-radius: 8px;
@@ -215,26 +195,26 @@ div#guidance {
 	text-align: center;
 	font-weight: bold;
 	font-size: 12pt;
-}
-.flash.error,
-.flash#error {
-	border: 2px solid #F44;
-	background-color: #FCC;
-}
-.flash.notice,
-.flash#notice {
-	border: 2px solid #4F4;
-	background-color: #CFC;
-}
-.flash.noscript,
-.flash#noscript {
-	border: 2px solid #FF8C00;
-	background-color: #FFC5AF;
-}
-.flash.warn,
-.flash#warn {
-	border: 2px solid #FF6600;
-	background-color: #FFCC99;
+	&.error,
+	&#error {
+		border: 2px solid #F44;
+		background-color: #FCC;
+	}
+	&.notice,
+	&#notice {
+		border: 2px solid #4F4;
+		background-color: #CFC;
+	}
+	&.noscript,
+	&#noscript {
+		border: 2px solid #FF8C00;
+		background-color: #FFC5AF;
+	}
+	&.warn,
+	&#warn {
+		border: 2px solid #FF6600;
+		background-color: #FFCC99;
+	}
 }
 .warning {
 	border: 2px solid #F44;
@@ -265,36 +245,50 @@ div.header {
 	border-top: 0;
 	padding: 6px;
 	overflow: auto;
+	div.manage {
+		text-align:right;
+	}
+	&:nth-child(1) {
+		border-top: 1px solid silver;
+	}
+	&:nth-child(2n)   { background-color: #FCF9EF; }
+	&:nth-child(2n+1) { background-color: #F5F1E8; }
+	&.diff:nth-child(2n)   { background-color: #EBB; }
+	&.diff:nth-child(2n+1) { background-color: #DBB; }
 }
-.row div.manage {
-	text-align:right;
-}
-.row:nth-child(1) {
-	border-top: 1px solid silver;
-}
-.row:nth-child(2n)   { background-color: #FCF9EF; }
-.row:nth-child(2n+1) { background-color: #F5F1E8; }
-.row.diff:nth-child(2n)   { background-color: #EBB; }
-.row.diff:nth-child(2n+1) { background-color: #DBB; }
 
 table {
 	border-collapse:collapse;
 	width: 100%;
-}
-table.nowrap td { white-space: nowrap; }
-thead tr th,
-tr.row td {
-	padding: 6px;
-}
-th.manage,
-td.manage {
-	text-align:center;
-	white-space: nowrap;
-}
-
-form.link_to {
-	padding-top: 10px;
-	padding-bottom: 10px;
+	td.nowrap, &.nowrap td { 
+		white-space: nowrap; 
+	}
+	thead tr th,
+	tr.row td {
+		padding: 6px;
+	}
+	th.manage,
+	td.manage {
+		text-align:center;
+		white-space: nowrap;
+	}
+	th {
+		text-align: left;
+	}
+	&#guides td.controller {
+		width: 300px;
+	}
+	&.medical_record_requests,
+	&.bc_requests {
+		font-size:8pt;
+	}
+	&.sample_study_subject,
+	&.birth_records {
+		th, td {
+			border: 1px solid gray;
+			text-align: center;
+		}
+	}
 }
 
 div.pagination {
@@ -314,12 +308,6 @@ div.pagination {
 	}
 }
 
-
-
-th {
-	text-align: left;
-}
-
 /* basically for multiple fields in a row */
 .field_wrapper {
 	margin-bottom: 15px;
@@ -334,14 +322,45 @@ th {
 		width: 250px;
 	}
 }
-form .field_wrapper input[type=checkbox] + label {
-	width: auto;
-}
 
-/* 20130531 could probably add form.button_to and div to this */
-form.destroy_link_to div,
-form.destroy_link_to {
-	display:inline;
+form {
+	.field_wrapper input[type=checkbox] + label {
+		width: auto;
+	}
+	&.destroy_link_to div,
+	&.destroy_link_to,
+	&.button_to > div {
+		display: inline;
+	}
+	&.link_to {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	&.edit_guide {
+		.field_wrapper label {
+			display:block;
+			margin-top:10px;
+		}
+		textarea {
+			width: 100%;
+		}
+		input[type=text] {
+			width: 99%;
+		}
+	}
+	&#confirm_sample_transfers {
+		display:inline-block;
+		h4 {
+			display:inline-block;
+			margin-right: 10px;
+		}
+	}
+	&.edit_sample_transfer,
+	&.edit_event {
+		.field_wrapper label {
+			width: 100px;
+		}
+	}
 }
 
 .field_error {
@@ -422,13 +441,14 @@ BEGIN APPLICATION
 ****************************************************/
 
 
-div#preview table tr th {
-	text-align: center;
+div#preview {
+	margin-top: 20px;
+	border-top: 1px solid silver;
+	table tr th {
+		text-align: center;
+	}
 }
 
-table#guides td.controller {
-	width: 300px;
-}
 /* 
 	I don't know why I need to do this, but without this, the datepicker border 
 	actually shows up in the lower left corner until it is used.  After that it 
@@ -436,22 +456,8 @@ table#guides td.controller {
 */
 div.ui-datepicker { display:none; }
 
-input.datepicker {
-	width: 100px;
-}
+input.datepicker { width: 100px; }
 
-form.edit_guide {
-	.field_wrapper label {
-		display:block;
-		margin-top:10px;
-	}
-	textarea {
-		width: 100%;
-	}
-	input[type=text] {
-		width: 99%;
-	}
-}
 
 .homex_outcomes {
 	.columns {
@@ -532,10 +538,7 @@ input[type=submit] {
 	padding: 0px 8px;
 }
 
-form#confirm_sample_transfers {
-	display:inline-block;
-}
-form#confirm_sample_transfers h4 {
-	display:inline-block;
-	margin-right: 10px;
+/* app/views/study_subject/patients/show.html.erb */
+#patient .field_wrapper > span.label {
+	width: 170px;
 }
