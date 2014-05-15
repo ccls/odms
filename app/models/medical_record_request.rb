@@ -32,7 +32,7 @@ protected
 
 	def reindex_study_subject!
 		logger.debug "Medical Record Request changed so reindexing study subject"
-		study_subject.update_column(:needs_reindexed, true) if study_subject
+		study_subject.update_column(:needs_reindexed, true) if( study_subject && study_subject.persisted? )
 	end
 
 end

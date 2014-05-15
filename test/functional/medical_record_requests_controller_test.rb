@@ -257,10 +257,10 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT update medical_record_request status with invalid medical_record_request #{cu} login" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			MedicalRecordRequest.any_instance.stubs(:valid?).returns(false)
-			deny_changes("MedicalRecordRequest.find(#{mdr.id}).status") {
-				put :update_status, :id => mdr.id, :status => 'pending'
+			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
+				put :update_status, :id => mrr.id, :status => 'pending'
 			}
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -270,10 +270,10 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT update medical_record_request status with failed save and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			MedicalRecordRequest.any_instance.stubs(:create_or_update).returns(false)
-			deny_changes("MedicalRecordRequest.find(#{mdr.id}).status") {
-				put :update_status, :id => mdr.id, :status => 'pending'
+			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
+				put :update_status, :id => mrr.id, :status => 'pending'
 			}
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -283,9 +283,9 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT update medical_record_request status with invalid status and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
-			deny_changes("MedicalRecordRequest.find(#{mdr.id}).status") {
-				put :update_status, :id => mdr.id, :status => 'bogus'
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
+			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
+				put :update_status, :id => mrr.id, :status => 'bogus'
 			}
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -295,8 +295,8 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT update medical_record_request status with invalid id and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
-			deny_changes("MedicalRecordRequest.find(#{mdr.id}).status") {
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
+			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => 0, :status => 'waitlist'
 			}
 			assert_not_nil flash[:error]
@@ -306,9 +306,9 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should update medical_record_request status with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
-			assert_changes("MedicalRecordRequest.find(#{mdr.id}).status") {
-				put :update_status, :id => mdr.id, :status => 'waitlist'
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
+			assert_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
+				put :update_status, :id => mrr.id, :status => 'waitlist'
 			}
 			assert_not_nil assigns(:medical_record_request)
 			assert_nil flash[:error]
@@ -328,7 +328,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should get medical_record_requests with #{cu} login and requests" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mdr = case_study_subject.medical_record_requests.create
+			mrr = case_study_subject.medical_record_requests.create
 			get :index
 			assert_response :success
 			assert_template 'index'
@@ -337,13 +337,78 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			assert_equal 1, assigns(:medical_record_requests).length
 		end
 
+		test "should get pending medical_record_requests with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mrr = case_study_subject.medical_record_requests.create(:status => 'pending')
+			get :index, :status => 'pending'
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:medical_record_requests)
+			assert !assigns(:medical_record_requests).empty?
+			assert_equal 1, assigns(:medical_record_requests).length
+			assert_equal 'pending', assigns(:medical_record_requests).first.status
+		end
+
+		test "should get active medical_record_requests with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
+			get :index, :status => 'active'
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:medical_record_requests)
+			assert !assigns(:medical_record_requests).empty?
+			assert_equal 1, assigns(:medical_record_requests).length
+			assert_equal 'active', assigns(:medical_record_requests).first.status
+		end
+
+		test "should get waitlist medical_record_requests with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mrr = case_study_subject.medical_record_requests.create(:status => 'waitlist')
+			get :index, :status => 'waitlist'
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:medical_record_requests)
+			assert !assigns(:medical_record_requests).empty?
+			assert_equal 1, assigns(:medical_record_requests).length
+			assert_equal 'waitlist', assigns(:medical_record_requests).first.status
+		end
+
+		test "should get abstracted medical_record_requests with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mrr = case_study_subject.medical_record_requests.create(:status => 'abstracted')
+			get :index, :status => 'abstracted'
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:medical_record_requests)
+			assert !assigns(:medical_record_requests).empty?
+			assert_equal 1, assigns(:medical_record_requests).length
+			assert_equal 'abstracted', assigns(:medical_record_requests).first.status
+		end
+
+		test "should get complete medical_record_requests with #{cu} login" do
+			login_as send(cu)
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mrr = case_study_subject.medical_record_requests.create(:status => 'complete')
+			get :index, :status => 'complete'
+			assert_response :success
+			assert_template 'index'
+			assert assigns(:medical_record_requests)
+			assert !assigns(:medical_record_requests).empty?
+			assert_equal 1, assigns(:medical_record_requests).length
+			assert_equal 'complete', assigns(:medical_record_requests).first.status
+		end
+
 		test "should export medical_record_requests to csv with #{cu} login and requests" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
 				:mother_maiden_name => '',
 				:mother_last_name   => 'momlastname'
 			)
-			mdr = case_study_subject.medical_record_requests.create
+			mrr = case_study_subject.medical_record_requests.create
 			get :index, :format => 'csv'
 			assert_response :success
 			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
@@ -371,19 +436,6 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			assert_equal f[1][7],  case_study_subject.ccls_is_consented
 			assert_equal f[1][8],  case_study_subject.admit_date.try(:strftime,'%m/%d/%Y')
 			assert_equal f[1][9],  case_study_subject.hospital
-		end
-
-		test "should get pending medical_record_requests with #{cu} login" do
-			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mdr = case_study_subject.medical_record_requests.create(:status => 'pending')
-			get :index, :status => 'pending'
-			assert_response :success
-			assert_template 'index'
-			assert assigns(:medical_record_requests)
-			assert !assigns(:medical_record_requests).empty?
-			assert_equal 1, assigns(:medical_record_requests).length
-			assert_equal 'pending', assigns(:medical_record_requests).first.status
 		end
 
 		test "should get medical_record_requests and order existing by studyid with #{cu} login" do
@@ -441,11 +493,11 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
 			assert_equal 1, case_study_subject.enrollments.length
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			get :confirm
 			assert_redirected_to new_medical_record_request_path
-			assert_equal 'pending', mdr.reload.status
-			assert_equal Date.current, mdr.sent_on
+			assert_equal 'pending', mrr.reload.status
+			assert_equal Date.current, mrr.sent_on
 			assert !case_study_subject.reload.enrollments.empty?
 			enrollment = case_study_subject.enrollments.first
 			assert_equal Project['ccls'], enrollment.project
@@ -461,7 +513,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
 			assert_equal 1, case_study_subject.enrollments.length
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
 			assert_difference('Enrollment.count',0) {
 			assert_difference('OperationalEvent.count',0) {
@@ -476,7 +528,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
 			assert_equal 1, case_study_subject.enrollments.length
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			OperationalEvent.any_instance.stubs(:valid?).returns(false)
 			assert_difference('Enrollment.count',0) {
 			assert_difference('OperationalEvent.count',0) {
@@ -546,9 +598,9 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT update medical_record_request status with #{cu} login" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mdr = case_study_subject.medical_record_requests.create(:status => 'active')
-			deny_changes("MedicalRecordRequest.find(#{mdr.id}).status") {
-				put :update_status, :id => mdr.id, :status => 'waitlist'
+			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
+			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
+				put :update_status, :id => mrr.id, :status => 'waitlist'
 			}
 			assert_nil assigns(:medical_record_request)
 			assert_not_nil flash[:error]
@@ -627,9 +679,9 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 	test "should NOT update medical_record_request status without login" do
 		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-		mdr = case_study_subject.medical_record_requests.create(:status => 'active')
-		deny_changes("MedicalRecordRequest.find(#{mdr.id}).status") {
-			put :update_status, :id => mdr.id, :status => 'waitlist'
+		mrr = case_study_subject.medical_record_requests.create(:status => 'active')
+		deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
+			put :update_status, :id => mrr.id, :status => 'waitlist'
 		}
 		assert_redirected_to_login
 	end
