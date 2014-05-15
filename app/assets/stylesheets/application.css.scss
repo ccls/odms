@@ -309,12 +309,18 @@ div.pagination {
 }
 
 /* basically for multiple fields in a row */
+/* basically for multiple fields in a row */
+.field_grouper > *{
+	display:inline-block;
+	clear:none;
+	vertical-align:top;
+}
+
 .field_wrapper {
 	margin-bottom: 15px;
 	clear:both;
 	> * {
 		display:inline-block;
-		clear:none;
 		vertical-align:top;
 	}
 	.label,
