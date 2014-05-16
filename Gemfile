@@ -42,6 +42,13 @@ gem 'jakewendt-active_record_sunspotter'
 
 
 
+#	minitest-5.3.4/lib/minitest.rb
+#	test classes are purposely shuffled!  Only change in this version!  Why?
+#	Random is stupid.  Unpredictable.  Poor testing strategy.
+#	144: suites = Runnable.runnables.shuffle
+#	remove this requirement if can find a way around
+gem 'minitest', '= 5.3.3'
+
 
 
 #	PDF generation
