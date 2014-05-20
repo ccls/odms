@@ -367,6 +367,25 @@ form {
 			width: 100px;
 		}
 	}
+
+
+	&.edit_sample {
+		.field_wrapper {
+			.label,
+			label {
+				width: 150px;
+			}
+		}
+		.location_id.field_wrapper {
+			float:left;
+			clear:none;
+			padding-left: 10px;
+			label {
+				width:70px;
+			}
+		}
+	}
+
 }
 
 .field_error {
@@ -548,3 +567,174 @@ input[type=submit] {
 #patient .field_wrapper > span.label {
 	width: 170px;
 }
+
+
+div.event_show {
+	.field_wrapper .label {
+		width: 100px;
+	}
+}
+table#enrollments tr {
+	text-align:left;
+}
+
+
+
+
+
+form.edit_page {
+	input[type='text'],
+	textarea {
+		width: 99%;
+	}
+	div.parent {
+		float:left;
+	}
+	div.locale {
+		float:left;
+	}
+	div.hide_menu {
+		float:right;
+	}
+	div.fields {
+		clear:left;
+	}
+}
+
+
+
+tr.page {
+	.position {
+		font-weight:bold;
+		text-align:center;
+	}
+	.path,
+	.menu,
+	.title {
+		width: 140px;
+	}
+	.manage {
+		text-align:right;
+	}
+	&.row.ui-sortable-helper {
+		border: 1px dashed #E7C254;
+	}
+}
+
+
+form.edit_abstract {
+	.field_wrapper {
+		margin-top: 5px;
+		margin-bottom: 5px;
+		> * {
+			vertical-align: middle;
+		}
+	}
+	ol li {
+		font-size: large;
+		* {
+			font-size: medium;
+		}
+	}
+	input[type=text] {
+		width:150px;
+	}
+	h1 { 
+		color: red; 
+		background-color: yellow; 
+	}
+}	/* form.edit_abstract { */
+
+
+.enrollment .field_wrapper {
+	&.completed_on .label,
+	&.terminated_reason .label,
+	&.other_refusal_reason .label,
+	&.refusal_reason .label,
+	&.document_version .label,
+	&.consented_on .label,
+	&.other_ineligible_reason .label,
+	&.ineligible_reason .label,
+	&.reason_not_chosen  .label {
+		text-indent:50px;
+	}
+}
+
+form.edit_phone_number {
+	.field_wrapper label {
+  	width:130px;
+	}
+	div.source > div {
+		display:inline-block;
+		vertical-align:top;
+	}
+	div.data_source {
+		margin-right: 10px;
+	}
+	div.other_data_source {
+		clear:none;
+		label {
+			width: auto;
+			padding-right: 10px;
+		}
+	}
+	#phone_number_other_data_source {
+		width: 150px;
+	}
+	.dev_only {
+		margin-top: 30px;
+		clear:left;
+		span {
+			float:left;
+		}
+	}
+}
+
+
+form.edit_address {
+	#address_line_1,
+	#address_line_2 {
+		width: 300px;
+	}
+	#address_city {
+		width: 190px;
+	}
+	#address_other_data_source,
+	#address_unit,
+	#address_zip {
+		width: 100px;
+	}
+	.dev_only {
+		margin-top: 30px;
+		span {
+			float:left;
+		}
+	}
+	.field_wrapper label {
+		width:150px;
+	}
+	div.line_1 {
+		margin-right: 20px;
+	}
+	div.line_1,
+	div.unit {
+		display:inline-block;
+	}
+	div.unit label {
+		width:30px;
+	}
+	> div.moved > div.subject_moved > label {
+		display:inline;
+	}
+	div.data_source {
+		margin-right: 10px;
+	}
+	div.unit,
+	div.other_data_source {
+		clear:none;
+	}
+	.other_data_source label {
+		width: auto;
+		padding-right: 10px;
+	}
+}	/* form.edit_address */

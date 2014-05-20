@@ -1,5 +1,4 @@
-<% stylesheets(:event) %>
-
+<div class='event_show'>
 <div class='control'><div class='control_row'>
 <h3>Subject Event</h3>
 <div><%= link_to( 'Edit', edit_study_subject_event_path(@operational_event.study_subject_id,@operational_event),
@@ -47,3 +46,4 @@
 <%= button_to( "Destroy", study_subject_event_path(@operational_event.study_subject_id,@operational_event), :method => 'delete', :form_class => 'destroy_link_to' ) %>
 </div>
 <% end %>
+</div><!-- class='event_show' -->

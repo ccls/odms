@@ -1,4 +1,5 @@
 <%= form_for(@abstract, 
-	:url => study_subject_abstracts_path(@study_subject) ) do |f| %>
+	:url => study_subject_abstracts_path(@study_subject),
+	:html => { :class => 'edit_abstract' } ) do |f| %>
 <%= render 'form', :f => f %>
 <% end %>
