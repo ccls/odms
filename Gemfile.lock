@@ -59,7 +59,7 @@ GEM
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
     ffi (1.9.3)
-    geocoder (1.1.8)
+    geocoder (1.2.1)
     highline (1.6.21)
     hike (1.2.3)
     hpricot (0.8.6)
@@ -82,7 +82,7 @@ GEM
     minitest (5.3.3)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    multi_json (1.10.0)
+    multi_json (1.10.1)
     mysql (2.9.1)
     mysql2 (0.3.16)
     net-ldap (0.2.2)
@@ -195,7 +195,7 @@ DEPENDENCIES
   chronic
   database_cleaner
   factory_girl_rails
-  geocoder (= 1.1.8)
+  geocoder
   hpricot
   jakewendt-active_record_left_joins
   jakewendt-active_record_sunspotter
