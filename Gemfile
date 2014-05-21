@@ -118,8 +118,8 @@ gem 'ccls-common_lib', ">0.9"
 #	1.1.9 will raise error ...
 #	use_ssl value changed, but session already started
 #	geocoder-1.1.9/lib/geocoder/lookups/base.rb line 230ish
-#	WHERE? WHEN? rake task? testing? 
+#	WHERE? WHEN? rake task? testing? ... "bundle exec rake app:addresses:geocode"
 #	1.2.1 is working so far
-gem 'geocoder'	#, "=1.1.8"
+gem 'geocoder'
 
 __END__
