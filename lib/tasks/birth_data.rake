@@ -15,6 +15,24 @@ require 'csv'
 namespace :app do
 namespace :birth_data do
 
+	task :dump_all_phase_5 => :environment do
+		column_names = BirthDatum.column_names
+		puts (column_names + %w( ss_icf_master_id ss_subjectid ss_interview_completed_on ss_reference_date ss_mother_icf_master_id ss_mother_subjectid ss_birth_data_count )).to_csv
+#		BirthDatum.joins(:study_subject).where(:'study_subjects.phase' => 5).find_each do |bd|
+		BirthDatum.joins(:study_subject).where(:'study_subjects.phase' => 5).where(StudySubject.arel_table[:birth_data_count].gt(1)).find_each do |bd|
+			out = []
+			column_names.each{ |c| out.push bd[c] }
+			out.push bd.study_subject.icf_master_id
+			out.push bd.study_subject.subjectid
+			out.push bd.study_subject.ccls_enrollment.try(:interview_completed_on).try(:strftime,'%m/%d/%Y')
+			out.push bd.study_subject.reference_date.try(:strftime,'%m/%d/%Y')
+			out.push bd.study_subject.mother.try(:icf_master_id)
+			out.push bd.study_subject.mother.try(:subjectid)
+			out.push bd.study_subject.birth_data_count
+			puts out.to_csv
+		end
+	end	#	task :dump_all_phase_5 => :environment do
+
 	task :dob_check => :environment do
 		BirthDatum.find_each do |bd|
 			if( bd.study_subject.present? and bd.case_dob.present? )
