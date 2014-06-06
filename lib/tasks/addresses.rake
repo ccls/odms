@@ -31,7 +31,8 @@ namespace :addresses do
 			#	find first with matching (first 5 in) zip code?
 			result = results.detect{|result| result.postal_code == zip }
 
-			address.update_column(:geocoding_response, Marshal.dump(results) )
+#			address.update_column(:geocoding_response, Marshal.dump(results) )
+			address.update_column(:geocoding_response, results )
 
 			if result.blank?
 				address.update_column(:geocoding_failed, true)
