@@ -52,8 +52,8 @@ class BirthDatum < ActiveRecord::Base
 #
 						#	assign study_subject_id to case's id
 						update_case_study_subject_attributes
-						mark_all_incomplete_bc_requests_as_complete
-						create_address_from_attributes
+#						mark_all_incomplete_bc_requests_as_complete
+#						create_address_from_attributes
 					else
 						append_notes "Match confidence not 'definite':#{match_confidence}:"
 					end	#	if match_confidence.match(/definite/i)
@@ -176,8 +176,7 @@ class BirthDatum < ActiveRecord::Base
 		else
 			case_subject = find_case_subject
 			return if case_subject.nil?
-			self.study_subject = case_subject
-			self.save
+			case_subject.birth_data << self
 			case_subject
 		end
 	end
