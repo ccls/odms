@@ -5,19 +5,35 @@
 <body>
 <div id='container'>
  <%= render 'layouts/header' %>
+ <%= subject_id_bar(@study_subject) if @study_subject.present? && @study_subject.persisted? %>
  <div class='table'>
  <div class='columns'>
-<%# NEEDED FOR BIRTH CERTIFICATES %>
-  <%= render 'layouts/side_menu' %>
+
+<% if !content_for?(:side_menu) and @study_subject.present? and @study_subject.persisted? %>
+<% subject_side_menu(@study_subject) %>
+<% end %>
+<% if content_for?(:side_menu) %>
+<div id='left_side_menu'>
+<%= yield :side_menu %>
+</div><!-- id='left_side_menu' -->
+<% end %>
+
+
   <div id='main'>
-   <%= yield :main %>
+   <%#= yield :main   I don't remember what this was for, but I don't think its used%>
+
+<% if @study_subject.present? && @study_subject.persisted?  %>
+   <%= do_not_contact(@study_subject) %>
+   <%= ineligible(@study_subject) %>
+   <%= refused(@study_subject) %>
+<% end	#if @study_subject.present? && @study_subject.persisted?  %>
+
    <div id='content'>
     <%= flasher() %>
     <%= yield %>
    </div><!-- content -->
    <%= yield :content_bottom %>
   </div><!-- main -->
-  <%#= render 'layouts/guidance' %>
  </div><!-- columns -->
  </div><!-- class='columns_table' -->
  <%= render 'layouts/footer' %>

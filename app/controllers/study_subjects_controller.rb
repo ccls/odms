@@ -67,11 +67,9 @@ class StudySubjectsController < ApplicationController
 	end
 
 	def edit
-		render :layout => 'subject'
 	end
 
 	def show
-		render :layout => 'subject'
 	end
 
 	def update

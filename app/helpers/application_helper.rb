@@ -186,83 +186,85 @@ module ApplicationHelper
 
 		return '' unless study_subject
 
-		s = "<ul id='sidemenu'>\n"
-			list_items = []
-			if request.env["HTTP_REFERER"] =~ /study_subjects\?/ || request.env["HTTP_REFERER"] =~ /study_subjects$/
-				list_items << link_to( "back to search", request.env["HTTP_REFERER"] )
-			end
-
-# the logged_in? check is a bit much as you should never get here without it.
-#	( only used in the helper tests )
-
-			list_items += [
-				link_to( "Basic Info", study_subject_path(study_subject),
-					:class => ((current == :general)?'current':nil) ),
-				( link_to( "Address & Phone", study_subject_contacts_path(study_subject),
-					:class => ((current == :contact)?'current':nil) ) <<
-					"<span class='count'>#{study_subject.addresses_count}/#{study_subject.phone_numbers_count}</span>".html_safe )
-			]
-			list_items << link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
-					:class => ((current == :hospital)?'current':nil) ) if study_subject.is_case?
-
-			list_items += [
-				link_to( "Birth Records", study_subject_birth_records_path(study_subject),
-					:class => ((current == :birth_record)?'current':nil) ) <<
-					"<span class='count'>#{study_subject.birth_data_count}</span>".html_safe
-			] if( logged_in? and current_user.may_administrate? )
-
-			list_items += [
-				link_to( "Eligibility & Consent", study_subject_consent_path(study_subject),
-					:class => ((current == :consents)?'current':nil) ),
-				(link_to( "Enrollments",study_subject_enrollments_path(study_subject),
-					:class => ((current == :eligibility)?'current':nil) )<<
-					"<span class='count'>#{study_subject.enrollments_count}</span>".html_safe),
-				(link_to( "Samples", study_subject_samples_path(study_subject),
-					:class => ((current == :samples)?'current':nil) ) <<
-					"<span class='count'>#{study_subject.samples_count}</span>".html_safe)
-			]
-
-			list_items += [
-				link_to( "Interviews", study_subject_interviews_path(study_subject),
-					:class => ((current == :interviews)?'current':nil) ) <<
-					"<span class='count'>#{study_subject.interviews_count}</span>".html_safe
-			] if( logged_in? and current_user.may_administrate? )
-
-			list_items << (link_to( "Events", study_subject_events_path(study_subject),
-					:class => ((current == :events)?'current':nil) ) << 
-				"<span class='count'>#{study_subject.operational_events_count}</span>".html_safe)
-
-#			list_items += [
-#				link_to( "Documents", study_subject_documents_path(study_subject),
-#					:class => ((current == :documents)?'current':nil) ),
-#				link_to( "Notes", study_subject_notes_path(study_subject),
-#					:class => ((current == :notes)?'current':nil) ),
-#			] if( logged_in? and current_user.may_administrate? )
-
-			list_items << link_to( "Related Subjects", 
-					study_subject_related_subjects_path(study_subject),
-					:class => ((current == :related_subjects)?'current':nil) )
-			if study_subject.is_case?
-				list_items << (link_to( "Abstracts", study_subject_abstracts_path(study_subject),
-					:class => ((current == :abstracts)?'current':nil) ) <<
-					"<span class='count'>#{study_subject.abstracts_count}</span>".html_safe)
-				list_items << link_to( "RAF Info", raf_path(study_subject),
-					:class => ((current == :raf)?'current':nil) ) 
-			end
-			list_items << "<span>&nbsp;</span>"
-			list_items << ("<div style='text-align:center;'>" <<
-				link_to('first'.html_safe, first_study_subjects_path()) <<
-					"&nbsp;&middot;&nbsp;".html_safe <<
-				link_to('prev'.html_safe,  prev_study_subject_path(study_subject)) <<
-					"&nbsp;&middot;&nbsp;".html_safe <<
-				link_to('next'.html_safe,  next_study_subject_path(study_subject)) <<
-					"&nbsp;&middot;&nbsp;".html_safe <<
-				link_to('last'.html_safe,  last_study_subjects_path()) <<
-				"</div>")
-				#	for first and last, passing currnent subject seems pointless
-			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
-			s << "\n</ul><!-- submenu -->\n"
-		s.html_safe
+		content_for :side_menu do
+			s = "<ul id='sidemenu'>\n"
+				list_items = []
+				if request.env["HTTP_REFERER"] =~ /study_subjects\?/ || request.env["HTTP_REFERER"] =~ /study_subjects$/
+					list_items << link_to( "back to search", request.env["HTTP_REFERER"] )
+				end
+	
+				# the logged_in? check is a bit much as you should never get here without it.
+				#	( only used in the helper tests )
+	
+				list_items += [
+					link_to( "Basic Info", study_subject_path(study_subject),
+						:class => ((current == :general)?'current':nil) ),
+					( link_to( "Address & Phone", study_subject_contacts_path(study_subject),
+						:class => ((current == :contact)?'current':nil) ) <<
+						"<span class='count'>#{study_subject.addresses_count}/#{study_subject.phone_numbers_count}</span>".html_safe )
+				]
+				list_items << link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
+						:class => ((current == :hospital)?'current':nil) ) if study_subject.is_case?
+	
+				list_items += [
+					link_to( "Birth Records", study_subject_birth_records_path(study_subject),
+						:class => ((current == :birth_record)?'current':nil) ) <<
+						"<span class='count'>#{study_subject.birth_data_count}</span>".html_safe
+				] if( logged_in? and current_user.may_administrate? )
+	
+				list_items += [
+					link_to( "Eligibility & Consent", study_subject_consent_path(study_subject),
+						:class => ((current == :consents)?'current':nil) ),
+					(link_to( "Enrollments",study_subject_enrollments_path(study_subject),
+						:class => ((current == :eligibility)?'current':nil) )<<
+						"<span class='count'>#{study_subject.enrollments_count}</span>".html_safe),
+					(link_to( "Samples", study_subject_samples_path(study_subject),
+						:class => ((current == :samples)?'current':nil) ) <<
+						"<span class='count'>#{study_subject.samples_count}</span>".html_safe)
+				]
+	
+				list_items += [
+					link_to( "Interviews", study_subject_interviews_path(study_subject),
+						:class => ((current == :interviews)?'current':nil) ) <<
+						"<span class='count'>#{study_subject.interviews_count}</span>".html_safe
+				] if( logged_in? and current_user.may_administrate? )
+	
+				list_items << (link_to( "Events", study_subject_events_path(study_subject),
+						:class => ((current == :events)?'current':nil) ) << 
+					"<span class='count'>#{study_subject.operational_events_count}</span>".html_safe)
+	
+#				list_items += [
+#					link_to( "Documents", study_subject_documents_path(study_subject),
+#						:class => ((current == :documents)?'current':nil) ),
+#					link_to( "Notes", study_subject_notes_path(study_subject),
+#						:class => ((current == :notes)?'current':nil) ),
+#				] if( logged_in? and current_user.may_administrate? )
+	
+				list_items << link_to( "Related Subjects", 
+						study_subject_related_subjects_path(study_subject),
+						:class => ((current == :related_subjects)?'current':nil) )
+				if study_subject.is_case?
+					list_items << (link_to( "Abstracts", study_subject_abstracts_path(study_subject),
+						:class => ((current == :abstracts)?'current':nil) ) <<
+						"<span class='count'>#{study_subject.abstracts_count}</span>".html_safe)
+					list_items << link_to( "RAF Info", raf_path(study_subject),
+						:class => ((current == :raf)?'current':nil) ) 
+				end
+				list_items << "<span>&nbsp;</span>"
+				list_items << ("<div style='text-align:center;'>" <<
+					link_to('first'.html_safe, first_study_subjects_path()) <<
+						"&nbsp;&middot;&nbsp;".html_safe <<
+					link_to('prev'.html_safe,  prev_study_subject_path(study_subject)) <<
+						"&nbsp;&middot;&nbsp;".html_safe <<
+					link_to('next'.html_safe,  next_study_subject_path(study_subject)) <<
+						"&nbsp;&middot;&nbsp;".html_safe <<
+					link_to('last'.html_safe,  last_study_subjects_path()) <<
+					"</div>")
+					#	for first and last, passing currnent subject seems pointless
+				s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
+				s << "\n</ul><!-- sidemenu -->\n"
+			s.html_safe
+		end	#	content_for :side_menu do
 	end
 
 	def dashboard_control_bar
@@ -287,6 +289,7 @@ module ApplicationHelper
 
 	def subject_id_bar(study_subject)
 		s = if study_subject
+			"<div id='subject_header'>\n" <<
 			"<div id='id_bar'>\n" <<
 			"<div class='full_name'>\n" <<
 			"<span>#{study_subject.full_name}</span>\n" <<
@@ -301,7 +304,8 @@ module ApplicationHelper
 			"<span>#{study_subject.studyid_to_s}</span>\n" <<		#	TODO add test for this
 			"</div><!-- class='studyid' -->\n" <<
 			"</div><!-- class='id_numbers' -->\n" <<
-			"</div><!-- id='id_bar' -->\n"
+			"</div><!-- id='id_bar' -->\n" <<
+			"</div><!-- id='subject_header' -->\n"
 		else
 			''
 		end

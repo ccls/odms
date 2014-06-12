@@ -1,5 +1,7 @@
 <% medical_records_sub_menu %>
 
+<% @study_subject = @medical_record_request.study_subject %>
+
 <h4>Edit Medical Record Request</h4>
 
 <%= form_for(@medical_record_request) do |f| %>

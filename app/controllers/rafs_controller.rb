@@ -117,7 +117,6 @@ class RafsController < ApplicationController
 	end
 
 	def edit
-		render :layout => 'subject'
 	end
 
 	def update
@@ -132,24 +131,23 @@ class RafsController < ApplicationController
 		redirect_to raf_path(@study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "StudySubject updation failed"
-		render :action => 'edit', :layout => 'subject'
+		render :action => 'edit'
 #	rescue ActiveRecord::StatementInvalid => e
 #		UNLIKELY TO HAPPEN ON UPDATE
 #		flash.now[:error] = "Database error.  Check production logs and contact Jake."
-#		render :action => 'edit', :layout => 'subject'
+#		render :action => 'edit'
 #	rescue StudySubject::DuplicatesFound
 #		NOT CHECKED ON UPDATE
 #		flash.now[:error] = "Possible Duplicate(s) Found."
 #		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
-#		render :action => 'edit', :layout => 'subject'
+#		render :action => 'edit'
 	rescue Under15InconsistencyFound
 		flash.now[:error] = "Under 15 Inconsistency Found."
 		flash.now[:warn]  = "Under 15 selection does not match computed value."
-		render :action => 'edit', :layout => 'subject'
+		render :action => 'edit'
 	end
 
 	def show
-		render :layout => 'subject'
 	end
 
 protected

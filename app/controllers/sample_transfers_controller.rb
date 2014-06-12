@@ -18,7 +18,6 @@ class SampleTransfersController < ApplicationController
 
 	def edit
 		@study_subject = @sample_transfer.sample.study_subject
-		render :layout => 'subject'
 	end
 
 	def update
