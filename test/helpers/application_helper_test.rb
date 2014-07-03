@@ -112,6 +112,17 @@ class ApplicationHelperTest < ActionView::TestCase
 		end
 	end
 
+	test "medical_records_sub_menu for medical_record_requests#index?status=abstracted" do
+		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'abstracted' }
+		assert medical_records_sub_menu.nil?
+		response = HTML::Document.new( content_for(:side_menu) ).root
+		assert_select response, '#sidemenu' do
+			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
+			assert_select 'a', :count => 7
+			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'abstracted')
+		end
+	end
+
 	test "medical_records_sub_menu for bogus controller" do
 		self.params = { :controller => 'bogus' }
 		assert medical_records_sub_menu.nil?
