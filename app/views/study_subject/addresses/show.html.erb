@@ -9,13 +9,32 @@
 </div>
 </div></div>
 
+<%#	.address has a css width of 200px (FYI) %>
 <%= div_for @address do %>
 <span class='line_1'><%= @address.line_1 %></span>
 <%= "<span class='unit'>Apt. #{h(@address.unit)}</span>".html_safe unless @address.unit.blank? %>
 <%= "<span class='line_2'>#{h(@address.line_2)}</span>".html_safe  unless @address.line_2.blank? %>
 <span class='csz'><%= @address.csz %></span>
 <%= "<span class='county'>#{h(@address.county)} County</span>".html_safe unless @address.county.blank?  %>
+<%= "<span class='country'>#{h(@address.country)}</span>".html_safe unless @address.country.blank?  %>
 <% end %><!-- class='address' -->
+
+<br/>
+<div>
+<%= wrapped_spans(:address, :address_type) %>
+<%= wrapped_spans(:address, :data_source) %>
+<%= wrapped_spans(:address, :other_data_source) %>
+<%= wrapped_yndk_spans(:address, :current_address) %>
+<%= wrapped_spans(:address, :subject_moved) %>
+<%= wrapped_yndk_spans(:address, :address_at_diagnosis) %>
+
+<div class="notes spans field_wrapper">
+<span class="label">Notes</span>
+<span class="value">
+<%= @address.notes.gsub(/\n/,'<br/>').html_safe %>
+</span>
+</div>
+</div>
 
 <%= render 'map' %>
 
