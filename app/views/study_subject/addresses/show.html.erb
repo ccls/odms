@@ -31,7 +31,7 @@
 <div class="notes spans field_wrapper">
 <span class="label">Notes</span>
 <span class="value">
-<%= @address.notes.gsub(/\n/,'<br/>').html_safe %>
+<%= @address.notes.to_s.gsub(/\n/,'<br/>').html_safe %>
 </span>
 </div>
 </div>
