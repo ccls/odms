@@ -1,16 +1,4 @@
 <div class='address_wrapper contact_wrapper'>
-<%#
-
-What is 'dates' ?
-
-	'dates' is a boolean variable sometimes passed
-	to this partial to flag whether or not to show 
-	the dates.
-
-%>
-<%#= render( :partial => 'address_dates', :locals => {
-	:address => address
-}) if defined?(dates) and dates %>
 
 <%= div_for address do %>
 <span class='line_1'><%= address.line_1 %></span>
