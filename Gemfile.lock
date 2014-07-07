@@ -175,7 +175,7 @@ GEM
     ucb_ldap (2.0.0.pre5)
       net-ldap (= 0.2.2)
     websocket (1.0.7)
-    will_paginate (3.0.6)
+    will_paginate (3.0.7)
     xpath (1.0.0)
       nokogiri (~> 1.3)
 
