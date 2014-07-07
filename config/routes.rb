@@ -78,7 +78,6 @@ Odms::Application.routes.draw do
 		collection { get :merged }
 		collection { get :to_merge }
 	end
-#	resources :address_types
 	resources :bc_requests, :except => :show do
 		collection { get :confirm }
 		collection { put :activate_all_waitlist }
@@ -95,8 +94,6 @@ Odms::Application.routes.draw do
 	resources :controls, :only => [:new,:create,:index] do
 		collection { put :assign_selected_for_interview }
 	end
-#	resources :data_sources
-#	resources :diagnoses
 	resources :document_types
 	resources :document_versions
 	resources :guides
@@ -115,7 +112,6 @@ Odms::Application.routes.draw do
 		collection { put :waitlist_all_active }
 		member     { put :update_status }
 	end
-#	resources :odms_exceptions, :except => [:new,:create]
 	resources :operational_event_types do
 		collection { get 'options' }
 	end
@@ -127,27 +123,22 @@ Odms::Application.routes.draw do
 		end
 	end
 	resources :people
-#	resources :phone_types
 	resources :projects
 	resources :rafs, :only => [:new,:create,:edit,:update,:show]
 	resources :races
 	resource  :receive_sample, :only => [:new,:create]
 	resources :refusal_reasons
-#	resources :sample_formats
 	resources :sample_locations
 	resources :sample_outcomes
-#	resources :sample_temperatures
 	resources :sample_transfers, :only => [:edit,:update,:index,:destroy] do
 		collection { put :confirm }
 		member     { put :update_status }
 	end
 	resources :sample_types
 	resources :subject_relationships
-#	resources :tracing_statuses
 	resources :zip_codes, :only => [ :index ]
 
 	get 'logout', :to => 'sessions#destroy'
-#	delete 'logout', :to => 'sessions#destroy'
 
 	resources :users, :only => [:destroy,:show,:index] do
 		resources :roles, :only => [:update,:destroy]
@@ -159,10 +150,8 @@ Odms::Application.routes.draw do
 	#	 study_subject.resources :samples
 	#	or 'dashboard' will be treated as a sample id.
 	resources :samples, :only => [:index] do
-#	resources :samples, :only => [] do
 		collection do
 			get :dashboard
-#			get :find
 			get :followup
 			get :reports
 			get :manifest
@@ -170,18 +159,12 @@ Odms::Application.routes.draw do
 	end
 
 	resources :interviews, :only => [:index] do
-#	resources :interviews, :only => [] do
 		collection do
 			get :dashboard
-#			get :find
 			get :followup
 			get :reports
 		end
 	end
-
-#	resources :studies, :only => [] do
-#		collection { get :dashboard }
-#	end
 
 	resources :study_subjects, :only => [:edit,:update,:show,:index] do
 		member do
@@ -193,7 +176,6 @@ Odms::Application.routes.draw do
 			get :last
 			get :by
 			get :dashboard
-#			get :find
 			get :followup
 			get :reports
 		end
@@ -204,13 +186,13 @@ Odms::Application.routes.draw do
 			resources :birth_records, :only => :index
 			#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
 			resources :phone_numbers, :except => [:show]
-			resources :addresses	#,   :except => [:show]
-			resources :enrollments	#,   :except => :destroy
+			resources :addresses
+			resources :enrollments
 			resource  :consent,
 				:only => [:show,:edit,:update]
 			resources :samples
 			resources :events
-			resources :contacts,   :only => :index
+			resources :contacts
 			resources :interviews, :only => :index
 			resources :related_subjects, :only => [:index]
 
