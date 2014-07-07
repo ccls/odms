@@ -1,5 +1,4 @@
-<% stylesheets(:sample) %>
-
+<div id='sample'>
 <div class='control'><div class='control_row'>
 <h3>Subject Sample</h3>
 <div>
@@ -52,5 +51,5 @@
 	study_subject_sample_path(@sample.study_subject_id,@sample.id, :format => :pdf), 
 	:class => :button, :target => :new %>
 
-<%#= render 'shipping_info' %>
 <%= render 'transfers' %>
+</div><!-- id='sample' -->

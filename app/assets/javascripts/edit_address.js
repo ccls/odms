@@ -9,22 +9,7 @@ jQuery(function(){
 			}
 		});
 	});
-/*
-	jQuery('#address_is_valid').smartShow({
-		what: '.why_invalid.field_wrapper',
-		when: function(){ 
-*/
-			/* as 'no' matches both "No" and "Don't Know", only need one condition! */
-/*
-			return /no/i.test($('#address_is_valid option:selected').text()); }
-	});
 
-	jQuery('#address_is_verified').smartShow({
-		what: '.how_verified.field_wrapper',
-		when: function(){ 
-			return $('#address_is_verified').prop('checked'); }
-	});
-*/
 	jQuery('#address_data_source').smartShow({
 		what: '.other_data_source.field_wrapper',
 		when: function(){ 

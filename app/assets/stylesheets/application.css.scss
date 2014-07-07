@@ -741,7 +741,7 @@ form.edit_address {
 
 
 
-/* form study_subject_id_bar */
+/* from study_subject_id_bar */
 #subject_header {
 	display:table;
 	width: 100%;
@@ -768,8 +768,9 @@ form.edit_address {
 				padding-right: 10px;
 			}
 		}
+	}
 }
-}
+
 #do_not_contact {
 	text-align:center;
 	color:red;
@@ -793,4 +794,364 @@ form.edit_address {
 	padding: 10px;
 	background-color: #FEF;
 	border: 2px solid purple;
+}
+
+table#users {
+	td.username { width: 300px; }
+	td.role_name { text-align:right; }
+	tr.row:nth-child(2n).superuser       { background-color: #E88; /* redish */ }
+	tr.row:nth-child(2n+1).superuser     { background-color: #D88; /* redish */ }
+	tr.row:nth-child(2n).administrator   { background-color: #EE8; /* yellowish */ }
+	tr.row:nth-child(2n+1).administrator { background-color: #DD8; /* yellowish */ }
+	tr.row:nth-child(2n).exporter        { background-color: #ECE; /* purpleish */ }
+	tr.row:nth-child(2n+1).exporter      { background-color: #DCD; /* purpleish */ }
+	tr.row:nth-child(2n).editor          { background-color: #CEE; /* bluish */ }
+	tr.row:nth-child(2n+1).editor        { background-color: #CDD; /* bluish */ }
+	tr.row:nth-child(2n).reader          { background-color: #CCC; /* grayish */ }
+	tr.row:nth-child(2n+1).reader        { background-color: #BBB; /* grayish */ }
+}
+
+fieldset#user {
+	div.person {
+		float:left;
+		width: 60%;
+	}
+	div#roles {
+		margin-left: 60%;
+		a img {
+			margin-left: 50px;
+		}
+		ul {
+			list-style-position: outside;
+			list-style-type: none;
+			padding: 0;
+		}
+	}
+}
+
+form#find_samples {
+	div.table {
+		clear:both;
+		/* this holds the table-row open, otherwise shrinks to whatever */
+		display:table;
+		width:100%;
+		div.tablerow {
+			display:table-row;
+			> div {
+				display:table-cell;
+				padding: 5px;
+			}
+			> div input[type='text'] {
+				width: 100px;
+			}
+		}
+	}
+	div.pagination.wrapper {
+		margin-top:5px;
+		div.pagination {
+			display:inline;
+		}
+	}
+	label.jump_to_page,
+	div.pagination.wrapper label {
+		margin-left: 30px;
+	}
+	input.jump_to_page,
+	div.pagination.wrapper input {
+		width: 30px;
+	}
+}
+
+div#sample {
+	.field_wrapper.sample_type_parent {
+		float:left;
+		margin-right:70px;
+	}
+	.field_wrapper {
+		margin-bottom: 15px;
+		.label {
+			float: left;
+			width: 200px;
+		}
+	}
+}
+
+form.edit_patient {
+	.field_wrapper label {
+		width: 170px;
+	}
+	.admit_date_wrapper {
+		.warning {
+			display:none;
+			width:250px;
+			float:right;
+			padding: 5px;
+			padding-right:0;
+		}
+		&.changed .admit_date {
+			display:inline;
+		}
+		&.changed .warning {
+			display:inline;
+			background-color: #FDD;
+			border: 1px solid #F88;
+		}
+	}
+	.diagnosis,
+	.other_diagnosis {
+		display:inline-block;
+		vertical-align:top;
+	}
+	.diagnosis {
+		margin-right: 10px;
+	}
+	.other_diagnosis label {
+		width:auto;
+	}
+}
+
+form.edit_enrollment {
+	.field_wrapper {
+		padding-left: 5px;
+		clear:none;
+		&.terminated_reason label,
+		&.refusal_reason_id label,
+		&.ineligible_reason_id label {
+			text-indent:50px;
+		}
+		&.consented_on label,
+		&.is_candidate label,
+		&.tracing_status label,
+		&.is_eligible label,
+		&.consented label,
+		&.completed_on label {
+			width: 100px;
+		}
+		&.is_complete label {
+			width: 250px;
+		}
+		&.consented_on label ,
+		&.completed_on label ,
+		&.document_version_id ,
+		&.other_ineligible_reason ,
+		&.reason_not_chosen ,
+		&.other_refusal_reason {
+			text-align:right;
+		}
+	}
+}
+
+
+
+div#contacts {
+	.addresses {
+		border-bottom: 1px solid black;
+	}
+	.historic {
+		background-color: #EEE;
+	}
+	.contact_wrapper {
+		padding-bottom:10px;
+		clear:left;	
+		border-top: 1px dotted silver;
+		&:nth-child(1) {
+			border-top: 0;
+		}
+		> div {
+			display:inline-block;
+			vertical-align: top;
+		}
+	}
+	.phone_number,
+	.address {
+		width: 200px;
+	}
+	.contact_meta > span {
+		display:block;
+	}
+	.address {
+		.line_1,
+		.line_2,
+		.unit,
+		.county,
+		.csz {
+			display:block;
+		}
+	}
+	.edit {
+		float:right;
+		text-align: right;
+	}
+	.new {
+		clear:both;
+		margin-top:0;
+	}
+}
+
+
+
+/*	I don't think there is a form#study_subject_search anymore
+*/
+/*
+form#study_subject_search {
+	.project,
+	#races,
+	#types {
+		float:left;
+		margin: auto 10px;
+	}
+	ul {
+		padding-left: 5px;
+		li {
+			list-style-type: none;
+		}
+	}
+	div#something {
+		clear:both;
+	}
+	input[type='submit']{
+		font-size:12pt;
+	}
+}
+*/
+
+form#find_study_subjects {
+	span.arrow {
+		padding-left:0.5ex;
+	}
+	div.table {
+		clear:both;
+		/* this holds the table-row open, otherwise shrinks to whatever */
+		display:table;
+		width:100%;
+		div.tablerow {
+			display:table-row;
+			> div {
+				display:table-cell;
+				padding: 5px;
+			}
+			> div input[type='text'] {
+				width: 100px;
+			}
+		}
+	}
+	table#study_subjects th {
+		text-align: left;
+	}
+	div.pagination.wrapper {
+		margin-top:5px;
+		div.pagination {
+			display:inline;
+		}
+		label {
+			margin-left: 30px;
+		}
+		input {
+			width: 30px;
+		}
+	}
+}
+
+
+div.child_parent.raf_section {
+	.names {
+		input {
+			width: 100px;
+		}
+		.tablerow {
+			margin-left: 20px;
+			> span {
+				width: 120px;
+				display:inline-block;
+				text-align:center;
+			}
+			p.guardian {
+				display:inline-block;
+				margin-left: -20px;
+				width: 390px;
+			}
+			/* needs to be wider to fit the subject relationship selector */
+			span.big {
+				width: 210px;
+			}
+		}
+		p {
+			margin-bottom: 0;
+		}
+	}
+}
+
+
+
+div.study_subject {
+	.field_wrapper span.label {
+		width: 170px;
+	}
+	.state_id_no.field_wrapper span.label {
+		width: auto;
+	}
+	.mother_maiden_name,
+	.guardian_relationship,
+	.other_guardian_relationship {
+		margin-left: 50px;
+	}
+}
+
+form.edit_study_subject {
+	.field_wrapper span.label,
+	.field_wrapper label {
+		width: 140px;
+	}
+	div.name div.field_wrapper label,
+	.field_wrapper.state_id_no span.label {
+		width: auto;
+	}
+	.field_wrapper.reference_date span.label,
+	.field_wrapper.reference_date label {
+		width: 200px;
+	}
+	.field_wrapper input[type=text] {
+		width: 120px;
+	}
+	div.state_registrar_no,
+	div.case_control_type,
+	div.dob {
+		display:inline-block;
+		vertical-align: top;
+		width: 300px;
+	}
+	div#races div.subject_race {
+		margin-left:30px;
+	}
+	div#study_subject_races {
+		margin-bottom: 10px;
+	}
+	div.name {
+		> label {
+			width: 60px;
+		}
+		div.field_wrapper {
+			margin-bottom: 0px;
+			select,
+			input {
+				margin-left: 10px;
+				margin-right: 20px;
+			}
+		}
+		&.maiden {
+			margin-left: 420px;
+		}
+		* {
+			vertical-align: top;
+		}
+	}
+	div.guardian_relationship {
+		margin-left: 100px;
+	}
+	div.guardian_relationship_id label {
+		padding-right:10px;
+	}
+	div.other_guardian_relationship {
+		display: inline;
+	}
 }

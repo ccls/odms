@@ -1,8 +1,6 @@
-<% stylesheets(:enrollment_edit) %>
-
 <%= form_for(@enrollment,
 	:url => study_subject_enrollment_path(@enrollment.study_subject_id,@enrollment),
-	:html => { :class => 'confirm' }) do |f| %>
+	:html => { :class => 'edit_enrollment confirm' }) do |f| %>
 
 <div class='control'><div class='control_row'>
 <h3>Study name: <%= @enrollment.project.key.titleize -%></h3>
