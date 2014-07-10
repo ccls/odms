@@ -62,6 +62,14 @@ class AlternateContactTest < ActiveSupport::TestCase
 		end
 	end
 
+	test "should return city state and zip with csz" do
+		alternate_contact = AlternateContact.new(
+			:city  => 'City',
+			:state => 'CA',
+			:zip   => '12345')
+		assert_equal "City, CA 12345", alternate_contact.csz
+	end
+
 protected
 
 	#	create_object is called from within the common class tests
