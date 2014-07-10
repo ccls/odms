@@ -28,6 +28,7 @@ class StudySubject < ActiveRecord::Base
 	include StudySubjectRaces
 	include StudySubjectLanguages
 	include StudySubjectAddresses
+	has_many :alternate_contacts
 
 	#	Declaration order matters. 
 	#	OperationalEvents are through Enrollments.

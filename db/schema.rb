@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140408173428) do
+ActiveRecord::Schema.define(version: 20140710174630) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -283,8 +283,8 @@ ActiveRecord::Schema.define(version: 20140408173428) do
     t.string   "country"
     t.boolean  "needs_geocoded",                  default: true
     t.boolean  "geocoding_failed",                default: false
-    t.float    "longitude"
-    t.float    "latitude"
+    t.float    "longitude",            limit: 24
+    t.float    "latitude",             limit: 24
     t.text     "geocoding_response"
     t.string   "address_type"
   end
@@ -308,6 +308,24 @@ ActiveRecord::Schema.define(version: 20140408173428) do
   add_index "aliquots", ["owner_id"], name: "index_aliquots_on_owner_id", using: :btree
   add_index "aliquots", ["sample_id"], name: "index_aliquots_on_sample_id", using: :btree
   add_index "aliquots", ["unit_id"], name: "index_aliquots_on_unit_id", using: :btree
+
+  create_table "alternate_contacts", force: true do |t|
+    t.integer  "study_subject_id"
+    t.string   "name"
+    t.string   "relation"
+    t.string   "line_1"
+    t.string   "line_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "phone_number_1"
+    t.string   "phone_number_2"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "alternate_contacts", ["study_subject_id"], name: "index_alternate_contacts_on_study_subject_id", using: :btree
 
   create_table "analyses", force: true do |t|
     t.integer  "analyst_id"

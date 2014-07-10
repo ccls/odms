@@ -184,6 +184,10 @@ FactoryGirl.define do
 		f.association :owner, :factory => :organization
 	end
 	
+	factory :alternate_contact do |f|
+		f.association :study_subject
+	end
+
 	factory :analysis do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
 		f.sequence(:description) { |n| "Desc#{n}" }

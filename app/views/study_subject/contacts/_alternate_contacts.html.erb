@@ -1,0 +1,12 @@
+<h3>Alternate Contacts</h3>
+<div class='alternate_contacts'>
+<%= render :partial => 'study_subject/contacts/alternate_contact', 
+	:collection => @study_subject.alternate_contacts,
+	:locals => { :edit => current_user.may_update_alternate_contacts? } %>
+<% if current_user.may_update_alternate_contacts? %>
+<p id='new_alternate_contact' class='new'>
+<%= link_to 'add new alternate contact', new_study_subject_alternate_contact_path(@study_subject) %>
+</p>
+<% end %>
+</div><!-- class='phone_numbers' -->
+

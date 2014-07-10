@@ -1,0 +1,25 @@
+<div class='alternate_contact_wrapper contact_wrapper'>
+<div>
+<span class='name'><%= alternate_contact.name %></span>
+</div>
+<div>
+<span class='relation'><%= alternate_contact.relation %></span>
+</div>
+
+<%= div_for alternate_contact do %>
+<span class='line_1'><%= alternate_contact.line_1 %></span>
+<%= "<span class='line_2'>#{h(alternate_contact.line_2)}</span>".html_safe  unless alternate_contact.line_2.blank? %>
+<span class='csz'><%= alternate_contact.csz %></span>
+<% end %><!-- class='alternate_contact' -->
+
+<div>
+<span class='phone_number'><%= alternate_contact.phone_number_1 %></span>
+<span class='phone_number'><%= alternate_contact.phone_number_2 %></span>
+</div>
+<div>
+<%= render :partial => 'study_subject/contacts/alternate_contact_details', :locals => {
+	:edit    => ( ( defined?(edit)    ) ? edit    : false ),
+	:alternate_contact => alternate_contact
+	} %>
+</div>
+</div><!-- class='alternate_contact_wrapper contact_wrapper' -->

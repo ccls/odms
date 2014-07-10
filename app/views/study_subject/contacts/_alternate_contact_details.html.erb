@@ -1,0 +1,19 @@
+<div class='edit'>
+<%#
+
+What is 'edit' ?
+
+	'edit' is a boolean variable sometimes passed
+	to this partial to flag whether or not to show 
+	the edit link.
+
+%>
+<%# if defined?(edit) and edit -%>
+<% if edit -%>
+<%= link_to 'Edit', 
+	edit_study_subject_alternate_contact_path(alternate_contact.study_subject_id,alternate_contact.id), 
+	:class => 'button' %>
+<% else -%>
+&nbsp;
+<% end -%><%# if defined?(edit) and edit -%>
+</div><!-- class='edit' -->

@@ -299,6 +299,25 @@ Table: aliquots
 | created_at                 | datetime     | NO   |     | NULL    |                |
 | updated_at                 | datetime     | NO   |     | NULL    |                |
 +----------------------------+--------------+------+-----+---------+----------------+
+Table: alternate_contacts
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id | int(11)      | YES  | MUL | NULL    |                |
+| name             | varchar(255) | YES  |     | NULL    |                |
+| relation         | varchar(255) | YES  |     | NULL    |                |
+| line_1           | varchar(255) | YES  |     | NULL    |                |
+| line_2           | varchar(255) | YES  |     | NULL    |                |
+| city             | varchar(255) | YES  |     | NULL    |                |
+| state            | varchar(255) | YES  |     | NULL    |                |
+| zip              | varchar(255) | YES  |     | NULL    |                |
+| phone_number_1   | varchar(255) | YES  |     | NULL    |                |
+| phone_number_2   | varchar(255) | YES  |     | NULL    |                |
+| notes            | text         | YES  |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
 Table: analyses
 +--------------------------------+--------------+------+-----+---------+----------------+
 | Field                          | Type         | Null | Key | Default | Extra          |

@@ -1,0 +1,27 @@
+<div class='control'><div class='control_row'>
+<h3><%= ( @alternate_contact.new_record? ) ? 'New' : 'Edit' %> Address</h3>
+<div><%= link_to( 'Cancel', study_subject_contacts_path( @study_subject ),
+	:class => 'button' ) %>&nbsp;<%= f.submit 'Save' %></div>
+</div></div>
+
+<%= f.error_messages %>
+
+<div class='fields_for_alternate_contact'>
+
+<%= f.wrapped_text_field :name %>
+<%= f.wrapped_text_field :relation %>
+
+<%= f.wrapped_text_field :line_1 %>
+<%= f.wrapped_text_field :line_2 %>
+<div class='field_wrapper'>
+<%= f.label :city, 'City, State Zip' -%>
+<%= f.text_field :city %>
+<%= f.select :state, State.abbreviations, 
+	{ :include_blank => true }, :class => 'state' %>
+<%= f.text_field :zip, :class => :zip %>
+</div>
+<%= f.wrapped_text_field :phone_number_1 %>
+<%= f.wrapped_text_field :phone_number_2 %>
+</div>
+<hr/>
+<%= f.wrapped_text_area :notes, :class => 'autosize', :rows => 3, :cols => 50 %>

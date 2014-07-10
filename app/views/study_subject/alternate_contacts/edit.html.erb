@@ -1,0 +1,11 @@
+<%= form_for(@alternate_contact,
+	:url => study_subject_alternate_contact_path(@alternate_contact.study_subject_id,@alternate_contact.id),
+	:html => { :class => 'confirm edit_alternate_contact' }) do |f| %>
+<%= render 'form', :f => f %>
+<% end %>
+
+<% if current_user.may_destroy_alternate_contacts? %>
+<div class='dev_only'><span>Development only:</span>
+<%= (@alternate_contact.new_record?)? nbsp : button_to( "Destroy", study_subject_alternate_contact_path(@alternate_contact.study_subject_id, @alternate_contact.id), :method => 'delete', :form_class => 'destroy_link_to' ) %>
+</div>
+<% end %>

@@ -944,7 +944,8 @@ form.edit_enrollment {
 
 
 div#contacts {
-	.addresses {
+	.addresses,
+	.phone_numbers {
 		border-bottom: 1px solid black;
 	}
 	.historic {
@@ -969,7 +970,8 @@ div#contacts {
 	.contact_meta > span {
 		display:block;
 	}
-	.address {
+	.address,
+	.alternate_contact {
 		.line_1,
 		.line_2,
 		.unit,
@@ -985,6 +987,36 @@ div#contacts {
 	.new {
 		clear:both;
 		margin-top:0;
+	}
+
+	.addresses,
+	.phone_numbers,
+	.alternate_contacts {
+		display:table;
+		width:100%;
+	}
+	.address_wrapper,
+	.phone_number_wrapper,
+	.alternate_contact_wrapper {
+		display:table-row;
+	}
+	.address_wrapper > div,
+	.phone_number_wrapper > div,
+	.alternate_contact_wrapper > div {
+		display:table-cell;
+		border-left: 1px solid #EEE;
+		padding: 5px;
+	}
+	.alternate_contact_wrapper > div span.phone_number {
+		display:block;
+	}
+	.address_wrapper > div:first-child,
+	.address_wrapper > div:last-child,
+	.phone_number_wrapper > div:first-child,
+	.phone_number_wrapper > div:last-child,
+	.alternate_contact_wrapper > div:first-child,
+	.alternate_contact_wrapper > div:last-child {
+		border-left: 0px;
 	}
 }
 

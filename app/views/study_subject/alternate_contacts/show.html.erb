@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Study subject:</strong>
+  <%= @alternate_contact.study_subject %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @alternate_contact.name %>
+</p>
+
+<p>
+  <strong>Relation:</strong>
+  <%= @alternate_contact.relation %>
+</p>
+
+<p>
+  <strong>Line 1:</strong>
+  <%= @alternate_contact.line_1 %>
+</p>
+
+<p>
+  <strong>Line 2:</strong>
+  <%= @alternate_contact.line_2 %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @alternate_contact.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @alternate_contact.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @alternate_contact.zip %>
+</p>
+
+<p>
+  <strong>Phone number 1:</strong>
+  <%= @alternate_contact.phone_number_1 %>
+</p>
+
+<p>
+  <strong>Phone number 2:</strong>
+  <%= @alternate_contact.phone_number_2 %>
+</p>
+
+<%= link_to 'Edit', edit_alternate_contact_path(@alternate_contact) %> |
+<%= link_to 'Back', alternate_contacts_path %>
