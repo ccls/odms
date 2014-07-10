@@ -943,7 +943,7 @@ rails really caches like that.
  kill -9 `cat tmp/pids/server.pid`
  git pull
  bundle install
- rake db:migrate
+ bundle exec rake db:migrate
  bundle exec rake sunspot:solr:start
  script/rails server -d -p 3000 -e production
 
