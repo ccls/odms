@@ -53,8 +53,9 @@ module ApplicationHelper
 			[
 				link_to('Birth Data Requests', new_bc_request_path),
 				link_to('Med Rec Requests', new_medical_record_request_path),
-				"<span>Subject Data</span>",
-				"<span>Tracking Data</span>"
+				link_to('Case Assignment', cases_path)
+#				"<span>Subject Data</span>",
+#				"<span>Tracking Data</span>"
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->" if (
 			logged_in? and current_user.may_edit? )
