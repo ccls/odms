@@ -1,7 +1,7 @@
-<% if @enrollment %>
-<% stylesheets(:consent) %>
 <% javascripts('consent') %>
+<% if @enrollment %>
 
+<div id='consent'>
 <div class='control'><div class='control_row'>
 <h3>Study Consent Info</h3>
 <div><%= link_to( 'Edit', edit_study_subject_consent_path(@study_subject),
@@ -82,3 +82,4 @@
 <p>Subject has no CCLS enrollment. This should NEVER happen.</p>
 <p>If one didn't exist, it should have been just created.</p>
 <% end %>
+</div><!-- id='consent' -->

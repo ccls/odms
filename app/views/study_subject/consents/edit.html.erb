@@ -1,5 +1,5 @@
-<% stylesheets(:consent_edit) %>
 <% javascripts('consent') %>
+<div id='consent'>
 
 <%= form_for(@enrollment,
 	:url => study_subject_consent_path(@study_subject),
@@ -99,3 +99,4 @@
 </div>
 
 <% end %>
+</div><!-- id='consent' -->

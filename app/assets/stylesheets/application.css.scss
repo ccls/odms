@@ -1187,3 +1187,262 @@ form.edit_study_subject {
 		display: inline;
 	}
 }
+
+form.edit_candidate_control {
+	div.possible_duplicates {
+		border:1px solid black; 
+		padding: 10px;
+		margin-bottom:30px;
+		table.candidate_control {
+			width: auto;
+			th, td {
+				padding: 10px;
+			}
+		}
+		+ div.reject_control_wrapper {
+			display:none;
+		}
+	}
+
+	div#reject_control {
+		border-bottom:1px solid black;
+		> div {
+			border:1px solid black; 
+			border-bottom:0; 
+			padding: 10px;
+		}
+		> div.info {
+			background-color:silver;
+		}
+		table {
+			th, td {
+				text-align:center;
+				font-size:8pt;
+			}
+			td {
+				border:1px solid black;
+				border-left: 0;
+				background-color: white;
+				&.label {
+					background-color: transparent;
+					border:0;
+					border-right:1px solid black;
+					padding-right: 5px;
+					text-align:right;
+				}
+			}
+		}
+		> div.disposition {
+			div {
+				vertical-align:top;
+				display:inline-block;
+				padding-right: 5px;
+			}
+			div.rejection * {
+				vertical-align:top;
+} } } }/* form.edit_candidate_control */
+
+
+div.raf, form.raf {
+	border: 2px solid black;
+	border-top-width: 1px;
+	h3 {
+		background-color: gray;
+		color:white;
+		padding: 7px;
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
+		margin-top: 0;
+	}
+	.raf_section {
+		clear:left;
+		margin:5px;
+	}
+	#errorExplanation {
+		margin:5px;
+	}
+	div.table > div {
+		display:table-row;
+	}
+	div.table > div.tablerow > div {
+		display:table-cell;
+		vertical-align:top;
+	}
+	
+	.names {
+		input {
+			width: 100px;
+		}
+		.tablerow {
+			margin-left: 20px;
+			> span {
+				width: 120px;
+				display:inline-block;
+				text-align:center;
+			}
+			p.guardian {
+				display:inline-block;
+				margin-left: -20px;
+				width: 390px;
+			}
+			/* needs to be wider to fit the subject relationship selector */
+			span.big {
+				width: 210px;
+	}	}	}
+	
+	.organization_id p,
+	.names p {
+		margin-bottom: 0;
+		width: auto;
+	}
+	
+	/* Hide the study subject field on kickback when possible duplicates are found */
+	div#possible_duplicates + div.study_subject_fields {
+		display:none;
+	}
+	
+	div.languages_label,
+	div#languages,
+	div.subject_language {
+		vertical-align:top;
+		display:inline-block;
+	}
+	
+	p.subconsent { margin-left:50px; }
+	
+	span.refused_by { display:block; }
+	
+	.diagnosis,
+	.phone_number,
+	.line_1 {
+		margin-right: 20px;
+	}
+	div.unit label { width:auto; }
+	input.zip_field   { width:100px; }
+	.unit input { width:100px; }
+	.is_primary, .state, .zip {
+		span.label { width:auto; }
+	}
+	
+	div.csz * {
+		vertical-align:middle;
+	}
+}/* div.raf, form.raf */
+
+div.raf {
+	.consented,
+	.was_under_15_at_dx,
+	.was_previously_treated,
+	.was_ca_resident_at_diagnosis {
+		span.label { 
+			width:auto; 
+			margin-right:20px;
+		}
+		span.value { font-weight:bold; }
+	}
+}/* div.raf */
+
+
+form.raf {
+	.field_wrapper {
+		span.label, label {
+			width: 160px;
+		}
+	}
+	.hospital_no, .admitting_oncologist {
+		span.label, label {
+			display:block;
+			width: 200px;
+	}	}
+	.raf_zip ,
+	.diagnosis ,
+	.admitting_oncologist ,
+	.dob ,
+	.hospital_no {
+		margin-right:10px;
+		float:right;
+		clear:none;
+	}
+	.raf_county, .raf_zip {
+		label {
+			width:auto;
+			margin-right:10px;
+	}	}
+	
+	#study_subject_patient_attributes_raf_zip,
+	#study_subject_patient_attributes_raf_county {
+		width: 170px;
+	}
+	
+	div.other_diagnosis {
+		float:right;
+		margin-right:10px;
+	}
+	div.diagnosis, div.other_diagnosis {
+		label {
+			padding-right: 10px;
+			width:auto;
+}	} }/* form.raf */
+
+
+div#consent {
+	div#eligibility_criteria {
+		border: 1px solid black;
+		background-color: #DDD;
+		padding: 5px 20px;
+		margin: 10px;
+	
+		/* http://css-radius.heroku.com */
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+		.field_wrapper {
+			> span, > * {
+				display:inline;
+			}
+		}
+		label {
+			width: auto;
+			padding-right:10px;
+		}
+	}
+	
+	/*
+		*_id .label is show action
+		* label is edit action
+	*/
+	.enrollment {
+		.field_wrapper {
+			.label, label { width:180px; }
+			&.other_refusal_reason .label,
+			&.other_refusal_reason label,
+			&.refusal_reason_id label,
+			&.refusal_reason .label,
+			&.document_version_id label,
+			&.document_version .label,
+			&.consented_on .label,
+			&.consented_on label,
+			&.other_ineligible_reason .label,
+			&.other_ineligible_reason label,
+			&.ineligible_reason_id label,
+			&.ineligible_reason .label {
+				text-indent:50px;
+	} } }
+
+	div#study_subject_languages > div,
+	form.enrollment .is_eligible,
+	form.enrollment .ineligible_reason_id,
+	form.enrollment .consented_on,
+	form.enrollment .document_version_id {
+		display:inline-block;
+		vertical-align:top;
+	}
+	form.enrollment {
+		.other_ineligible_reason {
+			label {
+				width:auto;
+				clear:left;
+			}
+			#enrollment_other_ineligible_reason {
+				width:70%;
+} } } } /* div#consent */
