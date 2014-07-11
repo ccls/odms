@@ -4,6 +4,15 @@
 	:collection => @study_subject.phone_numbers.current,
 	:locals => { :details => true,
 		:edit => current_user.may_update_phone_numbers? } %>
+</div><!-- class='phone_numbers' -->
+
+<div id='historic_phone_numbers' class='historic phone_numbers' style='display:none'>
+<%= render :partial => 'study_subject/contacts/phone_number', 
+	:collection => @study_subject.phone_numbers.historic,
+	:locals => { :details => true,
+		:edit => current_user.may_administrate? } %>
+</div><!-- class='historic' -->
+
 <% if current_user.may_update_phone_numbers? %>
 <p id='new_phone_number' class='new'>
 <%= link_to 'add new phone number', new_study_subject_phone_number_path(@study_subject) %>
@@ -14,10 +23,3 @@
 <% end %>
 </p>
 <% end %>
-<div id='historic_phone_numbers' class='historic' style='display:none'>
-<%= render :partial => 'study_subject/contacts/phone_number', 
-	:collection => @study_subject.phone_numbers.historic,
-	:locals => { :details => true,
-		:edit => current_user.may_administrate? } %>
-</div><!-- class='historic' -->
-</div><!-- class='phone_numbers' -->

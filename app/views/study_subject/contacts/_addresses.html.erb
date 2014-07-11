@@ -7,6 +7,13 @@
 	:collection => @study_subject.addresses.current,
 	:locals => { :details => true,
 		:edit => current_user.may_update_addresses? } %>
+</div><!-- class='addresses' -->
+<div id='historic_addresses' class='historic addresses' style='display:none'>
+<%= render :partial => 'study_subject/contacts/address', 
+	:collection => @study_subject.addresses.historic,
+	:locals => { :dates => true,
+		:edit => current_user.may_administrate? } %>
+</div><!-- class='historic' -->
 <% if current_user.may_update_addresses? %>
 <p id='new_address' class='new'>
 <%= link_to 'add new address', new_study_subject_address_path(@study_subject) %>
@@ -17,11 +24,3 @@
 <% end %>
 </p>
 <% end %>
-
-<div id='historic_addresses' class='historic' style='display:none'>
-<%= render :partial => 'study_subject/contacts/address', 
-	:collection => @study_subject.addresses.historic,
-	:locals => { :dates => true,
-		:edit => current_user.may_administrate? } %>
-</div><!-- class='historic' -->
-</div><!-- class='addresses' -->
