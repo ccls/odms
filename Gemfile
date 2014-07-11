@@ -5,7 +5,6 @@ gem 'bundler'
 
 
 #	try upgrading capybara
-#	try upgrading mocha?
 
 #	try removing minitest
 #
@@ -23,6 +22,7 @@ gem 'jakewendt-active_record_sunspotter'
 
 
 #	minitest-5.3.4/lib/minitest.rb
+#	still true in 5.4.0.  May need to just redefine the offending method.
 #	test classes are purposely shuffled!  Only change in this version!  Why?
 #	Random is stupid.  Unpredictable.  Poor testing strategy.
 #	144: suites = Runnable.runnables.shuffle
@@ -39,7 +39,7 @@ gem 'american_date'
 
 gem 'rails', '~> 4'
 gem 'protected_attributes'	#	to keep rails 3 style
-#gem 'activerecord-session_store'	#	to keep rails 3 style
+#gem 'activerecord-session_store'	#	to keep rails 3 style	... going back to cookies so removed
 
 gem 'json'
 
@@ -59,6 +59,7 @@ gem "acts_as_list"
 
 #	added a patch to deal with counting when select is provided based on ....
 #	https://github.com/mislav/will_paginate/pull/348
+#	3.0.7 seems to have fixed this.  Patch actually breaks stuff so commented out for now.
 gem "will_paginate"
 
 gem "hpricot"
@@ -102,6 +103,10 @@ group :test do
 	gem 'capybara', '~> 2.0.0'
 	#	capybara-webkit 1.0.0 bombs big time compiling native code
 	gem 'capybara-webkit', '~> 0.14'
+
+	#	20140711 - trying ... still lots of find_field failures
+	#	Using capybara 2.4.1 (was 2.0.3)
+	#	Using capybara-webkit 1.1.0 (was 0.14.2)
 
 	#	After rails 4, upgraded capybara stuff, but still had issues finding fields
 	#	capybara (2.2.1)
