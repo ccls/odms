@@ -4,7 +4,12 @@
 <%= render 'form', :f => f %>
 <% end %>
 
+
+
+
+
 <% if current_user.may_destroy_alternate_contacts? %>
+<hr/>
 <div class='dev_only'><span>Development only:</span>
 <%= (@alternate_contact.new_record?)? nbsp : button_to( "Destroy", study_subject_alternate_contact_path(@alternate_contact.study_subject_id, @alternate_contact.id), :method => 'delete', :form_class => 'destroy_link_to' ) %>
 </div>
