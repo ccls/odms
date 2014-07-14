@@ -4,7 +4,7 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 
-		test "address#edit should update blank address info on zip code change" <<
+		test "address edit should update blank address info on zip code change" <<
 				" with #{cu} login" do
 			address = FactoryGirl.create(:address)
 			login_as send(cu)
@@ -20,9 +20,9 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			fill_in "address[zip]",  :with => "17857"
 
-#wait_until{ !find_field("address[city]").value.blank? }
-wait_until{ find_field("address[city]").value.present? }
+#wait_until{ find_field("address[city]").value.present? }
 
+			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert_equal 'Northumberland',
 				find_field("address[city]").value
 			assert_equal 'Northumberland',
@@ -33,7 +33,7 @@ wait_until{ find_field("address[city]").value.present? }
 				find_field("address[zip]").value
 		end
 
-#		test "address#edit should show why_invalid when is_valid is changed to 'No'" <<
+#		test "address edit should show why_invalid when is_valid is changed to 'No'" <<
 #				" with #{cu} login" do
 #			address = FactoryGirl.create(:address)
 #			login_as send(cu)
@@ -47,7 +47,7 @@ wait_until{ find_field("address[city]").value.present? }
 #			assert find_field('address[why_invalid]').visible?
 #		end
 #
-#		test "address#edit should show why_invalid when is_valid is changed to" <<
+#		test "address edit should show why_invalid when is_valid is changed to" <<
 #				" 'Don't Know' with #{cu} login" do
 #			address = FactoryGirl.create(:address)
 #			login_as send(cu)
@@ -61,7 +61,7 @@ wait_until{ find_field("address[city]").value.present? }
 #			assert find_field('address[why_invalid]').visible?
 #		end
 #
-#		test "address#edit should show how_verified when is_verified is checked" <<
+#		test "address edit should show how_verified when is_verified is checked" <<
 #				" with #{cu} login" do
 #			address = FactoryGirl.create(:address)
 #			login_as send(cu)
@@ -75,52 +75,52 @@ wait_until{ find_field("address[city]").value.present? }
 #			assert find_field('address[how_verified]').visible?
 #		end
 
-		test "address#edit should show other_data_source when 'Other Source'" <<
+		test "address edit should show other_data_source when Other Source" <<
 				" data_source is selected with #{cu} login" do
 			address = FactoryGirl.create(:address)
 			login_as send(cu)
 			visit edit_study_subject_address_path(address.study_subject,address)
-			assert !find_field('address[other_data_source]').visible?
+			assert !( find_field('address[other_data_source]', :visible => false).visible? )
 			select "Other Source", :from => 'address[data_source]'
 			assert find_field('address[other_data_source]').visible?
 			select "", :from => 'address[data_source]'
-			assert !find_field('address[other_data_source]').visible?
+			assert !( find_field('address[other_data_source]', :visible => false).visible? )
 			select "Other Source", :from => 'address[data_source]'
 			assert find_field('address[other_data_source]').visible?
 		end
 
-		test "address#edit should show subject_moved when residence address" <<
-				" current_address is changed to 'No' with #{cu} login" do
+		test "address edit should show subject_moved when residence address" <<
+				" current_address is changed to No with #{cu} login" do
 			address = FactoryGirl.create(:current_residence_address)
 			login_as send(cu)
 			visit edit_study_subject_address_path(address.study_subject,address)
-			assert !find_field('address[subject_moved]').visible?
+			assert !( find_field('address[subject_moved]', :visible => false).visible? )
 			select "No", :from => 'address[current_address]'
 			assert find_field('address[subject_moved]').visible?
 			select "", :from => 'address[current_address]'
-			assert !find_field('address[subject_moved]').visible?
+			assert !( find_field('address[subject_moved]', :visible => false).visible? )
 			select "No", :from => 'address[current_address]'
 			assert find_field('address[subject_moved]').visible?
 		end
 
-		test "address#edit should NOT show subject_moved when residence address" <<
-				" current_address is changed to 'Don't Know' with #{cu} login" do
+		test "address edit should NOT show subject_moved when residence address" <<
+				" current_address is changed to Dont Know with #{cu} login" do
 			address = FactoryGirl.create(:current_residence_address)
 			login_as send(cu)
 			visit edit_study_subject_address_path(address.study_subject,address)
-			assert !find_field('address[subject_moved]').visible?
+			assert !( find_field('address[subject_moved]', :visible => false).visible? )
 			select "Don't Know", :from => 'address[current_address]'
-			assert !find_field('address[subject_moved]').visible?
+			assert !( find_field('address[subject_moved]', :visible => false).visible? )
 			select "", :from => 'address[current_address]'
-			assert !find_field('address[subject_moved]').visible?
+			assert !( find_field('address[subject_moved]', :visible => false).visible? )
 			select "Don't Know", :from => 'address[current_address]'
-			assert !find_field('address[subject_moved]').visible?
+			assert !( find_field('address[subject_moved]', :visible => false).visible? )
 		end
 
 #	address#new
 
-		test "address#new should show confirm when new residence address is" <<
-				" submitted with state not 'CA' and #{cu} login" do
+		test "address new should show confirm when new residence address is" <<
+				" submitted with state not CA and #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit new_study_subject_address_path(study_subject)
@@ -141,7 +141,7 @@ wait_until{ find_field("address[city]").value.present? }
 				new_study_subject_address_path(study_subject)
 		end
 
-		test "address#new should update blank city, state and county on zip code" <<
+		test "address new should update blank city state and county on zip code" <<
 				" change with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -166,3 +166,12 @@ wait_until{ find_field("address[city]").value.present? }
 	end
 
 end
+
+# don't use #,/ or . in test names.  The parser treats it as a comment and doesn't rerun it.
+
+#	the visible? test is stupid now if it won't find it unless its visible!
+
+#	the visible option isn't whether the element is visible, it is whether to consider visibility
+
+#	I'd kinda like to set this as the default option, otherwise I have to change all of them.
+

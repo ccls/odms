@@ -142,7 +142,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 #			assert has_css?("#specify_mixed_race",:visible => true)
 		end
 
-		test "should have 'back to search' link if show subject from find" <<
+		test "should have Back To Search link if show subject from find" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -217,7 +217,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 
 
-		test "by should contacts#index from contacts#index with #{cu} login" do
+		test "by should contacts index from contacts index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -228,7 +228,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_contacts_path(other_study_subject)
 		end
 
-		test "by should interviews#index from interviews#index with #{cu} login" do
+		test "by should interviews index from interviews index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -239,7 +239,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_interviews_path(other_study_subject)
 		end
 
-		test "by should related_subjects#index from related_subjects#index with #{cu} login" do
+		test "by should related_subjects index from related_subjects index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -250,7 +250,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_related_subjects_path(other_study_subject)
 		end
 
-		test "by should phone_numbers#index from phone_numbers#index with #{cu} login" do
+		test "by should phone_numbers index from phone_numbers index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -261,7 +261,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_related_subjects_path(other_study_subject)
 		end
 
-		test "by should phone_numbers#new from phone_numbers#new with #{cu} login" do
+		test "by should phone_numbers new from phone_numbers new with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -272,7 +272,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, new_study_subject_phone_number_path(other_study_subject)
 		end
 
-		test "by should phone_numbers#index from phone_numbers#edit with #{cu} login" do
+		test "by should phone_numbers index from phone_numbers edit with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			phone_number         = FactoryGirl.create(:phone_number,:study_subject => study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
@@ -284,7 +284,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_phone_numbers_path(other_study_subject)
 		end
 
-		test "by should addresses#index from addresses#index with #{cu} login" do
+		test "by should addresses index from addresses index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -295,7 +295,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_addresses_path(other_study_subject)
 		end
 
-		test "by should addresses#new from addresses#new with #{cu} login" do
+		test "by should addresses new from addresses new with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -306,7 +306,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, new_study_subject_address_path(other_study_subject)
 		end
 
-		test "by should addresses#index from addresses#edit with #{cu} login" do
+		test "by should addresses index from addresses edit with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			address           = FactoryGirl.create(:address, :study_subject => study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
@@ -318,7 +318,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_addresses_path(other_study_subject)
 		end
 
-		test "by should consent#show from consent#show with #{cu} login" do
+		test "by should consent show from consent show with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -329,7 +329,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_consent_path(other_study_subject)
 		end
 
-		test "by should consent#edit from consent#edit with #{cu} login" do
+		test "by should consent edit from consent edit with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -340,7 +340,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, edit_study_subject_consent_path(other_study_subject)
 		end
 
-		test "by should enrollments#index from enrollments#index with #{cu} login" do
+		test "by should enrollments index from enrollments index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -351,7 +351,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
 
-		test "by should enrollments#new from enrollments#new with #{cu} login" do
+		test "by should enrollments new from enrollments new with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -362,7 +362,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, new_study_subject_enrollment_path(other_study_subject)
 		end
 
-		test "by should enrollments#index from enrollments#show with #{cu} login" do
+		test "by should enrollments index from enrollments show with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -373,7 +373,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
 
-		test "by should enrollments#index from enrollments#edit with #{cu} login" do
+		test "by should enrollments index from enrollments edit with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -384,7 +384,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
 
-		test "by should events#index from events#index with #{cu} login" do
+		test "by should events index from events index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -395,7 +395,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
 
-		test "by should events#new from events#new with #{cu} login" do
+		test "by should events new from events new with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -406,7 +406,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, new_study_subject_event_path(other_study_subject)
 		end
 
-		test "by should events#index from events#show with #{cu} login" do
+		test "by should events index from events show with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -417,7 +417,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
 
-		test "by should events#index from events#edit with #{cu} login" do
+		test "by should events index from events edit with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -429,7 +429,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
 
-		test "by should samples#index from samples#index with #{cu} login" do
+		test "by should samples index from samples index with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -440,7 +440,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_samples_path(other_study_subject)
 		end
 
-		test "by should samples#new from samples#new with #{cu} login" do
+		test "by should samples new from samples new with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -451,7 +451,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, new_study_subject_sample_path(other_study_subject)
 		end
 
-		test "by should samples#index from samples#show with #{cu} login" do
+		test "by should samples index from samples show with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			sample               = FactoryGirl.create(:sample,:study_subject => study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
@@ -463,7 +463,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_samples_path(other_study_subject)
 		end
 
-		test "by should samples#index from samples#edit with #{cu} login" do
+		test "by should samples index from samples edit with #{cu} login" do
 			study_subject        = FactoryGirl.create(:study_subject)
 			sample               = FactoryGirl.create(:sample,:study_subject => study_subject)
 			other_study_subject  = FactoryGirl.create(:study_subject,:icf_master_id => 'FINDME')
@@ -480,7 +480,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 		#	case specific controller(s)
 
-		test "by should patient#show from patient#show if case with #{cu} login" do
+		test "by should patient show from patient show if case with #{cu} login" do
 			study_subject        = FactoryGirl.create(:patient).study_subject
 			other_study_subject  = FactoryGirl.create(:case_study_subject,:icf_master_id => 'FINDME')
 			FactoryGirl.create(:patient, :study_subject => other_study_subject)
@@ -492,7 +492,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
 
-		test "by should study_subject#show from patient#show if control with #{cu} login" do
+		test "by should study_subject show from patient show if control with #{cu} login" do
 			study_subject        = FactoryGirl.create(:patient).study_subject
 			other_study_subject  = FactoryGirl.create(:control_study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -503,7 +503,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
 
-		test "by should study_subject#show from patient#show if mother with #{cu} login" do
+		test "by should study_subject show from patient show if mother with #{cu} login" do
 			study_subject        = FactoryGirl.create(:patient).study_subject
 			other_study_subject  = FactoryGirl.create(:mother_study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -514,7 +514,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
 
-		test "by should patient#edit from patient#edit if case with #{cu} login" do
+		test "by should patient edit from patient edit if case with #{cu} login" do
 			study_subject        = FactoryGirl.create(:patient).study_subject
 			other_study_subject  = FactoryGirl.create(:case_study_subject,:icf_master_id => 'FINDME')
 			FactoryGirl.create(:patient, :study_subject => other_study_subject)
@@ -526,7 +526,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, edit_study_subject_patient_path(other_study_subject)
 		end
 
-		test "by should study_subject#show from patient#edit if control with #{cu} login" do
+		test "by should study_subject show from patient edit if control with #{cu} login" do
 			study_subject        = FactoryGirl.create(:patient).study_subject
 			other_study_subject  = FactoryGirl.create(:control_study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)
@@ -538,7 +538,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_equal current_path, study_subject_path(other_study_subject)
 		end
 
-		test "by should study_subject#show from patient#edit if mother with #{cu} login" do
+		test "by should study_subject show from patient edit if mother with #{cu} login" do
 			study_subject        = FactoryGirl.create(:patient).study_subject
 			other_study_subject  = FactoryGirl.create(:mother_study_subject,:icf_master_id => 'FINDME')
 			login_as send(cu)

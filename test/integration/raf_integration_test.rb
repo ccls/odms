@@ -185,12 +185,16 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			fill_in "#{address}[zip]", :with => "17857"
 
+#			wait_until{ 
+#				find_field("#{address}[city]").value.present? }
+
+			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
 			assert_equal 'PA',             find_field("#{address}[state]").value
-			assert_equal '17857',          find_field("#{address}[zip]").value
-			assert_equal 'Northumberland', find_field("#{patient}[raf_county]").value
-			assert_equal '17857',          find_field("#{patient}[raf_zip]").value
+			assert_equal '17857',          find_field("#{address}[zip]").reload.value
+			assert_equal 'Northumberland', find_field("#{patient}[raf_county]").reload.value
+			assert_equal '17857',          find_field("#{patient}[raf_zip]").reload.value
 		end
 
 		test "should update blank address info on raf_zip code change" <<
@@ -208,15 +212,16 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			fill_in "#{patient}[raf_zip]",  :with => "17857"
 
-			wait_until{ 
-				find_field("#{address}[city]").value.present? }
+#			wait_until{ 
+#				find_field("#{address}[city]").value.present? }
 
+			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
 			assert_equal 'PA',             find_field("#{address}[state]").value
-			assert_equal '17857',          find_field("#{address}[zip]").value
-			assert_equal 'Northumberland', find_field("#{patient}[raf_county]").value
-			assert_equal '17857',          find_field("#{patient}[raf_zip]").value
+			assert_equal '17857',          find_field("#{address}[zip]").reload.value
+			assert_equal 'Northumberland', find_field("#{patient}[raf_county]").reload.value
+			assert_equal '17857',          find_field("#{patient}[raf_zip]").reload.value
 		end
 
 		test "should show other_diagnosis when diagnosis is Other" <<
@@ -224,11 +229,11 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit new_raf_path
 			patient = 'study_subject[patient_attributes]'
-			assert !find_field("#{patient}[other_diagnosis]").visible?
+			assert !( find_field("#{patient}[other_diagnosis]", :visible => false ).visible? )
 			select "other diagnosis", :from => "#{patient}[diagnosis]"
 			assert find_field("#{patient}[other_diagnosis]").visible?
 			select "",      :from => "#{patient}[diagnosis]"
-			assert !find_field("#{patient}[other_diagnosis]").visible?
+			assert !( find_field("#{patient}[other_diagnosis]", :visible => false ).visible? )
 			select "other diagnosis", :from => "#{patient}[diagnosis]"
 			assert find_field("#{patient}[other_diagnosis]").visible?
 		end
@@ -238,11 +243,11 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit new_raf_path
 			patient = "study_subject[enrollments_attributes][0]"
-			assert !find_field("#{patient}[other_refusal_reason]").visible?
+			assert !( find_field("#{patient}[other_refusal_reason]", :visible => false ).visible? )
 			select "other reason for refusal", :from => "#{patient}[refusal_reason_id]"
 			assert find_field("#{patient}[other_refusal_reason]").visible?
 			select "",                         :from => "#{patient}[refusal_reason_id]"
-			assert !find_field("#{patient}[other_refusal_reason]").visible?
+			assert !( find_field("#{patient}[other_refusal_reason]", :visible => false ).visible? )
 			select "other reason for refusal", :from => "#{patient}[refusal_reason_id]"
 			assert find_field("#{patient}[other_refusal_reason]").visible?
 		end
@@ -253,8 +258,6 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_raf_path(:id => subject.id)
 #	TODO should add some stuff here
 		end
-
-
 
 	end
 

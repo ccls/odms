@@ -309,10 +309,25 @@ class ActionDispatch::CapybaraIntegrationTest < ActionDispatch::IntegrationTest
 	def assert_other_language_hidden
 		assert page.has_css?("#specify_other_language", :visible => false)
 		assert page.has_css?(language_input_css_id('other','other_language'),:visible => false)
-		assert !page.find_field(language_input_id('other','other_language')).visible?
+		assert !( page.find_field(language_input_id('other','other_language'), :visible => false ).visible? )
 	end
 
 end
+
+#	/opt/local/lib/ruby2.0/gems/2.0.0/gems/capybara-2.4.1/lib/capybara/node/finders.rb
+module Capybara
+	module Node
+		module Finders
+			#	redefining as newer version allows options, some of which are kinda required in the new version
+			#	and I don't want to delete them all now and have to put them back when I try again.
+			#	find_field's ":visible => false" means ignore visibility, not that it is not visible!
+			def find_field(locator, options={})
+				find(:field, locator, options)
+			end
+		end
+	end
+end
+
 
 __END__
 

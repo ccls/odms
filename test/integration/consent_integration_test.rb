@@ -15,11 +15,11 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject.id)
 #	choose ineligible
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "No", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 #	choose other reason
-			assert !find_field('enrollment[other_ineligible_reason]').visible?
+			assert !( find_field('enrollment[other_ineligible_reason]', :visible => false ).visible? )
 			select "other", :from => 'enrollment[ineligible_reason_id]'
 			assert find_field('enrollment[other_ineligible_reason]').visible?
 #	fill in ineligible reason
@@ -27,7 +27,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 #	choose eligible
 			select "Yes", :from => 'enrollment[is_eligible]'
 #	These fields are now hidden, but still contain user data
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 #	not nested, so this is actually visible.  Should nest this.
 #			assert !find_field('enrollment[other_ineligible_reason]').visible?
 
@@ -105,9 +105,13 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			#	trigger a kickback from Enrollment update failure
 			#	Could be StudySubject as well.  Doesn't matter.
 			Enrollment.any_instance.stubs(:valid?).returns(false)	
+			#StudySubject.any_instance.stubs(:valid?).returns(false)	
 			click_button 'Save'
 			assert has_css?("p.flash.error")
+
+			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert_page_has_unchecked_language_id('english')
+			#assert page.has_unchecked_field?('english_language_code'), page.body
 		end
 
 		test "should preserve destruction of subject_language on edit kickback" <<
@@ -126,9 +130,13 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			#	trigger a kickback from Enrollment update failure
 			#	Could be StudySubject as well.  Doesn't matter.
 			Enrollment.any_instance.stubs(:valid?).returns(false)	
+			#StudySubject.any_instance.stubs(:valid?).returns(false)	
 			click_button 'Save'
 			assert has_css?("p.flash.error")
+
+			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert_page_has_checked_language_destroy('english')
+			#assert page.has_checked_field?('english__destroy'), page.body
 		end
 
 		#	a bit excessive, but rather be excessive than skimp
@@ -212,7 +220,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_other_language_visible
 		end
 
-		test "should not have toggle eligibility criteria on show for non-case" <<
+		test "should not have toggle eligibility criteria on show for noncase" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -221,7 +229,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert  has_no_css?('div#eligibility_criteria')
 		end
 
-		test "should not have toggle eligibility criteria on edit for non-case" <<
+		test "should not have toggle eligibility criteria on edit for noncase" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -258,76 +266,76 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert has_css?('div#eligibility_criteria', :visible => false)
 		end
 
-		test "should show ineligible_reason selector if 'No' for is_eligible" <<
+		test "should show ineligible_reason selector if No for is_eligible" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "No", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 			select "", :from => 'enrollment[is_eligible]'
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "No", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 		end
 
-		test "should show ineligible_reason selector if 'Don't Know' for is_eligible" <<
+		test "should show ineligible_reason selector if Dont Know for is_eligible" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "Don't Know", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 			select "", :from => 'enrollment[is_eligible]'
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "Don't Know", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 		end
 
-		test "should NOT show ineligible_reason selector if 'Yes' for is_eligible" <<
+		test "should NOT show ineligible_reason selector if Yes for is_eligible" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "Yes", :from => 'enrollment[is_eligible]'
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "", :from => 'enrollment[is_eligible]'
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "Yes", :from => 'enrollment[is_eligible]'
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 		end
 
-		test "should show other_ineligible_reason if 'Other' reason selected" <<
+		test "should show other_ineligible_reason if Other reason selected" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert !find_field('enrollment[ineligible_reason_id]').visible?
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 			select "No", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 
-			assert !find_field('enrollment[other_ineligible_reason]').visible?
+			assert !( find_field('enrollment[other_ineligible_reason]', :visible => false ).visible? )
 #	case sensitive? yep.
 			select "other", :from => 'enrollment[ineligible_reason_id]'
 			assert find_field('enrollment[other_ineligible_reason]').visible?
 			select "", :from => 'enrollment[ineligible_reason_id]'
-			assert !find_field('enrollment[other_ineligible_reason]').visible?
+			assert !( find_field('enrollment[other_ineligible_reason]', :visible => false ).visible? )
 			select "other", :from => 'enrollment[ineligible_reason_id]'
 			assert find_field('enrollment[other_ineligible_reason]').visible?
 		end
 
-		test "should show subject_consented if consent is 'Yes'"<<
+		test "should show subject_consented if consent is Yes"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -343,7 +351,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_subject_consented_visible
 		end
 
-		test "should show subject_consented if consent is 'No'"<<
+		test "should show subject_consented if consent is No"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -359,7 +367,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_subject_consented_visible
 		end
 
-		test "should NOT show subject_consented if consent is 'Don't Know'"<<
+		test "should NOT show subject_consented if consent is Dont Know"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -375,23 +383,23 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_subject_consented_hidden
 		end
 
-		test "should show subject_refused if consent is 'No'"<<
+		test "should show subject_refused if consent is No"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert_subject_refused_hidden
-			select "No", :from => 'enrollment[consented]'
-			assert_subject_refused_visible
-			select "", :from => 'enrollment[consented]'
 			assert_subject_refused_hidden
 			select "No", :from => 'enrollment[consented]'
 			assert_subject_refused_visible
+			select "", :from => 'enrollment[consented]'
+			assert_subject_refused_hidden
+			select "No", :from => 'enrollment[consented]'
+			assert_subject_refused_visible
 		end
 
-		test "should NOT show subject_refused if consent is 'Yes'"<<
+		test "should NOT show subject_refused if consent is Yes"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -407,7 +415,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_subject_refused_hidden
 		end
 
-		test "should NOT show subject_refused if consent is 'Don't Know'"<<
+		test "should NOT show subject_refused if consent is Dont Know"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -424,23 +432,23 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 		end
 
 
-		test "should show other_refusal_reason if 'Other' reason selected"<<
+		test "should show other_refusal_reason if Other reason selected"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert !find_field('enrollment[refusal_reason_id]').visible?
+			assert !( find_field('enrollment[refusal_reason_id]', :visible => false ).visible? )
 			select "No", :from => 'enrollment[consented]'
 			assert find_field('enrollment[refusal_reason_id]').visible?
 
-			assert !find_field('enrollment[other_refusal_reason]').visible?
+			assert !( find_field('enrollment[other_refusal_reason]', :visible => false ).visible? )
 #	case sensitive? yep.
 			select "other reason for refusal", :from => 'enrollment[refusal_reason_id]'
 			assert find_field('enrollment[other_refusal_reason]').visible?
 			select "", :from => 'enrollment[refusal_reason_id]'
-			assert !find_field('enrollment[other_refusal_reason]').visible?
+			assert !( find_field('enrollment[other_refusal_reason]', :visible => false ).visible? )
 			select "other reason for refusal", :from => 'enrollment[refusal_reason_id]'
 			assert find_field('enrollment[other_refusal_reason]').visible?
 		end
@@ -459,12 +467,10 @@ protected
 	def assert_subject_consented_visible
 		assert has_css?('#subject_consented', :visible => true)
 		assert find_field('enrollment[consented_on]').visible?
-#		assert find_field('enrollment[document_version_id]').visible?
 	end
 	def assert_subject_consented_hidden
 		assert has_css?('#subject_consented', :visible => false)
-		assert !find_field('enrollment[consented_on]').visible?
-#		assert !find_field('enrollment[document_version_id]').visible?
+		assert !( find_field('enrollment[consented_on]', :visible => false ).visible? )
 	end
 	def assert_subject_refused_visible
 		assert has_css?('#subject_refused', :visible => true)
@@ -474,9 +480,9 @@ protected
 	end
 	def assert_subject_refused_hidden
 		assert has_css?('#subject_refused', :visible => false)
-		assert !find_field('enrollment[refusal_reason_id]').visible?
+		assert !( find_field('enrollment[refusal_reason_id]', :visible => false ).visible? )
 		#	Can explicitly say this as the field is nested
-		assert !find_field('enrollment[other_refusal_reason]').visible?
+		assert !( find_field('enrollment[other_refusal_reason]', :visible => false ).visible? )
 	end
 
 end

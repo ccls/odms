@@ -20,12 +20,6 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			assert_equal user_path(u), current_path
 
-#	in rails3, current_path isn't correctly updated if followed a redirect
-#	so this doesn't actually test anything.
-
-			#	<title>CCLS ODMS</title>
-			#	This isn't perfect, but it does test that the page is CCLS and not redirect to Calnet
-			#	If I can't test that I've been redirected, test the page content.
 			page_body = HTML::Document.new(body).root
 			assert_select page_body, 'title', :text => "CCLS ODMS"
 			assert_select( page_body, 'div#main', 1 ){|main|	#	Array!
@@ -46,7 +40,8 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				#	Doesn't seem to follow redirects in rails 3 as this did work in rails 2.
 				#	The page.body is correct, but the page.current_url
 				#		and page.current_path are not????
-#				assert_match /https:\/\/auth-test\.berkeley\.edu\/cas\/login/, current_url
+				#	Seems to work again in rails 4.  Not sure which gem is responsible.
+				assert_match /https:\/\/auth-test\.berkeley\.edu\/cas\/login/, current_url
 
 #	NOTE current_url is not following redirect
 
