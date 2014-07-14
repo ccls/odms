@@ -115,6 +115,10 @@ Autotest.add_hook :initialize do |autotest|
 end
 
 
+#	Don't use any punctuation in test names.  The test name gets split on them and
+#	then won't get rerun when called as that test isn't, or may not, exist.
+
+
 
 #	FYI, "complex" pluralized names in fixtures don't get mapped correctly.
 #		counties, people, etc.
