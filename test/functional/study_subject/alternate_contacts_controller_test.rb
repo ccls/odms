@@ -168,6 +168,19 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 
+		test "should edit with #{cu} login and NOT have nested forms" do
+			alternate_contact = FactoryGirl.create(:alternate_contact)
+			login_as send(cu)
+			get :edit, :study_subject_id => alternate_contact.study_subject_id,
+				:id => alternate_contact.id
+
+			#	this is invalid html and should fail in the validator, but doesn't!
+			response = HTML::Document.new( @response.body ).root
+			assert_select response, 'form', :count => 2 do |f|
+				assert_select f.first, 'form', :count => 0
+			end
+		end
+
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
 			alternate_contact = FactoryGirl.create(:alternate_contact)
 			study_subject = FactoryGirl.create(:study_subject)

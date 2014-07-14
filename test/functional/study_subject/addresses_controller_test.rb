@@ -263,6 +263,19 @@ class StudySubject::AddressesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 		end
 
+		test "should edit with #{cu} login and NOT have nested forms" do
+			address = FactoryGirl.create(:address)
+			login_as send(cu)
+			get :edit, :study_subject_id => address.study_subject_id,
+				:id => address.id
+
+			#	this is invalid html and should fail in the validator, but doesn't!
+			response = HTML::Document.new( @response.body ).root
+			assert_select response, 'form', :count => 2 do |f|
+				assert_select f.first, 'form', :count => 0
+			end
+		end
+
 		test "should edit with latitude and longitude and #{cu} login" do
 			address = FactoryGirl.create(:address)
 			address.update_attributes(
