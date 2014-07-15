@@ -239,15 +239,17 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 
 		test "should edit with #{cu} login and NOT have nested forms" do
 			phone_number = FactoryGirl.create(:phone_number)
-			login_as send(cu)
+			login_as user = send(cu)
 			get :edit, :study_subject_id => phone_number.study_subject_id,
 				:id => phone_number.id
 
+			form_count = ( ( user.may_destroy_phone_numbers? ) ? 3 : 2 )
+
 			#	this is invalid html and should fail in the validator, but doesn't!
-			response = HTML::Document.new( @response.body ).root
-			assert_select response, 'form', :count => 2 do |f|
-				assert_select f.first, 'form', :count => 0
-			end
+			assert_select( 'form', :count => form_count ).each { |form|
+				#	this will find itself, inside itself!!!!!!
+				assert_select( form, 'form', :count => 1 )
+			}
 		end
 
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
