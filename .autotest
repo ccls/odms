@@ -89,6 +89,20 @@ Autotest.add_hook :initialize do |autotest|
 
 
 
+	#	some of my nested test files can't find themselves when there's an error
+	#Unable to map class AddressesControllerTest to a file
+	#Unable to map class AlternateContactsControllerTest to a file
+	#Unable to map class PhoneNumbersControllerTest to a file
+	#	Yay! This works. When a test fails, and the test file is saved,
+	#	it only runs the failed tests!
+	Dir["test/functional/study_subject/*_test.rb"].each do |f|
+		#if f =~ /test\/functional\/(study_subject\/.*)\.rb/
+		if f =~ /test\/functional\/study_subject\/(.*)\.rb/
+			autotest.extra_class_map[$1.camelcase] = f
+		end
+	end
+
+
 
 
 #	from autotest-rails-4.2.1/lib/autotest/rails.rb

@@ -32,7 +32,13 @@ class PatientIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert has_css?('div.admit_date_wrapper > div.warning', :visible => false)
 			fill_in 'patient[admit_date]', :with => '12/31/2003'
 
-#			wait_until { has_css?('div.admit_date_wrapper.changed') }
+			#	in capybara 2.4.1, I believe that the focus never leaves admit_date
+			#execute_script("document.getElementById('patient_admit_date').blur()")
+			# ... or ... execute_script("jQuery('#patient_admit_date').change()")
+			#find_field('patient[hospital_no]').click ... won't work as date selector block it
+			find("body").click
+
+			wait_until { has_css?('div.admit_date_wrapper.changed') }
 
 			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert has_css?('div.admit_date_wrapper.changed')

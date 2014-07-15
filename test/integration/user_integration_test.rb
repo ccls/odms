@@ -43,7 +43,7 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				#	Seems to work again in rails 4.  Not sure which gem is responsible.
 				assert_match /https:\/\/auth-test\.berkeley\.edu\/cas\/login/, current_url
 
-#	NOTE current_url is not following redirect
+#	NOTE current_url is not following redirect (now it is?)
 
 				#<title>CalNet Central Authentication Service - Single Sign-on</title>
 

@@ -100,9 +100,9 @@ group :test do
 	#	newer capybara not compatible with current webkit
 	#	need to explicitly have capybara for the version or
 	#	it will by upgraded to 2.1.0 which fails
-	gem 'capybara', '~> 2.0.0'
+	gem 'capybara'	#, '~> 2.0.0'
 	#	capybara-webkit 1.0.0 bombs big time compiling native code
-	gem 'capybara-webkit', '~> 0.14'
+	gem 'capybara-webkit'	#, '~> 0.14'
 
 	#	20140711 - trying ... still lots of find_field failures
 	#	Using capybara 2.4.1 (was 2.0.3)

@@ -108,10 +108,8 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			#StudySubject.any_instance.stubs(:valid?).returns(false)	
 			click_button 'Save'
 			assert has_css?("p.flash.error")
-
-			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
+			show_eligibility_criteria_div	#	fracking hidden!	must be visible to be found now
 			assert_page_has_unchecked_language_id('english')
-			#assert page.has_unchecked_field?('english_language_code'), page.body
 		end
 
 		test "should preserve destruction of subject_language on edit kickback" <<
@@ -133,10 +131,8 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			#StudySubject.any_instance.stubs(:valid?).returns(false)	
 			click_button 'Save'
 			assert has_css?("p.flash.error")
-
-			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
+			show_eligibility_criteria_div	#	fracking hidden!!!  must be visible to be found now
 			assert_page_has_checked_language_destroy('english')
-			#assert page.has_checked_field?('english__destroy'), page.body
 		end
 
 		#	a bit excessive, but rather be excessive than skimp

@@ -10,7 +10,7 @@ class ActionDispatch::CapybaraIntegrationTest
 	#	Although, I don't know anywhere else that I'd use it.
 	#	Could add params like max delay or max tries,
 	#	but this is working just great as is.
-	def wait_until
+	def wait_until( wait_time=5.seconds )
 		result = false
 		start_time = Time.now
 		count = 0
@@ -20,7 +20,8 @@ class ActionDispatch::CapybaraIntegrationTest
 #
 #			puts "Loop:#{count}:result:#{result}:"
 #
-		end until result || ( Time.now > ( start_time + 5.seconds ) )
+#		end until result || ( Time.now > ( start_time + 5.seconds ) )
+		end until result || ( Time.now > ( start_time + wait_time ) )
 		result	#	return it just in case
 	end
 

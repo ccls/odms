@@ -20,9 +20,12 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			fill_in "address[zip]",  :with => "17857"
 
-#wait_until{ find_field("address[city]").value.present? }
+			#	in capybara 2.4.1, change focus so change gets triggered? (unneeded in #new)?
+			#execute_script("document.getElementById('address_zip').blur()")
+			# ... or ... 
+			#find_field("address[line_1]").click
+			find("body").click
 
-			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert_equal 'Northumberland',
 				find_field("address[city]").value
 			assert_equal 'Northumberland',
@@ -129,7 +132,16 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			select 'Residence', :from => "address[address_type]"
 
 			#	we don't want to actually save, so cancel with ....
-			evaluate_script('window.confirm = function() { return false; }')
+			execute_script('window.confirm = function() { return false; }')
+#			evaluate_script('window.confirm = function() { return false; }')
+
+
+#	execute_script(script)
+#	Execute the given script, not returning a result. This is useful for scripts that return complex objects, such as jQuery statements. execute_script should be used over evaluate_script whenever possible.
+#	evaluate_script(script)
+#	Evaluate the given JavaScript and return the result. Be careful when using this with scripts that return complex objects, such as jQuery statements. execute_script might be a better alternative.
+
+
 
 			click_button 'Save'
 
@@ -152,6 +164,14 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert find_field("address[zip]").value.blank?
 
 			fill_in "address[zip]",  :with => "17857"
+
+			#	in capybara 2.4.1, change focus so change gets triggered? (unneeded in #new)?
+			#execute_script("document.getElementById('address_zip').blur()")
+			# ... or ... 
+			#find_field("address[line_1]").click
+			find("body").click
+
+			#	now it seems to be needed in #new.  i love consistency
 
 			assert_equal 'Northumberland',
 				find_field("address[city]").value
