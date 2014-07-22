@@ -17,15 +17,16 @@ namespace :birth_data do
 
 	task :dump_all_phase_5 => :environment do
 		column_names = BirthDatum.column_names
-		puts (column_names + %w( ss_icf_master_id ss_subjectid ss_interview_completed_on ss_reference_date ss_mother_icf_master_id ss_mother_subjectid ss_birth_data_count )).to_csv
+		puts (column_names + %w( ss_icf_master_id ss_subjectid ss_interview_completed_on ss_reference_date ss_mother_icf_master_id ss_mother_subjectid ss_birth_data_count ss_phase )).to_csv
 		requires_leading_space = %w( complications_labor_delivery complications_pregnancy state_registrar_no 
 			derived_state_file_no_last6 derived_local_file_no_last6 )
 		BirthDatum.joins(:study_subject).where(:'study_subjects.phase' => 5).find_each do |bd|
+#		BirthDatum.joins(:study_subject).where(:'study_subjects.phase' => [4,5]).find_each do |bd|
 #		BirthDatum.joins(:study_subject).where(:'study_subjects.phase' => 5).where(StudySubject.arel_table[:birth_data_count].gt(1)).find_each do |bd|
 			out = []
 #jakewendt@fxdgroup-169-229-196-225 : odms 521> bundle exec rake app:birth_data:dump_all_phase_5
 #id,birth_datum_update_id,study_subject_id,master_id,found_in_state_db,birth_state,match_confidence,case_control_flag,length_of_gestation_weeks,father_race_ethn_1,father_race_ethn_2,father_race_ethn_3,mother_race_ethn_1,mother_race_ethn_2,mother_race_ethn_3,abnormal_conditions,apgar_1min,apgar_5min,apgar_10min,birth_order,birth_type,birth_weight_gms,complications_labor_delivery,complications_pregnancy,
-#county_of_delivery,daily_cigarette_cnt_1st_tri,daily_cigarette_cnt_2nd_tri,daily_cigarette_cnt_3rd_tri,daily_cigarette_cnt_3mo_preconc,dob,first_name,middle_name,last_name,father_industry,father_dob,father_hispanic_origin_code,father_first_name,father_middle_name,father_last_name,father_occupation,father_yrs_educ,fetal_presentation_at_birth,forceps_attempt_unsuccessful,last_live_birth_on,last_menses_on,last_termination_on,length_of_gestation_days,live_births_now_deceased,live_births_now_living,local_registrar_district,local_registrar_no,method_of_delivery,month_prenatal_care_began,mother_residence_line_1,mother_residence_city,mother_residence_county,mother_residence_county_ef,mother_residence_state,mother_residence_zip,mother_weight_at_delivery,mother_birthplace,mother_birthplace_state,mother_dob,mother_first_name,mother_middle_name,mother_maiden_name,mother_height,mother_hispanic_origin_code,mother_industry,mother_occupation,mother_received_wic,mother_weight_pre_pregnancy,mother_yrs_educ,ob_gestation_estimate_at_delivery,prenatal_care_visit_count,sex,state_registrar_no,term_count_20_plus_weeks,term_count_pre_20_weeks,vacuum_attempt_unsuccessful,created_at,updated_at,control_number,father_ssn,mother_ssn,birth_data_file_name,childid,subjectid,deceased,case_dob,ccls_import_notes,study_subject_changes,derived_state_file_no_last6,derived_local_file_no_last6,ss_icf_master_id,ss_subjectid,ss_interview_completed_on,ss_reference_date,ss_mother_icf_master_id,ss_mother_subjectid,ss_birth_data_count
+#county_of_delivery,daily_cigarette_cnt_1st_tri,daily_cigarette_cnt_2nd_tri,daily_cigarette_cnt_3rd_tri,daily_cigarette_cnt_3mo_preconc,dob,first_name,middle_name,last_name,father_industry,father_dob,father_hispanic_origin_code,father_first_name,father_middle_name,father_last_name,father_occupation,father_yrs_educ,fetal_presentation_at_birth,forceps_attempt_unsuccessful,last_live_birth_on,last_menses_on,last_termination_on,length_of_gestation_days,live_births_now_deceased,live_births_now_living,local_registrar_district,local_registrar_no,method_of_delivery,month_prenatal_care_began,mother_residence_line_1,mother_residence_city,mother_residence_county,mother_residence_county_ef,mother_residence_state,mother_residence_zip,mother_weight_at_delivery,mother_birthplace,mother_birthplace_state,mother_dob,mother_first_name,mother_middle_name,mother_maiden_name,mother_height,mother_hispanic_origin_code,mother_industry,mother_occupation,mother_received_wic,mother_weight_pre_pregnancy,mother_yrs_educ,ob_gestation_estimate_at_delivery,prenatal_care_visit_count,sex,state_registrar_no,term_count_20_plus_weeks,term_count_pre_20_weeks,vacuum_attempt_unsuccessful,created_at,updated_at,control_number,father_ssn,mother_ssn,birth_data_file_name,childid,subjectid,deceased,case_dob,ccls_import_notes,study_subject_changes,derived_state_file_no_last6,derived_local_file_no_last6,ss_icf_master_id,ss_subjectid,ss_interview_completed_on,ss_reference_date,ss_mother_icf_master_id,ss_mother_subjectid,ss_birth_data_count,ss_phase
 
 			column_names.each{ |c| out.push (( requires_leading_space.include?(c) ) ? " #{bd[c]}" : bd[c] ) }
 			out.push bd.study_subject.icf_master_id
@@ -35,6 +36,7 @@ namespace :birth_data do
 			out.push bd.study_subject.mother.try(:icf_master_id)
 			out.push " #{bd.study_subject.mother.try(:subjectid)}"
 			out.push bd.study_subject.birth_data_count
+			out.push bd.study_subject.phase
 			puts out.to_csv
 		end
 	end	#	task :dump_all_phase_5 => :environment do
