@@ -88,7 +88,7 @@ GEM
     pdf-core (0.2.5)
     polyglot (0.3.5)
     pr_geohash (1.0.0)
-    prawn (1.1.0)
+    prawn (1.2.1)
       pdf-core (~> 0.2.5)
       ttfunk (~> 1.2.0)
     prawnto (0.1.1)
