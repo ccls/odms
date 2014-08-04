@@ -4,8 +4,6 @@ gem 'bundler'
 
 
 
-#	try upgrading capybara
-
 #	try removing minitest
 #
 #	I think that this is needed because of CommonLib
@@ -17,6 +15,7 @@ gem 'bundler'
 gem 'jakewendt-active_record_sunspotter'
 #	copied in sunspot_rails-2.1.0/lib/sunspot/rails/adapters.rb
 #	to stop ActiveRecord deprecation warnings
+#	Commented that out now.
 
 
 
@@ -94,23 +93,8 @@ group :test do
 
 	gem 'jakewendt-html_test'
 
-	#	the latest capybara seems to install just fine when the latest xcode and command line tools are.
-	#	NOTE however, the "find field" seems to always fail?
-	#
-	#	newer capybara not compatible with current webkit
-	#	need to explicitly have capybara for the version or
-	#	it will by upgraded to 2.1.0 which fails
-	gem 'capybara'	#, '~> 2.0.0'
-	#	capybara-webkit 1.0.0 bombs big time compiling native code
-	gem 'capybara-webkit'	#, '~> 0.14'
-
-	#	20140711 - trying ... still lots of find_field failures
-	#	Using capybara 2.4.1 (was 2.0.3)
-	#	Using capybara-webkit 1.1.0 (was 0.14.2)
-
-	#	After rails 4, upgraded capybara stuff, but still had issues finding fields
-	#	capybara (2.2.1)
-	#	capybara-webkit (1.1.0)
+	gem 'capybara'
+	gem 'capybara-webkit'
 
 	gem 'jakewendt-test_with_verbosity'
 end
