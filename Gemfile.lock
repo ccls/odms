@@ -153,7 +153,7 @@ GEM
       rails (>= 3)
       sunspot (= 2.1.1)
     sunspot_solr (2.1.1)
-    test-unit (3.0.0)
+    test-unit (3.0.1)
       power_assert
     thor (0.19.1)
     thread_safe (0.3.4)
