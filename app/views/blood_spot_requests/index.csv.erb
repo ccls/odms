@@ -1,0 +1,32 @@
+<% require 'csv' -%>
+<%# 
+        adding :headers => true is supposed to set a flag in the file 
+        somewhere marking it as having a header row, but I don't 
+        think that it actually does.
+-%>
+<%= %w( patid 
+icf_master_id 
+hospital_no 
+first_name 
+last_name 
+dob 
+ccls_is_eligible 
+ccls_is_consented 
+admit_date 
+hospital ).to_csv(
+  :headers => true) -%>
+<% @blood_spot_requests.each do |blood_spot_request| -%>
+<% study_subject = blood_spot_request.study_subject -%>
+<%= [ 
+	study_subject.patid,
+	study_subject.icf_master_id,
+	study_subject.hospital_no,
+	study_subject.first_name,
+	study_subject.last_name,
+	study_subject.dob.try(:strftime,'%m/%d/%Y'),
+	study_subject.ccls_is_eligible,
+	study_subject.ccls_is_consented,
+	study_subject.admit_date.try(:strftime,'%m/%d/%Y'),
+	study_subject.hospital
+].to_csv.html_safe -%>
+<% end -%>

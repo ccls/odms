@@ -34,7 +34,7 @@
 	:label_text => 'date of birth:' %>
 
 <%= f.wrapped_sex_select :sex,
-:label_text => 'sex:' %>
+	:label_text => 'sex:' %>
 
 <%= f.subject_races_select() %>
 
@@ -44,10 +44,10 @@
 	:label_text => 'local registrar no:' %>
 
 <%= wrapped_spans :study_subject, :state_id_no,
-:label_text => 'state id no (for legacy subjects):' %>
+	:label_text => 'state id no:' %>
 
 <%= wrapped_date_spans :study_subject, :reference_date,
-:label_text => 'admit (reference) date:' %>
+	:label_text => 'admit (reference) date:' %>
 
 <%= f.wrapped_select :vital_status,
 	@study_subject.vital_statuses,

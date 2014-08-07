@@ -16,6 +16,7 @@ class StudySubject < ActiveRecord::Base
 	has_one :home_exposure_response
 	has_many :birth_data
 	has_many :bc_requests
+	has_many :blood_spot_requests
 	has_many :interviews
 	has_many :medical_record_requests
 

@@ -197,6 +197,10 @@ FactoryGirl.define do
 		f.sequence(:notes) { |n| "Notes#{n}" }	#	forces an update
 	end
 	
+	factory :blood_spot_request do |f|
+		f.sequence(:notes) { |n| "Notes#{n}" }	#	forces an update
+	end
+	
 	factory :birth_datum do |f|
 	#
 	#	These are not required, but without them, conversion to subject will fail

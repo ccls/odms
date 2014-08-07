@@ -83,6 +83,52 @@ namespace :study_subjects do
 		end
 	end	#	task :duplicate_subject_check => :environment do
 
+
+
+
+	task :duplicate_state_id_no_check_3 => :environment do
+		CSV.open( "tracking2k/stateidno.csv", 'rb',{ :headers => true }).each do |line|
+			#tbl_childinfo_t2k.PatID,Type,tbl_childinfo_t2k.subjectid,StateIDNo
+			#0002,B,303460,91-000682
+			#0002,F,533842,
+			#0002,F,657897,
+
+			puts "Searching for #{line['tbl_childinfo_t2k.subjectid']}"
+			subjects = StudySubject.with_subjectid(line['tbl_childinfo_t2k.subjectid'])
+			raise if subjects.empty?
+			raise if subjects.length > 1	#	seriously, this will never happen as subjectid is unique
+			subject = subjects.first
+
+			next if line['StateIDNo'].blank?
+#			next if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] )
+			next if ["non-CA"].include?( line['StateIDNo'] )
+
+			subject.state_id_no = line['StateIDNo']
+			unless subject.save
+				puts "Current ...."
+				puts StudySubject.where(:state_id_no => line['StateIDNo']).inspect
+				puts "Attempted save ...."
+				puts subject.errors.inspect
+			end
+
+#			raise "#{subject.state_id_no} != #{line['StateIDNo']}" if subject.state_id_no != line['StateIDNo']
+#			if subject.state_id_no != line['StateIDNo']
+#				puts subject.birth_year
+#				puts subject.derived_state_file_no_last6
+#				puts subject.derived_local_file_no_last6
+#				puts subject.state_registrar_no
+#				subject.state_id_no = line['StateIDNo']
+#				puts subject.valid?
+#				puts subject.errors.inspect
+#			end
+
+		end	#	CSV.open
+	end	#	task :duplicate_state_id_no_check_3 => :environment do
+
+
+
+
+
 	task :duplicate_state_id_no_check_2 => :environment do
 		filename = "tracking2k/tChildInfo.csv"
 		attrs = %w( childid patid subjectid state_id_no dob sex subject_type last_name first_name )

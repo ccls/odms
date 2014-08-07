@@ -1,0 +1,35 @@
+<% blood_spots_sub_menu %>
+
+<h4><%= params[:status].try(:capitalize) %> Blood Spot Requests (<%= @blood_spot_requests.length %>)
+<span><%= link_to "Download", 
+	blood_spot_requests_path(:status => params[:status],:format => 'csv'),
+	:class => 'button right' %></span>
+</h4>
+<% if @blood_spot_requests.to_a.empty? %>
+<p>Sorry, but there are no <%= params[:status] %> blood spot requests.</p>
+<% else %>
+<table><thead>
+<tr>
+ <th><%= sort_link('studyid', 'Study ID' ) %></th>
+ <th><%= sort_link('icf_master_id', 'ICF Master ID' ) %></th>
+ <th>Subject Name</th>
+ <th><%= sort_link('sent_on', 'Request Date' ) %></th>
+ <th><%= sort_link('returned_on', 'Return Date' ) %></th>
+ <th><%= sort_link('status', 'Status' ) %></th>
+ <th>&nbsp;</th>
+</tr></thead>
+<tbody>
+<% @blood_spot_requests.each do |blood_spot_request| %>
+ <% study_subject = StudySubject.find(blood_spot_request.study_subject_id) %>
+ <tr class='row'>
+  <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
+  <td><%= study_subject.icf_master_id_to_s %></td>
+  <td><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
+  <td><%=mdy blood_spot_request.sent_on %></td>
+  <td><%=mdy blood_spot_request.returned_on %></td>
+  <td><%= blood_spot_request.status %></td>
+  <td><%= link_to 'Edit', edit_blood_spot_request_path(blood_spot_request), :class => 'button' %></td>
+ </tr>
+<% end %>
+</tbody></table>
+<% end %>

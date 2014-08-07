@@ -1,0 +1,15 @@
+<% blood_spots_sub_menu %>
+
+<% @study_subject = @blood_spot_request.study_subject %>
+
+<h4>Edit Blood SpotRequest</h4>
+
+<%= form_for(@blood_spot_request) do |f| %>
+<%= f.error_messages %>
+<%= f.wrapped_select :status, BloodSpotRequest.statuses %>
+<%= f.wrapped_date_text_field :sent_on %>
+<%= f.wrapped_date_text_field :returned_on %>
+<%= f.wrapped_check_box :is_found %>
+<%= f.wrapped_text_area :notes, :rows => 3, :cols => 50 %>
+<%= f.submit 'Update', :id => nil, :name => nil %>
+<% end %>

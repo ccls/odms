@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710174630) do
+ActiveRecord::Schema.define(version: 20140807103700) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -459,6 +459,18 @@ ActiveRecord::Schema.define(version: 20140710174630) do
   end
 
   add_index "birth_data", ["study_subject_id"], name: "index_birth_data_on_study_subject_id", using: :btree
+
+  create_table "blood_spot_requests", force: true do |t|
+    t.integer  "study_subject_id"
+    t.date     "sent_on"
+    t.date     "returned_on"
+    t.boolean  "is_found"
+    t.string   "status"
+    t.text     "notes"
+    t.string   "request_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "candidate_controls", force: true do |t|
     t.integer  "birth_datum_id"

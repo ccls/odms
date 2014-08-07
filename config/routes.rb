@@ -85,6 +85,12 @@ Odms::Application.routes.draw do
 		member     { put :update_status }
 	end
 	resources :birth_data, :except => [:new,:create,:edit,:update,:destroy]
+	resources :blood_spot_requests, :except => :show do
+		collection { get :confirm }
+		collection { put :activate_all_waitlist }
+		collection { put :waitlist_all_active }
+		member     { put :update_status }
+	end
 	resources :candidate_controls, :only => [:edit,:update,:index,:show]
 
 	resources :cases, :only => [:index] do

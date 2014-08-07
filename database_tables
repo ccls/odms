@@ -455,6 +455,21 @@ Table: birth_data
 | derived_state_file_no_last6       | varchar(6)   | YES  |     | NULL    |                |
 | derived_local_file_no_last6       | varchar(6)   | YES  |     | NULL    |                |
 +-----------------------------------+--------------+------+-----+---------+----------------+
+Table: blood_spot_requests
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| study_subject_id | int(11)      | YES  |     | NULL    |                |
+| sent_on          | date         | YES  |     | NULL    |                |
+| returned_on      | date         | YES  |     | NULL    |                |
+| is_found         | tinyint(1)   | YES  |     | NULL    |                |
+| status           | varchar(255) | YES  |     | NULL    |                |
+| notes            | text         | YES  |     | NULL    |                |
+| request_type     | varchar(255) | YES  |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
 Table: candidate_controls
 +------------------+--------------+------+-----+---------+----------------+
 | Field            | Type         | Null | Key | Default | Extra          |

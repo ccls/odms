@@ -23,7 +23,8 @@ module ApplicationHelper
 #				link_to('New Control', new_control_path),
 
 				link_to('Birth Data Requests', new_bc_request_path),
-				link_to('Med Rec Requests', new_medical_record_request_path)
+				link_to('Med Rec Requests', new_medical_record_request_path),
+				link_to('Blood Spot Requests', new_blood_spot_request_path)
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
@@ -53,6 +54,7 @@ module ApplicationHelper
 			[
 				link_to('Birth Data Requests', new_bc_request_path),
 				link_to('Med Rec Requests', new_medical_record_request_path),
+				link_to('Blood Spot Requests', new_blood_spot_request_path),
 				link_to('Case Assignment', cases_path)
 #				"<span>Subject Data</span>",
 #				"<span>Tracking Data</span>"
@@ -110,6 +112,48 @@ module ApplicationHelper
 					:class => ((current == :abstracted_medical_record_requests)?'current':nil) ),
 				link_to( "Complete Requests", medical_record_requests_path(:status => 'complete'),
 					:class => ((current == :complete_medical_record_requests)?'current':nil) )
+			]
+			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
+			s << "\n</ul><!-- sidemenu -->\n"
+			s.html_safe
+		end
+	end
+
+	def blood_spots_sub_menu
+		#	added the to_s's to ensure not nil
+		current = case params[:controller].to_s
+			when 'blood_spot_requests' 
+				case params[:action].to_s
+					when 'new' then :new_blood_spot_request
+					when 'index' 
+						case params[:status].to_s
+							when 'pending'  then :pending_blood_spot_requests
+							when 'active'   then :active_blood_spot_requests
+							when 'waitlist' then :waitlist_blood_spot_requests
+							when 'complete' then :complete_blood_spot_requests
+							else :all_blood_spot_requests
+						end
+					else nil
+				end
+			else nil
+		end
+		content_for :side_menu do
+			s = "<ul id='sidemenu'>\n"
+			list_items = [
+				link_to( "New Requests", new_blood_spot_request_path,
+					:class => ((current == :new_blood_spot_request)?'current':nil) ),
+				"<hr/>",
+				link_to( "All Requests", blood_spot_requests_path,
+					:class => ((current == :all_blood_spot_requests)?'current':nil) ),
+				link_to( "Active Requests", blood_spot_requests_path(:status => 'active'),
+					:class => ((current == :active_blood_spot_requests)?'current':nil) ),
+				link_to( "Waitlist Requests", blood_spot_requests_path(:status => 'waitlist'),
+					:class => ((current == :waitlist_blood_spot_requests)?'current':nil) ),
+				link_to( "Pending Requests", blood_spot_requests_path(:status => 'pending'),
+					:class => ((current == :pending_blood_spot_requests)?'current':nil) ),
+				link_to( "Complete Requests", blood_spot_requests_path(:status => 'complete'),
+					:class => ((current == :complete_blood_spot_requests)?'current':nil) )
+
 			]
 			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
 			s << "\n</ul><!-- sidemenu -->\n"

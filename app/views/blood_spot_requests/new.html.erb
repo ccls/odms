@@ -1,0 +1,109 @@
+<% blood_spots_sub_menu %>
+
+<h4>Blood Spot Requests</h4>
+
+<p>Add case to Blood Spot Request List</p>
+
+<%= form_tag(blood_spot_requests_path,:method => :post) do %>
+<p>
+<%= text_field_tag :q, params[:q], :id => nil  %>
+<%= submit_tag 'Find case by patid or icf master id' %>
+</p>
+<% end %>
+
+<hr/>
+
+<div class='control'><div class='control_row'>
+<h4>Blood Spot Request List</h4>
+<div>
+<%= button_to( 'Waitlist all Active', waitlist_all_active_blood_spot_requests_path, :method => 'put')  %>
+<%= link_to "Confirm Export", confirm_blood_spot_requests_path, :class => 'button' %>
+<%= link_to "Download", 
+	blood_spot_requests_path(:status => 'active',:format => 'csv'),
+	:class => 'button' %>
+</div></div></div>
+
+
+
+<% if @active_blood_spot_requests.to_a.empty? %>
+<p>Sorry, but there are no active blood spot requests at this time.</p>
+<% else %>
+<table class='blood_spot_requests'><thead>
+<tr>
+<!-- <th>Remove</th> --><th>&nbsp;</th>
+<!-- <th>Wait</th> --><th>&nbsp;</th>
+ <th><%= sort_link('studyid', 'Study ID' ) %></th>
+ <th><%= sort_link('icf_master_id', 'ICF Master ID' ) %></th>
+ <th>Name</th>
+ <th>Sex</th>
+ <th>State ID No</th>
+ <th>DOB</th>
+</tr></thead>
+<tbody>
+<% @active_blood_spot_requests.each do |blood_spot_request| %>
+ <% study_subject = blood_spot_request.study_subject %>
+ <tr class='row'>
+  <td>
+<%= form_tag blood_spot_request, :method => :delete, :class => 'destroy_link_to' do %>
+<%= hidden_field_tag 'confirm', "Remove Blood Spot Request '#{blood_spot_request}'?", :id => nil %>
+<%= submit_tag 'Remove', :name => nil %>
+<% end %>
+  </td>
+   <%# status is part of the action url, not an input field here %>
+  <td><%= button_to( 'Wait', update_status_blood_spot_request_path(blood_spot_request, :status => 'waitlist' ), :method => 'put')  -%></td>
+  <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
+  <td class='nowrap'><%= study_subject.icf_master_id_to_s %></td>
+  <td class='nowrap'><%= "#{study_subject.first_name} #{study_subject.last_name}" %></td>
+  <td><%= study_subject.sex %></td>
+  <td><%= study_subject.state_id_no %></td>
+  <td><%=mdy study_subject.dob %></td>
+ </tr>
+<% end %><%# @active_blood_spot_requests.each do |blood_spot_request| %>
+</tbody>
+</table>
+<% end %><%# unless @active_blood_spot_requests.to_a.empty? %>
+
+<hr/>
+
+<div class='control'><div class='control_row'>
+<h4>Waiting List</h4>
+<%= button_to( 'Activate all Waiting', activate_all_waitlist_blood_spot_requests_path, :method => 'put')  -%>
+</div></div>
+
+
+<% if @waitlist_blood_spot_requests.to_a.empty? %>
+<p>Sorry, but there are no waitlist blood spot requests at this time.</p>
+<% else %>
+<table class='blood_spot_requests'><thead>
+<tr>
+<!-- <th>Move to Request</th> --><th>&nbsp;</th>
+ <th><%= sort_link('studyid', 'Study ID' ) %></th>
+ <th><%= sort_link('icf_master_id', 'ICF Master ID' ) %></th>
+ <th>Name</th>
+ <th>Comments</th>
+ <th>&nbsp;</th>
+</tr></thead>
+<tbody>
+
+<% @waitlist_blood_spot_requests.each do |blood_spot_request| %>
+ <% study_subject = blood_spot_request.study_subject %>
+ <tr class='row'>
+<%# 
+	TODO
+
+	probably much simpler (not restful) to just create 'activate' and 'waitlist' routes for blood_spot_requests
+	as they will be editable (comments only) OR need to change :status to 'blood_spot_request[status]'
+	and do a more general update
+%>
+   <%# status is part of the action url, not an input field here %>
+  <td><%= button_to( 'Activate', update_status_blood_spot_request_path(blood_spot_request, :status => 'active'), :method => 'put' ) -%></td>
+  <td><%= link_to study_subject.studyid_to_s, study_subject %></td>
+  <td class='nowrap'><%= study_subject.icf_master_id_to_s %></td>
+  <td class='nowrap'><%= study_subject.full_name %></td>
+  <td><%= blood_spot_request.notes %></td>
+  <td><%= link_to 'Edit', edit_blood_spot_request_path(blood_spot_request), :class => 'button' %></td>
+ </tr>
+<% end %><%# @waitlist_blood_spot_requests.each do |blood_spot_request| %>
+</tbody>
+</table>
+<% end %><%# unless @waitlist_blood_spot_requests.to_a.empty? %>
