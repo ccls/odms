@@ -93,22 +93,28 @@ namespace :study_subjects do
 			#0002,F,533842,
 			#0002,F,657897,
 
-			puts "Searching for #{line['tbl_childinfo_t2k.subjectid']}"
+			puts "Searching for subjectid #{line['tbl_childinfo_t2k.subjectid']}"
 			subjects = StudySubject.with_subjectid(line['tbl_childinfo_t2k.subjectid'])
 			raise if subjects.empty?
 			raise if subjects.length > 1	#	seriously, this will never happen as subjectid is unique
 			subject = subjects.first
 
-			next if line['StateIDNo'].blank?
+			if line['StateIDNo'].blank?
+				puts " - Incoming StateIDNo is blank"
+				next
+			end
 #			next if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] )
-			next if ["non-CA"].include?( line['StateIDNo'] )
+			if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] )
+				puts "- Incoming StateIDNo is 'non-CA'"
+				next
+			end
 
 			subject.state_id_no = line['StateIDNo']
 			unless subject.save
-				puts "Current ...."
-				puts StudySubject.where(:state_id_no => line['StateIDNo']).inspect
-				puts "Attempted save ...."
+				puts "Attempted save errors ...."
 				puts subject.errors.inspect
+				puts "Existing subjects with state id no (#{ line['StateIDNo']}) ...."
+				puts StudySubject.where(:state_id_no => line['StateIDNo']).inspect
 			end
 
 #			raise "#{subject.state_id_no} != #{line['StateIDNo']}" if subject.state_id_no != line['StateIDNo']
