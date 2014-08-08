@@ -67,7 +67,7 @@ GEM
       sunspot_solr
       will_paginate
     jakewendt-html_test (4.0.0)
-    jakewendt-test_with_verbosity (0.0.3)
+    jakewendt-test_with_verbosity (0.0.4)
     json (1.8.1)
     mail (2.5.4)
       mime-types (~> 1.16)
