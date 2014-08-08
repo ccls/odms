@@ -87,6 +87,8 @@ module ApplicationHelper
 							when 'active'   then :active_medical_record_requests
 							when 'waitlist' then :waitlist_medical_record_requests
 							when 'abstracted' then :abstracted_medical_record_requests
+							when 'incomplete' then :incomplete_medical_record_requests
+							when 'completed' then :completed_medical_record_requests
 							when 'complete' then :complete_medical_record_requests
 							else :all_medical_record_requests
 						end
@@ -102,6 +104,7 @@ module ApplicationHelper
 				"<hr/>",
 				link_to( "All Requests", medical_record_requests_path,
 					:class => ((current == :all_medical_record_requests)?'current':nil) ),
+				"<hr/>",
 				link_to( "Active Requests", medical_record_requests_path(:status => 'active'),
 					:class => ((current == :active_medical_record_requests)?'current':nil) ),
 				link_to( "Waitlist Requests", medical_record_requests_path(:status => 'waitlist'),
@@ -110,7 +113,12 @@ module ApplicationHelper
 					:class => ((current == :pending_medical_record_requests)?'current':nil) ),
 				link_to( "Abstracted Requests", medical_record_requests_path(:status => 'abstracted'),
 					:class => ((current == :abstracted_medical_record_requests)?'current':nil) ),
-				link_to( "Complete Requests", medical_record_requests_path(:status => 'complete'),
+				link_to( "All Incomplete Requests", medical_record_requests_path(:status => 'incomplete'),
+					:class => ((current == :incomplete_medical_record_requests)?'current':nil) ),
+				"<hr/>",
+				link_to( "Completed Requests", medical_record_requests_path(:status => 'completed'),
+					:class => ((current == :completed_medical_record_requests)?'current':nil) ),
+				link_to( "All Complete Requests", medical_record_requests_path(:status => 'complete'),
 					:class => ((current == :complete_medical_record_requests)?'current':nil) )
 			]
 			s << list_items.collect{|i|"<li>#{i}</li>"}.join("\n")
@@ -130,6 +138,9 @@ module ApplicationHelper
 							when 'pending'  then :pending_blood_spot_requests
 							when 'active'   then :active_blood_spot_requests
 							when 'waitlist' then :waitlist_blood_spot_requests
+							when 'incomplete' then :incomplete_blood_spot_requests
+							when 'completed' then :completed_blood_spot_requests
+							when 'unavailable' then :unavailable_blood_spot_requests
 							when 'complete' then :complete_blood_spot_requests
 							else :all_blood_spot_requests
 						end
@@ -145,13 +156,21 @@ module ApplicationHelper
 				"<hr/>",
 				link_to( "All Requests", blood_spot_requests_path,
 					:class => ((current == :all_blood_spot_requests)?'current':nil) ),
+				"<hr/>",
 				link_to( "Active Requests", blood_spot_requests_path(:status => 'active'),
 					:class => ((current == :active_blood_spot_requests)?'current':nil) ),
 				link_to( "Waitlist Requests", blood_spot_requests_path(:status => 'waitlist'),
 					:class => ((current == :waitlist_blood_spot_requests)?'current':nil) ),
 				link_to( "Pending Requests", blood_spot_requests_path(:status => 'pending'),
 					:class => ((current == :pending_blood_spot_requests)?'current':nil) ),
-				link_to( "Complete Requests", blood_spot_requests_path(:status => 'complete'),
+				link_to( "All Incomplete Requests", blood_spot_requests_path(:status => 'incomplete'),
+					:class => ((current == :incomplete_blood_spot_requests)?'current':nil) ),
+				"<hr/>",
+				link_to( "Completed Requests", blood_spot_requests_path(:status => 'completed'),
+					:class => ((current == :completed_blood_spot_requests)?'current':nil) ),
+				link_to( "Unavailable Requests", blood_spot_requests_path(:status => 'unavailable'),
+					:class => ((current == :unavailable_blood_spot_requests)?'current':nil) ),
+				link_to( "All Complete Requests", blood_spot_requests_path(:status => 'complete'),
 					:class => ((current == :complete_blood_spot_requests)?'current':nil) )
 
 			]
@@ -172,6 +191,8 @@ module ApplicationHelper
 							when 'pending'  then :pending_bc_requests
 							when 'active'   then :active_bc_requests
 							when 'waitlist' then :waitlist_bc_requests
+							when 'incomplete' then :incomplete_bc_requests
+							when 'completed' then :completed_bc_requests
 							when 'complete' then :complete_bc_requests
 							else :all_bc_requests
 						end
@@ -187,13 +208,19 @@ module ApplicationHelper
 				"<hr/>",
 				link_to( "All Requests", bc_requests_path,
 					:class => ((current == :all_bc_requests)?'current':nil) ),
+				"<hr/>",
 				link_to( "Active Requests", bc_requests_path(:status => 'active'),
 					:class => ((current == :active_bc_requests)?'current':nil) ),
 				link_to( "Waitlist Requests", bc_requests_path(:status => 'waitlist'),
 					:class => ((current == :waitlist_bc_requests)?'current':nil) ),
 				link_to( "Pending Requests", bc_requests_path(:status => 'pending'),
 					:class => ((current == :pending_bc_requests)?'current':nil) ),
-				link_to( "Complete Requests", bc_requests_path(:status => 'complete'),
+				link_to( "All Incomplete Requests", bc_requests_path(:status => 'incomplete'),
+					:class => ((current == :incomplete_bc_requests)?'current':nil) ),
+				"<hr/>",
+				link_to( "Completed Requests", bc_requests_path(:status => 'completed'),
+					:class => ((current == :completed_bc_requests)?'current':nil) ),
+				link_to( "All Complete Requests", bc_requests_path(:status => 'complete'),
 					:class => ((current == :complete_bc_requests)?'current':nil) )
 
 			]

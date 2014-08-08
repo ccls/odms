@@ -26,34 +26,6 @@ if Abstract.respond_to?(:solr_search)
 			assert_found_one( abstract )
 		end
 
-#		test "should search by sample and #{cu} login" do
-#			sample = build_and_index_sample
-#			login_as send(cu)
-#			get :index, :subject_type => [sample.subject_type]
-#			assert_found_one( sample )
-#		end
-#
-#		test "should search by wrong subject_type and #{cu} login" do
-#			sample = build_and_index_sample
-#			login_as send(cu)
-#			get :index, :subject_type => ['WRONG']
-#			assert_found_nothing
-#		end
-#
-#		test "should search by empty subject_type and #{cu} login" do
-#			sample = build_and_index_sample
-#			login_as send(cu)
-#			get :index, :subject_type => []
-#			assert_found_one( sample )
-#		end
-#
-#		test "should search by blank subject_type and #{cu} login" do
-#			sample = build_and_index_sample
-#			login_as send(cu)
-#			get :index, :subject_type => ''
-#			assert_found_one( sample )
-#		end
-
 		test "should search with invalid facet and #{cu} login" do
 			abstract = build_and_index_abstract
 			login_as send(cu)
@@ -83,7 +55,6 @@ if Abstract.respond_to?(:solr_search)
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
 			assert_equal f[0], columns
-#			assert_equal f[1], [nil,nil]
 			assert_equal f[1], ["UNKNOWN COLUMN", "UNKNOWN COLUMN"]
 		end
 
@@ -177,23 +148,13 @@ protected
 
 	def sanitize_index
 		Sunspot.remove_all!					#	isn't always necessary
-
-#		Abstract.solr_reindex
-#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
-		Abstract.find_each{|a|a.index}
-		Sunspot.commit
-
+		Abstract.solr_reindex
 		assert Abstract.search.hits.empty?
 	end
 
 	def build_and_index_abstract(options={})
 		abstract = FactoryGirl.create(:abstract,options)
-
-#		Abstract.solr_reindex
-#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
-		Abstract.find_each{|a|a.index}
-		Sunspot.commit
-
+		Abstract.solr_reindex
 		assert !Abstract.search.hits.empty?
 		return abstract
 	end
@@ -210,10 +171,8 @@ protected
 		assert_template 'index'
 		assert assigns(:search)
 		assert_equal abstract.length, assigns(:search).hits.length
-
 		assert_equal abstract, assigns(:search).results
 		assert_equal abstract, assigns(:search).hits.collect(&:instance)
-
 	end
 
 	def assert_found_nothing

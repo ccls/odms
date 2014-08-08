@@ -36,39 +36,16 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 		assert_match /^#<BloodSpotRequest:0x.+>$/, "#{blood_spot_request}"
 	end
 
-	test "should include active blood spot request in active scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-			:status => 'active' )
-		blood_spot_requests = BloodSpotRequest.active
-		assert blood_spot_requests.include?( blood_spot_request )
-	end
 
-	test "should include waitlist blood spot request in waitlist scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-			:status => 'waitlist' )
-		blood_spot_requests = BloodSpotRequest.waitlist
-		assert blood_spot_requests.include?( blood_spot_request )
-	end
+	%w( active waitlist pending unavailable completed ).each do |status|
 
-	test "should include pending blood spot request in pending scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-			:status => 'pending' )
-		blood_spot_requests = BloodSpotRequest.pending
-		assert blood_spot_requests.include?( blood_spot_request )
-	end
+		test "should include #{status} blood spot request in #{status} scope" do
+			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+				:status => status )
+			blood_spot_requests = BloodSpotRequest.send(status)
+			assert blood_spot_requests.include?( blood_spot_request )
+		end
 
-#	test "should include abstracted blood spot request in abstracted scope" do
-#		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-#			:status => 'abstracted' )
-#		blood_spot_requests = BloodSpotRequest.abstracted
-#		assert blood_spot_requests.include?( blood_spot_request )
-#	end
-
-	test "should include complete blood spot request in complete scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-			:status => 'complete' )
-		blood_spot_requests = BloodSpotRequest.complete
-		assert blood_spot_requests.include?( blood_spot_request )
 	end
 
 	test "should include nil blood spot request in incomplete scope" do
@@ -78,42 +55,50 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 		assert blood_spot_requests.include?( blood_spot_request )
 	end
 
-	test "should include active blood spot request in incomplete scope" do
+	test "should NOT include nil blood spot request in complete scope" do
 		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-			:status => 'active' )
-		blood_spot_requests = BloodSpotRequest.incomplete
-		assert blood_spot_requests.include?( blood_spot_request )
-	end
-
-	test "should include waitlist blood spot request in incomplete scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-			:status => 'waitlist' )
-		blood_spot_requests = BloodSpotRequest.incomplete
-		assert blood_spot_requests.include?( blood_spot_request )
-	end
-
-#	test "should include abstracted blood spot request in incomplete scope" do
-#		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-#			:status => 'abstracted' )
-#		blood_spot_requests = BloodSpotRequest.incomplete
-#		assert blood_spot_requests.include?( blood_spot_request )
-#	end
-
-	test "should include pending blood spot request in incomplete scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-			:status => 'pending' )
-		blood_spot_requests = BloodSpotRequest.incomplete
-		assert blood_spot_requests.include?( blood_spot_request )
-	end
-
-	test "should NOT include complete blood spot request in incomplete scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
-			:status => 'complete' )
-		blood_spot_requests = BloodSpotRequest.incomplete
+			:status => nil )
+		blood_spot_requests = BloodSpotRequest.complete
 		assert !blood_spot_requests.include?( blood_spot_request )
 	end
 
-	test "should return study subject's studyid for to_s if study subject" do
+	%w( active waitlist pending ).each do |status|
+
+		test "should include #{status} blood spot request in incomplete scope" do
+			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+			:status => status )
+			blood_spot_requests = BloodSpotRequest.incomplete
+			assert blood_spot_requests.include?( blood_spot_request )
+		end
+
+		test "should NOT #{status} pending blood spot request in complete scope" do
+			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+				:status => status )
+			blood_spot_requests = BloodSpotRequest.complete
+			assert !blood_spot_requests.include?( blood_spot_request )
+		end
+
+	end
+
+	%w( completed unavailable ).each do |status|
+
+		test "should include #{status} blood spot request in complete scope" do
+			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+			:status => status )
+			blood_spot_requests = BloodSpotRequest.complete
+			assert blood_spot_requests.include?( blood_spot_request )
+		end
+
+		test "should NOT #{status} pending blood spot request in incomplete scope" do
+			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+				:status => status )
+			blood_spot_requests = BloodSpotRequest.incomplete
+			assert !blood_spot_requests.include?( blood_spot_request )
+		end
+
+	end
+
+	test "should return study subjects studyid for to_s if study subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('BloodSpotRequest.count',1) {
 			study_subject = FactoryGirl.create(:complete_case_study_subject)
@@ -144,7 +129,6 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 			blank_blood_spot_request = FactoryGirl.create(:blood_spot_request)
 			assert blank_blood_spot_request.status.blank?
 			blood_spot_request = FactoryGirl.create(:blood_spot_request, :status => status)
-#			assert !blood_spot_request.status.blank?
 			assert blood_spot_request.status.present?
 			assert_equal status, blood_spot_request.status
 			blood_spot_requests = BloodSpotRequest.with_status(status)

@@ -51,8 +51,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
-			assert_select 'a', :count => 7
+			#	New, Pending, All, Active, Waitlist, Abstracted, All Incomplete, Completed, All Complete
+			assert_select 'a', :count => 9
 			assert_select 'a.current[href=?]', new_medical_record_request_path
 		end
 	end
@@ -62,65 +62,25 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
-			assert_select 'a', :count => 7
+			#	New, Pending, All, Active, Waitlist, Abstracted, All Incomplete, Completed, All Complete
+			assert_select 'a', :count => 9
 			assert_select 'a.current[href=?]', medical_record_requests_path
 		end
 	end
 
-	test "medical_records_sub_menu for medical_record_requests#index?status=active" do
-		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'active' }
-		assert medical_records_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
-			assert_select 'a', :count => 7
-			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'active')
-		end
-	end
+	%w( active completed waitlist pending abstracted complete incomplete ).each do |status|
 
-	test "medical_records_sub_menu for medical_record_requests#index?status=complete" do
-		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'complete' }
-		assert medical_records_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
-			assert_select 'a', :count => 7
-			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'complete')
+		test "medical_records_sub_menu for medical_record_requests#index?status=#{status}" do
+			self.params = { :controller => 'medical_record_requests', :action => 'index', :status => status }
+			assert medical_records_sub_menu.nil?
+			response = HTML::Document.new( content_for(:side_menu) ).root
+			assert_select response, '#sidemenu' do
+				#	New, Pending, All, Active, Waitlist, Abstracted, All Incomplete, Completed, All Complete
+				assert_select 'a', :count => 9
+				assert_select 'a.current[href=?]', medical_record_requests_path(:status => status)
+			end
 		end
-	end
 
-	test "medical_records_sub_menu for medical_record_requests#index?status=waitlist" do
-		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'waitlist' }
-		assert medical_records_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
-			assert_select 'a', :count => 7
-			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'waitlist')
-		end
-	end
-
-	test "medical_records_sub_menu for medical_record_requests#index?status=pending" do
-		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'pending' }
-		assert medical_records_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
-			assert_select 'a', :count => 7
-			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'pending')
-		end
-	end
-
-	test "medical_records_sub_menu for medical_record_requests#index?status=abstracted" do
-		self.params = { :controller => 'medical_record_requests', :action => 'index', :status => 'abstracted' }
-		assert medical_records_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
-			assert_select 'a', :count => 7
-			assert_select 'a.current[href=?]', medical_record_requests_path(:status => 'abstracted')
-		end
 	end
 
 	test "medical_records_sub_menu for bogus controller" do
@@ -128,8 +88,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert medical_records_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete, Abstracted
-			assert_select 'a', :count => 7
+			#	New, Pending, All, Active, Waitlist, Abstracted, All Incomplete, Completed, All Complete
+			assert_select 'a', :count => 9
 			assert_select 'a.current', :count => 0
 		end
 	end
@@ -142,8 +102,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert blood_spots_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, Unavailable, All Complete
+			assert_select 'a', :count => 9
 			assert_select 'a.current[href=?]', new_blood_spot_request_path
 		end
 	end
@@ -153,54 +113,25 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert blood_spots_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, Unavailable, All Complete
+			assert_select 'a', :count => 9
 			assert_select 'a.current[href=?]', blood_spot_requests_path
 		end
 	end
 
-	test "blood_spots_sub_menu for blood_spot_requests#index?status=active" do
-		self.params = { :controller => 'blood_spot_requests', :action => 'index', :status => 'active' }
-		assert blood_spots_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-			assert_select 'a.current[href=?]', blood_spot_requests_path(:status => 'active')
-		end
-	end
+	%w( active completed waitlist pending unavailable incomplete complete ).each do |status|
 
-	test "blood_spots_sub_menu for blood_spot_requests#index?status=complete" do
-		self.params = { :controller => 'blood_spot_requests', :action => 'index', :status => 'complete' }
-		assert blood_spots_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-			assert_select 'a.current[href=?]', blood_spot_requests_path(:status => 'complete')
+		test "blood_spots_sub_menu for blood_spot_requests#index?status=#{status}" do
+			self.params = { :controller => 'blood_spot_requests', :action => 'index', :status => status }
+			assert blood_spots_sub_menu.nil?
+			response = HTML::Document.new( content_for(:side_menu) ).root
+			assert_select response, '#sidemenu' do
+				#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, Unavailable, All Complete
+				assert_select 'a', :count => 9
+				assert_select 'a.current[href=?]', blood_spot_requests_path(:status => status )
+			end
 		end
-	end
 
-	test "blood_spots_sub_menu for blood_spot_requests#index?status=waitlist" do
-		self.params = { :controller => 'blood_spot_requests', :action => 'index', :status => 'waitlist' }
-		assert blood_spots_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-			assert_select 'a.current[href=?]', blood_spot_requests_path(:status => 'waitlist')
-		end
-	end
-
-	test "blood_spots_sub_menu for blood_spot_requests#index?status=pending" do
-		self.params = { :controller => 'blood_spot_requests', :action => 'index', :status => 'pending' }
-		assert blood_spots_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-			assert_select 'a.current[href=?]', blood_spot_requests_path(:status => 'pending')
-		end
 	end
 
 	test "blood_spots_sub_menu for bogus controller" do
@@ -208,9 +139,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert blood_spots_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-#			assert_select 'a.current[href=?]', blood_spot_requests_path(:status => 'pending')
+			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, Unavailable, All Complete
+			assert_select 'a', :count => 9
 			assert_select 'a.current', :count => 0
 		end
 	end
@@ -223,8 +153,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, All Complete
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', new_bc_request_path
 		end
 	end
@@ -234,54 +164,25 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
+			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, All Complete
+			assert_select 'a', :count => 8
 			assert_select 'a.current[href=?]', bc_requests_path
 		end
 	end
 
-	test "birth_certificates_sub_menu for bc_requests#index?status=active" do
-		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'active' }
-		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-			assert_select 'a.current[href=?]', bc_requests_path(:status => 'active')
-		end
-	end
+	%w( active completed waitlist pending complete incomplete ).each do |status|
 
-	test "birth_certificates_sub_menu for bc_requests#index?status=complete" do
-		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'complete' }
-		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-			assert_select 'a.current[href=?]', bc_requests_path(:status => 'complete')
+		test "birth_certificates_sub_menu for bc_requests#index?status=#{status}" do
+			self.params = { :controller => 'bc_requests', :action => 'index', :status => status }
+			assert birth_certificates_sub_menu.nil?
+			response = HTML::Document.new( content_for(:side_menu) ).root
+			assert_select response, '#sidemenu' do
+				#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, All Complete
+				assert_select 'a', :count => 8
+				assert_select 'a.current[href=?]', bc_requests_path(:status => status )
+			end
 		end
-	end
 
-	test "birth_certificates_sub_menu for bc_requests#index?status=waitlist" do
-		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'waitlist' }
-		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-			assert_select 'a.current[href=?]', bc_requests_path(:status => 'waitlist')
-		end
-	end
-
-	test "birth_certificates_sub_menu for bc_requests#index?status=pending" do
-		self.params = { :controller => 'bc_requests', :action => 'index', :status => 'pending' }
-		assert birth_certificates_sub_menu.nil?
-		response = HTML::Document.new( content_for(:side_menu) ).root
-		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-			assert_select 'a.current[href=?]', bc_requests_path(:status => 'pending')
-		end
 	end
 
 	test "birth_certificates_sub_menu for bogus controller" do
@@ -289,9 +190,8 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert birth_certificates_sub_menu.nil?
 		response = HTML::Document.new( content_for(:side_menu) ).root
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Complete
-			assert_select 'a', :count => 6
-#			assert_select 'a.current[href=?]', bc_requests_path(:status => 'pending')
+			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, All Complete
+			assert_select 'a', :count => 8
 			assert_select 'a.current', :count => 0
 		end
 	end

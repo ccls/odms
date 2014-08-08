@@ -130,33 +130,6 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 			assert_redirected_to study_subject_contacts_path(study_subject)
 		end
 
-#		test "should set verified_on on create if is_verified " <<
-#				"with #{cu} login" do
-#			study_subject = FactoryGirl.create(:study_subject)
-#			login_as send(cu)
-#			post :create, :study_subject_id => study_subject.id,
-#				:phone_number => factory_attributes(
-#					:is_verified => true,
-#					:how_verified => 'no idea'
-#				)
-#			assert assigns(:phone_number)
-#			assert_not_nil assigns(:phone_number).verified_on
-#		end
-#
-#		test "should set verified_by on create if is_verified " <<
-#				"with #{cu} login" do
-#			study_subject = FactoryGirl.create(:study_subject)
-#			login_as u = send(cu)
-#			post :create, :study_subject_id => study_subject.id,
-#				:phone_number => factory_attributes(
-#					:is_verified => true,
-#					:how_verified => 'no idea'
-#				)
-#			assert assigns(:phone_number)
-#			assert_not_nil assigns(:phone_number).verified_by_uid
-#			assert_equal assigns(:phone_number).verified_by_uid, u.uid
-#		end
-
 		test "should NOT create new phone_number with invalid study_subject_id " <<
 				"and #{cu} login" do
 			login_as send(cu)
@@ -197,35 +170,6 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 			assert_template 'new'
 			assert_not_nil flash[:error]
 		end
-
-#		test "should set verified_on on update if is_verified " <<
-#				"with #{cu} login" do
-#			phone_number = FactoryGirl.create(:phone_number)
-#			login_as send(cu)
-#			put :update, :study_subject_id => phone_number.study_subject_id,
-#				:id => phone_number.id,
-#				:phone_number => factory_attributes(
-#					:is_verified  => true,
-#					:how_verified => 'not a clue'
-#				)
-#			assert assigns(:phone_number)
-#			assert_not_nil assigns(:phone_number).verified_on
-#		end
-#
-#		test "should set verified_by on update if is_verified " <<
-#				"with #{cu} login" do
-#			phone_number = FactoryGirl.create(:phone_number)
-#			login_as u = send(cu)
-#			put :update, :study_subject_id => phone_number.study_subject_id,
-#				:id => phone_number.id,
-#				:phone_number => factory_attributes(
-#					:is_verified => true,
-#					:how_verified => 'not a clue'
-#				)
-#			assert assigns(:phone_number)
-#			assert_not_nil assigns(:phone_number).verified_by_uid
-#			assert_equal assigns(:phone_number).verified_by_uid, u.uid
-#		end
 
 		test "should edit with #{cu} login" do
 			phone_number = FactoryGirl.create(:phone_number)

@@ -71,7 +71,6 @@ if Sample.respond_to?(:solr_search)
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
 			assert_equal f[0], columns
-#			assert_equal f[1], [nil,sample.subject_type]	#	this worked, now it doesn't? always confused.
 			assert_equal f[1], ['',sample.subject_type]
 		end
 
@@ -84,7 +83,6 @@ if Sample.respond_to?(:solr_search)
 			f = CSV.parse(@response.body)
 			assert_equal 2, f.length	#	1 rows, 1 header and 1 data
 			assert_equal f[0], columns
-#			assert_equal f[1], [nil,nil]
 			assert_equal f[1], ["UNKNOWN COLUMN", "UNKNOWN COLUMN"]
 		end
 
@@ -178,23 +176,13 @@ protected
 
 	def sanitize_index
 		Sunspot.remove_all!					#	isn't always necessary
-
-#		Sample.solr_reindex
-#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
-		Sample.find_each{|a|a.index}
-		Sunspot.commit
-
+		Sample.solr_reindex
 		assert Sample.search.hits.empty?
 	end
 
 	def build_and_index_sample(options={})
 		sample = FactoryGirl.create(:sample,options)
-
-#		Sample.solr_reindex
-#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead.
-		Sample.find_each{|a|a.index}
-		Sunspot.commit
-
+		Sample.solr_reindex
 		assert !Sample.search.hits.empty?
 		return sample
 	end

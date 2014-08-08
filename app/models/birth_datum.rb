@@ -185,7 +185,7 @@ class BirthDatum < ActiveRecord::Base
 		return unless study_subject
 		#	Should only be one bc_request, nevertheless, ...
 		study_subject.bc_requests.incomplete.each do |bcr|
-			bcr.status = 'complete'
+			bcr.status = 'completed'
 			bcr.is_found = true
 			bcr.returned_on = Date.current
 			#	possibly having existing notes means we can't use update_all (bummer)

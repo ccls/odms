@@ -197,68 +197,6 @@ class AddressTest < ActiveSupport::TestCase
 		assert_equal a, addresses.first
 	end
 
-#	test "should make study_subject ineligible "<<
-#			"on create if state NOT 'CA' and address is ONLY residence" do
-#		study_subject = create_eligible_hx_study_subject
-#		assert_difference('OperationalEvent.count',1) {
-#		assert_difference('Address.count',1) {
-#			create_az_address(study_subject)
-#		} }
-#		assert_study_subject_is_not_eligible(study_subject)
-#		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-#		assert_equal   hxe.ineligible_reason,
-#			IneligibleReason['newnonCA']
-#	end
-#
-#	test "should make study_subject ineligible "<<
-#			"on create if state NOT 'CA' and address is ANOTHER residence" do
-#		study_subject = create_eligible_hx_study_subject
-#		assert_difference('OperationalEvent.count',1) {
-#		assert_difference("Address.count", 2 ) {
-#			ca_address = create_ca_address(study_subject)
-#			az_address = create_az_address(study_subject)
-#		} }
-#		assert_study_subject_is_not_eligible(study_subject)
-#		hxe = study_subject.enrollments.find_by_project_id(Project['HomeExposures'].id)
-#		assert_equal   hxe.ineligible_reason,
-#			IneligibleReason['moved']
-#	end
-#
-#	test "should NOT make study_subject ineligible "<<
-#			"on create if OET is missing" do
-#		OperationalEventType['ineligible'].destroy
-#		study_subject = create_eligible_hx_study_subject
-#		assert_difference('OperationalEvent.count',0) {
-#		assert_difference("Address.count", 1 ) {
-#			create_ca_address(study_subject)
-#			assert_raise(ActiveRecord::RecordNotSaved){
-#				address = create_az_address(study_subject)
-#		} } }
-#		assert_study_subject_is_eligible(study_subject)
-#	end
-#
-#	test "should NOT make study_subject ineligible "<<
-#			"on create if state NOT 'CA' and address is NOT residence" do
-#		study_subject = create_eligible_hx_study_subject
-#		assert_difference('OperationalEvent.count',0) {
-#		assert_difference("Address.count", 1 ) {
-#			address = create_az_address(study_subject,
-#				:address => { :address_type => 'Mailing' })
-#		} }
-#		assert_study_subject_is_eligible(study_subject)
-#	end
-#
-#	test "should NOT make study_subject ineligible "<<
-#			"on create if state 'CA' and address is residence" do
-#		study_subject = create_eligible_hx_study_subject
-#		assert_difference('OperationalEvent.count',0) {
-#		assert_difference("Address.count", 1 ) {
-#			address = create_ca_address(study_subject)
-#		} }
-#		assert_study_subject_is_eligible(study_subject)
-#	end
-
-
 #	'1' and '0' are the default values for a checkbox.
 #	I probably should add a condition to this event that
 #	the address_type be 'Residence', but I've left that to the view.

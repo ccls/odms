@@ -13,7 +13,7 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get index with subjects #{cu} login" do
+		test "should get index with subjects and #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
 			get :index
@@ -24,7 +24,7 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get index in csv with subjects #{cu} login" do
+		test "should get index in csv with subjects and #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
 			get :index, :format => :csv
@@ -40,41 +40,7 @@ class CasesControllerTest < ActionController::TestCase
 			assert_equal subject, assigns(:study_subjects).first
 		end
 
-#		test "should get index with blank assigned_for_interview_at and #{cu} login" do
-#			login_as send(cu)
-#			subject = subject_for_assigned_for_interview_at
-#			get :index, :assigned_for_interview_at => ''
-#			assert_not_nil assigns(:study_subjects)
-#			assert !assigns(:study_subjects).empty?
-#			assert assigns(:study_subjects).include?(subject)
-#			assert_response :success
-#			assert_template 'index'
-#		end
-#
-#		test "should get index with assigned_for_interview_at and #{cu} login" do
-#			login_as send(cu)
-#			subject = subject_for_assigned_for_interview_at
-#			get :index, :assigned_for_interview_at => Date.current
-#			assert_not_nil assigns(:study_subjects)
-#			assert !assigns(:study_subjects).empty?
-#			assert assigns(:study_subjects).include?(subject)
-#			assert_response :success
-#			assert_template 'index'
-#		end
-#
-#		test "should get index with invalid assigned_for_interview_at and #{cu} login" do
-#			login_as send(cu)
-#			subject = subject_for_assigned_for_interview_at
-#			get :index, :assigned_for_interview_at => "FUNKAY MUNGKAY"
-#			assert_not_nil assigns(:study_subjects)
-#			assert !assigns(:study_subjects).empty?
-#			assert assigns(:study_subjects).include?(subject)
-#			assert_response :success
-#			assert_template 'index'
-#		end
-
-		test "should get index with exclusive ids" <<
-				" and #{cu} login" do
+		test "should get index with exclusive ids and #{cu} login" do
 			login_as send(cu)
 			missed_subject = FactoryGirl.create(:study_subject)
 			subject = subject_for_assigned_for_interview_at
@@ -86,8 +52,7 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get index with inclusive ids" <<
-				" and #{cu} login" do
+		test "should get index with inclusive ids and #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
 			get :index, :ids => [subject.id]
@@ -98,8 +63,7 @@ class CasesControllerTest < ActionController::TestCase
 			assert_template 'index'
 		end
 
-		test "should get index with invalid ids" <<
-				" and #{cu} login" do
+		test "should get index with invalid ids and #{cu} login" do
 			login_as send(cu)
 			subject = subject_for_assigned_for_interview_at
 			get :index, :ids => [99999]
@@ -161,32 +125,6 @@ class CasesControllerTest < ActionController::TestCase
 			assert_redirected_to cases_path
 		end
 
-#		test "should NOT update assigned_for_interview_at with ids and #{cu} login" <<
-#				" with invalid enrollment" do
-#			login_as send(cu)
-#			subject = subject_for_assigned_for_interview_at
-#			Enrollment.any_instance.stubs(:valid?).returns(false)
-#			put :assign_selected_for_interview, :ids => [subject.id]
-#			assert_not_nil flash[:error]
-#			assert_response :success
-#			assert_template 'index'
-#			assert_nil subject.enrollments.where(
-#				:project_id => Project[:ccls].id).first.assigned_for_interview_at
-#		end
-#
-#		test "should NOT update assigned_for_interview_at with ids and #{cu} login" <<
-#				" with failed enrollment save" do
-#			login_as send(cu)
-#			subject = subject_for_assigned_for_interview_at
-#			Enrollment.any_instance.stubs(:create_or_update).returns(false)
-#			put :assign_selected_for_interview, :ids => [subject.id]
-#			assert_not_nil flash[:error]
-#			assert_response :success
-#			assert_template 'index'
-#			assert_nil subject.enrollments.where(
-#				:project_id => Project[:ccls].id).first.assigned_for_interview_at
-#		end
-
 	end
 
 
@@ -225,9 +163,6 @@ class CasesControllerTest < ActionController::TestCase
 protected
 
 	def subject_for_assigned_for_interview_at
-#		subject = FactoryGirl.create(:case_study_subject)
-#		FactoryGirl.create(:patient, :study_subject => subject,
-#			:admit_date => 60.days.ago)
 		subject = FactoryGirl.create(:patient, :admit_date => 60.days.ago).study_subject
 		#	Pagan only wants subjects with reference_date/admit_date > 30 days ago
 		#	updating admit_date should trigger reference_date update

@@ -53,7 +53,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 
 
-		test "should initially show specify other language when other language checked" <<
+		test "should initially show specify other language when 'other language' checked" <<
 				" with #{cu} login" do
 			# NOTE CASE subject only (for now?)
 			study_subject = FactoryGirl.create(:case_study_subject, 
@@ -74,7 +74,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_other_language_hidden
 		end
 
-		test "should toggle specify other language when other language checked" <<
+		test "should toggle specify other language when 'other language' checked" <<
 				" with #{cu} login" do
 			# NOTE CASE subject only (for now?)
 			study_subject = FactoryGirl.create(:case_study_subject) 
@@ -216,7 +216,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_other_language_visible
 		end
 
-		test "should not have toggle eligibility criteria on show for noncase" <<
+		test "should not have toggle eligibility criteria on show for non-case" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -225,7 +225,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert  has_no_css?('div#eligibility_criteria')
 		end
 
-		test "should not have toggle eligibility criteria on edit for noncase" <<
+		test "should not have toggle eligibility criteria on edit for non-case" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -262,7 +262,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert has_css?('div#eligibility_criteria', :visible => false)
 		end
 
-		test "should show ineligible_reason selector if No for is_eligible" <<
+		test "should show ineligible_reason selector if 'No' for is_eligible" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -278,7 +278,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 		end
 
-		test "should show ineligible_reason selector if Dont Know for is_eligible" <<
+		test "should show ineligible_reason selector if 'Don't Know' for is_eligible" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -294,7 +294,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 		end
 
-		test "should NOT show ineligible_reason selector if Yes for is_eligible" <<
+		test "should NOT show ineligible_reason selector if 'Yes' for is_eligible" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -310,7 +310,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
 		end
 
-		test "should show other_ineligible_reason if Other reason selected" <<
+		test "should show other_ineligible_reason if 'Other' reason selected" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -331,7 +331,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert find_field('enrollment[other_ineligible_reason]').visible?
 		end
 
-		test "should show subject_consented if consent is Yes"<<
+		test "should show subject_consented if consent is 'Yes'"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -347,7 +347,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_subject_consented_visible
 		end
 
-		test "should show subject_consented if consent is No"<<
+		test "should show subject_consented if consent is 'No'"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -363,7 +363,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_subject_consented_visible
 		end
 
-		test "should NOT show subject_consented if consent is Dont Know"<<
+		test "should NOT show subject_consented if consent is 'Don't Know'"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -379,23 +379,23 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_subject_consented_hidden
 		end
 
-		test "should show subject_refused if consent is No"<<
+		test "should show subject_refused if consent is 'No'"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert_subject_refused_hidden
-			select "No", :from => 'enrollment[consented]'
-			assert_subject_refused_visible
-			select "", :from => 'enrollment[consented]'
 			assert_subject_refused_hidden
 			select "No", :from => 'enrollment[consented]'
 			assert_subject_refused_visible
+			select "", :from => 'enrollment[consented]'
+			assert_subject_refused_hidden
+			select "No", :from => 'enrollment[consented]'
+			assert_subject_refused_visible
 		end
 
-		test "should NOT show subject_refused if consent is Yes"<<
+		test "should NOT show subject_refused if consent is 'Yes'"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -411,7 +411,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_subject_refused_hidden
 		end
 
-		test "should NOT show subject_refused if consent is Dont Know"<<
+		test "should NOT show subject_refused if consent is 'Don't Know'"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
@@ -428,7 +428,7 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 		end
 
 
-		test "should show other_refusal_reason if Other reason selected"<<
+		test "should show other_refusal_reason if 'Other' reason selected"<<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			consent = study_subject.enrollments.find_by_project_id(Project['ccls'].id)

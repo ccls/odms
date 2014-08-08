@@ -36,33 +36,15 @@ class BcRequestTest < ActiveSupport::TestCase
 		assert_match /^#<BcRequest:0x.+>$/, "#{bc_request}"
 	end
 
+	%w( active waitlist pending completed ).each do |status|
 
-	test "should include active bc request in active scope" do
-		bc_request = FactoryGirl.create(:bc_request,
-			:status => 'active' )
-		bc_requests = BcRequest.active
-		assert bc_requests.include?( bc_request )
-	end
+		test "should include #{status} bc request in #{status} scope" do
+			bc_request = FactoryGirl.create(:bc_request,
+				:status => status )
+			bc_requests = BcRequest.send( status )
+			assert bc_requests.include?( bc_request )
+		end
 
-	test "should include waitlist bc request in waitlist scope" do
-		bc_request = FactoryGirl.create(:bc_request,
-			:status => 'waitlist' )
-		bc_requests = BcRequest.waitlist
-		assert bc_requests.include?( bc_request )
-	end
-
-	test "should include pending bc request in pending scope" do
-		bc_request = FactoryGirl.create(:bc_request,
-			:status => 'pending' )
-		bc_requests = BcRequest.pending
-		assert bc_requests.include?( bc_request )
-	end
-
-	test "should include complete bc request in complete scope" do
-		bc_request = FactoryGirl.create(:bc_request,
-			:status => 'complete' )
-		bc_requests = BcRequest.complete
-		assert bc_requests.include?( bc_request )
 	end
 
 	test "should include nil bc request in incomplete scope" do
@@ -72,34 +54,49 @@ class BcRequestTest < ActiveSupport::TestCase
 		assert bc_requests.include?( bc_request )
 	end
 
-	test "should include active bc request in incomplete scope" do
+	test "should NOT include nil bc request in complete scope" do
 		bc_request = FactoryGirl.create(:bc_request,
-			:status => 'active' )
-		bc_requests = BcRequest.incomplete
-		assert bc_requests.include?( bc_request )
-	end
-
-	test "should include waitlist bc request in incomplete scope" do
-		bc_request = FactoryGirl.create(:bc_request,
-			:status => 'waitlist' )
-		bc_requests = BcRequest.incomplete
-		assert bc_requests.include?( bc_request )
-	end
-
-	test "should include pending bc request in incomplete scope" do
-		bc_request = FactoryGirl.create(:bc_request,
-			:status => 'pending' )
-		bc_requests = BcRequest.incomplete
-		assert bc_requests.include?( bc_request )
-	end
-
-	test "should NOT include complete bc request in incomplete scope" do
-		bc_request = FactoryGirl.create(:bc_request,
-			:status => 'complete' )
-		bc_requests = BcRequest.incomplete
+			:status => nil )
+		bc_requests = BcRequest.complete
 		assert !bc_requests.include?( bc_request )
 	end
 
+
+	%w( active waitlist pending ).each do |status|
+
+		test "should include #{status} bc request in incomplete scope" do
+			bc_request = FactoryGirl.create(:bc_request,
+				:status => status )
+			bc_requests = BcRequest.incomplete
+			assert bc_requests.include?( bc_request )
+		end
+
+		test "should NOT include #{status} bc request in complete scope" do
+			bc_request = FactoryGirl.create(:bc_request,
+				:status => status )
+			bc_requests = BcRequest.complete
+			assert !bc_requests.include?( bc_request )
+		end
+	
+	end
+
+	%w( completed ).each do |status|
+
+		test "should include #{status} bc request in complete scope" do
+			bc_request = FactoryGirl.create(:bc_request,
+				:status => status )
+			bc_requests = BcRequest.complete
+			assert bc_requests.include?( bc_request )
+		end
+
+		test "should NOT include #{status} bc request in incomplete scope" do
+			bc_request = FactoryGirl.create(:bc_request,
+				:status => status )
+			bc_requests = BcRequest.incomplete
+			assert !bc_requests.include?( bc_request )
+		end
+	
+	end
 
 	test "should return study subject's studyid for to_s if study subject" do
 		assert_difference('StudySubject.count',1) {
@@ -132,7 +129,6 @@ class BcRequestTest < ActiveSupport::TestCase
 			blank_bc_request = FactoryGirl.create(:bc_request)
 			assert blank_bc_request.status.blank?
 			bc_request = FactoryGirl.create(:bc_request, :status => status)
-#			assert !bc_request.status.blank?
 			assert bc_request.status.present?
 			assert_equal status, bc_request.status
 			bc_requests = BcRequest.with_status(status)

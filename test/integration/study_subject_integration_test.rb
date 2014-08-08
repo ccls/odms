@@ -42,50 +42,6 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				"study_subject[subject_races_attributes][0][_destroy]")	#	white
 		end
 
-#	20130129 - no longer using 'is_primary'
-#		test "should check race_id when is_primary is checked with #{cu} login" do
-#			study_subject = FactoryGirl.create(:study_subject)
-#			login_as send(cu)
-#			visit edit_study_subject_path(study_subject)
-#			assert has_unchecked_field?(
-#				"study_subject[subject_races_attributes][1][race_id]")
-#			check "study_subject[subject_races_attributes][1][is_primary]"
-#			assert has_checked_field?(
-#				"study_subject[subject_races_attributes][1][race_id]")
-#		end
-#
-#		test "should uncheck other is_primary's when is_primary is checked" <<
-#				" with #{cu} login" do
-#			study_subject = FactoryGirl.create(:study_subject)
-#			login_as send(cu)
-#			visit edit_study_subject_path(study_subject)
-#			check "study_subject[subject_races_attributes][1][is_primary]"
-#			assert has_checked_field?(
-#				"study_subject[subject_races_attributes][1][is_primary]")
-#			check "study_subject[subject_races_attributes][2][is_primary]"
-#			assert has_checked_field?(
-#				"study_subject[subject_races_attributes][2][is_primary]")
-#			assert has_unchecked_field?(
-#				"study_subject[subject_races_attributes][1][is_primary]")
-#		end
-#
-#		test "should uncheck is_primary when race_id is unchecked" <<
-#				" with #{cu} login" do
-#			study_subject = FactoryGirl.create(:study_subject)
-#			login_as send(cu)
-#			visit edit_study_subject_path(study_subject)
-#			check "study_subject[subject_races_attributes][1][is_primary]"
-#			assert has_checked_field?(
-#				"study_subject[subject_races_attributes][1][race_id]")
-#			assert has_checked_field?(
-#				"study_subject[subject_races_attributes][1][is_primary]")
-#			uncheck "study_subject[subject_races_attributes][1][race_id]"
-#			assert has_unchecked_field?(
-#				"study_subject[subject_races_attributes][1][race_id]")
-#			assert has_unchecked_field?(
-#				"study_subject[subject_races_attributes][1][is_primary]")
-#		end
-
 		test "should toggle specify other race when other race_code is checked" <<
 				" with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
@@ -95,23 +51,11 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			check "other_race_code"
 			assert has_checked_field?("other_race_code")
-#			assert has_unchecked_field?("other_is_primary")
 			assert has_css?("#specify_other_race",:visible => true)
 
 			uncheck "other_race_code"
 			assert has_unchecked_field?("other_race_code")
-#			assert has_unchecked_field?("other_is_primary")
 			assert has_css?("#specify_other_race",:visible => false)
-
-#			check "other_is_primary"
-#			assert has_checked_field?("other_race_id")
-#			assert has_checked_field?("other_is_primary")
-#			assert has_css?("#specify_other_race",:visible => true)
-#
-#			uncheck "other_is_primary"
-#			assert has_checked_field?("other_race_id")
-#			assert has_unchecked_field?("other_is_primary")
-#			assert has_css?("#specify_other_race",:visible => true)
 		end
 
 		test "should toggle specify mixed race when mixed race_code is checked" <<
@@ -123,23 +67,11 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			check "mixed_race_code"
 			assert has_checked_field?("mixed_race_code")
-#			assert has_unchecked_field?("mixed_is_primary")
 			assert has_css?("#specify_mixed_race",:visible => true)
 
 			uncheck "mixed_race_code"
 			assert has_unchecked_field?("mixed_race_code")
-#			assert has_unchecked_field?("mixed_is_primary")
 			assert has_css?("#specify_mixed_race",:visible => false)
-
-#			check "mixed_is_primary"
-#			assert has_checked_field?("mixed_race_id")
-#			assert has_checked_field?("mixed_is_primary")
-#			assert has_css?("#specify_mixed_race",:visible => true)
-#
-#			uncheck "mixed_is_primary"
-#			assert has_checked_field?("mixed_race_id")
-#			assert has_unchecked_field?("mixed_is_primary")
-#			assert has_css?("#specify_mixed_race",:visible => true)
 		end
 
 		test "should have Back To Search link if show subject from find" <<

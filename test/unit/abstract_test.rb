@@ -7,13 +7,6 @@ class AbstractTest < ActiveSupport::TestCase
 	assert_should_protect( :study_subject_id, :study_subject, :entry_1_by_uid, 
 		:entry_2_by_uid, :merged_by_uid )
 
-#	assert_should_not_require( Abstract.db_fields )
-#	assert_should_not_require_unique( Abstract.db_fields )
-#	assert_should_not_protect( Abstract.db_fields )
-##	assert_should_not_require( Abstract.comparable_attribute_names )
-##	assert_should_not_require_unique( Abstract.comparable_attribute_names )
-##	assert_should_not_protect( Abstract.comparable_attribute_names )
-
 	test "explicit Factory abstract test" do
 		assert_difference('Abstract.count',1) {
 			@abstract = FactoryGirl.create(:abstract)
@@ -21,65 +14,7 @@ class AbstractTest < ActiveSupport::TestCase
 		( not_nil = %w( id created_at updated_at study_subject_id entry_1_by_uid entry_2_by_uid ) ).each do |c|
 			assert_not_nil @abstract.send(c), "#{c} is nil"
 		end
-#		( Abstract.column_names - not_nil ).each do |c|
-#			assert_nil @abstract.send(c), "#{c} is not nil"
-#		end
 	end
-
-#	test "explicit Factory complete_abstract test" do
-#		assert_difference('Abstract.count',1) {
-#			#	this factory randomly sets values, some of which can be nil
-#			FactoryGirl.create(:complete_abstract)
-#		}
-#	end
-#
-#	test "should not convert weight if weight_units is null" do
-#		abstract = FactoryGirl.create(:abstract,:weight_at_diagnosis => 100)
-#		assert_equal 100, abstract.reload.weight_at_diagnosis
-#	end
-#
-#	test "should not convert weight if weight_units is kg" do
-#		abstract = FactoryGirl.create(:abstract,:weight_at_diagnosis => 100, :weight_units => 'kg')
-#		assert_equal 100, abstract.reload.weight_at_diagnosis
-#	end
-#
-#	test "should convert weight to kg if weight_units is lb" do
-#		abstract = FactoryGirl.create(:abstract,:weight_at_diagnosis => 100, :weight_units => 'lb')
-#		abstract.reload
-#		assert_nil       abstract.weight_units
-#		assert_not_equal 100,   abstract.weight_at_diagnosis
-#		assert_in_delta   45.3, abstract.weight_at_diagnosis, 0.1
-#	end
-#
-#	test "should not convert height if height_units is null" do
-#		abstract = FactoryGirl.create(:abstract,:height_at_diagnosis => 100)
-#		assert_equal 100, abstract.reload.height_at_diagnosis
-#	end
-#
-#	test "should not convert height if height_units is cm" do
-#		abstract = FactoryGirl.create(:abstract,:height_at_diagnosis => 100, :height_units => 'cm')
-#		assert_equal 100, abstract.reload.height_at_diagnosis
-#	end
-#
-#	test "should convert height to cm if height_units is in" do
-#		abstract = FactoryGirl.create(:abstract,:height_at_diagnosis => 100, :height_units => 'in')
-#		abstract.reload
-#		assert_nil       abstract.height_units
-#		assert_not_equal 100, abstract.height_at_diagnosis
-#		assert_in_delta  254, abstract.height_at_diagnosis, 0.1
-#	end
-#
-##	test "should return an array of ignorable columns" do
-##		abstract = FactoryGirl.create(:abstract)
-##		assert_equal abstract.ignorable_columns,
-##			["id", "entry_1_by_uid", "entry_2_by_uid", "merged_by_uid", 
-##				"created_at", "updated_at", "study_subject_id"]
-##	end
-##
-##	test "should return hash of comparable attributes" do
-##		abstract = FactoryGirl.create(:abstract)
-##		assert abstract.comparable_attributes.is_a?(Hash)
-##	end
 
 	test "should return true if abstracts are the same" do
 		abstract1 = FactoryGirl.create(:abstract)
@@ -216,38 +151,6 @@ class AbstractTest < ActiveSupport::TestCase
 				"Study Subject already has a merged abstract")
 		}
 	end
-
-##	test "should return abstract fields for class" do
-##		fields = Abstract.fields
-##		assert  Abstract.class_variable_defined?("@@fields")
-##		assert fields.is_a?(Array)
-##		assert fields.length >= 15
-##		assert fields.first.is_a?(Hash)
-##	end
-##
-##	test "should return abstract fields for instance" do
-##		fields = Abstract.new.fields
-##		assert  Abstract.class_variable_defined?("@@fields")
-##		assert fields.is_a?(Array)
-##		assert fields.length >= 15
-##		assert fields.first.is_a?(Hash)
-##	end
-#
-#	test "should return abstract db_fields for class" do
-#		db_fields = Abstract.db_fields
-##		assert  Abstract.class_variable_defined?("@@fields")
-#		assert db_fields.is_a?(Array)
-#		assert db_fields.length >= 15
-#		assert db_fields.first.is_a?(String)
-#	end
-#
-#	test "should return abstract db_fields for instance" do
-#		db_fields = Abstract.new.db_fields
-##		assert  Abstract.class_variable_defined?("@@fields")
-#		assert db_fields.is_a?(Array)
-#		assert db_fields.length >= 15
-#		assert db_fields.first.is_a?(String)
-#	end
 
 	assert_should_accept_only_good_values( 
 		:bmb_report_found,
@@ -484,18 +387,18 @@ class AbstractTest < ActiveSupport::TestCase
 		test "should search" do
 			Sunspot.remove_all!					#	isn't always necessary
 
-#			Abstract.solr_reindex
+			Abstract.solr_reindex
 #	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead. (called from irb_binding at (irb):1)
-			Abstract.find_each{|a|a.index}
-			Sunspot.commit
+#			Abstract.find_each{|a|a.index}
+#			Sunspot.commit
 
 			assert Abstract.search.hits.empty?
 			FactoryGirl.create(:abstract)
 
-#			Abstract.solr_reindex
+			Abstract.solr_reindex
 #	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead. (called from irb_binding at (irb):1)
-			Abstract.find_each{|a|a.index}
-			Sunspot.commit
+#			Abstract.find_each{|a|a.index}
+#			Sunspot.commit
 
 
 			assert !Abstract.search.hits.empty?

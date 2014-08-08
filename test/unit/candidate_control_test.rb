@@ -47,7 +47,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert !candidate_control.errors.include?(:rejection_reason)
 	end
 
-	test "should return join of birth_datum's name" do
+	test "should return join of birth_datums name" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
 			:first_name  => "John",
 			:middle_name => "Michael",
@@ -55,7 +55,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal 'John Michael Smith', birth_datum.candidate_control.full_name 
 	end
 
-	test "should return join of birth_datum's name with blank middle name" do
+	test "should return join of birth_datums name with blank middle name" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
 			:first_name  => "John",
 			:middle_name => "",
@@ -63,7 +63,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal 'John Smith', birth_datum.candidate_control.full_name 
 	end
 
-	test "should return join of birth_datum's mother's name" do
+	test "should return join of birth_datums mothers name" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
 			:mother_first_name  => "Jane",
 			:mother_middle_name => "Anne",
@@ -71,7 +71,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal 'Jane Anne Smith', birth_datum.candidate_control.mother_full_name 
 	end
 
-	test "should return join of birth_datum's mother's name with blank mother's middle name" do
+	test "should return join of birth_datums mothers name with blank mothers middle name" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
 			:mother_first_name  => "Jane",
 			:mother_middle_name => "",
@@ -212,35 +212,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal   control_subject.patid, case_study_subject.patid
 	end
 
-#	test "should create control from attributes and set hispanicity nil" do
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		birth_datum = FactoryGirl.create(:birth_datum)
-#		candidate_control = FactoryGirl.create(:candidate_control,:birth_datum => birth_datum)
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_nil control_subject.hispanicity
-#	end
-#
-#	test "should create control from attributes and set hispanicity if father_hispanicity" do
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		birth_datum = FactoryGirl.create(:birth_datum, :father_hispanicity => 1 )
-#		candidate_control = FactoryGirl.create(:candidate_control,:birth_datum => birth_datum)
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_not_nil control_subject.hispanicity
-#		assert_equal   control_subject.hispanicity, 1
-#	end
-#
-#	test "should create control from attributes and set hispanicity if mother_hispanicity" do
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		birth_datum = FactoryGirl.create(:birth_datum, :mother_hispanicity => 1 )
-#		candidate_control = FactoryGirl.create(:candidate_control,:birth_datum => birth_datum)
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_not_nil control_subject.hispanicity
-#		assert_equal   control_subject.hispanicity, 1
-#	end
-
 	test "should create control from attributes and copy state_registrar_no" do
 		attribute = 'fake number'
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
@@ -273,26 +244,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal attribute, candidate_control.sex
 		assert_equal attribute, control_subject.sex
 	end
-
-#	test "should create control from attributes and copy mother_hispanicity" do
-#		attribute = 999
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		candidate_control = FactoryGirl.create(:candidate_control, :mother_hispanicity => attribute )
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.mother_hispanicity
-#		assert_equal attribute, control_subject.mother_hispanicity
-#	end
-#
-#	test "should create control from attributes and copy father_hispanicity" do
-#		attribute = 999
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		candidate_control = FactoryGirl.create(:candidate_control, :father_hispanicity => attribute )
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.father_hispanicity
-#		assert_equal attribute, control_subject.father_hispanicity
-#	end
 
 	test "should create control from attributes and copy birth_type" do
 		attribute = 'xyz'
@@ -327,16 +278,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal attribute, control_subject.father_yrs_educ
 	end
 
-#	test "should create control from attributes and copy birth_county" do
-#		attribute = 'Somewhere'
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		candidate_control = FactoryGirl.create(:candidate_control, :birth_county => attribute )
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.birth_county
-#		assert_equal attribute, control_subject.birth_county
-#	end
-
 	%w( father_first_name father_middle_name father_last_name
 			mother_first_name mother_middle_name mother_maiden_name
 			first_name middle_name last_name ).each do |field|
@@ -367,26 +308,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal attribute, control_subject.dob
 	end
 
-#	test "should create control from attributes and copy mother_race_id" do
-#		attribute = 123
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		candidate_control = FactoryGirl.create(:candidate_control, :mother_race_id => attribute )
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.mother_race_id
-#		assert_equal attribute, control_subject.mother_race_id
-#	end
-
-#	test "should create control from attributes and copy father_race_id" do
-#		attribute = 123
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		candidate_control = FactoryGirl.create(:candidate_control, :father_race_id => attribute )
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		control_subject = candidate_control.study_subject
-#		assert_equal attribute, candidate_control.father_race_id
-#		assert_equal attribute, control_subject.father_race_id
-#	end
-
 	test "should create control from attributes and copy mom_is_biomom" do
 		attribute = 999
 		case_study_subject, birth_datum = create_case_and_control_birth_datum
@@ -408,16 +329,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal attribute, candidate_control.dad_is_biodad
 		assert_equal attribute, control_subject.dad_is_biodad
 	end
-
-#	test "should create control from attributes with patient" do
-#		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-##	unnecessary with complete case factory
-##		create_patient_for_subject(case_study_subject)
-#		candidate_control = FactoryGirl.create(:candidate_control)
-#		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-#		assert_equal candidate_control.study_subject.reference_date,
-#			case_study_subject.admit_date
-#	end
 
 	test "should create control from attributes with patient and copy case admit_date" do
 		case_study_subject, birth_datum = create_case_and_control_birth_datum
@@ -667,21 +578,21 @@ class CandidateControlTest < ActiveSupport::TestCase
 
 
 
-	test "case_study_subject_birth_state_CA? should return true if case subject birth_state CA" do
+	test "case_study_subject_birth_state_CA should return true if case subject birth_state CA" do
 		case_subject = FactoryGirl.create(:case_study_subject, :birth_state => 'CA')
 		assert_not_nil case_subject.birth_state
 		candidate_control = CandidateControl.new(:related_patid => case_subject.patid)
 		assert candidate_control.case_study_subject_birth_state_CA?
 	end
 
-	test "case_study_subject_birth_state_CA? should return false if case subject birth_state NOT CA" do
+	test "case_study_subject_birth_state_CA should return false if case subject birth_state NOT CA" do
 		case_subject = FactoryGirl.create(:case_study_subject, :birth_state => 'AZ')
 		assert_not_nil case_subject.birth_state
 		candidate_control = CandidateControl.new(:related_patid => case_subject.patid)
 		assert !candidate_control.case_study_subject_birth_state_CA?
 	end
 
-	test "case_study_subject_birth_state_CA? should return false if case subject nil" do
+	test "case_study_subject_birth_state_CA should return false if case subject nil" do
 		candidate_control = CandidateControl.new(:related_patid => nil)
 		assert !candidate_control.case_study_subject_birth_state_CA?
 	end
@@ -707,22 +618,12 @@ protected
 		} }
 	end
 
-#	def create_patient_for_subject(subject)
-#		patient = FactoryGirl.create(:patient, :study_subject => subject,
-#			:admit_date => 5.years.ago )
-#		assert_not_nil patient.admit_date
-#	end
-
 	#	create_object is called from within the common class tests
 	alias_method :create_object, :create_candidate_control
 
 	def create_complete_case_study_subject_with_icf_master_id
-#		study_subject = FactoryGirl.create(:complete_case_study_subject)
 		study_subject = FactoryGirl.create(:complete_case_study_subject,
 			:icf_master_id => 'UCASE4BIR')
-#		assert_nil study_subject.icf_master_id
-#		imi = FactoryGirl.create(:icf_master_id,:icf_master_id => 'UCASE4BIR')
-#		study_subject.assign_icf_master_id
 		assert_not_nil study_subject.icf_master_id
 		assert_equal 'UCASE4BIR', study_subject.icf_master_id
 		study_subject

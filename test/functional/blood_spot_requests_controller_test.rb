@@ -21,8 +21,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should get new with existing blood_spot_requests and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			case_study_subject.blood_spot_requests.create
+			create_case_subjects_with_active_blood_spot_request(1)
 			get :new
 			assert_nil assigns(:study_subject)
 			assert_not_nil assigns(:active_blood_spot_requests)
@@ -34,12 +33,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should get new and order existing by studyid with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr1 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr2 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr3 = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mr1,mr2,mr3 = create_case_subjects_with_active_blood_spot_request(3)
 			get :new, :order => :studyid
 			assert_nil assigns(:study_subject)
 			assert_not_nil assigns(:active_blood_spot_requests)
@@ -52,12 +46,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should get new and order existing by studyid asc with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr1 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr2 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr3 = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mr1,mr2,mr3 = create_case_subjects_with_active_blood_spot_request(3)
 			get :new, :order => :studyid, :dir => :asc
 			assert_nil assigns(:study_subject)
 			assert_not_nil assigns(:active_blood_spot_requests)
@@ -70,12 +59,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should get new and order existing by studyid desc with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr1 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr2 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr3 = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mr1,mr2,mr3 = create_case_subjects_with_active_blood_spot_request(3)
 			get :new, :order => :studyid, :dir => :desc
 			assert_nil assigns(:study_subject)
 			assert_not_nil assigns(:active_blood_spot_requests)
@@ -153,14 +137,13 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to blood_spot_requests with existing incomplete" <<
 				" blood_spot_request and #{cu} login patid" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			case_study_subject.blood_spot_requests.create
+			mr = create_case_subjects_with_active_blood_spot_request(1).first
 			assert_difference('BloodSpotRequest.count',0) {
-				post :create, :q => case_study_subject.patid
+				post :create, :q => mr.study_subject.patid
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_not_nil flash[:error]
-			assert_equal case_study_subject, assigns(:study_subject)
+			assert_equal mr.study_subject, assigns(:study_subject)
 			assert_redirected_to new_blood_spot_request_path
 		end
 
@@ -180,31 +163,31 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 			assert_redirected_to new_blood_spot_request_path
 		end
 
-		test "should NOT add case study_subject to blood_spot_requests with existing complete" <<
+		test "should add case study_subject to blood_spot_requests with existing complete" <<
 				" blood_spot_request and #{cu} login patid" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			case_study_subject.blood_spot_requests.create(:status => 'complete')
-			assert_difference('BloodSpotRequest.count',0) {
+			case_study_subject.blood_spot_requests.create(:status => 'completed')
+			assert_difference('BloodSpotRequest.count',1) {
 				post :create, :q => case_study_subject.patid
 			}
 			assert_not_nil assigns(:study_subject)
-			assert_not_nil flash[:error]
+			assert_equal 'active', assigns(:study_subject).blood_spot_requests.last.status
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_redirected_to new_blood_spot_request_path
 		end
 
-		test "should NOT add case study_subject to blood_spot_requests with existing complete" <<
+		test "should add case study_subject to blood_spot_requests with existing complete" <<
 				" blood_spot_request and #{cu} login icf master id" do
 			login_as send(cu)
 			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
-			case_study_subject.blood_spot_requests.create(:status => 'complete')
-			assert_difference('BloodSpotRequest.count',0) {
+			case_study_subject.blood_spot_requests.create(:status => 'completed')
+			assert_difference('BloodSpotRequest.count',1) {
 				post :create, :q => case_study_subject.icf_master_id
 			}
 			assert_not_nil assigns(:study_subject)
-			assert_not_nil flash[:error]
+			assert_equal 'active', assigns(:study_subject).blood_spot_requests.last.status
 			assert_equal case_study_subject, assigns(:study_subject)
 			assert_redirected_to new_blood_spot_request_path
 		end
@@ -256,8 +239,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update blood_spot_request status with invalid blood_spot_request #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
 			BloodSpotRequest.any_instance.stubs(:valid?).returns(false)
 			deny_changes("BloodSpotRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => mrr.id, :status => 'pending'
@@ -269,8 +251,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update blood_spot_request status with failed save and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
 			BloodSpotRequest.any_instance.stubs(:create_or_update).returns(false)
 			deny_changes("BloodSpotRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => mrr.id, :status => 'pending'
@@ -282,8 +263,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update blood_spot_request status with invalid status and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
 			deny_changes("BloodSpotRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => mrr.id, :status => 'bogus'
 			}
@@ -294,8 +274,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update blood_spot_request status with invalid id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
 			deny_changes("BloodSpotRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => 0, :status => 'waitlist'
 			}
@@ -305,8 +284,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should update blood_spot_request status with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
 			assert_changes("BloodSpotRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => mrr.id, :status => 'waitlist'
 			}
@@ -337,70 +315,23 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 			assert_equal 1, assigns(:blood_spot_requests).length
 		end
 
-		test "should get pending blood_spot_requests with #{cu} login" do
-			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'pending')
-			get :index, :status => 'pending'
-			assert_response :success
-			assert_template 'index'
-			assert assigns(:blood_spot_requests)
-			assert !assigns(:blood_spot_requests).empty?
-			assert_equal 1, assigns(:blood_spot_requests).length
-			assert_equal 'pending', assigns(:blood_spot_requests).first.status
+		BloodSpotRequest.statuses.each do |status|
+
+			test "should get #{status} blood_spot_requests with #{cu} login" do
+				login_as send(cu)
+				case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+				mrr = case_study_subject.blood_spot_requests.create(:status => status)
+				get :index, :status => status
+				assert_response :success
+				assert_template 'index'
+				assert assigns(:blood_spot_requests)
+				assert !assigns(:blood_spot_requests).empty?
+				assert_equal 1, assigns(:blood_spot_requests).length
+				assert_equal status, assigns(:blood_spot_requests).first.status
+			end
+
 		end
 
-		test "should get active blood_spot_requests with #{cu} login" do
-			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
-			get :index, :status => 'active'
-			assert_response :success
-			assert_template 'index'
-			assert assigns(:blood_spot_requests)
-			assert !assigns(:blood_spot_requests).empty?
-			assert_equal 1, assigns(:blood_spot_requests).length
-			assert_equal 'active', assigns(:blood_spot_requests).first.status
-		end
-
-		test "should get waitlist blood_spot_requests with #{cu} login" do
-			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'waitlist')
-			get :index, :status => 'waitlist'
-			assert_response :success
-			assert_template 'index'
-			assert assigns(:blood_spot_requests)
-			assert !assigns(:blood_spot_requests).empty?
-			assert_equal 1, assigns(:blood_spot_requests).length
-			assert_equal 'waitlist', assigns(:blood_spot_requests).first.status
-		end
-
-		test "should get abstracted blood_spot_requests with #{cu} login" do
-			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'abstracted')
-			get :index, :status => 'abstracted'
-			assert_response :success
-			assert_template 'index'
-			assert assigns(:blood_spot_requests)
-			assert !assigns(:blood_spot_requests).empty?
-			assert_equal 1, assigns(:blood_spot_requests).length
-			assert_equal 'abstracted', assigns(:blood_spot_requests).first.status
-		end
-
-		test "should get complete blood_spot_requests with #{cu} login" do
-			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'complete')
-			get :index, :status => 'complete'
-			assert_response :success
-			assert_template 'index'
-			assert assigns(:blood_spot_requests)
-			assert !assigns(:blood_spot_requests).empty?
-			assert_equal 1, assigns(:blood_spot_requests).length
-			assert_equal 'complete', assigns(:blood_spot_requests).first.status
-		end
 
 		test "should export blood_spot_requests to csv with #{cu} login and requests" do
 			login_as send(cu)
@@ -440,12 +371,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should get blood_spot_requests and order existing by studyid with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr1 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr2 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr3 = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mr1,mr2,mr3 = create_case_subjects_with_active_blood_spot_request(3)
 			get :index, :order => :studyid
 			assert_response :success
 			assert_template 'index'
@@ -457,12 +383,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should get blood_spot_requests and order existing by studyid asc with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr1 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr2 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr3 = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mr1,mr2,mr3 = create_case_subjects_with_active_blood_spot_request(3)
 			get :index, :order => :studyid
 			assert_response :success
 			assert_template 'index'
@@ -474,12 +395,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should get blood_spot_requests and order existing by studyid desc with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr1 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr2 = case_study_subject.blood_spot_requests.create(:status => 'active')
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mr3 = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mr1,mr2,mr3 = create_case_subjects_with_active_blood_spot_request(3)
 			get :index, :order => :studyid
 			assert_response :success
 			assert_template 'index'
@@ -491,29 +407,27 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should confirm actives exported with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			assert_equal 1, case_study_subject.enrollments.length
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
+			assert_equal 1, mrr.study_subject.enrollments.length
 			get :confirm
 			assert_redirected_to new_blood_spot_request_path
 			assert_equal 'pending', mrr.reload.status
 			assert_equal Date.current, mrr.sent_on
-			assert !case_study_subject.reload.enrollments.empty?
-			enrollment = case_study_subject.enrollments.first
+			assert !mrr.study_subject.reload.enrollments.empty?
+			enrollment = mrr.study_subject.enrollments.first
 			assert_equal Project['ccls'], enrollment.project
 
-			assert !case_study_subject.operational_events.empty?
-			assert_equal 2, case_study_subject.operational_events.length
+			assert !mrr.study_subject.operational_events.empty?
+			assert_equal 2, mrr.study_subject.operational_events.length
 			assert_equal OperationalEventType['blood_spot_request_sent'],
-				case_study_subject.operational_events.last.operational_event_type
+				mrr.study_subject.operational_events.last.operational_event_type
 		end
 
 		test "should NOT confirm actives exported with #{cu} login if " <<
 				"operational event creation fails" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			assert_equal 1, case_study_subject.enrollments.length
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
+			assert_equal 1, mrr.study_subject.enrollments.length
 			OperationalEvent.any_instance.stubs(:create_or_update).returns(false)
 			assert_difference('Enrollment.count',0) {
 			assert_difference('OperationalEvent.count',0) {
@@ -526,9 +440,8 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 		test "should NOT confirm actives exported with #{cu} login if " <<
 				"operational event invalid" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			assert_equal 1, case_study_subject.enrollments.length
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
+			assert_equal 1, mrr.study_subject.enrollments.length
 			OperationalEvent.any_instance.stubs(:valid?).returns(false)
 			assert_difference('Enrollment.count',0) {
 			assert_difference('OperationalEvent.count',0) {
@@ -540,28 +453,24 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should waitlist all active with #{cu} login" do
 			login_as send(cu)
-			FactoryGirl.create(:blood_spot_request, :status => 'active')
-			FactoryGirl.create(:blood_spot_request, :status => 'active')
-			FactoryGirl.create(:blood_spot_request, :status => 'active')
-			assert_equal 0, BloodSpotRequest.waitlist.length
-			assert_equal 3, BloodSpotRequest.active.length
+			create_blood_spot_requests(3,:status => 'active')
+			assert_equal 0, BloodSpotRequest.waitlist.count
+			assert_equal 3, BloodSpotRequest.active.count
 			put :waitlist_all_active
-			assert_equal 3, BloodSpotRequest.waitlist.length
-			assert_equal 0, BloodSpotRequest.active.length
+			assert_equal 3, BloodSpotRequest.waitlist.count
+			assert_equal 0, BloodSpotRequest.active.count
 			assert_not_nil flash[:notice]
 			assert_redirected_to new_blood_spot_request_path
 		end
 
 		test "should activate all waiting with #{cu} login" do
 			login_as send(cu)
-			FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-			FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-			FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-			assert_equal 3, BloodSpotRequest.waitlist.length
-			assert_equal 0, BloodSpotRequest.active.length
+			create_blood_spot_requests(3,:status => 'waitlist')
+			assert_equal 3, BloodSpotRequest.waitlist.count
+			assert_equal 0, BloodSpotRequest.active.count
 			put :activate_all_waitlist
-			assert_equal 0, BloodSpotRequest.waitlist.length
-			assert_equal 3, BloodSpotRequest.active.length
+			assert_equal 0, BloodSpotRequest.waitlist.count
+			assert_equal 3, BloodSpotRequest.active.count
 			assert_not_nil flash[:notice]
 			assert_redirected_to new_blood_spot_request_path
 		end
@@ -597,8 +506,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update blood_spot_request status with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-			mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+			mrr = create_case_subjects_with_active_blood_spot_request(1).first
 			deny_changes("BloodSpotRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => mrr.id, :status => 'waitlist'
 			}
@@ -625,28 +533,24 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT activate all waiting with #{cu} login" do
 			login_as send(cu)
-			FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-			FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-			FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-			assert_equal 3, BloodSpotRequest.waitlist.length
-			assert_equal 0, BloodSpotRequest.active.length
+			create_blood_spot_requests(3,:status => 'waitlist')
+			assert_equal 3, BloodSpotRequest.waitlist.count
+			assert_equal 0, BloodSpotRequest.active.count
 			put :activate_all_waitlist
-			assert_equal 3, BloodSpotRequest.waitlist.length
-			assert_equal 0, BloodSpotRequest.active.length
+			assert_equal 3, BloodSpotRequest.waitlist.count
+			assert_equal 0, BloodSpotRequest.active.count
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
 
 		test "should NOT waitlist all active with #{cu} login" do
 			login_as send(cu)
-			FactoryGirl.create(:blood_spot_request, :status => 'active')
-			FactoryGirl.create(:blood_spot_request, :status => 'active')
-			FactoryGirl.create(:blood_spot_request, :status => 'active')
-			assert_equal 0, BloodSpotRequest.waitlist.length
-			assert_equal 3, BloodSpotRequest.active.length
+			create_blood_spot_requests(3,:status => 'active')
+			assert_equal 0, BloodSpotRequest.waitlist.count
+			assert_equal 3, BloodSpotRequest.active.count
 			put :waitlist_all_active
-			assert_equal 0, BloodSpotRequest.waitlist.length
-			assert_equal 3, BloodSpotRequest.active.length
+			assert_equal 0, BloodSpotRequest.waitlist.count
+			assert_equal 3, BloodSpotRequest.active.count
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
@@ -678,8 +582,7 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT update blood_spot_request status without login" do
-		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
-		mrr = case_study_subject.blood_spot_requests.create(:status => 'active')
+		mrr = create_case_subjects_with_active_blood_spot_request(1).first
 		deny_changes("BloodSpotRequest.find(#{mrr.id}).status") {
 			put :update_status, :id => mrr.id, :status => 'waitlist'
 		}
@@ -697,27 +600,34 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT activate all waiting without login" do
-		FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-		FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-		FactoryGirl.create(:blood_spot_request, :status => 'waitlist')
-		assert_equal 3, BloodSpotRequest.waitlist.length
-		assert_equal 0, BloodSpotRequest.active.length
+		create_blood_spot_requests(3,:status => 'waitlist')
+		assert_equal 3, BloodSpotRequest.waitlist.count
+		assert_equal 0, BloodSpotRequest.active.count
 		put :activate_all_waitlist
-		assert_equal 3, BloodSpotRequest.waitlist.length
-		assert_equal 0, BloodSpotRequest.active.length
+		assert_equal 3, BloodSpotRequest.waitlist.count
+		assert_equal 0, BloodSpotRequest.active.count
 		assert_redirected_to_login
 	end
 
 	test "should NOT waitlist all active without login" do
-		FactoryGirl.create(:blood_spot_request, :status => 'active')
-		FactoryGirl.create(:blood_spot_request, :status => 'active')
-		FactoryGirl.create(:blood_spot_request, :status => 'active')
-		assert_equal 0, BloodSpotRequest.waitlist.length
-		assert_equal 3, BloodSpotRequest.active.length
+		create_blood_spot_requests(3,:status => 'active')
+		assert_equal 0, BloodSpotRequest.waitlist.count
+		assert_equal 3, BloodSpotRequest.active.count
 		put :waitlist_all_active
-		assert_equal 0, BloodSpotRequest.waitlist.length
-		assert_equal 3, BloodSpotRequest.active.length
+		assert_equal 0, BloodSpotRequest.waitlist.count
+		assert_equal 3, BloodSpotRequest.active.count
 		assert_redirected_to_login
+	end
+
+	def create_blood_spot_requests(count=1,options={})
+		count.times.collect { FactoryGirl.create(:blood_spot_request, options) }
+	end
+
+	def create_case_subjects_with_active_blood_spot_request(count=1)
+		count.times.collect {
+			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			mr1 = case_study_subject.blood_spot_requests.create(:status => 'active')
+		}
 	end
 
 end

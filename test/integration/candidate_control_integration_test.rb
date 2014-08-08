@@ -48,7 +48,7 @@ class CandidateControlIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 		end
 
 		test "should NOT create control subject if duplicate subject" <<
-				" with #{cu} login and Match Found and no duplicate_id" do
+				" with #{cu} login and 'Match Found' and no duplicate_id" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			birth_datum = FactoryGirl.create(:control_birth_datum, 
@@ -110,7 +110,7 @@ class CandidateControlIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 		end
 
 		test "should NOT create control subject if duplicate subject" <<
-				" with #{cu} login and Match Found and valid duplicate_id" do
+				" with #{cu} login and 'Match Found' and valid duplicate_id" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
 			birth_datum = FactoryGirl.create(:control_birth_datum, 

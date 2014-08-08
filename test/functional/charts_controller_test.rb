@@ -9,12 +9,7 @@ class ChartsControllerTest < ActionController::TestCase
 #
 	def create_some_data
 		Sunspot.remove_all!					#	isn't always necessary
-
-#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead. (called from irb_binding at (irb):1)
-#		StudySubject.solr_reindex
-		StudySubject.find_each{|s| s.index }
-		Sunspot.commit
-
+		StudySubject.solr_reindex
 		assert StudySubject.search.hits.empty?
 		subject1 = FactoryGirl.create(:complete_case_study_subject)
 		FactoryGirl.create(:sample, :study_subject => subject1,
@@ -22,11 +17,7 @@ class ChartsControllerTest < ActionController::TestCase
 		subject2 = FactoryGirl.create(:complete_case_study_subject)
 		FactoryGirl.create(:sample, :study_subject => subject2,
 			:sample_type => SampleType['periph'])
-
-#		StudySubject.solr_reindex
-		StudySubject.find_each{|s| s.index }
-		Sunspot.commit
-
+		StudySubject.solr_reindex
 		assert !StudySubject.search.hits.empty?
 	end
 

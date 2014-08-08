@@ -153,7 +153,6 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			get :edit, :id => 0
 			assert_not_nil flash[:error]
-#			assert_redirected_to cases_path
 			assert_redirected_to new_control_path
 		end
 
@@ -162,7 +161,6 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate = FactoryGirl.create(:candidate_control)
 			get :edit, :id => candidate.id
 			assert_not_nil flash[:error]
-#			assert_redirected_to cases_path
 			assert_redirected_to new_control_path
 		end
 
@@ -632,7 +630,6 @@ class CandidateControlsControllerTest < ActionController::TestCase
 				put :update, :id => 0, :candidate_control => {}
 			}
 			assert_not_nil flash[:error]
-#			assert_redirected_to cases_path
 			assert_redirected_to new_control_path
 		end
 
@@ -640,7 +637,6 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			candidate = FactoryGirl.create(:candidate_control)
 			assert_not_put_update_candidate(candidate)
-#			assert_redirected_to cases_path
 			assert_redirected_to new_control_path
 		end
 

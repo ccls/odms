@@ -192,7 +192,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "should link case birth datum to study subject via icf_master_id" <<
-			"if match confidence is NO and case birth state is NON-CA" do
+			"if match confidence is NO and case birth state is NONCA" do
 		study_subject = create_case_study_subject_with_icf_master_id(
 			:birth_state => "Somewhere")
 		birth_datum = create_matching_case_birth_datum(study_subject,
@@ -582,7 +582,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal birth_datum.study_subject, study_subject
 	end
 
-	test "case birth datum should NOT assign study_subject_id if doesn't exist" do
+	test "case birth datum should NOT assign study_subject_id if does not exist" do
 		birth_datum = FactoryGirl.create(:case_birth_datum)
 		assert_nil birth_datum.study_subject_id
 	end
@@ -598,7 +598,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		} }
 	end
 
-	test "should return join of birth_datum's name" do
+	test "should return join of birth_datums name" do
 		birth_datum = BirthDatum.new(
 			:first_name  => "John",
 			:middle_name => "Michael",
@@ -606,7 +606,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal 'John Michael Smith', birth_datum.full_name 
 	end
 
-	test "should return join of birth_datum's name with blank middle name" do
+	test "should return join of birth_datums name with blank middle name" do
 		birth_datum = BirthDatum.new(
 			:first_name  => "John",
 			:middle_name => "",
@@ -614,7 +614,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal 'John Smith', birth_datum.full_name 
 	end
 
-	test "should return join of birth_datum's mother's name" do
+	test "should return join of birth_datums mothers name" do
 		birth_datum = BirthDatum.new(
 			:mother_first_name  => "Jane",
 			:mother_middle_name => "Anne",
@@ -622,7 +622,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_equal 'Jane Anne Smith', birth_datum.mother_full_name 
 	end
 
-	test "should return join of birth_datum's mother's name with blank mother's middle name" do
+	test "should return join of birth_datums mothers name with blank mothers middle name" do
 		birth_datum = BirthDatum.new(
 			:mother_first_name  => "Jane",
 			:mother_middle_name => "",

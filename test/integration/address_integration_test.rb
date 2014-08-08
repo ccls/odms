@@ -4,7 +4,7 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	site_editors.each do |cu|
 
-		test "address edit should update blank address info on zip code change" <<
+		test "address#edit should update blank address info on zip code change" <<
 				" with #{cu} login" do
 			address = FactoryGirl.create(:address)
 			login_as send(cu)
@@ -36,49 +36,7 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				find_field("address[zip]").value
 		end
 
-#		test "address edit should show why_invalid when is_valid is changed to 'No'" <<
-#				" with #{cu} login" do
-#			address = FactoryGirl.create(:address)
-#			login_as send(cu)
-#			visit edit_study_subject_address_path(address.study_subject,address)
-#			assert !find_field('address[why_invalid]').visible?
-#			select "No", :from => 'address[is_valid]'
-#			assert find_field('address[why_invalid]').visible?
-#			select "", :from => 'address[is_valid]'
-#			assert !find_field('address[why_invalid]').visible?
-#			select "No", :from => 'address[is_valid]'
-#			assert find_field('address[why_invalid]').visible?
-#		end
-#
-#		test "address edit should show why_invalid when is_valid is changed to" <<
-#				" 'Don't Know' with #{cu} login" do
-#			address = FactoryGirl.create(:address)
-#			login_as send(cu)
-#			visit edit_study_subject_address_path(address.study_subject,address)
-#			assert !find_field('address[why_invalid]').visible?
-#			select "Don't Know", :from => 'address[is_valid]'
-#			assert find_field('address[why_invalid]').visible?
-#			select "", :from => 'address[is_valid]'
-#			assert !find_field('address[why_invalid]').visible?
-#			select "Don't Know", :from => 'address[is_valid]'
-#			assert find_field('address[why_invalid]').visible?
-#		end
-#
-#		test "address edit should show how_verified when is_verified is checked" <<
-#				" with #{cu} login" do
-#			address = FactoryGirl.create(:address)
-#			login_as send(cu)
-#			visit edit_study_subject_address_path(address.study_subject,address)
-#			assert !find_field('address[how_verified]').visible?
-#			check 'address[is_verified]'
-#			assert find_field('address[how_verified]').visible?
-#			uncheck 'address[is_verified]'
-#			assert !find_field('address[how_verified]').visible?
-#			check 'address[is_verified]'
-#			assert find_field('address[how_verified]').visible?
-#		end
-
-		test "address edit should show other_data_source when Other Source" <<
+		test "address#edit should show other_data_source when 'Other Source'" <<
 				" data_source is selected with #{cu} login" do
 			address = FactoryGirl.create(:address)
 			login_as send(cu)
@@ -92,8 +50,8 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert find_field('address[other_data_source]').visible?
 		end
 
-		test "address edit should show subject_moved when residence address" <<
-				" current_address is changed to No with #{cu} login" do
+		test "address#edit should show subject_moved when residence address" <<
+				" current_address is changed to 'No' with #{cu} login" do
 			address = FactoryGirl.create(:current_residence_address)
 			login_as send(cu)
 			visit edit_study_subject_address_path(address.study_subject,address)
@@ -106,8 +64,8 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert find_field('address[subject_moved]').visible?
 		end
 
-		test "address edit should NOT show subject_moved when residence address" <<
-				" current_address is changed to Dont Know with #{cu} login" do
+		test "address#edit should NOT show subject_moved when residence address" <<
+				" current_address is changed to 'Don't Know' with #{cu} login" do
 			address = FactoryGirl.create(:current_residence_address)
 			login_as send(cu)
 			visit edit_study_subject_address_path(address.study_subject,address)
@@ -122,8 +80,8 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 #	address#new
 
-		test "address new should show confirm when new residence address is" <<
-				" submitted with state not CA and #{cu} login" do
+		test "address#new should show confirm when new residence address is" <<
+				" submitted with state not 'CA' and #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit new_study_subject_address_path(study_subject)
@@ -153,7 +111,7 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				new_study_subject_address_path(study_subject)
 		end
 
-		test "address new should update blank city state and county on zip code" <<
+		test "address#new should update blank city state and county on zip code" <<
 				" change with #{cu} login" do
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
@@ -187,7 +145,6 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 end
 
-# don't use #,/ or . in test names.  The parser treats it as a comment and doesn't rerun it.
 
 #	the visible? test is stupid now if it won't find it unless its visible!
 

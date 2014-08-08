@@ -6,7 +6,7 @@ class ContactsIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 #	contacts#show
 
-		test "contacts show should not have toggle_historic_addresses link" <<
+		test "contacts#show should not have toggle_historic_addresses link" <<
 				" without historic addresses and with #{cu} login" do
 			address = FactoryGirl.create(:address,:current_address => YNDK[:yes])
 			login_as send(cu)
@@ -15,7 +15,7 @@ class ContactsIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert has_css?('div#historic_addresses', :visible => false)
 		end
 
-		test "contacts show should not have toggle_historic_phone_numbers link" <<
+		test "contacts#show should not have toggle_historic_phone_numbers link" <<
 				" without historic phone_numbers and with #{cu} login" do
 			phone_number = FactoryGirl.create(:phone_number,:current_phone => YNDK[:yes])
 			login_as send(cu)
@@ -24,7 +24,7 @@ class ContactsIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert has_css?('div#historic_phone_numbers', :visible => false)
 		end
 
-		test "contacts show should toggle historic addresses with #{cu} login" do
+		test "contacts#show should toggle historic addresses with #{cu} login" do
 			address = FactoryGirl.create(:address,:current_address => YNDK[:no])
 			login_as send(cu)
 			visit study_subject_contacts_path(address.study_subject)
@@ -36,7 +36,7 @@ class ContactsIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert has_css?('div#historic_addresses', :visible => false)
 		end
 
-		test "contacts show should toggle historic phone_numbers with #{cu} login" do
+		test "contacts#show should toggle historic phone_numbers with #{cu} login" do
 			phone_number = FactoryGirl.create(:phone_number,:current_phone => YNDK[:no])
 			login_as send(cu)
 			visit study_subject_contacts_path(phone_number.study_subject)

@@ -3,7 +3,7 @@ class BloodSpotRequestsController < ApplicationController
 	before_filter :may_create_study_subjects_required
 	before_filter :q_value_required, :only => :create
 	before_filter :valid_q_id_required, :only => :create
-	before_filter :no_existing_blood_spot_request_required, :only => :create
+	before_filter :no_existing_incomplete_blood_spot_request_required, :only => :create
 	before_filter :valid_id_required, :only => [:edit,:update,:destroy,:update_status]
 
 	def new
@@ -127,9 +127,9 @@ protected
 		end
 	end
 
-	def no_existing_blood_spot_request_required
-		if( @study_subject.blood_spot_requests.exists? )
-			access_denied("case study_subject has a blood_spot_request already!", 
+	def no_existing_incomplete_blood_spot_request_required
+		if( @study_subject.blood_spot_requests.incomplete.exists? )
+			access_denied("case study_subject has an incomplete blood_spot_request already!", 
 				new_blood_spot_request_path)
 		end
 	end
