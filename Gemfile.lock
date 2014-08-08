@@ -67,7 +67,7 @@ GEM
       sunspot_solr
       will_paginate
     jakewendt-html_test (4.0.0)
-    jakewendt-test_with_verbosity (0.0.0)
+    jakewendt-test_with_verbosity (0.0.3)
     json (1.8.1)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -95,7 +95,7 @@ GEM
     prawnto (0.1.1)
       prawn
       rails (>= 2.1)
-    progress_bar (1.0.2)
+    progress_bar (1.0.3)
       highline (~> 1.6.1)
       options (~> 2.3.0)
     protected_attributes (1.0.8)
@@ -162,7 +162,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     ttfunk (1.2.0)
-    tzinfo (1.2.1)
+    tzinfo (1.2.2)
       thread_safe (~> 0.1)
     ucb_ldap (2.0.0.pre5)
       net-ldap (= 0.2.2)
