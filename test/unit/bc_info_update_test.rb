@@ -63,31 +63,30 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."
-			return 
+		else
+
+			#	Create subjects to update based on the file
+			#	Nothing should match so could actually test the other counts
+			assert_difference('StudySubject.count',94) {
+				(f=CSV.open( real_data_file, 'rb',{
+						:headers => true })).each { |line|
+					subject = FactoryGirl.create(:study_subject,:icf_master_id => line['icf_master_id'])
+	
+					#	need the mother to exist to create an operational event
+					subject.create_mother
+
+			} }
+
+			bc_info_update = nil
+
+			assert_difference("OperationalEventType['datachanged']"<<
+				".operational_events.count",94){
+			assert_difference("OperationalEventType['screener_complete']"<<
+				".operational_events.count",47){
+				bc_info_update = BcInfoUpdate.new( real_data_file )
+				assert_not_nil bc_info_update.csv_file
+			} }
 		end
-
-		#	Create subjects to update based on the file
-		#	Nothing should match so could actually test the other counts
-		assert_difference('StudySubject.count',94) {
-			(f=CSV.open( real_data_file, 'rb',{
-					:headers => true })).each { |line|
-				subject = FactoryGirl.create(:study_subject,:icf_master_id => line['icf_master_id'])
-
-				#	need the mother to exist to create an operational event
-				subject.create_mother
-
-		} }
-
-		bc_info_update = nil
-
-		assert_difference("OperationalEventType['datachanged']"<<
-			".operational_events.count",94){
-		assert_difference("OperationalEventType['screener_complete']"<<
-			".operational_events.count",47){
-			bc_info_update = BcInfoUpdate.new( real_data_file )
-#			bc_info_update.parse_csv_file
-			assert_not_nil bc_info_update.csv_file
-		} }
 	end
 
 	test "should require csv_file to exist" do
