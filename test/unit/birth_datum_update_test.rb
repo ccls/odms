@@ -187,23 +187,22 @@ state_registrar_no
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."
-			return 
+		else
+			#	case must exist for candidate controls to be created
+			s = FactoryGirl.create(:case_study_subject,:sex => 'M',
+				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
+				:dob => Date.parse('6/1/2009'))
+			FactoryGirl.create(:icf_master_id,:icf_master_id => '15851196C')
+			s.assign_icf_master_id
+
+			birth_datum_update = nil
+
+			assert_difference('BirthDatum.count',33){
+			assert_difference('CandidateControl.count',5){
+				birth_datum_update = BirthDatumUpdate.new(real_data_file) 
+				assert_not_nil birth_datum_update.csv_file
+			} }
 		end
-
-		#	case must exist for candidate controls to be created
-		s = FactoryGirl.create(:case_study_subject,:sex => 'M',
-			:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
-			:dob => Date.parse('6/1/2009'))
-		FactoryGirl.create(:icf_master_id,:icf_master_id => '15851196C')
-		s.assign_icf_master_id
-
-		birth_datum_update = nil
-
-		assert_difference('BirthDatum.count',33){
-		assert_difference('CandidateControl.count',5){
-			birth_datum_update = BirthDatumUpdate.new(real_data_file) 
-			assert_not_nil birth_datum_update.csv_file
-		} }
 	end
 
 #
