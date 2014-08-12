@@ -86,7 +86,13 @@ namespace :study_subjects do
 
 
 
+
+
+
+	#	20140807 
 	task :duplicate_state_id_no_check_3 => :environment do
+		inconsistancies = File.open( "#{Date.current.strftime("%Y%m%d")}-state_id_no_inconsistancies.csv",'w')
+		inconsistancies.puts "state_id_no,subject_with_state_id_no.subjectid,subject_with_state_id_no.dob.year,subject.subjectid,subject.dob.year"
 		CSV.open( "tracking2k/stateidno.csv", 'rb',{ :headers => true }).each do |line|
 			#tbl_childinfo_t2k.PatID,Type,tbl_childinfo_t2k.subjectid,StateIDNo
 			#0002,B,303460,91-000682
@@ -99,23 +105,35 @@ namespace :study_subjects do
 			raise if subjects.length > 1	#	seriously, this will never happen as subjectid is unique
 			subject = subjects.first
 
-			if line['StateIDNo'].blank?
-				puts " - Incoming StateIDNo is blank"
-				next
-			end
-#			next if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] )
-			if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] )
-				puts "- Incoming StateIDNo is 'non-CA'"
+			if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] ) or line['StateIDNo'].blank?
+				puts "- Incoming StateIDNo is '#{line['StateIDNo']}'"
+				puts [subject.subjectid, subject.state_id_no, subject.birth_year, subject.birth_data.collect(&:derived_state_last6)].join(" -- ")
 				next
 			end
 
-			subject.state_id_no = line['StateIDNo']
-			unless subject.save
-				puts "Attempted save errors ...."
-				puts subject.errors.inspect
-				puts "Existing subjects with state id no (#{ line['StateIDNo']}) ...."
-				puts StudySubject.where(:state_id_no => line['StateIDNo']).inspect
+			subject_with_state_id_no = StudySubject.where(:state_id_no => line['StateIDNo']).first
+			next if subject_with_state_id_no.blank?
+
+			if subject != subject_with_state_id_no
+				puts "Subjects with state id no are different"
+				inconsistancies.puts [ line['StateIDNo'], 
+					subject_with_state_id_no.subjectid, subject_with_state_id_no.dob.year, 
+					subject.subjectid, subject.dob.year ].to_csv
+			else
+				puts "Subjects with state id no are the same. YAY!"
 			end
+
+#			subject.state_id_no = line['StateIDNo']
+#			unless subject.save
+#				puts "Attempted save errors ...."
+#				puts subject.errors.inspect
+#				puts "Existing subjects with state id no (#{ line['StateIDNo']}) ...."
+#				puts StudySubject.where(:state_id_no => line['StateIDNo']).inspect
+#				puts
+#				([subject]+StudySubject.where(:state_id_no => line['StateIDNo'])).each do |s|
+#					puts [s.subjectid, s.state_id_no, s.birth_year, s.birth_data.collect(&:derived_state_last6)].join(" -- ")
+#				end
+#			end
 
 #			raise "#{subject.state_id_no} != #{line['StateIDNo']}" if subject.state_id_no != line['StateIDNo']
 #			if subject.state_id_no != line['StateIDNo']
@@ -129,7 +147,99 @@ namespace :study_subjects do
 #			end
 
 		end	#	CSV.open
+		inconsistancies.close
 	end	#	task :duplicate_state_id_no_check_3 => :environment do
+
+	#	20140811
+	task :create_state_id_nos => :environment do
+		birth_data_import = File.open( "#{Date.current.strftime("%Y%m%d")}-birth_data_state_id_no_inconsistancies.csv",'w')
+#		birth_data_import.puts "state_id_no,subject_with_state_id_no.subjectid,subject_with_state_id_no.dob.year,subject.subjectid,subject.dob.year"
+		birth_data_import.puts "bd.study_subject.subjectid,bd.study_subject.state_id_no,bd.study_subject.dob.year,bd.derived_state_file_no_last6,subjectid_with_state_id_no"
+		BirthDatum.where( BirthDatum.arel_table[:derived_state_file_no_last6].not_eq_all([nil,'']) )
+				.where( BirthDatum.arel_table[:study_subject_id].not_eq( nil ) )
+				.where( BirthDatum.arel_table[:dob].not_eq( nil ) ).find_each do |bd|
+
+			printf( "%8s %10s %2s %6s\n",
+				bd.study_subject.subjectid,
+				bd.study_subject.state_id_no,
+				bd.dob.year.to_s[2,2],
+				bd.derived_state_file_no_last6 )
+
+			subject = StudySubject.with_subjectid( bd.study_subject.subjectid ).first
+			unless subject.update_attributes( 
+				:state_id_no => "#{bd.dob.year.to_s[2,2]}-#{bd.derived_state_file_no_last6}")
+				puts subject.errors.full_messages.to_sentence
+				puts StudySubject.where(:state_id_no => "#{bd.dob.year.to_s[2,2]}-#{bd.derived_state_file_no_last6}").collect(&:subjectid).join(', ')
+			end
+
+			subject_with_state_id_no = StudySubject.where(:state_id_no => "#{bd.dob.year.to_s[2,2]}-#{bd.derived_state_file_no_last6}").first
+			if subject_with_state_id_no.present? and subject != subject_with_state_id_no
+				birth_data_import.puts [ bd.study_subject.subjectid, bd.study_subject.state_id_no, bd.study_subject.dob.year, 
+					bd.derived_state_file_no_last6, subject_with_state_id_no.subjectid ].to_csv
+			end
+
+		end
+
+
+#	not_eq_any has no logical sense.  
+#		If more than one in the list, all will always not_eq_any!
+#		If just one in list, then just use not_eq.
+
+#	not_eq_all is the most likely desired predication
+#	http://rubydoc.info/github/rails/arel/master/Arel/Predications
+
+
+#		StudySubject.children.where( StudySubject.arel_table[:state_id_no].eq_any([nil,'']) )
+#			.joins(:birth_data).where( BirthDatum.arel_table[:derived_state_file_no_last6].not_eq_all([nil,'']) )
+
+#			.left_joins(:birth_data).where( BirthDatum.arel_table[:derived_state_file_no_last6].not_eq_all([nil,'']) )
+
+
+
+#StudySubject.where( StudySubject.arel_table[:state_id_no].does_not_match('__-______') ).collect{|s| [s.subject_type,s.subjectid    , s.state_id_no, s.birth_year, s.birth_data.collect(&:derived_state_last6) ] }
+
+
+
+
+#	irb(main):026:0> StudySubject.where( StudySubject.arel_table[:state_id_no].does_not_match('__-______') ).collect{|s| [s.subject_type,s.subjectid, s.state_id_no] }
+#  StudySubject Load (187.9ms)  SELECT `study_subjects`.* FROM `study_subjects`  WHERE (`study_subjects`.`state_id_no` NOT LIKE '__-______')
+#=> [["Control", "117711", "96490135"], ["Case", "161436", "9-145907"], ["Case", "299002", "143462"], ["Case", "429955", "02001378"], ["Control", "521046", "-400359"], ["Control", "638798", "01-00528"], ["Control", "794162", "97-49969"], ["Control", "828361", "02-00975"], ["Control", "986205", "00-02538"]]
+
+#irb(main):017:0> StudySubject.where( StudySubject.arel_table[:state_id_no].does_not_match('__-______') ).collect(&:state_id_no)
+#  StudySubject Load (194.8ms)  SELECT `study_subjects`.* FROM `study_subjects`  WHERE (`study_subjects`.`state_id_no` NOT LIKE '__-______')
+#=> ["96490135", "9-145907", "143462", "02001378", "-400359", "01-00528", "97-49969", "02-00975", "00-02538"]
+#
+#irb(main):018:0> StudySubject.where( StudySubject.arel_table[:state_id_no].does_not_match('__-______') ).count
+#   (10.8ms)  SELECT COUNT(*) FROM `study_subjects`  WHERE (`study_subjects`.`state_id_no` NOT LIKE '__-______')
+#=> 9
+#irb(main):019:0> StudySubject.where( StudySubject.arel_table[:state_id_no].matches('__-______') ).count
+#   (12.2ms)  SELECT COUNT(*) FROM `study_subjects`  WHERE (`study_subjects`.`state_id_no` LIKE '__-______')
+#=> 9662
+#irb(main):022:0> StudySubject.where( StudySubject.arel_table[:state_id_no].eq(nil) ).count
+#   (6.3ms)  SELECT COUNT(*) FROM `study_subjects`  WHERE `study_subjects`.`state_id_no` IS NULL
+#=> 14629
+#irb(main):023:0> 14629+9662+9
+#=> 24300
+#
+#irb(main):021:0> StudySubject.count
+#   (46.4ms)  SELECT COUNT(*) FROM `study_subjects`
+#=> 24300
+#
+
+
+#SQL pattern matching enables you to use “_” to match any single character and “%” to match an arbitrary number of characters (including zero characters).
+
+
+		birth_data_import.close
+	end	#	task :create_state_id_nos => :environment do
+
+
+
+
+
+
+
+
 
 
 
