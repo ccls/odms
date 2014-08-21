@@ -12,3 +12,10 @@
     :maximum: 65000
   :allow_blank: true
 
+-
+  :attributes: :label
+  :presence: true
+  :uniqueness: true
+  :length:
+    :maximum: 250
+
