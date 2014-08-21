@@ -60,6 +60,23 @@ class ProjectTest < ActiveSupport::TestCase
 #		assert_equal 9, unenrolled.length
 #	end
 
+	test "should require alphanumeric key" do
+		[ 'a space', 'a-hyphen' ].each do |bad_key|
+			project = Project.new( :key => bad_key )
+			assert !project.valid?
+			assert project.errors.include?(:key)
+			assert project.errors.matching?(:key,
+				'Key can only contain alphanumerics and the underscore characters.'),
+					project.errors.full_messages.to_sentence
+		end
+		%w( a single word is ok ).each do |good_key|
+			project = Project.new( :key => good_key )
+			project.valid?
+			assert !project.errors.include?(:key)
+			assert project.key =~ /\A\w+\z/
+		end
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

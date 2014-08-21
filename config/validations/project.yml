@@ -19,3 +19,11 @@
   :length:
     :maximum: 250
 
+-
+  :attribute: :key
+  :format:
+    :with: !ruby/regexp /\A\w+\z/
+    :message: "Key can only contain alphanumerics and the underscore characters."
+  :allow_blank: true
+
+

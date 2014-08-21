@@ -46,8 +46,8 @@ dk:
   description: unknown project
 nonspecific:
   id: 7
-  key: non-specific
-  label: non-specific
+  key: nonspecific
+  label: nonspecific
   position: 7
   description: Not project-specific
 phase5:
