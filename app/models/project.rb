@@ -3,7 +3,7 @@
 #	*	description ( unique and > 3 chars )
 class Project < ActiveRecord::Base
 
-	attr_accessible :began_on, :ended_on, :key, :description, :eligibility_criteria #	position ?
+	attr_accessible :began_on, :ended_on, :key, :description, :eligibility_criteria, :label #	position ?
 
 	acts_as_list
 	acts_like_a_hash

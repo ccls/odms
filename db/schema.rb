@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140807103700) do
+ActiveRecord::Schema.define(version: 20140821164657) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -1026,6 +1026,7 @@ ActiveRecord::Schema.define(version: 20140807103700) do
     t.text     "eligibility_criteria"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.string   "label"
   end
 
   add_index "projects", ["description"], name: "index_projects_on_description", unique: true, using: :btree

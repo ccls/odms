@@ -1055,6 +1055,7 @@ Table: projects
 | eligibility_criteria | text         | YES  |     | NULL    |                |
 | created_at           | datetime     | NO   |     | NULL    |                |
 | updated_at           | datetime     | NO   |     | NULL    |                |
+| label                | varchar(255) | YES  |     | NULL    |                |
 +----------------------+--------------+------+-----+---------+----------------+
 Table: races
 +-------------+--------------+------+-----+---------+----------------+

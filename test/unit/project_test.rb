@@ -10,9 +10,14 @@ class ProjectTest < ActiveSupport::TestCase
 		:samples, :operational_events )
 #		:samples, :gift_cards, :operational_events )
 
-	attributes = %w( position began_on ended_on eligibility_criteria )
-	assert_should_not_require( attributes )
-	assert_should_not_require_unique( attributes )
+	attributes = %w( position began_on ended_on eligibility_criteria label )
+	required = %w( label )
+	unique = %w( label )
+	
+	assert_should_require( required )
+	assert_should_require_unique( unique )
+	assert_should_not_require( attributes - required )
+	assert_should_not_require_unique( attributes - unique )
 	assert_should_not_protect( attributes )
 
 	assert_should_require_attribute_length( :eligibility_criteria, :maximum => 65000 )

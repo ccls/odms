@@ -527,6 +527,7 @@ FactoryGirl.define do
 	
 	factory :project do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
+		f.sequence(:label)       { |n| "Label#{n}" }
 		f.sequence(:description) { |n| "Desc#{n}" }
 	end
 	

@@ -11,48 +11,58 @@
 tier1:
   id: 1
   key: Tier_1
+  label: Tier_1
   position: 5
   description: CCLS Tier 1 study
 tier2:
   id: 2
   key: Tier_2
+  label: Tier_2
   position: 4
   description: CCLS Tier 2 study
 EMF:
   id: 3
   key: EMF
+  label: EMF
   position: 3
   description: EMF testing study
 HomeExposures:
   id: 4
   key: HomeExposures
+  label: HomeExposures
   position: 2
   description: Second Dust Sampling Study (Home Exposures)
 other:
   id: 5
   key: other
+  label: other
   position: 6
   description: Other
 dk:
   id: 999
   key: unknown
+  label: unknown
   position: 8
   description: unknown project
 nonspecific:
   id: 7
   key: non-specific
+  label: non-specific
   position: 7
   description: Not project-specific
 phase5:
   id: 8
   key: phase5
+  label: phase5
   position: 1
   description: Phase 5 of Tier 1 
 phase4:
   id: 9
   key: phase4
+  label: phase4
   description: Phase 4 of Tier 1
 ccls:
   id: 10
   key: ccls
+  label: ccls
   description: Main CCLS Study
