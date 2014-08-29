@@ -286,7 +286,6 @@ div.pagination {
 }
 
 /* basically for multiple fields in a row */
-/* basically for multiple fields in a row */
 .field_grouper > *{
 	display:inline-block;
 	clear:none;
@@ -424,14 +423,6 @@ span.post_text {
 }
 span.value,
 p.value { font-weight: bold; }
-
-/*
-
-END CCLS_ENGINE
-
-BEGIN APPLICATION
-
-*/
 
 
 
@@ -921,12 +912,6 @@ form.edit_enrollment {
 
 
 div#contacts {
-/*
-	.addresses,
-	.phone_numbers {
-		border-bottom: 1px solid black;
-	}
-*/
 	.historic {
 		background-color: #EEE;
 	}
@@ -1000,32 +985,6 @@ div#contacts {
 }
 
 
-
-/*	I don't think there is a form#study_subject_search anymore
-*/
-/*
-form#study_subject_search {
-	.project,
-	#races,
-	#types {
-		float:left;
-		margin: auto 10px;
-	}
-	ul {
-		padding-left: 5px;
-		li {
-			list-style-type: none;
-		}
-	}
-	div#something {
-		clear:both;
-	}
-	input[type='submit']{
-		font-size:12pt;
-	}
-}
-*/
-
 form#find_study_subjects {
 	span.arrow {
 		padding-left:0.5ex;
@@ -1091,8 +1050,6 @@ div.child_parent.raf_section {
 		}
 	}
 }
-
-
 
 div.study_subject {
 	.field_wrapper span.label {
@@ -1433,3 +1390,8 @@ table#candidate_controls {
 		white-space: nowrap; 
 	}
 }
+
+
+
+
+/*  find app/ -name \*erb -exec grep -H study_subject_search {} \;  */
