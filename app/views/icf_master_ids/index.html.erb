@@ -3,9 +3,9 @@
 <% unless @icf_master_ids.to_a.empty? %>
 <p>This is all a bit much. Perhaps a nice table, link to subject, sortable.</p>
 <table id='icf_master_ids'><thead><tr>
-<th>icf master id</th>
-<th>study subject</th>
-<th>assigned on</th>
+<th><%= sort_link('icf_master_id', 'ICF Master ID' ) %></th>
+<th><%= sort_link('study_subject_id','study subject') %></th>
+<th><%= sort_link('assigned_on', 'Assigned On' ) %></th>
 </tr></thead><tbody>
 <% @icf_master_ids.each do |icf_master_id| %>
 <tr class='row'>
@@ -19,6 +19,13 @@ No Study Subject Set
 </tr>
 <% end %>
 </tbody></table><!-- id='icf_master_ids' -->
+
+<div class='pagination wrapper'>
+<%= will_paginate @icf_master_ids %>
+</div>
+
+
+
 <% else %>
 
 
