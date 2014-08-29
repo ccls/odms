@@ -69,7 +69,7 @@ base.class_eval do
 	#			:multiple  => false, 
 	#			:default   => false
 	#		}
-	#	:label is only useful if faceting
+	#	:label is the facet label
 
 	add_sunspot_column( :id, :default => true, :type => :integer )
 	add_sunspot_column( :subject_type, :facetable => true, :default => true )
@@ -84,7 +84,7 @@ base.class_eval do
 	add_sunspot_column( :phase, :facetable => true, :type => :integer )
 
 	#
-	#	DON'T USE THE KEY :method IN AN OPENSTRUCT
+	#	DON'T USE THE KEY :method IN AN OPENSTRUCT (why did I use an OpenStruct and not just a hash?)
 	#
 	#	Use subject_races and subject_languages so can get "Other"
 	#
@@ -148,8 +148,12 @@ base.class_eval do
 
 	add_sunspot_column( :age_at_admittance, :type => :integer, :facetable => true,
 		:meth => ->(s){( s.dob.blank? or s.admit_date.blank? ) ? nil : s.dob.diff(s.admit_date)[:years] })
-	add_sunspot_column( :age_at_diagnosis, :type => :integer, :facetable => true,
-		:meth => ->(s){( s.dob.blank? or s.diagnosis_date.blank? ) ? nil : s.dob.diff(s.diagnosis_date)[:years] })
+
+	#	
+	#	Pointless.  Most subjects don't have a diagnosis_date.  (Only 1 does, actually)
+	#
+	#	add_sunspot_column( :age_at_diagnosis, :type => :integer, :facetable => true,
+	#		:meth => ->(s){( s.dob.blank? or s.diagnosis_date.blank? ) ? nil : s.dob.diff(s.diagnosis_date)[:years] })
 
 	add_sunspot_column( :ccls_assigned_for_interview_on, :type => :date,
 		:meth => ->(s){ s.ccls_enrollment.try(:assigned_for_interview_at).try(:to_date).try(:strftime,'%m/%d/%Y') } )
@@ -179,6 +183,10 @@ base.class_eval do
 	add_sunspot_column( :derived_local_file_no_last6, :type => :integer )
 	add_sunspot_column( :derived_state_file_no_last6, :type => :integer )
 
+
+	#
+	#	Perhaps, make these columns ":multiple => true"?  Not really using yet anyway.
+	#
 	add_sunspot_column( :mother_hispanic_origin_code, :facetable => true,
 		:meth => ->(s){ s.newest_birth_data.collect(&:mother_hispanic_origin_code).compact.first })
 	add_sunspot_column( :mother_race_ethn_1, :type => :integer, :facetable => true,
@@ -187,7 +195,6 @@ base.class_eval do
 		:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_2).compact.first })
 	add_sunspot_column( :mother_race_ethn_3, :type => :integer, :facetable => true,
 		:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_3).compact.first })
-
 	add_sunspot_column( :father_hispanic_origin_code, :facetable => true,
 		:meth => ->(s){ s.newest_birth_data.collect(&:father_hispanic_origin_code).compact.first })
 	add_sunspot_column( :father_race_ethn_1, :type => :integer, :facetable => true,
@@ -196,6 +203,8 @@ base.class_eval do
 		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_2).compact.first })
 	add_sunspot_column( :father_race_ethn_3, :type => :integer, :facetable => true,
 		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_3).compact.first })
+
+
 
 	add_sunspot_column( :current_address_count, :type => :integer, :facetable => true,
 		:meth => ->(s){ s.addresses.current.count })
@@ -247,20 +256,18 @@ base.class_eval do
 	#
 	#	If these have ANY value, they will show.
 	#	If they don't, they won't.
+	#	It is AWESOME that "project" is preserved in these methods.  I wouldn't've thought it'd be.
 	#
 	Project.order(:position).each do |project|
 		pkey = project.key
 		plab = project.label
 		add_sunspot_column( :"#{pkey}__consented", :facetable => true, :label => "#{plab}:Consented?",
 			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:consented)] } )
-#			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:consented)]||'NULL' } )
 		add_sunspot_column( :"#{pkey}__is_eligible", :facetable => true, :label => "#{plab}:Is Eligible?",
 			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_eligible)] } )
-#			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_eligible)]||'NULL' } )
 		add_sunspot_column( :"#{pkey}__interviewed", :facetable => true, :label => "#{plab}:Interviewed?",
 			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
 				( e.present? ) ? ( e.try(:interview_completed_on).present? ? 'Yes' : 'No' ) : nil } )
-#			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:interview_completed_on).present? ? 'Yes' : 'No' } )
 		add_sunspot_column( :"#{pkey}__interview_completed_on", :type => :date,
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:interview_completed_on).try(:strftime,'%m/%d/%Y') } )
 		add_sunspot_column( :"#{pkey}__assigned_for_interview_on", :type => :date,
