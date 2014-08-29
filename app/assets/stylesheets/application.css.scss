@@ -79,9 +79,7 @@ div#fullsearch {
 	clear:right;
 	float:right;
 }
-div#subsearch {
-	text-align:right;
-}
+div#subsearch { text-align:right; }
 
 div#main {
 	background-color:white;
@@ -92,7 +90,6 @@ div#content {
 	padding: 5px 25px;
 	font-size: 10pt;
 }
-
 
 div#guidance {
 	width: 200px;
@@ -130,13 +127,9 @@ div#guidance {
 		> * {
 			padding: 10px 0;
 			display:table-cell;
-			> form.button_to {
-				display:inline;
-			}
+			> form.button_to { display:inline; }
 		}
-		> *:last-child {
-			text-align:right;
-		}
+		> *:last-child { text-align:right; }
 	}
 }
 /* end generic 'control bar' */
@@ -156,9 +149,7 @@ div#guidance {
 		padding: 2px 15px;
 		text-align: center;
 		text-decoration: none;
-		&.current {
-			background-color: #FFF;
-		}
+		&.current { background-color: #FFF; }
 	}
 }
 
@@ -222,12 +213,8 @@ div.header {
 	border-top: 0;
 	padding: 6px;
 	overflow: auto;
-	div.manage {
-		text-align:right;
-	}
-	&:nth-child(1) {
-		border-top: 1px solid silver;
-	}
+	div.manage { text-align:right; }
+	&:nth-child(1) { border-top: 1px solid silver; }
 	&:nth-child(2n)   { background-color: #FCF9EF; }
 	&:nth-child(2n+1) { background-color: #F5F1E8; }
 	&.diff:nth-child(2n)   { background-color: #EBB; }
@@ -237,28 +224,18 @@ div.header {
 table {
 	border-collapse:collapse;
 	width: 100%;
-	td.nowrap, &.nowrap td { 
-		white-space: nowrap; 
-	}
+	td.nowrap, &.nowrap td { white-space: nowrap; }
 	thead tr th,
-	tr.row td {
-		padding: 6px;
-	}
+	tr.row td { padding: 6px; }
 	th.manage,
 	td.manage {
 		text-align:center;
 		white-space: nowrap;
 	}
-	th {
-		text-align: left;
-	}
-	&#guides td.controller {
-		width: 300px;
-	}
+	th { text-align: left; }
+	&#guides td.controller { width: 300px; }
 	&.medical_record_requests,
-	&.bc_requests {
-		font-size:8pt;
-	}
+	&.bc_requests { font-size:8pt; }
 	&.sample_study_subject,
 	&.birth_records {
 		th, td {
@@ -268,8 +245,12 @@ table {
 	}
 }
 
-div.pagination {
-	text-align: center;
+div.pagination { text-align: center; }
+div.pagination.wrapper {
+	margin-top:5px;
+	div.pagination { display:inline; }
+	label { margin-left: 30px; }
+	input { width: 30px; }
 }
 
 .columns {
@@ -299,21 +280,14 @@ div.pagination {
 		display:inline-block;
 		vertical-align:top;
 	}
-	.label,
-	label {
-		width: 250px;
-	}
+	.label, label { width: 250px; }
 }
 
 form {
-	.field_wrapper input[type=checkbox] + label {
-		width: auto;
-	}
+	.field_wrapper input[type=checkbox] + label { width: auto; }
 	&.destroy_link_to div,
 	&.destroy_link_to,
-	&.button_to > div {
-		display: inline;
-	}
+	&.button_to > div { display: inline; }
 	&.link_to {
 		padding-top: 10px;
 		padding-bottom: 10px;
@@ -323,12 +297,8 @@ form {
 			display:block;
 			margin-top:10px;
 		}
-		textarea {
-			width: 100%;
-		}
-		input[type=text] {
-			width: 99%;
-		}
+		textarea { width: 100%; }
+		input[type=text] { width: 99%; }
 	}
 	&#confirm_sample_transfers {
 		display:inline-block;
@@ -338,44 +308,28 @@ form {
 		}
 	}
 	&.edit_sample_transfer,
-	&.edit_event {
-		.field_wrapper label {
-			width: 100px;
-		}
-	}
-
+	&.edit_event { .field_wrapper label { width: 100px; } }
 
 	&.edit_sample {
-		.field_wrapper {
-			.label,
-			label {
-				width: 150px;
-			}
-		}
+		.field_wrapper { .label, label { width: 150px; } }
 		.location_id.field_wrapper {
 			float:left;
 			clear:none;
 			padding-left: 10px;
-			label {
-				width:70px;
-			}
+			label { width:70px; }
 		}
 	}
 
 }
 
-.field_error {
-	background-color: #F88;
-}
+.field_error { background-color: #F88; }
 
 .required {
 	font-size: 12pt;
 	color: red;
 	font-weight: bold;
 }
-p.submit_bar {
-	text-align: center;
-}
+p.submit_bar { text-align: center; }
 
 input.small  { width: 10em; }
 input.medium { width: 20em; }
@@ -387,21 +341,13 @@ div.table {
 	width:100%;
 	> .row {
 		display:table-row;
-		> .cell {
-			display:table-cell;
-		}
+		> .cell { display:table-cell; }
 	}
 }
 
-.center {
-	text-align: center;
-}
-.right {
-	float: right;
-}
-.left {
-	float: left;
-}
+.center { text-align: center; }
+.right  { float: right; }
+.left   { float: left; }
 .superscript { font-size:x-small; vertical-align:top; }
 .subscript   { font-size:x-small; vertical-align:bottom; }
 
@@ -413,14 +359,10 @@ div.sortable {
 		display:inline;
 		vertical-align:top;
 	}
-	img {
-		height: 24px;
-	}
+	img { height: 24px; }
 }
 
-span.post_text {
-	margin-left:10px;
-}
+span.post_text { margin-left:10px; }
 span.value,
 p.value { font-weight: bold; }
 
@@ -437,9 +379,7 @@ p.value { font-weight: bold; }
 div#preview {
 	margin-top: 20px;
 	border-top: 1px solid silver;
-	table tr th {
-		text-align: center;
-	}
+	table tr th { text-align: center; }
 }
 
 /* 
@@ -454,39 +394,23 @@ input.datepicker { width: 100px; }
 
 .homex_outcomes {
 	.columns {
-		.column:nth-child(1) {
-			width: 350px;
-		}
-		.column:nth-child(2) {
-			width: auto;
-		}
+		.column:nth-child(1) { width: 350px; }
+		.column:nth-child(2) { width: auto; }
 	}
-	.field_wrapper .label {
-		width: 120px;
-	}
-	.title {
-		width: 160px;
-	}
+	.field_wrapper .label { width: 120px; }
+	.title { width: 160px; }
 }
 
-.study_subject .homex_outcomes .title {
-	float: left;
-}
-.interview .homex_outcomes .title {
-	font-weight: bold;
-}
+.study_subject .homex_outcomes .title { float: left; }
+.interview .homex_outcomes .title { font-weight: bold; }
 .edit_study_subject   .do_not_contact,
 .edit_interview .intro_letter_sent_on,
 .interview      .homex_outcomes .title,
 .study_subject        .homex_outcomes,
-.edit_study_subject   .homex_outcomes {
-	margin: 13.333px 0;
-}
+.edit_study_subject   .homex_outcomes { margin: 13.333px 0; }
 .interview      .homex_outcomes .columns,
 .edit_interview .homex_outcomes .columns,
-.edit_study_subject   .homex_outcomes .columns {
-	display: block;
-}
+.edit_study_subject   .homex_outcomes .columns { display: block; }
 
 
 /*
@@ -527,48 +451,23 @@ a.button {
 		different paddings so that they appear the same.
 	This particular difference is caused by the 1px border.
 */
-input[type=submit] {
-	padding: 0px 8px;
-}
+input[type=submit] { padding: 0px 8px; }
 
 /* app/views/study_subject/patients/show.html.erb */
-#patient .field_wrapper > span.label {
-	width: 170px;
-}
+#patient .field_wrapper > span.label { width: 170px; }
 
+div.event_show .field_wrapper .label { width: 100px; }
 
-div.event_show {
-	.field_wrapper .label {
-		width: 100px;
-	}
-}
-table#enrollments tr {
-	text-align:left;
-}
-
-
-
-
+table#enrollments tr { text-align:left; }
 
 form.edit_page {
 	input[type='text'],
-	textarea {
-		width: 99%;
-	}
-	div.parent {
-		float:left;
-	}
-	div.locale {
-		float:left;
-	}
-	div.hide_menu {
-		float:right;
-	}
-	div.fields {
-		clear:left;
-	}
+	textarea { width: 99%; }
+	div.parent { float:left; }
+	div.locale { float:left; }
+	div.hide_menu { float:right; }
+	div.fields { clear:left; }
 }
-
 
 
 tr.page {
@@ -578,15 +477,9 @@ tr.page {
 	}
 	.path,
 	.menu,
-	.title {
-		width: 140px;
-	}
-	.manage {
-		text-align:right;
-	}
-	&.row.ui-sortable-helper {
-		border: 1px dashed #E7C254;
-	}
+	.title { width: 140px; }
+	.manage { text-align:right; }
+	&.row.ui-sortable-helper { border: 1px dashed #E7C254; }
 }
 
 
@@ -594,19 +487,13 @@ form.edit_abstract {
 	.field_wrapper {
 		margin-top: 5px;
 		margin-bottom: 5px;
-		> * {
-			vertical-align: middle;
-		}
+		> * { vertical-align: middle; }
 	}
 	ol li {
 		font-size: large;
-		* {
-			font-size: medium;
-		}
+		* { font-size: medium; }
 	}
-	input[type=text] {
-		width:150px;
-	}
+	input[type=text] { width:150px; }
 	h1 { 
 		color: red; 
 		background-color: yellow; 
@@ -629,16 +516,12 @@ form.edit_abstract {
 }
 
 form.edit_phone_number {
-	.field_wrapper label {
-  	width:130px;
-	}
+	.field_wrapper label { width:130px; }
 	div.source > div {
 		display:inline-block;
 		vertical-align:top;
 	}
-	div.data_source {
-		margin-right: 10px;
-	}
+	div.data_source { margin-right: 10px; }
 	div.other_data_source {
 		clear:none;
 		label {
@@ -646,61 +529,35 @@ form.edit_phone_number {
 			padding-right: 10px;
 		}
 	}
-	#phone_number_other_data_source {
-		width: 150px;
-	}
+	#phone_number_other_data_source { width: 150px; }
 	.dev_only {
 		margin-top: 30px;
 		clear:left;
-		span {
-			float:left;
-		}
+		span { float:left; }
 	}
 }
 
 
 form.edit_address {
 	#address_line_1,
-	#address_line_2 {
-		width: 300px;
-	}
-	#address_city {
-		width: 190px;
-	}
+	#address_line_2 { width: 300px; }
+	#address_city { width: 190px; }
 	#address_other_data_source,
 	#address_unit,
-	#address_zip {
-		width: 100px;
-	}
+	#address_zip { width: 100px; }
 	.dev_only {
 		margin-top: 30px;
-		span {
-			float:left;
-		}
+		span { float:left; }
 	}
-	.field_wrapper label {
-		width:150px;
-	}
-	div.line_1 {
-		margin-right: 20px;
-	}
+	.field_wrapper label { width:150px; }
+	div.line_1 { margin-right: 20px; }
 	div.line_1,
-	div.unit {
-		display:inline-block;
-	}
-	div.unit label {
-		width:30px;
-	}
-	> div.moved > div.subject_moved > label {
-		display:inline;
-	}
-	div.data_source {
-		margin-right: 10px;
-	}
+	div.unit { display:inline-block; }
+	div.unit label { width:30px; }
+	> div.moved > div.subject_moved > label { display:inline; }
+	div.data_source { margin-right: 10px; }
 	div.unit,
-	div.other_data_source {
-		clear:none;
-	}
+	div.other_data_source { clear:none; }
 	.other_data_source label {
 		width: auto;
 		padding-right: 10px;
@@ -728,9 +585,7 @@ form.edit_address {
 		div.id_numbers {
 			text-align:right;
 			border-left: 0px;
-			> div {
-				display:inline-block;
-			}
+			> div { display:inline-block; }
 			> div.icf_master_id {
 				display:inline;
 				padding-right: 10px;
@@ -786,9 +641,7 @@ fieldset#user {
 	}
 	div#roles {
 		margin-left: 60%;
-		a img {
-			margin-left: 50px;
-		}
+		a img { margin-left: 50px; }
 		ul {
 			list-style-position: outside;
 			list-style-type: none;
@@ -809,24 +662,8 @@ form#find_samples {
 				display:table-cell;
 				padding: 5px;
 			}
-			> div input[type='text'] {
-				width: 100px;
-			}
+			> div input[type='text'] { width: 100px; }
 		}
-	}
-	div.pagination.wrapper {
-		margin-top:5px;
-		div.pagination {
-			display:inline;
-		}
-	}
-	label.jump_to_page,
-	div.pagination.wrapper label {
-		margin-left: 30px;
-	}
-	input.jump_to_page,
-	div.pagination.wrapper input {
-		width: 30px;
 	}
 }
 
@@ -845,9 +682,7 @@ div#sample {
 }
 
 form.edit_patient {
-	.field_wrapper label {
-		width: 170px;
-	}
+	.field_wrapper label { width: 170px; }
 	.admit_date_wrapper {
 		.warning {
 			display:none;
@@ -856,9 +691,7 @@ form.edit_patient {
 			padding: 5px;
 			padding-right:0;
 		}
-		&.changed .admit_date {
-			display:inline;
-		}
+		&.changed .admit_date { display:inline; }
 		&.changed .warning {
 			display:inline;
 			background-color: #FDD;
@@ -870,12 +703,8 @@ form.edit_patient {
 		display:inline-block;
 		vertical-align:top;
 	}
-	.diagnosis {
-		margin-right: 10px;
-	}
-	.other_diagnosis label {
-		width:auto;
-	}
+	.diagnosis { margin-right: 10px; }
+	.other_diagnosis label { width:auto; }
 }
 
 form.edit_enrollment {
@@ -884,56 +713,40 @@ form.edit_enrollment {
 		clear:none;
 		&.terminated_reason label,
 		&.refusal_reason_id label,
-		&.ineligible_reason_id label {
-			text-indent:50px;
-		}
+		&.ineligible_reason_id label { text-indent:50px; }
 		&.consented_on label,
 		&.is_candidate label,
 		&.tracing_status label,
 		&.is_eligible label,
 		&.consented label,
-		&.completed_on label {
-			width: 100px;
-		}
-		&.is_complete label {
-			width: 250px;
-		}
+		&.completed_on label { width: 100px; }
+		&.is_complete label { width: 250px; }
 		&.consented_on label ,
 		&.completed_on label ,
 		&.document_version_id ,
 		&.other_ineligible_reason ,
 		&.reason_not_chosen ,
-		&.other_refusal_reason {
-			text-align:right;
-		}
+		&.other_refusal_reason { text-align:right; }
 	}
 }
 
 
 
 div#contacts {
-	.historic {
-		background-color: #EEE;
-	}
+	.historic { background-color: #EEE; }
 	.contact_wrapper {
 		padding-bottom:10px;
 		clear:left;	
 		border-top: 1px dotted silver;
-		&:nth-child(1) {
-			border-top: 0;
-		}
+		&:nth-child(1) { border-top: 0; }
 		> div {
 			display:inline-block;
 			vertical-align: top;
 		}
 	}
 	.phone_number,
-	.address {
-		width: 200px;
-	}
-	.contact_meta > span {
-		display:block;
-	}
+	.address { width: 200px; }
+	.contact_meta > span { display:block; }
 	.address,
 	.alternate_contact {
 		.line_1,
@@ -970,25 +783,14 @@ div#contacts {
 		display:table-cell;
 		border-left: 1px solid #EEE;
 		padding: 5px;
+		&:first-child, &:last-child { border-left: 0px; }
 	}
-	.alternate_contact_wrapper > div span.phone_number {
-		display:block;
-	}
-	.address_wrapper > div:first-child,
-	.address_wrapper > div:last-child,
-	.phone_number_wrapper > div:first-child,
-	.phone_number_wrapper > div:last-child,
-	.alternate_contact_wrapper > div:first-child,
-	.alternate_contact_wrapper > div:last-child {
-		border-left: 0px;
-	}
+	.alternate_contact_wrapper > div span.phone_number { display:block; }
 }
 
 
 form#find_study_subjects {
-	span.arrow {
-		padding-left:0.5ex;
-	}
+	span.arrow { padding-left:0.5ex; }
 	div.table {
 		clear:both;
 		/* this holds the table-row open, otherwise shrinks to whatever */
@@ -1000,34 +802,18 @@ form#find_study_subjects {
 				display:table-cell;
 				padding: 5px;
 			}
-			> div input[type='text'] {
-				width: 100px;
-			}
+			> div input[type='text'] { width: 100px; }
 		}
 	}
-	table#study_subjects th {
-		text-align: left;
-	}
-	div.pagination.wrapper {
-		margin-top:5px;
-		div.pagination {
-			display:inline;
-		}
-		label {
-			margin-left: 30px;
-		}
-		input {
-			width: 30px;
-		}
-	}
+	table#study_subjects th { text-align: left; }
 }
+
+
 
 
 div.child_parent.raf_section {
 	.names {
-		input {
-			width: 100px;
-		}
+		input { width: 100px; }
 		.tablerow {
 			margin-left: 20px;
 			> span {
@@ -1041,23 +827,15 @@ div.child_parent.raf_section {
 				width: 390px;
 			}
 			/* needs to be wider to fit the subject relationship selector */
-			span.big {
-				width: 210px;
-			}
+			span.big { width: 210px; }
 		}
-		p {
-			margin-bottom: 0;
-		}
+		p { margin-bottom: 0; }
 	}
 }
 
 div.study_subject {
-	.field_wrapper span.label {
-		width: 170px;
-	}
-	.state_id_no.field_wrapper span.label {
-		width: auto;
-	}
+	.field_wrapper span.label { width: 170px; }
+	.state_id_no.field_wrapper span.label { width: auto; }
 	.mother_maiden_name,
 	.guardian_relationship,
 	.other_guardian_relationship {
@@ -1067,20 +845,12 @@ div.study_subject {
 
 form.edit_study_subject {
 	.field_wrapper span.label,
-	.field_wrapper label {
-		width: 140px;
-	}
+	.field_wrapper label { width: 140px; }
 	div.name div.field_wrapper label,
-	.field_wrapper.state_id_no span.label {
-		width: auto;
-	}
+	.field_wrapper.state_id_no span.label { width: auto; }
 	.field_wrapper.reference_date span.label,
-	.field_wrapper.reference_date label {
-		width: 200px;
-	}
-	.field_wrapper input[type=text] {
-		width: 120px;
-	}
+	.field_wrapper.reference_date label { width: 200px; }
+	.field_wrapper input[type=text] { width: 120px; }
 	div.state_registrar_no,
 	div.case_control_type,
 	div.dob {
@@ -1088,16 +858,10 @@ form.edit_study_subject {
 		vertical-align: top;
 		width: 300px;
 	}
-	div#races div.subject_race {
-		margin-left:30px;
-	}
-	div#study_subject_races {
-		margin-bottom: 10px;
-	}
+	div#races div.subject_race { margin-left:30px; }
+	div#study_subject_races { margin-bottom: 10px; }
 	div.name {
-		> label {
-			width: 60px;
-		}
+		> label { width: 60px; }
 		div.field_wrapper {
 			margin-bottom: 0px;
 			select,
@@ -1106,22 +870,12 @@ form.edit_study_subject {
 				margin-right: 20px;
 			}
 		}
-		&.maiden {
-			margin-left: 420px;
-		}
-		* {
-			vertical-align: top;
-		}
+		&.maiden { margin-left: 420px; }
+		* { vertical-align: top; }
 	}
-	div.guardian_relationship {
-		margin-left: 100px;
-	}
-	div.guardian_relationship_id label {
-		padding-right:10px;
-	}
-	div.other_guardian_relationship {
-		display: inline;
-	}
+	div.guardian_relationship { margin-left: 100px; }
+	div.guardian_relationship_id label { padding-right:10px; }
+	div.other_guardian_relationship { display: inline; }
 }
 
 form.edit_candidate_control {
@@ -1131,13 +885,9 @@ form.edit_candidate_control {
 		margin-bottom:30px;
 		table.candidate_control {
 			width: auto;
-			th, td {
-				padding: 10px;
-			}
+			th, td { padding: 10px; }
 		}
-		+ div.reject_control_wrapper {
-			display:none;
-		}
+		+ div.reject_control_wrapper { display:none; }
 	}
 
 	div#reject_control {
@@ -1147,9 +897,7 @@ form.edit_candidate_control {
 			border-bottom:0; 
 			padding: 10px;
 		}
-		> div.info {
-			background-color:silver;
-		}
+		> div.info { background-color:silver; }
 		table {
 			th, td {
 				text-align:center;
@@ -1174,8 +922,7 @@ form.edit_candidate_control {
 				display:inline-block;
 				padding-right: 5px;
 			}
-			div.rejection * {
-				vertical-align:top;
+			div.rejection * { vertical-align:top;
 } } } }/* form.edit_candidate_control */
 
 
@@ -1194,21 +941,15 @@ div.raf, form.raf {
 		clear:left;
 		margin:5px;
 	}
-	#errorExplanation {
-		margin:5px;
-	}
-	div.table > div {
-		display:table-row;
-	}
+	#errorExplanation { margin:5px; }
+	div.table > div { display:table-row; }
 	div.table > div.tablerow > div {
 		display:table-cell;
 		vertical-align:top;
 	}
 	
 	.names {
-		input {
-			width: 100px;
-		}
+		input { width: 100px; }
 		.tablerow {
 			margin-left: 20px;
 			> span {
@@ -1222,8 +963,7 @@ div.raf, form.raf {
 				width: 390px;
 			}
 			/* needs to be wider to fit the subject relationship selector */
-			span.big {
-				width: 210px;
+			span.big { width: 210px;
 	}	}	}
 	
 	.organization_id p,
@@ -1233,9 +973,7 @@ div.raf, form.raf {
 	}
 	
 	/* Hide the study subject field on kickback when possible duplicates are found */
-	div#possible_duplicates + div.study_subject_fields {
-		display:none;
-	}
+	div#possible_duplicates + div.study_subject_fields { display:none; }
 	
 	div.languages_label,
 	div#languages,
@@ -1250,9 +988,7 @@ div.raf, form.raf {
 	
 	.diagnosis,
 	.phone_number,
-	.line_1 {
-		margin-right: 20px;
-	}
+	.line_1 { margin-right: 20px; }
 	div.unit label { width:auto; }
 	input.zip_field   { width:100px; }
 	.unit input { width:100px; }
@@ -1260,9 +996,7 @@ div.raf, form.raf {
 		span.label { width:auto; }
 	}
 	
-	div.csz * {
-		vertical-align:middle;
-	}
+	div.csz * { vertical-align:middle; }
 }/* div.raf, form.raf */
 
 div.raf {
@@ -1280,11 +1014,7 @@ div.raf {
 
 
 form.raf {
-	.field_wrapper {
-		span.label, label {
-			width: 160px;
-		}
-	}
+	.field_wrapper { span.label, label { width: 160px; } }
 	.hospital_no, .admitting_oncologist {
 		span.label, label {
 			display:block;
@@ -1306,9 +1036,7 @@ form.raf {
 	}	}
 	
 	#study_subject_patient_attributes_raf_zip,
-	#study_subject_patient_attributes_raf_county {
-		width: 170px;
-	}
+	#study_subject_patient_attributes_raf_county { width: 170px; }
 	
 	div.other_diagnosis {
 		float:right;
@@ -1333,9 +1061,7 @@ div#consent {
 		-moz-border-radius: 8px;
 		border-radius: 8px;
 		.field_wrapper {
-			> span, > * {
-				display:inline;
-			}
+			> span, > * { display:inline; }
 		}
 		label {
 			width: auto;
@@ -1379,19 +1105,12 @@ div#consent {
 				width:auto;
 				clear:left;
 			}
-			#enrollment_other_ineligible_reason {
-				width:70%;
+			#enrollment_other_ineligible_reason { width:70%;
 } } } } /* div#consent */
 
 
 /* candidate_controls#index */
-table#candidate_controls {
-	td.study_subject {
-		white-space: nowrap; 
-	}
-}
-
-
+table#candidate_controls td.study_subject { white-space: nowrap; }
 
 
 /*  find app/ -name \*erb -exec grep -H study_subject_search {} \;  */
