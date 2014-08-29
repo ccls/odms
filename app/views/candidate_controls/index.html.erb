@@ -23,7 +23,7 @@
 <td><%= link_to "BD-#{candidate_control.birth_datum_id}", 
 		candidate_control.birth_datum %></td>
 <td><%= candidate_control.related_patid %></td>
-<td><% if candidate_control.study_subject %>
+<td class='study_subject'><% if candidate_control.study_subject %>
 <%= link_to candidate_control.study_subject, candidate_control.study_subject %>
 <% else %>
 No Study Subject Set
