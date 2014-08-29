@@ -1,6 +1,14 @@
 <h4>People:</h4>
 <% unless @people.to_a.empty? %>
- <table id='people'><tbody>
+ <table id='people'>
+<thead><tr>
+<th>Honorific</th>
+<th>First Name</th>
+<th>Last Name</th>
+<th>person type id</th>
+<th>&nbsp;</th>
+</tr></thead>
+<tbody>
   <%= render :partial => 'person', :collection => @people %>
  </tbody></table>
 <% else %>

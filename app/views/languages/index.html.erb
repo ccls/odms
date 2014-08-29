@@ -1,6 +1,11 @@
 <h4>Languages:</h4>
 <% unless @languages.to_a.empty? %>
- <table id='languages'><tbody>
+ <table id='languages'><thead><tr>
+  <th>Code</th>
+  <th>Key</th>
+  <th>Description</th>
+  <th>&nbsp;</th>
+ </tr></thead><tbody>
   <%= render :partial => 'language', :collection => @languages %>
  </tbody></table>
 <% else %>
