@@ -1208,16 +1208,6 @@ Table: schema_migrations
 +---------+--------------+------+-----+---------+-------+
 | version | varchar(255) | NO   | PRI | NULL    |       |
 +---------+--------------+------+-----+---------+-------+
-Table: sessions
-+------------+--------------+------+-----+---------+----------------+
-| Field      | Type         | Null | Key | Default | Extra          |
-+------------+--------------+------+-----+---------+----------------+
-| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
-| session_id | varchar(255) | NO   | MUL | NULL    |                |
-| data       | text         | YES  |     | NULL    |                |
-| created_at | datetime     | NO   |     | NULL    |                |
-| updated_at | datetime     | NO   | MUL | NULL    |                |
-+------------+--------------+------+-----+---------+----------------+
 Table: states
 +-------------------+--------------+------+-----+---------+----------------+
 | Field             | Type         | Null | Key | Default | Extra          |

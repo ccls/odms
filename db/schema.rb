@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821164657) do
+ActiveRecord::Schema.define(version: 20140902211610) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -1168,16 +1168,6 @@ ActiveRecord::Schema.define(version: 20140821164657) do
   end
 
   add_index "samples", ["study_subject_id"], name: "index_samples_on_study_subject_id", using: :btree
-
-  create_table "sessions", force: true do |t|
-    t.string   "session_id", null: false
-    t.text     "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
   create_table "states", force: true do |t|
     t.integer  "position"
