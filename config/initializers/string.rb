@@ -21,4 +21,8 @@ class String
 		end
 	end
 
+	def nilify_blank
+		( self.blank? ) ? nil : self
+	end
+
 end	
