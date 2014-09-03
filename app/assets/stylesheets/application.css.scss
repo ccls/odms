@@ -280,7 +280,7 @@ div.pagination.wrapper {
 		display:inline-block;
 		vertical-align:top;
 	}
-	.label, label { width: 250px; }
+	.label { width: 250px; }
 }
 
 form {
@@ -311,7 +311,8 @@ form {
 	&.edit_event { .field_wrapper label { width: 100px; } }
 
 	&.edit_sample {
-		.field_wrapper { .label, label { width: 150px; } }
+//		.field_wrapper { .label, label { width: 150px; } }
+		.field_wrapper > .label { width: 150px; }
 		.location_id.field_wrapper {
 			float:left;
 			clear:none;
@@ -500,20 +501,6 @@ form.edit_abstract {
 	}
 }	/* form.edit_abstract { */
 
-
-.enrollment .field_wrapper {
-	&.completed_on .label,
-	&.terminated_reason .label,
-	&.other_refusal_reason .label,
-	&.refusal_reason .label,
-	&.document_version .label,
-	&.consented_on .label,
-	&.other_ineligible_reason .label,
-	&.ineligible_reason .label,
-	&.reason_not_chosen  .label {
-		text-indent:50px;
-	}
-}
 
 form.edit_phone_number {
 	.field_wrapper label { width:130px; }
@@ -705,6 +692,20 @@ form.edit_patient {
 	}
 	.diagnosis { margin-right: 10px; }
 	.other_diagnosis label { width:auto; }
+}
+
+.enrollment .field_wrapper {
+	&.completed_on .label,
+	&.terminated_reason .label,
+	&.other_refusal_reason .label,
+	&.refusal_reason .label,
+	&.document_version .label,
+	&.consented_on .label,
+	&.other_ineligible_reason .label,
+	&.ineligible_reason .label,
+	&.reason_not_chosen  .label {
+		text-indent:50px;
+	}
 }
 
 form.edit_enrollment {
@@ -926,6 +927,9 @@ form.edit_candidate_control {
 } } } }/* form.edit_candidate_control */
 
 
+
+
+
 div.raf, form.raf {
 	border: 2px solid black;
 	border-top-width: 1px;
@@ -988,13 +992,16 @@ div.raf, form.raf {
 	
 	.diagnosis,
 	.phone_number,
+	.phone_type,
 	.line_1 { margin-right: 20px; }
-	div.unit label { width:auto; }
+	div.unit .label { width:auto; }
 	input.zip_field   { width:100px; }
 	.unit input { width:100px; }
 	.is_primary, .state, .zip {
 		span.label { width:auto; }
 	}
+
+	div.phone_type.field_wrapper .label { width: 50px; }
 	
 	div.csz * { vertical-align:middle; }
 }/* div.raf, form.raf */
@@ -1014,9 +1021,9 @@ div.raf {
 
 
 form.raf {
-	.field_wrapper { span.label, label { width: 160px; } }
+	.field_wrapper .label { width: 160px; }
 	.hospital_no, .admitting_oncologist {
-		span.label, label {
+		.label {
 			display:block;
 			width: 200px;
 	}	}
@@ -1030,7 +1037,7 @@ form.raf {
 		clear:none;
 	}
 	.raf_county, .raf_zip {
-		label {
+		.label {
 			width:auto;
 			margin-right:10px;
 	}	}
@@ -1043,7 +1050,7 @@ form.raf {
 		margin-right:10px;
 	}
 	div.diagnosis, div.other_diagnosis {
-		label {
+		.label {
 			padding-right: 10px;
 			width:auto;
 }	} }/* form.raf */
@@ -1072,6 +1079,16 @@ div#consent {
 	/*
 		*_id .label is show action
 		* label is edit action
+
+
+
+
+
+label has class label now too so can remove this comment and clean up this css
+
+
+
+
 	*/
 	.enrollment {
 		.field_wrapper {
