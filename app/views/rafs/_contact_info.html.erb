@@ -17,7 +17,7 @@
 </div><!-- class='field_grouper' -->
 
   <div class='field_wrapper csz'>
-   <%= address_fields.label :city, 'City, State Zip' -%><%= address_fields.text_field :city, :class => :city %>
+   <%= address_fields.label :city, 'City, State Zip', class: 'label' -%><%= address_fields.text_field :city, :class => :city %>
    <%= address_fields.select :state, State.abbreviations, 
 		{:include_blank => true}, :class => :state %>
    <%= address_fields.text_field :zip, :class => :zip_field %>
@@ -30,24 +30,17 @@
 <% @raf_phone_numbers = @study_subject.phone_numbers.select{|a|
 	a.data_source == 'RAF (CCLS Rapid Ascertainment Form)'} %>
 <% @raf_phone_numbers << @study_subject.phone_numbers.build(
-	:data_source => 'RAF (CCLS Rapid Ascertainment Form)') while @raf_phone_numbers.length < 2 %>
+	:data_source => 'RAF (CCLS Rapid Ascertainment Form)') while @raf_phone_numbers.length < 3 %>
 
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :phone_numbers, 
-	@raf_phone_numbers[0] do |phone_number_fields| %>
+	@raf_phone_numbers do |phone_number_fields| %>
 <div class='field_grouper'>
  <%= phone_number_fields.wrapped_text_field :phone_number,
    :label_text => 'phone number:' %>
-<%= phone_number_fields.wrapped_check_box :is_primary,
-	:label_text => 'primary?' %>
-</div><!-- class='field_grouper' -->
-<% end -%>
-<%= f.fields_for :phone_numbers, 
-	@raf_phone_numbers[1..-1] do |phone_number_fields| %>
-<div class='field_grouper'>
- <%= phone_number_fields.wrapped_text_field :phone_number,
-   :label_text => 'alternate phone:' %>
+<%= phone_number_fields.wrapped_select :phone_type, phone_number_fields.object.phone_types,
+			:include_blank => true, :label_text => 'type:' %>
 <%= phone_number_fields.wrapped_check_box :is_primary,
 	:label_text => 'primary?' %>
 </div><!-- class='field_grouper' -->
