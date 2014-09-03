@@ -664,8 +664,6 @@ class RafsControllerTest < ActionController::TestCase
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'phone_numbers_attributes' => { 
 					'0' => FactoryGirl.attributes_for(:phone_number) } }
-#					'0' => FactoryGirl.attributes_for(:phone_number
-#						).delete_keys!(:is_valid,:is_verified) } }
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]

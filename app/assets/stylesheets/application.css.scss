@@ -308,10 +308,9 @@ form {
 		}
 	}
 	&.edit_sample_transfer,
-	&.edit_event { .field_wrapper label { width: 100px; } }
+	&.edit_event .field_wrapper label { width: 100px; }
 
 	&.edit_sample {
-//		.field_wrapper { .label, label { width: 150px; } }
 		.field_wrapper > .label { width: 150px; }
 		.location_id.field_wrapper {
 			float:left;
@@ -845,12 +844,10 @@ div.study_subject {
 }
 
 form.edit_study_subject {
-	.field_wrapper span.label,
-	.field_wrapper label { width: 140px; }
+	.field_wrapper .label { width: 140px; }
 	div.name div.field_wrapper label,
 	.field_wrapper.state_id_no span.label { width: auto; }
-	.field_wrapper.reference_date span.label,
-	.field_wrapper.reference_date label { width: 200px; }
+	.field_wrapper.reference_date .label { width: 200px; }
 	.field_wrapper input[type=text] { width: 120px; }
 	div.state_registrar_no,
 	div.case_control_type,
@@ -1092,17 +1089,14 @@ label has class label now too so can remove this comment and clean up this css
 	*/
 	.enrollment {
 		.field_wrapper {
-			.label, label { width:180px; }
+			.label { width:180px; }
 			&.other_refusal_reason .label,
-			&.other_refusal_reason label,
 			&.refusal_reason_id label,
 			&.refusal_reason .label,
 			&.document_version_id label,
 			&.document_version .label,
 			&.consented_on .label,
-			&.consented_on label,
 			&.other_ineligible_reason .label,
-			&.other_ineligible_reason label,
 			&.ineligible_reason_id label,
 			&.ineligible_reason .label {
 				text-indent:50px;
