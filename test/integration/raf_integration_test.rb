@@ -180,25 +180,18 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert find_field("#{address}[county]").value.blank?
 			assert find_field("#{address}[state]").value.blank?
 			assert find_field("#{address}[zip]").value.blank?
-			assert find_field("#{patient}[raf_county]").value.blank?
+			assert find("input[name=\"#{patient}[raf_county]\"]", :visible => false).value.blank?	#	input[type=hidden]
 			assert find_field("#{patient}[raf_zip]").value.blank?
 
 			fill_in "#{address}[zip]", :with => "17857"
-			#execute_script("document.getElementById('study_subject_addresses_attributes_0_zip').blur()")
-			#find_field("#{address}[line_1]").click
-			#	in capybara 2.4.1, need to lose focus, to trigger change
+			#	in capybara 2.4.1, need to lose focus to trigger change event
 			find("body").click
 
-#			execute_script("jQuery('input.zip_field').change()");
-#			wait_until(10.seconds){ 
-#				find_field("#{address}[city]").value.present? }
-
-			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
 			assert_equal 'PA',             find_field("#{address}[state]").value
 			assert_equal '17857',          find_field("#{address}[zip]").reload.value
-			assert_equal 'Northumberland', find_field("#{patient}[raf_county]").reload.value
+			assert_equal 'Northumberland', find("input[name=\"#{patient}[raf_county]\"]", :visible => false).reload.value
 			assert_equal '17857',          find_field("#{patient}[raf_zip]").reload.value
 		end
 
@@ -212,25 +205,18 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert find_field("#{address}[county]").value.blank?
 			assert find_field("#{address}[state]").value.blank?
 			assert find_field("#{address}[zip]").value.blank?
-			assert find_field("#{patient}[raf_county]").value.blank?
+			assert find("input[name=\"#{patient}[raf_county]\"]", :visible => false).value.blank?
 			assert find_field("#{patient}[raf_zip]").value.blank?
 
 			fill_in "#{patient}[raf_zip]",  :with => "17857"
-			#execute_script("document.getElementById('study_subject_patient_attributes_raf_zip').blur()")
-			#	in capybara 2.4.1, need to lose focus, to trigger change
-			#find_field("#{address}[line_1]").click
+			#	in capybara 2.4.1, need to lose focus to trigger change event
 			find("body").click
 
-			#execute_script("jQuery('input.zip_field').change()");
-#			wait_until(10.seconds){ 
-#				find_field("#{address}[city]").value.present? }
-
-			#	fails from here with capybara 2.4.1 and capybara-webkit 1.1.0
 			assert_equal 'Northumberland', find_field("#{address}[city]").value
 			assert_equal 'Northumberland', find_field("#{address}[county]").value
 			assert_equal 'PA',             find_field("#{address}[state]").value
 			assert_equal '17857',          find_field("#{address}[zip]").reload.value
-			assert_equal 'Northumberland', find_field("#{patient}[raf_county]").reload.value
+			assert_equal 'Northumberland', find("input[name=\"#{patient}[raf_county]\"]", :visible => false).reload.value
 			assert_equal '17857',          find_field("#{patient}[raf_zip]").reload.value
 		end
 
@@ -286,6 +272,14 @@ current_path and current_url still don't update on a redirect
 
 
 
+I have an input field that was just text, but is now hidden.  find_field doesn't work anymore.
+How can I find it?  Use find instead, be more specific and us :visible => false.
+
+			assert find("input[name=\"#{patient}[raf_county]\"]", :visible => false).value.blank?
+#	won't pick up type="hidden" tags
+#			assert find("input[name=\"#{patient}[raf_county]\"]").value.blank?
+#			assert find_field("#{patient}[raf_county]", :visible => false).value.blank?
+#			assert find_field("#{patient}[raf_county]").value.blank?
 
 
 

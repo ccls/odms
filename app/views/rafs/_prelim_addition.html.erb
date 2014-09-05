@@ -1,6 +1,8 @@
 <div class='prelim_addition raf_section table'>
 <div class='tablerow'>
-	<%= patient_fields.hidden_field :raf_county,
+	<%= patient_fields.hidden_field :raf_county, :class => :county_field  %>
+<%# sadly, I have no wrapped hidden field, which really would be pointless anyway %>
+	<%#= patient_fields.wrapped_text_field :raf_county,
 		:label_text => 'county:', :class => :county_field %>
 
 	<%= patient_fields.wrapped_text_field :raf_zip,
