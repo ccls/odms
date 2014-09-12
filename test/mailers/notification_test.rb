@@ -60,28 +60,18 @@ class NotificationTest < ActionMailer::TestCase
 
 end
 __END__
+
+
 Hello~ 
 
-
-As the factory uses a bit of randomness, this may occassionally be empty
-BEGIN TEMP FYI:
-Org ID:2:
-Org:Children's Hospital Central California:
-Hospital:Children's Hospital Central California:
-Contact ID:45:
-Contact:Katy Robinson:
-Email:krobinson@childrenscentralcal.org:
-END TEMP FYI:
-
-
-
-
-Thank you for enrolling your patient in the California Childhood Leukemia Study at UC Berkeley.  We have assigned your patient (initials: AMH) the following CCLS Patient Identifier:  
+Thank you for submitting a RAF for your patient for the California Childhood Leukemia Study at UC Berkeley.  We have assigned your patient (initials: AMH) the following CCLS Patient Identifier:
 
 1234MAIL
 
-Please use this ID number for labeling all biological samples and paperwork (i.e. RAF, consent, CBC report) to be returned to the CCLS office and for all future correspondence regarding this patient.
+For consented patients, please use this ID number for labeling all biological samples and paperwork (i.e. RAF, consent, CBC report) to be returned to the CCLS office and for all future correspondence regarding this patient.
 
-Thank you, 
-The CCLS Research Team 
+If this patient has refused or is ineligible for the CCLS, please retain this ID number for tracking purposes.  
+
+Thank you,
+The CCLS Research Team
 
