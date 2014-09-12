@@ -64,6 +64,8 @@ __END__
 
 Hello~ 
 
+Hospital: <%= @hospital %>
+
 Thank you for submitting a RAF for your patient for the California Childhood Leukemia Study at UC Berkeley.  We have assigned your patient (initials: AMH) the following CCLS Patient Identifier:
 
 1234MAIL
