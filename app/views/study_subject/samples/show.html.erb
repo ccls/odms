@@ -44,8 +44,12 @@
 <%= wrapped_datetime_spans :sample, :aliquotted_at,
 	:label_text => 'Aliquotted at:' %>
 
-<%= wrapped_spans :sample, :notes,
-	:label_text => 'Notes:' %>
+<div class='notes spans field_wrapper'>
+<span class='label'>Notes:</span>
+<span class='value'>
+<%= @sample.notes.to_s.gsub(/\n/,'<br/>').html_safe %>
+</span>
+</div><!-- class='notes spans' -->
 
 <%= link_to 'print label', 
 	study_subject_sample_path(@sample.study_subject_id,@sample.id, :format => :pdf), 
