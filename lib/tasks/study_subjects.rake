@@ -166,6 +166,10 @@ namespace :study_subjects do
 				bd.derived_state_file_no_last6 )
 
 			subject = StudySubject.with_subjectid( bd.study_subject.subjectid ).first
+
+			raise "Subject not as expected" if( subject != bd.study_subject )
+#			subject =  bd.study_subject
+
 			unless subject.update_attributes( 
 				:state_id_no => "#{bd.dob.year.to_s[2,2]}-#{bd.derived_state_file_no_last6}")
 				puts subject.errors.full_messages.to_sentence
