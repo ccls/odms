@@ -3,12 +3,260 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-	def csv_columns(csv_file_name)
-		f=CSV.open(csv_file_name, 'rb', :headers => false)
+	def csv_columns(csv_file_name,options={})
+		f=CSV.open(csv_file_name, 'rb', {:headers => false}.merge(options))
 		csv_columns = f.gets
 		f.close
 		csv_columns
 	end
+
+	#	20140916
+	task :gegl_oldest_date_received => :environment do
+		#columns=csv_columns( 'gegl/lab_yield.ccls.txt', { :col_sep => "\t" })
+		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
+		#		"ucb_sampleid", "date_recieved", "status", "reason"]
+		#	oldest date received 2011-08-17
+		oldest_date_received = Date.current
+		puts oldest_date_received
+		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+			#
+			#	YES.  THE FIELD IS CORRECTLY SPELLED INCORRECTLY.
+			#
+			if( line['date_recieved'].present? )
+				date=Date.parse(line['date_recieved'])
+				oldest_date_received = date if( date < oldest_date_received )
+			end
+		end
+		puts oldest_date_received
+	end	#	task :gegl_oldest_date_received => :environment do
+
+	#	20140916
+	task :gegl_sampleid_subjectid_check => :environment do
+		#columns=csv_columns( 'gegl/lab_yield.ccls.txt', { :col_sep => "\t" })
+		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
+		#		"ucb_sampleid", "date_recieved", "status", "reason"]
+		#CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|					#	all good except 1
+		#CSV.open( 'gegl/lab_yield.ccls_smith.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	all good
+		#CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
+		CSV.open( 'gegl/lab_yield.merged.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
+			sampleid = line['locations_sampleid']
+			#
+			next if sampleid.match(/G$/)			#	kinda have to ignore as not unique
+			#
+			if sampleid.match(/^ccls_/i)
+				sampleid = sampleid.split(/\D/).last
+			end
+			sampleid = sampleid.split(/\D/).first
+			sampleid = sampleid.to_i
+			sample   = Sample.where(id:sampleid).first if sampleid.present? and sampleid > 0
+			puts "------ Sample not found with #{line['locations_sampleid']}" unless sample.present?
+			subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
+			puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
+			
+			if sample.present? and subject.present? 
+				if sample.study_subject.familyid != subject.familyid
+					puts "------ Sample #{line['locations_sampleid']} belongs to different Subject / Mother"
+				else
+					puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
+					updates = {}
+					updates[:location_id] = Organization['gegl'].id if sample.location_id != Organization['gegl'].id
+					#	many dates as 9999-01-01
+					#	some dates as 2015-07-29
+					if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
+							line['date_recieved'].match(/^9999-01-01/).nil?  and
+							line['date_recieved'].match(/^2015-07-29/).nil? 
+						updates[:received_by_lab_at] = line['date_recieved']
+					end
+					notes = sample.notes 
+					( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
+					notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
+					notes << "#{updates}\n"
+					updates[:notes] = notes
+					sample.update_attributes!(updates) unless updates.empty?
+				end
+			end
+		
+		end
+	end	#	task :gegl_sampleid_subjectid_check => :environment do
+#	lab_yield.ccls.txt	(change 858007 to 585007
+#	------ Subject not found with 858007
+
+#	lab_yield.ucsf_buffler.txt
+#------ Sample 0002205 belongs to different Subject / Mother
+#------ Sample 0002206 belongs to different Subject / Mother
+#------ Sample 0002217 belongs to different Subject / Mother
+#------ Sample 0002218 belongs to different Subject / Mother
+#------ Sample 0002219 belongs to different Subject / Mother
+#------ Sample 0002520 belongs to different Subject / Mother
+#------ Sample 0002521 belongs to different Subject / Mother
+#------ Sample 0002522 belongs to different Subject / Mother
+#------ Sample 0002664 belongs to different Subject / Mother
+#------ Sample 0002315 belongs to different Subject / Mother
+#------ Sample 0002316 belongs to different Subject / Mother
+#------ Sample 0002523 belongs to different Subject / Mother
+#------ Sample 0002524 belongs to different Subject / Mother
+#------ Sample 0002525 belongs to different Subject / Mother
+#------ Sample 0002411 belongs to different Subject / Mother
+#------ Sample 0002412 belongs to different Subject / Mother
+#------ Sample 0002547 belongs to different Subject / Mother
+#------ Sample 0002548 belongs to different Subject / Mother
+#------ Sample 0002549 belongs to different Subject / Mother
+#------ Sample 0002310 belongs to different Subject / Mother
+#------ Sample 0002704 belongs to different Subject / Mother
+#------ Sample 0002705 belongs to different Subject / Mother
+#------ Sample 0002706 belongs to different Subject / Mother
+#------ Sample 0002208 belongs to different Subject / Mother
+#------ Sample 0002209 belongs to different Subject / Mother
+#------ Sample 0002210 belongs to different Subject / Mother
+#------ Sample 0002214 belongs to different Subject / Mother
+#------ Sample 0002215 belongs to different Subject / Mother
+#------ Sample 0002216 belongs to different Subject / Mother
+#------ Sample 0002486 belongs to different Subject / Mother
+#------ Sample 0002487 belongs to different Subject / Mother
+#------ Sample 0002488 belongs to different Subject / Mother
+#------ Sample 0002748 belongs to different Subject / Mother
+#------ Sample 0002749 belongs to different Subject / Mother
+#------ Sample 0002211 belongs to different Subject / Mother
+#------ Sample 0002212 belongs to different Subject / Mother
+#------ Sample 0002213 belongs to different Subject / Mother
+#------ Sample 0002668 belongs to different Subject / Mother
+#------ Sample 0002669 belongs to different Subject / Mother
+#------ Sample 0002440 belongs to different Subject / Mother
+#------ Sample 0002441 belongs to different Subject / Mother
+#------ Sample 0002339 belongs to different Subject / Mother
+#------ Sample 0002340 belongs to different Subject / Mother
+#------ Sample 0002659 belongs to different Subject / Mother
+#------ Sample 0002660 belongs to different Subject / Mother
+#------ Sample 0002661 belongs to different Subject / Mother
+#------ Sample 0002333 belongs to different Subject / Mother
+#------ Sample 0002334 belongs to different Subject / Mother
+#------ Sample 0002683 belongs to different Subject / Mother
+#------ Sample 0002684 belongs to different Subject / Mother
+#------ Sample 0002685 belongs to different Subject / Mother
+#------ Sample 0002359 belongs to different Subject / Mother
+#------ Sample 0002360 belongs to different Subject / Mother
+#------ Sample 0002369 belongs to different Subject / Mother
+#------ Sample 0002370 belongs to different Subject / Mother
+#------ Sample 0002511 belongs to different Subject / Mother
+#------ Sample 0002512 belongs to different Subject / Mother
+#------ Sample 0002513 belongs to different Subject / Mother
+#------ Sample 0002508 belongs to different Subject / Mother
+#------ Sample 0002509 belongs to different Subject / Mother
+#------ Sample 0002510 belongs to different Subject / Mother
+#------ Sample 0002289 belongs to different Subject / Mother
+#------ Sample 0002711 belongs to different Subject / Mother
+#------ Sample 0002608 belongs to different Subject / Mother
+#------ Sample 0002220 belongs to different Subject / Mother
+#------ Sample 0002221 belongs to different Subject / Mother
+#------ Sample 0002222 belongs to different Subject / Mother
+#------ Sample 0002750 belongs to different Subject / Mother
+#------ Sample 0002751 belongs to different Subject / Mother
+#------ Sample 0002752 belongs to different Subject / Mother
+#------ Sample 0002701 belongs to different Subject / Mother
+#------ Sample 0002702 belongs to different Subject / Mother
+#------ Sample 0002703 belongs to different Subject / Mother
+#------ Sample 0002305 belongs to different Subject / Mother
+#------ Sample 0002306 belongs to different Subject / Mother
+#------ Sample 0002609 belongs to different Subject / Mother
+#------ Sample 0002610 belongs to different Subject / Mother
+#------ Sample 0002432 belongs to different Subject / Mother
+#------ Sample 0002433 belongs to different Subject / Mother
+#------ Sample 0002434 belongs to different Subject / Mother
+#------ Sample 0002290 belongs to different Subject / Mother
+#------ Sample 0002291 belongs to different Subject / Mother
+#------ Sample 0002653 belongs to different Subject / Mother
+#------ Sample 0002654 belongs to different Subject / Mother
+#------ Sample 0002655 belongs to different Subject / Mother
+#------ Sample 0002226 belongs to different Subject / Mother
+#------ Sample 0002228 belongs to different Subject / Mother
+#------ Sample 0002313 belongs to different Subject / Mother
+#------ Sample 0002314 belongs to different Subject / Mother
+
+#	Sample.where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).count
+#		1082
+
+#	cat gegl/lab_yield.ccls.txt | awk '{print $2}' | awk -F_ '{print $1}' | sort | grep -vs location | uniq | wc -l
+#    1014
+
+	#	20140916
+	task :gegl_expected_sampleid_comparison_by_location_and_date => :environment do
+		odms_sampleids = Sample.where(:location_id => 17).where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).collect(&:sampleid).collect(&:to_i).sort
+		gegl_sampleids = []
+		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
+		end
+		gegl_sampleids.uniq!
+		gegl_sampleids.sort!
+
+		puts "In ODMS"
+		puts odms_sampleids.inspect
+		puts "In GEGL"
+		puts gegl_sampleids.inspect
+
+		puts "In ODMS and not GEGL"
+		puts (odms_sampleids-gegl_sampleids).length
+		puts (odms_sampleids-gegl_sampleids).sort.inspect
+		puts "In GEGL and not ODMS"
+		puts (gegl_sampleids-odms_sampleids).length
+		puts (gegl_sampleids-odms_sampleids).sort.inspect
+	end	#	task :gegl_expected_sampleid_comparison => :environment do
+
+
+
+	#	20140916
+	task :gegl_expected_sampleid_comparison_by_location => :environment do
+		odms_sampleids = Sample.where(:location_id => 17).collect(&:sampleid).collect(&:to_i).sort
+		gegl_sampleids = []
+		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
+		end
+		gegl_sampleids.uniq!
+		gegl_sampleids.sort!
+
+		puts "In ODMS"
+		puts odms_sampleids.inspect
+		puts "In GEGL"
+		puts gegl_sampleids.inspect
+
+		puts "In ODMS and not GEGL"
+		puts (odms_sampleids-gegl_sampleids).length
+		puts (odms_sampleids-gegl_sampleids).sort.inspect
+		puts "In GEGL and not ODMS"
+		puts (gegl_sampleids-odms_sampleids).length
+		puts (gegl_sampleids-odms_sampleids).sort.inspect
+	end	#	task :gegl_expected_sampleid_comparison => :environment do
+
+
+
+	#	20140916
+	task :gegl_expected_sampleid_comparison_by_date => :environment do
+		odms_sampleids = Sample.where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).collect(&:sampleid).collect(&:to_i).sort
+		gegl_sampleids = []
+		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
+		end
+		gegl_sampleids.uniq!
+		gegl_sampleids.sort!
+
+		puts "In ODMS"
+		puts odms_sampleids.inspect
+		puts "In GEGL"
+		puts gegl_sampleids.inspect
+
+		puts "In ODMS and not GEGL"
+		puts (odms_sampleids-gegl_sampleids).length
+		puts (odms_sampleids-gegl_sampleids).sort.inspect
+		puts "In GEGL and not ODMS"
+		puts (gegl_sampleids-odms_sampleids).length
+		puts (gegl_sampleids-odms_sampleids).sort.inspect
+	end	#	task :gegl_expected_sampleid_comparison => :environment do
+
+
+
+
+
+
+
 
 	task :correct_subject_association => :environment do
 		raise "This task has been run and disabled."
