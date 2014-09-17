@@ -30,6 +30,48 @@ namespace :samples do
 		puts oldest_date_received
 	end	#	task :gegl_oldest_date_received => :environment do
 
+	#	20140917
+	task :gegl_sampleid_subjectid_check_for_GutherCards => :environment do
+		puts Organization['gegl'].id
+		CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+			sampleid = line['locations_sampleid']
+			next unless sampleid.match(/\d\d\d\dG$/)
+			samples = Sample.where(:external_id => sampleid)
+			puts "------ Samples not found with external_id #{sampleid}" if samples.empty?
+
+			samples.each do |sample|
+				subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
+				puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
+
+				if sample.present? and subject.present? 
+					if sample.study_subject.familyid != subject.familyid
+						puts "------ Sample #{line['locations_sampleid']} belongs to different Subject / Mother"
+					else
+						puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
+						updates = {}
+						updates[:location_id] = Organization['gegl'].id if sample.location_id != Organization['gegl'].id
+						#	many dates as 9999-01-01
+						#	some dates as 2015-07-29
+						if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
+								line['date_recieved'].match(/^9999-01-01/).nil?  and
+								line['date_recieved'].match(/^2015-07-29/).nil? 
+							updates[:received_by_lab_at] = line['date_recieved']
+						end
+						unless updates.empty?
+							notes = sample.notes 
+							( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
+							notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
+							notes << "#{updates}\n"
+							updates[:notes] = notes
+							sample.update_attributes!(updates)
+						end
+					end
+				end
+			end	#	samples.each do |sample|
+
+		end
+	end	#	task :gegl_sampleid_subjectid_check_for_GutherCards => :environment do
+
 	#	20140916
 	task :gegl_sampleid_subjectid_check => :environment do
 		#columns=csv_columns( 'gegl/lab_yield.ccls.txt', { :col_sep => "\t" })
@@ -52,7 +94,7 @@ namespace :samples do
 			puts "------ Sample not found with #{line['locations_sampleid']}" unless sample.present?
 			subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
 			puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
-			
+
 			if sample.present? and subject.present? 
 				if sample.study_subject.familyid != subject.familyid
 					puts "------ Sample #{line['locations_sampleid']} belongs to different Subject / Mother"
@@ -67,12 +109,14 @@ namespace :samples do
 							line['date_recieved'].match(/^2015-07-29/).nil? 
 						updates[:received_by_lab_at] = line['date_recieved']
 					end
-					notes = sample.notes 
-					( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
-					notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
-					notes << "#{updates}\n"
-					updates[:notes] = notes
-					sample.update_attributes!(updates) unless updates.empty?
+					unless updates.empty?
+						notes = sample.notes 
+						( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
+						notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
+						notes << "#{updates}\n"
+						updates[:notes] = notes
+						sample.update_attributes!(updates)
+					end
 				end
 			end
 		
