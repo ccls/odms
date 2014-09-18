@@ -86,13 +86,24 @@ namespace :study_subjects do
 
 
 
-
+	#	20140918
+	task :corrupt_state_id_no_check => :environment do
+		corrupt = File.open( "#{Date.current.strftime("%Y%m%d")}-possibly_corrupt_state_id_no.csv",'w')
+		corrupt.puts "subjectid,patid,subject_type,state_id_no,dob.year"
+		StudySubject.where( StudySubject.arel_table[:state_id_no].matches('__-000000') ).each do |s| 
+			corrupt.puts [s.subjectid, s.patid, s.subject_type, s.state_id_no, s.dob.year ].to_csv
+		end
+		StudySubject.where( StudySubject.arel_table[:state_id_no].does_not_match('__-______') ).each do |s| 
+			corrupt.puts [s.subjectid, s.patid, s.subject_type, s.state_id_no, s.dob.year ].to_csv
+		end
+		corrupt.close
+	end	#	task :corrupt_state_id_no_check => :environment do
 
 
 	#	20140807 
-	task :duplicate_state_id_no_check_3 => :environment do
-		inconsistancies = File.open( "#{Date.current.strftime("%Y%m%d")}-state_id_no_inconsistancies.csv",'w')
-		inconsistancies.puts "state_id_no,subject_with_state_id_no.subjectid,subject_with_state_id_no.dob.year,subject.subjectid,subject.dob.year"
+	task :create_state_id_nos_from_tracking2k_state_id_nos_csv => :environment do
+		inconsistencies = File.open( "#{Date.current.strftime("%Y%m%d")}-tracking2k_state_id_no_inconsistencies.csv",'w')
+		inconsistencies.puts "state_id_no, current_subject_with_state_id_no.subject_type, current_subject_with_state_id_no.patid, current_subject_with_state_id_no.subjectid, current_subject_with_state_id_no.dob.year, new_subject.type, new_subject.patid, new_subject.subjectid, new_subject.dob.year"
 		CSV.open( "tracking2k/stateidno.csv", 'rb',{ :headers => true }).each do |line|
 			#tbl_childinfo_t2k.PatID,Type,tbl_childinfo_t2k.subjectid,StateIDNo
 			#0002,B,303460,91-000682
@@ -105,7 +116,7 @@ namespace :study_subjects do
 			raise if subjects.length > 1	#	seriously, this will never happen as subjectid is unique
 			subject = subjects.first
 
-			if ["non-CA","Non-CA","not found"].include?( line['StateIDNo'] ) or line['StateIDNo'].blank?
+			if ["non CA","non-CA","Non-CA","not found"].include?( line['StateIDNo'] ) or line['StateIDNo'].blank?
 				puts "- Incoming StateIDNo is '#{line['StateIDNo']}'"
 				puts [subject.subjectid, subject.state_id_no, subject.birth_year, subject.birth_data.collect(&:derived_state_last6)].join(" -- ")
 				next
@@ -116,8 +127,10 @@ namespace :study_subjects do
 
 			if subject != subject_with_state_id_no
 				puts "Subjects with state id no are different"
-				inconsistancies.puts [ line['StateIDNo'], 
+				inconsistencies.puts [ line['StateIDNo'], 
+					subject_with_state_id_no.subject_type, subject_with_state_id_no.patid, 
 					subject_with_state_id_no.subjectid, subject_with_state_id_no.dob.year, 
+					subject.subject_type, subject.patid, 
 					subject.subjectid, subject.dob.year ].to_csv
 			else
 				puts "Subjects with state id no are the same. YAY!"
@@ -147,14 +160,13 @@ namespace :study_subjects do
 #			end
 
 		end	#	CSV.open
-		inconsistancies.close
-	end	#	task :duplicate_state_id_no_check_3 => :environment do
+		inconsistencies.close
+	end	#	task :create_state_id_nos_from_tracking2k_state_id_nos_csv => :environment do
 
 	#	20140811
-	task :create_state_id_nos => :environment do
-		birth_data_import = File.open( "#{Date.current.strftime("%Y%m%d")}-birth_data_state_id_no_inconsistancies.csv",'w')
-#		birth_data_import.puts "state_id_no,subject_with_state_id_no.subjectid,subject_with_state_id_no.dob.year,subject.subjectid,subject.dob.year"
-		birth_data_import.puts "bd.study_subject.subjectid,bd.study_subject.state_id_no,bd.study_subject.dob.year,bd.derived_state_file_no_last6,subjectid_with_state_id_no"
+	task :create_state_id_nos_from_birth_data => :environment do
+		birth_data_import = File.open( "#{Date.current.strftime("%Y%m%d")}-birth_data_state_id_no_inconsistencies.csv",'w')
+		birth_data_import.puts "state_id_no, current_subject_with_state_id_no.subject_type, current_subject_with_state_id_no.patid, current_subject_with_state_id_no.subjectid, current_subject_with_state_id_no.dob.year, new_subject.subject_type, new_subject.patid, new_subject.subjectid, new_subject.dob.year"
 		BirthDatum.where( BirthDatum.arel_table[:derived_state_file_no_last6].not_eq_all([nil,'']) )
 				.where( BirthDatum.arel_table[:study_subject_id].not_eq( nil ) )
 				.where( BirthDatum.arel_table[:dob].not_eq( nil ) ).find_each do |bd|
@@ -178,8 +190,16 @@ namespace :study_subjects do
 
 			subject_with_state_id_no = StudySubject.where(:state_id_no => "#{bd.dob.year.to_s[2,2]}-#{bd.derived_state_file_no_last6}").first
 			if subject_with_state_id_no.present? and subject != subject_with_state_id_no
-				birth_data_import.puts [ bd.study_subject.subjectid, bd.study_subject.state_id_no, bd.study_subject.dob.year, 
-					bd.derived_state_file_no_last6, subject_with_state_id_no.subjectid ].to_csv
+				birth_data_import.puts [ 
+					subject_with_state_id_no.state_id_no, 
+					subject_with_state_id_no.subject_type,
+					subject_with_state_id_no.patid,
+					subject_with_state_id_no.subjectid,
+					subject_with_state_id_no.dob.year,
+					bd.study_subject.subject_type, 
+					bd.study_subject.patid, 
+					bd.study_subject.subjectid, 
+					bd.study_subject.dob.year ].to_csv
 			end
 
 		end
@@ -200,7 +220,8 @@ namespace :study_subjects do
 
 
 
-#StudySubject.where( StudySubject.arel_table[:state_id_no].does_not_match('__-______') ).collect{|s| [s.subject_type,s.subjectid    , s.state_id_no, s.birth_year, s.birth_data.collect(&:derived_state_last6) ] }
+#	none of the current matches actually have any birth records
+#StudySubject.where( StudySubject.arel_table[:state_id_no].does_not_match('__-______') ).collect{|s| [s.subject_type,s.subjectid   , s.state_id_no, s.birth_year, s.birth_data.collect(&:derived_state_last6) ] }
 
 
 
@@ -409,56 +430,56 @@ namespace :study_subjects do
 	task :child_info_check => :environment do
 #Columns are ChildId, PatID, ICFMasterID, Type, OrderNo, Eligibl, Consen, Consdate, ConsVersion, WhichConsent, vaccine_releases_received, StateID#, Dob, SSN, Sex, Fname, Mname, Lname, Language, Notes, Mofname, Molname, Mosname, Momname, Fafname, Falname, Saqsent, Saqback, RefDate, Phase, Bornca, Postdue, Postsent, Intassdu, Intass, CashGave, Intid, Intret, Bclistdu, Bclistrq, Requested Results, Job List To Reviewer, Job List Returned, Job Module Int Assign, Job Module Interviewer, Job Module Int Returned, FoodQLang, SelectNo, Chose, Nominator, EntDate, Birth County, BirthCountyNonCA, Age, InterviewDate, InterviewLanguage, BreastFed, Flistopt, Numfrs, Outcome, OutForReview, DateOut, InitialsOfReviewer, EditingComplete, SampleNo, LocationID, Requested, Received, BCOutcome, BCOutcomeDate, CHDSLetterOut, CHDSBack, ControlFount, SRCOut, SRCBack, DelayLtrSent, DelayLtrSnt-2nd, Change, InterimPending, InterimCase, InterviewEntered, InterviewEnteredHSQ, InterviewEnteredHPI, InterviewEnteredHIS, InterviewEnteredDS, InterviewEnteredWS, CreateDate, CreateTime, HomeAgeAtIntrv, Active, Retro, StateIDNo, FutureUseSpec, SearchStopped4, SearchStopped5, SearchStopped6, SearchStoppedB, VitalStatus, VitalStatusDate, DoNotContact, subjectid, addedToSubjects, OptOut_ShareResearchers, OptOut_ContactInFuture, OptOut_GeneralInfo, OptOut_ProvideSaliva, RevokeUseOfSamples, RevokeUseDate, generational_suffix, father_generational_suffix, Dod, childid_txt
 		filename = "tracking2k/tChildInfo.csv"
-		inconsistancies_filename = "#{File.basename(filename,File.extname(filename))}.inconsistancies"
-		inconsistancies = File.open(inconsistancies_filename,'w')
+		inconsistencies_filename = "#{File.basename(filename,File.extname(filename))}.inconsistencies"
+		inconsistencies = File.open(inconsistencies_filename,'w')
 
 		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
 			puts line
-#			inconsistancies.puts line.to_s.gsub("\xC3",'')	#.force_encoding('UTF-8').encode
-#			inconsistancies.puts line.to_s.gsub('\xC3','')	#.force_encoding('UTF-8').encode
-#			inconsistancies.puts line.to_s.gsub('ñ','')
+#			inconsistencies.puts line.to_s.gsub("\xC3",'')	#.force_encoding('UTF-8').encode
+#			inconsistencies.puts line.to_s.gsub('\xC3','')	#.force_encoding('UTF-8').encode
+#			inconsistencies.puts line.to_s.gsub('ñ','')
 
 			subjects = StudySubject.with_childid(line['ChildId'])
 			raise if subjects.empty?
 			subject = subjects.first
 
 			if !line['subjectid'].blank? && ( subject.subjectid.to_s != line['subjectid'] )
-				inconsistancies.puts "SubjectID"
-				inconsistancies.puts subject.subjectid
-				inconsistancies.puts line['subjectid']
+				inconsistencies.puts "SubjectID"
+				inconsistencies.puts subject.subjectid
+				inconsistencies.puts line['subjectid']
 			end	#	NONE
 
 			if subject.patid != line['PatID']
-				inconsistancies.puts "PatID"
-				inconsistancies.puts subject.patid
-				inconsistancies.puts line['PatID']
+				inconsistencies.puts "PatID"
+				inconsistencies.puts subject.patid
+				inconsistencies.puts line['PatID']
 			end	#	NONE
 
 			if subject.case_control_type != line['Type']
-				inconsistancies.puts "case_control_type"
-				inconsistancies.puts subject.case_control_type
-				inconsistancies.puts line['Type']
+				inconsistencies.puts "case_control_type"
+				inconsistencies.puts subject.case_control_type
+				inconsistencies.puts line['Type']
 			end	#	NONE
 
 			if subject.orderno.to_s != line['OrderNo'].to_s
-				inconsistancies.puts "orderno"
-				inconsistancies.puts subject.orderno
-				inconsistancies.puts line['OrderNo']
+				inconsistencies.puts "orderno"
+				inconsistencies.puts subject.orderno
+				inconsistencies.puts line['OrderNo']
 			end	#	NONE
 
 			if subject.do_not_contact != line['DoNotContact'].to_boolean
-				inconsistancies.puts "do_not_contact"
-				inconsistancies.puts subject.do_not_contact
-				inconsistancies.puts line['DoNotContact']
+				inconsistencies.puts "do_not_contact"
+				inconsistencies.puts subject.do_not_contact
+				inconsistencies.puts line['DoNotContact']
 			end	#	NONE
 
 			if !line['ICFMasterID'].blank? && ( subject.icf_master_id != line['ICFMasterID'] )	#	DO NOT IMPORT!
-				inconsistancies.puts "#{subject.subjectid},icf_master_id," <<
+				inconsistencies.puts "#{subject.subjectid},icf_master_id," <<
 					"#{subject.icf_master_id},#{line['ICFMasterID']}"
 			end	#	NONE
 
 			if !line['Sex'].blank? && ( subject.sex != line['Sex'] )	#	IMPORT!
-				inconsistancies.puts "#{subject.subjectid},sex," <<
+				inconsistencies.puts "#{subject.subjectid},sex," <<
 					"#{subject.sex},#{line['Sex']}"
 			end	#	NONE
 
@@ -466,12 +487,12 @@ namespace :study_subjects do
 
 
 			if !line['Dob'].blank? && ( subject.dob != Date.parse(line['Dob']) )
-				inconsistancies.puts "#{subject.subjectid},dob," <<
+				inconsistencies.puts "#{subject.subjectid},dob," <<
 					"#{subject.dob},#{Date.parse(line['Dob']).to_s}"
 			end
 
 			if !line['RefDate'].blank? && ( subject.reference_date != Date.parse(line['RefDate']) )
-				inconsistancies.puts "#{subject.subjectid},reference_date," <<
+				inconsistencies.puts "#{subject.subjectid},reference_date," <<
 					"#{subject.reference_date},#{Date.parse(line['RefDate']).to_s}"
 			end
 
@@ -489,7 +510,7 @@ namespace :study_subjects do
 			#
 			#			if !line['StateID#'].blank? && !line['StateIDNo'].blank? && ( line['StateID#'] != line['StateIDNo'] )
 			#			if ( line['StateID#'] != line['StateIDNo'] )
-			#				inconsistancies.puts "StateID# different than StateIDNo - #{line['StateID#']},#{line['StateIDNo']}"
+			#				inconsistencies.puts "StateID# different than StateIDNo - #{line['StateID#']},#{line['StateIDNo']}"
 			#			end
 			#
 			#StateID# different than StateIDNo - 92-134187,92-134178	#!!!!! really different. last is in odms.
@@ -499,29 +520,29 @@ namespace :study_subjects do
 			#StateID# different than StateIDNo - 03027985,03-027985
 			#
 			#if !line['StateID#'].blank? && ( subject.state_id_no != line['StateID#'] )
-			#	inconsistancies.puts "#{subject.subjectid},state_id_no 1," <<
+			#	inconsistencies.puts "#{subject.subjectid},state_id_no 1," <<
 			#		"#{subject.state_id_no},#{line['StateID#']}"
 			#end
 			#
 			#if !line['StateIDNo'].blank? && ( subject.state_id_no != line['StateIDNo'] )
-			#	inconsistancies.puts "#{subject.subjectid},state_id_no 2,"<<
+			#	inconsistencies.puts "#{subject.subjectid},state_id_no 2,"<<
 			#		"#{subject.state_id_no},#{line['StateIDNo']}"
 			#end
 
 			#	Already imported separatly
 			#if !line['Phase'].blank? && ( subject.phase != line['Phase'].to_i )	#	IMPORT about 5500!
-			#	inconsistancies.puts "#{subject.subjectid},phase," <<
+			#	inconsistencies.puts "#{subject.subjectid},phase," <<
 			#		"#{subject.phase},#{line['Phase']}"
 			##	subject.update_attributes!(:phase => line['Phase'])
 			#end
 
 			if !line['Eligibl'].blank? && ( YNDK[subject.ccls_enrollment.is_eligible] != line['Eligibl'] )
-				inconsistancies.puts "#{subject.subjectid},eligible," <<
+				inconsistencies.puts "#{subject.subjectid},eligible," <<
 					"#{YNDK[subject.ccls_enrollment.is_eligible]},#{line['Eligibl']}"
 			end
 
 			if !line['Consen'].blank? && ( YNDK[subject.ccls_enrollment.consented] != line['Consen'] )
-				inconsistancies.puts "#{subject.subjectid},consented," <<
+				inconsistencies.puts "#{subject.subjectid},consented," <<
 					"#{YNDK[subject.ccls_enrollment.consented]},#{line['Consen']}"
 			end
 
@@ -531,7 +552,7 @@ namespace :study_subjects do
 #	Consdate
 
 		end
-		inconsistancies.close
+		inconsistencies.close
 	end
 
 	task :update_interview_date => :environment do
