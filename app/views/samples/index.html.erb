@@ -62,6 +62,11 @@
 
 
 
+<% end %><%# form_tag(samples_path ... %>
+<%# THIS END FORM TAG MUST BE BEFORE OTHER FORMS %>
+
+
+
 
 <hr/>
 <% if @samples.to_a.length > 0 %>
@@ -84,4 +89,3 @@
 <div class='pagination wrapper'>
 <%= will_paginate @samples %>
 </div>
-<% end %><%# form_tag(samples_path ... %>

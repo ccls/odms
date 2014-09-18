@@ -41,6 +41,22 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		:show => { :id => 0 }
 	)
 
+
+	site_administrators.each do |cu|
+
+		#	test to ensure no NESTED FORMS!!!
+		#	sadly, html validation doesn't seem to do this
+		test "should get index with subjects and NO NESTED FORMS and #{cu} login" do
+			study_subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject) }
+			login_as send(cu)
+			get :index
+			assert_response :success
+			assert_equal 3, assigns(:study_subjects).length
+			assert_select "form form", { :count => 0 }, "Nested forms are invalid and dangerous"
+		end
+
+	end
+
 	site_readers.each do |cu|
 
 		test "should get index with order and dir desc with #{cu} login" do

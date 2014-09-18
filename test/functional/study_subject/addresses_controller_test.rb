@@ -268,14 +268,7 @@ class StudySubject::AddressesControllerTest < ActionController::TestCase
 			login_as user = send(cu)
 			get :edit, :study_subject_id => address.study_subject_id,
 				:id => address.id
-
-			form_count = ( ( user.may_destroy_addresses? ) ? 3 : 2 )
-
-			#	this is invalid html and should fail in the validator, but doesn't!
-			assert_select( 'form', :count => form_count ).each { |form|
-				#	this will find itself, inside itself!!!!!!
-				assert_select( form, 'form', :count => 1 )
-			}
+			assert_select "form form", { :count => 0 }, "Nested forms are invalid and dangerous"
 		end
 
 		test "should edit with latitude and longitude and #{cu} login" do

@@ -173,14 +173,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 			login_as user = send(cu)
 			get :edit, :study_subject_id => alternate_contact.study_subject_id,
 				:id => alternate_contact.id
-
-			form_count = ( ( user.may_destroy_alternate_contacts? ) ? 3 : 2 )
-
-			#	this is invalid html and should fail in the validator, but doesn't!
-			assert_select( 'form', :count => form_count ).each { |form|
-				#	this will find itself, inside itself!!!!!!
-				assert_select( form, 'form', :count => 1 )
-			}
+			assert_select "form form", { :count => 0 }, "Nested forms are invalid and dangerous"
 		end
 
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
