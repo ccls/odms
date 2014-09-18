@@ -74,13 +74,18 @@ namespace :samples do
 
 	#	20140916
 	task :gegl_sampleid_subjectid_check => :environment do
-		#columns=csv_columns( 'gegl/lab_yield.ccls.txt', { :col_sep => "\t" })
+		#matching = File.open( "#{Date.current.strftime("%Y%m%d")}-gegl_errors.mismatched_samples.matching.txt", 'w')
+		#family = File.open( "#{Date.current.strftime("%Y%m%d")}-gegl_errors.mismatched_samples.family.txt", 'w')
+		#columns=csv_columns( 'gegl/lab_yield.merged.txt', { :col_sep => "\t" })
 		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
 		#		"ucb_sampleid", "date_recieved", "status", "reason"]
+		#csv_out.puts columns
+		#matching.puts %w( sampleid gegl_subjectid gegl_subject_type gegl_patid odms_subjectid odms_subject_type odms_patid sample_type ).to_csv
+		#family.puts %w( sampleid gegl_subjectid gegl_subject_type gegl_patid odms_subjectid odms_subject_type odms_patid sample_type ).to_csv
 		#CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|					#	all good except 1
 		#CSV.open( 'gegl/lab_yield.ccls_smith.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	all good
-		#CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
-		CSV.open( 'gegl/lab_yield.merged.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
+		CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
+		#CSV.open( 'gegl/lab_yield.merged.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
 			sampleid = line['locations_sampleid']
 			#
 			next if sampleid.match(/G$/)			#	kinda have to ignore as not unique
@@ -96,32 +101,57 @@ namespace :samples do
 			puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
 
 			if sample.present? and subject.present? 
-				if sample.study_subject.familyid != subject.familyid
-					puts "------ Sample #{line['locations_sampleid']} belongs to different Subject / Mother"
-				else
+				if sample.study_subject_id == subject.id
+
 					puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
-					updates = {}
-					updates[:location_id] = Organization['gegl'].id if sample.location_id != Organization['gegl'].id
-					#	many dates as 9999-01-01
-					#	some dates as 2015-07-29
-					if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
-							line['date_recieved'].match(/^9999-01-01/).nil?  and
-							line['date_recieved'].match(/^2015-07-29/).nil? 
-						updates[:received_by_lab_at] = line['date_recieved']
-					end
-					unless updates.empty?
-						notes = sample.notes 
-						( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
-						notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
-						notes << "#{updates}\n"
-						updates[:notes] = notes
-						sample.update_attributes!(updates)
-					end
+
+				#	match familyid first as will also match matchingid
+				elsif sample.study_subject.familyid == subject.familyid
+					puts "------ Sample #{line['locations_sampleid']} belongs to different family member Subject / Mother"
+
+					#family.puts [	sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid, 
+					#	sample.study_subject.subjectid, sample.study_subject.subject_type, sample.study_subject.patid, sample.sample_type ].to_csv
+
+				elsif sample.study_subject.matchingid == subject.matchingid
+					puts "------ Sample #{line['locations_sampleid']} belongs to different matching member Control / Control Mother"
+
+					#matching.puts [ sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid, 
+					#	sample.study_subject.subjectid, sample.study_subject.subject_type, sample.study_subject.patid, sample.sample_type ].to_csv
+
+				else
+					puts "------ Confused"
+					puts line
+					raise 'hell'		#	NONE!  YAY!
 				end
-			end
+
+				puts "Preparing to update"
+				updates = {}
+				updates[:location_id] = Organization['gegl'].id if sample.location_id != Organization['gegl'].id
+				#	many dates as 9999-01-01
+				#	some dates as 2015-07-29
+				if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
+						line['date_recieved'].match(/^9999-01-01/).nil?  and
+						line['date_recieved'].match(/^2015-07-29/).nil? 
+					updates[:received_by_lab_at] = line['date_recieved']
+				end
+				unless updates.empty?
+					notes = sample.notes 
+					( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
+					notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
+					notes << "#{updates}\n"
+					updates[:notes] = notes
+					puts "Updating database with #{updates}"
+					sample.update_attributes!(updates)
+				end
+
+			end	#	if sample.present? and subject.present? 
 		
-		end
+		end	#	CSV.open
+		#csv_out.close
+		#matching.close
+		#family.close
 	end	#	task :gegl_sampleid_subjectid_check => :environment do
+
 #	lab_yield.ccls.txt	(change 858007 to 585007
 #	------ Subject not found with 858007
 
