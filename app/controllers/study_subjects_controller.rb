@@ -17,7 +17,7 @@ class StudySubjectsController < ApplicationController
 		record_or_recall_sort_order
 		conditions = [[],{}]
 		#	Table names are not necessary if field is unambiguous.
-		%w( childid patid hospital_no icf_master_id first_name ).each do |attr|
+		%w( subjectid childid patid hospital_no icf_master_id first_name ).each do |attr|
 			if params[attr] and !params[attr].blank?
 				conditions[0] << "( #{attr} LIKE :#{attr} )"
 				conditions[1][attr.to_sym] = "%#{params[attr]}%"

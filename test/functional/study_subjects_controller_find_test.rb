@@ -114,7 +114,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		end
 	
 		#	findable study_subject string-like fields
-		%w( patid icf_master_id phase childid first_name last_name ).each do |attr|
+		%w( subjectid patid icf_master_id phase childid first_name last_name ).each do |attr|
 	
 			test "should find study_subjects with #{attr} and #{cu} login" do
 				subjects = 3.times.collect{|i| 
