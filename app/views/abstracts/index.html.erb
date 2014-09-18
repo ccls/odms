@@ -11,10 +11,11 @@
 
 <% unless @abstracts.to_a.empty? %>
 	<table id='abstracts'><thead>
-		<tr><th>ID</th><th>Pat ID</th>
-		<th>Entry 1 By</th>
-		<th>Entry 2 By</th>
-		<th>Merged By</th>
+		<tr><th><%= sort_link('id','ID') %></th>
+		<th><%= sort_link('patid', 'Pat ID') %></th>
+		<th><%= sort_link('entry_1_by_uid', 'Entry 1 By') %></th>
+		<th><%= sort_link('entry_2_by_uid', 'Entry 2 By') %></th>
+		<th><%= sort_link('merged_by_uid', 'Merged By') %></th>
 		<th class='manage'>Manage</th></tr>
 	</thead><tbody>
 		<%= render @abstracts %>
