@@ -67,6 +67,37 @@ class AbstractsControllerTest < ActionController::TestCase
 			assert_equal 2, assigns(:abstracts).length
 		end
 
+
+	##################################################
+	#		Begin Find Order Tests (only on fields in table)
+
+		test "should find abstracts and order by id with #{cu} login" do
+			abstracts = 3.times.collect{|i| FactoryGirl.create(:abstract) }
+			login_as send(cu)
+			get :index, :order => :id
+			assert_response :success
+			assert_equal abstracts, assigns(:abstracts)
+		end
+
+		test "should find abstracts and order by id asc with #{cu} login" do
+			abstracts = 3.times.collect{|i| FactoryGirl.create(:abstract) }
+			login_as send(cu)
+			get :index, :order => :id, :dir => :asc
+			assert_response :success
+			assert_equal abstracts, assigns(:abstracts)
+		end
+
+		test "should find abstracts and order by id desc with #{cu} login" do
+			abstracts = 3.times.collect{|i| FactoryGirl.create(:abstract) }
+			login_as send(cu)
+			get :index, :order => :id, :dir => :desc
+			assert_response :success
+			assert_equal abstracts, assigns(:abstracts).reverse
+		end
+
+	#		End Find Order Tests
+	##################################################
+
 	end
 
 	non_site_editors.each do |cu|
