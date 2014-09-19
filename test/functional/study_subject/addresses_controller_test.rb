@@ -263,14 +263,6 @@ class StudySubject::AddressesControllerTest < ActionController::TestCase
 			assert_nil flash[:error]
 		end
 
-		test "should edit with #{cu} login and NOT have nested forms" do
-			address = FactoryGirl.create(:address)
-			login_as user = send(cu)
-			get :edit, :study_subject_id => address.study_subject_id,
-				:id => address.id
-			assert_select "form form", { :count => 0 }, "Nested forms are invalid and dangerous"
-		end
-
 		test "should edit with latitude and longitude and #{cu} login" do
 			address = FactoryGirl.create(:address)
 			address.update_attributes(

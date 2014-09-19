@@ -6,6 +6,46 @@
 
 #require 'screening_datum_update_test_helper'
 
+class ActionController::TestCase
+
+	#
+	#	from minitest-5.3.3/lib/minitest/test.rb
+	#
+	def run
+		with_info_handler do
+			time_it do
+				capture_exceptions do
+					before_setup; setup; after_setup
+					self.send self.name
+
+
+
+					#
+					#	I don't like it, but this works.  May want to watch the minitest gem to ensure
+					#	that this method isn't updated.  If so, match and modify this.
+					#
+					#	If done in a teardown, failure will cause other teardowns not to be run. (no rollback)
+					#
+					assert_select 'form form', { :count => 0 }, "Found nested forms.  Nested are invalid html and very dangerous."
+
+
+
+
+				end
+
+				%w{ before_teardown teardown after_teardown }.each do |hook|
+					capture_exceptions do
+						self.send hook
+					end
+				end
+			end
+		end
+
+		self # per contract
+	end
+
+end
+
 
 class ActiveSupport::TestCase
 

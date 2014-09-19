@@ -168,14 +168,6 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 			assert_template 'edit'
 		end
 
-		test "should edit with #{cu} login and NOT have nested forms" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
-			login_as user = send(cu)
-			get :edit, :study_subject_id => alternate_contact.study_subject_id,
-				:id => alternate_contact.id
-			assert_select "form form", { :count => 0 }, "Nested forms are invalid and dangerous"
-		end
-
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
 			alternate_contact = FactoryGirl.create(:alternate_contact)
 			study_subject = FactoryGirl.create(:study_subject)

@@ -23,13 +23,14 @@ class SamplesControllerTest < ActionController::TestCase
 
 		#       test to ensure no NESTED FORMS!!!
 		#	sadly, html validation doesn't seem to do this
-		test "should get samples index with samples and NO NESTED FORMS and #{cu} login" do
+		test "should get samples index with samples and #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)
 			get :index
 			assert_response :success
 			assert_equal 3, assigns(:samples).length
-			assert_select "form form", { :count => 0 }, "Nested forms are invalid and dangerous"
+#	explicit check is unnecessary as all functional tests check 
+#			assert_select "form form", { :count => 0 }, "Nested forms are invalid and dangerous"
 		end
 
 	end
