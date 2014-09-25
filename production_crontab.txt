@@ -27,7 +27,32 @@
 #
 #
 #	Which shell?	Setting must include path apparently
-SHELL=/bin/tcsh
+#SHELL=/bin/tcsh
+
+
+#	changing to bash so can redirect STDERR
+#	20140924 - trying sh so can redirect error (sh is the default so not setting)
+SHELL=/bin/bash
+#	but I want BASH, NOT SH
+
+#	It doesn't seem to be sourcing .bashrc or .bash_profile?
+#	Odd.  I thought that it was sourcing .tcshrc when using tcsh?
+
+PATH=/my/ruby/gems/2.0/bin:/my/ruby/bin:/my/home/jwendt/my/scripts:/usr/local/bin:/bin:/usr/bin:.
+GEM_HOME=/my/ruby/gems/2.0
+GEM_PATH=/my/ruby/gems/2.0
+
+#	I believe that the contents of /etc/bashrc on brg does a check for $PS1 or something
+#	and as cron jobs are non-interactive, it quits?  Possibly?
+#	Not checking as not important now. The above variables are all that I need.
+
+
+
+
+
+
+
+
 #
 #	To what is RAILS_ENV set?	seems unset (is set in .tcshrc so if tcsh is shell is set)
 #	Could also explicitly set it
