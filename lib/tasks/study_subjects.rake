@@ -427,7 +427,7 @@ namespace :study_subjects do
 
 	#	20140926
 	task :update_phases_from_qry_spotck => :environment do
-#		raise "This task has been run and disabled."
+		raise "This task has been run and disabled."
 		filename = "tracking2k/20140926_qry_spotck.csv"
 		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
 			puts line
