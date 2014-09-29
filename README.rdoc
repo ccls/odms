@@ -907,6 +907,15 @@ Also, mariadb's "mysql.server status" uses "pidof" which doesn't exist here,
 or in MacPorts and as such, it fails.  Actually seems to work now?
 
 ---
+== HTML Markup Validation Notes
+
+I locally installed Validator S.A.C.  This requires copying (and possibly modifying)
+a configuration file.  
+
+ /opt/local/apache2/conf/
+
+
+---
 == Sunspot Notes
 
 Using rake sunspot:solr:reindex is now a redirect to sunspot:reindex and DOES NOT PASS THE ARGUMENTS on.
