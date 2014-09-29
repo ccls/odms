@@ -23,8 +23,9 @@ module ApplicationHelper
 #				link_to('New Control', new_control_path),
 
 				link_to('Birth Data Requests', new_bc_request_path),
+				link_to('Blood Spot Requests', new_blood_spot_request_path),
 				link_to('Med Rec Requests', new_medical_record_request_path),
-				link_to('Blood Spot Requests', new_blood_spot_request_path)
+				link_to('Abstracts', abstracts_path)
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
