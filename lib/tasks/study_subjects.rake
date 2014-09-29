@@ -425,6 +425,48 @@ namespace :study_subjects do
 	end	#	task :update_phases_from_tChildInfo => :environment do
 
 
+	#	20140926
+	task :update_phases_from_qry_spotck => :environment do
+#		raise "This task has been run and disabled."
+		filename = "tracking2k/20140926_qry_spotck.csv"
+		CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+			puts line
+			#
+			#	Type,PatID,subjectid,Admitdte,Phase,Language,Eligibl,Consen
+			#
+			subjects = StudySubject.cases.where(:patid => line['PatID'])
+			raise "No case subject found with patid :#{line['PatID']}:" if subjects.empty?
+			raise "Mulitple case subject found with patid :#{line['PatID']}:?" if subjects.length > 1
+			subject = subjects.first
+			if line['Phase'].present?
+				raise "Blank matchingid?" if subject.matchingid.blank?
+				puts "Updating all with matchingid :#{subject.matchingid}:"
+				StudySubject.where(:matchingid => subject.matchingid).each do |s|
+					puts "Create operational event"
+					s.operational_events.create!(
+						:occurred_at => DateTime.current,
+						:project_id => Project['ccls'].id,
+						:operational_event_type_id => OperationalEventType['datachanged'].id,
+						:description => "Phase changed from '#{s.phase}' to '#{line['Phase']}' "<<
+							"based on case listed in 20140926_qry_spotck.csv")
+					#
+					#	gonna reindex all after so using update_column
+					#	counter cache incrementing does not trigger reindex
+					#
+					s.update_column(:needs_reindexed, false)	#	reindex all after so unmark
+					puts "Updated phase from #{s.phase} to #{line['Phase']}"
+					s.update_column(:phase, line['Phase'])	#	reindex all after
+				end
+			else
+				puts "Phase is blank for ..."
+				puts line
+				raise 'hell'
+			end
+		end	#	CSV.open( filename, 'rb',{ :headers => true }).each do |line|
+		#	Sunspot.commit	#	explicitly reindex after all
+	end	#	task :update_phases_from_tChildInfo => :environment do
+
+
 
 
 	task :child_info_check => :environment do
