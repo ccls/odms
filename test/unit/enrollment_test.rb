@@ -43,13 +43,11 @@ class EnrollmentTest < ActiveSupport::TestCase
 		:reason_closed, 
 			:maximum => 250 )
 
-	assert_should_have_many(:follow_ups)
 	assert_should_belong_to( 
 		:ineligible_reason,
 		:refusal_reason,
 		:document_version )
-#		:tracing_status,
-#		:project_outcome,
+
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
 #	using subjectless_enrollment so, this isn't true
