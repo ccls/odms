@@ -31,7 +31,6 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_have_one( :home_exposure_response )
 #	assert_should_have_one( :birth_datum )
 	assert_should_have_many( :birth_data )
-	assert_should_habtm(:analyses)
 
 	attributes = %w( accession_no 
 		birth_type birth_year case_control_type dad_is_biodad died_on 
@@ -303,15 +302,6 @@ subject_type )	#	can I have subject_type here?
 		assert_difference('HomeExposureResponse.count',0) {
 			@study_subject.destroy
 		} }
-	end
-
-	test "should have and belong to many analyses" do
-		study_subject = create_study_subject
-		assert_equal 0, study_subject.analyses.length
-		study_subject.analyses << FactoryGirl.create(:analysis)
-		assert_equal 1, study_subject.reload.analyses.length
-		study_subject.analyses << FactoryGirl.create(:analysis)
-		assert_equal 2, study_subject.reload.analyses.length
 	end
 
 	test "should not be case unless explicitly told" do

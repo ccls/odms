@@ -318,30 +318,6 @@ Table: alternate_contacts
 | created_at       | datetime     | YES  |     | NULL    |                |
 | updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
-Table: analyses
-+--------------------------------+--------------+------+-----+---------+----------------+
-| Field                          | Type         | Null | Key | Default | Extra          |
-+--------------------------------+--------------+------+-----+---------+----------------+
-| id                             | int(11)      | NO   | PRI | NULL    | auto_increment |
-| analyst_id                     | int(11)      | YES  |     | NULL    |                |
-| project_id                     | int(11)      | YES  |     | NULL    |                |
-| key                            | varchar(255) | NO   | UNI | NULL    |                |
-| description                    | varchar(255) | YES  |     | NULL    |                |
-| analytic_file_creator_id       | int(11)      | YES  |     | NULL    |                |
-| analytic_file_created_date     | date         | YES  |     | NULL    |                |
-| analytic_file_last_pulled_date | date         | YES  |     | NULL    |                |
-| analytic_file_location         | varchar(255) | YES  |     | NULL    |                |
-| analytic_file_filename         | varchar(255) | YES  |     | NULL    |                |
-| created_at                     | datetime     | NO   |     | NULL    |                |
-| updated_at                     | datetime     | NO   |     | NULL    |                |
-+--------------------------------+--------------+------+-----+---------+----------------+
-Table: analyses_study_subjects
-+------------------+---------+------+-----+---------+-------+
-| Field            | Type    | Null | Key | Default | Extra |
-+------------------+---------+------+-----+---------+-------+
-| analysis_id      | int(11) | YES  | MUL | NULL    |       |
-| study_subject_id | int(11) | YES  | MUL | NULL    |       |
-+------------------+---------+------+-----+---------+-------+
 Table: bc_requests
 +------------------+--------------+------+-----+---------+----------------+
 | Field            | Type         | Null | Key | Default | Extra          |

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902211610) do
+ActiveRecord::Schema.define(version: 20141001202729) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -326,30 +326,6 @@ ActiveRecord::Schema.define(version: 20140902211610) do
   end
 
   add_index "alternate_contacts", ["study_subject_id"], name: "index_alternate_contacts_on_study_subject_id", using: :btree
-
-  create_table "analyses", force: true do |t|
-    t.integer  "analyst_id"
-    t.integer  "project_id"
-    t.string   "key",                            null: false
-    t.string   "description"
-    t.integer  "analytic_file_creator_id"
-    t.date     "analytic_file_created_date"
-    t.date     "analytic_file_last_pulled_date"
-    t.string   "analytic_file_location"
-    t.string   "analytic_file_filename"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-  end
-
-  add_index "analyses", ["key"], name: "index_analyses_on_key", unique: true, using: :btree
-
-  create_table "analyses_study_subjects", id: false, force: true do |t|
-    t.integer "analysis_id"
-    t.integer "study_subject_id"
-  end
-
-  add_index "analyses_study_subjects", ["analysis_id"], name: "index_analyses_study_subjects_on_analysis_id", using: :btree
-  add_index "analyses_study_subjects", ["study_subject_id"], name: "index_analyses_study_subjects_on_study_subject_id", using: :btree
 
   create_table "bc_requests", force: true do |t|
     t.integer  "study_subject_id"

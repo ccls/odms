@@ -12,7 +12,6 @@ class StudySubject < ActiveRecord::Base
 	class NotTwoAbstracts < StandardError; end
 	class DuplicatesFound < StandardError; end
 
-	has_and_belongs_to_many :analyses
 	has_one :home_exposure_response
 	has_many :birth_data
 	has_many :bc_requests
