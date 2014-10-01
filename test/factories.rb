@@ -188,11 +188,6 @@ FactoryGirl.define do
 		f.association :study_subject
 	end
 
-	factory :analysis do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
-	
 	factory :bc_request do |f|
 		f.sequence(:notes) { |n| "Notes#{n}" }	#	forces an update
 	end
@@ -546,10 +541,6 @@ FactoryGirl.define do
 		f.association :study_subject
 		f.association :project
 		f.association :sample_type
-	end
-	
-	factory :sample_kit do |f|
-		f.association :sample
 	end
 	
 	factory :sample_location do |f|

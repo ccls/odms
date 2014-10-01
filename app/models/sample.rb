@@ -13,10 +13,6 @@ class Sample < ActiveRecord::Base
 
 	attr_protected :study_subject_id, :study_subject
 
-#	TODO I don't believe that a sample_kit has any meaning anymore. Remove?
-#	has_one :sample_kit
-#	accepts_nested_attributes_for :sample_kit
-
 	#	unfortunately, there are a few samples that do not have a subject????
 	delegate :subject_type, :vital_status, :subjectid, :childid, :studyid,
 		:first_name, :last_name, :icf_master_id, :patid, :cdcid, :sex,

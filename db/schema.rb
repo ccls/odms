@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001202729) do
+ActiveRecord::Schema.define(version: 20141001203105) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -1057,12 +1057,6 @@ ActiveRecord::Schema.define(version: 20141001202729) do
   end
 
   add_index "sample_collectors", ["organization_id"], name: "index_sample_collectors_on_organization_id", using: :btree
-
-  create_table "sample_kits", force: true do |t|
-    t.integer  "sample_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "sample_locations", force: true do |t|
     t.integer  "position"

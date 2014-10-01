@@ -1083,15 +1083,6 @@ Table: sample_collectors
 | created_at         | datetime     | NO   |     | NULL    |                |
 | updated_at         | datetime     | NO   |     | NULL    |                |
 +--------------------+--------------+------+-----+---------+----------------+
-Table: sample_kits
-+------------+----------+------+-----+---------+----------------+
-| Field      | Type     | Null | Key | Default | Extra          |
-+------------+----------+------+-----+---------+----------------+
-| id         | int(11)  | NO   | PRI | NULL    | auto_increment |
-| sample_id  | int(11)  | YES  |     | NULL    |                |
-| created_at | datetime | NO   |     | NULL    |                |
-| updated_at | datetime | NO   |     | NULL    |                |
-+------------+----------+------+-----+---------+----------------+
 Table: sample_locations
 +-----------------+------------+------+-----+---------+----------------+
 | Field           | Type       | Null | Key | Default | Extra          |
