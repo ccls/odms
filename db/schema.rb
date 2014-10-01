@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001203105) do
+ActiveRecord::Schema.define(version: 20141001203713) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -540,26 +540,6 @@ ActiveRecord::Schema.define(version: 20141001203105) do
 
   add_index "enrollments", ["project_id", "study_subject_id"], name: "index_enrollments_on_project_id_and_study_subject_id", unique: true, using: :btree
   add_index "enrollments", ["study_subject_id"], name: "index_enrollments_on_study_subject_id", using: :btree
-
-  create_table "follow_up_types", force: true do |t|
-    t.integer  "position"
-    t.string   "key",         null: false
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "follow_up_types", ["key"], name: "index_follow_up_types_on_key", unique: true, using: :btree
-
-  create_table "follow_ups", force: true do |t|
-    t.integer  "section_id"
-    t.integer  "enrollment_id",     null: false
-    t.integer  "follow_up_type_id"
-    t.date     "completed_on"
-    t.string   "completed_by_uid"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
 
   create_table "guides", force: true do |t|
     t.string   "controller"

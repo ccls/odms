@@ -547,30 +547,6 @@ Table: enrollments
 | tracing_status                    | varchar(255) | YES  |     | NULL    |                |
 | vaccine_authorization_received_at | datetime     | YES  |     | NULL    |                |
 +-----------------------------------+--------------+------+-----+---------+----------------+
-Table: follow_up_types
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
-Table: follow_ups
-+-------------------+--------------+------+-----+---------+----------------+
-| Field             | Type         | Null | Key | Default | Extra          |
-+-------------------+--------------+------+-----+---------+----------------+
-| id                | int(11)      | NO   | PRI | NULL    | auto_increment |
-| section_id        | int(11)      | YES  |     | NULL    |                |
-| enrollment_id     | int(11)      | NO   |     | NULL    |                |
-| follow_up_type_id | int(11)      | YES  |     | NULL    |                |
-| completed_on      | date         | YES  |     | NULL    |                |
-| completed_by_uid  | varchar(255) | YES  |     | NULL    |                |
-| created_at        | datetime     | NO   |     | NULL    |                |
-| updated_at        | datetime     | NO   |     | NULL    |                |
-+-------------------+--------------+------+-----+---------+----------------+
 Table: guides
 +------------+--------------+------+-----+---------+----------------+
 | Field      | Type         | Null | Key | Default | Extra          |

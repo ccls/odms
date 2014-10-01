@@ -8,7 +8,6 @@ class Enrollment < ActiveRecord::Base
 	belongs_to :refusal_reason
 	belongs_to :document_version
 	belongs_to :project
-	has_many   :follow_ups
 
 	attr_protected :study_subject_id, :study_subject
 

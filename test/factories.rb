@@ -294,21 +294,6 @@ FactoryGirl.define do
 		f.association :refusal_reason
 	end
 	
-	factory :follow_up do |f|
-#		f.association :section
-		f.association :enrollment
-#		f.association :follow_up_type
-	end
-	
-#	factory :follow_up_type do |f|
-#		f.sequence(:key)         { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
-#	factory :gift_card do |f|
-#		f.sequence(:number){ |n| "#{n}" }
-#	end
-	
 	factory :guide do |f|
 		f.sequence(:controller){ |n| "controller#{n}" }
 		f.sequence(:action)    { |n| "action#{n}" }
