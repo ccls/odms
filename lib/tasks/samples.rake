@@ -31,7 +31,7 @@ namespace :samples do
 	end	#	task :gegl_oldest_date_received => :environment do
 
 	#	20140917
-	task :gegl_sampleid_subjectid_check_for_GutherCards => :environment do
+	task :gegl_sampleid_subjectid_check_for_GuthrieCards => :environment do
 		puts Organization['gegl'].id
 		CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
 			sampleid = line['locations_sampleid']
@@ -70,7 +70,7 @@ namespace :samples do
 			end	#	samples.each do |sample|
 
 		end
-	end	#	task :gegl_sampleid_subjectid_check_for_GutherCards => :environment do
+	end	#	task :gegl_sampleid_subjectid_check_for_GuthrieCards => :environment do
 
 	#	20140916
 	task :gegl_sampleid_subjectid_check => :environment do
