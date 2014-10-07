@@ -5,6 +5,7 @@ namespace :samples do
 
 	#	20141007
 	task :update_collected_at_datetimes => :environment do
+		raise "This task has been run and disabled."
 		CSV.open('gegl/Child Leukemia Age at Blood Collection - col_age.csv','rb',{ :headers => true }).each do |line|
 			#Barcode,SPCMN_COLCTN_DT,SPCMN_COLTD_HR (24 hour),AGE_AT_COLCTN (hours)
 			samples = Sample.where(:external_id => line['Barcode'])
@@ -22,6 +23,7 @@ namespace :samples do
 
 	#	20141006
 	task :import_and_manifest_bloodspots => :environment do
+		raise "This task has been run and disabled."
 		manifest = CSV.open('bloodspot_receipt_10062014_manifest.csv','w')
 		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id collected_from_subject_at
 			received_by_ccls_at storage_temperature sent_to_lab_at )
