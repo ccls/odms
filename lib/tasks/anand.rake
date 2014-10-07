@@ -6,12 +6,12 @@ require 'csv'
 #	raise "#{message} :\n #{caller[0]}" unless expression
 #end
 
-def total_lines(csv_file_name)
-	f = CSV.open(csv_file_name,'rb')
-	total_lines = f.readlines.size  # includes header, but so does f.lineno
-	f.close
-	total_lines
-end
+#def total_lines(csv_file_name)
+#	f = CSV.open(csv_file_name,'rb')
+#	total_lines = f.readlines.size  # includes header, but so does f.lineno
+#	f.close
+#	total_lines
+#end
 
 def childid_cdcid 
 	unless @childid_cdcid

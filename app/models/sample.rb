@@ -93,14 +93,20 @@ class Sample < ActiveRecord::Base
 	before_destroy :reindex_study_subject!
 
 	include ActiveRecordSunspotter::Sunspotability
+
+	#	Added a leading space so Microsoft doesn't muck up the csv
 	
 	add_sunspot_column(:id, :default => true, :type => :integer)
-	add_sunspot_column(:sampleid, :default => true)
-	add_sunspot_column(:subjectid, :default => true)
+	add_sunspot_column(:sampleid, :default => true,
+		:meth => ->(s){" #{s.sampleid}"} )
+	add_sunspot_column(:subjectid, :default => true,
+		:meth => ->(s){" #{s.subjectid}"} )
 	add_sunspot_column(:sample_super_type,
 		:default => true, :facetable => true)
 	add_sunspot_column(:sample_type,
 		:default => true, :facetable => true)
+	add_sunspot_column(:gegl_sample_type_id, :default => true, :facetable => true,
+		:meth => ->(s){ s.sample_type.gegl_sample_type_id })
 	add_sunspot_column(:sample_format, :facetable => true)
 	add_sunspot_column(:sample_temperature, :facetable => true)
 	add_sunspot_column(:project, :facetable => true)
@@ -112,7 +118,7 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:vital_status, :facetable => true)
 	add_sunspot_column(:organization, :facetable => true)
 	add_sunspot_column(:cdcid,
-		:default => true, :type => :integer, :orderable => true)
+		:type => :integer, :orderable => true)
 	add_sunspot_column(:first_name)
 	add_sunspot_column(:last_name)
 	add_sunspot_column(:icf_master_id)
@@ -120,7 +126,7 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:studyid)
 	add_sunspot_column(:childid)
 	add_sunspot_column(:external_id)
-	add_sunspot_column(:external_id_source)
+	add_sunspot_column(:external_id_source, :facetable => true)
 	add_sunspot_column(:sent_to_subject_at, :type => :time)
 	add_sunspot_column(:collected_from_subject_at, :type => :time)
 	add_sunspot_column(:shipped_to_ccls_at, :type => :time)

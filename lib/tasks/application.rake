@@ -1,3 +1,9 @@
+#
+#
+#	Not sure if the namespace affects anything, but these methods 
+#	are available in any of my defined rake tasks.
+#
+#
 namespace :app do
 
 	def assert(expression,message = 'Assertion failed.')
@@ -12,6 +18,42 @@ namespace :app do
 	def assert_string_in(a,b,field)
 		assert b.include?(a.to_s), "#{field} value #{a} not included in:#{b}:"
 	end
+
+	def mdy(date)
+		( date.blank? or !date.respond_to?(:strftime) ) ? nbsp : date.strftime("%m/%d/%Y")
+	end
+
+	#	For use in CSV output as don't want the &nbsp;
+	def mdy_or_nil(date)
+		( date.blank? or !date.respond_to?(:strftime) ) ? nil : date.strftime("%m/%d/%Y")
+	end
+
+	def mdyhm(datetime)
+		( datetime.blank? or !datetime.respond_to?(:strftime) ) ? nbsp : 
+				datetime.strftime("%m/%d/%Y %H:%M (%Z)")
+	end
+
+	#	For use in CSV output as don't want the &nbsp;
+	def mdyhm_or_nil(datetime)
+		( datetime.blank? or !datetime.respond_to?(:strftime) ) ? nil : 
+				datetime.strftime("%m/%d/%Y %H:%M (%Z)")
+	end
+
+	def csv_columns(csv_file_name,options={})
+		f=CSV.open(csv_file_name, 'rb', {:headers => false}.merge(options))
+		csv_columns = f.gets
+		f.close
+		csv_columns
+	end
+
+	def total_lines(csv_file_name)
+		f = CSV.open(csv_file_name,'rb')
+		total_lines = f.readlines.size  # includes header, but so does f.lineno
+		f.close
+		total_lines
+	end
+
+
 
 
 

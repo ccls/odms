@@ -3,12 +3,81 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-	def csv_columns(csv_file_name,options={})
-		f=CSV.open(csv_file_name, 'rb', {:headers => false}.merge(options))
-		csv_columns = f.gets
-		f.close
-		csv_columns
+	#	20141007
+	task :update_collected_at_datetimes => :environment do
+		CSV.open('gegl/Child Leukemia Age at Blood Collection - col_age.csv','rb',{ :headers => true }).each do |line|
+			#Barcode,SPCMN_COLCTN_DT,SPCMN_COLTD_HR (24 hour),AGE_AT_COLCTN (hours)
+			samples = Sample.where(:external_id => line['Barcode'])
+			raise "Multiple found with external_id #{line['Barcode']}" if samples.length > 1
+			raise "None found with external_id #{line['Barcode']}" if samples.empty?
+			sample = samples.first
+
+			time = sprintf('%04d', line['SPCMN_COLTD_HR (24 hour)'])
+			#	puts Time.parse("#{time[0..1]}:#{time[2..3]} #{line['SPCMN_COLCTN_DT']}")
+			#puts sample.collected_from_subject_at
+			sample.update_attributes!(:collected_from_subject_at => "#{time[0..1]}:#{time[2..3]} #{line['SPCMN_COLCTN_DT']}")
+			#puts sample.reload.collected_from_subject_at
+		end	#	CSV.open
 	end
+
+	#	20141006
+	task :import_and_manifest_bloodspots => :environment do
+		manifest = CSV.open('bloodspot_receipt_10062014_manifest.csv','w')
+		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id collected_from_subject_at
+			received_by_ccls_at storage_temperature sent_to_lab_at )
+		CSV.open('gegl/bloodspot_receipt_10062014.csv','rb',{ :headers => true }).each do |line|
+
+			#subjectid,derived_state_file_no_last6,Birth SFN,Birth Year,Specimen Barcode,Comment
+
+			puts line
+			subject = StudySubject.with_subjectid(line['subjectid'].to_i).first
+			#puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
+
+			#	They are always the same
+			#	raise "derived_state_file_no_last6 and Birth SFN differ in csv" if( 
+			#		line['derived_state_file_no_last6'] != line['Birth SFN'] )
+			#	raise "Birth Year different :#{line['Birth Year']}:#{subject.birth_year}" if( 
+			#		line['Birth Year'] != subject.birth_year )
+
+			sample = subject.samples.create!(
+				:project_id => Project[:ccls].id,
+				:location_id => Organization['GEGL'].id,
+				:sample_type_id => SampleType[:guthrie].id,
+				:sample_format => "Guthrie Card",
+				:sample_temperature => "Refrigerated",
+				:received_by_ccls_at => "9/18/2014",
+				:shipped_to_ccls_at => "9/18/2014",
+				:sent_to_lab_at => "9/18/2014",
+				:received_by_lab_at => "9/18/2014",
+				:external_id => line['Specimen Barcode'],
+				:external_id_source => "bloodspot_receipt_10062014.csv",
+				:notes => "Imported from bloodspot_receipt_10062014.csv"
+			)
+
+			subject.operational_events.create!(
+				:occurred_at => DateTime.current,
+				:project_id => Project['ccls'].id,
+				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
+				:description => "manifesting of bloodspot_receipt_10062014.csv"
+			)
+
+			manifest.puts [ 
+				sample.study_subject.icf_master_id_to_s,
+				" #{sample.subjectid}",
+				sample.study_subject.sex,
+				" #{sample.sampleid}",
+				sample.sample_type.gegl_sample_type_id,
+				mdyhm_or_nil(sample.collected_from_subject_at),
+				mdyhm_or_nil(sample.received_by_ccls_at),
+				sample.sample_temperature,
+				mdyhm_or_nil(sample.sent_to_lab_at)
+			]
+
+		end	#	CSV.open
+		manifest.close
+	end	#	task :import_and_manifest_bloodspots => :environment do
+
+
 
 	#	20140916
 	task :gegl_oldest_date_received => :environment do
