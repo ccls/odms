@@ -157,144 +157,6 @@ This is a README, so READ ME!
 
 
 
-
-
-== Ruby 1.9.3 oddities
-
-* imported ucb_ldap so could modify and remove incompatible ruby-net-ldap requirement and rubygems require
-  * 1.4.2 - 2010-08-03
-* FasterCSV replaced with CSV
-  * must manually "require 'csv'" instead though
-* no longer use rubygems binary as is included with ruby
-* paperclip dropped 'to_file' method
-  * using queued_for_write\[:original] instead
-* yaml/encoding no longer exists (was using in sorting exported fixtures)
-  * apparently functionality is included
-* Factories explicitly need "sequence" for my methods
-* assert_select requires more explicit hash use
-* doesn't parse american date so need american_date gem
-  * installed american_date gem which fixed a lot of unexpected problems
-* rcov no longer compatible with suggestion of simplecov
-  * simplecov is always working and adding to it's info
-  * simplecov mostly works when using rake test, but not autotest
-* 'pending' doesn't work the same 
-  * 'caller' says that it is from a block now not method, so no name to use
-  * using 'skip' instead
-  * for some reason 'skip' doesn't exist when running 'rake test', only 'autotest'
-  * has something to do with the presence of MiniTest
-  * lib/active_support/testing/pending.rb
-  * don't know why it works in autotest
-  * autotest
-    * self class:RoleTest
-    * self class superclass:ActiveSupport::TestCase
-    * self class superclass:Test::Unit::TestCase
-    * self class superclass:MiniTest::Unit::TestCase
-  * rake test
-    * self class:RoleTest
-    * self class superclass:ActiveSupport::TestCase
-    * self class superclass:Test::Unit::TestCase
-    * self class superclass:Object
-  *
-  * Thinking that this is because autotest is loading core Test::Unit::TestCase not the gem
-  * /opt/local/lib/ruby1.9/1.9.1/test/unit/testcase.rb ( Test::Unit::TestCase < MiniTest::Unit::TestCase )
-  * gem TestCase is just a subclass of Object
-  *
-  * trying 'bundle exec autotest'
-    * Yay, sort of, as it fails like rake does
-  *
-  * Should probably continue using bundle exec autotest
-    * may need to reimplement my version of pending
-  *
-* still may have to deal with old mongrel version (there is a pre-release version)
-  * or could just use webrick for the time being
-
-
-
-
-
-
-
-== Rails 3 Upgrade Modifications
-
-No more ActiveRecord::Error and therefore no error :type which destroys my test method
-No more f.error_messages
-
-Rewrite my custom validations
-
-CSV Fixtures are deprecated and support will be removed in Rails 3.2.0. !!!!
-
-json default output format no longer has the initial root key.
-config.active_record.include_root_in_json = false
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-== Rails 3 Upgrade TODOs
-
-* resolve all commented out tests
-
-* change functional tests to only include fields on the forms
-
-* Is there a way to save without callbacks?
-  * could be very useful in testing?
-  * really trying to simplify all the testing as there are so many things that trigger other things.  It is becoming difficult to test.  Add one callback that creates something and all of the sudden 100 tests fail because some count is now off by 1.
-
-* fix user not logged in integration test.  current_url doesn't seem to match followed redirect. Also in CaseIntegrationTest
-
-* reenable raising mass assignment error in environments/test.rb
-* controllers now raises MassAssignmentSecurity::Error
-  * add a rescue to ignore it
-  * only raises in dev and test, so no rescue
-  * I could simply remove this ... but seems scandalous
-  * Raise exception on mass assignment protection for Active Record models
-  * config.active_record.mass_assignment_sanitizer = :strict
-  * I'd rather just silently ignore, but probably shouldn't
-
-* datetime still accept partial? was some mention of error when not complete
-  * think that there is/was some setting but can't remember (seems to work)
-
-* remove soon to be deprecated code
-
-* remove any unused code
-
-* Keep or Remove HomexOutcome and custom HomeExposure callbacks????
-
-* begin taking advantage of the asset pipeline for merging js and css
-  * baby steps using the manifest
-  * http://guides.rubyonrails.org/asset_pipeline.html
-
-* make extract_fixtures_from rake task sort model attributes somehow
-
-
-
-
-
-
-
-
-
-
-
-
 == Development Notes
 
 As this code is stored in publicly accessible repositories,
@@ -311,23 +173,6 @@ code in the app and tests.  It has become a daunting task to do much of
 anything without some repercussions.
 
 
-
----
-=== Context class name conflict
-
-Our Context \[ ... \] model method causes this ...
-
-  ActionView::Template::Error: undefined method `[]' for ActionView::Context:Module
-
-Added \:\: prefix where I use it to see if makes a difference
-
-Should really drop Context and ContextContextable models
-
-
----
-=== Rails 3 Custom Error messaging
-
-Due to our desire to have custom error messages, it was simplest to change the config/locales/en.yml file, which is used for the error messages to change the default format from "%{attribute} %{message}" to just "%{message}" and then add the "%{attribute}" for most and leave it out otherwise.  A bit of a pain in the butt, but certainly effective.  That being said, anytime a special error is explicitly added using something like "errors.add(:some_attribute,'my custom message')", the custom message must include the attribute if desired as the system will not add it.  This is actually working quite well.
 
 
 
@@ -444,37 +289,6 @@ So, using the standard rails 'validates inclusion of' seems to work quite well.
    :in => ["text/csv","text/plain","application/vnd.ms-excel"],
    :allow_blank => true
 
----
-=== Active Scaffold Notes
-
-For some reason, attempts
-to access any of the active scaffold controllers would end with ...
-
- Completed 500 Internal Server Error in 996ms
-
- ActionView::Template::Error (File to import not found or unreadable: active_scaffold_layout.
- Load path: /
-  (in /my/ruby/gems/1.8/gems/active_scaffold-3.2.11/app/assets/stylesheets/active_scaffold.css.scss)):
-
-while in production.  This in-gem stylesheet contains @import which I
-gather do not work well with Rails 3, the asset pipeline and in-gem css.
-I have tried several different methods of pre-compiling these assets
-but it is all terribly inconvenient.  Everything is fine on my development
-machine, even when I run it in production mode.
-
-Pre-compiling seems to be the recommended way of doing things, but
-I don't understand why.  At this point, everything seems to be working.
-
-So, I have copied the offending stylesheet from the active_scaffold gem
-to a local odms_active_scaffold.css.scss and changed the @imports to
-requires and everything seems to work a treat when this is used in the
-template.
-
-Should this gem be updated and this core stylesheet change, our local
-copy will most likely need changed as well.
-
-
-Ain't usin' ActiveScaffold no mo'
 
 
 
@@ -588,6 +402,12 @@ and not this ...
     "study_subject[subject_languages_attributes][2][other_language]", 
     :visible => false)
 as the latter will be true if the field is there regardless of if it is visible
+
+
+
+
+
+	20141007 Some weird stuff happened on a recent update, so some of this may be invalid now.
 
 
 
@@ -843,70 +663,6 @@ Given a file containing nothing but a list of quoted icf master ids ....
 
 
 ---
-== MariaDB Patch
-
-Changed from MySQL to MariaDB which currently is a bit different. (for ODMS and CLIC)
-Need to manually start server as the Preference Pane for MySQL will not.
-The socket has also moved from /tmp/mysql.sock to /opt/local/var/run/mariadb/mysqld.sock
-The database files are in different places, so I had to move them.
-However, everything seems to be working.
-
-The @FIND_PROC@ macro or marker didn't seem to make its way into mysqld_safe as it should have.
-( /opt/local/lib/mariadb/bin/mysqld_safe )
-Searched scripts/CMakeLists.txt and manually added it to the script at line 747
-
-Downloaded MariaDB source (not MacPort as doesn't seem to be there anymore)
-
-mariadb-5.5.33a/scripts/CMakeLists.txt
-
- 105 IF(UNIX)
- 106   # FIND_PROC and CHECK_PID are used by mysqld_safe
- 107 IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
- 108   SET (FIND_PROC 
- 109     "ps wwwp $PID | grep -v mysqld_safe | grep -- $MYSQLD > /dev/null")
- 110 ENDIF()
- 111 IF(NOT FIND_PROC AND CMAKE_SYSTEM_NAME MATCHES "SunOS")
- 112   SET (FIND_PROC 
- 113     "ps -p $PID | grep -v mysqld_safe | grep -- $MYSQLD > /dev/null")
- 114 ENDIF()
- 115 
- 116 IF(NOT FIND_PROC)
- 117   # BSD style
- 118   EXECUTE_PROCESS(COMMAND ps -uaxww OUTPUT_QUIET ERROR_QUIET RESULT_VARIABLE result)
- 119   IF(result MATCHES 0)
- 120      SET( FIND_PROC
- 121        "ps -uaxww | grep -v mysqld_safe | grep -- $MYSQLD | grep $PID > /dev/null")
- 122   ENDIF()
- 123 ENDIF()
- 124 
- 125 IF(NOT FIND_PROC)
- 126   # SysV style
- 127   EXECUTE_PROCESS(COMMAND ps -ef OUTPUT_QUIET ERROR_QUIET RESULT_VARIABLE result)
- 128   IF(result MATCHES 0)
- 129     SET( FIND_PROC "ps -ef | grep -v mysqld_safe | grep -- $MYSQLD | grep $PID > /dev/null")
- 130   ENDIF()
- 131 ENDIF()
-
-mariadb-5.5.33a/scripts/mysqld_safe.sh
- 745   if @CHECK_PID@
- 746   then
- 747     if @FIND_PROC@
- 748     then    # The pid contains a mysqld process
- 749       log_error "A mysqld process already exists"
- 750       exit 1
- 751     fi
- 752   fi
-
-
-editing /opt/local/lib/mariadb/bin/mysqld_safe, line 747, and adding the condition
- ps wwwp $PID | grep -v mysqld_safe | grep -- $MYSQLD > /dev/null
-
-
-Seems to work now.  Not sure how it ever worked before.
-Also, mariadb's "mysql.server status" uses "pidof" which doesn't exist here,
-or in MacPorts and as such, it fails.  Actually seems to work now?
-
----
 == HTML Markup Validation Notes
 
 I locally installed Validator S.A.C.  This requires copying (and possibly modifying)
@@ -921,7 +677,11 @@ a configuration file.
 Using rake sunspot:solr:reindex is now a redirect to sunspot:reindex and DOES NOT PASS THE ARGUMENTS on.
 Using rake sunspot:reindex instead.
 
- rake sunspot:solr:reindex\[,Abstract\] is the same as just rake sunspot:solr:reindex
+ DON'T rake sunspot:solr:reindex\[,Abstract\] as is the same as just rake sunspot:solr:reindex
+
+ DO rake sunspot:reindex\[,Abstract\]
+ DO rake sunspot:reindex\[,Sample\]
+ DO rake sunspot:reindex\[,StudySubject\]
 
 
 ---
