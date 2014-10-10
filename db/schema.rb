@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001203713) do
+ActiveRecord::Schema.define(version: 20141009193705) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -1225,6 +1225,7 @@ ActiveRecord::Schema.define(version: 20141001203713) do
     t.boolean  "needs_reindexed",                        default: false
     t.integer  "abstracts_count",                        default: 0
     t.integer  "enrollments_count",                      default: 0
+    t.integer  "replication_id"
   end
 
   add_index "study_subjects", ["accession_no"], name: "index_study_subjects_on_accession_no", unique: true, using: :btree
@@ -1241,6 +1242,7 @@ ActiveRecord::Schema.define(version: 20141001203713) do
   add_index "study_subjects", ["patid", "case_control_type", "orderno"], name: "piccton", unique: true, using: :btree
   add_index "study_subjects", ["phase", "case_icf_master_id"], name: "index_study_subjects_on_phase_and_case_icf_master_id", using: :btree
   add_index "study_subjects", ["phase", "mother_icf_master_id"], name: "index_study_subjects_on_phase_and_mother_icf_master_id", using: :btree
+  add_index "study_subjects", ["replication_id"], name: "index_study_subjects_on_replication_id", using: :btree
   add_index "study_subjects", ["ssn"], name: "index_study_subjects_on_ssn", unique: true, using: :btree
   add_index "study_subjects", ["state_id_no"], name: "index_study_subjects_on_state_id_no", unique: true, using: :btree
   add_index "study_subjects", ["state_registrar_no"], name: "index_study_subjects_on_state_registrar_no", unique: true, using: :btree

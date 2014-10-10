@@ -418,6 +418,20 @@ module ApplicationHelper
 		s.html_safe
 	end
 
+	def replicated(study_subject)
+		s = if study_subject.try(:replication_id).present?
+#			replicants = StudySubject.where(:replication_id => study_subject.replication_id).not_id(study_subject.id)
+			replicants = study_subject.replicates.not_id(study_subject.id)
+			d="<div id='replicated'>\n" <<
+				"Study Subject has possible replicants.\n"
+			d << replicants.collect{|r| link_to( r.id, study_subject_path(r) ) }.join(', ')
+			d << "</div>\n"
+		else
+			''
+		end 
+		s.html_safe
+	end
+
 	def sort_up_image
 		"#{Rails.root}/app/assets/images/sort_up.png"
 	end

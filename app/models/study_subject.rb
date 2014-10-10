@@ -122,5 +122,13 @@ class StudySubject < ActiveRecord::Base
 		( is_mother? ) ? "n/a" : studyid
 	end
 
+	def replicates
+		if replication_id.present?
+			StudySubject.where(:replication_id => replication_id)
+		else
+			StudySubject.none
+		end
+	end
+
 end
 __END__

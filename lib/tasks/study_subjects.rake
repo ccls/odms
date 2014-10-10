@@ -1,6 +1,34 @@
 namespace :app do
 namespace :study_subjects do
 
+	task :update_state_id_no_from_research => :environment do
+		CSV.open( "tracking2k/20141009_manual_stateidno_update.csv", 'rb',{ :headers => true }).each do |line|
+			#	subjectid,state_id_no
+			puts line
+
+			subject = StudySubject.with_subjectid(line['subjectid']).first
+#			raise "
+#			initial_state_id_no = subject.state_id_no
+
+			subject_with_state_id_no = StudySubject.where(:state_id_no => line['state_id_no'])
+			puts subject_with_state_id_no.inspect unless subject_with_state_id_no.empty?
+
+
+
+#			puts "Create operational event"
+#			subject.operational_events.create!(
+#				:occurred_at => DateTime.current,
+#				:project_id => Project['ccls'].id,
+#				:operational_event_type_id => OperationalEventType['datachanged'].id,
+#				:description => "State ID No changed from ")
+
+
+
+
+
+		end
+	end	#	task :update_state_id_no_from_research => :environment do
+
 	task :checkup => :environment do
 		begin
 			puts "Checking consistancy based on matchingids"
@@ -64,6 +92,7 @@ namespace :study_subjects do
 		StudySubject.children.group(:dob).count.each do |dob,count|
 			next if dob.nil?
 			next if dob < Date.parse('Feb 1,1900')	#	1/1/1900 is "Don't Know"
+			next if count == 1
 			subjects = StudySubject.where(:dob => dob)
 
 			#	duplicate based on what other comparison?
@@ -74,13 +103,34 @@ namespace :study_subjects do
 					.where(:sex => subject.sex)
 					.where(:last_name => subject.last_name)
 					.where(:first_name => subject.first_name)
+					.where(:mother_first_name => subject.mother_first_name)
 				if duplicates.count > 1
 					duplicates.each do |dup|
 						puts attrs.collect{|a|dup[a]}.to_csv
 					end
+
+					replication_ids = duplicates.collect(&:replication_id)
+					puts replication_ids.inspect
+					if replication_ids.compact.empty?
+						puts "I should set the replication_id"
+						replication_id = (StudySubject.maximum(:replication_id)||0) + 1
+						duplicates.each do |d|
+							d.update_attributes(:replication_id => replication_id )
+						end
+						puts duplicates.reload.collect(&:replication_id).inspect
+					elsif replication_ids.length != replication_ids.compact.length
+						puts
+						puts "Some replication_ids are set?"
+						puts
+					else
+						puts "All replication_ids are already set"
+					end
+	
+
 				end
 			end
 		end
+		Sunspot.commit
 	end	#	task :duplicate_subject_check => :environment do
 
 

@@ -1259,6 +1259,7 @@ Table: study_subjects
 | needs_reindexed             | tinyint(1)   | YES  | MUL | 0       |                |
 | abstracts_count             | int(11)      | YES  |     | 0       |                |
 | enrollments_count           | int(11)      | YES  |     | 0       |                |
+| replication_id              | int(11)      | YES  |     | NULL    |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+

@@ -15,6 +15,26 @@ require 'csv'
 namespace :app do
 namespace :birth_data do
 
+#	all birth record
+
+#	subjectid, patid, subject_type, state_id_no, birth_year  bd derive, regist, filename
+
+
+	task :id_number_report_2 => :environment do
+		cols = %w(subjectid patid subject_type birth_year state_id_no state_registrar_no local_registrar_no
+			derived_state_file_no_last6 derived_local_file_no_last6 birth_data_file_name )
+		puts cols.to_csv
+		BirthDatum.find_each do |bd|
+			values = cols.collect do |col|
+				" #{bd.send(col)}"
+			end
+			puts values.to_csv(:force_quotes => true)
+		end
+	end	#	task :id_number_report => :environment do
+
+
+
+
 	task :dump_all_phase_5 => :environment do
 		column_names = BirthDatum.column_names
 		puts (column_names + %w( ss_icf_master_id ss_subjectid ss_interview_completed_on ss_reference_date ss_mother_icf_master_id ss_mother_subjectid ss_birth_data_count ss_phase )).to_csv

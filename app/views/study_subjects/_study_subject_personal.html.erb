@@ -41,6 +41,14 @@
 <%= wrapped_spans :study_subject, :language_names,
 	:label_text => 'languages(s):' %>
 
+
+<%# 
+
+	State Registrar No is supposed to be the derived state last 6 + derived local last 6, but this isn't always true.
+
+%>
+
+
 <%= wrapped_spans :study_subject, :state_registrar_no %>
 <%= wrapped_spans :study_subject, :local_registrar_no %>
 

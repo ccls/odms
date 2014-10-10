@@ -9,6 +9,12 @@ class BirthDatum < ActiveRecord::Base
 	alias_attribute :mother_years_educ, :mother_yrs_educ
 	alias_attribute :father_years_educ, :father_yrs_educ
 
+#	This interferes with some tests, so don't leave it live.
+#	delegate :subjectid, :subject_type, :patid, :birth_year, :state_id_no, 
+#		:to => :study_subject, :allow_nil => true
+	delegate :subject_type, :patid, :birth_year, :state_id_no, 
+		:to => :study_subject, :allow_nil => true
+
 	def is_case?
 		['1','case'].include?(case_control_flag)
 	end

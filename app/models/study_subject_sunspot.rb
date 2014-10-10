@@ -216,6 +216,8 @@ base.class_eval do
 	add_sunspot_column( :medical_record_request_received, :facetable => true,
 		:meth => ->(s){ ( s.medical_record_requests.collect(&:returned_on).any? ) ? 'Yes' : 'No' } )
 
+	add_sunspot_column( :replicated, :facetable => true, :label => "Possibly Replicated?",
+		:meth => ->(s){ s.replication_id.present? ? 'Yes' : 'No' } )
 
 	#
 	#	DO NOT ALLOW BLANK VALUES INTO INDEX.  Only really a problem when faceting on blank values.

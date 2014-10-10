@@ -203,6 +203,7 @@ This is looking good.
   scoped	#	just return scoped to do nothing apparently
  end
 
+20141009 scoped no longer exists.  The "none" method does now though.  Its a little different.
 
 Repeated joins seem to be ignored.  Yay!
 
