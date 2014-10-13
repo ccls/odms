@@ -474,6 +474,17 @@ subject_type )	#	can I have subject_type here?
 		assert_equal   study_subject.phase, 5
 	end
 
+	test "replicates should return empty when replication_id is blank" do
+		study_subject = StudySubject.new
+		assert study_subject.replicates.empty?
+	end
+
+	test "replicates should return empty when replication_id is not blank and subjects exist with replication_id" do
+		s = FactoryGirl.create(:study_subject, :replication_id => 1)
+		study_subject = StudySubject.new(:replication_id => s.replication_id)
+		assert !study_subject.replicates.empty?
+	end
+
 protected
 
 	#	create_object is called from within the common class tests

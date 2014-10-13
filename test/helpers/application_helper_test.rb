@@ -700,6 +700,35 @@ class ApplicationHelperTest < ActionView::TestCase
 
 
 
+#	replicated
+
+	test "should respond to replicated" do
+		assert respond_to?(:replicated)
+	end
+
+	test "replicated should return Yes if replication_id present" do
+		subject = FactoryGirl.create(:study_subject,:replication_id => 1)
+		assert  subject.is_a?(StudySubject)
+		assert !subject.replicates.empty?
+		response = HTML::Document.new( replicated(subject) ).root
+		assert_select response, 'div#replicated', :count => 1
+	end
+
+	test "replicated should return blank if replication_id not present" do
+		subject = FactoryGirl.create(:study_subject)
+		assert subject.is_a?(StudySubject)
+		assert subject.replicates.empty?
+		response = HTML::Document.new( replicated(subject) ).root
+		assert_select response, 'div#replicated', :count => 0
+		assert response.to_s.blank?
+	end
+
+	test "replicated should return blank if nil subject" do
+		response = HTML::Document.new( refused(nil) ).root
+		assert_select response, 'div#replicated', :count => 0
+		assert response.to_s.blank?
+	end
+
 
 
 
