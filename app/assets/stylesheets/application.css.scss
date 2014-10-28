@@ -308,7 +308,9 @@ form {
 		}
 	}
 	&.edit_sample_transfer,
-	&.edit_event .field_wrapper label { width: 100px; }
+	&.edit_event {
+		.field_wrapper label { width: 100px; }
+	}
 
 	&.edit_sample {
 		.field_wrapper > .label { width: 150px; }
