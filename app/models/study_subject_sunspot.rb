@@ -62,6 +62,7 @@ base.class_eval do
 	include ActiveRecordSunspotter::Sunspotability
 
 	#		default_options = {
+	#			:group     => 'Main',
 	#			:type      => :string, 
 	#			:orderable => true, 
 	#			:facetable => false, 
@@ -187,22 +188,24 @@ base.class_eval do
 	#
 	#	Perhaps, make these columns ":multiple => true"?  Not really using yet anyway.
 	#
-	add_sunspot_column( :mother_hispanic_origin_code, :facetable => true,
-		:meth => ->(s){ s.newest_birth_data.collect(&:mother_hispanic_origin_code).compact.first })
-	add_sunspot_column( :mother_race_ethn_1, :type => :integer, :facetable => true,
-		:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_1).compact.first })
-	add_sunspot_column( :mother_race_ethn_2, :type => :integer, :facetable => true,
-		:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_2).compact.first })
-	add_sunspot_column( :mother_race_ethn_3, :type => :integer, :facetable => true,
-		:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_3).compact.first })
-	add_sunspot_column( :father_hispanic_origin_code, :facetable => true,
-		:meth => ->(s){ s.newest_birth_data.collect(&:father_hispanic_origin_code).compact.first })
-	add_sunspot_column( :father_race_ethn_1, :type => :integer, :facetable => true,
-		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_1).compact.first })
-	add_sunspot_column( :father_race_ethn_2, :type => :integer, :facetable => true,
-		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_2).compact.first })
-	add_sunspot_column( :father_race_ethn_3, :type => :integer, :facetable => true,
-		:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_3).compact.first })
+	with_options( :group => 'Ethnicity', :facetable => true ) do |o|
+		o.add_sunspot_column( :mother_hispanic_origin_code,
+			:meth => ->(s){ s.newest_birth_data.collect(&:mother_hispanic_origin_code).compact.first })
+		o.add_sunspot_column( :mother_race_ethn_1, :type => :integer,
+			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_1).compact.first })
+		o.add_sunspot_column( :mother_race_ethn_2, :type => :integer,
+			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_2).compact.first })
+		o.add_sunspot_column( :mother_race_ethn_3, :type => :integer,
+			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_3).compact.first })
+		o.add_sunspot_column( :father_hispanic_origin_code,
+			:meth => ->(s){ s.newest_birth_data.collect(&:father_hispanic_origin_code).compact.first })
+		o.add_sunspot_column( :father_race_ethn_1, :type => :integer,
+			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_1).compact.first })
+		o.add_sunspot_column( :father_race_ethn_2, :type => :integer,
+			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_2).compact.first })
+		o.add_sunspot_column( :father_race_ethn_3, :type => :integer,
+			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_3).compact.first })
+	end
 
 
 
@@ -263,81 +266,83 @@ base.class_eval do
 	Project.order(:position).each do |project|
 		pkey = project.key
 		plab = project.label
-		add_sunspot_column( :"#{pkey}__consented", :facetable => true, :label => "#{plab}:Consented?",
+		with_options(:group => "#{plab} Enrollment" ) do |o|
+		o.add_sunspot_column( :"#{pkey}__consented", :facetable => true, :label => "#{plab}:Consented?",
 			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:consented)] } )
-		add_sunspot_column( :"#{pkey}__is_eligible", :facetable => true, :label => "#{plab}:Is Eligible?",
+		o.add_sunspot_column( :"#{pkey}__is_eligible", :facetable => true, :label => "#{plab}:Is Eligible?",
 			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_eligible)] } )
-		add_sunspot_column( :"#{pkey}__interviewed", :facetable => true, :label => "#{plab}:Interviewed?",
+		o.add_sunspot_column( :"#{pkey}__interviewed", :facetable => true, :label => "#{plab}:Interviewed?",
 			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
 				( e.present? ) ? ( e.try(:interview_completed_on).present? ? 'Yes' : 'No' ) : nil } )
-		add_sunspot_column( :"#{pkey}__interview_completed_on", :type => :date,
+		o.add_sunspot_column( :"#{pkey}__interview_completed_on", :type => :date,
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:interview_completed_on).try(:strftime,'%m/%d/%Y') } )
-		add_sunspot_column( :"#{pkey}__assigned_for_interview_on", :type => :date,
+		o.add_sunspot_column( :"#{pkey}__assigned_for_interview_on", :type => :date,
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(
 				:assigned_for_interview_at).try(:to_date).try(:strftime,'%m/%d/%Y') } )
 
-		add_sunspot_column( :"#{pkey}__recruitment_priority", :type => :string, :facetable => true, :label => "#{plab}:Recruitment Priority",
+		o.add_sunspot_column( :"#{pkey}__recruitment_priority", :type => :string, :facetable => true, :label => "#{plab}:Recruitment Priority",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:recruitment_priority) } )
-		add_sunspot_column( :"#{pkey}__is_candidate", :facetable => true, :label => "#{plab}:Is Candidate?",
+		o.add_sunspot_column( :"#{pkey}__is_candidate", :facetable => true, :label => "#{plab}:Is Candidate?",
 			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_candidate)] } )
-		add_sunspot_column( :"#{pkey}__ineligible_reason", :facetable => true, :label => "#{plab}:Ineligible Reason",
+		o.add_sunspot_column( :"#{pkey}__ineligible_reason", :facetable => true, :label => "#{plab}:Ineligible Reason",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:ineligible_reason) } )
-		add_sunspot_column( :"#{pkey}__other_ineligible_reason", :facetable => true, :label => "#{plab}:Other Ineligible Reason",
+		o.add_sunspot_column( :"#{pkey}__other_ineligible_reason", :facetable => true, :label => "#{plab}:Other Ineligible Reason",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:other_ineligible_reason).nilify_blank } )
-		add_sunspot_column( :"#{pkey}__consented_on", :type => :date,
+		o.add_sunspot_column( :"#{pkey}__consented_on", :type => :date,
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:consented_on).try(:strftime,'%m/%d/%Y') } )
-		add_sunspot_column( :"#{pkey}__refusal_reason", :facetable => true, :label => "#{plab}:Refusal Reason",
+		o.add_sunspot_column( :"#{pkey}__refusal_reason", :facetable => true, :label => "#{plab}:Refusal Reason",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:refusal_reason) } )
-		add_sunspot_column( :"#{pkey}__other_refusal_reason", :facetable => true, :label => "#{plab}:Other Refusal Reason",
+		o.add_sunspot_column( :"#{pkey}__other_refusal_reason", :facetable => true, :label => "#{plab}:Other Refusal Reason",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:other_refusal_reason).nilify_blank } )
-		add_sunspot_column( :"#{pkey}__is_chosen", :facetable => true, :label => "#{plab}:Is Chosen?",
+		o.add_sunspot_column( :"#{pkey}__is_chosen", :facetable => true, :label => "#{plab}:Is Chosen?",
 			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_chosen)] } )
-		add_sunspot_column( :"#{pkey}__reason_not_chosen",
+		o.add_sunspot_column( :"#{pkey}__reason_not_chosen",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:reason_not_chosen) } )
-		add_sunspot_column( :"#{pkey}__terminated_participation", :facetable => true, :label => "#{plab}:Terminated Participation?",
+		o.add_sunspot_column( :"#{pkey}__terminated_participation", :facetable => true, :label => "#{plab}:Terminated Participation?",
 			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:terminated_participation)] } )
-		add_sunspot_column( :"#{pkey}__terminated_reason",
+		o.add_sunspot_column( :"#{pkey}__terminated_reason",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:terminated_reason) } )
-		add_sunspot_column( :"#{pkey}__is_complete", :facetable => true, :label => "#{plab}:Is Complete?",
+		o.add_sunspot_column( :"#{pkey}__is_complete", :facetable => true, :label => "#{plab}:Is Complete?",
 			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_complete)] } )
-		add_sunspot_column( :"#{pkey}__completed_on", :type => :date,
+		o.add_sunspot_column( :"#{pkey}__completed_on", :type => :date,
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:completed_on).try(:strftime,'%m/%d/%Y') } )
-		add_sunspot_column( :"#{pkey}__is_closed", :facetable => true, :label => "#{plab}:Is Closed?",
+		o.add_sunspot_column( :"#{pkey}__is_closed", :facetable => true, :label => "#{plab}:Is Closed?",
 			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
 				( e.try(:is_closed).present? ) ? ( e.try(:is_closed) ? 'Yes' : 'No' ) : nil } )
-		add_sunspot_column( :"#{pkey}__reason_closed",
+		o.add_sunspot_column( :"#{pkey}__reason_closed",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:reason_closed) } )
-		add_sunspot_column( :"#{pkey}__document_version", :facetable => true, :label => "#{plab}:Document Version",
+		o.add_sunspot_column( :"#{pkey}__document_version", :facetable => true, :label => "#{plab}:Document Version",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:document_version) } )
-		add_sunspot_column( :"#{pkey}__project_outcome", :facetable => true, :label => "#{plab}:Project Outcome",
+		o.add_sunspot_column( :"#{pkey}__project_outcome", :facetable => true, :label => "#{plab}:Project Outcome",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:project_outcome) } )
-		add_sunspot_column( :"#{pkey}__project_outcome_on", :type => :date,
+		o.add_sunspot_column( :"#{pkey}__project_outcome_on", :type => :date,
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:project_outcome_on).try(:strftime,'%m/%d/%Y') } )
-		add_sunspot_column( :"#{pkey}__use_smp_future_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureRsrch?",
+		o.add_sunspot_column( :"#{pkey}__use_smp_future_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureRsrch?",
 			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:use_smp_future_rsrch)] } )
-		add_sunspot_column( :"#{pkey}__use_smp_future_cancer_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureCancerRsrch?",
+		o.add_sunspot_column( :"#{pkey}__use_smp_future_cancer_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureCancerRsrch?",
 			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:use_smp_future_cancer_rsrch)] } )
-		add_sunspot_column( :"#{pkey}__use_smp_future_other_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureOtherRsrch?",
+		o.add_sunspot_column( :"#{pkey}__use_smp_future_other_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureOtherRsrch?",
 			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:use_smp_future_other_rsrch)] } )
-		add_sunspot_column( :"#{pkey}__share_smp_with_others", :facetable => true, :label => "#{plab}:ShareSmpWithOthers?",
+		o.add_sunspot_column( :"#{pkey}__share_smp_with_others", :facetable => true, :label => "#{plab}:ShareSmpWithOthers?",
 			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:share_smp_with_others)] } )
-		add_sunspot_column( :"#{pkey}__contact_for_related_study", :facetable => true, :label => "#{plab}:ContactForRelatedStudy?",
+		o.add_sunspot_column( :"#{pkey}__contact_for_related_study", :facetable => true, :label => "#{plab}:ContactForRelatedStudy?",
 			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:contact_for_related_study)] } )
-		add_sunspot_column( :"#{pkey}__provide_saliva_smp", :facetable => true, :label => "#{plab}:ProvideSalivaSmp?",
+		o.add_sunspot_column( :"#{pkey}__provide_saliva_smp", :facetable => true, :label => "#{plab}:ProvideSalivaSmp?",
 			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:provide_saliva_smp)] } )
-		add_sunspot_column( :"#{pkey}__receive_study_findings", :facetable => true, :label => "#{plab}:Receive Study Findings?",
+		o.add_sunspot_column( :"#{pkey}__receive_study_findings", :facetable => true, :label => "#{plab}:Receive Study Findings?",
 			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:receive_study_findings)] } )
-		add_sunspot_column( :"#{pkey}__refused_by_physician", :facetable => true, :label => "#{plab}:Refused By Physician?",
+		o.add_sunspot_column( :"#{pkey}__refused_by_physician", :facetable => true, :label => "#{plab}:Refused By Physician?",
 			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
 				( e.try(:refused_by_physician).present? ) ? ( e.try(:refused_by_physician) ? 'Yes' : 'No' ) : nil } )
-		add_sunspot_column( :"#{pkey}__refused_by_family", :facetable => true, :label => "#{plab}:Refused By Family?",
+		o.add_sunspot_column( :"#{pkey}__refused_by_family", :facetable => true, :label => "#{plab}:Refused By Family?",
 			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
 				( e.try(:refused_by_family).present? ) ? ( e.try(:refused_by_family) ? 'Yes' : 'No' ) : nil } )
-		add_sunspot_column( :"#{pkey}__tracing_status", :facetable => true, :label => "#{plab}:Tracing Status",
+		o.add_sunspot_column( :"#{pkey}__tracing_status", :facetable => true, :label => "#{plab}:Tracing Status",
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:tracing_status).nilify_blank } )
-		add_sunspot_column( :"#{pkey}__vaccine_authorization_received_on", :type => :date,
+		o.add_sunspot_column( :"#{pkey}__vaccine_authorization_received_on", :type => :date,
 			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(
 				:vaccine_authorization_received_at).try(:to_date).try(:strftime,'%m/%d/%Y') } )
+		end	#	with_options(:group => pkey) do |o|
 	end	#	Project.all
 
 
