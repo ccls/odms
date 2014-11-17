@@ -45,7 +45,9 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should save a User as entry_1_by" do
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
-			abstract = FactoryGirl.create(:abstract,:entry_1_by => FactoryGirl.create(:user))
+			#abstract = FactoryGirl.create(:abstract,:entry_1_by => FactoryGirl.create(:user))
+			#	4.1.8 won't allow the direct use of entry_1_by
+			abstract = FactoryGirl.create(:abstract,:current_user => FactoryGirl.create(:user))
 			assert abstract.entry_1_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
@@ -53,7 +55,9 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should save a User as entry_2_by" do
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
-			abstract = FactoryGirl.create(:abstract,:entry_2_by => FactoryGirl.create(:user))
+			#abstract = FactoryGirl.create(:abstract,:entry_2_by => FactoryGirl.create(:user))
+			#	4.1.8 won't allow the direct use of entry_2_by
+			abstract = FactoryGirl.create(:abstract,:current_user => FactoryGirl.create(:user))
 			assert abstract.entry_2_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
