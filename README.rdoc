@@ -718,6 +718,8 @@ rails really caches like that.
  script/rails server -d -p 3000 -e production
 
 
+Testing passenger (gem)
+ sudo C_INCLUDE_PATH=/opt/local/include passenger start
 
 
 
