@@ -701,6 +701,30 @@ And we've changed to use mariadb, so start that manually as well ...
 
 
 ---
+== Passenger Notes
+
+gem install passenger (don't put in Gemfile, for some reason)
+
+Testing passenger locally
+ (first time, it takes a few minutes as is compiling.)
+ (creates ~/.passenger/ containing compiled code.)
+ (after that, C_INCLUDE_PATH doesn't need set.)
+ setenv C_INCLUDE_PATH /opt/local/include
+ passenger start
+
+Create and edit ..
+	nginx.conf.erb
+	passenger-standalone.json
+
+To run on port 80, MUST sudo
+
+Is this "poodle vulnerable"? ssl_protocols can be controlled in nginx.conf
+
+Seems Gary found a fix for the poodle vulnerability 
+making the usage of Passenger unnecessary.
+
+
+---
 == Quick Production Notes
 
 Unfortunately, killing the server could result in lost data that
@@ -717,9 +741,6 @@ rails really caches like that.
  bundle exec rake sunspot:solr:start
  script/rails server -d -p 3000 -e production
 
-
-Testing passenger (gem)
- sudo C_INCLUDE_PATH=/opt/local/include passenger start
 
 
 
