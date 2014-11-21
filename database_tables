@@ -834,7 +834,6 @@ Table: interviews
 | language_id                      | int(11)      | YES  |     | NULL    |                |
 | respondent_first_name            | varchar(255) | YES  |     | NULL    |                |
 | respondent_last_name             | varchar(255) | YES  |     | NULL    |                |
-| subject_relationship_id          | int(11)      | YES  |     | NULL    |                |
 | other_subject_relationship       | varchar(255) | YES  |     | NULL    |                |
 | intro_letter_sent_on             | date         | YES  |     | NULL    |                |
 | consent_read_over_phone          | tinyint(1)   | YES  |     | NULL    |                |
@@ -844,6 +843,7 @@ Table: interviews
 | ended_at                         | datetime     | YES  |     | NULL    |                |
 | created_at                       | datetime     | NO   |     | NULL    |                |
 | updated_at                       | datetime     | NO   |     | NULL    |                |
+| subject_relationship             | varchar(255) | YES  |     | NULL    |                |
 +----------------------------------+--------------+------+-----+---------+----------------+
 Table: languages
 +-------------+--------------+------+-----+---------+----------------+
@@ -1259,7 +1259,7 @@ Table: study_subjects
 | needs_reindexed             | tinyint(1)   | YES  | MUL | 0       |                |
 | abstracts_count             | int(11)      | YES  |     | 0       |                |
 | enrollments_count           | int(11)      | YES  |     | 0       |                |
-| replication_id              | int(11)      | YES  |     | NULL    |                |
+| replication_id              | int(11)      | YES  | MUL | NULL    |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+
@@ -1284,17 +1284,6 @@ Table: subject_races
 | created_at       | datetime     | NO   |     | NULL    |                |
 | updated_at       | datetime     | NO   |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
-Table: subject_relationships
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | NO   | UNI | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: users
 +-----------------+--------------+------+-----+---------+----------------+
 | Field           | Type         | Null | Key | Default | Extra          |

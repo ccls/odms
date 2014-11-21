@@ -10,16 +10,16 @@
 #
 complete:
   id: 1
-  project_id: 1
+#  project_id: 1
   key: complete
   description: complete
 closed:
   id: 2
-  project_id: 1
+#  project_id: 1
   key: closed
   description: closed prior to completion
 open:
   id: 3
-  project_id: 1
+#  project_id: 1
   key: open
   description: open (pending)

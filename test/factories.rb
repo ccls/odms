@@ -129,20 +129,6 @@ FactoryGirl.define do
 		f.updated_at Time.now	#	to make it dirty
 	end
 
-#	factory :address do |f|
-#		f.address_type 'Residence'
-#		f.sequence(:line_1) { |n| "Box #{n}" }
-#		f.city "Berkeley"
-#		f.state "CA"
-#		f.zip "12345"
-#	end
-#	factory :mailing_address, :parent => :address do |f|
-#		f.address_type 'Mailing'
-#	end
-#	factory :residence_address, :parent => :address do |f|
-#		f.address_type 'Residence'
-#	end
-	
 	factory :address do |f|
 		f.association :study_subject
 		f.address_type 'Residence'
@@ -173,14 +159,8 @@ FactoryGirl.define do
 		f.current_address { YNDK[:yes] }
 	end
 	
-#	factory :address_type do |f|
-#		f.sequence(:key) { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
 	factory :aliquot do |f|
 		f.association :sample
-#		f.association :unit
 		f.association :owner, :factory => :organization
 	end
 	
@@ -213,18 +193,6 @@ FactoryGirl.define do
 	factory :bogus_birth_datum, :parent => :birth_datum do |f|
 		f.case_control_flag 'bogus'
 	end
-	#factory :birth_datum_update do |f|
-	#	f.csv_file Rack::Test::UploadedFile.new( 
-	#		'test/assets/empty_birth_datum_update_test_file.csv', 'text/csv')
-	#end
-	#factory :empty_birth_datum_update, 
-	#	:parent => :birth_datum_update do |f|
-	#end
-	#factory :one_record_birth_datum_update, 
-	#	:parent => :birth_datum_update do |f|
-	#	f.csv_file Rack::Test::UploadedFile.new( 
-	#		'test/assets/one_record_birth_datum_update_test_file.csv', 'text/csv')
-	#end
 	
 	factory :candidate_control do |f|
 		f.reject_candidate false
@@ -234,35 +202,10 @@ FactoryGirl.define do
 		f.rejection_reason "Some test reason"
 	end
 	
-	#factory :context do |f|
-	#	f.sequence(:key)         { |n| "Key#{n}" }
-	#	f.sequence(:description) { |n| "Desc#{n}" }
-	#end
-	#
-	#factory :context_contextable do |f|
-	#	f.association :context
-	##
-	##	This is polymorphic, and data source is just one example
-	##	of a contextable that it referenced from Context.
-	##	Could be any model though.
-	##
-	#	f.association :contextable, :factory => :data_source
-	#end
-	
 	factory :county do |f|
 		f.sequence(:name){ |n| "Name #{n}" }
 		f.state_abbrev 'XX'
 	end
-	
-#	factory :data_source do |f|
-#		f.sequence(:key)         { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
-#	factory :diagnosis do |f|
-#		f.sequence(:key)         { |n| "Key#{n}"}
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
 	
 	factory :document_type do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
@@ -326,29 +269,6 @@ FactoryGirl.define do
 	factory :icf_master_id do |f|
 	end
 	
-	#factory :icf_master_tracker do |f|
-	#	f.sequence(:master_id){|n| "#{n}"}	#	in order to test uniqueness, MUST BE HERE
-	#	f.master_tracker_date Date.current	#	virtual attribute needed for Change
-	#end
-	#factory :icf_master_tracker_change do |f|
-	#	f.master_tracker_date Date.current
-	#	f.sequence(:icf_master_id){|n| "#{n}"}
-	#end
-	#factory :icf_master_tracker_update do |f|
-	##	f.master_tracker_date Date.current
-	#	f.sequence(:master_tracker_date){|n| Date.jd( 2440000 + n ) }
-	#	f.csv_file Rack::Test::UploadedFile.new( 
-	#		'test/assets/empty_icf_master_tracker_update_test_file.csv', 'text/csv')
-	#end
-	#factory :empty_icf_master_tracker_update, 
-	#	:parent => :icf_master_tracker_update do |f|
-	#end
-	#factory :one_record_icf_master_tracker_update, 
-	#	:parent => :icf_master_tracker_update do |f|
-	#	f.csv_file Rack::Test::UploadedFile.new( 
-	#		'test/assets/one_record_icf_master_tracker_update_test_file.csv', 'text/csv')
-	#end
-	
 	factory :ineligible_reason do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
 		f.sequence(:description) { |n| "Desc#{n}" }
@@ -399,20 +319,6 @@ FactoryGirl.define do
 		f.sequence(:key)         { |n| "Key#{n}" }
 		f.sequence(:description) { |n| "Desc#{n}" }
 	end
-	
-#	factory :odms_exception do |f|
-#		#
-#		#	This is polymorphic, and birth datum is just one example
-#		#	of a exceptable.  Could be any model though. (if coded)
-#		#
-#		#	the creation of a birth_datum_update shouldn't
-#		#		create another odms_exception_exceptable.
-#		#		(a birth_datum will unless prepared)
-#	#	f.association :exceptable, :factory => :birth_datum_update
-#	#	f.association :exceptable, :factory => :birth_datum
-#		f.association :exceptable, :factory => :candidate_control
-#	end
-	
 	
 	factory :operational_event do |f|
 	end
@@ -495,16 +401,6 @@ FactoryGirl.define do
 		f.is_primary false
 	end
 	
-#	factory :phone_type do |f|
-#		f.sequence(:key)  { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
-#	factory :project_outcome do |f|
-#		f.sequence(:key)         { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
 	factory :project do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
 		f.sequence(:label)       { |n| "Label#{n}" }
@@ -541,11 +437,6 @@ FactoryGirl.define do
 		f.association :organization
 	end
 	
-#	factory :sample_format do |f|
-#		f.sequence(:key) { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
 	factory :sample_transfer do |f|
 		f.association :sample
 	end
@@ -556,11 +447,6 @@ FactoryGirl.define do
 		f.status 'waitlist'
 	end
 	
-#	factory :sample_temperature do |f|
-#		f.sequence(:key) { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
 	factory :sample_type do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
 		f.sequence(:description) { |n| "Desc#{n}" }
@@ -569,31 +455,6 @@ FactoryGirl.define do
 	factory :sample_type_parent, :parent => :sample_type do |f|
 		f.parent nil
 	end
-	
-	#factory :screening_datum do |f|
-	##
-	##	These are not required, but without them, conversion to subject will fail
-	##
-	#	f.sequence(:dob) { random_date }
-	#	f.sequence(:sex) { random_sex }
-	#end
-	#factory :screening_datum_update do |f|
-	#	f.csv_file Rack::Test::UploadedFile.new( 
-	#		'test/assets/empty_screening_datum_update_test_file.csv', 'text/csv')
-	#end
-	#factory :empty_screening_datum_update, 
-	#	:parent => :screening_datum_update do |f|
-	#end
-	#factory :one_record_screening_datum_update, 
-	#	:parent => :screening_datum_update do |f|
-	#	f.csv_file Rack::Test::UploadedFile.new( 
-	#		'test/assets/one_record_screening_datum_update_test_file.csv', 'text/csv')
-	#end
-	
-#	factory :section do |f|
-#		f.sequence(:key)         { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
 	
 	factory :state do |f|
 		f.sequence(:code) { |n| "Code#{n}" }
@@ -612,7 +473,6 @@ FactoryGirl.define do
 	end
 	
 	factory :study_subject do |f|
-#		f.association :subject_type
 		f.subject_type 'Control'
 		f.sequence(:sex) { random_sex }
 		f.sequence(:email){|n| "email#{n}@example.com"}	#	required here only to test uniqueness
@@ -627,7 +487,6 @@ FactoryGirl.define do
 		f.sequence(:idno_wiemels){|n| "#{n}"}
 	end
 	factory :case_study_subject, :parent => :study_subject do |f|
-#		f.subject_type { SubjectType['Case'] }
 		f.subject_type 'Case'
 		f.case_control_type 'c'
 	end
@@ -654,13 +513,11 @@ FactoryGirl.define do
 		f.patient_attributes { FactoryGirl.attributes_for(:nonwaivered_patient) }
 	end
 	factory :control_study_subject, :parent => :study_subject do |f|
-#		f.subject_type { SubjectType['Control'] }
 		f.subject_type 'Control'
 	end
 	factory :complete_control_study_subject, :parent => :control_study_subject do |f|
 	end
 	factory :mother_study_subject, :parent => :study_subject do |f|
-#		f.subject_type { SubjectType['Mother'] }
 		f.subject_type 'Mother'
 		f.sex 'F'
 		f.case_control_type 'm'
@@ -669,11 +526,9 @@ FactoryGirl.define do
 	end
 	
 	factory :father_study_subject, :parent => :study_subject do |f|
-#		f.subject_type { SubjectType['Father'] }
 		f.subject_type 'Father'
 	end
 	factory :twin_study_subject, :parent => :study_subject do |f|
-#		f.subject_type { SubjectType['Twin'] }
 		f.subject_type 'Twin'
 	end
 	
@@ -686,38 +541,6 @@ FactoryGirl.define do
 		f.association :study_subject
 		f.association :race
 	end
-	
-	factory :subject_relationship do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
-	
-#	factory :subject_type do |f|
-#		f.sequence(:key)         { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
-#	factory :tracing_status do |f|
-#		f.sequence(:key)         { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
-#	factory :transfer do |f|
-#		f.association :from_organization, :factory => :organization
-#		f.association :to_organization,   :factory => :organization
-#		f.association :aliquot
-#	end
-	
-#	factory :unit do |f|
-#		f.sequence(:key)         { |n| "Key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
-	
-#	factory :vital_status do |f|
-#		f.sequence(:code)        { |n| 1000 + n }	#	fixtures only go up to 4, nevertheless
-#		f.sequence(:key)         { |n| "key#{n}" }
-#		f.sequence(:description) { |n| "Desc#{n}" }
-#	end
 	
 	factory :zip_code do |f|
 		f.sequence(:zip_code){ |n| sprintf("X%04d",n) }

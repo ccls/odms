@@ -141,7 +141,6 @@ Odms::Application.routes.draw do
 		member     { put :update_status }
 	end
 	resources :sample_types
-	resources :subject_relationships
 	resources :zip_codes, :only => [ :index ]
 
 	get 'logout', :to => 'sessions#destroy'

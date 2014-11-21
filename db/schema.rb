@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009193705) do
+ActiveRecord::Schema.define(version: 20141121102837) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -816,7 +816,6 @@ ActiveRecord::Schema.define(version: 20141009193705) do
     t.integer  "language_id"
     t.string   "respondent_first_name"
     t.string   "respondent_last_name"
-    t.integer  "subject_relationship_id"
     t.string   "other_subject_relationship"
     t.date     "intro_letter_sent_on"
     t.boolean  "consent_read_over_phone"
@@ -826,6 +825,7 @@ ActiveRecord::Schema.define(version: 20141009193705) do
     t.datetime "ended_at"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "subject_relationship"
   end
 
   add_index "interviews", ["study_subject_id"], name: "index_interviews_on_study_subject_id", using: :btree
@@ -1273,17 +1273,6 @@ ActiveRecord::Schema.define(version: 20141009193705) do
   end
 
   add_index "subject_races", ["study_subject_id"], name: "index_subject_races_on_study_subject_id", using: :btree
-
-  create_table "subject_relationships", force: true do |t|
-    t.integer  "position"
-    t.string   "key",         null: false
-    t.string   "description", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "subject_relationships", ["description"], name: "index_subject_relationships_on_description", unique: true, using: :btree
-  add_index "subject_relationships", ["key"], name: "index_subject_relationships_on_key", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "uid"

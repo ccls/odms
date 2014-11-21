@@ -4,13 +4,11 @@ class InterviewTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_initially_belong_to(:study_subject)
-#	assert_should_belong_to( :address, :instrument_version,
 	assert_should_belong_to( :instrument_version,
-		:interview_method, :language, :subject_relationship )
+		:interview_method, :language )
 	assert_should_belong_to( :interviewer, :class_name => 'Person')
 
 
-#	attributes = %w( address_id began_at consent_read_over_phone 
 	attributes = %w( began_at consent_read_over_phone 
 		consent_reviewed_with_respondent ended_at instrument_version_id 
 		interview_method_id interviewer_id intro_letter_sent_on language_id 
@@ -22,6 +20,7 @@ class InterviewTest < ActiveSupport::TestCase
 	assert_should_not_protect( attributes - protected_attributes )
 
 	assert_should_require_attribute_length( 
+		:subject_relationship, 
 		:other_subject_relationship, 
 		:respondent_first_name,
 		:respondent_last_name, 
@@ -131,7 +130,7 @@ class InterviewTest < ActiveSupport::TestCase
 	test "should require other_subject_relationship if " <<
 			"subject_relationship == other" do
 		interview = Interview.new(
-			:subject_relationship => SubjectRelationship['other'] )
+			:subject_relationship => "other" )
 		assert !interview.valid?
 		assert interview.errors.include?(:other_subject_relationship)
 	end
@@ -139,7 +138,7 @@ class InterviewTest < ActiveSupport::TestCase
 	test "should NOT ALLOW other_subject_relationship if " <<
 			"subject_relationship is blank" do
 		interview = Interview.new(
-			:subject_relationship_id => '',
+			:subject_relationship => '',
 			:other_subject_relationship => 'asdfasdf' )
 		assert !interview.valid?
 		assert interview.errors.include?(:other_subject_relationship)
@@ -148,7 +147,7 @@ class InterviewTest < ActiveSupport::TestCase
 	test "should ALLOW other_subject_relationship if " <<
 			"subject_relationship != other" do
 		interview = Interview.new(
-			:subject_relationship => FactoryGirl.create(:subject_relationship),
+			:subject_relationship => 'not other',
 			:other_subject_relationship => 'asdfasdf' )
 		interview.valid?
 		assert !interview.errors.include?(:other_subject_relationship)
@@ -156,7 +155,7 @@ class InterviewTest < ActiveSupport::TestCase
 
 	test "should require other_subject_relationship with custom message" do
 		interview = Interview.new(
-			:subject_relationship => SubjectRelationship['other'] )
+			:subject_relationship => 'Other' )
 		assert !interview.valid?
 		assert  interview.errors.include?(:other_subject_relationship)
 		assert_match /You must specify a relationship with 'other relationship' is selected/, 

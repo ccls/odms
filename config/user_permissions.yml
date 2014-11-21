@@ -34,7 +34,6 @@ administrator_resources:
   - sample_outcomes 
   - sample_types 
   - screening_data
-  - subject_relationships 
   - units 
 
 #	only editors and above can read, create, edit or destroy
