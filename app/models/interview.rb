@@ -18,10 +18,6 @@ class Interview < ActiveRecord::Base
 	belongs_to :instrument_version
 	belongs_to :interview_method
 	belongs_to :language
-#	belongs_to :subject_relationship
-
-#	delegate :is_other?, :to => :subject_relationship, :allow_nil => true, :prefix => true
-
 
 	def self.valid_subject_relationships
 		["Subject's mother", "Subject's father", "Subject's grandparent", 
@@ -51,11 +47,6 @@ class Interview < ActiveRecord::Base
 	end
 
 protected
-
-#	#	what's this for? I don't see it called anywhere.
-#	def subject_relationship_id_blank?
-#		subject_relationship_id.blank?
-#	end
 
 	#	used in validations (although thought this was handled in method missing?
 	def subject_relationship_blank?

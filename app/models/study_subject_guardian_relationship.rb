@@ -9,12 +9,6 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-#	belongs_to :guardian_relationship, :class_name => 'SubjectRelationship'
-#
-#	#	generates guardian_relationship_is_other? method
-#	delegate :is_other?, :to => :guardian_relationship, 
-#		:allow_nil => true, :prefix => true 
-
 	def self.valid_guardian_relationships
 		["Subject's mother", "Subject's father", "Subject's grandparent", 
 			"Subject's foster parent", "Subject's twin", "Other relationship to Subject", 
