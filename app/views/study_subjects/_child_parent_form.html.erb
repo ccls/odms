@@ -32,8 +32,12 @@
    <span><%= f.text_field :guardian_first_name %></span>
    <span><%= f.text_field :guardian_middle_name %></span>
    <span><%= f.text_field :guardian_last_name %></span>
-   <span class='big'><%= f.collection_select :guardian_relationship_id,
+   <span class='big'><%#= f.collection_select :guardian_relationship_id,
   		SubjectRelationship.all, :id, :to_s, :include_blank => true %>
+			<%= f.select :guardian_relationship,
+				@study_subject.guardian_relationships,
+				:include_blank => true,
+				:label_text => 'vital status:' %>
    </span>
    <span><%= f.text_field :other_guardian_relationship %></span>
   </div><!-- class='guardian tablerow' -->

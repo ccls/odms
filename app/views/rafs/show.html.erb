@@ -99,7 +99,7 @@
 <%= wrapped_spans :study_subject, :fathers_name %>
 <%= wrapped_spans :study_subject, :guardians_name %>
 <%= wrapped_spans :study_subject, :guardian_relationship %>
-<% if @study_subject.try(:guardian_relationship).try(:is_other?) ||
+<% if @study_subject.try(:guardian_relationship_is_other?) ||
 	!@study_subject.other_guardian_relationship.blank? %>
 <%= wrapped_spans :study_subject, :other_guardian_relationship %>
 <% end %>
