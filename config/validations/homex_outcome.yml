@@ -6,12 +6,12 @@
 -
   :attribute: :sample_outcome_on
   :presence: true
-  :if: :sample_outcome_id?
+  :if: :sample_outcome?
 
 -
   :attribute: :interview_outcome_on
   :presence: true
-  :if: :interview_outcome_id?
+  :if: :interview_outcome?
 
 -
   :attributes:

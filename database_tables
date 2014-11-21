@@ -529,7 +529,6 @@ Table: enrollments
 | reason_closed                     | varchar(255) | YES  |     | NULL    |                |
 | notes                             | text         | YES  |     | NULL    |                |
 | document_version_id               | int(11)      | YES  |     | NULL    |                |
-| project_outcome_id                | int(11)      | YES  |     | NULL    |                |
 | project_outcome_on                | date         | YES  |     | NULL    |                |
 | use_smp_future_rsrch              | int(11)      | YES  |     | NULL    |                |
 | use_smp_future_cancer_rsrch       | int(11)      | YES  |     | NULL    |                |
@@ -546,6 +545,7 @@ Table: enrollments
 | interview_completed_on            | date         | YES  |     | NULL    |                |
 | tracing_status                    | varchar(255) | YES  |     | NULL    |                |
 | vaccine_authorization_received_at | datetime     | YES  |     | NULL    |                |
+| project_outcome                   | varchar(255) | YES  |     | NULL    |                |
 +-----------------------------------+--------------+------+-----+---------+----------------+
 Table: guides
 +------------+--------------+------+-----+---------+----------------+
@@ -690,19 +690,19 @@ Table: home_exposure_responses
 | updated_at                         | datetime     | NO   |     | NULL    |                |
 +------------------------------------+--------------+------+-----+---------+----------------+
 Table: homex_outcomes
-+----------------------+----------+------+-----+---------+----------------+
-| Field                | Type     | Null | Key | Default | Extra          |
-+----------------------+----------+------+-----+---------+----------------+
-| id                   | int(11)  | NO   | PRI | NULL    | auto_increment |
-| position             | int(11)  | YES  |     | NULL    |                |
-| study_subject_id     | int(11)  | YES  | UNI | NULL    |                |
-| sample_outcome_id    | int(11)  | YES  |     | NULL    |                |
-| sample_outcome_on    | date     | YES  |     | NULL    |                |
-| interview_outcome_id | int(11)  | YES  |     | NULL    |                |
-| interview_outcome_on | date     | YES  |     | NULL    |                |
-| created_at           | datetime | NO   |     | NULL    |                |
-| updated_at           | datetime | NO   |     | NULL    |                |
-+----------------------+----------+------+-----+---------+----------------+
++----------------------+--------------+------+-----+---------+----------------+
+| Field                | Type         | Null | Key | Default | Extra          |
++----------------------+--------------+------+-----+---------+----------------+
+| id                   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| position             | int(11)      | YES  |     | NULL    |                |
+| study_subject_id     | int(11)      | YES  | UNI | NULL    |                |
+| sample_outcome_on    | date         | YES  |     | NULL    |                |
+| interview_outcome_on | date         | YES  |     | NULL    |                |
+| created_at           | datetime     | NO   |     | NULL    |                |
+| updated_at           | datetime     | NO   |     | NULL    |                |
+| interview_outcome    | varchar(255) | YES  |     | NULL    |                |
+| sample_outcome       | varchar(255) | YES  |     | NULL    |                |
++----------------------+--------------+------+-----+---------+----------------+
 Table: hospitals
 +-----------------+------------+------+-----+---------+----------------+
 | Field           | Type       | Null | Key | Default | Extra          |
@@ -799,17 +799,6 @@ Table: interview_assignments
 | updated_at            | datetime     | NO   |     | NULL    |                |
 +-----------------------+--------------+------+-----+---------+----------------+
 Table: interview_methods
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
-Table: interview_outcomes
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |
 +-------------+--------------+------+-----+---------+----------------+
@@ -982,18 +971,6 @@ Table: phone_numbers
 | phone_type        | varchar(255) | YES  |     | NULL    |                |
 | data_source       | varchar(255) | YES  |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
-Table: project_outcomes
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| project_id  | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: projects
 +----------------------+--------------+------+-----+---------+----------------+
 | Field                | Type         | Null | Key | Default | Extra          |
@@ -1071,17 +1048,6 @@ Table: sample_locations
 | created_at      | datetime   | NO   |     | NULL    |                |
 | updated_at      | datetime   | NO   |     | NULL    |                |
 +-----------------+------------+------+-----+---------+----------------+
-Table: sample_outcomes
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| position    | int(11)      | YES  |     | NULL    |                |
-| key         | varchar(255) | NO   | UNI | NULL    |                |
-| description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
 Table: sample_transfers
 +--------------------+--------------+------+-----+---------+----------------+
 | Field              | Type         | Null | Key | Default | Extra          |
@@ -1260,6 +1226,7 @@ Table: study_subjects
 | abstracts_count             | int(11)      | YES  |     | 0       |                |
 | enrollments_count           | int(11)      | YES  |     | 0       |                |
 | replication_id              | int(11)      | YES  | MUL | NULL    |                |
+| guardian_relationship       | varchar(255) | YES  |     | NULL    |                |
 +-----------------------------+--------------+------+-----+---------+----------------+
 Table: subject_languages
 +------------------+--------------+------+-----+---------+----------------+

@@ -110,7 +110,6 @@ Odms::Application.routes.draw do
 	resources :ineligible_reasons
 	resources :instruments
 	resources :interview_methods
-	resources :interview_outcomes
 	resources :languages
 	resources :medical_record_requests, :except => :show do
 		collection { get :confirm }
@@ -135,7 +134,6 @@ Odms::Application.routes.draw do
 	resource  :receive_sample, :only => [:new,:create]
 	resources :refusal_reasons
 	resources :sample_locations
-	resources :sample_outcomes
 	resources :sample_transfers, :only => [:edit,:update,:index,:destroy] do
 		collection { put :confirm }
 		member     { put :update_status }

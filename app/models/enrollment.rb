@@ -83,6 +83,9 @@ class Enrollment < ActiveRecord::Base
 		["Subject Tracing In Progress", "Subject Found", "Unable To Locate", "Unknown Tracing Status"]
 	end
 
+	def self.valid_project_outcomes
+		["complete", "closed prior to completion", "open (pending)"]
+	end
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
 	#	This will allow an existing invalid value to show on the selector,
@@ -91,6 +94,9 @@ class Enrollment < ActiveRecord::Base
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def tracing_statuses
 		([self.tracing_status] + self.class.valid_tracing_statuses ).compact.uniq
+	end
+	def project_outcomes
+		([self.project_outcomes] + self.class.valid_project_outcomes ).compact.uniq
 	end
 
 	validations_from_yaml_file

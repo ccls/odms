@@ -62,7 +62,7 @@ FactoryGirl.define do
 		f.father_first_name ''
 		f.father_middle_name ''
 		f.father_last_name ''
-		f.guardian_relationship_id ''
+		f.guardian_relationship ''
 		f.other_guardian_relationship ''
 		f.guardian_first_name ''
 		f.guardian_middle_name ''

@@ -15,9 +15,9 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 	assert_should_not_require_attributes( 
 		:position,
 		:study_subject_id,
-		:sample_outcome_id,
+		:sample_outcome,
 		:sample_outcome_on,
-		:interview_outcome_id,
+		:interview_outcome,
 		:interview_outcome_on )
 
 
@@ -40,18 +40,18 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "should require interview_outcome_on if interview_outcome_id?" do
+	test "should require interview_outcome_on if interview_outcome?" do
 		homex_outcome = HomexOutcome.new(
 			:interview_outcome_on => nil,
-			:interview_outcome_id => InterviewOutcome.first.id)
+			:interview_outcome    => 'hi there')
 		assert !homex_outcome.valid?
 		assert homex_outcome.errors.include?(:interview_outcome_on)
 	end
 
-	test "should require sample_outcome_on if sample_outcome_id?" do
+	test "should require sample_outcome_on if sample_outcome?" do
 		homex_outcome = HomexOutcome.new(
 			:sample_outcome_on => nil,
-			:sample_outcome_id => SampleOutcome.first.id)
+			:sample_outcome    => 'hello yourself')
 		assert !homex_outcome.valid?
 		assert homex_outcome.errors.include?(:sample_outcome_on)
 	end
@@ -63,7 +63,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference('OperationalEvent.count',1) do
 			homex_outcome.update_attributes(
 				:interview_outcome_on => past_date,
-				:interview_outcome    => InterviewOutcome['scheduled'])
+				:interview_outcome    => 'scheduled')
 		end
 		oe = OperationalEvent.last
 		assert_equal 'scheduled', oe.operational_event_type.key
@@ -78,7 +78,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference('OperationalEvent.count',1) do
 			homex_outcome.update_attributes(
 				:interview_outcome_on => past_date,
-				:interview_outcome    => InterviewOutcome['complete'])
+				:interview_outcome    => 'complete')
 		end
 		oe = OperationalEvent.last
 		assert_equal 'iv_complete', oe.operational_event_type.key
@@ -94,7 +94,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_raises(HomexOutcome::NoHomeExposureEnrollment){
 			homex_outcome.update_attributes(
 				:interview_outcome_on => Date.parse('Jan 15 2003'),
-				:interview_outcome    => InterviewOutcome['complete'])
+				:interview_outcome    => 'complete')
 		}
 	end
 
@@ -105,7 +105,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference('OperationalEvent.count',1) do
 			homex_outcome.update_attributes(
 				:sample_outcome_on => past_date,
-				:sample_outcome    => SampleOutcome['sent'])
+				:sample_outcome    => 'sent')
 		end
 		oe = OperationalEvent.last
 		assert_equal 'kit_sent', oe.operational_event_type.key
@@ -120,7 +120,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference('OperationalEvent.count',1) do
 			homex_outcome.update_attributes(
 				:sample_outcome_on => past_date,
-				:sample_outcome    => SampleOutcome['received'])
+				:sample_outcome    => 'received')
 		end
 		oe = OperationalEvent.last
 		assert_equal 'sample_received', oe.operational_event_type.key
@@ -135,7 +135,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference('OperationalEvent.count',1) do
 			homex_outcome.update_attributes(
 				:sample_outcome_on => past_date,
-				:sample_outcome    => SampleOutcome['complete'])
+				:sample_outcome    => 'complete')
 		end
 		oe = OperationalEvent.last
 		assert_equal 'sample_complete', oe.operational_event_type.key
@@ -151,7 +151,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_raises(HomexOutcome::NoHomeExposureEnrollment){
 			homex_outcome.update_attributes(
 				:sample_outcome_on => Date.parse('Jan 15 2003'),
-				:sample_outcome    => SampleOutcome['complete'])
+				:sample_outcome    => 'complete')
 		}
 	end
 

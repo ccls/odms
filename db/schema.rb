@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141121102837) do
+ActiveRecord::Schema.define(version: 20141121214704) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -519,7 +519,6 @@ ActiveRecord::Schema.define(version: 20141121102837) do
     t.string   "reason_closed"
     t.text     "notes"
     t.integer  "document_version_id"
-    t.integer  "project_outcome_id"
     t.date     "project_outcome_on"
     t.integer  "use_smp_future_rsrch"
     t.integer  "use_smp_future_cancer_rsrch"
@@ -536,6 +535,7 @@ ActiveRecord::Schema.define(version: 20141121102837) do
     t.date     "interview_completed_on"
     t.string   "tracing_status"
     t.datetime "vaccine_authorization_received_at"
+    t.string   "project_outcome"
   end
 
   add_index "enrollments", ["project_id", "study_subject_id"], name: "index_enrollments_on_project_id_and_study_subject_id", unique: true, using: :btree
@@ -684,12 +684,12 @@ ActiveRecord::Schema.define(version: 20141121102837) do
   create_table "homex_outcomes", force: true do |t|
     t.integer  "position"
     t.integer  "study_subject_id"
-    t.integer  "sample_outcome_id"
     t.date     "sample_outcome_on"
-    t.integer  "interview_outcome_id"
     t.date     "interview_outcome_on"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.string   "interview_outcome"
+    t.string   "sample_outcome"
   end
 
   add_index "homex_outcomes", ["study_subject_id"], name: "index_homex_outcomes_on_study_subject_id", unique: true, using: :btree
@@ -795,16 +795,6 @@ ActiveRecord::Schema.define(version: 20141121102837) do
   end
 
   add_index "interview_methods", ["key"], name: "index_interview_methods_on_key", unique: true, using: :btree
-
-  create_table "interview_outcomes", force: true do |t|
-    t.integer  "position"
-    t.string   "key",         null: false
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "interview_outcomes", ["key"], name: "index_interview_outcomes_on_key", unique: true, using: :btree
 
   create_table "interviews", force: true do |t|
     t.integer  "position"
@@ -962,17 +952,6 @@ ActiveRecord::Schema.define(version: 20141121102837) do
 
   add_index "phone_numbers", ["study_subject_id"], name: "index_phone_numbers_on_study_subject_id", using: :btree
 
-  create_table "project_outcomes", force: true do |t|
-    t.integer  "position"
-    t.integer  "project_id"
-    t.string   "key",         null: false
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "project_outcomes", ["key"], name: "index_project_outcomes_on_key", unique: true, using: :btree
-
   create_table "projects", force: true do |t|
     t.integer  "position"
     t.date     "began_on"
@@ -1048,16 +1027,6 @@ ActiveRecord::Schema.define(version: 20141121102837) do
   end
 
   add_index "sample_locations", ["organization_id"], name: "index_sample_locations_on_organization_id", using: :btree
-
-  create_table "sample_outcomes", force: true do |t|
-    t.integer  "position"
-    t.string   "key",         null: false
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "sample_outcomes", ["key"], name: "index_sample_outcomes_on_key", unique: true, using: :btree
 
   create_table "sample_transfers", force: true do |t|
     t.integer  "sample_id"
@@ -1226,6 +1195,7 @@ ActiveRecord::Schema.define(version: 20141121102837) do
     t.integer  "abstracts_count",                        default: 0
     t.integer  "enrollments_count",                      default: 0
     t.integer  "replication_id"
+    t.string   "guardian_relationship"
   end
 
   add_index "study_subjects", ["accession_no"], name: "index_study_subjects_on_accession_no", unique: true, using: :btree
