@@ -39,7 +39,7 @@ class Interview < ActiveRecord::Base
 		([self.subject_relationship] + self.class.valid_subject_relationships ).compact.uniq
 	end
 
-	def is_other?
+	def subject_relationship_is_other?
 		subject_relationship.to_s.match(/^Other/i)
 	end
 
@@ -58,9 +58,9 @@ protected
 #	end
 
 	#	used in validations (although thought this was handled in method missing?
-#	def subject_relationship_blank?
-#		subject_relationship.blank?
-#	end
+	def subject_relationship_blank?
+		subject_relationship.blank?
+	end
 
 end
 __END__
