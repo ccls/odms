@@ -4,10 +4,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_act_as_list
-	assert_should_belong_to( 
-		:study_subject, 
-		:sample_outcome, 
-		:interview_outcome )
+	assert_should_belong_to( :study_subject )
 	assert_should_protect( :study_subject_id, :study_subject )
 	assert_requires_complete_date( 
 		:interview_outcome_on, 
