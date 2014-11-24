@@ -95,8 +95,10 @@ class Enrollment < ActiveRecord::Base
 	def tracing_statuses
 		([self.tracing_status] + self.class.valid_tracing_statuses ).compact.uniq
 	end
+	#	it is my personal opinion that project_outcome should be on 
+	#	project and not enrollment. it makes no sense to be here.
 	def project_outcomes
-		([self.project_outcomes] + self.class.valid_project_outcomes ).compact.uniq
+		([self.project_outcome] + self.class.valid_project_outcomes ).compact.uniq
 	end
 
 	validations_from_yaml_file

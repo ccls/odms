@@ -114,6 +114,12 @@
 
 
 -
+  :attribute: :guardian_relationship
+  :allow_blank: true
+  :inclusion:
+    :in: <%= StudySubject.valid_guardian_relationships %>
+
+-
   :attribute: :other_guardian_relationship
   :presence:
     :message: "You must specify a relationship with 'other relationship' is selected"

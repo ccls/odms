@@ -19,6 +19,10 @@ class StudySubjectTest < ActiveSupport::TestCase
 		{ :good_values => ( YNORDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
+	assert_should_accept_only_good_values( :guardian_relationship,
+		{ :good_values => ( StudySubject.valid_guardian_relationships + [nil] ), 
+			:bad_values  => "I'm not valid" })
+
 	assert_should_create_default_object
 
 #	Cannot include enrollments here due to the creation of one

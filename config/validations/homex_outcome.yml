@@ -20,3 +20,15 @@
   :complete_date: true
   :allow_nil: true
 
+-
+  :attribute: :interview_outcome
+  :allow_blank: true
+  :inclusion:
+    :in: <%= HomexOutcome.valid_interview_outcomes %>
+
+-
+  :attribute: :sample_outcome
+  :allow_blank: true
+  :inclusion:
+    :in: <%= HomexOutcome.valid_sample_outcomes %>
+

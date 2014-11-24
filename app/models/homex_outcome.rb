@@ -45,7 +45,7 @@ protected
 	#	Create OperationalEvent regarding the interview outcome
 	def create_interview_outcome_update
 		operational_event_type = case interview_outcome 
-			when /scheduled/i
+			when 'interview has been scheduled'
 				OperationalEventType['scheduled']
 			when 'complete'
 				OperationalEventType['iv_complete']

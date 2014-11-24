@@ -17,6 +17,13 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		:interview_outcome,
 		:interview_outcome_on )
 
+	assert_should_accept_only_good_values( :interview_outcome,
+		{ :good_values => ( HomexOutcome.valid_interview_outcomes + [nil] ), 
+			:bad_values  => "I'm not valid" })
+
+	assert_should_accept_only_good_values( :sample_outcome,
+		{ :good_values => ( HomexOutcome.valid_sample_outcomes + [nil] ), 
+			:bad_values  => "I'm not valid" })
 
 	test "homex_outcome factory should create homex outcome" do
 		assert_difference('HomexOutcome.count',1) {
@@ -60,7 +67,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference('OperationalEvent.count',1) do
 			homex_outcome.update_attributes(
 				:interview_outcome_on => past_date,
-				:interview_outcome    => 'scheduled')
+				:interview_outcome    => 'interview has been scheduled')
 		end
 		oe = OperationalEvent.last
 		assert_equal 'scheduled', oe.operational_event_type.key
@@ -83,6 +90,28 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_equal homex_outcome.study_subject_id, oe.study_subject_id
 	end
 
+	test "should NOT create operational event when interview 'interview is incomplete'" do
+		homex_outcome = create_complete_homex_outcome
+		#	arbitrary past date
+		past_date = Date.parse('Jan 15 2003')
+		assert_difference('OperationalEvent.count',0) do
+			homex_outcome.update_attributes(
+				:interview_outcome_on => past_date,
+				:interview_outcome    => 'interview is incomplete')
+		end
+	end
+
+	test "should NOT create operational event when interview pending" do
+		homex_outcome = create_complete_homex_outcome
+		#	arbitrary past date
+		past_date = Date.parse('Jan 15 2003')
+		assert_difference('OperationalEvent.count',0) do
+			homex_outcome.update_attributes(
+				:interview_outcome_on => past_date,
+				:interview_outcome    => 'pending')
+		end
+	end
+
 	test "should raise NoHomeExposureEnrollment on create_interview_outcome_update" <<
 			" if no enrollment in HomeExposures" do
 		study_subject = FactoryGirl.create(:study_subject)
@@ -102,7 +131,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference('OperationalEvent.count',1) do
 			homex_outcome.update_attributes(
 				:sample_outcome_on => past_date,
-				:sample_outcome    => 'sent')
+				:sample_outcome    => 'kit sent')
 		end
 		oe = OperationalEvent.last
 		assert_equal 'kit_sent', oe.operational_event_type.key
@@ -117,7 +146,7 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_difference('OperationalEvent.count',1) do
 			homex_outcome.update_attributes(
 				:sample_outcome_on => past_date,
-				:sample_outcome    => 'received')
+				:sample_outcome    => 'sample received')
 		end
 		oe = OperationalEvent.last
 		assert_equal 'sample_received', oe.operational_event_type.key
@@ -140,6 +169,28 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		assert_equal homex_outcome.study_subject_id, oe.study_subject_id
 	end
 
+	test "should NOT create operational event when sample pending" do
+		homex_outcome = create_complete_homex_outcome
+		#	arbitrary past date
+		past_date = Date.parse('Jan 15 2003')
+		assert_difference('OperationalEvent.count',0) do
+			homex_outcome.update_attributes(
+				:sample_outcome_on => past_date,
+				:sample_outcome    => 'pending')
+		end
+	end
+
+	test "should NOT create operational event when sample 'to lab'" do
+		homex_outcome = create_complete_homex_outcome
+		#	arbitrary past date
+		past_date = Date.parse('Jan 15 2003')
+		assert_difference('OperationalEvent.count',0) do
+			homex_outcome.update_attributes(
+				:sample_outcome_on => past_date,
+				:sample_outcome    => 'to lab')
+		end
+	end
+
 	test "should raise NoHomeExposureEnrollment on create_sample_outcome_update" <<
 			" if no enrollment in HomeExposures" do
 		study_subject = FactoryGirl.create(:study_subject)
@@ -150,6 +201,16 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 				:sample_outcome_on => Date.parse('Jan 15 2003'),
 				:sample_outcome    => 'complete')
 		}
+	end
+
+	test "should return an array for interview_outcomes" do
+		homex_outcome = HomexOutcome.new
+		assert homex_outcome.interview_outcomes.is_a? Array
+	end
+
+	test "should return an array for sample_outcomes" do
+		homex_outcome = HomexOutcome.new
+		assert homex_outcome.sample_outcomes.is_a? Array
 	end
 
 protected

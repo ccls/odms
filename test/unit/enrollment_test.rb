@@ -19,6 +19,10 @@ class EnrollmentTest < ActiveSupport::TestCase
 		{ :good_values => ( Enrollment.valid_tracing_statuses + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
+	assert_should_accept_only_good_values( :project_outcome,
+		{ :good_values => ( Enrollment.valid_project_outcomes + [nil] ), 
+			:bad_values  => "I'm not valid" })
+
 	assert_should_create_default_object
 	assert_should_protect(:study_subject_id, :study_subject)
 
@@ -610,6 +614,12 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert !study_subject.reload.needs_reindexed
 		enrollment.update_attributes(:notes => "something to make it dirty")
 		assert  study_subject.reload.needs_reindexed
+	end
+
+
+	test "should return an array for project_outcomes" do
+		enrollment = Enrollment.new
+		assert enrollment.project_outcomes.is_a? Array
 	end
 
 protected

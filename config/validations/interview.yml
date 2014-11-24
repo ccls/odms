@@ -48,3 +48,10 @@
   - :intro_letter_sent_on
   :complete_date: true
   :allow_nil: true
+
+-
+  :attribute: :subject_relationship
+  :allow_blank: true
+  :inclusion:
+    :in: <%= Interview.valid_subject_relationships %>
+

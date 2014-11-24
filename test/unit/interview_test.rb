@@ -8,6 +8,9 @@ class InterviewTest < ActiveSupport::TestCase
 		:interview_method, :language )
 	assert_should_belong_to( :interviewer, :class_name => 'Person')
 
+	assert_should_accept_only_good_values( :subject_relationship,
+		{ :good_values => ( Interview.valid_subject_relationships + [nil] ), 
+			:bad_values  => "I'm not valid" })
 
 	attributes = %w( began_at consent_read_over_phone 
 		consent_reviewed_with_respondent ended_at instrument_version_id 
@@ -162,6 +165,11 @@ class InterviewTest < ActiveSupport::TestCase
 			interview.errors.full_messages.to_sentence
 		assert_no_match /Other subject relationship/, 
 			interview.errors.full_messages.to_sentence
+	end
+
+	test "should return an array for subject_relationships" do
+		interview = Interview.new
+		assert interview.subject_relationships.is_a? Array
 	end
 
 protected
