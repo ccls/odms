@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141121214704) do
+ActiveRecord::Schema.define(version: 20141126230023) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -1135,7 +1135,6 @@ ActiveRecord::Schema.define(version: 20141121214704) do
     t.string   "guardian_first_name"
     t.string   "guardian_middle_name"
     t.string   "guardian_last_name"
-    t.integer  "guardian_relationship_id"
     t.string   "other_guardian_relationship"
     t.integer  "mother_race_code"
     t.integer  "father_race_code"

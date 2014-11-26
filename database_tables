@@ -1166,7 +1166,6 @@ Table: study_subjects
 | guardian_first_name         | varchar(255) | YES  |     | NULL    |                |
 | guardian_middle_name        | varchar(255) | YES  |     | NULL    |                |
 | guardian_last_name          | varchar(255) | YES  |     | NULL    |                |
-| guardian_relationship_id    | int(11)      | YES  |     | NULL    |                |
 | other_guardian_relationship | varchar(255) | YES  |     | NULL    |                |
 | mother_race_code            | int(11)      | YES  |     | NULL    |                |
 | father_race_code            | int(11)      | YES  |     | NULL    |                |
