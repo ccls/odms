@@ -4,10 +4,6 @@
 <%# explicity adding root_url to href making an absolute path
 	actually allows the cal favicon to load (uses wrong protocol) %>
 <link rel="shortcut icon" href="<%=root_url.sub(/^http:/,'')%><%=image_path('favicon.ico')%>" />
-<!--
-<link rel="shortcut icon" href="<%=root_url%><%=image_path('favicon.ico')%>" />
-<link rel="shortcut icon" href="<%=image_path('favicon.ico')%>" />
--->
 <title><%= @page_title || "CCLS ODMS" -%></title>
 <%= stylesheet_link_tag 'sunspot' %>
 <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
