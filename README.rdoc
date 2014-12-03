@@ -30,6 +30,7 @@ This is a README, so READ ME!
  #	Should probably update to the latest rubygems (1.8.24 as of 20120619)
  #	(Not really sure if this is actually necessary in 1.9.3,
  #	 but I did it and everything still seems to work.)
+ #	Using ruby 2.1 (as of 20141203)
  gem update --system
 
  #	Install bundler which will be managing all of the gems
@@ -583,6 +584,11 @@ be installed to do this.  To make ruby 1.9 the default ruby, the following
 command will need to be executed...
 
  sudo port select --set ruby ruby19
+
+---
+== ruby 2.1
+
+As of 20141203, we are using ruby 2.1.5
 
 
 
