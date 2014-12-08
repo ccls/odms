@@ -3,6 +3,50 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
+	#	20141208
+	task :report_bloodspot_date_received => :environment do
+		dupe_dates = {}
+		CSV.open('data/dbs_replenish_alternate_ids.csv','rb',{ 
+				:headers => true }).each do |line|
+			#	subjectid,state_id_no,group,external_id
+			if( line['external_id'] == 'NA' )
+				#				puts "Skipping NA"
+				next
+			end
+
+			samples = Sample.where(:external_id => line['external_id'])
+			puts line['external_id']
+				#			puts samples.collect(&:received_by_ccls_at).inspect
+			puts samples.collect(&:received_by_lab_at).inspect
+			puts samples.collect(&:subjectid).inspect
+
+			if samples.collect(&:subjectid).uniq.length > 1
+				#	NONE
+				puts "---- Multiple subjects with samples with that external_id!"
+			end
+
+			dates = samples.collect(&:received_by_lab_at).compact
+
+			if dates.collect{|d|d.to_date}.uniq.length > 1
+				#	Several with differing dates (3 actually)
+				puts "---- Multiple dates with samples with that external_id!"
+				dupe_dates[ line['external_id'] ] = samples
+			end unless dates.empty?
+
+			if samples.length > 1
+				#	Several (but all same subject)
+				puts "Multiple found with external_id #{line['external_id']}" 
+				#raise "Multiple found with external_id #{line['external_id']}"
+			end
+			raise "None found with external_id #{line['external_id']}" if samples.empty?
+
+		end	#	CSV.open('dbs_replenish_alternate_ids.csv
+		dupe_dates.each{|k,v| puts k; puts v.inspect; puts v.collect(&:notes) }
+	end	#	task :report_bloodspot_date_received => :environment do
+
+
+
+
 	#	20141007
 	task :update_collected_at_datetimes => :environment do
 		raise "This task has been run and disabled."
