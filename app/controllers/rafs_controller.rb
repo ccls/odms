@@ -127,7 +127,7 @@ class RafsController < ApplicationController
 		@study_subject.assign_attributes(study_subject_params)
 		check_was_under_15(@study_subject)
 		@study_subject.save!
-		flash[:notice] = "Subject successfully updated, I think. ;)"
+		flash[:notice] = "Subject successfully updated."
 		redirect_to raf_path(@study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "StudySubject updation failed"
