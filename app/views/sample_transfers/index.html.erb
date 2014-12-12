@@ -8,14 +8,16 @@
 	sample_transfers_path(:format => :csv), 
 	:class => :button %></p>
 
-<p><%= form_tag(confirm_sample_transfers_path,:method => :put,
+<%= form_tag(confirm_sample_transfers_path,:method => :put,
 	:id => 'confirm_sample_transfers') do %>
 <%= submit_tag 'THEN confirm transfer of samples to ...' %>
 <%= select_tag 'organization_id',
 	options_from_collection_for_select( 
 		SampleLocation.active.includes(:organization), :organization_id, :to_s, 
 		:selected => params[:organization_id]||Organization['GEGL'].id ) %>
-<% end %></p>
+<% end %>
+<br/>
+<br/>
 
 <table><thead><tr>
 <th>&nbsp;</th>
@@ -33,7 +35,9 @@
 </table>
 <% end %>
 
+<br/>
 <hr/>
+<br/>
 <%#
 
 	It would be nicer if these were in the same table so the columns lined up.
