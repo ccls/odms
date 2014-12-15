@@ -28,8 +28,12 @@ class SampleTransfer < ActiveRecord::Base
 		"for SampleID #{sample.try(:sampleid)||'------'}"
 	end
 
-#	def waitlist?
+#	def waiting?
 #		status == 'waitlist'
+#	end
+#
+#	def complete?
+#		status == 'complete'
 #	end
 
 end

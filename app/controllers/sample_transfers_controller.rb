@@ -44,6 +44,7 @@ class SampleTransfersController < ApplicationController
 	def index
 		@active_sample_transfers   = SampleTransfer.active
 		@waitlist_sample_transfers = SampleTransfer.waitlist
+		#@complete_sample_transfers = SampleTransfer.complete.order(sent_on: :desc)
 		respond_to do |format|
 			format.html
 			format.csv {
