@@ -44,7 +44,7 @@ class Abstract  < ActiveRecord::Base
 
 	def diff(another_abstract)
 		a1 = self.comparable_attributes
-		a2 = Abstract.find(another_abstract).comparable_attributes
+		a2 = Abstract.find(another_abstract.id).comparable_attributes
 		HWIA[a1.select{|k,v| a2[k] != v unless( a2[k].blank? && v.blank? ) }]
 	end
 
