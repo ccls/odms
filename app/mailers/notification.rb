@@ -9,7 +9,7 @@ class Notification < ActionMailer::Base
 	#
 	#	These methods are usually chained ...
 	#
-	#		Notification.demo.deliver
+	#		Notification.demo.deliver_now
 	#
 	#	which means that they should return a mail object.
 	#	Normally it does.  However, if you set a variable to be

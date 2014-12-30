@@ -18,7 +18,7 @@ class BirthDatumUpdate < CSVFile
 			Notification.plain(
 				"Birth Data missing #{column} column. Skipping.\n",
 				:subject => "ODMS: Birth Data missing #{column} column"
-			).deliver
+			).deliver_now
 			abort( "Birth Data missing #{column} column." )
 		end
 	end
@@ -92,7 +92,7 @@ class BirthDatumUpdate < CSVFile
 
 		end	#	(f=CSV.open( self.csv_file, 'rb',{ :headers => true })).each
 
-		Notification.updates_from_birth_data( csv_file, birth_data ).deliver
+		Notification.updates_from_birth_data( csv_file, birth_data ).deliver_now
 
 	end	#	def parse_csv_file
 

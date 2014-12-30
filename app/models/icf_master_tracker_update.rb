@@ -16,7 +16,7 @@ class IcfMasterTrackerUpdate < CSVFile
 			Notification.plain(
 				"ICF Master Tracker missing #{column} column. Skipping.\n",
 					:subject => "ODMS: ICF Master Tracker missing #{column} column"
-			).deliver
+			).deliver_now
 			abort( "ICF Master Tracker missing #{column} column." )
 		end
 	end
@@ -36,7 +36,7 @@ class IcfMasterTrackerUpdate < CSVFile
 				"ICF Master Tracker has the same modification time as a previously" <<
 					" processed file. (#{mod_time})  Skipping.",
 					:subject => "ODMS: Duplicate ICF Master Tracker"
-			).deliver
+			).deliver_now
 
 			#	"abort" causes SILENT problems in testing. Try to avoid.
 			#	perhaps add to status and just return?
@@ -73,7 +73,7 @@ class IcfMasterTrackerUpdate < CSVFile
 		#
 		#	Email is NOT SECURE.  Be careful what is in it.
 		#
-		Notification.updates_from_icf_master_tracker( changed ).deliver
+		Notification.updates_from_icf_master_tracker( changed ).deliver_now
 	end
 
 	def archive

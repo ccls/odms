@@ -38,7 +38,7 @@ class BcInfo < OpenStruct
 			Notification.plain(
 				"#{bc_info_file} contained line with blank icf_master_id",
 					:subject => "ODMS: Blank ICF Master ID in #{bc_info_file}"
-			).deliver
+			).deliver_now
 			return	#	next
 		end
 
@@ -52,7 +52,7 @@ class BcInfo < OpenStruct
 				"#{bc_info_file} contained line with #{identifier} " <<
 				"but no subject with #{identifier}:#{send(identifier)}:",
 					:subject => "ODMS: No Subject with #{identifier} in #{bc_info_file}"
-			).deliver
+			).deliver_now
 			return	#	next
 		end
 
@@ -177,7 +177,7 @@ class BcInfo < OpenStruct
 					"Subject #{study_subject.icf_master_id}. " <<
 					"Error messages ...:#{study_subject.errors.full_messages.to_sentence}:",
 					:subject => "ODMS: ERROR!  Subject save failed?  in #{bc_info_file}"
-				).deliver
+				).deliver_now
 
 				#puts study_subject.errors.full_messages.to_sentence
 				#puts study_subject.inspect
@@ -231,7 +231,7 @@ class BcInfo < OpenStruct
 				if mr.nil?
 					Notification.plain("No race found with code :#{study_subject.mother_race_code}:",
 							:subject => "ODMS: Invalid mother_race_code"
-					).deliver
+					).deliver_now
 				elsif mr.is_other? or mr.is_mixed?
 					msr = if mother.races.include?( mr )
 						mother.subject_races.where(:race_code => mr.code).first
