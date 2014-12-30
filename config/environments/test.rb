@@ -8,7 +8,9 @@ Odms::Application.configure do
 	config.cache_classes = true
 
 	# Configure static asset server for tests with Cache-Control for performance
-	config.serve_static_assets = true
+	#config.serve_static_assets = true
+	#	In prep for rails 5
+	config.serve_static_files = true
 	config.static_cache_control = "public, max-age=3600"
 
 	# Log error messages when you accidentally call methods on nil
@@ -70,4 +72,9 @@ Odms::Application.configure do
 #	config.session_store :cookie_store, :key => '_odms_session'
 
 	config.eager_load = false
+
+
+
+	#	for rails 5
+	config.active_support.test_order = :sorted
 end
