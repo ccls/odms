@@ -324,7 +324,12 @@ dk:
 #
 #	insert real child of unknown here
 #
-40:
+#	DO NOT USE LABELS THAT ARE JUST INTEGERS!!!
+#	labels that are numbers will now yield the cryptic error message
+#		TypeError: no implicit conversion of Fixnum into String
+#	for ALL tests.
+#
+id40:
   id: 40
   parent_id: 9
   key: unknownsubtype
