@@ -22,12 +22,11 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 	test "facet_toggle should create div with span and link" do
 		facet = FakeFacet.new('subject_type')
 		@sunspot_search_class = StudySubject
-		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
+		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
-			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Subject Type&nbsp;(0)", :count => 1 do
-				assert_select "[href=?]", "javascript:void()"
-			end
+			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
+			assert_select 'a', :text => /Subject Type.\(0\)/, 
+				:href => "javascript:void()", :count => 1
 		end
 	end
 
@@ -36,12 +35,11 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		facet.rows << FakeFacetRow.new('somevalue')
 		facet.rows << FakeFacetRow.new('somevalue')
 		@sunspot_search_class = StudySubject
-		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
+		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
-			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Subject Type&nbsp;(2)", :count => 1 do
-				assert_select "[href=?]", "javascript:void()"
-			end
+			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
+			assert_select 'a', :text => /Subject Type.\(2\)/, 
+				:href => "javascript:void()", :count => 1
 		end
 	end
 
@@ -50,36 +48,33 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		facet.rows << FakeFacetRow.new('somevalue')
 		facet.rows << FakeFacetRow.new('')
 		@sunspot_search_class = StudySubject
-		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
+		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
-			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Subject Type&nbsp;(1)", :count => 1 do
-				assert_select "[href=?]", "javascript:void()"
-			end
+			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
+			assert_select 'a', :text => /Subject Type.\(1\)/, 
+				:href => "javascript:void()", :count => 1 
 		end
 	end
 
 	test "facet_toggle should show decode hex label row count in link text" do
 		facet = FakeFacet.new("hex_#{'CCLS'.unpack('H*').first}")
 		facet.rows << FakeFacetRow.new('somevalue')
-		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
+		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
-			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "CCLS&nbsp;(1)", :count => 1 do
-				assert_select "[href=?]", "javascript:void()"
-			end
+			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
+			assert_select 'a', :text => /CCLS.\(1\)/, 
+				:href => "javascript:void()", :count => 1
 		end
 	end
 
 	test "facet_toggle should show decode first part of hex label row count in link text" do
 		facet = FakeFacet.new("hex_#{'CCLS'.unpack('H*').first}:Unencoded")
 		facet.rows << FakeFacetRow.new('somevalue')
-		response = HTML::Document.new(facet_toggle(facet,'triangle')).root
+		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
-			assert_select 'span.ui-icon.triangle', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "CCLS : Unencoded&nbsp;(1)", :count => 1 do
-				assert_select "[href=?]", "javascript:void()"
-			end
+			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
+			assert_select 'a', :text => /CCLS : Unencoded.\(1\)/, 
+				:href => "javascript:void()", :count => 1
 		end
 	end
 
@@ -102,15 +97,14 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 	test "facet_for should return checkbox fields for facet" do
 		facet = FakeFacet.new('subject_type')
-		facet.rows << FakeFacetRow.new('somevalue')
-		facet.rows << FakeFacetRow.new('somevalue')
+		facet.rows << FakeFacetRow.new('somevalue1')
+		facet.rows << FakeFacetRow.new('somevalue2')
 		@sunspot_search_class = StudySubject
-		response = HTML::Document.new(facet_for(facet)).root
+		response = Nokogiri::HTML::DocumentFragment.parse(facet_for(facet))
 		assert_select response, "div.facet_toggle", :count => 1 do
-			assert_select 'span.ui-icon', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Subject Type&nbsp;(2)", :count => 1 do
-				assert_select "[href=?]", "javascript:void()"
-			end
+			assert_select 'span.ui-icon', :text => /\s*/, :count => 1
+			assert_select 'a', :text => /Subject Type.\(2\)/, 
+				:href => "javascript:void()", :count => 1
 		end
 		assert_select( response, 'div.facet_field', :count => 1 ){|divs| divs.each { |div|
 			assert_select( div, 'ul.facet_field_values', :count => 1 ){|uls| uls.each { |ul|
@@ -123,15 +117,14 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 	test "facet_for should return radio fields for facet if radio true" do
 		facet = FakeFacet.new('subject_type')
-		facet.rows << FakeFacetRow.new('somevalue')
-		facet.rows << FakeFacetRow.new('somevalue')
+		facet.rows << FakeFacetRow.new('somevalue1')
+		facet.rows << FakeFacetRow.new('somevalue2')
 		@sunspot_search_class = StudySubject
-		response = HTML::Document.new(facet_for(facet, :radio => true)).root
+		response = Nokogiri::HTML::DocumentFragment.parse(facet_for(facet, :radio => true))
 		assert_select response, "div.facet_toggle", :count => 1 do
-			assert_select 'span.ui-icon', :text => '&nbsp;', :count => 1
-			assert_select 'a', :text => "Subject Type&nbsp;(2)", :count => 1 do
-				assert_select "[href=?]", "javascript:void()"
-			end
+			assert_select 'span.ui-icon', :text => /\s*/, :count => 1
+			assert_select 'a', :text => /Subject Type.\(2\)/, 
+				:href => "javascript:void()", :count => 1
 		end
 		assert_select( response, 'div.facet_field', :count => 1 ){|divs| divs.each { |div|
 			assert_select( div, 'ul.facet_field_values', :count => 1 ){|uls| uls.each { |ul|
@@ -143,7 +136,7 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 	end
 
 #	test "facet_for is gonna be tough to test outside of a controller" do
-#		response = HTML::Document.new(facet_for('something')).root
+#		response = Nokogiri::HTML::DocumentFragment.parse(facet_for('something'))
 #		puts response
 #	end
 
@@ -151,52 +144,40 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 #	def operator_radio_button_tag_and_label(name,operator,selected)
 
 	test "operator_radio_button_tag_and_label should not check AND for AND and OR" do
-		response = HTML::Document.new(
-			operator_radio_button_tag_and_label('something','AND','OR')).root
-		assert_select response, 'input#something_op_and', :count => 1 do
-			assert_select "[type=radio]"
-			assert_select "[value=AND]"
-			assert_select ":not([checked=checked])"
-		end
+		response = Nokogiri::HTML::DocumentFragment.parse(
+			operator_radio_button_tag_and_label('something','AND','OR'))
+		assert_select response, "input#something_op_and[type=radio]" <<
+			"[value=AND]:not([checked=checked])", :count => 1
 		assert_select response, 'label', :text => 'AND', :count => 1 do
 			assert_select "[for=something_op_and]"
 		end
 	end
 
 	test "operator_radio_button_tag_and_label should not check OR for OR and AND" do
-		response = HTML::Document.new(
-			operator_radio_button_tag_and_label('something','OR','AND')).root
-		assert_select response, 'input#something_op_or', :count => 1 do
-			assert_select "[type=radio]"
-			assert_select "[value=OR]"
-			assert_select ":not([checked=checked])"
-		end
+		response = Nokogiri::HTML::DocumentFragment.parse(
+			operator_radio_button_tag_and_label('something','OR','AND'))
+		assert_select response, "input#something_op_or[type=radio]" <<
+			"[value=OR]:not([checked=checked])", :count => 1
 		assert_select response, 'label', :text => 'OR', :count => 1 do
 			assert_select "[for=something_op_or]"
 		end
 	end
 
 	test "operator_radio_button_tag_and_label should check AND for AND and AND" do
-		response = HTML::Document.new(
-			operator_radio_button_tag_and_label('something','AND','AND')).root
-		assert_select response, 'input#something_op_and', :count => 1 do
-			assert_select "[type=radio]"
-			assert_select "[value=AND]"
-			assert_select "[checked=checked]"
-		end
+		response = Nokogiri::HTML::DocumentFragment.parse(
+			operator_radio_button_tag_and_label('something','AND','AND'))
+		assert_select response, "input#something_op_and[type=radio]" <<
+			"[value=AND][checked=checked]", :count => 1
 		assert_select response, 'label', :text => 'AND', :count => 1 do
 			assert_select "[for=something_op_and]"
 		end
 	end
 
 	test "operator_radio_button_tag_and_label should check OR for OR and OR" do
-		response = HTML::Document.new(
-			operator_radio_button_tag_and_label('something','OR','OR')).root
-		assert_select response, 'input#something_op_or', :count => 1 do
-			assert_select "[type=radio]"
-			assert_select "[value=OR]"
-			assert_select "[checked=checked]"
-		end
+		response = Nokogiri::HTML::DocumentFragment.parse(
+			operator_radio_button_tag_and_label('something','OR','OR'))
+		assert_select response, "input#something_op_or[type=radio]" <<
+			"[value=OR][checked=checked]", :count => 1
 		assert_select response, 'label', :text => 'OR', :count => 1 do
 			assert_select "[for=something_op_or]"
 		end
@@ -214,21 +195,15 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 	end
 
 	test "multi_select_operator_for(something) with no params should return stuff" do
-		response = HTML::Document.new(multi_select_operator_for('something')).root
+		response = Nokogiri::HTML::DocumentFragment.parse(multi_select_operator_for('something'))
 		assert_select response, "div" do
 			assert_select 'span', :text => 'Multi-select operator'
 			assert_select 'input', :count => 2
 			assert_select 'input[checked=checked]', :count => 1
-			assert_select 'input#something_op_or', :count => 1 do
-				assert_select "[type=radio]"
-				assert_select "[value=OR]"
-				assert_select "[checked=checked]"
-			end
-			assert_select 'input#something_op_and', :count => 1 do
-				assert_select "[type=radio]"
-				assert_select "[value=AND]"
-				assert_select ":not([checked=checked])"
-			end
+			assert_select "input#something_op_or[type=radio]" <<
+				"[value=OR][checked=checked]", :count => 1
+			assert_select "input#something_op_and[type=radio]" <<
+				"[value=AND]:not([checked=checked])", :count => 1
 			assert_select 'label', :count => 2
 			assert_select 'label', :text => 'OR', :count => 1 do
 				assert_select "[for=something_op_or]"
@@ -243,7 +218,7 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		self.params = HWIA.new(
 			:something_op => 'OR'
 			)
-		response = HTML::Document.new(multi_select_operator_for('something')).root
+		response = Nokogiri::HTML::DocumentFragment.parse(multi_select_operator_for('something'))
 		assert_select response, "div" do
 			assert_select 'input[checked=checked]', :count => 1
 			assert_select 'input#something_op_or[checked=checked]', :count => 1
@@ -255,7 +230,7 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		self.params = HWIA.new(
 			:something_op => 'AND'
 			)
-		response = HTML::Document.new(multi_select_operator_for('something')).root
+		response = Nokogiri::HTML::DocumentFragment.parse(multi_select_operator_for('something'))
 		assert_select response, "div" do
 			assert_select 'input[checked=checked]', :count => 1
 			assert_select 'input#something_op_or:not([checked=checked])', :count => 1

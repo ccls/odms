@@ -6,16 +6,16 @@ class CountrySelectHelperTest < ActionView::TestCase
 		@address = FactoryGirl.create(:address)
 		output_buffer = form_for(@address,:url => '/'){|f| 
 			f.country_select(:country) }
-		response = HTML::Document.new(output_buffer).root
+		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
 		assert_select( response, 'form', 1 ){ |f|	
 			f = f.first		#	f is an array of the 1 matching element!
 			assert_select( f, 'select#address_country', 1 ){ |s|
 				s = s.first		#	s is an array of the 1 matching element!
 				options = assert_select s, 'option', 246
 				#	first should be blank <option value=""></option>
-				assert_select options[0], 'option[value=]'
+				assert_select s, "option[value='']", :count => 1
 				#	second should be US <option value="United States">United States</option>
-				assert_select options[1], 'option[value=United States]'
+				assert_select s, "option[value='United States']", :count => 1
 			}
 		}
 	end
