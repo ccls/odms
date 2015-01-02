@@ -44,7 +44,7 @@ class StudySubjectsController < ApplicationController
 		#	LEFT JOIN because not all subjects will have a patient.
 		#	otherwise, we'd effectively only search cases
 		@study_subjects = StudySubject.order(search_order)
-			.left_joins(:patient)
+			.left_join_patient
 			.where(conditions[0].join(valid_find_operator), conditions[1])
 			.paginate(
 				:per_page => params[:per_page]||25,

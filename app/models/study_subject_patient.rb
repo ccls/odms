@@ -11,6 +11,10 @@ base.class_eval do
 
 	has_one :patient
 
+	scope :left_join_patient, ->{ joins(
+		Arel::Nodes::OuterJoin.new(Patient.arel_table,Arel::Nodes::On.new(
+			self.arel_table[:id].eq(Patient.arel_table[:study_subject_id])))) }
+
 	delegate :admit_date, :hospital_no, :organization, :organization_id, 
 		:diagnosis_date, :diagnosis, :other_diagnosis, :treatment_began_on,
 			:to => :patient, :allow_nil => true

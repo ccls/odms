@@ -69,13 +69,13 @@ class OrganizationTest < ActiveSupport::TestCase
 
 #	scope :without_sample_location, joins('LEFT JOIN sample_locations ON organizations.id = sample_locations.organization_id').where('organization_id IS NULL')
 
-	test "without_hospital should return only those with a hospital" do
+	test "without_hospital should return only those without a hospital" do
 		Organization.without_hospital.each do |org|
 			assert_nil org.hospital
 		end
 	end
 
-	test "without_sample_location should return only those with a sample_location" do
+	test "without_sample_location should return only those without a sample_location" do
 		Organization.without_sample_location.each do |org|
 			assert_nil org.sample_location
 		end

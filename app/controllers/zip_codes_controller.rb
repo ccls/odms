@@ -7,7 +7,14 @@ class ZipCodesController < ApplicationController
 	skip_before_filter :login_required
 
 	def index
-		@zip_codes = ZipCode.left_joins(:county)
+#		@zip_codes = ZipCode.left_joins(:county)
+#	my left_joins gem doesn't work from rails 4.2.0.  Not sure why?
+#	Don't care.  Trying to remove.
+		@zip_codes = ZipCode.joins(
+			Arel::Nodes::OuterJoin.new(
+				County.arel_table,
+				Arel::Nodes::On.new(
+					ZipCode.arel_table[:county_id].eq(County.arel_table[:id]))))
 			.select("city, state, zip_code, county_id, counties.name as county_name")
 			.order('zip_code ASC')
 			.where(ZipCode.arel_table[:zip_code].matches(
