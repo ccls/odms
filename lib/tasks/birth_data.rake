@@ -1,23 +1,45 @@
 require 'csv'
 
-#class Object
-#	def send_chain(chain)
-#		links = chain.split('.')
-#		x = self.send(links.shift)
-#		if links.empty? || x.nil?
-#			x
-#		else
-#			x.send_chain(links.join('.')) 
-#		end
-#	end
-#end
-
 namespace :app do
 namespace :birth_data do
 
 #	all birth record
 
 #	subjectid, patid, subject_type, state_id_no, birth_year  bd derive, regist, filename
+
+
+	task :reimport_boolean_values => :environment do
+		Dir["birth_data/*/*.csv"].each do |birth_data_file|
+			file_name = File.basename(birth_data_file)
+			puts file_name
+
+			#	match line count and record count in database with this :birth_data_file_name
+			#puts (total_lines( birth_data_file,'rb:bom|utf-8') - 1 )
+			#puts BirthDatum.where( :birth_data_file_name => file_name ).count
+
+			(f=CSV.open( birth_data_file, 'rb:bom|utf-8',{ :headers => true })).each do |line|
+
+				next if line['state_registrar_no'].blank?
+
+				count = BirthDatum.where( :birth_data_file_name => file_name,
+					:state_registrar_no => line['state_registrar_no'] ).count
+
+				raise 'hell' if count != 1
+
+				bd = BirthDatum.where( :birth_data_file_name => file_name,
+					:state_registrar_no => line['state_registrar_no'] ).first
+
+				puts "#{line['vacuum_attempt_unsuccessful']}:#{line['mother_received_wic']}:#{line['forceps_attempt_unsuccessful']}:#{line['found_in_state_db']}:#{bd.vacuum_attempt_unsuccessful}:#{bd.mother_received_wic}:#{bd.forceps_attempt_unsuccessful}:#{bd.found_in_state_db}"
+
+				bd.update_attributes!( 
+					'vacuum_attempt_unsuccessful' => line['vacuum_attempt_unsuccessful'],
+					'mother_received_wic' => line['mother_received_wic'],
+					'forceps_attempt_unsuccessful' => line['forceps_attempt_unsuccessful'],
+					'found_in_state_db' => line['found_in_state_db'] )
+
+			end	#	(f=CSV.open( birth_data_file, 'rb:bom|utf-8',
+		end	#	Dir["birth_data/*/*.csv"].each do |birth_data_file|
+	end	#	task :reimport_boolean_values => :environment do
 
 
 	task :id_number_report_2 => :environment do

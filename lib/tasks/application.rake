@@ -39,15 +39,18 @@ namespace :app do
 				datetime.strftime("%m/%d/%Y %H:%M (%Z)")
 	end
 
-	def csv_columns(csv_file_name,options={})
+	def csv_columns(csv_file_name,rb='rb',options={})
 		f=CSV.open(csv_file_name, 'rb', {:headers => false}.merge(options))
 		csv_columns = f.gets
 		f.close
 		csv_columns
 	end
-
-	def total_lines(csv_file_name)
-		f = CSV.open(csv_file_name,'rb')
+	#
+	#	added rb as birth data files need 'rb:bom|utf-8'
+	#	shouldn't cause a problem as no call seems to use options
+	#
+	def total_lines(csv_file_name,rb='rb',options={})
+		f = CSV.open(csv_file_name, rb, {}.merge(options))
 		total_lines = f.readlines.size  # includes header, but so does f.lineno
 		f.close
 		total_lines

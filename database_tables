@@ -340,7 +340,7 @@ Table: birth_data
 | birth_datum_update_id             | int(11)      | YES  |     | NULL    |                |
 | study_subject_id                  | int(11)      | YES  | MUL | NULL    |                |
 | master_id                         | varchar(255) | YES  |     | NULL    |                |
-| found_in_state_db                 | tinyint(1)   | YES  |     | NULL    |                |
+| found_in_state_db                 | varchar(255) | YES  |     | NULL    |                |
 | birth_state                       | varchar(255) | YES  |     | NULL    |                |
 | match_confidence                  | varchar(255) | YES  |     | NULL    |                |
 | case_control_flag                 | varchar(255) | YES  |     | NULL    |                |
@@ -378,7 +378,7 @@ Table: birth_data
 | father_occupation                 | varchar(255) | YES  |     | NULL    |                |
 | father_yrs_educ                   | int(11)      | YES  |     | NULL    |                |
 | fetal_presentation_at_birth       | varchar(255) | YES  |     | NULL    |                |
-| forceps_attempt_unsuccessful      | tinyint(1)   | YES  |     | NULL    |                |
+| forceps_attempt_unsuccessful      | varchar(255) | YES  |     | NULL    |                |
 | last_live_birth_on                | date         | YES  |     | NULL    |                |
 | last_menses_on                    | date         | YES  |     | NULL    |                |
 | last_termination_on               | date         | YES  |     | NULL    |                |
@@ -406,7 +406,7 @@ Table: birth_data
 | mother_hispanic_origin_code       | varchar(255) | YES  |     | NULL    |                |
 | mother_industry                   | varchar(255) | YES  |     | NULL    |                |
 | mother_occupation                 | varchar(255) | YES  |     | NULL    |                |
-| mother_received_wic               | tinyint(1)   | YES  |     | NULL    |                |
+| mother_received_wic               | varchar(255) | YES  |     | NULL    |                |
 | mother_weight_pre_pregnancy       | int(11)      | YES  |     | NULL    |                |
 | mother_yrs_educ                   | int(11)      | YES  |     | NULL    |                |
 | ob_gestation_estimate_at_delivery | int(11)      | YES  |     | NULL    |                |
@@ -415,7 +415,7 @@ Table: birth_data
 | state_registrar_no                | varchar(255) | YES  |     | NULL    |                |
 | term_count_20_plus_weeks          | int(11)      | YES  |     | NULL    |                |
 | term_count_pre_20_weeks           | int(11)      | YES  |     | NULL    |                |
-| vacuum_attempt_unsuccessful       | tinyint(1)   | YES  |     | NULL    |                |
+| vacuum_attempt_unsuccessful       | varchar(255) | YES  |     | NULL    |                |
 | created_at                        | datetime     | NO   |     | NULL    |                |
 | updated_at                        | datetime     | NO   |     | NULL    |                |
 | control_number                    | int(11)      | YES  |     | NULL    |                |
