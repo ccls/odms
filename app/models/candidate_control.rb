@@ -131,7 +131,9 @@ class CandidateControl < ActiveRecord::Base
 #
 #	NOTE will just crash if something happened when run in rake task
 #
-		raise ActiveRecord::RecordNotSaved unless options_for_odms_exceptions.empty?
+#		raise ActiveRecord::RecordNotSaved unless options_for_odms_exceptions.empty?
+		#	rails 4.2.0 seems to need argument
+		raise ActiveRecord::RecordNotSaved.new('ODMS Exceptions') unless options_for_odms_exceptions.empty?
 		self
 	end
 

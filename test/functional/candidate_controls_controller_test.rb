@@ -58,13 +58,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate = birth_datum.candidate_control
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
-			assert_select "input#candidate_control_reject_candidate_false", 1 do
-				assert_select '[value=false]'
-				assert_select "[checked=checked]"
-			end
-			assert_select "input#candidate_control_reject_candidate_true", 1 do
-				assert_select '[value=true]'
-			end
+			assert_select "input#candidate_control_reject_candidate_false" <<
+				"[value='false'][checked='checked']", :count => 1
+			assert_select "input#candidate_control_reject_candidate_true" <<
+				"[value='true']", :count => 1
 		end
 
 		test "should get edit with #{cu} login and preselect reject if mismatched dob" do
@@ -79,13 +76,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate = birth_datum.candidate_control
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
-			assert_select "input#candidate_control_reject_candidate_false", 1 do
-				assert_select '[value=false]'
-			end
-			assert_select "input#candidate_control_reject_candidate_true", 1 do
-				assert_select '[value=true]'
-				assert_select "[checked=checked]"
-			end
+			assert_select "input#candidate_control_reject_candidate_false" <<
+				"[value='false']", :count => 1
+			assert_select "input#candidate_control_reject_candidate_true" <<
+				"[value='true']", :checked => 'checked', :count => 1
 		end
 
 		test "should get edit with #{cu} login and preselect reject if mismatched sex" do
@@ -100,13 +94,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate = birth_datum.candidate_control
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
-			assert_select "input#candidate_control_reject_candidate_false", 1 do
-				assert_select '[value=false]'
-			end
-			assert_select "input#candidate_control_reject_candidate_true", 1 do
-				assert_select '[value=true]'
-				assert_select "[checked=checked]"
-			end
+			assert_select "input#candidate_control_reject_candidate_false" <<
+				"[value='false']", :count => 1
+			assert_select "input#candidate_control_reject_candidate_true" <<
+				"[value='true'][checked='checked']", :count => 1
 		end
 
 		test "should get edit with #{cu} login and preselect reject if missing sex" do
@@ -121,13 +112,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate = birth_datum.candidate_control
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
-			assert_select "input#candidate_control_reject_candidate_false", 1 do
-				assert_select '[value=false]'
-			end
-			assert_select "input#candidate_control_reject_candidate_true", 1 do
-				assert_select '[value=true]'
-				assert_select "[checked=checked]"
-			end
+			assert_select "input#candidate_control_reject_candidate_false" <<
+				"[value='false']", :count => 1
+			assert_select "input#candidate_control_reject_candidate_true" <<
+				"[value='true'][checked='checked']", :count => 1
 		end
 
 		test "should get edit with #{cu} login and preselect reject if missing dob" do
@@ -140,13 +128,10 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			candidate = birth_datum.candidate_control
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
-			assert_select "input#candidate_control_reject_candidate_false", 1 do
-				assert_select '[value=false]'
-			end
-			assert_select "input#candidate_control_reject_candidate_true", 1 do
-				assert_select '[value=true]'
-				assert_select "[checked=checked]"
-			end
+			assert_select "input#candidate_control_reject_candidate_false" <<
+				"[value='false']", :count => 1
+			assert_select "input#candidate_control_reject_candidate_true" <<
+				"[value='true'][checked='checked']", :count => 1
 		end
 
 		test "should NOT get edit with #{cu} login and invalid id" do

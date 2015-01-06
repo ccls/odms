@@ -73,7 +73,9 @@ class SamplesController < ApplicationController
 			params[:page] = @samples.total_pages
 			#	It seems excessive to redirect and do it all again.
 			#	Nevertheless ...
-			redirect_to samples_path(params)
+#			redirect_to samples_path(params)
+#	in rails 5, using string keys is deprecated.  odd since this hash came from RAILS!
+			redirect_to samples_path(params.symbolize_keys)
 		end
 	end
 

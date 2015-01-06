@@ -300,12 +300,22 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_select( "div#content" ){
 			assert_select( "p" ){
 			assert_select( "a", :count => 3 ){
-				assert_select( 'a', :text => sample.sampleid, :count => 1 ){
-					assert_select "[href=?]", study_subject_sample_path(mother,sample)
-				}
-				assert_select( 'a', :text => 'print label', :count => 1 ){
-					assert_select "[href=?]", study_subject_sample_path(mother,sample, :format => :pdf)
-				}
+#				assert_select( 'a', :text => sample.sampleid, :count => 1 ){
+#					assert_select "[href=?]", study_subject_sample_path(mother,sample)
+#				}
+#				assert_select( 'a', :text => 'print label', :count => 1 ){
+#					assert_select "[href=?]", study_subject_sample_path(mother,sample, :format => :pdf)
+#				}
+				assert_select( "a[href=?]", study_subject_sample_path(mother,sample),
+					:text => sample.sampleid, :count => 1 )
+				assert_select( "a[href=?]", 
+					study_subject_sample_path(mother,sample, :format => :pdf),
+					:text => 'print label', :count => 1 )
+				
+#	what's the third match?
+
+
+
 			} } }
 			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
 		end

@@ -26,7 +26,12 @@ class ActionController::TestCase
 					#
 					#	If done in a teardown, failure will cause other teardowns not to be run. (no rollback)
 					#
-					assert_select 'form form', { :count => 0 }, "Found nested forms.  Nested are invalid html and very dangerous."
+					assert_select 'form form', { :count => 0 }, 
+						"Found nested forms.  " <<
+						"Nested are invalid html and very dangerous." unless @response.body.blank?
+					#	rails 4.2.0, need to check if response.body is there or not
+					#		otherwise, raises many ...
+					#	NoMethodError: undefined method `document' for nil:NilClass
 
 
 

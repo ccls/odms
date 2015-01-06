@@ -36,7 +36,7 @@ gem 'prawnto'
 #	format Month/Day/Year Date.parse('12/31/2000')
 gem 'american_date'
 
-gem 'rails', '~> 4'
+gem 'rails'
 gem 'protected_attributes'	#	to keep rails 3 style
 #gem 'activerecord-session_store'	#	to keep rails 3 style	... going back to cookies so removed
 
@@ -76,13 +76,14 @@ gem 'net-ldap'
 #	suggested to use --pre option for 1.2.0
 
 group :test do
+	gem 'rails-dom-testing'
 	gem 'test-unit'
 	gem "simplecov", :require => false
 
 	#	for dealing with integration tests
 	gem 'database_cleaner'
 
-	gem "mocha", :require => false
+	gem "mocha", :require => 'mocha/setup'	#, :require => false
 
 	gem "autotest-rails", :require => 'autotest/rails'
 #	gem "redgreen"
@@ -98,8 +99,6 @@ group :test do
 
 	gem 'jakewendt-test_with_verbosity'
 end
-
-gem 'jakewendt-active_record_left_joins'
 
 gem 'ccls-common_lib', ">0.9"
 

@@ -66,8 +66,8 @@ class RafsControllerTest < ActionController::TestCase
 
 
 
-
-
+		#	why is other first?
+		#	why does assert_select increment my variables for regexes?
 
 
 
@@ -77,19 +77,72 @@ class RafsControllerTest < ActionController::TestCase
 			assert_select( "div#study_subject_languages" ){
 				assert_select( "div.languages_label" )
 				assert_select( "div#languages" ){
-					assert_select( "div.subject_language.creator", 3 ).each do |sl|
-						#	checkbox and hidden share the same name
-						assert_select( sl, "input[name=?]", 
-							/study_subject\[subject_languages_attributes\]\[\d\]\[language_code\]/, 2 )
-						assert_select( sl, "input[type=hidden][value='']", 1 )
-						assert_select( sl, "input[type=checkbox][value=?]", 
-							/\d/, 1 )	#	value is the language_code (could test each but iffy)
-						#	should not be checked
-						assert_select( sl, "input[type=checkbox][checked=checked]", 0 )
-						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
+					assert_select( "div.subject_language.creator", :count => 3 ).each do |sl|
+
+
+						assert_select( sl, "input[type='hidden'][value='']" <<
+							":match('name',?)",
+								/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
+							:count => 1 )
+						assert_select( sl, "input[type='checkbox']" <<
+							":not([checked='checked'])" <<
+							":match('name',?):match('value',?)",
+								/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
+								/\d+/,
+							:count => 1 )
+
+						assert_select( sl, "input" <<
+							":match('name',?)",
+								/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
+							:count => 2 )
+
 					end
-					assert_select("div.subject_language > div#other_language > div#specify_other_language",1 ){
-						assert_select("input[type=text][name=?]",/study_subject\[subject_languages_attributes\]\[\d\]\[other_language\]/)
+#
+#	with the each, passes "each" match individually to the block
+#	withOUT the each, passes ALL matches at once to the block
+#
+					assert_select( "div.subject_language.creator", :count => 3 ) do |sl|
+						#	checkbox and hidden share the same name
+
+						assert_select( sl, "input[type='hidden'][value='']" <<
+							"[name='study_subject[subject_languages_attributes][0][language_code]']", 
+							:count => 1 )
+						assert_select( sl, "input[type='checkbox'][value='3']" <<
+							"[name='study_subject[subject_languages_attributes][0][language_code]']", 
+							:count => 1 )
+
+						assert_select( sl, "input[type='hidden'][value='']" <<
+							"[name='study_subject[subject_languages_attributes][1][language_code]']", 
+							:count => 1 )
+						assert_select( sl, "input[type='checkbox'][value='1']" <<
+							"[name='study_subject[subject_languages_attributes][1][language_code]']", 
+							:count => 1 )
+
+						assert_select( sl, "input[type='hidden'][value='']" <<
+							"[name='study_subject[subject_languages_attributes][2][language_code]']", 
+							:count => 1 )
+						assert_select( sl, "input[type='checkbox'][value='2']" <<
+							"[name='study_subject[subject_languages_attributes][2][language_code]']", 
+							:count => 1 )
+
+
+						#	value is the language_code (could test each but iffy)
+						#	should not be checked
+						assert_select( sl, "input[type='checkbox'][checked='checked']",
+							:count => 0 )
+
+						#	this is the important check
+						assert_select( sl, "input[type='checkbox']:not([checked=checked])" <<
+							":match('value',?)", /\d+/,
+							:count => 3 )	
+
+					end
+					assert_select("div.subject_language > div#other_language " <<
+							"> div#specify_other_language", 1 ){
+#							"[name='study_subject[subject_languages_attributes][0][other_language]']",
+						assert_select("input[type='text']:match('name',?)",
+								/study_subject\[subject_languages_attributes\]\[\d+\]\[other_language\]/,
+							:count => 1 )
 					}
 			} }
 		end

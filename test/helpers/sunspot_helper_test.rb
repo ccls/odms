@@ -25,8 +25,9 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
-			assert_select 'a', :text => /Subject Type.\(0\)/, 
-				:href => "javascript:void()", :count => 1
+			assert_select "a[href='javascript:void()']", 
+				:text => /Subject Type.\(0\)/, 
+				:count => 1
 		end
 	end
 
@@ -38,8 +39,9 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
-			assert_select 'a', :text => /Subject Type.\(2\)/, 
-				:href => "javascript:void()", :count => 1
+			assert_select "a[href='javascript:void()']",
+				:text => /Subject Type.\(2\)/, 
+				:count => 1
 		end
 	end
 
@@ -51,8 +53,9 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
-			assert_select 'a', :text => /Subject Type.\(1\)/, 
-				:href => "javascript:void()", :count => 1 
+			assert_select "a[href='javascript:void()']",
+				:text => /Subject Type.\(1\)/, 
+				:count => 1 
 		end
 	end
 
@@ -62,8 +65,9 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
-			assert_select 'a', :text => /CCLS.\(1\)/, 
-				:href => "javascript:void()", :count => 1
+			assert_select "a[href='javascript:void()']",
+				:text => /CCLS.\(1\)/, 
+				:count => 1
 		end
 	end
 
@@ -73,8 +77,9 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		response = Nokogiri::HTML::DocumentFragment.parse(facet_toggle(facet,'triangle'))
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon.triangle', :text => /\s*/, :count => 1
-			assert_select 'a', :text => /CCLS : Unencoded.\(1\)/, 
-				:href => "javascript:void()", :count => 1
+			assert_select "a[href='javascript:void()']",
+				:text => /CCLS : Unencoded.\(1\)/, 
+				:count => 1
 		end
 	end
 
@@ -103,8 +108,9 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		response = Nokogiri::HTML::DocumentFragment.parse(facet_for(facet))
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon', :text => /\s*/, :count => 1
-			assert_select 'a', :text => /Subject Type.\(2\)/, 
-				:href => "javascript:void()", :count => 1
+			assert_select "a[href='javascript:void()']",
+				:text => /Subject Type.\(2\)/, 
+				:count => 1
 		end
 		assert_select( response, 'div.facet_field', :count => 1 ){|divs| divs.each { |div|
 			assert_select( div, 'ul.facet_field_values', :count => 1 ){|uls| uls.each { |ul|
@@ -123,8 +129,9 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 		response = Nokogiri::HTML::DocumentFragment.parse(facet_for(facet, :radio => true))
 		assert_select response, "div.facet_toggle", :count => 1 do
 			assert_select 'span.ui-icon', :text => /\s*/, :count => 1
-			assert_select 'a', :text => /Subject Type.\(2\)/, 
-				:href => "javascript:void()", :count => 1
+			assert_select "a[href='javascript:void()']",
+				:text => /Subject Type.\(2\)/, 
+				:count => 1
 		end
 		assert_select( response, 'div.facet_field', :count => 1 ){|divs| divs.each { |div|
 			assert_select( div, 'ul.facet_field_values', :count => 1 ){|uls| uls.each { |ul|

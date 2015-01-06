@@ -66,7 +66,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_template 'index'
 			assert_select ".arrow", :count => 1
-			assert_select ".arrow", 1
 		end
 	
 		test "should get index with order and dir asc with #{cu} login" do
@@ -76,7 +75,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_template 'index'
 			assert_select ".arrow", :count => 1
-			assert_select ".arrow", 1
 		end
 	
 		test "should have do_not_contact if it is true "<<
@@ -87,7 +85,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_template 'show'
 			assert_select "#do_not_contact", :count => 1
-			assert_select "#do_not_contact", 1
 		end
 	
 		test "should NOT have do_not_contact if it is false "<<
@@ -98,8 +95,6 @@ class StudySubjectsControllerTest < ActionController::TestCase
 			assert_response :success
 			assert_template 'show'
 			assert_select "#do_not_contact", :count => 0
-			assert_select "#do_not_contact", 0
-			assert_select "#do_not_contact", false
 		end
 	
 		test "should have hospital link if study_subject is case "<<

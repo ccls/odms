@@ -528,7 +528,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		candidate_control = birth_datum.candidate_control
 		assert_not_nil IcfMasterId.next_unused
 		IcfMasterId.any_instance.stubs(:save!
-			).raises(ActiveRecord::RecordNotSaved)
+			).raises(ActiveRecord::RecordNotSaved.new('Fake'))
 		assert_difference('Enrollment.count',0) {
 		assert_difference('StudySubject.count',0) {
 		assert_raises(ActiveRecord::RecordNotSaved){
@@ -540,7 +540,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		StudySubject.any_instance.stubs(:create_mother
-			).raises(ActiveRecord::RecordNotSaved)
+			).raises(ActiveRecord::RecordNotSaved.new('Fake'))
 		assert_difference('Enrollment.count',0) {
 		assert_difference('StudySubject.count',0) {
 		assert_raises(ActiveRecord::RecordNotSaved){
@@ -552,7 +552,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control = birth_datum.candidate_control
 		StudySubject.any_instance.stubs(:assign_icf_master_id
-			).raises(ActiveRecord::RecordNotSaved)
+			).raises(ActiveRecord::RecordNotSaved.new('Fake'))
 		assert_difference('Enrollment.count',0) {
 		assert_difference('StudySubject.count',0) {
 		assert_raises(ActiveRecord::RecordNotSaved){

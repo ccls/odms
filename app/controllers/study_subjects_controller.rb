@@ -62,7 +62,9 @@ class StudySubjectsController < ApplicationController
 			params[:page] = @study_subjects.total_pages
 			#	It seems excessive to redirect and do it all again.
 			#	Nevertheless ...
-			redirect_to study_subjects_path(params)
+#			redirect_to study_subjects_path(params)
+			#	rails 4.2.0 is deprecating string keys
+			redirect_to study_subjects_path(params.symbolize_keys)
 		end
 	end
 
