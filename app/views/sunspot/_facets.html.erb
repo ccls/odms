@@ -14,10 +14,12 @@
 			<div class='facet_field'>
 		<% end %>
 
-		<% @sunspot_search_class.sunspot_column_names_in_group(group).each do |column| %>
+		<%# @sunspot_search_class.sunspot_column_names_in_group(group).each do |column| %>
+<%# FYI sunspot_column_names_in_group is SEMI-SORTED %>
+		<% @sunspot_search_class.sunspot_columns_in_group(group).each do |column| %>
 
-			<% if @search.facets.collect(&:name).include?(column.to_sym) %>
-				<% facet =  @search.facets.detect{|f| f.name == column.to_sym } %>
+			<% if @search.facets.collect(&:name).include?(column.name.to_sym) %>
+				<% facet =  @search.facets.detect{|f| f.name == column.name.to_sym } %>
 				<% next if facet.nil? or facet.rows.empty? -%><%# don't show empty facets -%>
 				<%= facet_for(facet,
 					:multiselector => @sunspot_search_class.sunspot_columns.detect{|c|

@@ -61,7 +61,7 @@ class Abstract  < ActiveRecord::Base
 #Abstract.group(:study_subject_id).select('COUNT(`abstracts`.`study_subject_id`) AS count_study_subject_id, `abstracts`.*').having('count_study_subject_id = 2').order(:study_subject_id)
 
 	delegate :patid, :subjectid, :icf_master_id, :vital_status,
-		:dob, :hospital, :diagnosis,
+		:dob, :hospital, :diagnosis, :phase,
 			:to => :study_subject, :allow_nil => true
 
 	include ActiveRecordSunspotter::Sunspotability
@@ -86,6 +86,8 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :hospital,
 		:default => true, :facetable => true )
 	add_sunspot_column( :diagnosis,
+		:default => true, :facetable => true )
+	add_sunspot_column( :phase, :type => :integer,
 		:default => true, :facetable => true )
 	add_sunspot_column( :leukemia_class,
 		:default => true, :facetable => true )
@@ -126,7 +128,7 @@ class Abstract  < ActiveRecord::Base
 #	cp -> Chemotherapy Protocol
 #	pe -> Physical Exam before treatment
 
-	add_sunspot_column( :bmb_report_found,
+	add_sunspot_column( :bmb_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.bmb_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :bmb_test_date, :type => :date )
@@ -134,7 +136,7 @@ class Abstract  < ActiveRecord::Base
 		:meth => ->(s){ YNDK[s.bmb_percentage_blasts_known]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :bmb_percentage_blasts )
-	add_sunspot_column( :bma_report_found,
+	add_sunspot_column( :bma_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.bma_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :bma_test_date, :type => :date )
@@ -142,7 +144,7 @@ class Abstract  < ActiveRecord::Base
 		:meth => ->(s){ YNDK[s.bma_percentage_blasts_known]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :bma_percentage_blasts )
-	add_sunspot_column( :ccs_report_found,
+	add_sunspot_column( :ccs_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.ccs_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :ccs_test_date, :type => :date )
@@ -155,64 +157,68 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :ccs_toluidine_blue )
 	add_sunspot_column( :ccs_bcl_2 )
 	add_sunspot_column( :ccs_other )
-	add_sunspot_column( :dfc_report_found,
+	add_sunspot_column( :dfc_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.dfc_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :dfc_test_date, :type => :date )
 	add_sunspot_column( :dfc_numerical_data_available,
 		:meth => ->(s){ YNDK[s.dfc_numerical_data_available]||'NULL' },
 		:facetable => true )
-	add_sunspot_column( :marker_bmk )
-	add_sunspot_column( :marker_bml )
-	add_sunspot_column( :marker_cd10 )
-	add_sunspot_column( :marker_cd11b )
-	add_sunspot_column( :marker_cd11c )
-	add_sunspot_column( :marker_cd13 )
-	add_sunspot_column( :marker_cd14 )
-	add_sunspot_column( :marker_cd15 )
-	add_sunspot_column( :marker_cd16 )
-	add_sunspot_column( :marker_cd19 )
-	add_sunspot_column( :marker_cd19_cd10 )
-	add_sunspot_column( :marker_cd1a )
-	add_sunspot_column( :marker_cd2 )
-	add_sunspot_column( :marker_cd20 )
-	add_sunspot_column( :marker_cd21 )
-	add_sunspot_column( :marker_cd22 )
-	add_sunspot_column( :marker_cd23 )
-	add_sunspot_column( :marker_cd24 )
-	add_sunspot_column( :marker_cd25 )
-	add_sunspot_column( :marker_cd3 )
-	add_sunspot_column( :marker_cd33 )
-	add_sunspot_column( :marker_cd34 )
-	add_sunspot_column( :marker_cd38 )
-	add_sunspot_column( :marker_cd3_cd4 )
-	add_sunspot_column( :marker_cd3_cd8 )
-	add_sunspot_column( :marker_cd4 )
-	add_sunspot_column( :marker_cd40 )
-	add_sunspot_column( :marker_cd41 )
-	add_sunspot_column( :marker_cd45 )
-	add_sunspot_column( :marker_cd5 )
-	add_sunspot_column( :marker_cd56 )
-	add_sunspot_column( :marker_cd57 )
-	add_sunspot_column( :marker_cd61 )
-	add_sunspot_column( :marker_cd7 )
-	add_sunspot_column( :marker_cd71 )
-	add_sunspot_column( :marker_cd8 )
-	add_sunspot_column( :marker_cd9 )
-	add_sunspot_column( :marker_cdw65 )
-	add_sunspot_column( :marker_glycophorin_a )
-	add_sunspot_column( :marker_hla_dr )
-	add_sunspot_column( :marker_igm )
-	add_sunspot_column( :marker_sig )
-	add_sunspot_column( :marker_tdt )
-	add_sunspot_column( :tdt_report_found,
+
+	with_options(:group => "Markers" ) do |o|
+		o.add_sunspot_column( :marker_bmk )
+		o.add_sunspot_column( :marker_bml )
+		o.add_sunspot_column( :marker_cd10 )
+		o.add_sunspot_column( :marker_cd11b )
+		o.add_sunspot_column( :marker_cd11c )
+		o.add_sunspot_column( :marker_cd13 )
+		o.add_sunspot_column( :marker_cd14 )
+		o.add_sunspot_column( :marker_cd15 )
+		o.add_sunspot_column( :marker_cd16 )
+		o.add_sunspot_column( :marker_cd19 )
+		o.add_sunspot_column( :marker_cd19_cd10 )
+		o.add_sunspot_column( :marker_cd1a )
+		o.add_sunspot_column( :marker_cd2 )
+		o.add_sunspot_column( :marker_cd20 )
+		o.add_sunspot_column( :marker_cd21 )
+		o.add_sunspot_column( :marker_cd22 )
+		o.add_sunspot_column( :marker_cd23 )
+		o.add_sunspot_column( :marker_cd24 )
+		o.add_sunspot_column( :marker_cd25 )
+		o.add_sunspot_column( :marker_cd3 )
+		o.add_sunspot_column( :marker_cd33 )
+		o.add_sunspot_column( :marker_cd34 )
+		o.add_sunspot_column( :marker_cd38 )
+		o.add_sunspot_column( :marker_cd3_cd4 )
+		o.add_sunspot_column( :marker_cd3_cd8 )
+		o.add_sunspot_column( :marker_cd4 )
+		o.add_sunspot_column( :marker_cd40 )
+		o.add_sunspot_column( :marker_cd41 )
+		o.add_sunspot_column( :marker_cd45 )
+		o.add_sunspot_column( :marker_cd5 )
+		o.add_sunspot_column( :marker_cd56 )
+		o.add_sunspot_column( :marker_cd57 )
+		o.add_sunspot_column( :marker_cd61 )
+		o.add_sunspot_column( :marker_cd7 )
+		o.add_sunspot_column( :marker_cd71 )
+		o.add_sunspot_column( :marker_cd8 )
+		o.add_sunspot_column( :marker_cd9 )
+		o.add_sunspot_column( :marker_cdw65 )
+		o.add_sunspot_column( :marker_glycophorin_a )
+		o.add_sunspot_column( :marker_hla_dr )
+		o.add_sunspot_column( :marker_igm )
+		o.add_sunspot_column( :marker_sig )
+		o.add_sunspot_column( :marker_tdt )
+	end
+
+	add_sunspot_column( :tdt_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.tdt_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :tdt_test_date, :type => :date )
 	add_sunspot_column( :tdt_found_where )
 	add_sunspot_column( :tdt_result )
 	add_sunspot_column( :tdt_numerical_result )
-	add_sunspot_column( :ploidy_report_found,
+	add_sunspot_column( :ploidy_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.ploidy_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :ploidy_test_date, :type => :date )
@@ -222,11 +228,11 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :ploidy_hyperdiploid )
 	add_sunspot_column( :ploidy_diploid )
 	add_sunspot_column( :ploidy_dna_index )
-	add_sunspot_column( :hla_report_found,
+	add_sunspot_column( :hla_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.hla_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :hla_test_date, :type => :date )
-	add_sunspot_column( :cgs_report_found,
+	add_sunspot_column( :cgs_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.cgs_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :cgs_test_date, :type => :date )
@@ -244,72 +250,76 @@ class Abstract  < ActiveRecord::Base
 		:facetable => true )
 	add_sunspot_column( :cgs_hyperdiploidy_by )
 	add_sunspot_column( :cgs_hyperdiploidy_number_of_chromosomes )
-	add_sunspot_column( :cgs_t12_21,
-		:meth => ->(s){ YNDK[s.cgs_t12_21]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_inv16,
-		:meth => ->(s){ YNDK[s.cgs_inv16]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_t1_19,
-		:meth => ->(s){ YNDK[s.cgs_t1_19]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_t8_21,
-		:meth => ->(s){ YNDK[s.cgs_t8_21]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_t9_22,
-		:meth => ->(s){ YNDK[s.cgs_t9_22]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_t15_17,
-		:meth => ->(s){ YNDK[s.cgs_t15_17]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_4,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_4]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_5,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_5]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_10,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_10]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_17,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_17]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_21,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_21]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_t4_11_q21_q23,
-		:meth => ->(s){ YNDK[s.cgs_t4_11_q21_q23]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_deletion_6q,
-		:meth => ->(s){ YNDK[s.cgs_deletion_6q]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_deletion_9p,
-		:meth => ->(s){ YNDK[s.cgs_deletion_9p]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_t16_16_p13_q22,
-		:meth => ->(s){ YNDK[s.cgs_t16_16_p13_q22]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_8,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_8]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_x,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_x]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_6,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_6]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_14,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_14]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_trisomy_18,
-		:meth => ->(s){ YNDK[s.cgs_trisomy_18]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_monosomy_7,
-		:meth => ->(s){ YNDK[s.cgs_monosomy_7]||'NULL' },
-		:facetable => true )
-	add_sunspot_column( :cgs_deletion_16_q22,
-		:meth => ->(s){ YNDK[s.cgs_deletion_16_q22]||'NULL' },
-		:facetable => true )
+
+	with_options(:group => "CGS Trisomies" ) do |o|
+		o.add_sunspot_column( :cgs_t12_21,
+			:meth => ->(s){ YNDK[s.cgs_t12_21]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_inv16,
+			:meth => ->(s){ YNDK[s.cgs_inv16]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_t1_19,
+			:meth => ->(s){ YNDK[s.cgs_t1_19]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_t8_21,
+			:meth => ->(s){ YNDK[s.cgs_t8_21]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_t9_22,
+			:meth => ->(s){ YNDK[s.cgs_t9_22]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_t15_17,
+			:meth => ->(s){ YNDK[s.cgs_t15_17]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_4,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_4]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_5,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_5]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_10,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_10]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_17,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_17]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_21,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_21]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_t4_11_q21_q23,
+			:meth => ->(s){ YNDK[s.cgs_t4_11_q21_q23]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_deletion_6q,
+			:meth => ->(s){ YNDK[s.cgs_deletion_6q]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_deletion_9p,
+			:meth => ->(s){ YNDK[s.cgs_deletion_9p]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_t16_16_p13_q22,
+			:meth => ->(s){ YNDK[s.cgs_t16_16_p13_q22]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_8,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_8]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_x,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_x]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_6,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_6]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_14,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_14]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_trisomy_18,
+			:meth => ->(s){ YNDK[s.cgs_trisomy_18]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_monosomy_7,
+			:meth => ->(s){ YNDK[s.cgs_monosomy_7]||'NULL' },
+			:facetable => true )
+		o.add_sunspot_column( :cgs_deletion_16_q22,
+			:meth => ->(s){ YNDK[s.cgs_deletion_16_q22]||'NULL' },
+			:facetable => true )
+	end
+
 	add_sunspot_column( :omg_abnormalities_found,
 		:meth => ->(s){ YNDK[s.omg_abnormalities_found]||'NULL' },
 		:facetable => true )
@@ -323,11 +333,11 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :omg_bcr )
 	add_sunspot_column( :omg_etv6 )
 	add_sunspot_column( :omg_fish )
-	add_sunspot_column( :em_report_found,
+	add_sunspot_column( :em_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.em_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :em_test_date, :type => :date )
-	add_sunspot_column( :cbc_report_found,
+	add_sunspot_column( :cbc_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.cbc_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :cbc_test_date, :type => :date )
@@ -336,7 +346,7 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :cbc_number_of_blasts )
 	add_sunspot_column( :cbc_percentage_blasts )
 	add_sunspot_column( :cbc_platelet_count )
-	add_sunspot_column( :csf_report_found,
+	add_sunspot_column( :csf_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.csf_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :csf_test_date, :type => :date )
@@ -349,28 +359,28 @@ class Abstract  < ActiveRecord::Base
 		:facetable => true )
 	add_sunspot_column( :csf_rbc )
 	add_sunspot_column( :csf_wbc )
-	add_sunspot_column( :ob_skin_report_found,
+	add_sunspot_column( :ob_skin_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.ob_skin_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :ob_skin_date, :type => :date )
 	add_sunspot_column( :ob_skin_leukemic_cells_present,
 		:meth => ->(s){ YNDK[s.ob_skin_leukemic_cells_present]||'NULL' },
 		:facetable => true )
-	add_sunspot_column( :ob_lymph_node_report_found,
+	add_sunspot_column( :ob_lymph_node_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.ob_lymph_node_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :ob_lymph_node_date, :type => :date )
 	add_sunspot_column( :ob_lymph_node_leukemic_cells_present,
 		:meth => ->(s){ YNDK[s.ob_lymph_node_leukemic_cells_present]||'NULL' },
 		:facetable => true )
-	add_sunspot_column( :ob_liver_report_found,
+	add_sunspot_column( :ob_liver_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.ob_liver_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :ob_liver_date, :type => :date )
 	add_sunspot_column( :ob_liver_leukemic_cells_present,
 		:meth => ->(s){ YNDK[s.ob_liver_leukemic_cells_present]||'NULL' },
 		:facetable => true )
-	add_sunspot_column( :ob_other_report_found,
+	add_sunspot_column( :ob_other_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.ob_other_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :ob_other_date, :type => :date )
@@ -378,17 +388,17 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :ob_other_leukemic_cells_present,
 		:meth => ->(s){ YNDK[s.ob_other_leukemic_cells_present]||'NULL' },
 		:facetable => true )
-	add_sunspot_column( :cxr_report_found,
+	add_sunspot_column( :cxr_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.cxr_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :cxr_test_date, :type => :date )
 	add_sunspot_column( :cxr_result )
-	add_sunspot_column( :cct_report_found,
+	add_sunspot_column( :cct_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.cct_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :cct_test_date, :type => :date )
 	add_sunspot_column( :cct_result )
-	add_sunspot_column( :as_report_found,
+	add_sunspot_column( :as_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.as_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :as_test_date, :type => :date )
@@ -410,11 +420,11 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :as_ascities,
 		:meth => ->(s){ YNDK[s.as_ascities]||'NULL' },
 		:facetable => true )
-	add_sunspot_column( :ts_report_found,
+	add_sunspot_column( :ts_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.ts_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :ts_test_date, :type => :date )
-	add_sunspot_column( :hpr_report_found,
+	add_sunspot_column( :hpr_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.hpr_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :hpr_test_date, :type => :date )
@@ -431,18 +441,18 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :height_units )
 	add_sunspot_column( :weight )
 	add_sunspot_column( :weight_units )
-	add_sunspot_column( :ds_report_found,
+	add_sunspot_column( :ds_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.ds_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :ds_test_date, :type => :date )
-	add_sunspot_column( :cp_report_found,
+	add_sunspot_column( :cp_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.cp_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :cp_induction_protocol_used,
 		:meth => ->(s){ YNDK[s.cp_induction_protocol_used]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :cp_induction_protocol_name_and_number )
-	add_sunspot_column( :bma07_report_found,
+	add_sunspot_column( :bma07_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.bma07_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :bma07_test_date, :type => :date )
@@ -450,7 +460,7 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :bma07_inconclusive_results,
 		:meth => ->(s){ s.bma07_inconclusive_results? ? 'Yes' : 'No' } )
 	add_sunspot_column( :bma07_percentage_of_blasts )
-	add_sunspot_column( :bma14_report_found,
+	add_sunspot_column( :bma14_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.bma14_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :bma14_test_date, :type => :date )
@@ -458,7 +468,7 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :bma14_inconclusive_results,
 		:meth => ->(s){ s.bma14_inconclusive_results? ? 'Yes' : 'No' } )
 	add_sunspot_column( :bma14_percentage_of_blasts )
-	add_sunspot_column( :bma28_report_found,
+	add_sunspot_column( :bma28_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.bma28_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :bma28_test_date, :type => :date )
@@ -469,7 +479,7 @@ class Abstract  < ActiveRecord::Base
 	add_sunspot_column( :clinical_remission,
 		:meth => ->(s){ YNDK[s.clinical_remission]||'NULL' },
 		:facetable => true )
-	add_sunspot_column( :pe_report_found,
+	add_sunspot_column( :pe_report_found, :group => 'Reports Found',
 		:meth => ->(s){ YNDK[s.pe_report_found]||'NULL' },
 		:facetable => true )
 	add_sunspot_column( :pe_test_date, :type => :date )
