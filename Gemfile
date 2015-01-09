@@ -44,7 +44,7 @@ gem 'json'
 
 gem 'sass'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0'
+gem 'sass-rails'	#, '~> 4.0'
 
 gem 'rack-ssl', :require => 'rack/ssl'
 
@@ -83,7 +83,7 @@ group :test do
 	#	for dealing with integration tests
 	gem 'database_cleaner'
 
-	gem "mocha", :require => 'mocha/setup'	#, :require => false
+	gem "mocha", :require => 'mocha/setup'
 
 	gem "autotest-rails", :require => 'autotest/rails'
 #	gem "redgreen"
