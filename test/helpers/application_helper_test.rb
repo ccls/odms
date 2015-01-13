@@ -33,9 +33,10 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "medical_records_sub_menu for medical_record_requests#new" do
 		self.params = { :controller => 'medical_record_requests', :action => 'new' }
 		assert medical_records_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Abstracted, All Incomplete, Completed, All Complete
+			#	New, Pending, All, Active, Waitlist, Abstracted, 
+			#		All Incomplete, Completed, All Complete
 			assert_select 'a', :count => 9
 			assert_select 'a.current[href=?]', new_medical_record_request_path
 		end
@@ -44,9 +45,10 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "medical_records_sub_menu for medical_record_requests#index" do
 		self.params = { :controller => 'medical_record_requests', :action => 'index' }
 		assert medical_records_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Abstracted, All Incomplete, Completed, All Complete
+			#	New, Pending, All, Active, Waitlist, Abstracted, 
+			#		All Incomplete, Completed, All Complete
 			assert_select 'a', :count => 9
 			assert_select 'a.current[href=?]', medical_record_requests_path
 		end
@@ -55,11 +57,13 @@ class ApplicationHelperTest < ActionView::TestCase
 	%w( active completed waitlist pending abstracted complete incomplete ).each do |status|
 
 		test "medical_records_sub_menu for medical_record_requests#index?status=#{status}" do
-			self.params = { :controller => 'medical_record_requests', :action => 'index', :status => status }
+			self.params = { :controller => 'medical_record_requests', 
+				:action => 'index', :status => status }
 			assert medical_records_sub_menu.nil?
-			response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
-				#	New, Pending, All, Active, Waitlist, Abstracted, All Incomplete, Completed, All Complete
+				#	New, Pending, All, Active, Waitlist, Abstracted, 
+				#		All Incomplete, Completed, All Complete
 				assert_select 'a', :count => 9
 				assert_select 'a.current[href=?]', medical_record_requests_path(:status => status)
 			end
@@ -70,23 +74,23 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "medical_records_sub_menu for bogus controller" do
 		self.params = { :controller => 'bogus' }
 		assert medical_records_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, Abstracted, All Incomplete, Completed, All Complete
+			#	New, Pending, All, Active, Waitlist, Abstracted, 
+			#		All Incomplete, Completed, All Complete
 			assert_select 'a', :count => 9
 			assert_select 'a.current', :count => 0
 		end
 	end
 
 
-
-
 	test "blood_spots_sub_menu for blood_spot_requests#new" do
 		self.params = { :controller => 'blood_spot_requests', :action => 'new' }
 		assert blood_spots_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, Unavailable, All Complete
+			#	New, Pending, All, Active, Waitlist, All Incomplete, 
+			#		Completed, Unavailable, All Complete
 			assert_select 'a', :count => 9
 			assert_select 'a.current[href=?]', new_blood_spot_request_path
 		end
@@ -95,9 +99,10 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "blood_spots_sub_menu for blood_spot_requests#index" do
 		self.params = { :controller => 'blood_spot_requests', :action => 'index' }
 		assert blood_spots_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, Unavailable, All Complete
+			#	New, Pending, All, Active, Waitlist, All Incomplete, 
+			#		Completed, Unavailable, All Complete
 			assert_select 'a', :count => 9
 			assert_select 'a.current[href=?]', blood_spot_requests_path
 		end
@@ -106,11 +111,13 @@ class ApplicationHelperTest < ActionView::TestCase
 	%w( active completed waitlist pending unavailable incomplete complete ).each do |status|
 
 		test "blood_spots_sub_menu for blood_spot_requests#index?status=#{status}" do
-			self.params = { :controller => 'blood_spot_requests', :action => 'index', :status => status }
+			self.params = { :controller => 'blood_spot_requests', 
+				:action => 'index', :status => status }
 			assert blood_spots_sub_menu.nil?
-			response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
-				#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, Unavailable, All Complete
+				#	New, Pending, All, Active, Waitlist, All Incomplete, 
+				#		Completed, Unavailable, All Complete
 				assert_select 'a', :count => 9
 				assert_select 'a.current[href=?]', blood_spot_requests_path(:status => status )
 			end
@@ -121,9 +128,10 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "blood_spots_sub_menu for bogus controller" do
 		self.params = { :controller => 'bogus' }
 		assert blood_spots_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
-			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, Unavailable, All Complete
+			#	New, Pending, All, Active, Waitlist, All Incomplete, 
+			#		Completed, Unavailable, All Complete
 			assert_select 'a', :count => 9
 			assert_select 'a.current', :count => 0
 		end
@@ -135,7 +143,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_requests#new" do
 		self.params = { :controller => 'bc_requests', :action => 'new' }
 		assert birth_certificates_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
 			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, All Complete
 			assert_select 'a', :count => 8
@@ -146,7 +154,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bc_requests#index" do
 		self.params = { :controller => 'bc_requests', :action => 'index' }
 		assert birth_certificates_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
 			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, All Complete
 			assert_select 'a', :count => 8
@@ -157,9 +165,10 @@ class ApplicationHelperTest < ActionView::TestCase
 	%w( active completed waitlist pending complete incomplete ).each do |status|
 
 		test "birth_certificates_sub_menu for bc_requests#index?status=#{status}" do
-			self.params = { :controller => 'bc_requests', :action => 'index', :status => status }
+			self.params = { :controller => 'bc_requests', 
+				:action => 'index', :status => status }
 			assert birth_certificates_sub_menu.nil?
-			response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
 				#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, All Complete
 				assert_select 'a', :count => 8
@@ -172,7 +181,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "birth_certificates_sub_menu for bogus controller" do
 		self.params = { :controller => 'bogus' }
 		assert birth_certificates_sub_menu.nil?
-		response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+		response = content_for(:side_menu).to_html_document
 		assert_select response, '#sidemenu' do
 			#	New, Pending, All, Active, Waitlist, All Incomplete, Completed, All Complete
 			assert_select 'a', :count => 8
@@ -214,11 +223,12 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:case_study_subject)
 				assert_nil subject_side_menu(study_subject)
-				response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+				response = content_for(:side_menu).to_html_document
 				assert_select response, '#sidemenu' do
 					assert_select 'a', :count => 16
 					assert_select 'a.current', :count => 1
 					assert_select 'a.current[href=?]', send(v,study_subject)
+					assert_first_prev_next_last
 				end
 			end
 
@@ -226,18 +236,40 @@ class ApplicationHelperTest < ActionView::TestCase
 	
 		test "odms_main_menu should return main menu with #{cu} login" do
 			login_as send(cu)
-			response = Nokogiri::HTML::DocumentFragment.parse(odms_main_menu)	#	.root
+			response = odms_main_menu.to_html_document
 			assert_select response, 'div#mainmenu', :count => 1 do
 				#	Home, Subjects, Interviews, Samples, Data Transfers, Admin
 				assert_select 'div.menu_item', :count => 6
+				assert_select( 'div.menu_item.home' ){
+					assert_select( 'a', :text => 'Home' )
+					assert_select( 'div.sub_menu a', :count => 0 ) }
+				assert_select( 'div.menu_item.study_subjects' ){
+					assert_select( 'a', :text => 'Subjects' )
+					assert_select( 'div.sub_menu a', :count => 6 ) }
+				assert_select( 'div.menu_item.interviews' ){
+					assert_select( 'a', :text => 'Interviews' )
+					assert_select( 'div.sub_menu a', :count => 0 ) }
+				assert_select( 'div.menu_item.samples' ){
+					assert_select( 'a', :text => 'Samples' )
+					assert_select( 'div.sub_menu a', :count => 3 ) }
+				assert_select( 'div.menu_item.data_transfers' ){
+					assert_select( 'a', :text => 'Data Transfers' )
+					assert_select( 'div.sub_menu a', :count => 4 ) }
+				assert_select( 'div.menu_item.admin' ){
+					assert_select( 'a', :text => 'Admin' )
+					assert_select( 'div.sub_menu a', :count => 0 ) }
 			end
+			assert_select( response, "form#icf_master_id_form" ){
+				assert_select( "label", :text => "ICF Master ID:" )
+				assert_select( "input[type=text][name=icf_master_id]" )
+				assert_select( "input[type=submit][value=go]" ) }
 		end
 
 		test "should get user_roles with #{cu} login" do
 			@user = send(cu)
 			login_as @user
 			@roles = Role.all
-			response = Nokogiri::HTML::DocumentFragment.parse(user_roles)	#	.root
+			response = user_roles.to_html_document
 			assert_select response, 'form.button_to', :count => 5
 		end
 
@@ -245,45 +277,37 @@ class ApplicationHelperTest < ActionView::TestCase
 
 
 
-		test "odms_main_menu should return main menu with exporter login" do
-			login_as send(:exporter)
-			response = Nokogiri::HTML::DocumentFragment.parse(odms_main_menu)	#	.root
-			assert_select response, 'div#mainmenu', :count => 1 do
-				#	Home, Subjects, Interviews, Data Transfers NOT ( Samples, Admin)
-				assert_select 'div.menu_item', :count => 4
-			end
+	test "odms_main_menu should return main menu with exporter login" do
+		login_as send(:exporter)
+		response = odms_main_menu.to_html_document
+		assert_select response, 'div#mainmenu', :count => 1 do
+			#	Home, Subjects, Interviews, Data Transfers NOT ( Samples, Admin)
+			assert_select 'div.menu_item', :count => 4
 		end
+	end
 
-		test "odms_main_menu should return main menu with editor login" do
-			login_as send(:editor)
-			response = Nokogiri::HTML::DocumentFragment.parse(odms_main_menu)	#	.root
-			assert_select response, 'div#mainmenu', :count => 1 do
-				#	Home, Subjects, Interviews, Data Transfers NOT ( Samples, Admin)
-				assert_select 'div.menu_item', :count => 4
-			end
+	test "odms_main_menu should return main menu with editor login" do
+		login_as send(:editor)
+		response = odms_main_menu.to_html_document
+		assert_select response, 'div#mainmenu', :count => 1 do
+			#	Home, Subjects, Interviews, Data Transfers NOT ( Samples, Admin)
+			assert_select 'div.menu_item', :count => 4
 		end
+	end
 
-		test "odms_main_menu should return main menu with reader login" do
-			login_as send(:reader)
-			response = Nokogiri::HTML::DocumentFragment.parse(odms_main_menu)	#	.root
-			assert_select response, 'div#mainmenu', :count => 1 do
-				#	Home, Subjects, Interviews, NOT ( Samples, Data Transfers, Admin)
-				assert_select 'div.menu_item', :count => 3
-			end
+	test "odms_main_menu should return main menu with reader login" do
+		login_as send(:reader)
+		response = odms_main_menu.to_html_document
+		assert_select response, 'div#mainmenu', :count => 1 do
+			#	Home, Subjects, Interviews, NOT ( Samples, Data Transfers, Admin)
+			assert_select 'div.menu_item', :count => 3
 		end
-
-#	20130510 - don't know why this didn't happen before, but
-#		I removed the notes and documents links and changed #sidemenu
-#		from a div to a ul.  Now rather than having 2 less a tags,
-#		there are 2 more, because the first,prev,next,last a tags
-#		are being counted? x-2+4=x+2
-
-
+	end
 
 	non_site_administrators.each do |cu|
-#
-#	The same, except less links in the menu and therefore possibly no 'current'
-#
+		#
+		#	The same, except less links in the menu and therefore possibly no 'current'
+		#
 		controllers_and_current_links.each do |k,v|
 
 			test "subject_side_menu for case subject and #{k} with #{cu} login" do
@@ -291,7 +315,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:case_study_subject)
 				assert_nil subject_side_menu(study_subject)
-				response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+				response = content_for(:side_menu).to_html_document
 				assert_select response, '#sidemenu' do
 					assert_select 'a', :count => 14
 					if %w( birth_records interviews ).include?(k)
@@ -300,6 +324,7 @@ class ApplicationHelperTest < ActionView::TestCase
 					else
 						assert_select 'a.current[href=?]', send(v,study_subject)
 					end
+					assert_first_prev_next_last
 				end
 			end
 
@@ -308,7 +333,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:control_study_subject)
 				assert_nil subject_side_menu(study_subject)
-				response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+				response = content_for(:side_menu).to_html_document
 				assert_select response, '#sidemenu' do
 					assert_select 'a', :count => 11
 					if %w( birth_records interviews rafs
@@ -318,6 +343,7 @@ class ApplicationHelperTest < ActionView::TestCase
 					else
 						assert_select 'a.current[href=?]', send(v,study_subject)
 					end
+					assert_first_prev_next_last
 				end
 			end
 
@@ -326,7 +352,7 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:mother_study_subject)
 				assert_nil subject_side_menu(study_subject)
-				response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+				response = content_for(:side_menu).to_html_document
 				assert_select response, '#sidemenu' do
 					assert_select 'a', :count => 11
 					if %w( birth_records interviews rafs
@@ -336,6 +362,7 @@ class ApplicationHelperTest < ActionView::TestCase
 					else
 						assert_select 'a.current[href=?]', send(v,study_subject)
 					end
+					assert_first_prev_next_last
 				end
 			end
 
@@ -344,8 +371,8 @@ class ApplicationHelperTest < ActionView::TestCase
 				self.params = { :controller => k }
 				study_subject = FactoryGirl.create(:study_subject)
 				assert_nil subject_side_menu(study_subject)
-				response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
-				assert_select response, '#sidemenu' do |s|
+				response = content_for(:side_menu).to_html_document
+				assert_select response, 'ul#sidemenu' do |s|
 					assert_select 'a', :count => 11
 					if %w( birth_records interviews rafs
 						abstracts study_subject_abstracts patients ).include?(k)
@@ -354,20 +381,22 @@ class ApplicationHelperTest < ActionView::TestCase
 					else
 						assert_select 'a.current[href=?]', send(v,study_subject)
 					end
+					assert_first_prev_next_last
 				end
 			end
 
-		end
+		end	#	controllers_and_current_links.each do |k,v|
 	
 		test "subject_side_menu for case subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
 			study_subject = FactoryGirl.create(:case_study_subject)
 			assert_nil subject_side_menu(study_subject)
-			response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 14
 				assert_select 'a.current', :count => 0
+				assert_first_prev_next_last
 			end
 		end
 
@@ -376,10 +405,11 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'bogus' }
 			study_subject = FactoryGirl.create(:control_study_subject)
 			assert_nil subject_side_menu(study_subject)
-			response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
+				assert_first_prev_next_last
 			end
 		end
 
@@ -388,10 +418,11 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'bogus' }
 			study_subject = FactoryGirl.create(:mother_study_subject)
 			assert_nil subject_side_menu(study_subject)
-			response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
+				assert_first_prev_next_last
 			end
 		end
 
@@ -400,10 +431,11 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => 'bogus' }
 			study_subject = FactoryGirl.create(:study_subject)
 			assert_nil subject_side_menu(study_subject)
-			response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 11
 				assert_select 'a.current', :count => 0
+				assert_first_prev_next_last
 			end
 		end
 
@@ -411,11 +443,10 @@ class ApplicationHelperTest < ActionView::TestCase
 			@user = send(cu)
 			login_as @user
 			@roles = Role.all
-			response = Nokogiri::HTML::DocumentFragment.parse(user_roles)	#	.root
-			assert response.to_s.blank?
+			assert user_roles.to_s.blank?
 		end
 
-	end	#	reader and editor
+	end	#	non_site_administrators.each do |cu|
 
 #	WITHOUT LOGIN (ONLY REAL IN TESTING AS CONTROLLERS STOP THIS)
 
@@ -425,7 +456,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			self.params = { :controller => k }
 			study_subject = FactoryGirl.create(:case_study_subject)
 			assert_nil subject_side_menu(study_subject)
-			response = Nokogiri::HTML::DocumentFragment.parse( content_for(:side_menu) )	#	.root
+			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
 				assert_select 'a', :count => 14
 				if %w( birth_records interviews ).include?(k)
@@ -434,13 +465,14 @@ class ApplicationHelperTest < ActionView::TestCase
 				else
 					assert_select 'a.current[href=?]', send(v,study_subject)
 				end
+				assert_first_prev_next_last
 			end
 		end
 
-	end
+	end	#	controllers_and_current_links.each do |k,v|
 
 	test "odms_main_menu should return main menu without login" do
-		response = Nokogiri::HTML::DocumentFragment.parse(odms_main_menu)	#	.root
+		response = odms_main_menu.to_html_document
 		assert_select response, 'div#mainmenu', :count => 1 do
 			#	Home, Subjects, Interviews, NOT ( Samples, Admin)
 			assert_select 'div.menu_item', :count => 3
@@ -463,10 +495,9 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "should return div with link to sort column name" do
 		#	NEED controller and action as method calls link_to which requires them
 		self.params = { :controller => 'users', :action => 'index' }
-		response = Nokogiri::HTML::DocumentFragment.parse(sort_link('name'))	#	.root
-		#	<div class=""><a href="/users?dir=asc&amp;order=name">name</a></div>
+		response = sort_link('name').to_html_document
 		assert_select response, 'div', :count => 1 do
-			assert_select 'a', :count => 1
+			assert_select 'a', :text => 'name', :count => 1
 			assert_select 'span', :count => 0
 		end
 	end
@@ -476,11 +507,9 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'users', :action => 'index', 
 			:order => 'name' }
 		self.stubs(:sort_up_image).returns('somefilethatshouldnotexist')
-		response = Nokogiri::HTML::DocumentFragment.parse(sort_link('name'))	#	.root
-		#	<div class="sorted"><a href="/users?dir=asc&amp;order=name">name</a>
-		#		<span class="up arrow">&uarr;</span></div>
+		response = sort_link('name').to_html_document
 		assert_select response, 'div.sorted', :count => 1 do
-			assert_select 'a', :count => 1
+			assert_select 'a', :text => 'name', :count => 1
 			assert_select '.up.arrow', :count => 1
 			assert_select 'span.up.arrow', :count => 1
 		end
@@ -489,11 +518,9 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "should return div with link to sort column name with order set to name" do
 		self.params = { :controller => 'users', :action => 'index', 
 			:order => 'name' }
-		response = Nokogiri::HTML::DocumentFragment.parse(sort_link('name'))	#	.root
-		#	<div class="sortable name sorted"><a href="/users?dir=asc&amp;order=name">name</a>
-		#	<img class="up arrow" src="/images/sort_up.png?1320424344" alt="Sort_up" /></div>
+		response = sort_link('name').to_html_document
 		assert_select response, 'div.sorted', :count => 1 do
-			assert_select 'a', :count => 1
+			assert_select 'a', :text => 'name', :count => 1
 			assert_select '.up.arrow', :count => 1
 			assert_select 'img.up.arrow', :count => 1
 		end
@@ -504,11 +531,9 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'users', :action => 'index', 
 			:order => 'name', :dir => 'asc' }
 		self.stubs(:sort_down_image).returns('somefilethatshouldnotexist')
-		response = Nokogiri::HTML::DocumentFragment.parse(sort_link('name'))	#	.root
-		#	<div class="sorted"><a href="/users?dir=asc&amp;order=name">name</a>
-		#		<span class="down arrow">&uarr;</span></div>
+		response = sort_link('name').to_html_document
 		assert_select response, 'div.sorted', :count => 1 do
-			assert_select 'a', :count => 1
+			assert_select 'a', :text => 'name', :count => 1
 			assert_select '.down.arrow', :count => 1
 			assert_select 'span.down.arrow', :count => 1
 		end
@@ -518,11 +543,9 @@ class ApplicationHelperTest < ActionView::TestCase
 			" and dir set to 'asc'" do
 		self.params = { :controller => 'users', :action => 'index', 
 			:order => 'name', :dir => 'asc' }
-		response = Nokogiri::HTML::DocumentFragment.parse(sort_link('name'))	#	.root
-		#	<div class="sortable name sorted"><a href="/users?dir=asc&amp;order=name">name</a>
-		#	<img class="down arrow" src="/images/sort_down.png?1320424344" alt="Sort_up" /></div>
+		response = sort_link('name').to_html_document
 		assert_select response, 'div.sorted', :count => 1 do
-			assert_select 'a', :count => 1
+			assert_select 'a', :text => 'name', :count => 1
 			assert_select '.down.arrow', :count => 1
 			assert_select 'img.down.arrow', :count => 1
 		end
@@ -533,11 +556,9 @@ class ApplicationHelperTest < ActionView::TestCase
 		self.params = { :controller => 'users', :action => 'index', 
 			:order => 'name', :dir => 'desc' }
 		self.stubs(:sort_up_image).returns('somefilethatshouldnotexist')
-		response = Nokogiri::HTML::DocumentFragment.parse(sort_link('name'))	#	.root
-		#	<div class="sorted"><a href="/users?dir=asc&amp;order=name">name</a>
-		#		<span class="up arrow">&uarr;</span></div>
+		response = sort_link('name').to_html_document
 		assert_select response, 'div.sorted', :count => 1 do
-			assert_select 'a', :count => 1
+			assert_select 'a', :text => 'name', :count => 1
 			assert_select '.up.arrow', :count => 1
 			assert_select 'span.up.arrow', :count => 1
 		end
@@ -547,11 +568,9 @@ class ApplicationHelperTest < ActionView::TestCase
 			" and dir set to 'desc'" do
 		self.params = { :controller => 'users', :action => 'index', 
 			:order => 'name', :dir => 'desc' }
-		response = Nokogiri::HTML::DocumentFragment.parse(sort_link('name'))	#	.root
-		#	<div class="sortable name sorted"><a href="/users?dir=asc&amp;order=name">name</a>
-		#	<img class="up arrow" src="/images/sort_up.png?1320424344" alt="Sort_up" /></div>
+		response = sort_link('name').to_html_document
 		assert_select response, 'div.sorted', :count => 1 do
-			assert_select 'a', :count => 1
+			assert_select 'a', :text => 'name', :count => 1
 			assert_select '.up.arrow', :count => 1
 			assert_select 'img.up.arrow', :count => 1
 		end
@@ -566,7 +585,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "subject_id_bar should return subject_id_bar with study_subject" do
 		subject = FactoryGirl.create(:study_subject)
 		assert subject.is_a?(StudySubject)
-		response = Nokogiri::HTML::DocumentFragment.parse( subject_id_bar(subject)	)	#	.root
+		response = subject_id_bar(subject).to_html_document
 		assert_select response, 'div#id_bar' do
 			assert_select 'div.icf_master_id'
 			assert_select 'div.studyid'
@@ -575,10 +594,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "subject_id_bar should NOT return subject_id_bar without study_subject" do
-		response = Nokogiri::HTML::DocumentFragment.parse( subject_id_bar(nil)	)	#	.root
-		#	#<HTML::Node:0x10539a778 @position=0, @line=0, @children=[], @parent=nil>
-		assert response.to_s.blank?
-		assert_select response, 'div#id_bar', :count => 0
+		assert subject_id_bar(nil).to_s.blank?
 	end
 
 #	do_not_contact
@@ -591,23 +607,20 @@ class ApplicationHelperTest < ActionView::TestCase
 		subject = FactoryGirl.create(:study_subject,:do_not_contact => true)
 		assert subject.is_a?(StudySubject)
 		assert subject.do_not_contact?
-		response = Nokogiri::HTML::DocumentFragment.parse( do_not_contact(subject) )	#	.root
-		assert_select response, 'div#do_not_contact', :count => 1
+		response = do_not_contact(subject).to_html_document
+		assert_select response, 'div#do_not_contact', :count => 1,
+			:text => "Study Subject requests no further contact with Study."
 	end
 
 	test "do_not_contact should NOT return do_not_contact if NOT do not contact" do
 		subject = FactoryGirl.create(:study_subject,:do_not_contact => false)
 		assert  subject.is_a?(StudySubject)
 		assert !subject.do_not_contact?
-		response = Nokogiri::HTML::DocumentFragment.parse( do_not_contact(subject) )	#	.root
-		assert_select response, 'div#do_not_contact', :count => 0
-		assert response.to_s.blank?
+		assert do_not_contact(subject).to_s.blank?
 	end
 
 	test "do_not_contact should NOT return do_not_contact if nil subject" do
-		response = Nokogiri::HTML::DocumentFragment.parse( do_not_contact(nil) )	#	.root
-		assert_select response, 'div#do_not_contact', :count => 0
-		assert response.to_s.blank?
+		assert do_not_contact(nil).to_s.blank?
 	end
 
 
@@ -624,8 +637,9 @@ class ApplicationHelperTest < ActionView::TestCase
 		])
 		assert subject.is_a?(StudySubject)
 		assert subject.ineligible?
-		response = Nokogiri::HTML::DocumentFragment.parse( ineligible(subject) )	#	.root
-		assert_select response, 'div#ineligible', :count => 1
+		response = ineligible(subject).to_html_document
+		assert_select response, 'div#ineligible', :count => 1,
+			:text => "Study Subject is not eligible."
 	end
 
 	test "ineligible should NOT return ineligible if subject is eligible" do
@@ -634,15 +648,11 @@ class ApplicationHelperTest < ActionView::TestCase
 		])
 		assert  subject.is_a?(StudySubject)
 		assert !subject.ineligible?
-		response = Nokogiri::HTML::DocumentFragment.parse( ineligible(subject) )	#	.root
-		assert_select response, 'div#ineligible', :count => 0
-		assert response.to_s.blank?
+		assert ineligible(subject).to_s.blank?
 	end
 
 	test "ineligible should NOT return ineligible if nil subject" do
-		response = Nokogiri::HTML::DocumentFragment.parse( ineligible(nil) )	#	.root
-		assert_select response, 'div#ineligible', :count => 0
-		assert response.to_s.blank?
+		assert ineligible(nil).to_s.blank?
 	end
 
 
@@ -660,8 +670,9 @@ class ApplicationHelperTest < ActionView::TestCase
 		])
 		assert subject.is_a?(StudySubject)
 		assert subject.refused?
-		response = Nokogiri::HTML::DocumentFragment.parse( refused(subject) )	#	.root
-		assert_select response, 'div#refused', :count => 1
+		response = refused(subject).to_html_document
+		assert_select response, 'div#refused', :count => 1,
+			:text => "Study Subject refused consent."
 	end
 
 	test "refused should NOT return refused if subject did consent" do
@@ -671,17 +682,12 @@ class ApplicationHelperTest < ActionView::TestCase
 		])
 		assert  subject.is_a?(StudySubject)
 		assert !subject.refused?
-		response = Nokogiri::HTML::DocumentFragment.parse( refused(subject) )	#	.root
-		assert_select response, 'div#refused', :count => 0
-		assert response.to_s.blank?
+		assert refused(subject).to_s.blank?
 	end
 
 	test "refused should NOT return refused if nil subject" do
-		response = Nokogiri::HTML::DocumentFragment.parse( refused(nil) )	#	.root
-		assert_select response, 'div#refused', :count => 0
-		assert response.to_s.blank?
+		assert refused(nil).to_s.blank?
 	end
-
 
 
 #	replicated
@@ -694,29 +700,24 @@ class ApplicationHelperTest < ActionView::TestCase
 		subject = FactoryGirl.create(:study_subject,:replication_id => 1)
 		assert  subject.is_a?(StudySubject)
 		assert !subject.replicates.empty?
-		response = Nokogiri::HTML::DocumentFragment.parse( replicated(subject) )	#	.root
-		assert_select response, 'div#replicated', :count => 1
+		response = replicated(subject).to_html_document
+		assert_select response, 'div#replicated', :count => 1,
+			:text => "Study Subject has possible replicants."
 	end
 
 	test "replicated should return blank if replication_id not present" do
 		subject = FactoryGirl.create(:study_subject)
 		assert subject.is_a?(StudySubject)
 		assert subject.replicates.empty?
-		response = Nokogiri::HTML::DocumentFragment.parse( replicated(subject) )	#	.root
-		assert_select response, 'div#replicated', :count => 0
-		assert response.to_s.blank?
+		assert replicated(subject).to_s.blank?
 	end
 
 	test "replicated should return blank if nil subject" do
-		response = Nokogiri::HTML::DocumentFragment.parse( refused(nil) )	#	.root
-		assert_select response, 'div#replicated', :count => 0
-		assert response.to_s.blank?
+		assert refused(nil).to_s.blank?
 	end
 
-
-
-
 private 
+
 	def params
 		@params || {}
 	end
@@ -735,26 +736,17 @@ private
 	def flash
 		{:notice => "Hello There"}
 	end
-#	delegate :flash, :to => :controller
 	def request
-#	only needed for ... to avoid "no method env for nil" error
-#141       if request.env["HTTP_REFERER"] =~ /study_subjects\/find\?/
 		 ActionController::TestRequest.new
 	end
-#	def response
-#		ActionController::TestResponse.new
-#	end
-
-#	#	fake the funk for controller as well. (for the abstract_pages tests)
-#	def controller
-#puts "reading set controller"
-#		@controller || TestController.new
-#		instance_variable_get("@controller") || TestController.new
-#	end
-#	def controller=(new_controller)
-#puts "setting new controller"
-#		@controller = new_controller
-#	end
+	def assert_first_prev_next_last
+		assert_select( 'li > div' ){
+			assert_select 'a', :count => 1, :text => 'first'
+			assert_select 'a', :count => 1, :text => 'prev'
+			assert_select 'a', :count => 1, :text => 'next'
+			assert_select 'a', :count => 1, :text => 'last'
+		}
+	end
 end
 
 __END__

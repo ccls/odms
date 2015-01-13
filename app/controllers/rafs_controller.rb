@@ -98,7 +98,7 @@ class RafsController < ApplicationController
 			end
 			flash[:warn] = warn.join('<br/>') unless warn.empty?
 			redirect_to @study_subject
-			Notification.raf_submitted(@study_subject).deliver_now
+			Notification.raf_submitted(@study_subject).deliver
 		end
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "StudySubject creation failed"

@@ -61,7 +61,7 @@ class BcInfoUpdate < CSVFile
 				"BC Info (#{csv_file}) has unexpected column names<br/>\n" <<
 				"Actual   ...<br/>\n#{actual_columns.join(',')}<br/>\n" ,
 					:subject => "ODMS: Unexpected or missing columns in #{csv_file}"
-			).deliver_now
+			).deliver
 
 			self.status = "#{csv_file} has unexpected column names"			#	NOTE What is this for? Don't think that it is used now.
 
@@ -85,7 +85,7 @@ class BcInfoUpdate < CSVFile
 	
 		end	#	(f=CSV.open( csv_file, 'rb',{
 
-		Notification.updates_from_bc_info( csv_file, bc_infos ).deliver_now
+		Notification.updates_from_bc_info( csv_file, bc_infos ).deliver
 	end
 
 	def archive

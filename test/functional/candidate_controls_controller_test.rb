@@ -59,9 +59,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false" <<
-				"[value='false'][checked='checked']", :count => 1
+				"[type='radio'][value='false'][checked='checked']", :count => 1
 			assert_select "input#candidate_control_reject_candidate_true" <<
-				"[value='true']", :count => 1
+				"[type='radio'][value='true']:not([checked='checked'])", :count => 1
 		end
 
 		test "should get edit with #{cu} login and preselect reject if mismatched dob" do
@@ -77,9 +77,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false" <<
-				"[value='false']", :count => 1
+				"[type='radio'][value='false']:not([checked='checked'])", :count => 1
 			assert_select "input#candidate_control_reject_candidate_true" <<
-				"[value='true']", :checked => 'checked', :count => 1
+				"[type='radio'][value='true'][checked='checked']", :count => 1
 		end
 
 		test "should get edit with #{cu} login and preselect reject if mismatched sex" do
@@ -95,9 +95,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false" <<
-				"[value='false']", :count => 1
+				"[type='radio'][value='false']:not([checked='checked'])", :count => 1
 			assert_select "input#candidate_control_reject_candidate_true" <<
-				"[value='true'][checked='checked']", :count => 1
+				"[type='radio'][value='true'][checked='checked']", :count => 1
 		end
 
 		test "should get edit with #{cu} login and preselect reject if missing sex" do
@@ -113,9 +113,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false" <<
-				"[value='false']", :count => 1
+				"[type='radio'][value='false']:not([checked='checked'])", :count => 1
 			assert_select "input#candidate_control_reject_candidate_true" <<
-				"[value='true'][checked='checked']", :count => 1
+				"[type='radio'][value='true'][checked='checked']", :count => 1
 		end
 
 		test "should get edit with #{cu} login and preselect reject if missing dob" do
@@ -129,9 +129,9 @@ class CandidateControlsControllerTest < ActionController::TestCase
 			assert_equal candidate.related_patid, case_study_subject.patid
 			assert_successful_edit(candidate)
 			assert_select "input#candidate_control_reject_candidate_false" <<
-				"[value='false']", :count => 1
+				"[type='radio'][value='false']:not([checked='checked'])", :count => 1
 			assert_select "input#candidate_control_reject_candidate_true" <<
-				"[value='true'][checked='checked']", :count => 1
+				"[type='radio'][value='true'][checked='checked']", :count => 1
 		end
 
 		test "should NOT get edit with #{cu} login and invalid id" do

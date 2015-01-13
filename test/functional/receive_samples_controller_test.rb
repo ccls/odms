@@ -300,6 +300,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_select( "div#content" ){
 			assert_select( "p" ){
 			assert_select( "a", :count => 3 ){
+
 #				assert_select( 'a', :text => sample.sampleid, :count => 1 ){
 #					assert_select "[href=?]", study_subject_sample_path(mother,sample)
 #				}
@@ -311,11 +312,12 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				assert_select( "a[href=?]", 
 					study_subject_sample_path(mother,sample, :format => :pdf),
 					:text => 'print label', :count => 1 )
+
+				#	THIS ONE IS NOT mother's study subject id
+				assert_select( "a[href=?]", 
+					new_receive_sample_path(:study_subject_id => study_subject.id),
+					:text => 'add another for this subject', :count => 1 )
 				
-#	what's the third match?
-
-
-
 			} } }
 			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
 		end

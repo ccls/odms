@@ -13,7 +13,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['white']) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", 
 				:count => 1 do
 			assert_select 'div#study_subject_races', :count => 1 do
@@ -47,7 +47,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['white']) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div#study_subject_races', :count => 1 do
 				assert_select 'div.races_label', :count => 1,
@@ -81,7 +81,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['other']) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div#study_subject_races', :count => 1 do
 				assert_select 'div.races_label', :count => 1,
@@ -117,7 +117,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['other']) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div#study_subject_races', :count => 1 do
 				assert_select 'div.races_label', :count => 1,
@@ -161,7 +161,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['mixed']) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div#study_subject_races', :count => 1 do
 				assert_select 'div.races_label', :count => 1,
@@ -197,7 +197,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['mixed']) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", 
 				:count => 1 do
 			assert_select 'div#study_subject_races', :count => 1 do

@@ -6,12 +6,12 @@ module ApplicationHelper
 	def odms_main_menu
 		s = "<div id='mainmenu'>\n"
 
-		s << "<div class='menu_item#{( 
+		s << "<div class='menu_item home#{( 
 				params[:controller] == 'pages' ) ? ' current' : nil}'>" <<
 			link_to('Home', root_path) <<
 			"</div><!-- menu_item -->"
 
-		s << "<div class='menu_item#{( 
+		s << "<div class='menu_item study_subjects#{( 
 				params[:controller] == 'study_subjects' ) ? ' current' : nil}'>" <<
 			link_to('Subjects', study_subjects_path ) <<
 			"<div class='sub_menu'>\n    " <<
@@ -29,13 +29,13 @@ module ApplicationHelper
 			].join("\n    ") <<
 			"</div><!-- sub_menu --></div><!-- menu_item -->"
 
-		s << "<div class='menu_item#{( 
+		s << "<div class='menu_item interviews#{( 
 				params[:controller] == 'interviews' ) ? ' current' : nil}'>" <<
 			link_to('Interviews', dashboard_interviews_path) <<
 			"</div><!-- menu_item -->" if (
 			logged_in? and current_user.may_administrate? )
 
-		s << "<div class='menu_item#{( 
+		s << "<div class='menu_item samples#{( 
 				params[:controller] == 'samples' ) ? ' current' : nil}'>" <<
 			link_to('Samples', samples_path) <<
 			"<div class='sub_menu'>\n    " <<
@@ -49,7 +49,7 @@ module ApplicationHelper
 #		s << "<div class='menu_item#{( 
 #				params[:controller] == 'interviews' ) ? ' current' : nil}'>" <<
 #			link_to('Interviews', dashboard_interviews_path) <<
-		s << "<div class='menu_item'>" <<
+		s << "<div class='menu_item data_transfers'>" <<
 			"<a>Data Transfers</a>" <<
 			"<div class='sub_menu'>\n    " <<
 			[
@@ -68,7 +68,7 @@ module ApplicationHelper
 #			link_to('Studies', dashboard_studies_path) <<
 #			"</div><!-- menu_item -->"
 
-		s << "<div class='menu_item'>#{link_to( "Admin", '/admin' )}</div>" if(
+		s << "<div class='menu_item admin'>#{link_to( "Admin", '/admin' )}</div>" if(
 			logged_in? and current_user.may_administrate? )
 
 		s << "\n</div><!-- mainmenu -->\n"

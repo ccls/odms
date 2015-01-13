@@ -20,13 +20,14 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			assert_equal user_path(u), current_path
 
-			page_body = Nokogiri::HTML::DocumentFragment.parse(body)
+			page_body = body.to_html_document
 			assert_select page_body, 'title', :text => "CCLS ODMS"
-			assert_select( page_body, 'div#main', 1 ){|main|	#	Array!
-			assert_select( main.first,    'div#content', 1 ){ |content|	#	Array!
-			assert_select( content.first, 'fieldset#user', 1 ){ |fieldset|	#	Array!
-				assert_select( fieldset.first, 'legend', 1 )
-				assert_select( fieldset.first, 'div.person', 1 )
+
+			assert_select( page_body, 'div#main', 1 ){
+			assert_select( 'div#content', 1 ){
+			assert_select( 'fieldset#user', 1 ){
+				assert_select( 'legend', 1 )
+				assert_select( 'div.person', 1 )
 			} } }
 		end
 
@@ -49,7 +50,7 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 				#	This isn't perfect, but it does test that the redirect is to CalNet
 				#	If I can't test that I've been redirected, test the page content.
-				assert_select Nokogiri::HTML::DocumentFragment.parse(body), 'title', 
+				assert_select body.to_html_document, 'title', 
 					:text => "CalNet Central Authentication Service - Single Sign-on"
 
 				#https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A50510%2Fusers%2F1

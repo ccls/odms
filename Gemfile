@@ -26,6 +26,7 @@ gem 'jakewendt-active_record_sunspotter'
 #	Random is stupid.  Unpredictable.  Poor testing strategy.
 #	144: suites = Runnable.runnables.shuffle
 #	remove this requirement if can find a way around
+#	still true in 5.5.0
 gem 'minitest', '= 5.3.3'
 
 #	PDF generation
@@ -36,7 +37,16 @@ gem 'prawnto'
 #	format Month/Day/Year Date.parse('12/31/2000')
 gem 'american_date'
 
-gem 'rails'
+#	rails-4.2.0 causes the production web server to always 
+#		give 503 Service Unavailable errors??????
+gem 'rails', '~>4.1.8'
+#
+#	upgrading will require changing deliver to deliver_now
+#	upgrading will require mods to config/initializer/string.rb#to_html_document
+#
+
+
+
 gem 'protected_attributes'	#	to keep rails 3 style
 #gem 'activerecord-session_store'	#	to keep rails 3 style	... going back to cookies so removed
 

@@ -16,7 +16,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english']], :class => 'field_error') }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div.field_error#study_subject_languages', :count => 1 do
 				assert_select 'div.languages_label', :count => 1,
@@ -42,7 +42,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english']]) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div#study_subject_languages', :count => 1 do
 				assert_select 'div.languages_label', :count => 1,
@@ -71,7 +71,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english']]) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div#study_subject_languages', :count => 1 do
 				assert_select 'div.languages_label', :count => 1,
@@ -104,7 +104,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['other']]) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div#study_subject_languages', :count => 1 do
 				assert_select 'div.languages_label', :count => 1,
@@ -139,7 +139,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['other']]) }
 
-		response = Nokogiri::HTML::DocumentFragment.parse(output_buffer)
+		response = output_buffer.to_html_document
 		assert_select response, "form#edit_study_subject_#{@study_subject.id}", :count => 1 do
 			assert_select 'div#study_subject_languages', :count => 1 do
 				assert_select 'div.languages_label', :count => 1,
