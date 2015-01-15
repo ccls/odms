@@ -71,6 +71,9 @@ module ApplicationHelper
 		s << "<div class='menu_item admin'>#{link_to( "Admin", '/admin' )}</div>" if(
 			logged_in? and current_user.may_administrate? )
 
+
+#		s << "<div class='menu_item help'><a id='guidance' class='modal_trigger'>Help?</a></div>" 
+
 		s << "\n</div><!-- mainmenu -->\n"
 		s << "<form id='icf_master_id_form' action='#{by_study_subjects_path}' method='get'><label>ICF Master ID:</label><input name='icf_master_id' type='text'/><input type='submit' value='go'/></form>"
 		s.html_safe

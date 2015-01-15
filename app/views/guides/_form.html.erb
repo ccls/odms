@@ -5,7 +5,7 @@
 <%= f.wrapped_text_field :controller %>
 <%= f.wrapped_text_field :action %>
 <%= f.wrapped_text_area :body, 
- 	:label_text => "Body: (uses sanitized #{link_to('textile','http://redcloth.org',:target => 'new')})".html_safe, :rows => 3, :cols => 50 %>
+ 	:label_text => "Body: (uses sanitized #{link_to('textile','http://redcloth.org',:target => 'new')})".html_safe, :rows => 30, :cols => 50 %>
 <p>
 <%= f.submit( (@guide.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', guides_path, :class => 'button' %>

@@ -1134,4 +1134,21 @@ label has class label now too so can remove this comment and clean up this css
 table#candidate_controls td.study_subject { white-space: nowrap; }
 
 
+
+.modal_trigger {
+	border: 2px solid blue;
+	border-width: 2px 2px 1px 2px;
+	text-decoration: none;
+	padding: 1px 8px;
+	color: blue;
+	background-color: lightblue;
+}
+.modal_content {
+	display:none;
+}
+
+
+
+
+
 /*  find app/ -name \*erb -exec grep -H study_subject_search {} \;  */

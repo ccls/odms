@@ -8,6 +8,17 @@ jQuery(function(){
 
 	jQuery('a.toggler').toggler();
 
+	if( jQuery('#guidance_content').length > 0 ){
+		$('#mainmenu').append("<div class='menu_item help'><a id='guidance' class='modal_trigger' href='javascript:void(0);'>Help?</a></div>");
+	}
+
+	jQuery('.modal_trigger').click(function(){
+		if( typeof jQuery('#'+this.id+'_content').modal == 'function' ){
+			jQuery('#'+this.id+'_content').modal();
+			return false;
+		}
+	});
+
 });
 
 /*
