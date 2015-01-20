@@ -38,9 +38,10 @@ SHELL=/bin/bash
 #	It doesn't seem to be sourcing .bashrc or .bash_profile?
 #	Odd.  I thought that it was sourcing .tcshrc when using tcsh?
 
-PATH=/my/ruby/gems/2.0/bin:/my/ruby/bin:/my/home/jwendt/my/scripts:/usr/local/bin:/bin:/usr/bin:.
-GEM_HOME=/my/ruby/gems/2.0
-GEM_PATH=/my/ruby/gems/2.0
+#	20150120 - Changed to ruby 2.1 so changed dirs here too.
+PATH=/my/ruby/gems/2.1/bin:/my/ruby/bin:/my/home/jwendt/my/scripts:/usr/local/bin:/bin:/usr/bin:.
+GEM_HOME=/my/ruby/gems/2.1
+GEM_PATH=/my/ruby/gems/2.1
 
 #	I believe that the contents of /etc/bashrc on brg does a check for $PS1 or something
 #	and as cron jobs are non-interactive, it quits?  Possibly?
