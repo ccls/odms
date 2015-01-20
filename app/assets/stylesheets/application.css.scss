@@ -58,13 +58,15 @@ div#logo {
 		color:white;
 		text-shadow: #000 0 2px 3px;
 		display:inline-block;
+
+		span {	/* 20150120 - moved inside the logo h2 block */
+			font-size: 15px;
+			line-height: 30px;
+			display:inline-block;
+			vertical-align:middle;
+		}
+
 	}
-}
-h2 span {
-	font-size: 15px;
-	line-height: 30px;
-	display:inline-block;
-	vertical-align:middle;
 }
 h3 {
 	> input[type=submit],
