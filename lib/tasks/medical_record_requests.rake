@@ -4,10 +4,15 @@ namespace :medical_record_requests do
 
 	task :create_waitlist_requests => :environment do
 		puts Time.zone.now
+#				.left_joins(:medical_record_requests).where(:'medical_record_requests.id' => nil)
 		StudySubject.cases.where(StudySubject.arel_table[:reference_date].lt(Date.current-60.days))
 				.joins(:enrollments => :project).where(:'projects.key' => :ccls)
 				.where(:'enrollments.consented' => YNDK[:yes])
-				.left_joins(:medical_record_requests).where(:'medical_record_requests.id' => nil)
+				.joins( Arel::Nodes::OuterJoin.new(
+						MedicalRecordRequest.arel_table,
+						Arel::Nodes::On.new(
+							StudySubject.arel_table[:id].eq(MedicalRecordRequest.arel_table[:study_subject_id]))))
+				.where(:'medical_record_requests.id' => nil)
 				.where(:phase => 5).find_each do |s|
 			puts s.full_name
 			s.medical_record_requests.create!(
