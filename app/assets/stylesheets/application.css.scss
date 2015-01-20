@@ -59,12 +59,16 @@ div#logo {
 		text-shadow: #000 0 2px 3px;
 		display:inline-block;
 
-		span {	/* 20150120 - moved inside the logo h2 block */
+		/* 20150120 - moved inside the logo h2 block */
+		/* 20150120 - doesn't seen to be needed at all? */
+/*
+		span {	
 			font-size: 15px;
 			line-height: 30px;
 			display:inline-block;
 			vertical-align:middle;
 		}
+*/
 
 	}
 }
