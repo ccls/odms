@@ -679,6 +679,17 @@ a configuration file.
 
 
 ---
+== MySQL Gem Notes
+
+Sometimes, the installation of the mysql gem doesn't work with the defaults.
+It may need a little help.  Sometimes it can't find the mysql_config file.
+Other times it can't find the mysql dir.  And other times, it can get bad
+info from the mysql_config.  Check out the error logs and even try running
+mysql_config to see what its output is.
+
+
+
+---
 == Passenger Notes
 
 gem install passenger (don't put in Gemfile, for some reason)
