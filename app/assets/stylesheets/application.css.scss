@@ -851,7 +851,7 @@ div.child_parent.raf_section {
 
 div.study_subject {
 	.field_wrapper span.label { width: 170px; }
-	.state_id_no.field_wrapper span.label { width: auto; }
+//	.state_id_no.field_wrapper span.label { width: auto; }
 	.mother_maiden_name,
 	.guardian_relationship,
 	.other_guardian_relationship {
@@ -861,9 +861,10 @@ div.study_subject {
 
 form.edit_study_subject {
 	.field_wrapper .label { width: 140px; }
-	div.name div.field_wrapper label,
-	.field_wrapper.state_id_no span.label { width: auto; }
-	.field_wrapper.reference_date .label { width: 200px; }
+	div.name div.field_wrapper label { width: auto; }
+//	div.name div.field_wrapper label,
+//	.field_wrapper.state_id_no span.label { width: auto; }
+	.field_wrapper.reference_date .label { width: 170px; }
 	.field_wrapper input[type=text] { width: 120px; }
 	div.state_registrar_no,
 	div.case_control_type,
