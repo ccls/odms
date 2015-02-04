@@ -67,7 +67,7 @@ namespace :samples do
 
 	#	20150203
 	task :import_and_manifest_bloodspots_20150203 => :environment do
-#		raise "This task has been run and disabled."
+		raise "This task has been run and disabled."
 		manifest = CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link_manifest.csv','w')
 
 		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id 
