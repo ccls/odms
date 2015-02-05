@@ -65,6 +65,34 @@ namespace :samples do
 		end	#	CSV.open
 	end
 
+
+	#	20150205
+	task :validate_manifest_bloodspots_20150203 => :environment do
+		raise "This task has been run and disabled."
+		CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link_manifest_paste.csv','rb',
+				{ :headers => true }).each do |line|
+			#	icf_master_id,subjectid,sex,sampleid,gegl_sample_type_id,
+			#	collected_from_subject_at,received_by_ccls_at,storage_temperature,
+			#	sent_to_lab_at,SFN,YOB,Barcode,Comment
+
+			sample = Sample.find( line['sampleid'] )
+
+			if sample.external_id != line['Barcode']
+				puts sample.external_id
+				puts line['Barcode']
+				raise 'barcode mismatch'
+			end
+
+			subject = StudySubject.where( 
+				:state_id_no => "#{line['YOB'][2,2]}-#{sprintf('%06d', line['SFN'])}" ).first
+			if subject.subjectid != line['subjectid'].squish
+				puts subject.subjectid
+				puts line['subjectid']
+				raise 'subjectid mismatch'
+			end
+		end	#	CSV.open
+	end	#	task :import_and_manifest_bloodspots => :environment do
+
 	#	20150203
 	task :import_and_manifest_bloodspots_20150203 => :environment do
 		raise "This task has been run and disabled."
