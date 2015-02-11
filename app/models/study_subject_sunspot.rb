@@ -360,7 +360,7 @@ base.class_eval do
 		text :childid
 		text :patid
 		text :hospital_no
-		text :state_id_no
+		text :state_id_no					#	this doesn't seem to work right?
 		text :state_registrar_no
 		text :local_registrar_no
 		text :subjectid
