@@ -240,13 +240,21 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		test "should redirect to study_subject by icf_master_id with #{cu} login" do
 			login_as send(cu)
 			subject = FactoryGirl.create(:study_subject, :icf_master_id => "1234FIND")
-			get :by, :icf_master_id => '1234FIND'
+			get :by, :by_id => '1234FIND'
+			assert_redirected_to subject
+		end
+
+		test "should redirect to study_subject by subjectid with #{cu} login" do
+			login_as send(cu)
+			subject = FactoryGirl.create(:study_subject)
+			assert !subject.subjectid.blank?, "SubjectID should NOT be blank"
+			get :by, :by_id => subject.subjectid
 			assert_redirected_to subject
 		end
 
 		test "should flash warn if no study_subject with icf_master_id with #{cu} login" do
 			login_as send(cu)
-			get :by, :icf_master_id => '1234FIND'
+			get :by, :by_id => '1234FIND'
 			assert_not_nil flash[:warn]
 			assert_redirected_to root_path
 		end

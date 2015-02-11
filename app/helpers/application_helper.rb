@@ -75,7 +75,7 @@ module ApplicationHelper
 #		s << "<div class='menu_item help'><a id='guidance' class='modal_trigger'>Help?</a></div>" 
 
 		s << "\n</div><!-- mainmenu -->\n"
-		s << "<form id='icf_master_id_form' action='#{by_study_subjects_path}' method='get'><label>ICF Master ID:</label><input name='icf_master_id' type='text'/><input type='submit' value='go'/></form>"
+		s << "<form id='icf_master_id_form' action='#{by_study_subjects_path}' method='get'><label>By ID:</label><input name='by_id' type='text' title='searches both the icf_master_id and the subjectid' /><input type='submit' value='go'/></form>"
 		s.html_safe
 	end
 
