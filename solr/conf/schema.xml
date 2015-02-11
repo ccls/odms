@@ -76,11 +76,18 @@
 <!-- BEGIN JAKE MODIFIED -->
     <fieldType name="text" class="solr.TextField" omitNorms="false">
       <analyzer type="index">
+<!--
+	Standard Tokenizer splits on non-alphanumeric, Whitespace splits
+	on white space and therefore allows for searches with hyphens
+	like our state_id_no or our studyid.
+	Not sure if both are needed though.  ie. "query" and "index"
         <tokenizer class="solr.StandardTokenizerFactory"/>
+-->
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.StandardFilterFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.PorterStemFilterFactory"/>
-<!-- 
+<!--
   from the front, only matches from the front
   but the back seems to match in the middle!
 -->
@@ -88,7 +95,14 @@
         <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="15" side="back"/>
       </analyzer>
       <analyzer type="query">
+<!--
+	Standard Tokenizer splits on non-alphanumeric, Whitespace splits
+	on white space and therefore allows for searches with hyphens
+	like our state_id_no or our studyid.
+	Not sure if both are needed though.  ie. "query" and "index"
         <tokenizer class="solr.StandardTokenizerFactory"/>
+-->
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.StandardFilterFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.PorterStemFilterFactory"/>

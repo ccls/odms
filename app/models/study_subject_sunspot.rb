@@ -350,6 +350,8 @@ base.class_eval do
 	#
 	#	all_sunspot_columns must be set before calling this
 	#
+	#	change solr/conf/schema.rb to allow for partial word search and
+	#		use Whitespace Tokenizer so can search for words with hyphens.
 	searchable_plus do
 		text :first_name
 		text :middle_name
@@ -360,7 +362,7 @@ base.class_eval do
 		text :childid
 		text :patid
 		text :hospital_no
-		text :state_id_no					#	this doesn't seem to work right?
+		text :state_id_no
 		text :state_registrar_no
 		text :local_registrar_no
 		text :subjectid
