@@ -81,4 +81,11 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 		assert search.results.include?(subject)
 	end
 
+	test "should text search on first name with hypen" do
+		subject = FactoryGirl.create(:study_subject, :first_name => "xyz1-3zyx")
+		Sunspot.commit
+		search = StudySubject.search { fulltext 'z1-3z' }
+		assert search.results.include?(subject)
+	end
+
 end
