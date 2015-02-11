@@ -164,7 +164,10 @@ protected
 
 	def search_order
 		if params[:order] and
-				%w( phase icf_master_id studyid last_name reference_date ).include?(params[:order].downcase)
+#				%w( phase icf_master_id studyid last_name reference_date ).include?(params[:order].downcase)
+#	20150211 - icf_master_id replaced by subjectid
+#	20150211 - why was phase here? 
+				%w( subjectid studyid last_name reference_date ).include?(params[:order].downcase)
 			order_string = params[:order]
 			dir = case params[:dir].try(:downcase)
 				when 'desc' then 'desc'
