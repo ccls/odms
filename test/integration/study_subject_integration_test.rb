@@ -79,7 +79,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			study_subject = FactoryGirl.create(:study_subject)
 			login_as send(cu)
 			visit study_subjects_path	#	sets request.env['HTTP_REFERER']
-			find('td.icf_master_id a').click	#	in reality many, in test should be only one
+			find('td.subjectid a').click	#	in reality many, in test should be only one
 			wait_until { has_css?("#sidemenu") }
 			assert_select body.to_html_document, 
 				'#sidemenu > li > a', :text => "back to search"
@@ -142,7 +142,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_enrollment_path(first_study_subject,
 				first_study_subject.enrollments.by_project_key('ccls').first)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(last_study_subject)
 		end
@@ -155,7 +155,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_contacts_path(study_subject)
 			assert_equal current_path, study_subject_contacts_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_contacts_path(other_study_subject)
 		end
@@ -166,7 +166,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_interviews_path(study_subject)
 			assert_equal current_path, study_subject_interviews_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_interviews_path(other_study_subject)
 		end
@@ -177,7 +177,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_related_subjects_path(study_subject)
 			assert_equal current_path, study_subject_related_subjects_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_related_subjects_path(other_study_subject)
 		end
@@ -188,7 +188,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_related_subjects_path(study_subject)
 			assert_equal current_path, study_subject_related_subjects_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_related_subjects_path(other_study_subject)
 		end
@@ -199,7 +199,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit new_study_subject_phone_number_path(study_subject)
 			assert_equal current_path, new_study_subject_phone_number_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, new_study_subject_phone_number_path(other_study_subject)
 		end
@@ -211,7 +211,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_phone_number_path(study_subject,phone_number)
 			assert_equal current_path, edit_study_subject_phone_number_path(study_subject,phone_number)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_phone_numbers_path(other_study_subject)
 		end
@@ -222,7 +222,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_addresses_path(study_subject)
 			assert_equal current_path, study_subject_addresses_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_addresses_path(other_study_subject)
 		end
@@ -233,7 +233,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit new_study_subject_address_path(study_subject)
 			assert_equal current_path, new_study_subject_address_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, new_study_subject_address_path(other_study_subject)
 		end
@@ -245,7 +245,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_address_path(study_subject.reload,address)
 			assert_equal current_path, edit_study_subject_address_path(study_subject,address)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_addresses_path(other_study_subject)
 		end
@@ -256,7 +256,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_consent_path(study_subject)
 			assert_equal current_path, study_subject_consent_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_consent_path(other_study_subject)
 		end
@@ -267,7 +267,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
 			assert_equal current_path, edit_study_subject_consent_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, edit_study_subject_consent_path(other_study_subject)
 		end
@@ -278,7 +278,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_enrollments_path(study_subject)
 			assert_equal current_path, study_subject_enrollments_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
@@ -289,7 +289,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit new_study_subject_enrollment_path(study_subject)
 			assert_equal current_path, new_study_subject_enrollment_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, new_study_subject_enrollment_path(other_study_subject)
 		end
@@ -300,7 +300,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
 			assert_equal current_path, study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
@@ -311,7 +311,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
 			assert_equal current_path, edit_study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
@@ -322,7 +322,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_events_path(study_subject)
 			assert_equal current_path, study_subject_events_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
@@ -333,7 +333,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit new_study_subject_event_path(study_subject)
 			assert_equal current_path, new_study_subject_event_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, new_study_subject_event_path(other_study_subject)
 		end
@@ -344,7 +344,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_event_path(study_subject, study_subject.operational_events.first)
 			assert_equal current_path, study_subject_event_path(study_subject, study_subject.operational_events.first)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
@@ -356,7 +356,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_not_nil study_subject.operational_events.first
 			visit edit_study_subject_event_path(study_subject, study_subject.operational_events.first)
 			assert_equal current_path, edit_study_subject_event_path(study_subject, study_subject.operational_events.first)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
@@ -367,7 +367,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_samples_path(study_subject)
 			assert_equal current_path, study_subject_samples_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_samples_path(other_study_subject)
 		end
@@ -378,7 +378,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit new_study_subject_sample_path(study_subject)
 			assert_equal current_path, new_study_subject_sample_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, new_study_subject_sample_path(other_study_subject)
 		end
@@ -390,7 +390,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_sample_path(study_subject, sample)
 			assert_equal current_path, study_subject_sample_path(study_subject, sample)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_samples_path(other_study_subject)
 		end
@@ -402,7 +402,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_sample_path(study_subject,sample)
 			assert_equal current_path, edit_study_subject_sample_path(study_subject,sample)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_samples_path(other_study_subject)
 		end
@@ -419,7 +419,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_patient_path(study_subject)
 			assert_equal current_path, study_subject_patient_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
@@ -430,7 +430,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_patient_path(study_subject)
 			assert_equal current_path, study_subject_patient_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
@@ -441,7 +441,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit study_subject_patient_path(study_subject)
 			assert_equal current_path, study_subject_patient_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
@@ -453,7 +453,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_patient_path(study_subject)
 			assert_equal current_path, edit_study_subject_patient_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 			assert_equal current_path, edit_study_subject_patient_path(other_study_subject)
 		end
@@ -464,7 +464,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_patient_path(study_subject)
 			assert_equal current_path, edit_study_subject_patient_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 #	flash error
 			assert_equal current_path, study_subject_path(other_study_subject)
@@ -476,7 +476,7 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_patient_path(study_subject)
 			assert_equal current_path, edit_study_subject_patient_path(study_subject)
-			fill_in 'icf_master_id', :with => 'FINDME'
+			fill_in 'by_id', :with => 'FINDME'
 			click_button 'go'
 #	flash error
 			assert_equal current_path, study_subject_path(other_study_subject)

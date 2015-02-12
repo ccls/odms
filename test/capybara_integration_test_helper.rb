@@ -165,6 +165,46 @@ DatabaseCleaner.strategy = :truncation
 #	we can use both webrat and capybara.  We only use capybara now.
 class ActionDispatch::CapybaraIntegrationTest < ActionDispatch::IntegrationTest
 
+	setup :block_unknown_urls
+
+	#	20150212 - Recent versions of capybara start emitting lots of
+	#	external URL complaints. This seems to silence them all.
+	#	Request to unknown URL: http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css
+	#	To block requests to unknown URLs:
+	#	  page.driver.block_unknown_urls
+	#	To allow just this URL:
+	#	  page.driver.allow_url("http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css")
+	#	To allow requests to URLs from this host:
+	#	  page.driver.allow_url("ajax.googleapis.com")
+	#	Request to unknown URL: http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js
+	#	To block requests to unknown URLs:
+	#	  page.driver.block_unknown_urls
+	#	To allow just this URL:
+	#	  page.driver.allow_url("http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js")
+	#	To allow requests to URLs from this host:
+	#	  page.driver.allow_url("ajax.googleapis.com")
+	#	Request to unknown URL: http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js
+	#	To block requests to unknown URLs:
+	#	  page.driver.block_unknown_urls
+	#	To allow just this URL:
+	#	  page.driver.allow_url("http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js")
+	#	To allow requests to URLs from this host:
+	#	  page.driver.allow_url("ajax.googleapis.com")
+	#	Request to unknown URL: http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/images/ui-bg_flat_75_ffffff_40x100.png
+	#	To block requests to unknown URLs:
+	#	  page.driver.block_unknown_urls
+	#	To allow just this URL:
+	#	  page.driver.allow_url("http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/images/ui-bg_flat_75_ffffff_40x100.png")
+	#	To allow requests to URLs from this host:
+	#	  page.driver.allow_url("ajax.googleapis.com")
+	#
+	#	NEED to allow the googleapis as that is where we get our jquery.
+
+	def block_unknown_urls
+		page.driver.block_unknown_urls
+		page.driver.allow_url("ajax.googleapis.com")
+	end
+
 
 #	NOTE
 #	old school is ActionController::IntegrationTest

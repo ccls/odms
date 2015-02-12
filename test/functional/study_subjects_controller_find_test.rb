@@ -255,7 +255,8 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 		end
 
 		#	orderable string-like fields
-		%w( icf_master_id studyid last_name phase ).each do |attr|
+#		%w( icf_master_id studyid last_name phase ).each do |attr|
+		%w( subjectid studyid last_name ).each do |attr|
 
 			test "should find study_subjects and order by #{attr} with #{cu} login" do
 				subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject, attr => "999#{i}" )}

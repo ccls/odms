@@ -259,9 +259,9 @@ class ApplicationHelperTest < ActionView::TestCase
 					assert_select( 'a', :text => 'Admin' )
 					assert_select( 'div.sub_menu a', :count => 0 ) }
 			end
-			assert_select( response, "form#icf_master_id_form" ){
-				assert_select( "label", :text => "ICF Master ID:" )
-				assert_select( "input[type=text][name=icf_master_id]" )
+			assert_select( response, "form#by_id_form" ){
+				assert_select( "label", :text => "By ID:" )
+				assert_select( "input[type=text][name=by_id]" )
 				assert_select( "input[type=submit][value=go]" ) }
 		end
 
