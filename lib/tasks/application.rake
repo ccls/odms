@@ -58,6 +58,23 @@ namespace :app do
 
 
 
+	task :clean_schema_migrations_table => :environment do
+		#	Remove entries in schema_migrations for 
+		#	migrations that have been removed.
+
+		class SchemaMigration < ActiveRecord::Base; self.primary_key = :version; end
+
+		migrations=`ls -1 db/migrate/*rb | awk -F/ '{print $3}' | awk -F_ '{print $1}'`.split
+
+		keeping=destroying=0
+		SchemaMigration.all.each do |sm|
+			puts "#{sm.version} - #{migrations.include?(sm.version) ? 'keep' : 'destroy'}"
+			migrations.include?(sm.version) ? keeping+=1 : destroying+=1
+			sm.destroy unless migrations.include?(sm.version)
+		end
+		puts "Keeping #{keeping}"
+		puts "Destroying #{destroying}"
+	end	#	task :clean_schema_migrations_table => :environment do
 
 
 	task :parse_log_for_slow => :environment do
