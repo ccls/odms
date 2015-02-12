@@ -89,8 +89,10 @@ class StudySubjectsController < ApplicationController
 
 	def by
 		if params[:by_id].present? && (
-				StudySubject.where( :icf_master_id => params[:by_id]).exists? ||
-				StudySubject.where( :subjectid => params[:by_id]).exists? )
+				StudySubject.with_icf_master_id(params[:by_id]).exists? ||
+				StudySubject.with_subjectid(params[:by_id]).exists? )
+#				StudySubject.where( :icf_master_id => params[:by_id]).exists? ||
+#				StudySubject.where( :subjectid => params[:by_id]).exists? )
 			study_subject = StudySubject.with_icf_master_id(params[:by_id]).first ||
 				StudySubject.with_subjectid(params[:by_id]).first
 			redirect_to url_for_subject(study_subject)
