@@ -1,5 +1,7 @@
 <div id='header'>
 <div id='header_top'>
- <div id='logo'><h2><a href='/sunspot/subjects'>Sunspotter<span>[beta]</span></a></h2></div>
+ <div id='logo'><h2>
+<%= link_to "Sunspotter<span>[beta]</span>".html_safe, "/#{params[:controller]}" %>
+</h2></div>
 </div><!-- id='header_top' -->
 </div><!-- header -->
