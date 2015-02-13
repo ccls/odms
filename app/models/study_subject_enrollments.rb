@@ -15,12 +15,24 @@ base.class_eval do
 	# All subjects are to have a CCLS project enrollment, so create after create.
 	after_create :add_ccls_enrollment
 
+	def enrollment(project)		#	20150213 - created
+		@enrollments_hash ||= {}
+		if @enrollments_hash.has_key?(project)
+			@enrollments_hash[project]
+		else
+			@enrollments_hash[project] = enrollments.where( project: Project[project] ).first
+		end
+	end
+
 	def add_ccls_enrollment
 		enrollments.find_or_create_by(project_id: Project['ccls'].id)
 	end
 
 	def ccls_enrollment
-		enrollments.where(:project_id => Project['ccls'].id).first
+#		enrollments.where(:project_id => Project['ccls'].id).first
+#	20150213 - changed from above to below
+		enrollment('ccls')
+
 #	for some reason, this doesn't actually find the enrollment and tries to create another one.
 #	this violates the uniqueness validation and causes RAF submissions to fail.  ?????
 #		enrollments.find_or_create_by(project_id: Project['ccls'].id)

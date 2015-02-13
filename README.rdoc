@@ -722,9 +722,9 @@ Using rake sunspot:reindex instead.
 
  DON'T rake sunspot:solr:reindex\[,Abstract\] as is the same as just rake sunspot:solr:reindex
 
- DO rake sunspot:reindex\[,Abstract\]
- DO rake sunspot:reindex\[,Sample\]
- DO rake sunspot:reindex\[,StudySubject\]
+ DO bundle exec rake sunspot:reindex\[,Abstract\]
+ DO bundle exec rake sunspot:reindex\[,Sample\]
+ DO bundle exec rake sunspot:reindex\[,StudySubject\]
 
 
 ---

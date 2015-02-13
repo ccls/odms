@@ -32,13 +32,14 @@ base.class_eval do
 	#
 	#	thought of adding birth_type, but is in StudySubject AND BirthDatum
 	#
-
-	def hospital
-		patient.try(:organization).try(:to_s)	#	use try so stays nil if nil
-	end
-	def hospital_key
-		patient.try(:organization).try(:key)
-	end
+	#	Delegate these 2 methods - done 20150213
+	#
+#	def hospital
+#		patient.try(:organization).try(:to_s)	#	use try so stays nil if nil
+#	end
+#	def hospital_key
+#		patient.try(:organization).try(:key)
+#	end
 
 
 	#
@@ -150,11 +151,6 @@ base.class_eval do
 	add_sunspot_column( :age_at_admittance, :type => :integer, :facetable => true,
 		:meth => ->(s){( s.dob.blank? or s.admit_date.blank? ) ? nil : s.dob.diff(s.admit_date)[:years] })
 
-	#	
-	#	Pointless.  Most subjects don't have a diagnosis_date.  (Only 1 does, actually)
-	#
-	#	add_sunspot_column( :age_at_diagnosis, :type => :integer, :facetable => true,
-	#		:meth => ->(s){( s.dob.blank? or s.diagnosis_date.blank? ) ? nil : s.dob.diff(s.diagnosis_date)[:years] })
 
 	add_sunspot_column( :ccls_assigned_for_interview_on, :type => :date,
 		:meth => ->(s){ s.ccls_enrollment.try(:assigned_for_interview_at).try(:to_date).try(:strftime,'%m/%d/%Y') } )
@@ -237,110 +233,114 @@ base.class_eval do
 
 
 
-
-	#
-	#	Feel like I'm getting closer ..... yet still miles away.  Its indexed, but how can I extract to column.
-	#	Say column "enrollments:ccls__consented" is selected.  How to get its value?
-	#	Could create method, but dependent on subject.
-	#	Labels?
-	#
-	#	Now that I've tried this, I don't think that this will ever work.
-	#	How's that for motivational!
-	#
-#	add_sunspot_column( :"enrollments:project__consented", :namespace => :enrollments, :type => :dynamic, :facetable => true, 
-#		:dmeth => ->(s,c){ YNDK[s.enrollments.where(:project_id => Project[c.match(/"enrollments:(.+)__.+/)[1]].id).first.try(:consented)]||'NULL' },
-#		:kvp => ->(s){ Hash[s.enrollments.collect{|e| ["#{e.project.key}__consented", YNDK[e.consented]] }] } )
-	#
-	#	this will create SunspotColumn for "enrollments:project__consented"
-	#	need to kinda do this (not facetable), but also create other facetable columns to be used in conjunction?
-	#
-	#	thinking that the old way was better.  Create normal columns for ALL projects and therefore, ALL enrollments.
-	#
-
-
 	#
 	#	If these have ANY value, they will show.
 	#	If they don't, they won't.
-	#	It is AWESOME that "project" is preserved in these methods.  I wouldn't've thought it'd be.
+	#	It is AWESOME that "project" is preserved in these methods.
+	#		I wouldn't've thought it'd be.
 	#
 	Project.order(:position).each do |project|
 		pkey = project.key
 		plab = project.label
 		with_options(:group => "#{plab} Enrollment" ) do |o|
-		o.add_sunspot_column( :"#{pkey}__consented", :facetable => true, :label => "#{plab}:Consented?",
-			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:consented)] } )
-		o.add_sunspot_column( :"#{pkey}__is_eligible", :facetable => true, :label => "#{plab}:Is Eligible?",
-			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_eligible)] } )
-		o.add_sunspot_column( :"#{pkey}__interviewed", :facetable => true, :label => "#{plab}:Interviewed?",
-			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
-				( e.present? ) ? ( e.try(:interview_completed_on).present? ? 'Yes' : 'No' ) : nil } )
+		o.add_sunspot_column( :"#{pkey}__consented", 
+			:facetable => true, :label => "#{plab}:Consented?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? YNDK[e.consented]||'Blank' : nil })
+		o.add_sunspot_column( :"#{pkey}__is_eligible", 
+			:facetable => true, :label => "#{plab}:Is Eligible?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? YNDK[e.is_eligible]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__interviewed", 
+			:facetable => true, :label => "#{plab}:Interviewed?",
+			:meth => ->(s){ ( (e=s.enrollment(pkey)).present? ) ? 
+				( e.try(:interview_completed_on).present? ? 'Yes' : 'No' ) : nil } )
 		o.add_sunspot_column( :"#{pkey}__interview_completed_on", :type => :date,
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:interview_completed_on).try(:strftime,'%m/%d/%Y') } )
+			:meth => ->(s){ s.enrollment(pkey).try(:interview_completed_on).try(:strftime,'%m/%d/%Y') } )
 		o.add_sunspot_column( :"#{pkey}__assigned_for_interview_on", :type => :date,
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(
+			:meth => ->(s){ s.enrollment(pkey).try(
 				:assigned_for_interview_at).try(:to_date).try(:strftime,'%m/%d/%Y') } )
-
-		o.add_sunspot_column( :"#{pkey}__recruitment_priority", :type => :string, :facetable => true, :label => "#{plab}:Recruitment Priority",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:recruitment_priority) } )
-		o.add_sunspot_column( :"#{pkey}__is_candidate", :facetable => true, :label => "#{plab}:Is Candidate?",
-			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_candidate)] } )
-		o.add_sunspot_column( :"#{pkey}__ineligible_reason", :facetable => true, :label => "#{plab}:Ineligible Reason",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:ineligible_reason) } )
-		o.add_sunspot_column( :"#{pkey}__other_ineligible_reason", :facetable => true, :label => "#{plab}:Other Ineligible Reason",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:other_ineligible_reason).nilify_blank } )
+		o.add_sunspot_column( :"#{pkey}__recruitment_priority", 
+			:type => :string, :facetable => true, :label => "#{plab}:Recruitment Priority",
+			:meth => ->(s){ s.enrollment(pkey).try(:recruitment_priority) } )
+		o.add_sunspot_column( :"#{pkey}__is_candidate", 
+			:facetable => true, :label => "#{plab}:Is Candidate?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? YNDK[e.is_candidate]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__ineligible_reason", 
+			:facetable => true, :label => "#{plab}:Ineligible Reason",
+			:meth => ->(s){ s.enrollment(pkey).try(:ineligible_reason) } )
+		o.add_sunspot_column( :"#{pkey}__other_ineligible_reason", 
+			:facetable => true, :label => "#{plab}:Other Ineligible Reason",
+			:meth => ->(s){ s.enrollment(pkey).try(:other_ineligible_reason).nilify_blank } )
 		o.add_sunspot_column( :"#{pkey}__consented_on", :type => :date,
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:consented_on).try(:strftime,'%m/%d/%Y') } )
-		o.add_sunspot_column( :"#{pkey}__refusal_reason", :facetable => true, :label => "#{plab}:Refusal Reason",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:refusal_reason) } )
-		o.add_sunspot_column( :"#{pkey}__other_refusal_reason", :facetable => true, :label => "#{plab}:Other Refusal Reason",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:other_refusal_reason).nilify_blank } )
-		o.add_sunspot_column( :"#{pkey}__is_chosen", :facetable => true, :label => "#{plab}:Is Chosen?",
-			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_chosen)] } )
+			:meth => ->(s){ s.enrollment(pkey).try(:consented_on).try(:strftime,'%m/%d/%Y') } )
+		o.add_sunspot_column( :"#{pkey}__refusal_reason", 
+			:facetable => true, :label => "#{plab}:Refusal Reason",
+			:meth => ->(s){ s.enrollment(pkey).try(:refusal_reason) } )
+		o.add_sunspot_column( :"#{pkey}__other_refusal_reason", 
+			:facetable => true, :label => "#{plab}:Other Refusal Reason",
+			:meth => ->(s){ s.enrollment(pkey).try(:other_refusal_reason).nilify_blank } )
+		o.add_sunspot_column( :"#{pkey}__is_chosen", 
+			:facetable => true, :label => "#{plab}:Is Chosen?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? YNDK[e.is_chosen]||'Blank' : nil } )
 		o.add_sunspot_column( :"#{pkey}__reason_not_chosen",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:reason_not_chosen) } )
-		o.add_sunspot_column( :"#{pkey}__terminated_participation", :facetable => true, :label => "#{plab}:Terminated Participation?",
-			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:terminated_participation)] } )
+			:meth => ->(s){ s.enrollment(pkey).try(:reason_not_chosen) } )
+		o.add_sunspot_column( :"#{pkey}__terminated_participation", 
+			:facetable => true, :label => "#{plab}:Terminated Participation?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? YNDK[e.terminated_participation]||'Blank' : nil } )
 		o.add_sunspot_column( :"#{pkey}__terminated_reason",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:terminated_reason) } )
-		o.add_sunspot_column( :"#{pkey}__is_complete", :facetable => true, :label => "#{plab}:Is Complete?",
-			:meth => ->(s){ YNDK[s.enrollments.where(:project_id => project.id).first.try(:is_complete)] } )
+			:meth => ->(s){ s.enrollment(pkey).try(:terminated_reason) } )
+		o.add_sunspot_column( :"#{pkey}__is_complete", 
+			:facetable => true, :label => "#{plab}:Is Complete?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? YNDK[e.is_complete]||'Blank' : nil } )
 		o.add_sunspot_column( :"#{pkey}__completed_on", :type => :date,
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:completed_on).try(:strftime,'%m/%d/%Y') } )
-		o.add_sunspot_column( :"#{pkey}__is_closed", :facetable => true, :label => "#{plab}:Is Closed?",
-			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
+			:meth => ->(s){ s.enrollment(pkey).try(:completed_on).try(:strftime,'%m/%d/%Y') } )
+		o.add_sunspot_column( :"#{pkey}__is_closed", 
+			:facetable => true, :label => "#{plab}:Is Closed?",
+			:meth => ->(s){ e=s.enrollment(pkey)
 				( e.try(:is_closed).present? ) ? ( e.try(:is_closed) ? 'Yes' : 'No' ) : nil } )
 		o.add_sunspot_column( :"#{pkey}__reason_closed",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:reason_closed) } )
-		o.add_sunspot_column( :"#{pkey}__document_version", :facetable => true, :label => "#{plab}:Document Version",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:document_version) } )
-		o.add_sunspot_column( :"#{pkey}__project_outcome", :facetable => true, :label => "#{plab}:Project Outcome",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:project_outcome) } )
+			:meth => ->(s){ s.enrollment(pkey).try(:reason_closed) } )
+		o.add_sunspot_column( :"#{pkey}__document_version", 
+			:facetable => true, :label => "#{plab}:Document Version",
+			:meth => ->(s){ s.enrollment(pkey).try(:document_version) } )
+		o.add_sunspot_column( :"#{pkey}__project_outcome", 
+			:facetable => true, :label => "#{plab}:Project Outcome",
+			:meth => ->(s){ s.enrollment(pkey).try(:project_outcome) } )
 		o.add_sunspot_column( :"#{pkey}__project_outcome_on", :type => :date,
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:project_outcome_on).try(:strftime,'%m/%d/%Y') } )
-		o.add_sunspot_column( :"#{pkey}__use_smp_future_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureRsrch?",
-			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:use_smp_future_rsrch)] } )
-		o.add_sunspot_column( :"#{pkey}__use_smp_future_cancer_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureCancerRsrch?",
-			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:use_smp_future_cancer_rsrch)] } )
-		o.add_sunspot_column( :"#{pkey}__use_smp_future_other_rsrch", :facetable => true, :label => "#{plab}:UseSmpFutureOtherRsrch?",
-			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:use_smp_future_other_rsrch)] } )
-		o.add_sunspot_column( :"#{pkey}__share_smp_with_others", :facetable => true, :label => "#{plab}:ShareSmpWithOthers?",
-			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:share_smp_with_others)] } )
-		o.add_sunspot_column( :"#{pkey}__contact_for_related_study", :facetable => true, :label => "#{plab}:ContactForRelatedStudy?",
-			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:contact_for_related_study)] } )
-		o.add_sunspot_column( :"#{pkey}__provide_saliva_smp", :facetable => true, :label => "#{plab}:ProvideSalivaSmp?",
-			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:provide_saliva_smp)] } )
-		o.add_sunspot_column( :"#{pkey}__receive_study_findings", :facetable => true, :label => "#{plab}:Receive Study Findings?",
-			:meth => ->(s){ ADNA[s.enrollments.where(:project_id => project.id).first.try(:receive_study_findings)] } )
-		o.add_sunspot_column( :"#{pkey}__refused_by_physician", :facetable => true, :label => "#{plab}:Refused By Physician?",
-			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
+			:meth => ->(s){ s.enrollment(pkey).try(:project_outcome_on).try(:strftime,'%m/%d/%Y') } )
+		o.add_sunspot_column( :"#{pkey}__use_smp_future_rsrch", 
+			:facetable => true, :label => "#{plab}:UseSmpFutureRsrch?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? ADNA[e.use_smp_future_rsrch]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__use_smp_future_cancer_rsrch", 
+			:facetable => true, :label => "#{plab}:UseSmpFutureCancerRsrch?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? ADNA[e.use_smp_future_cancer_rsrch]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__use_smp_future_other_rsrch", 
+			:facetable => true, :label => "#{plab}:UseSmpFutureOtherRsrch?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? ADNA[e.use_smp_future_other_rsrch]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__share_smp_with_others", 
+			:facetable => true, :label => "#{plab}:ShareSmpWithOthers?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? ADNA[e.share_smp_with_others]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__contact_for_related_study", 
+			:facetable => true, :label => "#{plab}:ContactForRelatedStudy?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? ADNA[e.contact_for_related_study]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__provide_saliva_smp", 
+			:facetable => true, :label => "#{plab}:ProvideSalivaSmp?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? ADNA[e.provide_saliva_smp]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__receive_study_findings", 
+			:facetable => true, :label => "#{plab}:Receive Study Findings?",
+			:meth => ->(s){ (e=s.enrollment(pkey)).present? ? ADNA[e.receive_study_findings]||'Blank' : nil } )
+		o.add_sunspot_column( :"#{pkey}__refused_by_physician", 
+			:facetable => true, :label => "#{plab}:Refused By Physician?",
+			:meth => ->(s){ e=s.enrollment(pkey)
 				( e.try(:refused_by_physician).present? ) ? ( e.try(:refused_by_physician) ? 'Yes' : 'No' ) : nil } )
-		o.add_sunspot_column( :"#{pkey}__refused_by_family", :facetable => true, :label => "#{plab}:Refused By Family?",
-			:meth => ->(s){ e=s.enrollments.where(:project_id => project.id).first
+		o.add_sunspot_column( :"#{pkey}__refused_by_family", 
+			:facetable => true, :label => "#{plab}:Refused By Family?",
+			:meth => ->(s){ e=s.enrollment(pkey)
 				( e.try(:refused_by_family).present? ) ? ( e.try(:refused_by_family) ? 'Yes' : 'No' ) : nil } )
-		o.add_sunspot_column( :"#{pkey}__tracing_status", :facetable => true, :label => "#{plab}:Tracing Status",
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(:tracing_status).nilify_blank } )
+		o.add_sunspot_column( :"#{pkey}__tracing_status", 
+			:facetable => true, :label => "#{plab}:Tracing Status",
+			:meth => ->(s){ s.enrollment(pkey).try(:tracing_status).nilify_blank } )
 		o.add_sunspot_column( :"#{pkey}__vaccine_authorization_received_on", :type => :date,
-			:meth => ->(s){ s.enrollments.where(:project_id => project.id).first.try(
+			:meth => ->(s){ s.enrollment(pkey).try(
 				:vaccine_authorization_received_at).try(:to_date).try(:strftime,'%m/%d/%Y') } )
 		end	#	with_options(:group => pkey) do |o|
 	end	#	Project.all
@@ -377,258 +377,9 @@ end	#	StudySubjectSunspot
 __END__
 
 
-#define_method("enrollments:ccls__consented")do puts 'asdf'; end	#	YES, colons allowed?
-#	def 'enrollments:ccls__consented'	#	NO, string and colon NOT allowed
-#		puts 'asdf'
-#	end
-
-#	from generate_association_writer
-#		generated_feature_methods.module_eval           
-#			if method_defined?(:#{association_name}_attributes=)
-#				remove_method(:#{association_name}_attributes=)
-#			end
-#			def #{association_name}_attributes=(attributes)
-#				assign_nested_attributes_for_#{type}_association(:#{association_name}, attributes)
-#			end, __FILE__, __LINE__ + 1
-#	why def and not define_method ???
-
-
-
-
-
-
-#	Hash[StudySubject.find(24135).enrollments.collect{|e| ["#{e.project.key}__consented", YNDK[e.consented]] }]
-#	=> {"ccls__consented"=>"Yes", "home_dust__consented"=>"Yes"}
-
-
-
-
-#	dynamic_sunspot_column = { :namespace => :enrollments, 
-#		:asdf => ->(s){ s.enrollments.inject({}) do |hash,enrollment|
-#				hash.merge( "#{enrollment.project.key}__consented".to_sym => YNDK[enrollment.consented] )
-#			end } }
-#
-#	kinda works, but how to show value in column?
-#		:meth => ->(s){ s.enrollments.where(:project_id => Project[
-
-
-# no no no
-#	pre => ->{ s.enrollments.each{|e| define_method("enrollments:#{e.project.key}__consented") { YNDK[e.consented] } } }
-#	add "unless method_defined?( "enrollments:#{e.project.key}__consented" ) ??????
-
-
-	#	This kinda works, but doesn't seem right.
-	#
-	#	StudySubject.find(24135).send("enrollments:home_dust__consented")
-	#
-	#Project.all.each do |project|
-	#	define_method("enrollments:#{project.key}__consented"){ YNDK[enrollments.where(:project_id => Project[project.key]).first.consented] }
-	#end
-
-
-
-
-
-
-
-
-
-#		dynamic_string :enrollments do
-#			h = enrollments.inject({}) do |hash,enrollment|
-#				hash.merge( "#{enrollment.project.key}__consented".to_sym => YNDK[enrollment.consented] )
-#			end
-#			g = enrollments.inject({}) do |hash,enrollment|
-#				hash.merge( "#{enrollment.project.key}__is_eligible".to_sym => YNDK[enrollment.is_eligible] )
-#			end
-#			g.merge h
-
-#			h = dynamic_sunspot_column[:asdf].call( self )
-#puts h.inspect
-#			h
-#		end
-
-
-
-
-
-
-
-#		string :projects, :multiple => true do
-#			enrollments.collect(&:project).collect(&:to_s)
-#		end
-#		Project.all.each do |project|
-#	#
-#	#	Is there a facet field name length limit?
-#	#
-#	#		#	This should be OUTSIDE the Project.all loop
-#	#		string "Any_Project_consented", :multiple => true do
-#	#			enrollments.collect{|e| YNDK[e.try(:consented)]||'NULL' }.uniq
-#	#		end
-#	#		string "#{project.html_friendly}_consented" do
-#	#			YNDK[enrollments.where(:project_id => project.id).first.try(:consented)]||'NULL'
-#	#		end
-#	#		string "#{project.html_friendly}_is_eligible" do
-#	#			YNDK[enrollments.where(:project_id => project.id).first.try(:is_eligible)]||'NULL'
-#	#		end
-#	#
-#			self.sunspot_dynamic_columns << "#{project.to_s}:consented"
-#			self.sunspot_dynamic_columns << "#{project.to_s}:is_eligible"
-#			dynamic_string "hex_#{project.to_s.unpack('H*').first}" do
-#				(enrollments.where(:project_id => project.id).first.try(:attributes) || {})
-#					.select{|k,v|['consented','is_eligible'].include?(k) }
-#					.inject({}){|h,pair| h.merge(pair[0] => YNDK[pair[1]]||'NULL') }
-#			end
-#		end
-
-
-
-#	Not sure yet, whether the ".to_sym" is necessary, but it seems to be treating them differently (but I'm changing other stuff)
-#	StudySubject.search{ dynamic :enrollments do facet(:ccls__is_eligible) end }.facet(:enrollments, :ccls__is_eligible).rows	WORKS
-#	StudySubject.search{ dynamic :enrollments do facet(:ccls__consented) end }.facet(:enrollments, :ccls__consented).rows DOESN't
-#	Only the last line is sustained and returned. The first is executed and then not remembered.
-#
-#		dynamic_string :enrollments do
-#			enrollments.inject({}) do |hash,enrollment|
-#				#	hash.merge("#{enrollment.project.key}__consented".to_sym => YNDK[enrollment.consented])
-#				#	hash.merge("#{enrollment.project.key}__is_eligible".to_sym => YNDK[enrollment.is_eligible])
-#				#	... better ...
-#				hash.merge(
-#					"#{enrollment.project.key}__consented".to_sym => YNDK[enrollment.consented],
-#					"#{enrollment.project.key}__is_eligible".to_sym => YNDK[enrollment.is_eligible])
-#			end
-#		end
-#
-#
-#	how to identify dynamically created facets from a search?
-#	for that matter, any available facet?
-#
-#	This kinda works for some
-#	Sunspot::Setup.for(StudySubject).fields.select{|f| f.name.to_s =~ /ccls/ }
-#
-#	This only gets the namespace...
-#	Sunspot::Setup.for(StudySubject).dynamic_field_factories
-#
-#	I think that you either query the database or create an index for just the keys and then query that ...
-#	
-#	class Widget < ActiveRecord::Base
-#	   has_many :key_value_pairs
-#	
-#	   searchable do
-#	
-#	      string :key_value_pairs_keys, :multiple => true do
-#	         key_value_pairs.collect(&:key)
-#	      end
-#	
-#	      dynamic_string :key_value_pairs do
-#	         key_value_pairs.inject({}) do |hash, pair|
-#	           hash.merge(pair.key.to_sym => pair.value)
-#	         end
-#	      end
-#	   end
-#	end
-#	
-#	search = Widget.search do
-#	   dynamic :key_value_pairs do
-#	      #  loop over all given keys and facets
-#	      Widget.search{ facet :key_value_pairs_keys 
-#	         }.facet(:key_value_pairs_keys).rows.collect(&:value).each do |kvp_facet|
-#	         facet( kvp_facet )
-#	      end
-#	   end
-#	end
-#	
-#
-#
-#
-#
-#
-#	While the above may work, it will be challenging to integrate with my sunspotter gem
-#	Sadly, multiple blocks don't work.  Each overwrites the previous one.
-#
-#	Could still treat them like a column here, but group them together in my gem?
-#	Actually don't have a name, so ... hmmm ...
-#
-#		add_sunspot_column( :namespace => :enrollments, 
-#			:
-#
-#			:meth => ->(s){ s.ccls_enrollment.try(:assigned_for_interview_at).try(:to_date).try(:strftime,'%m/%d/%Y') },
-#
-#
-#
-#	This works, but seems ugly.  My gem would rely on it, which would be bad.
-#	Interesting solution, though.
-#
-#	def method_missing(meth, *args, &block)
-#		if meth.to_s =~ /^enrollments:(.+)__(.+)$/
-#			enrollments.where(:project_id => Project[$1]).first.send($2)
-#		else
-#			super # You *must* call super if you don't handle the
-#                # method, otherwise you'll mess up Ruby's method
-#                # lookup.
-#		end
-#	end
-
-
-
-
---------------------------------------------------
-
-Dynamic Fields
-
-I wouldn’t be surprised if I’m the only person who ever uses this feature of Sunspot, but just in case, let’s look at a real-world example. Let’s say part of my data model uses free-form key-value pairs, which use a constrained (but user-definable) set of keys and free-form values. I’ll call my model KeyValuePairs.
-
-The trick I would like to pull here is that I would like to treat each key as a separate field in search, so that I can constrain, order, facet, etc. on the values for one key without them being affected by other keys. Since the keys are user-defined, I can’t just set up normal fields at build time; they need to be defined at index time. Enter Sunspot’s dynamic fields (we’ll use Sunspot::Rails’s wrapper API here):
-
-class Business < ActiveRecord::Base
-  has_many :key_value_pairs
-
-
-  searchable do
-    dynamic_string :key_value_pairs do
-      key_value_pairs.inject({}) do |hash, pair|
-        hash.merge(pair.key.to_sym => pair.value)
-      end
-    end
-  end
-end
-
-This sets up a dynamic field which is populated using the given block. What’s important there is that the field is populated using a hash - the keys of the hash become individual dynamic fields, and the values populate those fields in the index. The “base name” of the field is key_value_pairs, which is used to namespace the dynamic names that come out of the hash.
-
-Working with dynamic fields is a lot like working with regular ones, except in the query, calls are wrapped in a dynamic block:
-
-Business.search do
-  dynamic :key_value_pairs do
-    with(:cuisine, 'Sushi')
-    facet(:atmosphere)
-  end
-end
-
-Naturally, those field names (:cuisine, :atmosphere) wouldn’t be hard-coded in a real application, since they would not be known at build time.
-
---------------------------------------------------
-
-
-
-
-
-If you have a hash (perhaps stored in a serialized text field), apparently "dynamic_string :my_hash_attribute" works?
-( serialized :custom_string, Hash )
-Still haven't figured out how to figure out what all the user-created keys to these hashes are though.
-
-
-
-
-
-
-
-
-
 
 bundle exec rake sunspot:solr:start
 bundle exec rake sunspot:reindex
-
-
-
 
 
 
@@ -647,10 +398,3 @@ https://github.com/sunspot/sunspot/issues/606
 Ways to search across multple assocations (20120726)
 https://groups.google.com/forum/#!topic/ruby-sunspot/qwc9GqFNL8c
 
-
-
-
-#StudySubject.search{ dynamic :enrollments do facet(:ccls__consented) end }.facet(:enrollments, :ccls__consented).rows
-#StudySubject.search{ dynamic :enrollments do facet(:ccls__is_eligible) end }.facet(:enrollments, :ccls__is_eligible).rows
-#StudySubject.search{ dynamic :enrollments do facet(:home_dust__consented) end }.facet(:enrollments, :home_dust__consented).rows
-#StudySubject.search{ dynamic :enrollments do facet(:home_dust__is_eligible) end }.facet(:enrollments, :home_dust__is_eligible).rows

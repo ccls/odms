@@ -17,6 +17,7 @@ base.class_eval do
 
 	delegate :admit_date, :hospital_no, :organization, :organization_id, 
 		:diagnosis_date, :diagnosis, :other_diagnosis, :treatment_began_on,
+		:hospital, :hospital_key, 
 			:to => :patient, :allow_nil => true
 
 	accepts_nested_attributes_for :patient
