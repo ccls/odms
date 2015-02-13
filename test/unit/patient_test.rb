@@ -9,7 +9,7 @@ class PatientTest < ActiveSupport::TestCase
 			:bad_values  => 12345 })
 
 	assert_should_accept_only_good_values( :diagnosis, 
-		{ :good_values => Patient.valid_diagnoses,
+		{ :good_values => Patient.const_get(:VALID_DIAGNOSES),
 			:bad_values  => "I'm not valid" })
 
 	assert_should_create_default_object

@@ -117,7 +117,7 @@
   :attribute: :guardian_relationship
   :allow_blank: true
   :inclusion:
-    :in: <%= StudySubject.valid_guardian_relationships %>
+    :in: <%= StudySubject.const_get :VALID_GUARDIAN_RELATIONSHIPS %>
 
 -
   :attribute: :other_guardian_relationship
@@ -206,11 +206,11 @@
   :attribute: :subject_type
   :presence: true
   :inclusion:
-    :in: <%= StudySubject.valid_subject_types %>
+    :in: <%= StudySubject.const_get :VALID_SUBJECT_TYPES %>
 
 -
   :attribute: :vital_status
   :presence: true
   :inclusion:
-    :in: <%= StudySubject.valid_vital_statuses %>
+    :in: <%= StudySubject.const_get :VALID_VITAL_STATUSES %>
 

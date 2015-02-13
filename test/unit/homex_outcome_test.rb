@@ -18,11 +18,11 @@ class HomexOutcomeTest < ActiveSupport::TestCase
 		:interview_outcome_on )
 
 	assert_should_accept_only_good_values( :interview_outcome,
-		{ :good_values => ( HomexOutcome.valid_interview_outcomes + [nil] ), 
+		{ :good_values => ( HomexOutcome.const_get(:VALID_INTERVIEW_OUTCOMES) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
 	assert_should_accept_only_good_values( :sample_outcome,
-		{ :good_values => ( HomexOutcome.valid_sample_outcomes + [nil] ), 
+		{ :good_values => ( HomexOutcome.const_get(:VALID_SAMPLE_OUTCOMES) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
 	test "homex_outcome factory should create homex outcome" do

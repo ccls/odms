@@ -4,16 +4,17 @@
 #	but let's see how this goes first.
 #
 module StudySubjectSubjectType
+
+	#	MUST BE OUTSIDE ALL METHODS, otherwise
+	#	raises "dynamic constant assignment (SyntaxError)"
+	VALID_SUBJECT_TYPES = %w( Case Control Mother Father Twin )
+
 def self.included(base)
 #	Must delay the calls to these ActiveRecord methods
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
 	attr_protected :subject_type
-
-	def self.valid_subject_types
-		%w( Case Control Mother Father Twin )
-	end
 
 	#
 	#	As this attribute shouldn't ever be changed, I haven't created
@@ -25,7 +26,7 @@ base.class_eval do
 	#		but should fail on save as it is invalid.  This way it won't
 	#		silently change the subject types.
 	#	def subject_types
-	#		([self.subject_type] + self.class.valid_subject_types ).compact.uniq
+	#		([self.subject_type] + VALID_SUBJECT_TYPES ).compact.uniq
 	#	end
 
 	def is_child?

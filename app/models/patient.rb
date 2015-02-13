@@ -14,24 +14,12 @@ class Patient < ActiveRecord::Base
 	validate :treatment_began_on_is_on_or_after_admit_date
 	validate :subject_is_case
 
-	#	VALID_RAF_DIAGNOSES = ["ALL", "AML", "other diagnosis"]
-	#	VALID_DIAGNOSES = VALID_RAF_DIAGNOSES + ["missing data (e.g. legacy nulls)", "unknown diagnosis"]
-	#	Would need to use ... outside the class
-	#	Patient.const_get :VALID_RAF_DIAGNOSES
-	#	Seems to work.
-
-	def self.valid_raf_diagnoses
-		["ALL", "AML", "other diagnosis"]
-	end
+	VALID_RAF_DIAGNOSES = ["ALL", "AML", "other diagnosis"]
+	VALID_DIAGNOSES = VALID_RAF_DIAGNOSES + [
+		"missing data (e.g. legacy nulls)", "unknown diagnosis"]
 
 	def raf_diagnoses
-		([self.diagnosis] + self.class.valid_raf_diagnoses ).compact.uniq
-#		([self.diagnosis] + VALID_RAF_DIAGNOSES ).compact.uniq
-	end
-
-	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
-	def self.valid_diagnoses
-		valid_raf_diagnoses + ["missing data (e.g. legacy nulls)", "unknown diagnosis"]
+		([self.diagnosis] + VALID_RAF_DIAGNOSES ).compact.uniq
 	end
 
 	#	This method is predominantly for a form selector.
@@ -41,8 +29,7 @@ class Patient < ActiveRecord::Base
 	#		silently change the diagnosis.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def diagnoses
-		([self.diagnosis] + self.class.valid_diagnoses ).compact.uniq
-#		([self.diagnosis] + VALID_DIAGNOSES ).compact.uniq
+		([self.diagnosis] + VALID_DIAGNOSES ).compact.uniq
 	end
 
 	def diagnosis_is_other?

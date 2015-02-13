@@ -25,11 +25,11 @@
   :attribute: :phone_type
   :presence: true
   :inclusion:
-    :in: <%= PhoneNumber.valid_phone_types %>
+    :in: <%= PhoneNumber.const_get :VALID_PHONE_TYPES %>
 
 -
   :attribute: :data_source
   :presence: true
   :inclusion:
-    :in: <%= PhoneNumber.valid_data_sources %>
+    :in: <%= PhoneNumber.const_get :VALID_DATA_SOURCES %>
 

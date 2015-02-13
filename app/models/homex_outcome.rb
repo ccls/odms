@@ -8,13 +8,11 @@ class HomexOutcome < ActiveRecord::Base
 	belongs_to :study_subject
 	attr_protected :study_subject_id, :study_subject
 
-	def self.valid_interview_outcomes
-		["complete", "interview is incomplete", "interview has been scheduled", "pending"]
-	end
+	VALID_INTERVIEW_OUTCOMES = ["complete", 
+		"interview is incomplete", "interview has been scheduled", "pending"]
 
-	def self.valid_sample_outcomes
-		["complete", "to lab", "sample received", "kit sent", "pending"]
-	end
+	VALID_SAMPLE_OUTCOMES = ["complete", 
+		"to lab", "sample received", "kit sent", "pending"]
 
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
@@ -23,10 +21,10 @@ class HomexOutcome < ActiveRecord::Base
 	#		silently change the vital status.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def interview_outcomes
-		([self.interview_outcome] + self.class.valid_interview_outcomes ).compact.uniq
+		([self.interview_outcome] + VALID_INTERVIEW_OUTCOMES ).compact.uniq
 	end
 	def sample_outcomes
-		([self.sample_outcome] + self.class.valid_sample_outcomes ).compact.uniq
+		([self.sample_outcome] + VALID_SAMPLE_OUTCOMES ).compact.uniq
 	end
 
 	validations_from_yaml_file

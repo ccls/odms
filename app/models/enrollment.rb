@@ -79,13 +79,12 @@ class Enrollment < ActiveRecord::Base
 	scope :by_project_key, ->(key){ joins(:project).merge(Project.by_key(key.to_s)) }
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
-	def self.valid_tracing_statuses
-		["Subject Tracing In Progress", "Subject Found", "Unable To Locate", "Unknown Tracing Status"]
-	end
+	VALID_TRACING_STATUSES = ["Subject Tracing In Progress", 
+		"Subject Found", "Unable To Locate", "Unknown Tracing Status"]
 
-	def self.valid_project_outcomes
-		["complete", "closed prior to completion", "open (pending)"]
-	end
+	VALID_PROJECT_OUTCOMES = ["complete", 
+		"closed prior to completion", "open (pending)"]
+
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
 	#	This will allow an existing invalid value to show on the selector,
@@ -93,12 +92,12 @@ class Enrollment < ActiveRecord::Base
 	#		silently change the tracing status.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def tracing_statuses
-		([self.tracing_status] + self.class.valid_tracing_statuses ).compact.uniq
+		([self.tracing_status] + VALID_TRACING_STATUSES ).compact.uniq
 	end
 	#	it is my personal opinion that project_outcome should be on 
 	#	project and not enrollment. it makes no sense to be here.
 	def project_outcomes
-		([self.project_outcome] + self.class.valid_project_outcomes ).compact.uniq
+		([self.project_outcome] + VALID_PROJECT_OUTCOMES ).compact.uniq
 	end
 
 	validations_from_yaml_file

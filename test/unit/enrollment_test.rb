@@ -16,11 +16,11 @@ class EnrollmentTest < ActiveSupport::TestCase
 			:bad_values  => 12345 })
 
 	assert_should_accept_only_good_values( :tracing_status,
-		{ :good_values => ( Enrollment.valid_tracing_statuses + [nil] ), 
+		{ :good_values => ( Enrollment.const_get( :VALID_TRACING_STATUSES ) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
 	assert_should_accept_only_good_values( :project_outcome,
-		{ :good_values => ( Enrollment.valid_project_outcomes + [nil] ), 
+		{ :good_values => ( Enrollment.const_get( :VALID_PROJECT_OUTCOMES ) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
 	assert_should_create_default_object

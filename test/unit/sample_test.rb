@@ -25,11 +25,11 @@ class SampleTest < ActiveSupport::TestCase
 
 
 	assert_should_accept_only_good_values( :sample_temperature,
-		{ :good_values => ( Sample.valid_sample_temperatures + [nil] ), 
+		{ :good_values => ( Sample.const_get(:VALID_SAMPLE_TEMPERATURES) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
 	assert_should_accept_only_good_values( :sample_format,
-		{ :good_values => ( Sample.valid_sample_formats + [nil] ), 
+		{ :good_values => ( Sample.const_get(:VALID_SAMPLE_FORMATS) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
 	assert_requires_complete_date( :sent_to_subject_at, 

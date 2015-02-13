@@ -20,7 +20,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 			:bad_values  => 12345 })
 
 	assert_should_accept_only_good_values( :guardian_relationship,
-		{ :good_values => ( StudySubject.valid_guardian_relationships + [nil] ), 
+		{ :good_values => ( StudySubject.const_get(:VALID_GUARDIAN_RELATIONSHIPS) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
 	assert_should_create_default_object

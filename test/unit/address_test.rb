@@ -29,7 +29,7 @@ class AddressTest < ActiveSupport::TestCase
 			:bad_values  => 12345 })
 
 	assert_should_accept_only_good_values( :data_source,
-		{ :good_values => Address.valid_data_sources, 
+		{ :good_values => Address.const_get( :VALID_DATA_SOURCES ), 
 			:bad_values  => "I'm not valid" })
 
 	assert_should_require_attribute_length( 
@@ -40,7 +40,7 @@ class AddressTest < ActiveSupport::TestCase
 #	assert_should_have_many(:interviews)	#	address did
 
 	assert_should_accept_only_good_values( :address_type,
-		{ :good_values => Address.valid_address_types, 
+		{ :good_values => Address.const_get( :VALID_ADDRESS_TYPES ), 
 			:bad_values  => "I'm not valid" })
 
 

@@ -9,7 +9,7 @@ class InterviewTest < ActiveSupport::TestCase
 	assert_should_belong_to( :interviewer, :class_name => 'Person')
 
 	assert_should_accept_only_good_values( :subject_relationship,
-		{ :good_values => ( Interview.valid_subject_relationships + [nil] ), 
+		{ :good_values => ( Interview.const_get(:VALID_SUBJECT_RELATIONSHIPS) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
 	attributes = %w( began_at consent_read_over_phone 

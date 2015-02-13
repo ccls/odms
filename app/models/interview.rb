@@ -19,11 +19,10 @@ class Interview < ActiveRecord::Base
 	belongs_to :interview_method
 	belongs_to :language
 
-	def self.valid_subject_relationships
-		["Subject's mother", "Subject's father", "Subject's grandparent", 
+	VALID_SUBJECT_RELATIONSHIPS = ["Subject's mother", "Subject's father", 
+			"Subject's grandparent", 
 			"Subject's foster parent", "Subject's twin", "Other relationship to Subject", 
 			"Subject's sibling", "Subject's step parent", "Unknown relationship to subject"]
-	end
 
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
@@ -32,7 +31,7 @@ class Interview < ActiveRecord::Base
 	#		silently change the vital status.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def subject_relationships
-		([self.subject_relationship] + self.class.valid_subject_relationships ).compact.uniq
+		([self.subject_relationship] + VALID_SUBJECT_RELATIONSHIPS ).compact.uniq
 	end
 
 	def subject_relationship_is_other?

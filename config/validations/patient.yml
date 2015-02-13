@@ -56,5 +56,5 @@
   :attribute: :diagnosis
   :presence: true
   :inclusion:
-    :in: <%= Patient.valid_diagnoses %>
+    :in: <%= Patient.const_get :VALID_DIAGNOSES %>
 

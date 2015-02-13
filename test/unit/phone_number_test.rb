@@ -8,11 +8,11 @@ class PhoneNumberTest < ActiveSupport::TestCase
 			:bad_values  => 12345 })
 
 	assert_should_accept_only_good_values( :phone_type, 
-		{ :good_values => PhoneNumber.valid_phone_types,
+		{ :good_values => PhoneNumber.const_get(:VALID_PHONE_TYPES),
 			:bad_values  => "I'm not valid" })
 
 	assert_should_accept_only_good_values( :data_source,
-		{ :good_values => ( PhoneNumber.valid_data_sources ), 
+		{ :good_values => PhoneNumber.const_get(:VALID_DATA_SOURCES), 
 			:bad_values  => "I'm not valid" })
 
 	assert_should_create_default_object

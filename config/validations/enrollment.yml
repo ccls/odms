@@ -176,11 +176,11 @@
   :attribute: :tracing_status
   :allow_blank: true
   :inclusion:
-    :in: <%= Enrollment.valid_tracing_statuses %>
+    :in: <%= Enrollment.const_get :VALID_TRACING_STATUSES %>
 
 -
   :attribute: :project_outcome
   :allow_blank: true
   :inclusion:
-    :in: <%= Enrollment.valid_project_outcomes %>
+    :in: <%= Enrollment.const_get :VALID_PROJECT_OUTCOMES %>
 

@@ -21,7 +21,7 @@
   :attribute: :data_source
   :presence: true
   :inclusion:
-    :in: <%= Address.valid_data_sources %>
+    :in: <%= Address.const_get :VALID_DATA_SOURCES %>
 
 -
   :attributes:
@@ -64,5 +64,5 @@
   :attribute: :address_type
   :presence: true
   :inclusion:
-    :in: <%= Address.valid_address_types %>
+    :in: <%= Address.const_get :VALID_ADDRESS_TYPES %>
 

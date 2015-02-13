@@ -3,7 +3,7 @@ require 'test_helper'
 class StudySubjectSubjectTypeTest < ActiveSupport::TestCase
 
 	assert_should_accept_only_good_values( :subject_type,
-		{ :good_values => StudySubject.valid_subject_types,
+		{ :good_values => StudySubject.const_get(:VALID_SUBJECT_TYPES),
 			:bad_values  => "I'm not valid", :model => 'StudySubject' })
 
 	test "should require subject_type" do

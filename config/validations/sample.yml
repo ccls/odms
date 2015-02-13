@@ -47,13 +47,13 @@
 -
   :attribute: :sample_temperature
   :inclusion:
-    :in: <%= Sample.valid_sample_temperatures %>
+    :in: <%= Sample.const_get :VALID_SAMPLE_TEMPERATURES %>
   :allow_blank: true
 
 
 -
   :attribute: :sample_format
   :inclusion:
-    :in: <%= Sample.valid_sample_formats %>
+    :in: <%= Sample.const_get :VALID_SAMPLE_FORMATS %>
   :allow_blank: true
 

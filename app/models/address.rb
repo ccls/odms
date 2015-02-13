@@ -24,12 +24,11 @@ class Address < ActiveRecord::Base
 
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
-	def self.valid_data_sources
-		["RAF (CCLS Rapid Ascertainment Form)", "Study Consent Form", "Interview with Subject", 
+	VALID_DATA_SOURCES = ["RAF (CCLS Rapid Ascertainment Form)", 
+			"Study Consent Form", "Interview with Subject", 
 			"USPS Address Service", "Other Source", "Migrated from Tracking2k database", 
 			"Unknown Data Source", "Provided by Survey Research Center ('SRC')", 
 			"Provided to CCLS by ICF", "Live Birth data from USC" ]
-	end
 
 	# This method is predominantly for a form selector.
 	# It will show the existing value first followed by the other valid values.
@@ -38,7 +37,7 @@ class Address < ActiveRecord::Base
 	#   silently change the data source.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def data_sources
-		([self.data_source] + self.class.valid_data_sources ).compact.uniq
+		([self.data_source] + VALID_DATA_SOURCES ).compact.uniq
 	end
 
 	def data_source_is_other?
@@ -71,9 +70,7 @@ class Address < ActiveRecord::Base
 	end
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
-	def self.valid_address_types
-		["Residence", "Mailing", "Business", "Other", "Unknown"]
-	end
+	VALID_ADDRESS_TYPES = %w( Residence Mailing Business Other Unknown )
 
 	# This method is predominantly for a form selector.
 	# It will show the existing value first followed by the other valid values.
@@ -82,7 +79,7 @@ class Address < ActiveRecord::Base
 	#   silently change the address type.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def address_types
-		([self.address_type] + self.class.valid_address_types ).compact.uniq
+		([self.address_type] + VALID_ADDRESS_TYPES ).compact.uniq
 	end
 
 	validations_from_yaml_file

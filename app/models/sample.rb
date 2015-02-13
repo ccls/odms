@@ -53,9 +53,7 @@ class Sample < ActiveRecord::Base
 	end
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
-	def self.valid_sample_temperatures
-		["Room Temperature", "Refrigerated"]
-	end
+	VALID_SAMPLE_TEMPERATURES = ["Room Temperature", "Refrigerated"]
 
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
@@ -64,17 +62,15 @@ class Sample < ActiveRecord::Base
 	#		silently change the phone type.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def sample_temperatures
-		([self.sample_temperature] + self.class.valid_sample_temperatures ).compact.uniq
+		([self.sample_temperature] + VALID_SAMPLE_TEMPERATURES ).compact.uniq
 	end
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
-	def self.valid_sample_formats
-		#
-		#	Only have Guthrie Cards in db
-		#
-		["Guthrie Card", "Slide", "Vacuum Bag", "Other Source", 
+	#
+	#	Only have Guthrie Cards in db
+	#
+	VALID_SAMPLE_FORMATS = ["Guthrie Card", "Slide", "Vacuum Bag", "Other Source", 
 			"Migrated from CCLS Legacy Tracking2k database", "Unknown Data Source"]
-	end
 
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
@@ -83,7 +79,7 @@ class Sample < ActiveRecord::Base
 	#		silently change the phone type.
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def sample_formats
-		([self.sample_format] + self.class.valid_sample_formats ).compact.uniq
+		([self.sample_format] + VALID_SAMPLE_FORMATS ).compact.uniq
 	end
 
 	validations_from_yaml_file

@@ -53,5 +53,5 @@
   :attribute: :subject_relationship
   :allow_blank: true
   :inclusion:
-    :in: <%= Interview.valid_subject_relationships %>
+    :in: <%= Interview.const_get :VALID_SUBJECT_RELATIONSHIPS %>
 
