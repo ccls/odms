@@ -41,7 +41,7 @@
 <div><label for='subject_type'>subject type:</label></div>
 <div><%= select_tag :subject_type, 
 		options_for_select(
-			[nil] + StudySubject.valid_subject_types,
+			[nil] + StudySubject.const_get(:VALID_SUBJECT_TYPES),
 			params[:subject_type])  %></div>
 </div><!-- tablerow -->
 
