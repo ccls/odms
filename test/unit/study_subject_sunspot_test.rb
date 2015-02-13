@@ -48,7 +48,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 		assert !subject.ccls_enrollment.try(:interview_completed_on).present?
 		assert_nil e.interview_completed_on
 		e.update_column(:interview_completed_on, Date.current)
-		assert  subject.reload.ccls_enrollment.try(:interview_completed_on).present?
+		assert  subject.reload.ccls_enrollment.reload.try(:interview_completed_on).present?
 		assert_not_nil e.interview_completed_on
 	end
 

@@ -6,7 +6,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.ccls_enrollment.interview_completed_on
 		icf_master_tracker = IcfMasterTracker.new(:master_id => 'IDOEXIST',:cati_complete => '12/31/2012')
-		assert_equal Date.parse('12/31/2012'),study_subject.ccls_enrollment.interview_completed_on
+		assert_equal Date.parse('12/31/2012'),study_subject.ccls_enrollment.reload.interview_completed_on
 		assert_match /interview_completed_on set to/, icf_master_tracker.status
 	end
 
@@ -14,7 +14,7 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.ccls_enrollment.interview_completed_on
 		icf_master_tracker = IcfMasterTracker.new(:master_id => 'IDOEXIST')
-		assert_nil study_subject.ccls_enrollment.interview_completed_on
+		assert_nil study_subject.ccls_enrollment.reload.interview_completed_on
 		assert_match /cati_complete is blank/, icf_master_tracker.status
 	end
 
@@ -26,11 +26,11 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 	test "should update different interview_completed_on with cati_complete if not blank" do
 		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.ccls_enrollment.interview_completed_on
-		study_subject.ccls_enrollment.update_column(:interview_completed_on, Date.parse('12/31/2000'))
-		assert_not_nil study_subject.ccls_enrollment.interview_completed_on
-		assert_equal Date.parse('12/31/2000'),study_subject.ccls_enrollment.interview_completed_on
+		study_subject.ccls_enrollment.reload.update_column(:interview_completed_on, Date.parse('12/31/2000'))
+		assert_not_nil study_subject.ccls_enrollment.reload.interview_completed_on
+		assert_equal Date.parse('12/31/2000'),study_subject.ccls_enrollment.reload.interview_completed_on
 		icf_master_tracker = IcfMasterTracker.new(:master_id => 'IDOEXIST',:cati_complete => '12/31/2012')
-		assert_equal Date.parse('12/31/2012'),study_subject.ccls_enrollment.interview_completed_on
+		assert_equal Date.parse('12/31/2012'),study_subject.ccls_enrollment.reload.interview_completed_on
 		assert_match /interview_completed_on set to/, icf_master_tracker.status
 	end
 
@@ -50,9 +50,9 @@ class IcfMasterTrackerTest < ActiveSupport::TestCase
 	test "should not create operational event with cati_complete if not blank and same interview_completed_on" do
 		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.ccls_enrollment.interview_completed_on
-		study_subject.ccls_enrollment.update_column(:interview_completed_on, Date.parse('12/31/2012'))
-		assert_not_nil study_subject.ccls_enrollment.interview_completed_on
-		assert_equal Date.parse('12/31/2012'),study_subject.ccls_enrollment.interview_completed_on
+		study_subject.ccls_enrollment.reload.update_column(:interview_completed_on, Date.parse('12/31/2012'))
+		assert_not_nil study_subject.ccls_enrollment.reload.interview_completed_on
+		assert_equal Date.parse('12/31/2012'),study_subject.ccls_enrollment.reload.interview_completed_on
 		icf_master_tracker = IcfMasterTracker.new(:master_id => 'IDOEXIST',:cati_complete => '12/31/2012')
 		assert study_subject.operational_events
 			.where(:operational_event_type_id => OperationalEventType['other'].id).empty?
