@@ -3,7 +3,6 @@ class CreatePatients < ActiveRecord::Migration
 		create_table :patients do |t|
 			t.integer :study_subject_id
 			t.date    :diagnosis_date
-			t.integer :diagnosis_id
 			t.integer :organization_id
 			t.date    :admit_date
 			t.date    :treatment_began_on
@@ -17,6 +16,8 @@ class CreatePatients < ActiveRecord::Migration
 			t.string  :hospital_no, :limit => 25
 			t.string  :other_diagnosis
 			t.timestamps
+			t.integer :is_study_area_resident
+			t.string  :diagnosis
 		end
 		add_index :patients, :study_subject_id, :unique => true
 		add_index :patients, :organization_id

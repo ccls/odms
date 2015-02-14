@@ -251,8 +251,8 @@ Table: abstracts
 | abstracted_on                           | date         | YES  |     | NULL    |                |
 | reviewed_by                             | varchar(255) | YES  |     | NULL    |                |
 | reviewed_on                             | date         | YES  |     | NULL    |                |
-| created_at                              | datetime     | NO   |     | NULL    |                |
-| updated_at                              | datetime     | NO   |     | NULL    |                |
+| created_at                              | datetime     | YES  |     | NULL    |                |
+| updated_at                              | datetime     | YES  |     | NULL    |                |
 +-----------------------------------------+--------------+------+-----+---------+----------------+
 Table: addresses
 +----------------------+--------------+------+-----+---------+----------------+
@@ -263,8 +263,8 @@ Table: addresses
 | current_address      | int(11)      | YES  |     | 1       |                |
 | address_at_diagnosis | int(11)      | YES  |     | NULL    |                |
 | other_data_source    | varchar(255) | YES  |     | NULL    |                |
-| created_at           | datetime     | NO   |     | NULL    |                |
-| updated_at           | datetime     | NO   |     | NULL    |                |
+| created_at           | datetime     | YES  |     | NULL    |                |
+| updated_at           | datetime     | YES  |     | NULL    |                |
 | notes                | text         | YES  |     | NULL    |                |
 | data_source          | varchar(255) | YES  |     | NULL    |                |
 | line_1               | varchar(255) | YES  |     | NULL    |                |
@@ -272,7 +272,7 @@ Table: addresses
 | city                 | varchar(255) | YES  |     | NULL    |                |
 | state                | varchar(255) | YES  |     | NULL    |                |
 | zip                  | varchar(10)  | YES  |     | NULL    |                |
-| external_address_id  | int(11)      | YES  |     | NULL    |                |
+| external_address_id  | int(11)      | YES  | UNI | NULL    |                |
 | county               | varchar(255) | YES  |     | NULL    |                |
 | unit                 | varchar(255) | YES  |     | NULL    |                |
 | country              | varchar(255) | YES  |     | NULL    |                |
@@ -296,8 +296,8 @@ Table: aliquots
 | mass                       | varchar(255) | YES  |     | NULL    |                |
 | external_aliquot_id        | varchar(255) | YES  |     | NULL    |                |
 | external_aliquot_id_source | varchar(255) | YES  |     | NULL    |                |
-| created_at                 | datetime     | NO   |     | NULL    |                |
-| updated_at                 | datetime     | NO   |     | NULL    |                |
+| created_at                 | datetime     | YES  |     | NULL    |                |
+| updated_at                 | datetime     | YES  |     | NULL    |                |
 +----------------------------+--------------+------+-----+---------+----------------+
 Table: alternate_contacts
 +------------------+--------------+------+-----+---------+----------------+
@@ -327,10 +327,10 @@ Table: bc_requests
 | sent_on          | date         | YES  |     | NULL    |                |
 | status           | varchar(255) | YES  |     | NULL    |                |
 | notes            | text         | YES  |     | NULL    |                |
-| created_at       | datetime     | NO   |     | NULL    |                |
-| updated_at       | datetime     | NO   |     | NULL    |                |
 | is_found         | tinyint(1)   | YES  |     | NULL    |                |
 | returned_on      | date         | YES  |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
 Table: birth_data
 +-----------------------------------+--------------+------+-----+---------+----------------+
@@ -416,11 +416,11 @@ Table: birth_data
 | term_count_20_plus_weeks          | int(11)      | YES  |     | NULL    |                |
 | term_count_pre_20_weeks           | int(11)      | YES  |     | NULL    |                |
 | vacuum_attempt_unsuccessful       | varchar(255) | YES  |     | NULL    |                |
-| created_at                        | datetime     | NO   |     | NULL    |                |
-| updated_at                        | datetime     | NO   |     | NULL    |                |
 | control_number                    | int(11)      | YES  |     | NULL    |                |
 | father_ssn                        | varchar(255) | YES  |     | NULL    |                |
 | mother_ssn                        | varchar(255) | YES  |     | NULL    |                |
+| created_at                        | datetime     | YES  |     | NULL    |                |
+| updated_at                        | datetime     | YES  |     | NULL    |                |
 | birth_data_file_name              | varchar(255) | YES  |     | NULL    |                |
 | childid                           | int(11)      | YES  |     | NULL    |                |
 | subjectid                         | varchar(6)   | YES  |     | NULL    |                |
@@ -459,8 +459,8 @@ Table: candidate_controls
 | rejection_reason | varchar(255) | YES  |     | NULL    |                |
 | mom_is_biomom    | int(11)      | YES  |     | NULL    |                |
 | dad_is_biodad    | int(11)      | YES  |     | NULL    |                |
-| created_at       | datetime     | NO   |     | NULL    |                |
-| updated_at       | datetime     | NO   |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
 Table: counties
 +--------------+--------------+------+-----+---------+----------------+
@@ -471,8 +471,8 @@ Table: counties
 | fips_code    | varchar(5)   | YES  |     | NULL    |                |
 | state_abbrev | varchar(2)   | YES  | MUL | NULL    |                |
 | usc_code     | varchar(2)   | YES  |     | NULL    |                |
-| created_at   | datetime     | NO   |     | NULL    |                |
-| updated_at   | datetime     | NO   |     | NULL    |                |
+| created_at   | datetime     | YES  |     | NULL    |                |
+| updated_at   | datetime     | YES  |     | NULL    |                |
 +--------------+--------------+------+-----+---------+----------------+
 Table: document_types
 +-------------+--------------+------+-----+---------+----------------+
@@ -483,8 +483,8 @@ Table: document_types
 | key         | varchar(255) | NO   | UNI | NULL    |                |
 | title       | varchar(255) | YES  |     | NULL    |                |
 | description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
 Table: document_versions
 +------------------+--------------+------+-----+---------+----------------+
@@ -499,8 +499,8 @@ Table: document_versions
 | language_id      | int(11)      | YES  |     | NULL    |                |
 | began_use_on     | date         | YES  |     | NULL    |                |
 | ended_use_on     | date         | YES  |     | NULL    |                |
-| created_at       | datetime     | NO   |     | NULL    |                |
-| updated_at       | datetime     | NO   |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
 Table: enrollments
 +-----------------------------------+--------------+------+-----+---------+----------------+
@@ -539,8 +539,8 @@ Table: enrollments
 | receive_study_findings            | int(11)      | YES  |     | NULL    |                |
 | refused_by_physician              | tinyint(1)   | YES  |     | NULL    |                |
 | refused_by_family                 | tinyint(1)   | YES  |     | NULL    |                |
-| created_at                        | datetime     | NO   |     | NULL    |                |
-| updated_at                        | datetime     | NO   |     | NULL    |                |
+| created_at                        | datetime     | YES  |     | NULL    |                |
+| updated_at                        | datetime     | YES  |     | NULL    |                |
 | assigned_for_interview_at         | datetime     | YES  |     | NULL    |                |
 | interview_completed_on            | date         | YES  |     | NULL    |                |
 | tracing_status                    | varchar(255) | YES  |     | NULL    |                |
@@ -555,8 +555,8 @@ Table: guides
 | controller | varchar(255) | YES  | MUL | NULL    |                |
 | action     | varchar(255) | YES  |     | NULL    |                |
 | body       | text         | YES  |     | NULL    |                |
-| created_at | datetime     | NO   |     | NULL    |                |
-| updated_at | datetime     | NO   |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 Table: home_exposure_responses
 +------------------------------------+--------------+------+-----+---------+----------------+
@@ -686,8 +686,8 @@ Table: home_exposure_responses
 | consent_read_over_phone            | tinyint(1)   | YES  |     | NULL    |                |
 | respondent_requested_new_consent   | tinyint(1)   | YES  |     | NULL    |                |
 | consent_reviewed_with_respondent   | tinyint(1)   | YES  |     | NULL    |                |
-| created_at                         | datetime     | NO   |     | NULL    |                |
-| updated_at                         | datetime     | NO   |     | NULL    |                |
+| created_at                         | datetime     | YES  |     | NULL    |                |
+| updated_at                         | datetime     | YES  |     | NULL    |                |
 +------------------------------------+--------------+------+-----+---------+----------------+
 Table: homex_outcomes
 +----------------------+--------------+------+-----+---------+----------------+
@@ -698,8 +698,8 @@ Table: homex_outcomes
 | study_subject_id     | int(11)      | YES  | UNI | NULL    |                |
 | sample_outcome_on    | date         | YES  |     | NULL    |                |
 | interview_outcome_on | date         | YES  |     | NULL    |                |
-| created_at           | datetime     | NO   |     | NULL    |                |
-| updated_at           | datetime     | NO   |     | NULL    |                |
+| created_at           | datetime     | YES  |     | NULL    |                |
+| updated_at           | datetime     | YES  |     | NULL    |                |
 | interview_outcome    | varchar(255) | YES  |     | NULL    |                |
 | sample_outcome       | varchar(255) | YES  |     | NULL    |                |
 +----------------------+--------------+------+-----+---------+----------------+
@@ -712,9 +712,9 @@ Table: hospitals
 | organization_id | int(11)    | YES  | MUL | NULL    |                |
 | has_irb_waiver  | tinyint(1) | NO   |     | 0       |                |
 | is_active       | tinyint(1) | NO   |     | 1       |                |
-| created_at      | datetime   | NO   |     | NULL    |                |
-| updated_at      | datetime   | NO   |     | NULL    |                |
 | contact_id      | int(11)    | YES  |     | NULL    |                |
+| created_at      | datetime   | YES  |     | NULL    |                |
+| updated_at      | datetime   | YES  |     | NULL    |                |
 +-----------------+------------+------+-----+---------+----------------+
 Table: icf_master_ids
 +------------------+------------+------+-----+---------+----------------+
@@ -724,8 +724,8 @@ Table: icf_master_ids
 | icf_master_id    | varchar(9) | YES  | UNI | NULL    |                |
 | assigned_on      | date       | YES  |     | NULL    |                |
 | study_subject_id | int(11)    | YES  | UNI | NULL    |                |
-| created_at       | datetime   | NO   |     | NULL    |                |
-| updated_at       | datetime   | NO   |     | NULL    |                |
+| created_at       | datetime   | YES  |     | NULL    |                |
+| updated_at       | datetime   | YES  |     | NULL    |                |
 +------------------+------------+------+-----+---------+----------------+
 Table: ineligible_reasons
 +--------------------+--------------+------+-----+---------+----------------+
@@ -736,8 +736,8 @@ Table: ineligible_reasons
 | key                | varchar(255) | NO   | UNI | NULL    |                |
 | description        | varchar(255) | YES  | UNI | NULL    |                |
 | ineligible_context | varchar(255) | YES  |     | NULL    |                |
-| created_at         | datetime     | NO   |     | NULL    |                |
-| updated_at         | datetime     | NO   |     | NULL    |                |
+| created_at         | datetime     | YES  |     | NULL    |                |
+| updated_at         | datetime     | YES  |     | NULL    |                |
 +--------------------+--------------+------+-----+---------+----------------+
 Table: instrument_types
 +-------------+--------------+------+-----+---------+----------------+
@@ -748,8 +748,8 @@ Table: instrument_types
 | project_id  | int(11)      | YES  |     | NULL    |                |
 | key         | varchar(255) | NO   | UNI | NULL    |                |
 | description | varchar(255) | YES  | UNI | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
 Table: instrument_versions
 +--------------------+--------------+------+-----+---------+----------------+
@@ -764,8 +764,8 @@ Table: instrument_versions
 | ended_use_on       | date         | YES  |     | NULL    |                |
 | key                | varchar(255) | NO   | UNI | NULL    |                |
 | description        | varchar(255) | YES  | UNI | NULL    |                |
-| created_at         | datetime     | NO   |     | NULL    |                |
-| updated_at         | datetime     | NO   |     | NULL    |                |
+| created_at         | datetime     | YES  |     | NULL    |                |
+| updated_at         | datetime     | YES  |     | NULL    |                |
 +--------------------+--------------+------+-----+---------+----------------+
 Table: instruments
 +---------------------+--------------+------+-----+---------+----------------+
@@ -781,8 +781,8 @@ Table: instruments
 | interview_method_id | int(11)      | YES  |     | NULL    |                |
 | began_use_on        | date         | YES  |     | NULL    |                |
 | ended_use_on        | date         | YES  |     | NULL    |                |
-| created_at          | datetime     | NO   |     | NULL    |                |
-| updated_at          | datetime     | NO   |     | NULL    |                |
+| created_at          | datetime     | YES  |     | NULL    |                |
+| updated_at          | datetime     | YES  |     | NULL    |                |
 +---------------------+--------------+------+-----+---------+----------------+
 Table: interview_assignments
 +-----------------------+--------------+------+-----+---------+----------------+
@@ -795,8 +795,8 @@ Table: interview_assignments
 | needs_hosp_search     | tinyint(1)   | YES  |     | NULL    |                |
 | status                | varchar(255) | YES  |     | NULL    |                |
 | notes_for_interviewer | text         | YES  |     | NULL    |                |
-| created_at            | datetime     | NO   |     | NULL    |                |
-| updated_at            | datetime     | NO   |     | NULL    |                |
+| created_at            | datetime     | YES  |     | NULL    |                |
+| updated_at            | datetime     | YES  |     | NULL    |                |
 +-----------------------+--------------+------+-----+---------+----------------+
 Table: interview_methods
 +-------------+--------------+------+-----+---------+----------------+
@@ -806,8 +806,8 @@ Table: interview_methods
 | position    | int(11)      | YES  |     | NULL    |                |
 | key         | varchar(255) | NO   | UNI | NULL    |                |
 | description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
 Table: interviews
 +----------------------------------+--------------+------+-----+---------+----------------+
@@ -830,8 +830,8 @@ Table: interviews
 | consent_reviewed_with_respondent | tinyint(1)   | YES  |     | NULL    |                |
 | began_at                         | datetime     | YES  |     | NULL    |                |
 | ended_at                         | datetime     | YES  |     | NULL    |                |
-| created_at                       | datetime     | NO   |     | NULL    |                |
-| updated_at                       | datetime     | NO   |     | NULL    |                |
+| created_at                       | datetime     | YES  |     | NULL    |                |
+| updated_at                       | datetime     | YES  |     | NULL    |                |
 | subject_relationship             | varchar(255) | YES  |     | NULL    |                |
 +----------------------------------+--------------+------+-----+---------+----------------+
 Table: languages
@@ -842,8 +842,8 @@ Table: languages
 | position    | int(11)      | YES  |     | NULL    |                |
 | key         | varchar(255) | NO   | UNI | NULL    |                |
 | description | varchar(255) | YES  |     | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
 | code        | int(11)      | YES  | UNI | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
 Table: medical_record_requests
@@ -869,8 +869,8 @@ Table: operational_event_types
 | key            | varchar(255) | NO   | UNI | NULL    |                |
 | description    | varchar(255) | YES  | UNI | NULL    |                |
 | event_category | varchar(255) | YES  |     | NULL    |                |
-| created_at     | datetime     | NO   |     | NULL    |                |
-| updated_at     | datetime     | NO   |     | NULL    |                |
+| created_at     | datetime     | YES  |     | NULL    |                |
+| updated_at     | datetime     | YES  |     | NULL    |                |
 +----------------+--------------+------+-----+---------+----------------+
 Table: operational_events
 +---------------------------+--------------+------+-----+---------+----------------+
@@ -883,8 +883,8 @@ Table: operational_events
 | project_id                | int(11)      | YES  | MUL | NULL    |                |
 | description               | varchar(255) | YES  |     | NULL    |                |
 | notes                     | text         | YES  |     | NULL    |                |
-| created_at                | datetime     | NO   |     | NULL    |                |
-| updated_at                | datetime     | NO   |     | NULL    |                |
+| created_at                | datetime     | YES  |     | NULL    |                |
+| updated_at                | datetime     | YES  |     | NULL    |                |
 +---------------------------+--------------+------+-----+---------+----------------+
 Table: organizations
 +------------+--------------+------+-----+---------+----------------+
@@ -895,8 +895,8 @@ Table: organizations
 | key        | varchar(255) | NO   | UNI | NULL    |                |
 | name       | varchar(255) | YES  | UNI | NULL    |                |
 | person_id  | int(11)      | YES  |     | NULL    |                |
-| created_at | datetime     | NO   |     | NULL    |                |
-| updated_at | datetime     | NO   |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 Table: pages
 +------------+--------------+------+-----+---------+----------------+
@@ -913,8 +913,8 @@ Table: pages
 | menu_es    | varchar(255) | YES  |     | NULL    |                |
 | body_en    | text         | YES  |     | NULL    |                |
 | body_es    | text         | YES  |     | NULL    |                |
-| created_at | datetime     | NO   |     | NULL    |                |
-| updated_at | datetime     | NO   |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 Table: patients
 +------------------------------+--------------+------+-----+---------+----------------+
@@ -935,8 +935,8 @@ Table: patients
 | raf_county                   | varchar(255) | YES  |     | NULL    |                |
 | hospital_no                  | varchar(25)  | YES  | MUL | NULL    |                |
 | other_diagnosis              | varchar(255) | YES  |     | NULL    |                |
-| created_at                   | datetime     | NO   |     | NULL    |                |
-| updated_at                   | datetime     | NO   |     | NULL    |                |
+| created_at                   | datetime     | YES  |     | NULL    |                |
+| updated_at                   | datetime     | YES  |     | NULL    |                |
 | is_study_area_resident       | int(11)      | YES  |     | NULL    |                |
 | diagnosis                    | varchar(255) | YES  |     | NULL    |                |
 +------------------------------+--------------+------+-----+---------+----------------+
@@ -951,9 +951,9 @@ Table: people
 | honorific       | varchar(20)  | YES  |     | NULL    |                |
 | person_type_id  | int(11)      | YES  |     | NULL    |                |
 | organization_id | int(11)      | YES  |     | NULL    |                |
-| created_at      | datetime     | NO   |     | NULL    |                |
-| updated_at      | datetime     | NO   |     | NULL    |                |
 | email           | varchar(255) | YES  |     | NULL    |                |
+| created_at      | datetime     | YES  |     | NULL    |                |
+| updated_at      | datetime     | YES  |     | NULL    |                |
 +-----------------+--------------+------+-----+---------+----------------+
 Table: phone_numbers
 +-------------------+--------------+------+-----+---------+----------------+
@@ -966,8 +966,8 @@ Table: phone_numbers
 | is_primary        | tinyint(1)   | YES  |     | NULL    |                |
 | current_phone     | int(11)      | YES  |     | 1       |                |
 | other_data_source | varchar(255) | YES  |     | NULL    |                |
-| created_at        | datetime     | NO   |     | NULL    |                |
-| updated_at        | datetime     | NO   |     | NULL    |                |
+| created_at        | datetime     | YES  |     | NULL    |                |
+| updated_at        | datetime     | YES  |     | NULL    |                |
 | phone_type        | varchar(255) | YES  |     | NULL    |                |
 | data_source       | varchar(255) | YES  |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
@@ -982,9 +982,9 @@ Table: projects
 | key                  | varchar(255) | NO   | UNI | NULL    |                |
 | description          | varchar(255) | YES  | UNI | NULL    |                |
 | eligibility_criteria | text         | YES  |     | NULL    |                |
-| created_at           | datetime     | NO   |     | NULL    |                |
-| updated_at           | datetime     | NO   |     | NULL    |                |
 | label                | varchar(255) | YES  |     | NULL    |                |
+| created_at           | datetime     | YES  |     | NULL    |                |
+| updated_at           | datetime     | YES  |     | NULL    |                |
 +----------------------+--------------+------+-----+---------+----------------+
 Table: races
 +-------------+--------------+------+-----+---------+----------------+
@@ -994,8 +994,8 @@ Table: races
 | position    | int(11)      | YES  |     | NULL    |                |
 | key         | varchar(255) | NO   | UNI | NULL    |                |
 | description | varchar(255) | YES  | UNI | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
 | code        | int(11)      | YES  | UNI | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
 Table: refusal_reasons
@@ -1006,8 +1006,8 @@ Table: refusal_reasons
 | position    | int(11)      | YES  |     | NULL    |                |
 | key         | varchar(255) | NO   | UNI | NULL    |                |
 | description | varchar(255) | YES  | UNI | NULL    |                |
-| created_at  | datetime     | NO   |     | NULL    |                |
-| updated_at  | datetime     | NO   |     | NULL    |                |
+| created_at  | datetime     | YES  |     | NULL    |                |
+| updated_at  | datetime     | YES  |     | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
 Table: roles
 +------------+--------------+------+-----+---------+----------------+
@@ -1016,8 +1016,8 @@ Table: roles
 | id         | int(11)      | NO   | PRI | NULL    | auto_increment |
 | position   | int(11)      | YES  |     | NULL    |                |
 | name       | varchar(255) | YES  | UNI | NULL    |                |
-| created_at | datetime     | NO   |     | NULL    |                |
-| updated_at | datetime     | NO   |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
 Table: roles_users
 +---------+---------+------+-----+---------+-------+
@@ -1033,8 +1033,8 @@ Table: sample_collectors
 | id                 | int(11)      | NO   | PRI | NULL    | auto_increment |
 | organization_id    | int(11)      | YES  | MUL | NULL    |                |
 | other_organization | varchar(255) | YES  |     | NULL    |                |
-| created_at         | datetime     | NO   |     | NULL    |                |
-| updated_at         | datetime     | NO   |     | NULL    |                |
+| created_at         | datetime     | YES  |     | NULL    |                |
+| updated_at         | datetime     | YES  |     | NULL    |                |
 +--------------------+--------------+------+-----+---------+----------------+
 Table: sample_locations
 +-----------------+------------+------+-----+---------+----------------+
@@ -1045,8 +1045,8 @@ Table: sample_locations
 | organization_id | int(11)    | YES  | MUL | NULL    |                |
 | notes           | text       | YES  |     | NULL    |                |
 | is_active       | tinyint(1) | NO   |     | 1       |                |
-| created_at      | datetime   | NO   |     | NULL    |                |
-| updated_at      | datetime   | NO   |     | NULL    |                |
+| created_at      | datetime   | YES  |     | NULL    |                |
+| updated_at      | datetime   | YES  |     | NULL    |                |
 +-----------------+------------+------+-----+---------+----------------+
 Table: sample_transfers
 +--------------------+--------------+------+-----+---------+----------------+
@@ -1059,8 +1059,8 @@ Table: sample_transfers
 | sent_on            | date         | YES  |     | NULL    |                |
 | status             | varchar(255) | YES  |     | NULL    |                |
 | notes              | text         | YES  |     | NULL    |                |
-| created_at         | datetime     | NO   |     | NULL    |                |
-| updated_at         | datetime     | NO   |     | NULL    |                |
+| created_at         | datetime     | YES  |     | NULL    |                |
+| updated_at         | datetime     | YES  |     | NULL    |                |
 +--------------------+--------------+------+-----+---------+----------------+
 Table: sample_types
 +---------------------+--------------+------+-----+---------+----------------+
@@ -1071,11 +1071,11 @@ Table: sample_types
 | parent_id           | int(11)      | YES  | MUL | NULL    |                |
 | key                 | varchar(255) | NO   | UNI | NULL    |                |
 | description         | varchar(255) | YES  | UNI | NULL    |                |
-| created_at          | datetime     | NO   |     | NULL    |                |
-| updated_at          | datetime     | NO   |     | NULL    |                |
 | for_new_sample      | tinyint(1)   | NO   |     | 1       |                |
 | t2k_sample_type_id  | int(11)      | YES  |     | NULL    |                |
 | gegl_sample_type_id | varchar(255) | YES  |     | NULL    |                |
+| created_at          | datetime     | YES  |     | NULL    |                |
+| updated_at          | datetime     | YES  |     | NULL    |                |
 +---------------------+--------------+------+-----+---------+----------------+
 Table: samples
 +------------------------------+--------------+------+-----+---------+----------------+
@@ -1105,11 +1105,11 @@ Table: samples
 | receipt_confirmed_by         | varchar(255) | YES  |     | NULL    |                |
 | future_use_prohibited        | tinyint(1)   | NO   |     | 0       |                |
 | state                        | varchar(255) | YES  |     | NULL    |                |
-| created_at                   | datetime     | NO   |     | NULL    |                |
-| updated_at                   | datetime     | NO   |     | NULL    |                |
-| notes                        | text         | YES  |     | NULL    |                |
+| created_at                   | datetime     | YES  |     | NULL    |                |
+| updated_at                   | datetime     | YES  |     | NULL    |                |
 | sample_format                | varchar(255) | YES  |     | NULL    |                |
 | sample_temperature           | varchar(255) | YES  |     | NULL    |                |
+| notes                        | text         | YES  |     | NULL    |                |
 +------------------------------+--------------+------+-----+---------+----------------+
 Table: schema_migrations
 +---------+--------------+------+-----+---------+-------+
@@ -1127,8 +1127,8 @@ Table: states
 | name              | varchar(255) | NO   | UNI | NULL    |                |
 | fips_country_code | varchar(2)   | NO   | MUL | NULL    |                |
 | fips_state_code   | varchar(2)   | NO   | UNI | NULL    |                |
-| created_at        | datetime     | NO   |     | NULL    |                |
-| updated_at        | datetime     | NO   |     | NULL    |                |
+| created_at        | datetime     | YES  |     | NULL    |                |
+| updated_at        | datetime     | YES  |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
 Table: study_subjects
 +-----------------------------+--------------+------+-----+---------+----------------+
@@ -1203,26 +1203,26 @@ Table: study_subjects
 | state_registrar_no          | varchar(255) | YES  | UNI | NULL    |                |
 | local_registrar_no          | varchar(255) | YES  | UNI | NULL    |                |
 | is_matched                  | tinyint(1)   | YES  |     | NULL    |                |
-| created_at                  | datetime     | NO   |     | NULL    |                |
-| updated_at                  | datetime     | NO   |     | NULL    |                |
 | phase                       | int(11)      | YES  | MUL | NULL    |                |
 | hispanicity_mex             | int(11)      | YES  |     | NULL    |                |
 | legacy_race_code            | int(11)      | YES  |     | NULL    |                |
 | legacy_race_code_imported   | tinyint(1)   | YES  |     | 0       |                |
+| created_at                  | datetime     | YES  |     | NULL    |                |
+| updated_at                  | datetime     | YES  |     | NULL    |                |
 | legacy_other_race           | varchar(255) | YES  |     | NULL    |                |
+| vital_status                | varchar(20)  | YES  | MUL | NULL    |                |
+| addresses_count             | int(11)      | YES  |     | 0       |                |
+| abstracts_count             | int(11)      | YES  |     | 0       |                |
 | case_icf_master_id          | varchar(9)   | YES  |     | NULL    |                |
 | mother_icf_master_id        | varchar(9)   | YES  |     | NULL    |                |
 | subject_type                | varchar(20)  | YES  | MUL | NULL    |                |
-| vital_status                | varchar(20)  | YES  | MUL | NULL    |                |
-| cdcid                       | int(11)      | YES  |     | NULL    |                |
 | samples_count               | int(11)      | YES  |     | 0       |                |
+| cdcid                       | int(11)      | YES  |     | NULL    |                |
 | operational_events_count    | int(11)      | YES  |     | 0       |                |
-| birth_data_count            | int(11)      | YES  |     | 0       |                |
-| addresses_count             | int(11)      | YES  |     | 0       |                |
 | phone_numbers_count         | int(11)      | YES  |     | 0       |                |
+| birth_data_count            | int(11)      | YES  |     | 0       |                |
 | interviews_count            | int(11)      | YES  |     | 0       |                |
 | needs_reindexed             | tinyint(1)   | YES  | MUL | 0       |                |
-| abstracts_count             | int(11)      | YES  |     | 0       |                |
 | enrollments_count           | int(11)      | YES  |     | 0       |                |
 | replication_id              | int(11)      | YES  | MUL | NULL    |                |
 | guardian_relationship       | varchar(255) | YES  |     | NULL    |                |
@@ -1235,8 +1235,8 @@ Table: subject_languages
 | study_subject_id | int(11)      | YES  | MUL | NULL    |                |
 | language_code    | int(11)      | YES  |     | NULL    |                |
 | other_language   | varchar(255) | YES  |     | NULL    |                |
-| created_at       | datetime     | NO   |     | NULL    |                |
-| updated_at       | datetime     | NO   |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
 Table: subject_races
 +------------------+--------------+------+-----+---------+----------------+
@@ -1247,8 +1247,8 @@ Table: subject_races
 | race_code        | int(11)      | YES  |     | NULL    |                |
 | is_primary       | tinyint(1)   | NO   |     | 0       |                |
 | other_race       | varchar(255) | YES  |     | NULL    |                |
-| created_at       | datetime     | NO   |     | NULL    |                |
-| updated_at       | datetime     | NO   |     | NULL    |                |
+| created_at       | datetime     | YES  |     | NULL    |                |
+| updated_at       | datetime     | YES  |     | NULL    |                |
 +------------------+--------------+------+-----+---------+----------------+
 Table: users
 +-----------------+--------------+------+-----+---------+----------------+
@@ -1260,8 +1260,8 @@ Table: users
 | displayname     | varchar(255) | YES  |     | NULL    |                |
 | mail            | varchar(255) | YES  |     | NULL    |                |
 | telephonenumber | varchar(255) | YES  |     | NULL    |                |
-| created_at      | datetime     | NO   |     | NULL    |                |
-| updated_at      | datetime     | NO   |     | NULL    |                |
+| created_at      | datetime     | YES  |     | NULL    |                |
+| updated_at      | datetime     | YES  |     | NULL    |                |
 +-----------------+--------------+------+-----+---------+----------------+
 Table: zip_codes
 +------------+--------------+------+-----+---------+----------------+
@@ -1273,6 +1273,6 @@ Table: zip_codes
 | state      | varchar(255) | NO   |     | NULL    |                |
 | zip_class  | varchar(255) | NO   |     | NULL    |                |
 | county_id  | int(11)      | YES  |     | NULL    |                |
-| created_at | datetime     | NO   |     | NULL    |                |
-| updated_at | datetime     | NO   |     | NULL    |                |
+| created_at | datetime     | YES  |     | NULL    |                |
+| updated_at | datetime     | YES  |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+

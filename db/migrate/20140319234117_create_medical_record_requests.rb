@@ -7,7 +7,6 @@ class CreateMedicalRecordRequests < ActiveRecord::Migration
 			t.boolean :is_found
 			t.string :status
 			t.text :notes
-			t.string :request_type
 			t.timestamps
 		end
 	end

@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration
 			t.string :uid
 			t.string :sn
 			t.string :displayname
-			t.string :mail	#, :default => '', :null => false	#	why is mail '' and non-null?
+			t.string :mail
 			t.string :telephonenumber
 			t.timestamps
 		end

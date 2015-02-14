@@ -5,7 +5,8 @@ class CreateBcRequests < ActiveRecord::Migration
 			t.date    :sent_on
 			t.string  :status
 			t.text    :notes
-			t.string  :request_type
+			t.boolean :is_found
+			t.date    :returned_on
 			t.timestamps
 		end
 	end

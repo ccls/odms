@@ -1,23 +1,15 @@
 class CreateStudySubjects < ActiveRecord::Migration
 	def self.up
 		create_table :study_subjects do |t|
-			t.integer :subject_type_id
-
-			# 1 = VitalStatus['living']
-#			t.integer :vital_status_id, :default => 1
-#	setting default in the app
-			t.integer :vital_status_id
-
-			t.integer :hispanicity_id
+			t.integer :hispanicity
 			t.date    :reference_date
 			t.string  :sex
 			t.boolean :do_not_contact, :default => false, :null => false
-			t.integer :abstracts_count, :default => 0
 			t.integer :mother_yrs_educ
 			t.integer :father_yrs_educ
 			t.string  :birth_type
-			t.integer :mother_hispanicity_id
-			t.integer :father_hispanicity_id
+			t.integer :mother_hispanicity
+			t.integer :father_hispanicity
 			t.string  :birth_county
 			t.string  :is_duplicate_of, :limit => 6
 			t.integer :mother_hispanicity_mex
@@ -42,11 +34,9 @@ class CreateStudySubjects < ActiveRecord::Migration
 			t.string  :guardian_first_name
 			t.string  :guardian_middle_name
 			t.string  :guardian_last_name
-			t.integer :guardian_relationship_id
-#			t.string  :guardian_relationship_other
 			t.string  :other_guardian_relationship
-			t.integer :mother_race_id
-			t.integer :father_race_id
+			t.integer :mother_race_code
+			t.integer :father_race_code
 			t.string  :maiden_name
 			t.string  :generational_suffix, :limit => 10
 			t.string  :father_generational_suffix, :limit => 10
@@ -54,12 +44,8 @@ class CreateStudySubjects < ActiveRecord::Migration
 			t.string  :birth_city
 			t.string  :birth_state
 			t.string  :birth_country
-#			t.string  :mother_race_other
-#			t.string  :father_race_other
 			t.string  :other_mother_race
 			t.string  :other_father_race
-
-
 
 			#	Formerly identifier
 			t.integer :childid
@@ -87,7 +73,29 @@ class CreateStudySubjects < ActiveRecord::Migration
 			t.string  :state_registrar_no
 			t.string  :local_registrar_no
 			t.boolean :is_matched
+
+			t.integer :phase
+			t.integer :hispanicity_mex
+			t.integer :legacy_race_code
+			t.boolean :legacy_race_code_imported, :default => false
 			t.timestamps
+			t.string  :legacy_other_race
+			t.string  :vital_status, :limit => 20
+			t.integer :addresses_count, :default => 0
+			t.integer :abstracts_count, :default => 0
+			t.string  :case_icf_master_id, :limit => 9
+			t.string  :mother_icf_master_id, :limit => 9
+			t.string  :subject_type, :limit => 20
+			t.integer :samples_count, :default => 0
+			t.integer :cdcid
+			t.integer :operational_events_count, :default => 0
+			t.integer :phone_numbers_count, :default => 0
+			t.integer :birth_data_count, :default => 0
+			t.integer :interviews_count, :default => 0
+			t.boolean :needs_reindexed, :default => false
+			t.integer :enrollments_count, :default => 0
+			t.integer :replication_id
+			t.string  :guardian_relationship
 		end
 		add_index :study_subjects, :ssn, :unique => true
 		add_index :study_subjects, [:patid,:case_control_type,:orderno],
@@ -106,6 +114,14 @@ class CreateStudySubjects < ActiveRecord::Migration
 		add_index :study_subjects, :studyid_nohyphen, :unique => true
 		add_index :study_subjects, :studyid_intonly_nohyphen, :unique => true
 		add_index :study_subjects, :email, :unique => true
+		add_index :study_subjects, :vital_status
+		add_index :study_subjects, :subject_type
+		add_index :study_subjects, [:phase, :case_icf_master_id]
+		add_index :study_subjects, [:phase, :mother_icf_master_id]
+		add_index :study_subjects, :needs_reindexed
+		add_index :study_subjects, :matchingid
+		add_index :study_subjects, :familyid
+		add_index :study_subjects, :replication_id
 	end
 
 	def self.down

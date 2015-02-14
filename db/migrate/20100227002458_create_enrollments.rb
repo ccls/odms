@@ -5,11 +5,9 @@ class CreateEnrollments < ActiveRecord::Migration
 			t.integer :study_subject_id
 			t.integer :project_id
 			t.string  :recruitment_priority
-			t.integer :tracing_status_id
 			t.integer :is_candidate
 			t.integer :is_eligible
 			t.integer :ineligible_reason_id
-#			t.string  :ineligible_reason_specify
 			t.string  :other_ineligible_reason
 			t.integer :consented
 			t.date    :consented_on
@@ -25,7 +23,6 @@ class CreateEnrollments < ActiveRecord::Migration
 			t.string  :reason_closed
 			t.text    :notes
 			t.integer :document_version_id
-			t.integer :project_outcome_id
 			t.date    :project_outcome_on
 			t.integer :use_smp_future_rsrch
 			t.integer :use_smp_future_cancer_rsrch
@@ -37,9 +34,15 @@ class CreateEnrollments < ActiveRecord::Migration
 			t.boolean :refused_by_physician
 			t.boolean :refused_by_family
 			t.timestamps
+			t.datetime :assigned_for_interview_at
+			t.date    :interview_completed_on
+			t.string  :tracing_status
+			t.datetime :vaccine_authorization_received_at
+			t.string  :project_outcome
 		end
 		add_index :enrollments, [:project_id, :study_subject_id],
 			:unique => true
+		add_index :enrollments, :study_subject_id
 	end
 
 	def self.down

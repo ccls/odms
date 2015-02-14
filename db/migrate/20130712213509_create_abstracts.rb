@@ -1,4 +1,4 @@
-class RecreateAbstracts < ActiveRecord::Migration
+class CreateAbstracts < ActiveRecord::Migration
   def change
     create_table :abstracts do |t|
 

@@ -7,6 +7,7 @@ class CreateProjects < ActiveRecord::Migration
 			t.string  :key, :null => false
 			t.string  :description
 			t.text    :eligibility_criteria
+			t.string  :label
 			t.timestamps
 		end
 		add_index :projects, :key, :unique => true

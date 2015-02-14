@@ -1,5 +1,4 @@
 class CreateCounties < ActiveRecord::Migration
-#	def self.up
 	def change
 		create_table :counties do |t|
 			t.string :name
@@ -10,8 +9,4 @@ class CreateCounties < ActiveRecord::Migration
 		end
 		add_index :counties, :state_abbrev
 	end
-
-#	def self.down
-#		drop_table :counties
-#	end
 end

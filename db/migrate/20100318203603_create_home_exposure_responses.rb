@@ -2,9 +2,6 @@ class CreateHomeExposureResponses < ActiveRecord::Migration
 	def self.up
 		create_table :home_exposure_responses do |t|
 			t.integer :study_subject_id
-#	If it is an HER, then it is complete
-#	Only the response sets may be incomplete.
-#			t.boolean :is_complete
 			t.integer :vacuum_has_disposable_bag
 			t.integer :how_often_vacuumed_12mos
 			t.integer :shoes_usually_off_inside_12mos

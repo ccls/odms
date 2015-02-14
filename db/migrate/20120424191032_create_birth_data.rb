@@ -3,9 +3,8 @@ class CreateBirthData < ActiveRecord::Migration
 		create_table :birth_data do |t|
 			t.integer :birth_datum_update_id
 			t.integer :study_subject_id	#	the actual study subject
-#			t.string  :master_id	#	case icf_master_id
-			t.string  :masterid	#	case icf_master_id
-			t.boolean :found_in_state_db
+			t.string  :master_id	#	case icf_master_id
+			t.string  :found_in_state_db
 			t.string  :birth_state
 			t.string  :match_confidence
 			t.string  :case_control_flag
@@ -23,7 +22,7 @@ class CreateBirthData < ActiveRecord::Migration
 			t.integer :apgar_10min
 			t.integer :birth_order
 			t.string  :birth_type
-			t.decimal :birth_weight_gms
+			t.decimal :birth_weight_gms, :precision => 8, :scale => 2
 			t.string  :complications_labor_delivery	#	shoulda had :limit => 2, not :length => 2
 			t.string  :complications_pregnancy	#	shoulda had :limit => 2, not :length => 2
 			t.string  :county_of_delivery
@@ -45,7 +44,7 @@ class CreateBirthData < ActiveRecord::Migration
 			t.string  :father_occupation	#	shoulda had :limit => 20, not :length => 20
 			t.integer :father_yrs_educ
 			t.string  :fetal_presentation_at_birth
-			t.boolean :forceps_attempt_unsuccessful
+			t.string  :forceps_attempt_unsuccessful
 			t.date    :last_live_birth_on
 			t.date    :last_menses_on
 			t.date    :last_termination_on
@@ -73,7 +72,7 @@ class CreateBirthData < ActiveRecord::Migration
 			t.string  :mother_hispanic_origin_code
 			t.string  :mother_industry
 			t.string  :mother_occupation
-			t.boolean :mother_received_wic
+			t.string  :mother_received_wic
 			t.integer :mother_weight_pre_pregnancy
 			t.integer :mother_yrs_educ
 			t.integer :ob_gestation_estimate_at_delivery
@@ -82,8 +81,21 @@ class CreateBirthData < ActiveRecord::Migration
 			t.string  :state_registrar_no
 			t.integer :term_count_20_plus_weeks
 			t.integer :term_count_pre_20_weeks
-			t.boolean :vacuum_attempt_unsuccessful
+			t.string  :vacuum_attempt_unsuccessful
+			t.integer :control_number
+			t.string  :father_ssn
+			t.string  :mother_ssn
 			t.timestamps
+			t.string  :birth_data_file_name
+			t.integer :childid
+			t.string  :subjectid, :limit => 6
+			t.string  :deceased
+			t.date    :case_dob
+			t.text    :ccls_import_notes
+			t.text    :study_subject_changes
+			t.string  :derived_state_file_no_last6, :limit => 6
+			t.string  :derived_local_file_no_last6, :limit => 6
 		end
+		add_index :birth_data, :study_subject_id
 	end
 end
