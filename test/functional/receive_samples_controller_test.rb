@@ -239,7 +239,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.current
 			assert_equal   assigns(:sample).study_subject, study_subject
 			assert_create_success
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should mark vaccine authorization as received if checked with #{cu} login" do
@@ -247,7 +247,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:case_study_subject)
 			post :create, :study_subject_id => study_subject.id,
 				:sample => factory_attributes, :vaccine_authorization_received => 1
-			assert_not_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_not_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should create new sample for case with #{cu} login" do
@@ -264,7 +264,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.current
 			assert_equal   assigns(:sample).study_subject, study_subject
 			assert_create_success
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should create new sample for case mother with #{cu} login" do
@@ -282,7 +282,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			assert_equal   assigns(:sample).received_by_ccls_at.to_date, Date.current
 			assert_equal   assigns(:sample).study_subject, study_subject.mother
 			assert_create_success
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 
@@ -319,7 +319,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:text => 'add another for this subject', :count => 1 )
 				
 			} } }
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 
@@ -342,7 +342,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			end
 			assert_create_failure
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should create new sample for mother from mother and is no child " <<
@@ -357,7 +357,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			end
 			assert_create_success
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should NOT create new sample for child from mother and is no child " <<
@@ -372,7 +372,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			end
 			assert_create_failure
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 
@@ -405,7 +405,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			} }
 			assert_create_failure
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should NOT create with #{cu} login " <<
@@ -419,7 +419,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			} }
 			assert_create_failure
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should NOT create with #{cu} login " <<
@@ -433,7 +433,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			} }
 			assert_create_failure
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should NOT create with #{cu} login " <<
@@ -447,7 +447,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 					:sample => factory_attributes
 			} }
 			assert_create_failure
-			assert_nil study_subject.ccls_enrollment.vaccine_authorization_received_at
+			assert_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
 		end
 
 		test "should create new sample transfer with sample and #{cu} login for case" do

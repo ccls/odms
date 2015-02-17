@@ -45,7 +45,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 	test "interviewed should be true when ccls enrollment interview_completed_on set" do
 		subject = FactoryGirl.create(:study_subject)
 		e = subject.ccls_enrollment
-		assert !subject.ccls_enrollment.try(:interview_completed_on).present?
+		assert !subject.ccls_enrollment.reload.try(:interview_completed_on).present?
 		assert_nil e.interview_completed_on
 		e.update_column(:interview_completed_on, Date.current)
 		assert  subject.reload.ccls_enrollment.reload.try(:interview_completed_on).present?

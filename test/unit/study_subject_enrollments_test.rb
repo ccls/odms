@@ -86,7 +86,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert study_subject.persisted?, 
 			"#{study_subject.errors.full_messages.to_sentence}"
 		assert_not_nil study_subject
-		assert_not_nil study_subject.ccls_enrollment
+		assert_not_nil study_subject.ccls_enrollment.reload
 		assert study_subject.ineligible?
 	end
 
@@ -97,7 +97,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert study_subject.persisted?, 
 			"#{study_subject.errors.full_messages.to_sentence}"
 		assert_not_nil study_subject
-		assert_not_nil study_subject.ccls_enrollment
+		assert_not_nil study_subject.ccls_enrollment.reload
 		assert !study_subject.ineligible?
 	end
 
@@ -108,7 +108,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert study_subject.persisted?, 
 			"#{study_subject.errors.full_messages.to_sentence}"
 		assert_not_nil study_subject
-		assert_not_nil study_subject.ccls_enrollment
+		assert_not_nil study_subject.ccls_enrollment.reload
 		assert !study_subject.ineligible?
 	end
 
@@ -121,7 +121,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert study_subject.persisted?, 
 			"#{study_subject.errors.full_messages.to_sentence}"
 		assert_not_nil study_subject
-		assert_not_nil study_subject.ccls_enrollment
+		assert_not_nil study_subject.ccls_enrollment.reload
 		assert study_subject.refused?
 	end
 
@@ -133,7 +133,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert study_subject.persisted?, 
 			"#{study_subject.errors.full_messages.to_sentence}"
 		assert_not_nil study_subject
-		assert_not_nil study_subject.ccls_enrollment
+		assert_not_nil study_subject.ccls_enrollment.reload
 		assert !study_subject.refused?
 	end
 
@@ -144,7 +144,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert study_subject.persisted?, 
 			"#{study_subject.errors.full_messages.to_sentence}"
 		assert_not_nil study_subject
-		assert_not_nil study_subject.ccls_enrollment
+		assert_not_nil study_subject.ccls_enrollment.reload
 		assert !study_subject.refused?
 	end
 

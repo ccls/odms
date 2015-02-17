@@ -93,7 +93,7 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 
 	test "should change subjects interview_completed_on with cati_complete value" do
 		study_subject = create_case_for_icf_master_tracker_update
-		assert_nil study_subject.ccls_enrollment.interview_completed_on
+		assert_nil study_subject.ccls_enrollment.reload.interview_completed_on
 		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update("cati_complete" => '12/31/2000')
 		assert_not_nil study_subject.ccls_enrollment.reload.interview_completed_on
 		assert_equal Date.parse('12/31/2000'),study_subject.ccls_enrollment.reload.interview_completed_on
