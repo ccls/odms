@@ -712,7 +712,7 @@ Is this "poodle vulnerable"? ssl_protocols can be controlled in nginx.conf
 Seems Gary found a fix for the poodle vulnerability 
 making the usage of Passenger unnecessary.
 
-
+(poodle was that ssl vulnerability)
 
 ---
 == Sunspot Notes
@@ -747,6 +747,23 @@ And we've changed to use mariadb, so start that manually as well ...
 Unfortunately, killing the server could result in lost data that
 may be cached in memory.  At least in theory.  I don't think that
 rails really caches like that.
+
+Currently having some issues with rails 4.2.0 on production.
+No response in browser and requests don't show in log.
+Its acting as if nothing is even there.  Very confused?
+Going to try updating rubygems and reinstalling all gems.
+Dev has gem 2.2.2 (now 2.4.6) and production only has 2.0.3.
+Not sure if I can on production as don't have root priveleges.
+	Nope. Can't update rubygems on production.
+
+ gem update --system
+ gem pristine --all
+
+Maybe try brand new empty rails app if no joy?
+	no joy for new empty rails 4.2.0 app
+
+
+
 
  dump_database
  cd /my/ruby/odms

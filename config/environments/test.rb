@@ -76,5 +76,7 @@ Odms::Application.configure do
 
 
 	#	for rails 5
+	#	doesn't do anything for me yet in rails 4.2.0
+	#	minitest still does its Runnable.runnables.shuffle
 	config.active_support.test_order = :sorted
 end
