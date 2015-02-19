@@ -168,6 +168,8 @@ base.class_eval do
 		:meth => ->(s){ s.newest_birth_data.collect(&:father_ssn).collect(&:to_ssn).compact.first } )
 	add_sunspot_column( :mother_ssn,
 		:meth => ->(s){ s.newest_birth_data.collect(&:mother_ssn).collect(&:to_ssn).compact.first } )
+	add_sunspot_column( :mother_dob, :type => :date,
+		:meth => ->(s){ s.newest_birth_data.collect(&:mother_dob).compact.first } )
 	add_sunspot_column( :patid )
 	add_sunspot_column( :childid )
 	add_sunspot_column( :subjectid )
