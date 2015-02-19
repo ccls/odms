@@ -49,7 +49,9 @@ Autotest.add_hook :initialize do |autotest|
 		autotest.add_exception(exception)
 	end
 
-	%w{ abstract_notes/ ICF_Master_Trackers/ OLD_UNUSED_FILES/ anand/ bc_infos/ birth_data/ data/ development/ 
+	%w{ abstract_notes/ ICF_Master_Trackers/ OLD_UNUSED_FILES/ anand/ bc_infos/ 
+			birth_data/ data/ development/ 
+			passenger-standalone.json nginx.conf.erb 
 			misc/ test/assets/ dumps/ gitignored/ production/ tracking2k/ database_tables 
 			.csv test/factories.rb test/factory_test_helper.rb test/raf_test_helper.rb 
 			test/simplecov_test_helper.rb test/test_helper_helper.rb }.each do |exception|
