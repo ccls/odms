@@ -734,6 +734,9 @@ The web server no longer starts automatically on my Mac so ....
 
  sudo apachectl start
 
+Apache is unnecessary unless using https.
+
+
 And we've changed to use mariadb, so start that manually as well ...
 
  sudo /opt/local/share/mariadb/support-files/mysql.server start
