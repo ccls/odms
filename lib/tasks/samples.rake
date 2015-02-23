@@ -93,24 +93,24 @@ namespace :samples do
 		end	#	CSV.open
 	end	#	task :import_and_manifest_bloodspots => :environment do
 
-	#	20150203
-	task :import_and_manifest_bloodspots_20150203 => :environment do
-		raise "This task has been run and disabled."
-		manifest = CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link_manifest.csv','w')
+	#	20150223
+	task :import_and_manifest_bloodspots_20150223 => :environment do
+#		raise "This task has been run and disabled."
+		manifest = CSV.open('gegl/Request_26_group_B_SFN_to_Barcode_Link_manifest.csv','w')
 
 		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id 
 			collected_from_subject_at received_by_ccls_at 
-			storage_temperature sent_to_lab_at )
-		CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link.csv','rb',
+			storage_temperature sent_to_lab_at Barcode state_id_no Group Comment )
+		CSV.open('gegl/Request_26_group_B_SFN_to_Barcode_Link.csv','rb',
 				{ :headers => true }).each do |line|
 
-			#SFN,YOB,Barcode,Comment
+			#Barcode,subjectid,state_id_no,Group,Comment
 
 			puts line
-			subject = StudySubject.where( 
-				:state_id_no => "#{line['YOB'][2,2]}-#{sprintf('%06d', line['SFN'])}" ).first
-			puts "------ Subject not found with #{line['SFN']}" unless subject.present?
+			subject = StudySubject.with_subjectid( line['subjectid'] ).first
+			puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
 			raise 'hell' unless subject.present?
+			raise 'hell' unless subject.state_id_no == line['state_id_no']
 
 			sample = subject.samples.create!(
 				:project_id => Project[:ccls].id,
@@ -118,20 +118,20 @@ namespace :samples do
 				:sample_type_id => SampleType[:guthrie].id,
 				:sample_format => "Guthrie Card",
 				:sample_temperature => "Refrigerated",
-				:received_by_ccls_at => "1/27/2015",
-				:shipped_to_ccls_at => "1/27/2015",
-				:sent_to_lab_at => "1/27/2015",
-				:received_by_lab_at => "1/27/2015",
+				:received_by_ccls_at => "2/18/2015",
+				:shipped_to_ccls_at => "2/18/2015",
+				:sent_to_lab_at => "2/18/2015",
+				:received_by_lab_at => "2/18/2015",
 				:external_id => line['Barcode'],
-				:external_id_source => "Request_26_group_A_SFN_to_Barcode_Link.csv",
-				:notes => "Imported from Request_26_group_A_SFN_to_Barcode_Link.csv"
+				:external_id_source => "Request_26_group_B_SFN_to_Barcode_Link.csv",
+				:notes => "Imported from Request_26_group_B_SFN_to_Barcode_Link.csv"
 			)
 
 			subject.operational_events.create!(
 				:occurred_at => DateTime.current,
 				:project_id => Project['ccls'].id,
 				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
-				:description => "manifesting of Request_26_group_A_SFN_to_Barcode_Link.csv"
+				:description => "manifesting of Request_26_group_B_SFN_to_Barcode_Link.csv"
 			)
 
 			manifest.puts [ 
@@ -143,7 +143,11 @@ namespace :samples do
 				mdyhm_or_nil(sample.collected_from_subject_at),
 				mdyhm_or_nil(sample.received_by_ccls_at),
 				sample.sample_temperature,
-				mdyhm_or_nil(sample.sent_to_lab_at)
+				mdyhm_or_nil(sample.sent_to_lab_at),
+				line['Barcode'],
+				line['state_id_no'],
+				line['Group'],
+				line['Comment']
 			]
 
 		end	#	CSV.open
@@ -151,7 +155,62 @@ namespace :samples do
 	end	#	task :import_and_manifest_bloodspots => :environment do
 
 
-
+#	#	20150203
+#	task :import_and_manifest_bloodspots_20150203 => :environment do
+#		raise "This task has been run and disabled."
+#		manifest = CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link_manifest.csv','w')
+#
+#		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id 
+#			collected_from_subject_at received_by_ccls_at 
+#			storage_temperature sent_to_lab_at )
+#		CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link.csv','rb',
+#				{ :headers => true }).each do |line|
+#
+#			#SFN,YOB,Barcode,Comment
+#
+#			puts line
+#			subject = StudySubject.where( 
+#				:state_id_no => "#{line['YOB'][2,2]}-#{sprintf('%06d', line['SFN'])}" ).first
+#			puts "------ Subject not found with #{line['SFN']}" unless subject.present?
+#			raise 'hell' unless subject.present?
+#
+#			sample = subject.samples.create!(
+#				:project_id => Project[:ccls].id,
+#				:location_id => Organization['GEGL'].id,
+#				:sample_type_id => SampleType[:guthrie].id,
+#				:sample_format => "Guthrie Card",
+#				:sample_temperature => "Refrigerated",
+#				:received_by_ccls_at => "1/27/2015",
+#				:shipped_to_ccls_at => "1/27/2015",
+#				:sent_to_lab_at => "1/27/2015",
+#				:received_by_lab_at => "1/27/2015",
+#				:external_id => line['Barcode'],
+#				:external_id_source => "Request_26_group_A_SFN_to_Barcode_Link.csv",
+#				:notes => "Imported from Request_26_group_A_SFN_to_Barcode_Link.csv"
+#			)
+#
+#			subject.operational_events.create!(
+#				:occurred_at => DateTime.current,
+#				:project_id => Project['ccls'].id,
+#				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
+#				:description => "manifesting of Request_26_group_A_SFN_to_Barcode_Link.csv"
+#			)
+#
+#			manifest.puts [ 
+#				sample.study_subject.icf_master_id_to_s,
+#				" #{sample.subjectid}",
+#				sample.study_subject.sex,
+#				" #{sample.sampleid}",
+#				sample.sample_type.gegl_sample_type_id,
+#				mdyhm_or_nil(sample.collected_from_subject_at),
+#				mdyhm_or_nil(sample.received_by_ccls_at),
+#				sample.sample_temperature,
+#				mdyhm_or_nil(sample.sent_to_lab_at)
+#			]
+#
+#		end	#	CSV.open
+#		manifest.close
+#	end	#	task :import_and_manifest_bloodspots => :environment do
 
 #	#	20141006
 #	task :import_and_manifest_bloodspots_20141006 => :environment do
