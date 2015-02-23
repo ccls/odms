@@ -1,6 +1,7 @@
 {
 	"environment": "production",
 	"ssl": true,
+	"daemonize": true,
 	"port": 80,
 	"ssl_port": 443,
 	"ssl_certificate": "/etc/apache2/ssl/server.crt",
