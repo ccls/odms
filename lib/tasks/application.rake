@@ -57,6 +57,22 @@ namespace :app do
 	end
 
 
+	task :show_unused_attributes => :environment do
+		Dir.glob("#{Rails.root}/app/models/*.rb").sort.each { |file| require_dependency file }
+		ActiveRecord::Base.subclasses.each do |model|
+			puts model
+			model.attribute_names.each do |a| 
+				next if %w(key created_at updated_at).include?(a)
+				#	key generates syntactically incorrect sql
+				c=model.group(a).count
+				if( c.keys.length == 1 ) then 
+					puts a
+					puts c
+				end
+			end
+		end
+	end	#	task :show_unused_attributes => :environment do
+	
 
 	task :clean_schema_migrations_table => :environment do
 		#	Remove entries in schema_migrations for 
