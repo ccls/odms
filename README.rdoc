@@ -445,6 +445,23 @@ This hasn't happened in a while.
 
 
 
+
+Another odd error.  If using a field named "key", you cannot
+use it as a group because it generates "key AS key" sql 
+which apparently is syntactically incorrect.
+
+ie. Project.group('key')
+
+Mysql2::Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'key' at line 1: SELECT `projects`.* FROM `projects`  GROUP BY key
+ActiveRecord::StatementInvalid: Mysql2::Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'key' at line 1: SELECT `projects`.* FROM `projects`  GROUP BY key
+
+
+ActiveRecord::StatementInvalid: Mysql2::Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'key AS key FROM `projects`  GROUP BY key' at line 1: SELECT COUNT(*) AS count_all, key AS key FROM `projects`  GROUP BY key
+
+
+
+
+
 ---
 == Additional files that will be needed as contain 'private' info
 
