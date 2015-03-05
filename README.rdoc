@@ -751,7 +751,8 @@ The web server no longer starts automatically on my Mac so ....
 
  sudo apachectl start
 
-Apache is unnecessary unless using https.
+Apache is unnecessary unless using https.  
+Although, without it app can't use the local html validation app.
 
 
 And we've changed to use mariadb, so start that manually as well ...
