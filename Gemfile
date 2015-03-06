@@ -11,6 +11,9 @@ gem 'bundler'
 #	See if can only do this in test environment.
 #
 
+#	1.0.11 generates a lot of 
+#	[DEPRECATION] `RSolr.escape` is deprecated (and incorrect).  Use `Rsolr.solr_escape` instead.
+gem 'rsolr', '<1.0.11'
 
 gem 'jakewendt-active_record_sunspotter'
 #	copied in sunspot_rails-2.1.0/lib/sunspot/rails/adapters.rb
