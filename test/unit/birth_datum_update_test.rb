@@ -183,7 +183,7 @@ state_registrar_no
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = "birth_data/birth_datum_update_20120712.csv"
+		real_data_file = "data/birth_datum_update_20120712.csv"
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."

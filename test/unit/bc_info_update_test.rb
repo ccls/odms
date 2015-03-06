@@ -59,7 +59,7 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = "bc_info_20120822.csv"
+		real_data_file = "data/bc_info_20120822.csv"
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."
