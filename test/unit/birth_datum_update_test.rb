@@ -183,7 +183,9 @@ state_registrar_no
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
-		real_data_file = "data/birth_datum_update_20120712.csv"
+		#real_data_file = "data/birth_datum_update_20120712.csv"	#	33,5
+		#real_data_file = "birth_data/CLS Cases 22JAN2015.csv"	#59, 0
+		real_data_file = "birth_data/20130716/Control Matches -- 15JUL2013.csv"
 		unless File.exists?(real_data_file)
 			puts
 			puts "-- Real data test file does not exist. Skipping."
@@ -191,14 +193,15 @@ state_registrar_no
 			#	case must exist for candidate controls to be created
 			s = FactoryGirl.create(:case_study_subject,:sex => 'M',
 				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
-				:dob => Date.parse('6/1/2009'))
-			FactoryGirl.create(:icf_master_id,:icf_master_id => '15851196C')
+				:dob => Date.parse('4/30/2009'))	#	dob doesn't really matter here
+			#FactoryGirl.create(:icf_master_id,:icf_master_id => '15851196C')
+			FactoryGirl.create(:icf_master_id,:icf_master_id => '36696199E')
 			s.assign_icf_master_id
 
 			birth_datum_update = nil
 
-			assert_difference('BirthDatum.count',33){
-			assert_difference('CandidateControl.count',5){
+			assert_difference('BirthDatum.count', 175){
+			assert_difference('CandidateControl.count',24){
 				birth_datum_update = BirthDatumUpdate.new(real_data_file) 
 				assert_not_nil birth_datum_update.csv_file
 			} }
