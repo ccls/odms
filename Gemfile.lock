@@ -47,7 +47,7 @@ GEM
       json
     ccls-common_lib (4.1.1)
     chronic (0.10.2)
-    database_cleaner (1.4.0)
+    database_cleaner (1.4.1)
     docile (1.1.5)
     erubis (2.7.0)
     factory_girl (4.5.0)
