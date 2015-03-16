@@ -10,8 +10,6 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:case_study_subject)
 		assert study_subject.is_case?
 		assert_not_nil study_subject.studyid
-		assert_nil study_subject.studyid_nohyphen
-		assert_nil study_subject.studyid_intonly_nohyphen
 		assert_equal "0123-C-0", study_subject.studyid
 	end
 
@@ -24,9 +22,8 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		}
 	end
 
-	[ :ssn, :state_id_no, :state_registrar_no, :local_registrar_no, 
-		:gbid, :lab_no_wiemels, :accession_no, :idno_wiemels, 
-		:studyid, :subjectid, :email ].each do |attr|
+	[ :state_id_no, :state_registrar_no, :local_registrar_no, 
+		:studyid, :subjectid ].each do |attr|
 
 		#	childid is numeric, so this won't be true
 		test "should nilify blank #{attr} before validation" do
@@ -74,36 +71,6 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		assert_equal 'DK', study_subject.sex
 	end
 
-	#	remove ssn from factory and don't use class level test
-	test "should require unique ssn" do
-		FactoryGirl.create(:study_subject,:ssn => '123-45-6789')
-		assert_difference('StudySubject.count',0){
-			study_subject = FactoryGirl.build(:study_subject,:ssn => '123-45-6789')
-			study_subject.save
-			assert study_subject.errors.matching?(:ssn,'has already been taken')
-		}
-	end
-
-	test "should create with string standard format ssn" do
-		assert_difference( "StudySubject.count", 1 ) do
-			study_subject = create_study_subject(:ssn => '987-65-4321')
-			assert study_subject.persisted?, 
-				study_subject.errors.full_messages.to_sentence
-			assert_equal '987-65-4321', study_subject.reload.ssn
-		end
-	end
-
-	test "should require standard formatted ssn" do
-		%w( 1s2n3-4k5=6;7sdfg89 123456789 12345678X 12345678 1-34-56-789 ).each do |invalid_ssn|
-			assert_difference( "StudySubject.count", 0 ) do
-				study_subject = create_study_subject(:ssn => invalid_ssn)
-				#	NOTE custom error message
-				assert study_subject.errors.matching?(:ssn,"should be formatted ###-##-####"),
-					study_subject.errors.full_messages.to_sentence
-			end
-		end
-	end
-
 #	patid and childid should be protected as they are generated values
 
 	test "should generate orderno = 0 for case_control_type == 'c'" do
@@ -125,8 +92,6 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		assert_equal "C", study_subject.case_control_type
 		assert_equal "0", study_subject.orderno.to_s
 		assert_not_nil study_subject.studyid
-		assert_nil study_subject.studyid_nohyphen
-		assert_nil study_subject.studyid_intonly_nohyphen
 		assert_equal "0123-C-0", study_subject.studyid
 	end
 
@@ -188,8 +153,6 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = FactoryGirl.create(:case_study_subject, :patid => '123').reload
 			assert_not_nil study_subject.studyid
-			assert_nil study_subject.studyid_nohyphen
-			assert_nil study_subject.studyid_intonly_nohyphen
 			assert_equal "0123-C-0", study_subject.studyid
 			assert_equal "0123",     study_subject.patid
 		} } #}

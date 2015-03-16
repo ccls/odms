@@ -19,18 +19,14 @@ class EnrollmentTest < ActiveSupport::TestCase
 		{ :good_values => ( Enrollment.const_get( :VALID_TRACING_STATUSES ) + [nil] ), 
 			:bad_values  => "I'm not valid" })
 
-	assert_should_accept_only_good_values( :project_outcome,
-		{ :good_values => ( Enrollment.const_get( :VALID_PROJECT_OUTCOMES ) + [nil] ), 
-			:bad_values  => "I'm not valid" })
-
 	assert_should_create_default_object
 	assert_should_protect(:study_subject_id, :study_subject)
 
-	attributes = %w( completed_on contact_for_related_study document_version_id 
+	attributes = %w( completed_on contact_for_related_study
 		ineligible_reason_id other_ineligible_reason is_candidate is_chosen 
-		is_closed is_complete is_eligible notes other_refusal_reason position 
-		provide_saliva_smp reason_closed reason_not_chosen receive_study_findings 
-		recruitment_priority refusal_reason_id refused_by_family refused_by_physician 
+		is_complete is_eligible notes other_refusal_reason 
+		provide_saliva_smp reason_not_chosen receive_study_findings 
+		refusal_reason_id refused_by_family refused_by_physician 
 		share_smp_with_others terminated_participation terminated_reason 
 		use_smp_future_cancer_rsrch use_smp_future_other_rsrch use_smp_future_rsrch 
 		assigned_for_interview_at interview_completed_on vaccine_authorization_received_at )
@@ -39,18 +35,13 @@ class EnrollmentTest < ActiveSupport::TestCase
 	assert_should_not_protect( attributes )
 
 	assert_should_require_attribute_length( 
-		:recruitment_priority,
 		:other_ineligible_reason,
 		:other_refusal_reason,
 		:reason_not_chosen,
 		:terminated_reason,
-		:reason_closed, 
 			:maximum => 250 )
 
-	assert_should_belong_to( 
-		:ineligible_reason,
-		:refusal_reason,
-		:document_version )
+	assert_should_belong_to( :ineligible_reason, :refusal_reason )
 
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 
@@ -406,44 +397,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 		end
 	end
 
-
-	[:dk,:nil].each do |yndk|
-		test "should NOT ALLOW document_version_id if consented == #{yndk}" do
-			enrollment = Enrollment.new(:consented => YNDK[yndk],
-				:document_version => FactoryGirl.create(:document_version) )
-			assert !enrollment.valid?
-			assert !enrollment.errors.include?(:document_version)
-			#	NOTE custom error message
-			assert  enrollment.errors.matching?(:document_version_id,
-				"not allowed if consented is blank or Don't Know")
-		end
-	end
-	test "should allow document_version_id if consented == :yes" do
-		enrollment = Enrollment.new(:consented => YNDK[:yes],
-			:consented_on     => Date.current,
-			:document_version => FactoryGirl.create(:document_version) )
-		enrollment.valid?
-		assert !enrollment.errors.include?(:document_version)
-		assert !enrollment.errors.include?(:document_version_id)
-	end
-	test "should allow document_version_id if consented == :no" do
-		enrollment = Enrollment.new(:consented => YNDK[:no],
-			:consented_on     => Date.current,
-			:refusal_reason   => FactoryGirl.create(:refusal_reason),
-			:document_version => FactoryGirl.create(:document_version) )
-		enrollment.valid?
-		assert !enrollment.errors.include?(:document_version)
-		assert !enrollment.errors.include?(:document_version_id)
-	end
-	test "should require valid document_version if given" do
-		enrollment = Enrollment.new(:consented => YNDK[:yes],
-			:consented_on     => Date.current,
-			:document_version_id => 0 )
-		assert !enrollment.valid?
-		assert !enrollment.errors.include?(:document_version_id)
-		assert  enrollment.errors.matching?(:document_version,"can't be blank")
-	end
-
 #	Operational Event ARE NOT directly associated with enrollments,
 #	but I left the tests here.
 
@@ -614,12 +567,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assert !study_subject.reload.needs_reindexed
 		enrollment.update_attributes(:notes => "something to make it dirty")
 		assert  study_subject.reload.needs_reindexed
-	end
-
-
-	test "should return an array for project_outcomes" do
-		enrollment = Enrollment.new
-		assert enrollment.project_outcomes.is_a? Array
 	end
 
 protected

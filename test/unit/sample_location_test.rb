@@ -3,9 +3,7 @@ require 'test_helper'
 class SampleLocationTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-	assert_should_act_as_list
 	assert_should_initially_belong_to(:organization)
-	assert_should_not_require_attributes( :position )
 	assert_should_require_unique_attributes( :organization_id )
 
 	test "sample_location factory should create organization" do

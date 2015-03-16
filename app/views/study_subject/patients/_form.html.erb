@@ -22,9 +22,6 @@ The div.warning in the above block causes the size to change
 <%= f.wrapped_date_text_field :diagnosis_date,
 	:label_text => 'diagnosis date:' %>
 
-<%= f.wrapped_date_text_field :treatment_began_on,
-	:label_text => 'date treatment began:' %>
-
 <%= f.wrapped_select :diagnosis,
 	@study_subject.patient.diagnoses, :include_blank => true, 
 	:label_text => 'diagnosis:' %>

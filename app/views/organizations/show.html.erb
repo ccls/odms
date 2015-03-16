@@ -8,10 +8,5 @@
   <%=h @organization.name %>
 </p>
 
-<p>
-  <b>Person:</b>
-  <%=h @organization.person %>
-</p>
-
 <%= link_to( 'Edit', edit_organization_path(@organization), :class => 'button' ) 
 -%>&nbsp;<%= link_to( 'Back', organizations_path, :class => 'button' ) %>

@@ -7,22 +7,19 @@ class SampleTest < ActiveSupport::TestCase
 	assert_should_initially_belong_to( :study_subject, :project, :sample_type )
 
 	attributes = %w( aliquot_or_sample_on_receipt 
-		aliquotted_at collected_from_subject_at external_id 
-		external_id_source location_id order_no parent_sample_id 
-		quantity_in_sample receipt_confirmed_by receipt_confirmed_at
-		received_by_ccls_at received_by_lab_at sample_collector_id 
+		collected_from_subject_at external_id 
+		external_id_source location_id parent_sample_id 
+		received_by_ccls_at received_by_lab_at 
 		sample_format sample_temperature 
 		sent_to_lab_at sent_to_subject_at
-		shipped_to_ccls_at state notes )
+		shipped_to_ccls_at notes )
 	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_protect( protected_attributes )
 	assert_should_not_protect( attributes - protected_attributes )
 
-	assert_should_require_attribute_length( :state, :maximum => 250 )
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
-
 
 	assert_should_accept_only_good_values( :sample_temperature,
 		{ :good_values => ( Sample.const_get(:VALID_SAMPLE_TEMPERATURES) + [nil] ), 
@@ -36,15 +33,14 @@ class SampleTest < ActiveSupport::TestCase
 		:shipped_to_ccls_at, 
 		:received_by_ccls_at, 
 		:sent_to_lab_at,
-		:received_by_lab_at, :aliquotted_at,
-		:collected_from_subject_at,
-		:receipt_confirmed_at )
+		:received_by_lab_at, 
+		:collected_from_subject_at )
 
 	assert_requires_past_date( :sent_to_subject_at,
 		:shipped_to_ccls_at,
 		:received_by_ccls_at,  :sent_to_lab_at,
-		:received_by_lab_at,   :aliquotted_at,
-		:receipt_confirmed_at, :collected_from_subject_at )
+		:received_by_lab_at,
+		:collected_from_subject_at )
 
 	test "sample factory should create sample" do
 		assert_difference('Sample.count',1) {
@@ -133,15 +129,6 @@ class SampleTest < ActiveSupport::TestCase
 		assert_equal 19, sample.location_id
 		sample = Sample.new(:location_id => 1)
 		assert_equal 1, sample.location_id
-	end
-
-	test "should default order_no to 1" do
-		sample = Sample.new
-		assert_equal 1, sample.order_no
-		sample = Sample.new(:order_no => '')
-		assert_equal 1, sample.order_no
-		sample = Sample.new(:order_no => 9)
-		assert_equal 9, sample.order_no
 	end
 
 	test "should default aliquot_or_sample_on_receipt to 'Sample'" do

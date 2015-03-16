@@ -32,38 +32,33 @@ class StudySubjectTest < ActiveSupport::TestCase
 #		:enrollments,
 
 	assert_should_have_many( :bc_requests, :medical_record_requests, :alternate_contacts )
-	assert_should_have_one( :home_exposure_response )
-#	assert_should_have_one( :birth_datum )
 	assert_should_have_many( :birth_data )
 
-	attributes = %w( accession_no 
+	attributes = %w( 
 		birth_type birth_year case_control_type dad_is_biodad died_on 
 		familyid father_hispanicity
 		father_hispanicity_mex other_father_race 
-		father_yrs_educ gbid legacy_other_race
+		father_yrs_educ 
 		other_guardian_relationship hispanicity hispanicity_mex
-		idno_wiemels is_duplicate_of is_matched lab_no lab_no_wiemels 
+		is_matched 
 		local_registrar_no matchingid mom_is_biomom 
 		mother_hispanicity mother_hispanicity_mex 
 		other_mother_race mother_yrs_educ phase
-		reference_date related_case_childid related_childid ssn state_id_no 
+		reference_date related_case_childid related_childid state_id_no 
 		state_registrar_no subjectid vital_status subject_type )
-#		state_registrar_no subjectid vital_status_code )
 
 #	no familyid, childid, patid, studyid, matchingid, icf_master_id ???
 
 	required = %w(  subject_type vital_status )	#	this was blank, may need to be, its complicated
 	unique   = %w( state_id_no state_registrar_no local_registrar_no
-		gbid lab_no_wiemels accession_no idno_wiemels 
 		subjectid childid )
 
 #	NOTE icf_master_id is not set, so unique test doesn't fail
 #	NOTE studyid is not set, so unique test doesn't fail
 
-	protected_attributes = %w( studyid studyid_nohyphen
-		studyid_intonly_nohyphen subjectid familyid childid patid 
-		matchingid case_control_type  
-subject_type )	#	can I have subject_type here?
+	protected_attributes = %w( studyid 
+		subjectid familyid childid patid 
+		matchingid case_control_type  subject_type )	#	can I have subject_type here?
 	assert_should_require( required )
 	assert_should_require_unique( unique )
 	assert_should_protect( protected_attributes )
@@ -81,16 +76,11 @@ subject_type )	#	can I have subject_type here?
 		:state_id_no,
 		:state_registrar_no,
 		:local_registrar_no,
-		:lab_no,
 		:related_childid,
 		:related_case_childid,
 		:maximum => 250 )
 
-	assert_should_require_attribute_length( :gbid, :maximum => 26 )
-	assert_should_require_attribute_length( :lab_no_wiemels, :accession_no, 
-		:maximum => 25 )
-	assert_should_require_attribute_length( :childidwho, :idno_wiemels,
-			:maximum => 10 )
+	assert_should_require_attribute_length( :childidwho, :maximum => 10 )
 	assert_should_require_attribute_length( :newid, :maximum => 6 )
 	assert_should_require_attribute_length( :birth_year, :maximum => 4 )
 
@@ -103,38 +93,30 @@ subject_type )	#	can I have subject_type here?
 	end
 
 	test "study_subject factory should create subject type" do
-#		assert_difference('SubjectType.count',1) {
-			study_subject = FactoryGirl.create(:study_subject)
-			assert_not_nil study_subject.subject_type
-#		}
+		study_subject = FactoryGirl.create(:study_subject)
+		assert_not_nil study_subject.subject_type
 	end
 
 	test "case study_subject should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			study_subject = FactoryGirl.create(:case_study_subject)
-#			assert_equal study_subject.subject_type, SubjectType['Case']
 			assert_equal study_subject.subject_type, 'Case'
 		}
 	end
 
 	test "case study_subject should not create subject type" do
-#		assert_difference('SubjectType.count',0) {
-			study_subject = FactoryGirl.create(:case_study_subject)
-#		}
+		study_subject = FactoryGirl.create(:case_study_subject)
 	end
 
 	test "control study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			study_subject = FactoryGirl.create(:control_study_subject)
-#			assert_equal study_subject.subject_type, SubjectType['Control']
 			assert_equal study_subject.subject_type, 'Control'
 		}
 	end
 
 	test "control study_subject factory should not create subject type" do
-#		assert_difference('SubjectType.count',0) {
-			study_subject = FactoryGirl.create(:control_study_subject)
-#		}
+		study_subject = FactoryGirl.create(:control_study_subject)
 	end
 
 	test "minimum_raf_form_attributes should create differing random dobs" do
@@ -148,7 +130,6 @@ subject_type )	#	can I have subject_type here?
 	test "mother study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = FactoryGirl.create(:mother_study_subject)
-#			assert_equal s.subject_type, SubjectType['Mother']
 			assert_equal s.subject_type, 'Mother'
 			assert_equal s.sex, 'F'
 			assert_nil     s.studyid
@@ -158,9 +139,7 @@ subject_type )	#	can I have subject_type here?
 	end
 
 	test "mother study_subject factory should not create subject type" do
-#		assert_difference('SubjectType.count',0) {
-			s = FactoryGirl.create(:mother_study_subject)
-#		}
+		s = FactoryGirl.create(:mother_study_subject)
 	end
 
 	test "explicit Factory complete case study subject build test" do
@@ -173,7 +152,6 @@ subject_type )	#	can I have subject_type here?
 	test "complete case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = FactoryGirl.create(:complete_case_study_subject)
-#			assert_equal s.subject_type, SubjectType['Case']
 			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
@@ -183,8 +161,6 @@ subject_type )	#	can I have subject_type here?
 			assert_not_nil s.studyid
 			assert_not_nil s.studyid
 			assert_match /\d{4}-C-0/, s.studyid
-#	New sequencing make the value of this relatively unpredictable
-#			assert_equal s.organization_id, Hospital.first.organization_id
 		}
 	end
 
@@ -197,7 +173,6 @@ subject_type )	#	can I have subject_type here?
 	test "complete waivered case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = FactoryGirl.create(:complete_waivered_case_study_subject)
-#			assert_equal s.subject_type, SubjectType['Case']
 			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
@@ -218,7 +193,6 @@ subject_type )	#	can I have subject_type here?
 	test "complete nonwaivered case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
 			s = FactoryGirl.create(:complete_nonwaivered_case_study_subject)
-#			assert_equal s.subject_type, SubjectType['Case']
 			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
@@ -241,42 +215,34 @@ subject_type )	#	can I have subject_type here?
 		assert !study_subject.valid?
 		assert  study_subject.errors.include?(:sex)
 		assert  study_subject.errors.matching?(:sex,"is not included in the list")
-#		assert  study_subject.errors.matching?(:sex,"has not been chosen")
-#		assert_match /Sex has not been chosen/, 
-#			study_subject.errors.full_messages.to_sentence
-#		assert_no_match /Sex can't be blank/i, 
-#			study_subject.errors.full_messages.to_sentence
 		assert_match /is not included in the list/i, 
 			study_subject.errors.full_messages.to_sentence
 	end
 
 	test "create_control_study_subject should not create a subject type" do
-#		assert_difference( 'SubjectType.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_control_study_subject
 			assert !study_subject.is_case?
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} #}
+		}
 	end
 
 	test "create_case_study_subject should not create a subject type" do
-#		assert_difference( 'SubjectType.count', 0 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_case_study_subject
 			assert study_subject.is_case?
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} #}
+		}
 	end
 
 	test "should create study_subject" do
-#		assert_difference( 'SubjectType.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
-		} #}
+		}
 	end
 
 	#
@@ -293,17 +259,6 @@ subject_type )	#	can I have subject_type here?
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('BcRequest.count',0) {
-			@study_subject.destroy
-		} }
-	end
-
-	test "should NOT destroy home_exposure_response with study_subject" do
-		assert_difference('StudySubject.count',1) {
-		assert_difference('HomeExposureResponse.count',1) {
-			@study_subject = FactoryGirl.create(:home_exposure_response).study_subject
-		} }
-		assert_difference('StudySubject.count',-1) {
-		assert_difference('HomeExposureResponse.count',0) {
 			@study_subject.destroy
 		} }
 	end

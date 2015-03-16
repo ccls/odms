@@ -2,17 +2,13 @@ require 'test_helper'
 
 class CandidateControlTest < ActiveSupport::TestCase
 
-	assert_should_accept_only_good_values( :mom_is_biomom, :dad_is_biodad,
-		{ :good_values => ( YNDK.valid_values + [nil] ), 
-			:bad_values  => 12345 })
-
 	assert_should_create_default_object
 	assert_should_belong_to( :study_subject )
 	assert_should_protect( :study_subject_id, :study_subject )
 	assert_should_belong_to( :birth_datum )
 	assert_should_protect( :birth_datum_id, :birth_datum )
 
-	attributes = %w( assigned_on dad_is_biodad mom_is_biomom related_patid )
+	attributes = %w( assigned_on related_patid )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )
@@ -306,28 +302,6 @@ class CandidateControlTest < ActiveSupport::TestCase
 		control_subject = candidate_control.study_subject
 		assert_equal attribute, candidate_control.dob
 		assert_equal attribute, control_subject.dob
-	end
-
-	test "should create control from attributes and copy mom_is_biomom" do
-		attribute = 999
-		case_study_subject, birth_datum = create_case_and_control_birth_datum
-		candidate_control = birth_datum.candidate_control
-		candidate_control.update_attributes( :mom_is_biomom => attribute )
-		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.mom_is_biomom
-		assert_equal attribute, control_subject.mom_is_biomom
-	end
-
-	test "should create control from attributes and copy dad_is_biodad" do
-		attribute = 999
-		case_study_subject, birth_datum = create_case_and_control_birth_datum
-		candidate_control = birth_datum.candidate_control
-		candidate_control.update_attributes( :dad_is_biodad => attribute )
-		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
-		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.dad_is_biodad
-		assert_equal attribute, control_subject.dad_is_biodad
 	end
 
 	test "should create control from attributes with patient and copy case admit_date" do

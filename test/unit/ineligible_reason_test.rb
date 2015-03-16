@@ -7,10 +7,7 @@ class IneligibleReasonTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_act_as_list
 
-#	only if study_subject is ineligible
-#	assert_should_have_many(:enrollments)
-
-	attributes = %w( position ineligible_context )
+	attributes = %w( position )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
 	assert_should_not_protect( attributes )

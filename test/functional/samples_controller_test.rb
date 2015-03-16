@@ -416,30 +416,6 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_equal samples, assigns(:samples).reverse
 		end
 
-		test "should find samples and order by status with #{cu} login" do
-			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
-			login_as send(cu)
-			get :index, :order => :state
-			assert_response :success
-			assert_equal samples, assigns(:samples)
-		end
-
-		test "should find samples and order by status asc with #{cu} login" do
-			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
-			login_as send(cu)
-			get :index, :order => :state, :dir => :asc
-			assert_response :success
-			assert_equal samples, assigns(:samples)
-		end
-
-		test "should find samples and order by status desc with #{cu} login" do
-			samples = 3.times.collect{|i| FactoryGirl.create(:sample, :state => "state#{i}") }
-			login_as send(cu)
-			get :index, :order => :state, :dir => :desc
-			assert_response :success
-			assert_equal samples, assigns(:samples).reverse
-		end
-
 		test "should find samples and order by type with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
 			login_as send(cu)

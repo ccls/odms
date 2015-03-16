@@ -2,7 +2,7 @@
 #	*	description (unique and > 3 chars)
 class IneligibleReason < ActiveRecord::Base
 
-	attr_accessible :key, :description, :ineligible_context #	position?
+	attr_accessible :key, :description
 
 	acts_as_list
 	acts_like_a_hash

@@ -12,7 +12,6 @@ class StudySubject < ActiveRecord::Base
 	class NotTwoAbstracts < StandardError; end
 	class DuplicatesFound < StandardError; end
 
-	has_one :home_exposure_response
 	has_many :abstracts
 	has_many :addresses
 	has_many :alternate_contacts
@@ -20,8 +19,6 @@ class StudySubject < ActiveRecord::Base
 	has_many :bc_requests
 	has_many :blood_spot_requests
 	has_many :enrollments
-	has_many :interviews
-	has_one  :homex_outcome
 	has_many :medical_record_requests
 	has_many :operational_events
 	has_one  :patient
@@ -65,7 +62,6 @@ class StudySubject < ActiveRecord::Base
 				attrs[:zip].blank? &&
 				attrs[:county].blank? ) }
 	accepts_nested_attributes_for :enrollments
-	accepts_nested_attributes_for :homex_outcome
 	accepts_nested_attributes_for :patient
 	accepts_nested_attributes_for :phone_numbers,
 		:reject_if => proc { |attrs| attrs[:phone_number].blank? }
@@ -76,11 +72,8 @@ class StudySubject < ActiveRecord::Base
 		:allow_destroy => true,
 		:reject_if => proc{|attributes| attributes['race_code'].blank? }
 
-	delegate :interview_outcome, :interview_outcome_on,
-		:sample_outcome, :sample_outcome_on,
-			:to => :homex_outcome, :allow_nil => true
 	delegate :admit_date, :hospital_no, :organization, :organization_id, 
-		:diagnosis_date, :diagnosis, :other_diagnosis, :treatment_began_on,
+		:diagnosis_date, :diagnosis, :other_diagnosis, 
 		:hospital, :hospital_key, 
 			:to => :patient, :allow_nil => true
 
@@ -639,9 +632,9 @@ class StudySubject < ActiveRecord::Base
 	#
 	#	childid is numeric, so doesn't need to be nilified, but won't hurt
 	#
-	validates_uniqueness_of_with_nilification :email, :ssn, :state_id_no,
-		:state_registrar_no, :local_registrar_no, :gbid, :lab_no_wiemels, 
-		:accession_no, :idno_wiemels, :childid, :studyid, :subjectid
+	validates_uniqueness_of_with_nilification :state_id_no,
+		:state_registrar_no, :local_registrar_no, 
+		:childid, :studyid, :subjectid
 
 	#	can't really validate the has many through 
 	#	this won't highlight languages

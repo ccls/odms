@@ -10,31 +10,18 @@ superuser_resources:
 administrator_resources:
   - birth_data
   - birth_records 
-  - contexts 
-  - document_types 
-  - document_versions 
-  - follow_up_types
   - hospitals 
   - icf_master_ids 
   - icf_master_trackers
   - ineligible_reasons
-  - instruments 
-  - instrument_types 
-  - instrument_versions
-  - interview_methods 
-  - interview_outcomes 
   - languages
   - operational_event_types 
   - organizations
-  - people 
-  - project_outcomes 
   - races 
   - refusal_reasons
   - sample_locations
-  - sample_outcomes 
   - sample_types 
   - screening_data
-  - units 
 
 #	only editors and above can read, create, edit or destroy
 editor_resources:
@@ -42,7 +29,6 @@ editor_resources:
   - candidate_controls 
   - contacts 
   - guides 
-  - interviews 
   - patients
 
 #	readers can read
@@ -52,10 +38,7 @@ crud_resources:
   - addresses 
   - alternate_contacts
   - consents 
-  - documents 
   - enrollments 
-  - home_exposures 
-  - notes 
   - phone_numbers 
   - projects 
   - samples 

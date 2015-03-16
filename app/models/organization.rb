@@ -8,16 +8,9 @@ class Organization < ActiveRecord::Base
 	acts_like_a_hash(:value => :name)
 
 	belongs_to :person
-#	has_many :aliquots, :foreign_key => 'owner_id'
-#	has_many :incoming_transfers, :class_name => 'Transfer', 
-#		:foreign_key => 'to_organization_id'
-#	has_many :outgoing_transfers, :class_name => 'Transfer', 
-#		:foreign_key => 'from_organization_id'
-#	has_many :hospitals
 	has_one  :hospital
 	has_one  :sample_location
 	has_many :patients
-#	has_many :sample_collectors
 
 	scope :without_hospital, ->{ joins(
 		Arel::Nodes::OuterJoin.new(

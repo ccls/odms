@@ -301,9 +301,9 @@ base.class_eval do
 				( e.try(:is_closed).present? ) ? ( e.try(:is_closed) ? 'Yes' : 'No' ) : nil } )
 		o.add_sunspot_column( :"#{pkey}__reason_closed",
 			:meth => ->(s){ s.enrollment(pkey).try(:reason_closed) } )
-		o.add_sunspot_column( :"#{pkey}__document_version", 
-			:facetable => true, :label => "#{plab}:Document Version",
-			:meth => ->(s){ s.enrollment(pkey).try(:document_version) } )
+#		o.add_sunspot_column( :"#{pkey}__document_version", 
+#			:facetable => true, :label => "#{plab}:Document Version",
+#			:meth => ->(s){ s.enrollment(pkey).try(:document_version) } )
 		o.add_sunspot_column( :"#{pkey}__project_outcome", 
 			:facetable => true, :label => "#{plab}:Project Outcome",
 			:meth => ->(s){ s.enrollment(pkey).try(:project_outcome) } )

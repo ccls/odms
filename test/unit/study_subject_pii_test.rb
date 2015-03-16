@@ -6,15 +6,14 @@ require 'test_helper'
 class StudySubjectPiiTest < ActiveSupport::TestCase
 
 	assert_should_require( :dob, :model => 'StudySubject' )
-	assert_should_require_unique( :email, :model => 'StudySubject' )
-	assert_should_not_require( :birth_city, :birth_county,
-		:birth_state, :birth_country, :email, :model => 'StudySubject' )
-	assert_should_not_require_unique( :dob, :birth_city, :birth_county,
+	assert_should_not_require( :birth_city, 
 		:birth_state, :birth_country, :model => 'StudySubject' )
-	assert_should_not_protect( :dob, :email, :birth_city, :birth_county,
+	assert_should_not_require_unique( :dob, :birth_city, 
+		:birth_state, :birth_country, :model => 'StudySubject' )
+	assert_should_not_protect( :dob, :birth_city,
 		:birth_state, :birth_country, :model => 'StudySubject' )
 	assert_should_require_attribute_length(
-		:birth_city, :birth_county,
+		:birth_city, 
 		:birth_state, :birth_country, 
 		:model => 'StudySubject', :maximum => 250 )
 	assert_requires_complete_date( :dob, :model => 'StudySubject' )
@@ -37,37 +36,6 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		assert_not_nil @study_subject.reload.dob
 		@study_subject.update_attributes(:dob => nil)
 		assert_nil @study_subject.reload.dob
-	end
-
-#	test "should nullify blank email" do
-#		assert_difference("StudySubject.count",1) do
-#			study_subject = create_study_subject(:email => ' ')
-#			assert_nil study_subject.reload.email
-#		end
-#	end
-
-	test "should allow multiple blank email" do
-		create_study_subject(:email => '  ')
-		assert_difference( "StudySubject.count", 1 ) do
-			study_subject = create_study_subject(:email => ' ')
-		end
-	end
-
-	test "should require properly formated email address" do
-		assert_difference( "StudySubject.count", 0 ) do
-			%w( asdf me@some@where.com me@somewhere ).each do |bad_email|
-				study_subject = create_study_subject(:email => bad_email)
-				assert study_subject.errors.matching?(:email,'is invalid'),
-					study_subject.errors.full_messages.to_sentence
-			end
-		end
-		assert_difference( "StudySubject.count", 2 ) do	#	2 good emails, 2 subjects
-			%w( me@some.where.com my'apostrophe'd.email@here.com ).each do |good_email|
-				study_subject = create_study_subject(:email => good_email)
-				assert !study_subject.errors.matching?(:email,'is invalid'),
-					study_subject.errors.full_messages.to_sentence
-			end
-		end
 	end
 
 	test "should return dob as a date NOT time" do

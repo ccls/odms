@@ -1,11 +1,8 @@
 class Hospital < ActiveRecord::Base
 
-	attr_accessible :organization_id, :has_irb_waiver, :is_active, :contact_id	 #	position?
-
-	acts_as_list
+	attr_accessible :organization_id, :has_irb_waiver, :is_active
 
 	belongs_to :organization
-	belongs_to :contact, :class_name => 'Person'
 
 	validations_from_yaml_file
 

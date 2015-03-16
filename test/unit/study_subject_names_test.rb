@@ -9,13 +9,9 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
 			:model => 'StudySubject', :maximum => 250 )
 
-	assert_should_require_attribute_length( 
-		:generational_suffix, :father_generational_suffix, 
-			:model => 'StudySubject', :maximum => 10 )
-
 	attributes = %w( 
-		first_name middle_name last_name maiden_name generational_suffix 
-		father_first_name father_middle_name father_last_name father_generational_suffix 
+		first_name middle_name last_name maiden_name
+		father_first_name father_middle_name father_last_name
 		guardian_first_name guardian_last_name guardian_middle_name 
 		mother_first_name mother_middle_name mother_last_name mother_maiden_name 
 	)

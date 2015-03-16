@@ -73,9 +73,6 @@ FactoryGirl.define do
 			"2"=>{"language_code"=>"", "other_language"=>""} }}
 		f.addresses_attributes {{
 			"0"=> FactoryGirl.attributes_for(:address) }}
-#	can't do it this way
-#		f.addresses_attributes {[ FactoryGirl.attributes_for(:address) ]}
-#		f.phone_numbers_attributes {[ {"phone_number"=>"1234567890"}, {"phone_number"=>""} ]}
 		f.phone_numbers_attributes {{
 			"0"=>{"phone_number"=>"1234567890"}, "1"=>{"phone_number"=>""} }}
 		f.patient_attributes { FactoryGirl.attributes_for(:waivered_patient,{
@@ -87,12 +84,9 @@ FactoryGirl.define do
 			"was_ca_resident_at_diagnosis"=> YNDK[:yes].to_s
 		}) }
 		f.enrollments_attributes {{
-	##	consented does not have a default value, so can send nothing if one button not checked
-	##	TODO add consented field
 			"0"=>{
 				"other_refusal_reason"=>"", 
 				"consented_on"=>"", 
-				"document_version_id"=>"", 
 				"refusal_reason_id"=>""
 			}
 		}}
@@ -114,9 +108,6 @@ FactoryGirl.define do
 	factory :user do |f|
 		f.sequence(:uid) { |n| "UID#{n}" }
 	end
-	#factory :admin_user, :parent => :user do |f|
-	#	f.administrator true
-	#end	#	parent must be defined first
 	
 	factory :role do |f|
 		f.sequence(:name) { |n| "name#{n}" }
@@ -157,11 +148,6 @@ FactoryGirl.define do
 	factory :current_residence_address, :parent => :residence_address do |f|
 		f.address_type 'Residence'
 		f.current_address { YNDK[:yes] }
-	end
-	
-	factory :aliquot do |f|
-		f.association :sample
-		f.association :owner, :factory => :organization
 	end
 	
 	factory :alternate_contact do |f|
@@ -207,17 +193,6 @@ FactoryGirl.define do
 		f.state_abbrev 'XX'
 	end
 	
-	factory :document_type do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:title)       { |n| "Title#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
-	
-	factory :document_version do |f|
-		f.sequence(:title) { |n| "Title#{n}" }
-		f.association :document_type
-	end
-	
 	factory :subjectless_enrollment, :class => 'Enrollment' do |f|
 		f.association :project
 	end
@@ -243,19 +218,6 @@ FactoryGirl.define do
 		f.sequence(:body)      { |n| "Body #{n}" }
 	end
 	
-	factory :home_exposure_response do |f|
-		f.association :study_subject
-	end
-	
-	factory :homex_outcome do |f|
-		#	20111110 - don't know why this was explicitly set
-		#	They are explicitly set solely for testing OTHER models.
-		#	interview_outcome_on is required for the InterviewOutcome test
-		#	sample_outcome_on is required for the SampleOutcome test
-		f.sample_outcome_on Date.current		
-		f.interview_outcome_on Date.current
-	end
-	
 	factory :hospital do |f|
 		f.association :organization
 	end
@@ -272,42 +234,6 @@ FactoryGirl.define do
 	factory :ineligible_reason do |f|
 		f.sequence(:key)         { |n| "Key#{n}" }
 		f.sequence(:description) { |n| "Desc#{n}" }
-	end
-	
-	factory :instrument do |f|
-		f.association :project
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.name 'Instrument Name'
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
-	
-	factory :instrument_type do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-		f.association :project
-	end
-	
-	factory :instrument_version do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-		f.association :instrument_type
-	end
-	
-	factory :interview_assignment do |f|
-	end
-	
-	factory :interview_method do |f|
-		f.sequence(:key)         { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
-	
-	factory :interview_outcome do |f|
-		f.sequence(:key) { |n| "Key#{n}" }
-		f.sequence(:description) { |n| "Desc#{n}" }
-	end
-	
-	factory :interview do |f|
-		f.association :study_subject
 	end
 	
 	factory :medical_record_request do |f|
@@ -372,11 +298,6 @@ FactoryGirl.define do
 		f.sequence(:organization_id){|n| Hospital.active.nonwaivered()[ n % Hospital.active.nonwaivered.length ].organization_id }
 	end
 	
-	factory :person do |f|
-		#	use sequence so will actually update
-		f.sequence(:last_name){|n| "LastName#{n}"}	
-	end
-	
 	factory :phone_number do |f|
 		f.association :study_subject
 		f.phone_type 'Home'
@@ -433,10 +354,6 @@ FactoryGirl.define do
 		f.sequence(:description) { |n| "Desc#{n}" }
 	end
 	
-	factory :sample_collector do |f|
-		f.association :organization
-	end
-	
 	factory :sample_transfer do |f|
 		f.association :sample
 	end
@@ -475,16 +392,11 @@ FactoryGirl.define do
 	factory :study_subject do |f|
 		f.subject_type 'Control'
 		f.sequence(:sex) { random_sex }
-		f.sequence(:email){|n| "email#{n}@example.com"}	#	required here only to test uniqueness
 		f.sequence(:dob) { random_date }
 		f.sequence(:case_control_type){|n| '123456789'.split('')[n%9] }
 		f.sequence(:state_id_no){|n| "#{n}"}
 		f.sequence(:state_registrar_no){|n| "#{n}"}
 		f.sequence(:local_registrar_no){|n| "#{n}"}
-		f.sequence(:gbid){|n| "#{n}"}
-		f.sequence(:accession_no){|n| "#{n}"}
-		f.sequence(:lab_no_wiemels){|n| "#{n}"}
-		f.sequence(:idno_wiemels){|n| "#{n}"}
 	end
 	factory :case_study_subject, :parent => :study_subject do |f|
 		f.subject_type 'Case'

@@ -10,9 +10,6 @@ class Language < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-	has_many :interviews
-	has_many :instrument_versions
-
 	#	Returns description
 	def to_s
 		description

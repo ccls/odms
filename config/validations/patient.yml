@@ -22,14 +22,12 @@
   :attributes:
   - :admit_date
   - :diagnosis_date
-  - :treatment_began_on
   :past_date: true
 
 -
   :attributes:
   - :admit_date
   - :diagnosis_date
-  - :treatment_began_on
   :complete_date: true
   :allow_blank: true
 
@@ -47,7 +45,6 @@
   - :was_under_15_at_dx
   - :was_previously_treated
   - :was_ca_resident_at_diagnosis
-  - :is_study_area_resident 
   :inclusion:
     :in: <%= YNDK.valid_values %>
   :allow_nil: true

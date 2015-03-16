@@ -47,8 +47,6 @@ class CandidateControl < ActiveRecord::Base
 				s.subject_type       = 'Control'
 				s.vital_status       = 'Living'
 				s.sex                = sex.try(:upcase)
-				s.mom_is_biomom      = mom_is_biomom
-				s.dad_is_biodad      = dad_is_biodad
 				s.birth_type         = birth_type
 				s.mother_yrs_educ    = mother_yrs_educ
 				s.father_yrs_educ    = father_yrs_educ

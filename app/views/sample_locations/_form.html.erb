@@ -12,7 +12,7 @@
 <%= f.wrapped_collection_select :organization_id, orgs,
   :id, :to_s, :include_blank => true,
   :label_text => "Organization" %>
-<%= f.wrapped_text_area :notes, :rows => 5, :cols => 30 %>
+
 <p>
 <%= f.submit( (@sample_location.new_record?)? "Create" : "Update" )%>&nbsp;
 <%= link_to 'Back', sample_locations_path, :class => 'button' %>

@@ -1,12 +1,9 @@
 #	==	requires
 #	*	enrollment_id
-#	*	unit_id
 class Sample < ActiveRecord::Base
 
 	belongs_to :sample_type
 	belongs_to :organization, :foreign_key => 'location_id'
-#	belongs_to :unit     #	NOTE not yet really used
-#	has_many :aliquots   #	NOTE not yet really used
 	has_many :sample_transfers
 	belongs_to :project
 	belongs_to :study_subject, :counter_cache => true
@@ -39,7 +36,6 @@ class Sample < ActiveRecord::Base
 	def set_defaults
 		# ||= doesn't work with ''
 		self.aliquot_or_sample_on_receipt ||= 'Sample'
-		self.order_no ||= 1
 		self.location_id ||= Organization['CCLS'].id
 	end
 
@@ -108,7 +104,6 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:project, :facetable => true)
 	add_sunspot_column(:aliquot_or_sample_on_receipt,
 		:facetable => true)
-	add_sunspot_column(:order_no, :facetable => true)
 	add_sunspot_column(:subject_type, :facetable => true)
 	add_sunspot_column(:sex, :facetable => true)
 	add_sunspot_column(:vital_status, :facetable => true)
@@ -129,8 +124,6 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:received_by_ccls_at, :type => :time)
 	add_sunspot_column(:sent_to_lab_at, :type => :time)
 	add_sunspot_column(:received_by_lab_at, :type => :time)
-	add_sunspot_column(:aliquotted_at, :type => :time)
-	add_sunspot_column(:receipt_confirmed_at, :type => :time)
 	add_sunspot_column(:dob, :type => :date)
 	add_sunspot_column(:died_on, :type => :date)
 	add_sunspot_column(:admit_date, :type => :date)

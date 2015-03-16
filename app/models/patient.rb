@@ -10,8 +10,6 @@ class Patient < ActiveRecord::Base
 
 	validate :admit_date_is_on_or_after_dob
 	validate :diagnosis_date_is_on_or_after_dob
-	validate :treatment_began_on_is_on_or_after_diagnosis_date
-	validate :treatment_began_on_is_on_or_after_admit_date
 	validate :subject_is_case
 
 	VALID_RAF_DIAGNOSES = ["ALL", "AML", "other diagnosis"]
@@ -90,30 +88,6 @@ protected
 				!study_subject.dob.blank? && 
 				diagnosis_date < study_subject.dob
 			errors.add(:diagnosis_date, "Diagnosis date is before study_subject's dob.") 
-		end
-	end
-
-	##
-	#	Both are patient dates so this doesn't need duplicated in subject!
-	#	custom validation and custom message
-	def treatment_began_on_is_on_or_after_diagnosis_date
-		if !treatment_began_on.blank? && 
-				!diagnosis_date.blank? && 
-				treatment_began_on < diagnosis_date
-			errors.add(:treatment_began_on, 
-				"Date treatment began must be on or after the diagnosis date" )
-		end
-	end
-
-	##
-	#	Both are patient dates so this doesn't need duplicated in subject!
-	#	custom validation and custom message
-	def treatment_began_on_is_on_or_after_admit_date
-		if !treatment_began_on.blank? && 
-				!admit_date.blank? && 
-				treatment_began_on < admit_date
-			errors.add(:treatment_began_on, 
-				"Date treatment began must be on or after the admit date" )
 		end
 	end
 

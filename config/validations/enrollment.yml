@@ -119,16 +119,6 @@
   :allow_blank: true
 
 -
-  :attribute: :document_version_id
-  :absence:
-    :message: "Document version is not allowed if consented is blank or Don't Know"
-  :if: :consent_unknown?
--
-  :attribute: :document_version
-  :presence: true
-  :if: :document_version_id
-
--
   :attributes:
   - :consented_on
   - :completed_on
@@ -137,12 +127,10 @@
 
 -
   :attributes:
-  - :recruitment_priority
   - :other_ineligible_reason
   - :other_refusal_reason
   - :reason_not_chosen
   - :terminated_reason
-  - :reason_closed
   :length:
     :maximum: 250
   :allow_blank: true
@@ -178,9 +166,4 @@
   :inclusion:
     :in: <%= Enrollment.const_get :VALID_TRACING_STATUSES %>
 
--
-  :attribute: :project_outcome
-  :allow_blank: true
-  :inclusion:
-    :in: <%= Enrollment.const_get :VALID_PROJECT_OUTCOMES %>
 

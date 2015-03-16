@@ -6,7 +6,6 @@ class Enrollment < ActiveRecord::Base
 	belongs_to :study_subject, :counter_cache => true
 	belongs_to :ineligible_reason
 	belongs_to :refusal_reason
-	belongs_to :document_version
 	belongs_to :project
 
 	attr_protected :study_subject_id, :study_subject
@@ -82,9 +81,6 @@ class Enrollment < ActiveRecord::Base
 	VALID_TRACING_STATUSES = ["Subject Tracing In Progress", 
 		"Subject Found", "Unable To Locate", "Unknown Tracing Status"]
 
-	VALID_PROJECT_OUTCOMES = ["complete", 
-		"closed prior to completion", "open (pending)"]
-
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
 	#	This will allow an existing invalid value to show on the selector,
@@ -93,11 +89,6 @@ class Enrollment < ActiveRecord::Base
 	#	On a new form, this would be blank, plus the normal blank, which is ambiguous
 	def tracing_statuses
 		([self.tracing_status] + VALID_TRACING_STATUSES ).compact.uniq
-	end
-	#	it is my personal opinion that project_outcome should be on 
-	#	project and not enrollment. it makes no sense to be here.
-	def project_outcomes
-		([self.project_outcome] + VALID_PROJECT_OUTCOMES ).compact.uniq
 	end
 
 	validations_from_yaml_file

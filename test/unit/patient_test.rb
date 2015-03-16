@@ -4,7 +4,6 @@ class PatientTest < ActiveSupport::TestCase
 
 	assert_should_accept_only_good_values( :was_under_15_at_dx, 
 		:was_previously_treated, :was_ca_resident_at_diagnosis,
-		:is_study_area_resident,
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
 
@@ -32,10 +31,8 @@ class PatientTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :raf_zip, :maximum => 10 )
 	assert_requires_complete_date :admit_date
 	assert_requires_complete_date :diagnosis_date
-	assert_requires_complete_date :treatment_began_on
 	assert_requires_past_date :admit_date
 	assert_requires_past_date :diagnosis_date
-	assert_requires_past_date :treatment_began_on
 
 	test "subjectless patient factory should create patient" do
 		assert_difference('Patient.count',1) {
@@ -289,71 +286,6 @@ class PatientTest < ActiveSupport::TestCase
 					:diagnosis_date => Date.jd(2430000),
 				}))
 			assert study_subject.errors.include?('patient:diagnosis_date'.to_sym)
-		} }
-	end
-
-
-	test "should require treatment_began_on be after admit_date" do
-		assert_difference( "Patient.count", 0 ) do
-			study_subject = FactoryGirl.create(:case_study_subject,
-				:dob => Date.jd(2420000) )
-			patient = create_patient(
-				:study_subject => study_subject,
-				:admit_date => Date.jd(2440000),
-				:treatment_began_on => Date.jd(2430000) ) 
-			assert patient.errors.include?(:treatment_began_on)
-			assert patient.errors.matching?(:treatment_began_on,
-				"Date treatment began must be on or after the admit date")
-		end
-	end
-
-	test "should require treatment_began_on be after admit_date" <<
-			" when using nested attributes" do
-		assert_difference( "StudySubject.count", 0 ) {
-		assert_difference( "Patient.count", 0 ) {
-			study_subject = create_case_study_subject(
-				:dob => Date.jd(2420000),
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
-					:admit_date => Date.jd(2440000),
-					:treatment_began_on => Date.jd(2430000),
-				}))
-			assert study_subject.patient.errors.include?(:treatment_began_on)
-			assert study_subject.errors.include?('patient.treatment_began_on'.to_sym)
-			assert study_subject.patient.errors.matching?(:treatment_began_on,
-				"Date treatment began must be on or after the admit date")
-		} }
-	end
-
-
-
-	test "should require treatment_began_on be after diagnosis_date" do
-		assert_difference( "Patient.count", 0 ) do
-			study_subject = FactoryGirl.create(:case_study_subject,
-				:dob => Date.jd(2420000) )
-			patient = create_patient(
-				:study_subject => study_subject,
-				:diagnosis_date => Date.jd(2440000),
-				:treatment_began_on => Date.jd(2430000) ) 
-			assert patient.errors.include?(:treatment_began_on)
-			assert patient.errors.matching?(:treatment_began_on,
-				"Date treatment began must be on or after the diagnosis date")
-		end
-	end
-
-	test "should require treatment_began_on be after diagnosis_date" <<
-			" when using nested attributes" do
-		assert_difference( "StudySubject.count", 0 ) {
-		assert_difference( "Patient.count", 0 ) {
-			study_subject = create_case_study_subject(
-				:dob => Date.jd(2420000),
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
-					:diagnosis_date => Date.jd(2440000),
-					:treatment_began_on => Date.jd(2430000),
-				}))
-			assert study_subject.patient.errors.include?(:treatment_began_on)
-			assert study_subject.errors.include?('patient.treatment_began_on'.to_sym)
-			assert study_subject.patient.errors.matching?(:treatment_began_on,
-				"Date treatment began must be on or after the diagnosis date")
 		} }
 	end
 

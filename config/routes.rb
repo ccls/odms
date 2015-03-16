@@ -100,16 +100,10 @@ Odms::Application.routes.draw do
 	resources :controls, :only => [:new,:create,:index] do
 		collection { put :assign_selected_for_interview }
 	end
-	resources :document_types
-	resources :document_versions
 	resources :guides
 	resources :hospitals
 	resources :icf_master_ids, :only => [:index,:show]
-	resources :instrument_types
-	resources :instrument_versions
 	resources :ineligible_reasons
-	resources :instruments
-	resources :interview_methods
 	resources :languages
 	resources :medical_record_requests, :except => :show do
 		collection { get :confirm }
@@ -127,7 +121,6 @@ Odms::Application.routes.draw do
 			post :order
 		end
 	end
-	resources :people
 	resources :projects
 	resources :rafs, :only => [:new,:create,:edit,:update,:show]
 	resources :races

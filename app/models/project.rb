@@ -13,12 +13,9 @@ class Project < ActiveRecord::Base
 	scope :unended, ->{ where( :ended_on => nil ) }
 
 	has_many :operational_events
-	has_many :instrument_types
 	has_many :enrollments
 	has_many :samples
-#	has_many :gift_cards
 	has_many :study_subjects, :through => :enrollments
-	has_many :instruments
 
 	validations_from_yaml_file
 

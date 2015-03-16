@@ -20,11 +20,3 @@
     :maximum: 250
   :allow_blank: true
 
--
-  :attributes:
-  - :mom_is_biomom
-  - :dad_is_biodad
-  :inclusion:
-    :in: <%= YNDK.valid_values %>  
-  :allow_blank: true
-
