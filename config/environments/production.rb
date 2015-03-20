@@ -1,4 +1,6 @@
-Odms::Application.configure do
+#Odms::Application.configure do
+#	20150320 - rake rails:update
+Rails.application.configure do
 	# Settings specified here will take precedence over those in config/application.rb
 
 	# Code is not reloaded between requests
@@ -110,6 +112,9 @@ Odms::Application.configure do
 	# with SQLite, MySQL, and PostgreSQL)
 	# config.active_record.auto_explain_threshold_in_seconds = 0.5
 
+	#	20150320 - rake rails:update
+	# Use default logging formatter so that PID and timestamp are not suppressed.
+	config.log_formatter = ::Logger::Formatter.new
 
 
 
@@ -124,4 +129,9 @@ Odms::Application.configure do
 		:host => "odms.brg.berkeley.edu" }
 
 	config.eager_load = true
+
+	#	20150320 - rake rails:update
+	# Do not dump schema after migrations.
+	config.active_record.dump_schema_after_migration = false
+
 end

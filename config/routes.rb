@@ -1,4 +1,6 @@
-Odms::Application.routes.draw do
+#Odms::Application.routes.draw do
+#	20150320 - rake rails:update
+Rails.application.routes.draw do
 
 	#	rather than try to get multiple route files working,
 	#	just conditionally add this testing route.

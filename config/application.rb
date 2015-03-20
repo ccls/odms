@@ -2,13 +2,17 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-if defined?(Bundler)
-	# If you precompile assets before deploying to production, use this line
-#	Bundler.require(*Rails.groups(:assets => %w(development test)))
-	Bundler.require(:default,Rails.env)
-	# If you want your assets lazily compiled in production, use this line
-	# Bundler.require(:default, :assets, Rails.env)
-end
+#if defined?(Bundler)
+#	# If you precompile assets before deploying to production, use this line
+##	Bundler.require(*Rails.groups(:assets => %w(development test)))
+#	Bundler.require(:default,Rails.env)
+#	# If you want your assets lazily compiled in production, use this line
+#	# Bundler.require(:default, :assets, Rails.env)
+#end
+#	20150320 - rake rails:update
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 module Odms
 	class Application < Rails::Application
@@ -50,7 +54,8 @@ module Odms
 		config.encoding = "utf-8"
 
 		# Configure sensitive parameters which will be filtered from the log file.
-		config.filter_parameters += [:password]
+		#	20150320 - rake rails:update (moved to own file)
+		#config.filter_parameters += [:password]
 
 		# Use SQL instead of Active Record's schema dumper when creating the database.
 		# This is necessary if your schema can't be completely dumped by the schema dumper,

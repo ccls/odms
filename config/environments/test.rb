@@ -1,4 +1,6 @@
-Odms::Application.configure do
+#Odms::Application.configure do
+#	20150320 - rake rails:update
+Rails.application.configure do
 	# Settings specified here will take precedence over those in config/application.rb
 
 	# The test environment is used exclusively to run your application's
@@ -37,13 +39,6 @@ Odms::Application.configure do
 
 
 
-#	TODO uncomment this.  For now, I have more pressing things to deal with.
-
-	# Raise exception on mass assignment protection for Active Record models
-#	config.active_record.mass_assignment_sanitizer = :strict
-
-
-
 #
 #	trying disabling this so that missing routes raise error
 #
@@ -52,7 +47,10 @@ Odms::Application.configure do
 #		config.assets.enabled = false
 
 
-
+	#	20150320 - using strong parameters now.  In test, this defaults
+	#		to false? or :log, which isn't as helpful.  Changing
+	#		temporarily? to :raise. (probably keep permanent)
+	config.action_controller.action_on_unpermitted_parameters = :raise
 
 	config.action_mailer.default_url_options = { 
 		:host => "dev.sph.berkeley.edu:3000" }
@@ -79,4 +77,8 @@ Odms::Application.configure do
 	#	doesn't do anything for me yet in rails 4.2.0
 	#	minitest still does its Runnable.runnables.shuffle
 	config.active_support.test_order = :sorted
+
+	#	20150320 - rake rails:update
+	# Raises error for missing translations
+	# config.action_view.raise_on_missing_translations = true
 end
