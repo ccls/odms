@@ -49,9 +49,11 @@ gem 'rails', '~>4.1.8'
 #
 
 
-
+#	sadly, this is all or nothing.
 gem 'protected_attributes'	#	to keep rails 3 style
-#gem 'activerecord-session_store'	#	to keep rails 3 style	... going back to cookies so removed
+
+#	to keep rails 3 style	... going back to cookies so removed
+#gem 'activerecord-session_store'	
 
 gem 'json'
 
@@ -69,9 +71,6 @@ gem "chronic"
 
 gem "acts_as_list"
 
-#	added a patch to deal with counting when select is provided based on ....
-#	https://github.com/mislav/will_paginate/pull/348
-#	3.0.7 seems to have fixed this.  Patch actually breaks stuff so commented out for now.
 gem "will_paginate"
 
 gem "hpricot"
@@ -89,9 +88,12 @@ gem 'net-ldap'
 #	suggested to use --pre option for 1.2.0
 
 group :test do
-	gem 'rails-dom-testing'
+
+	gem 'rails-dom-testing'	#	for assert_select
+
 	gem 'test-unit'
-	gem "simplecov", :require => false
+
+	gem "simplecov", :require => false	#	for coverage testing
 
 	#	for dealing with integration tests
 	gem 'database_cleaner'
